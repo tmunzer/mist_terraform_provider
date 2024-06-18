@@ -99,6 +99,9 @@
 						"name": "alarmtemplate_id",
 						"string": {
 							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": ""
+							},
 							"description": "Alarm Template ID, this takes precedence over the Org-level alarmtemplate_id"
 						}
 					},
@@ -106,6 +109,9 @@
 						"name": "aptemplate_id",
 						"string": {
 							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": ""
+							},
 							"description": "AP Template ID, used by APs"
 						}
 					},
@@ -126,6 +132,9 @@
 						"name": "gatewaytemplate_id",
 						"string": {
 							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": ""
+							},
 							"description": "Gateway Template ID, used by gateways"
 						}
 					},
@@ -171,6 +180,9 @@
 						"name": "networktemplate_id",
 						"string": {
 							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": ""
+							},
 							"description": "Network Template ID, this takes precedence over Site Settings"
 						}
 					},
@@ -191,6 +203,9 @@
 						"name": "rftemplate_id",
 						"string": {
 							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": ""
+							},
 							"description": "RF Template ID, this takes precedence over Site Settings"
 						}
 					},
@@ -198,6 +213,9 @@
 						"name": "secpolicy_id",
 						"string": {
 							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": ""
+							},
 							"description": "SecPolicy ID"
 						}
 					},
@@ -208,13 +226,32 @@
 							"element_type": {
 								"string": {}
 							},
-							"description": "sitegroups this site belongs to"
+							"description": "sitegroups this site belongs to",
+							"default": {
+							  "custom": {
+								"imports": [
+								  {
+									"path": "github.com/hashicorp/terraform-plugin-framework/attr"
+								  },
+								  {
+									"path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault"
+								  },
+								  {
+									"path": "github.com/hashicorp/terraform-plugin-framework/types"
+								  }
+								],
+								"schema_definition": "listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{}))"
+							  }
+							}
 						}
 					},
 					{
 						"name": "sitetemplate_id",
 						"string": {
 							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": ""
+							},
 							"description": "Site Template ID"
 						}
 					},

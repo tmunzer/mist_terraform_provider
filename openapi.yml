@@ -1623,12 +1623,14 @@ components:
           example: 684dfc5c-fe77-2290-eb1d-ef3d677fe168
           format: uuid
           nullable: true
+          default: null
           type: string
         aptemplate_id:
           description: AP Template ID, used by APs
           example: 16bdf952-ade2-4491-80b0-85ce506c760b
           format: uuid
           nullable: true
+          default: null
           type: string
         country_code:
           description: country code for the site (for AP config generation), in two-character
@@ -1642,6 +1644,7 @@ components:
           example: 6f9b2e75-9b2f-b5ae-81e3-e14c76f1a90f
           format: uuid
           nullable: true
+          default: null
           type: string
         id:
           format: uuid
@@ -1660,6 +1663,7 @@ components:
           example: 12ae9bd2-e0ab-107b-72e8-a7a005565ec2
           format: uuid
           nullable: true
+          default: null
           type: string
         notes:
           description: optional, any notes about the site
@@ -1671,12 +1675,14 @@ components:
           example: bb8a9017-1e36-5d6c-6f2b-551abe8a76a2
           format: uuid
           nullable: true
+          default: null
           type: string
         secpolicy_id:
           description: SecPolicy ID
           example: 3bcd0beb-5d0a-4cbd-92c1-14aea91e98ef
           format: uuid
           nullable: true
+          default: null
           type: string
         sitegroup_ids:
           description: sitegroups this site belongs to
@@ -1689,6 +1695,7 @@ components:
           description: Site Template ID
           format: uuid
           nullable: true
+          default: null
           type: string
         timezone:
           description: Timezone the site is at
@@ -10689,9 +10696,11 @@ components:
         lat:
           example: 37.295833
           type: number
+          format: float64
         lng:
           example: -122.032946
           type: number
+          format: float64
       required:
       - lat
       - lng

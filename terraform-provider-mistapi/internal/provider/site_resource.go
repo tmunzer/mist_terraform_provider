@@ -191,35 +191,44 @@ func processSiteData(ctx context.Context, data *mistsdkgo.Site) resource_site.Si
 	state.Timezone = types.StringValue(data.GetTimezone())
 	state.Notes = types.StringValue(data.GetNotes())
 
-	if data.GetAlarmtemplateId() != "" {
-		state.AlarmtemplateId = types.StringValue(data.GetAlarmtemplateId())
-	}
-	if data.GetAptemplateId() != "" {
-		state.AptemplateId = types.StringValue(data.GetAptemplateId())
-	}
-	if data.GetGatewaytemplateId() != "" {
-		state.GatewaytemplateId = types.StringValue(data.GetGatewaytemplateId())
-	}
-	if data.GetNetworktemplateId() != "" {
-		state.NetworktemplateId = types.StringValue(data.GetNetworktemplateId())
-	}
-	if data.GetRftemplateId() != "" {
-		state.RftemplateId = types.StringValue(data.GetRftemplateId())
-	}
-	if data.GetSecpolicyId() != "" {
-		state.SecpolicyId = types.StringValue(data.GetSecpolicyId())
-	}
-	if data.GetSitetemplateId() != "" {
-		state.SitetemplateId = types.StringValue(data.GetSitetemplateId())
-	}
+	state.AlarmtemplateId = types.StringValue(data.GetAlarmtemplateId())
+	state.AptemplateId = types.StringValue(data.GetAptemplateId())
+	state.GatewaytemplateId = types.StringValue(data.GetGatewaytemplateId())
+	state.NetworktemplateId = types.StringValue(data.GetNetworktemplateId())
+	state.RftemplateId = types.StringValue(data.GetRftemplateId())
+	state.SecpolicyId = types.StringValue(data.GetSecpolicyId())
+	state.SitetemplateId = types.StringValue(data.GetSitetemplateId())
+
+	// if data.GetAlarmtemplateId() != "" {
+	// 	state.AlarmtemplateId = types.StringValue(data.GetAlarmtemplateId())
+	// }
+	// if data.GetAptemplateId() != "" {
+	// 	state.AptemplateId = types.StringValue(data.GetAptemplateId())
+	// }
+	// if data.GetGatewaytemplateId() != "" {
+	// 	state.GatewaytemplateId = types.StringValue(data.GetGatewaytemplateId())
+	// }
+	// if data.GetNetworktemplateId() != "" {
+	// 	state.NetworktemplateId = types.StringValue(data.GetNetworktemplateId())
+	// }
+	// if data.GetRftemplateId() != "" {
+	// 	state.RftemplateId = types.StringValue(data.GetRftemplateId())
+	// }
+	// if data.GetSecpolicyId() != "" {
+	// 	state.SecpolicyId = types.StringValue(data.GetSecpolicyId())
+	// }
+	// if data.GetSitetemplateId() != "" {
+	// 	state.SitetemplateId = types.StringValue(data.GetSitetemplateId())
+	// }
 
 	var items []attr.Value
+	var items_type attr.Type = types.StringType
 	for _, item := range data.GetSitegroupIds() {
-		tmp := types.StringValue(item)
-		items = append(items, tmp)
+		items = append(items, types.StringValue(item))
 	}
-	state.SitegroupIds, _ = types.ListValue(types.StringType, items)
-
+	test, _ := basetypes.NewListValue(items_type, items)
+	//state.SitegroupIds, _ = types.ListValue(types.StringType, items)
+	state.SitegroupIds = test
 	return state
 }
 
@@ -265,6 +274,12 @@ func processSitePlan(ctx context.Context, plan *resource_site.SiteModel) (mistsd
 
 	tflog.Debug(ctx, "SetSitetemplateId: "+plan.SitetemplateId.ValueString())
 	data.SetSitetemplateId(plan.SitetemplateId.ValueString())
+
+	var items []string
+	for _, item := range plan.SitegroupIds.Elements() {
+		items = append(items, item.String())
+	}
+	data.SetSitegroupIds(items)
 
 	var orgId = plan.OrgId.ValueString()
 	return data, orgId
