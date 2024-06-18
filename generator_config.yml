@@ -33,5 +33,9 @@ resources:
       method: PUT      
     schema:
       attributes:
-        aliases:
+        - aliases:
           site_id: id
+        - name: address
+          string :
+            computed_optional_required: "optional"
+        

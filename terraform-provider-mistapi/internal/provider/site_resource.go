@@ -10,6 +10,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 
@@ -73,7 +74,7 @@ func (r *siteResource) Create(ctx context.Context, req resource.CreateRequest, r
 		return
 	}
 
-	state := processSiteData(data)
+	state := processSiteData(ctx, data)
 
 	diags = resp.State.Set(ctx, state)
 	resp.Diagnostics.Append(diags...)
@@ -101,7 +102,7 @@ func (r *siteResource) Read(ctx context.Context, req resource.ReadRequest, resp 
 		)
 		return
 	}
-	state = processSiteData(data)
+	state = processSiteData(ctx, data)
 	// Set refreshed state
 	diags = resp.State.Set(ctx, &state)
 	resp.Diagnostics.Append(diags...)
@@ -111,29 +112,34 @@ func (r *siteResource) Read(ctx context.Context, req resource.ReadRequest, resp 
 }
 
 func (r *siteResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
-	var plan resource_site.SiteModel
+	var state, plan resource_site.SiteModel
 	tflog.Info(ctx, "Starting Site Update")
 
-	diags := req.Plan.Get(ctx, &plan)
+	diags := resp.State.Get(ctx, &state)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+	diags = req.Plan.Get(ctx, &plan)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
 	}
 
-	siteId := plan.Id.ValueString()
+	siteId := state.Id.ValueString()
 	site, _ := processSitePlan(ctx, &plan)
 	tflog.Info(ctx, "Starting Site Update for Site "+siteId)
 	data, _, err := r.client.SitesAPI.UpdateSiteInfo(ctx, siteId).Site(site).Execute()
 
 	if err != nil {
 		resp.Diagnostics.AddError(
-			"Error creating site",
-			"Could not create site, unexpected error: "+err.Error(),
+			"Error updating site",
+			"Could not update site, unexpected error: "+err.Error(),
 		)
 		return
 	}
 
-	state := processSiteData(data)
+	state = processSiteData(ctx, data)
 
 	diags = resp.State.Set(ctx, state)
 	resp.Diagnostics.Append(diags...)
@@ -163,15 +169,24 @@ func (r *siteResource) Delete(ctx context.Context, req resource.DeleteRequest, r
 	}
 }
 
-func processSiteData(data *mistsdkgo.Site) resource_site.SiteModel {
+func processSiteData(ctx context.Context, data *mistsdkgo.Site) resource_site.SiteModel {
 	var state resource_site.SiteModel
 
 	state.Id = types.StringValue(data.GetId())
 	state.OrgId = types.StringValue(data.GetOrgId())
 	state.Name = types.StringValue(data.GetName())
 	state.Address = types.StringValue(data.GetAddress())
-	state.Latlng.Lat = types.NumberValue(big.NewFloat(float64(data.Latlng.GetLat())))
-	state.Latlng.Lng = types.NumberValue(big.NewFloat(float64(data.Latlng.GetLng())))
+
+	lat := types.NumberValue(big.NewFloat(data.Latlng.GetLat()))
+	lng := types.NumberValue(big.NewFloat(data.Latlng.GetLng()))
+	t := make(map[string]attr.Type)
+	t["lat"] = basetypes.NumberType{}
+	t["lng"] = lng.Type(ctx)
+	v := make(map[string]attr.Value)
+	v["lat"] = lat
+	v["lng"] = lng
+	state.Latlng, _ = resource_site.NewLatlngValue(t, v)
+
 	state.CountryCode = types.StringValue(data.GetCountryCode())
 	state.Timezone = types.StringValue(data.GetTimezone())
 	state.Notes = types.StringValue(data.GetNotes())
@@ -179,8 +194,8 @@ func processSiteData(data *mistsdkgo.Site) resource_site.SiteModel {
 	if data.GetAlarmtemplateId() != "" {
 		state.AlarmtemplateId = types.StringValue(data.GetAlarmtemplateId())
 	}
-	if data.GetAlarmtemplateId() != "" {
-		state.AptemplateId = types.StringValue(data.GetAlarmtemplateId())
+	if data.GetAptemplateId() != "" {
+		state.AptemplateId = types.StringValue(data.GetAptemplateId())
 	}
 	if data.GetGatewaytemplateId() != "" {
 		state.GatewaytemplateId = types.StringValue(data.GetGatewaytemplateId())
@@ -204,6 +219,7 @@ func processSiteData(data *mistsdkgo.Site) resource_site.SiteModel {
 		items = append(items, tmp)
 	}
 	state.SitegroupIds, _ = types.ListValue(types.StringType, items)
+
 	return state
 }
 
@@ -214,18 +230,11 @@ func processSitePlan(ctx context.Context, plan *resource_site.SiteModel) (mistsd
 	data.SetAddress(plan.Address.ValueString())
 
 	if !plan.Latlng.IsNull() && !plan.Latlng.Lat.IsNull() && !plan.Latlng.Lng.IsNull() {
-
-		lat, _ := plan.Latlng.Lat.ValueBigFloat().Float32()
-		lng, _ := plan.Latlng.Lng.ValueBigFloat().Float32()
-		//latlng := *mistsdkgo.NewLatLng(lat, lng)
-		data.Latlng.SetLat(lat)
-		data.Latlng.SetLat(lng)
+		lat, _ := plan.Latlng.Lat.ValueBigFloat().Float64()
+		lng, _ := plan.Latlng.Lng.ValueBigFloat().Float64()
+		latlng := *mistsdkgo.NewLatLng(lat, lng)
+		data.SetLatlng(latlng)
 	}
-	// tflog.Debug(ctx, "Latlng.SetLat: "+plan.Latlng.Lat.String())
-	//data.Latlng.SetLat(4.3)
-
-	// tflog.Debug(ctx, "Latlng.SetLat: "+plan.Latlng.Lng.String())
-	//data.Latlng.SetLng(3.2)
 
 	tflog.Debug(ctx, "SetCountryCode: "+plan.CountryCode.ValueString())
 	data.SetCountryCode(plan.CountryCode.ValueString())

@@ -109,19 +109,24 @@ func (r *orgResource) Read(ctx context.Context, req resource.ReadRequest, resp *
 }
 
 func (r *orgResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
-	var plan resource_org.OrgModel
+	var state, plan resource_org.OrgModel
 	tflog.Info(ctx, "Starting Org Update")
 
-	diags := req.Plan.Get(ctx, &plan)
+	diags := resp.State.Get(ctx, &state)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+	diags = req.Plan.Get(ctx, &plan)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
 	}
 
-	orgID := plan.Id.ValueString()
+	orgId := plan.Id.ValueString()
 	org := processOrgPlan(&plan)
-	tflog.Info(ctx, "Starting Site Update for Site "+orgID)
-	data, _, err := r.client.OrgsAPI.UpdateOrg(ctx, orgID).Org(org).Execute()
+	tflog.Info(ctx, "Starting Site Update for Site "+orgId)
+	data, _, err := r.client.OrgsAPI.UpdateOrg(ctx, orgId).Org(org).Execute()
 
 	if err != nil {
 		resp.Diagnostics.AddError(
@@ -131,7 +136,7 @@ func (r *orgResource) Update(ctx context.Context, req resource.UpdateRequest, re
 		return
 	}
 
-	state := processOrgData(data)
+	state = processOrgData(data)
 
 	diags = resp.State.Set(ctx, state)
 	resp.Diagnostics.Append(diags...)
