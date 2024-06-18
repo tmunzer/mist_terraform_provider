@@ -60,8 +60,11 @@ func (r *siteResource) Create(ctx context.Context, req resource.CreateRequest, r
 	if resp.Diagnostics.HasError() {
 		return
 	}
-	site, orgId := processSitePlan(&plan)
-	data, _, err := r.client.OrgsSitesAPI.CreateOrgSite(ctx, orgId).Site(*site).Execute()
+
+	site, orgId := processSitePlan(ctx, &plan)
+	tflog.Info(ctx, "Starting Site Create for Org "+orgId)
+	data, _, err := r.client.OrgsSitesAPI.CreateOrgSite(ctx, orgId).Site(site).Execute()
+
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Error creating site",
@@ -70,9 +73,9 @@ func (r *siteResource) Create(ctx context.Context, req resource.CreateRequest, r
 		return
 	}
 
-	plan = processSiteData(data)
+	state := processSiteData(data)
 
-	diags = resp.State.Set(ctx, plan)
+	diags = resp.State.Set(ctx, state)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -108,17 +111,35 @@ func (r *siteResource) Read(ctx context.Context, req resource.ReadRequest, resp 
 }
 
 func (r *siteResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
-	var data resource_site.SiteModel
+	var plan resource_site.SiteModel
+	tflog.Info(ctx, "Starting Site Update")
 
-	resp.Diagnostics.Append(req.Plan.Get(ctx, &data)...)
+	diags := req.Plan.Get(ctx, &plan)
+	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
 	}
-	//resp.Diagnostics.Append(callSiteAPI(ctx, &data)...)
+
+	siteId := plan.Id.ValueString()
+	site, _ := processSitePlan(ctx, &plan)
+	tflog.Info(ctx, "Starting Site Update for Site "+siteId)
+	data, _, err := r.client.SitesAPI.UpdateSiteInfo(ctx, siteId).Site(site).Execute()
+
+	if err != nil {
+		resp.Diagnostics.AddError(
+			"Error creating site",
+			"Could not create site, unexpected error: "+err.Error(),
+		)
+		return
+	}
+
+	state := processSiteData(data)
+
+	diags = resp.State.Set(ctx, state)
+	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
 	}
-	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 
 }
 
@@ -143,51 +164,99 @@ func (r *siteResource) Delete(ctx context.Context, req resource.DeleteRequest, r
 }
 
 func processSiteData(data *mistsdkgo.Site) resource_site.SiteModel {
-	var plan resource_site.SiteModel
+	var state resource_site.SiteModel
 
-	plan.Name = types.StringValue(data.GetName())
-	plan.Address = types.StringValue(data.GetAddress())
-	plan.Latlng.Lat = types.NumberValue(big.NewFloat(float64(data.Latlng.GetLat())))
-	plan.Latlng.Lng = types.NumberValue(big.NewFloat(float64(data.Latlng.GetLng())))
-	plan.CountryCode = types.StringValue(data.GetCountryCode())
-	plan.Timezone = types.StringValue(data.GetTimezone())
-	plan.Notes = types.StringValue(data.GetNotes())
+	state.Id = types.StringValue(data.GetId())
+	state.OrgId = types.StringValue(data.GetOrgId())
+	state.Name = types.StringValue(data.GetName())
+	state.Address = types.StringValue(data.GetAddress())
+	state.Latlng.Lat = types.NumberValue(big.NewFloat(float64(data.Latlng.GetLat())))
+	state.Latlng.Lng = types.NumberValue(big.NewFloat(float64(data.Latlng.GetLng())))
+	state.CountryCode = types.StringValue(data.GetCountryCode())
+	state.Timezone = types.StringValue(data.GetTimezone())
+	state.Notes = types.StringValue(data.GetNotes())
 
-	plan.AlarmtemplateId = types.StringValue(data.GetAlarmtemplateId())
-	plan.AptemplateId = types.StringValue(data.GetAlarmtemplateId())
-	plan.GatewaytemplateId = types.StringValue(data.GetGatewaytemplateId())
-	plan.NetworktemplateId = types.StringValue(data.GetNetworktemplateId())
-	plan.RftemplateId = types.StringValue(data.GetRftemplateId())
-	plan.SecpolicyId = types.StringValue(data.GetSecpolicyId())
-	plan.SitetemplateId = types.StringValue(data.GetSitetemplateId())
+	if data.GetAlarmtemplateId() != "" {
+		state.AlarmtemplateId = types.StringValue(data.GetAlarmtemplateId())
+	}
+	if data.GetAlarmtemplateId() != "" {
+		state.AptemplateId = types.StringValue(data.GetAlarmtemplateId())
+	}
+	if data.GetGatewaytemplateId() != "" {
+		state.GatewaytemplateId = types.StringValue(data.GetGatewaytemplateId())
+	}
+	if data.GetNetworktemplateId() != "" {
+		state.NetworktemplateId = types.StringValue(data.GetNetworktemplateId())
+	}
+	if data.GetRftemplateId() != "" {
+		state.RftemplateId = types.StringValue(data.GetRftemplateId())
+	}
+	if data.GetSecpolicyId() != "" {
+		state.SecpolicyId = types.StringValue(data.GetSecpolicyId())
+	}
+	if data.GetSitetemplateId() != "" {
+		state.SitetemplateId = types.StringValue(data.GetSitetemplateId())
+	}
 
 	var items []attr.Value
 	for _, item := range data.GetSitegroupIds() {
 		tmp := types.StringValue(item)
 		items = append(items, tmp)
 	}
-	plan.SitegroupIds, _ = types.ListValue(types.StringType, items)
-	return plan
+	state.SitegroupIds, _ = types.ListValue(types.StringType, items)
+	return state
 }
 
-func processSitePlan(plan *resource_site.SiteModel) (*mistsdkgo.Site, string) {
-	var data *mistsdkgo.Site
-	data.SetName(plan.Name.ValueString())
+func processSitePlan(ctx context.Context, plan *resource_site.SiteModel) (mistsdkgo.Site, string) {
+	data := *mistsdkgo.NewSite(plan.Name.ValueString())
+
+	tflog.Debug(ctx, "SetAddress: "+plan.Address.ValueString())
 	data.SetAddress(plan.Address.ValueString())
-	data.Latlng.Lat = float32(plan.Latlng.Lat.ValueBigFloat().Acc())
-	data.Latlng.Lng = float32(plan.Latlng.Lng.ValueBigFloat().Acc())
+
+	if !plan.Latlng.IsNull() && !plan.Latlng.Lat.IsNull() && !plan.Latlng.Lng.IsNull() {
+
+		lat, _ := plan.Latlng.Lat.ValueBigFloat().Float32()
+		lng, _ := plan.Latlng.Lng.ValueBigFloat().Float32()
+		//latlng := *mistsdkgo.NewLatLng(lat, lng)
+		data.Latlng.SetLat(lat)
+		data.Latlng.SetLat(lng)
+	}
+	// tflog.Debug(ctx, "Latlng.SetLat: "+plan.Latlng.Lat.String())
+	//data.Latlng.SetLat(4.3)
+
+	// tflog.Debug(ctx, "Latlng.SetLat: "+plan.Latlng.Lng.String())
+	//data.Latlng.SetLng(3.2)
+
+	tflog.Debug(ctx, "SetCountryCode: "+plan.CountryCode.ValueString())
 	data.SetCountryCode(plan.CountryCode.ValueString())
+
+	tflog.Debug(ctx, "SetTimezone: "+plan.Timezone.ValueString())
 	data.SetTimezone(plan.Timezone.ValueString())
+
+	tflog.Debug(ctx, "SetNotes: "+plan.Notes.ValueString())
 	data.SetNotes(plan.Notes.ValueString())
 
+	tflog.Debug(ctx, "SetAlarmtemplateId: "+plan.AlarmtemplateId.ValueString())
 	data.SetAlarmtemplateId(plan.AlarmtemplateId.ValueString())
+
+	tflog.Debug(ctx, "SetAptemplateId: "+plan.AptemplateId.ValueString())
 	data.SetAptemplateId(plan.AptemplateId.ValueString())
+
+	tflog.Debug(ctx, "SetGatewaytemplateId: "+plan.GatewaytemplateId.ValueString())
 	data.SetGatewaytemplateId(plan.GatewaytemplateId.ValueString())
+
+	tflog.Debug(ctx, "SetNetworktemplateId: "+plan.NetworktemplateId.ValueString())
 	data.SetNetworktemplateId(plan.NetworktemplateId.ValueString())
+
+	tflog.Debug(ctx, "SetRftemplateId: "+plan.RftemplateId.ValueString())
 	data.SetRftemplateId(plan.RftemplateId.ValueString())
+
+	tflog.Debug(ctx, "SetSecpolicyId: "+plan.SecpolicyId.ValueString())
 	data.SetSecpolicyId(plan.SecpolicyId.ValueString())
+
+	tflog.Debug(ctx, "SetSitetemplateId: "+plan.SitetemplateId.ValueString())
 	data.SetSitetemplateId(plan.SitetemplateId.ValueString())
 
-	var orgId = plan.OrgId.String()
+	var orgId = plan.OrgId.ValueString()
 	return data, orgId
 }

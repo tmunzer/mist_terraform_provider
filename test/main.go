@@ -9,17 +9,18 @@ import (
 )
 
 func main() {
-	//orgId := "203d3d02-dbc0-4c1b-9f41-76896a3330f4" // string |
+	orgId := "d0f2ae46-b6f9-4f5b-b8ba-6d9a28556035" // string |
 	//ctx := context.WithValue(context.Background(), openapiclient.ContextServerIndex, 0)
 
-	org := *openapiclient.NewOrg("test1234")
+	site := *openapiclient.NewSite("test1234")
+	site.SetAddress("123 rue de ici")
 
 	configuration := openapiclient.NewConfiguration()
 	configuration.AddDefaultHeader("Authorization", "Token ")
 	apiClient := openapiclient.NewAPIClient(configuration)
 
-	resp, r, err := apiClient.OrgsAPI.CreateOrg(context.Background()).Org(org).Execute()
-
+	//resp, r, err := apiClient.OrgsAPI.CreateOrg(context.Background()).Org(org).Execute()
+	resp, r, err := apiClient.OrgsSitesAPI.CreateOrgSite(context.Background(), orgId).Site(site).Execute()
 	//fmt.Fprintf(os.Stdout, "%v\n\n", apiClient.GetConfig())
 	//resp, r, err := apiClient.OrgsAPI.GetOrg(ctx, orgId).Execute()
 	if err != nil {

@@ -61,8 +61,8 @@ func (r *orgResource) Create(ctx context.Context, req resource.CreateRequest, re
 		return
 	}
 
-	data := processOrgPlan(&plan)
-	data, _, err := r.client.OrgsAPI.CreateOrg(ctx).Org(*data).Execute()
+	org := processOrgPlan(&plan)
+	data, _, err := r.client.OrgsAPI.CreateOrg(ctx).Org(org).Execute()
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Error creating org",
@@ -71,9 +71,9 @@ func (r *orgResource) Create(ctx context.Context, req resource.CreateRequest, re
 		return
 	}
 
-	plan = processOrgData(data)
+	state := processOrgData(data)
 
-	diags = resp.State.Set(ctx, plan)
+	diags = resp.State.Set(ctx, state)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -109,17 +109,35 @@ func (r *orgResource) Read(ctx context.Context, req resource.ReadRequest, resp *
 }
 
 func (r *orgResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
-	var data resource_org.OrgModel
+	var plan resource_org.OrgModel
+	tflog.Info(ctx, "Starting Org Update")
 
-	resp.Diagnostics.Append(req.Plan.Get(ctx, &data)...)
+	diags := req.Plan.Get(ctx, &plan)
+	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
 	}
-	//resp.Diagnostics.Append(callOrgAPI(ctx, &data)...)
+
+	orgID := plan.Id.ValueString()
+	org := processOrgPlan(&plan)
+	tflog.Info(ctx, "Starting Site Update for Site "+orgID)
+	data, _, err := r.client.OrgsAPI.UpdateOrg(ctx, orgID).Org(org).Execute()
+
+	if err != nil {
+		resp.Diagnostics.AddError(
+			"Error creating site",
+			"Could not create site, unexpected error: "+err.Error(),
+		)
+		return
+	}
+
+	state := processOrgData(data)
+
+	diags = resp.State.Set(ctx, state)
+	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
 	}
-	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 
 }
 
@@ -144,29 +162,28 @@ func (r *orgResource) Delete(ctx context.Context, req resource.DeleteRequest, re
 }
 
 func processOrgData(data *mistsdkgo.Org) resource_org.OrgModel {
-	var plan resource_org.OrgModel
+	var state resource_org.OrgModel
 
-	plan.AlarmtemplateId = types.StringValue(data.GetAlarmtemplateId())
-	plan.AllowMist = types.BoolValue(data.GetAllowMist())
-	plan.ModifiedTime = types.NumberValue(big.NewFloat(float64(data.GetModifiedTime())))
-	plan.CreatedTime = types.NumberValue(big.NewFloat(float64(data.GetCreatedTime())))
-	plan.Id = types.StringValue(data.GetId())
-	plan.LogoUrl = types.StringValue(data.GetLogoUrl())
-	plan.MspId = types.StringValue(data.GetMspId())
-	plan.MspName = types.StringValue(data.GetMspName())
-	plan.Name = types.StringValue(data.GetName())
-	plan.SessionExpiry = types.NumberValue(big.NewFloat(float64(data.GetSessionExpiry())))
+	state.Id = types.StringValue(data.GetId())
+	state.AlarmtemplateId = types.StringValue(data.GetAlarmtemplateId())
+	state.AllowMist = types.BoolValue(data.GetAllowMist())
+	state.ModifiedTime = types.NumberValue(big.NewFloat(float64(data.GetModifiedTime())))
+	state.CreatedTime = types.NumberValue(big.NewFloat(float64(data.GetCreatedTime())))
+	state.LogoUrl = types.StringValue(data.GetLogoUrl())
+	state.MspId = types.StringValue(data.GetMspId())
+	state.MspName = types.StringValue(data.GetMspName())
+	state.Name = types.StringValue(data.GetName())
+	state.SessionExpiry = types.NumberValue(big.NewFloat(float64(data.GetSessionExpiry())))
 	var items []attr.Value
 	for _, item := range data.GetOrggroupIds() {
 		tmp := types.StringValue(item)
 		items = append(items, tmp)
 	}
-	plan.OrggroupIds, _ = types.ListValue(types.StringType, items)
-	return plan
+	state.OrggroupIds, _ = types.ListValue(types.StringType, items)
+	return state
 }
 
-func processOrgPlan(plan *resource_org.OrgModel) *mistsdkgo.Org {
-	var data *mistsdkgo.Org
-	data.SetName(plan.Name.ValueString())
+func processOrgPlan(plan *resource_org.OrgModel) mistsdkgo.Org {
+	data := *mistsdkgo.NewOrg(plan.Name.ValueString())
 	return data
 }

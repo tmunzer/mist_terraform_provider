@@ -8,38 +8,38 @@ alias tfplugingen-openapi="~/go/bin/tfplugingen-openapi"
 PNAME="terraform-provider-mistapi"
 
 
-mkdir $PNAME
-cp openapi.yml $PNAME
-cd $PNAME
-go mod init $PNAME
-touch main.go
+# mkdir $PNAME
+# cp openapi.yml $PNAME
+# cd $PNAME
+# go mod init $PNAME
+# touch main.go
 
-cat <<EOF >>main.go
-package main
-import (
-    "context"
-    "log"
-    "terraform-provider-mistapi/internal/provider"
-    "github.com/hashicorp/terraform-plugin-framework/providerserver"
-)
-func main() {
-    opts := providerserver.ServeOpts{
-		Address: "registry.terraform.io/juniper/mistapi",
-    }
-    err := providerserver.Serve(context.Background(), provider.New(), opts)
-    if err != nil {
-        log.Fatal(err.Error())
-    }
-}
-EOF
-
-
-mkdir -p internal/provider
+# cat <<EOF >>main.go
+# package main
+# import (
+#     "context"
+#     "log"
+#     "terraform-provider-mistapi/internal/provider"
+#     "github.com/hashicorp/terraform-plugin-framework/providerserver"
+# )
+# func main() {
+#     opts := providerserver.ServeOpts{
+# 		Address: "registry.terraform.io/juniper/mistapi",
+#     }
+#     err := providerserver.Serve(context.Background(), provider.New(), opts)
+#     if err != nil {
+#         log.Fatal(err.Error())
+#     }
+# }
+# EOF
 
 
-tfplugingen-framework scaffold provider \
-  --name mistapi \
-  --output-dir ./internal/provider
+# mkdir -p internal/provider
+
+
+# tfplugingen-framework scaffold provider \
+#   --name mistapi \
+#   --output-dir ./internal/provider
 
 tfplugingen-openapi generate \
     --config ./generator_config.yml \

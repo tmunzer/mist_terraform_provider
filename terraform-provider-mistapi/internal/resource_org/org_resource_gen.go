@@ -15,6 +15,7 @@ func OrgResourceSchema(ctx context.Context) schema.Schema {
 		Attributes: map[string]schema.Attribute{
 			"alarmtemplate_id": schema.StringAttribute{
 				Optional: true,
+				Computed: true,
 			},
 			"allow_mist": schema.BoolAttribute{
 				Optional: true,
@@ -31,6 +32,7 @@ func OrgResourceSchema(ctx context.Context) schema.Schema {
 			},
 			"logo_url": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "logo uploaded by the MSP with advanced tier, only present if provided",
 				MarkdownDescription: "logo uploaded by the MSP with advanced tier, only present if provided",
 			},
@@ -40,9 +42,11 @@ func OrgResourceSchema(ctx context.Context) schema.Schema {
 			},
 			"msp_id": schema.StringAttribute{
 				Optional: true,
+				Computed: true,
 			},
 			"msp_name": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "name of the msp the org belongs to",
 				MarkdownDescription: "name of the msp the org belongs to",
 			},
@@ -52,9 +56,11 @@ func OrgResourceSchema(ctx context.Context) schema.Schema {
 			"orggroup_ids": schema.ListAttribute{
 				ElementType: types.StringType,
 				Optional:    true,
+				Computed:    true,
 			},
 			"session_expiry": schema.NumberAttribute{
 				Optional: true,
+				Computed: true,
 			},
 		},
 	}
