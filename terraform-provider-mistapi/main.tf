@@ -26,4 +26,15 @@ resource "mistapi_site" "terraform_site" {
     lat = 48.899268
     lng = 2.214447
   }
+  sitegroup_ids = [mistapi_sitegroup.test_group.id, mistapi_sitegroup.test_group2.id]
+}
+
+
+resource "mistapi_sitegroup" "test_group" {
+  org_id = mistapi_org.terraform_test.id
+  name   = "test group"
+}
+resource "mistapi_sitegroup" "test_group2" {
+  org_id = mistapi_org.terraform_test.id
+  name   = "test group2b"
 }

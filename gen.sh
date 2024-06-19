@@ -2,8 +2,8 @@
 #~/go/bin/tfplugingen-framework generate all --input provider_code_spec.json --output internal/provider
 #~/go/bin/tfplugingen-framework scaffold data-source --name site --force --output-dir internal/provider
 
-alias tfplugingen-framework="~/go/bin/tfplugingen-framework"
-alias tfplugingen-openapi="~/go/bin/tfplugingen-openapi"
+# alias tfplugingen-framework="~/go/bin/tfplugingen-framework"
+# alias tfplugingen-openapi="~/go/bin/tfplugingen-openapi"
 
 PNAME="terraform-provider-mistapi"
 
@@ -41,15 +41,21 @@ PNAME="terraform-provider-mistapi"
 #   --name mistapi \
 #   --output-dir ./internal/provider
 
+# ts=`date "+%s"`
+# echo "backuping src"
+# cp ./provider-code-spec.json ./provider-code-spec.json.$ts.bak
+
 tfplugingen-openapi generate \
     --config ./generator_config.yml \
     --output ./provider-code-spec.json \
     ./openapi.yml
 
+#python3 ./custom.py
+
 tfplugingen-framework generate resources \
     --input ./provider-code-spec.json \
     --output ./terraform-provider-mistapi/internal
 
-rm /Users/tmunzer/go/bin/terraform-provider-mistapi
-go mod tidy
-go install .
+#rm /Users/tmunzer/go/bin/terraform-provider-mistapi
+#go mod tidy
+#go install .

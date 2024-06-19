@@ -27,7 +27,7 @@ type orgResource struct {
 }
 
 func (r *orgResource) Configure(ctx context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
-	tflog.Info(ctx, "Configuring Mist Site client")
+	tflog.Info(ctx, "Configuring Mist Org client")
 	if req.ProviderData == nil {
 		return
 	}
@@ -125,7 +125,7 @@ func (r *orgResource) Update(ctx context.Context, req resource.UpdateRequest, re
 
 	orgId := plan.Id.ValueString()
 	org := processOrgPlan(&plan)
-	tflog.Info(ctx, "Starting Site Update for Site "+orgId)
+	tflog.Info(ctx, "Starting Org Update for Org "+orgId)
 	data, _, err := r.client.OrgsAPI.UpdateOrg(ctx, orgId).Org(org).Execute()
 
 	if err != nil {
@@ -172,8 +172,6 @@ func processOrgData(data *mistsdkgo.Org) resource_org.OrgModel {
 	state.Id = types.StringValue(data.GetId())
 	state.AlarmtemplateId = types.StringValue(data.GetAlarmtemplateId())
 	state.AllowMist = types.BoolValue(data.GetAllowMist())
-	state.ModifiedTime = types.NumberValue(big.NewFloat(float64(data.GetModifiedTime())))
-	state.CreatedTime = types.NumberValue(big.NewFloat(float64(data.GetCreatedTime())))
 	state.LogoUrl = types.StringValue(data.GetLogoUrl())
 	state.MspId = types.StringValue(data.GetMspId())
 	state.MspName = types.StringValue(data.GetMspName())

@@ -199,36 +199,12 @@ func processSiteData(ctx context.Context, data *mistsdkgo.Site) resource_site.Si
 	state.SecpolicyId = types.StringValue(data.GetSecpolicyId())
 	state.SitetemplateId = types.StringValue(data.GetSitetemplateId())
 
-	// if data.GetAlarmtemplateId() != "" {
-	// 	state.AlarmtemplateId = types.StringValue(data.GetAlarmtemplateId())
-	// }
-	// if data.GetAptemplateId() != "" {
-	// 	state.AptemplateId = types.StringValue(data.GetAptemplateId())
-	// }
-	// if data.GetGatewaytemplateId() != "" {
-	// 	state.GatewaytemplateId = types.StringValue(data.GetGatewaytemplateId())
-	// }
-	// if data.GetNetworktemplateId() != "" {
-	// 	state.NetworktemplateId = types.StringValue(data.GetNetworktemplateId())
-	// }
-	// if data.GetRftemplateId() != "" {
-	// 	state.RftemplateId = types.StringValue(data.GetRftemplateId())
-	// }
-	// if data.GetSecpolicyId() != "" {
-	// 	state.SecpolicyId = types.StringValue(data.GetSecpolicyId())
-	// }
-	// if data.GetSitetemplateId() != "" {
-	// 	state.SitetemplateId = types.StringValue(data.GetSitetemplateId())
-	// }
-
 	var items []attr.Value
-	var items_type attr.Type = types.StringType
+	var items_type attr.Type = basetypes.StringType{}
 	for _, item := range data.GetSitegroupIds() {
-		items = append(items, types.StringValue(item))
+		items = append(items, types.StringValue(item[1:37]))
 	}
-	test, _ := basetypes.NewListValue(items_type, items)
-	//state.SitegroupIds, _ = types.ListValue(types.StringType, items)
-	state.SitegroupIds = test
+	state.SitegroupIds, _ = types.ListValue(items_type, items)
 	return state
 }
 

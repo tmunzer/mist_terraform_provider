@@ -137,6 +137,7 @@ func (p *mistapiProvider) DataSources(ctx context.Context) []func() datasource.D
 func (p *mistapiProvider) Resources(ctx context.Context) []func() resource.Resource {
 	return []func() resource.Resource{
 		NewOrgResource,
+		NewSitegroupResource,
 		NewSiteResource,
 	}
 }

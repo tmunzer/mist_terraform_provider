@@ -22,10 +22,6 @@ func OrgResourceSchema(ctx context.Context) schema.Schema {
 				Computed: true,
 				Default:  booldefault.StaticBool(true),
 			},
-			"created_time": schema.NumberAttribute{
-				Optional: true,
-				Computed: true,
-			},
 			"id": schema.StringAttribute{
 				Optional: true,
 				Computed: true,
@@ -35,10 +31,6 @@ func OrgResourceSchema(ctx context.Context) schema.Schema {
 				Computed:            true,
 				Description:         "logo uploaded by the MSP with advanced tier, only present if provided",
 				MarkdownDescription: "logo uploaded by the MSP with advanced tier, only present if provided",
-			},
-			"modified_time": schema.NumberAttribute{
-				Optional: true,
-				Computed: true,
 			},
 			"msp_id": schema.StringAttribute{
 				Optional: true,
@@ -69,10 +61,8 @@ func OrgResourceSchema(ctx context.Context) schema.Schema {
 type OrgModel struct {
 	AlarmtemplateId types.String `tfsdk:"alarmtemplate_id"`
 	AllowMist       types.Bool   `tfsdk:"allow_mist"`
-	CreatedTime     types.Number `tfsdk:"created_time"`
 	Id              types.String `tfsdk:"id"`
 	LogoUrl         types.String `tfsdk:"logo_url"`
-	ModifiedTime    types.Number `tfsdk:"modified_time"`
 	MspId           types.String `tfsdk:"msp_id"`
 	MspName         types.String `tfsdk:"msp_name"`
 	Name            types.String `tfsdk:"name"`

@@ -48,10 +48,6 @@ func SiteResourceSchema(ctx context.Context) schema.Schema {
 				Description:         "country code for the site (for AP config generation), in two-character",
 				MarkdownDescription: "country code for the site (for AP config generation), in two-character",
 			},
-			"created_time": schema.NumberAttribute{
-				Optional: true,
-				Computed: true,
-			},
 			"gatewaytemplate_id": schema.StringAttribute{
 				Optional:            true,
 				Computed:            true,
@@ -78,10 +74,6 @@ func SiteResourceSchema(ctx context.Context) schema.Schema {
 						AttrTypes: LatlngValue{}.AttributeTypes(ctx),
 					},
 				},
-				Optional: true,
-				Computed: true,
-			},
-			"modified_time": schema.NumberAttribute{
 				Optional: true,
 				Computed: true,
 			},
@@ -149,11 +141,9 @@ type SiteModel struct {
 	AlarmtemplateId   types.String `tfsdk:"alarmtemplate_id"`
 	AptemplateId      types.String `tfsdk:"aptemplate_id"`
 	CountryCode       types.String `tfsdk:"country_code"`
-	CreatedTime       types.Number `tfsdk:"created_time"`
 	GatewaytemplateId types.String `tfsdk:"gatewaytemplate_id"`
 	Id                types.String `tfsdk:"id"`
 	Latlng            LatlngValue  `tfsdk:"latlng"`
-	ModifiedTime      types.Number `tfsdk:"modified_time"`
 	Name              types.String `tfsdk:"name"`
 	NetworktemplateId types.String `tfsdk:"networktemplate_id"`
 	Notes             types.String `tfsdk:"notes"`
