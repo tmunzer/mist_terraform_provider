@@ -139,5 +139,6 @@ func (p *mistapiProvider) Resources(ctx context.Context) []func() resource.Resou
 		NewOrgResource,
 		NewSitegroupResource,
 		NewSiteResource,
+		NewNetworkTemplate,
 	}
 }

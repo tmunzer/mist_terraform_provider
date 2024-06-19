@@ -1743,6 +1743,7 @@ components:
             $ref: "#/components/schemas/junos_acl_policies"
           type: array
         acl_tags:
+          default: {}
           additionalProperties:
             $ref: "#/components/schemas/junos_acl_tags"
           description:
@@ -3843,9 +3844,9 @@ components:
         dns_suffix:
           $ref: "#/components/schemas/string_list"
         extra_routes:
-          $ref: "#/components/schemas/switch_extra_routes"
+          $ref: '#/components/schemas/switch_extra_routes'
         extra_routes6:
-          $ref: "#/components/schemas/switch_extra_routes6"
+          $ref: '#/components/schemas/switch_extra_routes6'
         id:
           format: uuid
           readOnly: true
@@ -5004,6 +5005,7 @@ components:
       items:
         type: string
       type: array
+      default: []
       uniqueItems: true
     wlan_hotspot_20:
       description: hostspot 2.0 wlan settings
@@ -7253,6 +7255,7 @@ components:
       type: object
     junos_radius_config:
       description: Junos Radius config
+      x-terraform-resource-name: radius_acct_servers
       properties:
         acct_interim_interval:
           default: 0
@@ -7264,13 +7267,15 @@ components:
           maximum: 65535
           minimum: 0
           type: integer
-        acct_servers:
+        radius_acct_servers:
+          x-terraform-resource-name: radius_acct_servers
           items:
             $ref: "#/components/schemas/radius_acct_server"
           minItems: 1
           type: array
           uniqueItems: true
-        auth_servers:
+        radius_auth_servers:
+          x-terraform-field-name: radius_auth_servers
           items:
             $ref: "#/components/schemas/radius_auth_server"
           minItems: 1
@@ -7980,6 +7985,7 @@ components:
     tacacs:
       properties:
         acct_servers:
+          x-terraform-field-name: tacacs_acct_servers
           items:
             $ref: "#/components/schemas/tacacs_acct_server"
           type: array
@@ -7989,6 +7995,7 @@ components:
           description: which network the TACACS server resides
           type: string
         tacplus_servers:
+          x-terraform-field-name: tacacs_auth_servers
           items:
             $ref: "#/components/schemas/tacacs_auth_server"
           type: array
@@ -9449,6 +9456,7 @@ components:
     site_mxtunnel_radsec:
       properties:
         acct_servers:
+          x-terraform-field-name: mxtunnel_radsec_acct_server
           items:
             $ref: "#/components/schemas/radius_acct_server"
           type: array
@@ -9549,7 +9557,7 @@ components:
       type: object
     remote_syslog:
       properties:
-        archive:
+        remote_syslog_archive:
           properties:
             files:
               example: 20
@@ -9558,9 +9566,9 @@ components:
               example: 5m
               type: string
           type: object
-        console:
+        remote_syslog_console:
           properties:
-            contents:
+            remote_syslog_console_contents:
               items:
                 $ref: "#/components/schemas/remote_syslog_content"
               type: array
@@ -9568,7 +9576,7 @@ components:
         enabled:
           default: false
           type: boolean
-        files:
+        remote_syslog_files:
           items:
             properties:
               archive:
@@ -9580,7 +9588,7 @@ components:
                     example: 5m
                     type: string
                 type: object
-              contents:
+              remote_syslog_file_contents:
                 items:
                   $ref: "#/components/schemas/remote_syslog_content"
                 type: array
@@ -9607,7 +9615,7 @@ components:
         send_to_all_servers:
           default: false
           type: boolean
-        servers:
+        remote_syslog_servers:
           example:
             - facility: config
               host: syslogd.internal
@@ -9617,7 +9625,7 @@ components:
               tag: ""
           items:
             properties:
-              contents:
+              cremote_syslog_servers_ontents:
                 items:
                   $ref: "#/components/schemas/remote_syslog_content"
                 type: array
@@ -9691,10 +9699,10 @@ components:
             - year millisecond
           example: millisecond
           type: string
-        users:
+        remote_syslog_users:
           items:
             properties:
-              contents:
+              remote_syslog_users_contents:
                 items:
                   $ref: "#/components/schemas/remote_syslog_content"
                 type: array
@@ -10451,6 +10459,7 @@ components:
           type: string
       type: object
     radius_acct_server:
+      x-terraform-field-name: radius_acct_server
       properties:
         host:
           description: ip / hostname of RADIUS server
@@ -10485,6 +10494,7 @@ components:
         - secret
       type: object
     radius_auth_server:
+      x-terraform-field-name: radius_auth_server
       description: Authentication Server
       properties:
         host:

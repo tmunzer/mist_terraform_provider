@@ -2,7 +2,14 @@ module terraform-provider-mistapi
 
 go 1.22.4
 
-require github.com/hashicorp/terraform-plugin-framework v1.9.0
+require (
+	github.com/hashicorp/terraform-plugin-framework v1.9.0
+	github.com/hashicorp/terraform-plugin-framework-validators v0.12.0
+	github.com/hashicorp/terraform-plugin-go v0.23.0
+	github.com/hashicorp/terraform-plugin-log v0.9.0
+	terraform-provider-mistapi/github.com/tmunzer/mist-sdk-go v0.0.0-00010101000000-000000000000
+)
+
 replace terraform-provider-mistapi/github.com/tmunzer/mist-sdk-go => ./mistsdkgo
 
 require (
@@ -11,8 +18,6 @@ require (
 	github.com/hashicorp/go-hclog v1.5.0 // indirect
 	github.com/hashicorp/go-plugin v1.6.0 // indirect
 	github.com/hashicorp/go-uuid v1.0.3 // indirect
-	github.com/hashicorp/terraform-plugin-go v0.23.0 // indirect
-	github.com/hashicorp/terraform-plugin-log v0.9.0 // indirect
 	github.com/hashicorp/terraform-registry-address v0.2.3 // indirect
 	github.com/hashicorp/terraform-svchost v0.1.1 // indirect
 	github.com/hashicorp/yamux v0.1.1 // indirect
@@ -28,6 +33,5 @@ require (
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20240227224415-6ceb2ff114de // indirect
 	google.golang.org/grpc v1.63.2 // indirect
 	google.golang.org/protobuf v1.34.0 // indirect
-	terraform-provider-mistapi/github.com/tmunzer/mist-sdk-go v0.0.0-00010101000000-000000000000 // indirect
 
 )

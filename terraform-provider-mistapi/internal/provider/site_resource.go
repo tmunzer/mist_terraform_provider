@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"math/big"
+	"strings"
 	mistsdkgo "terraform-provider-mistapi/github.com/tmunzer/mist-sdk-go"
 	"terraform-provider-mistapi/internal/resource_site"
 
@@ -202,7 +203,8 @@ func processSiteData(ctx context.Context, data *mistsdkgo.Site) resource_site.Si
 	var items []attr.Value
 	var items_type attr.Type = basetypes.StringType{}
 	for _, item := range data.GetSitegroupIds() {
-		items = append(items, types.StringValue(item[1:37]))
+		value := strings.ReplaceAll(item, "\"", "")
+		items = append(items, types.StringValue(value))
 	}
 	state.SitegroupIds, _ = types.ListValue(items_type, items)
 	return state
