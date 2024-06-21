@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**AdditionalConfigCmds** | Pointer to **[]string** |  | [optional] 
+**AdditionalConfigCmds** | Pointer to **[]string** |  | [optional] [default to []]
 **Name** | Pointer to **string** |  | [optional] 
 **PortConfig** | Pointer to [**map[string]JunosPortConfig**](JunosPortConfig.md) |  | [optional] 
 

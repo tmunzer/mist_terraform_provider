@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**AdditionalConfigCmds** | Pointer to **[]string** |  | [optional] 
+**AdditionalConfigCmds** | Pointer to **[]string** |  | [optional] [default to []]
 **CreatedTime** | Pointer to **float32** |  | [optional] [readonly] 
 **DeviceprofileId** | Pointer to **string** |  | [optional] 
 **DhcpdConfig** | Pointer to [**JunosDhcpdConfig**](JunosDhcpdConfig.md) |  | [optional] 
@@ -20,7 +20,7 @@ Name | Type | Description | Notes
 **MspId** | Pointer to **string** |  | [optional] [readonly] 
 **Name** | Pointer to **string** |  | [optional] 
 **Networks** | Pointer to [**map[string]GatewayNetworksValue**](GatewayNetworksValue.md) | Property key is the network name or a CIDR | [optional] 
-**NtpServers** | Pointer to **[]string** |  | [optional] 
+**NtpServers** | Pointer to **[]string** |  | [optional] [default to []]
 **OobIpConfig** | Pointer to [**JunosOobIpConfig**](JunosOobIpConfig.md) |  | [optional] 
 **OrgId** | Pointer to **string** |  | [optional] [readonly] 
 **PortConfig** | Pointer to [**map[string]GatewayPortConfig**](GatewayPortConfig.md) | Property key is the port name or range (e.g. \&quot;ge-0/0/0-10\&quot;) | [optional] 

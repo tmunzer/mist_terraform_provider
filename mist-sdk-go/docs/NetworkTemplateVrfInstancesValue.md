@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **ExtraRoutes** | Pointer to [**map[string]VrfExtraRoutesValue**](VrfExtraRoutesValue.md) | Property key is the destination CIDR (e.g. \&quot;10.0.0.0/8\&quot;) | [optional] 
-**Networks** | Pointer to **[]string** |  | [optional] 
+**Networks** | Pointer to **[]string** |  | [optional] [default to []]
 
 ## Methods
 

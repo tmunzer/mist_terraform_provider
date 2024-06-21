@@ -33,7 +33,7 @@ type JunosAclTags struct {
 	Specs []JunosAclTagsSpecsInner `json:"specs,omitempty"`
 	// if  - `type`==`subnet`  - `type`==`resource` (optional. default is `any`) - `type`==`static_gbp` if from matching subnet
 	Subnets []string `json:"subnets,omitempty"`
-	Type string `json:"type"`
+	Type JunosAclTagType `json:"type"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -43,7 +43,7 @@ type _JunosAclTags JunosAclTags
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewJunosAclTags(type_ string) *JunosAclTags {
+func NewJunosAclTags(type_ JunosAclTagType) *JunosAclTags {
 	this := JunosAclTags{}
 	this.Type = type_
 	return &this
@@ -250,9 +250,9 @@ func (o *JunosAclTags) SetSubnets(v []string) {
 }
 
 // GetType returns the Type field value
-func (o *JunosAclTags) GetType() string {
+func (o *JunosAclTags) GetType() JunosAclTagType {
 	if o == nil {
-		var ret string
+		var ret JunosAclTagType
 		return ret
 	}
 
@@ -261,7 +261,7 @@ func (o *JunosAclTags) GetType() string {
 
 // GetTypeOk returns a tuple with the Type field value
 // and a boolean to check if the value has been set.
-func (o *JunosAclTags) GetTypeOk() (*string, bool) {
+func (o *JunosAclTags) GetTypeOk() (*JunosAclTagType, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -269,7 +269,7 @@ func (o *JunosAclTags) GetTypeOk() (*string, bool) {
 }
 
 // SetType sets field value
-func (o *JunosAclTags) SetType(v string) {
+func (o *JunosAclTags) SetType(v JunosAclTagType) {
 	o.Type = v
 }
 

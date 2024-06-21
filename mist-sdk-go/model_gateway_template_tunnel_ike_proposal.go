@@ -37,7 +37,7 @@ func NewGatewayTemplateTunnelIkeProposal() *GatewayTemplateTunnelIkeProposal {
 	this := GatewayTemplateTunnelIkeProposal{}
 	var dhGroup string = "14"
 	this.DhGroup = &dhGroup
-	var encAlgo string = "aes256"
+	var encAlgo ENC_ALGO = "aes256"
 	this.EncAlgo = *NewNullableString(&encAlgo)
 	return &this
 }
@@ -49,7 +49,7 @@ func NewGatewayTemplateTunnelIkeProposalWithDefaults() *GatewayTemplateTunnelIke
 	this := GatewayTemplateTunnelIkeProposal{}
 	var dhGroup string = "14"
 	this.DhGroup = &dhGroup
-	var encAlgo string = "aes256"
+	var encAlgo ENC_ALGO = "aes256"
 	this.EncAlgo = *NewNullableString(&encAlgo)
 	return &this
 }

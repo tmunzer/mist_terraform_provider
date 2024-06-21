@@ -5,8 +5,8 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **AclPolicies** | Pointer to [**[]JunosAclPolicies**](JunosAclPolicies.md) |  | [optional] 
-**AclTags** | Pointer to [**SwitchAclTags**](SwitchAclTags.md) |  | [optional] 
-**AdditionalConfigCmds** | Pointer to **[]string** |  | [optional] 
+**AclTags** | Pointer to [**SwitchAclTags**](SwitchAclTags.md) |  | [optional] [default to {}]
+**AdditionalConfigCmds** | Pointer to **[]string** |  | [optional] [default to []]
 **CreatedTime** | Pointer to **float32** |  | [optional] [readonly] 
 **DeviceprofileId** | Pointer to **string** |  | [optional] 
 **DhcpConfig** | Pointer to [**JunosDhcpdConfig**](JunosDhcpdConfig.md) |  | [optional] 
@@ -34,7 +34,7 @@ Name | Type | Description | Notes
 **OtherIpConfigs** | Pointer to [**map[string]JunosOtherIpConfigs**](JunosOtherIpConfigs.md) | Property key is the network name | [optional] 
 **PortConfig** | Pointer to [**map[string]JunosPortConfig**](JunosPortConfig.md) | Property key is the port name or range (e.g. \&quot;ge-0/0/0-10\&quot;) | [optional] 
 **PortMirroring** | Pointer to [**SwitchPortMirroring**](SwitchPortMirroring.md) |  | [optional] 
-**PortUsages** | Pointer to [**SwitchPortUsages**](SwitchPortUsages.md) |  | [optional] 
+**PortUsages** | Pointer to [**map[string]JunosPortUsages**](JunosPortUsages.md) | Property key is the port profile name | [optional] 
 **RadiusConfig** | Pointer to [**JunosRadiusConfig**](JunosRadiusConfig.md) |  | [optional] 
 **Role** | Pointer to **string** |  | [optional] [default to "access"]
 **RouterId** | Pointer to **string** | used for OSPF / BGP / EVPN | [optional] 
@@ -848,20 +848,20 @@ HasPortMirroring returns a boolean if a field has been set.
 
 ### GetPortUsages
 
-`func (o *ModelSwitch) GetPortUsages() SwitchPortUsages`
+`func (o *ModelSwitch) GetPortUsages() map[string]JunosPortUsages`
 
 GetPortUsages returns the PortUsages field if non-nil, zero value otherwise.
 
 ### GetPortUsagesOk
 
-`func (o *ModelSwitch) GetPortUsagesOk() (*SwitchPortUsages, bool)`
+`func (o *ModelSwitch) GetPortUsagesOk() (*map[string]JunosPortUsages, bool)`
 
 GetPortUsagesOk returns a tuple with the PortUsages field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetPortUsages
 
-`func (o *ModelSwitch) SetPortUsages(v SwitchPortUsages)`
+`func (o *ModelSwitch) SetPortUsages(v map[string]JunosPortUsages)`
 
 SetPortUsages sets PortUsages field to given value.
 

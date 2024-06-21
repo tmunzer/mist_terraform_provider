@@ -6,7 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **AsPath** | Pointer to **[]string** | takes regular expression | [optional] 
 **Community** | Pointer to **[]string** |  | [optional] 
-**Network** | Pointer to **[]string** |  | [optional] 
+**Network** | Pointer to **[]string** |  | [optional] [default to []]
 **Prefix** | Pointer to **[]string** | zero or more criteria/filter can be specified to match the term, all criteria have to be met | [optional] 
 **Protocol** | Pointer to **[]string** | &#x60;direct&#x60;, &#x60;bgp&#x60;, &#x60;osp&#x60;, ... | [optional] 
 **RouteExists** | Pointer to [**GatewayRoutingPolicyItemMatchingRouteExists**](GatewayRoutingPolicyItemMatchingRouteExists.md) |  | [optional] 

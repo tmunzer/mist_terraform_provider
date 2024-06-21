@@ -6,7 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **DomainName** | Pointer to **[]string** |  | [optional] 
 **Enabled** | Pointer to **bool** | whether to enable hotspot 2.0 config | [optional] 
-**NaiRealms** | Pointer to **[]string** |  | [optional] 
+**NaiRealms** | Pointer to **[]string** |  | [optional] [default to []]
 **Operators** | Pointer to **[]string** | list of operators to support | [optional] 
 **Rcoi** | Pointer to **[]string** |  | [optional] 
 **VenueName** | Pointer to **string** | venue name, default is site name | [optional] 

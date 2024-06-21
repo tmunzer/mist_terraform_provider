@@ -6,9 +6,9 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Hosts** | Pointer to **[]string** |  | [optional] 
 **InternalIps** | Pointer to **[]string** | Only if: * &#x60;provider&#x60;&#x3D;&#x3D; &#x60;custom-ipsec&#x60; | [optional] 
-**ProbeIps** | Pointer to **[]string** |  | [optional] 
+**ProbeIps** | Pointer to **[]string** |  | [optional] [default to []]
 **RemoteIds** | Pointer to **[]string** | Only if:  * &#x60;provider&#x60;&#x3D;&#x3D; &#x60;custom-ipsec&#x60; | [optional] 
-**WanNames** | Pointer to **[]string** |  | [optional] 
+**WanNames** | Pointer to **[]string** |  | [optional] [default to []]
 
 ## Methods
 

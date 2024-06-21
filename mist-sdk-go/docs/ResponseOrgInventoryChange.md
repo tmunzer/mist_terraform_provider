@@ -4,10 +4,10 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Error** | **[]string** |  | 
+**Error** | **[]string** |  | [default to []]
 **Op** | **string** |  | 
-**Reason** | **[]string** |  | 
-**Success** | **[]string** |  | 
+**Reason** | **[]string** |  | [default to []]
+**Success** | **[]string** |  | [default to []]
 
 ## Methods
 

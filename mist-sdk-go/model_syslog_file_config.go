@@ -21,7 +21,7 @@ var _ MappedNullable = &SyslogFileConfig{}
 // SyslogFileConfig struct for SyslogFileConfig
 type SyslogFileConfig struct {
 	Archive *SyslogFileConfigArchive `json:"archive,omitempty"`
-	Contents []RemoteSyslogContent `json:"contents,omitempty"`
+	RemoteSyslogFileContents []RemoteSyslogContent `json:"remote_syslog_file_contents,omitempty"`
 	ExplicitPriority *bool `json:"explicit_priority,omitempty"`
 	File *string `json:"file,omitempty"`
 	Match *string `json:"match,omitempty"`
@@ -80,36 +80,36 @@ func (o *SyslogFileConfig) SetArchive(v SyslogFileConfigArchive) {
 	o.Archive = &v
 }
 
-// GetContents returns the Contents field value if set, zero value otherwise.
-func (o *SyslogFileConfig) GetContents() []RemoteSyslogContent {
-	if o == nil || IsNil(o.Contents) {
+// GetRemoteSyslogFileContents returns the RemoteSyslogFileContents field value if set, zero value otherwise.
+func (o *SyslogFileConfig) GetRemoteSyslogFileContents() []RemoteSyslogContent {
+	if o == nil || IsNil(o.RemoteSyslogFileContents) {
 		var ret []RemoteSyslogContent
 		return ret
 	}
-	return o.Contents
+	return o.RemoteSyslogFileContents
 }
 
-// GetContentsOk returns a tuple with the Contents field value if set, nil otherwise
+// GetRemoteSyslogFileContentsOk returns a tuple with the RemoteSyslogFileContents field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *SyslogFileConfig) GetContentsOk() ([]RemoteSyslogContent, bool) {
-	if o == nil || IsNil(o.Contents) {
+func (o *SyslogFileConfig) GetRemoteSyslogFileContentsOk() ([]RemoteSyslogContent, bool) {
+	if o == nil || IsNil(o.RemoteSyslogFileContents) {
 		return nil, false
 	}
-	return o.Contents, true
+	return o.RemoteSyslogFileContents, true
 }
 
-// HasContents returns a boolean if a field has been set.
-func (o *SyslogFileConfig) HasContents() bool {
-	if o != nil && !IsNil(o.Contents) {
+// HasRemoteSyslogFileContents returns a boolean if a field has been set.
+func (o *SyslogFileConfig) HasRemoteSyslogFileContents() bool {
+	if o != nil && !IsNil(o.RemoteSyslogFileContents) {
 		return true
 	}
 
 	return false
 }
 
-// SetContents gets a reference to the given []RemoteSyslogContent and assigns it to the Contents field.
-func (o *SyslogFileConfig) SetContents(v []RemoteSyslogContent) {
-	o.Contents = v
+// SetRemoteSyslogFileContents gets a reference to the given []RemoteSyslogContent and assigns it to the RemoteSyslogFileContents field.
+func (o *SyslogFileConfig) SetRemoteSyslogFileContents(v []RemoteSyslogContent) {
+	o.RemoteSyslogFileContents = v
 }
 
 // GetExplicitPriority returns the ExplicitPriority field value if set, zero value otherwise.
@@ -253,8 +253,8 @@ func (o SyslogFileConfig) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Archive) {
 		toSerialize["archive"] = o.Archive
 	}
-	if !IsNil(o.Contents) {
-		toSerialize["contents"] = o.Contents
+	if !IsNil(o.RemoteSyslogFileContents) {
+		toSerialize["remote_syslog_file_contents"] = o.RemoteSyslogFileContents
 	}
 	if !IsNil(o.ExplicitPriority) {
 		toSerialize["explicit_priority"] = o.ExplicitPriority
@@ -291,7 +291,7 @@ func (o *SyslogFileConfig) UnmarshalJSON(data []byte) (err error) {
 
 	if err = json.Unmarshal(data, &additionalProperties); err == nil {
 		delete(additionalProperties, "archive")
-		delete(additionalProperties, "contents")
+		delete(additionalProperties, "remote_syslog_file_contents")
 		delete(additionalProperties, "explicit_priority")
 		delete(additionalProperties, "file")
 		delete(additionalProperties, "match")

@@ -10,13 +10,13 @@ Name | Type | Description | Notes
 **RadiusGroup** | Pointer to **string** | required if  - &#x60;type&#x60;&#x3D;&#x3D;&#x60;radius_group&#x60;  - &#x60;type&#x60;&#x3D;&#x3D;&#x60;static_gbp&#x60; if from matching radius_group | [optional] 
 **Specs** | Pointer to [**[]JunosAclTagsSpecsInner**](JunosAclTagsSpecsInner.md) | if &#x60;type&#x60;&#x3D;&#x3D;&#x60;resource&#x60; empty means unrestricted, i.e. any | [optional] 
 **Subnets** | Pointer to **[]string** | if  - &#x60;type&#x60;&#x3D;&#x3D;&#x60;subnet&#x60;  - &#x60;type&#x60;&#x3D;&#x3D;&#x60;resource&#x60; (optional. default is &#x60;any&#x60;) - &#x60;type&#x60;&#x3D;&#x3D;&#x60;static_gbp&#x60; if from matching subnet | [optional] 
-**Type** | **string** |  | 
+**Type** | [**JunosAclTagType**](JunosAclTagType.md) |  | 
 
 ## Methods
 
 ### NewJunosAclTags
 
-`func NewJunosAclTags(type_ string, ) *JunosAclTags`
+`func NewJunosAclTags(type_ JunosAclTagType, ) *JunosAclTags`
 
 NewJunosAclTags instantiates a new JunosAclTags object
 This constructor will assign default values to properties that have it defined,
@@ -183,20 +183,20 @@ HasSubnets returns a boolean if a field has been set.
 
 ### GetType
 
-`func (o *JunosAclTags) GetType() string`
+`func (o *JunosAclTags) GetType() JunosAclTagType`
 
 GetType returns the Type field if non-nil, zero value otherwise.
 
 ### GetTypeOk
 
-`func (o *JunosAclTags) GetTypeOk() (*string, bool)`
+`func (o *JunosAclTags) GetTypeOk() (*JunosAclTagType, bool)`
 
 GetTypeOk returns a tuple with the Type field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetType
 
-`func (o *JunosAclTags) SetType(v string)`
+`func (o *JunosAclTags) SetType(v JunosAclTagType)`
 
 SetType sets Type field to given value.
 

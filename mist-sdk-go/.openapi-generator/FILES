@@ -1,5 +1,4 @@
 .gitignore
-.openapi-generator-ignore
 .travis.yml
 README.md
 api/openapi.yaml
@@ -114,6 +113,7 @@ docs/IpType.md
 docs/IpType6.md
 docs/JunosAclPolicies.md
 docs/JunosAclPolicyAction.md
+docs/JunosAclTagType.md
 docs/JunosAclTags.md
 docs/JunosAclTagsSpecsInner.md
 docs/JunosBgpCommunity.md
@@ -187,6 +187,7 @@ docs/NetworkStaticNatValue.md
 docs/NetworkTemplate.md
 docs/NetworkTemplateMistNac.md
 docs/NetworkTemplateNetwork.md
+docs/NetworkTemplatePortUsages.md
 docs/NetworkTemplateVrfConfig.md
 docs/NetworkTemplateVrfInstancesValue.md
 docs/NetworkTenantsValue.md
@@ -209,9 +210,9 @@ docs/RadiusAuthServer.md
 docs/Radsec.md
 docs/RadsecServersInner.md
 docs/RemoteSyslog.md
-docs/RemoteSyslogArchive.md
-docs/RemoteSyslogConsole.md
 docs/RemoteSyslogContent.md
+docs/RemoteSyslogRemoteSyslogArchive.md
+docs/RemoteSyslogRemoteSyslogConsole.md
 docs/RemoteSyslogUser.md
 docs/ResponseDetailString.md
 docs/ResponseDevice.md
@@ -312,7 +313,6 @@ docs/SwitchMatchingRule.md
 docs/SwitchMatchingRulePortMirroringValue.md
 docs/SwitchMgmt.md
 docs/SwitchPortMirroring.md
-docs/SwitchPortUsages.md
 docs/SwitchStpConfig.md
 docs/SwitchSwitchMgmt.md
 docs/SwitchVirtualChassis.md
@@ -452,6 +452,7 @@ model_ip_type.go
 model_ip_type6.go
 model_junos_acl_policies.go
 model_junos_acl_policy_action.go
+model_junos_acl_tag_type.go
 model_junos_acl_tags.go
 model_junos_acl_tags_specs_inner.go
 model_junos_bgp_community.go
@@ -524,6 +525,7 @@ model_network_static_nat_value.go
 model_network_template.go
 model_network_template_mist_nac.go
 model_network_template_network.go
+model_network_template_port_usages.go
 model_network_template_vrf_config.go
 model_network_template_vrf_instances_value.go
 model_network_tenants_value.go
@@ -538,9 +540,9 @@ model_radius_auth_server.go
 model_radsec.go
 model_radsec_servers_inner.go
 model_remote_syslog.go
-model_remote_syslog_archive.go
-model_remote_syslog_console.go
 model_remote_syslog_content.go
+model_remote_syslog_remote_syslog_archive.go
+model_remote_syslog_remote_syslog_console.go
 model_remote_syslog_user.go
 model_response_detail_string.go
 model_response_device.go
@@ -639,7 +641,6 @@ model_switch_matching_rule.go
 model_switch_matching_rule_port_mirroring_value.go
 model_switch_mgmt.go
 model_switch_port_mirroring.go
-model_switch_port_usages.go
 model_switch_stp_config.go
 model_switch_switch_mgmt.go
 model_switch_virtual_chassis.go
@@ -679,15 +680,4 @@ model_wlan_qos.go
 model_wlan_rateset.go
 model_wlan_schedule.go
 response.go
-test/api_orgs_inventory_test.go
-test/api_orgs_network_templates_test.go
-test/api_orgs_rf_templates_test.go
-test/api_orgs_sitegroups_test.go
-test/api_orgs_sites_test.go
-test/api_orgs_test.go
-test/api_orgs_wlan_templates_test.go
-test/api_orgs_wlans_test.go
-test/api_sites_devices_test.go
-test/api_sites_setting_test.go
-test/api_sites_test.go
 utils.go

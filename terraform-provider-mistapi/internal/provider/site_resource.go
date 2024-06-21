@@ -182,7 +182,7 @@ func processSiteData(ctx context.Context, data *mistsdkgo.Site) resource_site.Si
 	lng := types.NumberValue(big.NewFloat(data.Latlng.GetLng()))
 	t := make(map[string]attr.Type)
 	t["lat"] = basetypes.NumberType{}
-	t["lng"] = lng.Type(ctx)
+	t["lng"] = basetypes.NumberType{}
 	v := make(map[string]attr.Value)
 	v["lat"] = lat
 	v["lng"] = lng

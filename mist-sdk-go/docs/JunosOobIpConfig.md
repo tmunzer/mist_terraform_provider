@@ -4,8 +4,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Dns** | Pointer to **[]string** |  | [optional] 
-**DnsSuffix** | Pointer to **[]string** |  | [optional] 
+**Dns** | Pointer to **[]string** |  | [optional] [default to []]
+**DnsSuffix** | Pointer to **[]string** |  | [optional] [default to []]
 **Gateway** | Pointer to **string** |  | [optional] 
 **Ip** | Pointer to **string** |  | [optional] 
 **Netmask** | Pointer to **string** | used only if &#x60;subnet&#x60; is not specified in &#x60;networks&#x60; | [optional] 

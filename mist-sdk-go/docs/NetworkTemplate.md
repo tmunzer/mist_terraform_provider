@@ -5,11 +5,11 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **AclTags** | Pointer to [**map[string]JunosAclTags**](JunosAclTags.md) | ACL Tags to identify traffic source or destination. Key name is the tag name | [optional] 
-**AdditionalConfigCmds** | Pointer to **[]string** |  | [optional] 
+**AdditionalConfigCmds** | Pointer to **[]string** |  | [optional] [default to []]
 **CreatedTime** | Pointer to **float32** |  | [optional] [readonly] 
 **DhcpSnooping** | Pointer to [**JunosDhcpSnooping**](JunosDhcpSnooping.md) |  | [optional] 
-**DnsServers** | Pointer to **[]string** |  | [optional] 
-**DnsSuffix** | Pointer to **[]string** |  | [optional] 
+**DnsServers** | Pointer to **[]string** |  | [optional] [default to []]
+**DnsSuffix** | Pointer to **[]string** |  | [optional] [default to []]
 **ExtraRoutes** | Pointer to [**map[string]SwitchExtraRoutesValue**](SwitchExtraRoutesValue.md) |  | [optional] 
 **ExtraRoutes6** | Pointer to [**map[string]SwitchExtraRoutes6Value**](SwitchExtraRoutes6Value.md) | Property key is the destination CIDR (e.g. \&quot;2a02:1234:420a:10c9::/64\&quot;) | [optional] 
 **Id** | Pointer to **string** |  | [optional] [readonly] 
@@ -18,9 +18,9 @@ Name | Type | Description | Notes
 **ModifiedTime** | Pointer to **float32** |  | [optional] [readonly] 
 **Name** | Pointer to **string** |  | [optional] 
 **Networks** | Pointer to [**map[string]NetworkTemplateNetwork**](NetworkTemplateNetwork.md) | Property key is network name | [optional] 
-**NtpServers** | Pointer to **[]string** |  | [optional] 
+**NtpServers** | Pointer to **[]string** |  | [optional] [default to []]
 **OrgId** | Pointer to **string** |  | [optional] [readonly] 
-**PortUsages** | Pointer to [**SwitchPortUsages**](SwitchPortUsages.md) |  | [optional] 
+**PortUsages** | Pointer to [**NetworkTemplatePortUsages**](NetworkTemplatePortUsages.md) |  | [optional] 
 **RadiusConfig** | Pointer to [**JunosRadiusConfig**](JunosRadiusConfig.md) |  | [optional] 
 **RemoteSyslog** | Pointer to [**RemoteSyslog**](RemoteSyslog.md) |  | [optional] 
 **SnmpConfig** | Pointer to [**JunosSnmpConfig**](JunosSnmpConfig.md) |  | [optional] 
@@ -450,20 +450,20 @@ HasOrgId returns a boolean if a field has been set.
 
 ### GetPortUsages
 
-`func (o *NetworkTemplate) GetPortUsages() SwitchPortUsages`
+`func (o *NetworkTemplate) GetPortUsages() NetworkTemplatePortUsages`
 
 GetPortUsages returns the PortUsages field if non-nil, zero value otherwise.
 
 ### GetPortUsagesOk
 
-`func (o *NetworkTemplate) GetPortUsagesOk() (*SwitchPortUsages, bool)`
+`func (o *NetworkTemplate) GetPortUsagesOk() (*NetworkTemplatePortUsages, bool)`
 
 GetPortUsagesOk returns a tuple with the PortUsages field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetPortUsages
 
-`func (o *NetworkTemplate) SetPortUsages(v SwitchPortUsages)`
+`func (o *NetworkTemplate) SetPortUsages(v NetworkTemplatePortUsages)`
 
 SetPortUsages sets PortUsages field to given value.
 

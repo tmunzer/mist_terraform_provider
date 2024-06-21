@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**AdditionalConfigCmds** | Pointer to **[]string** |  | [optional] 
+**AdditionalConfigCmds** | Pointer to **[]string** |  | [optional] [default to []]
 **BgpConfig** | Pointer to [**map[string]JunosBgpConfig**](JunosBgpConfig.md) |  | [optional] 
 **CreatedTime** | Pointer to **float32** |  | [optional] [readonly] 
 **DhcpdConfig** | Pointer to [**JunosDhcpdConfig**](JunosDhcpdConfig.md) |  | [optional] 

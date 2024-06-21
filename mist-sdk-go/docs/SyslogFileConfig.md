@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Archive** | Pointer to [**SyslogFileConfigArchive**](SyslogFileConfigArchive.md) |  | [optional] 
-**Contents** | Pointer to [**[]RemoteSyslogContent**](RemoteSyslogContent.md) |  | [optional] 
+**RemoteSyslogFileContents** | Pointer to [**[]RemoteSyslogContent**](RemoteSyslogContent.md) |  | [optional] 
 **ExplicitPriority** | Pointer to **bool** |  | [optional] 
 **File** | Pointer to **string** |  | [optional] 
 **Match** | Pointer to **string** |  | [optional] 
@@ -55,30 +55,30 @@ SetArchive sets Archive field to given value.
 
 HasArchive returns a boolean if a field has been set.
 
-### GetContents
+### GetRemoteSyslogFileContents
 
-`func (o *SyslogFileConfig) GetContents() []RemoteSyslogContent`
+`func (o *SyslogFileConfig) GetRemoteSyslogFileContents() []RemoteSyslogContent`
 
-GetContents returns the Contents field if non-nil, zero value otherwise.
+GetRemoteSyslogFileContents returns the RemoteSyslogFileContents field if non-nil, zero value otherwise.
 
-### GetContentsOk
+### GetRemoteSyslogFileContentsOk
 
-`func (o *SyslogFileConfig) GetContentsOk() (*[]RemoteSyslogContent, bool)`
+`func (o *SyslogFileConfig) GetRemoteSyslogFileContentsOk() (*[]RemoteSyslogContent, bool)`
 
-GetContentsOk returns a tuple with the Contents field if it's non-nil, zero value otherwise
+GetRemoteSyslogFileContentsOk returns a tuple with the RemoteSyslogFileContents field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetContents
+### SetRemoteSyslogFileContents
 
-`func (o *SyslogFileConfig) SetContents(v []RemoteSyslogContent)`
+`func (o *SyslogFileConfig) SetRemoteSyslogFileContents(v []RemoteSyslogContent)`
 
-SetContents sets Contents field to given value.
+SetRemoteSyslogFileContents sets RemoteSyslogFileContents field to given value.
 
-### HasContents
+### HasRemoteSyslogFileContents
 
-`func (o *SyslogFileConfig) HasContents() bool`
+`func (o *SyslogFileConfig) HasRemoteSyslogFileContents() bool`
 
-HasContents returns a boolean if a field has been set.
+HasRemoteSyslogFileContents returns a boolean if a field has been set.
 
 ### GetExplicitPriority
 

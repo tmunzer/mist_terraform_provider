@@ -20,7 +20,7 @@ var _ MappedNullable = &RemoteSyslogUser{}
 
 // RemoteSyslogUser struct for RemoteSyslogUser
 type RemoteSyslogUser struct {
-	Contents []RemoteSyslogContent `json:"contents,omitempty"`
+	RemoteSyslogUsersContents []RemoteSyslogContent `json:"remote_syslog_users_contents,omitempty"`
 	Match *string `json:"match,omitempty"`
 	User *string `json:"user,omitempty"`
 	AdditionalProperties map[string]interface{}
@@ -45,36 +45,36 @@ func NewRemoteSyslogUserWithDefaults() *RemoteSyslogUser {
 	return &this
 }
 
-// GetContents returns the Contents field value if set, zero value otherwise.
-func (o *RemoteSyslogUser) GetContents() []RemoteSyslogContent {
-	if o == nil || IsNil(o.Contents) {
+// GetRemoteSyslogUsersContents returns the RemoteSyslogUsersContents field value if set, zero value otherwise.
+func (o *RemoteSyslogUser) GetRemoteSyslogUsersContents() []RemoteSyslogContent {
+	if o == nil || IsNil(o.RemoteSyslogUsersContents) {
 		var ret []RemoteSyslogContent
 		return ret
 	}
-	return o.Contents
+	return o.RemoteSyslogUsersContents
 }
 
-// GetContentsOk returns a tuple with the Contents field value if set, nil otherwise
+// GetRemoteSyslogUsersContentsOk returns a tuple with the RemoteSyslogUsersContents field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RemoteSyslogUser) GetContentsOk() ([]RemoteSyslogContent, bool) {
-	if o == nil || IsNil(o.Contents) {
+func (o *RemoteSyslogUser) GetRemoteSyslogUsersContentsOk() ([]RemoteSyslogContent, bool) {
+	if o == nil || IsNil(o.RemoteSyslogUsersContents) {
 		return nil, false
 	}
-	return o.Contents, true
+	return o.RemoteSyslogUsersContents, true
 }
 
-// HasContents returns a boolean if a field has been set.
-func (o *RemoteSyslogUser) HasContents() bool {
-	if o != nil && !IsNil(o.Contents) {
+// HasRemoteSyslogUsersContents returns a boolean if a field has been set.
+func (o *RemoteSyslogUser) HasRemoteSyslogUsersContents() bool {
+	if o != nil && !IsNil(o.RemoteSyslogUsersContents) {
 		return true
 	}
 
 	return false
 }
 
-// SetContents gets a reference to the given []RemoteSyslogContent and assigns it to the Contents field.
-func (o *RemoteSyslogUser) SetContents(v []RemoteSyslogContent) {
-	o.Contents = v
+// SetRemoteSyslogUsersContents gets a reference to the given []RemoteSyslogContent and assigns it to the RemoteSyslogUsersContents field.
+func (o *RemoteSyslogUser) SetRemoteSyslogUsersContents(v []RemoteSyslogContent) {
+	o.RemoteSyslogUsersContents = v
 }
 
 // GetMatch returns the Match field value if set, zero value otherwise.
@@ -151,8 +151,8 @@ func (o RemoteSyslogUser) MarshalJSON() ([]byte, error) {
 
 func (o RemoteSyslogUser) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if !IsNil(o.Contents) {
-		toSerialize["contents"] = o.Contents
+	if !IsNil(o.RemoteSyslogUsersContents) {
+		toSerialize["remote_syslog_users_contents"] = o.RemoteSyslogUsersContents
 	}
 	if !IsNil(o.Match) {
 		toSerialize["match"] = o.Match
@@ -182,7 +182,7 @@ func (o *RemoteSyslogUser) UnmarshalJSON(data []byte) (err error) {
 	additionalProperties := make(map[string]interface{})
 
 	if err = json.Unmarshal(data, &additionalProperties); err == nil {
-		delete(additionalProperties, "contents")
+		delete(additionalProperties, "remote_syslog_users_contents")
 		delete(additionalProperties, "match")
 		delete(additionalProperties, "user")
 		o.AdditionalProperties = additionalProperties

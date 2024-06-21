@@ -58,7 +58,8 @@ type ModelSwitch struct {
 	// Property key is the port name or range (e.g. \"ge-0/0/0-10\")
 	PortConfig *map[string]JunosPortConfig `json:"port_config,omitempty"`
 	PortMirroring *SwitchPortMirroring `json:"port_mirroring,omitempty"`
-	PortUsages *SwitchPortUsages `json:"port_usages,omitempty"`
+	// Property key is the port profile name
+	PortUsages *map[string]JunosPortUsages `json:"port_usages,omitempty"`
 	RadiusConfig *JunosRadiusConfig `json:"radius_config,omitempty"`
 	Role *string `json:"role,omitempty"`
 	// used for OSPF / BGP / EVPN
@@ -84,6 +85,8 @@ type _ModelSwitch ModelSwitch
 // will change when the set of required properties is changed
 func NewModelSwitch() *ModelSwitch {
 	this := ModelSwitch{}
+	var aclTags SwitchAclTags = {}
+	this.AclTags = &aclTags
 	var disableAutoConfig bool = false
 	this.DisableAutoConfig = &disableAutoConfig
 	var managed bool = false
@@ -100,6 +103,8 @@ func NewModelSwitch() *ModelSwitch {
 // but it doesn't guarantee that properties required by API are set
 func NewModelSwitchWithDefaults() *ModelSwitch {
 	this := ModelSwitch{}
+	var aclTags SwitchAclTags = {}
+	this.AclTags = &aclTags
 	var disableAutoConfig bool = false
 	this.DisableAutoConfig = &disableAutoConfig
 	var managed bool = false
@@ -1102,9 +1107,9 @@ func (o *ModelSwitch) SetPortMirroring(v SwitchPortMirroring) {
 }
 
 // GetPortUsages returns the PortUsages field value if set, zero value otherwise.
-func (o *ModelSwitch) GetPortUsages() SwitchPortUsages {
+func (o *ModelSwitch) GetPortUsages() map[string]JunosPortUsages {
 	if o == nil || IsNil(o.PortUsages) {
-		var ret SwitchPortUsages
+		var ret map[string]JunosPortUsages
 		return ret
 	}
 	return *o.PortUsages
@@ -1112,7 +1117,7 @@ func (o *ModelSwitch) GetPortUsages() SwitchPortUsages {
 
 // GetPortUsagesOk returns a tuple with the PortUsages field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ModelSwitch) GetPortUsagesOk() (*SwitchPortUsages, bool) {
+func (o *ModelSwitch) GetPortUsagesOk() (*map[string]JunosPortUsages, bool) {
 	if o == nil || IsNil(o.PortUsages) {
 		return nil, false
 	}
@@ -1128,8 +1133,8 @@ func (o *ModelSwitch) HasPortUsages() bool {
 	return false
 }
 
-// SetPortUsages gets a reference to the given SwitchPortUsages and assigns it to the PortUsages field.
-func (o *ModelSwitch) SetPortUsages(v SwitchPortUsages) {
+// SetPortUsages gets a reference to the given map[string]JunosPortUsages and assigns it to the PortUsages field.
+func (o *ModelSwitch) SetPortUsages(v map[string]JunosPortUsages) {
 	o.PortUsages = &v
 }
 

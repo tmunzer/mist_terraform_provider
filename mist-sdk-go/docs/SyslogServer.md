@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Contents** | Pointer to [**[]RemoteSyslogContent**](RemoteSyslogContent.md) |  | [optional] 
+**CremoteSyslogServersOntents** | Pointer to [**[]RemoteSyslogContent**](RemoteSyslogContent.md) |  | [optional] 
 **ExplicitPriority** | Pointer to **bool** |  | [optional] 
 **Facility** | Pointer to **string** |  | [optional] 
 **Host** | Pointer to **string** |  | [optional] 
@@ -36,30 +36,30 @@ NewSyslogServerWithDefaults instantiates a new SyslogServer object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
-### GetContents
+### GetCremoteSyslogServersOntents
 
-`func (o *SyslogServer) GetContents() []RemoteSyslogContent`
+`func (o *SyslogServer) GetCremoteSyslogServersOntents() []RemoteSyslogContent`
 
-GetContents returns the Contents field if non-nil, zero value otherwise.
+GetCremoteSyslogServersOntents returns the CremoteSyslogServersOntents field if non-nil, zero value otherwise.
 
-### GetContentsOk
+### GetCremoteSyslogServersOntentsOk
 
-`func (o *SyslogServer) GetContentsOk() (*[]RemoteSyslogContent, bool)`
+`func (o *SyslogServer) GetCremoteSyslogServersOntentsOk() (*[]RemoteSyslogContent, bool)`
 
-GetContentsOk returns a tuple with the Contents field if it's non-nil, zero value otherwise
+GetCremoteSyslogServersOntentsOk returns a tuple with the CremoteSyslogServersOntents field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetContents
+### SetCremoteSyslogServersOntents
 
-`func (o *SyslogServer) SetContents(v []RemoteSyslogContent)`
+`func (o *SyslogServer) SetCremoteSyslogServersOntents(v []RemoteSyslogContent)`
 
-SetContents sets Contents field to given value.
+SetCremoteSyslogServersOntents sets CremoteSyslogServersOntents field to given value.
 
-### HasContents
+### HasCremoteSyslogServersOntents
 
-`func (o *SyslogServer) HasContents() bool`
+`func (o *SyslogServer) HasCremoteSyslogServersOntents() bool`
 
-HasContents returns a boolean if a field has been set.
+HasCremoteSyslogServersOntents returns a boolean if a field has been set.
 
 ### GetExplicitPriority
 

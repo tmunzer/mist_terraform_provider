@@ -30,7 +30,7 @@ Name | Type | Description | Notes
 **ModifiedTime** | Pointer to **float32** |  | [optional] [readonly] 
 **Name** | Pointer to **string** |  | [optional] 
 **Notes** | Pointer to **string** | any notes about this AP | [optional] 
-**NtpServers** | Pointer to **[]string** |  | [optional] 
+**NtpServers** | Pointer to **[]string** |  | [optional] [default to []]
 **OrgId** | Pointer to **string** |  | [optional] [readonly] 
 **Orientation** | Pointer to **int32** | orientation, 0-359, in degrees, up is 0, right is 90. | [optional] 
 **PoePassthrough** | Pointer to **bool** | whether to enable power out through module port (for APH) or eth1 (for APL/BT11) | [optional] [default to false]

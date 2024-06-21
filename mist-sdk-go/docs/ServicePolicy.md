@@ -12,8 +12,8 @@ Name | Type | Description | Notes
 **Name** | Pointer to **string** |  | [optional] 
 **PathPreferences** | Pointer to **string** | by default, we derive all paths available and use them optionally, you can customize by using &#x60;path_preference&#x60; | [optional] 
 **ServicepolicyId** | Pointer to **string** | used to link servicepolicy defined at org level and overwrite some attributes | [optional] 
-**Services** | Pointer to **[]string** |  | [optional] 
-**Tenants** | Pointer to **[]string** |  | [optional] 
+**Services** | Pointer to **[]string** |  | [optional] [default to []]
+**Tenants** | Pointer to **[]string** |  | [optional] [default to []]
 
 ## Methods
 

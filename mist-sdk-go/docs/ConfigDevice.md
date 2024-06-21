@@ -30,7 +30,7 @@ Name | Type | Description | Notes
 **ModifiedTime** | Pointer to **float32** |  | [optional] [readonly] 
 **Name** | Pointer to **string** |  | [optional] 
 **Notes** | Pointer to **string** |  | [optional] 
-**NtpServers** | Pointer to **[]string** |  | [optional] 
+**NtpServers** | Pointer to **[]string** |  | [optional] [default to []]
 **OrgId** | Pointer to **string** |  | [optional] [readonly] 
 **Orientation** | Pointer to **int32** | orientation, 0-359, in degrees, up is 0, right is 90. | [optional] 
 **PoePassthrough** | Pointer to **bool** | whether to enable power out through module port (for APH) or eth1 (for APL/BT11) | [optional] [default to false]
@@ -44,8 +44,8 @@ Name | Type | Description | Notes
 **X** | Pointer to **float32** | x in pixel | [optional] 
 **Y** | Pointer to **float32** | y in pixel | [optional] 
 **AclPolicies** | Pointer to [**[]JunosAclPolicies**](JunosAclPolicies.md) |  | [optional] 
-**AclTags** | Pointer to [**SwitchAclTags**](SwitchAclTags.md) |  | [optional] 
-**AdditionalConfigCmds** | Pointer to **[]string** |  | [optional] 
+**AclTags** | Pointer to [**SwitchAclTags**](SwitchAclTags.md) |  | [optional] [default to {}]
+**AdditionalConfigCmds** | Pointer to **[]string** |  | [optional] [default to []]
 **DhcpConfig** | Pointer to [**JunosDhcpdConfig**](JunosDhcpdConfig.md) |  | [optional] 
 **DhcpSnooping** | Pointer to [**JunosDhcpSnooping**](JunosDhcpSnooping.md) |  | [optional] 
 **DisableAutoConfig** | Pointer to **bool** | for a claimed switch, we control the configs by default. This option (disables the behavior) | [optional] [default to false]
@@ -60,7 +60,7 @@ Name | Type | Description | Notes
 **OspfConfig** | Pointer to [**JunosOspfConfig**](JunosOspfConfig.md) |  | [optional] 
 **OtherIpConfigs** | Pointer to [**map[string]JunosOtherIpConfigs**](JunosOtherIpConfigs.md) | Property key is the network name | [optional] 
 **PortMirroring** | Pointer to [**GatewayPortMirroring**](GatewayPortMirroring.md) |  | [optional] 
-**PortUsages** | Pointer to [**SwitchPortUsages**](SwitchPortUsages.md) |  | [optional] 
+**PortUsages** | Pointer to [**map[string]JunosPortUsages**](JunosPortUsages.md) | Property key is the port profile name | [optional] 
 **RadiusConfig** | Pointer to [**JunosRadiusConfig**](JunosRadiusConfig.md) |  | [optional] 
 **Role** | Pointer to **string** |  | [optional] [default to "access"]
 **RouterId** | Pointer to **string** | used for OSPF / BGP / EVPN | [optional] 
@@ -1494,20 +1494,20 @@ HasPortMirroring returns a boolean if a field has been set.
 
 ### GetPortUsages
 
-`func (o *ConfigDevice) GetPortUsages() SwitchPortUsages`
+`func (o *ConfigDevice) GetPortUsages() map[string]JunosPortUsages`
 
 GetPortUsages returns the PortUsages field if non-nil, zero value otherwise.
 
 ### GetPortUsagesOk
 
-`func (o *ConfigDevice) GetPortUsagesOk() (*SwitchPortUsages, bool)`
+`func (o *ConfigDevice) GetPortUsagesOk() (*map[string]JunosPortUsages, bool)`
 
 GetPortUsagesOk returns a tuple with the PortUsages field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetPortUsages
 
-`func (o *ConfigDevice) SetPortUsages(v SwitchPortUsages)`
+`func (o *ConfigDevice) SetPortUsages(v map[string]JunosPortUsages)`
 
 SetPortUsages sets PortUsages field to given value.
 

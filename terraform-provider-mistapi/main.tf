@@ -62,5 +62,17 @@ resource "mistapi_networktemplate" "switch_template" {
     acct_interim_interval = 60
     coa_enabled           = true
     network               = "test"
+    acct_servers = [
+      {
+        host = "1.2.3.4"
+        secret = "secret"
+      }
+    ]
+     servers = [
+      {
+        host = "1.2.3.4"
+        secret = "secret"
+      }
+    ]
   }
 }

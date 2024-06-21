@@ -4,8 +4,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Dns** | Pointer to **[]string** |  | [optional] 
-**DnsSuffix** | Pointer to **[]string** |  | [optional] 
+**Dns** | Pointer to **[]string** |  | [optional] [default to []]
+**DnsSuffix** | Pointer to **[]string** |  | [optional] [default to []]
 **Gateway** | Pointer to **string** |  | [optional] 
 **Isolation** | Pointer to **bool** | whether to stop clients to talk to each other, default is false (when enabled, a unique isolation_vlan_id is required) NOTE: this features requires uplink device to also a be Juniper device and &#x60;inter_switch_link&#x60; to be set | [optional] [default to false]
 **IsolationVlanId** | Pointer to **string** |  | [optional] 

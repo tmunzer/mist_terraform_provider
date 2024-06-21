@@ -1858,9 +1858,6 @@ components:
           additionalProperties:
             $ref: "#/components/schemas/junos_port_usages"
           description: Property key is the port profile name
-          properties:
-            dynamic:
-              $ref: "#/components/schemas/dynamic_port_usage"
           type: object
         radius_config:
           $ref: "#/components/schemas/junos_radius_config"
@@ -7266,14 +7263,13 @@ components:
           maximum: 65535
           minimum: 0
           type: integer
-        radius_acct_servers:
+        acct_servers:
           items:
             $ref: "#/components/schemas/radius_acct_server"
           minItems: 1
           type: array
           uniqueItems: true
-        radius_auth_servers:
-          x-terraform-field-name: radius_auth_servers
+        auth_servers:
           items:
             $ref: "#/components/schemas/radius_auth_server"
           minItems: 1
@@ -7983,7 +7979,6 @@ components:
     tacacs:
       properties:
         acct_servers:
-          x-terraform-field-name: tacacs_acct_servers
           items:
             $ref: "#/components/schemas/tacacs_acct_server"
           type: array
@@ -7993,7 +7988,6 @@ components:
           description: which network the TACACS server resides
           type: string
         tacplus_servers:
-          x-terraform-field-name: tacacs_auth_servers
           items:
             $ref: "#/components/schemas/tacacs_auth_server"
           type: array
@@ -9454,7 +9448,6 @@ components:
     site_mxtunnel_radsec:
       properties:
         acct_servers:
-          x-terraform-field-name: mxtunnel_radsec_acct_server
           items:
             $ref: "#/components/schemas/radius_acct_server"
           type: array
@@ -10457,7 +10450,6 @@ components:
           type: string
       type: object
     radius_acct_server:
-      x-terraform-field-name: radius_acct_server
       properties:
         host:
           description: ip / hostname of RADIUS server
@@ -10492,7 +10484,6 @@ components:
         - secret
       type: object
     radius_auth_server:
-      x-terraform-field-name: radius_auth_server
       description: Authentication Server
       properties:
         host:

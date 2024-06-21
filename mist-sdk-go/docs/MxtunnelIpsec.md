@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **DnsServers** | Pointer to **[]string** |  | [optional] 
-**DnsSuffix** | Pointer to **[]string** |  | [optional] 
+**DnsSuffix** | Pointer to **[]string** |  | [optional] [default to []]
 **Enabled** | Pointer to **bool** |  | [optional] 
 **ExtraRoutes** | Pointer to [**[]MxtunnelIpsecExtraRoute**](MxtunnelIpsecExtraRoute.md) |  | [optional] 
 **SplitTunnel** | Pointer to **bool** |  | [optional] 

@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Networks** | Pointer to **[]string** |  | [optional] 
+**Networks** | Pointer to **[]string** |  | [optional] [default to []]
 
 ## Methods
 

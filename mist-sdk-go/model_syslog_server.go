@@ -20,7 +20,7 @@ var _ MappedNullable = &SyslogServer{}
 
 // SyslogServer struct for SyslogServer
 type SyslogServer struct {
-	Contents []RemoteSyslogContent `json:"contents,omitempty"`
+	CremoteSyslogServersOntents []RemoteSyslogContent `json:"cremote_syslog_servers_ontents,omitempty"`
 	ExplicitPriority *bool `json:"explicit_priority,omitempty"`
 	Facility *string `json:"facility,omitempty"`
 	Host *string `json:"host,omitempty"`
@@ -63,36 +63,36 @@ func NewSyslogServerWithDefaults() *SyslogServer {
 	return &this
 }
 
-// GetContents returns the Contents field value if set, zero value otherwise.
-func (o *SyslogServer) GetContents() []RemoteSyslogContent {
-	if o == nil || IsNil(o.Contents) {
+// GetCremoteSyslogServersOntents returns the CremoteSyslogServersOntents field value if set, zero value otherwise.
+func (o *SyslogServer) GetCremoteSyslogServersOntents() []RemoteSyslogContent {
+	if o == nil || IsNil(o.CremoteSyslogServersOntents) {
 		var ret []RemoteSyslogContent
 		return ret
 	}
-	return o.Contents
+	return o.CremoteSyslogServersOntents
 }
 
-// GetContentsOk returns a tuple with the Contents field value if set, nil otherwise
+// GetCremoteSyslogServersOntentsOk returns a tuple with the CremoteSyslogServersOntents field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *SyslogServer) GetContentsOk() ([]RemoteSyslogContent, bool) {
-	if o == nil || IsNil(o.Contents) {
+func (o *SyslogServer) GetCremoteSyslogServersOntentsOk() ([]RemoteSyslogContent, bool) {
+	if o == nil || IsNil(o.CremoteSyslogServersOntents) {
 		return nil, false
 	}
-	return o.Contents, true
+	return o.CremoteSyslogServersOntents, true
 }
 
-// HasContents returns a boolean if a field has been set.
-func (o *SyslogServer) HasContents() bool {
-	if o != nil && !IsNil(o.Contents) {
+// HasCremoteSyslogServersOntents returns a boolean if a field has been set.
+func (o *SyslogServer) HasCremoteSyslogServersOntents() bool {
+	if o != nil && !IsNil(o.CremoteSyslogServersOntents) {
 		return true
 	}
 
 	return false
 }
 
-// SetContents gets a reference to the given []RemoteSyslogContent and assigns it to the Contents field.
-func (o *SyslogServer) SetContents(v []RemoteSyslogContent) {
-	o.Contents = v
+// SetCremoteSyslogServersOntents gets a reference to the given []RemoteSyslogContent and assigns it to the CremoteSyslogServersOntents field.
+func (o *SyslogServer) SetCremoteSyslogServersOntents(v []RemoteSyslogContent) {
+	o.CremoteSyslogServersOntents = v
 }
 
 // GetExplicitPriority returns the ExplicitPriority field value if set, zero value otherwise.
@@ -457,8 +457,8 @@ func (o SyslogServer) MarshalJSON() ([]byte, error) {
 
 func (o SyslogServer) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if !IsNil(o.Contents) {
-		toSerialize["contents"] = o.Contents
+	if !IsNil(o.CremoteSyslogServersOntents) {
+		toSerialize["cremote_syslog_servers_ontents"] = o.CremoteSyslogServersOntents
 	}
 	if !IsNil(o.ExplicitPriority) {
 		toSerialize["explicit_priority"] = o.ExplicitPriority
@@ -515,7 +515,7 @@ func (o *SyslogServer) UnmarshalJSON(data []byte) (err error) {
 	additionalProperties := make(map[string]interface{})
 
 	if err = json.Unmarshal(data, &additionalProperties); err == nil {
-		delete(additionalProperties, "contents")
+		delete(additionalProperties, "cremote_syslog_servers_ontents")
 		delete(additionalProperties, "explicit_priority")
 		delete(additionalProperties, "facility")
 		delete(additionalProperties, "host")

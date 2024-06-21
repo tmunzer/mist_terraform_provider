@@ -26,7 +26,7 @@ type Site struct {
 	// Alarm Template ID, this takes precedence over the Org-level alarmtemplate_id
 	AlarmtemplateId NullableString `json:"alarmtemplate_id,omitempty"`
 	// AP Template ID, used by APs
-	AptemplateId *string `json:"aptemplate_id,omitempty"`
+	AptemplateId NullableString `json:"aptemplate_id,omitempty"`
 	// country code for the site (for AP config generation), in two-character
 	CountryCode *string `json:"country_code,omitempty"`
 	CreatedTime *float32 `json:"created_time,omitempty"`
@@ -48,7 +48,7 @@ type Site struct {
 	// sitegroups this site belongs to
 	SitegroupIds []string `json:"sitegroup_ids,omitempty"`
 	// Site Template ID
-	SitetemplateId *string `json:"sitetemplate_id,omitempty"`
+	SitetemplateId NullableString `json:"sitetemplate_id,omitempty"`
 	// Timezone the site is at
 	Timezone *string `json:"timezone,omitempty"`
 	AdditionalProperties map[string]interface{}
@@ -148,36 +148,46 @@ func (o *Site) UnsetAlarmtemplateId() {
 	o.AlarmtemplateId.Unset()
 }
 
-// GetAptemplateId returns the AptemplateId field value if set, zero value otherwise.
+// GetAptemplateId returns the AptemplateId field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *Site) GetAptemplateId() string {
-	if o == nil || IsNil(o.AptemplateId) {
+	if o == nil || IsNil(o.AptemplateId.Get()) {
 		var ret string
 		return ret
 	}
-	return *o.AptemplateId
+	return *o.AptemplateId.Get()
 }
 
 // GetAptemplateIdOk returns a tuple with the AptemplateId field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *Site) GetAptemplateIdOk() (*string, bool) {
-	if o == nil || IsNil(o.AptemplateId) {
+	if o == nil {
 		return nil, false
 	}
-	return o.AptemplateId, true
+	return o.AptemplateId.Get(), o.AptemplateId.IsSet()
 }
 
 // HasAptemplateId returns a boolean if a field has been set.
 func (o *Site) HasAptemplateId() bool {
-	if o != nil && !IsNil(o.AptemplateId) {
+	if o != nil && o.AptemplateId.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetAptemplateId gets a reference to the given string and assigns it to the AptemplateId field.
+// SetAptemplateId gets a reference to the given NullableString and assigns it to the AptemplateId field.
 func (o *Site) SetAptemplateId(v string) {
-	o.AptemplateId = &v
+	o.AptemplateId.Set(&v)
+}
+// SetAptemplateIdNil sets the value for AptemplateId to be an explicit nil
+func (o *Site) SetAptemplateIdNil() {
+	o.AptemplateId.Set(nil)
+}
+
+// UnsetAptemplateId ensures that no value is present for AptemplateId, not even an explicit nil
+func (o *Site) UnsetAptemplateId() {
+	o.AptemplateId.Unset()
 }
 
 // GetCountryCode returns the CountryCode field value if set, zero value otherwise.
@@ -628,36 +638,46 @@ func (o *Site) SetSitegroupIds(v []string) {
 	o.SitegroupIds = v
 }
 
-// GetSitetemplateId returns the SitetemplateId field value if set, zero value otherwise.
+// GetSitetemplateId returns the SitetemplateId field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *Site) GetSitetemplateId() string {
-	if o == nil || IsNil(o.SitetemplateId) {
+	if o == nil || IsNil(o.SitetemplateId.Get()) {
 		var ret string
 		return ret
 	}
-	return *o.SitetemplateId
+	return *o.SitetemplateId.Get()
 }
 
 // GetSitetemplateIdOk returns a tuple with the SitetemplateId field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *Site) GetSitetemplateIdOk() (*string, bool) {
-	if o == nil || IsNil(o.SitetemplateId) {
+	if o == nil {
 		return nil, false
 	}
-	return o.SitetemplateId, true
+	return o.SitetemplateId.Get(), o.SitetemplateId.IsSet()
 }
 
 // HasSitetemplateId returns a boolean if a field has been set.
 func (o *Site) HasSitetemplateId() bool {
-	if o != nil && !IsNil(o.SitetemplateId) {
+	if o != nil && o.SitetemplateId.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetSitetemplateId gets a reference to the given string and assigns it to the SitetemplateId field.
+// SetSitetemplateId gets a reference to the given NullableString and assigns it to the SitetemplateId field.
 func (o *Site) SetSitetemplateId(v string) {
-	o.SitetemplateId = &v
+	o.SitetemplateId.Set(&v)
+}
+// SetSitetemplateIdNil sets the value for SitetemplateId to be an explicit nil
+func (o *Site) SetSitetemplateIdNil() {
+	o.SitetemplateId.Set(nil)
+}
+
+// UnsetSitetemplateId ensures that no value is present for SitetemplateId, not even an explicit nil
+func (o *Site) UnsetSitetemplateId() {
+	o.SitetemplateId.Unset()
 }
 
 // GetTimezone returns the Timezone field value if set, zero value otherwise.
@@ -708,8 +728,8 @@ func (o Site) ToMap() (map[string]interface{}, error) {
 	if o.AlarmtemplateId.IsSet() {
 		toSerialize["alarmtemplate_id"] = o.AlarmtemplateId.Get()
 	}
-	if !IsNil(o.AptemplateId) {
-		toSerialize["aptemplate_id"] = o.AptemplateId
+	if o.AptemplateId.IsSet() {
+		toSerialize["aptemplate_id"] = o.AptemplateId.Get()
 	}
 	if !IsNil(o.CountryCode) {
 		toSerialize["country_code"] = o.CountryCode
@@ -748,8 +768,8 @@ func (o Site) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.SitegroupIds) {
 		toSerialize["sitegroup_ids"] = o.SitegroupIds
 	}
-	if !IsNil(o.SitetemplateId) {
-		toSerialize["sitetemplate_id"] = o.SitetemplateId
+	if o.SitetemplateId.IsSet() {
+		toSerialize["sitetemplate_id"] = o.SitetemplateId.Get()
 	}
 	if !IsNil(o.Timezone) {
 		toSerialize["timezone"] = o.Timezone
