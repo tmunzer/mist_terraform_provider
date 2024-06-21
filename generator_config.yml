@@ -84,7 +84,6 @@ resources:
         - import_org_networks
         - mist_nac
         - port_usages
-        - radius_config
         - remote_syslog
         - snmp_config
         - switch_matching

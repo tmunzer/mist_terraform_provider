@@ -131,6 +131,273 @@
 						"string": {
 							"computed_optional_required": "computed_optional"
 						}
+					},
+					{
+						"name": "radius_config",
+						"single_nested": {
+							"computed_optional_required": "computed_optional",
+							"attributes": [
+								{
+									"name": "acct_interim_interval",
+									"int64": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": 0
+										},
+										"description": "how frequently should interim accounting be reported, 60-65535. default is 0 (use one specified in Access-Accept request from RADIUS Server). Very frequent messages can affect the performance of the radius server, 600 and up is recommended when enabled",
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+														}
+													],
+													"schema_definition": "int64validator.Between(0, 65535)"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "auth_servers_retries",
+									"int64": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": 3
+										},
+										"description": "radius auth session retries"
+									}
+								},
+								{
+									"name": "auth_servers_timeout",
+									"int64": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": 5
+										},
+										"description": "radius auth session timeout"
+									}
+								},
+								{
+									"name": "coa_enabled",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										}
+									}
+								},
+								{
+									"name": "coa_port",
+									"int64": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": 3799
+										}
+									}
+								},
+								{
+									"name": "network",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"description": "use `network`or `source_ip`\nwhich network the RADIUS server resides, if there's static IP for this network, we'd use it as source-ip"
+									}
+								},
+								{
+									"name": "radius_acct_servers",
+									"list_nested": {
+										"computed_optional_required": "computed_optional",
+										"nested_object": {
+											"attributes": [
+												{
+													"name": "host",
+													"string": {
+														"computed_optional_required": "required",
+														"description": "ip / hostname of RADIUS server"
+													}
+												},
+												{
+													"name": "keywrap_enabled",
+													"bool": {
+														"computed_optional_required": "computed_optional"
+													}
+												},
+												{
+													"name": "keywrap_format",
+													"string": {
+														"computed_optional_required": "computed_optional",
+														"validators": [
+															{
+																"custom": {
+																	"imports": [
+																		{
+																			"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																		}
+																	],
+																	"schema_definition": "stringvalidator.OneOf(\n\"hex\",\n\"ascii\",\n)"
+																}
+															}
+														]
+													}
+												},
+												{
+													"name": "keywrap_kek",
+													"string": {
+														"computed_optional_required": "computed_optional"
+													}
+												},
+												{
+													"name": "keywrap_mack",
+													"string": {
+														"computed_optional_required": "computed_optional"
+													}
+												},
+												{
+													"name": "port",
+													"int64": {
+														"computed_optional_required": "computed_optional",
+														"default": {
+															"static": 1813
+														},
+														"description": "Acct port of RADIUS server"
+													}
+												},
+												{
+													"name": "secret",
+													"string": {
+														"computed_optional_required": "required",
+														"description": "secret of RADIUS server"
+													}
+												}
+											]
+										},
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
+														}
+													],
+													"schema_definition": "listvalidator.SizeAtLeast(1)"
+												}
+											},
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
+														}
+													],
+													"schema_definition": "listvalidator.UniqueValues()"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "radius_auth_servers",
+									"list_nested": {
+										"computed_optional_required": "computed_optional",
+										"nested_object": {
+											"attributes": [
+												{
+													"name": "host",
+													"string": {
+														"computed_optional_required": "required",
+														"description": "ip / hostname of RADIUS server"
+													}
+												},
+												{
+													"name": "keywrap_enabled",
+													"bool": {
+														"computed_optional_required": "computed_optional"
+													}
+												},
+												{
+													"name": "keywrap_format",
+													"string": {
+														"computed_optional_required": "computed_optional",
+														"validators": [
+															{
+																"custom": {
+																	"imports": [
+																		{
+																			"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																		}
+																	],
+																	"schema_definition": "stringvalidator.OneOf(\n\"hex\",\n\"ascii\",\n)"
+																}
+															}
+														]
+													}
+												},
+												{
+													"name": "keywrap_kek",
+													"string": {
+														"computed_optional_required": "computed_optional"
+													}
+												},
+												{
+													"name": "keywrap_mack",
+													"string": {
+														"computed_optional_required": "computed_optional"
+													}
+												},
+												{
+													"name": "port",
+													"int64": {
+														"computed_optional_required": "computed_optional",
+														"default": {
+															"static": 1812
+														},
+														"description": "Auth port of RADIUS server"
+													}
+												},
+												{
+													"name": "secret",
+													"string": {
+														"computed_optional_required": "required",
+														"description": "secret of RADIUS server"
+													}
+												}
+											]
+										},
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
+														}
+													],
+													"schema_definition": "listvalidator.SizeAtLeast(1)"
+												}
+											},
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
+														}
+													],
+													"schema_definition": "listvalidator.UniqueValues()"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "source_ip",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"description": "use `network`or `source_ip`"
+									}
+								}
+							],
+							"description": "Junos Radius config"
+						}
 					}
 				]
 			}

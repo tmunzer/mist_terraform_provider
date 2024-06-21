@@ -5,9 +5,13 @@ package resource_networktemplate
 import (
 	"context"
 	"fmt"
+	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
 	"github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
+	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
@@ -87,19 +91,191 @@ func NetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 				Optional: true,
 				Computed: true,
 			},
+			"radius_config": schema.SingleNestedAttribute{
+				Attributes: map[string]schema.Attribute{
+					"acct_interim_interval": schema.Int64Attribute{
+						Optional:            true,
+						Computed:            true,
+						Description:         "how frequently should interim accounting be reported, 60-65535. default is 0 (use one specified in Access-Accept request from RADIUS Server). Very frequent messages can affect the performance of the radius server, 600 and up is recommended when enabled",
+						MarkdownDescription: "how frequently should interim accounting be reported, 60-65535. default is 0 (use one specified in Access-Accept request from RADIUS Server). Very frequent messages can affect the performance of the radius server, 600 and up is recommended when enabled",
+						Validators: []validator.Int64{
+							int64validator.Between(0, 65535),
+						},
+						Default: int64default.StaticInt64(0),
+					},
+					"auth_servers_retries": schema.Int64Attribute{
+						Optional:            true,
+						Computed:            true,
+						Description:         "radius auth session retries",
+						MarkdownDescription: "radius auth session retries",
+						Default:             int64default.StaticInt64(3),
+					},
+					"auth_servers_timeout": schema.Int64Attribute{
+						Optional:            true,
+						Computed:            true,
+						Description:         "radius auth session timeout",
+						MarkdownDescription: "radius auth session timeout",
+						Default:             int64default.StaticInt64(5),
+					},
+					"coa_enabled": schema.BoolAttribute{
+						Optional: true,
+						Computed: true,
+						Default:  booldefault.StaticBool(false),
+					},
+					"coa_port": schema.Int64Attribute{
+						Optional: true,
+						Computed: true,
+						Default:  int64default.StaticInt64(3799),
+					},
+					"network": schema.StringAttribute{
+						Optional:            true,
+						Computed:            true,
+						Description:         "use `network`or `source_ip`\nwhich network the RADIUS server resides, if there's static IP for this network, we'd use it as source-ip",
+						MarkdownDescription: "use `network`or `source_ip`\nwhich network the RADIUS server resides, if there's static IP for this network, we'd use it as source-ip",
+					},
+					"radius_acct_servers": schema.ListNestedAttribute{
+						NestedObject: schema.NestedAttributeObject{
+							Attributes: map[string]schema.Attribute{
+								"host": schema.StringAttribute{
+									Required:            true,
+									Description:         "ip / hostname of RADIUS server",
+									MarkdownDescription: "ip / hostname of RADIUS server",
+								},
+								"keywrap_enabled": schema.BoolAttribute{
+									Optional: true,
+									Computed: true,
+								},
+								"keywrap_format": schema.StringAttribute{
+									Optional: true,
+									Computed: true,
+									Validators: []validator.String{
+										stringvalidator.OneOf(
+											"hex",
+											"ascii",
+										),
+									},
+								},
+								"keywrap_kek": schema.StringAttribute{
+									Optional: true,
+									Computed: true,
+								},
+								"keywrap_mack": schema.StringAttribute{
+									Optional: true,
+									Computed: true,
+								},
+								"port": schema.Int64Attribute{
+									Optional:            true,
+									Computed:            true,
+									Description:         "Acct port of RADIUS server",
+									MarkdownDescription: "Acct port of RADIUS server",
+									Default:             int64default.StaticInt64(1813),
+								},
+								"secret": schema.StringAttribute{
+									Required:            true,
+									Description:         "secret of RADIUS server",
+									MarkdownDescription: "secret of RADIUS server",
+								},
+							},
+							CustomType: RadiusAcctServersType{
+								ObjectType: types.ObjectType{
+									AttrTypes: RadiusAcctServersValue{}.AttributeTypes(ctx),
+								},
+							},
+						},
+						Optional: true,
+						Computed: true,
+						Validators: []validator.List{
+							listvalidator.SizeAtLeast(1),
+							listvalidator.UniqueValues(),
+						},
+					},
+					"radius_auth_servers": schema.ListNestedAttribute{
+						NestedObject: schema.NestedAttributeObject{
+							Attributes: map[string]schema.Attribute{
+								"host": schema.StringAttribute{
+									Required:            true,
+									Description:         "ip / hostname of RADIUS server",
+									MarkdownDescription: "ip / hostname of RADIUS server",
+								},
+								"keywrap_enabled": schema.BoolAttribute{
+									Optional: true,
+									Computed: true,
+								},
+								"keywrap_format": schema.StringAttribute{
+									Optional: true,
+									Computed: true,
+									Validators: []validator.String{
+										stringvalidator.OneOf(
+											"hex",
+											"ascii",
+										),
+									},
+								},
+								"keywrap_kek": schema.StringAttribute{
+									Optional: true,
+									Computed: true,
+								},
+								"keywrap_mack": schema.StringAttribute{
+									Optional: true,
+									Computed: true,
+								},
+								"port": schema.Int64Attribute{
+									Optional:            true,
+									Computed:            true,
+									Description:         "Auth port of RADIUS server",
+									MarkdownDescription: "Auth port of RADIUS server",
+									Default:             int64default.StaticInt64(1812),
+								},
+								"secret": schema.StringAttribute{
+									Required:            true,
+									Description:         "secret of RADIUS server",
+									MarkdownDescription: "secret of RADIUS server",
+								},
+							},
+							CustomType: RadiusAuthServersType{
+								ObjectType: types.ObjectType{
+									AttrTypes: RadiusAuthServersValue{}.AttributeTypes(ctx),
+								},
+							},
+						},
+						Optional: true,
+						Computed: true,
+						Validators: []validator.List{
+							listvalidator.SizeAtLeast(1),
+							listvalidator.UniqueValues(),
+						},
+					},
+					"source_ip": schema.StringAttribute{
+						Optional:            true,
+						Computed:            true,
+						Description:         "use `network`or `source_ip`",
+						MarkdownDescription: "use `network`or `source_ip`",
+					},
+				},
+				CustomType: RadiusConfigType{
+					ObjectType: types.ObjectType{
+						AttrTypes: RadiusConfigValue{}.AttributeTypes(ctx),
+					},
+				},
+				Optional:            true,
+				Computed:            true,
+				Description:         "Junos Radius config",
+				MarkdownDescription: "Junos Radius config",
+			},
 		},
 	}
 }
 
 type NetworktemplateModel struct {
-	AdditionalConfigCmds types.List   `tfsdk:"additional_config_cmds"`
-	DnsServers           types.List   `tfsdk:"dns_servers"`
-	DnsSuffix            types.List   `tfsdk:"dns_suffix"`
-	Id                   types.String `tfsdk:"id"`
-	Name                 types.String `tfsdk:"name"`
-	Networks             types.Map    `tfsdk:"networks"`
-	NtpServers           types.List   `tfsdk:"ntp_servers"`
-	OrgId                types.String `tfsdk:"org_id"`
+	AdditionalConfigCmds types.List        `tfsdk:"additional_config_cmds"`
+	DnsServers           types.List        `tfsdk:"dns_servers"`
+	DnsSuffix            types.List        `tfsdk:"dns_suffix"`
+	Id                   types.String      `tfsdk:"id"`
+	Name                 types.String      `tfsdk:"name"`
+	Networks             types.Map         `tfsdk:"networks"`
+	NtpServers           types.List        `tfsdk:"ntp_servers"`
+	OrgId                types.String      `tfsdk:"org_id"`
+	RadiusConfig         RadiusConfigValue `tfsdk:"radius_config"`
 }
 
 var _ basetypes.ObjectTypable = NetworksType{}
@@ -478,5 +654,2147 @@ func (v NetworksValue) AttributeTypes(ctx context.Context) map[string]attr.Type 
 	return map[string]attr.Type{
 		"subnet":  basetypes.StringType{},
 		"vlan_id": basetypes.Int64Type{},
+	}
+}
+
+var _ basetypes.ObjectTypable = RadiusConfigType{}
+
+type RadiusConfigType struct {
+	basetypes.ObjectType
+}
+
+func (t RadiusConfigType) Equal(o attr.Type) bool {
+	other, ok := o.(RadiusConfigType)
+
+	if !ok {
+		return false
+	}
+
+	return t.ObjectType.Equal(other.ObjectType)
+}
+
+func (t RadiusConfigType) String() string {
+	return "RadiusConfigType"
+}
+
+func (t RadiusConfigType) ValueFromObject(ctx context.Context, in basetypes.ObjectValue) (basetypes.ObjectValuable, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	attributes := in.Attributes()
+
+	acctInterimIntervalAttribute, ok := attributes["acct_interim_interval"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`acct_interim_interval is missing from object`)
+
+		return nil, diags
+	}
+
+	acctInterimIntervalVal, ok := acctInterimIntervalAttribute.(basetypes.Int64Value)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`acct_interim_interval expected to be basetypes.Int64Value, was: %T`, acctInterimIntervalAttribute))
+	}
+
+	authServersRetriesAttribute, ok := attributes["auth_servers_retries"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`auth_servers_retries is missing from object`)
+
+		return nil, diags
+	}
+
+	authServersRetriesVal, ok := authServersRetriesAttribute.(basetypes.Int64Value)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`auth_servers_retries expected to be basetypes.Int64Value, was: %T`, authServersRetriesAttribute))
+	}
+
+	authServersTimeoutAttribute, ok := attributes["auth_servers_timeout"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`auth_servers_timeout is missing from object`)
+
+		return nil, diags
+	}
+
+	authServersTimeoutVal, ok := authServersTimeoutAttribute.(basetypes.Int64Value)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`auth_servers_timeout expected to be basetypes.Int64Value, was: %T`, authServersTimeoutAttribute))
+	}
+
+	coaEnabledAttribute, ok := attributes["coa_enabled"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`coa_enabled is missing from object`)
+
+		return nil, diags
+	}
+
+	coaEnabledVal, ok := coaEnabledAttribute.(basetypes.BoolValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`coa_enabled expected to be basetypes.BoolValue, was: %T`, coaEnabledAttribute))
+	}
+
+	coaPortAttribute, ok := attributes["coa_port"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`coa_port is missing from object`)
+
+		return nil, diags
+	}
+
+	coaPortVal, ok := coaPortAttribute.(basetypes.Int64Value)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`coa_port expected to be basetypes.Int64Value, was: %T`, coaPortAttribute))
+	}
+
+	networkAttribute, ok := attributes["network"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`network is missing from object`)
+
+		return nil, diags
+	}
+
+	networkVal, ok := networkAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`network expected to be basetypes.StringValue, was: %T`, networkAttribute))
+	}
+
+	radiusAcctServersAttribute, ok := attributes["radius_acct_servers"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`radius_acct_servers is missing from object`)
+
+		return nil, diags
+	}
+
+	radiusAcctServersVal, ok := radiusAcctServersAttribute.(basetypes.ListValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`radius_acct_servers expected to be basetypes.ListValue, was: %T`, radiusAcctServersAttribute))
+	}
+
+	radiusAuthServersAttribute, ok := attributes["radius_auth_servers"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`radius_auth_servers is missing from object`)
+
+		return nil, diags
+	}
+
+	radiusAuthServersVal, ok := radiusAuthServersAttribute.(basetypes.ListValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`radius_auth_servers expected to be basetypes.ListValue, was: %T`, radiusAuthServersAttribute))
+	}
+
+	sourceIpAttribute, ok := attributes["source_ip"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`source_ip is missing from object`)
+
+		return nil, diags
+	}
+
+	sourceIpVal, ok := sourceIpAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`source_ip expected to be basetypes.StringValue, was: %T`, sourceIpAttribute))
+	}
+
+	if diags.HasError() {
+		return nil, diags
+	}
+
+	return RadiusConfigValue{
+		AcctInterimInterval: acctInterimIntervalVal,
+		AuthServersRetries:  authServersRetriesVal,
+		AuthServersTimeout:  authServersTimeoutVal,
+		CoaEnabled:          coaEnabledVal,
+		CoaPort:             coaPortVal,
+		Network:             networkVal,
+		RadiusAcctServers:   radiusAcctServersVal,
+		RadiusAuthServers:   radiusAuthServersVal,
+		SourceIp:            sourceIpVal,
+		state:               attr.ValueStateKnown,
+	}, diags
+}
+
+func NewRadiusConfigValueNull() RadiusConfigValue {
+	return RadiusConfigValue{
+		state: attr.ValueStateNull,
+	}
+}
+
+func NewRadiusConfigValueUnknown() RadiusConfigValue {
+	return RadiusConfigValue{
+		state: attr.ValueStateUnknown,
+	}
+}
+
+func NewRadiusConfigValue(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) (RadiusConfigValue, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	// Reference: https://github.com/hashicorp/terraform-plugin-framework/issues/521
+	ctx := context.Background()
+
+	for name, attributeType := range attributeTypes {
+		attribute, ok := attributes[name]
+
+		if !ok {
+			diags.AddError(
+				"Missing RadiusConfigValue Attribute Value",
+				"While creating a RadiusConfigValue value, a missing attribute value was detected. "+
+					"A RadiusConfigValue must contain values for all attributes, even if null or unknown. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("RadiusConfigValue Attribute Name (%s) Expected Type: %s", name, attributeType.String()),
+			)
+
+			continue
+		}
+
+		if !attributeType.Equal(attribute.Type(ctx)) {
+			diags.AddError(
+				"Invalid RadiusConfigValue Attribute Type",
+				"While creating a RadiusConfigValue value, an invalid attribute value was detected. "+
+					"A RadiusConfigValue must use a matching attribute type for the value. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("RadiusConfigValue Attribute Name (%s) Expected Type: %s\n", name, attributeType.String())+
+					fmt.Sprintf("RadiusConfigValue Attribute Name (%s) Given Type: %s", name, attribute.Type(ctx)),
+			)
+		}
+	}
+
+	for name := range attributes {
+		_, ok := attributeTypes[name]
+
+		if !ok {
+			diags.AddError(
+				"Extra RadiusConfigValue Attribute Value",
+				"While creating a RadiusConfigValue value, an extra attribute value was detected. "+
+					"A RadiusConfigValue must not contain values beyond the expected attribute types. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("Extra RadiusConfigValue Attribute Name: %s", name),
+			)
+		}
+	}
+
+	if diags.HasError() {
+		return NewRadiusConfigValueUnknown(), diags
+	}
+
+	acctInterimIntervalAttribute, ok := attributes["acct_interim_interval"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`acct_interim_interval is missing from object`)
+
+		return NewRadiusConfigValueUnknown(), diags
+	}
+
+	acctInterimIntervalVal, ok := acctInterimIntervalAttribute.(basetypes.Int64Value)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`acct_interim_interval expected to be basetypes.Int64Value, was: %T`, acctInterimIntervalAttribute))
+	}
+
+	authServersRetriesAttribute, ok := attributes["auth_servers_retries"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`auth_servers_retries is missing from object`)
+
+		return NewRadiusConfigValueUnknown(), diags
+	}
+
+	authServersRetriesVal, ok := authServersRetriesAttribute.(basetypes.Int64Value)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`auth_servers_retries expected to be basetypes.Int64Value, was: %T`, authServersRetriesAttribute))
+	}
+
+	authServersTimeoutAttribute, ok := attributes["auth_servers_timeout"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`auth_servers_timeout is missing from object`)
+
+		return NewRadiusConfigValueUnknown(), diags
+	}
+
+	authServersTimeoutVal, ok := authServersTimeoutAttribute.(basetypes.Int64Value)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`auth_servers_timeout expected to be basetypes.Int64Value, was: %T`, authServersTimeoutAttribute))
+	}
+
+	coaEnabledAttribute, ok := attributes["coa_enabled"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`coa_enabled is missing from object`)
+
+		return NewRadiusConfigValueUnknown(), diags
+	}
+
+	coaEnabledVal, ok := coaEnabledAttribute.(basetypes.BoolValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`coa_enabled expected to be basetypes.BoolValue, was: %T`, coaEnabledAttribute))
+	}
+
+	coaPortAttribute, ok := attributes["coa_port"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`coa_port is missing from object`)
+
+		return NewRadiusConfigValueUnknown(), diags
+	}
+
+	coaPortVal, ok := coaPortAttribute.(basetypes.Int64Value)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`coa_port expected to be basetypes.Int64Value, was: %T`, coaPortAttribute))
+	}
+
+	networkAttribute, ok := attributes["network"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`network is missing from object`)
+
+		return NewRadiusConfigValueUnknown(), diags
+	}
+
+	networkVal, ok := networkAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`network expected to be basetypes.StringValue, was: %T`, networkAttribute))
+	}
+
+	radiusAcctServersAttribute, ok := attributes["radius_acct_servers"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`radius_acct_servers is missing from object`)
+
+		return NewRadiusConfigValueUnknown(), diags
+	}
+
+	radiusAcctServersVal, ok := radiusAcctServersAttribute.(basetypes.ListValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`radius_acct_servers expected to be basetypes.ListValue, was: %T`, radiusAcctServersAttribute))
+	}
+
+	radiusAuthServersAttribute, ok := attributes["radius_auth_servers"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`radius_auth_servers is missing from object`)
+
+		return NewRadiusConfigValueUnknown(), diags
+	}
+
+	radiusAuthServersVal, ok := radiusAuthServersAttribute.(basetypes.ListValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`radius_auth_servers expected to be basetypes.ListValue, was: %T`, radiusAuthServersAttribute))
+	}
+
+	sourceIpAttribute, ok := attributes["source_ip"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`source_ip is missing from object`)
+
+		return NewRadiusConfigValueUnknown(), diags
+	}
+
+	sourceIpVal, ok := sourceIpAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`source_ip expected to be basetypes.StringValue, was: %T`, sourceIpAttribute))
+	}
+
+	if diags.HasError() {
+		return NewRadiusConfigValueUnknown(), diags
+	}
+
+	return RadiusConfigValue{
+		AcctInterimInterval: acctInterimIntervalVal,
+		AuthServersRetries:  authServersRetriesVal,
+		AuthServersTimeout:  authServersTimeoutVal,
+		CoaEnabled:          coaEnabledVal,
+		CoaPort:             coaPortVal,
+		Network:             networkVal,
+		RadiusAcctServers:   radiusAcctServersVal,
+		RadiusAuthServers:   radiusAuthServersVal,
+		SourceIp:            sourceIpVal,
+		state:               attr.ValueStateKnown,
+	}, diags
+}
+
+func NewRadiusConfigValueMust(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) RadiusConfigValue {
+	object, diags := NewRadiusConfigValue(attributeTypes, attributes)
+
+	if diags.HasError() {
+		// This could potentially be added to the diag package.
+		diagsStrings := make([]string, 0, len(diags))
+
+		for _, diagnostic := range diags {
+			diagsStrings = append(diagsStrings, fmt.Sprintf(
+				"%s | %s | %s",
+				diagnostic.Severity(),
+				diagnostic.Summary(),
+				diagnostic.Detail()))
+		}
+
+		panic("NewRadiusConfigValueMust received error(s): " + strings.Join(diagsStrings, "\n"))
+	}
+
+	return object
+}
+
+func (t RadiusConfigType) ValueFromTerraform(ctx context.Context, in tftypes.Value) (attr.Value, error) {
+	if in.Type() == nil {
+		return NewRadiusConfigValueNull(), nil
+	}
+
+	if !in.Type().Equal(t.TerraformType(ctx)) {
+		return nil, fmt.Errorf("expected %s, got %s", t.TerraformType(ctx), in.Type())
+	}
+
+	if !in.IsKnown() {
+		return NewRadiusConfigValueUnknown(), nil
+	}
+
+	if in.IsNull() {
+		return NewRadiusConfigValueNull(), nil
+	}
+
+	attributes := map[string]attr.Value{}
+
+	val := map[string]tftypes.Value{}
+
+	err := in.As(&val)
+
+	if err != nil {
+		return nil, err
+	}
+
+	for k, v := range val {
+		a, err := t.AttrTypes[k].ValueFromTerraform(ctx, v)
+
+		if err != nil {
+			return nil, err
+		}
+
+		attributes[k] = a
+	}
+
+	return NewRadiusConfigValueMust(RadiusConfigValue{}.AttributeTypes(ctx), attributes), nil
+}
+
+func (t RadiusConfigType) ValueType(ctx context.Context) attr.Value {
+	return RadiusConfigValue{}
+}
+
+var _ basetypes.ObjectValuable = RadiusConfigValue{}
+
+type RadiusConfigValue struct {
+	AcctInterimInterval basetypes.Int64Value  `tfsdk:"acct_interim_interval"`
+	AuthServersRetries  basetypes.Int64Value  `tfsdk:"auth_servers_retries"`
+	AuthServersTimeout  basetypes.Int64Value  `tfsdk:"auth_servers_timeout"`
+	CoaEnabled          basetypes.BoolValue   `tfsdk:"coa_enabled"`
+	CoaPort             basetypes.Int64Value  `tfsdk:"coa_port"`
+	Network             basetypes.StringValue `tfsdk:"network"`
+	RadiusAcctServers   basetypes.ListValue   `tfsdk:"radius_acct_servers"`
+	RadiusAuthServers   basetypes.ListValue   `tfsdk:"radius_auth_servers"`
+	SourceIp            basetypes.StringValue `tfsdk:"source_ip"`
+	state               attr.ValueState
+}
+
+func (v RadiusConfigValue) ToTerraformValue(ctx context.Context) (tftypes.Value, error) {
+	attrTypes := make(map[string]tftypes.Type, 9)
+
+	var val tftypes.Value
+	var err error
+
+	attrTypes["acct_interim_interval"] = basetypes.Int64Type{}.TerraformType(ctx)
+	attrTypes["auth_servers_retries"] = basetypes.Int64Type{}.TerraformType(ctx)
+	attrTypes["auth_servers_timeout"] = basetypes.Int64Type{}.TerraformType(ctx)
+	attrTypes["coa_enabled"] = basetypes.BoolType{}.TerraformType(ctx)
+	attrTypes["coa_port"] = basetypes.Int64Type{}.TerraformType(ctx)
+	attrTypes["network"] = basetypes.StringType{}.TerraformType(ctx)
+	attrTypes["radius_acct_servers"] = basetypes.ListType{
+		ElemType: RadiusAcctServersValue{}.Type(ctx),
+	}.TerraformType(ctx)
+	attrTypes["radius_auth_servers"] = basetypes.ListType{
+		ElemType: RadiusAuthServersValue{}.Type(ctx),
+	}.TerraformType(ctx)
+	attrTypes["source_ip"] = basetypes.StringType{}.TerraformType(ctx)
+
+	objectType := tftypes.Object{AttributeTypes: attrTypes}
+
+	switch v.state {
+	case attr.ValueStateKnown:
+		vals := make(map[string]tftypes.Value, 9)
+
+		val, err = v.AcctInterimInterval.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["acct_interim_interval"] = val
+
+		val, err = v.AuthServersRetries.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["auth_servers_retries"] = val
+
+		val, err = v.AuthServersTimeout.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["auth_servers_timeout"] = val
+
+		val, err = v.CoaEnabled.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["coa_enabled"] = val
+
+		val, err = v.CoaPort.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["coa_port"] = val
+
+		val, err = v.Network.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["network"] = val
+
+		val, err = v.RadiusAcctServers.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["radius_acct_servers"] = val
+
+		val, err = v.RadiusAuthServers.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["radius_auth_servers"] = val
+
+		val, err = v.SourceIp.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["source_ip"] = val
+
+		if err := tftypes.ValidateValue(objectType, vals); err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		return tftypes.NewValue(objectType, vals), nil
+	case attr.ValueStateNull:
+		return tftypes.NewValue(objectType, nil), nil
+	case attr.ValueStateUnknown:
+		return tftypes.NewValue(objectType, tftypes.UnknownValue), nil
+	default:
+		panic(fmt.Sprintf("unhandled Object state in ToTerraformValue: %s", v.state))
+	}
+}
+
+func (v RadiusConfigValue) IsNull() bool {
+	return v.state == attr.ValueStateNull
+}
+
+func (v RadiusConfigValue) IsUnknown() bool {
+	return v.state == attr.ValueStateUnknown
+}
+
+func (v RadiusConfigValue) String() string {
+	return "RadiusConfigValue"
+}
+
+func (v RadiusConfigValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	radiusAcctServers := types.ListValueMust(
+		RadiusAcctServersType{
+			basetypes.ObjectType{
+				AttrTypes: RadiusAcctServersValue{}.AttributeTypes(ctx),
+			},
+		},
+		v.RadiusAcctServers.Elements(),
+	)
+
+	if v.RadiusAcctServers.IsNull() {
+		radiusAcctServers = types.ListNull(
+			RadiusAcctServersType{
+				basetypes.ObjectType{
+					AttrTypes: RadiusAcctServersValue{}.AttributeTypes(ctx),
+				},
+			},
+		)
+	}
+
+	if v.RadiusAcctServers.IsUnknown() {
+		radiusAcctServers = types.ListUnknown(
+			RadiusAcctServersType{
+				basetypes.ObjectType{
+					AttrTypes: RadiusAcctServersValue{}.AttributeTypes(ctx),
+				},
+			},
+		)
+	}
+
+	radiusAuthServers := types.ListValueMust(
+		RadiusAuthServersType{
+			basetypes.ObjectType{
+				AttrTypes: RadiusAuthServersValue{}.AttributeTypes(ctx),
+			},
+		},
+		v.RadiusAuthServers.Elements(),
+	)
+
+	if v.RadiusAuthServers.IsNull() {
+		radiusAuthServers = types.ListNull(
+			RadiusAuthServersType{
+				basetypes.ObjectType{
+					AttrTypes: RadiusAuthServersValue{}.AttributeTypes(ctx),
+				},
+			},
+		)
+	}
+
+	if v.RadiusAuthServers.IsUnknown() {
+		radiusAuthServers = types.ListUnknown(
+			RadiusAuthServersType{
+				basetypes.ObjectType{
+					AttrTypes: RadiusAuthServersValue{}.AttributeTypes(ctx),
+				},
+			},
+		)
+	}
+
+	attributeTypes := map[string]attr.Type{
+		"acct_interim_interval": basetypes.Int64Type{},
+		"auth_servers_retries":  basetypes.Int64Type{},
+		"auth_servers_timeout":  basetypes.Int64Type{},
+		"coa_enabled":           basetypes.BoolType{},
+		"coa_port":              basetypes.Int64Type{},
+		"network":               basetypes.StringType{},
+		"radius_acct_servers": basetypes.ListType{
+			ElemType: RadiusAcctServersValue{}.Type(ctx),
+		},
+		"radius_auth_servers": basetypes.ListType{
+			ElemType: RadiusAuthServersValue{}.Type(ctx),
+		},
+		"source_ip": basetypes.StringType{},
+	}
+
+	if v.IsNull() {
+		return types.ObjectNull(attributeTypes), diags
+	}
+
+	if v.IsUnknown() {
+		return types.ObjectUnknown(attributeTypes), diags
+	}
+
+	objVal, diags := types.ObjectValue(
+		attributeTypes,
+		map[string]attr.Value{
+			"acct_interim_interval": v.AcctInterimInterval,
+			"auth_servers_retries":  v.AuthServersRetries,
+			"auth_servers_timeout":  v.AuthServersTimeout,
+			"coa_enabled":           v.CoaEnabled,
+			"coa_port":              v.CoaPort,
+			"network":               v.Network,
+			"radius_acct_servers":   radiusAcctServers,
+			"radius_auth_servers":   radiusAuthServers,
+			"source_ip":             v.SourceIp,
+		})
+
+	return objVal, diags
+}
+
+func (v RadiusConfigValue) Equal(o attr.Value) bool {
+	other, ok := o.(RadiusConfigValue)
+
+	if !ok {
+		return false
+	}
+
+	if v.state != other.state {
+		return false
+	}
+
+	if v.state != attr.ValueStateKnown {
+		return true
+	}
+
+	if !v.AcctInterimInterval.Equal(other.AcctInterimInterval) {
+		return false
+	}
+
+	if !v.AuthServersRetries.Equal(other.AuthServersRetries) {
+		return false
+	}
+
+	if !v.AuthServersTimeout.Equal(other.AuthServersTimeout) {
+		return false
+	}
+
+	if !v.CoaEnabled.Equal(other.CoaEnabled) {
+		return false
+	}
+
+	if !v.CoaPort.Equal(other.CoaPort) {
+		return false
+	}
+
+	if !v.Network.Equal(other.Network) {
+		return false
+	}
+
+	if !v.RadiusAcctServers.Equal(other.RadiusAcctServers) {
+		return false
+	}
+
+	if !v.RadiusAuthServers.Equal(other.RadiusAuthServers) {
+		return false
+	}
+
+	if !v.SourceIp.Equal(other.SourceIp) {
+		return false
+	}
+
+	return true
+}
+
+func (v RadiusConfigValue) Type(ctx context.Context) attr.Type {
+	return RadiusConfigType{
+		basetypes.ObjectType{
+			AttrTypes: v.AttributeTypes(ctx),
+		},
+	}
+}
+
+func (v RadiusConfigValue) AttributeTypes(ctx context.Context) map[string]attr.Type {
+	return map[string]attr.Type{
+		"acct_interim_interval": basetypes.Int64Type{},
+		"auth_servers_retries":  basetypes.Int64Type{},
+		"auth_servers_timeout":  basetypes.Int64Type{},
+		"coa_enabled":           basetypes.BoolType{},
+		"coa_port":              basetypes.Int64Type{},
+		"network":               basetypes.StringType{},
+		"radius_acct_servers": basetypes.ListType{
+			ElemType: RadiusAcctServersValue{}.Type(ctx),
+		},
+		"radius_auth_servers": basetypes.ListType{
+			ElemType: RadiusAuthServersValue{}.Type(ctx),
+		},
+		"source_ip": basetypes.StringType{},
+	}
+}
+
+var _ basetypes.ObjectTypable = RadiusAcctServersType{}
+
+type RadiusAcctServersType struct {
+	basetypes.ObjectType
+}
+
+func (t RadiusAcctServersType) Equal(o attr.Type) bool {
+	other, ok := o.(RadiusAcctServersType)
+
+	if !ok {
+		return false
+	}
+
+	return t.ObjectType.Equal(other.ObjectType)
+}
+
+func (t RadiusAcctServersType) String() string {
+	return "RadiusAcctServersType"
+}
+
+func (t RadiusAcctServersType) ValueFromObject(ctx context.Context, in basetypes.ObjectValue) (basetypes.ObjectValuable, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	attributes := in.Attributes()
+
+	hostAttribute, ok := attributes["host"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`host is missing from object`)
+
+		return nil, diags
+	}
+
+	hostVal, ok := hostAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`host expected to be basetypes.StringValue, was: %T`, hostAttribute))
+	}
+
+	keywrapEnabledAttribute, ok := attributes["keywrap_enabled"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`keywrap_enabled is missing from object`)
+
+		return nil, diags
+	}
+
+	keywrapEnabledVal, ok := keywrapEnabledAttribute.(basetypes.BoolValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`keywrap_enabled expected to be basetypes.BoolValue, was: %T`, keywrapEnabledAttribute))
+	}
+
+	keywrapFormatAttribute, ok := attributes["keywrap_format"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`keywrap_format is missing from object`)
+
+		return nil, diags
+	}
+
+	keywrapFormatVal, ok := keywrapFormatAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`keywrap_format expected to be basetypes.StringValue, was: %T`, keywrapFormatAttribute))
+	}
+
+	keywrapKekAttribute, ok := attributes["keywrap_kek"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`keywrap_kek is missing from object`)
+
+		return nil, diags
+	}
+
+	keywrapKekVal, ok := keywrapKekAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`keywrap_kek expected to be basetypes.StringValue, was: %T`, keywrapKekAttribute))
+	}
+
+	keywrapMackAttribute, ok := attributes["keywrap_mack"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`keywrap_mack is missing from object`)
+
+		return nil, diags
+	}
+
+	keywrapMackVal, ok := keywrapMackAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`keywrap_mack expected to be basetypes.StringValue, was: %T`, keywrapMackAttribute))
+	}
+
+	portAttribute, ok := attributes["port"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`port is missing from object`)
+
+		return nil, diags
+	}
+
+	portVal, ok := portAttribute.(basetypes.Int64Value)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`port expected to be basetypes.Int64Value, was: %T`, portAttribute))
+	}
+
+	secretAttribute, ok := attributes["secret"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`secret is missing from object`)
+
+		return nil, diags
+	}
+
+	secretVal, ok := secretAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`secret expected to be basetypes.StringValue, was: %T`, secretAttribute))
+	}
+
+	if diags.HasError() {
+		return nil, diags
+	}
+
+	return RadiusAcctServersValue{
+		Host:           hostVal,
+		KeywrapEnabled: keywrapEnabledVal,
+		KeywrapFormat:  keywrapFormatVal,
+		KeywrapKek:     keywrapKekVal,
+		KeywrapMack:    keywrapMackVal,
+		Port:           portVal,
+		Secret:         secretVal,
+		state:          attr.ValueStateKnown,
+	}, diags
+}
+
+func NewRadiusAcctServersValueNull() RadiusAcctServersValue {
+	return RadiusAcctServersValue{
+		state: attr.ValueStateNull,
+	}
+}
+
+func NewRadiusAcctServersValueUnknown() RadiusAcctServersValue {
+	return RadiusAcctServersValue{
+		state: attr.ValueStateUnknown,
+	}
+}
+
+func NewRadiusAcctServersValue(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) (RadiusAcctServersValue, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	// Reference: https://github.com/hashicorp/terraform-plugin-framework/issues/521
+	ctx := context.Background()
+
+	for name, attributeType := range attributeTypes {
+		attribute, ok := attributes[name]
+
+		if !ok {
+			diags.AddError(
+				"Missing RadiusAcctServersValue Attribute Value",
+				"While creating a RadiusAcctServersValue value, a missing attribute value was detected. "+
+					"A RadiusAcctServersValue must contain values for all attributes, even if null or unknown. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("RadiusAcctServersValue Attribute Name (%s) Expected Type: %s", name, attributeType.String()),
+			)
+
+			continue
+		}
+
+		if !attributeType.Equal(attribute.Type(ctx)) {
+			diags.AddError(
+				"Invalid RadiusAcctServersValue Attribute Type",
+				"While creating a RadiusAcctServersValue value, an invalid attribute value was detected. "+
+					"A RadiusAcctServersValue must use a matching attribute type for the value. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("RadiusAcctServersValue Attribute Name (%s) Expected Type: %s\n", name, attributeType.String())+
+					fmt.Sprintf("RadiusAcctServersValue Attribute Name (%s) Given Type: %s", name, attribute.Type(ctx)),
+			)
+		}
+	}
+
+	for name := range attributes {
+		_, ok := attributeTypes[name]
+
+		if !ok {
+			diags.AddError(
+				"Extra RadiusAcctServersValue Attribute Value",
+				"While creating a RadiusAcctServersValue value, an extra attribute value was detected. "+
+					"A RadiusAcctServersValue must not contain values beyond the expected attribute types. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("Extra RadiusAcctServersValue Attribute Name: %s", name),
+			)
+		}
+	}
+
+	if diags.HasError() {
+		return NewRadiusAcctServersValueUnknown(), diags
+	}
+
+	hostAttribute, ok := attributes["host"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`host is missing from object`)
+
+		return NewRadiusAcctServersValueUnknown(), diags
+	}
+
+	hostVal, ok := hostAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`host expected to be basetypes.StringValue, was: %T`, hostAttribute))
+	}
+
+	keywrapEnabledAttribute, ok := attributes["keywrap_enabled"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`keywrap_enabled is missing from object`)
+
+		return NewRadiusAcctServersValueUnknown(), diags
+	}
+
+	keywrapEnabledVal, ok := keywrapEnabledAttribute.(basetypes.BoolValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`keywrap_enabled expected to be basetypes.BoolValue, was: %T`, keywrapEnabledAttribute))
+	}
+
+	keywrapFormatAttribute, ok := attributes["keywrap_format"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`keywrap_format is missing from object`)
+
+		return NewRadiusAcctServersValueUnknown(), diags
+	}
+
+	keywrapFormatVal, ok := keywrapFormatAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`keywrap_format expected to be basetypes.StringValue, was: %T`, keywrapFormatAttribute))
+	}
+
+	keywrapKekAttribute, ok := attributes["keywrap_kek"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`keywrap_kek is missing from object`)
+
+		return NewRadiusAcctServersValueUnknown(), diags
+	}
+
+	keywrapKekVal, ok := keywrapKekAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`keywrap_kek expected to be basetypes.StringValue, was: %T`, keywrapKekAttribute))
+	}
+
+	keywrapMackAttribute, ok := attributes["keywrap_mack"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`keywrap_mack is missing from object`)
+
+		return NewRadiusAcctServersValueUnknown(), diags
+	}
+
+	keywrapMackVal, ok := keywrapMackAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`keywrap_mack expected to be basetypes.StringValue, was: %T`, keywrapMackAttribute))
+	}
+
+	portAttribute, ok := attributes["port"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`port is missing from object`)
+
+		return NewRadiusAcctServersValueUnknown(), diags
+	}
+
+	portVal, ok := portAttribute.(basetypes.Int64Value)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`port expected to be basetypes.Int64Value, was: %T`, portAttribute))
+	}
+
+	secretAttribute, ok := attributes["secret"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`secret is missing from object`)
+
+		return NewRadiusAcctServersValueUnknown(), diags
+	}
+
+	secretVal, ok := secretAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`secret expected to be basetypes.StringValue, was: %T`, secretAttribute))
+	}
+
+	if diags.HasError() {
+		return NewRadiusAcctServersValueUnknown(), diags
+	}
+
+	return RadiusAcctServersValue{
+		Host:           hostVal,
+		KeywrapEnabled: keywrapEnabledVal,
+		KeywrapFormat:  keywrapFormatVal,
+		KeywrapKek:     keywrapKekVal,
+		KeywrapMack:    keywrapMackVal,
+		Port:           portVal,
+		Secret:         secretVal,
+		state:          attr.ValueStateKnown,
+	}, diags
+}
+
+func NewRadiusAcctServersValueMust(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) RadiusAcctServersValue {
+	object, diags := NewRadiusAcctServersValue(attributeTypes, attributes)
+
+	if diags.HasError() {
+		// This could potentially be added to the diag package.
+		diagsStrings := make([]string, 0, len(diags))
+
+		for _, diagnostic := range diags {
+			diagsStrings = append(diagsStrings, fmt.Sprintf(
+				"%s | %s | %s",
+				diagnostic.Severity(),
+				diagnostic.Summary(),
+				diagnostic.Detail()))
+		}
+
+		panic("NewRadiusAcctServersValueMust received error(s): " + strings.Join(diagsStrings, "\n"))
+	}
+
+	return object
+}
+
+func (t RadiusAcctServersType) ValueFromTerraform(ctx context.Context, in tftypes.Value) (attr.Value, error) {
+	if in.Type() == nil {
+		return NewRadiusAcctServersValueNull(), nil
+	}
+
+	if !in.Type().Equal(t.TerraformType(ctx)) {
+		return nil, fmt.Errorf("expected %s, got %s", t.TerraformType(ctx), in.Type())
+	}
+
+	if !in.IsKnown() {
+		return NewRadiusAcctServersValueUnknown(), nil
+	}
+
+	if in.IsNull() {
+		return NewRadiusAcctServersValueNull(), nil
+	}
+
+	attributes := map[string]attr.Value{}
+
+	val := map[string]tftypes.Value{}
+
+	err := in.As(&val)
+
+	if err != nil {
+		return nil, err
+	}
+
+	for k, v := range val {
+		a, err := t.AttrTypes[k].ValueFromTerraform(ctx, v)
+
+		if err != nil {
+			return nil, err
+		}
+
+		attributes[k] = a
+	}
+
+	return NewRadiusAcctServersValueMust(RadiusAcctServersValue{}.AttributeTypes(ctx), attributes), nil
+}
+
+func (t RadiusAcctServersType) ValueType(ctx context.Context) attr.Value {
+	return RadiusAcctServersValue{}
+}
+
+var _ basetypes.ObjectValuable = RadiusAcctServersValue{}
+
+type RadiusAcctServersValue struct {
+	Host           basetypes.StringValue `tfsdk:"host"`
+	KeywrapEnabled basetypes.BoolValue   `tfsdk:"keywrap_enabled"`
+	KeywrapFormat  basetypes.StringValue `tfsdk:"keywrap_format"`
+	KeywrapKek     basetypes.StringValue `tfsdk:"keywrap_kek"`
+	KeywrapMack    basetypes.StringValue `tfsdk:"keywrap_mack"`
+	Port           basetypes.Int64Value  `tfsdk:"port"`
+	Secret         basetypes.StringValue `tfsdk:"secret"`
+	state          attr.ValueState
+}
+
+func (v RadiusAcctServersValue) ToTerraformValue(ctx context.Context) (tftypes.Value, error) {
+	attrTypes := make(map[string]tftypes.Type, 7)
+
+	var val tftypes.Value
+	var err error
+
+	attrTypes["host"] = basetypes.StringType{}.TerraformType(ctx)
+	attrTypes["keywrap_enabled"] = basetypes.BoolType{}.TerraformType(ctx)
+	attrTypes["keywrap_format"] = basetypes.StringType{}.TerraformType(ctx)
+	attrTypes["keywrap_kek"] = basetypes.StringType{}.TerraformType(ctx)
+	attrTypes["keywrap_mack"] = basetypes.StringType{}.TerraformType(ctx)
+	attrTypes["port"] = basetypes.Int64Type{}.TerraformType(ctx)
+	attrTypes["secret"] = basetypes.StringType{}.TerraformType(ctx)
+
+	objectType := tftypes.Object{AttributeTypes: attrTypes}
+
+	switch v.state {
+	case attr.ValueStateKnown:
+		vals := make(map[string]tftypes.Value, 7)
+
+		val, err = v.Host.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["host"] = val
+
+		val, err = v.KeywrapEnabled.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["keywrap_enabled"] = val
+
+		val, err = v.KeywrapFormat.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["keywrap_format"] = val
+
+		val, err = v.KeywrapKek.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["keywrap_kek"] = val
+
+		val, err = v.KeywrapMack.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["keywrap_mack"] = val
+
+		val, err = v.Port.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["port"] = val
+
+		val, err = v.Secret.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["secret"] = val
+
+		if err := tftypes.ValidateValue(objectType, vals); err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		return tftypes.NewValue(objectType, vals), nil
+	case attr.ValueStateNull:
+		return tftypes.NewValue(objectType, nil), nil
+	case attr.ValueStateUnknown:
+		return tftypes.NewValue(objectType, tftypes.UnknownValue), nil
+	default:
+		panic(fmt.Sprintf("unhandled Object state in ToTerraformValue: %s", v.state))
+	}
+}
+
+func (v RadiusAcctServersValue) IsNull() bool {
+	return v.state == attr.ValueStateNull
+}
+
+func (v RadiusAcctServersValue) IsUnknown() bool {
+	return v.state == attr.ValueStateUnknown
+}
+
+func (v RadiusAcctServersValue) String() string {
+	return "RadiusAcctServersValue"
+}
+
+func (v RadiusAcctServersValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	attributeTypes := map[string]attr.Type{
+		"host":            basetypes.StringType{},
+		"keywrap_enabled": basetypes.BoolType{},
+		"keywrap_format":  basetypes.StringType{},
+		"keywrap_kek":     basetypes.StringType{},
+		"keywrap_mack":    basetypes.StringType{},
+		"port":            basetypes.Int64Type{},
+		"secret":          basetypes.StringType{},
+	}
+
+	if v.IsNull() {
+		return types.ObjectNull(attributeTypes), diags
+	}
+
+	if v.IsUnknown() {
+		return types.ObjectUnknown(attributeTypes), diags
+	}
+
+	objVal, diags := types.ObjectValue(
+		attributeTypes,
+		map[string]attr.Value{
+			"host":            v.Host,
+			"keywrap_enabled": v.KeywrapEnabled,
+			"keywrap_format":  v.KeywrapFormat,
+			"keywrap_kek":     v.KeywrapKek,
+			"keywrap_mack":    v.KeywrapMack,
+			"port":            v.Port,
+			"secret":          v.Secret,
+		})
+
+	return objVal, diags
+}
+
+func (v RadiusAcctServersValue) Equal(o attr.Value) bool {
+	other, ok := o.(RadiusAcctServersValue)
+
+	if !ok {
+		return false
+	}
+
+	if v.state != other.state {
+		return false
+	}
+
+	if v.state != attr.ValueStateKnown {
+		return true
+	}
+
+	if !v.Host.Equal(other.Host) {
+		return false
+	}
+
+	if !v.KeywrapEnabled.Equal(other.KeywrapEnabled) {
+		return false
+	}
+
+	if !v.KeywrapFormat.Equal(other.KeywrapFormat) {
+		return false
+	}
+
+	if !v.KeywrapKek.Equal(other.KeywrapKek) {
+		return false
+	}
+
+	if !v.KeywrapMack.Equal(other.KeywrapMack) {
+		return false
+	}
+
+	if !v.Port.Equal(other.Port) {
+		return false
+	}
+
+	if !v.Secret.Equal(other.Secret) {
+		return false
+	}
+
+	return true
+}
+
+func (v RadiusAcctServersValue) Type(ctx context.Context) attr.Type {
+	return RadiusAcctServersType{
+		basetypes.ObjectType{
+			AttrTypes: v.AttributeTypes(ctx),
+		},
+	}
+}
+
+func (v RadiusAcctServersValue) AttributeTypes(ctx context.Context) map[string]attr.Type {
+	return map[string]attr.Type{
+		"host":            basetypes.StringType{},
+		"keywrap_enabled": basetypes.BoolType{},
+		"keywrap_format":  basetypes.StringType{},
+		"keywrap_kek":     basetypes.StringType{},
+		"keywrap_mack":    basetypes.StringType{},
+		"port":            basetypes.Int64Type{},
+		"secret":          basetypes.StringType{},
+	}
+}
+
+var _ basetypes.ObjectTypable = RadiusAuthServersType{}
+
+type RadiusAuthServersType struct {
+	basetypes.ObjectType
+}
+
+func (t RadiusAuthServersType) Equal(o attr.Type) bool {
+	other, ok := o.(RadiusAuthServersType)
+
+	if !ok {
+		return false
+	}
+
+	return t.ObjectType.Equal(other.ObjectType)
+}
+
+func (t RadiusAuthServersType) String() string {
+	return "RadiusAuthServersType"
+}
+
+func (t RadiusAuthServersType) ValueFromObject(ctx context.Context, in basetypes.ObjectValue) (basetypes.ObjectValuable, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	attributes := in.Attributes()
+
+	hostAttribute, ok := attributes["host"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`host is missing from object`)
+
+		return nil, diags
+	}
+
+	hostVal, ok := hostAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`host expected to be basetypes.StringValue, was: %T`, hostAttribute))
+	}
+
+	keywrapEnabledAttribute, ok := attributes["keywrap_enabled"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`keywrap_enabled is missing from object`)
+
+		return nil, diags
+	}
+
+	keywrapEnabledVal, ok := keywrapEnabledAttribute.(basetypes.BoolValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`keywrap_enabled expected to be basetypes.BoolValue, was: %T`, keywrapEnabledAttribute))
+	}
+
+	keywrapFormatAttribute, ok := attributes["keywrap_format"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`keywrap_format is missing from object`)
+
+		return nil, diags
+	}
+
+	keywrapFormatVal, ok := keywrapFormatAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`keywrap_format expected to be basetypes.StringValue, was: %T`, keywrapFormatAttribute))
+	}
+
+	keywrapKekAttribute, ok := attributes["keywrap_kek"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`keywrap_kek is missing from object`)
+
+		return nil, diags
+	}
+
+	keywrapKekVal, ok := keywrapKekAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`keywrap_kek expected to be basetypes.StringValue, was: %T`, keywrapKekAttribute))
+	}
+
+	keywrapMackAttribute, ok := attributes["keywrap_mack"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`keywrap_mack is missing from object`)
+
+		return nil, diags
+	}
+
+	keywrapMackVal, ok := keywrapMackAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`keywrap_mack expected to be basetypes.StringValue, was: %T`, keywrapMackAttribute))
+	}
+
+	portAttribute, ok := attributes["port"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`port is missing from object`)
+
+		return nil, diags
+	}
+
+	portVal, ok := portAttribute.(basetypes.Int64Value)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`port expected to be basetypes.Int64Value, was: %T`, portAttribute))
+	}
+
+	secretAttribute, ok := attributes["secret"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`secret is missing from object`)
+
+		return nil, diags
+	}
+
+	secretVal, ok := secretAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`secret expected to be basetypes.StringValue, was: %T`, secretAttribute))
+	}
+
+	if diags.HasError() {
+		return nil, diags
+	}
+
+	return RadiusAuthServersValue{
+		Host:           hostVal,
+		KeywrapEnabled: keywrapEnabledVal,
+		KeywrapFormat:  keywrapFormatVal,
+		KeywrapKek:     keywrapKekVal,
+		KeywrapMack:    keywrapMackVal,
+		Port:           portVal,
+		Secret:         secretVal,
+		state:          attr.ValueStateKnown,
+	}, diags
+}
+
+func NewRadiusAuthServersValueNull() RadiusAuthServersValue {
+	return RadiusAuthServersValue{
+		state: attr.ValueStateNull,
+	}
+}
+
+func NewRadiusAuthServersValueUnknown() RadiusAuthServersValue {
+	return RadiusAuthServersValue{
+		state: attr.ValueStateUnknown,
+	}
+}
+
+func NewRadiusAuthServersValue(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) (RadiusAuthServersValue, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	// Reference: https://github.com/hashicorp/terraform-plugin-framework/issues/521
+	ctx := context.Background()
+
+	for name, attributeType := range attributeTypes {
+		attribute, ok := attributes[name]
+
+		if !ok {
+			diags.AddError(
+				"Missing RadiusAuthServersValue Attribute Value",
+				"While creating a RadiusAuthServersValue value, a missing attribute value was detected. "+
+					"A RadiusAuthServersValue must contain values for all attributes, even if null or unknown. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("RadiusAuthServersValue Attribute Name (%s) Expected Type: %s", name, attributeType.String()),
+			)
+
+			continue
+		}
+
+		if !attributeType.Equal(attribute.Type(ctx)) {
+			diags.AddError(
+				"Invalid RadiusAuthServersValue Attribute Type",
+				"While creating a RadiusAuthServersValue value, an invalid attribute value was detected. "+
+					"A RadiusAuthServersValue must use a matching attribute type for the value. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("RadiusAuthServersValue Attribute Name (%s) Expected Type: %s\n", name, attributeType.String())+
+					fmt.Sprintf("RadiusAuthServersValue Attribute Name (%s) Given Type: %s", name, attribute.Type(ctx)),
+			)
+		}
+	}
+
+	for name := range attributes {
+		_, ok := attributeTypes[name]
+
+		if !ok {
+			diags.AddError(
+				"Extra RadiusAuthServersValue Attribute Value",
+				"While creating a RadiusAuthServersValue value, an extra attribute value was detected. "+
+					"A RadiusAuthServersValue must not contain values beyond the expected attribute types. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("Extra RadiusAuthServersValue Attribute Name: %s", name),
+			)
+		}
+	}
+
+	if diags.HasError() {
+		return NewRadiusAuthServersValueUnknown(), diags
+	}
+
+	hostAttribute, ok := attributes["host"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`host is missing from object`)
+
+		return NewRadiusAuthServersValueUnknown(), diags
+	}
+
+	hostVal, ok := hostAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`host expected to be basetypes.StringValue, was: %T`, hostAttribute))
+	}
+
+	keywrapEnabledAttribute, ok := attributes["keywrap_enabled"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`keywrap_enabled is missing from object`)
+
+		return NewRadiusAuthServersValueUnknown(), diags
+	}
+
+	keywrapEnabledVal, ok := keywrapEnabledAttribute.(basetypes.BoolValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`keywrap_enabled expected to be basetypes.BoolValue, was: %T`, keywrapEnabledAttribute))
+	}
+
+	keywrapFormatAttribute, ok := attributes["keywrap_format"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`keywrap_format is missing from object`)
+
+		return NewRadiusAuthServersValueUnknown(), diags
+	}
+
+	keywrapFormatVal, ok := keywrapFormatAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`keywrap_format expected to be basetypes.StringValue, was: %T`, keywrapFormatAttribute))
+	}
+
+	keywrapKekAttribute, ok := attributes["keywrap_kek"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`keywrap_kek is missing from object`)
+
+		return NewRadiusAuthServersValueUnknown(), diags
+	}
+
+	keywrapKekVal, ok := keywrapKekAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`keywrap_kek expected to be basetypes.StringValue, was: %T`, keywrapKekAttribute))
+	}
+
+	keywrapMackAttribute, ok := attributes["keywrap_mack"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`keywrap_mack is missing from object`)
+
+		return NewRadiusAuthServersValueUnknown(), diags
+	}
+
+	keywrapMackVal, ok := keywrapMackAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`keywrap_mack expected to be basetypes.StringValue, was: %T`, keywrapMackAttribute))
+	}
+
+	portAttribute, ok := attributes["port"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`port is missing from object`)
+
+		return NewRadiusAuthServersValueUnknown(), diags
+	}
+
+	portVal, ok := portAttribute.(basetypes.Int64Value)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`port expected to be basetypes.Int64Value, was: %T`, portAttribute))
+	}
+
+	secretAttribute, ok := attributes["secret"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`secret is missing from object`)
+
+		return NewRadiusAuthServersValueUnknown(), diags
+	}
+
+	secretVal, ok := secretAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`secret expected to be basetypes.StringValue, was: %T`, secretAttribute))
+	}
+
+	if diags.HasError() {
+		return NewRadiusAuthServersValueUnknown(), diags
+	}
+
+	return RadiusAuthServersValue{
+		Host:           hostVal,
+		KeywrapEnabled: keywrapEnabledVal,
+		KeywrapFormat:  keywrapFormatVal,
+		KeywrapKek:     keywrapKekVal,
+		KeywrapMack:    keywrapMackVal,
+		Port:           portVal,
+		Secret:         secretVal,
+		state:          attr.ValueStateKnown,
+	}, diags
+}
+
+func NewRadiusAuthServersValueMust(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) RadiusAuthServersValue {
+	object, diags := NewRadiusAuthServersValue(attributeTypes, attributes)
+
+	if diags.HasError() {
+		// This could potentially be added to the diag package.
+		diagsStrings := make([]string, 0, len(diags))
+
+		for _, diagnostic := range diags {
+			diagsStrings = append(diagsStrings, fmt.Sprintf(
+				"%s | %s | %s",
+				diagnostic.Severity(),
+				diagnostic.Summary(),
+				diagnostic.Detail()))
+		}
+
+		panic("NewRadiusAuthServersValueMust received error(s): " + strings.Join(diagsStrings, "\n"))
+	}
+
+	return object
+}
+
+func (t RadiusAuthServersType) ValueFromTerraform(ctx context.Context, in tftypes.Value) (attr.Value, error) {
+	if in.Type() == nil {
+		return NewRadiusAuthServersValueNull(), nil
+	}
+
+	if !in.Type().Equal(t.TerraformType(ctx)) {
+		return nil, fmt.Errorf("expected %s, got %s", t.TerraformType(ctx), in.Type())
+	}
+
+	if !in.IsKnown() {
+		return NewRadiusAuthServersValueUnknown(), nil
+	}
+
+	if in.IsNull() {
+		return NewRadiusAuthServersValueNull(), nil
+	}
+
+	attributes := map[string]attr.Value{}
+
+	val := map[string]tftypes.Value{}
+
+	err := in.As(&val)
+
+	if err != nil {
+		return nil, err
+	}
+
+	for k, v := range val {
+		a, err := t.AttrTypes[k].ValueFromTerraform(ctx, v)
+
+		if err != nil {
+			return nil, err
+		}
+
+		attributes[k] = a
+	}
+
+	return NewRadiusAuthServersValueMust(RadiusAuthServersValue{}.AttributeTypes(ctx), attributes), nil
+}
+
+func (t RadiusAuthServersType) ValueType(ctx context.Context) attr.Value {
+	return RadiusAuthServersValue{}
+}
+
+var _ basetypes.ObjectValuable = RadiusAuthServersValue{}
+
+type RadiusAuthServersValue struct {
+	Host           basetypes.StringValue `tfsdk:"host"`
+	KeywrapEnabled basetypes.BoolValue   `tfsdk:"keywrap_enabled"`
+	KeywrapFormat  basetypes.StringValue `tfsdk:"keywrap_format"`
+	KeywrapKek     basetypes.StringValue `tfsdk:"keywrap_kek"`
+	KeywrapMack    basetypes.StringValue `tfsdk:"keywrap_mack"`
+	Port           basetypes.Int64Value  `tfsdk:"port"`
+	Secret         basetypes.StringValue `tfsdk:"secret"`
+	state          attr.ValueState
+}
+
+func (v RadiusAuthServersValue) ToTerraformValue(ctx context.Context) (tftypes.Value, error) {
+	attrTypes := make(map[string]tftypes.Type, 7)
+
+	var val tftypes.Value
+	var err error
+
+	attrTypes["host"] = basetypes.StringType{}.TerraformType(ctx)
+	attrTypes["keywrap_enabled"] = basetypes.BoolType{}.TerraformType(ctx)
+	attrTypes["keywrap_format"] = basetypes.StringType{}.TerraformType(ctx)
+	attrTypes["keywrap_kek"] = basetypes.StringType{}.TerraformType(ctx)
+	attrTypes["keywrap_mack"] = basetypes.StringType{}.TerraformType(ctx)
+	attrTypes["port"] = basetypes.Int64Type{}.TerraformType(ctx)
+	attrTypes["secret"] = basetypes.StringType{}.TerraformType(ctx)
+
+	objectType := tftypes.Object{AttributeTypes: attrTypes}
+
+	switch v.state {
+	case attr.ValueStateKnown:
+		vals := make(map[string]tftypes.Value, 7)
+
+		val, err = v.Host.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["host"] = val
+
+		val, err = v.KeywrapEnabled.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["keywrap_enabled"] = val
+
+		val, err = v.KeywrapFormat.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["keywrap_format"] = val
+
+		val, err = v.KeywrapKek.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["keywrap_kek"] = val
+
+		val, err = v.KeywrapMack.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["keywrap_mack"] = val
+
+		val, err = v.Port.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["port"] = val
+
+		val, err = v.Secret.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["secret"] = val
+
+		if err := tftypes.ValidateValue(objectType, vals); err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		return tftypes.NewValue(objectType, vals), nil
+	case attr.ValueStateNull:
+		return tftypes.NewValue(objectType, nil), nil
+	case attr.ValueStateUnknown:
+		return tftypes.NewValue(objectType, tftypes.UnknownValue), nil
+	default:
+		panic(fmt.Sprintf("unhandled Object state in ToTerraformValue: %s", v.state))
+	}
+}
+
+func (v RadiusAuthServersValue) IsNull() bool {
+	return v.state == attr.ValueStateNull
+}
+
+func (v RadiusAuthServersValue) IsUnknown() bool {
+	return v.state == attr.ValueStateUnknown
+}
+
+func (v RadiusAuthServersValue) String() string {
+	return "RadiusAuthServersValue"
+}
+
+func (v RadiusAuthServersValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	attributeTypes := map[string]attr.Type{
+		"host":            basetypes.StringType{},
+		"keywrap_enabled": basetypes.BoolType{},
+		"keywrap_format":  basetypes.StringType{},
+		"keywrap_kek":     basetypes.StringType{},
+		"keywrap_mack":    basetypes.StringType{},
+		"port":            basetypes.Int64Type{},
+		"secret":          basetypes.StringType{},
+	}
+
+	if v.IsNull() {
+		return types.ObjectNull(attributeTypes), diags
+	}
+
+	if v.IsUnknown() {
+		return types.ObjectUnknown(attributeTypes), diags
+	}
+
+	objVal, diags := types.ObjectValue(
+		attributeTypes,
+		map[string]attr.Value{
+			"host":            v.Host,
+			"keywrap_enabled": v.KeywrapEnabled,
+			"keywrap_format":  v.KeywrapFormat,
+			"keywrap_kek":     v.KeywrapKek,
+			"keywrap_mack":    v.KeywrapMack,
+			"port":            v.Port,
+			"secret":          v.Secret,
+		})
+
+	return objVal, diags
+}
+
+func (v RadiusAuthServersValue) Equal(o attr.Value) bool {
+	other, ok := o.(RadiusAuthServersValue)
+
+	if !ok {
+		return false
+	}
+
+	if v.state != other.state {
+		return false
+	}
+
+	if v.state != attr.ValueStateKnown {
+		return true
+	}
+
+	if !v.Host.Equal(other.Host) {
+		return false
+	}
+
+	if !v.KeywrapEnabled.Equal(other.KeywrapEnabled) {
+		return false
+	}
+
+	if !v.KeywrapFormat.Equal(other.KeywrapFormat) {
+		return false
+	}
+
+	if !v.KeywrapKek.Equal(other.KeywrapKek) {
+		return false
+	}
+
+	if !v.KeywrapMack.Equal(other.KeywrapMack) {
+		return false
+	}
+
+	if !v.Port.Equal(other.Port) {
+		return false
+	}
+
+	if !v.Secret.Equal(other.Secret) {
+		return false
+	}
+
+	return true
+}
+
+func (v RadiusAuthServersValue) Type(ctx context.Context) attr.Type {
+	return RadiusAuthServersType{
+		basetypes.ObjectType{
+			AttrTypes: v.AttributeTypes(ctx),
+		},
+	}
+}
+
+func (v RadiusAuthServersValue) AttributeTypes(ctx context.Context) map[string]attr.Type {
+	return map[string]attr.Type{
+		"host":            basetypes.StringType{},
+		"keywrap_enabled": basetypes.BoolType{},
+		"keywrap_format":  basetypes.StringType{},
+		"keywrap_kek":     basetypes.StringType{},
+		"keywrap_mack":    basetypes.StringType{},
+		"port":            basetypes.Int64Type{},
+		"secret":          basetypes.StringType{},
 	}
 }

@@ -7255,7 +7255,6 @@ components:
       type: object
     junos_radius_config:
       description: Junos Radius config
-      x-terraform-resource-name: radius_acct_servers
       properties:
         acct_interim_interval:
           default: 0
@@ -7268,7 +7267,6 @@ components:
           minimum: 0
           type: integer
         radius_acct_servers:
-          x-terraform-resource-name: radius_acct_servers
           items:
             $ref: "#/components/schemas/radius_acct_server"
           minItems: 1

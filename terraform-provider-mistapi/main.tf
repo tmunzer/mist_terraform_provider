@@ -55,6 +55,12 @@ resource "mistapi_networktemplate" "switch_template" {
     test2 = {
       subnet  = "1.2.3.4"
       vlan_id = 11
+
     }
+  }
+  radius_config = {
+    acct_interim_interval = 60
+    coa_enabled           = true
+    network               = "test"
   }
 }
