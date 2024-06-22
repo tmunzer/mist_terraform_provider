@@ -4,8 +4,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Archive** | Pointer to [**SyslogFileConfigArchive**](SyslogFileConfigArchive.md) |  | [optional] 
-**RemoteSyslogFileContents** | Pointer to [**[]RemoteSyslogContent**](RemoteSyslogContent.md) |  | [optional] 
+**Archive** | Pointer to [**RemoteSyslogArchive**](RemoteSyslogArchive.md) |  | [optional] 
+**Contents** | Pointer to [**[]RemoteSyslogContentItem**](RemoteSyslogContentItem.md) |  | [optional] 
 **ExplicitPriority** | Pointer to **bool** |  | [optional] 
 **File** | Pointer to **string** |  | [optional] 
 **Match** | Pointer to **string** |  | [optional] 
@@ -32,20 +32,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetArchive
 
-`func (o *SyslogFileConfig) GetArchive() SyslogFileConfigArchive`
+`func (o *SyslogFileConfig) GetArchive() RemoteSyslogArchive`
 
 GetArchive returns the Archive field if non-nil, zero value otherwise.
 
 ### GetArchiveOk
 
-`func (o *SyslogFileConfig) GetArchiveOk() (*SyslogFileConfigArchive, bool)`
+`func (o *SyslogFileConfig) GetArchiveOk() (*RemoteSyslogArchive, bool)`
 
 GetArchiveOk returns a tuple with the Archive field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetArchive
 
-`func (o *SyslogFileConfig) SetArchive(v SyslogFileConfigArchive)`
+`func (o *SyslogFileConfig) SetArchive(v RemoteSyslogArchive)`
 
 SetArchive sets Archive field to given value.
 
@@ -55,30 +55,30 @@ SetArchive sets Archive field to given value.
 
 HasArchive returns a boolean if a field has been set.
 
-### GetRemoteSyslogFileContents
+### GetContents
 
-`func (o *SyslogFileConfig) GetRemoteSyslogFileContents() []RemoteSyslogContent`
+`func (o *SyslogFileConfig) GetContents() []RemoteSyslogContentItem`
 
-GetRemoteSyslogFileContents returns the RemoteSyslogFileContents field if non-nil, zero value otherwise.
+GetContents returns the Contents field if non-nil, zero value otherwise.
 
-### GetRemoteSyslogFileContentsOk
+### GetContentsOk
 
-`func (o *SyslogFileConfig) GetRemoteSyslogFileContentsOk() (*[]RemoteSyslogContent, bool)`
+`func (o *SyslogFileConfig) GetContentsOk() (*[]RemoteSyslogContentItem, bool)`
 
-GetRemoteSyslogFileContentsOk returns a tuple with the RemoteSyslogFileContents field if it's non-nil, zero value otherwise
+GetContentsOk returns a tuple with the Contents field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetRemoteSyslogFileContents
+### SetContents
 
-`func (o *SyslogFileConfig) SetRemoteSyslogFileContents(v []RemoteSyslogContent)`
+`func (o *SyslogFileConfig) SetContents(v []RemoteSyslogContentItem)`
 
-SetRemoteSyslogFileContents sets RemoteSyslogFileContents field to given value.
+SetContents sets Contents field to given value.
 
-### HasRemoteSyslogFileContents
+### HasContents
 
-`func (o *SyslogFileConfig) HasRemoteSyslogFileContents() bool`
+`func (o *SyslogFileConfig) HasContents() bool`
 
-HasRemoteSyslogFileContents returns a boolean if a field has been set.
+HasContents returns a boolean if a field has been set.
 
 ### GetExplicitPriority
 

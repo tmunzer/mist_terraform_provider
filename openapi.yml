@@ -3825,9 +3825,9 @@ components:
         dns_suffix:
           $ref: "#/components/schemas/string_list"
         extra_routes:
-          $ref: '#/components/schemas/switch_extra_routes'
+          $ref: "#/components/schemas/switch_extra_routes"
         extra_routes6:
-          $ref: '#/components/schemas/switch_extra_routes6'
+          $ref: "#/components/schemas/switch_extra_routes6"
         id:
           format: uuid
           readOnly: true
@@ -3875,40 +3875,39 @@ components:
           $ref: "#/components/schemas/vrf_instances"
       type: object
     gateway_template_tunnel_dh_group:
-                default: "14"
-                description:
-                  "Only if:\n* `provider`== `custom-ipsec`\nValues:\n*\
-                  \ 1 \n* 2 (1024-bit) \n* 5\n* 14 (default, 2048-bit) \n* 15 (3072-bit)\
-                  \ \n* 16 (4096-bit)\n* 19 (256-bit ECP)\n* 20 (384-bit ECP)\n* 21\
-                  \ (521-bit ECP) \n* 24 (2048-bit ECP)"
-                enum:
-                  - "1"
-                  - "2"
-                  - "5"
-                  - "14"
-                  - "15"
-                  - "16"
-                  - "19"
-                  - "20"
-                  - "21"
-                  - "24"
-                type: string
+      default: "14"
+      description: "Only if:\n* `provider`== `custom-ipsec`\nValues:\n*\
+        \ 1 \n* 2 (1024-bit) \n* 5\n* 14 (default, 2048-bit) \n* 15 (3072-bit)\
+        \ \n* 16 (4096-bit)\n* 19 (256-bit ECP)\n* 20 (384-bit ECP)\n* 21\
+        \ (521-bit ECP) \n* 24 (2048-bit ECP)"
+      enum:
+        - "1"
+        - "2"
+        - "5"
+        - "14"
+        - "15"
+        - "16"
+        - "19"
+        - "20"
+        - "21"
+        - "24"
+      type: string
     gateway_template_tunnel_enc_algo:
-                default: aes256
-                enum:
-                  - aes256
-                  - 3des
-                  - aes128
-                  - aes_gcm256
-                  - aes_gcm128
-                nullable: true
-                type: string
+      default: aes256
+      enum:
+        - aes256
+        - 3des
+        - aes128
+        - aes_gcm256
+        - aes_gcm128
+      nullable: true
+      type: string
     gateway_template_tunnel_auth_algo:
-                enum:
-                  - sha1
-                  - sha2
-                  - md5
-                type: string
+      enum:
+        - sha1
+        - sha2
+        - md5
+      type: string
     network_template_list:
       items:
         $ref: "#/components/schemas/network_template"
@@ -9424,57 +9423,135 @@ components:
           example: http://proxy.corp.com:8080/
           type: string
       type: object
+    remote_syslog_archive:
+      properties:
+        files:
+          example: 20
+          type: integer
+        size:
+          example: 5m
+          type: string
+      type: object
+    remote_syslog_files:
+      items:
+        properties:
+          archive:
+            $ref: "#/components/schemas/remote_syslog_archive"
+          contents:
+            $ref: "#/components/schemas/remote_syslog_content"
+          explicit_priority:
+            type: boolean
+          file:
+            example: file-name
+            title: snmp_file
+            type: string
+          match:
+            example: "!alarm|ntp|errors.crc_error[chan]"
+            type: string
+          structured_data:
+            type: boolean
+        title: syslog_file_config
+        type: object
+      type: array
+    remote_syslog_protocol:
+      default: udp
+      enum:
+        - udp
+        - tcp
+      type: string
+    remote_syslog_severity:
+      enum:
+        - any
+        - alert
+        - emergency
+        - critical
+        - warning
+        - info
+        - notice
+        - error
+      type: string
+    remote_syslog_facility:
+      enum:
+        - any
+        - authorization
+        - conflict-log
+        - change-log
+        - config
+        - daemon
+        - dfc
+        - kernel
+        - interactive-commands
+        - ftp
+        - firewall
+        - external
+        - pfe
+        - ntp
+        - security
+        - user
+      example: config
+      type: string
+    remote_syslog_servers_item:
+      properties:
+        contents:
+          $ref: "#/components/schemas/remote_syslog_content"
+        explicit_priority:
+          type: boolean
+        facility:
+          $ref: "#/components/schemas/remote_syslog_facility"
+        host:
+          example: syslogd.internal
+          type: string
+        match:
+          example: "!alarm|ntp|errors.crc_error[chan]"
+          type: string
+        port:
+          default: 514
+          type: integer
+        protocol:
+          $ref: "#/components/schemas/remote_syslog_protocol"
+        routing_instance:
+          example: routing-instance-name
+          type: string
+        severity:
+          $ref: "#/components/schemas/remote_syslog_severity"
+        source_address:
+          description:
+            if source_address is configured, will use the vlan firstly
+            otherwise use source_ip
+          type: string
+        structured_data:
+          type: boolean
+        tag:
+          type: string
+      title: syslog_server
+      type: object
+    remote_syslog_servers:
+      example:
+        - facility: config
+          host: syslogd.internal
+          port: 514
+          protocol: udp
+          severity: info
+          tag: ""
+      items:
+        $ref: "#/components/schemas/remote_syslog_servers_item"
+      type: array
+    remote_syslog_console:
+      properties:
+        contents:
+          $ref: "#/components/schemas/remote_syslog_content"
+      type: object
     remote_syslog:
       properties:
-        remote_syslog_archive:
-          properties:
-            files:
-              example: 20
-              type: integer
-            size:
-              example: 5m
-              type: string
-          type: object
-        remote_syslog_console:
-          properties:
-            remote_syslog_console_contents:
-              items:
-                $ref: "#/components/schemas/remote_syslog_content"
-              type: array
-          type: object
+        archive:
+          $ref: "#/components/schemas/remote_syslog_archive"
+        console:
+          $ref: "#/components/schemas/remote_syslog_console"
         enabled:
           default: false
           type: boolean
-        remote_syslog_files:
-          items:
-            properties:
-              archive:
-                properties:
-                  files:
-                    example: 10
-                    type: integer
-                  size:
-                    example: 5m
-                    type: string
-                type: object
-              remote_syslog_file_contents:
-                items:
-                  $ref: "#/components/schemas/remote_syslog_content"
-                type: array
-              explicit_priority:
-                type: boolean
-              file:
-                example: file-name
-                title: snmp_file
-                type: string
-              match:
-                example: "!alarm|ntp|errors.crc_error[chan]"
-                type: string
-              structured_data:
-                type: boolean
-            title: syslog_file_config
-            type: object
-          type: array
+        files:
+          $ref: "#/components/schemas/remote_syslog_files"
         network:
           description:
             if source_address is configured, will use the vlan firstly
@@ -9484,143 +9561,45 @@ components:
         send_to_all_servers:
           default: false
           type: boolean
-        remote_syslog_servers:
-          example:
-            - facility: config
-              host: syslogd.internal
-              port: 514
-              protocol: udp
-              severity: info
-              tag: ""
-          items:
-            properties:
-              cremote_syslog_servers_ontents:
-                items:
-                  $ref: "#/components/schemas/remote_syslog_content"
-                type: array
-              explicit_priority:
-                type: boolean
-              facility:
-                enum:
-                  - any
-                  - authorization
-                  - conflict-log
-                  - change-log
-                  - config
-                  - daemon
-                  - dfc
-                  - kernel
-                  - interactive-commands
-                  - ftp
-                  - firewall
-                  - external
-                  - pfe
-                  - ntp
-                  - security
-                  - user
-                example: config
-                type: string
-              host:
-                example: syslogd.internal
-                type: string
-              match:
-                example: "!alarm|ntp|errors.crc_error[chan]"
-                type: string
-              port:
-                default: 514
-                type: integer
-              protocol:
-                default: udp
-                enum:
-                  - udp
-                  - tcp
-                type: string
-              routing_instance:
-                example: routing-instance-name
-                type: string
-              severity:
-                enum:
-                  - any
-                  - alert
-                  - emergency
-                  - critical
-                  - warning
-                  - info
-                  - notice
-                  - error
-                type: string
-              source_address:
-                description:
-                  if source_address is configured, will use the vlan firstly
-                  otherwise use source_ip
-                type: string
-              structured_data:
-                type: boolean
-              tag:
-                type: string
-            title: syslog_server
-            type: object
-          type: array
+        servers:
+          $ref: "#/components/schemas/remote_syslog_servers"
         time_format:
-          enum:
-            - millisecond
-            - year
-            - year millisecond
-          example: millisecond
-          type: string
-        remote_syslog_users:
-          items:
-            properties:
-              remote_syslog_users_contents:
-                items:
-                  $ref: "#/components/schemas/remote_syslog_content"
-                type: array
-              match:
-                example: '"!alarm|ntp|errors.crc_error[chan]"'
-                type: string
-              user:
-                example: "*"
-                type: string
-            title: remote_syslog_user
-            type: object
-          type: array
+          $ref: "#/components/schemas/time_format"
+        users:
+          $ref: "#/components/schemas/remote_syslog_users"
       type: object
+    remote_syslog_users_item:
+      properties:
+        contents:
+          $ref: "#/components/schemas/remote_syslog_content"
+        match:
+          example: '"!alarm|ntp|errors.crc_error[chan]"'
+          type: string
+        user:
+          example: "*"
+          type: string
+      type: object
+    remote_syslog_users:
+      items:
+        $ref: "#/components/schemas/remote_syslog_users_item"
+      type: array
+    time_format:
+      enum:
+        - millisecond
+        - year
+        - year millisecond
+      example: millisecond
+      type: string
     remote_syslog_content:
+      items:
+        $ref: "#/components/schemas/remote_syslog_content_item"
+      type: array
+    remote_syslog_content_item:
       properties:
         facility:
-          enum:
-            - any
-            - authorization
-            - conflict-log
-            - change-log
-            - config
-            - daemon
-            - dfc
-            - kernel
-            - interactive-commands
-            - ftp
-            - firewall
-            - external
-            - pfe
-            - ntp
-            - security
-            - user
-          example: config
-          type: string
+          $ref: "#/components/schemas/remote_syslog_facility"        
         severity:
-          enum:
-            - any
-            - alert
-            - emergency
-            - critical
-            - warning
-            - info
-            - notice
-            - error
-          example: warning
-          type: string
-      title: remote_syslog_content
-      type: object
+          $ref: "#/components/schemas/remote_syslog_severity"
     simple_alert:
       description:
         "Set of heuristic rules will be enabled when marvis subscription
@@ -9990,12 +9969,7 @@ components:
             false
           type: boolean
         keywrap_format:
-          description: if used for Mist APs
-          enum:
-            - hex
-            - ascii
-          title: mxcluster_rad_auth_server_keywrap_format
-          type: string
+          $ref: "#/components/schemas/radius_keywrap_format"
         keywrap_kek:
           description: if used for Mist APs, encryption key
           type: string
@@ -10232,18 +10206,18 @@ components:
           type: integer
       type: object
     vrf_instances_config:
-        example:
-          extra_routes:
-            0.0.0.0/0:
-              via: 192.168.31.1
-          networks:
-            - guest
-        properties:
-          extra_routes:
-            $ref: "#/components/schemas/vrf_extra_routes"
-          networks:
-            $ref: "#/components/schemas/string_list"
-        type: object
+      example:
+        extra_routes:
+          0.0.0.0/0:
+            via: 192.168.31.1
+        networks:
+          - guest
+      properties:
+        extra_routes:
+          $ref: "#/components/schemas/vrf_extra_routes"
+        networks:
+          $ref: "#/components/schemas/string_list"
+      type: object
     vrf_instances:
       additionalProperties:
         $ref: "#/components/schemas/vrf_instances_config"
@@ -10337,11 +10311,11 @@ components:
           type: string
       type: object
     radius_keywrap_format:
-          enum:
-            - hex
-            - ascii
-          example: hex
-          type: string
+      enum:
+        - hex
+        - ascii
+      example: hex
+      type: string
     radius_acct_server:
       properties:
         host:

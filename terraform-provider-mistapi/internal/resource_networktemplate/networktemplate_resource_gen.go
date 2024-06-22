@@ -597,12 +597,461 @@ func NetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 				Description:         "Junos Radius config",
 				MarkdownDescription: "Junos Radius config",
 			},
-			"vrf_config": schema.SingleNestedAttribute{
+			"remote_syslog": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
+					"archive": schema.SingleNestedAttribute{
+						Attributes: map[string]schema.Attribute{
+							"files": schema.Int64Attribute{
+								Optional: true,
+								Computed: true,
+							},
+							"size": schema.StringAttribute{
+								Optional: true,
+								Computed: true,
+							},
+						},
+						CustomType: ArchiveType{
+							ObjectType: types.ObjectType{
+								AttrTypes: ArchiveValue{}.AttributeTypes(ctx),
+							},
+						},
+						Optional: true,
+						Computed: true,
+					},
+					"console": schema.SingleNestedAttribute{
+						Attributes: map[string]schema.Attribute{
+							"contents": schema.ListNestedAttribute{
+								NestedObject: schema.NestedAttributeObject{
+									Attributes: map[string]schema.Attribute{
+										"facility": schema.StringAttribute{
+											Optional: true,
+											Computed: true,
+											Validators: []validator.String{
+												stringvalidator.OneOf(
+													"any",
+													"authorization",
+													"conflict-log",
+													"change-log",
+													"config",
+													"daemon",
+													"dfc",
+													"kernel",
+													"interactive-commands",
+													"ftp",
+													"firewall",
+													"external",
+													"pfe",
+													"ntp",
+													"security",
+													"user",
+												),
+											},
+										},
+										"severity": schema.StringAttribute{
+											Optional: true,
+											Computed: true,
+											Validators: []validator.String{
+												stringvalidator.OneOf(
+													"any",
+													"alert",
+													"emergency",
+													"critical",
+													"warning",
+													"info",
+													"notice",
+													"error",
+												),
+											},
+										},
+									},
+									CustomType: ContentsType{
+										ObjectType: types.ObjectType{
+											AttrTypes: ContentsValue{}.AttributeTypes(ctx),
+										},
+									},
+								},
+								Optional: true,
+								Computed: true,
+							},
+						},
+						CustomType: ConsoleType{
+							ObjectType: types.ObjectType{
+								AttrTypes: ConsoleValue{}.AttributeTypes(ctx),
+							},
+						},
+						Optional: true,
+						Computed: true,
+					},
 					"enabled": schema.BoolAttribute{
 						Optional: true,
 						Computed: true,
 						Default:  booldefault.StaticBool(false),
+					},
+					"files": schema.ListNestedAttribute{
+						NestedObject: schema.NestedAttributeObject{
+							Attributes: map[string]schema.Attribute{
+								"archive": schema.SingleNestedAttribute{
+									Attributes: map[string]schema.Attribute{
+										"files": schema.Int64Attribute{
+											Optional: true,
+											Computed: true,
+										},
+										"size": schema.StringAttribute{
+											Optional: true,
+											Computed: true,
+										},
+									},
+									CustomType: ArchiveType{
+										ObjectType: types.ObjectType{
+											AttrTypes: ArchiveValue{}.AttributeTypes(ctx),
+										},
+									},
+									Optional: true,
+									Computed: true,
+								},
+								"contents": schema.ListNestedAttribute{
+									NestedObject: schema.NestedAttributeObject{
+										Attributes: map[string]schema.Attribute{
+											"facility": schema.StringAttribute{
+												Optional: true,
+												Computed: true,
+												Validators: []validator.String{
+													stringvalidator.OneOf(
+														"any",
+														"authorization",
+														"conflict-log",
+														"change-log",
+														"config",
+														"daemon",
+														"dfc",
+														"kernel",
+														"interactive-commands",
+														"ftp",
+														"firewall",
+														"external",
+														"pfe",
+														"ntp",
+														"security",
+														"user",
+													),
+												},
+											},
+											"severity": schema.StringAttribute{
+												Optional: true,
+												Computed: true,
+												Validators: []validator.String{
+													stringvalidator.OneOf(
+														"any",
+														"alert",
+														"emergency",
+														"critical",
+														"warning",
+														"info",
+														"notice",
+														"error",
+													),
+												},
+											},
+										},
+										CustomType: ContentsType{
+											ObjectType: types.ObjectType{
+												AttrTypes: ContentsValue{}.AttributeTypes(ctx),
+											},
+										},
+									},
+									Optional: true,
+									Computed: true,
+								},
+								"explicit_priority": schema.BoolAttribute{
+									Optional: true,
+									Computed: true,
+								},
+								"file": schema.StringAttribute{
+									Optional: true,
+									Computed: true,
+								},
+								"match": schema.StringAttribute{
+									Optional: true,
+									Computed: true,
+								},
+								"structured_data": schema.BoolAttribute{
+									Optional: true,
+									Computed: true,
+								},
+							},
+							CustomType: FilesType{
+								ObjectType: types.ObjectType{
+									AttrTypes: FilesValue{}.AttributeTypes(ctx),
+								},
+							},
+						},
+						Optional: true,
+						Computed: true,
+					},
+					"network": schema.StringAttribute{
+						Optional:            true,
+						Computed:            true,
+						Description:         "if source_address is configured, will use the vlan firstly otherwise use source_ip",
+						MarkdownDescription: "if source_address is configured, will use the vlan firstly otherwise use source_ip",
+					},
+					"send_to_all_servers": schema.BoolAttribute{
+						Optional: true,
+						Computed: true,
+						Default:  booldefault.StaticBool(false),
+					},
+					"servers": schema.ListNestedAttribute{
+						NestedObject: schema.NestedAttributeObject{
+							Attributes: map[string]schema.Attribute{
+								"contents": schema.ListNestedAttribute{
+									NestedObject: schema.NestedAttributeObject{
+										Attributes: map[string]schema.Attribute{
+											"facility": schema.StringAttribute{
+												Optional: true,
+												Computed: true,
+												Validators: []validator.String{
+													stringvalidator.OneOf(
+														"any",
+														"authorization",
+														"conflict-log",
+														"change-log",
+														"config",
+														"daemon",
+														"dfc",
+														"kernel",
+														"interactive-commands",
+														"ftp",
+														"firewall",
+														"external",
+														"pfe",
+														"ntp",
+														"security",
+														"user",
+													),
+												},
+											},
+											"severity": schema.StringAttribute{
+												Optional: true,
+												Computed: true,
+												Validators: []validator.String{
+													stringvalidator.OneOf(
+														"any",
+														"alert",
+														"emergency",
+														"critical",
+														"warning",
+														"info",
+														"notice",
+														"error",
+													),
+												},
+											},
+										},
+										CustomType: ContentsType{
+											ObjectType: types.ObjectType{
+												AttrTypes: ContentsValue{}.AttributeTypes(ctx),
+											},
+										},
+									},
+									Optional: true,
+									Computed: true,
+								},
+								"explicit_priority": schema.BoolAttribute{
+									Optional: true,
+									Computed: true,
+								},
+								"facility": schema.StringAttribute{
+									Optional: true,
+									Computed: true,
+									Validators: []validator.String{
+										stringvalidator.OneOf(
+											"any",
+											"authorization",
+											"conflict-log",
+											"change-log",
+											"config",
+											"daemon",
+											"dfc",
+											"kernel",
+											"interactive-commands",
+											"ftp",
+											"firewall",
+											"external",
+											"pfe",
+											"ntp",
+											"security",
+											"user",
+										),
+									},
+								},
+								"host": schema.StringAttribute{
+									Optional: true,
+									Computed: true,
+								},
+								"match": schema.StringAttribute{
+									Optional: true,
+									Computed: true,
+								},
+								"port": schema.Int64Attribute{
+									Optional: true,
+									Computed: true,
+									Default:  int64default.StaticInt64(514),
+								},
+								"protocol": schema.StringAttribute{
+									Optional: true,
+									Computed: true,
+									Validators: []validator.String{
+										stringvalidator.OneOf(
+											"udp",
+											"tcp",
+										),
+									},
+									Default: stringdefault.StaticString("udp"),
+								},
+								"routing_instance": schema.StringAttribute{
+									Optional: true,
+									Computed: true,
+								},
+								"severity": schema.StringAttribute{
+									Optional: true,
+									Computed: true,
+									Validators: []validator.String{
+										stringvalidator.OneOf(
+											"any",
+											"alert",
+											"emergency",
+											"critical",
+											"warning",
+											"info",
+											"notice",
+											"error",
+										),
+									},
+								},
+								"source_address": schema.StringAttribute{
+									Optional:            true,
+									Computed:            true,
+									Description:         "if source_address is configured, will use the vlan firstly otherwise use source_ip",
+									MarkdownDescription: "if source_address is configured, will use the vlan firstly otherwise use source_ip",
+								},
+								"structured_data": schema.BoolAttribute{
+									Optional: true,
+									Computed: true,
+								},
+								"tag": schema.StringAttribute{
+									Optional: true,
+									Computed: true,
+								},
+							},
+							CustomType: ServersType{
+								ObjectType: types.ObjectType{
+									AttrTypes: ServersValue{}.AttributeTypes(ctx),
+								},
+							},
+						},
+						Optional: true,
+						Computed: true,
+					},
+					"time_format": schema.StringAttribute{
+						Optional: true,
+						Computed: true,
+						Validators: []validator.String{
+							stringvalidator.OneOf(
+								"millisecond",
+								"year",
+								"year millisecond",
+							),
+						},
+					},
+					"users": schema.ListNestedAttribute{
+						NestedObject: schema.NestedAttributeObject{
+							Attributes: map[string]schema.Attribute{
+								"contents": schema.ListNestedAttribute{
+									NestedObject: schema.NestedAttributeObject{
+										Attributes: map[string]schema.Attribute{
+											"facility": schema.StringAttribute{
+												Optional: true,
+												Computed: true,
+												Validators: []validator.String{
+													stringvalidator.OneOf(
+														"any",
+														"authorization",
+														"conflict-log",
+														"change-log",
+														"config",
+														"daemon",
+														"dfc",
+														"kernel",
+														"interactive-commands",
+														"ftp",
+														"firewall",
+														"external",
+														"pfe",
+														"ntp",
+														"security",
+														"user",
+													),
+												},
+											},
+											"severity": schema.StringAttribute{
+												Optional: true,
+												Computed: true,
+												Validators: []validator.String{
+													stringvalidator.OneOf(
+														"any",
+														"alert",
+														"emergency",
+														"critical",
+														"warning",
+														"info",
+														"notice",
+														"error",
+													),
+												},
+											},
+										},
+										CustomType: ContentsType{
+											ObjectType: types.ObjectType{
+												AttrTypes: ContentsValue{}.AttributeTypes(ctx),
+											},
+										},
+									},
+									Optional: true,
+									Computed: true,
+								},
+								"match": schema.StringAttribute{
+									Optional: true,
+									Computed: true,
+								},
+								"user": schema.StringAttribute{
+									Optional: true,
+									Computed: true,
+								},
+							},
+							CustomType: UsersType{
+								ObjectType: types.ObjectType{
+									AttrTypes: UsersValue{}.AttributeTypes(ctx),
+								},
+							},
+						},
+						Optional: true,
+						Computed: true,
+					},
+				},
+				CustomType: RemoteSyslogType{
+					ObjectType: types.ObjectType{
+						AttrTypes: RemoteSyslogValue{}.AttributeTypes(ctx),
+					},
+				},
+				Optional: true,
+				Computed: true,
+			},
+			"vrf_config": schema.SingleNestedAttribute{
+				Attributes: map[string]schema.Attribute{
+					"enabled": schema.BoolAttribute{
+						Optional:            true,
+						Computed:            true,
+						Description:         "whether to enable VRF (when supported on the device)",
+						MarkdownDescription: "whether to enable VRF (when supported on the device)",
 					},
 				},
 				CustomType: VrfConfigType{
@@ -674,6 +1123,7 @@ type NetworktemplateModel struct {
 	OrgId                types.String      `tfsdk:"org_id"`
 	PortUsages           types.Map         `tfsdk:"port_usages"`
 	RadiusConfig         RadiusConfigValue `tfsdk:"radius_config"`
+	RemoteSyslog         RemoteSyslogValue `tfsdk:"remote_syslog"`
 	VrfConfig            VrfConfigValue    `tfsdk:"vrf_config"`
 	VrfInstances         types.Map         `tfsdk:"vrf_instances"`
 }
@@ -6676,6 +7126,4146 @@ func (v AuthServersValue) AttributeTypes(ctx context.Context) map[string]attr.Ty
 		"keywrap_mack":    basetypes.StringType{},
 		"port":            basetypes.Int64Type{},
 		"secret":          basetypes.StringType{},
+	}
+}
+
+var _ basetypes.ObjectTypable = RemoteSyslogType{}
+
+type RemoteSyslogType struct {
+	basetypes.ObjectType
+}
+
+func (t RemoteSyslogType) Equal(o attr.Type) bool {
+	other, ok := o.(RemoteSyslogType)
+
+	if !ok {
+		return false
+	}
+
+	return t.ObjectType.Equal(other.ObjectType)
+}
+
+func (t RemoteSyslogType) String() string {
+	return "RemoteSyslogType"
+}
+
+func (t RemoteSyslogType) ValueFromObject(ctx context.Context, in basetypes.ObjectValue) (basetypes.ObjectValuable, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	attributes := in.Attributes()
+
+	archiveAttribute, ok := attributes["archive"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`archive is missing from object`)
+
+		return nil, diags
+	}
+
+	archiveVal, ok := archiveAttribute.(basetypes.ObjectValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`archive expected to be basetypes.ObjectValue, was: %T`, archiveAttribute))
+	}
+
+	consoleAttribute, ok := attributes["console"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`console is missing from object`)
+
+		return nil, diags
+	}
+
+	consoleVal, ok := consoleAttribute.(basetypes.ObjectValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`console expected to be basetypes.ObjectValue, was: %T`, consoleAttribute))
+	}
+
+	enabledAttribute, ok := attributes["enabled"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`enabled is missing from object`)
+
+		return nil, diags
+	}
+
+	enabledVal, ok := enabledAttribute.(basetypes.BoolValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`enabled expected to be basetypes.BoolValue, was: %T`, enabledAttribute))
+	}
+
+	filesAttribute, ok := attributes["files"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`files is missing from object`)
+
+		return nil, diags
+	}
+
+	filesVal, ok := filesAttribute.(basetypes.ListValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`files expected to be basetypes.ListValue, was: %T`, filesAttribute))
+	}
+
+	networkAttribute, ok := attributes["network"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`network is missing from object`)
+
+		return nil, diags
+	}
+
+	networkVal, ok := networkAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`network expected to be basetypes.StringValue, was: %T`, networkAttribute))
+	}
+
+	sendToAllServersAttribute, ok := attributes["send_to_all_servers"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`send_to_all_servers is missing from object`)
+
+		return nil, diags
+	}
+
+	sendToAllServersVal, ok := sendToAllServersAttribute.(basetypes.BoolValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`send_to_all_servers expected to be basetypes.BoolValue, was: %T`, sendToAllServersAttribute))
+	}
+
+	serversAttribute, ok := attributes["servers"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`servers is missing from object`)
+
+		return nil, diags
+	}
+
+	serversVal, ok := serversAttribute.(basetypes.ListValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`servers expected to be basetypes.ListValue, was: %T`, serversAttribute))
+	}
+
+	timeFormatAttribute, ok := attributes["time_format"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`time_format is missing from object`)
+
+		return nil, diags
+	}
+
+	timeFormatVal, ok := timeFormatAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`time_format expected to be basetypes.StringValue, was: %T`, timeFormatAttribute))
+	}
+
+	usersAttribute, ok := attributes["users"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`users is missing from object`)
+
+		return nil, diags
+	}
+
+	usersVal, ok := usersAttribute.(basetypes.ListValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`users expected to be basetypes.ListValue, was: %T`, usersAttribute))
+	}
+
+	if diags.HasError() {
+		return nil, diags
+	}
+
+	return RemoteSyslogValue{
+		Archive:          archiveVal,
+		Console:          consoleVal,
+		Enabled:          enabledVal,
+		Files:            filesVal,
+		Network:          networkVal,
+		SendToAllServers: sendToAllServersVal,
+		Servers:          serversVal,
+		TimeFormat:       timeFormatVal,
+		Users:            usersVal,
+		state:            attr.ValueStateKnown,
+	}, diags
+}
+
+func NewRemoteSyslogValueNull() RemoteSyslogValue {
+	return RemoteSyslogValue{
+		state: attr.ValueStateNull,
+	}
+}
+
+func NewRemoteSyslogValueUnknown() RemoteSyslogValue {
+	return RemoteSyslogValue{
+		state: attr.ValueStateUnknown,
+	}
+}
+
+func NewRemoteSyslogValue(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) (RemoteSyslogValue, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	// Reference: https://github.com/hashicorp/terraform-plugin-framework/issues/521
+	ctx := context.Background()
+
+	for name, attributeType := range attributeTypes {
+		attribute, ok := attributes[name]
+
+		if !ok {
+			diags.AddError(
+				"Missing RemoteSyslogValue Attribute Value",
+				"While creating a RemoteSyslogValue value, a missing attribute value was detected. "+
+					"A RemoteSyslogValue must contain values for all attributes, even if null or unknown. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("RemoteSyslogValue Attribute Name (%s) Expected Type: %s", name, attributeType.String()),
+			)
+
+			continue
+		}
+
+		if !attributeType.Equal(attribute.Type(ctx)) {
+			diags.AddError(
+				"Invalid RemoteSyslogValue Attribute Type",
+				"While creating a RemoteSyslogValue value, an invalid attribute value was detected. "+
+					"A RemoteSyslogValue must use a matching attribute type for the value. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("RemoteSyslogValue Attribute Name (%s) Expected Type: %s\n", name, attributeType.String())+
+					fmt.Sprintf("RemoteSyslogValue Attribute Name (%s) Given Type: %s", name, attribute.Type(ctx)),
+			)
+		}
+	}
+
+	for name := range attributes {
+		_, ok := attributeTypes[name]
+
+		if !ok {
+			diags.AddError(
+				"Extra RemoteSyslogValue Attribute Value",
+				"While creating a RemoteSyslogValue value, an extra attribute value was detected. "+
+					"A RemoteSyslogValue must not contain values beyond the expected attribute types. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("Extra RemoteSyslogValue Attribute Name: %s", name),
+			)
+		}
+	}
+
+	if diags.HasError() {
+		return NewRemoteSyslogValueUnknown(), diags
+	}
+
+	archiveAttribute, ok := attributes["archive"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`archive is missing from object`)
+
+		return NewRemoteSyslogValueUnknown(), diags
+	}
+
+	archiveVal, ok := archiveAttribute.(basetypes.ObjectValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`archive expected to be basetypes.ObjectValue, was: %T`, archiveAttribute))
+	}
+
+	consoleAttribute, ok := attributes["console"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`console is missing from object`)
+
+		return NewRemoteSyslogValueUnknown(), diags
+	}
+
+	consoleVal, ok := consoleAttribute.(basetypes.ObjectValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`console expected to be basetypes.ObjectValue, was: %T`, consoleAttribute))
+	}
+
+	enabledAttribute, ok := attributes["enabled"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`enabled is missing from object`)
+
+		return NewRemoteSyslogValueUnknown(), diags
+	}
+
+	enabledVal, ok := enabledAttribute.(basetypes.BoolValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`enabled expected to be basetypes.BoolValue, was: %T`, enabledAttribute))
+	}
+
+	filesAttribute, ok := attributes["files"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`files is missing from object`)
+
+		return NewRemoteSyslogValueUnknown(), diags
+	}
+
+	filesVal, ok := filesAttribute.(basetypes.ListValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`files expected to be basetypes.ListValue, was: %T`, filesAttribute))
+	}
+
+	networkAttribute, ok := attributes["network"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`network is missing from object`)
+
+		return NewRemoteSyslogValueUnknown(), diags
+	}
+
+	networkVal, ok := networkAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`network expected to be basetypes.StringValue, was: %T`, networkAttribute))
+	}
+
+	sendToAllServersAttribute, ok := attributes["send_to_all_servers"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`send_to_all_servers is missing from object`)
+
+		return NewRemoteSyslogValueUnknown(), diags
+	}
+
+	sendToAllServersVal, ok := sendToAllServersAttribute.(basetypes.BoolValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`send_to_all_servers expected to be basetypes.BoolValue, was: %T`, sendToAllServersAttribute))
+	}
+
+	serversAttribute, ok := attributes["servers"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`servers is missing from object`)
+
+		return NewRemoteSyslogValueUnknown(), diags
+	}
+
+	serversVal, ok := serversAttribute.(basetypes.ListValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`servers expected to be basetypes.ListValue, was: %T`, serversAttribute))
+	}
+
+	timeFormatAttribute, ok := attributes["time_format"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`time_format is missing from object`)
+
+		return NewRemoteSyslogValueUnknown(), diags
+	}
+
+	timeFormatVal, ok := timeFormatAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`time_format expected to be basetypes.StringValue, was: %T`, timeFormatAttribute))
+	}
+
+	usersAttribute, ok := attributes["users"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`users is missing from object`)
+
+		return NewRemoteSyslogValueUnknown(), diags
+	}
+
+	usersVal, ok := usersAttribute.(basetypes.ListValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`users expected to be basetypes.ListValue, was: %T`, usersAttribute))
+	}
+
+	if diags.HasError() {
+		return NewRemoteSyslogValueUnknown(), diags
+	}
+
+	return RemoteSyslogValue{
+		Archive:          archiveVal,
+		Console:          consoleVal,
+		Enabled:          enabledVal,
+		Files:            filesVal,
+		Network:          networkVal,
+		SendToAllServers: sendToAllServersVal,
+		Servers:          serversVal,
+		TimeFormat:       timeFormatVal,
+		Users:            usersVal,
+		state:            attr.ValueStateKnown,
+	}, diags
+}
+
+func NewRemoteSyslogValueMust(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) RemoteSyslogValue {
+	object, diags := NewRemoteSyslogValue(attributeTypes, attributes)
+
+	if diags.HasError() {
+		// This could potentially be added to the diag package.
+		diagsStrings := make([]string, 0, len(diags))
+
+		for _, diagnostic := range diags {
+			diagsStrings = append(diagsStrings, fmt.Sprintf(
+				"%s | %s | %s",
+				diagnostic.Severity(),
+				diagnostic.Summary(),
+				diagnostic.Detail()))
+		}
+
+		panic("NewRemoteSyslogValueMust received error(s): " + strings.Join(diagsStrings, "\n"))
+	}
+
+	return object
+}
+
+func (t RemoteSyslogType) ValueFromTerraform(ctx context.Context, in tftypes.Value) (attr.Value, error) {
+	if in.Type() == nil {
+		return NewRemoteSyslogValueNull(), nil
+	}
+
+	if !in.Type().Equal(t.TerraformType(ctx)) {
+		return nil, fmt.Errorf("expected %s, got %s", t.TerraformType(ctx), in.Type())
+	}
+
+	if !in.IsKnown() {
+		return NewRemoteSyslogValueUnknown(), nil
+	}
+
+	if in.IsNull() {
+		return NewRemoteSyslogValueNull(), nil
+	}
+
+	attributes := map[string]attr.Value{}
+
+	val := map[string]tftypes.Value{}
+
+	err := in.As(&val)
+
+	if err != nil {
+		return nil, err
+	}
+
+	for k, v := range val {
+		a, err := t.AttrTypes[k].ValueFromTerraform(ctx, v)
+
+		if err != nil {
+			return nil, err
+		}
+
+		attributes[k] = a
+	}
+
+	return NewRemoteSyslogValueMust(RemoteSyslogValue{}.AttributeTypes(ctx), attributes), nil
+}
+
+func (t RemoteSyslogType) ValueType(ctx context.Context) attr.Value {
+	return RemoteSyslogValue{}
+}
+
+var _ basetypes.ObjectValuable = RemoteSyslogValue{}
+
+type RemoteSyslogValue struct {
+	Archive          basetypes.ObjectValue `tfsdk:"archive"`
+	Console          basetypes.ObjectValue `tfsdk:"console"`
+	Enabled          basetypes.BoolValue   `tfsdk:"enabled"`
+	Files            basetypes.ListValue   `tfsdk:"files"`
+	Network          basetypes.StringValue `tfsdk:"network"`
+	SendToAllServers basetypes.BoolValue   `tfsdk:"send_to_all_servers"`
+	Servers          basetypes.ListValue   `tfsdk:"servers"`
+	TimeFormat       basetypes.StringValue `tfsdk:"time_format"`
+	Users            basetypes.ListValue   `tfsdk:"users"`
+	state            attr.ValueState
+}
+
+func (v RemoteSyslogValue) ToTerraformValue(ctx context.Context) (tftypes.Value, error) {
+	attrTypes := make(map[string]tftypes.Type, 9)
+
+	var val tftypes.Value
+	var err error
+
+	attrTypes["archive"] = basetypes.ObjectType{
+		AttrTypes: ArchiveValue{}.AttributeTypes(ctx),
+	}.TerraformType(ctx)
+	attrTypes["console"] = basetypes.ObjectType{
+		AttrTypes: ConsoleValue{}.AttributeTypes(ctx),
+	}.TerraformType(ctx)
+	attrTypes["enabled"] = basetypes.BoolType{}.TerraformType(ctx)
+	attrTypes["files"] = basetypes.ListType{
+		ElemType: FilesValue{}.Type(ctx),
+	}.TerraformType(ctx)
+	attrTypes["network"] = basetypes.StringType{}.TerraformType(ctx)
+	attrTypes["send_to_all_servers"] = basetypes.BoolType{}.TerraformType(ctx)
+	attrTypes["servers"] = basetypes.ListType{
+		ElemType: ServersValue{}.Type(ctx),
+	}.TerraformType(ctx)
+	attrTypes["time_format"] = basetypes.StringType{}.TerraformType(ctx)
+	attrTypes["users"] = basetypes.ListType{
+		ElemType: UsersValue{}.Type(ctx),
+	}.TerraformType(ctx)
+
+	objectType := tftypes.Object{AttributeTypes: attrTypes}
+
+	switch v.state {
+	case attr.ValueStateKnown:
+		vals := make(map[string]tftypes.Value, 9)
+
+		val, err = v.Archive.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["archive"] = val
+
+		val, err = v.Console.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["console"] = val
+
+		val, err = v.Enabled.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["enabled"] = val
+
+		val, err = v.Files.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["files"] = val
+
+		val, err = v.Network.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["network"] = val
+
+		val, err = v.SendToAllServers.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["send_to_all_servers"] = val
+
+		val, err = v.Servers.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["servers"] = val
+
+		val, err = v.TimeFormat.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["time_format"] = val
+
+		val, err = v.Users.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["users"] = val
+
+		if err := tftypes.ValidateValue(objectType, vals); err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		return tftypes.NewValue(objectType, vals), nil
+	case attr.ValueStateNull:
+		return tftypes.NewValue(objectType, nil), nil
+	case attr.ValueStateUnknown:
+		return tftypes.NewValue(objectType, tftypes.UnknownValue), nil
+	default:
+		panic(fmt.Sprintf("unhandled Object state in ToTerraformValue: %s", v.state))
+	}
+}
+
+func (v RemoteSyslogValue) IsNull() bool {
+	return v.state == attr.ValueStateNull
+}
+
+func (v RemoteSyslogValue) IsUnknown() bool {
+	return v.state == attr.ValueStateUnknown
+}
+
+func (v RemoteSyslogValue) String() string {
+	return "RemoteSyslogValue"
+}
+
+func (v RemoteSyslogValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	var archive basetypes.ObjectValue
+
+	if v.Archive.IsNull() {
+		archive = types.ObjectNull(
+			ArchiveValue{}.AttributeTypes(ctx),
+		)
+	}
+
+	if v.Archive.IsUnknown() {
+		archive = types.ObjectUnknown(
+			ArchiveValue{}.AttributeTypes(ctx),
+		)
+	}
+
+	if !v.Archive.IsNull() && !v.Archive.IsUnknown() {
+		archive = types.ObjectValueMust(
+			ArchiveValue{}.AttributeTypes(ctx),
+			v.Archive.Attributes(),
+		)
+	}
+
+	var console basetypes.ObjectValue
+
+	if v.Console.IsNull() {
+		console = types.ObjectNull(
+			ConsoleValue{}.AttributeTypes(ctx),
+		)
+	}
+
+	if v.Console.IsUnknown() {
+		console = types.ObjectUnknown(
+			ConsoleValue{}.AttributeTypes(ctx),
+		)
+	}
+
+	if !v.Console.IsNull() && !v.Console.IsUnknown() {
+		console = types.ObjectValueMust(
+			ConsoleValue{}.AttributeTypes(ctx),
+			v.Console.Attributes(),
+		)
+	}
+
+	files := types.ListValueMust(
+		FilesType{
+			basetypes.ObjectType{
+				AttrTypes: FilesValue{}.AttributeTypes(ctx),
+			},
+		},
+		v.Files.Elements(),
+	)
+
+	if v.Files.IsNull() {
+		files = types.ListNull(
+			FilesType{
+				basetypes.ObjectType{
+					AttrTypes: FilesValue{}.AttributeTypes(ctx),
+				},
+			},
+		)
+	}
+
+	if v.Files.IsUnknown() {
+		files = types.ListUnknown(
+			FilesType{
+				basetypes.ObjectType{
+					AttrTypes: FilesValue{}.AttributeTypes(ctx),
+				},
+			},
+		)
+	}
+
+	servers := types.ListValueMust(
+		ServersType{
+			basetypes.ObjectType{
+				AttrTypes: ServersValue{}.AttributeTypes(ctx),
+			},
+		},
+		v.Servers.Elements(),
+	)
+
+	if v.Servers.IsNull() {
+		servers = types.ListNull(
+			ServersType{
+				basetypes.ObjectType{
+					AttrTypes: ServersValue{}.AttributeTypes(ctx),
+				},
+			},
+		)
+	}
+
+	if v.Servers.IsUnknown() {
+		servers = types.ListUnknown(
+			ServersType{
+				basetypes.ObjectType{
+					AttrTypes: ServersValue{}.AttributeTypes(ctx),
+				},
+			},
+		)
+	}
+
+	users := types.ListValueMust(
+		UsersType{
+			basetypes.ObjectType{
+				AttrTypes: UsersValue{}.AttributeTypes(ctx),
+			},
+		},
+		v.Users.Elements(),
+	)
+
+	if v.Users.IsNull() {
+		users = types.ListNull(
+			UsersType{
+				basetypes.ObjectType{
+					AttrTypes: UsersValue{}.AttributeTypes(ctx),
+				},
+			},
+		)
+	}
+
+	if v.Users.IsUnknown() {
+		users = types.ListUnknown(
+			UsersType{
+				basetypes.ObjectType{
+					AttrTypes: UsersValue{}.AttributeTypes(ctx),
+				},
+			},
+		)
+	}
+
+	attributeTypes := map[string]attr.Type{
+		"archive": basetypes.ObjectType{
+			AttrTypes: ArchiveValue{}.AttributeTypes(ctx),
+		},
+		"console": basetypes.ObjectType{
+			AttrTypes: ConsoleValue{}.AttributeTypes(ctx),
+		},
+		"enabled": basetypes.BoolType{},
+		"files": basetypes.ListType{
+			ElemType: FilesValue{}.Type(ctx),
+		},
+		"network":             basetypes.StringType{},
+		"send_to_all_servers": basetypes.BoolType{},
+		"servers": basetypes.ListType{
+			ElemType: ServersValue{}.Type(ctx),
+		},
+		"time_format": basetypes.StringType{},
+		"users": basetypes.ListType{
+			ElemType: UsersValue{}.Type(ctx),
+		},
+	}
+
+	if v.IsNull() {
+		return types.ObjectNull(attributeTypes), diags
+	}
+
+	if v.IsUnknown() {
+		return types.ObjectUnknown(attributeTypes), diags
+	}
+
+	objVal, diags := types.ObjectValue(
+		attributeTypes,
+		map[string]attr.Value{
+			"archive":             archive,
+			"console":             console,
+			"enabled":             v.Enabled,
+			"files":               files,
+			"network":             v.Network,
+			"send_to_all_servers": v.SendToAllServers,
+			"servers":             servers,
+			"time_format":         v.TimeFormat,
+			"users":               users,
+		})
+
+	return objVal, diags
+}
+
+func (v RemoteSyslogValue) Equal(o attr.Value) bool {
+	other, ok := o.(RemoteSyslogValue)
+
+	if !ok {
+		return false
+	}
+
+	if v.state != other.state {
+		return false
+	}
+
+	if v.state != attr.ValueStateKnown {
+		return true
+	}
+
+	if !v.Archive.Equal(other.Archive) {
+		return false
+	}
+
+	if !v.Console.Equal(other.Console) {
+		return false
+	}
+
+	if !v.Enabled.Equal(other.Enabled) {
+		return false
+	}
+
+	if !v.Files.Equal(other.Files) {
+		return false
+	}
+
+	if !v.Network.Equal(other.Network) {
+		return false
+	}
+
+	if !v.SendToAllServers.Equal(other.SendToAllServers) {
+		return false
+	}
+
+	if !v.Servers.Equal(other.Servers) {
+		return false
+	}
+
+	if !v.TimeFormat.Equal(other.TimeFormat) {
+		return false
+	}
+
+	if !v.Users.Equal(other.Users) {
+		return false
+	}
+
+	return true
+}
+
+func (v RemoteSyslogValue) Type(ctx context.Context) attr.Type {
+	return RemoteSyslogType{
+		basetypes.ObjectType{
+			AttrTypes: v.AttributeTypes(ctx),
+		},
+	}
+}
+
+func (v RemoteSyslogValue) AttributeTypes(ctx context.Context) map[string]attr.Type {
+	return map[string]attr.Type{
+		"archive": basetypes.ObjectType{
+			AttrTypes: ArchiveValue{}.AttributeTypes(ctx),
+		},
+		"console": basetypes.ObjectType{
+			AttrTypes: ConsoleValue{}.AttributeTypes(ctx),
+		},
+		"enabled": basetypes.BoolType{},
+		"files": basetypes.ListType{
+			ElemType: FilesValue{}.Type(ctx),
+		},
+		"network":             basetypes.StringType{},
+		"send_to_all_servers": basetypes.BoolType{},
+		"servers": basetypes.ListType{
+			ElemType: ServersValue{}.Type(ctx),
+		},
+		"time_format": basetypes.StringType{},
+		"users": basetypes.ListType{
+			ElemType: UsersValue{}.Type(ctx),
+		},
+	}
+}
+
+var _ basetypes.ObjectTypable = ConsoleType{}
+
+type ConsoleType struct {
+	basetypes.ObjectType
+}
+
+func (t ConsoleType) Equal(o attr.Type) bool {
+	other, ok := o.(ConsoleType)
+
+	if !ok {
+		return false
+	}
+
+	return t.ObjectType.Equal(other.ObjectType)
+}
+
+func (t ConsoleType) String() string {
+	return "ConsoleType"
+}
+
+func (t ConsoleType) ValueFromObject(ctx context.Context, in basetypes.ObjectValue) (basetypes.ObjectValuable, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	attributes := in.Attributes()
+
+	contentsAttribute, ok := attributes["contents"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`contents is missing from object`)
+
+		return nil, diags
+	}
+
+	contentsVal, ok := contentsAttribute.(basetypes.ListValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`contents expected to be basetypes.ListValue, was: %T`, contentsAttribute))
+	}
+
+	if diags.HasError() {
+		return nil, diags
+	}
+
+	return ConsoleValue{
+		Contents: contentsVal,
+		state:    attr.ValueStateKnown,
+	}, diags
+}
+
+func NewConsoleValueNull() ConsoleValue {
+	return ConsoleValue{
+		state: attr.ValueStateNull,
+	}
+}
+
+func NewConsoleValueUnknown() ConsoleValue {
+	return ConsoleValue{
+		state: attr.ValueStateUnknown,
+	}
+}
+
+func NewConsoleValue(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) (ConsoleValue, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	// Reference: https://github.com/hashicorp/terraform-plugin-framework/issues/521
+	ctx := context.Background()
+
+	for name, attributeType := range attributeTypes {
+		attribute, ok := attributes[name]
+
+		if !ok {
+			diags.AddError(
+				"Missing ConsoleValue Attribute Value",
+				"While creating a ConsoleValue value, a missing attribute value was detected. "+
+					"A ConsoleValue must contain values for all attributes, even if null or unknown. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("ConsoleValue Attribute Name (%s) Expected Type: %s", name, attributeType.String()),
+			)
+
+			continue
+		}
+
+		if !attributeType.Equal(attribute.Type(ctx)) {
+			diags.AddError(
+				"Invalid ConsoleValue Attribute Type",
+				"While creating a ConsoleValue value, an invalid attribute value was detected. "+
+					"A ConsoleValue must use a matching attribute type for the value. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("ConsoleValue Attribute Name (%s) Expected Type: %s\n", name, attributeType.String())+
+					fmt.Sprintf("ConsoleValue Attribute Name (%s) Given Type: %s", name, attribute.Type(ctx)),
+			)
+		}
+	}
+
+	for name := range attributes {
+		_, ok := attributeTypes[name]
+
+		if !ok {
+			diags.AddError(
+				"Extra ConsoleValue Attribute Value",
+				"While creating a ConsoleValue value, an extra attribute value was detected. "+
+					"A ConsoleValue must not contain values beyond the expected attribute types. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("Extra ConsoleValue Attribute Name: %s", name),
+			)
+		}
+	}
+
+	if diags.HasError() {
+		return NewConsoleValueUnknown(), diags
+	}
+
+	contentsAttribute, ok := attributes["contents"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`contents is missing from object`)
+
+		return NewConsoleValueUnknown(), diags
+	}
+
+	contentsVal, ok := contentsAttribute.(basetypes.ListValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`contents expected to be basetypes.ListValue, was: %T`, contentsAttribute))
+	}
+
+	if diags.HasError() {
+		return NewConsoleValueUnknown(), diags
+	}
+
+	return ConsoleValue{
+		Contents: contentsVal,
+		state:    attr.ValueStateKnown,
+	}, diags
+}
+
+func NewConsoleValueMust(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) ConsoleValue {
+	object, diags := NewConsoleValue(attributeTypes, attributes)
+
+	if diags.HasError() {
+		// This could potentially be added to the diag package.
+		diagsStrings := make([]string, 0, len(diags))
+
+		for _, diagnostic := range diags {
+			diagsStrings = append(diagsStrings, fmt.Sprintf(
+				"%s | %s | %s",
+				diagnostic.Severity(),
+				diagnostic.Summary(),
+				diagnostic.Detail()))
+		}
+
+		panic("NewConsoleValueMust received error(s): " + strings.Join(diagsStrings, "\n"))
+	}
+
+	return object
+}
+
+func (t ConsoleType) ValueFromTerraform(ctx context.Context, in tftypes.Value) (attr.Value, error) {
+	if in.Type() == nil {
+		return NewConsoleValueNull(), nil
+	}
+
+	if !in.Type().Equal(t.TerraformType(ctx)) {
+		return nil, fmt.Errorf("expected %s, got %s", t.TerraformType(ctx), in.Type())
+	}
+
+	if !in.IsKnown() {
+		return NewConsoleValueUnknown(), nil
+	}
+
+	if in.IsNull() {
+		return NewConsoleValueNull(), nil
+	}
+
+	attributes := map[string]attr.Value{}
+
+	val := map[string]tftypes.Value{}
+
+	err := in.As(&val)
+
+	if err != nil {
+		return nil, err
+	}
+
+	for k, v := range val {
+		a, err := t.AttrTypes[k].ValueFromTerraform(ctx, v)
+
+		if err != nil {
+			return nil, err
+		}
+
+		attributes[k] = a
+	}
+
+	return NewConsoleValueMust(ConsoleValue{}.AttributeTypes(ctx), attributes), nil
+}
+
+func (t ConsoleType) ValueType(ctx context.Context) attr.Value {
+	return ConsoleValue{}
+}
+
+var _ basetypes.ObjectValuable = ConsoleValue{}
+
+type ConsoleValue struct {
+	Contents basetypes.ListValue `tfsdk:"contents"`
+	state    attr.ValueState
+}
+
+func (v ConsoleValue) ToTerraformValue(ctx context.Context) (tftypes.Value, error) {
+	attrTypes := make(map[string]tftypes.Type, 1)
+
+	var val tftypes.Value
+	var err error
+
+	attrTypes["contents"] = basetypes.ListType{
+		ElemType: ContentsValue{}.Type(ctx),
+	}.TerraformType(ctx)
+
+	objectType := tftypes.Object{AttributeTypes: attrTypes}
+
+	switch v.state {
+	case attr.ValueStateKnown:
+		vals := make(map[string]tftypes.Value, 1)
+
+		val, err = v.Contents.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["contents"] = val
+
+		if err := tftypes.ValidateValue(objectType, vals); err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		return tftypes.NewValue(objectType, vals), nil
+	case attr.ValueStateNull:
+		return tftypes.NewValue(objectType, nil), nil
+	case attr.ValueStateUnknown:
+		return tftypes.NewValue(objectType, tftypes.UnknownValue), nil
+	default:
+		panic(fmt.Sprintf("unhandled Object state in ToTerraformValue: %s", v.state))
+	}
+}
+
+func (v ConsoleValue) IsNull() bool {
+	return v.state == attr.ValueStateNull
+}
+
+func (v ConsoleValue) IsUnknown() bool {
+	return v.state == attr.ValueStateUnknown
+}
+
+func (v ConsoleValue) String() string {
+	return "ConsoleValue"
+}
+
+func (v ConsoleValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	contents := types.ListValueMust(
+		ContentsType{
+			basetypes.ObjectType{
+				AttrTypes: ContentsValue{}.AttributeTypes(ctx),
+			},
+		},
+		v.Contents.Elements(),
+	)
+
+	if v.Contents.IsNull() {
+		contents = types.ListNull(
+			ContentsType{
+				basetypes.ObjectType{
+					AttrTypes: ContentsValue{}.AttributeTypes(ctx),
+				},
+			},
+		)
+	}
+
+	if v.Contents.IsUnknown() {
+		contents = types.ListUnknown(
+			ContentsType{
+				basetypes.ObjectType{
+					AttrTypes: ContentsValue{}.AttributeTypes(ctx),
+				},
+			},
+		)
+	}
+
+	attributeTypes := map[string]attr.Type{
+		"contents": basetypes.ListType{
+			ElemType: ContentsValue{}.Type(ctx),
+		},
+	}
+
+	if v.IsNull() {
+		return types.ObjectNull(attributeTypes), diags
+	}
+
+	if v.IsUnknown() {
+		return types.ObjectUnknown(attributeTypes), diags
+	}
+
+	objVal, diags := types.ObjectValue(
+		attributeTypes,
+		map[string]attr.Value{
+			"contents": contents,
+		})
+
+	return objVal, diags
+}
+
+func (v ConsoleValue) Equal(o attr.Value) bool {
+	other, ok := o.(ConsoleValue)
+
+	if !ok {
+		return false
+	}
+
+	if v.state != other.state {
+		return false
+	}
+
+	if v.state != attr.ValueStateKnown {
+		return true
+	}
+
+	if !v.Contents.Equal(other.Contents) {
+		return false
+	}
+
+	return true
+}
+
+func (v ConsoleValue) Type(ctx context.Context) attr.Type {
+	return ConsoleType{
+		basetypes.ObjectType{
+			AttrTypes: v.AttributeTypes(ctx),
+		},
+	}
+}
+
+func (v ConsoleValue) AttributeTypes(ctx context.Context) map[string]attr.Type {
+	return map[string]attr.Type{
+		"contents": basetypes.ListType{
+			ElemType: ContentsValue{}.Type(ctx),
+		},
+	}
+}
+
+var _ basetypes.ObjectTypable = ContentsType{}
+
+var _ basetypes.ObjectTypable = FilesType{}
+
+type FilesType struct {
+	basetypes.ObjectType
+}
+
+func (t FilesType) Equal(o attr.Type) bool {
+	other, ok := o.(FilesType)
+
+	if !ok {
+		return false
+	}
+
+	return t.ObjectType.Equal(other.ObjectType)
+}
+
+func (t FilesType) String() string {
+	return "FilesType"
+}
+
+func (t FilesType) ValueFromObject(ctx context.Context, in basetypes.ObjectValue) (basetypes.ObjectValuable, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	attributes := in.Attributes()
+
+	archiveAttribute, ok := attributes["archive"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`archive is missing from object`)
+
+		return nil, diags
+	}
+
+	archiveVal, ok := archiveAttribute.(basetypes.ObjectValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`archive expected to be basetypes.ObjectValue, was: %T`, archiveAttribute))
+	}
+
+	contentsAttribute, ok := attributes["contents"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`contents is missing from object`)
+
+		return nil, diags
+	}
+
+	contentsVal, ok := contentsAttribute.(basetypes.ListValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`contents expected to be basetypes.ListValue, was: %T`, contentsAttribute))
+	}
+
+	explicitPriorityAttribute, ok := attributes["explicit_priority"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`explicit_priority is missing from object`)
+
+		return nil, diags
+	}
+
+	explicitPriorityVal, ok := explicitPriorityAttribute.(basetypes.BoolValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`explicit_priority expected to be basetypes.BoolValue, was: %T`, explicitPriorityAttribute))
+	}
+
+	fileAttribute, ok := attributes["file"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`file is missing from object`)
+
+		return nil, diags
+	}
+
+	fileVal, ok := fileAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`file expected to be basetypes.StringValue, was: %T`, fileAttribute))
+	}
+
+	matchAttribute, ok := attributes["match"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`match is missing from object`)
+
+		return nil, diags
+	}
+
+	matchVal, ok := matchAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`match expected to be basetypes.StringValue, was: %T`, matchAttribute))
+	}
+
+	structuredDataAttribute, ok := attributes["structured_data"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`structured_data is missing from object`)
+
+		return nil, diags
+	}
+
+	structuredDataVal, ok := structuredDataAttribute.(basetypes.BoolValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`structured_data expected to be basetypes.BoolValue, was: %T`, structuredDataAttribute))
+	}
+
+	if diags.HasError() {
+		return nil, diags
+	}
+
+	return FilesValue{
+		Archive:          archiveVal,
+		Contents:         contentsVal,
+		ExplicitPriority: explicitPriorityVal,
+		File:             fileVal,
+		Match:            matchVal,
+		StructuredData:   structuredDataVal,
+		state:            attr.ValueStateKnown,
+	}, diags
+}
+
+func NewFilesValueNull() FilesValue {
+	return FilesValue{
+		state: attr.ValueStateNull,
+	}
+}
+
+func NewFilesValueUnknown() FilesValue {
+	return FilesValue{
+		state: attr.ValueStateUnknown,
+	}
+}
+
+func NewFilesValue(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) (FilesValue, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	// Reference: https://github.com/hashicorp/terraform-plugin-framework/issues/521
+	ctx := context.Background()
+
+	for name, attributeType := range attributeTypes {
+		attribute, ok := attributes[name]
+
+		if !ok {
+			diags.AddError(
+				"Missing FilesValue Attribute Value",
+				"While creating a FilesValue value, a missing attribute value was detected. "+
+					"A FilesValue must contain values for all attributes, even if null or unknown. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("FilesValue Attribute Name (%s) Expected Type: %s", name, attributeType.String()),
+			)
+
+			continue
+		}
+
+		if !attributeType.Equal(attribute.Type(ctx)) {
+			diags.AddError(
+				"Invalid FilesValue Attribute Type",
+				"While creating a FilesValue value, an invalid attribute value was detected. "+
+					"A FilesValue must use a matching attribute type for the value. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("FilesValue Attribute Name (%s) Expected Type: %s\n", name, attributeType.String())+
+					fmt.Sprintf("FilesValue Attribute Name (%s) Given Type: %s", name, attribute.Type(ctx)),
+			)
+		}
+	}
+
+	for name := range attributes {
+		_, ok := attributeTypes[name]
+
+		if !ok {
+			diags.AddError(
+				"Extra FilesValue Attribute Value",
+				"While creating a FilesValue value, an extra attribute value was detected. "+
+					"A FilesValue must not contain values beyond the expected attribute types. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("Extra FilesValue Attribute Name: %s", name),
+			)
+		}
+	}
+
+	if diags.HasError() {
+		return NewFilesValueUnknown(), diags
+	}
+
+	archiveAttribute, ok := attributes["archive"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`archive is missing from object`)
+
+		return NewFilesValueUnknown(), diags
+	}
+
+	archiveVal, ok := archiveAttribute.(basetypes.ObjectValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`archive expected to be basetypes.ObjectValue, was: %T`, archiveAttribute))
+	}
+
+	contentsAttribute, ok := attributes["contents"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`contents is missing from object`)
+
+		return NewFilesValueUnknown(), diags
+	}
+
+	contentsVal, ok := contentsAttribute.(basetypes.ListValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`contents expected to be basetypes.ListValue, was: %T`, contentsAttribute))
+	}
+
+	explicitPriorityAttribute, ok := attributes["explicit_priority"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`explicit_priority is missing from object`)
+
+		return NewFilesValueUnknown(), diags
+	}
+
+	explicitPriorityVal, ok := explicitPriorityAttribute.(basetypes.BoolValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`explicit_priority expected to be basetypes.BoolValue, was: %T`, explicitPriorityAttribute))
+	}
+
+	fileAttribute, ok := attributes["file"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`file is missing from object`)
+
+		return NewFilesValueUnknown(), diags
+	}
+
+	fileVal, ok := fileAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`file expected to be basetypes.StringValue, was: %T`, fileAttribute))
+	}
+
+	matchAttribute, ok := attributes["match"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`match is missing from object`)
+
+		return NewFilesValueUnknown(), diags
+	}
+
+	matchVal, ok := matchAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`match expected to be basetypes.StringValue, was: %T`, matchAttribute))
+	}
+
+	structuredDataAttribute, ok := attributes["structured_data"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`structured_data is missing from object`)
+
+		return NewFilesValueUnknown(), diags
+	}
+
+	structuredDataVal, ok := structuredDataAttribute.(basetypes.BoolValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`structured_data expected to be basetypes.BoolValue, was: %T`, structuredDataAttribute))
+	}
+
+	if diags.HasError() {
+		return NewFilesValueUnknown(), diags
+	}
+
+	return FilesValue{
+		Archive:          archiveVal,
+		Contents:         contentsVal,
+		ExplicitPriority: explicitPriorityVal,
+		File:             fileVal,
+		Match:            matchVal,
+		StructuredData:   structuredDataVal,
+		state:            attr.ValueStateKnown,
+	}, diags
+}
+
+func NewFilesValueMust(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) FilesValue {
+	object, diags := NewFilesValue(attributeTypes, attributes)
+
+	if diags.HasError() {
+		// This could potentially be added to the diag package.
+		diagsStrings := make([]string, 0, len(diags))
+
+		for _, diagnostic := range diags {
+			diagsStrings = append(diagsStrings, fmt.Sprintf(
+				"%s | %s | %s",
+				diagnostic.Severity(),
+				diagnostic.Summary(),
+				diagnostic.Detail()))
+		}
+
+		panic("NewFilesValueMust received error(s): " + strings.Join(diagsStrings, "\n"))
+	}
+
+	return object
+}
+
+func (t FilesType) ValueFromTerraform(ctx context.Context, in tftypes.Value) (attr.Value, error) {
+	if in.Type() == nil {
+		return NewFilesValueNull(), nil
+	}
+
+	if !in.Type().Equal(t.TerraformType(ctx)) {
+		return nil, fmt.Errorf("expected %s, got %s", t.TerraformType(ctx), in.Type())
+	}
+
+	if !in.IsKnown() {
+		return NewFilesValueUnknown(), nil
+	}
+
+	if in.IsNull() {
+		return NewFilesValueNull(), nil
+	}
+
+	attributes := map[string]attr.Value{}
+
+	val := map[string]tftypes.Value{}
+
+	err := in.As(&val)
+
+	if err != nil {
+		return nil, err
+	}
+
+	for k, v := range val {
+		a, err := t.AttrTypes[k].ValueFromTerraform(ctx, v)
+
+		if err != nil {
+			return nil, err
+		}
+
+		attributes[k] = a
+	}
+
+	return NewFilesValueMust(FilesValue{}.AttributeTypes(ctx), attributes), nil
+}
+
+func (t FilesType) ValueType(ctx context.Context) attr.Value {
+	return FilesValue{}
+}
+
+var _ basetypes.ObjectValuable = FilesValue{}
+
+type FilesValue struct {
+	Archive          basetypes.ObjectValue `tfsdk:"archive"`
+	Contents         basetypes.ListValue   `tfsdk:"contents"`
+	ExplicitPriority basetypes.BoolValue   `tfsdk:"explicit_priority"`
+	File             basetypes.StringValue `tfsdk:"file"`
+	Match            basetypes.StringValue `tfsdk:"match"`
+	StructuredData   basetypes.BoolValue   `tfsdk:"structured_data"`
+	state            attr.ValueState
+}
+
+func (v FilesValue) ToTerraformValue(ctx context.Context) (tftypes.Value, error) {
+	attrTypes := make(map[string]tftypes.Type, 6)
+
+	var val tftypes.Value
+	var err error
+
+	attrTypes["archive"] = basetypes.ObjectType{
+		AttrTypes: ArchiveValue{}.AttributeTypes(ctx),
+	}.TerraformType(ctx)
+	attrTypes["contents"] = basetypes.ListType{
+		ElemType: ContentsValue{}.Type(ctx),
+	}.TerraformType(ctx)
+	attrTypes["explicit_priority"] = basetypes.BoolType{}.TerraformType(ctx)
+	attrTypes["file"] = basetypes.StringType{}.TerraformType(ctx)
+	attrTypes["match"] = basetypes.StringType{}.TerraformType(ctx)
+	attrTypes["structured_data"] = basetypes.BoolType{}.TerraformType(ctx)
+
+	objectType := tftypes.Object{AttributeTypes: attrTypes}
+
+	switch v.state {
+	case attr.ValueStateKnown:
+		vals := make(map[string]tftypes.Value, 6)
+
+		val, err = v.Archive.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["archive"] = val
+
+		val, err = v.Contents.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["contents"] = val
+
+		val, err = v.ExplicitPriority.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["explicit_priority"] = val
+
+		val, err = v.File.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["file"] = val
+
+		val, err = v.Match.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["match"] = val
+
+		val, err = v.StructuredData.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["structured_data"] = val
+
+		if err := tftypes.ValidateValue(objectType, vals); err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		return tftypes.NewValue(objectType, vals), nil
+	case attr.ValueStateNull:
+		return tftypes.NewValue(objectType, nil), nil
+	case attr.ValueStateUnknown:
+		return tftypes.NewValue(objectType, tftypes.UnknownValue), nil
+	default:
+		panic(fmt.Sprintf("unhandled Object state in ToTerraformValue: %s", v.state))
+	}
+}
+
+func (v FilesValue) IsNull() bool {
+	return v.state == attr.ValueStateNull
+}
+
+func (v FilesValue) IsUnknown() bool {
+	return v.state == attr.ValueStateUnknown
+}
+
+func (v FilesValue) String() string {
+	return "FilesValue"
+}
+
+func (v FilesValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	var archive basetypes.ObjectValue
+
+	if v.Archive.IsNull() {
+		archive = types.ObjectNull(
+			ArchiveValue{}.AttributeTypes(ctx),
+		)
+	}
+
+	if v.Archive.IsUnknown() {
+		archive = types.ObjectUnknown(
+			ArchiveValue{}.AttributeTypes(ctx),
+		)
+	}
+
+	if !v.Archive.IsNull() && !v.Archive.IsUnknown() {
+		archive = types.ObjectValueMust(
+			ArchiveValue{}.AttributeTypes(ctx),
+			v.Archive.Attributes(),
+		)
+	}
+
+	contents := types.ListValueMust(
+		ContentsType{
+			basetypes.ObjectType{
+				AttrTypes: ContentsValue{}.AttributeTypes(ctx),
+			},
+		},
+		v.Contents.Elements(),
+	)
+
+	if v.Contents.IsNull() {
+		contents = types.ListNull(
+			ContentsType{
+				basetypes.ObjectType{
+					AttrTypes: ContentsValue{}.AttributeTypes(ctx),
+				},
+			},
+		)
+	}
+
+	if v.Contents.IsUnknown() {
+		contents = types.ListUnknown(
+			ContentsType{
+				basetypes.ObjectType{
+					AttrTypes: ContentsValue{}.AttributeTypes(ctx),
+				},
+			},
+		)
+	}
+
+	attributeTypes := map[string]attr.Type{
+		"archive": basetypes.ObjectType{
+			AttrTypes: ArchiveValue{}.AttributeTypes(ctx),
+		},
+		"contents": basetypes.ListType{
+			ElemType: ContentsValue{}.Type(ctx),
+		},
+		"explicit_priority": basetypes.BoolType{},
+		"file":              basetypes.StringType{},
+		"match":             basetypes.StringType{},
+		"structured_data":   basetypes.BoolType{},
+	}
+
+	if v.IsNull() {
+		return types.ObjectNull(attributeTypes), diags
+	}
+
+	if v.IsUnknown() {
+		return types.ObjectUnknown(attributeTypes), diags
+	}
+
+	objVal, diags := types.ObjectValue(
+		attributeTypes,
+		map[string]attr.Value{
+			"archive":           archive,
+			"contents":          contents,
+			"explicit_priority": v.ExplicitPriority,
+			"file":              v.File,
+			"match":             v.Match,
+			"structured_data":   v.StructuredData,
+		})
+
+	return objVal, diags
+}
+
+func (v FilesValue) Equal(o attr.Value) bool {
+	other, ok := o.(FilesValue)
+
+	if !ok {
+		return false
+	}
+
+	if v.state != other.state {
+		return false
+	}
+
+	if v.state != attr.ValueStateKnown {
+		return true
+	}
+
+	if !v.Archive.Equal(other.Archive) {
+		return false
+	}
+
+	if !v.Contents.Equal(other.Contents) {
+		return false
+	}
+
+	if !v.ExplicitPriority.Equal(other.ExplicitPriority) {
+		return false
+	}
+
+	if !v.File.Equal(other.File) {
+		return false
+	}
+
+	if !v.Match.Equal(other.Match) {
+		return false
+	}
+
+	if !v.StructuredData.Equal(other.StructuredData) {
+		return false
+	}
+
+	return true
+}
+
+func (v FilesValue) Type(ctx context.Context) attr.Type {
+	return FilesType{
+		basetypes.ObjectType{
+			AttrTypes: v.AttributeTypes(ctx),
+		},
+	}
+}
+
+func (v FilesValue) AttributeTypes(ctx context.Context) map[string]attr.Type {
+	return map[string]attr.Type{
+		"archive": basetypes.ObjectType{
+			AttrTypes: ArchiveValue{}.AttributeTypes(ctx),
+		},
+		"contents": basetypes.ListType{
+			ElemType: ContentsValue{}.Type(ctx),
+		},
+		"explicit_priority": basetypes.BoolType{},
+		"file":              basetypes.StringType{},
+		"match":             basetypes.StringType{},
+		"structured_data":   basetypes.BoolType{},
+	}
+}
+
+var _ basetypes.ObjectTypable = ArchiveType{}
+
+type ArchiveType struct {
+	basetypes.ObjectType
+}
+
+func (t ArchiveType) Equal(o attr.Type) bool {
+	other, ok := o.(ArchiveType)
+
+	if !ok {
+		return false
+	}
+
+	return t.ObjectType.Equal(other.ObjectType)
+}
+
+func (t ArchiveType) String() string {
+	return "ArchiveType"
+}
+
+func (t ArchiveType) ValueFromObject(ctx context.Context, in basetypes.ObjectValue) (basetypes.ObjectValuable, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	attributes := in.Attributes()
+
+	filesAttribute, ok := attributes["files"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`files is missing from object`)
+
+		return nil, diags
+	}
+
+	filesVal, ok := filesAttribute.(basetypes.Int64Value)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`files expected to be basetypes.Int64Value, was: %T`, filesAttribute))
+	}
+
+	sizeAttribute, ok := attributes["size"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`size is missing from object`)
+
+		return nil, diags
+	}
+
+	sizeVal, ok := sizeAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`size expected to be basetypes.StringValue, was: %T`, sizeAttribute))
+	}
+
+	if diags.HasError() {
+		return nil, diags
+	}
+
+	return ArchiveValue{
+		Files: filesVal,
+		Size:  sizeVal,
+		state: attr.ValueStateKnown,
+	}, diags
+}
+
+func NewArchiveValueNull() ArchiveValue {
+	return ArchiveValue{
+		state: attr.ValueStateNull,
+	}
+}
+
+func NewArchiveValueUnknown() ArchiveValue {
+	return ArchiveValue{
+		state: attr.ValueStateUnknown,
+	}
+}
+
+func NewArchiveValue(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) (ArchiveValue, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	// Reference: https://github.com/hashicorp/terraform-plugin-framework/issues/521
+	ctx := context.Background()
+
+	for name, attributeType := range attributeTypes {
+		attribute, ok := attributes[name]
+
+		if !ok {
+			diags.AddError(
+				"Missing ArchiveValue Attribute Value",
+				"While creating a ArchiveValue value, a missing attribute value was detected. "+
+					"A ArchiveValue must contain values for all attributes, even if null or unknown. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("ArchiveValue Attribute Name (%s) Expected Type: %s", name, attributeType.String()),
+			)
+
+			continue
+		}
+
+		if !attributeType.Equal(attribute.Type(ctx)) {
+			diags.AddError(
+				"Invalid ArchiveValue Attribute Type",
+				"While creating a ArchiveValue value, an invalid attribute value was detected. "+
+					"A ArchiveValue must use a matching attribute type for the value. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("ArchiveValue Attribute Name (%s) Expected Type: %s\n", name, attributeType.String())+
+					fmt.Sprintf("ArchiveValue Attribute Name (%s) Given Type: %s", name, attribute.Type(ctx)),
+			)
+		}
+	}
+
+	for name := range attributes {
+		_, ok := attributeTypes[name]
+
+		if !ok {
+			diags.AddError(
+				"Extra ArchiveValue Attribute Value",
+				"While creating a ArchiveValue value, an extra attribute value was detected. "+
+					"A ArchiveValue must not contain values beyond the expected attribute types. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("Extra ArchiveValue Attribute Name: %s", name),
+			)
+		}
+	}
+
+	if diags.HasError() {
+		return NewArchiveValueUnknown(), diags
+	}
+
+	filesAttribute, ok := attributes["files"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`files is missing from object`)
+
+		return NewArchiveValueUnknown(), diags
+	}
+
+	filesVal, ok := filesAttribute.(basetypes.Int64Value)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`files expected to be basetypes.Int64Value, was: %T`, filesAttribute))
+	}
+
+	sizeAttribute, ok := attributes["size"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`size is missing from object`)
+
+		return NewArchiveValueUnknown(), diags
+	}
+
+	sizeVal, ok := sizeAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`size expected to be basetypes.StringValue, was: %T`, sizeAttribute))
+	}
+
+	if diags.HasError() {
+		return NewArchiveValueUnknown(), diags
+	}
+
+	return ArchiveValue{
+		Files: filesVal,
+		Size:  sizeVal,
+		state: attr.ValueStateKnown,
+	}, diags
+}
+
+func NewArchiveValueMust(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) ArchiveValue {
+	object, diags := NewArchiveValue(attributeTypes, attributes)
+
+	if diags.HasError() {
+		// This could potentially be added to the diag package.
+		diagsStrings := make([]string, 0, len(diags))
+
+		for _, diagnostic := range diags {
+			diagsStrings = append(diagsStrings, fmt.Sprintf(
+				"%s | %s | %s",
+				diagnostic.Severity(),
+				diagnostic.Summary(),
+				diagnostic.Detail()))
+		}
+
+		panic("NewArchiveValueMust received error(s): " + strings.Join(diagsStrings, "\n"))
+	}
+
+	return object
+}
+
+func (t ArchiveType) ValueFromTerraform(ctx context.Context, in tftypes.Value) (attr.Value, error) {
+	if in.Type() == nil {
+		return NewArchiveValueNull(), nil
+	}
+
+	if !in.Type().Equal(t.TerraformType(ctx)) {
+		return nil, fmt.Errorf("expected %s, got %s", t.TerraformType(ctx), in.Type())
+	}
+
+	if !in.IsKnown() {
+		return NewArchiveValueUnknown(), nil
+	}
+
+	if in.IsNull() {
+		return NewArchiveValueNull(), nil
+	}
+
+	attributes := map[string]attr.Value{}
+
+	val := map[string]tftypes.Value{}
+
+	err := in.As(&val)
+
+	if err != nil {
+		return nil, err
+	}
+
+	for k, v := range val {
+		a, err := t.AttrTypes[k].ValueFromTerraform(ctx, v)
+
+		if err != nil {
+			return nil, err
+		}
+
+		attributes[k] = a
+	}
+
+	return NewArchiveValueMust(ArchiveValue{}.AttributeTypes(ctx), attributes), nil
+}
+
+func (t ArchiveType) ValueType(ctx context.Context) attr.Value {
+	return ArchiveValue{}
+}
+
+var _ basetypes.ObjectValuable = ArchiveValue{}
+
+type ArchiveValue struct {
+	Files basetypes.Int64Value  `tfsdk:"files"`
+	Size  basetypes.StringValue `tfsdk:"size"`
+	state attr.ValueState
+}
+
+func (v ArchiveValue) ToTerraformValue(ctx context.Context) (tftypes.Value, error) {
+	attrTypes := make(map[string]tftypes.Type, 2)
+
+	var val tftypes.Value
+	var err error
+
+	attrTypes["files"] = basetypes.Int64Type{}.TerraformType(ctx)
+	attrTypes["size"] = basetypes.StringType{}.TerraformType(ctx)
+
+	objectType := tftypes.Object{AttributeTypes: attrTypes}
+
+	switch v.state {
+	case attr.ValueStateKnown:
+		vals := make(map[string]tftypes.Value, 2)
+
+		val, err = v.Files.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["files"] = val
+
+		val, err = v.Size.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["size"] = val
+
+		if err := tftypes.ValidateValue(objectType, vals); err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		return tftypes.NewValue(objectType, vals), nil
+	case attr.ValueStateNull:
+		return tftypes.NewValue(objectType, nil), nil
+	case attr.ValueStateUnknown:
+		return tftypes.NewValue(objectType, tftypes.UnknownValue), nil
+	default:
+		panic(fmt.Sprintf("unhandled Object state in ToTerraformValue: %s", v.state))
+	}
+}
+
+func (v ArchiveValue) IsNull() bool {
+	return v.state == attr.ValueStateNull
+}
+
+func (v ArchiveValue) IsUnknown() bool {
+	return v.state == attr.ValueStateUnknown
+}
+
+func (v ArchiveValue) String() string {
+	return "ArchiveValue"
+}
+
+func (v ArchiveValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	attributeTypes := map[string]attr.Type{
+		"files": basetypes.Int64Type{},
+		"size":  basetypes.StringType{},
+	}
+
+	if v.IsNull() {
+		return types.ObjectNull(attributeTypes), diags
+	}
+
+	if v.IsUnknown() {
+		return types.ObjectUnknown(attributeTypes), diags
+	}
+
+	objVal, diags := types.ObjectValue(
+		attributeTypes,
+		map[string]attr.Value{
+			"files": v.Files,
+			"size":  v.Size,
+		})
+
+	return objVal, diags
+}
+
+func (v ArchiveValue) Equal(o attr.Value) bool {
+	other, ok := o.(ArchiveValue)
+
+	if !ok {
+		return false
+	}
+
+	if v.state != other.state {
+		return false
+	}
+
+	if v.state != attr.ValueStateKnown {
+		return true
+	}
+
+	if !v.Files.Equal(other.Files) {
+		return false
+	}
+
+	if !v.Size.Equal(other.Size) {
+		return false
+	}
+
+	return true
+}
+
+func (v ArchiveValue) Type(ctx context.Context) attr.Type {
+	return ArchiveType{
+		basetypes.ObjectType{
+			AttrTypes: v.AttributeTypes(ctx),
+		},
+	}
+}
+
+func (v ArchiveValue) AttributeTypes(ctx context.Context) map[string]attr.Type {
+	return map[string]attr.Type{
+		"files": basetypes.Int64Type{},
+		"size":  basetypes.StringType{},
+	}
+}
+
+var _ basetypes.ObjectTypable = ContentsType{}
+
+var _ basetypes.ObjectTypable = ServersType{}
+
+type ServersType struct {
+	basetypes.ObjectType
+}
+
+func (t ServersType) Equal(o attr.Type) bool {
+	other, ok := o.(ServersType)
+
+	if !ok {
+		return false
+	}
+
+	return t.ObjectType.Equal(other.ObjectType)
+}
+
+func (t ServersType) String() string {
+	return "ServersType"
+}
+
+func (t ServersType) ValueFromObject(ctx context.Context, in basetypes.ObjectValue) (basetypes.ObjectValuable, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	attributes := in.Attributes()
+
+	contentsAttribute, ok := attributes["contents"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`contents is missing from object`)
+
+		return nil, diags
+	}
+
+	contentsVal, ok := contentsAttribute.(basetypes.ListValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`contents expected to be basetypes.ListValue, was: %T`, contentsAttribute))
+	}
+
+	explicitPriorityAttribute, ok := attributes["explicit_priority"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`explicit_priority is missing from object`)
+
+		return nil, diags
+	}
+
+	explicitPriorityVal, ok := explicitPriorityAttribute.(basetypes.BoolValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`explicit_priority expected to be basetypes.BoolValue, was: %T`, explicitPriorityAttribute))
+	}
+
+	facilityAttribute, ok := attributes["facility"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`facility is missing from object`)
+
+		return nil, diags
+	}
+
+	facilityVal, ok := facilityAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`facility expected to be basetypes.StringValue, was: %T`, facilityAttribute))
+	}
+
+	hostAttribute, ok := attributes["host"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`host is missing from object`)
+
+		return nil, diags
+	}
+
+	hostVal, ok := hostAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`host expected to be basetypes.StringValue, was: %T`, hostAttribute))
+	}
+
+	matchAttribute, ok := attributes["match"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`match is missing from object`)
+
+		return nil, diags
+	}
+
+	matchVal, ok := matchAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`match expected to be basetypes.StringValue, was: %T`, matchAttribute))
+	}
+
+	portAttribute, ok := attributes["port"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`port is missing from object`)
+
+		return nil, diags
+	}
+
+	portVal, ok := portAttribute.(basetypes.Int64Value)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`port expected to be basetypes.Int64Value, was: %T`, portAttribute))
+	}
+
+	protocolAttribute, ok := attributes["protocol"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`protocol is missing from object`)
+
+		return nil, diags
+	}
+
+	protocolVal, ok := protocolAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`protocol expected to be basetypes.StringValue, was: %T`, protocolAttribute))
+	}
+
+	routingInstanceAttribute, ok := attributes["routing_instance"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`routing_instance is missing from object`)
+
+		return nil, diags
+	}
+
+	routingInstanceVal, ok := routingInstanceAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`routing_instance expected to be basetypes.StringValue, was: %T`, routingInstanceAttribute))
+	}
+
+	severityAttribute, ok := attributes["severity"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`severity is missing from object`)
+
+		return nil, diags
+	}
+
+	severityVal, ok := severityAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`severity expected to be basetypes.StringValue, was: %T`, severityAttribute))
+	}
+
+	sourceAddressAttribute, ok := attributes["source_address"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`source_address is missing from object`)
+
+		return nil, diags
+	}
+
+	sourceAddressVal, ok := sourceAddressAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`source_address expected to be basetypes.StringValue, was: %T`, sourceAddressAttribute))
+	}
+
+	structuredDataAttribute, ok := attributes["structured_data"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`structured_data is missing from object`)
+
+		return nil, diags
+	}
+
+	structuredDataVal, ok := structuredDataAttribute.(basetypes.BoolValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`structured_data expected to be basetypes.BoolValue, was: %T`, structuredDataAttribute))
+	}
+
+	tagAttribute, ok := attributes["tag"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`tag is missing from object`)
+
+		return nil, diags
+	}
+
+	tagVal, ok := tagAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`tag expected to be basetypes.StringValue, was: %T`, tagAttribute))
+	}
+
+	if diags.HasError() {
+		return nil, diags
+	}
+
+	return ServersValue{
+		Contents:         contentsVal,
+		ExplicitPriority: explicitPriorityVal,
+		Facility:         facilityVal,
+		Host:             hostVal,
+		Match:            matchVal,
+		Port:             portVal,
+		Protocol:         protocolVal,
+		RoutingInstance:  routingInstanceVal,
+		Severity:         severityVal,
+		SourceAddress:    sourceAddressVal,
+		StructuredData:   structuredDataVal,
+		Tag:              tagVal,
+		state:            attr.ValueStateKnown,
+	}, diags
+}
+
+func NewServersValueNull() ServersValue {
+	return ServersValue{
+		state: attr.ValueStateNull,
+	}
+}
+
+func NewServersValueUnknown() ServersValue {
+	return ServersValue{
+		state: attr.ValueStateUnknown,
+	}
+}
+
+func NewServersValue(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) (ServersValue, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	// Reference: https://github.com/hashicorp/terraform-plugin-framework/issues/521
+	ctx := context.Background()
+
+	for name, attributeType := range attributeTypes {
+		attribute, ok := attributes[name]
+
+		if !ok {
+			diags.AddError(
+				"Missing ServersValue Attribute Value",
+				"While creating a ServersValue value, a missing attribute value was detected. "+
+					"A ServersValue must contain values for all attributes, even if null or unknown. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("ServersValue Attribute Name (%s) Expected Type: %s", name, attributeType.String()),
+			)
+
+			continue
+		}
+
+		if !attributeType.Equal(attribute.Type(ctx)) {
+			diags.AddError(
+				"Invalid ServersValue Attribute Type",
+				"While creating a ServersValue value, an invalid attribute value was detected. "+
+					"A ServersValue must use a matching attribute type for the value. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("ServersValue Attribute Name (%s) Expected Type: %s\n", name, attributeType.String())+
+					fmt.Sprintf("ServersValue Attribute Name (%s) Given Type: %s", name, attribute.Type(ctx)),
+			)
+		}
+	}
+
+	for name := range attributes {
+		_, ok := attributeTypes[name]
+
+		if !ok {
+			diags.AddError(
+				"Extra ServersValue Attribute Value",
+				"While creating a ServersValue value, an extra attribute value was detected. "+
+					"A ServersValue must not contain values beyond the expected attribute types. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("Extra ServersValue Attribute Name: %s", name),
+			)
+		}
+	}
+
+	if diags.HasError() {
+		return NewServersValueUnknown(), diags
+	}
+
+	contentsAttribute, ok := attributes["contents"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`contents is missing from object`)
+
+		return NewServersValueUnknown(), diags
+	}
+
+	contentsVal, ok := contentsAttribute.(basetypes.ListValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`contents expected to be basetypes.ListValue, was: %T`, contentsAttribute))
+	}
+
+	explicitPriorityAttribute, ok := attributes["explicit_priority"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`explicit_priority is missing from object`)
+
+		return NewServersValueUnknown(), diags
+	}
+
+	explicitPriorityVal, ok := explicitPriorityAttribute.(basetypes.BoolValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`explicit_priority expected to be basetypes.BoolValue, was: %T`, explicitPriorityAttribute))
+	}
+
+	facilityAttribute, ok := attributes["facility"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`facility is missing from object`)
+
+		return NewServersValueUnknown(), diags
+	}
+
+	facilityVal, ok := facilityAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`facility expected to be basetypes.StringValue, was: %T`, facilityAttribute))
+	}
+
+	hostAttribute, ok := attributes["host"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`host is missing from object`)
+
+		return NewServersValueUnknown(), diags
+	}
+
+	hostVal, ok := hostAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`host expected to be basetypes.StringValue, was: %T`, hostAttribute))
+	}
+
+	matchAttribute, ok := attributes["match"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`match is missing from object`)
+
+		return NewServersValueUnknown(), diags
+	}
+
+	matchVal, ok := matchAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`match expected to be basetypes.StringValue, was: %T`, matchAttribute))
+	}
+
+	portAttribute, ok := attributes["port"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`port is missing from object`)
+
+		return NewServersValueUnknown(), diags
+	}
+
+	portVal, ok := portAttribute.(basetypes.Int64Value)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`port expected to be basetypes.Int64Value, was: %T`, portAttribute))
+	}
+
+	protocolAttribute, ok := attributes["protocol"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`protocol is missing from object`)
+
+		return NewServersValueUnknown(), diags
+	}
+
+	protocolVal, ok := protocolAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`protocol expected to be basetypes.StringValue, was: %T`, protocolAttribute))
+	}
+
+	routingInstanceAttribute, ok := attributes["routing_instance"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`routing_instance is missing from object`)
+
+		return NewServersValueUnknown(), diags
+	}
+
+	routingInstanceVal, ok := routingInstanceAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`routing_instance expected to be basetypes.StringValue, was: %T`, routingInstanceAttribute))
+	}
+
+	severityAttribute, ok := attributes["severity"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`severity is missing from object`)
+
+		return NewServersValueUnknown(), diags
+	}
+
+	severityVal, ok := severityAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`severity expected to be basetypes.StringValue, was: %T`, severityAttribute))
+	}
+
+	sourceAddressAttribute, ok := attributes["source_address"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`source_address is missing from object`)
+
+		return NewServersValueUnknown(), diags
+	}
+
+	sourceAddressVal, ok := sourceAddressAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`source_address expected to be basetypes.StringValue, was: %T`, sourceAddressAttribute))
+	}
+
+	structuredDataAttribute, ok := attributes["structured_data"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`structured_data is missing from object`)
+
+		return NewServersValueUnknown(), diags
+	}
+
+	structuredDataVal, ok := structuredDataAttribute.(basetypes.BoolValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`structured_data expected to be basetypes.BoolValue, was: %T`, structuredDataAttribute))
+	}
+
+	tagAttribute, ok := attributes["tag"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`tag is missing from object`)
+
+		return NewServersValueUnknown(), diags
+	}
+
+	tagVal, ok := tagAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`tag expected to be basetypes.StringValue, was: %T`, tagAttribute))
+	}
+
+	if diags.HasError() {
+		return NewServersValueUnknown(), diags
+	}
+
+	return ServersValue{
+		Contents:         contentsVal,
+		ExplicitPriority: explicitPriorityVal,
+		Facility:         facilityVal,
+		Host:             hostVal,
+		Match:            matchVal,
+		Port:             portVal,
+		Protocol:         protocolVal,
+		RoutingInstance:  routingInstanceVal,
+		Severity:         severityVal,
+		SourceAddress:    sourceAddressVal,
+		StructuredData:   structuredDataVal,
+		Tag:              tagVal,
+		state:            attr.ValueStateKnown,
+	}, diags
+}
+
+func NewServersValueMust(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) ServersValue {
+	object, diags := NewServersValue(attributeTypes, attributes)
+
+	if diags.HasError() {
+		// This could potentially be added to the diag package.
+		diagsStrings := make([]string, 0, len(diags))
+
+		for _, diagnostic := range diags {
+			diagsStrings = append(diagsStrings, fmt.Sprintf(
+				"%s | %s | %s",
+				diagnostic.Severity(),
+				diagnostic.Summary(),
+				diagnostic.Detail()))
+		}
+
+		panic("NewServersValueMust received error(s): " + strings.Join(diagsStrings, "\n"))
+	}
+
+	return object
+}
+
+func (t ServersType) ValueFromTerraform(ctx context.Context, in tftypes.Value) (attr.Value, error) {
+	if in.Type() == nil {
+		return NewServersValueNull(), nil
+	}
+
+	if !in.Type().Equal(t.TerraformType(ctx)) {
+		return nil, fmt.Errorf("expected %s, got %s", t.TerraformType(ctx), in.Type())
+	}
+
+	if !in.IsKnown() {
+		return NewServersValueUnknown(), nil
+	}
+
+	if in.IsNull() {
+		return NewServersValueNull(), nil
+	}
+
+	attributes := map[string]attr.Value{}
+
+	val := map[string]tftypes.Value{}
+
+	err := in.As(&val)
+
+	if err != nil {
+		return nil, err
+	}
+
+	for k, v := range val {
+		a, err := t.AttrTypes[k].ValueFromTerraform(ctx, v)
+
+		if err != nil {
+			return nil, err
+		}
+
+		attributes[k] = a
+	}
+
+	return NewServersValueMust(ServersValue{}.AttributeTypes(ctx), attributes), nil
+}
+
+func (t ServersType) ValueType(ctx context.Context) attr.Value {
+	return ServersValue{}
+}
+
+var _ basetypes.ObjectValuable = ServersValue{}
+
+type ServersValue struct {
+	Contents         basetypes.ListValue   `tfsdk:"contents"`
+	ExplicitPriority basetypes.BoolValue   `tfsdk:"explicit_priority"`
+	Facility         basetypes.StringValue `tfsdk:"facility"`
+	Host             basetypes.StringValue `tfsdk:"host"`
+	Match            basetypes.StringValue `tfsdk:"match"`
+	Port             basetypes.Int64Value  `tfsdk:"port"`
+	Protocol         basetypes.StringValue `tfsdk:"protocol"`
+	RoutingInstance  basetypes.StringValue `tfsdk:"routing_instance"`
+	Severity         basetypes.StringValue `tfsdk:"severity"`
+	SourceAddress    basetypes.StringValue `tfsdk:"source_address"`
+	StructuredData   basetypes.BoolValue   `tfsdk:"structured_data"`
+	Tag              basetypes.StringValue `tfsdk:"tag"`
+	state            attr.ValueState
+}
+
+func (v ServersValue) ToTerraformValue(ctx context.Context) (tftypes.Value, error) {
+	attrTypes := make(map[string]tftypes.Type, 12)
+
+	var val tftypes.Value
+	var err error
+
+	attrTypes["contents"] = basetypes.ListType{
+		ElemType: ContentsValue{}.Type(ctx),
+	}.TerraformType(ctx)
+	attrTypes["explicit_priority"] = basetypes.BoolType{}.TerraformType(ctx)
+	attrTypes["facility"] = basetypes.StringType{}.TerraformType(ctx)
+	attrTypes["host"] = basetypes.StringType{}.TerraformType(ctx)
+	attrTypes["match"] = basetypes.StringType{}.TerraformType(ctx)
+	attrTypes["port"] = basetypes.Int64Type{}.TerraformType(ctx)
+	attrTypes["protocol"] = basetypes.StringType{}.TerraformType(ctx)
+	attrTypes["routing_instance"] = basetypes.StringType{}.TerraformType(ctx)
+	attrTypes["severity"] = basetypes.StringType{}.TerraformType(ctx)
+	attrTypes["source_address"] = basetypes.StringType{}.TerraformType(ctx)
+	attrTypes["structured_data"] = basetypes.BoolType{}.TerraformType(ctx)
+	attrTypes["tag"] = basetypes.StringType{}.TerraformType(ctx)
+
+	objectType := tftypes.Object{AttributeTypes: attrTypes}
+
+	switch v.state {
+	case attr.ValueStateKnown:
+		vals := make(map[string]tftypes.Value, 12)
+
+		val, err = v.Contents.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["contents"] = val
+
+		val, err = v.ExplicitPriority.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["explicit_priority"] = val
+
+		val, err = v.Facility.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["facility"] = val
+
+		val, err = v.Host.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["host"] = val
+
+		val, err = v.Match.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["match"] = val
+
+		val, err = v.Port.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["port"] = val
+
+		val, err = v.Protocol.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["protocol"] = val
+
+		val, err = v.RoutingInstance.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["routing_instance"] = val
+
+		val, err = v.Severity.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["severity"] = val
+
+		val, err = v.SourceAddress.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["source_address"] = val
+
+		val, err = v.StructuredData.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["structured_data"] = val
+
+		val, err = v.Tag.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["tag"] = val
+
+		if err := tftypes.ValidateValue(objectType, vals); err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		return tftypes.NewValue(objectType, vals), nil
+	case attr.ValueStateNull:
+		return tftypes.NewValue(objectType, nil), nil
+	case attr.ValueStateUnknown:
+		return tftypes.NewValue(objectType, tftypes.UnknownValue), nil
+	default:
+		panic(fmt.Sprintf("unhandled Object state in ToTerraformValue: %s", v.state))
+	}
+}
+
+func (v ServersValue) IsNull() bool {
+	return v.state == attr.ValueStateNull
+}
+
+func (v ServersValue) IsUnknown() bool {
+	return v.state == attr.ValueStateUnknown
+}
+
+func (v ServersValue) String() string {
+	return "ServersValue"
+}
+
+func (v ServersValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	contents := types.ListValueMust(
+		ContentsType{
+			basetypes.ObjectType{
+				AttrTypes: ContentsValue{}.AttributeTypes(ctx),
+			},
+		},
+		v.Contents.Elements(),
+	)
+
+	if v.Contents.IsNull() {
+		contents = types.ListNull(
+			ContentsType{
+				basetypes.ObjectType{
+					AttrTypes: ContentsValue{}.AttributeTypes(ctx),
+				},
+			},
+		)
+	}
+
+	if v.Contents.IsUnknown() {
+		contents = types.ListUnknown(
+			ContentsType{
+				basetypes.ObjectType{
+					AttrTypes: ContentsValue{}.AttributeTypes(ctx),
+				},
+			},
+		)
+	}
+
+	attributeTypes := map[string]attr.Type{
+		"contents": basetypes.ListType{
+			ElemType: ContentsValue{}.Type(ctx),
+		},
+		"explicit_priority": basetypes.BoolType{},
+		"facility":          basetypes.StringType{},
+		"host":              basetypes.StringType{},
+		"match":             basetypes.StringType{},
+		"port":              basetypes.Int64Type{},
+		"protocol":          basetypes.StringType{},
+		"routing_instance":  basetypes.StringType{},
+		"severity":          basetypes.StringType{},
+		"source_address":    basetypes.StringType{},
+		"structured_data":   basetypes.BoolType{},
+		"tag":               basetypes.StringType{},
+	}
+
+	if v.IsNull() {
+		return types.ObjectNull(attributeTypes), diags
+	}
+
+	if v.IsUnknown() {
+		return types.ObjectUnknown(attributeTypes), diags
+	}
+
+	objVal, diags := types.ObjectValue(
+		attributeTypes,
+		map[string]attr.Value{
+			"contents":          contents,
+			"explicit_priority": v.ExplicitPriority,
+			"facility":          v.Facility,
+			"host":              v.Host,
+			"match":             v.Match,
+			"port":              v.Port,
+			"protocol":          v.Protocol,
+			"routing_instance":  v.RoutingInstance,
+			"severity":          v.Severity,
+			"source_address":    v.SourceAddress,
+			"structured_data":   v.StructuredData,
+			"tag":               v.Tag,
+		})
+
+	return objVal, diags
+}
+
+func (v ServersValue) Equal(o attr.Value) bool {
+	other, ok := o.(ServersValue)
+
+	if !ok {
+		return false
+	}
+
+	if v.state != other.state {
+		return false
+	}
+
+	if v.state != attr.ValueStateKnown {
+		return true
+	}
+
+	if !v.Contents.Equal(other.Contents) {
+		return false
+	}
+
+	if !v.ExplicitPriority.Equal(other.ExplicitPriority) {
+		return false
+	}
+
+	if !v.Facility.Equal(other.Facility) {
+		return false
+	}
+
+	if !v.Host.Equal(other.Host) {
+		return false
+	}
+
+	if !v.Match.Equal(other.Match) {
+		return false
+	}
+
+	if !v.Port.Equal(other.Port) {
+		return false
+	}
+
+	if !v.Protocol.Equal(other.Protocol) {
+		return false
+	}
+
+	if !v.RoutingInstance.Equal(other.RoutingInstance) {
+		return false
+	}
+
+	if !v.Severity.Equal(other.Severity) {
+		return false
+	}
+
+	if !v.SourceAddress.Equal(other.SourceAddress) {
+		return false
+	}
+
+	if !v.StructuredData.Equal(other.StructuredData) {
+		return false
+	}
+
+	if !v.Tag.Equal(other.Tag) {
+		return false
+	}
+
+	return true
+}
+
+func (v ServersValue) Type(ctx context.Context) attr.Type {
+	return ServersType{
+		basetypes.ObjectType{
+			AttrTypes: v.AttributeTypes(ctx),
+		},
+	}
+}
+
+func (v ServersValue) AttributeTypes(ctx context.Context) map[string]attr.Type {
+	return map[string]attr.Type{
+		"contents": basetypes.ListType{
+			ElemType: ContentsValue{}.Type(ctx),
+		},
+		"explicit_priority": basetypes.BoolType{},
+		"facility":          basetypes.StringType{},
+		"host":              basetypes.StringType{},
+		"match":             basetypes.StringType{},
+		"port":              basetypes.Int64Type{},
+		"protocol":          basetypes.StringType{},
+		"routing_instance":  basetypes.StringType{},
+		"severity":          basetypes.StringType{},
+		"source_address":    basetypes.StringType{},
+		"structured_data":   basetypes.BoolType{},
+		"tag":               basetypes.StringType{},
+	}
+}
+
+var _ basetypes.ObjectTypable = ContentsType{}
+
+var _ basetypes.ObjectTypable = UsersType{}
+
+type UsersType struct {
+	basetypes.ObjectType
+}
+
+func (t UsersType) Equal(o attr.Type) bool {
+	other, ok := o.(UsersType)
+
+	if !ok {
+		return false
+	}
+
+	return t.ObjectType.Equal(other.ObjectType)
+}
+
+func (t UsersType) String() string {
+	return "UsersType"
+}
+
+func (t UsersType) ValueFromObject(ctx context.Context, in basetypes.ObjectValue) (basetypes.ObjectValuable, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	attributes := in.Attributes()
+
+	contentsAttribute, ok := attributes["contents"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`contents is missing from object`)
+
+		return nil, diags
+	}
+
+	contentsVal, ok := contentsAttribute.(basetypes.ListValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`contents expected to be basetypes.ListValue, was: %T`, contentsAttribute))
+	}
+
+	matchAttribute, ok := attributes["match"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`match is missing from object`)
+
+		return nil, diags
+	}
+
+	matchVal, ok := matchAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`match expected to be basetypes.StringValue, was: %T`, matchAttribute))
+	}
+
+	userAttribute, ok := attributes["user"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`user is missing from object`)
+
+		return nil, diags
+	}
+
+	userVal, ok := userAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`user expected to be basetypes.StringValue, was: %T`, userAttribute))
+	}
+
+	if diags.HasError() {
+		return nil, diags
+	}
+
+	return UsersValue{
+		Contents: contentsVal,
+		Match:    matchVal,
+		User:     userVal,
+		state:    attr.ValueStateKnown,
+	}, diags
+}
+
+func NewUsersValueNull() UsersValue {
+	return UsersValue{
+		state: attr.ValueStateNull,
+	}
+}
+
+func NewUsersValueUnknown() UsersValue {
+	return UsersValue{
+		state: attr.ValueStateUnknown,
+	}
+}
+
+func NewUsersValue(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) (UsersValue, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	// Reference: https://github.com/hashicorp/terraform-plugin-framework/issues/521
+	ctx := context.Background()
+
+	for name, attributeType := range attributeTypes {
+		attribute, ok := attributes[name]
+
+		if !ok {
+			diags.AddError(
+				"Missing UsersValue Attribute Value",
+				"While creating a UsersValue value, a missing attribute value was detected. "+
+					"A UsersValue must contain values for all attributes, even if null or unknown. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("UsersValue Attribute Name (%s) Expected Type: %s", name, attributeType.String()),
+			)
+
+			continue
+		}
+
+		if !attributeType.Equal(attribute.Type(ctx)) {
+			diags.AddError(
+				"Invalid UsersValue Attribute Type",
+				"While creating a UsersValue value, an invalid attribute value was detected. "+
+					"A UsersValue must use a matching attribute type for the value. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("UsersValue Attribute Name (%s) Expected Type: %s\n", name, attributeType.String())+
+					fmt.Sprintf("UsersValue Attribute Name (%s) Given Type: %s", name, attribute.Type(ctx)),
+			)
+		}
+	}
+
+	for name := range attributes {
+		_, ok := attributeTypes[name]
+
+		if !ok {
+			diags.AddError(
+				"Extra UsersValue Attribute Value",
+				"While creating a UsersValue value, an extra attribute value was detected. "+
+					"A UsersValue must not contain values beyond the expected attribute types. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("Extra UsersValue Attribute Name: %s", name),
+			)
+		}
+	}
+
+	if diags.HasError() {
+		return NewUsersValueUnknown(), diags
+	}
+
+	contentsAttribute, ok := attributes["contents"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`contents is missing from object`)
+
+		return NewUsersValueUnknown(), diags
+	}
+
+	contentsVal, ok := contentsAttribute.(basetypes.ListValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`contents expected to be basetypes.ListValue, was: %T`, contentsAttribute))
+	}
+
+	matchAttribute, ok := attributes["match"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`match is missing from object`)
+
+		return NewUsersValueUnknown(), diags
+	}
+
+	matchVal, ok := matchAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`match expected to be basetypes.StringValue, was: %T`, matchAttribute))
+	}
+
+	userAttribute, ok := attributes["user"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`user is missing from object`)
+
+		return NewUsersValueUnknown(), diags
+	}
+
+	userVal, ok := userAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`user expected to be basetypes.StringValue, was: %T`, userAttribute))
+	}
+
+	if diags.HasError() {
+		return NewUsersValueUnknown(), diags
+	}
+
+	return UsersValue{
+		Contents: contentsVal,
+		Match:    matchVal,
+		User:     userVal,
+		state:    attr.ValueStateKnown,
+	}, diags
+}
+
+func NewUsersValueMust(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) UsersValue {
+	object, diags := NewUsersValue(attributeTypes, attributes)
+
+	if diags.HasError() {
+		// This could potentially be added to the diag package.
+		diagsStrings := make([]string, 0, len(diags))
+
+		for _, diagnostic := range diags {
+			diagsStrings = append(diagsStrings, fmt.Sprintf(
+				"%s | %s | %s",
+				diagnostic.Severity(),
+				diagnostic.Summary(),
+				diagnostic.Detail()))
+		}
+
+		panic("NewUsersValueMust received error(s): " + strings.Join(diagsStrings, "\n"))
+	}
+
+	return object
+}
+
+func (t UsersType) ValueFromTerraform(ctx context.Context, in tftypes.Value) (attr.Value, error) {
+	if in.Type() == nil {
+		return NewUsersValueNull(), nil
+	}
+
+	if !in.Type().Equal(t.TerraformType(ctx)) {
+		return nil, fmt.Errorf("expected %s, got %s", t.TerraformType(ctx), in.Type())
+	}
+
+	if !in.IsKnown() {
+		return NewUsersValueUnknown(), nil
+	}
+
+	if in.IsNull() {
+		return NewUsersValueNull(), nil
+	}
+
+	attributes := map[string]attr.Value{}
+
+	val := map[string]tftypes.Value{}
+
+	err := in.As(&val)
+
+	if err != nil {
+		return nil, err
+	}
+
+	for k, v := range val {
+		a, err := t.AttrTypes[k].ValueFromTerraform(ctx, v)
+
+		if err != nil {
+			return nil, err
+		}
+
+		attributes[k] = a
+	}
+
+	return NewUsersValueMust(UsersValue{}.AttributeTypes(ctx), attributes), nil
+}
+
+func (t UsersType) ValueType(ctx context.Context) attr.Value {
+	return UsersValue{}
+}
+
+var _ basetypes.ObjectValuable = UsersValue{}
+
+type UsersValue struct {
+	Contents basetypes.ListValue   `tfsdk:"contents"`
+	Match    basetypes.StringValue `tfsdk:"match"`
+	User     basetypes.StringValue `tfsdk:"user"`
+	state    attr.ValueState
+}
+
+func (v UsersValue) ToTerraformValue(ctx context.Context) (tftypes.Value, error) {
+	attrTypes := make(map[string]tftypes.Type, 3)
+
+	var val tftypes.Value
+	var err error
+
+	attrTypes["contents"] = basetypes.ListType{
+		ElemType: ContentsValue{}.Type(ctx),
+	}.TerraformType(ctx)
+	attrTypes["match"] = basetypes.StringType{}.TerraformType(ctx)
+	attrTypes["user"] = basetypes.StringType{}.TerraformType(ctx)
+
+	objectType := tftypes.Object{AttributeTypes: attrTypes}
+
+	switch v.state {
+	case attr.ValueStateKnown:
+		vals := make(map[string]tftypes.Value, 3)
+
+		val, err = v.Contents.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["contents"] = val
+
+		val, err = v.Match.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["match"] = val
+
+		val, err = v.User.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["user"] = val
+
+		if err := tftypes.ValidateValue(objectType, vals); err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		return tftypes.NewValue(objectType, vals), nil
+	case attr.ValueStateNull:
+		return tftypes.NewValue(objectType, nil), nil
+	case attr.ValueStateUnknown:
+		return tftypes.NewValue(objectType, tftypes.UnknownValue), nil
+	default:
+		panic(fmt.Sprintf("unhandled Object state in ToTerraformValue: %s", v.state))
+	}
+}
+
+func (v UsersValue) IsNull() bool {
+	return v.state == attr.ValueStateNull
+}
+
+func (v UsersValue) IsUnknown() bool {
+	return v.state == attr.ValueStateUnknown
+}
+
+func (v UsersValue) String() string {
+	return "UsersValue"
+}
+
+func (v UsersValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	contents := types.ListValueMust(
+		ContentsType{
+			basetypes.ObjectType{
+				AttrTypes: ContentsValue{}.AttributeTypes(ctx),
+			},
+		},
+		v.Contents.Elements(),
+	)
+
+	if v.Contents.IsNull() {
+		contents = types.ListNull(
+			ContentsType{
+				basetypes.ObjectType{
+					AttrTypes: ContentsValue{}.AttributeTypes(ctx),
+				},
+			},
+		)
+	}
+
+	if v.Contents.IsUnknown() {
+		contents = types.ListUnknown(
+			ContentsType{
+				basetypes.ObjectType{
+					AttrTypes: ContentsValue{}.AttributeTypes(ctx),
+				},
+			},
+		)
+	}
+
+	attributeTypes := map[string]attr.Type{
+		"contents": basetypes.ListType{
+			ElemType: ContentsValue{}.Type(ctx),
+		},
+		"match": basetypes.StringType{},
+		"user":  basetypes.StringType{},
+	}
+
+	if v.IsNull() {
+		return types.ObjectNull(attributeTypes), diags
+	}
+
+	if v.IsUnknown() {
+		return types.ObjectUnknown(attributeTypes), diags
+	}
+
+	objVal, diags := types.ObjectValue(
+		attributeTypes,
+		map[string]attr.Value{
+			"contents": contents,
+			"match":    v.Match,
+			"user":     v.User,
+		})
+
+	return objVal, diags
+}
+
+func (v UsersValue) Equal(o attr.Value) bool {
+	other, ok := o.(UsersValue)
+
+	if !ok {
+		return false
+	}
+
+	if v.state != other.state {
+		return false
+	}
+
+	if v.state != attr.ValueStateKnown {
+		return true
+	}
+
+	if !v.Contents.Equal(other.Contents) {
+		return false
+	}
+
+	if !v.Match.Equal(other.Match) {
+		return false
+	}
+
+	if !v.User.Equal(other.User) {
+		return false
+	}
+
+	return true
+}
+
+func (v UsersValue) Type(ctx context.Context) attr.Type {
+	return UsersType{
+		basetypes.ObjectType{
+			AttrTypes: v.AttributeTypes(ctx),
+		},
+	}
+}
+
+func (v UsersValue) AttributeTypes(ctx context.Context) map[string]attr.Type {
+	return map[string]attr.Type{
+		"contents": basetypes.ListType{
+			ElemType: ContentsValue{}.Type(ctx),
+		},
+		"match": basetypes.StringType{},
+		"user":  basetypes.StringType{},
+	}
+}
+
+var _ basetypes.ObjectTypable = ContentsType{}
+
+type ContentsType struct {
+	basetypes.ObjectType
+}
+
+func (t ContentsType) Equal(o attr.Type) bool {
+	other, ok := o.(ContentsType)
+
+	if !ok {
+		return false
+	}
+
+	return t.ObjectType.Equal(other.ObjectType)
+}
+
+func (t ContentsType) String() string {
+	return "ContentsType"
+}
+
+func (t ContentsType) ValueFromObject(ctx context.Context, in basetypes.ObjectValue) (basetypes.ObjectValuable, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	attributes := in.Attributes()
+
+	facilityAttribute, ok := attributes["facility"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`facility is missing from object`)
+
+		return nil, diags
+	}
+
+	facilityVal, ok := facilityAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`facility expected to be basetypes.StringValue, was: %T`, facilityAttribute))
+	}
+
+	severityAttribute, ok := attributes["severity"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`severity is missing from object`)
+
+		return nil, diags
+	}
+
+	severityVal, ok := severityAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`severity expected to be basetypes.StringValue, was: %T`, severityAttribute))
+	}
+
+	if diags.HasError() {
+		return nil, diags
+	}
+
+	return ContentsValue{
+		Facility: facilityVal,
+		Severity: severityVal,
+		state:    attr.ValueStateKnown,
+	}, diags
+}
+
+func NewContentsValueNull() ContentsValue {
+	return ContentsValue{
+		state: attr.ValueStateNull,
+	}
+}
+
+func NewContentsValueUnknown() ContentsValue {
+	return ContentsValue{
+		state: attr.ValueStateUnknown,
+	}
+}
+
+func NewContentsValue(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) (ContentsValue, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	// Reference: https://github.com/hashicorp/terraform-plugin-framework/issues/521
+	ctx := context.Background()
+
+	for name, attributeType := range attributeTypes {
+		attribute, ok := attributes[name]
+
+		if !ok {
+			diags.AddError(
+				"Missing ContentsValue Attribute Value",
+				"While creating a ContentsValue value, a missing attribute value was detected. "+
+					"A ContentsValue must contain values for all attributes, even if null or unknown. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("ContentsValue Attribute Name (%s) Expected Type: %s", name, attributeType.String()),
+			)
+
+			continue
+		}
+
+		if !attributeType.Equal(attribute.Type(ctx)) {
+			diags.AddError(
+				"Invalid ContentsValue Attribute Type",
+				"While creating a ContentsValue value, an invalid attribute value was detected. "+
+					"A ContentsValue must use a matching attribute type for the value. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("ContentsValue Attribute Name (%s) Expected Type: %s\n", name, attributeType.String())+
+					fmt.Sprintf("ContentsValue Attribute Name (%s) Given Type: %s", name, attribute.Type(ctx)),
+			)
+		}
+	}
+
+	for name := range attributes {
+		_, ok := attributeTypes[name]
+
+		if !ok {
+			diags.AddError(
+				"Extra ContentsValue Attribute Value",
+				"While creating a ContentsValue value, an extra attribute value was detected. "+
+					"A ContentsValue must not contain values beyond the expected attribute types. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("Extra ContentsValue Attribute Name: %s", name),
+			)
+		}
+	}
+
+	if diags.HasError() {
+		return NewContentsValueUnknown(), diags
+	}
+
+	facilityAttribute, ok := attributes["facility"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`facility is missing from object`)
+
+		return NewContentsValueUnknown(), diags
+	}
+
+	facilityVal, ok := facilityAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`facility expected to be basetypes.StringValue, was: %T`, facilityAttribute))
+	}
+
+	severityAttribute, ok := attributes["severity"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`severity is missing from object`)
+
+		return NewContentsValueUnknown(), diags
+	}
+
+	severityVal, ok := severityAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`severity expected to be basetypes.StringValue, was: %T`, severityAttribute))
+	}
+
+	if diags.HasError() {
+		return NewContentsValueUnknown(), diags
+	}
+
+	return ContentsValue{
+		Facility: facilityVal,
+		Severity: severityVal,
+		state:    attr.ValueStateKnown,
+	}, diags
+}
+
+func NewContentsValueMust(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) ContentsValue {
+	object, diags := NewContentsValue(attributeTypes, attributes)
+
+	if diags.HasError() {
+		// This could potentially be added to the diag package.
+		diagsStrings := make([]string, 0, len(diags))
+
+		for _, diagnostic := range diags {
+			diagsStrings = append(diagsStrings, fmt.Sprintf(
+				"%s | %s | %s",
+				diagnostic.Severity(),
+				diagnostic.Summary(),
+				diagnostic.Detail()))
+		}
+
+		panic("NewContentsValueMust received error(s): " + strings.Join(diagsStrings, "\n"))
+	}
+
+	return object
+}
+
+func (t ContentsType) ValueFromTerraform(ctx context.Context, in tftypes.Value) (attr.Value, error) {
+	if in.Type() == nil {
+		return NewContentsValueNull(), nil
+	}
+
+	if !in.Type().Equal(t.TerraformType(ctx)) {
+		return nil, fmt.Errorf("expected %s, got %s", t.TerraformType(ctx), in.Type())
+	}
+
+	if !in.IsKnown() {
+		return NewContentsValueUnknown(), nil
+	}
+
+	if in.IsNull() {
+		return NewContentsValueNull(), nil
+	}
+
+	attributes := map[string]attr.Value{}
+
+	val := map[string]tftypes.Value{}
+
+	err := in.As(&val)
+
+	if err != nil {
+		return nil, err
+	}
+
+	for k, v := range val {
+		a, err := t.AttrTypes[k].ValueFromTerraform(ctx, v)
+
+		if err != nil {
+			return nil, err
+		}
+
+		attributes[k] = a
+	}
+
+	return NewContentsValueMust(ContentsValue{}.AttributeTypes(ctx), attributes), nil
+}
+
+func (t ContentsType) ValueType(ctx context.Context) attr.Value {
+	return ContentsValue{}
+}
+
+var _ basetypes.ObjectValuable = ContentsValue{}
+
+type ContentsValue struct {
+	Facility basetypes.StringValue `tfsdk:"facility"`
+	Severity basetypes.StringValue `tfsdk:"severity"`
+	state    attr.ValueState
+}
+
+func (v ContentsValue) ToTerraformValue(ctx context.Context) (tftypes.Value, error) {
+	attrTypes := make(map[string]tftypes.Type, 2)
+
+	var val tftypes.Value
+	var err error
+
+	attrTypes["facility"] = basetypes.StringType{}.TerraformType(ctx)
+	attrTypes["severity"] = basetypes.StringType{}.TerraformType(ctx)
+
+	objectType := tftypes.Object{AttributeTypes: attrTypes}
+
+	switch v.state {
+	case attr.ValueStateKnown:
+		vals := make(map[string]tftypes.Value, 2)
+
+		val, err = v.Facility.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["facility"] = val
+
+		val, err = v.Severity.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["severity"] = val
+
+		if err := tftypes.ValidateValue(objectType, vals); err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		return tftypes.NewValue(objectType, vals), nil
+	case attr.ValueStateNull:
+		return tftypes.NewValue(objectType, nil), nil
+	case attr.ValueStateUnknown:
+		return tftypes.NewValue(objectType, tftypes.UnknownValue), nil
+	default:
+		panic(fmt.Sprintf("unhandled Object state in ToTerraformValue: %s", v.state))
+	}
+}
+
+func (v ContentsValue) IsNull() bool {
+	return v.state == attr.ValueStateNull
+}
+
+func (v ContentsValue) IsUnknown() bool {
+	return v.state == attr.ValueStateUnknown
+}
+
+func (v ContentsValue) String() string {
+	return "ContentsValue"
+}
+
+func (v ContentsValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	attributeTypes := map[string]attr.Type{
+		"facility": basetypes.StringType{},
+		"severity": basetypes.StringType{},
+	}
+
+	if v.IsNull() {
+		return types.ObjectNull(attributeTypes), diags
+	}
+
+	if v.IsUnknown() {
+		return types.ObjectUnknown(attributeTypes), diags
+	}
+
+	objVal, diags := types.ObjectValue(
+		attributeTypes,
+		map[string]attr.Value{
+			"facility": v.Facility,
+			"severity": v.Severity,
+		})
+
+	return objVal, diags
+}
+
+func (v ContentsValue) Equal(o attr.Value) bool {
+	other, ok := o.(ContentsValue)
+
+	if !ok {
+		return false
+	}
+
+	if v.state != other.state {
+		return false
+	}
+
+	if v.state != attr.ValueStateKnown {
+		return true
+	}
+
+	if !v.Facility.Equal(other.Facility) {
+		return false
+	}
+
+	if !v.Severity.Equal(other.Severity) {
+		return false
+	}
+
+	return true
+}
+
+func (v ContentsValue) Type(ctx context.Context) attr.Type {
+	return ContentsType{
+		basetypes.ObjectType{
+			AttrTypes: v.AttributeTypes(ctx),
+		},
+	}
+}
+
+func (v ContentsValue) AttributeTypes(ctx context.Context) map[string]attr.Type {
+	return map[string]attr.Type{
+		"facility": basetypes.StringType{},
+		"severity": basetypes.StringType{},
 	}
 }
 

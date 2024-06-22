@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Contents** | Pointer to [**[]RemoteSyslogContent**](RemoteSyslogContent.md) |  | [optional] 
+**Contents** | Pointer to [**[]RemoteSyslogContentItem**](RemoteSyslogContentItem.md) |  | [optional] 
 
 ## Methods
 
@@ -27,20 +27,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetContents
 
-`func (o *RemoteSyslogConsole) GetContents() []RemoteSyslogContent`
+`func (o *RemoteSyslogConsole) GetContents() []RemoteSyslogContentItem`
 
 GetContents returns the Contents field if non-nil, zero value otherwise.
 
 ### GetContentsOk
 
-`func (o *RemoteSyslogConsole) GetContentsOk() (*[]RemoteSyslogContent, bool)`
+`func (o *RemoteSyslogConsole) GetContentsOk() (*[]RemoteSyslogContentItem, bool)`
 
 GetContentsOk returns a tuple with the Contents field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetContents
 
-`func (o *RemoteSyslogConsole) SetContents(v []RemoteSyslogContent)`
+`func (o *RemoteSyslogConsole) SetContents(v []RemoteSyslogContentItem)`
 
 SetContents sets Contents field to given value.
 

@@ -1,338 +1,338 @@
-# SyslogServer
+# RemoteSyslogServersItem
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**CremoteSyslogServersOntents** | Pointer to [**[]RemoteSyslogContent**](RemoteSyslogContent.md) |  | [optional] 
+**Contents** | Pointer to [**[]RemoteSyslogContentItem**](RemoteSyslogContentItem.md) |  | [optional] 
 **ExplicitPriority** | Pointer to **bool** |  | [optional] 
-**Facility** | Pointer to **string** |  | [optional] 
+**Facility** | Pointer to [**RemoteSyslogFacility**](RemoteSyslogFacility.md) |  | [optional] 
 **Host** | Pointer to **string** |  | [optional] 
 **Match** | Pointer to **string** |  | [optional] 
 **Port** | Pointer to **int32** |  | [optional] [default to 514]
-**Protocol** | Pointer to **string** |  | [optional] [default to "udp"]
+**Protocol** | Pointer to [**RemoteSyslogProtocol**](RemoteSyslogProtocol.md) |  | [optional] [default to REMOTESYSLOGPROTOCOL_UDP]
 **RoutingInstance** | Pointer to **string** |  | [optional] 
-**Severity** | Pointer to **string** |  | [optional] 
+**Severity** | Pointer to [**RemoteSyslogSeverity**](RemoteSyslogSeverity.md) |  | [optional] 
 **SourceAddress** | Pointer to **string** | if source_address is configured, will use the vlan firstly otherwise use source_ip | [optional] 
 **StructuredData** | Pointer to **bool** |  | [optional] 
 **Tag** | Pointer to **string** |  | [optional] 
 
 ## Methods
 
-### NewSyslogServer
+### NewRemoteSyslogServersItem
 
-`func NewSyslogServer() *SyslogServer`
+`func NewRemoteSyslogServersItem() *RemoteSyslogServersItem`
 
-NewSyslogServer instantiates a new SyslogServer object
+NewRemoteSyslogServersItem instantiates a new RemoteSyslogServersItem object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewSyslogServerWithDefaults
+### NewRemoteSyslogServersItemWithDefaults
 
-`func NewSyslogServerWithDefaults() *SyslogServer`
+`func NewRemoteSyslogServersItemWithDefaults() *RemoteSyslogServersItem`
 
-NewSyslogServerWithDefaults instantiates a new SyslogServer object
+NewRemoteSyslogServersItemWithDefaults instantiates a new RemoteSyslogServersItem object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
-### GetCremoteSyslogServersOntents
+### GetContents
 
-`func (o *SyslogServer) GetCremoteSyslogServersOntents() []RemoteSyslogContent`
+`func (o *RemoteSyslogServersItem) GetContents() []RemoteSyslogContentItem`
 
-GetCremoteSyslogServersOntents returns the CremoteSyslogServersOntents field if non-nil, zero value otherwise.
+GetContents returns the Contents field if non-nil, zero value otherwise.
 
-### GetCremoteSyslogServersOntentsOk
+### GetContentsOk
 
-`func (o *SyslogServer) GetCremoteSyslogServersOntentsOk() (*[]RemoteSyslogContent, bool)`
+`func (o *RemoteSyslogServersItem) GetContentsOk() (*[]RemoteSyslogContentItem, bool)`
 
-GetCremoteSyslogServersOntentsOk returns a tuple with the CremoteSyslogServersOntents field if it's non-nil, zero value otherwise
+GetContentsOk returns a tuple with the Contents field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetCremoteSyslogServersOntents
+### SetContents
 
-`func (o *SyslogServer) SetCremoteSyslogServersOntents(v []RemoteSyslogContent)`
+`func (o *RemoteSyslogServersItem) SetContents(v []RemoteSyslogContentItem)`
 
-SetCremoteSyslogServersOntents sets CremoteSyslogServersOntents field to given value.
+SetContents sets Contents field to given value.
 
-### HasCremoteSyslogServersOntents
+### HasContents
 
-`func (o *SyslogServer) HasCremoteSyslogServersOntents() bool`
+`func (o *RemoteSyslogServersItem) HasContents() bool`
 
-HasCremoteSyslogServersOntents returns a boolean if a field has been set.
+HasContents returns a boolean if a field has been set.
 
 ### GetExplicitPriority
 
-`func (o *SyslogServer) GetExplicitPriority() bool`
+`func (o *RemoteSyslogServersItem) GetExplicitPriority() bool`
 
 GetExplicitPriority returns the ExplicitPriority field if non-nil, zero value otherwise.
 
 ### GetExplicitPriorityOk
 
-`func (o *SyslogServer) GetExplicitPriorityOk() (*bool, bool)`
+`func (o *RemoteSyslogServersItem) GetExplicitPriorityOk() (*bool, bool)`
 
 GetExplicitPriorityOk returns a tuple with the ExplicitPriority field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetExplicitPriority
 
-`func (o *SyslogServer) SetExplicitPriority(v bool)`
+`func (o *RemoteSyslogServersItem) SetExplicitPriority(v bool)`
 
 SetExplicitPriority sets ExplicitPriority field to given value.
 
 ### HasExplicitPriority
 
-`func (o *SyslogServer) HasExplicitPriority() bool`
+`func (o *RemoteSyslogServersItem) HasExplicitPriority() bool`
 
 HasExplicitPriority returns a boolean if a field has been set.
 
 ### GetFacility
 
-`func (o *SyslogServer) GetFacility() string`
+`func (o *RemoteSyslogServersItem) GetFacility() RemoteSyslogFacility`
 
 GetFacility returns the Facility field if non-nil, zero value otherwise.
 
 ### GetFacilityOk
 
-`func (o *SyslogServer) GetFacilityOk() (*string, bool)`
+`func (o *RemoteSyslogServersItem) GetFacilityOk() (*RemoteSyslogFacility, bool)`
 
 GetFacilityOk returns a tuple with the Facility field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetFacility
 
-`func (o *SyslogServer) SetFacility(v string)`
+`func (o *RemoteSyslogServersItem) SetFacility(v RemoteSyslogFacility)`
 
 SetFacility sets Facility field to given value.
 
 ### HasFacility
 
-`func (o *SyslogServer) HasFacility() bool`
+`func (o *RemoteSyslogServersItem) HasFacility() bool`
 
 HasFacility returns a boolean if a field has been set.
 
 ### GetHost
 
-`func (o *SyslogServer) GetHost() string`
+`func (o *RemoteSyslogServersItem) GetHost() string`
 
 GetHost returns the Host field if non-nil, zero value otherwise.
 
 ### GetHostOk
 
-`func (o *SyslogServer) GetHostOk() (*string, bool)`
+`func (o *RemoteSyslogServersItem) GetHostOk() (*string, bool)`
 
 GetHostOk returns a tuple with the Host field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetHost
 
-`func (o *SyslogServer) SetHost(v string)`
+`func (o *RemoteSyslogServersItem) SetHost(v string)`
 
 SetHost sets Host field to given value.
 
 ### HasHost
 
-`func (o *SyslogServer) HasHost() bool`
+`func (o *RemoteSyslogServersItem) HasHost() bool`
 
 HasHost returns a boolean if a field has been set.
 
 ### GetMatch
 
-`func (o *SyslogServer) GetMatch() string`
+`func (o *RemoteSyslogServersItem) GetMatch() string`
 
 GetMatch returns the Match field if non-nil, zero value otherwise.
 
 ### GetMatchOk
 
-`func (o *SyslogServer) GetMatchOk() (*string, bool)`
+`func (o *RemoteSyslogServersItem) GetMatchOk() (*string, bool)`
 
 GetMatchOk returns a tuple with the Match field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetMatch
 
-`func (o *SyslogServer) SetMatch(v string)`
+`func (o *RemoteSyslogServersItem) SetMatch(v string)`
 
 SetMatch sets Match field to given value.
 
 ### HasMatch
 
-`func (o *SyslogServer) HasMatch() bool`
+`func (o *RemoteSyslogServersItem) HasMatch() bool`
 
 HasMatch returns a boolean if a field has been set.
 
 ### GetPort
 
-`func (o *SyslogServer) GetPort() int32`
+`func (o *RemoteSyslogServersItem) GetPort() int32`
 
 GetPort returns the Port field if non-nil, zero value otherwise.
 
 ### GetPortOk
 
-`func (o *SyslogServer) GetPortOk() (*int32, bool)`
+`func (o *RemoteSyslogServersItem) GetPortOk() (*int32, bool)`
 
 GetPortOk returns a tuple with the Port field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetPort
 
-`func (o *SyslogServer) SetPort(v int32)`
+`func (o *RemoteSyslogServersItem) SetPort(v int32)`
 
 SetPort sets Port field to given value.
 
 ### HasPort
 
-`func (o *SyslogServer) HasPort() bool`
+`func (o *RemoteSyslogServersItem) HasPort() bool`
 
 HasPort returns a boolean if a field has been set.
 
 ### GetProtocol
 
-`func (o *SyslogServer) GetProtocol() string`
+`func (o *RemoteSyslogServersItem) GetProtocol() RemoteSyslogProtocol`
 
 GetProtocol returns the Protocol field if non-nil, zero value otherwise.
 
 ### GetProtocolOk
 
-`func (o *SyslogServer) GetProtocolOk() (*string, bool)`
+`func (o *RemoteSyslogServersItem) GetProtocolOk() (*RemoteSyslogProtocol, bool)`
 
 GetProtocolOk returns a tuple with the Protocol field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetProtocol
 
-`func (o *SyslogServer) SetProtocol(v string)`
+`func (o *RemoteSyslogServersItem) SetProtocol(v RemoteSyslogProtocol)`
 
 SetProtocol sets Protocol field to given value.
 
 ### HasProtocol
 
-`func (o *SyslogServer) HasProtocol() bool`
+`func (o *RemoteSyslogServersItem) HasProtocol() bool`
 
 HasProtocol returns a boolean if a field has been set.
 
 ### GetRoutingInstance
 
-`func (o *SyslogServer) GetRoutingInstance() string`
+`func (o *RemoteSyslogServersItem) GetRoutingInstance() string`
 
 GetRoutingInstance returns the RoutingInstance field if non-nil, zero value otherwise.
 
 ### GetRoutingInstanceOk
 
-`func (o *SyslogServer) GetRoutingInstanceOk() (*string, bool)`
+`func (o *RemoteSyslogServersItem) GetRoutingInstanceOk() (*string, bool)`
 
 GetRoutingInstanceOk returns a tuple with the RoutingInstance field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetRoutingInstance
 
-`func (o *SyslogServer) SetRoutingInstance(v string)`
+`func (o *RemoteSyslogServersItem) SetRoutingInstance(v string)`
 
 SetRoutingInstance sets RoutingInstance field to given value.
 
 ### HasRoutingInstance
 
-`func (o *SyslogServer) HasRoutingInstance() bool`
+`func (o *RemoteSyslogServersItem) HasRoutingInstance() bool`
 
 HasRoutingInstance returns a boolean if a field has been set.
 
 ### GetSeverity
 
-`func (o *SyslogServer) GetSeverity() string`
+`func (o *RemoteSyslogServersItem) GetSeverity() RemoteSyslogSeverity`
 
 GetSeverity returns the Severity field if non-nil, zero value otherwise.
 
 ### GetSeverityOk
 
-`func (o *SyslogServer) GetSeverityOk() (*string, bool)`
+`func (o *RemoteSyslogServersItem) GetSeverityOk() (*RemoteSyslogSeverity, bool)`
 
 GetSeverityOk returns a tuple with the Severity field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetSeverity
 
-`func (o *SyslogServer) SetSeverity(v string)`
+`func (o *RemoteSyslogServersItem) SetSeverity(v RemoteSyslogSeverity)`
 
 SetSeverity sets Severity field to given value.
 
 ### HasSeverity
 
-`func (o *SyslogServer) HasSeverity() bool`
+`func (o *RemoteSyslogServersItem) HasSeverity() bool`
 
 HasSeverity returns a boolean if a field has been set.
 
 ### GetSourceAddress
 
-`func (o *SyslogServer) GetSourceAddress() string`
+`func (o *RemoteSyslogServersItem) GetSourceAddress() string`
 
 GetSourceAddress returns the SourceAddress field if non-nil, zero value otherwise.
 
 ### GetSourceAddressOk
 
-`func (o *SyslogServer) GetSourceAddressOk() (*string, bool)`
+`func (o *RemoteSyslogServersItem) GetSourceAddressOk() (*string, bool)`
 
 GetSourceAddressOk returns a tuple with the SourceAddress field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetSourceAddress
 
-`func (o *SyslogServer) SetSourceAddress(v string)`
+`func (o *RemoteSyslogServersItem) SetSourceAddress(v string)`
 
 SetSourceAddress sets SourceAddress field to given value.
 
 ### HasSourceAddress
 
-`func (o *SyslogServer) HasSourceAddress() bool`
+`func (o *RemoteSyslogServersItem) HasSourceAddress() bool`
 
 HasSourceAddress returns a boolean if a field has been set.
 
 ### GetStructuredData
 
-`func (o *SyslogServer) GetStructuredData() bool`
+`func (o *RemoteSyslogServersItem) GetStructuredData() bool`
 
 GetStructuredData returns the StructuredData field if non-nil, zero value otherwise.
 
 ### GetStructuredDataOk
 
-`func (o *SyslogServer) GetStructuredDataOk() (*bool, bool)`
+`func (o *RemoteSyslogServersItem) GetStructuredDataOk() (*bool, bool)`
 
 GetStructuredDataOk returns a tuple with the StructuredData field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetStructuredData
 
-`func (o *SyslogServer) SetStructuredData(v bool)`
+`func (o *RemoteSyslogServersItem) SetStructuredData(v bool)`
 
 SetStructuredData sets StructuredData field to given value.
 
 ### HasStructuredData
 
-`func (o *SyslogServer) HasStructuredData() bool`
+`func (o *RemoteSyslogServersItem) HasStructuredData() bool`
 
 HasStructuredData returns a boolean if a field has been set.
 
 ### GetTag
 
-`func (o *SyslogServer) GetTag() string`
+`func (o *RemoteSyslogServersItem) GetTag() string`
 
 GetTag returns the Tag field if non-nil, zero value otherwise.
 
 ### GetTagOk
 
-`func (o *SyslogServer) GetTagOk() (*string, bool)`
+`func (o *RemoteSyslogServersItem) GetTagOk() (*string, bool)`
 
 GetTagOk returns a tuple with the Tag field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetTag
 
-`func (o *SyslogServer) SetTag(v string)`
+`func (o *RemoteSyslogServersItem) SetTag(v string)`
 
 SetTag sets Tag field to given value.
 
 ### HasTag
 
-`func (o *SyslogServer) HasTag() bool`
+`func (o *RemoteSyslogServersItem) HasTag() bool`
 
 HasTag returns a boolean if a field has been set.
 

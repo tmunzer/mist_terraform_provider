@@ -15,20 +15,20 @@ import (
 	"encoding/json"
 )
 
-// checks if the SyslogServer type satisfies the MappedNullable interface at compile time
-var _ MappedNullable = &SyslogServer{}
+// checks if the RemoteSyslogServersItem type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &RemoteSyslogServersItem{}
 
-// SyslogServer struct for SyslogServer
-type SyslogServer struct {
-	CremoteSyslogServersOntents []RemoteSyslogContent `json:"cremote_syslog_servers_ontents,omitempty"`
+// RemoteSyslogServersItem struct for RemoteSyslogServersItem
+type RemoteSyslogServersItem struct {
+	Contents []RemoteSyslogContentItem `json:"contents,omitempty"`
 	ExplicitPriority *bool `json:"explicit_priority,omitempty"`
-	Facility *string `json:"facility,omitempty"`
+	Facility *RemoteSyslogFacility `json:"facility,omitempty"`
 	Host *string `json:"host,omitempty"`
 	Match *string `json:"match,omitempty"`
 	Port *int32 `json:"port,omitempty"`
-	Protocol *string `json:"protocol,omitempty"`
+	Protocol *RemoteSyslogProtocol `json:"protocol,omitempty"`
 	RoutingInstance *string `json:"routing_instance,omitempty"`
-	Severity *string `json:"severity,omitempty"`
+	Severity *RemoteSyslogSeverity `json:"severity,omitempty"`
 	// if source_address is configured, will use the vlan firstly otherwise use source_ip
 	SourceAddress *string `json:"source_address,omitempty"`
 	StructuredData *bool `json:"structured_data,omitempty"`
@@ -36,67 +36,67 @@ type SyslogServer struct {
 	AdditionalProperties map[string]interface{}
 }
 
-type _SyslogServer SyslogServer
+type _RemoteSyslogServersItem RemoteSyslogServersItem
 
-// NewSyslogServer instantiates a new SyslogServer object
+// NewRemoteSyslogServersItem instantiates a new RemoteSyslogServersItem object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewSyslogServer() *SyslogServer {
-	this := SyslogServer{}
+func NewRemoteSyslogServersItem() *RemoteSyslogServersItem {
+	this := RemoteSyslogServersItem{}
 	var port int32 = 514
 	this.Port = &port
-	var protocol string = "udp"
+	var protocol RemoteSyslogProtocol = REMOTESYSLOGPROTOCOL_UDP
 	this.Protocol = &protocol
 	return &this
 }
 
-// NewSyslogServerWithDefaults instantiates a new SyslogServer object
+// NewRemoteSyslogServersItemWithDefaults instantiates a new RemoteSyslogServersItem object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewSyslogServerWithDefaults() *SyslogServer {
-	this := SyslogServer{}
+func NewRemoteSyslogServersItemWithDefaults() *RemoteSyslogServersItem {
+	this := RemoteSyslogServersItem{}
 	var port int32 = 514
 	this.Port = &port
-	var protocol string = "udp"
+	var protocol RemoteSyslogProtocol = REMOTESYSLOGPROTOCOL_UDP
 	this.Protocol = &protocol
 	return &this
 }
 
-// GetCremoteSyslogServersOntents returns the CremoteSyslogServersOntents field value if set, zero value otherwise.
-func (o *SyslogServer) GetCremoteSyslogServersOntents() []RemoteSyslogContent {
-	if o == nil || IsNil(o.CremoteSyslogServersOntents) {
-		var ret []RemoteSyslogContent
+// GetContents returns the Contents field value if set, zero value otherwise.
+func (o *RemoteSyslogServersItem) GetContents() []RemoteSyslogContentItem {
+	if o == nil || IsNil(o.Contents) {
+		var ret []RemoteSyslogContentItem
 		return ret
 	}
-	return o.CremoteSyslogServersOntents
+	return o.Contents
 }
 
-// GetCremoteSyslogServersOntentsOk returns a tuple with the CremoteSyslogServersOntents field value if set, nil otherwise
+// GetContentsOk returns a tuple with the Contents field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *SyslogServer) GetCremoteSyslogServersOntentsOk() ([]RemoteSyslogContent, bool) {
-	if o == nil || IsNil(o.CremoteSyslogServersOntents) {
+func (o *RemoteSyslogServersItem) GetContentsOk() ([]RemoteSyslogContentItem, bool) {
+	if o == nil || IsNil(o.Contents) {
 		return nil, false
 	}
-	return o.CremoteSyslogServersOntents, true
+	return o.Contents, true
 }
 
-// HasCremoteSyslogServersOntents returns a boolean if a field has been set.
-func (o *SyslogServer) HasCremoteSyslogServersOntents() bool {
-	if o != nil && !IsNil(o.CremoteSyslogServersOntents) {
+// HasContents returns a boolean if a field has been set.
+func (o *RemoteSyslogServersItem) HasContents() bool {
+	if o != nil && !IsNil(o.Contents) {
 		return true
 	}
 
 	return false
 }
 
-// SetCremoteSyslogServersOntents gets a reference to the given []RemoteSyslogContent and assigns it to the CremoteSyslogServersOntents field.
-func (o *SyslogServer) SetCremoteSyslogServersOntents(v []RemoteSyslogContent) {
-	o.CremoteSyslogServersOntents = v
+// SetContents gets a reference to the given []RemoteSyslogContentItem and assigns it to the Contents field.
+func (o *RemoteSyslogServersItem) SetContents(v []RemoteSyslogContentItem) {
+	o.Contents = v
 }
 
 // GetExplicitPriority returns the ExplicitPriority field value if set, zero value otherwise.
-func (o *SyslogServer) GetExplicitPriority() bool {
+func (o *RemoteSyslogServersItem) GetExplicitPriority() bool {
 	if o == nil || IsNil(o.ExplicitPriority) {
 		var ret bool
 		return ret
@@ -106,7 +106,7 @@ func (o *SyslogServer) GetExplicitPriority() bool {
 
 // GetExplicitPriorityOk returns a tuple with the ExplicitPriority field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *SyslogServer) GetExplicitPriorityOk() (*bool, bool) {
+func (o *RemoteSyslogServersItem) GetExplicitPriorityOk() (*bool, bool) {
 	if o == nil || IsNil(o.ExplicitPriority) {
 		return nil, false
 	}
@@ -114,7 +114,7 @@ func (o *SyslogServer) GetExplicitPriorityOk() (*bool, bool) {
 }
 
 // HasExplicitPriority returns a boolean if a field has been set.
-func (o *SyslogServer) HasExplicitPriority() bool {
+func (o *RemoteSyslogServersItem) HasExplicitPriority() bool {
 	if o != nil && !IsNil(o.ExplicitPriority) {
 		return true
 	}
@@ -123,14 +123,14 @@ func (o *SyslogServer) HasExplicitPriority() bool {
 }
 
 // SetExplicitPriority gets a reference to the given bool and assigns it to the ExplicitPriority field.
-func (o *SyslogServer) SetExplicitPriority(v bool) {
+func (o *RemoteSyslogServersItem) SetExplicitPriority(v bool) {
 	o.ExplicitPriority = &v
 }
 
 // GetFacility returns the Facility field value if set, zero value otherwise.
-func (o *SyslogServer) GetFacility() string {
+func (o *RemoteSyslogServersItem) GetFacility() RemoteSyslogFacility {
 	if o == nil || IsNil(o.Facility) {
-		var ret string
+		var ret RemoteSyslogFacility
 		return ret
 	}
 	return *o.Facility
@@ -138,7 +138,7 @@ func (o *SyslogServer) GetFacility() string {
 
 // GetFacilityOk returns a tuple with the Facility field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *SyslogServer) GetFacilityOk() (*string, bool) {
+func (o *RemoteSyslogServersItem) GetFacilityOk() (*RemoteSyslogFacility, bool) {
 	if o == nil || IsNil(o.Facility) {
 		return nil, false
 	}
@@ -146,7 +146,7 @@ func (o *SyslogServer) GetFacilityOk() (*string, bool) {
 }
 
 // HasFacility returns a boolean if a field has been set.
-func (o *SyslogServer) HasFacility() bool {
+func (o *RemoteSyslogServersItem) HasFacility() bool {
 	if o != nil && !IsNil(o.Facility) {
 		return true
 	}
@@ -154,13 +154,13 @@ func (o *SyslogServer) HasFacility() bool {
 	return false
 }
 
-// SetFacility gets a reference to the given string and assigns it to the Facility field.
-func (o *SyslogServer) SetFacility(v string) {
+// SetFacility gets a reference to the given RemoteSyslogFacility and assigns it to the Facility field.
+func (o *RemoteSyslogServersItem) SetFacility(v RemoteSyslogFacility) {
 	o.Facility = &v
 }
 
 // GetHost returns the Host field value if set, zero value otherwise.
-func (o *SyslogServer) GetHost() string {
+func (o *RemoteSyslogServersItem) GetHost() string {
 	if o == nil || IsNil(o.Host) {
 		var ret string
 		return ret
@@ -170,7 +170,7 @@ func (o *SyslogServer) GetHost() string {
 
 // GetHostOk returns a tuple with the Host field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *SyslogServer) GetHostOk() (*string, bool) {
+func (o *RemoteSyslogServersItem) GetHostOk() (*string, bool) {
 	if o == nil || IsNil(o.Host) {
 		return nil, false
 	}
@@ -178,7 +178,7 @@ func (o *SyslogServer) GetHostOk() (*string, bool) {
 }
 
 // HasHost returns a boolean if a field has been set.
-func (o *SyslogServer) HasHost() bool {
+func (o *RemoteSyslogServersItem) HasHost() bool {
 	if o != nil && !IsNil(o.Host) {
 		return true
 	}
@@ -187,12 +187,12 @@ func (o *SyslogServer) HasHost() bool {
 }
 
 // SetHost gets a reference to the given string and assigns it to the Host field.
-func (o *SyslogServer) SetHost(v string) {
+func (o *RemoteSyslogServersItem) SetHost(v string) {
 	o.Host = &v
 }
 
 // GetMatch returns the Match field value if set, zero value otherwise.
-func (o *SyslogServer) GetMatch() string {
+func (o *RemoteSyslogServersItem) GetMatch() string {
 	if o == nil || IsNil(o.Match) {
 		var ret string
 		return ret
@@ -202,7 +202,7 @@ func (o *SyslogServer) GetMatch() string {
 
 // GetMatchOk returns a tuple with the Match field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *SyslogServer) GetMatchOk() (*string, bool) {
+func (o *RemoteSyslogServersItem) GetMatchOk() (*string, bool) {
 	if o == nil || IsNil(o.Match) {
 		return nil, false
 	}
@@ -210,7 +210,7 @@ func (o *SyslogServer) GetMatchOk() (*string, bool) {
 }
 
 // HasMatch returns a boolean if a field has been set.
-func (o *SyslogServer) HasMatch() bool {
+func (o *RemoteSyslogServersItem) HasMatch() bool {
 	if o != nil && !IsNil(o.Match) {
 		return true
 	}
@@ -219,12 +219,12 @@ func (o *SyslogServer) HasMatch() bool {
 }
 
 // SetMatch gets a reference to the given string and assigns it to the Match field.
-func (o *SyslogServer) SetMatch(v string) {
+func (o *RemoteSyslogServersItem) SetMatch(v string) {
 	o.Match = &v
 }
 
 // GetPort returns the Port field value if set, zero value otherwise.
-func (o *SyslogServer) GetPort() int32 {
+func (o *RemoteSyslogServersItem) GetPort() int32 {
 	if o == nil || IsNil(o.Port) {
 		var ret int32
 		return ret
@@ -234,7 +234,7 @@ func (o *SyslogServer) GetPort() int32 {
 
 // GetPortOk returns a tuple with the Port field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *SyslogServer) GetPortOk() (*int32, bool) {
+func (o *RemoteSyslogServersItem) GetPortOk() (*int32, bool) {
 	if o == nil || IsNil(o.Port) {
 		return nil, false
 	}
@@ -242,7 +242,7 @@ func (o *SyslogServer) GetPortOk() (*int32, bool) {
 }
 
 // HasPort returns a boolean if a field has been set.
-func (o *SyslogServer) HasPort() bool {
+func (o *RemoteSyslogServersItem) HasPort() bool {
 	if o != nil && !IsNil(o.Port) {
 		return true
 	}
@@ -251,14 +251,14 @@ func (o *SyslogServer) HasPort() bool {
 }
 
 // SetPort gets a reference to the given int32 and assigns it to the Port field.
-func (o *SyslogServer) SetPort(v int32) {
+func (o *RemoteSyslogServersItem) SetPort(v int32) {
 	o.Port = &v
 }
 
 // GetProtocol returns the Protocol field value if set, zero value otherwise.
-func (o *SyslogServer) GetProtocol() string {
+func (o *RemoteSyslogServersItem) GetProtocol() RemoteSyslogProtocol {
 	if o == nil || IsNil(o.Protocol) {
-		var ret string
+		var ret RemoteSyslogProtocol
 		return ret
 	}
 	return *o.Protocol
@@ -266,7 +266,7 @@ func (o *SyslogServer) GetProtocol() string {
 
 // GetProtocolOk returns a tuple with the Protocol field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *SyslogServer) GetProtocolOk() (*string, bool) {
+func (o *RemoteSyslogServersItem) GetProtocolOk() (*RemoteSyslogProtocol, bool) {
 	if o == nil || IsNil(o.Protocol) {
 		return nil, false
 	}
@@ -274,7 +274,7 @@ func (o *SyslogServer) GetProtocolOk() (*string, bool) {
 }
 
 // HasProtocol returns a boolean if a field has been set.
-func (o *SyslogServer) HasProtocol() bool {
+func (o *RemoteSyslogServersItem) HasProtocol() bool {
 	if o != nil && !IsNil(o.Protocol) {
 		return true
 	}
@@ -282,13 +282,13 @@ func (o *SyslogServer) HasProtocol() bool {
 	return false
 }
 
-// SetProtocol gets a reference to the given string and assigns it to the Protocol field.
-func (o *SyslogServer) SetProtocol(v string) {
+// SetProtocol gets a reference to the given RemoteSyslogProtocol and assigns it to the Protocol field.
+func (o *RemoteSyslogServersItem) SetProtocol(v RemoteSyslogProtocol) {
 	o.Protocol = &v
 }
 
 // GetRoutingInstance returns the RoutingInstance field value if set, zero value otherwise.
-func (o *SyslogServer) GetRoutingInstance() string {
+func (o *RemoteSyslogServersItem) GetRoutingInstance() string {
 	if o == nil || IsNil(o.RoutingInstance) {
 		var ret string
 		return ret
@@ -298,7 +298,7 @@ func (o *SyslogServer) GetRoutingInstance() string {
 
 // GetRoutingInstanceOk returns a tuple with the RoutingInstance field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *SyslogServer) GetRoutingInstanceOk() (*string, bool) {
+func (o *RemoteSyslogServersItem) GetRoutingInstanceOk() (*string, bool) {
 	if o == nil || IsNil(o.RoutingInstance) {
 		return nil, false
 	}
@@ -306,7 +306,7 @@ func (o *SyslogServer) GetRoutingInstanceOk() (*string, bool) {
 }
 
 // HasRoutingInstance returns a boolean if a field has been set.
-func (o *SyslogServer) HasRoutingInstance() bool {
+func (o *RemoteSyslogServersItem) HasRoutingInstance() bool {
 	if o != nil && !IsNil(o.RoutingInstance) {
 		return true
 	}
@@ -315,14 +315,14 @@ func (o *SyslogServer) HasRoutingInstance() bool {
 }
 
 // SetRoutingInstance gets a reference to the given string and assigns it to the RoutingInstance field.
-func (o *SyslogServer) SetRoutingInstance(v string) {
+func (o *RemoteSyslogServersItem) SetRoutingInstance(v string) {
 	o.RoutingInstance = &v
 }
 
 // GetSeverity returns the Severity field value if set, zero value otherwise.
-func (o *SyslogServer) GetSeverity() string {
+func (o *RemoteSyslogServersItem) GetSeverity() RemoteSyslogSeverity {
 	if o == nil || IsNil(o.Severity) {
-		var ret string
+		var ret RemoteSyslogSeverity
 		return ret
 	}
 	return *o.Severity
@@ -330,7 +330,7 @@ func (o *SyslogServer) GetSeverity() string {
 
 // GetSeverityOk returns a tuple with the Severity field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *SyslogServer) GetSeverityOk() (*string, bool) {
+func (o *RemoteSyslogServersItem) GetSeverityOk() (*RemoteSyslogSeverity, bool) {
 	if o == nil || IsNil(o.Severity) {
 		return nil, false
 	}
@@ -338,7 +338,7 @@ func (o *SyslogServer) GetSeverityOk() (*string, bool) {
 }
 
 // HasSeverity returns a boolean if a field has been set.
-func (o *SyslogServer) HasSeverity() bool {
+func (o *RemoteSyslogServersItem) HasSeverity() bool {
 	if o != nil && !IsNil(o.Severity) {
 		return true
 	}
@@ -346,13 +346,13 @@ func (o *SyslogServer) HasSeverity() bool {
 	return false
 }
 
-// SetSeverity gets a reference to the given string and assigns it to the Severity field.
-func (o *SyslogServer) SetSeverity(v string) {
+// SetSeverity gets a reference to the given RemoteSyslogSeverity and assigns it to the Severity field.
+func (o *RemoteSyslogServersItem) SetSeverity(v RemoteSyslogSeverity) {
 	o.Severity = &v
 }
 
 // GetSourceAddress returns the SourceAddress field value if set, zero value otherwise.
-func (o *SyslogServer) GetSourceAddress() string {
+func (o *RemoteSyslogServersItem) GetSourceAddress() string {
 	if o == nil || IsNil(o.SourceAddress) {
 		var ret string
 		return ret
@@ -362,7 +362,7 @@ func (o *SyslogServer) GetSourceAddress() string {
 
 // GetSourceAddressOk returns a tuple with the SourceAddress field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *SyslogServer) GetSourceAddressOk() (*string, bool) {
+func (o *RemoteSyslogServersItem) GetSourceAddressOk() (*string, bool) {
 	if o == nil || IsNil(o.SourceAddress) {
 		return nil, false
 	}
@@ -370,7 +370,7 @@ func (o *SyslogServer) GetSourceAddressOk() (*string, bool) {
 }
 
 // HasSourceAddress returns a boolean if a field has been set.
-func (o *SyslogServer) HasSourceAddress() bool {
+func (o *RemoteSyslogServersItem) HasSourceAddress() bool {
 	if o != nil && !IsNil(o.SourceAddress) {
 		return true
 	}
@@ -379,12 +379,12 @@ func (o *SyslogServer) HasSourceAddress() bool {
 }
 
 // SetSourceAddress gets a reference to the given string and assigns it to the SourceAddress field.
-func (o *SyslogServer) SetSourceAddress(v string) {
+func (o *RemoteSyslogServersItem) SetSourceAddress(v string) {
 	o.SourceAddress = &v
 }
 
 // GetStructuredData returns the StructuredData field value if set, zero value otherwise.
-func (o *SyslogServer) GetStructuredData() bool {
+func (o *RemoteSyslogServersItem) GetStructuredData() bool {
 	if o == nil || IsNil(o.StructuredData) {
 		var ret bool
 		return ret
@@ -394,7 +394,7 @@ func (o *SyslogServer) GetStructuredData() bool {
 
 // GetStructuredDataOk returns a tuple with the StructuredData field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *SyslogServer) GetStructuredDataOk() (*bool, bool) {
+func (o *RemoteSyslogServersItem) GetStructuredDataOk() (*bool, bool) {
 	if o == nil || IsNil(o.StructuredData) {
 		return nil, false
 	}
@@ -402,7 +402,7 @@ func (o *SyslogServer) GetStructuredDataOk() (*bool, bool) {
 }
 
 // HasStructuredData returns a boolean if a field has been set.
-func (o *SyslogServer) HasStructuredData() bool {
+func (o *RemoteSyslogServersItem) HasStructuredData() bool {
 	if o != nil && !IsNil(o.StructuredData) {
 		return true
 	}
@@ -411,12 +411,12 @@ func (o *SyslogServer) HasStructuredData() bool {
 }
 
 // SetStructuredData gets a reference to the given bool and assigns it to the StructuredData field.
-func (o *SyslogServer) SetStructuredData(v bool) {
+func (o *RemoteSyslogServersItem) SetStructuredData(v bool) {
 	o.StructuredData = &v
 }
 
 // GetTag returns the Tag field value if set, zero value otherwise.
-func (o *SyslogServer) GetTag() string {
+func (o *RemoteSyslogServersItem) GetTag() string {
 	if o == nil || IsNil(o.Tag) {
 		var ret string
 		return ret
@@ -426,7 +426,7 @@ func (o *SyslogServer) GetTag() string {
 
 // GetTagOk returns a tuple with the Tag field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *SyslogServer) GetTagOk() (*string, bool) {
+func (o *RemoteSyslogServersItem) GetTagOk() (*string, bool) {
 	if o == nil || IsNil(o.Tag) {
 		return nil, false
 	}
@@ -434,7 +434,7 @@ func (o *SyslogServer) GetTagOk() (*string, bool) {
 }
 
 // HasTag returns a boolean if a field has been set.
-func (o *SyslogServer) HasTag() bool {
+func (o *RemoteSyslogServersItem) HasTag() bool {
 	if o != nil && !IsNil(o.Tag) {
 		return true
 	}
@@ -443,11 +443,11 @@ func (o *SyslogServer) HasTag() bool {
 }
 
 // SetTag gets a reference to the given string and assigns it to the Tag field.
-func (o *SyslogServer) SetTag(v string) {
+func (o *RemoteSyslogServersItem) SetTag(v string) {
 	o.Tag = &v
 }
 
-func (o SyslogServer) MarshalJSON() ([]byte, error) {
+func (o RemoteSyslogServersItem) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
@@ -455,10 +455,10 @@ func (o SyslogServer) MarshalJSON() ([]byte, error) {
 	return json.Marshal(toSerialize)
 }
 
-func (o SyslogServer) ToMap() (map[string]interface{}, error) {
+func (o RemoteSyslogServersItem) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if !IsNil(o.CremoteSyslogServersOntents) {
-		toSerialize["cremote_syslog_servers_ontents"] = o.CremoteSyslogServersOntents
+	if !IsNil(o.Contents) {
+		toSerialize["contents"] = o.Contents
 	}
 	if !IsNil(o.ExplicitPriority) {
 		toSerialize["explicit_priority"] = o.ExplicitPriority
@@ -501,21 +501,21 @@ func (o SyslogServer) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-func (o *SyslogServer) UnmarshalJSON(data []byte) (err error) {
-	varSyslogServer := _SyslogServer{}
+func (o *RemoteSyslogServersItem) UnmarshalJSON(data []byte) (err error) {
+	varRemoteSyslogServersItem := _RemoteSyslogServersItem{}
 
-	err = json.Unmarshal(data, &varSyslogServer)
+	err = json.Unmarshal(data, &varRemoteSyslogServersItem)
 
 	if err != nil {
 		return err
 	}
 
-	*o = SyslogServer(varSyslogServer)
+	*o = RemoteSyslogServersItem(varRemoteSyslogServersItem)
 
 	additionalProperties := make(map[string]interface{})
 
 	if err = json.Unmarshal(data, &additionalProperties); err == nil {
-		delete(additionalProperties, "cremote_syslog_servers_ontents")
+		delete(additionalProperties, "contents")
 		delete(additionalProperties, "explicit_priority")
 		delete(additionalProperties, "facility")
 		delete(additionalProperties, "host")
@@ -533,38 +533,38 @@ func (o *SyslogServer) UnmarshalJSON(data []byte) (err error) {
 	return err
 }
 
-type NullableSyslogServer struct {
-	value *SyslogServer
+type NullableRemoteSyslogServersItem struct {
+	value *RemoteSyslogServersItem
 	isSet bool
 }
 
-func (v NullableSyslogServer) Get() *SyslogServer {
+func (v NullableRemoteSyslogServersItem) Get() *RemoteSyslogServersItem {
 	return v.value
 }
 
-func (v *NullableSyslogServer) Set(val *SyslogServer) {
+func (v *NullableRemoteSyslogServersItem) Set(val *RemoteSyslogServersItem) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableSyslogServer) IsSet() bool {
+func (v NullableRemoteSyslogServersItem) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableSyslogServer) Unset() {
+func (v *NullableRemoteSyslogServersItem) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableSyslogServer(val *SyslogServer) *NullableSyslogServer {
-	return &NullableSyslogServer{value: val, isSet: true}
+func NewNullableRemoteSyslogServersItem(val *RemoteSyslogServersItem) *NullableRemoteSyslogServersItem {
+	return &NullableRemoteSyslogServersItem{value: val, isSet: true}
 }
 
-func (v NullableSyslogServer) MarshalJSON() ([]byte, error) {
+func (v NullableRemoteSyslogServersItem) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableSyslogServer) UnmarshalJSON(src []byte) error {
+func (v *NullableRemoteSyslogServersItem) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

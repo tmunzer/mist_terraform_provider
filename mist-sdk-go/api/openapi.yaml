@@ -4762,7 +4762,13 @@ components:
               via: 10.2.1.1
             type: object
           remote_syslog:
-            remote_syslog_servers:
+            console:
+              contents:
+              - severity: any
+                facility: config
+              - severity: any
+                facility: config
+            servers:
             - facility: config
               host: syslogd.internal
               port: 514
@@ -4770,58 +4776,52 @@ components:
               severity: info
               tag: ""
             time_format: millisecond
-            remote_syslog_archive:
+            send_to_all_servers: false
+            files:
+            - file: file-name
+              contents:
+              - severity: any
+                facility: config
+              - severity: any
+                facility: config
+              match: "!alarm|ntp|errors.crc_error[chan]"
+              explicit_priority: true
+              archive:
+                size: 5m
+                files: 20
+              structured_data: true
+            - file: file-name
+              contents:
+              - severity: any
+                facility: config
+              - severity: any
+                facility: config
+              match: "!alarm|ntp|errors.crc_error[chan]"
+              explicit_priority: true
+              archive:
+                size: 5m
+                files: 20
+              structured_data: true
+            archive:
               size: 5m
               files: 20
-            remote_syslog_files:
-            - file: file-name
-              match: "!alarm|ntp|errors.crc_error[chan]"
-              explicit_priority: true
-              archive:
-                size: 5m
-                files: 10
-              structured_data: true
-              remote_syslog_file_contents:
-              - severity: warning
-                facility: config
-              - severity: warning
-                facility: config
-            - file: file-name
-              match: "!alarm|ntp|errors.crc_error[chan]"
-              explicit_priority: true
-              archive:
-                size: 5m
-                files: 10
-              structured_data: true
-              remote_syslog_file_contents:
-              - severity: warning
-                facility: config
-              - severity: warning
-                facility: config
-            send_to_all_servers: false
-            remote_syslog_console:
-              remote_syslog_console_contents:
-              - severity: warning
-                facility: config
-              - severity: warning
-                facility: config
             enabled: false
+            users:
+            - contents:
+              - severity: any
+                facility: config
+              - severity: any
+                facility: config
+              match: "\"!alarm|ntp|errors.crc_error[chan]\""
+              user: '*'
+            - contents:
+              - severity: any
+                facility: config
+              - severity: any
+                facility: config
+              match: "\"!alarm|ntp|errors.crc_error[chan]\""
+              user: '*'
             network: default
-            remote_syslog_users:
-            - remote_syslog_users_contents:
-              - severity: warning
-                facility: config
-              - severity: warning
-                facility: config
-              match: "\"!alarm|ntp|errors.crc_error[chan]\""
-              user: '*'
-            - remote_syslog_users_contents:
-              - severity: warning
-                facility: config
-              - severity: warning
-                facility: config
-              match: "\"!alarm|ntp|errors.crc_error[chan]\""
-              user: '*'
         ap_port_config:
           model_specific:
             AP32:
@@ -5166,7 +5166,13 @@ components:
         watched_station_url: https://papi.s3.amazonaws.com/watched_station/xxx...
         for_site: true
         remote_syslog:
-          remote_syslog_servers:
+          console:
+            contents:
+            - severity: any
+              facility: config
+            - severity: any
+              facility: config
+          servers:
           - facility: config
             host: syslogd.internal
             port: 514
@@ -5174,58 +5180,52 @@ components:
             severity: info
             tag: ""
           time_format: millisecond
-          remote_syslog_archive:
+          send_to_all_servers: false
+          files:
+          - file: file-name
+            contents:
+            - severity: any
+              facility: config
+            - severity: any
+              facility: config
+            match: "!alarm|ntp|errors.crc_error[chan]"
+            explicit_priority: true
+            archive:
+              size: 5m
+              files: 20
+            structured_data: true
+          - file: file-name
+            contents:
+            - severity: any
+              facility: config
+            - severity: any
+              facility: config
+            match: "!alarm|ntp|errors.crc_error[chan]"
+            explicit_priority: true
+            archive:
+              size: 5m
+              files: 20
+            structured_data: true
+          archive:
             size: 5m
             files: 20
-          remote_syslog_files:
-          - file: file-name
-            match: "!alarm|ntp|errors.crc_error[chan]"
-            explicit_priority: true
-            archive:
-              size: 5m
-              files: 10
-            structured_data: true
-            remote_syslog_file_contents:
-            - severity: warning
-              facility: config
-            - severity: warning
-              facility: config
-          - file: file-name
-            match: "!alarm|ntp|errors.crc_error[chan]"
-            explicit_priority: true
-            archive:
-              size: 5m
-              files: 10
-            structured_data: true
-            remote_syslog_file_contents:
-            - severity: warning
-              facility: config
-            - severity: warning
-              facility: config
-          send_to_all_servers: false
-          remote_syslog_console:
-            remote_syslog_console_contents:
-            - severity: warning
-              facility: config
-            - severity: warning
-              facility: config
           enabled: false
+          users:
+          - contents:
+            - severity: any
+              facility: config
+            - severity: any
+              facility: config
+            match: "\"!alarm|ntp|errors.crc_error[chan]\""
+            user: '*'
+          - contents:
+            - severity: any
+              facility: config
+            - severity: any
+              facility: config
+            match: "\"!alarm|ntp|errors.crc_error[chan]\""
+            user: '*'
           network: default
-          remote_syslog_users:
-          - remote_syslog_users_contents:
-            - severity: warning
-              facility: config
-            - severity: warning
-              facility: config
-            match: "\"!alarm|ntp|errors.crc_error[chan]\""
-            user: '*'
-          - remote_syslog_users_contents:
-            - severity: warning
-              facility: config
-            - severity: warning
-              facility: config
-            match: "\"!alarm|ntp|errors.crc_error[chan]\""
-            user: '*'
         analytic:
           enabled: false
         gateway:
@@ -8849,7 +8849,13 @@ components:
             via: 10.2.1.1
           type: object
         remote_syslog:
-          remote_syslog_servers:
+          console:
+            contents:
+            - severity: any
+              facility: config
+            - severity: any
+              facility: config
+          servers:
           - facility: config
             host: syslogd.internal
             port: 514
@@ -8857,58 +8863,52 @@ components:
             severity: info
             tag: ""
           time_format: millisecond
-          remote_syslog_archive:
+          send_to_all_servers: false
+          files:
+          - file: file-name
+            contents:
+            - severity: any
+              facility: config
+            - severity: any
+              facility: config
+            match: "!alarm|ntp|errors.crc_error[chan]"
+            explicit_priority: true
+            archive:
+              size: 5m
+              files: 20
+            structured_data: true
+          - file: file-name
+            contents:
+            - severity: any
+              facility: config
+            - severity: any
+              facility: config
+            match: "!alarm|ntp|errors.crc_error[chan]"
+            explicit_priority: true
+            archive:
+              size: 5m
+              files: 20
+            structured_data: true
+          archive:
             size: 5m
             files: 20
-          remote_syslog_files:
-          - file: file-name
-            match: "!alarm|ntp|errors.crc_error[chan]"
-            explicit_priority: true
-            archive:
-              size: 5m
-              files: 10
-            structured_data: true
-            remote_syslog_file_contents:
-            - severity: warning
-              facility: config
-            - severity: warning
-              facility: config
-          - file: file-name
-            match: "!alarm|ntp|errors.crc_error[chan]"
-            explicit_priority: true
-            archive:
-              size: 5m
-              files: 10
-            structured_data: true
-            remote_syslog_file_contents:
-            - severity: warning
-              facility: config
-            - severity: warning
-              facility: config
-          send_to_all_servers: false
-          remote_syslog_console:
-            remote_syslog_console_contents:
-            - severity: warning
-              facility: config
-            - severity: warning
-              facility: config
           enabled: false
+          users:
+          - contents:
+            - severity: any
+              facility: config
+            - severity: any
+              facility: config
+            match: "\"!alarm|ntp|errors.crc_error[chan]\""
+            user: '*'
+          - contents:
+            - severity: any
+              facility: config
+            - severity: any
+              facility: config
+            match: "\"!alarm|ntp|errors.crc_error[chan]\""
+            user: '*'
           network: default
-          remote_syslog_users:
-          - remote_syslog_users_contents:
-            - severity: warning
-              facility: config
-            - severity: warning
-              facility: config
-            match: "\"!alarm|ntp|errors.crc_error[chan]\""
-            user: '*'
-          - remote_syslog_users_contents:
-            - severity: warning
-              facility: config
-            - severity: warning
-              facility: config
-            match: "\"!alarm|ntp|errors.crc_error[chan]\""
-            user: '*'
       properties:
         acl_tags:
           additionalProperties:
@@ -15666,9 +15666,128 @@ components:
           example: http://proxy.corp.com:8080/
           type: string
       type: object
+    remote_syslog_archive:
+      example:
+        size: 5m
+        files: 20
+      properties:
+        files:
+          example: 20
+          type: integer
+        size:
+          example: 5m
+          type: string
+      type: object
+    remote_syslog_files:
+      items:
+        $ref: '#/components/schemas/syslog_file_config'
+      type: array
+    remote_syslog_protocol:
+      default: udp
+      enum:
+      - udp
+      - tcp
+      type: string
+    remote_syslog_severity:
+      enum:
+      - any
+      - alert
+      - emergency
+      - critical
+      - warning
+      - info
+      - notice
+      - error
+      type: string
+    remote_syslog_facility:
+      enum:
+      - any
+      - authorization
+      - conflict-log
+      - change-log
+      - config
+      - daemon
+      - dfc
+      - kernel
+      - interactive-commands
+      - ftp
+      - firewall
+      - external
+      - pfe
+      - ntp
+      - security
+      - user
+      example: config
+      type: string
+    remote_syslog_servers_item:
+      properties:
+        contents:
+          items:
+            $ref: '#/components/schemas/remote_syslog_content_item'
+          type: array
+        explicit_priority:
+          type: boolean
+        facility:
+          $ref: '#/components/schemas/remote_syslog_facility'
+        host:
+          example: syslogd.internal
+          type: string
+        match:
+          example: "!alarm|ntp|errors.crc_error[chan]"
+          type: string
+        port:
+          default: 514
+          type: integer
+        protocol:
+          $ref: '#/components/schemas/remote_syslog_protocol'
+        routing_instance:
+          example: routing-instance-name
+          type: string
+        severity:
+          $ref: '#/components/schemas/remote_syslog_severity'
+        source_address:
+          description: "if source_address is configured, will use the vlan firstly\
+            \ otherwise use source_ip"
+          type: string
+        structured_data:
+          type: boolean
+        tag:
+          type: string
+      title: syslog_server
+      type: object
+    remote_syslog_servers:
+      example:
+      - facility: config
+        host: syslogd.internal
+        port: 514
+        protocol: udp
+        severity: info
+        tag: ""
+      items:
+        $ref: '#/components/schemas/remote_syslog_servers_item'
+      type: array
+    remote_syslog_console:
+      example:
+        contents:
+        - severity: any
+          facility: config
+        - severity: any
+          facility: config
+      properties:
+        contents:
+          items:
+            $ref: '#/components/schemas/remote_syslog_content_item'
+          type: array
+      type: object
     remote_syslog:
       example:
-        remote_syslog_servers:
+        console:
+          contents:
+          - severity: any
+            facility: config
+          - severity: any
+            facility: config
+        servers:
         - facility: config
           host: syslogd.internal
           port: 514
@@ -15676,67 +15795,61 @@ components:
           severity: info
           tag: ""
         time_format: millisecond
-        remote_syslog_archive:
+        send_to_all_servers: false
+        files:
+        - file: file-name
+          contents:
+          - severity: any
+            facility: config
+          - severity: any
+            facility: config
+          match: "!alarm|ntp|errors.crc_error[chan]"
+          explicit_priority: true
+          archive:
+            size: 5m
+            files: 20
+          structured_data: true
+        - file: file-name
+          contents:
+          - severity: any
+            facility: config
+          - severity: any
+            facility: config
+          match: "!alarm|ntp|errors.crc_error[chan]"
+          explicit_priority: true
+          archive:
+            size: 5m
+            files: 20
+          structured_data: true
+        archive:
           size: 5m
           files: 20
-        remote_syslog_files:
-        - file: file-name
-          match: "!alarm|ntp|errors.crc_error[chan]"
-          explicit_priority: true
-          archive:
-            size: 5m
-            files: 10
-          structured_data: true
-          remote_syslog_file_contents:
-          - severity: warning
-            facility: config
-          - severity: warning
-            facility: config
-        - file: file-name
-          match: "!alarm|ntp|errors.crc_error[chan]"
-          explicit_priority: true
-          archive:
-            size: 5m
-            files: 10
-          structured_data: true
-          remote_syslog_file_contents:
-          - severity: warning
-            facility: config
-          - severity: warning
-            facility: config
-        send_to_all_servers: false
-        remote_syslog_console:
-          remote_syslog_console_contents:
-          - severity: warning
-            facility: config
-          - severity: warning
-            facility: config
         enabled: false
+        users:
+        - contents:
+          - severity: any
+            facility: config
+          - severity: any
+            facility: config
+          match: "\"!alarm|ntp|errors.crc_error[chan]\""
+          user: '*'
+        - contents:
+          - severity: any
+            facility: config
+          - severity: any
+            facility: config
+          match: "\"!alarm|ntp|errors.crc_error[chan]\""
+          user: '*'
         network: default
-        remote_syslog_users:
-        - remote_syslog_users_contents:
-          - severity: warning
-            facility: config
-          - severity: warning
-            facility: config
-          match: "\"!alarm|ntp|errors.crc_error[chan]\""
-          user: '*'
-        - remote_syslog_users_contents:
-          - severity: warning
-            facility: config
-          - severity: warning
-            facility: config
-          match: "\"!alarm|ntp|errors.crc_error[chan]\""
-          user: '*'
       properties:
-        remote_syslog_archive:
-          $ref: '#/components/schemas/remote_syslog_remote_syslog_archive'
-        remote_syslog_console:
-          $ref: '#/components/schemas/remote_syslog_remote_syslog_console'
+        archive:
+          $ref: '#/components/schemas/remote_syslog_archive'
+        console:
+          $ref: '#/components/schemas/remote_syslog_console'
         enabled:
           default: false
           type: boolean
-        remote_syslog_files:
+        files:
           items:
             $ref: '#/components/schemas/syslog_file_config'
           type: array
@@ -15748,7 +15861,7 @@ components:
         send_to_all_servers:
           default: false
           type: boolean
-        remote_syslog_servers:
+        servers:
           example:
           - facility: config
             host: syslogd.internal
@@ -15757,59 +15870,60 @@ components:
             severity: info
             tag: ""
           items:
-            $ref: '#/components/schemas/syslog_server'
+            $ref: '#/components/schemas/remote_syslog_servers_item'
           type: array
         time_format:
-          enum:
-          - millisecond
-          - year
-          - year millisecond
-          example: millisecond
-          type: string
-        remote_syslog_users:
+          $ref: '#/components/schemas/time_format'
+        users:
           items:
-            $ref: '#/components/schemas/remote_syslog_user'
+            $ref: '#/components/schemas/remote_syslog_users_item'
           type: array
       type: object
-    remote_syslog_content:
+    remote_syslog_users_item:
       example:
-        severity: warning
+        contents:
+        - severity: any
+          facility: config
+        - severity: any
+          facility: config
+        match: "\"!alarm|ntp|errors.crc_error[chan]\""
+        user: '*'
+      properties:
+        contents:
+          items:
+            $ref: '#/components/schemas/remote_syslog_content_item'
+          type: array
+        match:
+          example: "\"!alarm|ntp|errors.crc_error[chan]\""
+          type: string
+        user:
+          example: '*'
+          type: string
+      type: object
+    remote_syslog_users:
+      items:
+        $ref: '#/components/schemas/remote_syslog_users_item'
+      type: array
+    time_format:
+      enum:
+      - millisecond
+      - year
+      - year millisecond
+      example: millisecond
+      type: string
+    remote_syslog_content:
+      items:
+        $ref: '#/components/schemas/remote_syslog_content_item'
+      type: array
+    remote_syslog_content_item:
+      example:
+        severity: any
         facility: config
       properties:
         facility:
-          enum:
-          - any
-          - authorization
-          - conflict-log
-          - change-log
-          - config
-          - daemon
-          - dfc
-          - kernel
-          - interactive-commands
-          - ftp
-          - firewall
-          - external
-          - pfe
-          - ntp
-          - security
-          - user
-          example: config
-          type: string
+          $ref: '#/components/schemas/remote_syslog_facility'
         severity:
-          enum:
-          - any
-          - alert
-          - emergency
-          - critical
-          - warning
-          - info
-          - notice
-          - error
-          example: warning
-          type: string
-      title: remote_syslog_content
-      type: object
+          $ref: '#/components/schemas/remote_syslog_severity'
     simple_alert:
       description: |-
         Set of heuristic rules will be enabled when marvis subscription is not available.
@@ -16256,12 +16370,7 @@ components:
             \ false"
           type: boolean
         keywrap_format:
-          description: if used for Mist APs
-          enum:
-          - hex
-          - ascii
-          title: mxcluster_rad_auth_server_keywrap_format
-          type: string
+          $ref: '#/components/schemas/radius_keywrap_format'
         keywrap_kek:
           description: "if used for Mist APs, encryption key"
           type: string
@@ -19832,63 +19941,26 @@ components:
             type: integer
           type: array
       type: object
-    remote_syslog_remote_syslog_archive:
-      example:
-        size: 5m
-        files: 20
-      properties:
-        files:
-          example: 20
-          type: integer
-        size:
-          example: 5m
-          type: string
-      type: object
-    remote_syslog_remote_syslog_console:
-      example:
-        remote_syslog_console_contents:
-        - severity: warning
-          facility: config
-        - severity: warning
-          facility: config
-      properties:
-        remote_syslog_console_contents:
-          items:
-            $ref: '#/components/schemas/remote_syslog_content'
-          type: array
-      type: object
-    syslog_file_config_archive:
-      example:
-        size: 5m
-        files: 10
-      properties:
-        files:
-          example: 10
-          type: integer
-        size:
-          example: 5m
-          type: string
-      type: object
     syslog_file_config:
       example:
         file: file-name
+        contents:
+        - severity: any
+          facility: config
+        - severity: any
+          facility: config
         match: "!alarm|ntp|errors.crc_error[chan]"
         explicit_priority: true
         archive:
           size: 5m
-          files: 10
+          files: 20
         structured_data: true
-        remote_syslog_file_contents:
-        - severity: warning
-          facility: config
-        - severity: warning
-          facility: config
       properties:
         archive:
-          $ref: '#/components/schemas/syslog_file_config_archive'
-        remote_syslog_file_contents:
+          $ref: '#/components/schemas/remote_syslog_archive'
+        contents:
           items:
-            $ref: '#/components/schemas/remote_syslog_content'
+            $ref: '#/components/schemas/remote_syslog_content_item'
           type: array
         explicit_priority:
           type: boolean
@@ -19902,95 +19974,6 @@ components:
         structured_data:
           type: boolean
       title: syslog_file_config
-      type: object
-    syslog_server:
-      properties:
-        cremote_syslog_servers_ontents:
-          items:
-            $ref: '#/components/schemas/remote_syslog_content'
-          type: array
-        explicit_priority:
-          type: boolean
-        facility:
-          enum:
-          - any
-          - authorization
-          - conflict-log
-          - change-log
-          - config
-          - daemon
-          - dfc
-          - kernel
-          - interactive-commands
-          - ftp
-          - firewall
-          - external
-          - pfe
-          - ntp
-          - security
-          - user
-          example: config
-          type: string
-        host:
-          example: syslogd.internal
-          type: string
-        match:
-          example: "!alarm|ntp|errors.crc_error[chan]"
-          type: string
-        port:
-          default: 514
-          type: integer
-        protocol:
-          default: udp
-          enum:
-          - udp
-          - tcp
-          type: string
-        routing_instance:
-          example: routing-instance-name
-          type: string
-        severity:
-          enum:
-          - any
-          - alert
-          - emergency
-          - critical
-          - warning
-          - info
-          - notice
-          - error
-          type: string
-        source_address:
-          description: "if source_address is configured, will use the vlan firstly\
-            \ otherwise use source_ip"
-          type: string
-        structured_data:
-          type: boolean
-        tag:
-          type: string
-      title: syslog_server
-      type: object
-    remote_syslog_user:
-      example:
-        remote_syslog_users_contents:
-        - severity: warning
-          facility: config
-        - severity: warning
-          facility: config
-        match: "\"!alarm|ntp|errors.crc_error[chan]\""
-        user: '*'
-      properties:
-        remote_syslog_users_contents:
-          items:
-            $ref: '#/components/schemas/remote_syslog_content'
-          type: array
-        match:
-          example: "\"!alarm|ntp|errors.crc_error[chan]\""
-          type: string
-        user:
-          example: '*'
-          type: string
-      title: remote_syslog_user
       type: object
     simple_alert_arp_failure:
       example:

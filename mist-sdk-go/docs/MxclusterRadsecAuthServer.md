@@ -6,7 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Host** | Pointer to **string** | ip / hostname of RADIUS server | [optional] 
 **KeywrapEnabled** | Pointer to **bool** | if used for Mist APs, enable keywrap algorithm. Default is false | [optional] 
-**KeywrapFormat** | Pointer to **string** | if used for Mist APs | [optional] 
+**KeywrapFormat** | Pointer to [**RadiusKeywrapFormat**](RadiusKeywrapFormat.md) |  | [optional] 
 **KeywrapKek** | Pointer to **string** | if used for Mist APs, encryption key | [optional] 
 **KeywrapMack** | Pointer to **string** | if used for Mist APs, Message Authentication Code Key | [optional] 
 **Port** | Pointer to **int32** | Auth port of RADIUS server | [optional] [default to 1812]
@@ -84,20 +84,20 @@ HasKeywrapEnabled returns a boolean if a field has been set.
 
 ### GetKeywrapFormat
 
-`func (o *MxclusterRadsecAuthServer) GetKeywrapFormat() string`
+`func (o *MxclusterRadsecAuthServer) GetKeywrapFormat() RadiusKeywrapFormat`
 
 GetKeywrapFormat returns the KeywrapFormat field if non-nil, zero value otherwise.
 
 ### GetKeywrapFormatOk
 
-`func (o *MxclusterRadsecAuthServer) GetKeywrapFormatOk() (*string, bool)`
+`func (o *MxclusterRadsecAuthServer) GetKeywrapFormatOk() (*RadiusKeywrapFormat, bool)`
 
 GetKeywrapFormatOk returns a tuple with the KeywrapFormat field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetKeywrapFormat
 
-`func (o *MxclusterRadsecAuthServer) SetKeywrapFormat(v string)`
+`func (o *MxclusterRadsecAuthServer) SetKeywrapFormat(v RadiusKeywrapFormat)`
 
 SetKeywrapFormat sets KeywrapFormat field to given value.
 

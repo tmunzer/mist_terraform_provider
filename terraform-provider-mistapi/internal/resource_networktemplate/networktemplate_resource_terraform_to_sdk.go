@@ -37,11 +37,14 @@ func TerraformToSdk(ctx context.Context, plan *NetworktemplateModel) (mistsdkgo.
 	networks := networksTerraformToSdk(ctx, &diags, plan.Networks)
 	data.SetNetworks(networks)
 
+	port_usage := portUsageTerraformToSdk(ctx, &diags, plan.PortUsages)
+	data.SetPortUsages(port_usage)
+
 	radius_config := radiusConfigTerraformToSdk(ctx, &diags, plan.RadiusConfig)
 	data.SetRadiusConfig(radius_config)
 
-	port_usage := portUsageTerraformToSdk(ctx, &diags, plan.PortUsages)
-	data.SetPortUsages(port_usage)
+	remote_syslog := remoteSyslogTerraformToSdk(ctx, &diags, plan.RemoteSyslog)
+	data.SetRemoteSyslog(remote_syslog)
 
 	vrfConfig := vrfConfigTerraformToSdk(ctx, &diags, plan.VrfConfig)
 	data.SetVrfConfig(vrfConfig)
@@ -53,6 +56,7 @@ func TerraformToSdk(ctx context.Context, plan *NetworktemplateModel) (mistsdkgo.
 	return data, orgId, diags
 }
 
+// ////////////////// NETWORKS ///////////////////////
 func networksTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.MapValue) map[string]mistsdkgo.NetworkTemplateNetwork {
 	data := make(map[string]mistsdkgo.NetworkTemplateNetwork)
 	for vlan_name, vlan_data_attr := range d.Elements() {
@@ -67,6 +71,8 @@ func networksTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d base
 	}
 	return data
 }
+
+// ////////////////// RADIUS ///////////////////////
 
 func radiusConfigTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d RadiusConfigValue) mistsdkgo.JunosRadiusConfig {
 
@@ -85,7 +91,7 @@ func radiusConfigTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d 
 		acct_plan := acct_plan_interface.(AcctServersValue)
 		acct_data := mistsdkgo.NewRadiusAcctServer(acct_plan.Host.ValueString(), int32(acct_plan.Port.ValueInt64()), acct_plan.Secret.ValueString())
 		acct_data.SetKeywrapEnabled(acct_plan.KeywrapEnabled.ValueBool())
-		acct_data.SetKeywrapFormat(acct_plan.KeywrapFormat.ValueString())
+		acct_data.SetKeywrapFormat(mistsdkgo.RadiusKeywrapFormat(acct_plan.KeywrapFormat.ValueString()))
 		acct_data.SetKeywrapKek(acct_plan.KeywrapKek.ValueString())
 		acct_data.SetKeywrapMack(acct_plan.KeywrapMack.ValueString())
 		rc_acct_data = append(rc_acct_data, *acct_data)
@@ -98,7 +104,7 @@ func radiusConfigTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d 
 		auth_plan := auth_plan_interface.(AuthServersValue)
 		auth_data := mistsdkgo.NewRadiusAuthServer(auth_plan.Host.ValueString(), int32(auth_plan.Port.ValueInt64()), auth_plan.Secret.ValueString())
 		auth_data.SetKeywrapEnabled(auth_plan.KeywrapEnabled.ValueBool())
-		auth_data.SetKeywrapFormat(auth_plan.KeywrapFormat.ValueString())
+		auth_data.SetKeywrapFormat(mistsdkgo.RadiusKeywrapFormat(auth_plan.KeywrapFormat.ValueString()))
 		auth_data.SetKeywrapKek(auth_plan.KeywrapKek.ValueString())
 		auth_data.SetKeywrapMack(auth_plan.KeywrapMack.ValueString())
 		rc_auth_data = append(rc_auth_data, *auth_data)
@@ -107,6 +113,7 @@ func radiusConfigTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d 
 	return *data
 }
 
+// ////////////////// PORT USAGES ///////////////////////
 func portUsageScTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) mistsdkgo.JunosStormControl {
 	data := mistsdkgo.NewJunosStormControl()
 	if d.IsNull() || d.IsUnknown() {
@@ -164,6 +171,7 @@ func portUsageTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d bas
 	return data
 }
 
+// ////////////////// MIST NAC ///////////////////////
 func mistNacTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d MistNacValue) mistsdkgo.NetworkTemplateMistNac {
 	data := mistsdkgo.NewNetworkTemplateMistNac()
 	data.SetEnabled(d.Enabled.ValueBool())
@@ -171,6 +179,7 @@ func mistNacTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d MistN
 	return *data
 }
 
+// ////////////////// DHCP SNOOPING ///////////////////////
 func dhcpSnoopingTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d DhcpSnoopingValue) mistsdkgo.JunosDhcpSnooping {
 	data := mistsdkgo.NewJunosDhcpSnooping()
 	data.SetAllNetworks(d.AllNetworks.ValueBool())
@@ -181,8 +190,9 @@ func dhcpSnoopingTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d 
 	return *data
 }
 
-func vrfConfigTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d VrfConfigValue) mistsdkgo.NetworkTemplateVrfConfig {
-	data := mistsdkgo.NewNetworkTemplateVrfConfig()
+// ////////////////// VRF ///////////////////////
+func vrfConfigTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d VrfConfigValue) mistsdkgo.JunosVrfConfig {
+	data := mistsdkgo.NewJunosVrfConfig()
 	data.SetEnabled(d.Enabled.ValueBool())
 	return *data
 }
@@ -190,8 +200,8 @@ func vrfConfigTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d Vrf
 func vrfInstanceExtraRouteTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.MapValue) map[string]mistsdkgo.VrfExtraRoutesValue {
 	data := make(map[string]mistsdkgo.VrfExtraRoutesValue)
 	for item_name, item_value := range d.Elements() {
-		var item_inteface interface{} = item_value
-		item_obj := item_inteface.(ExtraRoutesValue)
+		var item_interface interface{} = item_value
+		item_obj := item_interface.(ExtraRoutesValue)
 		data_item := mistsdkgo.NewVrfExtraRoutesValue()
 		data_item.SetVia(item_obj.Via.ValueString())
 		data[item_name] = *data_item
@@ -199,16 +209,149 @@ func vrfInstanceExtraRouteTerraformToSdk(ctx context.Context, diags *diag.Diagno
 	return data
 }
 
-func vrfInstancesTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.MapValue) map[string]mistsdkgo.NetworkTemplateVrfInstancesValue {
-	data := make(map[string]mistsdkgo.NetworkTemplateVrfInstancesValue)
+func vrfInstancesTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.MapValue) map[string]mistsdkgo.VrfInstancesConfig {
+	data := make(map[string]mistsdkgo.VrfInstancesConfig)
 	for item_name, item_value := range d.Elements() {
-		var item_inteface interface{} = item_value
-		item_obj := item_inteface.(VrfInstancesValue)
+		var item_interface interface{} = item_value
+		item_obj := item_interface.(VrfInstancesValue)
 		extra_routes := vrfInstanceExtraRouteTerraformToSdk(ctx, diags, item_obj.ExtraRoutes)
-		data_item := mistsdkgo.NewNetworkTemplateVrfInstancesValue()
+		data_item := mistsdkgo.NewVrfInstancesConfig()
 		data_item.SetNetworks(mist_transform.ListOfStringTerraformToSdk(ctx, item_obj.Networks))
 		data_item.SetExtraRoutes(extra_routes)
 		data[item_name] = *data_item
 	}
 	return data
+}
+
+// ////////////////// SYSLOG ///////////////////////
+func remoteSyslogArchiveTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) mistsdkgo.RemoteSyslogArchive {
+	var item_interface interface{} = d
+	item_obj := item_interface.(ArchiveValue)
+	data := mistsdkgo.NewRemoteSyslogArchive()
+	data.SetFiles(int32(item_obj.Files.ValueInt64()))
+	data.SetSize(item_obj.Size.ValueString())
+	return *data
+}
+func remoteSyslogContentTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ListValue) []mistsdkgo.RemoteSyslogContentItem {
+	var data []mistsdkgo.RemoteSyslogContentItem
+	for _, v := range d.Elements() {
+		var item_interface interface{} = v
+		item_in := item_interface.(ContentsValue)
+		item_out := mistsdkgo.NewRemoteSyslogContentItem()
+		item_out.SetFacility(mistsdkgo.RemoteSyslogFacility(item_in.Facility.ValueString()))
+		item_out.SetSeverity(mistsdkgo.RemoteSyslogSeverity(item_in.Severity.ValueString()))
+		data = append(data, *item_out)
+	}
+	return data
+}
+func remoteSyslogConsoleTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) mistsdkgo.RemoteSyslogConsole {
+	var item_interface interface{} = d
+	item_obj := item_interface.(ConsoleValue)
+	data := mistsdkgo.NewRemoteSyslogConsole()
+
+	syslog_content := remoteSyslogContentTerraformToSdk(ctx, diags, item_obj.Contents)
+	data.SetContents(syslog_content)
+
+	return *data
+}
+
+func remoteSyslogFilesTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ListValue) []mistsdkgo.SyslogFileConfig {
+
+	var data []mistsdkgo.SyslogFileConfig
+	for _, item := range d.Elements() {
+		var item_interface interface{} = item
+		item_obj := item_interface.(FilesValue)
+
+		file_archive := remoteSyslogArchiveTerraformToSdk(ctx, diags, item_obj.Archive)
+		file_contents := remoteSyslogContentTerraformToSdk(ctx, diags, item_obj.Contents)
+
+		data_item := mistsdkgo.NewSyslogFileConfig()
+		data_item.SetArchive(file_archive)
+		data_item.SetContents(file_contents)
+		data_item.SetExplicitPriority(item_obj.ExplicitPriority.ValueBool())
+		data_item.SetFile(item_obj.File.ValueString())
+		data_item.SetMatch(item_obj.Match.ValueString())
+		data_item.SetStructuredData(item_obj.StructuredData.ValueBool())
+		data = append(data, *data_item)
+	}
+
+	return data
+}
+
+func remoteSyslogServersTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ListValue) []mistsdkgo.RemoteSyslogServersItem {
+
+	var data []mistsdkgo.RemoteSyslogServersItem
+	for _, item := range d.Elements() {
+		var item_interface interface{} = item
+		item_obj := item_interface.(ServersValue)
+
+		file_contents := remoteSyslogContentTerraformToSdk(ctx, diags, item_obj.Contents)
+
+		data_item := mistsdkgo.NewRemoteSyslogServersItem()
+		data_item.SetContents(file_contents)
+		data_item.SetExplicitPriority(item_obj.ExplicitPriority.ValueBool())
+		data_item.SetFacility(mistsdkgo.RemoteSyslogFacility(item_obj.Facility.ValueString()))
+		data_item.SetHost(item_obj.Host.ValueString())
+		data_item.SetMatch(item_obj.Match.ValueString())
+		data_item.SetPort(int32(item_obj.Port.ValueInt64()))
+		data_item.SetProtocol(mistsdkgo.RemoteSyslogProtocol(item_obj.Protocol.ValueString()))
+		data_item.SetRoutingInstance(item_obj.RoutingInstance.ValueString())
+		data_item.SetSeverity(mistsdkgo.RemoteSyslogSeverity(item_obj.Severity.ValueString()))
+		data_item.SetSourceAddress(item_obj.SourceAddress.ValueString())
+		data_item.SetStructuredData(item_obj.StructuredData.ValueBool())
+		data_item.SetTag(item_obj.Tag.ValueString())
+		data = append(data, *data_item)
+	}
+
+	return data
+}
+func remoteSyslogUsersTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ListValue) []mistsdkgo.RemoteSyslogUsersItem {
+
+	var data []mistsdkgo.RemoteSyslogUsersItem
+	for _, item := range d.Elements() {
+		var item_interface interface{} = item
+		item_obj := item_interface.(UsersValue)
+
+		var content_list = []mistsdkgo.RemoteSyslogContentItem{}
+		for _, content := range item_obj.Contents.Elements() {
+			var content_interface interface{} = content
+			content_obj := content_interface.(ContentsValue)
+			content_out := mistsdkgo.NewRemoteSyslogContentItem()
+			content_out.SetFacility(mistsdkgo.RemoteSyslogFacility(content_obj.Facility.ValueString()))
+			content_out.SetSeverity(mistsdkgo.RemoteSyslogSeverity(content_obj.Facility.ValueString()))
+			content_list = append(content_list, *content_out)
+		}
+
+		data_item := mistsdkgo.NewRemoteSyslogUsersItem()
+		data_item.SetMatch(item_obj.Match.ValueString())
+		data_item.SetUser(item_obj.User.ValueString())
+		data_item.SetContents(content_list)
+
+		data = append(data, *data_item)
+	}
+
+	return data
+}
+func remoteSyslogTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d RemoteSyslogValue) mistsdkgo.RemoteSyslog {
+
+	remote_syslog_archive := remoteSyslogArchiveTerraformToSdk(ctx, diags, d.Archive)
+	remote_syslog_console := remoteSyslogConsoleTerraformToSdk(ctx, diags, d.Console)
+	remote_syslog_files := remoteSyslogFilesTerraformToSdk(ctx, diags, d.Files)
+	remote_syslog_servers := remoteSyslogServersTerraformToSdk(ctx, diags, d.Servers)
+	remote_syslog_users := remoteSyslogUsersTerraformToSdk(ctx, diags, d.Users)
+
+	data := mistsdkgo.NewRemoteSyslog()
+	data.SetEnabled(d.Enabled.ValueBool())
+	data.SetNetwork(d.Network.ValueString())
+	data.SetEnabled(d.Enabled.ValueBool())
+	data.SetArchive(remote_syslog_archive)
+	data.SetConsole(remote_syslog_console)
+	data.SetFiles(remote_syslog_files)
+	data.SetNetwork(d.Network.ValueString())
+	data.SetSendToAllServers(d.SendToAllServers.ValueBool())
+	data.SetServers(remote_syslog_servers)
+	data.SetTimeFormat(mistsdkgo.TimeFormat(d.TimeFormat.ValueString()))
+	data.SetUsers(remote_syslog_users)
+
+	return *data
 }

@@ -81,7 +81,6 @@ resources:
         - modified_time
         - acl_tags
         - import_org_networks
-        - remote_syslog
         - snmp_config
         - switch_matching
         - switch_mgmt

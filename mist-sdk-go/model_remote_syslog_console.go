@@ -20,7 +20,7 @@ var _ MappedNullable = &RemoteSyslogConsole{}
 
 // RemoteSyslogConsole struct for RemoteSyslogConsole
 type RemoteSyslogConsole struct {
-	Contents []RemoteSyslogContent `json:"contents,omitempty"`
+	Contents []RemoteSyslogContentItem `json:"contents,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -44,9 +44,9 @@ func NewRemoteSyslogConsoleWithDefaults() *RemoteSyslogConsole {
 }
 
 // GetContents returns the Contents field value if set, zero value otherwise.
-func (o *RemoteSyslogConsole) GetContents() []RemoteSyslogContent {
+func (o *RemoteSyslogConsole) GetContents() []RemoteSyslogContentItem {
 	if o == nil || IsNil(o.Contents) {
-		var ret []RemoteSyslogContent
+		var ret []RemoteSyslogContentItem
 		return ret
 	}
 	return o.Contents
@@ -54,7 +54,7 @@ func (o *RemoteSyslogConsole) GetContents() []RemoteSyslogContent {
 
 // GetContentsOk returns a tuple with the Contents field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RemoteSyslogConsole) GetContentsOk() ([]RemoteSyslogContent, bool) {
+func (o *RemoteSyslogConsole) GetContentsOk() ([]RemoteSyslogContentItem, bool) {
 	if o == nil || IsNil(o.Contents) {
 		return nil, false
 	}
@@ -70,8 +70,8 @@ func (o *RemoteSyslogConsole) HasContents() bool {
 	return false
 }
 
-// SetContents gets a reference to the given []RemoteSyslogContent and assigns it to the Contents field.
-func (o *RemoteSyslogConsole) SetContents(v []RemoteSyslogContent) {
+// SetContents gets a reference to the given []RemoteSyslogContentItem and assigns it to the Contents field.
+func (o *RemoteSyslogConsole) SetContents(v []RemoteSyslogContentItem) {
 	o.Contents = v
 }
 

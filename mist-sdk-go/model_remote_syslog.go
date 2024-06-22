@@ -20,16 +20,16 @@ var _ MappedNullable = &RemoteSyslog{}
 
 // RemoteSyslog struct for RemoteSyslog
 type RemoteSyslog struct {
-	RemoteSyslogArchive *RemoteSyslogRemoteSyslogArchive `json:"remote_syslog_archive,omitempty"`
-	RemoteSyslogConsole *RemoteSyslogRemoteSyslogConsole `json:"remote_syslog_console,omitempty"`
+	Archive *RemoteSyslogArchive `json:"archive,omitempty"`
+	Console *RemoteSyslogConsole `json:"console,omitempty"`
 	Enabled *bool `json:"enabled,omitempty"`
-	RemoteSyslogFiles []SyslogFileConfig `json:"remote_syslog_files,omitempty"`
+	Files []SyslogFileConfig `json:"files,omitempty"`
 	// if source_address is configured, will use the vlan firstly otherwise use source_ip
 	Network *string `json:"network,omitempty"`
 	SendToAllServers *bool `json:"send_to_all_servers,omitempty"`
-	RemoteSyslogServers []SyslogServer `json:"remote_syslog_servers,omitempty"`
-	TimeFormat *string `json:"time_format,omitempty"`
-	RemoteSyslogUsers []RemoteSyslogUser `json:"remote_syslog_users,omitempty"`
+	Servers []RemoteSyslogServersItem `json:"servers,omitempty"`
+	TimeFormat *TimeFormat `json:"time_format,omitempty"`
+	Users []RemoteSyslogUsersItem `json:"users,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -60,68 +60,68 @@ func NewRemoteSyslogWithDefaults() *RemoteSyslog {
 	return &this
 }
 
-// GetRemoteSyslogArchive returns the RemoteSyslogArchive field value if set, zero value otherwise.
-func (o *RemoteSyslog) GetRemoteSyslogArchive() RemoteSyslogRemoteSyslogArchive {
-	if o == nil || IsNil(o.RemoteSyslogArchive) {
-		var ret RemoteSyslogRemoteSyslogArchive
+// GetArchive returns the Archive field value if set, zero value otherwise.
+func (o *RemoteSyslog) GetArchive() RemoteSyslogArchive {
+	if o == nil || IsNil(o.Archive) {
+		var ret RemoteSyslogArchive
 		return ret
 	}
-	return *o.RemoteSyslogArchive
+	return *o.Archive
 }
 
-// GetRemoteSyslogArchiveOk returns a tuple with the RemoteSyslogArchive field value if set, nil otherwise
+// GetArchiveOk returns a tuple with the Archive field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RemoteSyslog) GetRemoteSyslogArchiveOk() (*RemoteSyslogRemoteSyslogArchive, bool) {
-	if o == nil || IsNil(o.RemoteSyslogArchive) {
+func (o *RemoteSyslog) GetArchiveOk() (*RemoteSyslogArchive, bool) {
+	if o == nil || IsNil(o.Archive) {
 		return nil, false
 	}
-	return o.RemoteSyslogArchive, true
+	return o.Archive, true
 }
 
-// HasRemoteSyslogArchive returns a boolean if a field has been set.
-func (o *RemoteSyslog) HasRemoteSyslogArchive() bool {
-	if o != nil && !IsNil(o.RemoteSyslogArchive) {
+// HasArchive returns a boolean if a field has been set.
+func (o *RemoteSyslog) HasArchive() bool {
+	if o != nil && !IsNil(o.Archive) {
 		return true
 	}
 
 	return false
 }
 
-// SetRemoteSyslogArchive gets a reference to the given RemoteSyslogRemoteSyslogArchive and assigns it to the RemoteSyslogArchive field.
-func (o *RemoteSyslog) SetRemoteSyslogArchive(v RemoteSyslogRemoteSyslogArchive) {
-	o.RemoteSyslogArchive = &v
+// SetArchive gets a reference to the given RemoteSyslogArchive and assigns it to the Archive field.
+func (o *RemoteSyslog) SetArchive(v RemoteSyslogArchive) {
+	o.Archive = &v
 }
 
-// GetRemoteSyslogConsole returns the RemoteSyslogConsole field value if set, zero value otherwise.
-func (o *RemoteSyslog) GetRemoteSyslogConsole() RemoteSyslogRemoteSyslogConsole {
-	if o == nil || IsNil(o.RemoteSyslogConsole) {
-		var ret RemoteSyslogRemoteSyslogConsole
+// GetConsole returns the Console field value if set, zero value otherwise.
+func (o *RemoteSyslog) GetConsole() RemoteSyslogConsole {
+	if o == nil || IsNil(o.Console) {
+		var ret RemoteSyslogConsole
 		return ret
 	}
-	return *o.RemoteSyslogConsole
+	return *o.Console
 }
 
-// GetRemoteSyslogConsoleOk returns a tuple with the RemoteSyslogConsole field value if set, nil otherwise
+// GetConsoleOk returns a tuple with the Console field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RemoteSyslog) GetRemoteSyslogConsoleOk() (*RemoteSyslogRemoteSyslogConsole, bool) {
-	if o == nil || IsNil(o.RemoteSyslogConsole) {
+func (o *RemoteSyslog) GetConsoleOk() (*RemoteSyslogConsole, bool) {
+	if o == nil || IsNil(o.Console) {
 		return nil, false
 	}
-	return o.RemoteSyslogConsole, true
+	return o.Console, true
 }
 
-// HasRemoteSyslogConsole returns a boolean if a field has been set.
-func (o *RemoteSyslog) HasRemoteSyslogConsole() bool {
-	if o != nil && !IsNil(o.RemoteSyslogConsole) {
+// HasConsole returns a boolean if a field has been set.
+func (o *RemoteSyslog) HasConsole() bool {
+	if o != nil && !IsNil(o.Console) {
 		return true
 	}
 
 	return false
 }
 
-// SetRemoteSyslogConsole gets a reference to the given RemoteSyslogRemoteSyslogConsole and assigns it to the RemoteSyslogConsole field.
-func (o *RemoteSyslog) SetRemoteSyslogConsole(v RemoteSyslogRemoteSyslogConsole) {
-	o.RemoteSyslogConsole = &v
+// SetConsole gets a reference to the given RemoteSyslogConsole and assigns it to the Console field.
+func (o *RemoteSyslog) SetConsole(v RemoteSyslogConsole) {
+	o.Console = &v
 }
 
 // GetEnabled returns the Enabled field value if set, zero value otherwise.
@@ -156,36 +156,36 @@ func (o *RemoteSyslog) SetEnabled(v bool) {
 	o.Enabled = &v
 }
 
-// GetRemoteSyslogFiles returns the RemoteSyslogFiles field value if set, zero value otherwise.
-func (o *RemoteSyslog) GetRemoteSyslogFiles() []SyslogFileConfig {
-	if o == nil || IsNil(o.RemoteSyslogFiles) {
+// GetFiles returns the Files field value if set, zero value otherwise.
+func (o *RemoteSyslog) GetFiles() []SyslogFileConfig {
+	if o == nil || IsNil(o.Files) {
 		var ret []SyslogFileConfig
 		return ret
 	}
-	return o.RemoteSyslogFiles
+	return o.Files
 }
 
-// GetRemoteSyslogFilesOk returns a tuple with the RemoteSyslogFiles field value if set, nil otherwise
+// GetFilesOk returns a tuple with the Files field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RemoteSyslog) GetRemoteSyslogFilesOk() ([]SyslogFileConfig, bool) {
-	if o == nil || IsNil(o.RemoteSyslogFiles) {
+func (o *RemoteSyslog) GetFilesOk() ([]SyslogFileConfig, bool) {
+	if o == nil || IsNil(o.Files) {
 		return nil, false
 	}
-	return o.RemoteSyslogFiles, true
+	return o.Files, true
 }
 
-// HasRemoteSyslogFiles returns a boolean if a field has been set.
-func (o *RemoteSyslog) HasRemoteSyslogFiles() bool {
-	if o != nil && !IsNil(o.RemoteSyslogFiles) {
+// HasFiles returns a boolean if a field has been set.
+func (o *RemoteSyslog) HasFiles() bool {
+	if o != nil && !IsNil(o.Files) {
 		return true
 	}
 
 	return false
 }
 
-// SetRemoteSyslogFiles gets a reference to the given []SyslogFileConfig and assigns it to the RemoteSyslogFiles field.
-func (o *RemoteSyslog) SetRemoteSyslogFiles(v []SyslogFileConfig) {
-	o.RemoteSyslogFiles = v
+// SetFiles gets a reference to the given []SyslogFileConfig and assigns it to the Files field.
+func (o *RemoteSyslog) SetFiles(v []SyslogFileConfig) {
+	o.Files = v
 }
 
 // GetNetwork returns the Network field value if set, zero value otherwise.
@@ -252,42 +252,42 @@ func (o *RemoteSyslog) SetSendToAllServers(v bool) {
 	o.SendToAllServers = &v
 }
 
-// GetRemoteSyslogServers returns the RemoteSyslogServers field value if set, zero value otherwise.
-func (o *RemoteSyslog) GetRemoteSyslogServers() []SyslogServer {
-	if o == nil || IsNil(o.RemoteSyslogServers) {
-		var ret []SyslogServer
+// GetServers returns the Servers field value if set, zero value otherwise.
+func (o *RemoteSyslog) GetServers() []RemoteSyslogServersItem {
+	if o == nil || IsNil(o.Servers) {
+		var ret []RemoteSyslogServersItem
 		return ret
 	}
-	return o.RemoteSyslogServers
+	return o.Servers
 }
 
-// GetRemoteSyslogServersOk returns a tuple with the RemoteSyslogServers field value if set, nil otherwise
+// GetServersOk returns a tuple with the Servers field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RemoteSyslog) GetRemoteSyslogServersOk() ([]SyslogServer, bool) {
-	if o == nil || IsNil(o.RemoteSyslogServers) {
+func (o *RemoteSyslog) GetServersOk() ([]RemoteSyslogServersItem, bool) {
+	if o == nil || IsNil(o.Servers) {
 		return nil, false
 	}
-	return o.RemoteSyslogServers, true
+	return o.Servers, true
 }
 
-// HasRemoteSyslogServers returns a boolean if a field has been set.
-func (o *RemoteSyslog) HasRemoteSyslogServers() bool {
-	if o != nil && !IsNil(o.RemoteSyslogServers) {
+// HasServers returns a boolean if a field has been set.
+func (o *RemoteSyslog) HasServers() bool {
+	if o != nil && !IsNil(o.Servers) {
 		return true
 	}
 
 	return false
 }
 
-// SetRemoteSyslogServers gets a reference to the given []SyslogServer and assigns it to the RemoteSyslogServers field.
-func (o *RemoteSyslog) SetRemoteSyslogServers(v []SyslogServer) {
-	o.RemoteSyslogServers = v
+// SetServers gets a reference to the given []RemoteSyslogServersItem and assigns it to the Servers field.
+func (o *RemoteSyslog) SetServers(v []RemoteSyslogServersItem) {
+	o.Servers = v
 }
 
 // GetTimeFormat returns the TimeFormat field value if set, zero value otherwise.
-func (o *RemoteSyslog) GetTimeFormat() string {
+func (o *RemoteSyslog) GetTimeFormat() TimeFormat {
 	if o == nil || IsNil(o.TimeFormat) {
-		var ret string
+		var ret TimeFormat
 		return ret
 	}
 	return *o.TimeFormat
@@ -295,7 +295,7 @@ func (o *RemoteSyslog) GetTimeFormat() string {
 
 // GetTimeFormatOk returns a tuple with the TimeFormat field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RemoteSyslog) GetTimeFormatOk() (*string, bool) {
+func (o *RemoteSyslog) GetTimeFormatOk() (*TimeFormat, bool) {
 	if o == nil || IsNil(o.TimeFormat) {
 		return nil, false
 	}
@@ -311,41 +311,41 @@ func (o *RemoteSyslog) HasTimeFormat() bool {
 	return false
 }
 
-// SetTimeFormat gets a reference to the given string and assigns it to the TimeFormat field.
-func (o *RemoteSyslog) SetTimeFormat(v string) {
+// SetTimeFormat gets a reference to the given TimeFormat and assigns it to the TimeFormat field.
+func (o *RemoteSyslog) SetTimeFormat(v TimeFormat) {
 	o.TimeFormat = &v
 }
 
-// GetRemoteSyslogUsers returns the RemoteSyslogUsers field value if set, zero value otherwise.
-func (o *RemoteSyslog) GetRemoteSyslogUsers() []RemoteSyslogUser {
-	if o == nil || IsNil(o.RemoteSyslogUsers) {
-		var ret []RemoteSyslogUser
+// GetUsers returns the Users field value if set, zero value otherwise.
+func (o *RemoteSyslog) GetUsers() []RemoteSyslogUsersItem {
+	if o == nil || IsNil(o.Users) {
+		var ret []RemoteSyslogUsersItem
 		return ret
 	}
-	return o.RemoteSyslogUsers
+	return o.Users
 }
 
-// GetRemoteSyslogUsersOk returns a tuple with the RemoteSyslogUsers field value if set, nil otherwise
+// GetUsersOk returns a tuple with the Users field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RemoteSyslog) GetRemoteSyslogUsersOk() ([]RemoteSyslogUser, bool) {
-	if o == nil || IsNil(o.RemoteSyslogUsers) {
+func (o *RemoteSyslog) GetUsersOk() ([]RemoteSyslogUsersItem, bool) {
+	if o == nil || IsNil(o.Users) {
 		return nil, false
 	}
-	return o.RemoteSyslogUsers, true
+	return o.Users, true
 }
 
-// HasRemoteSyslogUsers returns a boolean if a field has been set.
-func (o *RemoteSyslog) HasRemoteSyslogUsers() bool {
-	if o != nil && !IsNil(o.RemoteSyslogUsers) {
+// HasUsers returns a boolean if a field has been set.
+func (o *RemoteSyslog) HasUsers() bool {
+	if o != nil && !IsNil(o.Users) {
 		return true
 	}
 
 	return false
 }
 
-// SetRemoteSyslogUsers gets a reference to the given []RemoteSyslogUser and assigns it to the RemoteSyslogUsers field.
-func (o *RemoteSyslog) SetRemoteSyslogUsers(v []RemoteSyslogUser) {
-	o.RemoteSyslogUsers = v
+// SetUsers gets a reference to the given []RemoteSyslogUsersItem and assigns it to the Users field.
+func (o *RemoteSyslog) SetUsers(v []RemoteSyslogUsersItem) {
+	o.Users = v
 }
 
 func (o RemoteSyslog) MarshalJSON() ([]byte, error) {
@@ -358,17 +358,17 @@ func (o RemoteSyslog) MarshalJSON() ([]byte, error) {
 
 func (o RemoteSyslog) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if !IsNil(o.RemoteSyslogArchive) {
-		toSerialize["remote_syslog_archive"] = o.RemoteSyslogArchive
+	if !IsNil(o.Archive) {
+		toSerialize["archive"] = o.Archive
 	}
-	if !IsNil(o.RemoteSyslogConsole) {
-		toSerialize["remote_syslog_console"] = o.RemoteSyslogConsole
+	if !IsNil(o.Console) {
+		toSerialize["console"] = o.Console
 	}
 	if !IsNil(o.Enabled) {
 		toSerialize["enabled"] = o.Enabled
 	}
-	if !IsNil(o.RemoteSyslogFiles) {
-		toSerialize["remote_syslog_files"] = o.RemoteSyslogFiles
+	if !IsNil(o.Files) {
+		toSerialize["files"] = o.Files
 	}
 	if !IsNil(o.Network) {
 		toSerialize["network"] = o.Network
@@ -376,14 +376,14 @@ func (o RemoteSyslog) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.SendToAllServers) {
 		toSerialize["send_to_all_servers"] = o.SendToAllServers
 	}
-	if !IsNil(o.RemoteSyslogServers) {
-		toSerialize["remote_syslog_servers"] = o.RemoteSyslogServers
+	if !IsNil(o.Servers) {
+		toSerialize["servers"] = o.Servers
 	}
 	if !IsNil(o.TimeFormat) {
 		toSerialize["time_format"] = o.TimeFormat
 	}
-	if !IsNil(o.RemoteSyslogUsers) {
-		toSerialize["remote_syslog_users"] = o.RemoteSyslogUsers
+	if !IsNil(o.Users) {
+		toSerialize["users"] = o.Users
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -407,15 +407,15 @@ func (o *RemoteSyslog) UnmarshalJSON(data []byte) (err error) {
 	additionalProperties := make(map[string]interface{})
 
 	if err = json.Unmarshal(data, &additionalProperties); err == nil {
-		delete(additionalProperties, "remote_syslog_archive")
-		delete(additionalProperties, "remote_syslog_console")
+		delete(additionalProperties, "archive")
+		delete(additionalProperties, "console")
 		delete(additionalProperties, "enabled")
-		delete(additionalProperties, "remote_syslog_files")
+		delete(additionalProperties, "files")
 		delete(additionalProperties, "network")
 		delete(additionalProperties, "send_to_all_servers")
-		delete(additionalProperties, "remote_syslog_servers")
+		delete(additionalProperties, "servers")
 		delete(additionalProperties, "time_format")
-		delete(additionalProperties, "remote_syslog_users")
+		delete(additionalProperties, "users")
 		o.AdditionalProperties = additionalProperties
 	}
 

@@ -24,8 +24,7 @@ type MxclusterRadsecAuthServer struct {
 	Host *string `json:"host,omitempty"`
 	// if used for Mist APs, enable keywrap algorithm. Default is false
 	KeywrapEnabled *bool `json:"keywrap_enabled,omitempty"`
-	// if used for Mist APs
-	KeywrapFormat *string `json:"keywrap_format,omitempty"`
+	KeywrapFormat *RadiusKeywrapFormat `json:"keywrap_format,omitempty"`
 	// if used for Mist APs, encryption key
 	KeywrapKek *string `json:"keywrap_kek,omitempty"`
 	// if used for Mist APs, Message Authentication Code Key
@@ -127,9 +126,9 @@ func (o *MxclusterRadsecAuthServer) SetKeywrapEnabled(v bool) {
 }
 
 // GetKeywrapFormat returns the KeywrapFormat field value if set, zero value otherwise.
-func (o *MxclusterRadsecAuthServer) GetKeywrapFormat() string {
+func (o *MxclusterRadsecAuthServer) GetKeywrapFormat() RadiusKeywrapFormat {
 	if o == nil || IsNil(o.KeywrapFormat) {
-		var ret string
+		var ret RadiusKeywrapFormat
 		return ret
 	}
 	return *o.KeywrapFormat
@@ -137,7 +136,7 @@ func (o *MxclusterRadsecAuthServer) GetKeywrapFormat() string {
 
 // GetKeywrapFormatOk returns a tuple with the KeywrapFormat field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *MxclusterRadsecAuthServer) GetKeywrapFormatOk() (*string, bool) {
+func (o *MxclusterRadsecAuthServer) GetKeywrapFormatOk() (*RadiusKeywrapFormat, bool) {
 	if o == nil || IsNil(o.KeywrapFormat) {
 		return nil, false
 	}
@@ -153,8 +152,8 @@ func (o *MxclusterRadsecAuthServer) HasKeywrapFormat() bool {
 	return false
 }
 
-// SetKeywrapFormat gets a reference to the given string and assigns it to the KeywrapFormat field.
-func (o *MxclusterRadsecAuthServer) SetKeywrapFormat(v string) {
+// SetKeywrapFormat gets a reference to the given RadiusKeywrapFormat and assigns it to the KeywrapFormat field.
+func (o *MxclusterRadsecAuthServer) SetKeywrapFormat(v RadiusKeywrapFormat) {
 	o.KeywrapFormat = &v
 }
 

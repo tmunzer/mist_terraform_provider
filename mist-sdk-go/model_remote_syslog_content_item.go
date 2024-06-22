@@ -15,39 +15,39 @@ import (
 	"encoding/json"
 )
 
-// checks if the RemoteSyslogContent type satisfies the MappedNullable interface at compile time
-var _ MappedNullable = &RemoteSyslogContent{}
+// checks if the RemoteSyslogContentItem type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &RemoteSyslogContentItem{}
 
-// RemoteSyslogContent struct for RemoteSyslogContent
-type RemoteSyslogContent struct {
-	Facility *string `json:"facility,omitempty"`
-	Severity *string `json:"severity,omitempty"`
+// RemoteSyslogContentItem struct for RemoteSyslogContentItem
+type RemoteSyslogContentItem struct {
+	Facility *RemoteSyslogFacility `json:"facility,omitempty"`
+	Severity *RemoteSyslogSeverity `json:"severity,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
-type _RemoteSyslogContent RemoteSyslogContent
+type _RemoteSyslogContentItem RemoteSyslogContentItem
 
-// NewRemoteSyslogContent instantiates a new RemoteSyslogContent object
+// NewRemoteSyslogContentItem instantiates a new RemoteSyslogContentItem object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewRemoteSyslogContent() *RemoteSyslogContent {
-	this := RemoteSyslogContent{}
+func NewRemoteSyslogContentItem() *RemoteSyslogContentItem {
+	this := RemoteSyslogContentItem{}
 	return &this
 }
 
-// NewRemoteSyslogContentWithDefaults instantiates a new RemoteSyslogContent object
+// NewRemoteSyslogContentItemWithDefaults instantiates a new RemoteSyslogContentItem object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewRemoteSyslogContentWithDefaults() *RemoteSyslogContent {
-	this := RemoteSyslogContent{}
+func NewRemoteSyslogContentItemWithDefaults() *RemoteSyslogContentItem {
+	this := RemoteSyslogContentItem{}
 	return &this
 }
 
 // GetFacility returns the Facility field value if set, zero value otherwise.
-func (o *RemoteSyslogContent) GetFacility() string {
+func (o *RemoteSyslogContentItem) GetFacility() RemoteSyslogFacility {
 	if o == nil || IsNil(o.Facility) {
-		var ret string
+		var ret RemoteSyslogFacility
 		return ret
 	}
 	return *o.Facility
@@ -55,7 +55,7 @@ func (o *RemoteSyslogContent) GetFacility() string {
 
 // GetFacilityOk returns a tuple with the Facility field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RemoteSyslogContent) GetFacilityOk() (*string, bool) {
+func (o *RemoteSyslogContentItem) GetFacilityOk() (*RemoteSyslogFacility, bool) {
 	if o == nil || IsNil(o.Facility) {
 		return nil, false
 	}
@@ -63,7 +63,7 @@ func (o *RemoteSyslogContent) GetFacilityOk() (*string, bool) {
 }
 
 // HasFacility returns a boolean if a field has been set.
-func (o *RemoteSyslogContent) HasFacility() bool {
+func (o *RemoteSyslogContentItem) HasFacility() bool {
 	if o != nil && !IsNil(o.Facility) {
 		return true
 	}
@@ -71,15 +71,15 @@ func (o *RemoteSyslogContent) HasFacility() bool {
 	return false
 }
 
-// SetFacility gets a reference to the given string and assigns it to the Facility field.
-func (o *RemoteSyslogContent) SetFacility(v string) {
+// SetFacility gets a reference to the given RemoteSyslogFacility and assigns it to the Facility field.
+func (o *RemoteSyslogContentItem) SetFacility(v RemoteSyslogFacility) {
 	o.Facility = &v
 }
 
 // GetSeverity returns the Severity field value if set, zero value otherwise.
-func (o *RemoteSyslogContent) GetSeverity() string {
+func (o *RemoteSyslogContentItem) GetSeverity() RemoteSyslogSeverity {
 	if o == nil || IsNil(o.Severity) {
-		var ret string
+		var ret RemoteSyslogSeverity
 		return ret
 	}
 	return *o.Severity
@@ -87,7 +87,7 @@ func (o *RemoteSyslogContent) GetSeverity() string {
 
 // GetSeverityOk returns a tuple with the Severity field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RemoteSyslogContent) GetSeverityOk() (*string, bool) {
+func (o *RemoteSyslogContentItem) GetSeverityOk() (*RemoteSyslogSeverity, bool) {
 	if o == nil || IsNil(o.Severity) {
 		return nil, false
 	}
@@ -95,7 +95,7 @@ func (o *RemoteSyslogContent) GetSeverityOk() (*string, bool) {
 }
 
 // HasSeverity returns a boolean if a field has been set.
-func (o *RemoteSyslogContent) HasSeverity() bool {
+func (o *RemoteSyslogContentItem) HasSeverity() bool {
 	if o != nil && !IsNil(o.Severity) {
 		return true
 	}
@@ -103,12 +103,12 @@ func (o *RemoteSyslogContent) HasSeverity() bool {
 	return false
 }
 
-// SetSeverity gets a reference to the given string and assigns it to the Severity field.
-func (o *RemoteSyslogContent) SetSeverity(v string) {
+// SetSeverity gets a reference to the given RemoteSyslogSeverity and assigns it to the Severity field.
+func (o *RemoteSyslogContentItem) SetSeverity(v RemoteSyslogSeverity) {
 	o.Severity = &v
 }
 
-func (o RemoteSyslogContent) MarshalJSON() ([]byte, error) {
+func (o RemoteSyslogContentItem) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
@@ -116,7 +116,7 @@ func (o RemoteSyslogContent) MarshalJSON() ([]byte, error) {
 	return json.Marshal(toSerialize)
 }
 
-func (o RemoteSyslogContent) ToMap() (map[string]interface{}, error) {
+func (o RemoteSyslogContentItem) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if !IsNil(o.Facility) {
 		toSerialize["facility"] = o.Facility
@@ -132,16 +132,16 @@ func (o RemoteSyslogContent) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-func (o *RemoteSyslogContent) UnmarshalJSON(data []byte) (err error) {
-	varRemoteSyslogContent := _RemoteSyslogContent{}
+func (o *RemoteSyslogContentItem) UnmarshalJSON(data []byte) (err error) {
+	varRemoteSyslogContentItem := _RemoteSyslogContentItem{}
 
-	err = json.Unmarshal(data, &varRemoteSyslogContent)
+	err = json.Unmarshal(data, &varRemoteSyslogContentItem)
 
 	if err != nil {
 		return err
 	}
 
-	*o = RemoteSyslogContent(varRemoteSyslogContent)
+	*o = RemoteSyslogContentItem(varRemoteSyslogContentItem)
 
 	additionalProperties := make(map[string]interface{})
 
@@ -154,38 +154,38 @@ func (o *RemoteSyslogContent) UnmarshalJSON(data []byte) (err error) {
 	return err
 }
 
-type NullableRemoteSyslogContent struct {
-	value *RemoteSyslogContent
+type NullableRemoteSyslogContentItem struct {
+	value *RemoteSyslogContentItem
 	isSet bool
 }
 
-func (v NullableRemoteSyslogContent) Get() *RemoteSyslogContent {
+func (v NullableRemoteSyslogContentItem) Get() *RemoteSyslogContentItem {
 	return v.value
 }
 
-func (v *NullableRemoteSyslogContent) Set(val *RemoteSyslogContent) {
+func (v *NullableRemoteSyslogContentItem) Set(val *RemoteSyslogContentItem) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableRemoteSyslogContent) IsSet() bool {
+func (v NullableRemoteSyslogContentItem) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableRemoteSyslogContent) Unset() {
+func (v *NullableRemoteSyslogContentItem) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableRemoteSyslogContent(val *RemoteSyslogContent) *NullableRemoteSyslogContent {
-	return &NullableRemoteSyslogContent{value: val, isSet: true}
+func NewNullableRemoteSyslogContentItem(val *RemoteSyslogContentItem) *NullableRemoteSyslogContentItem {
+	return &NullableRemoteSyslogContentItem{value: val, isSet: true}
 }
 
-func (v NullableRemoteSyslogContent) MarshalJSON() ([]byte, error) {
+func (v NullableRemoteSyslogContentItem) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableRemoteSyslogContent) UnmarshalJSON(src []byte) error {
+func (v *NullableRemoteSyslogContentItem) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

@@ -852,6 +852,464 @@
 						}
 					},
 					{
+						"name": "remote_syslog",
+						"single_nested": {
+							"computed_optional_required": "computed_optional",
+							"attributes": [
+								{
+									"name": "archive",
+									"single_nested": {
+										"computed_optional_required": "computed_optional",
+										"attributes": [
+											{
+												"name": "files",
+												"int64": {
+													"computed_optional_required": "computed_optional"
+												}
+											},
+											{
+												"name": "size",
+												"string": {
+													"computed_optional_required": "computed_optional"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "console",
+									"single_nested": {
+										"computed_optional_required": "computed_optional",
+										"attributes": [
+											{
+												"name": "contents",
+												"list_nested": {
+													"computed_optional_required": "computed_optional",
+													"nested_object": {
+														"attributes": [
+															{
+																"name": "facility",
+																"string": {
+																	"computed_optional_required": "computed_optional",
+																	"validators": [
+																		{
+																			"custom": {
+																				"imports": [
+																					{
+																						"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																					}
+																				],
+																				"schema_definition": "stringvalidator.OneOf(\n\"any\",\n\"authorization\",\n\"conflict-log\",\n\"change-log\",\n\"config\",\n\"daemon\",\n\"dfc\",\n\"kernel\",\n\"interactive-commands\",\n\"ftp\",\n\"firewall\",\n\"external\",\n\"pfe\",\n\"ntp\",\n\"security\",\n\"user\",\n)"
+																			}
+																		}
+																	]
+																}
+															},
+															{
+																"name": "severity",
+																"string": {
+																	"computed_optional_required": "computed_optional",
+																	"validators": [
+																		{
+																			"custom": {
+																				"imports": [
+																					{
+																						"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																					}
+																				],
+																				"schema_definition": "stringvalidator.OneOf(\n\"any\",\n\"alert\",\n\"emergency\",\n\"critical\",\n\"warning\",\n\"info\",\n\"notice\",\n\"error\",\n)"
+																			}
+																		}
+																	]
+																}
+															}
+														]
+													}
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "enabled",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										}
+									}
+								},
+								{
+									"name": "files",
+									"list_nested": {
+										"computed_optional_required": "computed_optional",
+										"nested_object": {
+											"attributes": [
+												{
+													"name": "archive",
+													"single_nested": {
+														"computed_optional_required": "computed_optional",
+														"attributes": [
+															{
+																"name": "files",
+																"int64": {
+																	"computed_optional_required": "computed_optional"
+																}
+															},
+															{
+																"name": "size",
+																"string": {
+																	"computed_optional_required": "computed_optional"
+																}
+															}
+														]
+													}
+												},
+												{
+													"name": "contents",
+													"list_nested": {
+														"computed_optional_required": "computed_optional",
+														"nested_object": {
+															"attributes": [
+																{
+																	"name": "facility",
+																	"string": {
+																		"computed_optional_required": "computed_optional",
+																		"validators": [
+																			{
+																				"custom": {
+																					"imports": [
+																						{
+																							"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																						}
+																					],
+																					"schema_definition": "stringvalidator.OneOf(\n\"any\",\n\"authorization\",\n\"conflict-log\",\n\"change-log\",\n\"config\",\n\"daemon\",\n\"dfc\",\n\"kernel\",\n\"interactive-commands\",\n\"ftp\",\n\"firewall\",\n\"external\",\n\"pfe\",\n\"ntp\",\n\"security\",\n\"user\",\n)"
+																				}
+																			}
+																		]
+																	}
+																},
+																{
+																	"name": "severity",
+																	"string": {
+																		"computed_optional_required": "computed_optional",
+																		"validators": [
+																			{
+																				"custom": {
+																					"imports": [
+																						{
+																							"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																						}
+																					],
+																					"schema_definition": "stringvalidator.OneOf(\n\"any\",\n\"alert\",\n\"emergency\",\n\"critical\",\n\"warning\",\n\"info\",\n\"notice\",\n\"error\",\n)"
+																				}
+																			}
+																		]
+																	}
+																}
+															]
+														}
+													}
+												},
+												{
+													"name": "explicit_priority",
+													"bool": {
+														"computed_optional_required": "computed_optional"
+													}
+												},
+												{
+													"name": "file",
+													"string": {
+														"computed_optional_required": "computed_optional"
+													}
+												},
+												{
+													"name": "match",
+													"string": {
+														"computed_optional_required": "computed_optional"
+													}
+												},
+												{
+													"name": "structured_data",
+													"bool": {
+														"computed_optional_required": "computed_optional"
+													}
+												}
+											]
+										}
+									}
+								},
+								{
+									"name": "network",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"description": "if source_address is configured, will use the vlan firstly otherwise use source_ip"
+									}
+								},
+								{
+									"name": "send_to_all_servers",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										}
+									}
+								},
+								{
+									"name": "servers",
+									"list_nested": {
+										"computed_optional_required": "computed_optional",
+										"nested_object": {
+											"attributes": [
+												{
+													"name": "contents",
+													"list_nested": {
+														"computed_optional_required": "computed_optional",
+														"nested_object": {
+															"attributes": [
+																{
+																	"name": "facility",
+																	"string": {
+																		"computed_optional_required": "computed_optional",
+																		"validators": [
+																			{
+																				"custom": {
+																					"imports": [
+																						{
+																							"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																						}
+																					],
+																					"schema_definition": "stringvalidator.OneOf(\n\"any\",\n\"authorization\",\n\"conflict-log\",\n\"change-log\",\n\"config\",\n\"daemon\",\n\"dfc\",\n\"kernel\",\n\"interactive-commands\",\n\"ftp\",\n\"firewall\",\n\"external\",\n\"pfe\",\n\"ntp\",\n\"security\",\n\"user\",\n)"
+																				}
+																			}
+																		]
+																	}
+																},
+																{
+																	"name": "severity",
+																	"string": {
+																		"computed_optional_required": "computed_optional",
+																		"validators": [
+																			{
+																				"custom": {
+																					"imports": [
+																						{
+																							"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																						}
+																					],
+																					"schema_definition": "stringvalidator.OneOf(\n\"any\",\n\"alert\",\n\"emergency\",\n\"critical\",\n\"warning\",\n\"info\",\n\"notice\",\n\"error\",\n)"
+																				}
+																			}
+																		]
+																	}
+																}
+															]
+														}
+													}
+												},
+												{
+													"name": "explicit_priority",
+													"bool": {
+														"computed_optional_required": "computed_optional"
+													}
+												},
+												{
+													"name": "facility",
+													"string": {
+														"computed_optional_required": "computed_optional",
+														"validators": [
+															{
+																"custom": {
+																	"imports": [
+																		{
+																			"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																		}
+																	],
+																	"schema_definition": "stringvalidator.OneOf(\n\"any\",\n\"authorization\",\n\"conflict-log\",\n\"change-log\",\n\"config\",\n\"daemon\",\n\"dfc\",\n\"kernel\",\n\"interactive-commands\",\n\"ftp\",\n\"firewall\",\n\"external\",\n\"pfe\",\n\"ntp\",\n\"security\",\n\"user\",\n)"
+																}
+															}
+														]
+													}
+												},
+												{
+													"name": "host",
+													"string": {
+														"computed_optional_required": "computed_optional"
+													}
+												},
+												{
+													"name": "match",
+													"string": {
+														"computed_optional_required": "computed_optional"
+													}
+												},
+												{
+													"name": "port",
+													"int64": {
+														"computed_optional_required": "computed_optional",
+														"default": {
+															"static": 514
+														}
+													}
+												},
+												{
+													"name": "protocol",
+													"string": {
+														"computed_optional_required": "computed_optional",
+														"default": {
+															"static": "udp"
+														},
+														"validators": [
+															{
+																"custom": {
+																	"imports": [
+																		{
+																			"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																		}
+																	],
+																	"schema_definition": "stringvalidator.OneOf(\n\"udp\",\n\"tcp\",\n)"
+																}
+															}
+														]
+													}
+												},
+												{
+													"name": "routing_instance",
+													"string": {
+														"computed_optional_required": "computed_optional"
+													}
+												},
+												{
+													"name": "severity",
+													"string": {
+														"computed_optional_required": "computed_optional",
+														"validators": [
+															{
+																"custom": {
+																	"imports": [
+																		{
+																			"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																		}
+																	],
+																	"schema_definition": "stringvalidator.OneOf(\n\"any\",\n\"alert\",\n\"emergency\",\n\"critical\",\n\"warning\",\n\"info\",\n\"notice\",\n\"error\",\n)"
+																}
+															}
+														]
+													}
+												},
+												{
+													"name": "source_address",
+													"string": {
+														"computed_optional_required": "computed_optional",
+														"description": "if source_address is configured, will use the vlan firstly otherwise use source_ip"
+													}
+												},
+												{
+													"name": "structured_data",
+													"bool": {
+														"computed_optional_required": "computed_optional"
+													}
+												},
+												{
+													"name": "tag",
+													"string": {
+														"computed_optional_required": "computed_optional"
+													}
+												}
+											]
+										}
+									}
+								},
+								{
+									"name": "time_format",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+														}
+													],
+													"schema_definition": "stringvalidator.OneOf(\n\"millisecond\",\n\"year\",\n\"year millisecond\",\n)"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "users",
+									"list_nested": {
+										"computed_optional_required": "computed_optional",
+										"nested_object": {
+											"attributes": [
+												{
+													"name": "contents",
+													"list_nested": {
+														"computed_optional_required": "computed_optional",
+														"nested_object": {
+															"attributes": [
+																{
+																	"name": "facility",
+																	"string": {
+																		"computed_optional_required": "computed_optional",
+																		"validators": [
+																			{
+																				"custom": {
+																					"imports": [
+																						{
+																							"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																						}
+																					],
+																					"schema_definition": "stringvalidator.OneOf(\n\"any\",\n\"authorization\",\n\"conflict-log\",\n\"change-log\",\n\"config\",\n\"daemon\",\n\"dfc\",\n\"kernel\",\n\"interactive-commands\",\n\"ftp\",\n\"firewall\",\n\"external\",\n\"pfe\",\n\"ntp\",\n\"security\",\n\"user\",\n)"
+																				}
+																			}
+																		]
+																	}
+																},
+																{
+																	"name": "severity",
+																	"string": {
+																		"computed_optional_required": "computed_optional",
+																		"validators": [
+																			{
+																				"custom": {
+																					"imports": [
+																						{
+																							"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																						}
+																					],
+																					"schema_definition": "stringvalidator.OneOf(\n\"any\",\n\"alert\",\n\"emergency\",\n\"critical\",\n\"warning\",\n\"info\",\n\"notice\",\n\"error\",\n)"
+																				}
+																			}
+																		]
+																	}
+																}
+															]
+														}
+													}
+												},
+												{
+													"name": "match",
+													"string": {
+														"computed_optional_required": "computed_optional"
+													}
+												},
+												{
+													"name": "user",
+													"string": {
+														"computed_optional_required": "computed_optional"
+													}
+												}
+											]
+										}
+									}
+								}
+							]
+						}
+					},
+					{
 						"name": "vrf_config",
 						"single_nested": {
 							"computed_optional_required": "computed_optional",
@@ -860,9 +1318,7 @@
 									"name": "enabled",
 									"bool": {
 										"computed_optional_required": "computed_optional",
-										"default": {
-											"static": false
-										}
+										"description": "whether to enable VRF (when supported on the device)"
 									}
 								}
 							]
