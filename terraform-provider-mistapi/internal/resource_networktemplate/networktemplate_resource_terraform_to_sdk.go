@@ -43,6 +43,12 @@ func TerraformToSdk(ctx context.Context, plan *NetworktemplateModel) (mistsdkgo.
 	port_usage := portUsageTerraformToSdk(ctx, &diags, plan.PortUsages)
 	data.SetPortUsages(port_usage)
 
+	vrfConfig := vrfConfigTerraformToSdk(ctx, &diags, plan.VrfConfig)
+	data.SetVrfConfig(vrfConfig)
+
+	vrfInstance := vrfInstancesTerraformToSdk(ctx, &diags, plan.VrfInstances)
+	data.SetVrfInstances(vrfInstance)
+
 	var orgId = plan.OrgId.ValueString()
 	return data, orgId, diags
 }
@@ -173,4 +179,36 @@ func dhcpSnoopingTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d 
 	data.SetEnabled(d.Enabled.ValueBool())
 	data.SetNetworks(mist_transform.ListOfStringTerraformToSdk(ctx, d.Networks))
 	return *data
+}
+
+func vrfConfigTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d VrfConfigValue) mistsdkgo.NetworkTemplateVrfConfig {
+	data := mistsdkgo.NewNetworkTemplateVrfConfig()
+	data.SetEnabled(d.Enabled.ValueBool())
+	return *data
+}
+
+func vrfInstanceExtraRouteTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.MapValue) map[string]mistsdkgo.VrfExtraRoutesValue {
+	data := make(map[string]mistsdkgo.VrfExtraRoutesValue)
+	for item_name, item_value := range d.Elements() {
+		var item_inteface interface{} = item_value
+		item_obj := item_inteface.(ExtraRoutesValue)
+		data_item := mistsdkgo.NewVrfExtraRoutesValue()
+		data_item.SetVia(item_obj.Via.ValueString())
+		data[item_name] = *data_item
+	}
+	return data
+}
+
+func vrfInstancesTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.MapValue) map[string]mistsdkgo.NetworkTemplateVrfInstancesValue {
+	data := make(map[string]mistsdkgo.NetworkTemplateVrfInstancesValue)
+	for item_name, item_value := range d.Elements() {
+		var item_inteface interface{} = item_value
+		item_obj := item_inteface.(VrfInstancesValue)
+		extra_routes := vrfInstanceExtraRouteTerraformToSdk(ctx, diags, item_obj.ExtraRoutes)
+		data_item := mistsdkgo.NewNetworkTemplateVrfInstancesValue()
+		data_item.SetNetworks(mist_transform.ListOfStringTerraformToSdk(ctx, item_obj.Networks))
+		data_item.SetExtraRoutes(extra_routes)
+		data[item_name] = *data_item
+	}
+	return data
 }

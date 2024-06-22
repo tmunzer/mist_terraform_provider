@@ -69,7 +69,7 @@ Name | Type | Description | Notes
 **TuntermMulticastConfig** | Pointer to [**SiteSettingTuntermMulticastConfig**](SiteSettingTuntermMulticastConfig.md) |  | [optional] 
 **Vars** | Pointer to **map[string]string** | a dictionary of name-&gt;value, the vars can then be used in Wlans. This can overwrite those from Site Vars | [optional] 
 **Vna** | Pointer to [**SiteSettingVna**](SiteSettingVna.md) |  | [optional] 
-**VrfInstances** | Pointer to [**map[string]JunosVrfInstance**](JunosVrfInstance.md) | Property key is the network name | [optional] 
+**VrfInstances** | Pointer to [**map[string]VrfInstancesConfig**](VrfInstancesConfig.md) | Property key is the VRF name | [optional] 
 **VrrpGroups** | Pointer to [**map[string]JunosVrrpGroup**](JunosVrrpGroup.md) | Property key is the vrrp group | [optional] 
 **VsInstances** | Pointer to [**map[string]SiteSettingVsInstancesValue**](SiteSettingVsInstancesValue.md) | virtual-switch (for EX92xx and QFX5130) all the networks not included here will be placed in default &#x60;evpn_vs&#x60; virtual-switch RI Property key is the instance name | [optional] 
 **WanVna** | Pointer to [**SiteSettingWanVna**](SiteSettingWanVna.md) |  | [optional] 
@@ -1726,20 +1726,20 @@ HasVna returns a boolean if a field has been set.
 
 ### GetVrfInstances
 
-`func (o *SiteSetting) GetVrfInstances() map[string]JunosVrfInstance`
+`func (o *SiteSetting) GetVrfInstances() map[string]VrfInstancesConfig`
 
 GetVrfInstances returns the VrfInstances field if non-nil, zero value otherwise.
 
 ### GetVrfInstancesOk
 
-`func (o *SiteSetting) GetVrfInstancesOk() (*map[string]JunosVrfInstance, bool)`
+`func (o *SiteSetting) GetVrfInstancesOk() (*map[string]VrfInstancesConfig, bool)`
 
 GetVrfInstancesOk returns a tuple with the VrfInstances field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetVrfInstances
 
-`func (o *SiteSetting) SetVrfInstances(v map[string]JunosVrfInstance)`
+`func (o *SiteSetting) SetVrfInstances(v map[string]VrfInstancesConfig)`
 
 SetVrfInstances sets VrfInstances field to given value.
 

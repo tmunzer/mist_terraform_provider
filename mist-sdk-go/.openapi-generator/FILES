@@ -85,11 +85,14 @@ docs/GatewayTemplate.md
 docs/GatewayTemplateIdpProfiles.md
 docs/GatewayTemplatePathPreferences.md
 docs/GatewayTemplatePathPreferencesPath.md
+docs/GatewayTemplateTunnelAuthAlgo.md
 docs/GatewayTemplateTunnelAutoProvisionPrimary.md
 docs/GatewayTemplateTunnelAutoProvisionSecondary.md
 docs/GatewayTemplateTunnelConfigs.md
 docs/GatewayTemplateTunnelConfigsAutoProvision.md
 docs/GatewayTemplateTunnelConfigsProbe.md
+docs/GatewayTemplateTunnelDhGroup.md
+docs/GatewayTemplateTunnelEncAlgo.md
 docs/GatewayTemplateTunnelIkeProposal.md
 docs/GatewayTemplateTunnelIpsecProposal.md
 docs/GatewayTemplateTunnelPrimary.md
@@ -151,7 +154,6 @@ docs/JunosSnmpConfigTrapGroupsInner.md
 docs/JunosSnmpConfigViews.md
 docs/JunosStormControl.md
 docs/JunosVrfConfig.md
-docs/JunosVrfInstance.md
 docs/JunosVrrpConfig.md
 docs/JunosVrrpConfigGroups.md
 docs/JunosVrrpConfigGroupsVrrpGroup.md
@@ -185,8 +187,6 @@ docs/NetworkStaticNatValue.md
 docs/NetworkTemplate.md
 docs/NetworkTemplateMistNac.md
 docs/NetworkTemplateNetwork.md
-docs/NetworkTemplateVrfConfig.md
-docs/NetworkTemplateVrfInstancesValue.md
 docs/NetworkTenantsValue.md
 docs/NetworkVpnAccessConfig.md
 docs/Org.md
@@ -204,6 +204,7 @@ docs/ProtectReCustomProtocol.md
 docs/Proxy.md
 docs/RadiusAcctServer.md
 docs/RadiusAuthServer.md
+docs/RadiusKeywrapFormat.md
 docs/Radsec.md
 docs/RadsecServersInner.md
 docs/RemoteSyslog.md
@@ -326,6 +327,7 @@ docs/TemplateApplies.md
 docs/TemplateExceptions.md
 docs/TuntermMonitoring.md
 docs/VrfExtraRoutesValue.md
+docs/VrfInstancesConfig.md
 docs/Wlan.md
 docs/WlanAirwatch.md
 docs/WlanAppLimit.md
@@ -420,11 +422,14 @@ model_gateway_template.go
 model_gateway_template_idp_profiles.go
 model_gateway_template_path_preferences.go
 model_gateway_template_path_preferences_path.go
+model_gateway_template_tunnel_auth_algo.go
 model_gateway_template_tunnel_auto_provision_primary.go
 model_gateway_template_tunnel_auto_provision_secondary.go
 model_gateway_template_tunnel_configs.go
 model_gateway_template_tunnel_configs_auto_provision.go
 model_gateway_template_tunnel_configs_probe.go
+model_gateway_template_tunnel_dh_group.go
+model_gateway_template_tunnel_enc_algo.go
 model_gateway_template_tunnel_ike_proposal.go
 model_gateway_template_tunnel_ipsec_proposal.go
 model_gateway_template_tunnel_primary.go
@@ -486,7 +491,6 @@ model_junos_snmp_config_trap_groups_inner.go
 model_junos_snmp_config_views.go
 model_junos_storm_control.go
 model_junos_vrf_config.go
-model_junos_vrf_instance.go
 model_junos_vrrp_config.go
 model_junos_vrrp_config_groups.go
 model_junos_vrrp_config_groups__vrrp_group_.go
@@ -519,8 +523,6 @@ model_network_static_nat_value.go
 model_network_template.go
 model_network_template_mist_nac.go
 model_network_template_network.go
-model_network_template_vrf_config.go
-model_network_template_vrf_instances_value.go
 model_network_tenants_value.go
 model_network_vpn_access_config.go
 model_org.go
@@ -530,6 +532,7 @@ model_protect_re_custom_protocol.go
 model_proxy.go
 model_radius_acct_server.go
 model_radius_auth_server.go
+model_radius_keywrap_format.go
 model_radsec.go
 model_radsec_servers_inner.go
 model_remote_syslog.go
@@ -650,6 +653,7 @@ model_template_applies.go
 model_template_exceptions.go
 model_tunterm_monitoring.go
 model_vrf_extra_routes_value.go
+model_vrf_instances_config.go
 model_wlan.go
 model_wlan_airwatch.go
 model_wlan_app_limit.go

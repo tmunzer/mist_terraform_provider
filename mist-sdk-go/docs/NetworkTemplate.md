@@ -26,8 +26,8 @@ Name | Type | Description | Notes
 **SnmpConfig** | Pointer to [**JunosSnmpConfig**](JunosSnmpConfig.md) |  | [optional] 
 **SwitchMatching** | Pointer to [**SwitchMatching**](SwitchMatching.md) |  | [optional] 
 **SwitchMgmt** | Pointer to [**SwitchMgmt**](SwitchMgmt.md) |  | [optional] 
-**VrfConfig** | Pointer to [**NetworkTemplateVrfConfig**](NetworkTemplateVrfConfig.md) |  | [optional] 
-**VrfInstances** | Pointer to [**map[string]NetworkTemplateVrfInstancesValue**](NetworkTemplateVrfInstancesValue.md) | Property key is the VRF name | [optional] 
+**VrfConfig** | Pointer to [**JunosVrfConfig**](JunosVrfConfig.md) |  | [optional] 
+**VrfInstances** | Pointer to [**map[string]VrfInstancesConfig**](VrfInstancesConfig.md) | Property key is the VRF name | [optional] 
 
 ## Methods
 
@@ -600,20 +600,20 @@ HasSwitchMgmt returns a boolean if a field has been set.
 
 ### GetVrfConfig
 
-`func (o *NetworkTemplate) GetVrfConfig() NetworkTemplateVrfConfig`
+`func (o *NetworkTemplate) GetVrfConfig() JunosVrfConfig`
 
 GetVrfConfig returns the VrfConfig field if non-nil, zero value otherwise.
 
 ### GetVrfConfigOk
 
-`func (o *NetworkTemplate) GetVrfConfigOk() (*NetworkTemplateVrfConfig, bool)`
+`func (o *NetworkTemplate) GetVrfConfigOk() (*JunosVrfConfig, bool)`
 
 GetVrfConfigOk returns a tuple with the VrfConfig field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetVrfConfig
 
-`func (o *NetworkTemplate) SetVrfConfig(v NetworkTemplateVrfConfig)`
+`func (o *NetworkTemplate) SetVrfConfig(v JunosVrfConfig)`
 
 SetVrfConfig sets VrfConfig field to given value.
 
@@ -625,20 +625,20 @@ HasVrfConfig returns a boolean if a field has been set.
 
 ### GetVrfInstances
 
-`func (o *NetworkTemplate) GetVrfInstances() map[string]NetworkTemplateVrfInstancesValue`
+`func (o *NetworkTemplate) GetVrfInstances() map[string]VrfInstancesConfig`
 
 GetVrfInstances returns the VrfInstances field if non-nil, zero value otherwise.
 
 ### GetVrfInstancesOk
 
-`func (o *NetworkTemplate) GetVrfInstancesOk() (*map[string]NetworkTemplateVrfInstancesValue, bool)`
+`func (o *NetworkTemplate) GetVrfInstancesOk() (*map[string]VrfInstancesConfig, bool)`
 
 GetVrfInstancesOk returns a tuple with the VrfInstances field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetVrfInstances
 
-`func (o *NetworkTemplate) SetVrfInstances(v map[string]NetworkTemplateVrfInstancesValue)`
+`func (o *NetworkTemplate) SetVrfInstances(v map[string]VrfInstancesConfig)`
 
 SetVrfInstances sets VrfInstances field to given value.
 

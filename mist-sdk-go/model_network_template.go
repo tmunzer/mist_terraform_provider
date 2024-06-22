@@ -47,9 +47,9 @@ type NetworkTemplate struct {
 	SnmpConfig *JunosSnmpConfig `json:"snmp_config,omitempty"`
 	SwitchMatching *SwitchMatching `json:"switch_matching,omitempty"`
 	SwitchMgmt *SwitchMgmt `json:"switch_mgmt,omitempty"`
-	VrfConfig *NetworkTemplateVrfConfig `json:"vrf_config,omitempty"`
+	VrfConfig *JunosVrfConfig `json:"vrf_config,omitempty"`
 	// Property key is the VRF name
-	VrfInstances *map[string]NetworkTemplateVrfInstancesValue `json:"vrf_instances,omitempty"`
+	VrfInstances *map[string]VrfInstancesConfig `json:"vrf_instances,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -777,9 +777,9 @@ func (o *NetworkTemplate) SetSwitchMgmt(v SwitchMgmt) {
 }
 
 // GetVrfConfig returns the VrfConfig field value if set, zero value otherwise.
-func (o *NetworkTemplate) GetVrfConfig() NetworkTemplateVrfConfig {
+func (o *NetworkTemplate) GetVrfConfig() JunosVrfConfig {
 	if o == nil || IsNil(o.VrfConfig) {
-		var ret NetworkTemplateVrfConfig
+		var ret JunosVrfConfig
 		return ret
 	}
 	return *o.VrfConfig
@@ -787,7 +787,7 @@ func (o *NetworkTemplate) GetVrfConfig() NetworkTemplateVrfConfig {
 
 // GetVrfConfigOk returns a tuple with the VrfConfig field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *NetworkTemplate) GetVrfConfigOk() (*NetworkTemplateVrfConfig, bool) {
+func (o *NetworkTemplate) GetVrfConfigOk() (*JunosVrfConfig, bool) {
 	if o == nil || IsNil(o.VrfConfig) {
 		return nil, false
 	}
@@ -803,15 +803,15 @@ func (o *NetworkTemplate) HasVrfConfig() bool {
 	return false
 }
 
-// SetVrfConfig gets a reference to the given NetworkTemplateVrfConfig and assigns it to the VrfConfig field.
-func (o *NetworkTemplate) SetVrfConfig(v NetworkTemplateVrfConfig) {
+// SetVrfConfig gets a reference to the given JunosVrfConfig and assigns it to the VrfConfig field.
+func (o *NetworkTemplate) SetVrfConfig(v JunosVrfConfig) {
 	o.VrfConfig = &v
 }
 
 // GetVrfInstances returns the VrfInstances field value if set, zero value otherwise.
-func (o *NetworkTemplate) GetVrfInstances() map[string]NetworkTemplateVrfInstancesValue {
+func (o *NetworkTemplate) GetVrfInstances() map[string]VrfInstancesConfig {
 	if o == nil || IsNil(o.VrfInstances) {
-		var ret map[string]NetworkTemplateVrfInstancesValue
+		var ret map[string]VrfInstancesConfig
 		return ret
 	}
 	return *o.VrfInstances
@@ -819,7 +819,7 @@ func (o *NetworkTemplate) GetVrfInstances() map[string]NetworkTemplateVrfInstanc
 
 // GetVrfInstancesOk returns a tuple with the VrfInstances field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *NetworkTemplate) GetVrfInstancesOk() (*map[string]NetworkTemplateVrfInstancesValue, bool) {
+func (o *NetworkTemplate) GetVrfInstancesOk() (*map[string]VrfInstancesConfig, bool) {
 	if o == nil || IsNil(o.VrfInstances) {
 		return nil, false
 	}
@@ -835,8 +835,8 @@ func (o *NetworkTemplate) HasVrfInstances() bool {
 	return false
 }
 
-// SetVrfInstances gets a reference to the given map[string]NetworkTemplateVrfInstancesValue and assigns it to the VrfInstances field.
-func (o *NetworkTemplate) SetVrfInstances(v map[string]NetworkTemplateVrfInstancesValue) {
+// SetVrfInstances gets a reference to the given map[string]VrfInstancesConfig and assigns it to the VrfInstances field.
+func (o *NetworkTemplate) SetVrfInstances(v map[string]VrfInstancesConfig) {
 	o.VrfInstances = &v
 }
 

@@ -6,7 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Host** | **string** | ip / hostname of RADIUS server | 
 **KeywrapEnabled** | Pointer to **bool** |  | [optional] 
-**KeywrapFormat** | Pointer to **string** |  | [optional] 
+**KeywrapFormat** | Pointer to [**RadiusKeywrapFormat**](RadiusKeywrapFormat.md) |  | [optional] 
 **KeywrapKek** | Pointer to **string** |  | [optional] 
 **KeywrapMack** | Pointer to **string** |  | [optional] 
 **Port** | **int32** | Auth port of RADIUS server | [default to 1812]
@@ -78,20 +78,20 @@ HasKeywrapEnabled returns a boolean if a field has been set.
 
 ### GetKeywrapFormat
 
-`func (o *RadiusAuthServer) GetKeywrapFormat() string`
+`func (o *RadiusAuthServer) GetKeywrapFormat() RadiusKeywrapFormat`
 
 GetKeywrapFormat returns the KeywrapFormat field if non-nil, zero value otherwise.
 
 ### GetKeywrapFormatOk
 
-`func (o *RadiusAuthServer) GetKeywrapFormatOk() (*string, bool)`
+`func (o *RadiusAuthServer) GetKeywrapFormatOk() (*RadiusKeywrapFormat, bool)`
 
 GetKeywrapFormatOk returns a tuple with the KeywrapFormat field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetKeywrapFormat
 
-`func (o *RadiusAuthServer) SetKeywrapFormat(v string)`
+`func (o *RadiusAuthServer) SetKeywrapFormat(v RadiusKeywrapFormat)`
 
 SetKeywrapFormat sets KeywrapFormat field to given value.
 

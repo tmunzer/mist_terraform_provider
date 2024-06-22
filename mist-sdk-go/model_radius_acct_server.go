@@ -24,7 +24,7 @@ type RadiusAcctServer struct {
 	// ip / hostname of RADIUS server
 	Host string `json:"host"`
 	KeywrapEnabled *bool `json:"keywrap_enabled,omitempty"`
-	KeywrapFormat *string `json:"keywrap_format,omitempty"`
+	KeywrapFormat *RadiusKeywrapFormat `json:"keywrap_format,omitempty"`
 	KeywrapKek *string `json:"keywrap_kek,omitempty"`
 	KeywrapMack *string `json:"keywrap_mack,omitempty"`
 	// Acct port of RADIUS server
@@ -115,9 +115,9 @@ func (o *RadiusAcctServer) SetKeywrapEnabled(v bool) {
 }
 
 // GetKeywrapFormat returns the KeywrapFormat field value if set, zero value otherwise.
-func (o *RadiusAcctServer) GetKeywrapFormat() string {
+func (o *RadiusAcctServer) GetKeywrapFormat() RadiusKeywrapFormat {
 	if o == nil || IsNil(o.KeywrapFormat) {
-		var ret string
+		var ret RadiusKeywrapFormat
 		return ret
 	}
 	return *o.KeywrapFormat
@@ -125,7 +125,7 @@ func (o *RadiusAcctServer) GetKeywrapFormat() string {
 
 // GetKeywrapFormatOk returns a tuple with the KeywrapFormat field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RadiusAcctServer) GetKeywrapFormatOk() (*string, bool) {
+func (o *RadiusAcctServer) GetKeywrapFormatOk() (*RadiusKeywrapFormat, bool) {
 	if o == nil || IsNil(o.KeywrapFormat) {
 		return nil, false
 	}
@@ -141,8 +141,8 @@ func (o *RadiusAcctServer) HasKeywrapFormat() bool {
 	return false
 }
 
-// SetKeywrapFormat gets a reference to the given string and assigns it to the KeywrapFormat field.
-func (o *RadiusAcctServer) SetKeywrapFormat(v string) {
+// SetKeywrapFormat gets a reference to the given RadiusKeywrapFormat and assigns it to the KeywrapFormat field.
+func (o *RadiusAcctServer) SetKeywrapFormat(v RadiusKeywrapFormat) {
 	o.KeywrapFormat = &v
 }
 

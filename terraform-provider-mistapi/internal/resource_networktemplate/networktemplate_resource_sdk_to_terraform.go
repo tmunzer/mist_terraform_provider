@@ -44,6 +44,7 @@ func SdkToTerraform(ctx context.Context, data *mistsdkgo.NetworkTemplate) (Netwo
 
 	state.VrfConfig = vrfConfigSdkToTerraform(ctx, &diags, data.GetVrfConfig())
 
+	state.VrfInstances = vrfInstancesSdkToTerraform(ctx, &diags, data.GetVrfInstances())
 	return state, diags
 }
 
@@ -240,4 +241,40 @@ func vrfConfigSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mis
 	diags.Append(e...)
 
 	return r
+}
+
+func vrfInstanceExtraRouteSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]mistsdkgo.VrfExtraRoutesValue) basetypes.MapValue {
+	data_map_attr_type := ExtraRoutesValue{}.AttributeTypes(ctx)
+	data_map_value := make(map[string]attr.Value)
+	for k, v := range d {
+		var data_map_item = map[string]attr.Value{
+			"via": types.StringValue(v.GetVia()),
+		}
+		data_map_item_object, e := NewExtraRoutesValue(data_map_attr_type, data_map_item)
+		diags.Append(e...)
+		data_map_value[k] = data_map_item_object
+	}
+	state_type := ExtraRoutesValue{}.Type(ctx)
+	state_result, e := types.MapValueFrom(ctx, state_type, data_map_value)
+	diags.Append(e...)
+	return state_result
+}
+
+func vrfInstancesSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]mistsdkgo.NetworkTemplateVrfInstancesValue) basetypes.MapValue {
+	data_map_attr_type := VrfInstancesValue{}.AttributeTypes(ctx)
+	data_map_value := make(map[string]attr.Value)
+	for k, v := range d {
+		extra_routes := vrfInstanceExtraRouteSdkToTerraform(ctx, diags, v.GetExtraRoutes())
+		var data_map_item = map[string]attr.Value{
+			"extra_routes": extra_routes,
+			"networks":     mist_transform.ListOfStringSdkToTerraform(ctx, v.GetNetworks()),
+		}
+		data_map_item_object, e := NewVrfInstancesValue(data_map_attr_type, data_map_item)
+		diags.Append(e...)
+		data_map_value[k] = data_map_item_object
+	}
+	state_type := VrfInstancesValue{}.Type(ctx)
+	state_result, e := types.MapValueFrom(ctx, state_type, data_map_value)
+	diags.Append(e...)
+	return state_result
 }

@@ -105,8 +105,8 @@ type SiteSetting struct {
 	// a dictionary of name->value, the vars can then be used in Wlans. This can overwrite those from Site Vars
 	Vars *map[string]string `json:"vars,omitempty"`
 	Vna *SiteSettingVna `json:"vna,omitempty"`
-	// Property key is the network name
-	VrfInstances *map[string]JunosVrfInstance `json:"vrf_instances,omitempty"`
+	// Property key is the VRF name
+	VrfInstances *map[string]VrfInstancesConfig `json:"vrf_instances,omitempty"`
 	// Property key is the vrrp group
 	VrrpGroups *map[string]JunosVrrpGroup `json:"vrrp_groups,omitempty"`
 	// virtual-switch (for EX92xx and QFX5130) all the networks not included here will be placed in default `evpn_vs` virtual-switch RI Property key is the instance name
@@ -2256,9 +2256,9 @@ func (o *SiteSetting) SetVna(v SiteSettingVna) {
 }
 
 // GetVrfInstances returns the VrfInstances field value if set, zero value otherwise.
-func (o *SiteSetting) GetVrfInstances() map[string]JunosVrfInstance {
+func (o *SiteSetting) GetVrfInstances() map[string]VrfInstancesConfig {
 	if o == nil || IsNil(o.VrfInstances) {
-		var ret map[string]JunosVrfInstance
+		var ret map[string]VrfInstancesConfig
 		return ret
 	}
 	return *o.VrfInstances
@@ -2266,7 +2266,7 @@ func (o *SiteSetting) GetVrfInstances() map[string]JunosVrfInstance {
 
 // GetVrfInstancesOk returns a tuple with the VrfInstances field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *SiteSetting) GetVrfInstancesOk() (*map[string]JunosVrfInstance, bool) {
+func (o *SiteSetting) GetVrfInstancesOk() (*map[string]VrfInstancesConfig, bool) {
 	if o == nil || IsNil(o.VrfInstances) {
 		return nil, false
 	}
@@ -2282,8 +2282,8 @@ func (o *SiteSetting) HasVrfInstances() bool {
 	return false
 }
 
-// SetVrfInstances gets a reference to the given map[string]JunosVrfInstance and assigns it to the VrfInstances field.
-func (o *SiteSetting) SetVrfInstances(v map[string]JunosVrfInstance) {
+// SetVrfInstances gets a reference to the given map[string]VrfInstancesConfig and assigns it to the VrfInstances field.
+func (o *SiteSetting) SetVrfInstances(v map[string]VrfInstancesConfig) {
 	o.VrfInstances = &v
 }
 
