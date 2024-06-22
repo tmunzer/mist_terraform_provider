@@ -2337,7 +2337,7 @@ components:
         vna:
           $ref: "#/components/schemas/site_setting_vna"
         vrf_instances:
-          $ref: "#/components/schemas/site_setting_vrf_instances"
+          $ref: "#/components/schemas/vrf_instances"
         vrrp_groups:
           $ref: "#/components/schemas/site_setting_vrrp_groups"
         vs_instances:
@@ -2733,18 +2733,6 @@ components:
             enable Virtual Network Assistant (using SUB-VNA license). This
             applied to AP / Switch / Gateway
           type: boolean
-      type: object
-    site_setting_vrf_instances:
-      additionalProperties:
-        $ref: "#/components/schemas/junos_vrf_instance"
-      description: Property key is the network name
-      example:
-        guest:
-          extra_routes:
-            0.0.0.0/0:
-              via: 192.168.31.1
-          networks:
-            - guest
       type: object
     site_setting_vrrp_groups:
       additionalProperties:
@@ -3882,7 +3870,7 @@ components:
         switch_mgmt:
           $ref: "#/components/schemas/switch_mgmt"
         vrf_config:
-          $ref: "#/components/schemas/network_template_vrf_config"
+          $ref: "#/components/schemas/vrf_config"
         vrf_instances:
           $ref: "#/components/schemas/network_template_vrf_instances"
       type: object
@@ -7649,19 +7637,6 @@ components:
           type: boolean
       title: junos_vrf_config
       type: object
-    junos_vrf_instance:
-      example:
-        extra_routes:
-          0.0.0.0/0:
-            via: 192.168.31.1
-        networks:
-          - guest
-      properties:
-        extra_routes:
-          $ref: "#/components/schemas/vrf_extra_routes"
-        networks:
-          $ref: "#/components/schemas/string_list"
-      type: object
     junos_vrrp_config:
       description: Junos VRRP config
       properties:
@@ -10284,22 +10259,31 @@ components:
           example: 10
           type: integer
       type: object
-    network_template_vrf_config:
-      properties:
-        enabled:
-          default: false
-          type: boolean
-      type: object
-    network_template_vrf_instances:
-      additionalProperties:
+    vrf_instances_config:
+        example:
+          extra_routes:
+            0.0.0.0/0:
+              via: 192.168.31.1
+          networks:
+            - guest
         properties:
           extra_routes:
             $ref: "#/components/schemas/vrf_extra_routes"
           networks:
             $ref: "#/components/schemas/string_list"
         type: object
+    vrf_instances:
+      additionalProperties:
+        $ref: "#/components/schemas/vrf_instances_config"
       description: Property key is the VRF name
       type: object
+      example:
+        guest:
+          extra_routes:
+            0.0.0.0/0:
+              via: 192.168.31.1
+          networks:
+            - guest
     network_tenants:
       additionalProperties:
         properties:

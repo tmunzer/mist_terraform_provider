@@ -9,12 +9,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
-func TerraformToSdk(plan *OrgModel) (mistsdkgo.Org, diag.Diagnostics) {
-	var diags diag.Diagnostics
-	data := *mistsdkgo.NewOrg(plan.Name.ValueString())
-	return data, diags
-}
-
 func SdkToTerraform(data *mistsdkgo.Org) (OrgModel, diag.Diagnostics) {
 	var state OrgModel
 	var diags diag.Diagnostics

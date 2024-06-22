@@ -33,6 +33,44 @@ func NetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 					listvalidator.UniqueValues(),
 				},
 			},
+			"dhcp_snooping": schema.SingleNestedAttribute{
+				Attributes: map[string]schema.Attribute{
+					"all_networks": schema.BoolAttribute{
+						Optional: true,
+						Computed: true,
+					},
+					"enable_arp_spoof_check": schema.BoolAttribute{
+						Optional:            true,
+						Computed:            true,
+						Description:         "Enable for dynamic ARP inspection check",
+						MarkdownDescription: "Enable for dynamic ARP inspection check",
+					},
+					"enable_ip_source_guard": schema.BoolAttribute{
+						Optional:            true,
+						Computed:            true,
+						Description:         "Enable for check for forging source IP address",
+						MarkdownDescription: "Enable for check for forging source IP address",
+					},
+					"enabled": schema.BoolAttribute{
+						Optional: true,
+						Computed: true,
+					},
+					"networks": schema.ListAttribute{
+						ElementType:         types.StringType,
+						Optional:            true,
+						Computed:            true,
+						Description:         "if `all_networks`==`false`, list of network with DHCP snooping enabled",
+						MarkdownDescription: "if `all_networks`==`false`, list of network with DHCP snooping enabled",
+					},
+				},
+				CustomType: DhcpSnoopingType{
+					ObjectType: types.ObjectType{
+						AttrTypes: DhcpSnoopingValue{}.AttributeTypes(ctx),
+					},
+				},
+				Optional: true,
+				Computed: true,
+			},
 			"dns_servers": schema.ListAttribute{
 				ElementType: types.StringType,
 				Optional:    true,
@@ -52,6 +90,27 @@ func NetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 			"id": schema.StringAttribute{
 				Optional: true,
 				Computed: true,
+			},
+			"mist_nac": schema.SingleNestedAttribute{
+				Attributes: map[string]schema.Attribute{
+					"enabled": schema.BoolAttribute{
+						Optional: true,
+						Computed: true,
+					},
+					"network": schema.StringAttribute{
+						Optional: true,
+						Computed: true,
+					},
+				},
+				CustomType: MistNacType{
+					ObjectType: types.ObjectType{
+						AttrTypes: MistNacValue{}.AttributeTypes(ctx),
+					},
+				},
+				Optional:            true,
+				Computed:            true,
+				Description:         "enable mist_nac to use radsec",
+				MarkdownDescription: "enable mist_nac to use radsec",
 			},
 			"name": schema.StringAttribute{
 				Optional: true,
@@ -538,21 +597,1030 @@ func NetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 				Description:         "Junos Radius config",
 				MarkdownDescription: "Junos Radius config",
 			},
+			"vrf_config": schema.SingleNestedAttribute{
+				Attributes: map[string]schema.Attribute{
+					"enabled": schema.BoolAttribute{
+						Optional: true,
+						Computed: true,
+						Default:  booldefault.StaticBool(false),
+					},
+				},
+				CustomType: VrfConfigType{
+					ObjectType: types.ObjectType{
+						AttrTypes: VrfConfigValue{}.AttributeTypes(ctx),
+					},
+				},
+				Optional: true,
+				Computed: true,
+			},
+			"vrf_instances": schema.MapNestedAttribute{
+				NestedObject: schema.NestedAttributeObject{
+					Attributes: map[string]schema.Attribute{
+						"extra_routes": schema.MapNestedAttribute{
+							NestedObject: schema.NestedAttributeObject{
+								Attributes: map[string]schema.Attribute{
+									"via": schema.StringAttribute{
+										Optional:            true,
+										Computed:            true,
+										Description:         "Next-hop address",
+										MarkdownDescription: "Next-hop address",
+									},
+								},
+								CustomType: ExtraRoutesType{
+									ObjectType: types.ObjectType{
+										AttrTypes: ExtraRoutesValue{}.AttributeTypes(ctx),
+									},
+								},
+							},
+							Optional:            true,
+							Computed:            true,
+							Description:         "Property key is the destination CIDR (e.g. \"10.0.0.0/8\")",
+							MarkdownDescription: "Property key is the destination CIDR (e.g. \"10.0.0.0/8\")",
+						},
+						"networks": schema.ListAttribute{
+							ElementType: types.StringType,
+							Optional:    true,
+							Computed:    true,
+							Validators: []validator.List{
+								listvalidator.UniqueValues(),
+							},
+						},
+					},
+					CustomType: VrfInstancesType{
+						ObjectType: types.ObjectType{
+							AttrTypes: VrfInstancesValue{}.AttributeTypes(ctx),
+						},
+					},
+				},
+				Optional:            true,
+				Computed:            true,
+				Description:         "Property key is the VRF name",
+				MarkdownDescription: "Property key is the VRF name",
+			},
 		},
 	}
 }
 
 type NetworktemplateModel struct {
 	AdditionalConfigCmds types.List        `tfsdk:"additional_config_cmds"`
+	DhcpSnooping         DhcpSnoopingValue `tfsdk:"dhcp_snooping"`
 	DnsServers           types.List        `tfsdk:"dns_servers"`
 	DnsSuffix            types.List        `tfsdk:"dns_suffix"`
 	Id                   types.String      `tfsdk:"id"`
+	MistNac              MistNacValue      `tfsdk:"mist_nac"`
 	Name                 types.String      `tfsdk:"name"`
 	Networks             types.Map         `tfsdk:"networks"`
 	NtpServers           types.List        `tfsdk:"ntp_servers"`
 	OrgId                types.String      `tfsdk:"org_id"`
 	PortUsages           types.Map         `tfsdk:"port_usages"`
 	RadiusConfig         RadiusConfigValue `tfsdk:"radius_config"`
+	VrfConfig            VrfConfigValue    `tfsdk:"vrf_config"`
+	VrfInstances         types.Map         `tfsdk:"vrf_instances"`
+}
+
+var _ basetypes.ObjectTypable = DhcpSnoopingType{}
+
+type DhcpSnoopingType struct {
+	basetypes.ObjectType
+}
+
+func (t DhcpSnoopingType) Equal(o attr.Type) bool {
+	other, ok := o.(DhcpSnoopingType)
+
+	if !ok {
+		return false
+	}
+
+	return t.ObjectType.Equal(other.ObjectType)
+}
+
+func (t DhcpSnoopingType) String() string {
+	return "DhcpSnoopingType"
+}
+
+func (t DhcpSnoopingType) ValueFromObject(ctx context.Context, in basetypes.ObjectValue) (basetypes.ObjectValuable, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	attributes := in.Attributes()
+
+	allNetworksAttribute, ok := attributes["all_networks"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`all_networks is missing from object`)
+
+		return nil, diags
+	}
+
+	allNetworksVal, ok := allNetworksAttribute.(basetypes.BoolValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`all_networks expected to be basetypes.BoolValue, was: %T`, allNetworksAttribute))
+	}
+
+	enableArpSpoofCheckAttribute, ok := attributes["enable_arp_spoof_check"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`enable_arp_spoof_check is missing from object`)
+
+		return nil, diags
+	}
+
+	enableArpSpoofCheckVal, ok := enableArpSpoofCheckAttribute.(basetypes.BoolValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`enable_arp_spoof_check expected to be basetypes.BoolValue, was: %T`, enableArpSpoofCheckAttribute))
+	}
+
+	enableIpSourceGuardAttribute, ok := attributes["enable_ip_source_guard"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`enable_ip_source_guard is missing from object`)
+
+		return nil, diags
+	}
+
+	enableIpSourceGuardVal, ok := enableIpSourceGuardAttribute.(basetypes.BoolValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`enable_ip_source_guard expected to be basetypes.BoolValue, was: %T`, enableIpSourceGuardAttribute))
+	}
+
+	enabledAttribute, ok := attributes["enabled"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`enabled is missing from object`)
+
+		return nil, diags
+	}
+
+	enabledVal, ok := enabledAttribute.(basetypes.BoolValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`enabled expected to be basetypes.BoolValue, was: %T`, enabledAttribute))
+	}
+
+	networksAttribute, ok := attributes["networks"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`networks is missing from object`)
+
+		return nil, diags
+	}
+
+	networksVal, ok := networksAttribute.(basetypes.ListValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`networks expected to be basetypes.ListValue, was: %T`, networksAttribute))
+	}
+
+	if diags.HasError() {
+		return nil, diags
+	}
+
+	return DhcpSnoopingValue{
+		AllNetworks:         allNetworksVal,
+		EnableArpSpoofCheck: enableArpSpoofCheckVal,
+		EnableIpSourceGuard: enableIpSourceGuardVal,
+		Enabled:             enabledVal,
+		Networks:            networksVal,
+		state:               attr.ValueStateKnown,
+	}, diags
+}
+
+func NewDhcpSnoopingValueNull() DhcpSnoopingValue {
+	return DhcpSnoopingValue{
+		state: attr.ValueStateNull,
+	}
+}
+
+func NewDhcpSnoopingValueUnknown() DhcpSnoopingValue {
+	return DhcpSnoopingValue{
+		state: attr.ValueStateUnknown,
+	}
+}
+
+func NewDhcpSnoopingValue(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) (DhcpSnoopingValue, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	// Reference: https://github.com/hashicorp/terraform-plugin-framework/issues/521
+	ctx := context.Background()
+
+	for name, attributeType := range attributeTypes {
+		attribute, ok := attributes[name]
+
+		if !ok {
+			diags.AddError(
+				"Missing DhcpSnoopingValue Attribute Value",
+				"While creating a DhcpSnoopingValue value, a missing attribute value was detected. "+
+					"A DhcpSnoopingValue must contain values for all attributes, even if null or unknown. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("DhcpSnoopingValue Attribute Name (%s) Expected Type: %s", name, attributeType.String()),
+			)
+
+			continue
+		}
+
+		if !attributeType.Equal(attribute.Type(ctx)) {
+			diags.AddError(
+				"Invalid DhcpSnoopingValue Attribute Type",
+				"While creating a DhcpSnoopingValue value, an invalid attribute value was detected. "+
+					"A DhcpSnoopingValue must use a matching attribute type for the value. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("DhcpSnoopingValue Attribute Name (%s) Expected Type: %s\n", name, attributeType.String())+
+					fmt.Sprintf("DhcpSnoopingValue Attribute Name (%s) Given Type: %s", name, attribute.Type(ctx)),
+			)
+		}
+	}
+
+	for name := range attributes {
+		_, ok := attributeTypes[name]
+
+		if !ok {
+			diags.AddError(
+				"Extra DhcpSnoopingValue Attribute Value",
+				"While creating a DhcpSnoopingValue value, an extra attribute value was detected. "+
+					"A DhcpSnoopingValue must not contain values beyond the expected attribute types. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("Extra DhcpSnoopingValue Attribute Name: %s", name),
+			)
+		}
+	}
+
+	if diags.HasError() {
+		return NewDhcpSnoopingValueUnknown(), diags
+	}
+
+	allNetworksAttribute, ok := attributes["all_networks"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`all_networks is missing from object`)
+
+		return NewDhcpSnoopingValueUnknown(), diags
+	}
+
+	allNetworksVal, ok := allNetworksAttribute.(basetypes.BoolValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`all_networks expected to be basetypes.BoolValue, was: %T`, allNetworksAttribute))
+	}
+
+	enableArpSpoofCheckAttribute, ok := attributes["enable_arp_spoof_check"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`enable_arp_spoof_check is missing from object`)
+
+		return NewDhcpSnoopingValueUnknown(), diags
+	}
+
+	enableArpSpoofCheckVal, ok := enableArpSpoofCheckAttribute.(basetypes.BoolValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`enable_arp_spoof_check expected to be basetypes.BoolValue, was: %T`, enableArpSpoofCheckAttribute))
+	}
+
+	enableIpSourceGuardAttribute, ok := attributes["enable_ip_source_guard"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`enable_ip_source_guard is missing from object`)
+
+		return NewDhcpSnoopingValueUnknown(), diags
+	}
+
+	enableIpSourceGuardVal, ok := enableIpSourceGuardAttribute.(basetypes.BoolValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`enable_ip_source_guard expected to be basetypes.BoolValue, was: %T`, enableIpSourceGuardAttribute))
+	}
+
+	enabledAttribute, ok := attributes["enabled"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`enabled is missing from object`)
+
+		return NewDhcpSnoopingValueUnknown(), diags
+	}
+
+	enabledVal, ok := enabledAttribute.(basetypes.BoolValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`enabled expected to be basetypes.BoolValue, was: %T`, enabledAttribute))
+	}
+
+	networksAttribute, ok := attributes["networks"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`networks is missing from object`)
+
+		return NewDhcpSnoopingValueUnknown(), diags
+	}
+
+	networksVal, ok := networksAttribute.(basetypes.ListValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`networks expected to be basetypes.ListValue, was: %T`, networksAttribute))
+	}
+
+	if diags.HasError() {
+		return NewDhcpSnoopingValueUnknown(), diags
+	}
+
+	return DhcpSnoopingValue{
+		AllNetworks:         allNetworksVal,
+		EnableArpSpoofCheck: enableArpSpoofCheckVal,
+		EnableIpSourceGuard: enableIpSourceGuardVal,
+		Enabled:             enabledVal,
+		Networks:            networksVal,
+		state:               attr.ValueStateKnown,
+	}, diags
+}
+
+func NewDhcpSnoopingValueMust(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) DhcpSnoopingValue {
+	object, diags := NewDhcpSnoopingValue(attributeTypes, attributes)
+
+	if diags.HasError() {
+		// This could potentially be added to the diag package.
+		diagsStrings := make([]string, 0, len(diags))
+
+		for _, diagnostic := range diags {
+			diagsStrings = append(diagsStrings, fmt.Sprintf(
+				"%s | %s | %s",
+				diagnostic.Severity(),
+				diagnostic.Summary(),
+				diagnostic.Detail()))
+		}
+
+		panic("NewDhcpSnoopingValueMust received error(s): " + strings.Join(diagsStrings, "\n"))
+	}
+
+	return object
+}
+
+func (t DhcpSnoopingType) ValueFromTerraform(ctx context.Context, in tftypes.Value) (attr.Value, error) {
+	if in.Type() == nil {
+		return NewDhcpSnoopingValueNull(), nil
+	}
+
+	if !in.Type().Equal(t.TerraformType(ctx)) {
+		return nil, fmt.Errorf("expected %s, got %s", t.TerraformType(ctx), in.Type())
+	}
+
+	if !in.IsKnown() {
+		return NewDhcpSnoopingValueUnknown(), nil
+	}
+
+	if in.IsNull() {
+		return NewDhcpSnoopingValueNull(), nil
+	}
+
+	attributes := map[string]attr.Value{}
+
+	val := map[string]tftypes.Value{}
+
+	err := in.As(&val)
+
+	if err != nil {
+		return nil, err
+	}
+
+	for k, v := range val {
+		a, err := t.AttrTypes[k].ValueFromTerraform(ctx, v)
+
+		if err != nil {
+			return nil, err
+		}
+
+		attributes[k] = a
+	}
+
+	return NewDhcpSnoopingValueMust(DhcpSnoopingValue{}.AttributeTypes(ctx), attributes), nil
+}
+
+func (t DhcpSnoopingType) ValueType(ctx context.Context) attr.Value {
+	return DhcpSnoopingValue{}
+}
+
+var _ basetypes.ObjectValuable = DhcpSnoopingValue{}
+
+type DhcpSnoopingValue struct {
+	AllNetworks         basetypes.BoolValue `tfsdk:"all_networks"`
+	EnableArpSpoofCheck basetypes.BoolValue `tfsdk:"enable_arp_spoof_check"`
+	EnableIpSourceGuard basetypes.BoolValue `tfsdk:"enable_ip_source_guard"`
+	Enabled             basetypes.BoolValue `tfsdk:"enabled"`
+	Networks            basetypes.ListValue `tfsdk:"networks"`
+	state               attr.ValueState
+}
+
+func (v DhcpSnoopingValue) ToTerraformValue(ctx context.Context) (tftypes.Value, error) {
+	attrTypes := make(map[string]tftypes.Type, 5)
+
+	var val tftypes.Value
+	var err error
+
+	attrTypes["all_networks"] = basetypes.BoolType{}.TerraformType(ctx)
+	attrTypes["enable_arp_spoof_check"] = basetypes.BoolType{}.TerraformType(ctx)
+	attrTypes["enable_ip_source_guard"] = basetypes.BoolType{}.TerraformType(ctx)
+	attrTypes["enabled"] = basetypes.BoolType{}.TerraformType(ctx)
+	attrTypes["networks"] = basetypes.ListType{
+		ElemType: types.StringType,
+	}.TerraformType(ctx)
+
+	objectType := tftypes.Object{AttributeTypes: attrTypes}
+
+	switch v.state {
+	case attr.ValueStateKnown:
+		vals := make(map[string]tftypes.Value, 5)
+
+		val, err = v.AllNetworks.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["all_networks"] = val
+
+		val, err = v.EnableArpSpoofCheck.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["enable_arp_spoof_check"] = val
+
+		val, err = v.EnableIpSourceGuard.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["enable_ip_source_guard"] = val
+
+		val, err = v.Enabled.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["enabled"] = val
+
+		val, err = v.Networks.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["networks"] = val
+
+		if err := tftypes.ValidateValue(objectType, vals); err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		return tftypes.NewValue(objectType, vals), nil
+	case attr.ValueStateNull:
+		return tftypes.NewValue(objectType, nil), nil
+	case attr.ValueStateUnknown:
+		return tftypes.NewValue(objectType, tftypes.UnknownValue), nil
+	default:
+		panic(fmt.Sprintf("unhandled Object state in ToTerraformValue: %s", v.state))
+	}
+}
+
+func (v DhcpSnoopingValue) IsNull() bool {
+	return v.state == attr.ValueStateNull
+}
+
+func (v DhcpSnoopingValue) IsUnknown() bool {
+	return v.state == attr.ValueStateUnknown
+}
+
+func (v DhcpSnoopingValue) String() string {
+	return "DhcpSnoopingValue"
+}
+
+func (v DhcpSnoopingValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	networksVal, d := types.ListValue(types.StringType, v.Networks.Elements())
+
+	diags.Append(d...)
+
+	if d.HasError() {
+		return types.ObjectUnknown(map[string]attr.Type{
+			"all_networks":           basetypes.BoolType{},
+			"enable_arp_spoof_check": basetypes.BoolType{},
+			"enable_ip_source_guard": basetypes.BoolType{},
+			"enabled":                basetypes.BoolType{},
+			"networks": basetypes.ListType{
+				ElemType: types.StringType,
+			},
+		}), diags
+	}
+
+	attributeTypes := map[string]attr.Type{
+		"all_networks":           basetypes.BoolType{},
+		"enable_arp_spoof_check": basetypes.BoolType{},
+		"enable_ip_source_guard": basetypes.BoolType{},
+		"enabled":                basetypes.BoolType{},
+		"networks": basetypes.ListType{
+			ElemType: types.StringType,
+		},
+	}
+
+	if v.IsNull() {
+		return types.ObjectNull(attributeTypes), diags
+	}
+
+	if v.IsUnknown() {
+		return types.ObjectUnknown(attributeTypes), diags
+	}
+
+	objVal, diags := types.ObjectValue(
+		attributeTypes,
+		map[string]attr.Value{
+			"all_networks":           v.AllNetworks,
+			"enable_arp_spoof_check": v.EnableArpSpoofCheck,
+			"enable_ip_source_guard": v.EnableIpSourceGuard,
+			"enabled":                v.Enabled,
+			"networks":               networksVal,
+		})
+
+	return objVal, diags
+}
+
+func (v DhcpSnoopingValue) Equal(o attr.Value) bool {
+	other, ok := o.(DhcpSnoopingValue)
+
+	if !ok {
+		return false
+	}
+
+	if v.state != other.state {
+		return false
+	}
+
+	if v.state != attr.ValueStateKnown {
+		return true
+	}
+
+	if !v.AllNetworks.Equal(other.AllNetworks) {
+		return false
+	}
+
+	if !v.EnableArpSpoofCheck.Equal(other.EnableArpSpoofCheck) {
+		return false
+	}
+
+	if !v.EnableIpSourceGuard.Equal(other.EnableIpSourceGuard) {
+		return false
+	}
+
+	if !v.Enabled.Equal(other.Enabled) {
+		return false
+	}
+
+	if !v.Networks.Equal(other.Networks) {
+		return false
+	}
+
+	return true
+}
+
+func (v DhcpSnoopingValue) Type(ctx context.Context) attr.Type {
+	return DhcpSnoopingType{
+		basetypes.ObjectType{
+			AttrTypes: v.AttributeTypes(ctx),
+		},
+	}
+}
+
+func (v DhcpSnoopingValue) AttributeTypes(ctx context.Context) map[string]attr.Type {
+	return map[string]attr.Type{
+		"all_networks":           basetypes.BoolType{},
+		"enable_arp_spoof_check": basetypes.BoolType{},
+		"enable_ip_source_guard": basetypes.BoolType{},
+		"enabled":                basetypes.BoolType{},
+		"networks": basetypes.ListType{
+			ElemType: types.StringType,
+		},
+	}
+}
+
+var _ basetypes.ObjectTypable = MistNacType{}
+
+type MistNacType struct {
+	basetypes.ObjectType
+}
+
+func (t MistNacType) Equal(o attr.Type) bool {
+	other, ok := o.(MistNacType)
+
+	if !ok {
+		return false
+	}
+
+	return t.ObjectType.Equal(other.ObjectType)
+}
+
+func (t MistNacType) String() string {
+	return "MistNacType"
+}
+
+func (t MistNacType) ValueFromObject(ctx context.Context, in basetypes.ObjectValue) (basetypes.ObjectValuable, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	attributes := in.Attributes()
+
+	enabledAttribute, ok := attributes["enabled"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`enabled is missing from object`)
+
+		return nil, diags
+	}
+
+	enabledVal, ok := enabledAttribute.(basetypes.BoolValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`enabled expected to be basetypes.BoolValue, was: %T`, enabledAttribute))
+	}
+
+	networkAttribute, ok := attributes["network"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`network is missing from object`)
+
+		return nil, diags
+	}
+
+	networkVal, ok := networkAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`network expected to be basetypes.StringValue, was: %T`, networkAttribute))
+	}
+
+	if diags.HasError() {
+		return nil, diags
+	}
+
+	return MistNacValue{
+		Enabled: enabledVal,
+		Network: networkVal,
+		state:   attr.ValueStateKnown,
+	}, diags
+}
+
+func NewMistNacValueNull() MistNacValue {
+	return MistNacValue{
+		state: attr.ValueStateNull,
+	}
+}
+
+func NewMistNacValueUnknown() MistNacValue {
+	return MistNacValue{
+		state: attr.ValueStateUnknown,
+	}
+}
+
+func NewMistNacValue(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) (MistNacValue, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	// Reference: https://github.com/hashicorp/terraform-plugin-framework/issues/521
+	ctx := context.Background()
+
+	for name, attributeType := range attributeTypes {
+		attribute, ok := attributes[name]
+
+		if !ok {
+			diags.AddError(
+				"Missing MistNacValue Attribute Value",
+				"While creating a MistNacValue value, a missing attribute value was detected. "+
+					"A MistNacValue must contain values for all attributes, even if null or unknown. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("MistNacValue Attribute Name (%s) Expected Type: %s", name, attributeType.String()),
+			)
+
+			continue
+		}
+
+		if !attributeType.Equal(attribute.Type(ctx)) {
+			diags.AddError(
+				"Invalid MistNacValue Attribute Type",
+				"While creating a MistNacValue value, an invalid attribute value was detected. "+
+					"A MistNacValue must use a matching attribute type for the value. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("MistNacValue Attribute Name (%s) Expected Type: %s\n", name, attributeType.String())+
+					fmt.Sprintf("MistNacValue Attribute Name (%s) Given Type: %s", name, attribute.Type(ctx)),
+			)
+		}
+	}
+
+	for name := range attributes {
+		_, ok := attributeTypes[name]
+
+		if !ok {
+			diags.AddError(
+				"Extra MistNacValue Attribute Value",
+				"While creating a MistNacValue value, an extra attribute value was detected. "+
+					"A MistNacValue must not contain values beyond the expected attribute types. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("Extra MistNacValue Attribute Name: %s", name),
+			)
+		}
+	}
+
+	if diags.HasError() {
+		return NewMistNacValueUnknown(), diags
+	}
+
+	enabledAttribute, ok := attributes["enabled"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`enabled is missing from object`)
+
+		return NewMistNacValueUnknown(), diags
+	}
+
+	enabledVal, ok := enabledAttribute.(basetypes.BoolValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`enabled expected to be basetypes.BoolValue, was: %T`, enabledAttribute))
+	}
+
+	networkAttribute, ok := attributes["network"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`network is missing from object`)
+
+		return NewMistNacValueUnknown(), diags
+	}
+
+	networkVal, ok := networkAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`network expected to be basetypes.StringValue, was: %T`, networkAttribute))
+	}
+
+	if diags.HasError() {
+		return NewMistNacValueUnknown(), diags
+	}
+
+	return MistNacValue{
+		Enabled: enabledVal,
+		Network: networkVal,
+		state:   attr.ValueStateKnown,
+	}, diags
+}
+
+func NewMistNacValueMust(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) MistNacValue {
+	object, diags := NewMistNacValue(attributeTypes, attributes)
+
+	if diags.HasError() {
+		// This could potentially be added to the diag package.
+		diagsStrings := make([]string, 0, len(diags))
+
+		for _, diagnostic := range diags {
+			diagsStrings = append(diagsStrings, fmt.Sprintf(
+				"%s | %s | %s",
+				diagnostic.Severity(),
+				diagnostic.Summary(),
+				diagnostic.Detail()))
+		}
+
+		panic("NewMistNacValueMust received error(s): " + strings.Join(diagsStrings, "\n"))
+	}
+
+	return object
+}
+
+func (t MistNacType) ValueFromTerraform(ctx context.Context, in tftypes.Value) (attr.Value, error) {
+	if in.Type() == nil {
+		return NewMistNacValueNull(), nil
+	}
+
+	if !in.Type().Equal(t.TerraformType(ctx)) {
+		return nil, fmt.Errorf("expected %s, got %s", t.TerraformType(ctx), in.Type())
+	}
+
+	if !in.IsKnown() {
+		return NewMistNacValueUnknown(), nil
+	}
+
+	if in.IsNull() {
+		return NewMistNacValueNull(), nil
+	}
+
+	attributes := map[string]attr.Value{}
+
+	val := map[string]tftypes.Value{}
+
+	err := in.As(&val)
+
+	if err != nil {
+		return nil, err
+	}
+
+	for k, v := range val {
+		a, err := t.AttrTypes[k].ValueFromTerraform(ctx, v)
+
+		if err != nil {
+			return nil, err
+		}
+
+		attributes[k] = a
+	}
+
+	return NewMistNacValueMust(MistNacValue{}.AttributeTypes(ctx), attributes), nil
+}
+
+func (t MistNacType) ValueType(ctx context.Context) attr.Value {
+	return MistNacValue{}
+}
+
+var _ basetypes.ObjectValuable = MistNacValue{}
+
+type MistNacValue struct {
+	Enabled basetypes.BoolValue   `tfsdk:"enabled"`
+	Network basetypes.StringValue `tfsdk:"network"`
+	state   attr.ValueState
+}
+
+func (v MistNacValue) ToTerraformValue(ctx context.Context) (tftypes.Value, error) {
+	attrTypes := make(map[string]tftypes.Type, 2)
+
+	var val tftypes.Value
+	var err error
+
+	attrTypes["enabled"] = basetypes.BoolType{}.TerraformType(ctx)
+	attrTypes["network"] = basetypes.StringType{}.TerraformType(ctx)
+
+	objectType := tftypes.Object{AttributeTypes: attrTypes}
+
+	switch v.state {
+	case attr.ValueStateKnown:
+		vals := make(map[string]tftypes.Value, 2)
+
+		val, err = v.Enabled.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["enabled"] = val
+
+		val, err = v.Network.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["network"] = val
+
+		if err := tftypes.ValidateValue(objectType, vals); err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		return tftypes.NewValue(objectType, vals), nil
+	case attr.ValueStateNull:
+		return tftypes.NewValue(objectType, nil), nil
+	case attr.ValueStateUnknown:
+		return tftypes.NewValue(objectType, tftypes.UnknownValue), nil
+	default:
+		panic(fmt.Sprintf("unhandled Object state in ToTerraformValue: %s", v.state))
+	}
+}
+
+func (v MistNacValue) IsNull() bool {
+	return v.state == attr.ValueStateNull
+}
+
+func (v MistNacValue) IsUnknown() bool {
+	return v.state == attr.ValueStateUnknown
+}
+
+func (v MistNacValue) String() string {
+	return "MistNacValue"
+}
+
+func (v MistNacValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	attributeTypes := map[string]attr.Type{
+		"enabled": basetypes.BoolType{},
+		"network": basetypes.StringType{},
+	}
+
+	if v.IsNull() {
+		return types.ObjectNull(attributeTypes), diags
+	}
+
+	if v.IsUnknown() {
+		return types.ObjectUnknown(attributeTypes), diags
+	}
+
+	objVal, diags := types.ObjectValue(
+		attributeTypes,
+		map[string]attr.Value{
+			"enabled": v.Enabled,
+			"network": v.Network,
+		})
+
+	return objVal, diags
+}
+
+func (v MistNacValue) Equal(o attr.Value) bool {
+	other, ok := o.(MistNacValue)
+
+	if !ok {
+		return false
+	}
+
+	if v.state != other.state {
+		return false
+	}
+
+	if v.state != attr.ValueStateKnown {
+		return true
+	}
+
+	if !v.Enabled.Equal(other.Enabled) {
+		return false
+	}
+
+	if !v.Network.Equal(other.Network) {
+		return false
+	}
+
+	return true
+}
+
+func (v MistNacValue) Type(ctx context.Context) attr.Type {
+	return MistNacType{
+		basetypes.ObjectType{
+			AttrTypes: v.AttributeTypes(ctx),
+		},
+	}
+}
+
+func (v MistNacValue) AttributeTypes(ctx context.Context) map[string]attr.Type {
+	return map[string]attr.Type{
+		"enabled": basetypes.BoolType{},
+		"network": basetypes.StringType{},
+	}
 }
 
 var _ basetypes.ObjectTypable = NetworksType{}
@@ -5608,5 +6676,1088 @@ func (v AuthServersValue) AttributeTypes(ctx context.Context) map[string]attr.Ty
 		"keywrap_mack":    basetypes.StringType{},
 		"port":            basetypes.Int64Type{},
 		"secret":          basetypes.StringType{},
+	}
+}
+
+var _ basetypes.ObjectTypable = VrfConfigType{}
+
+type VrfConfigType struct {
+	basetypes.ObjectType
+}
+
+func (t VrfConfigType) Equal(o attr.Type) bool {
+	other, ok := o.(VrfConfigType)
+
+	if !ok {
+		return false
+	}
+
+	return t.ObjectType.Equal(other.ObjectType)
+}
+
+func (t VrfConfigType) String() string {
+	return "VrfConfigType"
+}
+
+func (t VrfConfigType) ValueFromObject(ctx context.Context, in basetypes.ObjectValue) (basetypes.ObjectValuable, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	attributes := in.Attributes()
+
+	enabledAttribute, ok := attributes["enabled"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`enabled is missing from object`)
+
+		return nil, diags
+	}
+
+	enabledVal, ok := enabledAttribute.(basetypes.BoolValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`enabled expected to be basetypes.BoolValue, was: %T`, enabledAttribute))
+	}
+
+	if diags.HasError() {
+		return nil, diags
+	}
+
+	return VrfConfigValue{
+		Enabled: enabledVal,
+		state:   attr.ValueStateKnown,
+	}, diags
+}
+
+func NewVrfConfigValueNull() VrfConfigValue {
+	return VrfConfigValue{
+		state: attr.ValueStateNull,
+	}
+}
+
+func NewVrfConfigValueUnknown() VrfConfigValue {
+	return VrfConfigValue{
+		state: attr.ValueStateUnknown,
+	}
+}
+
+func NewVrfConfigValue(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) (VrfConfigValue, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	// Reference: https://github.com/hashicorp/terraform-plugin-framework/issues/521
+	ctx := context.Background()
+
+	for name, attributeType := range attributeTypes {
+		attribute, ok := attributes[name]
+
+		if !ok {
+			diags.AddError(
+				"Missing VrfConfigValue Attribute Value",
+				"While creating a VrfConfigValue value, a missing attribute value was detected. "+
+					"A VrfConfigValue must contain values for all attributes, even if null or unknown. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("VrfConfigValue Attribute Name (%s) Expected Type: %s", name, attributeType.String()),
+			)
+
+			continue
+		}
+
+		if !attributeType.Equal(attribute.Type(ctx)) {
+			diags.AddError(
+				"Invalid VrfConfigValue Attribute Type",
+				"While creating a VrfConfigValue value, an invalid attribute value was detected. "+
+					"A VrfConfigValue must use a matching attribute type for the value. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("VrfConfigValue Attribute Name (%s) Expected Type: %s\n", name, attributeType.String())+
+					fmt.Sprintf("VrfConfigValue Attribute Name (%s) Given Type: %s", name, attribute.Type(ctx)),
+			)
+		}
+	}
+
+	for name := range attributes {
+		_, ok := attributeTypes[name]
+
+		if !ok {
+			diags.AddError(
+				"Extra VrfConfigValue Attribute Value",
+				"While creating a VrfConfigValue value, an extra attribute value was detected. "+
+					"A VrfConfigValue must not contain values beyond the expected attribute types. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("Extra VrfConfigValue Attribute Name: %s", name),
+			)
+		}
+	}
+
+	if diags.HasError() {
+		return NewVrfConfigValueUnknown(), diags
+	}
+
+	enabledAttribute, ok := attributes["enabled"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`enabled is missing from object`)
+
+		return NewVrfConfigValueUnknown(), diags
+	}
+
+	enabledVal, ok := enabledAttribute.(basetypes.BoolValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`enabled expected to be basetypes.BoolValue, was: %T`, enabledAttribute))
+	}
+
+	if diags.HasError() {
+		return NewVrfConfigValueUnknown(), diags
+	}
+
+	return VrfConfigValue{
+		Enabled: enabledVal,
+		state:   attr.ValueStateKnown,
+	}, diags
+}
+
+func NewVrfConfigValueMust(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) VrfConfigValue {
+	object, diags := NewVrfConfigValue(attributeTypes, attributes)
+
+	if diags.HasError() {
+		// This could potentially be added to the diag package.
+		diagsStrings := make([]string, 0, len(diags))
+
+		for _, diagnostic := range diags {
+			diagsStrings = append(diagsStrings, fmt.Sprintf(
+				"%s | %s | %s",
+				diagnostic.Severity(),
+				diagnostic.Summary(),
+				diagnostic.Detail()))
+		}
+
+		panic("NewVrfConfigValueMust received error(s): " + strings.Join(diagsStrings, "\n"))
+	}
+
+	return object
+}
+
+func (t VrfConfigType) ValueFromTerraform(ctx context.Context, in tftypes.Value) (attr.Value, error) {
+	if in.Type() == nil {
+		return NewVrfConfigValueNull(), nil
+	}
+
+	if !in.Type().Equal(t.TerraformType(ctx)) {
+		return nil, fmt.Errorf("expected %s, got %s", t.TerraformType(ctx), in.Type())
+	}
+
+	if !in.IsKnown() {
+		return NewVrfConfigValueUnknown(), nil
+	}
+
+	if in.IsNull() {
+		return NewVrfConfigValueNull(), nil
+	}
+
+	attributes := map[string]attr.Value{}
+
+	val := map[string]tftypes.Value{}
+
+	err := in.As(&val)
+
+	if err != nil {
+		return nil, err
+	}
+
+	for k, v := range val {
+		a, err := t.AttrTypes[k].ValueFromTerraform(ctx, v)
+
+		if err != nil {
+			return nil, err
+		}
+
+		attributes[k] = a
+	}
+
+	return NewVrfConfigValueMust(VrfConfigValue{}.AttributeTypes(ctx), attributes), nil
+}
+
+func (t VrfConfigType) ValueType(ctx context.Context) attr.Value {
+	return VrfConfigValue{}
+}
+
+var _ basetypes.ObjectValuable = VrfConfigValue{}
+
+type VrfConfigValue struct {
+	Enabled basetypes.BoolValue `tfsdk:"enabled"`
+	state   attr.ValueState
+}
+
+func (v VrfConfigValue) ToTerraformValue(ctx context.Context) (tftypes.Value, error) {
+	attrTypes := make(map[string]tftypes.Type, 1)
+
+	var val tftypes.Value
+	var err error
+
+	attrTypes["enabled"] = basetypes.BoolType{}.TerraformType(ctx)
+
+	objectType := tftypes.Object{AttributeTypes: attrTypes}
+
+	switch v.state {
+	case attr.ValueStateKnown:
+		vals := make(map[string]tftypes.Value, 1)
+
+		val, err = v.Enabled.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["enabled"] = val
+
+		if err := tftypes.ValidateValue(objectType, vals); err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		return tftypes.NewValue(objectType, vals), nil
+	case attr.ValueStateNull:
+		return tftypes.NewValue(objectType, nil), nil
+	case attr.ValueStateUnknown:
+		return tftypes.NewValue(objectType, tftypes.UnknownValue), nil
+	default:
+		panic(fmt.Sprintf("unhandled Object state in ToTerraformValue: %s", v.state))
+	}
+}
+
+func (v VrfConfigValue) IsNull() bool {
+	return v.state == attr.ValueStateNull
+}
+
+func (v VrfConfigValue) IsUnknown() bool {
+	return v.state == attr.ValueStateUnknown
+}
+
+func (v VrfConfigValue) String() string {
+	return "VrfConfigValue"
+}
+
+func (v VrfConfigValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	attributeTypes := map[string]attr.Type{
+		"enabled": basetypes.BoolType{},
+	}
+
+	if v.IsNull() {
+		return types.ObjectNull(attributeTypes), diags
+	}
+
+	if v.IsUnknown() {
+		return types.ObjectUnknown(attributeTypes), diags
+	}
+
+	objVal, diags := types.ObjectValue(
+		attributeTypes,
+		map[string]attr.Value{
+			"enabled": v.Enabled,
+		})
+
+	return objVal, diags
+}
+
+func (v VrfConfigValue) Equal(o attr.Value) bool {
+	other, ok := o.(VrfConfigValue)
+
+	if !ok {
+		return false
+	}
+
+	if v.state != other.state {
+		return false
+	}
+
+	if v.state != attr.ValueStateKnown {
+		return true
+	}
+
+	if !v.Enabled.Equal(other.Enabled) {
+		return false
+	}
+
+	return true
+}
+
+func (v VrfConfigValue) Type(ctx context.Context) attr.Type {
+	return VrfConfigType{
+		basetypes.ObjectType{
+			AttrTypes: v.AttributeTypes(ctx),
+		},
+	}
+}
+
+func (v VrfConfigValue) AttributeTypes(ctx context.Context) map[string]attr.Type {
+	return map[string]attr.Type{
+		"enabled": basetypes.BoolType{},
+	}
+}
+
+var _ basetypes.ObjectTypable = VrfInstancesType{}
+
+type VrfInstancesType struct {
+	basetypes.ObjectType
+}
+
+func (t VrfInstancesType) Equal(o attr.Type) bool {
+	other, ok := o.(VrfInstancesType)
+
+	if !ok {
+		return false
+	}
+
+	return t.ObjectType.Equal(other.ObjectType)
+}
+
+func (t VrfInstancesType) String() string {
+	return "VrfInstancesType"
+}
+
+func (t VrfInstancesType) ValueFromObject(ctx context.Context, in basetypes.ObjectValue) (basetypes.ObjectValuable, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	attributes := in.Attributes()
+
+	extraRoutesAttribute, ok := attributes["extra_routes"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`extra_routes is missing from object`)
+
+		return nil, diags
+	}
+
+	extraRoutesVal, ok := extraRoutesAttribute.(basetypes.MapValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`extra_routes expected to be basetypes.MapValue, was: %T`, extraRoutesAttribute))
+	}
+
+	networksAttribute, ok := attributes["networks"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`networks is missing from object`)
+
+		return nil, diags
+	}
+
+	networksVal, ok := networksAttribute.(basetypes.ListValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`networks expected to be basetypes.ListValue, was: %T`, networksAttribute))
+	}
+
+	if diags.HasError() {
+		return nil, diags
+	}
+
+	return VrfInstancesValue{
+		ExtraRoutes: extraRoutesVal,
+		Networks:    networksVal,
+		state:       attr.ValueStateKnown,
+	}, diags
+}
+
+func NewVrfInstancesValueNull() VrfInstancesValue {
+	return VrfInstancesValue{
+		state: attr.ValueStateNull,
+	}
+}
+
+func NewVrfInstancesValueUnknown() VrfInstancesValue {
+	return VrfInstancesValue{
+		state: attr.ValueStateUnknown,
+	}
+}
+
+func NewVrfInstancesValue(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) (VrfInstancesValue, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	// Reference: https://github.com/hashicorp/terraform-plugin-framework/issues/521
+	ctx := context.Background()
+
+	for name, attributeType := range attributeTypes {
+		attribute, ok := attributes[name]
+
+		if !ok {
+			diags.AddError(
+				"Missing VrfInstancesValue Attribute Value",
+				"While creating a VrfInstancesValue value, a missing attribute value was detected. "+
+					"A VrfInstancesValue must contain values for all attributes, even if null or unknown. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("VrfInstancesValue Attribute Name (%s) Expected Type: %s", name, attributeType.String()),
+			)
+
+			continue
+		}
+
+		if !attributeType.Equal(attribute.Type(ctx)) {
+			diags.AddError(
+				"Invalid VrfInstancesValue Attribute Type",
+				"While creating a VrfInstancesValue value, an invalid attribute value was detected. "+
+					"A VrfInstancesValue must use a matching attribute type for the value. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("VrfInstancesValue Attribute Name (%s) Expected Type: %s\n", name, attributeType.String())+
+					fmt.Sprintf("VrfInstancesValue Attribute Name (%s) Given Type: %s", name, attribute.Type(ctx)),
+			)
+		}
+	}
+
+	for name := range attributes {
+		_, ok := attributeTypes[name]
+
+		if !ok {
+			diags.AddError(
+				"Extra VrfInstancesValue Attribute Value",
+				"While creating a VrfInstancesValue value, an extra attribute value was detected. "+
+					"A VrfInstancesValue must not contain values beyond the expected attribute types. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("Extra VrfInstancesValue Attribute Name: %s", name),
+			)
+		}
+	}
+
+	if diags.HasError() {
+		return NewVrfInstancesValueUnknown(), diags
+	}
+
+	extraRoutesAttribute, ok := attributes["extra_routes"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`extra_routes is missing from object`)
+
+		return NewVrfInstancesValueUnknown(), diags
+	}
+
+	extraRoutesVal, ok := extraRoutesAttribute.(basetypes.MapValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`extra_routes expected to be basetypes.MapValue, was: %T`, extraRoutesAttribute))
+	}
+
+	networksAttribute, ok := attributes["networks"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`networks is missing from object`)
+
+		return NewVrfInstancesValueUnknown(), diags
+	}
+
+	networksVal, ok := networksAttribute.(basetypes.ListValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`networks expected to be basetypes.ListValue, was: %T`, networksAttribute))
+	}
+
+	if diags.HasError() {
+		return NewVrfInstancesValueUnknown(), diags
+	}
+
+	return VrfInstancesValue{
+		ExtraRoutes: extraRoutesVal,
+		Networks:    networksVal,
+		state:       attr.ValueStateKnown,
+	}, diags
+}
+
+func NewVrfInstancesValueMust(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) VrfInstancesValue {
+	object, diags := NewVrfInstancesValue(attributeTypes, attributes)
+
+	if diags.HasError() {
+		// This could potentially be added to the diag package.
+		diagsStrings := make([]string, 0, len(diags))
+
+		for _, diagnostic := range diags {
+			diagsStrings = append(diagsStrings, fmt.Sprintf(
+				"%s | %s | %s",
+				diagnostic.Severity(),
+				diagnostic.Summary(),
+				diagnostic.Detail()))
+		}
+
+		panic("NewVrfInstancesValueMust received error(s): " + strings.Join(diagsStrings, "\n"))
+	}
+
+	return object
+}
+
+func (t VrfInstancesType) ValueFromTerraform(ctx context.Context, in tftypes.Value) (attr.Value, error) {
+	if in.Type() == nil {
+		return NewVrfInstancesValueNull(), nil
+	}
+
+	if !in.Type().Equal(t.TerraformType(ctx)) {
+		return nil, fmt.Errorf("expected %s, got %s", t.TerraformType(ctx), in.Type())
+	}
+
+	if !in.IsKnown() {
+		return NewVrfInstancesValueUnknown(), nil
+	}
+
+	if in.IsNull() {
+		return NewVrfInstancesValueNull(), nil
+	}
+
+	attributes := map[string]attr.Value{}
+
+	val := map[string]tftypes.Value{}
+
+	err := in.As(&val)
+
+	if err != nil {
+		return nil, err
+	}
+
+	for k, v := range val {
+		a, err := t.AttrTypes[k].ValueFromTerraform(ctx, v)
+
+		if err != nil {
+			return nil, err
+		}
+
+		attributes[k] = a
+	}
+
+	return NewVrfInstancesValueMust(VrfInstancesValue{}.AttributeTypes(ctx), attributes), nil
+}
+
+func (t VrfInstancesType) ValueType(ctx context.Context) attr.Value {
+	return VrfInstancesValue{}
+}
+
+var _ basetypes.ObjectValuable = VrfInstancesValue{}
+
+type VrfInstancesValue struct {
+	ExtraRoutes basetypes.MapValue  `tfsdk:"extra_routes"`
+	Networks    basetypes.ListValue `tfsdk:"networks"`
+	state       attr.ValueState
+}
+
+func (v VrfInstancesValue) ToTerraformValue(ctx context.Context) (tftypes.Value, error) {
+	attrTypes := make(map[string]tftypes.Type, 2)
+
+	var val tftypes.Value
+	var err error
+
+	attrTypes["extra_routes"] = basetypes.MapType{
+		ElemType: ExtraRoutesValue{}.Type(ctx),
+	}.TerraformType(ctx)
+	attrTypes["networks"] = basetypes.ListType{
+		ElemType: types.StringType,
+	}.TerraformType(ctx)
+
+	objectType := tftypes.Object{AttributeTypes: attrTypes}
+
+	switch v.state {
+	case attr.ValueStateKnown:
+		vals := make(map[string]tftypes.Value, 2)
+
+		val, err = v.ExtraRoutes.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["extra_routes"] = val
+
+		val, err = v.Networks.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["networks"] = val
+
+		if err := tftypes.ValidateValue(objectType, vals); err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		return tftypes.NewValue(objectType, vals), nil
+	case attr.ValueStateNull:
+		return tftypes.NewValue(objectType, nil), nil
+	case attr.ValueStateUnknown:
+		return tftypes.NewValue(objectType, tftypes.UnknownValue), nil
+	default:
+		panic(fmt.Sprintf("unhandled Object state in ToTerraformValue: %s", v.state))
+	}
+}
+
+func (v VrfInstancesValue) IsNull() bool {
+	return v.state == attr.ValueStateNull
+}
+
+func (v VrfInstancesValue) IsUnknown() bool {
+	return v.state == attr.ValueStateUnknown
+}
+
+func (v VrfInstancesValue) String() string {
+	return "VrfInstancesValue"
+}
+
+func (v VrfInstancesValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	extraRoutes := types.MapValueMust(
+		ExtraRoutesType{
+			basetypes.ObjectType{
+				AttrTypes: ExtraRoutesValue{}.AttributeTypes(ctx),
+			},
+		},
+		v.ExtraRoutes.Elements(),
+	)
+
+	if v.ExtraRoutes.IsNull() {
+		extraRoutes = types.MapNull(
+			ExtraRoutesType{
+				basetypes.ObjectType{
+					AttrTypes: ExtraRoutesValue{}.AttributeTypes(ctx),
+				},
+			},
+		)
+	}
+
+	if v.ExtraRoutes.IsUnknown() {
+		extraRoutes = types.MapUnknown(
+			ExtraRoutesType{
+				basetypes.ObjectType{
+					AttrTypes: ExtraRoutesValue{}.AttributeTypes(ctx),
+				},
+			},
+		)
+	}
+
+	networksVal, d := types.ListValue(types.StringType, v.Networks.Elements())
+
+	diags.Append(d...)
+
+	if d.HasError() {
+		return types.ObjectUnknown(map[string]attr.Type{
+			"extra_routes": basetypes.MapType{
+				ElemType: ExtraRoutesValue{}.Type(ctx),
+			},
+			"networks": basetypes.ListType{
+				ElemType: types.StringType,
+			},
+		}), diags
+	}
+
+	attributeTypes := map[string]attr.Type{
+		"extra_routes": basetypes.MapType{
+			ElemType: ExtraRoutesValue{}.Type(ctx),
+		},
+		"networks": basetypes.ListType{
+			ElemType: types.StringType,
+		},
+	}
+
+	if v.IsNull() {
+		return types.ObjectNull(attributeTypes), diags
+	}
+
+	if v.IsUnknown() {
+		return types.ObjectUnknown(attributeTypes), diags
+	}
+
+	objVal, diags := types.ObjectValue(
+		attributeTypes,
+		map[string]attr.Value{
+			"extra_routes": extraRoutes,
+			"networks":     networksVal,
+		})
+
+	return objVal, diags
+}
+
+func (v VrfInstancesValue) Equal(o attr.Value) bool {
+	other, ok := o.(VrfInstancesValue)
+
+	if !ok {
+		return false
+	}
+
+	if v.state != other.state {
+		return false
+	}
+
+	if v.state != attr.ValueStateKnown {
+		return true
+	}
+
+	if !v.ExtraRoutes.Equal(other.ExtraRoutes) {
+		return false
+	}
+
+	if !v.Networks.Equal(other.Networks) {
+		return false
+	}
+
+	return true
+}
+
+func (v VrfInstancesValue) Type(ctx context.Context) attr.Type {
+	return VrfInstancesType{
+		basetypes.ObjectType{
+			AttrTypes: v.AttributeTypes(ctx),
+		},
+	}
+}
+
+func (v VrfInstancesValue) AttributeTypes(ctx context.Context) map[string]attr.Type {
+	return map[string]attr.Type{
+		"extra_routes": basetypes.MapType{
+			ElemType: ExtraRoutesValue{}.Type(ctx),
+		},
+		"networks": basetypes.ListType{
+			ElemType: types.StringType,
+		},
+	}
+}
+
+var _ basetypes.ObjectTypable = ExtraRoutesType{}
+
+type ExtraRoutesType struct {
+	basetypes.ObjectType
+}
+
+func (t ExtraRoutesType) Equal(o attr.Type) bool {
+	other, ok := o.(ExtraRoutesType)
+
+	if !ok {
+		return false
+	}
+
+	return t.ObjectType.Equal(other.ObjectType)
+}
+
+func (t ExtraRoutesType) String() string {
+	return "ExtraRoutesType"
+}
+
+func (t ExtraRoutesType) ValueFromObject(ctx context.Context, in basetypes.ObjectValue) (basetypes.ObjectValuable, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	attributes := in.Attributes()
+
+	viaAttribute, ok := attributes["via"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`via is missing from object`)
+
+		return nil, diags
+	}
+
+	viaVal, ok := viaAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`via expected to be basetypes.StringValue, was: %T`, viaAttribute))
+	}
+
+	if diags.HasError() {
+		return nil, diags
+	}
+
+	return ExtraRoutesValue{
+		Via:   viaVal,
+		state: attr.ValueStateKnown,
+	}, diags
+}
+
+func NewExtraRoutesValueNull() ExtraRoutesValue {
+	return ExtraRoutesValue{
+		state: attr.ValueStateNull,
+	}
+}
+
+func NewExtraRoutesValueUnknown() ExtraRoutesValue {
+	return ExtraRoutesValue{
+		state: attr.ValueStateUnknown,
+	}
+}
+
+func NewExtraRoutesValue(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) (ExtraRoutesValue, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	// Reference: https://github.com/hashicorp/terraform-plugin-framework/issues/521
+	ctx := context.Background()
+
+	for name, attributeType := range attributeTypes {
+		attribute, ok := attributes[name]
+
+		if !ok {
+			diags.AddError(
+				"Missing ExtraRoutesValue Attribute Value",
+				"While creating a ExtraRoutesValue value, a missing attribute value was detected. "+
+					"A ExtraRoutesValue must contain values for all attributes, even if null or unknown. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("ExtraRoutesValue Attribute Name (%s) Expected Type: %s", name, attributeType.String()),
+			)
+
+			continue
+		}
+
+		if !attributeType.Equal(attribute.Type(ctx)) {
+			diags.AddError(
+				"Invalid ExtraRoutesValue Attribute Type",
+				"While creating a ExtraRoutesValue value, an invalid attribute value was detected. "+
+					"A ExtraRoutesValue must use a matching attribute type for the value. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("ExtraRoutesValue Attribute Name (%s) Expected Type: %s\n", name, attributeType.String())+
+					fmt.Sprintf("ExtraRoutesValue Attribute Name (%s) Given Type: %s", name, attribute.Type(ctx)),
+			)
+		}
+	}
+
+	for name := range attributes {
+		_, ok := attributeTypes[name]
+
+		if !ok {
+			diags.AddError(
+				"Extra ExtraRoutesValue Attribute Value",
+				"While creating a ExtraRoutesValue value, an extra attribute value was detected. "+
+					"A ExtraRoutesValue must not contain values beyond the expected attribute types. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("Extra ExtraRoutesValue Attribute Name: %s", name),
+			)
+		}
+	}
+
+	if diags.HasError() {
+		return NewExtraRoutesValueUnknown(), diags
+	}
+
+	viaAttribute, ok := attributes["via"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`via is missing from object`)
+
+		return NewExtraRoutesValueUnknown(), diags
+	}
+
+	viaVal, ok := viaAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`via expected to be basetypes.StringValue, was: %T`, viaAttribute))
+	}
+
+	if diags.HasError() {
+		return NewExtraRoutesValueUnknown(), diags
+	}
+
+	return ExtraRoutesValue{
+		Via:   viaVal,
+		state: attr.ValueStateKnown,
+	}, diags
+}
+
+func NewExtraRoutesValueMust(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) ExtraRoutesValue {
+	object, diags := NewExtraRoutesValue(attributeTypes, attributes)
+
+	if diags.HasError() {
+		// This could potentially be added to the diag package.
+		diagsStrings := make([]string, 0, len(diags))
+
+		for _, diagnostic := range diags {
+			diagsStrings = append(diagsStrings, fmt.Sprintf(
+				"%s | %s | %s",
+				diagnostic.Severity(),
+				diagnostic.Summary(),
+				diagnostic.Detail()))
+		}
+
+		panic("NewExtraRoutesValueMust received error(s): " + strings.Join(diagsStrings, "\n"))
+	}
+
+	return object
+}
+
+func (t ExtraRoutesType) ValueFromTerraform(ctx context.Context, in tftypes.Value) (attr.Value, error) {
+	if in.Type() == nil {
+		return NewExtraRoutesValueNull(), nil
+	}
+
+	if !in.Type().Equal(t.TerraformType(ctx)) {
+		return nil, fmt.Errorf("expected %s, got %s", t.TerraformType(ctx), in.Type())
+	}
+
+	if !in.IsKnown() {
+		return NewExtraRoutesValueUnknown(), nil
+	}
+
+	if in.IsNull() {
+		return NewExtraRoutesValueNull(), nil
+	}
+
+	attributes := map[string]attr.Value{}
+
+	val := map[string]tftypes.Value{}
+
+	err := in.As(&val)
+
+	if err != nil {
+		return nil, err
+	}
+
+	for k, v := range val {
+		a, err := t.AttrTypes[k].ValueFromTerraform(ctx, v)
+
+		if err != nil {
+			return nil, err
+		}
+
+		attributes[k] = a
+	}
+
+	return NewExtraRoutesValueMust(ExtraRoutesValue{}.AttributeTypes(ctx), attributes), nil
+}
+
+func (t ExtraRoutesType) ValueType(ctx context.Context) attr.Value {
+	return ExtraRoutesValue{}
+}
+
+var _ basetypes.ObjectValuable = ExtraRoutesValue{}
+
+type ExtraRoutesValue struct {
+	Via   basetypes.StringValue `tfsdk:"via"`
+	state attr.ValueState
+}
+
+func (v ExtraRoutesValue) ToTerraformValue(ctx context.Context) (tftypes.Value, error) {
+	attrTypes := make(map[string]tftypes.Type, 1)
+
+	var val tftypes.Value
+	var err error
+
+	attrTypes["via"] = basetypes.StringType{}.TerraformType(ctx)
+
+	objectType := tftypes.Object{AttributeTypes: attrTypes}
+
+	switch v.state {
+	case attr.ValueStateKnown:
+		vals := make(map[string]tftypes.Value, 1)
+
+		val, err = v.Via.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["via"] = val
+
+		if err := tftypes.ValidateValue(objectType, vals); err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		return tftypes.NewValue(objectType, vals), nil
+	case attr.ValueStateNull:
+		return tftypes.NewValue(objectType, nil), nil
+	case attr.ValueStateUnknown:
+		return tftypes.NewValue(objectType, tftypes.UnknownValue), nil
+	default:
+		panic(fmt.Sprintf("unhandled Object state in ToTerraformValue: %s", v.state))
+	}
+}
+
+func (v ExtraRoutesValue) IsNull() bool {
+	return v.state == attr.ValueStateNull
+}
+
+func (v ExtraRoutesValue) IsUnknown() bool {
+	return v.state == attr.ValueStateUnknown
+}
+
+func (v ExtraRoutesValue) String() string {
+	return "ExtraRoutesValue"
+}
+
+func (v ExtraRoutesValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	attributeTypes := map[string]attr.Type{
+		"via": basetypes.StringType{},
+	}
+
+	if v.IsNull() {
+		return types.ObjectNull(attributeTypes), diags
+	}
+
+	if v.IsUnknown() {
+		return types.ObjectUnknown(attributeTypes), diags
+	}
+
+	objVal, diags := types.ObjectValue(
+		attributeTypes,
+		map[string]attr.Value{
+			"via": v.Via,
+		})
+
+	return objVal, diags
+}
+
+func (v ExtraRoutesValue) Equal(o attr.Value) bool {
+	other, ok := o.(ExtraRoutesValue)
+
+	if !ok {
+		return false
+	}
+
+	if v.state != other.state {
+		return false
+	}
+
+	if v.state != attr.ValueStateKnown {
+		return true
+	}
+
+	if !v.Via.Equal(other.Via) {
+		return false
+	}
+
+	return true
+}
+
+func (v ExtraRoutesValue) Type(ctx context.Context) attr.Type {
+	return ExtraRoutesType{
+		basetypes.ObjectType{
+			AttrTypes: v.AttributeTypes(ctx),
+		},
+	}
+}
+
+func (v ExtraRoutesValue) AttributeTypes(ctx context.Context) map[string]attr.Type {
+	return map[string]attr.Type{
+		"via": basetypes.StringType{},
 	}
 }

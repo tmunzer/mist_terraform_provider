@@ -29,6 +29,50 @@
 						}
 					},
 					{
+						"name": "dhcp_snooping",
+						"single_nested": {
+							"computed_optional_required": "computed_optional",
+							"attributes": [
+								{
+									"name": "all_networks",
+									"bool": {
+										"computed_optional_required": "computed_optional"
+									}
+								},
+								{
+									"name": "enable_arp_spoof_check",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"description": "Enable for dynamic ARP inspection check"
+									}
+								},
+								{
+									"name": "enable_ip_source_guard",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"description": "Enable for check for forging source IP address"
+									}
+								},
+								{
+									"name": "enabled",
+									"bool": {
+										"computed_optional_required": "computed_optional"
+									}
+								},
+								{
+									"name": "networks",
+									"list": {
+										"computed_optional_required": "computed_optional",
+										"element_type": {
+											"string": {}
+										},
+										"description": "if `all_networks`==`false`, list of network with DHCP snooping enabled"
+									}
+								}
+							]
+						}
+					},
+					{
 						"name": "dns_servers",
 						"list": {
 							"computed_optional_required": "computed_optional",
@@ -74,6 +118,27 @@
 						"name": "id",
 						"string": {
 							"computed_optional_required": "computed_optional"
+						}
+					},
+					{
+						"name": "mist_nac",
+						"single_nested": {
+							"computed_optional_required": "computed_optional",
+							"attributes": [
+								{
+									"name": "enabled",
+									"bool": {
+										"computed_optional_required": "computed_optional"
+									}
+								},
+								{
+									"name": "network",
+									"string": {
+										"computed_optional_required": "computed_optional"
+									}
+								}
+							],
+							"description": "enable mist_nac to use radsec"
 						}
 					},
 					{
@@ -784,6 +849,73 @@
 								}
 							],
 							"description": "Junos Radius config"
+						}
+					},
+					{
+						"name": "vrf_config",
+						"single_nested": {
+							"computed_optional_required": "computed_optional",
+							"attributes": [
+								{
+									"name": "enabled",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										}
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "vrf_instances",
+						"map_nested": {
+							"computed_optional_required": "computed_optional",
+							"nested_object": {
+								"attributes": [
+									{
+										"name": "extra_routes",
+										"map_nested": {
+											"computed_optional_required": "computed_optional",
+											"nested_object": {
+												"attributes": [
+													{
+														"name": "via",
+														"string": {
+															"computed_optional_required": "computed_optional",
+															"description": "Next-hop address"
+														}
+													}
+												]
+											},
+											"description": "Property key is the destination CIDR (e.g. \"10.0.0.0/8\")"
+										}
+									},
+									{
+										"name": "networks",
+										"list": {
+											"computed_optional_required": "computed_optional",
+											"element_type": {
+												"string": {}
+											},
+											"validators": [
+												{
+													"custom": {
+														"imports": [
+															{
+																"path": "github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
+															}
+														],
+														"schema_definition": "listvalidator.UniqueValues()"
+													}
+												}
+											]
+										}
+									}
+								]
+							},
+							"description": "Property key is the VRF name"
 						}
 					}
 				]
