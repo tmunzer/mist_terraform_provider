@@ -85,8 +85,6 @@ type _ModelSwitch ModelSwitch
 // will change when the set of required properties is changed
 func NewModelSwitch() *ModelSwitch {
 	this := ModelSwitch{}
-	var aclTags SwitchAclTags = {}
-	this.AclTags = &aclTags
 	var disableAutoConfig bool = false
 	this.DisableAutoConfig = &disableAutoConfig
 	var managed bool = false
@@ -103,8 +101,6 @@ func NewModelSwitch() *ModelSwitch {
 // but it doesn't guarantee that properties required by API are set
 func NewModelSwitchWithDefaults() *ModelSwitch {
 	this := ModelSwitch{}
-	var aclTags SwitchAclTags = {}
-	this.AclTags = &aclTags
 	var disableAutoConfig bool = false
 	this.DisableAutoConfig = &disableAutoConfig
 	var managed bool = false

@@ -3,13 +3,10 @@ package provider
 import (
 	"context"
 	"fmt"
-	"math/big"
 	mistsdkgo "terraform-provider-mistapi/github.com/tmunzer/mist-sdk-go"
 	"terraform-provider-mistapi/internal/resource_org"
 
-	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
-	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 
@@ -53,7 +50,7 @@ func (r *orgResource) Schema(ctx context.Context, req resource.SchemaRequest, re
 
 func (r *orgResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
 	tflog.Info(ctx, "Starting Org Create")
-	var plan resource_org.OrgModel
+	var plan, state resource_org.OrgModel
 
 	diags := req.Plan.Get(ctx, &plan)
 	resp.Diagnostics.Append(diags...)
@@ -61,7 +58,11 @@ func (r *orgResource) Create(ctx context.Context, req resource.CreateRequest, re
 		return
 	}
 
-	org := processOrgPlan(&plan)
+	org, diags := resource_org.TerraformToSdk(&plan)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
 	data, _, err := r.client.OrgsAPI.CreateOrg(ctx).Org(org).Execute()
 	if err != nil {
 		resp.Diagnostics.AddError(
@@ -71,7 +72,11 @@ func (r *orgResource) Create(ctx context.Context, req resource.CreateRequest, re
 		return
 	}
 
-	state := processOrgData(data)
+	state, diags = resource_org.SdkToTerraform(data)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
 
 	diags = resp.State.Set(ctx, state)
 	resp.Diagnostics.Append(diags...)
@@ -99,7 +104,11 @@ func (r *orgResource) Read(ctx context.Context, req resource.ReadRequest, resp *
 		)
 		return
 	}
-	state = processOrgData(data)
+	state, diags = resource_org.SdkToTerraform(data)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
 	// Set refreshed state
 	diags = resp.State.Set(ctx, &state)
 	resp.Diagnostics.Append(diags...)
@@ -124,7 +133,12 @@ func (r *orgResource) Update(ctx context.Context, req resource.UpdateRequest, re
 	}
 
 	orgId := plan.Id.ValueString()
-	org := processOrgPlan(&plan)
+	org, diags := resource_org.TerraformToSdk(&plan)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
 	tflog.Info(ctx, "Starting Org Update for Org "+orgId)
 	data, _, err := r.client.OrgsAPI.UpdateOrg(ctx, orgId).Org(org).Execute()
 
@@ -136,7 +150,11 @@ func (r *orgResource) Update(ctx context.Context, req resource.UpdateRequest, re
 		return
 	}
 
-	state = processOrgData(data)
+	state, diags = resource_org.SdkToTerraform(data)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
 
 	diags = resp.State.Set(ctx, state)
 	resp.Diagnostics.Append(diags...)
@@ -164,29 +182,4 @@ func (r *orgResource) Delete(ctx context.Context, req resource.DeleteRequest, re
 		)
 		return
 	}
-}
-
-func processOrgData(data *mistsdkgo.Org) resource_org.OrgModel {
-	var state resource_org.OrgModel
-
-	state.Id = types.StringValue(data.GetId())
-	state.AlarmtemplateId = types.StringValue(data.GetAlarmtemplateId())
-	state.AllowMist = types.BoolValue(data.GetAllowMist())
-	state.LogoUrl = types.StringValue(data.GetLogoUrl())
-	state.MspId = types.StringValue(data.GetMspId())
-	state.MspName = types.StringValue(data.GetMspName())
-	state.Name = types.StringValue(data.GetName())
-	state.SessionExpiry = types.NumberValue(big.NewFloat(float64(data.GetSessionExpiry())))
-	var items []attr.Value
-	for _, item := range data.GetOrggroupIds() {
-		tmp := types.StringValue(item)
-		items = append(items, tmp)
-	}
-	state.OrggroupIds, _ = types.ListValue(types.StringType, items)
-	return state
-}
-
-func processOrgPlan(plan *resource_org.OrgModel) mistsdkgo.Org {
-	data := *mistsdkgo.NewOrg(plan.Name.ValueString())
-	return data
 }

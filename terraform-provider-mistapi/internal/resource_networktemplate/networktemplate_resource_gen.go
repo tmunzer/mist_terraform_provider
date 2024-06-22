@@ -12,6 +12,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
@@ -90,6 +91,267 @@ func NetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 			"org_id": schema.StringAttribute{
 				Optional: true,
 				Computed: true,
+			},
+			"port_usages": schema.MapNestedAttribute{
+				NestedObject: schema.NestedAttributeObject{
+					Attributes: map[string]schema.Attribute{
+						"all_networks": schema.BoolAttribute{
+							Optional:            true,
+							Computed:            true,
+							Description:         "if `mode`==`trunk`, whether to trunk all network/vlans",
+							MarkdownDescription: "if `mode`==`trunk`, whether to trunk all network/vlans",
+							Default:             booldefault.StaticBool(false),
+						},
+						"allow_dhcpd": schema.BoolAttribute{
+							Optional:            true,
+							Computed:            true,
+							Description:         "if DHCP snooping is enabled, whether DHCP server is allowed on the interfaces with. All the interfaces from port configs using this port usage are effected. Please notice that allow_dhcpd is a tri-state.\n\nWhen it is not defined, it means using the system’s default setting which depends on whether the port is a access or trunk port.",
+							MarkdownDescription: "if DHCP snooping is enabled, whether DHCP server is allowed on the interfaces with. All the interfaces from port configs using this port usage are effected. Please notice that allow_dhcpd is a tri-state.\n\nWhen it is not defined, it means using the system’s default setting which depends on whether the port is a access or trunk port.",
+						},
+						"allow_multiple_supplicants": schema.BoolAttribute{
+							Optional: true,
+							Computed: true,
+							Default:  booldefault.StaticBool(false),
+						},
+						"bypass_auth_when_server_down": schema.BoolAttribute{
+							Optional:            true,
+							Computed:            true,
+							Description:         "if `port_auth`==`dot1x`, bypass auth for known clients if set to true when RADIUS server is down",
+							MarkdownDescription: "if `port_auth`==`dot1x`, bypass auth for known clients if set to true when RADIUS server is down",
+							Default:             booldefault.StaticBool(false),
+						},
+						"bypass_auth_when_server_down_for_unkonwn_client": schema.BoolAttribute{
+							Optional:            true,
+							Computed:            true,
+							Description:         "if `port_auth`=`dot1x`, bypass auth for all (including unknown clients) if set to true when RADIUS server is down",
+							MarkdownDescription: "if `port_auth`=`dot1x`, bypass auth for all (including unknown clients) if set to true when RADIUS server is down",
+							Default:             booldefault.StaticBool(false),
+						},
+						"description": schema.StringAttribute{
+							Optional:            true,
+							Computed:            true,
+							Description:         "description",
+							MarkdownDescription: "description",
+						},
+						"disable_autoneg": schema.BoolAttribute{
+							Optional:            true,
+							Computed:            true,
+							Description:         "if speed and duplex are specified, whether to disable autonegotiation",
+							MarkdownDescription: "if speed and duplex are specified, whether to disable autonegotiation",
+							Default:             booldefault.StaticBool(false),
+						},
+						"disabled": schema.BoolAttribute{
+							Optional:            true,
+							Computed:            true,
+							Description:         "whether the port is disabled",
+							MarkdownDescription: "whether the port is disabled",
+							Default:             booldefault.StaticBool(false),
+						},
+						"duplex": schema.StringAttribute{
+							Optional:            true,
+							Computed:            true,
+							Description:         "link connection mode, choices are auto (default), full, and half",
+							MarkdownDescription: "link connection mode, choices are auto (default), full, and half",
+							Validators: []validator.String{
+								stringvalidator.OneOf(
+									"half",
+									"full",
+									"auto",
+								),
+							},
+							Default: stringdefault.StaticString("auto"),
+						},
+						"dynamic_vlan_networks": schema.ListAttribute{
+							ElementType:         types.StringType,
+							Optional:            true,
+							Computed:            true,
+							Description:         "if dynamic vlan is used, specify the possible networks/vlans RADIUS can return",
+							MarkdownDescription: "if dynamic vlan is used, specify the possible networks/vlans RADIUS can return",
+						},
+						"enable_mac_auth": schema.BoolAttribute{
+							Optional:            true,
+							Computed:            true,
+							Description:         "if `port_auth`==`dot1x`, whether to enable MAC Auth",
+							MarkdownDescription: "if `port_auth`==`dot1x`, whether to enable MAC Auth",
+							Default:             booldefault.StaticBool(false),
+						},
+						"enable_qos": schema.BoolAttribute{
+							Optional: true,
+							Computed: true,
+							Default:  booldefault.StaticBool(false),
+						},
+						"guest_network": schema.StringAttribute{
+							Optional:            true,
+							Computed:            true,
+							Description:         "if `port_auth`==`dot1x`, which network to put the device into if the device cannot do dot1x. default is null (i.e. not allowed)",
+							MarkdownDescription: "if `port_auth`==`dot1x`, which network to put the device into if the device cannot do dot1x. default is null (i.e. not allowed)",
+						},
+						"mac_auth_only": schema.BoolAttribute{
+							Optional:            true,
+							Computed:            true,
+							Description:         "only effect once `enable_mac_auth`==`true`",
+							MarkdownDescription: "only effect once `enable_mac_auth`==`true`",
+						},
+						"mac_auth_protocol": schema.StringAttribute{
+							Optional:            true,
+							Computed:            true,
+							Description:         "if `enable_mac_auth` ==`true`. This type is ignored if mist_nac is enabled.",
+							MarkdownDescription: "if `enable_mac_auth` ==`true`. This type is ignored if mist_nac is enabled.",
+							Validators: []validator.String{
+								stringvalidator.OneOf(
+									"pap",
+									"eap-peap",
+									"eap-md5",
+								),
+							},
+							Default: stringdefault.StaticString("eap-md5"),
+						},
+						"mac_limit": schema.Int64Attribute{
+							Optional:            true,
+							Computed:            true,
+							Description:         "max number of mac addresses, default is 0 for unlimited, otherwise range is 1 or higher, with upper bound constrained by platform",
+							MarkdownDescription: "max number of mac addresses, default is 0 for unlimited, otherwise range is 1 or higher, with upper bound constrained by platform",
+							Validators: []validator.Int64{
+								int64validator.AtLeast(0),
+							},
+							Default: int64default.StaticInt64(0),
+						},
+						"mode": schema.StringAttribute{
+							Optional:            true,
+							Computed:            true,
+							Description:         "access (default) / trunk",
+							MarkdownDescription: "access (default) / trunk",
+							Validators: []validator.String{
+								stringvalidator.OneOf(
+									"access",
+									"trunk",
+									"inet",
+									"wan",
+								),
+							},
+						},
+						"mtu": schema.Int64Attribute{
+							Optional:            true,
+							Computed:            true,
+							Description:         "media maximum transmission unit (MTU) is the largest data unit that can be forwarded without fragmentation. The default value is 1514.",
+							MarkdownDescription: "media maximum transmission unit (MTU) is the largest data unit that can be forwarded without fragmentation. The default value is 1514.",
+						},
+						"networks": schema.ListAttribute{
+							ElementType:         types.StringType,
+							Optional:            true,
+							Computed:            true,
+							Description:         "if `mode`==`trunk`, the list of network/vlans",
+							MarkdownDescription: "if `mode`==`trunk`, the list of network/vlans",
+						},
+						"persist_mac": schema.BoolAttribute{
+							Optional:            true,
+							Computed:            true,
+							Description:         "if `mode`==`access` and `port_auth`!=`dot1x`, whether the port should retain dynamically learned MAC addresses",
+							MarkdownDescription: "if `mode`==`access` and `port_auth`!=`dot1x`, whether the port should retain dynamically learned MAC addresses",
+							Default:             booldefault.StaticBool(false),
+						},
+						"poe_disabled": schema.BoolAttribute{
+							Optional:            true,
+							Computed:            true,
+							Description:         "whether PoE capabilities are disabled for a port",
+							MarkdownDescription: "whether PoE capabilities are disabled for a port",
+							Default:             booldefault.StaticBool(false),
+						},
+						"port_auth": schema.StringAttribute{
+							Optional:            true,
+							Computed:            true,
+							Description:         "if dot1x is desired, set to dot1x",
+							MarkdownDescription: "if dot1x is desired, set to dot1x",
+						},
+						"port_network": schema.StringAttribute{
+							Optional:            true,
+							Computed:            true,
+							Description:         "native network/vlan for untagged traffic",
+							MarkdownDescription: "native network/vlan for untagged traffic",
+						},
+						"reauth_interval": schema.Int64Attribute{
+							Optional:            true,
+							Computed:            true,
+							Description:         "if `port_auth`=`dot1x`, reauthentication interval range",
+							MarkdownDescription: "if `port_auth`=`dot1x`, reauthentication interval range",
+							Validators: []validator.Int64{
+								int64validator.Between(10, 65535),
+							},
+							Default: int64default.StaticInt64(3600),
+						},
+						"rejected_network": schema.StringAttribute{
+							Optional:            true,
+							Computed:            true,
+							Description:         "if `port_auth`==`dot1x`, when radius server reject / fails",
+							MarkdownDescription: "if `port_auth`==`dot1x`, when radius server reject / fails",
+						},
+						"speed": schema.StringAttribute{
+							Optional:            true,
+							Computed:            true,
+							Description:         "speed, default is auto to automatically negotiate speed",
+							MarkdownDescription: "speed, default is auto to automatically negotiate speed",
+						},
+						"storm_control": schema.SingleNestedAttribute{
+							Attributes: map[string]schema.Attribute{
+								"no_broadcast": schema.BoolAttribute{
+									Optional:            true,
+									Description:         "whether to disable storm control on broadcast traffic",
+									MarkdownDescription: "whether to disable storm control on broadcast traffic",
+								},
+								"no_multicast": schema.BoolAttribute{
+									Optional:            true,
+									Description:         "whether to disable storm control on multicast traffic",
+									MarkdownDescription: "whether to disable storm control on multicast traffic",
+								},
+								"no_registered_multicast": schema.BoolAttribute{
+									Optional:            true,
+									Description:         "whether to disable storm control on registered multicast traffic",
+									MarkdownDescription: "whether to disable storm control on registered multicast traffic",
+								},
+								"no_unknown_unicast": schema.BoolAttribute{
+									Optional:            true,
+									Description:         "whether to disable storm control on unknown unicast traffic",
+									MarkdownDescription: "whether to disable storm control on unknown unicast traffic",
+								},
+								"percentage": schema.Int64Attribute{
+									Optional:            true,
+									Description:         "bandwidth-percentage, configures the storm control level as a percentage of the available bandwidth",
+									MarkdownDescription: "bandwidth-percentage, configures the storm control level as a percentage of the available bandwidth",
+									Validators: []validator.Int64{
+										int64validator.Between(0, 100),
+									},
+								},
+							},
+							CustomType: StormControlType{
+								ObjectType: types.ObjectType{
+									AttrTypes: StormControlValue{}.AttributeTypes(ctx),
+								},
+							},
+							Optional:            true,
+							Description:         "Switch storm control",
+							MarkdownDescription: "Switch storm control",
+						},
+						"stp_edge": schema.BoolAttribute{
+							Optional:            true,
+							Description:         "when enabled, the port is not expected to receive BPDU frames",
+							MarkdownDescription: "when enabled, the port is not expected to receive BPDU frames",
+						},
+						"voip_network": schema.StringAttribute{
+							Optional:            true,
+							Description:         "network/vlan for voip traffic, must also set port_network. to authenticate device, set port_auth",
+							MarkdownDescription: "network/vlan for voip traffic, must also set port_network. to authenticate device, set port_auth",
+						},
+					},
+					CustomType: PortUsagesType{
+						ObjectType: types.ObjectType{
+							AttrTypes: PortUsagesValue{}.AttributeTypes(ctx),
+						},
+					},
+				},
+				Optional:            true,
+				Computed:            true,
+				Description:         "Property key is the port profile name",
+				MarkdownDescription: "Property key is the port profile name",
 			},
 			"radius_config": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
@@ -275,6 +537,7 @@ type NetworktemplateModel struct {
 	Networks             types.Map         `tfsdk:"networks"`
 	NtpServers           types.List        `tfsdk:"ntp_servers"`
 	OrgId                types.String      `tfsdk:"org_id"`
+	PortUsages           types.Map         `tfsdk:"port_usages"`
 	RadiusConfig         RadiusConfigValue `tfsdk:"radius_config"`
 }
 
@@ -654,6 +917,2541 @@ func (v NetworksValue) AttributeTypes(ctx context.Context) map[string]attr.Type 
 	return map[string]attr.Type{
 		"subnet":  basetypes.StringType{},
 		"vlan_id": basetypes.Int64Type{},
+	}
+}
+
+var _ basetypes.ObjectTypable = PortUsagesType{}
+
+type PortUsagesType struct {
+	basetypes.ObjectType
+}
+
+func (t PortUsagesType) Equal(o attr.Type) bool {
+	other, ok := o.(PortUsagesType)
+
+	if !ok {
+		return false
+	}
+
+	return t.ObjectType.Equal(other.ObjectType)
+}
+
+func (t PortUsagesType) String() string {
+	return "PortUsagesType"
+}
+
+func (t PortUsagesType) ValueFromObject(ctx context.Context, in basetypes.ObjectValue) (basetypes.ObjectValuable, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	attributes := in.Attributes()
+
+	allNetworksAttribute, ok := attributes["all_networks"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`all_networks is missing from object`)
+
+		return nil, diags
+	}
+
+	allNetworksVal, ok := allNetworksAttribute.(basetypes.BoolValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`all_networks expected to be basetypes.BoolValue, was: %T`, allNetworksAttribute))
+	}
+
+	allowDhcpdAttribute, ok := attributes["allow_dhcpd"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`allow_dhcpd is missing from object`)
+
+		return nil, diags
+	}
+
+	allowDhcpdVal, ok := allowDhcpdAttribute.(basetypes.BoolValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`allow_dhcpd expected to be basetypes.BoolValue, was: %T`, allowDhcpdAttribute))
+	}
+
+	allowMultipleSupplicantsAttribute, ok := attributes["allow_multiple_supplicants"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`allow_multiple_supplicants is missing from object`)
+
+		return nil, diags
+	}
+
+	allowMultipleSupplicantsVal, ok := allowMultipleSupplicantsAttribute.(basetypes.BoolValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`allow_multiple_supplicants expected to be basetypes.BoolValue, was: %T`, allowMultipleSupplicantsAttribute))
+	}
+
+	bypassAuthWhenServerDownAttribute, ok := attributes["bypass_auth_when_server_down"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`bypass_auth_when_server_down is missing from object`)
+
+		return nil, diags
+	}
+
+	bypassAuthWhenServerDownVal, ok := bypassAuthWhenServerDownAttribute.(basetypes.BoolValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`bypass_auth_when_server_down expected to be basetypes.BoolValue, was: %T`, bypassAuthWhenServerDownAttribute))
+	}
+
+	bypassAuthWhenServerDownForUnkonwnClientAttribute, ok := attributes["bypass_auth_when_server_down_for_unkonwn_client"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`bypass_auth_when_server_down_for_unkonwn_client is missing from object`)
+
+		return nil, diags
+	}
+
+	bypassAuthWhenServerDownForUnkonwnClientVal, ok := bypassAuthWhenServerDownForUnkonwnClientAttribute.(basetypes.BoolValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`bypass_auth_when_server_down_for_unkonwn_client expected to be basetypes.BoolValue, was: %T`, bypassAuthWhenServerDownForUnkonwnClientAttribute))
+	}
+
+	descriptionAttribute, ok := attributes["description"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`description is missing from object`)
+
+		return nil, diags
+	}
+
+	descriptionVal, ok := descriptionAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`description expected to be basetypes.StringValue, was: %T`, descriptionAttribute))
+	}
+
+	disableAutonegAttribute, ok := attributes["disable_autoneg"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`disable_autoneg is missing from object`)
+
+		return nil, diags
+	}
+
+	disableAutonegVal, ok := disableAutonegAttribute.(basetypes.BoolValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`disable_autoneg expected to be basetypes.BoolValue, was: %T`, disableAutonegAttribute))
+	}
+
+	disabledAttribute, ok := attributes["disabled"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`disabled is missing from object`)
+
+		return nil, diags
+	}
+
+	disabledVal, ok := disabledAttribute.(basetypes.BoolValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`disabled expected to be basetypes.BoolValue, was: %T`, disabledAttribute))
+	}
+
+	duplexAttribute, ok := attributes["duplex"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`duplex is missing from object`)
+
+		return nil, diags
+	}
+
+	duplexVal, ok := duplexAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`duplex expected to be basetypes.StringValue, was: %T`, duplexAttribute))
+	}
+
+	dynamicVlanNetworksAttribute, ok := attributes["dynamic_vlan_networks"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`dynamic_vlan_networks is missing from object`)
+
+		return nil, diags
+	}
+
+	dynamicVlanNetworksVal, ok := dynamicVlanNetworksAttribute.(basetypes.ListValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`dynamic_vlan_networks expected to be basetypes.ListValue, was: %T`, dynamicVlanNetworksAttribute))
+	}
+
+	enableMacAuthAttribute, ok := attributes["enable_mac_auth"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`enable_mac_auth is missing from object`)
+
+		return nil, diags
+	}
+
+	enableMacAuthVal, ok := enableMacAuthAttribute.(basetypes.BoolValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`enable_mac_auth expected to be basetypes.BoolValue, was: %T`, enableMacAuthAttribute))
+	}
+
+	enableQosAttribute, ok := attributes["enable_qos"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`enable_qos is missing from object`)
+
+		return nil, diags
+	}
+
+	enableQosVal, ok := enableQosAttribute.(basetypes.BoolValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`enable_qos expected to be basetypes.BoolValue, was: %T`, enableQosAttribute))
+	}
+
+	guestNetworkAttribute, ok := attributes["guest_network"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`guest_network is missing from object`)
+
+		return nil, diags
+	}
+
+	guestNetworkVal, ok := guestNetworkAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`guest_network expected to be basetypes.StringValue, was: %T`, guestNetworkAttribute))
+	}
+
+	macAuthOnlyAttribute, ok := attributes["mac_auth_only"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`mac_auth_only is missing from object`)
+
+		return nil, diags
+	}
+
+	macAuthOnlyVal, ok := macAuthOnlyAttribute.(basetypes.BoolValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`mac_auth_only expected to be basetypes.BoolValue, was: %T`, macAuthOnlyAttribute))
+	}
+
+	macAuthProtocolAttribute, ok := attributes["mac_auth_protocol"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`mac_auth_protocol is missing from object`)
+
+		return nil, diags
+	}
+
+	macAuthProtocolVal, ok := macAuthProtocolAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`mac_auth_protocol expected to be basetypes.StringValue, was: %T`, macAuthProtocolAttribute))
+	}
+
+	macLimitAttribute, ok := attributes["mac_limit"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`mac_limit is missing from object`)
+
+		return nil, diags
+	}
+
+	macLimitVal, ok := macLimitAttribute.(basetypes.Int64Value)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`mac_limit expected to be basetypes.Int64Value, was: %T`, macLimitAttribute))
+	}
+
+	modeAttribute, ok := attributes["mode"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`mode is missing from object`)
+
+		return nil, diags
+	}
+
+	modeVal, ok := modeAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`mode expected to be basetypes.StringValue, was: %T`, modeAttribute))
+	}
+
+	mtuAttribute, ok := attributes["mtu"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`mtu is missing from object`)
+
+		return nil, diags
+	}
+
+	mtuVal, ok := mtuAttribute.(basetypes.Int64Value)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`mtu expected to be basetypes.Int64Value, was: %T`, mtuAttribute))
+	}
+
+	networksAttribute, ok := attributes["networks"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`networks is missing from object`)
+
+		return nil, diags
+	}
+
+	networksVal, ok := networksAttribute.(basetypes.ListValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`networks expected to be basetypes.ListValue, was: %T`, networksAttribute))
+	}
+
+	persistMacAttribute, ok := attributes["persist_mac"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`persist_mac is missing from object`)
+
+		return nil, diags
+	}
+
+	persistMacVal, ok := persistMacAttribute.(basetypes.BoolValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`persist_mac expected to be basetypes.BoolValue, was: %T`, persistMacAttribute))
+	}
+
+	poeDisabledAttribute, ok := attributes["poe_disabled"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`poe_disabled is missing from object`)
+
+		return nil, diags
+	}
+
+	poeDisabledVal, ok := poeDisabledAttribute.(basetypes.BoolValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`poe_disabled expected to be basetypes.BoolValue, was: %T`, poeDisabledAttribute))
+	}
+
+	portAuthAttribute, ok := attributes["port_auth"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`port_auth is missing from object`)
+
+		return nil, diags
+	}
+
+	portAuthVal, ok := portAuthAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`port_auth expected to be basetypes.StringValue, was: %T`, portAuthAttribute))
+	}
+
+	portNetworkAttribute, ok := attributes["port_network"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`port_network is missing from object`)
+
+		return nil, diags
+	}
+
+	portNetworkVal, ok := portNetworkAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`port_network expected to be basetypes.StringValue, was: %T`, portNetworkAttribute))
+	}
+
+	reauthIntervalAttribute, ok := attributes["reauth_interval"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`reauth_interval is missing from object`)
+
+		return nil, diags
+	}
+
+	reauthIntervalVal, ok := reauthIntervalAttribute.(basetypes.Int64Value)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`reauth_interval expected to be basetypes.Int64Value, was: %T`, reauthIntervalAttribute))
+	}
+
+	rejectedNetworkAttribute, ok := attributes["rejected_network"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`rejected_network is missing from object`)
+
+		return nil, diags
+	}
+
+	rejectedNetworkVal, ok := rejectedNetworkAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`rejected_network expected to be basetypes.StringValue, was: %T`, rejectedNetworkAttribute))
+	}
+
+	speedAttribute, ok := attributes["speed"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`speed is missing from object`)
+
+		return nil, diags
+	}
+
+	speedVal, ok := speedAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`speed expected to be basetypes.StringValue, was: %T`, speedAttribute))
+	}
+
+	stormControlAttribute, ok := attributes["storm_control"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`storm_control is missing from object`)
+
+		return nil, diags
+	}
+
+	stormControlVal, ok := stormControlAttribute.(basetypes.ObjectValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`storm_control expected to be basetypes.ObjectValue, was: %T`, stormControlAttribute))
+	}
+
+	stpEdgeAttribute, ok := attributes["stp_edge"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`stp_edge is missing from object`)
+
+		return nil, diags
+	}
+
+	stpEdgeVal, ok := stpEdgeAttribute.(basetypes.BoolValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`stp_edge expected to be basetypes.BoolValue, was: %T`, stpEdgeAttribute))
+	}
+
+	voipNetworkAttribute, ok := attributes["voip_network"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`voip_network is missing from object`)
+
+		return nil, diags
+	}
+
+	voipNetworkVal, ok := voipNetworkAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`voip_network expected to be basetypes.StringValue, was: %T`, voipNetworkAttribute))
+	}
+
+	if diags.HasError() {
+		return nil, diags
+	}
+
+	return PortUsagesValue{
+		AllNetworks:                              allNetworksVal,
+		AllowDhcpd:                               allowDhcpdVal,
+		AllowMultipleSupplicants:                 allowMultipleSupplicantsVal,
+		BypassAuthWhenServerDown:                 bypassAuthWhenServerDownVal,
+		BypassAuthWhenServerDownForUnkonwnClient: bypassAuthWhenServerDownForUnkonwnClientVal,
+		Description:                              descriptionVal,
+		DisableAutoneg:                           disableAutonegVal,
+		Disabled:                                 disabledVal,
+		Duplex:                                   duplexVal,
+		DynamicVlanNetworks:                      dynamicVlanNetworksVal,
+		EnableMacAuth:                            enableMacAuthVal,
+		EnableQos:                                enableQosVal,
+		GuestNetwork:                             guestNetworkVal,
+		MacAuthOnly:                              macAuthOnlyVal,
+		MacAuthProtocol:                          macAuthProtocolVal,
+		MacLimit:                                 macLimitVal,
+		Mode:                                     modeVal,
+		Mtu:                                      mtuVal,
+		Networks:                                 networksVal,
+		PersistMac:                               persistMacVal,
+		PoeDisabled:                              poeDisabledVal,
+		PortAuth:                                 portAuthVal,
+		PortNetwork:                              portNetworkVal,
+		ReauthInterval:                           reauthIntervalVal,
+		RejectedNetwork:                          rejectedNetworkVal,
+		Speed:                                    speedVal,
+		StormControl:                             stormControlVal,
+		StpEdge:                                  stpEdgeVal,
+		VoipNetwork:                              voipNetworkVal,
+		state:                                    attr.ValueStateKnown,
+	}, diags
+}
+
+func NewPortUsagesValueNull() PortUsagesValue {
+	return PortUsagesValue{
+		state: attr.ValueStateNull,
+	}
+}
+
+func NewPortUsagesValueUnknown() PortUsagesValue {
+	return PortUsagesValue{
+		state: attr.ValueStateUnknown,
+	}
+}
+
+func NewPortUsagesValue(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) (PortUsagesValue, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	// Reference: https://github.com/hashicorp/terraform-plugin-framework/issues/521
+	ctx := context.Background()
+
+	for name, attributeType := range attributeTypes {
+		attribute, ok := attributes[name]
+
+		if !ok {
+			diags.AddError(
+				"Missing PortUsagesValue Attribute Value",
+				"While creating a PortUsagesValue value, a missing attribute value was detected. "+
+					"A PortUsagesValue must contain values for all attributes, even if null or unknown. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("PortUsagesValue Attribute Name (%s) Expected Type: %s", name, attributeType.String()),
+			)
+
+			continue
+		}
+
+		if !attributeType.Equal(attribute.Type(ctx)) {
+			diags.AddError(
+				"Invalid PortUsagesValue Attribute Type",
+				"While creating a PortUsagesValue value, an invalid attribute value was detected. "+
+					"A PortUsagesValue must use a matching attribute type for the value. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("PortUsagesValue Attribute Name (%s) Expected Type: %s\n", name, attributeType.String())+
+					fmt.Sprintf("PortUsagesValue Attribute Name (%s) Given Type: %s", name, attribute.Type(ctx)),
+			)
+		}
+	}
+
+	for name := range attributes {
+		_, ok := attributeTypes[name]
+
+		if !ok {
+			diags.AddError(
+				"Extra PortUsagesValue Attribute Value",
+				"While creating a PortUsagesValue value, an extra attribute value was detected. "+
+					"A PortUsagesValue must not contain values beyond the expected attribute types. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("Extra PortUsagesValue Attribute Name: %s", name),
+			)
+		}
+	}
+
+	if diags.HasError() {
+		return NewPortUsagesValueUnknown(), diags
+	}
+
+	allNetworksAttribute, ok := attributes["all_networks"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`all_networks is missing from object`)
+
+		return NewPortUsagesValueUnknown(), diags
+	}
+
+	allNetworksVal, ok := allNetworksAttribute.(basetypes.BoolValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`all_networks expected to be basetypes.BoolValue, was: %T`, allNetworksAttribute))
+	}
+
+	allowDhcpdAttribute, ok := attributes["allow_dhcpd"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`allow_dhcpd is missing from object`)
+
+		return NewPortUsagesValueUnknown(), diags
+	}
+
+	allowDhcpdVal, ok := allowDhcpdAttribute.(basetypes.BoolValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`allow_dhcpd expected to be basetypes.BoolValue, was: %T`, allowDhcpdAttribute))
+	}
+
+	allowMultipleSupplicantsAttribute, ok := attributes["allow_multiple_supplicants"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`allow_multiple_supplicants is missing from object`)
+
+		return NewPortUsagesValueUnknown(), diags
+	}
+
+	allowMultipleSupplicantsVal, ok := allowMultipleSupplicantsAttribute.(basetypes.BoolValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`allow_multiple_supplicants expected to be basetypes.BoolValue, was: %T`, allowMultipleSupplicantsAttribute))
+	}
+
+	bypassAuthWhenServerDownAttribute, ok := attributes["bypass_auth_when_server_down"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`bypass_auth_when_server_down is missing from object`)
+
+		return NewPortUsagesValueUnknown(), diags
+	}
+
+	bypassAuthWhenServerDownVal, ok := bypassAuthWhenServerDownAttribute.(basetypes.BoolValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`bypass_auth_when_server_down expected to be basetypes.BoolValue, was: %T`, bypassAuthWhenServerDownAttribute))
+	}
+
+	bypassAuthWhenServerDownForUnkonwnClientAttribute, ok := attributes["bypass_auth_when_server_down_for_unkonwn_client"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`bypass_auth_when_server_down_for_unkonwn_client is missing from object`)
+
+		return NewPortUsagesValueUnknown(), diags
+	}
+
+	bypassAuthWhenServerDownForUnkonwnClientVal, ok := bypassAuthWhenServerDownForUnkonwnClientAttribute.(basetypes.BoolValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`bypass_auth_when_server_down_for_unkonwn_client expected to be basetypes.BoolValue, was: %T`, bypassAuthWhenServerDownForUnkonwnClientAttribute))
+	}
+
+	descriptionAttribute, ok := attributes["description"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`description is missing from object`)
+
+		return NewPortUsagesValueUnknown(), diags
+	}
+
+	descriptionVal, ok := descriptionAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`description expected to be basetypes.StringValue, was: %T`, descriptionAttribute))
+	}
+
+	disableAutonegAttribute, ok := attributes["disable_autoneg"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`disable_autoneg is missing from object`)
+
+		return NewPortUsagesValueUnknown(), diags
+	}
+
+	disableAutonegVal, ok := disableAutonegAttribute.(basetypes.BoolValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`disable_autoneg expected to be basetypes.BoolValue, was: %T`, disableAutonegAttribute))
+	}
+
+	disabledAttribute, ok := attributes["disabled"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`disabled is missing from object`)
+
+		return NewPortUsagesValueUnknown(), diags
+	}
+
+	disabledVal, ok := disabledAttribute.(basetypes.BoolValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`disabled expected to be basetypes.BoolValue, was: %T`, disabledAttribute))
+	}
+
+	duplexAttribute, ok := attributes["duplex"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`duplex is missing from object`)
+
+		return NewPortUsagesValueUnknown(), diags
+	}
+
+	duplexVal, ok := duplexAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`duplex expected to be basetypes.StringValue, was: %T`, duplexAttribute))
+	}
+
+	dynamicVlanNetworksAttribute, ok := attributes["dynamic_vlan_networks"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`dynamic_vlan_networks is missing from object`)
+
+		return NewPortUsagesValueUnknown(), diags
+	}
+
+	dynamicVlanNetworksVal, ok := dynamicVlanNetworksAttribute.(basetypes.ListValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`dynamic_vlan_networks expected to be basetypes.ListValue, was: %T`, dynamicVlanNetworksAttribute))
+	}
+
+	enableMacAuthAttribute, ok := attributes["enable_mac_auth"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`enable_mac_auth is missing from object`)
+
+		return NewPortUsagesValueUnknown(), diags
+	}
+
+	enableMacAuthVal, ok := enableMacAuthAttribute.(basetypes.BoolValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`enable_mac_auth expected to be basetypes.BoolValue, was: %T`, enableMacAuthAttribute))
+	}
+
+	enableQosAttribute, ok := attributes["enable_qos"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`enable_qos is missing from object`)
+
+		return NewPortUsagesValueUnknown(), diags
+	}
+
+	enableQosVal, ok := enableQosAttribute.(basetypes.BoolValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`enable_qos expected to be basetypes.BoolValue, was: %T`, enableQosAttribute))
+	}
+
+	guestNetworkAttribute, ok := attributes["guest_network"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`guest_network is missing from object`)
+
+		return NewPortUsagesValueUnknown(), diags
+	}
+
+	guestNetworkVal, ok := guestNetworkAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`guest_network expected to be basetypes.StringValue, was: %T`, guestNetworkAttribute))
+	}
+
+	macAuthOnlyAttribute, ok := attributes["mac_auth_only"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`mac_auth_only is missing from object`)
+
+		return NewPortUsagesValueUnknown(), diags
+	}
+
+	macAuthOnlyVal, ok := macAuthOnlyAttribute.(basetypes.BoolValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`mac_auth_only expected to be basetypes.BoolValue, was: %T`, macAuthOnlyAttribute))
+	}
+
+	macAuthProtocolAttribute, ok := attributes["mac_auth_protocol"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`mac_auth_protocol is missing from object`)
+
+		return NewPortUsagesValueUnknown(), diags
+	}
+
+	macAuthProtocolVal, ok := macAuthProtocolAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`mac_auth_protocol expected to be basetypes.StringValue, was: %T`, macAuthProtocolAttribute))
+	}
+
+	macLimitAttribute, ok := attributes["mac_limit"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`mac_limit is missing from object`)
+
+		return NewPortUsagesValueUnknown(), diags
+	}
+
+	macLimitVal, ok := macLimitAttribute.(basetypes.Int64Value)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`mac_limit expected to be basetypes.Int64Value, was: %T`, macLimitAttribute))
+	}
+
+	modeAttribute, ok := attributes["mode"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`mode is missing from object`)
+
+		return NewPortUsagesValueUnknown(), diags
+	}
+
+	modeVal, ok := modeAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`mode expected to be basetypes.StringValue, was: %T`, modeAttribute))
+	}
+
+	mtuAttribute, ok := attributes["mtu"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`mtu is missing from object`)
+
+		return NewPortUsagesValueUnknown(), diags
+	}
+
+	mtuVal, ok := mtuAttribute.(basetypes.Int64Value)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`mtu expected to be basetypes.Int64Value, was: %T`, mtuAttribute))
+	}
+
+	networksAttribute, ok := attributes["networks"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`networks is missing from object`)
+
+		return NewPortUsagesValueUnknown(), diags
+	}
+
+	networksVal, ok := networksAttribute.(basetypes.ListValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`networks expected to be basetypes.ListValue, was: %T`, networksAttribute))
+	}
+
+	persistMacAttribute, ok := attributes["persist_mac"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`persist_mac is missing from object`)
+
+		return NewPortUsagesValueUnknown(), diags
+	}
+
+	persistMacVal, ok := persistMacAttribute.(basetypes.BoolValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`persist_mac expected to be basetypes.BoolValue, was: %T`, persistMacAttribute))
+	}
+
+	poeDisabledAttribute, ok := attributes["poe_disabled"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`poe_disabled is missing from object`)
+
+		return NewPortUsagesValueUnknown(), diags
+	}
+
+	poeDisabledVal, ok := poeDisabledAttribute.(basetypes.BoolValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`poe_disabled expected to be basetypes.BoolValue, was: %T`, poeDisabledAttribute))
+	}
+
+	portAuthAttribute, ok := attributes["port_auth"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`port_auth is missing from object`)
+
+		return NewPortUsagesValueUnknown(), diags
+	}
+
+	portAuthVal, ok := portAuthAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`port_auth expected to be basetypes.StringValue, was: %T`, portAuthAttribute))
+	}
+
+	portNetworkAttribute, ok := attributes["port_network"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`port_network is missing from object`)
+
+		return NewPortUsagesValueUnknown(), diags
+	}
+
+	portNetworkVal, ok := portNetworkAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`port_network expected to be basetypes.StringValue, was: %T`, portNetworkAttribute))
+	}
+
+	reauthIntervalAttribute, ok := attributes["reauth_interval"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`reauth_interval is missing from object`)
+
+		return NewPortUsagesValueUnknown(), diags
+	}
+
+	reauthIntervalVal, ok := reauthIntervalAttribute.(basetypes.Int64Value)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`reauth_interval expected to be basetypes.Int64Value, was: %T`, reauthIntervalAttribute))
+	}
+
+	rejectedNetworkAttribute, ok := attributes["rejected_network"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`rejected_network is missing from object`)
+
+		return NewPortUsagesValueUnknown(), diags
+	}
+
+	rejectedNetworkVal, ok := rejectedNetworkAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`rejected_network expected to be basetypes.StringValue, was: %T`, rejectedNetworkAttribute))
+	}
+
+	speedAttribute, ok := attributes["speed"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`speed is missing from object`)
+
+		return NewPortUsagesValueUnknown(), diags
+	}
+
+	speedVal, ok := speedAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`speed expected to be basetypes.StringValue, was: %T`, speedAttribute))
+	}
+
+	stormControlAttribute, ok := attributes["storm_control"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`storm_control is missing from object`)
+
+		return NewPortUsagesValueUnknown(), diags
+	}
+
+	stormControlVal, ok := stormControlAttribute.(basetypes.ObjectValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`storm_control expected to be basetypes.ObjectValue, was: %T`, stormControlAttribute))
+	}
+
+	stpEdgeAttribute, ok := attributes["stp_edge"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`stp_edge is missing from object`)
+
+		return NewPortUsagesValueUnknown(), diags
+	}
+
+	stpEdgeVal, ok := stpEdgeAttribute.(basetypes.BoolValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`stp_edge expected to be basetypes.BoolValue, was: %T`, stpEdgeAttribute))
+	}
+
+	voipNetworkAttribute, ok := attributes["voip_network"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`voip_network is missing from object`)
+
+		return NewPortUsagesValueUnknown(), diags
+	}
+
+	voipNetworkVal, ok := voipNetworkAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`voip_network expected to be basetypes.StringValue, was: %T`, voipNetworkAttribute))
+	}
+
+	if diags.HasError() {
+		return NewPortUsagesValueUnknown(), diags
+	}
+
+	return PortUsagesValue{
+		AllNetworks:                              allNetworksVal,
+		AllowDhcpd:                               allowDhcpdVal,
+		AllowMultipleSupplicants:                 allowMultipleSupplicantsVal,
+		BypassAuthWhenServerDown:                 bypassAuthWhenServerDownVal,
+		BypassAuthWhenServerDownForUnkonwnClient: bypassAuthWhenServerDownForUnkonwnClientVal,
+		Description:                              descriptionVal,
+		DisableAutoneg:                           disableAutonegVal,
+		Disabled:                                 disabledVal,
+		Duplex:                                   duplexVal,
+		DynamicVlanNetworks:                      dynamicVlanNetworksVal,
+		EnableMacAuth:                            enableMacAuthVal,
+		EnableQos:                                enableQosVal,
+		GuestNetwork:                             guestNetworkVal,
+		MacAuthOnly:                              macAuthOnlyVal,
+		MacAuthProtocol:                          macAuthProtocolVal,
+		MacLimit:                                 macLimitVal,
+		Mode:                                     modeVal,
+		Mtu:                                      mtuVal,
+		Networks:                                 networksVal,
+		PersistMac:                               persistMacVal,
+		PoeDisabled:                              poeDisabledVal,
+		PortAuth:                                 portAuthVal,
+		PortNetwork:                              portNetworkVal,
+		ReauthInterval:                           reauthIntervalVal,
+		RejectedNetwork:                          rejectedNetworkVal,
+		Speed:                                    speedVal,
+		StormControl:                             stormControlVal,
+		StpEdge:                                  stpEdgeVal,
+		VoipNetwork:                              voipNetworkVal,
+		state:                                    attr.ValueStateKnown,
+	}, diags
+}
+
+func NewPortUsagesValueMust(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) PortUsagesValue {
+	object, diags := NewPortUsagesValue(attributeTypes, attributes)
+
+	if diags.HasError() {
+		// This could potentially be added to the diag package.
+		diagsStrings := make([]string, 0, len(diags))
+
+		for _, diagnostic := range diags {
+			diagsStrings = append(diagsStrings, fmt.Sprintf(
+				"%s | %s | %s",
+				diagnostic.Severity(),
+				diagnostic.Summary(),
+				diagnostic.Detail()))
+		}
+
+		panic("NewPortUsagesValueMust received error(s): " + strings.Join(diagsStrings, "\n"))
+	}
+
+	return object
+}
+
+func (t PortUsagesType) ValueFromTerraform(ctx context.Context, in tftypes.Value) (attr.Value, error) {
+	if in.Type() == nil {
+		return NewPortUsagesValueNull(), nil
+	}
+
+	if !in.Type().Equal(t.TerraformType(ctx)) {
+		return nil, fmt.Errorf("expected %s, got %s", t.TerraformType(ctx), in.Type())
+	}
+
+	if !in.IsKnown() {
+		return NewPortUsagesValueUnknown(), nil
+	}
+
+	if in.IsNull() {
+		return NewPortUsagesValueNull(), nil
+	}
+
+	attributes := map[string]attr.Value{}
+
+	val := map[string]tftypes.Value{}
+
+	err := in.As(&val)
+
+	if err != nil {
+		return nil, err
+	}
+
+	for k, v := range val {
+		a, err := t.AttrTypes[k].ValueFromTerraform(ctx, v)
+
+		if err != nil {
+			return nil, err
+		}
+
+		attributes[k] = a
+	}
+
+	return NewPortUsagesValueMust(PortUsagesValue{}.AttributeTypes(ctx), attributes), nil
+}
+
+func (t PortUsagesType) ValueType(ctx context.Context) attr.Value {
+	return PortUsagesValue{}
+}
+
+var _ basetypes.ObjectValuable = PortUsagesValue{}
+
+type PortUsagesValue struct {
+	AllNetworks                              basetypes.BoolValue   `tfsdk:"all_networks"`
+	AllowDhcpd                               basetypes.BoolValue   `tfsdk:"allow_dhcpd"`
+	AllowMultipleSupplicants                 basetypes.BoolValue   `tfsdk:"allow_multiple_supplicants"`
+	BypassAuthWhenServerDown                 basetypes.BoolValue   `tfsdk:"bypass_auth_when_server_down"`
+	BypassAuthWhenServerDownForUnkonwnClient basetypes.BoolValue   `tfsdk:"bypass_auth_when_server_down_for_unkonwn_client"`
+	Description                              basetypes.StringValue `tfsdk:"description"`
+	DisableAutoneg                           basetypes.BoolValue   `tfsdk:"disable_autoneg"`
+	Disabled                                 basetypes.BoolValue   `tfsdk:"disabled"`
+	Duplex                                   basetypes.StringValue `tfsdk:"duplex"`
+	DynamicVlanNetworks                      basetypes.ListValue   `tfsdk:"dynamic_vlan_networks"`
+	EnableMacAuth                            basetypes.BoolValue   `tfsdk:"enable_mac_auth"`
+	EnableQos                                basetypes.BoolValue   `tfsdk:"enable_qos"`
+	GuestNetwork                             basetypes.StringValue `tfsdk:"guest_network"`
+	MacAuthOnly                              basetypes.BoolValue   `tfsdk:"mac_auth_only"`
+	MacAuthProtocol                          basetypes.StringValue `tfsdk:"mac_auth_protocol"`
+	MacLimit                                 basetypes.Int64Value  `tfsdk:"mac_limit"`
+	Mode                                     basetypes.StringValue `tfsdk:"mode"`
+	Mtu                                      basetypes.Int64Value  `tfsdk:"mtu"`
+	Networks                                 basetypes.ListValue   `tfsdk:"networks"`
+	PersistMac                               basetypes.BoolValue   `tfsdk:"persist_mac"`
+	PoeDisabled                              basetypes.BoolValue   `tfsdk:"poe_disabled"`
+	PortAuth                                 basetypes.StringValue `tfsdk:"port_auth"`
+	PortNetwork                              basetypes.StringValue `tfsdk:"port_network"`
+	ReauthInterval                           basetypes.Int64Value  `tfsdk:"reauth_interval"`
+	RejectedNetwork                          basetypes.StringValue `tfsdk:"rejected_network"`
+	Speed                                    basetypes.StringValue `tfsdk:"speed"`
+	StormControl                             basetypes.ObjectValue `tfsdk:"storm_control"`
+	StpEdge                                  basetypes.BoolValue   `tfsdk:"stp_edge"`
+	VoipNetwork                              basetypes.StringValue `tfsdk:"voip_network"`
+	state                                    attr.ValueState
+}
+
+func (v PortUsagesValue) ToTerraformValue(ctx context.Context) (tftypes.Value, error) {
+	attrTypes := make(map[string]tftypes.Type, 29)
+
+	var val tftypes.Value
+	var err error
+
+	attrTypes["all_networks"] = basetypes.BoolType{}.TerraformType(ctx)
+	attrTypes["allow_dhcpd"] = basetypes.BoolType{}.TerraformType(ctx)
+	attrTypes["allow_multiple_supplicants"] = basetypes.BoolType{}.TerraformType(ctx)
+	attrTypes["bypass_auth_when_server_down"] = basetypes.BoolType{}.TerraformType(ctx)
+	attrTypes["bypass_auth_when_server_down_for_unkonwn_client"] = basetypes.BoolType{}.TerraformType(ctx)
+	attrTypes["description"] = basetypes.StringType{}.TerraformType(ctx)
+	attrTypes["disable_autoneg"] = basetypes.BoolType{}.TerraformType(ctx)
+	attrTypes["disabled"] = basetypes.BoolType{}.TerraformType(ctx)
+	attrTypes["duplex"] = basetypes.StringType{}.TerraformType(ctx)
+	attrTypes["dynamic_vlan_networks"] = basetypes.ListType{
+		ElemType: types.StringType,
+	}.TerraformType(ctx)
+	attrTypes["enable_mac_auth"] = basetypes.BoolType{}.TerraformType(ctx)
+	attrTypes["enable_qos"] = basetypes.BoolType{}.TerraformType(ctx)
+	attrTypes["guest_network"] = basetypes.StringType{}.TerraformType(ctx)
+	attrTypes["mac_auth_only"] = basetypes.BoolType{}.TerraformType(ctx)
+	attrTypes["mac_auth_protocol"] = basetypes.StringType{}.TerraformType(ctx)
+	attrTypes["mac_limit"] = basetypes.Int64Type{}.TerraformType(ctx)
+	attrTypes["mode"] = basetypes.StringType{}.TerraformType(ctx)
+	attrTypes["mtu"] = basetypes.Int64Type{}.TerraformType(ctx)
+	attrTypes["networks"] = basetypes.ListType{
+		ElemType: types.StringType,
+	}.TerraformType(ctx)
+	attrTypes["persist_mac"] = basetypes.BoolType{}.TerraformType(ctx)
+	attrTypes["poe_disabled"] = basetypes.BoolType{}.TerraformType(ctx)
+	attrTypes["port_auth"] = basetypes.StringType{}.TerraformType(ctx)
+	attrTypes["port_network"] = basetypes.StringType{}.TerraformType(ctx)
+	attrTypes["reauth_interval"] = basetypes.Int64Type{}.TerraformType(ctx)
+	attrTypes["rejected_network"] = basetypes.StringType{}.TerraformType(ctx)
+	attrTypes["speed"] = basetypes.StringType{}.TerraformType(ctx)
+	attrTypes["storm_control"] = basetypes.ObjectType{
+		AttrTypes: StormControlValue{}.AttributeTypes(ctx),
+	}.TerraformType(ctx)
+	attrTypes["stp_edge"] = basetypes.BoolType{}.TerraformType(ctx)
+	attrTypes["voip_network"] = basetypes.StringType{}.TerraformType(ctx)
+
+	objectType := tftypes.Object{AttributeTypes: attrTypes}
+
+	switch v.state {
+	case attr.ValueStateKnown:
+		vals := make(map[string]tftypes.Value, 29)
+
+		val, err = v.AllNetworks.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["all_networks"] = val
+
+		val, err = v.AllowDhcpd.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["allow_dhcpd"] = val
+
+		val, err = v.AllowMultipleSupplicants.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["allow_multiple_supplicants"] = val
+
+		val, err = v.BypassAuthWhenServerDown.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["bypass_auth_when_server_down"] = val
+
+		val, err = v.BypassAuthWhenServerDownForUnkonwnClient.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["bypass_auth_when_server_down_for_unkonwn_client"] = val
+
+		val, err = v.Description.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["description"] = val
+
+		val, err = v.DisableAutoneg.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["disable_autoneg"] = val
+
+		val, err = v.Disabled.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["disabled"] = val
+
+		val, err = v.Duplex.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["duplex"] = val
+
+		val, err = v.DynamicVlanNetworks.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["dynamic_vlan_networks"] = val
+
+		val, err = v.EnableMacAuth.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["enable_mac_auth"] = val
+
+		val, err = v.EnableQos.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["enable_qos"] = val
+
+		val, err = v.GuestNetwork.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["guest_network"] = val
+
+		val, err = v.MacAuthOnly.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["mac_auth_only"] = val
+
+		val, err = v.MacAuthProtocol.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["mac_auth_protocol"] = val
+
+		val, err = v.MacLimit.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["mac_limit"] = val
+
+		val, err = v.Mode.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["mode"] = val
+
+		val, err = v.Mtu.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["mtu"] = val
+
+		val, err = v.Networks.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["networks"] = val
+
+		val, err = v.PersistMac.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["persist_mac"] = val
+
+		val, err = v.PoeDisabled.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["poe_disabled"] = val
+
+		val, err = v.PortAuth.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["port_auth"] = val
+
+		val, err = v.PortNetwork.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["port_network"] = val
+
+		val, err = v.ReauthInterval.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["reauth_interval"] = val
+
+		val, err = v.RejectedNetwork.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["rejected_network"] = val
+
+		val, err = v.Speed.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["speed"] = val
+
+		val, err = v.StormControl.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["storm_control"] = val
+
+		val, err = v.StpEdge.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["stp_edge"] = val
+
+		val, err = v.VoipNetwork.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["voip_network"] = val
+
+		if err := tftypes.ValidateValue(objectType, vals); err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		return tftypes.NewValue(objectType, vals), nil
+	case attr.ValueStateNull:
+		return tftypes.NewValue(objectType, nil), nil
+	case attr.ValueStateUnknown:
+		return tftypes.NewValue(objectType, tftypes.UnknownValue), nil
+	default:
+		panic(fmt.Sprintf("unhandled Object state in ToTerraformValue: %s", v.state))
+	}
+}
+
+func (v PortUsagesValue) IsNull() bool {
+	return v.state == attr.ValueStateNull
+}
+
+func (v PortUsagesValue) IsUnknown() bool {
+	return v.state == attr.ValueStateUnknown
+}
+
+func (v PortUsagesValue) String() string {
+	return "PortUsagesValue"
+}
+
+func (v PortUsagesValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	var stormControl basetypes.ObjectValue
+
+	if v.StormControl.IsNull() {
+		stormControl = types.ObjectNull(
+			StormControlValue{}.AttributeTypes(ctx),
+		)
+	}
+
+	if v.StormControl.IsUnknown() {
+		stormControl = types.ObjectUnknown(
+			StormControlValue{}.AttributeTypes(ctx),
+		)
+	}
+
+	if !v.StormControl.IsNull() && !v.StormControl.IsUnknown() {
+		stormControl = types.ObjectValueMust(
+			StormControlValue{}.AttributeTypes(ctx),
+			v.StormControl.Attributes(),
+		)
+	}
+
+	dynamicVlanNetworksVal, d := types.ListValue(types.StringType, v.DynamicVlanNetworks.Elements())
+
+	diags.Append(d...)
+
+	if d.HasError() {
+		return types.ObjectUnknown(map[string]attr.Type{
+			"all_networks":                                    basetypes.BoolType{},
+			"allow_dhcpd":                                     basetypes.BoolType{},
+			"allow_multiple_supplicants":                      basetypes.BoolType{},
+			"bypass_auth_when_server_down":                    basetypes.BoolType{},
+			"bypass_auth_when_server_down_for_unkonwn_client": basetypes.BoolType{},
+			"description":                                     basetypes.StringType{},
+			"disable_autoneg":                                 basetypes.BoolType{},
+			"disabled":                                        basetypes.BoolType{},
+			"duplex":                                          basetypes.StringType{},
+			"dynamic_vlan_networks": basetypes.ListType{
+				ElemType: types.StringType,
+			},
+			"enable_mac_auth":   basetypes.BoolType{},
+			"enable_qos":        basetypes.BoolType{},
+			"guest_network":     basetypes.StringType{},
+			"mac_auth_only":     basetypes.BoolType{},
+			"mac_auth_protocol": basetypes.StringType{},
+			"mac_limit":         basetypes.Int64Type{},
+			"mode":              basetypes.StringType{},
+			"mtu":               basetypes.Int64Type{},
+			"networks": basetypes.ListType{
+				ElemType: types.StringType,
+			},
+			"persist_mac":      basetypes.BoolType{},
+			"poe_disabled":     basetypes.BoolType{},
+			"port_auth":        basetypes.StringType{},
+			"port_network":     basetypes.StringType{},
+			"reauth_interval":  basetypes.Int64Type{},
+			"rejected_network": basetypes.StringType{},
+			"speed":            basetypes.StringType{},
+			"storm_control": basetypes.ObjectType{
+				AttrTypes: StormControlValue{}.AttributeTypes(ctx),
+			},
+			"stp_edge":     basetypes.BoolType{},
+			"voip_network": basetypes.StringType{},
+		}), diags
+	}
+
+	networksVal, d := types.ListValue(types.StringType, v.Networks.Elements())
+
+	diags.Append(d...)
+
+	if d.HasError() {
+		return types.ObjectUnknown(map[string]attr.Type{
+			"all_networks":                                    basetypes.BoolType{},
+			"allow_dhcpd":                                     basetypes.BoolType{},
+			"allow_multiple_supplicants":                      basetypes.BoolType{},
+			"bypass_auth_when_server_down":                    basetypes.BoolType{},
+			"bypass_auth_when_server_down_for_unkonwn_client": basetypes.BoolType{},
+			"description":                                     basetypes.StringType{},
+			"disable_autoneg":                                 basetypes.BoolType{},
+			"disabled":                                        basetypes.BoolType{},
+			"duplex":                                          basetypes.StringType{},
+			"dynamic_vlan_networks": basetypes.ListType{
+				ElemType: types.StringType,
+			},
+			"enable_mac_auth":   basetypes.BoolType{},
+			"enable_qos":        basetypes.BoolType{},
+			"guest_network":     basetypes.StringType{},
+			"mac_auth_only":     basetypes.BoolType{},
+			"mac_auth_protocol": basetypes.StringType{},
+			"mac_limit":         basetypes.Int64Type{},
+			"mode":              basetypes.StringType{},
+			"mtu":               basetypes.Int64Type{},
+			"networks": basetypes.ListType{
+				ElemType: types.StringType,
+			},
+			"persist_mac":      basetypes.BoolType{},
+			"poe_disabled":     basetypes.BoolType{},
+			"port_auth":        basetypes.StringType{},
+			"port_network":     basetypes.StringType{},
+			"reauth_interval":  basetypes.Int64Type{},
+			"rejected_network": basetypes.StringType{},
+			"speed":            basetypes.StringType{},
+			"storm_control": basetypes.ObjectType{
+				AttrTypes: StormControlValue{}.AttributeTypes(ctx),
+			},
+			"stp_edge":     basetypes.BoolType{},
+			"voip_network": basetypes.StringType{},
+		}), diags
+	}
+
+	attributeTypes := map[string]attr.Type{
+		"all_networks":                                    basetypes.BoolType{},
+		"allow_dhcpd":                                     basetypes.BoolType{},
+		"allow_multiple_supplicants":                      basetypes.BoolType{},
+		"bypass_auth_when_server_down":                    basetypes.BoolType{},
+		"bypass_auth_when_server_down_for_unkonwn_client": basetypes.BoolType{},
+		"description":                                     basetypes.StringType{},
+		"disable_autoneg":                                 basetypes.BoolType{},
+		"disabled":                                        basetypes.BoolType{},
+		"duplex":                                          basetypes.StringType{},
+		"dynamic_vlan_networks": basetypes.ListType{
+			ElemType: types.StringType,
+		},
+		"enable_mac_auth":   basetypes.BoolType{},
+		"enable_qos":        basetypes.BoolType{},
+		"guest_network":     basetypes.StringType{},
+		"mac_auth_only":     basetypes.BoolType{},
+		"mac_auth_protocol": basetypes.StringType{},
+		"mac_limit":         basetypes.Int64Type{},
+		"mode":              basetypes.StringType{},
+		"mtu":               basetypes.Int64Type{},
+		"networks": basetypes.ListType{
+			ElemType: types.StringType,
+		},
+		"persist_mac":      basetypes.BoolType{},
+		"poe_disabled":     basetypes.BoolType{},
+		"port_auth":        basetypes.StringType{},
+		"port_network":     basetypes.StringType{},
+		"reauth_interval":  basetypes.Int64Type{},
+		"rejected_network": basetypes.StringType{},
+		"speed":            basetypes.StringType{},
+		"storm_control": basetypes.ObjectType{
+			AttrTypes: StormControlValue{}.AttributeTypes(ctx),
+		},
+		"stp_edge":     basetypes.BoolType{},
+		"voip_network": basetypes.StringType{},
+	}
+
+	if v.IsNull() {
+		return types.ObjectNull(attributeTypes), diags
+	}
+
+	if v.IsUnknown() {
+		return types.ObjectUnknown(attributeTypes), diags
+	}
+
+	objVal, diags := types.ObjectValue(
+		attributeTypes,
+		map[string]attr.Value{
+			"all_networks":                                    v.AllNetworks,
+			"allow_dhcpd":                                     v.AllowDhcpd,
+			"allow_multiple_supplicants":                      v.AllowMultipleSupplicants,
+			"bypass_auth_when_server_down":                    v.BypassAuthWhenServerDown,
+			"bypass_auth_when_server_down_for_unkonwn_client": v.BypassAuthWhenServerDownForUnkonwnClient,
+			"description":                                     v.Description,
+			"disable_autoneg":                                 v.DisableAutoneg,
+			"disabled":                                        v.Disabled,
+			"duplex":                                          v.Duplex,
+			"dynamic_vlan_networks":                           dynamicVlanNetworksVal,
+			"enable_mac_auth":                                 v.EnableMacAuth,
+			"enable_qos":                                      v.EnableQos,
+			"guest_network":                                   v.GuestNetwork,
+			"mac_auth_only":                                   v.MacAuthOnly,
+			"mac_auth_protocol":                               v.MacAuthProtocol,
+			"mac_limit":                                       v.MacLimit,
+			"mode":                                            v.Mode,
+			"mtu":                                             v.Mtu,
+			"networks":                                        networksVal,
+			"persist_mac":                                     v.PersistMac,
+			"poe_disabled":                                    v.PoeDisabled,
+			"port_auth":                                       v.PortAuth,
+			"port_network":                                    v.PortNetwork,
+			"reauth_interval":                                 v.ReauthInterval,
+			"rejected_network":                                v.RejectedNetwork,
+			"speed":                                           v.Speed,
+			"storm_control":                                   stormControl,
+			"stp_edge":                                        v.StpEdge,
+			"voip_network":                                    v.VoipNetwork,
+		})
+
+	return objVal, diags
+}
+
+func (v PortUsagesValue) Equal(o attr.Value) bool {
+	other, ok := o.(PortUsagesValue)
+
+	if !ok {
+		return false
+	}
+
+	if v.state != other.state {
+		return false
+	}
+
+	if v.state != attr.ValueStateKnown {
+		return true
+	}
+
+	if !v.AllNetworks.Equal(other.AllNetworks) {
+		return false
+	}
+
+	if !v.AllowDhcpd.Equal(other.AllowDhcpd) {
+		return false
+	}
+
+	if !v.AllowMultipleSupplicants.Equal(other.AllowMultipleSupplicants) {
+		return false
+	}
+
+	if !v.BypassAuthWhenServerDown.Equal(other.BypassAuthWhenServerDown) {
+		return false
+	}
+
+	if !v.BypassAuthWhenServerDownForUnkonwnClient.Equal(other.BypassAuthWhenServerDownForUnkonwnClient) {
+		return false
+	}
+
+	if !v.Description.Equal(other.Description) {
+		return false
+	}
+
+	if !v.DisableAutoneg.Equal(other.DisableAutoneg) {
+		return false
+	}
+
+	if !v.Disabled.Equal(other.Disabled) {
+		return false
+	}
+
+	if !v.Duplex.Equal(other.Duplex) {
+		return false
+	}
+
+	if !v.DynamicVlanNetworks.Equal(other.DynamicVlanNetworks) {
+		return false
+	}
+
+	if !v.EnableMacAuth.Equal(other.EnableMacAuth) {
+		return false
+	}
+
+	if !v.EnableQos.Equal(other.EnableQos) {
+		return false
+	}
+
+	if !v.GuestNetwork.Equal(other.GuestNetwork) {
+		return false
+	}
+
+	if !v.MacAuthOnly.Equal(other.MacAuthOnly) {
+		return false
+	}
+
+	if !v.MacAuthProtocol.Equal(other.MacAuthProtocol) {
+		return false
+	}
+
+	if !v.MacLimit.Equal(other.MacLimit) {
+		return false
+	}
+
+	if !v.Mode.Equal(other.Mode) {
+		return false
+	}
+
+	if !v.Mtu.Equal(other.Mtu) {
+		return false
+	}
+
+	if !v.Networks.Equal(other.Networks) {
+		return false
+	}
+
+	if !v.PersistMac.Equal(other.PersistMac) {
+		return false
+	}
+
+	if !v.PoeDisabled.Equal(other.PoeDisabled) {
+		return false
+	}
+
+	if !v.PortAuth.Equal(other.PortAuth) {
+		return false
+	}
+
+	if !v.PortNetwork.Equal(other.PortNetwork) {
+		return false
+	}
+
+	if !v.ReauthInterval.Equal(other.ReauthInterval) {
+		return false
+	}
+
+	if !v.RejectedNetwork.Equal(other.RejectedNetwork) {
+		return false
+	}
+
+	if !v.Speed.Equal(other.Speed) {
+		return false
+	}
+
+	if !v.StormControl.Equal(other.StormControl) {
+		return false
+	}
+
+	if !v.StpEdge.Equal(other.StpEdge) {
+		return false
+	}
+
+	if !v.VoipNetwork.Equal(other.VoipNetwork) {
+		return false
+	}
+
+	return true
+}
+
+func (v PortUsagesValue) Type(ctx context.Context) attr.Type {
+	return PortUsagesType{
+		basetypes.ObjectType{
+			AttrTypes: v.AttributeTypes(ctx),
+		},
+	}
+}
+
+func (v PortUsagesValue) AttributeTypes(ctx context.Context) map[string]attr.Type {
+	return map[string]attr.Type{
+		"all_networks":                                    basetypes.BoolType{},
+		"allow_dhcpd":                                     basetypes.BoolType{},
+		"allow_multiple_supplicants":                      basetypes.BoolType{},
+		"bypass_auth_when_server_down":                    basetypes.BoolType{},
+		"bypass_auth_when_server_down_for_unkonwn_client": basetypes.BoolType{},
+		"description":                                     basetypes.StringType{},
+		"disable_autoneg":                                 basetypes.BoolType{},
+		"disabled":                                        basetypes.BoolType{},
+		"duplex":                                          basetypes.StringType{},
+		"dynamic_vlan_networks": basetypes.ListType{
+			ElemType: types.StringType,
+		},
+		"enable_mac_auth":   basetypes.BoolType{},
+		"enable_qos":        basetypes.BoolType{},
+		"guest_network":     basetypes.StringType{},
+		"mac_auth_only":     basetypes.BoolType{},
+		"mac_auth_protocol": basetypes.StringType{},
+		"mac_limit":         basetypes.Int64Type{},
+		"mode":              basetypes.StringType{},
+		"mtu":               basetypes.Int64Type{},
+		"networks": basetypes.ListType{
+			ElemType: types.StringType,
+		},
+		"persist_mac":      basetypes.BoolType{},
+		"poe_disabled":     basetypes.BoolType{},
+		"port_auth":        basetypes.StringType{},
+		"port_network":     basetypes.StringType{},
+		"reauth_interval":  basetypes.Int64Type{},
+		"rejected_network": basetypes.StringType{},
+		"speed":            basetypes.StringType{},
+		"storm_control": basetypes.ObjectType{
+			AttrTypes: StormControlValue{}.AttributeTypes(ctx),
+		},
+		"stp_edge":     basetypes.BoolType{},
+		"voip_network": basetypes.StringType{},
+	}
+}
+
+var _ basetypes.ObjectTypable = StormControlType{}
+
+type StormControlType struct {
+	basetypes.ObjectType
+}
+
+func (t StormControlType) Equal(o attr.Type) bool {
+	other, ok := o.(StormControlType)
+
+	if !ok {
+		return false
+	}
+
+	return t.ObjectType.Equal(other.ObjectType)
+}
+
+func (t StormControlType) String() string {
+	return "StormControlType"
+}
+
+func (t StormControlType) ValueFromObject(ctx context.Context, in basetypes.ObjectValue) (basetypes.ObjectValuable, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	attributes := in.Attributes()
+
+	noBroadcastAttribute, ok := attributes["no_broadcast"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`no_broadcast is missing from object`)
+
+		return nil, diags
+	}
+
+	noBroadcastVal, ok := noBroadcastAttribute.(basetypes.BoolValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`no_broadcast expected to be basetypes.BoolValue, was: %T`, noBroadcastAttribute))
+	}
+
+	noMulticastAttribute, ok := attributes["no_multicast"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`no_multicast is missing from object`)
+
+		return nil, diags
+	}
+
+	noMulticastVal, ok := noMulticastAttribute.(basetypes.BoolValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`no_multicast expected to be basetypes.BoolValue, was: %T`, noMulticastAttribute))
+	}
+
+	noRegisteredMulticastAttribute, ok := attributes["no_registered_multicast"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`no_registered_multicast is missing from object`)
+
+		return nil, diags
+	}
+
+	noRegisteredMulticastVal, ok := noRegisteredMulticastAttribute.(basetypes.BoolValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`no_registered_multicast expected to be basetypes.BoolValue, was: %T`, noRegisteredMulticastAttribute))
+	}
+
+	noUnknownUnicastAttribute, ok := attributes["no_unknown_unicast"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`no_unknown_unicast is missing from object`)
+
+		return nil, diags
+	}
+
+	noUnknownUnicastVal, ok := noUnknownUnicastAttribute.(basetypes.BoolValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`no_unknown_unicast expected to be basetypes.BoolValue, was: %T`, noUnknownUnicastAttribute))
+	}
+
+	percentageAttribute, ok := attributes["percentage"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`percentage is missing from object`)
+
+		return nil, diags
+	}
+
+	percentageVal, ok := percentageAttribute.(basetypes.Int64Value)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`percentage expected to be basetypes.Int64Value, was: %T`, percentageAttribute))
+	}
+
+	if diags.HasError() {
+		return nil, diags
+	}
+
+	return StormControlValue{
+		NoBroadcast:           noBroadcastVal,
+		NoMulticast:           noMulticastVal,
+		NoRegisteredMulticast: noRegisteredMulticastVal,
+		NoUnknownUnicast:      noUnknownUnicastVal,
+		Percentage:            percentageVal,
+		state:                 attr.ValueStateKnown,
+	}, diags
+}
+
+func NewStormControlValueNull() StormControlValue {
+	return StormControlValue{
+		state: attr.ValueStateNull,
+	}
+}
+
+func NewStormControlValueUnknown() StormControlValue {
+	return StormControlValue{
+		state: attr.ValueStateUnknown,
+	}
+}
+
+func NewStormControlValue(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) (StormControlValue, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	// Reference: https://github.com/hashicorp/terraform-plugin-framework/issues/521
+	ctx := context.Background()
+
+	for name, attributeType := range attributeTypes {
+		attribute, ok := attributes[name]
+
+		if !ok {
+			diags.AddError(
+				"Missing StormControlValue Attribute Value",
+				"While creating a StormControlValue value, a missing attribute value was detected. "+
+					"A StormControlValue must contain values for all attributes, even if null or unknown. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("StormControlValue Attribute Name (%s) Expected Type: %s", name, attributeType.String()),
+			)
+
+			continue
+		}
+
+		if !attributeType.Equal(attribute.Type(ctx)) {
+			diags.AddError(
+				"Invalid StormControlValue Attribute Type",
+				"While creating a StormControlValue value, an invalid attribute value was detected. "+
+					"A StormControlValue must use a matching attribute type for the value. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("StormControlValue Attribute Name (%s) Expected Type: %s\n", name, attributeType.String())+
+					fmt.Sprintf("StormControlValue Attribute Name (%s) Given Type: %s", name, attribute.Type(ctx)),
+			)
+		}
+	}
+
+	for name := range attributes {
+		_, ok := attributeTypes[name]
+
+		if !ok {
+			diags.AddError(
+				"Extra StormControlValue Attribute Value",
+				"While creating a StormControlValue value, an extra attribute value was detected. "+
+					"A StormControlValue must not contain values beyond the expected attribute types. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("Extra StormControlValue Attribute Name: %s", name),
+			)
+		}
+	}
+
+	if diags.HasError() {
+		return NewStormControlValueUnknown(), diags
+	}
+
+	noBroadcastAttribute, ok := attributes["no_broadcast"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`no_broadcast is missing from object`)
+
+		return NewStormControlValueUnknown(), diags
+	}
+
+	noBroadcastVal, ok := noBroadcastAttribute.(basetypes.BoolValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`no_broadcast expected to be basetypes.BoolValue, was: %T`, noBroadcastAttribute))
+	}
+
+	noMulticastAttribute, ok := attributes["no_multicast"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`no_multicast is missing from object`)
+
+		return NewStormControlValueUnknown(), diags
+	}
+
+	noMulticastVal, ok := noMulticastAttribute.(basetypes.BoolValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`no_multicast expected to be basetypes.BoolValue, was: %T`, noMulticastAttribute))
+	}
+
+	noRegisteredMulticastAttribute, ok := attributes["no_registered_multicast"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`no_registered_multicast is missing from object`)
+
+		return NewStormControlValueUnknown(), diags
+	}
+
+	noRegisteredMulticastVal, ok := noRegisteredMulticastAttribute.(basetypes.BoolValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`no_registered_multicast expected to be basetypes.BoolValue, was: %T`, noRegisteredMulticastAttribute))
+	}
+
+	noUnknownUnicastAttribute, ok := attributes["no_unknown_unicast"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`no_unknown_unicast is missing from object`)
+
+		return NewStormControlValueUnknown(), diags
+	}
+
+	noUnknownUnicastVal, ok := noUnknownUnicastAttribute.(basetypes.BoolValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`no_unknown_unicast expected to be basetypes.BoolValue, was: %T`, noUnknownUnicastAttribute))
+	}
+
+	percentageAttribute, ok := attributes["percentage"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`percentage is missing from object`)
+
+		return NewStormControlValueUnknown(), diags
+	}
+
+	percentageVal, ok := percentageAttribute.(basetypes.Int64Value)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`percentage expected to be basetypes.Int64Value, was: %T`, percentageAttribute))
+	}
+
+	if diags.HasError() {
+		return NewStormControlValueUnknown(), diags
+	}
+
+	return StormControlValue{
+		NoBroadcast:           noBroadcastVal,
+		NoMulticast:           noMulticastVal,
+		NoRegisteredMulticast: noRegisteredMulticastVal,
+		NoUnknownUnicast:      noUnknownUnicastVal,
+		Percentage:            percentageVal,
+		state:                 attr.ValueStateKnown,
+	}, diags
+}
+
+func NewStormControlValueMust(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) StormControlValue {
+	object, diags := NewStormControlValue(attributeTypes, attributes)
+
+	if diags.HasError() {
+		// This could potentially be added to the diag package.
+		diagsStrings := make([]string, 0, len(diags))
+
+		for _, diagnostic := range diags {
+			diagsStrings = append(diagsStrings, fmt.Sprintf(
+				"%s | %s | %s",
+				diagnostic.Severity(),
+				diagnostic.Summary(),
+				diagnostic.Detail()))
+		}
+
+		panic("NewStormControlValueMust received error(s): " + strings.Join(diagsStrings, "\n"))
+	}
+
+	return object
+}
+
+func (t StormControlType) ValueFromTerraform(ctx context.Context, in tftypes.Value) (attr.Value, error) {
+	if in.Type() == nil {
+		return NewStormControlValueNull(), nil
+	}
+
+	if !in.Type().Equal(t.TerraformType(ctx)) {
+		return nil, fmt.Errorf("expected %s, got %s", t.TerraformType(ctx), in.Type())
+	}
+
+	if !in.IsKnown() {
+		return NewStormControlValueUnknown(), nil
+	}
+
+	if in.IsNull() {
+		return NewStormControlValueNull(), nil
+	}
+
+	attributes := map[string]attr.Value{}
+
+	val := map[string]tftypes.Value{}
+
+	err := in.As(&val)
+
+	if err != nil {
+		return nil, err
+	}
+
+	for k, v := range val {
+		a, err := t.AttrTypes[k].ValueFromTerraform(ctx, v)
+
+		if err != nil {
+			return nil, err
+		}
+
+		attributes[k] = a
+	}
+
+	return NewStormControlValueMust(StormControlValue{}.AttributeTypes(ctx), attributes), nil
+}
+
+func (t StormControlType) ValueType(ctx context.Context) attr.Value {
+	return StormControlValue{}
+}
+
+var _ basetypes.ObjectValuable = StormControlValue{}
+
+type StormControlValue struct {
+	NoBroadcast           basetypes.BoolValue  `tfsdk:"no_broadcast"`
+	NoMulticast           basetypes.BoolValue  `tfsdk:"no_multicast"`
+	NoRegisteredMulticast basetypes.BoolValue  `tfsdk:"no_registered_multicast"`
+	NoUnknownUnicast      basetypes.BoolValue  `tfsdk:"no_unknown_unicast"`
+	Percentage            basetypes.Int64Value `tfsdk:"percentage"`
+	state                 attr.ValueState
+}
+
+func (v StormControlValue) ToTerraformValue(ctx context.Context) (tftypes.Value, error) {
+	attrTypes := make(map[string]tftypes.Type, 5)
+
+	var val tftypes.Value
+	var err error
+
+	attrTypes["no_broadcast"] = basetypes.BoolType{}.TerraformType(ctx)
+	attrTypes["no_multicast"] = basetypes.BoolType{}.TerraformType(ctx)
+	attrTypes["no_registered_multicast"] = basetypes.BoolType{}.TerraformType(ctx)
+	attrTypes["no_unknown_unicast"] = basetypes.BoolType{}.TerraformType(ctx)
+	attrTypes["percentage"] = basetypes.Int64Type{}.TerraformType(ctx)
+
+	objectType := tftypes.Object{AttributeTypes: attrTypes}
+
+	switch v.state {
+	case attr.ValueStateKnown:
+		vals := make(map[string]tftypes.Value, 5)
+
+		val, err = v.NoBroadcast.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["no_broadcast"] = val
+
+		val, err = v.NoMulticast.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["no_multicast"] = val
+
+		val, err = v.NoRegisteredMulticast.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["no_registered_multicast"] = val
+
+		val, err = v.NoUnknownUnicast.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["no_unknown_unicast"] = val
+
+		val, err = v.Percentage.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["percentage"] = val
+
+		if err := tftypes.ValidateValue(objectType, vals); err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		return tftypes.NewValue(objectType, vals), nil
+	case attr.ValueStateNull:
+		return tftypes.NewValue(objectType, nil), nil
+	case attr.ValueStateUnknown:
+		return tftypes.NewValue(objectType, tftypes.UnknownValue), nil
+	default:
+		panic(fmt.Sprintf("unhandled Object state in ToTerraformValue: %s", v.state))
+	}
+}
+
+func (v StormControlValue) IsNull() bool {
+	return v.state == attr.ValueStateNull
+}
+
+func (v StormControlValue) IsUnknown() bool {
+	return v.state == attr.ValueStateUnknown
+}
+
+func (v StormControlValue) String() string {
+	return "StormControlValue"
+}
+
+func (v StormControlValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	attributeTypes := map[string]attr.Type{
+		"no_broadcast":            basetypes.BoolType{},
+		"no_multicast":            basetypes.BoolType{},
+		"no_registered_multicast": basetypes.BoolType{},
+		"no_unknown_unicast":      basetypes.BoolType{},
+		"percentage":              basetypes.Int64Type{},
+	}
+
+	if v.IsNull() {
+		return types.ObjectNull(attributeTypes), diags
+	}
+
+	if v.IsUnknown() {
+		return types.ObjectUnknown(attributeTypes), diags
+	}
+
+	objVal, diags := types.ObjectValue(
+		attributeTypes,
+		map[string]attr.Value{
+			"no_broadcast":            v.NoBroadcast,
+			"no_multicast":            v.NoMulticast,
+			"no_registered_multicast": v.NoRegisteredMulticast,
+			"no_unknown_unicast":      v.NoUnknownUnicast,
+			"percentage":              v.Percentage,
+		})
+
+	return objVal, diags
+}
+
+func (v StormControlValue) Equal(o attr.Value) bool {
+	other, ok := o.(StormControlValue)
+
+	if !ok {
+		return false
+	}
+
+	if v.state != other.state {
+		return false
+	}
+
+	if v.state != attr.ValueStateKnown {
+		return true
+	}
+
+	if !v.NoBroadcast.Equal(other.NoBroadcast) {
+		return false
+	}
+
+	if !v.NoMulticast.Equal(other.NoMulticast) {
+		return false
+	}
+
+	if !v.NoRegisteredMulticast.Equal(other.NoRegisteredMulticast) {
+		return false
+	}
+
+	if !v.NoUnknownUnicast.Equal(other.NoUnknownUnicast) {
+		return false
+	}
+
+	if !v.Percentage.Equal(other.Percentage) {
+		return false
+	}
+
+	return true
+}
+
+func (v StormControlValue) Type(ctx context.Context) attr.Type {
+	return StormControlType{
+		basetypes.ObjectType{
+			AttrTypes: v.AttributeTypes(ctx),
+		},
+	}
+}
+
+func (v StormControlValue) AttributeTypes(ctx context.Context) map[string]attr.Type {
+	return map[string]attr.Type{
+		"no_broadcast":            basetypes.BoolType{},
+		"no_multicast":            basetypes.BoolType{},
+		"no_registered_multicast": basetypes.BoolType{},
+		"no_unknown_unicast":      basetypes.BoolType{},
+		"percentage":              basetypes.Int64Type{},
 	}
 }
 

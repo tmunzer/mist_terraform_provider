@@ -40,7 +40,8 @@ type NetworkTemplate struct {
 	Networks *map[string]NetworkTemplateNetwork `json:"networks,omitempty"`
 	NtpServers []string `json:"ntp_servers,omitempty"`
 	OrgId *string `json:"org_id,omitempty"`
-	PortUsages *NetworkTemplatePortUsages `json:"port_usages,omitempty"`
+	// Property key is the port profile name
+	PortUsages *map[string]JunosPortUsages `json:"port_usages,omitempty"`
 	RadiusConfig *JunosRadiusConfig `json:"radius_config,omitempty"`
 	RemoteSyslog *RemoteSyslog `json:"remote_syslog,omitempty"`
 	SnmpConfig *JunosSnmpConfig `json:"snmp_config,omitempty"`
@@ -584,9 +585,9 @@ func (o *NetworkTemplate) SetOrgId(v string) {
 }
 
 // GetPortUsages returns the PortUsages field value if set, zero value otherwise.
-func (o *NetworkTemplate) GetPortUsages() NetworkTemplatePortUsages {
+func (o *NetworkTemplate) GetPortUsages() map[string]JunosPortUsages {
 	if o == nil || IsNil(o.PortUsages) {
-		var ret NetworkTemplatePortUsages
+		var ret map[string]JunosPortUsages
 		return ret
 	}
 	return *o.PortUsages
@@ -594,7 +595,7 @@ func (o *NetworkTemplate) GetPortUsages() NetworkTemplatePortUsages {
 
 // GetPortUsagesOk returns a tuple with the PortUsages field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *NetworkTemplate) GetPortUsagesOk() (*NetworkTemplatePortUsages, bool) {
+func (o *NetworkTemplate) GetPortUsagesOk() (*map[string]JunosPortUsages, bool) {
 	if o == nil || IsNil(o.PortUsages) {
 		return nil, false
 	}
@@ -610,8 +611,8 @@ func (o *NetworkTemplate) HasPortUsages() bool {
 	return false
 }
 
-// SetPortUsages gets a reference to the given NetworkTemplatePortUsages and assigns it to the PortUsages field.
-func (o *NetworkTemplate) SetPortUsages(v NetworkTemplatePortUsages) {
+// SetPortUsages gets a reference to the given map[string]JunosPortUsages and assigns it to the PortUsages field.
+func (o *NetworkTemplate) SetPortUsages(v map[string]JunosPortUsages) {
 	o.PortUsages = &v
 }
 

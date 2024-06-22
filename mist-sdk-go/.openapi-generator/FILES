@@ -53,8 +53,6 @@ docs/DeviceTypeWithAll.md
 docs/Dot11Band.md
 docs/Dot11Bandwidth.md
 docs/Dot11Proto.md
-docs/DynamicPortUsage.md
-docs/DynamicPortUsageRule.md
 docs/Gateway.md
 docs/GatewayClusterForm.md
 docs/GatewayClusterFormNode.md
@@ -187,7 +185,6 @@ docs/NetworkStaticNatValue.md
 docs/NetworkTemplate.md
 docs/NetworkTemplateMistNac.md
 docs/NetworkTemplateNetwork.md
-docs/NetworkTemplatePortUsages.md
 docs/NetworkTemplateVrfConfig.md
 docs/NetworkTemplateVrfInstancesValue.md
 docs/NetworkTenantsValue.md
@@ -268,7 +265,6 @@ docs/SiteSettingGatewayMgmtAutoSignatureUpdate.md
 docs/SiteSettingMxedge.md
 docs/SiteSettingPaloaltoNetworkGateway.md
 docs/SiteSettingPaloaltoNetworks.md
-docs/SiteSettingPortUsages.md
 docs/SiteSettingRtsa.md
 docs/SiteSettingSkyatp.md
 docs/SiteSettingSrxApp.md
@@ -392,8 +388,6 @@ model_device_type_with_all.go
 model_dot11_band.go
 model_dot11_bandwidth.go
 model_dot11_proto.go
-model_dynamic_port_usage.go
-model_dynamic_port_usage_rule.go
 model_gateway.go
 model_gateway_cluster_form.go
 model_gateway_cluster_form_node.go
@@ -525,7 +519,6 @@ model_network_static_nat_value.go
 model_network_template.go
 model_network_template_mist_nac.go
 model_network_template_network.go
-model_network_template_port_usages.go
 model_network_template_vrf_config.go
 model_network_template_vrf_instances_value.go
 model_network_tenants_value.go
@@ -598,7 +591,6 @@ model_site_setting_gateway_mgmt_auto_signature_update.go
 model_site_setting_mxedge.go
 model_site_setting_paloalto_network_gateway.go
 model_site_setting_paloalto_networks.go
-model_site_setting_port_usages.go
 model_site_setting_rtsa.go
 model_site_setting_skyatp.go
 model_site_setting_srx_app.go

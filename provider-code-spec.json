@@ -133,6 +133,393 @@
 						}
 					},
 					{
+						"name": "port_usages",
+						"map_nested": {
+							"computed_optional_required": "computed_optional",
+							"nested_object": {
+								"attributes": [
+									{
+										"name": "all_networks",
+										"bool": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": false
+											},
+											"description": "if `mode`==`trunk`, whether to trunk all network/vlans"
+										}
+									},
+									{
+										"name": "allow_dhcpd",
+										"bool": {
+											"computed_optional_required": "computed_optional",
+											"description": "if DHCP snooping is enabled, whether DHCP server is allowed on the interfaces with. All the interfaces from port configs using this port usage are effected. Please notice that allow_dhcpd is a tri-state.\n\nWhen it is not defined, it means using the system’s default setting which depends on whether the port is a access or trunk port."
+										}
+									},
+									{
+										"name": "allow_multiple_supplicants",
+										"bool": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": false
+											}
+										}
+									},
+									{
+										"name": "bypass_auth_when_server_down",
+										"bool": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": false
+											},
+											"description": "if `port_auth`==`dot1x`, bypass auth for known clients if set to true when RADIUS server is down"
+										}
+									},
+									{
+										"name": "bypass_auth_when_server_down_for_unkonwn_client",
+										"bool": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": false
+											},
+											"description": "if `port_auth`=`dot1x`, bypass auth for all (including unknown clients) if set to true when RADIUS server is down"
+										}
+									},
+									{
+										"name": "description",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"description": "description"
+										}
+									},
+									{
+										"name": "disable_autoneg",
+										"bool": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": false
+											},
+											"description": "if speed and duplex are specified, whether to disable autonegotiation"
+										}
+									},
+									{
+										"name": "disabled",
+										"bool": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": false
+											},
+											"description": "whether the port is disabled"
+										}
+									},
+									{
+										"name": "duplex",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": "auto"
+											},
+											"description": "link connection mode, choices are auto (default), full, and half",
+											"validators": [
+												{
+													"custom": {
+														"imports": [
+															{
+																"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+															}
+														],
+														"schema_definition": "stringvalidator.OneOf(\n\"half\",\n\"full\",\n\"auto\",\n)"
+													}
+												}
+											]
+										}
+									},
+									{
+										"name": "dynamic_vlan_networks",
+										"list": {
+											"computed_optional_required": "computed_optional",
+											"element_type": {
+												"string": {}
+											},
+											"description": "if dynamic vlan is used, specify the possible networks/vlans RADIUS can return"
+										}
+									},
+									{
+										"name": "enable_mac_auth",
+										"bool": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": false
+											},
+											"description": "if `port_auth`==`dot1x`, whether to enable MAC Auth"
+										}
+									},
+									{
+										"name": "enable_qos",
+										"bool": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": false
+											}
+										}
+									},
+									{
+										"name": "guest_network",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"description": "if `port_auth`==`dot1x`, which network to put the device into if the device cannot do dot1x. default is null (i.e. not allowed)"
+										}
+									},
+									{
+										"name": "mac_auth_only",
+										"bool": {
+											"computed_optional_required": "computed_optional",
+											"description": "only effect once `enable_mac_auth`==`true`"
+										}
+									},
+									{
+										"name": "mac_auth_protocol",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": "eap-md5"
+											},
+											"description": "if `enable_mac_auth` ==`true`. This type is ignored if mist_nac is enabled.",
+											"validators": [
+												{
+													"custom": {
+														"imports": [
+															{
+																"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+															}
+														],
+														"schema_definition": "stringvalidator.OneOf(\n\"pap\",\n\"eap-peap\",\n\"eap-md5\",\n)"
+													}
+												}
+											]
+										}
+									},
+									{
+										"name": "mac_limit",
+										"int64": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": 0
+											},
+											"description": "max number of mac addresses, default is 0 for unlimited, otherwise range is 1 or higher, with upper bound constrained by platform",
+											"validators": [
+												{
+													"custom": {
+														"imports": [
+															{
+																"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+															}
+														],
+														"schema_definition": "int64validator.AtLeast(0)"
+													}
+												}
+											]
+										}
+									},
+									{
+										"name": "mode",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"description": "access (default) / trunk",
+											"validators": [
+												{
+													"custom": {
+														"imports": [
+															{
+																"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+															}
+														],
+														"schema_definition": "stringvalidator.OneOf(\n\"access\",\n\"trunk\",\n\"inet\",\n\"wan\",\n)"
+													}
+												}
+											]
+										}
+									},
+									{
+										"name": "mtu",
+										"int64": {
+											"computed_optional_required": "computed_optional",
+											"description": "media maximum transmission unit (MTU) is the largest data unit that can be forwarded without fragmentation. The default value is 1514."
+										}
+									},
+									{
+										"name": "networks",
+										"list": {
+											"computed_optional_required": "computed_optional",
+											"element_type": {
+												"string": {}
+											},
+											"description": "if `mode`==`trunk`, the list of network/vlans"
+										}
+									},
+									{
+										"name": "persist_mac",
+										"bool": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": false
+											},
+											"description": "if `mode`==`access` and `port_auth`!=`dot1x`, whether the port should retain dynamically learned MAC addresses"
+										}
+									},
+									{
+										"name": "poe_disabled",
+										"bool": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": false
+											},
+											"description": "whether PoE capabilities are disabled for a port"
+										}
+									},
+									{
+										"name": "port_auth",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"description": "if dot1x is desired, set to dot1x"
+										}
+									},
+									{
+										"name": "port_network",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"description": "native network/vlan for untagged traffic"
+										}
+									},
+									{
+										"name": "reauth_interval",
+										"int64": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": 3600
+											},
+											"description": "if `port_auth`=`dot1x`, reauthentication interval range",
+											"validators": [
+												{
+													"custom": {
+														"imports": [
+															{
+																"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+															}
+														],
+														"schema_definition": "int64validator.Between(10, 65535)"
+													}
+												}
+											]
+										}
+									},
+									{
+										"name": "rejected_network",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"description": "if `port_auth`==`dot1x`, when radius server reject / fails"
+										}
+									},
+									{
+										"name": "speed",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"description": "speed, default is auto to automatically negotiate speed"
+										}
+									},
+									{
+										"name": "storm_control",
+										"single_nested": {
+											"computed_optional_required": "computed_optional",
+											"attributes": [
+												{
+													"name": "no_broadcast",
+													"bool": {
+														"computed_optional_required": "computed_optional",
+														"default": {
+															"static": false
+														},
+														"description": "whether to disable storm control on broadcast traffic"
+													}
+												},
+												{
+													"name": "no_multicast",
+													"bool": {
+														"computed_optional_required": "computed_optional",
+														"default": {
+															"static": false
+														},
+														"description": "whether to disable storm control on multicast traffic"
+													}
+												},
+												{
+													"name": "no_registered_multicast",
+													"bool": {
+														"computed_optional_required": "computed_optional",
+														"default": {
+															"static": false
+														},
+														"description": "whether to disable storm control on registered multicast traffic"
+													}
+												},
+												{
+													"name": "no_unknown_unicast",
+													"bool": {
+														"computed_optional_required": "computed_optional",
+														"default": {
+															"static": false
+														},
+														"description": "whether to disable storm control on unknown unicast traffic"
+													}
+												},
+												{
+													"name": "percentage",
+													"int64": {
+														"computed_optional_required": "computed_optional",
+														"default": {
+															"static": 80
+														},
+														"description": "bandwidth-percentage, configures the storm control level as a percentage of the available bandwidth",
+														"validators": [
+															{
+																"custom": {
+																	"imports": [
+																		{
+																			"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+																		}
+																	],
+																	"schema_definition": "int64validator.Between(0, 100)"
+																}
+															}
+														]
+													}
+												}
+											],
+											"description": "Switch storm control"
+										}
+									},
+									{
+										"name": "stp_edge",
+										"bool": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": false
+											},
+											"description": "when enabled, the port is not expected to receive BPDU frames"
+										}
+									},
+									{
+										"name": "voip_network",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"description": "network/vlan for voip traffic, must also set port_network. to authenticate device, set port_auth"
+										}
+									}
+								]
+							},
+							"description": "Property key is the port profile name"
+						}
+					},
+					{
 						"name": "radius_config",
 						"single_nested": {
 							"computed_optional_required": "computed_optional",

@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **AclPolicies** | Pointer to [**[]JunosAclPolicies**](JunosAclPolicies.md) |  | [optional] 
-**AclTags** | Pointer to [**SwitchAclTags**](SwitchAclTags.md) |  | [optional] [default to {}]
+**AclTags** | Pointer to [**SwitchAclTags**](SwitchAclTags.md) |  | [optional] 
 **AdditionalConfigCmds** | Pointer to **[]string** |  | [optional] [default to []]
 **CreatedTime** | Pointer to **float32** |  | [optional] [readonly] 
 **DeviceprofileId** | Pointer to **string** |  | [optional] 

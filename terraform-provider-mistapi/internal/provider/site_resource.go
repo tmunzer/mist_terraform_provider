@@ -3,15 +3,11 @@ package provider
 import (
 	"context"
 	"fmt"
-	"math/big"
-	"strings"
+
 	mistsdkgo "terraform-provider-mistapi/github.com/tmunzer/mist-sdk-go"
 	"terraform-provider-mistapi/internal/resource_site"
 
-	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
-	"github.com/hashicorp/terraform-plugin-framework/types"
-	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 
@@ -55,7 +51,7 @@ func (r *siteResource) Schema(ctx context.Context, req resource.SchemaRequest, r
 
 func (r *siteResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
 	tflog.Info(ctx, "Starting Site Create")
-	var plan resource_site.SiteModel
+	var plan, state resource_site.SiteModel
 
 	diags := req.Plan.Get(ctx, &plan)
 	resp.Diagnostics.Append(diags...)
@@ -63,7 +59,12 @@ func (r *siteResource) Create(ctx context.Context, req resource.CreateRequest, r
 		return
 	}
 
-	site, orgId := processSitePlan(ctx, &plan)
+	site, orgId, diags := resource_site.TerraformToSdk(ctx, &plan)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
 	tflog.Info(ctx, "Starting Site Create for Org "+orgId)
 	data, _, err := r.client.OrgsSitesAPI.CreateOrgSite(ctx, orgId).Site(site).Execute()
 
@@ -75,7 +76,11 @@ func (r *siteResource) Create(ctx context.Context, req resource.CreateRequest, r
 		return
 	}
 
-	state := processSiteData(ctx, data)
+	state, diags = resource_site.SdkToTerraform(ctx, data)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
 
 	diags = resp.State.Set(ctx, state)
 	resp.Diagnostics.Append(diags...)
@@ -103,7 +108,11 @@ func (r *siteResource) Read(ctx context.Context, req resource.ReadRequest, resp 
 		)
 		return
 	}
-	state = processSiteData(ctx, data)
+	state, diags = resource_site.SdkToTerraform(ctx, data)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
 	// Set refreshed state
 	diags = resp.State.Set(ctx, &state)
 	resp.Diagnostics.Append(diags...)
@@ -128,7 +137,12 @@ func (r *siteResource) Update(ctx context.Context, req resource.UpdateRequest, r
 	}
 
 	siteId := state.Id.ValueString()
-	site, _ := processSitePlan(ctx, &plan)
+	site, _, diags := resource_site.TerraformToSdk(ctx, &plan)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
 	tflog.Info(ctx, "Starting Site Update for Site "+siteId)
 	data, _, err := r.client.SitesAPI.UpdateSiteInfo(ctx, siteId).Site(site).Execute()
 
@@ -140,7 +154,11 @@ func (r *siteResource) Update(ctx context.Context, req resource.UpdateRequest, r
 		return
 	}
 
-	state = processSiteData(ctx, data)
+	state, diags = resource_site.SdkToTerraform(ctx, data)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
 
 	diags = resp.State.Set(ctx, state)
 	resp.Diagnostics.Append(diags...)
@@ -168,97 +186,4 @@ func (r *siteResource) Delete(ctx context.Context, req resource.DeleteRequest, r
 		)
 		return
 	}
-}
-
-func processSiteData(ctx context.Context, data *mistsdkgo.Site) resource_site.SiteModel {
-	var state resource_site.SiteModel
-
-	state.Id = types.StringValue(data.GetId())
-	state.OrgId = types.StringValue(data.GetOrgId())
-	state.Name = types.StringValue(data.GetName())
-	state.Address = types.StringValue(data.GetAddress())
-
-	lat := types.NumberValue(big.NewFloat(data.Latlng.GetLat()))
-	lng := types.NumberValue(big.NewFloat(data.Latlng.GetLng()))
-	t := make(map[string]attr.Type)
-	t["lat"] = basetypes.NumberType{}
-	t["lng"] = basetypes.NumberType{}
-	v := make(map[string]attr.Value)
-	v["lat"] = lat
-	v["lng"] = lng
-	state.Latlng, _ = resource_site.NewLatlngValue(t, v)
-
-	state.CountryCode = types.StringValue(data.GetCountryCode())
-	state.Timezone = types.StringValue(data.GetTimezone())
-	state.Notes = types.StringValue(data.GetNotes())
-
-	state.AlarmtemplateId = types.StringValue(data.GetAlarmtemplateId())
-	state.AptemplateId = types.StringValue(data.GetAptemplateId())
-	state.GatewaytemplateId = types.StringValue(data.GetGatewaytemplateId())
-	state.NetworktemplateId = types.StringValue(data.GetNetworktemplateId())
-	state.RftemplateId = types.StringValue(data.GetRftemplateId())
-	state.SecpolicyId = types.StringValue(data.GetSecpolicyId())
-	state.SitetemplateId = types.StringValue(data.GetSitetemplateId())
-
-	var items []attr.Value
-	var items_type attr.Type = basetypes.StringType{}
-	for _, item := range data.GetSitegroupIds() {
-		value := strings.ReplaceAll(item, "\"", "")
-		items = append(items, types.StringValue(value))
-	}
-	state.SitegroupIds, _ = types.ListValue(items_type, items)
-	return state
-}
-
-func processSitePlan(ctx context.Context, plan *resource_site.SiteModel) (mistsdkgo.Site, string) {
-	data := *mistsdkgo.NewSite(plan.Name.ValueString())
-
-	tflog.Debug(ctx, "SetAddress: "+plan.Address.ValueString())
-	data.SetAddress(plan.Address.ValueString())
-
-	if !plan.Latlng.IsNull() && !plan.Latlng.Lat.IsNull() && !plan.Latlng.Lng.IsNull() {
-		lat, _ := plan.Latlng.Lat.ValueBigFloat().Float64()
-		lng, _ := plan.Latlng.Lng.ValueBigFloat().Float64()
-		latlng := *mistsdkgo.NewLatLng(lat, lng)
-		data.SetLatlng(latlng)
-	}
-
-	tflog.Debug(ctx, "SetCountryCode: "+plan.CountryCode.ValueString())
-	data.SetCountryCode(plan.CountryCode.ValueString())
-
-	tflog.Debug(ctx, "SetTimezone: "+plan.Timezone.ValueString())
-	data.SetTimezone(plan.Timezone.ValueString())
-
-	tflog.Debug(ctx, "SetNotes: "+plan.Notes.ValueString())
-	data.SetNotes(plan.Notes.ValueString())
-
-	tflog.Debug(ctx, "SetAlarmtemplateId: "+plan.AlarmtemplateId.ValueString())
-	data.SetAlarmtemplateId(plan.AlarmtemplateId.ValueString())
-
-	tflog.Debug(ctx, "SetAptemplateId: "+plan.AptemplateId.ValueString())
-	data.SetAptemplateId(plan.AptemplateId.ValueString())
-
-	tflog.Debug(ctx, "SetGatewaytemplateId: "+plan.GatewaytemplateId.ValueString())
-	data.SetGatewaytemplateId(plan.GatewaytemplateId.ValueString())
-
-	tflog.Debug(ctx, "SetNetworktemplateId: "+plan.NetworktemplateId.ValueString())
-	data.SetNetworktemplateId(plan.NetworktemplateId.ValueString())
-
-	tflog.Debug(ctx, "SetRftemplateId: "+plan.RftemplateId.ValueString())
-	data.SetRftemplateId(plan.RftemplateId.ValueString())
-
-	tflog.Debug(ctx, "SetSecpolicyId: "+plan.SecpolicyId.ValueString())
-	data.SetSecpolicyId(plan.SecpolicyId.ValueString())
-
-	tflog.Debug(ctx, "SetSitetemplateId: "+plan.SitetemplateId.ValueString())
-	data.SetSitetemplateId(plan.SitetemplateId.ValueString())
-
-	var items []string
-	for _, item := range plan.SitegroupIds.Elements() {
-		items = append(items, item.String())
-	}
-	data.SetSitegroupIds(items)
-
-	var orgId = plan.OrgId.ValueString()
-	return data, orgId
 }

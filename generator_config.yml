@@ -83,7 +83,6 @@ resources:
         - dhcp_snooping
         - import_org_networks
         - mist_nac
-        - port_usages
         - remote_syslog
         - snmp_config
         - switch_matching

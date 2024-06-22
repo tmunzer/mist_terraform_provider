@@ -75,4 +75,13 @@ resource "mistapi_networktemplate" "switch_template" {
       }
     ]
   }
+  port_usages = {
+    trunk = {
+      all_networks =true
+      description = "profile for trunk ports"
+      enable_qos = true
+      mode = "trunk"
+      port_networks = "test2"
+    }
+  }
 }

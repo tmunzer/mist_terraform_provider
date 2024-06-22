@@ -20,7 +20,7 @@ Name | Type | Description | Notes
 **Networks** | Pointer to [**map[string]NetworkTemplateNetwork**](NetworkTemplateNetwork.md) | Property key is network name | [optional] 
 **NtpServers** | Pointer to **[]string** |  | [optional] [default to []]
 **OrgId** | Pointer to **string** |  | [optional] [readonly] 
-**PortUsages** | Pointer to [**NetworkTemplatePortUsages**](NetworkTemplatePortUsages.md) |  | [optional] 
+**PortUsages** | Pointer to [**map[string]JunosPortUsages**](JunosPortUsages.md) | Property key is the port profile name | [optional] 
 **RadiusConfig** | Pointer to [**JunosRadiusConfig**](JunosRadiusConfig.md) |  | [optional] 
 **RemoteSyslog** | Pointer to [**RemoteSyslog**](RemoteSyslog.md) |  | [optional] 
 **SnmpConfig** | Pointer to [**JunosSnmpConfig**](JunosSnmpConfig.md) |  | [optional] 
@@ -450,20 +450,20 @@ HasOrgId returns a boolean if a field has been set.
 
 ### GetPortUsages
 
-`func (o *NetworkTemplate) GetPortUsages() NetworkTemplatePortUsages`
+`func (o *NetworkTemplate) GetPortUsages() map[string]JunosPortUsages`
 
 GetPortUsages returns the PortUsages field if non-nil, zero value otherwise.
 
 ### GetPortUsagesOk
 
-`func (o *NetworkTemplate) GetPortUsagesOk() (*NetworkTemplatePortUsages, bool)`
+`func (o *NetworkTemplate) GetPortUsagesOk() (*map[string]JunosPortUsages, bool)`
 
 GetPortUsagesOk returns a tuple with the PortUsages field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetPortUsages
 
-`func (o *NetworkTemplate) SetPortUsages(v NetworkTemplatePortUsages)`
+`func (o *NetworkTemplate) SetPortUsages(v map[string]JunosPortUsages)`
 
 SetPortUsages sets PortUsages field to given value.
 

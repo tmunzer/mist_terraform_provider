@@ -74,7 +74,8 @@ type SiteSetting struct {
 	PersistConfigOnDevice *bool `json:"persist_config_on_device,omitempty"`
 	// Property key is the port mirroring instance name port_mirroring can be added under site/settings. It takes interface and ports as input for ingress, interface as input for egress and can take interface and port as output.
 	PortMirroring *map[string]JunosPortMirroring `json:"port_mirroring,omitempty"`
-	PortUsages *SiteSettingPortUsages `json:"port_usages,omitempty"`
+	// Property key is the port usage name
+	PortUsages *map[string]JunosPortUsages `json:"port_usages,omitempty"`
 	ProtectRe *ProtectRe `json:"protect_re,omitempty"`
 	Proxy *Proxy `json:"proxy,omitempty"`
 	RadioConfig *ApRadio `json:"radio_config,omitempty"`
@@ -1423,9 +1424,9 @@ func (o *SiteSetting) SetPortMirroring(v map[string]JunosPortMirroring) {
 }
 
 // GetPortUsages returns the PortUsages field value if set, zero value otherwise.
-func (o *SiteSetting) GetPortUsages() SiteSettingPortUsages {
+func (o *SiteSetting) GetPortUsages() map[string]JunosPortUsages {
 	if o == nil || IsNil(o.PortUsages) {
-		var ret SiteSettingPortUsages
+		var ret map[string]JunosPortUsages
 		return ret
 	}
 	return *o.PortUsages
@@ -1433,7 +1434,7 @@ func (o *SiteSetting) GetPortUsages() SiteSettingPortUsages {
 
 // GetPortUsagesOk returns a tuple with the PortUsages field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *SiteSetting) GetPortUsagesOk() (*SiteSettingPortUsages, bool) {
+func (o *SiteSetting) GetPortUsagesOk() (*map[string]JunosPortUsages, bool) {
 	if o == nil || IsNil(o.PortUsages) {
 		return nil, false
 	}
@@ -1449,8 +1450,8 @@ func (o *SiteSetting) HasPortUsages() bool {
 	return false
 }
 
-// SetPortUsages gets a reference to the given SiteSettingPortUsages and assigns it to the PortUsages field.
-func (o *SiteSetting) SetPortUsages(v SiteSettingPortUsages) {
+// SetPortUsages gets a reference to the given map[string]JunosPortUsages and assigns it to the PortUsages field.
+func (o *SiteSetting) SetPortUsages(v map[string]JunosPortUsages) {
 	o.PortUsages = &v
 }
 

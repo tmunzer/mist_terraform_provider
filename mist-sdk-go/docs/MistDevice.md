@@ -44,7 +44,7 @@ Name | Type | Description | Notes
 **X** | Pointer to **float32** | x in pixel | [optional] 
 **Y** | Pointer to **float32** | y in pixel | [optional] 
 **AclPolicies** | Pointer to [**[]JunosAclPolicies**](JunosAclPolicies.md) |  | [optional] 
-**AclTags** | Pointer to [**SwitchAclTags**](SwitchAclTags.md) |  | [optional] [default to {}]
+**AclTags** | Pointer to [**SwitchAclTags**](SwitchAclTags.md) |  | [optional] 
 **AdditionalConfigCmds** | Pointer to **[]string** |  | [optional] [default to []]
 **DhcpConfig** | Pointer to [**JunosDhcpdConfig**](JunosDhcpdConfig.md) |  | [optional] 
 **DhcpSnooping** | Pointer to [**JunosDhcpSnooping**](JunosDhcpSnooping.md) |  | [optional] 

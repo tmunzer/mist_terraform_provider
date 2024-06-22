@@ -1743,7 +1743,6 @@ components:
             $ref: "#/components/schemas/junos_acl_policies"
           type: array
         acl_tags:
-          default: {}
           additionalProperties:
             $ref: "#/components/schemas/junos_acl_tags"
           description:
@@ -2631,9 +2630,6 @@ components:
       additionalProperties:
         $ref: "#/components/schemas/junos_port_usages"
       description: Property key is the port usage name
-      properties:
-        dynamic:
-          $ref: "#/components/schemas/dynamic_port_usage"
       type: object
     site_setting_rtsa:
       description: managed mobility
@@ -3874,9 +3870,6 @@ components:
           additionalProperties:
             $ref: "#/components/schemas/junos_port_usages"
           description: Property key is the port profile name
-          properties:
-            dynamic:
-              $ref: "#/components/schemas/dynamic_port_usage"
           type: object
         radius_config:
           $ref: "#/components/schemas/junos_radius_config"
@@ -7717,68 +7710,6 @@ components:
             wap:
               ip: 10.182.102.1
           type: object
-      type: object
-    dynamic_port_usage:
-      description:
-        This is a special mode where the actually usage is determined by
-        a set of rules the port will start with `access` mode and isolated depending
-        on the rules, if resolved, the port will have the resolved usage applied.
-      properties:
-        mode:
-          $ref: "#/components/schemas/ip_config_type"
-        reset_default_when:
-          default: link_down
-          description:
-            "Control when the DPC port should be changed to the default
-            port usage
-
-            Configuring to none will let the DPC port keep at the current port usage."
-          enum:
-            - none
-            - link_down
-          example: link_down
-          type: string
-        rules:
-          items:
-            $ref: "#/components/schemas/dynamic_port_usage_rule"
-          type: array
-      required:
-        - mode
-      type: object
-    dynamic_port_usage_rule:
-      properties:
-        equals:
-          type: string
-        equals_any:
-          description: use `equals_any` to match any item in a list
-          items:
-            type: string
-          type: array
-        expression:
-          description: '"[0:3]":"abcdef" -> "abc"
-
-            "split(.)[1]": "a.b.c" -> "b"
-
-            "split(-)[1][0:3]: "a1234-b5678-c90" -> "b56"'
-          type: string
-        src:
-          enum:
-            - lldp_chassis_id
-            - lldp_system_name
-            - lldp_serial_number
-            - lldp_hardware_revision
-            - lldp_manufacturer_name
-            - lldp_oui
-            - radius_username
-            - radius_usermac
-            - radius_dynamicfilter
-            - link_peermac
-          type: string
-        usage:
-          description: "`port_usage` name"
-          type: string
-      required:
-        - src
       type: object
     switch_stp_config:
       properties:
