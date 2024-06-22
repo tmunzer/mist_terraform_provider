@@ -43,19 +43,19 @@ func SdkToTerraform(ctx context.Context, data *mistsdkgo.NetworkTemplate) (Netwo
 
 func networksSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]mistsdkgo.NetworkTemplateNetwork) basetypes.MapValue {
 
-	state_value_map_type := NetworksValue{}.AttributeTypes(ctx)
-	state_value_map := make(map[string]attr.Value)
+	state_value_map_attr_type := NetworksValue{}.AttributeTypes(ctx)
+	state_value_map_value := make(map[string]attr.Value)
 	for k, v := range d {
-		var net_state = map[string]attr.Value{
+		state_value_map_attr_value := map[string]attr.Value{
 			"vlan_id": types.Int64Value(int64(v.GetVlanId())),
 			"subnet":  types.StringValue(v.GetSubnet()),
 		}
-		n, e := NewNetworksValue(state_value_map_type, net_state)
+		n, e := NewNetworksValue(state_value_map_attr_type, state_value_map_attr_value)
 		diags.Append(e...)
-		state_value_map[k] = n
+		state_value_map_value[k] = n
 	}
 	state_result_map_type := NetworksValue{}.Type(ctx)
-	state_result_map, e := types.MapValueFrom(ctx, state_result_map_type, state_value_map)
+	state_result_map, e := types.MapValueFrom(ctx, state_result_map_type, state_value_map_value)
 	diags.Append(e...)
 	return state_result_map
 }
@@ -134,19 +134,34 @@ func radiusConfigSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d 
 }
 
 func portUsagesScSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdkgo.JunosStormControl) basetypes.ObjectValue {
-	var storm_control_obj = map[string]attr.Value{
+	storm_control_attr_type := StormControlValue{}.AttributeTypes(ctx)
+	storm_control_attr_value := map[string]attr.Value{
 		"no_broadcast":            types.BoolValue(d.GetNoBroadcast()),
 		"no_multicast":            types.BoolValue(d.GetNoMulticast()),
 		"no_registered_multicast": types.BoolValue(d.GetNoRegisteredMulticast()),
 		"no_unknown_unicast":      types.BoolValue(d.GetNoUnknownUnicast()),
 		"percentage":              types.Int64Value(int64(d.GetPercentage())),
 	}
+	// storm_control_attr_value := map[string]attr.Value{
+	// 	"no_broadcast":            types.BoolValue(false),
+	// 	"no_multicast":            types.BoolValue(false),
+	// 	"no_registered_multicast": types.BoolValue(false),
+	// 	"no_unknown_unicast":      types.BoolValue(false),
+	// 	"percentage":              types.Int64Value(int64(80)),
+	// }
+	// state_map, e := NewStormControlValue(storm_control_attr_type, storm_control_attr_value)
+	// diags.Append(e...)
+	r, e := basetypes.NewObjectValue(storm_control_attr_type, storm_control_attr_value)
+	diags.Append(e...)
 
-	state_map_type := StormControlValue{}.AttributeTypes(ctx)
-	state_map, e := NewStormControlValue(state_map_type, storm_control_obj)
-	diags.Append(e...)
-	r, e := state_map.ToObjectValue(ctx)
-	diags.Append(e...)
+	// func portUsagesScSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdkgo.JunosStormControl) StormControlValue {
+	// 	r := NewStormControlValueNull()
+	// 	r.NoBroadcast = types.BoolValue(d.GetNoBroadcast())
+	// 	r.NoMulticast = types.BoolValue(d.GetNoMulticast())
+	// 	r.NoRegisteredMulticast = types.BoolValue(d.GetNoRegisteredMulticast())
+	// 	r.NoUnknownUnicast = types.BoolValue(d.GetNoUnknownUnicast())
+	// 	r.Percentage = types.Int64Value(int64(d.GetPercentage()))
+
 	return r
 }
 
@@ -166,24 +181,24 @@ func portUsagesSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d ma
 			"disabled":                                        types.BoolValue(v.GetDisabled()),
 			"duplex":                                          types.StringValue(v.GetDuplex()),
 			"dynamic_vlan_networks":                           mist_transform.ListOfStringSdkToTerraform(ctx, v.GetDynamicVlanNetworks()),
-			"enable_mac_auth":                                 types.BoolValue(v.GetAllNetworks()),
-			"enable_qos":                                      types.BoolValue(v.GetAllNetworks()),
+			"enable_mac_auth":                                 types.BoolValue(v.GetEnableMacAuth()),
+			"enable_qos":                                      types.BoolValue(v.GetEnableQos()),
 			"guest_network":                                   types.StringValue(v.GetGuestNetwork()),
-			"mac_auth_only":                                   types.BoolValue(v.GetAllNetworks()),
+			"mac_auth_only":                                   types.BoolValue(v.GetMacAuthOnly()),
 			"mac_auth_protocol":                               types.StringValue(v.GetMacAuthProtocol()),
 			"mac_limit":                                       types.Int64Value(int64(v.GetMacLimit())),
 			"mode":                                            types.StringValue(v.GetMode()),
 			"mtu":                                             types.Int64Value(int64(v.GetMtu())),
 			"networks":                                        mist_transform.ListOfStringSdkToTerraform(ctx, v.GetNetworks()),
-			"persist_mac":                                     types.BoolValue(v.GetAllNetworks()),
-			"poe_disabled":                                    types.BoolValue(v.GetAllNetworks()),
+			"persist_mac":                                     types.BoolValue(v.GetPersistMac()),
+			"poe_disabled":                                    types.BoolValue(v.GetPoeDisabled()),
 			"port_auth":                                       types.StringValue(v.GetPortAuth()),
 			"port_network":                                    types.StringValue(v.GetPortNetwork()),
 			"reauth_interval":                                 types.Int64Value(int64(v.GetReauthInterval())),
 			"rejected_network":                                types.StringValue(v.GetRejectedNetwork()),
 			"speed":                                           types.StringValue(v.GetSpeed()),
 			"storm_control":                                   storm_control_state,
-			"stp_edge":                                        types.BoolValue(v.GetAllNetworks()),
+			"stp_edge":                                        types.BoolValue(v.GetStpEdge()),
 			"voip_network":                                    types.StringValue(v.GetVoipNetwork()),
 		}
 		port_usage_object, e := NewPortUsagesValue(port_usage_type, port_usage_state)
@@ -283,16 +298,20 @@ func radiusConfigTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d 
 }
 
 func portUsageScTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) mistsdkgo.JunosStormControl {
-	plan, e := NewStormControlValue(d.AttributeTypes(ctx), d.Attributes())
-	diags.Append(e...)
 	data := mistsdkgo.NewJunosStormControl()
-	data.SetNoBroadcast(plan.NoBroadcast.ValueBool())
-	data.SetNoMulticast(plan.NoMulticast.ValueBool())
-	data.SetNoRegisteredMulticast(plan.NoRegisteredMulticast.ValueBool())
-	data.SetNoUnknownUnicast(plan.NoUnknownUnicast.ValueBool())
-	data.SetPercentage(int32(plan.Percentage.ValueInt64()))
+	if d.IsNull() || d.IsUnknown() {
+		return *data
+	} else {
+		var sc_attr_interface interface{} = d
+		sc_attr_value := sc_attr_interface.(StormControlValue)
+		data.SetNoMulticast(sc_attr_value.NoMulticast.ValueBool())
+		data.SetNoRegisteredMulticast(sc_attr_value.NoRegisteredMulticast.ValueBool())
+		data.SetNoUnknownUnicast(sc_attr_value.NoUnknownUnicast.ValueBool())
+		data.SetPercentage(int32(sc_attr_value.Percentage.ValueInt64()))
+	}
 	return *data
 }
+
 func portUsageTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.MapValue) map[string]mistsdkgo.JunosPortUsages {
 	data := make(map[string]mistsdkgo.JunosPortUsages)
 	for pu_name, pu_attr := range d.Elements() {

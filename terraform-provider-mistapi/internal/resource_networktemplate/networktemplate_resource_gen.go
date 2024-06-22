@@ -295,31 +295,41 @@ func NetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 							Attributes: map[string]schema.Attribute{
 								"no_broadcast": schema.BoolAttribute{
 									Optional:            true,
+									Computed:            true,
 									Description:         "whether to disable storm control on broadcast traffic",
 									MarkdownDescription: "whether to disable storm control on broadcast traffic",
+									Default:             booldefault.StaticBool(false),
 								},
 								"no_multicast": schema.BoolAttribute{
 									Optional:            true,
+									Computed:            true,
 									Description:         "whether to disable storm control on multicast traffic",
 									MarkdownDescription: "whether to disable storm control on multicast traffic",
+									Default:             booldefault.StaticBool(false),
 								},
 								"no_registered_multicast": schema.BoolAttribute{
 									Optional:            true,
+									Computed:            true,
 									Description:         "whether to disable storm control on registered multicast traffic",
 									MarkdownDescription: "whether to disable storm control on registered multicast traffic",
+									Default:             booldefault.StaticBool(false),
 								},
 								"no_unknown_unicast": schema.BoolAttribute{
 									Optional:            true,
+									Computed:            true,
 									Description:         "whether to disable storm control on unknown unicast traffic",
 									MarkdownDescription: "whether to disable storm control on unknown unicast traffic",
+									Default:             booldefault.StaticBool(false),
 								},
 								"percentage": schema.Int64Attribute{
 									Optional:            true,
+									Computed:            true,
 									Description:         "bandwidth-percentage, configures the storm control level as a percentage of the available bandwidth",
 									MarkdownDescription: "bandwidth-percentage, configures the storm control level as a percentage of the available bandwidth",
 									Validators: []validator.Int64{
 										int64validator.Between(0, 100),
 									},
+									Default: int64default.StaticInt64(80),
 								},
 							},
 							CustomType: StormControlType{
@@ -328,16 +338,20 @@ func NetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 								},
 							},
 							Optional:            true,
+							Computed:            true,
 							Description:         "Switch storm control",
 							MarkdownDescription: "Switch storm control",
 						},
 						"stp_edge": schema.BoolAttribute{
 							Optional:            true,
+							Computed:            true,
 							Description:         "when enabled, the port is not expected to receive BPDU frames",
 							MarkdownDescription: "when enabled, the port is not expected to receive BPDU frames",
+							Default:             booldefault.StaticBool(false),
 						},
 						"voip_network": schema.StringAttribute{
 							Optional:            true,
+							Computed:            true,
 							Description:         "network/vlan for voip traffic, must also set port_network. to authenticate device, set port_auth",
 							MarkdownDescription: "network/vlan for voip traffic, must also set port_network. to authenticate device, set port_auth",
 						},

@@ -135,14 +135,17 @@ func (r *networktemplateResource) Update(ctx context.Context, req resource.Updat
 	}
 
 	networktemplateId := state.Id.ValueString()
-	networktemplate, OrgId, diags := resource_networktemplate.TerraformToSdk(ctx, &plan)
+	networktemplate, orgId, diags := resource_networktemplate.TerraformToSdk(ctx, &plan)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
 	}
 
 	tflog.Info(ctx, "Starting NetworkTemplate Update for NetworkTemplate "+networktemplateId)
-	data, _, err := r.client.OrgsNetworkTemplatesAPI.UpdateOrgNetworkTemplates(ctx, OrgId, networktemplateId).NetworkTemplate(networktemplate).Execute()
+	data, _, err := r.client.OrgsNetworkTemplatesAPI.
+		UpdateOrgNetworkTemplates(ctx, orgId, networktemplateId).
+		NetworkTemplate(networktemplate).
+		Execute()
 
 	if err != nil {
 		resp.Diagnostics.AddError(
