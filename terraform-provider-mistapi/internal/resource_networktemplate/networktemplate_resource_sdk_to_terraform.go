@@ -7,6 +7,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
+	"github.com/hashicorp/terraform-plugin-log/tflog"
 
 	mistsdkgo "terraform-provider-mistapi/github.com/tmunzer/mist-sdk-go"
 	mist_transform "terraform-provider-mistapi/internal/provider/utils/transform"
@@ -72,9 +73,8 @@ func networksSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[
 
 // ////////////////// RADIUS ///////////////////////
 func radiusKeywrapFormatSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdkgo.RadiusKeywrapFormat) basetypes.StringValue {
-	var r basetypes.StringValue = basetypes.NewStringValue("ascii")
-
-	return r
+	var r basetypes.StringValue = types.StringValue(string(d))
+	return types.StringValue(r.ValueString())
 }
 
 func radiusServersSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdkgo.JunosRadiusConfig) (basetypes.ListValue, basetypes.ListValue) {
@@ -295,19 +295,22 @@ func vrfInstancesSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d 
 
 // ////////////////// Syslog ///////////////////////
 
-func remoteSyslogArchiveSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdkgo.RemoteSyslogArchive) ArchiveValue {
+func remoteSyslogArchiveSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdkgo.RemoteSyslogArchive) basetypes.ObjectValue {
+	tflog.Debug(ctx, "remoteSyslogArchiveSdkToTerraform")
 	data_map_attr_type := ArchiveValue{}.AttributeTypes(ctx)
 	data_map_value := map[string]attr.Value{
 		"files": types.Int64Value(int64(d.GetFiles())),
-		"site":  types.StringValue(d.GetSize()),
+		"size":  types.StringValue(d.GetSize()),
 	}
-
 	r, e := NewArchiveValue(data_map_attr_type, data_map_value)
 	diags.Append(e...)
 
-	return r
+	o, e := r.ToObjectValue(ctx)
+	diags.Append(e...)
+	return o
 }
 func remoteSyslogContentsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []mistsdkgo.RemoteSyslogContentItem) basetypes.ListValue {
+	tflog.Debug(ctx, "remoteSyslogContentsSdkToTerraform")
 	var data_list = []ContentsValue{}
 
 	for _, item := range d {
@@ -326,7 +329,8 @@ func remoteSyslogContentsSdkToTerraform(ctx context.Context, diags *diag.Diagnos
 	diags.Append(e...)
 	return r
 }
-func remoteSyslogConsoleSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdkgo.RemoteSyslogConsole) ConsoleValue {
+func remoteSyslogConsoleSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdkgo.RemoteSyslogConsole) basetypes.ObjectValue {
+	tflog.Debug(ctx, "remoteSyslogConsoleSdkToTerraform")
 	data_map_attr_type := ConsoleValue{}.AttributeTypes(ctx)
 	data_map_value := map[string]attr.Value{
 		"contents": remoteSyslogContentsSdkToTerraform(ctx, diags, d.GetContents()),
@@ -335,9 +339,12 @@ func remoteSyslogConsoleSdkToTerraform(ctx context.Context, diags *diag.Diagnost
 	r, e := NewConsoleValue(data_map_attr_type, data_map_value)
 	diags.Append(e...)
 
-	return r
+	o, e := r.ToObjectValue(ctx)
+	diags.Append(e...)
+	return o
 }
 func remoteSyslogFilesSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []mistsdkgo.SyslogFileConfig) basetypes.ListValue {
+	tflog.Debug(ctx, "remoteSyslogFilesSdkToTerraform")
 	var data_list = []FilesValue{}
 
 	for _, item := range d {
@@ -360,9 +367,11 @@ func remoteSyslogFilesSdkToTerraform(ctx context.Context, diags *diag.Diagnostic
 	data_list_type := FilesValue{}.Type(ctx)
 	r, e := types.ListValueFrom(ctx, data_list_type, data_list)
 	diags.Append(e...)
+
 	return r
 }
 func remoteSyslogServerSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []mistsdkgo.RemoteSyslogServersItem) basetypes.ListValue {
+	tflog.Debug(ctx, "remoteSyslogServerSdkToTerraform")
 	var data_list = []ServersValue{}
 
 	for _, item := range d {
@@ -371,15 +380,16 @@ func remoteSyslogServerSdkToTerraform(ctx context.Context, diags *diag.Diagnosti
 		data_map_value := map[string]attr.Value{
 			"contents":          file_contents,
 			"explicit_priority": types.BoolValue(item.GetExplicitPriority()),
-			"facility":          types.StringValue(string(item.GetFacility())),
+			"facility":          types.StringValue(string(*item.Facility)),
 			"host":              types.StringValue(item.GetHost()),
+			"match":             types.StringValue(item.GetMatch()),
 			"port":              types.Int64Value(int64(item.GetPort())),
-			"protocol":          types.StringValue(string(item.GetProtocol())),
-			"routing_instance":  types.StringValue(string(item.GetRoutingInstance())),
-			"severity":          types.StringValue(string(item.GetSeverity())),
-			"source_address":    types.StringValue(string(item.GetSourceAddress())),
+			"protocol":          types.StringValue(string(*item.Protocol)),
+			"routing_instance":  types.StringValue(item.GetRoutingInstance()),
+			"severity":          types.StringValue(string(*item.Severity)),
+			"source_address":    types.StringValue(item.GetSourceAddress()),
 			"structured_data":   types.BoolValue(item.GetStructuredData()),
-			"tag":               types.StringValue(string(item.GetTag())),
+			"tag":               types.StringValue(item.GetTag()),
 		}
 
 		data, e := NewServersValue(data_map_attr_type, data_map_value)
@@ -392,6 +402,7 @@ func remoteSyslogServerSdkToTerraform(ctx context.Context, diags *diag.Diagnosti
 	return r
 }
 func remoteSyslogUsersSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []mistsdkgo.RemoteSyslogUsersItem) basetypes.ListValue {
+	tflog.Debug(ctx, "remoteSyslogUsersSdkToTerraform")
 	var data_list = []UsersValue{}
 
 	for _, item := range d {
@@ -399,21 +410,31 @@ func remoteSyslogUsersSdkToTerraform(ctx context.Context, diags *diag.Diagnostic
 		file_contents := remoteSyslogContentsSdkToTerraform(ctx, diags, item.GetContents())
 		data_map_value := map[string]attr.Value{
 			"contents": file_contents,
-			"match":    types.StringValue(string(item.GetMatch())),
+			"match":    types.StringValue(item.GetMatch()),
 			"user":     types.StringValue(item.GetUser()),
 		}
 
 		data, e := NewUsersValue(data_map_attr_type, data_map_value)
 		diags.Append(e...)
+
 		data_list = append(data_list, data)
 	}
 	data_list_type := UsersValue{}.Type(ctx)
 	r, e := types.ListValueFrom(ctx, data_list_type, data_list)
+	if e.HasError() {
+		for _, f := range e.Errors() {
+			tflog.Error(ctx, "remoteSyslogUsersSdkToTerraform", map[string]interface{}{
+				"summary": f.Summary(),
+				"error":   f.Detail()})
+
+		}
+	}
 	diags.Append(e...)
 	return r
 }
 
 func remoteSyslogSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdkgo.RemoteSyslog) RemoteSyslogValue {
+	tflog.Debug(ctx, "remoteSyslogSdkToTerraform")
 
 	remote_syslog_archive := remoteSyslogArchiveSdkToTerraform(ctx, diags, d.GetArchive())
 	remote_syslog_console := remoteSyslogConsoleSdkToTerraform(ctx, diags, d.GetConsole())
@@ -430,11 +451,12 @@ func remoteSyslogSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d 
 		"network":             types.StringValue(d.GetNetwork()),
 		"send_to_all_servers": types.BoolValue(d.GetSendToAllServers()),
 		"servers":             remote_syslog_servers,
-		"time_format":         types.StringValue(string(d.GetTimeFormat())),
+		"time_format":         types.StringValue(string(*d.TimeFormat)),
 		"users":               remote_syslog_users,
 	}
 
-	state_result := NewRemoteSyslogValueMust(data_map_attr_type, data_map_value)
+	state_result, e := NewRemoteSyslogValue(data_map_attr_type, data_map_value)
+	diags.Append(e...)
 
 	return state_result
 }

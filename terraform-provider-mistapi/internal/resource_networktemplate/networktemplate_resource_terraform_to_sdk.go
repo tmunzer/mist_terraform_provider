@@ -2,6 +2,8 @@ package resource_networktemplate
 
 import (
 	"context"
+	"fmt"
+	"os"
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
@@ -89,9 +91,10 @@ func radiusConfigTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d 
 	for _, acct_plan_attr := range d.AcctServers.Elements() {
 		var acct_plan_interface interface{} = acct_plan_attr
 		acct_plan := acct_plan_interface.(AcctServersValue)
+		keywrap_format, _ := mistsdkgo.NewRadiusKeywrapFormatFromValue(acct_plan.KeywrapFormat.ValueString())
 		acct_data := mistsdkgo.NewRadiusAcctServer(acct_plan.Host.ValueString(), int32(acct_plan.Port.ValueInt64()), acct_plan.Secret.ValueString())
 		acct_data.SetKeywrapEnabled(acct_plan.KeywrapEnabled.ValueBool())
-		acct_data.SetKeywrapFormat(mistsdkgo.RadiusKeywrapFormat(acct_plan.KeywrapFormat.ValueString()))
+		acct_data.SetKeywrapFormat(*keywrap_format)
 		acct_data.SetKeywrapKek(acct_plan.KeywrapKek.ValueString())
 		acct_data.SetKeywrapMack(acct_plan.KeywrapMack.ValueString())
 		rc_acct_data = append(rc_acct_data, *acct_data)
@@ -102,9 +105,11 @@ func radiusConfigTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d 
 	for _, auth_plan_attr := range d.AuthServers.Elements() {
 		var auth_plan_interface interface{} = auth_plan_attr
 		auth_plan := auth_plan_interface.(AuthServersValue)
+		keywrap_format, _ := mistsdkgo.NewRadiusKeywrapFormatFromValue(auth_plan.KeywrapFormat.ValueString())
+
 		auth_data := mistsdkgo.NewRadiusAuthServer(auth_plan.Host.ValueString(), int32(auth_plan.Port.ValueInt64()), auth_plan.Secret.ValueString())
 		auth_data.SetKeywrapEnabled(auth_plan.KeywrapEnabled.ValueBool())
-		auth_data.SetKeywrapFormat(mistsdkgo.RadiusKeywrapFormat(auth_plan.KeywrapFormat.ValueString()))
+		auth_data.SetKeywrapFormat(*keywrap_format)
 		auth_data.SetKeywrapKek(auth_plan.KeywrapKek.ValueString())
 		auth_data.SetKeywrapMack(auth_plan.KeywrapMack.ValueString())
 		rc_auth_data = append(rc_auth_data, *auth_data)
@@ -225,12 +230,17 @@ func vrfInstancesTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d 
 
 // ////////////////// SYSLOG ///////////////////////
 func remoteSyslogArchiveTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) mistsdkgo.RemoteSyslogArchive {
-	var item_interface interface{} = d
-	item_obj := item_interface.(ArchiveValue)
 	data := mistsdkgo.NewRemoteSyslogArchive()
-	data.SetFiles(int32(item_obj.Files.ValueInt64()))
-	data.SetSize(item_obj.Size.ValueString())
-	return *data
+	if d.IsNull() || d.IsUnknown() {
+		return *data
+	} else {
+		item := NewArchiveValueMust(ArchiveValue{}.AttributeTypes(ctx), d.Attributes())
+		var item_interface interface{} = item
+		item_obj := item_interface.(ArchiveValue)
+		data.SetFiles(int32(item_obj.Files.ValueInt64()))
+		data.SetSize(item_obj.Size.ValueString())
+		return *data
+	}
 }
 func remoteSyslogContentTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ListValue) []mistsdkgo.RemoteSyslogContentItem {
 	var data []mistsdkgo.RemoteSyslogContentItem
@@ -245,14 +255,17 @@ func remoteSyslogContentTerraformToSdk(ctx context.Context, diags *diag.Diagnost
 	return data
 }
 func remoteSyslogConsoleTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) mistsdkgo.RemoteSyslogConsole {
-	var item_interface interface{} = d
-	item_obj := item_interface.(ConsoleValue)
 	data := mistsdkgo.NewRemoteSyslogConsole()
-
-	syslog_content := remoteSyslogContentTerraformToSdk(ctx, diags, item_obj.Contents)
-	data.SetContents(syslog_content)
-
-	return *data
+	if d.IsNull() || d.IsUnknown() {
+		return *data
+	} else {
+		item := NewConsoleValueMust(ConsoleValue{}.AttributeTypes(ctx), d.Attributes())
+		var item_interface interface{} = item
+		item_obj := item_interface.(ConsoleValue)
+		syslog_content := remoteSyslogContentTerraformToSdk(ctx, diags, item_obj.Contents)
+		data.SetContents(syslog_content)
+		return *data
+	}
 }
 
 func remoteSyslogFilesTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ListValue) []mistsdkgo.SyslogFileConfig {
@@ -339,7 +352,9 @@ func remoteSyslogTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d 
 	remote_syslog_files := remoteSyslogFilesTerraformToSdk(ctx, diags, d.Files)
 	remote_syslog_servers := remoteSyslogServersTerraformToSdk(ctx, diags, d.Servers)
 	remote_syslog_users := remoteSyslogUsersTerraformToSdk(ctx, diags, d.Users)
-
+	remote_syslog_time_format, _ := mistsdkgo.NewTimeFormatFromValue(d.TimeFormat.ValueString())
+	fmt.Fprintf(os.Stdout, "-------------------------------"+d.TimeFormat.String())
+	fmt.Fprintf(os.Stdout, "-------------------------------")
 	data := mistsdkgo.NewRemoteSyslog()
 	data.SetEnabled(d.Enabled.ValueBool())
 	data.SetNetwork(d.Network.ValueString())
@@ -350,7 +365,7 @@ func remoteSyslogTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d 
 	data.SetNetwork(d.Network.ValueString())
 	data.SetSendToAllServers(d.SendToAllServers.ValueBool())
 	data.SetServers(remote_syslog_servers)
-	data.SetTimeFormat(mistsdkgo.TimeFormat(d.TimeFormat.ValueString()))
+	data.SetTimeFormat(*remote_syslog_time_format)
 	data.SetUsers(remote_syslog_users)
 
 	return *data

@@ -44,10 +44,14 @@ type _RemoteSyslogServersItem RemoteSyslogServersItem
 // will change when the set of required properties is changed
 func NewRemoteSyslogServersItem() *RemoteSyslogServersItem {
 	this := RemoteSyslogServersItem{}
+	var facility RemoteSyslogFacility = REMOTESYSLOGFACILITY_ANY
+	this.Facility = &facility
 	var port int32 = 514
 	this.Port = &port
 	var protocol RemoteSyslogProtocol = REMOTESYSLOGPROTOCOL_UDP
 	this.Protocol = &protocol
+	var severity RemoteSyslogSeverity = REMOTESYSLOGSEVERITY_ANY
+	this.Severity = &severity
 	return &this
 }
 
@@ -56,10 +60,14 @@ func NewRemoteSyslogServersItem() *RemoteSyslogServersItem {
 // but it doesn't guarantee that properties required by API are set
 func NewRemoteSyslogServersItemWithDefaults() *RemoteSyslogServersItem {
 	this := RemoteSyslogServersItem{}
+	var facility RemoteSyslogFacility = REMOTESYSLOGFACILITY_ANY
+	this.Facility = &facility
 	var port int32 = 514
 	this.Port = &port
 	var protocol RemoteSyslogProtocol = REMOTESYSLOGPROTOCOL_UDP
 	this.Protocol = &protocol
+	var severity RemoteSyslogSeverity = REMOTESYSLOGSEVERITY_ANY
+	this.Severity = &severity
 	return &this
 }
 

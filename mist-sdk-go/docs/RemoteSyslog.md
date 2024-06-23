@@ -11,7 +11,7 @@ Name | Type | Description | Notes
 **Network** | Pointer to **string** | if source_address is configured, will use the vlan firstly otherwise use source_ip | [optional] 
 **SendToAllServers** | Pointer to **bool** |  | [optional] [default to false]
 **Servers** | Pointer to [**[]RemoteSyslogServersItem**](RemoteSyslogServersItem.md) |  | [optional] 
-**TimeFormat** | Pointer to [**TimeFormat**](TimeFormat.md) |  | [optional] 
+**TimeFormat** | Pointer to [**TimeFormat**](TimeFormat.md) |  | [optional] [default to TIMEFORMAT_MILLISECOND]
 **Users** | Pointer to [**[]RemoteSyslogUsersItem**](RemoteSyslogUsersItem.md) |  | [optional] 
 
 ## Methods

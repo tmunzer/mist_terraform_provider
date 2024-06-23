@@ -9470,6 +9470,7 @@ components:
         - notice
         - error
       type: string
+      default: any
     remote_syslog_facility:
       enum:
         - any
@@ -9490,6 +9491,7 @@ components:
         - user
       example: config
       type: string
+      default: any
     remote_syslog_servers_item:
       properties:
         contents:
@@ -9589,6 +9591,7 @@ components:
         - year
         - year millisecond
       example: millisecond
+      default: millisecond
       type: string
     remote_syslog_content:
       items:
@@ -10315,6 +10318,7 @@ components:
         - hex
         - ascii
       example: hex
+      default: ascii
       type: string
     radius_acct_server:
       properties:
@@ -10877,11 +10881,11 @@ components:
         lat:
           example: 37.295833
           type: number
-          format: float64
+          format: double
         lng:
           example: -122.032946
           type: number
-          format: float64
+          format: double
       required:
         - lat
         - lng

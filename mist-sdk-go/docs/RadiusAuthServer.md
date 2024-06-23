@@ -6,7 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Host** | **string** | ip / hostname of RADIUS server | 
 **KeywrapEnabled** | Pointer to **bool** |  | [optional] 
-**KeywrapFormat** | Pointer to [**RadiusKeywrapFormat**](RadiusKeywrapFormat.md) |  | [optional] 
+**KeywrapFormat** | Pointer to [**RadiusKeywrapFormat**](RadiusKeywrapFormat.md) |  | [optional] [default to RADIUSKEYWRAPFORMAT_ASCII]
 **KeywrapKek** | Pointer to **string** |  | [optional] 
 **KeywrapMack** | Pointer to **string** |  | [optional] 
 **Port** | **int32** | Auth port of RADIUS server | [default to 1812]

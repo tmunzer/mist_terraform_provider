@@ -634,6 +634,9 @@
 													"name": "keywrap_format",
 													"string": {
 														"computed_optional_required": "computed_optional",
+														"default": {
+															"static": "ascii"
+														},
 														"validators": [
 															{
 																"custom": {
@@ -726,6 +729,9 @@
 													"name": "keywrap_format",
 													"string": {
 														"computed_optional_required": "computed_optional",
+														"default": {
+															"static": "ascii"
+														},
 														"validators": [
 															{
 																"custom": {
@@ -891,6 +897,9 @@
 																"name": "facility",
 																"string": {
 																	"computed_optional_required": "computed_optional",
+																	"default": {
+																		"static": "any"
+																	},
 																	"validators": [
 																		{
 																			"custom": {
@@ -909,6 +918,9 @@
 																"name": "severity",
 																"string": {
 																	"computed_optional_required": "computed_optional",
+																	"default": {
+																		"static": "any"
+																	},
 																	"validators": [
 																		{
 																			"custom": {
@@ -975,6 +987,9 @@
 																	"name": "facility",
 																	"string": {
 																		"computed_optional_required": "computed_optional",
+																		"default": {
+																			"static": "any"
+																		},
 																		"validators": [
 																			{
 																				"custom": {
@@ -993,6 +1008,9 @@
 																	"name": "severity",
 																	"string": {
 																		"computed_optional_required": "computed_optional",
+																		"default": {
+																			"static": "any"
+																		},
 																		"validators": [
 																			{
 																				"custom": {
@@ -1071,6 +1089,9 @@
 																	"name": "facility",
 																	"string": {
 																		"computed_optional_required": "computed_optional",
+																		"default": {
+																			"static": "any"
+																		},
 																		"validators": [
 																			{
 																				"custom": {
@@ -1089,6 +1110,9 @@
 																	"name": "severity",
 																	"string": {
 																		"computed_optional_required": "computed_optional",
+																		"default": {
+																			"static": "any"
+																		},
 																		"validators": [
 																			{
 																				"custom": {
@@ -1117,6 +1141,9 @@
 													"name": "facility",
 													"string": {
 														"computed_optional_required": "computed_optional",
+														"default": {
+															"static": "any"
+														},
 														"validators": [
 															{
 																"custom": {
@@ -1183,6 +1210,9 @@
 													"name": "severity",
 													"string": {
 														"computed_optional_required": "computed_optional",
+														"default": {
+															"static": "any"
+														},
 														"validators": [
 															{
 																"custom": {
@@ -1224,6 +1254,9 @@
 									"name": "time_format",
 									"string": {
 										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": "millisecond"
+										},
 										"validators": [
 											{
 												"custom": {
@@ -1254,6 +1287,9 @@
 																	"name": "facility",
 																	"string": {
 																		"computed_optional_required": "computed_optional",
+																		"default": {
+																			"static": "any"
+																		},
 																		"validators": [
 																			{
 																				"custom": {
@@ -1272,6 +1308,9 @@
 																	"name": "severity",
 																	"string": {
 																		"computed_optional_required": "computed_optional",
+																		"default": {
+																			"static": "any"
+																		},
 																		"validators": [
 																			{
 																				"custom": {

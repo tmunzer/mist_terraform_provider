@@ -43,6 +43,8 @@ type _RadiusAuthServer RadiusAuthServer
 func NewRadiusAuthServer(host string, port int32, secret string) *RadiusAuthServer {
 	this := RadiusAuthServer{}
 	this.Host = host
+	var keywrapFormat RadiusKeywrapFormat = RADIUSKEYWRAPFORMAT_ASCII
+	this.KeywrapFormat = &keywrapFormat
 	this.Port = port
 	this.Secret = secret
 	return &this
@@ -53,6 +55,8 @@ func NewRadiusAuthServer(host string, port int32, secret string) *RadiusAuthServ
 // but it doesn't guarantee that properties required by API are set
 func NewRadiusAuthServerWithDefaults() *RadiusAuthServer {
 	this := RadiusAuthServer{}
+	var keywrapFormat RadiusKeywrapFormat = RADIUSKEYWRAPFORMAT_ASCII
+	this.KeywrapFormat = &keywrapFormat
 	var port int32 = 1812
 	this.Port = port
 	return &this

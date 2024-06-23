@@ -4,8 +4,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Facility** | Pointer to [**RemoteSyslogFacility**](RemoteSyslogFacility.md) |  | [optional] 
-**Severity** | Pointer to [**RemoteSyslogSeverity**](RemoteSyslogSeverity.md) |  | [optional] 
+**Facility** | Pointer to [**RemoteSyslogFacility**](RemoteSyslogFacility.md) |  | [optional] [default to REMOTESYSLOGFACILITY_ANY]
+**Severity** | Pointer to [**RemoteSyslogSeverity**](RemoteSyslogSeverity.md) |  | [optional] [default to REMOTESYSLOGSEVERITY_ANY]
 
 ## Methods
 

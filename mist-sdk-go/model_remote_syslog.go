@@ -45,6 +45,8 @@ func NewRemoteSyslog() *RemoteSyslog {
 	this.Enabled = &enabled
 	var sendToAllServers bool = false
 	this.SendToAllServers = &sendToAllServers
+	var timeFormat TimeFormat = TIMEFORMAT_MILLISECOND
+	this.TimeFormat = &timeFormat
 	return &this
 }
 
@@ -57,6 +59,8 @@ func NewRemoteSyslogWithDefaults() *RemoteSyslog {
 	this.Enabled = &enabled
 	var sendToAllServers bool = false
 	this.SendToAllServers = &sendToAllServers
+	var timeFormat TimeFormat = TIMEFORMAT_MILLISECOND
+	this.TimeFormat = &timeFormat
 	return &this
 }
 

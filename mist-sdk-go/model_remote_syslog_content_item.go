@@ -33,6 +33,10 @@ type _RemoteSyslogContentItem RemoteSyslogContentItem
 // will change when the set of required properties is changed
 func NewRemoteSyslogContentItem() *RemoteSyslogContentItem {
 	this := RemoteSyslogContentItem{}
+	var facility RemoteSyslogFacility = REMOTESYSLOGFACILITY_ANY
+	this.Facility = &facility
+	var severity RemoteSyslogSeverity = REMOTESYSLOGSEVERITY_ANY
+	this.Severity = &severity
 	return &this
 }
 
@@ -41,6 +45,10 @@ func NewRemoteSyslogContentItem() *RemoteSyslogContentItem {
 // but it doesn't guarantee that properties required by API are set
 func NewRemoteSyslogContentItemWithDefaults() *RemoteSyslogContentItem {
 	this := RemoteSyslogContentItem{}
+	var facility RemoteSyslogFacility = REMOTESYSLOGFACILITY_ANY
+	this.Facility = &facility
+	var severity RemoteSyslogSeverity = REMOTESYSLOGSEVERITY_ANY
+	this.Severity = &severity
 	return &this
 }
 

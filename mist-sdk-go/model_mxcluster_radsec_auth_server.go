@@ -46,6 +46,8 @@ type _MxclusterRadsecAuthServer MxclusterRadsecAuthServer
 // will change when the set of required properties is changed
 func NewMxclusterRadsecAuthServer() *MxclusterRadsecAuthServer {
 	this := MxclusterRadsecAuthServer{}
+	var keywrapFormat RadiusKeywrapFormat = RADIUSKEYWRAPFORMAT_ASCII
+	this.KeywrapFormat = &keywrapFormat
 	var port int32 = 1812
 	this.Port = &port
 	return &this
@@ -56,6 +58,8 @@ func NewMxclusterRadsecAuthServer() *MxclusterRadsecAuthServer {
 // but it doesn't guarantee that properties required by API are set
 func NewMxclusterRadsecAuthServerWithDefaults() *MxclusterRadsecAuthServer {
 	this := MxclusterRadsecAuthServer{}
+	var keywrapFormat RadiusKeywrapFormat = RADIUSKEYWRAPFORMAT_ASCII
+	this.KeywrapFormat = &keywrapFormat
 	var port int32 = 1812
 	this.Port = &port
 	return &this

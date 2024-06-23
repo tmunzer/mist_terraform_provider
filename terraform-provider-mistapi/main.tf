@@ -64,24 +64,53 @@ resource "mistapi_networktemplate" "switch_template" {
     network               = "test"
     acct_servers = [
       {
-        host = "1.2.3.4"
+        host   = "1.2.3.4"
         secret = "secret"
       }
     ]
-     servers = [
+    auth_servers = [
       {
-        host = "1.2.3.4"
+        host   = "1.2.3.4"
         secret = "secret"
       }
     ]
   }
   port_usages = {
     trunk = {
-      all_networks =true
-      description = "profile for trunk ports"
-      enable_qos = true
-      mode = "trunk"
+      all_networks  = true
+      description   = "profile for trunk ports"
+      enable_qos    = true
+      mode          = "trunk"
       port_networks = "test2"
     }
+  }
+  remote_syslog = {
+    archive = {
+      files = 2
+      size = "5m"
+    }
+    console = {
+      contents = [
+        {
+          facility = "kernel"
+          severity = "alert"
+        }
+      ]
+    }
+    enabled             = true
+    network             = "test"
+    send_to_all_servers = false
+    servers = [
+      {
+        contents = [
+          {
+            facility = "any"
+            severity = "any"
+          }
+        ]
+        host = "1.2.3.4"
+      }
+    ]
+    structured_data = true
   }
 }

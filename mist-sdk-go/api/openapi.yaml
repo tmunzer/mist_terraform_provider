@@ -15689,6 +15689,7 @@ components:
       - tcp
       type: string
     remote_syslog_severity:
+      default: any
       enum:
       - any
       - alert
@@ -15700,6 +15701,7 @@ components:
       - error
       type: string
     remote_syslog_facility:
+      default: any
       enum:
       - any
       - authorization
@@ -15905,6 +15907,7 @@ components:
         $ref: '#/components/schemas/remote_syslog_users_item'
       type: array
     time_format:
+      default: millisecond
       enum:
       - millisecond
       - year
@@ -16764,6 +16767,7 @@ components:
           type: string
       type: object
     radius_keywrap_format:
+      default: ascii
       enum:
       - hex
       - ascii
@@ -17438,11 +17442,11 @@ components:
       properties:
         lat:
           example: 37.295833
-          format: float64
+          format: double
           type: number
         lng:
           example: -122.032946
-          format: float64
+          format: double
           type: number
       required:
       - lat

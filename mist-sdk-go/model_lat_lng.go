@@ -21,8 +21,8 @@ var _ MappedNullable = &LatLng{}
 
 // LatLng struct for LatLng
 type LatLng struct {
-	Lat float32 `json:"lat"`
-	Lng float32 `json:"lng"`
+	Lat float64 `json:"lat"`
+	Lng float64 `json:"lng"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -32,7 +32,7 @@ type _LatLng LatLng
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewLatLng(lat float32, lng float32) *LatLng {
+func NewLatLng(lat float64, lng float64) *LatLng {
 	this := LatLng{}
 	this.Lat = lat
 	this.Lng = lng
@@ -48,9 +48,9 @@ func NewLatLngWithDefaults() *LatLng {
 }
 
 // GetLat returns the Lat field value
-func (o *LatLng) GetLat() float32 {
+func (o *LatLng) GetLat() float64 {
 	if o == nil {
-		var ret float32
+		var ret float64
 		return ret
 	}
 
@@ -59,7 +59,7 @@ func (o *LatLng) GetLat() float32 {
 
 // GetLatOk returns a tuple with the Lat field value
 // and a boolean to check if the value has been set.
-func (o *LatLng) GetLatOk() (*float32, bool) {
+func (o *LatLng) GetLatOk() (*float64, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -67,14 +67,14 @@ func (o *LatLng) GetLatOk() (*float32, bool) {
 }
 
 // SetLat sets field value
-func (o *LatLng) SetLat(v float32) {
+func (o *LatLng) SetLat(v float64) {
 	o.Lat = v
 }
 
 // GetLng returns the Lng field value
-func (o *LatLng) GetLng() float32 {
+func (o *LatLng) GetLng() float64 {
 	if o == nil {
-		var ret float32
+		var ret float64
 		return ret
 	}
 
@@ -83,7 +83,7 @@ func (o *LatLng) GetLng() float32 {
 
 // GetLngOk returns a tuple with the Lng field value
 // and a boolean to check if the value has been set.
-func (o *LatLng) GetLngOk() (*float32, bool) {
+func (o *LatLng) GetLngOk() (*float64, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -91,7 +91,7 @@ func (o *LatLng) GetLngOk() (*float32, bool) {
 }
 
 // SetLng sets field value
-func (o *LatLng) SetLng(v float32) {
+func (o *LatLng) SetLng(v float64) {
 	o.Lng = v
 }
 
