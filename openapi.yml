@@ -1988,27 +1988,19 @@ components:
           preference: 30
           via: 10.2.1.1
         type: object
+    switch_matching_rules:
+          items:
+            $ref: "#/components/schemas/switch_matching_rules_item"
+          type: array
     switch_matching:
       description: Switch template
       properties:
         enable:
           type: boolean
         rules:
-          items:
-            $ref: "#/components/schemas/switch_matching_rule"
-          minItems: 1
-          type: array
-          uniqueItems: true
+            $ref: "#/components/schemas/switch_matching_rules"
       type: object
-    switch_matching_rule:
-      additionalProperties:
-        type: string
-      description:
-        "property key define the type of matching, value is the string
-        to match. e.g: `match_name[0:3]`, `match_name[2:6]`, `match_model`,  `match_model[0-6]`"
-      example:
-        match_model: EX4300
-        match_name[0:3]: abc
+    switch_matching_rules_item:
       properties:
         additional_config_cmds:
           items:

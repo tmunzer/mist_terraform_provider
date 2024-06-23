@@ -113,4 +113,11 @@ resource "mistapi_networktemplate" "switch_template" {
     ]
     structured_data = true
   }
+  switch_mgmt = {
+    config_revert = 5
+    protect_re ={
+      enabled =true
+    }
+    root_password = "Juniper123"
+  }
 }

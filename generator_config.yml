@@ -82,9 +82,9 @@ resources:
         - acl_tags
         - import_org_networks
         - snmp_config
-        - switch_matching
         - extra_routes
         - extra_routes6
+        - switch_matching.rules.switch_mgmt
       attributes:
         aliases:
           networktemplate_id: id

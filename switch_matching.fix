@@ -1,0 +1,409 @@
+
+
+var _ basetypes.ObjectTypable = SwitchMatchingType{}
+
+type SwitchMatchingType struct {
+	basetypes.ObjectType
+}
+
+func (t SwitchMatchingType) Equal(o attr.Type) bool {
+	other, ok := o.(SwitchMatchingType)
+
+	if !ok {
+		return false
+	}
+
+	return t.ObjectType.Equal(other.ObjectType)
+}
+
+func (t SwitchMatchingType) String() string {
+	return "SwitchMatchingType"
+}
+
+func (t SwitchMatchingType) ValueFromObject(ctx context.Context, in basetypes.ObjectValue) (basetypes.ObjectValuable, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	attributes := in.Attributes()
+
+	enableAttribute, ok := attributes["enable"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`enable is missing from object`)
+
+		return nil, diags
+	}
+
+	enableVal, ok := enableAttribute.(basetypes.BoolValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`enable expected to be basetypes.BoolValue, was: %T`, enableAttribute))
+	}
+
+	rulesAttribute, ok := attributes["rules"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`rules is missing from object`)
+
+		return nil, diags
+	}
+
+	rulesVal, ok := rulesAttribute.(basetypes.ListValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`rules expected to be basetypes.ListValue, was: %T`, rulesAttribute))
+	}
+
+	if diags.HasError() {
+		return nil, diags
+	}
+
+	return SwitchMatchingValue{
+		Enable: enableVal,
+		Rules:  rulesVal,
+		state:  attr.ValueStateKnown,
+	}, diags
+}
+
+func NewSwitchMatchingValueNull() SwitchMatchingValue {
+	return SwitchMatchingValue{
+		state: attr.ValueStateNull,
+	}
+}
+
+func NewSwitchMatchingValueUnknown() SwitchMatchingValue {
+	return SwitchMatchingValue{
+		state: attr.ValueStateUnknown,
+	}
+}
+
+func NewSwitchMatchingValue(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) (SwitchMatchingValue, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	// Reference: https://github.com/hashicorp/terraform-plugin-framework/issues/521
+	ctx := context.Background()
+
+	for name, attributeType := range attributeTypes {
+		attribute, ok := attributes[name]
+
+		if !ok {
+			diags.AddError(
+				"Missing SwitchMatchingValue Attribute Value",
+				"While creating a SwitchMatchingValue value, a missing attribute value was detected. "+
+					"A SwitchMatchingValue must contain values for all attributes, even if null or unknown. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("SwitchMatchingValue Attribute Name (%s) Expected Type: %s", name, attributeType.String()),
+			)
+
+			continue
+		}
+
+		if !attributeType.Equal(attribute.Type(ctx)) {
+			diags.AddError(
+				"Invalid SwitchMatchingValue Attribute Type",
+				"While creating a SwitchMatchingValue value, an invalid attribute value was detected. "+
+					"A SwitchMatchingValue must use a matching attribute type for the value. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("SwitchMatchingValue Attribute Name (%s) Expected Type: %s\n", name, attributeType.String())+
+					fmt.Sprintf("SwitchMatchingValue Attribute Name (%s) Given Type: %s", name, attribute.Type(ctx)),
+			)
+		}
+	}
+
+	for name := range attributes {
+		_, ok := attributeTypes[name]
+
+		if !ok {
+			diags.AddError(
+				"Extra SwitchMatchingValue Attribute Value",
+				"While creating a SwitchMatchingValue value, an extra attribute value was detected. "+
+					"A SwitchMatchingValue must not contain values beyond the expected attribute types. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("Extra SwitchMatchingValue Attribute Name: %s", name),
+			)
+		}
+	}
+
+	if diags.HasError() {
+		return NewSwitchMatchingValueUnknown(), diags
+	}
+
+	enableAttribute, ok := attributes["enable"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`enable is missing from object`)
+
+		return NewSwitchMatchingValueUnknown(), diags
+	}
+
+	enableVal, ok := enableAttribute.(basetypes.BoolValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`enable expected to be basetypes.BoolValue, was: %T`, enableAttribute))
+	}
+
+	rulesAttribute, ok := attributes["rules"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`rules is missing from object`)
+
+		return NewSwitchMatchingValueUnknown(), diags
+	}
+
+	rulesVal, ok := rulesAttribute.(basetypes.ListValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`rules expected to be basetypes.ListValue, was: %T`, rulesAttribute))
+	}
+
+	if diags.HasError() {
+		return NewSwitchMatchingValueUnknown(), diags
+	}
+
+	return SwitchMatchingValue{
+		Enable: enableVal,
+		Rules:  rulesVal,
+		state:  attr.ValueStateKnown,
+	}, diags
+}
+
+func NewSwitchMatchingValueMust(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) SwitchMatchingValue {
+	object, diags := NewSwitchMatchingValue(attributeTypes, attributes)
+
+	if diags.HasError() {
+		// This could potentially be added to the diag package.
+		diagsStrings := make([]string, 0, len(diags))
+
+		for _, diagnostic := range diags {
+			diagsStrings = append(diagsStrings, fmt.Sprintf(
+				"%s | %s | %s",
+				diagnostic.Severity(),
+				diagnostic.Summary(),
+				diagnostic.Detail()))
+		}
+
+		panic("NewSwitchMatchingValueMust received error(s): " + strings.Join(diagsStrings, "\n"))
+	}
+
+	return object
+}
+
+func (t SwitchMatchingType) ValueFromTerraform(ctx context.Context, in tftypes.Value) (attr.Value, error) {
+	if in.Type() == nil {
+		return NewSwitchMatchingValueNull(), nil
+	}
+
+	if !in.Type().Equal(t.TerraformType(ctx)) {
+		return nil, fmt.Errorf("expected %s, got %s", t.TerraformType(ctx), in.Type())
+	}
+
+	if !in.IsKnown() {
+		return NewSwitchMatchingValueUnknown(), nil
+	}
+
+	if in.IsNull() {
+		return NewSwitchMatchingValueNull(), nil
+	}
+
+	attributes := map[string]attr.Value{}
+
+	val := map[string]tftypes.Value{}
+
+	err := in.As(&val)
+
+	if err != nil {
+		return nil, err
+	}
+
+	for k, v := range val {
+		a, err := t.AttrTypes[k].ValueFromTerraform(ctx, v)
+
+		if err != nil {
+			return nil, err
+		}
+
+		attributes[k] = a
+	}
+
+	return NewSwitchMatchingValueMust(SwitchMatchingValue{}.AttributeTypes(ctx), attributes), nil
+}
+
+func (t SwitchMatchingType) ValueType(ctx context.Context) attr.Value {
+	return SwitchMatchingValue{}
+}
+
+var _ basetypes.ObjectValuable = SwitchMatchingValue{}
+
+type SwitchMatchingValue struct {
+	Enable basetypes.BoolValue `tfsdk:"enable"`
+	Rules  basetypes.ListValue `tfsdk:"rules"`
+	state  attr.ValueState
+}
+
+func (v SwitchMatchingValue) ToTerraformValue(ctx context.Context) (tftypes.Value, error) {
+	attrTypes := make(map[string]tftypes.Type, 2)
+
+	var val tftypes.Value
+	var err error
+
+	attrTypes["enable"] = basetypes.BoolType{}.TerraformType(ctx)
+	attrTypes["rules"] = basetypes.ListType{
+		ElemType: types.MapType{
+			ElemType: types.StringType,
+		},
+	}.TerraformType(ctx)
+
+	objectType := tftypes.Object{AttributeTypes: attrTypes}
+
+	switch v.state {
+	case attr.ValueStateKnown:
+		vals := make(map[string]tftypes.Value, 2)
+
+		val, err = v.Enable.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["enable"] = val
+
+		val, err = v.Rules.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["rules"] = val
+
+		if err := tftypes.ValidateValue(objectType, vals); err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		return tftypes.NewValue(objectType, vals), nil
+	case attr.ValueStateNull:
+		return tftypes.NewValue(objectType, nil), nil
+	case attr.ValueStateUnknown:
+		return tftypes.NewValue(objectType, tftypes.UnknownValue), nil
+	default:
+		panic(fmt.Sprintf("unhandled Object state in ToTerraformValue: %s", v.state))
+	}
+}
+
+func (v SwitchMatchingValue) IsNull() bool {
+	return v.state == attr.ValueStateNull
+}
+
+func (v SwitchMatchingValue) IsUnknown() bool {
+	return v.state == attr.ValueStateUnknown
+}
+
+func (v SwitchMatchingValue) String() string {
+	return "SwitchMatchingValue"
+}
+
+func (v SwitchMatchingValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	rulesVal, d := types.ListValue(types.MapType{
+		ElemType: types.StringType,
+	}, v.Rules.Elements())
+
+	diags.Append(d...)
+
+	if d.HasError() {
+		return types.ObjectUnknown(map[string]attr.Type{
+			"enable": basetypes.BoolType{},
+			"rules": basetypes.ListType{
+				ElemType: types.MapType{
+					ElemType: types.StringType,
+				},
+			},
+		}), diags
+	}
+
+	attributeTypes := map[string]attr.Type{
+		"enable": basetypes.BoolType{},
+		"rules": basetypes.ListType{
+			ElemType: types.MapType{
+				ElemType: types.StringType,
+			},
+		},
+	}
+
+	if v.IsNull() {
+		return types.ObjectNull(attributeTypes), diags
+	}
+
+	if v.IsUnknown() {
+		return types.ObjectUnknown(attributeTypes), diags
+	}
+
+	objVal, diags := types.ObjectValue(
+		attributeTypes,
+		map[string]attr.Value{
+			"enable": v.Enable,
+			"rules":  rulesVal,
+		})
+
+	return objVal, diags
+}
+
+func (v SwitchMatchingValue) Equal(o attr.Value) bool {
+	other, ok := o.(SwitchMatchingValue)
+
+	if !ok {
+		return false
+	}
+
+	if v.state != other.state {
+		return false
+	}
+
+	if v.state != attr.ValueStateKnown {
+		return true
+	}
+
+	if !v.Enable.Equal(other.Enable) {
+		return false
+	}
+
+	if !v.Rules.Equal(other.Rules) {
+		return false
+	}
+
+	return true
+}
+
+func (v SwitchMatchingValue) Type(ctx context.Context) attr.Type {
+	return SwitchMatchingType{
+		basetypes.ObjectType{
+			AttrTypes: v.AttributeTypes(ctx),
+		},
+	}
+}
+
+func (v SwitchMatchingValue) AttributeTypes(ctx context.Context) map[string]attr.Type {
+	return map[string]attr.Type{
+		"enable": basetypes.BoolType{},
+		"rules": basetypes.ListType{
+			ElemType: types.MapType{
+				ElemType: types.StringType,
+			},
+		},
+	}
+}

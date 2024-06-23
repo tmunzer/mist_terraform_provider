@@ -3,8 +3,12 @@ FILES = [
 ]
 
 ADD = {
-    "./terraform-provider-mistapi/internal/resource_networktemplate/networktemplate_resource_gen.go": ["./tacacsAcctServers.fix"]
+    "./terraform-provider-mistapi/internal/resource_networktemplate/networktemplate_resource_gen.go": [
+        "./tacacsAcctServers.fix"
+    ]
 }
+
+REPLACE_ITEMS = {"Tacacs": [{"source": "AcctServers", "dest": "TacacsAcctServers"}]}
 
 for file in FILES:
     with open(file, "r") as f_in:
@@ -14,20 +18,29 @@ for file in FILES:
         with open(f"{file}.bak", "r") as f_in:
             SKIP = False
             UNSKIP_NEXT = False
+            TO_REPLACE = []
             done = []
             for line in f_in.readlines():
                 if UNSKIP_NEXT:
                     UNSKIP_NEXT = False
                     SKIP = False
-                if line.startswith("}"):
+
+                for item in TO_REPLACE:
+                    line = line.replace(item["source"], item["dest"])
+
+                if line.startswith("}"):                    
                     UNSKIP_NEXT = True
-                if line.startswith("var") or line.startswith("func"):
+                    TO_REPLACE = []
+                elif line.startswith("type") or line.startswith("func"):
+                    for item, value in REPLACE_ITEMS.items():
+                        if f"{item}Type" in line or f"{item}Value" in line:
+                            TO_REPLACE = value
                     if line not in done:
                         done.append(line)
                     else:
                         SKIP = True
                         print(f"skipping {line}", end="")
-                elif line.startswith("type"):
+                elif line.startswith("var"):
                     if line not in done:
                         done.append(line)
                     else:
@@ -38,6 +51,4 @@ for file in FILES:
                     f_out.write(f"{line}")
         for fix in ADD.get(file, []):
             with open(fix, "r") as f_fix:
-                f_out.writelines(f_fix.readlines)
-        
-
+                f_out.writelines(f_fix.readlines())

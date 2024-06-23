@@ -310,8 +310,8 @@ docs/SwitchExtraRoutes6Value.md
 docs/SwitchExtraRoutesValue.md
 docs/SwitchExtraRoutesValueNextQualifiedValue.md
 docs/SwitchMatching.md
-docs/SwitchMatchingRule.md
 docs/SwitchMatchingRulePortMirroringValue.md
+docs/SwitchMatchingRulesItem.md
 docs/SwitchMgmt.md
 docs/SwitchPortMirroring.md
 docs/SwitchStpConfig.md
@@ -639,8 +639,8 @@ model_switch_extra_routes6_value.go
 model_switch_extra_routes_value.go
 model_switch_extra_routes_value_next_qualified_value.go
 model_switch_matching.go
-model_switch_matching_rule.go
 model_switch_matching_rule_port_mirroring_value.go
+model_switch_matching_rules_item.go
 model_switch_mgmt.go
 model_switch_port_mirroring.go
 model_switch_stp_config.go

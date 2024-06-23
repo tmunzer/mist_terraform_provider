@@ -21,7 +21,7 @@ var _ MappedNullable = &SwitchMatching{}
 // SwitchMatching Switch template
 type SwitchMatching struct {
 	Enable *bool `json:"enable,omitempty"`
-	Rules []SwitchMatchingRule `json:"rules,omitempty"`
+	Rules []SwitchMatchingRulesItem `json:"rules,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -77,9 +77,9 @@ func (o *SwitchMatching) SetEnable(v bool) {
 }
 
 // GetRules returns the Rules field value if set, zero value otherwise.
-func (o *SwitchMatching) GetRules() []SwitchMatchingRule {
+func (o *SwitchMatching) GetRules() []SwitchMatchingRulesItem {
 	if o == nil || IsNil(o.Rules) {
-		var ret []SwitchMatchingRule
+		var ret []SwitchMatchingRulesItem
 		return ret
 	}
 	return o.Rules
@@ -87,7 +87,7 @@ func (o *SwitchMatching) GetRules() []SwitchMatchingRule {
 
 // GetRulesOk returns a tuple with the Rules field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *SwitchMatching) GetRulesOk() ([]SwitchMatchingRule, bool) {
+func (o *SwitchMatching) GetRulesOk() ([]SwitchMatchingRulesItem, bool) {
 	if o == nil || IsNil(o.Rules) {
 		return nil, false
 	}
@@ -103,8 +103,8 @@ func (o *SwitchMatching) HasRules() bool {
 	return false
 }
 
-// SetRules gets a reference to the given []SwitchMatchingRule and assigns it to the Rules field.
-func (o *SwitchMatching) SetRules(v []SwitchMatchingRule) {
+// SetRules gets a reference to the given []SwitchMatchingRulesItem and assigns it to the Rules field.
+func (o *SwitchMatching) SetRules(v []SwitchMatchingRulesItem) {
 	o.Rules = v
 }
 

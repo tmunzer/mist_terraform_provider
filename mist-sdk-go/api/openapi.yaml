@@ -3725,33 +3725,388 @@ components:
           via: 10.2.1.1
         type: object
       type: object
+    switch_matching_rules:
+      items:
+        $ref: '#/components/schemas/switch_matching_rules_item'
+      type: array
     switch_matching:
       description: Switch template
       example:
         enable: true
         rules:
-        - match_model: EX4300
-          match_name[0:3]: abc
-        - match_model: EX4300
-          match_name[0:3]: abc
+        - port_mirroring:
+            key:
+              input_port_ids_ingress:
+              - ge-0/0/4"
+              input_port_ids_egress:
+              - ge-0/0/5
+              - ge-0/0/6
+              output_port_id: ge-0/0/3
+              input_networks_ingress:
+              - iot
+          switch_mgmt:
+            local_accounts:
+              key:
+                password: Juniper123
+                role: none
+            root_password: root_password
+            cli_idle_timeout: 41
+            tacacs:
+              tacplus_servers:
+              - port: port
+                host: host
+                secret: secret
+                timeout: 5
+              - port: port
+                host: host
+                secret: secret
+                timeout: 5
+              acct_servers:
+              - port: port
+                host: host
+                secret: secret
+                timeout: 4
+              - port: port
+                host: host
+                secret: secret
+                timeout: 4
+              enabled: true
+              network: network
+            dhcp_option_fqdn: false
+            mxedge_proxy_port: 1
+            protect_re:
+              trusted_hosts:
+              - 10.242.3.0/24
+              - 10.242.3.0/24
+              custom:
+              - subnet:
+                - 10.1.2.0/24
+                - 10.1.2.0/24
+                protocol: any
+                port_range: "80,1035-1040"
+              - subnet:
+                - 10.1.2.0/24
+                - 10.1.2.0/24
+                protocol: any
+                port_range: "80,1035-1040"
+              allowed_services:
+              - icmp
+              - ssh
+              enabled: false
+            mxedge_proxy_host: mxedge_proxy_host
+            config_revert_timer: 22
+            ap_affinity_threshold: 1
+            radius:
+              radius_config:
+                coa_enabled: false
+                acct_interim_interval: 13284
+                auth_servers:
+                - keywrap_kek: "1122334455"
+                  port: 1812
+                  host: 1.2.3.4
+                  keywrap_enabled: true
+                  secret: testing123
+                  keywrap_format: hex
+                  keywrap_mack: "1122334455"
+                - keywrap_kek: "1122334455"
+                  port: 1812
+                  host: 1.2.3.4
+                  keywrap_enabled: true
+                  secret: testing123
+                  keywrap_format: hex
+                  keywrap_mack: "1122334455"
+                coa_port: 1
+                acct_servers:
+                - keywrap_kek: "1122334455"
+                  port: 1813
+                  host: 1.2.3.4
+                  keywrap_enabled: true
+                  secret: testing123
+                  keywrap_format: hex
+                  keywrap_mack: "1122334455"
+                - keywrap_kek: "1122334455"
+                  port: 1813
+                  host: 1.2.3.4
+                  keywrap_enabled: true
+                  secret: testing123
+                  keywrap_format: hex
+                  keywrap_mack: "1122334455"
+                auth_servers_timeout: 7
+                auth_servers_retries: 4
+                network: network
+                source_ip: source_ip
+              use_different_radius: use_different_radius
+              enabled: true
+            cli_banner: \t\tWELCOME!
+            use_mxedge_proxy: true
+          port_config:
+            '*':
+              usage: default
+            ge-0/0/0-1:
+              ae_disable_lacp: false
+              ae_idx: 0
+              aggregated: true
+              critical: true
+              usage: uplink
+            ge-0/0/8-16,ge-1/0/0-47:
+              usage: ap
+          name: access_ex4300
+          additional_config_cmds:
+          - set snmp community public
+          - set snmp community public
+          match_role: access
+        - port_mirroring:
+            key:
+              input_port_ids_ingress:
+              - ge-0/0/4"
+              input_port_ids_egress:
+              - ge-0/0/5
+              - ge-0/0/6
+              output_port_id: ge-0/0/3
+              input_networks_ingress:
+              - iot
+          switch_mgmt:
+            local_accounts:
+              key:
+                password: Juniper123
+                role: none
+            root_password: root_password
+            cli_idle_timeout: 41
+            tacacs:
+              tacplus_servers:
+              - port: port
+                host: host
+                secret: secret
+                timeout: 5
+              - port: port
+                host: host
+                secret: secret
+                timeout: 5
+              acct_servers:
+              - port: port
+                host: host
+                secret: secret
+                timeout: 4
+              - port: port
+                host: host
+                secret: secret
+                timeout: 4
+              enabled: true
+              network: network
+            dhcp_option_fqdn: false
+            mxedge_proxy_port: 1
+            protect_re:
+              trusted_hosts:
+              - 10.242.3.0/24
+              - 10.242.3.0/24
+              custom:
+              - subnet:
+                - 10.1.2.0/24
+                - 10.1.2.0/24
+                protocol: any
+                port_range: "80,1035-1040"
+              - subnet:
+                - 10.1.2.0/24
+                - 10.1.2.0/24
+                protocol: any
+                port_range: "80,1035-1040"
+              allowed_services:
+              - icmp
+              - ssh
+              enabled: false
+            mxedge_proxy_host: mxedge_proxy_host
+            config_revert_timer: 22
+            ap_affinity_threshold: 1
+            radius:
+              radius_config:
+                coa_enabled: false
+                acct_interim_interval: 13284
+                auth_servers:
+                - keywrap_kek: "1122334455"
+                  port: 1812
+                  host: 1.2.3.4
+                  keywrap_enabled: true
+                  secret: testing123
+                  keywrap_format: hex
+                  keywrap_mack: "1122334455"
+                - keywrap_kek: "1122334455"
+                  port: 1812
+                  host: 1.2.3.4
+                  keywrap_enabled: true
+                  secret: testing123
+                  keywrap_format: hex
+                  keywrap_mack: "1122334455"
+                coa_port: 1
+                acct_servers:
+                - keywrap_kek: "1122334455"
+                  port: 1813
+                  host: 1.2.3.4
+                  keywrap_enabled: true
+                  secret: testing123
+                  keywrap_format: hex
+                  keywrap_mack: "1122334455"
+                - keywrap_kek: "1122334455"
+                  port: 1813
+                  host: 1.2.3.4
+                  keywrap_enabled: true
+                  secret: testing123
+                  keywrap_format: hex
+                  keywrap_mack: "1122334455"
+                auth_servers_timeout: 7
+                auth_servers_retries: 4
+                network: network
+                source_ip: source_ip
+              use_different_radius: use_different_radius
+              enabled: true
+            cli_banner: \t\tWELCOME!
+            use_mxedge_proxy: true
+          port_config:
+            '*':
+              usage: default
+            ge-0/0/0-1:
+              ae_disable_lacp: false
+              ae_idx: 0
+              aggregated: true
+              critical: true
+              usage: uplink
+            ge-0/0/8-16,ge-1/0/0-47:
+              usage: ap
+          name: access_ex4300
+          additional_config_cmds:
+          - set snmp community public
+          - set snmp community public
+          match_role: access
       properties:
         enable:
           type: boolean
         rules:
           items:
-            $ref: '#/components/schemas/switch_matching_rule'
-          minItems: 1
+            $ref: '#/components/schemas/switch_matching_rules_item'
           type: array
-          uniqueItems: true
       type: object
-    switch_matching_rule:
-      additionalProperties:
-        type: string
-      description: "property key define the type of matching, value is the string\
-        \ to match. e.g: `match_name[0:3]`, `match_name[2:6]`, `match_model`,  `match_model[0-6]`"
+    switch_matching_rules_item:
       example:
-        match_model: EX4300
-        match_name[0:3]: abc
+        port_mirroring:
+          key:
+            input_port_ids_ingress:
+            - ge-0/0/4"
+            input_port_ids_egress:
+            - ge-0/0/5
+            - ge-0/0/6
+            output_port_id: ge-0/0/3
+            input_networks_ingress:
+            - iot
+        switch_mgmt:
+          local_accounts:
+            key:
+              password: Juniper123
+              role: none
+          root_password: root_password
+          cli_idle_timeout: 41
+          tacacs:
+            tacplus_servers:
+            - port: port
+              host: host
+              secret: secret
+              timeout: 5
+            - port: port
+              host: host
+              secret: secret
+              timeout: 5
+            acct_servers:
+            - port: port
+              host: host
+              secret: secret
+              timeout: 4
+            - port: port
+              host: host
+              secret: secret
+              timeout: 4
+            enabled: true
+            network: network
+          dhcp_option_fqdn: false
+          mxedge_proxy_port: 1
+          protect_re:
+            trusted_hosts:
+            - 10.242.3.0/24
+            - 10.242.3.0/24
+            custom:
+            - subnet:
+              - 10.1.2.0/24
+              - 10.1.2.0/24
+              protocol: any
+              port_range: "80,1035-1040"
+            - subnet:
+              - 10.1.2.0/24
+              - 10.1.2.0/24
+              protocol: any
+              port_range: "80,1035-1040"
+            allowed_services:
+            - icmp
+            - ssh
+            enabled: false
+          mxedge_proxy_host: mxedge_proxy_host
+          config_revert_timer: 22
+          ap_affinity_threshold: 1
+          radius:
+            radius_config:
+              coa_enabled: false
+              acct_interim_interval: 13284
+              auth_servers:
+              - keywrap_kek: "1122334455"
+                port: 1812
+                host: 1.2.3.4
+                keywrap_enabled: true
+                secret: testing123
+                keywrap_format: hex
+                keywrap_mack: "1122334455"
+              - keywrap_kek: "1122334455"
+                port: 1812
+                host: 1.2.3.4
+                keywrap_enabled: true
+                secret: testing123
+                keywrap_format: hex
+                keywrap_mack: "1122334455"
+              coa_port: 1
+              acct_servers:
+              - keywrap_kek: "1122334455"
+                port: 1813
+                host: 1.2.3.4
+                keywrap_enabled: true
+                secret: testing123
+                keywrap_format: hex
+                keywrap_mack: "1122334455"
+              - keywrap_kek: "1122334455"
+                port: 1813
+                host: 1.2.3.4
+                keywrap_enabled: true
+                secret: testing123
+                keywrap_format: hex
+                keywrap_mack: "1122334455"
+              auth_servers_timeout: 7
+              auth_servers_retries: 4
+              network: network
+              source_ip: source_ip
+            use_different_radius: use_different_radius
+            enabled: true
+          cli_banner: \t\tWELCOME!
+          use_mxedge_proxy: true
+        port_config:
+          '*':
+            usage: default
+          ge-0/0/0-1:
+            ae_disable_lacp: false
+            ae_idx: 0
+            aggregated: true
+            critical: true
+            usage: uplink
+          ge-0/0/8-16,ge-1/0/0-47:
+            usage: ap
+        name: access_ex4300
+        additional_config_cmds:
+        - set snmp community public
+        - set snmp community public
+        match_role: access
       properties:
         additional_config_cmds:
           items:
@@ -3829,27 +4184,27 @@ components:
           - icmp
           - ssh
           enabled: false
-        config_revert: 1
+        config_revert: 9
         root_password: root_password
         tacacs:
           tacplus_servers:
           - port: port
             host: host
             secret: secret
-            timeout: 7
+            timeout: 5
           - port: port
             host: host
             secret: secret
-            timeout: 7
+            timeout: 5
           acct_servers:
           - port: port
             host: host
             secret: secret
-            timeout: 6
+            timeout: 4
           - port: port
             host: host
             secret: secret
-            timeout: 6
+            timeout: 4
           enabled: true
           network: network
       properties:
@@ -3977,30 +4332,30 @@ components:
               password: Juniper123
               role: none
           root_password: root_password
-          cli_idle_timeout: 4
+          cli_idle_timeout: 41
           tacacs:
             tacplus_servers:
             - port: port
               host: host
               secret: secret
-              timeout: 7
+              timeout: 5
             - port: port
               host: host
               secret: secret
-              timeout: 7
+              timeout: 5
             acct_servers:
             - port: port
               host: host
               secret: secret
-              timeout: 6
+              timeout: 4
             - port: port
               host: host
               secret: secret
-              timeout: 6
+              timeout: 4
             enabled: true
             network: network
           dhcp_option_fqdn: false
-          mxedge_proxy_port: 5
+          mxedge_proxy_port: 1
           protect_re:
             trusted_hosts:
             - 10.242.3.0/24
@@ -4021,8 +4376,8 @@ components:
             - ssh
             enabled: false
           mxedge_proxy_host: mxedge_proxy_host
-          config_revert_timer: 24
-          ap_affinity_threshold: 9
+          config_revert_timer: 22
+          ap_affinity_threshold: 1
           radius:
             radius_config:
               coa_enabled: false
@@ -4568,27 +4923,27 @@ components:
               - icmp
               - ssh
               enabled: false
-            config_revert: 1
+            config_revert: 9
             root_password: root_password
             tacacs:
               tacplus_servers:
               - port: port
                 host: host
                 secret: secret
-                timeout: 7
+                timeout: 5
               - port: port
                 host: host
                 secret: secret
-                timeout: 7
+                timeout: 5
               acct_servers:
               - port: port
                 host: host
                 secret: secret
-                timeout: 6
+                timeout: 4
               - port: port
                 host: host
                 secret: secret
-                timeout: 6
+                timeout: 4
               enabled: true
               network: network
           import_org_networks:
@@ -4610,10 +4965,248 @@ components:
           switch_matching:
             enable: true
             rules:
-            - match_model: EX4300
-              match_name[0:3]: abc
-            - match_model: EX4300
-              match_name[0:3]: abc
+            - port_mirroring:
+                key:
+                  input_port_ids_ingress:
+                  - ge-0/0/4"
+                  input_port_ids_egress:
+                  - ge-0/0/5
+                  - ge-0/0/6
+                  output_port_id: ge-0/0/3
+                  input_networks_ingress:
+                  - iot
+              switch_mgmt:
+                local_accounts:
+                  key:
+                    password: Juniper123
+                    role: none
+                root_password: root_password
+                cli_idle_timeout: 41
+                tacacs:
+                  tacplus_servers:
+                  - port: port
+                    host: host
+                    secret: secret
+                    timeout: 5
+                  - port: port
+                    host: host
+                    secret: secret
+                    timeout: 5
+                  acct_servers:
+                  - port: port
+                    host: host
+                    secret: secret
+                    timeout: 4
+                  - port: port
+                    host: host
+                    secret: secret
+                    timeout: 4
+                  enabled: true
+                  network: network
+                dhcp_option_fqdn: false
+                mxedge_proxy_port: 1
+                protect_re:
+                  trusted_hosts:
+                  - 10.242.3.0/24
+                  - 10.242.3.0/24
+                  custom:
+                  - subnet:
+                    - 10.1.2.0/24
+                    - 10.1.2.0/24
+                    protocol: any
+                    port_range: "80,1035-1040"
+                  - subnet:
+                    - 10.1.2.0/24
+                    - 10.1.2.0/24
+                    protocol: any
+                    port_range: "80,1035-1040"
+                  allowed_services:
+                  - icmp
+                  - ssh
+                  enabled: false
+                mxedge_proxy_host: mxedge_proxy_host
+                config_revert_timer: 22
+                ap_affinity_threshold: 1
+                radius:
+                  radius_config:
+                    coa_enabled: false
+                    acct_interim_interval: 13284
+                    auth_servers:
+                    - keywrap_kek: "1122334455"
+                      port: 1812
+                      host: 1.2.3.4
+                      keywrap_enabled: true
+                      secret: testing123
+                      keywrap_format: hex
+                      keywrap_mack: "1122334455"
+                    - keywrap_kek: "1122334455"
+                      port: 1812
+                      host: 1.2.3.4
+                      keywrap_enabled: true
+                      secret: testing123
+                      keywrap_format: hex
+                      keywrap_mack: "1122334455"
+                    coa_port: 1
+                    acct_servers:
+                    - keywrap_kek: "1122334455"
+                      port: 1813
+                      host: 1.2.3.4
+                      keywrap_enabled: true
+                      secret: testing123
+                      keywrap_format: hex
+                      keywrap_mack: "1122334455"
+                    - keywrap_kek: "1122334455"
+                      port: 1813
+                      host: 1.2.3.4
+                      keywrap_enabled: true
+                      secret: testing123
+                      keywrap_format: hex
+                      keywrap_mack: "1122334455"
+                    auth_servers_timeout: 7
+                    auth_servers_retries: 4
+                    network: network
+                    source_ip: source_ip
+                  use_different_radius: use_different_radius
+                  enabled: true
+                cli_banner: \t\tWELCOME!
+                use_mxedge_proxy: true
+              port_config:
+                '*':
+                  usage: default
+                ge-0/0/0-1:
+                  ae_disable_lacp: false
+                  ae_idx: 0
+                  aggregated: true
+                  critical: true
+                  usage: uplink
+                ge-0/0/8-16,ge-1/0/0-47:
+                  usage: ap
+              name: access_ex4300
+              additional_config_cmds:
+              - set snmp community public
+              - set snmp community public
+              match_role: access
+            - port_mirroring:
+                key:
+                  input_port_ids_ingress:
+                  - ge-0/0/4"
+                  input_port_ids_egress:
+                  - ge-0/0/5
+                  - ge-0/0/6
+                  output_port_id: ge-0/0/3
+                  input_networks_ingress:
+                  - iot
+              switch_mgmt:
+                local_accounts:
+                  key:
+                    password: Juniper123
+                    role: none
+                root_password: root_password
+                cli_idle_timeout: 41
+                tacacs:
+                  tacplus_servers:
+                  - port: port
+                    host: host
+                    secret: secret
+                    timeout: 5
+                  - port: port
+                    host: host
+                    secret: secret
+                    timeout: 5
+                  acct_servers:
+                  - port: port
+                    host: host
+                    secret: secret
+                    timeout: 4
+                  - port: port
+                    host: host
+                    secret: secret
+                    timeout: 4
+                  enabled: true
+                  network: network
+                dhcp_option_fqdn: false
+                mxedge_proxy_port: 1
+                protect_re:
+                  trusted_hosts:
+                  - 10.242.3.0/24
+                  - 10.242.3.0/24
+                  custom:
+                  - subnet:
+                    - 10.1.2.0/24
+                    - 10.1.2.0/24
+                    protocol: any
+                    port_range: "80,1035-1040"
+                  - subnet:
+                    - 10.1.2.0/24
+                    - 10.1.2.0/24
+                    protocol: any
+                    port_range: "80,1035-1040"
+                  allowed_services:
+                  - icmp
+                  - ssh
+                  enabled: false
+                mxedge_proxy_host: mxedge_proxy_host
+                config_revert_timer: 22
+                ap_affinity_threshold: 1
+                radius:
+                  radius_config:
+                    coa_enabled: false
+                    acct_interim_interval: 13284
+                    auth_servers:
+                    - keywrap_kek: "1122334455"
+                      port: 1812
+                      host: 1.2.3.4
+                      keywrap_enabled: true
+                      secret: testing123
+                      keywrap_format: hex
+                      keywrap_mack: "1122334455"
+                    - keywrap_kek: "1122334455"
+                      port: 1812
+                      host: 1.2.3.4
+                      keywrap_enabled: true
+                      secret: testing123
+                      keywrap_format: hex
+                      keywrap_mack: "1122334455"
+                    coa_port: 1
+                    acct_servers:
+                    - keywrap_kek: "1122334455"
+                      port: 1813
+                      host: 1.2.3.4
+                      keywrap_enabled: true
+                      secret: testing123
+                      keywrap_format: hex
+                      keywrap_mack: "1122334455"
+                    - keywrap_kek: "1122334455"
+                      port: 1813
+                      host: 1.2.3.4
+                      keywrap_enabled: true
+                      secret: testing123
+                      keywrap_format: hex
+                      keywrap_mack: "1122334455"
+                    auth_servers_timeout: 7
+                    auth_servers_retries: 4
+                    network: network
+                    source_ip: source_ip
+                  use_different_radius: use_different_radius
+                  enabled: true
+                cli_banner: \t\tWELCOME!
+                use_mxedge_proxy: true
+              port_config:
+                '*':
+                  usage: default
+                ge-0/0/0-1:
+                  ae_disable_lacp: false
+                  ae_idx: 0
+                  aggregated: true
+                  critical: true
+                  usage: uplink
+                ge-0/0/8-16,ge-1/0/0-47:
+                  usage: ap
+              name: access_ex4300
+              additional_config_cmds:
+              - set snmp community public
+              - set snmp community public
+              match_role: access
           vrf_config:
             enabled: true
           dns_servers:
@@ -4911,7 +5504,7 @@ components:
         wids:
           repeated_auth_failures:
             duration: 60
-            threshold: 4
+            threshold: 9
         tunterm_monitoring:
         - protocol: tcp
           port: 80
@@ -5075,10 +5668,248 @@ components:
         switch_matching:
           enable: true
           rules:
-          - match_model: EX4300
-            match_name[0:3]: abc
-          - match_model: EX4300
-            match_name[0:3]: abc
+          - port_mirroring:
+              key:
+                input_port_ids_ingress:
+                - ge-0/0/4"
+                input_port_ids_egress:
+                - ge-0/0/5
+                - ge-0/0/6
+                output_port_id: ge-0/0/3
+                input_networks_ingress:
+                - iot
+            switch_mgmt:
+              local_accounts:
+                key:
+                  password: Juniper123
+                  role: none
+              root_password: root_password
+              cli_idle_timeout: 41
+              tacacs:
+                tacplus_servers:
+                - port: port
+                  host: host
+                  secret: secret
+                  timeout: 5
+                - port: port
+                  host: host
+                  secret: secret
+                  timeout: 5
+                acct_servers:
+                - port: port
+                  host: host
+                  secret: secret
+                  timeout: 4
+                - port: port
+                  host: host
+                  secret: secret
+                  timeout: 4
+                enabled: true
+                network: network
+              dhcp_option_fqdn: false
+              mxedge_proxy_port: 1
+              protect_re:
+                trusted_hosts:
+                - 10.242.3.0/24
+                - 10.242.3.0/24
+                custom:
+                - subnet:
+                  - 10.1.2.0/24
+                  - 10.1.2.0/24
+                  protocol: any
+                  port_range: "80,1035-1040"
+                - subnet:
+                  - 10.1.2.0/24
+                  - 10.1.2.0/24
+                  protocol: any
+                  port_range: "80,1035-1040"
+                allowed_services:
+                - icmp
+                - ssh
+                enabled: false
+              mxedge_proxy_host: mxedge_proxy_host
+              config_revert_timer: 22
+              ap_affinity_threshold: 1
+              radius:
+                radius_config:
+                  coa_enabled: false
+                  acct_interim_interval: 13284
+                  auth_servers:
+                  - keywrap_kek: "1122334455"
+                    port: 1812
+                    host: 1.2.3.4
+                    keywrap_enabled: true
+                    secret: testing123
+                    keywrap_format: hex
+                    keywrap_mack: "1122334455"
+                  - keywrap_kek: "1122334455"
+                    port: 1812
+                    host: 1.2.3.4
+                    keywrap_enabled: true
+                    secret: testing123
+                    keywrap_format: hex
+                    keywrap_mack: "1122334455"
+                  coa_port: 1
+                  acct_servers:
+                  - keywrap_kek: "1122334455"
+                    port: 1813
+                    host: 1.2.3.4
+                    keywrap_enabled: true
+                    secret: testing123
+                    keywrap_format: hex
+                    keywrap_mack: "1122334455"
+                  - keywrap_kek: "1122334455"
+                    port: 1813
+                    host: 1.2.3.4
+                    keywrap_enabled: true
+                    secret: testing123
+                    keywrap_format: hex
+                    keywrap_mack: "1122334455"
+                  auth_servers_timeout: 7
+                  auth_servers_retries: 4
+                  network: network
+                  source_ip: source_ip
+                use_different_radius: use_different_radius
+                enabled: true
+              cli_banner: \t\tWELCOME!
+              use_mxedge_proxy: true
+            port_config:
+              '*':
+                usage: default
+              ge-0/0/0-1:
+                ae_disable_lacp: false
+                ae_idx: 0
+                aggregated: true
+                critical: true
+                usage: uplink
+              ge-0/0/8-16,ge-1/0/0-47:
+                usage: ap
+            name: access_ex4300
+            additional_config_cmds:
+            - set snmp community public
+            - set snmp community public
+            match_role: access
+          - port_mirroring:
+              key:
+                input_port_ids_ingress:
+                - ge-0/0/4"
+                input_port_ids_egress:
+                - ge-0/0/5
+                - ge-0/0/6
+                output_port_id: ge-0/0/3
+                input_networks_ingress:
+                - iot
+            switch_mgmt:
+              local_accounts:
+                key:
+                  password: Juniper123
+                  role: none
+              root_password: root_password
+              cli_idle_timeout: 41
+              tacacs:
+                tacplus_servers:
+                - port: port
+                  host: host
+                  secret: secret
+                  timeout: 5
+                - port: port
+                  host: host
+                  secret: secret
+                  timeout: 5
+                acct_servers:
+                - port: port
+                  host: host
+                  secret: secret
+                  timeout: 4
+                - port: port
+                  host: host
+                  secret: secret
+                  timeout: 4
+                enabled: true
+                network: network
+              dhcp_option_fqdn: false
+              mxedge_proxy_port: 1
+              protect_re:
+                trusted_hosts:
+                - 10.242.3.0/24
+                - 10.242.3.0/24
+                custom:
+                - subnet:
+                  - 10.1.2.0/24
+                  - 10.1.2.0/24
+                  protocol: any
+                  port_range: "80,1035-1040"
+                - subnet:
+                  - 10.1.2.0/24
+                  - 10.1.2.0/24
+                  protocol: any
+                  port_range: "80,1035-1040"
+                allowed_services:
+                - icmp
+                - ssh
+                enabled: false
+              mxedge_proxy_host: mxedge_proxy_host
+              config_revert_timer: 22
+              ap_affinity_threshold: 1
+              radius:
+                radius_config:
+                  coa_enabled: false
+                  acct_interim_interval: 13284
+                  auth_servers:
+                  - keywrap_kek: "1122334455"
+                    port: 1812
+                    host: 1.2.3.4
+                    keywrap_enabled: true
+                    secret: testing123
+                    keywrap_format: hex
+                    keywrap_mack: "1122334455"
+                  - keywrap_kek: "1122334455"
+                    port: 1812
+                    host: 1.2.3.4
+                    keywrap_enabled: true
+                    secret: testing123
+                    keywrap_format: hex
+                    keywrap_mack: "1122334455"
+                  coa_port: 1
+                  acct_servers:
+                  - keywrap_kek: "1122334455"
+                    port: 1813
+                    host: 1.2.3.4
+                    keywrap_enabled: true
+                    secret: testing123
+                    keywrap_format: hex
+                    keywrap_mack: "1122334455"
+                  - keywrap_kek: "1122334455"
+                    port: 1813
+                    host: 1.2.3.4
+                    keywrap_enabled: true
+                    secret: testing123
+                    keywrap_format: hex
+                    keywrap_mack: "1122334455"
+                  auth_servers_timeout: 7
+                  auth_servers_retries: 4
+                  network: network
+                  source_ip: source_ip
+                use_different_radius: use_different_radius
+                enabled: true
+              cli_banner: \t\tWELCOME!
+              use_mxedge_proxy: true
+            port_config:
+              '*':
+                usage: default
+              ge-0/0/0-1:
+                ae_disable_lacp: false
+                ae_idx: 0
+                aggregated: true
+                critical: true
+                usage: uplink
+              ge-0/0/8-16,ge-1/0/0-47:
+                usage: ap
+            name: access_ex4300
+            additional_config_cmds:
+            - set snmp community public
+            - set snmp community public
+            match_role: access
         evpn_options:
           per_vlan_vga_v4_mac: false
           auto_router_id_subnet6: fd31:5700:1::/64
@@ -8655,27 +9486,27 @@ components:
             - icmp
             - ssh
             enabled: false
-          config_revert: 1
+          config_revert: 9
           root_password: root_password
           tacacs:
             tacplus_servers:
             - port: port
               host: host
               secret: secret
-              timeout: 7
+              timeout: 5
             - port: port
               host: host
               secret: secret
-              timeout: 7
+              timeout: 5
             acct_servers:
             - port: port
               host: host
               secret: secret
-              timeout: 6
+              timeout: 4
             - port: port
               host: host
               secret: secret
-              timeout: 6
+              timeout: 4
             enabled: true
             network: network
         import_org_networks:
@@ -8697,10 +9528,248 @@ components:
         switch_matching:
           enable: true
           rules:
-          - match_model: EX4300
-            match_name[0:3]: abc
-          - match_model: EX4300
-            match_name[0:3]: abc
+          - port_mirroring:
+              key:
+                input_port_ids_ingress:
+                - ge-0/0/4"
+                input_port_ids_egress:
+                - ge-0/0/5
+                - ge-0/0/6
+                output_port_id: ge-0/0/3
+                input_networks_ingress:
+                - iot
+            switch_mgmt:
+              local_accounts:
+                key:
+                  password: Juniper123
+                  role: none
+              root_password: root_password
+              cli_idle_timeout: 41
+              tacacs:
+                tacplus_servers:
+                - port: port
+                  host: host
+                  secret: secret
+                  timeout: 5
+                - port: port
+                  host: host
+                  secret: secret
+                  timeout: 5
+                acct_servers:
+                - port: port
+                  host: host
+                  secret: secret
+                  timeout: 4
+                - port: port
+                  host: host
+                  secret: secret
+                  timeout: 4
+                enabled: true
+                network: network
+              dhcp_option_fqdn: false
+              mxedge_proxy_port: 1
+              protect_re:
+                trusted_hosts:
+                - 10.242.3.0/24
+                - 10.242.3.0/24
+                custom:
+                - subnet:
+                  - 10.1.2.0/24
+                  - 10.1.2.0/24
+                  protocol: any
+                  port_range: "80,1035-1040"
+                - subnet:
+                  - 10.1.2.0/24
+                  - 10.1.2.0/24
+                  protocol: any
+                  port_range: "80,1035-1040"
+                allowed_services:
+                - icmp
+                - ssh
+                enabled: false
+              mxedge_proxy_host: mxedge_proxy_host
+              config_revert_timer: 22
+              ap_affinity_threshold: 1
+              radius:
+                radius_config:
+                  coa_enabled: false
+                  acct_interim_interval: 13284
+                  auth_servers:
+                  - keywrap_kek: "1122334455"
+                    port: 1812
+                    host: 1.2.3.4
+                    keywrap_enabled: true
+                    secret: testing123
+                    keywrap_format: hex
+                    keywrap_mack: "1122334455"
+                  - keywrap_kek: "1122334455"
+                    port: 1812
+                    host: 1.2.3.4
+                    keywrap_enabled: true
+                    secret: testing123
+                    keywrap_format: hex
+                    keywrap_mack: "1122334455"
+                  coa_port: 1
+                  acct_servers:
+                  - keywrap_kek: "1122334455"
+                    port: 1813
+                    host: 1.2.3.4
+                    keywrap_enabled: true
+                    secret: testing123
+                    keywrap_format: hex
+                    keywrap_mack: "1122334455"
+                  - keywrap_kek: "1122334455"
+                    port: 1813
+                    host: 1.2.3.4
+                    keywrap_enabled: true
+                    secret: testing123
+                    keywrap_format: hex
+                    keywrap_mack: "1122334455"
+                  auth_servers_timeout: 7
+                  auth_servers_retries: 4
+                  network: network
+                  source_ip: source_ip
+                use_different_radius: use_different_radius
+                enabled: true
+              cli_banner: \t\tWELCOME!
+              use_mxedge_proxy: true
+            port_config:
+              '*':
+                usage: default
+              ge-0/0/0-1:
+                ae_disable_lacp: false
+                ae_idx: 0
+                aggregated: true
+                critical: true
+                usage: uplink
+              ge-0/0/8-16,ge-1/0/0-47:
+                usage: ap
+            name: access_ex4300
+            additional_config_cmds:
+            - set snmp community public
+            - set snmp community public
+            match_role: access
+          - port_mirroring:
+              key:
+                input_port_ids_ingress:
+                - ge-0/0/4"
+                input_port_ids_egress:
+                - ge-0/0/5
+                - ge-0/0/6
+                output_port_id: ge-0/0/3
+                input_networks_ingress:
+                - iot
+            switch_mgmt:
+              local_accounts:
+                key:
+                  password: Juniper123
+                  role: none
+              root_password: root_password
+              cli_idle_timeout: 41
+              tacacs:
+                tacplus_servers:
+                - port: port
+                  host: host
+                  secret: secret
+                  timeout: 5
+                - port: port
+                  host: host
+                  secret: secret
+                  timeout: 5
+                acct_servers:
+                - port: port
+                  host: host
+                  secret: secret
+                  timeout: 4
+                - port: port
+                  host: host
+                  secret: secret
+                  timeout: 4
+                enabled: true
+                network: network
+              dhcp_option_fqdn: false
+              mxedge_proxy_port: 1
+              protect_re:
+                trusted_hosts:
+                - 10.242.3.0/24
+                - 10.242.3.0/24
+                custom:
+                - subnet:
+                  - 10.1.2.0/24
+                  - 10.1.2.0/24
+                  protocol: any
+                  port_range: "80,1035-1040"
+                - subnet:
+                  - 10.1.2.0/24
+                  - 10.1.2.0/24
+                  protocol: any
+                  port_range: "80,1035-1040"
+                allowed_services:
+                - icmp
+                - ssh
+                enabled: false
+              mxedge_proxy_host: mxedge_proxy_host
+              config_revert_timer: 22
+              ap_affinity_threshold: 1
+              radius:
+                radius_config:
+                  coa_enabled: false
+                  acct_interim_interval: 13284
+                  auth_servers:
+                  - keywrap_kek: "1122334455"
+                    port: 1812
+                    host: 1.2.3.4
+                    keywrap_enabled: true
+                    secret: testing123
+                    keywrap_format: hex
+                    keywrap_mack: "1122334455"
+                  - keywrap_kek: "1122334455"
+                    port: 1812
+                    host: 1.2.3.4
+                    keywrap_enabled: true
+                    secret: testing123
+                    keywrap_format: hex
+                    keywrap_mack: "1122334455"
+                  coa_port: 1
+                  acct_servers:
+                  - keywrap_kek: "1122334455"
+                    port: 1813
+                    host: 1.2.3.4
+                    keywrap_enabled: true
+                    secret: testing123
+                    keywrap_format: hex
+                    keywrap_mack: "1122334455"
+                  - keywrap_kek: "1122334455"
+                    port: 1813
+                    host: 1.2.3.4
+                    keywrap_enabled: true
+                    secret: testing123
+                    keywrap_format: hex
+                    keywrap_mack: "1122334455"
+                  auth_servers_timeout: 7
+                  auth_servers_retries: 4
+                  network: network
+                  source_ip: source_ip
+                use_different_radius: use_different_radius
+                enabled: true
+              cli_banner: \t\tWELCOME!
+              use_mxedge_proxy: true
+            port_config:
+              '*':
+                usage: default
+              ge-0/0/0-1:
+                ae_disable_lacp: false
+                ae_idx: 0
+                aggregated: true
+                critical: true
+                usage: uplink
+              ge-0/0/8-16,ge-1/0/0-47:
+                usage: ap
+            name: access_ex4300
+            additional_config_cmds:
+            - set snmp community public
+            - set snmp community public
+            match_role: access
         vrf_config:
           enabled: true
         dns_servers:
@@ -12993,30 +14062,30 @@ components:
             password: Juniper123
             role: none
         root_password: root_password
-        cli_idle_timeout: 4
+        cli_idle_timeout: 41
         tacacs:
           tacplus_servers:
           - port: port
             host: host
             secret: secret
-            timeout: 7
+            timeout: 5
           - port: port
             host: host
             secret: secret
-            timeout: 7
+            timeout: 5
           acct_servers:
           - port: port
             host: host
             secret: secret
-            timeout: 6
+            timeout: 4
           - port: port
             host: host
             secret: secret
-            timeout: 6
+            timeout: 4
           enabled: true
           network: network
         dhcp_option_fqdn: false
-        mxedge_proxy_port: 5
+        mxedge_proxy_port: 1
         protect_re:
           trusted_hosts:
           - 10.242.3.0/24
@@ -13037,8 +14106,8 @@ components:
           - ssh
           enabled: false
         mxedge_proxy_host: mxedge_proxy_host
-        config_revert_timer: 24
-        ap_affinity_threshold: 9
+        config_revert_timer: 22
+        ap_affinity_threshold: 1
         radius:
           radius_config:
             coa_enabled: false
@@ -13242,20 +14311,20 @@ components:
         - port: port
           host: host
           secret: secret
-          timeout: 7
+          timeout: 5
         - port: port
           host: host
           secret: secret
-          timeout: 7
+          timeout: 5
         acct_servers:
         - port: port
           host: host
           secret: secret
-          timeout: 6
+          timeout: 4
         - port: port
           host: host
           secret: secret
-          timeout: 6
+          timeout: 4
         enabled: true
         network: network
       properties:
@@ -13279,7 +14348,7 @@ components:
         port: port
         host: host
         secret: secret
-        timeout: 6
+        timeout: 4
       properties:
         host:
           type: string
@@ -13296,7 +14365,7 @@ components:
         port: port
         host: host
         secret: secret
-        timeout: 7
+        timeout: 5
       properties:
         host:
           type: string
@@ -16044,7 +17113,7 @@ components:
       example:
         repeated_auth_failures:
           duration: 60
-          threshold: 4
+          threshold: 9
       properties:
         repeated_auth_failures:
           $ref: '#/components/schemas/site_wids_repeated_auth_failures'
@@ -17646,6 +18715,15 @@ components:
       type: object
     switch_matching_rule_port_mirroring_value:
       description: property key is the port mirroring rule name
+      example:
+        input_port_ids_ingress:
+        - ge-0/0/4"
+        input_port_ids_egress:
+        - ge-0/0/5
+        - ge-0/0/6
+        output_port_id: ge-0/0/3
+        input_networks_ingress:
+        - iot
       properties:
         input_networks_ingress:
           example:
@@ -20040,7 +21118,7 @@ components:
     site_wids_repeated_auth_failures:
       example:
         duration: 60
-        threshold: 4
+        threshold: 9
       properties:
         duration:
           description: window where a trigger will be detected and action to be taken
