@@ -83,10 +83,10 @@ resources:
         - import_org_networks
         - snmp_config
         - switch_matching
-        - switch_mgmt
         - extra_routes
         - extra_routes6
       attributes:
         aliases:
           networktemplate_id: id
+          switch_mgmt.tacacs.acct_servers : tacacs_acct_servers
         

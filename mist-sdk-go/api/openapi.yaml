@@ -13263,6 +13263,7 @@ components:
           items:
             $ref: '#/components/schemas/tacacs_acct_server'
           type: array
+          x-terraform-resource-name: tacacs_acct_servers
         enabled:
           type: boolean
         network:

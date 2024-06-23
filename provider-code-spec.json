@@ -1349,6 +1349,213 @@
 						}
 					},
 					{
+						"name": "switch_mgmt",
+						"single_nested": {
+							"computed_optional_required": "computed_optional",
+							"attributes": [
+								{
+									"name": "config_revert",
+									"int64": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": 10
+										}
+									}
+								},
+								{
+									"name": "protect_re",
+									"single_nested": {
+										"computed_optional_required": "computed_optional",
+										"attributes": [
+											{
+												"name": "allowed_services",
+												"list": {
+													"computed_optional_required": "computed_optional",
+													"element_type": {
+														"string": {}
+													},
+													"description": "optionally, services we'll allow"
+												}
+											},
+											{
+												"name": "custom",
+												"list_nested": {
+													"computed_optional_required": "computed_optional",
+													"nested_object": {
+														"attributes": [
+															{
+																"name": "port_range",
+																"string": {
+																	"computed_optional_required": "computed_optional",
+																	"default": {
+																		"static": "0"
+																	},
+																	"description": "matched dst port, \"0\" means any"
+																}
+															},
+															{
+																"name": "protocol",
+																"string": {
+																	"computed_optional_required": "computed_optional",
+																	"default": {
+																		"static": "any"
+																	},
+																	"validators": [
+																		{
+																			"custom": {
+																				"imports": [
+																					{
+																						"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																					}
+																				],
+																				"schema_definition": "stringvalidator.OneOf(\n\"tcp\",\n\"udp\",\n\"icmp\",\n\"any\",\n)"
+																			}
+																		}
+																	]
+																}
+															},
+															{
+																"name": "subnet",
+																"list": {
+																	"computed_optional_required": "computed_optional",
+																	"element_type": {
+																		"string": {}
+																	}
+																}
+															}
+														]
+													}
+												}
+											},
+											{
+												"name": "enabled",
+												"bool": {
+													"computed_optional_required": "computed_optional",
+													"default": {
+														"static": false
+													},
+													"description": "when enabled, all traffic that is not essential to our operation will be dropped\ne.g. ntp / dns / traffic to mist will be allowed by default\n     if dhcpd is enabled, we'll make sure it works"
+												}
+											},
+											{
+												"name": "trusted_hosts",
+												"list": {
+													"computed_optional_required": "computed_optional",
+													"element_type": {
+														"string": {}
+													},
+													"description": "host/subnets we'll allow traffic to/from"
+												}
+											}
+										],
+										"description": "restrict inbound-traffic to host\nwhen enabled, all traffic that is not essential to our operation will be dropped \ne.g. ntp / dns / traffic to mist will be allowed by default, if dhcpd is enabled, we'll make sure it works"
+									}
+								},
+								{
+									"name": "root_password",
+									"string": {
+										"computed_optional_required": "computed_optional"
+									}
+								},
+								{
+									"name": "tacacs",
+									"single_nested": {
+										"computed_optional_required": "computed_optional",
+										"attributes": [
+											{
+												"name": "acct_servers",
+												"list_nested": {
+													"computed_optional_required": "computed_optional",
+													"nested_object": {
+														"attributes": [
+															{
+																"name": "host",
+																"string": {
+																	"computed_optional_required": "computed_optional"
+																}
+															},
+															{
+																"name": "port",
+																"string": {
+																	"computed_optional_required": "computed_optional"
+																}
+															},
+															{
+																"name": "secret",
+																"string": {
+																	"computed_optional_required": "computed_optional"
+																}
+															},
+															{
+																"name": "timeout",
+																"int64": {
+																	"computed_optional_required": "computed_optional",
+																	"default": {
+																		"static": 10
+																	}
+																}
+															}
+														]
+													}
+												}
+											},
+											{
+												"name": "enabled",
+												"bool": {
+													"computed_optional_required": "computed_optional"
+												}
+											},
+											{
+												"name": "network",
+												"string": {
+													"computed_optional_required": "computed_optional",
+													"description": "which network the TACACS server resides"
+												}
+											},
+											{
+												"name": "tacplus_servers",
+												"list_nested": {
+													"computed_optional_required": "computed_optional",
+													"nested_object": {
+														"attributes": [
+															{
+																"name": "host",
+																"string": {
+																	"computed_optional_required": "computed_optional"
+																}
+															},
+															{
+																"name": "port",
+																"string": {
+																	"computed_optional_required": "computed_optional"
+																}
+															},
+															{
+																"name": "secret",
+																"string": {
+																	"computed_optional_required": "computed_optional"
+																}
+															},
+															{
+																"name": "timeout",
+																"int64": {
+																	"computed_optional_required": "computed_optional",
+																	"default": {
+																		"static": 10
+																	}
+																}
+															}
+														]
+													}
+												}
+											}
+										]
+									}
+								}
+							]
+						}
+					},
+					{
 						"name": "vrf_config",
 						"single_nested": {
 							"computed_optional_required": "computed_optional",

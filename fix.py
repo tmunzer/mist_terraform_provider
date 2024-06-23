@@ -2,13 +2,16 @@ FILES = [
     "./terraform-provider-mistapi/internal/resource_networktemplate/networktemplate_resource_gen.go"
 ]
 
+ADD = {
+    "./terraform-provider-mistapi/internal/resource_networktemplate/networktemplate_resource_gen.go": ["./tacacsAcctServers.fix"]
+}
 
 for file in FILES:
     with open(file, "r") as f_in:
         with open(f"{file}.bak", "w") as f_bak:
             f_bak.writelines(f_in)
-    with open(f"{file}.bak", "r") as f_in:
-        with open(file, "w") as f_out:
+    with open(file, "w") as f_out:
+        with open(f"{file}.bak", "r") as f_in:
             SKIP = False
             UNSKIP_NEXT = False
             done = []
@@ -33,4 +36,8 @@ for file in FILES:
                         print(f"skipping {line}", end="")
                 if not SKIP:
                     f_out.write(f"{line}")
+        for fix in ADD.get(file, []):
+            with open(fix, "r") as f_fix:
+                f_out.writelines(f_fix.readlines)
+        
 

@@ -2,8 +2,6 @@ package resource_networktemplate
 
 import (
 	"context"
-	"fmt"
-	"os"
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
@@ -48,6 +46,9 @@ func TerraformToSdk(ctx context.Context, plan *NetworktemplateModel) (mistsdkgo.
 	remote_syslog := remoteSyslogTerraformToSdk(ctx, &diags, plan.RemoteSyslog)
 	data.SetRemoteSyslog(remote_syslog)
 
+	switch_mgmt := switchMgmtTerraformToSdk(ctx, &diags, plan.SwitchMgmt)
+	data.SetSwitchMgmt(switch_mgmt)
+
 	vrfConfig := vrfConfigTerraformToSdk(ctx, &diags, plan.VrfConfig)
 	data.SetVrfConfig(vrfConfig)
 
@@ -75,46 +76,53 @@ func networksTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d base
 }
 
 // ////////////////// RADIUS ///////////////////////
+func RadiusAcctServersTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ListValue) []mistsdkgo.RadiusAcctServer {
 
+	var data []mistsdkgo.RadiusAcctServer
+	for _, plan_attr := range d.Elements() {
+		var srv_plan_interface interface{} = plan_attr
+		srv_plan := srv_plan_interface.(AcctServersValue)
+		keywrap_format, _ := mistsdkgo.NewRadiusKeywrapFormatFromValue(srv_plan.KeywrapFormat.ValueString())
+		srv_data := mistsdkgo.NewRadiusAcctServer(srv_plan.Host.ValueString(), int32(srv_plan.Port.ValueInt64()), srv_plan.Secret.ValueString())
+		srv_data.SetKeywrapEnabled(srv_plan.KeywrapEnabled.ValueBool())
+		srv_data.SetKeywrapFormat(*keywrap_format)
+		srv_data.SetKeywrapKek(srv_plan.KeywrapKek.ValueString())
+		srv_data.SetKeywrapMack(srv_plan.KeywrapMack.ValueString())
+		data = append(data, *srv_data)
+	}
+	return data
+}
+func RadiusAuthServersTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ListValue) []mistsdkgo.RadiusAuthServer {
+
+	var data []mistsdkgo.RadiusAuthServer
+	for _, plan_attr := range d.Elements() {
+		var srv_plan_interface interface{} = plan_attr
+		srv_plan := srv_plan_interface.(AuthServersValue)
+		keywrap_format, _ := mistsdkgo.NewRadiusKeywrapFormatFromValue(srv_plan.KeywrapFormat.ValueString())
+		srv_data := mistsdkgo.NewRadiusAuthServer(srv_plan.Host.ValueString(), int32(srv_plan.Port.ValueInt64()), srv_plan.Secret.ValueString())
+		srv_data.SetKeywrapEnabled(srv_plan.KeywrapEnabled.ValueBool())
+		srv_data.SetKeywrapFormat(*keywrap_format)
+		srv_data.SetKeywrapKek(srv_plan.KeywrapKek.ValueString())
+		srv_data.SetKeywrapMack(srv_plan.KeywrapMack.ValueString())
+		data = append(data, *srv_data)
+	}
+	return data
+}
 func radiusConfigTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d RadiusConfigValue) mistsdkgo.JunosRadiusConfig {
 
+	acct_servers := RadiusAcctServersTerraformToSdk(ctx, diags, d.AcctServers)
+	auth_server := RadiusAuthServersTerraformToSdk(ctx, diags, d.AuthServers)
 	data := mistsdkgo.NewJunosRadiusConfig()
 	data.SetAcctInterimInterval(int32(d.AcctInterimInterval.ValueInt64()))
+	data.SetAcctServers(acct_servers)
 	data.SetAuthServersRetries(int32(d.AuthServersRetries.ValueInt64()))
 	data.SetAuthServersTimeout(int32(d.AuthServersTimeout.ValueInt64()))
 	data.SetCoaEnabled(d.CoaEnabled.ValueBool())
 	data.SetCoaPort(int32(d.CoaPort.ValueInt64()))
 	data.SetNetwork(d.Network.ValueString())
 	data.SetSourceIp(d.SourceIp.ValueString())
-	// RADIUS Acct
-	var rc_acct_data []mistsdkgo.RadiusAcctServer
-	for _, acct_plan_attr := range d.AcctServers.Elements() {
-		var acct_plan_interface interface{} = acct_plan_attr
-		acct_plan := acct_plan_interface.(AcctServersValue)
-		keywrap_format, _ := mistsdkgo.NewRadiusKeywrapFormatFromValue(acct_plan.KeywrapFormat.ValueString())
-		acct_data := mistsdkgo.NewRadiusAcctServer(acct_plan.Host.ValueString(), int32(acct_plan.Port.ValueInt64()), acct_plan.Secret.ValueString())
-		acct_data.SetKeywrapEnabled(acct_plan.KeywrapEnabled.ValueBool())
-		acct_data.SetKeywrapFormat(*keywrap_format)
-		acct_data.SetKeywrapKek(acct_plan.KeywrapKek.ValueString())
-		acct_data.SetKeywrapMack(acct_plan.KeywrapMack.ValueString())
-		rc_acct_data = append(rc_acct_data, *acct_data)
-	}
-	data.SetAcctServers(rc_acct_data)
-	// RADIUS Auth
-	var rc_auth_data []mistsdkgo.RadiusAuthServer
-	for _, auth_plan_attr := range d.AuthServers.Elements() {
-		var auth_plan_interface interface{} = auth_plan_attr
-		auth_plan := auth_plan_interface.(AuthServersValue)
-		keywrap_format, _ := mistsdkgo.NewRadiusKeywrapFormatFromValue(auth_plan.KeywrapFormat.ValueString())
+	data.SetAuthServers(auth_server)
 
-		auth_data := mistsdkgo.NewRadiusAuthServer(auth_plan.Host.ValueString(), int32(auth_plan.Port.ValueInt64()), auth_plan.Secret.ValueString())
-		auth_data.SetKeywrapEnabled(auth_plan.KeywrapEnabled.ValueBool())
-		auth_data.SetKeywrapFormat(*keywrap_format)
-		auth_data.SetKeywrapKek(auth_plan.KeywrapKek.ValueString())
-		auth_data.SetKeywrapMack(auth_plan.KeywrapMack.ValueString())
-		rc_auth_data = append(rc_auth_data, *auth_data)
-	}
-	data.SetAuthServers(rc_auth_data)
 	return *data
 }
 
@@ -234,7 +242,8 @@ func remoteSyslogArchiveTerraformToSdk(ctx context.Context, diags *diag.Diagnost
 	if d.IsNull() || d.IsUnknown() {
 		return *data
 	} else {
-		item := NewArchiveValueMust(ArchiveValue{}.AttributeTypes(ctx), d.Attributes())
+		item, e := NewArchiveValue(ArchiveValue{}.AttributeTypes(ctx), d.Attributes())
+		diags.Append(e...)
 		var item_interface interface{} = item
 		item_obj := item_interface.(ArchiveValue)
 		data.SetFiles(int32(item_obj.Files.ValueInt64()))
@@ -259,7 +268,8 @@ func remoteSyslogConsoleTerraformToSdk(ctx context.Context, diags *diag.Diagnost
 	if d.IsNull() || d.IsUnknown() {
 		return *data
 	} else {
-		item := NewConsoleValueMust(ConsoleValue{}.AttributeTypes(ctx), d.Attributes())
+		item, e := NewConsoleValue(ConsoleValue{}.AttributeTypes(ctx), d.Attributes())
+		diags.Append(e...)
 		var item_interface interface{} = item
 		item_obj := item_interface.(ConsoleValue)
 		syslog_content := remoteSyslogContentTerraformToSdk(ctx, diags, item_obj.Contents)
@@ -345,6 +355,114 @@ func remoteSyslogUsersTerraformToSdk(ctx context.Context, diags *diag.Diagnostic
 
 	return data
 }
+
+// ////////////////// TACACS ///////////////////////
+func switchMgmtProtectReCustomTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ListValue) []mistsdkgo.ProtectReCustom {
+	var data []mistsdkgo.ProtectReCustom
+	for _, item := range d.Elements() {
+		var item_interface interface{} = item
+		item_obj := item_interface.(CustomValue)
+
+		data_item := mistsdkgo.NewProtectReCustom()
+		data_item.SetPortRange(item_obj.PortRange.ValueString())
+		data_item.SetProtocol(mistsdkgo.ProtectReCustomProtocol(item_obj.Protocol.ValueString()))
+		data_item.SetSubnet(mist_transform.ListOfStringTerraformToSdk(ctx, item_obj.Subnet))
+
+		data = append(data, *data_item)
+	}
+	return data
+}
+func switchMgmtProtectReTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) mistsdkgo.ProtectRe {
+	data := mistsdkgo.NewProtectRe()
+	if d.IsNull() || d.IsUnknown() {
+		return *data
+	} else {
+		item, e := NewProtectReValue(ProtectReValue{}.AttributeTypes(ctx), d.Attributes())
+		diags.Append(e...)
+		var item_interface interface{} = item
+		item_obj := item_interface.(ProtectReValue)
+
+		customRe := switchMgmtProtectReCustomTerraformToSdk(ctx, diags, item_obj.Custom)
+
+		data.SetAllowedServices(mist_transform.ListOfStringTerraformToSdk(ctx, item_obj.AllowedServices))
+		data.SetCustom(customRe)
+		data.SetEnabled(item_obj.Enabled.ValueBool())
+		data.SetTrustedHosts(mist_transform.ListOfStringTerraformToSdk(ctx, item_obj.TrustedHosts))
+		return *data
+	}
+}
+func TacacsAcctServersTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ListValue) []mistsdkgo.TacacsAcctServer {
+
+	var data []mistsdkgo.TacacsAcctServer
+	for _, plan_attr := range d.Elements() {
+		var srv_plan_interface interface{} = plan_attr
+		srv_plan := srv_plan_interface.(TacacsAcctServersValue)
+		srv_data := mistsdkgo.NewTacacsAcctServer()
+		srv_data.SetHost(srv_plan.Host.ValueString())
+		srv_data.SetPort(srv_plan.Port.ValueString())
+		srv_data.SetSecret(srv_plan.Secret.ValueString())
+		srv_data.SetTimeout(int32(srv_plan.Timeout.ValueInt64()))
+		data = append(data, *srv_data)
+	}
+	return data
+}
+func TacacsAuthServersTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ListValue) []mistsdkgo.TacacsAuthServer {
+
+	var data []mistsdkgo.TacacsAuthServer
+	for _, plan_attr := range d.Elements() {
+		var srv_plan_interface interface{} = plan_attr
+		srv_plan := srv_plan_interface.(TacplusServersValue)
+		srv_data := mistsdkgo.NewTacacsAuthServer()
+		srv_data.SetHost(srv_plan.Host.ValueString())
+		srv_data.SetPort(srv_plan.Port.ValueString())
+		srv_data.SetSecret(srv_plan.Secret.ValueString())
+		srv_data.SetTimeout(int32(srv_plan.Timeout.ValueInt64()))
+		data = append(data, *srv_data)
+	}
+	return data
+}
+func switchMgmtTacacsTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) mistsdkgo.Tacacs {
+
+	data := mistsdkgo.NewTacacs()
+
+	if d.IsNull() || d.IsUnknown() {
+		return *data
+	} else {
+		item, e := NewProtectReValue(TacacsValue{}.AttributeTypes(ctx), d.Attributes())
+		diags.Append(e...)
+		var item_interface interface{} = item
+		item_obj := item_interface.(TacacsValue)
+
+		acct_servers := TacacsAcctServersTerraformToSdk(ctx, diags, item_obj.AcctServers)
+		auth_servers := TacacsAuthServersTerraformToSdk(ctx, diags, item_obj.TacplusServers)
+
+		data.SetEnabled(item_obj.Enabled.ValueBool())
+		data.SetNetwork(item_obj.Network.ValueString())
+		data.SetAcctServers(acct_servers)
+		data.SetTacplusServers(auth_servers)
+
+		return *data
+	}
+}
+func switchMgmtTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d SwitchMgmtValue) mistsdkgo.SwitchMgmt {
+
+	data := mistsdkgo.NewSwitchMgmt()
+	if d.IsNull() || d.IsUnknown() {
+		return *data
+	} else {
+		protectRe := switchMgmtProtectReTerraformToSdk(ctx, diags, d.ProtectRe)
+		tacas := switchMgmtTacacsTerraformToSdk(ctx, diags, d.Tacacs)
+
+		data.SetConfigRevert(int32(d.ConfigRevert.ValueInt64()))
+		data.SetProtectRe(protectRe)
+		data.SetRootPassword(d.RootPassword.ValueString())
+		data.SetTacacs(tacas)
+
+		return *data
+	}
+
+}
+
 func remoteSyslogTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d RemoteSyslogValue) mistsdkgo.RemoteSyslog {
 
 	remote_syslog_archive := remoteSyslogArchiveTerraformToSdk(ctx, diags, d.Archive)
@@ -353,8 +471,7 @@ func remoteSyslogTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d 
 	remote_syslog_servers := remoteSyslogServersTerraformToSdk(ctx, diags, d.Servers)
 	remote_syslog_users := remoteSyslogUsersTerraformToSdk(ctx, diags, d.Users)
 	remote_syslog_time_format, _ := mistsdkgo.NewTimeFormatFromValue(d.TimeFormat.ValueString())
-	fmt.Fprintf(os.Stdout, "-------------------------------"+d.TimeFormat.String())
-	fmt.Fprintf(os.Stdout, "-------------------------------")
+
 	data := mistsdkgo.NewRemoteSyslog()
 	data.SetEnabled(d.Enabled.ValueBool())
 	data.SetNetwork(d.Network.ValueString())
