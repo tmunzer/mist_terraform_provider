@@ -21,6 +21,7 @@ type VirtualChassisUpdateOp string
 
 // List of virtual_chassis_update_op
 const (
+	VIRTUALCHASSISUPDATEOP_EMPTY VirtualChassisUpdateOp = ""
 	VIRTUALCHASSISUPDATEOP_ADD VirtualChassisUpdateOp = "add"
 	VIRTUALCHASSISUPDATEOP_REMOVE VirtualChassisUpdateOp = "remove"
 	VIRTUALCHASSISUPDATEOP_RENUMBER VirtualChassisUpdateOp = "renumber"
@@ -29,6 +30,7 @@ const (
 
 // All allowed values of VirtualChassisUpdateOp enum
 var AllowedVirtualChassisUpdateOpEnumValues = []VirtualChassisUpdateOp{
+	"",
 	"add",
 	"remove",
 	"renumber",

@@ -21,6 +21,7 @@ type WebhookTopic string
 
 // List of webhook_topic
 const (
+	WEBHOOKTOPIC_EMPTY WebhookTopic = ""
 	WEBHOOKTOPIC_ALARMS WebhookTopic = "alarms"
 	WEBHOOKTOPIC_AUDITS WebhookTopic = "audits"
 	WEBHOOKTOPIC_CLIENT_INFO WebhookTopic = "client-info"
@@ -53,6 +54,7 @@ const (
 
 // All allowed values of WebhookTopic enum
 var AllowedWebhookTopicEnumValues = []WebhookTopic{
+	"",
 	"alarms",
 	"audits",
 	"client-info",

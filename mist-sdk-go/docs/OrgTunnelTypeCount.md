@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `WXTUNNEL` (value: `"wxtunnel"`)
 
 * `WAN` (value: `"wan"`)

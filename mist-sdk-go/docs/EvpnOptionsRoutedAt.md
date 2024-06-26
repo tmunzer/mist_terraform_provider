@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `EDGE` (value: `"edge"`)
 
 * `CORE` (value: `"core"`)

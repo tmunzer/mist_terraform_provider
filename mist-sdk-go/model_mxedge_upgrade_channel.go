@@ -21,6 +21,7 @@ type MxedgeUpgradeChannel string
 
 // List of mxedge_upgrade_channel
 const (
+	MXEDGEUPGRADECHANNEL_EMPTY MxedgeUpgradeChannel = ""
 	MXEDGEUPGRADECHANNEL_STABLE MxedgeUpgradeChannel = "stable"
 	MXEDGEUPGRADECHANNEL_BETA MxedgeUpgradeChannel = "beta"
 	MXEDGEUPGRADECHANNEL_ALPHA MxedgeUpgradeChannel = "alpha"
@@ -28,6 +29,7 @@ const (
 
 // All allowed values of MxedgeUpgradeChannel enum
 var AllowedMxedgeUpgradeChannelEnumValues = []MxedgeUpgradeChannel{
+	"",
 	"stable",
 	"beta",
 	"alpha",

@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `PCAP` (value: `"pcap"`)
 
 * `STREAM` (value: `"stream"`)

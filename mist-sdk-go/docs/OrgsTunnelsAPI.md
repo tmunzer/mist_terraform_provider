@@ -31,8 +31,8 @@ import (
 
 func main() {
 	orgId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	distinct := openapiclient.org_tunnel_count_distinct("auth_algo") // OrgTunnelCountDistinct | - If `type`==`wxtunnel`: wxtunnel_id / ap / remote_ip / remote_port / state / mxedge_id / mxcluster_id / site_id / peer_mxedge_id; default is wxtunnel_id  - If `type`==`wan`: mac / site_id / node / peer_ip / peer_host/ ip / tunnel_name / protocol / auth_algo / encrypt_algo / ike_version / last_event / up (optional) (default to "wxtunnel_id")
-	type_ := openapiclient.org_tunnel_type_count("wxtunnel") // OrgTunnelTypeCount |  (optional) (default to "wxtunnel")
+	distinct := openapiclient.org_tunnel_count_distinct("") // OrgTunnelCountDistinct | - If `type`==`wxtunnel`: wxtunnel_id / ap / remote_ip / remote_port / state / mxedge_id / mxcluster_id / site_id / peer_mxedge_id; default is wxtunnel_id  - If `type`==`wan`: mac / site_id / node / peer_ip / peer_host/ ip / tunnel_name / protocol / auth_algo / encrypt_algo / ike_version / last_event / up (optional) (default to "wxtunnel_id")
+	type_ := openapiclient.org_tunnel_type_count("") // OrgTunnelTypeCount |  (optional) (default to "wxtunnel")
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -120,7 +120,7 @@ func main() {
 	encryptAlgo := "encryptAlgo_example" // string | if `type`==`wan` (optional)
 	ikeVersion := "ikeVersion_example" // string | if `type`==`wan` (optional)
 	up := "up_example" // string | if `type`==`wan` (optional)
-	type_ := openapiclient.tunnel_type("wxtunnel") // TunnelType |  (optional) (default to "wxtunnel")
+	type_ := openapiclient.tunnel_type("") // TunnelType |  (optional) (default to "wxtunnel")
 	limit := int32(56) // int32 |  (optional) (default to 100)
 	start := int32(56) // int32 | start datetime, can be epoch or relative time like -1d, -1w; -1d if not specified (optional)
 	end := int32(56) // int32 | end datetime, can be epoch or relative time like -1d, -2h; now if not specified (optional)

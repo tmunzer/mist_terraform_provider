@@ -21,6 +21,7 @@ type ProtectReCustomProtocol string
 
 // List of protect_re_custom_protocol
 const (
+	PROTECTRECUSTOMPROTOCOL_EMPTY ProtectReCustomProtocol = ""
 	PROTECTRECUSTOMPROTOCOL_TCP ProtectReCustomProtocol = "tcp"
 	PROTECTRECUSTOMPROTOCOL_UDP ProtectReCustomProtocol = "udp"
 	PROTECTRECUSTOMPROTOCOL_ICMP ProtectReCustomProtocol = "icmp"
@@ -29,6 +30,7 @@ const (
 
 // All allowed values of ProtectReCustomProtocol enum
 var AllowedProtectReCustomProtocolEnumValues = []ProtectReCustomProtocol{
+	"",
 	"tcp",
 	"udp",
 	"icmp",

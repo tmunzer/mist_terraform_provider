@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `IMAGE` (value: `"image"`)
 
 * `GOOGLE` (value: `"google"`)

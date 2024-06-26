@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `MASTER` (value: `"master"`)
 
 * `BACKUP` (value: `"backup"`)

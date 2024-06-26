@@ -34,7 +34,7 @@ import (
 
 func main() {
 	orgId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	ssoRoleOrg := *openapiclient.NewSsoRoleOrg("Name_example", []openapiclient.PrivilegeOrg{*openapiclient.NewPrivilegeOrg(openapiclient.privilege_org_role("admin"), openapiclient.privilege_org_scope("org"))}) // SsoRoleOrg | Request Body (optional)
+	ssoRoleOrg := *openapiclient.NewSsoRoleOrg("Name_example", []openapiclient.PrivilegeOrg{*openapiclient.NewPrivilegeOrg(openapiclient.privilege_org_role(""), openapiclient.privilege_org_scope(""))}) // SsoRoleOrg | Request Body (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -325,7 +325,7 @@ import (
 func main() {
 	orgId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
 	ssoroleId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	ssoRoleOrg := *openapiclient.NewSsoRoleOrg("Name_example", []openapiclient.PrivilegeOrg{*openapiclient.NewPrivilegeOrg(openapiclient.privilege_org_role("admin"), openapiclient.privilege_org_scope("org"))}) // SsoRoleOrg | Request Body (optional)
+	ssoRoleOrg := *openapiclient.NewSsoRoleOrg("Name_example", []openapiclient.PrivilegeOrg{*openapiclient.NewPrivilegeOrg(openapiclient.privilege_org_role(""), openapiclient.privilege_org_scope(""))}) // SsoRoleOrg | Request Body (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)

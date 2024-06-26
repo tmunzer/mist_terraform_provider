@@ -21,6 +21,7 @@ type Snmpv3ConfigTargetParamSecurityLevel string
 
 // List of snmpv3_config_target_param_security_level
 const (
+	SNMPV3CONFIGTARGETPARAMSECURITYLEVEL_EMPTY Snmpv3ConfigTargetParamSecurityLevel = ""
 	SNMPV3CONFIGTARGETPARAMSECURITYLEVEL_AUTHENTICATION Snmpv3ConfigTargetParamSecurityLevel = "authentication"
 	SNMPV3CONFIGTARGETPARAMSECURITYLEVEL_NONE Snmpv3ConfigTargetParamSecurityLevel = "none"
 	SNMPV3CONFIGTARGETPARAMSECURITYLEVEL_PRIVACY Snmpv3ConfigTargetParamSecurityLevel = "privacy"
@@ -28,6 +29,7 @@ const (
 
 // All allowed values of Snmpv3ConfigTargetParamSecurityLevel enum
 var AllowedSnmpv3ConfigTargetParamSecurityLevelEnumValues = []Snmpv3ConfigTargetParamSecurityLevel{
+	"",
 	"authentication",
 	"none",
 	"privacy",

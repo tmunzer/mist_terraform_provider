@@ -21,6 +21,7 @@ type SiteDiscoveredSwitchesCountDistinct string
 
 // List of site_discovered_switches_count_distinct
 const (
+	SITEDISCOVEREDSWITCHESCOUNTDISTINCT_EMPTY SiteDiscoveredSwitchesCountDistinct = ""
 	SITEDISCOVEREDSWITCHESCOUNTDISTINCT_SYSTEM_NAME SiteDiscoveredSwitchesCountDistinct = "system_name"
 	SITEDISCOVEREDSWITCHESCOUNTDISTINCT_VERSION SiteDiscoveredSwitchesCountDistinct = "version"
 	SITEDISCOVEREDSWITCHESCOUNTDISTINCT_MODEL SiteDiscoveredSwitchesCountDistinct = "model"
@@ -29,6 +30,7 @@ const (
 
 // All allowed values of SiteDiscoveredSwitchesCountDistinct enum
 var AllowedSiteDiscoveredSwitchesCountDistinctEnumValues = []SiteDiscoveredSwitchesCountDistinct{
+	"",
 	"system_name",
 	"version",
 	"model",

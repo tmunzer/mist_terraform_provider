@@ -21,6 +21,7 @@ type ApPortConfigForwarding string
 
 // List of ap_port_config_forwarding
 const (
+	APPORTCONFIGFORWARDING_EMPTY ApPortConfigForwarding = ""
 	APPORTCONFIGFORWARDING_ALL ApPortConfigForwarding = "all"
 	APPORTCONFIGFORWARDING_LIMITED ApPortConfigForwarding = "limited"
 	APPORTCONFIGFORWARDING_WXTUNNEL ApPortConfigForwarding = "wxtunnel"
@@ -30,6 +31,7 @@ const (
 
 // All allowed values of ApPortConfigForwarding enum
 var AllowedApPortConfigForwardingEnumValues = []ApPortConfigForwarding{
+	"",
 	"all",
 	"limited",
 	"wxtunnel",

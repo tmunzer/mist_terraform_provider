@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `MAC` (value: `"mac"`)
 
 * `VERSION` (value: `"version"`)

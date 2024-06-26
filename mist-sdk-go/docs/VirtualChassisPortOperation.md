@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `SET` (value: `"set"`)
 
 * `DELETE` (value: `"delete"`)

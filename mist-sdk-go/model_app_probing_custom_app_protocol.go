@@ -21,12 +21,14 @@ type AppProbingCustomAppProtocol string
 
 // List of app_probing_custom_app_protocol
 const (
+	APPPROBINGCUSTOMAPPPROTOCOL_EMPTY AppProbingCustomAppProtocol = ""
 	APPPROBINGCUSTOMAPPPROTOCOL_HTTP AppProbingCustomAppProtocol = "http"
 	APPPROBINGCUSTOMAPPPROTOCOL_UDP AppProbingCustomAppProtocol = "udp"
 )
 
 // All allowed values of AppProbingCustomAppProtocol enum
 var AllowedAppProbingCustomAppProtocolEnumValues = []AppProbingCustomAppProtocol{
+	"",
 	"http",
 	"udp",
 }

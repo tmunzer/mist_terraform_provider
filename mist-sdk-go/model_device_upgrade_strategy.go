@@ -21,6 +21,7 @@ type DeviceUpgradeStrategy string
 
 // List of device_upgrade_strategy
 const (
+	DEVICEUPGRADESTRATEGY_EMPTY DeviceUpgradeStrategy = ""
 	DEVICEUPGRADESTRATEGY_BIG_BANG DeviceUpgradeStrategy = "big_bang"
 	DEVICEUPGRADESTRATEGY_CANARY DeviceUpgradeStrategy = "canary"
 	DEVICEUPGRADESTRATEGY_SERIAL DeviceUpgradeStrategy = "serial"
@@ -29,6 +30,7 @@ const (
 
 // All allowed values of DeviceUpgradeStrategy enum
 var AllowedDeviceUpgradeStrategyEnumValues = []DeviceUpgradeStrategy{
+	"",
 	"big_bang",
 	"canary",
 	"serial",

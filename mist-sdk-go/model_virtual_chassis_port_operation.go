@@ -21,12 +21,14 @@ type VirtualChassisPortOperation string
 
 // List of virtual_chassis_port_operation
 const (
+	VIRTUALCHASSISPORTOPERATION_EMPTY VirtualChassisPortOperation = ""
 	VIRTUALCHASSISPORTOPERATION_SET VirtualChassisPortOperation = "set"
 	VIRTUALCHASSISPORTOPERATION_DELETE VirtualChassisPortOperation = "delete"
 )
 
 // All allowed values of VirtualChassisPortOperation enum
 var AllowedVirtualChassisPortOperationEnumValues = []VirtualChassisPortOperation{
+	"",
 	"set",
 	"delete",
 }

@@ -1,7 +1,9 @@
-# SyslogServerFacility
+# RemoteSyslogFacility
 
 ## Enum
 
+
+* `EMPTY` (value: `""`)
 
 * `ANY` (value: `"any"`)
 

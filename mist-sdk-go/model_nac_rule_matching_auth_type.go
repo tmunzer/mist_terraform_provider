@@ -21,6 +21,7 @@ type NacRuleMatchingAuthType string
 
 // List of nac_rule_matching_auth_type
 const (
+	NACRULEMATCHINGAUTHTYPE_EMPTY NacRuleMatchingAuthType = ""
 	NACRULEMATCHINGAUTHTYPE_IDP NacRuleMatchingAuthType = "idp"
 	NACRULEMATCHINGAUTHTYPE_MAB NacRuleMatchingAuthType = "mab"
 	NACRULEMATCHINGAUTHTYPE_PSK NacRuleMatchingAuthType = "psk"
@@ -32,6 +33,7 @@ const (
 
 // All allowed values of NacRuleMatchingAuthType enum
 var AllowedNacRuleMatchingAuthTypeEnumValues = []NacRuleMatchingAuthType{
+	"",
 	"idp",
 	"mab",
 	"psk",

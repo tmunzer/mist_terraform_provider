@@ -21,6 +21,7 @@ type MxedgeServiceAction string
 
 // List of mxedge_service_action
 const (
+	MXEDGESERVICEACTION_EMPTY MxedgeServiceAction = ""
 	MXEDGESERVICEACTION_RESTART MxedgeServiceAction = "restart"
 	MXEDGESERVICEACTION_START MxedgeServiceAction = "start"
 	MXEDGESERVICEACTION_STOP MxedgeServiceAction = "stop"
@@ -28,6 +29,7 @@ const (
 
 // All allowed values of MxedgeServiceAction enum
 var AllowedMxedgeServiceActionEnumValues = []MxedgeServiceAction{
+	"",
 	"restart",
 	"start",
 	"stop",

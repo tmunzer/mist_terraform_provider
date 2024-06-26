@@ -21,6 +21,7 @@ type ApRadioUsage string
 
 // List of ap_radio_usage
 const (
+	APRADIOUSAGE_EMPTY ApRadioUsage = ""
 	APRADIOUSAGE__24 ApRadioUsage = "24"
 	APRADIOUSAGE__5 ApRadioUsage = "5"
 	APRADIOUSAGE_RRM ApRadioUsage = "rrm"
@@ -28,6 +29,7 @@ const (
 
 // All allowed values of ApRadioUsage enum
 var AllowedApRadioUsageEnumValues = []ApRadioUsage{
+	"",
 	"24",
 	"5",
 	"rrm",

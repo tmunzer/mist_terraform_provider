@@ -345,8 +345,8 @@ import (
 func main() {
 	orgId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
 	mxedgeId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	name := openapiclient.mxedge_service_name("tunterm") // MxedgeServiceName | 
-	action := openapiclient.mxedge_service_action("restart") // MxedgeServiceAction | restart or start or stop
+	name := openapiclient.mxedge_service_name("") // MxedgeServiceName | 
+	action := openapiclient.mxedge_service_action("") // MxedgeServiceAction | restart or start or stop
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -421,7 +421,7 @@ import (
 
 func main() {
 	orgId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	distinct := openapiclient.org_mxedge_count_distinct("model") // OrgMxedgeCountDistinct |  (optional) (default to "model")
+	distinct := openapiclient.org_mxedge_count_distinct("") // OrgMxedgeCountDistinct |  (optional) (default to "model")
 	mxedgeId := "mxedgeId_example" // string | mist edge id (optional)
 	siteId := "siteId_example" // string | mist edge site id (optional)
 	mxclusterId := "mxclusterId_example" // string | mist edge cluster id (optional)
@@ -519,7 +519,7 @@ import (
 
 func main() {
 	orgId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	distinct := openapiclient.org_mxedge_events_count_distinct("mxedge_id") // OrgMxedgeEventsCountDistinct |  (optional) (default to "mxedge_id")
+	distinct := openapiclient.org_mxedge_events_count_distinct("") // OrgMxedgeEventsCountDistinct |  (optional) (default to "mxedge_id")
 	mxedgeId := "mxedgeId_example" // string | mist edge id (optional)
 	mxclusterId := "mxclusterId_example" // string | mist edge cluster id (optional)
 	type_ := "type__example" // string | see [listDeviceEventsDefinitions]($e/Constants%20Events/listDeviceEventsDefinitions) (optional)
@@ -970,7 +970,7 @@ import (
 
 func main() {
 	orgId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	channel := openapiclient.get_org_mxedge_upgrade_info_channel("stable") // GetOrgMxedgeUpgradeInfoChannel | upgrade channel to follow, stable (default) / beta / alpha (optional) (default to "stable")
+	channel := openapiclient.get_org_mxedge_upgrade_info_channel("") // GetOrgMxedgeUpgradeInfoChannel | upgrade channel to follow, stable (default) / beta / alpha (optional) (default to "stable")
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -1042,7 +1042,7 @@ import (
 
 func main() {
 	orgId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	forSites := openapiclient.mxedge_for_site("any") // MxedgeForSite | filter for site level mist edges (optional) (default to "any")
+	forSites := openapiclient.mxedge_for_site("") // MxedgeForSite | filter for site level mist edges (optional) (default to "any")
 	limit := int32(56) // int32 |  (optional) (default to 100)
 	page := int32(56) // int32 |  (optional) (default to 1)
 

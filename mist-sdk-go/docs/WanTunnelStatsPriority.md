@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `PRIMARY` (value: `"primary"`)
 
 * `SECONDARY` (value: `"secondary"`)

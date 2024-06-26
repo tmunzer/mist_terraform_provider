@@ -21,12 +21,14 @@ type WanTunnelStatsPriority string
 
 // List of wan_tunnel_stats_priority
 const (
+	WANTUNNELSTATSPRIORITY_EMPTY WanTunnelStatsPriority = ""
 	WANTUNNELSTATSPRIORITY_PRIMARY WanTunnelStatsPriority = "primary"
 	WANTUNNELSTATSPRIORITY_SECONDARY WanTunnelStatsPriority = "secondary"
 )
 
 // All allowed values of WanTunnelStatsPriority enum
 var AllowedWanTunnelStatsPriorityEnumValues = []WanTunnelStatsPriority{
+	"",
 	"primary",
 	"secondary",
 }

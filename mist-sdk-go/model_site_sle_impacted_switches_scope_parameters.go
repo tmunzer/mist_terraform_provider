@@ -21,11 +21,13 @@ type SiteSleImpactedSwitchesScopeParameters string
 
 // List of site_sle_impacted_switches_scope_parameters
 const (
+	SITESLEIMPACTEDSWITCHESSCOPEPARAMETERS_EMPTY SiteSleImpactedSwitchesScopeParameters = ""
 	SITESLEIMPACTEDSWITCHESSCOPEPARAMETERS_SITE SiteSleImpactedSwitchesScopeParameters = "site"
 )
 
 // All allowed values of SiteSleImpactedSwitchesScopeParameters enum
 var AllowedSiteSleImpactedSwitchesScopeParametersEnumValues = []SiteSleImpactedSwitchesScopeParameters{
+	"",
 	"site",
 }
 

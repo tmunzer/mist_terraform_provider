@@ -21,6 +21,7 @@ type AutoPlacementInfoStatus string
 
 // List of auto_placement_info_status
 const (
+	AUTOPLACEMENTINFOSTATUS_EMPTY AutoPlacementInfoStatus = ""
 	AUTOPLACEMENTINFOSTATUS_PENDING AutoPlacementInfoStatus = "pending"
 	AUTOPLACEMENTINFOSTATUS_INPROGRESS AutoPlacementInfoStatus = "inprogress"
 	AUTOPLACEMENTINFOSTATUS_DONE AutoPlacementInfoStatus = "done"
@@ -29,6 +30,7 @@ const (
 
 // All allowed values of AutoPlacementInfoStatus enum
 var AllowedAutoPlacementInfoStatusEnumValues = []AutoPlacementInfoStatus{
+	"",
 	"pending",
 	"inprogress",
 	"done",

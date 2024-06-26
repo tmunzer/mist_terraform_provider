@@ -30,7 +30,7 @@ import (
 
 func main() {
 	mspId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	distinct := openapiclient.msp_marvis_suggestions_count_distinct("org_id") // MspMarvisSuggestionsCountDistinct |  (optional) (default to "org_id")
+	distinct := openapiclient.msp_marvis_suggestions_count_distinct("") // MspMarvisSuggestionsCountDistinct |  (optional) (default to "org_id")
 	limit := int32(56) // int32 |  (optional) (default to 100)
 	page := int32(56) // int32 |  (optional) (default to 1)
 

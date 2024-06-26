@@ -21,6 +21,7 @@ type OrgClientSessionsCountDistinct string
 
 // List of org_client_sessions_count_distinct
 const (
+	ORGCLIENTSESSIONSCOUNTDISTINCT_EMPTY OrgClientSessionsCountDistinct = ""
 	ORGCLIENTSESSIONSCOUNTDISTINCT_SSID OrgClientSessionsCountDistinct = "ssid"
 	ORGCLIENTSESSIONSCOUNTDISTINCT_AP OrgClientSessionsCountDistinct = "ap"
 	ORGCLIENTSESSIONSCOUNTDISTINCT_IP OrgClientSessionsCountDistinct = "ip"
@@ -33,6 +34,7 @@ const (
 
 // All allowed values of OrgClientSessionsCountDistinct enum
 var AllowedOrgClientSessionsCountDistinctEnumValues = []OrgClientSessionsCountDistinct{
+	"",
 	"ssid",
 	"ap",
 	"ip",

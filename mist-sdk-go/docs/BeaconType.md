@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `IBEACON` (value: `"ibeacon"`)
 
 * `EDDYSTONE_UID` (value: `"eddystone-uid"`)

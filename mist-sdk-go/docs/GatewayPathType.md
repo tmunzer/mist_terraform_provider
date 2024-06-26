@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `LOCAL` (value: `"local"`)
 
 * `WAN` (value: `"wan"`)

@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `ADMIN_ID` (value: `"admin_id"`)
 
 * `ADMIN_NAME` (value: `"admin_name"`)

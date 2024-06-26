@@ -21,12 +21,14 @@ type UpgradeSiteDevicesRrmNodeOrder string
 
 // List of upgrade_site_devices_rrm_node_order
 const (
+	UPGRADESITEDEVICESRRMNODEORDER_EMPTY UpgradeSiteDevicesRrmNodeOrder = ""
 	UPGRADESITEDEVICESRRMNODEORDER_FRINGE_TO_CENTER UpgradeSiteDevicesRrmNodeOrder = "fringe_to_center"
 	UPGRADESITEDEVICESRRMNODEORDER_CENTER_TO_FRINGE UpgradeSiteDevicesRrmNodeOrder = "center_to_fringe"
 )
 
 // All allowed values of UpgradeSiteDevicesRrmNodeOrder enum
 var AllowedUpgradeSiteDevicesRrmNodeOrderEnumValues = []UpgradeSiteDevicesRrmNodeOrder{
+	"",
 	"fringe_to_center",
 	"center_to_fringe",
 }

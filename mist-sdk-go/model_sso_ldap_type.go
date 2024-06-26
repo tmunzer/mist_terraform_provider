@@ -21,6 +21,7 @@ type SsoLdapType string
 
 // List of sso_ldap_type
 const (
+	SSOLDAPTYPE_EMPTY SsoLdapType = ""
 	SSOLDAPTYPE_AZURE SsoLdapType = "azure"
 	SSOLDAPTYPE_OKTA SsoLdapType = "okta"
 	SSOLDAPTYPE_GOOGLE SsoLdapType = "google"
@@ -29,6 +30,7 @@ const (
 
 // All allowed values of SsoLdapType enum
 var AllowedSsoLdapTypeEnumValues = []SsoLdapType{
+	"",
 	"azure",
 	"okta",
 	"google",

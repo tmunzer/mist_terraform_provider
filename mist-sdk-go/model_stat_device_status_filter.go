@@ -21,6 +21,7 @@ type StatDeviceStatusFilter string
 
 // List of stat_device_status_filter
 const (
+	STATDEVICESTATUSFILTER_EMPTY StatDeviceStatusFilter = ""
 	STATDEVICESTATUSFILTER_ALL StatDeviceStatusFilter = "all"
 	STATDEVICESTATUSFILTER_CONNECTED StatDeviceStatusFilter = "connected"
 	STATDEVICESTATUSFILTER_DISCONNECTED StatDeviceStatusFilter = "disconnected"
@@ -28,6 +29,7 @@ const (
 
 // All allowed values of StatDeviceStatusFilter enum
 var AllowedStatDeviceStatusFilterEnumValues = []StatDeviceStatusFilter{
+	"",
 	"all",
 	"connected",
 	"disconnected",

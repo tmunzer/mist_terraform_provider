@@ -31,7 +31,7 @@ import (
 
 func main() {
 	siteId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	distinct := openapiclient.site_apps_count_distinct("ap") // SiteAppsCountDistinct | Default for wireless devices is `ap`. Default for wired devices is `device_mac` (optional)
+	distinct := openapiclient.site_apps_count_distinct("") // SiteAppsCountDistinct | Default for wireless devices is `ap`. Default for wired devices is `device_mac` (optional)
 	deviceMac := "deviceMac_example" // string | MAC of the device (optional)
 	app := "app_example" // string | Application name (optional)
 	wired := "wired_example" // string | If a device is wired or wireless. Default is False. (optional)

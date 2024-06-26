@@ -34,7 +34,7 @@ func main() {
 	siteId := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | **required** when troubleshooting site (optional)
 	start := int32(56) // int32 | start datetime, can be epoch or relative time like -1d, -1w; -1d if not specified (optional)
 	end := int32(56) // int32 | end datetime, can be epoch or relative time like -1d, -2h; now if not specified (optional)
-	type_ := openapiclient.troubleshoot_type("wireless") // TroubleshootType | when troubleshooting site, type of network to troubleshoot (optional)
+	type_ := openapiclient.troubleshoot_type("") // TroubleshootType | when troubleshooting site, type of network to troubleshoot (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)

@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `STATUS` (value: `"status"`)
 
 * `TYPE` (value: `"type"`)

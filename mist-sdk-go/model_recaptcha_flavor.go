@@ -21,12 +21,14 @@ type RecaptchaFlavor string
 
 // List of recaptcha_flavor
 const (
+	RECAPTCHAFLAVOR_EMPTY RecaptchaFlavor = ""
 	RECAPTCHAFLAVOR_HCAPTCHA RecaptchaFlavor = "hcaptcha"
 	RECAPTCHAFLAVOR_GOOGLE RecaptchaFlavor = "google"
 )
 
 // All allowed values of RecaptchaFlavor enum
 var AllowedRecaptchaFlavorEnumValues = []RecaptchaFlavor{
+	"",
 	"hcaptcha",
 	"google",
 }

@@ -21,6 +21,7 @@ type OrgClientsCountDistinct string
 
 // List of org_clients_count_distinct
 const (
+	ORGCLIENTSCOUNTDISTINCT_EMPTY OrgClientsCountDistinct = ""
 	ORGCLIENTSCOUNTDISTINCT_MAC OrgClientsCountDistinct = "mac"
 	ORGCLIENTSCOUNTDISTINCT_HOSTNAME OrgClientsCountDistinct = "hostname"
 	ORGCLIENTSCOUNTDISTINCT_DEVICE OrgClientsCountDistinct = "device"
@@ -34,6 +35,7 @@ const (
 
 // All allowed values of OrgClientsCountDistinct enum
 var AllowedOrgClientsCountDistinctEnumValues = []OrgClientsCountDistinct{
+	"",
 	"mac",
 	"hostname",
 	"device",

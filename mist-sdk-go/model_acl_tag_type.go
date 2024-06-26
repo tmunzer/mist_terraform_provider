@@ -21,6 +21,7 @@ type AclTagType string
 
 // List of acl_tag_type
 const (
+	ACLTAGTYPE_EMPTY AclTagType = ""
 	ACLTAGTYPE_MAC AclTagType = "mac"
 	ACLTAGTYPE_SUBNET AclTagType = "subnet"
 	ACLTAGTYPE_NETWORK AclTagType = "network"
@@ -33,6 +34,7 @@ const (
 
 // All allowed values of AclTagType enum
 var AllowedAclTagTypeEnumValues = []AclTagType{
+	"",
 	"mac",
 	"subnet",
 	"network",

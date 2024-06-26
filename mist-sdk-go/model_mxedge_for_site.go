@@ -21,6 +21,7 @@ type MxedgeForSite string
 
 // List of mxedge_for_site
 const (
+	MXEDGEFORSITE_EMPTY MxedgeForSite = ""
 	MXEDGEFORSITE_ANY MxedgeForSite = "any"
 	MXEDGEFORSITE_TRUE MxedgeForSite = "true"
 	MXEDGEFORSITE_FALSE MxedgeForSite = "false"
@@ -28,6 +29,7 @@ const (
 
 // All allowed values of MxedgeForSite enum
 var AllowedMxedgeForSiteEnumValues = []MxedgeForSite{
+	"",
 	"any",
 	"true",
 	"false",

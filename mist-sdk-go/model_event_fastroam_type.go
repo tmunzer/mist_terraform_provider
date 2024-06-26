@@ -21,6 +21,7 @@ type EventFastroamType string
 
 // List of event_fastroam_type
 const (
+	EVENTFASTROAMTYPE_EMPTY EventFastroamType = ""
 	EVENTFASTROAMTYPE_SUCCESS EventFastroamType = "success"
 	EVENTFASTROAMTYPE_FAIL EventFastroamType = "fail"
 	EVENTFASTROAMTYPE_NONE EventFastroamType = "none"
@@ -31,6 +32,7 @@ const (
 
 // All allowed values of EventFastroamType enum
 var AllowedEventFastroamTypeEnumValues = []EventFastroamType{
+	"",
 	"success",
 	"fail",
 	"none",

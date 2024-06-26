@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `_24` (value: `"24"`)
 
 * `_5` (value: `"5"`)

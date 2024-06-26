@@ -31,7 +31,7 @@ import (
 
 func main() {
 	mspId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	distinct := openapiclient.msp_logs_count_distinct("admin_id") // MspLogsCountDistinct |  (optional) (default to "admin_name")
+	distinct := openapiclient.msp_logs_count_distinct("") // MspLogsCountDistinct |  (optional) (default to "admin_name")
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -106,7 +106,7 @@ func main() {
 	siteId := "siteId_example" // string | site id (optional)
 	adminName := "adminName_example" // string | admin name or email (optional)
 	message := "message_example" // string | message (optional)
-	sort := openapiclient.list_msp_logs_sort("timestamp") // ListMspLogsSort | sort order (optional)
+	sort := openapiclient.list_msp_logs_sort("") // ListMspLogsSort | sort order (optional)
 	start := int32(56) // int32 | start datetime, can be epoch or relative time like -1d, -1w; -1d if not specified (optional)
 	end := int32(56) // int32 | end datetime, can be epoch or relative time like -1d, -2h; now if not specified (optional)
 	limit := int32(56) // int32 |  (optional) (default to 100)

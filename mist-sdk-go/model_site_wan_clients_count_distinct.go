@@ -21,6 +21,7 @@ type SiteWanClientsCountDistinct string
 
 // List of site_wan_clients_count_distinct
 const (
+	SITEWANCLIENTSCOUNTDISTINCT_EMPTY SiteWanClientsCountDistinct = ""
 	SITEWANCLIENTSCOUNTDISTINCT_HOSTNAME SiteWanClientsCountDistinct = "hostname"
 	SITEWANCLIENTSCOUNTDISTINCT_IP SiteWanClientsCountDistinct = "ip"
 	SITEWANCLIENTSCOUNTDISTINCT_MFG SiteWanClientsCountDistinct = "mfg"
@@ -29,6 +30,7 @@ const (
 
 // All allowed values of SiteWanClientsCountDistinct enum
 var AllowedSiteWanClientsCountDistinctEnumValues = []SiteWanClientsCountDistinct{
+	"",
 	"hostname",
 	"ip",
 	"mfg",

@@ -21,12 +21,14 @@ type GatewayTemplateTunnelIkeMode string
 
 // List of gateway_template_tunnel_ike_mode
 const (
+	GATEWAYTEMPLATETUNNELIKEMODE_EMPTY GatewayTemplateTunnelIkeMode = ""
 	GATEWAYTEMPLATETUNNELIKEMODE_MAIN GatewayTemplateTunnelIkeMode = "main"
 	GATEWAYTEMPLATETUNNELIKEMODE_AGGRESSIVE GatewayTemplateTunnelIkeMode = "aggressive"
 )
 
 // All allowed values of GatewayTemplateTunnelIkeMode enum
 var AllowedGatewayTemplateTunnelIkeModeEnumValues = []GatewayTemplateTunnelIkeMode{
+	"",
 	"main",
 	"aggressive",
 }

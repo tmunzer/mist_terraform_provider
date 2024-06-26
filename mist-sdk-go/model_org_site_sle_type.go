@@ -21,6 +21,7 @@ type OrgSiteSleType string
 
 // List of org_site_sle_type
 const (
+	ORGSITESLETYPE_EMPTY OrgSiteSleType = ""
 	ORGSITESLETYPE_WAN OrgSiteSleType = "wan"
 	ORGSITESLETYPE_WIRED OrgSiteSleType = "wired"
 	ORGSITESLETYPE_WIFI OrgSiteSleType = "wifi"
@@ -28,6 +29,7 @@ const (
 
 // All allowed values of OrgSiteSleType enum
 var AllowedOrgSiteSleTypeEnumValues = []OrgSiteSleType{
+	"",
 	"wan",
 	"wired",
 	"wifi",

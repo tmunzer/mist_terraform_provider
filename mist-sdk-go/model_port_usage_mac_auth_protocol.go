@@ -21,6 +21,7 @@ type PortUsageMacAuthProtocol string
 
 // List of port_usage_mac_auth_protocol
 const (
+	PORTUSAGEMACAUTHPROTOCOL_EMPTY PortUsageMacAuthProtocol = ""
 	PORTUSAGEMACAUTHPROTOCOL_PAP PortUsageMacAuthProtocol = "pap"
 	PORTUSAGEMACAUTHPROTOCOL_EAP_PEAP PortUsageMacAuthProtocol = "eap-peap"
 	PORTUSAGEMACAUTHPROTOCOL_EAP_MD5 PortUsageMacAuthProtocol = "eap-md5"
@@ -28,6 +29,7 @@ const (
 
 // All allowed values of PortUsageMacAuthProtocol enum
 var AllowedPortUsageMacAuthProtocolEnumValues = []PortUsageMacAuthProtocol{
+	"",
 	"pap",
 	"eap-peap",
 	"eap-md5",

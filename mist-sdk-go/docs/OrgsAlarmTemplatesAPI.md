@@ -327,7 +327,7 @@ import (
 
 func main() {
 	orgId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	scope := openapiclient.suppressed_alarm_scope("org") // SuppressedAlarmScope |  (optional) (default to "site")
+	scope := openapiclient.suppressed_alarm_scope("") // SuppressedAlarmScope |  (optional) (default to "site")
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)

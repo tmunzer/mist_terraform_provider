@@ -21,6 +21,7 @@ type WlanInterface string
 
 // List of wlan_interface
 const (
+	WLANINTERFACE_EMPTY WlanInterface = ""
 	WLANINTERFACE_ALL WlanInterface = "all"
 	WLANINTERFACE_ETH0 WlanInterface = "eth0"
 	WLANINTERFACE_ETH1 WlanInterface = "eth1"
@@ -33,6 +34,7 @@ const (
 
 // All allowed values of WlanInterface enum
 var AllowedWlanInterfaceEnumValues = []WlanInterface{
+	"",
 	"all",
 	"eth0",
 	"eth1",

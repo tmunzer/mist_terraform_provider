@@ -33,7 +33,7 @@ import (
 
 func main() {
 	mspId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	ssoRoleMsp := *openapiclient.NewSsoRoleMsp("Name_example", []openapiclient.PrivilegeMsp{*openapiclient.NewPrivilegeMsp(openapiclient.privilege_msp_role("admin"), openapiclient.privilege_msp_scope("org"))}) // SsoRoleMsp | Request Body (optional)
+	ssoRoleMsp := *openapiclient.NewSsoRoleMsp("Name_example", []openapiclient.PrivilegeMsp{*openapiclient.NewPrivilegeMsp(openapiclient.privilege_msp_role(""), openapiclient.privilege_msp_scope(""))}) // SsoRoleMsp | Request Body (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -247,7 +247,7 @@ import (
 func main() {
 	mspId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
 	ssoroleId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	ssoRoleMsp := *openapiclient.NewSsoRoleMsp("Name_example", []openapiclient.PrivilegeMsp{*openapiclient.NewPrivilegeMsp(openapiclient.privilege_msp_role("admin"), openapiclient.privilege_msp_scope("org"))}) // SsoRoleMsp | Request Body (optional)
+	ssoRoleMsp := *openapiclient.NewSsoRoleMsp("Name_example", []openapiclient.PrivilegeMsp{*openapiclient.NewPrivilegeMsp(openapiclient.privilege_msp_role(""), openapiclient.privilege_msp_scope(""))}) // SsoRoleMsp | Request Body (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)

@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `ENTER` (value: `"enter"`)
 
 * `EXIT` (value: `"exit"`)

@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `BETA` (value: `"beta"`)
 
 * `STABLE` (value: `"stable"`)

@@ -21,6 +21,7 @@ type SiteServiceEventsCountDistinct string
 
 // List of site_service_events_count_distinct
 const (
+	SITESERVICEEVENTSCOUNTDISTINCT_EMPTY SiteServiceEventsCountDistinct = ""
 	SITESERVICEEVENTSCOUNTDISTINCT_TYPE SiteServiceEventsCountDistinct = "type"
 	SITESERVICEEVENTSCOUNTDISTINCT_MAC SiteServiceEventsCountDistinct = "mac"
 	SITESERVICEEVENTSCOUNTDISTINCT_VPN_NAME SiteServiceEventsCountDistinct = "vpn_name"
@@ -33,6 +34,7 @@ const (
 
 // All allowed values of SiteServiceEventsCountDistinct enum
 var AllowedSiteServiceEventsCountDistinctEnumValues = []SiteServiceEventsCountDistinct{
+	"",
 	"type",
 	"mac",
 	"vpn_name",

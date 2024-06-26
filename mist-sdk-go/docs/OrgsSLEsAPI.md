@@ -31,7 +31,7 @@ import (
 
 func main() {
 	orgId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	sle := openapiclient.org_site_sle_type("wan") // OrgSiteSleType |  (optional)
+	sle := openapiclient.org_site_sle_type("") // OrgSiteSleType |  (optional)
 	start := int32(56) // int32 | start datetime, can be epoch or relative time like -1d, -1w; -1d if not specified (optional)
 	end := int32(56) // int32 | end datetime, can be epoch or relative time like -1d, -2h; now if not specified (optional)
 	limit := int32(56) // int32 |  (optional) (default to 100)

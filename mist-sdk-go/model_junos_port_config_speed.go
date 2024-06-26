@@ -21,6 +21,7 @@ type JunosPortConfigSpeed string
 
 // List of junos_port_config_speed
 const (
+	JUNOSPORTCONFIGSPEED_EMPTY JunosPortConfigSpeed = ""
 	JUNOSPORTCONFIGSPEED_AUTO JunosPortConfigSpeed = "auto"
 	JUNOSPORTCONFIGSPEED__10M JunosPortConfigSpeed = "10m"
 	JUNOSPORTCONFIGSPEED__100M JunosPortConfigSpeed = "100m"
@@ -31,6 +32,7 @@ const (
 
 // All allowed values of JunosPortConfigSpeed enum
 var AllowedJunosPortConfigSpeedEnumValues = []JunosPortConfigSpeed{
+	"",
 	"auto",
 	"10m",
 	"100m",

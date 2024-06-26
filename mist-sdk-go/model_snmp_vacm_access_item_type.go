@@ -21,11 +21,13 @@ type SnmpVacmAccessItemType string
 
 // List of snmp_vacm_access_item_type
 const (
+	SNMPVACMACCESSITEMTYPE_EMPTY SnmpVacmAccessItemType = ""
 	SNMPVACMACCESSITEMTYPE_DEFAULT_CONTEXT_PREFIX SnmpVacmAccessItemType = "default_context_prefix"
 )
 
 // All allowed values of SnmpVacmAccessItemType enum
 var AllowedSnmpVacmAccessItemTypeEnumValues = []SnmpVacmAccessItemType{
+	"",
 	"default_context_prefix",
 }
 

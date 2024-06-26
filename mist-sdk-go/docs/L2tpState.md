@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `IDLE` (value: `"idle"`)
 
 * `WAIT_CTRL_REPLY` (value: `"wait-ctrl-reply"`)

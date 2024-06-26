@@ -21,6 +21,7 @@ type GatewayWanType string
 
 // List of gateway_wan_type
 const (
+	GATEWAYWANTYPE_EMPTY GatewayWanType = ""
 	GATEWAYWANTYPE_DHCP GatewayWanType = "dhcp"
 	GATEWAYWANTYPE_STATIC GatewayWanType = "static"
 	GATEWAYWANTYPE_PPPOE GatewayWanType = "pppoe"
@@ -28,6 +29,7 @@ const (
 
 // All allowed values of GatewayWanType enum
 var AllowedGatewayWanTypeEnumValues = []GatewayWanType{
+	"",
 	"dhcp",
 	"static",
 	"pppoe",

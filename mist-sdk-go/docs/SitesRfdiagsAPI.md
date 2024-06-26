@@ -333,7 +333,7 @@ import (
 
 func main() {
 	siteId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	rfDiag := *openapiclient.NewRfDiag("Name_example", openapiclient.rf_client_type("sdkclient")) // RfDiag | Request Body (optional)
+	rfDiag := *openapiclient.NewRfDiag("Name_example", openapiclient.rf_client_type("")) // RfDiag | Request Body (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -477,7 +477,7 @@ import (
 func main() {
 	siteId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
 	rfdiagId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	rfDiag := *openapiclient.NewRfDiag("Name_example", openapiclient.rf_client_type("sdkclient")) // RfDiag | Request Body (optional)
+	rfDiag := *openapiclient.NewRfDiag("Name_example", openapiclient.rf_client_type("")) // RfDiag | Request Body (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)

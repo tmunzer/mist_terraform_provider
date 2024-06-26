@@ -21,6 +21,7 @@ type SiteWanClientEventsDistinct string
 
 // List of site_wan_client_events_distinct
 const (
+	SITEWANCLIENTEVENTSDISTINCT_EMPTY SiteWanClientEventsDistinct = ""
 	SITEWANCLIENTEVENTSDISTINCT_TYPE SiteWanClientEventsDistinct = "type"
 	SITEWANCLIENTEVENTSDISTINCT_HOSTNAME SiteWanClientEventsDistinct = "hostname"
 	SITEWANCLIENTEVENTSDISTINCT_IP SiteWanClientEventsDistinct = "ip"
@@ -30,6 +31,7 @@ const (
 
 // All allowed values of SiteWanClientEventsDistinct enum
 var AllowedSiteWanClientEventsDistinctEnumValues = []SiteWanClientEventsDistinct{
+	"",
 	"type",
 	"hostname",
 	"ip",

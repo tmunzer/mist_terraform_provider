@@ -21,6 +21,7 @@ type Dot11Proto string
 
 // List of dot11_proto
 const (
+	DOT11PROTO_EMPTY Dot11Proto = ""
 	DOT11PROTO_A Dot11Proto = "a"
 	DOT11PROTO_B Dot11Proto = "b"
 	DOT11PROTO_G Dot11Proto = "g"
@@ -31,6 +32,7 @@ const (
 
 // All allowed values of Dot11Proto enum
 var AllowedDot11ProtoEnumValues = []Dot11Proto{
+	"",
 	"a",
 	"b",
 	"g",

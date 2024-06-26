@@ -37,7 +37,7 @@ import (
 
 func main() {
 	siteId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	distinct := openapiclient.site_mxedge_events_count_distinct("mxedge_id") // SiteMxedgeEventsCountDistinct |  (optional) (default to "mxedge_id")
+	distinct := openapiclient.site_mxedge_events_count_distinct("") // SiteMxedgeEventsCountDistinct |  (optional) (default to "mxedge_id")
 	mxedgeId := "mxedgeId_example" // string | mist edge id (optional)
 	mxclusterId := "mxclusterId_example" // string | mist edge cluster id (optional)
 	type_ := "type__example" // string | see [listDeviceEventsDefinitions]($e/Constants%20Events/listDeviceEventsDefinitions) (optional)

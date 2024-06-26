@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `ORDERED` (value: `"ordered"`)
 
 * `WEIGHTED` (value: `"weighted"`)

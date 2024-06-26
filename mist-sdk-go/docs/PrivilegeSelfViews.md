@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `REPORTING` (value: `"reporting"`)
 
 * `MARKETING` (value: `"marketing"`)

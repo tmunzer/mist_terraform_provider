@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `TRUE` (value: `"True"`)
 
 * `FALSE` (value: `"False"`)

@@ -21,6 +21,7 @@ type SwitchPortStatsStpState string
 
 // List of switch_port_stats_stp_state
 const (
+	SWITCHPORTSTATSSTPSTATE_EMPTY SwitchPortStatsStpState = ""
 	SWITCHPORTSTATSSTPSTATE_FORWARDING SwitchPortStatsStpState = "forwarding"
 	SWITCHPORTSTATSSTPSTATE_BLOCKING SwitchPortStatsStpState = "blocking"
 	SWITCHPORTSTATSSTPSTATE_LEARNING SwitchPortStatsStpState = "learning"
@@ -30,6 +31,7 @@ const (
 
 // All allowed values of SwitchPortStatsStpState enum
 var AllowedSwitchPortStatsStpStateEnumValues = []SwitchPortStatsStpState{
+	"",
 	"forwarding",
 	"blocking",
 	"learning",

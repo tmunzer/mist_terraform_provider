@@ -32,7 +32,7 @@ import (
 
 func main() {
 	siteId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	distinct := openapiclient.site_other_device_events_count_distinct("mac") // SiteOtherDeviceEventsCountDistinct |  (optional) (default to "mac")
+	distinct := openapiclient.site_other_device_events_count_distinct("") // SiteOtherDeviceEventsCountDistinct |  (optional) (default to "mac")
 	type_ := "type__example" // string | see [listDeviceEventsDefinitions]($e/Constants%20Events/listOtherDeviceEventsDefinitions) (optional)
 	start := int32(56) // int32 | start datetime, can be epoch or relative time like -1d, -1w; -1d if not specified (optional)
 	end := int32(56) // int32 | end datetime, can be epoch or relative time like -1d, -2h; now if not specified (optional)

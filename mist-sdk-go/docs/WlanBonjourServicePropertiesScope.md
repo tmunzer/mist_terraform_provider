@@ -3,11 +3,13 @@
 ## Enum
 
 
-* `SITE` (value: `"same_site"`)
+* `EMPTY` (value: `""`)
 
-* `MAP` (value: `"same_map"`)
+* `SAME_SITE` (value: `"same_site"`)
 
-* `AP` (value: `"same_ap"`)
+* `SAME_MAP` (value: `"same_map"`)
+
+* `SAME_AP` (value: `"same_ap"`)
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

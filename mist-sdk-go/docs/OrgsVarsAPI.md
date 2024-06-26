@@ -32,7 +32,7 @@ func main() {
 	orgId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
 	siteId := "siteId_example" // string |  (optional)
 	vars := "vars_example" // string |  (optional)
-	src := openapiclient.var_source("site") // VarSource |  (optional)
+	src := openapiclient.var_source("") // VarSource |  (optional)
 	limit := int32(56) // int32 |  (optional) (default to 100)
 	page := int32(56) // int32 |  (optional) (default to 1)
 

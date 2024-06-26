@@ -21,12 +21,14 @@ type MapOrgImportFileJsonVendorName string
 
 // List of map_org_import_file_json_vendor_name
 const (
+	MAPORGIMPORTFILEJSONVENDORNAME_EMPTY MapOrgImportFileJsonVendorName = ""
 	MAPORGIMPORTFILEJSONVENDORNAME_EKAHAU MapOrgImportFileJsonVendorName = "ekahau"
 	MAPORGIMPORTFILEJSONVENDORNAME_IBWAVE MapOrgImportFileJsonVendorName = "ibwave"
 )
 
 // All allowed values of MapOrgImportFileJsonVendorName enum
 var AllowedMapOrgImportFileJsonVendorNameEnumValues = []MapOrgImportFileJsonVendorName{
+	"",
 	"ekahau",
 	"ibwave",
 }

@@ -30,7 +30,7 @@ import (
 )
 
 func main() {
-	by := openapiclient.mfa_secret_type("qrcode") // MfaSecretType | if `by`==`qrcode`, returns the secret as a qrcode image (optional) (default to "qrcode")
+	by := openapiclient.mfa_secret_type("") // MfaSecretType | if `by`==`qrcode`, returns the secret as a qrcode image (optional) (default to "qrcode")
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)

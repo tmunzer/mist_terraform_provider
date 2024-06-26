@@ -3,9 +3,11 @@
 ## Enum
 
 
-* `STANDBY` (value: `"active-standby"`)
+* `EMPTY` (value: `""`)
 
-* `ACTIVE` (value: `"active-active"`)
+* `ACTIVE_STANDBY` (value: `"active-standby"`)
+
+* `ACTIVE_ACTIVE` (value: `"active-active"`)
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

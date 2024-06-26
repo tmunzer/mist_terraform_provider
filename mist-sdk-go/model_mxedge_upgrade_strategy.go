@@ -21,12 +21,14 @@ type MxedgeUpgradeStrategy string
 
 // List of mxedge_upgrade_strategy
 const (
+	MXEDGEUPGRADESTRATEGY_EMPTY MxedgeUpgradeStrategy = ""
 	MXEDGEUPGRADESTRATEGY_BIG_BANG MxedgeUpgradeStrategy = "big_bang"
 	MXEDGEUPGRADESTRATEGY_SERIAL MxedgeUpgradeStrategy = "serial"
 )
 
 // All allowed values of MxedgeUpgradeStrategy enum
 var AllowedMxedgeUpgradeStrategyEnumValues = []MxedgeUpgradeStrategy{
+	"",
 	"big_bang",
 	"serial",
 }

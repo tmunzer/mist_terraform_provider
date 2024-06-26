@@ -21,13 +21,15 @@ type SwitchPortStatsPoeMode string
 
 // List of switch_port_stats_poe_mode
 const (
-	SWITCHPORTSTATSPOEMODE__3AF SwitchPortStatsPoeMode = "802.3af"
-	SWITCHPORTSTATSPOEMODE__3AT SwitchPortStatsPoeMode = "802.3at"
-	SWITCHPORTSTATSPOEMODE__3BT SwitchPortStatsPoeMode = "802.3bt"
+	SWITCHPORTSTATSPOEMODE_EMPTY SwitchPortStatsPoeMode = ""
+	SWITCHPORTSTATSPOEMODE__802_3AF SwitchPortStatsPoeMode = "802.3af"
+	SWITCHPORTSTATSPOEMODE__802_3AT SwitchPortStatsPoeMode = "802.3at"
+	SWITCHPORTSTATSPOEMODE__802_3BT SwitchPortStatsPoeMode = "802.3bt"
 )
 
 // All allowed values of SwitchPortStatsPoeMode enum
 var AllowedSwitchPortStatsPoeModeEnumValues = []SwitchPortStatsPoeMode{
+	"",
 	"802.3af",
 	"802.3at",
 	"802.3bt",

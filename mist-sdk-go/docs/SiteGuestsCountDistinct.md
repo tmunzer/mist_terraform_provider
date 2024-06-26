@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `AUTH_METHOD` (value: `"auth_method"`)
 
 * `SSID` (value: `"ssid"`)

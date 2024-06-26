@@ -21,6 +21,7 @@ type AlarmCountDisctinct string
 
 // List of alarm_count_disctinct
 const (
+	ALARMCOUNTDISCTINCT_EMPTY AlarmCountDisctinct = ""
 	ALARMCOUNTDISCTINCT_TYPE AlarmCountDisctinct = "type"
 	ALARMCOUNTDISCTINCT_ACKED AlarmCountDisctinct = "acked"
 	ALARMCOUNTDISCTINCT_SEVERITY AlarmCountDisctinct = "severity"
@@ -29,6 +30,7 @@ const (
 
 // All allowed values of AlarmCountDisctinct enum
 var AllowedAlarmCountDisctinctEnumValues = []AlarmCountDisctinct{
+	"",
 	"type",
 	"acked",
 	"severity",

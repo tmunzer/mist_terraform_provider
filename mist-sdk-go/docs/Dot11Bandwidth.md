@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `_null` (value: `null`)
+
 * `_20` (value: `20`)
 
 * `_40` (value: `40`)

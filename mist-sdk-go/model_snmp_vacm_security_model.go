@@ -21,6 +21,7 @@ type SnmpVacmSecurityModel string
 
 // List of snmp_vacm_security_model
 const (
+	SNMPVACMSECURITYMODEL_EMPTY SnmpVacmSecurityModel = ""
 	SNMPVACMSECURITYMODEL_USM SnmpVacmSecurityModel = "usm"
 	SNMPVACMSECURITYMODEL_V1 SnmpVacmSecurityModel = "v1"
 	SNMPVACMSECURITYMODEL_V2C SnmpVacmSecurityModel = "v2c"
@@ -28,6 +29,7 @@ const (
 
 // All allowed values of SnmpVacmSecurityModel enum
 var AllowedSnmpVacmSecurityModelEnumValues = []SnmpVacmSecurityModel{
+	"",
 	"usm",
 	"v1",
 	"v2c",

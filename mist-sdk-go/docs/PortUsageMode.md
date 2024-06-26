@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `ACCESS` (value: `"access"`)
 
 * `TRUNK` (value: `"trunk"`)

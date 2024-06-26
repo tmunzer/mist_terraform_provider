@@ -21,6 +21,7 @@ type NacTagMatch string
 
 // List of nac_tag_match
 const (
+	NACTAGMATCH_EMPTY NacTagMatch = ""
 	NACTAGMATCH_CERT_CN NacTagMatch = "cert_cn"
 	NACTAGMATCH_CERT_ISSUER NacTagMatch = "cert_issuer"
 	NACTAGMATCH_CERT_SAN NacTagMatch = "cert_san"
@@ -38,6 +39,7 @@ const (
 
 // All allowed values of NacTagMatch enum
 var AllowedNacTagMatchEnumValues = []NacTagMatch{
+	"",
 	"cert_cn",
 	"cert_issuer",
 	"cert_san",

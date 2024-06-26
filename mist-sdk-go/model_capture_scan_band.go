@@ -21,6 +21,7 @@ type CaptureScanBand string
 
 // List of capture_scan_band
 const (
+	CAPTURESCANBAND_EMPTY CaptureScanBand = ""
 	CAPTURESCANBAND__24 CaptureScanBand = "24"
 	CAPTURESCANBAND__5 CaptureScanBand = "5"
 	CAPTURESCANBAND__6 CaptureScanBand = "6"
@@ -28,6 +29,7 @@ const (
 
 // All allowed values of CaptureScanBand enum
 var AllowedCaptureScanBandEnumValues = []CaptureScanBand{
+	"",
 	"24",
 	"5",
 	"6",

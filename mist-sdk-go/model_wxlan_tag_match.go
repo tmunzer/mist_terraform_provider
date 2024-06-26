@@ -21,6 +21,7 @@ type WxlanTagMatch string
 
 // List of wxlan_tag_match
 const (
+	WXLANTAGMATCH_EMPTY WxlanTagMatch = ""
 	WXLANTAGMATCH_AP_ID WxlanTagMatch = "ap_id"
 	WXLANTAGMATCH_APP WxlanTagMatch = "app"
 	WXLANTAGMATCH_ASSET_MAC WxlanTagMatch = "asset_mac"
@@ -38,6 +39,7 @@ const (
 
 // All allowed values of WxlanTagMatch enum
 var AllowedWxlanTagMatchEnumValues = []WxlanTagMatch{
+	"",
 	"ap_id",
 	"app",
 	"asset_mac",

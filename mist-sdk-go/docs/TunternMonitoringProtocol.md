@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `ARP` (value: `"arp"`)
 
 * `PING` (value: `"ping"`)

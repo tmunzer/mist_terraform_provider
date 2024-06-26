@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `UNKNOWN` (value: `"unknown"`)
 
 * `UPDATING` (value: `"updating"`)

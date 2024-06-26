@@ -181,7 +181,7 @@ func main() {
 	vlanId := "vlanId_example" // string | VLAN ID (optional)
 	by := "by_example" // string | entity who triggers the test (optional)
 	reason := "reason_example" // string | test failure reason (optional)
-	type_ := openapiclient.synthetic_test_type("dns") // SyntheticTestType | synthetic test type (optional)
+	type_ := openapiclient.synthetic_test_type("") // SyntheticTestType | synthetic test type (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -334,7 +334,7 @@ import (
 func main() {
 	siteId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
 	deviceId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	syntheticTestDevice := *openapiclient.NewSyntheticTestDevice(openapiclient.synthetic_test_type("dns")) // SyntheticTestDevice |  (optional)
+	syntheticTestDevice := *openapiclient.NewSyntheticTestDevice(openapiclient.synthetic_test_type("")) // SyntheticTestDevice |  (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)

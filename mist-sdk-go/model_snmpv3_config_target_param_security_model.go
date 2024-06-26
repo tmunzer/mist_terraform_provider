@@ -21,6 +21,7 @@ type Snmpv3ConfigTargetParamSecurityModel string
 
 // List of snmpv3_config_target_param_security_model
 const (
+	SNMPV3CONFIGTARGETPARAMSECURITYMODEL_EMPTY Snmpv3ConfigTargetParamSecurityModel = ""
 	SNMPV3CONFIGTARGETPARAMSECURITYMODEL_USM Snmpv3ConfigTargetParamSecurityModel = "usm"
 	SNMPV3CONFIGTARGETPARAMSECURITYMODEL_V1 Snmpv3ConfigTargetParamSecurityModel = "v1"
 	SNMPV3CONFIGTARGETPARAMSECURITYMODEL_V2C Snmpv3ConfigTargetParamSecurityModel = "v2c"
@@ -28,6 +29,7 @@ const (
 
 // All allowed values of Snmpv3ConfigTargetParamSecurityModel enum
 var AllowedSnmpv3ConfigTargetParamSecurityModelEnumValues = []Snmpv3ConfigTargetParamSecurityModel{
+	"",
 	"usm",
 	"v1",
 	"v2c",

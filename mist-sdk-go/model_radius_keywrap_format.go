@@ -21,12 +21,14 @@ type RadiusKeywrapFormat string
 
 // List of radius_keywrap_format
 const (
+	RADIUSKEYWRAPFORMAT_EMPTY RadiusKeywrapFormat = ""
 	RADIUSKEYWRAPFORMAT_HEX RadiusKeywrapFormat = "hex"
 	RADIUSKEYWRAPFORMAT_ASCII RadiusKeywrapFormat = "ascii"
 )
 
 // All allowed values of RadiusKeywrapFormat enum
 var AllowedRadiusKeywrapFormatEnumValues = []RadiusKeywrapFormat{
+	"",
 	"hex",
 	"ascii",
 }

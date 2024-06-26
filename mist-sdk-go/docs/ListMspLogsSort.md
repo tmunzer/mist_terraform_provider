@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `TIMESTAMP` (value: `"timestamp"`)
 
 * `TIMESTAMP2` (value: `"-timestamp"`)

@@ -21,6 +21,7 @@ type UtilsSendSupportLogsInfo string
 
 // List of utils_send_support_logs_info
 const (
+	UTILSSENDSUPPORTLOGSINFO_EMPTY UtilsSendSupportLogsInfo = ""
 	UTILSSENDSUPPORTLOGSINFO_PROCESS UtilsSendSupportLogsInfo = "process"
 	UTILSSENDSUPPORTLOGSINFO_OUTBOUND_SSH UtilsSendSupportLogsInfo = "outbound-ssh"
 	UTILSSENDSUPPORTLOGSINFO_MESSAGES UtilsSendSupportLogsInfo = "messages"
@@ -32,6 +33,7 @@ const (
 
 // All allowed values of UtilsSendSupportLogsInfo enum
 var AllowedUtilsSendSupportLogsInfoEnumValues = []UtilsSendSupportLogsInfo{
+	"",
 	"process",
 	"outbound-ssh",
 	"messages",

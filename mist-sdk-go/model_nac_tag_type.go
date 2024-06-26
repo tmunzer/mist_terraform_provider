@@ -21,6 +21,7 @@ type NacTagType string
 
 // List of nac_tag_type
 const (
+	NACTAGTYPE_EMPTY NacTagType = ""
 	NACTAGTYPE_EGRESS_VLAN_NAMES NacTagType = "egress_vlan_names"
 	NACTAGTYPE_MATCH NacTagType = "match"
 	NACTAGTYPE_VLAN NacTagType = "vlan"
@@ -33,6 +34,7 @@ const (
 
 // All allowed values of NacTagType enum
 var AllowedNacTagTypeEnumValues = []NacTagType{
+	"",
 	"egress_vlan_names",
 	"match",
 	"vlan",

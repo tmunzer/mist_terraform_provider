@@ -21,12 +21,14 @@ type VarSource string
 
 // List of var_source
 const (
+	VARSOURCE_EMPTY VarSource = ""
 	VARSOURCE_SITE VarSource = "site"
 	VARSOURCE_DEVICEPROFILE VarSource = "deviceprofile"
 )
 
 // All allowed values of VarSource enum
 var AllowedVarSourceEnumValues = []VarSource{
+	"",
 	"site",
 	"deviceprofile",
 }

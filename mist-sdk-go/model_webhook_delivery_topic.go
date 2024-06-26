@@ -21,6 +21,7 @@ type WebhookDeliveryTopic string
 
 // List of webhook_delivery_topic
 const (
+	WEBHOOKDELIVERYTOPIC_EMPTY WebhookDeliveryTopic = ""
 	WEBHOOKDELIVERYTOPIC_ALARMS WebhookDeliveryTopic = "alarms"
 	WEBHOOKDELIVERYTOPIC_AUDITS WebhookDeliveryTopic = "audits"
 	WEBHOOKDELIVERYTOPIC_DEVICE_UPDOWNS WebhookDeliveryTopic = "device-updowns"
@@ -30,6 +31,7 @@ const (
 
 // All allowed values of WebhookDeliveryTopic enum
 var AllowedWebhookDeliveryTopicEnumValues = []WebhookDeliveryTopic{
+	"",
 	"alarms",
 	"audits",
 	"device-updowns",

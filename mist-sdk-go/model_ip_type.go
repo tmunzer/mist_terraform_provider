@@ -21,12 +21,14 @@ type IpType string
 
 // List of ip_type
 const (
+	IPTYPE_EMPTY IpType = ""
 	IPTYPE_STATIC IpType = "static"
 	IPTYPE_DHCP IpType = "dhcp"
 )
 
 // All allowed values of IpType enum
 var AllowedIpTypeEnumValues = []IpType{
+	"",
 	"static",
 	"dhcp",
 }

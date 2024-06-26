@@ -21,12 +21,14 @@ type WxlanTagOperation string
 
 // List of wxlan_tag_operation
 const (
+	WXLANTAGOPERATION_EMPTY WxlanTagOperation = ""
 	WXLANTAGOPERATION_IN WxlanTagOperation = "in"
 	WXLANTAGOPERATION_NOT_IN WxlanTagOperation = "not_in"
 )
 
 // All allowed values of WxlanTagOperation enum
 var AllowedWxlanTagOperationEnumValues = []WxlanTagOperation{
+	"",
 	"in",
 	"not_in",
 }

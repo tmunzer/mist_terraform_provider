@@ -21,12 +21,14 @@ type HaClusterNodeEnum string
 
 // List of ha_cluster_node_enum
 const (
+	HACLUSTERNODEENUM_EMPTY HaClusterNodeEnum = ""
 	HACLUSTERNODEENUM_NODE0 HaClusterNodeEnum = "node0"
 	HACLUSTERNODEENUM_NODE1 HaClusterNodeEnum = "node1"
 )
 
 // All allowed values of HaClusterNodeEnum enum
 var AllowedHaClusterNodeEnumEnumValues = []HaClusterNodeEnum{
+	"",
 	"node0",
 	"node1",
 }

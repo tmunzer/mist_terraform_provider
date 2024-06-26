@@ -21,11 +21,13 @@ type SwitchPortStatsPortUsage string
 
 // List of switch_port_stats_port_usage
 const (
+	SWITCHPORTSTATSPORTUSAGE_EMPTY SwitchPortStatsPortUsage = ""
 	SWITCHPORTSTATSPORTUSAGE_LAN SwitchPortStatsPortUsage = "lan"
 )
 
 // All allowed values of SwitchPortStatsPortUsage enum
 var AllowedSwitchPortStatsPortUsageEnumValues = []SwitchPortStatsPortUsage{
+	"",
 	"lan",
 }
 

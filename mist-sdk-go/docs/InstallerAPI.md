@@ -57,7 +57,7 @@ func main() {
 	autoDeviceprofileAssignment := true // bool | whether to auto assign device to deviceprofile by name (optional)
 	csv := os.NewFile(1234, "some_file") // *os.File | csv file for ap name mapping, optional (optional)
 	file := os.NewFile(1234, "some_file") // *os.File | ekahau or ibwave file (optional)
-	json := *openapiclient.NewMapImportJson(openapiclient.map_import_json_vendor_name("ekahau")) // MapImportJson |  (optional)
+	json := *openapiclient.NewMapImportJson(openapiclient.map_import_json_vendor_name("")) // MapImportJson |  (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -657,7 +657,7 @@ func main() {
 	autoDeviceprofileAssignment := true // bool | whether to auto assign device to deviceprofile by name (optional)
 	csv := os.NewFile(1234, "some_file") // *os.File | csv file for ap name mapping, optional (optional)
 	file := os.NewFile(1234, "some_file") // *os.File | ekahau or ibwave file (optional)
-	json := *openapiclient.NewMapImportJson(openapiclient.map_import_json_vendor_name("ekahau")) // MapImportJson |  (optional)
+	json := *openapiclient.NewMapImportJson(openapiclient.map_import_json_vendor_name("")) // MapImportJson |  (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -804,7 +804,7 @@ import (
 
 func main() {
 	orgId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	type_ := openapiclient.device_type("ap") // DeviceType |  (optional) (default to "ap")
+	type_ := openapiclient.device_type("") // DeviceType |  (optional) (default to "ap")
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)

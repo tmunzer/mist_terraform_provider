@@ -21,6 +21,7 @@ type ConstInsightMetricsPropertyScope string
 
 // List of const_insight_metrics_property_scope
 const (
+	CONSTINSIGHTMETRICSPROPERTYSCOPE_EMPTY ConstInsightMetricsPropertyScope = ""
 	CONSTINSIGHTMETRICSPROPERTYSCOPE_SITE ConstInsightMetricsPropertyScope = "site"
 	CONSTINSIGHTMETRICSPROPERTYSCOPE_AP ConstInsightMetricsPropertyScope = "ap"
 	CONSTINSIGHTMETRICSPROPERTYSCOPE_CLIENT ConstInsightMetricsPropertyScope = "client"
@@ -31,6 +32,7 @@ const (
 
 // All allowed values of ConstInsightMetricsPropertyScope enum
 var AllowedConstInsightMetricsPropertyScopeEnumValues = []ConstInsightMetricsPropertyScope{
+	"",
 	"site",
 	"ap",
 	"client",

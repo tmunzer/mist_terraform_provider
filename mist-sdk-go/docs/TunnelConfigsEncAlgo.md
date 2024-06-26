@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `AES256` (value: `"aes256"`)
 
 * `_3DES` (value: `"3des"`)

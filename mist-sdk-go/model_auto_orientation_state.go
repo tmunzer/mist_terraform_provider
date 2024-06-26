@@ -21,6 +21,7 @@ type AutoOrientationState string
 
 // List of auto_orientation_state
 const (
+	AUTOORIENTATIONSTATE_EMPTY AutoOrientationState = ""
 	AUTOORIENTATIONSTATE_NOT_STARTED AutoOrientationState = "Not Started"
 	AUTOORIENTATIONSTATE_ENQUEUED AutoOrientationState = "Enqueued"
 	AUTOORIENTATIONSTATE_ORIENTED AutoOrientationState = "Oriented"
@@ -28,6 +29,7 @@ const (
 
 // All allowed values of AutoOrientationState enum
 var AllowedAutoOrientationStateEnumValues = []AutoOrientationState{
+	"",
 	"Not Started",
 	"Enqueued",
 	"Oriented",

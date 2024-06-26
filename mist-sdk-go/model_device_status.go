@@ -21,6 +21,7 @@ type DeviceStatus string
 
 // List of device_status
 const (
+	DEVICESTATUS_EMPTY DeviceStatus = ""
 	DEVICESTATUS_ALL DeviceStatus = "all"
 	DEVICESTATUS_CONNECTED DeviceStatus = "connected"
 	DEVICESTATUS_DISCONNECTED DeviceStatus = "disconnected"
@@ -28,6 +29,7 @@ const (
 
 // All allowed values of DeviceStatus enum
 var AllowedDeviceStatusEnumValues = []DeviceStatus{
+	"",
 	"all",
 	"connected",
 	"disconnected",

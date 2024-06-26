@@ -21,6 +21,7 @@ type OrgNacClientEventsCountDistinct string
 
 // List of org_nac_client_events_count_distinct
 const (
+	ORGNACCLIENTEVENTSCOUNTDISTINCT_EMPTY OrgNacClientEventsCountDistinct = ""
 	ORGNACCLIENTEVENTSCOUNTDISTINCT_TYPE OrgNacClientEventsCountDistinct = "type"
 	ORGNACCLIENTEVENTSCOUNTDISTINCT_NACRULE_ID OrgNacClientEventsCountDistinct = "nacrule_id"
 	ORGNACCLIENTEVENTSCOUNTDISTINCT_DRYRUN_NACRULE_ID OrgNacClientEventsCountDistinct = "dryrun_nacrule_id"
@@ -35,6 +36,7 @@ const (
 
 // All allowed values of OrgNacClientEventsCountDistinct enum
 var AllowedOrgNacClientEventsCountDistinctEnumValues = []OrgNacClientEventsCountDistinct{
+	"",
 	"type",
 	"nacrule_id",
 	"dryrun_nacrule_id",

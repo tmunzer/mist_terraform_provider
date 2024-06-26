@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `MXEDGE` (value: `"mxedge"`)
 
 

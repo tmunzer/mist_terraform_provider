@@ -21,6 +21,7 @@ type DiscoveredSwitchMetricType string
 
 // List of discovered_switch_metric_type
 const (
+	DISCOVEREDSWITCHMETRICTYPE_EMPTY DiscoveredSwitchMetricType = ""
 	DISCOVEREDSWITCHMETRICTYPE_INACTIVE_WIRED_VLANS DiscoveredSwitchMetricType = "inactive_wired_vlans"
 	DISCOVEREDSWITCHMETRICTYPE_SWITCH_AP_AFFINITY DiscoveredSwitchMetricType = "switch_ap_affinity"
 	DISCOVEREDSWITCHMETRICTYPE_POE_COMPLIANCE DiscoveredSwitchMetricType = "poe_compliance"
@@ -29,6 +30,7 @@ const (
 
 // All allowed values of DiscoveredSwitchMetricType enum
 var AllowedDiscoveredSwitchMetricTypeEnumValues = []DiscoveredSwitchMetricType{
+	"",
 	"inactive_wired_vlans",
 	"switch_ap_affinity",
 	"poe_compliance",

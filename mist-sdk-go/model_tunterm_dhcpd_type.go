@@ -21,11 +21,13 @@ type TuntermDhcpdType string
 
 // List of tunterm_dhcpd_type
 const (
+	TUNTERMDHCPDTYPE_EMPTY TuntermDhcpdType = ""
 	TUNTERMDHCPDTYPE_RELAY TuntermDhcpdType = "relay"
 )
 
 // All allowed values of TuntermDhcpdType enum
 var AllowedTuntermDhcpdTypeEnumValues = []TuntermDhcpdType{
+	"",
 	"relay",
 }
 

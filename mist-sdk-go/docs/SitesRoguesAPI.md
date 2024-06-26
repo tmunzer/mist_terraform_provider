@@ -34,8 +34,8 @@ import (
 
 func main() {
 	siteId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	distinct := openapiclient.site_rogue_events_count_distinct("bssid") // SiteRogueEventsCountDistinct |  (optional) (default to "bssid")
-	type_ := openapiclient.rogue_type("honeypot") // RogueType |  (optional)
+	distinct := openapiclient.site_rogue_events_count_distinct("") // SiteRogueEventsCountDistinct |  (optional) (default to "bssid")
+	type_ := openapiclient.rogue_type("") // RogueType |  (optional)
 	ssid := "ssid_example" // string | ssid of the network detected as threat (optional)
 	bssid := "bssid_example" // string | bssid of the network detected as threat (optional)
 	apMac := "apMac_example" // string | mac of the device that had strongest signal strength for ssid/bssid pair (optional)
@@ -199,7 +199,7 @@ import (
 
 func main() {
 	siteId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	type_ := openapiclient.rogue_type("honeypot") // RogueType |  (optional)
+	type_ := openapiclient.rogue_type("") // RogueType |  (optional)
 	limit := int32(56) // int32 |  (optional) (default to 100)
 	start := int32(56) // int32 | start datetime, can be epoch or relative time like -1d, -1w; -1d if not specified (optional)
 	end := int32(56) // int32 | end datetime, can be epoch or relative time like -1d, -2h; now if not specified (optional)
@@ -361,7 +361,7 @@ import (
 
 func main() {
 	siteId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	type_ := openapiclient.rogue_type("honeypot") // RogueType |  (optional)
+	type_ := openapiclient.rogue_type("") // RogueType |  (optional)
 	ssid := "ssid_example" // string | ssid of the network detected as threat (optional)
 	bssid := "bssid_example" // string | bssid of the network detected as threat (optional)
 	apMac := "apMac_example" // string | mac of the device that had strongest signal strength for ssid/bssid pair (optional)

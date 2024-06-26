@@ -21,6 +21,7 @@ type ListMspLogsSort string
 
 // List of list_msp_logs_sort
 const (
+	LISTMSPLOGSSORT_EMPTY ListMspLogsSort = ""
 	LISTMSPLOGSSORT_TIMESTAMP ListMspLogsSort = "timestamp"
 	LISTMSPLOGSSORT_TIMESTAMP2 ListMspLogsSort = "-timestamp"
 	LISTMSPLOGSSORT_SITE_ID ListMspLogsSort = "site_id"
@@ -29,6 +30,7 @@ const (
 
 // All allowed values of ListMspLogsSort enum
 var AllowedListMspLogsSortEnumValues = []ListMspLogsSort{
+	"",
 	"timestamp",
 	"-timestamp",
 	"site_id",

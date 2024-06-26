@@ -21,11 +21,13 @@ type CaptureGatewayFormat string
 
 // List of capture_gateway_format
 const (
+	CAPTUREGATEWAYFORMAT_EMPTY CaptureGatewayFormat = ""
 	CAPTUREGATEWAYFORMAT_STREAM CaptureGatewayFormat = "stream"
 )
 
 // All allowed values of CaptureGatewayFormat enum
 var AllowedCaptureGatewayFormatEnumValues = []CaptureGatewayFormat{
+	"",
 	"stream",
 }
 

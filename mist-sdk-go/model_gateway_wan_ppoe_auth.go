@@ -21,6 +21,7 @@ type GatewayWanPpoeAuth string
 
 // List of gateway_wan_ppoe_auth
 const (
+	GATEWAYWANPPOEAUTH_EMPTY GatewayWanPpoeAuth = ""
 	GATEWAYWANPPOEAUTH_NONE GatewayWanPpoeAuth = "none"
 	GATEWAYWANPPOEAUTH_CHAP GatewayWanPpoeAuth = "chap"
 	GATEWAYWANPPOEAUTH_PAP GatewayWanPpoeAuth = "pap"
@@ -28,6 +29,7 @@ const (
 
 // All allowed values of GatewayWanPpoeAuth enum
 var AllowedGatewayWanPpoeAuthEnumValues = []GatewayWanPpoeAuth{
+	"",
 	"none",
 	"chap",
 	"pap",

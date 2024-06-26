@@ -21,6 +21,7 @@ type PskPortalTemplateAlignment string
 
 // List of psk_portal_template_alignment
 const (
+	PSKPORTALTEMPLATEALIGNMENT_EMPTY PskPortalTemplateAlignment = ""
 	PSKPORTALTEMPLATEALIGNMENT_LEFT PskPortalTemplateAlignment = "left"
 	PSKPORTALTEMPLATEALIGNMENT_CENTER PskPortalTemplateAlignment = "center"
 	PSKPORTALTEMPLATEALIGNMENT_RIGHT PskPortalTemplateAlignment = "right"
@@ -28,6 +29,7 @@ const (
 
 // All allowed values of PskPortalTemplateAlignment enum
 var AllowedPskPortalTemplateAlignmentEnumValues = []PskPortalTemplateAlignment{
+	"",
 	"left",
 	"center",
 	"right",

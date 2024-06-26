@@ -21,6 +21,7 @@ type AccountOauthAppName string
 
 // List of account_oauth_app_name
 const (
+	ACCOUNTOAUTHAPPNAME_EMPTY AccountOauthAppName = ""
 	ACCOUNTOAUTHAPPNAME_ZOOM AccountOauthAppName = "zoom"
 	ACCOUNTOAUTHAPPNAME_TEAMS AccountOauthAppName = "teams"
 	ACCOUNTOAUTHAPPNAME_INTUNE AccountOauthAppName = "intune"
@@ -30,6 +31,7 @@ const (
 
 // All allowed values of AccountOauthAppName enum
 var AllowedAccountOauthAppNameEnumValues = []AccountOauthAppName{
+	"",
 	"zoom",
 	"teams",
 	"intune",

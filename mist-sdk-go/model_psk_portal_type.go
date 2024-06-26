@@ -21,12 +21,14 @@ type PskPortalType string
 
 // List of psk_portal_type
 const (
+	PSKPORTALTYPE_EMPTY PskPortalType = ""
 	PSKPORTALTYPE_BYOD PskPortalType = "byod"
 	PSKPORTALTYPE_ADMIN PskPortalType = "admin"
 )
 
 // All allowed values of PskPortalType enum
 var AllowedPskPortalTypeEnumValues = []PskPortalType{
+	"",
 	"byod",
 	"admin",
 }

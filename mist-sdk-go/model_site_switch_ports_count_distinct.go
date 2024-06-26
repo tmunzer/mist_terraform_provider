@@ -21,6 +21,7 @@ type SiteSwitchPortsCountDistinct string
 
 // List of site_switch_ports_count_distinct
 const (
+	SITESWITCHPORTSCOUNTDISTINCT_EMPTY SiteSwitchPortsCountDistinct = ""
 	SITESWITCHPORTSCOUNTDISTINCT_PORT_ID SiteSwitchPortsCountDistinct = "port_id"
 	SITESWITCHPORTSCOUNTDISTINCT_PORT_MAC SiteSwitchPortsCountDistinct = "port_mac"
 	SITESWITCHPORTSCOUNTDISTINCT_FULL_DUPLEX SiteSwitchPortsCountDistinct = "full_duplex"
@@ -37,6 +38,7 @@ const (
 
 // All allowed values of SiteSwitchPortsCountDistinct enum
 var AllowedSiteSwitchPortsCountDistinctEnumValues = []SiteSwitchPortsCountDistinct{
+	"",
 	"port_id",
 	"port_mac",
 	"full_duplex",

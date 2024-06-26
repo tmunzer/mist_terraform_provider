@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `TRAP` (value: `"trap"`)
 
 * `INFORM` (value: `"inform"`)

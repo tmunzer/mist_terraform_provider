@@ -21,6 +21,7 @@ type OspfAreasNetworkInterfaceType string
 
 // List of ospf_areas_network_interface_type
 const (
+	OSPFAREASNETWORKINTERFACETYPE_EMPTY OspfAreasNetworkInterfaceType = ""
 	OSPFAREASNETWORKINTERFACETYPE_BROADCAST OspfAreasNetworkInterfaceType = "broadcast"
 	OSPFAREASNETWORKINTERFACETYPE_NBMA OspfAreasNetworkInterfaceType = "nbma"
 	OSPFAREASNETWORKINTERFACETYPE_P2P OspfAreasNetworkInterfaceType = "p2p"
@@ -29,6 +30,7 @@ const (
 
 // All allowed values of OspfAreasNetworkInterfaceType enum
 var AllowedOspfAreasNetworkInterfaceTypeEnumValues = []OspfAreasNetworkInterfaceType{
+	"",
 	"broadcast",
 	"nbma",
 	"p2p",

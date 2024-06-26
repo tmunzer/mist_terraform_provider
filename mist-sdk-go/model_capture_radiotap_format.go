@@ -21,12 +21,14 @@ type CaptureRadiotapFormat string
 
 // List of capture_radiotap_format
 const (
+	CAPTURERADIOTAPFORMAT_EMPTY CaptureRadiotapFormat = ""
 	CAPTURERADIOTAPFORMAT_PCAP CaptureRadiotapFormat = "pcap"
 	CAPTURERADIOTAPFORMAT_STREAM CaptureRadiotapFormat = "stream"
 )
 
 // All allowed values of CaptureRadiotapFormat enum
 var AllowedCaptureRadiotapFormatEnumValues = []CaptureRadiotapFormat{
+	"",
 	"pcap",
 	"stream",
 }

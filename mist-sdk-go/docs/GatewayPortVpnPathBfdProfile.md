@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `LTE` (value: `"lte"`)
 
 * `BROADBAND` (value: `"broadband"`)

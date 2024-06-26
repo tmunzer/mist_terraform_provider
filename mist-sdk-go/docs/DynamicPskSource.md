@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `RADIUS` (value: `"radius"`)
 
 * `CLOUD_PSKS` (value: `"cloud_psks"`)

@@ -21,12 +21,14 @@ type Resolution string
 
 // List of resolution
 const (
+	RESOLUTION_EMPTY Resolution = ""
 	RESOLUTION_DEFAULT Resolution = "default"
 	RESOLUTION_FINE Resolution = "fine"
 )
 
 // All allowed values of Resolution enum
 var AllowedResolutionEnumValues = []Resolution{
+	"",
 	"default",
 	"fine",
 }

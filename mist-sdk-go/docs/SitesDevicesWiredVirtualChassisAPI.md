@@ -254,7 +254,7 @@ import (
 func main() {
 	siteId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
 	deviceId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	virtualChassisPort := *openapiclient.NewVirtualChassisPort([]openapiclient.ConfigVcPortMember{*openapiclient.NewConfigVcPortMember(float32(123))}, openapiclient.virtual_chassis_port_operation("set")) // VirtualChassisPort |  (optional)
+	virtualChassisPort := *openapiclient.NewVirtualChassisPort([]openapiclient.ConfigVcPortMember{*openapiclient.NewConfigVcPortMember(float32(123))}, openapiclient.virtual_chassis_port_operation("")) // VirtualChassisPort |  (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)

@@ -21,6 +21,7 @@ type SnmpConfigEngineId string
 
 // List of snmp_config_engine_id
 const (
+	SNMPCONFIGENGINEID_EMPTY SnmpConfigEngineId = ""
 	SNMPCONFIGENGINEID_LOCAL SnmpConfigEngineId = "local"
 	SNMPCONFIGENGINEID_ENGINE_ID_SUFFIX SnmpConfigEngineId = "engine-id-suffix"
 	SNMPCONFIGENGINEID_USE_DEFAULT_IP_ADDRESS SnmpConfigEngineId = "use-default-ip-address"
@@ -29,6 +30,7 @@ const (
 
 // All allowed values of SnmpConfigEngineId enum
 var AllowedSnmpConfigEngineIdEnumValues = []SnmpConfigEngineId{
+	"",
 	"local",
 	"engine-id-suffix",
 	"use-default-ip-address",

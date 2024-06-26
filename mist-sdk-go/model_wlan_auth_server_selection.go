@@ -21,12 +21,14 @@ type WlanAuthServerSelection string
 
 // List of wlan_auth_server_selection
 const (
+	WLANAUTHSERVERSELECTION_EMPTY WlanAuthServerSelection = ""
 	WLANAUTHSERVERSELECTION_ORDERED WlanAuthServerSelection = "ordered"
 	WLANAUTHSERVERSELECTION_UNORDERED WlanAuthServerSelection = "unordered"
 )
 
 // All allowed values of WlanAuthServerSelection enum
 var AllowedWlanAuthServerSelectionEnumValues = []WlanAuthServerSelection{
+	"",
 	"ordered",
 	"unordered",
 }

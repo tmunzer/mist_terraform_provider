@@ -21,11 +21,13 @@ type CaptureSwitchFormat string
 
 // List of capture_switch_format
 const (
+	CAPTURESWITCHFORMAT_EMPTY CaptureSwitchFormat = ""
 	CAPTURESWITCHFORMAT_STREAM CaptureSwitchFormat = "stream"
 )
 
 // All allowed values of CaptureSwitchFormat enum
 var AllowedCaptureSwitchFormatEnumValues = []CaptureSwitchFormat{
+	"",
 	"stream",
 }
 

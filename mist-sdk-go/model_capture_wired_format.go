@@ -21,12 +21,14 @@ type CaptureWiredFormat string
 
 // List of capture_wired_format
 const (
+	CAPTUREWIREDFORMAT_EMPTY CaptureWiredFormat = ""
 	CAPTUREWIREDFORMAT_PCAP CaptureWiredFormat = "pcap"
 	CAPTUREWIREDFORMAT_STREAM CaptureWiredFormat = "stream"
 )
 
 // All allowed values of CaptureWiredFormat enum
 var AllowedCaptureWiredFormatEnumValues = []CaptureWiredFormat{
+	"",
 	"pcap",
 	"stream",
 }

@@ -21,6 +21,7 @@ type TunnelProviderOptionsName string
 
 // List of tunnel_provider_options_name
 const (
+	TUNNELPROVIDEROPTIONSNAME_EMPTY TunnelProviderOptionsName = ""
 	TUNNELPROVIDEROPTIONSNAME_ZSCALER_IPSEC TunnelProviderOptionsName = "zscaler-ipsec"
 	TUNNELPROVIDEROPTIONSNAME_ZSCALER_GRE TunnelProviderOptionsName = "zscaler-gre"
 	TUNNELPROVIDEROPTIONSNAME_CUSTOMER_GRE TunnelProviderOptionsName = "customer-gre"
@@ -30,6 +31,7 @@ const (
 
 // All allowed values of TunnelProviderOptionsName enum
 var AllowedTunnelProviderOptionsNameEnumValues = []TunnelProviderOptionsName{
+	"",
 	"zscaler-ipsec",
 	"zscaler-gre",
 	"customer-gre",

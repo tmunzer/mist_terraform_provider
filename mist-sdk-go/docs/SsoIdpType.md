@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `SAML` (value: `"saml"`)
 
 * `LDAP` (value: `"ldap"`)

@@ -21,12 +21,14 @@ type GatewayPortDslType string
 
 // List of gateway_port_dsl_type
 const (
+	GATEWAYPORTDSLTYPE_EMPTY GatewayPortDslType = ""
 	GATEWAYPORTDSLTYPE_VDSL GatewayPortDslType = "vdsl"
 	GATEWAYPORTDSLTYPE_ADSL GatewayPortDslType = "adsl"
 )
 
 // All allowed values of GatewayPortDslType enum
 var AllowedGatewayPortDslTypeEnumValues = []GatewayPortDslType{
+	"",
 	"vdsl",
 	"adsl",
 }

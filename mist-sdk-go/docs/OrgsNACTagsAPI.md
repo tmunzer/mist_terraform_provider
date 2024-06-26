@@ -34,7 +34,7 @@ import (
 
 func main() {
 	orgId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	nacTag := *openapiclient.NewNacTag("Name_example", openapiclient.nac_tag_type("egress_vlan_names")) // NacTag |  (optional)
+	nacTag := *openapiclient.NewNacTag("Name_example", openapiclient.nac_tag_type("")) // NacTag |  (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -331,7 +331,7 @@ import (
 func main() {
 	orgId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
 	nactagId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	nacTag := *openapiclient.NewNacTag("Name_example", openapiclient.nac_tag_type("egress_vlan_names")) // NacTag |  (optional)
+	nacTag := *openapiclient.NewNacTag("Name_example", openapiclient.nac_tag_type("")) // NacTag |  (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)

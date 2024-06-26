@@ -21,6 +21,7 @@ type PrivilegeOrgScope string
 
 // List of privilege_org_scope
 const (
+	PRIVILEGEORGSCOPE_EMPTY PrivilegeOrgScope = ""
 	PRIVILEGEORGSCOPE_ORG PrivilegeOrgScope = "org"
 	PRIVILEGEORGSCOPE_SITE PrivilegeOrgScope = "site"
 	PRIVILEGEORGSCOPE_SITEGROUP PrivilegeOrgScope = "sitegroup"
@@ -28,6 +29,7 @@ const (
 
 // All allowed values of PrivilegeOrgScope enum
 var AllowedPrivilegeOrgScopeEnumValues = []PrivilegeOrgScope{
+	"",
 	"org",
 	"site",
 	"sitegroup",

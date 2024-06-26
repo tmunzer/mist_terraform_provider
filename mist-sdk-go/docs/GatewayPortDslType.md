@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `VDSL` (value: `"vdsl"`)
 
 * `ADSL` (value: `"adsl"`)

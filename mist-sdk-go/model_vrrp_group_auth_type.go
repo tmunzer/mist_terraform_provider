@@ -21,12 +21,14 @@ type VrrpGroupAuthType string
 
 // List of vrrp_group_auth_type
 const (
+	VRRPGROUPAUTHTYPE_EMPTY VrrpGroupAuthType = ""
 	VRRPGROUPAUTHTYPE_MD5 VrrpGroupAuthType = "md5"
 	VRRPGROUPAUTHTYPE_SIMPLE VrrpGroupAuthType = "simple"
 )
 
 // All allowed values of VrrpGroupAuthType enum
 var AllowedVrrpGroupAuthTypeEnumValues = []VrrpGroupAuthType{
+	"",
 	"md5",
 	"simple",
 }

@@ -21,6 +21,7 @@ type SiteAssetsCountDistinct string
 
 // List of site_assets_count_distinct
 const (
+	SITEASSETSCOUNTDISTINCT_EMPTY SiteAssetsCountDistinct = ""
 	SITEASSETSCOUNTDISTINCT_MAC SiteAssetsCountDistinct = "mac"
 	SITEASSETSCOUNTDISTINCT_MAP_ID SiteAssetsCountDistinct = "map_id"
 	SITEASSETSCOUNTDISTINCT_IBEACON_UUID SiteAssetsCountDistinct = "ibeacon_uuid"
@@ -36,6 +37,7 @@ const (
 
 // All allowed values of SiteAssetsCountDistinct enum
 var AllowedSiteAssetsCountDistinctEnumValues = []SiteAssetsCountDistinct{
+	"",
 	"mac",
 	"map_id",
 	"ibeacon_uuid",

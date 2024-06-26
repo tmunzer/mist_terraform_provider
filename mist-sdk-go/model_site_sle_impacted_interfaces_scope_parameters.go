@@ -21,6 +21,7 @@ type SiteSleImpactedInterfacesScopeParameters string
 
 // List of site_sle_impacted_interfaces_scope_parameters
 const (
+	SITESLEIMPACTEDINTERFACESSCOPEPARAMETERS_EMPTY SiteSleImpactedInterfacesScopeParameters = ""
 	SITESLEIMPACTEDINTERFACESSCOPEPARAMETERS_SITE SiteSleImpactedInterfacesScopeParameters = "site"
 	SITESLEIMPACTEDINTERFACESSCOPEPARAMETERS_SWITCH SiteSleImpactedInterfacesScopeParameters = "switch"
 	SITESLEIMPACTEDINTERFACESSCOPEPARAMETERS_GATEWAY SiteSleImpactedInterfacesScopeParameters = "gateway"
@@ -28,6 +29,7 @@ const (
 
 // All allowed values of SiteSleImpactedInterfacesScopeParameters enum
 var AllowedSiteSleImpactedInterfacesScopeParametersEnumValues = []SiteSleImpactedInterfacesScopeParameters{
+	"",
 	"site",
 	"switch",
 	"gateway",

@@ -21,6 +21,7 @@ type MspTicketsCountDistinct string
 
 // List of msp_tickets_count_distinct
 const (
+	MSPTICKETSCOUNTDISTINCT_EMPTY MspTicketsCountDistinct = ""
 	MSPTICKETSCOUNTDISTINCT_STATUS MspTicketsCountDistinct = "status"
 	MSPTICKETSCOUNTDISTINCT_TYPE MspTicketsCountDistinct = "type"
 	MSPTICKETSCOUNTDISTINCT_ORG_ID MspTicketsCountDistinct = "org_id"
@@ -28,6 +29,7 @@ const (
 
 // All allowed values of MspTicketsCountDistinct enum
 var AllowedMspTicketsCountDistinctEnumValues = []MspTicketsCountDistinct{
+	"",
 	"status",
 	"type",
 	"org_id",

@@ -21,6 +21,7 @@ type SiteWifiProxyArp string
 
 // List of site_wifi_proxy_arp
 const (
+	SITEWIFIPROXYARP_EMPTY SiteWifiProxyArp = ""
 	SITEWIFIPROXYARP_DEFAULT SiteWifiProxyArp = "default"
 	SITEWIFIPROXYARP_ENABLED SiteWifiProxyArp = "enabled"
 	SITEWIFIPROXYARP_DISABLED SiteWifiProxyArp = "disabled"
@@ -28,6 +29,7 @@ const (
 
 // All allowed values of SiteWifiProxyArp enum
 var AllowedSiteWifiProxyArpEnumValues = []SiteWifiProxyArp{
+	"",
 	"default",
 	"enabled",
 	"disabled",

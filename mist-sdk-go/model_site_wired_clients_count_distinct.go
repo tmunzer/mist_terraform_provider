@@ -21,6 +21,7 @@ type SiteWiredClientsCountDistinct string
 
 // List of site_wired_clients_count_distinct
 const (
+	SITEWIREDCLIENTSCOUNTDISTINCT_EMPTY SiteWiredClientsCountDistinct = ""
 	SITEWIREDCLIENTSCOUNTDISTINCT_PORT_ID SiteWiredClientsCountDistinct = "port_id"
 	SITEWIREDCLIENTSCOUNTDISTINCT_VLAN SiteWiredClientsCountDistinct = "vlan"
 	SITEWIREDCLIENTSCOUNTDISTINCT_MAC SiteWiredClientsCountDistinct = "mac"
@@ -28,6 +29,7 @@ const (
 
 // All allowed values of SiteWiredClientsCountDistinct enum
 var AllowedSiteWiredClientsCountDistinctEnumValues = []SiteWiredClientsCountDistinct{
+	"",
 	"port_id",
 	"vlan",
 	"mac",

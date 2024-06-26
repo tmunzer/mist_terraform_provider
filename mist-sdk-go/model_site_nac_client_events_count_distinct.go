@@ -21,6 +21,7 @@ type SiteNacClientEventsCountDistinct string
 
 // List of site_nac_client_events_count_distinct
 const (
+	SITENACCLIENTEVENTSCOUNTDISTINCT_EMPTY SiteNacClientEventsCountDistinct = ""
 	SITENACCLIENTEVENTSCOUNTDISTINCT_TYPE SiteNacClientEventsCountDistinct = "type"
 	SITENACCLIENTEVENTSCOUNTDISTINCT_NACRULE_ID SiteNacClientEventsCountDistinct = "nacrule_id"
 	SITENACCLIENTEVENTSCOUNTDISTINCT_DRYRUN_NACRULE_ID SiteNacClientEventsCountDistinct = "dryrun_nacrule_id"
@@ -35,6 +36,7 @@ const (
 
 // All allowed values of SiteNacClientEventsCountDistinct enum
 var AllowedSiteNacClientEventsCountDistinctEnumValues = []SiteNacClientEventsCountDistinct{
+	"",
 	"type",
 	"nacrule_id",
 	"dryrun_nacrule_id",

@@ -21,11 +21,13 @@ type CaptureScanType string
 
 // List of capture_scan_type
 const (
+	CAPTURESCANTYPE_EMPTY CaptureScanType = ""
 	CAPTURESCANTYPE_SCAN CaptureScanType = "scan"
 )
 
 // All allowed values of CaptureScanType enum
 var AllowedCaptureScanTypeEnumValues = []CaptureScanType{
+	"",
 	"scan",
 }
 

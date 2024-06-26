@@ -39,7 +39,7 @@ import (
 
 func main() {
 	orgId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	distinct := openapiclient.org_devices_events_count_distinct("org_id") // OrgDevicesEventsCountDistinct |  (optional) (default to "model")
+	distinct := openapiclient.org_devices_events_count_distinct("") // OrgDevicesEventsCountDistinct |  (optional) (default to "model")
 	siteId := "siteId_example" // string | site id (optional)
 	ap := "ap_example" // string | AP mac (optional)
 	apfw := "apfw_example" // string | AP Firmware (optional)
@@ -133,8 +133,8 @@ import (
 
 func main() {
 	orgId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	type_ := openapiclient.device_type("ap") // DeviceType |  (optional) (default to "ap")
-	distinct := openapiclient.org_devices_last_configs_count_distinct("mac") // OrgDevicesLastConfigsCountDistinct |  (optional)
+	type_ := openapiclient.device_type("") // DeviceType |  (optional) (default to "ap")
+	distinct := openapiclient.org_devices_last_configs_count_distinct("") // OrgDevicesLastConfigsCountDistinct |  (optional)
 	start := int32(56) // int32 | start datetime, can be epoch or relative time like -1d, -1w; -1d if not specified (optional)
 	end := int32(56) // int32 | end datetime, can be epoch or relative time like -1d, -2h; now if not specified (optional)
 	limit := int32(56) // int32 |  (optional) (default to 100)
@@ -213,14 +213,14 @@ import (
 
 func main() {
 	orgId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	distinct := openapiclient.org_devices_count_distinct("hostname") // OrgDevicesCountDistinct |  (optional) (default to "model")
+	distinct := openapiclient.org_devices_count_distinct("") // OrgDevicesCountDistinct |  (optional) (default to "model")
 	hostname := "hostname_example" // string | partial / full hostname (optional)
 	siteId := "siteId_example" // string | site id (optional)
 	model := "model_example" // string | device model (optional)
 	mac := "mac_example" // string | AP mac (optional)
 	version := "version_example" // string | version (optional)
 	ipAddress := "192.168.1.1" // string |  (optional)
-	mxtunnelStatus := openapiclient.count_org_devices_mxtunnel_status("up") // CountOrgDevicesMxtunnelStatus | MxTunnel status, up / down (optional)
+	mxtunnelStatus := openapiclient.count_org_devices_mxtunnel_status("") // CountOrgDevicesMxtunnelStatus | MxTunnel status, up / down (optional)
 	mxedgeId := "mxedgeId_example" // string | Mist Edge id, if AP is connecting to a Mist Edge (optional)
 	lldpSystemName := "lldpSystemName_example" // string | LLDP system name (optional)
 	lldpSystemDesc := "lldpSystemDesc_example" // string | LLDP system description (optional)
@@ -535,8 +535,8 @@ import (
 
 func main() {
 	orgId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	type_ := openapiclient.device_type_with_all("ap") // DeviceTypeWithAll |  (optional) (default to "ap")
-	status := openapiclient.device_status("all") // DeviceStatus |  (optional) (default to "all")
+	type_ := openapiclient.device_type_with_all("") // DeviceTypeWithAll |  (optional) (default to "ap")
+	status := openapiclient.device_status("") // DeviceStatus |  (optional) (default to "all")
 	siteId := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string |  (optional)
 	mac := "mac_example" // string |  (optional)
 	evpntopoId := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | EVPN Topology ID (optional)
@@ -631,7 +631,7 @@ func main() {
 	orgId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
 	mac := "mac_example" // string | device mac (optional)
 	model := "model_example" // string | device model (optional)
-	deviceType := openapiclient.device_type("ap") // DeviceType |  (optional) (default to "ap")
+	deviceType := openapiclient.device_type("") // DeviceType |  (optional) (default to "ap")
 	text := "text_example" // string | event message (optional)
 	timestamp := "timestamp_example" // string | event time (optional)
 	type_ := "type__example" // string | see [listDeviceEventsDefinitions]($e/Constants%20Events/listDeviceEventsDefinitions) (optional)
@@ -721,7 +721,7 @@ import (
 
 func main() {
 	orgId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	type_ := openapiclient.device_type("ap") // DeviceType |  (optional) (default to "ap")
+	type_ := openapiclient.device_type("") // DeviceType |  (optional) (default to "ap")
 	mac := "mac_example" // string |  (optional)
 	name := "name_example" // string |  (optional)
 	version := "version_example" // string |  (optional)
@@ -814,7 +814,7 @@ func main() {
 	version := "version_example" // string | version (optional)
 	powerConstrained := true // bool | power_constrained (optional)
 	ipAddress := "192.168.1.1" // string |  (optional)
-	mxtunnelStatus := openapiclient.search_org_devices_mxtunnel_status("up") // SearchOrgDevicesMxtunnelStatus | MxTunnel status, up / down (optional)
+	mxtunnelStatus := openapiclient.search_org_devices_mxtunnel_status("") // SearchOrgDevicesMxtunnelStatus | MxTunnel status, up / down (optional)
 	mxedgeId := "mxedgeId_example" // string | Mist Edge id, if AP is connecting to a Mist Edge (optional)
 	lldpSystemName := "lldpSystemName_example" // string | LLDP system name (optional)
 	lldpSystemDesc := "lldpSystemDesc_example" // string | LLDP system description (optional)

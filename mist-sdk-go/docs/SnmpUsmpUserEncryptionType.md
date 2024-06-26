@@ -3,13 +3,15 @@
 ## Enum
 
 
-* `AES128` (value: `"privacy-aes128"`)
+* `EMPTY` (value: `""`)
 
-* `DES` (value: `"privacy-des"`)
+* `PRIVACY_AES128` (value: `"privacy-aes128"`)
 
-* `_3DES` (value: `"privacy-3des"`)
+* `PRIVACY_DES` (value: `"privacy-des"`)
 
-* `NONE` (value: `"privacy-none"`)
+* `PRIVACY_3DES` (value: `"privacy-3des"`)
+
+* `PRIVACY_NONE` (value: `"privacy-none"`)
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

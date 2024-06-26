@@ -21,6 +21,7 @@ type ApPortConfigMacAuthProtocol string
 
 // List of ap_port_config_mac_auth_protocol
 const (
+	APPORTCONFIGMACAUTHPROTOCOL_EMPTY ApPortConfigMacAuthProtocol = ""
 	APPORTCONFIGMACAUTHPROTOCOL_PAP ApPortConfigMacAuthProtocol = "pap"
 	APPORTCONFIGMACAUTHPROTOCOL_EAP_PEAP ApPortConfigMacAuthProtocol = "eap-peap"
 	APPORTCONFIGMACAUTHPROTOCOL_EAP_MD5 ApPortConfigMacAuthProtocol = "eap-md5"
@@ -28,6 +29,7 @@ const (
 
 // All allowed values of ApPortConfigMacAuthProtocol enum
 var AllowedApPortConfigMacAuthProtocolEnumValues = []ApPortConfigMacAuthProtocol{
+	"",
 	"pap",
 	"eap-peap",
 	"eap-md5",

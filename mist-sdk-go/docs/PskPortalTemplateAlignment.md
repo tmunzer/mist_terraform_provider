@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `LEFT` (value: `"left"`)
 
 * `CENTER` (value: `"center"`)

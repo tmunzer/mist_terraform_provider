@@ -21,6 +21,7 @@ type PortUsageDuplex string
 
 // List of port_usage_duplex
 const (
+	PORTUSAGEDUPLEX_EMPTY PortUsageDuplex = ""
 	PORTUSAGEDUPLEX_HALF PortUsageDuplex = "half"
 	PORTUSAGEDUPLEX_FULL PortUsageDuplex = "full"
 	PORTUSAGEDUPLEX_AUTO PortUsageDuplex = "auto"
@@ -28,6 +29,7 @@ const (
 
 // All allowed values of PortUsageDuplex enum
 var AllowedPortUsageDuplexEnumValues = []PortUsageDuplex{
+	"",
 	"half",
 	"full",
 	"auto",

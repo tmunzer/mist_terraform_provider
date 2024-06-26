@@ -21,6 +21,7 @@ type RfTemplateBand24Usage string
 
 // List of rf_template_band24_usage
 const (
+	RFTEMPLATEBAND24USAGE_EMPTY RfTemplateBand24Usage = ""
 	RFTEMPLATEBAND24USAGE__24 RfTemplateBand24Usage = "24"
 	RFTEMPLATEBAND24USAGE__5 RfTemplateBand24Usage = "5"
 	RFTEMPLATEBAND24USAGE_AUTO RfTemplateBand24Usage = "auto"
@@ -28,6 +29,7 @@ const (
 
 // All allowed values of RfTemplateBand24Usage enum
 var AllowedRfTemplateBand24UsageEnumValues = []RfTemplateBand24Usage{
+	"",
 	"24",
 	"5",
 	"auto",

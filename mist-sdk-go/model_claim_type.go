@@ -21,6 +21,7 @@ type ClaimType string
 
 // List of claim_type
 const (
+	CLAIMTYPE_EMPTY ClaimType = ""
 	CLAIMTYPE_ALL ClaimType = "all"
 	CLAIMTYPE_LICENSE ClaimType = "license"
 	CLAIMTYPE_INVENTORY ClaimType = "inventory"
@@ -28,6 +29,7 @@ const (
 
 // All allowed values of ClaimType enum
 var AllowedClaimTypeEnumValues = []ClaimType{
+	"",
 	"all",
 	"license",
 	"inventory",

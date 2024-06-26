@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `USM` (value: `"usm"`)
 
 * `V1` (value: `"v1"`)

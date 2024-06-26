@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `ZSCALER_IPSEC` (value: `"zscaler-ipsec"`)
 
 * `ZSCALER_GRE` (value: `"zscaler-gre"`)

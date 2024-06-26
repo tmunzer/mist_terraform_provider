@@ -21,14 +21,16 @@ type SnmpUsmpUserEncryptionType string
 
 // List of snmp_usmp_user_encryption_type
 const (
-	SNMPUSMPUSERENCRYPTIONTYPE_AES128 SnmpUsmpUserEncryptionType = "privacy-aes128"
-	SNMPUSMPUSERENCRYPTIONTYPE_DES SnmpUsmpUserEncryptionType = "privacy-des"
-	SNMPUSMPUSERENCRYPTIONTYPE__3DES SnmpUsmpUserEncryptionType = "privacy-3des"
-	SNMPUSMPUSERENCRYPTIONTYPE_NONE SnmpUsmpUserEncryptionType = "privacy-none"
+	SNMPUSMPUSERENCRYPTIONTYPE_EMPTY SnmpUsmpUserEncryptionType = ""
+	SNMPUSMPUSERENCRYPTIONTYPE_PRIVACY_AES128 SnmpUsmpUserEncryptionType = "privacy-aes128"
+	SNMPUSMPUSERENCRYPTIONTYPE_PRIVACY_DES SnmpUsmpUserEncryptionType = "privacy-des"
+	SNMPUSMPUSERENCRYPTIONTYPE_PRIVACY_3DES SnmpUsmpUserEncryptionType = "privacy-3des"
+	SNMPUSMPUSERENCRYPTIONTYPE_PRIVACY_NONE SnmpUsmpUserEncryptionType = "privacy-none"
 )
 
 // All allowed values of SnmpUsmpUserEncryptionType enum
 var AllowedSnmpUsmpUserEncryptionTypeEnumValues = []SnmpUsmpUserEncryptionType{
+	"",
 	"privacy-aes128",
 	"privacy-des",
 	"privacy-3des",

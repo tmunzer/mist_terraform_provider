@@ -21,6 +21,7 @@ type UtilsClearBgpType string
 
 // List of utils_clear_bgp_type
 const (
+	UTILSCLEARBGPTYPE_EMPTY UtilsClearBgpType = ""
 	UTILSCLEARBGPTYPE_HARD UtilsClearBgpType = "hard"
 	UTILSCLEARBGPTYPE_SOFT UtilsClearBgpType = "soft"
 	UTILSCLEARBGPTYPE_IN UtilsClearBgpType = "in"
@@ -29,6 +30,7 @@ const (
 
 // All allowed values of UtilsClearBgpType enum
 var AllowedUtilsClearBgpTypeEnumValues = []UtilsClearBgpType{
+	"",
 	"hard",
 	"soft",
 	"in",

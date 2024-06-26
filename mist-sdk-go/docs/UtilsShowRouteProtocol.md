@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `BGP` (value: `"bgp"`)
 
 * `ANY` (value: `"any"`)

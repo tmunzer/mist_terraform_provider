@@ -21,11 +21,13 @@ type MapMicelloVendorName string
 
 // List of map_micello_vendor_name
 const (
+	MAPMICELLOVENDORNAME_EMPTY MapMicelloVendorName = ""
 	MAPMICELLOVENDORNAME_MICELLO MapMicelloVendorName = "micello"
 )
 
 // All allowed values of MapMicelloVendorName enum
 var AllowedMapMicelloVendorNameEnumValues = []MapMicelloVendorName{
+	"",
 	"micello",
 }
 

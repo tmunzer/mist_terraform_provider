@@ -21,6 +21,7 @@ type OrgLicenseActionOperation string
 
 // List of org_license_action_operation
 const (
+	ORGLICENSEACTIONOPERATION_EMPTY OrgLicenseActionOperation = ""
 	ORGLICENSEACTIONOPERATION_AMEND OrgLicenseActionOperation = "amend"
 	ORGLICENSEACTIONOPERATION_UNAMEND OrgLicenseActionOperation = "unamend"
 	ORGLICENSEACTIONOPERATION_DELETE OrgLicenseActionOperation = "delete"
@@ -29,6 +30,7 @@ const (
 
 // All allowed values of OrgLicenseActionOperation enum
 var AllowedOrgLicenseActionOperationEnumValues = []OrgLicenseActionOperation{
+	"",
 	"amend",
 	"unamend",
 	"delete",

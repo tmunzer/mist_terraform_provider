@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `HEX` (value: `"hex"`)
 
 * `ASCII` (value: `"ascii"`)

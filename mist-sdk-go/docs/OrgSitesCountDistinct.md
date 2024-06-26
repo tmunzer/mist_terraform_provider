@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `ANALYTIC_ENABLED` (value: `"analytic_enabled"`)
 
 * `APP_WAKING` (value: `"app_waking"`)

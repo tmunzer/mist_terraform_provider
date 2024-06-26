@@ -21,12 +21,14 @@ type SsrUpgradeStrategy string
 
 // List of ssr_upgrade_strategy
 const (
+	SSRUPGRADESTRATEGY_EMPTY SsrUpgradeStrategy = ""
 	SSRUPGRADESTRATEGY_BIG_BANG SsrUpgradeStrategy = "big_bang"
 	SSRUPGRADESTRATEGY_SERIAL SsrUpgradeStrategy = "serial"
 )
 
 // All allowed values of SsrUpgradeStrategy enum
 var AllowedSsrUpgradeStrategyEnumValues = []SsrUpgradeStrategy{
+	"",
 	"big_bang",
 	"serial",
 }

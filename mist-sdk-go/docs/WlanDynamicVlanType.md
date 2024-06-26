@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `STANDARD` (value: `"standard"`)
 
 * `AIRESPACE_INTERFACE_NAME` (value: `"airespace-interface-name"`)

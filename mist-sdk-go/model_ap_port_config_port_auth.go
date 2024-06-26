@@ -21,12 +21,14 @@ type ApPortConfigPortAuth string
 
 // List of ap_port_config_port_auth
 const (
+	APPORTCONFIGPORTAUTH_EMPTY ApPortConfigPortAuth = ""
 	APPORTCONFIGPORTAUTH_NONE ApPortConfigPortAuth = "none"
 	APPORTCONFIGPORTAUTH_DOT1X ApPortConfigPortAuth = "dot1x"
 )
 
 // All allowed values of ApPortConfigPortAuth enum
 var AllowedApPortConfigPortAuthEnumValues = []ApPortConfigPortAuth{
+	"",
 	"none",
 	"dot1x",
 }

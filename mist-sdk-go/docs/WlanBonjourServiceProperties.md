@@ -6,7 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **DisableLocal** | Pointer to **bool** | whether to prevent wireless clients to discover bonjour devices on the same WLAN | [optional] [default to false]
 **RadiusGroups** | Pointer to **[]string** | optional, if the service is further restricted for certain RADIUS groups | [optional] 
-**Scope** | Pointer to [**WlanBonjourServicePropertiesScope**](WlanBonjourServicePropertiesScope.md) |  | [optional] [default to WLANBONJOURSERVICEPROPERTIESSCOPE_SITE]
+**Scope** | Pointer to [**WlanBonjourServicePropertiesScope**](WlanBonjourServicePropertiesScope.md) |  | [optional] [default to WLANBONJOURSERVICEPROPERTIESSCOPE_SAME_SITE]
 
 ## Methods
 

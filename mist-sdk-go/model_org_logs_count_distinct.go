@@ -21,6 +21,7 @@ type OrgLogsCountDistinct string
 
 // List of org_logs_count_distinct
 const (
+	ORGLOGSCOUNTDISTINCT_EMPTY OrgLogsCountDistinct = ""
 	ORGLOGSCOUNTDISTINCT_ADMIN_ID OrgLogsCountDistinct = "admin_id"
 	ORGLOGSCOUNTDISTINCT_ADMIN_NAME OrgLogsCountDistinct = "admin_name"
 	ORGLOGSCOUNTDISTINCT_MESSAGE OrgLogsCountDistinct = "message"
@@ -29,6 +30,7 @@ const (
 
 // All allowed values of OrgLogsCountDistinct enum
 var AllowedOrgLogsCountDistinctEnumValues = []OrgLogsCountDistinct{
+	"",
 	"admin_id",
 	"admin_name",
 	"message",

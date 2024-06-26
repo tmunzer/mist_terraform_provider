@@ -21,6 +21,7 @@ type SearchSiteSwitchPortsStpRole string
 
 // List of search_site_switch_ports_stp_role
 const (
+	SEARCHSITESWITCHPORTSSTPROLE_EMPTY SearchSiteSwitchPortsStpRole = ""
 	SEARCHSITESWITCHPORTSSTPROLE_DESIGNATED SearchSiteSwitchPortsStpRole = "designated"
 	SEARCHSITESWITCHPORTSSTPROLE_BACKUP SearchSiteSwitchPortsStpRole = "backup"
 	SEARCHSITESWITCHPORTSSTPROLE_ALTERNATE SearchSiteSwitchPortsStpRole = "alternate"
@@ -30,6 +31,7 @@ const (
 
 // All allowed values of SearchSiteSwitchPortsStpRole enum
 var AllowedSearchSiteSwitchPortsStpRoleEnumValues = []SearchSiteSwitchPortsStpRole{
+	"",
 	"designated",
 	"backup",
 	"alternate",

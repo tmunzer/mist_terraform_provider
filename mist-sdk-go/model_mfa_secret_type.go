@@ -21,11 +21,13 @@ type MfaSecretType string
 
 // List of mfa_secret_type
 const (
+	MFASECRETTYPE_EMPTY MfaSecretType = ""
 	MFASECRETTYPE_QRCODE MfaSecretType = "qrcode"
 )
 
 // All allowed values of MfaSecretType enum
 var AllowedMfaSecretTypeEnumValues = []MfaSecretType{
+	"",
 	"qrcode",
 }
 

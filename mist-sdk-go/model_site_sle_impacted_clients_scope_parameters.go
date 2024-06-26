@@ -21,6 +21,7 @@ type SiteSleImpactedClientsScopeParameters string
 
 // List of site_sle_impacted_clients_scope_parameters
 const (
+	SITESLEIMPACTEDCLIENTSSCOPEPARAMETERS_EMPTY SiteSleImpactedClientsScopeParameters = ""
 	SITESLEIMPACTEDCLIENTSSCOPEPARAMETERS_SITE SiteSleImpactedClientsScopeParameters = "site"
 	SITESLEIMPACTEDCLIENTSSCOPEPARAMETERS_SWITCH SiteSleImpactedClientsScopeParameters = "switch"
 	SITESLEIMPACTEDCLIENTSSCOPEPARAMETERS_GATEWAY SiteSleImpactedClientsScopeParameters = "gateway"
@@ -28,6 +29,7 @@ const (
 
 // All allowed values of SiteSleImpactedClientsScopeParameters enum
 var AllowedSiteSleImpactedClientsScopeParametersEnumValues = []SiteSleImpactedClientsScopeParameters{
+	"",
 	"site",
 	"switch",
 	"gateway",

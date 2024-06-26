@@ -21,6 +21,7 @@ type JunosPortConfigDuplex string
 
 // List of junos_port_config_duplex
 const (
+	JUNOSPORTCONFIGDUPLEX_EMPTY JunosPortConfigDuplex = ""
 	JUNOSPORTCONFIGDUPLEX_AUTO JunosPortConfigDuplex = "auto"
 	JUNOSPORTCONFIGDUPLEX_FULL JunosPortConfigDuplex = "full"
 	JUNOSPORTCONFIGDUPLEX_HALF JunosPortConfigDuplex = "half"
@@ -28,6 +29,7 @@ const (
 
 // All allowed values of JunosPortConfigDuplex enum
 var AllowedJunosPortConfigDuplexEnumValues = []JunosPortConfigDuplex{
+	"",
 	"auto",
 	"full",
 	"half",

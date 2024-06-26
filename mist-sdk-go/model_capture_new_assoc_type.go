@@ -21,11 +21,13 @@ type CaptureNewAssocType string
 
 // List of capture_new_assoc_type
 const (
+	CAPTURENEWASSOCTYPE_EMPTY CaptureNewAssocType = ""
 	CAPTURENEWASSOCTYPE_NEW_ASSOC CaptureNewAssocType = "new_assoc"
 )
 
 // All allowed values of CaptureNewAssocType enum
 var AllowedCaptureNewAssocTypeEnumValues = []CaptureNewAssocType{
+	"",
 	"new_assoc",
 }
 

@@ -21,6 +21,7 @@ type TacacsDefaultRole string
 
 // List of tacacs_default_role
 const (
+	TACACSDEFAULTROLE_EMPTY TacacsDefaultRole = ""
 	TACACSDEFAULTROLE_ADMIN TacacsDefaultRole = "admin"
 	TACACSDEFAULTROLE_NONE TacacsDefaultRole = "none"
 	TACACSDEFAULTROLE_READ TacacsDefaultRole = "read"
@@ -29,6 +30,7 @@ const (
 
 // All allowed values of TacacsDefaultRole enum
 var AllowedTacacsDefaultRoleEnumValues = []TacacsDefaultRole{
+	"",
 	"admin",
 	"none",
 	"read",

@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `RADIOTAPWIRED` (value: `"radiotap,wired"`)
 
 

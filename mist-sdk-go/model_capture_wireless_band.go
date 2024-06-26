@@ -21,6 +21,7 @@ type CaptureWirelessBand string
 
 // List of capture_wireless_band
 const (
+	CAPTUREWIRELESSBAND_EMPTY CaptureWirelessBand = ""
 	CAPTUREWIRELESSBAND__24 CaptureWirelessBand = "24"
 	CAPTUREWIRELESSBAND__5 CaptureWirelessBand = "5"
 	CAPTUREWIRELESSBAND__6 CaptureWirelessBand = "6"
@@ -29,6 +30,7 @@ const (
 
 // All allowed values of CaptureWirelessBand enum
 var AllowedCaptureWirelessBandEnumValues = []CaptureWirelessBand{
+	"",
 	"24",
 	"5",
 	"6",

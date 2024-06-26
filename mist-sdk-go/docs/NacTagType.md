@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `EGRESS_VLAN_NAMES` (value: `"egress_vlan_names"`)
 
 * `MATCH` (value: `"match"`)

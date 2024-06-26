@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `ALERT` (value: `"alert"`)
 
 * `DROP` (value: `"drop"`)

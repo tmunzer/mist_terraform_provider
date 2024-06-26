@@ -21,12 +21,14 @@ type SuppressedAlarmScope string
 
 // List of suppressed_alarm_scope
 const (
+	SUPPRESSEDALARMSCOPE_EMPTY SuppressedAlarmScope = ""
 	SUPPRESSEDALARMSCOPE_ORG SuppressedAlarmScope = "org"
 	SUPPRESSEDALARMSCOPE_SITE SuppressedAlarmScope = "site"
 )
 
 // All allowed values of SuppressedAlarmScope enum
 var AllowedSuppressedAlarmScopeEnumValues = []SuppressedAlarmScope{
+	"",
 	"org",
 	"site",
 }

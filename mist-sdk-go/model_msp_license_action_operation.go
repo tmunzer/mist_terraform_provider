@@ -21,6 +21,7 @@ type MspLicenseActionOperation string
 
 // List of msp_license_action_operation
 const (
+	MSPLICENSEACTIONOPERATION_EMPTY MspLicenseActionOperation = ""
 	MSPLICENSEACTIONOPERATION_AMEND MspLicenseActionOperation = "amend"
 	MSPLICENSEACTIONOPERATION_UNAMEND MspLicenseActionOperation = "unamend"
 	MSPLICENSEACTIONOPERATION_DELETE MspLicenseActionOperation = "delete"
@@ -29,6 +30,7 @@ const (
 
 // All allowed values of MspLicenseActionOperation enum
 var AllowedMspLicenseActionOperationEnumValues = []MspLicenseActionOperation{
+	"",
 	"amend",
 	"unamend",
 	"delete",

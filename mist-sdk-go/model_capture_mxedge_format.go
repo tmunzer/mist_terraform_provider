@@ -21,11 +21,13 @@ type CaptureMxedgeFormat string
 
 // List of capture_mxedge_format
 const (
+	CAPTUREMXEDGEFORMAT_EMPTY CaptureMxedgeFormat = ""
 	CAPTUREMXEDGEFORMAT_STREAM CaptureMxedgeFormat = "stream"
 )
 
 // All allowed values of CaptureMxedgeFormat enum
 var AllowedCaptureMxedgeFormatEnumValues = []CaptureMxedgeFormat{
+	"",
 	"stream",
 }
 

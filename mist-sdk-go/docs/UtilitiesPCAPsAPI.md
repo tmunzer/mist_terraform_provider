@@ -340,7 +340,7 @@ import (
 
 func main() {
 	orgId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	captureOrg := openapiclient.capture_org{CaptureMxedge: openapiclient.NewCaptureMxedge(openapiclient.capture_mxedge_type("mxedge"))} // CaptureOrg | Request Body (optional)
+	captureOrg := openapiclient.capture_org{CaptureMxedge: openapiclient.NewCaptureMxedge(openapiclient.capture_mxedge_type(""))} // CaptureOrg | Request Body (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -412,7 +412,7 @@ import (
 
 func main() {
 	siteId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	captureSite := openapiclient.capture_site{CaptureClient: openapiclient.NewCaptureClient(openapiclient.capture_client_type("client"))} // CaptureSite | Request Body (optional)
+	captureSite := openapiclient.capture_site{CaptureClient: openapiclient.NewCaptureClient(openapiclient.capture_client_type(""))} // CaptureSite | Request Body (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)

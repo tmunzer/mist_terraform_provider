@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `DESIGNATED` (value: `"designated"`)
 
 * `BACKUP` (value: `"backup"`)

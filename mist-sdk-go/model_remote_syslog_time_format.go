@@ -21,6 +21,7 @@ type RemoteSyslogTimeFormat string
 
 // List of remote_syslog_time_format
 const (
+	REMOTESYSLOGTIMEFORMAT_EMPTY RemoteSyslogTimeFormat = ""
 	REMOTESYSLOGTIMEFORMAT_MILLISECOND RemoteSyslogTimeFormat = "millisecond"
 	REMOTESYSLOGTIMEFORMAT_YEAR RemoteSyslogTimeFormat = "year"
 	REMOTESYSLOGTIMEFORMAT_YEAR_MILLISECOND RemoteSyslogTimeFormat = "year millisecond"
@@ -28,6 +29,7 @@ const (
 
 // All allowed values of RemoteSyslogTimeFormat enum
 var AllowedRemoteSyslogTimeFormatEnumValues = []RemoteSyslogTimeFormat{
+	"",
 	"millisecond",
 	"year",
 	"year millisecond",

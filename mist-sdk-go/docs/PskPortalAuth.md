@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `SSO` (value: `"sso"`)
 
 * `SPONSOR` (value: `"sponsor"`)

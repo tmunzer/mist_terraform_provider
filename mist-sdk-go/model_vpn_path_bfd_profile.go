@@ -21,12 +21,14 @@ type VpnPathBfdProfile string
 
 // List of vpn_path_bfd_profile
 const (
+	VPNPATHBFDPROFILE_EMPTY VpnPathBfdProfile = ""
 	VPNPATHBFDPROFILE_BROADBAND VpnPathBfdProfile = "broadband"
 	VPNPATHBFDPROFILE_LTE VpnPathBfdProfile = "lte"
 )
 
 // All allowed values of VpnPathBfdProfile enum
 var AllowedVpnPathBfdProfileEnumValues = []VpnPathBfdProfile{
+	"",
 	"broadband",
 	"lte",
 }

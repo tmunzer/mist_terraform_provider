@@ -21,6 +21,7 @@ type OrgSwitchPortCountDistinct string
 
 // List of org_switch_port_count_distinct
 const (
+	ORGSWITCHPORTCOUNTDISTINCT_EMPTY OrgSwitchPortCountDistinct = ""
 	ORGSWITCHPORTCOUNTDISTINCT_PORT_ID OrgSwitchPortCountDistinct = "port_id"
 	ORGSWITCHPORTCOUNTDISTINCT_PORT_MAC OrgSwitchPortCountDistinct = "port_mac"
 	ORGSWITCHPORTCOUNTDISTINCT_FULL_DUPLEX OrgSwitchPortCountDistinct = "full_duplex"
@@ -37,6 +38,7 @@ const (
 
 // All allowed values of OrgSwitchPortCountDistinct enum
 var AllowedOrgSwitchPortCountDistinctEnumValues = []OrgSwitchPortCountDistinct{
+	"",
 	"port_id",
 	"port_mac",
 	"full_duplex",

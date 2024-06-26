@@ -21,12 +21,14 @@ type MspTier string
 
 // List of msp_tier
 const (
+	MSPTIER_EMPTY MspTier = ""
 	MSPTIER_BASE MspTier = "base"
 	MSPTIER_ADVANCED MspTier = "advanced"
 )
 
 // All allowed values of MspTier enum
 var AllowedMspTierEnumValues = []MspTier{
+	"",
 	"base",
 	"advanced",
 }

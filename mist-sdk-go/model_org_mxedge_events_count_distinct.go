@@ -21,6 +21,7 @@ type OrgMxedgeEventsCountDistinct string
 
 // List of org_mxedge_events_count_distinct
 const (
+	ORGMXEDGEEVENTSCOUNTDISTINCT_EMPTY OrgMxedgeEventsCountDistinct = ""
 	ORGMXEDGEEVENTSCOUNTDISTINCT_MXEDGE_ID OrgMxedgeEventsCountDistinct = "mxedge_id"
 	ORGMXEDGEEVENTSCOUNTDISTINCT_TYPE OrgMxedgeEventsCountDistinct = "type"
 	ORGMXEDGEEVENTSCOUNTDISTINCT_MXCLUSTER_ID OrgMxedgeEventsCountDistinct = "mxcluster_id"
@@ -29,6 +30,7 @@ const (
 
 // All allowed values of OrgMxedgeEventsCountDistinct enum
 var AllowedOrgMxedgeEventsCountDistinctEnumValues = []OrgMxedgeEventsCountDistinct{
+	"",
 	"mxedge_id",
 	"type",
 	"mxcluster_id",

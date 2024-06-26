@@ -21,6 +21,7 @@ type SnmpVacmAccessItemPrefixListItemLevel string
 
 // List of snmp_vacm_access_item_prefix_list_item_level
 const (
+	SNMPVACMACCESSITEMPREFIXLISTITEMLEVEL_EMPTY SnmpVacmAccessItemPrefixListItemLevel = ""
 	SNMPVACMACCESSITEMPREFIXLISTITEMLEVEL_PRIVACY SnmpVacmAccessItemPrefixListItemLevel = "privacy"
 	SNMPVACMACCESSITEMPREFIXLISTITEMLEVEL_AUTHENTICATION SnmpVacmAccessItemPrefixListItemLevel = "authentication"
 	SNMPVACMACCESSITEMPREFIXLISTITEMLEVEL_NONE SnmpVacmAccessItemPrefixListItemLevel = "none"
@@ -28,6 +29,7 @@ const (
 
 // All allowed values of SnmpVacmAccessItemPrefixListItemLevel enum
 var AllowedSnmpVacmAccessItemPrefixListItemLevelEnumValues = []SnmpVacmAccessItemPrefixListItemLevel{
+	"",
 	"privacy",
 	"authentication",
 	"none",

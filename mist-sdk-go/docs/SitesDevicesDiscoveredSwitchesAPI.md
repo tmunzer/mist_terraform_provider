@@ -33,7 +33,7 @@ import (
 
 func main() {
 	siteId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	distinct := openapiclient.site_discovered_switches_count_distinct("system_name") // SiteDiscoveredSwitchesCountDistinct |  (optional) (default to "system_name")
+	distinct := openapiclient.site_discovered_switches_count_distinct("") // SiteDiscoveredSwitchesCountDistinct |  (optional) (default to "system_name")
 	page := int32(56) // int32 |  (optional) (default to 1)
 	limit := int32(56) // int32 |  (optional) (default to 100)
 	start := int32(56) // int32 | start datetime, can be epoch or relative time like -1d, -1w; -1d if not specified (optional)
@@ -279,8 +279,8 @@ import (
 
 func main() {
 	siteId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	scope := openapiclient.discovered_switches_metric_scope("site") // DiscoveredSwitchesMetricScope | metric scope (optional) (default to "site")
-	type_ := openapiclient.discovered_switch_metric_type("inactive_wired_vlans") // DiscoveredSwitchMetricType | metric type (optional)
+	scope := openapiclient.discovered_switches_metric_scope("") // DiscoveredSwitchesMetricScope | metric scope (optional) (default to "site")
+	type_ := openapiclient.discovered_switch_metric_type("") // DiscoveredSwitchMetricType | metric type (optional)
 	limit := int32(56) // int32 |  (optional) (default to 100)
 	start := int32(56) // int32 | start datetime, can be epoch or relative time like -1d, -1w; -1d if not specified (optional)
 	end := int32(56) // int32 | end datetime, can be epoch or relative time like -1d, -2h; now if not specified (optional)

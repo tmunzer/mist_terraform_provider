@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `USER_TYPE` (value: `"user_type"`)
 
 * `USER` (value: `"user"`)

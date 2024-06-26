@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `SSID` (value: `"ssid"`)
 
 * `WLAN_ID` (value: `"wlan_id"`)

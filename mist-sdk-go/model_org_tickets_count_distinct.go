@@ -21,12 +21,14 @@ type OrgTicketsCountDistinct string
 
 // List of org_tickets_count_distinct
 const (
+	ORGTICKETSCOUNTDISTINCT_EMPTY OrgTicketsCountDistinct = ""
 	ORGTICKETSCOUNTDISTINCT_STATUS OrgTicketsCountDistinct = "status"
 	ORGTICKETSCOUNTDISTINCT_TYPE OrgTicketsCountDistinct = "type"
 )
 
 // All allowed values of OrgTicketsCountDistinct enum
 var AllowedOrgTicketsCountDistinctEnumValues = []OrgTicketsCountDistinct{
+	"",
 	"status",
 	"type",
 }

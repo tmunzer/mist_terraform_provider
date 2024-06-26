@@ -21,12 +21,14 @@ type SwitchMetricScope string
 
 // List of switch_metric_scope
 const (
+	SWITCHMETRICSCOPE_EMPTY SwitchMetricScope = ""
 	SWITCHMETRICSCOPE_SITE SwitchMetricScope = "site"
 	SWITCHMETRICSCOPE_SWITCH SwitchMetricScope = "switch"
 )
 
 // All allowed values of SwitchMetricScope enum
 var AllowedSwitchMetricScopeEnumValues = []SwitchMetricScope{
+	"",
 	"site",
 	"switch",
 }

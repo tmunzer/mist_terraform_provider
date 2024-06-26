@@ -21,12 +21,14 @@ type SwitchRole string
 
 // List of switch_role
 const (
+	SWITCHROLE_EMPTY SwitchRole = ""
 	SWITCHROLE_ACCESS SwitchRole = "access"
 	SWITCHROLE_AGGREGATION SwitchRole = "aggregation"
 )
 
 // All allowed values of SwitchRole enum
 var AllowedSwitchRoleEnumValues = []SwitchRole{
+	"",
 	"access",
 	"aggregation",
 }

@@ -21,6 +21,7 @@ type CountSiteSwOrGwPortsAuthState string
 
 // List of count_site_sw_or_gw_ports_auth_state
 const (
+	COUNTSITESWORGWPORTSAUTHSTATE_EMPTY CountSiteSwOrGwPortsAuthState = ""
 	COUNTSITESWORGWPORTSAUTHSTATE_INIT CountSiteSwOrGwPortsAuthState = "init"
 	COUNTSITESWORGWPORTSAUTHSTATE_AUTHENTICATED CountSiteSwOrGwPortsAuthState = "authenticated"
 	COUNTSITESWORGWPORTSAUTHSTATE_AUTHENTICATING CountSiteSwOrGwPortsAuthState = "authenticating"
@@ -29,6 +30,7 @@ const (
 
 // All allowed values of CountSiteSwOrGwPortsAuthState enum
 var AllowedCountSiteSwOrGwPortsAuthStateEnumValues = []CountSiteSwOrGwPortsAuthState{
+	"",
 	"init",
 	"authenticated",
 	"authenticating",

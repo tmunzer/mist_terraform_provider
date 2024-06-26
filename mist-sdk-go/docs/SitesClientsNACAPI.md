@@ -33,7 +33,7 @@ import (
 
 func main() {
 	siteId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	distinct := openapiclient.site_nac_client_events_count_distinct("type") // SiteNacClientEventsCountDistinct |  (optional)
+	distinct := openapiclient.site_nac_client_events_count_distinct("") // SiteNacClientEventsCountDistinct |  (optional)
 	type_ := "type__example" // string | see [listDeviceEventsDefinitions]($e/Constants%20Events/listNacEventsDefinitions) (optional)
 	start := int32(56) // int32 | start datetime, can be epoch or relative time like -1d, -1w; -1d if not specified (optional)
 	end := int32(56) // int32 | end datetime, can be epoch or relative time like -1d, -2h; now if not specified (optional)
@@ -115,7 +115,7 @@ import (
 
 func main() {
 	siteId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	distinct := openapiclient.site_nac_clients_count_distinct("type") // SiteNacClientsCountDistinct | NAC Policy Rule ID, if matched (optional) (default to "type")
+	distinct := openapiclient.site_nac_clients_count_distinct("") // SiteNacClientsCountDistinct | NAC Policy Rule ID, if matched (optional) (default to "type")
 	lastNacruleId := "lastNacruleId_example" // string | NAC Policy Rule ID, if matched (optional)
 	nacruleMatched := true // bool | NAC Policy Rule Matched (optional)
 	authType := "authType_example" // string | authentication type, e.g. “eap-tls”, “eap-ttls”, “eap-teap”, “mab”, “device-auth” (optional)

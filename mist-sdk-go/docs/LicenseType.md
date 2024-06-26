@@ -3,39 +3,41 @@
 ## Enum
 
 
-* `MAN` (value: `"SUB-MAN"`)
+* `EMPTY` (value: `""`)
 
-* `AST` (value: `"SUB-AST"`)
+* `SUB_MAN` (value: `"SUB-MAN"`)
 
-* `VNA` (value: `"SUB-VNA"`)
+* `SUB_AST` (value: `"SUB-AST"`)
 
-* `DATA` (value: `"SUB-DATA"`)
+* `SUB_VNA` (value: `"SUB-VNA"`)
 
-* `ENG` (value: `"SUB-ENG"`)
+* `SUB_DATA` (value: `"SUB-DATA"`)
 
-* `PMA` (value: `"SUB-PMA"`)
+* `SUB_ENG` (value: `"SUB-ENG"`)
 
-* `EX12` (value: `"SUB-EX12"`)
+* `SUB_PMA` (value: `"SUB-PMA"`)
 
-* `EX24` (value: `"SUB-EX24"`)
+* `SUB_EX12` (value: `"SUB-EX12"`)
 
-* `EX48` (value: `"SUB-EX48"`)
+* `SUB_EX24` (value: `"SUB-EX24"`)
 
-* `SVNA` (value: `"SUB-SVNA"`)
+* `SUB_EX48` (value: `"SUB-EX48"`)
 
-* `ME` (value: `"SUB-ME"`)
+* `SUB_SVNA` (value: `"SUB-SVNA"`)
 
-* `WAN1` (value: `"SUB-WAN1"`)
+* `SUB_ME` (value: `"SUB-ME"`)
 
-* `WAN2` (value: `"SUB-WAN2"`)
+* `SUB_WAN1` (value: `"SUB-WAN1"`)
 
-* `WVNA1` (value: `"SUB-WVNA1"`)
+* `SUB_WAN2` (value: `"SUB-WAN2"`)
 
-* `WVNA2` (value: `"SUB-WVNA2"`)
+* `SUB_WVNA1` (value: `"SUB-WVNA1"`)
 
-* `SRX1` (value: `"SUB-SRX1"`)
+* `SUB_WVNA2` (value: `"SUB-WVNA2"`)
 
-* `SRX2` (value: `"SUB-SRX2"`)
+* `SUB_SRX1` (value: `"SUB-SRX1"`)
+
+* `SUB_SRX2` (value: `"SUB-SRX2"`)
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

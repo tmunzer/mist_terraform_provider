@@ -21,6 +21,7 @@ type MxtunnelStatsState string
 
 // List of mxtunnel_stats_state
 const (
+	MXTUNNELSTATSSTATE_EMPTY MxtunnelStatsState = ""
 	MXTUNNELSTATSSTATE_IDLE MxtunnelStatsState = "idle"
 	MXTUNNELSTATSSTATE_WAIT_CTRL_REPLY MxtunnelStatsState = "wait-ctrl-reply"
 	MXTUNNELSTATSSTATE_WAIT_CTRL_CONN MxtunnelStatsState = "wait-ctrl-conn"
@@ -30,6 +31,7 @@ const (
 
 // All allowed values of MxtunnelStatsState enum
 var AllowedMxtunnelStatsStateEnumValues = []MxtunnelStatsState{
+	"",
 	"idle",
 	"wait-ctrl-reply",
 	"wait-ctrl-conn",

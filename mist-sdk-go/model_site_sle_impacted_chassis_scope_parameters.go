@@ -21,6 +21,7 @@ type SiteSleImpactedChassisScopeParameters string
 
 // List of site_sle_impacted_chassis_scope_parameters
 const (
+	SITESLEIMPACTEDCHASSISSCOPEPARAMETERS_EMPTY SiteSleImpactedChassisScopeParameters = ""
 	SITESLEIMPACTEDCHASSISSCOPEPARAMETERS_SITE SiteSleImpactedChassisScopeParameters = "site"
 	SITESLEIMPACTEDCHASSISSCOPEPARAMETERS_SWITCH SiteSleImpactedChassisScopeParameters = "switch"
 	SITESLEIMPACTEDCHASSISSCOPEPARAMETERS_GATEWAY SiteSleImpactedChassisScopeParameters = "gateway"
@@ -28,6 +29,7 @@ const (
 
 // All allowed values of SiteSleImpactedChassisScopeParameters enum
 var AllowedSiteSleImpactedChassisScopeParametersEnumValues = []SiteSleImpactedChassisScopeParameters{
+	"",
 	"site",
 	"switch",
 	"gateway",

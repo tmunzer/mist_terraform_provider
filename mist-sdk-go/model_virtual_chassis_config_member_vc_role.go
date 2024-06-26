@@ -21,6 +21,7 @@ type VirtualChassisConfigMemberVcRole string
 
 // List of virtual_chassis_config_member_vc_role
 const (
+	VIRTUALCHASSISCONFIGMEMBERVCROLE_EMPTY VirtualChassisConfigMemberVcRole = ""
 	VIRTUALCHASSISCONFIGMEMBERVCROLE_MASTER VirtualChassisConfigMemberVcRole = "master"
 	VIRTUALCHASSISCONFIGMEMBERVCROLE_BACKUP VirtualChassisConfigMemberVcRole = "backup"
 	VIRTUALCHASSISCONFIGMEMBERVCROLE_LINECARD VirtualChassisConfigMemberVcRole = "linecard"
@@ -28,6 +29,7 @@ const (
 
 // All allowed values of VirtualChassisConfigMemberVcRole enum
 var AllowedVirtualChassisConfigMemberVcRoleEnumValues = []VirtualChassisConfigMemberVcRole{
+	"",
 	"master",
 	"backup",
 	"linecard",

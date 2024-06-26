@@ -21,6 +21,7 @@ type WlanPortalAuth string
 
 // List of wlan_portal_auth
 const (
+	WLANPORTALAUTH_EMPTY WlanPortalAuth = ""
 	WLANPORTALAUTH_NONE WlanPortalAuth = "none"
 	WLANPORTALAUTH_EXTERNAL WlanPortalAuth = "external"
 	WLANPORTALAUTH_SSO WlanPortalAuth = "sso"
@@ -28,6 +29,7 @@ const (
 
 // All allowed values of WlanPortalAuth enum
 var AllowedWlanPortalAuthEnumValues = []WlanPortalAuth{
+	"",
 	"none",
 	"external",
 	"sso",

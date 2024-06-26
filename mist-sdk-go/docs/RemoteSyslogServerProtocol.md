@@ -1,7 +1,9 @@
-# SyslogServerProtocol
+# RemoteSyslogServerProtocol
 
 ## Enum
 
+
+* `EMPTY` (value: `""`)
 
 * `UDP` (value: `"udp"`)
 

@@ -21,11 +21,13 @@ type CaptureGatewayType string
 
 // List of capture_gateway_type
 const (
+	CAPTUREGATEWAYTYPE_EMPTY CaptureGatewayType = ""
 	CAPTUREGATEWAYTYPE_GATEWAY CaptureGatewayType = "gateway"
 )
 
 // All allowed values of CaptureGatewayType enum
 var AllowedCaptureGatewayTypeEnumValues = []CaptureGatewayType{
+	"",
 	"gateway",
 }
 

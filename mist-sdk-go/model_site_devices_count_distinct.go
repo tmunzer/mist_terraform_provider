@@ -21,6 +21,7 @@ type SiteDevicesCountDistinct string
 
 // List of site_devices_count_distinct
 const (
+	SITEDEVICESCOUNTDISTINCT_EMPTY SiteDevicesCountDistinct = ""
 	SITEDEVICESCOUNTDISTINCT_MODEL SiteDevicesCountDistinct = "model"
 	SITEDEVICESCOUNTDISTINCT_VERSION SiteDevicesCountDistinct = "version"
 	SITEDEVICESCOUNTDISTINCT_MAP_ID SiteDevicesCountDistinct = "map_id"
@@ -35,6 +36,7 @@ const (
 
 // All allowed values of SiteDevicesCountDistinct enum
 var AllowedSiteDevicesCountDistinctEnumValues = []SiteDevicesCountDistinct{
+	"",
 	"model",
 	"version",
 	"map_id",

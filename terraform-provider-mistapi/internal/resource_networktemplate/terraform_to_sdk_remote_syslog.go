@@ -43,8 +43,10 @@ func remoteSyslogContentTerraformToSdk(ctx context.Context, diags *diag.Diagnost
 		var item_interface interface{} = v
 		item_in := item_interface.(ContentsValue)
 		item_out := mistsdkgo.NewRemoteSyslogContent()
-		item_out.SetFacility(mistsdkgo.RemoteSyslogContentFacility(item_in.Facility.ValueString()))
-		item_out.SetSeverity(mistsdkgo.RemoteSyslogContentSeverity(item_in.Severity.ValueString()))
+		facility, _ := mistsdkgo.NewRemoteSyslogFacilityFromValue(item_in.Facility.ValueString())
+		severity, _ := mistsdkgo.NewRemoteSyslogSeverityFromValue(item_in.Severity.ValueString())
+		item_out.SetFacility(*facility)
+		item_out.SetSeverity(*severity)
 		data = append(data, *item_out)
 	}
 	return data
@@ -95,17 +97,20 @@ func remoteSyslogServersTerraformToSdk(ctx context.Context, diags *diag.Diagnost
 		item_obj := item_interface.(ServersValue)
 
 		file_contents := remoteSyslogContentTerraformToSdk(ctx, diags, item_obj.Contents)
+		facility, _ := mistsdkgo.NewRemoteSyslogFacilityFromValue(item_obj.Facility.ValueString())
+		severity, _ := mistsdkgo.NewRemoteSyslogSeverityFromValue(item_obj.Severity.ValueString())
+		protocol, _ := mistsdkgo.NewRemoteSyslogServerProtocolFromValue(item_obj.Protocol.ValueString())
 
 		data_item := mistsdkgo.NewRemoteSyslogServer()
 		data_item.SetContents(file_contents)
 		data_item.SetExplicitPriority(item_obj.ExplicitPriority.ValueBool())
-		data_item.SetFacility(mistsdkgo.SyslogServerFacility(item_obj.Facility.ValueString()))
+		data_item.SetFacility(*facility)
 		data_item.SetHost(item_obj.Host.ValueString())
 		data_item.SetMatch(item_obj.Match.ValueString())
 		data_item.SetPort(int32(item_obj.Port.ValueInt64()))
-		data_item.SetProtocol(mistsdkgo.SyslogServerProtocol(item_obj.Protocol.ValueString()))
+		data_item.SetProtocol(*protocol)
 		data_item.SetRoutingInstance(item_obj.RoutingInstance.ValueString())
-		data_item.SetSeverity(mistsdkgo.SyslogServerSeverity(item_obj.Severity.ValueString()))
+		data_item.SetSeverity(*severity)
 		data_item.SetSourceAddress(item_obj.SourceAddress.ValueString())
 		data_item.SetStructuredData(item_obj.StructuredData.ValueBool())
 		data_item.SetTag(item_obj.Tag.ValueString())
@@ -126,8 +131,10 @@ func remoteSyslogUsersTerraformToSdk(ctx context.Context, diags *diag.Diagnostic
 			var content_interface interface{} = content
 			content_obj := content_interface.(ContentsValue)
 			content_out := mistsdkgo.NewRemoteSyslogContent()
-			content_out.SetFacility(mistsdkgo.RemoteSyslogContentFacility(content_obj.Facility.ValueString()))
-			content_out.SetSeverity(mistsdkgo.RemoteSyslogContentSeverity(content_obj.Facility.ValueString()))
+			facility, _ := mistsdkgo.NewRemoteSyslogFacilityFromValue(content_obj.Facility.ValueString())
+			severity, _ := mistsdkgo.NewRemoteSyslogSeverityFromValue(content_obj.Severity.ValueString())
+			content_out.SetFacility(*facility)
+			content_out.SetSeverity(*severity)
 			content_list = append(content_list, *content_out)
 		}
 

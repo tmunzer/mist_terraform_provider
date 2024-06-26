@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `EMAIL` (value: `"email"`)
 
 * `UNSPECIFIED` (value: `"unspecified"`)

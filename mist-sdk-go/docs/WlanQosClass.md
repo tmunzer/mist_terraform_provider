@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `BACKGROUND` (value: `"background"`)
 
 * `BEST_EFFORT` (value: `"best_effort"`)

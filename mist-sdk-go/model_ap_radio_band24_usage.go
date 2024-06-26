@@ -21,6 +21,7 @@ type ApRadioBand24Usage string
 
 // List of ap_radio_band24_usage
 const (
+	APRADIOBAND24USAGE_EMPTY ApRadioBand24Usage = ""
 	APRADIOBAND24USAGE__24 ApRadioBand24Usage = "24"
 	APRADIOBAND24USAGE__5 ApRadioBand24Usage = "5"
 	APRADIOBAND24USAGE_AUTO ApRadioBand24Usage = "auto"
@@ -28,6 +29,7 @@ const (
 
 // All allowed values of ApRadioBand24Usage enum
 var AllowedApRadioBand24UsageEnumValues = []ApRadioBand24Usage{
+	"",
 	"24",
 	"5",
 	"auto",

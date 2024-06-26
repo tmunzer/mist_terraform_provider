@@ -21,6 +21,7 @@ type PrivilegeSelfScope string
 
 // List of privilege_self_scope
 const (
+	PRIVILEGESELFSCOPE_EMPTY PrivilegeSelfScope = ""
 	PRIVILEGESELFSCOPE_MSP PrivilegeSelfScope = "msp"
 	PRIVILEGESELFSCOPE_ORG PrivilegeSelfScope = "org"
 	PRIVILEGESELFSCOPE_ORGGROUP PrivilegeSelfScope = "orggroup"
@@ -30,6 +31,7 @@ const (
 
 // All allowed values of PrivilegeSelfScope enum
 var AllowedPrivilegeSelfScopeEnumValues = []PrivilegeSelfScope{
+	"",
 	"msp",
 	"org",
 	"orggroup",

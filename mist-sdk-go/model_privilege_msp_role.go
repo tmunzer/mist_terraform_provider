@@ -21,6 +21,7 @@ type PrivilegeMspRole string
 
 // List of privilege_msp_role
 const (
+	PRIVILEGEMSPROLE_EMPTY PrivilegeMspRole = ""
 	PRIVILEGEMSPROLE_ADMIN PrivilegeMspRole = "admin"
 	PRIVILEGEMSPROLE_WRITE PrivilegeMspRole = "write"
 	PRIVILEGEMSPROLE_READ PrivilegeMspRole = "read"
@@ -30,6 +31,7 @@ const (
 
 // All allowed values of PrivilegeMspRole enum
 var AllowedPrivilegeMspRoleEnumValues = []PrivilegeMspRole{
+	"",
 	"admin",
 	"write",
 	"read",

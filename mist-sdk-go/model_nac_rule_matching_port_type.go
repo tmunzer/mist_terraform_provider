@@ -21,12 +21,14 @@ type NacRuleMatchingPortType string
 
 // List of nac_rule_matching_port_type
 const (
+	NACRULEMATCHINGPORTTYPE_EMPTY NacRuleMatchingPortType = ""
 	NACRULEMATCHINGPORTTYPE_WIRELESS NacRuleMatchingPortType = "wireless"
 	NACRULEMATCHINGPORTTYPE_WIRED NacRuleMatchingPortType = "wired"
 )
 
 // All allowed values of NacRuleMatchingPortType enum
 var AllowedNacRuleMatchingPortTypeEnumValues = []NacRuleMatchingPortType{
+	"",
 	"wireless",
 	"wired",
 }

@@ -21,12 +21,14 @@ type ServicePolicyEwfRuleProfile string
 
 // List of service_policy_ewf_rule_profile
 const (
+	SERVICEPOLICYEWFRULEPROFILE_EMPTY ServicePolicyEwfRuleProfile = ""
 	SERVICEPOLICYEWFRULEPROFILE_STRICT ServicePolicyEwfRuleProfile = "strict"
 	SERVICEPOLICYEWFRULEPROFILE_STANDARD ServicePolicyEwfRuleProfile = "standard"
 )
 
 // All allowed values of ServicePolicyEwfRuleProfile enum
 var AllowedServicePolicyEwfRuleProfileEnumValues = []ServicePolicyEwfRuleProfile{
+	"",
 	"strict",
 	"standard",
 }

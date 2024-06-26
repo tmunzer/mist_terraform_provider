@@ -21,6 +21,7 @@ type UtilsShowRouteProtocol string
 
 // List of utils_show_route_protocol
 const (
+	UTILSSHOWROUTEPROTOCOL_EMPTY UtilsShowRouteProtocol = ""
 	UTILSSHOWROUTEPROTOCOL_BGP UtilsShowRouteProtocol = "bgp"
 	UTILSSHOWROUTEPROTOCOL_ANY UtilsShowRouteProtocol = "any"
 	UTILSSHOWROUTEPROTOCOL_OSPF UtilsShowRouteProtocol = "ospf"
@@ -31,6 +32,7 @@ const (
 
 // All allowed values of UtilsShowRouteProtocol enum
 var AllowedUtilsShowRouteProtocolEnumValues = []UtilsShowRouteProtocol{
+	"",
 	"bgp",
 	"any",
 	"ospf",

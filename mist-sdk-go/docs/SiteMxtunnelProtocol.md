@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `UDP` (value: `"udp"`)
 
 * `IP` (value: `"ip"`)

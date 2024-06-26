@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `TUNTERM` (value: `"tunterm"`)
 
 * `RADSECPROXY` (value: `"radsecproxy"`)

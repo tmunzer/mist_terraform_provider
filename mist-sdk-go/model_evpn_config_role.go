@@ -21,6 +21,7 @@ type EvpnConfigRole string
 
 // List of evpn_config_role
 const (
+	EVPNCONFIGROLE_EMPTY EvpnConfigRole = ""
 	EVPNCONFIGROLE_CORE EvpnConfigRole = "core"
 	EVPNCONFIGROLE_DISTRIBUTION EvpnConfigRole = "distribution"
 	EVPNCONFIGROLE_ACCESS EvpnConfigRole = "access"
@@ -28,6 +29,7 @@ const (
 
 // All allowed values of EvpnConfigRole enum
 var AllowedEvpnConfigRoleEnumValues = []EvpnConfigRole{
+	"",
 	"core",
 	"distribution",
 	"access",

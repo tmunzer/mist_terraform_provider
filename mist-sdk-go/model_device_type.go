@@ -21,6 +21,7 @@ type DeviceType string
 
 // List of device_type
 const (
+	DEVICETYPE_EMPTY DeviceType = ""
 	DEVICETYPE_AP DeviceType = "ap"
 	DEVICETYPE_SWITCH DeviceType = "switch"
 	DEVICETYPE_GATEWAY DeviceType = "gateway"
@@ -28,6 +29,7 @@ const (
 
 // All allowed values of DeviceType enum
 var AllowedDeviceTypeEnumValues = []DeviceType{
+	"",
 	"ap",
 	"switch",
 	"gateway",

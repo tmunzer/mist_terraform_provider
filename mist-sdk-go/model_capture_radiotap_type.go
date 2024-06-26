@@ -21,11 +21,13 @@ type CaptureRadiotapType string
 
 // List of capture_radiotap_type
 const (
+	CAPTURERADIOTAPTYPE_EMPTY CaptureRadiotapType = ""
 	CAPTURERADIOTAPTYPE_RADIOTAP CaptureRadiotapType = "radiotap"
 )
 
 // All allowed values of CaptureRadiotapType enum
 var AllowedCaptureRadiotapTypeEnumValues = []CaptureRadiotapType{
+	"",
 	"radiotap",
 }
 

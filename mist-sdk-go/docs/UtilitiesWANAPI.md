@@ -113,7 +113,7 @@ import (
 func main() {
 	siteId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
 	deviceId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	utilsClearBgp := *openapiclient.NewUtilsClearBgp("Neighbor_example", openapiclient.utils_clear_bgp_type("hard")) // UtilsClearBgp |  (optional)
+	utilsClearBgp := *openapiclient.NewUtilsClearBgp("Neighbor_example", openapiclient.utils_clear_bgp_type("")) // UtilsClearBgp |  (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)

@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `NONE` (value: `"none"`)
 
 * `MD5` (value: `"md5"`)

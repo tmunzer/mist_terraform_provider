@@ -21,6 +21,7 @@ type Dot11Band string
 
 // List of dot11_band
 const (
+	DOT11BAND_EMPTY Dot11Band = ""
 	DOT11BAND__24 Dot11Band = "24"
 	DOT11BAND__5 Dot11Band = "5"
 	DOT11BAND__6 Dot11Band = "6"
@@ -28,6 +29,7 @@ const (
 
 // All allowed values of Dot11Band enum
 var AllowedDot11BandEnumValues = []Dot11Band{
+	"",
 	"24",
 	"5",
 	"6",

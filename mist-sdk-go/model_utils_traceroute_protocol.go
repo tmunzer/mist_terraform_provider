@@ -21,11 +21,13 @@ type UtilsTracerouteProtocol string
 
 // List of utils_traceroute_protocol
 const (
+	UTILSTRACEROUTEPROTOCOL_EMPTY UtilsTracerouteProtocol = ""
 	UTILSTRACEROUTEPROTOCOL_UDP UtilsTracerouteProtocol = "udp"
 )
 
 // All allowed values of UtilsTracerouteProtocol enum
 var AllowedUtilsTracerouteProtocolEnumValues = []UtilsTracerouteProtocol{
+	"",
 	"udp",
 }
 

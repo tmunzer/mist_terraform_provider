@@ -21,6 +21,7 @@ type OrgAutoRulesSrc string
 
 // List of org_auto_rules_src
 const (
+	ORGAUTORULESSRC_EMPTY OrgAutoRulesSrc = ""
 	ORGAUTORULESSRC_NAME OrgAutoRulesSrc = "name"
 	ORGAUTORULESSRC_SUBNET OrgAutoRulesSrc = "subnet"
 	ORGAUTORULESSRC_LLDP_SYSTEM_NAME OrgAutoRulesSrc = "lldp_system_name"
@@ -31,6 +32,7 @@ const (
 
 // All allowed values of OrgAutoRulesSrc enum
 var AllowedOrgAutoRulesSrcEnumValues = []OrgAutoRulesSrc{
+	"",
 	"name",
 	"subnet",
 	"lldp_system_name",

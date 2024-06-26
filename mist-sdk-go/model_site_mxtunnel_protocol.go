@@ -21,12 +21,14 @@ type SiteMxtunnelProtocol string
 
 // List of site_mxtunnel_protocol
 const (
+	SITEMXTUNNELPROTOCOL_EMPTY SiteMxtunnelProtocol = ""
 	SITEMXTUNNELPROTOCOL_UDP SiteMxtunnelProtocol = "udp"
 	SITEMXTUNNELPROTOCOL_IP SiteMxtunnelProtocol = "ip"
 )
 
 // All allowed values of SiteMxtunnelProtocol enum
 var AllowedSiteMxtunnelProtocolEnumValues = []SiteMxtunnelProtocol{
+	"",
 	"udp",
 	"ip",
 }

@@ -21,12 +21,14 @@ type NacPortalAccessType string
 
 // List of nac_portal_access_type
 const (
+	NACPORTALACCESSTYPE_EMPTY NacPortalAccessType = ""
 	NACPORTALACCESSTYPE_WIRELESS NacPortalAccessType = "wireless"
 	NACPORTALACCESSTYPE_WIRELESSWIRED NacPortalAccessType = "wireless+wired"
 )
 
 // All allowed values of NacPortalAccessType enum
 var AllowedNacPortalAccessTypeEnumValues = []NacPortalAccessType{
+	"",
 	"wireless",
 	"wireless+wired",
 }

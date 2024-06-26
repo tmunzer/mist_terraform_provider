@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `TYPE` (value: `"type"`)
 
 * `LAST_NACRULE_ID` (value: `"last_nacrule_id"`)

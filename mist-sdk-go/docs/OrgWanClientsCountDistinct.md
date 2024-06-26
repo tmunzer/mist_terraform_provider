@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `HOSTNAME` (value: `"hostname"`)
 
 * `IP` (value: `"ip"`)

@@ -21,6 +21,7 @@ type SiteDeviceLastConfigCountDistinct string
 
 // List of site_device_last_config_count_distinct
 const (
+	SITEDEVICELASTCONFIGCOUNTDISTINCT_EMPTY SiteDeviceLastConfigCountDistinct = ""
 	SITEDEVICELASTCONFIGCOUNTDISTINCT_VERSION SiteDeviceLastConfigCountDistinct = "version"
 	SITEDEVICELASTCONFIGCOUNTDISTINCT_NAME SiteDeviceLastConfigCountDistinct = "name"
 	SITEDEVICELASTCONFIGCOUNTDISTINCT_SITE_ID SiteDeviceLastConfigCountDistinct = "site_id"
@@ -29,6 +30,7 @@ const (
 
 // All allowed values of SiteDeviceLastConfigCountDistinct enum
 var AllowedSiteDeviceLastConfigCountDistinctEnumValues = []SiteDeviceLastConfigCountDistinct{
+	"",
 	"version",
 	"name",
 	"site_id",

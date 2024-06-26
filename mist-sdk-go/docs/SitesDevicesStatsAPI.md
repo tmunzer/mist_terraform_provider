@@ -115,7 +115,7 @@ import (
 
 func main() {
 	siteId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	distinct := openapiclient.site_ports_count_distinct("port_id") // SitePortsCountDistinct |  (optional) (default to "mac")
+	distinct := openapiclient.site_ports_count_distinct("") // SitePortsCountDistinct |  (optional) (default to "mac")
 	fullDuplex := true // bool | indicates full or half duplex (optional)
 	mac := "mac_example" // string | device identifier (optional)
 	neighborMac := "neighborMac_example" // string | Chassis identifier of the chassis type listed (optional)
@@ -137,9 +137,9 @@ func main() {
 	rxMcastPkts := int32(56) // int32 | Multicast input packets (optional)
 	rxBcastPkts := int32(56) // int32 | Broadcast input packets (optional)
 	speed := int32(56) // int32 | port speed (optional)
-	stpState := openapiclient.count_site_sw_or_gw_ports_stp_state("forwarding") // CountSiteSwOrGwPortsStpState | if `up`==`true` (optional)
-	stpRole := openapiclient.count_site_sw_or_gw_ports_stp_role("designated") // CountSiteSwOrGwPortsStpRole | if `up`==`true` (optional)
-	authState := openapiclient.count_site_sw_or_gw_ports_auth_state("init") // CountSiteSwOrGwPortsAuthState | if `up`==`true` && has Authenticator role (optional)
+	stpState := openapiclient.count_site_sw_or_gw_ports_stp_state("") // CountSiteSwOrGwPortsStpState | if `up`==`true` (optional)
+	stpRole := openapiclient.count_site_sw_or_gw_ports_stp_role("") // CountSiteSwOrGwPortsStpRole | if `up`==`true` (optional)
+	authState := openapiclient.count_site_sw_or_gw_ports_auth_state("") // CountSiteSwOrGwPortsAuthState | if `up`==`true` && has Authenticator role (optional)
 	up := true // bool | indicates if interface is up (optional)
 	page := int32(56) // int32 |  (optional) (default to 1)
 	limit := int32(56) // int32 |  (optional) (default to 100)
@@ -247,7 +247,7 @@ import (
 
 func main() {
 	siteId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	distinct := openapiclient.site_switch_ports_count_distinct("port_id") // SiteSwitchPortsCountDistinct |  (optional) (default to "mac")
+	distinct := openapiclient.site_switch_ports_count_distinct("") // SiteSwitchPortsCountDistinct |  (optional) (default to "mac")
 	fullDuplex := true // bool | indicates full or half duplex (optional)
 	mac := "mac_example" // string | device identifier (optional)
 	neighborMac := "neighborMac_example" // string | Chassis identifier of the chassis type listed (optional)
@@ -269,9 +269,9 @@ func main() {
 	rxMcastPkts := int32(56) // int32 | Multicast input packets (optional)
 	rxBcastPkts := int32(56) // int32 | Broadcast input packets (optional)
 	speed := int32(56) // int32 | port speed (optional)
-	stpState := openapiclient.count_site_switch_ports_stp_state("forwarding") // CountSiteSwitchPortsStpState | if `up`==`true` (optional)
-	stpRole := openapiclient.count_site_switch_ports_stp_role("designated") // CountSiteSwitchPortsStpRole | if `up`==`true` (optional)
-	authState := openapiclient.count_site_switch_ports_auth_state("init") // CountSiteSwitchPortsAuthState | if `up`==`true` (optional)
+	stpState := openapiclient.count_site_switch_ports_stp_state("") // CountSiteSwitchPortsStpState | if `up`==`true` (optional)
+	stpRole := openapiclient.count_site_switch_ports_stp_role("") // CountSiteSwitchPortsStpRole | if `up`==`true` (optional)
+	authState := openapiclient.count_site_switch_ports_auth_state("") // CountSiteSwitchPortsAuthState | if `up`==`true` (optional)
 	up := true // bool | indicates if interface is up (optional)
 	page := int32(56) // int32 |  (optional) (default to 1)
 	limit := int32(56) // int32 |  (optional) (default to 100)
@@ -674,8 +674,8 @@ import (
 
 func main() {
 	siteId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	type_ := openapiclient.device_type_with_all("ap") // DeviceTypeWithAll |  (optional) (default to "ap")
-	status := openapiclient.stat_device_status_filter("all") // StatDeviceStatusFilter |  (optional) (default to "all")
+	type_ := openapiclient.device_type_with_all("") // DeviceTypeWithAll |  (optional) (default to "ap")
+	status := openapiclient.stat_device_status_filter("") // StatDeviceStatusFilter |  (optional) (default to "all")
 	page := int32(56) // int32 |  (optional) (default to 1)
 	limit := int32(56) // int32 |  (optional) (default to 100)
 
@@ -904,7 +904,7 @@ func main() {
 	siteId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
 	fullDuplex := true // bool | indicates full or half duplex (optional)
 	mac := "mac_example" // string | device identifier (optional)
-	deviceType := openapiclient.search_site_sw_or_gw_ports_device_type("ap") // SearchSiteSwOrGwPortsDeviceType | device type (optional)
+	deviceType := openapiclient.search_site_sw_or_gw_ports_device_type("") // SearchSiteSwOrGwPortsDeviceType | device type (optional)
 	neighborMac := "neighborMac_example" // string | Chassis identifier of the chassis type listed (optional)
 	neighborPortDesc := "neighborPortDesc_example" // string | Description supplied by the system on the interface E.g. “GigabitEthernet2/0/39” (optional)
 	neighborSystemName := "neighborSystemName_example" // string | Name supplied by the system on the interface E.g. neighbor system name E.g. “Kumar-Acc-SW.mist.local” (optional)
@@ -933,10 +933,10 @@ func main() {
 	jitter := float32(8.14) // float32 | Last sampled jitter of the interface (optional)
 	loss := float32(8.14) // float32 | Last sampled loss of the interface (optional)
 	latency := float32(8.14) // float32 | Last sampled latency of the interface (optional)
-	stpState := openapiclient.search_site_sw_or_gw_ports_stp_state("forwarding") // SearchSiteSwOrGwPortsStpState | if `up`==`true` (optional)
-	stpRole := openapiclient.search_site_sw_or_gw_ports_stp_role("designated") // SearchSiteSwOrGwPortsStpRole | if `up`==`true` (optional)
+	stpState := openapiclient.search_site_sw_or_gw_ports_stp_state("") // SearchSiteSwOrGwPortsStpState | if `up`==`true` (optional)
+	stpRole := openapiclient.search_site_sw_or_gw_ports_stp_role("") // SearchSiteSwOrGwPortsStpRole | if `up`==`true` (optional)
 	xcvrPartNumber := "xcvrPartNumber_example" // string | Optic Slot Partnumber, Check for null/empty (optional)
-	authState := openapiclient.search_site_sw_or_gw_ports_auth_state("init") // SearchSiteSwOrGwPortsAuthState | if `up`==`true` && has Authenticator role (optional)
+	authState := openapiclient.search_site_sw_or_gw_ports_auth_state("") // SearchSiteSwOrGwPortsAuthState | if `up`==`true` && has Authenticator role (optional)
 	lteImsi := "lteImsi_example" // string | LTE IMSI value, Check for null/empty (optional)
 	lteIccid := "lteIccid_example" // string | LTE ICCID value, Check for null/empty (optional)
 	lteImei := "lteImei_example" // string | LTE IMEI value, Check for null/empty (optional)
@@ -1077,9 +1077,9 @@ func main() {
 	rxMcastPkts := int32(56) // int32 | Multicast input packets (optional)
 	rxBcastPkts := int32(56) // int32 | Broadcast input packets (optional)
 	speed := int32(56) // int32 | port speed (optional)
-	stpState := openapiclient.search_site_switch_ports_stp_state("forwarding") // SearchSiteSwitchPortsStpState | if `up`==`true` (optional)
-	stpRole := openapiclient.search_site_switch_ports_stp_role("designated") // SearchSiteSwitchPortsStpRole | if `up`==`true` (optional)
-	authState := openapiclient.search_site_switch_ports_auth_state("init") // SearchSiteSwitchPortsAuthState | if `up`==`true` && has Authenticator role (optional)
+	stpState := openapiclient.search_site_switch_ports_stp_state("") // SearchSiteSwitchPortsStpState | if `up`==`true` (optional)
+	stpRole := openapiclient.search_site_switch_ports_stp_role("") // SearchSiteSwitchPortsStpRole | if `up`==`true` (optional)
+	authState := openapiclient.search_site_switch_ports_auth_state("") // SearchSiteSwitchPortsAuthState | if `up`==`true` && has Authenticator role (optional)
 	up := true // bool | indicates if interface is up (optional)
 	limit := int32(56) // int32 |  (optional) (default to 100)
 	start := int32(56) // int32 | start datetime, can be epoch or relative time like -1d, -1w; -1d if not specified (optional)

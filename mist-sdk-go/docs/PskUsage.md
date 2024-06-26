@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `MULTI` (value: `"multi"`)
 
 * `SINGLE` (value: `"single"`)

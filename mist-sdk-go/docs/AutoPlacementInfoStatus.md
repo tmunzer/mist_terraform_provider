@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `PENDING` (value: `"pending"`)
 
 * `INPROGRESS` (value: `"inprogress"`)

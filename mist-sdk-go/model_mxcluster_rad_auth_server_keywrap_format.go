@@ -21,13 +21,15 @@ type MxclusterRadAuthServerKeywrapFormat string
 
 // List of mxcluster_rad_auth_server_keywrap_format
 const (
+	MXCLUSTERRADAUTHSERVERKEYWRAPFORMAT_EMPTY MxclusterRadAuthServerKeywrapFormat = ""
 	MXCLUSTERRADAUTHSERVERKEYWRAPFORMAT_HEX MxclusterRadAuthServerKeywrapFormat = "hex"
 	MXCLUSTERRADAUTHSERVERKEYWRAPFORMAT_ASCII MxclusterRadAuthServerKeywrapFormat = "ascii"
-	MXCLUSTERRADAUTHSERVERKEYWRAPFORMAT_EMPTY MxclusterRadAuthServerKeywrapFormat = ""
+	MXCLUSTERRADAUTHSERVERKEYWRAPFORMAT_EMPTY2 MxclusterRadAuthServerKeywrapFormat = ""
 )
 
 // All allowed values of MxclusterRadAuthServerKeywrapFormat enum
 var AllowedMxclusterRadAuthServerKeywrapFormatEnumValues = []MxclusterRadAuthServerKeywrapFormat{
+	"",
 	"hex",
 	"ascii",
 	"",

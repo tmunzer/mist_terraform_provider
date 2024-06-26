@@ -21,12 +21,14 @@ type WxlanRuleAction string
 
 // List of wxlan_rule_action
 const (
+	WXLANRULEACTION_EMPTY WxlanRuleAction = ""
 	WXLANRULEACTION_ALLOW WxlanRuleAction = "allow"
 	WXLANRULEACTION_BLOCK WxlanRuleAction = "block"
 )
 
 // All allowed values of WxlanRuleAction enum
 var AllowedWxlanRuleActionEnumValues = []WxlanRuleAction{
+	"",
 	"allow",
 	"block",
 }

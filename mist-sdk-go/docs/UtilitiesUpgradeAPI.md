@@ -764,7 +764,7 @@ import (
 
 func main() {
 	siteId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	type_ := openapiclient.device_type("ap") // DeviceType |  (optional) (default to "ap")
+	type_ := openapiclient.device_type("") // DeviceType |  (optional) (default to "ap")
 	model := "model_example" // string | fetch version for device model, use/combine with `type` as needed (for switch and gateway devices) (optional)
 
 	configuration := openapiclient.NewConfiguration()
@@ -838,7 +838,7 @@ import (
 
 func main() {
 	siteId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	status := openapiclient.device_upgrade_status("downloading") // DeviceUpgradeStatus |  (optional)
+	status := openapiclient.device_upgrade_status("") // DeviceUpgradeStatus |  (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)

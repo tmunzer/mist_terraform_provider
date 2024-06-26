@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `IMAGOTAG` (value: `"imagotag"`)
 
 * `HANSHOW` (value: `"hanshow"`)

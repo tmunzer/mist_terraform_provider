@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `LLDP_CHASSIS_ID` (value: `"lldp_chassis_id"`)
 
 * `LLDP_SYSTEM_NAME` (value: `"lldp_system_name"`)

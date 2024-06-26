@@ -20,8 +20,8 @@ var _ MappedNullable = &RemoteSyslogContent{}
 
 // RemoteSyslogContent struct for RemoteSyslogContent
 type RemoteSyslogContent struct {
-	Facility *RemoteSyslogContentFacility `json:"facility,omitempty"`
-	Severity *RemoteSyslogContentSeverity `json:"severity,omitempty"`
+	Facility *RemoteSyslogFacility `json:"facility,omitempty"`
+	Severity *RemoteSyslogSeverity `json:"severity,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -33,6 +33,10 @@ type _RemoteSyslogContent RemoteSyslogContent
 // will change when the set of required properties is changed
 func NewRemoteSyslogContent() *RemoteSyslogContent {
 	this := RemoteSyslogContent{}
+	var facility RemoteSyslogFacility = REMOTESYSLOGFACILITY_ANY
+	this.Facility = &facility
+	var severity RemoteSyslogSeverity = REMOTESYSLOGSEVERITY_ANY
+	this.Severity = &severity
 	return &this
 }
 
@@ -41,13 +45,17 @@ func NewRemoteSyslogContent() *RemoteSyslogContent {
 // but it doesn't guarantee that properties required by API are set
 func NewRemoteSyslogContentWithDefaults() *RemoteSyslogContent {
 	this := RemoteSyslogContent{}
+	var facility RemoteSyslogFacility = REMOTESYSLOGFACILITY_ANY
+	this.Facility = &facility
+	var severity RemoteSyslogSeverity = REMOTESYSLOGSEVERITY_ANY
+	this.Severity = &severity
 	return &this
 }
 
 // GetFacility returns the Facility field value if set, zero value otherwise.
-func (o *RemoteSyslogContent) GetFacility() RemoteSyslogContentFacility {
+func (o *RemoteSyslogContent) GetFacility() RemoteSyslogFacility {
 	if o == nil || IsNil(o.Facility) {
-		var ret RemoteSyslogContentFacility
+		var ret RemoteSyslogFacility
 		return ret
 	}
 	return *o.Facility
@@ -55,7 +63,7 @@ func (o *RemoteSyslogContent) GetFacility() RemoteSyslogContentFacility {
 
 // GetFacilityOk returns a tuple with the Facility field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RemoteSyslogContent) GetFacilityOk() (*RemoteSyslogContentFacility, bool) {
+func (o *RemoteSyslogContent) GetFacilityOk() (*RemoteSyslogFacility, bool) {
 	if o == nil || IsNil(o.Facility) {
 		return nil, false
 	}
@@ -71,15 +79,15 @@ func (o *RemoteSyslogContent) HasFacility() bool {
 	return false
 }
 
-// SetFacility gets a reference to the given RemoteSyslogContentFacility and assigns it to the Facility field.
-func (o *RemoteSyslogContent) SetFacility(v RemoteSyslogContentFacility) {
+// SetFacility gets a reference to the given RemoteSyslogFacility and assigns it to the Facility field.
+func (o *RemoteSyslogContent) SetFacility(v RemoteSyslogFacility) {
 	o.Facility = &v
 }
 
 // GetSeverity returns the Severity field value if set, zero value otherwise.
-func (o *RemoteSyslogContent) GetSeverity() RemoteSyslogContentSeverity {
+func (o *RemoteSyslogContent) GetSeverity() RemoteSyslogSeverity {
 	if o == nil || IsNil(o.Severity) {
-		var ret RemoteSyslogContentSeverity
+		var ret RemoteSyslogSeverity
 		return ret
 	}
 	return *o.Severity
@@ -87,7 +95,7 @@ func (o *RemoteSyslogContent) GetSeverity() RemoteSyslogContentSeverity {
 
 // GetSeverityOk returns a tuple with the Severity field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RemoteSyslogContent) GetSeverityOk() (*RemoteSyslogContentSeverity, bool) {
+func (o *RemoteSyslogContent) GetSeverityOk() (*RemoteSyslogSeverity, bool) {
 	if o == nil || IsNil(o.Severity) {
 		return nil, false
 	}
@@ -103,8 +111,8 @@ func (o *RemoteSyslogContent) HasSeverity() bool {
 	return false
 }
 
-// SetSeverity gets a reference to the given RemoteSyslogContentSeverity and assigns it to the Severity field.
-func (o *RemoteSyslogContent) SetSeverity(v RemoteSyslogContentSeverity) {
+// SetSeverity gets a reference to the given RemoteSyslogSeverity and assigns it to the Severity field.
+func (o *RemoteSyslogContent) SetSeverity(v RemoteSyslogSeverity) {
 	o.Severity = &v
 }
 

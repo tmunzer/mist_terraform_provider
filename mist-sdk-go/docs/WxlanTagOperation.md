@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `IN` (value: `"in"`)
 
 * `NOT_IN` (value: `"not_in"`)

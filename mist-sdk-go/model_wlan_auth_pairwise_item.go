@@ -21,6 +21,7 @@ type WlanAuthPairwiseItem string
 
 // List of wlan_auth_pairwise_item
 const (
+	WLANAUTHPAIRWISEITEM_EMPTY WlanAuthPairwiseItem = ""
 	WLANAUTHPAIRWISEITEM_WPA1_CCMP WlanAuthPairwiseItem = "wpa1-ccmp"
 	WLANAUTHPAIRWISEITEM_WPA2_TKIP WlanAuthPairwiseItem = "wpa2-tkip"
 	WLANAUTHPAIRWISEITEM_WPA1_TKIP WlanAuthPairwiseItem = "wpa1-tkip"
@@ -30,6 +31,7 @@ const (
 
 // All allowed values of WlanAuthPairwiseItem enum
 var AllowedWlanAuthPairwiseItemEnumValues = []WlanAuthPairwiseItem{
+	"",
 	"wpa1-ccmp",
 	"wpa2-tkip",
 	"wpa1-tkip",

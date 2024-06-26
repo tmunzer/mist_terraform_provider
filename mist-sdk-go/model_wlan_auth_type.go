@@ -21,6 +21,7 @@ type WlanAuthType string
 
 // List of wlan_auth_type
 const (
+	WLANAUTHTYPE_EMPTY WlanAuthType = ""
 	WLANAUTHTYPE_OPEN WlanAuthType = "open"
 	WLANAUTHTYPE_PSK WlanAuthType = "psk"
 	WLANAUTHTYPE_WEP WlanAuthType = "wep"
@@ -32,6 +33,7 @@ const (
 
 // All allowed values of WlanAuthType enum
 var AllowedWlanAuthTypeEnumValues = []WlanAuthType{
+	"",
 	"open",
 	"psk",
 	"wep",

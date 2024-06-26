@@ -21,6 +21,7 @@ type ResponseMapImportApAction string
 
 // List of response_map_import_ap_action
 const (
+	RESPONSEMAPIMPORTAPACTION_EMPTY ResponseMapImportApAction = ""
 	RESPONSEMAPIMPORTAPACTION_PLACED ResponseMapImportApAction = "placed"
 	RESPONSEMAPIMPORTAPACTION_ASSIGNED_PLACED ResponseMapImportApAction = "assigned-placed"
 	RESPONSEMAPIMPORTAPACTION_NAMED_PLACED ResponseMapImportApAction = "named-placed"
@@ -30,6 +31,7 @@ const (
 
 // All allowed values of ResponseMapImportApAction enum
 var AllowedResponseMapImportApActionEnumValues = []ResponseMapImportApAction{
+	"",
 	"placed",
 	"assigned-placed",
 	"named-placed",

@@ -21,6 +21,7 @@ type SnmpVacmAccessItemPrefixListItemModel string
 
 // List of snmp_vacm_access_item_prefix_list_item_model
 const (
+	SNMPVACMACCESSITEMPREFIXLISTITEMMODEL_EMPTY SnmpVacmAccessItemPrefixListItemModel = ""
 	SNMPVACMACCESSITEMPREFIXLISTITEMMODEL_ANY SnmpVacmAccessItemPrefixListItemModel = "any"
 	SNMPVACMACCESSITEMPREFIXLISTITEMMODEL_USM SnmpVacmAccessItemPrefixListItemModel = "usm"
 	SNMPVACMACCESSITEMPREFIXLISTITEMMODEL_V1 SnmpVacmAccessItemPrefixListItemModel = "v1"
@@ -29,6 +30,7 @@ const (
 
 // All allowed values of SnmpVacmAccessItemPrefixListItemModel enum
 var AllowedSnmpVacmAccessItemPrefixListItemModelEnumValues = []SnmpVacmAccessItemPrefixListItemModel{
+	"",
 	"any",
 	"usm",
 	"v1",

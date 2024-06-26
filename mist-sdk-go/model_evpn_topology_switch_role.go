@@ -21,6 +21,7 @@ type EvpnTopologySwitchRole string
 
 // List of evpn_topology_switch_role
 const (
+	EVPNTOPOLOGYSWITCHROLE_EMPTY EvpnTopologySwitchRole = ""
 	EVPNTOPOLOGYSWITCHROLE_CORE EvpnTopologySwitchRole = "core"
 	EVPNTOPOLOGYSWITCHROLE_DISTRIBUTION EvpnTopologySwitchRole = "distribution"
 	EVPNTOPOLOGYSWITCHROLE_ACCESS EvpnTopologySwitchRole = "access"
@@ -31,6 +32,7 @@ const (
 
 // All allowed values of EvpnTopologySwitchRole enum
 var AllowedEvpnTopologySwitchRoleEnumValues = []EvpnTopologySwitchRole{
+	"",
 	"core",
 	"distribution",
 	"access",

@@ -245,7 +245,7 @@ import (
 
 func main() {
 	mspId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	mspLicenseAction := *openapiclient.NewMspLicenseAction(openapiclient.msp_license_action_operation("amend")) // MspLicenseAction |  (optional)
+	mspLicenseAction := *openapiclient.NewMspLicenseAction(openapiclient.msp_license_action_operation("")) // MspLicenseAction |  (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)

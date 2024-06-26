@@ -21,6 +21,7 @@ type SiteRogueEventsCountDistinct string
 
 // List of site_rogue_events_count_distinct
 const (
+	SITEROGUEEVENTSCOUNTDISTINCT_EMPTY SiteRogueEventsCountDistinct = ""
 	SITEROGUEEVENTSCOUNTDISTINCT_BSSID SiteRogueEventsCountDistinct = "bssid"
 	SITEROGUEEVENTSCOUNTDISTINCT_SSID SiteRogueEventsCountDistinct = "ssid"
 	SITEROGUEEVENTSCOUNTDISTINCT_AP SiteRogueEventsCountDistinct = "ap"
@@ -29,6 +30,7 @@ const (
 
 // All allowed values of SiteRogueEventsCountDistinct enum
 var AllowedSiteRogueEventsCountDistinctEnumValues = []SiteRogueEventsCountDistinct{
+	"",
 	"bssid",
 	"ssid",
 	"ap",

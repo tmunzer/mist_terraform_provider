@@ -21,6 +21,7 @@ type ApIotOutputPullup string
 
 // List of ap_iot_output_pullup
 const (
+	APIOTOUTPUTPULLUP_EMPTY ApIotOutputPullup = ""
 	APIOTOUTPUTPULLUP_INTERNAL ApIotOutputPullup = "internal"
 	APIOTOUTPUTPULLUP_EXTERNAL ApIotOutputPullup = "external"
 	APIOTOUTPUTPULLUP_NON ApIotOutputPullup = "non"
@@ -28,6 +29,7 @@ const (
 
 // All allowed values of ApIotOutputPullup enum
 var AllowedApIotOutputPullupEnumValues = []ApIotOutputPullup{
+	"",
 	"internal",
 	"external",
 	"non",

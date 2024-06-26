@@ -21,12 +21,14 @@ type GatewayPortVpnPathRole string
 
 // List of gateway_port_vpn_path_role
 const (
+	GATEWAYPORTVPNPATHROLE_EMPTY GatewayPortVpnPathRole = ""
 	GATEWAYPORTVPNPATHROLE_SPOKE GatewayPortVpnPathRole = "spoke"
 	GATEWAYPORTVPNPATHROLE_HUB GatewayPortVpnPathRole = "hub"
 )
 
 // All allowed values of GatewayPortVpnPathRole enum
 var AllowedGatewayPortVpnPathRoleEnumValues = []GatewayPortVpnPathRole{
+	"",
 	"spoke",
 	"hub",
 }

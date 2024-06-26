@@ -21,12 +21,14 @@ type WebhookDeliveryStatus string
 
 // List of webhook_delivery_status
 const (
+	WEBHOOKDELIVERYSTATUS_EMPTY WebhookDeliveryStatus = ""
 	WEBHOOKDELIVERYSTATUS_SUCCESS WebhookDeliveryStatus = "success"
 	WEBHOOKDELIVERYSTATUS_FAILURE WebhookDeliveryStatus = "failure"
 )
 
 // All allowed values of WebhookDeliveryStatus enum
 var AllowedWebhookDeliveryStatusEnumValues = []WebhookDeliveryStatus{
+	"",
 	"success",
 	"failure",
 }

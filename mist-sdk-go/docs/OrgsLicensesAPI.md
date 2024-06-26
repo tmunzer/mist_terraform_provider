@@ -33,7 +33,7 @@ import (
 
 func main() {
 	orgId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	claimActivation := *openapiclient.NewClaimActivation("Code_example", openapiclient.claim_type("all")) // ClaimActivation | Request Body (optional)
+	claimActivation := *openapiclient.NewClaimActivation("Code_example", openapiclient.claim_type("")) // ClaimActivation | Request Body (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -245,7 +245,7 @@ import (
 
 func main() {
 	orgId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	orgLicenseAction := *openapiclient.NewOrgLicenseAction(openapiclient.org_license_action_operation("amend")) // OrgLicenseAction | Request Body (optional)
+	orgLicenseAction := *openapiclient.NewOrgLicenseAction(openapiclient.org_license_action_operation("")) // OrgLicenseAction | Request Body (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)

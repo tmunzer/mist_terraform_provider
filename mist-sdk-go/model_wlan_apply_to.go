@@ -21,6 +21,7 @@ type WlanApplyTo string
 
 // List of wlan_apply_to
 const (
+	WLANAPPLYTO_EMPTY WlanApplyTo = ""
 	WLANAPPLYTO_SITE WlanApplyTo = "site"
 	WLANAPPLYTO_WXTAGS WlanApplyTo = "wxtags"
 	WLANAPPLYTO_APS WlanApplyTo = "aps"
@@ -28,6 +29,7 @@ const (
 
 // All allowed values of WlanApplyTo enum
 var AllowedWlanApplyToEnumValues = []WlanApplyTo{
+	"",
 	"site",
 	"wxtags",
 	"aps",

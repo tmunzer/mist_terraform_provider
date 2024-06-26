@@ -21,6 +21,7 @@ type OspfAreasNetworkAuthType string
 
 // List of ospf_areas_network_auth_type
 const (
+	OSPFAREASNETWORKAUTHTYPE_EMPTY OspfAreasNetworkAuthType = ""
 	OSPFAREASNETWORKAUTHTYPE_NONE OspfAreasNetworkAuthType = "none"
 	OSPFAREASNETWORKAUTHTYPE_MD5 OspfAreasNetworkAuthType = "md5"
 	OSPFAREASNETWORKAUTHTYPE_PASSWORD OspfAreasNetworkAuthType = "password"
@@ -28,6 +29,7 @@ const (
 
 // All allowed values of OspfAreasNetworkAuthType enum
 var AllowedOspfAreasNetworkAuthTypeEnumValues = []OspfAreasNetworkAuthType{
+	"",
 	"none",
 	"md5",
 	"password",

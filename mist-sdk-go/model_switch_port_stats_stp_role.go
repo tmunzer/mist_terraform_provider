@@ -21,6 +21,7 @@ type SwitchPortStatsStpRole string
 
 // List of switch_port_stats_stp_role
 const (
+	SWITCHPORTSTATSSTPROLE_EMPTY SwitchPortStatsStpRole = ""
 	SWITCHPORTSTATSSTPROLE_DESIGNATED SwitchPortStatsStpRole = "designated"
 	SWITCHPORTSTATSSTPROLE_BACKUP SwitchPortStatsStpRole = "backup"
 	SWITCHPORTSTATSSTPROLE_ALTERNATE SwitchPortStatsStpRole = "alternate"
@@ -30,6 +31,7 @@ const (
 
 // All allowed values of SwitchPortStatsStpRole enum
 var AllowedSwitchPortStatsStpRoleEnumValues = []SwitchPortStatsStpRole{
+	"",
 	"designated",
 	"backup",
 	"alternate",

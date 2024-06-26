@@ -6,13 +6,13 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Contents** | Pointer to [**[]RemoteSyslogContent**](RemoteSyslogContent.md) |  | [optional] 
 **ExplicitPriority** | Pointer to **bool** |  | [optional] 
-**Facility** | Pointer to [**SyslogServerFacility**](SyslogServerFacility.md) |  | [optional] 
+**Facility** | Pointer to [**RemoteSyslogFacility**](RemoteSyslogFacility.md) |  | [optional] [default to REMOTESYSLOGFACILITY_ANY]
 **Host** | Pointer to **string** |  | [optional] 
 **Match** | Pointer to **string** |  | [optional] 
 **Port** | Pointer to **int32** |  | [optional] [default to 514]
-**Protocol** | Pointer to [**SyslogServerProtocol**](SyslogServerProtocol.md) |  | [optional] [default to SYSLOGSERVERPROTOCOL_UDP]
+**Protocol** | Pointer to [**RemoteSyslogServerProtocol**](RemoteSyslogServerProtocol.md) |  | [optional] [default to REMOTESYSLOGSERVERPROTOCOL_UDP]
 **RoutingInstance** | Pointer to **string** |  | [optional] 
-**Severity** | Pointer to [**SyslogServerSeverity**](SyslogServerSeverity.md) |  | [optional] 
+**Severity** | Pointer to [**RemoteSyslogSeverity**](RemoteSyslogSeverity.md) |  | [optional] [default to REMOTESYSLOGSEVERITY_ANY]
 **SourceAddress** | Pointer to **string** | if source_address is configured, will use the vlan firstly otherwise use source_ip | [optional] 
 **StructuredData** | Pointer to **bool** |  | [optional] 
 **Tag** | Pointer to **string** |  | [optional] 
@@ -88,20 +88,20 @@ HasExplicitPriority returns a boolean if a field has been set.
 
 ### GetFacility
 
-`func (o *RemoteSyslogServer) GetFacility() SyslogServerFacility`
+`func (o *RemoteSyslogServer) GetFacility() RemoteSyslogFacility`
 
 GetFacility returns the Facility field if non-nil, zero value otherwise.
 
 ### GetFacilityOk
 
-`func (o *RemoteSyslogServer) GetFacilityOk() (*SyslogServerFacility, bool)`
+`func (o *RemoteSyslogServer) GetFacilityOk() (*RemoteSyslogFacility, bool)`
 
 GetFacilityOk returns a tuple with the Facility field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetFacility
 
-`func (o *RemoteSyslogServer) SetFacility(v SyslogServerFacility)`
+`func (o *RemoteSyslogServer) SetFacility(v RemoteSyslogFacility)`
 
 SetFacility sets Facility field to given value.
 
@@ -188,20 +188,20 @@ HasPort returns a boolean if a field has been set.
 
 ### GetProtocol
 
-`func (o *RemoteSyslogServer) GetProtocol() SyslogServerProtocol`
+`func (o *RemoteSyslogServer) GetProtocol() RemoteSyslogServerProtocol`
 
 GetProtocol returns the Protocol field if non-nil, zero value otherwise.
 
 ### GetProtocolOk
 
-`func (o *RemoteSyslogServer) GetProtocolOk() (*SyslogServerProtocol, bool)`
+`func (o *RemoteSyslogServer) GetProtocolOk() (*RemoteSyslogServerProtocol, bool)`
 
 GetProtocolOk returns a tuple with the Protocol field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetProtocol
 
-`func (o *RemoteSyslogServer) SetProtocol(v SyslogServerProtocol)`
+`func (o *RemoteSyslogServer) SetProtocol(v RemoteSyslogServerProtocol)`
 
 SetProtocol sets Protocol field to given value.
 
@@ -238,20 +238,20 @@ HasRoutingInstance returns a boolean if a field has been set.
 
 ### GetSeverity
 
-`func (o *RemoteSyslogServer) GetSeverity() SyslogServerSeverity`
+`func (o *RemoteSyslogServer) GetSeverity() RemoteSyslogSeverity`
 
 GetSeverity returns the Severity field if non-nil, zero value otherwise.
 
 ### GetSeverityOk
 
-`func (o *RemoteSyslogServer) GetSeverityOk() (*SyslogServerSeverity, bool)`
+`func (o *RemoteSyslogServer) GetSeverityOk() (*RemoteSyslogSeverity, bool)`
 
 GetSeverityOk returns a tuple with the Severity field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetSeverity
 
-`func (o *RemoteSyslogServer) SetSeverity(v SyslogServerSeverity)`
+`func (o *RemoteSyslogServer) SetSeverity(v RemoteSyslogSeverity)`
 
 SetSeverity sets Severity field to given value.
 

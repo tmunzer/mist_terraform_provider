@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `SDKCLIENT_SCAN_DATA` (value: `"sdkclient_scan_data"`)
 
 

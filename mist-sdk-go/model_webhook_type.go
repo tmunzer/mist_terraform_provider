@@ -21,6 +21,7 @@ type WebhookType string
 
 // List of webhook_type
 const (
+	WEBHOOKTYPE_EMPTY WebhookType = ""
 	WEBHOOKTYPE_HTTP_POST WebhookType = "http-post"
 	WEBHOOKTYPE_SPLUNK WebhookType = "splunk"
 	WEBHOOKTYPE_GOOGLE_PUBSUB WebhookType = "google-pubsub"
@@ -30,6 +31,7 @@ const (
 
 // All allowed values of WebhookType enum
 var AllowedWebhookTypeEnumValues = []WebhookType{
+	"",
 	"http-post",
 	"splunk",
 	"google-pubsub",

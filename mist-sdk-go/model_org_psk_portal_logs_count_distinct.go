@@ -21,6 +21,7 @@ type OrgPskPortalLogsCountDistinct string
 
 // List of org_psk_portal_logs_count_distinct
 const (
+	ORGPSKPORTALLOGSCOUNTDISTINCT_EMPTY OrgPskPortalLogsCountDistinct = ""
 	ORGPSKPORTALLOGSCOUNTDISTINCT_ADMIN_ID OrgPskPortalLogsCountDistinct = "admin_id"
 	ORGPSKPORTALLOGSCOUNTDISTINCT_ADMIN_NAME OrgPskPortalLogsCountDistinct = "admin_name"
 	ORGPSKPORTALLOGSCOUNTDISTINCT_PSK_NAME OrgPskPortalLogsCountDistinct = "psk_name"
@@ -31,6 +32,7 @@ const (
 
 // All allowed values of OrgPskPortalLogsCountDistinct enum
 var AllowedOrgPskPortalLogsCountDistinctEnumValues = []OrgPskPortalLogsCountDistinct{
+	"",
 	"admin_id",
 	"admin_name",
 	"psk_name",

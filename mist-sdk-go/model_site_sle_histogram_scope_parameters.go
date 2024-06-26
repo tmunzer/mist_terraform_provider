@@ -21,6 +21,7 @@ type SiteSleHistogramScopeParameters string
 
 // List of site_sle_histogram_scope_parameters
 const (
+	SITESLEHISTOGRAMSCOPEPARAMETERS_EMPTY SiteSleHistogramScopeParameters = ""
 	SITESLEHISTOGRAMSCOPEPARAMETERS_SITE SiteSleHistogramScopeParameters = "site"
 	SITESLEHISTOGRAMSCOPEPARAMETERS_AP SiteSleHistogramScopeParameters = "ap"
 	SITESLEHISTOGRAMSCOPEPARAMETERS_SWITCH SiteSleHistogramScopeParameters = "switch"
@@ -30,6 +31,7 @@ const (
 
 // All allowed values of SiteSleHistogramScopeParameters enum
 var AllowedSiteSleHistogramScopeParametersEnumValues = []SiteSleHistogramScopeParameters{
+	"",
 	"site",
 	"ap",
 	"switch",

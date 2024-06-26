@@ -6,7 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Host** | Pointer to **string** | ip / hostname of RADIUS server | [optional] 
 **KeywrapEnabled** | Pointer to **bool** | if used for Mist APs, enable keywrap algorithm. Default is false | [optional] 
-**KeywrapFormat** | Pointer to [**NullableMxclusterRadAuthServerKeywrapFormat**](MxclusterRadAuthServerKeywrapFormat.md) |  | [optional] 
+**KeywrapFormat** | Pointer to [**NullableMxclusterRadAuthServerKeywrapFormat**](MxclusterRadAuthServerKeywrapFormat.md) |  | [optional] [default to MXCLUSTERRADAUTHSERVERKEYWRAPFORMAT_ASCII]
 **KeywrapKek** | Pointer to **string** | if used for Mist APs, encryption key | [optional] 
 **KeywrapMack** | Pointer to **string** | if used for Mist APs, Message Authentication Code Key | [optional] 
 **Port** | Pointer to **int32** | Auth port of RADIUS server | [optional] [default to 1812]

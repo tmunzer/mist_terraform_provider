@@ -21,6 +21,7 @@ type ApUsbType string
 
 // List of ap_usb_type
 const (
+	APUSBTYPE_EMPTY ApUsbType = ""
 	APUSBTYPE_IMAGOTAG ApUsbType = "imagotag"
 	APUSBTYPE_SOLUM ApUsbType = "solum"
 	APUSBTYPE_HANSHOW ApUsbType = "hanshow"
@@ -28,6 +29,7 @@ const (
 
 // All allowed values of ApUsbType enum
 var AllowedApUsbTypeEnumValues = []ApUsbType{
+	"",
 	"imagotag",
 	"solum",
 	"hanshow",

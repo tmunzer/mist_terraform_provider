@@ -21,12 +21,14 @@ type ConstDeviceApExtiosDefaultDir string
 
 // List of const_device_ap_extios_default_dir
 const (
+	CONSTDEVICEAPEXTIOSDEFAULTDIR_EMPTY ConstDeviceApExtiosDefaultDir = ""
 	CONSTDEVICEAPEXTIOSDEFAULTDIR_IN ConstDeviceApExtiosDefaultDir = "IN"
 	CONSTDEVICEAPEXTIOSDEFAULTDIR_OUT ConstDeviceApExtiosDefaultDir = "OUT"
 )
 
 // All allowed values of ConstDeviceApExtiosDefaultDir enum
 var AllowedConstDeviceApExtiosDefaultDirEnumValues = []ConstDeviceApExtiosDefaultDir{
+	"",
 	"IN",
 	"OUT",
 }

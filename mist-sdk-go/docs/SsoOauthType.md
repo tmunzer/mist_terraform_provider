@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `AZURE` (value: `"azure"`)
 
 * `AZURE_GOV` (value: `"azure-gov"`)

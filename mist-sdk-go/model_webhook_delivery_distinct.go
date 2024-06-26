@@ -21,6 +21,7 @@ type WebhookDeliveryDistinct string
 
 // List of webhook_delivery_distinct
 const (
+	WEBHOOKDELIVERYDISTINCT_EMPTY WebhookDeliveryDistinct = ""
 	WEBHOOKDELIVERYDISTINCT_STATUS WebhookDeliveryDistinct = "status"
 	WEBHOOKDELIVERYDISTINCT_TOPIC WebhookDeliveryDistinct = "topic"
 	WEBHOOKDELIVERYDISTINCT_STATUS_CODE WebhookDeliveryDistinct = "status_code"
@@ -29,6 +30,7 @@ const (
 
 // All allowed values of WebhookDeliveryDistinct enum
 var AllowedWebhookDeliveryDistinctEnumValues = []WebhookDeliveryDistinct{
+	"",
 	"status",
 	"topic",
 	"status_code",

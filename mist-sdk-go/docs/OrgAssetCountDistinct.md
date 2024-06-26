@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `SITE_ID` (value: `"site_id"`)
 
 * `MAC` (value: `"mac"`)

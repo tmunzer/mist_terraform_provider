@@ -21,6 +21,7 @@ type SiteOtherDeviceEventsCountDistinct string
 
 // List of site_other_device_events_count_distinct
 const (
+	SITEOTHERDEVICEEVENTSCOUNTDISTINCT_EMPTY SiteOtherDeviceEventsCountDistinct = ""
 	SITEOTHERDEVICEEVENTSCOUNTDISTINCT_MAC SiteOtherDeviceEventsCountDistinct = "mac"
 	SITEOTHERDEVICEEVENTSCOUNTDISTINCT_TYPE SiteOtherDeviceEventsCountDistinct = "type"
 	SITEOTHERDEVICEEVENTSCOUNTDISTINCT_VENDOR SiteOtherDeviceEventsCountDistinct = "vendor"
@@ -29,6 +30,7 @@ const (
 
 // All allowed values of SiteOtherDeviceEventsCountDistinct enum
 var AllowedSiteOtherDeviceEventsCountDistinctEnumValues = []SiteOtherDeviceEventsCountDistinct{
+	"",
 	"mac",
 	"type",
 	"vendor",

@@ -21,12 +21,14 @@ type GatewayTemplateTunnelProtocol string
 
 // List of gateway_template_tunnel_protocol
 const (
+	GATEWAYTEMPLATETUNNELPROTOCOL_EMPTY GatewayTemplateTunnelProtocol = ""
 	GATEWAYTEMPLATETUNNELPROTOCOL_IPSEC GatewayTemplateTunnelProtocol = "ipsec"
 	GATEWAYTEMPLATETUNNELPROTOCOL_GRE GatewayTemplateTunnelProtocol = "gre"
 )
 
 // All allowed values of GatewayTemplateTunnelProtocol enum
 var AllowedGatewayTemplateTunnelProtocolEnumValues = []GatewayTemplateTunnelProtocol{
+	"",
 	"ipsec",
 	"gre",
 }

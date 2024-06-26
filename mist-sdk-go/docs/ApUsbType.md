@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `IMAGOTAG` (value: `"imagotag"`)
 
 * `SOLUM` (value: `"solum"`)

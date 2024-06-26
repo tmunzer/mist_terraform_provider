@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `ALL` (value: `"all"`)
 
 * `LIMITED` (value: `"limited"`)

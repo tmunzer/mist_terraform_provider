@@ -21,12 +21,14 @@ type ApClientBridgeAuthType string
 
 // List of ap_client_bridge_auth_type
 const (
+	APCLIENTBRIDGEAUTHTYPE_EMPTY ApClientBridgeAuthType = ""
 	APCLIENTBRIDGEAUTHTYPE_OPEN ApClientBridgeAuthType = "open"
 	APCLIENTBRIDGEAUTHTYPE_PSK ApClientBridgeAuthType = "psk"
 )
 
 // All allowed values of ApClientBridgeAuthType enum
 var AllowedApClientBridgeAuthTypeEnumValues = []ApClientBridgeAuthType{
+	"",
 	"open",
 	"psk",
 }

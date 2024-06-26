@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `VERSION` (value: `"version"`)
 
 * `NAME` (value: `"name"`)

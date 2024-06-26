@@ -21,6 +21,7 @@ type SiteSleImpactSummaryFieldsParameter string
 
 // List of site_sle_impact_summary_fields_parameter
 const (
+	SITESLEIMPACTSUMMARYFIELDSPARAMETER_EMPTY SiteSleImpactSummaryFieldsParameter = ""
 	SITESLEIMPACTSUMMARYFIELDSPARAMETER_WLAN SiteSleImpactSummaryFieldsParameter = "wlan"
 	SITESLEIMPACTSUMMARYFIELDSPARAMETER_DEVICE_TYPE SiteSleImpactSummaryFieldsParameter = "device_type"
 	SITESLEIMPACTSUMMARYFIELDSPARAMETER_DEVICE_OS SiteSleImpactSummaryFieldsParameter = "device_os"
@@ -40,6 +41,7 @@ const (
 
 // All allowed values of SiteSleImpactSummaryFieldsParameter enum
 var AllowedSiteSleImpactSummaryFieldsParameterEnumValues = []SiteSleImpactSummaryFieldsParameter{
+	"",
 	"wlan",
 	"device_type",
 	"device_os",

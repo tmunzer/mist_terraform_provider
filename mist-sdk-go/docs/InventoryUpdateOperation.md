@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `ASSIGN` (value: `"assign"`)
 
 * `UNASSIGN` (value: `"unassign"`)

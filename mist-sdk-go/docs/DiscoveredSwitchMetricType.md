@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `INACTIVE_WIRED_VLANS` (value: `"inactive_wired_vlans"`)
 
 * `SWITCH_AP_AFFINITY` (value: `"switch_ap_affinity"`)

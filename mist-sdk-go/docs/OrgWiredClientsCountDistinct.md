@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `PORT_ID` (value: `"port_id"`)
 
 * `VLAN` (value: `"vlan"`)

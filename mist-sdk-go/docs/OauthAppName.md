@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `ZOOM` (value: `"zoom"`)
 
 * `TEAMS` (value: `"teams"`)

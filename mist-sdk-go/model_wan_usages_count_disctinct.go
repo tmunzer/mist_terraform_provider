@@ -21,6 +21,7 @@ type WanUsagesCountDisctinct string
 
 // List of wan_usages_count_disctinct
 const (
+	WANUSAGESCOUNTDISCTINCT_EMPTY WanUsagesCountDisctinct = ""
 	WANUSAGESCOUNTDISCTINCT_MAC WanUsagesCountDisctinct = "mac"
 	WANUSAGESCOUNTDISCTINCT_PEER_MAC WanUsagesCountDisctinct = "peer_mac"
 	WANUSAGESCOUNTDISCTINCT_PORT_ID WanUsagesCountDisctinct = "port_id"
@@ -32,6 +33,7 @@ const (
 
 // All allowed values of WanUsagesCountDisctinct enum
 var AllowedWanUsagesCountDisctinctEnumValues = []WanUsagesCountDisctinct{
+	"",
 	"mac",
 	"peer_mac",
 	"port_id",

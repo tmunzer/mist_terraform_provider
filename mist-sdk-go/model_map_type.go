@@ -21,12 +21,14 @@ type MapType string
 
 // List of map_type
 const (
+	MAPTYPE_EMPTY MapType = ""
 	MAPTYPE_IMAGE MapType = "image"
 	MAPTYPE_GOOGLE MapType = "google"
 )
 
 // All allowed values of MapType enum
 var AllowedMapTypeEnumValues = []MapType{
+	"",
 	"image",
 	"google",
 }

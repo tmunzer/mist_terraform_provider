@@ -21,6 +21,7 @@ type GatewayPortLteAuth string
 
 // List of gateway_port_lte_auth
 const (
+	GATEWAYPORTLTEAUTH_EMPTY GatewayPortLteAuth = ""
 	GATEWAYPORTLTEAUTH_NONE GatewayPortLteAuth = "none"
 	GATEWAYPORTLTEAUTH_CHAP GatewayPortLteAuth = "chap"
 	GATEWAYPORTLTEAUTH_PAP GatewayPortLteAuth = "pap"
@@ -28,6 +29,7 @@ const (
 
 // All allowed values of GatewayPortLteAuth enum
 var AllowedGatewayPortLteAuthEnumValues = []GatewayPortLteAuth{
+	"",
 	"none",
 	"chap",
 	"pap",

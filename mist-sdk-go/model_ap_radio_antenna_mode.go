@@ -21,6 +21,7 @@ type ApRadioAntennaMode string
 
 // List of ap_radio_antenna_mode
 const (
+	APRADIOANTENNAMODE_EMPTY ApRadioAntennaMode = ""
 	APRADIOANTENNAMODE_DEFAULT ApRadioAntennaMode = "default"
 	APRADIOANTENNAMODE__1X1 ApRadioAntennaMode = "1x1"
 	APRADIOANTENNAMODE__2X2 ApRadioAntennaMode = "2x2"
@@ -30,6 +31,7 @@ const (
 
 // All allowed values of ApRadioAntennaMode enum
 var AllowedApRadioAntennaModeEnumValues = []ApRadioAntennaMode{
+	"",
 	"default",
 	"1x1",
 	"2x2",

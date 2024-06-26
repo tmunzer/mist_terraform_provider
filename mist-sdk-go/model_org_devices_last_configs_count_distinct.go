@@ -21,6 +21,7 @@ type OrgDevicesLastConfigsCountDistinct string
 
 // List of org_devices_last_configs_count_distinct
 const (
+	ORGDEVICESLASTCONFIGSCOUNTDISTINCT_EMPTY OrgDevicesLastConfigsCountDistinct = ""
 	ORGDEVICESLASTCONFIGSCOUNTDISTINCT_MAC OrgDevicesLastConfigsCountDistinct = "mac"
 	ORGDEVICESLASTCONFIGSCOUNTDISTINCT_VERSION OrgDevicesLastConfigsCountDistinct = "version"
 	ORGDEVICESLASTCONFIGSCOUNTDISTINCT_NAME OrgDevicesLastConfigsCountDistinct = "name"
@@ -29,6 +30,7 @@ const (
 
 // All allowed values of OrgDevicesLastConfigsCountDistinct enum
 var AllowedOrgDevicesLastConfigsCountDistinctEnumValues = []OrgDevicesLastConfigsCountDistinct{
+	"",
 	"mac",
 	"version",
 	"name",

@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `NEW_ASSOC` (value: `"new_assoc"`)
 
 * `CLIENT` (value: `"client"`)

@@ -21,6 +21,7 @@ type TunternMonitoringProtocol string
 
 // List of tuntern_monitoring_protocol
 const (
+	TUNTERNMONITORINGPROTOCOL_EMPTY TunternMonitoringProtocol = ""
 	TUNTERNMONITORINGPROTOCOL_ARP TunternMonitoringProtocol = "arp"
 	TUNTERNMONITORINGPROTOCOL_PING TunternMonitoringProtocol = "ping"
 	TUNTERNMONITORINGPROTOCOL_TCP TunternMonitoringProtocol = "tcp"
@@ -28,6 +29,7 @@ const (
 
 // All allowed values of TunternMonitoringProtocol enum
 var AllowedTunternMonitoringProtocolEnumValues = []TunternMonitoringProtocol{
+	"",
 	"arp",
 	"ping",
 	"tcp",

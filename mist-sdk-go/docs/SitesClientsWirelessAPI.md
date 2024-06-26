@@ -40,13 +40,13 @@ import (
 
 func main() {
 	siteId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	distinct := openapiclient.site_client_events_count_distinct("type") // SiteClientEventsCountDistinct |  (optional)
+	distinct := openapiclient.site_client_events_count_distinct("") // SiteClientEventsCountDistinct |  (optional)
 	type_ := "type__example" // string | see [listDeviceEventsDefinitions]($e/Constants%20Events/listDeviceEventsDefinitions) (optional)
 	reasonCode := int32(56) // int32 | for assoc/disassoc events (optional)
 	ssid := "ssid_example" // string | SSID Name (optional)
 	ap := "ap_example" // string | AP MAC (optional)
-	proto := openapiclient.dot11_proto("a") // Dot11Proto | a / b / g / n / ac / ax (optional)
-	band := openapiclient.dot11_band("24") // Dot11Band | 802.11 Band (optional)
+	proto := openapiclient.dot11_proto("") // Dot11Proto | a / b / g / n / ac / ax (optional)
+	band := openapiclient.dot11_band("") // Dot11Band | 802.11 Band (optional)
 	wlanId := "wlanId_example" // string | wlan_id (optional)
 	limit := int32(56) // int32 |  (optional) (default to 100)
 	start := int32(56) // int32 | start datetime, can be epoch or relative time like -1d, -1w; -1d if not specified (optional)
@@ -134,9 +134,9 @@ import (
 
 func main() {
 	siteId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	distinct := openapiclient.site_client_sessions_count_distinct("ssid") // SiteClientSessionsCountDistinct |  (optional) (default to "mac")
+	distinct := openapiclient.site_client_sessions_count_distinct("") // SiteClientSessionsCountDistinct |  (optional) (default to "mac")
 	ap := "ap_example" // string | AP MAC (optional)
-	band := openapiclient.dot11_band("24") // Dot11Band | 802.11 Band (optional)
+	band := openapiclient.dot11_band("") // Dot11Band | 802.11 Band (optional)
 	clientFamily := "clientFamily_example" // string | E.g. “Mac”, “iPhone”, “Apple watch” (optional)
 	clientManufacture := "clientManufacture_example" // string | E.g. “Apple” (optional)
 	clientModel := "clientModel_example" // string | E.g. “8+”, “XS” (optional)
@@ -232,7 +232,7 @@ import (
 
 func main() {
 	siteId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	distinct := openapiclient.site_clients_count_distinct("ssid") // SiteClientsCountDistinct |  (optional) (default to "device")
+	distinct := openapiclient.site_clients_count_distinct("") // SiteClientsCountDistinct |  (optional) (default to "device")
 	ssid := "ssid_example" // string |  (optional)
 	ap := "ap_example" // string |  (optional)
 	ipAddress := "192.168.1.1" // string |  (optional)
@@ -332,8 +332,8 @@ func main() {
 	siteId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
 	clientMac := "0000000000ab" // string | 
 	type_ := "type__example" // string | e.g. MARVIS_EVENT_CLIENT_DHCP_STUCK (optional)
-	proto := openapiclient.dot11_proto("a") // Dot11Proto | a / b / g / n / ac / ax (optional)
-	band := openapiclient.dot11_band("24") // Dot11Band | 802.11 Band (optional)
+	proto := openapiclient.dot11_proto("") // Dot11Proto | a / b / g / n / ac / ax (optional)
+	band := openapiclient.dot11_band("") // Dot11Band | 802.11 Band (optional)
 	channel := "channel_example" // string |  (optional)
 	wlanId := "wlanId_example" // string |  (optional)
 	ssid := "ssid_example" // string |  (optional)
@@ -740,8 +740,8 @@ func main() {
 	reasonCode := int32(56) // int32 | for assoc/disassoc events (optional)
 	ssid := "ssid_example" // string | SSID Name (optional)
 	ap := "ap_example" // string | AP MAC (optional)
-	proto := openapiclient.dot11_proto("a") // Dot11Proto | a / b / g / n / ac / ax (optional)
-	band := openapiclient.dot11_band("24") // Dot11Band | 802.11 Band (optional)
+	proto := openapiclient.dot11_proto("") // Dot11Proto | a / b / g / n / ac / ax (optional)
+	band := openapiclient.dot11_band("") // Dot11Band | 802.11 Band (optional)
 	wlanId := "wlanId_example" // string | wlan_id (optional)
 	nacruleId := "nacruleId_example" // string | nacrule_id (optional)
 	limit := int32(56) // int32 |  (optional) (default to 100)
@@ -831,7 +831,7 @@ import (
 func main() {
 	siteId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
 	ap := "ap_example" // string | AP MAC (optional)
-	band := openapiclient.dot11_band("24") // Dot11Band | 802.11 Band (optional)
+	band := openapiclient.dot11_band("") // Dot11Band | 802.11 Band (optional)
 	clientFamily := "clientFamily_example" // string | E.g. “Mac”, “iPhone”, “Apple watch” (optional)
 	clientManufacture := "clientManufacture_example" // string | E.g. “Apple” (optional)
 	clientModel := "clientModel_example" // string | E.g. “8+”, “XS” (optional)

@@ -21,12 +21,14 @@ type MxclusterRadsecServerSelection string
 
 // List of mxcluster_radsec_server_selection
 const (
+	MXCLUSTERRADSECSERVERSELECTION_EMPTY MxclusterRadsecServerSelection = ""
 	MXCLUSTERRADSECSERVERSELECTION_ORDERED MxclusterRadsecServerSelection = "ordered"
 	MXCLUSTERRADSECSERVERSELECTION_UNORDERED MxclusterRadsecServerSelection = "unordered"
 )
 
 // All allowed values of MxclusterRadsecServerSelection enum
 var AllowedMxclusterRadsecServerSelectionEnumValues = []MxclusterRadsecServerSelection{
+	"",
 	"ordered",
 	"unordered",
 }

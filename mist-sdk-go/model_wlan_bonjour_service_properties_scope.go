@@ -21,13 +21,15 @@ type WlanBonjourServicePropertiesScope string
 
 // List of wlan_bonjour_service_properties_scope
 const (
-	WLANBONJOURSERVICEPROPERTIESSCOPE_SITE WlanBonjourServicePropertiesScope = "same_site"
-	WLANBONJOURSERVICEPROPERTIESSCOPE_MAP WlanBonjourServicePropertiesScope = "same_map"
-	WLANBONJOURSERVICEPROPERTIESSCOPE_AP WlanBonjourServicePropertiesScope = "same_ap"
+	WLANBONJOURSERVICEPROPERTIESSCOPE_EMPTY WlanBonjourServicePropertiesScope = ""
+	WLANBONJOURSERVICEPROPERTIESSCOPE_SAME_SITE WlanBonjourServicePropertiesScope = "same_site"
+	WLANBONJOURSERVICEPROPERTIESSCOPE_SAME_MAP WlanBonjourServicePropertiesScope = "same_map"
+	WLANBONJOURSERVICEPROPERTIESSCOPE_SAME_AP WlanBonjourServicePropertiesScope = "same_ap"
 )
 
 // All allowed values of WlanBonjourServicePropertiesScope enum
 var AllowedWlanBonjourServicePropertiesScopeEnumValues = []WlanBonjourServicePropertiesScope{
+	"",
 	"same_site",
 	"same_map",
 	"same_ap",

@@ -177,7 +177,7 @@ import (
 func main() {
 	siteId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
 	deviceId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	gatewayClusterSwap := *openapiclient.NewGatewayClusterSwap(openapiclient.gateway_cluster_swap_op("swap")) // GatewayClusterSwap |  (optional)
+	gatewayClusterSwap := *openapiclient.NewGatewayClusterSwap(openapiclient.gateway_cluster_swap_op("")) // GatewayClusterSwap |  (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)

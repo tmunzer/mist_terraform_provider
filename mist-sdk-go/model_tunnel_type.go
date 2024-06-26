@@ -21,12 +21,14 @@ type TunnelType string
 
 // List of tunnel_type
 const (
+	TUNNELTYPE_EMPTY TunnelType = ""
 	TUNNELTYPE_WXTUNNEL TunnelType = "wxtunnel"
 	TUNNELTYPE_WAN TunnelType = "wan"
 )
 
 // All allowed values of TunnelType enum
 var AllowedTunnelTypeEnumValues = []TunnelType{
+	"",
 	"wxtunnel",
 	"wan",
 }

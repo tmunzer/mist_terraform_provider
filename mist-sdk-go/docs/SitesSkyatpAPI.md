@@ -31,7 +31,7 @@ import (
 
 func main() {
 	siteId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	distinct := openapiclient.site_sky_atp_events_count_distinct("type") // SiteSkyAtpEventsCountDistinct |  (optional) (default to "type")
+	distinct := openapiclient.site_sky_atp_events_count_distinct("") // SiteSkyAtpEventsCountDistinct |  (optional) (default to "type")
 	type_ := "type__example" // string | event type, e.g. cc, fs, mw (optional)
 	mac := "mac_example" // string | client MAC (optional)
 	deviceMac := "deviceMac_example" // string | device MAC (optional)

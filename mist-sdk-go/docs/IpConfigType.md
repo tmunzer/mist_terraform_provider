@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `STATIC` (value: `"static"`)
 
 * `DYNAMIC` (value: `"dynamic"`)

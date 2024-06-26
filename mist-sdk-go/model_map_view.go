@@ -21,6 +21,7 @@ type MapView string
 
 // List of map_view
 const (
+	MAPVIEW_EMPTY MapView = ""
 	MAPVIEW_ROADMAP MapView = "roadmap"
 	MAPVIEW_SATELLITE MapView = "satellite"
 	MAPVIEW_HYBRID MapView = "hybrid"
@@ -29,6 +30,7 @@ const (
 
 // All allowed values of MapView enum
 var AllowedMapViewEnumValues = []MapView{
+	"",
 	"roadmap",
 	"satellite",
 	"hybrid",

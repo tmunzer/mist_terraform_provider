@@ -21,6 +21,7 @@ type PrivilegeMspScope string
 
 // List of privilege_msp_scope
 const (
+	PRIVILEGEMSPSCOPE_EMPTY PrivilegeMspScope = ""
 	PRIVILEGEMSPSCOPE_ORG PrivilegeMspScope = "org"
 	PRIVILEGEMSPSCOPE_MSP PrivilegeMspScope = "msp"
 	PRIVILEGEMSPSCOPE_ORGGROUP PrivilegeMspScope = "orggroup"
@@ -28,6 +29,7 @@ const (
 
 // All allowed values of PrivilegeMspScope enum
 var AllowedPrivilegeMspScopeEnumValues = []PrivilegeMspScope{
+	"",
 	"org",
 	"msp",
 	"orggroup",

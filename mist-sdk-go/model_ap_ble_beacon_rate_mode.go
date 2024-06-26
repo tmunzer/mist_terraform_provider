@@ -21,12 +21,14 @@ type ApBleBeaconRateMode string
 
 // List of ap_ble_beacon_rate_mode
 const (
+	APBLEBEACONRATEMODE_EMPTY ApBleBeaconRateMode = ""
 	APBLEBEACONRATEMODE_DEFAULT ApBleBeaconRateMode = "default"
 	APBLEBEACONRATEMODE_CUSTOM ApBleBeaconRateMode = "custom"
 )
 
 // All allowed values of ApBleBeaconRateMode enum
 var AllowedApBleBeaconRateModeEnumValues = []ApBleBeaconRateMode{
+	"",
 	"default",
 	"custom",
 }

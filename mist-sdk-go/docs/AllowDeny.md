@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `ALLOW` (value: `"allow"`)
 
 * `DENY` (value: `"deny"`)

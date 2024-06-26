@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `IDP` (value: `"idp"`)
 
 * `MAB` (value: `"mab"`)

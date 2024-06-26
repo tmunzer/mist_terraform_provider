@@ -21,6 +21,7 @@ type PskUsage string
 
 // List of psk_usage
 const (
+	PSKUSAGE_EMPTY PskUsage = ""
 	PSKUSAGE_MULTI PskUsage = "multi"
 	PSKUSAGE_SINGLE PskUsage = "single"
 	PSKUSAGE_MACS PskUsage = "macs"
@@ -28,6 +29,7 @@ const (
 
 // All allowed values of PskUsage enum
 var AllowedPskUsageEnumValues = []PskUsage{
+	"",
 	"multi",
 	"single",
 	"macs",

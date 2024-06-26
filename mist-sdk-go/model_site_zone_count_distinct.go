@@ -21,6 +21,7 @@ type SiteZoneCountDistinct string
 
 // List of site_zone_count_distinct
 const (
+	SITEZONECOUNTDISTINCT_EMPTY SiteZoneCountDistinct = ""
 	SITEZONECOUNTDISTINCT_USER_TYPE SiteZoneCountDistinct = "user_type"
 	SITEZONECOUNTDISTINCT_USER SiteZoneCountDistinct = "user"
 	SITEZONECOUNTDISTINCT_SCOPE_ID SiteZoneCountDistinct = "scope_id"
@@ -29,6 +30,7 @@ const (
 
 // All allowed values of SiteZoneCountDistinct enum
 var AllowedSiteZoneCountDistinctEnumValues = []SiteZoneCountDistinct{
+	"",
 	"user_type",
 	"user",
 	"scope_id",

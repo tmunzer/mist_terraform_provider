@@ -21,11 +21,13 @@ type WebhookSdkclientScanDataTopic string
 
 // List of webhook_sdkclient_scan_data_topic
 const (
+	WEBHOOKSDKCLIENTSCANDATATOPIC_EMPTY WebhookSdkclientScanDataTopic = ""
 	WEBHOOKSDKCLIENTSCANDATATOPIC_SDKCLIENT_SCAN_DATA WebhookSdkclientScanDataTopic = "sdkclient_scan_data"
 )
 
 // All allowed values of WebhookSdkclientScanDataTopic enum
 var AllowedWebhookSdkclientScanDataTopicEnumValues = []WebhookSdkclientScanDataTopic{
+	"",
 	"sdkclient_scan_data",
 }
 

@@ -21,12 +21,14 @@ type MxtunnelProtocol string
 
 // List of mxtunnel_protocol
 const (
+	MXTUNNELPROTOCOL_EMPTY MxtunnelProtocol = ""
 	MXTUNNELPROTOCOL_UDP MxtunnelProtocol = "udp"
 	MXTUNNELPROTOCOL_IP MxtunnelProtocol = "ip"
 )
 
 // All allowed values of MxtunnelProtocol enum
 var AllowedMxtunnelProtocolEnumValues = []MxtunnelProtocol{
+	"",
 	"udp",
 	"ip",
 }

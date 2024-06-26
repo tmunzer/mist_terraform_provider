@@ -21,6 +21,7 @@ type OrgWanClientsEventsCountDistinct string
 
 // List of org_wan_clients_events_count_distinct
 const (
+	ORGWANCLIENTSEVENTSCOUNTDISTINCT_EMPTY OrgWanClientsEventsCountDistinct = ""
 	ORGWANCLIENTSEVENTSCOUNTDISTINCT_TYPE OrgWanClientsEventsCountDistinct = "type"
 	ORGWANCLIENTSEVENTSCOUNTDISTINCT_HOSTNAME OrgWanClientsEventsCountDistinct = "hostname"
 	ORGWANCLIENTSEVENTSCOUNTDISTINCT_IP OrgWanClientsEventsCountDistinct = "ip"
@@ -30,6 +31,7 @@ const (
 
 // All allowed values of OrgWanClientsEventsCountDistinct enum
 var AllowedOrgWanClientsEventsCountDistinctEnumValues = []OrgWanClientsEventsCountDistinct{
+	"",
 	"type",
 	"hostname",
 	"ip",

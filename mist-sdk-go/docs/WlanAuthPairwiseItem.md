@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `WPA1_CCMP` (value: `"wpa1-ccmp"`)
 
 * `WPA2_TKIP` (value: `"wpa2-tkip"`)

@@ -21,6 +21,7 @@ type OrgAutoRulesMatchDeviceType string
 
 // List of org_auto_rules_match_device_type
 const (
+	ORGAUTORULESMATCHDEVICETYPE_EMPTY OrgAutoRulesMatchDeviceType = ""
 	ORGAUTORULESMATCHDEVICETYPE_AP OrgAutoRulesMatchDeviceType = "ap"
 	ORGAUTORULESMATCHDEVICETYPE_SWITCH OrgAutoRulesMatchDeviceType = "switch"
 	ORGAUTORULESMATCHDEVICETYPE_GATEWAY OrgAutoRulesMatchDeviceType = "gateway"
@@ -29,6 +30,7 @@ const (
 
 // All allowed values of OrgAutoRulesMatchDeviceType enum
 var AllowedOrgAutoRulesMatchDeviceTypeEnumValues = []OrgAutoRulesMatchDeviceType{
+	"",
 	"ap",
 	"switch",
 	"gateway",

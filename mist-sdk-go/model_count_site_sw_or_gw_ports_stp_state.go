@@ -21,6 +21,7 @@ type CountSiteSwOrGwPortsStpState string
 
 // List of count_site_sw_or_gw_ports_stp_state
 const (
+	COUNTSITESWORGWPORTSSTPSTATE_EMPTY CountSiteSwOrGwPortsStpState = ""
 	COUNTSITESWORGWPORTSSTPSTATE_FORWARDING CountSiteSwOrGwPortsStpState = "forwarding"
 	COUNTSITESWORGWPORTSSTPSTATE_BLOCKING CountSiteSwOrGwPortsStpState = "blocking"
 	COUNTSITESWORGWPORTSSTPSTATE_LEARNING CountSiteSwOrGwPortsStpState = "learning"
@@ -30,6 +31,7 @@ const (
 
 // All allowed values of CountSiteSwOrGwPortsStpState enum
 var AllowedCountSiteSwOrGwPortsStpStateEnumValues = []CountSiteSwOrGwPortsStpState{
+	"",
 	"forwarding",
 	"blocking",
 	"learning",

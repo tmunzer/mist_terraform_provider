@@ -21,6 +21,7 @@ type PrivilegeSelfRole string
 
 // List of privilege_self_role
 const (
+	PRIVILEGESELFROLE_EMPTY PrivilegeSelfRole = ""
 	PRIVILEGESELFROLE_ADMIN PrivilegeSelfRole = "admin"
 	PRIVILEGESELFROLE_WRITE PrivilegeSelfRole = "write"
 	PRIVILEGESELFROLE_READ PrivilegeSelfRole = "read"
@@ -30,6 +31,7 @@ const (
 
 // All allowed values of PrivilegeSelfRole enum
 var AllowedPrivilegeSelfRoleEnumValues = []PrivilegeSelfRole{
+	"",
 	"admin",
 	"write",
 	"read",

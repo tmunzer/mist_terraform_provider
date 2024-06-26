@@ -21,6 +21,7 @@ type SwitchPortStatsType string
 
 // List of switch_port_stats_type
 const (
+	SWITCHPORTSTATSTYPE_EMPTY SwitchPortStatsType = ""
 	SWITCHPORTSTATSTYPE_AP SwitchPortStatsType = "ap"
 	SWITCHPORTSTATSTYPE_BLE SwitchPortStatsType = "ble"
 	SWITCHPORTSTATSTYPE_SWITCH SwitchPortStatsType = "switch"
@@ -31,6 +32,7 @@ const (
 
 // All allowed values of SwitchPortStatsType enum
 var AllowedSwitchPortStatsTypeEnumValues = []SwitchPortStatsType{
+	"",
 	"ap",
 	"ble",
 	"switch",

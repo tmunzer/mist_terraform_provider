@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `SUCCESS` (value: `"success"`)
 
 * `FAILURE` (value: `"failure"`)

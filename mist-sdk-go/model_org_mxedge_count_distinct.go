@@ -21,6 +21,7 @@ type OrgMxedgeCountDistinct string
 
 // List of org_mxedge_count_distinct
 const (
+	ORGMXEDGECOUNTDISTINCT_EMPTY OrgMxedgeCountDistinct = ""
 	ORGMXEDGECOUNTDISTINCT_MODEL OrgMxedgeCountDistinct = "model"
 	ORGMXEDGECOUNTDISTINCT_MXCLUSTER_ID OrgMxedgeCountDistinct = "mxcluster_id"
 	ORGMXEDGECOUNTDISTINCT_DISTRO OrgMxedgeCountDistinct = "distro"
@@ -30,6 +31,7 @@ const (
 
 // All allowed values of OrgMxedgeCountDistinct enum
 var AllowedOrgMxedgeCountDistinctEnumValues = []OrgMxedgeCountDistinct{
+	"",
 	"model",
 	"mxcluster_id",
 	"distro",

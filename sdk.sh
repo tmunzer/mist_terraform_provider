@@ -8,3 +8,6 @@ openapi-generator generate \
     --additional-properties=enumClassPrefix=true \
     --git-repo-id mistsdkgo \
     --git-user-id tmunzer
+
+
+cp ./model_const_device_ap.go ./mist-sdk-go/

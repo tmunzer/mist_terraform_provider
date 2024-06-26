@@ -103,8 +103,8 @@ import (
 
 func main() {
 	siteId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	type_ := openapiclient.switch_metric_type("active_ports_summary") // SwitchMetricType |  (optional)
-	scope := openapiclient.switch_metric_scope("site") // SwitchMetricScope |  (optional)
+	type_ := openapiclient.switch_metric_type("") // SwitchMetricType |  (optional)
+	scope := openapiclient.switch_metric_scope("") // SwitchMetricScope |  (optional)
 	switchMac := "switchMac_example" // string | switch mac, used only with metric `type`==`active_ports_summary` (optional)
 
 	configuration := openapiclient.NewConfiguration()

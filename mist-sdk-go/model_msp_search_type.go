@@ -21,11 +21,13 @@ type MspSearchType string
 
 // List of msp_search_type
 const (
+	MSPSEARCHTYPE_EMPTY MspSearchType = ""
 	MSPSEARCHTYPE_ORGS MspSearchType = "orgs"
 )
 
 // All allowed values of MspSearchType enum
 var AllowedMspSearchTypeEnumValues = []MspSearchType{
+	"",
 	"orgs",
 }
 

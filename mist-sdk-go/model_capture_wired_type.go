@@ -21,11 +21,13 @@ type CaptureWiredType string
 
 // List of capture_wired_type
 const (
+	CAPTUREWIREDTYPE_EMPTY CaptureWiredType = ""
 	CAPTUREWIREDTYPE_WIRED CaptureWiredType = "wired"
 )
 
 // All allowed values of CaptureWiredType enum
 var AllowedCaptureWiredTypeEnumValues = []CaptureWiredType{
+	"",
 	"wired",
 }
 

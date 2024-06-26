@@ -21,12 +21,14 @@ type MspOrgChangeOperation string
 
 // List of msp_org_change_operation
 const (
+	MSPORGCHANGEOPERATION_EMPTY MspOrgChangeOperation = ""
 	MSPORGCHANGEOPERATION_ASSIGN MspOrgChangeOperation = "assign"
 	MSPORGCHANGEOPERATION_UNASSIGN MspOrgChangeOperation = "unassign"
 )
 
 // All allowed values of MspOrgChangeOperation enum
 var AllowedMspOrgChangeOperationEnumValues = []MspOrgChangeOperation{
+	"",
 	"assign",
 	"unassign",
 }

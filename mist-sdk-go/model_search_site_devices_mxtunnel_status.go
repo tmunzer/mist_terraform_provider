@@ -21,12 +21,14 @@ type SearchSiteDevicesMxtunnelStatus string
 
 // List of search_site_devices_mxtunnel_status
 const (
+	SEARCHSITEDEVICESMXTUNNELSTATUS_EMPTY SearchSiteDevicesMxtunnelStatus = ""
 	SEARCHSITEDEVICESMXTUNNELSTATUS_UP SearchSiteDevicesMxtunnelStatus = "up"
 	SEARCHSITEDEVICESMXTUNNELSTATUS_DOWN SearchSiteDevicesMxtunnelStatus = "down"
 )
 
 // All allowed values of SearchSiteDevicesMxtunnelStatus enum
 var AllowedSearchSiteDevicesMxtunnelStatusEnumValues = []SearchSiteDevicesMxtunnelStatus{
+	"",
 	"up",
 	"down",
 }

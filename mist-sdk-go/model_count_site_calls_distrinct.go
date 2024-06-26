@@ -21,11 +21,13 @@ type CountSiteCallsDistrinct string
 
 // List of count_site_calls_distrinct
 const (
+	COUNTSITECALLSDISTRINCT_EMPTY CountSiteCallsDistrinct = ""
 	COUNTSITECALLSDISTRINCT_MAC CountSiteCallsDistrinct = "mac"
 )
 
 // All allowed values of CountSiteCallsDistrinct enum
 var AllowedCountSiteCallsDistrinctEnumValues = []CountSiteCallsDistrinct{
+	"",
 	"mac",
 }
 

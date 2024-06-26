@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `PLACED` (value: `"placed"`)
 
 * `ASSIGNED_PLACED` (value: `"assigned-placed"`)

@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `MANUAL` (value: `"manual"`)
 
 * `TWILIO` (value: `"twilio"`)

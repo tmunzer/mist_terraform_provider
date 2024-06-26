@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `LOCAL` (value: `"local"`)
 
 * `RELAY` (value: `"relay"`)

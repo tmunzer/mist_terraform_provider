@@ -21,6 +21,7 @@ type ApEslType string
 
 // List of ap_esl_type
 const (
+	APESLTYPE_EMPTY ApEslType = ""
 	APESLTYPE_IMAGOTAG ApEslType = "imagotag"
 	APESLTYPE_HANSHOW ApEslType = "hanshow"
 	APESLTYPE_SOLUM ApEslType = "solum"
@@ -29,6 +30,7 @@ const (
 
 // All allowed values of ApEslType enum
 var AllowedApEslTypeEnumValues = []ApEslType{
+	"",
 	"imagotag",
 	"hanshow",
 	"solum",

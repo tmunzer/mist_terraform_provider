@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `AUTH_ALGO` (value: `"auth_algo"`)
 
 * `WXTUNNEL_ID` (value: `"wxtunnel_id"`)

@@ -1,7 +1,9 @@
-# SyslogServerSeverity
+# RemoteSyslogSeverity
 
 ## Enum
 
+
+* `EMPTY` (value: `""`)
 
 * `ANY` (value: `"any"`)
 

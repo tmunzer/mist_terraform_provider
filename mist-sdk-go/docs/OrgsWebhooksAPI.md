@@ -40,9 +40,9 @@ func main() {
 	webhookId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
 	error_ := "error__example" // string |  (optional)
 	statusCode := int32(56) // int32 |  (optional)
-	status := openapiclient.webhook_delivery_status("success") // WebhookDeliveryStatus | webhook delivery status (optional)
-	topic := openapiclient.webhook_delivery_topic("alarms") // WebhookDeliveryTopic | webhook topic (optional)
-	distinct := openapiclient.webhook_delivery_distinct("status") // WebhookDeliveryDistinct |  (optional)
+	status := openapiclient.webhook_delivery_status("") // WebhookDeliveryStatus | webhook delivery status (optional)
+	topic := openapiclient.webhook_delivery_topic("") // WebhookDeliveryTopic | webhook topic (optional)
+	distinct := openapiclient.webhook_delivery_distinct("") // WebhookDeliveryDistinct |  (optional)
 	start := int32(56) // int32 | start datetime, can be epoch or relative time like -1d, -1w; -1d if not specified (optional)
 	end := int32(56) // int32 | end datetime, can be epoch or relative time like -1d, -2h; now if not specified (optional)
 	duration := "10m" // string | duration like 7d, 2w (optional) (default to "1d")
@@ -492,8 +492,8 @@ func main() {
 	webhookId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
 	error_ := "error__example" // string |  (optional)
 	statusCode := int32(56) // int32 |  (optional)
-	status := openapiclient.webhook_delivery_status("success") // WebhookDeliveryStatus | webhook delivery status (optional)
-	topic := openapiclient.webhook_delivery_topic("alarms") // WebhookDeliveryTopic | webhook topic (optional)
+	status := openapiclient.webhook_delivery_status("") // WebhookDeliveryStatus | webhook delivery status (optional)
+	topic := openapiclient.webhook_delivery_topic("") // WebhookDeliveryTopic | webhook topic (optional)
 	start := int32(56) // int32 | start datetime, can be epoch or relative time like -1d, -1w; -1d if not specified (optional)
 	end := int32(56) // int32 | end datetime, can be epoch or relative time like -1d, -2h; now if not specified (optional)
 	duration := "10m" // string | duration like 7d, 2w (optional) (default to "1d")

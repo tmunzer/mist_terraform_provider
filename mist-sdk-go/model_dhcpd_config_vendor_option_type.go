@@ -21,6 +21,7 @@ type DhcpdConfigVendorOptionType string
 
 // List of dhcpd_config_vendor_option_type
 const (
+	DHCPDCONFIGVENDOROPTIONTYPE_EMPTY DhcpdConfigVendorOptionType = ""
 	DHCPDCONFIGVENDOROPTIONTYPE_STRING DhcpdConfigVendorOptionType = "string"
 	DHCPDCONFIGVENDOROPTIONTYPE_BOOLEAN DhcpdConfigVendorOptionType = "boolean"
 	DHCPDCONFIGVENDOROPTIONTYPE_IP DhcpdConfigVendorOptionType = "ip"
@@ -33,6 +34,7 @@ const (
 
 // All allowed values of DhcpdConfigVendorOptionType enum
 var AllowedDhcpdConfigVendorOptionTypeEnumValues = []DhcpdConfigVendorOptionType{
+	"",
 	"string",
 	"boolean",
 	"ip",

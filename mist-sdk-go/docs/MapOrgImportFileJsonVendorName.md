@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `EKAHAU` (value: `"ekahau"`)
 
 * `IBWAVE` (value: `"ibwave"`)

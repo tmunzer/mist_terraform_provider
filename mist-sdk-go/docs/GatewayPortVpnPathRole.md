@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `SPOKE` (value: `"spoke"`)
 
 * `HUB` (value: `"hub"`)

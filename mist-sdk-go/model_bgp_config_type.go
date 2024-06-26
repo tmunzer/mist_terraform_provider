@@ -21,12 +21,14 @@ type BgpConfigType string
 
 // List of bgp_config_type
 const (
+	BGPCONFIGTYPE_EMPTY BgpConfigType = ""
 	BGPCONFIGTYPE_INTERNAL BgpConfigType = "internal"
 	BGPCONFIGTYPE_EXTERNAL BgpConfigType = "external"
 )
 
 // All allowed values of BgpConfigType enum
 var AllowedBgpConfigTypeEnumValues = []BgpConfigType{
+	"",
 	"internal",
 	"external",
 }

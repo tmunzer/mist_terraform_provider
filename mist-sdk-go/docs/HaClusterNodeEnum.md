@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `NODE0` (value: `"node0"`)
 
 * `NODE1` (value: `"node1"`)

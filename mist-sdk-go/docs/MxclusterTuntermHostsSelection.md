@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `SHUFFLE` (value: `"shuffle"`)
 
 * `SHUFFLE_BY_SITE` (value: `"shuffle-by-site"`)

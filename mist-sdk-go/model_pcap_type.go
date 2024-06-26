@@ -21,6 +21,7 @@ type PcapType string
 
 // List of pcap_type
 const (
+	PCAPTYPE_EMPTY PcapType = ""
 	PCAPTYPE_NEW_ASSOC PcapType = "new_assoc"
 	PCAPTYPE_CLIENT PcapType = "client"
 	PCAPTYPE_WIRED PcapType = "wired"
@@ -32,6 +33,7 @@ const (
 
 // All allowed values of PcapType enum
 var AllowedPcapTypeEnumValues = []PcapType{
+	"",
 	"new_assoc",
 	"client",
 	"wired",

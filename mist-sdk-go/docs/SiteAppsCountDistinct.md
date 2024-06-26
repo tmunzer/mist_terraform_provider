@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `AP` (value: `"ap"`)
 
 * `WCID` (value: `"wcid"`)

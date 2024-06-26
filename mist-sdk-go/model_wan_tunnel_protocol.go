@@ -21,12 +21,14 @@ type WanTunnelProtocol string
 
 // List of wan_tunnel_protocol
 const (
+	WANTUNNELPROTOCOL_EMPTY WanTunnelProtocol = ""
 	WANTUNNELPROTOCOL_IPSEC WanTunnelProtocol = "ipsec"
 	WANTUNNELPROTOCOL_GRE WanTunnelProtocol = "gre"
 )
 
 // All allowed values of WanTunnelProtocol enum
 var AllowedWanTunnelProtocolEnumValues = []WanTunnelProtocol{
+	"",
 	"ipsec",
 	"gre",
 }

@@ -21,6 +21,7 @@ type TicketStatus string
 
 // List of ticket_status
 const (
+	TICKETSTATUS_EMPTY TicketStatus = ""
 	TICKETSTATUS_OPEN TicketStatus = "open"
 	TICKETSTATUS_PENDING TicketStatus = "pending"
 	TICKETSTATUS_SOLVED TicketStatus = "solved"
@@ -29,6 +30,7 @@ const (
 
 // All allowed values of TicketStatus enum
 var AllowedTicketStatusEnumValues = []TicketStatus{
+	"",
 	"open",
 	"pending",
 	"solved",

@@ -21,6 +21,7 @@ type EvpnOptionsRoutedAt string
 
 // List of evpn_options_routed_at
 const (
+	EVPNOPTIONSROUTEDAT_EMPTY EvpnOptionsRoutedAt = ""
 	EVPNOPTIONSROUTEDAT_EDGE EvpnOptionsRoutedAt = "edge"
 	EVPNOPTIONSROUTEDAT_CORE EvpnOptionsRoutedAt = "core"
 	EVPNOPTIONSROUTEDAT_DISTRIBUTION EvpnOptionsRoutedAt = "distribution"
@@ -28,6 +29,7 @@ const (
 
 // All allowed values of EvpnOptionsRoutedAt enum
 var AllowedEvpnOptionsRoutedAtEnumValues = []EvpnOptionsRoutedAt{
+	"",
 	"edge",
 	"core",
 	"distribution",

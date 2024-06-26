@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `BASE` (value: `"base"`)
 
 * `ADVANCED` (value: `"advanced"`)

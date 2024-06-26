@@ -46,7 +46,7 @@ import (
 
 func main() {
 	siteId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	scope := openapiclient.sle_summary_scope("site") // SleSummaryScope | 
+	scope := openapiclient.sle_summary_scope("") // SleSummaryScope | 
 	scopeId := "scopeId_example" // string | * site_id if `scope`==`site` * device_id if `scope`==`ap`, `scope`==`switch` or `scope`==`gateway` * mac if `scope`==`client`
 	metric := "metric_example" // string | values from /api/v1/sites/{site_id}/sle/{scope}/{scope_id}/metrics
 	classifier := "classifier_example" // string | 
@@ -134,7 +134,7 @@ import (
 
 func main() {
 	siteId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	scope := openapiclient.site_sle_histogram_scope_parameters("site") // SiteSleHistogramScopeParameters | 
+	scope := openapiclient.site_sle_histogram_scope_parameters("") // SiteSleHistogramScopeParameters | 
 	scopeId := "scopeId_example" // string | * site_id if `scope`==`site` * device_id if `scope`==`ap`, `scope`==`switch` or `scope`==`gateway` * mac if `scope`==`client`
 	metric := "metric_example" // string | values from /api/v1/sites/{site_id}/sle/{scope}/{scope_id}/metrics
 	start := int32(56) // int32 | start datetime, can be epoch or relative time like -1d, -1w; -1d if not specified (optional)
@@ -219,13 +219,13 @@ import (
 
 func main() {
 	siteId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	scope := openapiclient.site_sle_impact_summary_scope_parameters("site") // SiteSleImpactSummaryScopeParameters | 
+	scope := openapiclient.site_sle_impact_summary_scope_parameters("") // SiteSleImpactSummaryScopeParameters | 
 	scopeId := "scopeId_example" // string | * site_id if `scope`==`site` * device_id if `scope`==`ap`, `scope`==`switch` or `scope`==`gateway` * mac if `scope`==`client`
 	metric := "metric_example" // string | values from /api/v1/sites/{site_id}/sle/{scope}/{scope_id}/metrics
 	start := int32(56) // int32 | start datetime, can be epoch or relative time like -1d, -1w; -1d if not specified (optional)
 	end := int32(56) // int32 | end datetime, can be epoch or relative time like -1d, -2h; now if not specified (optional)
 	duration := "10m" // string | duration like 7d, 2w (optional) (default to "1d")
-	fields := openapiclient.site_sle_impact_summary_fields_parameter("wlan") // SiteSleImpactSummaryFieldsParameter |  (optional)
+	fields := openapiclient.site_sle_impact_summary_fields_parameter("") // SiteSleImpactSummaryFieldsParameter |  (optional)
 	classifier := "classifier_example" // string |  (optional)
 
 	configuration := openapiclient.NewConfiguration()
@@ -308,7 +308,7 @@ import (
 
 func main() {
 	siteId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	scope := openapiclient.site_sle_scope("site") // SiteSleScope | 
+	scope := openapiclient.site_sle_scope("") // SiteSleScope | 
 	scopeId := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
 	metric := "metric_example" // string | values from /api/v1/sites/{site_id}/sle/{scope}/{scope_id}/metrics
 	start := int32(56) // int32 | start datetime, can be epoch or relative time like -1d, -1w; -1d if not specified (optional)
@@ -395,7 +395,7 @@ import (
 
 func main() {
 	siteId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	scope := openapiclient.site_sle_impacted_aps_scope_parameters("site") // SiteSleImpactedApsScopeParameters | 
+	scope := openapiclient.site_sle_impacted_aps_scope_parameters("") // SiteSleImpactedApsScopeParameters | 
 	scopeId := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
 	metric := "metric_example" // string | values from /api/v1/sites/{site_id}/sle/{scope}/{scope_id}/metrics
 	start := int32(56) // int32 | start datetime, can be epoch or relative time like -1d, -1w; -1d if not specified (optional)
@@ -482,7 +482,7 @@ import (
 
 func main() {
 	siteId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	scope := openapiclient.site_sle_impacted_chassis_scope_parameters("site") // SiteSleImpactedChassisScopeParameters | 
+	scope := openapiclient.site_sle_impacted_chassis_scope_parameters("") // SiteSleImpactedChassisScopeParameters | 
 	scopeId := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
 	metric := "metric_example" // string | values from /api/v1/sites/{site_id}/sle/{scope}/{scope_id}/metrics
 	start := int32(56) // int32 | start datetime, can be epoch or relative time like -1d, -1w; -1d if not specified (optional)
@@ -569,7 +569,7 @@ import (
 
 func main() {
 	siteId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	scope := openapiclient.site_sle_impacted_gateways_scope_parameters("site") // SiteSleImpactedGatewaysScopeParameters | 
+	scope := openapiclient.site_sle_impacted_gateways_scope_parameters("") // SiteSleImpactedGatewaysScopeParameters | 
 	scopeId := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
 	metric := "metric_example" // string | values from /api/v1/sites/{site_id}/sle/{scope}/{scope_id}/metrics
 	start := int32(56) // int32 | start datetime, can be epoch or relative time like -1d, -1w; -1d if not specified (optional)
@@ -656,7 +656,7 @@ import (
 
 func main() {
 	siteId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	scope := openapiclient.site_sle_impacted_interfaces_scope_parameters("site") // SiteSleImpactedInterfacesScopeParameters | 
+	scope := openapiclient.site_sle_impacted_interfaces_scope_parameters("") // SiteSleImpactedInterfacesScopeParameters | 
 	scopeId := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
 	metric := "metric_example" // string | values from /api/v1/sites/{site_id}/sle/{scope}/{scope_id}/metrics
 	start := int32(56) // int32 | start datetime, can be epoch or relative time like -1d, -1w; -1d if not specified (optional)
@@ -743,7 +743,7 @@ import (
 
 func main() {
 	siteId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	scope := openapiclient.site_sle_impacted_switches_scope_parameters("site") // SiteSleImpactedSwitchesScopeParameters | 
+	scope := openapiclient.site_sle_impacted_switches_scope_parameters("") // SiteSleImpactedSwitchesScopeParameters | 
 	scopeId := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
 	metric := "metric_example" // string | values from /api/v1/sites/{site_id}/sle/{scope}/{scope_id}/metrics
 	start := int32(56) // int32 | start datetime, can be epoch or relative time like -1d, -1w; -1d if not specified (optional)
@@ -830,7 +830,7 @@ import (
 
 func main() {
 	siteId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	scope := openapiclient.site_sle_impacted_clients_scope_parameters("site") // SiteSleImpactedClientsScopeParameters | 
+	scope := openapiclient.site_sle_impacted_clients_scope_parameters("") // SiteSleImpactedClientsScopeParameters | 
 	scopeId := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
 	metric := "metric_example" // string | values from /api/v1/sites/{site_id}/sle/{scope}/{scope_id}/metrics
 	start := int32(56) // int32 | start datetime, can be epoch or relative time like -1d, -1w; -1d if not specified (optional)
@@ -917,7 +917,7 @@ import (
 
 func main() {
 	siteId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	scope := openapiclient.site_sle_impacted_users_scope_parameter("site") // SiteSleImpactedUsersScopeParameter | 
+	scope := openapiclient.site_sle_impacted_users_scope_parameter("") // SiteSleImpactedUsersScopeParameter | 
 	scopeId := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
 	metric := "metric_example" // string | values from /api/v1/sites/{site_id}/sle/{scope}/{scope_id}/metrics
 	start := int32(56) // int32 | start datetime, can be epoch or relative time like -1d, -1w; -1d if not specified (optional)
@@ -1004,7 +1004,7 @@ import (
 
 func main() {
 	siteId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	scope := openapiclient.site_sle_metric_classifiers_scope_parameters("site") // SiteSleMetricClassifiersScopeParameters | 
+	scope := openapiclient.site_sle_metric_classifiers_scope_parameters("") // SiteSleMetricClassifiersScopeParameters | 
 	scopeId := "scopeId_example" // string | * site_id if `scope`==`site` * device_id if `scope`==`ap`, `scope`==`switch` or `scope`==`gateway` * mac if `scope`==`client`
 	metric := "metric_example" // string | values from /api/v1/sites/{site_id}/sle/{scope}/{scope_id}/metrics
 
@@ -1083,7 +1083,7 @@ import (
 
 func main() {
 	siteId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	scope := openapiclient.site_sle_metric_summary_scope_parameters("site") // SiteSleMetricSummaryScopeParameters | 
+	scope := openapiclient.site_sle_metric_summary_scope_parameters("") // SiteSleMetricSummaryScopeParameters | 
 	scopeId := "scopeId_example" // string | * site_id if `scope`==`site` * device_id if `scope`==`ap`, `scope`==`switch` or `scope`==`gateway` * mac if `scope`==`client`
 	metric := "metric_example" // string | values from /api/v1/sites/{site_id}/sle/{scope}/{scope_id}/metrics
 	start := int32(56) // int32 | start datetime, can be epoch or relative time like -1d, -1w; -1d if not specified (optional)
@@ -1168,7 +1168,7 @@ import (
 
 func main() {
 	siteId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	scope := openapiclient.site_sle_threshold_scope_parameter("site") // SiteSleThresholdScopeParameter | 
+	scope := openapiclient.site_sle_threshold_scope_parameter("") // SiteSleThresholdScopeParameter | 
 	scopeId := "scopeId_example" // string | * site_id if `scope`==`site` * device_id if `scope`==`ap`, `scope`==`switch` or `scope`==`gateway` * mac if `scope`==`client`
 	metric := "metric_example" // string | values from /api/v1/sites/{site_id}/sle/{scope}/{scope_id}/metrics
 
@@ -1247,7 +1247,7 @@ import (
 
 func main() {
 	siteId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	scope := openapiclient.site_sle_metrics_scope_parameters("site") // SiteSleMetricsScopeParameters | 
+	scope := openapiclient.site_sle_metrics_scope_parameters("") // SiteSleMetricsScopeParameters | 
 	scopeId := "scopeId_example" // string | * site_id if `scope`==`site` * device_id if `scope`==`ap`, `scope`==`switch` or `scope`==`gateway` * mac if `scope`==`client`
 
 	configuration := openapiclient.NewConfiguration()
@@ -1323,7 +1323,7 @@ import (
 
 func main() {
 	siteId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	scope := openapiclient.site_sle_threshold_scope_parameter("site") // SiteSleThresholdScopeParameter | 
+	scope := openapiclient.site_sle_threshold_scope_parameter("") // SiteSleThresholdScopeParameter | 
 	scopeId := "scopeId_example" // string | * site_id if `scope`==`site` * device_id if `scope`==`ap`, `scope`==`switch` or `scope`==`gateway` * mac if `scope`==`client`
 	metric := "metric_example" // string | values from /api/v1/sites/{site_id}/sle/{scope}/{scope_id}/metrics
 	sleThreshold := *openapiclient.NewSleThreshold() // SleThreshold |  (optional)
@@ -1404,7 +1404,7 @@ import (
 
 func main() {
 	siteId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	scope := openapiclient.site_sle_threshold_scope_parameter("site") // SiteSleThresholdScopeParameter | 
+	scope := openapiclient.site_sle_threshold_scope_parameter("") // SiteSleThresholdScopeParameter | 
 	scopeId := "scopeId_example" // string | * site_id if `scope`==`site` * device_id if `scope`==`ap`, `scope`==`switch` or `scope`==`gateway` * mac if `scope`==`client`
 	metric := "metric_example" // string | values from /api/v1/sites/{site_id}/sle/{scope}/{scope_id}/metrics
 	sleThreshold := *openapiclient.NewSleThreshold() // SleThreshold |  (optional)

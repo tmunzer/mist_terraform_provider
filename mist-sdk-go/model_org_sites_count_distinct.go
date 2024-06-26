@@ -21,6 +21,7 @@ type OrgSitesCountDistinct string
 
 // List of org_sites_count_distinct
 const (
+	ORGSITESCOUNTDISTINCT_EMPTY OrgSitesCountDistinct = ""
 	ORGSITESCOUNTDISTINCT_ANALYTIC_ENABLED OrgSitesCountDistinct = "analytic_enabled"
 	ORGSITESCOUNTDISTINCT_APP_WAKING OrgSitesCountDistinct = "app_waking"
 	ORGSITESCOUNTDISTINCT_ASSET_ENABLED OrgSitesCountDistinct = "asset_enabled"
@@ -41,6 +42,7 @@ const (
 
 // All allowed values of OrgSitesCountDistinct enum
 var AllowedOrgSitesCountDistinctEnumValues = []OrgSitesCountDistinct{
+	"",
 	"analytic_enabled",
 	"app_waking",
 	"asset_enabled",

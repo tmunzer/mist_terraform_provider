@@ -33,7 +33,7 @@ import (
 
 func main() {
 	siteId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	distinct := openapiclient.site_wan_client_events_distinct("type") // SiteWanClientEventsDistinct |  (optional) (default to "type")
+	distinct := openapiclient.site_wan_client_events_distinct("") // SiteWanClientEventsDistinct |  (optional) (default to "type")
 	type_ := "type__example" // string | see [listDeviceEventsDefinitions]($e/Constants%20Events/listDeviceEventsDefinitions) (optional)
 	start := int32(56) // int32 | start datetime, can be epoch or relative time like -1d, -1w; -1d if not specified (optional)
 	end := int32(56) // int32 | end datetime, can be epoch or relative time like -1d, -2h; now if not specified (optional)
@@ -115,7 +115,7 @@ import (
 
 func main() {
 	siteId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	distinct := openapiclient.site_wan_clients_count_distinct("hostname") // SiteWanClientsCountDistinct |  (optional) (default to "mac")
+	distinct := openapiclient.site_wan_clients_count_distinct("") // SiteWanClientsCountDistinct |  (optional) (default to "mac")
 	start := int32(56) // int32 | start datetime, can be epoch or relative time like -1d, -1w; -1d if not specified (optional)
 	end := int32(56) // int32 | end datetime, can be epoch or relative time like -1d, -2h; now if not specified (optional)
 	duration := "10m" // string | duration like 7d, 2w (optional) (default to "1d")

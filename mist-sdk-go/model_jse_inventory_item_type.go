@@ -21,6 +21,7 @@ type JseInventoryItemType string
 
 // List of jse_inventory_item_type
 const (
+	JSEINVENTORYITEMTYPE_EMPTY JseInventoryItemType = ""
 	JSEINVENTORYITEMTYPE_AP JseInventoryItemType = "ap"
 	JSEINVENTORYITEMTYPE_SWITCH JseInventoryItemType = "switch"
 	JSEINVENTORYITEMTYPE_GATEWAY JseInventoryItemType = "gateway"
@@ -28,6 +29,7 @@ const (
 
 // All allowed values of JseInventoryItemType enum
 var AllowedJseInventoryItemTypeEnumValues = []JseInventoryItemType{
+	"",
 	"ap",
 	"switch",
 	"gateway",

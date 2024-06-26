@@ -21,12 +21,14 @@ type WlanDynamicVlanType string
 
 // List of wlan_dynamic_vlan_type
 const (
+	WLANDYNAMICVLANTYPE_EMPTY WlanDynamicVlanType = ""
 	WLANDYNAMICVLANTYPE_STANDARD WlanDynamicVlanType = "standard"
 	WLANDYNAMICVLANTYPE_AIRESPACE_INTERFACE_NAME WlanDynamicVlanType = "airespace-interface-name"
 )
 
 // All allowed values of WlanDynamicVlanType enum
 var AllowedWlanDynamicVlanTypeEnumValues = []WlanDynamicVlanType{
+	"",
 	"standard",
 	"airespace-interface-name",
 }

@@ -21,6 +21,7 @@ type SiteSkyAtpEventsCountDistinct string
 
 // List of site_sky_atp_events_count_distinct
 const (
+	SITESKYATPEVENTSCOUNTDISTINCT_EMPTY SiteSkyAtpEventsCountDistinct = ""
 	SITESKYATPEVENTSCOUNTDISTINCT_TYPE SiteSkyAtpEventsCountDistinct = "type"
 	SITESKYATPEVENTSCOUNTDISTINCT_MAC SiteSkyAtpEventsCountDistinct = "mac"
 	SITESKYATPEVENTSCOUNTDISTINCT_DEVICE_MAC SiteSkyAtpEventsCountDistinct = "device_mac"
@@ -29,6 +30,7 @@ const (
 
 // All allowed values of SiteSkyAtpEventsCountDistinct enum
 var AllowedSiteSkyAtpEventsCountDistinctEnumValues = []SiteSkyAtpEventsCountDistinct{
+	"",
 	"type",
 	"mac",
 	"device_mac",

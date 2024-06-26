@@ -21,12 +21,14 @@ type ApMeshRole string
 
 // List of ap_mesh_role
 const (
+	APMESHROLE_EMPTY ApMeshRole = ""
 	APMESHROLE_BASE ApMeshRole = "base"
 	APMESHROLE_REMOTE ApMeshRole = "remote"
 )
 
 // All allowed values of ApMeshRole enum
 var AllowedApMeshRoleEnumValues = []ApMeshRole{
+	"",
 	"base",
 	"remote",
 }

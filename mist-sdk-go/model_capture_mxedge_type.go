@@ -21,11 +21,13 @@ type CaptureMxedgeType string
 
 // List of capture_mxedge_type
 const (
+	CAPTUREMXEDGETYPE_EMPTY CaptureMxedgeType = ""
 	CAPTUREMXEDGETYPE_MXEDGE CaptureMxedgeType = "mxedge"
 )
 
 // All allowed values of CaptureMxedgeType enum
 var AllowedCaptureMxedgeTypeEnumValues = []CaptureMxedgeType{
+	"",
 	"mxedge",
 }
 

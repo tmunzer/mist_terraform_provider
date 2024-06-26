@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `PROCESS` (value: `"process"`)
 
 * `OUTBOUND_SSH` (value: `"outbound-ssh"`)

@@ -21,12 +21,14 @@ type DiscoveredSwitchesMetricScope string
 
 // List of discovered_switches_metric_scope
 const (
+	DISCOVEREDSWITCHESMETRICSCOPE_EMPTY DiscoveredSwitchesMetricScope = ""
 	DISCOVEREDSWITCHESMETRICSCOPE_SITE DiscoveredSwitchesMetricScope = "site"
 	DISCOVEREDSWITCHESMETRICSCOPE_SWITCH DiscoveredSwitchesMetricScope = "switch"
 )
 
 // All allowed values of DiscoveredSwitchesMetricScope enum
 var AllowedDiscoveredSwitchesMetricScopeEnumValues = []DiscoveredSwitchesMetricScope{
+	"",
 	"site",
 	"switch",
 }

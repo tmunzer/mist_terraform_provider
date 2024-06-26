@@ -21,6 +21,7 @@ type RogueType string
 
 // List of rogue_type
 const (
+	ROGUETYPE_EMPTY RogueType = ""
 	ROGUETYPE_HONEYPOT RogueType = "honeypot"
 	ROGUETYPE_LAN RogueType = "lan"
 	ROGUETYPE_OTHERS RogueType = "others"
@@ -29,6 +30,7 @@ const (
 
 // All allowed values of RogueType enum
 var AllowedRogueTypeEnumValues = []RogueType{
+	"",
 	"honeypot",
 	"lan",
 	"others",

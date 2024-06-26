@@ -21,12 +21,14 @@ type CaptureScanFormat string
 
 // List of capture_scan_format
 const (
+	CAPTURESCANFORMAT_EMPTY CaptureScanFormat = ""
 	CAPTURESCANFORMAT_PCAP CaptureScanFormat = "pcap"
 	CAPTURESCANFORMAT_STREAM CaptureScanFormat = "stream"
 )
 
 // All allowed values of CaptureScanFormat enum
 var AllowedCaptureScanFormatEnumValues = []CaptureScanFormat{
+	"",
 	"pcap",
 	"stream",
 }

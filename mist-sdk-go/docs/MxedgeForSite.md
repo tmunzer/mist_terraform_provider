@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `ANY` (value: `"any"`)
 
 * `TRUE` (value: `"true"`)

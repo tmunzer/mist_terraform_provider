@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `PLACEMENT` (value: `"placement"`)
 
 * `ORIENTATION` (value: `"orientation"`)

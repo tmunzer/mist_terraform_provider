@@ -21,6 +21,7 @@ type VisitsScope string
 
 // List of visits_scope
 const (
+	VISITSSCOPE_EMPTY VisitsScope = ""
 	VISITSSCOPE_SITE VisitsScope = "site"
 	VISITSSCOPE_MAP VisitsScope = "map"
 	VISITSSCOPE_ZONE VisitsScope = "zone"
@@ -29,6 +30,7 @@ const (
 
 // All allowed values of VisitsScope enum
 var AllowedVisitsScopeEnumValues = []VisitsScope{
+	"",
 	"site",
 	"map",
 	"zone",

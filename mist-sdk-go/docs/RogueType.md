@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `HONEYPOT` (value: `"honeypot"`)
 
 * `LAN` (value: `"lan"`)

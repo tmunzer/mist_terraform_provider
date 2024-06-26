@@ -21,12 +21,14 @@ type OtherDeviceUpdateOperation string
 
 // List of other_device_update_operation
 const (
+	OTHERDEVICEUPDATEOPERATION_EMPTY OtherDeviceUpdateOperation = ""
 	OTHERDEVICEUPDATEOPERATION_ASSIGN OtherDeviceUpdateOperation = "assign"
 	OTHERDEVICEUPDATEOPERATION_UNASSIGN OtherDeviceUpdateOperation = "unassign"
 )
 
 // All allowed values of OtherDeviceUpdateOperation enum
 var AllowedOtherDeviceUpdateOperationEnumValues = []OtherDeviceUpdateOperation{
+	"",
 	"assign",
 	"unassign",
 }

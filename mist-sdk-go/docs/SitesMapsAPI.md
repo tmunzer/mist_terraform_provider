@@ -480,7 +480,7 @@ func main() {
 	autoDeviceprofileAssignment := true // bool | whether to auto assign device to deviceprofile by name (optional)
 	csv := os.NewFile(1234, "some_file") // *os.File | csv file for ap name mapping, optional (optional)
 	file := os.NewFile(1234, "some_file") // *os.File | ekahau or ibwave file (optional)
-	json := *openapiclient.NewMapImportJson(openapiclient.map_import_json_vendor_name("ekahau")) // MapImportJson |  (optional)
+	json := *openapiclient.NewMapImportJson(openapiclient.map_import_json_vendor_name("")) // MapImportJson |  (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -556,7 +556,7 @@ import (
 func main() {
 	siteId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
 	mapId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	wayfindingImportJson := openapiclient.wayfinding_import_json{MapJibestream: openapiclient.NewMapJibestream("199d6770-0f6f-407a-9bd5-fc33c7840194", "/9Nog3yDzcYj0bY91XJZQLCt+m9DXaIVhx+Ghk3ddd", int32(123), "https://api.jibestream.com", "b069b358-4c97-5319-1f8c-7c5ca64d6ab1", int32(223), float32(4), openapiclient.map_jibestream_vendor_name("jibestream"), int32(123))} // WayfindingImportJson | Request Body (optional)
+	wayfindingImportJson := openapiclient.wayfinding_import_json{MapJibestream: openapiclient.NewMapJibestream("199d6770-0f6f-407a-9bd5-fc33c7840194", "/9Nog3yDzcYj0bY91XJZQLCt+m9DXaIVhx+Ghk3ddd", int32(123), "https://api.jibestream.com", "b069b358-4c97-5319-1f8c-7c5ca64d6ab1", int32(223), float32(4), openapiclient.map_jibestream_vendor_name(""), int32(123))} // WayfindingImportJson | Request Body (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)

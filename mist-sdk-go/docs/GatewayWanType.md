@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `DHCP` (value: `"dhcp"`)
 
 * `STATIC` (value: `"static"`)

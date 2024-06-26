@@ -21,6 +21,7 @@ type ConfigSwitchLocalAccountsUserRole string
 
 // List of config_switch_local_accounts_user_role
 const (
+	CONFIGSWITCHLOCALACCOUNTSUSERROLE_EMPTY ConfigSwitchLocalAccountsUserRole = ""
 	CONFIGSWITCHLOCALACCOUNTSUSERROLE_NONE ConfigSwitchLocalAccountsUserRole = "none"
 	CONFIGSWITCHLOCALACCOUNTSUSERROLE_ADMIN ConfigSwitchLocalAccountsUserRole = "admin"
 	CONFIGSWITCHLOCALACCOUNTSUSERROLE_READ ConfigSwitchLocalAccountsUserRole = "read"
@@ -29,6 +30,7 @@ const (
 
 // All allowed values of ConfigSwitchLocalAccountsUserRole enum
 var AllowedConfigSwitchLocalAccountsUserRoleEnumValues = []ConfigSwitchLocalAccountsUserRole{
+	"",
 	"none",
 	"admin",
 	"read",

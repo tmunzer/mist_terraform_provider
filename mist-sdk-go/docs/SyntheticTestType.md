@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `DNS` (value: `"dns"`)
 
 * `ARP` (value: `"arp"`)

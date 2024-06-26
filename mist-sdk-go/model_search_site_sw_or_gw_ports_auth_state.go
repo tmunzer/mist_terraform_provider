@@ -21,6 +21,7 @@ type SearchSiteSwOrGwPortsAuthState string
 
 // List of search_site_sw_or_gw_ports_auth_state
 const (
+	SEARCHSITESWORGWPORTSAUTHSTATE_EMPTY SearchSiteSwOrGwPortsAuthState = ""
 	SEARCHSITESWORGWPORTSAUTHSTATE_INIT SearchSiteSwOrGwPortsAuthState = "init"
 	SEARCHSITESWORGWPORTSAUTHSTATE_AUTHENTICATED SearchSiteSwOrGwPortsAuthState = "authenticated"
 	SEARCHSITESWORGWPORTSAUTHSTATE_AUTHENTICATING SearchSiteSwOrGwPortsAuthState = "authenticating"
@@ -29,6 +30,7 @@ const (
 
 // All allowed values of SearchSiteSwOrGwPortsAuthState enum
 var AllowedSearchSiteSwOrGwPortsAuthStateEnumValues = []SearchSiteSwOrGwPortsAuthState{
+	"",
 	"init",
 	"authenticated",
 	"authenticating",

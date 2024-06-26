@@ -21,6 +21,7 @@ type OrgDevicesEventsCountDistinct string
 
 // List of org_devices_events_count_distinct
 const (
+	ORGDEVICESEVENTSCOUNTDISTINCT_EMPTY OrgDevicesEventsCountDistinct = ""
 	ORGDEVICESEVENTSCOUNTDISTINCT_ORG_ID OrgDevicesEventsCountDistinct = "org_id"
 	ORGDEVICESEVENTSCOUNTDISTINCT_SITE_ID OrgDevicesEventsCountDistinct = "site_id"
 	ORGDEVICESEVENTSCOUNTDISTINCT_AP OrgDevicesEventsCountDistinct = "ap"
@@ -33,6 +34,7 @@ const (
 
 // All allowed values of OrgDevicesEventsCountDistinct enum
 var AllowedOrgDevicesEventsCountDistinctEnumValues = []OrgDevicesEventsCountDistinct{
+	"",
 	"org_id",
 	"site_id",
 	"ap",

@@ -21,6 +21,7 @@ type SleSummaryScope string
 
 // List of sle_summary_scope
 const (
+	SLESUMMARYSCOPE_EMPTY SleSummaryScope = ""
 	SLESUMMARYSCOPE_SITE SleSummaryScope = "site"
 	SLESUMMARYSCOPE_AP SleSummaryScope = "ap"
 	SLESUMMARYSCOPE_SWITCH SleSummaryScope = "switch"
@@ -30,6 +31,7 @@ const (
 
 // All allowed values of SleSummaryScope enum
 var AllowedSleSummaryScopeEnumValues = []SleSummaryScope{
+	"",
 	"site",
 	"ap",
 	"switch",

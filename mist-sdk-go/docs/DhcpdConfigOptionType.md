@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `STRING` (value: `"string"`)
 
 * `BOOLEAN` (value: `"boolean"`)

@@ -21,12 +21,14 @@ type WebhookDeviceEventsEventEvType string
 
 // List of webhook_device_events_event_ev_type
 const (
+	WEBHOOKDEVICEEVENTSEVENTEVTYPE_EMPTY WebhookDeviceEventsEventEvType = ""
 	WEBHOOKDEVICEEVENTSEVENTEVTYPE_NOTICE WebhookDeviceEventsEventEvType = "notice"
 	WEBHOOKDEVICEEVENTSEVENTEVTYPE_WARN WebhookDeviceEventsEventEvType = "warn"
 )
 
 // All allowed values of WebhookDeviceEventsEventEvType enum
 var AllowedWebhookDeviceEventsEventEvTypeEnumValues = []WebhookDeviceEventsEventEvType{
+	"",
 	"notice",
 	"warn",
 }

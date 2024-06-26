@@ -21,12 +21,14 @@ type WxruleStatsAction string
 
 // List of wxrule_stats_action
 const (
+	WXRULESTATSACTION_EMPTY WxruleStatsAction = ""
 	WXRULESTATSACTION_ALLOW WxruleStatsAction = "allow"
 	WXRULESTATSACTION_BLOCK WxruleStatsAction = "block"
 )
 
 // All allowed values of WxruleStatsAction enum
 var AllowedWxruleStatsActionEnumValues = []WxruleStatsAction{
+	"",
 	"allow",
 	"block",
 }

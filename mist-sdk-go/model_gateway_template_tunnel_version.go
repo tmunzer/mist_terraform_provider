@@ -21,12 +21,14 @@ type GatewayTemplateTunnelVersion string
 
 // List of gateway_template_tunnel_version
 const (
+	GATEWAYTEMPLATETUNNELVERSION_EMPTY GatewayTemplateTunnelVersion = ""
 	GATEWAYTEMPLATETUNNELVERSION__1 GatewayTemplateTunnelVersion = "1"
 	GATEWAYTEMPLATETUNNELVERSION__2 GatewayTemplateTunnelVersion = "2"
 )
 
 // All allowed values of GatewayTemplateTunnelVersion enum
 var AllowedGatewayTemplateTunnelVersionEnumValues = []GatewayTemplateTunnelVersion{
+	"",
 	"1",
 	"2",
 }

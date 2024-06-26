@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `HTTP_POST` (value: `"http-post"`)
 
 * `SPLUNK` (value: `"splunk"`)

@@ -21,6 +21,7 @@ type GatewayPortWanArpPolicer string
 
 // List of gateway_port_wan_arp_policer
 const (
+	GATEWAYPORTWANARPPOLICER_EMPTY GatewayPortWanArpPolicer = ""
 	GATEWAYPORTWANARPPOLICER_RECOMMENDED GatewayPortWanArpPolicer = "recommended"
 	GATEWAYPORTWANARPPOLICER_DEFAULT GatewayPortWanArpPolicer = "default"
 	GATEWAYPORTWANARPPOLICER_MAX GatewayPortWanArpPolicer = "max"
@@ -28,6 +29,7 @@ const (
 
 // All allowed values of GatewayPortWanArpPolicer enum
 var AllowedGatewayPortWanArpPolicerEnumValues = []GatewayPortWanArpPolicer{
+	"",
 	"recommended",
 	"default",
 	"max",

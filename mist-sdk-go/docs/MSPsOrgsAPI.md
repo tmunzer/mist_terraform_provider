@@ -397,7 +397,7 @@ import (
 
 func main() {
 	mspId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	mspOrgChange := *openapiclient.NewMspOrgChange(openapiclient.msp_org_change_operation("assign"), []string{"OrgIds_example"}) // MspOrgChange | Request Body (optional)
+	mspOrgChange := *openapiclient.NewMspOrgChange(openapiclient.msp_org_change_operation(""), []string{"OrgIds_example"}) // MspOrgChange | Request Body (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)

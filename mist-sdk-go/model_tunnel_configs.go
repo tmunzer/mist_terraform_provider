@@ -54,7 +54,7 @@ func NewTunnelConfigs() *TunnelConfigs {
 	this := TunnelConfigs{}
 	var ikeMode GatewayTemplateTunnelIkeMode = GATEWAYTEMPLATETUNNELIKEMODE_MAIN
 	this.IkeMode = &ikeMode
-	var mode GatewayTemplateTunnelMode = GATEWAYTEMPLATETUNNELMODE_STANDBY
+	var mode GatewayTemplateTunnelMode = GATEWAYTEMPLATETUNNELMODE_ACTIVE_STANDBY
 	this.Mode = &mode
 	var version GatewayTemplateTunnelVersion = GATEWAYTEMPLATETUNNELVERSION__2
 	this.Version = &version
@@ -68,7 +68,7 @@ func NewTunnelConfigsWithDefaults() *TunnelConfigs {
 	this := TunnelConfigs{}
 	var ikeMode GatewayTemplateTunnelIkeMode = GATEWAYTEMPLATETUNNELIKEMODE_MAIN
 	this.IkeMode = &ikeMode
-	var mode GatewayTemplateTunnelMode = GATEWAYTEMPLATETUNNELMODE_STANDBY
+	var mode GatewayTemplateTunnelMode = GATEWAYTEMPLATETUNNELMODE_ACTIVE_STANDBY
 	this.Mode = &mode
 	var version GatewayTemplateTunnelVersion = GATEWAYTEMPLATETUNNELVERSION__2
 	this.Version = &version

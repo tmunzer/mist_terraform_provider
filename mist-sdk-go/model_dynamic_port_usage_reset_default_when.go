@@ -21,12 +21,14 @@ type DynamicPortUsageResetDefaultWhen string
 
 // List of dynamic_port_usage_reset_default_when
 const (
+	DYNAMICPORTUSAGERESETDEFAULTWHEN_EMPTY DynamicPortUsageResetDefaultWhen = ""
 	DYNAMICPORTUSAGERESETDEFAULTWHEN_NONE DynamicPortUsageResetDefaultWhen = "none"
 	DYNAMICPORTUSAGERESETDEFAULTWHEN_LINK_DOWN DynamicPortUsageResetDefaultWhen = "link_down"
 )
 
 // All allowed values of DynamicPortUsageResetDefaultWhen enum
 var AllowedDynamicPortUsageResetDefaultWhenEnumValues = []DynamicPortUsageResetDefaultWhen{
+	"",
 	"none",
 	"link_down",
 }

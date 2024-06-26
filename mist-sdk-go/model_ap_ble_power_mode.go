@@ -21,12 +21,14 @@ type ApBlePowerMode string
 
 // List of ap_ble_power_mode
 const (
+	APBLEPOWERMODE_EMPTY ApBlePowerMode = ""
 	APBLEPOWERMODE_DEFAULT ApBlePowerMode = "default"
 	APBLEPOWERMODE_CUSTOM ApBlePowerMode = "custom"
 )
 
 // All allowed values of ApBlePowerMode enum
 var AllowedApBlePowerModeEnumValues = []ApBlePowerMode{
+	"",
 	"default",
 	"custom",
 }

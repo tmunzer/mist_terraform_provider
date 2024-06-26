@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `NAME` (value: `"name"`)
 
 * `SUBNET` (value: `"subnet"`)

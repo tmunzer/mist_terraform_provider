@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `MATCH` (value: `"match"`)
 
 * `CLIENT` (value: `"client"`)

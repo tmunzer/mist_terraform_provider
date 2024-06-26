@@ -21,6 +21,7 @@ type SiteClientSessionsCountDistinct string
 
 // List of site_client_sessions_count_distinct
 const (
+	SITECLIENTSESSIONSCOUNTDISTINCT_EMPTY SiteClientSessionsCountDistinct = ""
 	SITECLIENTSESSIONSCOUNTDISTINCT_SSID SiteClientSessionsCountDistinct = "ssid"
 	SITECLIENTSESSIONSCOUNTDISTINCT_WLAN_ID SiteClientSessionsCountDistinct = "wlan_id"
 	SITECLIENTSESSIONSCOUNTDISTINCT_AP SiteClientSessionsCountDistinct = "ap"
@@ -33,6 +34,7 @@ const (
 
 // All allowed values of SiteClientSessionsCountDistinct enum
 var AllowedSiteClientSessionsCountDistinctEnumValues = []SiteClientSessionsCountDistinct{
+	"",
 	"ssid",
 	"wlan_id",
 	"ap",

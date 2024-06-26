@@ -21,6 +21,7 @@ type RfClientType string
 
 // List of rf_client_type
 const (
+	RFCLIENTTYPE_EMPTY RfClientType = ""
 	RFCLIENTTYPE_SDKCLIENT RfClientType = "sdkclient"
 	RFCLIENTTYPE_CLIENT RfClientType = "client"
 	RFCLIENTTYPE_ASSET RfClientType = "asset"
@@ -28,6 +29,7 @@ const (
 
 // All allowed values of RfClientType enum
 var AllowedRfClientTypeEnumValues = []RfClientType{
+	"",
 	"sdkclient",
 	"client",
 	"asset",

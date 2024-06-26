@@ -21,12 +21,14 @@ type SiteSleImpactedUsersScopeParameter string
 
 // List of site_sle_impacted_users_scope_parameter
 const (
+	SITESLEIMPACTEDUSERSSCOPEPARAMETER_EMPTY SiteSleImpactedUsersScopeParameter = ""
 	SITESLEIMPACTEDUSERSSCOPEPARAMETER_SITE SiteSleImpactedUsersScopeParameter = "site"
 	SITESLEIMPACTEDUSERSSCOPEPARAMETER_AP SiteSleImpactedUsersScopeParameter = "ap"
 )
 
 // All allowed values of SiteSleImpactedUsersScopeParameter enum
 var AllowedSiteSleImpactedUsersScopeParameterEnumValues = []SiteSleImpactedUsersScopeParameter{
+	"",
 	"site",
 	"ap",
 }

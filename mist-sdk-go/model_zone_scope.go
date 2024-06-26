@@ -21,6 +21,7 @@ type ZoneScope string
 
 // List of zone_scope
 const (
+	ZONESCOPE_EMPTY ZoneScope = ""
 	ZONESCOPE_SITE ZoneScope = "site"
 	ZONESCOPE_MAP ZoneScope = "map"
 	ZONESCOPE_ZONE ZoneScope = "zone"
@@ -29,6 +30,7 @@ const (
 
 // All allowed values of ZoneScope enum
 var AllowedZoneScopeEnumValues = []ZoneScope{
+	"",
 	"site",
 	"map",
 	"zone",

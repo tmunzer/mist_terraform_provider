@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `SHA1` (value: `"sha1"`)
 
 * `SHA2` (value: `"sha2"`)

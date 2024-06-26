@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `LOCAL` (value: `"local"`)
 
 * `ENGINE_ID_SUFFIX` (value: `"engine-id-suffix"`)

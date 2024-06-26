@@ -21,6 +21,7 @@ type MxedgeMgmtOobIpType6 string
 
 // List of mxedge_mgmt_oob_ip_type6
 const (
+	MXEDGEMGMTOOBIPTYPE6_EMPTY MxedgeMgmtOobIpType6 = ""
 	MXEDGEMGMTOOBIPTYPE6_AUTOCONF MxedgeMgmtOobIpType6 = "autoconf"
 	MXEDGEMGMTOOBIPTYPE6_DHCP MxedgeMgmtOobIpType6 = "dhcp"
 	MXEDGEMGMTOOBIPTYPE6_STATIC MxedgeMgmtOobIpType6 = "static"
@@ -29,6 +30,7 @@ const (
 
 // All allowed values of MxedgeMgmtOobIpType6 enum
 var AllowedMxedgeMgmtOobIpType6EnumValues = []MxedgeMgmtOobIpType6{
+	"",
 	"autoconf",
 	"dhcp",
 	"static",

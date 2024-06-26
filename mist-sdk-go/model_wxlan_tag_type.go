@@ -21,6 +21,7 @@ type WxlanTagType string
 
 // List of wxlan_tag_type
 const (
+	WXLANTAGTYPE_EMPTY WxlanTagType = ""
 	WXLANTAGTYPE_MATCH WxlanTagType = "match"
 	WXLANTAGTYPE_CLIENT WxlanTagType = "client"
 	WXLANTAGTYPE_RESOURCE WxlanTagType = "resource"
@@ -31,6 +32,7 @@ const (
 
 // All allowed values of WxlanTagType enum
 var AllowedWxlanTagTypeEnumValues = []WxlanTagType{
+	"",
 	"match",
 	"client",
 	"resource",

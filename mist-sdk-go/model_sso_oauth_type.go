@@ -21,6 +21,7 @@ type SsoOauthType string
 
 // List of sso_oauth_type
 const (
+	SSOOAUTHTYPE_EMPTY SsoOauthType = ""
 	SSOOAUTHTYPE_AZURE SsoOauthType = "azure"
 	SSOOAUTHTYPE_AZURE_GOV SsoOauthType = "azure-gov"
 	SSOOAUTHTYPE_OKTA SsoOauthType = "okta"
@@ -28,6 +29,7 @@ const (
 
 // All allowed values of SsoOauthType enum
 var AllowedSsoOauthTypeEnumValues = []SsoOauthType{
+	"",
 	"azure",
 	"azure-gov",
 	"okta",

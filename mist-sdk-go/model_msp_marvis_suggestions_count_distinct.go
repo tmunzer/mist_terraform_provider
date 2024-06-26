@@ -21,12 +21,14 @@ type MspMarvisSuggestionsCountDistinct string
 
 // List of msp_marvis_suggestions_count_distinct
 const (
+	MSPMARVISSUGGESTIONSCOUNTDISTINCT_EMPTY MspMarvisSuggestionsCountDistinct = ""
 	MSPMARVISSUGGESTIONSCOUNTDISTINCT_ORG_ID MspMarvisSuggestionsCountDistinct = "org_id"
 	MSPMARVISSUGGESTIONSCOUNTDISTINCT_STATUS MspMarvisSuggestionsCountDistinct = "status"
 )
 
 // All allowed values of MspMarvisSuggestionsCountDistinct enum
 var AllowedMspMarvisSuggestionsCountDistinctEnumValues = []MspMarvisSuggestionsCountDistinct{
+	"",
 	"org_id",
 	"status",
 }

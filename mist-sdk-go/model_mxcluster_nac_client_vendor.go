@@ -21,6 +21,7 @@ type MxclusterNacClientVendor string
 
 // List of mxcluster_nac_client_vendor
 const (
+	MXCLUSTERNACCLIENTVENDOR_EMPTY MxclusterNacClientVendor = ""
 	MXCLUSTERNACCLIENTVENDOR_GENERIC MxclusterNacClientVendor = "generic"
 	MXCLUSTERNACCLIENTVENDOR_JUNIPER MxclusterNacClientVendor = "juniper"
 	MXCLUSTERNACCLIENTVENDOR_ARUBA MxclusterNacClientVendor = "aruba"
@@ -32,6 +33,7 @@ const (
 
 // All allowed values of MxclusterNacClientVendor enum
 var AllowedMxclusterNacClientVendorEnumValues = []MxclusterNacClientVendor{
+	"",
 	"generic",
 	"juniper",
 	"aruba",

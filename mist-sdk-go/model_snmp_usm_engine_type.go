@@ -21,12 +21,14 @@ type SnmpUsmEngineType string
 
 // List of snmp_usm_engine_type
 const (
+	SNMPUSMENGINETYPE_EMPTY SnmpUsmEngineType = ""
 	SNMPUSMENGINETYPE_REMOTE_ENGINE SnmpUsmEngineType = "remote_engine"
 	SNMPUSMENGINETYPE_LOCAL_ENGINE SnmpUsmEngineType = "local_engine"
 )
 
 // All allowed values of SnmpUsmEngineType enum
 var AllowedSnmpUsmEngineTypeEnumValues = []SnmpUsmEngineType{
+	"",
 	"remote_engine",
 	"local_engine",
 }

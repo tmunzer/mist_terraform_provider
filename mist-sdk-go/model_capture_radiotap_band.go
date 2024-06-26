@@ -21,6 +21,7 @@ type CaptureRadiotapBand string
 
 // List of capture_radiotap_band
 const (
+	CAPTURERADIOTAPBAND_EMPTY CaptureRadiotapBand = ""
 	CAPTURERADIOTAPBAND__24 CaptureRadiotapBand = "24"
 	CAPTURERADIOTAPBAND__5 CaptureRadiotapBand = "5"
 	CAPTURERADIOTAPBAND__6 CaptureRadiotapBand = "6"
@@ -29,6 +30,7 @@ const (
 
 // All allowed values of CaptureRadiotapBand enum
 var AllowedCaptureRadiotapBandEnumValues = []CaptureRadiotapBand{
+	"",
 	"24",
 	"5",
 	"6",

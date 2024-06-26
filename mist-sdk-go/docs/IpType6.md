@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `DISABLED` (value: `"disabled"`)
 
 * `STATIC` (value: `"static"`)

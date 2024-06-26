@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `IN` (value: `"IN"`)
 
 * `OUT` (value: `"OUT"`)

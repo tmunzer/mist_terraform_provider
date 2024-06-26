@@ -21,6 +21,7 @@ type GatewayPathStrategy string
 
 // List of gateway_path_strategy
 const (
+	GATEWAYPATHSTRATEGY_EMPTY GatewayPathStrategy = ""
 	GATEWAYPATHSTRATEGY_ORDERED GatewayPathStrategy = "ordered"
 	GATEWAYPATHSTRATEGY_WEIGHTED GatewayPathStrategy = "weighted"
 	GATEWAYPATHSTRATEGY_ECMP GatewayPathStrategy = "ecmp"
@@ -28,6 +29,7 @@ const (
 
 // All allowed values of GatewayPathStrategy enum
 var AllowedGatewayPathStrategyEnumValues = []GatewayPathStrategy{
+	"",
 	"ordered",
 	"weighted",
 	"ecmp",

@@ -21,6 +21,7 @@ type MxclusterTuntermHostsSelection string
 
 // List of mxcluster_tunterm_hosts_selection
 const (
+	MXCLUSTERTUNTERMHOSTSSELECTION_EMPTY MxclusterTuntermHostsSelection = ""
 	MXCLUSTERTUNTERMHOSTSSELECTION_SHUFFLE MxclusterTuntermHostsSelection = "shuffle"
 	MXCLUSTERTUNTERMHOSTSSELECTION_SHUFFLE_BY_SITE MxclusterTuntermHostsSelection = "shuffle-by-site"
 	MXCLUSTERTUNTERMHOSTSSELECTION_ORDERED MxclusterTuntermHostsSelection = "ordered"
@@ -28,6 +29,7 @@ const (
 
 // All allowed values of MxclusterTuntermHostsSelection enum
 var AllowedMxclusterTuntermHostsSelectionEnumValues = []MxclusterTuntermHostsSelection{
+	"",
 	"shuffle",
 	"shuffle-by-site",
 	"ordered",

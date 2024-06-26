@@ -21,6 +21,7 @@ type OspfAreasType string
 
 // List of ospf_areas_type
 const (
+	OSPFAREASTYPE_EMPTY OspfAreasType = ""
 	OSPFAREASTYPE_DEFAULT OspfAreasType = "default"
 	OSPFAREASTYPE_STUB OspfAreasType = "stub"
 	OSPFAREASTYPE_NSSA OspfAreasType = "nssa"
@@ -28,6 +29,7 @@ const (
 
 // All allowed values of OspfAreasType enum
 var AllowedOspfAreasTypeEnumValues = []OspfAreasType{
+	"",
 	"default",
 	"stub",
 	"nssa",

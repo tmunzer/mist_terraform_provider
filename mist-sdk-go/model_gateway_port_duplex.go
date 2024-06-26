@@ -21,6 +21,7 @@ type GatewayPortDuplex string
 
 // List of gateway_port_duplex
 const (
+	GATEWAYPORTDUPLEX_EMPTY GatewayPortDuplex = ""
 	GATEWAYPORTDUPLEX_HALF GatewayPortDuplex = "half"
 	GATEWAYPORTDUPLEX_FULL GatewayPortDuplex = "full"
 	GATEWAYPORTDUPLEX_AUTO GatewayPortDuplex = "auto"
@@ -28,6 +29,7 @@ const (
 
 // All allowed values of GatewayPortDuplex enum
 var AllowedGatewayPortDuplexEnumValues = []GatewayPortDuplex{
+	"",
 	"half",
 	"full",
 	"auto",

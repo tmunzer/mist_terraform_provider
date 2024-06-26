@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `ALARMS` (value: `"alarms"`)
 
 * `AUDITS` (value: `"audits"`)

@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `CLIENT_INFO` (value: `"client-info"`)
 
 

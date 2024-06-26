@@ -21,6 +21,7 @@ type SwitchVirtualChassisMemberVcRole string
 
 // List of switch_virtual_chassis_member_vc_role
 const (
+	SWITCHVIRTUALCHASSISMEMBERVCROLE_EMPTY SwitchVirtualChassisMemberVcRole = ""
 	SWITCHVIRTUALCHASSISMEMBERVCROLE_MASTER SwitchVirtualChassisMemberVcRole = "master"
 	SWITCHVIRTUALCHASSISMEMBERVCROLE_LINECARD SwitchVirtualChassisMemberVcRole = "linecard"
 	SWITCHVIRTUALCHASSISMEMBERVCROLE_BACKUP SwitchVirtualChassisMemberVcRole = "backup"
@@ -28,6 +29,7 @@ const (
 
 // All allowed values of SwitchVirtualChassisMemberVcRole enum
 var AllowedSwitchVirtualChassisMemberVcRoleEnumValues = []SwitchVirtualChassisMemberVcRole{
+	"",
 	"master",
 	"linecard",
 	"backup",

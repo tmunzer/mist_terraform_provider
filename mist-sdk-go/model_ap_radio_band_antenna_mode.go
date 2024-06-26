@@ -21,6 +21,7 @@ type ApRadioBandAntennaMode string
 
 // List of ap_radio_band_antenna_mode
 const (
+	APRADIOBANDANTENNAMODE_EMPTY ApRadioBandAntennaMode = ""
 	APRADIOBANDANTENNAMODE_DEFAULT ApRadioBandAntennaMode = "default"
 	APRADIOBANDANTENNAMODE__1X1 ApRadioBandAntennaMode = "1x1"
 	APRADIOBANDANTENNAMODE__2X2 ApRadioBandAntennaMode = "2x2"
@@ -30,6 +31,7 @@ const (
 
 // All allowed values of ApRadioBandAntennaMode enum
 var AllowedApRadioBandAntennaModeEnumValues = []ApRadioBandAntennaMode{
+	"",
 	"default",
 	"1x1",
 	"2x2",

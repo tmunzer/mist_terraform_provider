@@ -21,6 +21,7 @@ type ApStatsStatus string
 
 // List of ap_stats_status
 const (
+	APSTATSSTATUS_EMPTY ApStatsStatus = ""
 	APSTATSSTATUS_CONNECTED ApStatsStatus = "connected"
 	APSTATSSTATUS_DISCONNECTED ApStatsStatus = "disconnected"
 	APSTATSSTATUS_RESTARTING ApStatsStatus = "restarting"
@@ -29,6 +30,7 @@ const (
 
 // All allowed values of ApStatsStatus enum
 var AllowedApStatsStatusEnumValues = []ApStatsStatus{
+	"",
 	"connected",
 	"disconnected",
 	"restarting",

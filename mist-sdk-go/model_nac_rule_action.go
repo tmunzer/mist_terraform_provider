@@ -21,12 +21,14 @@ type NacRuleAction string
 
 // List of nac_rule_action
 const (
+	NACRULEACTION_EMPTY NacRuleAction = ""
 	NACRULEACTION_ALLOW NacRuleAction = "allow"
 	NACRULEACTION_BLOCK NacRuleAction = "block"
 )
 
 // All allowed values of NacRuleAction enum
 var AllowedNacRuleActionEnumValues = []NacRuleAction{
+	"",
 	"allow",
 	"block",
 }

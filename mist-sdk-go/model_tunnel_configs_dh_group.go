@@ -21,6 +21,7 @@ type TunnelConfigsDhGroup string
 
 // List of tunnel_configs_dh_group
 const (
+	TUNNELCONFIGSDHGROUP_EMPTY TunnelConfigsDhGroup = ""
 	TUNNELCONFIGSDHGROUP__1 TunnelConfigsDhGroup = "1"
 	TUNNELCONFIGSDHGROUP__2 TunnelConfigsDhGroup = "2"
 	TUNNELCONFIGSDHGROUP__5 TunnelConfigsDhGroup = "5"
@@ -35,6 +36,7 @@ const (
 
 // All allowed values of TunnelConfigsDhGroup enum
 var AllowedTunnelConfigsDhGroupEnumValues = []TunnelConfigsDhGroup{
+	"",
 	"1",
 	"2",
 	"5",

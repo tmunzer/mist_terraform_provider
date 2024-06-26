@@ -21,6 +21,7 @@ type RrmEventType string
 
 // List of rrm_event_type
 const (
+	RRMEVENTTYPE_EMPTY RrmEventType = ""
 	RRMEVENTTYPE_TRIGGERED_SITE_RRM RrmEventType = "triggered-site_rrm"
 	RRMEVENTTYPE_INTERFERENCE_AP_CO_CHANNEL RrmEventType = "interference-ap-co-channel"
 	RRMEVENTTYPE_RRM_RADAR RrmEventType = "rrm-radar"
@@ -33,6 +34,7 @@ const (
 
 // All allowed values of RrmEventType enum
 var AllowedRrmEventTypeEnumValues = []RrmEventType{
+	"",
 	"triggered-site_rrm",
 	"interference-ap-co-channel",
 	"rrm-radar",

@@ -32,7 +32,7 @@ import (
 
 func main() {
 	siteId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	distinct := openapiclient.site_system_events_count_distinct("type") // SiteSystemEventsCountDistinct |  (optional) (default to "type")
+	distinct := openapiclient.site_system_events_count_distinct("") // SiteSystemEventsCountDistinct |  (optional) (default to "type")
 	type_ := "type__example" // string | see [listDeviceEventsDefinitions]($e/Constants%20Events/listDeviceEventsDefinitions) (optional)
 	limit := int32(56) // int32 |  (optional) (default to 100)
 	start := int32(56) // int32 | start datetime, can be epoch or relative time like -1d, -1w; -1d if not specified (optional)
@@ -114,7 +114,7 @@ import (
 
 func main() {
 	siteId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	type_ := openapiclient.fast_roam_result("success") // FastRoamResult | event type (optional)
+	type_ := openapiclient.fast_roam_result("") // FastRoamResult | event type (optional)
 	limit := int32(56) // int32 |  (optional) (default to 100)
 	start := int32(56) // int32 | start datetime, can be epoch or relative time like -1d, -1w; -1d if not specified (optional)
 	end := int32(56) // int32 | end datetime, can be epoch or relative time like -1d, -2h; now if not specified (optional)

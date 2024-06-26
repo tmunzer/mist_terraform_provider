@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `WAN` (value: `"wan"`)
 
 * `WIRED` (value: `"wired"`)

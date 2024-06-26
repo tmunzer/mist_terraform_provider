@@ -21,6 +21,7 @@ type FastRoamResult string
 
 // List of fast_roam_result
 const (
+	FASTROAMRESULT_EMPTY FastRoamResult = ""
 	FASTROAMRESULT_SUCCESS FastRoamResult = "success"
 	FASTROAMRESULT_FAIL FastRoamResult = "fail"
 	FASTROAMRESULT_NONE FastRoamResult = "none"
@@ -28,6 +29,7 @@ const (
 
 // All allowed values of FastRoamResult enum
 var AllowedFastRoamResultEnumValues = []FastRoamResult{
+	"",
 	"success",
 	"fail",
 	"none",

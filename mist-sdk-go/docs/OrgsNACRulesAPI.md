@@ -34,7 +34,7 @@ import (
 
 func main() {
 	orgId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	nacRule := *openapiclient.NewNacRule(openapiclient.nac_rule_action("allow"), "Name_example") // NacRule |  (optional)
+	nacRule := *openapiclient.NewNacRule(openapiclient.nac_rule_action(""), "Name_example") // NacRule |  (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -325,7 +325,7 @@ import (
 func main() {
 	orgId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
 	nacruleId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	nacRule := *openapiclient.NewNacRule(openapiclient.nac_rule_action("allow"), "Name_example") // NacRule |  (optional)
+	nacRule := *openapiclient.NewNacRule(openapiclient.nac_rule_action(""), "Name_example") // NacRule |  (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)

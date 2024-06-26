@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `INIT` (value: `"init"`)
 
 * `AUTHENTICATED` (value: `"authenticated"`)

@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `ADMIN` (value: `"admin"`)
 
 * `WRITE` (value: `"write"`)

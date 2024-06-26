@@ -21,11 +21,13 @@ type WebhookClientInfoTopic string
 
 // List of webhook_client_info_topic
 const (
+	WEBHOOKCLIENTINFOTOPIC_EMPTY WebhookClientInfoTopic = ""
 	WEBHOOKCLIENTINFOTOPIC_CLIENT_INFO WebhookClientInfoTopic = "client-info"
 )
 
 // All allowed values of WebhookClientInfoTopic enum
 var AllowedWebhookClientInfoTopicEnumValues = []WebhookClientInfoTopic{
+	"",
 	"client-info",
 }
 

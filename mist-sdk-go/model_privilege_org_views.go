@@ -21,6 +21,7 @@ type PrivilegeOrgViews string
 
 // List of privilege_org_views
 const (
+	PRIVILEGEORGVIEWS_EMPTY PrivilegeOrgViews = ""
 	PRIVILEGEORGVIEWS_REPORTING PrivilegeOrgViews = "reporting"
 	PRIVILEGEORGVIEWS_MARKETING PrivilegeOrgViews = "marketing"
 	PRIVILEGEORGVIEWS_LOCATION PrivilegeOrgViews = "location"
@@ -32,6 +33,7 @@ const (
 
 // All allowed values of PrivilegeOrgViews enum
 var AllowedPrivilegeOrgViewsEnumValues = []PrivilegeOrgViews{
+	"",
 	"reporting",
 	"marketing",
 	"location",

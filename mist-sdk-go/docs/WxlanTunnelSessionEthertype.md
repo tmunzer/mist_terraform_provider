@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `ETHERNET` (value: `"ethernet"`)
 
 * `VLAN` (value: `"vlan"`)

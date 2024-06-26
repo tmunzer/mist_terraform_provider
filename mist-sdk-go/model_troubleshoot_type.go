@@ -21,6 +21,7 @@ type TroubleshootType string
 
 // List of troubleshoot_type
 const (
+	TROUBLESHOOTTYPE_EMPTY TroubleshootType = ""
 	TROUBLESHOOTTYPE_WIRELESS TroubleshootType = "wireless"
 	TROUBLESHOOTTYPE_WIRED TroubleshootType = "wired"
 	TROUBLESHOOTTYPE_WAN TroubleshootType = "wan"
@@ -28,6 +29,7 @@ const (
 
 // All allowed values of TroubleshootType enum
 var AllowedTroubleshootTypeEnumValues = []TroubleshootType{
+	"",
 	"wireless",
 	"wired",
 	"wan",

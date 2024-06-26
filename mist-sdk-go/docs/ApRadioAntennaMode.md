@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `DEFAULT` (value: `"default"`)
 
 * `_1X1` (value: `"1x1"`)

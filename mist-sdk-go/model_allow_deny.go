@@ -21,12 +21,14 @@ type AllowDeny string
 
 // List of allow_deny
 const (
+	ALLOWDENY_EMPTY AllowDeny = ""
 	ALLOWDENY_ALLOW AllowDeny = "allow"
 	ALLOWDENY_DENY AllowDeny = "deny"
 )
 
 // All allowed values of AllowDeny enum
 var AllowedAllowDenyEnumValues = []AllowDeny{
+	"",
 	"allow",
 	"deny",
 }

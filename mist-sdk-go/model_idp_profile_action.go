@@ -21,6 +21,7 @@ type IdpProfileAction string
 
 // List of idp_profile_action
 const (
+	IDPPROFILEACTION_EMPTY IdpProfileAction = ""
 	IDPPROFILEACTION_ALERT IdpProfileAction = "alert"
 	IDPPROFILEACTION_DROP IdpProfileAction = "drop"
 	IDPPROFILEACTION_CLOSE IdpProfileAction = "close"
@@ -28,6 +29,7 @@ const (
 
 // All allowed values of IdpProfileAction enum
 var AllowedIdpProfileActionEnumValues = []IdpProfileAction{
+	"",
 	"alert",
 	"drop",
 	"close",

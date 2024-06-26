@@ -21,6 +21,7 @@ type ServiceType string
 
 // List of service_type
 const (
+	SERVICETYPE_EMPTY ServiceType = ""
 	SERVICETYPE_APPS ServiceType = "apps"
 	SERVICETYPE_APP_CATEGORIES ServiceType = "app_categories"
 	SERVICETYPE_CUSTOM ServiceType = "custom"
@@ -29,6 +30,7 @@ const (
 
 // All allowed values of ServiceType enum
 var AllowedServiceTypeEnumValues = []ServiceType{
+	"",
 	"apps",
 	"app_categories",
 	"custom",

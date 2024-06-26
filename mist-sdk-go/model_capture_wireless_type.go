@@ -21,11 +21,13 @@ type CaptureWirelessType string
 
 // List of capture_wireless_type
 const (
+	CAPTUREWIRELESSTYPE_EMPTY CaptureWirelessType = ""
 	CAPTUREWIRELESSTYPE_WIRELESS CaptureWirelessType = "wireless"
 )
 
 // All allowed values of CaptureWirelessType enum
 var AllowedCaptureWirelessTypeEnumValues = []CaptureWirelessType{
+	"",
 	"wireless",
 }
 

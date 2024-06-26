@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `BROADCAST` (value: `"broadcast"`)
 
 * `NBMA` (value: `"nbma"`)

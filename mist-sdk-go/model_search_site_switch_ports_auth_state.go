@@ -21,6 +21,7 @@ type SearchSiteSwitchPortsAuthState string
 
 // List of search_site_switch_ports_auth_state
 const (
+	SEARCHSITESWITCHPORTSAUTHSTATE_EMPTY SearchSiteSwitchPortsAuthState = ""
 	SEARCHSITESWITCHPORTSAUTHSTATE_INIT SearchSiteSwitchPortsAuthState = "init"
 	SEARCHSITESWITCHPORTSAUTHSTATE_AUTHENTICATED SearchSiteSwitchPortsAuthState = "authenticated"
 	SEARCHSITESWITCHPORTSAUTHSTATE_AUTHENTICATING SearchSiteSwitchPortsAuthState = "authenticating"
@@ -29,6 +30,7 @@ const (
 
 // All allowed values of SearchSiteSwitchPortsAuthState enum
 var AllowedSearchSiteSwitchPortsAuthStateEnumValues = []SearchSiteSwitchPortsAuthState{
+	"",
 	"init",
 	"authenticated",
 	"authenticating",

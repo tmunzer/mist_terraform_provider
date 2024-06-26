@@ -21,6 +21,7 @@ type InventoryUpdateOperation string
 
 // List of inventory_update_operation
 const (
+	INVENTORYUPDATEOPERATION_EMPTY InventoryUpdateOperation = ""
 	INVENTORYUPDATEOPERATION_ASSIGN InventoryUpdateOperation = "assign"
 	INVENTORYUPDATEOPERATION_UNASSIGN InventoryUpdateOperation = "unassign"
 	INVENTORYUPDATEOPERATION_DELETE InventoryUpdateOperation = "delete"
@@ -30,6 +31,7 @@ const (
 
 // All allowed values of InventoryUpdateOperation enum
 var AllowedInventoryUpdateOperationEnumValues = []InventoryUpdateOperation{
+	"",
 	"assign",
 	"unassign",
 	"delete",

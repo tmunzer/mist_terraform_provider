@@ -31,7 +31,7 @@ import (
 
 func main() {
 	orgId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	distinct := openapiclient.org_logs_count_distinct("admin_id") // OrgLogsCountDistinct |  (optional) (default to "admin_name")
+	distinct := openapiclient.org_logs_count_distinct("") // OrgLogsCountDistinct |  (optional) (default to "admin_name")
 	adminId := "adminId_example" // string |  (optional)
 	adminName := "adminName_example" // string |  (optional)
 	siteId := "siteId_example" // string |  (optional)
@@ -124,7 +124,7 @@ func main() {
 	siteId := "siteId_example" // string | site id (optional)
 	adminName := "adminName_example" // string | admin name or email (optional)
 	message := "message_example" // string | message (optional)
-	sort := openapiclient.list_org_logs_sort("timestamp") // ListOrgLogsSort | sort order (optional)
+	sort := openapiclient.list_org_logs_sort("") // ListOrgLogsSort | sort order (optional)
 	start := int32(56) // int32 | start datetime, can be epoch or relative time like -1d, -1w; -1d if not specified (optional)
 	end := int32(56) // int32 | end datetime, can be epoch or relative time like -1d, -2h; now if not specified (optional)
 	limit := int32(56) // int32 |  (optional) (default to 100)

@@ -21,6 +21,7 @@ type SiteAutoUpgradeVersion string
 
 // List of site_auto_upgrade_version
 const (
+	SITEAUTOUPGRADEVERSION_EMPTY SiteAutoUpgradeVersion = ""
 	SITEAUTOUPGRADEVERSION_BETA SiteAutoUpgradeVersion = "beta"
 	SITEAUTOUPGRADEVERSION_STABLE SiteAutoUpgradeVersion = "stable"
 	SITEAUTOUPGRADEVERSION_CUSTOM SiteAutoUpgradeVersion = "custom"
@@ -28,6 +29,7 @@ const (
 
 // All allowed values of SiteAutoUpgradeVersion enum
 var AllowedSiteAutoUpgradeVersionEnumValues = []SiteAutoUpgradeVersion{
+	"",
 	"beta",
 	"stable",
 	"custom",

@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `RESTRICTED` (value: `"restricted"`)
 
 * `BLOCKED` (value: `"blocked"`)

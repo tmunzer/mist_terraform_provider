@@ -21,6 +21,7 @@ type GatewayTemplateTunnelIkeDhGroup string
 
 // List of gateway_template_tunnel_ike_dh_group
 const (
+	GATEWAYTEMPLATETUNNELIKEDHGROUP_EMPTY GatewayTemplateTunnelIkeDhGroup = ""
 	GATEWAYTEMPLATETUNNELIKEDHGROUP__1 GatewayTemplateTunnelIkeDhGroup = "1"
 	GATEWAYTEMPLATETUNNELIKEDHGROUP__2 GatewayTemplateTunnelIkeDhGroup = "2"
 	GATEWAYTEMPLATETUNNELIKEDHGROUP__5 GatewayTemplateTunnelIkeDhGroup = "5"
@@ -35,6 +36,7 @@ const (
 
 // All allowed values of GatewayTemplateTunnelIkeDhGroup enum
 var AllowedGatewayTemplateTunnelIkeDhGroupEnumValues = []GatewayTemplateTunnelIkeDhGroup{
+	"",
 	"1",
 	"2",
 	"5",

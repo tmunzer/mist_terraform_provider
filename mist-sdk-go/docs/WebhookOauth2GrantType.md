@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `CLIENT_CREDENTIALS` (value: `"client_credentials"`)
 
 * `PASSWORD` (value: `"password"`)

@@ -36,7 +36,7 @@ import (
 
 func main() {
 	orgId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	wxlanTag := *openapiclient.NewWxlanTag("Name_example", openapiclient.wxlan_tag_type("match")) // WxlanTag | Request Body (optional)
+	wxlanTag := *openapiclient.NewWxlanTag("Name_example", openapiclient.wxlan_tag_type("")) // WxlanTag | Request Body (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -470,7 +470,7 @@ import (
 func main() {
 	orgId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
 	wxtagId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	wxlanTag := *openapiclient.NewWxlanTag("Name_example", openapiclient.wxlan_tag_type("match")) // WxlanTag | Request Body (optional)
+	wxlanTag := *openapiclient.NewWxlanTag("Name_example", openapiclient.wxlan_tag_type("")) // WxlanTag | Request Body (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)

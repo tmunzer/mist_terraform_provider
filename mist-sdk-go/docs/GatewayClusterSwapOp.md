@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `SWAP` (value: `"swap"`)
 
 * `REPLACE_NODE1` (value: `"replace_node1"`)

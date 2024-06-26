@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `MAIN` (value: `"main"`)
 
 * `AGGRESSIVE` (value: `"aggressive"`)

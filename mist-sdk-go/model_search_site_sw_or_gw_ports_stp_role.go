@@ -21,6 +21,7 @@ type SearchSiteSwOrGwPortsStpRole string
 
 // List of search_site_sw_or_gw_ports_stp_role
 const (
+	SEARCHSITESWORGWPORTSSTPROLE_EMPTY SearchSiteSwOrGwPortsStpRole = ""
 	SEARCHSITESWORGWPORTSSTPROLE_DESIGNATED SearchSiteSwOrGwPortsStpRole = "designated"
 	SEARCHSITESWORGWPORTSSTPROLE_BACKUP SearchSiteSwOrGwPortsStpRole = "backup"
 	SEARCHSITESWORGWPORTSSTPROLE_ALTERNATE SearchSiteSwOrGwPortsStpRole = "alternate"
@@ -30,6 +31,7 @@ const (
 
 // All allowed values of SearchSiteSwOrGwPortsStpRole enum
 var AllowedSearchSiteSwOrGwPortsStpRoleEnumValues = []SearchSiteSwOrGwPortsStpRole{
+	"",
 	"designated",
 	"backup",
 	"alternate",

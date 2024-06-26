@@ -21,6 +21,7 @@ type WlanRoamMode string
 
 // List of wlan_roam_mode
 const (
+	WLANROAMMODE_EMPTY WlanRoamMode = ""
 	WLANROAMMODE_NONE WlanRoamMode = "none"
 	WLANROAMMODE_OKC WlanRoamMode = "OKC"
 	WLANROAMMODE__11R WlanRoamMode = "11r"
@@ -28,6 +29,7 @@ const (
 
 // All allowed values of WlanRoamMode enum
 var AllowedWlanRoamModeEnumValues = []WlanRoamMode{
+	"",
 	"none",
 	"OKC",
 	"11r",

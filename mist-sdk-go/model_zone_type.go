@@ -21,12 +21,14 @@ type ZoneType string
 
 // List of zone_type
 const (
+	ZONETYPE_EMPTY ZoneType = ""
 	ZONETYPE_ZONES ZoneType = "zones"
 	ZONETYPE_RSSIZONES ZoneType = "rssizones"
 )
 
 // All allowed values of ZoneType enum
 var AllowedZoneTypeEnumValues = []ZoneType{
+	"",
 	"zones",
 	"rssizones",
 }

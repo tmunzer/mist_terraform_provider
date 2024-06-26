@@ -21,12 +21,14 @@ type AdminComplianceStatus string
 
 // List of admin_compliance_status
 const (
+	ADMINCOMPLIANCESTATUS_EMPTY AdminComplianceStatus = ""
 	ADMINCOMPLIANCESTATUS_RESTRICTED AdminComplianceStatus = "restricted"
 	ADMINCOMPLIANCESTATUS_BLOCKED AdminComplianceStatus = "blocked"
 )
 
 // All allowed values of AdminComplianceStatus enum
 var AllowedAdminComplianceStatusEnumValues = []AdminComplianceStatus{
+	"",
 	"restricted",
 	"blocked",
 }

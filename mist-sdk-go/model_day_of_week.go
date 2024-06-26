@@ -21,6 +21,7 @@ type DayOfWeek string
 
 // List of day_of_week
 const (
+	DAYOFWEEK_EMPTY DayOfWeek = ""
 	DAYOFWEEK_ANY DayOfWeek = "any"
 	DAYOFWEEK_MON DayOfWeek = "mon"
 	DAYOFWEEK_TUE DayOfWeek = "tue"
@@ -33,6 +34,7 @@ const (
 
 // All allowed values of DayOfWeek enum
 var AllowedDayOfWeekEnumValues = []DayOfWeek{
+	"",
 	"any",
 	"mon",
 	"tue",

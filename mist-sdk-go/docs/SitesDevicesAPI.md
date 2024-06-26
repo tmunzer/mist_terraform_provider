@@ -208,7 +208,7 @@ import (
 
 func main() {
 	siteId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	distinct := openapiclient.site_device_events_count_distinct("model") // SiteDeviceEventsCountDistinct |  (optional) (default to "model")
+	distinct := openapiclient.site_device_events_count_distinct("") // SiteDeviceEventsCountDistinct |  (optional) (default to "model")
 	model := "model_example" // string |  (optional)
 	type_ := "type__example" // string | see [listDeviceEventsDefinitions]($e/Constants%20Events/listDeviceEventsDefinitions) (optional)
 	typeCode := "typeCode_example" // string |  (optional)
@@ -294,7 +294,7 @@ import (
 
 func main() {
 	siteId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	distinct := openapiclient.site_device_last_config_count_distinct("version") // SiteDeviceLastConfigCountDistinct |  (optional) (default to "mac")
+	distinct := openapiclient.site_device_last_config_count_distinct("") // SiteDeviceLastConfigCountDistinct |  (optional) (default to "mac")
 	page := int32(56) // int32 |  (optional) (default to 1)
 	limit := int32(56) // int32 |  (optional) (default to 100)
 	start := int32(56) // int32 | start datetime, can be epoch or relative time like -1d, -1w; -1d if not specified (optional)
@@ -376,7 +376,7 @@ import (
 
 func main() {
 	siteId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	distinct := openapiclient.site_devices_count_distinct("model") // SiteDevicesCountDistinct |  (optional) (default to "model")
+	distinct := openapiclient.site_devices_count_distinct("") // SiteDevicesCountDistinct |  (optional) (default to "model")
 	hostname := "hostname_example" // string |  (optional)
 	model := "model_example" // string |  (optional)
 	mac := "mac_example" // string |  (optional)
@@ -840,7 +840,7 @@ import (
 
 func main() {
 	siteId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	type_ := openapiclient.device_type_with_all("ap") // DeviceTypeWithAll |  (optional) (default to "ap")
+	type_ := openapiclient.device_type_with_all("") // DeviceTypeWithAll |  (optional) (default to "ap")
 	name := "name_example" // string |  (optional) (default to "")
 	page := int32(56) // int32 |  (optional) (default to 1)
 	limit := int32(56) // int32 |  (optional) (default to 100)
@@ -988,7 +988,7 @@ import (
 
 func main() {
 	siteId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	type_ := openapiclient.device_type("ap") // DeviceType |  (optional) (default to "ap")
+	type_ := openapiclient.device_type("") // DeviceType |  (optional) (default to "ap")
 	mac := "mac_example" // string | Device MAC Address (optional)
 	limit := int32(56) // int32 |  (optional) (default to 100)
 	start := int32(56) // int32 | start datetime, can be epoch or relative time like -1d, -1w; -1d if not specified (optional)
@@ -1160,7 +1160,7 @@ import (
 
 func main() {
 	siteId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	type_ := openapiclient.device_type("ap") // DeviceType |  (optional) (default to "ap")
+	type_ := openapiclient.device_type("") // DeviceType |  (optional) (default to "ap")
 	mac := "mac_example" // string |  (optional)
 	version := "version_example" // string |  (optional)
 	name := "name_example" // string |  (optional)
@@ -1247,13 +1247,13 @@ import (
 func main() {
 	siteId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
 	hostname := "hostname_example" // string | partial / full hostname (optional)
-	type_ := openapiclient.device_type("ap") // DeviceType |  (optional) (default to "ap")
+	type_ := openapiclient.device_type("") // DeviceType |  (optional) (default to "ap")
 	model := "model_example" // string | device model (optional)
 	mac := "mac_example" // string | device MAC (optional)
 	version := "version_example" // string | version (optional)
 	powerConstrained := true // bool | power_constrained (optional)
 	ipAddress := "192.168.1.1" // string |  (optional)
-	mxtunnelStatus := openapiclient.search_site_devices_mxtunnel_status("up") // SearchSiteDevicesMxtunnelStatus | MxTunnel status, up / down (optional)
+	mxtunnelStatus := openapiclient.search_site_devices_mxtunnel_status("") // SearchSiteDevicesMxtunnelStatus | MxTunnel status, up / down (optional)
 	mxedgeId := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | Mist Edge id, if AP is connecting to a Mist Edge (optional)
 	lldpSystemName := "lldpSystemName_example" // string | LLDP system name (optional)
 	lldpSystemDesc := "lldpSystemDesc_example" // string | LLDP system description (optional)
@@ -1266,8 +1266,8 @@ func main() {
 	band5Bandwith := int32(56) // int32 | Bandwidth of band_5 (optional)
 	band6Bandwith := int32(56) // int32 | Bandwidth of band_6 (optional)
 	eth0PortSpeed := int32(56) // int32 | Port speed of eth0 (optional)
-	sort := openapiclient.search_site_devices_sort("timestamp") // SearchSiteDevicesSort | sort options (optional) (default to "timestamp")
-	descSort := openapiclient.search_site_devices_desc_sort("timestamp") // SearchSiteDevicesDescSort | sort options in reverse order (optional)
+	sort := openapiclient.search_site_devices_sort("") // SearchSiteDevicesSort | sort options (optional) (default to "timestamp")
+	descSort := openapiclient.search_site_devices_desc_sort("") // SearchSiteDevicesDescSort | sort options in reverse order (optional)
 	stats := true // bool | whether to return device stats (optional) (default to false)
 	limit := int32(56) // int32 |  (optional) (default to 100)
 	start := int32(56) // int32 | start datetime, can be epoch or relative time like -1d, -1w; -1d if not specified (optional)

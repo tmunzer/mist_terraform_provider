@@ -21,6 +21,7 @@ type TunnelConfigsAutoProvisionRegion string
 
 // List of tunnel_configs_auto_provision_region
 const (
+	TUNNELCONFIGSAUTOPROVISIONREGION_EMPTY TunnelConfigsAutoProvisionRegion = ""
 	TUNNELCONFIGSAUTOPROVISIONREGION_AUTO TunnelConfigsAutoProvisionRegion = "auto"
 	TUNNELCONFIGSAUTOPROVISIONREGION_EMEA TunnelConfigsAutoProvisionRegion = "EMEA"
 	TUNNELCONFIGSAUTOPROVISIONREGION_AMERICAS TunnelConfigsAutoProvisionRegion = "Americas"
@@ -29,6 +30,7 @@ const (
 
 // All allowed values of TunnelConfigsAutoProvisionRegion enum
 var AllowedTunnelConfigsAutoProvisionRegionEnumValues = []TunnelConfigsAutoProvisionRegion{
+	"",
 	"auto",
 	"EMEA",
 	"Americas",

@@ -31,7 +31,7 @@ import (
 
 func main() {
 	mspId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	distinct := openapiclient.msp_tickets_count_distinct("status") // MspTicketsCountDistinct |  (optional) (default to "status")
+	distinct := openapiclient.msp_tickets_count_distinct("") // MspTicketsCountDistinct |  (optional) (default to "status")
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)

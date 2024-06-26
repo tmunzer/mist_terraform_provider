@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `APPS` (value: `"apps"`)
 
 * `APP_CATEGORIES` (value: `"app_categories"`)

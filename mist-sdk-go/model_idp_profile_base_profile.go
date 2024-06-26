@@ -21,12 +21,14 @@ type IdpProfileBaseProfile string
 
 // List of idp_profile_base_profile
 const (
+	IDPPROFILEBASEPROFILE_EMPTY IdpProfileBaseProfile = ""
 	IDPPROFILEBASEPROFILE_STRICT IdpProfileBaseProfile = "strict"
 	IDPPROFILEBASEPROFILE_STANDARD IdpProfileBaseProfile = "standard"
 )
 
 // All allowed values of IdpProfileBaseProfile enum
 var AllowedIdpProfileBaseProfileEnumValues = []IdpProfileBaseProfile{
+	"",
 	"strict",
 	"standard",
 }

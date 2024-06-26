@@ -21,6 +21,7 @@ type SyntheticTestType string
 
 // List of synthetic_test_type
 const (
+	SYNTHETICTESTTYPE_EMPTY SyntheticTestType = ""
 	SYNTHETICTESTTYPE_DNS SyntheticTestType = "dns"
 	SYNTHETICTESTTYPE_ARP SyntheticTestType = "arp"
 	SYNTHETICTESTTYPE_DHCP SyntheticTestType = "dhcp"
@@ -32,6 +33,7 @@ const (
 
 // All allowed values of SyntheticTestType enum
 var AllowedSyntheticTestTypeEnumValues = []SyntheticTestType{
+	"",
 	"dns",
 	"arp",
 	"dhcp",

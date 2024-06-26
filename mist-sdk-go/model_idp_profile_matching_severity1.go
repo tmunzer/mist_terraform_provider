@@ -21,6 +21,7 @@ type IdpProfileMatchingSeverity1 string
 
 // List of idp_profile_matching_severity1
 const (
+	IDPPROFILEMATCHINGSEVERITY1_EMPTY IdpProfileMatchingSeverity1 = ""
 	IDPPROFILEMATCHINGSEVERITY1_CRITICAL IdpProfileMatchingSeverity1 = "critical"
 	IDPPROFILEMATCHINGSEVERITY1_MAJOR IdpProfileMatchingSeverity1 = "major"
 	IDPPROFILEMATCHINGSEVERITY1_MINOR IdpProfileMatchingSeverity1 = "minor"
@@ -29,6 +30,7 @@ const (
 
 // All allowed values of IdpProfileMatchingSeverity1 enum
 var AllowedIdpProfileMatchingSeverity1EnumValues = []IdpProfileMatchingSeverity1{
+	"",
 	"critical",
 	"major",
 	"minor",

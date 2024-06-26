@@ -104,7 +104,7 @@ import (
 func main() {
 	siteId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
 	deviceId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	band := openapiclient.dot11_band("24") // Dot11Band | 802.11 Band
+	band := openapiclient.dot11_band("") // Dot11Band | 802.11 Band
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -179,7 +179,7 @@ import (
 
 func main() {
 	siteId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	band := openapiclient.dot11_band("24") // Dot11Band | 802.11 Band
+	band := openapiclient.dot11_band("") // Dot11Band | 802.11 Band
 	page := int32(56) // int32 |  (optional) (default to 1)
 	limit := int32(56) // int32 |  (optional) (default to 100)
 
@@ -256,7 +256,7 @@ import (
 
 func main() {
 	siteId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	band := openapiclient.dot11_band("24") // Dot11Band | 802.11 Band (optional)
+	band := openapiclient.dot11_band("") // Dot11Band | 802.11 Band (optional)
 	page := int32(56) // int32 |  (optional) (default to 1)
 	limit := int32(56) // int32 |  (optional) (default to 100)
 	start := int32(56) // int32 | start datetime, can be epoch or relative time like -1d, -1w; -1d if not specified (optional)

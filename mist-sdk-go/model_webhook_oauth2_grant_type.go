@@ -21,12 +21,14 @@ type WebhookOauth2GrantType string
 
 // List of webhook_oauth2_grant_type
 const (
+	WEBHOOKOAUTH2GRANTTYPE_EMPTY WebhookOauth2GrantType = ""
 	WEBHOOKOAUTH2GRANTTYPE_CLIENT_CREDENTIALS WebhookOauth2GrantType = "client_credentials"
 	WEBHOOKOAUTH2GRANTTYPE_PASSWORD WebhookOauth2GrantType = "password"
 )
 
 // All allowed values of WebhookOauth2GrantType enum
 var AllowedWebhookOauth2GrantTypeEnumValues = []WebhookOauth2GrantType{
+	"",
 	"client_credentials",
 	"password",
 }

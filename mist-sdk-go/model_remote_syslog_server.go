@@ -22,13 +22,13 @@ var _ MappedNullable = &RemoteSyslogServer{}
 type RemoteSyslogServer struct {
 	Contents []RemoteSyslogContent `json:"contents,omitempty"`
 	ExplicitPriority *bool `json:"explicit_priority,omitempty"`
-	Facility *SyslogServerFacility `json:"facility,omitempty"`
+	Facility *RemoteSyslogFacility `json:"facility,omitempty"`
 	Host *string `json:"host,omitempty"`
 	Match *string `json:"match,omitempty"`
 	Port *int32 `json:"port,omitempty"`
-	Protocol *SyslogServerProtocol `json:"protocol,omitempty"`
+	Protocol *RemoteSyslogServerProtocol `json:"protocol,omitempty"`
 	RoutingInstance *string `json:"routing_instance,omitempty"`
-	Severity *SyslogServerSeverity `json:"severity,omitempty"`
+	Severity *RemoteSyslogSeverity `json:"severity,omitempty"`
 	// if source_address is configured, will use the vlan firstly otherwise use source_ip
 	SourceAddress *string `json:"source_address,omitempty"`
 	StructuredData *bool `json:"structured_data,omitempty"`
@@ -44,10 +44,14 @@ type _RemoteSyslogServer RemoteSyslogServer
 // will change when the set of required properties is changed
 func NewRemoteSyslogServer() *RemoteSyslogServer {
 	this := RemoteSyslogServer{}
+	var facility RemoteSyslogFacility = REMOTESYSLOGFACILITY_ANY
+	this.Facility = &facility
 	var port int32 = 514
 	this.Port = &port
-	var protocol SyslogServerProtocol = SYSLOGSERVERPROTOCOL_UDP
+	var protocol RemoteSyslogServerProtocol = REMOTESYSLOGSERVERPROTOCOL_UDP
 	this.Protocol = &protocol
+	var severity RemoteSyslogSeverity = REMOTESYSLOGSEVERITY_ANY
+	this.Severity = &severity
 	return &this
 }
 
@@ -56,10 +60,14 @@ func NewRemoteSyslogServer() *RemoteSyslogServer {
 // but it doesn't guarantee that properties required by API are set
 func NewRemoteSyslogServerWithDefaults() *RemoteSyslogServer {
 	this := RemoteSyslogServer{}
+	var facility RemoteSyslogFacility = REMOTESYSLOGFACILITY_ANY
+	this.Facility = &facility
 	var port int32 = 514
 	this.Port = &port
-	var protocol SyslogServerProtocol = SYSLOGSERVERPROTOCOL_UDP
+	var protocol RemoteSyslogServerProtocol = REMOTESYSLOGSERVERPROTOCOL_UDP
 	this.Protocol = &protocol
+	var severity RemoteSyslogSeverity = REMOTESYSLOGSEVERITY_ANY
+	this.Severity = &severity
 	return &this
 }
 
@@ -128,9 +136,9 @@ func (o *RemoteSyslogServer) SetExplicitPriority(v bool) {
 }
 
 // GetFacility returns the Facility field value if set, zero value otherwise.
-func (o *RemoteSyslogServer) GetFacility() SyslogServerFacility {
+func (o *RemoteSyslogServer) GetFacility() RemoteSyslogFacility {
 	if o == nil || IsNil(o.Facility) {
-		var ret SyslogServerFacility
+		var ret RemoteSyslogFacility
 		return ret
 	}
 	return *o.Facility
@@ -138,7 +146,7 @@ func (o *RemoteSyslogServer) GetFacility() SyslogServerFacility {
 
 // GetFacilityOk returns a tuple with the Facility field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RemoteSyslogServer) GetFacilityOk() (*SyslogServerFacility, bool) {
+func (o *RemoteSyslogServer) GetFacilityOk() (*RemoteSyslogFacility, bool) {
 	if o == nil || IsNil(o.Facility) {
 		return nil, false
 	}
@@ -154,8 +162,8 @@ func (o *RemoteSyslogServer) HasFacility() bool {
 	return false
 }
 
-// SetFacility gets a reference to the given SyslogServerFacility and assigns it to the Facility field.
-func (o *RemoteSyslogServer) SetFacility(v SyslogServerFacility) {
+// SetFacility gets a reference to the given RemoteSyslogFacility and assigns it to the Facility field.
+func (o *RemoteSyslogServer) SetFacility(v RemoteSyslogFacility) {
 	o.Facility = &v
 }
 
@@ -256,9 +264,9 @@ func (o *RemoteSyslogServer) SetPort(v int32) {
 }
 
 // GetProtocol returns the Protocol field value if set, zero value otherwise.
-func (o *RemoteSyslogServer) GetProtocol() SyslogServerProtocol {
+func (o *RemoteSyslogServer) GetProtocol() RemoteSyslogServerProtocol {
 	if o == nil || IsNil(o.Protocol) {
-		var ret SyslogServerProtocol
+		var ret RemoteSyslogServerProtocol
 		return ret
 	}
 	return *o.Protocol
@@ -266,7 +274,7 @@ func (o *RemoteSyslogServer) GetProtocol() SyslogServerProtocol {
 
 // GetProtocolOk returns a tuple with the Protocol field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RemoteSyslogServer) GetProtocolOk() (*SyslogServerProtocol, bool) {
+func (o *RemoteSyslogServer) GetProtocolOk() (*RemoteSyslogServerProtocol, bool) {
 	if o == nil || IsNil(o.Protocol) {
 		return nil, false
 	}
@@ -282,8 +290,8 @@ func (o *RemoteSyslogServer) HasProtocol() bool {
 	return false
 }
 
-// SetProtocol gets a reference to the given SyslogServerProtocol and assigns it to the Protocol field.
-func (o *RemoteSyslogServer) SetProtocol(v SyslogServerProtocol) {
+// SetProtocol gets a reference to the given RemoteSyslogServerProtocol and assigns it to the Protocol field.
+func (o *RemoteSyslogServer) SetProtocol(v RemoteSyslogServerProtocol) {
 	o.Protocol = &v
 }
 
@@ -320,9 +328,9 @@ func (o *RemoteSyslogServer) SetRoutingInstance(v string) {
 }
 
 // GetSeverity returns the Severity field value if set, zero value otherwise.
-func (o *RemoteSyslogServer) GetSeverity() SyslogServerSeverity {
+func (o *RemoteSyslogServer) GetSeverity() RemoteSyslogSeverity {
 	if o == nil || IsNil(o.Severity) {
-		var ret SyslogServerSeverity
+		var ret RemoteSyslogSeverity
 		return ret
 	}
 	return *o.Severity
@@ -330,7 +338,7 @@ func (o *RemoteSyslogServer) GetSeverity() SyslogServerSeverity {
 
 // GetSeverityOk returns a tuple with the Severity field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RemoteSyslogServer) GetSeverityOk() (*SyslogServerSeverity, bool) {
+func (o *RemoteSyslogServer) GetSeverityOk() (*RemoteSyslogSeverity, bool) {
 	if o == nil || IsNil(o.Severity) {
 		return nil, false
 	}
@@ -346,8 +354,8 @@ func (o *RemoteSyslogServer) HasSeverity() bool {
 	return false
 }
 
-// SetSeverity gets a reference to the given SyslogServerSeverity and assigns it to the Severity field.
-func (o *RemoteSyslogServer) SetSeverity(v SyslogServerSeverity) {
+// SetSeverity gets a reference to the given RemoteSyslogSeverity and assigns it to the Severity field.
+func (o *RemoteSyslogServer) SetSeverity(v RemoteSyslogSeverity) {
 	o.Severity = &v
 }
 

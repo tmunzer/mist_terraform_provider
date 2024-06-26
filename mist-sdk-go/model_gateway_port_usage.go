@@ -21,6 +21,7 @@ type GatewayPortUsage string
 
 // List of gateway_port_usage
 const (
+	GATEWAYPORTUSAGE_EMPTY GatewayPortUsage = ""
 	GATEWAYPORTUSAGE_LAN GatewayPortUsage = "lan"
 	GATEWAYPORTUSAGE_WAN GatewayPortUsage = "wan"
 	GATEWAYPORTUSAGE_HA_DATA GatewayPortUsage = "ha_data"
@@ -29,6 +30,7 @@ const (
 
 // All allowed values of GatewayPortUsage enum
 var AllowedGatewayPortUsageEnumValues = []GatewayPortUsage{
+	"",
 	"lan",
 	"wan",
 	"ha_data",

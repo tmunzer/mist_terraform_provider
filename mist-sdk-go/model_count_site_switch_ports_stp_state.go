@@ -21,6 +21,7 @@ type CountSiteSwitchPortsStpState string
 
 // List of count_site_switch_ports_stp_state
 const (
+	COUNTSITESWITCHPORTSSTPSTATE_EMPTY CountSiteSwitchPortsStpState = ""
 	COUNTSITESWITCHPORTSSTPSTATE_FORWARDING CountSiteSwitchPortsStpState = "forwarding"
 	COUNTSITESWITCHPORTSSTPSTATE_BLOCKING CountSiteSwitchPortsStpState = "blocking"
 	COUNTSITESWITCHPORTSSTPSTATE_LEARNING CountSiteSwitchPortsStpState = "learning"
@@ -30,6 +31,7 @@ const (
 
 // All allowed values of CountSiteSwitchPortsStpState enum
 var AllowedCountSiteSwitchPortsStpStateEnumValues = []CountSiteSwitchPortsStpState{
+	"",
 	"forwarding",
 	"blocking",
 	"learning",

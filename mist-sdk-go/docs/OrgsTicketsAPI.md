@@ -112,7 +112,7 @@ import (
 
 func main() {
 	orgId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	distinct := openapiclient.org_tickets_count_distinct("status") // OrgTicketsCountDistinct |  (optional) (default to "status")
+	distinct := openapiclient.org_tickets_count_distinct("") // OrgTicketsCountDistinct |  (optional) (default to "status")
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)

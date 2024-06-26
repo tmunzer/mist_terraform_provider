@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `A` (value: `"a"`)
 
 * `B` (value: `"b"`)

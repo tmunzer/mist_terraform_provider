@@ -21,11 +21,13 @@ type MxedgeTuntermDhcpdConfigType string
 
 // List of mxedge_tunterm_dhcpd_config_type
 const (
+	MXEDGETUNTERMDHCPDCONFIGTYPE_EMPTY MxedgeTuntermDhcpdConfigType = ""
 	MXEDGETUNTERMDHCPDCONFIGTYPE_RELAY MxedgeTuntermDhcpdConfigType = "relay"
 )
 
 // All allowed values of MxedgeTuntermDhcpdConfigType enum
 var AllowedMxedgeTuntermDhcpdConfigTypeEnumValues = []MxedgeTuntermDhcpdConfigType{
+	"",
 	"relay",
 }
 

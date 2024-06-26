@@ -21,11 +21,13 @@ type CaptureSwitchType string
 
 // List of capture_switch_type
 const (
+	CAPTURESWITCHTYPE_EMPTY CaptureSwitchType = ""
 	CAPTURESWITCHTYPE_SWITCH CaptureSwitchType = "switch"
 )
 
 // All allowed values of CaptureSwitchType enum
 var AllowedCaptureSwitchTypeEnumValues = []CaptureSwitchType{
+	"",
 	"switch",
 }
 

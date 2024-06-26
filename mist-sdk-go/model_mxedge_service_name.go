@@ -21,6 +21,7 @@ type MxedgeServiceName string
 
 // List of mxedge_service_name
 const (
+	MXEDGESERVICENAME_EMPTY MxedgeServiceName = ""
 	MXEDGESERVICENAME_TUNTERM MxedgeServiceName = "tunterm"
 	MXEDGESERVICENAME_RADSECPROXY MxedgeServiceName = "radsecproxy"
 	MXEDGESERVICENAME_MXAGENT MxedgeServiceName = "mxagent"
@@ -30,6 +31,7 @@ const (
 
 // All allowed values of MxedgeServiceName enum
 var AllowedMxedgeServiceNameEnumValues = []MxedgeServiceName{
+	"",
 	"tunterm",
 	"radsecproxy",
 	"mxagent",

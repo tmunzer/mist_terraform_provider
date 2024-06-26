@@ -21,12 +21,14 @@ type CountOrgDevicesMxtunnelStatus string
 
 // List of count_org_devices_mxtunnel_status
 const (
+	COUNTORGDEVICESMXTUNNELSTATUS_EMPTY CountOrgDevicesMxtunnelStatus = ""
 	COUNTORGDEVICESMXTUNNELSTATUS_UP CountOrgDevicesMxtunnelStatus = "up"
 	COUNTORGDEVICESMXTUNNELSTATUS_DOWN CountOrgDevicesMxtunnelStatus = "down"
 )
 
 // All allowed values of CountOrgDevicesMxtunnelStatus enum
 var AllowedCountOrgDevicesMxtunnelStatusEnumValues = []CountOrgDevicesMxtunnelStatus{
+	"",
 	"up",
 	"down",
 }

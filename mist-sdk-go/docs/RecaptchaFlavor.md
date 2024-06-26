@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `HCAPTCHA` (value: `"hcaptcha"`)
 
 * `GOOGLE` (value: `"google"`)

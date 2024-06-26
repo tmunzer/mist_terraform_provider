@@ -21,6 +21,7 @@ type SiteAppsCountDistinct string
 
 // List of site_apps_count_distinct
 const (
+	SITEAPPSCOUNTDISTINCT_EMPTY SiteAppsCountDistinct = ""
 	SITEAPPSCOUNTDISTINCT_AP SiteAppsCountDistinct = "ap"
 	SITEAPPSCOUNTDISTINCT_WCID SiteAppsCountDistinct = "wcid"
 	SITEAPPSCOUNTDISTINCT_SSID SiteAppsCountDistinct = "ssid"
@@ -35,6 +36,7 @@ const (
 
 // All allowed values of SiteAppsCountDistinct enum
 var AllowedSiteAppsCountDistinctEnumValues = []SiteAppsCountDistinct{
+	"",
 	"ap",
 	"wcid",
 	"ssid",

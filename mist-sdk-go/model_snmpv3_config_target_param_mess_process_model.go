@@ -21,6 +21,7 @@ type Snmpv3ConfigTargetParamMessProcessModel string
 
 // List of snmpv3_config_target_param_mess_process_model
 const (
+	SNMPV3CONFIGTARGETPARAMMESSPROCESSMODEL_EMPTY Snmpv3ConfigTargetParamMessProcessModel = ""
 	SNMPV3CONFIGTARGETPARAMMESSPROCESSMODEL_V1 Snmpv3ConfigTargetParamMessProcessModel = "v1"
 	SNMPV3CONFIGTARGETPARAMMESSPROCESSMODEL_V2C Snmpv3ConfigTargetParamMessProcessModel = "v2c"
 	SNMPV3CONFIGTARGETPARAMMESSPROCESSMODEL_V3 Snmpv3ConfigTargetParamMessProcessModel = "v3"
@@ -28,6 +29,7 @@ const (
 
 // All allowed values of Snmpv3ConfigTargetParamMessProcessModel enum
 var AllowedSnmpv3ConfigTargetParamMessProcessModelEnumValues = []Snmpv3ConfigTargetParamMessProcessModel{
+	"",
 	"v1",
 	"v2c",
 	"v3",

@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `TIMESTAMP` (value: `"timestamp"`)
 
 * `MAC` (value: `"mac"`)

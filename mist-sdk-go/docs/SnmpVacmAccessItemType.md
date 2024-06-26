@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `DEFAULT_CONTEXT_PREFIX` (value: `"default_context_prefix"`)
 
 

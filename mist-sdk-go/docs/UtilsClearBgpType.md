@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `HARD` (value: `"hard"`)
 
 * `SOFT` (value: `"soft"`)

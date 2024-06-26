@@ -21,6 +21,7 @@ type SiteSleScope string
 
 // List of site_sle_scope
 const (
+	SITESLESCOPE_EMPTY SiteSleScope = ""
 	SITESLESCOPE_SITE SiteSleScope = "site"
 	SITESLESCOPE_SWITCH SiteSleScope = "switch"
 	SITESLESCOPE_GATEWAY SiteSleScope = "gateway"
@@ -28,6 +29,7 @@ const (
 
 // All allowed values of SiteSleScope enum
 var AllowedSiteSleScopeEnumValues = []SiteSleScope{
+	"",
 	"site",
 	"switch",
 	"gateway",

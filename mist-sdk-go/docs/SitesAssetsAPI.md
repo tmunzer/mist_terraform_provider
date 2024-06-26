@@ -42,7 +42,7 @@ import (
 
 func main() {
 	siteId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	distinct := openapiclient.site_assets_count_distinct("mac") // SiteAssetsCountDistinct |  (optional) (default to "map_id")
+	distinct := openapiclient.site_assets_count_distinct("") // SiteAssetsCountDistinct |  (optional) (default to "map_id")
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -559,7 +559,7 @@ import (
 
 func main() {
 	siteId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	upsert := openapiclient.import_site_assets_upsert("True") // ImportSiteAssetsUpsert | API will replace the assets with same mac if provided `upsert`==`True`, otherwise will report in errors in response. (optional) (default to "False")
+	upsert := openapiclient.import_site_assets_upsert("") // ImportSiteAssetsUpsert | API will replace the assets with same mac if provided `upsert`==`True`, otherwise will report in errors in response. (optional) (default to "False")
 	assetImport := []openapiclient.AssetImport{*openapiclient.NewAssetImport("Mac_example", "Name_example")} // []AssetImport |  (optional)
 
 	configuration := openapiclient.NewConfiguration()

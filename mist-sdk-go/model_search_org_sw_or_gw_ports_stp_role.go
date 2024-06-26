@@ -21,6 +21,7 @@ type SearchOrgSwOrGwPortsStpRole string
 
 // List of search_org_sw_or_gw_ports_stp_role
 const (
+	SEARCHORGSWORGWPORTSSTPROLE_EMPTY SearchOrgSwOrGwPortsStpRole = ""
 	SEARCHORGSWORGWPORTSSTPROLE_DESIGNATED SearchOrgSwOrGwPortsStpRole = "designated"
 	SEARCHORGSWORGWPORTSSTPROLE_BACKUP SearchOrgSwOrGwPortsStpRole = "backup"
 	SEARCHORGSWORGWPORTSSTPROLE_ALTERNATE SearchOrgSwOrGwPortsStpRole = "alternate"
@@ -30,6 +31,7 @@ const (
 
 // All allowed values of SearchOrgSwOrGwPortsStpRole enum
 var AllowedSearchOrgSwOrGwPortsStpRoleEnumValues = []SearchOrgSwOrGwPortsStpRole{
+	"",
 	"designated",
 	"backup",
 	"alternate",

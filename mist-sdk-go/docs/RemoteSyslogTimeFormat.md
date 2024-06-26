@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `MILLISECOND` (value: `"millisecond"`)
 
 * `YEAR` (value: `"year"`)

@@ -21,12 +21,14 @@ type WebhookSdkclientScanDataEventScanDataItemBand string
 
 // List of webhook_sdkclient_scan_data_event_scan_data_item_band
 const (
+	WEBHOOKSDKCLIENTSCANDATAEVENTSCANDATAITEMBAND_EMPTY WebhookSdkclientScanDataEventScanDataItemBand = ""
 	WEBHOOKSDKCLIENTSCANDATAEVENTSCANDATAITEMBAND__2_4 WebhookSdkclientScanDataEventScanDataItemBand = "2.4"
 	WEBHOOKSDKCLIENTSCANDATAEVENTSCANDATAITEMBAND__5 WebhookSdkclientScanDataEventScanDataItemBand = "5"
 )
 
 // All allowed values of WebhookSdkclientScanDataEventScanDataItemBand enum
 var AllowedWebhookSdkclientScanDataEventScanDataItemBandEnumValues = []WebhookSdkclientScanDataEventScanDataItemBand{
+	"",
 	"2.4",
 	"5",
 }

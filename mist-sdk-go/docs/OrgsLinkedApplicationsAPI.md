@@ -35,7 +35,7 @@ import (
 
 func main() {
 	orgId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	appName := openapiclient.oauth_app_name("zoom") // OauthAppName | OAuth application name
+	appName := openapiclient.oauth_app_name("") // OauthAppName | OAuth application name
 	accountOauthAdd := openapiclient.account_oauth_add{AccountJamfConfig: openapiclient.NewAccountJamfConfig("ClientId_example", "ClientSecret_example", "junipertest.jamfcloud.com", "CompliantGroup1")} // AccountOauthAdd |  (optional)
 
 	configuration := openapiclient.NewConfiguration()
@@ -108,7 +108,7 @@ import (
 
 func main() {
 	orgId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	appName := openapiclient.account_oauth_app_name("zoom") // AccountOauthAppName | OAuth application name
+	appName := openapiclient.account_oauth_app_name("") // AccountOauthAppName | OAuth application name
 	accountId := "iojzXIJWEuiD73ZvydOfg" // string | 
 
 	configuration := openapiclient.NewConfiguration()
@@ -182,7 +182,7 @@ import (
 
 func main() {
 	orgId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	appName := openapiclient.oauth_app_name("zoom") // OauthAppName | OAuth application name
+	appName := openapiclient.oauth_app_name("") // OauthAppName | OAuth application name
 	forward := "forward_example" // string | Mist portal url to which backend needs to redirect after succesful OAuth authorization. **Required** to get the `authorization_url`
 
 	configuration := openapiclient.NewConfiguration()
@@ -399,7 +399,7 @@ import (
 
 func main() {
 	orgId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	appName := openapiclient.oauth_app_name("zoom") // OauthAppName | OAuth application name
+	appName := openapiclient.oauth_app_name("") // OauthAppName | OAuth application name
 	accountOauthConfig := *openapiclient.NewAccountOauthConfig("iojzXIJWEuiD73ZvydOfg") // AccountOauthConfig |  (optional)
 
 	configuration := openapiclient.NewConfiguration()

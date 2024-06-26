@@ -21,12 +21,14 @@ type GatewayTemplateTunnelMode string
 
 // List of gateway_template_tunnel_mode
 const (
-	GATEWAYTEMPLATETUNNELMODE_STANDBY GatewayTemplateTunnelMode = "active-standby"
-	GATEWAYTEMPLATETUNNELMODE_ACTIVE GatewayTemplateTunnelMode = "active-active"
+	GATEWAYTEMPLATETUNNELMODE_EMPTY GatewayTemplateTunnelMode = ""
+	GATEWAYTEMPLATETUNNELMODE_ACTIVE_STANDBY GatewayTemplateTunnelMode = "active-standby"
+	GATEWAYTEMPLATETUNNELMODE_ACTIVE_ACTIVE GatewayTemplateTunnelMode = "active-active"
 )
 
 // All allowed values of GatewayTemplateTunnelMode enum
 var AllowedGatewayTemplateTunnelModeEnumValues = []GatewayTemplateTunnelMode{
+	"",
 	"active-standby",
 	"active-active",
 }

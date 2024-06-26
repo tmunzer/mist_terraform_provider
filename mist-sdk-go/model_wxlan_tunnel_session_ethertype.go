@@ -21,12 +21,14 @@ type WxlanTunnelSessionEthertype string
 
 // List of wxlan_tunnel_session_ethertype
 const (
+	WXLANTUNNELSESSIONETHERTYPE_EMPTY WxlanTunnelSessionEthertype = ""
 	WXLANTUNNELSESSIONETHERTYPE_ETHERNET WxlanTunnelSessionEthertype = "ethernet"
 	WXLANTUNNELSESSIONETHERTYPE_VLAN WxlanTunnelSessionEthertype = "vlan"
 )
 
 // All allowed values of WxlanTunnelSessionEthertype enum
 var AllowedWxlanTunnelSessionEthertypeEnumValues = []WxlanTunnelSessionEthertype{
+	"",
 	"ethernet",
 	"vlan",
 }

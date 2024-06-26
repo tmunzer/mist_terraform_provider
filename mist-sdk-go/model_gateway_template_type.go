@@ -21,6 +21,7 @@ type GatewayTemplateType string
 
 // List of gateway_template_type
 const (
+	GATEWAYTEMPLATETYPE_EMPTY GatewayTemplateType = ""
 	GATEWAYTEMPLATETYPE_STANDALONE GatewayTemplateType = "standalone"
 	GATEWAYTEMPLATETYPE_SPOKE GatewayTemplateType = "spoke"
 	GATEWAYTEMPLATETYPE_HUB GatewayTemplateType = "hub"
@@ -28,6 +29,7 @@ const (
 
 // All allowed values of GatewayTemplateType enum
 var AllowedGatewayTemplateTypeEnumValues = []GatewayTemplateType{
+	"",
 	"standalone",
 	"spoke",
 	"hub",

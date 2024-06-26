@@ -21,12 +21,14 @@ type GatewayTemplateProbeType string
 
 // List of gateway_template_probe_type
 const (
+	GATEWAYTEMPLATEPROBETYPE_EMPTY GatewayTemplateProbeType = ""
 	GATEWAYTEMPLATEPROBETYPE_ICMP GatewayTemplateProbeType = "icmp"
 	GATEWAYTEMPLATEPROBETYPE_HTTP GatewayTemplateProbeType = "http"
 )
 
 // All allowed values of GatewayTemplateProbeType enum
 var AllowedGatewayTemplateProbeTypeEnumValues = []GatewayTemplateProbeType{
+	"",
 	"icmp",
 	"http",
 }

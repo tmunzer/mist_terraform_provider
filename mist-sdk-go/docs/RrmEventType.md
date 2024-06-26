@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `TRIGGERED_SITE_RRM` (value: `"triggered-site_rrm"`)
 
 * `INTERFERENCE_AP_CO_CHANNEL` (value: `"interference-ap-co-channel"`)

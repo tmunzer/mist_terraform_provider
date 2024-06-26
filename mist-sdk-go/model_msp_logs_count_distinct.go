@@ -21,6 +21,7 @@ type MspLogsCountDistinct string
 
 // List of msp_logs_count_distinct
 const (
+	MSPLOGSCOUNTDISTINCT_EMPTY MspLogsCountDistinct = ""
 	MSPLOGSCOUNTDISTINCT_ADMIN_ID MspLogsCountDistinct = "admin_id"
 	MSPLOGSCOUNTDISTINCT_ADMIN_NAME MspLogsCountDistinct = "admin_name"
 	MSPLOGSCOUNTDISTINCT_MESSAGE MspLogsCountDistinct = "message"
@@ -29,6 +30,7 @@ const (
 
 // All allowed values of MspLogsCountDistinct enum
 var AllowedMspLogsCountDistinctEnumValues = []MspLogsCountDistinct{
+	"",
 	"admin_id",
 	"admin_name",
 	"message",

@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `WLAN` (value: `"wlan"`)
 
 * `DEVICE_TYPE` (value: `"device_type"`)

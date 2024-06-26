@@ -108,7 +108,7 @@ func main() {
 	orgId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
 	serial := "serial_example" // string | device serial (optional)
 	model := "model_example" // string | device model (optional)
-	type_ := openapiclient.device_type("ap") // DeviceType |  (optional) (default to "ap")
+	type_ := openapiclient.device_type("") // DeviceType |  (optional) (default to "ap")
 	mac := "mac_example" // string | MAC address (optional)
 	siteId := "siteId_example" // string | site id if assigned, null if not assigned (optional)
 	vcMac := "vcMac_example" // string |  (optional)
@@ -336,7 +336,7 @@ import (
 
 func main() {
 	orgId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	inventoryUpdate := *openapiclient.NewInventoryUpdate(openapiclient.inventory_update_operation("assign")) // InventoryUpdate |  (optional)
+	inventoryUpdate := *openapiclient.NewInventoryUpdate(openapiclient.inventory_update_operation("")) // InventoryUpdate |  (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)

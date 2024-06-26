@@ -21,6 +21,7 @@ type ServiceTrafficClass string
 
 // List of service_traffic_class
 const (
+	SERVICETRAFFICCLASS_EMPTY ServiceTrafficClass = ""
 	SERVICETRAFFICCLASS_BEST_EFFORT ServiceTrafficClass = "best_effort"
 	SERVICETRAFFICCLASS_HIGH ServiceTrafficClass = "high"
 	SERVICETRAFFICCLASS_MEDIUM ServiceTrafficClass = "medium"
@@ -29,6 +30,7 @@ const (
 
 // All allowed values of ServiceTrafficClass enum
 var AllowedServiceTrafficClassEnumValues = []ServiceTrafficClass{
+	"",
 	"best_effort",
 	"high",
 	"medium",

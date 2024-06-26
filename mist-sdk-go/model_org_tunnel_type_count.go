@@ -21,12 +21,14 @@ type OrgTunnelTypeCount string
 
 // List of org_tunnel_type_count
 const (
+	ORGTUNNELTYPECOUNT_EMPTY OrgTunnelTypeCount = ""
 	ORGTUNNELTYPECOUNT_WXTUNNEL OrgTunnelTypeCount = "wxtunnel"
 	ORGTUNNELTYPECOUNT_WAN OrgTunnelTypeCount = "wan"
 )
 
 // All allowed values of OrgTunnelTypeCount enum
 var AllowedOrgTunnelTypeCountEnumValues = []OrgTunnelTypeCount{
+	"",
 	"wxtunnel",
 	"wan",
 }

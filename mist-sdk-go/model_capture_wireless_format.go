@@ -21,12 +21,14 @@ type CaptureWirelessFormat string
 
 // List of capture_wireless_format
 const (
+	CAPTUREWIRELESSFORMAT_EMPTY CaptureWirelessFormat = ""
 	CAPTUREWIRELESSFORMAT_PCAP CaptureWirelessFormat = "pcap"
 	CAPTUREWIRELESSFORMAT_STREAM CaptureWirelessFormat = "stream"
 )
 
 // All allowed values of CaptureWirelessFormat enum
 var AllowedCaptureWirelessFormatEnumValues = []CaptureWirelessFormat{
+	"",
 	"pcap",
 	"stream",
 }

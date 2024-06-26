@@ -21,6 +21,7 @@ type OrgNacClientsCountDistinct string
 
 // List of org_nac_clients_count_distinct
 const (
+	ORGNACCLIENTSCOUNTDISTINCT_EMPTY OrgNacClientsCountDistinct = ""
 	ORGNACCLIENTSCOUNTDISTINCT_TYPE OrgNacClientsCountDistinct = "type"
 	ORGNACCLIENTSCOUNTDISTINCT_LAST_NACRULE_ID OrgNacClientsCountDistinct = "last_nacrule_id"
 	ORGNACCLIENTSCOUNTDISTINCT_AUTH_TYPE OrgNacClientsCountDistinct = "auth_type"
@@ -37,6 +38,7 @@ const (
 
 // All allowed values of OrgNacClientsCountDistinct enum
 var AllowedOrgNacClientsCountDistinctEnumValues = []OrgNacClientsCountDistinct{
+	"",
 	"type",
 	"last_nacrule_id",
 	"auth_type",

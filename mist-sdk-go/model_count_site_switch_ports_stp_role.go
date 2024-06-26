@@ -21,6 +21,7 @@ type CountSiteSwitchPortsStpRole string
 
 // List of count_site_switch_ports_stp_role
 const (
+	COUNTSITESWITCHPORTSSTPROLE_EMPTY CountSiteSwitchPortsStpRole = ""
 	COUNTSITESWITCHPORTSSTPROLE_DESIGNATED CountSiteSwitchPortsStpRole = "designated"
 	COUNTSITESWITCHPORTSSTPROLE_BACKUP CountSiteSwitchPortsStpRole = "backup"
 	COUNTSITESWITCHPORTSSTPROLE_ALTERNATE CountSiteSwitchPortsStpRole = "alternate"
@@ -30,6 +31,7 @@ const (
 
 // All allowed values of CountSiteSwitchPortsStpRole enum
 var AllowedCountSiteSwitchPortsStpRoleEnumValues = []CountSiteSwitchPortsStpRole{
+	"",
 	"designated",
 	"backup",
 	"alternate",

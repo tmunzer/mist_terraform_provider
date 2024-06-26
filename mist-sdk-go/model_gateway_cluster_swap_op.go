@@ -21,12 +21,14 @@ type GatewayClusterSwapOp string
 
 // List of gateway_cluster_swap_op
 const (
+	GATEWAYCLUSTERSWAPOP_EMPTY GatewayClusterSwapOp = ""
 	GATEWAYCLUSTERSWAPOP_SWAP GatewayClusterSwapOp = "swap"
 	GATEWAYCLUSTERSWAPOP_REPLACE_NODE1 GatewayClusterSwapOp = "replace_node1"
 )
 
 // All allowed values of GatewayClusterSwapOp enum
 var AllowedGatewayClusterSwapOpEnumValues = []GatewayClusterSwapOp{
+	"",
 	"swap",
 	"replace_node1",
 }

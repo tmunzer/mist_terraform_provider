@@ -21,6 +21,7 @@ type WlanPortalSmsProvider string
 
 // List of wlan_portal_sms_provider
 const (
+	WLANPORTALSMSPROVIDER_EMPTY WlanPortalSmsProvider = ""
 	WLANPORTALSMSPROVIDER_MANUAL WlanPortalSmsProvider = "manual"
 	WLANPORTALSMSPROVIDER_TWILIO WlanPortalSmsProvider = "twilio"
 	WLANPORTALSMSPROVIDER_BROADNET WlanPortalSmsProvider = "broadnet"
@@ -32,6 +33,7 @@ const (
 
 // All allowed values of WlanPortalSmsProvider enum
 var AllowedWlanPortalSmsProviderEnumValues = []WlanPortalSmsProvider{
+	"",
 	"manual",
 	"twilio",
 	"broadnet",

@@ -32,7 +32,7 @@ import (
 
 func main() {
 	siteId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	distinct := openapiclient.site_service_events_count_distinct("type") // SiteServiceEventsCountDistinct |  (optional) (default to "type")
+	distinct := openapiclient.site_service_events_count_distinct("") // SiteServiceEventsCountDistinct |  (optional) (default to "type")
 	type_ := "type__example" // string | Event type, e.g. GW_SERVICE_PATH_DOWN (optional)
 	text := "text_example" // string | Description of the event including the reason it is triggered (optional)
 	vpnName := "vpnName_example" // string | Peer name (optional)

@@ -21,12 +21,14 @@ type PskPortalAuth string
 
 // List of psk_portal_auth
 const (
+	PSKPORTALAUTH_EMPTY PskPortalAuth = ""
 	PSKPORTALAUTH_SSO PskPortalAuth = "sso"
 	PSKPORTALAUTH_SPONSOR PskPortalAuth = "sponsor"
 )
 
 // All allowed values of PskPortalAuth enum
 var AllowedPskPortalAuthEnumValues = []PskPortalAuth{
+	"",
 	"sso",
 	"sponsor",
 }

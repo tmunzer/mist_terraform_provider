@@ -32,7 +32,7 @@ import (
 )
 
 func main() {
-	recaptchaFlavor := openapiclient.recaptcha_flavor("hcaptcha") // RecaptchaFlavor |  (optional) (default to "google")
+	recaptchaFlavor := openapiclient.recaptcha_flavor("") // RecaptchaFlavor |  (optional) (default to "google")
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)

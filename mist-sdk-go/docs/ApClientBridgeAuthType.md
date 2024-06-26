@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `OPEN` (value: `"open"`)
 
 * `PSK` (value: `"psk"`)

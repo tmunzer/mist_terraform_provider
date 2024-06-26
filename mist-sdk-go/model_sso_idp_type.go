@@ -21,6 +21,7 @@ type SsoIdpType string
 
 // List of sso_idp_type
 const (
+	SSOIDPTYPE_EMPTY SsoIdpType = ""
 	SSOIDPTYPE_SAML SsoIdpType = "saml"
 	SSOIDPTYPE_LDAP SsoIdpType = "ldap"
 	SSOIDPTYPE_OAUTH SsoIdpType = "oauth"
@@ -29,6 +30,7 @@ const (
 
 // All allowed values of SsoIdpType enum
 var AllowedSsoIdpTypeEnumValues = []SsoIdpType{
+	"",
 	"saml",
 	"ldap",
 	"oauth",

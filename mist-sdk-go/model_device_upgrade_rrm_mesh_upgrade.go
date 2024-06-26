@@ -21,12 +21,14 @@ type DeviceUpgradeRrmMeshUpgrade string
 
 // List of device_upgrade_rrm_mesh_upgrade
 const (
+	DEVICEUPGRADERRMMESHUPGRADE_EMPTY DeviceUpgradeRrmMeshUpgrade = ""
 	DEVICEUPGRADERRMMESHUPGRADE_SEQUENTIAL DeviceUpgradeRrmMeshUpgrade = "sequential"
 	DEVICEUPGRADERRMMESHUPGRADE_PARALLEL DeviceUpgradeRrmMeshUpgrade = "parallel"
 )
 
 // All allowed values of DeviceUpgradeRrmMeshUpgrade enum
 var AllowedDeviceUpgradeRrmMeshUpgradeEnumValues = []DeviceUpgradeRrmMeshUpgrade{
+	"",
 	"sequential",
 	"parallel",
 }

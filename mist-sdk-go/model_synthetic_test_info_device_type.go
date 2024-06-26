@@ -21,6 +21,7 @@ type SyntheticTestInfoDeviceType string
 
 // List of synthetic_test_info_device_type
 const (
+	SYNTHETICTESTINFODEVICETYPE_EMPTY SyntheticTestInfoDeviceType = ""
 	SYNTHETICTESTINFODEVICETYPE_AP SyntheticTestInfoDeviceType = "ap"
 	SYNTHETICTESTINFODEVICETYPE_SWITCH SyntheticTestInfoDeviceType = "switch"
 	SYNTHETICTESTINFODEVICETYPE_GATEWAY SyntheticTestInfoDeviceType = "gateway"
@@ -28,6 +29,7 @@ const (
 
 // All allowed values of SyntheticTestInfoDeviceType enum
 var AllowedSyntheticTestInfoDeviceTypeEnumValues = []SyntheticTestInfoDeviceType{
+	"",
 	"ap",
 	"switch",
 	"gateway",

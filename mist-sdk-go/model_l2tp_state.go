@@ -21,6 +21,7 @@ type L2tpState string
 
 // List of l2tp_state
 const (
+	L2TPSTATE_EMPTY L2tpState = ""
 	L2TPSTATE_IDLE L2tpState = "idle"
 	L2TPSTATE_WAIT_CTRL_REPLY L2tpState = "wait-ctrl-reply"
 	L2TPSTATE_WAIT_CTRL_CONN L2tpState = "wait-ctrl-conn"
@@ -30,6 +31,7 @@ const (
 
 // All allowed values of L2tpState enum
 var AllowedL2tpStateEnumValues = []L2tpState{
+	"",
 	"idle",
 	"wait-ctrl-reply",
 	"wait-ctrl-conn",

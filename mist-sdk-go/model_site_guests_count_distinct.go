@@ -21,6 +21,7 @@ type SiteGuestsCountDistinct string
 
 // List of site_guests_count_distinct
 const (
+	SITEGUESTSCOUNTDISTINCT_EMPTY SiteGuestsCountDistinct = ""
 	SITEGUESTSCOUNTDISTINCT_AUTH_METHOD SiteGuestsCountDistinct = "auth_method"
 	SITEGUESTSCOUNTDISTINCT_SSID SiteGuestsCountDistinct = "ssid"
 	SITEGUESTSCOUNTDISTINCT_COMPANY SiteGuestsCountDistinct = "company"
@@ -28,6 +29,7 @@ const (
 
 // All allowed values of SiteGuestsCountDistinct enum
 var AllowedSiteGuestsCountDistinctEnumValues = []SiteGuestsCountDistinct{
+	"",
 	"auth_method",
 	"ssid",
 	"company",

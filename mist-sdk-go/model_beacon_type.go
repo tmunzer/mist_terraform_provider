@@ -21,6 +21,7 @@ type BeaconType string
 
 // List of beacon_type
 const (
+	BEACONTYPE_EMPTY BeaconType = ""
 	BEACONTYPE_IBEACON BeaconType = "ibeacon"
 	BEACONTYPE_EDDYSTONE_UID BeaconType = "eddystone-uid"
 	BEACONTYPE_EDDYSTONE_URL BeaconType = "eddystone-url"
@@ -28,6 +29,7 @@ const (
 
 // All allowed values of BeaconType enum
 var AllowedBeaconTypeEnumValues = []BeaconType{
+	"",
 	"ibeacon",
 	"eddystone-uid",
 	"eddystone-url",

@@ -21,11 +21,13 @@ type SiteSystemEventsCountDistinct string
 
 // List of site_system_events_count_distinct
 const (
+	SITESYSTEMEVENTSCOUNTDISTINCT_EMPTY SiteSystemEventsCountDistinct = ""
 	SITESYSTEMEVENTSCOUNTDISTINCT_TYPE SiteSystemEventsCountDistinct = "type"
 )
 
 // All allowed values of SiteSystemEventsCountDistinct enum
 var AllowedSiteSystemEventsCountDistinctEnumValues = []SiteSystemEventsCountDistinct{
+	"",
 	"type",
 }
 

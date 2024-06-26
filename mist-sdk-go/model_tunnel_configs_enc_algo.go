@@ -21,6 +21,7 @@ type TunnelConfigsEncAlgo string
 
 // List of tunnel_configs_enc_algo
 const (
+	TUNNELCONFIGSENCALGO_EMPTY TunnelConfigsEncAlgo = ""
 	TUNNELCONFIGSENCALGO_AES256 TunnelConfigsEncAlgo = "aes256"
 	TUNNELCONFIGSENCALGO__3DES TunnelConfigsEncAlgo = "3des"
 	TUNNELCONFIGSENCALGO_AES128 TunnelConfigsEncAlgo = "aes128"
@@ -30,6 +31,7 @@ const (
 
 // All allowed values of TunnelConfigsEncAlgo enum
 var AllowedTunnelConfigsEncAlgoEnumValues = []TunnelConfigsEncAlgo{
+	"",
 	"aes256",
 	"3des",
 	"aes128",

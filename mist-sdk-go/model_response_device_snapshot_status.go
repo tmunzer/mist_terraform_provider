@@ -21,6 +21,7 @@ type ResponseDeviceSnapshotStatus string
 
 // List of response_device_snapshot_status
 const (
+	RESPONSEDEVICESNAPSHOTSTATUS_EMPTY ResponseDeviceSnapshotStatus = ""
 	RESPONSEDEVICESNAPSHOTSTATUS_STARTING ResponseDeviceSnapshotStatus = "starting"
 	RESPONSEDEVICESNAPSHOTSTATUS_INPROGRESS ResponseDeviceSnapshotStatus = "inprogress"
 	RESPONSEDEVICESNAPSHOTSTATUS_SUCCESS ResponseDeviceSnapshotStatus = "success"
@@ -30,6 +31,7 @@ const (
 
 // All allowed values of ResponseDeviceSnapshotStatus enum
 var AllowedResponseDeviceSnapshotStatusEnumValues = []ResponseDeviceSnapshotStatus{
+	"",
 	"starting",
 	"inprogress",
 	"success",

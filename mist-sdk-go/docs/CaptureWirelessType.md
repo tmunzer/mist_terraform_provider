@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `WIRELESS` (value: `"wireless"`)
 
 

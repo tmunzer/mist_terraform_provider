@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `IPSEC` (value: `"ipsec"`)
 
 * `GRE` (value: `"gre"`)

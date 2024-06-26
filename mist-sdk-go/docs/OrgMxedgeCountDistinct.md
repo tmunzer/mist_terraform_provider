@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `MODEL` (value: `"model"`)
 
 * `MXCLUSTER_ID` (value: `"mxcluster_id"`)

@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `ZONES` (value: `"zones"`)
 
 * `RSSIZONES` (value: `"rssizones"`)

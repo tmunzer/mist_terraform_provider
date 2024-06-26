@@ -38,12 +38,12 @@ import (
 
 func main() {
 	siteId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	zoneType := openapiclient.zone_type("zones") // ZoneType | 
-	distinct := openapiclient.site_zone_count_distinct("user_type") // SiteZoneCountDistinct |  (optional) (default to "scope_id")
-	userType := openapiclient.rf_client_type("sdkclient") // RfClientType | user type (optional)
+	zoneType := openapiclient.zone_type("") // ZoneType | 
+	distinct := openapiclient.site_zone_count_distinct("") // SiteZoneCountDistinct |  (optional) (default to "scope_id")
+	userType := openapiclient.rf_client_type("") // RfClientType | user type (optional)
 	user := "user_example" // string | client MAC / Asset MAC / SDK UUID (optional)
 	scopeId := "scopeId_example" // string | if `scope`==`map`/`zone`/`rssizone`, the scope id (optional)
-	scope := openapiclient.zone_scope("site") // ZoneScope | scope (optional) (default to "site")
+	scope := openapiclient.zone_scope("") // ZoneScope | scope (optional) (default to "site")
 	page := int32(56) // int32 |  (optional) (default to 1)
 	limit := int32(56) // int32 |  (optional) (default to 100)
 	start := int32(56) // int32 | start datetime, can be epoch or relative time like -1d, -1w; -1d if not specified (optional)
@@ -347,7 +347,7 @@ import (
 
 func main() {
 	siteId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	zoneType := openapiclient.zone_type("zones") // ZoneType | 
+	zoneType := openapiclient.zone_type("") // ZoneType | 
 	zoneId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
 
 	configuration := openapiclient.NewConfiguration()
@@ -569,11 +569,11 @@ import (
 
 func main() {
 	siteId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	zoneType := openapiclient.zone_type("zones") // ZoneType | 
-	userType := openapiclient.rf_client_type("sdkclient") // RfClientType | user type, client (default) / sdkclient / asset (optional)
+	zoneType := openapiclient.zone_type("") // ZoneType | 
+	userType := openapiclient.rf_client_type("") // RfClientType | user type, client (default) / sdkclient / asset (optional)
 	user := "user_example" // string | client MAC / Asset MAC / SDK UUID (optional)
 	scopeId := "scopeId_example" // string | if `scope`==`map`/`zone`/`rssizone`, the scope id (optional)
-	scope := openapiclient.visits_scope("site") // VisitsScope | scope (optional) (default to "site")
+	scope := openapiclient.visits_scope("") // VisitsScope | scope (optional) (default to "site")
 	page := int32(56) // int32 |  (optional) (default to 1)
 	limit := int32(56) // int32 |  (optional) (default to 100)
 	start := int32(56) // int32 | start datetime, can be epoch or relative time like -1d, -1w; -1d if not specified (optional)

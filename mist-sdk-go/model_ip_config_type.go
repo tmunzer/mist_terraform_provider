@@ -21,12 +21,14 @@ type IpConfigType string
 
 // List of ip_config_type
 const (
+	IPCONFIGTYPE_EMPTY IpConfigType = ""
 	IPCONFIGTYPE_STATIC IpConfigType = "static"
 	IPCONFIGTYPE_DYNAMIC IpConfigType = "dynamic"
 )
 
 // All allowed values of IpConfigType enum
 var AllowedIpConfigTypeEnumValues = []IpConfigType{
+	"",
 	"static",
 	"dynamic",
 }

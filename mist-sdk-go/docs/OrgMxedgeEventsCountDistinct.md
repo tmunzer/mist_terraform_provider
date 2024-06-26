@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `MXEDGE_ID` (value: `"mxedge_id"`)
 
 * `TYPE` (value: `"type"`)

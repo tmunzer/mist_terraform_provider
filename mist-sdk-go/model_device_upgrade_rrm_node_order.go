@@ -21,12 +21,14 @@ type DeviceUpgradeRrmNodeOrder string
 
 // List of device_upgrade_rrm_node_order
 const (
+	DEVICEUPGRADERRMNODEORDER_EMPTY DeviceUpgradeRrmNodeOrder = ""
 	DEVICEUPGRADERRMNODEORDER_FRINGE_TO_CENTER DeviceUpgradeRrmNodeOrder = "fringe_to_center"
 	DEVICEUPGRADERRMNODEORDER_CENTER_TO_FRINGE DeviceUpgradeRrmNodeOrder = "center_to_fringe"
 )
 
 // All allowed values of DeviceUpgradeRrmNodeOrder enum
 var AllowedDeviceUpgradeRrmNodeOrderEnumValues = []DeviceUpgradeRrmNodeOrder{
+	"",
 	"fringe_to_center",
 	"center_to_fringe",
 }

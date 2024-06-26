@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `SEQUENTIAL` (value: `"sequential"`)
 
 * `PARALLEL` (value: `"parallel"`)

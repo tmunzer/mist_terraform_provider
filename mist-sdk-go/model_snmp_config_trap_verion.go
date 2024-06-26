@@ -21,6 +21,7 @@ type SnmpConfigTrapVerion string
 
 // List of snmp_config_trap_verion
 const (
+	SNMPCONFIGTRAPVERION_EMPTY SnmpConfigTrapVerion = ""
 	SNMPCONFIGTRAPVERION_V1 SnmpConfigTrapVerion = "v1"
 	SNMPCONFIGTRAPVERION_V2 SnmpConfigTrapVerion = "v2"
 	SNMPCONFIGTRAPVERION_ALL SnmpConfigTrapVerion = "all"
@@ -28,6 +29,7 @@ const (
 
 // All allowed values of SnmpConfigTrapVerion enum
 var AllowedSnmpConfigTrapVerionEnumValues = []SnmpConfigTrapVerion{
+	"",
 	"v1",
 	"v2",
 	"all",

@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `ORG_ID` (value: `"org_id"`)
 
 * `STATUS` (value: `"status"`)

@@ -21,6 +21,7 @@ type DynamicPortUsageRuleSrc string
 
 // List of dynamic_port_usage_rule_src
 const (
+	DYNAMICPORTUSAGERULESRC_EMPTY DynamicPortUsageRuleSrc = ""
 	DYNAMICPORTUSAGERULESRC_LLDP_CHASSIS_ID DynamicPortUsageRuleSrc = "lldp_chassis_id"
 	DYNAMICPORTUSAGERULESRC_LLDP_SYSTEM_NAME DynamicPortUsageRuleSrc = "lldp_system_name"
 	DYNAMICPORTUSAGERULESRC_LLDP_SERIAL_NUMBER DynamicPortUsageRuleSrc = "lldp_serial_number"
@@ -35,6 +36,7 @@ const (
 
 // All allowed values of DynamicPortUsageRuleSrc enum
 var AllowedDynamicPortUsageRuleSrcEnumValues = []DynamicPortUsageRuleSrc{
+	"",
 	"lldp_chassis_id",
 	"lldp_system_name",
 	"lldp_serial_number",

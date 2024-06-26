@@ -21,6 +21,7 @@ type SiteNacClientsCountDistinct string
 
 // List of site_nac_clients_count_distinct
 const (
+	SITENACCLIENTSCOUNTDISTINCT_EMPTY SiteNacClientsCountDistinct = ""
 	SITENACCLIENTSCOUNTDISTINCT_TYPE SiteNacClientsCountDistinct = "type"
 	SITENACCLIENTSCOUNTDISTINCT_LAST_NACRULE_ID SiteNacClientsCountDistinct = "last_nacrule_id"
 	SITENACCLIENTSCOUNTDISTINCT_AUTH_TYPE SiteNacClientsCountDistinct = "auth_type"
@@ -37,6 +38,7 @@ const (
 
 // All allowed values of SiteNacClientsCountDistinct enum
 var AllowedSiteNacClientsCountDistinctEnumValues = []SiteNacClientsCountDistinct{
+	"",
 	"type",
 	"last_nacrule_id",
 	"auth_type",

@@ -21,12 +21,14 @@ type Snmpv3ConfigNotifyType string
 
 // List of snmpv3_config_notify_type
 const (
+	SNMPV3CONFIGNOTIFYTYPE_EMPTY Snmpv3ConfigNotifyType = ""
 	SNMPV3CONFIGNOTIFYTYPE_TRAP Snmpv3ConfigNotifyType = "trap"
 	SNMPV3CONFIGNOTIFYTYPE_INFORM Snmpv3ConfigNotifyType = "inform"
 )
 
 // All allowed values of Snmpv3ConfigNotifyType enum
 var AllowedSnmpv3ConfigNotifyTypeEnumValues = []Snmpv3ConfigNotifyType{
+	"",
 	"trap",
 	"inform",
 }

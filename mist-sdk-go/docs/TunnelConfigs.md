@@ -11,7 +11,7 @@ Name | Type | Description | Notes
 **IpsecLifetime** | Pointer to **int32** | if &#x60;provider&#x60;&#x3D;&#x3D; &#x60;custom-ipsec&#x60; | [optional] 
 **IpsecProposals** | Pointer to [**[]GatewayTemplateTunnelIpsecProposal**](GatewayTemplateTunnelIpsecProposal.md) | Only if: * &#x60;provider&#x60;&#x3D;&#x3D; &#x60;custom-ipsec&#x60; | [optional] 
 **LocalId** | Pointer to **string** | Only if: * &#x60;provider&#x60;&#x3D;&#x3D; &#x60;zscaler-ipsec&#x60; * &#x60;provider&#x60;&#x3D;&#x3D;&#x60;jse-ipsec&#x60; * &#x60;provider&#x60;&#x3D;&#x3D; &#x60;custom-ipsec&#x60; | [optional] 
-**Mode** | Pointer to [**GatewayTemplateTunnelMode**](GatewayTemplateTunnelMode.md) |  | [optional] [default to GATEWAYTEMPLATETUNNELMODE_STANDBY]
+**Mode** | Pointer to [**GatewayTemplateTunnelMode**](GatewayTemplateTunnelMode.md) |  | [optional] [default to GATEWAYTEMPLATETUNNELMODE_ACTIVE_STANDBY]
 **Primary** | Pointer to [**GatewayTemplateTunnelNode**](GatewayTemplateTunnelNode.md) |  | [optional] 
 **Probe** | Pointer to [**GatewayTemplateTunnelProbe**](GatewayTemplateTunnelProbe.md) |  | [optional] 
 **Protocol** | Pointer to [**GatewayTemplateTunnelProtocol**](GatewayTemplateTunnelProtocol.md) |  | [optional] 

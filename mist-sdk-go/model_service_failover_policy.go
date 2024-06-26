@@ -21,6 +21,7 @@ type ServiceFailoverPolicy string
 
 // List of service_failover_policy
 const (
+	SERVICEFAILOVERPOLICY_EMPTY ServiceFailoverPolicy = ""
 	SERVICEFAILOVERPOLICY_REVERTABLE ServiceFailoverPolicy = "revertable"
 	SERVICEFAILOVERPOLICY_NON_REVERTABLE ServiceFailoverPolicy = "non_revertable"
 	SERVICEFAILOVERPOLICY_NONE ServiceFailoverPolicy = "none"
@@ -28,6 +29,7 @@ const (
 
 // All allowed values of ServiceFailoverPolicy enum
 var AllowedServiceFailoverPolicyEnumValues = []ServiceFailoverPolicy{
+	"",
 	"revertable",
 	"non_revertable",
 	"none",

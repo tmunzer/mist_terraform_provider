@@ -21,6 +21,7 @@ type SwitchPortStatsAuthState string
 
 // List of switch_port_stats_auth_state
 const (
+	SWITCHPORTSTATSAUTHSTATE_EMPTY SwitchPortStatsAuthState = ""
 	SWITCHPORTSTATSAUTHSTATE_INIT SwitchPortStatsAuthState = "init"
 	SWITCHPORTSTATSAUTHSTATE_AUTHENTICATED SwitchPortStatsAuthState = "authenticated"
 	SWITCHPORTSTATSAUTHSTATE_AUTHENTICATING SwitchPortStatsAuthState = "authenticating"
@@ -29,6 +30,7 @@ const (
 
 // All allowed values of SwitchPortStatsAuthState enum
 var AllowedSwitchPortStatsAuthStateEnumValues = []SwitchPortStatsAuthState{
+	"",
 	"init",
 	"authenticated",
 	"authenticating",

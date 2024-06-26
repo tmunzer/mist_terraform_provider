@@ -21,6 +21,7 @@ type RrmStatus string
 
 // List of rrm_status
 const (
+	RRMSTATUS_EMPTY RrmStatus = ""
 	RRMSTATUS_UNKNOWN RrmStatus = "unknown"
 	RRMSTATUS_UPDATING RrmStatus = "updating"
 	RRMSTATUS_READY RrmStatus = "ready"
@@ -28,6 +29,7 @@ const (
 
 // All allowed values of RrmStatus enum
 var AllowedRrmStatusEnumValues = []RrmStatus{
+	"",
 	"unknown",
 	"updating",
 	"ready",

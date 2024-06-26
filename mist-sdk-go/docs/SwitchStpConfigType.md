@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `RSTP` (value: `"rstp"`)
 
 * `VSTP` (value: `"vstp"`)

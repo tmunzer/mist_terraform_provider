@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `ROADMAP` (value: `"roadmap"`)
 
 * `SATELLITE` (value: `"satellite"`)

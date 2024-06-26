@@ -499,7 +499,7 @@ import (
 )
 
 func main() {
-	webhookDeviceEvents := *openapiclient.NewWebhookDeviceEvents([]openapiclient.WebhookDeviceEventsEvent{*openapiclient.NewWebhookDeviceEventsEvent("DeviceName_example", openapiclient.webhook_device_events_event_device_type("ap"), openapiclient.webhook_device_events_event_ev_type("notice"), "Mac_example", "a97c1b22-a4e9-411e-9bfd-d8695a0f9e61", int32(123), "Type_example")}, "Topic_example") // WebhookDeviceEvents |  (optional)
+	webhookDeviceEvents := *openapiclient.NewWebhookDeviceEvents([]openapiclient.WebhookDeviceEventsEvent{*openapiclient.NewWebhookDeviceEventsEvent("DeviceName_example", openapiclient.webhook_device_events_event_device_type(""), openapiclient.webhook_device_events_event_ev_type(""), "Mac_example", "a97c1b22-a4e9-411e-9bfd-d8695a0f9e61", int32(123), "Type_example")}, "Topic_example") // WebhookDeviceEvents |  (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -1331,7 +1331,7 @@ import (
 )
 
 func main() {
-	webhookSdkclientScanData := *openapiclient.NewWebhookSdkclientScanData([]openapiclient.WebhookSdkclientScanDataEvent{*openapiclient.NewWebhookSdkclientScanDataEvent("ConnectionAp_example", "ConnectionBand_example", "ConnectionBssid_example", int32(123), float32(123), float32(123), "Mac_example", "03e9c864-a7e4-4310-8031-d9817d2c5a43")}, openapiclient.webhook_sdkclient_scan_data_topic("sdkclient_scan_data")) // WebhookSdkclientScanData |  (optional)
+	webhookSdkclientScanData := *openapiclient.NewWebhookSdkclientScanData([]openapiclient.WebhookSdkclientScanDataEvent{*openapiclient.NewWebhookSdkclientScanDataEvent("ConnectionAp_example", "ConnectionBand_example", "ConnectionBssid_example", int32(123), float32(123), float32(123), "Mac_example", "03e9c864-a7e4-4310-8031-d9817d2c5a43")}, openapiclient.webhook_sdkclient_scan_data_topic("")) // WebhookSdkclientScanData |  (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -1459,7 +1459,7 @@ import (
 )
 
 func main() {
-	webhookZone := *openapiclient.NewWebhookZone([]openapiclient.WebhookZoneEvent{*openapiclient.NewWebhookZoneEvent("Id_example", "MapId_example", "03e9c864-a7e4-4310-8031-d9817d2c5a43", int32(123), openapiclient.webhook_zone_event_trigger("enter"), "Type_example", "ZoneId_example")}, "Topic_example") // WebhookZone |  (optional)
+	webhookZone := *openapiclient.NewWebhookZone([]openapiclient.WebhookZoneEvent{*openapiclient.NewWebhookZoneEvent("Id_example", "MapId_example", "03e9c864-a7e4-4310-8031-d9817d2c5a43", int32(123), openapiclient.webhook_zone_event_trigger(""), "Type_example", "ZoneId_example")}, "Topic_example") // WebhookZone |  (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)

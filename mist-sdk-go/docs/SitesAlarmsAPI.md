@@ -252,7 +252,7 @@ import (
 
 func main() {
 	siteId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	distinct := openapiclient.alarm_count_disctinct("type") // AlarmCountDisctinct | Group by and count the alarms by some distinct field (optional) (default to "type")
+	distinct := openapiclient.alarm_count_disctinct("") // AlarmCountDisctinct | Group by and count the alarms by some distinct field (optional) (default to "type")
 	ackAdminName := "ackAdminName_example" // string | Name of the admins who have acked the alarms; accepts multiple values separated by comma (optional)
 	acked := true // bool |  (optional)
 	type_ := "type__example" // string | Key-name of the alarms; accepts multiple values separated by comma (optional)

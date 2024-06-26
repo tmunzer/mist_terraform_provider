@@ -21,12 +21,14 @@ type WebhookZoneEventTrigger string
 
 // List of webhook_zone_event_trigger
 const (
+	WEBHOOKZONEEVENTTRIGGER_EMPTY WebhookZoneEventTrigger = ""
 	WEBHOOKZONEEVENTTRIGGER_ENTER WebhookZoneEventTrigger = "enter"
 	WEBHOOKZONEEVENTTRIGGER_EXIT WebhookZoneEventTrigger = "exit"
 )
 
 // All allowed values of WebhookZoneEventTrigger enum
 var AllowedWebhookZoneEventTriggerEnumValues = []WebhookZoneEventTrigger{
+	"",
 	"enter",
 	"exit",
 }

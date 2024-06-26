@@ -21,6 +21,7 @@ type ApRadioBandPreamble string
 
 // List of ap_radio_band_preamble
 const (
+	APRADIOBANDPREAMBLE_EMPTY ApRadioBandPreamble = ""
 	APRADIOBANDPREAMBLE_SHORT ApRadioBandPreamble = "short"
 	APRADIOBANDPREAMBLE_LONG ApRadioBandPreamble = "long"
 	APRADIOBANDPREAMBLE_AUTO ApRadioBandPreamble = "auto"
@@ -28,6 +29,7 @@ const (
 
 // All allowed values of ApRadioBandPreamble enum
 var AllowedApRadioBandPreambleEnumValues = []ApRadioBandPreamble{
+	"",
 	"short",
 	"long",
 	"auto",

@@ -21,12 +21,14 @@ type UseAutoApValuesFor string
 
 // List of use_auto_ap_values_for
 const (
+	USEAUTOAPVALUESFOR_EMPTY UseAutoApValuesFor = ""
 	USEAUTOAPVALUESFOR_PLACEMENT UseAutoApValuesFor = "placement"
 	USEAUTOAPVALUESFOR_ORIENTATION UseAutoApValuesFor = "orientation"
 )
 
 // All allowed values of UseAutoApValuesFor enum
 var AllowedUseAutoApValuesForEnumValues = []UseAutoApValuesFor{
+	"",
 	"placement",
 	"orientation",
 }

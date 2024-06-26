@@ -21,6 +21,7 @@ type ListOrgLogsSort string
 
 // List of list_org_logs_sort
 const (
+	LISTORGLOGSSORT_EMPTY ListOrgLogsSort = ""
 	LISTORGLOGSSORT_TIMESTAMP ListOrgLogsSort = "timestamp"
 	LISTORGLOGSSORT_TIMESTAMP2 ListOrgLogsSort = "-timestamp"
 	LISTORGLOGSSORT_SITE_ID ListOrgLogsSort = "site_id"
@@ -29,6 +30,7 @@ const (
 
 // All allowed values of ListOrgLogsSort enum
 var AllowedListOrgLogsSortEnumValues = []ListOrgLogsSort{
+	"",
 	"timestamp",
 	"-timestamp",
 	"site_id",

@@ -21,12 +21,14 @@ type SsoNameidFormat string
 
 // List of sso_nameid_format
 const (
+	SSONAMEIDFORMAT_EMPTY SsoNameidFormat = ""
 	SSONAMEIDFORMAT_EMAIL SsoNameidFormat = "email"
 	SSONAMEIDFORMAT_UNSPECIFIED SsoNameidFormat = "unspecified"
 )
 
 // All allowed values of SsoNameidFormat enum
 var AllowedSsoNameidFormatEnumValues = []SsoNameidFormat{
+	"",
 	"email",
 	"unspecified",
 }

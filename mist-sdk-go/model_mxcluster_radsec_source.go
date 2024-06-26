@@ -21,6 +21,7 @@ type MxclusterRadsecSource string
 
 // List of mxcluster_radsec_source
 const (
+	MXCLUSTERRADSECSOURCE_EMPTY MxclusterRadsecSource = ""
 	MXCLUSTERRADSECSOURCE_ANY MxclusterRadsecSource = "any"
 	MXCLUSTERRADSECSOURCE_OOB MxclusterRadsecSource = "oob"
 	MXCLUSTERRADSECSOURCE_OOB6 MxclusterRadsecSource = "oob6"
@@ -30,6 +31,7 @@ const (
 
 // All allowed values of MxclusterRadsecSource enum
 var AllowedMxclusterRadsecSourceEnumValues = []MxclusterRadsecSource{
+	"",
 	"any",
 	"oob",
 	"oob6",

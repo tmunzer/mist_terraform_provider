@@ -38,7 +38,7 @@ func NewWlanBonjourServiceProperties() *WlanBonjourServiceProperties {
 	this := WlanBonjourServiceProperties{}
 	var disableLocal bool = false
 	this.DisableLocal = &disableLocal
-	var scope WlanBonjourServicePropertiesScope = WLANBONJOURSERVICEPROPERTIESSCOPE_SITE
+	var scope WlanBonjourServicePropertiesScope = WLANBONJOURSERVICEPROPERTIESSCOPE_SAME_SITE
 	this.Scope = &scope
 	return &this
 }
@@ -50,7 +50,7 @@ func NewWlanBonjourServicePropertiesWithDefaults() *WlanBonjourServiceProperties
 	this := WlanBonjourServiceProperties{}
 	var disableLocal bool = false
 	this.DisableLocal = &disableLocal
-	var scope WlanBonjourServicePropertiesScope = WLANBONJOURSERVICEPROPERTIESSCOPE_SITE
+	var scope WlanBonjourServicePropertiesScope = WLANBONJOURSERVICEPROPERTIESSCOPE_SAME_SITE
 	this.Scope = &scope
 	return &this
 }

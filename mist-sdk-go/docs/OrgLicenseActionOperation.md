@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `AMEND` (value: `"amend"`)
 
 * `UNAMEND` (value: `"unamend"`)

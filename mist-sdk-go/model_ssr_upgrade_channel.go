@@ -21,6 +21,7 @@ type SsrUpgradeChannel string
 
 // List of ssr_upgrade_channel
 const (
+	SSRUPGRADECHANNEL_EMPTY SsrUpgradeChannel = ""
 	SSRUPGRADECHANNEL_STABLE SsrUpgradeChannel = "stable"
 	SSRUPGRADECHANNEL_BETA SsrUpgradeChannel = "beta"
 	SSRUPGRADECHANNEL_ALPHA SsrUpgradeChannel = "alpha"
@@ -28,6 +29,7 @@ const (
 
 // All allowed values of SsrUpgradeChannel enum
 var AllowedSsrUpgradeChannelEnumValues = []SsrUpgradeChannel{
+	"",
 	"stable",
 	"beta",
 	"alpha",

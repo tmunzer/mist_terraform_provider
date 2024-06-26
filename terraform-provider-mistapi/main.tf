@@ -66,14 +66,12 @@ resource "mistapi_networktemplate" "switch_template" {
       {
         host   = "1.2.3.4"
         secret = "secret"
-        keywrap_format = "ascii"
       }
     ]
     auth_servers = [
       {
         host   = "1.2.3.4"
         secret = "secret"
-        keywrap_format = "ascii"
       }
     ]
   }

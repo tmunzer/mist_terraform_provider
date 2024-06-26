@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `NOT_STARTED` (value: `"Not Started"`)
 
 * `ENQUEUED` (value: `"Enqueued"`)

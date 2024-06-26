@@ -5,7 +5,6 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
-	"github.com/hashicorp/terraform-plugin-log/tflog"
 
 	mistsdkgo "terraform-provider-mistapi/github.com/tmunzer/mist-sdk-go"
 )
@@ -16,9 +15,7 @@ func RadiusAcctServersTerraformToSdk(ctx context.Context, diags *diag.Diagnostic
 	for _, plan_attr := range d.Elements() {
 		var srv_plan_interface interface{} = plan_attr
 		srv_plan := srv_plan_interface.(AcctServersValue)
-		tflog.Error(ctx, "-----------------------TTS ACCT")
 		keywrap_format, _ := mistsdkgo.NewRadiusKeywrapFormatFromValue(srv_plan.KeywrapFormat.ValueString())
-		tflog.Error(ctx, "-----------------------"+string(*keywrap_format))
 		srv_data := mistsdkgo.NewRadiusAcctServer(srv_plan.Host.ValueString(), int32(srv_plan.Port.ValueInt64()), srv_plan.Secret.ValueString())
 		srv_data.SetKeywrapEnabled(srv_plan.KeywrapEnabled.ValueBool())
 		srv_data.SetKeywrapFormat(*keywrap_format)
@@ -34,9 +31,7 @@ func RadiusAuthServersTerraformToSdk(ctx context.Context, diags *diag.Diagnostic
 	for _, plan_attr := range d.Elements() {
 		var srv_plan_interface interface{} = plan_attr
 		srv_plan := srv_plan_interface.(AuthServersValue)
-		tflog.Error(ctx, "-----------------------TTS AUTH")
 		keywrap_format, _ := mistsdkgo.NewRadiusKeywrapFormatFromValue(srv_plan.KeywrapFormat.ValueString())
-		tflog.Error(ctx, "-----------------------"+string(*keywrap_format))
 		srv_data := mistsdkgo.NewRadiusAuthServer(srv_plan.Host.ValueString(), int32(srv_plan.Port.ValueInt64()), srv_plan.Secret.ValueString())
 		srv_data.SetKeywrapEnabled(srv_plan.KeywrapEnabled.ValueBool())
 		srv_data.SetKeywrapFormat(*keywrap_format)
@@ -48,7 +43,6 @@ func RadiusAuthServersTerraformToSdk(ctx context.Context, diags *diag.Diagnostic
 }
 func radiusConfigTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d RadiusConfigValue) mistsdkgo.RadiusConfig {
 
-	tflog.Debug(ctx, "-----------------------radiusConfigTerraformToSdk")
 	acct_servers := RadiusAcctServersTerraformToSdk(ctx, diags, d.AcctServers)
 	auth_server := RadiusAuthServersTerraformToSdk(ctx, diags, d.AuthServers)
 	data := mistsdkgo.NewRadiusConfig()

@@ -21,6 +21,7 @@ type SearchSiteSwOrGwPortsDeviceType string
 
 // List of search_site_sw_or_gw_ports_device_type
 const (
+	SEARCHSITESWORGWPORTSDEVICETYPE_EMPTY SearchSiteSwOrGwPortsDeviceType = ""
 	SEARCHSITESWORGWPORTSDEVICETYPE_AP SearchSiteSwOrGwPortsDeviceType = "ap"
 	SEARCHSITESWORGWPORTSDEVICETYPE_BLE SearchSiteSwOrGwPortsDeviceType = "ble"
 	SEARCHSITESWORGWPORTSDEVICETYPE_SWITCH SearchSiteSwOrGwPortsDeviceType = "switch"
@@ -31,6 +32,7 @@ const (
 
 // All allowed values of SearchSiteSwOrGwPortsDeviceType enum
 var AllowedSearchSiteSwOrGwPortsDeviceTypeEnumValues = []SearchSiteSwOrGwPortsDeviceType{
+	"",
 	"ap",
 	"ble",
 	"switch",

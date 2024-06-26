@@ -21,11 +21,13 @@ type CaptureRadiotapwiredType string
 
 // List of capture_radiotapwired_type
 const (
+	CAPTURERADIOTAPWIREDTYPE_EMPTY CaptureRadiotapwiredType = ""
 	CAPTURERADIOTAPWIREDTYPE_RADIOTAPWIRED CaptureRadiotapwiredType = "radiotap,wired"
 )
 
 // All allowed values of CaptureRadiotapwiredType enum
 var AllowedCaptureRadiotapwiredTypeEnumValues = []CaptureRadiotapwiredType{
+	"",
 	"radiotap,wired",
 }
 

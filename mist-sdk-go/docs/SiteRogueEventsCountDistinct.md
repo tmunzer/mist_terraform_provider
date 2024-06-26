@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `BSSID` (value: `"bssid"`)
 
 * `SSID` (value: `"ssid"`)

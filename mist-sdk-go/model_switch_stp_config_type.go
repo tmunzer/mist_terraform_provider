@@ -21,12 +21,14 @@ type SwitchStpConfigType string
 
 // List of switch_stp_config_type
 const (
+	SWITCHSTPCONFIGTYPE_EMPTY SwitchStpConfigType = ""
 	SWITCHSTPCONFIGTYPE_RSTP SwitchStpConfigType = "rstp"
 	SWITCHSTPCONFIGTYPE_VSTP SwitchStpConfigType = "vstp"
 )
 
 // All allowed values of SwitchStpConfigType enum
 var AllowedSwitchStpConfigTypeEnumValues = []SwitchStpConfigType{
+	"",
 	"rstp",
 	"vstp",
 }

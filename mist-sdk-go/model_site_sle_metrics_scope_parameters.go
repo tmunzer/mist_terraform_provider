@@ -21,6 +21,7 @@ type SiteSleMetricsScopeParameters string
 
 // List of site_sle_metrics_scope_parameters
 const (
+	SITESLEMETRICSSCOPEPARAMETERS_EMPTY SiteSleMetricsScopeParameters = ""
 	SITESLEMETRICSSCOPEPARAMETERS_SITE SiteSleMetricsScopeParameters = "site"
 	SITESLEMETRICSSCOPEPARAMETERS_AP SiteSleMetricsScopeParameters = "ap"
 	SITESLEMETRICSSCOPEPARAMETERS_SWITCH SiteSleMetricsScopeParameters = "switch"
@@ -30,6 +31,7 @@ const (
 
 // All allowed values of SiteSleMetricsScopeParameters enum
 var AllowedSiteSleMetricsScopeParametersEnumValues = []SiteSleMetricsScopeParameters{
+	"",
 	"site",
 	"ap",
 	"switch",

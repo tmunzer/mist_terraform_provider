@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `REMOTE_ENGINE` (value: `"remote_engine"`)
 
 * `LOCAL_ENGINE` (value: `"local_engine"`)

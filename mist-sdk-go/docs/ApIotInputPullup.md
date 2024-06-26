@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `INTERNAL` (value: `"internal"`)
 
 * `EXTERNAL` (value: `"external"`)

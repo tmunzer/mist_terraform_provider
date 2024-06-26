@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `MAC` (value: `"mac"`)
 
 * `MAP_ID` (value: `"map_id"`)

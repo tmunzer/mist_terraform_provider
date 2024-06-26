@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `CERT_CN` (value: `"cert_cn"`)
 
 * `CERT_ISSUER` (value: `"cert_issuer"`)

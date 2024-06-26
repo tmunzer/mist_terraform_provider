@@ -21,11 +21,13 @@ type MapJibestreamVendorName string
 
 // List of map_jibestream_vendor_name
 const (
+	MAPJIBESTREAMVENDORNAME_EMPTY MapJibestreamVendorName = ""
 	MAPJIBESTREAMVENDORNAME_JIBESTREAM MapJibestreamVendorName = "jibestream"
 )
 
 // All allowed values of MapJibestreamVendorName enum
 var AllowedMapJibestreamVendorNameEnumValues = []MapJibestreamVendorName{
+	"",
 	"jibestream",
 }
 

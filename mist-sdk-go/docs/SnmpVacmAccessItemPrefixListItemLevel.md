@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `PRIVACY` (value: `"privacy"`)
 
 * `AUTHENTICATION` (value: `"authentication"`)

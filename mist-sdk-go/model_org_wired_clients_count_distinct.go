@@ -21,6 +21,7 @@ type OrgWiredClientsCountDistinct string
 
 // List of org_wired_clients_count_distinct
 const (
+	ORGWIREDCLIENTSCOUNTDISTINCT_EMPTY OrgWiredClientsCountDistinct = ""
 	ORGWIREDCLIENTSCOUNTDISTINCT_PORT_ID OrgWiredClientsCountDistinct = "port_id"
 	ORGWIREDCLIENTSCOUNTDISTINCT_VLAN OrgWiredClientsCountDistinct = "vlan"
 	ORGWIREDCLIENTSCOUNTDISTINCT_MAC OrgWiredClientsCountDistinct = "mac"
@@ -31,6 +32,7 @@ const (
 
 // All allowed values of OrgWiredClientsCountDistinct enum
 var AllowedOrgWiredClientsCountDistinctEnumValues = []OrgWiredClientsCountDistinct{
+	"",
 	"port_id",
 	"vlan",
 	"mac",

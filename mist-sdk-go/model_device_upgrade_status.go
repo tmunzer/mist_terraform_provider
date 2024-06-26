@@ -21,6 +21,7 @@ type DeviceUpgradeStatus string
 
 // List of device_upgrade_status
 const (
+	DEVICEUPGRADESTATUS_EMPTY DeviceUpgradeStatus = ""
 	DEVICEUPGRADESTATUS_DOWNLOADING DeviceUpgradeStatus = "downloading"
 	DEVICEUPGRADESTATUS_COMPLETED DeviceUpgradeStatus = "completed"
 	DEVICEUPGRADESTATUS_CREATED DeviceUpgradeStatus = "created"
@@ -32,6 +33,7 @@ const (
 
 // All allowed values of DeviceUpgradeStatus enum
 var AllowedDeviceUpgradeStatusEnumValues = []DeviceUpgradeStatus{
+	"",
 	"downloading",
 	"completed",
 	"created",

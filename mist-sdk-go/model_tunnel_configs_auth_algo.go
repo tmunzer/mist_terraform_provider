@@ -21,6 +21,7 @@ type TunnelConfigsAuthAlgo string
 
 // List of tunnel_configs_auth_algo
 const (
+	TUNNELCONFIGSAUTHALGO_EMPTY TunnelConfigsAuthAlgo = ""
 	TUNNELCONFIGSAUTHALGO_SHA1 TunnelConfigsAuthAlgo = "sha1"
 	TUNNELCONFIGSAUTHALGO_SHA2 TunnelConfigsAuthAlgo = "sha2"
 	TUNNELCONFIGSAUTHALGO_MD5 TunnelConfigsAuthAlgo = "md5"
@@ -28,6 +29,7 @@ const (
 
 // All allowed values of TunnelConfigsAuthAlgo enum
 var AllowedTunnelConfigsAuthAlgoEnumValues = []TunnelConfigsAuthAlgo{
+	"",
 	"sha1",
 	"sha2",
 	"md5",

@@ -21,6 +21,7 @@ type ResponseOrgInventoryChangeOp string
 
 // List of response_org_inventory_change_op
 const (
+	RESPONSEORGINVENTORYCHANGEOP_EMPTY ResponseOrgInventoryChangeOp = ""
 	RESPONSEORGINVENTORYCHANGEOP_DELETE ResponseOrgInventoryChangeOp = "delete"
 	RESPONSEORGINVENTORYCHANGEOP_ASSIGN ResponseOrgInventoryChangeOp = "assign"
 	RESPONSEORGINVENTORYCHANGEOP_MANAGE ResponseOrgInventoryChangeOp = "manage"
@@ -29,6 +30,7 @@ const (
 
 // All allowed values of ResponseOrgInventoryChangeOp enum
 var AllowedResponseOrgInventoryChangeOpEnumValues = []ResponseOrgInventoryChangeOp{
+	"",
 	"delete",
 	"assign",
 	"manage",

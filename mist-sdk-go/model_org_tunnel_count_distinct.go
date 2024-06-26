@@ -21,6 +21,7 @@ type OrgTunnelCountDistinct string
 
 // List of org_tunnel_count_distinct
 const (
+	ORGTUNNELCOUNTDISTINCT_EMPTY OrgTunnelCountDistinct = ""
 	ORGTUNNELCOUNTDISTINCT_AUTH_ALGO OrgTunnelCountDistinct = "auth_algo"
 	ORGTUNNELCOUNTDISTINCT_WXTUNNEL_ID OrgTunnelCountDistinct = "wxtunnel_id"
 	ORGTUNNELCOUNTDISTINCT_AP OrgTunnelCountDistinct = "ap"
@@ -46,6 +47,7 @@ const (
 
 // All allowed values of OrgTunnelCountDistinct enum
 var AllowedOrgTunnelCountDistinctEnumValues = []OrgTunnelCountDistinct{
+	"",
 	"auth_algo",
 	"wxtunnel_id",
 	"ap",

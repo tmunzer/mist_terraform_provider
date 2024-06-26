@@ -21,6 +21,7 @@ type PortUsageMode string
 
 // List of port_usage_mode
 const (
+	PORTUSAGEMODE_EMPTY PortUsageMode = ""
 	PORTUSAGEMODE_ACCESS PortUsageMode = "access"
 	PORTUSAGEMODE_TRUNK PortUsageMode = "trunk"
 	PORTUSAGEMODE_INET PortUsageMode = "inet"
@@ -29,6 +30,7 @@ const (
 
 // All allowed values of PortUsageMode enum
 var AllowedPortUsageModeEnumValues = []PortUsageMode{
+	"",
 	"access",
 	"trunk",
 	"inet",

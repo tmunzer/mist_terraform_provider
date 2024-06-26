@@ -21,6 +21,7 @@ type PrivilegeMspView string
 
 // List of privilege_msp_view
 const (
+	PRIVILEGEMSPVIEW_EMPTY PrivilegeMspView = ""
 	PRIVILEGEMSPVIEW_REPORTING PrivilegeMspView = "reporting"
 	PRIVILEGEMSPVIEW_MARKETING PrivilegeMspView = "marketing"
 	PRIVILEGEMSPVIEW_LOCATION PrivilegeMspView = "location"
@@ -32,6 +33,7 @@ const (
 
 // All allowed values of PrivilegeMspView enum
 var AllowedPrivilegeMspViewEnumValues = []PrivilegeMspView{
+	"",
 	"reporting",
 	"marketing",
 	"location",

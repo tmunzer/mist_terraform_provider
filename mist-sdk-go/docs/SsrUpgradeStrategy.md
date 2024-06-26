@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `BIG_BANG` (value: `"big_bang"`)
 
 * `SERIAL` (value: `"serial"`)

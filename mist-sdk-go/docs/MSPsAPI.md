@@ -238,7 +238,7 @@ import (
 
 func main() {
 	mspId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	type_ := openapiclient.msp_search_type("orgs") // MspSearchType | orgs
+	type_ := openapiclient.msp_search_type("") // MspSearchType | orgs
 	q := "search" // string | search string (optional) (default to "")
 	limit := int32(56) // int32 |  (optional) (default to 100)
 	start := int32(56) // int32 | start datetime, can be epoch or relative time like -1d, -1w; -1d if not specified (optional)

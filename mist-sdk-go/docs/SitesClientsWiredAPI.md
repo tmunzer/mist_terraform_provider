@@ -31,7 +31,7 @@ import (
 
 func main() {
 	siteId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	distinct := openapiclient.site_wired_clients_count_distinct("port_id") // SiteWiredClientsCountDistinct |  (optional) (default to "mac")
+	distinct := openapiclient.site_wired_clients_count_distinct("") // SiteWiredClientsCountDistinct |  (optional) (default to "mac")
 	mac := "mac_example" // string | client mac (optional)
 	deviceMac := "deviceMac_example" // string | device mac (optional)
 	portId := "portId_example" // string | port id (optional)

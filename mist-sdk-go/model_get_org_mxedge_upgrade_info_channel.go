@@ -21,6 +21,7 @@ type GetOrgMxedgeUpgradeInfoChannel string
 
 // List of get_org_mxedge_upgrade_info_channel
 const (
+	GETORGMXEDGEUPGRADEINFOCHANNEL_EMPTY GetOrgMxedgeUpgradeInfoChannel = ""
 	GETORGMXEDGEUPGRADEINFOCHANNEL_STABLE GetOrgMxedgeUpgradeInfoChannel = "stable"
 	GETORGMXEDGEUPGRADEINFOCHANNEL_BETA GetOrgMxedgeUpgradeInfoChannel = "beta"
 	GETORGMXEDGEUPGRADEINFOCHANNEL_ALPHA GetOrgMxedgeUpgradeInfoChannel = "alpha"
@@ -28,6 +29,7 @@ const (
 
 // All allowed values of GetOrgMxedgeUpgradeInfoChannel enum
 var AllowedGetOrgMxedgeUpgradeInfoChannelEnumValues = []GetOrgMxedgeUpgradeInfoChannel{
+	"",
 	"stable",
 	"beta",
 	"alpha",

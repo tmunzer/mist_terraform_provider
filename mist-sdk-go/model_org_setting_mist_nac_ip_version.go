@@ -21,12 +21,14 @@ type OrgSettingMistNacIpVersion string
 
 // List of org_setting_mist_nac_ip_version
 const (
+	ORGSETTINGMISTNACIPVERSION_EMPTY OrgSettingMistNacIpVersion = ""
 	ORGSETTINGMISTNACIPVERSION_V4 OrgSettingMistNacIpVersion = "v4"
 	ORGSETTINGMISTNACIPVERSION_V6 OrgSettingMistNacIpVersion = "v6"
 )
 
 // All allowed values of OrgSettingMistNacIpVersion enum
 var AllowedOrgSettingMistNacIpVersionEnumValues = []OrgSettingMistNacIpVersion{
+	"",
 	"v4",
 	"v6",
 }

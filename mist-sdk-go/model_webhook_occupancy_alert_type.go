@@ -21,12 +21,14 @@ type WebhookOccupancyAlertType string
 
 // List of webhook_occupancy_alert_type
 const (
-	WEBHOOKOCCUPANCYALERTTYPE_VIOLATION WebhookOccupancyAlertType = "COMPLIANCE-VIOLATION"
-	WEBHOOKOCCUPANCYALERTTYPE_OK WebhookOccupancyAlertType = "COMPLIANCE-OK"
+	WEBHOOKOCCUPANCYALERTTYPE_EMPTY WebhookOccupancyAlertType = ""
+	WEBHOOKOCCUPANCYALERTTYPE_COMPLIANCE_VIOLATION WebhookOccupancyAlertType = "COMPLIANCE-VIOLATION"
+	WEBHOOKOCCUPANCYALERTTYPE_COMPLIANCE_OK WebhookOccupancyAlertType = "COMPLIANCE-OK"
 )
 
 // All allowed values of WebhookOccupancyAlertType enum
 var AllowedWebhookOccupancyAlertTypeEnumValues = []WebhookOccupancyAlertType{
+	"",
 	"COMPLIANCE-VIOLATION",
 	"COMPLIANCE-OK",
 }

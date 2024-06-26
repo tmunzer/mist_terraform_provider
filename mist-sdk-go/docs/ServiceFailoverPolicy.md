@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `REVERTABLE` (value: `"revertable"`)
 
 * `NON_REVERTABLE` (value: `"non_revertable"`)

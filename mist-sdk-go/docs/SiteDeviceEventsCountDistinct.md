@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `MODEL` (value: `"model"`)
 
 * `TYPE` (value: `"type"`)

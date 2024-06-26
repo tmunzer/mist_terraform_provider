@@ -21,6 +21,7 @@ type PrivilegeSelfViews string
 
 // List of privilege_self_views
 const (
+	PRIVILEGESELFVIEWS_EMPTY PrivilegeSelfViews = ""
 	PRIVILEGESELFVIEWS_REPORTING PrivilegeSelfViews = "reporting"
 	PRIVILEGESELFVIEWS_MARKETING PrivilegeSelfViews = "marketing"
 	PRIVILEGESELFVIEWS_LOCATION PrivilegeSelfViews = "location"
@@ -32,6 +33,7 @@ const (
 
 // All allowed values of PrivilegeSelfViews enum
 var AllowedPrivilegeSelfViewsEnumValues = []PrivilegeSelfViews{
+	"",
 	"reporting",
 	"marketing",
 	"location",

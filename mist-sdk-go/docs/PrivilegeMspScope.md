@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `ORG` (value: `"org"`)
 
 * `MSP` (value: `"msp"`)

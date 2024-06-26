@@ -21,6 +21,7 @@ type CountSiteSwOrGwPortsStpRole string
 
 // List of count_site_sw_or_gw_ports_stp_role
 const (
+	COUNTSITESWORGWPORTSSTPROLE_EMPTY CountSiteSwOrGwPortsStpRole = ""
 	COUNTSITESWORGWPORTSSTPROLE_DESIGNATED CountSiteSwOrGwPortsStpRole = "designated"
 	COUNTSITESWORGWPORTSSTPROLE_BACKUP CountSiteSwOrGwPortsStpRole = "backup"
 	COUNTSITESWORGWPORTSSTPROLE_ALTERNATE CountSiteSwOrGwPortsStpRole = "alternate"
@@ -30,6 +31,7 @@ const (
 
 // All allowed values of CountSiteSwOrGwPortsStpRole enum
 var AllowedCountSiteSwOrGwPortsStpRoleEnumValues = []CountSiteSwOrGwPortsStpRole{
+	"",
 	"designated",
 	"backup",
 	"alternate",

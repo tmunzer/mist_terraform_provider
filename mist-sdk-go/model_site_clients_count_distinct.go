@@ -21,6 +21,7 @@ type SiteClientsCountDistinct string
 
 // List of site_clients_count_distinct
 const (
+	SITECLIENTSCOUNTDISTINCT_EMPTY SiteClientsCountDistinct = ""
 	SITECLIENTSCOUNTDISTINCT_SSID SiteClientsCountDistinct = "ssid"
 	SITECLIENTSCOUNTDISTINCT_AP SiteClientsCountDistinct = "ap"
 	SITECLIENTSCOUNTDISTINCT_IP SiteClientsCountDistinct = "ip"
@@ -33,6 +34,7 @@ const (
 
 // All allowed values of SiteClientsCountDistinct enum
 var AllowedSiteClientsCountDistinctEnumValues = []SiteClientsCountDistinct{
+	"",
 	"ssid",
 	"ap",
 	"ip",

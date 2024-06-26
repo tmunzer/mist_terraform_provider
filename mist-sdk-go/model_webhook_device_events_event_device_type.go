@@ -21,6 +21,7 @@ type WebhookDeviceEventsEventDeviceType string
 
 // List of webhook_device_events_event_device_type
 const (
+	WEBHOOKDEVICEEVENTSEVENTDEVICETYPE_EMPTY WebhookDeviceEventsEventDeviceType = ""
 	WEBHOOKDEVICEEVENTSEVENTDEVICETYPE_AP WebhookDeviceEventsEventDeviceType = "ap"
 	WEBHOOKDEVICEEVENTSEVENTDEVICETYPE_SWITCH WebhookDeviceEventsEventDeviceType = "switch"
 	WEBHOOKDEVICEEVENTSEVENTDEVICETYPE_GATEWAY WebhookDeviceEventsEventDeviceType = "gateway"
@@ -28,6 +29,7 @@ const (
 
 // All allowed values of WebhookDeviceEventsEventDeviceType enum
 var AllowedWebhookDeviceEventsEventDeviceTypeEnumValues = []WebhookDeviceEventsEventDeviceType{
+	"",
 	"ap",
 	"switch",
 	"gateway",

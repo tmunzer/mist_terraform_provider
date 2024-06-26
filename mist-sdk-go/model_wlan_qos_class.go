@@ -21,6 +21,7 @@ type WlanQosClass string
 
 // List of wlan_qos_class
 const (
+	WLANQOSCLASS_EMPTY WlanQosClass = ""
 	WLANQOSCLASS_BACKGROUND WlanQosClass = "background"
 	WLANQOSCLASS_BEST_EFFORT WlanQosClass = "best_effort"
 	WLANQOSCLASS_VIDEO WlanQosClass = "video"
@@ -29,6 +30,7 @@ const (
 
 // All allowed values of WlanQosClass enum
 var AllowedWlanQosClassEnumValues = []WlanQosClass{
+	"",
 	"background",
 	"best_effort",
 	"video",

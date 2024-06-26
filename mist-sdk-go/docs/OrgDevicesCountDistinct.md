@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `HOSTNAME` (value: `"hostname"`)
 
 * `SITE_ID` (value: `"site_id"`)

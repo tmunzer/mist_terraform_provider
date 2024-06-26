@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `ADD` (value: `"add"`)
 
 * `REMOVE` (value: `"remove"`)

@@ -21,6 +21,7 @@ type OrgAssetCountDistinct string
 
 // List of org_asset_count_distinct
 const (
+	ORGASSETCOUNTDISTINCT_EMPTY OrgAssetCountDistinct = ""
 	ORGASSETCOUNTDISTINCT_SITE_ID OrgAssetCountDistinct = "site_id"
 	ORGASSETCOUNTDISTINCT_MAC OrgAssetCountDistinct = "mac"
 	ORGASSETCOUNTDISTINCT_MAP_ID OrgAssetCountDistinct = "map_id"
@@ -31,6 +32,7 @@ const (
 
 // All allowed values of OrgAssetCountDistinct enum
 var AllowedOrgAssetCountDistinctEnumValues = []OrgAssetCountDistinct{
+	"",
 	"site_id",
 	"mac",
 	"map_id",

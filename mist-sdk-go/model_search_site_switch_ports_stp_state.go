@@ -21,6 +21,7 @@ type SearchSiteSwitchPortsStpState string
 
 // List of search_site_switch_ports_stp_state
 const (
+	SEARCHSITESWITCHPORTSSTPSTATE_EMPTY SearchSiteSwitchPortsStpState = ""
 	SEARCHSITESWITCHPORTSSTPSTATE_FORWARDING SearchSiteSwitchPortsStpState = "forwarding"
 	SEARCHSITESWITCHPORTSSTPSTATE_BLOCKING SearchSiteSwitchPortsStpState = "blocking"
 	SEARCHSITESWITCHPORTSSTPSTATE_LEARNING SearchSiteSwitchPortsStpState = "learning"
@@ -30,6 +31,7 @@ const (
 
 // All allowed values of SearchSiteSwitchPortsStpState enum
 var AllowedSearchSiteSwitchPortsStpStateEnumValues = []SearchSiteSwitchPortsStpState{
+	"",
 	"forwarding",
 	"blocking",
 	"learning",

@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `MAC` (value: `"mac"`)
 
 * `PEER_MAC` (value: `"peer_mac"`)

@@ -21,17 +21,19 @@ type SnmpUsmpUserAuthenticationType string
 
 // List of snmp_usmp_user_authentication_type
 const (
-	SNMPUSMPUSERAUTHENTICATIONTYPE_MD5 SnmpUsmpUserAuthenticationType = "authentication_md5"
-	SNMPUSMPUSERAUTHENTICATIONTYPE_SHA SnmpUsmpUserAuthenticationType = "authentication_sha"
-	SNMPUSMPUSERAUTHENTICATIONTYPE_SHA224 SnmpUsmpUserAuthenticationType = "authentication_sha224"
-	SNMPUSMPUSERAUTHENTICATIONTYPE_SHA256 SnmpUsmpUserAuthenticationType = "authentication_sha256"
-	SNMPUSMPUSERAUTHENTICATIONTYPE_SHA384 SnmpUsmpUserAuthenticationType = "authentication_sha384"
-	SNMPUSMPUSERAUTHENTICATIONTYPE_SHA512 SnmpUsmpUserAuthenticationType = "authentication_sha512"
-	SNMPUSMPUSERAUTHENTICATIONTYPE_NONE SnmpUsmpUserAuthenticationType = "authentication_none"
+	SNMPUSMPUSERAUTHENTICATIONTYPE_EMPTY SnmpUsmpUserAuthenticationType = ""
+	SNMPUSMPUSERAUTHENTICATIONTYPE_AUTHENTICATION_MD5 SnmpUsmpUserAuthenticationType = "authentication_md5"
+	SNMPUSMPUSERAUTHENTICATIONTYPE_AUTHENTICATION_SHA SnmpUsmpUserAuthenticationType = "authentication_sha"
+	SNMPUSMPUSERAUTHENTICATIONTYPE_AUTHENTICATION_SHA224 SnmpUsmpUserAuthenticationType = "authentication_sha224"
+	SNMPUSMPUSERAUTHENTICATIONTYPE_AUTHENTICATION_SHA256 SnmpUsmpUserAuthenticationType = "authentication_sha256"
+	SNMPUSMPUSERAUTHENTICATIONTYPE_AUTHENTICATION_SHA384 SnmpUsmpUserAuthenticationType = "authentication_sha384"
+	SNMPUSMPUSERAUTHENTICATIONTYPE_AUTHENTICATION_SHA512 SnmpUsmpUserAuthenticationType = "authentication_sha512"
+	SNMPUSMPUSERAUTHENTICATIONTYPE_AUTHENTICATION_NONE SnmpUsmpUserAuthenticationType = "authentication_none"
 )
 
 // All allowed values of SnmpUsmpUserAuthenticationType enum
 var AllowedSnmpUsmpUserAuthenticationTypeEnumValues = []SnmpUsmpUserAuthenticationType{
+	"",
 	"authentication_md5",
 	"authentication_sha",
 	"authentication_sha224",

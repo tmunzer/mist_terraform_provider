@@ -21,11 +21,13 @@ type SwitchMetricType string
 
 // List of switch_metric_type
 const (
+	SWITCHMETRICTYPE_EMPTY SwitchMetricType = ""
 	SWITCHMETRICTYPE_ACTIVE_PORTS_SUMMARY SwitchMetricType = "active_ports_summary"
 )
 
 // All allowed values of SwitchMetricType enum
 var AllowedSwitchMetricTypeEnumValues = []SwitchMetricType{
+	"",
 	"active_ports_summary",
 }
 

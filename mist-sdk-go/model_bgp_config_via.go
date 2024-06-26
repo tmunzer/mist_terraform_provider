@@ -21,12 +21,14 @@ type BgpConfigVia string
 
 // List of bgp_config_via
 const (
+	BGPCONFIGVIA_EMPTY BgpConfigVia = ""
 	BGPCONFIGVIA_LAN BgpConfigVia = "lan"
 	BGPCONFIGVIA_WAN BgpConfigVia = "wan"
 )
 
 // All allowed values of BgpConfigVia enum
 var AllowedBgpConfigViaEnumValues = []BgpConfigVia{
+	"",
 	"lan",
 	"wan",
 }

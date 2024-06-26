@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `PAP` (value: `"pap"`)
 
 * `EAP_PEAP` (value: `"eap-peap"`)

@@ -21,6 +21,7 @@ type BgpStatsState string
 
 // List of bgp_stats_state
 const (
+	BGPSTATSSTATE_EMPTY BgpStatsState = ""
 	BGPSTATSSTATE_IDLE BgpStatsState = "idle"
 	BGPSTATSSTATE_CONNECT BgpStatsState = "connect"
 	BGPSTATSSTATE_ACTIVE BgpStatsState = "active"
@@ -31,6 +32,7 @@ const (
 
 // All allowed values of BgpStatsState enum
 var AllowedBgpStatsStateEnumValues = []BgpStatsState{
+	"",
 	"idle",
 	"connect",
 	"active",

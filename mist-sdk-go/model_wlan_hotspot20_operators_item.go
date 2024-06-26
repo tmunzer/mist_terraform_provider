@@ -21,6 +21,7 @@ type WlanHotspot20OperatorsItem string
 
 // List of wlan_hotspot20_operators_item
 const (
+	WLANHOTSPOT20OPERATORSITEM_EMPTY WlanHotspot20OperatorsItem = ""
 	WLANHOTSPOT20OPERATORSITEM_AMERIBAND WlanHotspot20OperatorsItem = "ameriband"
 	WLANHOTSPOT20OPERATORSITEM_ATT WlanHotspot20OperatorsItem = "att"
 	WLANHOTSPOT20OPERATORSITEM_BOINGO WlanHotspot20OperatorsItem = "boingo"
@@ -39,6 +40,7 @@ const (
 
 // All allowed values of WlanHotspot20OperatorsItem enum
 var AllowedWlanHotspot20OperatorsItemEnumValues = []WlanHotspot20OperatorsItem{
+	"",
 	"ameriband",
 	"att",
 	"boingo",

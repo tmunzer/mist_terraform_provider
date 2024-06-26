@@ -21,6 +21,7 @@ type CountSiteSwitchPortsAuthState string
 
 // List of count_site_switch_ports_auth_state
 const (
+	COUNTSITESWITCHPORTSAUTHSTATE_EMPTY CountSiteSwitchPortsAuthState = ""
 	COUNTSITESWITCHPORTSAUTHSTATE_INIT CountSiteSwitchPortsAuthState = "init"
 	COUNTSITESWITCHPORTSAUTHSTATE_AUTHENTICATED CountSiteSwitchPortsAuthState = "authenticated"
 	COUNTSITESWITCHPORTSAUTHSTATE_AUTHENTICATING CountSiteSwitchPortsAuthState = "authenticating"
@@ -29,6 +30,7 @@ const (
 
 // All allowed values of CountSiteSwitchPortsAuthState enum
 var AllowedCountSiteSwitchPortsAuthStateEnumValues = []CountSiteSwitchPortsAuthState{
+	"",
 	"init",
 	"authenticated",
 	"authenticating",

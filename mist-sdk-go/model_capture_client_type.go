@@ -21,11 +21,13 @@ type CaptureClientType string
 
 // List of capture_client_type
 const (
+	CAPTURECLIENTTYPE_EMPTY CaptureClientType = ""
 	CAPTURECLIENTTYPE_CLIENT CaptureClientType = "client"
 )
 
 // All allowed values of CaptureClientType enum
 var AllowedCaptureClientTypeEnumValues = []CaptureClientType{
+	"",
 	"client",
 }
 

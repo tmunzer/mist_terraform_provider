@@ -180,10 +180,10 @@ import (
 func main() {
 	siteId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
 	mapId := "00000000-0000-0000-0000-000000000000" // string | map_id (filter by map_id) (optional)
-	type_ := openapiclient.rf_client_type("sdkclient") // RfClientType |  (optional)
+	type_ := openapiclient.rf_client_type("") // RfClientType |  (optional)
 	clientType := "clientType_example" // string | client_type (as filter. optional) (optional)
 	duration := "10m" // string | duration like 7d, 2w (optional) (default to "1d")
-	resolution := openapiclient.resolution("default") // Resolution |  (optional) (default to "default")
+	resolution := openapiclient.resolution("") // Resolution |  (optional) (default to "default")
 	start := int32(56) // int32 | start datetime, can be epoch or relative time like -1d, -1w; -1d if not specified (optional)
 	end := int32(56) // int32 | end datetime, can be epoch or relative time like -1d, -2h; now if not specified (optional)
 

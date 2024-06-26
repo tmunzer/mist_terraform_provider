@@ -21,6 +21,7 @@ type PrivilegeOrgRole string
 
 // List of privilege_org_role
 const (
+	PRIVILEGEORGROLE_EMPTY PrivilegeOrgRole = ""
 	PRIVILEGEORGROLE_ADMIN PrivilegeOrgRole = "admin"
 	PRIVILEGEORGROLE_WRITE PrivilegeOrgRole = "write"
 	PRIVILEGEORGROLE_READ PrivilegeOrgRole = "read"
@@ -30,6 +31,7 @@ const (
 
 // All allowed values of PrivilegeOrgRole enum
 var AllowedPrivilegeOrgRoleEnumValues = []PrivilegeOrgRole{
+	"",
 	"admin",
 	"write",
 	"read",

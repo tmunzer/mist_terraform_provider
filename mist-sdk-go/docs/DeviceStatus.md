@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `ALL` (value: `"all"`)
 
 * `CONNECTED` (value: `"connected"`)

@@ -21,6 +21,7 @@ type IpType6 string
 
 // List of ip_type6
 const (
+	IPTYPE6_EMPTY IpType6 = ""
 	IPTYPE6_DISABLED IpType6 = "disabled"
 	IPTYPE6_STATIC IpType6 = "static"
 	IPTYPE6_DHCP IpType6 = "dhcp"
@@ -29,6 +30,7 @@ const (
 
 // All allowed values of IpType6 enum
 var AllowedIpType6EnumValues = []IpType6{
+	"",
 	"disabled",
 	"static",
 	"dhcp",

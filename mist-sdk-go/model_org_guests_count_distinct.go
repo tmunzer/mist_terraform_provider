@@ -21,6 +21,7 @@ type OrgGuestsCountDistinct string
 
 // List of org_guests_count_distinct
 const (
+	ORGGUESTSCOUNTDISTINCT_EMPTY OrgGuestsCountDistinct = ""
 	ORGGUESTSCOUNTDISTINCT_AUTH_METHOD OrgGuestsCountDistinct = "auth_method"
 	ORGGUESTSCOUNTDISTINCT_SSID OrgGuestsCountDistinct = "ssid"
 	ORGGUESTSCOUNTDISTINCT_COMPANY OrgGuestsCountDistinct = "company"
@@ -28,6 +29,7 @@ const (
 
 // All allowed values of OrgGuestsCountDistinct enum
 var AllowedOrgGuestsCountDistinctEnumValues = []OrgGuestsCountDistinct{
+	"",
 	"auth_method",
 	"ssid",
 	"company",

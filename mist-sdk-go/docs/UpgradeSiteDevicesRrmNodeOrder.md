@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `FRINGE_TO_CENTER` (value: `"fringe_to_center"`)
 
 * `CENTER_TO_FRINGE` (value: `"center_to_fringe"`)

@@ -21,6 +21,7 @@ type SiteClientEventsCountDistinct string
 
 // List of site_client_events_count_distinct
 const (
+	SITECLIENTEVENTSCOUNTDISTINCT_EMPTY SiteClientEventsCountDistinct = ""
 	SITECLIENTEVENTSCOUNTDISTINCT_TYPE SiteClientEventsCountDistinct = "type"
 	SITECLIENTEVENTSCOUNTDISTINCT_PROTO SiteClientEventsCountDistinct = "proto"
 	SITECLIENTEVENTSCOUNTDISTINCT_BAND SiteClientEventsCountDistinct = "band"
@@ -31,6 +32,7 @@ const (
 
 // All allowed values of SiteClientEventsCountDistinct enum
 var AllowedSiteClientEventsCountDistinctEnumValues = []SiteClientEventsCountDistinct{
+	"",
 	"type",
 	"proto",
 	"band",

@@ -21,12 +21,14 @@ type DynamicPskSource string
 
 // List of dynamic_psk_source
 const (
+	DYNAMICPSKSOURCE_EMPTY DynamicPskSource = ""
 	DYNAMICPSKSOURCE_RADIUS DynamicPskSource = "radius"
 	DYNAMICPSKSOURCE_CLOUD_PSKS DynamicPskSource = "cloud_psks"
 )
 
 // All allowed values of DynamicPskSource enum
 var AllowedDynamicPskSourceEnumValues = []DynamicPskSource{
+	"",
 	"radius",
 	"cloud_psks",
 }

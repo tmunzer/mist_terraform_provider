@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `CRITICAL` (value: `"critical"`)
 
 * `MAJOR` (value: `"major"`)

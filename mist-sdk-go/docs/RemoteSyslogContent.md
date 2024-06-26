@@ -4,8 +4,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Facility** | Pointer to [**RemoteSyslogContentFacility**](RemoteSyslogContentFacility.md) |  | [optional] 
-**Severity** | Pointer to [**RemoteSyslogContentSeverity**](RemoteSyslogContentSeverity.md) |  | [optional] 
+**Facility** | Pointer to [**RemoteSyslogFacility**](RemoteSyslogFacility.md) |  | [optional] [default to REMOTESYSLOGFACILITY_ANY]
+**Severity** | Pointer to [**RemoteSyslogSeverity**](RemoteSyslogSeverity.md) |  | [optional] [default to REMOTESYSLOGSEVERITY_ANY]
 
 ## Methods
 
@@ -28,20 +28,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetFacility
 
-`func (o *RemoteSyslogContent) GetFacility() RemoteSyslogContentFacility`
+`func (o *RemoteSyslogContent) GetFacility() RemoteSyslogFacility`
 
 GetFacility returns the Facility field if non-nil, zero value otherwise.
 
 ### GetFacilityOk
 
-`func (o *RemoteSyslogContent) GetFacilityOk() (*RemoteSyslogContentFacility, bool)`
+`func (o *RemoteSyslogContent) GetFacilityOk() (*RemoteSyslogFacility, bool)`
 
 GetFacilityOk returns a tuple with the Facility field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetFacility
 
-`func (o *RemoteSyslogContent) SetFacility(v RemoteSyslogContentFacility)`
+`func (o *RemoteSyslogContent) SetFacility(v RemoteSyslogFacility)`
 
 SetFacility sets Facility field to given value.
 
@@ -53,20 +53,20 @@ HasFacility returns a boolean if a field has been set.
 
 ### GetSeverity
 
-`func (o *RemoteSyslogContent) GetSeverity() RemoteSyslogContentSeverity`
+`func (o *RemoteSyslogContent) GetSeverity() RemoteSyslogSeverity`
 
 GetSeverity returns the Severity field if non-nil, zero value otherwise.
 
 ### GetSeverityOk
 
-`func (o *RemoteSyslogContent) GetSeverityOk() (*RemoteSyslogContentSeverity, bool)`
+`func (o *RemoteSyslogContent) GetSeverityOk() (*RemoteSyslogSeverity, bool)`
 
 GetSeverityOk returns a tuple with the Severity field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetSeverity
 
-`func (o *RemoteSyslogContent) SetSeverity(v RemoteSyslogContentSeverity)`
+`func (o *RemoteSyslogContent) SetSeverity(v RemoteSyslogSeverity)`
 
 SetSeverity sets Severity field to given value.
 

@@ -33,7 +33,7 @@ import (
 
 func main() {
 	siteId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	distrinct := openapiclient.count_site_calls_distrinct("mac") // CountSiteCallsDistrinct |  (optional) (default to "mac")
+	distrinct := openapiclient.count_site_calls_distrinct("") // CountSiteCallsDistrinct |  (optional) (default to "mac")
 	rating := int32(56) // int32 | feedback rating (e.g. \"rating=1\" or \"rating=1,2\") (optional)
 	app := "app_example" // string |  (optional)
 	start := "start_example" // string |  (optional)

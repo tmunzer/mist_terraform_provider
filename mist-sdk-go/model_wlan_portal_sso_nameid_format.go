@@ -21,12 +21,14 @@ type WlanPortalSsoNameidFormat string
 
 // List of wlan_portal_sso_nameid_format
 const (
+	WLANPORTALSSONAMEIDFORMAT_EMPTY WlanPortalSsoNameidFormat = ""
 	WLANPORTALSSONAMEIDFORMAT_EMAIL WlanPortalSsoNameidFormat = "email"
 	WLANPORTALSSONAMEIDFORMAT_UNSPECIFIED WlanPortalSsoNameidFormat = "unspecified"
 )
 
 // All allowed values of WlanPortalSsoNameidFormat enum
 var AllowedWlanPortalSsoNameidFormatEnumValues = []WlanPortalSsoNameidFormat{
+	"",
 	"email",
 	"unspecified",
 }

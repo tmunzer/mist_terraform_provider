@@ -21,6 +21,7 @@ type GatewayPortWanType string
 
 // List of gateway_port_wan_type
 const (
+	GATEWAYPORTWANTYPE_EMPTY GatewayPortWanType = ""
 	GATEWAYPORTWANTYPE_BROADBAND GatewayPortWanType = "broadband"
 	GATEWAYPORTWANTYPE_DSL GatewayPortWanType = "dsl"
 	GATEWAYPORTWANTYPE_LTE GatewayPortWanType = "lte"
@@ -28,6 +29,7 @@ const (
 
 // All allowed values of GatewayPortWanType enum
 var AllowedGatewayPortWanTypeEnumValues = []GatewayPortWanType{
+	"",
 	"broadband",
 	"dsl",
 	"lte",

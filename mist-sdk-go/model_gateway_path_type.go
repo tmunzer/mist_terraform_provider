@@ -21,6 +21,7 @@ type GatewayPathType string
 
 // List of gateway_path_type
 const (
+	GATEWAYPATHTYPE_EMPTY GatewayPathType = ""
 	GATEWAYPATHTYPE_LOCAL GatewayPathType = "local"
 	GATEWAYPATHTYPE_WAN GatewayPathType = "wan"
 	GATEWAYPATHTYPE_VPN GatewayPathType = "vpn"
@@ -29,6 +30,7 @@ const (
 
 // All allowed values of GatewayPathType enum
 var AllowedGatewayPathTypeEnumValues = []GatewayPathType{
+	"",
 	"local",
 	"wan",
 	"vpn",

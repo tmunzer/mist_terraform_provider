@@ -21,12 +21,14 @@ type ImportSiteAssetsUpsert string
 
 // List of import_site_assets_upsert
 const (
+	IMPORTSITEASSETSUPSERT_EMPTY ImportSiteAssetsUpsert = ""
 	IMPORTSITEASSETSUPSERT_TRUE ImportSiteAssetsUpsert = "True"
 	IMPORTSITEASSETSUPSERT_FALSE ImportSiteAssetsUpsert = "False"
 )
 
 // All allowed values of ImportSiteAssetsUpsert enum
 var AllowedImportSiteAssetsUpsertEnumValues = []ImportSiteAssetsUpsert{
+	"",
 	"True",
 	"False",
 }

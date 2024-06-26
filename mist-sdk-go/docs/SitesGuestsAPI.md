@@ -36,7 +36,7 @@ import (
 
 func main() {
 	siteId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	distinct := openapiclient.site_guests_count_distinct("auth_method") // SiteGuestsCountDistinct |  (optional) (default to "auth_method")
+	distinct := openapiclient.site_guests_count_distinct("") // SiteGuestsCountDistinct |  (optional) (default to "auth_method")
 	page := int32(56) // int32 |  (optional) (default to 1)
 	limit := int32(56) // int32 |  (optional) (default to 100)
 	start := int32(56) // int32 | start datetime, can be epoch or relative time like -1d, -1w; -1d if not specified (optional)

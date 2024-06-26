@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `GENERIC` (value: `"generic"`)
 
 * `JUNIPER` (value: `"juniper"`)

@@ -38,7 +38,7 @@ func main() {
 	policy := "policy_example" // string | policy for the wan path (optional)
 	tenant := "tenant_example" // string | tenant network in which the packet is sent (optional)
 	pathType := "pathType_example" // string | path_type of the port (optional)
-	distinct := openapiclient.wan_usages_count_disctinct("mac") // WanUsagesCountDisctinct |  (optional) (default to "policy")
+	distinct := openapiclient.wan_usages_count_disctinct("") // WanUsagesCountDisctinct |  (optional) (default to "policy")
 	page := int32(56) // int32 |  (optional) (default to 1)
 	limit := int32(56) // int32 |  (optional) (default to 100)
 	start := int32(56) // int32 | start datetime, can be epoch or relative time like -1d, -1w; -1d if not specified (optional)

@@ -989,10 +989,11 @@ docs/RemoteSyslog.md
 docs/RemoteSyslogArchive.md
 docs/RemoteSyslogConsole.md
 docs/RemoteSyslogContent.md
-docs/RemoteSyslogContentFacility.md
-docs/RemoteSyslogContentSeverity.md
+docs/RemoteSyslogFacility.md
 docs/RemoteSyslogFileConfig.md
 docs/RemoteSyslogServer.md
+docs/RemoteSyslogServerProtocol.md
+docs/RemoteSyslogSeverity.md
 docs/RemoteSyslogTimeFormat.md
 docs/RemoteSyslogUser.md
 docs/ReplaceDevice.md
@@ -1511,9 +1512,6 @@ docs/SyntheticTestInfoDeviceType.md
 docs/SyntheticTestProperties.md
 docs/SyntheticTestRadiusServer.md
 docs/SyntheticTestType.md
-docs/SyslogServerFacility.md
-docs/SyslogServerProtocol.md
-docs/SyslogServerSeverity.md
 docs/Tacacs.md
 docs/TacacsAcctServer.md
 docs/TacacsAuthServer.md
@@ -2497,10 +2495,11 @@ model_remote_syslog.go
 model_remote_syslog_archive.go
 model_remote_syslog_console.go
 model_remote_syslog_content.go
-model_remote_syslog_content_facility.go
-model_remote_syslog_content_severity.go
+model_remote_syslog_facility.go
 model_remote_syslog_file_config.go
 model_remote_syslog_server.go
+model_remote_syslog_server_protocol.go
+model_remote_syslog_severity.go
 model_remote_syslog_time_format.go
 model_remote_syslog_user.go
 model_replace_device.go
@@ -2953,9 +2952,6 @@ model_synthetic_test_info_device_type.go
 model_synthetic_test_properties.go
 model_synthetic_test_radius_server.go
 model_synthetic_test_type.go
-model_syslog_server_facility.go
-model_syslog_server_protocol.go
-model_syslog_server_severity.go
 model_tacacs.go
 model_tacacs_acct_server.go
 model_tacacs_auth_server.go

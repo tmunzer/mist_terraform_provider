@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `UP` (value: `"up"`)
 
 * `DOWN` (value: `"down"`)

@@ -21,6 +21,7 @@ type SiteSleThresholdScopeParameter string
 
 // List of site_sle_threshold_scope_parameter
 const (
+	SITESLETHRESHOLDSCOPEPARAMETER_EMPTY SiteSleThresholdScopeParameter = ""
 	SITESLETHRESHOLDSCOPEPARAMETER_SITE SiteSleThresholdScopeParameter = "site"
 	SITESLETHRESHOLDSCOPEPARAMETER_AP SiteSleThresholdScopeParameter = "ap"
 	SITESLETHRESHOLDSCOPEPARAMETER_SWITCH SiteSleThresholdScopeParameter = "switch"
@@ -30,6 +31,7 @@ const (
 
 // All allowed values of SiteSleThresholdScopeParameter enum
 var AllowedSiteSleThresholdScopeParameterEnumValues = []SiteSleThresholdScopeParameter{
+	"",
 	"site",
 	"ap",
 	"switch",

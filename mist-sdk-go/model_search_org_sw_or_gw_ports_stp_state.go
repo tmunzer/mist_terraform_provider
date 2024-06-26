@@ -21,6 +21,7 @@ type SearchOrgSwOrGwPortsStpState string
 
 // List of search_org_sw_or_gw_ports_stp_state
 const (
+	SEARCHORGSWORGWPORTSSTPSTATE_EMPTY SearchOrgSwOrGwPortsStpState = ""
 	SEARCHORGSWORGWPORTSSTPSTATE_FORWARDING SearchOrgSwOrGwPortsStpState = "forwarding"
 	SEARCHORGSWORGWPORTSSTPSTATE_BLOCKING SearchOrgSwOrGwPortsStpState = "blocking"
 	SEARCHORGSWORGWPORTSSTPSTATE_LEARNING SearchOrgSwOrGwPortsStpState = "learning"
@@ -30,6 +31,7 @@ const (
 
 // All allowed values of SearchOrgSwOrGwPortsStpState enum
 var AllowedSearchOrgSwOrGwPortsStpStateEnumValues = []SearchOrgSwOrGwPortsStpState{
+	"",
 	"forwarding",
 	"blocking",
 	"learning",

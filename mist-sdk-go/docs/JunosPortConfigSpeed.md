@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `AUTO` (value: `"auto"`)
 
 * `_10M` (value: `"10m"`)

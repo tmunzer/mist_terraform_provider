@@ -21,6 +21,7 @@ type SearchSiteDevicesDescSort string
 
 // List of search_site_devices_desc_sort
 const (
+	SEARCHSITEDEVICESDESCSORT_EMPTY SearchSiteDevicesDescSort = ""
 	SEARCHSITEDEVICESDESCSORT_TIMESTAMP SearchSiteDevicesDescSort = "timestamp"
 	SEARCHSITEDEVICESDESCSORT_MAC SearchSiteDevicesDescSort = "mac"
 	SEARCHSITEDEVICESDESCSORT_MODEL SearchSiteDevicesDescSort = "model"
@@ -29,6 +30,7 @@ const (
 
 // All allowed values of SearchSiteDevicesDescSort enum
 var AllowedSearchSiteDevicesDescSortEnumValues = []SearchSiteDevicesDescSort{
+	"",
 	"timestamp",
 	"mac",
 	"model",

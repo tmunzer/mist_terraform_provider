@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `SYSTEM_NAME` (value: `"system_name"`)
 
 * `VERSION` (value: `"version"`)

@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `ACTIVE_PORTS_SUMMARY` (value: `"active_ports_summary"`)
 
 

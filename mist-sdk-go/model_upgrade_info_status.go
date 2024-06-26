@@ -21,6 +21,7 @@ type UpgradeInfoStatus string
 
 // List of upgrade_info_status
 const (
+	UPGRADEINFOSTATUS_EMPTY UpgradeInfoStatus = ""
 	UPGRADEINFOSTATUS_STARTING UpgradeInfoStatus = "starting"
 	UPGRADEINFOSTATUS_INPROGRESS UpgradeInfoStatus = "inprogress"
 	UPGRADEINFOSTATUS_SUCCESS UpgradeInfoStatus = "success"
@@ -30,6 +31,7 @@ const (
 
 // All allowed values of UpgradeInfoStatus enum
 var AllowedUpgradeInfoStatusEnumValues = []UpgradeInfoStatus{
+	"",
 	"starting",
 	"inprogress",
 	"success",

@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `EMPTY` (value: `""`)
+
 * `HALF` (value: `"half"`)
 
 * `FULL` (value: `"full"`)

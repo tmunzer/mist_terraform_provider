@@ -21,6 +21,7 @@ type WlanDataratesLegacyItem string
 
 // List of wlan_datarates_legacy_item
 const (
+	WLANDATARATESLEGACYITEM_EMPTY WlanDataratesLegacyItem = ""
 	WLANDATARATESLEGACYITEM__1 WlanDataratesLegacyItem = "1"
 	WLANDATARATESLEGACYITEM__1B WlanDataratesLegacyItem = "1b"
 	WLANDATARATESLEGACYITEM__2 WlanDataratesLegacyItem = "2"
@@ -49,6 +50,7 @@ const (
 
 // All allowed values of WlanDataratesLegacyItem enum
 var AllowedWlanDataratesLegacyItemEnumValues = []WlanDataratesLegacyItem{
+	"",
 	"1",
 	"1b",
 	"2",

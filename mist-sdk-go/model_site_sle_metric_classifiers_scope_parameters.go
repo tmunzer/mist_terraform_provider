@@ -21,6 +21,7 @@ type SiteSleMetricClassifiersScopeParameters string
 
 // List of site_sle_metric_classifiers_scope_parameters
 const (
+	SITESLEMETRICCLASSIFIERSSCOPEPARAMETERS_EMPTY SiteSleMetricClassifiersScopeParameters = ""
 	SITESLEMETRICCLASSIFIERSSCOPEPARAMETERS_SITE SiteSleMetricClassifiersScopeParameters = "site"
 	SITESLEMETRICCLASSIFIERSSCOPEPARAMETERS_AP SiteSleMetricClassifiersScopeParameters = "ap"
 	SITESLEMETRICCLASSIFIERSSCOPEPARAMETERS_SWITCH SiteSleMetricClassifiersScopeParameters = "switch"
@@ -30,6 +31,7 @@ const (
 
 // All allowed values of SiteSleMetricClassifiersScopeParameters enum
 var AllowedSiteSleMetricClassifiersScopeParametersEnumValues = []SiteSleMetricClassifiersScopeParameters{
+	"",
 	"site",
 	"ap",
 	"switch",

@@ -21,6 +21,7 @@ type DhcpdConfigType string
 
 // List of dhcpd_config_type
 const (
+	DHCPDCONFIGTYPE_EMPTY DhcpdConfigType = ""
 	DHCPDCONFIGTYPE_LOCAL DhcpdConfigType = "local"
 	DHCPDCONFIGTYPE_RELAY DhcpdConfigType = "relay"
 	DHCPDCONFIGTYPE_NONE DhcpdConfigType = "none"
@@ -28,6 +29,7 @@ const (
 
 // All allowed values of DhcpdConfigType enum
 var AllowedDhcpdConfigTypeEnumValues = []DhcpdConfigType{
+	"",
 	"local",
 	"relay",
 	"none",
