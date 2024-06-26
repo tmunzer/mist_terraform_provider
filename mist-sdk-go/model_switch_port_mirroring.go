@@ -1,9 +1,9 @@
 /*
 Mist API
 
-> Version: **2405.1.6** > > Date: **June 6, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location-services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
+> Version: **2406.1.3** > > Date: **June 26, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
 
-API version: 2405.1.6
+API version: 2406.1.3
 Contact: tmunzer@juniper.net
 */
 
@@ -20,7 +20,15 @@ var _ MappedNullable = &SwitchPortMirroring{}
 
 // SwitchPortMirroring struct for SwitchPortMirroring
 type SwitchPortMirroring struct {
-	PortMirror *JunosPortMirroring `json:"port_mirror,omitempty"`
+	// at least one of the `ingress_port_ids`, `egress_port_ids` or `ingress_networks ` should be specified
+	InputPortIdsEgress []string `json:"input_port_ids_egress,omitempty"`
+	// at least one of the `ingress_port_ids`, `egress_port_ids` or `ingress_networks ` should be specified
+	InputNetworksIngress []string `json:"input_networks_ingress,omitempty"`
+	// at least one of the `ingress_port_ids`, `egress_port_ids` or `ingress_networks ` should be specified
+	InputPortIdsIngress []string `json:"input_port_ids_ingress,omitempty"`
+	OutputNetwork *string `json:"output_network,omitempty"`
+	// exaclty on of the `output_port_id` or `output_network` should be provided
+	OutputPortId *string `json:"output_port_id,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -43,36 +51,164 @@ func NewSwitchPortMirroringWithDefaults() *SwitchPortMirroring {
 	return &this
 }
 
-// GetPortMirror returns the PortMirror field value if set, zero value otherwise.
-func (o *SwitchPortMirroring) GetPortMirror() JunosPortMirroring {
-	if o == nil || IsNil(o.PortMirror) {
-		var ret JunosPortMirroring
+// GetInputPortIdsEgress returns the InputPortIdsEgress field value if set, zero value otherwise.
+func (o *SwitchPortMirroring) GetInputPortIdsEgress() []string {
+	if o == nil || IsNil(o.InputPortIdsEgress) {
+		var ret []string
 		return ret
 	}
-	return *o.PortMirror
+	return o.InputPortIdsEgress
 }
 
-// GetPortMirrorOk returns a tuple with the PortMirror field value if set, nil otherwise
+// GetInputPortIdsEgressOk returns a tuple with the InputPortIdsEgress field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *SwitchPortMirroring) GetPortMirrorOk() (*JunosPortMirroring, bool) {
-	if o == nil || IsNil(o.PortMirror) {
+func (o *SwitchPortMirroring) GetInputPortIdsEgressOk() ([]string, bool) {
+	if o == nil || IsNil(o.InputPortIdsEgress) {
 		return nil, false
 	}
-	return o.PortMirror, true
+	return o.InputPortIdsEgress, true
 }
 
-// HasPortMirror returns a boolean if a field has been set.
-func (o *SwitchPortMirroring) HasPortMirror() bool {
-	if o != nil && !IsNil(o.PortMirror) {
+// HasInputPortIdsEgress returns a boolean if a field has been set.
+func (o *SwitchPortMirroring) HasInputPortIdsEgress() bool {
+	if o != nil && !IsNil(o.InputPortIdsEgress) {
 		return true
 	}
 
 	return false
 }
 
-// SetPortMirror gets a reference to the given JunosPortMirroring and assigns it to the PortMirror field.
-func (o *SwitchPortMirroring) SetPortMirror(v JunosPortMirroring) {
-	o.PortMirror = &v
+// SetInputPortIdsEgress gets a reference to the given []string and assigns it to the InputPortIdsEgress field.
+func (o *SwitchPortMirroring) SetInputPortIdsEgress(v []string) {
+	o.InputPortIdsEgress = v
+}
+
+// GetInputNetworksIngress returns the InputNetworksIngress field value if set, zero value otherwise.
+func (o *SwitchPortMirroring) GetInputNetworksIngress() []string {
+	if o == nil || IsNil(o.InputNetworksIngress) {
+		var ret []string
+		return ret
+	}
+	return o.InputNetworksIngress
+}
+
+// GetInputNetworksIngressOk returns a tuple with the InputNetworksIngress field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *SwitchPortMirroring) GetInputNetworksIngressOk() ([]string, bool) {
+	if o == nil || IsNil(o.InputNetworksIngress) {
+		return nil, false
+	}
+	return o.InputNetworksIngress, true
+}
+
+// HasInputNetworksIngress returns a boolean if a field has been set.
+func (o *SwitchPortMirroring) HasInputNetworksIngress() bool {
+	if o != nil && !IsNil(o.InputNetworksIngress) {
+		return true
+	}
+
+	return false
+}
+
+// SetInputNetworksIngress gets a reference to the given []string and assigns it to the InputNetworksIngress field.
+func (o *SwitchPortMirroring) SetInputNetworksIngress(v []string) {
+	o.InputNetworksIngress = v
+}
+
+// GetInputPortIdsIngress returns the InputPortIdsIngress field value if set, zero value otherwise.
+func (o *SwitchPortMirroring) GetInputPortIdsIngress() []string {
+	if o == nil || IsNil(o.InputPortIdsIngress) {
+		var ret []string
+		return ret
+	}
+	return o.InputPortIdsIngress
+}
+
+// GetInputPortIdsIngressOk returns a tuple with the InputPortIdsIngress field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *SwitchPortMirroring) GetInputPortIdsIngressOk() ([]string, bool) {
+	if o == nil || IsNil(o.InputPortIdsIngress) {
+		return nil, false
+	}
+	return o.InputPortIdsIngress, true
+}
+
+// HasInputPortIdsIngress returns a boolean if a field has been set.
+func (o *SwitchPortMirroring) HasInputPortIdsIngress() bool {
+	if o != nil && !IsNil(o.InputPortIdsIngress) {
+		return true
+	}
+
+	return false
+}
+
+// SetInputPortIdsIngress gets a reference to the given []string and assigns it to the InputPortIdsIngress field.
+func (o *SwitchPortMirroring) SetInputPortIdsIngress(v []string) {
+	o.InputPortIdsIngress = v
+}
+
+// GetOutputNetwork returns the OutputNetwork field value if set, zero value otherwise.
+func (o *SwitchPortMirroring) GetOutputNetwork() string {
+	if o == nil || IsNil(o.OutputNetwork) {
+		var ret string
+		return ret
+	}
+	return *o.OutputNetwork
+}
+
+// GetOutputNetworkOk returns a tuple with the OutputNetwork field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *SwitchPortMirroring) GetOutputNetworkOk() (*string, bool) {
+	if o == nil || IsNil(o.OutputNetwork) {
+		return nil, false
+	}
+	return o.OutputNetwork, true
+}
+
+// HasOutputNetwork returns a boolean if a field has been set.
+func (o *SwitchPortMirroring) HasOutputNetwork() bool {
+	if o != nil && !IsNil(o.OutputNetwork) {
+		return true
+	}
+
+	return false
+}
+
+// SetOutputNetwork gets a reference to the given string and assigns it to the OutputNetwork field.
+func (o *SwitchPortMirroring) SetOutputNetwork(v string) {
+	o.OutputNetwork = &v
+}
+
+// GetOutputPortId returns the OutputPortId field value if set, zero value otherwise.
+func (o *SwitchPortMirroring) GetOutputPortId() string {
+	if o == nil || IsNil(o.OutputPortId) {
+		var ret string
+		return ret
+	}
+	return *o.OutputPortId
+}
+
+// GetOutputPortIdOk returns a tuple with the OutputPortId field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *SwitchPortMirroring) GetOutputPortIdOk() (*string, bool) {
+	if o == nil || IsNil(o.OutputPortId) {
+		return nil, false
+	}
+	return o.OutputPortId, true
+}
+
+// HasOutputPortId returns a boolean if a field has been set.
+func (o *SwitchPortMirroring) HasOutputPortId() bool {
+	if o != nil && !IsNil(o.OutputPortId) {
+		return true
+	}
+
+	return false
+}
+
+// SetOutputPortId gets a reference to the given string and assigns it to the OutputPortId field.
+func (o *SwitchPortMirroring) SetOutputPortId(v string) {
+	o.OutputPortId = &v
 }
 
 func (o SwitchPortMirroring) MarshalJSON() ([]byte, error) {
@@ -85,8 +221,20 @@ func (o SwitchPortMirroring) MarshalJSON() ([]byte, error) {
 
 func (o SwitchPortMirroring) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if !IsNil(o.PortMirror) {
-		toSerialize["port_mirror"] = o.PortMirror
+	if !IsNil(o.InputPortIdsEgress) {
+		toSerialize["input_port_ids_egress"] = o.InputPortIdsEgress
+	}
+	if !IsNil(o.InputNetworksIngress) {
+		toSerialize["input_networks_ingress"] = o.InputNetworksIngress
+	}
+	if !IsNil(o.InputPortIdsIngress) {
+		toSerialize["input_port_ids_ingress"] = o.InputPortIdsIngress
+	}
+	if !IsNil(o.OutputNetwork) {
+		toSerialize["output_network"] = o.OutputNetwork
+	}
+	if !IsNil(o.OutputPortId) {
+		toSerialize["output_port_id"] = o.OutputPortId
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -110,7 +258,11 @@ func (o *SwitchPortMirroring) UnmarshalJSON(data []byte) (err error) {
 	additionalProperties := make(map[string]interface{})
 
 	if err = json.Unmarshal(data, &additionalProperties); err == nil {
-		delete(additionalProperties, "port_mirror")
+		delete(additionalProperties, "input_port_ids_egress")
+		delete(additionalProperties, "input_networks_ingress")
+		delete(additionalProperties, "input_port_ids_ingress")
+		delete(additionalProperties, "output_network")
+		delete(additionalProperties, "output_port_id")
 		o.AdditionalProperties = additionalProperties
 	}
 

@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Enabled** | Pointer to **bool** |  | [optional] 
-**Rules** | Pointer to [**[]SiteSettingApMatchingRulesInner**](SiteSettingApMatchingRulesInner.md) |  | [optional] 
+**Rules** | Pointer to [**[]SiteSettingApMatchingRule**](SiteSettingApMatchingRule.md) |  | [optional] 
 
 ## Methods
 
@@ -53,20 +53,20 @@ HasEnabled returns a boolean if a field has been set.
 
 ### GetRules
 
-`func (o *SiteSettingApMatching) GetRules() []SiteSettingApMatchingRulesInner`
+`func (o *SiteSettingApMatching) GetRules() []SiteSettingApMatchingRule`
 
 GetRules returns the Rules field if non-nil, zero value otherwise.
 
 ### GetRulesOk
 
-`func (o *SiteSettingApMatching) GetRulesOk() (*[]SiteSettingApMatchingRulesInner, bool)`
+`func (o *SiteSettingApMatching) GetRulesOk() (*[]SiteSettingApMatchingRule, bool)`
 
 GetRulesOk returns a tuple with the Rules field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetRules
 
-`func (o *SiteSettingApMatching) SetRules(v []SiteSettingApMatchingRulesInner)`
+`func (o *SiteSettingApMatching) SetRules(v []SiteSettingApMatchingRule)`
 
 SetRules sets Rules field to given value.
 

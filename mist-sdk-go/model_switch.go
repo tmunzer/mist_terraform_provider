@@ -1,9 +1,9 @@
 /*
 Mist API
 
-> Version: **2405.1.6** > > Date: **June 6, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location-services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
+> Version: **2406.1.3** > > Date: **June 26, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
 
-API version: 2405.1.6
+API version: 2406.1.3
 Contact: tmunzer@juniper.net
 */
 
@@ -20,23 +20,25 @@ var _ MappedNullable = &ModelSwitch{}
 
 // ModelSwitch Switch Configuration. You can configure `port_usages` and `networks` settings at the device level, but most of the time it's better use the Site Setting to achieve better consistency and be able to re-use the same settings across switches entries defined here will \"replace\" those defined in Site Setting/Network Template
 type ModelSwitch struct {
-	AclPolicies []JunosAclPolicies `json:"acl_policies,omitempty"`
-	AclTags *SwitchAclTags `json:"acl_tags,omitempty"`
+	AclPolicies []AclPolicy `json:"acl_policies,omitempty"`
+	// ACL Tags to identify traffic source or destination. Key name is the tag name
+	AclTags *map[string]AclTag `json:"acl_tags,omitempty"`
+	// additional CLI commands to append to the generated Junos config  **Note**: no check is done
 	AdditionalConfigCmds []string `json:"additional_config_cmds,omitempty"`
 	CreatedTime *float32 `json:"created_time,omitempty"`
 	DeviceprofileId *string `json:"deviceprofile_id,omitempty"`
-	DhcpConfig *JunosDhcpdConfig `json:"dhcp_config,omitempty"`
-	DhcpSnooping *JunosDhcpSnooping `json:"dhcp_snooping,omitempty"`
+	DhcpConfig *DhcpdConfigs `json:"dhcp_config,omitempty"`
+	DhcpSnooping *DhcpSnooping `json:"dhcp_snooping,omitempty"`
 	// for a claimed switch, we control the configs by default. This option (disables the behavior)
 	DisableAutoConfig *bool `json:"disable_auto_config,omitempty"`
 	// Global dns settings. To keep compatibility, dns settings in `ip_config` and `oob_ip_config` will overwrite this setting
 	DnsServers []string `json:"dns_servers,omitempty"`
 	// Global dns settings. To keep compatibility, dns settings in `ip_config` and `oob_ip_config` will overwrite this setting
 	DnsSuffix []string `json:"dns_suffix,omitempty"`
-	EvpnConfig *JunosEvpnConfig `json:"evpn_config,omitempty"`
-	ExtraRoutes *map[string]SwitchExtraRoutesValue `json:"extra_routes,omitempty"`
+	EvpnConfig *EvpnConfig `json:"evpn_config,omitempty"`
+	ExtraRoutes *map[string]ExtraRouteProperties `json:"extra_routes,omitempty"`
 	// Property key is the destination CIDR (e.g. \"2a02:1234:420a:10c9::/64\")
-	ExtraRoutes6 *map[string]SwitchExtraRoutes6Value `json:"extra_routes6,omitempty"`
+	ExtraRoutes6 *map[string]ExtraRoute6Properties `json:"extra_routes6,omitempty"`
 	Id *string `json:"id,omitempty"`
 	Image1Url NullableString `json:"image1_url,omitempty"`
 	Image2Url NullableString `json:"image2_url,omitempty"`
@@ -46,22 +48,24 @@ type ModelSwitch struct {
 	Managed *bool `json:"managed,omitempty"`
 	ModifiedTime *float32 `json:"modified_time,omitempty"`
 	Name *string `json:"name,omitempty"`
-	Networks *JunosNetworks `json:"networks,omitempty"`
+	// Property key is network name
+	Networks *map[string]SwitchNetwork `json:"networks,omitempty"`
 	Notes *string `json:"notes,omitempty"`
 	// list of NTP servers specific to this device. By default, those in Site Settings will be used
 	NtpServers []string `json:"ntp_servers,omitempty"`
-	OobIpConfig *JunosOobIpConfig `json:"oob_ip_config,omitempty"`
+	OobIpConfig *JunosOobIpConfigs `json:"oob_ip_config,omitempty"`
 	OrgId *string `json:"org_id,omitempty"`
-	OspfConfig *JunosOspfConfig `json:"ospf_config,omitempty"`
+	OspfConfig *OspfConfig `json:"ospf_config,omitempty"`
 	// Property key is the network name
 	OtherIpConfigs *map[string]JunosOtherIpConfigs `json:"other_ip_configs,omitempty"`
 	// Property key is the port name or range (e.g. \"ge-0/0/0-10\")
 	PortConfig *map[string]JunosPortConfig `json:"port_config,omitempty"`
-	PortMirroring *SwitchPortMirroring `json:"port_mirroring,omitempty"`
+	// Property key is the port mirroring instance name port_mirroring can be added under device/site settings. It takes interface and ports as input for ingress, interface as input for egress and can take interface and port as output.
+	PortMirroring *map[string]SwitchPortMirroring `json:"port_mirroring,omitempty"`
 	// Property key is the port profile name
-	PortUsages *map[string]JunosPortUsages `json:"port_usages,omitempty"`
-	RadiusConfig *JunosRadiusConfig `json:"radius_config,omitempty"`
-	Role *string `json:"role,omitempty"`
+	PortUsages *map[string]PortUsage `json:"port_usages,omitempty"`
+	RadiusConfig *RadiusConfig `json:"radius_config,omitempty"`
+	Role *SwitchRole `json:"role,omitempty"`
 	// used for OSPF / BGP / EVPN
 	RouterId *string `json:"router_id,omitempty"`
 	SiteId *string `json:"site_id,omitempty"`
@@ -72,8 +76,8 @@ type ModelSwitch struct {
 	// a dictionary of name->value, the vars can then be used in Wlans. This can overwrite those from Site Vars
 	Vars *map[string]string `json:"vars,omitempty"`
 	VirtualChassis *SwitchVirtualChassis `json:"virtual_chassis,omitempty"`
-	VrfConfig *JunosVrfConfig `json:"vrf_config,omitempty"`
-	VrrpConfig *JunosVrrpConfig `json:"vrrp_config,omitempty"`
+	VrfConfig *VrfConfig `json:"vrf_config,omitempty"`
+	VrrpConfig *VrrpConfig `json:"vrrp_config,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -89,7 +93,7 @@ func NewModelSwitch() *ModelSwitch {
 	this.DisableAutoConfig = &disableAutoConfig
 	var managed bool = false
 	this.Managed = &managed
-	var role string = "access"
+	var role SwitchRole = SWITCHROLE_ACCESS
 	this.Role = &role
 	var useRouterIdAsSourceIp bool = false
 	this.UseRouterIdAsSourceIp = &useRouterIdAsSourceIp
@@ -105,7 +109,7 @@ func NewModelSwitchWithDefaults() *ModelSwitch {
 	this.DisableAutoConfig = &disableAutoConfig
 	var managed bool = false
 	this.Managed = &managed
-	var role string = "access"
+	var role SwitchRole = SWITCHROLE_ACCESS
 	this.Role = &role
 	var useRouterIdAsSourceIp bool = false
 	this.UseRouterIdAsSourceIp = &useRouterIdAsSourceIp
@@ -113,9 +117,9 @@ func NewModelSwitchWithDefaults() *ModelSwitch {
 }
 
 // GetAclPolicies returns the AclPolicies field value if set, zero value otherwise.
-func (o *ModelSwitch) GetAclPolicies() []JunosAclPolicies {
+func (o *ModelSwitch) GetAclPolicies() []AclPolicy {
 	if o == nil || IsNil(o.AclPolicies) {
-		var ret []JunosAclPolicies
+		var ret []AclPolicy
 		return ret
 	}
 	return o.AclPolicies
@@ -123,7 +127,7 @@ func (o *ModelSwitch) GetAclPolicies() []JunosAclPolicies {
 
 // GetAclPoliciesOk returns a tuple with the AclPolicies field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ModelSwitch) GetAclPoliciesOk() ([]JunosAclPolicies, bool) {
+func (o *ModelSwitch) GetAclPoliciesOk() ([]AclPolicy, bool) {
 	if o == nil || IsNil(o.AclPolicies) {
 		return nil, false
 	}
@@ -139,15 +143,15 @@ func (o *ModelSwitch) HasAclPolicies() bool {
 	return false
 }
 
-// SetAclPolicies gets a reference to the given []JunosAclPolicies and assigns it to the AclPolicies field.
-func (o *ModelSwitch) SetAclPolicies(v []JunosAclPolicies) {
+// SetAclPolicies gets a reference to the given []AclPolicy and assigns it to the AclPolicies field.
+func (o *ModelSwitch) SetAclPolicies(v []AclPolicy) {
 	o.AclPolicies = v
 }
 
 // GetAclTags returns the AclTags field value if set, zero value otherwise.
-func (o *ModelSwitch) GetAclTags() SwitchAclTags {
+func (o *ModelSwitch) GetAclTags() map[string]AclTag {
 	if o == nil || IsNil(o.AclTags) {
-		var ret SwitchAclTags
+		var ret map[string]AclTag
 		return ret
 	}
 	return *o.AclTags
@@ -155,7 +159,7 @@ func (o *ModelSwitch) GetAclTags() SwitchAclTags {
 
 // GetAclTagsOk returns a tuple with the AclTags field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ModelSwitch) GetAclTagsOk() (*SwitchAclTags, bool) {
+func (o *ModelSwitch) GetAclTagsOk() (*map[string]AclTag, bool) {
 	if o == nil || IsNil(o.AclTags) {
 		return nil, false
 	}
@@ -171,8 +175,8 @@ func (o *ModelSwitch) HasAclTags() bool {
 	return false
 }
 
-// SetAclTags gets a reference to the given SwitchAclTags and assigns it to the AclTags field.
-func (o *ModelSwitch) SetAclTags(v SwitchAclTags) {
+// SetAclTags gets a reference to the given map[string]AclTag and assigns it to the AclTags field.
+func (o *ModelSwitch) SetAclTags(v map[string]AclTag) {
 	o.AclTags = &v
 }
 
@@ -273,9 +277,9 @@ func (o *ModelSwitch) SetDeviceprofileId(v string) {
 }
 
 // GetDhcpConfig returns the DhcpConfig field value if set, zero value otherwise.
-func (o *ModelSwitch) GetDhcpConfig() JunosDhcpdConfig {
+func (o *ModelSwitch) GetDhcpConfig() DhcpdConfigs {
 	if o == nil || IsNil(o.DhcpConfig) {
-		var ret JunosDhcpdConfig
+		var ret DhcpdConfigs
 		return ret
 	}
 	return *o.DhcpConfig
@@ -283,7 +287,7 @@ func (o *ModelSwitch) GetDhcpConfig() JunosDhcpdConfig {
 
 // GetDhcpConfigOk returns a tuple with the DhcpConfig field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ModelSwitch) GetDhcpConfigOk() (*JunosDhcpdConfig, bool) {
+func (o *ModelSwitch) GetDhcpConfigOk() (*DhcpdConfigs, bool) {
 	if o == nil || IsNil(o.DhcpConfig) {
 		return nil, false
 	}
@@ -299,15 +303,15 @@ func (o *ModelSwitch) HasDhcpConfig() bool {
 	return false
 }
 
-// SetDhcpConfig gets a reference to the given JunosDhcpdConfig and assigns it to the DhcpConfig field.
-func (o *ModelSwitch) SetDhcpConfig(v JunosDhcpdConfig) {
+// SetDhcpConfig gets a reference to the given DhcpdConfigs and assigns it to the DhcpConfig field.
+func (o *ModelSwitch) SetDhcpConfig(v DhcpdConfigs) {
 	o.DhcpConfig = &v
 }
 
 // GetDhcpSnooping returns the DhcpSnooping field value if set, zero value otherwise.
-func (o *ModelSwitch) GetDhcpSnooping() JunosDhcpSnooping {
+func (o *ModelSwitch) GetDhcpSnooping() DhcpSnooping {
 	if o == nil || IsNil(o.DhcpSnooping) {
-		var ret JunosDhcpSnooping
+		var ret DhcpSnooping
 		return ret
 	}
 	return *o.DhcpSnooping
@@ -315,7 +319,7 @@ func (o *ModelSwitch) GetDhcpSnooping() JunosDhcpSnooping {
 
 // GetDhcpSnoopingOk returns a tuple with the DhcpSnooping field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ModelSwitch) GetDhcpSnoopingOk() (*JunosDhcpSnooping, bool) {
+func (o *ModelSwitch) GetDhcpSnoopingOk() (*DhcpSnooping, bool) {
 	if o == nil || IsNil(o.DhcpSnooping) {
 		return nil, false
 	}
@@ -331,8 +335,8 @@ func (o *ModelSwitch) HasDhcpSnooping() bool {
 	return false
 }
 
-// SetDhcpSnooping gets a reference to the given JunosDhcpSnooping and assigns it to the DhcpSnooping field.
-func (o *ModelSwitch) SetDhcpSnooping(v JunosDhcpSnooping) {
+// SetDhcpSnooping gets a reference to the given DhcpSnooping and assigns it to the DhcpSnooping field.
+func (o *ModelSwitch) SetDhcpSnooping(v DhcpSnooping) {
 	o.DhcpSnooping = &v
 }
 
@@ -433,9 +437,9 @@ func (o *ModelSwitch) SetDnsSuffix(v []string) {
 }
 
 // GetEvpnConfig returns the EvpnConfig field value if set, zero value otherwise.
-func (o *ModelSwitch) GetEvpnConfig() JunosEvpnConfig {
+func (o *ModelSwitch) GetEvpnConfig() EvpnConfig {
 	if o == nil || IsNil(o.EvpnConfig) {
-		var ret JunosEvpnConfig
+		var ret EvpnConfig
 		return ret
 	}
 	return *o.EvpnConfig
@@ -443,7 +447,7 @@ func (o *ModelSwitch) GetEvpnConfig() JunosEvpnConfig {
 
 // GetEvpnConfigOk returns a tuple with the EvpnConfig field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ModelSwitch) GetEvpnConfigOk() (*JunosEvpnConfig, bool) {
+func (o *ModelSwitch) GetEvpnConfigOk() (*EvpnConfig, bool) {
 	if o == nil || IsNil(o.EvpnConfig) {
 		return nil, false
 	}
@@ -459,15 +463,15 @@ func (o *ModelSwitch) HasEvpnConfig() bool {
 	return false
 }
 
-// SetEvpnConfig gets a reference to the given JunosEvpnConfig and assigns it to the EvpnConfig field.
-func (o *ModelSwitch) SetEvpnConfig(v JunosEvpnConfig) {
+// SetEvpnConfig gets a reference to the given EvpnConfig and assigns it to the EvpnConfig field.
+func (o *ModelSwitch) SetEvpnConfig(v EvpnConfig) {
 	o.EvpnConfig = &v
 }
 
 // GetExtraRoutes returns the ExtraRoutes field value if set, zero value otherwise.
-func (o *ModelSwitch) GetExtraRoutes() map[string]SwitchExtraRoutesValue {
+func (o *ModelSwitch) GetExtraRoutes() map[string]ExtraRouteProperties {
 	if o == nil || IsNil(o.ExtraRoutes) {
-		var ret map[string]SwitchExtraRoutesValue
+		var ret map[string]ExtraRouteProperties
 		return ret
 	}
 	return *o.ExtraRoutes
@@ -475,7 +479,7 @@ func (o *ModelSwitch) GetExtraRoutes() map[string]SwitchExtraRoutesValue {
 
 // GetExtraRoutesOk returns a tuple with the ExtraRoutes field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ModelSwitch) GetExtraRoutesOk() (*map[string]SwitchExtraRoutesValue, bool) {
+func (o *ModelSwitch) GetExtraRoutesOk() (*map[string]ExtraRouteProperties, bool) {
 	if o == nil || IsNil(o.ExtraRoutes) {
 		return nil, false
 	}
@@ -491,15 +495,15 @@ func (o *ModelSwitch) HasExtraRoutes() bool {
 	return false
 }
 
-// SetExtraRoutes gets a reference to the given map[string]SwitchExtraRoutesValue and assigns it to the ExtraRoutes field.
-func (o *ModelSwitch) SetExtraRoutes(v map[string]SwitchExtraRoutesValue) {
+// SetExtraRoutes gets a reference to the given map[string]ExtraRouteProperties and assigns it to the ExtraRoutes field.
+func (o *ModelSwitch) SetExtraRoutes(v map[string]ExtraRouteProperties) {
 	o.ExtraRoutes = &v
 }
 
 // GetExtraRoutes6 returns the ExtraRoutes6 field value if set, zero value otherwise.
-func (o *ModelSwitch) GetExtraRoutes6() map[string]SwitchExtraRoutes6Value {
+func (o *ModelSwitch) GetExtraRoutes6() map[string]ExtraRoute6Properties {
 	if o == nil || IsNil(o.ExtraRoutes6) {
-		var ret map[string]SwitchExtraRoutes6Value
+		var ret map[string]ExtraRoute6Properties
 		return ret
 	}
 	return *o.ExtraRoutes6
@@ -507,7 +511,7 @@ func (o *ModelSwitch) GetExtraRoutes6() map[string]SwitchExtraRoutes6Value {
 
 // GetExtraRoutes6Ok returns a tuple with the ExtraRoutes6 field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ModelSwitch) GetExtraRoutes6Ok() (*map[string]SwitchExtraRoutes6Value, bool) {
+func (o *ModelSwitch) GetExtraRoutes6Ok() (*map[string]ExtraRoute6Properties, bool) {
 	if o == nil || IsNil(o.ExtraRoutes6) {
 		return nil, false
 	}
@@ -523,8 +527,8 @@ func (o *ModelSwitch) HasExtraRoutes6() bool {
 	return false
 }
 
-// SetExtraRoutes6 gets a reference to the given map[string]SwitchExtraRoutes6Value and assigns it to the ExtraRoutes6 field.
-func (o *ModelSwitch) SetExtraRoutes6(v map[string]SwitchExtraRoutes6Value) {
+// SetExtraRoutes6 gets a reference to the given map[string]ExtraRoute6Properties and assigns it to the ExtraRoutes6 field.
+func (o *ModelSwitch) SetExtraRoutes6(v map[string]ExtraRoute6Properties) {
 	o.ExtraRoutes6 = &v
 }
 
@@ -815,9 +819,9 @@ func (o *ModelSwitch) SetName(v string) {
 }
 
 // GetNetworks returns the Networks field value if set, zero value otherwise.
-func (o *ModelSwitch) GetNetworks() JunosNetworks {
+func (o *ModelSwitch) GetNetworks() map[string]SwitchNetwork {
 	if o == nil || IsNil(o.Networks) {
-		var ret JunosNetworks
+		var ret map[string]SwitchNetwork
 		return ret
 	}
 	return *o.Networks
@@ -825,7 +829,7 @@ func (o *ModelSwitch) GetNetworks() JunosNetworks {
 
 // GetNetworksOk returns a tuple with the Networks field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ModelSwitch) GetNetworksOk() (*JunosNetworks, bool) {
+func (o *ModelSwitch) GetNetworksOk() (*map[string]SwitchNetwork, bool) {
 	if o == nil || IsNil(o.Networks) {
 		return nil, false
 	}
@@ -841,8 +845,8 @@ func (o *ModelSwitch) HasNetworks() bool {
 	return false
 }
 
-// SetNetworks gets a reference to the given JunosNetworks and assigns it to the Networks field.
-func (o *ModelSwitch) SetNetworks(v JunosNetworks) {
+// SetNetworks gets a reference to the given map[string]SwitchNetwork and assigns it to the Networks field.
+func (o *ModelSwitch) SetNetworks(v map[string]SwitchNetwork) {
 	o.Networks = &v
 }
 
@@ -911,9 +915,9 @@ func (o *ModelSwitch) SetNtpServers(v []string) {
 }
 
 // GetOobIpConfig returns the OobIpConfig field value if set, zero value otherwise.
-func (o *ModelSwitch) GetOobIpConfig() JunosOobIpConfig {
+func (o *ModelSwitch) GetOobIpConfig() JunosOobIpConfigs {
 	if o == nil || IsNil(o.OobIpConfig) {
-		var ret JunosOobIpConfig
+		var ret JunosOobIpConfigs
 		return ret
 	}
 	return *o.OobIpConfig
@@ -921,7 +925,7 @@ func (o *ModelSwitch) GetOobIpConfig() JunosOobIpConfig {
 
 // GetOobIpConfigOk returns a tuple with the OobIpConfig field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ModelSwitch) GetOobIpConfigOk() (*JunosOobIpConfig, bool) {
+func (o *ModelSwitch) GetOobIpConfigOk() (*JunosOobIpConfigs, bool) {
 	if o == nil || IsNil(o.OobIpConfig) {
 		return nil, false
 	}
@@ -937,8 +941,8 @@ func (o *ModelSwitch) HasOobIpConfig() bool {
 	return false
 }
 
-// SetOobIpConfig gets a reference to the given JunosOobIpConfig and assigns it to the OobIpConfig field.
-func (o *ModelSwitch) SetOobIpConfig(v JunosOobIpConfig) {
+// SetOobIpConfig gets a reference to the given JunosOobIpConfigs and assigns it to the OobIpConfig field.
+func (o *ModelSwitch) SetOobIpConfig(v JunosOobIpConfigs) {
 	o.OobIpConfig = &v
 }
 
@@ -975,9 +979,9 @@ func (o *ModelSwitch) SetOrgId(v string) {
 }
 
 // GetOspfConfig returns the OspfConfig field value if set, zero value otherwise.
-func (o *ModelSwitch) GetOspfConfig() JunosOspfConfig {
+func (o *ModelSwitch) GetOspfConfig() OspfConfig {
 	if o == nil || IsNil(o.OspfConfig) {
-		var ret JunosOspfConfig
+		var ret OspfConfig
 		return ret
 	}
 	return *o.OspfConfig
@@ -985,7 +989,7 @@ func (o *ModelSwitch) GetOspfConfig() JunosOspfConfig {
 
 // GetOspfConfigOk returns a tuple with the OspfConfig field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ModelSwitch) GetOspfConfigOk() (*JunosOspfConfig, bool) {
+func (o *ModelSwitch) GetOspfConfigOk() (*OspfConfig, bool) {
 	if o == nil || IsNil(o.OspfConfig) {
 		return nil, false
 	}
@@ -1001,8 +1005,8 @@ func (o *ModelSwitch) HasOspfConfig() bool {
 	return false
 }
 
-// SetOspfConfig gets a reference to the given JunosOspfConfig and assigns it to the OspfConfig field.
-func (o *ModelSwitch) SetOspfConfig(v JunosOspfConfig) {
+// SetOspfConfig gets a reference to the given OspfConfig and assigns it to the OspfConfig field.
+func (o *ModelSwitch) SetOspfConfig(v OspfConfig) {
 	o.OspfConfig = &v
 }
 
@@ -1071,9 +1075,9 @@ func (o *ModelSwitch) SetPortConfig(v map[string]JunosPortConfig) {
 }
 
 // GetPortMirroring returns the PortMirroring field value if set, zero value otherwise.
-func (o *ModelSwitch) GetPortMirroring() SwitchPortMirroring {
+func (o *ModelSwitch) GetPortMirroring() map[string]SwitchPortMirroring {
 	if o == nil || IsNil(o.PortMirroring) {
-		var ret SwitchPortMirroring
+		var ret map[string]SwitchPortMirroring
 		return ret
 	}
 	return *o.PortMirroring
@@ -1081,7 +1085,7 @@ func (o *ModelSwitch) GetPortMirroring() SwitchPortMirroring {
 
 // GetPortMirroringOk returns a tuple with the PortMirroring field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ModelSwitch) GetPortMirroringOk() (*SwitchPortMirroring, bool) {
+func (o *ModelSwitch) GetPortMirroringOk() (*map[string]SwitchPortMirroring, bool) {
 	if o == nil || IsNil(o.PortMirroring) {
 		return nil, false
 	}
@@ -1097,15 +1101,15 @@ func (o *ModelSwitch) HasPortMirroring() bool {
 	return false
 }
 
-// SetPortMirroring gets a reference to the given SwitchPortMirroring and assigns it to the PortMirroring field.
-func (o *ModelSwitch) SetPortMirroring(v SwitchPortMirroring) {
+// SetPortMirroring gets a reference to the given map[string]SwitchPortMirroring and assigns it to the PortMirroring field.
+func (o *ModelSwitch) SetPortMirroring(v map[string]SwitchPortMirroring) {
 	o.PortMirroring = &v
 }
 
 // GetPortUsages returns the PortUsages field value if set, zero value otherwise.
-func (o *ModelSwitch) GetPortUsages() map[string]JunosPortUsages {
+func (o *ModelSwitch) GetPortUsages() map[string]PortUsage {
 	if o == nil || IsNil(o.PortUsages) {
-		var ret map[string]JunosPortUsages
+		var ret map[string]PortUsage
 		return ret
 	}
 	return *o.PortUsages
@@ -1113,7 +1117,7 @@ func (o *ModelSwitch) GetPortUsages() map[string]JunosPortUsages {
 
 // GetPortUsagesOk returns a tuple with the PortUsages field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ModelSwitch) GetPortUsagesOk() (*map[string]JunosPortUsages, bool) {
+func (o *ModelSwitch) GetPortUsagesOk() (*map[string]PortUsage, bool) {
 	if o == nil || IsNil(o.PortUsages) {
 		return nil, false
 	}
@@ -1129,15 +1133,15 @@ func (o *ModelSwitch) HasPortUsages() bool {
 	return false
 }
 
-// SetPortUsages gets a reference to the given map[string]JunosPortUsages and assigns it to the PortUsages field.
-func (o *ModelSwitch) SetPortUsages(v map[string]JunosPortUsages) {
+// SetPortUsages gets a reference to the given map[string]PortUsage and assigns it to the PortUsages field.
+func (o *ModelSwitch) SetPortUsages(v map[string]PortUsage) {
 	o.PortUsages = &v
 }
 
 // GetRadiusConfig returns the RadiusConfig field value if set, zero value otherwise.
-func (o *ModelSwitch) GetRadiusConfig() JunosRadiusConfig {
+func (o *ModelSwitch) GetRadiusConfig() RadiusConfig {
 	if o == nil || IsNil(o.RadiusConfig) {
-		var ret JunosRadiusConfig
+		var ret RadiusConfig
 		return ret
 	}
 	return *o.RadiusConfig
@@ -1145,7 +1149,7 @@ func (o *ModelSwitch) GetRadiusConfig() JunosRadiusConfig {
 
 // GetRadiusConfigOk returns a tuple with the RadiusConfig field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ModelSwitch) GetRadiusConfigOk() (*JunosRadiusConfig, bool) {
+func (o *ModelSwitch) GetRadiusConfigOk() (*RadiusConfig, bool) {
 	if o == nil || IsNil(o.RadiusConfig) {
 		return nil, false
 	}
@@ -1161,15 +1165,15 @@ func (o *ModelSwitch) HasRadiusConfig() bool {
 	return false
 }
 
-// SetRadiusConfig gets a reference to the given JunosRadiusConfig and assigns it to the RadiusConfig field.
-func (o *ModelSwitch) SetRadiusConfig(v JunosRadiusConfig) {
+// SetRadiusConfig gets a reference to the given RadiusConfig and assigns it to the RadiusConfig field.
+func (o *ModelSwitch) SetRadiusConfig(v RadiusConfig) {
 	o.RadiusConfig = &v
 }
 
 // GetRole returns the Role field value if set, zero value otherwise.
-func (o *ModelSwitch) GetRole() string {
+func (o *ModelSwitch) GetRole() SwitchRole {
 	if o == nil || IsNil(o.Role) {
-		var ret string
+		var ret SwitchRole
 		return ret
 	}
 	return *o.Role
@@ -1177,7 +1181,7 @@ func (o *ModelSwitch) GetRole() string {
 
 // GetRoleOk returns a tuple with the Role field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ModelSwitch) GetRoleOk() (*string, bool) {
+func (o *ModelSwitch) GetRoleOk() (*SwitchRole, bool) {
 	if o == nil || IsNil(o.Role) {
 		return nil, false
 	}
@@ -1193,8 +1197,8 @@ func (o *ModelSwitch) HasRole() bool {
 	return false
 }
 
-// SetRole gets a reference to the given string and assigns it to the Role field.
-func (o *ModelSwitch) SetRole(v string) {
+// SetRole gets a reference to the given SwitchRole and assigns it to the Role field.
+func (o *ModelSwitch) SetRole(v SwitchRole) {
 	o.Role = &v
 }
 
@@ -1423,9 +1427,9 @@ func (o *ModelSwitch) SetVirtualChassis(v SwitchVirtualChassis) {
 }
 
 // GetVrfConfig returns the VrfConfig field value if set, zero value otherwise.
-func (o *ModelSwitch) GetVrfConfig() JunosVrfConfig {
+func (o *ModelSwitch) GetVrfConfig() VrfConfig {
 	if o == nil || IsNil(o.VrfConfig) {
-		var ret JunosVrfConfig
+		var ret VrfConfig
 		return ret
 	}
 	return *o.VrfConfig
@@ -1433,7 +1437,7 @@ func (o *ModelSwitch) GetVrfConfig() JunosVrfConfig {
 
 // GetVrfConfigOk returns a tuple with the VrfConfig field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ModelSwitch) GetVrfConfigOk() (*JunosVrfConfig, bool) {
+func (o *ModelSwitch) GetVrfConfigOk() (*VrfConfig, bool) {
 	if o == nil || IsNil(o.VrfConfig) {
 		return nil, false
 	}
@@ -1449,15 +1453,15 @@ func (o *ModelSwitch) HasVrfConfig() bool {
 	return false
 }
 
-// SetVrfConfig gets a reference to the given JunosVrfConfig and assigns it to the VrfConfig field.
-func (o *ModelSwitch) SetVrfConfig(v JunosVrfConfig) {
+// SetVrfConfig gets a reference to the given VrfConfig and assigns it to the VrfConfig field.
+func (o *ModelSwitch) SetVrfConfig(v VrfConfig) {
 	o.VrfConfig = &v
 }
 
 // GetVrrpConfig returns the VrrpConfig field value if set, zero value otherwise.
-func (o *ModelSwitch) GetVrrpConfig() JunosVrrpConfig {
+func (o *ModelSwitch) GetVrrpConfig() VrrpConfig {
 	if o == nil || IsNil(o.VrrpConfig) {
-		var ret JunosVrrpConfig
+		var ret VrrpConfig
 		return ret
 	}
 	return *o.VrrpConfig
@@ -1465,7 +1469,7 @@ func (o *ModelSwitch) GetVrrpConfig() JunosVrrpConfig {
 
 // GetVrrpConfigOk returns a tuple with the VrrpConfig field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ModelSwitch) GetVrrpConfigOk() (*JunosVrrpConfig, bool) {
+func (o *ModelSwitch) GetVrrpConfigOk() (*VrrpConfig, bool) {
 	if o == nil || IsNil(o.VrrpConfig) {
 		return nil, false
 	}
@@ -1481,8 +1485,8 @@ func (o *ModelSwitch) HasVrrpConfig() bool {
 	return false
 }
 
-// SetVrrpConfig gets a reference to the given JunosVrrpConfig and assigns it to the VrrpConfig field.
-func (o *ModelSwitch) SetVrrpConfig(v JunosVrrpConfig) {
+// SetVrrpConfig gets a reference to the given VrrpConfig and assigns it to the VrrpConfig field.
+func (o *ModelSwitch) SetVrrpConfig(v VrrpConfig) {
 	o.VrrpConfig = &v
 }
 

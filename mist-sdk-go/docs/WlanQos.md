@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Class** | Pointer to **string** |  | [optional] [default to "best_effort"]
+**Class** | Pointer to [**WlanQosClass**](WlanQosClass.md) |  | [optional] [default to WLANQOSCLASS_BEST_EFFORT]
 **Overwrite** | Pointer to **bool** | whether to overwrite QoS | [optional] [default to false]
 
 ## Methods
@@ -28,20 +28,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetClass
 
-`func (o *WlanQos) GetClass() string`
+`func (o *WlanQos) GetClass() WlanQosClass`
 
 GetClass returns the Class field if non-nil, zero value otherwise.
 
 ### GetClassOk
 
-`func (o *WlanQos) GetClassOk() (*string, bool)`
+`func (o *WlanQos) GetClassOk() (*WlanQosClass, bool)`
 
 GetClassOk returns a tuple with the Class field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetClass
 
-`func (o *WlanQos) SetClass(v string)`
+`func (o *WlanQos) SetClass(v WlanQosClass)`
 
 SetClass sets Class field to given value.
 

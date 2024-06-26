@@ -5,6 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **AcctServers** | Pointer to [**[]TacacsAcctServer**](TacacsAcctServer.md) |  | [optional] 
+**DefaultRole** | Pointer to [**TacacsDefaultRole**](TacacsDefaultRole.md) |  | [optional] [default to TACACSDEFAULTROLE_NONE]
 **Enabled** | Pointer to **bool** |  | [optional] 
 **Network** | Pointer to **string** | which network the TACACS server resides | [optional] 
 **TacplusServers** | Pointer to [**[]TacacsAuthServer**](TacacsAuthServer.md) |  | [optional] 
@@ -52,6 +53,31 @@ SetAcctServers sets AcctServers field to given value.
 `func (o *Tacacs) HasAcctServers() bool`
 
 HasAcctServers returns a boolean if a field has been set.
+
+### GetDefaultRole
+
+`func (o *Tacacs) GetDefaultRole() TacacsDefaultRole`
+
+GetDefaultRole returns the DefaultRole field if non-nil, zero value otherwise.
+
+### GetDefaultRoleOk
+
+`func (o *Tacacs) GetDefaultRoleOk() (*TacacsDefaultRole, bool)`
+
+GetDefaultRoleOk returns a tuple with the DefaultRole field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetDefaultRole
+
+`func (o *Tacacs) SetDefaultRole(v TacacsDefaultRole)`
+
+SetDefaultRole sets DefaultRole field to given value.
+
+### HasDefaultRole
+
+`func (o *Tacacs) HasDefaultRole() bool`
+
+HasDefaultRole returns a boolean if a field has been set.
 
 ### GetEnabled
 

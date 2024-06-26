@@ -14,7 +14,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"testing"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "github.com/tmunzer/mistsdkgo"
 )
 
 func Test_mistsdkgo_OrgsWlansAPIService(t *testing.T) {
@@ -44,6 +44,20 @@ func Test_mistsdkgo_OrgsWlansAPIService(t *testing.T) {
 		var wlanId string
 
 		httpRes, err := apiClient.OrgsWlansAPI.DeleteOrgWlan(context.Background(), orgId, wlanId).Execute()
+
+		require.Nil(t, err)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
+	t.Run("Test OrgsWlansAPIService DeleteOrgWlanPortalImage", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		var orgId string
+		var wlanId string
+
+		httpRes, err := apiClient.OrgsWlansAPI.DeleteOrgWlanPortalImage(context.Background(), orgId, wlanId).Execute()
 
 		require.Nil(t, err)
 		assert.Equal(t, 200, httpRes.StatusCode)
@@ -90,6 +104,35 @@ func Test_mistsdkgo_OrgsWlansAPIService(t *testing.T) {
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
+	t.Run("Test OrgsWlansAPIService UpdateOrgWlanPortalTemplate", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		var orgId string
+		var wlanId string
+
+		resp, httpRes, err := apiClient.OrgsWlansAPI.UpdateOrgWlanPortalTemplate(context.Background(), orgId, wlanId).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
+	t.Run("Test OrgsWlansAPIService UploadOrgWlanPortalImage", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		var orgId string
+		var wlanId string
+
+		httpRes, err := apiClient.OrgsWlansAPI.UploadOrgWlanPortalImage(context.Background(), orgId, wlanId).Execute()
+
+		require.Nil(t, err)
 		assert.Equal(t, 200, httpRes.StatusCode)
 
 	})

@@ -1,9 +1,9 @@
 /*
 Mist API
 
-> Version: **2405.1.6** > > Date: **June 6, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location-services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
+> Version: **2406.1.3** > > Date: **June 26, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
 
-API version: 2405.1.6
+API version: 2406.1.3
 Contact: tmunzer@juniper.net
 */
 
@@ -38,12 +38,11 @@ type Wlan struct {
 	ApIds []string `json:"ap_ids,omitempty"`
 	AppLimit *WlanAppLimit `json:"app_limit,omitempty"`
 	AppQos *WlanAppQos `json:"app_qos,omitempty"`
-	ApplyTo *string `json:"apply_to,omitempty"`
+	ApplyTo *WlanApplyTo `json:"apply_to,omitempty"`
 	// whether to enable smart arp filter
 	ArpFilter *bool `json:"arp_filter,omitempty"`
 	Auth *WlanAuth `json:"auth,omitempty"`
-	// When ordered, AP will prefer and go back to the first server if possible
-	AuthServerSelection *string `json:"auth_server_selection,omitempty"`
+	AuthServerSelection *WlanAuthServerSelection `json:"auth_server_selection,omitempty"`
 	// list of RADIUS authentication servers, at least one is needed if `auth type`==`eap`, order matters where the first one is treated as primary
 	AuthServers []RadiusAuthServer `json:"auth_servers,omitempty"`
 	// optional, up to 48 bytes, will be dynamically generated if not provided. used only for authentication servers
@@ -59,7 +58,7 @@ type Wlan struct {
 	Band *string `json:"band,omitempty"`
 	// whether to enable band_steering, this works only when band==both
 	BandSteer *bool `json:"band_steer,omitempty"`
-	// force dual-band capable client to connect to 5G
+	// force dual_band capable client to connect to 5G
 	BandSteerForceBand5 *bool `json:"band_steer_force_band5,omitempty"`
 	// list of radios that the wlan should apply to
 	Bands []Dot11Band `json:"bands,omitempty"`
@@ -112,8 +111,7 @@ type Wlan struct {
 	Hotspot20 *WlanHotspot20 `json:"hotspot20,omitempty"`
 	Id *string `json:"id,omitempty"`
 	InjectDhcpOption82 *WlanInjectDhcpOption82 `json:"inject_dhcp_option_82,omitempty"`
-	// where this WLAN will be connected to
-	Interface *string `json:"interface,omitempty"`
+	Interface *WlanInterface `json:"interface,omitempty"`
 	// whether to stop clients to talk to each other
 	Isolation *bool `json:"isolation,omitempty"`
 	// if isolation is enabled, whether to deny clients to talk to L2 on the LAN
@@ -160,7 +158,7 @@ type Wlan struct {
 	Qos *WlanQos `json:"qos,omitempty"`
 	Radsec *Radsec `json:"radsec,omitempty"`
 	Rateset *WlanRateset `json:"rateset,omitempty"`
-	RoamMode *string `json:"roam_mode,omitempty"`
+	RoamMode *WlanRoamMode `json:"roam_mode,omitempty"`
 	Schedule *WlanSchedule `json:"schedule,omitempty"`
 	SiteId *string `json:"site_id,omitempty"`
 	// whether to exclude this WLAN from SLE metrics
@@ -216,7 +214,7 @@ func NewWlan(ssid string) *Wlan {
 	this.AllowSsdp = &allowSsdp
 	var arpFilter bool = false
 	this.ArpFilter = &arpFilter
-	var authServerSelection string = "ordered"
+	var authServerSelection WlanAuthServerSelection = WLANAUTHSERVERSELECTION_ORDERED
 	this.AuthServerSelection = &authServerSelection
 	var authServersRetries int32 = 2
 	this.AuthServersRetries = &authServersRetries
@@ -260,7 +258,7 @@ func NewWlan(ssid string) *Wlan {
 	this.HideSsid = &hideSsid
 	var hostnameIe bool = false
 	this.HostnameIe = &hostnameIe
-	var interface_ string = "all"
+	var interface_ WlanInterface = WLANINTERFACE_ALL
 	this.Interface = &interface_
 	var isolation bool = false
 	this.Isolation = &isolation
@@ -276,7 +274,7 @@ func NewWlan(ssid string) *Wlan {
 	this.NoStaticDns = &noStaticDns
 	var noStaticIp bool = false
 	this.NoStaticIp = &noStaticIp
-	var roamMode string = "none"
+	var roamMode WlanRoamMode = WLANROAMMODE_NONE
 	this.RoamMode = &roamMode
 	var sleExcluded bool = false
 	this.SleExcluded = &sleExcluded
@@ -311,7 +309,7 @@ func NewWlanWithDefaults() *Wlan {
 	this.AllowSsdp = &allowSsdp
 	var arpFilter bool = false
 	this.ArpFilter = &arpFilter
-	var authServerSelection string = "ordered"
+	var authServerSelection WlanAuthServerSelection = WLANAUTHSERVERSELECTION_ORDERED
 	this.AuthServerSelection = &authServerSelection
 	var authServersRetries int32 = 2
 	this.AuthServersRetries = &authServersRetries
@@ -355,7 +353,7 @@ func NewWlanWithDefaults() *Wlan {
 	this.HideSsid = &hideSsid
 	var hostnameIe bool = false
 	this.HostnameIe = &hostnameIe
-	var interface_ string = "all"
+	var interface_ WlanInterface = WLANINTERFACE_ALL
 	this.Interface = &interface_
 	var isolation bool = false
 	this.Isolation = &isolation
@@ -371,7 +369,7 @@ func NewWlanWithDefaults() *Wlan {
 	this.NoStaticDns = &noStaticDns
 	var noStaticIp bool = false
 	this.NoStaticIp = &noStaticIp
-	var roamMode string = "none"
+	var roamMode WlanRoamMode = WLANROAMMODE_NONE
 	this.RoamMode = &roamMode
 	var sleExcluded bool = false
 	this.SleExcluded = &sleExcluded
@@ -710,9 +708,9 @@ func (o *Wlan) SetAppQos(v WlanAppQos) {
 }
 
 // GetApplyTo returns the ApplyTo field value if set, zero value otherwise.
-func (o *Wlan) GetApplyTo() string {
+func (o *Wlan) GetApplyTo() WlanApplyTo {
 	if o == nil || IsNil(o.ApplyTo) {
-		var ret string
+		var ret WlanApplyTo
 		return ret
 	}
 	return *o.ApplyTo
@@ -720,7 +718,7 @@ func (o *Wlan) GetApplyTo() string {
 
 // GetApplyToOk returns a tuple with the ApplyTo field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Wlan) GetApplyToOk() (*string, bool) {
+func (o *Wlan) GetApplyToOk() (*WlanApplyTo, bool) {
 	if o == nil || IsNil(o.ApplyTo) {
 		return nil, false
 	}
@@ -736,8 +734,8 @@ func (o *Wlan) HasApplyTo() bool {
 	return false
 }
 
-// SetApplyTo gets a reference to the given string and assigns it to the ApplyTo field.
-func (o *Wlan) SetApplyTo(v string) {
+// SetApplyTo gets a reference to the given WlanApplyTo and assigns it to the ApplyTo field.
+func (o *Wlan) SetApplyTo(v WlanApplyTo) {
 	o.ApplyTo = &v
 }
 
@@ -806,9 +804,9 @@ func (o *Wlan) SetAuth(v WlanAuth) {
 }
 
 // GetAuthServerSelection returns the AuthServerSelection field value if set, zero value otherwise.
-func (o *Wlan) GetAuthServerSelection() string {
+func (o *Wlan) GetAuthServerSelection() WlanAuthServerSelection {
 	if o == nil || IsNil(o.AuthServerSelection) {
-		var ret string
+		var ret WlanAuthServerSelection
 		return ret
 	}
 	return *o.AuthServerSelection
@@ -816,7 +814,7 @@ func (o *Wlan) GetAuthServerSelection() string {
 
 // GetAuthServerSelectionOk returns a tuple with the AuthServerSelection field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Wlan) GetAuthServerSelectionOk() (*string, bool) {
+func (o *Wlan) GetAuthServerSelectionOk() (*WlanAuthServerSelection, bool) {
 	if o == nil || IsNil(o.AuthServerSelection) {
 		return nil, false
 	}
@@ -832,8 +830,8 @@ func (o *Wlan) HasAuthServerSelection() bool {
 	return false
 }
 
-// SetAuthServerSelection gets a reference to the given string and assigns it to the AuthServerSelection field.
-func (o *Wlan) SetAuthServerSelection(v string) {
+// SetAuthServerSelection gets a reference to the given WlanAuthServerSelection and assigns it to the AuthServerSelection field.
+func (o *Wlan) SetAuthServerSelection(v WlanAuthServerSelection) {
 	o.AuthServerSelection = &v
 }
 
@@ -2140,9 +2138,9 @@ func (o *Wlan) SetInjectDhcpOption82(v WlanInjectDhcpOption82) {
 }
 
 // GetInterface returns the Interface field value if set, zero value otherwise.
-func (o *Wlan) GetInterface() string {
+func (o *Wlan) GetInterface() WlanInterface {
 	if o == nil || IsNil(o.Interface) {
-		var ret string
+		var ret WlanInterface
 		return ret
 	}
 	return *o.Interface
@@ -2150,7 +2148,7 @@ func (o *Wlan) GetInterface() string {
 
 // GetInterfaceOk returns a tuple with the Interface field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Wlan) GetInterfaceOk() (*string, bool) {
+func (o *Wlan) GetInterfaceOk() (*WlanInterface, bool) {
 	if o == nil || IsNil(o.Interface) {
 		return nil, false
 	}
@@ -2166,8 +2164,8 @@ func (o *Wlan) HasInterface() bool {
 	return false
 }
 
-// SetInterface gets a reference to the given string and assigns it to the Interface field.
-func (o *Wlan) SetInterface(v string) {
+// SetInterface gets a reference to the given WlanInterface and assigns it to the Interface field.
+func (o *Wlan) SetInterface(v WlanInterface) {
 	o.Interface = &v
 }
 
@@ -3079,9 +3077,9 @@ func (o *Wlan) SetRateset(v WlanRateset) {
 }
 
 // GetRoamMode returns the RoamMode field value if set, zero value otherwise.
-func (o *Wlan) GetRoamMode() string {
+func (o *Wlan) GetRoamMode() WlanRoamMode {
 	if o == nil || IsNil(o.RoamMode) {
-		var ret string
+		var ret WlanRoamMode
 		return ret
 	}
 	return *o.RoamMode
@@ -3089,7 +3087,7 @@ func (o *Wlan) GetRoamMode() string {
 
 // GetRoamModeOk returns a tuple with the RoamMode field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Wlan) GetRoamModeOk() (*string, bool) {
+func (o *Wlan) GetRoamModeOk() (*WlanRoamMode, bool) {
 	if o == nil || IsNil(o.RoamMode) {
 		return nil, false
 	}
@@ -3105,8 +3103,8 @@ func (o *Wlan) HasRoamMode() bool {
 	return false
 }
 
-// SetRoamMode gets a reference to the given string and assigns it to the RoamMode field.
-func (o *Wlan) SetRoamMode(v string) {
+// SetRoamMode gets a reference to the given WlanRoamMode and assigns it to the RoamMode field.
+func (o *Wlan) SetRoamMode(v WlanRoamMode) {
 	o.RoamMode = &v
 }
 

@@ -18,6 +18,8 @@ func SdkToTerraform(ctx context.Context, data *mistsdkgo.NetworkTemplate) (Netwo
 	state.OrgId = types.StringValue(data.GetOrgId())
 	state.Name = types.StringValue(data.GetName())
 
+	state.AclPolicies = aclPoliciesSdkToTerraform(ctx, &diags, data.GetAclPolicies())
+
 	state.AdditionalConfigCmds = mist_transform.ListOfStringSdkToTerraform(ctx, data.GetAdditionalConfigCmds())
 
 	state.DhcpSnooping = dhcpSnoopingSdkToTerraform(ctx, &diags, data.GetDhcpSnooping())
@@ -32,11 +34,13 @@ func SdkToTerraform(ctx context.Context, data *mistsdkgo.NetworkTemplate) (Netwo
 
 	state.Networks = networksSdkToTerraform(ctx, &diags, data.GetNetworks())
 
+	state.PortMirrorings = portMirroringSdkToTerraform(ctx, &diags, data.GetPortMirrorings())
+
+	state.PortUsages = portUsagesSdkToTerraform(ctx, &diags, data.GetPortUsages())
+
 	state.RemoteSyslog = remoteSyslogSdkToTerraform(ctx, &diags, data.GetRemoteSyslog())
 
 	state.RadiusConfig = radiusConfigSdkToTerraform(ctx, &diags, data.GetRadiusConfig())
-
-	state.PortUsages = portUsagesSdkToTerraform(ctx, &diags, data.GetPortUsages())
 
 	state.SwitchMatching = switchMatchingSdkToTerraform(ctx, &diags, data.GetSwitchMatching())
 

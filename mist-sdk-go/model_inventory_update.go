@@ -1,9 +1,9 @@
 /*
 Mist API
 
-> Version: **2405.1.6** > > Date: **June 6, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location-services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
+> Version: **2406.1.3** > > Date: **June 26, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
 
-API version: 2405.1.6
+API version: 2406.1.3
 Contact: tmunzer@juniper.net
 */
 
@@ -29,8 +29,7 @@ type InventoryUpdate struct {
 	Managed *bool `json:"managed,omitempty"`
 	// if `op`==`assign`, if true, treat site assignment against an already assigned AP as error
 	NoReassign *bool `json:"no_reassign,omitempty"`
-	// * if `op`== `upgrade_to_mist`: Upgrade to mist-managed * if `op`== `downgrade_to_jsi`: Downgrade to basic monitoring. When downgrading a VC member to jsi, we will move the cloud connection of the VC to jsi-terminator and keep all VC device/inventories intact for pain-free upgrading back to mist. * if `op`== `assign`: Assign inventory to a site * if `op`== `unassign`: Unassign inventory to a site * if `op`== `delete`: Delete multiple inventory from org. If the device is already assigned to a site, it will be unassigned.
-	Op string `json:"op"`
+	Op InventoryUpdateOperation `json:"op"`
 	// if `op`==`delete`, list of serial numbers, e.g. [\"FXLH2015150025\"]
 	Serials []string `json:"serials,omitempty"`
 	// if `op`==`assign`, target site id
@@ -44,7 +43,7 @@ type _InventoryUpdate InventoryUpdate
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewInventoryUpdate(op string) *InventoryUpdate {
+func NewInventoryUpdate(op InventoryUpdateOperation) *InventoryUpdate {
 	this := InventoryUpdate{}
 	var disableAutoConfig bool = false
 	this.DisableAutoConfig = &disableAutoConfig
@@ -195,9 +194,9 @@ func (o *InventoryUpdate) SetNoReassign(v bool) {
 }
 
 // GetOp returns the Op field value
-func (o *InventoryUpdate) GetOp() string {
+func (o *InventoryUpdate) GetOp() InventoryUpdateOperation {
 	if o == nil {
-		var ret string
+		var ret InventoryUpdateOperation
 		return ret
 	}
 
@@ -206,7 +205,7 @@ func (o *InventoryUpdate) GetOp() string {
 
 // GetOpOk returns a tuple with the Op field value
 // and a boolean to check if the value has been set.
-func (o *InventoryUpdate) GetOpOk() (*string, bool) {
+func (o *InventoryUpdate) GetOpOk() (*InventoryUpdateOperation, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -214,7 +213,7 @@ func (o *InventoryUpdate) GetOpOk() (*string, bool) {
 }
 
 // SetOp sets field value
-func (o *InventoryUpdate) SetOp(v string) {
+func (o *InventoryUpdate) SetOp(v InventoryUpdateOperation) {
 	o.Op = v
 }
 

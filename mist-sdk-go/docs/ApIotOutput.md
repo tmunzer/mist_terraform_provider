@@ -7,7 +7,7 @@ Name | Type | Description | Notes
 **Enabled** | Pointer to **bool** | whether to enable a pin | [optional] [default to false]
 **Name** | Pointer to **string** | optional; descriptive pin name | [optional] 
 **Output** | Pointer to **bool** | whether the pin is configured as an output. DO and A1-A4 can be repurposed by changing | [optional] 
-**Pullup** | Pointer to **string** | the type of pull-up the pin uses (internal, external, none), default none | [optional] 
+**Pullup** | Pointer to [**ApIotOutputPullup**](ApIotOutputPullup.md) |  | [optional] 
 **Value** | Pointer to **int32** | output pin signal level, default 0 | [optional] 
 
 ## Methods
@@ -106,20 +106,20 @@ HasOutput returns a boolean if a field has been set.
 
 ### GetPullup
 
-`func (o *ApIotOutput) GetPullup() string`
+`func (o *ApIotOutput) GetPullup() ApIotOutputPullup`
 
 GetPullup returns the Pullup field if non-nil, zero value otherwise.
 
 ### GetPullupOk
 
-`func (o *ApIotOutput) GetPullupOk() (*string, bool)`
+`func (o *ApIotOutput) GetPullupOk() (*ApIotOutputPullup, bool)`
 
 GetPullupOk returns a tuple with the Pullup field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetPullup
 
-`func (o *ApIotOutput) SetPullup(v string)`
+`func (o *ApIotOutput) SetPullup(v ApIotOutputPullup)`
 
 SetPullup sets Pullup field to given value.
 

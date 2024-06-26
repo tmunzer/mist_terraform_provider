@@ -7,14 +7,10 @@ import (
 	"fmt"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 	"github.com/hashicorp/terraform-plugin-go/tftypes"
 	"strings"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 )
@@ -33,14 +29,12 @@ func SiteResourceSchema(ctx context.Context) schema.Schema {
 				Computed:            true,
 				Description:         "Alarm Template ID, this takes precedence over the Org-level alarmtemplate_id",
 				MarkdownDescription: "Alarm Template ID, this takes precedence over the Org-level alarmtemplate_id",
-				Default:             stringdefault.StaticString(""),
 			},
 			"aptemplate_id": schema.StringAttribute{
 				Optional:            true,
 				Computed:            true,
 				Description:         "AP Template ID, used by APs",
 				MarkdownDescription: "AP Template ID, used by APs",
-				Default:             stringdefault.StaticString(""),
 			},
 			"country_code": schema.StringAttribute{
 				Optional:            true,
@@ -53,19 +47,17 @@ func SiteResourceSchema(ctx context.Context) schema.Schema {
 				Computed:            true,
 				Description:         "Gateway Template ID, used by gateways",
 				MarkdownDescription: "Gateway Template ID, used by gateways",
-				Default:             stringdefault.StaticString(""),
 			},
 			"id": schema.StringAttribute{
 				Optional: true,
 				Computed: true,
-				PlanModifiers:       []planmodifier.String{stringplanmodifier.UseStateForUnknown()},
 			},
 			"latlng": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
-					"lat": schema.NumberAttribute{
+					"lat": schema.Float64Attribute{
 						Required: true,
 					},
-					"lng": schema.NumberAttribute{
+					"lng": schema.Float64Attribute{
 						Required: true,
 					},
 				},
@@ -85,7 +77,6 @@ func SiteResourceSchema(ctx context.Context) schema.Schema {
 				Computed:            true,
 				Description:         "Network Template ID, this takes precedence over Site Settings",
 				MarkdownDescription: "Network Template ID, this takes precedence over Site Settings",
-				Default:             stringdefault.StaticString(""),
 			},
 			"notes": schema.StringAttribute{
 				Optional:            true,
@@ -102,14 +93,12 @@ func SiteResourceSchema(ctx context.Context) schema.Schema {
 				Computed:            true,
 				Description:         "RF Template ID, this takes precedence over Site Settings",
 				MarkdownDescription: "RF Template ID, this takes precedence over Site Settings",
-				Default:             stringdefault.StaticString(""),
 			},
 			"secpolicy_id": schema.StringAttribute{
 				Optional:            true,
 				Computed:            true,
 				Description:         "SecPolicy ID",
 				MarkdownDescription: "SecPolicy ID",
-				Default:             stringdefault.StaticString(""),
 			},
 			"sitegroup_ids": schema.ListAttribute{
 				ElementType:         types.StringType,
@@ -117,14 +106,12 @@ func SiteResourceSchema(ctx context.Context) schema.Schema {
 				Computed:            true,
 				Description:         "sitegroups this site belongs to",
 				MarkdownDescription: "sitegroups this site belongs to",
-				Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 			},
 			"sitetemplate_id": schema.StringAttribute{
 				Optional:            true,
 				Computed:            true,
 				Description:         "Site Template ID",
 				MarkdownDescription: "Site Template ID",
-				Default:             stringdefault.StaticString(""),
 			},
 			"timezone": schema.StringAttribute{
 				Optional:            true,
@@ -190,12 +177,12 @@ func (t LatlngType) ValueFromObject(ctx context.Context, in basetypes.ObjectValu
 		return nil, diags
 	}
 
-	latVal, ok := latAttribute.(basetypes.NumberValue)
+	latVal, ok := latAttribute.(basetypes.Float64Value)
 
 	if !ok {
 		diags.AddError(
 			"Attribute Wrong Type",
-			fmt.Sprintf(`lat expected to be basetypes.NumberValue, was: %T`, latAttribute))
+			fmt.Sprintf(`lat expected to be basetypes.Float64Value, was: %T`, latAttribute))
 	}
 
 	lngAttribute, ok := attributes["lng"]
@@ -208,12 +195,12 @@ func (t LatlngType) ValueFromObject(ctx context.Context, in basetypes.ObjectValu
 		return nil, diags
 	}
 
-	lngVal, ok := lngAttribute.(basetypes.NumberValue)
+	lngVal, ok := lngAttribute.(basetypes.Float64Value)
 
 	if !ok {
 		diags.AddError(
 			"Attribute Wrong Type",
-			fmt.Sprintf(`lng expected to be basetypes.NumberValue, was: %T`, lngAttribute))
+			fmt.Sprintf(`lng expected to be basetypes.Float64Value, was: %T`, lngAttribute))
 	}
 
 	if diags.HasError() {
@@ -300,12 +287,12 @@ func NewLatlngValue(attributeTypes map[string]attr.Type, attributes map[string]a
 		return NewLatlngValueUnknown(), diags
 	}
 
-	latVal, ok := latAttribute.(basetypes.NumberValue)
+	latVal, ok := latAttribute.(basetypes.Float64Value)
 
 	if !ok {
 		diags.AddError(
 			"Attribute Wrong Type",
-			fmt.Sprintf(`lat expected to be basetypes.NumberValue, was: %T`, latAttribute))
+			fmt.Sprintf(`lat expected to be basetypes.Float64Value, was: %T`, latAttribute))
 	}
 
 	lngAttribute, ok := attributes["lng"]
@@ -318,12 +305,12 @@ func NewLatlngValue(attributeTypes map[string]attr.Type, attributes map[string]a
 		return NewLatlngValueUnknown(), diags
 	}
 
-	lngVal, ok := lngAttribute.(basetypes.NumberValue)
+	lngVal, ok := lngAttribute.(basetypes.Float64Value)
 
 	if !ok {
 		diags.AddError(
 			"Attribute Wrong Type",
-			fmt.Sprintf(`lng expected to be basetypes.NumberValue, was: %T`, lngAttribute))
+			fmt.Sprintf(`lng expected to be basetypes.Float64Value, was: %T`, lngAttribute))
 	}
 
 	if diags.HasError() {
@@ -405,8 +392,8 @@ func (t LatlngType) ValueType(ctx context.Context) attr.Value {
 var _ basetypes.ObjectValuable = LatlngValue{}
 
 type LatlngValue struct {
-	Lat   basetypes.NumberValue `tfsdk:"lat"`
-	Lng   basetypes.NumberValue `tfsdk:"lng"`
+	Lat   basetypes.Float64Value `tfsdk:"lat"`
+	Lng   basetypes.Float64Value `tfsdk:"lng"`
 	state attr.ValueState
 }
 
@@ -416,8 +403,8 @@ func (v LatlngValue) ToTerraformValue(ctx context.Context) (tftypes.Value, error
 	var val tftypes.Value
 	var err error
 
-	attrTypes["lat"] = basetypes.NumberType{}.TerraformType(ctx)
-	attrTypes["lng"] = basetypes.NumberType{}.TerraformType(ctx)
+	attrTypes["lat"] = basetypes.Float64Type{}.TerraformType(ctx)
+	attrTypes["lng"] = basetypes.Float64Type{}.TerraformType(ctx)
 
 	objectType := tftypes.Object{AttributeTypes: attrTypes}
 
@@ -471,8 +458,8 @@ func (v LatlngValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, 
 	var diags diag.Diagnostics
 
 	attributeTypes := map[string]attr.Type{
-		"lat": basetypes.NumberType{},
-		"lng": basetypes.NumberType{},
+		"lat": basetypes.Float64Type{},
+		"lng": basetypes.Float64Type{},
 	}
 
 	if v.IsNull() {
@@ -529,7 +516,7 @@ func (v LatlngValue) Type(ctx context.Context) attr.Type {
 
 func (v LatlngValue) AttributeTypes(ctx context.Context) map[string]attr.Type {
 	return map[string]attr.Type{
-		"lat": basetypes.NumberType{},
-		"lng": basetypes.NumberType{},
+		"lat": basetypes.Float64Type{},
+		"lng": basetypes.Float64Type{},
 	}
 }

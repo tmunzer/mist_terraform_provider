@@ -1,9 +1,9 @@
 /*
 Mist API
 
-> Version: **2405.1.6** > > Date: **June 6, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location-services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
+> Version: **2406.1.3** > > Date: **June 26, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
 
-API version: 2405.1.6
+API version: 2406.1.3
 Contact: tmunzer@juniper.net
 */
 
@@ -30,8 +30,7 @@ type ApUsb struct {
 	Host *string `json:"host,omitempty"`
 	// only if `type`==`imagotag`
 	Port *int32 `json:"port,omitempty"`
-	// usb config type
-	Type *string `json:"type,omitempty"`
+	Type *ApUsbType `json:"type,omitempty"`
 	// only if `type`==`imagotag`, whether to turn on SSL verification
 	VerifyCert *bool `json:"verify_cert,omitempty"`
 	// only if `type`==`solum` or `type`==`hanshow`
@@ -237,9 +236,9 @@ func (o *ApUsb) SetPort(v int32) {
 }
 
 // GetType returns the Type field value if set, zero value otherwise.
-func (o *ApUsb) GetType() string {
+func (o *ApUsb) GetType() ApUsbType {
 	if o == nil || IsNil(o.Type) {
-		var ret string
+		var ret ApUsbType
 		return ret
 	}
 	return *o.Type
@@ -247,7 +246,7 @@ func (o *ApUsb) GetType() string {
 
 // GetTypeOk returns a tuple with the Type field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ApUsb) GetTypeOk() (*string, bool) {
+func (o *ApUsb) GetTypeOk() (*ApUsbType, bool) {
 	if o == nil || IsNil(o.Type) {
 		return nil, false
 	}
@@ -263,8 +262,8 @@ func (o *ApUsb) HasType() bool {
 	return false
 }
 
-// SetType gets a reference to the given string and assigns it to the Type field.
-func (o *ApUsb) SetType(v string) {
+// SetType gets a reference to the given ApUsbType and assigns it to the Type field.
+func (o *ApUsb) SetType(v ApUsbType) {
 	o.Type = &v
 }
 

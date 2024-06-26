@@ -7,8 +7,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 )
 
 func SitegroupResourceSchema(ctx context.Context) schema.Schema {
@@ -17,7 +15,6 @@ func SitegroupResourceSchema(ctx context.Context) schema.Schema {
 			"id": schema.StringAttribute{
 				Optional: true,
 				Computed: true,
-				PlanModifiers:       []planmodifier.String{stringplanmodifier.UseStateForUnknown()},
 			},
 			"name": schema.StringAttribute{
 				Required: true,
@@ -31,7 +28,7 @@ func SitegroupResourceSchema(ctx context.Context) schema.Schema {
 }
 
 type SitegroupModel struct {
-	Id      types.String `tfsdk:"id"`
-	Name    types.String `tfsdk:"name"`
-	OrgId   types.String `tfsdk:"org_id"`
+	Id    types.String `tfsdk:"id"`
+	Name  types.String `tfsdk:"name"`
+	OrgId types.String `tfsdk:"org_id"`
 }

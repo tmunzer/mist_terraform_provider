@@ -8,7 +8,7 @@ Name | Type | Description | Notes
 **DefaultVlanId** | Pointer to **NullableInt32** |  | [optional] 
 **Enabled** | Pointer to **bool** |  | [optional] [default to false]
 **ForceLookup** | Pointer to **bool** | when 11r is enabled, we&#39;ll try to use the cached PMK, this can be disabled &#x60;false&#x60; means auto | [optional] [default to false]
-**Source** | Pointer to **string** |  | [optional] [default to "radius"]
+**Source** | Pointer to [**DynamicPskSource**](DynamicPskSource.md) |  | [optional] [default to DYNAMICPSKSOURCE_RADIUS]
 **VlanIds** | Pointer to **[]int32** |  | [optional] 
 
 ## Methods
@@ -142,20 +142,20 @@ HasForceLookup returns a boolean if a field has been set.
 
 ### GetSource
 
-`func (o *WlanDynamicPsk) GetSource() string`
+`func (o *WlanDynamicPsk) GetSource() DynamicPskSource`
 
 GetSource returns the Source field if non-nil, zero value otherwise.
 
 ### GetSourceOk
 
-`func (o *WlanDynamicPsk) GetSourceOk() (*string, bool)`
+`func (o *WlanDynamicPsk) GetSourceOk() (*DynamicPskSource, bool)`
 
 GetSourceOk returns a tuple with the Source field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetSource
 
-`func (o *WlanDynamicPsk) SetSource(v string)`
+`func (o *WlanDynamicPsk) SetSource(v DynamicPskSource)`
 
 SetSource sets Source field to given value.
 

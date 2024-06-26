@@ -4,9 +4,9 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Apps** | Pointer to [**map[string]WlanAppQosAppsValue**](WlanAppQosAppsValue.md) |  | [optional] 
+**Apps** | Pointer to [**map[string]WlanAppQosAppsProperties**](WlanAppQosAppsProperties.md) |  | [optional] 
 **Enabled** | Pointer to **bool** |  | [optional] 
-**Others** | Pointer to [**[]WlanAppQosOthersInner**](WlanAppQosOthersInner.md) |  | [optional] 
+**Others** | Pointer to [**[]WlanAppQosOthersItem**](WlanAppQosOthersItem.md) |  | [optional] 
 
 ## Methods
 
@@ -29,20 +29,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetApps
 
-`func (o *WlanAppQos) GetApps() map[string]WlanAppQosAppsValue`
+`func (o *WlanAppQos) GetApps() map[string]WlanAppQosAppsProperties`
 
 GetApps returns the Apps field if non-nil, zero value otherwise.
 
 ### GetAppsOk
 
-`func (o *WlanAppQos) GetAppsOk() (*map[string]WlanAppQosAppsValue, bool)`
+`func (o *WlanAppQos) GetAppsOk() (*map[string]WlanAppQosAppsProperties, bool)`
 
 GetAppsOk returns a tuple with the Apps field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetApps
 
-`func (o *WlanAppQos) SetApps(v map[string]WlanAppQosAppsValue)`
+`func (o *WlanAppQos) SetApps(v map[string]WlanAppQosAppsProperties)`
 
 SetApps sets Apps field to given value.
 
@@ -79,20 +79,20 @@ HasEnabled returns a boolean if a field has been set.
 
 ### GetOthers
 
-`func (o *WlanAppQos) GetOthers() []WlanAppQosOthersInner`
+`func (o *WlanAppQos) GetOthers() []WlanAppQosOthersItem`
 
 GetOthers returns the Others field if non-nil, zero value otherwise.
 
 ### GetOthersOk
 
-`func (o *WlanAppQos) GetOthersOk() (*[]WlanAppQosOthersInner, bool)`
+`func (o *WlanAppQos) GetOthersOk() (*[]WlanAppQosOthersItem, bool)`
 
 GetOthersOk returns a tuple with the Others field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetOthers
 
-`func (o *WlanAppQos) SetOthers(v []WlanAppQosOthersInner)`
+`func (o *WlanAppQos) SetOthers(v []WlanAppQosOthersItem)`
 
 SetOthers sets Others field to given value.
 

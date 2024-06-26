@@ -1,9 +1,9 @@
 /*
 Mist API
 
-> Version: **2405.1.6** > > Date: **June 6, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location-services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
+> Version: **2406.1.3** > > Date: **June 26, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
 
-API version: 2405.1.6
+API version: 2406.1.3
 Contact: tmunzer@juniper.net
 */
 
@@ -46,8 +46,7 @@ type SiteWifi struct {
 	MeshPsk NullableString `json:"mesh_psk,omitempty"`
 	// optional ssid of mesh networking, default is based on site_id
 	MeshSsid NullableString `json:"mesh_ssid,omitempty"`
-	// default / enabled / disabled
-	ProxyArp NullableString `json:"proxy_arp,omitempty"`
+	ProxyArp NullableSiteWifiProxyArp `json:"proxy_arp,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -590,9 +589,9 @@ func (o *SiteWifi) UnsetMeshSsid() {
 }
 
 // GetProxyArp returns the ProxyArp field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *SiteWifi) GetProxyArp() string {
+func (o *SiteWifi) GetProxyArp() SiteWifiProxyArp {
 	if o == nil || IsNil(o.ProxyArp.Get()) {
-		var ret string
+		var ret SiteWifiProxyArp
 		return ret
 	}
 	return *o.ProxyArp.Get()
@@ -601,7 +600,7 @@ func (o *SiteWifi) GetProxyArp() string {
 // GetProxyArpOk returns a tuple with the ProxyArp field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *SiteWifi) GetProxyArpOk() (*string, bool) {
+func (o *SiteWifi) GetProxyArpOk() (*SiteWifiProxyArp, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -617,8 +616,8 @@ func (o *SiteWifi) HasProxyArp() bool {
 	return false
 }
 
-// SetProxyArp gets a reference to the given NullableString and assigns it to the ProxyArp field.
-func (o *SiteWifi) SetProxyArp(v string) {
+// SetProxyArp gets a reference to the given NullableSiteWifiProxyArp and assigns it to the ProxyArp field.
+func (o *SiteWifi) SetProxyArp(v SiteWifiProxyArp) {
 	o.ProxyArp.Set(&v)
 }
 // SetProxyArpNil sets the value for ProxyArp to be an explicit nil

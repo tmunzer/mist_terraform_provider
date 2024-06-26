@@ -1,9 +1,9 @@
 /*
 Mist API
 
-> Version: **2405.1.6** > > Date: **June 6, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location-services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
+> Version: **2406.1.3** > > Date: **June 26, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
 
-API version: 2405.1.6
+API version: 2406.1.3
 Contact: tmunzer@juniper.net
 */
 
@@ -20,16 +20,22 @@ var _ MappedNullable = &NetworkTemplate{}
 
 // NetworkTemplate Network Template
 type NetworkTemplate struct {
+	// Property key is the port mirroring instance name port_mirroring can be added under device/site settings. It takes interface and ports as input for ingress, interface as input for egress and can take interface and port as output.
+	PortMirrorings *map[string]SwitchPortMirroring `json:"port_mirrorings,omitempty"`
+	AclPolicies []AclPolicy `json:"acl_policies,omitempty"`
 	// ACL Tags to identify traffic source or destination. Key name is the tag name
-	AclTags *map[string]JunosAclTags `json:"acl_tags,omitempty"`
+	AclTags *map[string]AclTag `json:"acl_tags,omitempty"`
+	// additional CLI commands to append to the generated Junos config  **Note**: no check is done
 	AdditionalConfigCmds []string `json:"additional_config_cmds,omitempty"`
 	CreatedTime *float32 `json:"created_time,omitempty"`
-	DhcpSnooping *JunosDhcpSnooping `json:"dhcp_snooping,omitempty"`
+	DhcpSnooping *DhcpSnooping `json:"dhcp_snooping,omitempty"`
+	// Global dns settings. To keep compatibility, dns settings in `ip_config` and `oob_ip_config` will overwrite this setting
 	DnsServers []string `json:"dns_servers,omitempty"`
+	// Global dns settings. To keep compatibility, dns settings in `ip_config` and `oob_ip_config` will overwrite this setting
 	DnsSuffix []string `json:"dns_suffix,omitempty"`
-	ExtraRoutes *map[string]SwitchExtraRoutesValue `json:"extra_routes,omitempty"`
+	ExtraRoutes *map[string]ExtraRouteProperties `json:"extra_routes,omitempty"`
 	// Property key is the destination CIDR (e.g. \"2a02:1234:420a:10c9::/64\")
-	ExtraRoutes6 *map[string]SwitchExtraRoutes6Value `json:"extra_routes6,omitempty"`
+	ExtraRoutes6 *map[string]ExtraRoute6Properties `json:"extra_routes6,omitempty"`
 	Id *string `json:"id,omitempty"`
 	// Org Networks that we'd like to import
 	ImportOrgNetworks []string `json:"import_org_networks,omitempty"`
@@ -37,19 +43,20 @@ type NetworkTemplate struct {
 	ModifiedTime *float32 `json:"modified_time,omitempty"`
 	Name *string `json:"name,omitempty"`
 	// Property key is network name
-	Networks *map[string]NetworkTemplateNetwork `json:"networks,omitempty"`
+	Networks *map[string]SwitchNetwork `json:"networks,omitempty"`
+	// list of NTP servers specific to this device. By default, those in Site Settings will be used
 	NtpServers []string `json:"ntp_servers,omitempty"`
 	OrgId *string `json:"org_id,omitempty"`
 	// Property key is the port profile name
-	PortUsages *map[string]JunosPortUsages `json:"port_usages,omitempty"`
-	RadiusConfig *JunosRadiusConfig `json:"radius_config,omitempty"`
+	PortUsages *map[string]PortUsage `json:"port_usages,omitempty"`
+	RadiusConfig *RadiusConfig `json:"radius_config,omitempty"`
 	RemoteSyslog *RemoteSyslog `json:"remote_syslog,omitempty"`
-	SnmpConfig *JunosSnmpConfig `json:"snmp_config,omitempty"`
+	SnmpConfig *SnmpConfig `json:"snmp_config,omitempty"`
 	SwitchMatching *SwitchMatching `json:"switch_matching,omitempty"`
 	SwitchMgmt *SwitchMgmt `json:"switch_mgmt,omitempty"`
-	VrfConfig *JunosVrfConfig `json:"vrf_config,omitempty"`
-	// Property key is the VRF name
-	VrfInstances *map[string]VrfInstancesConfig `json:"vrf_instances,omitempty"`
+	VrfConfig *VrfConfig `json:"vrf_config,omitempty"`
+	// Property key is the network name
+	VrfInstances *map[string]VrfInstance `json:"vrf_instances,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -72,10 +79,74 @@ func NewNetworkTemplateWithDefaults() *NetworkTemplate {
 	return &this
 }
 
+// GetPortMirrorings returns the PortMirrorings field value if set, zero value otherwise.
+func (o *NetworkTemplate) GetPortMirrorings() map[string]SwitchPortMirroring {
+	if o == nil || IsNil(o.PortMirrorings) {
+		var ret map[string]SwitchPortMirroring
+		return ret
+	}
+	return *o.PortMirrorings
+}
+
+// GetPortMirroringsOk returns a tuple with the PortMirrorings field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *NetworkTemplate) GetPortMirroringsOk() (*map[string]SwitchPortMirroring, bool) {
+	if o == nil || IsNil(o.PortMirrorings) {
+		return nil, false
+	}
+	return o.PortMirrorings, true
+}
+
+// HasPortMirrorings returns a boolean if a field has been set.
+func (o *NetworkTemplate) HasPortMirrorings() bool {
+	if o != nil && !IsNil(o.PortMirrorings) {
+		return true
+	}
+
+	return false
+}
+
+// SetPortMirrorings gets a reference to the given map[string]SwitchPortMirroring and assigns it to the PortMirrorings field.
+func (o *NetworkTemplate) SetPortMirrorings(v map[string]SwitchPortMirroring) {
+	o.PortMirrorings = &v
+}
+
+// GetAclPolicies returns the AclPolicies field value if set, zero value otherwise.
+func (o *NetworkTemplate) GetAclPolicies() []AclPolicy {
+	if o == nil || IsNil(o.AclPolicies) {
+		var ret []AclPolicy
+		return ret
+	}
+	return o.AclPolicies
+}
+
+// GetAclPoliciesOk returns a tuple with the AclPolicies field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *NetworkTemplate) GetAclPoliciesOk() ([]AclPolicy, bool) {
+	if o == nil || IsNil(o.AclPolicies) {
+		return nil, false
+	}
+	return o.AclPolicies, true
+}
+
+// HasAclPolicies returns a boolean if a field has been set.
+func (o *NetworkTemplate) HasAclPolicies() bool {
+	if o != nil && !IsNil(o.AclPolicies) {
+		return true
+	}
+
+	return false
+}
+
+// SetAclPolicies gets a reference to the given []AclPolicy and assigns it to the AclPolicies field.
+func (o *NetworkTemplate) SetAclPolicies(v []AclPolicy) {
+	o.AclPolicies = v
+}
+
 // GetAclTags returns the AclTags field value if set, zero value otherwise.
-func (o *NetworkTemplate) GetAclTags() map[string]JunosAclTags {
+func (o *NetworkTemplate) GetAclTags() map[string]AclTag {
 	if o == nil || IsNil(o.AclTags) {
-		var ret map[string]JunosAclTags
+		var ret map[string]AclTag
 		return ret
 	}
 	return *o.AclTags
@@ -83,7 +154,7 @@ func (o *NetworkTemplate) GetAclTags() map[string]JunosAclTags {
 
 // GetAclTagsOk returns a tuple with the AclTags field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *NetworkTemplate) GetAclTagsOk() (*map[string]JunosAclTags, bool) {
+func (o *NetworkTemplate) GetAclTagsOk() (*map[string]AclTag, bool) {
 	if o == nil || IsNil(o.AclTags) {
 		return nil, false
 	}
@@ -99,8 +170,8 @@ func (o *NetworkTemplate) HasAclTags() bool {
 	return false
 }
 
-// SetAclTags gets a reference to the given map[string]JunosAclTags and assigns it to the AclTags field.
-func (o *NetworkTemplate) SetAclTags(v map[string]JunosAclTags) {
+// SetAclTags gets a reference to the given map[string]AclTag and assigns it to the AclTags field.
+func (o *NetworkTemplate) SetAclTags(v map[string]AclTag) {
 	o.AclTags = &v
 }
 
@@ -169,9 +240,9 @@ func (o *NetworkTemplate) SetCreatedTime(v float32) {
 }
 
 // GetDhcpSnooping returns the DhcpSnooping field value if set, zero value otherwise.
-func (o *NetworkTemplate) GetDhcpSnooping() JunosDhcpSnooping {
+func (o *NetworkTemplate) GetDhcpSnooping() DhcpSnooping {
 	if o == nil || IsNil(o.DhcpSnooping) {
-		var ret JunosDhcpSnooping
+		var ret DhcpSnooping
 		return ret
 	}
 	return *o.DhcpSnooping
@@ -179,7 +250,7 @@ func (o *NetworkTemplate) GetDhcpSnooping() JunosDhcpSnooping {
 
 // GetDhcpSnoopingOk returns a tuple with the DhcpSnooping field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *NetworkTemplate) GetDhcpSnoopingOk() (*JunosDhcpSnooping, bool) {
+func (o *NetworkTemplate) GetDhcpSnoopingOk() (*DhcpSnooping, bool) {
 	if o == nil || IsNil(o.DhcpSnooping) {
 		return nil, false
 	}
@@ -195,8 +266,8 @@ func (o *NetworkTemplate) HasDhcpSnooping() bool {
 	return false
 }
 
-// SetDhcpSnooping gets a reference to the given JunosDhcpSnooping and assigns it to the DhcpSnooping field.
-func (o *NetworkTemplate) SetDhcpSnooping(v JunosDhcpSnooping) {
+// SetDhcpSnooping gets a reference to the given DhcpSnooping and assigns it to the DhcpSnooping field.
+func (o *NetworkTemplate) SetDhcpSnooping(v DhcpSnooping) {
 	o.DhcpSnooping = &v
 }
 
@@ -265,9 +336,9 @@ func (o *NetworkTemplate) SetDnsSuffix(v []string) {
 }
 
 // GetExtraRoutes returns the ExtraRoutes field value if set, zero value otherwise.
-func (o *NetworkTemplate) GetExtraRoutes() map[string]SwitchExtraRoutesValue {
+func (o *NetworkTemplate) GetExtraRoutes() map[string]ExtraRouteProperties {
 	if o == nil || IsNil(o.ExtraRoutes) {
-		var ret map[string]SwitchExtraRoutesValue
+		var ret map[string]ExtraRouteProperties
 		return ret
 	}
 	return *o.ExtraRoutes
@@ -275,7 +346,7 @@ func (o *NetworkTemplate) GetExtraRoutes() map[string]SwitchExtraRoutesValue {
 
 // GetExtraRoutesOk returns a tuple with the ExtraRoutes field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *NetworkTemplate) GetExtraRoutesOk() (*map[string]SwitchExtraRoutesValue, bool) {
+func (o *NetworkTemplate) GetExtraRoutesOk() (*map[string]ExtraRouteProperties, bool) {
 	if o == nil || IsNil(o.ExtraRoutes) {
 		return nil, false
 	}
@@ -291,15 +362,15 @@ func (o *NetworkTemplate) HasExtraRoutes() bool {
 	return false
 }
 
-// SetExtraRoutes gets a reference to the given map[string]SwitchExtraRoutesValue and assigns it to the ExtraRoutes field.
-func (o *NetworkTemplate) SetExtraRoutes(v map[string]SwitchExtraRoutesValue) {
+// SetExtraRoutes gets a reference to the given map[string]ExtraRouteProperties and assigns it to the ExtraRoutes field.
+func (o *NetworkTemplate) SetExtraRoutes(v map[string]ExtraRouteProperties) {
 	o.ExtraRoutes = &v
 }
 
 // GetExtraRoutes6 returns the ExtraRoutes6 field value if set, zero value otherwise.
-func (o *NetworkTemplate) GetExtraRoutes6() map[string]SwitchExtraRoutes6Value {
+func (o *NetworkTemplate) GetExtraRoutes6() map[string]ExtraRoute6Properties {
 	if o == nil || IsNil(o.ExtraRoutes6) {
-		var ret map[string]SwitchExtraRoutes6Value
+		var ret map[string]ExtraRoute6Properties
 		return ret
 	}
 	return *o.ExtraRoutes6
@@ -307,7 +378,7 @@ func (o *NetworkTemplate) GetExtraRoutes6() map[string]SwitchExtraRoutes6Value {
 
 // GetExtraRoutes6Ok returns a tuple with the ExtraRoutes6 field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *NetworkTemplate) GetExtraRoutes6Ok() (*map[string]SwitchExtraRoutes6Value, bool) {
+func (o *NetworkTemplate) GetExtraRoutes6Ok() (*map[string]ExtraRoute6Properties, bool) {
 	if o == nil || IsNil(o.ExtraRoutes6) {
 		return nil, false
 	}
@@ -323,8 +394,8 @@ func (o *NetworkTemplate) HasExtraRoutes6() bool {
 	return false
 }
 
-// SetExtraRoutes6 gets a reference to the given map[string]SwitchExtraRoutes6Value and assigns it to the ExtraRoutes6 field.
-func (o *NetworkTemplate) SetExtraRoutes6(v map[string]SwitchExtraRoutes6Value) {
+// SetExtraRoutes6 gets a reference to the given map[string]ExtraRoute6Properties and assigns it to the ExtraRoutes6 field.
+func (o *NetworkTemplate) SetExtraRoutes6(v map[string]ExtraRoute6Properties) {
 	o.ExtraRoutes6 = &v
 }
 
@@ -489,9 +560,9 @@ func (o *NetworkTemplate) SetName(v string) {
 }
 
 // GetNetworks returns the Networks field value if set, zero value otherwise.
-func (o *NetworkTemplate) GetNetworks() map[string]NetworkTemplateNetwork {
+func (o *NetworkTemplate) GetNetworks() map[string]SwitchNetwork {
 	if o == nil || IsNil(o.Networks) {
-		var ret map[string]NetworkTemplateNetwork
+		var ret map[string]SwitchNetwork
 		return ret
 	}
 	return *o.Networks
@@ -499,7 +570,7 @@ func (o *NetworkTemplate) GetNetworks() map[string]NetworkTemplateNetwork {
 
 // GetNetworksOk returns a tuple with the Networks field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *NetworkTemplate) GetNetworksOk() (*map[string]NetworkTemplateNetwork, bool) {
+func (o *NetworkTemplate) GetNetworksOk() (*map[string]SwitchNetwork, bool) {
 	if o == nil || IsNil(o.Networks) {
 		return nil, false
 	}
@@ -515,8 +586,8 @@ func (o *NetworkTemplate) HasNetworks() bool {
 	return false
 }
 
-// SetNetworks gets a reference to the given map[string]NetworkTemplateNetwork and assigns it to the Networks field.
-func (o *NetworkTemplate) SetNetworks(v map[string]NetworkTemplateNetwork) {
+// SetNetworks gets a reference to the given map[string]SwitchNetwork and assigns it to the Networks field.
+func (o *NetworkTemplate) SetNetworks(v map[string]SwitchNetwork) {
 	o.Networks = &v
 }
 
@@ -585,9 +656,9 @@ func (o *NetworkTemplate) SetOrgId(v string) {
 }
 
 // GetPortUsages returns the PortUsages field value if set, zero value otherwise.
-func (o *NetworkTemplate) GetPortUsages() map[string]JunosPortUsages {
+func (o *NetworkTemplate) GetPortUsages() map[string]PortUsage {
 	if o == nil || IsNil(o.PortUsages) {
-		var ret map[string]JunosPortUsages
+		var ret map[string]PortUsage
 		return ret
 	}
 	return *o.PortUsages
@@ -595,7 +666,7 @@ func (o *NetworkTemplate) GetPortUsages() map[string]JunosPortUsages {
 
 // GetPortUsagesOk returns a tuple with the PortUsages field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *NetworkTemplate) GetPortUsagesOk() (*map[string]JunosPortUsages, bool) {
+func (o *NetworkTemplate) GetPortUsagesOk() (*map[string]PortUsage, bool) {
 	if o == nil || IsNil(o.PortUsages) {
 		return nil, false
 	}
@@ -611,15 +682,15 @@ func (o *NetworkTemplate) HasPortUsages() bool {
 	return false
 }
 
-// SetPortUsages gets a reference to the given map[string]JunosPortUsages and assigns it to the PortUsages field.
-func (o *NetworkTemplate) SetPortUsages(v map[string]JunosPortUsages) {
+// SetPortUsages gets a reference to the given map[string]PortUsage and assigns it to the PortUsages field.
+func (o *NetworkTemplate) SetPortUsages(v map[string]PortUsage) {
 	o.PortUsages = &v
 }
 
 // GetRadiusConfig returns the RadiusConfig field value if set, zero value otherwise.
-func (o *NetworkTemplate) GetRadiusConfig() JunosRadiusConfig {
+func (o *NetworkTemplate) GetRadiusConfig() RadiusConfig {
 	if o == nil || IsNil(o.RadiusConfig) {
-		var ret JunosRadiusConfig
+		var ret RadiusConfig
 		return ret
 	}
 	return *o.RadiusConfig
@@ -627,7 +698,7 @@ func (o *NetworkTemplate) GetRadiusConfig() JunosRadiusConfig {
 
 // GetRadiusConfigOk returns a tuple with the RadiusConfig field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *NetworkTemplate) GetRadiusConfigOk() (*JunosRadiusConfig, bool) {
+func (o *NetworkTemplate) GetRadiusConfigOk() (*RadiusConfig, bool) {
 	if o == nil || IsNil(o.RadiusConfig) {
 		return nil, false
 	}
@@ -643,8 +714,8 @@ func (o *NetworkTemplate) HasRadiusConfig() bool {
 	return false
 }
 
-// SetRadiusConfig gets a reference to the given JunosRadiusConfig and assigns it to the RadiusConfig field.
-func (o *NetworkTemplate) SetRadiusConfig(v JunosRadiusConfig) {
+// SetRadiusConfig gets a reference to the given RadiusConfig and assigns it to the RadiusConfig field.
+func (o *NetworkTemplate) SetRadiusConfig(v RadiusConfig) {
 	o.RadiusConfig = &v
 }
 
@@ -681,9 +752,9 @@ func (o *NetworkTemplate) SetRemoteSyslog(v RemoteSyslog) {
 }
 
 // GetSnmpConfig returns the SnmpConfig field value if set, zero value otherwise.
-func (o *NetworkTemplate) GetSnmpConfig() JunosSnmpConfig {
+func (o *NetworkTemplate) GetSnmpConfig() SnmpConfig {
 	if o == nil || IsNil(o.SnmpConfig) {
-		var ret JunosSnmpConfig
+		var ret SnmpConfig
 		return ret
 	}
 	return *o.SnmpConfig
@@ -691,7 +762,7 @@ func (o *NetworkTemplate) GetSnmpConfig() JunosSnmpConfig {
 
 // GetSnmpConfigOk returns a tuple with the SnmpConfig field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *NetworkTemplate) GetSnmpConfigOk() (*JunosSnmpConfig, bool) {
+func (o *NetworkTemplate) GetSnmpConfigOk() (*SnmpConfig, bool) {
 	if o == nil || IsNil(o.SnmpConfig) {
 		return nil, false
 	}
@@ -707,8 +778,8 @@ func (o *NetworkTemplate) HasSnmpConfig() bool {
 	return false
 }
 
-// SetSnmpConfig gets a reference to the given JunosSnmpConfig and assigns it to the SnmpConfig field.
-func (o *NetworkTemplate) SetSnmpConfig(v JunosSnmpConfig) {
+// SetSnmpConfig gets a reference to the given SnmpConfig and assigns it to the SnmpConfig field.
+func (o *NetworkTemplate) SetSnmpConfig(v SnmpConfig) {
 	o.SnmpConfig = &v
 }
 
@@ -777,9 +848,9 @@ func (o *NetworkTemplate) SetSwitchMgmt(v SwitchMgmt) {
 }
 
 // GetVrfConfig returns the VrfConfig field value if set, zero value otherwise.
-func (o *NetworkTemplate) GetVrfConfig() JunosVrfConfig {
+func (o *NetworkTemplate) GetVrfConfig() VrfConfig {
 	if o == nil || IsNil(o.VrfConfig) {
-		var ret JunosVrfConfig
+		var ret VrfConfig
 		return ret
 	}
 	return *o.VrfConfig
@@ -787,7 +858,7 @@ func (o *NetworkTemplate) GetVrfConfig() JunosVrfConfig {
 
 // GetVrfConfigOk returns a tuple with the VrfConfig field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *NetworkTemplate) GetVrfConfigOk() (*JunosVrfConfig, bool) {
+func (o *NetworkTemplate) GetVrfConfigOk() (*VrfConfig, bool) {
 	if o == nil || IsNil(o.VrfConfig) {
 		return nil, false
 	}
@@ -803,15 +874,15 @@ func (o *NetworkTemplate) HasVrfConfig() bool {
 	return false
 }
 
-// SetVrfConfig gets a reference to the given JunosVrfConfig and assigns it to the VrfConfig field.
-func (o *NetworkTemplate) SetVrfConfig(v JunosVrfConfig) {
+// SetVrfConfig gets a reference to the given VrfConfig and assigns it to the VrfConfig field.
+func (o *NetworkTemplate) SetVrfConfig(v VrfConfig) {
 	o.VrfConfig = &v
 }
 
 // GetVrfInstances returns the VrfInstances field value if set, zero value otherwise.
-func (o *NetworkTemplate) GetVrfInstances() map[string]VrfInstancesConfig {
+func (o *NetworkTemplate) GetVrfInstances() map[string]VrfInstance {
 	if o == nil || IsNil(o.VrfInstances) {
-		var ret map[string]VrfInstancesConfig
+		var ret map[string]VrfInstance
 		return ret
 	}
 	return *o.VrfInstances
@@ -819,7 +890,7 @@ func (o *NetworkTemplate) GetVrfInstances() map[string]VrfInstancesConfig {
 
 // GetVrfInstancesOk returns a tuple with the VrfInstances field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *NetworkTemplate) GetVrfInstancesOk() (*map[string]VrfInstancesConfig, bool) {
+func (o *NetworkTemplate) GetVrfInstancesOk() (*map[string]VrfInstance, bool) {
 	if o == nil || IsNil(o.VrfInstances) {
 		return nil, false
 	}
@@ -835,8 +906,8 @@ func (o *NetworkTemplate) HasVrfInstances() bool {
 	return false
 }
 
-// SetVrfInstances gets a reference to the given map[string]VrfInstancesConfig and assigns it to the VrfInstances field.
-func (o *NetworkTemplate) SetVrfInstances(v map[string]VrfInstancesConfig) {
+// SetVrfInstances gets a reference to the given map[string]VrfInstance and assigns it to the VrfInstances field.
+func (o *NetworkTemplate) SetVrfInstances(v map[string]VrfInstance) {
 	o.VrfInstances = &v
 }
 
@@ -850,6 +921,12 @@ func (o NetworkTemplate) MarshalJSON() ([]byte, error) {
 
 func (o NetworkTemplate) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
+	if !IsNil(o.PortMirrorings) {
+		toSerialize["port_mirrorings"] = o.PortMirrorings
+	}
+	if !IsNil(o.AclPolicies) {
+		toSerialize["acl_policies"] = o.AclPolicies
+	}
 	if !IsNil(o.AclTags) {
 		toSerialize["acl_tags"] = o.AclTags
 	}
@@ -944,6 +1021,8 @@ func (o *NetworkTemplate) UnmarshalJSON(data []byte) (err error) {
 	additionalProperties := make(map[string]interface{})
 
 	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "port_mirrorings")
+		delete(additionalProperties, "acl_policies")
 		delete(additionalProperties, "acl_tags")
 		delete(additionalProperties, "additional_config_cmds")
 		delete(additionalProperties, "created_time")

@@ -18,7 +18,7 @@ Name | Type | Description | Notes
 **MeshEnabled** | Pointer to **bool** | whether to enable Mesh feature for the site | [optional] [default to false]
 **MeshPsk** | Pointer to **NullableString** | optional passphrase of mesh networking, default is generated randomly | [optional] 
 **MeshSsid** | Pointer to **NullableString** | optional ssid of mesh networking, default is based on site_id | [optional] 
-**ProxyArp** | Pointer to **NullableString** | default / enabled / disabled | [optional] 
+**ProxyArp** | Pointer to [**NullableSiteWifiProxyArp**](SiteWifiProxyArp.md) |  | [optional] 
 
 ## Methods
 
@@ -411,20 +411,20 @@ HasMeshSsid returns a boolean if a field has been set.
 UnsetMeshSsid ensures that no value is present for MeshSsid, not even an explicit nil
 ### GetProxyArp
 
-`func (o *SiteWifi) GetProxyArp() string`
+`func (o *SiteWifi) GetProxyArp() SiteWifiProxyArp`
 
 GetProxyArp returns the ProxyArp field if non-nil, zero value otherwise.
 
 ### GetProxyArpOk
 
-`func (o *SiteWifi) GetProxyArpOk() (*string, bool)`
+`func (o *SiteWifi) GetProxyArpOk() (*SiteWifiProxyArp, bool)`
 
 GetProxyArpOk returns a tuple with the ProxyArp field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetProxyArp
 
-`func (o *SiteWifi) SetProxyArp(v string)`
+`func (o *SiteWifi) SetProxyArp(v SiteWifiProxyArp)`
 
 SetProxyArp sets ProxyArp field to given value.
 

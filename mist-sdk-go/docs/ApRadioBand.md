@@ -6,7 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **AllowRrmDisable** | Pointer to **bool** |  | [optional] 
 **AntGain** | Pointer to **NullableInt32** |  | [optional] 
-**AntennaMode** | Pointer to **string** |  | [optional] [default to "default"]
+**AntennaMode** | Pointer to [**ApRadioBandAntennaMode**](ApRadioBandAntennaMode.md) |  | [optional] [default to APRADIOBANDANTENNAMODE_DEFAULT]
 **Bandwidth** | Pointer to [**Dot11Bandwidth**](Dot11Bandwidth.md) |  | [optional] [default to DOT11BANDWIDTH__20]
 **Channel** | Pointer to **NullableInt32** | For Device. (primary) channel for the band, 0 means using the Site Setting | [optional] 
 **Channels** | Pointer to **[]int32** | For RFTemplates. List of channels, null or empty array means auto | [optional] 
@@ -14,9 +14,9 @@ Name | Type | Description | Notes
 **Power** | Pointer to **NullableInt32** | TX power of the radio. For Devices, 0 means auto. -1 / -2 / -3 / …: treated as 0 / -1 / -2 / … | [optional] 
 **PowerMax** | Pointer to **NullableInt32** | when power&#x3D;0, max tx power to use, HW-specific values will be used if not set | [optional] 
 **PowerMin** | Pointer to **NullableInt32** | when power&#x3D;0, min tx power to use, HW-specific values will be used if not set | [optional] 
-**Preamble** | Pointer to **string** |  | [optional] [default to "short"]
+**Preamble** | Pointer to [**ApRadioBandPreamble**](ApRadioBandPreamble.md) |  | [optional] [default to APRADIOBANDPREAMBLE_SHORT]
 **StandardPower** | Pointer to **bool** | for 6GHz Only, standard-power operation, AFC (Automatic Frequency Coordination) will be performed and we&#39;ll fallback to Low Power Indoor if AFC failed | [optional] [default to false]
-**Usage** | Pointer to **string** | for band_24 radio | [optional] [default to "24"]
+**Usage** | Pointer to [**ApRadioUsage**](ApRadioUsage.md) |  | [optional] [default to APRADIOUSAGE__24]
 
 ## Methods
 
@@ -99,20 +99,20 @@ HasAntGain returns a boolean if a field has been set.
 UnsetAntGain ensures that no value is present for AntGain, not even an explicit nil
 ### GetAntennaMode
 
-`func (o *ApRadioBand) GetAntennaMode() string`
+`func (o *ApRadioBand) GetAntennaMode() ApRadioBandAntennaMode`
 
 GetAntennaMode returns the AntennaMode field if non-nil, zero value otherwise.
 
 ### GetAntennaModeOk
 
-`func (o *ApRadioBand) GetAntennaModeOk() (*string, bool)`
+`func (o *ApRadioBand) GetAntennaModeOk() (*ApRadioBandAntennaMode, bool)`
 
 GetAntennaModeOk returns a tuple with the AntennaMode field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetAntennaMode
 
-`func (o *ApRadioBand) SetAntennaMode(v string)`
+`func (o *ApRadioBand) SetAntennaMode(v ApRadioBandAntennaMode)`
 
 SetAntennaMode sets AntennaMode field to given value.
 
@@ -349,20 +349,20 @@ HasPowerMin returns a boolean if a field has been set.
 UnsetPowerMin ensures that no value is present for PowerMin, not even an explicit nil
 ### GetPreamble
 
-`func (o *ApRadioBand) GetPreamble() string`
+`func (o *ApRadioBand) GetPreamble() ApRadioBandPreamble`
 
 GetPreamble returns the Preamble field if non-nil, zero value otherwise.
 
 ### GetPreambleOk
 
-`func (o *ApRadioBand) GetPreambleOk() (*string, bool)`
+`func (o *ApRadioBand) GetPreambleOk() (*ApRadioBandPreamble, bool)`
 
 GetPreambleOk returns a tuple with the Preamble field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetPreamble
 
-`func (o *ApRadioBand) SetPreamble(v string)`
+`func (o *ApRadioBand) SetPreamble(v ApRadioBandPreamble)`
 
 SetPreamble sets Preamble field to given value.
 
@@ -399,20 +399,20 @@ HasStandardPower returns a boolean if a field has been set.
 
 ### GetUsage
 
-`func (o *ApRadioBand) GetUsage() string`
+`func (o *ApRadioBand) GetUsage() ApRadioUsage`
 
 GetUsage returns the Usage field if non-nil, zero value otherwise.
 
 ### GetUsageOk
 
-`func (o *ApRadioBand) GetUsageOk() (*string, bool)`
+`func (o *ApRadioBand) GetUsageOk() (*ApRadioUsage, bool)`
 
 GetUsageOk returns a tuple with the Usage field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetUsage
 
-`func (o *ApRadioBand) SetUsage(v string)`
+`func (o *ApRadioBand) SetUsage(v ApRadioUsage)`
 
 SetUsage sets Usage field to given value.
 

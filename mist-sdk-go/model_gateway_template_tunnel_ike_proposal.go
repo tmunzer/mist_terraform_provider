@@ -1,9 +1,9 @@
 /*
 Mist API
 
-> Version: **2405.1.6** > > Date: **June 6, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location-services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
+> Version: **2406.1.3** > > Date: **June 26, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
 
-API version: 2405.1.6
+API version: 2406.1.3
 Contact: tmunzer@juniper.net
 */
 
@@ -20,9 +20,9 @@ var _ MappedNullable = &GatewayTemplateTunnelIkeProposal{}
 
 // GatewayTemplateTunnelIkeProposal struct for GatewayTemplateTunnelIkeProposal
 type GatewayTemplateTunnelIkeProposal struct {
-	AuthAlgo *GatewayTemplateTunnelAuthAlgo `json:"auth_algo,omitempty"`
-	DhGroup *GatewayTemplateTunnelDhGroup `json:"dh_group,omitempty"`
-	EncAlgo NullableGatewayTemplateTunnelEncAlgo `json:"enc_algo,omitempty"`
+	AuthAlgo *TunnelConfigsAuthAlgo `json:"auth_algo,omitempty"`
+	DhGroup *GatewayTemplateTunnelIkeDhGroup `json:"dh_group,omitempty"`
+	EncAlgo NullableTunnelConfigsEncAlgo `json:"enc_algo,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -34,10 +34,10 @@ type _GatewayTemplateTunnelIkeProposal GatewayTemplateTunnelIkeProposal
 // will change when the set of required properties is changed
 func NewGatewayTemplateTunnelIkeProposal() *GatewayTemplateTunnelIkeProposal {
 	this := GatewayTemplateTunnelIkeProposal{}
-	var dhGroup GatewayTemplateTunnelDhGroup = GATEWAYTEMPLATETUNNELDHGROUP__14
+	var dhGroup GatewayTemplateTunnelIkeDhGroup = GATEWAYTEMPLATETUNNELIKEDHGROUP__14
 	this.DhGroup = &dhGroup
-	var encAlgo GatewayTemplateTunnelEncAlgo = GATEWAYTEMPLATETUNNELENCALGO_AES256
-	this.EncAlgo = *NewNullableGatewayTemplateTunnelEncAlgo(&encAlgo)
+	var encAlgo TunnelConfigsEncAlgo = TUNNELCONFIGSENCALGO_AES256
+	this.EncAlgo = *NewNullableTunnelConfigsEncAlgo(&encAlgo)
 	return &this
 }
 
@@ -46,17 +46,17 @@ func NewGatewayTemplateTunnelIkeProposal() *GatewayTemplateTunnelIkeProposal {
 // but it doesn't guarantee that properties required by API are set
 func NewGatewayTemplateTunnelIkeProposalWithDefaults() *GatewayTemplateTunnelIkeProposal {
 	this := GatewayTemplateTunnelIkeProposal{}
-	var dhGroup GatewayTemplateTunnelDhGroup = GATEWAYTEMPLATETUNNELDHGROUP__14
+	var dhGroup GatewayTemplateTunnelIkeDhGroup = GATEWAYTEMPLATETUNNELIKEDHGROUP__14
 	this.DhGroup = &dhGroup
-	var encAlgo GatewayTemplateTunnelEncAlgo = GATEWAYTEMPLATETUNNELENCALGO_AES256
-	this.EncAlgo = *NewNullableGatewayTemplateTunnelEncAlgo(&encAlgo)
+	var encAlgo TunnelConfigsEncAlgo = TUNNELCONFIGSENCALGO_AES256
+	this.EncAlgo = *NewNullableTunnelConfigsEncAlgo(&encAlgo)
 	return &this
 }
 
 // GetAuthAlgo returns the AuthAlgo field value if set, zero value otherwise.
-func (o *GatewayTemplateTunnelIkeProposal) GetAuthAlgo() GatewayTemplateTunnelAuthAlgo {
+func (o *GatewayTemplateTunnelIkeProposal) GetAuthAlgo() TunnelConfigsAuthAlgo {
 	if o == nil || IsNil(o.AuthAlgo) {
-		var ret GatewayTemplateTunnelAuthAlgo
+		var ret TunnelConfigsAuthAlgo
 		return ret
 	}
 	return *o.AuthAlgo
@@ -64,7 +64,7 @@ func (o *GatewayTemplateTunnelIkeProposal) GetAuthAlgo() GatewayTemplateTunnelAu
 
 // GetAuthAlgoOk returns a tuple with the AuthAlgo field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *GatewayTemplateTunnelIkeProposal) GetAuthAlgoOk() (*GatewayTemplateTunnelAuthAlgo, bool) {
+func (o *GatewayTemplateTunnelIkeProposal) GetAuthAlgoOk() (*TunnelConfigsAuthAlgo, bool) {
 	if o == nil || IsNil(o.AuthAlgo) {
 		return nil, false
 	}
@@ -80,15 +80,15 @@ func (o *GatewayTemplateTunnelIkeProposal) HasAuthAlgo() bool {
 	return false
 }
 
-// SetAuthAlgo gets a reference to the given GatewayTemplateTunnelAuthAlgo and assigns it to the AuthAlgo field.
-func (o *GatewayTemplateTunnelIkeProposal) SetAuthAlgo(v GatewayTemplateTunnelAuthAlgo) {
+// SetAuthAlgo gets a reference to the given TunnelConfigsAuthAlgo and assigns it to the AuthAlgo field.
+func (o *GatewayTemplateTunnelIkeProposal) SetAuthAlgo(v TunnelConfigsAuthAlgo) {
 	o.AuthAlgo = &v
 }
 
 // GetDhGroup returns the DhGroup field value if set, zero value otherwise.
-func (o *GatewayTemplateTunnelIkeProposal) GetDhGroup() GatewayTemplateTunnelDhGroup {
+func (o *GatewayTemplateTunnelIkeProposal) GetDhGroup() GatewayTemplateTunnelIkeDhGroup {
 	if o == nil || IsNil(o.DhGroup) {
-		var ret GatewayTemplateTunnelDhGroup
+		var ret GatewayTemplateTunnelIkeDhGroup
 		return ret
 	}
 	return *o.DhGroup
@@ -96,7 +96,7 @@ func (o *GatewayTemplateTunnelIkeProposal) GetDhGroup() GatewayTemplateTunnelDhG
 
 // GetDhGroupOk returns a tuple with the DhGroup field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *GatewayTemplateTunnelIkeProposal) GetDhGroupOk() (*GatewayTemplateTunnelDhGroup, bool) {
+func (o *GatewayTemplateTunnelIkeProposal) GetDhGroupOk() (*GatewayTemplateTunnelIkeDhGroup, bool) {
 	if o == nil || IsNil(o.DhGroup) {
 		return nil, false
 	}
@@ -112,15 +112,15 @@ func (o *GatewayTemplateTunnelIkeProposal) HasDhGroup() bool {
 	return false
 }
 
-// SetDhGroup gets a reference to the given GatewayTemplateTunnelDhGroup and assigns it to the DhGroup field.
-func (o *GatewayTemplateTunnelIkeProposal) SetDhGroup(v GatewayTemplateTunnelDhGroup) {
+// SetDhGroup gets a reference to the given GatewayTemplateTunnelIkeDhGroup and assigns it to the DhGroup field.
+func (o *GatewayTemplateTunnelIkeProposal) SetDhGroup(v GatewayTemplateTunnelIkeDhGroup) {
 	o.DhGroup = &v
 }
 
 // GetEncAlgo returns the EncAlgo field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *GatewayTemplateTunnelIkeProposal) GetEncAlgo() GatewayTemplateTunnelEncAlgo {
+func (o *GatewayTemplateTunnelIkeProposal) GetEncAlgo() TunnelConfigsEncAlgo {
 	if o == nil || IsNil(o.EncAlgo.Get()) {
-		var ret GatewayTemplateTunnelEncAlgo
+		var ret TunnelConfigsEncAlgo
 		return ret
 	}
 	return *o.EncAlgo.Get()
@@ -129,7 +129,7 @@ func (o *GatewayTemplateTunnelIkeProposal) GetEncAlgo() GatewayTemplateTunnelEnc
 // GetEncAlgoOk returns a tuple with the EncAlgo field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *GatewayTemplateTunnelIkeProposal) GetEncAlgoOk() (*GatewayTemplateTunnelEncAlgo, bool) {
+func (o *GatewayTemplateTunnelIkeProposal) GetEncAlgoOk() (*TunnelConfigsEncAlgo, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -145,8 +145,8 @@ func (o *GatewayTemplateTunnelIkeProposal) HasEncAlgo() bool {
 	return false
 }
 
-// SetEncAlgo gets a reference to the given NullableGatewayTemplateTunnelEncAlgo and assigns it to the EncAlgo field.
-func (o *GatewayTemplateTunnelIkeProposal) SetEncAlgo(v GatewayTemplateTunnelEncAlgo) {
+// SetEncAlgo gets a reference to the given NullableTunnelConfigsEncAlgo and assigns it to the EncAlgo field.
+func (o *GatewayTemplateTunnelIkeProposal) SetEncAlgo(v TunnelConfigsEncAlgo) {
 	o.EncAlgo.Set(&v)
 }
 // SetEncAlgoNil sets the value for EncAlgo to be an explicit nil

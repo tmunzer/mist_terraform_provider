@@ -8,7 +8,7 @@ Name | Type | Description | Notes
 **DayOfWeek** | Pointer to [**DayOfWeek**](DayOfWeek.md) |  | [optional] 
 **Enabled** | Pointer to **bool** | whether auto upgrade should happen (Note that Mist may auto-upgrade if the version is not supported) | [optional] [default to false]
 **TimeOfDay** | Pointer to **string** | any / HH:MM (24-hour format), upgrade will happen within up to 1-hour from this time | [optional] 
-**Version** | Pointer to **string** | desired version | [optional] [default to "stable"]
+**Version** | Pointer to [**SiteAutoUpgradeVersion**](SiteAutoUpgradeVersion.md) |  | [optional] [default to SITEAUTOUPGRADEVERSION_STABLE]
 
 ## Methods
 
@@ -131,20 +131,20 @@ HasTimeOfDay returns a boolean if a field has been set.
 
 ### GetVersion
 
-`func (o *SiteAutoUpgrade) GetVersion() string`
+`func (o *SiteAutoUpgrade) GetVersion() SiteAutoUpgradeVersion`
 
 GetVersion returns the Version field if non-nil, zero value otherwise.
 
 ### GetVersionOk
 
-`func (o *SiteAutoUpgrade) GetVersionOk() (*string, bool)`
+`func (o *SiteAutoUpgrade) GetVersionOk() (*SiteAutoUpgradeVersion, bool)`
 
 GetVersionOk returns a tuple with the Version field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetVersion
 
-`func (o *SiteAutoUpgrade) SetVersion(v string)`
+`func (o *SiteAutoUpgrade) SetVersion(v SiteAutoUpgradeVersion)`
 
 SetVersion sets Version field to given value.
 

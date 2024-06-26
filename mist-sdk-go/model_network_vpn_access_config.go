@@ -1,9 +1,9 @@
 /*
 Mist API
 
-> Version: **2405.1.6** > > Date: **June 6, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location-services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
+> Version: **2406.1.3** > > Date: **June 26, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
 
-API version: 2405.1.6
+API version: 2406.1.3
 Contact: tmunzer@juniper.net
 */
 
@@ -25,7 +25,7 @@ type NetworkVpnAccessConfig struct {
 	// whether to allow ping from vpn into this routed network
 	AllowPing *bool `json:"allow_ping,omitempty"`
 	// Property key may be an IP/Port (i.e. \"63.16.0.3:443\"), or a port (i.e. \":2222\")
-	DestinationNat *map[string]NetworkDestinationNatValue `json:"destination_nat,omitempty"`
+	DestinationNat *map[string]NetworkDestinationNatProperty `json:"destination_nat,omitempty"`
 	// if `routed`==`false` (usually at Spoke), but some hosts needs to be reachable from Hub, a subnet is required to create and advertise the route to Hub
 	NatPool *string `json:"nat_pool,omitempty"`
 	// toward LAN-side BGP peers
@@ -40,7 +40,7 @@ type NetworkVpnAccessConfig struct {
 	Routed *bool `json:"routed,omitempty"`
 	SourceNat *NetworkSourceNat `json:"source_nat,omitempty"`
 	// Property key may be an IP Address (i.e. \"172.16.0.1\"), and IP Address and Port (i.e. \"172.16.0.1:8443\") or a CIDR (i.e. \"172.16.0.12/20\")
-	StaticNat *map[string]NetworkStaticNatValue `json:"static_nat,omitempty"`
+	StaticNat *map[string]NetworkStaticNatProperty `json:"static_nat,omitempty"`
 	// toward overlay how HUB should deal with routes it received from Spokes
 	SummarizedSubnet *string `json:"summarized_subnet,omitempty"`
 	// toward LAN-side BGP peers
@@ -142,9 +142,9 @@ func (o *NetworkVpnAccessConfig) SetAllowPing(v bool) {
 }
 
 // GetDestinationNat returns the DestinationNat field value if set, zero value otherwise.
-func (o *NetworkVpnAccessConfig) GetDestinationNat() map[string]NetworkDestinationNatValue {
+func (o *NetworkVpnAccessConfig) GetDestinationNat() map[string]NetworkDestinationNatProperty {
 	if o == nil || IsNil(o.DestinationNat) {
-		var ret map[string]NetworkDestinationNatValue
+		var ret map[string]NetworkDestinationNatProperty
 		return ret
 	}
 	return *o.DestinationNat
@@ -152,7 +152,7 @@ func (o *NetworkVpnAccessConfig) GetDestinationNat() map[string]NetworkDestinati
 
 // GetDestinationNatOk returns a tuple with the DestinationNat field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *NetworkVpnAccessConfig) GetDestinationNatOk() (*map[string]NetworkDestinationNatValue, bool) {
+func (o *NetworkVpnAccessConfig) GetDestinationNatOk() (*map[string]NetworkDestinationNatProperty, bool) {
 	if o == nil || IsNil(o.DestinationNat) {
 		return nil, false
 	}
@@ -168,8 +168,8 @@ func (o *NetworkVpnAccessConfig) HasDestinationNat() bool {
 	return false
 }
 
-// SetDestinationNat gets a reference to the given map[string]NetworkDestinationNatValue and assigns it to the DestinationNat field.
-func (o *NetworkVpnAccessConfig) SetDestinationNat(v map[string]NetworkDestinationNatValue) {
+// SetDestinationNat gets a reference to the given map[string]NetworkDestinationNatProperty and assigns it to the DestinationNat field.
+func (o *NetworkVpnAccessConfig) SetDestinationNat(v map[string]NetworkDestinationNatProperty) {
 	o.DestinationNat = &v
 }
 
@@ -398,9 +398,9 @@ func (o *NetworkVpnAccessConfig) SetSourceNat(v NetworkSourceNat) {
 }
 
 // GetStaticNat returns the StaticNat field value if set, zero value otherwise.
-func (o *NetworkVpnAccessConfig) GetStaticNat() map[string]NetworkStaticNatValue {
+func (o *NetworkVpnAccessConfig) GetStaticNat() map[string]NetworkStaticNatProperty {
 	if o == nil || IsNil(o.StaticNat) {
-		var ret map[string]NetworkStaticNatValue
+		var ret map[string]NetworkStaticNatProperty
 		return ret
 	}
 	return *o.StaticNat
@@ -408,7 +408,7 @@ func (o *NetworkVpnAccessConfig) GetStaticNat() map[string]NetworkStaticNatValue
 
 // GetStaticNatOk returns a tuple with the StaticNat field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *NetworkVpnAccessConfig) GetStaticNatOk() (*map[string]NetworkStaticNatValue, bool) {
+func (o *NetworkVpnAccessConfig) GetStaticNatOk() (*map[string]NetworkStaticNatProperty, bool) {
 	if o == nil || IsNil(o.StaticNat) {
 		return nil, false
 	}
@@ -424,8 +424,8 @@ func (o *NetworkVpnAccessConfig) HasStaticNat() bool {
 	return false
 }
 
-// SetStaticNat gets a reference to the given map[string]NetworkStaticNatValue and assigns it to the StaticNat field.
-func (o *NetworkVpnAccessConfig) SetStaticNat(v map[string]NetworkStaticNatValue) {
+// SetStaticNat gets a reference to the given map[string]NetworkStaticNatProperty and assigns it to the StaticNat field.
+func (o *NetworkVpnAccessConfig) SetStaticNat(v map[string]NetworkStaticNatProperty) {
 	o.StaticNat = &v
 }
 

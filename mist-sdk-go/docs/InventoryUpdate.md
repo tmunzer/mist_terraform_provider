@@ -8,7 +8,7 @@ Name | Type | Description | Notes
 **Macs** | Pointer to **[]string** | if &#x60;op&#x60;&#x3D;&#x3D;&#x60;assign&#x60;, &#x60;op&#x60;&#x3D;&#x3D;&#x60;unassign&#x60;, &#x60;op&#x60;&#x3D;&#x3D;&#x60;manage&#x60;or &#x60;op&#x60;&#x3D;&#x3D;&#x60;unmanage&#x60; , list of MAC, e.g. [\&quot;5c5b350e0001\&quot;] | [optional] 
 **Managed** | Pointer to **bool** | if &#x60;op&#x60;&#x3D;&#x3D;&#x60;assign&#x60;, an **adopted** switch/gateway will not be managed/configured by Mist by default, this enables the behavior | [optional] [default to false]
 **NoReassign** | Pointer to **bool** | if &#x60;op&#x60;&#x3D;&#x3D;&#x60;assign&#x60;, if true, treat site assignment against an already assigned AP as error | [optional] 
-**Op** | **string** | * if &#x60;op&#x60;&#x3D;&#x3D; &#x60;upgrade_to_mist&#x60;: Upgrade to mist-managed * if &#x60;op&#x60;&#x3D;&#x3D; &#x60;downgrade_to_jsi&#x60;: Downgrade to basic monitoring. When downgrading a VC member to jsi, we will move the cloud connection of the VC to jsi-terminator and keep all VC device/inventories intact for pain-free upgrading back to mist. * if &#x60;op&#x60;&#x3D;&#x3D; &#x60;assign&#x60;: Assign inventory to a site * if &#x60;op&#x60;&#x3D;&#x3D; &#x60;unassign&#x60;: Unassign inventory to a site * if &#x60;op&#x60;&#x3D;&#x3D; &#x60;delete&#x60;: Delete multiple inventory from org. If the device is already assigned to a site, it will be unassigned. | 
+**Op** | [**InventoryUpdateOperation**](InventoryUpdateOperation.md) |  | 
 **Serials** | Pointer to **[]string** | if &#x60;op&#x60;&#x3D;&#x3D;&#x60;delete&#x60;, list of serial numbers, e.g. [\&quot;FXLH2015150025\&quot;] | [optional] 
 **SiteId** | Pointer to **string** | if &#x60;op&#x60;&#x3D;&#x3D;&#x60;assign&#x60;, target site id | [optional] 
 
@@ -16,7 +16,7 @@ Name | Type | Description | Notes
 
 ### NewInventoryUpdate
 
-`func NewInventoryUpdate(op string, ) *InventoryUpdate`
+`func NewInventoryUpdate(op InventoryUpdateOperation, ) *InventoryUpdate`
 
 NewInventoryUpdate instantiates a new InventoryUpdate object
 This constructor will assign default values to properties that have it defined,
@@ -133,20 +133,20 @@ HasNoReassign returns a boolean if a field has been set.
 
 ### GetOp
 
-`func (o *InventoryUpdate) GetOp() string`
+`func (o *InventoryUpdate) GetOp() InventoryUpdateOperation`
 
 GetOp returns the Op field if non-nil, zero value otherwise.
 
 ### GetOpOk
 
-`func (o *InventoryUpdate) GetOpOk() (*string, bool)`
+`func (o *InventoryUpdate) GetOpOk() (*InventoryUpdateOperation, bool)`
 
 GetOpOk returns a tuple with the Op field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetOp
 
-`func (o *InventoryUpdate) SetOp(v string)`
+`func (o *InventoryUpdate) SetOp(v InventoryUpdateOperation)`
 
 SetOp sets Op field to given value.
 

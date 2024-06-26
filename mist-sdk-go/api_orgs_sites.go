@@ -1,9 +1,9 @@
 /*
 Mist API
 
-> Version: **2405.1.6** > > Date: **June 6, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location-services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
+> Version: **2406.1.3** > > Date: **June 26, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
 
-API version: 2405.1.6
+API version: 2406.1.3
 Contact: tmunzer@juniper.net
 */
 
@@ -23,6 +23,246 @@ import (
 
 // OrgsSitesAPIService OrgsSitesAPI service
 type OrgsSitesAPIService service
+
+type ApiCountOrgSitesRequest struct {
+	ctx context.Context
+	ApiService *OrgsSitesAPIService
+	orgId string
+	distinct *OrgSitesCountDistinct
+	page *int32
+	limit *int32
+	start *int32
+	end *int32
+	duration *string
+}
+
+func (r ApiCountOrgSitesRequest) Distinct(distinct OrgSitesCountDistinct) ApiCountOrgSitesRequest {
+	r.distinct = &distinct
+	return r
+}
+
+func (r ApiCountOrgSitesRequest) Page(page int32) ApiCountOrgSitesRequest {
+	r.page = &page
+	return r
+}
+
+func (r ApiCountOrgSitesRequest) Limit(limit int32) ApiCountOrgSitesRequest {
+	r.limit = &limit
+	return r
+}
+
+// start datetime, can be epoch or relative time like -1d, -1w; -1d if not specified
+func (r ApiCountOrgSitesRequest) Start(start int32) ApiCountOrgSitesRequest {
+	r.start = &start
+	return r
+}
+
+// end datetime, can be epoch or relative time like -1d, -2h; now if not specified
+func (r ApiCountOrgSitesRequest) End(end int32) ApiCountOrgSitesRequest {
+	r.end = &end
+	return r
+}
+
+// duration like 7d, 2w
+func (r ApiCountOrgSitesRequest) Duration(duration string) ApiCountOrgSitesRequest {
+	r.duration = &duration
+	return r
+}
+
+func (r ApiCountOrgSitesRequest) Execute() (*RepsonseCount, *http.Response, error) {
+	return r.ApiService.CountOrgSitesExecute(r)
+}
+
+/*
+CountOrgSites countOrgSites
+
+Count Sites
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param orgId
+ @return ApiCountOrgSitesRequest
+*/
+func (a *OrgsSitesAPIService) CountOrgSites(ctx context.Context, orgId string) ApiCountOrgSitesRequest {
+	return ApiCountOrgSitesRequest{
+		ApiService: a,
+		ctx: ctx,
+		orgId: orgId,
+	}
+}
+
+// Execute executes the request
+//  @return RepsonseCount
+func (a *OrgsSitesAPIService) CountOrgSitesExecute(r ApiCountOrgSitesRequest) (*RepsonseCount, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodGet
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *RepsonseCount
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "OrgsSitesAPIService.CountOrgSites")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/api/v1/orgs/{org_id}/sites/count"
+	localVarPath = strings.Replace(localVarPath, "{"+"org_id"+"}", url.PathEscape(parameterValueToString(r.orgId, "orgId")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	if r.distinct != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "distinct", r.distinct, "")
+	} else {
+		var defaultValue OrgSitesCountDistinct = "id"
+		r.distinct = &defaultValue
+	}
+	if r.page != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "page", r.page, "")
+	} else {
+		var defaultValue int32 = 1
+		r.page = &defaultValue
+	}
+	if r.limit != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "limit", r.limit, "")
+	} else {
+		var defaultValue int32 = 100
+		r.limit = &defaultValue
+	}
+	if r.start != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "start", r.start, "")
+	}
+	if r.end != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "end", r.end, "")
+	}
+	if r.duration != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "duration", r.duration, "")
+	} else {
+		var defaultValue string = "1d"
+		r.duration = &defaultValue
+	}
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["apiToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["Authorization"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v ResponseHttp400
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 401 {
+			var v ResponseHttp401
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 403 {
+			var v ResponseHttp403
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 404 {
+			var v ResponseHttp404
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 429 {
+			var v ResponseHttp429
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
 
 type ApiCreateOrgSiteRequest struct {
 	ctx context.Context
@@ -276,6 +516,382 @@ func (a *OrgsSitesAPIService) ListOrgSitesExecute(r ApiListOrgSitesRequest) ([]S
 	} else {
 		var defaultValue int32 = 1
 		r.page = &defaultValue
+	}
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["apiToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["Authorization"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v ResponseHttp400
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 401 {
+			var v ResponseHttp401
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 403 {
+			var v ResponseHttp403
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 404 {
+			var v ResponseHttp404
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 429 {
+			var v ResponseHttp429
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiSearchOrgSitesRequest struct {
+	ctx context.Context
+	ApiService *OrgsSitesAPIService
+	orgId string
+	analyticEnabled *bool
+	appWaking *bool
+	assetEnabled *bool
+	autoUpgradeEnabled *bool
+	autoUpgradeVersion *string
+	countryCode *string
+	honeypotEnabled *bool
+	id *string
+	locateUnconnected *bool
+	meshEnabled *bool
+	name *string
+	rogueEnabled *bool
+	remoteSyslogEnabled *bool
+	rtsaEnabled *bool
+	vnaEnabled *bool
+	wifiEnabled *bool
+	limit *int32
+	start *int32
+	end *int32
+	duration *string
+}
+
+// if Advanced Analytic feature is enabled
+func (r ApiSearchOrgSitesRequest) AnalyticEnabled(analyticEnabled bool) ApiSearchOrgSitesRequest {
+	r.analyticEnabled = &analyticEnabled
+	return r
+}
+
+// if App Waking feature is enabled
+func (r ApiSearchOrgSitesRequest) AppWaking(appWaking bool) ApiSearchOrgSitesRequest {
+	r.appWaking = &appWaking
+	return r
+}
+
+// if Asset Tracking is enabled
+func (r ApiSearchOrgSitesRequest) AssetEnabled(assetEnabled bool) ApiSearchOrgSitesRequest {
+	r.assetEnabled = &assetEnabled
+	return r
+}
+
+// if Auto Upgrade feature is enabled
+func (r ApiSearchOrgSitesRequest) AutoUpgradeEnabled(autoUpgradeEnabled bool) ApiSearchOrgSitesRequest {
+	r.autoUpgradeEnabled = &autoUpgradeEnabled
+	return r
+}
+
+// if Auto Upgrade feature is enabled
+func (r ApiSearchOrgSitesRequest) AutoUpgradeVersion(autoUpgradeVersion string) ApiSearchOrgSitesRequest {
+	r.autoUpgradeVersion = &autoUpgradeVersion
+	return r
+}
+
+// site country code
+func (r ApiSearchOrgSitesRequest) CountryCode(countryCode string) ApiSearchOrgSitesRequest {
+	r.countryCode = &countryCode
+	return r
+}
+
+// if Honeypot detection is enabled
+func (r ApiSearchOrgSitesRequest) HoneypotEnabled(honeypotEnabled bool) ApiSearchOrgSitesRequest {
+	r.honeypotEnabled = &honeypotEnabled
+	return r
+}
+
+// site id
+func (r ApiSearchOrgSitesRequest) Id(id string) ApiSearchOrgSitesRequest {
+	r.id = &id
+	return r
+}
+
+// if unconnected client are located
+func (r ApiSearchOrgSitesRequest) LocateUnconnected(locateUnconnected bool) ApiSearchOrgSitesRequest {
+	r.locateUnconnected = &locateUnconnected
+	return r
+}
+
+// if Mesh feature is enabled
+func (r ApiSearchOrgSitesRequest) MeshEnabled(meshEnabled bool) ApiSearchOrgSitesRequest {
+	r.meshEnabled = &meshEnabled
+	return r
+}
+
+// site name
+func (r ApiSearchOrgSitesRequest) Name(name string) ApiSearchOrgSitesRequest {
+	r.name = &name
+	return r
+}
+
+// if Rogue detection is enabled
+func (r ApiSearchOrgSitesRequest) RogueEnabled(rogueEnabled bool) ApiSearchOrgSitesRequest {
+	r.rogueEnabled = &rogueEnabled
+	return r
+}
+
+// if Remote Syslog is enabled
+func (r ApiSearchOrgSitesRequest) RemoteSyslogEnabled(remoteSyslogEnabled bool) ApiSearchOrgSitesRequest {
+	r.remoteSyslogEnabled = &remoteSyslogEnabled
+	return r
+}
+
+// if managed mobility feature is enabled
+func (r ApiSearchOrgSitesRequest) RtsaEnabled(rtsaEnabled bool) ApiSearchOrgSitesRequest {
+	r.rtsaEnabled = &rtsaEnabled
+	return r
+}
+
+// if Virtual Network Assistant is enabled
+func (r ApiSearchOrgSitesRequest) VnaEnabled(vnaEnabled bool) ApiSearchOrgSitesRequest {
+	r.vnaEnabled = &vnaEnabled
+	return r
+}
+
+// if WIFI feature is enabled
+func (r ApiSearchOrgSitesRequest) WifiEnabled(wifiEnabled bool) ApiSearchOrgSitesRequest {
+	r.wifiEnabled = &wifiEnabled
+	return r
+}
+
+func (r ApiSearchOrgSitesRequest) Limit(limit int32) ApiSearchOrgSitesRequest {
+	r.limit = &limit
+	return r
+}
+
+// start datetime, can be epoch or relative time like -1d, -1w; -1d if not specified
+func (r ApiSearchOrgSitesRequest) Start(start int32) ApiSearchOrgSitesRequest {
+	r.start = &start
+	return r
+}
+
+// end datetime, can be epoch or relative time like -1d, -2h; now if not specified
+func (r ApiSearchOrgSitesRequest) End(end int32) ApiSearchOrgSitesRequest {
+	r.end = &end
+	return r
+}
+
+// duration like 7d, 2w
+func (r ApiSearchOrgSitesRequest) Duration(duration string) ApiSearchOrgSitesRequest {
+	r.duration = &duration
+	return r
+}
+
+func (r ApiSearchOrgSitesRequest) Execute() (*ResponseSiteSearch, *http.Response, error) {
+	return r.ApiService.SearchOrgSitesExecute(r)
+}
+
+/*
+SearchOrgSites searchOrgSites
+
+Search Sites
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param orgId
+ @return ApiSearchOrgSitesRequest
+*/
+func (a *OrgsSitesAPIService) SearchOrgSites(ctx context.Context, orgId string) ApiSearchOrgSitesRequest {
+	return ApiSearchOrgSitesRequest{
+		ApiService: a,
+		ctx: ctx,
+		orgId: orgId,
+	}
+}
+
+// Execute executes the request
+//  @return ResponseSiteSearch
+func (a *OrgsSitesAPIService) SearchOrgSitesExecute(r ApiSearchOrgSitesRequest) (*ResponseSiteSearch, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodGet
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *ResponseSiteSearch
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "OrgsSitesAPIService.SearchOrgSites")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/api/v1/orgs/{org_id}/sites/search"
+	localVarPath = strings.Replace(localVarPath, "{"+"org_id"+"}", url.PathEscape(parameterValueToString(r.orgId, "orgId")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	if r.analyticEnabled != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "analytic_enabled", r.analyticEnabled, "")
+	}
+	if r.appWaking != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "app_waking", r.appWaking, "")
+	}
+	if r.assetEnabled != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "asset_enabled", r.assetEnabled, "")
+	}
+	if r.autoUpgradeEnabled != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "auto_upgrade_enabled", r.autoUpgradeEnabled, "")
+	}
+	if r.autoUpgradeVersion != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "auto_upgrade_version", r.autoUpgradeVersion, "")
+	}
+	if r.countryCode != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "country_code", r.countryCode, "")
+	}
+	if r.honeypotEnabled != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "honeypot_enabled", r.honeypotEnabled, "")
+	}
+	if r.id != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "id", r.id, "")
+	}
+	if r.locateUnconnected != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "locate_unconnected", r.locateUnconnected, "")
+	}
+	if r.meshEnabled != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "mesh_enabled", r.meshEnabled, "")
+	}
+	if r.name != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "name", r.name, "")
+	}
+	if r.rogueEnabled != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "rogue_enabled", r.rogueEnabled, "")
+	}
+	if r.remoteSyslogEnabled != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "remote_syslog_enabled", r.remoteSyslogEnabled, "")
+	}
+	if r.rtsaEnabled != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "rtsa_enabled", r.rtsaEnabled, "")
+	}
+	if r.vnaEnabled != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "vna_enabled", r.vnaEnabled, "")
+	}
+	if r.wifiEnabled != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "wifi_enabled", r.wifiEnabled, "")
+	}
+	if r.limit != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "limit", r.limit, "")
+	} else {
+		var defaultValue int32 = 100
+		r.limit = &defaultValue
+	}
+	if r.start != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "start", r.start, "")
+	}
+	if r.end != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "end", r.end, "")
+	}
+	if r.duration != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "duration", r.duration, "")
+	} else {
+		var defaultValue string = "1d"
+		r.duration = &defaultValue
 	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}

@@ -7,7 +7,7 @@ Name | Type | Description | Notes
 **AlertOnly** | Pointer to **bool** |  | [optional] 
 **BlockMessage** | Pointer to **string** |  | [optional] 
 **Enabled** | Pointer to **bool** |  | [optional] [default to false]
-**Profile** | Pointer to **string** |  | [optional] [default to "strict"]
+**Profile** | Pointer to [**ServicePolicyEwfRuleProfile**](ServicePolicyEwfRuleProfile.md) |  | [optional] [default to SERVICEPOLICYEWFRULEPROFILE_STRICT]
 
 ## Methods
 
@@ -105,20 +105,20 @@ HasEnabled returns a boolean if a field has been set.
 
 ### GetProfile
 
-`func (o *ServicePolicyEwfRule) GetProfile() string`
+`func (o *ServicePolicyEwfRule) GetProfile() ServicePolicyEwfRuleProfile`
 
 GetProfile returns the Profile field if non-nil, zero value otherwise.
 
 ### GetProfileOk
 
-`func (o *ServicePolicyEwfRule) GetProfileOk() (*string, bool)`
+`func (o *ServicePolicyEwfRule) GetProfileOk() (*ServicePolicyEwfRuleProfile, bool)`
 
 GetProfileOk returns a tuple with the Profile field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetProfile
 
-`func (o *ServicePolicyEwfRule) SetProfile(v string)`
+`func (o *ServicePolicyEwfRule) SetProfile(v ServicePolicyEwfRuleProfile)`
 
 SetProfile sets Profile field to given value.
 

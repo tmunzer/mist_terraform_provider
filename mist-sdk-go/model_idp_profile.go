@@ -1,9 +1,9 @@
 /*
 Mist API
 
-> Version: **2405.1.6** > > Date: **June 6, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location-services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
+> Version: **2406.1.3** > > Date: **June 26, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
 
-API version: 2405.1.6
+API version: 2406.1.3
 Contact: tmunzer@juniper.net
 */
 
@@ -20,7 +20,7 @@ var _ MappedNullable = &IdpProfile{}
 
 // IdpProfile struct for IdpProfile
 type IdpProfile struct {
-	BaseProfile *string `json:"base_profile,omitempty"`
+	BaseProfile *IdpProfileBaseProfile `json:"base_profile,omitempty"`
 	CreatedTime *int32 `json:"created_time,omitempty"`
 	Id *string `json:"id,omitempty"`
 	ModifiedTime *int32 `json:"modified_time,omitempty"`
@@ -49,9 +49,9 @@ func NewIdpProfileWithDefaults() *IdpProfile {
 }
 
 // GetBaseProfile returns the BaseProfile field value if set, zero value otherwise.
-func (o *IdpProfile) GetBaseProfile() string {
+func (o *IdpProfile) GetBaseProfile() IdpProfileBaseProfile {
 	if o == nil || IsNil(o.BaseProfile) {
-		var ret string
+		var ret IdpProfileBaseProfile
 		return ret
 	}
 	return *o.BaseProfile
@@ -59,7 +59,7 @@ func (o *IdpProfile) GetBaseProfile() string {
 
 // GetBaseProfileOk returns a tuple with the BaseProfile field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *IdpProfile) GetBaseProfileOk() (*string, bool) {
+func (o *IdpProfile) GetBaseProfileOk() (*IdpProfileBaseProfile, bool) {
 	if o == nil || IsNil(o.BaseProfile) {
 		return nil, false
 	}
@@ -75,8 +75,8 @@ func (o *IdpProfile) HasBaseProfile() bool {
 	return false
 }
 
-// SetBaseProfile gets a reference to the given string and assigns it to the BaseProfile field.
-func (o *IdpProfile) SetBaseProfile(v string) {
+// SetBaseProfile gets a reference to the given IdpProfileBaseProfile and assigns it to the BaseProfile field.
+func (o *IdpProfile) SetBaseProfile(v IdpProfileBaseProfile) {
 	o.BaseProfile = &v
 }
 

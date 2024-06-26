@@ -4,9 +4,9 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**AuthAlgo** | Pointer to [**GatewayTemplateTunnelAuthAlgo**](GatewayTemplateTunnelAuthAlgo.md) |  | [optional] 
-**DhGroup** | Pointer to [**GatewayTemplateTunnelDhGroup**](GatewayTemplateTunnelDhGroup.md) |  | [optional] [default to GATEWAYTEMPLATETUNNELDHGROUP__14]
-**EncAlgo** | Pointer to [**NullableGatewayTemplateTunnelEncAlgo**](GatewayTemplateTunnelEncAlgo.md) |  | [optional] [default to GATEWAYTEMPLATETUNNELENCALGO_AES256]
+**AuthAlgo** | Pointer to [**TunnelConfigsAuthAlgo**](TunnelConfigsAuthAlgo.md) |  | [optional] 
+**DhGroup** | Pointer to [**TunnelConfigsDhGroup**](TunnelConfigsDhGroup.md) |  | [optional] [default to TUNNELCONFIGSDHGROUP__14]
+**EncAlgo** | Pointer to [**NullableTunnelConfigsEncAlgo**](TunnelConfigsEncAlgo.md) |  | [optional] [default to TUNNELCONFIGSENCALGO_AES256]
 
 ## Methods
 
@@ -29,20 +29,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetAuthAlgo
 
-`func (o *GatewayTemplateTunnelIpsecProposal) GetAuthAlgo() GatewayTemplateTunnelAuthAlgo`
+`func (o *GatewayTemplateTunnelIpsecProposal) GetAuthAlgo() TunnelConfigsAuthAlgo`
 
 GetAuthAlgo returns the AuthAlgo field if non-nil, zero value otherwise.
 
 ### GetAuthAlgoOk
 
-`func (o *GatewayTemplateTunnelIpsecProposal) GetAuthAlgoOk() (*GatewayTemplateTunnelAuthAlgo, bool)`
+`func (o *GatewayTemplateTunnelIpsecProposal) GetAuthAlgoOk() (*TunnelConfigsAuthAlgo, bool)`
 
 GetAuthAlgoOk returns a tuple with the AuthAlgo field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetAuthAlgo
 
-`func (o *GatewayTemplateTunnelIpsecProposal) SetAuthAlgo(v GatewayTemplateTunnelAuthAlgo)`
+`func (o *GatewayTemplateTunnelIpsecProposal) SetAuthAlgo(v TunnelConfigsAuthAlgo)`
 
 SetAuthAlgo sets AuthAlgo field to given value.
 
@@ -54,20 +54,20 @@ HasAuthAlgo returns a boolean if a field has been set.
 
 ### GetDhGroup
 
-`func (o *GatewayTemplateTunnelIpsecProposal) GetDhGroup() GatewayTemplateTunnelDhGroup`
+`func (o *GatewayTemplateTunnelIpsecProposal) GetDhGroup() TunnelConfigsDhGroup`
 
 GetDhGroup returns the DhGroup field if non-nil, zero value otherwise.
 
 ### GetDhGroupOk
 
-`func (o *GatewayTemplateTunnelIpsecProposal) GetDhGroupOk() (*GatewayTemplateTunnelDhGroup, bool)`
+`func (o *GatewayTemplateTunnelIpsecProposal) GetDhGroupOk() (*TunnelConfigsDhGroup, bool)`
 
 GetDhGroupOk returns a tuple with the DhGroup field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetDhGroup
 
-`func (o *GatewayTemplateTunnelIpsecProposal) SetDhGroup(v GatewayTemplateTunnelDhGroup)`
+`func (o *GatewayTemplateTunnelIpsecProposal) SetDhGroup(v TunnelConfigsDhGroup)`
 
 SetDhGroup sets DhGroup field to given value.
 
@@ -79,20 +79,20 @@ HasDhGroup returns a boolean if a field has been set.
 
 ### GetEncAlgo
 
-`func (o *GatewayTemplateTunnelIpsecProposal) GetEncAlgo() GatewayTemplateTunnelEncAlgo`
+`func (o *GatewayTemplateTunnelIpsecProposal) GetEncAlgo() TunnelConfigsEncAlgo`
 
 GetEncAlgo returns the EncAlgo field if non-nil, zero value otherwise.
 
 ### GetEncAlgoOk
 
-`func (o *GatewayTemplateTunnelIpsecProposal) GetEncAlgoOk() (*GatewayTemplateTunnelEncAlgo, bool)`
+`func (o *GatewayTemplateTunnelIpsecProposal) GetEncAlgoOk() (*TunnelConfigsEncAlgo, bool)`
 
 GetEncAlgoOk returns a tuple with the EncAlgo field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetEncAlgo
 
-`func (o *GatewayTemplateTunnelIpsecProposal) SetEncAlgo(v GatewayTemplateTunnelEncAlgo)`
+`func (o *GatewayTemplateTunnelIpsecProposal) SetEncAlgo(v TunnelConfigsEncAlgo)`
 
 SetEncAlgo sets EncAlgo field to given value.
 

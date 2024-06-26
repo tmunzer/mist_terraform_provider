@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Psk** | Pointer to **string** |  | [optional] 
-**Type** | Pointer to **string** | wpa2-AES/CCMPp is assumed when &#x60;type&#x60;&#x3D;&#x3D;&#x60;psk&#x60; | [optional] [default to "psk"]
+**Type** | Pointer to [**ApClientBridgeAuthType**](ApClientBridgeAuthType.md) |  | [optional] [default to APCLIENTBRIDGEAUTHTYPE_PSK]
 
 ## Methods
 
@@ -53,20 +53,20 @@ HasPsk returns a boolean if a field has been set.
 
 ### GetType
 
-`func (o *ApClientBridgeAuth) GetType() string`
+`func (o *ApClientBridgeAuth) GetType() ApClientBridgeAuthType`
 
 GetType returns the Type field if non-nil, zero value otherwise.
 
 ### GetTypeOk
 
-`func (o *ApClientBridgeAuth) GetTypeOk() (*string, bool)`
+`func (o *ApClientBridgeAuth) GetTypeOk() (*ApClientBridgeAuthType, bool)`
 
 GetTypeOk returns a tuple with the Type field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetType
 
-`func (o *ApClientBridgeAuth) SetType(v string)`
+`func (o *ApClientBridgeAuth) SetType(v ApClientBridgeAuthType)`
 
 SetType sets Type field to given value.
 

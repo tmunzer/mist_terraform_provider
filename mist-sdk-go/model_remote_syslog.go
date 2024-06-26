@@ -1,9 +1,9 @@
 /*
 Mist API
 
-> Version: **2405.1.6** > > Date: **June 6, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location-services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
+> Version: **2406.1.3** > > Date: **June 26, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
 
-API version: 2405.1.6
+API version: 2406.1.3
 Contact: tmunzer@juniper.net
 */
 
@@ -23,13 +23,13 @@ type RemoteSyslog struct {
 	Archive *RemoteSyslogArchive `json:"archive,omitempty"`
 	Console *RemoteSyslogConsole `json:"console,omitempty"`
 	Enabled *bool `json:"enabled,omitempty"`
-	Files []SyslogFileConfig `json:"files,omitempty"`
+	Files []RemoteSyslogFileConfig `json:"files,omitempty"`
 	// if source_address is configured, will use the vlan firstly otherwise use source_ip
 	Network *string `json:"network,omitempty"`
 	SendToAllServers *bool `json:"send_to_all_servers,omitempty"`
-	Servers []RemoteSyslogServersItem `json:"servers,omitempty"`
-	TimeFormat *TimeFormat `json:"time_format,omitempty"`
-	Users []RemoteSyslogUsersItem `json:"users,omitempty"`
+	Servers []RemoteSyslogServer `json:"servers,omitempty"`
+	TimeFormat *RemoteSyslogTimeFormat `json:"time_format,omitempty"`
+	Users []RemoteSyslogUser `json:"users,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -45,8 +45,6 @@ func NewRemoteSyslog() *RemoteSyslog {
 	this.Enabled = &enabled
 	var sendToAllServers bool = false
 	this.SendToAllServers = &sendToAllServers
-	var timeFormat TimeFormat = TIMEFORMAT_MILLISECOND
-	this.TimeFormat = &timeFormat
 	return &this
 }
 
@@ -59,8 +57,6 @@ func NewRemoteSyslogWithDefaults() *RemoteSyslog {
 	this.Enabled = &enabled
 	var sendToAllServers bool = false
 	this.SendToAllServers = &sendToAllServers
-	var timeFormat TimeFormat = TIMEFORMAT_MILLISECOND
-	this.TimeFormat = &timeFormat
 	return &this
 }
 
@@ -161,9 +157,9 @@ func (o *RemoteSyslog) SetEnabled(v bool) {
 }
 
 // GetFiles returns the Files field value if set, zero value otherwise.
-func (o *RemoteSyslog) GetFiles() []SyslogFileConfig {
+func (o *RemoteSyslog) GetFiles() []RemoteSyslogFileConfig {
 	if o == nil || IsNil(o.Files) {
-		var ret []SyslogFileConfig
+		var ret []RemoteSyslogFileConfig
 		return ret
 	}
 	return o.Files
@@ -171,7 +167,7 @@ func (o *RemoteSyslog) GetFiles() []SyslogFileConfig {
 
 // GetFilesOk returns a tuple with the Files field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RemoteSyslog) GetFilesOk() ([]SyslogFileConfig, bool) {
+func (o *RemoteSyslog) GetFilesOk() ([]RemoteSyslogFileConfig, bool) {
 	if o == nil || IsNil(o.Files) {
 		return nil, false
 	}
@@ -187,8 +183,8 @@ func (o *RemoteSyslog) HasFiles() bool {
 	return false
 }
 
-// SetFiles gets a reference to the given []SyslogFileConfig and assigns it to the Files field.
-func (o *RemoteSyslog) SetFiles(v []SyslogFileConfig) {
+// SetFiles gets a reference to the given []RemoteSyslogFileConfig and assigns it to the Files field.
+func (o *RemoteSyslog) SetFiles(v []RemoteSyslogFileConfig) {
 	o.Files = v
 }
 
@@ -257,9 +253,9 @@ func (o *RemoteSyslog) SetSendToAllServers(v bool) {
 }
 
 // GetServers returns the Servers field value if set, zero value otherwise.
-func (o *RemoteSyslog) GetServers() []RemoteSyslogServersItem {
+func (o *RemoteSyslog) GetServers() []RemoteSyslogServer {
 	if o == nil || IsNil(o.Servers) {
-		var ret []RemoteSyslogServersItem
+		var ret []RemoteSyslogServer
 		return ret
 	}
 	return o.Servers
@@ -267,7 +263,7 @@ func (o *RemoteSyslog) GetServers() []RemoteSyslogServersItem {
 
 // GetServersOk returns a tuple with the Servers field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RemoteSyslog) GetServersOk() ([]RemoteSyslogServersItem, bool) {
+func (o *RemoteSyslog) GetServersOk() ([]RemoteSyslogServer, bool) {
 	if o == nil || IsNil(o.Servers) {
 		return nil, false
 	}
@@ -283,15 +279,15 @@ func (o *RemoteSyslog) HasServers() bool {
 	return false
 }
 
-// SetServers gets a reference to the given []RemoteSyslogServersItem and assigns it to the Servers field.
-func (o *RemoteSyslog) SetServers(v []RemoteSyslogServersItem) {
+// SetServers gets a reference to the given []RemoteSyslogServer and assigns it to the Servers field.
+func (o *RemoteSyslog) SetServers(v []RemoteSyslogServer) {
 	o.Servers = v
 }
 
 // GetTimeFormat returns the TimeFormat field value if set, zero value otherwise.
-func (o *RemoteSyslog) GetTimeFormat() TimeFormat {
+func (o *RemoteSyslog) GetTimeFormat() RemoteSyslogTimeFormat {
 	if o == nil || IsNil(o.TimeFormat) {
-		var ret TimeFormat
+		var ret RemoteSyslogTimeFormat
 		return ret
 	}
 	return *o.TimeFormat
@@ -299,7 +295,7 @@ func (o *RemoteSyslog) GetTimeFormat() TimeFormat {
 
 // GetTimeFormatOk returns a tuple with the TimeFormat field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RemoteSyslog) GetTimeFormatOk() (*TimeFormat, bool) {
+func (o *RemoteSyslog) GetTimeFormatOk() (*RemoteSyslogTimeFormat, bool) {
 	if o == nil || IsNil(o.TimeFormat) {
 		return nil, false
 	}
@@ -315,15 +311,15 @@ func (o *RemoteSyslog) HasTimeFormat() bool {
 	return false
 }
 
-// SetTimeFormat gets a reference to the given TimeFormat and assigns it to the TimeFormat field.
-func (o *RemoteSyslog) SetTimeFormat(v TimeFormat) {
+// SetTimeFormat gets a reference to the given RemoteSyslogTimeFormat and assigns it to the TimeFormat field.
+func (o *RemoteSyslog) SetTimeFormat(v RemoteSyslogTimeFormat) {
 	o.TimeFormat = &v
 }
 
 // GetUsers returns the Users field value if set, zero value otherwise.
-func (o *RemoteSyslog) GetUsers() []RemoteSyslogUsersItem {
+func (o *RemoteSyslog) GetUsers() []RemoteSyslogUser {
 	if o == nil || IsNil(o.Users) {
-		var ret []RemoteSyslogUsersItem
+		var ret []RemoteSyslogUser
 		return ret
 	}
 	return o.Users
@@ -331,7 +327,7 @@ func (o *RemoteSyslog) GetUsers() []RemoteSyslogUsersItem {
 
 // GetUsersOk returns a tuple with the Users field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RemoteSyslog) GetUsersOk() ([]RemoteSyslogUsersItem, bool) {
+func (o *RemoteSyslog) GetUsersOk() ([]RemoteSyslogUser, bool) {
 	if o == nil || IsNil(o.Users) {
 		return nil, false
 	}
@@ -347,8 +343,8 @@ func (o *RemoteSyslog) HasUsers() bool {
 	return false
 }
 
-// SetUsers gets a reference to the given []RemoteSyslogUsersItem and assigns it to the Users field.
-func (o *RemoteSyslog) SetUsers(v []RemoteSyslogUsersItem) {
+// SetUsers gets a reference to the given []RemoteSyslogUser and assigns it to the Users field.
+func (o *RemoteSyslog) SetUsers(v []RemoteSyslogUser) {
 	o.Users = v
 }
 

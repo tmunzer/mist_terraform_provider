@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **EngineId** | Pointer to **string** | required only if &#x60;engine_type&#x60;&#x3D;&#x3D;&#x60;remote_engine&#x60; | [optional] 
-**EngineType** | Pointer to **string** |  | [optional] 
+**EngineType** | Pointer to [**SnmpUsmEngineType**](SnmpUsmEngineType.md) |  | [optional] 
 **Users** | Pointer to [**[]SnmpUsmpUser**](SnmpUsmpUser.md) |  | [optional] 
 
 ## Methods
@@ -54,20 +54,20 @@ HasEngineId returns a boolean if a field has been set.
 
 ### GetEngineType
 
-`func (o *SnmpUsm) GetEngineType() string`
+`func (o *SnmpUsm) GetEngineType() SnmpUsmEngineType`
 
 GetEngineType returns the EngineType field if non-nil, zero value otherwise.
 
 ### GetEngineTypeOk
 
-`func (o *SnmpUsm) GetEngineTypeOk() (*string, bool)`
+`func (o *SnmpUsm) GetEngineTypeOk() (*SnmpUsmEngineType, bool)`
 
 GetEngineTypeOk returns a tuple with the EngineType field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetEngineType
 
-`func (o *SnmpUsm) SetEngineType(v string)`
+`func (o *SnmpUsm) SetEngineType(v SnmpUsmEngineType)`
 
 SetEngineType sets EngineType field to given value.
 

@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Enable** | Pointer to **bool** |  | [optional] 
-**Rules** | Pointer to [**[]GatewayMatchingRulesInner**](GatewayMatchingRulesInner.md) |  | [optional] 
+**Rules** | Pointer to [**[]GatewayMatchingRule**](GatewayMatchingRule.md) |  | [optional] 
 
 ## Methods
 
@@ -53,20 +53,20 @@ HasEnable returns a boolean if a field has been set.
 
 ### GetRules
 
-`func (o *GatewayMatching) GetRules() []GatewayMatchingRulesInner`
+`func (o *GatewayMatching) GetRules() []GatewayMatchingRule`
 
 GetRules returns the Rules field if non-nil, zero value otherwise.
 
 ### GetRulesOk
 
-`func (o *GatewayMatching) GetRulesOk() (*[]GatewayMatchingRulesInner, bool)`
+`func (o *GatewayMatching) GetRulesOk() (*[]GatewayMatchingRule, bool)`
 
 GetRulesOk returns a tuple with the Rules field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetRules
 
-`func (o *GatewayMatching) SetRules(v []GatewayMatchingRulesInner)`
+`func (o *GatewayMatching) SetRules(v []GatewayMatchingRule)`
 
 SetRules sets Rules field to given value.
 

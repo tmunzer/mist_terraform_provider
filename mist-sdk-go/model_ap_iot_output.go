@@ -1,9 +1,9 @@
 /*
 Mist API
 
-> Version: **2405.1.6** > > Date: **June 6, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location-services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
+> Version: **2406.1.3** > > Date: **June 26, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
 
-API version: 2405.1.6
+API version: 2406.1.3
 Contact: tmunzer@juniper.net
 */
 
@@ -26,8 +26,7 @@ type ApIotOutput struct {
 	Name *string `json:"name,omitempty"`
 	// whether the pin is configured as an output. DO and A1-A4 can be repurposed by changing
 	Output *bool `json:"output,omitempty"`
-	// the type of pull-up the pin uses (internal, external, none), default none
-	Pullup *string `json:"pullup,omitempty"`
+	Pullup *ApIotOutputPullup `json:"pullup,omitempty"`
 	// output pin signal level, default 0
 	Value *int32 `json:"value,omitempty"`
 	AdditionalProperties map[string]interface{}
@@ -153,9 +152,9 @@ func (o *ApIotOutput) SetOutput(v bool) {
 }
 
 // GetPullup returns the Pullup field value if set, zero value otherwise.
-func (o *ApIotOutput) GetPullup() string {
+func (o *ApIotOutput) GetPullup() ApIotOutputPullup {
 	if o == nil || IsNil(o.Pullup) {
-		var ret string
+		var ret ApIotOutputPullup
 		return ret
 	}
 	return *o.Pullup
@@ -163,7 +162,7 @@ func (o *ApIotOutput) GetPullup() string {
 
 // GetPullupOk returns a tuple with the Pullup field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ApIotOutput) GetPullupOk() (*string, bool) {
+func (o *ApIotOutput) GetPullupOk() (*ApIotOutputPullup, bool) {
 	if o == nil || IsNil(o.Pullup) {
 		return nil, false
 	}
@@ -179,8 +178,8 @@ func (o *ApIotOutput) HasPullup() bool {
 	return false
 }
 
-// SetPullup gets a reference to the given string and assigns it to the Pullup field.
-func (o *ApIotOutput) SetPullup(v string) {
+// SetPullup gets a reference to the given ApIotOutputPullup and assigns it to the Pullup field.
+func (o *ApIotOutput) SetPullup(v ApIotOutputPullup) {
 	o.Pullup = &v
 }
 

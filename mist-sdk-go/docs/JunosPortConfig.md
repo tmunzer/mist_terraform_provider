@@ -11,14 +11,13 @@ Name | Type | Description | Notes
 **Critical** | Pointer to **bool** | if want to generate port up/down alarm | [optional] 
 **Description** | Pointer to **string** |  | [optional] 
 **DisableAutoneg** | Pointer to **bool** | if &#x60;speed&#x60; and &#x60;duplex&#x60; are specified, whether to disable autonegotiation | [optional] [default to false]
-**Duplex** | Pointer to **string** |  | [optional] [default to "auto"]
+**Duplex** | Pointer to [**JunosPortConfigDuplex**](JunosPortConfigDuplex.md) |  | [optional] [default to JUNOSPORTCONFIGDUPLEX_AUTO]
 **DynamicUsage** | Pointer to **NullableString** | Enable dynamic usage for this port. Set to &#x60;dynamic&#x60; to enable. | [optional] 
 **Esilag** | Pointer to **bool** |  | [optional] 
-**InterSwitchLink** | Pointer to **bool** | inter_switch_link is used together with \&quot;isolation\&quot; under networks NOTE: inter_switch_link works only between Juniper device. This has to be applied to both ports connected together | [optional] [default to false]
 **Mtu** | Pointer to **int32** | media maximum transmission unit (MTU) is the largest data unit that can be forwarded without fragmentation | [optional] [default to 1514]
 **NoLocalOverwrite** | Pointer to **bool** | prevent helpdesk to override the port config | [optional] 
 **PoeDisabled** | Pointer to **bool** |  | [optional] [default to false]
-**Speed** | Pointer to **string** |  | [optional] [default to "auto"]
+**Speed** | Pointer to [**JunosPortConfigSpeed**](JunosPortConfigSpeed.md) |  | [optional] [default to JUNOSPORTCONFIGSPEED_AUTO]
 **Usage** | **string** | port usage name.   If EVPN is used, use &#x60;evpn_uplink&#x60;or &#x60;evpn_downlink&#x60; | 
 
 ## Methods
@@ -217,20 +216,20 @@ HasDisableAutoneg returns a boolean if a field has been set.
 
 ### GetDuplex
 
-`func (o *JunosPortConfig) GetDuplex() string`
+`func (o *JunosPortConfig) GetDuplex() JunosPortConfigDuplex`
 
 GetDuplex returns the Duplex field if non-nil, zero value otherwise.
 
 ### GetDuplexOk
 
-`func (o *JunosPortConfig) GetDuplexOk() (*string, bool)`
+`func (o *JunosPortConfig) GetDuplexOk() (*JunosPortConfigDuplex, bool)`
 
 GetDuplexOk returns a tuple with the Duplex field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetDuplex
 
-`func (o *JunosPortConfig) SetDuplex(v string)`
+`func (o *JunosPortConfig) SetDuplex(v JunosPortConfigDuplex)`
 
 SetDuplex sets Duplex field to given value.
 
@@ -299,31 +298,6 @@ SetEsilag sets Esilag field to given value.
 `func (o *JunosPortConfig) HasEsilag() bool`
 
 HasEsilag returns a boolean if a field has been set.
-
-### GetInterSwitchLink
-
-`func (o *JunosPortConfig) GetInterSwitchLink() bool`
-
-GetInterSwitchLink returns the InterSwitchLink field if non-nil, zero value otherwise.
-
-### GetInterSwitchLinkOk
-
-`func (o *JunosPortConfig) GetInterSwitchLinkOk() (*bool, bool)`
-
-GetInterSwitchLinkOk returns a tuple with the InterSwitchLink field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetInterSwitchLink
-
-`func (o *JunosPortConfig) SetInterSwitchLink(v bool)`
-
-SetInterSwitchLink sets InterSwitchLink field to given value.
-
-### HasInterSwitchLink
-
-`func (o *JunosPortConfig) HasInterSwitchLink() bool`
-
-HasInterSwitchLink returns a boolean if a field has been set.
 
 ### GetMtu
 
@@ -402,20 +376,20 @@ HasPoeDisabled returns a boolean if a field has been set.
 
 ### GetSpeed
 
-`func (o *JunosPortConfig) GetSpeed() string`
+`func (o *JunosPortConfig) GetSpeed() JunosPortConfigSpeed`
 
 GetSpeed returns the Speed field if non-nil, zero value otherwise.
 
 ### GetSpeedOk
 
-`func (o *JunosPortConfig) GetSpeedOk() (*string, bool)`
+`func (o *JunosPortConfig) GetSpeedOk() (*JunosPortConfigSpeed, bool)`
 
 GetSpeedOk returns a tuple with the Speed field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetSpeed
 
-`func (o *JunosPortConfig) SetSpeed(v string)`
+`func (o *JunosPortConfig) SetSpeed(v JunosPortConfigSpeed)`
 
 SetSpeed sets Speed field to given value.
 

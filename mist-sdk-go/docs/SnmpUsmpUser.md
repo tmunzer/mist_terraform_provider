@@ -4,10 +4,10 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**AuthenticationPassword** | Pointer to **string** | Not required if &#x60;authentication_type&#x60;&#x3D;&#x3D;&#x60;authentication-none&#x60; include alphabetic, numeric, and special characters, but it cannot include control characters. | [optional] 
-**AuthenticationType** | Pointer to **string** | sha224, sha256, sha384, sha512 are supported in 21.1 and newer release | [optional] 
+**AuthenticationPassword** | Pointer to **string** | Not required if &#x60;authentication_type&#x60;&#x3D;&#x3D;&#x60;authentication_none&#x60; include alphabetic, numeric, and special characters, but it cannot include control characters. | [optional] 
+**AuthenticationType** | Pointer to [**SnmpUsmpUserAuthenticationType**](SnmpUsmpUserAuthenticationType.md) |  | [optional] 
 **EncryptionPassword** | Pointer to **string** | Not required if &#x60;encryption_type&#x60;&#x3D;&#x3D;&#x60;privacy-none&#x60; include alphabetic, numeric, and special characters, but it cannot include control characters | [optional] 
-**EncryptionType** | Pointer to **string** |  | [optional] 
+**EncryptionType** | Pointer to [**SnmpUsmpUserEncryptionType**](SnmpUsmpUserEncryptionType.md) |  | [optional] 
 **Name** | Pointer to **string** |  | [optional] 
 
 ## Methods
@@ -56,20 +56,20 @@ HasAuthenticationPassword returns a boolean if a field has been set.
 
 ### GetAuthenticationType
 
-`func (o *SnmpUsmpUser) GetAuthenticationType() string`
+`func (o *SnmpUsmpUser) GetAuthenticationType() SnmpUsmpUserAuthenticationType`
 
 GetAuthenticationType returns the AuthenticationType field if non-nil, zero value otherwise.
 
 ### GetAuthenticationTypeOk
 
-`func (o *SnmpUsmpUser) GetAuthenticationTypeOk() (*string, bool)`
+`func (o *SnmpUsmpUser) GetAuthenticationTypeOk() (*SnmpUsmpUserAuthenticationType, bool)`
 
 GetAuthenticationTypeOk returns a tuple with the AuthenticationType field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetAuthenticationType
 
-`func (o *SnmpUsmpUser) SetAuthenticationType(v string)`
+`func (o *SnmpUsmpUser) SetAuthenticationType(v SnmpUsmpUserAuthenticationType)`
 
 SetAuthenticationType sets AuthenticationType field to given value.
 
@@ -106,20 +106,20 @@ HasEncryptionPassword returns a boolean if a field has been set.
 
 ### GetEncryptionType
 
-`func (o *SnmpUsmpUser) GetEncryptionType() string`
+`func (o *SnmpUsmpUser) GetEncryptionType() SnmpUsmpUserEncryptionType`
 
 GetEncryptionType returns the EncryptionType field if non-nil, zero value otherwise.
 
 ### GetEncryptionTypeOk
 
-`func (o *SnmpUsmpUser) GetEncryptionTypeOk() (*string, bool)`
+`func (o *SnmpUsmpUser) GetEncryptionTypeOk() (*SnmpUsmpUserEncryptionType, bool)`
 
 GetEncryptionTypeOk returns a tuple with the EncryptionType field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetEncryptionType
 
-`func (o *SnmpUsmpUser) SetEncryptionType(v string)`
+`func (o *SnmpUsmpUser) SetEncryptionType(v SnmpUsmpUserEncryptionType)`
 
 SetEncryptionType sets EncryptionType field to given value.
 

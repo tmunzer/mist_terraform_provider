@@ -6,7 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Host** | Pointer to **string** | can be ip, ipv6, hostname | [optional] 
 **Port** | Pointer to **int32** | when &#x60;protocol&#x60;&#x3D;&#x3D;&#x60;tcp&#x60; | [optional] 
-**Protocol** | Pointer to **string** |  | [optional] 
+**Protocol** | Pointer to [**TunternMonitoringProtocol**](TunternMonitoringProtocol.md) |  | [optional] 
 **Timeout** | Pointer to **int32** |  | [optional] [default to 300]
 
 ## Methods
@@ -80,20 +80,20 @@ HasPort returns a boolean if a field has been set.
 
 ### GetProtocol
 
-`func (o *TuntermMonitoring) GetProtocol() string`
+`func (o *TuntermMonitoring) GetProtocol() TunternMonitoringProtocol`
 
 GetProtocol returns the Protocol field if non-nil, zero value otherwise.
 
 ### GetProtocolOk
 
-`func (o *TuntermMonitoring) GetProtocolOk() (*string, bool)`
+`func (o *TuntermMonitoring) GetProtocolOk() (*TunternMonitoringProtocol, bool)`
 
 GetProtocolOk returns a tuple with the Protocol field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetProtocol
 
-`func (o *TuntermMonitoring) SetProtocol(v string)`
+`func (o *TuntermMonitoring) SetProtocol(v TunternMonitoringProtocol)`
 
 SetProtocol sets Protocol field to given value.
 

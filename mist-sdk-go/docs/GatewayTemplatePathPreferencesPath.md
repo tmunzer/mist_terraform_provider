@@ -11,7 +11,7 @@ Name | Type | Description | Notes
 **Name** | Pointer to **string** |  | [optional] 
 **Networks** | Pointer to **[]string** | if &#x60;type&#x60;&#x3D;&#x3D;&#x60;local&#x60; | [optional] 
 **TargetIps** | Pointer to **[]string** | if &#x60;type&#x60;&#x3D;&#x3D;&#x60;local&#x60;, if destination IP is to be replaced | [optional] 
-**Type** | Pointer to **string** |  | [optional] 
+**Type** | Pointer to [**GatewayPathType**](GatewayPathType.md) |  | [optional] 
 **WanName** | Pointer to **string** | Spoke&#39;s outgoing wan | [optional] 
 
 ## Methods
@@ -210,20 +210,20 @@ HasTargetIps returns a boolean if a field has been set.
 
 ### GetType
 
-`func (o *GatewayTemplatePathPreferencesPath) GetType() string`
+`func (o *GatewayTemplatePathPreferencesPath) GetType() GatewayPathType`
 
 GetType returns the Type field if non-nil, zero value otherwise.
 
 ### GetTypeOk
 
-`func (o *GatewayTemplatePathPreferencesPath) GetTypeOk() (*string, bool)`
+`func (o *GatewayTemplatePathPreferencesPath) GetTypeOk() (*GatewayPathType, bool)`
 
 GetTypeOk returns a tuple with the Type field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetType
 
-`func (o *GatewayTemplatePathPreferencesPath) SetType(v string)`
+`func (o *GatewayTemplatePathPreferencesPath) SetType(v GatewayPathType)`
 
 SetType sets Type field to given value.
 

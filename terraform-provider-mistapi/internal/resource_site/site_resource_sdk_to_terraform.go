@@ -2,7 +2,6 @@ package resource_site
 
 import (
 	"context"
-	"math/big"
 	"strings"
 
 	"github.com/hashicorp/terraform-plugin-framework/attr"
@@ -23,12 +22,12 @@ func SdkToTerraform(ctx context.Context, data *mistsdkgo.Site) (SiteModel, diag.
 	state.Address = types.StringValue(data.GetAddress())
 
 	t := map[string]attr.Type{
-		"lat": basetypes.NumberType{},
-		"lng": basetypes.NumberType{},
+		"lat": basetypes.Float64Type{},
+		"lng": basetypes.Float64Type{},
 	}
 	v := map[string]attr.Value{
-		"lat": types.NumberValue(big.NewFloat(data.Latlng.GetLat())),
-		"lng": types.NumberValue(big.NewFloat(data.Latlng.GetLng())),
+		"lat": types.Float64Value(data.Latlng.GetLat()),
+		"lng": types.Float64Value(data.Latlng.GetLng()),
 	}
 	res, e := NewLatlngValue(t, v)
 	diags.Append(e...)

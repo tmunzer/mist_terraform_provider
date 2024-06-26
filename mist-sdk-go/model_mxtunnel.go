@@ -1,9 +1,9 @@
 /*
 Mist API
 
-> Version: **2405.1.6** > > Date: **June 6, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location-services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
+> Version: **2406.1.3** > > Date: **June 26, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
 
-API version: 2405.1.6
+API version: 2406.1.3
 Contact: tmunzer@juniper.net
 */
 
@@ -37,7 +37,7 @@ type Mxtunnel struct {
 	MxclusterIds []string `json:"mxcluster_ids,omitempty"`
 	Name NullableString `json:"name,omitempty"`
 	OrgId *string `json:"org_id,omitempty"`
-	Protocol *string `json:"protocol,omitempty"`
+	Protocol *MxtunnelProtocol `json:"protocol,omitempty"`
 	SiteId *string `json:"site_id,omitempty"`
 	// list of vlan_ids that will be used
 	VlanIds []int32 `json:"vlan_ids,omitempty"`
@@ -58,7 +58,7 @@ func NewMxtunnel() *Mxtunnel {
 	this.HelloRetries = *NewNullableInt32(&helloRetries)
 	var mtu int32 = 0
 	this.Mtu = &mtu
-	var protocol string = "udp"
+	var protocol MxtunnelProtocol = MXTUNNELPROTOCOL_UDP
 	this.Protocol = &protocol
 	return &this
 }
@@ -74,7 +74,7 @@ func NewMxtunnelWithDefaults() *Mxtunnel {
 	this.HelloRetries = *NewNullableInt32(&helloRetries)
 	var mtu int32 = 0
 	this.Mtu = &mtu
-	var protocol string = "udp"
+	var protocol MxtunnelProtocol = MXTUNNELPROTOCOL_UDP
 	this.Protocol = &protocol
 	return &this
 }
@@ -526,9 +526,9 @@ func (o *Mxtunnel) SetOrgId(v string) {
 }
 
 // GetProtocol returns the Protocol field value if set, zero value otherwise.
-func (o *Mxtunnel) GetProtocol() string {
+func (o *Mxtunnel) GetProtocol() MxtunnelProtocol {
 	if o == nil || IsNil(o.Protocol) {
-		var ret string
+		var ret MxtunnelProtocol
 		return ret
 	}
 	return *o.Protocol
@@ -536,7 +536,7 @@ func (o *Mxtunnel) GetProtocol() string {
 
 // GetProtocolOk returns a tuple with the Protocol field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Mxtunnel) GetProtocolOk() (*string, bool) {
+func (o *Mxtunnel) GetProtocolOk() (*MxtunnelProtocol, bool) {
 	if o == nil || IsNil(o.Protocol) {
 		return nil, false
 	}
@@ -552,8 +552,8 @@ func (o *Mxtunnel) HasProtocol() bool {
 	return false
 }
 
-// SetProtocol gets a reference to the given string and assigns it to the Protocol field.
-func (o *Mxtunnel) SetProtocol(v string) {
+// SetProtocol gets a reference to the given MxtunnelProtocol and assigns it to the Protocol field.
+func (o *Mxtunnel) SetProtocol(v MxtunnelProtocol) {
 	o.Protocol = &v
 }
 

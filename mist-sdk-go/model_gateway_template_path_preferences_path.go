@@ -1,9 +1,9 @@
 /*
 Mist API
 
-> Version: **2405.1.6** > > Date: **June 6, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location-services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
+> Version: **2406.1.3** > > Date: **June 26, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
 
-API version: 2405.1.6
+API version: 2406.1.3
 Contact: tmunzer@juniper.net
 */
 
@@ -32,7 +32,7 @@ type GatewayTemplatePathPreferencesPath struct {
 	Networks []string `json:"networks,omitempty"`
 	// if `type`==`local`, if destination IP is to be replaced
 	TargetIps []string `json:"target_ips,omitempty"`
-	Type *string `json:"type,omitempty"`
+	Type *GatewayPathType `json:"type,omitempty"`
 	// Spoke's outgoing wan
 	WanName *string `json:"wan_name,omitempty"`
 	AdditionalProperties map[string]interface{}
@@ -286,9 +286,9 @@ func (o *GatewayTemplatePathPreferencesPath) SetTargetIps(v []string) {
 }
 
 // GetType returns the Type field value if set, zero value otherwise.
-func (o *GatewayTemplatePathPreferencesPath) GetType() string {
+func (o *GatewayTemplatePathPreferencesPath) GetType() GatewayPathType {
 	if o == nil || IsNil(o.Type) {
-		var ret string
+		var ret GatewayPathType
 		return ret
 	}
 	return *o.Type
@@ -296,7 +296,7 @@ func (o *GatewayTemplatePathPreferencesPath) GetType() string {
 
 // GetTypeOk returns a tuple with the Type field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *GatewayTemplatePathPreferencesPath) GetTypeOk() (*string, bool) {
+func (o *GatewayTemplatePathPreferencesPath) GetTypeOk() (*GatewayPathType, bool) {
 	if o == nil || IsNil(o.Type) {
 		return nil, false
 	}
@@ -312,8 +312,8 @@ func (o *GatewayTemplatePathPreferencesPath) HasType() bool {
 	return false
 }
 
-// SetType gets a reference to the given string and assigns it to the Type field.
-func (o *GatewayTemplatePathPreferencesPath) SetType(v string) {
+// SetType gets a reference to the given GatewayPathType and assigns it to the Type field.
+func (o *GatewayTemplatePathPreferencesPath) SetType(v GatewayPathType) {
 	o.Type = &v
 }
 

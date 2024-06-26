@@ -7,12 +7,12 @@ Name | Type | Description | Notes
 **Archive** | Pointer to [**RemoteSyslogArchive**](RemoteSyslogArchive.md) |  | [optional] 
 **Console** | Pointer to [**RemoteSyslogConsole**](RemoteSyslogConsole.md) |  | [optional] 
 **Enabled** | Pointer to **bool** |  | [optional] [default to false]
-**Files** | Pointer to [**[]SyslogFileConfig**](SyslogFileConfig.md) |  | [optional] 
+**Files** | Pointer to [**[]RemoteSyslogFileConfig**](RemoteSyslogFileConfig.md) |  | [optional] 
 **Network** | Pointer to **string** | if source_address is configured, will use the vlan firstly otherwise use source_ip | [optional] 
 **SendToAllServers** | Pointer to **bool** |  | [optional] [default to false]
-**Servers** | Pointer to [**[]RemoteSyslogServersItem**](RemoteSyslogServersItem.md) |  | [optional] 
-**TimeFormat** | Pointer to [**TimeFormat**](TimeFormat.md) |  | [optional] [default to TIMEFORMAT_MILLISECOND]
-**Users** | Pointer to [**[]RemoteSyslogUsersItem**](RemoteSyslogUsersItem.md) |  | [optional] 
+**Servers** | Pointer to [**[]RemoteSyslogServer**](RemoteSyslogServer.md) |  | [optional] 
+**TimeFormat** | Pointer to [**RemoteSyslogTimeFormat**](RemoteSyslogTimeFormat.md) |  | [optional] 
+**Users** | Pointer to [**[]RemoteSyslogUser**](RemoteSyslogUser.md) |  | [optional] 
 
 ## Methods
 
@@ -110,20 +110,20 @@ HasEnabled returns a boolean if a field has been set.
 
 ### GetFiles
 
-`func (o *RemoteSyslog) GetFiles() []SyslogFileConfig`
+`func (o *RemoteSyslog) GetFiles() []RemoteSyslogFileConfig`
 
 GetFiles returns the Files field if non-nil, zero value otherwise.
 
 ### GetFilesOk
 
-`func (o *RemoteSyslog) GetFilesOk() (*[]SyslogFileConfig, bool)`
+`func (o *RemoteSyslog) GetFilesOk() (*[]RemoteSyslogFileConfig, bool)`
 
 GetFilesOk returns a tuple with the Files field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetFiles
 
-`func (o *RemoteSyslog) SetFiles(v []SyslogFileConfig)`
+`func (o *RemoteSyslog) SetFiles(v []RemoteSyslogFileConfig)`
 
 SetFiles sets Files field to given value.
 
@@ -185,20 +185,20 @@ HasSendToAllServers returns a boolean if a field has been set.
 
 ### GetServers
 
-`func (o *RemoteSyslog) GetServers() []RemoteSyslogServersItem`
+`func (o *RemoteSyslog) GetServers() []RemoteSyslogServer`
 
 GetServers returns the Servers field if non-nil, zero value otherwise.
 
 ### GetServersOk
 
-`func (o *RemoteSyslog) GetServersOk() (*[]RemoteSyslogServersItem, bool)`
+`func (o *RemoteSyslog) GetServersOk() (*[]RemoteSyslogServer, bool)`
 
 GetServersOk returns a tuple with the Servers field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetServers
 
-`func (o *RemoteSyslog) SetServers(v []RemoteSyslogServersItem)`
+`func (o *RemoteSyslog) SetServers(v []RemoteSyslogServer)`
 
 SetServers sets Servers field to given value.
 
@@ -210,20 +210,20 @@ HasServers returns a boolean if a field has been set.
 
 ### GetTimeFormat
 
-`func (o *RemoteSyslog) GetTimeFormat() TimeFormat`
+`func (o *RemoteSyslog) GetTimeFormat() RemoteSyslogTimeFormat`
 
 GetTimeFormat returns the TimeFormat field if non-nil, zero value otherwise.
 
 ### GetTimeFormatOk
 
-`func (o *RemoteSyslog) GetTimeFormatOk() (*TimeFormat, bool)`
+`func (o *RemoteSyslog) GetTimeFormatOk() (*RemoteSyslogTimeFormat, bool)`
 
 GetTimeFormatOk returns a tuple with the TimeFormat field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetTimeFormat
 
-`func (o *RemoteSyslog) SetTimeFormat(v TimeFormat)`
+`func (o *RemoteSyslog) SetTimeFormat(v RemoteSyslogTimeFormat)`
 
 SetTimeFormat sets TimeFormat field to given value.
 
@@ -235,20 +235,20 @@ HasTimeFormat returns a boolean if a field has been set.
 
 ### GetUsers
 
-`func (o *RemoteSyslog) GetUsers() []RemoteSyslogUsersItem`
+`func (o *RemoteSyslog) GetUsers() []RemoteSyslogUser`
 
 GetUsers returns the Users field if non-nil, zero value otherwise.
 
 ### GetUsersOk
 
-`func (o *RemoteSyslog) GetUsersOk() (*[]RemoteSyslogUsersItem, bool)`
+`func (o *RemoteSyslog) GetUsersOk() (*[]RemoteSyslogUser, bool)`
 
 GetUsersOk returns a tuple with the Users field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetUsers
 
-`func (o *RemoteSyslog) SetUsers(v []RemoteSyslogUsersItem)`
+`func (o *RemoteSyslog) SetUsers(v []RemoteSyslogUser)`
 
 SetUsers sets Users field to given value.
 

@@ -14,7 +14,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"testing"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "github.com/tmunzer/mistsdkgo"
 )
 
 func Test_mistsdkgo_OrgsInventoryAPIService(t *testing.T) {
@@ -43,6 +43,33 @@ func Test_mistsdkgo_OrgsInventoryAPIService(t *testing.T) {
 		var orgId string
 
 		resp, httpRes, err := apiClient.OrgsInventoryAPI.GetOrgInventory(context.Background(), orgId).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
+	t.Run("Test OrgsInventoryAPIService ReevaluateOrgAutoAssignment", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		var orgId string
+
+		httpRes, err := apiClient.OrgsInventoryAPI.ReevaluateOrgAutoAssignment(context.Background(), orgId).Execute()
+
+		require.Nil(t, err)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
+	t.Run("Test OrgsInventoryAPIService ReplaceOrgDevices", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		var orgId string
+
+		resp, httpRes, err := apiClient.OrgsInventoryAPI.ReplaceOrgDevices(context.Background(), orgId).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)

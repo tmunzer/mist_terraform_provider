@@ -14,10 +14,10 @@ Name | Type | Description | Notes
 **ApIds** | Pointer to **[]string** | list of device ids | [optional] 
 **AppLimit** | Pointer to [**WlanAppLimit**](WlanAppLimit.md) |  | [optional] 
 **AppQos** | Pointer to [**WlanAppQos**](WlanAppQos.md) |  | [optional] 
-**ApplyTo** | Pointer to **string** |  | [optional] 
+**ApplyTo** | Pointer to [**WlanApplyTo**](WlanApplyTo.md) |  | [optional] 
 **ArpFilter** | Pointer to **bool** | whether to enable smart arp filter | [optional] [default to false]
 **Auth** | Pointer to [**WlanAuth**](WlanAuth.md) |  | [optional] 
-**AuthServerSelection** | Pointer to **string** | When ordered, AP will prefer and go back to the first server if possible | [optional] [default to "ordered"]
+**AuthServerSelection** | Pointer to [**WlanAuthServerSelection**](WlanAuthServerSelection.md) |  | [optional] [default to WLANAUTHSERVERSELECTION_ORDERED]
 **AuthServers** | Pointer to [**[]RadiusAuthServer**](RadiusAuthServer.md) | list of RADIUS authentication servers, at least one is needed if &#x60;auth type&#x60;&#x3D;&#x3D;&#x60;eap&#x60;, order matters where the first one is treated as primary | [optional] 
 **AuthServersNasId** | Pointer to **NullableString** | optional, up to 48 bytes, will be dynamically generated if not provided. used only for authentication servers | [optional] 
 **AuthServersNasIp** | Pointer to **NullableString** | optional, NAS-IP-ADDRESS to use | [optional] 
@@ -25,7 +25,7 @@ Name | Type | Description | Notes
 **AuthServersTimeout** | Pointer to **int32** | radius auth session timeout. Following fast timers are set if “fast_dot1x_timers” knob is enabled. ‘quite-period’ and ‘transmit-period’ are set to half the value of auth_servers_timeout. ‘supplicant-timeout’ is also set when setting auth_servers_timeout and is set to default value of 10. | [optional] [default to 5]
 **Band** | Pointer to **string** | &#x60;band&#x60; is deprecated and kept for backward compability. Use bands instead | [optional] 
 **BandSteer** | Pointer to **bool** | whether to enable band_steering, this works only when band&#x3D;&#x3D;both | [optional] [default to false]
-**BandSteerForceBand5** | Pointer to **bool** | force dual-band capable client to connect to 5G | [optional] [default to false]
+**BandSteerForceBand5** | Pointer to **bool** | force dual_band capable client to connect to 5G | [optional] [default to false]
 **Bands** | Pointer to [**[]Dot11Band**](Dot11Band.md) | list of radios that the wlan should apply to | [optional] [default to ["24","5"]]
 **BlockBlacklistClients** | Pointer to **bool** | whether to block the clients in the blacklist (up to first 256 macs) | [optional] [default to false]
 **Bonjour** | Pointer to [**WlanBonjour**](WlanBonjour.md) |  | [optional] 
@@ -57,7 +57,7 @@ Name | Type | Description | Notes
 **Hotspot20** | Pointer to [**WlanHotspot20**](WlanHotspot20.md) |  | [optional] 
 **Id** | Pointer to **string** |  | [optional] [readonly] 
 **InjectDhcpOption82** | Pointer to [**WlanInjectDhcpOption82**](WlanInjectDhcpOption82.md) |  | [optional] 
-**Interface** | Pointer to **string** | where this WLAN will be connected to | [optional] [default to "all"]
+**Interface** | Pointer to [**WlanInterface**](WlanInterface.md) |  | [optional] [default to WLANINTERFACE_ALL]
 **Isolation** | Pointer to **bool** | whether to stop clients to talk to each other | [optional] [default to false]
 **L2Isolation** | Pointer to **bool** | if isolation is enabled, whether to deny clients to talk to L2 on the LAN | [optional] [default to false]
 **LegacyOverds** | Pointer to **bool** | legacy devices requires the Over-DS (for Fast BSS Transition) bit set (while our chip doesn’t support it). Warning! Enabling this will cause problem for iOS devices. | [optional] [default to false]
@@ -85,7 +85,7 @@ Name | Type | Description | Notes
 **Qos** | Pointer to [**WlanQos**](WlanQos.md) |  | [optional] 
 **Radsec** | Pointer to [**Radsec**](Radsec.md) |  | [optional] 
 **Rateset** | Pointer to [**WlanRateset**](WlanRateset.md) |  | [optional] 
-**RoamMode** | Pointer to **string** |  | [optional] [default to "none"]
+**RoamMode** | Pointer to [**WlanRoamMode**](WlanRoamMode.md) |  | [optional] [default to WLANROAMMODE_NONE]
 **Schedule** | Pointer to [**WlanSchedule**](WlanSchedule.md) |  | [optional] 
 **SiteId** | Pointer to **string** |  | [optional] [readonly] 
 **SleExcluded** | Pointer to **bool** | whether to exclude this WLAN from SLE metrics | [optional] [default to false]
@@ -386,20 +386,20 @@ HasAppQos returns a boolean if a field has been set.
 
 ### GetApplyTo
 
-`func (o *Wlan) GetApplyTo() string`
+`func (o *Wlan) GetApplyTo() WlanApplyTo`
 
 GetApplyTo returns the ApplyTo field if non-nil, zero value otherwise.
 
 ### GetApplyToOk
 
-`func (o *Wlan) GetApplyToOk() (*string, bool)`
+`func (o *Wlan) GetApplyToOk() (*WlanApplyTo, bool)`
 
 GetApplyToOk returns a tuple with the ApplyTo field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetApplyTo
 
-`func (o *Wlan) SetApplyTo(v string)`
+`func (o *Wlan) SetApplyTo(v WlanApplyTo)`
 
 SetApplyTo sets ApplyTo field to given value.
 
@@ -461,20 +461,20 @@ HasAuth returns a boolean if a field has been set.
 
 ### GetAuthServerSelection
 
-`func (o *Wlan) GetAuthServerSelection() string`
+`func (o *Wlan) GetAuthServerSelection() WlanAuthServerSelection`
 
 GetAuthServerSelection returns the AuthServerSelection field if non-nil, zero value otherwise.
 
 ### GetAuthServerSelectionOk
 
-`func (o *Wlan) GetAuthServerSelectionOk() (*string, bool)`
+`func (o *Wlan) GetAuthServerSelectionOk() (*WlanAuthServerSelection, bool)`
 
 GetAuthServerSelectionOk returns a tuple with the AuthServerSelection field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetAuthServerSelection
 
-`func (o *Wlan) SetAuthServerSelection(v string)`
+`func (o *Wlan) SetAuthServerSelection(v WlanAuthServerSelection)`
 
 SetAuthServerSelection sets AuthServerSelection field to given value.
 
@@ -1521,20 +1521,20 @@ HasInjectDhcpOption82 returns a boolean if a field has been set.
 
 ### GetInterface
 
-`func (o *Wlan) GetInterface() string`
+`func (o *Wlan) GetInterface() WlanInterface`
 
 GetInterface returns the Interface field if non-nil, zero value otherwise.
 
 ### GetInterfaceOk
 
-`func (o *Wlan) GetInterfaceOk() (*string, bool)`
+`func (o *Wlan) GetInterfaceOk() (*WlanInterface, bool)`
 
 GetInterfaceOk returns a tuple with the Interface field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetInterface
 
-`func (o *Wlan) SetInterface(v string)`
+`func (o *Wlan) SetInterface(v WlanInterface)`
 
 SetInterface sets Interface field to given value.
 
@@ -2261,20 +2261,20 @@ HasRateset returns a boolean if a field has been set.
 
 ### GetRoamMode
 
-`func (o *Wlan) GetRoamMode() string`
+`func (o *Wlan) GetRoamMode() WlanRoamMode`
 
 GetRoamMode returns the RoamMode field if non-nil, zero value otherwise.
 
 ### GetRoamModeOk
 
-`func (o *Wlan) GetRoamModeOk() (*string, bool)`
+`func (o *Wlan) GetRoamModeOk() (*WlanRoamMode, bool)`
 
 GetRoamModeOk returns a tuple with the RoamMode field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetRoamMode
 
-`func (o *Wlan) SetRoamMode(v string)`
+`func (o *Wlan) SetRoamMode(v WlanRoamMode)`
 
 SetRoamMode sets RoamMode field to given value.
 

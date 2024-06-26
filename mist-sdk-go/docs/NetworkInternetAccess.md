@@ -5,10 +5,10 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **CreateSimpleServicePolicy** | Pointer to **bool** |  | [optional] [default to false]
-**DestinationNat** | Pointer to [**map[string]NetworkDestinationNatValue**](NetworkDestinationNatValue.md) | Property key may be an IP/Port (i.e. \&quot;63.16.0.3:443\&quot;), or a port (i.e. \&quot;:2222\&quot;) | [optional] 
+**DestinationNat** | Pointer to [**map[string]NetworkDestinationNatProperty**](NetworkDestinationNatProperty.md) | Property key may be an IP/Port (i.e. \&quot;63.16.0.3:443\&quot;), or a port (i.e. \&quot;:2222\&quot;) | [optional] 
 **Enabled** | Pointer to **bool** |  | [optional] 
 **Restricted** | Pointer to **bool** | by default, all access is allowed, to only allow certain traffic, make &#x60;restricted&#x60;&#x3D;&#x60;true&#x60; and define service_policies | [optional] [default to false]
-**StaticNat** | Pointer to [**map[string]NetworkStaticNatValue**](NetworkStaticNatValue.md) | Property key may be an IP Address (i.e. \&quot;172.16.0.1\&quot;), and IP Address and Port (i.e. \&quot;172.16.0.1:8443\&quot;) or a CIDR (i.e. \&quot;172.16.0.12/20\&quot;) | [optional] 
+**StaticNat** | Pointer to [**map[string]NetworkStaticNatProperty**](NetworkStaticNatProperty.md) | Property key may be an IP Address (i.e. \&quot;172.16.0.1\&quot;), and IP Address and Port (i.e. \&quot;172.16.0.1:8443\&quot;) or a CIDR (i.e. \&quot;172.16.0.12/20\&quot;) | [optional] 
 
 ## Methods
 
@@ -56,20 +56,20 @@ HasCreateSimpleServicePolicy returns a boolean if a field has been set.
 
 ### GetDestinationNat
 
-`func (o *NetworkInternetAccess) GetDestinationNat() map[string]NetworkDestinationNatValue`
+`func (o *NetworkInternetAccess) GetDestinationNat() map[string]NetworkDestinationNatProperty`
 
 GetDestinationNat returns the DestinationNat field if non-nil, zero value otherwise.
 
 ### GetDestinationNatOk
 
-`func (o *NetworkInternetAccess) GetDestinationNatOk() (*map[string]NetworkDestinationNatValue, bool)`
+`func (o *NetworkInternetAccess) GetDestinationNatOk() (*map[string]NetworkDestinationNatProperty, bool)`
 
 GetDestinationNatOk returns a tuple with the DestinationNat field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetDestinationNat
 
-`func (o *NetworkInternetAccess) SetDestinationNat(v map[string]NetworkDestinationNatValue)`
+`func (o *NetworkInternetAccess) SetDestinationNat(v map[string]NetworkDestinationNatProperty)`
 
 SetDestinationNat sets DestinationNat field to given value.
 
@@ -131,20 +131,20 @@ HasRestricted returns a boolean if a field has been set.
 
 ### GetStaticNat
 
-`func (o *NetworkInternetAccess) GetStaticNat() map[string]NetworkStaticNatValue`
+`func (o *NetworkInternetAccess) GetStaticNat() map[string]NetworkStaticNatProperty`
 
 GetStaticNat returns the StaticNat field if non-nil, zero value otherwise.
 
 ### GetStaticNatOk
 
-`func (o *NetworkInternetAccess) GetStaticNatOk() (*map[string]NetworkStaticNatValue, bool)`
+`func (o *NetworkInternetAccess) GetStaticNatOk() (*map[string]NetworkStaticNatProperty, bool)`
 
 GetStaticNatOk returns a tuple with the StaticNat field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetStaticNat
 
-`func (o *NetworkInternetAccess) SetStaticNat(v map[string]NetworkStaticNatValue)`
+`func (o *NetworkInternetAccess) SetStaticNat(v map[string]NetworkStaticNatProperty)`
 
 SetStaticNat sets StaticNat field to given value.
 

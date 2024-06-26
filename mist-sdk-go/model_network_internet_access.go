@@ -1,9 +1,9 @@
 /*
 Mist API
 
-> Version: **2405.1.6** > > Date: **June 6, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location-services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
+> Version: **2406.1.3** > > Date: **June 26, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
 
-API version: 2405.1.6
+API version: 2406.1.3
 Contact: tmunzer@juniper.net
 */
 
@@ -22,12 +22,12 @@ var _ MappedNullable = &NetworkInternetAccess{}
 type NetworkInternetAccess struct {
 	CreateSimpleServicePolicy *bool `json:"create_simple_service_policy,omitempty"`
 	// Property key may be an IP/Port (i.e. \"63.16.0.3:443\"), or a port (i.e. \":2222\")
-	DestinationNat *map[string]NetworkDestinationNatValue `json:"destination_nat,omitempty"`
+	DestinationNat *map[string]NetworkDestinationNatProperty `json:"destination_nat,omitempty"`
 	Enabled *bool `json:"enabled,omitempty"`
 	// by default, all access is allowed, to only allow certain traffic, make `restricted`=`true` and define service_policies
 	Restricted *bool `json:"restricted,omitempty"`
 	// Property key may be an IP Address (i.e. \"172.16.0.1\"), and IP Address and Port (i.e. \"172.16.0.1:8443\") or a CIDR (i.e. \"172.16.0.12/20\")
-	StaticNat *map[string]NetworkStaticNatValue `json:"static_nat,omitempty"`
+	StaticNat *map[string]NetworkStaticNatProperty `json:"static_nat,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -91,9 +91,9 @@ func (o *NetworkInternetAccess) SetCreateSimpleServicePolicy(v bool) {
 }
 
 // GetDestinationNat returns the DestinationNat field value if set, zero value otherwise.
-func (o *NetworkInternetAccess) GetDestinationNat() map[string]NetworkDestinationNatValue {
+func (o *NetworkInternetAccess) GetDestinationNat() map[string]NetworkDestinationNatProperty {
 	if o == nil || IsNil(o.DestinationNat) {
-		var ret map[string]NetworkDestinationNatValue
+		var ret map[string]NetworkDestinationNatProperty
 		return ret
 	}
 	return *o.DestinationNat
@@ -101,7 +101,7 @@ func (o *NetworkInternetAccess) GetDestinationNat() map[string]NetworkDestinatio
 
 // GetDestinationNatOk returns a tuple with the DestinationNat field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *NetworkInternetAccess) GetDestinationNatOk() (*map[string]NetworkDestinationNatValue, bool) {
+func (o *NetworkInternetAccess) GetDestinationNatOk() (*map[string]NetworkDestinationNatProperty, bool) {
 	if o == nil || IsNil(o.DestinationNat) {
 		return nil, false
 	}
@@ -117,8 +117,8 @@ func (o *NetworkInternetAccess) HasDestinationNat() bool {
 	return false
 }
 
-// SetDestinationNat gets a reference to the given map[string]NetworkDestinationNatValue and assigns it to the DestinationNat field.
-func (o *NetworkInternetAccess) SetDestinationNat(v map[string]NetworkDestinationNatValue) {
+// SetDestinationNat gets a reference to the given map[string]NetworkDestinationNatProperty and assigns it to the DestinationNat field.
+func (o *NetworkInternetAccess) SetDestinationNat(v map[string]NetworkDestinationNatProperty) {
 	o.DestinationNat = &v
 }
 
@@ -187,9 +187,9 @@ func (o *NetworkInternetAccess) SetRestricted(v bool) {
 }
 
 // GetStaticNat returns the StaticNat field value if set, zero value otherwise.
-func (o *NetworkInternetAccess) GetStaticNat() map[string]NetworkStaticNatValue {
+func (o *NetworkInternetAccess) GetStaticNat() map[string]NetworkStaticNatProperty {
 	if o == nil || IsNil(o.StaticNat) {
-		var ret map[string]NetworkStaticNatValue
+		var ret map[string]NetworkStaticNatProperty
 		return ret
 	}
 	return *o.StaticNat
@@ -197,7 +197,7 @@ func (o *NetworkInternetAccess) GetStaticNat() map[string]NetworkStaticNatValue 
 
 // GetStaticNatOk returns a tuple with the StaticNat field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *NetworkInternetAccess) GetStaticNatOk() (*map[string]NetworkStaticNatValue, bool) {
+func (o *NetworkInternetAccess) GetStaticNatOk() (*map[string]NetworkStaticNatProperty, bool) {
 	if o == nil || IsNil(o.StaticNat) {
 		return nil, false
 	}
@@ -213,8 +213,8 @@ func (o *NetworkInternetAccess) HasStaticNat() bool {
 	return false
 }
 
-// SetStaticNat gets a reference to the given map[string]NetworkStaticNatValue and assigns it to the StaticNat field.
-func (o *NetworkInternetAccess) SetStaticNat(v map[string]NetworkStaticNatValue) {
+// SetStaticNat gets a reference to the given map[string]NetworkStaticNatProperty and assigns it to the StaticNat field.
+func (o *NetworkInternetAccess) SetStaticNat(v map[string]NetworkStaticNatProperty) {
 	o.StaticNat = &v
 }
 

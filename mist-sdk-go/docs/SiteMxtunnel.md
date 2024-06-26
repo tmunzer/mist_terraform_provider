@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**AdditionalMxtunnels** | Pointer to [**map[string]SiteMxtunnelAdditionalMxtunnelsValue**](SiteMxtunnelAdditionalMxtunnelsValue.md) |  | [optional] 
+**AdditionalMxtunnels** | Pointer to [**map[string]SiteMxtunnelAdditionalMxtunnel**](SiteMxtunnelAdditionalMxtunnel.md) |  | [optional] 
 **ApSubnets** | Pointer to **[]string** | list of subnets where we allow AP to establish Mist Tunnels from | [optional] 
 **AutoPreemption** | Pointer to [**SiteMxtunnelAutoPreemption**](SiteMxtunnelAutoPreemption.md) |  | [optional] 
 **Clusters** | Pointer to [**[]SiteMxtunnelCluster**](SiteMxtunnelCluster.md) | for AP, how to connect to tunterm or radsecproxy | [optional] 
@@ -21,7 +21,7 @@ Name | Type | Description | Notes
 **Protocol** | Pointer to [**SiteMxtunnelProtocol**](SiteMxtunnelProtocol.md) |  | [optional] 
 **Radsec** | Pointer to [**SiteMxtunnelRadsec**](SiteMxtunnelRadsec.md) |  | [optional] 
 **SiteId** | Pointer to **string** |  | [optional] [readonly] 
-**VlanIds** | Pointer to [**[]SiteMxtunnelVlanIdsInner**](SiteMxtunnelVlanIdsInner.md) | list of vlan_ids that will be use | [optional] 
+**VlanIds** | Pointer to [**[]SiteMxtunnelVlanId**](SiteMxtunnelVlanId.md) | list of vlan_ids that will be use | [optional] 
 
 ## Methods
 
@@ -44,20 +44,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetAdditionalMxtunnels
 
-`func (o *SiteMxtunnel) GetAdditionalMxtunnels() map[string]SiteMxtunnelAdditionalMxtunnelsValue`
+`func (o *SiteMxtunnel) GetAdditionalMxtunnels() map[string]SiteMxtunnelAdditionalMxtunnel`
 
 GetAdditionalMxtunnels returns the AdditionalMxtunnels field if non-nil, zero value otherwise.
 
 ### GetAdditionalMxtunnelsOk
 
-`func (o *SiteMxtunnel) GetAdditionalMxtunnelsOk() (*map[string]SiteMxtunnelAdditionalMxtunnelsValue, bool)`
+`func (o *SiteMxtunnel) GetAdditionalMxtunnelsOk() (*map[string]SiteMxtunnelAdditionalMxtunnel, bool)`
 
 GetAdditionalMxtunnelsOk returns a tuple with the AdditionalMxtunnels field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetAdditionalMxtunnels
 
-`func (o *SiteMxtunnel) SetAdditionalMxtunnels(v map[string]SiteMxtunnelAdditionalMxtunnelsValue)`
+`func (o *SiteMxtunnel) SetAdditionalMxtunnels(v map[string]SiteMxtunnelAdditionalMxtunnel)`
 
 SetAdditionalMxtunnels sets AdditionalMxtunnels field to given value.
 
@@ -469,20 +469,20 @@ HasSiteId returns a boolean if a field has been set.
 
 ### GetVlanIds
 
-`func (o *SiteMxtunnel) GetVlanIds() []SiteMxtunnelVlanIdsInner`
+`func (o *SiteMxtunnel) GetVlanIds() []SiteMxtunnelVlanId`
 
 GetVlanIds returns the VlanIds field if non-nil, zero value otherwise.
 
 ### GetVlanIdsOk
 
-`func (o *SiteMxtunnel) GetVlanIdsOk() (*[]SiteMxtunnelVlanIdsInner, bool)`
+`func (o *SiteMxtunnel) GetVlanIdsOk() (*[]SiteMxtunnelVlanId, bool)`
 
 GetVlanIdsOk returns a tuple with the VlanIds field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetVlanIds
 
-`func (o *SiteMxtunnel) SetVlanIds(v []SiteMxtunnelVlanIdsInner)`
+`func (o *SiteMxtunnel) SetVlanIds(v []SiteMxtunnelVlanId)`
 
 SetVlanIds sets VlanIds field to given value.
 

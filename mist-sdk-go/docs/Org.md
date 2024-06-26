@@ -10,7 +10,7 @@ Name | Type | Description | Notes
 **Id** | Pointer to **string** |  | [optional] [readonly] 
 **ModifiedTime** | Pointer to **float32** |  | [optional] [readonly] 
 **MspId** | Pointer to **string** |  | [optional] 
-**LogoUrl** | Pointer to **string** | logo uploaded by the MSP with advanced tier, only present if provided | [optional] [readonly] 
+**MspLogoUrl** | Pointer to **string** | logo uploaded by the MSP with advanced tier, only present if provided | [optional] [readonly] 
 **MspName** | Pointer to **string** | name of the msp the org belongs to | [optional] [readonly] 
 **Name** | **string** |  | 
 **OrggroupIds** | Pointer to **[]string** |  | [optional] 
@@ -195,30 +195,30 @@ SetMspId sets MspId field to given value.
 
 HasMspId returns a boolean if a field has been set.
 
-### GetLogoUrl
+### GetMspLogoUrl
 
-`func (o *Org) GetLogoUrl() string`
+`func (o *Org) GetMspLogoUrl() string`
 
-GetLogoUrl returns the LogoUrl field if non-nil, zero value otherwise.
+GetMspLogoUrl returns the MspLogoUrl field if non-nil, zero value otherwise.
 
-### GetLogoUrlOk
+### GetMspLogoUrlOk
 
-`func (o *Org) GetLogoUrlOk() (*string, bool)`
+`func (o *Org) GetMspLogoUrlOk() (*string, bool)`
 
-GetLogoUrlOk returns a tuple with the LogoUrl field if it's non-nil, zero value otherwise
+GetMspLogoUrlOk returns a tuple with the MspLogoUrl field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetLogoUrl
+### SetMspLogoUrl
 
-`func (o *Org) SetLogoUrl(v string)`
+`func (o *Org) SetMspLogoUrl(v string)`
 
-SetLogoUrl sets LogoUrl field to given value.
+SetMspLogoUrl sets MspLogoUrl field to given value.
 
-### HasLogoUrl
+### HasMspLogoUrl
 
-`func (o *Org) HasLogoUrl() bool`
+`func (o *Org) HasMspLogoUrl() bool`
 
-HasLogoUrl returns a boolean if a field has been set.
+HasMspLogoUrl returns a boolean if a field has been set.
 
 ### GetMspName
 

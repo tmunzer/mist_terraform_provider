@@ -1,9 +1,9 @@
 /*
 Mist API
 
-> Version: **2405.1.6** > > Date: **June 6, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location-services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
+> Version: **2406.1.3** > > Date: **June 26, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
 
-API version: 2405.1.6
+API version: 2406.1.3
 Contact: tmunzer@juniper.net
 */
 
@@ -25,7 +25,7 @@ type Network struct {
 	DisallowMistServices *bool `json:"disallow_mist_services,omitempty"`
 	Gateway *string `json:"gateway,omitempty"`
 	Gateway6 *string `json:"gateway6,omitempty"`
-	Hosts *map[string]NetworkHostsValue `json:"hosts,omitempty"`
+	Hosts *map[string]NetworkHost `json:"hosts,omitempty"`
 	Id *string `json:"id,omitempty"`
 	InternalAccess *NetworkInternalAccess `json:"internal_access,omitempty"`
 	InternetAccess *NetworkInternetAccess `json:"internet_access,omitempty"`
@@ -38,7 +38,7 @@ type Network struct {
 	RoutedForNetworks []string `json:"routed_for_networks,omitempty"`
 	Subnet *string `json:"subnet,omitempty"`
 	Subnet6 *string `json:"subnet6,omitempty"`
-	Tenants *map[string]NetworkTenantsValue `json:"tenants,omitempty"`
+	Tenants *map[string]NetworkTenant `json:"tenants,omitempty"`
 	VlanId *int32 `json:"vlan_id,omitempty"`
 	// Property key is the VPN name. Whether this network can be accessed from vpn
 	VpnAccess *map[string]NetworkVpnAccessConfig `json:"vpn_access,omitempty"`
@@ -197,9 +197,9 @@ func (o *Network) SetGateway6(v string) {
 }
 
 // GetHosts returns the Hosts field value if set, zero value otherwise.
-func (o *Network) GetHosts() map[string]NetworkHostsValue {
+func (o *Network) GetHosts() map[string]NetworkHost {
 	if o == nil || IsNil(o.Hosts) {
-		var ret map[string]NetworkHostsValue
+		var ret map[string]NetworkHost
 		return ret
 	}
 	return *o.Hosts
@@ -207,7 +207,7 @@ func (o *Network) GetHosts() map[string]NetworkHostsValue {
 
 // GetHostsOk returns a tuple with the Hosts field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Network) GetHostsOk() (*map[string]NetworkHostsValue, bool) {
+func (o *Network) GetHostsOk() (*map[string]NetworkHost, bool) {
 	if o == nil || IsNil(o.Hosts) {
 		return nil, false
 	}
@@ -223,8 +223,8 @@ func (o *Network) HasHosts() bool {
 	return false
 }
 
-// SetHosts gets a reference to the given map[string]NetworkHostsValue and assigns it to the Hosts field.
-func (o *Network) SetHosts(v map[string]NetworkHostsValue) {
+// SetHosts gets a reference to the given map[string]NetworkHost and assigns it to the Hosts field.
+func (o *Network) SetHosts(v map[string]NetworkHost) {
 	o.Hosts = &v
 }
 
@@ -549,9 +549,9 @@ func (o *Network) SetSubnet6(v string) {
 }
 
 // GetTenants returns the Tenants field value if set, zero value otherwise.
-func (o *Network) GetTenants() map[string]NetworkTenantsValue {
+func (o *Network) GetTenants() map[string]NetworkTenant {
 	if o == nil || IsNil(o.Tenants) {
-		var ret map[string]NetworkTenantsValue
+		var ret map[string]NetworkTenant
 		return ret
 	}
 	return *o.Tenants
@@ -559,7 +559,7 @@ func (o *Network) GetTenants() map[string]NetworkTenantsValue {
 
 // GetTenantsOk returns a tuple with the Tenants field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Network) GetTenantsOk() (*map[string]NetworkTenantsValue, bool) {
+func (o *Network) GetTenantsOk() (*map[string]NetworkTenant, bool) {
 	if o == nil || IsNil(o.Tenants) {
 		return nil, false
 	}
@@ -575,8 +575,8 @@ func (o *Network) HasTenants() bool {
 	return false
 }
 
-// SetTenants gets a reference to the given map[string]NetworkTenantsValue and assigns it to the Tenants field.
-func (o *Network) SetTenants(v map[string]NetworkTenantsValue) {
+// SetTenants gets a reference to the given map[string]NetworkTenant and assigns it to the Tenants field.
+func (o *Network) SetTenants(v map[string]NetworkTenant) {
 	o.Tenants = &v
 }
 

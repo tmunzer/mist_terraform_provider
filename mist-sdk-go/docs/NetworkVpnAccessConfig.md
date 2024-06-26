@@ -6,7 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **AdvertisedSubnet** | Pointer to **string** | if &#x60;routed&#x60;&#x3D;&#x3D;&#x60;true&#x60;, whether to advertise an aggregated subnet toward HUB this is useful when there are multiple networks on SPOKE&#39;s side | [optional] 
 **AllowPing** | Pointer to **bool** | whether to allow ping from vpn into this routed network | [optional] 
-**DestinationNat** | Pointer to [**map[string]NetworkDestinationNatValue**](NetworkDestinationNatValue.md) | Property key may be an IP/Port (i.e. \&quot;63.16.0.3:443\&quot;), or a port (i.e. \&quot;:2222\&quot;) | [optional] 
+**DestinationNat** | Pointer to [**map[string]NetworkDestinationNatProperty**](NetworkDestinationNatProperty.md) | Property key may be an IP/Port (i.e. \&quot;63.16.0.3:443\&quot;), or a port (i.e. \&quot;:2222\&quot;) | [optional] 
 **NatPool** | Pointer to **string** | if &#x60;routed&#x60;&#x3D;&#x3D;&#x60;false&#x60; (usually at Spoke), but some hosts needs to be reachable from Hub, a subnet is required to create and advertise the route to Hub | [optional] 
 **NoReadvertiseToLanBgp** | Pointer to **bool** | toward LAN-side BGP peers | [optional] [default to false]
 **NoReadvertiseToLanOspf** | Pointer to **bool** | toward LAN-side OSPF peers | [optional] [default to false]
@@ -14,7 +14,7 @@ Name | Type | Description | Notes
 **OtherVrfs** | Pointer to **[]string** | by default, the routes are only readvertised toward the same vrf on spoke to allow it to be leaked to other vrfs | [optional] 
 **Routed** | Pointer to **bool** | whether this network is routable | [optional] 
 **SourceNat** | Pointer to [**NetworkSourceNat**](NetworkSourceNat.md) |  | [optional] 
-**StaticNat** | Pointer to [**map[string]NetworkStaticNatValue**](NetworkStaticNatValue.md) | Property key may be an IP Address (i.e. \&quot;172.16.0.1\&quot;), and IP Address and Port (i.e. \&quot;172.16.0.1:8443\&quot;) or a CIDR (i.e. \&quot;172.16.0.12/20\&quot;) | [optional] 
+**StaticNat** | Pointer to [**map[string]NetworkStaticNatProperty**](NetworkStaticNatProperty.md) | Property key may be an IP Address (i.e. \&quot;172.16.0.1\&quot;), and IP Address and Port (i.e. \&quot;172.16.0.1:8443\&quot;) or a CIDR (i.e. \&quot;172.16.0.12/20\&quot;) | [optional] 
 **SummarizedSubnet** | Pointer to **string** | toward overlay how HUB should deal with routes it received from Spokes | [optional] 
 **SummarizedSubnetToLanBgp** | Pointer to **string** | toward LAN-side BGP peers | [optional] 
 **SummarizedSubnetToLanOspf** | Pointer to **string** | toward LAN-side OSPF peers | [optional] 
@@ -90,20 +90,20 @@ HasAllowPing returns a boolean if a field has been set.
 
 ### GetDestinationNat
 
-`func (o *NetworkVpnAccessConfig) GetDestinationNat() map[string]NetworkDestinationNatValue`
+`func (o *NetworkVpnAccessConfig) GetDestinationNat() map[string]NetworkDestinationNatProperty`
 
 GetDestinationNat returns the DestinationNat field if non-nil, zero value otherwise.
 
 ### GetDestinationNatOk
 
-`func (o *NetworkVpnAccessConfig) GetDestinationNatOk() (*map[string]NetworkDestinationNatValue, bool)`
+`func (o *NetworkVpnAccessConfig) GetDestinationNatOk() (*map[string]NetworkDestinationNatProperty, bool)`
 
 GetDestinationNatOk returns a tuple with the DestinationNat field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetDestinationNat
 
-`func (o *NetworkVpnAccessConfig) SetDestinationNat(v map[string]NetworkDestinationNatValue)`
+`func (o *NetworkVpnAccessConfig) SetDestinationNat(v map[string]NetworkDestinationNatProperty)`
 
 SetDestinationNat sets DestinationNat field to given value.
 
@@ -290,20 +290,20 @@ HasSourceNat returns a boolean if a field has been set.
 
 ### GetStaticNat
 
-`func (o *NetworkVpnAccessConfig) GetStaticNat() map[string]NetworkStaticNatValue`
+`func (o *NetworkVpnAccessConfig) GetStaticNat() map[string]NetworkStaticNatProperty`
 
 GetStaticNat returns the StaticNat field if non-nil, zero value otherwise.
 
 ### GetStaticNatOk
 
-`func (o *NetworkVpnAccessConfig) GetStaticNatOk() (*map[string]NetworkStaticNatValue, bool)`
+`func (o *NetworkVpnAccessConfig) GetStaticNatOk() (*map[string]NetworkStaticNatProperty, bool)`
 
 GetStaticNatOk returns a tuple with the StaticNat field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetStaticNat
 
-`func (o *NetworkVpnAccessConfig) SetStaticNat(v map[string]NetworkStaticNatValue)`
+`func (o *NetworkVpnAccessConfig) SetStaticNat(v map[string]NetworkStaticNatProperty)`
 
 SetStaticNat sets StaticNat field to given value.
 

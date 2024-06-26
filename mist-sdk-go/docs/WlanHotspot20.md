@@ -6,8 +6,8 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **DomainName** | Pointer to **[]string** |  | [optional] 
 **Enabled** | Pointer to **bool** | whether to enable hotspot 2.0 config | [optional] 
-**NaiRealms** | Pointer to **[]string** |  | [optional] [default to []]
-**Operators** | Pointer to **[]string** | list of operators to support | [optional] 
+**NaiRealms** | Pointer to **[]string** |  | [optional] 
+**Operators** | Pointer to [**[]WlanHotspot20OperatorsItem**](WlanHotspot20OperatorsItem.md) | list of operators to support | [optional] 
 **Rcoi** | Pointer to **[]string** |  | [optional] 
 **VenueName** | Pointer to **string** | venue name, default is site name | [optional] 
 
@@ -107,20 +107,20 @@ HasNaiRealms returns a boolean if a field has been set.
 
 ### GetOperators
 
-`func (o *WlanHotspot20) GetOperators() []string`
+`func (o *WlanHotspot20) GetOperators() []WlanHotspot20OperatorsItem`
 
 GetOperators returns the Operators field if non-nil, zero value otherwise.
 
 ### GetOperatorsOk
 
-`func (o *WlanHotspot20) GetOperatorsOk() (*[]string, bool)`
+`func (o *WlanHotspot20) GetOperatorsOk() (*[]WlanHotspot20OperatorsItem, bool)`
 
 GetOperatorsOk returns a tuple with the Operators field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetOperators
 
-`func (o *WlanHotspot20) SetOperators(v []string)`
+`func (o *WlanHotspot20) SetOperators(v []WlanHotspot20OperatorsItem)`
 
 SetOperators sets Operators field to given value.
 

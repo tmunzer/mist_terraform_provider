@@ -1,9 +1,9 @@
 /*
 Mist API
 
-> Version: **2405.1.6** > > Date: **June 6, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location-services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
+> Version: **2406.1.3** > > Date: **June 26, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
 
-API version: 2405.1.6
+API version: 2406.1.3
 Contact: tmunzer@juniper.net
 */
 
@@ -22,7 +22,7 @@ var _ MappedNullable = &SiteSettingGatewayMgmt{}
 type SiteSettingGatewayMgmt struct {
 	// for SSR only, as direct root access is not allowed
 	AdminSshkeys []string `json:"admin_sshkeys,omitempty"`
-	AppProbing *SiteSettingGatewayMgmtAppProbing `json:"app_probing,omitempty"`
+	AppProbing *AppProbing `json:"app_probing,omitempty"`
 	// consumes uplink bandwidth, requires WA license
 	AppUsage *bool `json:"app_usage,omitempty"`
 	AutoSignatureUpdate *SiteSettingGatewayMgmtAutoSignatureUpdate `json:"auto_signature_update,omitempty"`
@@ -92,9 +92,9 @@ func (o *SiteSettingGatewayMgmt) SetAdminSshkeys(v []string) {
 }
 
 // GetAppProbing returns the AppProbing field value if set, zero value otherwise.
-func (o *SiteSettingGatewayMgmt) GetAppProbing() SiteSettingGatewayMgmtAppProbing {
+func (o *SiteSettingGatewayMgmt) GetAppProbing() AppProbing {
 	if o == nil || IsNil(o.AppProbing) {
-		var ret SiteSettingGatewayMgmtAppProbing
+		var ret AppProbing
 		return ret
 	}
 	return *o.AppProbing
@@ -102,7 +102,7 @@ func (o *SiteSettingGatewayMgmt) GetAppProbing() SiteSettingGatewayMgmtAppProbin
 
 // GetAppProbingOk returns a tuple with the AppProbing field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *SiteSettingGatewayMgmt) GetAppProbingOk() (*SiteSettingGatewayMgmtAppProbing, bool) {
+func (o *SiteSettingGatewayMgmt) GetAppProbingOk() (*AppProbing, bool) {
 	if o == nil || IsNil(o.AppProbing) {
 		return nil, false
 	}
@@ -118,8 +118,8 @@ func (o *SiteSettingGatewayMgmt) HasAppProbing() bool {
 	return false
 }
 
-// SetAppProbing gets a reference to the given SiteSettingGatewayMgmtAppProbing and assigns it to the AppProbing field.
-func (o *SiteSettingGatewayMgmt) SetAppProbing(v SiteSettingGatewayMgmtAppProbing) {
+// SetAppProbing gets a reference to the given AppProbing and assigns it to the AppProbing field.
+func (o *SiteSettingGatewayMgmt) SetAppProbing(v AppProbing) {
 	o.AppProbing = &v
 }
 

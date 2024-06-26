@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Mac** | Pointer to **string** | fpc0, same as the mac of device_id | [optional] 
-**VcRole** | Pointer to **string** | Both vc_role master and backup will be matched to routing-engine role in Junos preprovisioned VC config | [optional] 
+**VcRole** | Pointer to [**SwitchVirtualChassisMemberVcRole**](SwitchVirtualChassisMemberVcRole.md) |  | [optional] 
 
 ## Methods
 
@@ -53,20 +53,20 @@ HasMac returns a boolean if a field has been set.
 
 ### GetVcRole
 
-`func (o *SwitchVirtualChassisMember) GetVcRole() string`
+`func (o *SwitchVirtualChassisMember) GetVcRole() SwitchVirtualChassisMemberVcRole`
 
 GetVcRole returns the VcRole field if non-nil, zero value otherwise.
 
 ### GetVcRoleOk
 
-`func (o *SwitchVirtualChassisMember) GetVcRoleOk() (*string, bool)`
+`func (o *SwitchVirtualChassisMember) GetVcRoleOk() (*SwitchVirtualChassisMemberVcRole, bool)`
 
 GetVcRoleOk returns a tuple with the VcRole field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetVcRole
 
-`func (o *SwitchVirtualChassisMember) SetVcRole(v string)`
+`func (o *SwitchVirtualChassisMember) SetVcRole(v SwitchVirtualChassisMemberVcRole)`
 
 SetVcRole sets VcRole field to given value.
 

@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **AdminSshkeys** | Pointer to **[]string** | for SSR only, as direct root access is not allowed | [optional] 
-**AppProbing** | Pointer to [**SiteSettingGatewayMgmtAppProbing**](SiteSettingGatewayMgmtAppProbing.md) |  | [optional] 
+**AppProbing** | Pointer to [**AppProbing**](AppProbing.md) |  | [optional] 
 **AppUsage** | Pointer to **bool** | consumes uplink bandwidth, requires WA license | [optional] 
 **AutoSignatureUpdate** | Pointer to [**SiteSettingGatewayMgmtAutoSignatureUpdate**](SiteSettingGatewayMgmtAutoSignatureUpdate.md) |  | [optional] 
 **ConfigRevertTimer** | Pointer to **float32** | he rollback timer for commit confirmed | [optional] [default to 10]
@@ -60,20 +60,20 @@ HasAdminSshkeys returns a boolean if a field has been set.
 
 ### GetAppProbing
 
-`func (o *SiteSettingGatewayMgmt) GetAppProbing() SiteSettingGatewayMgmtAppProbing`
+`func (o *SiteSettingGatewayMgmt) GetAppProbing() AppProbing`
 
 GetAppProbing returns the AppProbing field if non-nil, zero value otherwise.
 
 ### GetAppProbingOk
 
-`func (o *SiteSettingGatewayMgmt) GetAppProbingOk() (*SiteSettingGatewayMgmtAppProbing, bool)`
+`func (o *SiteSettingGatewayMgmt) GetAppProbingOk() (*AppProbing, bool)`
 
 GetAppProbingOk returns a tuple with the AppProbing field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetAppProbing
 
-`func (o *SiteSettingGatewayMgmt) SetAppProbing(v SiteSettingGatewayMgmtAppProbing)`
+`func (o *SiteSettingGatewayMgmt) SetAppProbing(v AppProbing)`
 
 SetAppProbing sets AppProbing field to given value.
 

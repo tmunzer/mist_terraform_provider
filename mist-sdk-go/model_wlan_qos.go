@@ -1,9 +1,9 @@
 /*
 Mist API
 
-> Version: **2405.1.6** > > Date: **June 6, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location-services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
+> Version: **2406.1.3** > > Date: **June 26, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
 
-API version: 2405.1.6
+API version: 2406.1.3
 Contact: tmunzer@juniper.net
 */
 
@@ -20,7 +20,7 @@ var _ MappedNullable = &WlanQos{}
 
 // WlanQos struct for WlanQos
 type WlanQos struct {
-	Class *string `json:"class,omitempty"`
+	Class *WlanQosClass `json:"class,omitempty"`
 	// whether to overwrite QoS
 	Overwrite *bool `json:"overwrite,omitempty"`
 	AdditionalProperties map[string]interface{}
@@ -34,7 +34,7 @@ type _WlanQos WlanQos
 // will change when the set of required properties is changed
 func NewWlanQos() *WlanQos {
 	this := WlanQos{}
-	var class string = "best_effort"
+	var class WlanQosClass = WLANQOSCLASS_BEST_EFFORT
 	this.Class = &class
 	var overwrite bool = false
 	this.Overwrite = &overwrite
@@ -46,7 +46,7 @@ func NewWlanQos() *WlanQos {
 // but it doesn't guarantee that properties required by API are set
 func NewWlanQosWithDefaults() *WlanQos {
 	this := WlanQos{}
-	var class string = "best_effort"
+	var class WlanQosClass = WLANQOSCLASS_BEST_EFFORT
 	this.Class = &class
 	var overwrite bool = false
 	this.Overwrite = &overwrite
@@ -54,9 +54,9 @@ func NewWlanQosWithDefaults() *WlanQos {
 }
 
 // GetClass returns the Class field value if set, zero value otherwise.
-func (o *WlanQos) GetClass() string {
+func (o *WlanQos) GetClass() WlanQosClass {
 	if o == nil || IsNil(o.Class) {
-		var ret string
+		var ret WlanQosClass
 		return ret
 	}
 	return *o.Class
@@ -64,7 +64,7 @@ func (o *WlanQos) GetClass() string {
 
 // GetClassOk returns a tuple with the Class field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *WlanQos) GetClassOk() (*string, bool) {
+func (o *WlanQos) GetClassOk() (*WlanQosClass, bool) {
 	if o == nil || IsNil(o.Class) {
 		return nil, false
 	}
@@ -80,8 +80,8 @@ func (o *WlanQos) HasClass() bool {
 	return false
 }
 
-// SetClass gets a reference to the given string and assigns it to the Class field.
-func (o *WlanQos) SetClass(v string) {
+// SetClass gets a reference to the given WlanQosClass and assigns it to the Class field.
+func (o *WlanQos) SetClass(v WlanQosClass) {
 	o.Class = &v
 }
 

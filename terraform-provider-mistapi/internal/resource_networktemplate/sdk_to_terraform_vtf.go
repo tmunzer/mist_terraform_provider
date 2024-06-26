@@ -12,7 +12,7 @@ import (
 	mist_transform "terraform-provider-mistapi/internal/provider/utils/transform"
 )
 
-func vrfConfigSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdkgo.JunosVrfConfig) VrfConfigValue {
+func vrfConfigSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdkgo.VrfConfig) VrfConfigValue {
 	data_attr_type := VrfConfigValue{}.AttributeTypes(ctx)
 	data_attr_value := map[string]attr.Value{
 		"enabled": types.BoolValue(d.GetEnabled()),
@@ -24,7 +24,7 @@ func vrfConfigSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mis
 	return r
 }
 
-func vrfInstanceExtraRouteSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]mistsdkgo.VrfExtraRoutesValue) basetypes.MapValue {
+func vrfInstanceExtraRouteSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]mistsdkgo.VrfExtraRoute) basetypes.MapValue {
 	data_map_attr_type := ExtraRoutesValue{}.AttributeTypes(ctx)
 	data_map_value := make(map[string]attr.Value)
 	for k, v := range d {
@@ -41,7 +41,7 @@ func vrfInstanceExtraRouteSdkToTerraform(ctx context.Context, diags *diag.Diagno
 	return state_result
 }
 
-func vrfInstancesSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]mistsdkgo.VrfInstancesConfig) basetypes.MapValue {
+func vrfInstancesSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]mistsdkgo.VrfInstance) basetypes.MapValue {
 	data_map_attr_type := VrfInstancesValue{}.AttributeTypes(ctx)
 	data_map_value := make(map[string]attr.Value)
 	for k, v := range d {

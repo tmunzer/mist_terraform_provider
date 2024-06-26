@@ -6,6 +6,7 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**DeleteSite**](SitesAPI.md#DeleteSite) | **Delete** /api/v1/sites/{site_id} | deleteSite
 [**GetSiteInfo**](SitesAPI.md#GetSiteInfo) | **Get** /api/v1/sites/{site_id} | getSiteInfo
+[**GetSiteStats**](SitesAPI.md#GetSiteStats) | **Get** /api/v1/sites/{site_id}/stats | getSiteStats
 [**UpdateSiteInfo**](SitesAPI.md#UpdateSiteInfo) | **Put** /api/v1/sites/{site_id} | updateSiteInfo
 
 
@@ -27,7 +28,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "github.com/tmunzer/mistsdkgo"
 )
 
 func main() {
@@ -66,7 +67,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[apiToken](../README.md#apiToken)
+[apiToken](../README.md#apiToken), [basicAuth](../README.md#basicAuth)
 
 ### HTTP request headers
 
@@ -95,7 +96,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "github.com/tmunzer/mistsdkgo"
 )
 
 func main() {
@@ -136,7 +137,77 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[apiToken](../README.md#apiToken)
+[apiToken](../README.md#apiToken), [basicAuth](../README.md#basicAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## GetSiteStats
+
+> StatsSite GetSiteStats(ctx, siteId).Execute()
+
+getSiteStats
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/tmunzer/mistsdkgo"
+)
+
+func main() {
+	siteId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.SitesAPI.GetSiteStats(context.Background(), siteId).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `SitesAPI.GetSiteStats``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `GetSiteStats`: StatsSite
+	fmt.Fprintf(os.Stdout, "Response from `SitesAPI.GetSiteStats`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**siteId** | **string** |  | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGetSiteStatsRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+### Return type
+
+[**StatsSite**](StatsSite.md)
+
+### Authorization
+
+[apiToken](../README.md#apiToken), [basicAuth](../README.md#basicAuth)
 
 ### HTTP request headers
 
@@ -165,7 +236,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "github.com/tmunzer/mistsdkgo"
 )
 
 func main() {
@@ -208,7 +279,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[apiToken](../README.md#apiToken)
+[apiToken](../README.md#apiToken), [basicAuth](../README.md#basicAuth)
 
 ### HTTP request headers
 

@@ -1,9 +1,9 @@
 /*
 Mist API
 
-> Version: **2405.1.6** > > Date: **June 6, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location-services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
+> Version: **2406.1.3** > > Date: **June 26, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
 
-API version: 2405.1.6
+API version: 2406.1.3
 Contact: tmunzer@juniper.net
 */
 
@@ -20,7 +20,7 @@ var _ MappedNullable = &RemoteSyslogConsole{}
 
 // RemoteSyslogConsole struct for RemoteSyslogConsole
 type RemoteSyslogConsole struct {
-	Contents []RemoteSyslogContentItem `json:"contents,omitempty"`
+	Contents []RemoteSyslogContent `json:"contents,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -44,9 +44,9 @@ func NewRemoteSyslogConsoleWithDefaults() *RemoteSyslogConsole {
 }
 
 // GetContents returns the Contents field value if set, zero value otherwise.
-func (o *RemoteSyslogConsole) GetContents() []RemoteSyslogContentItem {
+func (o *RemoteSyslogConsole) GetContents() []RemoteSyslogContent {
 	if o == nil || IsNil(o.Contents) {
-		var ret []RemoteSyslogContentItem
+		var ret []RemoteSyslogContent
 		return ret
 	}
 	return o.Contents
@@ -54,7 +54,7 @@ func (o *RemoteSyslogConsole) GetContents() []RemoteSyslogContentItem {
 
 // GetContentsOk returns a tuple with the Contents field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RemoteSyslogConsole) GetContentsOk() ([]RemoteSyslogContentItem, bool) {
+func (o *RemoteSyslogConsole) GetContentsOk() ([]RemoteSyslogContent, bool) {
 	if o == nil || IsNil(o.Contents) {
 		return nil, false
 	}
@@ -70,8 +70,8 @@ func (o *RemoteSyslogConsole) HasContents() bool {
 	return false
 }
 
-// SetContents gets a reference to the given []RemoteSyslogContentItem and assigns it to the Contents field.
-func (o *RemoteSyslogConsole) SetContents(v []RemoteSyslogContentItem) {
+// SetContents gets a reference to the given []RemoteSyslogContent and assigns it to the Contents field.
+func (o *RemoteSyslogConsole) SetContents(v []RemoteSyslogContent) {
 	o.Contents = v
 }
 

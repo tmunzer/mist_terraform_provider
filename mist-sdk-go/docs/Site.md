@@ -6,7 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Address** | Pointer to **string** | full address of the site | [optional] 
 **AlarmtemplateId** | Pointer to **NullableString** | Alarm Template ID, this takes precedence over the Org-level alarmtemplate_id | [optional] 
-**AptemplateId** | Pointer to **NullableString** | AP Template ID, used by APs | [optional] 
+**AptemplateId** | Pointer to **string** | AP Template ID, used by APs | [optional] 
 **CountryCode** | Pointer to **string** | country code for the site (for AP config generation), in two-character | [optional] 
 **CreatedTime** | Pointer to **float32** |  | [optional] [readonly] 
 **GatewaytemplateId** | Pointer to **NullableString** | Gateway Template ID, used by gateways | [optional] 
@@ -19,8 +19,8 @@ Name | Type | Description | Notes
 **OrgId** | Pointer to **string** |  | [optional] [readonly] 
 **RftemplateId** | Pointer to **NullableString** | RF Template ID, this takes precedence over Site Settings | [optional] 
 **SecpolicyId** | Pointer to **NullableString** | SecPolicy ID | [optional] 
-**SitegroupIds** | Pointer to **[]string** | sitegroups this site belongs to | [optional] [default to []]
-**SitetemplateId** | Pointer to **NullableString** | Site Template ID | [optional] 
+**SitegroupIds** | Pointer to **[]string** | sitegroups this site belongs to | [optional] 
+**SitetemplateId** | Pointer to **string** | Site Template ID | [optional] 
 **Timezone** | Pointer to **string** | Timezone the site is at | [optional] 
 
 ## Methods
@@ -127,16 +127,6 @@ SetAptemplateId sets AptemplateId field to given value.
 
 HasAptemplateId returns a boolean if a field has been set.
 
-### SetAptemplateIdNil
-
-`func (o *Site) SetAptemplateIdNil(b bool)`
-
- SetAptemplateIdNil sets the value for AptemplateId to be an explicit nil
-
-### UnsetAptemplateId
-`func (o *Site) UnsetAptemplateId()`
-
-UnsetAptemplateId ensures that no value is present for AptemplateId, not even an explicit nil
 ### GetCountryCode
 
 `func (o *Site) GetCountryCode() string`
@@ -522,16 +512,6 @@ SetSitetemplateId sets SitetemplateId field to given value.
 
 HasSitetemplateId returns a boolean if a field has been set.
 
-### SetSitetemplateIdNil
-
-`func (o *Site) SetSitetemplateIdNil(b bool)`
-
- SetSitetemplateIdNil sets the value for SitetemplateId to be an explicit nil
-
-### UnsetSitetemplateId
-`func (o *Site) UnsetSitetemplateId()`
-
-UnsetSitetemplateId ensures that no value is present for SitetemplateId, not even an explicit nil
 ### GetTimezone
 
 `func (o *Site) GetTimezone() string`

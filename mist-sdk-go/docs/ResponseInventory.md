@@ -7,8 +7,8 @@ Name | Type | Description | Notes
 **Added** | Pointer to **[]string** |  | [optional] 
 **Duplicated** | Pointer to **[]string** |  | [optional] 
 **Error** | Pointer to **[]string** |  | [optional] 
-**InventoryAdded** | Pointer to [**[]ResponseInventoryInventoryAddedInner**](ResponseInventoryInventoryAddedInner.md) |  | [optional] 
-**InventoryDuplicated** | Pointer to [**[]ResponseInventoryInventoryDuplicatedInner**](ResponseInventoryInventoryDuplicatedInner.md) |  | [optional] 
+**InventoryAdded** | Pointer to [**[]ResponseInventoryInventoryAddedItems**](ResponseInventoryInventoryAddedItems.md) |  | [optional] 
+**InventoryDuplicated** | Pointer to [**[]ResponseInventoryInventoryDuplicatedItems**](ResponseInventoryInventoryDuplicatedItems.md) |  | [optional] 
 
 ## Methods
 
@@ -106,20 +106,20 @@ HasError returns a boolean if a field has been set.
 
 ### GetInventoryAdded
 
-`func (o *ResponseInventory) GetInventoryAdded() []ResponseInventoryInventoryAddedInner`
+`func (o *ResponseInventory) GetInventoryAdded() []ResponseInventoryInventoryAddedItems`
 
 GetInventoryAdded returns the InventoryAdded field if non-nil, zero value otherwise.
 
 ### GetInventoryAddedOk
 
-`func (o *ResponseInventory) GetInventoryAddedOk() (*[]ResponseInventoryInventoryAddedInner, bool)`
+`func (o *ResponseInventory) GetInventoryAddedOk() (*[]ResponseInventoryInventoryAddedItems, bool)`
 
 GetInventoryAddedOk returns a tuple with the InventoryAdded field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetInventoryAdded
 
-`func (o *ResponseInventory) SetInventoryAdded(v []ResponseInventoryInventoryAddedInner)`
+`func (o *ResponseInventory) SetInventoryAdded(v []ResponseInventoryInventoryAddedItems)`
 
 SetInventoryAdded sets InventoryAdded field to given value.
 
@@ -131,20 +131,20 @@ HasInventoryAdded returns a boolean if a field has been set.
 
 ### GetInventoryDuplicated
 
-`func (o *ResponseInventory) GetInventoryDuplicated() []ResponseInventoryInventoryDuplicatedInner`
+`func (o *ResponseInventory) GetInventoryDuplicated() []ResponseInventoryInventoryDuplicatedItems`
 
 GetInventoryDuplicated returns the InventoryDuplicated field if non-nil, zero value otherwise.
 
 ### GetInventoryDuplicatedOk
 
-`func (o *ResponseInventory) GetInventoryDuplicatedOk() (*[]ResponseInventoryInventoryDuplicatedInner, bool)`
+`func (o *ResponseInventory) GetInventoryDuplicatedOk() (*[]ResponseInventoryInventoryDuplicatedItems, bool)`
 
 GetInventoryDuplicatedOk returns a tuple with the InventoryDuplicated field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetInventoryDuplicated
 
-`func (o *ResponseInventory) SetInventoryDuplicated(v []ResponseInventoryInventoryDuplicatedInner)`
+`func (o *ResponseInventory) SetInventoryDuplicated(v []ResponseInventoryInventoryDuplicatedItems)`
 
 SetInventoryDuplicated sets InventoryDuplicated field to given value.
 

@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Enabled** | Pointer to **bool** |  | [optional] [default to true]
-**Monitors** | Pointer to [**[]SiteSettingCriticalUrlMonitoringMonitorsInner**](SiteSettingCriticalUrlMonitoringMonitorsInner.md) |  | [optional] 
+**Monitors** | Pointer to [**[]SiteSettingCriticalUrlMonitoringMonitor**](SiteSettingCriticalUrlMonitoringMonitor.md) |  | [optional] 
 
 ## Methods
 
@@ -53,20 +53,20 @@ HasEnabled returns a boolean if a field has been set.
 
 ### GetMonitors
 
-`func (o *SiteSettingCriticalUrlMonitoring) GetMonitors() []SiteSettingCriticalUrlMonitoringMonitorsInner`
+`func (o *SiteSettingCriticalUrlMonitoring) GetMonitors() []SiteSettingCriticalUrlMonitoringMonitor`
 
 GetMonitors returns the Monitors field if non-nil, zero value otherwise.
 
 ### GetMonitorsOk
 
-`func (o *SiteSettingCriticalUrlMonitoring) GetMonitorsOk() (*[]SiteSettingCriticalUrlMonitoringMonitorsInner, bool)`
+`func (o *SiteSettingCriticalUrlMonitoring) GetMonitorsOk() (*[]SiteSettingCriticalUrlMonitoringMonitor, bool)`
 
 GetMonitorsOk returns a tuple with the Monitors field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetMonitors
 
-`func (o *SiteSettingCriticalUrlMonitoring) SetMonitors(v []SiteSettingCriticalUrlMonitoringMonitorsInner)`
+`func (o *SiteSettingCriticalUrlMonitoring) SetMonitors(v []SiteSettingCriticalUrlMonitoringMonitor)`
 
 SetMonitors sets Monitors field to given value.
 

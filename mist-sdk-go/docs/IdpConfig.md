@@ -4,9 +4,9 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**AlertOnly** | Pointer to **string** |  | [optional] 
+**AlertOnly** | Pointer to **bool** |  | [optional] 
 **Enabled** | Pointer to **bool** |  | [optional] [default to false]
-**IdpprofileId** | Pointer to **string** | org-level IDP Profile can be used, this takes precedence over &#x60;profile&#x60; | [optional] 
+**IdpprofileId** | Pointer to **string** | org_level IDP Profile can be used, this takes precedence over &#x60;profile&#x60; | [optional] 
 **Profile** | Pointer to **string** | &#x60;strict&#x60; (default) / &#x60;standard&#x60; / or keys from from idp_profiles | [optional] [default to "strict"]
 
 ## Methods
@@ -30,20 +30,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetAlertOnly
 
-`func (o *IdpConfig) GetAlertOnly() string`
+`func (o *IdpConfig) GetAlertOnly() bool`
 
 GetAlertOnly returns the AlertOnly field if non-nil, zero value otherwise.
 
 ### GetAlertOnlyOk
 
-`func (o *IdpConfig) GetAlertOnlyOk() (*string, bool)`
+`func (o *IdpConfig) GetAlertOnlyOk() (*bool, bool)`
 
 GetAlertOnlyOk returns a tuple with the AlertOnly field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetAlertOnly
 
-`func (o *IdpConfig) SetAlertOnly(v string)`
+`func (o *IdpConfig) SetAlertOnly(v bool)`
 
 SetAlertOnly sets AlertOnly field to given value.
 

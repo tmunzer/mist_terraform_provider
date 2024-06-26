@@ -1,9 +1,9 @@
 /*
 Mist API
 
-> Version: **2405.1.6** > > Date: **June 6, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location-services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
+> Version: **2406.1.3** > > Date: **June 26, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
 
-API version: 2405.1.6
+API version: 2406.1.3
 Contact: tmunzer@juniper.net
 */
 
@@ -21,8 +21,7 @@ var _ MappedNullable = &ApClientBridgeAuth{}
 // ApClientBridgeAuth struct for ApClientBridgeAuth
 type ApClientBridgeAuth struct {
 	Psk *string `json:"psk,omitempty"`
-	// wpa2-AES/CCMPp is assumed when `type`==`psk`
-	Type *string `json:"type,omitempty"`
+	Type *ApClientBridgeAuthType `json:"type,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -34,7 +33,7 @@ type _ApClientBridgeAuth ApClientBridgeAuth
 // will change when the set of required properties is changed
 func NewApClientBridgeAuth() *ApClientBridgeAuth {
 	this := ApClientBridgeAuth{}
-	var type_ string = "psk"
+	var type_ ApClientBridgeAuthType = APCLIENTBRIDGEAUTHTYPE_PSK
 	this.Type = &type_
 	return &this
 }
@@ -44,7 +43,7 @@ func NewApClientBridgeAuth() *ApClientBridgeAuth {
 // but it doesn't guarantee that properties required by API are set
 func NewApClientBridgeAuthWithDefaults() *ApClientBridgeAuth {
 	this := ApClientBridgeAuth{}
-	var type_ string = "psk"
+	var type_ ApClientBridgeAuthType = APCLIENTBRIDGEAUTHTYPE_PSK
 	this.Type = &type_
 	return &this
 }
@@ -82,9 +81,9 @@ func (o *ApClientBridgeAuth) SetPsk(v string) {
 }
 
 // GetType returns the Type field value if set, zero value otherwise.
-func (o *ApClientBridgeAuth) GetType() string {
+func (o *ApClientBridgeAuth) GetType() ApClientBridgeAuthType {
 	if o == nil || IsNil(o.Type) {
-		var ret string
+		var ret ApClientBridgeAuthType
 		return ret
 	}
 	return *o.Type
@@ -92,7 +91,7 @@ func (o *ApClientBridgeAuth) GetType() string {
 
 // GetTypeOk returns a tuple with the Type field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ApClientBridgeAuth) GetTypeOk() (*string, bool) {
+func (o *ApClientBridgeAuth) GetTypeOk() (*ApClientBridgeAuthType, bool) {
 	if o == nil || IsNil(o.Type) {
 		return nil, false
 	}
@@ -108,8 +107,8 @@ func (o *ApClientBridgeAuth) HasType() bool {
 	return false
 }
 
-// SetType gets a reference to the given string and assigns it to the Type field.
-func (o *ApClientBridgeAuth) SetType(v string) {
+// SetType gets a reference to the given ApClientBridgeAuthType and assigns it to the Type field.
+func (o *ApClientBridgeAuth) SetType(v ApClientBridgeAuthType) {
 	o.Type = &v
 }
 

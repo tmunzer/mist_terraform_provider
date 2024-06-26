@@ -1,9 +1,9 @@
 /*
 Mist API
 
-> Version: **2405.1.6** > > Date: **June 6, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location-services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
+> Version: **2406.1.3** > > Date: **June 26, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
 
-API version: 2405.1.6
+API version: 2406.1.3
 Contact: tmunzer@juniper.net
 */
 
@@ -30,8 +30,7 @@ type WlanPortal struct {
 	AmazonEnabled *bool `json:"amazon_enabled,omitempty"`
 	// interval for which guest remains authorized using amazon auth (in minutes), if not provided, uses expire`
 	AmazonExpire NullableFloat32 `json:"amazon_expire,omitempty"`
-	// authentication scheme
-	Auth *string `json:"auth,omitempty"`
+	Auth *WlanPortalAuth `json:"auth,omitempty"`
 	// Required if `azure_enabled`==`true`. Azure active directory app client id
 	AzureClientId NullableString `json:"azure_client_id,omitempty"`
 	// Required if `azure_enabled`==`true`. Azure active directory app client secret
@@ -132,7 +131,7 @@ type WlanPortal struct {
 	SmsEnabled *bool `json:"sms_enabled,omitempty"`
 	// interval for which guest remains authorized using sms auth (in minutes), if not provided, uses expire`
 	SmsExpire NullableFloat32 `json:"sms_expire,omitempty"`
-	SmsProvider *string `json:"sms_provider,omitempty"`
+	SmsProvider *WlanPortalSmsProvider `json:"sms_provider,omitempty"`
 	// whether to automatically approve guest and allow sponsor to revoke guest access, needs predefined_sponsors_enabled enabled and sponsor_notify_all disabled
 	SponsorAutoApprove *bool `json:"sponsor_auto_approve,omitempty"`
 	// list of domain allowed for sponsor email. Required if `sponsor_enabled` is `true` and `sponsors` is empty.
@@ -160,7 +159,7 @@ type WlanPortal struct {
 	SsoIdpSsoUrl *string `json:"sso_idp_sso_url,omitempty"`
 	// IDP issuer URL
 	SsoIssuer *string `json:"sso_issuer,omitempty"`
-	SsoNameidFormat *string `json:"sso_nameid_format,omitempty"`
+	SsoNameidFormat *WlanPortalSsoNameidFormat `json:"sso_nameid_format,omitempty"`
 	// when `sms_provider`==`telstra`, Client ID provided by Telstra
 	TelstraClientId *string `json:"telstra_client_id,omitempty"`
 	// when `sms_provider`==`telstra`, Client secret provided by Telstra
@@ -186,7 +185,7 @@ func NewWlanPortal() *WlanPortal {
 	this := WlanPortal{}
 	var amazonEnabled bool = false
 	this.AmazonEnabled = &amazonEnabled
-	var auth string = "none"
+	var auth WlanPortalAuth = WLANPORTALAUTH_NONE
 	this.Auth = &auth
 	var azureEnabled bool = false
 	this.AzureEnabled = &azureEnabled
@@ -216,7 +215,7 @@ func NewWlanPortal() *WlanPortal {
 	this.Privacy = &privacy
 	var smsEnabled bool = false
 	this.SmsEnabled = &smsEnabled
-	var smsProvider string = "manual"
+	var smsProvider WlanPortalSmsProvider = WLANPORTALSMSPROVIDER_MANUAL
 	this.SmsProvider = &smsProvider
 	var sponsorAutoApprove bool = false
 	this.SponsorAutoApprove = &sponsorAutoApprove
@@ -228,7 +227,7 @@ func NewWlanPortal() *WlanPortal {
 	this.SponsorNotifyAll = &sponsorNotifyAll
 	var sponsorStatusNotify bool = false
 	this.SponsorStatusNotify = &sponsorStatusNotify
-	var ssoNameidFormat string = "email"
+	var ssoNameidFormat WlanPortalSsoNameidFormat = WLANPORTALSSONAMEIDFORMAT_EMAIL
 	this.SsoNameidFormat = &ssoNameidFormat
 	return &this
 }
@@ -240,7 +239,7 @@ func NewWlanPortalWithDefaults() *WlanPortal {
 	this := WlanPortal{}
 	var amazonEnabled bool = false
 	this.AmazonEnabled = &amazonEnabled
-	var auth string = "none"
+	var auth WlanPortalAuth = WLANPORTALAUTH_NONE
 	this.Auth = &auth
 	var azureEnabled bool = false
 	this.AzureEnabled = &azureEnabled
@@ -270,7 +269,7 @@ func NewWlanPortalWithDefaults() *WlanPortal {
 	this.Privacy = &privacy
 	var smsEnabled bool = false
 	this.SmsEnabled = &smsEnabled
-	var smsProvider string = "manual"
+	var smsProvider WlanPortalSmsProvider = WLANPORTALSMSPROVIDER_MANUAL
 	this.SmsProvider = &smsProvider
 	var sponsorAutoApprove bool = false
 	this.SponsorAutoApprove = &sponsorAutoApprove
@@ -282,7 +281,7 @@ func NewWlanPortalWithDefaults() *WlanPortal {
 	this.SponsorNotifyAll = &sponsorNotifyAll
 	var sponsorStatusNotify bool = false
 	this.SponsorStatusNotify = &sponsorStatusNotify
-	var ssoNameidFormat string = "email"
+	var ssoNameidFormat WlanPortalSsoNameidFormat = WLANPORTALSSONAMEIDFORMAT_EMAIL
 	this.SsoNameidFormat = &ssoNameidFormat
 	return &this
 }
@@ -478,9 +477,9 @@ func (o *WlanPortal) UnsetAmazonExpire() {
 }
 
 // GetAuth returns the Auth field value if set, zero value otherwise.
-func (o *WlanPortal) GetAuth() string {
+func (o *WlanPortal) GetAuth() WlanPortalAuth {
 	if o == nil || IsNil(o.Auth) {
-		var ret string
+		var ret WlanPortalAuth
 		return ret
 	}
 	return *o.Auth
@@ -488,7 +487,7 @@ func (o *WlanPortal) GetAuth() string {
 
 // GetAuthOk returns a tuple with the Auth field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *WlanPortal) GetAuthOk() (*string, bool) {
+func (o *WlanPortal) GetAuthOk() (*WlanPortalAuth, bool) {
 	if o == nil || IsNil(o.Auth) {
 		return nil, false
 	}
@@ -504,8 +503,8 @@ func (o *WlanPortal) HasAuth() bool {
 	return false
 }
 
-// SetAuth gets a reference to the given string and assigns it to the Auth field.
-func (o *WlanPortal) SetAuth(v string) {
+// SetAuth gets a reference to the given WlanPortalAuth and assigns it to the Auth field.
+func (o *WlanPortal) SetAuth(v WlanPortalAuth) {
 	o.Auth = &v
 }
 
@@ -2312,9 +2311,9 @@ func (o *WlanPortal) UnsetSmsExpire() {
 }
 
 // GetSmsProvider returns the SmsProvider field value if set, zero value otherwise.
-func (o *WlanPortal) GetSmsProvider() string {
+func (o *WlanPortal) GetSmsProvider() WlanPortalSmsProvider {
 	if o == nil || IsNil(o.SmsProvider) {
-		var ret string
+		var ret WlanPortalSmsProvider
 		return ret
 	}
 	return *o.SmsProvider
@@ -2322,7 +2321,7 @@ func (o *WlanPortal) GetSmsProvider() string {
 
 // GetSmsProviderOk returns a tuple with the SmsProvider field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *WlanPortal) GetSmsProviderOk() (*string, bool) {
+func (o *WlanPortal) GetSmsProviderOk() (*WlanPortalSmsProvider, bool) {
 	if o == nil || IsNil(o.SmsProvider) {
 		return nil, false
 	}
@@ -2338,8 +2337,8 @@ func (o *WlanPortal) HasSmsProvider() bool {
 	return false
 }
 
-// SetSmsProvider gets a reference to the given string and assigns it to the SmsProvider field.
-func (o *WlanPortal) SetSmsProvider(v string) {
+// SetSmsProvider gets a reference to the given WlanPortalSmsProvider and assigns it to the SmsProvider field.
+func (o *WlanPortal) SetSmsProvider(v WlanPortalSmsProvider) {
 	o.SmsProvider = &v
 }
 
@@ -2802,9 +2801,9 @@ func (o *WlanPortal) SetSsoIssuer(v string) {
 }
 
 // GetSsoNameidFormat returns the SsoNameidFormat field value if set, zero value otherwise.
-func (o *WlanPortal) GetSsoNameidFormat() string {
+func (o *WlanPortal) GetSsoNameidFormat() WlanPortalSsoNameidFormat {
 	if o == nil || IsNil(o.SsoNameidFormat) {
-		var ret string
+		var ret WlanPortalSsoNameidFormat
 		return ret
 	}
 	return *o.SsoNameidFormat
@@ -2812,7 +2811,7 @@ func (o *WlanPortal) GetSsoNameidFormat() string {
 
 // GetSsoNameidFormatOk returns a tuple with the SsoNameidFormat field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *WlanPortal) GetSsoNameidFormatOk() (*string, bool) {
+func (o *WlanPortal) GetSsoNameidFormatOk() (*WlanPortalSsoNameidFormat, bool) {
 	if o == nil || IsNil(o.SsoNameidFormat) {
 		return nil, false
 	}
@@ -2828,8 +2827,8 @@ func (o *WlanPortal) HasSsoNameidFormat() bool {
 	return false
 }
 
-// SetSsoNameidFormat gets a reference to the given string and assigns it to the SsoNameidFormat field.
-func (o *WlanPortal) SetSsoNameidFormat(v string) {
+// SetSsoNameidFormat gets a reference to the given WlanPortalSsoNameidFormat and assigns it to the SsoNameidFormat field.
+func (o *WlanPortal) SetSsoNameidFormat(v WlanPortalSsoNameidFormat) {
 	o.SsoNameidFormat = &v
 }
 

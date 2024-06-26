@@ -1,9 +1,9 @@
 /*
 Mist API
 
-> Version: **2405.1.6** > > Date: **June 6, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location-services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
+> Version: **2406.1.3** > > Date: **June 26, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
 
-API version: 2405.1.6
+API version: 2406.1.3
 Contact: tmunzer@juniper.net
 */
 
@@ -24,7 +24,7 @@ type TuntermMonitoring struct {
 	Host *string `json:"host,omitempty"`
 	// when `protocol`==`tcp`
 	Port *int32 `json:"port,omitempty"`
-	Protocol *string `json:"protocol,omitempty"`
+	Protocol *TunternMonitoringProtocol `json:"protocol,omitempty"`
 	Timeout *int32 `json:"timeout,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
@@ -117,9 +117,9 @@ func (o *TuntermMonitoring) SetPort(v int32) {
 }
 
 // GetProtocol returns the Protocol field value if set, zero value otherwise.
-func (o *TuntermMonitoring) GetProtocol() string {
+func (o *TuntermMonitoring) GetProtocol() TunternMonitoringProtocol {
 	if o == nil || IsNil(o.Protocol) {
-		var ret string
+		var ret TunternMonitoringProtocol
 		return ret
 	}
 	return *o.Protocol
@@ -127,7 +127,7 @@ func (o *TuntermMonitoring) GetProtocol() string {
 
 // GetProtocolOk returns a tuple with the Protocol field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *TuntermMonitoring) GetProtocolOk() (*string, bool) {
+func (o *TuntermMonitoring) GetProtocolOk() (*TunternMonitoringProtocol, bool) {
 	if o == nil || IsNil(o.Protocol) {
 		return nil, false
 	}
@@ -143,8 +143,8 @@ func (o *TuntermMonitoring) HasProtocol() bool {
 	return false
 }
 
-// SetProtocol gets a reference to the given string and assigns it to the Protocol field.
-func (o *TuntermMonitoring) SetProtocol(v string) {
+// SetProtocol gets a reference to the given TunternMonitoringProtocol and assigns it to the Protocol field.
+func (o *TuntermMonitoring) SetProtocol(v TunternMonitoringProtocol) {
 	o.Protocol = &v
 }
 

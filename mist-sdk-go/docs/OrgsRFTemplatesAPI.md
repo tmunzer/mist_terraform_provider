@@ -29,7 +29,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "github.com/tmunzer/mistsdkgo"
 )
 
 func main() {
@@ -72,7 +72,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[apiToken](../README.md#apiToken)
+[apiToken](../README.md#apiToken), [basicAuth](../README.md#basicAuth)
 
 ### HTTP request headers
 
@@ -101,7 +101,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "github.com/tmunzer/mistsdkgo"
 )
 
 func main() {
@@ -143,7 +143,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[apiToken](../README.md#apiToken)
+[apiToken](../README.md#apiToken), [basicAuth](../README.md#basicAuth)
 
 ### HTTP request headers
 
@@ -172,7 +172,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "github.com/tmunzer/mistsdkgo"
 )
 
 func main() {
@@ -216,7 +216,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[apiToken](../README.md#apiToken)
+[apiToken](../README.md#apiToken), [basicAuth](../README.md#basicAuth)
 
 ### HTTP request headers
 
@@ -245,7 +245,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "github.com/tmunzer/mistsdkgo"
 )
 
 func main() {
@@ -290,7 +290,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[apiToken](../README.md#apiToken)
+[apiToken](../README.md#apiToken), [basicAuth](../README.md#basicAuth)
 
 ### HTTP request headers
 
@@ -319,7 +319,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "github.com/tmunzer/mistsdkgo"
 )
 
 func main() {
@@ -365,7 +365,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[apiToken](../README.md#apiToken)
+[apiToken](../README.md#apiToken), [basicAuth](../README.md#basicAuth)
 
 ### HTTP request headers
 

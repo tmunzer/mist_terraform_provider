@@ -1,9 +1,9 @@
 /*
 Mist API
 
-> Version: **2405.1.6** > > Date: **June 6, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location-services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
+> Version: **2406.1.3** > > Date: **June 26, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
 
-API version: 2405.1.6
+API version: 2406.1.3
 Contact: tmunzer@juniper.net
 */
 
@@ -27,10 +27,9 @@ type ApRadio struct {
 	AntGain5 *int32 `json:"ant_gain_5,omitempty"`
 	// antenna gain for 6G - for models with external antenna only
 	AntGain6 *int32 `json:"ant_gain_6,omitempty"`
-	AntennaMode *string `json:"antenna_mode,omitempty"`
+	AntennaMode *ApRadioAntennaMode `json:"antenna_mode,omitempty"`
 	Band24 *ApRadioBand `json:"band_24,omitempty"`
-	// if `band_24_usage`==`5`, by default, band_5 properties is used, if specific channel/bandwidth/power/... is desired, use the \"band_5_on_24_radio\"
-	Band24Usage *string `json:"band_24_usage,omitempty"`
+	Band24Usage *ApRadioBand24Usage `json:"band_24_usage,omitempty"`
 	Band5 *ApRadioBand `json:"band_5,omitempty"`
 	Band5On24Radio *ApRadioBand `json:"band_5_on_24_radio,omitempty"`
 	Band6 *ApRadioBand `json:"band_6,omitempty"`
@@ -51,9 +50,9 @@ func NewApRadio() *ApRadio {
 	this := ApRadio{}
 	var allowRrmDisable bool = false
 	this.AllowRrmDisable = &allowRrmDisable
-	var antennaMode string = "default"
+	var antennaMode ApRadioAntennaMode = APRADIOANTENNAMODE_DEFAULT
 	this.AntennaMode = &antennaMode
-	var band24Usage string = "24"
+	var band24Usage ApRadioBand24Usage = APRADIOBAND24USAGE__24
 	this.Band24Usage = &band24Usage
 	var indoorUse bool = false
 	this.IndoorUse = &indoorUse
@@ -67,9 +66,9 @@ func NewApRadioWithDefaults() *ApRadio {
 	this := ApRadio{}
 	var allowRrmDisable bool = false
 	this.AllowRrmDisable = &allowRrmDisable
-	var antennaMode string = "default"
+	var antennaMode ApRadioAntennaMode = APRADIOANTENNAMODE_DEFAULT
 	this.AntennaMode = &antennaMode
-	var band24Usage string = "24"
+	var band24Usage ApRadioBand24Usage = APRADIOBAND24USAGE__24
 	this.Band24Usage = &band24Usage
 	var indoorUse bool = false
 	this.IndoorUse = &indoorUse
@@ -205,9 +204,9 @@ func (o *ApRadio) SetAntGain6(v int32) {
 }
 
 // GetAntennaMode returns the AntennaMode field value if set, zero value otherwise.
-func (o *ApRadio) GetAntennaMode() string {
+func (o *ApRadio) GetAntennaMode() ApRadioAntennaMode {
 	if o == nil || IsNil(o.AntennaMode) {
-		var ret string
+		var ret ApRadioAntennaMode
 		return ret
 	}
 	return *o.AntennaMode
@@ -215,7 +214,7 @@ func (o *ApRadio) GetAntennaMode() string {
 
 // GetAntennaModeOk returns a tuple with the AntennaMode field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ApRadio) GetAntennaModeOk() (*string, bool) {
+func (o *ApRadio) GetAntennaModeOk() (*ApRadioAntennaMode, bool) {
 	if o == nil || IsNil(o.AntennaMode) {
 		return nil, false
 	}
@@ -231,8 +230,8 @@ func (o *ApRadio) HasAntennaMode() bool {
 	return false
 }
 
-// SetAntennaMode gets a reference to the given string and assigns it to the AntennaMode field.
-func (o *ApRadio) SetAntennaMode(v string) {
+// SetAntennaMode gets a reference to the given ApRadioAntennaMode and assigns it to the AntennaMode field.
+func (o *ApRadio) SetAntennaMode(v ApRadioAntennaMode) {
 	o.AntennaMode = &v
 }
 
@@ -269,9 +268,9 @@ func (o *ApRadio) SetBand24(v ApRadioBand) {
 }
 
 // GetBand24Usage returns the Band24Usage field value if set, zero value otherwise.
-func (o *ApRadio) GetBand24Usage() string {
+func (o *ApRadio) GetBand24Usage() ApRadioBand24Usage {
 	if o == nil || IsNil(o.Band24Usage) {
-		var ret string
+		var ret ApRadioBand24Usage
 		return ret
 	}
 	return *o.Band24Usage
@@ -279,7 +278,7 @@ func (o *ApRadio) GetBand24Usage() string {
 
 // GetBand24UsageOk returns a tuple with the Band24Usage field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ApRadio) GetBand24UsageOk() (*string, bool) {
+func (o *ApRadio) GetBand24UsageOk() (*ApRadioBand24Usage, bool) {
 	if o == nil || IsNil(o.Band24Usage) {
 		return nil, false
 	}
@@ -295,8 +294,8 @@ func (o *ApRadio) HasBand24Usage() bool {
 	return false
 }
 
-// SetBand24Usage gets a reference to the given string and assigns it to the Band24Usage field.
-func (o *ApRadio) SetBand24Usage(v string) {
+// SetBand24Usage gets a reference to the given ApRadioBand24Usage and assigns it to the Band24Usage field.
+func (o *ApRadio) SetBand24Usage(v ApRadioBand24Usage) {
 	o.Band24Usage = &v
 }
 

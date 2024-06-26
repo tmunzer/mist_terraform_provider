@@ -1,9 +1,9 @@
 /*
 Mist API
 
-> Version: **2405.1.6** > > Date: **June 6, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location-services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
+> Version: **2406.1.3** > > Date: **June 26, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
 
-API version: 2405.1.6
+API version: 2406.1.3
 Contact: tmunzer@juniper.net
 */
 
@@ -20,24 +20,20 @@ var _ MappedNullable = &ApPortConfig{}
 
 // ApPortConfig struct for ApPortConfig
 type ApPortConfig struct {
-	// additional VLAN IDs, only valid in mesh base mode
-	AdditionalVlanIds []int32 `json:"additional_vlan_ids,omitempty"`
 	Disabled *bool `json:"disabled,omitempty"`
 	DynamicVlan *ApPortConfigDynamicVlan `json:"dynamic_vlan,omitempty"`
 	EnableMacAuth *bool `json:"enable_mac_auth,omitempty"`
-	Forwarding *string `json:"forwarding,omitempty"`
-	// if `enable_mac_auth`==`true`, allows user to select an authentication protocol
-	MacAuthProtocol *string `json:"mac_auth_protocol,omitempty"`
+	Forwarding *ApPortConfigForwarding `json:"forwarding,omitempty"`
+	MacAuthProtocol *ApPortConfigMacAuthProtocol `json:"mac_auth_protocol,omitempty"`
 	MistNac *WlanMistNac `json:"mist_nac,omitempty"`
 	// if `forwarding`==`mxtunnel`, vlan_ids comes from mxtunnel
 	MxTunnelId *string `json:"mx_tunnel_id,omitempty"`
 	// if `forwarding`==`site_mxedge`, vlan_ids comes from site_mxedge (`mxtunnels` under site setting)
 	MxtunnelName *string `json:"mxtunnel_name,omitempty"`
-	// When doing port auth
-	PortAuth *string `json:"port_auth,omitempty"`
+	PortAuth *ApPortConfigPortAuth `json:"port_auth,omitempty"`
 	// if `forwrding`==`limited`
 	PortVlanId *int32 `json:"port_vlan_id,omitempty"`
-	RadiusConfig *JunosRadiusConfig `json:"radius_config,omitempty"`
+	RadiusConfig *RadiusConfig `json:"radius_config,omitempty"`
 	Radsec *Radsec `json:"radsec,omitempty"`
 	// optional to specify the vlan id for a tunnel if forwarding is for `wxtunnel`, `mxtunnel` or `site_mxedge`. * if vlan_id is not specified then it will use first one in vlan_ids[] of the mxtunnel. * if forwarding == site_mxedge, vlan_ids comes from site_mxedge (`mxtunnels` under site setting)
 	VlanId *int32 `json:"vlan_id,omitempty"`
@@ -60,11 +56,11 @@ func NewApPortConfig() *ApPortConfig {
 	this := ApPortConfig{}
 	var enableMacAuth bool = false
 	this.EnableMacAuth = &enableMacAuth
-	var forwarding string = "all"
+	var forwarding ApPortConfigForwarding = APPORTCONFIGFORWARDING_ALL
 	this.Forwarding = &forwarding
-	var macAuthProtocol string = "pap"
+	var macAuthProtocol ApPortConfigMacAuthProtocol = APPORTCONFIGMACAUTHPROTOCOL_PAP
 	this.MacAuthProtocol = &macAuthProtocol
-	var portAuth string = "none"
+	var portAuth ApPortConfigPortAuth = APPORTCONFIGPORTAUTH_NONE
 	this.PortAuth = &portAuth
 	return &this
 }
@@ -76,45 +72,13 @@ func NewApPortConfigWithDefaults() *ApPortConfig {
 	this := ApPortConfig{}
 	var enableMacAuth bool = false
 	this.EnableMacAuth = &enableMacAuth
-	var forwarding string = "all"
+	var forwarding ApPortConfigForwarding = APPORTCONFIGFORWARDING_ALL
 	this.Forwarding = &forwarding
-	var macAuthProtocol string = "pap"
+	var macAuthProtocol ApPortConfigMacAuthProtocol = APPORTCONFIGMACAUTHPROTOCOL_PAP
 	this.MacAuthProtocol = &macAuthProtocol
-	var portAuth string = "none"
+	var portAuth ApPortConfigPortAuth = APPORTCONFIGPORTAUTH_NONE
 	this.PortAuth = &portAuth
 	return &this
-}
-
-// GetAdditionalVlanIds returns the AdditionalVlanIds field value if set, zero value otherwise.
-func (o *ApPortConfig) GetAdditionalVlanIds() []int32 {
-	if o == nil || IsNil(o.AdditionalVlanIds) {
-		var ret []int32
-		return ret
-	}
-	return o.AdditionalVlanIds
-}
-
-// GetAdditionalVlanIdsOk returns a tuple with the AdditionalVlanIds field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *ApPortConfig) GetAdditionalVlanIdsOk() ([]int32, bool) {
-	if o == nil || IsNil(o.AdditionalVlanIds) {
-		return nil, false
-	}
-	return o.AdditionalVlanIds, true
-}
-
-// HasAdditionalVlanIds returns a boolean if a field has been set.
-func (o *ApPortConfig) HasAdditionalVlanIds() bool {
-	if o != nil && !IsNil(o.AdditionalVlanIds) {
-		return true
-	}
-
-	return false
-}
-
-// SetAdditionalVlanIds gets a reference to the given []int32 and assigns it to the AdditionalVlanIds field.
-func (o *ApPortConfig) SetAdditionalVlanIds(v []int32) {
-	o.AdditionalVlanIds = v
 }
 
 // GetDisabled returns the Disabled field value if set, zero value otherwise.
@@ -214,9 +178,9 @@ func (o *ApPortConfig) SetEnableMacAuth(v bool) {
 }
 
 // GetForwarding returns the Forwarding field value if set, zero value otherwise.
-func (o *ApPortConfig) GetForwarding() string {
+func (o *ApPortConfig) GetForwarding() ApPortConfigForwarding {
 	if o == nil || IsNil(o.Forwarding) {
-		var ret string
+		var ret ApPortConfigForwarding
 		return ret
 	}
 	return *o.Forwarding
@@ -224,7 +188,7 @@ func (o *ApPortConfig) GetForwarding() string {
 
 // GetForwardingOk returns a tuple with the Forwarding field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ApPortConfig) GetForwardingOk() (*string, bool) {
+func (o *ApPortConfig) GetForwardingOk() (*ApPortConfigForwarding, bool) {
 	if o == nil || IsNil(o.Forwarding) {
 		return nil, false
 	}
@@ -240,15 +204,15 @@ func (o *ApPortConfig) HasForwarding() bool {
 	return false
 }
 
-// SetForwarding gets a reference to the given string and assigns it to the Forwarding field.
-func (o *ApPortConfig) SetForwarding(v string) {
+// SetForwarding gets a reference to the given ApPortConfigForwarding and assigns it to the Forwarding field.
+func (o *ApPortConfig) SetForwarding(v ApPortConfigForwarding) {
 	o.Forwarding = &v
 }
 
 // GetMacAuthProtocol returns the MacAuthProtocol field value if set, zero value otherwise.
-func (o *ApPortConfig) GetMacAuthProtocol() string {
+func (o *ApPortConfig) GetMacAuthProtocol() ApPortConfigMacAuthProtocol {
 	if o == nil || IsNil(o.MacAuthProtocol) {
-		var ret string
+		var ret ApPortConfigMacAuthProtocol
 		return ret
 	}
 	return *o.MacAuthProtocol
@@ -256,7 +220,7 @@ func (o *ApPortConfig) GetMacAuthProtocol() string {
 
 // GetMacAuthProtocolOk returns a tuple with the MacAuthProtocol field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ApPortConfig) GetMacAuthProtocolOk() (*string, bool) {
+func (o *ApPortConfig) GetMacAuthProtocolOk() (*ApPortConfigMacAuthProtocol, bool) {
 	if o == nil || IsNil(o.MacAuthProtocol) {
 		return nil, false
 	}
@@ -272,8 +236,8 @@ func (o *ApPortConfig) HasMacAuthProtocol() bool {
 	return false
 }
 
-// SetMacAuthProtocol gets a reference to the given string and assigns it to the MacAuthProtocol field.
-func (o *ApPortConfig) SetMacAuthProtocol(v string) {
+// SetMacAuthProtocol gets a reference to the given ApPortConfigMacAuthProtocol and assigns it to the MacAuthProtocol field.
+func (o *ApPortConfig) SetMacAuthProtocol(v ApPortConfigMacAuthProtocol) {
 	o.MacAuthProtocol = &v
 }
 
@@ -374,9 +338,9 @@ func (o *ApPortConfig) SetMxtunnelName(v string) {
 }
 
 // GetPortAuth returns the PortAuth field value if set, zero value otherwise.
-func (o *ApPortConfig) GetPortAuth() string {
+func (o *ApPortConfig) GetPortAuth() ApPortConfigPortAuth {
 	if o == nil || IsNil(o.PortAuth) {
-		var ret string
+		var ret ApPortConfigPortAuth
 		return ret
 	}
 	return *o.PortAuth
@@ -384,7 +348,7 @@ func (o *ApPortConfig) GetPortAuth() string {
 
 // GetPortAuthOk returns a tuple with the PortAuth field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ApPortConfig) GetPortAuthOk() (*string, bool) {
+func (o *ApPortConfig) GetPortAuthOk() (*ApPortConfigPortAuth, bool) {
 	if o == nil || IsNil(o.PortAuth) {
 		return nil, false
 	}
@@ -400,8 +364,8 @@ func (o *ApPortConfig) HasPortAuth() bool {
 	return false
 }
 
-// SetPortAuth gets a reference to the given string and assigns it to the PortAuth field.
-func (o *ApPortConfig) SetPortAuth(v string) {
+// SetPortAuth gets a reference to the given ApPortConfigPortAuth and assigns it to the PortAuth field.
+func (o *ApPortConfig) SetPortAuth(v ApPortConfigPortAuth) {
 	o.PortAuth = &v
 }
 
@@ -438,9 +402,9 @@ func (o *ApPortConfig) SetPortVlanId(v int32) {
 }
 
 // GetRadiusConfig returns the RadiusConfig field value if set, zero value otherwise.
-func (o *ApPortConfig) GetRadiusConfig() JunosRadiusConfig {
+func (o *ApPortConfig) GetRadiusConfig() RadiusConfig {
 	if o == nil || IsNil(o.RadiusConfig) {
-		var ret JunosRadiusConfig
+		var ret RadiusConfig
 		return ret
 	}
 	return *o.RadiusConfig
@@ -448,7 +412,7 @@ func (o *ApPortConfig) GetRadiusConfig() JunosRadiusConfig {
 
 // GetRadiusConfigOk returns a tuple with the RadiusConfig field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ApPortConfig) GetRadiusConfigOk() (*JunosRadiusConfig, bool) {
+func (o *ApPortConfig) GetRadiusConfigOk() (*RadiusConfig, bool) {
 	if o == nil || IsNil(o.RadiusConfig) {
 		return nil, false
 	}
@@ -464,8 +428,8 @@ func (o *ApPortConfig) HasRadiusConfig() bool {
 	return false
 }
 
-// SetRadiusConfig gets a reference to the given JunosRadiusConfig and assigns it to the RadiusConfig field.
-func (o *ApPortConfig) SetRadiusConfig(v JunosRadiusConfig) {
+// SetRadiusConfig gets a reference to the given RadiusConfig and assigns it to the RadiusConfig field.
+func (o *ApPortConfig) SetRadiusConfig(v RadiusConfig) {
 	o.RadiusConfig = &v
 }
 
@@ -639,9 +603,6 @@ func (o ApPortConfig) MarshalJSON() ([]byte, error) {
 
 func (o ApPortConfig) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if !IsNil(o.AdditionalVlanIds) {
-		toSerialize["additional_vlan_ids"] = o.AdditionalVlanIds
-	}
 	if !IsNil(o.Disabled) {
 		toSerialize["disabled"] = o.Disabled
 	}
@@ -712,7 +673,6 @@ func (o *ApPortConfig) UnmarshalJSON(data []byte) (err error) {
 	additionalProperties := make(map[string]interface{})
 
 	if err = json.Unmarshal(data, &additionalProperties); err == nil {
-		delete(additionalProperties, "additional_vlan_ids")
 		delete(additionalProperties, "disabled")
 		delete(additionalProperties, "dynamic_vlan")
 		delete(additionalProperties, "enable_mac_auth")

@@ -1,9 +1,9 @@
 /*
 Mist API
 
-> Version: **2405.1.6** > > Date: **June 6, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location-services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
+> Version: **2406.1.3** > > Date: **June 26, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
 
-API version: 2405.1.6
+API version: 2406.1.3
 Contact: tmunzer@juniper.net
 */
 
@@ -20,7 +20,7 @@ var _ MappedNullable = &SnmpVacm{}
 
 // SnmpVacm struct for SnmpVacm
 type SnmpVacm struct {
-	Access []SnmpVacmAccessRoperty `json:"access,omitempty"`
+	Access []SnmpVacmAccessItem `json:"access,omitempty"`
 	SecurityToGroup *SnmpVacmSecurityToGroup `json:"security_to_group,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
@@ -45,9 +45,9 @@ func NewSnmpVacmWithDefaults() *SnmpVacm {
 }
 
 // GetAccess returns the Access field value if set, zero value otherwise.
-func (o *SnmpVacm) GetAccess() []SnmpVacmAccessRoperty {
+func (o *SnmpVacm) GetAccess() []SnmpVacmAccessItem {
 	if o == nil || IsNil(o.Access) {
-		var ret []SnmpVacmAccessRoperty
+		var ret []SnmpVacmAccessItem
 		return ret
 	}
 	return o.Access
@@ -55,7 +55,7 @@ func (o *SnmpVacm) GetAccess() []SnmpVacmAccessRoperty {
 
 // GetAccessOk returns a tuple with the Access field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *SnmpVacm) GetAccessOk() ([]SnmpVacmAccessRoperty, bool) {
+func (o *SnmpVacm) GetAccessOk() ([]SnmpVacmAccessItem, bool) {
 	if o == nil || IsNil(o.Access) {
 		return nil, false
 	}
@@ -71,8 +71,8 @@ func (o *SnmpVacm) HasAccess() bool {
 	return false
 }
 
-// SetAccess gets a reference to the given []SnmpVacmAccessRoperty and assigns it to the Access field.
-func (o *SnmpVacm) SetAccess(v []SnmpVacmAccessRoperty) {
+// SetAccess gets a reference to the given []SnmpVacmAccessItem and assigns it to the Access field.
+func (o *SnmpVacm) SetAccess(v []SnmpVacmAccessItem) {
 	o.Access = v
 }
 

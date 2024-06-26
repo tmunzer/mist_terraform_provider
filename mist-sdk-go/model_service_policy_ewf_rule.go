@@ -1,9 +1,9 @@
 /*
 Mist API
 
-> Version: **2405.1.6** > > Date: **June 6, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location-services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
+> Version: **2406.1.3** > > Date: **June 26, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
 
-API version: 2405.1.6
+API version: 2406.1.3
 Contact: tmunzer@juniper.net
 */
 
@@ -23,7 +23,7 @@ type ServicePolicyEwfRule struct {
 	AlertOnly *bool `json:"alert_only,omitempty"`
 	BlockMessage *string `json:"block_message,omitempty"`
 	Enabled *bool `json:"enabled,omitempty"`
-	Profile *string `json:"profile,omitempty"`
+	Profile *ServicePolicyEwfRuleProfile `json:"profile,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -37,7 +37,7 @@ func NewServicePolicyEwfRule() *ServicePolicyEwfRule {
 	this := ServicePolicyEwfRule{}
 	var enabled bool = false
 	this.Enabled = &enabled
-	var profile string = "strict"
+	var profile ServicePolicyEwfRuleProfile = SERVICEPOLICYEWFRULEPROFILE_STRICT
 	this.Profile = &profile
 	return &this
 }
@@ -49,7 +49,7 @@ func NewServicePolicyEwfRuleWithDefaults() *ServicePolicyEwfRule {
 	this := ServicePolicyEwfRule{}
 	var enabled bool = false
 	this.Enabled = &enabled
-	var profile string = "strict"
+	var profile ServicePolicyEwfRuleProfile = SERVICEPOLICYEWFRULEPROFILE_STRICT
 	this.Profile = &profile
 	return &this
 }
@@ -151,9 +151,9 @@ func (o *ServicePolicyEwfRule) SetEnabled(v bool) {
 }
 
 // GetProfile returns the Profile field value if set, zero value otherwise.
-func (o *ServicePolicyEwfRule) GetProfile() string {
+func (o *ServicePolicyEwfRule) GetProfile() ServicePolicyEwfRuleProfile {
 	if o == nil || IsNil(o.Profile) {
-		var ret string
+		var ret ServicePolicyEwfRuleProfile
 		return ret
 	}
 	return *o.Profile
@@ -161,7 +161,7 @@ func (o *ServicePolicyEwfRule) GetProfile() string {
 
 // GetProfileOk returns a tuple with the Profile field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ServicePolicyEwfRule) GetProfileOk() (*string, bool) {
+func (o *ServicePolicyEwfRule) GetProfileOk() (*ServicePolicyEwfRuleProfile, bool) {
 	if o == nil || IsNil(o.Profile) {
 		return nil, false
 	}
@@ -177,8 +177,8 @@ func (o *ServicePolicyEwfRule) HasProfile() bool {
 	return false
 }
 
-// SetProfile gets a reference to the given string and assigns it to the Profile field.
-func (o *ServicePolicyEwfRule) SetProfile(v string) {
+// SetProfile gets a reference to the given ServicePolicyEwfRuleProfile and assigns it to the Profile field.
+func (o *ServicePolicyEwfRule) SetProfile(v ServicePolicyEwfRuleProfile) {
 	o.Profile = &v
 }
 

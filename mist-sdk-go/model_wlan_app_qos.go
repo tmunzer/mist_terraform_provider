@@ -1,9 +1,9 @@
 /*
 Mist API
 
-> Version: **2405.1.6** > > Date: **June 6, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location-services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
+> Version: **2406.1.3** > > Date: **June 26, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
 
-API version: 2405.1.6
+API version: 2406.1.3
 Contact: tmunzer@juniper.net
 */
 
@@ -20,9 +20,9 @@ var _ MappedNullable = &WlanAppQos{}
 
 // WlanAppQos app qos wlan settings
 type WlanAppQos struct {
-	Apps *map[string]WlanAppQosAppsValue `json:"apps,omitempty"`
+	Apps *map[string]WlanAppQosAppsProperties `json:"apps,omitempty"`
 	Enabled *bool `json:"enabled,omitempty"`
-	Others []WlanAppQosOthersInner `json:"others,omitempty"`
+	Others []WlanAppQosOthersItem `json:"others,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -46,9 +46,9 @@ func NewWlanAppQosWithDefaults() *WlanAppQos {
 }
 
 // GetApps returns the Apps field value if set, zero value otherwise.
-func (o *WlanAppQos) GetApps() map[string]WlanAppQosAppsValue {
+func (o *WlanAppQos) GetApps() map[string]WlanAppQosAppsProperties {
 	if o == nil || IsNil(o.Apps) {
-		var ret map[string]WlanAppQosAppsValue
+		var ret map[string]WlanAppQosAppsProperties
 		return ret
 	}
 	return *o.Apps
@@ -56,7 +56,7 @@ func (o *WlanAppQos) GetApps() map[string]WlanAppQosAppsValue {
 
 // GetAppsOk returns a tuple with the Apps field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *WlanAppQos) GetAppsOk() (*map[string]WlanAppQosAppsValue, bool) {
+func (o *WlanAppQos) GetAppsOk() (*map[string]WlanAppQosAppsProperties, bool) {
 	if o == nil || IsNil(o.Apps) {
 		return nil, false
 	}
@@ -72,8 +72,8 @@ func (o *WlanAppQos) HasApps() bool {
 	return false
 }
 
-// SetApps gets a reference to the given map[string]WlanAppQosAppsValue and assigns it to the Apps field.
-func (o *WlanAppQos) SetApps(v map[string]WlanAppQosAppsValue) {
+// SetApps gets a reference to the given map[string]WlanAppQosAppsProperties and assigns it to the Apps field.
+func (o *WlanAppQos) SetApps(v map[string]WlanAppQosAppsProperties) {
 	o.Apps = &v
 }
 
@@ -110,9 +110,9 @@ func (o *WlanAppQos) SetEnabled(v bool) {
 }
 
 // GetOthers returns the Others field value if set, zero value otherwise.
-func (o *WlanAppQos) GetOthers() []WlanAppQosOthersInner {
+func (o *WlanAppQos) GetOthers() []WlanAppQosOthersItem {
 	if o == nil || IsNil(o.Others) {
-		var ret []WlanAppQosOthersInner
+		var ret []WlanAppQosOthersItem
 		return ret
 	}
 	return o.Others
@@ -120,7 +120,7 @@ func (o *WlanAppQos) GetOthers() []WlanAppQosOthersInner {
 
 // GetOthersOk returns a tuple with the Others field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *WlanAppQos) GetOthersOk() ([]WlanAppQosOthersInner, bool) {
+func (o *WlanAppQos) GetOthersOk() ([]WlanAppQosOthersItem, bool) {
 	if o == nil || IsNil(o.Others) {
 		return nil, false
 	}
@@ -136,8 +136,8 @@ func (o *WlanAppQos) HasOthers() bool {
 	return false
 }
 
-// SetOthers gets a reference to the given []WlanAppQosOthersInner and assigns it to the Others field.
-func (o *WlanAppQos) SetOthers(v []WlanAppQosOthersInner) {
+// SetOthers gets a reference to the given []WlanAppQosOthersItem and assigns it to the Others field.
+func (o *WlanAppQos) SetOthers(v []WlanAppQosOthersItem) {
 	o.Others = v
 }
 

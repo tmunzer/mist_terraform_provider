@@ -15,6 +15,9 @@ func TerraformToSdk(ctx context.Context, plan *NetworktemplateModel) (mistsdkgo.
 	data := *mistsdkgo.NewNetworkTemplate()
 	data.SetName(plan.Name.ValueString())
 
+	aclPolicies := aclPoliciesTerraformToSdk(ctx, &diags, plan.AclPolicies)
+	data.SetAclPolicies(aclPolicies)
+
 	addictionalConfigCmds := mist_transform.ListOfStringTerraformToSdk(ctx, plan.AdditionalConfigCmds)
 	data.SetAdditionalConfigCmds(addictionalConfigCmds)
 
@@ -38,6 +41,9 @@ func TerraformToSdk(ctx context.Context, plan *NetworktemplateModel) (mistsdkgo.
 
 	port_usage := portUsageTerraformToSdk(ctx, &diags, plan.PortUsages)
 	data.SetPortUsages(port_usage)
+
+	port_mirroring := portMirroringTerraformToSdk(ctx, &diags, plan.PortMirrorings)
+	data.SetPortMirrorings(port_mirroring)
 
 	radius_config := radiusConfigTerraformToSdk(ctx, &diags, plan.RadiusConfig)
 	data.SetRadiusConfig(radius_config)

@@ -1,9 +1,9 @@
 /*
 Mist API
 
-> Version: **2405.1.6** > > Date: **June 6, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location-services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
+> Version: **2406.1.3** > > Date: **June 26, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
 
-API version: 2405.1.6
+API version: 2406.1.3
 Contact: tmunzer@juniper.net
 */
 
@@ -22,8 +22,7 @@ var _ MappedNullable = &SwitchVirtualChassisMember{}
 type SwitchVirtualChassisMember struct {
 	// fpc0, same as the mac of device_id
 	Mac *string `json:"mac,omitempty"`
-	// Both vc_role master and backup will be matched to routing-engine role in Junos preprovisioned VC config
-	VcRole *string `json:"vc_role,omitempty"`
+	VcRole *SwitchVirtualChassisMemberVcRole `json:"vc_role,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -79,9 +78,9 @@ func (o *SwitchVirtualChassisMember) SetMac(v string) {
 }
 
 // GetVcRole returns the VcRole field value if set, zero value otherwise.
-func (o *SwitchVirtualChassisMember) GetVcRole() string {
+func (o *SwitchVirtualChassisMember) GetVcRole() SwitchVirtualChassisMemberVcRole {
 	if o == nil || IsNil(o.VcRole) {
-		var ret string
+		var ret SwitchVirtualChassisMemberVcRole
 		return ret
 	}
 	return *o.VcRole
@@ -89,7 +88,7 @@ func (o *SwitchVirtualChassisMember) GetVcRole() string {
 
 // GetVcRoleOk returns a tuple with the VcRole field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *SwitchVirtualChassisMember) GetVcRoleOk() (*string, bool) {
+func (o *SwitchVirtualChassisMember) GetVcRoleOk() (*SwitchVirtualChassisMemberVcRole, bool) {
 	if o == nil || IsNil(o.VcRole) {
 		return nil, false
 	}
@@ -105,8 +104,8 @@ func (o *SwitchVirtualChassisMember) HasVcRole() bool {
 	return false
 }
 
-// SetVcRole gets a reference to the given string and assigns it to the VcRole field.
-func (o *SwitchVirtualChassisMember) SetVcRole(v string) {
+// SetVcRole gets a reference to the given SwitchVirtualChassisMemberVcRole and assigns it to the VcRole field.
+func (o *SwitchVirtualChassisMember) SetVcRole(v SwitchVirtualChassisMemberVcRole) {
 	o.VcRole = &v
 }
 

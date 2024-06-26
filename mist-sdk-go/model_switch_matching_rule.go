@@ -1,9 +1,9 @@
 /*
 Mist API
 
-> Version: **2405.1.6** > > Date: **June 6, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location-services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
+> Version: **2406.1.3** > > Date: **June 26, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
 
-API version: 2405.1.6
+API version: 2406.1.3
 Contact: tmunzer@juniper.net
 */
 
@@ -18,15 +18,17 @@ import (
 // checks if the SwitchMatchingRule type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &SwitchMatchingRule{}
 
-// SwitchMatchingRule property key define the type of matching, value is the string to match. e.g: `match_name[0:3]`, `match_name[2:6]`, `match_model`,  `match_model[0-6]`
+// SwitchMatchingRule struct for SwitchMatchingRule
 type SwitchMatchingRule struct {
+	// additional CLI commands to append to the generated Junos config  **Note**: no check is done
 	AdditionalConfigCmds []string `json:"additional_config_cmds,omitempty"`
 	// role to match
 	MatchRole *string `json:"match_role,omitempty"`
 	Name *string `json:"name,omitempty"`
 	// Propery key is the interface name or interface range
 	PortConfig *map[string]JunosPortConfig `json:"port_config,omitempty"`
-	PortMirroring *map[string]SwitchMatchingRulePortMirroringValue `json:"port_mirroring,omitempty"`
+	// Property key is the port mirroring instance name port_mirroring can be added under device/site settings. It takes interface and ports as input for ingress, interface as input for egress and can take interface and port as output.
+	PortMirroring *map[string]SwitchPortMirroring `json:"port_mirroring,omitempty"`
 	SwitchMgmt *ConfigSwitch `json:"switch_mgmt,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
@@ -179,9 +181,9 @@ func (o *SwitchMatchingRule) SetPortConfig(v map[string]JunosPortConfig) {
 }
 
 // GetPortMirroring returns the PortMirroring field value if set, zero value otherwise.
-func (o *SwitchMatchingRule) GetPortMirroring() map[string]SwitchMatchingRulePortMirroringValue {
+func (o *SwitchMatchingRule) GetPortMirroring() map[string]SwitchPortMirroring {
 	if o == nil || IsNil(o.PortMirroring) {
-		var ret map[string]SwitchMatchingRulePortMirroringValue
+		var ret map[string]SwitchPortMirroring
 		return ret
 	}
 	return *o.PortMirroring
@@ -189,7 +191,7 @@ func (o *SwitchMatchingRule) GetPortMirroring() map[string]SwitchMatchingRulePor
 
 // GetPortMirroringOk returns a tuple with the PortMirroring field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *SwitchMatchingRule) GetPortMirroringOk() (*map[string]SwitchMatchingRulePortMirroringValue, bool) {
+func (o *SwitchMatchingRule) GetPortMirroringOk() (*map[string]SwitchPortMirroring, bool) {
 	if o == nil || IsNil(o.PortMirroring) {
 		return nil, false
 	}
@@ -205,8 +207,8 @@ func (o *SwitchMatchingRule) HasPortMirroring() bool {
 	return false
 }
 
-// SetPortMirroring gets a reference to the given map[string]SwitchMatchingRulePortMirroringValue and assigns it to the PortMirroring field.
-func (o *SwitchMatchingRule) SetPortMirroring(v map[string]SwitchMatchingRulePortMirroringValue) {
+// SetPortMirroring gets a reference to the given map[string]SwitchPortMirroring and assigns it to the PortMirroring field.
+func (o *SwitchMatchingRule) SetPortMirroring(v map[string]SwitchPortMirroring) {
 	o.PortMirroring = &v
 }
 

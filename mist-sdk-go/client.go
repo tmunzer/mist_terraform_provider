@@ -1,9 +1,9 @@
 /*
 Mist API
 
-> Version: **2405.1.6** > > Date: **June 6, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location-services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
+> Version: **2406.1.3** > > Date: **June 26, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
 
-API version: 2405.1.6
+API version: 2406.1.3
 Contact: tmunzer@juniper.net
 */
 
@@ -42,7 +42,7 @@ var (
 	queryDescape    = strings.NewReplacer( "%5B", "[", "%5D", "]" )
 )
 
-// APIClient manages communication with the Mist API API v2405.1.6
+// APIClient manages communication with the Mist API API v2406.1.3
 // In most cases there should be only one, shared, APIClient.
 type APIClient struct {
 	cfg    *Configuration
@@ -50,27 +50,351 @@ type APIClient struct {
 
 	// API Services
 
+	AdminsAPI *AdminsAPIService
+
+	AdminsLoginAPI *AdminsLoginAPIService
+
+	AdminsLoginOAuth2API *AdminsLoginOAuth2APIService
+
+	AdminsLogoutAPI *AdminsLogoutAPIService
+
+	AdminsLookupAPI *AdminsLookupAPIService
+
+	AdminsRecoverPasswordAPI *AdminsRecoverPasswordAPIService
+
+	ConstantsDefinitionsAPI *ConstantsDefinitionsAPIService
+
+	ConstantsEventsAPI *ConstantsEventsAPIService
+
+	ConstantsMiscAPI *ConstantsMiscAPIService
+
+	ConstantsModelsAPI *ConstantsModelsAPIService
+
+	InstallerAPI *InstallerAPIService
+
+	MSPsAPI *MSPsAPIService
+
+	MSPsAdminsAPI *MSPsAdminsAPIService
+
+	MSPsInventoryAPI *MSPsInventoryAPIService
+
+	MSPsLicensesAPI *MSPsLicensesAPIService
+
+	MSPsLogoAPI *MSPsLogoAPIService
+
+	MSPsLogsAPI *MSPsLogsAPIService
+
+	MSPsMarvisAPI *MSPsMarvisAPIService
+
+	MSPsOrgGroupsAPI *MSPsOrgGroupsAPIService
+
+	MSPsOrgsAPI *MSPsOrgsAPIService
+
+	MSPsSLEsAPI *MSPsSLEsAPIService
+
+	MSPsSSOAPI *MSPsSSOAPIService
+
+	MSPsSSORolesAPI *MSPsSSORolesAPIService
+
+	MSPsTicketsAPI *MSPsTicketsAPIService
+
 	OrgsAPI *OrgsAPIService
+
+	OrgsAPITokensAPI *OrgsAPITokensAPIService
+
+	OrgsAPTemplatesAPI *OrgsAPTemplatesAPIService
+
+	OrgsAdminsAPI *OrgsAdminsAPIService
+
+	OrgsAlarmTemplatesAPI *OrgsAlarmTemplatesAPIService
+
+	OrgsAlarmsAPI *OrgsAlarmsAPIService
+
+	OrgsAssetFiltersAPI *OrgsAssetFiltersAPIService
+
+	OrgsAssetsAPI *OrgsAssetsAPIService
+
+	OrgsCRLAPI *OrgsCRLAPIService
+
+	OrgsCertAPI *OrgsCertAPIService
+
+	OrgsClientsMarvisAPI *OrgsClientsMarvisAPIService
+
+	OrgsClientsNACAPI *OrgsClientsNACAPIService
+
+	OrgsClientsSDKAPI *OrgsClientsSDKAPIService
+
+	OrgsClientsWanAPI *OrgsClientsWanAPIService
+
+	OrgsClientsWiredAPI *OrgsClientsWiredAPIService
+
+	OrgsClientsWirelessAPI *OrgsClientsWirelessAPIService
+
+	OrgsCradlepointAPI *OrgsCradlepointAPIService
+
+	OrgsDeviceProfilesAPI *OrgsDeviceProfilesAPIService
+
+	OrgsDevicesAPI *OrgsDevicesAPIService
+
+	OrgsDevicesOthersAPI *OrgsDevicesOthersAPIService
+
+	OrgsDevicesSSRAPI *OrgsDevicesSSRAPIService
+
+	OrgsDevicesStatsAPI *OrgsDevicesStatsAPIService
+
+	OrgsDevicesWANClusterAPI *OrgsDevicesWANClusterAPIService
+
+	OrgsDevicesZscalerAPI *OrgsDevicesZscalerAPIService
+
+	OrgsEVPNTopologiesAPI *OrgsEVPNTopologiesAPIService
+
+	OrgsGatewayTemplatesAPI *OrgsGatewayTemplatesAPIService
+
+	OrgsGuestsAPI *OrgsGuestsAPIService
+
+	OrgsIDPProfilesAPI *OrgsIDPProfilesAPIService
 
 	OrgsInventoryAPI *OrgsInventoryAPIService
 
+	OrgsJSEAPI *OrgsJSEAPIService
+
+	OrgsJSIAPI *OrgsJSIAPIService
+
+	OrgsLicensesAPI *OrgsLicensesAPIService
+
+	OrgsLinkedApplicationsAPI *OrgsLinkedApplicationsAPIService
+
+	OrgsLogsAPI *OrgsLogsAPIService
+
+	OrgsMapsAPI *OrgsMapsAPIService
+
+	OrgsMarvisAPI *OrgsMarvisAPIService
+
+	OrgsMxClustersAPI *OrgsMxClustersAPIService
+
+	OrgsMxEdgesAPI *OrgsMxEdgesAPIService
+
+	OrgsMxTunnelsAPI *OrgsMxTunnelsAPIService
+
+	OrgsNACCRLAPI *OrgsNACCRLAPIService
+
+	OrgsNACIDPAPI *OrgsNACIDPAPIService
+
+	OrgsNACPortalsAPI *OrgsNACPortalsAPIService
+
+	OrgsNACRulesAPI *OrgsNACRulesAPIService
+
+	OrgsNACTagsAPI *OrgsNACTagsAPIService
+
 	OrgsNetworkTemplatesAPI *OrgsNetworkTemplatesAPIService
 
+	OrgsNetworksAPI *OrgsNetworksAPIService
+
+	OrgsPremiumAnalyticsAPI *OrgsPremiumAnalyticsAPIService
+
+	OrgsPskPortalsAPI *OrgsPskPortalsAPIService
+
+	OrgsPsksAPI *OrgsPsksAPIService
+
 	OrgsRFTemplatesAPI *OrgsRFTemplatesAPIService
+
+	OrgsSDKInvitesAPI *OrgsSDKInvitesAPIService
+
+	OrgsSDKTemplatesAPI *OrgsSDKTemplatesAPIService
+
+	OrgsSLEsAPI *OrgsSLEsAPIService
+
+	OrgsSSOAPI *OrgsSSOAPIService
+
+	OrgsSSORolesAPI *OrgsSSORolesAPIService
+
+	OrgsSecPoliciesAPI *OrgsSecPoliciesAPIService
+
+	OrgsServicePoliciesAPI *OrgsServicePoliciesAPIService
+
+	OrgsServicesAPI *OrgsServicesAPIService
+
+	OrgsSettingAPI *OrgsSettingAPIService
+
+	OrgsSiteTemplatesAPI *OrgsSiteTemplatesAPIService
 
 	OrgsSitegroupsAPI *OrgsSitegroupsAPIService
 
 	OrgsSitesAPI *OrgsSitesAPIService
 
+	OrgsSubscriptionsAPI *OrgsSubscriptionsAPIService
+
+	OrgsTicketsAPI *OrgsTicketsAPIService
+
+	OrgsTunnelsAPI *OrgsTunnelsAPIService
+
+	OrgsUserMACsAPI *OrgsUserMACsAPIService
+
+	OrgsVPNsAPI *OrgsVPNsAPIService
+
+	OrgsVarsAPI *OrgsVarsAPIService
+
 	OrgsWLANTemplatesAPI *OrgsWLANTemplatesAPIService
+
+	OrgsWebhooksAPI *OrgsWebhooksAPIService
 
 	OrgsWlansAPI *OrgsWlansAPIService
 
+	OrgsWxRulesAPI *OrgsWxRulesAPIService
+
+	OrgsWxTagsAPI *OrgsWxTagsAPIService
+
+	OrgsWxTunnelsAPI *OrgsWxTunnelsAPIService
+
+	SamplesWebhookAPI *SamplesWebhookAPIService
+
+	SelfAPITokenAPI *SelfAPITokenAPIService
+
+	SelfAccountAPI *SelfAccountAPIService
+
+	SelfAlarmsAPI *SelfAlarmsAPIService
+
+	SelfAuditLogsAPI *SelfAuditLogsAPIService
+
+	SelfMFAAPI *SelfMFAAPIService
+
+	SelfOAuth2API *SelfOAuth2APIService
+
 	SitesAPI *SitesAPIService
+
+	SitesAPTemplatesAPI *SitesAPTemplatesAPIService
+
+	SitesAlarmsAPI *SitesAlarmsAPIService
+
+	SitesAnomalyAPI *SitesAnomalyAPIService
+
+	SitesApplicationsAPI *SitesApplicationsAPIService
+
+	SitesAssetFiltersAPI *SitesAssetFiltersAPIService
+
+	SitesAssetsAPI *SitesAssetsAPIService
+
+	SitesBeaconsAPI *SitesBeaconsAPIService
+
+	SitesCallsAPI *SitesCallsAPIService
+
+	SitesClientsNACAPI *SitesClientsNACAPIService
+
+	SitesClientsSDKAPI *SitesClientsSDKAPIService
+
+	SitesClientsWanAPI *SitesClientsWanAPIService
+
+	SitesClientsWiredAPI *SitesClientsWiredAPIService
+
+	SitesClientsWirelessAPI *SitesClientsWirelessAPIService
+
+	SitesDeviceProfilesAPI *SitesDeviceProfilesAPIService
 
 	SitesDevicesAPI *SitesDevicesAPIService
 
+	SitesDevicesDiscoveredSwitchesAPI *SitesDevicesDiscoveredSwitchesAPIService
+
+	SitesDevicesOthersAPI *SitesDevicesOthersAPIService
+
+	SitesDevicesStatsAPI *SitesDevicesStatsAPIService
+
+	SitesDevicesWANClusterAPI *SitesDevicesWANClusterAPIService
+
+	SitesDevicesWiredAPI *SitesDevicesWiredAPIService
+
+	SitesDevicesWiredVirtualChassisAPI *SitesDevicesWiredVirtualChassisAPIService
+
+	SitesDevicesWirelessAPI *SitesDevicesWirelessAPIService
+
+	SitesEVPNTopologiesAPI *SitesEVPNTopologiesAPIService
+
+	SitesEventsAPI *SitesEventsAPIService
+
+	SitesGatewayTemplatesAPI *SitesGatewayTemplatesAPIService
+
+	SitesGuestsAPI *SitesGuestsAPIService
+
+	SitesInsightsAPI *SitesInsightsAPIService
+
+	SitesJSEAPI *SitesJSEAPIService
+
+	SitesLicensesAPI *SitesLicensesAPIService
+
+	SitesLocationAPI *SitesLocationAPIService
+
+	SitesMapsAPI *SitesMapsAPIService
+
+	SitesMapsAutoOrientationAPI *SitesMapsAutoOrientationAPIService
+
+	SitesMapsAutoPlacementAPI *SitesMapsAutoPlacementAPIService
+
+	SitesMxEdgesAPI *SitesMxEdgesAPIService
+
+	SitesNetworkTemplatesAPI *SitesNetworkTemplatesAPIService
+
+	SitesNetworksAPI *SitesNetworksAPIService
+
+	SitesPsksAPI *SitesPsksAPIService
+
+	SitesRFTemplatesAPI *SitesRFTemplatesAPIService
+
+	SitesRRMAPI *SitesRRMAPIService
+
+	SitesRSSIZonesAPI *SitesRSSIZonesAPIService
+
+	SitesRfdiagsAPI *SitesRfdiagsAPIService
+
+	SitesRoguesAPI *SitesRoguesAPIService
+
+	SitesSLEsAPI *SitesSLEsAPIService
+
+	SitesServicePoliciesAPI *SitesServicePoliciesAPIService
+
+	SitesServicesAPI *SitesServicesAPIService
+
 	SitesSettingAPI *SitesSettingAPIService
+
+	SitesSiteTemplatesAPI *SitesSiteTemplatesAPIService
+
+	SitesSkyatpAPI *SitesSkyatpAPIService
+
+	SitesSyntheticTestsAPI *SitesSyntheticTestsAPIService
+
+	SitesUISettingsAPI *SitesUISettingsAPIService
+
+	SitesVBeaconsAPI *SitesVBeaconsAPIService
+
+	SitesVPNsAPI *SitesVPNsAPIService
+
+	SitesWANUsagesAPI *SitesWANUsagesAPIService
+
+	SitesWebhooksAPI *SitesWebhooksAPIService
+
+	SitesWlansAPI *SitesWlansAPIService
+
+	SitesWxRulesAPI *SitesWxRulesAPIService
+
+	SitesWxTagsAPI *SitesWxTagsAPIService
+
+	SitesWxTunnelsAPI *SitesWxTunnelsAPIService
+
+	SitesZonesAPI *SitesZonesAPIService
+
+	UtilitiesCommonAPI *UtilitiesCommonAPIService
+
+	UtilitiesLANAPI *UtilitiesLANAPIService
+
+	UtilitiesLocationAPI *UtilitiesLocationAPIService
+
+	UtilitiesMxEdgeAPI *UtilitiesMxEdgeAPIService
+
+	UtilitiesPCAPsAPI *UtilitiesPCAPsAPIService
+
+	UtilitiesUpgradeAPI *UtilitiesUpgradeAPIService
+
+	UtilitiesWANAPI *UtilitiesWANAPIService
+
+	UtilitiesWiFiAPI *UtilitiesWiFiAPIService
 }
 
 type service struct {
@@ -89,17 +413,179 @@ func NewAPIClient(cfg *Configuration) *APIClient {
 	c.common.client = c
 
 	// API Services
+	c.AdminsAPI = (*AdminsAPIService)(&c.common)
+	c.AdminsLoginAPI = (*AdminsLoginAPIService)(&c.common)
+	c.AdminsLoginOAuth2API = (*AdminsLoginOAuth2APIService)(&c.common)
+	c.AdminsLogoutAPI = (*AdminsLogoutAPIService)(&c.common)
+	c.AdminsLookupAPI = (*AdminsLookupAPIService)(&c.common)
+	c.AdminsRecoverPasswordAPI = (*AdminsRecoverPasswordAPIService)(&c.common)
+	c.ConstantsDefinitionsAPI = (*ConstantsDefinitionsAPIService)(&c.common)
+	c.ConstantsEventsAPI = (*ConstantsEventsAPIService)(&c.common)
+	c.ConstantsMiscAPI = (*ConstantsMiscAPIService)(&c.common)
+	c.ConstantsModelsAPI = (*ConstantsModelsAPIService)(&c.common)
+	c.InstallerAPI = (*InstallerAPIService)(&c.common)
+	c.MSPsAPI = (*MSPsAPIService)(&c.common)
+	c.MSPsAdminsAPI = (*MSPsAdminsAPIService)(&c.common)
+	c.MSPsInventoryAPI = (*MSPsInventoryAPIService)(&c.common)
+	c.MSPsLicensesAPI = (*MSPsLicensesAPIService)(&c.common)
+	c.MSPsLogoAPI = (*MSPsLogoAPIService)(&c.common)
+	c.MSPsLogsAPI = (*MSPsLogsAPIService)(&c.common)
+	c.MSPsMarvisAPI = (*MSPsMarvisAPIService)(&c.common)
+	c.MSPsOrgGroupsAPI = (*MSPsOrgGroupsAPIService)(&c.common)
+	c.MSPsOrgsAPI = (*MSPsOrgsAPIService)(&c.common)
+	c.MSPsSLEsAPI = (*MSPsSLEsAPIService)(&c.common)
+	c.MSPsSSOAPI = (*MSPsSSOAPIService)(&c.common)
+	c.MSPsSSORolesAPI = (*MSPsSSORolesAPIService)(&c.common)
+	c.MSPsTicketsAPI = (*MSPsTicketsAPIService)(&c.common)
 	c.OrgsAPI = (*OrgsAPIService)(&c.common)
+	c.OrgsAPITokensAPI = (*OrgsAPITokensAPIService)(&c.common)
+	c.OrgsAPTemplatesAPI = (*OrgsAPTemplatesAPIService)(&c.common)
+	c.OrgsAdminsAPI = (*OrgsAdminsAPIService)(&c.common)
+	c.OrgsAlarmTemplatesAPI = (*OrgsAlarmTemplatesAPIService)(&c.common)
+	c.OrgsAlarmsAPI = (*OrgsAlarmsAPIService)(&c.common)
+	c.OrgsAssetFiltersAPI = (*OrgsAssetFiltersAPIService)(&c.common)
+	c.OrgsAssetsAPI = (*OrgsAssetsAPIService)(&c.common)
+	c.OrgsCRLAPI = (*OrgsCRLAPIService)(&c.common)
+	c.OrgsCertAPI = (*OrgsCertAPIService)(&c.common)
+	c.OrgsClientsMarvisAPI = (*OrgsClientsMarvisAPIService)(&c.common)
+	c.OrgsClientsNACAPI = (*OrgsClientsNACAPIService)(&c.common)
+	c.OrgsClientsSDKAPI = (*OrgsClientsSDKAPIService)(&c.common)
+	c.OrgsClientsWanAPI = (*OrgsClientsWanAPIService)(&c.common)
+	c.OrgsClientsWiredAPI = (*OrgsClientsWiredAPIService)(&c.common)
+	c.OrgsClientsWirelessAPI = (*OrgsClientsWirelessAPIService)(&c.common)
+	c.OrgsCradlepointAPI = (*OrgsCradlepointAPIService)(&c.common)
+	c.OrgsDeviceProfilesAPI = (*OrgsDeviceProfilesAPIService)(&c.common)
+	c.OrgsDevicesAPI = (*OrgsDevicesAPIService)(&c.common)
+	c.OrgsDevicesOthersAPI = (*OrgsDevicesOthersAPIService)(&c.common)
+	c.OrgsDevicesSSRAPI = (*OrgsDevicesSSRAPIService)(&c.common)
+	c.OrgsDevicesStatsAPI = (*OrgsDevicesStatsAPIService)(&c.common)
+	c.OrgsDevicesWANClusterAPI = (*OrgsDevicesWANClusterAPIService)(&c.common)
+	c.OrgsDevicesZscalerAPI = (*OrgsDevicesZscalerAPIService)(&c.common)
+	c.OrgsEVPNTopologiesAPI = (*OrgsEVPNTopologiesAPIService)(&c.common)
+	c.OrgsGatewayTemplatesAPI = (*OrgsGatewayTemplatesAPIService)(&c.common)
+	c.OrgsGuestsAPI = (*OrgsGuestsAPIService)(&c.common)
+	c.OrgsIDPProfilesAPI = (*OrgsIDPProfilesAPIService)(&c.common)
 	c.OrgsInventoryAPI = (*OrgsInventoryAPIService)(&c.common)
+	c.OrgsJSEAPI = (*OrgsJSEAPIService)(&c.common)
+	c.OrgsJSIAPI = (*OrgsJSIAPIService)(&c.common)
+	c.OrgsLicensesAPI = (*OrgsLicensesAPIService)(&c.common)
+	c.OrgsLinkedApplicationsAPI = (*OrgsLinkedApplicationsAPIService)(&c.common)
+	c.OrgsLogsAPI = (*OrgsLogsAPIService)(&c.common)
+	c.OrgsMapsAPI = (*OrgsMapsAPIService)(&c.common)
+	c.OrgsMarvisAPI = (*OrgsMarvisAPIService)(&c.common)
+	c.OrgsMxClustersAPI = (*OrgsMxClustersAPIService)(&c.common)
+	c.OrgsMxEdgesAPI = (*OrgsMxEdgesAPIService)(&c.common)
+	c.OrgsMxTunnelsAPI = (*OrgsMxTunnelsAPIService)(&c.common)
+	c.OrgsNACCRLAPI = (*OrgsNACCRLAPIService)(&c.common)
+	c.OrgsNACIDPAPI = (*OrgsNACIDPAPIService)(&c.common)
+	c.OrgsNACPortalsAPI = (*OrgsNACPortalsAPIService)(&c.common)
+	c.OrgsNACRulesAPI = (*OrgsNACRulesAPIService)(&c.common)
+	c.OrgsNACTagsAPI = (*OrgsNACTagsAPIService)(&c.common)
 	c.OrgsNetworkTemplatesAPI = (*OrgsNetworkTemplatesAPIService)(&c.common)
+	c.OrgsNetworksAPI = (*OrgsNetworksAPIService)(&c.common)
+	c.OrgsPremiumAnalyticsAPI = (*OrgsPremiumAnalyticsAPIService)(&c.common)
+	c.OrgsPskPortalsAPI = (*OrgsPskPortalsAPIService)(&c.common)
+	c.OrgsPsksAPI = (*OrgsPsksAPIService)(&c.common)
 	c.OrgsRFTemplatesAPI = (*OrgsRFTemplatesAPIService)(&c.common)
+	c.OrgsSDKInvitesAPI = (*OrgsSDKInvitesAPIService)(&c.common)
+	c.OrgsSDKTemplatesAPI = (*OrgsSDKTemplatesAPIService)(&c.common)
+	c.OrgsSLEsAPI = (*OrgsSLEsAPIService)(&c.common)
+	c.OrgsSSOAPI = (*OrgsSSOAPIService)(&c.common)
+	c.OrgsSSORolesAPI = (*OrgsSSORolesAPIService)(&c.common)
+	c.OrgsSecPoliciesAPI = (*OrgsSecPoliciesAPIService)(&c.common)
+	c.OrgsServicePoliciesAPI = (*OrgsServicePoliciesAPIService)(&c.common)
+	c.OrgsServicesAPI = (*OrgsServicesAPIService)(&c.common)
+	c.OrgsSettingAPI = (*OrgsSettingAPIService)(&c.common)
+	c.OrgsSiteTemplatesAPI = (*OrgsSiteTemplatesAPIService)(&c.common)
 	c.OrgsSitegroupsAPI = (*OrgsSitegroupsAPIService)(&c.common)
 	c.OrgsSitesAPI = (*OrgsSitesAPIService)(&c.common)
+	c.OrgsSubscriptionsAPI = (*OrgsSubscriptionsAPIService)(&c.common)
+	c.OrgsTicketsAPI = (*OrgsTicketsAPIService)(&c.common)
+	c.OrgsTunnelsAPI = (*OrgsTunnelsAPIService)(&c.common)
+	c.OrgsUserMACsAPI = (*OrgsUserMACsAPIService)(&c.common)
+	c.OrgsVPNsAPI = (*OrgsVPNsAPIService)(&c.common)
+	c.OrgsVarsAPI = (*OrgsVarsAPIService)(&c.common)
 	c.OrgsWLANTemplatesAPI = (*OrgsWLANTemplatesAPIService)(&c.common)
+	c.OrgsWebhooksAPI = (*OrgsWebhooksAPIService)(&c.common)
 	c.OrgsWlansAPI = (*OrgsWlansAPIService)(&c.common)
+	c.OrgsWxRulesAPI = (*OrgsWxRulesAPIService)(&c.common)
+	c.OrgsWxTagsAPI = (*OrgsWxTagsAPIService)(&c.common)
+	c.OrgsWxTunnelsAPI = (*OrgsWxTunnelsAPIService)(&c.common)
+	c.SamplesWebhookAPI = (*SamplesWebhookAPIService)(&c.common)
+	c.SelfAPITokenAPI = (*SelfAPITokenAPIService)(&c.common)
+	c.SelfAccountAPI = (*SelfAccountAPIService)(&c.common)
+	c.SelfAlarmsAPI = (*SelfAlarmsAPIService)(&c.common)
+	c.SelfAuditLogsAPI = (*SelfAuditLogsAPIService)(&c.common)
+	c.SelfMFAAPI = (*SelfMFAAPIService)(&c.common)
+	c.SelfOAuth2API = (*SelfOAuth2APIService)(&c.common)
 	c.SitesAPI = (*SitesAPIService)(&c.common)
+	c.SitesAPTemplatesAPI = (*SitesAPTemplatesAPIService)(&c.common)
+	c.SitesAlarmsAPI = (*SitesAlarmsAPIService)(&c.common)
+	c.SitesAnomalyAPI = (*SitesAnomalyAPIService)(&c.common)
+	c.SitesApplicationsAPI = (*SitesApplicationsAPIService)(&c.common)
+	c.SitesAssetFiltersAPI = (*SitesAssetFiltersAPIService)(&c.common)
+	c.SitesAssetsAPI = (*SitesAssetsAPIService)(&c.common)
+	c.SitesBeaconsAPI = (*SitesBeaconsAPIService)(&c.common)
+	c.SitesCallsAPI = (*SitesCallsAPIService)(&c.common)
+	c.SitesClientsNACAPI = (*SitesClientsNACAPIService)(&c.common)
+	c.SitesClientsSDKAPI = (*SitesClientsSDKAPIService)(&c.common)
+	c.SitesClientsWanAPI = (*SitesClientsWanAPIService)(&c.common)
+	c.SitesClientsWiredAPI = (*SitesClientsWiredAPIService)(&c.common)
+	c.SitesClientsWirelessAPI = (*SitesClientsWirelessAPIService)(&c.common)
+	c.SitesDeviceProfilesAPI = (*SitesDeviceProfilesAPIService)(&c.common)
 	c.SitesDevicesAPI = (*SitesDevicesAPIService)(&c.common)
+	c.SitesDevicesDiscoveredSwitchesAPI = (*SitesDevicesDiscoveredSwitchesAPIService)(&c.common)
+	c.SitesDevicesOthersAPI = (*SitesDevicesOthersAPIService)(&c.common)
+	c.SitesDevicesStatsAPI = (*SitesDevicesStatsAPIService)(&c.common)
+	c.SitesDevicesWANClusterAPI = (*SitesDevicesWANClusterAPIService)(&c.common)
+	c.SitesDevicesWiredAPI = (*SitesDevicesWiredAPIService)(&c.common)
+	c.SitesDevicesWiredVirtualChassisAPI = (*SitesDevicesWiredVirtualChassisAPIService)(&c.common)
+	c.SitesDevicesWirelessAPI = (*SitesDevicesWirelessAPIService)(&c.common)
+	c.SitesEVPNTopologiesAPI = (*SitesEVPNTopologiesAPIService)(&c.common)
+	c.SitesEventsAPI = (*SitesEventsAPIService)(&c.common)
+	c.SitesGatewayTemplatesAPI = (*SitesGatewayTemplatesAPIService)(&c.common)
+	c.SitesGuestsAPI = (*SitesGuestsAPIService)(&c.common)
+	c.SitesInsightsAPI = (*SitesInsightsAPIService)(&c.common)
+	c.SitesJSEAPI = (*SitesJSEAPIService)(&c.common)
+	c.SitesLicensesAPI = (*SitesLicensesAPIService)(&c.common)
+	c.SitesLocationAPI = (*SitesLocationAPIService)(&c.common)
+	c.SitesMapsAPI = (*SitesMapsAPIService)(&c.common)
+	c.SitesMapsAutoOrientationAPI = (*SitesMapsAutoOrientationAPIService)(&c.common)
+	c.SitesMapsAutoPlacementAPI = (*SitesMapsAutoPlacementAPIService)(&c.common)
+	c.SitesMxEdgesAPI = (*SitesMxEdgesAPIService)(&c.common)
+	c.SitesNetworkTemplatesAPI = (*SitesNetworkTemplatesAPIService)(&c.common)
+	c.SitesNetworksAPI = (*SitesNetworksAPIService)(&c.common)
+	c.SitesPsksAPI = (*SitesPsksAPIService)(&c.common)
+	c.SitesRFTemplatesAPI = (*SitesRFTemplatesAPIService)(&c.common)
+	c.SitesRRMAPI = (*SitesRRMAPIService)(&c.common)
+	c.SitesRSSIZonesAPI = (*SitesRSSIZonesAPIService)(&c.common)
+	c.SitesRfdiagsAPI = (*SitesRfdiagsAPIService)(&c.common)
+	c.SitesRoguesAPI = (*SitesRoguesAPIService)(&c.common)
+	c.SitesSLEsAPI = (*SitesSLEsAPIService)(&c.common)
+	c.SitesServicePoliciesAPI = (*SitesServicePoliciesAPIService)(&c.common)
+	c.SitesServicesAPI = (*SitesServicesAPIService)(&c.common)
 	c.SitesSettingAPI = (*SitesSettingAPIService)(&c.common)
+	c.SitesSiteTemplatesAPI = (*SitesSiteTemplatesAPIService)(&c.common)
+	c.SitesSkyatpAPI = (*SitesSkyatpAPIService)(&c.common)
+	c.SitesSyntheticTestsAPI = (*SitesSyntheticTestsAPIService)(&c.common)
+	c.SitesUISettingsAPI = (*SitesUISettingsAPIService)(&c.common)
+	c.SitesVBeaconsAPI = (*SitesVBeaconsAPIService)(&c.common)
+	c.SitesVPNsAPI = (*SitesVPNsAPIService)(&c.common)
+	c.SitesWANUsagesAPI = (*SitesWANUsagesAPIService)(&c.common)
+	c.SitesWebhooksAPI = (*SitesWebhooksAPIService)(&c.common)
+	c.SitesWlansAPI = (*SitesWlansAPIService)(&c.common)
+	c.SitesWxRulesAPI = (*SitesWxRulesAPIService)(&c.common)
+	c.SitesWxTagsAPI = (*SitesWxTagsAPIService)(&c.common)
+	c.SitesWxTunnelsAPI = (*SitesWxTunnelsAPIService)(&c.common)
+	c.SitesZonesAPI = (*SitesZonesAPIService)(&c.common)
+	c.UtilitiesCommonAPI = (*UtilitiesCommonAPIService)(&c.common)
+	c.UtilitiesLANAPI = (*UtilitiesLANAPIService)(&c.common)
+	c.UtilitiesLocationAPI = (*UtilitiesLocationAPIService)(&c.common)
+	c.UtilitiesMxEdgeAPI = (*UtilitiesMxEdgeAPIService)(&c.common)
+	c.UtilitiesPCAPsAPI = (*UtilitiesPCAPsAPIService)(&c.common)
+	c.UtilitiesUpgradeAPI = (*UtilitiesUpgradeAPIService)(&c.common)
+	c.UtilitiesWANAPI = (*UtilitiesWANAPIService)(&c.common)
+	c.UtilitiesWiFiAPI = (*UtilitiesWiFiAPIService)(&c.common)
 
 	return c
 }
@@ -440,6 +926,11 @@ func (c *APIClient) prepareRequest(
 		localVarRequest = localVarRequest.WithContext(ctx)
 
 		// Walk through any authentication.
+
+		// Basic HTTP Authentication
+		if auth, ok := ctx.Value(ContextBasicAuth).(BasicAuth); ok {
+			localVarRequest.SetBasicAuth(auth.UserName, auth.Password)
+		}
 
 	}
 

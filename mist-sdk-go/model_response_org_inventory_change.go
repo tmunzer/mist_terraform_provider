@@ -1,9 +1,9 @@
 /*
 Mist API
 
-> Version: **2405.1.6** > > Date: **June 6, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location-services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
+> Version: **2406.1.3** > > Date: **June 26, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
 
-API version: 2405.1.6
+API version: 2406.1.3
 Contact: tmunzer@juniper.net
 */
 
@@ -22,7 +22,7 @@ var _ MappedNullable = &ResponseOrgInventoryChange{}
 // ResponseOrgInventoryChange struct for ResponseOrgInventoryChange
 type ResponseOrgInventoryChange struct {
 	Error []string `json:"error"`
-	Op string `json:"op"`
+	Op ResponseOrgInventoryChangeOp `json:"op"`
 	Reason []string `json:"reason"`
 	Success []string `json:"success"`
 	AdditionalProperties map[string]interface{}
@@ -34,7 +34,7 @@ type _ResponseOrgInventoryChange ResponseOrgInventoryChange
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewResponseOrgInventoryChange(error_ []string, op string, reason []string, success []string) *ResponseOrgInventoryChange {
+func NewResponseOrgInventoryChange(error_ []string, op ResponseOrgInventoryChangeOp, reason []string, success []string) *ResponseOrgInventoryChange {
 	this := ResponseOrgInventoryChange{}
 	this.Error = error_
 	this.Op = op
@@ -76,9 +76,9 @@ func (o *ResponseOrgInventoryChange) SetError(v []string) {
 }
 
 // GetOp returns the Op field value
-func (o *ResponseOrgInventoryChange) GetOp() string {
+func (o *ResponseOrgInventoryChange) GetOp() ResponseOrgInventoryChangeOp {
 	if o == nil {
-		var ret string
+		var ret ResponseOrgInventoryChangeOp
 		return ret
 	}
 
@@ -87,7 +87,7 @@ func (o *ResponseOrgInventoryChange) GetOp() string {
 
 // GetOpOk returns a tuple with the Op field value
 // and a boolean to check if the value has been set.
-func (o *ResponseOrgInventoryChange) GetOpOk() (*string, bool) {
+func (o *ResponseOrgInventoryChange) GetOpOk() (*ResponseOrgInventoryChangeOp, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -95,7 +95,7 @@ func (o *ResponseOrgInventoryChange) GetOpOk() (*string, bool) {
 }
 
 // SetOp sets field value
-func (o *ResponseOrgInventoryChange) SetOp(v string) {
+func (o *ResponseOrgInventoryChange) SetOp(v ResponseOrgInventoryChangeOp) {
 	o.Op = v
 }
 

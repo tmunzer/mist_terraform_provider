@@ -1,9 +1,9 @@
 /*
 Mist API
 
-> Version: **2405.1.6** > > Date: **June 6, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location-services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
+> Version: **2406.1.3** > > Date: **June 26, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
 
-API version: 2405.1.6
+API version: 2406.1.3
 Contact: tmunzer@juniper.net
 */
 
@@ -21,7 +21,7 @@ var _ MappedNullable = &ConfigSwitchRadius{}
 // ConfigSwitchRadius by default, `radius_config` will be used. if a different one has to be used set `use_different_radius
 type ConfigSwitchRadius struct {
 	Enabled *bool `json:"enabled,omitempty"`
-	RadiusConfig *JunosRadiusConfig `json:"radius_config,omitempty"`
+	RadiusConfig *RadiusConfig `json:"radius_config,omitempty"`
 	UseDifferentRadius *string `json:"use_different_radius,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
@@ -78,9 +78,9 @@ func (o *ConfigSwitchRadius) SetEnabled(v bool) {
 }
 
 // GetRadiusConfig returns the RadiusConfig field value if set, zero value otherwise.
-func (o *ConfigSwitchRadius) GetRadiusConfig() JunosRadiusConfig {
+func (o *ConfigSwitchRadius) GetRadiusConfig() RadiusConfig {
 	if o == nil || IsNil(o.RadiusConfig) {
-		var ret JunosRadiusConfig
+		var ret RadiusConfig
 		return ret
 	}
 	return *o.RadiusConfig
@@ -88,7 +88,7 @@ func (o *ConfigSwitchRadius) GetRadiusConfig() JunosRadiusConfig {
 
 // GetRadiusConfigOk returns a tuple with the RadiusConfig field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ConfigSwitchRadius) GetRadiusConfigOk() (*JunosRadiusConfig, bool) {
+func (o *ConfigSwitchRadius) GetRadiusConfigOk() (*RadiusConfig, bool) {
 	if o == nil || IsNil(o.RadiusConfig) {
 		return nil, false
 	}
@@ -104,8 +104,8 @@ func (o *ConfigSwitchRadius) HasRadiusConfig() bool {
 	return false
 }
 
-// SetRadiusConfig gets a reference to the given JunosRadiusConfig and assigns it to the RadiusConfig field.
-func (o *ConfigSwitchRadius) SetRadiusConfig(v JunosRadiusConfig) {
+// SetRadiusConfig gets a reference to the given RadiusConfig and assigns it to the RadiusConfig field.
+func (o *ConfigSwitchRadius) SetRadiusConfig(v RadiusConfig) {
 	o.RadiusConfig = &v
 }
 

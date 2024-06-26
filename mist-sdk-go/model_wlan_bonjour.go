@@ -1,9 +1,9 @@
 /*
 Mist API
 
-> Version: **2405.1.6** > > Date: **June 6, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location-services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
+> Version: **2406.1.3** > > Date: **June 26, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
 
-API version: 2405.1.6
+API version: 2406.1.3
 Contact: tmunzer@juniper.net
 */
 
@@ -26,7 +26,7 @@ type WlanBonjour struct {
 	// whether to enable bonjour for this WLAN. Once enabled, limit_bcast is assumed true, allow_mdns is assumed false
 	Enabled *bool `json:"enabled,omitempty"`
 	// what services are allowed.  Property key is the service name
-	Services map[string]BonjourService `json:"services"`
+	Services map[string]WlanBonjourServiceProperties `json:"services"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -36,7 +36,7 @@ type _WlanBonjour WlanBonjour
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewWlanBonjour(additionalVlanIds []int32, services map[string]BonjourService) *WlanBonjour {
+func NewWlanBonjour(additionalVlanIds []int32, services map[string]WlanBonjourServiceProperties) *WlanBonjour {
 	this := WlanBonjour{}
 	this.AdditionalVlanIds = additionalVlanIds
 	var enabled bool = false
@@ -112,9 +112,9 @@ func (o *WlanBonjour) SetEnabled(v bool) {
 }
 
 // GetServices returns the Services field value
-func (o *WlanBonjour) GetServices() map[string]BonjourService {
+func (o *WlanBonjour) GetServices() map[string]WlanBonjourServiceProperties {
 	if o == nil {
-		var ret map[string]BonjourService
+		var ret map[string]WlanBonjourServiceProperties
 		return ret
 	}
 
@@ -123,7 +123,7 @@ func (o *WlanBonjour) GetServices() map[string]BonjourService {
 
 // GetServicesOk returns a tuple with the Services field value
 // and a boolean to check if the value has been set.
-func (o *WlanBonjour) GetServicesOk() (*map[string]BonjourService, bool) {
+func (o *WlanBonjour) GetServicesOk() (*map[string]WlanBonjourServiceProperties, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -131,7 +131,7 @@ func (o *WlanBonjour) GetServicesOk() (*map[string]BonjourService, bool) {
 }
 
 // SetServices sets field value
-func (o *WlanBonjour) SetServices(v map[string]BonjourService) {
+func (o *WlanBonjour) SetServices(v map[string]WlanBonjourServiceProperties) {
 	o.Services = v
 }
 

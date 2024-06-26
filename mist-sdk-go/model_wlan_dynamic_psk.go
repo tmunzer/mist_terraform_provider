@@ -1,9 +1,9 @@
 /*
 Mist API
 
-> Version: **2405.1.6** > > Date: **June 6, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location-services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
+> Version: **2406.1.3** > > Date: **June 26, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
 
-API version: 2405.1.6
+API version: 2406.1.3
 Contact: tmunzer@juniper.net
 */
 
@@ -18,7 +18,7 @@ import (
 // checks if the WlanDynamicPsk type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &WlanDynamicPsk{}
 
-// WlanDynamicPsk for dynamic PSK where we get per-user PSK from Radius dynamic_psk allows PSK to be selected at runtime depending on context (wlan/site/user/...) thus following configurations are assumed (currently) - PSK will come from RADIUS server - AP sends client MAC as username ans password (i.e. `enable_mac_auth` is assumed) - AP sends BSSID:SSID as Caller-Station-ID - `auth_servers` is required - PSK will come from cloud WLC if source is cloud_psks - default_psk will be used if cloud WLC is not available - `multi_psk_only` and `psk` is ignored - `pairwise` can only be wpa2-ccmp (for now, wpa3 support on the roadmap)
+// WlanDynamicPsk for dynamic PSK where we get per_user PSK from Radius dynamic_psk allows PSK to be selected at runtime depending on context (wlan/site/user/...) thus following configurations are assumed (currently) - PSK will come from RADIUS server - AP sends client MAC as username ans password (i.e. `enable_mac_auth` is assumed) - AP sends BSSID:SSID as Caller-Station-ID - `auth_servers` is required - PSK will come from cloud WLC if source is cloud_psks - default_psk will be used if cloud WLC is not available - `multi_psk_only` and `psk` is ignored - `pairwise` can only be wpa2-ccmp (for now, wpa3 support on the roadmap)
 type WlanDynamicPsk struct {
 	// default PSK to use if cloud WLC is not available, 8-63 characters
 	DefaultPsk *string `json:"default_psk,omitempty"`
@@ -26,7 +26,7 @@ type WlanDynamicPsk struct {
 	Enabled *bool `json:"enabled,omitempty"`
 	// when 11r is enabled, we'll try to use the cached PMK, this can be disabled `false` means auto
 	ForceLookup *bool `json:"force_lookup,omitempty"`
-	Source *string `json:"source,omitempty"`
+	Source *DynamicPskSource `json:"source,omitempty"`
 	VlanIds []*int32 `json:"vlan_ids,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
@@ -43,7 +43,7 @@ func NewWlanDynamicPsk() *WlanDynamicPsk {
 	this.Enabled = &enabled
 	var forceLookup bool = false
 	this.ForceLookup = &forceLookup
-	var source string = "radius"
+	var source DynamicPskSource = DYNAMICPSKSOURCE_RADIUS
 	this.Source = &source
 	return &this
 }
@@ -57,7 +57,7 @@ func NewWlanDynamicPskWithDefaults() *WlanDynamicPsk {
 	this.Enabled = &enabled
 	var forceLookup bool = false
 	this.ForceLookup = &forceLookup
-	var source string = "radius"
+	var source DynamicPskSource = DYNAMICPSKSOURCE_RADIUS
 	this.Source = &source
 	return &this
 }
@@ -201,9 +201,9 @@ func (o *WlanDynamicPsk) SetForceLookup(v bool) {
 }
 
 // GetSource returns the Source field value if set, zero value otherwise.
-func (o *WlanDynamicPsk) GetSource() string {
+func (o *WlanDynamicPsk) GetSource() DynamicPskSource {
 	if o == nil || IsNil(o.Source) {
-		var ret string
+		var ret DynamicPskSource
 		return ret
 	}
 	return *o.Source
@@ -211,7 +211,7 @@ func (o *WlanDynamicPsk) GetSource() string {
 
 // GetSourceOk returns a tuple with the Source field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *WlanDynamicPsk) GetSourceOk() (*string, bool) {
+func (o *WlanDynamicPsk) GetSourceOk() (*DynamicPskSource, bool) {
 	if o == nil || IsNil(o.Source) {
 		return nil, false
 	}
@@ -227,8 +227,8 @@ func (o *WlanDynamicPsk) HasSource() bool {
 	return false
 }
 
-// SetSource gets a reference to the given string and assigns it to the Source field.
-func (o *WlanDynamicPsk) SetSource(v string) {
+// SetSource gets a reference to the given DynamicPskSource and assigns it to the Source field.
+func (o *WlanDynamicPsk) SetSource(v DynamicPskSource) {
 	o.Source = &v
 }
 

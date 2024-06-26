@@ -1,9 +1,9 @@
 /*
 Mist API
 
-> Version: **2405.1.6** > > Date: **June 6, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location-services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
+> Version: **2406.1.3** > > Date: **June 26, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
 
-API version: 2405.1.6
+API version: 2406.1.3
 Contact: tmunzer@juniper.net
 */
 
@@ -21,7 +21,7 @@ var _ MappedNullable = &SiteSettingCriticalUrlMonitoring{}
 // SiteSettingCriticalUrlMonitoring you can define some URLs that's critical to site operaitons the latency will be captured and considered for site health
 type SiteSettingCriticalUrlMonitoring struct {
 	Enabled *bool `json:"enabled,omitempty"`
-	Monitors []SiteSettingCriticalUrlMonitoringMonitorsInner `json:"monitors,omitempty"`
+	Monitors []SiteSettingCriticalUrlMonitoringMonitor `json:"monitors,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -81,9 +81,9 @@ func (o *SiteSettingCriticalUrlMonitoring) SetEnabled(v bool) {
 }
 
 // GetMonitors returns the Monitors field value if set, zero value otherwise.
-func (o *SiteSettingCriticalUrlMonitoring) GetMonitors() []SiteSettingCriticalUrlMonitoringMonitorsInner {
+func (o *SiteSettingCriticalUrlMonitoring) GetMonitors() []SiteSettingCriticalUrlMonitoringMonitor {
 	if o == nil || IsNil(o.Monitors) {
-		var ret []SiteSettingCriticalUrlMonitoringMonitorsInner
+		var ret []SiteSettingCriticalUrlMonitoringMonitor
 		return ret
 	}
 	return o.Monitors
@@ -91,7 +91,7 @@ func (o *SiteSettingCriticalUrlMonitoring) GetMonitors() []SiteSettingCriticalUr
 
 // GetMonitorsOk returns a tuple with the Monitors field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *SiteSettingCriticalUrlMonitoring) GetMonitorsOk() ([]SiteSettingCriticalUrlMonitoringMonitorsInner, bool) {
+func (o *SiteSettingCriticalUrlMonitoring) GetMonitorsOk() ([]SiteSettingCriticalUrlMonitoringMonitor, bool) {
 	if o == nil || IsNil(o.Monitors) {
 		return nil, false
 	}
@@ -107,8 +107,8 @@ func (o *SiteSettingCriticalUrlMonitoring) HasMonitors() bool {
 	return false
 }
 
-// SetMonitors gets a reference to the given []SiteSettingCriticalUrlMonitoringMonitorsInner and assigns it to the Monitors field.
-func (o *SiteSettingCriticalUrlMonitoring) SetMonitors(v []SiteSettingCriticalUrlMonitoringMonitorsInner) {
+// SetMonitors gets a reference to the given []SiteSettingCriticalUrlMonitoringMonitor and assigns it to the Monitors field.
+func (o *SiteSettingCriticalUrlMonitoring) SetMonitors(v []SiteSettingCriticalUrlMonitoringMonitor) {
 	o.Monitors = v
 }
 

@@ -10,7 +10,7 @@ Name | Type | Description | Notes
 **MxclusterIds** | Pointer to **[]string** | To use Org mxedges when this WLAN does not use mxtunnel, specify their mxcluster_ids. Org mxedge(s) identified by mxcluster_ids | [optional] 
 **ProxyHosts** | Pointer to **[]string** | default is site.mxedge.radsec.proxy_hosts which must be a superset of all wlans[*].radsec.proxy_hosts when radsec.proxy_hosts are not used, tunnel peers (org or site mxedges) are used irrespective of use_site_mxedge | [optional] 
 **ServerName** | Pointer to **string** | name of the server to verify (against the cacerts in Org Setting). Only if not Mist Edge. | [optional] 
-**Servers** | Pointer to [**[]RadsecServersInner**](RadsecServersInner.md) | List of Radsec Servers. Only if not Mist Edge. | [optional] 
+**Servers** | Pointer to [**[]RadsecServer**](RadsecServer.md) | List of Radsec Servers. Only if not Mist Edge. | [optional] 
 **UseMxedge** | Pointer to **bool** | use mxedge(s) as radsecproxy | [optional] 
 **UseSiteMxedge** | Pointer to **bool** | To use Site mxedges when this WLAN does not use mxtunnel | [optional] [default to false]
 
@@ -185,20 +185,20 @@ HasServerName returns a boolean if a field has been set.
 
 ### GetServers
 
-`func (o *Radsec) GetServers() []RadsecServersInner`
+`func (o *Radsec) GetServers() []RadsecServer`
 
 GetServers returns the Servers field if non-nil, zero value otherwise.
 
 ### GetServersOk
 
-`func (o *Radsec) GetServersOk() (*[]RadsecServersInner, bool)`
+`func (o *Radsec) GetServersOk() (*[]RadsecServer, bool)`
 
 GetServersOk returns a tuple with the Servers field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetServers
 
-`func (o *Radsec) SetServers(v []RadsecServersInner)`
+`func (o *Radsec) SetServers(v []RadsecServer)`
 
 SetServers sets Servers field to given value.
 

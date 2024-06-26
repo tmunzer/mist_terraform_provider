@@ -1,9 +1,9 @@
 /*
 Mist API
 
-> Version: **2405.1.6** > > Date: **June 6, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location-services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
+> Version: **2406.1.3** > > Date: **June 26, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
 
-API version: 2405.1.6
+API version: 2406.1.3
 Contact: tmunzer@juniper.net
 */
 
@@ -21,6 +21,7 @@ var _ MappedNullable = &Tacacs{}
 // Tacacs struct for Tacacs
 type Tacacs struct {
 	AcctServers []TacacsAcctServer `json:"acct_servers,omitempty"`
+	DefaultRole *TacacsDefaultRole `json:"default_role,omitempty"`
 	Enabled *bool `json:"enabled,omitempty"`
 	// which network the TACACS server resides
 	Network *string `json:"network,omitempty"`
@@ -36,6 +37,8 @@ type _Tacacs Tacacs
 // will change when the set of required properties is changed
 func NewTacacs() *Tacacs {
 	this := Tacacs{}
+	var defaultRole TacacsDefaultRole = TACACSDEFAULTROLE_NONE
+	this.DefaultRole = &defaultRole
 	return &this
 }
 
@@ -44,6 +47,8 @@ func NewTacacs() *Tacacs {
 // but it doesn't guarantee that properties required by API are set
 func NewTacacsWithDefaults() *Tacacs {
 	this := Tacacs{}
+	var defaultRole TacacsDefaultRole = TACACSDEFAULTROLE_NONE
+	this.DefaultRole = &defaultRole
 	return &this
 }
 
@@ -77,6 +82,38 @@ func (o *Tacacs) HasAcctServers() bool {
 // SetAcctServers gets a reference to the given []TacacsAcctServer and assigns it to the AcctServers field.
 func (o *Tacacs) SetAcctServers(v []TacacsAcctServer) {
 	o.AcctServers = v
+}
+
+// GetDefaultRole returns the DefaultRole field value if set, zero value otherwise.
+func (o *Tacacs) GetDefaultRole() TacacsDefaultRole {
+	if o == nil || IsNil(o.DefaultRole) {
+		var ret TacacsDefaultRole
+		return ret
+	}
+	return *o.DefaultRole
+}
+
+// GetDefaultRoleOk returns a tuple with the DefaultRole field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Tacacs) GetDefaultRoleOk() (*TacacsDefaultRole, bool) {
+	if o == nil || IsNil(o.DefaultRole) {
+		return nil, false
+	}
+	return o.DefaultRole, true
+}
+
+// HasDefaultRole returns a boolean if a field has been set.
+func (o *Tacacs) HasDefaultRole() bool {
+	if o != nil && !IsNil(o.DefaultRole) {
+		return true
+	}
+
+	return false
+}
+
+// SetDefaultRole gets a reference to the given TacacsDefaultRole and assigns it to the DefaultRole field.
+func (o *Tacacs) SetDefaultRole(v TacacsDefaultRole) {
+	o.DefaultRole = &v
 }
 
 // GetEnabled returns the Enabled field value if set, zero value otherwise.
@@ -188,6 +225,9 @@ func (o Tacacs) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.AcctServers) {
 		toSerialize["acct_servers"] = o.AcctServers
 	}
+	if !IsNil(o.DefaultRole) {
+		toSerialize["default_role"] = o.DefaultRole
+	}
 	if !IsNil(o.Enabled) {
 		toSerialize["enabled"] = o.Enabled
 	}
@@ -220,6 +260,7 @@ func (o *Tacacs) UnmarshalJSON(data []byte) (err error) {
 
 	if err = json.Unmarshal(data, &additionalProperties); err == nil {
 		delete(additionalProperties, "acct_servers")
+		delete(additionalProperties, "default_role")
 		delete(additionalProperties, "enabled")
 		delete(additionalProperties, "network")
 		delete(additionalProperties, "tacplus_servers")

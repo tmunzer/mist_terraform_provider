@@ -7,7 +7,7 @@ Name | Type | Description | Notes
 **DefaultVlanId** | Pointer to **NullableInt32** | vlan_id to use when there’s no match from RADIUS | [optional] [default to 999]
 **Enabled** | Pointer to **bool** | whether to enable dynamic vlan | [optional] [default to false]
 **LocalVlanIds** | Pointer to **[]int32** | vlan_ids to be locally bridged | [optional] 
-**Type** | Pointer to **string** | standard (using Tunnel-Private-Group-ID, widely supported), airespace-interface-name (Airespace/Cisco) | [optional] [default to "standard"]
+**Type** | Pointer to [**WlanDynamicVlanType**](WlanDynamicVlanType.md) |  | [optional] [default to WLANDYNAMICVLANTYPE_STANDARD]
 **Vlans** | Pointer to **map[string]string** | map between vlan_id (as string) to airespace interface names (comma-separated) or null for stndard mapping   * if &#x60;dynamic_vlan.type&#x60;&#x3D;&#x3D;&#x60;standard&#x60;, property key is the Vlan ID and property value is \&quot;\&quot;   * if &#x60;dynamic_vlan.type&#x60;&#x3D;&#x3D;&#x60;airespace-interface-name&#x60;, property key is the Vlan ID and property value is the Airespace Interface Name | [optional] 
 
 ## Methods
@@ -116,20 +116,20 @@ HasLocalVlanIds returns a boolean if a field has been set.
 
 ### GetType
 
-`func (o *WlanDynamicVlan) GetType() string`
+`func (o *WlanDynamicVlan) GetType() WlanDynamicVlanType`
 
 GetType returns the Type field if non-nil, zero value otherwise.
 
 ### GetTypeOk
 
-`func (o *WlanDynamicVlan) GetTypeOk() (*string, bool)`
+`func (o *WlanDynamicVlan) GetTypeOk() (*WlanDynamicVlanType, bool)`
 
 GetTypeOk returns a tuple with the Type field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetType
 
-`func (o *WlanDynamicVlan) SetType(v string)`
+`func (o *WlanDynamicVlan) SetType(v WlanDynamicVlanType)`
 
 SetType sets Type field to given value.
 

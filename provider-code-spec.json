@@ -8,24 +8,77 @@
 			"schema": {
 				"attributes": [
 					{
+						"name": "acl_policies",
+						"list_nested": {
+							"computed_optional_required": "computed_optional",
+							"nested_object": {
+								"attributes": [
+									{
+										"name": "actions",
+										"list_nested": {
+											"computed_optional_required": "computed_optional",
+											"nested_object": {
+												"attributes": [
+													{
+														"name": "action",
+														"string": {
+															"computed_optional_required": "computed_optional",
+															"default": {
+																"static": "allow"
+															},
+															"validators": [
+																{
+																	"custom": {
+																		"imports": [
+																			{
+																				"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																			}
+																		],
+																		"schema_definition": "stringvalidator.OneOf(\n\"allow\",\n\"deny\",\n)"
+																	}
+																}
+															]
+														}
+													},
+													{
+														"name": "dst_tag",
+														"string": {
+															"computed_optional_required": "computed_optional"
+														}
+													}
+												]
+											},
+											"description": "- for GBP-based policy, all src_tags and dst_tags have to be gbp-based\n- for ACL-based policy, `network` is required in either the source or destination so that we know where to attach the policy to"
+										}
+									},
+									{
+										"name": "name",
+										"string": {
+											"computed_optional_required": "computed_optional"
+										}
+									},
+									{
+										"name": "src_tags",
+										"list": {
+											"computed_optional_required": "computed_optional",
+											"element_type": {
+												"string": {}
+											},
+											"description": "- for GBP-based policy, all src_tags and dst_tags have to be gbp-based\n- for ACL-based policy, `network` is required in either the source or destination so that we know where to attach the policy to"
+										}
+									}
+								]
+							}
+						}
+					},
+					{
 						"name": "additional_config_cmds",
 						"list": {
 							"computed_optional_required": "computed_optional",
 							"element_type": {
 								"string": {}
 							},
-							"validators": [
-								{
-									"custom": {
-										"imports": [
-											{
-												"path": "github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
-											}
-										],
-										"schema_definition": "listvalidator.UniqueValues()"
-									}
-								}
-							]
+							"description": "additional CLI commands to append to the generated Junos config\n\n**Note**: no check is done"
 						}
 					},
 					{
@@ -79,18 +132,7 @@
 							"element_type": {
 								"string": {}
 							},
-							"validators": [
-								{
-									"custom": {
-										"imports": [
-											{
-												"path": "github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
-											}
-										],
-										"schema_definition": "listvalidator.UniqueValues()"
-									}
-								}
-							]
+							"description": "Global dns settings. To keep compatibility, dns settings in `ip_config` and `oob_ip_config` will overwrite this setting"
 						}
 					},
 					{
@@ -100,18 +142,7 @@
 							"element_type": {
 								"string": {}
 							},
-							"validators": [
-								{
-									"custom": {
-										"imports": [
-											{
-												"path": "github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
-											}
-										],
-										"schema_definition": "listvalidator.UniqueValues()"
-									}
-								}
-							]
+							"description": "Global dns settings. To keep compatibility, dns settings in `ip_config` and `oob_ip_config` will overwrite this setting"
 						}
 					},
 					{
@@ -154,15 +185,32 @@
 							"nested_object": {
 								"attributes": [
 									{
-										"name": "subnet",
+										"name": "isolation",
+										"bool": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": false
+											},
+											"description": "whether to stop clients to talk to each other, default is false (when enabled, a unique isolation_vlan_id is required)\nNOTE: this features requires uplink device to also a be Juniper device and `inter_switch_link` to be set"
+										}
+									},
+									{
+										"name": "isolation_vlan_id",
 										"string": {
 											"computed_optional_required": "computed_optional"
 										}
 									},
 									{
+										"name": "subnet",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"description": "optional for pure switching, required when L3 / routing features are used"
+										}
+									},
+									{
 										"name": "vlan_id",
 										"int64": {
-											"computed_optional_required": "computed_optional"
+											"computed_optional_required": "required"
 										}
 									}
 								]
@@ -177,24 +225,67 @@
 							"element_type": {
 								"string": {}
 							},
-							"validators": [
-								{
-									"custom": {
-										"imports": [
-											{
-												"path": "github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
-											}
-										],
-										"schema_definition": "listvalidator.UniqueValues()"
-									}
-								}
-							]
+							"description": "list of NTP servers specific to this device. By default, those in Site Settings will be used"
 						}
 					},
 					{
 						"name": "org_id",
 						"string": {
 							"computed_optional_required": "computed_optional"
+						}
+					},
+					{
+						"name": "port_mirrorings",
+						"map_nested": {
+							"computed_optional_required": "computed_optional",
+							"nested_object": {
+								"attributes": [
+									{
+										"name": "input_networks_ingress",
+										"list": {
+											"computed_optional_required": "computed_optional",
+											"element_type": {
+												"string": {}
+											},
+											"description": "at least one of the `ingress_port_ids`, `egress_port_ids` or `ingress_networks ` should be specified"
+										}
+									},
+									{
+										"name": "input_port_ids_egress",
+										"list": {
+											"computed_optional_required": "computed_optional",
+											"element_type": {
+												"string": {}
+											},
+											"description": "at least one of the `ingress_port_ids`, `egress_port_ids` or `ingress_networks ` should be specified"
+										}
+									},
+									{
+										"name": "input_port_ids_ingress",
+										"list": {
+											"computed_optional_required": "computed_optional",
+											"element_type": {
+												"string": {}
+											},
+											"description": "at least one of the `ingress_port_ids`, `egress_port_ids` or `ingress_networks ` should be specified"
+										}
+									},
+									{
+										"name": "output_network",
+										"string": {
+											"computed_optional_required": "computed_optional"
+										}
+									},
+									{
+										"name": "output_port_id",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"description": "exaclty on of the `output_port_id` or `output_network` should be provided"
+										}
+									}
+								]
+							},
+							"description": "Property key is the port mirroring instance name\nport_mirroring can be added under device/site settings. It takes interface and ports as input for ingress, interface as input for egress and can take interface and port as output."
 						}
 					},
 					{
@@ -217,7 +308,7 @@
 										"name": "allow_dhcpd",
 										"bool": {
 											"computed_optional_required": "computed_optional",
-											"description": "if DHCP snooping is enabled, whether DHCP server is allowed on the interfaces with. All the interfaces from port configs using this port usage are effected. Please notice that allow_dhcpd is a tri-state.\n\nWhen it is not defined, it means using the system’s default setting which depends on whether the port is a access or trunk port."
+											"description": "if DHCP snooping is enabled, whether DHCP server is allowed on the interfaces with. All the interfaces from port configs using this port usage are effected. Please notice that allow_dhcpd is a tri_state.\n\nWhen it is not defined, it means using the system’s default setting which depends on whether the port is a access or trunk port."
 										}
 									},
 									{
@@ -332,6 +423,16 @@
 										"string": {
 											"computed_optional_required": "computed_optional",
 											"description": "if `port_auth`==`dot1x`, which network to put the device into if the device cannot do dot1x. default is null (i.e. not allowed)"
+										}
+									},
+									{
+										"name": "inter_switch_link",
+										"bool": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": false
+											},
+											"description": "inter_switch_link is used together with \"isolation\" under networks\nNOTE: inter_switch_link works only between Juniper device. This has to be applied to both ports connected together"
 										}
 									},
 									{
@@ -634,9 +735,6 @@
 													"name": "keywrap_format",
 													"string": {
 														"computed_optional_required": "computed_optional",
-														"default": {
-															"static": "ascii"
-														},
 														"validators": [
 															{
 																"custom": {
@@ -729,9 +827,6 @@
 													"name": "keywrap_format",
 													"string": {
 														"computed_optional_required": "computed_optional",
-														"default": {
-															"static": "ascii"
-														},
 														"validators": [
 															{
 																"custom": {
@@ -897,9 +992,6 @@
 																"name": "facility",
 																"string": {
 																	"computed_optional_required": "computed_optional",
-																	"default": {
-																		"static": "any"
-																	},
 																	"validators": [
 																		{
 																			"custom": {
@@ -918,9 +1010,6 @@
 																"name": "severity",
 																"string": {
 																	"computed_optional_required": "computed_optional",
-																	"default": {
-																		"static": "any"
-																	},
 																	"validators": [
 																		{
 																			"custom": {
@@ -987,9 +1076,6 @@
 																	"name": "facility",
 																	"string": {
 																		"computed_optional_required": "computed_optional",
-																		"default": {
-																			"static": "any"
-																		},
 																		"validators": [
 																			{
 																				"custom": {
@@ -1008,9 +1094,6 @@
 																	"name": "severity",
 																	"string": {
 																		"computed_optional_required": "computed_optional",
-																		"default": {
-																			"static": "any"
-																		},
 																		"validators": [
 																			{
 																				"custom": {
@@ -1089,9 +1172,6 @@
 																	"name": "facility",
 																	"string": {
 																		"computed_optional_required": "computed_optional",
-																		"default": {
-																			"static": "any"
-																		},
 																		"validators": [
 																			{
 																				"custom": {
@@ -1110,9 +1190,6 @@
 																	"name": "severity",
 																	"string": {
 																		"computed_optional_required": "computed_optional",
-																		"default": {
-																			"static": "any"
-																		},
 																		"validators": [
 																			{
 																				"custom": {
@@ -1141,9 +1218,6 @@
 													"name": "facility",
 													"string": {
 														"computed_optional_required": "computed_optional",
-														"default": {
-															"static": "any"
-														},
 														"validators": [
 															{
 																"custom": {
@@ -1210,9 +1284,6 @@
 													"name": "severity",
 													"string": {
 														"computed_optional_required": "computed_optional",
-														"default": {
-															"static": "any"
-														},
 														"validators": [
 															{
 																"custom": {
@@ -1254,9 +1325,6 @@
 									"name": "time_format",
 									"string": {
 										"computed_optional_required": "computed_optional",
-										"default": {
-											"static": "millisecond"
-										},
 										"validators": [
 											{
 												"custom": {
@@ -1287,9 +1355,6 @@
 																	"name": "facility",
 																	"string": {
 																		"computed_optional_required": "computed_optional",
-																		"default": {
-																			"static": "any"
-																		},
 																		"validators": [
 																			{
 																				"custom": {
@@ -1308,9 +1373,6 @@
 																	"name": "severity",
 																	"string": {
 																		"computed_optional_required": "computed_optional",
-																		"default": {
-																			"static": "any"
-																		},
 																		"validators": [
 																			{
 																				"custom": {
@@ -1371,7 +1433,8 @@
 														"computed_optional_required": "computed_optional",
 														"element_type": {
 															"string": {}
-														}
+														},
+														"description": "additional CLI commands to append to the generated Junos config\n\n**Note**: no check is done"
 													}
 												},
 												{
@@ -1484,16 +1547,6 @@
 																	}
 																},
 																{
-																	"name": "inter_switch_link",
-																	"bool": {
-																		"computed_optional_required": "computed_optional",
-																		"default": {
-																			"static": false
-																		},
-																		"description": "inter_switch_link is used together with \"isolation\" under networks\nNOTE: inter_switch_link works only between Juniper device. This has to be applied to both ports connected together"
-																	}
-																},
-																{
 																	"name": "mtu",
 																	"int64": {
 																		"computed_optional_required": "computed_optional",
@@ -1564,7 +1617,8 @@
 																		"computed_optional_required": "computed_optional",
 																		"element_type": {
 																			"string": {}
-																		}
+																		},
+																		"description": "at least one of the `ingress_port_ids`, `egress_port_ids` or `ingress_networks ` should be specified"
 																	}
 																},
 																{
@@ -1573,7 +1627,8 @@
 																		"computed_optional_required": "computed_optional",
 																		"element_type": {
 																			"string": {}
-																		}
+																		},
+																		"description": "at least one of the `ingress_port_ids`, `egress_port_ids` or `ingress_networks ` should be specified"
 																	}
 																},
 																{
@@ -1582,21 +1637,42 @@
 																		"computed_optional_required": "computed_optional",
 																		"element_type": {
 																			"string": {}
-																		}
+																		},
+																		"description": "at least one of the `ingress_port_ids`, `egress_port_ids` or `ingress_networks ` should be specified"
+																	}
+																},
+																{
+																	"name": "output_network",
+																	"string": {
+																		"computed_optional_required": "computed_optional"
 																	}
 																},
 																{
 																	"name": "output_port_id",
 																	"string": {
-																		"computed_optional_required": "computed_optional"
+																		"computed_optional_required": "computed_optional",
+																		"description": "exaclty on of the `output_port_id` or `output_network` should be provided"
 																	}
 																}
 															]
-														}
+														},
+														"description": "Property key is the port mirroring instance name\nport_mirroring can be added under device/site settings. It takes interface and ports as input for ingress, interface as input for egress and can take interface and port as output."
 													}
 												}
 											]
-										}
+										},
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
+														}
+													],
+													"schema_definition": "listvalidator.UniqueValues()"
+												}
+											}
+										]
 									}
 								}
 							],
@@ -1755,6 +1831,27 @@
 												}
 											},
 											{
+												"name": "default_role",
+												"string": {
+													"computed_optional_required": "computed_optional",
+													"default": {
+														"static": "none"
+													},
+													"validators": [
+														{
+															"custom": {
+																"imports": [
+																	{
+																		"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																	}
+																],
+																"schema_definition": "stringvalidator.OneOf(\n\"admin\",\n\"none\",\n\"read\",\n\"helpdesk\",\n)"
+															}
+														}
+													]
+												}
+											},
+											{
 												"name": "enabled",
 												"bool": {
 													"computed_optional_required": "computed_optional"
@@ -1872,7 +1969,7 @@
 									}
 								]
 							},
-							"description": "Property key is the VRF name"
+							"description": "Property key is the network name"
 						}
 					}
 				]

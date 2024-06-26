@@ -11,14 +11,16 @@ import (
 	mistsdkgo "terraform-provider-mistapi/github.com/tmunzer/mist-sdk-go"
 )
 
-func networksSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]mistsdkgo.NetworkTemplateNetwork) basetypes.MapValue {
+func networksSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]mistsdkgo.SwitchNetwork) basetypes.MapValue {
 
 	state_value_map_attr_type := NetworksValue{}.AttributeTypes(ctx)
 	state_value_map_value := make(map[string]attr.Value)
 	for k, v := range d {
 		state_value_map_attr_value := map[string]attr.Value{
-			"vlan_id": types.Int64Value(int64(v.GetVlanId())),
-			"subnet":  types.StringValue(v.GetSubnet()),
+			"vlan_id":           types.Int64Value(int64(v.GetVlanId())),
+			"subnet":            types.StringValue(v.GetSubnet()),
+			"isolation":         types.BoolValue(v.GetIsolation()),
+			"isolation_vlan_id": types.StringValue(v.GetIsolationVlanId()),
 		}
 		n, e := NewNetworksValue(state_value_map_attr_type, state_value_map_attr_value)
 		diags.Append(e...)

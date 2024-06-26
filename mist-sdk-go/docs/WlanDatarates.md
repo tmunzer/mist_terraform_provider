@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Ht** | Pointer to **NullableString** | MCS bitmasks for 4 streams (16-bit for each stream, MCS0 is least significant bit), e.g. 00ff 00f0 001f limits HT rates to MCS 0-7 for 1 stream, MCS 4-7 for 2 stream (i.e. MCS 12-15), MCS 1-5 for 3 stream (i.e. MCS 16-20) | [optional] 
-**Legacy** | Pointer to **[]string** | list of supported rates (IE&#x3D;1) and extended supported rates (IE&#x3D;50) for custom template, append ‘b’ at the end to indicate a rate being basic/mandatory. If &#x60;template&#x60;&#x3D;&#x3D;&#x60;custom&#x60; is configured and legacy does not define at least one basic rate, it will use &#x60;no-legacy&#x60; default values | [optional] 
+**Legacy** | Pointer to [**[]WlanDataratesLegacyItem**](WlanDataratesLegacyItem.md) | list of supported rates (IE&#x3D;1) and extended supported rates (IE&#x3D;50) for custom template, append ‘b’ at the end to indicate a rate being basic/mandatory. If &#x60;template&#x60;&#x3D;&#x3D;&#x60;custom&#x60; is configured and legacy does not define at least one basic rate, it will use &#x60;no-legacy&#x60; default values | [optional] 
 **MinRssi** | Pointer to **int32** | Minimum RSSI for client to connect, 0 means not enforcing | [optional] 
 **Template** | Pointer to **NullableString** | * &#x60;no-legacy&#x60;: no 11b * &#x60;compatible&#x60;: all, like before, default setting that Broadcom/Atheros used * &#x60;legacy-only&#x60;: disable 802.11n and 802.11ac  * &#x60;high-density&#x60;: no 11b, no low rates * &#x60;custom&#x60;: user defined | [optional] 
 **Vht** | Pointer to **string** | MCS bitmasks for 4 streams (16-bit for each stream, MCS0 is least significant bit), e.g. 03ff 01ff 00ff limits VHT rates to MCS 0-9 for 1 stream, MCS 0-8 for 2 streams, and MCS 0-7 for 3 streams. | [optional] 
@@ -66,20 +66,20 @@ HasHt returns a boolean if a field has been set.
 UnsetHt ensures that no value is present for Ht, not even an explicit nil
 ### GetLegacy
 
-`func (o *WlanDatarates) GetLegacy() []string`
+`func (o *WlanDatarates) GetLegacy() []WlanDataratesLegacyItem`
 
 GetLegacy returns the Legacy field if non-nil, zero value otherwise.
 
 ### GetLegacyOk
 
-`func (o *WlanDatarates) GetLegacyOk() (*[]string, bool)`
+`func (o *WlanDatarates) GetLegacyOk() (*[]WlanDataratesLegacyItem, bool)`
 
 GetLegacyOk returns a tuple with the Legacy field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetLegacy
 
-`func (o *WlanDatarates) SetLegacy(v []string)`
+`func (o *WlanDatarates) SetLegacy(v []WlanDataratesLegacyItem)`
 
 SetLegacy sets Legacy field to given value.
 

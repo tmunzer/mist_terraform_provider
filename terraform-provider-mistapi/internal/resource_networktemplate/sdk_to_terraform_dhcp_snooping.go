@@ -11,7 +11,7 @@ import (
 	mist_transform "terraform-provider-mistapi/internal/provider/utils/transform"
 )
 
-func dhcpSnoopingSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdkgo.JunosDhcpSnooping) DhcpSnoopingValue {
+func dhcpSnoopingSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdkgo.DhcpSnooping) DhcpSnoopingValue {
 	data_attr_type := DhcpSnoopingValue{}.AttributeTypes(ctx)
 	data_attr_value := map[string]attr.Value{
 		"all_networks":           types.BoolValue(d.GetAllNetworks()),

@@ -1,9 +1,9 @@
 /*
 Mist API
 
-> Version: **2405.1.6** > > Date: **June 6, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location-services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
+> Version: **2406.1.3** > > Date: **June 26, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
 
-API version: 2405.1.6
+API version: 2406.1.3
 Contact: tmunzer@juniper.net
 */
 
@@ -21,21 +21,22 @@ var _ MappedNullable = &GatewayTemplate{}
 
 // GatewayTemplate Gateway Template is applied to a site for gateway(s) in a site.
 type GatewayTemplate struct {
+	// additional CLI commands to append to the generated Junos config  **Note**: no check is done
 	AdditionalConfigCmds []string `json:"additional_config_cmds,omitempty"`
-	BgpConfig *map[string]JunosBgpConfig `json:"bgp_config,omitempty"`
+	BgpConfig *map[string]BgpConfig `json:"bgp_config,omitempty"`
 	CreatedTime *float32 `json:"created_time,omitempty"`
-	DhcpdConfig *JunosDhcpdConfig `json:"dhcpd_config,omitempty"`
-	ExtraRoutes *map[string]GatewayExtraRouteValue `json:"extra_routes,omitempty"`
+	DhcpdConfig *DhcpdConfigs `json:"dhcpd_config,omitempty"`
+	ExtraRoutes *map[string]GatewayExtraRoute `json:"extra_routes,omitempty"`
 	GatewayMatching *GatewayMatching `json:"gateway_matching,omitempty"`
 	Id *string `json:"id,omitempty"`
 	IdpProfiles *GatewayTemplateIdpProfiles `json:"idp_profiles,omitempty"`
 	// Property key is the network name
-	IpConfigs *map[string]GatewayIpConfigValue `json:"ip_configs,omitempty"`
+	IpConfigs *map[string]GatewayTemplateIpConfig `json:"ip_configs,omitempty"`
 	ModifiedTime *float32 `json:"modified_time,omitempty"`
 	Name string `json:"name"`
 	// additional networks that are not already defined from Networks
 	Networks []Network `json:"networks,omitempty"`
-	OobIpConfig *JunosOobIpConfig `json:"oob_ip_config,omitempty"`
+	OobIpConfig *JunosOobIpConfigs `json:"oob_ip_config,omitempty"`
 	OrgId *string `json:"org_id,omitempty"`
 	// Property key is the path name
 	PathPreferences *map[string]GatewayTemplatePathPreferences `json:"path_preferences,omitempty"`
@@ -44,11 +45,11 @@ type GatewayTemplate struct {
 	// auto assigned if not set
 	RouterId *string `json:"router_id,omitempty"`
 	// Property key is the routing policy name
-	RoutingPolicies *map[string]GatewayRoutingPolicy `json:"routing_policies,omitempty"`
+	RoutingPolicies *map[string]RoutingPolicy `json:"routing_policies,omitempty"`
 	ServicePolicies []ServicePolicy `json:"service_policies,omitempty"`
 	// Property key is the tunnel name
-	TunnelConfigs *map[string]GatewayTemplateTunnelConfigs `json:"tunnel_configs,omitempty"`
-	TunnelProviderOptions *GatewayTemplateTunnelProvider `json:"tunnel_provider_options,omitempty"`
+	TunnelConfigs *map[string]TunnelConfigs `json:"tunnel_configs,omitempty"`
+	TunnelProviderOptions *TunnelProviderOptions `json:"tunnel_provider_options,omitempty"`
 	Type *GatewayTemplateType `json:"type,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
@@ -110,9 +111,9 @@ func (o *GatewayTemplate) SetAdditionalConfigCmds(v []string) {
 }
 
 // GetBgpConfig returns the BgpConfig field value if set, zero value otherwise.
-func (o *GatewayTemplate) GetBgpConfig() map[string]JunosBgpConfig {
+func (o *GatewayTemplate) GetBgpConfig() map[string]BgpConfig {
 	if o == nil || IsNil(o.BgpConfig) {
-		var ret map[string]JunosBgpConfig
+		var ret map[string]BgpConfig
 		return ret
 	}
 	return *o.BgpConfig
@@ -120,7 +121,7 @@ func (o *GatewayTemplate) GetBgpConfig() map[string]JunosBgpConfig {
 
 // GetBgpConfigOk returns a tuple with the BgpConfig field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *GatewayTemplate) GetBgpConfigOk() (*map[string]JunosBgpConfig, bool) {
+func (o *GatewayTemplate) GetBgpConfigOk() (*map[string]BgpConfig, bool) {
 	if o == nil || IsNil(o.BgpConfig) {
 		return nil, false
 	}
@@ -136,8 +137,8 @@ func (o *GatewayTemplate) HasBgpConfig() bool {
 	return false
 }
 
-// SetBgpConfig gets a reference to the given map[string]JunosBgpConfig and assigns it to the BgpConfig field.
-func (o *GatewayTemplate) SetBgpConfig(v map[string]JunosBgpConfig) {
+// SetBgpConfig gets a reference to the given map[string]BgpConfig and assigns it to the BgpConfig field.
+func (o *GatewayTemplate) SetBgpConfig(v map[string]BgpConfig) {
 	o.BgpConfig = &v
 }
 
@@ -174,9 +175,9 @@ func (o *GatewayTemplate) SetCreatedTime(v float32) {
 }
 
 // GetDhcpdConfig returns the DhcpdConfig field value if set, zero value otherwise.
-func (o *GatewayTemplate) GetDhcpdConfig() JunosDhcpdConfig {
+func (o *GatewayTemplate) GetDhcpdConfig() DhcpdConfigs {
 	if o == nil || IsNil(o.DhcpdConfig) {
-		var ret JunosDhcpdConfig
+		var ret DhcpdConfigs
 		return ret
 	}
 	return *o.DhcpdConfig
@@ -184,7 +185,7 @@ func (o *GatewayTemplate) GetDhcpdConfig() JunosDhcpdConfig {
 
 // GetDhcpdConfigOk returns a tuple with the DhcpdConfig field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *GatewayTemplate) GetDhcpdConfigOk() (*JunosDhcpdConfig, bool) {
+func (o *GatewayTemplate) GetDhcpdConfigOk() (*DhcpdConfigs, bool) {
 	if o == nil || IsNil(o.DhcpdConfig) {
 		return nil, false
 	}
@@ -200,15 +201,15 @@ func (o *GatewayTemplate) HasDhcpdConfig() bool {
 	return false
 }
 
-// SetDhcpdConfig gets a reference to the given JunosDhcpdConfig and assigns it to the DhcpdConfig field.
-func (o *GatewayTemplate) SetDhcpdConfig(v JunosDhcpdConfig) {
+// SetDhcpdConfig gets a reference to the given DhcpdConfigs and assigns it to the DhcpdConfig field.
+func (o *GatewayTemplate) SetDhcpdConfig(v DhcpdConfigs) {
 	o.DhcpdConfig = &v
 }
 
 // GetExtraRoutes returns the ExtraRoutes field value if set, zero value otherwise.
-func (o *GatewayTemplate) GetExtraRoutes() map[string]GatewayExtraRouteValue {
+func (o *GatewayTemplate) GetExtraRoutes() map[string]GatewayExtraRoute {
 	if o == nil || IsNil(o.ExtraRoutes) {
-		var ret map[string]GatewayExtraRouteValue
+		var ret map[string]GatewayExtraRoute
 		return ret
 	}
 	return *o.ExtraRoutes
@@ -216,7 +217,7 @@ func (o *GatewayTemplate) GetExtraRoutes() map[string]GatewayExtraRouteValue {
 
 // GetExtraRoutesOk returns a tuple with the ExtraRoutes field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *GatewayTemplate) GetExtraRoutesOk() (*map[string]GatewayExtraRouteValue, bool) {
+func (o *GatewayTemplate) GetExtraRoutesOk() (*map[string]GatewayExtraRoute, bool) {
 	if o == nil || IsNil(o.ExtraRoutes) {
 		return nil, false
 	}
@@ -232,8 +233,8 @@ func (o *GatewayTemplate) HasExtraRoutes() bool {
 	return false
 }
 
-// SetExtraRoutes gets a reference to the given map[string]GatewayExtraRouteValue and assigns it to the ExtraRoutes field.
-func (o *GatewayTemplate) SetExtraRoutes(v map[string]GatewayExtraRouteValue) {
+// SetExtraRoutes gets a reference to the given map[string]GatewayExtraRoute and assigns it to the ExtraRoutes field.
+func (o *GatewayTemplate) SetExtraRoutes(v map[string]GatewayExtraRoute) {
 	o.ExtraRoutes = &v
 }
 
@@ -334,9 +335,9 @@ func (o *GatewayTemplate) SetIdpProfiles(v GatewayTemplateIdpProfiles) {
 }
 
 // GetIpConfigs returns the IpConfigs field value if set, zero value otherwise.
-func (o *GatewayTemplate) GetIpConfigs() map[string]GatewayIpConfigValue {
+func (o *GatewayTemplate) GetIpConfigs() map[string]GatewayTemplateIpConfig {
 	if o == nil || IsNil(o.IpConfigs) {
-		var ret map[string]GatewayIpConfigValue
+		var ret map[string]GatewayTemplateIpConfig
 		return ret
 	}
 	return *o.IpConfigs
@@ -344,7 +345,7 @@ func (o *GatewayTemplate) GetIpConfigs() map[string]GatewayIpConfigValue {
 
 // GetIpConfigsOk returns a tuple with the IpConfigs field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *GatewayTemplate) GetIpConfigsOk() (*map[string]GatewayIpConfigValue, bool) {
+func (o *GatewayTemplate) GetIpConfigsOk() (*map[string]GatewayTemplateIpConfig, bool) {
 	if o == nil || IsNil(o.IpConfigs) {
 		return nil, false
 	}
@@ -360,8 +361,8 @@ func (o *GatewayTemplate) HasIpConfigs() bool {
 	return false
 }
 
-// SetIpConfigs gets a reference to the given map[string]GatewayIpConfigValue and assigns it to the IpConfigs field.
-func (o *GatewayTemplate) SetIpConfigs(v map[string]GatewayIpConfigValue) {
+// SetIpConfigs gets a reference to the given map[string]GatewayTemplateIpConfig and assigns it to the IpConfigs field.
+func (o *GatewayTemplate) SetIpConfigs(v map[string]GatewayTemplateIpConfig) {
 	o.IpConfigs = &v
 }
 
@@ -454,9 +455,9 @@ func (o *GatewayTemplate) SetNetworks(v []Network) {
 }
 
 // GetOobIpConfig returns the OobIpConfig field value if set, zero value otherwise.
-func (o *GatewayTemplate) GetOobIpConfig() JunosOobIpConfig {
+func (o *GatewayTemplate) GetOobIpConfig() JunosOobIpConfigs {
 	if o == nil || IsNil(o.OobIpConfig) {
-		var ret JunosOobIpConfig
+		var ret JunosOobIpConfigs
 		return ret
 	}
 	return *o.OobIpConfig
@@ -464,7 +465,7 @@ func (o *GatewayTemplate) GetOobIpConfig() JunosOobIpConfig {
 
 // GetOobIpConfigOk returns a tuple with the OobIpConfig field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *GatewayTemplate) GetOobIpConfigOk() (*JunosOobIpConfig, bool) {
+func (o *GatewayTemplate) GetOobIpConfigOk() (*JunosOobIpConfigs, bool) {
 	if o == nil || IsNil(o.OobIpConfig) {
 		return nil, false
 	}
@@ -480,8 +481,8 @@ func (o *GatewayTemplate) HasOobIpConfig() bool {
 	return false
 }
 
-// SetOobIpConfig gets a reference to the given JunosOobIpConfig and assigns it to the OobIpConfig field.
-func (o *GatewayTemplate) SetOobIpConfig(v JunosOobIpConfig) {
+// SetOobIpConfig gets a reference to the given JunosOobIpConfigs and assigns it to the OobIpConfig field.
+func (o *GatewayTemplate) SetOobIpConfig(v JunosOobIpConfigs) {
 	o.OobIpConfig = &v
 }
 
@@ -614,9 +615,9 @@ func (o *GatewayTemplate) SetRouterId(v string) {
 }
 
 // GetRoutingPolicies returns the RoutingPolicies field value if set, zero value otherwise.
-func (o *GatewayTemplate) GetRoutingPolicies() map[string]GatewayRoutingPolicy {
+func (o *GatewayTemplate) GetRoutingPolicies() map[string]RoutingPolicy {
 	if o == nil || IsNil(o.RoutingPolicies) {
-		var ret map[string]GatewayRoutingPolicy
+		var ret map[string]RoutingPolicy
 		return ret
 	}
 	return *o.RoutingPolicies
@@ -624,7 +625,7 @@ func (o *GatewayTemplate) GetRoutingPolicies() map[string]GatewayRoutingPolicy {
 
 // GetRoutingPoliciesOk returns a tuple with the RoutingPolicies field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *GatewayTemplate) GetRoutingPoliciesOk() (*map[string]GatewayRoutingPolicy, bool) {
+func (o *GatewayTemplate) GetRoutingPoliciesOk() (*map[string]RoutingPolicy, bool) {
 	if o == nil || IsNil(o.RoutingPolicies) {
 		return nil, false
 	}
@@ -640,8 +641,8 @@ func (o *GatewayTemplate) HasRoutingPolicies() bool {
 	return false
 }
 
-// SetRoutingPolicies gets a reference to the given map[string]GatewayRoutingPolicy and assigns it to the RoutingPolicies field.
-func (o *GatewayTemplate) SetRoutingPolicies(v map[string]GatewayRoutingPolicy) {
+// SetRoutingPolicies gets a reference to the given map[string]RoutingPolicy and assigns it to the RoutingPolicies field.
+func (o *GatewayTemplate) SetRoutingPolicies(v map[string]RoutingPolicy) {
 	o.RoutingPolicies = &v
 }
 
@@ -678,9 +679,9 @@ func (o *GatewayTemplate) SetServicePolicies(v []ServicePolicy) {
 }
 
 // GetTunnelConfigs returns the TunnelConfigs field value if set, zero value otherwise.
-func (o *GatewayTemplate) GetTunnelConfigs() map[string]GatewayTemplateTunnelConfigs {
+func (o *GatewayTemplate) GetTunnelConfigs() map[string]TunnelConfigs {
 	if o == nil || IsNil(o.TunnelConfigs) {
-		var ret map[string]GatewayTemplateTunnelConfigs
+		var ret map[string]TunnelConfigs
 		return ret
 	}
 	return *o.TunnelConfigs
@@ -688,7 +689,7 @@ func (o *GatewayTemplate) GetTunnelConfigs() map[string]GatewayTemplateTunnelCon
 
 // GetTunnelConfigsOk returns a tuple with the TunnelConfigs field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *GatewayTemplate) GetTunnelConfigsOk() (*map[string]GatewayTemplateTunnelConfigs, bool) {
+func (o *GatewayTemplate) GetTunnelConfigsOk() (*map[string]TunnelConfigs, bool) {
 	if o == nil || IsNil(o.TunnelConfigs) {
 		return nil, false
 	}
@@ -704,15 +705,15 @@ func (o *GatewayTemplate) HasTunnelConfigs() bool {
 	return false
 }
 
-// SetTunnelConfigs gets a reference to the given map[string]GatewayTemplateTunnelConfigs and assigns it to the TunnelConfigs field.
-func (o *GatewayTemplate) SetTunnelConfigs(v map[string]GatewayTemplateTunnelConfigs) {
+// SetTunnelConfigs gets a reference to the given map[string]TunnelConfigs and assigns it to the TunnelConfigs field.
+func (o *GatewayTemplate) SetTunnelConfigs(v map[string]TunnelConfigs) {
 	o.TunnelConfigs = &v
 }
 
 // GetTunnelProviderOptions returns the TunnelProviderOptions field value if set, zero value otherwise.
-func (o *GatewayTemplate) GetTunnelProviderOptions() GatewayTemplateTunnelProvider {
+func (o *GatewayTemplate) GetTunnelProviderOptions() TunnelProviderOptions {
 	if o == nil || IsNil(o.TunnelProviderOptions) {
-		var ret GatewayTemplateTunnelProvider
+		var ret TunnelProviderOptions
 		return ret
 	}
 	return *o.TunnelProviderOptions
@@ -720,7 +721,7 @@ func (o *GatewayTemplate) GetTunnelProviderOptions() GatewayTemplateTunnelProvid
 
 // GetTunnelProviderOptionsOk returns a tuple with the TunnelProviderOptions field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *GatewayTemplate) GetTunnelProviderOptionsOk() (*GatewayTemplateTunnelProvider, bool) {
+func (o *GatewayTemplate) GetTunnelProviderOptionsOk() (*TunnelProviderOptions, bool) {
 	if o == nil || IsNil(o.TunnelProviderOptions) {
 		return nil, false
 	}
@@ -736,8 +737,8 @@ func (o *GatewayTemplate) HasTunnelProviderOptions() bool {
 	return false
 }
 
-// SetTunnelProviderOptions gets a reference to the given GatewayTemplateTunnelProvider and assigns it to the TunnelProviderOptions field.
-func (o *GatewayTemplate) SetTunnelProviderOptions(v GatewayTemplateTunnelProvider) {
+// SetTunnelProviderOptions gets a reference to the given TunnelProviderOptions and assigns it to the TunnelProviderOptions field.
+func (o *GatewayTemplate) SetTunnelProviderOptions(v TunnelProviderOptions) {
 	o.TunnelProviderOptions = &v
 }
 

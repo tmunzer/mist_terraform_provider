@@ -4,30 +4,32 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**AclTags** | Pointer to [**map[string]JunosAclTags**](JunosAclTags.md) | ACL Tags to identify traffic source or destination. Key name is the tag name | [optional] 
-**AdditionalConfigCmds** | Pointer to **[]string** |  | [optional] [default to []]
+**PortMirrorings** | Pointer to [**map[string]SwitchPortMirroring**](SwitchPortMirroring.md) | Property key is the port mirroring instance name port_mirroring can be added under device/site settings. It takes interface and ports as input for ingress, interface as input for egress and can take interface and port as output. | [optional] 
+**AclPolicies** | Pointer to [**[]AclPolicy**](AclPolicy.md) |  | [optional] 
+**AclTags** | Pointer to [**map[string]AclTag**](AclTag.md) | ACL Tags to identify traffic source or destination. Key name is the tag name | [optional] 
+**AdditionalConfigCmds** | Pointer to **[]string** | additional CLI commands to append to the generated Junos config  **Note**: no check is done | [optional] 
 **CreatedTime** | Pointer to **float32** |  | [optional] [readonly] 
-**DhcpSnooping** | Pointer to [**JunosDhcpSnooping**](JunosDhcpSnooping.md) |  | [optional] 
-**DnsServers** | Pointer to **[]string** |  | [optional] [default to []]
-**DnsSuffix** | Pointer to **[]string** |  | [optional] [default to []]
-**ExtraRoutes** | Pointer to [**map[string]SwitchExtraRoutesValue**](SwitchExtraRoutesValue.md) |  | [optional] 
-**ExtraRoutes6** | Pointer to [**map[string]SwitchExtraRoutes6Value**](SwitchExtraRoutes6Value.md) | Property key is the destination CIDR (e.g. \&quot;2a02:1234:420a:10c9::/64\&quot;) | [optional] 
+**DhcpSnooping** | Pointer to [**DhcpSnooping**](DhcpSnooping.md) |  | [optional] 
+**DnsServers** | Pointer to **[]string** | Global dns settings. To keep compatibility, dns settings in &#x60;ip_config&#x60; and &#x60;oob_ip_config&#x60; will overwrite this setting | [optional] 
+**DnsSuffix** | Pointer to **[]string** | Global dns settings. To keep compatibility, dns settings in &#x60;ip_config&#x60; and &#x60;oob_ip_config&#x60; will overwrite this setting | [optional] 
+**ExtraRoutes** | Pointer to [**map[string]ExtraRouteProperties**](ExtraRouteProperties.md) |  | [optional] 
+**ExtraRoutes6** | Pointer to [**map[string]ExtraRoute6Properties**](ExtraRoute6Properties.md) | Property key is the destination CIDR (e.g. \&quot;2a02:1234:420a:10c9::/64\&quot;) | [optional] 
 **Id** | Pointer to **string** |  | [optional] [readonly] 
 **ImportOrgNetworks** | Pointer to **[]string** | Org Networks that we&#39;d like to import | [optional] 
 **MistNac** | Pointer to [**NetworkTemplateMistNac**](NetworkTemplateMistNac.md) |  | [optional] 
 **ModifiedTime** | Pointer to **float32** |  | [optional] [readonly] 
 **Name** | Pointer to **string** |  | [optional] 
-**Networks** | Pointer to [**map[string]NetworkTemplateNetwork**](NetworkTemplateNetwork.md) | Property key is network name | [optional] 
-**NtpServers** | Pointer to **[]string** |  | [optional] [default to []]
+**Networks** | Pointer to [**map[string]SwitchNetwork**](SwitchNetwork.md) | Property key is network name | [optional] 
+**NtpServers** | Pointer to **[]string** | list of NTP servers specific to this device. By default, those in Site Settings will be used | [optional] 
 **OrgId** | Pointer to **string** |  | [optional] [readonly] 
-**PortUsages** | Pointer to [**map[string]JunosPortUsages**](JunosPortUsages.md) | Property key is the port profile name | [optional] 
-**RadiusConfig** | Pointer to [**JunosRadiusConfig**](JunosRadiusConfig.md) |  | [optional] 
+**PortUsages** | Pointer to [**map[string]PortUsage**](PortUsage.md) | Property key is the port profile name | [optional] 
+**RadiusConfig** | Pointer to [**RadiusConfig**](RadiusConfig.md) |  | [optional] 
 **RemoteSyslog** | Pointer to [**RemoteSyslog**](RemoteSyslog.md) |  | [optional] 
-**SnmpConfig** | Pointer to [**JunosSnmpConfig**](JunosSnmpConfig.md) |  | [optional] 
+**SnmpConfig** | Pointer to [**SnmpConfig**](SnmpConfig.md) |  | [optional] 
 **SwitchMatching** | Pointer to [**SwitchMatching**](SwitchMatching.md) |  | [optional] 
 **SwitchMgmt** | Pointer to [**SwitchMgmt**](SwitchMgmt.md) |  | [optional] 
-**VrfConfig** | Pointer to [**JunosVrfConfig**](JunosVrfConfig.md) |  | [optional] 
-**VrfInstances** | Pointer to [**map[string]VrfInstancesConfig**](VrfInstancesConfig.md) | Property key is the VRF name | [optional] 
+**VrfConfig** | Pointer to [**VrfConfig**](VrfConfig.md) |  | [optional] 
+**VrfInstances** | Pointer to [**map[string]VrfInstance**](VrfInstance.md) | Property key is the network name | [optional] 
 
 ## Methods
 
@@ -48,22 +50,72 @@ NewNetworkTemplateWithDefaults instantiates a new NetworkTemplate object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
+### GetPortMirrorings
+
+`func (o *NetworkTemplate) GetPortMirrorings() map[string]SwitchPortMirroring`
+
+GetPortMirrorings returns the PortMirrorings field if non-nil, zero value otherwise.
+
+### GetPortMirroringsOk
+
+`func (o *NetworkTemplate) GetPortMirroringsOk() (*map[string]SwitchPortMirroring, bool)`
+
+GetPortMirroringsOk returns a tuple with the PortMirrorings field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetPortMirrorings
+
+`func (o *NetworkTemplate) SetPortMirrorings(v map[string]SwitchPortMirroring)`
+
+SetPortMirrorings sets PortMirrorings field to given value.
+
+### HasPortMirrorings
+
+`func (o *NetworkTemplate) HasPortMirrorings() bool`
+
+HasPortMirrorings returns a boolean if a field has been set.
+
+### GetAclPolicies
+
+`func (o *NetworkTemplate) GetAclPolicies() []AclPolicy`
+
+GetAclPolicies returns the AclPolicies field if non-nil, zero value otherwise.
+
+### GetAclPoliciesOk
+
+`func (o *NetworkTemplate) GetAclPoliciesOk() (*[]AclPolicy, bool)`
+
+GetAclPoliciesOk returns a tuple with the AclPolicies field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetAclPolicies
+
+`func (o *NetworkTemplate) SetAclPolicies(v []AclPolicy)`
+
+SetAclPolicies sets AclPolicies field to given value.
+
+### HasAclPolicies
+
+`func (o *NetworkTemplate) HasAclPolicies() bool`
+
+HasAclPolicies returns a boolean if a field has been set.
+
 ### GetAclTags
 
-`func (o *NetworkTemplate) GetAclTags() map[string]JunosAclTags`
+`func (o *NetworkTemplate) GetAclTags() map[string]AclTag`
 
 GetAclTags returns the AclTags field if non-nil, zero value otherwise.
 
 ### GetAclTagsOk
 
-`func (o *NetworkTemplate) GetAclTagsOk() (*map[string]JunosAclTags, bool)`
+`func (o *NetworkTemplate) GetAclTagsOk() (*map[string]AclTag, bool)`
 
 GetAclTagsOk returns a tuple with the AclTags field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetAclTags
 
-`func (o *NetworkTemplate) SetAclTags(v map[string]JunosAclTags)`
+`func (o *NetworkTemplate) SetAclTags(v map[string]AclTag)`
 
 SetAclTags sets AclTags field to given value.
 
@@ -125,20 +177,20 @@ HasCreatedTime returns a boolean if a field has been set.
 
 ### GetDhcpSnooping
 
-`func (o *NetworkTemplate) GetDhcpSnooping() JunosDhcpSnooping`
+`func (o *NetworkTemplate) GetDhcpSnooping() DhcpSnooping`
 
 GetDhcpSnooping returns the DhcpSnooping field if non-nil, zero value otherwise.
 
 ### GetDhcpSnoopingOk
 
-`func (o *NetworkTemplate) GetDhcpSnoopingOk() (*JunosDhcpSnooping, bool)`
+`func (o *NetworkTemplate) GetDhcpSnoopingOk() (*DhcpSnooping, bool)`
 
 GetDhcpSnoopingOk returns a tuple with the DhcpSnooping field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetDhcpSnooping
 
-`func (o *NetworkTemplate) SetDhcpSnooping(v JunosDhcpSnooping)`
+`func (o *NetworkTemplate) SetDhcpSnooping(v DhcpSnooping)`
 
 SetDhcpSnooping sets DhcpSnooping field to given value.
 
@@ -200,20 +252,20 @@ HasDnsSuffix returns a boolean if a field has been set.
 
 ### GetExtraRoutes
 
-`func (o *NetworkTemplate) GetExtraRoutes() map[string]SwitchExtraRoutesValue`
+`func (o *NetworkTemplate) GetExtraRoutes() map[string]ExtraRouteProperties`
 
 GetExtraRoutes returns the ExtraRoutes field if non-nil, zero value otherwise.
 
 ### GetExtraRoutesOk
 
-`func (o *NetworkTemplate) GetExtraRoutesOk() (*map[string]SwitchExtraRoutesValue, bool)`
+`func (o *NetworkTemplate) GetExtraRoutesOk() (*map[string]ExtraRouteProperties, bool)`
 
 GetExtraRoutesOk returns a tuple with the ExtraRoutes field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetExtraRoutes
 
-`func (o *NetworkTemplate) SetExtraRoutes(v map[string]SwitchExtraRoutesValue)`
+`func (o *NetworkTemplate) SetExtraRoutes(v map[string]ExtraRouteProperties)`
 
 SetExtraRoutes sets ExtraRoutes field to given value.
 
@@ -225,20 +277,20 @@ HasExtraRoutes returns a boolean if a field has been set.
 
 ### GetExtraRoutes6
 
-`func (o *NetworkTemplate) GetExtraRoutes6() map[string]SwitchExtraRoutes6Value`
+`func (o *NetworkTemplate) GetExtraRoutes6() map[string]ExtraRoute6Properties`
 
 GetExtraRoutes6 returns the ExtraRoutes6 field if non-nil, zero value otherwise.
 
 ### GetExtraRoutes6Ok
 
-`func (o *NetworkTemplate) GetExtraRoutes6Ok() (*map[string]SwitchExtraRoutes6Value, bool)`
+`func (o *NetworkTemplate) GetExtraRoutes6Ok() (*map[string]ExtraRoute6Properties, bool)`
 
 GetExtraRoutes6Ok returns a tuple with the ExtraRoutes6 field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetExtraRoutes6
 
-`func (o *NetworkTemplate) SetExtraRoutes6(v map[string]SwitchExtraRoutes6Value)`
+`func (o *NetworkTemplate) SetExtraRoutes6(v map[string]ExtraRoute6Properties)`
 
 SetExtraRoutes6 sets ExtraRoutes6 field to given value.
 
@@ -375,20 +427,20 @@ HasName returns a boolean if a field has been set.
 
 ### GetNetworks
 
-`func (o *NetworkTemplate) GetNetworks() map[string]NetworkTemplateNetwork`
+`func (o *NetworkTemplate) GetNetworks() map[string]SwitchNetwork`
 
 GetNetworks returns the Networks field if non-nil, zero value otherwise.
 
 ### GetNetworksOk
 
-`func (o *NetworkTemplate) GetNetworksOk() (*map[string]NetworkTemplateNetwork, bool)`
+`func (o *NetworkTemplate) GetNetworksOk() (*map[string]SwitchNetwork, bool)`
 
 GetNetworksOk returns a tuple with the Networks field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetNetworks
 
-`func (o *NetworkTemplate) SetNetworks(v map[string]NetworkTemplateNetwork)`
+`func (o *NetworkTemplate) SetNetworks(v map[string]SwitchNetwork)`
 
 SetNetworks sets Networks field to given value.
 
@@ -450,20 +502,20 @@ HasOrgId returns a boolean if a field has been set.
 
 ### GetPortUsages
 
-`func (o *NetworkTemplate) GetPortUsages() map[string]JunosPortUsages`
+`func (o *NetworkTemplate) GetPortUsages() map[string]PortUsage`
 
 GetPortUsages returns the PortUsages field if non-nil, zero value otherwise.
 
 ### GetPortUsagesOk
 
-`func (o *NetworkTemplate) GetPortUsagesOk() (*map[string]JunosPortUsages, bool)`
+`func (o *NetworkTemplate) GetPortUsagesOk() (*map[string]PortUsage, bool)`
 
 GetPortUsagesOk returns a tuple with the PortUsages field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetPortUsages
 
-`func (o *NetworkTemplate) SetPortUsages(v map[string]JunosPortUsages)`
+`func (o *NetworkTemplate) SetPortUsages(v map[string]PortUsage)`
 
 SetPortUsages sets PortUsages field to given value.
 
@@ -475,20 +527,20 @@ HasPortUsages returns a boolean if a field has been set.
 
 ### GetRadiusConfig
 
-`func (o *NetworkTemplate) GetRadiusConfig() JunosRadiusConfig`
+`func (o *NetworkTemplate) GetRadiusConfig() RadiusConfig`
 
 GetRadiusConfig returns the RadiusConfig field if non-nil, zero value otherwise.
 
 ### GetRadiusConfigOk
 
-`func (o *NetworkTemplate) GetRadiusConfigOk() (*JunosRadiusConfig, bool)`
+`func (o *NetworkTemplate) GetRadiusConfigOk() (*RadiusConfig, bool)`
 
 GetRadiusConfigOk returns a tuple with the RadiusConfig field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetRadiusConfig
 
-`func (o *NetworkTemplate) SetRadiusConfig(v JunosRadiusConfig)`
+`func (o *NetworkTemplate) SetRadiusConfig(v RadiusConfig)`
 
 SetRadiusConfig sets RadiusConfig field to given value.
 
@@ -525,20 +577,20 @@ HasRemoteSyslog returns a boolean if a field has been set.
 
 ### GetSnmpConfig
 
-`func (o *NetworkTemplate) GetSnmpConfig() JunosSnmpConfig`
+`func (o *NetworkTemplate) GetSnmpConfig() SnmpConfig`
 
 GetSnmpConfig returns the SnmpConfig field if non-nil, zero value otherwise.
 
 ### GetSnmpConfigOk
 
-`func (o *NetworkTemplate) GetSnmpConfigOk() (*JunosSnmpConfig, bool)`
+`func (o *NetworkTemplate) GetSnmpConfigOk() (*SnmpConfig, bool)`
 
 GetSnmpConfigOk returns a tuple with the SnmpConfig field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetSnmpConfig
 
-`func (o *NetworkTemplate) SetSnmpConfig(v JunosSnmpConfig)`
+`func (o *NetworkTemplate) SetSnmpConfig(v SnmpConfig)`
 
 SetSnmpConfig sets SnmpConfig field to given value.
 
@@ -600,20 +652,20 @@ HasSwitchMgmt returns a boolean if a field has been set.
 
 ### GetVrfConfig
 
-`func (o *NetworkTemplate) GetVrfConfig() JunosVrfConfig`
+`func (o *NetworkTemplate) GetVrfConfig() VrfConfig`
 
 GetVrfConfig returns the VrfConfig field if non-nil, zero value otherwise.
 
 ### GetVrfConfigOk
 
-`func (o *NetworkTemplate) GetVrfConfigOk() (*JunosVrfConfig, bool)`
+`func (o *NetworkTemplate) GetVrfConfigOk() (*VrfConfig, bool)`
 
 GetVrfConfigOk returns a tuple with the VrfConfig field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetVrfConfig
 
-`func (o *NetworkTemplate) SetVrfConfig(v JunosVrfConfig)`
+`func (o *NetworkTemplate) SetVrfConfig(v VrfConfig)`
 
 SetVrfConfig sets VrfConfig field to given value.
 
@@ -625,20 +677,20 @@ HasVrfConfig returns a boolean if a field has been set.
 
 ### GetVrfInstances
 
-`func (o *NetworkTemplate) GetVrfInstances() map[string]VrfInstancesConfig`
+`func (o *NetworkTemplate) GetVrfInstances() map[string]VrfInstance`
 
 GetVrfInstances returns the VrfInstances field if non-nil, zero value otherwise.
 
 ### GetVrfInstancesOk
 
-`func (o *NetworkTemplate) GetVrfInstancesOk() (*map[string]VrfInstancesConfig, bool)`
+`func (o *NetworkTemplate) GetVrfInstancesOk() (*map[string]VrfInstance, bool)`
 
 GetVrfInstancesOk returns a tuple with the VrfInstances field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetVrfInstances
 
-`func (o *NetworkTemplate) SetVrfInstances(v map[string]VrfInstancesConfig)`
+`func (o *NetworkTemplate) SetVrfInstances(v map[string]VrfInstance)`
 
 SetVrfInstances sets VrfInstances field to given value.
 

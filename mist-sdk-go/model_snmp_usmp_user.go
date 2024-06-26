@@ -1,9 +1,9 @@
 /*
 Mist API
 
-> Version: **2405.1.6** > > Date: **June 6, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location-services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
+> Version: **2406.1.3** > > Date: **June 26, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
 
-API version: 2405.1.6
+API version: 2406.1.3
 Contact: tmunzer@juniper.net
 */
 
@@ -20,13 +20,12 @@ var _ MappedNullable = &SnmpUsmpUser{}
 
 // SnmpUsmpUser struct for SnmpUsmpUser
 type SnmpUsmpUser struct {
-	// Not required if `authentication_type`==`authentication-none` include alphabetic, numeric, and special characters, but it cannot include control characters.
+	// Not required if `authentication_type`==`authentication_none` include alphabetic, numeric, and special characters, but it cannot include control characters.
 	AuthenticationPassword *string `json:"authentication_password,omitempty"`
-	// sha224, sha256, sha384, sha512 are supported in 21.1 and newer release
-	AuthenticationType *string `json:"authentication_type,omitempty"`
+	AuthenticationType *SnmpUsmpUserAuthenticationType `json:"authentication_type,omitempty"`
 	// Not required if `encryption_type`==`privacy-none` include alphabetic, numeric, and special characters, but it cannot include control characters
 	EncryptionPassword *string `json:"encryption_password,omitempty"`
-	EncryptionType *string `json:"encryption_type,omitempty"`
+	EncryptionType *SnmpUsmpUserEncryptionType `json:"encryption_type,omitempty"`
 	Name *string `json:"name,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
@@ -83,9 +82,9 @@ func (o *SnmpUsmpUser) SetAuthenticationPassword(v string) {
 }
 
 // GetAuthenticationType returns the AuthenticationType field value if set, zero value otherwise.
-func (o *SnmpUsmpUser) GetAuthenticationType() string {
+func (o *SnmpUsmpUser) GetAuthenticationType() SnmpUsmpUserAuthenticationType {
 	if o == nil || IsNil(o.AuthenticationType) {
-		var ret string
+		var ret SnmpUsmpUserAuthenticationType
 		return ret
 	}
 	return *o.AuthenticationType
@@ -93,7 +92,7 @@ func (o *SnmpUsmpUser) GetAuthenticationType() string {
 
 // GetAuthenticationTypeOk returns a tuple with the AuthenticationType field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *SnmpUsmpUser) GetAuthenticationTypeOk() (*string, bool) {
+func (o *SnmpUsmpUser) GetAuthenticationTypeOk() (*SnmpUsmpUserAuthenticationType, bool) {
 	if o == nil || IsNil(o.AuthenticationType) {
 		return nil, false
 	}
@@ -109,8 +108,8 @@ func (o *SnmpUsmpUser) HasAuthenticationType() bool {
 	return false
 }
 
-// SetAuthenticationType gets a reference to the given string and assigns it to the AuthenticationType field.
-func (o *SnmpUsmpUser) SetAuthenticationType(v string) {
+// SetAuthenticationType gets a reference to the given SnmpUsmpUserAuthenticationType and assigns it to the AuthenticationType field.
+func (o *SnmpUsmpUser) SetAuthenticationType(v SnmpUsmpUserAuthenticationType) {
 	o.AuthenticationType = &v
 }
 
@@ -147,9 +146,9 @@ func (o *SnmpUsmpUser) SetEncryptionPassword(v string) {
 }
 
 // GetEncryptionType returns the EncryptionType field value if set, zero value otherwise.
-func (o *SnmpUsmpUser) GetEncryptionType() string {
+func (o *SnmpUsmpUser) GetEncryptionType() SnmpUsmpUserEncryptionType {
 	if o == nil || IsNil(o.EncryptionType) {
-		var ret string
+		var ret SnmpUsmpUserEncryptionType
 		return ret
 	}
 	return *o.EncryptionType
@@ -157,7 +156,7 @@ func (o *SnmpUsmpUser) GetEncryptionType() string {
 
 // GetEncryptionTypeOk returns a tuple with the EncryptionType field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *SnmpUsmpUser) GetEncryptionTypeOk() (*string, bool) {
+func (o *SnmpUsmpUser) GetEncryptionTypeOk() (*SnmpUsmpUserEncryptionType, bool) {
 	if o == nil || IsNil(o.EncryptionType) {
 		return nil, false
 	}
@@ -173,8 +172,8 @@ func (o *SnmpUsmpUser) HasEncryptionType() bool {
 	return false
 }
 
-// SetEncryptionType gets a reference to the given string and assigns it to the EncryptionType field.
-func (o *SnmpUsmpUser) SetEncryptionType(v string) {
+// SetEncryptionType gets a reference to the given SnmpUsmpUserEncryptionType and assigns it to the EncryptionType field.
+func (o *SnmpUsmpUser) SetEncryptionType(v SnmpUsmpUserEncryptionType) {
 	o.EncryptionType = &v
 }
 

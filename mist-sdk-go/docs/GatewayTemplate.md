@@ -4,27 +4,27 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**AdditionalConfigCmds** | Pointer to **[]string** |  | [optional] [default to []]
-**BgpConfig** | Pointer to [**map[string]JunosBgpConfig**](JunosBgpConfig.md) |  | [optional] 
+**AdditionalConfigCmds** | Pointer to **[]string** | additional CLI commands to append to the generated Junos config  **Note**: no check is done | [optional] 
+**BgpConfig** | Pointer to [**map[string]BgpConfig**](BgpConfig.md) |  | [optional] 
 **CreatedTime** | Pointer to **float32** |  | [optional] [readonly] 
-**DhcpdConfig** | Pointer to [**JunosDhcpdConfig**](JunosDhcpdConfig.md) |  | [optional] 
-**ExtraRoutes** | Pointer to [**map[string]GatewayExtraRouteValue**](GatewayExtraRouteValue.md) |  | [optional] 
+**DhcpdConfig** | Pointer to [**DhcpdConfigs**](DhcpdConfigs.md) |  | [optional] 
+**ExtraRoutes** | Pointer to [**map[string]GatewayExtraRoute**](GatewayExtraRoute.md) |  | [optional] 
 **GatewayMatching** | Pointer to [**GatewayMatching**](GatewayMatching.md) |  | [optional] 
 **Id** | Pointer to **string** |  | [optional] [readonly] 
 **IdpProfiles** | Pointer to [**GatewayTemplateIdpProfiles**](GatewayTemplateIdpProfiles.md) |  | [optional] 
-**IpConfigs** | Pointer to [**map[string]GatewayIpConfigValue**](GatewayIpConfigValue.md) | Property key is the network name | [optional] 
+**IpConfigs** | Pointer to [**map[string]GatewayTemplateIpConfig**](GatewayTemplateIpConfig.md) | Property key is the network name | [optional] 
 **ModifiedTime** | Pointer to **float32** |  | [optional] [readonly] 
 **Name** | **string** |  | 
 **Networks** | Pointer to [**[]Network**](Network.md) | additional networks that are not already defined from Networks | [optional] 
-**OobIpConfig** | Pointer to [**JunosOobIpConfig**](JunosOobIpConfig.md) |  | [optional] 
+**OobIpConfig** | Pointer to [**JunosOobIpConfigs**](JunosOobIpConfigs.md) |  | [optional] 
 **OrgId** | Pointer to **string** |  | [optional] [readonly] 
 **PathPreferences** | Pointer to [**map[string]GatewayTemplatePathPreferences**](GatewayTemplatePathPreferences.md) | Property key is the path name | [optional] 
 **PortConfig** | Pointer to [**map[string]GatewayPortConfig**](GatewayPortConfig.md) | Property key is the port(s) name or range (e.g. \&quot;ge-0/0/0-10\&quot;) | [optional] 
 **RouterId** | Pointer to **string** | auto assigned if not set | [optional] 
-**RoutingPolicies** | Pointer to [**map[string]GatewayRoutingPolicy**](GatewayRoutingPolicy.md) | Property key is the routing policy name | [optional] 
+**RoutingPolicies** | Pointer to [**map[string]RoutingPolicy**](RoutingPolicy.md) | Property key is the routing policy name | [optional] 
 **ServicePolicies** | Pointer to [**[]ServicePolicy**](ServicePolicy.md) |  | [optional] 
-**TunnelConfigs** | Pointer to [**map[string]GatewayTemplateTunnelConfigs**](GatewayTemplateTunnelConfigs.md) | Property key is the tunnel name | [optional] 
-**TunnelProviderOptions** | Pointer to [**GatewayTemplateTunnelProvider**](GatewayTemplateTunnelProvider.md) |  | [optional] 
+**TunnelConfigs** | Pointer to [**map[string]TunnelConfigs**](TunnelConfigs.md) | Property key is the tunnel name | [optional] 
+**TunnelProviderOptions** | Pointer to [**TunnelProviderOptions**](TunnelProviderOptions.md) |  | [optional] 
 **Type** | Pointer to [**GatewayTemplateType**](GatewayTemplateType.md) |  | [optional] [default to GATEWAYTEMPLATETYPE_STANDALONE]
 
 ## Methods
@@ -73,20 +73,20 @@ HasAdditionalConfigCmds returns a boolean if a field has been set.
 
 ### GetBgpConfig
 
-`func (o *GatewayTemplate) GetBgpConfig() map[string]JunosBgpConfig`
+`func (o *GatewayTemplate) GetBgpConfig() map[string]BgpConfig`
 
 GetBgpConfig returns the BgpConfig field if non-nil, zero value otherwise.
 
 ### GetBgpConfigOk
 
-`func (o *GatewayTemplate) GetBgpConfigOk() (*map[string]JunosBgpConfig, bool)`
+`func (o *GatewayTemplate) GetBgpConfigOk() (*map[string]BgpConfig, bool)`
 
 GetBgpConfigOk returns a tuple with the BgpConfig field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetBgpConfig
 
-`func (o *GatewayTemplate) SetBgpConfig(v map[string]JunosBgpConfig)`
+`func (o *GatewayTemplate) SetBgpConfig(v map[string]BgpConfig)`
 
 SetBgpConfig sets BgpConfig field to given value.
 
@@ -123,20 +123,20 @@ HasCreatedTime returns a boolean if a field has been set.
 
 ### GetDhcpdConfig
 
-`func (o *GatewayTemplate) GetDhcpdConfig() JunosDhcpdConfig`
+`func (o *GatewayTemplate) GetDhcpdConfig() DhcpdConfigs`
 
 GetDhcpdConfig returns the DhcpdConfig field if non-nil, zero value otherwise.
 
 ### GetDhcpdConfigOk
 
-`func (o *GatewayTemplate) GetDhcpdConfigOk() (*JunosDhcpdConfig, bool)`
+`func (o *GatewayTemplate) GetDhcpdConfigOk() (*DhcpdConfigs, bool)`
 
 GetDhcpdConfigOk returns a tuple with the DhcpdConfig field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetDhcpdConfig
 
-`func (o *GatewayTemplate) SetDhcpdConfig(v JunosDhcpdConfig)`
+`func (o *GatewayTemplate) SetDhcpdConfig(v DhcpdConfigs)`
 
 SetDhcpdConfig sets DhcpdConfig field to given value.
 
@@ -148,20 +148,20 @@ HasDhcpdConfig returns a boolean if a field has been set.
 
 ### GetExtraRoutes
 
-`func (o *GatewayTemplate) GetExtraRoutes() map[string]GatewayExtraRouteValue`
+`func (o *GatewayTemplate) GetExtraRoutes() map[string]GatewayExtraRoute`
 
 GetExtraRoutes returns the ExtraRoutes field if non-nil, zero value otherwise.
 
 ### GetExtraRoutesOk
 
-`func (o *GatewayTemplate) GetExtraRoutesOk() (*map[string]GatewayExtraRouteValue, bool)`
+`func (o *GatewayTemplate) GetExtraRoutesOk() (*map[string]GatewayExtraRoute, bool)`
 
 GetExtraRoutesOk returns a tuple with the ExtraRoutes field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetExtraRoutes
 
-`func (o *GatewayTemplate) SetExtraRoutes(v map[string]GatewayExtraRouteValue)`
+`func (o *GatewayTemplate) SetExtraRoutes(v map[string]GatewayExtraRoute)`
 
 SetExtraRoutes sets ExtraRoutes field to given value.
 
@@ -248,20 +248,20 @@ HasIdpProfiles returns a boolean if a field has been set.
 
 ### GetIpConfigs
 
-`func (o *GatewayTemplate) GetIpConfigs() map[string]GatewayIpConfigValue`
+`func (o *GatewayTemplate) GetIpConfigs() map[string]GatewayTemplateIpConfig`
 
 GetIpConfigs returns the IpConfigs field if non-nil, zero value otherwise.
 
 ### GetIpConfigsOk
 
-`func (o *GatewayTemplate) GetIpConfigsOk() (*map[string]GatewayIpConfigValue, bool)`
+`func (o *GatewayTemplate) GetIpConfigsOk() (*map[string]GatewayTemplateIpConfig, bool)`
 
 GetIpConfigsOk returns a tuple with the IpConfigs field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetIpConfigs
 
-`func (o *GatewayTemplate) SetIpConfigs(v map[string]GatewayIpConfigValue)`
+`func (o *GatewayTemplate) SetIpConfigs(v map[string]GatewayTemplateIpConfig)`
 
 SetIpConfigs sets IpConfigs field to given value.
 
@@ -343,20 +343,20 @@ HasNetworks returns a boolean if a field has been set.
 
 ### GetOobIpConfig
 
-`func (o *GatewayTemplate) GetOobIpConfig() JunosOobIpConfig`
+`func (o *GatewayTemplate) GetOobIpConfig() JunosOobIpConfigs`
 
 GetOobIpConfig returns the OobIpConfig field if non-nil, zero value otherwise.
 
 ### GetOobIpConfigOk
 
-`func (o *GatewayTemplate) GetOobIpConfigOk() (*JunosOobIpConfig, bool)`
+`func (o *GatewayTemplate) GetOobIpConfigOk() (*JunosOobIpConfigs, bool)`
 
 GetOobIpConfigOk returns a tuple with the OobIpConfig field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetOobIpConfig
 
-`func (o *GatewayTemplate) SetOobIpConfig(v JunosOobIpConfig)`
+`func (o *GatewayTemplate) SetOobIpConfig(v JunosOobIpConfigs)`
 
 SetOobIpConfig sets OobIpConfig field to given value.
 
@@ -468,20 +468,20 @@ HasRouterId returns a boolean if a field has been set.
 
 ### GetRoutingPolicies
 
-`func (o *GatewayTemplate) GetRoutingPolicies() map[string]GatewayRoutingPolicy`
+`func (o *GatewayTemplate) GetRoutingPolicies() map[string]RoutingPolicy`
 
 GetRoutingPolicies returns the RoutingPolicies field if non-nil, zero value otherwise.
 
 ### GetRoutingPoliciesOk
 
-`func (o *GatewayTemplate) GetRoutingPoliciesOk() (*map[string]GatewayRoutingPolicy, bool)`
+`func (o *GatewayTemplate) GetRoutingPoliciesOk() (*map[string]RoutingPolicy, bool)`
 
 GetRoutingPoliciesOk returns a tuple with the RoutingPolicies field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetRoutingPolicies
 
-`func (o *GatewayTemplate) SetRoutingPolicies(v map[string]GatewayRoutingPolicy)`
+`func (o *GatewayTemplate) SetRoutingPolicies(v map[string]RoutingPolicy)`
 
 SetRoutingPolicies sets RoutingPolicies field to given value.
 
@@ -518,20 +518,20 @@ HasServicePolicies returns a boolean if a field has been set.
 
 ### GetTunnelConfigs
 
-`func (o *GatewayTemplate) GetTunnelConfigs() map[string]GatewayTemplateTunnelConfigs`
+`func (o *GatewayTemplate) GetTunnelConfigs() map[string]TunnelConfigs`
 
 GetTunnelConfigs returns the TunnelConfigs field if non-nil, zero value otherwise.
 
 ### GetTunnelConfigsOk
 
-`func (o *GatewayTemplate) GetTunnelConfigsOk() (*map[string]GatewayTemplateTunnelConfigs, bool)`
+`func (o *GatewayTemplate) GetTunnelConfigsOk() (*map[string]TunnelConfigs, bool)`
 
 GetTunnelConfigsOk returns a tuple with the TunnelConfigs field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetTunnelConfigs
 
-`func (o *GatewayTemplate) SetTunnelConfigs(v map[string]GatewayTemplateTunnelConfigs)`
+`func (o *GatewayTemplate) SetTunnelConfigs(v map[string]TunnelConfigs)`
 
 SetTunnelConfigs sets TunnelConfigs field to given value.
 
@@ -543,20 +543,20 @@ HasTunnelConfigs returns a boolean if a field has been set.
 
 ### GetTunnelProviderOptions
 
-`func (o *GatewayTemplate) GetTunnelProviderOptions() GatewayTemplateTunnelProvider`
+`func (o *GatewayTemplate) GetTunnelProviderOptions() TunnelProviderOptions`
 
 GetTunnelProviderOptions returns the TunnelProviderOptions field if non-nil, zero value otherwise.
 
 ### GetTunnelProviderOptionsOk
 
-`func (o *GatewayTemplate) GetTunnelProviderOptionsOk() (*GatewayTemplateTunnelProvider, bool)`
+`func (o *GatewayTemplate) GetTunnelProviderOptionsOk() (*TunnelProviderOptions, bool)`
 
 GetTunnelProviderOptionsOk returns a tuple with the TunnelProviderOptions field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetTunnelProviderOptions
 
-`func (o *GatewayTemplate) SetTunnelProviderOptions(v GatewayTemplateTunnelProvider)`
+`func (o *GatewayTemplate) SetTunnelProviderOptions(v TunnelProviderOptions)`
 
 SetTunnelProviderOptions sets TunnelProviderOptions field to given value.
 

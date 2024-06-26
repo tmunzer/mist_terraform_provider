@@ -12,7 +12,20 @@ import (
 	mist_transform "terraform-provider-mistapi/internal/provider/utils/transform"
 )
 
-func portUsagesScSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdkgo.JunosStormControl) basetypes.ObjectValue {
+func portDuplexSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdkgo.PortUsageDuplex) basetypes.StringValue {
+	var r basetypes.StringValue = types.StringValue(string(d))
+	return types.StringValue(r.ValueString())
+}
+func portMacAuthProtocolSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdkgo.PortUsageMacAuthProtocol) basetypes.StringValue {
+	var r basetypes.StringValue = types.StringValue(string(d))
+	return types.StringValue(r.ValueString())
+}
+func portModeSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdkgo.PortUsageMode) basetypes.StringValue {
+	var r basetypes.StringValue = types.StringValue(string(d))
+	return types.StringValue(r.ValueString())
+}
+
+func portUsagesScSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdkgo.PortUsageStormControl) basetypes.ObjectValue {
 	storm_control_attr_type := StormControlValue{}.AttributeTypes(ctx)
 	storm_control_attr_value := map[string]attr.Value{
 		"no_broadcast":            types.BoolValue(d.GetNoBroadcast()),
@@ -28,7 +41,7 @@ func portUsagesScSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d 
 	return r
 }
 
-func portUsagesSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]mistsdkgo.JunosPortUsages) basetypes.MapValue {
+func portUsagesSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]mistsdkgo.PortUsage) basetypes.MapValue {
 	port_usage_type := PortUsagesValue{}.AttributeTypes(ctx)
 	state_value_map := make(map[string]attr.Value)
 	for k, v := range d {
@@ -42,15 +55,16 @@ func portUsagesSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d ma
 			"description":                                     types.StringValue(v.GetDescription()),
 			"disable_autoneg":                                 types.BoolValue(v.GetDisableAutoneg()),
 			"disabled":                                        types.BoolValue(v.GetDisabled()),
-			"duplex":                                          types.StringValue(v.GetDuplex()),
+			"duplex":                                          portDuplexSdkToTerraform(ctx, diags, v.GetDuplex()),
 			"dynamic_vlan_networks":                           mist_transform.ListOfStringSdkToTerraform(ctx, v.GetDynamicVlanNetworks()),
 			"enable_mac_auth":                                 types.BoolValue(v.GetEnableMacAuth()),
 			"enable_qos":                                      types.BoolValue(v.GetEnableQos()),
 			"guest_network":                                   types.StringValue(v.GetGuestNetwork()),
+			"inter_switch_link":                               types.BoolValue(v.GetInterSwitchLink()),
 			"mac_auth_only":                                   types.BoolValue(v.GetMacAuthOnly()),
-			"mac_auth_protocol":                               types.StringValue(v.GetMacAuthProtocol()),
+			"mac_auth_protocol":                               portMacAuthProtocolSdkToTerraform(ctx, diags, v.GetMacAuthProtocol()),
 			"mac_limit":                                       types.Int64Value(int64(v.GetMacLimit())),
-			"mode":                                            types.StringValue(v.GetMode()),
+			"mode":                                            portModeSdkToTerraform(ctx, diags, v.GetMode()),
 			"mtu":                                             types.Int64Value(int64(v.GetMtu())),
 			"networks":                                        mist_transform.ListOfStringSdkToTerraform(ctx, v.GetNetworks()),
 			"persist_mac":                                     types.BoolValue(v.GetPersistMac()),

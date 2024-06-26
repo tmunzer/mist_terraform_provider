@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Enable** | Pointer to **bool** |  | [optional] 
-**Rules** | Pointer to [**[]SwitchMatchingRulesItem**](SwitchMatchingRulesItem.md) |  | [optional] 
+**Rules** | Pointer to [**[]SwitchMatchingRule**](SwitchMatchingRule.md) |  | [optional] 
 
 ## Methods
 
@@ -53,20 +53,20 @@ HasEnable returns a boolean if a field has been set.
 
 ### GetRules
 
-`func (o *SwitchMatching) GetRules() []SwitchMatchingRulesItem`
+`func (o *SwitchMatching) GetRules() []SwitchMatchingRule`
 
 GetRules returns the Rules field if non-nil, zero value otherwise.
 
 ### GetRulesOk
 
-`func (o *SwitchMatching) GetRulesOk() (*[]SwitchMatchingRulesItem, bool)`
+`func (o *SwitchMatching) GetRulesOk() (*[]SwitchMatchingRule, bool)`
 
 GetRulesOk returns a tuple with the Rules field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetRules
 
-`func (o *SwitchMatching) SetRules(v []SwitchMatchingRulesItem)`
+`func (o *SwitchMatching) SetRules(v []SwitchMatchingRule)`
 
 SetRules sets Rules field to given value.
 

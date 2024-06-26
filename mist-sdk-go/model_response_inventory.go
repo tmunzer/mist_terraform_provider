@@ -1,9 +1,9 @@
 /*
 Mist API
 
-> Version: **2405.1.6** > > Date: **June 6, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location-services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
+> Version: **2406.1.3** > > Date: **June 26, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
 
-API version: 2405.1.6
+API version: 2406.1.3
 Contact: tmunzer@juniper.net
 */
 
@@ -23,8 +23,8 @@ type ResponseInventory struct {
 	Added []string `json:"added,omitempty"`
 	Duplicated []string `json:"duplicated,omitempty"`
 	Error []string `json:"error,omitempty"`
-	InventoryAdded []ResponseInventoryInventoryAddedInner `json:"inventory_added,omitempty"`
-	InventoryDuplicated []ResponseInventoryInventoryDuplicatedInner `json:"inventory_duplicated,omitempty"`
+	InventoryAdded []ResponseInventoryInventoryAddedItems `json:"inventory_added,omitempty"`
+	InventoryDuplicated []ResponseInventoryInventoryDuplicatedItems `json:"inventory_duplicated,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -144,9 +144,9 @@ func (o *ResponseInventory) SetError(v []string) {
 }
 
 // GetInventoryAdded returns the InventoryAdded field value if set, zero value otherwise.
-func (o *ResponseInventory) GetInventoryAdded() []ResponseInventoryInventoryAddedInner {
+func (o *ResponseInventory) GetInventoryAdded() []ResponseInventoryInventoryAddedItems {
 	if o == nil || IsNil(o.InventoryAdded) {
-		var ret []ResponseInventoryInventoryAddedInner
+		var ret []ResponseInventoryInventoryAddedItems
 		return ret
 	}
 	return o.InventoryAdded
@@ -154,7 +154,7 @@ func (o *ResponseInventory) GetInventoryAdded() []ResponseInventoryInventoryAdde
 
 // GetInventoryAddedOk returns a tuple with the InventoryAdded field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ResponseInventory) GetInventoryAddedOk() ([]ResponseInventoryInventoryAddedInner, bool) {
+func (o *ResponseInventory) GetInventoryAddedOk() ([]ResponseInventoryInventoryAddedItems, bool) {
 	if o == nil || IsNil(o.InventoryAdded) {
 		return nil, false
 	}
@@ -170,15 +170,15 @@ func (o *ResponseInventory) HasInventoryAdded() bool {
 	return false
 }
 
-// SetInventoryAdded gets a reference to the given []ResponseInventoryInventoryAddedInner and assigns it to the InventoryAdded field.
-func (o *ResponseInventory) SetInventoryAdded(v []ResponseInventoryInventoryAddedInner) {
+// SetInventoryAdded gets a reference to the given []ResponseInventoryInventoryAddedItems and assigns it to the InventoryAdded field.
+func (o *ResponseInventory) SetInventoryAdded(v []ResponseInventoryInventoryAddedItems) {
 	o.InventoryAdded = v
 }
 
 // GetInventoryDuplicated returns the InventoryDuplicated field value if set, zero value otherwise.
-func (o *ResponseInventory) GetInventoryDuplicated() []ResponseInventoryInventoryDuplicatedInner {
+func (o *ResponseInventory) GetInventoryDuplicated() []ResponseInventoryInventoryDuplicatedItems {
 	if o == nil || IsNil(o.InventoryDuplicated) {
-		var ret []ResponseInventoryInventoryDuplicatedInner
+		var ret []ResponseInventoryInventoryDuplicatedItems
 		return ret
 	}
 	return o.InventoryDuplicated
@@ -186,7 +186,7 @@ func (o *ResponseInventory) GetInventoryDuplicated() []ResponseInventoryInventor
 
 // GetInventoryDuplicatedOk returns a tuple with the InventoryDuplicated field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ResponseInventory) GetInventoryDuplicatedOk() ([]ResponseInventoryInventoryDuplicatedInner, bool) {
+func (o *ResponseInventory) GetInventoryDuplicatedOk() ([]ResponseInventoryInventoryDuplicatedItems, bool) {
 	if o == nil || IsNil(o.InventoryDuplicated) {
 		return nil, false
 	}
@@ -202,8 +202,8 @@ func (o *ResponseInventory) HasInventoryDuplicated() bool {
 	return false
 }
 
-// SetInventoryDuplicated gets a reference to the given []ResponseInventoryInventoryDuplicatedInner and assigns it to the InventoryDuplicated field.
-func (o *ResponseInventory) SetInventoryDuplicated(v []ResponseInventoryInventoryDuplicatedInner) {
+// SetInventoryDuplicated gets a reference to the given []ResponseInventoryInventoryDuplicatedItems and assigns it to the InventoryDuplicated field.
+func (o *ResponseInventory) SetInventoryDuplicated(v []ResponseInventoryInventoryDuplicatedItems) {
 	o.InventoryDuplicated = v
 }
 

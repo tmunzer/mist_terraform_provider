@@ -49,12 +49,12 @@ func TacacsAcctServersTerraformToSdk(ctx context.Context, diags *diag.Diagnostic
 	var data []mistsdkgo.TacacsAcctServer
 	for _, plan_attr := range d.Elements() {
 		var srv_plan_interface interface{} = plan_attr
-		srv_plan := srv_plan_interface.(TacacsAcctServersValue)
+		srv_plan := srv_plan_interface.(mistsdkgo.TacacsAcctServer)
 		srv_data := mistsdkgo.NewTacacsAcctServer()
-		srv_data.SetHost(srv_plan.Host.ValueString())
-		srv_data.SetPort(srv_plan.Port.ValueString())
-		srv_data.SetSecret(srv_plan.Secret.ValueString())
-		srv_data.SetTimeout(int32(srv_plan.Timeout.ValueInt64()))
+		srv_data.SetHost(srv_plan.GetHost())
+		srv_data.SetPort(srv_plan.GetPort())
+		srv_data.SetSecret(srv_plan.GetSecret())
+		srv_data.SetTimeout(int32(srv_plan.GetTimeout()))
 		data = append(data, *srv_data)
 	}
 	return data
@@ -93,6 +93,7 @@ func switchMgmtTacacsTerraformToSdk(ctx context.Context, diags *diag.Diagnostics
 		data.SetNetwork(item_obj.Network.ValueString())
 		data.SetAcctServers(acct_servers)
 		data.SetTacplusServers(auth_servers)
+		data.SetDefaultRole(mistsdkgo.TacacsDefaultRole(item_obj.DefaultRole.ValueString()))
 
 		return *data
 	}

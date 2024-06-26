@@ -17,7 +17,7 @@ Name | Type | Description | Notes
 **MxclusterIds** | Pointer to **[]string** | list of mxclusters to deploy this tunnel to | [optional] 
 **Name** | Pointer to **NullableString** |  | [optional] 
 **OrgId** | Pointer to **string** |  | [optional] [readonly] 
-**Protocol** | Pointer to **string** |  | [optional] [default to "udp"]
+**Protocol** | Pointer to [**MxtunnelProtocol**](MxtunnelProtocol.md) |  | [optional] [default to MXTUNNELPROTOCOL_UDP]
 **SiteId** | Pointer to **string** |  | [optional] [readonly] 
 **VlanIds** | Pointer to **[]int32** | list of vlan_ids that will be used | [optional] 
 
@@ -397,20 +397,20 @@ HasOrgId returns a boolean if a field has been set.
 
 ### GetProtocol
 
-`func (o *Mxtunnel) GetProtocol() string`
+`func (o *Mxtunnel) GetProtocol() MxtunnelProtocol`
 
 GetProtocol returns the Protocol field if non-nil, zero value otherwise.
 
 ### GetProtocolOk
 
-`func (o *Mxtunnel) GetProtocolOk() (*string, bool)`
+`func (o *Mxtunnel) GetProtocolOk() (*MxtunnelProtocol, bool)`
 
 GetProtocolOk returns a tuple with the Protocol field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetProtocol
 
-`func (o *Mxtunnel) SetProtocol(v string)`
+`func (o *Mxtunnel) SetProtocol(v MxtunnelProtocol)`
 
 SetProtocol sets Protocol field to given value.
 

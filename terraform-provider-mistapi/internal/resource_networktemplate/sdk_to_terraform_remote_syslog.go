@@ -26,7 +26,7 @@ func remoteSyslogArchiveSdkToTerraform(ctx context.Context, diags *diag.Diagnost
 	diags.Append(e...)
 	return o
 }
-func remoteSyslogContentsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []mistsdkgo.RemoteSyslogContentItem) basetypes.ListValue {
+func remoteSyslogContentsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []mistsdkgo.RemoteSyslogContent) basetypes.ListValue {
 	tflog.Debug(ctx, "remoteSyslogContentsSdkToTerraform")
 	var data_list = []ContentsValue{}
 
@@ -60,7 +60,7 @@ func remoteSyslogConsoleSdkToTerraform(ctx context.Context, diags *diag.Diagnost
 	diags.Append(e...)
 	return o
 }
-func remoteSyslogFilesSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []mistsdkgo.SyslogFileConfig) basetypes.ListValue {
+func remoteSyslogFilesSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []mistsdkgo.RemoteSyslogFileConfig) basetypes.ListValue {
 	tflog.Debug(ctx, "remoteSyslogFilesSdkToTerraform")
 	var data_list = []FilesValue{}
 
@@ -87,7 +87,7 @@ func remoteSyslogFilesSdkToTerraform(ctx context.Context, diags *diag.Diagnostic
 
 	return r
 }
-func remoteSyslogServerSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []mistsdkgo.RemoteSyslogServersItem) basetypes.ListValue {
+func remoteSyslogServerSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []mistsdkgo.RemoteSyslogServer) basetypes.ListValue {
 	tflog.Debug(ctx, "remoteSyslogServerSdkToTerraform")
 	var data_list = []ServersValue{}
 
@@ -118,7 +118,7 @@ func remoteSyslogServerSdkToTerraform(ctx context.Context, diags *diag.Diagnosti
 	diags.Append(e...)
 	return r
 }
-func remoteSyslogUsersSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []mistsdkgo.RemoteSyslogUsersItem) basetypes.ListValue {
+func remoteSyslogUsersSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []mistsdkgo.RemoteSyslogUser) basetypes.ListValue {
 	tflog.Debug(ctx, "remoteSyslogUsersSdkToTerraform")
 	var data_list = []UsersValue{}
 

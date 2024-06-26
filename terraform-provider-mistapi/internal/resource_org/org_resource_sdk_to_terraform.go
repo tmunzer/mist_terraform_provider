@@ -16,7 +16,7 @@ func SdkToTerraform(data *mistsdkgo.Org) (OrgModel, diag.Diagnostics) {
 	state.Id = types.StringValue(data.GetId())
 	state.AlarmtemplateId = types.StringValue(data.GetAlarmtemplateId())
 	state.AllowMist = types.BoolValue(data.GetAllowMist())
-	state.LogoUrl = types.StringValue(data.GetLogoUrl())
+	state.MspLogoUrl = types.StringValue(data.GetMspLogoUrl())
 	state.MspId = types.StringValue(data.GetMspId())
 	state.MspName = types.StringValue(data.GetMspName())
 	state.Name = types.StringValue(data.GetName())

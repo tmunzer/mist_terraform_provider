@@ -1,9 +1,9 @@
 /*
 Mist API
 
-> Version: **2405.1.6** > > Date: **June 6, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location-services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
+> Version: **2406.1.3** > > Date: **June 26, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
 
-API version: 2405.1.6
+API version: 2406.1.3
 Contact: tmunzer@juniper.net
 */
 
@@ -18,23 +18,14 @@ import (
 // checks if the JunosOobIpConfig type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &JunosOobIpConfig{}
 
-// JunosOobIpConfig Junos out-of-band (vme/em0/fxp0) IP config
+// JunosOobIpConfig - If HA configuration: key parameter will be nodeX (eg: node1) - If there are 2 routing engines, re1 mgmt IP has to be set separately (if desired): key parameter = `re1`
 type JunosOobIpConfig struct {
-	Dns []string `json:"dns,omitempty"`
-	DnsSuffix []string `json:"dns_suffix,omitempty"`
-	Gateway *string `json:"gateway,omitempty"`
 	Ip *string `json:"ip,omitempty"`
 	// used only if `subnet` is not specified in `networks`
 	Netmask *string `json:"netmask,omitempty"`
 	// optional, the network to be used for mgmt
 	Network *string `json:"network,omitempty"`
-	Node1 *JunosOobIpConfigNode1 `json:"node1,omitempty"`
 	Type *IpConfigType `json:"type,omitempty"`
-	// if supported on the platform. If enabled, DNS will be using this routing-instance, too
-	UseMgmtVrf *bool `json:"use_mgmt_vrf,omitempty"`
-	// whether to use `mgmt_junos` for host-out traffic (NTP/TACPLUS/RADIUS/SYSLOG/SNMP), if alternative source network/ip is desired
-	UseMgmtVrfForHostOut *bool `json:"use_mgmt_vrf_for_host_out,omitempty"`
-	VlanId *int32 `json:"vlan_id,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -48,10 +39,6 @@ func NewJunosOobIpConfig() *JunosOobIpConfig {
 	this := JunosOobIpConfig{}
 	var type_ IpConfigType = IPCONFIGTYPE_DYNAMIC
 	this.Type = &type_
-	var useMgmtVrf bool = true
-	this.UseMgmtVrf = &useMgmtVrf
-	var useMgmtVrfForHostOut bool = false
-	this.UseMgmtVrfForHostOut = &useMgmtVrfForHostOut
 	return &this
 }
 
@@ -62,107 +49,7 @@ func NewJunosOobIpConfigWithDefaults() *JunosOobIpConfig {
 	this := JunosOobIpConfig{}
 	var type_ IpConfigType = IPCONFIGTYPE_DYNAMIC
 	this.Type = &type_
-	var useMgmtVrf bool = true
-	this.UseMgmtVrf = &useMgmtVrf
-	var useMgmtVrfForHostOut bool = false
-	this.UseMgmtVrfForHostOut = &useMgmtVrfForHostOut
 	return &this
-}
-
-// GetDns returns the Dns field value if set, zero value otherwise.
-func (o *JunosOobIpConfig) GetDns() []string {
-	if o == nil || IsNil(o.Dns) {
-		var ret []string
-		return ret
-	}
-	return o.Dns
-}
-
-// GetDnsOk returns a tuple with the Dns field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *JunosOobIpConfig) GetDnsOk() ([]string, bool) {
-	if o == nil || IsNil(o.Dns) {
-		return nil, false
-	}
-	return o.Dns, true
-}
-
-// HasDns returns a boolean if a field has been set.
-func (o *JunosOobIpConfig) HasDns() bool {
-	if o != nil && !IsNil(o.Dns) {
-		return true
-	}
-
-	return false
-}
-
-// SetDns gets a reference to the given []string and assigns it to the Dns field.
-func (o *JunosOobIpConfig) SetDns(v []string) {
-	o.Dns = v
-}
-
-// GetDnsSuffix returns the DnsSuffix field value if set, zero value otherwise.
-func (o *JunosOobIpConfig) GetDnsSuffix() []string {
-	if o == nil || IsNil(o.DnsSuffix) {
-		var ret []string
-		return ret
-	}
-	return o.DnsSuffix
-}
-
-// GetDnsSuffixOk returns a tuple with the DnsSuffix field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *JunosOobIpConfig) GetDnsSuffixOk() ([]string, bool) {
-	if o == nil || IsNil(o.DnsSuffix) {
-		return nil, false
-	}
-	return o.DnsSuffix, true
-}
-
-// HasDnsSuffix returns a boolean if a field has been set.
-func (o *JunosOobIpConfig) HasDnsSuffix() bool {
-	if o != nil && !IsNil(o.DnsSuffix) {
-		return true
-	}
-
-	return false
-}
-
-// SetDnsSuffix gets a reference to the given []string and assigns it to the DnsSuffix field.
-func (o *JunosOobIpConfig) SetDnsSuffix(v []string) {
-	o.DnsSuffix = v
-}
-
-// GetGateway returns the Gateway field value if set, zero value otherwise.
-func (o *JunosOobIpConfig) GetGateway() string {
-	if o == nil || IsNil(o.Gateway) {
-		var ret string
-		return ret
-	}
-	return *o.Gateway
-}
-
-// GetGatewayOk returns a tuple with the Gateway field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *JunosOobIpConfig) GetGatewayOk() (*string, bool) {
-	if o == nil || IsNil(o.Gateway) {
-		return nil, false
-	}
-	return o.Gateway, true
-}
-
-// HasGateway returns a boolean if a field has been set.
-func (o *JunosOobIpConfig) HasGateway() bool {
-	if o != nil && !IsNil(o.Gateway) {
-		return true
-	}
-
-	return false
-}
-
-// SetGateway gets a reference to the given string and assigns it to the Gateway field.
-func (o *JunosOobIpConfig) SetGateway(v string) {
-	o.Gateway = &v
 }
 
 // GetIp returns the Ip field value if set, zero value otherwise.
@@ -261,38 +148,6 @@ func (o *JunosOobIpConfig) SetNetwork(v string) {
 	o.Network = &v
 }
 
-// GetNode1 returns the Node1 field value if set, zero value otherwise.
-func (o *JunosOobIpConfig) GetNode1() JunosOobIpConfigNode1 {
-	if o == nil || IsNil(o.Node1) {
-		var ret JunosOobIpConfigNode1
-		return ret
-	}
-	return *o.Node1
-}
-
-// GetNode1Ok returns a tuple with the Node1 field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *JunosOobIpConfig) GetNode1Ok() (*JunosOobIpConfigNode1, bool) {
-	if o == nil || IsNil(o.Node1) {
-		return nil, false
-	}
-	return o.Node1, true
-}
-
-// HasNode1 returns a boolean if a field has been set.
-func (o *JunosOobIpConfig) HasNode1() bool {
-	if o != nil && !IsNil(o.Node1) {
-		return true
-	}
-
-	return false
-}
-
-// SetNode1 gets a reference to the given JunosOobIpConfigNode1 and assigns it to the Node1 field.
-func (o *JunosOobIpConfig) SetNode1(v JunosOobIpConfigNode1) {
-	o.Node1 = &v
-}
-
 // GetType returns the Type field value if set, zero value otherwise.
 func (o *JunosOobIpConfig) GetType() IpConfigType {
 	if o == nil || IsNil(o.Type) {
@@ -325,102 +180,6 @@ func (o *JunosOobIpConfig) SetType(v IpConfigType) {
 	o.Type = &v
 }
 
-// GetUseMgmtVrf returns the UseMgmtVrf field value if set, zero value otherwise.
-func (o *JunosOobIpConfig) GetUseMgmtVrf() bool {
-	if o == nil || IsNil(o.UseMgmtVrf) {
-		var ret bool
-		return ret
-	}
-	return *o.UseMgmtVrf
-}
-
-// GetUseMgmtVrfOk returns a tuple with the UseMgmtVrf field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *JunosOobIpConfig) GetUseMgmtVrfOk() (*bool, bool) {
-	if o == nil || IsNil(o.UseMgmtVrf) {
-		return nil, false
-	}
-	return o.UseMgmtVrf, true
-}
-
-// HasUseMgmtVrf returns a boolean if a field has been set.
-func (o *JunosOobIpConfig) HasUseMgmtVrf() bool {
-	if o != nil && !IsNil(o.UseMgmtVrf) {
-		return true
-	}
-
-	return false
-}
-
-// SetUseMgmtVrf gets a reference to the given bool and assigns it to the UseMgmtVrf field.
-func (o *JunosOobIpConfig) SetUseMgmtVrf(v bool) {
-	o.UseMgmtVrf = &v
-}
-
-// GetUseMgmtVrfForHostOut returns the UseMgmtVrfForHostOut field value if set, zero value otherwise.
-func (o *JunosOobIpConfig) GetUseMgmtVrfForHostOut() bool {
-	if o == nil || IsNil(o.UseMgmtVrfForHostOut) {
-		var ret bool
-		return ret
-	}
-	return *o.UseMgmtVrfForHostOut
-}
-
-// GetUseMgmtVrfForHostOutOk returns a tuple with the UseMgmtVrfForHostOut field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *JunosOobIpConfig) GetUseMgmtVrfForHostOutOk() (*bool, bool) {
-	if o == nil || IsNil(o.UseMgmtVrfForHostOut) {
-		return nil, false
-	}
-	return o.UseMgmtVrfForHostOut, true
-}
-
-// HasUseMgmtVrfForHostOut returns a boolean if a field has been set.
-func (o *JunosOobIpConfig) HasUseMgmtVrfForHostOut() bool {
-	if o != nil && !IsNil(o.UseMgmtVrfForHostOut) {
-		return true
-	}
-
-	return false
-}
-
-// SetUseMgmtVrfForHostOut gets a reference to the given bool and assigns it to the UseMgmtVrfForHostOut field.
-func (o *JunosOobIpConfig) SetUseMgmtVrfForHostOut(v bool) {
-	o.UseMgmtVrfForHostOut = &v
-}
-
-// GetVlanId returns the VlanId field value if set, zero value otherwise.
-func (o *JunosOobIpConfig) GetVlanId() int32 {
-	if o == nil || IsNil(o.VlanId) {
-		var ret int32
-		return ret
-	}
-	return *o.VlanId
-}
-
-// GetVlanIdOk returns a tuple with the VlanId field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *JunosOobIpConfig) GetVlanIdOk() (*int32, bool) {
-	if o == nil || IsNil(o.VlanId) {
-		return nil, false
-	}
-	return o.VlanId, true
-}
-
-// HasVlanId returns a boolean if a field has been set.
-func (o *JunosOobIpConfig) HasVlanId() bool {
-	if o != nil && !IsNil(o.VlanId) {
-		return true
-	}
-
-	return false
-}
-
-// SetVlanId gets a reference to the given int32 and assigns it to the VlanId field.
-func (o *JunosOobIpConfig) SetVlanId(v int32) {
-	o.VlanId = &v
-}
-
 func (o JunosOobIpConfig) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -431,15 +190,6 @@ func (o JunosOobIpConfig) MarshalJSON() ([]byte, error) {
 
 func (o JunosOobIpConfig) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if !IsNil(o.Dns) {
-		toSerialize["dns"] = o.Dns
-	}
-	if !IsNil(o.DnsSuffix) {
-		toSerialize["dns_suffix"] = o.DnsSuffix
-	}
-	if !IsNil(o.Gateway) {
-		toSerialize["gateway"] = o.Gateway
-	}
 	if !IsNil(o.Ip) {
 		toSerialize["ip"] = o.Ip
 	}
@@ -449,20 +199,8 @@ func (o JunosOobIpConfig) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Network) {
 		toSerialize["network"] = o.Network
 	}
-	if !IsNil(o.Node1) {
-		toSerialize["node1"] = o.Node1
-	}
 	if !IsNil(o.Type) {
 		toSerialize["type"] = o.Type
-	}
-	if !IsNil(o.UseMgmtVrf) {
-		toSerialize["use_mgmt_vrf"] = o.UseMgmtVrf
-	}
-	if !IsNil(o.UseMgmtVrfForHostOut) {
-		toSerialize["use_mgmt_vrf_for_host_out"] = o.UseMgmtVrfForHostOut
-	}
-	if !IsNil(o.VlanId) {
-		toSerialize["vlan_id"] = o.VlanId
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -486,17 +224,10 @@ func (o *JunosOobIpConfig) UnmarshalJSON(data []byte) (err error) {
 	additionalProperties := make(map[string]interface{})
 
 	if err = json.Unmarshal(data, &additionalProperties); err == nil {
-		delete(additionalProperties, "dns")
-		delete(additionalProperties, "dns_suffix")
-		delete(additionalProperties, "gateway")
 		delete(additionalProperties, "ip")
 		delete(additionalProperties, "netmask")
 		delete(additionalProperties, "network")
-		delete(additionalProperties, "node1")
 		delete(additionalProperties, "type")
-		delete(additionalProperties, "use_mgmt_vrf")
-		delete(additionalProperties, "use_mgmt_vrf_for_host_out")
-		delete(additionalProperties, "vlan_id")
 		o.AdditionalProperties = additionalProperties
 	}
 

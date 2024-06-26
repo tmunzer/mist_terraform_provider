@@ -1,9 +1,9 @@
 /*
 Mist API
 
-> Version: **2405.1.6** > > Date: **June 6, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location-services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
+> Version: **2406.1.3** > > Date: **June 26, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
 
-API version: 2405.1.6
+API version: 2406.1.3
 Contact: tmunzer@juniper.net
 */
 
@@ -25,7 +25,7 @@ type WlanHotspot20 struct {
 	Enabled *bool `json:"enabled,omitempty"`
 	NaiRealms []string `json:"nai_realms,omitempty"`
 	// list of operators to support
-	Operators []string `json:"operators,omitempty"`
+	Operators []WlanHotspot20OperatorsItem `json:"operators,omitempty"`
 	Rcoi []string `json:"rcoi,omitempty"`
 	// venue name, default is site name
 	VenueName *string `json:"venue_name,omitempty"`
@@ -148,9 +148,9 @@ func (o *WlanHotspot20) SetNaiRealms(v []string) {
 }
 
 // GetOperators returns the Operators field value if set, zero value otherwise.
-func (o *WlanHotspot20) GetOperators() []string {
+func (o *WlanHotspot20) GetOperators() []WlanHotspot20OperatorsItem {
 	if o == nil || IsNil(o.Operators) {
-		var ret []string
+		var ret []WlanHotspot20OperatorsItem
 		return ret
 	}
 	return o.Operators
@@ -158,7 +158,7 @@ func (o *WlanHotspot20) GetOperators() []string {
 
 // GetOperatorsOk returns a tuple with the Operators field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *WlanHotspot20) GetOperatorsOk() ([]string, bool) {
+func (o *WlanHotspot20) GetOperatorsOk() ([]WlanHotspot20OperatorsItem, bool) {
 	if o == nil || IsNil(o.Operators) {
 		return nil, false
 	}
@@ -174,8 +174,8 @@ func (o *WlanHotspot20) HasOperators() bool {
 	return false
 }
 
-// SetOperators gets a reference to the given []string and assigns it to the Operators field.
-func (o *WlanHotspot20) SetOperators(v []string) {
+// SetOperators gets a reference to the given []WlanHotspot20OperatorsItem and assigns it to the Operators field.
+func (o *WlanHotspot20) SetOperators(v []WlanHotspot20OperatorsItem) {
 	o.Operators = v
 }
 

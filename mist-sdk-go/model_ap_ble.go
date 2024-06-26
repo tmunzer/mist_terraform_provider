@@ -1,9 +1,9 @@
 /*
 Mist API
 
-> Version: **2405.1.6** > > Date: **June 6, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location-services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
+> Version: **2406.1.3** > > Date: **June 26, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
 
-API version: 2405.1.6
+API version: 2406.1.3
 Contact: tmunzer@juniper.net
 */
 
@@ -24,7 +24,7 @@ type ApBle struct {
 	BeaconEnabled *bool `json:"beacon_enabled,omitempty"`
 	// required if `beacon_rate_mode`==`custom`, 1-10, in number-beacons-per-second
 	BeaconRate *int32 `json:"beacon_rate,omitempty"`
-	BeaconRateMode *string `json:"beacon_rate_mode,omitempty"`
+	BeaconRateMode *ApBleBeaconRateMode `json:"beacon_rate_mode,omitempty"`
 	// list of AP BLE location beam numbers (1-8) which should be disabled at the AP and not transmit location information (where beam 1 is oriented at the top the AP, growing counter-clock-wise, with 9 being the omni BLE beam)
 	BeamDisabled []int32 `json:"beam_disabled,omitempty"`
 	// can be enabled if `beacon_enabled`==`true`, whether to send custom packet
@@ -82,7 +82,7 @@ func NewApBle() *ApBle {
 	this := ApBle{}
 	var beaconEnabled bool = false
 	this.BeaconEnabled = &beaconEnabled
-	var beaconRateMode string = "default"
+	var beaconRateMode ApBleBeaconRateMode = APBLEBEACONRATEMODE_DEFAULT
 	this.BeaconRateMode = &beaconRateMode
 	var customBlePacketEnabled bool = false
 	this.CustomBlePacketEnabled = &customBlePacketEnabled
@@ -104,7 +104,7 @@ func NewApBleWithDefaults() *ApBle {
 	this := ApBle{}
 	var beaconEnabled bool = false
 	this.BeaconEnabled = &beaconEnabled
-	var beaconRateMode string = "default"
+	var beaconRateMode ApBleBeaconRateMode = APBLEBEACONRATEMODE_DEFAULT
 	this.BeaconRateMode = &beaconRateMode
 	var customBlePacketEnabled bool = false
 	this.CustomBlePacketEnabled = &customBlePacketEnabled
@@ -184,9 +184,9 @@ func (o *ApBle) SetBeaconRate(v int32) {
 }
 
 // GetBeaconRateMode returns the BeaconRateMode field value if set, zero value otherwise.
-func (o *ApBle) GetBeaconRateMode() string {
+func (o *ApBle) GetBeaconRateMode() ApBleBeaconRateMode {
 	if o == nil || IsNil(o.BeaconRateMode) {
-		var ret string
+		var ret ApBleBeaconRateMode
 		return ret
 	}
 	return *o.BeaconRateMode
@@ -194,7 +194,7 @@ func (o *ApBle) GetBeaconRateMode() string {
 
 // GetBeaconRateModeOk returns a tuple with the BeaconRateMode field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ApBle) GetBeaconRateModeOk() (*string, bool) {
+func (o *ApBle) GetBeaconRateModeOk() (*ApBleBeaconRateMode, bool) {
 	if o == nil || IsNil(o.BeaconRateMode) {
 		return nil, false
 	}
@@ -210,8 +210,8 @@ func (o *ApBle) HasBeaconRateMode() bool {
 	return false
 }
 
-// SetBeaconRateMode gets a reference to the given string and assigns it to the BeaconRateMode field.
-func (o *ApBle) SetBeaconRateMode(v string) {
+// SetBeaconRateMode gets a reference to the given ApBleBeaconRateMode and assigns it to the BeaconRateMode field.
+func (o *ApBle) SetBeaconRateMode(v ApBleBeaconRateMode) {
 	o.BeaconRateMode = &v
 }
 

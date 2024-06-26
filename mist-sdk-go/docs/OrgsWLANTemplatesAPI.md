@@ -4,12 +4,88 @@ All URIs are relative to *https://api.mist.com*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**CloneOrgTemplate**](OrgsWLANTemplatesAPI.md#CloneOrgTemplate) | **Post** /api/v1/orgs/{org_id}/templates/{template_id}/clone | cloneOrgTemplate
 [**CreateOrgTemplate**](OrgsWLANTemplatesAPI.md#CreateOrgTemplate) | **Post** /api/v1/orgs/{org_id}/templates | createOrgTemplate
 [**DeleteOrgTemplate**](OrgsWLANTemplatesAPI.md#DeleteOrgTemplate) | **Delete** /api/v1/orgs/{org_id}/templates/{template_id} | deleteOrgTemplate
 [**GetOrgTemplate**](OrgsWLANTemplatesAPI.md#GetOrgTemplate) | **Get** /api/v1/orgs/{org_id}/templates/{template_id} | getOrgTemplate
 [**ListOrgTemplates**](OrgsWLANTemplatesAPI.md#ListOrgTemplates) | **Get** /api/v1/orgs/{org_id}/templates | listOrgTemplates
 [**UpdateOrgTemplate**](OrgsWLANTemplatesAPI.md#UpdateOrgTemplate) | **Put** /api/v1/orgs/{org_id}/templates/{template_id} | updateOrgTemplate
 
+
+
+## CloneOrgTemplate
+
+> Template CloneOrgTemplate(ctx, orgId, templateId).NameString(nameString).Execute()
+
+cloneOrgTemplate
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/tmunzer/mistsdkgo"
+)
+
+func main() {
+	orgId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
+	templateId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
+	nameString := *openapiclient.NewNameString() // NameString | Request Body (optional)
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.OrgsWLANTemplatesAPI.CloneOrgTemplate(context.Background(), orgId, templateId).NameString(nameString).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `OrgsWLANTemplatesAPI.CloneOrgTemplate``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `CloneOrgTemplate`: Template
+	fmt.Fprintf(os.Stdout, "Response from `OrgsWLANTemplatesAPI.CloneOrgTemplate`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**orgId** | **string** |  | 
+**templateId** | **string** |  | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiCloneOrgTemplateRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+ **nameString** | [**NameString**](NameString.md) | Request Body | 
+
+### Return type
+
+[**Template**](Template.md)
+
+### Authorization
+
+[apiToken](../README.md#apiToken), [basicAuth](../README.md#basicAuth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
 
 
 ## CreateOrgTemplate
@@ -29,7 +105,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "github.com/tmunzer/mistsdkgo"
 )
 
 func main() {
@@ -72,7 +148,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[apiToken](../README.md#apiToken)
+[apiToken](../README.md#apiToken), [basicAuth](../README.md#basicAuth)
 
 ### HTTP request headers
 
@@ -101,7 +177,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "github.com/tmunzer/mistsdkgo"
 )
 
 func main() {
@@ -143,7 +219,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[apiToken](../README.md#apiToken)
+[apiToken](../README.md#apiToken), [basicAuth](../README.md#basicAuth)
 
 ### HTTP request headers
 
@@ -172,7 +248,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "github.com/tmunzer/mistsdkgo"
 )
 
 func main() {
@@ -216,7 +292,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[apiToken](../README.md#apiToken)
+[apiToken](../README.md#apiToken), [basicAuth](../README.md#basicAuth)
 
 ### HTTP request headers
 
@@ -245,7 +321,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "github.com/tmunzer/mistsdkgo"
 )
 
 func main() {
@@ -290,7 +366,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[apiToken](../README.md#apiToken)
+[apiToken](../README.md#apiToken), [basicAuth](../README.md#basicAuth)
 
 ### HTTP request headers
 
@@ -319,7 +395,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "github.com/tmunzer/mistsdkgo"
 )
 
 func main() {
@@ -365,7 +441,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[apiToken](../README.md#apiToken)
+[apiToken](../README.md#apiToken), [basicAuth](../README.md#basicAuth)
 
 ### HTTP request headers
 

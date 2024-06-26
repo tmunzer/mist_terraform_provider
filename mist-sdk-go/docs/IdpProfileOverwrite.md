@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Action** | Pointer to **string** | - alert (default)  - drop: siliently dropping packets - close: notify client/server to close connection | [optional] [default to "alert"]
+**Action** | Pointer to [**IdpProfileAction**](IdpProfileAction.md) |  | [optional] [default to IDPPROFILEACTION_ALERT]
 **Matching** | Pointer to [**IdpProfileMatching**](IdpProfileMatching.md) |  | [optional] 
 
 ## Methods
@@ -28,20 +28,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetAction
 
-`func (o *IdpProfileOverwrite) GetAction() string`
+`func (o *IdpProfileOverwrite) GetAction() IdpProfileAction`
 
 GetAction returns the Action field if non-nil, zero value otherwise.
 
 ### GetActionOk
 
-`func (o *IdpProfileOverwrite) GetActionOk() (*string, bool)`
+`func (o *IdpProfileOverwrite) GetActionOk() (*IdpProfileAction, bool)`
 
 GetActionOk returns a tuple with the Action field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetAction
 
-`func (o *IdpProfileOverwrite) SetAction(v string)`
+`func (o *IdpProfileOverwrite) SetAction(v IdpProfileAction)`
 
 SetAction sets Action field to given value.
 

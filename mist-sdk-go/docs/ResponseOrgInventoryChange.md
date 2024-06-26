@@ -4,16 +4,16 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Error** | **[]string** |  | [default to []]
-**Op** | **string** |  | 
-**Reason** | **[]string** |  | [default to []]
-**Success** | **[]string** |  | [default to []]
+**Error** | **[]string** |  | 
+**Op** | [**ResponseOrgInventoryChangeOp**](ResponseOrgInventoryChangeOp.md) |  | 
+**Reason** | **[]string** |  | 
+**Success** | **[]string** |  | 
 
 ## Methods
 
 ### NewResponseOrgInventoryChange
 
-`func NewResponseOrgInventoryChange(error_ []string, op string, reason []string, success []string, ) *ResponseOrgInventoryChange`
+`func NewResponseOrgInventoryChange(error_ []string, op ResponseOrgInventoryChangeOp, reason []string, success []string, ) *ResponseOrgInventoryChange`
 
 NewResponseOrgInventoryChange instantiates a new ResponseOrgInventoryChange object
 This constructor will assign default values to properties that have it defined,
@@ -50,20 +50,20 @@ SetError sets Error field to given value.
 
 ### GetOp
 
-`func (o *ResponseOrgInventoryChange) GetOp() string`
+`func (o *ResponseOrgInventoryChange) GetOp() ResponseOrgInventoryChangeOp`
 
 GetOp returns the Op field if non-nil, zero value otherwise.
 
 ### GetOpOk
 
-`func (o *ResponseOrgInventoryChange) GetOpOk() (*string, bool)`
+`func (o *ResponseOrgInventoryChange) GetOpOk() (*ResponseOrgInventoryChangeOp, bool)`
 
 GetOpOk returns a tuple with the Op field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetOp
 
-`func (o *ResponseOrgInventoryChange) SetOp(v string)`
+`func (o *ResponseOrgInventoryChange) SetOp(v ResponseOrgInventoryChangeOp)`
 
 SetOp sets Op field to given value.
 

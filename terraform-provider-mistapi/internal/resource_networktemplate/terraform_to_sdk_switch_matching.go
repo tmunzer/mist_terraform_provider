@@ -10,13 +10,13 @@ import (
 	mist_transform "terraform-provider-mistapi/internal/provider/utils/transform"
 )
 
-func switchMatchingRulesPortMirroringTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.MapValue) map[string]mistsdkgo.SwitchMatchingRulePortMirroringValue {
+func switchMatchingRulesPortMirroringTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.MapValue) map[string]mistsdkgo.SwitchPortMirroring {
 
-	data := make(map[string]mistsdkgo.SwitchMatchingRulePortMirroringValue)
+	data := make(map[string]mistsdkgo.SwitchPortMirroring)
 	for k, v := range d.Elements() {
 		var plan_interface interface{} = v
 		plan_obj := plan_interface.(PortMirroringValue)
-		item_obj := mistsdkgo.NewSwitchMatchingRulePortMirroringValue()
+		item_obj := mistsdkgo.NewSwitchPortMirroring()
 		item_obj.SetInputNetworksIngress(mist_transform.ListOfStringTerraformToSdk(ctx, plan_obj.InputNetworksIngress))
 		item_obj.SetInputPortIdsEgress(mist_transform.ListOfStringTerraformToSdk(ctx, plan_obj.InputPortIdsEgress))
 		item_obj.SetInputPortIdsIngress(mist_transform.ListOfStringTerraformToSdk(ctx, plan_obj.InputPortIdsIngress))
@@ -41,22 +41,21 @@ func switchMatchingRulesPortConfigTerraformToSdk(ctx context.Context, diags *dia
 		item_obj.SetDisableAutoneg(plan_obj.DisableAutoneg.ValueBool())
 		item_obj.SetDynamicUsage(plan_obj.DynamicUsage.ValueString())
 		item_obj.SetEsilag(plan_obj.Esilag.ValueBool())
-		item_obj.SetInterSwitchLink(plan_obj.InterSwitchLink.ValueBool())
 		item_obj.SetMtu(int32(plan_obj.Mtu.ValueInt64()))
 		item_obj.SetNoLocalOverwrite(plan_obj.NoLocalOverwrite.ValueBool())
 		item_obj.SetPoeDisabled(plan_obj.PoeDisabled.ValueBool())
-		item_obj.SetSpeed(plan_obj.Speed.ValueString())
+		item_obj.SetSpeed(mistsdkgo.JunosPortConfigSpeed(plan_obj.Speed.ValueString()))
 		data[k] = *item_obj
 	}
 	return data
 }
-func switchMatchingRulesTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ListValue) []mistsdkgo.SwitchMatchingRulesItem {
+func switchMatchingRulesTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ListValue) []mistsdkgo.SwitchMatchingRule {
 
-	var data []mistsdkgo.SwitchMatchingRulesItem
+	var data []mistsdkgo.SwitchMatchingRule
 	for _, v := range d.Elements() {
 		var plan_interface interface{} = v
 		plan_obj := plan_interface.(RulesValue)
-		item_obj := mistsdkgo.NewSwitchMatchingRulesItem()
+		item_obj := mistsdkgo.NewSwitchMatchingRule()
 		switch_matching_rule_port_config := switchMatchingRulesPortConfigTerraformToSdk(ctx, diags, plan_obj.PortConfig)
 		switch_matching_rule_port_mirroring := switchMatchingRulesPortMirroringTerraformToSdk(ctx, diags, plan_obj.PortMirroring)
 

@@ -11,17 +11,17 @@ Name | Type | Description | Notes
 **Keys** | Pointer to **[]string** | when type&#x3D;wep, four 10-character or 26-character hex string, null can be used. All keys, if provided, have to be in the same length | [optional] 
 **MultiPskOnly** | Pointer to **bool** | whether to only use multi_psk | [optional] [default to false]
 **Owe** | Pointer to **string** |  | [optional] 
-**Pairwise** | Pointer to **[]string** | when type&#x3D;psk / eap, one or more of wpa2-ccmp / wpa1-tkip / wpa1-ccmp / wpa2-tkip | [optional] [default to ["wpa2-ccmp"]]
+**Pairwise** | Pointer to [**[]WlanAuthPairwiseItem**](WlanAuthPairwiseItem.md) | when type&#x3D;psk / eap, one or more of wpa2-ccmp / wpa1-tkip / wpa1-ccmp / wpa2-tkip | [optional] [default to ["wpa2-ccmp"]]
 **PrivateWlan** | Pointer to **bool** | whether private wlan is enabled. only applicable to multi_psk mode | [optional] 
 **Psk** | Pointer to **NullableString** | when type&#x3D;psk, 8-64 characters, or 64 hex characters | [optional] 
-**Type** | **string** |  | [default to "open"]
+**Type** | [**WlanAuthType**](WlanAuthType.md) |  | [default to WLANAUTHTYPE_OPEN]
 **WepAsSecondaryAuth** | Pointer to **bool** | enable WEP as secondary auth | [optional] 
 
 ## Methods
 
 ### NewWlanAuth
 
-`func NewWlanAuth(type_ string, ) *WlanAuth`
+`func NewWlanAuth(type_ WlanAuthType, ) *WlanAuth`
 
 NewWlanAuth instantiates a new WlanAuth object
 This constructor will assign default values to properties that have it defined,
@@ -213,20 +213,20 @@ HasOwe returns a boolean if a field has been set.
 
 ### GetPairwise
 
-`func (o *WlanAuth) GetPairwise() []*string`
+`func (o *WlanAuth) GetPairwise() []WlanAuthPairwiseItem`
 
 GetPairwise returns the Pairwise field if non-nil, zero value otherwise.
 
 ### GetPairwiseOk
 
-`func (o *WlanAuth) GetPairwiseOk() (*[]*string, bool)`
+`func (o *WlanAuth) GetPairwiseOk() (*[]WlanAuthPairwiseItem, bool)`
 
 GetPairwiseOk returns a tuple with the Pairwise field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetPairwise
 
-`func (o *WlanAuth) SetPairwise(v []*string)`
+`func (o *WlanAuth) SetPairwise(v []WlanAuthPairwiseItem)`
 
 SetPairwise sets Pairwise field to given value.
 
@@ -298,20 +298,20 @@ HasPsk returns a boolean if a field has been set.
 UnsetPsk ensures that no value is present for Psk, not even an explicit nil
 ### GetType
 
-`func (o *WlanAuth) GetType() string`
+`func (o *WlanAuth) GetType() WlanAuthType`
 
 GetType returns the Type field if non-nil, zero value otherwise.
 
 ### GetTypeOk
 
-`func (o *WlanAuth) GetTypeOk() (*string, bool)`
+`func (o *WlanAuth) GetTypeOk() (*WlanAuthType, bool)`
 
 GetTypeOk returns a tuple with the Type field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetType
 
-`func (o *WlanAuth) SetType(v string)`
+`func (o *WlanAuth) SetType(v WlanAuthType)`
 
 SetType sets Type field to given value.
 

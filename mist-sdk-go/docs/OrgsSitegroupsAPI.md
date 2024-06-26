@@ -29,7 +29,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "github.com/tmunzer/mistsdkgo"
 )
 
 func main() {
@@ -72,7 +72,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[apiToken](../README.md#apiToken)
+[apiToken](../README.md#apiToken), [basicAuth](../README.md#basicAuth)
 
 ### HTTP request headers
 
@@ -101,7 +101,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "github.com/tmunzer/mistsdkgo"
 )
 
 func main() {
@@ -143,7 +143,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[apiToken](../README.md#apiToken)
+[apiToken](../README.md#apiToken), [basicAuth](../README.md#basicAuth)
 
 ### HTTP request headers
 
@@ -172,7 +172,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "github.com/tmunzer/mistsdkgo"
 )
 
 func main() {
@@ -216,7 +216,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[apiToken](../README.md#apiToken)
+[apiToken](../README.md#apiToken), [basicAuth](../README.md#basicAuth)
 
 ### HTTP request headers
 
@@ -245,7 +245,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "github.com/tmunzer/mistsdkgo"
 )
 
 func main() {
@@ -290,7 +290,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[apiToken](../README.md#apiToken)
+[apiToken](../README.md#apiToken), [basicAuth](../README.md#basicAuth)
 
 ### HTTP request headers
 
@@ -304,7 +304,7 @@ Name | Type | Description  | Notes
 
 ## UpdateOrgSiteGroup
 
-> Sitegroup UpdateOrgSiteGroup(ctx, orgId, sitegroupId).Name(name).Execute()
+> Sitegroup UpdateOrgSiteGroup(ctx, orgId, sitegroupId).NameString(nameString).Execute()
 
 updateOrgSiteGroup
 
@@ -319,17 +319,17 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "github.com/tmunzer/mistsdkgo"
 )
 
 func main() {
 	orgId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
 	sitegroupId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	name := *openapiclient.NewName() // Name | Request Body (optional)
+	nameString := *openapiclient.NewNameString() // NameString | Request Body (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.OrgsSitegroupsAPI.UpdateOrgSiteGroup(context.Background(), orgId, sitegroupId).Name(name).Execute()
+	resp, r, err := apiClient.OrgsSitegroupsAPI.UpdateOrgSiteGroup(context.Background(), orgId, sitegroupId).NameString(nameString).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `OrgsSitegroupsAPI.UpdateOrgSiteGroup``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -357,7 +357,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
 
- **name** | [**Name**](Name.md) | Request Body | 
+ **nameString** | [**NameString**](NameString.md) | Request Body | 
 
 ### Return type
 
@@ -365,7 +365,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[apiToken](../README.md#apiToken)
+[apiToken](../README.md#apiToken), [basicAuth](../README.md#basicAuth)
 
 ### HTTP request headers
 

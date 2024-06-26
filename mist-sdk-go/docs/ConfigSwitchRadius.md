@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Enabled** | Pointer to **bool** |  | [optional] 
-**RadiusConfig** | Pointer to [**JunosRadiusConfig**](JunosRadiusConfig.md) |  | [optional] 
+**RadiusConfig** | Pointer to [**RadiusConfig**](RadiusConfig.md) |  | [optional] 
 **UseDifferentRadius** | Pointer to **string** |  | [optional] 
 
 ## Methods
@@ -54,20 +54,20 @@ HasEnabled returns a boolean if a field has been set.
 
 ### GetRadiusConfig
 
-`func (o *ConfigSwitchRadius) GetRadiusConfig() JunosRadiusConfig`
+`func (o *ConfigSwitchRadius) GetRadiusConfig() RadiusConfig`
 
 GetRadiusConfig returns the RadiusConfig field if non-nil, zero value otherwise.
 
 ### GetRadiusConfigOk
 
-`func (o *ConfigSwitchRadius) GetRadiusConfigOk() (*JunosRadiusConfig, bool)`
+`func (o *ConfigSwitchRadius) GetRadiusConfigOk() (*RadiusConfig, bool)`
 
 GetRadiusConfigOk returns a tuple with the RadiusConfig field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetRadiusConfig
 
-`func (o *ConfigSwitchRadius) SetRadiusConfig(v JunosRadiusConfig)`
+`func (o *ConfigSwitchRadius) SetRadiusConfig(v RadiusConfig)`
 
 SetRadiusConfig sets RadiusConfig field to given value.
 

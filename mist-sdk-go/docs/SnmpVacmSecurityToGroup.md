@@ -4,8 +4,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Content** | Pointer to [**[]SnmpVacmSecurityToGroupContent**](SnmpVacmSecurityToGroupContent.md) |  | [optional] 
-**SecurityModel** | Pointer to **string** |  | [optional] 
+**Content** | Pointer to [**[]SnmpVacmSecurityToGroupContentItem**](SnmpVacmSecurityToGroupContentItem.md) |  | [optional] 
+**SecurityModel** | Pointer to [**SnmpVacmSecurityModel**](SnmpVacmSecurityModel.md) |  | [optional] 
 
 ## Methods
 
@@ -28,20 +28,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetContent
 
-`func (o *SnmpVacmSecurityToGroup) GetContent() []SnmpVacmSecurityToGroupContent`
+`func (o *SnmpVacmSecurityToGroup) GetContent() []SnmpVacmSecurityToGroupContentItem`
 
 GetContent returns the Content field if non-nil, zero value otherwise.
 
 ### GetContentOk
 
-`func (o *SnmpVacmSecurityToGroup) GetContentOk() (*[]SnmpVacmSecurityToGroupContent, bool)`
+`func (o *SnmpVacmSecurityToGroup) GetContentOk() (*[]SnmpVacmSecurityToGroupContentItem, bool)`
 
 GetContentOk returns a tuple with the Content field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetContent
 
-`func (o *SnmpVacmSecurityToGroup) SetContent(v []SnmpVacmSecurityToGroupContent)`
+`func (o *SnmpVacmSecurityToGroup) SetContent(v []SnmpVacmSecurityToGroupContentItem)`
 
 SetContent sets Content field to given value.
 
@@ -53,20 +53,20 @@ HasContent returns a boolean if a field has been set.
 
 ### GetSecurityModel
 
-`func (o *SnmpVacmSecurityToGroup) GetSecurityModel() string`
+`func (o *SnmpVacmSecurityToGroup) GetSecurityModel() SnmpVacmSecurityModel`
 
 GetSecurityModel returns the SecurityModel field if non-nil, zero value otherwise.
 
 ### GetSecurityModelOk
 
-`func (o *SnmpVacmSecurityToGroup) GetSecurityModelOk() (*string, bool)`
+`func (o *SnmpVacmSecurityToGroup) GetSecurityModelOk() (*SnmpVacmSecurityModel, bool)`
 
 GetSecurityModelOk returns a tuple with the SecurityModel field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetSecurityModel
 
-`func (o *SnmpVacmSecurityToGroup) SetSecurityModel(v string)`
+`func (o *SnmpVacmSecurityToGroup) SetSecurityModel(v SnmpVacmSecurityModel)`
 
 SetSecurityModel sets SecurityModel field to given value.
 

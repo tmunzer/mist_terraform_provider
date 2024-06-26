@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **ConfigSuccess** | Pointer to **float32** | config success score | [optional] 
-**VersionCompliance** | Pointer to [**GatewayMetricsVersionCompliance**](GatewayMetricsVersionCompliance.md) |  | [optional] 
+**VersionCompliance** | Pointer to [**GatewayComplianceVersion**](GatewayComplianceVersion.md) |  | [optional] 
 
 ## Methods
 
@@ -53,20 +53,20 @@ HasConfigSuccess returns a boolean if a field has been set.
 
 ### GetVersionCompliance
 
-`func (o *GatewayMetrics) GetVersionCompliance() GatewayMetricsVersionCompliance`
+`func (o *GatewayMetrics) GetVersionCompliance() GatewayComplianceVersion`
 
 GetVersionCompliance returns the VersionCompliance field if non-nil, zero value otherwise.
 
 ### GetVersionComplianceOk
 
-`func (o *GatewayMetrics) GetVersionComplianceOk() (*GatewayMetricsVersionCompliance, bool)`
+`func (o *GatewayMetrics) GetVersionComplianceOk() (*GatewayComplianceVersion, bool)`
 
 GetVersionComplianceOk returns a tuple with the VersionCompliance field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetVersionCompliance
 
-`func (o *GatewayMetrics) SetVersionCompliance(v GatewayMetricsVersionCompliance)`
+`func (o *GatewayMetrics) SetVersionCompliance(v GatewayComplianceVersion)`
 
 SetVersionCompliance sets VersionCompliance field to given value.
 

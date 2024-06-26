@@ -14,7 +14,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"testing"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "github.com/tmunzer/mistsdkgo"
 )
 
 func Test_mistsdkgo_SitesAPIService(t *testing.T) {
@@ -42,6 +42,20 @@ func Test_mistsdkgo_SitesAPIService(t *testing.T) {
 		var siteId string
 
 		resp, httpRes, err := apiClient.SitesAPI.GetSiteInfo(context.Background(), siteId).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
+	t.Run("Test SitesAPIService GetSiteStats", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		var siteId string
+
+		resp, httpRes, err := apiClient.SitesAPI.GetSiteStats(context.Background(), siteId).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)

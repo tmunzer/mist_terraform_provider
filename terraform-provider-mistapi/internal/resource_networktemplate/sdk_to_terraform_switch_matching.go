@@ -13,7 +13,7 @@ import (
 	mist_transform "terraform-provider-mistapi/internal/provider/utils/transform"
 )
 
-func switchMatchingRulesPortMirroringSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]mistsdkgo.SwitchMatchingRulePortMirroringValue) basetypes.MapValue {
+func switchMatchingRulesPortMirroringSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]mistsdkgo.SwitchPortMirroring) basetypes.MapValue {
 	map_item_value := make(map[string]attr.Value)
 	map_item_type := PortMirroringValue{}.Type(ctx)
 	item_type := PortMirroringValue{}.AttributeTypes(ctx)
@@ -47,14 +47,13 @@ func switchMatchingRulesPortConfigSdkToTerraform(ctx context.Context, diags *dia
 			"critical":           types.BoolValue(v.GetCritical()),
 			"description":        types.StringValue(v.GetDescription()),
 			"disable_autoneg":    types.BoolValue(v.GetDisableAutoneg()),
-			"duplex":             types.StringValue(v.GetDuplex()),
+			"duplex":             types.StringValue(string(v.GetDuplex())),
 			"dynamic_usage":      types.StringValue(v.GetDynamicUsage()),
 			"esilag":             types.BoolValue(v.GetEsilag()),
-			"inter_switch_link":  types.BoolValue(v.GetInterSwitchLink()),
 			"mtu":                types.Int64Value(int64(v.GetMtu())),
 			"no_local_overwrite": types.BoolValue(v.GetNoLocalOverwrite()),
 			"poe_disabled":       types.BoolValue(v.GetPoeDisabled()),
-			"speed":              types.StringValue(v.GetSpeed()),
+			"speed":              types.StringValue(string(v.GetSpeed())),
 			"usage":              types.StringValue(v.GetUsage()),
 		}
 		item_obj, e := NewPortConfigValue(item_type, item_value)
@@ -65,7 +64,7 @@ func switchMatchingRulesPortConfigSdkToTerraform(ctx context.Context, diags *dia
 	diags.Append(e...)
 	return r
 }
-func switchMatchingRulesSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []mistsdkgo.SwitchMatchingRulesItem) basetypes.ListValue {
+func switchMatchingRulesSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []mistsdkgo.SwitchMatchingRule) basetypes.ListValue {
 	tflog.Debug(ctx, "switchMatchingRulesSdkToTerraform")
 	var data_list = []RulesValue{}
 

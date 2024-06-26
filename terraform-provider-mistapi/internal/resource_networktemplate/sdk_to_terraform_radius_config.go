@@ -7,25 +7,23 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
+	"github.com/hashicorp/terraform-plugin-log/tflog"
 
 	mistsdkgo "terraform-provider-mistapi/github.com/tmunzer/mist-sdk-go"
 )
-
-func radiusKeywrapFormatSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdkgo.RadiusKeywrapFormat) basetypes.StringValue {
-	var r basetypes.StringValue = types.StringValue(string(d))
-	return types.StringValue(r.ValueString())
-}
 
 func radiusServersAcctSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []mistsdkgo.RadiusAcctServer) basetypes.ListValue {
 	var acct_value_list []attr.Value
 	acct_value_list_type := AcctServersValue{}.AttributeTypes(ctx)
 	for _, srv_data := range d {
+		tflog.Error(ctx, "-----------------------STT ACCT")
+		tflog.Error(ctx, "-----------------------"+string(srv_data.GetKeywrapFormat()))
 		rc_srv_state_value := map[string]attr.Value{
 			"host":            types.StringValue(srv_data.GetHost()),
 			"port":            types.Int64Value(int64(srv_data.GetPort())),
 			"secret":          types.StringValue(srv_data.GetSecret()),
 			"keywrap_enabled": types.BoolValue(srv_data.GetKeywrapEnabled()),
-			"keywrap_format":  radiusKeywrapFormatSdkToTerraform(ctx, diags, srv_data.GetKeywrapFormat()),
+			"keywrap_format":  types.StringValue(string(srv_data.GetKeywrapFormat())),
 			"keywrap_kek":     types.StringValue(srv_data.GetKeywrapKek()),
 			"keywrap_mack":    types.StringValue(srv_data.GetKeywrapMack()),
 		}
@@ -45,12 +43,14 @@ func radiusServersAuthSdkToTerraform(ctx context.Context, diags *diag.Diagnostic
 	var auth_value_list []attr.Value
 	auth_value_list_type := AuthServersValue{}.AttributeTypes(ctx)
 	for _, srv_data := range d {
+		tflog.Error(ctx, "-----------------------STT AUTH")
+		tflog.Error(ctx, "-----------------------"+string(srv_data.GetKeywrapFormat()))
 		rc_srv_state_value := map[string]attr.Value{
 			"host":            types.StringValue(srv_data.GetHost()),
 			"port":            types.Int64Value(int64(srv_data.GetPort())),
 			"secret":          types.StringValue(srv_data.GetSecret()),
 			"keywrap_enabled": types.BoolValue(srv_data.GetKeywrapEnabled()),
-			"keywrap_format":  radiusKeywrapFormatSdkToTerraform(ctx, diags, srv_data.GetKeywrapFormat()),
+			"keywrap_format":  types.StringValue(string(srv_data.GetKeywrapFormat())),
 			"keywrap_kek":     types.StringValue(srv_data.GetKeywrapKek()),
 			"keywrap_mack":    types.StringValue(srv_data.GetKeywrapMack()),
 		}
@@ -67,10 +67,10 @@ func radiusServersAuthSdkToTerraform(ctx context.Context, diags *diag.Diagnostic
 	return auth_state_list
 }
 
-func radiusConfigSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdkgo.JunosRadiusConfig) RadiusConfigValue {
+func radiusConfigSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdkgo.RadiusConfig) RadiusConfigValue {
 	acct_state_result := radiusServersAcctSdkToTerraform(ctx, diags, d.AcctServers)
 	auth_state_result := radiusServersAuthSdkToTerraform(ctx, diags, d.AuthServers)
-
+	tflog.Debug(ctx, "-----------------------radiusConfigSdkToTerraform")
 	radius_config_type := RadiusConfigValue{}.AttributeTypes(ctx)
 	radius_config_map := map[string]attr.Value{
 		"acct_interim_interval": types.Int64Value(int64(d.GetAcctInterimInterval())),

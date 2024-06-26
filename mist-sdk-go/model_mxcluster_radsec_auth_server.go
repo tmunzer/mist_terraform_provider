@@ -1,9 +1,9 @@
 /*
 Mist API
 
-> Version: **2405.1.6** > > Date: **June 6, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location-services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
+> Version: **2406.1.3** > > Date: **June 26, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
 
-API version: 2405.1.6
+API version: 2406.1.3
 Contact: tmunzer@juniper.net
 */
 
@@ -24,7 +24,7 @@ type MxclusterRadsecAuthServer struct {
 	Host *string `json:"host,omitempty"`
 	// if used for Mist APs, enable keywrap algorithm. Default is false
 	KeywrapEnabled *bool `json:"keywrap_enabled,omitempty"`
-	KeywrapFormat *RadiusKeywrapFormat `json:"keywrap_format,omitempty"`
+	KeywrapFormat NullableMxclusterRadAuthServerKeywrapFormat `json:"keywrap_format,omitempty"`
 	// if used for Mist APs, encryption key
 	KeywrapKek *string `json:"keywrap_kek,omitempty"`
 	// if used for Mist APs, Message Authentication Code Key
@@ -46,8 +46,6 @@ type _MxclusterRadsecAuthServer MxclusterRadsecAuthServer
 // will change when the set of required properties is changed
 func NewMxclusterRadsecAuthServer() *MxclusterRadsecAuthServer {
 	this := MxclusterRadsecAuthServer{}
-	var keywrapFormat RadiusKeywrapFormat = RADIUSKEYWRAPFORMAT_ASCII
-	this.KeywrapFormat = &keywrapFormat
 	var port int32 = 1812
 	this.Port = &port
 	return &this
@@ -58,8 +56,6 @@ func NewMxclusterRadsecAuthServer() *MxclusterRadsecAuthServer {
 // but it doesn't guarantee that properties required by API are set
 func NewMxclusterRadsecAuthServerWithDefaults() *MxclusterRadsecAuthServer {
 	this := MxclusterRadsecAuthServer{}
-	var keywrapFormat RadiusKeywrapFormat = RADIUSKEYWRAPFORMAT_ASCII
-	this.KeywrapFormat = &keywrapFormat
 	var port int32 = 1812
 	this.Port = &port
 	return &this
@@ -129,36 +125,46 @@ func (o *MxclusterRadsecAuthServer) SetKeywrapEnabled(v bool) {
 	o.KeywrapEnabled = &v
 }
 
-// GetKeywrapFormat returns the KeywrapFormat field value if set, zero value otherwise.
-func (o *MxclusterRadsecAuthServer) GetKeywrapFormat() RadiusKeywrapFormat {
-	if o == nil || IsNil(o.KeywrapFormat) {
-		var ret RadiusKeywrapFormat
+// GetKeywrapFormat returns the KeywrapFormat field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *MxclusterRadsecAuthServer) GetKeywrapFormat() MxclusterRadAuthServerKeywrapFormat {
+	if o == nil || IsNil(o.KeywrapFormat.Get()) {
+		var ret MxclusterRadAuthServerKeywrapFormat
 		return ret
 	}
-	return *o.KeywrapFormat
+	return *o.KeywrapFormat.Get()
 }
 
 // GetKeywrapFormatOk returns a tuple with the KeywrapFormat field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *MxclusterRadsecAuthServer) GetKeywrapFormatOk() (*RadiusKeywrapFormat, bool) {
-	if o == nil || IsNil(o.KeywrapFormat) {
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *MxclusterRadsecAuthServer) GetKeywrapFormatOk() (*MxclusterRadAuthServerKeywrapFormat, bool) {
+	if o == nil {
 		return nil, false
 	}
-	return o.KeywrapFormat, true
+	return o.KeywrapFormat.Get(), o.KeywrapFormat.IsSet()
 }
 
 // HasKeywrapFormat returns a boolean if a field has been set.
 func (o *MxclusterRadsecAuthServer) HasKeywrapFormat() bool {
-	if o != nil && !IsNil(o.KeywrapFormat) {
+	if o != nil && o.KeywrapFormat.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetKeywrapFormat gets a reference to the given RadiusKeywrapFormat and assigns it to the KeywrapFormat field.
-func (o *MxclusterRadsecAuthServer) SetKeywrapFormat(v RadiusKeywrapFormat) {
-	o.KeywrapFormat = &v
+// SetKeywrapFormat gets a reference to the given NullableMxclusterRadAuthServerKeywrapFormat and assigns it to the KeywrapFormat field.
+func (o *MxclusterRadsecAuthServer) SetKeywrapFormat(v MxclusterRadAuthServerKeywrapFormat) {
+	o.KeywrapFormat.Set(&v)
+}
+// SetKeywrapFormatNil sets the value for KeywrapFormat to be an explicit nil
+func (o *MxclusterRadsecAuthServer) SetKeywrapFormatNil() {
+	o.KeywrapFormat.Set(nil)
+}
+
+// UnsetKeywrapFormat ensures that no value is present for KeywrapFormat, not even an explicit nil
+func (o *MxclusterRadsecAuthServer) UnsetKeywrapFormat() {
+	o.KeywrapFormat.Unset()
 }
 
 // GetKeywrapKek returns the KeywrapKek field value if set, zero value otherwise.
@@ -337,8 +343,8 @@ func (o MxclusterRadsecAuthServer) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.KeywrapEnabled) {
 		toSerialize["keywrap_enabled"] = o.KeywrapEnabled
 	}
-	if !IsNil(o.KeywrapFormat) {
-		toSerialize["keywrap_format"] = o.KeywrapFormat
+	if o.KeywrapFormat.IsSet() {
+		toSerialize["keywrap_format"] = o.KeywrapFormat.Get()
 	}
 	if !IsNil(o.KeywrapKek) {
 		toSerialize["keywrap_kek"] = o.KeywrapKek

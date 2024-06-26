@@ -141,9 +141,9 @@ func (r *sitegroupResource) Update(ctx context.Context, req resource.UpdateReque
 		return
 	}
 	tflog.Info(ctx, "Starting SiteGroup Update for Site "+sitegroupId)
-	name := *mistsdkgo.NewName()
+	name := *mistsdkgo.NewNameString()
 	name.SetName(sitegroup.Name)
-	data, _, err := r.client.OrgsSitegroupsAPI.UpdateOrgSiteGroup(ctx, orgId, sitegroupId).Name(name).Execute()
+	data, _, err := r.client.OrgsSitegroupsAPI.UpdateOrgSiteGroup(ctx, orgId, sitegroupId).NameString(name).Execute()
 
 	if err != nil {
 		resp.Diagnostics.AddError(

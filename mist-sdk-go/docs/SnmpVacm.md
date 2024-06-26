@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Access** | Pointer to [**[]SnmpVacmAccessRoperty**](SnmpVacmAccessRoperty.md) |  | [optional] 
+**Access** | Pointer to [**[]SnmpVacmAccessItem**](SnmpVacmAccessItem.md) |  | [optional] 
 **SecurityToGroup** | Pointer to [**SnmpVacmSecurityToGroup**](SnmpVacmSecurityToGroup.md) |  | [optional] 
 
 ## Methods
@@ -28,20 +28,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetAccess
 
-`func (o *SnmpVacm) GetAccess() []SnmpVacmAccessRoperty`
+`func (o *SnmpVacm) GetAccess() []SnmpVacmAccessItem`
 
 GetAccess returns the Access field if non-nil, zero value otherwise.
 
 ### GetAccessOk
 
-`func (o *SnmpVacm) GetAccessOk() (*[]SnmpVacmAccessRoperty, bool)`
+`func (o *SnmpVacm) GetAccessOk() (*[]SnmpVacmAccessItem, bool)`
 
 GetAccessOk returns a tuple with the Access field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetAccess
 
-`func (o *SnmpVacm) SetAccess(v []SnmpVacmAccessRoperty)`
+`func (o *SnmpVacm) SetAccess(v []SnmpVacmAccessItem)`
 
 SetAccess sets Access field to given value.
 

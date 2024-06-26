@@ -6,7 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **BeaconEnabled** | Pointer to **bool** | whether Mist beacons is enabled | [optional] [default to false]
 **BeaconRate** | Pointer to **int32** | required if &#x60;beacon_rate_mode&#x60;&#x3D;&#x3D;&#x60;custom&#x60;, 1-10, in number-beacons-per-second | [optional] 
-**BeaconRateMode** | Pointer to **string** |  | [optional] [default to "default"]
+**BeaconRateMode** | Pointer to [**ApBleBeaconRateMode**](ApBleBeaconRateMode.md) |  | [optional] [default to APBLEBEACONRATEMODE_DEFAULT]
 **BeamDisabled** | Pointer to **[]int32** | list of AP BLE location beam numbers (1-8) which should be disabled at the AP and not transmit location information (where beam 1 is oriented at the top the AP, growing counter-clock-wise, with 9 being the omni BLE beam) | [optional] 
 **CustomBlePacketEnabled** | Pointer to **bool** | can be enabled if &#x60;beacon_enabled&#x60;&#x3D;&#x3D;&#x60;true&#x60;, whether to send custom packet | [optional] [default to false]
 **CustomBlePacketFrame** | Pointer to **string** | The custom frame to be sent out in this beacon. The frame must be a hexstring | [optional] 
@@ -103,20 +103,20 @@ HasBeaconRate returns a boolean if a field has been set.
 
 ### GetBeaconRateMode
 
-`func (o *ApBle) GetBeaconRateMode() string`
+`func (o *ApBle) GetBeaconRateMode() ApBleBeaconRateMode`
 
 GetBeaconRateMode returns the BeaconRateMode field if non-nil, zero value otherwise.
 
 ### GetBeaconRateModeOk
 
-`func (o *ApBle) GetBeaconRateModeOk() (*string, bool)`
+`func (o *ApBle) GetBeaconRateModeOk() (*ApBleBeaconRateMode, bool)`
 
 GetBeaconRateModeOk returns a tuple with the BeaconRateMode field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetBeaconRateMode
 
-`func (o *ApBle) SetBeaconRateMode(v string)`
+`func (o *ApBle) SetBeaconRateMode(v ApBleBeaconRateMode)`
 
 SetBeaconRateMode sets BeaconRateMode field to given value.
 

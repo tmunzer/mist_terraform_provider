@@ -8,7 +8,7 @@ Name | Type | Description | Notes
 **DisallowMistServices** | Pointer to **bool** | whether to disallow Mist Devices in the network | [optional] [default to false]
 **Gateway** | Pointer to **string** |  | [optional] 
 **Gateway6** | Pointer to **string** |  | [optional] 
-**Hosts** | Pointer to [**map[string]NetworkHostsValue**](NetworkHostsValue.md) |  | [optional] 
+**Hosts** | Pointer to [**map[string]NetworkHost**](NetworkHost.md) |  | [optional] 
 **Id** | Pointer to **string** |  | [optional] [readonly] 
 **InternalAccess** | Pointer to [**NetworkInternalAccess**](NetworkInternalAccess.md) |  | [optional] 
 **InternetAccess** | Pointer to [**NetworkInternetAccess**](NetworkInternetAccess.md) |  | [optional] 
@@ -19,7 +19,7 @@ Name | Type | Description | Notes
 **RoutedForNetworks** | Pointer to **[]string** | for a Network (usually LAN), it can be routable to other networks (e.g. OSPF) | [optional] 
 **Subnet** | Pointer to **string** |  | [optional] 
 **Subnet6** | Pointer to **string** |  | [optional] 
-**Tenants** | Pointer to [**map[string]NetworkTenantsValue**](NetworkTenantsValue.md) |  | [optional] 
+**Tenants** | Pointer to [**map[string]NetworkTenant**](NetworkTenant.md) |  | [optional] 
 **VlanId** | Pointer to **int32** |  | [optional] 
 **VpnAccess** | Pointer to [**map[string]NetworkVpnAccessConfig**](NetworkVpnAccessConfig.md) | Property key is the VPN name. Whether this network can be accessed from vpn | [optional] 
 
@@ -144,20 +144,20 @@ HasGateway6 returns a boolean if a field has been set.
 
 ### GetHosts
 
-`func (o *Network) GetHosts() map[string]NetworkHostsValue`
+`func (o *Network) GetHosts() map[string]NetworkHost`
 
 GetHosts returns the Hosts field if non-nil, zero value otherwise.
 
 ### GetHostsOk
 
-`func (o *Network) GetHostsOk() (*map[string]NetworkHostsValue, bool)`
+`func (o *Network) GetHostsOk() (*map[string]NetworkHost, bool)`
 
 GetHostsOk returns a tuple with the Hosts field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetHosts
 
-`func (o *Network) SetHosts(v map[string]NetworkHostsValue)`
+`func (o *Network) SetHosts(v map[string]NetworkHost)`
 
 SetHosts sets Hosts field to given value.
 
@@ -419,20 +419,20 @@ HasSubnet6 returns a boolean if a field has been set.
 
 ### GetTenants
 
-`func (o *Network) GetTenants() map[string]NetworkTenantsValue`
+`func (o *Network) GetTenants() map[string]NetworkTenant`
 
 GetTenants returns the Tenants field if non-nil, zero value otherwise.
 
 ### GetTenantsOk
 
-`func (o *Network) GetTenantsOk() (*map[string]NetworkTenantsValue, bool)`
+`func (o *Network) GetTenantsOk() (*map[string]NetworkTenant, bool)`
 
 GetTenantsOk returns a tuple with the Tenants field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetTenants
 
-`func (o *Network) SetTenants(v map[string]NetworkTenantsValue)`
+`func (o *Network) SetTenants(v map[string]NetworkTenant)`
 
 SetTenants sets Tenants field to given value.
 

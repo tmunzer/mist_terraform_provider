@@ -1,9 +1,9 @@
 /*
 Mist API
 
-> Version: **2405.1.6** > > Date: **June 6, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location-services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
+> Version: **2406.1.3** > > Date: **June 26, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
 
-API version: 2405.1.6
+API version: 2406.1.3
 Contact: tmunzer@juniper.net
 */
 
@@ -23,7 +23,7 @@ type WlanDatarates struct {
 	// MCS bitmasks for 4 streams (16-bit for each stream, MCS0 is least significant bit), e.g. 00ff 00f0 001f limits HT rates to MCS 0-7 for 1 stream, MCS 4-7 for 2 stream (i.e. MCS 12-15), MCS 1-5 for 3 stream (i.e. MCS 16-20)
 	Ht NullableString `json:"ht,omitempty"`
 	// list of supported rates (IE=1) and extended supported rates (IE=50) for custom template, append ‘b’ at the end to indicate a rate being basic/mandatory. If `template`==`custom` is configured and legacy does not define at least one basic rate, it will use `no-legacy` default values
-	Legacy []string `json:"legacy,omitempty"`
+	Legacy []WlanDataratesLegacyItem `json:"legacy,omitempty"`
 	// Minimum RSSI for client to connect, 0 means not enforcing
 	MinRssi *int32 `json:"min_rssi,omitempty"`
 	// * `no-legacy`: no 11b * `compatible`: all, like before, default setting that Broadcom/Atheros used * `legacy-only`: disable 802.11n and 802.11ac  * `high-density`: no 11b, no low rates * `custom`: user defined
@@ -95,9 +95,9 @@ func (o *WlanDatarates) UnsetHt() {
 }
 
 // GetLegacy returns the Legacy field value if set, zero value otherwise.
-func (o *WlanDatarates) GetLegacy() []string {
+func (o *WlanDatarates) GetLegacy() []WlanDataratesLegacyItem {
 	if o == nil || IsNil(o.Legacy) {
-		var ret []string
+		var ret []WlanDataratesLegacyItem
 		return ret
 	}
 	return o.Legacy
@@ -105,7 +105,7 @@ func (o *WlanDatarates) GetLegacy() []string {
 
 // GetLegacyOk returns a tuple with the Legacy field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *WlanDatarates) GetLegacyOk() ([]string, bool) {
+func (o *WlanDatarates) GetLegacyOk() ([]WlanDataratesLegacyItem, bool) {
 	if o == nil || IsNil(o.Legacy) {
 		return nil, false
 	}
@@ -121,8 +121,8 @@ func (o *WlanDatarates) HasLegacy() bool {
 	return false
 }
 
-// SetLegacy gets a reference to the given []string and assigns it to the Legacy field.
-func (o *WlanDatarates) SetLegacy(v []string) {
+// SetLegacy gets a reference to the given []WlanDataratesLegacyItem and assigns it to the Legacy field.
+func (o *WlanDatarates) SetLegacy(v []WlanDataratesLegacyItem) {
 	o.Legacy = v
 }
 

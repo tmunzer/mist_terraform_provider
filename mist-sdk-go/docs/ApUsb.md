@@ -9,7 +9,7 @@ Name | Type | Description | Notes
 **Enabled** | Pointer to **bool** | whether to enable any usb config | [optional] 
 **Host** | Pointer to **string** | only if &#x60;type&#x60;&#x3D;&#x3D;&#x60;imagotag&#x60; | [optional] 
 **Port** | Pointer to **int32** | only if &#x60;type&#x60;&#x3D;&#x3D;&#x60;imagotag&#x60; | [optional] [default to 0]
-**Type** | Pointer to **string** | usb config type | [optional] 
+**Type** | Pointer to [**ApUsbType**](ApUsbType.md) |  | [optional] 
 **VerifyCert** | Pointer to **bool** | only if &#x60;type&#x60;&#x3D;&#x3D;&#x60;imagotag&#x60;, whether to turn on SSL verification | [optional] 
 **VlanId** | Pointer to **int32** | only if &#x60;type&#x60;&#x3D;&#x3D;&#x60;solum&#x60; or &#x60;type&#x60;&#x3D;&#x3D;&#x60;hanshow&#x60; | [optional] [default to 1]
 
@@ -169,20 +169,20 @@ HasPort returns a boolean if a field has been set.
 
 ### GetType
 
-`func (o *ApUsb) GetType() string`
+`func (o *ApUsb) GetType() ApUsbType`
 
 GetType returns the Type field if non-nil, zero value otherwise.
 
 ### GetTypeOk
 
-`func (o *ApUsb) GetTypeOk() (*string, bool)`
+`func (o *ApUsb) GetTypeOk() (*ApUsbType, bool)`
 
 GetTypeOk returns a tuple with the Type field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetType
 
-`func (o *ApUsb) SetType(v string)`
+`func (o *ApUsb) SetType(v ApUsbType)`
 
 SetType sets Type field to given value.
 

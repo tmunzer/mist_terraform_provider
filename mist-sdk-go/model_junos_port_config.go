@@ -1,9 +1,9 @@
 /*
 Mist API
 
-> Version: **2405.1.6** > > Date: **June 6, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location-services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
+> Version: **2406.1.3** > > Date: **June 26, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
 
-API version: 2405.1.6
+API version: 2406.1.3
 Contact: tmunzer@juniper.net
 */
 
@@ -33,18 +33,16 @@ type JunosPortConfig struct {
 	Description *string `json:"description,omitempty"`
 	// if `speed` and `duplex` are specified, whether to disable autonegotiation
 	DisableAutoneg *bool `json:"disable_autoneg,omitempty"`
-	Duplex *string `json:"duplex,omitempty"`
+	Duplex *JunosPortConfigDuplex `json:"duplex,omitempty"`
 	// Enable dynamic usage for this port. Set to `dynamic` to enable.
 	DynamicUsage NullableString `json:"dynamic_usage,omitempty"`
 	Esilag *bool `json:"esilag,omitempty"`
-	// inter_switch_link is used together with \"isolation\" under networks NOTE: inter_switch_link works only between Juniper device. This has to be applied to both ports connected together
-	InterSwitchLink *bool `json:"inter_switch_link,omitempty"`
 	// media maximum transmission unit (MTU) is the largest data unit that can be forwarded without fragmentation
 	Mtu *int32 `json:"mtu,omitempty"`
 	// prevent helpdesk to override the port config
 	NoLocalOverwrite *bool `json:"no_local_overwrite,omitempty"`
 	PoeDisabled *bool `json:"poe_disabled,omitempty"`
-	Speed *string `json:"speed,omitempty"`
+	Speed *JunosPortConfigSpeed `json:"speed,omitempty"`
 	// port usage name.   If EVPN is used, use `evpn_uplink`or `evpn_downlink`
 	Usage string `json:"usage"`
 	AdditionalProperties map[string]interface{}
@@ -64,15 +62,13 @@ func NewJunosPortConfig(usage string) *JunosPortConfig {
 	this.Aggregated = &aggregated
 	var disableAutoneg bool = false
 	this.DisableAutoneg = &disableAutoneg
-	var duplex string = "auto"
+	var duplex JunosPortConfigDuplex = JUNOSPORTCONFIGDUPLEX_AUTO
 	this.Duplex = &duplex
-	var interSwitchLink bool = false
-	this.InterSwitchLink = &interSwitchLink
 	var mtu int32 = 1514
 	this.Mtu = &mtu
 	var poeDisabled bool = false
 	this.PoeDisabled = &poeDisabled
-	var speed string = "auto"
+	var speed JunosPortConfigSpeed = JUNOSPORTCONFIGSPEED_AUTO
 	this.Speed = &speed
 	this.Usage = usage
 	return &this
@@ -89,15 +85,13 @@ func NewJunosPortConfigWithDefaults() *JunosPortConfig {
 	this.Aggregated = &aggregated
 	var disableAutoneg bool = false
 	this.DisableAutoneg = &disableAutoneg
-	var duplex string = "auto"
+	var duplex JunosPortConfigDuplex = JUNOSPORTCONFIGDUPLEX_AUTO
 	this.Duplex = &duplex
-	var interSwitchLink bool = false
-	this.InterSwitchLink = &interSwitchLink
 	var mtu int32 = 1514
 	this.Mtu = &mtu
 	var poeDisabled bool = false
 	this.PoeDisabled = &poeDisabled
-	var speed string = "auto"
+	var speed JunosPortConfigSpeed = JUNOSPORTCONFIGSPEED_AUTO
 	this.Speed = &speed
 	return &this
 }
@@ -327,9 +321,9 @@ func (o *JunosPortConfig) SetDisableAutoneg(v bool) {
 }
 
 // GetDuplex returns the Duplex field value if set, zero value otherwise.
-func (o *JunosPortConfig) GetDuplex() string {
+func (o *JunosPortConfig) GetDuplex() JunosPortConfigDuplex {
 	if o == nil || IsNil(o.Duplex) {
-		var ret string
+		var ret JunosPortConfigDuplex
 		return ret
 	}
 	return *o.Duplex
@@ -337,7 +331,7 @@ func (o *JunosPortConfig) GetDuplex() string {
 
 // GetDuplexOk returns a tuple with the Duplex field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *JunosPortConfig) GetDuplexOk() (*string, bool) {
+func (o *JunosPortConfig) GetDuplexOk() (*JunosPortConfigDuplex, bool) {
 	if o == nil || IsNil(o.Duplex) {
 		return nil, false
 	}
@@ -353,8 +347,8 @@ func (o *JunosPortConfig) HasDuplex() bool {
 	return false
 }
 
-// SetDuplex gets a reference to the given string and assigns it to the Duplex field.
-func (o *JunosPortConfig) SetDuplex(v string) {
+// SetDuplex gets a reference to the given JunosPortConfigDuplex and assigns it to the Duplex field.
+func (o *JunosPortConfig) SetDuplex(v JunosPortConfigDuplex) {
 	o.Duplex = &v
 }
 
@@ -430,38 +424,6 @@ func (o *JunosPortConfig) HasEsilag() bool {
 // SetEsilag gets a reference to the given bool and assigns it to the Esilag field.
 func (o *JunosPortConfig) SetEsilag(v bool) {
 	o.Esilag = &v
-}
-
-// GetInterSwitchLink returns the InterSwitchLink field value if set, zero value otherwise.
-func (o *JunosPortConfig) GetInterSwitchLink() bool {
-	if o == nil || IsNil(o.InterSwitchLink) {
-		var ret bool
-		return ret
-	}
-	return *o.InterSwitchLink
-}
-
-// GetInterSwitchLinkOk returns a tuple with the InterSwitchLink field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *JunosPortConfig) GetInterSwitchLinkOk() (*bool, bool) {
-	if o == nil || IsNil(o.InterSwitchLink) {
-		return nil, false
-	}
-	return o.InterSwitchLink, true
-}
-
-// HasInterSwitchLink returns a boolean if a field has been set.
-func (o *JunosPortConfig) HasInterSwitchLink() bool {
-	if o != nil && !IsNil(o.InterSwitchLink) {
-		return true
-	}
-
-	return false
-}
-
-// SetInterSwitchLink gets a reference to the given bool and assigns it to the InterSwitchLink field.
-func (o *JunosPortConfig) SetInterSwitchLink(v bool) {
-	o.InterSwitchLink = &v
 }
 
 // GetMtu returns the Mtu field value if set, zero value otherwise.
@@ -561,9 +523,9 @@ func (o *JunosPortConfig) SetPoeDisabled(v bool) {
 }
 
 // GetSpeed returns the Speed field value if set, zero value otherwise.
-func (o *JunosPortConfig) GetSpeed() string {
+func (o *JunosPortConfig) GetSpeed() JunosPortConfigSpeed {
 	if o == nil || IsNil(o.Speed) {
-		var ret string
+		var ret JunosPortConfigSpeed
 		return ret
 	}
 	return *o.Speed
@@ -571,7 +533,7 @@ func (o *JunosPortConfig) GetSpeed() string {
 
 // GetSpeedOk returns a tuple with the Speed field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *JunosPortConfig) GetSpeedOk() (*string, bool) {
+func (o *JunosPortConfig) GetSpeedOk() (*JunosPortConfigSpeed, bool) {
 	if o == nil || IsNil(o.Speed) {
 		return nil, false
 	}
@@ -587,8 +549,8 @@ func (o *JunosPortConfig) HasSpeed() bool {
 	return false
 }
 
-// SetSpeed gets a reference to the given string and assigns it to the Speed field.
-func (o *JunosPortConfig) SetSpeed(v string) {
+// SetSpeed gets a reference to the given JunosPortConfigSpeed and assigns it to the Speed field.
+func (o *JunosPortConfig) SetSpeed(v JunosPortConfigSpeed) {
 	o.Speed = &v
 }
 
@@ -656,9 +618,6 @@ func (o JunosPortConfig) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Esilag) {
 		toSerialize["esilag"] = o.Esilag
 	}
-	if !IsNil(o.InterSwitchLink) {
-		toSerialize["inter_switch_link"] = o.InterSwitchLink
-	}
 	if !IsNil(o.Mtu) {
 		toSerialize["mtu"] = o.Mtu
 	}
@@ -725,7 +684,6 @@ func (o *JunosPortConfig) UnmarshalJSON(data []byte) (err error) {
 		delete(additionalProperties, "duplex")
 		delete(additionalProperties, "dynamic_usage")
 		delete(additionalProperties, "esilag")
-		delete(additionalProperties, "inter_switch_link")
 		delete(additionalProperties, "mtu")
 		delete(additionalProperties, "no_local_overwrite")
 		delete(additionalProperties, "poe_disabled")

@@ -8,9 +8,9 @@ Name | Type | Description | Notes
 **AntGain24** | Pointer to **int32** | antenna gain for 2.4G - for models with external antenna only | [optional] 
 **AntGain5** | Pointer to **int32** | antenna gain for 5G - for models with external antenna only | [optional] 
 **AntGain6** | Pointer to **int32** | antenna gain for 6G - for models with external antenna only | [optional] 
-**AntennaMode** | Pointer to **string** |  | [optional] [default to "default"]
+**AntennaMode** | Pointer to [**ApRadioAntennaMode**](ApRadioAntennaMode.md) |  | [optional] [default to APRADIOANTENNAMODE_DEFAULT]
 **Band24** | Pointer to [**ApRadioBand**](ApRadioBand.md) |  | [optional] 
-**Band24Usage** | Pointer to **string** | if &#x60;band_24_usage&#x60;&#x3D;&#x3D;&#x60;5&#x60;, by default, band_5 properties is used, if specific channel/bandwidth/power/... is desired, use the \&quot;band_5_on_24_radio\&quot; | [optional] [default to "24"]
+**Band24Usage** | Pointer to [**ApRadioBand24Usage**](ApRadioBand24Usage.md) |  | [optional] [default to APRADIOBAND24USAGE__24]
 **Band5** | Pointer to [**ApRadioBand**](ApRadioBand.md) |  | [optional] 
 **Band5On24Radio** | Pointer to [**ApRadioBand**](ApRadioBand.md) |  | [optional] 
 **Band6** | Pointer to [**ApRadioBand**](ApRadioBand.md) |  | [optional] 
@@ -138,20 +138,20 @@ HasAntGain6 returns a boolean if a field has been set.
 
 ### GetAntennaMode
 
-`func (o *ApRadio) GetAntennaMode() string`
+`func (o *ApRadio) GetAntennaMode() ApRadioAntennaMode`
 
 GetAntennaMode returns the AntennaMode field if non-nil, zero value otherwise.
 
 ### GetAntennaModeOk
 
-`func (o *ApRadio) GetAntennaModeOk() (*string, bool)`
+`func (o *ApRadio) GetAntennaModeOk() (*ApRadioAntennaMode, bool)`
 
 GetAntennaModeOk returns a tuple with the AntennaMode field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetAntennaMode
 
-`func (o *ApRadio) SetAntennaMode(v string)`
+`func (o *ApRadio) SetAntennaMode(v ApRadioAntennaMode)`
 
 SetAntennaMode sets AntennaMode field to given value.
 
@@ -188,20 +188,20 @@ HasBand24 returns a boolean if a field has been set.
 
 ### GetBand24Usage
 
-`func (o *ApRadio) GetBand24Usage() string`
+`func (o *ApRadio) GetBand24Usage() ApRadioBand24Usage`
 
 GetBand24Usage returns the Band24Usage field if non-nil, zero value otherwise.
 
 ### GetBand24UsageOk
 
-`func (o *ApRadio) GetBand24UsageOk() (*string, bool)`
+`func (o *ApRadio) GetBand24UsageOk() (*ApRadioBand24Usage, bool)`
 
 GetBand24UsageOk returns a tuple with the Band24Usage field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetBand24Usage
 
-`func (o *ApRadio) SetBand24Usage(v string)`
+`func (o *ApRadio) SetBand24Usage(v ApRadioBand24Usage)`
 
 SetBand24Usage sets Band24Usage field to given value.
 

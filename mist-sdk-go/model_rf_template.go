@@ -1,9 +1,9 @@
 /*
 Mist API
 
-> Version: **2405.1.6** > > Date: **June 6, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location-services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
+> Version: **2406.1.3** > > Date: **June 26, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
 
-API version: 2405.1.6
+API version: 2406.1.3
 Contact: tmunzer@juniper.net
 */
 
@@ -24,8 +24,7 @@ type RfTemplate struct {
 	AntGain24 *int32 `json:"ant_gain_24,omitempty"`
 	AntGain5 *int32 `json:"ant_gain_5,omitempty"`
 	Band24 *ApRadioBand `json:"band_24,omitempty"`
-	// If `band_24_usage`==`5`, by default, `band_5` properties is used, if specific channel/bandwidth/power/... If desired, use `band_5_on_24_radio`
-	Band24Usage *string `json:"band_24_usage,omitempty"`
+	Band24Usage *RfTemplateBand24Usage `json:"band_24_usage,omitempty"`
 	Band5 *ApRadioBand `json:"band_5,omitempty"`
 	Band5On24Radio *ApRadioBand `json:"band_5_on_24_radio,omitempty"`
 	// optional, country code to use. If specified, this gets applied to all sites using the RF Template
@@ -34,7 +33,7 @@ type RfTemplate struct {
 	ForSite *bool `json:"for_site,omitempty"`
 	Id *string `json:"id,omitempty"`
 	// overwrites for a specific model. If a band is specified, it will shadow the default. Property key is the model name (e.g. \"AP63\")
-	ModelSpecific *map[string]RfTemplateModelSpecificValue `json:"model_specific,omitempty"`
+	ModelSpecific *map[string]RfTemplateModelSpecificProperty `json:"model_specific,omitempty"`
 	ModifiedTime *float32 `json:"modified_time,omitempty"`
 	// The name of the RF template
 	Name string `json:"name"`
@@ -53,7 +52,7 @@ type _RfTemplate RfTemplate
 // will change when the set of required properties is changed
 func NewRfTemplate(name string) *RfTemplate {
 	this := RfTemplate{}
-	var band24Usage string = "24"
+	var band24Usage RfTemplateBand24Usage = RFTEMPLATEBAND24USAGE__24
 	this.Band24Usage = &band24Usage
 	this.Name = name
 	return &this
@@ -64,7 +63,7 @@ func NewRfTemplate(name string) *RfTemplate {
 // but it doesn't guarantee that properties required by API are set
 func NewRfTemplateWithDefaults() *RfTemplate {
 	this := RfTemplate{}
-	var band24Usage string = "24"
+	var band24Usage RfTemplateBand24Usage = RFTEMPLATEBAND24USAGE__24
 	this.Band24Usage = &band24Usage
 	return &this
 }
@@ -166,9 +165,9 @@ func (o *RfTemplate) SetBand24(v ApRadioBand) {
 }
 
 // GetBand24Usage returns the Band24Usage field value if set, zero value otherwise.
-func (o *RfTemplate) GetBand24Usage() string {
+func (o *RfTemplate) GetBand24Usage() RfTemplateBand24Usage {
 	if o == nil || IsNil(o.Band24Usage) {
-		var ret string
+		var ret RfTemplateBand24Usage
 		return ret
 	}
 	return *o.Band24Usage
@@ -176,7 +175,7 @@ func (o *RfTemplate) GetBand24Usage() string {
 
 // GetBand24UsageOk returns a tuple with the Band24Usage field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RfTemplate) GetBand24UsageOk() (*string, bool) {
+func (o *RfTemplate) GetBand24UsageOk() (*RfTemplateBand24Usage, bool) {
 	if o == nil || IsNil(o.Band24Usage) {
 		return nil, false
 	}
@@ -192,8 +191,8 @@ func (o *RfTemplate) HasBand24Usage() bool {
 	return false
 }
 
-// SetBand24Usage gets a reference to the given string and assigns it to the Band24Usage field.
-func (o *RfTemplate) SetBand24Usage(v string) {
+// SetBand24Usage gets a reference to the given RfTemplateBand24Usage and assigns it to the Band24Usage field.
+func (o *RfTemplate) SetBand24Usage(v RfTemplateBand24Usage) {
 	o.Band24Usage = &v
 }
 
@@ -390,9 +389,9 @@ func (o *RfTemplate) SetId(v string) {
 }
 
 // GetModelSpecific returns the ModelSpecific field value if set, zero value otherwise.
-func (o *RfTemplate) GetModelSpecific() map[string]RfTemplateModelSpecificValue {
+func (o *RfTemplate) GetModelSpecific() map[string]RfTemplateModelSpecificProperty {
 	if o == nil || IsNil(o.ModelSpecific) {
-		var ret map[string]RfTemplateModelSpecificValue
+		var ret map[string]RfTemplateModelSpecificProperty
 		return ret
 	}
 	return *o.ModelSpecific
@@ -400,7 +399,7 @@ func (o *RfTemplate) GetModelSpecific() map[string]RfTemplateModelSpecificValue 
 
 // GetModelSpecificOk returns a tuple with the ModelSpecific field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RfTemplate) GetModelSpecificOk() (*map[string]RfTemplateModelSpecificValue, bool) {
+func (o *RfTemplate) GetModelSpecificOk() (*map[string]RfTemplateModelSpecificProperty, bool) {
 	if o == nil || IsNil(o.ModelSpecific) {
 		return nil, false
 	}
@@ -416,8 +415,8 @@ func (o *RfTemplate) HasModelSpecific() bool {
 	return false
 }
 
-// SetModelSpecific gets a reference to the given map[string]RfTemplateModelSpecificValue and assigns it to the ModelSpecific field.
-func (o *RfTemplate) SetModelSpecific(v map[string]RfTemplateModelSpecificValue) {
+// SetModelSpecific gets a reference to the given map[string]RfTemplateModelSpecificProperty and assigns it to the ModelSpecific field.
+func (o *RfTemplate) SetModelSpecific(v map[string]RfTemplateModelSpecificProperty) {
 	o.ModelSpecific = &v
 }
 

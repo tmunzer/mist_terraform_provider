@@ -1,9 +1,9 @@
 /*
 Mist API
 
-> Version: **2405.1.6** > > Date: **June 6, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location-services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
+> Version: **2406.1.3** > > Date: **June 26, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
 
-API version: 2405.1.6
+API version: 2406.1.3
 Contact: tmunzer@juniper.net
 */
 
@@ -21,7 +21,7 @@ var _ MappedNullable = &SwitchMatching{}
 // SwitchMatching Switch template
 type SwitchMatching struct {
 	Enable *bool `json:"enable,omitempty"`
-	Rules []SwitchMatchingRulesItem `json:"rules,omitempty"`
+	Rules []SwitchMatchingRule `json:"rules,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -77,9 +77,9 @@ func (o *SwitchMatching) SetEnable(v bool) {
 }
 
 // GetRules returns the Rules field value if set, zero value otherwise.
-func (o *SwitchMatching) GetRules() []SwitchMatchingRulesItem {
+func (o *SwitchMatching) GetRules() []SwitchMatchingRule {
 	if o == nil || IsNil(o.Rules) {
-		var ret []SwitchMatchingRulesItem
+		var ret []SwitchMatchingRule
 		return ret
 	}
 	return o.Rules
@@ -87,7 +87,7 @@ func (o *SwitchMatching) GetRules() []SwitchMatchingRulesItem {
 
 // GetRulesOk returns a tuple with the Rules field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *SwitchMatching) GetRulesOk() ([]SwitchMatchingRulesItem, bool) {
+func (o *SwitchMatching) GetRulesOk() ([]SwitchMatchingRule, bool) {
 	if o == nil || IsNil(o.Rules) {
 		return nil, false
 	}
@@ -103,8 +103,8 @@ func (o *SwitchMatching) HasRules() bool {
 	return false
 }
 
-// SetRules gets a reference to the given []SwitchMatchingRulesItem and assigns it to the Rules field.
-func (o *SwitchMatching) SetRules(v []SwitchMatchingRulesItem) {
+// SetRules gets a reference to the given []SwitchMatchingRule and assigns it to the Rules field.
+func (o *SwitchMatching) SetRules(v []SwitchMatchingRule) {
 	o.Rules = v
 }
 

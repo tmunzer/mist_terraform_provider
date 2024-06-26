@@ -1,9 +1,9 @@
 /*
 Mist API
 
-> Version: **2405.1.6** > > Date: **June 6, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location-services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
+> Version: **2406.1.3** > > Date: **June 26, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
 
-API version: 2405.1.6
+API version: 2406.1.3
 Contact: tmunzer@juniper.net
 */
 
@@ -43,8 +43,6 @@ type _RadiusAcctServer RadiusAcctServer
 func NewRadiusAcctServer(host string, port int32, secret string) *RadiusAcctServer {
 	this := RadiusAcctServer{}
 	this.Host = host
-	var keywrapFormat RadiusKeywrapFormat = RADIUSKEYWRAPFORMAT_ASCII
-	this.KeywrapFormat = &keywrapFormat
 	this.Port = port
 	this.Secret = secret
 	return &this
@@ -55,8 +53,6 @@ func NewRadiusAcctServer(host string, port int32, secret string) *RadiusAcctServ
 // but it doesn't guarantee that properties required by API are set
 func NewRadiusAcctServerWithDefaults() *RadiusAcctServer {
 	this := RadiusAcctServer{}
-	var keywrapFormat RadiusKeywrapFormat = RADIUSKEYWRAPFORMAT_ASCII
-	this.KeywrapFormat = &keywrapFormat
 	var port int32 = 1813
 	this.Port = port
 	return &this

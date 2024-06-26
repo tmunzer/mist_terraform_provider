@@ -116,6 +116,7 @@ func switchMgmtTacacsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics
 		"enabled":         types.BoolValue(d.GetEnabled()),
 		"network":         types.StringValue(d.GetNetwork()),
 		"tacplus_servers": tacacs_auth_servers,
+		"default_role":    types.StringValue(string(d.GetDefaultRole())),
 	}
 
 	r, e := NewTacacsValue(data_map_attr_type, data_map_value)

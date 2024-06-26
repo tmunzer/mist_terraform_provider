@@ -1,9 +1,9 @@
 /*
 Mist API
 
-> Version: **2405.1.6** > > Date: **June 6, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location-services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
+> Version: **2406.1.3** > > Date: **June 26, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
 
-API version: 2405.1.6
+API version: 2406.1.3
 Contact: tmunzer@juniper.net
 */
 
@@ -20,11 +20,13 @@ var _ MappedNullable = &SiteSetting{}
 
 // SiteSetting Site Settings
 type SiteSetting struct {
-	// additional CLI commands to override additional CLIs from the netwtemplate
+	// additional CLI commands to append to the generated Junos config  **Note**: no check is done
 	AdditionalConfigCmds []string `json:"additional_config_cmds,omitempty"`
 	Analytic *SiteSettingAnalytic `json:"analytic,omitempty"`
 	ApMatching *SiteSettingApMatching `json:"ap_matching,omitempty"`
 	ApPortConfig *SiteSettingApPortConfig `json:"ap_port_config,omitempty"`
+	// enable threshold-based device down delivery for AP devices only. When configured it takes effect for AP devices and `device_updown_threshold` is ignored.
+	ApUpdownThreshold NullableInt32 `json:"ap_updown_threshold,omitempty"`
 	AutoPlacement *SiteSettingAutoPlacement `json:"auto_placement,omitempty"`
 	AutoPreemption *AutoPreemption `json:"auto_preemption,omitempty"`
 	AutoUpgrade *SiteAutoUpgrade `json:"auto_upgrade,omitempty"`
@@ -37,6 +39,8 @@ type SiteSetting struct {
 	CriticalUrlMonitoring *SiteSettingCriticalUrlMonitoring `json:"critical_url_monitoring,omitempty"`
 	// sending AP_DISCONNECTED event in device-updowns only if AP_CONNECTED is not seen within the threshold, in minutes
 	DeviceUpdownThreshold *int32 `json:"device_updown_threshold,omitempty"`
+	// if some system-default port usages are not desired - namely, ap / iot / uplink
+	DisabledSystemDefinedPortUsages []string `json:"disabled_system_defined_port_usages,omitempty"`
 	// list of NTP servers
 	DnsServers []string `json:"dns_servers,omitempty"`
 	// list of NTP servers
@@ -45,41 +49,40 @@ type SiteSetting struct {
 	// Deprecated
 	EnableChannel144 *bool `json:"enable_channel_144,omitempty"`
 	Engagement *SiteEngagement `json:"engagement,omitempty"`
-	EvpnOptions *JunosEvpnOptions `json:"evpn_options,omitempty"`
+	EvpnOptions *EvpnOptions `json:"evpn_options,omitempty"`
 	// name/val pair objects for location engine to use
 	Flags *map[string]string `json:"flags,omitempty"`
 	ForSite *bool `json:"for_site,omitempty"`
 	Gateway *GatewayTemplate `json:"gateway,omitempty"`
-	// additional CLI commands to append to the generated config for gateways  **Note**: no check is done
+	// additional CLI commands to append to the generated Junos config  **Note**: no check is done
 	GatewayAdditionalConfigCmds []string `json:"gateway_additional_config_cmds,omitempty"`
 	GatewayMgmt *SiteSettingGatewayMgmt `json:"gateway_mgmt,omitempty"`
+	// enable threshold-based device down delivery for Gateway devices only. When configured it takes effect for GW devices and `device_updown_threshold` is ignored.
+	GatewayUpdownThreshold NullableInt32 `json:"gateway_updown_threshold,omitempty"`
 	Id *string `json:"id,omitempty"`
 	Led *ApLed `json:"led,omitempty"`
 	ModifiedTime *float32 `json:"modified_time,omitempty"`
 	Mxedge *SiteSettingMxedge `json:"mxedge,omitempty"`
 	MxedgeMgmt *MxedgeMgmt `json:"mxedge_mgmt,omitempty"`
 	Mxtunnels *SiteMxtunnel `json:"mxtunnels,omitempty"`
-	// Property key is the network name
-	Networks *map[string]JunosNetworks `json:"networks,omitempty"`
-	// if system-default port usages are not desired - namely, ap / iot / uplink
-	NoSystemDefinedPortUsages *bool `json:"no_system_defined_port_usages,omitempty"`
+	// Property key is network name
+	Networks *map[string]SwitchNetwork `json:"networks,omitempty"`
 	// list of NTP servers
 	NtpServers []string `json:"ntp_servers,omitempty"`
 	Occupancy *SiteOccupancyAnalytics `json:"occupancy,omitempty"`
 	OrgId *string `json:"org_id,omitempty"`
 	// OSPF Areas can be configured both in Site Level (Switch/Gateway Template) or Device (Switch/Gateway) Level
-	OspfAreas *map[string]JunosOspfAreas `json:"ospf_areas,omitempty"`
+	OspfAreas *map[string]OspfAreas `json:"ospf_areas,omitempty"`
 	PaloaltoNetworks *SiteSettingPaloaltoNetworks `json:"paloalto_networks,omitempty"`
 	// whether to store the config on AP
 	PersistConfigOnDevice *bool `json:"persist_config_on_device,omitempty"`
-	// Property key is the port mirroring instance name port_mirroring can be added under site/settings. It takes interface and ports as input for ingress, interface as input for egress and can take interface and port as output.
-	PortMirroring *map[string]JunosPortMirroring `json:"port_mirroring,omitempty"`
-	// Property key is the port usage name
-	PortUsages *map[string]JunosPortUsages `json:"port_usages,omitempty"`
+	// Property key is the port mirroring instance name port_mirroring can be added under device/site settings. It takes interface and ports as input for ingress, interface as input for egress and can take interface and port as output.
+	PortMirroring *map[string]SwitchPortMirroring `json:"port_mirroring,omitempty"`
+	PortUsages *SiteSettingPortUsages `json:"port_usages,omitempty"`
 	ProtectRe *ProtectRe `json:"protect_re,omitempty"`
 	Proxy *Proxy `json:"proxy,omitempty"`
 	RadioConfig *ApRadio `json:"radio_config,omitempty"`
-	RadiusConfig *JunosRadiusConfig `json:"radius_config,omitempty"`
+	RadiusConfig *RadiusConfig `json:"radius_config,omitempty"`
 	RemoteSyslog *RemoteSyslog `json:"remote_syslog,omitempty"`
 	// whether AP should periodically connect to BLE devices and report GATT device info (device name, manufacturer name, serial number, battery %, temperature, humidity)
 	ReportGatt *bool `json:"report_gatt,omitempty"`
@@ -96,21 +99,23 @@ type SiteSetting struct {
 	Switch *NetworkTemplate `json:"switch,omitempty"`
 	SwitchMatching *SwitchMatching `json:"switch_matching,omitempty"`
 	SwitchMgmt *ConfigSwitch `json:"switch_mgmt,omitempty"`
+	// enable threshold-based device down delivery for Switch devices only. When configured it takes effect for SW devices and `device_updown_threshold` is ignored.
+	SwitchUpdownThreshold NullableInt32 `json:"switch_updown_threshold,omitempty"`
 	SyntheticTest *SyntheticTestConfig `json:"synthetic_test,omitempty"`
 	// whether to track anonymous BLE assets (requires ‘track_asset’ enabled)
 	TrackAnonymousDevices *bool `json:"track_anonymous_devices,omitempty"`
-	TuntermMonitoring []TuntermMonitoring `json:"tunterm_monitoring,omitempty"`
+	TuntermMonitoring *TuntermMonitoring `json:"tunterm_monitoring,omitempty"`
 	TuntermMonitoringDisabled *bool `json:"tunterm_monitoring_disabled,omitempty"`
 	TuntermMulticastConfig *SiteSettingTuntermMulticastConfig `json:"tunterm_multicast_config,omitempty"`
 	// a dictionary of name->value, the vars can then be used in Wlans. This can overwrite those from Site Vars
 	Vars *map[string]string `json:"vars,omitempty"`
 	Vna *SiteSettingVna `json:"vna,omitempty"`
-	// Property key is the VRF name
-	VrfInstances *map[string]VrfInstancesConfig `json:"vrf_instances,omitempty"`
+	// Property key is the network name
+	VrfInstances *map[string]VrfInstance `json:"vrf_instances,omitempty"`
 	// Property key is the vrrp group
-	VrrpGroups *map[string]JunosVrrpGroup `json:"vrrp_groups,omitempty"`
+	VrrpGroups *map[string]VrrpGroup `json:"vrrp_groups,omitempty"`
 	// virtual-switch (for EX92xx and QFX5130) all the networks not included here will be placed in default `evpn_vs` virtual-switch RI Property key is the instance name
-	VsInstances *map[string]SiteSettingVsInstancesValue `json:"vs_instances,omitempty"`
+	VsInstances *map[string]SiteSettingVsInstance `json:"vs_instances,omitempty"`
 	WanVna *SiteSettingWanVna `json:"wan_vna,omitempty"`
 	WatchedStationUrl *string `json:"watched_station_url,omitempty"`
 	WhitelistUrl *string `json:"whitelist_url,omitempty"`
@@ -135,8 +140,6 @@ func NewSiteSetting() *SiteSetting {
 	this.DeviceUpdownThreshold = &deviceUpdownThreshold
 	var enableChannel144 bool = false
 	this.EnableChannel144 = &enableChannel144
-	var noSystemDefinedPortUsages bool = false
-	this.NoSystemDefinedPortUsages = &noSystemDefinedPortUsages
 	var persistConfigOnDevice bool = false
 	this.PersistConfigOnDevice = &persistConfigOnDevice
 	var reportGatt bool = false
@@ -159,8 +162,6 @@ func NewSiteSettingWithDefaults() *SiteSetting {
 	this.DeviceUpdownThreshold = &deviceUpdownThreshold
 	var enableChannel144 bool = false
 	this.EnableChannel144 = &enableChannel144
-	var noSystemDefinedPortUsages bool = false
-	this.NoSystemDefinedPortUsages = &noSystemDefinedPortUsages
 	var persistConfigOnDevice bool = false
 	this.PersistConfigOnDevice = &persistConfigOnDevice
 	var reportGatt bool = false
@@ -298,6 +299,48 @@ func (o *SiteSetting) HasApPortConfig() bool {
 // SetApPortConfig gets a reference to the given SiteSettingApPortConfig and assigns it to the ApPortConfig field.
 func (o *SiteSetting) SetApPortConfig(v SiteSettingApPortConfig) {
 	o.ApPortConfig = &v
+}
+
+// GetApUpdownThreshold returns the ApUpdownThreshold field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *SiteSetting) GetApUpdownThreshold() int32 {
+	if o == nil || IsNil(o.ApUpdownThreshold.Get()) {
+		var ret int32
+		return ret
+	}
+	return *o.ApUpdownThreshold.Get()
+}
+
+// GetApUpdownThresholdOk returns a tuple with the ApUpdownThreshold field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *SiteSetting) GetApUpdownThresholdOk() (*int32, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.ApUpdownThreshold.Get(), o.ApUpdownThreshold.IsSet()
+}
+
+// HasApUpdownThreshold returns a boolean if a field has been set.
+func (o *SiteSetting) HasApUpdownThreshold() bool {
+	if o != nil && o.ApUpdownThreshold.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetApUpdownThreshold gets a reference to the given NullableInt32 and assigns it to the ApUpdownThreshold field.
+func (o *SiteSetting) SetApUpdownThreshold(v int32) {
+	o.ApUpdownThreshold.Set(&v)
+}
+// SetApUpdownThresholdNil sets the value for ApUpdownThreshold to be an explicit nil
+func (o *SiteSetting) SetApUpdownThresholdNil() {
+	o.ApUpdownThreshold.Set(nil)
+}
+
+// UnsetApUpdownThreshold ensures that no value is present for ApUpdownThreshold, not even an explicit nil
+func (o *SiteSetting) UnsetApUpdownThreshold() {
+	o.ApUpdownThreshold.Unset()
 }
 
 // GetAutoPlacement returns the AutoPlacement field value if set, zero value otherwise.
@@ -620,6 +663,38 @@ func (o *SiteSetting) SetDeviceUpdownThreshold(v int32) {
 	o.DeviceUpdownThreshold = &v
 }
 
+// GetDisabledSystemDefinedPortUsages returns the DisabledSystemDefinedPortUsages field value if set, zero value otherwise.
+func (o *SiteSetting) GetDisabledSystemDefinedPortUsages() []string {
+	if o == nil || IsNil(o.DisabledSystemDefinedPortUsages) {
+		var ret []string
+		return ret
+	}
+	return o.DisabledSystemDefinedPortUsages
+}
+
+// GetDisabledSystemDefinedPortUsagesOk returns a tuple with the DisabledSystemDefinedPortUsages field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *SiteSetting) GetDisabledSystemDefinedPortUsagesOk() ([]string, bool) {
+	if o == nil || IsNil(o.DisabledSystemDefinedPortUsages) {
+		return nil, false
+	}
+	return o.DisabledSystemDefinedPortUsages, true
+}
+
+// HasDisabledSystemDefinedPortUsages returns a boolean if a field has been set.
+func (o *SiteSetting) HasDisabledSystemDefinedPortUsages() bool {
+	if o != nil && !IsNil(o.DisabledSystemDefinedPortUsages) {
+		return true
+	}
+
+	return false
+}
+
+// SetDisabledSystemDefinedPortUsages gets a reference to the given []string and assigns it to the DisabledSystemDefinedPortUsages field.
+func (o *SiteSetting) SetDisabledSystemDefinedPortUsages(v []string) {
+	o.DisabledSystemDefinedPortUsages = v
+}
+
 // GetDnsServers returns the DnsServers field value if set, zero value otherwise.
 func (o *SiteSetting) GetDnsServers() []string {
 	if o == nil || IsNil(o.DnsServers) {
@@ -752,9 +827,9 @@ func (o *SiteSetting) SetEngagement(v SiteEngagement) {
 }
 
 // GetEvpnOptions returns the EvpnOptions field value if set, zero value otherwise.
-func (o *SiteSetting) GetEvpnOptions() JunosEvpnOptions {
+func (o *SiteSetting) GetEvpnOptions() EvpnOptions {
 	if o == nil || IsNil(o.EvpnOptions) {
-		var ret JunosEvpnOptions
+		var ret EvpnOptions
 		return ret
 	}
 	return *o.EvpnOptions
@@ -762,7 +837,7 @@ func (o *SiteSetting) GetEvpnOptions() JunosEvpnOptions {
 
 // GetEvpnOptionsOk returns a tuple with the EvpnOptions field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *SiteSetting) GetEvpnOptionsOk() (*JunosEvpnOptions, bool) {
+func (o *SiteSetting) GetEvpnOptionsOk() (*EvpnOptions, bool) {
 	if o == nil || IsNil(o.EvpnOptions) {
 		return nil, false
 	}
@@ -778,8 +853,8 @@ func (o *SiteSetting) HasEvpnOptions() bool {
 	return false
 }
 
-// SetEvpnOptions gets a reference to the given JunosEvpnOptions and assigns it to the EvpnOptions field.
-func (o *SiteSetting) SetEvpnOptions(v JunosEvpnOptions) {
+// SetEvpnOptions gets a reference to the given EvpnOptions and assigns it to the EvpnOptions field.
+func (o *SiteSetting) SetEvpnOptions(v EvpnOptions) {
 	o.EvpnOptions = &v
 }
 
@@ -941,6 +1016,48 @@ func (o *SiteSetting) HasGatewayMgmt() bool {
 // SetGatewayMgmt gets a reference to the given SiteSettingGatewayMgmt and assigns it to the GatewayMgmt field.
 func (o *SiteSetting) SetGatewayMgmt(v SiteSettingGatewayMgmt) {
 	o.GatewayMgmt = &v
+}
+
+// GetGatewayUpdownThreshold returns the GatewayUpdownThreshold field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *SiteSetting) GetGatewayUpdownThreshold() int32 {
+	if o == nil || IsNil(o.GatewayUpdownThreshold.Get()) {
+		var ret int32
+		return ret
+	}
+	return *o.GatewayUpdownThreshold.Get()
+}
+
+// GetGatewayUpdownThresholdOk returns a tuple with the GatewayUpdownThreshold field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *SiteSetting) GetGatewayUpdownThresholdOk() (*int32, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.GatewayUpdownThreshold.Get(), o.GatewayUpdownThreshold.IsSet()
+}
+
+// HasGatewayUpdownThreshold returns a boolean if a field has been set.
+func (o *SiteSetting) HasGatewayUpdownThreshold() bool {
+	if o != nil && o.GatewayUpdownThreshold.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetGatewayUpdownThreshold gets a reference to the given NullableInt32 and assigns it to the GatewayUpdownThreshold field.
+func (o *SiteSetting) SetGatewayUpdownThreshold(v int32) {
+	o.GatewayUpdownThreshold.Set(&v)
+}
+// SetGatewayUpdownThresholdNil sets the value for GatewayUpdownThreshold to be an explicit nil
+func (o *SiteSetting) SetGatewayUpdownThresholdNil() {
+	o.GatewayUpdownThreshold.Set(nil)
+}
+
+// UnsetGatewayUpdownThreshold ensures that no value is present for GatewayUpdownThreshold, not even an explicit nil
+func (o *SiteSetting) UnsetGatewayUpdownThreshold() {
+	o.GatewayUpdownThreshold.Unset()
 }
 
 // GetId returns the Id field value if set, zero value otherwise.
@@ -1136,9 +1253,9 @@ func (o *SiteSetting) SetMxtunnels(v SiteMxtunnel) {
 }
 
 // GetNetworks returns the Networks field value if set, zero value otherwise.
-func (o *SiteSetting) GetNetworks() map[string]JunosNetworks {
+func (o *SiteSetting) GetNetworks() map[string]SwitchNetwork {
 	if o == nil || IsNil(o.Networks) {
-		var ret map[string]JunosNetworks
+		var ret map[string]SwitchNetwork
 		return ret
 	}
 	return *o.Networks
@@ -1146,7 +1263,7 @@ func (o *SiteSetting) GetNetworks() map[string]JunosNetworks {
 
 // GetNetworksOk returns a tuple with the Networks field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *SiteSetting) GetNetworksOk() (*map[string]JunosNetworks, bool) {
+func (o *SiteSetting) GetNetworksOk() (*map[string]SwitchNetwork, bool) {
 	if o == nil || IsNil(o.Networks) {
 		return nil, false
 	}
@@ -1162,41 +1279,9 @@ func (o *SiteSetting) HasNetworks() bool {
 	return false
 }
 
-// SetNetworks gets a reference to the given map[string]JunosNetworks and assigns it to the Networks field.
-func (o *SiteSetting) SetNetworks(v map[string]JunosNetworks) {
+// SetNetworks gets a reference to the given map[string]SwitchNetwork and assigns it to the Networks field.
+func (o *SiteSetting) SetNetworks(v map[string]SwitchNetwork) {
 	o.Networks = &v
-}
-
-// GetNoSystemDefinedPortUsages returns the NoSystemDefinedPortUsages field value if set, zero value otherwise.
-func (o *SiteSetting) GetNoSystemDefinedPortUsages() bool {
-	if o == nil || IsNil(o.NoSystemDefinedPortUsages) {
-		var ret bool
-		return ret
-	}
-	return *o.NoSystemDefinedPortUsages
-}
-
-// GetNoSystemDefinedPortUsagesOk returns a tuple with the NoSystemDefinedPortUsages field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *SiteSetting) GetNoSystemDefinedPortUsagesOk() (*bool, bool) {
-	if o == nil || IsNil(o.NoSystemDefinedPortUsages) {
-		return nil, false
-	}
-	return o.NoSystemDefinedPortUsages, true
-}
-
-// HasNoSystemDefinedPortUsages returns a boolean if a field has been set.
-func (o *SiteSetting) HasNoSystemDefinedPortUsages() bool {
-	if o != nil && !IsNil(o.NoSystemDefinedPortUsages) {
-		return true
-	}
-
-	return false
-}
-
-// SetNoSystemDefinedPortUsages gets a reference to the given bool and assigns it to the NoSystemDefinedPortUsages field.
-func (o *SiteSetting) SetNoSystemDefinedPortUsages(v bool) {
-	o.NoSystemDefinedPortUsages = &v
 }
 
 // GetNtpServers returns the NtpServers field value if set, zero value otherwise.
@@ -1296,9 +1381,9 @@ func (o *SiteSetting) SetOrgId(v string) {
 }
 
 // GetOspfAreas returns the OspfAreas field value if set, zero value otherwise.
-func (o *SiteSetting) GetOspfAreas() map[string]JunosOspfAreas {
+func (o *SiteSetting) GetOspfAreas() map[string]OspfAreas {
 	if o == nil || IsNil(o.OspfAreas) {
-		var ret map[string]JunosOspfAreas
+		var ret map[string]OspfAreas
 		return ret
 	}
 	return *o.OspfAreas
@@ -1306,7 +1391,7 @@ func (o *SiteSetting) GetOspfAreas() map[string]JunosOspfAreas {
 
 // GetOspfAreasOk returns a tuple with the OspfAreas field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *SiteSetting) GetOspfAreasOk() (*map[string]JunosOspfAreas, bool) {
+func (o *SiteSetting) GetOspfAreasOk() (*map[string]OspfAreas, bool) {
 	if o == nil || IsNil(o.OspfAreas) {
 		return nil, false
 	}
@@ -1322,8 +1407,8 @@ func (o *SiteSetting) HasOspfAreas() bool {
 	return false
 }
 
-// SetOspfAreas gets a reference to the given map[string]JunosOspfAreas and assigns it to the OspfAreas field.
-func (o *SiteSetting) SetOspfAreas(v map[string]JunosOspfAreas) {
+// SetOspfAreas gets a reference to the given map[string]OspfAreas and assigns it to the OspfAreas field.
+func (o *SiteSetting) SetOspfAreas(v map[string]OspfAreas) {
 	o.OspfAreas = &v
 }
 
@@ -1392,9 +1477,9 @@ func (o *SiteSetting) SetPersistConfigOnDevice(v bool) {
 }
 
 // GetPortMirroring returns the PortMirroring field value if set, zero value otherwise.
-func (o *SiteSetting) GetPortMirroring() map[string]JunosPortMirroring {
+func (o *SiteSetting) GetPortMirroring() map[string]SwitchPortMirroring {
 	if o == nil || IsNil(o.PortMirroring) {
-		var ret map[string]JunosPortMirroring
+		var ret map[string]SwitchPortMirroring
 		return ret
 	}
 	return *o.PortMirroring
@@ -1402,7 +1487,7 @@ func (o *SiteSetting) GetPortMirroring() map[string]JunosPortMirroring {
 
 // GetPortMirroringOk returns a tuple with the PortMirroring field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *SiteSetting) GetPortMirroringOk() (*map[string]JunosPortMirroring, bool) {
+func (o *SiteSetting) GetPortMirroringOk() (*map[string]SwitchPortMirroring, bool) {
 	if o == nil || IsNil(o.PortMirroring) {
 		return nil, false
 	}
@@ -1418,15 +1503,15 @@ func (o *SiteSetting) HasPortMirroring() bool {
 	return false
 }
 
-// SetPortMirroring gets a reference to the given map[string]JunosPortMirroring and assigns it to the PortMirroring field.
-func (o *SiteSetting) SetPortMirroring(v map[string]JunosPortMirroring) {
+// SetPortMirroring gets a reference to the given map[string]SwitchPortMirroring and assigns it to the PortMirroring field.
+func (o *SiteSetting) SetPortMirroring(v map[string]SwitchPortMirroring) {
 	o.PortMirroring = &v
 }
 
 // GetPortUsages returns the PortUsages field value if set, zero value otherwise.
-func (o *SiteSetting) GetPortUsages() map[string]JunosPortUsages {
+func (o *SiteSetting) GetPortUsages() SiteSettingPortUsages {
 	if o == nil || IsNil(o.PortUsages) {
-		var ret map[string]JunosPortUsages
+		var ret SiteSettingPortUsages
 		return ret
 	}
 	return *o.PortUsages
@@ -1434,7 +1519,7 @@ func (o *SiteSetting) GetPortUsages() map[string]JunosPortUsages {
 
 // GetPortUsagesOk returns a tuple with the PortUsages field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *SiteSetting) GetPortUsagesOk() (*map[string]JunosPortUsages, bool) {
+func (o *SiteSetting) GetPortUsagesOk() (*SiteSettingPortUsages, bool) {
 	if o == nil || IsNil(o.PortUsages) {
 		return nil, false
 	}
@@ -1450,8 +1535,8 @@ func (o *SiteSetting) HasPortUsages() bool {
 	return false
 }
 
-// SetPortUsages gets a reference to the given map[string]JunosPortUsages and assigns it to the PortUsages field.
-func (o *SiteSetting) SetPortUsages(v map[string]JunosPortUsages) {
+// SetPortUsages gets a reference to the given SiteSettingPortUsages and assigns it to the PortUsages field.
+func (o *SiteSetting) SetPortUsages(v SiteSettingPortUsages) {
 	o.PortUsages = &v
 }
 
@@ -1552,9 +1637,9 @@ func (o *SiteSetting) SetRadioConfig(v ApRadio) {
 }
 
 // GetRadiusConfig returns the RadiusConfig field value if set, zero value otherwise.
-func (o *SiteSetting) GetRadiusConfig() JunosRadiusConfig {
+func (o *SiteSetting) GetRadiusConfig() RadiusConfig {
 	if o == nil || IsNil(o.RadiusConfig) {
-		var ret JunosRadiusConfig
+		var ret RadiusConfig
 		return ret
 	}
 	return *o.RadiusConfig
@@ -1562,7 +1647,7 @@ func (o *SiteSetting) GetRadiusConfig() JunosRadiusConfig {
 
 // GetRadiusConfigOk returns a tuple with the RadiusConfig field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *SiteSetting) GetRadiusConfigOk() (*JunosRadiusConfig, bool) {
+func (o *SiteSetting) GetRadiusConfigOk() (*RadiusConfig, bool) {
 	if o == nil || IsNil(o.RadiusConfig) {
 		return nil, false
 	}
@@ -1578,8 +1663,8 @@ func (o *SiteSetting) HasRadiusConfig() bool {
 	return false
 }
 
-// SetRadiusConfig gets a reference to the given JunosRadiusConfig and assigns it to the RadiusConfig field.
-func (o *SiteSetting) SetRadiusConfig(v JunosRadiusConfig) {
+// SetRadiusConfig gets a reference to the given RadiusConfig and assigns it to the RadiusConfig field.
+func (o *SiteSetting) SetRadiusConfig(v RadiusConfig) {
 	o.RadiusConfig = &v
 }
 
@@ -2031,6 +2116,48 @@ func (o *SiteSetting) SetSwitchMgmt(v ConfigSwitch) {
 	o.SwitchMgmt = &v
 }
 
+// GetSwitchUpdownThreshold returns the SwitchUpdownThreshold field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *SiteSetting) GetSwitchUpdownThreshold() int32 {
+	if o == nil || IsNil(o.SwitchUpdownThreshold.Get()) {
+		var ret int32
+		return ret
+	}
+	return *o.SwitchUpdownThreshold.Get()
+}
+
+// GetSwitchUpdownThresholdOk returns a tuple with the SwitchUpdownThreshold field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *SiteSetting) GetSwitchUpdownThresholdOk() (*int32, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.SwitchUpdownThreshold.Get(), o.SwitchUpdownThreshold.IsSet()
+}
+
+// HasSwitchUpdownThreshold returns a boolean if a field has been set.
+func (o *SiteSetting) HasSwitchUpdownThreshold() bool {
+	if o != nil && o.SwitchUpdownThreshold.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetSwitchUpdownThreshold gets a reference to the given NullableInt32 and assigns it to the SwitchUpdownThreshold field.
+func (o *SiteSetting) SetSwitchUpdownThreshold(v int32) {
+	o.SwitchUpdownThreshold.Set(&v)
+}
+// SetSwitchUpdownThresholdNil sets the value for SwitchUpdownThreshold to be an explicit nil
+func (o *SiteSetting) SetSwitchUpdownThresholdNil() {
+	o.SwitchUpdownThreshold.Set(nil)
+}
+
+// UnsetSwitchUpdownThreshold ensures that no value is present for SwitchUpdownThreshold, not even an explicit nil
+func (o *SiteSetting) UnsetSwitchUpdownThreshold() {
+	o.SwitchUpdownThreshold.Unset()
+}
+
 // GetSyntheticTest returns the SyntheticTest field value if set, zero value otherwise.
 func (o *SiteSetting) GetSyntheticTest() SyntheticTestConfig {
 	if o == nil || IsNil(o.SyntheticTest) {
@@ -2096,17 +2223,17 @@ func (o *SiteSetting) SetTrackAnonymousDevices(v bool) {
 }
 
 // GetTuntermMonitoring returns the TuntermMonitoring field value if set, zero value otherwise.
-func (o *SiteSetting) GetTuntermMonitoring() []TuntermMonitoring {
+func (o *SiteSetting) GetTuntermMonitoring() TuntermMonitoring {
 	if o == nil || IsNil(o.TuntermMonitoring) {
-		var ret []TuntermMonitoring
+		var ret TuntermMonitoring
 		return ret
 	}
-	return o.TuntermMonitoring
+	return *o.TuntermMonitoring
 }
 
 // GetTuntermMonitoringOk returns a tuple with the TuntermMonitoring field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *SiteSetting) GetTuntermMonitoringOk() ([]TuntermMonitoring, bool) {
+func (o *SiteSetting) GetTuntermMonitoringOk() (*TuntermMonitoring, bool) {
 	if o == nil || IsNil(o.TuntermMonitoring) {
 		return nil, false
 	}
@@ -2122,9 +2249,9 @@ func (o *SiteSetting) HasTuntermMonitoring() bool {
 	return false
 }
 
-// SetTuntermMonitoring gets a reference to the given []TuntermMonitoring and assigns it to the TuntermMonitoring field.
-func (o *SiteSetting) SetTuntermMonitoring(v []TuntermMonitoring) {
-	o.TuntermMonitoring = v
+// SetTuntermMonitoring gets a reference to the given TuntermMonitoring and assigns it to the TuntermMonitoring field.
+func (o *SiteSetting) SetTuntermMonitoring(v TuntermMonitoring) {
+	o.TuntermMonitoring = &v
 }
 
 // GetTuntermMonitoringDisabled returns the TuntermMonitoringDisabled field value if set, zero value otherwise.
@@ -2256,9 +2383,9 @@ func (o *SiteSetting) SetVna(v SiteSettingVna) {
 }
 
 // GetVrfInstances returns the VrfInstances field value if set, zero value otherwise.
-func (o *SiteSetting) GetVrfInstances() map[string]VrfInstancesConfig {
+func (o *SiteSetting) GetVrfInstances() map[string]VrfInstance {
 	if o == nil || IsNil(o.VrfInstances) {
-		var ret map[string]VrfInstancesConfig
+		var ret map[string]VrfInstance
 		return ret
 	}
 	return *o.VrfInstances
@@ -2266,7 +2393,7 @@ func (o *SiteSetting) GetVrfInstances() map[string]VrfInstancesConfig {
 
 // GetVrfInstancesOk returns a tuple with the VrfInstances field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *SiteSetting) GetVrfInstancesOk() (*map[string]VrfInstancesConfig, bool) {
+func (o *SiteSetting) GetVrfInstancesOk() (*map[string]VrfInstance, bool) {
 	if o == nil || IsNil(o.VrfInstances) {
 		return nil, false
 	}
@@ -2282,15 +2409,15 @@ func (o *SiteSetting) HasVrfInstances() bool {
 	return false
 }
 
-// SetVrfInstances gets a reference to the given map[string]VrfInstancesConfig and assigns it to the VrfInstances field.
-func (o *SiteSetting) SetVrfInstances(v map[string]VrfInstancesConfig) {
+// SetVrfInstances gets a reference to the given map[string]VrfInstance and assigns it to the VrfInstances field.
+func (o *SiteSetting) SetVrfInstances(v map[string]VrfInstance) {
 	o.VrfInstances = &v
 }
 
 // GetVrrpGroups returns the VrrpGroups field value if set, zero value otherwise.
-func (o *SiteSetting) GetVrrpGroups() map[string]JunosVrrpGroup {
+func (o *SiteSetting) GetVrrpGroups() map[string]VrrpGroup {
 	if o == nil || IsNil(o.VrrpGroups) {
-		var ret map[string]JunosVrrpGroup
+		var ret map[string]VrrpGroup
 		return ret
 	}
 	return *o.VrrpGroups
@@ -2298,7 +2425,7 @@ func (o *SiteSetting) GetVrrpGroups() map[string]JunosVrrpGroup {
 
 // GetVrrpGroupsOk returns a tuple with the VrrpGroups field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *SiteSetting) GetVrrpGroupsOk() (*map[string]JunosVrrpGroup, bool) {
+func (o *SiteSetting) GetVrrpGroupsOk() (*map[string]VrrpGroup, bool) {
 	if o == nil || IsNil(o.VrrpGroups) {
 		return nil, false
 	}
@@ -2314,15 +2441,15 @@ func (o *SiteSetting) HasVrrpGroups() bool {
 	return false
 }
 
-// SetVrrpGroups gets a reference to the given map[string]JunosVrrpGroup and assigns it to the VrrpGroups field.
-func (o *SiteSetting) SetVrrpGroups(v map[string]JunosVrrpGroup) {
+// SetVrrpGroups gets a reference to the given map[string]VrrpGroup and assigns it to the VrrpGroups field.
+func (o *SiteSetting) SetVrrpGroups(v map[string]VrrpGroup) {
 	o.VrrpGroups = &v
 }
 
 // GetVsInstances returns the VsInstances field value if set, zero value otherwise.
-func (o *SiteSetting) GetVsInstances() map[string]SiteSettingVsInstancesValue {
+func (o *SiteSetting) GetVsInstances() map[string]SiteSettingVsInstance {
 	if o == nil || IsNil(o.VsInstances) {
-		var ret map[string]SiteSettingVsInstancesValue
+		var ret map[string]SiteSettingVsInstance
 		return ret
 	}
 	return *o.VsInstances
@@ -2330,7 +2457,7 @@ func (o *SiteSetting) GetVsInstances() map[string]SiteSettingVsInstancesValue {
 
 // GetVsInstancesOk returns a tuple with the VsInstances field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *SiteSetting) GetVsInstancesOk() (*map[string]SiteSettingVsInstancesValue, bool) {
+func (o *SiteSetting) GetVsInstancesOk() (*map[string]SiteSettingVsInstance, bool) {
 	if o == nil || IsNil(o.VsInstances) {
 		return nil, false
 	}
@@ -2346,8 +2473,8 @@ func (o *SiteSetting) HasVsInstances() bool {
 	return false
 }
 
-// SetVsInstances gets a reference to the given map[string]SiteSettingVsInstancesValue and assigns it to the VsInstances field.
-func (o *SiteSetting) SetVsInstances(v map[string]SiteSettingVsInstancesValue) {
+// SetVsInstances gets a reference to the given map[string]SiteSettingVsInstance and assigns it to the VsInstances field.
+func (o *SiteSetting) SetVsInstances(v map[string]SiteSettingVsInstance) {
 	o.VsInstances = &v
 }
 
@@ -2597,6 +2724,9 @@ func (o SiteSetting) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.ApPortConfig) {
 		toSerialize["ap_port_config"] = o.ApPortConfig
 	}
+	if o.ApUpdownThreshold.IsSet() {
+		toSerialize["ap_updown_threshold"] = o.ApUpdownThreshold.Get()
+	}
 	if !IsNil(o.AutoPlacement) {
 		toSerialize["auto_placement"] = o.AutoPlacement
 	}
@@ -2626,6 +2756,9 @@ func (o SiteSetting) ToMap() (map[string]interface{}, error) {
 	}
 	if !IsNil(o.DeviceUpdownThreshold) {
 		toSerialize["device_updown_threshold"] = o.DeviceUpdownThreshold
+	}
+	if !IsNil(o.DisabledSystemDefinedPortUsages) {
+		toSerialize["disabled_system_defined_port_usages"] = o.DisabledSystemDefinedPortUsages
 	}
 	if !IsNil(o.DnsServers) {
 		toSerialize["dns_servers"] = o.DnsServers
@@ -2657,6 +2790,9 @@ func (o SiteSetting) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.GatewayMgmt) {
 		toSerialize["gateway_mgmt"] = o.GatewayMgmt
 	}
+	if o.GatewayUpdownThreshold.IsSet() {
+		toSerialize["gateway_updown_threshold"] = o.GatewayUpdownThreshold.Get()
+	}
 	if !IsNil(o.Id) {
 		toSerialize["id"] = o.Id
 	}
@@ -2677,9 +2813,6 @@ func (o SiteSetting) ToMap() (map[string]interface{}, error) {
 	}
 	if !IsNil(o.Networks) {
 		toSerialize["networks"] = o.Networks
-	}
-	if !IsNil(o.NoSystemDefinedPortUsages) {
-		toSerialize["no_system_defined_port_usages"] = o.NoSystemDefinedPortUsages
 	}
 	if !IsNil(o.NtpServers) {
 		toSerialize["ntp_servers"] = o.NtpServers
@@ -2759,6 +2892,9 @@ func (o SiteSetting) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.SwitchMgmt) {
 		toSerialize["switch_mgmt"] = o.SwitchMgmt
 	}
+	if o.SwitchUpdownThreshold.IsSet() {
+		toSerialize["switch_updown_threshold"] = o.SwitchUpdownThreshold.Get()
+	}
 	if !IsNil(o.SyntheticTest) {
 		toSerialize["synthetic_test"] = o.SyntheticTest
 	}
@@ -2836,6 +2972,7 @@ func (o *SiteSetting) UnmarshalJSON(data []byte) (err error) {
 		delete(additionalProperties, "analytic")
 		delete(additionalProperties, "ap_matching")
 		delete(additionalProperties, "ap_port_config")
+		delete(additionalProperties, "ap_updown_threshold")
 		delete(additionalProperties, "auto_placement")
 		delete(additionalProperties, "auto_preemption")
 		delete(additionalProperties, "auto_upgrade")
@@ -2846,6 +2983,7 @@ func (o *SiteSetting) UnmarshalJSON(data []byte) (err error) {
 		delete(additionalProperties, "created_time")
 		delete(additionalProperties, "critical_url_monitoring")
 		delete(additionalProperties, "device_updown_threshold")
+		delete(additionalProperties, "disabled_system_defined_port_usages")
 		delete(additionalProperties, "dns_servers")
 		delete(additionalProperties, "dns_suffix")
 		delete(additionalProperties, "enable_channel_144")
@@ -2856,6 +2994,7 @@ func (o *SiteSetting) UnmarshalJSON(data []byte) (err error) {
 		delete(additionalProperties, "gateway")
 		delete(additionalProperties, "gateway_additional_config_cmds")
 		delete(additionalProperties, "gateway_mgmt")
+		delete(additionalProperties, "gateway_updown_threshold")
 		delete(additionalProperties, "id")
 		delete(additionalProperties, "led")
 		delete(additionalProperties, "modified_time")
@@ -2863,7 +3002,6 @@ func (o *SiteSetting) UnmarshalJSON(data []byte) (err error) {
 		delete(additionalProperties, "mxedge_mgmt")
 		delete(additionalProperties, "mxtunnels")
 		delete(additionalProperties, "networks")
-		delete(additionalProperties, "no_system_defined_port_usages")
 		delete(additionalProperties, "ntp_servers")
 		delete(additionalProperties, "occupancy")
 		delete(additionalProperties, "org_id")
@@ -2890,6 +3028,7 @@ func (o *SiteSetting) UnmarshalJSON(data []byte) (err error) {
 		delete(additionalProperties, "switch")
 		delete(additionalProperties, "switch_matching")
 		delete(additionalProperties, "switch_mgmt")
+		delete(additionalProperties, "switch_updown_threshold")
 		delete(additionalProperties, "synthetic_test")
 		delete(additionalProperties, "track_anonymous_devices")
 		delete(additionalProperties, "tunterm_monitoring")

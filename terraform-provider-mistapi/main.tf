@@ -66,12 +66,14 @@ resource "mistapi_networktemplate" "switch_template" {
       {
         host   = "1.2.3.4"
         secret = "secret"
+        keywrap_format = "ascii"
       }
     ]
     auth_servers = [
       {
         host   = "1.2.3.4"
         secret = "secret"
+        keywrap_format = "ascii"
       }
     ]
   }
@@ -87,7 +89,7 @@ resource "mistapi_networktemplate" "switch_template" {
   remote_syslog = {
     archive = {
       files = 2
-      size = "5m"
+      size  = "5m"
     }
     console = {
       contents = [
@@ -115,9 +117,26 @@ resource "mistapi_networktemplate" "switch_template" {
   }
   switch_mgmt = {
     config_revert = 5
-    protect_re ={
-      enabled =true
+    protect_re = {
+      enabled = true
     }
     root_password = "Juniper123"
+  }
+  switch_matching = {
+    enable = true
+    rules = [
+      {
+        additional_config_cmds = [
+          "set system name-server 8.8.8.8"
+        ]
+        match_role = "access"
+        name       = "access"
+        port_config = {
+          "ge-0/0/0-10" = {
+            usage = "trunk"
+          }
+        }
+      }
+    ]
   }
 }

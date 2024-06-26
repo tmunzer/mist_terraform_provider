@@ -4,18 +4,17 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**AdditionalVlanIds** | Pointer to **[]int32** | additional VLAN IDs, only valid in mesh base mode | [optional] 
 **Disabled** | Pointer to **bool** |  | [optional] 
 **DynamicVlan** | Pointer to [**ApPortConfigDynamicVlan**](ApPortConfigDynamicVlan.md) |  | [optional] 
 **EnableMacAuth** | Pointer to **bool** |  | [optional] [default to false]
-**Forwarding** | Pointer to **string** |  | [optional] [default to "all"]
-**MacAuthProtocol** | Pointer to **string** | if &#x60;enable_mac_auth&#x60;&#x3D;&#x3D;&#x60;true&#x60;, allows user to select an authentication protocol | [optional] [default to "pap"]
+**Forwarding** | Pointer to [**ApPortConfigForwarding**](ApPortConfigForwarding.md) |  | [optional] [default to APPORTCONFIGFORWARDING_ALL]
+**MacAuthProtocol** | Pointer to [**ApPortConfigMacAuthProtocol**](ApPortConfigMacAuthProtocol.md) |  | [optional] [default to APPORTCONFIGMACAUTHPROTOCOL_PAP]
 **MistNac** | Pointer to [**WlanMistNac**](WlanMistNac.md) |  | [optional] 
 **MxTunnelId** | Pointer to **string** | if &#x60;forwarding&#x60;&#x3D;&#x3D;&#x60;mxtunnel&#x60;, vlan_ids comes from mxtunnel | [optional] 
 **MxtunnelName** | Pointer to **string** | if &#x60;forwarding&#x60;&#x3D;&#x3D;&#x60;site_mxedge&#x60;, vlan_ids comes from site_mxedge (&#x60;mxtunnels&#x60; under site setting) | [optional] 
-**PortAuth** | Pointer to **string** | When doing port auth | [optional] [default to "none"]
+**PortAuth** | Pointer to [**ApPortConfigPortAuth**](ApPortConfigPortAuth.md) |  | [optional] [default to APPORTCONFIGPORTAUTH_NONE]
 **PortVlanId** | Pointer to **int32** | if &#x60;forwrding&#x60;&#x3D;&#x3D;&#x60;limited&#x60; | [optional] 
-**RadiusConfig** | Pointer to [**JunosRadiusConfig**](JunosRadiusConfig.md) |  | [optional] 
+**RadiusConfig** | Pointer to [**RadiusConfig**](RadiusConfig.md) |  | [optional] 
 **Radsec** | Pointer to [**Radsec**](Radsec.md) |  | [optional] 
 **VlanId** | Pointer to **int32** | optional to specify the vlan id for a tunnel if forwarding is for &#x60;wxtunnel&#x60;, &#x60;mxtunnel&#x60; or &#x60;site_mxedge&#x60;. * if vlan_id is not specified then it will use first one in vlan_ids[] of the mxtunnel. * if forwarding &#x3D;&#x3D; site_mxedge, vlan_ids comes from site_mxedge (&#x60;mxtunnels&#x60; under site setting) | [optional] 
 **VlandIds** | Pointer to **[]int32** | if &#x60;forwrding&#x60;&#x3D;&#x3D;&#x60;limited&#x60; | [optional] 
@@ -40,31 +39,6 @@ will change when the set of required properties is changed
 NewApPortConfigWithDefaults instantiates a new ApPortConfig object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
-
-### GetAdditionalVlanIds
-
-`func (o *ApPortConfig) GetAdditionalVlanIds() []int32`
-
-GetAdditionalVlanIds returns the AdditionalVlanIds field if non-nil, zero value otherwise.
-
-### GetAdditionalVlanIdsOk
-
-`func (o *ApPortConfig) GetAdditionalVlanIdsOk() (*[]int32, bool)`
-
-GetAdditionalVlanIdsOk returns a tuple with the AdditionalVlanIds field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetAdditionalVlanIds
-
-`func (o *ApPortConfig) SetAdditionalVlanIds(v []int32)`
-
-SetAdditionalVlanIds sets AdditionalVlanIds field to given value.
-
-### HasAdditionalVlanIds
-
-`func (o *ApPortConfig) HasAdditionalVlanIds() bool`
-
-HasAdditionalVlanIds returns a boolean if a field has been set.
 
 ### GetDisabled
 
@@ -143,20 +117,20 @@ HasEnableMacAuth returns a boolean if a field has been set.
 
 ### GetForwarding
 
-`func (o *ApPortConfig) GetForwarding() string`
+`func (o *ApPortConfig) GetForwarding() ApPortConfigForwarding`
 
 GetForwarding returns the Forwarding field if non-nil, zero value otherwise.
 
 ### GetForwardingOk
 
-`func (o *ApPortConfig) GetForwardingOk() (*string, bool)`
+`func (o *ApPortConfig) GetForwardingOk() (*ApPortConfigForwarding, bool)`
 
 GetForwardingOk returns a tuple with the Forwarding field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetForwarding
 
-`func (o *ApPortConfig) SetForwarding(v string)`
+`func (o *ApPortConfig) SetForwarding(v ApPortConfigForwarding)`
 
 SetForwarding sets Forwarding field to given value.
 
@@ -168,20 +142,20 @@ HasForwarding returns a boolean if a field has been set.
 
 ### GetMacAuthProtocol
 
-`func (o *ApPortConfig) GetMacAuthProtocol() string`
+`func (o *ApPortConfig) GetMacAuthProtocol() ApPortConfigMacAuthProtocol`
 
 GetMacAuthProtocol returns the MacAuthProtocol field if non-nil, zero value otherwise.
 
 ### GetMacAuthProtocolOk
 
-`func (o *ApPortConfig) GetMacAuthProtocolOk() (*string, bool)`
+`func (o *ApPortConfig) GetMacAuthProtocolOk() (*ApPortConfigMacAuthProtocol, bool)`
 
 GetMacAuthProtocolOk returns a tuple with the MacAuthProtocol field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetMacAuthProtocol
 
-`func (o *ApPortConfig) SetMacAuthProtocol(v string)`
+`func (o *ApPortConfig) SetMacAuthProtocol(v ApPortConfigMacAuthProtocol)`
 
 SetMacAuthProtocol sets MacAuthProtocol field to given value.
 
@@ -268,20 +242,20 @@ HasMxtunnelName returns a boolean if a field has been set.
 
 ### GetPortAuth
 
-`func (o *ApPortConfig) GetPortAuth() string`
+`func (o *ApPortConfig) GetPortAuth() ApPortConfigPortAuth`
 
 GetPortAuth returns the PortAuth field if non-nil, zero value otherwise.
 
 ### GetPortAuthOk
 
-`func (o *ApPortConfig) GetPortAuthOk() (*string, bool)`
+`func (o *ApPortConfig) GetPortAuthOk() (*ApPortConfigPortAuth, bool)`
 
 GetPortAuthOk returns a tuple with the PortAuth field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetPortAuth
 
-`func (o *ApPortConfig) SetPortAuth(v string)`
+`func (o *ApPortConfig) SetPortAuth(v ApPortConfigPortAuth)`
 
 SetPortAuth sets PortAuth field to given value.
 
@@ -318,20 +292,20 @@ HasPortVlanId returns a boolean if a field has been set.
 
 ### GetRadiusConfig
 
-`func (o *ApPortConfig) GetRadiusConfig() JunosRadiusConfig`
+`func (o *ApPortConfig) GetRadiusConfig() RadiusConfig`
 
 GetRadiusConfig returns the RadiusConfig field if non-nil, zero value otherwise.
 
 ### GetRadiusConfigOk
 
-`func (o *ApPortConfig) GetRadiusConfigOk() (*JunosRadiusConfig, bool)`
+`func (o *ApPortConfig) GetRadiusConfigOk() (*RadiusConfig, bool)`
 
 GetRadiusConfigOk returns a tuple with the RadiusConfig field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetRadiusConfig
 
-`func (o *ApPortConfig) SetRadiusConfig(v JunosRadiusConfig)`
+`func (o *ApPortConfig) SetRadiusConfig(v RadiusConfig)`
 
 SetRadiusConfig sets RadiusConfig field to given value.
 

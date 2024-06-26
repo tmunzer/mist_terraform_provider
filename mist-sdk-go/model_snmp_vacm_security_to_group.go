@@ -1,9 +1,9 @@
 /*
 Mist API
 
-> Version: **2405.1.6** > > Date: **June 6, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location-services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
+> Version: **2406.1.3** > > Date: **June 26, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
 
-API version: 2405.1.6
+API version: 2406.1.3
 Contact: tmunzer@juniper.net
 */
 
@@ -20,8 +20,8 @@ var _ MappedNullable = &SnmpVacmSecurityToGroup{}
 
 // SnmpVacmSecurityToGroup struct for SnmpVacmSecurityToGroup
 type SnmpVacmSecurityToGroup struct {
-	Content []SnmpVacmSecurityToGroupContent `json:"content,omitempty"`
-	SecurityModel *string `json:"security_model,omitempty"`
+	Content []SnmpVacmSecurityToGroupContentItem `json:"content,omitempty"`
+	SecurityModel *SnmpVacmSecurityModel `json:"security_model,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -45,9 +45,9 @@ func NewSnmpVacmSecurityToGroupWithDefaults() *SnmpVacmSecurityToGroup {
 }
 
 // GetContent returns the Content field value if set, zero value otherwise.
-func (o *SnmpVacmSecurityToGroup) GetContent() []SnmpVacmSecurityToGroupContent {
+func (o *SnmpVacmSecurityToGroup) GetContent() []SnmpVacmSecurityToGroupContentItem {
 	if o == nil || IsNil(o.Content) {
-		var ret []SnmpVacmSecurityToGroupContent
+		var ret []SnmpVacmSecurityToGroupContentItem
 		return ret
 	}
 	return o.Content
@@ -55,7 +55,7 @@ func (o *SnmpVacmSecurityToGroup) GetContent() []SnmpVacmSecurityToGroupContent 
 
 // GetContentOk returns a tuple with the Content field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *SnmpVacmSecurityToGroup) GetContentOk() ([]SnmpVacmSecurityToGroupContent, bool) {
+func (o *SnmpVacmSecurityToGroup) GetContentOk() ([]SnmpVacmSecurityToGroupContentItem, bool) {
 	if o == nil || IsNil(o.Content) {
 		return nil, false
 	}
@@ -71,15 +71,15 @@ func (o *SnmpVacmSecurityToGroup) HasContent() bool {
 	return false
 }
 
-// SetContent gets a reference to the given []SnmpVacmSecurityToGroupContent and assigns it to the Content field.
-func (o *SnmpVacmSecurityToGroup) SetContent(v []SnmpVacmSecurityToGroupContent) {
+// SetContent gets a reference to the given []SnmpVacmSecurityToGroupContentItem and assigns it to the Content field.
+func (o *SnmpVacmSecurityToGroup) SetContent(v []SnmpVacmSecurityToGroupContentItem) {
 	o.Content = v
 }
 
 // GetSecurityModel returns the SecurityModel field value if set, zero value otherwise.
-func (o *SnmpVacmSecurityToGroup) GetSecurityModel() string {
+func (o *SnmpVacmSecurityToGroup) GetSecurityModel() SnmpVacmSecurityModel {
 	if o == nil || IsNil(o.SecurityModel) {
-		var ret string
+		var ret SnmpVacmSecurityModel
 		return ret
 	}
 	return *o.SecurityModel
@@ -87,7 +87,7 @@ func (o *SnmpVacmSecurityToGroup) GetSecurityModel() string {
 
 // GetSecurityModelOk returns a tuple with the SecurityModel field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *SnmpVacmSecurityToGroup) GetSecurityModelOk() (*string, bool) {
+func (o *SnmpVacmSecurityToGroup) GetSecurityModelOk() (*SnmpVacmSecurityModel, bool) {
 	if o == nil || IsNil(o.SecurityModel) {
 		return nil, false
 	}
@@ -103,8 +103,8 @@ func (o *SnmpVacmSecurityToGroup) HasSecurityModel() bool {
 	return false
 }
 
-// SetSecurityModel gets a reference to the given string and assigns it to the SecurityModel field.
-func (o *SnmpVacmSecurityToGroup) SetSecurityModel(v string) {
+// SetSecurityModel gets a reference to the given SnmpVacmSecurityModel and assigns it to the SecurityModel field.
+func (o *SnmpVacmSecurityToGroup) SetSecurityModel(v SnmpVacmSecurityModel) {
 	o.SecurityModel = &v
 }
 

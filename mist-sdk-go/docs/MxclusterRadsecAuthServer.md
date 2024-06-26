@@ -6,7 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Host** | Pointer to **string** | ip / hostname of RADIUS server | [optional] 
 **KeywrapEnabled** | Pointer to **bool** | if used for Mist APs, enable keywrap algorithm. Default is false | [optional] 
-**KeywrapFormat** | Pointer to [**RadiusKeywrapFormat**](RadiusKeywrapFormat.md) |  | [optional] [default to RADIUSKEYWRAPFORMAT_ASCII]
+**KeywrapFormat** | Pointer to [**NullableMxclusterRadAuthServerKeywrapFormat**](MxclusterRadAuthServerKeywrapFormat.md) |  | [optional] 
 **KeywrapKek** | Pointer to **string** | if used for Mist APs, encryption key | [optional] 
 **KeywrapMack** | Pointer to **string** | if used for Mist APs, Message Authentication Code Key | [optional] 
 **Port** | Pointer to **int32** | Auth port of RADIUS server | [optional] [default to 1812]
@@ -84,20 +84,20 @@ HasKeywrapEnabled returns a boolean if a field has been set.
 
 ### GetKeywrapFormat
 
-`func (o *MxclusterRadsecAuthServer) GetKeywrapFormat() RadiusKeywrapFormat`
+`func (o *MxclusterRadsecAuthServer) GetKeywrapFormat() MxclusterRadAuthServerKeywrapFormat`
 
 GetKeywrapFormat returns the KeywrapFormat field if non-nil, zero value otherwise.
 
 ### GetKeywrapFormatOk
 
-`func (o *MxclusterRadsecAuthServer) GetKeywrapFormatOk() (*RadiusKeywrapFormat, bool)`
+`func (o *MxclusterRadsecAuthServer) GetKeywrapFormatOk() (*MxclusterRadAuthServerKeywrapFormat, bool)`
 
 GetKeywrapFormatOk returns a tuple with the KeywrapFormat field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetKeywrapFormat
 
-`func (o *MxclusterRadsecAuthServer) SetKeywrapFormat(v RadiusKeywrapFormat)`
+`func (o *MxclusterRadsecAuthServer) SetKeywrapFormat(v MxclusterRadAuthServerKeywrapFormat)`
 
 SetKeywrapFormat sets KeywrapFormat field to given value.
 
@@ -107,6 +107,16 @@ SetKeywrapFormat sets KeywrapFormat field to given value.
 
 HasKeywrapFormat returns a boolean if a field has been set.
 
+### SetKeywrapFormatNil
+
+`func (o *MxclusterRadsecAuthServer) SetKeywrapFormatNil(b bool)`
+
+ SetKeywrapFormatNil sets the value for KeywrapFormat to be an explicit nil
+
+### UnsetKeywrapFormat
+`func (o *MxclusterRadsecAuthServer) UnsetKeywrapFormat()`
+
+UnsetKeywrapFormat ensures that no value is present for KeywrapFormat, not even an explicit nil
 ### GetKeywrapKek
 
 `func (o *MxclusterRadsecAuthServer) GetKeywrapKek() string`

@@ -4,24 +4,24 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**AdditionalConfigCmds** | Pointer to **[]string** |  | [optional] [default to []]
+**AdditionalConfigCmds** | Pointer to **[]string** | additional CLI commands to append to the generated Junos config  **Note**: no check is done | [optional] 
 **CreatedTime** | Pointer to **float32** |  | [optional] [readonly] 
 **DeviceprofileId** | Pointer to **string** |  | [optional] 
-**DhcpdConfig** | Pointer to [**JunosDhcpdConfig**](JunosDhcpdConfig.md) |  | [optional] 
-**ExtraRoutes** | Pointer to [**map[string]GatewayExtraRouteValue**](GatewayExtraRouteValue.md) |  | [optional] 
+**DhcpdConfig** | Pointer to [**DhcpdConfigs**](DhcpdConfigs.md) |  | [optional] 
+**ExtraRoutes** | Pointer to [**map[string]GatewayExtraRoute**](GatewayExtraRoute.md) |  | [optional] 
 **ForSite** | Pointer to **bool** |  | [optional] [readonly] 
 **Id** | Pointer to **string** |  | [optional] [readonly] 
 **Image1Url** | Pointer to **string** |  | [optional] 
 **Image2Url** | Pointer to **string** |  | [optional] 
 **Image3Url** | Pointer to **string** |  | [optional] 
-**IpConfig** | Pointer to [**map[string]GatewayIpConfigValue**](GatewayIpConfigValue.md) | Property key is the network name | [optional] 
+**IpConfig** | Pointer to [**map[string]GatewayTemplateIpConfig**](GatewayTemplateIpConfig.md) | Property key is the network name | [optional] 
 **Managed** | Pointer to **bool** |  | [optional] 
 **ModifiedTime** | Pointer to **float32** |  | [optional] [readonly] 
 **MspId** | Pointer to **string** |  | [optional] [readonly] 
 **Name** | Pointer to **string** |  | [optional] 
-**Networks** | Pointer to [**map[string]GatewayNetworksValue**](GatewayNetworksValue.md) | Property key is the network name or a CIDR | [optional] 
-**NtpServers** | Pointer to **[]string** |  | [optional] [default to []]
-**OobIpConfig** | Pointer to [**JunosOobIpConfig**](JunosOobIpConfig.md) |  | [optional] 
+**Networks** | Pointer to [**map[string]GatewayNetwork**](GatewayNetwork.md) | Property key is the network name or a CIDR | [optional] 
+**NtpServers** | Pointer to **[]string** |  | [optional] 
+**OobIpConfig** | Pointer to [**JunosOobIpConfigs**](JunosOobIpConfigs.md) |  | [optional] 
 **OrgId** | Pointer to **string** |  | [optional] [readonly] 
 **PortConfig** | Pointer to [**map[string]GatewayPortConfig**](GatewayPortConfig.md) | Property key is the port name or range (e.g. \&quot;ge-0/0/0-10\&quot;) | [optional] 
 **PortMirroring** | Pointer to [**GatewayPortMirroring**](GatewayPortMirroring.md) |  | [optional] 
@@ -124,20 +124,20 @@ HasDeviceprofileId returns a boolean if a field has been set.
 
 ### GetDhcpdConfig
 
-`func (o *Gateway) GetDhcpdConfig() JunosDhcpdConfig`
+`func (o *Gateway) GetDhcpdConfig() DhcpdConfigs`
 
 GetDhcpdConfig returns the DhcpdConfig field if non-nil, zero value otherwise.
 
 ### GetDhcpdConfigOk
 
-`func (o *Gateway) GetDhcpdConfigOk() (*JunosDhcpdConfig, bool)`
+`func (o *Gateway) GetDhcpdConfigOk() (*DhcpdConfigs, bool)`
 
 GetDhcpdConfigOk returns a tuple with the DhcpdConfig field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetDhcpdConfig
 
-`func (o *Gateway) SetDhcpdConfig(v JunosDhcpdConfig)`
+`func (o *Gateway) SetDhcpdConfig(v DhcpdConfigs)`
 
 SetDhcpdConfig sets DhcpdConfig field to given value.
 
@@ -149,20 +149,20 @@ HasDhcpdConfig returns a boolean if a field has been set.
 
 ### GetExtraRoutes
 
-`func (o *Gateway) GetExtraRoutes() map[string]GatewayExtraRouteValue`
+`func (o *Gateway) GetExtraRoutes() map[string]GatewayExtraRoute`
 
 GetExtraRoutes returns the ExtraRoutes field if non-nil, zero value otherwise.
 
 ### GetExtraRoutesOk
 
-`func (o *Gateway) GetExtraRoutesOk() (*map[string]GatewayExtraRouteValue, bool)`
+`func (o *Gateway) GetExtraRoutesOk() (*map[string]GatewayExtraRoute, bool)`
 
 GetExtraRoutesOk returns a tuple with the ExtraRoutes field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetExtraRoutes
 
-`func (o *Gateway) SetExtraRoutes(v map[string]GatewayExtraRouteValue)`
+`func (o *Gateway) SetExtraRoutes(v map[string]GatewayExtraRoute)`
 
 SetExtraRoutes sets ExtraRoutes field to given value.
 
@@ -299,20 +299,20 @@ HasImage3Url returns a boolean if a field has been set.
 
 ### GetIpConfig
 
-`func (o *Gateway) GetIpConfig() map[string]GatewayIpConfigValue`
+`func (o *Gateway) GetIpConfig() map[string]GatewayTemplateIpConfig`
 
 GetIpConfig returns the IpConfig field if non-nil, zero value otherwise.
 
 ### GetIpConfigOk
 
-`func (o *Gateway) GetIpConfigOk() (*map[string]GatewayIpConfigValue, bool)`
+`func (o *Gateway) GetIpConfigOk() (*map[string]GatewayTemplateIpConfig, bool)`
 
 GetIpConfigOk returns a tuple with the IpConfig field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetIpConfig
 
-`func (o *Gateway) SetIpConfig(v map[string]GatewayIpConfigValue)`
+`func (o *Gateway) SetIpConfig(v map[string]GatewayTemplateIpConfig)`
 
 SetIpConfig sets IpConfig field to given value.
 
@@ -424,20 +424,20 @@ HasName returns a boolean if a field has been set.
 
 ### GetNetworks
 
-`func (o *Gateway) GetNetworks() map[string]GatewayNetworksValue`
+`func (o *Gateway) GetNetworks() map[string]GatewayNetwork`
 
 GetNetworks returns the Networks field if non-nil, zero value otherwise.
 
 ### GetNetworksOk
 
-`func (o *Gateway) GetNetworksOk() (*map[string]GatewayNetworksValue, bool)`
+`func (o *Gateway) GetNetworksOk() (*map[string]GatewayNetwork, bool)`
 
 GetNetworksOk returns a tuple with the Networks field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetNetworks
 
-`func (o *Gateway) SetNetworks(v map[string]GatewayNetworksValue)`
+`func (o *Gateway) SetNetworks(v map[string]GatewayNetwork)`
 
 SetNetworks sets Networks field to given value.
 
@@ -474,20 +474,20 @@ HasNtpServers returns a boolean if a field has been set.
 
 ### GetOobIpConfig
 
-`func (o *Gateway) GetOobIpConfig() JunosOobIpConfig`
+`func (o *Gateway) GetOobIpConfig() JunosOobIpConfigs`
 
 GetOobIpConfig returns the OobIpConfig field if non-nil, zero value otherwise.
 
 ### GetOobIpConfigOk
 
-`func (o *Gateway) GetOobIpConfigOk() (*JunosOobIpConfig, bool)`
+`func (o *Gateway) GetOobIpConfigOk() (*JunosOobIpConfigs, bool)`
 
 GetOobIpConfigOk returns a tuple with the OobIpConfig field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetOobIpConfig
 
-`func (o *Gateway) SetOobIpConfig(v JunosOobIpConfig)`
+`func (o *Gateway) SetOobIpConfig(v JunosOobIpConfigs)`
 
 SetOobIpConfig sets OobIpConfig field to given value.
 

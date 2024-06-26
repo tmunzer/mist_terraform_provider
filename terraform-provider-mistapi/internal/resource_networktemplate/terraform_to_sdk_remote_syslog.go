@@ -9,6 +9,20 @@ import (
 	mistsdkgo "terraform-provider-mistapi/github.com/tmunzer/mist-sdk-go"
 )
 
+func remoteSyslogConfigArchiveTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) mistsdkgo.RemoteSyslogArchive {
+	data := mistsdkgo.NewRemoteSyslogArchive()
+	if d.IsNull() || d.IsUnknown() {
+		return *data
+	} else {
+		item, e := NewArchiveValue(ArchiveValue{}.AttributeTypes(ctx), d.Attributes())
+		diags.Append(e...)
+		var item_interface interface{} = item
+		item_obj := item_interface.(ArchiveValue)
+		data.SetFiles(int32(item_obj.Files.ValueInt64()))
+		data.SetSize(item_obj.Size.ValueString())
+		return *data
+	}
+}
 func remoteSyslogArchiveTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) mistsdkgo.RemoteSyslogArchive {
 	data := mistsdkgo.NewRemoteSyslogArchive()
 	if d.IsNull() || d.IsUnknown() {
@@ -23,14 +37,14 @@ func remoteSyslogArchiveTerraformToSdk(ctx context.Context, diags *diag.Diagnost
 		return *data
 	}
 }
-func remoteSyslogContentTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ListValue) []mistsdkgo.RemoteSyslogContentItem {
-	var data []mistsdkgo.RemoteSyslogContentItem
+func remoteSyslogContentTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ListValue) []mistsdkgo.RemoteSyslogContent {
+	var data []mistsdkgo.RemoteSyslogContent
 	for _, v := range d.Elements() {
 		var item_interface interface{} = v
 		item_in := item_interface.(ContentsValue)
-		item_out := mistsdkgo.NewRemoteSyslogContentItem()
-		item_out.SetFacility(mistsdkgo.RemoteSyslogFacility(item_in.Facility.ValueString()))
-		item_out.SetSeverity(mistsdkgo.RemoteSyslogSeverity(item_in.Severity.ValueString()))
+		item_out := mistsdkgo.NewRemoteSyslogContent()
+		item_out.SetFacility(mistsdkgo.RemoteSyslogContentFacility(item_in.Facility.ValueString()))
+		item_out.SetSeverity(mistsdkgo.RemoteSyslogContentSeverity(item_in.Severity.ValueString()))
 		data = append(data, *item_out)
 	}
 	return data
@@ -50,17 +64,17 @@ func remoteSyslogConsoleTerraformToSdk(ctx context.Context, diags *diag.Diagnost
 	}
 }
 
-func remoteSyslogFilesTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ListValue) []mistsdkgo.SyslogFileConfig {
+func remoteSyslogFilesTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ListValue) []mistsdkgo.RemoteSyslogFileConfig {
 
-	var data []mistsdkgo.SyslogFileConfig
+	var data []mistsdkgo.RemoteSyslogFileConfig
 	for _, item := range d.Elements() {
 		var item_interface interface{} = item
 		item_obj := item_interface.(FilesValue)
 
-		file_archive := remoteSyslogArchiveTerraformToSdk(ctx, diags, item_obj.Archive)
+		file_archive := remoteSyslogConfigArchiveTerraformToSdk(ctx, diags, item_obj.Archive)
 		file_contents := remoteSyslogContentTerraformToSdk(ctx, diags, item_obj.Contents)
 
-		data_item := mistsdkgo.NewSyslogFileConfig()
+		data_item := mistsdkgo.NewRemoteSyslogFileConfig()
 		data_item.SetArchive(file_archive)
 		data_item.SetContents(file_contents)
 		data_item.SetExplicitPriority(item_obj.ExplicitPriority.ValueBool())
@@ -73,25 +87,25 @@ func remoteSyslogFilesTerraformToSdk(ctx context.Context, diags *diag.Diagnostic
 	return data
 }
 
-func remoteSyslogServersTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ListValue) []mistsdkgo.RemoteSyslogServersItem {
+func remoteSyslogServersTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ListValue) []mistsdkgo.RemoteSyslogServer {
 
-	var data []mistsdkgo.RemoteSyslogServersItem
+	var data []mistsdkgo.RemoteSyslogServer
 	for _, item := range d.Elements() {
 		var item_interface interface{} = item
 		item_obj := item_interface.(ServersValue)
 
 		file_contents := remoteSyslogContentTerraformToSdk(ctx, diags, item_obj.Contents)
 
-		data_item := mistsdkgo.NewRemoteSyslogServersItem()
+		data_item := mistsdkgo.NewRemoteSyslogServer()
 		data_item.SetContents(file_contents)
 		data_item.SetExplicitPriority(item_obj.ExplicitPriority.ValueBool())
-		data_item.SetFacility(mistsdkgo.RemoteSyslogFacility(item_obj.Facility.ValueString()))
+		data_item.SetFacility(mistsdkgo.SyslogServerFacility(item_obj.Facility.ValueString()))
 		data_item.SetHost(item_obj.Host.ValueString())
 		data_item.SetMatch(item_obj.Match.ValueString())
 		data_item.SetPort(int32(item_obj.Port.ValueInt64()))
-		data_item.SetProtocol(mistsdkgo.RemoteSyslogProtocol(item_obj.Protocol.ValueString()))
+		data_item.SetProtocol(mistsdkgo.SyslogServerProtocol(item_obj.Protocol.ValueString()))
 		data_item.SetRoutingInstance(item_obj.RoutingInstance.ValueString())
-		data_item.SetSeverity(mistsdkgo.RemoteSyslogSeverity(item_obj.Severity.ValueString()))
+		data_item.SetSeverity(mistsdkgo.SyslogServerSeverity(item_obj.Severity.ValueString()))
 		data_item.SetSourceAddress(item_obj.SourceAddress.ValueString())
 		data_item.SetStructuredData(item_obj.StructuredData.ValueBool())
 		data_item.SetTag(item_obj.Tag.ValueString())
@@ -100,24 +114,24 @@ func remoteSyslogServersTerraformToSdk(ctx context.Context, diags *diag.Diagnost
 
 	return data
 }
-func remoteSyslogUsersTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ListValue) []mistsdkgo.RemoteSyslogUsersItem {
+func remoteSyslogUsersTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ListValue) []mistsdkgo.RemoteSyslogUser {
 
-	var data []mistsdkgo.RemoteSyslogUsersItem
+	var data []mistsdkgo.RemoteSyslogUser
 	for _, item := range d.Elements() {
 		var item_interface interface{} = item
 		item_obj := item_interface.(UsersValue)
 
-		var content_list = []mistsdkgo.RemoteSyslogContentItem{}
+		var content_list = []mistsdkgo.RemoteSyslogContent{}
 		for _, content := range item_obj.Contents.Elements() {
 			var content_interface interface{} = content
 			content_obj := content_interface.(ContentsValue)
-			content_out := mistsdkgo.NewRemoteSyslogContentItem()
-			content_out.SetFacility(mistsdkgo.RemoteSyslogFacility(content_obj.Facility.ValueString()))
-			content_out.SetSeverity(mistsdkgo.RemoteSyslogSeverity(content_obj.Facility.ValueString()))
+			content_out := mistsdkgo.NewRemoteSyslogContent()
+			content_out.SetFacility(mistsdkgo.RemoteSyslogContentFacility(content_obj.Facility.ValueString()))
+			content_out.SetSeverity(mistsdkgo.RemoteSyslogContentSeverity(content_obj.Facility.ValueString()))
 			content_list = append(content_list, *content_out)
 		}
 
-		data_item := mistsdkgo.NewRemoteSyslogUsersItem()
+		data_item := mistsdkgo.NewRemoteSyslogUser()
 		data_item.SetMatch(item_obj.Match.ValueString())
 		data_item.SetUser(item_obj.User.ValueString())
 		data_item.SetContents(content_list)
@@ -135,7 +149,6 @@ func remoteSyslogTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d 
 	remote_syslog_files := remoteSyslogFilesTerraformToSdk(ctx, diags, d.Files)
 	remote_syslog_servers := remoteSyslogServersTerraformToSdk(ctx, diags, d.Servers)
 	remote_syslog_users := remoteSyslogUsersTerraformToSdk(ctx, diags, d.Users)
-	remote_syslog_time_format, _ := mistsdkgo.NewTimeFormatFromValue(d.TimeFormat.ValueString())
 
 	data := mistsdkgo.NewRemoteSyslog()
 	data.SetEnabled(d.Enabled.ValueBool())
@@ -147,7 +160,7 @@ func remoteSyslogTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d 
 	data.SetNetwork(d.Network.ValueString())
 	data.SetSendToAllServers(d.SendToAllServers.ValueBool())
 	data.SetServers(remote_syslog_servers)
-	data.SetTimeFormat(*remote_syslog_time_format)
+	data.SetTimeFormat(mistsdkgo.RemoteSyslogTimeFormat(d.TimeFormat.ValueString()))
 	data.SetUsers(remote_syslog_users)
 
 	return *data

@@ -1,9 +1,9 @@
 /*
 Mist API
 
-> Version: **2405.1.6** > > Date: **June 6, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location-services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
+> Version: **2406.1.3** > > Date: **June 26, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
 
-API version: 2405.1.6
+API version: 2406.1.3
 Contact: tmunzer@juniper.net
 */
 
@@ -21,7 +21,7 @@ var _ MappedNullable = &GatewayTemplatePathPreferences{}
 // GatewayTemplatePathPreferences struct for GatewayTemplatePathPreferences
 type GatewayTemplatePathPreferences struct {
 	Paths []GatewayTemplatePathPreferencesPath `json:"paths,omitempty"`
-	Strategy *string `json:"strategy,omitempty"`
+	Strategy *GatewayPathStrategy `json:"strategy,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -33,7 +33,7 @@ type _GatewayTemplatePathPreferences GatewayTemplatePathPreferences
 // will change when the set of required properties is changed
 func NewGatewayTemplatePathPreferences() *GatewayTemplatePathPreferences {
 	this := GatewayTemplatePathPreferences{}
-	var strategy string = "ordered"
+	var strategy GatewayPathStrategy = GATEWAYPATHSTRATEGY_ORDERED
 	this.Strategy = &strategy
 	return &this
 }
@@ -43,7 +43,7 @@ func NewGatewayTemplatePathPreferences() *GatewayTemplatePathPreferences {
 // but it doesn't guarantee that properties required by API are set
 func NewGatewayTemplatePathPreferencesWithDefaults() *GatewayTemplatePathPreferences {
 	this := GatewayTemplatePathPreferences{}
-	var strategy string = "ordered"
+	var strategy GatewayPathStrategy = GATEWAYPATHSTRATEGY_ORDERED
 	this.Strategy = &strategy
 	return &this
 }
@@ -81,9 +81,9 @@ func (o *GatewayTemplatePathPreferences) SetPaths(v []GatewayTemplatePathPrefere
 }
 
 // GetStrategy returns the Strategy field value if set, zero value otherwise.
-func (o *GatewayTemplatePathPreferences) GetStrategy() string {
+func (o *GatewayTemplatePathPreferences) GetStrategy() GatewayPathStrategy {
 	if o == nil || IsNil(o.Strategy) {
-		var ret string
+		var ret GatewayPathStrategy
 		return ret
 	}
 	return *o.Strategy
@@ -91,7 +91,7 @@ func (o *GatewayTemplatePathPreferences) GetStrategy() string {
 
 // GetStrategyOk returns a tuple with the Strategy field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *GatewayTemplatePathPreferences) GetStrategyOk() (*string, bool) {
+func (o *GatewayTemplatePathPreferences) GetStrategyOk() (*GatewayPathStrategy, bool) {
 	if o == nil || IsNil(o.Strategy) {
 		return nil, false
 	}
@@ -107,8 +107,8 @@ func (o *GatewayTemplatePathPreferences) HasStrategy() bool {
 	return false
 }
 
-// SetStrategy gets a reference to the given string and assigns it to the Strategy field.
-func (o *GatewayTemplatePathPreferences) SetStrategy(v string) {
+// SetStrategy gets a reference to the given GatewayPathStrategy and assigns it to the Strategy field.
+func (o *GatewayTemplatePathPreferences) SetStrategy(v GatewayPathStrategy) {
 	o.Strategy = &v
 }
 

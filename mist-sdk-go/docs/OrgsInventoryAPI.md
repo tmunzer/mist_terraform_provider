@@ -6,6 +6,8 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**AddOrgInventory**](OrgsInventoryAPI.md#AddOrgInventory) | **Post** /api/v1/orgs/{org_id}/inventory | addOrgInventory
 [**GetOrgInventory**](OrgsInventoryAPI.md#GetOrgInventory) | **Get** /api/v1/orgs/{org_id}/inventory | getOrgInventory
+[**ReevaluateOrgAutoAssignment**](OrgsInventoryAPI.md#ReevaluateOrgAutoAssignment) | **Post** /api/v1/orgs/{org_id}/inventory/reevaluate_auto_assignment | reevaluateOrgAutoAssignment
+[**ReplaceOrgDevices**](OrgsInventoryAPI.md#ReplaceOrgDevices) | **Post** /api/v1/orgs/{org_id}/inventory/replace | replaceOrgDevices
 [**UpdateOrgInventoryAssignment**](OrgsInventoryAPI.md#UpdateOrgInventoryAssignment) | **Put** /api/v1/orgs/{org_id}/inventory | updateOrgInventoryAssignment
 
 
@@ -27,7 +29,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "github.com/tmunzer/mistsdkgo"
 )
 
 func main() {
@@ -70,7 +72,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[apiToken](../README.md#apiToken)
+[apiToken](../README.md#apiToken), [basicAuth](../README.md#basicAuth)
 
 ### HTTP request headers
 
@@ -99,7 +101,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "github.com/tmunzer/mistsdkgo"
 )
 
 func main() {
@@ -160,11 +162,151 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[apiToken](../README.md#apiToken)
+[apiToken](../README.md#apiToken), [basicAuth](../README.md#basicAuth)
 
 ### HTTP request headers
 
 - **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## ReevaluateOrgAutoAssignment
+
+> ReevaluateOrgAutoAssignment(ctx, orgId).Execute()
+
+reevaluateOrgAutoAssignment
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/tmunzer/mistsdkgo"
+)
+
+func main() {
+	orgId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	r, err := apiClient.OrgsInventoryAPI.ReevaluateOrgAutoAssignment(context.Background(), orgId).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `OrgsInventoryAPI.ReevaluateOrgAutoAssignment``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**orgId** | **string** |  | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiReevaluateOrgAutoAssignmentRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+### Return type
+
+ (empty response body)
+
+### Authorization
+
+[apiToken](../README.md#apiToken), [basicAuth](../README.md#basicAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## ReplaceOrgDevices
+
+> ResponseOrgInventoryChange ReplaceOrgDevices(ctx, orgId).ReplaceDevice(replaceDevice).Execute()
+
+replaceOrgDevices
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/tmunzer/mistsdkgo"
+)
+
+func main() {
+	orgId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
+	replaceDevice := *openapiclient.NewReplaceDevice() // ReplaceDevice | Request Body (optional)
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.OrgsInventoryAPI.ReplaceOrgDevices(context.Background(), orgId).ReplaceDevice(replaceDevice).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `OrgsInventoryAPI.ReplaceOrgDevices``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `ReplaceOrgDevices`: ResponseOrgInventoryChange
+	fmt.Fprintf(os.Stdout, "Response from `OrgsInventoryAPI.ReplaceOrgDevices`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**orgId** | **string** |  | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiReplaceOrgDevicesRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **replaceDevice** | [**ReplaceDevice**](ReplaceDevice.md) | Request Body | 
+
+### Return type
+
+[**ResponseOrgInventoryChange**](ResponseOrgInventoryChange.md)
+
+### Authorization
+
+[apiToken](../README.md#apiToken), [basicAuth](../README.md#basicAuth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
 - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
@@ -189,12 +331,12 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "github.com/tmunzer/mistsdkgo"
 )
 
 func main() {
 	orgId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	inventoryUpdate := *openapiclient.NewInventoryUpdate("Op_example") // InventoryUpdate |  (optional)
+	inventoryUpdate := *openapiclient.NewInventoryUpdate(openapiclient.inventory_update_operation("assign")) // InventoryUpdate |  (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -232,7 +374,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[apiToken](../README.md#apiToken)
+[apiToken](../README.md#apiToken), [basicAuth](../README.md#basicAuth)
 
 ### HTTP request headers
 

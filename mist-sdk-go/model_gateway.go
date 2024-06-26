@@ -1,9 +1,9 @@
 /*
 Mist API
 
-> Version: **2405.1.6** > > Date: **June 6, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location-services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
+> Version: **2406.1.3** > > Date: **June 26, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
 
-API version: 2405.1.6
+API version: 2406.1.3
 Contact: tmunzer@juniper.net
 */
 
@@ -20,26 +20,27 @@ var _ MappedNullable = &Gateway{}
 
 // Gateway device gateway
 type Gateway struct {
+	// additional CLI commands to append to the generated Junos config  **Note**: no check is done
 	AdditionalConfigCmds []string `json:"additional_config_cmds,omitempty"`
 	CreatedTime *float32 `json:"created_time,omitempty"`
 	DeviceprofileId *string `json:"deviceprofile_id,omitempty"`
-	DhcpdConfig *JunosDhcpdConfig `json:"dhcpd_config,omitempty"`
-	ExtraRoutes *map[string]GatewayExtraRouteValue `json:"extra_routes,omitempty"`
+	DhcpdConfig *DhcpdConfigs `json:"dhcpd_config,omitempty"`
+	ExtraRoutes *map[string]GatewayExtraRoute `json:"extra_routes,omitempty"`
 	ForSite *bool `json:"for_site,omitempty"`
 	Id *string `json:"id,omitempty"`
 	Image1Url *string `json:"image1_url,omitempty"`
 	Image2Url *string `json:"image2_url,omitempty"`
 	Image3Url *string `json:"image3_url,omitempty"`
 	// Property key is the network name
-	IpConfig *map[string]GatewayIpConfigValue `json:"ip_config,omitempty"`
+	IpConfig *map[string]GatewayTemplateIpConfig `json:"ip_config,omitempty"`
 	Managed *bool `json:"managed,omitempty"`
 	ModifiedTime *float32 `json:"modified_time,omitempty"`
 	MspId *string `json:"msp_id,omitempty"`
 	Name *string `json:"name,omitempty"`
 	// Property key is the network name or a CIDR
-	Networks *map[string]GatewayNetworksValue `json:"networks,omitempty"`
+	Networks *map[string]GatewayNetwork `json:"networks,omitempty"`
 	NtpServers []string `json:"ntp_servers,omitempty"`
-	OobIpConfig *JunosOobIpConfig `json:"oob_ip_config,omitempty"`
+	OobIpConfig *JunosOobIpConfigs `json:"oob_ip_config,omitempty"`
 	OrgId *string `json:"org_id,omitempty"`
 	// Property key is the port name or range (e.g. \"ge-0/0/0-10\")
 	PortConfig *map[string]GatewayPortConfig `json:"port_config,omitempty"`
@@ -166,9 +167,9 @@ func (o *Gateway) SetDeviceprofileId(v string) {
 }
 
 // GetDhcpdConfig returns the DhcpdConfig field value if set, zero value otherwise.
-func (o *Gateway) GetDhcpdConfig() JunosDhcpdConfig {
+func (o *Gateway) GetDhcpdConfig() DhcpdConfigs {
 	if o == nil || IsNil(o.DhcpdConfig) {
-		var ret JunosDhcpdConfig
+		var ret DhcpdConfigs
 		return ret
 	}
 	return *o.DhcpdConfig
@@ -176,7 +177,7 @@ func (o *Gateway) GetDhcpdConfig() JunosDhcpdConfig {
 
 // GetDhcpdConfigOk returns a tuple with the DhcpdConfig field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Gateway) GetDhcpdConfigOk() (*JunosDhcpdConfig, bool) {
+func (o *Gateway) GetDhcpdConfigOk() (*DhcpdConfigs, bool) {
 	if o == nil || IsNil(o.DhcpdConfig) {
 		return nil, false
 	}
@@ -192,15 +193,15 @@ func (o *Gateway) HasDhcpdConfig() bool {
 	return false
 }
 
-// SetDhcpdConfig gets a reference to the given JunosDhcpdConfig and assigns it to the DhcpdConfig field.
-func (o *Gateway) SetDhcpdConfig(v JunosDhcpdConfig) {
+// SetDhcpdConfig gets a reference to the given DhcpdConfigs and assigns it to the DhcpdConfig field.
+func (o *Gateway) SetDhcpdConfig(v DhcpdConfigs) {
 	o.DhcpdConfig = &v
 }
 
 // GetExtraRoutes returns the ExtraRoutes field value if set, zero value otherwise.
-func (o *Gateway) GetExtraRoutes() map[string]GatewayExtraRouteValue {
+func (o *Gateway) GetExtraRoutes() map[string]GatewayExtraRoute {
 	if o == nil || IsNil(o.ExtraRoutes) {
-		var ret map[string]GatewayExtraRouteValue
+		var ret map[string]GatewayExtraRoute
 		return ret
 	}
 	return *o.ExtraRoutes
@@ -208,7 +209,7 @@ func (o *Gateway) GetExtraRoutes() map[string]GatewayExtraRouteValue {
 
 // GetExtraRoutesOk returns a tuple with the ExtraRoutes field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Gateway) GetExtraRoutesOk() (*map[string]GatewayExtraRouteValue, bool) {
+func (o *Gateway) GetExtraRoutesOk() (*map[string]GatewayExtraRoute, bool) {
 	if o == nil || IsNil(o.ExtraRoutes) {
 		return nil, false
 	}
@@ -224,8 +225,8 @@ func (o *Gateway) HasExtraRoutes() bool {
 	return false
 }
 
-// SetExtraRoutes gets a reference to the given map[string]GatewayExtraRouteValue and assigns it to the ExtraRoutes field.
-func (o *Gateway) SetExtraRoutes(v map[string]GatewayExtraRouteValue) {
+// SetExtraRoutes gets a reference to the given map[string]GatewayExtraRoute and assigns it to the ExtraRoutes field.
+func (o *Gateway) SetExtraRoutes(v map[string]GatewayExtraRoute) {
 	o.ExtraRoutes = &v
 }
 
@@ -390,9 +391,9 @@ func (o *Gateway) SetImage3Url(v string) {
 }
 
 // GetIpConfig returns the IpConfig field value if set, zero value otherwise.
-func (o *Gateway) GetIpConfig() map[string]GatewayIpConfigValue {
+func (o *Gateway) GetIpConfig() map[string]GatewayTemplateIpConfig {
 	if o == nil || IsNil(o.IpConfig) {
-		var ret map[string]GatewayIpConfigValue
+		var ret map[string]GatewayTemplateIpConfig
 		return ret
 	}
 	return *o.IpConfig
@@ -400,7 +401,7 @@ func (o *Gateway) GetIpConfig() map[string]GatewayIpConfigValue {
 
 // GetIpConfigOk returns a tuple with the IpConfig field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Gateway) GetIpConfigOk() (*map[string]GatewayIpConfigValue, bool) {
+func (o *Gateway) GetIpConfigOk() (*map[string]GatewayTemplateIpConfig, bool) {
 	if o == nil || IsNil(o.IpConfig) {
 		return nil, false
 	}
@@ -416,8 +417,8 @@ func (o *Gateway) HasIpConfig() bool {
 	return false
 }
 
-// SetIpConfig gets a reference to the given map[string]GatewayIpConfigValue and assigns it to the IpConfig field.
-func (o *Gateway) SetIpConfig(v map[string]GatewayIpConfigValue) {
+// SetIpConfig gets a reference to the given map[string]GatewayTemplateIpConfig and assigns it to the IpConfig field.
+func (o *Gateway) SetIpConfig(v map[string]GatewayTemplateIpConfig) {
 	o.IpConfig = &v
 }
 
@@ -550,9 +551,9 @@ func (o *Gateway) SetName(v string) {
 }
 
 // GetNetworks returns the Networks field value if set, zero value otherwise.
-func (o *Gateway) GetNetworks() map[string]GatewayNetworksValue {
+func (o *Gateway) GetNetworks() map[string]GatewayNetwork {
 	if o == nil || IsNil(o.Networks) {
-		var ret map[string]GatewayNetworksValue
+		var ret map[string]GatewayNetwork
 		return ret
 	}
 	return *o.Networks
@@ -560,7 +561,7 @@ func (o *Gateway) GetNetworks() map[string]GatewayNetworksValue {
 
 // GetNetworksOk returns a tuple with the Networks field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Gateway) GetNetworksOk() (*map[string]GatewayNetworksValue, bool) {
+func (o *Gateway) GetNetworksOk() (*map[string]GatewayNetwork, bool) {
 	if o == nil || IsNil(o.Networks) {
 		return nil, false
 	}
@@ -576,8 +577,8 @@ func (o *Gateway) HasNetworks() bool {
 	return false
 }
 
-// SetNetworks gets a reference to the given map[string]GatewayNetworksValue and assigns it to the Networks field.
-func (o *Gateway) SetNetworks(v map[string]GatewayNetworksValue) {
+// SetNetworks gets a reference to the given map[string]GatewayNetwork and assigns it to the Networks field.
+func (o *Gateway) SetNetworks(v map[string]GatewayNetwork) {
 	o.Networks = &v
 }
 
@@ -614,9 +615,9 @@ func (o *Gateway) SetNtpServers(v []string) {
 }
 
 // GetOobIpConfig returns the OobIpConfig field value if set, zero value otherwise.
-func (o *Gateway) GetOobIpConfig() JunosOobIpConfig {
+func (o *Gateway) GetOobIpConfig() JunosOobIpConfigs {
 	if o == nil || IsNil(o.OobIpConfig) {
-		var ret JunosOobIpConfig
+		var ret JunosOobIpConfigs
 		return ret
 	}
 	return *o.OobIpConfig
@@ -624,7 +625,7 @@ func (o *Gateway) GetOobIpConfig() JunosOobIpConfig {
 
 // GetOobIpConfigOk returns a tuple with the OobIpConfig field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Gateway) GetOobIpConfigOk() (*JunosOobIpConfig, bool) {
+func (o *Gateway) GetOobIpConfigOk() (*JunosOobIpConfigs, bool) {
 	if o == nil || IsNil(o.OobIpConfig) {
 		return nil, false
 	}
@@ -640,8 +641,8 @@ func (o *Gateway) HasOobIpConfig() bool {
 	return false
 }
 
-// SetOobIpConfig gets a reference to the given JunosOobIpConfig and assigns it to the OobIpConfig field.
-func (o *Gateway) SetOobIpConfig(v JunosOobIpConfig) {
+// SetOobIpConfig gets a reference to the given JunosOobIpConfigs and assigns it to the OobIpConfig field.
+func (o *Gateway) SetOobIpConfig(v JunosOobIpConfigs) {
 	o.OobIpConfig = &v
 }
 

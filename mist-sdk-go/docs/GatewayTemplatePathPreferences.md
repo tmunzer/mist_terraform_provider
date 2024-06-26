@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Paths** | Pointer to [**[]GatewayTemplatePathPreferencesPath**](GatewayTemplatePathPreferencesPath.md) |  | [optional] 
-**Strategy** | Pointer to **string** |  | [optional] [default to "ordered"]
+**Strategy** | Pointer to [**GatewayPathStrategy**](GatewayPathStrategy.md) |  | [optional] [default to GATEWAYPATHSTRATEGY_ORDERED]
 
 ## Methods
 
@@ -53,20 +53,20 @@ HasPaths returns a boolean if a field has been set.
 
 ### GetStrategy
 
-`func (o *GatewayTemplatePathPreferences) GetStrategy() string`
+`func (o *GatewayTemplatePathPreferences) GetStrategy() GatewayPathStrategy`
 
 GetStrategy returns the Strategy field if non-nil, zero value otherwise.
 
 ### GetStrategyOk
 
-`func (o *GatewayTemplatePathPreferences) GetStrategyOk() (*string, bool)`
+`func (o *GatewayTemplatePathPreferences) GetStrategyOk() (*GatewayPathStrategy, bool)`
 
 GetStrategyOk returns a tuple with the Strategy field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetStrategy
 
-`func (o *GatewayTemplatePathPreferences) SetStrategy(v string)`
+`func (o *GatewayTemplatePathPreferences) SetStrategy(v GatewayPathStrategy)`
 
 SetStrategy sets Strategy field to given value.
 

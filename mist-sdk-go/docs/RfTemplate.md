@@ -7,14 +7,14 @@ Name | Type | Description | Notes
 **AntGain24** | Pointer to **int32** |  | [optional] 
 **AntGain5** | Pointer to **int32** |  | [optional] 
 **Band24** | Pointer to [**ApRadioBand**](ApRadioBand.md) |  | [optional] 
-**Band24Usage** | Pointer to **string** | If &#x60;band_24_usage&#x60;&#x3D;&#x3D;&#x60;5&#x60;, by default, &#x60;band_5&#x60; properties is used, if specific channel/bandwidth/power/... If desired, use &#x60;band_5_on_24_radio&#x60; | [optional] [default to "24"]
+**Band24Usage** | Pointer to [**RfTemplateBand24Usage**](RfTemplateBand24Usage.md) |  | [optional] [default to RFTEMPLATEBAND24USAGE__24]
 **Band5** | Pointer to [**ApRadioBand**](ApRadioBand.md) |  | [optional] 
 **Band5On24Radio** | Pointer to [**ApRadioBand**](ApRadioBand.md) |  | [optional] 
 **CountryCode** | Pointer to **string** | optional, country code to use. If specified, this gets applied to all sites using the RF Template | [optional] 
 **CreatedTime** | Pointer to **float32** |  | [optional] [readonly] 
 **ForSite** | Pointer to **bool** |  | [optional] [readonly] 
 **Id** | Pointer to **string** |  | [optional] [readonly] 
-**ModelSpecific** | Pointer to [**map[string]RfTemplateModelSpecificValue**](RfTemplateModelSpecificValue.md) | overwrites for a specific model. If a band is specified, it will shadow the default. Property key is the model name (e.g. \&quot;AP63\&quot;) | [optional] 
+**ModelSpecific** | Pointer to [**map[string]RfTemplateModelSpecificProperty**](RfTemplateModelSpecificProperty.md) | overwrites for a specific model. If a band is specified, it will shadow the default. Property key is the model name (e.g. \&quot;AP63\&quot;) | [optional] 
 **ModifiedTime** | Pointer to **float32** |  | [optional] [readonly] 
 **Name** | **string** | The name of the RF template | 
 **OrgId** | Pointer to **string** |  | [optional] [readonly] 
@@ -117,20 +117,20 @@ HasBand24 returns a boolean if a field has been set.
 
 ### GetBand24Usage
 
-`func (o *RfTemplate) GetBand24Usage() string`
+`func (o *RfTemplate) GetBand24Usage() RfTemplateBand24Usage`
 
 GetBand24Usage returns the Band24Usage field if non-nil, zero value otherwise.
 
 ### GetBand24UsageOk
 
-`func (o *RfTemplate) GetBand24UsageOk() (*string, bool)`
+`func (o *RfTemplate) GetBand24UsageOk() (*RfTemplateBand24Usage, bool)`
 
 GetBand24UsageOk returns a tuple with the Band24Usage field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetBand24Usage
 
-`func (o *RfTemplate) SetBand24Usage(v string)`
+`func (o *RfTemplate) SetBand24Usage(v RfTemplateBand24Usage)`
 
 SetBand24Usage sets Band24Usage field to given value.
 
@@ -292,20 +292,20 @@ HasId returns a boolean if a field has been set.
 
 ### GetModelSpecific
 
-`func (o *RfTemplate) GetModelSpecific() map[string]RfTemplateModelSpecificValue`
+`func (o *RfTemplate) GetModelSpecific() map[string]RfTemplateModelSpecificProperty`
 
 GetModelSpecific returns the ModelSpecific field if non-nil, zero value otherwise.
 
 ### GetModelSpecificOk
 
-`func (o *RfTemplate) GetModelSpecificOk() (*map[string]RfTemplateModelSpecificValue, bool)`
+`func (o *RfTemplate) GetModelSpecificOk() (*map[string]RfTemplateModelSpecificProperty, bool)`
 
 GetModelSpecificOk returns a tuple with the ModelSpecific field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetModelSpecific
 
-`func (o *RfTemplate) SetModelSpecific(v map[string]RfTemplateModelSpecificValue)`
+`func (o *RfTemplate) SetModelSpecific(v map[string]RfTemplateModelSpecificProperty)`
 
 SetModelSpecific sets ModelSpecific field to given value.
 

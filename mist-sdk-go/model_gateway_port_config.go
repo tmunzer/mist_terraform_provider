@@ -1,9 +1,9 @@
 /*
 Mist API
 
-> Version: **2405.1.6** > > Date: **June 6, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location-services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
+> Version: **2406.1.3** > > Date: **June 26, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
 
-API version: 2405.1.6
+API version: 2406.1.3
 Contact: tmunzer@juniper.net
 */
 
@@ -25,18 +25,16 @@ type GatewayPortConfig struct {
 	DisableAutoneg *bool `json:"disable_autoneg,omitempty"`
 	// port admin up (true) / down (false)
 	Disabled *bool `json:"disabled,omitempty"`
-	// if `wan_type`==`lte`
-	DslType *string `json:"dsl_type,omitempty"`
+	DslType *GatewayPortDslType `json:"dsl_type,omitempty"`
 	// if `wan_type`==`dsl` 16 bit int
 	DslVci *int32 `json:"dsl_vci,omitempty"`
 	// if `wan_type`==`dsl` 8 bit int
 	DslVpi *int32 `json:"dsl_vpi,omitempty"`
-	Duplex *string `json:"duplex,omitempty"`
-	IpConfig *JunosIpConfigGateway `json:"ip_config,omitempty"`
+	Duplex *GatewayPortDuplex `json:"duplex,omitempty"`
+	IpConfig *GatewayIpConfig `json:"ip_config,omitempty"`
 	// if `wan_type`==`lte`
 	LteApn *string `json:"lte_apn,omitempty"`
-	// if `wan_type`==`lte`
-	LteAuth *string `json:"lte_auth,omitempty"`
+	LteAuth *GatewayPortLteAuth `json:"lte_auth,omitempty"`
 	LteBackup *bool `json:"lte_backup,omitempty"`
 	// if `wan_type`==`lte`
 	LtePassword *string `json:"lte_password,omitempty"`
@@ -67,18 +65,16 @@ type GatewayPortConfig struct {
 	SsrNoVirtualMac *bool `json:"ssr_no_virtual_mac,omitempty"`
 	// for SSR only
 	SvrPortRange *string `json:"svr_port_range,omitempty"`
-	TrafficShaping *GatewayPortConfigTrafficShaping `json:"traffic_shaping,omitempty"`
-	// port usage name
-	Usage string `json:"usage"`
+	TrafficShaping *GatewayPortTrafficShaping `json:"traffic_shaping,omitempty"`
+	Usage GatewayPortUsage `json:"usage"`
 	// if WAN interface is on a VLAN
 	VlanId *int32 `json:"vlan_id,omitempty"`
-	VpnPaths *GatewayPortConfigVpnPaths `json:"vpn_paths,omitempty"`
-	WanArpPolicer *GatewayPortConfigWanArpPolicer `json:"wan_arp_policer,omitempty"`
+	VpnPaths *GatewayPortVpnPaths `json:"vpn_paths,omitempty"`
+	WanArpPolicer *GatewayPortWanArpPolicer `json:"wan_arp_policer,omitempty"`
 	// optional, if spoke should reach this port by a different IP
 	WanExtIp *string `json:"wan_ext_ip,omitempty"`
-	WanSourceNat *GatewayPortConfigWanSourceNat `json:"wan_source_nat,omitempty"`
-	// if `usage`==`wan`
-	WanType *string `json:"wan_type,omitempty"`
+	WanSourceNat *GatewayPortWanSourceNat `json:"wan_source_nat,omitempty"`
+	WanType *GatewayPortWanType `json:"wan_type,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -88,21 +84,21 @@ type _GatewayPortConfig GatewayPortConfig
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewGatewayPortConfig(usage string) *GatewayPortConfig {
+func NewGatewayPortConfig(usage GatewayPortUsage) *GatewayPortConfig {
 	this := GatewayPortConfig{}
 	var disableAutoneg bool = false
 	this.DisableAutoneg = &disableAutoneg
 	var disabled bool = false
 	this.Disabled = &disabled
-	var dslType string = "vdsl"
+	var dslType GatewayPortDslType = GATEWAYPORTDSLTYPE_VDSL
 	this.DslType = &dslType
 	var dslVci int32 = 35
 	this.DslVci = &dslVci
 	var dslVpi int32 = 0
 	this.DslVpi = &dslVpi
-	var duplex string = "auto"
+	var duplex GatewayPortDuplex = GATEWAYPORTDUPLEX_AUTO
 	this.Duplex = &duplex
-	var lteAuth string = "none"
+	var lteAuth GatewayPortLteAuth = GATEWAYPORTLTEAUTH_NONE
 	this.LteAuth = &lteAuth
 	var poeDisabled bool = false
 	this.PoeDisabled = &poeDisabled
@@ -115,9 +111,9 @@ func NewGatewayPortConfig(usage string) *GatewayPortConfig {
 	var svrPortRange string = "none"
 	this.SvrPortRange = &svrPortRange
 	this.Usage = usage
-	var wanArpPolicer GatewayPortConfigWanArpPolicer = GATEWAYPORTCONFIGWANARPPOLICER_RECOMMENDED
+	var wanArpPolicer GatewayPortWanArpPolicer = GATEWAYPORTWANARPPOLICER_RECOMMENDED
 	this.WanArpPolicer = &wanArpPolicer
-	var wanType string = "broadband"
+	var wanType GatewayPortWanType = GATEWAYPORTWANTYPE_BROADBAND
 	this.WanType = &wanType
 	return &this
 }
@@ -131,15 +127,15 @@ func NewGatewayPortConfigWithDefaults() *GatewayPortConfig {
 	this.DisableAutoneg = &disableAutoneg
 	var disabled bool = false
 	this.Disabled = &disabled
-	var dslType string = "vdsl"
+	var dslType GatewayPortDslType = GATEWAYPORTDSLTYPE_VDSL
 	this.DslType = &dslType
 	var dslVci int32 = 35
 	this.DslVci = &dslVci
 	var dslVpi int32 = 0
 	this.DslVpi = &dslVpi
-	var duplex string = "auto"
+	var duplex GatewayPortDuplex = GATEWAYPORTDUPLEX_AUTO
 	this.Duplex = &duplex
-	var lteAuth string = "none"
+	var lteAuth GatewayPortLteAuth = GATEWAYPORTLTEAUTH_NONE
 	this.LteAuth = &lteAuth
 	var poeDisabled bool = false
 	this.PoeDisabled = &poeDisabled
@@ -151,9 +147,9 @@ func NewGatewayPortConfigWithDefaults() *GatewayPortConfig {
 	this.SsrNoVirtualMac = &ssrNoVirtualMac
 	var svrPortRange string = "none"
 	this.SvrPortRange = &svrPortRange
-	var wanArpPolicer GatewayPortConfigWanArpPolicer = GATEWAYPORTCONFIGWANARPPOLICER_RECOMMENDED
+	var wanArpPolicer GatewayPortWanArpPolicer = GATEWAYPORTWANARPPOLICER_RECOMMENDED
 	this.WanArpPolicer = &wanArpPolicer
-	var wanType string = "broadband"
+	var wanType GatewayPortWanType = GATEWAYPORTWANTYPE_BROADBAND
 	this.WanType = &wanType
 	return &this
 }
@@ -255,9 +251,9 @@ func (o *GatewayPortConfig) SetDisabled(v bool) {
 }
 
 // GetDslType returns the DslType field value if set, zero value otherwise.
-func (o *GatewayPortConfig) GetDslType() string {
+func (o *GatewayPortConfig) GetDslType() GatewayPortDslType {
 	if o == nil || IsNil(o.DslType) {
-		var ret string
+		var ret GatewayPortDslType
 		return ret
 	}
 	return *o.DslType
@@ -265,7 +261,7 @@ func (o *GatewayPortConfig) GetDslType() string {
 
 // GetDslTypeOk returns a tuple with the DslType field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *GatewayPortConfig) GetDslTypeOk() (*string, bool) {
+func (o *GatewayPortConfig) GetDslTypeOk() (*GatewayPortDslType, bool) {
 	if o == nil || IsNil(o.DslType) {
 		return nil, false
 	}
@@ -281,8 +277,8 @@ func (o *GatewayPortConfig) HasDslType() bool {
 	return false
 }
 
-// SetDslType gets a reference to the given string and assigns it to the DslType field.
-func (o *GatewayPortConfig) SetDslType(v string) {
+// SetDslType gets a reference to the given GatewayPortDslType and assigns it to the DslType field.
+func (o *GatewayPortConfig) SetDslType(v GatewayPortDslType) {
 	o.DslType = &v
 }
 
@@ -351,9 +347,9 @@ func (o *GatewayPortConfig) SetDslVpi(v int32) {
 }
 
 // GetDuplex returns the Duplex field value if set, zero value otherwise.
-func (o *GatewayPortConfig) GetDuplex() string {
+func (o *GatewayPortConfig) GetDuplex() GatewayPortDuplex {
 	if o == nil || IsNil(o.Duplex) {
-		var ret string
+		var ret GatewayPortDuplex
 		return ret
 	}
 	return *o.Duplex
@@ -361,7 +357,7 @@ func (o *GatewayPortConfig) GetDuplex() string {
 
 // GetDuplexOk returns a tuple with the Duplex field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *GatewayPortConfig) GetDuplexOk() (*string, bool) {
+func (o *GatewayPortConfig) GetDuplexOk() (*GatewayPortDuplex, bool) {
 	if o == nil || IsNil(o.Duplex) {
 		return nil, false
 	}
@@ -377,15 +373,15 @@ func (o *GatewayPortConfig) HasDuplex() bool {
 	return false
 }
 
-// SetDuplex gets a reference to the given string and assigns it to the Duplex field.
-func (o *GatewayPortConfig) SetDuplex(v string) {
+// SetDuplex gets a reference to the given GatewayPortDuplex and assigns it to the Duplex field.
+func (o *GatewayPortConfig) SetDuplex(v GatewayPortDuplex) {
 	o.Duplex = &v
 }
 
 // GetIpConfig returns the IpConfig field value if set, zero value otherwise.
-func (o *GatewayPortConfig) GetIpConfig() JunosIpConfigGateway {
+func (o *GatewayPortConfig) GetIpConfig() GatewayIpConfig {
 	if o == nil || IsNil(o.IpConfig) {
-		var ret JunosIpConfigGateway
+		var ret GatewayIpConfig
 		return ret
 	}
 	return *o.IpConfig
@@ -393,7 +389,7 @@ func (o *GatewayPortConfig) GetIpConfig() JunosIpConfigGateway {
 
 // GetIpConfigOk returns a tuple with the IpConfig field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *GatewayPortConfig) GetIpConfigOk() (*JunosIpConfigGateway, bool) {
+func (o *GatewayPortConfig) GetIpConfigOk() (*GatewayIpConfig, bool) {
 	if o == nil || IsNil(o.IpConfig) {
 		return nil, false
 	}
@@ -409,8 +405,8 @@ func (o *GatewayPortConfig) HasIpConfig() bool {
 	return false
 }
 
-// SetIpConfig gets a reference to the given JunosIpConfigGateway and assigns it to the IpConfig field.
-func (o *GatewayPortConfig) SetIpConfig(v JunosIpConfigGateway) {
+// SetIpConfig gets a reference to the given GatewayIpConfig and assigns it to the IpConfig field.
+func (o *GatewayPortConfig) SetIpConfig(v GatewayIpConfig) {
 	o.IpConfig = &v
 }
 
@@ -447,9 +443,9 @@ func (o *GatewayPortConfig) SetLteApn(v string) {
 }
 
 // GetLteAuth returns the LteAuth field value if set, zero value otherwise.
-func (o *GatewayPortConfig) GetLteAuth() string {
+func (o *GatewayPortConfig) GetLteAuth() GatewayPortLteAuth {
 	if o == nil || IsNil(o.LteAuth) {
-		var ret string
+		var ret GatewayPortLteAuth
 		return ret
 	}
 	return *o.LteAuth
@@ -457,7 +453,7 @@ func (o *GatewayPortConfig) GetLteAuth() string {
 
 // GetLteAuthOk returns a tuple with the LteAuth field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *GatewayPortConfig) GetLteAuthOk() (*string, bool) {
+func (o *GatewayPortConfig) GetLteAuthOk() (*GatewayPortLteAuth, bool) {
 	if o == nil || IsNil(o.LteAuth) {
 		return nil, false
 	}
@@ -473,8 +469,8 @@ func (o *GatewayPortConfig) HasLteAuth() bool {
 	return false
 }
 
-// SetLteAuth gets a reference to the given string and assigns it to the LteAuth field.
-func (o *GatewayPortConfig) SetLteAuth(v string) {
+// SetLteAuth gets a reference to the given GatewayPortLteAuth and assigns it to the LteAuth field.
+func (o *GatewayPortConfig) SetLteAuth(v GatewayPortLteAuth) {
 	o.LteAuth = &v
 }
 
@@ -1023,9 +1019,9 @@ func (o *GatewayPortConfig) SetSvrPortRange(v string) {
 }
 
 // GetTrafficShaping returns the TrafficShaping field value if set, zero value otherwise.
-func (o *GatewayPortConfig) GetTrafficShaping() GatewayPortConfigTrafficShaping {
+func (o *GatewayPortConfig) GetTrafficShaping() GatewayPortTrafficShaping {
 	if o == nil || IsNil(o.TrafficShaping) {
-		var ret GatewayPortConfigTrafficShaping
+		var ret GatewayPortTrafficShaping
 		return ret
 	}
 	return *o.TrafficShaping
@@ -1033,7 +1029,7 @@ func (o *GatewayPortConfig) GetTrafficShaping() GatewayPortConfigTrafficShaping 
 
 // GetTrafficShapingOk returns a tuple with the TrafficShaping field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *GatewayPortConfig) GetTrafficShapingOk() (*GatewayPortConfigTrafficShaping, bool) {
+func (o *GatewayPortConfig) GetTrafficShapingOk() (*GatewayPortTrafficShaping, bool) {
 	if o == nil || IsNil(o.TrafficShaping) {
 		return nil, false
 	}
@@ -1049,15 +1045,15 @@ func (o *GatewayPortConfig) HasTrafficShaping() bool {
 	return false
 }
 
-// SetTrafficShaping gets a reference to the given GatewayPortConfigTrafficShaping and assigns it to the TrafficShaping field.
-func (o *GatewayPortConfig) SetTrafficShaping(v GatewayPortConfigTrafficShaping) {
+// SetTrafficShaping gets a reference to the given GatewayPortTrafficShaping and assigns it to the TrafficShaping field.
+func (o *GatewayPortConfig) SetTrafficShaping(v GatewayPortTrafficShaping) {
 	o.TrafficShaping = &v
 }
 
 // GetUsage returns the Usage field value
-func (o *GatewayPortConfig) GetUsage() string {
+func (o *GatewayPortConfig) GetUsage() GatewayPortUsage {
 	if o == nil {
-		var ret string
+		var ret GatewayPortUsage
 		return ret
 	}
 
@@ -1066,7 +1062,7 @@ func (o *GatewayPortConfig) GetUsage() string {
 
 // GetUsageOk returns a tuple with the Usage field value
 // and a boolean to check if the value has been set.
-func (o *GatewayPortConfig) GetUsageOk() (*string, bool) {
+func (o *GatewayPortConfig) GetUsageOk() (*GatewayPortUsage, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -1074,7 +1070,7 @@ func (o *GatewayPortConfig) GetUsageOk() (*string, bool) {
 }
 
 // SetUsage sets field value
-func (o *GatewayPortConfig) SetUsage(v string) {
+func (o *GatewayPortConfig) SetUsage(v GatewayPortUsage) {
 	o.Usage = v
 }
 
@@ -1111,9 +1107,9 @@ func (o *GatewayPortConfig) SetVlanId(v int32) {
 }
 
 // GetVpnPaths returns the VpnPaths field value if set, zero value otherwise.
-func (o *GatewayPortConfig) GetVpnPaths() GatewayPortConfigVpnPaths {
+func (o *GatewayPortConfig) GetVpnPaths() GatewayPortVpnPaths {
 	if o == nil || IsNil(o.VpnPaths) {
-		var ret GatewayPortConfigVpnPaths
+		var ret GatewayPortVpnPaths
 		return ret
 	}
 	return *o.VpnPaths
@@ -1121,7 +1117,7 @@ func (o *GatewayPortConfig) GetVpnPaths() GatewayPortConfigVpnPaths {
 
 // GetVpnPathsOk returns a tuple with the VpnPaths field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *GatewayPortConfig) GetVpnPathsOk() (*GatewayPortConfigVpnPaths, bool) {
+func (o *GatewayPortConfig) GetVpnPathsOk() (*GatewayPortVpnPaths, bool) {
 	if o == nil || IsNil(o.VpnPaths) {
 		return nil, false
 	}
@@ -1137,15 +1133,15 @@ func (o *GatewayPortConfig) HasVpnPaths() bool {
 	return false
 }
 
-// SetVpnPaths gets a reference to the given GatewayPortConfigVpnPaths and assigns it to the VpnPaths field.
-func (o *GatewayPortConfig) SetVpnPaths(v GatewayPortConfigVpnPaths) {
+// SetVpnPaths gets a reference to the given GatewayPortVpnPaths and assigns it to the VpnPaths field.
+func (o *GatewayPortConfig) SetVpnPaths(v GatewayPortVpnPaths) {
 	o.VpnPaths = &v
 }
 
 // GetWanArpPolicer returns the WanArpPolicer field value if set, zero value otherwise.
-func (o *GatewayPortConfig) GetWanArpPolicer() GatewayPortConfigWanArpPolicer {
+func (o *GatewayPortConfig) GetWanArpPolicer() GatewayPortWanArpPolicer {
 	if o == nil || IsNil(o.WanArpPolicer) {
-		var ret GatewayPortConfigWanArpPolicer
+		var ret GatewayPortWanArpPolicer
 		return ret
 	}
 	return *o.WanArpPolicer
@@ -1153,7 +1149,7 @@ func (o *GatewayPortConfig) GetWanArpPolicer() GatewayPortConfigWanArpPolicer {
 
 // GetWanArpPolicerOk returns a tuple with the WanArpPolicer field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *GatewayPortConfig) GetWanArpPolicerOk() (*GatewayPortConfigWanArpPolicer, bool) {
+func (o *GatewayPortConfig) GetWanArpPolicerOk() (*GatewayPortWanArpPolicer, bool) {
 	if o == nil || IsNil(o.WanArpPolicer) {
 		return nil, false
 	}
@@ -1169,8 +1165,8 @@ func (o *GatewayPortConfig) HasWanArpPolicer() bool {
 	return false
 }
 
-// SetWanArpPolicer gets a reference to the given GatewayPortConfigWanArpPolicer and assigns it to the WanArpPolicer field.
-func (o *GatewayPortConfig) SetWanArpPolicer(v GatewayPortConfigWanArpPolicer) {
+// SetWanArpPolicer gets a reference to the given GatewayPortWanArpPolicer and assigns it to the WanArpPolicer field.
+func (o *GatewayPortConfig) SetWanArpPolicer(v GatewayPortWanArpPolicer) {
 	o.WanArpPolicer = &v
 }
 
@@ -1207,9 +1203,9 @@ func (o *GatewayPortConfig) SetWanExtIp(v string) {
 }
 
 // GetWanSourceNat returns the WanSourceNat field value if set, zero value otherwise.
-func (o *GatewayPortConfig) GetWanSourceNat() GatewayPortConfigWanSourceNat {
+func (o *GatewayPortConfig) GetWanSourceNat() GatewayPortWanSourceNat {
 	if o == nil || IsNil(o.WanSourceNat) {
-		var ret GatewayPortConfigWanSourceNat
+		var ret GatewayPortWanSourceNat
 		return ret
 	}
 	return *o.WanSourceNat
@@ -1217,7 +1213,7 @@ func (o *GatewayPortConfig) GetWanSourceNat() GatewayPortConfigWanSourceNat {
 
 // GetWanSourceNatOk returns a tuple with the WanSourceNat field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *GatewayPortConfig) GetWanSourceNatOk() (*GatewayPortConfigWanSourceNat, bool) {
+func (o *GatewayPortConfig) GetWanSourceNatOk() (*GatewayPortWanSourceNat, bool) {
 	if o == nil || IsNil(o.WanSourceNat) {
 		return nil, false
 	}
@@ -1233,15 +1229,15 @@ func (o *GatewayPortConfig) HasWanSourceNat() bool {
 	return false
 }
 
-// SetWanSourceNat gets a reference to the given GatewayPortConfigWanSourceNat and assigns it to the WanSourceNat field.
-func (o *GatewayPortConfig) SetWanSourceNat(v GatewayPortConfigWanSourceNat) {
+// SetWanSourceNat gets a reference to the given GatewayPortWanSourceNat and assigns it to the WanSourceNat field.
+func (o *GatewayPortConfig) SetWanSourceNat(v GatewayPortWanSourceNat) {
 	o.WanSourceNat = &v
 }
 
 // GetWanType returns the WanType field value if set, zero value otherwise.
-func (o *GatewayPortConfig) GetWanType() string {
+func (o *GatewayPortConfig) GetWanType() GatewayPortWanType {
 	if o == nil || IsNil(o.WanType) {
-		var ret string
+		var ret GatewayPortWanType
 		return ret
 	}
 	return *o.WanType
@@ -1249,7 +1245,7 @@ func (o *GatewayPortConfig) GetWanType() string {
 
 // GetWanTypeOk returns a tuple with the WanType field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *GatewayPortConfig) GetWanTypeOk() (*string, bool) {
+func (o *GatewayPortConfig) GetWanTypeOk() (*GatewayPortWanType, bool) {
 	if o == nil || IsNil(o.WanType) {
 		return nil, false
 	}
@@ -1265,8 +1261,8 @@ func (o *GatewayPortConfig) HasWanType() bool {
 	return false
 }
 
-// SetWanType gets a reference to the given string and assigns it to the WanType field.
-func (o *GatewayPortConfig) SetWanType(v string) {
+// SetWanType gets a reference to the given GatewayPortWanType and assigns it to the WanType field.
+func (o *GatewayPortConfig) SetWanType(v GatewayPortWanType) {
 	o.WanType = &v
 }
 

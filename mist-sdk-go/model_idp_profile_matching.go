@@ -1,9 +1,9 @@
 /*
 Mist API
 
-> Version: **2405.1.6** > > Date: **June 6, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location-services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
+> Version: **2406.1.3** > > Date: **June 26, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
 
-API version: 2405.1.6
+API version: 2406.1.3
 Contact: tmunzer@juniper.net
 */
 
@@ -22,7 +22,7 @@ var _ MappedNullable = &IdpProfileMatching{}
 type IdpProfileMatching struct {
 	AttackName []string `json:"attack_name,omitempty"`
 	DstSubnet []string `json:"dst_subnet,omitempty"`
-	Severity []string `json:"severity,omitempty"`
+	Severity []IdpProfileMatchingSeverity1 `json:"severity,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -110,9 +110,9 @@ func (o *IdpProfileMatching) SetDstSubnet(v []string) {
 }
 
 // GetSeverity returns the Severity field value if set, zero value otherwise.
-func (o *IdpProfileMatching) GetSeverity() []string {
+func (o *IdpProfileMatching) GetSeverity() []IdpProfileMatchingSeverity1 {
 	if o == nil || IsNil(o.Severity) {
-		var ret []string
+		var ret []IdpProfileMatchingSeverity1
 		return ret
 	}
 	return o.Severity
@@ -120,7 +120,7 @@ func (o *IdpProfileMatching) GetSeverity() []string {
 
 // GetSeverityOk returns a tuple with the Severity field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *IdpProfileMatching) GetSeverityOk() ([]string, bool) {
+func (o *IdpProfileMatching) GetSeverityOk() ([]IdpProfileMatchingSeverity1, bool) {
 	if o == nil || IsNil(o.Severity) {
 		return nil, false
 	}
@@ -136,8 +136,8 @@ func (o *IdpProfileMatching) HasSeverity() bool {
 	return false
 }
 
-// SetSeverity gets a reference to the given []string and assigns it to the Severity field.
-func (o *IdpProfileMatching) SetSeverity(v []string) {
+// SetSeverity gets a reference to the given []IdpProfileMatchingSeverity1 and assigns it to the Severity field.
+func (o *IdpProfileMatching) SetSeverity(v []IdpProfileMatchingSeverity1) {
 	o.Severity = v
 }
 

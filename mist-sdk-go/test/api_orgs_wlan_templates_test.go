@@ -14,13 +14,28 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"testing"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "github.com/tmunzer/mistsdkgo"
 )
 
 func Test_mistsdkgo_OrgsWLANTemplatesAPIService(t *testing.T) {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
+
+	t.Run("Test OrgsWLANTemplatesAPIService CloneOrgTemplate", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		var orgId string
+		var templateId string
+
+		resp, httpRes, err := apiClient.OrgsWLANTemplatesAPI.CloneOrgTemplate(context.Background(), orgId, templateId).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
 
 	t.Run("Test OrgsWLANTemplatesAPIService CreateOrgTemplate", func(t *testing.T) {
 

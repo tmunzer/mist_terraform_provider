@@ -9,7 +9,7 @@ Name | Type | Description | Notes
 **AmazonEmailDomains** | Pointer to **[]string** | Matches authenticated user email against provided domains. If null or [], all authenticated emails will be allowed. | [optional] 
 **AmazonEnabled** | Pointer to **bool** | whether amazon is enabled as a login method | [optional] [default to false]
 **AmazonExpire** | Pointer to **NullableFloat32** | interval for which guest remains authorized using amazon auth (in minutes), if not provided, uses expire&#x60; | [optional] 
-**Auth** | Pointer to **string** | authentication scheme | [optional] [default to "none"]
+**Auth** | Pointer to [**WlanPortalAuth**](WlanPortalAuth.md) |  | [optional] [default to WLANPORTALAUTH_NONE]
 **AzureClientId** | Pointer to **NullableString** | Required if &#x60;azure_enabled&#x60;&#x3D;&#x3D;&#x60;true&#x60;. Azure active directory app client id | [optional] 
 **AzureClientSecret** | Pointer to **NullableString** | Required if &#x60;azure_enabled&#x60;&#x3D;&#x3D;&#x60;true&#x60;. Azure active directory app client secret | [optional] 
 **AzureEnabled** | Pointer to **bool** | whether Azure Active Directory is enabled as a login method | [optional] [default to false]
@@ -61,7 +61,7 @@ Name | Type | Description | Notes
 **SmsMessageFormat** | Pointer to **string** |  | [optional] 
 **SmsEnabled** | Pointer to **bool** | whether sms is enabled as a login method | [optional] [default to false]
 **SmsExpire** | Pointer to **NullableFloat32** | interval for which guest remains authorized using sms auth (in minutes), if not provided, uses expire&#x60; | [optional] 
-**SmsProvider** | Pointer to **string** |  | [optional] [default to "manual"]
+**SmsProvider** | Pointer to [**WlanPortalSmsProvider**](WlanPortalSmsProvider.md) |  | [optional] [default to WLANPORTALSMSPROVIDER_MANUAL]
 **SponsorAutoApprove** | Pointer to **bool** | whether to automatically approve guest and allow sponsor to revoke guest access, needs predefined_sponsors_enabled enabled and sponsor_notify_all disabled | [optional] [default to false]
 **SponsorEmailDomains** | Pointer to **[]string** | list of domain allowed for sponsor email. Required if &#x60;sponsor_enabled&#x60; is &#x60;true&#x60; and &#x60;sponsors&#x60; is empty. | [optional] 
 **SponsorEnabled** | Pointer to **bool** | whether sponsor is enabled | [optional] [default to false]
@@ -76,7 +76,7 @@ Name | Type | Description | Notes
 **SsoIdpSignAlgo** | Pointer to **string** | signing algorithm for SAML Assertion | [optional] 
 **SsoIdpSsoUrl** | Pointer to **string** | IDP Single-Sign-On URL | [optional] 
 **SsoIssuer** | Pointer to **string** | IDP issuer URL | [optional] 
-**SsoNameidFormat** | Pointer to **string** |  | [optional] [default to "email"]
+**SsoNameidFormat** | Pointer to [**WlanPortalSsoNameidFormat**](WlanPortalSsoNameidFormat.md) |  | [optional] [default to WLANPORTALSSONAMEIDFORMAT_EMAIL]
 **TelstraClientId** | Pointer to **string** | when &#x60;sms_provider&#x60;&#x3D;&#x3D;&#x60;telstra&#x60;, Client ID provided by Telstra | [optional] 
 **TelstraClientSecret** | Pointer to **string** | when &#x60;sms_provider&#x60;&#x3D;&#x3D;&#x60;telstra&#x60;, Client secret provided by Telstra | [optional] 
 **Thumbnail** | Pointer to **string** | Url of portal background image thumbnail | [optional] 
@@ -260,20 +260,20 @@ HasAmazonExpire returns a boolean if a field has been set.
 UnsetAmazonExpire ensures that no value is present for AmazonExpire, not even an explicit nil
 ### GetAuth
 
-`func (o *WlanPortal) GetAuth() string`
+`func (o *WlanPortal) GetAuth() WlanPortalAuth`
 
 GetAuth returns the Auth field if non-nil, zero value otherwise.
 
 ### GetAuthOk
 
-`func (o *WlanPortal) GetAuthOk() (*string, bool)`
+`func (o *WlanPortal) GetAuthOk() (*WlanPortalAuth, bool)`
 
 GetAuthOk returns a tuple with the Auth field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetAuth
 
-`func (o *WlanPortal) SetAuth(v string)`
+`func (o *WlanPortal) SetAuth(v WlanPortalAuth)`
 
 SetAuth sets Auth field to given value.
 
@@ -1730,20 +1730,20 @@ HasSmsExpire returns a boolean if a field has been set.
 UnsetSmsExpire ensures that no value is present for SmsExpire, not even an explicit nil
 ### GetSmsProvider
 
-`func (o *WlanPortal) GetSmsProvider() string`
+`func (o *WlanPortal) GetSmsProvider() WlanPortalSmsProvider`
 
 GetSmsProvider returns the SmsProvider field if non-nil, zero value otherwise.
 
 ### GetSmsProviderOk
 
-`func (o *WlanPortal) GetSmsProviderOk() (*string, bool)`
+`func (o *WlanPortal) GetSmsProviderOk() (*WlanPortalSmsProvider, bool)`
 
 GetSmsProviderOk returns a tuple with the SmsProvider field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetSmsProvider
 
-`func (o *WlanPortal) SetSmsProvider(v string)`
+`func (o *WlanPortal) SetSmsProvider(v WlanPortalSmsProvider)`
 
 SetSmsProvider sets SmsProvider field to given value.
 
@@ -2115,20 +2115,20 @@ HasSsoIssuer returns a boolean if a field has been set.
 
 ### GetSsoNameidFormat
 
-`func (o *WlanPortal) GetSsoNameidFormat() string`
+`func (o *WlanPortal) GetSsoNameidFormat() WlanPortalSsoNameidFormat`
 
 GetSsoNameidFormat returns the SsoNameidFormat field if non-nil, zero value otherwise.
 
 ### GetSsoNameidFormatOk
 
-`func (o *WlanPortal) GetSsoNameidFormatOk() (*string, bool)`
+`func (o *WlanPortal) GetSsoNameidFormatOk() (*WlanPortalSsoNameidFormat, bool)`
 
 GetSsoNameidFormatOk returns a tuple with the SsoNameidFormat field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetSsoNameidFormat
 
-`func (o *WlanPortal) SetSsoNameidFormat(v string)`
+`func (o *WlanPortal) SetSsoNameidFormat(v WlanPortalSsoNameidFormat)`
 
 SetSsoNameidFormat sets SsoNameidFormat field to given value.
 

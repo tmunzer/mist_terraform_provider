@@ -26,15 +26,15 @@ func OrgResourceSchema(ctx context.Context) schema.Schema {
 				Optional: true,
 				Computed: true,
 			},
-			"logo_url": schema.StringAttribute{
+			"msp_id": schema.StringAttribute{
+				Optional: true,
+				Computed: true,
+			},
+			"msp_logo_url": schema.StringAttribute{
 				Optional:            true,
 				Computed:            true,
 				Description:         "logo uploaded by the MSP with advanced tier, only present if provided",
 				MarkdownDescription: "logo uploaded by the MSP with advanced tier, only present if provided",
-			},
-			"msp_id": schema.StringAttribute{
-				Optional: true,
-				Computed: true,
 			},
 			"msp_name": schema.StringAttribute{
 				Optional:            true,
@@ -62,8 +62,8 @@ type OrgModel struct {
 	AlarmtemplateId types.String `tfsdk:"alarmtemplate_id"`
 	AllowMist       types.Bool   `tfsdk:"allow_mist"`
 	Id              types.String `tfsdk:"id"`
-	LogoUrl         types.String `tfsdk:"logo_url"`
 	MspId           types.String `tfsdk:"msp_id"`
+	MspLogoUrl      types.String `tfsdk:"msp_logo_url"`
 	MspName         types.String `tfsdk:"msp_name"`
 	Name            types.String `tfsdk:"name"`
 	OrggroupIds     types.List   `tfsdk:"orggroup_ids"`

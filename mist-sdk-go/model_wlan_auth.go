@@ -1,9 +1,9 @@
 /*
 Mist API
 
-> Version: **2405.1.6** > > Date: **June 6, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location-services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
+> Version: **2406.1.3** > > Date: **June 26, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
 
-API version: 2405.1.6
+API version: 2406.1.3
 Contact: tmunzer@juniper.net
 */
 
@@ -35,12 +35,12 @@ type WlanAuth struct {
 	MultiPskOnly *bool `json:"multi_psk_only,omitempty"`
 	Owe *string `json:"owe,omitempty"`
 	// when type=psk / eap, one or more of wpa2-ccmp / wpa1-tkip / wpa1-ccmp / wpa2-tkip
-	Pairwise []*string `json:"pairwise,omitempty"`
+	Pairwise []WlanAuthPairwiseItem `json:"pairwise,omitempty"`
 	// whether private wlan is enabled. only applicable to multi_psk mode
 	PrivateWlan *bool `json:"private_wlan,omitempty"`
 	// when type=psk, 8-64 characters, or 64 hex characters
 	Psk NullableString `json:"psk,omitempty"`
-	Type string `json:"type"`
+	Type WlanAuthType `json:"type"`
 	// enable WEP as secondary auth
 	WepAsSecondaryAuth *bool `json:"wep_as_secondary_auth,omitempty"`
 	AdditionalProperties map[string]interface{}
@@ -52,7 +52,7 @@ type _WlanAuth WlanAuth
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewWlanAuth(type_ string) *WlanAuth {
+func NewWlanAuth(type_ WlanAuthType) *WlanAuth {
 	this := WlanAuth{}
 	var anticlogThreshold int32 = 16
 	this.AnticlogThreshold = &anticlogThreshold
@@ -83,7 +83,7 @@ func NewWlanAuthWithDefaults() *WlanAuth {
 	this.KeyIdx = &keyIdx
 	var multiPskOnly bool = false
 	this.MultiPskOnly = &multiPskOnly
-	var type_ string = "open"
+	var type_ WlanAuthType = WLANAUTHTYPE_OPEN
 	this.Type = type_
 	return &this
 }
@@ -313,9 +313,9 @@ func (o *WlanAuth) SetOwe(v string) {
 }
 
 // GetPairwise returns the Pairwise field value if set, zero value otherwise.
-func (o *WlanAuth) GetPairwise() []*string {
+func (o *WlanAuth) GetPairwise() []WlanAuthPairwiseItem {
 	if o == nil || IsNil(o.Pairwise) {
-		var ret []*string
+		var ret []WlanAuthPairwiseItem
 		return ret
 	}
 	return o.Pairwise
@@ -323,7 +323,7 @@ func (o *WlanAuth) GetPairwise() []*string {
 
 // GetPairwiseOk returns a tuple with the Pairwise field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *WlanAuth) GetPairwiseOk() ([]*string, bool) {
+func (o *WlanAuth) GetPairwiseOk() ([]WlanAuthPairwiseItem, bool) {
 	if o == nil || IsNil(o.Pairwise) {
 		return nil, false
 	}
@@ -339,8 +339,8 @@ func (o *WlanAuth) HasPairwise() bool {
 	return false
 }
 
-// SetPairwise gets a reference to the given []*string and assigns it to the Pairwise field.
-func (o *WlanAuth) SetPairwise(v []*string) {
+// SetPairwise gets a reference to the given []WlanAuthPairwiseItem and assigns it to the Pairwise field.
+func (o *WlanAuth) SetPairwise(v []WlanAuthPairwiseItem) {
 	o.Pairwise = v
 }
 
@@ -419,9 +419,9 @@ func (o *WlanAuth) UnsetPsk() {
 }
 
 // GetType returns the Type field value
-func (o *WlanAuth) GetType() string {
+func (o *WlanAuth) GetType() WlanAuthType {
 	if o == nil {
-		var ret string
+		var ret WlanAuthType
 		return ret
 	}
 
@@ -430,7 +430,7 @@ func (o *WlanAuth) GetType() string {
 
 // GetTypeOk returns a tuple with the Type field value
 // and a boolean to check if the value has been set.
-func (o *WlanAuth) GetTypeOk() (*string, bool) {
+func (o *WlanAuth) GetTypeOk() (*WlanAuthType, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -438,7 +438,7 @@ func (o *WlanAuth) GetTypeOk() (*string, bool) {
 }
 
 // SetType sets field value
-func (o *WlanAuth) SetType(v string) {
+func (o *WlanAuth) SetType(v WlanAuthType) {
 	o.Type = v
 }
 

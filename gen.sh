@@ -48,7 +48,7 @@ PNAME="terraform-provider-mistapi"
 tfplugingen-openapi generate \
     --config ./generator_config.yml \
     --output ./provider-code-spec.json \
-    ./openapi.yml
+    ./mist_openapi/workdir/mist.openapi.yml 
 
 #python3 ./custom.py
 

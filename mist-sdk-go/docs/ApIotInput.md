@@ -6,7 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Enabled** | Pointer to **bool** | whether to enable a pin | [optional] [default to false]
 **Name** | Pointer to **string** | optional; descriptive pin name | [optional] 
-**Pullup** | Pointer to **string** | the type of pull-up the pin uses (internal, external, none), default none | [optional] 
+**Pullup** | Pointer to [**ApIotInputPullup**](ApIotInputPullup.md) |  | [optional] 
 
 ## Methods
 
@@ -79,20 +79,20 @@ HasName returns a boolean if a field has been set.
 
 ### GetPullup
 
-`func (o *ApIotInput) GetPullup() string`
+`func (o *ApIotInput) GetPullup() ApIotInputPullup`
 
 GetPullup returns the Pullup field if non-nil, zero value otherwise.
 
 ### GetPullupOk
 
-`func (o *ApIotInput) GetPullupOk() (*string, bool)`
+`func (o *ApIotInput) GetPullupOk() (*ApIotInputPullup, bool)`
 
 GetPullupOk returns a tuple with the Pullup field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetPullup
 
-`func (o *ApIotInput) SetPullup(v string)`
+`func (o *ApIotInput) SetPullup(v ApIotInputPullup)`
 
 SetPullup sets Pullup field to given value.
 

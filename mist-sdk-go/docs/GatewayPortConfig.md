@@ -7,13 +7,13 @@ Name | Type | Description | Notes
 **Description** | Pointer to **string** |  | [optional] 
 **DisableAutoneg** | Pointer to **bool** |  | [optional] [default to false]
 **Disabled** | Pointer to **bool** | port admin up (true) / down (false) | [optional] [default to false]
-**DslType** | Pointer to **string** | if &#x60;wan_type&#x60;&#x3D;&#x3D;&#x60;lte&#x60; | [optional] [default to "vdsl"]
+**DslType** | Pointer to [**GatewayPortDslType**](GatewayPortDslType.md) |  | [optional] [default to GATEWAYPORTDSLTYPE_VDSL]
 **DslVci** | Pointer to **int32** | if &#x60;wan_type&#x60;&#x3D;&#x3D;&#x60;dsl&#x60; 16 bit int | [optional] [default to 35]
 **DslVpi** | Pointer to **int32** | if &#x60;wan_type&#x60;&#x3D;&#x3D;&#x60;dsl&#x60; 8 bit int | [optional] [default to 0]
-**Duplex** | Pointer to **string** |  | [optional] [default to "auto"]
-**IpConfig** | Pointer to [**JunosIpConfigGateway**](JunosIpConfigGateway.md) |  | [optional] 
+**Duplex** | Pointer to [**GatewayPortDuplex**](GatewayPortDuplex.md) |  | [optional] [default to GATEWAYPORTDUPLEX_AUTO]
+**IpConfig** | Pointer to [**GatewayIpConfig**](GatewayIpConfig.md) |  | [optional] 
 **LteApn** | Pointer to **string** | if &#x60;wan_type&#x60;&#x3D;&#x3D;&#x60;lte&#x60; | [optional] 
-**LteAuth** | Pointer to **string** | if &#x60;wan_type&#x60;&#x3D;&#x3D;&#x60;lte&#x60; | [optional] [default to "none"]
+**LteAuth** | Pointer to [**GatewayPortLteAuth**](GatewayPortLteAuth.md) |  | [optional] [default to GATEWAYPORTLTEAUTH_NONE]
 **LteBackup** | Pointer to **bool** |  | [optional] 
 **LtePassword** | Pointer to **string** | if &#x60;wan_type&#x60;&#x3D;&#x3D;&#x60;lte&#x60; | [optional] 
 **LteUsername** | Pointer to **string** | if &#x60;wan_type&#x60;&#x3D;&#x3D;&#x60;lte&#x60; | [optional] 
@@ -31,20 +31,20 @@ Name | Type | Description | Notes
 **Speed** | Pointer to **string** |  | [optional] [default to "auto"]
 **SsrNoVirtualMac** | Pointer to **bool** | when SSR is running as VM, this is required on certain hosting platforms | [optional] [default to false]
 **SvrPortRange** | Pointer to **string** | for SSR only | [optional] [default to "none"]
-**TrafficShaping** | Pointer to [**GatewayPortConfigTrafficShaping**](GatewayPortConfigTrafficShaping.md) |  | [optional] 
-**Usage** | **string** | port usage name | 
+**TrafficShaping** | Pointer to [**GatewayPortTrafficShaping**](GatewayPortTrafficShaping.md) |  | [optional] 
+**Usage** | [**GatewayPortUsage**](GatewayPortUsage.md) |  | 
 **VlanId** | Pointer to **int32** | if WAN interface is on a VLAN | [optional] 
-**VpnPaths** | Pointer to [**GatewayPortConfigVpnPaths**](GatewayPortConfigVpnPaths.md) |  | [optional] 
-**WanArpPolicer** | Pointer to [**GatewayPortConfigWanArpPolicer**](GatewayPortConfigWanArpPolicer.md) |  | [optional] [default to GATEWAYPORTCONFIGWANARPPOLICER_RECOMMENDED]
+**VpnPaths** | Pointer to [**GatewayPortVpnPaths**](GatewayPortVpnPaths.md) |  | [optional] 
+**WanArpPolicer** | Pointer to [**GatewayPortWanArpPolicer**](GatewayPortWanArpPolicer.md) |  | [optional] [default to GATEWAYPORTWANARPPOLICER_RECOMMENDED]
 **WanExtIp** | Pointer to **string** | optional, if spoke should reach this port by a different IP | [optional] 
-**WanSourceNat** | Pointer to [**GatewayPortConfigWanSourceNat**](GatewayPortConfigWanSourceNat.md) |  | [optional] 
-**WanType** | Pointer to **string** | if &#x60;usage&#x60;&#x3D;&#x3D;&#x60;wan&#x60; | [optional] [default to "broadband"]
+**WanSourceNat** | Pointer to [**GatewayPortWanSourceNat**](GatewayPortWanSourceNat.md) |  | [optional] 
+**WanType** | Pointer to [**GatewayPortWanType**](GatewayPortWanType.md) |  | [optional] [default to GATEWAYPORTWANTYPE_BROADBAND]
 
 ## Methods
 
 ### NewGatewayPortConfig
 
-`func NewGatewayPortConfig(usage string, ) *GatewayPortConfig`
+`func NewGatewayPortConfig(usage GatewayPortUsage, ) *GatewayPortConfig`
 
 NewGatewayPortConfig instantiates a new GatewayPortConfig object
 This constructor will assign default values to properties that have it defined,
@@ -136,20 +136,20 @@ HasDisabled returns a boolean if a field has been set.
 
 ### GetDslType
 
-`func (o *GatewayPortConfig) GetDslType() string`
+`func (o *GatewayPortConfig) GetDslType() GatewayPortDslType`
 
 GetDslType returns the DslType field if non-nil, zero value otherwise.
 
 ### GetDslTypeOk
 
-`func (o *GatewayPortConfig) GetDslTypeOk() (*string, bool)`
+`func (o *GatewayPortConfig) GetDslTypeOk() (*GatewayPortDslType, bool)`
 
 GetDslTypeOk returns a tuple with the DslType field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetDslType
 
-`func (o *GatewayPortConfig) SetDslType(v string)`
+`func (o *GatewayPortConfig) SetDslType(v GatewayPortDslType)`
 
 SetDslType sets DslType field to given value.
 
@@ -211,20 +211,20 @@ HasDslVpi returns a boolean if a field has been set.
 
 ### GetDuplex
 
-`func (o *GatewayPortConfig) GetDuplex() string`
+`func (o *GatewayPortConfig) GetDuplex() GatewayPortDuplex`
 
 GetDuplex returns the Duplex field if non-nil, zero value otherwise.
 
 ### GetDuplexOk
 
-`func (o *GatewayPortConfig) GetDuplexOk() (*string, bool)`
+`func (o *GatewayPortConfig) GetDuplexOk() (*GatewayPortDuplex, bool)`
 
 GetDuplexOk returns a tuple with the Duplex field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetDuplex
 
-`func (o *GatewayPortConfig) SetDuplex(v string)`
+`func (o *GatewayPortConfig) SetDuplex(v GatewayPortDuplex)`
 
 SetDuplex sets Duplex field to given value.
 
@@ -236,20 +236,20 @@ HasDuplex returns a boolean if a field has been set.
 
 ### GetIpConfig
 
-`func (o *GatewayPortConfig) GetIpConfig() JunosIpConfigGateway`
+`func (o *GatewayPortConfig) GetIpConfig() GatewayIpConfig`
 
 GetIpConfig returns the IpConfig field if non-nil, zero value otherwise.
 
 ### GetIpConfigOk
 
-`func (o *GatewayPortConfig) GetIpConfigOk() (*JunosIpConfigGateway, bool)`
+`func (o *GatewayPortConfig) GetIpConfigOk() (*GatewayIpConfig, bool)`
 
 GetIpConfigOk returns a tuple with the IpConfig field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetIpConfig
 
-`func (o *GatewayPortConfig) SetIpConfig(v JunosIpConfigGateway)`
+`func (o *GatewayPortConfig) SetIpConfig(v GatewayIpConfig)`
 
 SetIpConfig sets IpConfig field to given value.
 
@@ -286,20 +286,20 @@ HasLteApn returns a boolean if a field has been set.
 
 ### GetLteAuth
 
-`func (o *GatewayPortConfig) GetLteAuth() string`
+`func (o *GatewayPortConfig) GetLteAuth() GatewayPortLteAuth`
 
 GetLteAuth returns the LteAuth field if non-nil, zero value otherwise.
 
 ### GetLteAuthOk
 
-`func (o *GatewayPortConfig) GetLteAuthOk() (*string, bool)`
+`func (o *GatewayPortConfig) GetLteAuthOk() (*GatewayPortLteAuth, bool)`
 
 GetLteAuthOk returns a tuple with the LteAuth field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetLteAuth
 
-`func (o *GatewayPortConfig) SetLteAuth(v string)`
+`func (o *GatewayPortConfig) SetLteAuth(v GatewayPortLteAuth)`
 
 SetLteAuth sets LteAuth field to given value.
 
@@ -736,20 +736,20 @@ HasSvrPortRange returns a boolean if a field has been set.
 
 ### GetTrafficShaping
 
-`func (o *GatewayPortConfig) GetTrafficShaping() GatewayPortConfigTrafficShaping`
+`func (o *GatewayPortConfig) GetTrafficShaping() GatewayPortTrafficShaping`
 
 GetTrafficShaping returns the TrafficShaping field if non-nil, zero value otherwise.
 
 ### GetTrafficShapingOk
 
-`func (o *GatewayPortConfig) GetTrafficShapingOk() (*GatewayPortConfigTrafficShaping, bool)`
+`func (o *GatewayPortConfig) GetTrafficShapingOk() (*GatewayPortTrafficShaping, bool)`
 
 GetTrafficShapingOk returns a tuple with the TrafficShaping field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetTrafficShaping
 
-`func (o *GatewayPortConfig) SetTrafficShaping(v GatewayPortConfigTrafficShaping)`
+`func (o *GatewayPortConfig) SetTrafficShaping(v GatewayPortTrafficShaping)`
 
 SetTrafficShaping sets TrafficShaping field to given value.
 
@@ -761,20 +761,20 @@ HasTrafficShaping returns a boolean if a field has been set.
 
 ### GetUsage
 
-`func (o *GatewayPortConfig) GetUsage() string`
+`func (o *GatewayPortConfig) GetUsage() GatewayPortUsage`
 
 GetUsage returns the Usage field if non-nil, zero value otherwise.
 
 ### GetUsageOk
 
-`func (o *GatewayPortConfig) GetUsageOk() (*string, bool)`
+`func (o *GatewayPortConfig) GetUsageOk() (*GatewayPortUsage, bool)`
 
 GetUsageOk returns a tuple with the Usage field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetUsage
 
-`func (o *GatewayPortConfig) SetUsage(v string)`
+`func (o *GatewayPortConfig) SetUsage(v GatewayPortUsage)`
 
 SetUsage sets Usage field to given value.
 
@@ -806,20 +806,20 @@ HasVlanId returns a boolean if a field has been set.
 
 ### GetVpnPaths
 
-`func (o *GatewayPortConfig) GetVpnPaths() GatewayPortConfigVpnPaths`
+`func (o *GatewayPortConfig) GetVpnPaths() GatewayPortVpnPaths`
 
 GetVpnPaths returns the VpnPaths field if non-nil, zero value otherwise.
 
 ### GetVpnPathsOk
 
-`func (o *GatewayPortConfig) GetVpnPathsOk() (*GatewayPortConfigVpnPaths, bool)`
+`func (o *GatewayPortConfig) GetVpnPathsOk() (*GatewayPortVpnPaths, bool)`
 
 GetVpnPathsOk returns a tuple with the VpnPaths field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetVpnPaths
 
-`func (o *GatewayPortConfig) SetVpnPaths(v GatewayPortConfigVpnPaths)`
+`func (o *GatewayPortConfig) SetVpnPaths(v GatewayPortVpnPaths)`
 
 SetVpnPaths sets VpnPaths field to given value.
 
@@ -831,20 +831,20 @@ HasVpnPaths returns a boolean if a field has been set.
 
 ### GetWanArpPolicer
 
-`func (o *GatewayPortConfig) GetWanArpPolicer() GatewayPortConfigWanArpPolicer`
+`func (o *GatewayPortConfig) GetWanArpPolicer() GatewayPortWanArpPolicer`
 
 GetWanArpPolicer returns the WanArpPolicer field if non-nil, zero value otherwise.
 
 ### GetWanArpPolicerOk
 
-`func (o *GatewayPortConfig) GetWanArpPolicerOk() (*GatewayPortConfigWanArpPolicer, bool)`
+`func (o *GatewayPortConfig) GetWanArpPolicerOk() (*GatewayPortWanArpPolicer, bool)`
 
 GetWanArpPolicerOk returns a tuple with the WanArpPolicer field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetWanArpPolicer
 
-`func (o *GatewayPortConfig) SetWanArpPolicer(v GatewayPortConfigWanArpPolicer)`
+`func (o *GatewayPortConfig) SetWanArpPolicer(v GatewayPortWanArpPolicer)`
 
 SetWanArpPolicer sets WanArpPolicer field to given value.
 
@@ -881,20 +881,20 @@ HasWanExtIp returns a boolean if a field has been set.
 
 ### GetWanSourceNat
 
-`func (o *GatewayPortConfig) GetWanSourceNat() GatewayPortConfigWanSourceNat`
+`func (o *GatewayPortConfig) GetWanSourceNat() GatewayPortWanSourceNat`
 
 GetWanSourceNat returns the WanSourceNat field if non-nil, zero value otherwise.
 
 ### GetWanSourceNatOk
 
-`func (o *GatewayPortConfig) GetWanSourceNatOk() (*GatewayPortConfigWanSourceNat, bool)`
+`func (o *GatewayPortConfig) GetWanSourceNatOk() (*GatewayPortWanSourceNat, bool)`
 
 GetWanSourceNatOk returns a tuple with the WanSourceNat field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetWanSourceNat
 
-`func (o *GatewayPortConfig) SetWanSourceNat(v GatewayPortConfigWanSourceNat)`
+`func (o *GatewayPortConfig) SetWanSourceNat(v GatewayPortWanSourceNat)`
 
 SetWanSourceNat sets WanSourceNat field to given value.
 
@@ -906,20 +906,20 @@ HasWanSourceNat returns a boolean if a field has been set.
 
 ### GetWanType
 
-`func (o *GatewayPortConfig) GetWanType() string`
+`func (o *GatewayPortConfig) GetWanType() GatewayPortWanType`
 
 GetWanType returns the WanType field if non-nil, zero value otherwise.
 
 ### GetWanTypeOk
 
-`func (o *GatewayPortConfig) GetWanTypeOk() (*string, bool)`
+`func (o *GatewayPortConfig) GetWanTypeOk() (*GatewayPortWanType, bool)`
 
 GetWanTypeOk returns a tuple with the WanType field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetWanType
 
-`func (o *GatewayPortConfig) SetWanType(v string)`
+`func (o *GatewayPortConfig) SetWanType(v GatewayPortWanType)`
 
 SetWanType sets WanType field to given value.
 
