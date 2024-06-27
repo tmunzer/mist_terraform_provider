@@ -128,16 +128,16 @@ resources:
   #         network_id: id
   gatewaytemplate:
     create:
-      path: /api/v1/orgs/{org_id}/gatewaytemplate
+      path: /api/v1/orgs/{org_id}/gatewaytemplates
       method: POST
     read:
-      path: /api/v1/orgs/{org_id}/gatewaytemplate/{gatewaytemplate}
+      path: /api/v1/orgs/{org_id}/gatewaytemplates/{gatewaytemplate_id}
       method: GET
     delete:
-      path: /api/v1/orgs/{org_id}/gatewaytemplate/{gatewaytemplate}
+      path: /api/v1/orgs/{org_id}/gatewaytemplates/{gatewaytemplate_id}
       method: DELETE
     update:
-      path: /api/v1/orgs/{org_id}/gatewaytemplate/{gatewaytemplate}
+      path: /api/v1/orgs/{org_id}/gatewaytemplates/{gatewaytemplate_id}
       method: PUT
     schema:
       ignores:
@@ -145,5 +145,5 @@ resources:
         - modified_time
       attributes:
         aliases:
-          network_id: id
+          gatewaytemplate_id: id
         
