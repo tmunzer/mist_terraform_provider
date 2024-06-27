@@ -1,9 +1,9 @@
 /*
 Mist API
 
-> Version: **2406.1.3** > > Date: **June 26, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
+> Version: **2406.1.7** > > Date: **June 27, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
 
-API version: 2406.1.3
+API version: 2406.1.7
 Contact: tmunzer@juniper.net
 */
 
@@ -21,7 +21,7 @@ var _ MappedNullable = &AclTagSpec{}
 // AclTagSpec struct for AclTagSpec
 type AclTagSpec struct {
 	// matched dst port, \"0\" means any
-	PortRange *int32 `json:"port_range,omitempty"`
+	PortRange *string `json:"port_range,omitempty"`
 	// `tcp` / `udp` / `icmp` / `gre` / `any` / `:protocol_number`. `protocol_number` is between 1-254
 	Protocol *string `json:"protocol,omitempty"`
 	AdditionalProperties map[string]interface{}
@@ -35,7 +35,7 @@ type _AclTagSpec AclTagSpec
 // will change when the set of required properties is changed
 func NewAclTagSpec() *AclTagSpec {
 	this := AclTagSpec{}
-	var portRange int32 = 0
+	var portRange string = "80"
 	this.PortRange = &portRange
 	var protocol string = "any"
 	this.Protocol = &protocol
@@ -47,7 +47,7 @@ func NewAclTagSpec() *AclTagSpec {
 // but it doesn't guarantee that properties required by API are set
 func NewAclTagSpecWithDefaults() *AclTagSpec {
 	this := AclTagSpec{}
-	var portRange int32 = 0
+	var portRange string = "80"
 	this.PortRange = &portRange
 	var protocol string = "any"
 	this.Protocol = &protocol
@@ -55,9 +55,9 @@ func NewAclTagSpecWithDefaults() *AclTagSpec {
 }
 
 // GetPortRange returns the PortRange field value if set, zero value otherwise.
-func (o *AclTagSpec) GetPortRange() int32 {
+func (o *AclTagSpec) GetPortRange() string {
 	if o == nil || IsNil(o.PortRange) {
-		var ret int32
+		var ret string
 		return ret
 	}
 	return *o.PortRange
@@ -65,7 +65,7 @@ func (o *AclTagSpec) GetPortRange() int32 {
 
 // GetPortRangeOk returns a tuple with the PortRange field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *AclTagSpec) GetPortRangeOk() (*int32, bool) {
+func (o *AclTagSpec) GetPortRangeOk() (*string, bool) {
 	if o == nil || IsNil(o.PortRange) {
 		return nil, false
 	}
@@ -81,8 +81,8 @@ func (o *AclTagSpec) HasPortRange() bool {
 	return false
 }
 
-// SetPortRange gets a reference to the given int32 and assigns it to the PortRange field.
-func (o *AclTagSpec) SetPortRange(v int32) {
+// SetPortRange gets a reference to the given string and assigns it to the PortRange field.
+func (o *AclTagSpec) SetPortRange(v string) {
 	o.PortRange = &v
 }
 

@@ -45,7 +45,7 @@ Name | Type | Description | Notes
 **PaloaltoNetworks** | Pointer to [**SiteSettingPaloaltoNetworks**](SiteSettingPaloaltoNetworks.md) |  | [optional] 
 **PersistConfigOnDevice** | Pointer to **bool** | whether to store the config on AP | [optional] [default to false]
 **PortMirroring** | Pointer to [**map[string]SwitchPortMirroring**](SwitchPortMirroring.md) | Property key is the port mirroring instance name port_mirroring can be added under device/site settings. It takes interface and ports as input for ingress, interface as input for egress and can take interface and port as output. | [optional] 
-**PortUsages** | Pointer to [**SiteSettingPortUsages**](SiteSettingPortUsages.md) |  | [optional] 
+**PortUsages** | Pointer to [**map[string]SwitchPortUsage**](SwitchPortUsage.md) |  | [optional] 
 **ProtectRe** | Pointer to [**ProtectRe**](ProtectRe.md) |  | [optional] 
 **Proxy** | Pointer to [**Proxy**](Proxy.md) |  | [optional] 
 **RadioConfig** | Pointer to [**ApRadio**](ApRadio.md) |  | [optional] 
@@ -1149,20 +1149,20 @@ HasPortMirroring returns a boolean if a field has been set.
 
 ### GetPortUsages
 
-`func (o *SiteSetting) GetPortUsages() SiteSettingPortUsages`
+`func (o *SiteSetting) GetPortUsages() map[string]SwitchPortUsage`
 
 GetPortUsages returns the PortUsages field if non-nil, zero value otherwise.
 
 ### GetPortUsagesOk
 
-`func (o *SiteSetting) GetPortUsagesOk() (*SiteSettingPortUsages, bool)`
+`func (o *SiteSetting) GetPortUsagesOk() (*map[string]SwitchPortUsage, bool)`
 
 GetPortUsagesOk returns a tuple with the PortUsages field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetPortUsages
 
-`func (o *SiteSetting) SetPortUsages(v SiteSettingPortUsages)`
+`func (o *SiteSetting) SetPortUsages(v map[string]SwitchPortUsage)`
 
 SetPortUsages sets PortUsages field to given value.
 

@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**GbpTag** | Pointer to **float32** | required if - &#x60;type&#x60;&#x3D;&#x3D;&#x60;dynamic_gbp&#x60; (gbp_tag received from RADIUS) - &#x60;type&#x60;&#x3D;&#x3D;&#x60;static_gbp&#x60; (applying gbp tag against matching conditions) | [optional] 
+**GbpTag** | Pointer to **int32** | required if - &#x60;type&#x60;&#x3D;&#x3D;&#x60;dynamic_gbp&#x60; (gbp_tag received from RADIUS) - &#x60;type&#x60;&#x3D;&#x3D;&#x60;static_gbp&#x60; (applying gbp tag against matching conditions) | [optional] 
 **Macs** | Pointer to **[]string** | required if  - &#x60;type&#x60;&#x3D;&#x3D;&#x60;mac&#x60; - &#x60;type&#x60;&#x3D;&#x3D;&#x60;static_gbp&#x60; if from matching mac | [optional] 
 **Network** | Pointer to **string** | if: - &#x60;type&#x60;&#x3D;&#x3D;&#x60;mac&#x60; (optional. default is &#x60;any&#x60;) - &#x60;type&#x60;&#x3D;&#x3D;&#x60;subnet&#x60; (optional. default is &#x60;any&#x60;) - &#x60;type&#x60;&#x3D;&#x3D;&#x60;network&#x60; - &#x60;type&#x60;&#x3D;&#x3D;&#x60;resource&#x60; (optional. default is &#x60;any&#x60;) - &#x60;type&#x60;&#x3D;&#x3D;&#x60;static_gbp&#x60; if from matching network (vlan) | [optional] 
 **RadiusGroup** | Pointer to **string** | required if  - &#x60;type&#x60;&#x3D;&#x3D;&#x60;radius_group&#x60;  - &#x60;type&#x60;&#x3D;&#x3D;&#x60;static_gbp&#x60; if from matching radius_group | [optional] 
@@ -33,20 +33,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetGbpTag
 
-`func (o *AclTag) GetGbpTag() float32`
+`func (o *AclTag) GetGbpTag() int32`
 
 GetGbpTag returns the GbpTag field if non-nil, zero value otherwise.
 
 ### GetGbpTagOk
 
-`func (o *AclTag) GetGbpTagOk() (*float32, bool)`
+`func (o *AclTag) GetGbpTagOk() (*int32, bool)`
 
 GetGbpTagOk returns a tuple with the GbpTag field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetGbpTag
 
-`func (o *AclTag) SetGbpTag(v float32)`
+`func (o *AclTag) SetGbpTag(v int32)`
 
 SetGbpTag sets GbpTag field to given value.
 

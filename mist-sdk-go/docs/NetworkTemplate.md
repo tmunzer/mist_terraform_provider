@@ -4,7 +4,6 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**PortMirrorings** | Pointer to [**map[string]SwitchPortMirroring**](SwitchPortMirroring.md) | Property key is the port mirroring instance name port_mirroring can be added under device/site settings. It takes interface and ports as input for ingress, interface as input for egress and can take interface and port as output. | [optional] 
 **AclPolicies** | Pointer to [**[]AclPolicy**](AclPolicy.md) |  | [optional] 
 **AclTags** | Pointer to [**map[string]AclTag**](AclTag.md) | ACL Tags to identify traffic source or destination. Key name is the tag name | [optional] 
 **AdditionalConfigCmds** | Pointer to **[]string** | additional CLI commands to append to the generated Junos config  **Note**: no check is done | [optional] 
@@ -22,7 +21,8 @@ Name | Type | Description | Notes
 **Networks** | Pointer to [**map[string]SwitchNetwork**](SwitchNetwork.md) | Property key is network name | [optional] 
 **NtpServers** | Pointer to **[]string** | list of NTP servers specific to this device. By default, those in Site Settings will be used | [optional] 
 **OrgId** | Pointer to **string** |  | [optional] [readonly] 
-**PortUsages** | Pointer to [**map[string]PortUsage**](PortUsage.md) | Property key is the port profile name | [optional] 
+**PortMirrorings** | Pointer to [**map[string]SwitchPortMirroring**](SwitchPortMirroring.md) | Property key is the port mirroring instance name port_mirroring can be added under device/site settings. It takes interface and ports as input for ingress, interface as input for egress and can take interface and port as output. | [optional] 
+**PortUsages** | Pointer to [**map[string]SwitchPortUsage**](SwitchPortUsage.md) |  | [optional] 
 **RadiusConfig** | Pointer to [**RadiusConfig**](RadiusConfig.md) |  | [optional] 
 **RemoteSyslog** | Pointer to [**RemoteSyslog**](RemoteSyslog.md) |  | [optional] 
 **SnmpConfig** | Pointer to [**SnmpConfig**](SnmpConfig.md) |  | [optional] 
@@ -49,31 +49,6 @@ will change when the set of required properties is changed
 NewNetworkTemplateWithDefaults instantiates a new NetworkTemplate object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
-
-### GetPortMirrorings
-
-`func (o *NetworkTemplate) GetPortMirrorings() map[string]SwitchPortMirroring`
-
-GetPortMirrorings returns the PortMirrorings field if non-nil, zero value otherwise.
-
-### GetPortMirroringsOk
-
-`func (o *NetworkTemplate) GetPortMirroringsOk() (*map[string]SwitchPortMirroring, bool)`
-
-GetPortMirroringsOk returns a tuple with the PortMirrorings field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetPortMirrorings
-
-`func (o *NetworkTemplate) SetPortMirrorings(v map[string]SwitchPortMirroring)`
-
-SetPortMirrorings sets PortMirrorings field to given value.
-
-### HasPortMirrorings
-
-`func (o *NetworkTemplate) HasPortMirrorings() bool`
-
-HasPortMirrorings returns a boolean if a field has been set.
 
 ### GetAclPolicies
 
@@ -500,22 +475,47 @@ SetOrgId sets OrgId field to given value.
 
 HasOrgId returns a boolean if a field has been set.
 
+### GetPortMirrorings
+
+`func (o *NetworkTemplate) GetPortMirrorings() map[string]SwitchPortMirroring`
+
+GetPortMirrorings returns the PortMirrorings field if non-nil, zero value otherwise.
+
+### GetPortMirroringsOk
+
+`func (o *NetworkTemplate) GetPortMirroringsOk() (*map[string]SwitchPortMirroring, bool)`
+
+GetPortMirroringsOk returns a tuple with the PortMirrorings field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetPortMirrorings
+
+`func (o *NetworkTemplate) SetPortMirrorings(v map[string]SwitchPortMirroring)`
+
+SetPortMirrorings sets PortMirrorings field to given value.
+
+### HasPortMirrorings
+
+`func (o *NetworkTemplate) HasPortMirrorings() bool`
+
+HasPortMirrorings returns a boolean if a field has been set.
+
 ### GetPortUsages
 
-`func (o *NetworkTemplate) GetPortUsages() map[string]PortUsage`
+`func (o *NetworkTemplate) GetPortUsages() map[string]SwitchPortUsage`
 
 GetPortUsages returns the PortUsages field if non-nil, zero value otherwise.
 
 ### GetPortUsagesOk
 
-`func (o *NetworkTemplate) GetPortUsagesOk() (*map[string]PortUsage, bool)`
+`func (o *NetworkTemplate) GetPortUsagesOk() (*map[string]SwitchPortUsage, bool)`
 
 GetPortUsagesOk returns a tuple with the PortUsages field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetPortUsages
 
-`func (o *NetworkTemplate) SetPortUsages(v map[string]PortUsage)`
+`func (o *NetworkTemplate) SetPortUsages(v map[string]SwitchPortUsage)`
 
 SetPortUsages sets PortUsages field to given value.
 

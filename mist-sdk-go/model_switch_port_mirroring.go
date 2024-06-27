@@ -1,9 +1,9 @@
 /*
 Mist API
 
-> Version: **2406.1.3** > > Date: **June 26, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
+> Version: **2406.1.7** > > Date: **June 27, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
 
-API version: 2406.1.3
+API version: 2406.1.7
 Contact: tmunzer@juniper.net
 */
 
@@ -21,9 +21,9 @@ var _ MappedNullable = &SwitchPortMirroring{}
 // SwitchPortMirroring struct for SwitchPortMirroring
 type SwitchPortMirroring struct {
 	// at least one of the `ingress_port_ids`, `egress_port_ids` or `ingress_networks ` should be specified
-	InputPortIdsEgress []string `json:"input_port_ids_egress,omitempty"`
-	// at least one of the `ingress_port_ids`, `egress_port_ids` or `ingress_networks ` should be specified
 	InputNetworksIngress []string `json:"input_networks_ingress,omitempty"`
+	// at least one of the `ingress_port_ids`, `egress_port_ids` or `ingress_networks ` should be specified
+	InputPortIdsEgress []string `json:"input_port_ids_egress,omitempty"`
 	// at least one of the `ingress_port_ids`, `egress_port_ids` or `ingress_networks ` should be specified
 	InputPortIdsIngress []string `json:"input_port_ids_ingress,omitempty"`
 	OutputNetwork *string `json:"output_network,omitempty"`
@@ -49,38 +49,6 @@ func NewSwitchPortMirroring() *SwitchPortMirroring {
 func NewSwitchPortMirroringWithDefaults() *SwitchPortMirroring {
 	this := SwitchPortMirroring{}
 	return &this
-}
-
-// GetInputPortIdsEgress returns the InputPortIdsEgress field value if set, zero value otherwise.
-func (o *SwitchPortMirroring) GetInputPortIdsEgress() []string {
-	if o == nil || IsNil(o.InputPortIdsEgress) {
-		var ret []string
-		return ret
-	}
-	return o.InputPortIdsEgress
-}
-
-// GetInputPortIdsEgressOk returns a tuple with the InputPortIdsEgress field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *SwitchPortMirroring) GetInputPortIdsEgressOk() ([]string, bool) {
-	if o == nil || IsNil(o.InputPortIdsEgress) {
-		return nil, false
-	}
-	return o.InputPortIdsEgress, true
-}
-
-// HasInputPortIdsEgress returns a boolean if a field has been set.
-func (o *SwitchPortMirroring) HasInputPortIdsEgress() bool {
-	if o != nil && !IsNil(o.InputPortIdsEgress) {
-		return true
-	}
-
-	return false
-}
-
-// SetInputPortIdsEgress gets a reference to the given []string and assigns it to the InputPortIdsEgress field.
-func (o *SwitchPortMirroring) SetInputPortIdsEgress(v []string) {
-	o.InputPortIdsEgress = v
 }
 
 // GetInputNetworksIngress returns the InputNetworksIngress field value if set, zero value otherwise.
@@ -113,6 +81,38 @@ func (o *SwitchPortMirroring) HasInputNetworksIngress() bool {
 // SetInputNetworksIngress gets a reference to the given []string and assigns it to the InputNetworksIngress field.
 func (o *SwitchPortMirroring) SetInputNetworksIngress(v []string) {
 	o.InputNetworksIngress = v
+}
+
+// GetInputPortIdsEgress returns the InputPortIdsEgress field value if set, zero value otherwise.
+func (o *SwitchPortMirroring) GetInputPortIdsEgress() []string {
+	if o == nil || IsNil(o.InputPortIdsEgress) {
+		var ret []string
+		return ret
+	}
+	return o.InputPortIdsEgress
+}
+
+// GetInputPortIdsEgressOk returns a tuple with the InputPortIdsEgress field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *SwitchPortMirroring) GetInputPortIdsEgressOk() ([]string, bool) {
+	if o == nil || IsNil(o.InputPortIdsEgress) {
+		return nil, false
+	}
+	return o.InputPortIdsEgress, true
+}
+
+// HasInputPortIdsEgress returns a boolean if a field has been set.
+func (o *SwitchPortMirroring) HasInputPortIdsEgress() bool {
+	if o != nil && !IsNil(o.InputPortIdsEgress) {
+		return true
+	}
+
+	return false
+}
+
+// SetInputPortIdsEgress gets a reference to the given []string and assigns it to the InputPortIdsEgress field.
+func (o *SwitchPortMirroring) SetInputPortIdsEgress(v []string) {
+	o.InputPortIdsEgress = v
 }
 
 // GetInputPortIdsIngress returns the InputPortIdsIngress field value if set, zero value otherwise.
@@ -221,11 +221,11 @@ func (o SwitchPortMirroring) MarshalJSON() ([]byte, error) {
 
 func (o SwitchPortMirroring) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if !IsNil(o.InputPortIdsEgress) {
-		toSerialize["input_port_ids_egress"] = o.InputPortIdsEgress
-	}
 	if !IsNil(o.InputNetworksIngress) {
 		toSerialize["input_networks_ingress"] = o.InputNetworksIngress
+	}
+	if !IsNil(o.InputPortIdsEgress) {
+		toSerialize["input_port_ids_egress"] = o.InputPortIdsEgress
 	}
 	if !IsNil(o.InputPortIdsIngress) {
 		toSerialize["input_port_ids_ingress"] = o.InputPortIdsIngress
@@ -258,8 +258,8 @@ func (o *SwitchPortMirroring) UnmarshalJSON(data []byte) (err error) {
 	additionalProperties := make(map[string]interface{})
 
 	if err = json.Unmarshal(data, &additionalProperties); err == nil {
-		delete(additionalProperties, "input_port_ids_egress")
 		delete(additionalProperties, "input_networks_ingress")
+		delete(additionalProperties, "input_port_ids_egress")
 		delete(additionalProperties, "input_port_ids_ingress")
 		delete(additionalProperties, "output_network")
 		delete(additionalProperties, "output_port_id")

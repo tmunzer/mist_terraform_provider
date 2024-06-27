@@ -1,9 +1,9 @@
 /*
 Mist API
 
-> Version: **2406.1.3** > > Date: **June 26, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
+> Version: **2406.1.7** > > Date: **June 27, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
 
-API version: 2406.1.3
+API version: 2406.1.7
 Contact: tmunzer@juniper.net
 */
 
@@ -22,7 +22,7 @@ var _ MappedNullable = &AclTag{}
 // AclTag struct for AclTag
 type AclTag struct {
 	// required if - `type`==`dynamic_gbp` (gbp_tag received from RADIUS) - `type`==`static_gbp` (applying gbp tag against matching conditions)
-	GbpTag *float32 `json:"gbp_tag,omitempty"`
+	GbpTag *int32 `json:"gbp_tag,omitempty"`
 	// required if  - `type`==`mac` - `type`==`static_gbp` if from matching mac
 	Macs []string `json:"macs,omitempty"`
 	// if: - `type`==`mac` (optional. default is `any`) - `type`==`subnet` (optional. default is `any`) - `type`==`network` - `type`==`resource` (optional. default is `any`) - `type`==`static_gbp` if from matching network (vlan)
@@ -58,9 +58,9 @@ func NewAclTagWithDefaults() *AclTag {
 }
 
 // GetGbpTag returns the GbpTag field value if set, zero value otherwise.
-func (o *AclTag) GetGbpTag() float32 {
+func (o *AclTag) GetGbpTag() int32 {
 	if o == nil || IsNil(o.GbpTag) {
-		var ret float32
+		var ret int32
 		return ret
 	}
 	return *o.GbpTag
@@ -68,7 +68,7 @@ func (o *AclTag) GetGbpTag() float32 {
 
 // GetGbpTagOk returns a tuple with the GbpTag field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *AclTag) GetGbpTagOk() (*float32, bool) {
+func (o *AclTag) GetGbpTagOk() (*int32, bool) {
 	if o == nil || IsNil(o.GbpTag) {
 		return nil, false
 	}
@@ -84,8 +84,8 @@ func (o *AclTag) HasGbpTag() bool {
 	return false
 }
 
-// SetGbpTag gets a reference to the given float32 and assigns it to the GbpTag field.
-func (o *AclTag) SetGbpTag(v float32) {
+// SetGbpTag gets a reference to the given int32 and assigns it to the GbpTag field.
+func (o *AclTag) SetGbpTag(v int32) {
 	o.GbpTag = &v
 }
 

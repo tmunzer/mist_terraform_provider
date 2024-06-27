@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**PortRange** | Pointer to **int32** | matched dst port, \&quot;0\&quot; means any | [optional] [default to 0]
+**PortRange** | Pointer to **string** | matched dst port, \&quot;0\&quot; means any | [optional] [default to "80"]
 **Protocol** | Pointer to **string** | &#x60;tcp&#x60; / &#x60;udp&#x60; / &#x60;icmp&#x60; / &#x60;gre&#x60; / &#x60;any&#x60; / &#x60;:protocol_number&#x60;. &#x60;protocol_number&#x60; is between 1-254 | [optional] [default to "any"]
 
 ## Methods
@@ -28,20 +28,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetPortRange
 
-`func (o *AclTagSpec) GetPortRange() int32`
+`func (o *AclTagSpec) GetPortRange() string`
 
 GetPortRange returns the PortRange field if non-nil, zero value otherwise.
 
 ### GetPortRangeOk
 
-`func (o *AclTagSpec) GetPortRangeOk() (*int32, bool)`
+`func (o *AclTagSpec) GetPortRangeOk() (*string, bool)`
 
 GetPortRangeOk returns a tuple with the PortRange field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetPortRange
 
-`func (o *AclTagSpec) SetPortRange(v int32)`
+`func (o *AclTagSpec) SetPortRange(v string)`
 
 SetPortRange sets PortRange field to given value.
 

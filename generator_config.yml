@@ -79,9 +79,7 @@ resources:
       ignores:
         - created_time
         - modified_time
-        - acl_tags
         - import_org_networks
-        - snmp_config
         - extra_routes
         - extra_routes6
         - switch_matching.rules.switch_mgmt
