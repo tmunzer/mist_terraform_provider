@@ -12,7 +12,7 @@ import (
 	mist_transform "terraform-provider-mist/internal/provider/utils/transform"
 )
 
-func aclTagsSpecsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []mistsdkgo.AclTagSpec) basetypes.ListValue {
+func aclTagSpecsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []mistsdkgo.AclTagSpec) basetypes.ListValue {
 
 	var data_list = []SpecsValue{}
 
@@ -37,7 +37,7 @@ func aclTagsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[s
 	state_value_map_attr_type := AclTagsValue{}.AttributeTypes(ctx)
 	state_value_map_value := make(map[string]attr.Value)
 	for k, v := range d {
-		specs := aclTagsSpecsSdkToTerraform(ctx, diags, v.GetSpecs())
+		specs := aclTagSpecsSdkToTerraform(ctx, diags, v.GetSpecs())
 		state_value_map_attr_value := map[string]attr.Value{
 			"gbp_tag":      types.Float64Value(float64(v.GetGbpTag())),
 			"macs":         mist_transform.ListOfStringSdkToTerraform(ctx, v.GetMacs()),

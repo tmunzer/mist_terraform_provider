@@ -24,7 +24,6 @@ const (
 	GATEWAYTEMPLATETYPE_EMPTY GatewayTemplateType = ""
 	GATEWAYTEMPLATETYPE_STANDALONE GatewayTemplateType = "standalone"
 	GATEWAYTEMPLATETYPE_SPOKE GatewayTemplateType = "spoke"
-	GATEWAYTEMPLATETYPE_HUB GatewayTemplateType = "hub"
 )
 
 // All allowed values of GatewayTemplateType enum
@@ -32,7 +31,6 @@ var AllowedGatewayTemplateTypeEnumValues = []GatewayTemplateType{
 	"",
 	"standalone",
 	"spoke",
-	"hub",
 }
 
 func (v *GatewayTemplateType) UnmarshalJSON(src []byte) error {

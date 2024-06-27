@@ -761,7 +761,6 @@ docs/NacTagType.md
 docs/NameString.md
 docs/Network.md
 docs/NetworkDestinationNatProperty.md
-docs/NetworkHost.md
 docs/NetworkInternalAccess.md
 docs/NetworkInternetAccess.md
 docs/NetworkSourceNat.md
@@ -2338,7 +2337,6 @@ model_nac_tag_type.go
 model_name_string.go
 model_network.go
 model_network_destination_nat_property.go
-model_network_host.go
 model_network_internal_access.go
 model_network_internet_access.go
 model_network_source_nat.go

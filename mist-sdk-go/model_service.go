@@ -22,9 +22,9 @@ var _ MappedNullable = &Service{}
 type Service struct {
 	// if `type`==`custom`, ip subnets
 	Addresses []string `json:"addresses,omitempty"`
-	// when `type`==`app_caetgories` list of application categories are available through /api/v1/const/app_categories
-	AppCaetgories []string `json:"app_caetgories,omitempty"`
-	// when `type`==`app_caetgories` list of application categories are available through /api/v1/const/app_subcategories
+	// when `type`==`app_categories` list of application categories are available through /api/v1/const/app_categories
+	AppCategories []string `json:"app_categories,omitempty"`
+	// when `type`==`app_categories` list of application categories are available through /api/v1/const/app_subcategories
 	AppSubcategories []string `json:"app_subcategories,omitempty"`
 	// when `type`==`apps` list of applications are available through:   - /api/v1/const/applications,   - /api/v1/const/gateway_applications   - /insight/top_app_by-bytes?wired=true
 	Apps []string `json:"apps,omitempty"`
@@ -39,7 +39,7 @@ type Service struct {
 	// when `traffic_type`==`custom`, for uplink selection
 	MaxJitter *int32 `json:"max_jitter,omitempty"`
 	// when `traffic_type`==`custom`, for uplink selection
-	MaxLatency *string `json:"max_latency,omitempty"`
+	MaxLatency *int32 `json:"max_latency,omitempty"`
 	// when `traffic_type`==`custom`, for uplink selection
 	MaxLoss *int32 `json:"max_loss,omitempty"`
 	ModifiedTime *int32 `json:"modified_time,omitempty"`
@@ -133,36 +133,36 @@ func (o *Service) SetAddresses(v []string) {
 	o.Addresses = v
 }
 
-// GetAppCaetgories returns the AppCaetgories field value if set, zero value otherwise.
-func (o *Service) GetAppCaetgories() []string {
-	if o == nil || IsNil(o.AppCaetgories) {
+// GetAppCategories returns the AppCategories field value if set, zero value otherwise.
+func (o *Service) GetAppCategories() []string {
+	if o == nil || IsNil(o.AppCategories) {
 		var ret []string
 		return ret
 	}
-	return o.AppCaetgories
+	return o.AppCategories
 }
 
-// GetAppCaetgoriesOk returns a tuple with the AppCaetgories field value if set, nil otherwise
+// GetAppCategoriesOk returns a tuple with the AppCategories field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Service) GetAppCaetgoriesOk() ([]string, bool) {
-	if o == nil || IsNil(o.AppCaetgories) {
+func (o *Service) GetAppCategoriesOk() ([]string, bool) {
+	if o == nil || IsNil(o.AppCategories) {
 		return nil, false
 	}
-	return o.AppCaetgories, true
+	return o.AppCategories, true
 }
 
-// HasAppCaetgories returns a boolean if a field has been set.
-func (o *Service) HasAppCaetgories() bool {
-	if o != nil && !IsNil(o.AppCaetgories) {
+// HasAppCategories returns a boolean if a field has been set.
+func (o *Service) HasAppCategories() bool {
+	if o != nil && !IsNil(o.AppCategories) {
 		return true
 	}
 
 	return false
 }
 
-// SetAppCaetgories gets a reference to the given []string and assigns it to the AppCaetgories field.
-func (o *Service) SetAppCaetgories(v []string) {
-	o.AppCaetgories = v
+// SetAppCategories gets a reference to the given []string and assigns it to the AppCategories field.
+func (o *Service) SetAppCategories(v []string) {
+	o.AppCategories = v
 }
 
 // GetAppSubcategories returns the AppSubcategories field value if set, zero value otherwise.
@@ -454,9 +454,9 @@ func (o *Service) SetMaxJitter(v int32) {
 }
 
 // GetMaxLatency returns the MaxLatency field value if set, zero value otherwise.
-func (o *Service) GetMaxLatency() string {
+func (o *Service) GetMaxLatency() int32 {
 	if o == nil || IsNil(o.MaxLatency) {
-		var ret string
+		var ret int32
 		return ret
 	}
 	return *o.MaxLatency
@@ -464,7 +464,7 @@ func (o *Service) GetMaxLatency() string {
 
 // GetMaxLatencyOk returns a tuple with the MaxLatency field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Service) GetMaxLatencyOk() (*string, bool) {
+func (o *Service) GetMaxLatencyOk() (*int32, bool) {
 	if o == nil || IsNil(o.MaxLatency) {
 		return nil, false
 	}
@@ -480,8 +480,8 @@ func (o *Service) HasMaxLatency() bool {
 	return false
 }
 
-// SetMaxLatency gets a reference to the given string and assigns it to the MaxLatency field.
-func (o *Service) SetMaxLatency(v string) {
+// SetMaxLatency gets a reference to the given int32 and assigns it to the MaxLatency field.
+func (o *Service) SetMaxLatency(v int32) {
 	o.MaxLatency = &v
 }
 
@@ -850,8 +850,8 @@ func (o Service) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Addresses) {
 		toSerialize["addresses"] = o.Addresses
 	}
-	if !IsNil(o.AppCaetgories) {
-		toSerialize["app_caetgories"] = o.AppCaetgories
+	if !IsNil(o.AppCategories) {
+		toSerialize["app_categories"] = o.AppCategories
 	}
 	if !IsNil(o.AppSubcategories) {
 		toSerialize["app_subcategories"] = o.AppSubcategories
@@ -939,7 +939,7 @@ func (o *Service) UnmarshalJSON(data []byte) (err error) {
 
 	if err = json.Unmarshal(data, &additionalProperties); err == nil {
 		delete(additionalProperties, "addresses")
-		delete(additionalProperties, "app_caetgories")
+		delete(additionalProperties, "app_categories")
 		delete(additionalProperties, "app_subcategories")
 		delete(additionalProperties, "apps")
 		delete(additionalProperties, "created_time")

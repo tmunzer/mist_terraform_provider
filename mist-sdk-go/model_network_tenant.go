@@ -20,7 +20,7 @@ var _ MappedNullable = &NetworkTenant{}
 
 // NetworkTenant struct for NetworkTenant
 type NetworkTenant struct {
-	Addresses *string `json:"addresses,omitempty"`
+	Addresses []string `json:"addresses,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -44,17 +44,17 @@ func NewNetworkTenantWithDefaults() *NetworkTenant {
 }
 
 // GetAddresses returns the Addresses field value if set, zero value otherwise.
-func (o *NetworkTenant) GetAddresses() string {
+func (o *NetworkTenant) GetAddresses() []string {
 	if o == nil || IsNil(o.Addresses) {
-		var ret string
+		var ret []string
 		return ret
 	}
-	return *o.Addresses
+	return o.Addresses
 }
 
 // GetAddressesOk returns a tuple with the Addresses field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *NetworkTenant) GetAddressesOk() (*string, bool) {
+func (o *NetworkTenant) GetAddressesOk() ([]string, bool) {
 	if o == nil || IsNil(o.Addresses) {
 		return nil, false
 	}
@@ -70,9 +70,9 @@ func (o *NetworkTenant) HasAddresses() bool {
 	return false
 }
 
-// SetAddresses gets a reference to the given string and assigns it to the Addresses field.
-func (o *NetworkTenant) SetAddresses(v string) {
-	o.Addresses = &v
+// SetAddresses gets a reference to the given []string and assigns it to the Addresses field.
+func (o *NetworkTenant) SetAddresses(v []string) {
+	o.Addresses = v
 }
 
 func (o NetworkTenant) MarshalJSON() ([]byte, error) {

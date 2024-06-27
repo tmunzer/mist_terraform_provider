@@ -5,8 +5,8 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Addresses** | Pointer to **[]string** | if &#x60;type&#x60;&#x3D;&#x3D;&#x60;custom&#x60;, ip subnets | [optional] 
-**AppCaetgories** | Pointer to **[]string** | when &#x60;type&#x60;&#x3D;&#x3D;&#x60;app_caetgories&#x60; list of application categories are available through /api/v1/const/app_categories | [optional] 
-**AppSubcategories** | Pointer to **[]string** | when &#x60;type&#x60;&#x3D;&#x3D;&#x60;app_caetgories&#x60; list of application categories are available through /api/v1/const/app_subcategories | [optional] 
+**AppCategories** | Pointer to **[]string** | when &#x60;type&#x60;&#x3D;&#x3D;&#x60;app_categories&#x60; list of application categories are available through /api/v1/const/app_categories | [optional] 
+**AppSubcategories** | Pointer to **[]string** | when &#x60;type&#x60;&#x3D;&#x3D;&#x60;app_categories&#x60; list of application categories are available through /api/v1/const/app_subcategories | [optional] 
 **Apps** | Pointer to **[]string** | when &#x60;type&#x60;&#x3D;&#x3D;&#x60;apps&#x60; list of applications are available through:   - /api/v1/const/applications,   - /api/v1/const/gateway_applications   - /insight/top_app_by-bytes?wired&#x3D;true | [optional] 
 **CreatedTime** | Pointer to **int32** |  | [optional] [readonly] 
 **Description** | Pointer to **string** |  | [optional] 
@@ -15,7 +15,7 @@ Name | Type | Description | Notes
 **Hostnames** | Pointer to **[]string** | if &#x60;type&#x60;&#x3D;&#x3D;&#x60;custom&#x60;, web filtering | [optional] 
 **Id** | Pointer to **string** |  | [optional] 
 **MaxJitter** | Pointer to **int32** | when &#x60;traffic_type&#x60;&#x3D;&#x3D;&#x60;custom&#x60;, for uplink selection | [optional] 
-**MaxLatency** | Pointer to **string** | when &#x60;traffic_type&#x60;&#x3D;&#x3D;&#x60;custom&#x60;, for uplink selection | [optional] 
+**MaxLatency** | Pointer to **int32** | when &#x60;traffic_type&#x60;&#x3D;&#x3D;&#x60;custom&#x60;, for uplink selection | [optional] 
 **MaxLoss** | Pointer to **int32** | when &#x60;traffic_type&#x60;&#x3D;&#x3D;&#x60;custom&#x60;, for uplink selection | [optional] 
 **ModifiedTime** | Pointer to **int32** |  | [optional] [readonly] 
 **Name** | Pointer to **string** |  | [optional] 
@@ -72,30 +72,30 @@ SetAddresses sets Addresses field to given value.
 
 HasAddresses returns a boolean if a field has been set.
 
-### GetAppCaetgories
+### GetAppCategories
 
-`func (o *Service) GetAppCaetgories() []string`
+`func (o *Service) GetAppCategories() []string`
 
-GetAppCaetgories returns the AppCaetgories field if non-nil, zero value otherwise.
+GetAppCategories returns the AppCategories field if non-nil, zero value otherwise.
 
-### GetAppCaetgoriesOk
+### GetAppCategoriesOk
 
-`func (o *Service) GetAppCaetgoriesOk() (*[]string, bool)`
+`func (o *Service) GetAppCategoriesOk() (*[]string, bool)`
 
-GetAppCaetgoriesOk returns a tuple with the AppCaetgories field if it's non-nil, zero value otherwise
+GetAppCategoriesOk returns a tuple with the AppCategories field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetAppCaetgories
+### SetAppCategories
 
-`func (o *Service) SetAppCaetgories(v []string)`
+`func (o *Service) SetAppCategories(v []string)`
 
-SetAppCaetgories sets AppCaetgories field to given value.
+SetAppCategories sets AppCategories field to given value.
 
-### HasAppCaetgories
+### HasAppCategories
 
-`func (o *Service) HasAppCaetgories() bool`
+`func (o *Service) HasAppCategories() bool`
 
-HasAppCaetgories returns a boolean if a field has been set.
+HasAppCategories returns a boolean if a field has been set.
 
 ### GetAppSubcategories
 
@@ -324,20 +324,20 @@ HasMaxJitter returns a boolean if a field has been set.
 
 ### GetMaxLatency
 
-`func (o *Service) GetMaxLatency() string`
+`func (o *Service) GetMaxLatency() int32`
 
 GetMaxLatency returns the MaxLatency field if non-nil, zero value otherwise.
 
 ### GetMaxLatencyOk
 
-`func (o *Service) GetMaxLatencyOk() (*string, bool)`
+`func (o *Service) GetMaxLatencyOk() (*int32, bool)`
 
 GetMaxLatencyOk returns a tuple with the MaxLatency field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetMaxLatency
 
-`func (o *Service) SetMaxLatency(v string)`
+`func (o *Service) SetMaxLatency(v int32)`
 
 SetMaxLatency sets MaxLatency field to given value.
 

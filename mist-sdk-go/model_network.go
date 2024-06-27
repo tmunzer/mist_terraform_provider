@@ -25,7 +25,6 @@ type Network struct {
 	DisallowMistServices *bool `json:"disallow_mist_services,omitempty"`
 	Gateway *string `json:"gateway,omitempty"`
 	Gateway6 *string `json:"gateway6,omitempty"`
-	Hosts *map[string]NetworkHost `json:"hosts,omitempty"`
 	Id *string `json:"id,omitempty"`
 	InternalAccess *NetworkInternalAccess `json:"internal_access,omitempty"`
 	InternetAccess *NetworkInternetAccess `json:"internet_access,omitempty"`
@@ -194,38 +193,6 @@ func (o *Network) HasGateway6() bool {
 // SetGateway6 gets a reference to the given string and assigns it to the Gateway6 field.
 func (o *Network) SetGateway6(v string) {
 	o.Gateway6 = &v
-}
-
-// GetHosts returns the Hosts field value if set, zero value otherwise.
-func (o *Network) GetHosts() map[string]NetworkHost {
-	if o == nil || IsNil(o.Hosts) {
-		var ret map[string]NetworkHost
-		return ret
-	}
-	return *o.Hosts
-}
-
-// GetHostsOk returns a tuple with the Hosts field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *Network) GetHostsOk() (*map[string]NetworkHost, bool) {
-	if o == nil || IsNil(o.Hosts) {
-		return nil, false
-	}
-	return o.Hosts, true
-}
-
-// HasHosts returns a boolean if a field has been set.
-func (o *Network) HasHosts() bool {
-	if o != nil && !IsNil(o.Hosts) {
-		return true
-	}
-
-	return false
-}
-
-// SetHosts gets a reference to the given map[string]NetworkHost and assigns it to the Hosts field.
-func (o *Network) SetHosts(v map[string]NetworkHost) {
-	o.Hosts = &v
 }
 
 // GetId returns the Id field value if set, zero value otherwise.
@@ -666,9 +633,6 @@ func (o Network) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Gateway6) {
 		toSerialize["gateway6"] = o.Gateway6
 	}
-	if !IsNil(o.Hosts) {
-		toSerialize["hosts"] = o.Hosts
-	}
 	if !IsNil(o.Id) {
 		toSerialize["id"] = o.Id
 	}
@@ -734,7 +698,6 @@ func (o *Network) UnmarshalJSON(data []byte) (err error) {
 		delete(additionalProperties, "disallow_mist_services")
 		delete(additionalProperties, "gateway")
 		delete(additionalProperties, "gateway6")
-		delete(additionalProperties, "hosts")
 		delete(additionalProperties, "id")
 		delete(additionalProperties, "internal_access")
 		delete(additionalProperties, "internet_access")

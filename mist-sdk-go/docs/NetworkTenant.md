@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Addresses** | Pointer to **string** |  | [optional] 
+**Addresses** | Pointer to **[]string** |  | [optional] 
 
 ## Methods
 
@@ -27,20 +27,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetAddresses
 
-`func (o *NetworkTenant) GetAddresses() string`
+`func (o *NetworkTenant) GetAddresses() []string`
 
 GetAddresses returns the Addresses field if non-nil, zero value otherwise.
 
 ### GetAddressesOk
 
-`func (o *NetworkTenant) GetAddressesOk() (*string, bool)`
+`func (o *NetworkTenant) GetAddressesOk() (*[]string, bool)`
 
 GetAddressesOk returns a tuple with the Addresses field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetAddresses
 
-`func (o *NetworkTenant) SetAddresses(v string)`
+`func (o *NetworkTenant) SetAddresses(v []string)`
 
 SetAddresses sets Addresses field to given value.
 

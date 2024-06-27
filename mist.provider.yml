@@ -15163,7 +15163,7 @@ paths:
                 value:
                   addresses:
                   - string
-                  app_caetgories:
+                  app_categories:
                   - string
                   apps:
                   - string
@@ -15172,7 +15172,7 @@ paths:
                   hostnames:
                   - string
                   max_jitter: 0
-                  max_latency: string
+                  max_latency: 0
                   max_loss: 0
                   name: string
                   sle_enabled: false
@@ -46814,7 +46814,7 @@ components:
               value:
                 addresses:
                 - string
-                app_caetgories:
+                app_categories:
                 - string
                 apps:
                 - string
@@ -46825,7 +46825,7 @@ components:
                 - string
                 id: 497f6eca-6276-5004-bfeb-53cbbbba6f16
                 max_jitter: 0
-                max_latency: string
+                max_latency: 0
                 max_loss: 0
                 modified_time: 0
                 name: string
@@ -46906,7 +46906,7 @@ components:
                 hostnames:
                 - string
                 max_jitter: 0
-                max_latency: string
+                max_latency: 0
                 max_loss: 0
                 name: string
                 specs:
@@ -60094,7 +60094,6 @@ components:
       - ''
       - standalone
       - spoke
-      - hub
       example: standalone
       type: string
     gateway_templates:
@@ -64066,8 +64065,6 @@ components:
           example: fdad:b0bc:f29e::1
           format: ipv6
           type: string
-        hosts:
-          $ref: '#/components/schemas/network_hosts'
         id:
           format: uuid
           readOnly: true
@@ -64118,19 +64115,6 @@ components:
         port:
           example: 443
           type: integer
-      type: object
-    network_host:
-      properties:
-        external_ips:
-          example: 172.16.10.32-172.16.10.35
-          type: string
-        ips:
-          example: 192.168.70.32-192.168.70.35
-          type: string
-      type: object
-    network_hosts:
-      additionalProperties:
-        $ref: '#/components/schemas/network_host'
       type: object
     network_internal_access:
       properties:
@@ -64278,7 +64262,9 @@ components:
     network_tenant:
       properties:
         addresses:
-          type: string
+          items:
+            type: string
+          type: array
       type: object
     network_tenants:
       additionalProperties:
@@ -71726,8 +71712,8 @@ components:
       properties:
         addresses:
           $ref: '#/components/schemas/service_addresses'
-        app_caetgories:
-          $ref: '#/components/schemas/service_app_caetgories'
+        app_categories:
+          $ref: '#/components/schemas/service_app_categories'
         app_subcategories:
           $ref: '#/components/schemas/service_app_subcategories'
         apps:
@@ -71752,7 +71738,7 @@ components:
           type: integer
         max_latency:
           description: when `traffic_type`==`custom`, for uplink selection
-          type: string
+          type: integer
         max_loss:
           description: when `traffic_type`==`custom`, for uplink selection
           type: integer
@@ -71793,8 +71779,8 @@ components:
       items:
         type: string
       type: array
-    service_app_caetgories:
-      description: 'when `type`==`app_caetgories`
+    service_app_categories:
+      description: 'when `type`==`app_categories`
 
         list of application categories are available through /api/v1/const/app_categories'
       example:
@@ -71803,7 +71789,7 @@ components:
         type: string
       type: array
     service_app_subcategories:
-      description: 'when `type`==`app_caetgories`
+      description: 'when `type`==`app_categories`
 
         list of application categories are available through /api/v1/const/app_subcategories'
       example:

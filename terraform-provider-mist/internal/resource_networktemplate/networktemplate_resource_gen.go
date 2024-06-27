@@ -20,6 +20,8 @@ import (
 	"strings"
 
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 )
 
 func NetworktemplateResourceSchema(ctx context.Context) schema.Schema {
@@ -300,6 +302,7 @@ func NetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 			"id": schema.StringAttribute{
 				Optional: true,
 				Computed: true,
+				PlanModifiers:       []planmodifier.String{stringplanmodifier.UseStateForUnknown()},
 			},
 			"mist_nac": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
@@ -369,8 +372,7 @@ func NetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 				MarkdownDescription: "list of NTP servers specific to this device. By default, those in Site Settings will be used",
 			},
 			"org_id": schema.StringAttribute{
-				Optional: true,
-				Computed: true,
+				Required: true,
 			},
 			"port_mirrorings": schema.MapNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{

@@ -59,12 +59,12 @@ func (r *siteResource) Create(ctx context.Context, req resource.CreateRequest, r
 		return
 	}
 
-	site, orgId, diags := resource_site.TerraformToSdk(ctx, &plan)
+	site, diags := resource_site.TerraformToSdk(ctx, &plan)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
 	}
-
+	orgId := site.GetOrgId()
 	tflog.Info(ctx, "Starting Site Create for Org "+orgId)
 	data, _, err := r.client.OrgsSitesAPI.CreateOrgSite(ctx, orgId).Site(site).Execute()
 
@@ -136,15 +136,14 @@ func (r *siteResource) Update(ctx context.Context, req resource.UpdateRequest, r
 		return
 	}
 
-	siteId := state.Id.ValueString()
-	site, _, diags := resource_site.TerraformToSdk(ctx, &plan)
+	site, diags := resource_site.TerraformToSdk(ctx, &plan)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
 	}
 
-	tflog.Info(ctx, "Starting Site Update for Site "+siteId)
-	data, _, err := r.client.SitesAPI.UpdateSiteInfo(ctx, siteId).Site(site).Execute()
+	tflog.Info(ctx, "Starting Site Update for Site "+state.Id.ValueString())
+	data, _, err := r.client.SitesAPI.UpdateSiteInfo(ctx, state.Id.ValueString()).Site(site).Execute()
 
 	if err != nil {
 		resp.Diagnostics.AddError(

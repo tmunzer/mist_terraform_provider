@@ -1,6 +1,6 @@
 #~/go/bin/tfplugingen-openapi generate --config ./generator_config.yml --output ./provider_code_spec.json ./openapi.yml
 #~/go/bin/tfplugingen-framework generate all --input provider_code_spec.json --output internal/provider
-#~/go/bin/tfplugingen-framework scaffold data-source --name site --force --output-dir internal/provider
+#~/go/bin/tfplugingen-framework scaffold data-source --name services --output-dir ./terraform-provider-mist/internal/provider
 
 # alias tfplugingen-framework="~/go/bin/tfplugingen-framework"
 # alias tfplugingen-openapi="~/go/bin/tfplugingen-openapi"
@@ -65,3 +65,8 @@ then
     echo "fix provider..."
     python3 ./gen_provider_post.py
 fi
+
+
+# tfplugingen-framework scaffold resource \
+#     --name services \
+#     --output-dir ./terraform-provider-mist/internal/provider

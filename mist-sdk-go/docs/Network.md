@@ -8,7 +8,6 @@ Name | Type | Description | Notes
 **DisallowMistServices** | Pointer to **bool** | whether to disallow Mist Devices in the network | [optional] [default to false]
 **Gateway** | Pointer to **string** |  | [optional] 
 **Gateway6** | Pointer to **string** |  | [optional] 
-**Hosts** | Pointer to [**map[string]NetworkHost**](NetworkHost.md) |  | [optional] 
 **Id** | Pointer to **string** |  | [optional] [readonly] 
 **InternalAccess** | Pointer to [**NetworkInternalAccess**](NetworkInternalAccess.md) |  | [optional] 
 **InternetAccess** | Pointer to [**NetworkInternetAccess**](NetworkInternetAccess.md) |  | [optional] 
@@ -141,31 +140,6 @@ SetGateway6 sets Gateway6 field to given value.
 `func (o *Network) HasGateway6() bool`
 
 HasGateway6 returns a boolean if a field has been set.
-
-### GetHosts
-
-`func (o *Network) GetHosts() map[string]NetworkHost`
-
-GetHosts returns the Hosts field if non-nil, zero value otherwise.
-
-### GetHostsOk
-
-`func (o *Network) GetHostsOk() (*map[string]NetworkHost, bool)`
-
-GetHostsOk returns a tuple with the Hosts field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetHosts
-
-`func (o *Network) SetHosts(v map[string]NetworkHost)`
-
-SetHosts sets Hosts field to given value.
-
-### HasHosts
-
-`func (o *Network) HasHosts() bool`
-
-HasHosts returns a boolean if a field has been set.
 
 ### GetId
 

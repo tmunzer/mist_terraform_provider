@@ -1580,7 +1580,6 @@ Class | Method | HTTP request | Description
  - [NameString](docs/NameString.md)
  - [Network](docs/Network.md)
  - [NetworkDestinationNatProperty](docs/NetworkDestinationNatProperty.md)
- - [NetworkHost](docs/NetworkHost.md)
  - [NetworkInternalAccess](docs/NetworkInternalAccess.md)
  - [NetworkInternetAccess](docs/NetworkInternetAccess.md)
  - [NetworkSourceNat](docs/NetworkSourceNat.md)
