@@ -1898,7 +1898,6 @@ Class | Method | HTTP request | Description
  - [RoutingPolicyTermMatchingVpnPathSla](docs/RoutingPolicyTermMatchingVpnPathSla.md)
  - [Rrm](docs/Rrm.md)
  - [RrmBand](docs/RrmBand.md)
- - [RrmBandCurrBandwidht](docs/RrmBandCurrBandwidht.md)
  - [RrmBandMetric](docs/RrmBandMetric.md)
  - [RrmBandMetricInterference](docs/RrmBandMetricInterference.md)
  - [RrmConsideration](docs/RrmConsideration.md)

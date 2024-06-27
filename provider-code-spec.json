@@ -247,6 +247,100 @@
 						}
 					},
 					{
+						"name": "extra_routes",
+						"map_nested": {
+							"computed_optional_required": "computed_optional",
+							"nested_object": {
+								"attributes": [
+									{
+										"name": "discard",
+										"bool": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": false
+											},
+											"description": "this takes precedence"
+										}
+									},
+									{
+										"name": "metric",
+										"int64": {
+											"computed_optional_required": "computed_optional",
+											"validators": [
+												{
+													"custom": {
+														"imports": [
+															{
+																"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+															}
+														],
+														"schema_definition": "int64validator.Between(0, 4294967295)"
+													}
+												}
+											]
+										}
+									},
+									{
+										"name": "next_qualified",
+										"map_nested": {
+											"computed_optional_required": "computed_optional",
+											"nested_object": {
+												"attributes": [
+													{
+														"name": "metric",
+														"int64": {
+															"computed_optional_required": "computed_optional"
+														}
+													},
+													{
+														"name": "preference",
+														"int64": {
+															"computed_optional_required": "computed_optional"
+														}
+													}
+												]
+											}
+										}
+									},
+									{
+										"name": "no_resolve",
+										"bool": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": false
+											}
+										}
+									},
+									{
+										"name": "preference",
+										"int64": {
+											"computed_optional_required": "computed_optional",
+											"validators": [
+												{
+													"custom": {
+														"imports": [
+															{
+																"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+															}
+														],
+														"schema_definition": "int64validator.Between(0, 4294967295)"
+													}
+												}
+											]
+										}
+									},
+									{
+										"name": "via",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"description": "next-hop IP Address"
+										}
+									}
+								]
+							}
+						}
+					},
+					{
 						"name": "id",
 						"string": {
 							"computed_optional_required": "computed_optional"

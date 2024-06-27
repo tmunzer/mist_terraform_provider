@@ -23,7 +23,7 @@ type RrmBand struct {
 	Bandwidth *Dot11Bandwidth `json:"bandwidth,omitempty"`
 	// proposed channel
 	Channel *int32 `json:"channel,omitempty"`
-	CurrBandwidht *RrmBandCurrBandwidht `json:"curr_bandwidht,omitempty"`
+	CurrBandwidht *Dot11Bandwidth `json:"curr_bandwidht,omitempty"`
 	// current channel
 	CurrChannel *int32 `json:"curr_channel,omitempty"`
 	// current tx power
@@ -47,6 +47,8 @@ func NewRrmBand() *RrmBand {
 	this := RrmBand{}
 	var bandwidth Dot11Bandwidth = DOT11BANDWIDTH__20
 	this.Bandwidth = &bandwidth
+	var currBandwidht Dot11Bandwidth = DOT11BANDWIDTH__20
+	this.CurrBandwidht = &currBandwidht
 	return &this
 }
 
@@ -57,6 +59,8 @@ func NewRrmBandWithDefaults() *RrmBand {
 	this := RrmBand{}
 	var bandwidth Dot11Bandwidth = DOT11BANDWIDTH__20
 	this.Bandwidth = &bandwidth
+	var currBandwidht Dot11Bandwidth = DOT11BANDWIDTH__20
+	this.CurrBandwidht = &currBandwidht
 	return &this
 }
 
@@ -125,9 +129,9 @@ func (o *RrmBand) SetChannel(v int32) {
 }
 
 // GetCurrBandwidht returns the CurrBandwidht field value if set, zero value otherwise.
-func (o *RrmBand) GetCurrBandwidht() RrmBandCurrBandwidht {
+func (o *RrmBand) GetCurrBandwidht() Dot11Bandwidth {
 	if o == nil || IsNil(o.CurrBandwidht) {
-		var ret RrmBandCurrBandwidht
+		var ret Dot11Bandwidth
 		return ret
 	}
 	return *o.CurrBandwidht
@@ -135,7 +139,7 @@ func (o *RrmBand) GetCurrBandwidht() RrmBandCurrBandwidht {
 
 // GetCurrBandwidhtOk returns a tuple with the CurrBandwidht field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RrmBand) GetCurrBandwidhtOk() (*RrmBandCurrBandwidht, bool) {
+func (o *RrmBand) GetCurrBandwidhtOk() (*Dot11Bandwidth, bool) {
 	if o == nil || IsNil(o.CurrBandwidht) {
 		return nil, false
 	}
@@ -151,8 +155,8 @@ func (o *RrmBand) HasCurrBandwidht() bool {
 	return false
 }
 
-// SetCurrBandwidht gets a reference to the given RrmBandCurrBandwidht and assigns it to the CurrBandwidht field.
-func (o *RrmBand) SetCurrBandwidht(v RrmBandCurrBandwidht) {
+// SetCurrBandwidht gets a reference to the given Dot11Bandwidth and assigns it to the CurrBandwidht field.
+func (o *RrmBand) SetCurrBandwidht(v Dot11Bandwidth) {
 	o.CurrBandwidht = &v
 }
 

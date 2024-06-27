@@ -30,6 +30,8 @@ func SdkToTerraform(ctx context.Context, data *mistsdkgo.NetworkTemplate) (Netwo
 
 	state.DnsSuffix = mist_transform.ListOfStringSdkToTerraform(ctx, data.GetDnsSuffix())
 
+	state.ExtraRoutes = extraRoutesSdkToTerraform(ctx, &diags, data.GetExtraRoutes())
+
 	state.MistNac = mistNacSdkToTerraform(ctx, &diags, data.GetMistNac())
 
 	state.NtpServers = mist_transform.ListOfStringSdkToTerraform(ctx, data.GetNtpServers())

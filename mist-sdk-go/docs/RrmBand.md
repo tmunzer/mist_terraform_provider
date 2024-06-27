@@ -6,7 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Bandwidth** | Pointer to [**Dot11Bandwidth**](Dot11Bandwidth.md) |  | [optional] [default to DOT11BANDWIDTH__20]
 **Channel** | Pointer to **int32** | proposed channel | [optional] 
-**CurrBandwidht** | Pointer to [**RrmBandCurrBandwidht**](RrmBandCurrBandwidht.md) |  | [optional] 
+**CurrBandwidht** | Pointer to [**Dot11Bandwidth**](Dot11Bandwidth.md) |  | [optional] [default to DOT11BANDWIDTH__20]
 **CurrChannel** | Pointer to **int32** | current channel | [optional] 
 **CurrPower** | Pointer to **int32** | current tx power | [optional] 
 **CurrUsage** | Pointer to **string** | current radio band | [optional] 
@@ -84,20 +84,20 @@ HasChannel returns a boolean if a field has been set.
 
 ### GetCurrBandwidht
 
-`func (o *RrmBand) GetCurrBandwidht() RrmBandCurrBandwidht`
+`func (o *RrmBand) GetCurrBandwidht() Dot11Bandwidth`
 
 GetCurrBandwidht returns the CurrBandwidht field if non-nil, zero value otherwise.
 
 ### GetCurrBandwidhtOk
 
-`func (o *RrmBand) GetCurrBandwidhtOk() (*RrmBandCurrBandwidht, bool)`
+`func (o *RrmBand) GetCurrBandwidhtOk() (*Dot11Bandwidth, bool)`
 
 GetCurrBandwidhtOk returns a tuple with the CurrBandwidht field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetCurrBandwidht
 
-`func (o *RrmBand) SetCurrBandwidht(v RrmBandCurrBandwidht)`
+`func (o *RrmBand) SetCurrBandwidht(v Dot11Bandwidth)`
 
 SetCurrBandwidht sets CurrBandwidht field to given value.
 

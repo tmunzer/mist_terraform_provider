@@ -80,7 +80,6 @@ resources:
         - created_time
         - modified_time
         - import_org_networks
-        - extra_routes
         - extra_routes6
         - switch_matching.rules.switch_mgmt
       attributes:

@@ -1153,7 +1153,6 @@ docs/RoutingPolicyTermMatchingRouteExists.md
 docs/RoutingPolicyTermMatchingVpnPathSla.md
 docs/Rrm.md
 docs/RrmBand.md
-docs/RrmBandCurrBandwidht.md
 docs/RrmBandMetric.md
 docs/RrmBandMetricInterference.md
 docs/RrmConsideration.md
@@ -2657,7 +2656,6 @@ model_routing_policy_term_matching_route_exists.go
 model_routing_policy_term_matching_vpn_path_sla.go
 model_rrm.go
 model_rrm_band.go
-model_rrm_band_curr_bandwidht.go
 model_rrm_band_metric.go
 model_rrm_band_metric_interference.go
 model_rrm_consideration.go

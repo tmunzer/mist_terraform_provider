@@ -45,20 +45,23 @@ PNAME="terraform-provider-mistapi"
 # echo "backuping src"
 # cp ./provider-code-spec.json ./provider-code-spec.json.$ts.bak
 
+echo "fix openapi specs..."
 python3 ./gen_provider_pre.py
 
+echo "generate provider specs..."
 tfplugingen-openapi generate \
     --config ./generator_config.yml \
     --output ./provider-code-spec.json \
     ./mist.provider.yml 
 
 #python3 ./custom.py
-
+echo "generate provider..."
 tfplugingen-framework generate resources \
     --input ./provider-code-spec.json \
     --output ./terraform-provider-mist/internal
 
-python3 ./gen_provider_post.py
-#rm /Users/tmunzer/go/bin/terraform-provider-mist
-#go mod tidy
-#go install .
+if echo "x$1" | grep -q "x-r" 
+then
+    echo "fix provider..."
+    python3 ./gen_provider_post.py
+fi

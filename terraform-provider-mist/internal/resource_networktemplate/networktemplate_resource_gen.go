@@ -231,6 +231,72 @@ func NetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 				Description:         "Global dns settings. To keep compatibility, dns settings in `ip_config` and `oob_ip_config` will overwrite this setting",
 				MarkdownDescription: "Global dns settings. To keep compatibility, dns settings in `ip_config` and `oob_ip_config` will overwrite this setting",
 			},
+			"extra_routes": schema.MapNestedAttribute{
+				NestedObject: schema.NestedAttributeObject{
+					Attributes: map[string]schema.Attribute{
+						"discard": schema.BoolAttribute{
+							Optional:            true,
+							Computed:            true,
+							Description:         "this takes precedence",
+							MarkdownDescription: "this takes precedence",
+							Default:             booldefault.StaticBool(false),
+						},
+						"metric": schema.Int64Attribute{
+							Optional: true,
+							Computed: true,
+							Validators: []validator.Int64{
+								int64validator.Between(0, 4294967295),
+							},
+						},
+						"next_qualified": schema.MapNestedAttribute{
+							NestedObject: schema.NestedAttributeObject{
+								Attributes: map[string]schema.Attribute{
+									"metric": schema.Int64Attribute{
+										Optional: true,
+										Computed: true,
+									},
+									"preference": schema.Int64Attribute{
+										Optional: true,
+										Computed: true,
+									},
+								},
+								CustomType: NextQualifiedType{
+									ObjectType: types.ObjectType{
+										AttrTypes: NextQualifiedValue{}.AttributeTypes(ctx),
+									},
+								},
+							},
+							Optional: true,
+							Computed: true,
+						},
+						"no_resolve": schema.BoolAttribute{
+							Optional: true,
+							Computed: true,
+							Default:  booldefault.StaticBool(false),
+						},
+						"preference": schema.Int64Attribute{
+							Optional: true,
+							Computed: true,
+							Validators: []validator.Int64{
+								int64validator.Between(0, 4294967295),
+							},
+						},
+						"via": schema.StringAttribute{
+							Optional:            true,
+							Computed:            true,
+							Description:         "next-hop IP Address",
+							MarkdownDescription: "next-hop IP Address",
+						},
+					},
+					CustomType: ExtraRoutesType{
+						ObjectType: types.ObjectType{
+							AttrTypes: ExtraRoutesValue{}.AttributeTypes(ctx),
+						},
+					},
+				},
+				Optional: true,
+				Computed: true,
+			},
 			"id": schema.StringAttribute{
 				Optional: true,
 				Computed: true,
@@ -2434,6 +2500,7 @@ type NetworktemplateModel struct {
 	DhcpSnooping         DhcpSnoopingValue   `tfsdk:"dhcp_snooping"`
 	DnsServers           types.List          `tfsdk:"dns_servers"`
 	DnsSuffix            types.List          `tfsdk:"dns_suffix"`
+	ExtraRoutes          types.Map           `tfsdk:"extra_routes"`
 	Id                   types.String        `tfsdk:"id"`
 	MistNac              MistNacValue        `tfsdk:"mist_nac"`
 	Name                 types.String        `tfsdk:"name"`
@@ -5008,6 +5075,1019 @@ func (v DhcpSnoopingValue) AttributeTypes(ctx context.Context) map[string]attr.T
 		"networks": basetypes.ListType{
 			ElemType: types.StringType,
 		},
+	}
+}
+
+var _ basetypes.ObjectTypable = ExtraRoutesType{}
+
+type ExtraRoutesType struct {
+	basetypes.ObjectType
+}
+
+func (t ExtraRoutesType) Equal(o attr.Type) bool {
+	other, ok := o.(ExtraRoutesType)
+
+	if !ok {
+		return false
+	}
+
+	return t.ObjectType.Equal(other.ObjectType)
+}
+
+func (t ExtraRoutesType) String() string {
+	return "ExtraRoutesType"
+}
+
+func (t ExtraRoutesType) ValueFromObject(ctx context.Context, in basetypes.ObjectValue) (basetypes.ObjectValuable, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	attributes := in.Attributes()
+
+	discardAttribute, ok := attributes["discard"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`discard is missing from object`)
+
+		return nil, diags
+	}
+
+	discardVal, ok := discardAttribute.(basetypes.BoolValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`discard expected to be basetypes.BoolValue, was: %T`, discardAttribute))
+	}
+
+	metricAttribute, ok := attributes["metric"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`metric is missing from object`)
+
+		return nil, diags
+	}
+
+	metricVal, ok := metricAttribute.(basetypes.Int64Value)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`metric expected to be basetypes.Int64Value, was: %T`, metricAttribute))
+	}
+
+	nextQualifiedAttribute, ok := attributes["next_qualified"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`next_qualified is missing from object`)
+
+		return nil, diags
+	}
+
+	nextQualifiedVal, ok := nextQualifiedAttribute.(basetypes.MapValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`next_qualified expected to be basetypes.MapValue, was: %T`, nextQualifiedAttribute))
+	}
+
+	noResolveAttribute, ok := attributes["no_resolve"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`no_resolve is missing from object`)
+
+		return nil, diags
+	}
+
+	noResolveVal, ok := noResolveAttribute.(basetypes.BoolValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`no_resolve expected to be basetypes.BoolValue, was: %T`, noResolveAttribute))
+	}
+
+	preferenceAttribute, ok := attributes["preference"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`preference is missing from object`)
+
+		return nil, diags
+	}
+
+	preferenceVal, ok := preferenceAttribute.(basetypes.Int64Value)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`preference expected to be basetypes.Int64Value, was: %T`, preferenceAttribute))
+	}
+
+	viaAttribute, ok := attributes["via"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`via is missing from object`)
+
+		return nil, diags
+	}
+
+	viaVal, ok := viaAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`via expected to be basetypes.StringValue, was: %T`, viaAttribute))
+	}
+
+	if diags.HasError() {
+		return nil, diags
+	}
+
+	return ExtraRoutesValue{
+		Discard:       discardVal,
+		Metric:        metricVal,
+		NextQualified: nextQualifiedVal,
+		NoResolve:     noResolveVal,
+		Preference:    preferenceVal,
+		Via:           viaVal,
+		state:         attr.ValueStateKnown,
+	}, diags
+}
+
+func NewExtraRoutesValueNull() ExtraRoutesValue {
+	return ExtraRoutesValue{
+		state: attr.ValueStateNull,
+	}
+}
+
+func NewExtraRoutesValueUnknown() ExtraRoutesValue {
+	return ExtraRoutesValue{
+		state: attr.ValueStateUnknown,
+	}
+}
+
+func NewExtraRoutesValue(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) (ExtraRoutesValue, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	// Reference: https://github.com/hashicorp/terraform-plugin-framework/issues/521
+	ctx := context.Background()
+
+	for name, attributeType := range attributeTypes {
+		attribute, ok := attributes[name]
+
+		if !ok {
+			diags.AddError(
+				"Missing ExtraRoutesValue Attribute Value",
+				"While creating a ExtraRoutesValue value, a missing attribute value was detected. "+
+					"A ExtraRoutesValue must contain values for all attributes, even if null or unknown. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("ExtraRoutesValue Attribute Name (%s) Expected Type: %s", name, attributeType.String()),
+			)
+
+			continue
+		}
+
+		if !attributeType.Equal(attribute.Type(ctx)) {
+			diags.AddError(
+				"Invalid ExtraRoutesValue Attribute Type",
+				"While creating a ExtraRoutesValue value, an invalid attribute value was detected. "+
+					"A ExtraRoutesValue must use a matching attribute type for the value. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("ExtraRoutesValue Attribute Name (%s) Expected Type: %s\n", name, attributeType.String())+
+					fmt.Sprintf("ExtraRoutesValue Attribute Name (%s) Given Type: %s", name, attribute.Type(ctx)),
+			)
+		}
+	}
+
+	for name := range attributes {
+		_, ok := attributeTypes[name]
+
+		if !ok {
+			diags.AddError(
+				"Extra ExtraRoutesValue Attribute Value",
+				"While creating a ExtraRoutesValue value, an extra attribute value was detected. "+
+					"A ExtraRoutesValue must not contain values beyond the expected attribute types. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("Extra ExtraRoutesValue Attribute Name: %s", name),
+			)
+		}
+	}
+
+	if diags.HasError() {
+		return NewExtraRoutesValueUnknown(), diags
+	}
+
+	discardAttribute, ok := attributes["discard"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`discard is missing from object`)
+
+		return NewExtraRoutesValueUnknown(), diags
+	}
+
+	discardVal, ok := discardAttribute.(basetypes.BoolValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`discard expected to be basetypes.BoolValue, was: %T`, discardAttribute))
+	}
+
+	metricAttribute, ok := attributes["metric"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`metric is missing from object`)
+
+		return NewExtraRoutesValueUnknown(), diags
+	}
+
+	metricVal, ok := metricAttribute.(basetypes.Int64Value)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`metric expected to be basetypes.Int64Value, was: %T`, metricAttribute))
+	}
+
+	nextQualifiedAttribute, ok := attributes["next_qualified"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`next_qualified is missing from object`)
+
+		return NewExtraRoutesValueUnknown(), diags
+	}
+
+	nextQualifiedVal, ok := nextQualifiedAttribute.(basetypes.MapValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`next_qualified expected to be basetypes.MapValue, was: %T`, nextQualifiedAttribute))
+	}
+
+	noResolveAttribute, ok := attributes["no_resolve"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`no_resolve is missing from object`)
+
+		return NewExtraRoutesValueUnknown(), diags
+	}
+
+	noResolveVal, ok := noResolveAttribute.(basetypes.BoolValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`no_resolve expected to be basetypes.BoolValue, was: %T`, noResolveAttribute))
+	}
+
+	preferenceAttribute, ok := attributes["preference"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`preference is missing from object`)
+
+		return NewExtraRoutesValueUnknown(), diags
+	}
+
+	preferenceVal, ok := preferenceAttribute.(basetypes.Int64Value)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`preference expected to be basetypes.Int64Value, was: %T`, preferenceAttribute))
+	}
+
+	viaAttribute, ok := attributes["via"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`via is missing from object`)
+
+		return NewExtraRoutesValueUnknown(), diags
+	}
+
+	viaVal, ok := viaAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`via expected to be basetypes.StringValue, was: %T`, viaAttribute))
+	}
+
+	if diags.HasError() {
+		return NewExtraRoutesValueUnknown(), diags
+	}
+
+	return ExtraRoutesValue{
+		Discard:       discardVal,
+		Metric:        metricVal,
+		NextQualified: nextQualifiedVal,
+		NoResolve:     noResolveVal,
+		Preference:    preferenceVal,
+		Via:           viaVal,
+		state:         attr.ValueStateKnown,
+	}, diags
+}
+
+func NewExtraRoutesValueMust(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) ExtraRoutesValue {
+	object, diags := NewExtraRoutesValue(attributeTypes, attributes)
+
+	if diags.HasError() {
+		// This could potentially be added to the diag package.
+		diagsStrings := make([]string, 0, len(diags))
+
+		for _, diagnostic := range diags {
+			diagsStrings = append(diagsStrings, fmt.Sprintf(
+				"%s | %s | %s",
+				diagnostic.Severity(),
+				diagnostic.Summary(),
+				diagnostic.Detail()))
+		}
+
+		panic("NewExtraRoutesValueMust received error(s): " + strings.Join(diagsStrings, "\n"))
+	}
+
+	return object
+}
+
+func (t ExtraRoutesType) ValueFromTerraform(ctx context.Context, in tftypes.Value) (attr.Value, error) {
+	if in.Type() == nil {
+		return NewExtraRoutesValueNull(), nil
+	}
+
+	if !in.Type().Equal(t.TerraformType(ctx)) {
+		return nil, fmt.Errorf("expected %s, got %s", t.TerraformType(ctx), in.Type())
+	}
+
+	if !in.IsKnown() {
+		return NewExtraRoutesValueUnknown(), nil
+	}
+
+	if in.IsNull() {
+		return NewExtraRoutesValueNull(), nil
+	}
+
+	attributes := map[string]attr.Value{}
+
+	val := map[string]tftypes.Value{}
+
+	err := in.As(&val)
+
+	if err != nil {
+		return nil, err
+	}
+
+	for k, v := range val {
+		a, err := t.AttrTypes[k].ValueFromTerraform(ctx, v)
+
+		if err != nil {
+			return nil, err
+		}
+
+		attributes[k] = a
+	}
+
+	return NewExtraRoutesValueMust(ExtraRoutesValue{}.AttributeTypes(ctx), attributes), nil
+}
+
+func (t ExtraRoutesType) ValueType(ctx context.Context) attr.Value {
+	return ExtraRoutesValue{}
+}
+
+var _ basetypes.ObjectValuable = ExtraRoutesValue{}
+
+type ExtraRoutesValue struct {
+	Discard       basetypes.BoolValue   `tfsdk:"discard"`
+	Metric        basetypes.Int64Value  `tfsdk:"metric"`
+	NextQualified basetypes.MapValue    `tfsdk:"next_qualified"`
+	NoResolve     basetypes.BoolValue   `tfsdk:"no_resolve"`
+	Preference    basetypes.Int64Value  `tfsdk:"preference"`
+	Via           basetypes.StringValue `tfsdk:"via"`
+	state         attr.ValueState
+}
+
+func (v ExtraRoutesValue) ToTerraformValue(ctx context.Context) (tftypes.Value, error) {
+	attrTypes := make(map[string]tftypes.Type, 6)
+
+	var val tftypes.Value
+	var err error
+
+	attrTypes["discard"] = basetypes.BoolType{}.TerraformType(ctx)
+	attrTypes["metric"] = basetypes.Int64Type{}.TerraformType(ctx)
+	attrTypes["next_qualified"] = basetypes.MapType{
+		ElemType: NextQualifiedValue{}.Type(ctx),
+	}.TerraformType(ctx)
+	attrTypes["no_resolve"] = basetypes.BoolType{}.TerraformType(ctx)
+	attrTypes["preference"] = basetypes.Int64Type{}.TerraformType(ctx)
+	attrTypes["via"] = basetypes.StringType{}.TerraformType(ctx)
+
+	objectType := tftypes.Object{AttributeTypes: attrTypes}
+
+	switch v.state {
+	case attr.ValueStateKnown:
+		vals := make(map[string]tftypes.Value, 6)
+
+		val, err = v.Discard.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["discard"] = val
+
+		val, err = v.Metric.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["metric"] = val
+
+		val, err = v.NextQualified.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["next_qualified"] = val
+
+		val, err = v.NoResolve.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["no_resolve"] = val
+
+		val, err = v.Preference.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["preference"] = val
+
+		val, err = v.Via.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["via"] = val
+
+		if err := tftypes.ValidateValue(objectType, vals); err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		return tftypes.NewValue(objectType, vals), nil
+	case attr.ValueStateNull:
+		return tftypes.NewValue(objectType, nil), nil
+	case attr.ValueStateUnknown:
+		return tftypes.NewValue(objectType, tftypes.UnknownValue), nil
+	default:
+		panic(fmt.Sprintf("unhandled Object state in ToTerraformValue: %s", v.state))
+	}
+}
+
+func (v ExtraRoutesValue) IsNull() bool {
+	return v.state == attr.ValueStateNull
+}
+
+func (v ExtraRoutesValue) IsUnknown() bool {
+	return v.state == attr.ValueStateUnknown
+}
+
+func (v ExtraRoutesValue) String() string {
+	return "ExtraRoutesValue"
+}
+
+func (v ExtraRoutesValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	nextQualified := types.MapValueMust(
+		NextQualifiedType{
+			basetypes.ObjectType{
+				AttrTypes: NextQualifiedValue{}.AttributeTypes(ctx),
+			},
+		},
+		v.NextQualified.Elements(),
+	)
+
+	if v.NextQualified.IsNull() {
+		nextQualified = types.MapNull(
+			NextQualifiedType{
+				basetypes.ObjectType{
+					AttrTypes: NextQualifiedValue{}.AttributeTypes(ctx),
+				},
+			},
+		)
+	}
+
+	if v.NextQualified.IsUnknown() {
+		nextQualified = types.MapUnknown(
+			NextQualifiedType{
+				basetypes.ObjectType{
+					AttrTypes: NextQualifiedValue{}.AttributeTypes(ctx),
+				},
+			},
+		)
+	}
+
+	attributeTypes := map[string]attr.Type{
+		"discard": basetypes.BoolType{},
+		"metric":  basetypes.Int64Type{},
+		"next_qualified": basetypes.MapType{
+			ElemType: NextQualifiedValue{}.Type(ctx),
+		},
+		"no_resolve": basetypes.BoolType{},
+		"preference": basetypes.Int64Type{},
+		"via":        basetypes.StringType{},
+	}
+
+	if v.IsNull() {
+		return types.ObjectNull(attributeTypes), diags
+	}
+
+	if v.IsUnknown() {
+		return types.ObjectUnknown(attributeTypes), diags
+	}
+
+	objVal, diags := types.ObjectValue(
+		attributeTypes,
+		map[string]attr.Value{
+			"discard":        v.Discard,
+			"metric":         v.Metric,
+			"next_qualified": nextQualified,
+			"no_resolve":     v.NoResolve,
+			"preference":     v.Preference,
+			"via":            v.Via,
+		})
+
+	return objVal, diags
+}
+
+func (v ExtraRoutesValue) Equal(o attr.Value) bool {
+	other, ok := o.(ExtraRoutesValue)
+
+	if !ok {
+		return false
+	}
+
+	if v.state != other.state {
+		return false
+	}
+
+	if v.state != attr.ValueStateKnown {
+		return true
+	}
+
+	if !v.Discard.Equal(other.Discard) {
+		return false
+	}
+
+	if !v.Metric.Equal(other.Metric) {
+		return false
+	}
+
+	if !v.NextQualified.Equal(other.NextQualified) {
+		return false
+	}
+
+	if !v.NoResolve.Equal(other.NoResolve) {
+		return false
+	}
+
+	if !v.Preference.Equal(other.Preference) {
+		return false
+	}
+
+	if !v.Via.Equal(other.Via) {
+		return false
+	}
+
+	return true
+}
+
+func (v ExtraRoutesValue) Type(ctx context.Context) attr.Type {
+	return ExtraRoutesType{
+		basetypes.ObjectType{
+			AttrTypes: v.AttributeTypes(ctx),
+		},
+	}
+}
+
+func (v ExtraRoutesValue) AttributeTypes(ctx context.Context) map[string]attr.Type {
+	return map[string]attr.Type{
+		"discard": basetypes.BoolType{},
+		"metric":  basetypes.Int64Type{},
+		"next_qualified": basetypes.MapType{
+			ElemType: NextQualifiedValue{}.Type(ctx),
+		},
+		"no_resolve": basetypes.BoolType{},
+		"preference": basetypes.Int64Type{},
+		"via":        basetypes.StringType{},
+	}
+}
+
+var _ basetypes.ObjectTypable = NextQualifiedType{}
+
+type NextQualifiedType struct {
+	basetypes.ObjectType
+}
+
+func (t NextQualifiedType) Equal(o attr.Type) bool {
+	other, ok := o.(NextQualifiedType)
+
+	if !ok {
+		return false
+	}
+
+	return t.ObjectType.Equal(other.ObjectType)
+}
+
+func (t NextQualifiedType) String() string {
+	return "NextQualifiedType"
+}
+
+func (t NextQualifiedType) ValueFromObject(ctx context.Context, in basetypes.ObjectValue) (basetypes.ObjectValuable, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	attributes := in.Attributes()
+
+	metricAttribute, ok := attributes["metric"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`metric is missing from object`)
+
+		return nil, diags
+	}
+
+	metricVal, ok := metricAttribute.(basetypes.Int64Value)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`metric expected to be basetypes.Int64Value, was: %T`, metricAttribute))
+	}
+
+	preferenceAttribute, ok := attributes["preference"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`preference is missing from object`)
+
+		return nil, diags
+	}
+
+	preferenceVal, ok := preferenceAttribute.(basetypes.Int64Value)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`preference expected to be basetypes.Int64Value, was: %T`, preferenceAttribute))
+	}
+
+	if diags.HasError() {
+		return nil, diags
+	}
+
+	return NextQualifiedValue{
+		Metric:     metricVal,
+		Preference: preferenceVal,
+		state:      attr.ValueStateKnown,
+	}, diags
+}
+
+func NewNextQualifiedValueNull() NextQualifiedValue {
+	return NextQualifiedValue{
+		state: attr.ValueStateNull,
+	}
+}
+
+func NewNextQualifiedValueUnknown() NextQualifiedValue {
+	return NextQualifiedValue{
+		state: attr.ValueStateUnknown,
+	}
+}
+
+func NewNextQualifiedValue(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) (NextQualifiedValue, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	// Reference: https://github.com/hashicorp/terraform-plugin-framework/issues/521
+	ctx := context.Background()
+
+	for name, attributeType := range attributeTypes {
+		attribute, ok := attributes[name]
+
+		if !ok {
+			diags.AddError(
+				"Missing NextQualifiedValue Attribute Value",
+				"While creating a NextQualifiedValue value, a missing attribute value was detected. "+
+					"A NextQualifiedValue must contain values for all attributes, even if null or unknown. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("NextQualifiedValue Attribute Name (%s) Expected Type: %s", name, attributeType.String()),
+			)
+
+			continue
+		}
+
+		if !attributeType.Equal(attribute.Type(ctx)) {
+			diags.AddError(
+				"Invalid NextQualifiedValue Attribute Type",
+				"While creating a NextQualifiedValue value, an invalid attribute value was detected. "+
+					"A NextQualifiedValue must use a matching attribute type for the value. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("NextQualifiedValue Attribute Name (%s) Expected Type: %s\n", name, attributeType.String())+
+					fmt.Sprintf("NextQualifiedValue Attribute Name (%s) Given Type: %s", name, attribute.Type(ctx)),
+			)
+		}
+	}
+
+	for name := range attributes {
+		_, ok := attributeTypes[name]
+
+		if !ok {
+			diags.AddError(
+				"Extra NextQualifiedValue Attribute Value",
+				"While creating a NextQualifiedValue value, an extra attribute value was detected. "+
+					"A NextQualifiedValue must not contain values beyond the expected attribute types. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("Extra NextQualifiedValue Attribute Name: %s", name),
+			)
+		}
+	}
+
+	if diags.HasError() {
+		return NewNextQualifiedValueUnknown(), diags
+	}
+
+	metricAttribute, ok := attributes["metric"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`metric is missing from object`)
+
+		return NewNextQualifiedValueUnknown(), diags
+	}
+
+	metricVal, ok := metricAttribute.(basetypes.Int64Value)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`metric expected to be basetypes.Int64Value, was: %T`, metricAttribute))
+	}
+
+	preferenceAttribute, ok := attributes["preference"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`preference is missing from object`)
+
+		return NewNextQualifiedValueUnknown(), diags
+	}
+
+	preferenceVal, ok := preferenceAttribute.(basetypes.Int64Value)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`preference expected to be basetypes.Int64Value, was: %T`, preferenceAttribute))
+	}
+
+	if diags.HasError() {
+		return NewNextQualifiedValueUnknown(), diags
+	}
+
+	return NextQualifiedValue{
+		Metric:     metricVal,
+		Preference: preferenceVal,
+		state:      attr.ValueStateKnown,
+	}, diags
+}
+
+func NewNextQualifiedValueMust(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) NextQualifiedValue {
+	object, diags := NewNextQualifiedValue(attributeTypes, attributes)
+
+	if diags.HasError() {
+		// This could potentially be added to the diag package.
+		diagsStrings := make([]string, 0, len(diags))
+
+		for _, diagnostic := range diags {
+			diagsStrings = append(diagsStrings, fmt.Sprintf(
+				"%s | %s | %s",
+				diagnostic.Severity(),
+				diagnostic.Summary(),
+				diagnostic.Detail()))
+		}
+
+		panic("NewNextQualifiedValueMust received error(s): " + strings.Join(diagsStrings, "\n"))
+	}
+
+	return object
+}
+
+func (t NextQualifiedType) ValueFromTerraform(ctx context.Context, in tftypes.Value) (attr.Value, error) {
+	if in.Type() == nil {
+		return NewNextQualifiedValueNull(), nil
+	}
+
+	if !in.Type().Equal(t.TerraformType(ctx)) {
+		return nil, fmt.Errorf("expected %s, got %s", t.TerraformType(ctx), in.Type())
+	}
+
+	if !in.IsKnown() {
+		return NewNextQualifiedValueUnknown(), nil
+	}
+
+	if in.IsNull() {
+		return NewNextQualifiedValueNull(), nil
+	}
+
+	attributes := map[string]attr.Value{}
+
+	val := map[string]tftypes.Value{}
+
+	err := in.As(&val)
+
+	if err != nil {
+		return nil, err
+	}
+
+	for k, v := range val {
+		a, err := t.AttrTypes[k].ValueFromTerraform(ctx, v)
+
+		if err != nil {
+			return nil, err
+		}
+
+		attributes[k] = a
+	}
+
+	return NewNextQualifiedValueMust(NextQualifiedValue{}.AttributeTypes(ctx), attributes), nil
+}
+
+func (t NextQualifiedType) ValueType(ctx context.Context) attr.Value {
+	return NextQualifiedValue{}
+}
+
+var _ basetypes.ObjectValuable = NextQualifiedValue{}
+
+type NextQualifiedValue struct {
+	Metric     basetypes.Int64Value `tfsdk:"metric"`
+	Preference basetypes.Int64Value `tfsdk:"preference"`
+	state      attr.ValueState
+}
+
+func (v NextQualifiedValue) ToTerraformValue(ctx context.Context) (tftypes.Value, error) {
+	attrTypes := make(map[string]tftypes.Type, 2)
+
+	var val tftypes.Value
+	var err error
+
+	attrTypes["metric"] = basetypes.Int64Type{}.TerraformType(ctx)
+	attrTypes["preference"] = basetypes.Int64Type{}.TerraformType(ctx)
+
+	objectType := tftypes.Object{AttributeTypes: attrTypes}
+
+	switch v.state {
+	case attr.ValueStateKnown:
+		vals := make(map[string]tftypes.Value, 2)
+
+		val, err = v.Metric.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["metric"] = val
+
+		val, err = v.Preference.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["preference"] = val
+
+		if err := tftypes.ValidateValue(objectType, vals); err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		return tftypes.NewValue(objectType, vals), nil
+	case attr.ValueStateNull:
+		return tftypes.NewValue(objectType, nil), nil
+	case attr.ValueStateUnknown:
+		return tftypes.NewValue(objectType, tftypes.UnknownValue), nil
+	default:
+		panic(fmt.Sprintf("unhandled Object state in ToTerraformValue: %s", v.state))
+	}
+}
+
+func (v NextQualifiedValue) IsNull() bool {
+	return v.state == attr.ValueStateNull
+}
+
+func (v NextQualifiedValue) IsUnknown() bool {
+	return v.state == attr.ValueStateUnknown
+}
+
+func (v NextQualifiedValue) String() string {
+	return "NextQualifiedValue"
+}
+
+func (v NextQualifiedValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	attributeTypes := map[string]attr.Type{
+		"metric":     basetypes.Int64Type{},
+		"preference": basetypes.Int64Type{},
+	}
+
+	if v.IsNull() {
+		return types.ObjectNull(attributeTypes), diags
+	}
+
+	if v.IsUnknown() {
+		return types.ObjectUnknown(attributeTypes), diags
+	}
+
+	objVal, diags := types.ObjectValue(
+		attributeTypes,
+		map[string]attr.Value{
+			"metric":     v.Metric,
+			"preference": v.Preference,
+		})
+
+	return objVal, diags
+}
+
+func (v NextQualifiedValue) Equal(o attr.Value) bool {
+	other, ok := o.(NextQualifiedValue)
+
+	if !ok {
+		return false
+	}
+
+	if v.state != other.state {
+		return false
+	}
+
+	if v.state != attr.ValueStateKnown {
+		return true
+	}
+
+	if !v.Metric.Equal(other.Metric) {
+		return false
+	}
+
+	if !v.Preference.Equal(other.Preference) {
+		return false
+	}
+
+	return true
+}
+
+func (v NextQualifiedValue) Type(ctx context.Context) attr.Type {
+	return NextQualifiedType{
+		basetypes.ObjectType{
+			AttrTypes: v.AttributeTypes(ctx),
+		},
+	}
+}
+
+func (v NextQualifiedValue) AttributeTypes(ctx context.Context) map[string]attr.Type {
+	return map[string]attr.Type{
+		"metric":     basetypes.Int64Type{},
+		"preference": basetypes.Int64Type{},
 	}
 }
 
@@ -30357,329 +31437,24 @@ func (v VrfInstancesValue) AttributeTypes(ctx context.Context) map[string]attr.T
 	}
 }
 
-var _ basetypes.ObjectTypable = ExtraRoutesType{}
-
-type ExtraRoutesType struct {
-	basetypes.ObjectType
-}
-
-func (t ExtraRoutesType) Equal(o attr.Type) bool {
-	other, ok := o.(ExtraRoutesType)
-
-	if !ok {
-		return false
-	}
-
-	return t.ObjectType.Equal(other.ObjectType)
-}
-
-func (t ExtraRoutesType) String() string {
-	return "ExtraRoutesType"
-}
-
-func (t ExtraRoutesType) ValueFromObject(ctx context.Context, in basetypes.ObjectValue) (basetypes.ObjectValuable, diag.Diagnostics) {
-	var diags diag.Diagnostics
-
-	attributes := in.Attributes()
-
-	viaAttribute, ok := attributes["via"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`via is missing from object`)
-
-		return nil, diags
-	}
-
-	viaVal, ok := viaAttribute.(basetypes.StringValue)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`via expected to be basetypes.StringValue, was: %T`, viaAttribute))
-	}
-
-	if diags.HasError() {
-		return nil, diags
-	}
-
-	return ExtraRoutesValue{
-		Via:   viaVal,
-		state: attr.ValueStateKnown,
-	}, diags
-}
-
-func NewExtraRoutesValueNull() ExtraRoutesValue {
-	return ExtraRoutesValue{
-		state: attr.ValueStateNull,
-	}
-}
-
-func NewExtraRoutesValueUnknown() ExtraRoutesValue {
-	return ExtraRoutesValue{
-		state: attr.ValueStateUnknown,
-	}
-}
-
-func NewExtraRoutesValue(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) (ExtraRoutesValue, diag.Diagnostics) {
-	var diags diag.Diagnostics
-
-	// Reference: https://github.com/hashicorp/terraform-plugin-framework/issues/521
-	ctx := context.Background()
-
-	for name, attributeType := range attributeTypes {
-		attribute, ok := attributes[name]
-
-		if !ok {
-			diags.AddError(
-				"Missing ExtraRoutesValue Attribute Value",
-				"While creating a ExtraRoutesValue value, a missing attribute value was detected. "+
-					"A ExtraRoutesValue must contain values for all attributes, even if null or unknown. "+
-					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
-					fmt.Sprintf("ExtraRoutesValue Attribute Name (%s) Expected Type: %s", name, attributeType.String()),
-			)
-
-			continue
-		}
-
-		if !attributeType.Equal(attribute.Type(ctx)) {
-			diags.AddError(
-				"Invalid ExtraRoutesValue Attribute Type",
-				"While creating a ExtraRoutesValue value, an invalid attribute value was detected. "+
-					"A ExtraRoutesValue must use a matching attribute type for the value. "+
-					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
-					fmt.Sprintf("ExtraRoutesValue Attribute Name (%s) Expected Type: %s\n", name, attributeType.String())+
-					fmt.Sprintf("ExtraRoutesValue Attribute Name (%s) Given Type: %s", name, attribute.Type(ctx)),
-			)
-		}
-	}
-
-	for name := range attributes {
-		_, ok := attributeTypes[name]
-
-		if !ok {
-			diags.AddError(
-				"Extra ExtraRoutesValue Attribute Value",
-				"While creating a ExtraRoutesValue value, an extra attribute value was detected. "+
-					"A ExtraRoutesValue must not contain values beyond the expected attribute types. "+
-					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
-					fmt.Sprintf("Extra ExtraRoutesValue Attribute Name: %s", name),
-			)
-		}
-	}
 
-	if diags.HasError() {
-		return NewExtraRoutesValueUnknown(), diags
-	}
 
-	viaAttribute, ok := attributes["via"]
 
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`via is missing from object`)
 
-		return NewExtraRoutesValueUnknown(), diags
-	}
 
-	viaVal, ok := viaAttribute.(basetypes.StringValue)
 
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`via expected to be basetypes.StringValue, was: %T`, viaAttribute))
-	}
 
-	if diags.HasError() {
-		return NewExtraRoutesValueUnknown(), diags
-	}
 
-	return ExtraRoutesValue{
-		Via:   viaVal,
-		state: attr.ValueStateKnown,
-	}, diags
-}
 
-func NewExtraRoutesValueMust(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) ExtraRoutesValue {
-	object, diags := NewExtraRoutesValue(attributeTypes, attributes)
 
-	if diags.HasError() {
-		// This could potentially be added to the diag package.
-		diagsStrings := make([]string, 0, len(diags))
 
-		for _, diagnostic := range diags {
-			diagsStrings = append(diagsStrings, fmt.Sprintf(
-				"%s | %s | %s",
-				diagnostic.Severity(),
-				diagnostic.Summary(),
-				diagnostic.Detail()))
-		}
 
-		panic("NewExtraRoutesValueMust received error(s): " + strings.Join(diagsStrings, "\n"))
-	}
 
-	return object
-}
 
-func (t ExtraRoutesType) ValueFromTerraform(ctx context.Context, in tftypes.Value) (attr.Value, error) {
-	if in.Type() == nil {
-		return NewExtraRoutesValueNull(), nil
-	}
 
-	if !in.Type().Equal(t.TerraformType(ctx)) {
-		return nil, fmt.Errorf("expected %s, got %s", t.TerraformType(ctx), in.Type())
-	}
 
-	if !in.IsKnown() {
-		return NewExtraRoutesValueUnknown(), nil
-	}
 
-	if in.IsNull() {
-		return NewExtraRoutesValueNull(), nil
-	}
 
-	attributes := map[string]attr.Value{}
-
-	val := map[string]tftypes.Value{}
-
-	err := in.As(&val)
-
-	if err != nil {
-		return nil, err
-	}
-
-	for k, v := range val {
-		a, err := t.AttrTypes[k].ValueFromTerraform(ctx, v)
-
-		if err != nil {
-			return nil, err
-		}
-
-		attributes[k] = a
-	}
-
-	return NewExtraRoutesValueMust(ExtraRoutesValue{}.AttributeTypes(ctx), attributes), nil
-}
-
-func (t ExtraRoutesType) ValueType(ctx context.Context) attr.Value {
-	return ExtraRoutesValue{}
-}
-
-var _ basetypes.ObjectValuable = ExtraRoutesValue{}
-
-type ExtraRoutesValue struct {
-	Via   basetypes.StringValue `tfsdk:"via"`
-	state attr.ValueState
-}
-
-func (v ExtraRoutesValue) ToTerraformValue(ctx context.Context) (tftypes.Value, error) {
-	attrTypes := make(map[string]tftypes.Type, 1)
-
-	var val tftypes.Value
-	var err error
-
-	attrTypes["via"] = basetypes.StringType{}.TerraformType(ctx)
-
-	objectType := tftypes.Object{AttributeTypes: attrTypes}
-
-	switch v.state {
-	case attr.ValueStateKnown:
-		vals := make(map[string]tftypes.Value, 1)
-
-		val, err = v.Via.ToTerraformValue(ctx)
-
-		if err != nil {
-			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
-		}
-
-		vals["via"] = val
-
-		if err := tftypes.ValidateValue(objectType, vals); err != nil {
-			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
-		}
-
-		return tftypes.NewValue(objectType, vals), nil
-	case attr.ValueStateNull:
-		return tftypes.NewValue(objectType, nil), nil
-	case attr.ValueStateUnknown:
-		return tftypes.NewValue(objectType, tftypes.UnknownValue), nil
-	default:
-		panic(fmt.Sprintf("unhandled Object state in ToTerraformValue: %s", v.state))
-	}
-}
-
-func (v ExtraRoutesValue) IsNull() bool {
-	return v.state == attr.ValueStateNull
-}
-
-func (v ExtraRoutesValue) IsUnknown() bool {
-	return v.state == attr.ValueStateUnknown
-}
-
-func (v ExtraRoutesValue) String() string {
-	return "ExtraRoutesValue"
-}
-
-func (v ExtraRoutesValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, diag.Diagnostics) {
-	var diags diag.Diagnostics
-
-	attributeTypes := map[string]attr.Type{
-		"via": basetypes.StringType{},
-	}
-
-	if v.IsNull() {
-		return types.ObjectNull(attributeTypes), diags
-	}
-
-	if v.IsUnknown() {
-		return types.ObjectUnknown(attributeTypes), diags
-	}
-
-	objVal, diags := types.ObjectValue(
-		attributeTypes,
-		map[string]attr.Value{
-			"via": v.Via,
-		})
-
-	return objVal, diags
-}
-
-func (v ExtraRoutesValue) Equal(o attr.Value) bool {
-	other, ok := o.(ExtraRoutesValue)
-
-	if !ok {
-		return false
-	}
-
-	if v.state != other.state {
-		return false
-	}
-
-	if v.state != attr.ValueStateKnown {
-		return true
-	}
-
-	if !v.Via.Equal(other.Via) {
-		return false
-	}
-
-	return true
-}
-
-func (v ExtraRoutesValue) Type(ctx context.Context) attr.Type {
-	return ExtraRoutesType{
-		basetypes.ObjectType{
-			AttrTypes: v.AttributeTypes(ctx),
-		},
-	}
-}
-
-func (v ExtraRoutesValue) AttributeTypes(ctx context.Context) map[string]attr.Type {
-	return map[string]attr.Type{
-		"via": basetypes.StringType{},
-	}
-}
 
 var _ basetypes.ObjectTypable = TacacsAcctServersType{}
 

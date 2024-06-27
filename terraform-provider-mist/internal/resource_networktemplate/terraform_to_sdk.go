@@ -33,6 +33,9 @@ func TerraformToSdk(ctx context.Context, plan *NetworktemplateModel) (mistsdkgo.
 	dhcpSnooping := dhcpSnoopingTerraformToSdk(ctx, &diags, plan.DhcpSnooping)
 	data.SetDhcpSnooping(dhcpSnooping)
 
+	extraRoutes := extraRoutesTerraformToSdk(ctx, &diags, plan.ExtraRoutes)
+	data.SetExtraRoutes(extraRoutes)
+
 	mistNac := mistNacTerraformToSdk(ctx, &diags, plan.MistNac)
 	data.SetMistNac(mistNac)
 
