@@ -9,7 +9,7 @@ import (
 	mist_transform "terraform-provider-mist/internal/provider/utils/transform"
 )
 
-func TerraformToSdk(ctx context.Context, plan *NetworktemplateModel) (mistsdkgo.NetworkTemplate, string, diag.Diagnostics) {
+func TerraformToSdk(ctx context.Context, plan *NetworktemplateModel) (mistsdkgo.NetworkTemplate, diag.Diagnostics) {
 	var diags diag.Diagnostics
 
 	data := *mistsdkgo.NewNetworkTemplate()
@@ -69,6 +69,5 @@ func TerraformToSdk(ctx context.Context, plan *NetworktemplateModel) (mistsdkgo.
 	vrfInstance := vrfInstancesTerraformToSdk(ctx, &diags, plan.VrfInstances)
 	data.SetVrfInstances(vrfInstance)
 
-	var orgId = plan.OrgId.ValueString()
-	return data, orgId, diags
+	return data, diags
 }

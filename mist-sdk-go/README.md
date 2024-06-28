@@ -1293,6 +1293,7 @@ Class | Method | HTTP request | Description
  - [DhcpdConfigType6](docs/DhcpdConfigType6.md)
  - [DhcpdConfigVendorOption](docs/DhcpdConfigVendorOption.md)
  - [DhcpdConfigVendorOptionType](docs/DhcpdConfigVendorOptionType.md)
+ - [DhcpdConfigs](docs/DhcpdConfigs.md)
  - [DiscoveredSwitch](docs/DiscoveredSwitch.md)
  - [DiscoveredSwitchAp](docs/DiscoveredSwitchAp.md)
  - [DiscoveredSwitchMetric](docs/DiscoveredSwitchMetric.md)

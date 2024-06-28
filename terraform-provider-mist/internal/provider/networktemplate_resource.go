@@ -59,13 +59,13 @@ func (r *networktemplateResource) Create(ctx context.Context, req resource.Creat
 		return
 	}
 
-	networktemplate, orgId, diags := resource_networktemplate.TerraformToSdk(ctx, &plan)
+	networktemplate, diags := resource_networktemplate.TerraformToSdk(ctx, &plan)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
 	}
 
-	data, _, err := r.client.OrgsNetworkTemplatesAPI.CreateOrgNetworkTemplate(ctx, orgId).NetworkTemplate(networktemplate).Execute()
+	data, _, err := r.client.OrgsNetworkTemplatesAPI.CreateOrgNetworkTemplate(ctx, plan.OrgId.ValueString()).NetworkTemplate(networktemplate).Execute()
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Error creating NetworkTemplate",
@@ -134,16 +134,15 @@ func (r *networktemplateResource) Update(ctx context.Context, req resource.Updat
 		return
 	}
 
-	networktemplateId := state.Id.ValueString()
-	networktemplate, orgId, diags := resource_networktemplate.TerraformToSdk(ctx, &plan)
+	networktemplate, diags := resource_networktemplate.TerraformToSdk(ctx, &plan)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
 	}
 
-	tflog.Info(ctx, "Starting NetworkTemplate Update for NetworkTemplate "+networktemplateId)
+	tflog.Info(ctx, "Starting NetworkTemplate Update for NetworkTemplate "+state.Id.ValueString())
 	data, _, err := r.client.OrgsNetworkTemplatesAPI.
-		UpdateOrgNetworkTemplates(ctx, orgId, networktemplateId).
+		UpdateOrgNetworkTemplates(ctx, state.OrgId.ValueString(), state.Id.ValueString()).
 		NetworkTemplate(networktemplate).
 		Execute()
 

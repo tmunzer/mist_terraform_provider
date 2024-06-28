@@ -460,6 +460,7 @@ docs/DhcpdConfigType.md
 docs/DhcpdConfigType6.md
 docs/DhcpdConfigVendorOption.md
 docs/DhcpdConfigVendorOptionType.md
+docs/DhcpdConfigs.md
 docs/DiscoveredSwitch.md
 docs/DiscoveredSwitchAp.md
 docs/DiscoveredSwitchMetric.md
@@ -2047,6 +2048,7 @@ model_dhcpd_config_type.go
 model_dhcpd_config_type6.go
 model_dhcpd_config_vendor_option.go
 model_dhcpd_config_vendor_option_type.go
+model_dhcpd_configs.go
 model_discovered_switch.go
 model_discovered_switch_ap.go
 model_discovered_switch_metric.go

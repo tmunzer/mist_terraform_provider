@@ -20,8 +20,6 @@ var _ MappedNullable = &DhcpdConfig{}
 
 // DhcpdConfig struct for DhcpdConfig
 type DhcpdConfig struct {
-	// when defined in template, this allows device to override
-	Disabled *bool `json:"disabled,omitempty"`
 	// if `type`==`local` - optional, if not defined, system one will be used
 	DnsServers []string `json:"dns_servers,omitempty"`
 	// if `type`==`local` - optional, if not defined, system one will be used
@@ -63,8 +61,6 @@ type _DhcpdConfig DhcpdConfig
 // will change when the set of required properties is changed
 func NewDhcpdConfig() *DhcpdConfig {
 	this := DhcpdConfig{}
-	var disabled bool = false
-	this.Disabled = &disabled
 	var leaseTime int32 = 86400
 	this.LeaseTime = &leaseTime
 	var serverIdOverride bool = false
@@ -81,8 +77,6 @@ func NewDhcpdConfig() *DhcpdConfig {
 // but it doesn't guarantee that properties required by API are set
 func NewDhcpdConfigWithDefaults() *DhcpdConfig {
 	this := DhcpdConfig{}
-	var disabled bool = false
-	this.Disabled = &disabled
 	var leaseTime int32 = 86400
 	this.LeaseTime = &leaseTime
 	var serverIdOverride bool = false
@@ -92,38 +86,6 @@ func NewDhcpdConfigWithDefaults() *DhcpdConfig {
 	var type6 DhcpdConfigType6 = DHCPDCONFIGTYPE6_NONE
 	this.Type6 = &type6
 	return &this
-}
-
-// GetDisabled returns the Disabled field value if set, zero value otherwise.
-func (o *DhcpdConfig) GetDisabled() bool {
-	if o == nil || IsNil(o.Disabled) {
-		var ret bool
-		return ret
-	}
-	return *o.Disabled
-}
-
-// GetDisabledOk returns a tuple with the Disabled field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *DhcpdConfig) GetDisabledOk() (*bool, bool) {
-	if o == nil || IsNil(o.Disabled) {
-		return nil, false
-	}
-	return o.Disabled, true
-}
-
-// HasDisabled returns a boolean if a field has been set.
-func (o *DhcpdConfig) HasDisabled() bool {
-	if o != nil && !IsNil(o.Disabled) {
-		return true
-	}
-
-	return false
-}
-
-// SetDisabled gets a reference to the given bool and assigns it to the Disabled field.
-func (o *DhcpdConfig) SetDisabled(v bool) {
-	o.Disabled = &v
 }
 
 // GetDnsServers returns the DnsServers field value if set, zero value otherwise.
@@ -648,9 +610,6 @@ func (o DhcpdConfig) MarshalJSON() ([]byte, error) {
 
 func (o DhcpdConfig) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if !IsNil(o.Disabled) {
-		toSerialize["disabled"] = o.Disabled
-	}
 	if !IsNil(o.DnsServers) {
 		toSerialize["dns_servers"] = o.DnsServers
 	}
@@ -721,7 +680,6 @@ func (o *DhcpdConfig) UnmarshalJSON(data []byte) (err error) {
 	additionalProperties := make(map[string]interface{})
 
 	if err = json.Unmarshal(data, &additionalProperties); err == nil {
-		delete(additionalProperties, "disabled")
 		delete(additionalProperties, "dns_servers")
 		delete(additionalProperties, "dns_suffix")
 		delete(additionalProperties, "fixed_bindings")

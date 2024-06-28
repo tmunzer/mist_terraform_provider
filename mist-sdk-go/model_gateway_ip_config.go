@@ -33,9 +33,9 @@ type GatewayIpConfig struct {
 	Network *string `json:"network,omitempty"`
 	// if `type`==`pppoe`
 	PoserPassword *string `json:"poser_password,omitempty"`
-	// if `type`==`pppoe`
-	PpoeUsername *string `json:"ppoe_username,omitempty"`
 	PppoeAuth *GatewayWanPpoeAuth `json:"pppoe_auth,omitempty"`
+	// if `type`==`pppoe`
+	PppoeUsername *string `json:"pppoe_username,omitempty"`
 	Type *GatewayWanType `json:"type,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
@@ -291,38 +291,6 @@ func (o *GatewayIpConfig) SetPoserPassword(v string) {
 	o.PoserPassword = &v
 }
 
-// GetPpoeUsername returns the PpoeUsername field value if set, zero value otherwise.
-func (o *GatewayIpConfig) GetPpoeUsername() string {
-	if o == nil || IsNil(o.PpoeUsername) {
-		var ret string
-		return ret
-	}
-	return *o.PpoeUsername
-}
-
-// GetPpoeUsernameOk returns a tuple with the PpoeUsername field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *GatewayIpConfig) GetPpoeUsernameOk() (*string, bool) {
-	if o == nil || IsNil(o.PpoeUsername) {
-		return nil, false
-	}
-	return o.PpoeUsername, true
-}
-
-// HasPpoeUsername returns a boolean if a field has been set.
-func (o *GatewayIpConfig) HasPpoeUsername() bool {
-	if o != nil && !IsNil(o.PpoeUsername) {
-		return true
-	}
-
-	return false
-}
-
-// SetPpoeUsername gets a reference to the given string and assigns it to the PpoeUsername field.
-func (o *GatewayIpConfig) SetPpoeUsername(v string) {
-	o.PpoeUsername = &v
-}
-
 // GetPppoeAuth returns the PppoeAuth field value if set, zero value otherwise.
 func (o *GatewayIpConfig) GetPppoeAuth() GatewayWanPpoeAuth {
 	if o == nil || IsNil(o.PppoeAuth) {
@@ -353,6 +321,38 @@ func (o *GatewayIpConfig) HasPppoeAuth() bool {
 // SetPppoeAuth gets a reference to the given GatewayWanPpoeAuth and assigns it to the PppoeAuth field.
 func (o *GatewayIpConfig) SetPppoeAuth(v GatewayWanPpoeAuth) {
 	o.PppoeAuth = &v
+}
+
+// GetPppoeUsername returns the PppoeUsername field value if set, zero value otherwise.
+func (o *GatewayIpConfig) GetPppoeUsername() string {
+	if o == nil || IsNil(o.PppoeUsername) {
+		var ret string
+		return ret
+	}
+	return *o.PppoeUsername
+}
+
+// GetPppoeUsernameOk returns a tuple with the PppoeUsername field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *GatewayIpConfig) GetPppoeUsernameOk() (*string, bool) {
+	if o == nil || IsNil(o.PppoeUsername) {
+		return nil, false
+	}
+	return o.PppoeUsername, true
+}
+
+// HasPppoeUsername returns a boolean if a field has been set.
+func (o *GatewayIpConfig) HasPppoeUsername() bool {
+	if o != nil && !IsNil(o.PppoeUsername) {
+		return true
+	}
+
+	return false
+}
+
+// SetPppoeUsername gets a reference to the given string and assigns it to the PppoeUsername field.
+func (o *GatewayIpConfig) SetPppoeUsername(v string) {
+	o.PppoeUsername = &v
 }
 
 // GetType returns the Type field value if set, zero value otherwise.
@@ -418,11 +418,11 @@ func (o GatewayIpConfig) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.PoserPassword) {
 		toSerialize["poser_password"] = o.PoserPassword
 	}
-	if !IsNil(o.PpoeUsername) {
-		toSerialize["ppoe_username"] = o.PpoeUsername
-	}
 	if !IsNil(o.PppoeAuth) {
 		toSerialize["pppoe_auth"] = o.PppoeAuth
+	}
+	if !IsNil(o.PppoeUsername) {
+		toSerialize["pppoe_username"] = o.PppoeUsername
 	}
 	if !IsNil(o.Type) {
 		toSerialize["type"] = o.Type
@@ -456,8 +456,8 @@ func (o *GatewayIpConfig) UnmarshalJSON(data []byte) (err error) {
 		delete(additionalProperties, "netmask")
 		delete(additionalProperties, "network")
 		delete(additionalProperties, "poser_password")
-		delete(additionalProperties, "ppoe_username")
 		delete(additionalProperties, "pppoe_auth")
+		delete(additionalProperties, "pppoe_username")
 		delete(additionalProperties, "type")
 		o.AdditionalProperties = additionalProperties
 	}

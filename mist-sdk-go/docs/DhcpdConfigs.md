@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Enabled** | Pointer to **bool** |  | [optional] 
+**Enabled** | Pointer to **bool** | if set to &#x60;true&#x60;, disable the DHCP server | [optional] [default to false]
 
 ## Methods
 

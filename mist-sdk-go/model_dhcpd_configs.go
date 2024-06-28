@@ -1,9 +1,9 @@
 /*
 Mist API
 
-> Version: **2406.1.7** > > Date: **June 27, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
+> Version: **2406.1.9** > > Date: **June 28, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
 
-API version: 2406.1.7
+API version: 2406.1.9
 Contact: tmunzer@juniper.net
 */
 
@@ -18,8 +18,9 @@ import (
 // checks if the DhcpdConfigs type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &DhcpdConfigs{}
 
-// DhcpdConfigs if DHCP Server/Relay is intended. Property key is the network name
+// DhcpdConfigs struct for DhcpdConfigs
 type DhcpdConfigs struct {
+	// if set to `true`, disable the DHCP server
 	Enabled *bool `json:"enabled,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
@@ -32,6 +33,8 @@ type _DhcpdConfigs DhcpdConfigs
 // will change when the set of required properties is changed
 func NewDhcpdConfigs() *DhcpdConfigs {
 	this := DhcpdConfigs{}
+	var enabled bool = false
+	this.Enabled = &enabled
 	return &this
 }
 
@@ -40,6 +43,8 @@ func NewDhcpdConfigs() *DhcpdConfigs {
 // but it doesn't guarantee that properties required by API are set
 func NewDhcpdConfigsWithDefaults() *DhcpdConfigs {
 	this := DhcpdConfigs{}
+	var enabled bool = false
+	this.Enabled = &enabled
 	return &this
 }
 

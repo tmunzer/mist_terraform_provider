@@ -24,7 +24,7 @@ type Gateway struct {
 	AdditionalConfigCmds []string `json:"additional_config_cmds,omitempty"`
 	CreatedTime *float32 `json:"created_time,omitempty"`
 	DeviceprofileId *string `json:"deviceprofile_id,omitempty"`
-	DhcpdConfig *map[string]DhcpdConfig `json:"dhcpd_config,omitempty"`
+	DhcpdConfig *DhcpdConfigs `json:"dhcpd_config,omitempty"`
 	ExtraRoutes *map[string]GatewayExtraRoute `json:"extra_routes,omitempty"`
 	ForSite *bool `json:"for_site,omitempty"`
 	Id *string `json:"id,omitempty"`
@@ -167,9 +167,9 @@ func (o *Gateway) SetDeviceprofileId(v string) {
 }
 
 // GetDhcpdConfig returns the DhcpdConfig field value if set, zero value otherwise.
-func (o *Gateway) GetDhcpdConfig() map[string]DhcpdConfig {
+func (o *Gateway) GetDhcpdConfig() DhcpdConfigs {
 	if o == nil || IsNil(o.DhcpdConfig) {
-		var ret map[string]DhcpdConfig
+		var ret DhcpdConfigs
 		return ret
 	}
 	return *o.DhcpdConfig
@@ -177,7 +177,7 @@ func (o *Gateway) GetDhcpdConfig() map[string]DhcpdConfig {
 
 // GetDhcpdConfigOk returns a tuple with the DhcpdConfig field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Gateway) GetDhcpdConfigOk() (*map[string]DhcpdConfig, bool) {
+func (o *Gateway) GetDhcpdConfigOk() (*DhcpdConfigs, bool) {
 	if o == nil || IsNil(o.DhcpdConfig) {
 		return nil, false
 	}
@@ -193,8 +193,8 @@ func (o *Gateway) HasDhcpdConfig() bool {
 	return false
 }
 
-// SetDhcpdConfig gets a reference to the given map[string]DhcpdConfig and assigns it to the DhcpdConfig field.
-func (o *Gateway) SetDhcpdConfig(v map[string]DhcpdConfig) {
+// SetDhcpdConfig gets a reference to the given DhcpdConfigs and assigns it to the DhcpdConfig field.
+func (o *Gateway) SetDhcpdConfig(v DhcpdConfigs) {
 	o.DhcpdConfig = &v
 }
 

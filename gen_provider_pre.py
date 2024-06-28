@@ -5,6 +5,7 @@ SPEC_OUT = "./mist.provider.yml"
 with open(SPEC_IN, "r") as f_in:
     DATA = yaml.load(f_in, Loader=yaml.loader.SafeLoader)
 
+    ## switch_matching_rule
     if DATA.get("components",{}).get("schemas",{}).get("switch_matching_rule",{}).get("additionalProperties"):
         del DATA["components"]["schemas"]["switch_matching_rule"]["additionalProperties"]
     if not DATA.get("components",{}).get("schemas",{}).get("switch_matching_rule",{}).get("properties", {}.get("match_type")):
@@ -16,6 +17,20 @@ with open(SPEC_IN, "r") as f_in:
     if not DATA.get("components",{}).get("schemas",{}).get("switch_matching_rule",{}).get("properties", {}.get("match_value")):
         DATA["components"]["schemas"]["switch_matching_rule"]["properties"]["match_value"] = {
             "type": "string"
+        }
+
+    ## dhcpd_config
+    if DATA.get("components",{}).get("schemas",{}).get("dhcpd_configs",{}).get("additionalProperties"):
+        del DATA["components"]["schemas"]["dhcpd_configs"]["additionalProperties"]
+        
+        DATA["components"]["schemas"]["dhcpd_configs"]["properties"]["config"] = {
+             "$ref": '#/components/schemas/dhcpd_config_fix'
+        }
+        DATA["components"]["schemas"]["dhcpd_config_fix"] = {
+            "type" : "object",
+            "additionalProperties": {
+                "$ref": '#/components/schemas/dhcpd_config'
+            }
         }
 
     with open(SPEC_OUT, "w") as f_out:
