@@ -367,266 +367,274 @@
 					},
 					{
 						"name": "dhcpd_config",
-						"map_nested": {
+						"single_nested": {
 							"computed_optional_required": "computed_optional",
-							"nested_object": {
-								"attributes": [
-									{
-										"name": "disabled",
-										"bool": {
-											"computed_optional_required": "computed_optional",
-											"default": {
-												"static": false
-											},
-											"description": "when defined in template, this allows device to override"
-										}
-									},
-									{
-										"name": "dns_servers",
-										"list": {
-											"computed_optional_required": "computed_optional",
-											"element_type": {
-												"string": {}
-											},
-											"description": "if `type`==`local` - optional, if not defined, system one will be used"
-										}
-									},
-									{
-										"name": "dns_suffix",
-										"list": {
-											"computed_optional_required": "computed_optional",
-											"element_type": {
-												"string": {}
-											},
-											"description": "if `type`==`local` - optional, if not defined, system one will be used"
-										}
-									},
-									{
-										"name": "fixed_bindings",
-										"map_nested": {
-											"computed_optional_required": "computed_optional",
-											"nested_object": {
-												"attributes": [
-													{
-														"name": "ip",
-														"string": {
-															"computed_optional_required": "computed_optional"
-														}
-													},
-													{
-														"name": "name",
-														"string": {
-															"computed_optional_required": "computed_optional"
-														}
-													}
-												]
-											},
-											"description": "Property key is the MAC Address"
-										}
-									},
-									{
-										"name": "gateway",
-										"string": {
-											"computed_optional_required": "computed_optional",
-											"description": "if `type`==`local` - optional, `ip` will be used if not provided"
-										}
-									},
-									{
-										"name": "ip_end",
-										"string": {
-											"computed_optional_required": "computed_optional",
-											"description": "if `type`==`local`"
-										}
-									},
-									{
-										"name": "ip_end6",
-										"string": {
-											"computed_optional_required": "computed_optional",
-											"description": "if `type6`==`local`"
-										}
-									},
-									{
-										"name": "ip_start",
-										"string": {
-											"computed_optional_required": "computed_optional",
-											"description": "if `type`==`local`"
-										}
-									},
-									{
-										"name": "ip_start6",
-										"string": {
-											"computed_optional_required": "computed_optional",
-											"description": "if `type6`==`local`"
-										}
-									},
-									{
-										"name": "lease_time",
-										"int64": {
-											"computed_optional_required": "computed_optional",
-											"default": {
-												"static": 86400
-											},
-											"description": "in seconds, lease time has to be between 3600 [1hr] - 604800 [1 week], default is 86400 [1 day]",
-											"validators": [
+							"attributes": [
+								{
+									"name": "config",
+									"map_nested": {
+										"computed_optional_required": "computed_optional",
+										"nested_object": {
+											"attributes": [
 												{
-													"custom": {
-														"imports": [
-															{
-																"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
-															}
-														],
-														"schema_definition": "int64validator.Between(3600, 604800)"
+													"name": "dns_servers",
+													"list": {
+														"computed_optional_required": "computed_optional",
+														"element_type": {
+															"string": {}
+														},
+														"description": "if `type`==`local` - optional, if not defined, system one will be used"
 													}
-												}
-											]
-										}
-									},
-									{
-										"name": "options",
-										"map_nested": {
-											"computed_optional_required": "computed_optional",
-											"nested_object": {
-												"attributes": [
-													{
-														"name": "type",
-														"string": {
-															"computed_optional_required": "computed_optional",
-															"validators": [
+												},
+												{
+													"name": "dns_suffix",
+													"list": {
+														"computed_optional_required": "computed_optional",
+														"element_type": {
+															"string": {}
+														},
+														"description": "if `type`==`local` - optional, if not defined, system one will be used"
+													}
+												},
+												{
+													"name": "fixed_bindings",
+													"map_nested": {
+														"computed_optional_required": "computed_optional",
+														"nested_object": {
+															"attributes": [
 																{
-																	"custom": {
-																		"imports": [
-																			{
-																				"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
-																			}
-																		],
-																		"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"string\",\n\"boolean\",\n\"ip\",\n\"hex\",\n\"int16\",\n\"int32\",\n\"uint16\",\n\"uint32\",\n)"
+																	"name": "ip",
+																	"string": {
+																		"computed_optional_required": "computed_optional"
+																	}
+																},
+																{
+																	"name": "name",
+																	"string": {
+																		"computed_optional_required": "computed_optional"
 																	}
 																}
 															]
-														}
-													},
-													{
-														"name": "value",
-														"string": {
-															"computed_optional_required": "computed_optional"
-														}
+														},
+														"description": "Property key is the MAC Address"
 													}
-												]
-											},
-											"description": "Property key is the DHCP option number"
-										}
-									},
-									{
-										"name": "server_id_override",
-										"bool": {
-											"computed_optional_required": "computed_optional",
-											"default": {
-												"static": false
-											},
-											"description": "`server_id_override`==`true` means the device, when acts as DHCP relay and forwards DHCP responses from DHCP server to clients, \nshould overwrite the Sever Identifier option (i.e. DHCP option 54) in DHCP responses with its own IP address."
-										}
-									},
-									{
-										"name": "servers",
-										"list": {
-											"computed_optional_required": "computed_optional",
-											"element_type": {
-												"string": {}
-											},
-											"description": "if `type`==`relay`"
-										}
-									},
-									{
-										"name": "servers6",
-										"list": {
-											"computed_optional_required": "computed_optional",
-											"element_type": {
-												"string": {}
-											},
-											"description": "if `type6`==`relay`"
-										}
-									},
-									{
-										"name": "type",
-										"string": {
-											"computed_optional_required": "computed_optional",
-											"default": {
-												"static": "local"
-											},
-											"description": "DHCP Server (local) or DHCP Relay (relay)",
-											"validators": [
+												},
 												{
-													"custom": {
-														"imports": [
-															{
-																"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
-															}
-														],
-														"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"local\",\n\"relay\",\n\"none\",\n)"
+													"name": "gateway",
+													"string": {
+														"computed_optional_required": "computed_optional",
+														"description": "if `type`==`local` - optional, `ip` will be used if not provided"
 													}
-												}
-											]
-										}
-									},
-									{
-										"name": "type6",
-										"string": {
-											"computed_optional_required": "computed_optional",
-											"default": {
-												"static": "none"
-											},
-											"description": "DHCP Server (local) or DHCP Relay (relay)",
-											"validators": [
+												},
 												{
-													"custom": {
-														"imports": [
-															{
-																"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
-															}
-														],
-														"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"local\",\n\"relay\",\n\"none\",\n)"
+													"name": "ip_end",
+													"string": {
+														"computed_optional_required": "computed_optional",
+														"description": "if `type`==`local`"
 													}
-												}
-											]
-										}
-									},
-									{
-										"name": "vendor_encapulated",
-										"map_nested": {
-											"computed_optional_required": "computed_optional",
-											"nested_object": {
-												"attributes": [
-													{
-														"name": "type",
-														"string": {
-															"computed_optional_required": "computed_optional",
-															"validators": [
+												},
+												{
+													"name": "ip_end6",
+													"string": {
+														"computed_optional_required": "computed_optional",
+														"description": "if `type6`==`local`"
+													}
+												},
+												{
+													"name": "ip_start",
+													"string": {
+														"computed_optional_required": "computed_optional",
+														"description": "if `type`==`local`"
+													}
+												},
+												{
+													"name": "ip_start6",
+													"string": {
+														"computed_optional_required": "computed_optional",
+														"description": "if `type6`==`local`"
+													}
+												},
+												{
+													"name": "lease_time",
+													"int64": {
+														"computed_optional_required": "computed_optional",
+														"default": {
+															"static": 86400
+														},
+														"description": "in seconds, lease time has to be between 3600 [1hr] - 604800 [1 week], default is 86400 [1 day]",
+														"validators": [
+															{
+																"custom": {
+																	"imports": [
+																		{
+																			"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+																		}
+																	],
+																	"schema_definition": "int64validator.Between(3600, 604800)"
+																}
+															}
+														]
+													}
+												},
+												{
+													"name": "options",
+													"map_nested": {
+														"computed_optional_required": "computed_optional",
+														"nested_object": {
+															"attributes": [
 																{
-																	"custom": {
-																		"imports": [
+																	"name": "type",
+																	"string": {
+																		"computed_optional_required": "computed_optional",
+																		"validators": [
 																			{
-																				"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																				"custom": {
+																					"imports": [
+																						{
+																							"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																						}
+																					],
+																					"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"string\",\n\"boolean\",\n\"ip\",\n\"hex\",\n\"int16\",\n\"int32\",\n\"uint16\",\n\"uint32\",\n)"
+																				}
 																			}
-																		],
-																		"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"string\",\n\"boolean\",\n\"ip\",\n\"hex\",\n\"int16\",\n\"int32\",\n\"uint16\",\n\"uint32\",\n)"
+																		]
+																	}
+																},
+																{
+																	"name": "value",
+																	"string": {
+																		"computed_optional_required": "computed_optional"
 																	}
 																}
 															]
-														}
-													},
-													{
-														"name": "value",
-														"string": {
-															"computed_optional_required": "computed_optional"
-														}
+														},
+														"description": "Property key is the DHCP option number"
 													}
-												]
-											},
-											"description": "Property key is \u003centerprise number\u003e:\u003csub option code\u003e, with\n* enterprise number: 1-65535 (https://www.iana.org/assignments/enterprise-numbers/enterprise-numbers)\n* sub option code: 1-255, sub-option code"
+												},
+												{
+													"name": "server_id_override",
+													"bool": {
+														"computed_optional_required": "computed_optional",
+														"default": {
+															"static": false
+														},
+														"description": "`server_id_override`==`true` means the device, when acts as DHCP relay and forwards DHCP responses from DHCP server to clients, \nshould overwrite the Sever Identifier option (i.e. DHCP option 54) in DHCP responses with its own IP address."
+													}
+												},
+												{
+													"name": "servers",
+													"list": {
+														"computed_optional_required": "computed_optional",
+														"element_type": {
+															"string": {}
+														},
+														"description": "if `type`==`relay`"
+													}
+												},
+												{
+													"name": "servers6",
+													"list": {
+														"computed_optional_required": "computed_optional",
+														"element_type": {
+															"string": {}
+														},
+														"description": "if `type6`==`relay`"
+													}
+												},
+												{
+													"name": "type",
+													"string": {
+														"computed_optional_required": "computed_optional",
+														"default": {
+															"static": "local"
+														},
+														"description": "DHCP Server (local) or DHCP Relay (relay)",
+														"validators": [
+															{
+																"custom": {
+																	"imports": [
+																		{
+																			"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																		}
+																	],
+																	"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"local\",\n\"relay\",\n\"none\",\n)"
+																}
+															}
+														]
+													}
+												},
+												{
+													"name": "type6",
+													"string": {
+														"computed_optional_required": "computed_optional",
+														"default": {
+															"static": "none"
+														},
+														"description": "DHCP Server (local) or DHCP Relay (relay)",
+														"validators": [
+															{
+																"custom": {
+																	"imports": [
+																		{
+																			"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																		}
+																	],
+																	"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"local\",\n\"relay\",\n\"none\",\n)"
+																}
+															}
+														]
+													}
+												},
+												{
+													"name": "vendor_encapulated",
+													"map_nested": {
+														"computed_optional_required": "computed_optional",
+														"nested_object": {
+															"attributes": [
+																{
+																	"name": "type",
+																	"string": {
+																		"computed_optional_required": "computed_optional",
+																		"validators": [
+																			{
+																				"custom": {
+																					"imports": [
+																						{
+																							"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																						}
+																					],
+																					"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"string\",\n\"boolean\",\n\"ip\",\n\"hex\",\n\"int16\",\n\"int32\",\n\"uint16\",\n\"uint32\",\n)"
+																				}
+																			}
+																		]
+																	}
+																},
+																{
+																	"name": "value",
+																	"string": {
+																		"computed_optional_required": "computed_optional"
+																	}
+																}
+															]
+														},
+														"description": "Property key is \u003centerprise number\u003e:\u003csub option code\u003e, with\n* enterprise number: 1-65535 (https://www.iana.org/assignments/enterprise-numbers/enterprise-numbers)\n* sub option code: 1-255, sub-option code"
+													}
+												}
+											]
 										}
 									}
-								]
-							}
+								},
+								{
+									"name": "enabled",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										},
+										"description": "if set to `true`, disable the DHCP server"
+									}
+								}
+							]
 						}
 					},
 					{
@@ -1445,13 +1453,6 @@
 													}
 												},
 												{
-													"name": "ppoe_username",
-													"string": {
-														"computed_optional_required": "computed_optional",
-														"description": "if `type`==`pppoe`"
-													}
-												},
-												{
 													"name": "pppoe_auth",
 													"string": {
 														"computed_optional_required": "computed_optional",
@@ -1471,6 +1472,13 @@
 																}
 															}
 														]
+													}
+												},
+												{
+													"name": "pppoe_username",
+													"string": {
+														"computed_optional_required": "computed_optional",
+														"description": "if `type`==`pppoe`"
 													}
 												},
 												{

@@ -7,7 +7,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 )
 
-func internetAccessTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d InternetAccessValue) mistsdkgo.NetworkInternetAccess {
+func InternetAccessTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d InternetAccessValue) mistsdkgo.NetworkInternetAccess {
 	destination_nat := destinationNatTerraformToSdk(ctx, diags, d.DestinationNat)
 	static_nat := staticNatTerraformToSdk(ctx, diags, d.StaticNat)
 	data := *mistsdkgo.NewNetworkInternetAccess()

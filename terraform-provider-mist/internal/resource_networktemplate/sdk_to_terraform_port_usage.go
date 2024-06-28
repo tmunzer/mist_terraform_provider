@@ -12,7 +12,7 @@ import (
 	mist_transform "terraform-provider-mist/internal/provider/utils/transform"
 )
 
-func portUsageStormControlSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdkgo.PortUsageStormControl) basetypes.ObjectValue {
+func portUsageStormControlSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdkgo.SwitchPortUsageStormControl) basetypes.ObjectValue {
 	storm_control_attr_type := StormControlValue{}.AttributeTypes(ctx)
 	storm_control_attr_value := map[string]attr.Value{
 		"no_broadcast":            types.BoolValue(d.GetNoBroadcast()),
@@ -56,7 +56,7 @@ func portUsagesSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d ma
 	port_usage_type := PortUsagesValue{}.AttributeTypes(ctx)
 	state_value_map := make(map[string]attr.Value)
 	for k, v := range d {
-		storm_control_state := portUsageStormControlSdkToTerraform(ctx, diags, mistsdkgo.PortUsageStormControl(v.GetStormControl()))
+		storm_control_state := portUsageStormControlSdkToTerraform(ctx, diags, mistsdkgo.SwitchPortUsageStormControl(v.GetStormControl()))
 		rules_state := portUsageRulesSdkToTerraform(ctx, diags, v.GetRules())
 		var port_usage_state = map[string]attr.Value{
 			"all_networks":                                    types.BoolValue(v.GetAllNetworks()),

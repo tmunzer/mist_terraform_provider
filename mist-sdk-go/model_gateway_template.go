@@ -25,7 +25,7 @@ type GatewayTemplate struct {
 	AdditionalConfigCmds []string `json:"additional_config_cmds,omitempty"`
 	BgpConfig *map[string]BgpConfig `json:"bgp_config,omitempty"`
 	CreatedTime *float32 `json:"created_time,omitempty"`
-	DhcpdConfig *map[string]DhcpdConfig `json:"dhcpd_config,omitempty"`
+	DhcpdConfig *DhcpdConfigs `json:"dhcpd_config,omitempty"`
 	ExtraRoutes *map[string]GatewayExtraRoute `json:"extra_routes,omitempty"`
 	GatewayMatching *GatewayMatching `json:"gateway_matching,omitempty"`
 	Id *string `json:"id,omitempty"`
@@ -175,9 +175,9 @@ func (o *GatewayTemplate) SetCreatedTime(v float32) {
 }
 
 // GetDhcpdConfig returns the DhcpdConfig field value if set, zero value otherwise.
-func (o *GatewayTemplate) GetDhcpdConfig() map[string]DhcpdConfig {
+func (o *GatewayTemplate) GetDhcpdConfig() DhcpdConfigs {
 	if o == nil || IsNil(o.DhcpdConfig) {
-		var ret map[string]DhcpdConfig
+		var ret DhcpdConfigs
 		return ret
 	}
 	return *o.DhcpdConfig
@@ -185,7 +185,7 @@ func (o *GatewayTemplate) GetDhcpdConfig() map[string]DhcpdConfig {
 
 // GetDhcpdConfigOk returns a tuple with the DhcpdConfig field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *GatewayTemplate) GetDhcpdConfigOk() (*map[string]DhcpdConfig, bool) {
+func (o *GatewayTemplate) GetDhcpdConfigOk() (*DhcpdConfigs, bool) {
 	if o == nil || IsNil(o.DhcpdConfig) {
 		return nil, false
 	}
@@ -201,8 +201,8 @@ func (o *GatewayTemplate) HasDhcpdConfig() bool {
 	return false
 }
 
-// SetDhcpdConfig gets a reference to the given map[string]DhcpdConfig and assigns it to the DhcpdConfig field.
-func (o *GatewayTemplate) SetDhcpdConfig(v map[string]DhcpdConfig) {
+// SetDhcpdConfig gets a reference to the given DhcpdConfigs and assigns it to the DhcpdConfig field.
+func (o *GatewayTemplate) SetDhcpdConfig(v DhcpdConfigs) {
 	o.DhcpdConfig = &v
 }
 

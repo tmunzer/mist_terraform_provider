@@ -18,9 +18,6 @@ description: |-
 ### Required
 
 - `name` (String)
-
-### Optional
-
 - `org_id` (String)
 
 ### Read-Only

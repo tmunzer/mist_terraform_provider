@@ -9,7 +9,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 )
 
-func vpnTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.MapValue) map[string]mistsdkgo.NetworkVpnAccessConfig {
+func VpnTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.MapValue) map[string]mistsdkgo.NetworkVpnAccessConfig {
 	data_map := make(map[string]mistsdkgo.NetworkVpnAccessConfig)
 	for k, v := range d.Elements() {
 		var v_interface interface{} = v

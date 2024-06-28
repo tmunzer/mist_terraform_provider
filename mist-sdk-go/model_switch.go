@@ -27,7 +27,7 @@ type ModelSwitch struct {
 	AdditionalConfigCmds []string `json:"additional_config_cmds,omitempty"`
 	CreatedTime *float32 `json:"created_time,omitempty"`
 	DeviceprofileId *string `json:"deviceprofile_id,omitempty"`
-	DhcpConfig *map[string]DhcpdConfig `json:"dhcp_config,omitempty"`
+	DhcpConfig *DhcpdConfigs `json:"dhcp_config,omitempty"`
 	DhcpSnooping *DhcpSnooping `json:"dhcp_snooping,omitempty"`
 	// for a claimed switch, we control the configs by default. This option (disables the behavior)
 	DisableAutoConfig *bool `json:"disable_auto_config,omitempty"`
@@ -276,9 +276,9 @@ func (o *ModelSwitch) SetDeviceprofileId(v string) {
 }
 
 // GetDhcpConfig returns the DhcpConfig field value if set, zero value otherwise.
-func (o *ModelSwitch) GetDhcpConfig() map[string]DhcpdConfig {
+func (o *ModelSwitch) GetDhcpConfig() DhcpdConfigs {
 	if o == nil || IsNil(o.DhcpConfig) {
-		var ret map[string]DhcpdConfig
+		var ret DhcpdConfigs
 		return ret
 	}
 	return *o.DhcpConfig
@@ -286,7 +286,7 @@ func (o *ModelSwitch) GetDhcpConfig() map[string]DhcpdConfig {
 
 // GetDhcpConfigOk returns a tuple with the DhcpConfig field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ModelSwitch) GetDhcpConfigOk() (*map[string]DhcpdConfig, bool) {
+func (o *ModelSwitch) GetDhcpConfigOk() (*DhcpdConfigs, bool) {
 	if o == nil || IsNil(o.DhcpConfig) {
 		return nil, false
 	}
@@ -302,8 +302,8 @@ func (o *ModelSwitch) HasDhcpConfig() bool {
 	return false
 }
 
-// SetDhcpConfig gets a reference to the given map[string]DhcpdConfig and assigns it to the DhcpConfig field.
-func (o *ModelSwitch) SetDhcpConfig(v map[string]DhcpdConfig) {
+// SetDhcpConfig gets a reference to the given DhcpdConfigs and assigns it to the DhcpConfig field.
+func (o *ModelSwitch) SetDhcpConfig(v DhcpdConfigs) {
 	o.DhcpConfig = &v
 }
 

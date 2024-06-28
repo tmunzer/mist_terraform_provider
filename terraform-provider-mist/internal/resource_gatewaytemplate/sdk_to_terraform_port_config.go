@@ -22,7 +22,7 @@ func portConfigIpConfigSdkToTerraform(ctx context.Context, diags *diag.Diagnosti
 		"netmask":        types.StringValue(d.GetNetmask()),
 		"network":        types.StringValue(d.GetNetwork()),
 		"poser_password": types.StringValue(d.GetPoserPassword()),
-		"ppoe_username":  types.StringValue(d.GetPpoeUsername()),
+		"pppoe_username": types.StringValue(d.GetPppoeUsername()),
 		"pppoe_auth":     types.StringValue(string(d.GetPppoeAuth())),
 		"type":           types.StringValue(string(d.GetType())),
 	}

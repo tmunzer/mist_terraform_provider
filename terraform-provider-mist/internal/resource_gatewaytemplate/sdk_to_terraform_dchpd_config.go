@@ -68,38 +68,51 @@ func dhcpdConfigFixedBindingsSdkToTerraform(ctx context.Context, diags *diag.Dia
 	return state_result
 }
 
-func dhcpdConfigSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]mistsdkgo.DhcpdConfig) basetypes.MapValue {
-	port_usage_type := DhcpdConfigValue{}.AttributeTypes(ctx)
+func dhcpdConfigConfigsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]interface{}) basetypes.MapValue {
+	port_usage_type := ConfigValue{}.AttributeTypes(ctx)
 	state_value_map := make(map[string]attr.Value)
-	for k, v := range d {
+	for k, v_interface := range d {
+
+		v := v_interface.(mistsdkgo.DhcpdConfig)
 		dhcpd_config_fixed_bindings := dhcpdConfigFixedBindingsSdkToTerraform(ctx, diags, v.GetFixedBindings())
 		dhcpd_config__options := dhcpdConfigOptionsSdkToTerraform(ctx, diags, v.GetOptions())
 		dhcpd_config__vendor_options := dhcpdConfigVendorEncapsulatedSdkToTerraform(ctx, diags, v.GetVendorEncapulated())
 		var port_usage_state = map[string]attr.Value{
-			"disabled":           types.BoolValue(v.GetDisabled()),
 			"dns_servers":        mist_transform.ListOfStringSdkToTerraform(ctx, v.GetDnsServers()),
 			"dns_suffix":         mist_transform.ListOfStringSdkToTerraform(ctx, v.GetDnsSuffix()),
 			"fixed_bindings":     dhcpd_config_fixed_bindings,
 			"gateway":            types.StringValue(v.GetGateway()),
-			"ip_end":             types.StringValue(v.GetIpEnd()),
+			"ip_end4":            types.StringValue(v.GetIpEnd()),
 			"ip_end6":            types.StringValue(v.GetIpEnd6()),
-			"ip_start":           types.StringValue(v.GetIpStart()),
+			"ip_start4":          types.StringValue(v.GetIpStart()),
 			"ip_start6":          types.StringValue(v.GetIpStart6()),
 			"lease_time":         types.Int64Value(int64(v.GetLeaseTime())),
 			"options":            dhcpd_config__options,
 			"server_id_override": types.BoolValue(v.GetServerIdOverride()),
-			"servers":            mist_transform.ListOfStringSdkToTerraform(ctx, v.GetServers()),
+			"servers4":           mist_transform.ListOfStringSdkToTerraform(ctx, v.GetServers()),
 			"servers6":           mist_transform.ListOfStringSdkToTerraform(ctx, v.GetServers6()),
-			"type":               types.StringValue(string(v.GetType())),
+			"type4":              types.StringValue(string(v.GetType())),
 			"type6":              types.StringValue(string(v.GetType6())),
 			"vendor_encapulated": dhcpd_config__vendor_options,
 		}
-		port_usage_object, e := NewDhcpdConfigValue(port_usage_type, port_usage_state)
+		port_usage_object, e := NewConfigValue(port_usage_type, port_usage_state)
 		diags.Append(e...)
 		state_value_map[k] = port_usage_object
 	}
-	state_type := DhcpdConfigValue{}.Type(ctx)
+	state_type := ConfigValue{}.Type(ctx)
 	state_result, e := types.MapValueFrom(ctx, state_type, state_value_map)
 	diags.Append(e...)
 	return state_result
+}
+
+func dhcpdConfigSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdkgo.DhcpdConfigs) DhcpdConfigValue {
+
+	r_attr_type := DhcpdConfigValue{}.AttributeTypes(ctx)
+	r_attr_value := map[string]attr.Value{
+		"enabled": types.BoolValue(d.GetEnabled()),
+		"config":  dhcpdConfigConfigsSdkToTerraform(ctx, diags, d.AdditionalProperties),
+	}
+	r, e := NewDhcpdConfigValue(r_attr_type, r_attr_value)
+	diags.Append(e...)
+	return r
 }

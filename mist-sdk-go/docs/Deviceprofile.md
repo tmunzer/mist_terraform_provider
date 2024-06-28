@@ -34,7 +34,7 @@ Name | Type | Description | Notes
 **Vars** | Pointer to **map[string]string** | a dictionary of name-&gt;value, the vars can then be used in Wlans. This can overwrite those from Site Vars | [optional] 
 **AdditionalConfigCmds** | Pointer to **[]string** | additional CLI commands to append to the generated Junos config  **Note**: no check is done | [optional] 
 **BgpConfig** | Pointer to [**map[string]BgpConfig**](BgpConfig.md) |  | [optional] 
-**DhcpdConfig** | Pointer to [**map[string]DhcpdConfig**](DhcpdConfig.md) |  | [optional] 
+**DhcpdConfig** | Pointer to [**DhcpdConfigs**](DhcpdConfigs.md) |  | [optional] 
 **ExtraRoutes** | Pointer to [**map[string]GatewayExtraRoute**](GatewayExtraRoute.md) |  | [optional] 
 **GatewayMatching** | Pointer to [**GatewayMatching**](GatewayMatching.md) |  | [optional] 
 **IdpProfiles** | Pointer to [**map[string]IdpProfile**](IdpProfile.md) | Property key is the profile name | [optional] 
@@ -814,20 +814,20 @@ HasBgpConfig returns a boolean if a field has been set.
 
 ### GetDhcpdConfig
 
-`func (o *Deviceprofile) GetDhcpdConfig() map[string]DhcpdConfig`
+`func (o *Deviceprofile) GetDhcpdConfig() DhcpdConfigs`
 
 GetDhcpdConfig returns the DhcpdConfig field if non-nil, zero value otherwise.
 
 ### GetDhcpdConfigOk
 
-`func (o *Deviceprofile) GetDhcpdConfigOk() (*map[string]DhcpdConfig, bool)`
+`func (o *Deviceprofile) GetDhcpdConfigOk() (*DhcpdConfigs, bool)`
 
 GetDhcpdConfigOk returns a tuple with the DhcpdConfig field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetDhcpdConfig
 
-`func (o *Deviceprofile) SetDhcpdConfig(v map[string]DhcpdConfig)`
+`func (o *Deviceprofile) SetDhcpdConfig(v DhcpdConfigs)`
 
 SetDhcpdConfig sets DhcpdConfig field to given value.
 

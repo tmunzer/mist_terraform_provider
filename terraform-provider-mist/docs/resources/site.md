@@ -18,6 +18,7 @@ description: |-
 ### Required
 
 - `name` (String)
+- `org_id` (String)
 
 ### Optional
 
@@ -29,7 +30,6 @@ description: |-
 - `latlng` (Attributes) (see [below for nested schema](#nestedatt--latlng))
 - `networktemplate_id` (String) Network Template ID, this takes precedence over Site Settings
 - `notes` (String) optional, any notes about the site
-- `org_id` (String)
 - `rftemplate_id` (String) RF Template ID, this takes precedence over Site Settings
 - `secpolicy_id` (String) SecPolicy ID
 - `sitegroup_ids` (List of String) sitegroups this site belongs to

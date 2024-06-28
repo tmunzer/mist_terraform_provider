@@ -20,10 +20,10 @@ func TerraformToSdk(ctx context.Context, plan *NetworkModel) (mistsdkgo.Network,
 	data.SetGateway(plan.Gateway.ValueString())
 	data.SetGateway6(plan.Gateway6.ValueString())
 
-	internal_access := internalAccessTerraformToSdk(ctx, &diags, plan.InternalAccess)
+	internal_access := InternalAccessTerraformToSdk(ctx, &diags, plan.InternalAccess)
 	data.SetInternalAccess(internal_access)
 
-	internet_access := internetAccessTerraformToSdk(ctx, &diags, plan.InternetAccess)
+	internet_access := InternetAccessTerraformToSdk(ctx, &diags, plan.InternetAccess)
 	data.SetInternetAccess(internet_access)
 
 	data.SetIsolation(plan.Isolation.ValueBool())
@@ -35,12 +35,12 @@ func TerraformToSdk(ctx context.Context, plan *NetworkModel) (mistsdkgo.Network,
 
 	data.SetSubnet6(plan.Subnet6.ValueString())
 
-	tenants := tenantTerraformToSdk(ctx, &diags, plan.Tenants)
+	tenants := TenantTerraformToSdk(ctx, &diags, plan.Tenants)
 	data.SetTenants(tenants)
 
 	data.SetVlanId(int32(plan.VlanId.ValueInt64()))
 
-	vpn_access := vpnTerraformToSdk(ctx, &diags, plan.VpnAccess)
+	vpn_access := VpnTerraformToSdk(ctx, &diags, plan.VpnAccess)
 	data.SetVpnAccess(vpn_access)
 
 	return data, diags

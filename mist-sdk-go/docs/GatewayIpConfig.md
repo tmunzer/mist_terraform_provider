@@ -11,8 +11,8 @@ Name | Type | Description | Notes
 **Netmask** | Pointer to **string** | used only if &#x60;subnet&#x60; is not specified in &#x60;networks&#x60; | [optional] 
 **Network** | Pointer to **string** | optional, the network to be used for mgmt | [optional] 
 **PoserPassword** | Pointer to **string** | if &#x60;type&#x60;&#x3D;&#x3D;&#x60;pppoe&#x60; | [optional] 
-**PpoeUsername** | Pointer to **string** | if &#x60;type&#x60;&#x3D;&#x3D;&#x60;pppoe&#x60; | [optional] 
 **PppoeAuth** | Pointer to [**GatewayWanPpoeAuth**](GatewayWanPpoeAuth.md) |  | [optional] [default to GATEWAYWANPPOEAUTH_NONE]
+**PppoeUsername** | Pointer to **string** | if &#x60;type&#x60;&#x3D;&#x3D;&#x60;pppoe&#x60; | [optional] 
 **Type** | Pointer to [**GatewayWanType**](GatewayWanType.md) |  | [optional] [default to GATEWAYWANTYPE_DHCP]
 
 ## Methods
@@ -209,31 +209,6 @@ SetPoserPassword sets PoserPassword field to given value.
 
 HasPoserPassword returns a boolean if a field has been set.
 
-### GetPpoeUsername
-
-`func (o *GatewayIpConfig) GetPpoeUsername() string`
-
-GetPpoeUsername returns the PpoeUsername field if non-nil, zero value otherwise.
-
-### GetPpoeUsernameOk
-
-`func (o *GatewayIpConfig) GetPpoeUsernameOk() (*string, bool)`
-
-GetPpoeUsernameOk returns a tuple with the PpoeUsername field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetPpoeUsername
-
-`func (o *GatewayIpConfig) SetPpoeUsername(v string)`
-
-SetPpoeUsername sets PpoeUsername field to given value.
-
-### HasPpoeUsername
-
-`func (o *GatewayIpConfig) HasPpoeUsername() bool`
-
-HasPpoeUsername returns a boolean if a field has been set.
-
 ### GetPppoeAuth
 
 `func (o *GatewayIpConfig) GetPppoeAuth() GatewayWanPpoeAuth`
@@ -258,6 +233,31 @@ SetPppoeAuth sets PppoeAuth field to given value.
 `func (o *GatewayIpConfig) HasPppoeAuth() bool`
 
 HasPppoeAuth returns a boolean if a field has been set.
+
+### GetPppoeUsername
+
+`func (o *GatewayIpConfig) GetPppoeUsername() string`
+
+GetPppoeUsername returns the PppoeUsername field if non-nil, zero value otherwise.
+
+### GetPppoeUsernameOk
+
+`func (o *GatewayIpConfig) GetPppoeUsernameOk() (*string, bool)`
+
+GetPppoeUsernameOk returns a tuple with the PppoeUsername field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetPppoeUsername
+
+`func (o *GatewayIpConfig) SetPppoeUsername(v string)`
+
+SetPppoeUsername sets PppoeUsername field to given value.
+
+### HasPppoeUsername
+
+`func (o *GatewayIpConfig) HasPppoeUsername() bool`
+
+HasPppoeUsername returns a boolean if a field has been set.
 
 ### GetType
 

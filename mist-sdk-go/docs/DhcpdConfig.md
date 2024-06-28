@@ -4,7 +4,6 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Disabled** | Pointer to **bool** | when defined in template, this allows device to override | [optional] [default to false]
 **DnsServers** | Pointer to **[]string** | if &#x60;type&#x60;&#x3D;&#x3D;&#x60;local&#x60; - optional, if not defined, system one will be used | [optional] 
 **DnsSuffix** | Pointer to **[]string** | if &#x60;type&#x60;&#x3D;&#x3D;&#x60;local&#x60; - optional, if not defined, system one will be used | [optional] 
 **FixedBindings** | Pointer to [**map[string]DhcpdConfigFixedBinding**](DhcpdConfigFixedBinding.md) | Property key is the MAC Address | [optional] 
@@ -40,31 +39,6 @@ will change when the set of required properties is changed
 NewDhcpdConfigWithDefaults instantiates a new DhcpdConfig object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
-
-### GetDisabled
-
-`func (o *DhcpdConfig) GetDisabled() bool`
-
-GetDisabled returns the Disabled field if non-nil, zero value otherwise.
-
-### GetDisabledOk
-
-`func (o *DhcpdConfig) GetDisabledOk() (*bool, bool)`
-
-GetDisabledOk returns a tuple with the Disabled field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetDisabled
-
-`func (o *DhcpdConfig) SetDisabled(v bool)`
-
-SetDisabled sets Disabled field to given value.
-
-### HasDisabled
-
-`func (o *DhcpdConfig) HasDisabled() bool`
-
-HasDisabled returns a boolean if a field has been set.
 
 ### GetDnsServers
 

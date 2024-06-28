@@ -9,7 +9,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 )
 
-func tenantTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.MapValue) map[string]mistsdkgo.NetworkTenant {
+func TenantTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.MapValue) map[string]mistsdkgo.NetworkTenant {
 	data_map := make(map[string]mistsdkgo.NetworkTenant)
 	for k, v := range d.Elements() {
 		var v_interface interface{} = v

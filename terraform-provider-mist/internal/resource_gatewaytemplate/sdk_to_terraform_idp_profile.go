@@ -26,13 +26,13 @@ func idpProfileOverwriteMatchingSeveritiesSdkToTerraform(ctx context.Context, da
 
 func idpProfileOverwriteMatchingSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdkgo.IdpProfileMatching) basetypes.MapValue {
 	data_map_type := MatchingValue{}.AttributeTypes(ctx)
-	data__mapvalue := map[string]attr.Value{
+	data_map_value := map[string]attr.Value{
 		"attack_name": mist_transform.ListOfStringSdkToTerraform(ctx, d.GetAttackName()),
 		"dst_subnet":  mist_transform.ListOfStringSdkToTerraform(ctx, d.GetDstSubnet()),
 		"severity":    idpProfileOverwriteMatchingSeveritiesSdkToTerraform(ctx, d.GetSeverity()),
 	}
 
-	data := NewMatchingValueMust(data_map_type, data__mapvalue)
+	data := NewMatchingValueMust(data_map_type, data_map_value)
 	r, e := types.MapValueFrom(ctx, MatchingValue{}.Type(ctx), data)
 	diags.Append(e...)
 	return r
