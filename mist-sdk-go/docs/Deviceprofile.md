@@ -34,12 +34,12 @@ Name | Type | Description | Notes
 **Vars** | Pointer to **map[string]string** | a dictionary of name-&gt;value, the vars can then be used in Wlans. This can overwrite those from Site Vars | [optional] 
 **AdditionalConfigCmds** | Pointer to **[]string** | additional CLI commands to append to the generated Junos config  **Note**: no check is done | [optional] 
 **BgpConfig** | Pointer to [**map[string]BgpConfig**](BgpConfig.md) |  | [optional] 
-**DhcpdConfig** | Pointer to [**DhcpdConfigs**](DhcpdConfigs.md) |  | [optional] 
+**DhcpdConfig** | Pointer to [**map[string]DhcpdConfig**](DhcpdConfig.md) |  | [optional] 
 **ExtraRoutes** | Pointer to [**map[string]GatewayExtraRoute**](GatewayExtraRoute.md) |  | [optional] 
 **GatewayMatching** | Pointer to [**GatewayMatching**](GatewayMatching.md) |  | [optional] 
-**IdpProfiles** | Pointer to [**GatewayTemplateIdpProfiles**](GatewayTemplateIdpProfiles.md) |  | [optional] 
+**IdpProfiles** | Pointer to [**map[string]IdpProfile**](IdpProfile.md) | Property key is the profile name | [optional] 
 **IpConfigs** | Pointer to [**map[string]GatewayTemplateIpConfig**](GatewayTemplateIpConfig.md) | Property key is the network name | [optional] 
-**Networks** | Pointer to [**[]Network**](Network.md) | additional networks that are not already defined from Networks | [optional] 
+**Networks** | Pointer to [**[]Network**](Network.md) |  | [optional] 
 **OobIpConfig** | Pointer to [**JunosOobIpConfigs**](JunosOobIpConfigs.md) |  | [optional] 
 **PathPreferences** | Pointer to [**map[string]GatewayTemplatePathPreferences**](GatewayTemplatePathPreferences.md) | Property key is the path name | [optional] 
 **RouterId** | Pointer to **string** | auto assigned if not set | [optional] 
@@ -814,20 +814,20 @@ HasBgpConfig returns a boolean if a field has been set.
 
 ### GetDhcpdConfig
 
-`func (o *Deviceprofile) GetDhcpdConfig() DhcpdConfigs`
+`func (o *Deviceprofile) GetDhcpdConfig() map[string]DhcpdConfig`
 
 GetDhcpdConfig returns the DhcpdConfig field if non-nil, zero value otherwise.
 
 ### GetDhcpdConfigOk
 
-`func (o *Deviceprofile) GetDhcpdConfigOk() (*DhcpdConfigs, bool)`
+`func (o *Deviceprofile) GetDhcpdConfigOk() (*map[string]DhcpdConfig, bool)`
 
 GetDhcpdConfigOk returns a tuple with the DhcpdConfig field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetDhcpdConfig
 
-`func (o *Deviceprofile) SetDhcpdConfig(v DhcpdConfigs)`
+`func (o *Deviceprofile) SetDhcpdConfig(v map[string]DhcpdConfig)`
 
 SetDhcpdConfig sets DhcpdConfig field to given value.
 
@@ -889,20 +889,20 @@ HasGatewayMatching returns a boolean if a field has been set.
 
 ### GetIdpProfiles
 
-`func (o *Deviceprofile) GetIdpProfiles() GatewayTemplateIdpProfiles`
+`func (o *Deviceprofile) GetIdpProfiles() map[string]IdpProfile`
 
 GetIdpProfiles returns the IdpProfiles field if non-nil, zero value otherwise.
 
 ### GetIdpProfilesOk
 
-`func (o *Deviceprofile) GetIdpProfilesOk() (*GatewayTemplateIdpProfiles, bool)`
+`func (o *Deviceprofile) GetIdpProfilesOk() (*map[string]IdpProfile, bool)`
 
 GetIdpProfilesOk returns a tuple with the IdpProfiles field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetIdpProfiles
 
-`func (o *Deviceprofile) SetIdpProfiles(v GatewayTemplateIdpProfiles)`
+`func (o *Deviceprofile) SetIdpProfiles(v map[string]IdpProfile)`
 
 SetIdpProfiles sets IdpProfiles field to given value.
 

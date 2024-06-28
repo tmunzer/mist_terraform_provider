@@ -11,7 +11,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 )
 
-func vpnSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]mistsdkgo.NetworkVpnAccessConfig) basetypes.MapValue {
+func VpnSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]mistsdkgo.NetworkVpnAccessConfig) basetypes.MapValue {
 
 	state_value_map_attr_type := VpnAccessValue{}.AttributeTypes(ctx)
 	state_value_map_value := make(map[string]attr.Value)

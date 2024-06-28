@@ -6,8 +6,9 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **BfdProfile** | Pointer to [**GatewayPortVpnPathBfdProfile**](GatewayPortVpnPathBfdProfile.md) |  | [optional] [default to GATEWAYPORTVPNPATHBFDPROFILE_BROADBAND]
 **BfdUseTunnelMode** | Pointer to **bool** | whether to use tunnel mode. SSR only | [optional] [default to false]
+**Preference** | Pointer to **int32** | for a given VPN, when &#x60;path_selection.strategy&#x60;&#x3D;&#x3D;&#x60;simple&#x60;, the preference for a path (lower is preferred) | [optional] 
 **Role** | Pointer to [**GatewayPortVpnPathRole**](GatewayPortVpnPathRole.md) |  | [optional] [default to GATEWAYPORTVPNPATHROLE_SPOKE]
-**TrafficShaping** | Pointer to [**GatewayPortVpnPathTrafficShaping**](GatewayPortVpnPathTrafficShaping.md) |  | [optional] 
+**TrafficShaping** | Pointer to [**GatewayTrafficShaping**](GatewayTrafficShaping.md) |  | [optional] 
 
 ## Methods
 
@@ -78,6 +79,31 @@ SetBfdUseTunnelMode sets BfdUseTunnelMode field to given value.
 
 HasBfdUseTunnelMode returns a boolean if a field has been set.
 
+### GetPreference
+
+`func (o *GatewayPortVpnPath) GetPreference() int32`
+
+GetPreference returns the Preference field if non-nil, zero value otherwise.
+
+### GetPreferenceOk
+
+`func (o *GatewayPortVpnPath) GetPreferenceOk() (*int32, bool)`
+
+GetPreferenceOk returns a tuple with the Preference field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetPreference
+
+`func (o *GatewayPortVpnPath) SetPreference(v int32)`
+
+SetPreference sets Preference field to given value.
+
+### HasPreference
+
+`func (o *GatewayPortVpnPath) HasPreference() bool`
+
+HasPreference returns a boolean if a field has been set.
+
 ### GetRole
 
 `func (o *GatewayPortVpnPath) GetRole() GatewayPortVpnPathRole`
@@ -105,20 +131,20 @@ HasRole returns a boolean if a field has been set.
 
 ### GetTrafficShaping
 
-`func (o *GatewayPortVpnPath) GetTrafficShaping() GatewayPortVpnPathTrafficShaping`
+`func (o *GatewayPortVpnPath) GetTrafficShaping() GatewayTrafficShaping`
 
 GetTrafficShaping returns the TrafficShaping field if non-nil, zero value otherwise.
 
 ### GetTrafficShapingOk
 
-`func (o *GatewayPortVpnPath) GetTrafficShapingOk() (*GatewayPortVpnPathTrafficShaping, bool)`
+`func (o *GatewayPortVpnPath) GetTrafficShapingOk() (*GatewayTrafficShaping, bool)`
 
 GetTrafficShapingOk returns a tuple with the TrafficShaping field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetTrafficShaping
 
-`func (o *GatewayPortVpnPath) SetTrafficShaping(v GatewayPortVpnPathTrafficShaping)`
+`func (o *GatewayPortVpnPath) SetTrafficShaping(v GatewayTrafficShaping)`
 
 SetTrafficShaping sets TrafficShaping field to given value.
 

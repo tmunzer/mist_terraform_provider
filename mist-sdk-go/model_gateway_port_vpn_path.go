@@ -1,9 +1,9 @@
 /*
 Mist API
 
-> Version: **2406.1.7** > > Date: **June 27, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
+> Version: **2406.1.9** > > Date: **June 28, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
 
-API version: 2406.1.7
+API version: 2406.1.9
 Contact: tmunzer@juniper.net
 */
 
@@ -23,8 +23,10 @@ type GatewayPortVpnPath struct {
 	BfdProfile *GatewayPortVpnPathBfdProfile `json:"bfd_profile,omitempty"`
 	// whether to use tunnel mode. SSR only
 	BfdUseTunnelMode *bool `json:"bfd_use_tunnel_mode,omitempty"`
+	// for a given VPN, when `path_selection.strategy`==`simple`, the preference for a path (lower is preferred)
+	Preference *int32 `json:"preference,omitempty"`
 	Role *GatewayPortVpnPathRole `json:"role,omitempty"`
-	TrafficShaping *GatewayPortVpnPathTrafficShaping `json:"traffic_shaping,omitempty"`
+	TrafficShaping *GatewayTrafficShaping `json:"traffic_shaping,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -123,6 +125,38 @@ func (o *GatewayPortVpnPath) SetBfdUseTunnelMode(v bool) {
 	o.BfdUseTunnelMode = &v
 }
 
+// GetPreference returns the Preference field value if set, zero value otherwise.
+func (o *GatewayPortVpnPath) GetPreference() int32 {
+	if o == nil || IsNil(o.Preference) {
+		var ret int32
+		return ret
+	}
+	return *o.Preference
+}
+
+// GetPreferenceOk returns a tuple with the Preference field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *GatewayPortVpnPath) GetPreferenceOk() (*int32, bool) {
+	if o == nil || IsNil(o.Preference) {
+		return nil, false
+	}
+	return o.Preference, true
+}
+
+// HasPreference returns a boolean if a field has been set.
+func (o *GatewayPortVpnPath) HasPreference() bool {
+	if o != nil && !IsNil(o.Preference) {
+		return true
+	}
+
+	return false
+}
+
+// SetPreference gets a reference to the given int32 and assigns it to the Preference field.
+func (o *GatewayPortVpnPath) SetPreference(v int32) {
+	o.Preference = &v
+}
+
 // GetRole returns the Role field value if set, zero value otherwise.
 func (o *GatewayPortVpnPath) GetRole() GatewayPortVpnPathRole {
 	if o == nil || IsNil(o.Role) {
@@ -156,9 +190,9 @@ func (o *GatewayPortVpnPath) SetRole(v GatewayPortVpnPathRole) {
 }
 
 // GetTrafficShaping returns the TrafficShaping field value if set, zero value otherwise.
-func (o *GatewayPortVpnPath) GetTrafficShaping() GatewayPortVpnPathTrafficShaping {
+func (o *GatewayPortVpnPath) GetTrafficShaping() GatewayTrafficShaping {
 	if o == nil || IsNil(o.TrafficShaping) {
-		var ret GatewayPortVpnPathTrafficShaping
+		var ret GatewayTrafficShaping
 		return ret
 	}
 	return *o.TrafficShaping
@@ -166,7 +200,7 @@ func (o *GatewayPortVpnPath) GetTrafficShaping() GatewayPortVpnPathTrafficShapin
 
 // GetTrafficShapingOk returns a tuple with the TrafficShaping field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *GatewayPortVpnPath) GetTrafficShapingOk() (*GatewayPortVpnPathTrafficShaping, bool) {
+func (o *GatewayPortVpnPath) GetTrafficShapingOk() (*GatewayTrafficShaping, bool) {
 	if o == nil || IsNil(o.TrafficShaping) {
 		return nil, false
 	}
@@ -182,8 +216,8 @@ func (o *GatewayPortVpnPath) HasTrafficShaping() bool {
 	return false
 }
 
-// SetTrafficShaping gets a reference to the given GatewayPortVpnPathTrafficShaping and assigns it to the TrafficShaping field.
-func (o *GatewayPortVpnPath) SetTrafficShaping(v GatewayPortVpnPathTrafficShaping) {
+// SetTrafficShaping gets a reference to the given GatewayTrafficShaping and assigns it to the TrafficShaping field.
+func (o *GatewayPortVpnPath) SetTrafficShaping(v GatewayTrafficShaping) {
 	o.TrafficShaping = &v
 }
 
@@ -202,6 +236,9 @@ func (o GatewayPortVpnPath) ToMap() (map[string]interface{}, error) {
 	}
 	if !IsNil(o.BfdUseTunnelMode) {
 		toSerialize["bfd_use_tunnel_mode"] = o.BfdUseTunnelMode
+	}
+	if !IsNil(o.Preference) {
+		toSerialize["preference"] = o.Preference
 	}
 	if !IsNil(o.Role) {
 		toSerialize["role"] = o.Role
@@ -233,6 +270,7 @@ func (o *GatewayPortVpnPath) UnmarshalJSON(data []byte) (err error) {
 	if err = json.Unmarshal(data, &additionalProperties); err == nil {
 		delete(additionalProperties, "bfd_profile")
 		delete(additionalProperties, "bfd_use_tunnel_mode")
+		delete(additionalProperties, "preference")
 		delete(additionalProperties, "role")
 		delete(additionalProperties, "traffic_shaping")
 		o.AdditionalProperties = additionalProperties

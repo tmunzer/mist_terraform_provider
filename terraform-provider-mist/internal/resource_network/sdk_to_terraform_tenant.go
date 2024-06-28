@@ -11,7 +11,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 )
 
-func tenantSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]mistsdkgo.NetworkTenant) basetypes.MapValue {
+func TenantSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]mistsdkgo.NetworkTenant) basetypes.MapValue {
 
 	state_value_map_attr_type := TenantsValue{}.AttributeTypes(ctx)
 	state_value_map_value := make(map[string]attr.Value)

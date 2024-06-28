@@ -1,9 +1,9 @@
 /*
 Mist API
 
-> Version: **2406.1.7** > > Date: **June 27, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
+> Version: **2406.1.9** > > Date: **June 28, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
 
-API version: 2406.1.7
+API version: 2406.1.9
 Contact: tmunzer@juniper.net
 */
 
@@ -27,7 +27,7 @@ type ModelSwitch struct {
 	AdditionalConfigCmds []string `json:"additional_config_cmds,omitempty"`
 	CreatedTime *float32 `json:"created_time,omitempty"`
 	DeviceprofileId *string `json:"deviceprofile_id,omitempty"`
-	DhcpConfig *DhcpdConfigs `json:"dhcp_config,omitempty"`
+	DhcpConfig *map[string]DhcpdConfig `json:"dhcp_config,omitempty"`
 	DhcpSnooping *DhcpSnooping `json:"dhcp_snooping,omitempty"`
 	// for a claimed switch, we control the configs by default. This option (disables the behavior)
 	DisableAutoConfig *bool `json:"disable_auto_config,omitempty"`
@@ -276,9 +276,9 @@ func (o *ModelSwitch) SetDeviceprofileId(v string) {
 }
 
 // GetDhcpConfig returns the DhcpConfig field value if set, zero value otherwise.
-func (o *ModelSwitch) GetDhcpConfig() DhcpdConfigs {
+func (o *ModelSwitch) GetDhcpConfig() map[string]DhcpdConfig {
 	if o == nil || IsNil(o.DhcpConfig) {
-		var ret DhcpdConfigs
+		var ret map[string]DhcpdConfig
 		return ret
 	}
 	return *o.DhcpConfig
@@ -286,7 +286,7 @@ func (o *ModelSwitch) GetDhcpConfig() DhcpdConfigs {
 
 // GetDhcpConfigOk returns a tuple with the DhcpConfig field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ModelSwitch) GetDhcpConfigOk() (*DhcpdConfigs, bool) {
+func (o *ModelSwitch) GetDhcpConfigOk() (*map[string]DhcpdConfig, bool) {
 	if o == nil || IsNil(o.DhcpConfig) {
 		return nil, false
 	}
@@ -302,8 +302,8 @@ func (o *ModelSwitch) HasDhcpConfig() bool {
 	return false
 }
 
-// SetDhcpConfig gets a reference to the given DhcpdConfigs and assigns it to the DhcpConfig field.
-func (o *ModelSwitch) SetDhcpConfig(v DhcpdConfigs) {
+// SetDhcpConfig gets a reference to the given map[string]DhcpdConfig and assigns it to the DhcpConfig field.
+func (o *ModelSwitch) SetDhcpConfig(v map[string]DhcpdConfig) {
 	o.DhcpConfig = &v
 }
 

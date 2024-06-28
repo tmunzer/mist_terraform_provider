@@ -7,7 +7,7 @@ Name | Type | Description | Notes
 **AdditionalConfigCmds** | Pointer to **[]string** | additional CLI commands to append to the generated Junos config  **Note**: no check is done | [optional] 
 **CreatedTime** | Pointer to **float32** |  | [optional] [readonly] 
 **DeviceprofileId** | Pointer to **string** |  | [optional] 
-**DhcpdConfig** | Pointer to [**DhcpdConfigs**](DhcpdConfigs.md) |  | [optional] 
+**DhcpdConfig** | Pointer to [**map[string]DhcpdConfig**](DhcpdConfig.md) |  | [optional] 
 **ExtraRoutes** | Pointer to [**map[string]GatewayExtraRoute**](GatewayExtraRoute.md) |  | [optional] 
 **ForSite** | Pointer to **bool** |  | [optional] [readonly] 
 **Id** | Pointer to **string** |  | [optional] [readonly] 
@@ -124,20 +124,20 @@ HasDeviceprofileId returns a boolean if a field has been set.
 
 ### GetDhcpdConfig
 
-`func (o *Gateway) GetDhcpdConfig() DhcpdConfigs`
+`func (o *Gateway) GetDhcpdConfig() map[string]DhcpdConfig`
 
 GetDhcpdConfig returns the DhcpdConfig field if non-nil, zero value otherwise.
 
 ### GetDhcpdConfigOk
 
-`func (o *Gateway) GetDhcpdConfigOk() (*DhcpdConfigs, bool)`
+`func (o *Gateway) GetDhcpdConfigOk() (*map[string]DhcpdConfig, bool)`
 
 GetDhcpdConfigOk returns a tuple with the DhcpdConfig field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetDhcpdConfig
 
-`func (o *Gateway) SetDhcpdConfig(v DhcpdConfigs)`
+`func (o *Gateway) SetDhcpdConfig(v map[string]DhcpdConfig)`
 
 SetDhcpdConfig sets DhcpdConfig field to given value.
 

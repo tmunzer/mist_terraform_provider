@@ -31,10 +31,10 @@ Name | Type | Description | Notes
 **Speed** | Pointer to **string** |  | [optional] [default to "auto"]
 **SsrNoVirtualMac** | Pointer to **bool** | when SSR is running as VM, this is required on certain hosting platforms | [optional] [default to false]
 **SvrPortRange** | Pointer to **string** | for SSR only | [optional] [default to "none"]
-**TrafficShaping** | Pointer to [**GatewayPortTrafficShaping**](GatewayPortTrafficShaping.md) |  | [optional] 
+**TrafficShaping** | Pointer to [**GatewayTrafficShaping**](GatewayTrafficShaping.md) |  | [optional] 
 **Usage** | [**GatewayPortUsage**](GatewayPortUsage.md) |  | 
 **VlanId** | Pointer to **int32** | if WAN interface is on a VLAN | [optional] 
-**VpnPaths** | Pointer to [**GatewayPortVpnPaths**](GatewayPortVpnPaths.md) |  | [optional] 
+**VpnPaths** | Pointer to [**map[string]GatewayPortVpnPath**](GatewayPortVpnPath.md) |  | [optional] 
 **WanArpPolicer** | Pointer to [**GatewayPortWanArpPolicer**](GatewayPortWanArpPolicer.md) |  | [optional] [default to GATEWAYPORTWANARPPOLICER_RECOMMENDED]
 **WanExtIp** | Pointer to **string** | optional, if spoke should reach this port by a different IP | [optional] 
 **WanSourceNat** | Pointer to [**GatewayPortWanSourceNat**](GatewayPortWanSourceNat.md) |  | [optional] 
@@ -736,20 +736,20 @@ HasSvrPortRange returns a boolean if a field has been set.
 
 ### GetTrafficShaping
 
-`func (o *GatewayPortConfig) GetTrafficShaping() GatewayPortTrafficShaping`
+`func (o *GatewayPortConfig) GetTrafficShaping() GatewayTrafficShaping`
 
 GetTrafficShaping returns the TrafficShaping field if non-nil, zero value otherwise.
 
 ### GetTrafficShapingOk
 
-`func (o *GatewayPortConfig) GetTrafficShapingOk() (*GatewayPortTrafficShaping, bool)`
+`func (o *GatewayPortConfig) GetTrafficShapingOk() (*GatewayTrafficShaping, bool)`
 
 GetTrafficShapingOk returns a tuple with the TrafficShaping field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetTrafficShaping
 
-`func (o *GatewayPortConfig) SetTrafficShaping(v GatewayPortTrafficShaping)`
+`func (o *GatewayPortConfig) SetTrafficShaping(v GatewayTrafficShaping)`
 
 SetTrafficShaping sets TrafficShaping field to given value.
 
@@ -806,20 +806,20 @@ HasVlanId returns a boolean if a field has been set.
 
 ### GetVpnPaths
 
-`func (o *GatewayPortConfig) GetVpnPaths() GatewayPortVpnPaths`
+`func (o *GatewayPortConfig) GetVpnPaths() map[string]GatewayPortVpnPath`
 
 GetVpnPaths returns the VpnPaths field if non-nil, zero value otherwise.
 
 ### GetVpnPathsOk
 
-`func (o *GatewayPortConfig) GetVpnPathsOk() (*GatewayPortVpnPaths, bool)`
+`func (o *GatewayPortConfig) GetVpnPathsOk() (*map[string]GatewayPortVpnPath, bool)`
 
 GetVpnPathsOk returns a tuple with the VpnPaths field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetVpnPaths
 
-`func (o *GatewayPortConfig) SetVpnPaths(v GatewayPortVpnPaths)`
+`func (o *GatewayPortConfig) SetVpnPaths(v map[string]GatewayPortVpnPath)`
 
 SetVpnPaths sets VpnPaths field to given value.
 

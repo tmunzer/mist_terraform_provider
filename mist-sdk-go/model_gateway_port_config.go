@@ -1,9 +1,9 @@
 /*
 Mist API
 
-> Version: **2406.1.7** > > Date: **June 27, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
+> Version: **2406.1.9** > > Date: **June 28, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
 
-API version: 2406.1.7
+API version: 2406.1.9
 Contact: tmunzer@juniper.net
 */
 
@@ -65,11 +65,11 @@ type GatewayPortConfig struct {
 	SsrNoVirtualMac *bool `json:"ssr_no_virtual_mac,omitempty"`
 	// for SSR only
 	SvrPortRange *string `json:"svr_port_range,omitempty"`
-	TrafficShaping *GatewayPortTrafficShaping `json:"traffic_shaping,omitempty"`
+	TrafficShaping *GatewayTrafficShaping `json:"traffic_shaping,omitempty"`
 	Usage GatewayPortUsage `json:"usage"`
 	// if WAN interface is on a VLAN
 	VlanId *int32 `json:"vlan_id,omitempty"`
-	VpnPaths *GatewayPortVpnPaths `json:"vpn_paths,omitempty"`
+	VpnPaths *map[string]GatewayPortVpnPath `json:"vpn_paths,omitempty"`
 	WanArpPolicer *GatewayPortWanArpPolicer `json:"wan_arp_policer,omitempty"`
 	// optional, if spoke should reach this port by a different IP
 	WanExtIp *string `json:"wan_ext_ip,omitempty"`
@@ -1019,9 +1019,9 @@ func (o *GatewayPortConfig) SetSvrPortRange(v string) {
 }
 
 // GetTrafficShaping returns the TrafficShaping field value if set, zero value otherwise.
-func (o *GatewayPortConfig) GetTrafficShaping() GatewayPortTrafficShaping {
+func (o *GatewayPortConfig) GetTrafficShaping() GatewayTrafficShaping {
 	if o == nil || IsNil(o.TrafficShaping) {
-		var ret GatewayPortTrafficShaping
+		var ret GatewayTrafficShaping
 		return ret
 	}
 	return *o.TrafficShaping
@@ -1029,7 +1029,7 @@ func (o *GatewayPortConfig) GetTrafficShaping() GatewayPortTrafficShaping {
 
 // GetTrafficShapingOk returns a tuple with the TrafficShaping field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *GatewayPortConfig) GetTrafficShapingOk() (*GatewayPortTrafficShaping, bool) {
+func (o *GatewayPortConfig) GetTrafficShapingOk() (*GatewayTrafficShaping, bool) {
 	if o == nil || IsNil(o.TrafficShaping) {
 		return nil, false
 	}
@@ -1045,8 +1045,8 @@ func (o *GatewayPortConfig) HasTrafficShaping() bool {
 	return false
 }
 
-// SetTrafficShaping gets a reference to the given GatewayPortTrafficShaping and assigns it to the TrafficShaping field.
-func (o *GatewayPortConfig) SetTrafficShaping(v GatewayPortTrafficShaping) {
+// SetTrafficShaping gets a reference to the given GatewayTrafficShaping and assigns it to the TrafficShaping field.
+func (o *GatewayPortConfig) SetTrafficShaping(v GatewayTrafficShaping) {
 	o.TrafficShaping = &v
 }
 
@@ -1107,9 +1107,9 @@ func (o *GatewayPortConfig) SetVlanId(v int32) {
 }
 
 // GetVpnPaths returns the VpnPaths field value if set, zero value otherwise.
-func (o *GatewayPortConfig) GetVpnPaths() GatewayPortVpnPaths {
+func (o *GatewayPortConfig) GetVpnPaths() map[string]GatewayPortVpnPath {
 	if o == nil || IsNil(o.VpnPaths) {
-		var ret GatewayPortVpnPaths
+		var ret map[string]GatewayPortVpnPath
 		return ret
 	}
 	return *o.VpnPaths
@@ -1117,7 +1117,7 @@ func (o *GatewayPortConfig) GetVpnPaths() GatewayPortVpnPaths {
 
 // GetVpnPathsOk returns a tuple with the VpnPaths field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *GatewayPortConfig) GetVpnPathsOk() (*GatewayPortVpnPaths, bool) {
+func (o *GatewayPortConfig) GetVpnPathsOk() (*map[string]GatewayPortVpnPath, bool) {
 	if o == nil || IsNil(o.VpnPaths) {
 		return nil, false
 	}
@@ -1133,8 +1133,8 @@ func (o *GatewayPortConfig) HasVpnPaths() bool {
 	return false
 }
 
-// SetVpnPaths gets a reference to the given GatewayPortVpnPaths and assigns it to the VpnPaths field.
-func (o *GatewayPortConfig) SetVpnPaths(v GatewayPortVpnPaths) {
+// SetVpnPaths gets a reference to the given map[string]GatewayPortVpnPath and assigns it to the VpnPaths field.
+func (o *GatewayPortConfig) SetVpnPaths(v map[string]GatewayPortVpnPath) {
 	o.VpnPaths = &v
 }
 

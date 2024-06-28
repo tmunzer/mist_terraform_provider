@@ -460,7 +460,6 @@ docs/DhcpdConfigType.md
 docs/DhcpdConfigType6.md
 docs/DhcpdConfigVendorOption.md
 docs/DhcpdConfigVendorOptionType.md
-docs/DhcpdConfigs.md
 docs/DiscoveredSwitch.md
 docs/DiscoveredSwitchAp.md
 docs/DiscoveredSwitchMetric.md
@@ -526,13 +525,10 @@ docs/GatewayPortDuplex.md
 docs/GatewayPortLteAuth.md
 docs/GatewayPortMirroring.md
 docs/GatewayPortMirroringPortMirror.md
-docs/GatewayPortTrafficShaping.md
 docs/GatewayPortUsage.md
 docs/GatewayPortVpnPath.md
 docs/GatewayPortVpnPathBfdProfile.md
 docs/GatewayPortVpnPathRole.md
-docs/GatewayPortVpnPathTrafficShaping.md
-docs/GatewayPortVpnPaths.md
 docs/GatewayPortWanArpPolicer.md
 docs/GatewayPortWanSourceNat.md
 docs/GatewayPortWanType.md
@@ -542,7 +538,6 @@ docs/GatewayStatsClusterStat.md
 docs/GatewayStatsDhcpdStatLan.md
 docs/GatewayStatsSpuStat.md
 docs/GatewayTemplate.md
-docs/GatewayTemplateIdpProfiles.md
 docs/GatewayTemplateIpConfig.md
 docs/GatewayTemplatePathPreferences.md
 docs/GatewayTemplatePathPreferencesPath.md
@@ -557,6 +552,7 @@ docs/GatewayTemplateTunnelProbe.md
 docs/GatewayTemplateTunnelProtocol.md
 docs/GatewayTemplateTunnelVersion.md
 docs/GatewayTemplateType.md
+docs/GatewayTrafficShaping.md
 docs/GatewayWanPpoeAuth.md
 docs/GatewayWanType.md
 docs/GetOrgMxedgeUpgradeInfoChannel.md
@@ -2051,7 +2047,6 @@ model_dhcpd_config_type.go
 model_dhcpd_config_type6.go
 model_dhcpd_config_vendor_option.go
 model_dhcpd_config_vendor_option_type.go
-model_dhcpd_configs.go
 model_discovered_switch.go
 model_discovered_switch_ap.go
 model_discovered_switch_metric.go
@@ -2117,13 +2112,10 @@ model_gateway_port_duplex.go
 model_gateway_port_lte_auth.go
 model_gateway_port_mirroring.go
 model_gateway_port_mirroring_port_mirror.go
-model_gateway_port_traffic_shaping.go
 model_gateway_port_usage.go
 model_gateway_port_vpn_path.go
 model_gateway_port_vpn_path_bfd_profile.go
 model_gateway_port_vpn_path_role.go
-model_gateway_port_vpn_path_traffic_shaping.go
-model_gateway_port_vpn_paths.go
 model_gateway_port_wan_arp_policer.go
 model_gateway_port_wan_source_nat.go
 model_gateway_port_wan_type.go
@@ -2133,7 +2125,6 @@ model_gateway_stats_cluster_stat.go
 model_gateway_stats_dhcpd_stat_lan.go
 model_gateway_stats_spu_stat.go
 model_gateway_template.go
-model_gateway_template_idp_profiles.go
 model_gateway_template_ip_config.go
 model_gateway_template_path_preferences.go
 model_gateway_template_path_preferences_path.go
@@ -2148,6 +2139,7 @@ model_gateway_template_tunnel_probe.go
 model_gateway_template_tunnel_protocol.go
 model_gateway_template_tunnel_version.go
 model_gateway_template_type.go
+model_gateway_traffic_shaping.go
 model_gateway_wan_ppoe_auth.go
 model_gateway_wan_type.go
 model_get_org_mxedge_upgrade_info_channel.go

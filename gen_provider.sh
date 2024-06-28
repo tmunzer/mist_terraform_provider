@@ -54,17 +54,19 @@ tfplugingen-openapi generate \
     --output ./provider-code-spec.json \
     ./mist.provider.yml 
 
-#python3 ./custom.py
+
+echo "fix provider specs..."
+cp ./provider-code-spec.json ./provider-code-spec.json.bak
+python3 ./gen_provider_mid.py
+
 echo "generate provider..."
 tfplugingen-framework generate resources \
     --input ./provider-code-spec.json \
     --output ./terraform-provider-mist/internal
 
-if echo "x$1" | grep -q "x-r" 
-then
-    echo "fix provider..."
-    python3 ./gen_provider_post.py
-fi
+echo "fix provider..."
+python3 ./gen_provider_post.py
+
 
 
 # tfplugingen-framework scaffold resource \

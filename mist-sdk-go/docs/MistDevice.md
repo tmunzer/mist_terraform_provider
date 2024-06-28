@@ -46,7 +46,7 @@ Name | Type | Description | Notes
 **AclPolicies** | Pointer to [**[]AclPolicy**](AclPolicy.md) |  | [optional] 
 **AclTags** | Pointer to [**map[string]AclTag**](AclTag.md) | ACL Tags to identify traffic source or destination. Key name is the tag name | [optional] 
 **AdditionalConfigCmds** | Pointer to **[]string** | additional CLI commands to append to the generated Junos config  **Note**: no check is done | [optional] 
-**DhcpConfig** | Pointer to [**DhcpdConfigs**](DhcpdConfigs.md) |  | [optional] 
+**DhcpConfig** | Pointer to [**map[string]DhcpdConfig**](DhcpdConfig.md) |  | [optional] 
 **DhcpSnooping** | Pointer to [**DhcpSnooping**](DhcpSnooping.md) |  | [optional] 
 **DisableAutoConfig** | Pointer to **bool** | for a claimed switch, we control the configs by default. This option (disables the behavior) | [optional] [default to false]
 **DnsServers** | Pointer to **[]string** | Global dns settings. To keep compatibility, dns settings in &#x60;ip_config&#x60; and &#x60;oob_ip_config&#x60; will overwrite this setting | [optional] 
@@ -70,7 +70,7 @@ Name | Type | Description | Notes
 **VirtualChassis** | Pointer to [**SwitchVirtualChassis**](SwitchVirtualChassis.md) |  | [optional] 
 **VrfConfig** | Pointer to [**VrfConfig**](VrfConfig.md) |  | [optional] 
 **VrrpConfig** | Pointer to [**VrrpConfig**](VrrpConfig.md) |  | [optional] 
-**DhcpdConfig** | Pointer to [**DhcpdConfigs**](DhcpdConfigs.md) |  | [optional] 
+**DhcpdConfig** | Pointer to [**map[string]DhcpdConfig**](DhcpdConfig.md) |  | [optional] 
 **MspId** | Pointer to **string** |  | [optional] [readonly] 
 
 ## Methods
@@ -1144,20 +1144,20 @@ HasAdditionalConfigCmds returns a boolean if a field has been set.
 
 ### GetDhcpConfig
 
-`func (o *MistDevice) GetDhcpConfig() DhcpdConfigs`
+`func (o *MistDevice) GetDhcpConfig() map[string]DhcpdConfig`
 
 GetDhcpConfig returns the DhcpConfig field if non-nil, zero value otherwise.
 
 ### GetDhcpConfigOk
 
-`func (o *MistDevice) GetDhcpConfigOk() (*DhcpdConfigs, bool)`
+`func (o *MistDevice) GetDhcpConfigOk() (*map[string]DhcpdConfig, bool)`
 
 GetDhcpConfigOk returns a tuple with the DhcpConfig field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetDhcpConfig
 
-`func (o *MistDevice) SetDhcpConfig(v DhcpdConfigs)`
+`func (o *MistDevice) SetDhcpConfig(v map[string]DhcpdConfig)`
 
 SetDhcpConfig sets DhcpConfig field to given value.
 
@@ -1744,20 +1744,20 @@ HasVrrpConfig returns a boolean if a field has been set.
 
 ### GetDhcpdConfig
 
-`func (o *MistDevice) GetDhcpdConfig() DhcpdConfigs`
+`func (o *MistDevice) GetDhcpdConfig() map[string]DhcpdConfig`
 
 GetDhcpdConfig returns the DhcpdConfig field if non-nil, zero value otherwise.
 
 ### GetDhcpdConfigOk
 
-`func (o *MistDevice) GetDhcpdConfigOk() (*DhcpdConfigs, bool)`
+`func (o *MistDevice) GetDhcpdConfigOk() (*map[string]DhcpdConfig, bool)`
 
 GetDhcpdConfigOk returns a tuple with the DhcpdConfig field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetDhcpdConfig
 
-`func (o *MistDevice) SetDhcpdConfig(v DhcpdConfigs)`
+`func (o *MistDevice) SetDhcpdConfig(v map[string]DhcpdConfig)`
 
 SetDhcpdConfig sets DhcpdConfig field to given value.
 

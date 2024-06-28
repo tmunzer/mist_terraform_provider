@@ -27,3 +27,21 @@ func ListOfStringSdkToTerraform(ctx context.Context, data []string) basetypes.Li
 	list, _ := types.ListValue(items_type, items)
 	return list
 }
+
+// func ListOfIntTerraformToSdk(ctx context.Context, list basetypes.ListValue) []int64 {
+// 	var items []int64
+// 	for _, item := range list.Elements() {
+// 		items = append(items, types.Int64Value(int64(item)))
+// 	}
+// 	return items
+// }
+
+func ListOfIntSdkToTerraform(ctx context.Context, data []int32) basetypes.ListValue {
+	var items []attr.Value
+	var items_type attr.Type = basetypes.Int64Type{}
+	for _, item := range data {
+		items = append(items, types.Int64Value(int64(item)))
+	}
+	list, _ := types.ListValue(items_type, items)
+	return list
+}

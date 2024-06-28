@@ -9,7 +9,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
-func internalAccessSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdkgo.NetworkInternalAccess) InternalAccessValue {
+func InternalAccessSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdkgo.NetworkInternalAccess) InternalAccessValue {
 
 	data_map_attr_type := InternalAccessValue{}.AttributeTypes(ctx)
 	data_map_value := map[string]attr.Value{

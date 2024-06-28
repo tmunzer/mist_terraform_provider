@@ -1,9 +1,9 @@
 /*
 Mist API
 
-> Version: **2406.1.7** > > Date: **June 27, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
+> Version: **2406.1.9** > > Date: **June 28, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
 
-API version: 2406.1.7
+API version: 2406.1.9
 Contact: tmunzer@juniper.net
 */
 
@@ -25,16 +25,16 @@ type GatewayTemplate struct {
 	AdditionalConfigCmds []string `json:"additional_config_cmds,omitempty"`
 	BgpConfig *map[string]BgpConfig `json:"bgp_config,omitempty"`
 	CreatedTime *float32 `json:"created_time,omitempty"`
-	DhcpdConfig *DhcpdConfigs `json:"dhcpd_config,omitempty"`
+	DhcpdConfig *map[string]DhcpdConfig `json:"dhcpd_config,omitempty"`
 	ExtraRoutes *map[string]GatewayExtraRoute `json:"extra_routes,omitempty"`
 	GatewayMatching *GatewayMatching `json:"gateway_matching,omitempty"`
 	Id *string `json:"id,omitempty"`
-	IdpProfiles *GatewayTemplateIdpProfiles `json:"idp_profiles,omitempty"`
+	// Property key is the profile name
+	IdpProfiles *map[string]IdpProfile `json:"idp_profiles,omitempty"`
 	// Property key is the network name
 	IpConfigs *map[string]GatewayTemplateIpConfig `json:"ip_configs,omitempty"`
 	ModifiedTime *float32 `json:"modified_time,omitempty"`
 	Name string `json:"name"`
-	// additional networks that are not already defined from Networks
 	Networks []Network `json:"networks,omitempty"`
 	OobIpConfig *JunosOobIpConfigs `json:"oob_ip_config,omitempty"`
 	OrgId *string `json:"org_id,omitempty"`
@@ -175,9 +175,9 @@ func (o *GatewayTemplate) SetCreatedTime(v float32) {
 }
 
 // GetDhcpdConfig returns the DhcpdConfig field value if set, zero value otherwise.
-func (o *GatewayTemplate) GetDhcpdConfig() DhcpdConfigs {
+func (o *GatewayTemplate) GetDhcpdConfig() map[string]DhcpdConfig {
 	if o == nil || IsNil(o.DhcpdConfig) {
-		var ret DhcpdConfigs
+		var ret map[string]DhcpdConfig
 		return ret
 	}
 	return *o.DhcpdConfig
@@ -185,7 +185,7 @@ func (o *GatewayTemplate) GetDhcpdConfig() DhcpdConfigs {
 
 // GetDhcpdConfigOk returns a tuple with the DhcpdConfig field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *GatewayTemplate) GetDhcpdConfigOk() (*DhcpdConfigs, bool) {
+func (o *GatewayTemplate) GetDhcpdConfigOk() (*map[string]DhcpdConfig, bool) {
 	if o == nil || IsNil(o.DhcpdConfig) {
 		return nil, false
 	}
@@ -201,8 +201,8 @@ func (o *GatewayTemplate) HasDhcpdConfig() bool {
 	return false
 }
 
-// SetDhcpdConfig gets a reference to the given DhcpdConfigs and assigns it to the DhcpdConfig field.
-func (o *GatewayTemplate) SetDhcpdConfig(v DhcpdConfigs) {
+// SetDhcpdConfig gets a reference to the given map[string]DhcpdConfig and assigns it to the DhcpdConfig field.
+func (o *GatewayTemplate) SetDhcpdConfig(v map[string]DhcpdConfig) {
 	o.DhcpdConfig = &v
 }
 
@@ -303,9 +303,9 @@ func (o *GatewayTemplate) SetId(v string) {
 }
 
 // GetIdpProfiles returns the IdpProfiles field value if set, zero value otherwise.
-func (o *GatewayTemplate) GetIdpProfiles() GatewayTemplateIdpProfiles {
+func (o *GatewayTemplate) GetIdpProfiles() map[string]IdpProfile {
 	if o == nil || IsNil(o.IdpProfiles) {
-		var ret GatewayTemplateIdpProfiles
+		var ret map[string]IdpProfile
 		return ret
 	}
 	return *o.IdpProfiles
@@ -313,7 +313,7 @@ func (o *GatewayTemplate) GetIdpProfiles() GatewayTemplateIdpProfiles {
 
 // GetIdpProfilesOk returns a tuple with the IdpProfiles field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *GatewayTemplate) GetIdpProfilesOk() (*GatewayTemplateIdpProfiles, bool) {
+func (o *GatewayTemplate) GetIdpProfilesOk() (*map[string]IdpProfile, bool) {
 	if o == nil || IsNil(o.IdpProfiles) {
 		return nil, false
 	}
@@ -329,8 +329,8 @@ func (o *GatewayTemplate) HasIdpProfiles() bool {
 	return false
 }
 
-// SetIdpProfiles gets a reference to the given GatewayTemplateIdpProfiles and assigns it to the IdpProfiles field.
-func (o *GatewayTemplate) SetIdpProfiles(v GatewayTemplateIdpProfiles) {
+// SetIdpProfiles gets a reference to the given map[string]IdpProfile and assigns it to the IdpProfiles field.
+func (o *GatewayTemplate) SetIdpProfiles(v map[string]IdpProfile) {
 	o.IdpProfiles = &v
 }
 

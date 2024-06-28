@@ -2,34 +2,51 @@ package resource_gatewaytemplate
 
 import (
 	"context"
-	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
-
-	mist_transform "terraform-provider-mist/internal/provider/utils/transform"
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+
+	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
+	mist_transform "terraform-provider-mist/internal/provider/utils/transform"
 )
 
-func SdkToTerraform(ctx context.Context, data *mistsdkgo.Network) (NetworkModel, diag.Diagnostics) {
-	var state NetworkModel
+func SdkToTerraform(ctx context.Context, data *mistsdkgo.GatewayTemplate) (GatewaytemplateModel, diag.Diagnostics) {
+	var state GatewaytemplateModel
 	var diags diag.Diagnostics
 
 	state.Id = types.StringValue(data.GetId())
 	state.OrgId = types.StringValue(data.GetOrgId())
 	state.Name = types.StringValue(data.GetName())
 
-	state.DisallowMistServices = types.BoolValue(data.GetDisallowMistServices())
-	state.Gateway = types.StringValue(data.GetGateway())
-	state.Gateway6 = types.StringValue(data.GetGateway6())
-	state.InternalAccess = internalAccessSdkToTerraform(ctx, &diags, data.GetInternalAccess())
-	state.InternetAccess = internetAccessSdkToTerraform(ctx, &diags, data.GetInternetAccess())
-	state.Isolation = types.BoolValue(data.GetIsolation())
-	state.RoutedForNetworks = mist_transform.ListOfStringSdkToTerraform(ctx, data.GetRoutedForNetworks())
-	state.Subnet = types.StringValue(data.GetSubnet())
-	state.Subnet6 = types.StringValue(data.GetSubnet6())
-	state.Tenants = tenantSdkToTerraform(ctx, &diags, data.GetTenants())
-	state.VlanId = types.Int64Value(int64(data.GetVlanId()))
-	state.VpnAccess = vpnSdkToTerraform(ctx, &diags, data.GetVpnAccess())
+	state.AdditionalConfigCmds = mist_transform.ListOfStringSdkToTerraform(ctx, data.GetAdditionalConfigCmds())
+
+	state.BgpConfig = bgpConfigSdkToTerraform(ctx, &diags, data.GetBgpConfig())
+
+	state.DhcpdConfig = dhcpdConfigSdkToTerraform(ctx, &diags, data.GetDhcpdConfig())
+
+	state.ExtraRoutes = extraRoutesSdkToTerraform(ctx, &diags, data.GetExtraRoutes())
+
+	state.IdpProfiles = idpProfileSdkToTerraform(ctx, &diags, data.GetIdpProfiles())
+
+	state.IpConfigs = ipConfigsSdkToTerraform(ctx, &diags, data.GetIpConfigs())
+
+	state.Networks = NetworksSdkToTerraform(ctx, &diags, data.GetNetworks())
+
+	state.PathPreferences = pathPreferencesSdkToTerraform(ctx, &diags, data.GetPathPreferences())
+
+	state.PortConfig = portConfigSdkToTerraform(ctx, &diags, data.GetPortConfig())
+
+	state.RouterId = types.StringValue(data.GetRouterId())
+
+	state.RoutingPolicies = routingPolociesSdkToTerraform(ctx, &diags, data.GetRoutingPolicies())
+
+	state.ServicePolicies = servicePoliciesSdkToTerraform(ctx, &diags, data.GetServicePolicies())
+
+	state.TunnelConfigs = tunnelConfigsSdkToTerraform(ctx, &diags, data.GetTunnelConfigs())
+
+	state.TunnelProviderOptions = tunnelProviderSdkToTerraform(ctx, &diags, data.GetTunnelProviderOptions())
+
+	state.Type = types.StringValue(string(data.GetType()))
 
 	return state, diags
 }
