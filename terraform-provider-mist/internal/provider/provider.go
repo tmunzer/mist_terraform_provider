@@ -143,5 +143,7 @@ func (p *mistProvider) Resources(ctx context.Context) []func() resource.Resource
 		NewServiceResource,
 		NewNetworkResource,
 		NewGatewayTemplate,
+		NewNacTag,
+		NewNacRule,
 	}
 }

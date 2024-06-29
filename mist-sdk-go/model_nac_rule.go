@@ -1,9 +1,9 @@
 /*
 Mist API
 
-> Version: **2406.1.9** > > Date: **June 28, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
+> Version: **2406.1.10** > > Date: **June 29, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
 
-API version: 2406.1.9
+API version: 2406.1.10
 Contact: tmunzer@juniper.net
 */
 
@@ -33,7 +33,7 @@ type NacRule struct {
 	Name string `json:"name"`
 	NotMatching *NacRuleMatching `json:"not_matching,omitempty"`
 	// the order of the rule, lower value implies higher priority
-	Order *float32 `json:"order,omitempty"`
+	Order *int32 `json:"order,omitempty"`
 	OrgId *string `json:"org_id,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
@@ -336,9 +336,9 @@ func (o *NacRule) SetNotMatching(v NacRuleMatching) {
 }
 
 // GetOrder returns the Order field value if set, zero value otherwise.
-func (o *NacRule) GetOrder() float32 {
+func (o *NacRule) GetOrder() int32 {
 	if o == nil || IsNil(o.Order) {
-		var ret float32
+		var ret int32
 		return ret
 	}
 	return *o.Order
@@ -346,7 +346,7 @@ func (o *NacRule) GetOrder() float32 {
 
 // GetOrderOk returns a tuple with the Order field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *NacRule) GetOrderOk() (*float32, bool) {
+func (o *NacRule) GetOrderOk() (*int32, bool) {
 	if o == nil || IsNil(o.Order) {
 		return nil, false
 	}
@@ -362,8 +362,8 @@ func (o *NacRule) HasOrder() bool {
 	return false
 }
 
-// SetOrder gets a reference to the given float32 and assigns it to the Order field.
-func (o *NacRule) SetOrder(v float32) {
+// SetOrder gets a reference to the given int32 and assigns it to the Order field.
+func (o *NacRule) SetOrder(v int32) {
 	o.Order = &v
 }
 

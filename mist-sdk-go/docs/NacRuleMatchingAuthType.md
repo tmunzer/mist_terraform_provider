@@ -5,6 +5,8 @@
 
 * `EMPTY` (value: `""`)
 
+* `CERT` (value: `"cert"`)
+
 * `IDP` (value: `"idp"`)
 
 * `MAB` (value: `"mab"`)

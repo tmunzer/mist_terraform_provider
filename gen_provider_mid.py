@@ -17,7 +17,23 @@ RENAME = [
                         "rename": "matching_rules",
                     }
                 ],
-            }
+            },
+            {
+                "name": "switch_mgmt",
+                "get": ["single_nested", "attributes"],
+                "next": [
+                    {
+                        "name": "tacacs",
+                        "get": ["single_nested", "attributes"],
+                        "next": [
+                            {
+                                "name": "acct_servers",
+                                "rename": "tacacct_servers",
+                            }
+                        ],
+                    },
+                ],
+            },
         ],
     },
     {

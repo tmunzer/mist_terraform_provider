@@ -13,7 +13,7 @@ Name | Type | Description | Notes
 **ModifiedTime** | Pointer to **int32** |  | [optional] [readonly] 
 **Name** | **string** |  | 
 **NotMatching** | Pointer to [**NacRuleMatching**](NacRuleMatching.md) |  | [optional] 
-**Order** | Pointer to **float32** | the order of the rule, lower value implies higher priority | [optional] 
+**Order** | Pointer to **int32** | the order of the rule, lower value implies higher priority | [optional] 
 **OrgId** | Pointer to **string** |  | [optional] [readonly] 
 
 ## Methods
@@ -252,20 +252,20 @@ HasNotMatching returns a boolean if a field has been set.
 
 ### GetOrder
 
-`func (o *NacRule) GetOrder() float32`
+`func (o *NacRule) GetOrder() int32`
 
 GetOrder returns the Order field if non-nil, zero value otherwise.
 
 ### GetOrderOk
 
-`func (o *NacRule) GetOrderOk() (*float32, bool)`
+`func (o *NacRule) GetOrderOk() (*int32, bool)`
 
 GetOrderOk returns a tuple with the Order field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetOrder
 
-`func (o *NacRule) SetOrder(v float32)`
+`func (o *NacRule) SetOrder(v int32)`
 
 SetOrder sets Order field to given value.
 

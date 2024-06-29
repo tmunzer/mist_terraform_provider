@@ -86,7 +86,7 @@ func switchMgmtTacacsTerraformToSdk(ctx context.Context, diags *diag.Diagnostics
 		var item_interface interface{} = item
 		item_obj := item_interface.(TacacsValue)
 
-		acct_servers := TacacsAcctServersTerraformToSdk(ctx, diags, item_obj.TacacsAcctServers)
+		acct_servers := TacacsAcctServersTerraformToSdk(ctx, diags, item_obj.TacacctServers)
 		auth_servers := TacacsAuthServersTerraformToSdk(ctx, diags, item_obj.TacplusServers)
 
 		data.SetEnabled(item_obj.Enabled.ValueBool())

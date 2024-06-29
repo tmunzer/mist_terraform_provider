@@ -60,7 +60,7 @@ func switchMgmtTacacsAcctSdkToTerraform(ctx context.Context, diags *diag.Diagnos
 	tflog.Debug(ctx, "switchMgmtTacacsAcctSdkToTerraform")
 
 	var acct_value_list []attr.Value
-	acct_value_list_type := TacacsAcctServersValue{}.AttributeTypes(ctx)
+	acct_value_list_type := TacacctServersValue{}.AttributeTypes(ctx)
 	for _, srv_data := range d {
 		rc_srv_state_value := map[string]attr.Value{
 			"host":    types.StringValue(srv_data.GetHost()),
@@ -68,13 +68,13 @@ func switchMgmtTacacsAcctSdkToTerraform(ctx context.Context, diags *diag.Diagnos
 			"secret":  types.StringValue(srv_data.GetSecret()),
 			"timeout": types.StringValue(srv_data.GetSecret()),
 		}
-		acct_server, e := NewTacacsAcctServersValue(acct_value_list_type, rc_srv_state_value)
+		acct_server, e := NewTacacctServersValue(acct_value_list_type, rc_srv_state_value)
 		diags.Append(e...)
 
 		acct_value_list = append(acct_value_list, acct_server)
 	}
 
-	acct_state_list_type := TacacsAcctServersValue{}.Type(ctx)
+	acct_state_list_type := TacacctServersValue{}.Type(ctx)
 	acct_state_list, e := types.ListValueFrom(ctx, acct_state_list_type, acct_value_list)
 	diags.Append(e...)
 
@@ -112,7 +112,7 @@ func switchMgmtTacacsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics
 
 	data_map_attr_type := TacacsValue{}.AttributeTypes(ctx)
 	data_map_value := map[string]attr.Value{
-		"acct_servers":    tacacs_acct_servers,
+		"tacacct_servers": tacacs_acct_servers,
 		"enabled":         types.BoolValue(d.GetEnabled()),
 		"network":         types.StringValue(d.GetNetwork()),
 		"tacplus_servers": tacacs_auth_servers,

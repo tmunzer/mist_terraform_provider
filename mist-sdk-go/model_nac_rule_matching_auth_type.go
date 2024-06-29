@@ -1,9 +1,9 @@
 /*
 Mist API
 
-> Version: **2406.1.9** > > Date: **June 28, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
+> Version: **2406.1.10** > > Date: **June 29, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
 
-API version: 2406.1.9
+API version: 2406.1.10
 Contact: tmunzer@juniper.net
 */
 
@@ -22,6 +22,7 @@ type NacRuleMatchingAuthType string
 // List of nac_rule_matching_auth_type
 const (
 	NACRULEMATCHINGAUTHTYPE_EMPTY NacRuleMatchingAuthType = ""
+	NACRULEMATCHINGAUTHTYPE_CERT NacRuleMatchingAuthType = "cert"
 	NACRULEMATCHINGAUTHTYPE_IDP NacRuleMatchingAuthType = "idp"
 	NACRULEMATCHINGAUTHTYPE_MAB NacRuleMatchingAuthType = "mab"
 	NACRULEMATCHINGAUTHTYPE_PSK NacRuleMatchingAuthType = "psk"
@@ -34,6 +35,7 @@ const (
 // All allowed values of NacRuleMatchingAuthType enum
 var AllowedNacRuleMatchingAuthTypeEnumValues = []NacRuleMatchingAuthType{
 	"",
+	"cert",
 	"idp",
 	"mab",
 	"psk",

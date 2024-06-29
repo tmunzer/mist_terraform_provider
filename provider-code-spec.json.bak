@@ -3243,6 +3243,436 @@
 			}
 		},
 		{
+			"name": "nacrule",
+			"schema": {
+				"attributes": [
+					{
+						"name": "action",
+						"string": {
+							"computed_optional_required": "required",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+											}
+										],
+										"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"allow\",\n\"block\",\n)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "apply_tags",
+						"list": {
+							"computed_optional_required": "computed_optional",
+							"element_type": {
+								"string": {}
+							},
+							"description": "all optional, this goes into Access-Accept"
+						}
+					},
+					{
+						"name": "enabled",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": true
+							},
+							"description": "enabled or not"
+						}
+					},
+					{
+						"name": "id",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+											}
+										],
+										"schema_definition": "stringvalidator.LengthAtLeast(1)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "matching",
+						"single_nested": {
+							"computed_optional_required": "computed_optional",
+							"attributes": [
+								{
+									"name": "auth_type",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": "eap-tls"
+										},
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+														}
+													],
+													"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"cert\",\n\"idp\",\n\"mab\",\n\"psk\",\n\"device-auth\",\n\"eap-tls\",\n\"eap-ttls\",\n\"eap-teap\",\n)"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "nactags",
+									"list": {
+										"computed_optional_required": "computed_optional",
+										"element_type": {
+											"string": {}
+										}
+									}
+								},
+								{
+									"name": "port_types",
+									"list": {
+										"computed_optional_required": "computed_optional",
+										"element_type": {
+											"string": {}
+										}
+									}
+								},
+								{
+									"name": "site_ids",
+									"list": {
+										"computed_optional_required": "computed_optional",
+										"element_type": {
+											"string": {}
+										},
+										"description": "list of site ids to match"
+									}
+								},
+								{
+									"name": "sitegroup_ids",
+									"list": {
+										"computed_optional_required": "computed_optional",
+										"element_type": {
+											"string": {}
+										},
+										"description": "list of sitegroup ids to match"
+									}
+								},
+								{
+									"name": "vendor",
+									"list": {
+										"computed_optional_required": "computed_optional",
+										"element_type": {
+											"string": {}
+										},
+										"description": "list of vendors to match"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "name",
+						"string": {
+							"computed_optional_required": "required"
+						}
+					},
+					{
+						"name": "not_matching",
+						"single_nested": {
+							"computed_optional_required": "computed_optional",
+							"attributes": [
+								{
+									"name": "auth_type",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": "eap-tls"
+										},
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+														}
+													],
+													"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"cert\",\n\"idp\",\n\"mab\",\n\"psk\",\n\"device-auth\",\n\"eap-tls\",\n\"eap-ttls\",\n\"eap-teap\",\n)"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "nactags",
+									"list": {
+										"computed_optional_required": "computed_optional",
+										"element_type": {
+											"string": {}
+										}
+									}
+								},
+								{
+									"name": "port_types",
+									"list": {
+										"computed_optional_required": "computed_optional",
+										"element_type": {
+											"string": {}
+										}
+									}
+								},
+								{
+									"name": "site_ids",
+									"list": {
+										"computed_optional_required": "computed_optional",
+										"element_type": {
+											"string": {}
+										},
+										"description": "list of site ids to match"
+									}
+								},
+								{
+									"name": "sitegroup_ids",
+									"list": {
+										"computed_optional_required": "computed_optional",
+										"element_type": {
+											"string": {}
+										},
+										"description": "list of sitegroup ids to match"
+									}
+								},
+								{
+									"name": "vendor",
+									"list": {
+										"computed_optional_required": "computed_optional",
+										"element_type": {
+											"string": {}
+										},
+										"description": "list of vendors to match"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "order",
+						"int64": {
+							"computed_optional_required": "computed_optional",
+							"description": "the order of the rule, lower value implies higher priority",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+											}
+										],
+										"schema_definition": "int64validator.AtLeast(0)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "org_id",
+						"string": {
+							"computed_optional_required": "computed_optional"
+						}
+					}
+				]
+			}
+		},
+		{
+			"name": "nactag",
+			"schema": {
+				"attributes": [
+					{
+						"name": "allow_usermac_override",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": false
+							},
+							"description": "can be set to true to allow the override by usermac result"
+						}
+					},
+					{
+						"name": "egress_vlan_names",
+						"list": {
+							"computed_optional_required": "computed_optional",
+							"element_type": {
+								"string": {}
+							},
+							"description": "if `type`==`egress_vlan_names`, list of egress vlans to return"
+						}
+					},
+					{
+						"name": "gbp_tag",
+						"int64": {
+							"computed_optional_required": "computed_optional",
+							"description": "if `type`==`gbp_tag`"
+						}
+					},
+					{
+						"name": "id",
+						"string": {
+							"computed_optional_required": "computed_optional"
+						}
+					},
+					{
+						"name": "match",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"description": "if `type`==`match`",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+											}
+										],
+										"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"cert_cn\",\n\"cert_issuer\",\n\"cert_san\",\n\"cert_serial\",\n\"cert_sub\",\n\"client_mac\",\n\"idp_role\",\n\"mdm_status\",\n\"radius_group\",\n\"realm\",\n\"ssid\",\n\"user_name\",\n\"usermac_label\",\n)"
+									}
+								},
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+											}
+										],
+										"schema_definition": "stringvalidator.LengthAtLeast(1)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "match_all",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": false
+							},
+							"description": "This field is applicable only when `type`==`match`\n* `false`: means it is sufficient to match any of the values (i.e., match-any behavior)\n* `true`: means all values should be matched (i.e., match-all behavior)\n\n\nCurrently it makes sense to set this field to `true` only if the `match`==`idp_role` or `match`==`usermac_label`"
+						}
+					},
+					{
+						"name": "name",
+						"string": {
+							"computed_optional_required": "required",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+											}
+										],
+										"schema_definition": "stringvalidator.LengthAtLeast(1)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "org_id",
+						"string": {
+							"computed_optional_required": "computed_optional"
+						}
+					},
+					{
+						"name": "radius_attrs",
+						"list": {
+							"computed_optional_required": "computed_optional",
+							"element_type": {
+								"string": {}
+							},
+							"description": "if `type`==`radius_attrs`, user can specify a list of one or more standard attributes in the field \"radius_attrs\". \nIt is the responsibility of the user to provide a syntactically correct string, otherwise it may not work as expected.\nNote that it is allowed to have more than one radius_attrs in the result of a given rule."
+						}
+					},
+					{
+						"name": "radius_group",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"description": "if `type`==`radius_group`"
+						}
+					},
+					{
+						"name": "radius_vendor_attrs",
+						"list": {
+							"computed_optional_required": "computed_optional",
+							"element_type": {
+								"string": {}
+							},
+							"description": "if `type`==`radius_vendor_attrs`, user can specify a list of one or more vendor-specific attributes in the field \"radius_vendor_attrs\". \nIt is the responsibility of the user to provide a syntactically correct string, otherwise it may not work as expected.\nNote that it is allowed to have more than one radius_vendor_attrs in the result of a given rule."
+						}
+					},
+					{
+						"name": "session_timeout",
+						"int64": {
+							"computed_optional_required": "computed_optional",
+							"description": "if `type`==`session_timeout, in seconds"
+						}
+					},
+					{
+						"name": "type",
+						"string": {
+							"computed_optional_required": "required",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+											}
+										],
+										"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"egress_vlan_names\",\n\"match\",\n\"vlan\",\n\"gbp_tag\",\n\"radius_attrs\",\n\"radius_group\",\n\"radius_vendor_attrs\",\n\"session_timeout\",\n)"
+									}
+								},
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+											}
+										],
+										"schema_definition": "stringvalidator.LengthAtLeast(1)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "values",
+						"list": {
+							"computed_optional_required": "computed_optional",
+							"element_type": {
+								"string": {}
+							},
+							"description": "if `type`==`match`"
+						}
+					},
+					{
+						"name": "vlan",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"description": "if `type`==`vlan`"
+						}
+					}
+				]
+			}
+		},
+		{
 			"name": "network",
 			"schema": {
 				"attributes": [

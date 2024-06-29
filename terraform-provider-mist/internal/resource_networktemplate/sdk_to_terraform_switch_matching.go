@@ -121,8 +121,8 @@ func switchMatchingSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, 
 
 	data_map_attr_type := SwitchMatchingValue{}.AttributeTypes(ctx)
 	data_map_value := map[string]attr.Value{
-		"enable": types.BoolValue(d.GetEnable()),
-		"rules":  switch_matching_rules,
+		"enable":         types.BoolValue(d.GetEnable()),
+		"matching_rules": switch_matching_rules,
 	}
 
 	state_result, e := NewSwitchMatchingValue(data_map_attr_type, data_map_value)
