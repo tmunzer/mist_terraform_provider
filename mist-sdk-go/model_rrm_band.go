@@ -45,10 +45,6 @@ type _RrmBand RrmBand
 // will change when the set of required properties is changed
 func NewRrmBand() *RrmBand {
 	this := RrmBand{}
-	var bandwidth Dot11Bandwidth = DOT11BANDWIDTH__20
-	this.Bandwidth = &bandwidth
-	var currBandwidht Dot11Bandwidth = DOT11BANDWIDTH__20
-	this.CurrBandwidht = &currBandwidht
 	return &this
 }
 
@@ -57,10 +53,6 @@ func NewRrmBand() *RrmBand {
 // but it doesn't guarantee that properties required by API are set
 func NewRrmBandWithDefaults() *RrmBand {
 	this := RrmBand{}
-	var bandwidth Dot11Bandwidth = DOT11BANDWIDTH__20
-	this.Bandwidth = &bandwidth
-	var currBandwidht Dot11Bandwidth = DOT11BANDWIDTH__20
-	this.CurrBandwidht = &currBandwidht
 	return &this
 }
 

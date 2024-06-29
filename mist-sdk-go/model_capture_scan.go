@@ -56,8 +56,6 @@ func NewCaptureScan(type_ CaptureScanType) *CaptureScan {
 	this := CaptureScan{}
 	var band CaptureScanBand = CAPTURESCANBAND__5
 	this.Band = *NewNullableCaptureScanBand(&band)
-	var bandwidth Dot11Bandwidth = DOT11BANDWIDTH__20
-	this.Bandwidth = &bandwidth
 	var channel int32 = 1
 	this.Channel = &channel
 	var duration int32 = 600
@@ -79,8 +77,6 @@ func NewCaptureScanWithDefaults() *CaptureScan {
 	this := CaptureScan{}
 	var band CaptureScanBand = CAPTURESCANBAND__5
 	this.Band = *NewNullableCaptureScanBand(&band)
-	var bandwidth Dot11Bandwidth = DOT11BANDWIDTH__20
-	this.Bandwidth = &bandwidth
 	var channel int32 = 1
 	this.Channel = &channel
 	var duration int32 = 600

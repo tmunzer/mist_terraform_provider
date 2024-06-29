@@ -7,7 +7,7 @@ Name | Type | Description | Notes
 **ApMac** | Pointer to **NullableString** | filter by ap_mac | [optional] 
 **Aps** | Pointer to [**map[string]CaptureScanAps**](CaptureScanAps.md) | dictionary key is AP mac and value is a dictionary which contains key “band”, “bandwidth”, “channel” and “tcpdump_expression”. In case keys are missed we will take parent value if parent values are not set we will use default value | [optional] 
 **Band** | Pointer to [**NullableCaptureScanBand**](CaptureScanBand.md) |  | [optional] [default to CAPTURESCANBAND__5]
-**Bandwidth** | Pointer to [**Dot11Bandwidth**](Dot11Bandwidth.md) |  | [optional] [default to DOT11BANDWIDTH__20]
+**Bandwidth** | Pointer to [**Dot11Bandwidth**](Dot11Bandwidth.md) |  | [optional] 
 **Channel** | Pointer to **int32** | specify the channel value where scan PCAP has to be started, default value gets applied when user provides wrong values | [optional] [default to 1]
 **ClientMac** | Pointer to **NullableString** | filter by client mac | [optional] 
 **Duration** | Pointer to **int32** | duration of the capture, in seconds | [optional] [default to 600]

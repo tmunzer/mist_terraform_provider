@@ -7135,6 +7135,1557 @@
 			}
 		},
 		{
+			"name": "rftemplate",
+			"schema": {
+				"attributes": [
+					{
+						"name": "ant_gain_24",
+						"int64": {
+							"computed_optional_required": "computed_optional"
+						}
+					},
+					{
+						"name": "ant_gain_5",
+						"int64": {
+							"computed_optional_required": "computed_optional"
+						}
+					},
+					{
+						"name": "ant_gain_6",
+						"int64": {
+							"computed_optional_required": "computed_optional"
+						}
+					},
+					{
+						"name": "band_24",
+						"single_nested": {
+							"computed_optional_required": "computed_optional",
+							"attributes": [
+								{
+									"name": "allow_rrm_disable",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										}
+									}
+								},
+								{
+									"name": "ant_gain",
+									"int64": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": 0
+										},
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+														}
+													],
+													"schema_definition": "int64validator.Between(0, 10)"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "antenna_mode",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": "default"
+										},
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+														}
+													],
+													"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"default\",\n\"1x1\",\n\"2x2\",\n\"3x3\",\n\"4x4\",\n)"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "bandwidth",
+									"int64": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": 20
+										},
+										"description": "channel width for the 2.4GHz band",
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+														}
+													],
+													"schema_definition": "int64validator.OneOf(\n20,\n40,\n)"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "channel",
+									"int64": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": 0
+										},
+										"description": "For Device. (primary) channel for the band, 0 means using the Site Setting",
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+														}
+													],
+													"schema_definition": "int64validator.Between(1, 13)"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "channels",
+									"list": {
+										"computed_optional_required": "computed_optional",
+										"element_type": {
+											"int64": {}
+										},
+										"description": "For RFTemplates. List of channels, null or empty array means auto"
+									}
+								},
+								{
+									"name": "disabled",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										},
+										"description": "whether to disable the radio"
+									}
+								},
+								{
+									"name": "power",
+									"int64": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": 0
+										},
+										"description": "TX power of the radio. For Devices, 0 means auto. -1 / -2 / -3 / …: treated as 0 / -1 / -2 / …",
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+														}
+													],
+													"schema_definition": "int64validator.Between(3, 25)"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "power_max",
+									"int64": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": 17
+										},
+										"description": "when power=0, max tx power to use, HW-specific values will be used if not set",
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+														}
+													],
+													"schema_definition": "int64validator.Between(3, 18)"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "power_min",
+									"int64": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": 8
+										},
+										"description": "when power=0, min tx power to use, HW-specific values will be used if not set",
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+														}
+													],
+													"schema_definition": "int64validator.Between(3, 18)"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "preamble",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": "short"
+										},
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+														}
+													],
+													"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"short\",\n\"long\",\n\"auto\",\n)"
+												}
+											}
+										]
+									}
+								}
+							],
+							"description": "Radio Band AP settings"
+						}
+					},
+					{
+						"name": "band_24_usage",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+											}
+										],
+										"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"24\",\n\"5\",\n\"6\",\n\"auto\",\n)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "band_5",
+						"single_nested": {
+							"computed_optional_required": "computed_optional",
+							"attributes": [
+								{
+									"name": "allow_rrm_disable",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										}
+									}
+								},
+								{
+									"name": "ant_gain",
+									"int64": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": 0
+										},
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+														}
+													],
+													"schema_definition": "int64validator.Between(0, 10)"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "antenna_mode",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": "default"
+										},
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+														}
+													],
+													"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"default\",\n\"1x1\",\n\"2x2\",\n\"3x3\",\n\"4x4\",\n)"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "bandwidth",
+									"int64": {
+										"computed_optional_required": "computed_optional",
+										"description": "channel width for the 5GHz band",
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+														}
+													],
+													"schema_definition": "int64validator.OneOf(\n20,\n40,\n80,\n)"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "channel",
+									"int64": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": 0
+										},
+										"description": "For Device. (primary) channel for the band, 0 means using the Site Setting"
+									}
+								},
+								{
+									"name": "channels",
+									"list": {
+										"computed_optional_required": "computed_optional",
+										"element_type": {
+											"int64": {}
+										},
+										"description": "For RFTemplates. List of channels, null or empty array means auto"
+									}
+								},
+								{
+									"name": "disabled",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										},
+										"description": "whether to disable the radio"
+									}
+								},
+								{
+									"name": "power",
+									"int64": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": 0
+										},
+										"description": "TX power of the radio. For Devices, 0 means auto. -1 / -2 / -3 / …: treated as 0 / -1 / -2 / …",
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+														}
+													],
+													"schema_definition": "int64validator.Between(5, 25)"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "power_max",
+									"int64": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": 17
+										},
+										"description": "when power=0, max tx power to use, HW-specific values will be used if not set",
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+														}
+													],
+													"schema_definition": "int64validator.Between(5, 17)"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "power_min",
+									"int64": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": 8
+										},
+										"description": "when power=0, min tx power to use, HW-specific values will be used if not set",
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+														}
+													],
+													"schema_definition": "int64validator.Between(5, 17)"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "preamble",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": "short"
+										},
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+														}
+													],
+													"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"short\",\n\"long\",\n\"auto\",\n)"
+												}
+											}
+										]
+									}
+								}
+							],
+							"description": "Radio Band AP settings"
+						}
+					},
+					{
+						"name": "band_6",
+						"single_nested": {
+							"computed_optional_required": "computed_optional",
+							"attributes": [
+								{
+									"name": "allow_rrm_disable",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										}
+									}
+								},
+								{
+									"name": "ant_gain",
+									"int64": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": 0
+										},
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+														}
+													],
+													"schema_definition": "int64validator.Between(0, 10)"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "antenna_mode",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": "default"
+										},
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+														}
+													],
+													"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"default\",\n\"1x1\",\n\"2x2\",\n\"3x3\",\n\"4x4\",\n)"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "bandwidth",
+									"int64": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": 80
+										},
+										"description": "channel width for the 6GHz band",
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+														}
+													],
+													"schema_definition": "int64validator.OneOf(\n20,\n40,\n80,\n160,\n)"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "channel",
+									"int64": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": 0
+										},
+										"description": "For Device. (primary) channel for the band, 0 means using the Site Setting"
+									}
+								},
+								{
+									"name": "channels",
+									"list": {
+										"computed_optional_required": "computed_optional",
+										"element_type": {
+											"int64": {}
+										},
+										"description": "For RFTemplates. List of channels, null or empty array means auto"
+									}
+								},
+								{
+									"name": "disabled",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										},
+										"description": "whether to disable the radio"
+									}
+								},
+								{
+									"name": "power",
+									"int64": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": 0
+										},
+										"description": "TX power of the radio. For Devices, 0 means auto. -1 / -2 / -3 / …: treated as 0 / -1 / -2 / …",
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+														}
+													],
+													"schema_definition": "int64validator.Between(5, 25)"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "power_max",
+									"int64": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": 18
+										},
+										"description": "when power=0, max tx power to use, HW-specific values will be used if not set",
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+														}
+													],
+													"schema_definition": "int64validator.Between(5, 18)"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "power_min",
+									"int64": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": 8
+										},
+										"description": "when power=0, min tx power to use, HW-specific values will be used if not set",
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+														}
+													],
+													"schema_definition": "int64validator.Between(5, 18)"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "preamble",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": "short"
+										},
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+														}
+													],
+													"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"short\",\n\"long\",\n\"auto\",\n)"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "standard_power",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										},
+										"description": "for 6GHz Only, standard-power operation, AFC (Automatic Frequency Coordination) will be performed and we'll fallback to Low Power Indoor if AFC failed"
+									}
+								}
+							],
+							"description": "Radio Band AP settings"
+						}
+					},
+					{
+						"name": "country_code",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"description": "optional, country code to use. If specified, this gets applied to all sites using the RF Template"
+						}
+					},
+					{
+						"name": "id",
+						"string": {
+							"computed_optional_required": "computed_optional"
+						}
+					},
+					{
+						"name": "model_specific",
+						"map_nested": {
+							"computed_optional_required": "computed_optional",
+							"nested_object": {
+								"attributes": [
+									{
+										"name": "ant_gain_24",
+										"int64": {
+											"computed_optional_required": "computed_optional"
+										}
+									},
+									{
+										"name": "ant_gain_5",
+										"int64": {
+											"computed_optional_required": "computed_optional"
+										}
+									},
+									{
+										"name": "ant_gain_6",
+										"int64": {
+											"computed_optional_required": "computed_optional"
+										}
+									},
+									{
+										"name": "band_24",
+										"single_nested": {
+											"computed_optional_required": "computed_optional",
+											"attributes": [
+												{
+													"name": "allow_rrm_disable",
+													"bool": {
+														"computed_optional_required": "computed_optional",
+														"default": {
+															"static": false
+														}
+													}
+												},
+												{
+													"name": "ant_gain",
+													"int64": {
+														"computed_optional_required": "computed_optional",
+														"default": {
+															"static": 0
+														},
+														"validators": [
+															{
+																"custom": {
+																	"imports": [
+																		{
+																			"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+																		}
+																	],
+																	"schema_definition": "int64validator.Between(0, 10)"
+																}
+															}
+														]
+													}
+												},
+												{
+													"name": "antenna_mode",
+													"string": {
+														"computed_optional_required": "computed_optional",
+														"default": {
+															"static": "default"
+														},
+														"validators": [
+															{
+																"custom": {
+																	"imports": [
+																		{
+																			"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																		}
+																	],
+																	"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"default\",\n\"1x1\",\n\"2x2\",\n\"3x3\",\n\"4x4\",\n)"
+																}
+															}
+														]
+													}
+												},
+												{
+													"name": "bandwidth",
+													"int64": {
+														"computed_optional_required": "computed_optional",
+														"default": {
+															"static": 20
+														},
+														"description": "channel width for the 2.4GHz band",
+														"validators": [
+															{
+																"custom": {
+																	"imports": [
+																		{
+																			"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+																		}
+																	],
+																	"schema_definition": "int64validator.OneOf(\n20,\n40,\n)"
+																}
+															}
+														]
+													}
+												},
+												{
+													"name": "channel",
+													"int64": {
+														"computed_optional_required": "computed_optional",
+														"default": {
+															"static": 0
+														},
+														"description": "For Device. (primary) channel for the band, 0 means using the Site Setting",
+														"validators": [
+															{
+																"custom": {
+																	"imports": [
+																		{
+																			"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+																		}
+																	],
+																	"schema_definition": "int64validator.Between(1, 13)"
+																}
+															}
+														]
+													}
+												},
+												{
+													"name": "channels",
+													"list": {
+														"computed_optional_required": "computed_optional",
+														"element_type": {
+															"int64": {}
+														},
+														"description": "For RFTemplates. List of channels, null or empty array means auto"
+													}
+												},
+												{
+													"name": "disabled",
+													"bool": {
+														"computed_optional_required": "computed_optional",
+														"default": {
+															"static": false
+														},
+														"description": "whether to disable the radio"
+													}
+												},
+												{
+													"name": "power",
+													"int64": {
+														"computed_optional_required": "computed_optional",
+														"default": {
+															"static": 0
+														},
+														"description": "TX power of the radio. For Devices, 0 means auto. -1 / -2 / -3 / …: treated as 0 / -1 / -2 / …",
+														"validators": [
+															{
+																"custom": {
+																	"imports": [
+																		{
+																			"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+																		}
+																	],
+																	"schema_definition": "int64validator.Between(3, 25)"
+																}
+															}
+														]
+													}
+												},
+												{
+													"name": "power_max",
+													"int64": {
+														"computed_optional_required": "computed_optional",
+														"default": {
+															"static": 17
+														},
+														"description": "when power=0, max tx power to use, HW-specific values will be used if not set",
+														"validators": [
+															{
+																"custom": {
+																	"imports": [
+																		{
+																			"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+																		}
+																	],
+																	"schema_definition": "int64validator.Between(3, 18)"
+																}
+															}
+														]
+													}
+												},
+												{
+													"name": "power_min",
+													"int64": {
+														"computed_optional_required": "computed_optional",
+														"default": {
+															"static": 8
+														},
+														"description": "when power=0, min tx power to use, HW-specific values will be used if not set",
+														"validators": [
+															{
+																"custom": {
+																	"imports": [
+																		{
+																			"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+																		}
+																	],
+																	"schema_definition": "int64validator.Between(3, 18)"
+																}
+															}
+														]
+													}
+												},
+												{
+													"name": "preamble",
+													"string": {
+														"computed_optional_required": "computed_optional",
+														"default": {
+															"static": "short"
+														},
+														"validators": [
+															{
+																"custom": {
+																	"imports": [
+																		{
+																			"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																		}
+																	],
+																	"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"short\",\n\"long\",\n\"auto\",\n)"
+																}
+															}
+														]
+													}
+												}
+											],
+											"description": "Radio Band AP settings"
+										}
+									},
+									{
+										"name": "band_24_usage",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"validators": [
+												{
+													"custom": {
+														"imports": [
+															{
+																"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+															}
+														],
+														"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"24\",\n\"5\",\n\"6\",\n\"auto\",\n)"
+													}
+												}
+											]
+										}
+									},
+									{
+										"name": "band_5",
+										"single_nested": {
+											"computed_optional_required": "computed_optional",
+											"attributes": [
+												{
+													"name": "allow_rrm_disable",
+													"bool": {
+														"computed_optional_required": "computed_optional",
+														"default": {
+															"static": false
+														}
+													}
+												},
+												{
+													"name": "ant_gain",
+													"int64": {
+														"computed_optional_required": "computed_optional",
+														"default": {
+															"static": 0
+														},
+														"validators": [
+															{
+																"custom": {
+																	"imports": [
+																		{
+																			"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+																		}
+																	],
+																	"schema_definition": "int64validator.Between(0, 10)"
+																}
+															}
+														]
+													}
+												},
+												{
+													"name": "antenna_mode",
+													"string": {
+														"computed_optional_required": "computed_optional",
+														"default": {
+															"static": "default"
+														},
+														"validators": [
+															{
+																"custom": {
+																	"imports": [
+																		{
+																			"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																		}
+																	],
+																	"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"default\",\n\"1x1\",\n\"2x2\",\n\"3x3\",\n\"4x4\",\n)"
+																}
+															}
+														]
+													}
+												},
+												{
+													"name": "bandwidth",
+													"int64": {
+														"computed_optional_required": "computed_optional",
+														"description": "channel width for the 5GHz band",
+														"validators": [
+															{
+																"custom": {
+																	"imports": [
+																		{
+																			"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+																		}
+																	],
+																	"schema_definition": "int64validator.OneOf(\n20,\n40,\n80,\n)"
+																}
+															}
+														]
+													}
+												},
+												{
+													"name": "channel",
+													"int64": {
+														"computed_optional_required": "computed_optional",
+														"default": {
+															"static": 0
+														},
+														"description": "For Device. (primary) channel for the band, 0 means using the Site Setting"
+													}
+												},
+												{
+													"name": "channels",
+													"list": {
+														"computed_optional_required": "computed_optional",
+														"element_type": {
+															"int64": {}
+														},
+														"description": "For RFTemplates. List of channels, null or empty array means auto"
+													}
+												},
+												{
+													"name": "disabled",
+													"bool": {
+														"computed_optional_required": "computed_optional",
+														"default": {
+															"static": false
+														},
+														"description": "whether to disable the radio"
+													}
+												},
+												{
+													"name": "power",
+													"int64": {
+														"computed_optional_required": "computed_optional",
+														"default": {
+															"static": 0
+														},
+														"description": "TX power of the radio. For Devices, 0 means auto. -1 / -2 / -3 / …: treated as 0 / -1 / -2 / …",
+														"validators": [
+															{
+																"custom": {
+																	"imports": [
+																		{
+																			"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+																		}
+																	],
+																	"schema_definition": "int64validator.Between(5, 25)"
+																}
+															}
+														]
+													}
+												},
+												{
+													"name": "power_max",
+													"int64": {
+														"computed_optional_required": "computed_optional",
+														"default": {
+															"static": 17
+														},
+														"description": "when power=0, max tx power to use, HW-specific values will be used if not set",
+														"validators": [
+															{
+																"custom": {
+																	"imports": [
+																		{
+																			"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+																		}
+																	],
+																	"schema_definition": "int64validator.Between(5, 17)"
+																}
+															}
+														]
+													}
+												},
+												{
+													"name": "power_min",
+													"int64": {
+														"computed_optional_required": "computed_optional",
+														"default": {
+															"static": 8
+														},
+														"description": "when power=0, min tx power to use, HW-specific values will be used if not set",
+														"validators": [
+															{
+																"custom": {
+																	"imports": [
+																		{
+																			"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+																		}
+																	],
+																	"schema_definition": "int64validator.Between(5, 17)"
+																}
+															}
+														]
+													}
+												},
+												{
+													"name": "preamble",
+													"string": {
+														"computed_optional_required": "computed_optional",
+														"default": {
+															"static": "short"
+														},
+														"validators": [
+															{
+																"custom": {
+																	"imports": [
+																		{
+																			"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																		}
+																	],
+																	"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"short\",\n\"long\",\n\"auto\",\n)"
+																}
+															}
+														]
+													}
+												}
+											],
+											"description": "Radio Band AP settings"
+										}
+									},
+									{
+										"name": "band_5_on_24_radio",
+										"single_nested": {
+											"computed_optional_required": "computed_optional",
+											"attributes": [
+												{
+													"name": "allow_rrm_disable",
+													"bool": {
+														"computed_optional_required": "computed_optional",
+														"default": {
+															"static": false
+														}
+													}
+												},
+												{
+													"name": "ant_gain",
+													"int64": {
+														"computed_optional_required": "computed_optional",
+														"default": {
+															"static": 0
+														},
+														"validators": [
+															{
+																"custom": {
+																	"imports": [
+																		{
+																			"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+																		}
+																	],
+																	"schema_definition": "int64validator.Between(0, 10)"
+																}
+															}
+														]
+													}
+												},
+												{
+													"name": "antenna_mode",
+													"string": {
+														"computed_optional_required": "computed_optional",
+														"default": {
+															"static": "default"
+														},
+														"validators": [
+															{
+																"custom": {
+																	"imports": [
+																		{
+																			"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																		}
+																	],
+																	"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"default\",\n\"1x1\",\n\"2x2\",\n\"3x3\",\n\"4x4\",\n)"
+																}
+															}
+														]
+													}
+												},
+												{
+													"name": "bandwidth",
+													"int64": {
+														"computed_optional_required": "computed_optional",
+														"description": "channel width for the 5GHz band",
+														"validators": [
+															{
+																"custom": {
+																	"imports": [
+																		{
+																			"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+																		}
+																	],
+																	"schema_definition": "int64validator.OneOf(\n20,\n40,\n80,\n)"
+																}
+															}
+														]
+													}
+												},
+												{
+													"name": "channel",
+													"int64": {
+														"computed_optional_required": "computed_optional",
+														"default": {
+															"static": 0
+														},
+														"description": "For Device. (primary) channel for the band, 0 means using the Site Setting"
+													}
+												},
+												{
+													"name": "channels",
+													"list": {
+														"computed_optional_required": "computed_optional",
+														"element_type": {
+															"int64": {}
+														},
+														"description": "For RFTemplates. List of channels, null or empty array means auto"
+													}
+												},
+												{
+													"name": "disabled",
+													"bool": {
+														"computed_optional_required": "computed_optional",
+														"default": {
+															"static": false
+														},
+														"description": "whether to disable the radio"
+													}
+												},
+												{
+													"name": "power",
+													"int64": {
+														"computed_optional_required": "computed_optional",
+														"default": {
+															"static": 0
+														},
+														"description": "TX power of the radio. For Devices, 0 means auto. -1 / -2 / -3 / …: treated as 0 / -1 / -2 / …",
+														"validators": [
+															{
+																"custom": {
+																	"imports": [
+																		{
+																			"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+																		}
+																	],
+																	"schema_definition": "int64validator.Between(5, 25)"
+																}
+															}
+														]
+													}
+												},
+												{
+													"name": "power_max",
+													"int64": {
+														"computed_optional_required": "computed_optional",
+														"default": {
+															"static": 17
+														},
+														"description": "when power=0, max tx power to use, HW-specific values will be used if not set",
+														"validators": [
+															{
+																"custom": {
+																	"imports": [
+																		{
+																			"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+																		}
+																	],
+																	"schema_definition": "int64validator.Between(5, 17)"
+																}
+															}
+														]
+													}
+												},
+												{
+													"name": "power_min",
+													"int64": {
+														"computed_optional_required": "computed_optional",
+														"default": {
+															"static": 8
+														},
+														"description": "when power=0, min tx power to use, HW-specific values will be used if not set",
+														"validators": [
+															{
+																"custom": {
+																	"imports": [
+																		{
+																			"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+																		}
+																	],
+																	"schema_definition": "int64validator.Between(5, 17)"
+																}
+															}
+														]
+													}
+												},
+												{
+													"name": "preamble",
+													"string": {
+														"computed_optional_required": "computed_optional",
+														"default": {
+															"static": "short"
+														},
+														"validators": [
+															{
+																"custom": {
+																	"imports": [
+																		{
+																			"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																		}
+																	],
+																	"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"short\",\n\"long\",\n\"auto\",\n)"
+																}
+															}
+														]
+													}
+												}
+											],
+											"description": "Radio Band AP settings"
+										}
+									},
+									{
+										"name": "band_6",
+										"single_nested": {
+											"computed_optional_required": "computed_optional",
+											"attributes": [
+												{
+													"name": "allow_rrm_disable",
+													"bool": {
+														"computed_optional_required": "computed_optional",
+														"default": {
+															"static": false
+														}
+													}
+												},
+												{
+													"name": "ant_gain",
+													"int64": {
+														"computed_optional_required": "computed_optional",
+														"default": {
+															"static": 0
+														},
+														"validators": [
+															{
+																"custom": {
+																	"imports": [
+																		{
+																			"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+																		}
+																	],
+																	"schema_definition": "int64validator.Between(0, 10)"
+																}
+															}
+														]
+													}
+												},
+												{
+													"name": "antenna_mode",
+													"string": {
+														"computed_optional_required": "computed_optional",
+														"default": {
+															"static": "default"
+														},
+														"validators": [
+															{
+																"custom": {
+																	"imports": [
+																		{
+																			"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																		}
+																	],
+																	"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"default\",\n\"1x1\",\n\"2x2\",\n\"3x3\",\n\"4x4\",\n)"
+																}
+															}
+														]
+													}
+												},
+												{
+													"name": "bandwidth",
+													"int64": {
+														"computed_optional_required": "computed_optional",
+														"default": {
+															"static": 80
+														},
+														"description": "channel width for the 6GHz band",
+														"validators": [
+															{
+																"custom": {
+																	"imports": [
+																		{
+																			"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+																		}
+																	],
+																	"schema_definition": "int64validator.OneOf(\n20,\n40,\n80,\n160,\n)"
+																}
+															}
+														]
+													}
+												},
+												{
+													"name": "channel",
+													"int64": {
+														"computed_optional_required": "computed_optional",
+														"default": {
+															"static": 0
+														},
+														"description": "For Device. (primary) channel for the band, 0 means using the Site Setting"
+													}
+												},
+												{
+													"name": "channels",
+													"list": {
+														"computed_optional_required": "computed_optional",
+														"element_type": {
+															"int64": {}
+														},
+														"description": "For RFTemplates. List of channels, null or empty array means auto"
+													}
+												},
+												{
+													"name": "disabled",
+													"bool": {
+														"computed_optional_required": "computed_optional",
+														"default": {
+															"static": false
+														},
+														"description": "whether to disable the radio"
+													}
+												},
+												{
+													"name": "power",
+													"int64": {
+														"computed_optional_required": "computed_optional",
+														"default": {
+															"static": 0
+														},
+														"description": "TX power of the radio. For Devices, 0 means auto. -1 / -2 / -3 / …: treated as 0 / -1 / -2 / …",
+														"validators": [
+															{
+																"custom": {
+																	"imports": [
+																		{
+																			"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+																		}
+																	],
+																	"schema_definition": "int64validator.Between(5, 25)"
+																}
+															}
+														]
+													}
+												},
+												{
+													"name": "power_max",
+													"int64": {
+														"computed_optional_required": "computed_optional",
+														"default": {
+															"static": 18
+														},
+														"description": "when power=0, max tx power to use, HW-specific values will be used if not set",
+														"validators": [
+															{
+																"custom": {
+																	"imports": [
+																		{
+																			"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+																		}
+																	],
+																	"schema_definition": "int64validator.Between(5, 18)"
+																}
+															}
+														]
+													}
+												},
+												{
+													"name": "power_min",
+													"int64": {
+														"computed_optional_required": "computed_optional",
+														"default": {
+															"static": 8
+														},
+														"description": "when power=0, min tx power to use, HW-specific values will be used if not set",
+														"validators": [
+															{
+																"custom": {
+																	"imports": [
+																		{
+																			"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+																		}
+																	],
+																	"schema_definition": "int64validator.Between(5, 18)"
+																}
+															}
+														]
+													}
+												},
+												{
+													"name": "preamble",
+													"string": {
+														"computed_optional_required": "computed_optional",
+														"default": {
+															"static": "short"
+														},
+														"validators": [
+															{
+																"custom": {
+																	"imports": [
+																		{
+																			"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																		}
+																	],
+																	"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"short\",\n\"long\",\n\"auto\",\n)"
+																}
+															}
+														]
+													}
+												},
+												{
+													"name": "standard_power",
+													"bool": {
+														"computed_optional_required": "computed_optional",
+														"default": {
+															"static": false
+														},
+														"description": "for 6GHz Only, standard-power operation, AFC (Automatic Frequency Coordination) will be performed and we'll fallback to Low Power Indoor if AFC failed"
+													}
+												}
+											],
+											"description": "Radio Band AP settings"
+										}
+									}
+								]
+							},
+							"description": "overwrites for a specific model. If a band is specified, it will shadow the default. Property key is the model name (e.g. \"AP63\")"
+						}
+					},
+					{
+						"name": "name",
+						"string": {
+							"computed_optional_required": "required",
+							"description": "The name of the RF template"
+						}
+					},
+					{
+						"name": "org_id",
+						"string": {
+							"computed_optional_required": "computed_optional"
+						}
+					},
+					{
+						"name": "scanning_enabled",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"description": "whether scanning radio is enabled"
+						}
+					}
+				]
+			}
+		},
+		{
 			"name": "service",
 			"schema": {
 				"attributes": [

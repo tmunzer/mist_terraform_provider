@@ -9,11 +9,11 @@ Name | Type | Description | Notes
 **AntGain5** | Pointer to **int32** | antenna gain for 5G - for models with external antenna only | [optional] 
 **AntGain6** | Pointer to **int32** | antenna gain for 6G - for models with external antenna only | [optional] 
 **AntennaMode** | Pointer to [**ApRadioAntennaMode**](ApRadioAntennaMode.md) |  | [optional] [default to APRADIOANTENNAMODE_DEFAULT]
-**Band24** | Pointer to [**ApRadioBand**](ApRadioBand.md) |  | [optional] 
-**Band24Usage** | Pointer to [**ApRadioBand24Usage**](ApRadioBand24Usage.md) |  | [optional] [default to APRADIOBAND24USAGE__24]
-**Band5** | Pointer to [**ApRadioBand**](ApRadioBand.md) |  | [optional] 
-**Band5On24Radio** | Pointer to [**ApRadioBand**](ApRadioBand.md) |  | [optional] 
-**Band6** | Pointer to [**ApRadioBand**](ApRadioBand.md) |  | [optional] 
+**Band24** | Pointer to [**ApRadioBand24**](ApRadioBand24.md) |  | [optional] 
+**Band24Usage** | Pointer to [**ApRadioBand24Usage**](ApRadioBand24Usage.md) |  | [optional] 
+**Band5** | Pointer to [**ApRadioBand5**](ApRadioBand5.md) |  | [optional] 
+**Band5On24Radio** | Pointer to [**ApRadioBand5**](ApRadioBand5.md) |  | [optional] 
+**Band6** | Pointer to [**ApRadioBand6**](ApRadioBand6.md) |  | [optional] 
 **IndoorUse** | Pointer to **bool** | to make an outdoor operate indoor. for an outdoor-ap, some channels are disallowed by default, this allows the user to use it as an indoor-ap | [optional] [default to false]
 **ScanningEnabled** | Pointer to **bool** | whether scanning radio is enabled | [optional] 
 
@@ -163,20 +163,20 @@ HasAntennaMode returns a boolean if a field has been set.
 
 ### GetBand24
 
-`func (o *ApRadio) GetBand24() ApRadioBand`
+`func (o *ApRadio) GetBand24() ApRadioBand24`
 
 GetBand24 returns the Band24 field if non-nil, zero value otherwise.
 
 ### GetBand24Ok
 
-`func (o *ApRadio) GetBand24Ok() (*ApRadioBand, bool)`
+`func (o *ApRadio) GetBand24Ok() (*ApRadioBand24, bool)`
 
 GetBand24Ok returns a tuple with the Band24 field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetBand24
 
-`func (o *ApRadio) SetBand24(v ApRadioBand)`
+`func (o *ApRadio) SetBand24(v ApRadioBand24)`
 
 SetBand24 sets Band24 field to given value.
 
@@ -213,20 +213,20 @@ HasBand24Usage returns a boolean if a field has been set.
 
 ### GetBand5
 
-`func (o *ApRadio) GetBand5() ApRadioBand`
+`func (o *ApRadio) GetBand5() ApRadioBand5`
 
 GetBand5 returns the Band5 field if non-nil, zero value otherwise.
 
 ### GetBand5Ok
 
-`func (o *ApRadio) GetBand5Ok() (*ApRadioBand, bool)`
+`func (o *ApRadio) GetBand5Ok() (*ApRadioBand5, bool)`
 
 GetBand5Ok returns a tuple with the Band5 field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetBand5
 
-`func (o *ApRadio) SetBand5(v ApRadioBand)`
+`func (o *ApRadio) SetBand5(v ApRadioBand5)`
 
 SetBand5 sets Band5 field to given value.
 
@@ -238,20 +238,20 @@ HasBand5 returns a boolean if a field has been set.
 
 ### GetBand5On24Radio
 
-`func (o *ApRadio) GetBand5On24Radio() ApRadioBand`
+`func (o *ApRadio) GetBand5On24Radio() ApRadioBand5`
 
 GetBand5On24Radio returns the Band5On24Radio field if non-nil, zero value otherwise.
 
 ### GetBand5On24RadioOk
 
-`func (o *ApRadio) GetBand5On24RadioOk() (*ApRadioBand, bool)`
+`func (o *ApRadio) GetBand5On24RadioOk() (*ApRadioBand5, bool)`
 
 GetBand5On24RadioOk returns a tuple with the Band5On24Radio field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetBand5On24Radio
 
-`func (o *ApRadio) SetBand5On24Radio(v ApRadioBand)`
+`func (o *ApRadio) SetBand5On24Radio(v ApRadioBand5)`
 
 SetBand5On24Radio sets Band5On24Radio field to given value.
 
@@ -263,20 +263,20 @@ HasBand5On24Radio returns a boolean if a field has been set.
 
 ### GetBand6
 
-`func (o *ApRadio) GetBand6() ApRadioBand`
+`func (o *ApRadio) GetBand6() ApRadioBand6`
 
 GetBand6 returns the Band6 field if non-nil, zero value otherwise.
 
 ### GetBand6Ok
 
-`func (o *ApRadio) GetBand6Ok() (*ApRadioBand, bool)`
+`func (o *ApRadio) GetBand6Ok() (*ApRadioBand6, bool)`
 
 GetBand6Ok returns a tuple with the Band6 field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetBand6
 
-`func (o *ApRadio) SetBand6(v ApRadioBand)`
+`func (o *ApRadio) SetBand6(v ApRadioBand6)`
 
 SetBand6 sets Band6 field to given value.
 

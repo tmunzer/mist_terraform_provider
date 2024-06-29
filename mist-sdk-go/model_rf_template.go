@@ -23,10 +23,12 @@ var _ MappedNullable = &RfTemplate{}
 type RfTemplate struct {
 	AntGain24 *int32 `json:"ant_gain_24,omitempty"`
 	AntGain5 *int32 `json:"ant_gain_5,omitempty"`
-	Band24 *ApRadioBand `json:"band_24,omitempty"`
-	Band24Usage *RfTemplateBand24Usage `json:"band_24_usage,omitempty"`
-	Band5 *ApRadioBand `json:"band_5,omitempty"`
-	Band5On24Radio *ApRadioBand `json:"band_5_on_24_radio,omitempty"`
+	AntGain6 *int32 `json:"ant_gain_6,omitempty"`
+	Band24 *ApRadioBand24 `json:"band_24,omitempty"`
+	Band24Usage *ApRadioBand24Usage `json:"band_24_usage,omitempty"`
+	Band5 *ApRadioBand5 `json:"band_5,omitempty"`
+	Band5On24Radio *ApRadioBand5 `json:"band_5_on_24_radio,omitempty"`
+	Band6 *ApRadioBand6 `json:"band_6,omitempty"`
 	// optional, country code to use. If specified, this gets applied to all sites using the RF Template
 	CountryCode *string `json:"country_code,omitempty"`
 	CreatedTime *float32 `json:"created_time,omitempty"`
@@ -40,7 +42,6 @@ type RfTemplate struct {
 	OrgId *string `json:"org_id,omitempty"`
 	// whether scanning radio is enabled
 	ScanningEnabled *bool `json:"scanning_enabled,omitempty"`
-	SiteId *string `json:"site_id,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -52,8 +53,6 @@ type _RfTemplate RfTemplate
 // will change when the set of required properties is changed
 func NewRfTemplate(name string) *RfTemplate {
 	this := RfTemplate{}
-	var band24Usage RfTemplateBand24Usage = RFTEMPLATEBAND24USAGE__24
-	this.Band24Usage = &band24Usage
 	this.Name = name
 	return &this
 }
@@ -63,8 +62,6 @@ func NewRfTemplate(name string) *RfTemplate {
 // but it doesn't guarantee that properties required by API are set
 func NewRfTemplateWithDefaults() *RfTemplate {
 	this := RfTemplate{}
-	var band24Usage RfTemplateBand24Usage = RFTEMPLATEBAND24USAGE__24
-	this.Band24Usage = &band24Usage
 	return &this
 }
 
@@ -132,10 +129,42 @@ func (o *RfTemplate) SetAntGain5(v int32) {
 	o.AntGain5 = &v
 }
 
+// GetAntGain6 returns the AntGain6 field value if set, zero value otherwise.
+func (o *RfTemplate) GetAntGain6() int32 {
+	if o == nil || IsNil(o.AntGain6) {
+		var ret int32
+		return ret
+	}
+	return *o.AntGain6
+}
+
+// GetAntGain6Ok returns a tuple with the AntGain6 field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *RfTemplate) GetAntGain6Ok() (*int32, bool) {
+	if o == nil || IsNil(o.AntGain6) {
+		return nil, false
+	}
+	return o.AntGain6, true
+}
+
+// HasAntGain6 returns a boolean if a field has been set.
+func (o *RfTemplate) HasAntGain6() bool {
+	if o != nil && !IsNil(o.AntGain6) {
+		return true
+	}
+
+	return false
+}
+
+// SetAntGain6 gets a reference to the given int32 and assigns it to the AntGain6 field.
+func (o *RfTemplate) SetAntGain6(v int32) {
+	o.AntGain6 = &v
+}
+
 // GetBand24 returns the Band24 field value if set, zero value otherwise.
-func (o *RfTemplate) GetBand24() ApRadioBand {
+func (o *RfTemplate) GetBand24() ApRadioBand24 {
 	if o == nil || IsNil(o.Band24) {
-		var ret ApRadioBand
+		var ret ApRadioBand24
 		return ret
 	}
 	return *o.Band24
@@ -143,7 +172,7 @@ func (o *RfTemplate) GetBand24() ApRadioBand {
 
 // GetBand24Ok returns a tuple with the Band24 field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RfTemplate) GetBand24Ok() (*ApRadioBand, bool) {
+func (o *RfTemplate) GetBand24Ok() (*ApRadioBand24, bool) {
 	if o == nil || IsNil(o.Band24) {
 		return nil, false
 	}
@@ -159,15 +188,15 @@ func (o *RfTemplate) HasBand24() bool {
 	return false
 }
 
-// SetBand24 gets a reference to the given ApRadioBand and assigns it to the Band24 field.
-func (o *RfTemplate) SetBand24(v ApRadioBand) {
+// SetBand24 gets a reference to the given ApRadioBand24 and assigns it to the Band24 field.
+func (o *RfTemplate) SetBand24(v ApRadioBand24) {
 	o.Band24 = &v
 }
 
 // GetBand24Usage returns the Band24Usage field value if set, zero value otherwise.
-func (o *RfTemplate) GetBand24Usage() RfTemplateBand24Usage {
+func (o *RfTemplate) GetBand24Usage() ApRadioBand24Usage {
 	if o == nil || IsNil(o.Band24Usage) {
-		var ret RfTemplateBand24Usage
+		var ret ApRadioBand24Usage
 		return ret
 	}
 	return *o.Band24Usage
@@ -175,7 +204,7 @@ func (o *RfTemplate) GetBand24Usage() RfTemplateBand24Usage {
 
 // GetBand24UsageOk returns a tuple with the Band24Usage field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RfTemplate) GetBand24UsageOk() (*RfTemplateBand24Usage, bool) {
+func (o *RfTemplate) GetBand24UsageOk() (*ApRadioBand24Usage, bool) {
 	if o == nil || IsNil(o.Band24Usage) {
 		return nil, false
 	}
@@ -191,15 +220,15 @@ func (o *RfTemplate) HasBand24Usage() bool {
 	return false
 }
 
-// SetBand24Usage gets a reference to the given RfTemplateBand24Usage and assigns it to the Band24Usage field.
-func (o *RfTemplate) SetBand24Usage(v RfTemplateBand24Usage) {
+// SetBand24Usage gets a reference to the given ApRadioBand24Usage and assigns it to the Band24Usage field.
+func (o *RfTemplate) SetBand24Usage(v ApRadioBand24Usage) {
 	o.Band24Usage = &v
 }
 
 // GetBand5 returns the Band5 field value if set, zero value otherwise.
-func (o *RfTemplate) GetBand5() ApRadioBand {
+func (o *RfTemplate) GetBand5() ApRadioBand5 {
 	if o == nil || IsNil(o.Band5) {
-		var ret ApRadioBand
+		var ret ApRadioBand5
 		return ret
 	}
 	return *o.Band5
@@ -207,7 +236,7 @@ func (o *RfTemplate) GetBand5() ApRadioBand {
 
 // GetBand5Ok returns a tuple with the Band5 field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RfTemplate) GetBand5Ok() (*ApRadioBand, bool) {
+func (o *RfTemplate) GetBand5Ok() (*ApRadioBand5, bool) {
 	if o == nil || IsNil(o.Band5) {
 		return nil, false
 	}
@@ -223,15 +252,15 @@ func (o *RfTemplate) HasBand5() bool {
 	return false
 }
 
-// SetBand5 gets a reference to the given ApRadioBand and assigns it to the Band5 field.
-func (o *RfTemplate) SetBand5(v ApRadioBand) {
+// SetBand5 gets a reference to the given ApRadioBand5 and assigns it to the Band5 field.
+func (o *RfTemplate) SetBand5(v ApRadioBand5) {
 	o.Band5 = &v
 }
 
 // GetBand5On24Radio returns the Band5On24Radio field value if set, zero value otherwise.
-func (o *RfTemplate) GetBand5On24Radio() ApRadioBand {
+func (o *RfTemplate) GetBand5On24Radio() ApRadioBand5 {
 	if o == nil || IsNil(o.Band5On24Radio) {
-		var ret ApRadioBand
+		var ret ApRadioBand5
 		return ret
 	}
 	return *o.Band5On24Radio
@@ -239,7 +268,7 @@ func (o *RfTemplate) GetBand5On24Radio() ApRadioBand {
 
 // GetBand5On24RadioOk returns a tuple with the Band5On24Radio field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RfTemplate) GetBand5On24RadioOk() (*ApRadioBand, bool) {
+func (o *RfTemplate) GetBand5On24RadioOk() (*ApRadioBand5, bool) {
 	if o == nil || IsNil(o.Band5On24Radio) {
 		return nil, false
 	}
@@ -255,9 +284,41 @@ func (o *RfTemplate) HasBand5On24Radio() bool {
 	return false
 }
 
-// SetBand5On24Radio gets a reference to the given ApRadioBand and assigns it to the Band5On24Radio field.
-func (o *RfTemplate) SetBand5On24Radio(v ApRadioBand) {
+// SetBand5On24Radio gets a reference to the given ApRadioBand5 and assigns it to the Band5On24Radio field.
+func (o *RfTemplate) SetBand5On24Radio(v ApRadioBand5) {
 	o.Band5On24Radio = &v
+}
+
+// GetBand6 returns the Band6 field value if set, zero value otherwise.
+func (o *RfTemplate) GetBand6() ApRadioBand6 {
+	if o == nil || IsNil(o.Band6) {
+		var ret ApRadioBand6
+		return ret
+	}
+	return *o.Band6
+}
+
+// GetBand6Ok returns a tuple with the Band6 field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *RfTemplate) GetBand6Ok() (*ApRadioBand6, bool) {
+	if o == nil || IsNil(o.Band6) {
+		return nil, false
+	}
+	return o.Band6, true
+}
+
+// HasBand6 returns a boolean if a field has been set.
+func (o *RfTemplate) HasBand6() bool {
+	if o != nil && !IsNil(o.Band6) {
+		return true
+	}
+
+	return false
+}
+
+// SetBand6 gets a reference to the given ApRadioBand6 and assigns it to the Band6 field.
+func (o *RfTemplate) SetBand6(v ApRadioBand6) {
+	o.Band6 = &v
 }
 
 // GetCountryCode returns the CountryCode field value if set, zero value otherwise.
@@ -540,38 +601,6 @@ func (o *RfTemplate) SetScanningEnabled(v bool) {
 	o.ScanningEnabled = &v
 }
 
-// GetSiteId returns the SiteId field value if set, zero value otherwise.
-func (o *RfTemplate) GetSiteId() string {
-	if o == nil || IsNil(o.SiteId) {
-		var ret string
-		return ret
-	}
-	return *o.SiteId
-}
-
-// GetSiteIdOk returns a tuple with the SiteId field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *RfTemplate) GetSiteIdOk() (*string, bool) {
-	if o == nil || IsNil(o.SiteId) {
-		return nil, false
-	}
-	return o.SiteId, true
-}
-
-// HasSiteId returns a boolean if a field has been set.
-func (o *RfTemplate) HasSiteId() bool {
-	if o != nil && !IsNil(o.SiteId) {
-		return true
-	}
-
-	return false
-}
-
-// SetSiteId gets a reference to the given string and assigns it to the SiteId field.
-func (o *RfTemplate) SetSiteId(v string) {
-	o.SiteId = &v
-}
-
 func (o RfTemplate) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -588,6 +617,9 @@ func (o RfTemplate) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.AntGain5) {
 		toSerialize["ant_gain_5"] = o.AntGain5
 	}
+	if !IsNil(o.AntGain6) {
+		toSerialize["ant_gain_6"] = o.AntGain6
+	}
 	if !IsNil(o.Band24) {
 		toSerialize["band_24"] = o.Band24
 	}
@@ -599,6 +631,9 @@ func (o RfTemplate) ToMap() (map[string]interface{}, error) {
 	}
 	if !IsNil(o.Band5On24Radio) {
 		toSerialize["band_5_on_24_radio"] = o.Band5On24Radio
+	}
+	if !IsNil(o.Band6) {
+		toSerialize["band_6"] = o.Band6
 	}
 	if !IsNil(o.CountryCode) {
 		toSerialize["country_code"] = o.CountryCode
@@ -624,9 +659,6 @@ func (o RfTemplate) ToMap() (map[string]interface{}, error) {
 	}
 	if !IsNil(o.ScanningEnabled) {
 		toSerialize["scanning_enabled"] = o.ScanningEnabled
-	}
-	if !IsNil(o.SiteId) {
-		toSerialize["site_id"] = o.SiteId
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -673,10 +705,12 @@ func (o *RfTemplate) UnmarshalJSON(data []byte) (err error) {
 	if err = json.Unmarshal(data, &additionalProperties); err == nil {
 		delete(additionalProperties, "ant_gain_24")
 		delete(additionalProperties, "ant_gain_5")
+		delete(additionalProperties, "ant_gain_6")
 		delete(additionalProperties, "band_24")
 		delete(additionalProperties, "band_24_usage")
 		delete(additionalProperties, "band_5")
 		delete(additionalProperties, "band_5_on_24_radio")
+		delete(additionalProperties, "band_6")
 		delete(additionalProperties, "country_code")
 		delete(additionalProperties, "created_time")
 		delete(additionalProperties, "for_site")
@@ -686,7 +720,6 @@ func (o *RfTemplate) UnmarshalJSON(data []byte) (err error) {
 		delete(additionalProperties, "name")
 		delete(additionalProperties, "org_id")
 		delete(additionalProperties, "scanning_enabled")
-		delete(additionalProperties, "site_id")
 		o.AdditionalProperties = additionalProperties
 	}
 

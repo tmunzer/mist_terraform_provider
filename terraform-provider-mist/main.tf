@@ -28,6 +28,8 @@ resource "mist_site" "terraform_site" {
   }
   sitegroup_ids      = [mist_sitegroup.test_group.id, mist_sitegroup.test_group2.id]
   networktemplate_id = mist_networktemplate.switch_template.id
+  rftemplate_id = mist_rftemplate.test_rf.id
+  gatewaytemplate_id = mist_gatewaytemplate.stag.id
 }
 
 
@@ -1248,4 +1250,43 @@ resource "mist_nacrule" "wired_mac_sta" {
   name    = "Wired MAB - STA"
   org_id  = mist_org.terraform_test.id
   order   = 10
+}
+
+resource "mist_rftemplate" "test_rf" {
+    band_24_usage = "auto"
+    band_5 = {
+        ant_gain = 2
+        power = 8
+        channels = [
+            60,
+            104,
+            132
+        ]
+        bandwidth = 20
+    }
+    band_6 = {
+        ant_gain = 2
+        power = 8
+    }
+    band_24 = {
+        ant_gain = 1
+        allow_rrm_disable = true
+        power_min = 18
+        power_max = 18
+        bandwidth = 20
+    }
+    ant_gain_5 = 2
+    ant_gain_6 = 2
+    ant_gain_24 = 1
+    model_specific = {
+        AP32E = {
+            band_5 = {
+                bandwidth = 40
+            }
+            ant_gain_5 = 3
+        }
+    }
+    country_code = "FR"
+    name = "tf"
+    org_id = mist_org.terraform_test.id
 }

@@ -6,7 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **ApId** | **string** |  | 
 **Band** | [**Dot11Band**](Dot11Band.md) |  | 
-**Bandwidth** | [**Dot11Bandwidth**](Dot11Bandwidth.md) |  | [default to DOT11BANDWIDTH__20]
+**Bandwidth** | [**Dot11Bandwidth**](Dot11Bandwidth.md) |  | 
 **Channel** | **int32** | channel for the band from rrm | 
 **Event** | [**RrmEventType**](RrmEventType.md) |  | 
 **Power** | **int32** | tx power of the radio | 

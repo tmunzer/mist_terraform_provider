@@ -4,9 +4,9 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Bandwidth** | Pointer to [**Dot11Bandwidth**](Dot11Bandwidth.md) |  | [optional] [default to DOT11BANDWIDTH__20]
+**Bandwidth** | Pointer to [**Dot11Bandwidth**](Dot11Bandwidth.md) |  | [optional] 
 **Channel** | Pointer to **int32** | proposed channel | [optional] 
-**CurrBandwidht** | Pointer to [**Dot11Bandwidth**](Dot11Bandwidth.md) |  | [optional] [default to DOT11BANDWIDTH__20]
+**CurrBandwidht** | Pointer to [**Dot11Bandwidth**](Dot11Bandwidth.md) |  | [optional] 
 **CurrChannel** | Pointer to **int32** | current channel | [optional] 
 **CurrPower** | Pointer to **int32** | current tx power | [optional] 
 **CurrUsage** | Pointer to **string** | current radio band | [optional] 

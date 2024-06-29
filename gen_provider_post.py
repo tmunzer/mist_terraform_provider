@@ -2,6 +2,7 @@ FILES = [
     "./terraform-provider-mist/internal/resource_networktemplate/networktemplate_resource_gen.go",
     "./terraform-provider-mist/internal/resource_network/network_resource_gen.go",
     "./terraform-provider-mist/internal/resource_gatewaytemplate/gatewaytemplate_resource_gen.go",
+    "./terraform-provider-mist/internal/resource_rftemplate/rftemplate_resource_gen.go",
 ]
 
 ADD = {

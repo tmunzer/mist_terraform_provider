@@ -59,8 +59,6 @@ type _ApRadioStats ApRadioStats
 // will change when the set of required properties is changed
 func NewApRadioStats() *ApRadioStats {
 	this := ApRadioStats{}
-	var bandwidth Dot11Bandwidth = DOT11BANDWIDTH__20
-	this.Bandwidth = &bandwidth
 	return &this
 }
 
@@ -69,8 +67,6 @@ func NewApRadioStats() *ApRadioStats {
 // but it doesn't guarantee that properties required by API are set
 func NewApRadioStatsWithDefaults() *ApRadioStats {
 	this := ApRadioStats{}
-	var bandwidth Dot11Bandwidth = DOT11BANDWIDTH__20
-	this.Bandwidth = &bandwidth
 	return &this
 }
 

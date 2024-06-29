@@ -20,8 +20,14 @@ var _ MappedNullable = &RfTemplateModelSpecificProperty{}
 
 // RfTemplateModelSpecificProperty struct for RfTemplateModelSpecificProperty
 type RfTemplateModelSpecificProperty struct {
-	Band24 *ApRadioBand `json:"band_24,omitempty"`
-	Band5 *ApRadioBand `json:"band_5,omitempty"`
+	AntGain24 *int32 `json:"ant_gain_24,omitempty"`
+	AntGain5 *int32 `json:"ant_gain_5,omitempty"`
+	AntGain6 *int32 `json:"ant_gain_6,omitempty"`
+	Band24 *ApRadioBand24 `json:"band_24,omitempty"`
+	Band24Usage *ApRadioBand24Usage `json:"band_24_usage,omitempty"`
+	Band5 *ApRadioBand5 `json:"band_5,omitempty"`
+	Band5On24Radio *ApRadioBand5 `json:"band_5_on_24_radio,omitempty"`
+	Band6 *ApRadioBand6 `json:"band_6,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -44,10 +50,106 @@ func NewRfTemplateModelSpecificPropertyWithDefaults() *RfTemplateModelSpecificPr
 	return &this
 }
 
+// GetAntGain24 returns the AntGain24 field value if set, zero value otherwise.
+func (o *RfTemplateModelSpecificProperty) GetAntGain24() int32 {
+	if o == nil || IsNil(o.AntGain24) {
+		var ret int32
+		return ret
+	}
+	return *o.AntGain24
+}
+
+// GetAntGain24Ok returns a tuple with the AntGain24 field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *RfTemplateModelSpecificProperty) GetAntGain24Ok() (*int32, bool) {
+	if o == nil || IsNil(o.AntGain24) {
+		return nil, false
+	}
+	return o.AntGain24, true
+}
+
+// HasAntGain24 returns a boolean if a field has been set.
+func (o *RfTemplateModelSpecificProperty) HasAntGain24() bool {
+	if o != nil && !IsNil(o.AntGain24) {
+		return true
+	}
+
+	return false
+}
+
+// SetAntGain24 gets a reference to the given int32 and assigns it to the AntGain24 field.
+func (o *RfTemplateModelSpecificProperty) SetAntGain24(v int32) {
+	o.AntGain24 = &v
+}
+
+// GetAntGain5 returns the AntGain5 field value if set, zero value otherwise.
+func (o *RfTemplateModelSpecificProperty) GetAntGain5() int32 {
+	if o == nil || IsNil(o.AntGain5) {
+		var ret int32
+		return ret
+	}
+	return *o.AntGain5
+}
+
+// GetAntGain5Ok returns a tuple with the AntGain5 field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *RfTemplateModelSpecificProperty) GetAntGain5Ok() (*int32, bool) {
+	if o == nil || IsNil(o.AntGain5) {
+		return nil, false
+	}
+	return o.AntGain5, true
+}
+
+// HasAntGain5 returns a boolean if a field has been set.
+func (o *RfTemplateModelSpecificProperty) HasAntGain5() bool {
+	if o != nil && !IsNil(o.AntGain5) {
+		return true
+	}
+
+	return false
+}
+
+// SetAntGain5 gets a reference to the given int32 and assigns it to the AntGain5 field.
+func (o *RfTemplateModelSpecificProperty) SetAntGain5(v int32) {
+	o.AntGain5 = &v
+}
+
+// GetAntGain6 returns the AntGain6 field value if set, zero value otherwise.
+func (o *RfTemplateModelSpecificProperty) GetAntGain6() int32 {
+	if o == nil || IsNil(o.AntGain6) {
+		var ret int32
+		return ret
+	}
+	return *o.AntGain6
+}
+
+// GetAntGain6Ok returns a tuple with the AntGain6 field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *RfTemplateModelSpecificProperty) GetAntGain6Ok() (*int32, bool) {
+	if o == nil || IsNil(o.AntGain6) {
+		return nil, false
+	}
+	return o.AntGain6, true
+}
+
+// HasAntGain6 returns a boolean if a field has been set.
+func (o *RfTemplateModelSpecificProperty) HasAntGain6() bool {
+	if o != nil && !IsNil(o.AntGain6) {
+		return true
+	}
+
+	return false
+}
+
+// SetAntGain6 gets a reference to the given int32 and assigns it to the AntGain6 field.
+func (o *RfTemplateModelSpecificProperty) SetAntGain6(v int32) {
+	o.AntGain6 = &v
+}
+
 // GetBand24 returns the Band24 field value if set, zero value otherwise.
-func (o *RfTemplateModelSpecificProperty) GetBand24() ApRadioBand {
+func (o *RfTemplateModelSpecificProperty) GetBand24() ApRadioBand24 {
 	if o == nil || IsNil(o.Band24) {
-		var ret ApRadioBand
+		var ret ApRadioBand24
 		return ret
 	}
 	return *o.Band24
@@ -55,7 +157,7 @@ func (o *RfTemplateModelSpecificProperty) GetBand24() ApRadioBand {
 
 // GetBand24Ok returns a tuple with the Band24 field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RfTemplateModelSpecificProperty) GetBand24Ok() (*ApRadioBand, bool) {
+func (o *RfTemplateModelSpecificProperty) GetBand24Ok() (*ApRadioBand24, bool) {
 	if o == nil || IsNil(o.Band24) {
 		return nil, false
 	}
@@ -71,15 +173,47 @@ func (o *RfTemplateModelSpecificProperty) HasBand24() bool {
 	return false
 }
 
-// SetBand24 gets a reference to the given ApRadioBand and assigns it to the Band24 field.
-func (o *RfTemplateModelSpecificProperty) SetBand24(v ApRadioBand) {
+// SetBand24 gets a reference to the given ApRadioBand24 and assigns it to the Band24 field.
+func (o *RfTemplateModelSpecificProperty) SetBand24(v ApRadioBand24) {
 	o.Band24 = &v
 }
 
+// GetBand24Usage returns the Band24Usage field value if set, zero value otherwise.
+func (o *RfTemplateModelSpecificProperty) GetBand24Usage() ApRadioBand24Usage {
+	if o == nil || IsNil(o.Band24Usage) {
+		var ret ApRadioBand24Usage
+		return ret
+	}
+	return *o.Band24Usage
+}
+
+// GetBand24UsageOk returns a tuple with the Band24Usage field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *RfTemplateModelSpecificProperty) GetBand24UsageOk() (*ApRadioBand24Usage, bool) {
+	if o == nil || IsNil(o.Band24Usage) {
+		return nil, false
+	}
+	return o.Band24Usage, true
+}
+
+// HasBand24Usage returns a boolean if a field has been set.
+func (o *RfTemplateModelSpecificProperty) HasBand24Usage() bool {
+	if o != nil && !IsNil(o.Band24Usage) {
+		return true
+	}
+
+	return false
+}
+
+// SetBand24Usage gets a reference to the given ApRadioBand24Usage and assigns it to the Band24Usage field.
+func (o *RfTemplateModelSpecificProperty) SetBand24Usage(v ApRadioBand24Usage) {
+	o.Band24Usage = &v
+}
+
 // GetBand5 returns the Band5 field value if set, zero value otherwise.
-func (o *RfTemplateModelSpecificProperty) GetBand5() ApRadioBand {
+func (o *RfTemplateModelSpecificProperty) GetBand5() ApRadioBand5 {
 	if o == nil || IsNil(o.Band5) {
-		var ret ApRadioBand
+		var ret ApRadioBand5
 		return ret
 	}
 	return *o.Band5
@@ -87,7 +221,7 @@ func (o *RfTemplateModelSpecificProperty) GetBand5() ApRadioBand {
 
 // GetBand5Ok returns a tuple with the Band5 field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RfTemplateModelSpecificProperty) GetBand5Ok() (*ApRadioBand, bool) {
+func (o *RfTemplateModelSpecificProperty) GetBand5Ok() (*ApRadioBand5, bool) {
 	if o == nil || IsNil(o.Band5) {
 		return nil, false
 	}
@@ -103,9 +237,73 @@ func (o *RfTemplateModelSpecificProperty) HasBand5() bool {
 	return false
 }
 
-// SetBand5 gets a reference to the given ApRadioBand and assigns it to the Band5 field.
-func (o *RfTemplateModelSpecificProperty) SetBand5(v ApRadioBand) {
+// SetBand5 gets a reference to the given ApRadioBand5 and assigns it to the Band5 field.
+func (o *RfTemplateModelSpecificProperty) SetBand5(v ApRadioBand5) {
 	o.Band5 = &v
+}
+
+// GetBand5On24Radio returns the Band5On24Radio field value if set, zero value otherwise.
+func (o *RfTemplateModelSpecificProperty) GetBand5On24Radio() ApRadioBand5 {
+	if o == nil || IsNil(o.Band5On24Radio) {
+		var ret ApRadioBand5
+		return ret
+	}
+	return *o.Band5On24Radio
+}
+
+// GetBand5On24RadioOk returns a tuple with the Band5On24Radio field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *RfTemplateModelSpecificProperty) GetBand5On24RadioOk() (*ApRadioBand5, bool) {
+	if o == nil || IsNil(o.Band5On24Radio) {
+		return nil, false
+	}
+	return o.Band5On24Radio, true
+}
+
+// HasBand5On24Radio returns a boolean if a field has been set.
+func (o *RfTemplateModelSpecificProperty) HasBand5On24Radio() bool {
+	if o != nil && !IsNil(o.Band5On24Radio) {
+		return true
+	}
+
+	return false
+}
+
+// SetBand5On24Radio gets a reference to the given ApRadioBand5 and assigns it to the Band5On24Radio field.
+func (o *RfTemplateModelSpecificProperty) SetBand5On24Radio(v ApRadioBand5) {
+	o.Band5On24Radio = &v
+}
+
+// GetBand6 returns the Band6 field value if set, zero value otherwise.
+func (o *RfTemplateModelSpecificProperty) GetBand6() ApRadioBand6 {
+	if o == nil || IsNil(o.Band6) {
+		var ret ApRadioBand6
+		return ret
+	}
+	return *o.Band6
+}
+
+// GetBand6Ok returns a tuple with the Band6 field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *RfTemplateModelSpecificProperty) GetBand6Ok() (*ApRadioBand6, bool) {
+	if o == nil || IsNil(o.Band6) {
+		return nil, false
+	}
+	return o.Band6, true
+}
+
+// HasBand6 returns a boolean if a field has been set.
+func (o *RfTemplateModelSpecificProperty) HasBand6() bool {
+	if o != nil && !IsNil(o.Band6) {
+		return true
+	}
+
+	return false
+}
+
+// SetBand6 gets a reference to the given ApRadioBand6 and assigns it to the Band6 field.
+func (o *RfTemplateModelSpecificProperty) SetBand6(v ApRadioBand6) {
+	o.Band6 = &v
 }
 
 func (o RfTemplateModelSpecificProperty) MarshalJSON() ([]byte, error) {
@@ -118,11 +316,29 @@ func (o RfTemplateModelSpecificProperty) MarshalJSON() ([]byte, error) {
 
 func (o RfTemplateModelSpecificProperty) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
+	if !IsNil(o.AntGain24) {
+		toSerialize["ant_gain_24"] = o.AntGain24
+	}
+	if !IsNil(o.AntGain5) {
+		toSerialize["ant_gain_5"] = o.AntGain5
+	}
+	if !IsNil(o.AntGain6) {
+		toSerialize["ant_gain_6"] = o.AntGain6
+	}
 	if !IsNil(o.Band24) {
 		toSerialize["band_24"] = o.Band24
 	}
+	if !IsNil(o.Band24Usage) {
+		toSerialize["band_24_usage"] = o.Band24Usage
+	}
 	if !IsNil(o.Band5) {
 		toSerialize["band_5"] = o.Band5
+	}
+	if !IsNil(o.Band5On24Radio) {
+		toSerialize["band_5_on_24_radio"] = o.Band5On24Radio
+	}
+	if !IsNil(o.Band6) {
+		toSerialize["band_6"] = o.Band6
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -146,8 +362,14 @@ func (o *RfTemplateModelSpecificProperty) UnmarshalJSON(data []byte) (err error)
 	additionalProperties := make(map[string]interface{})
 
 	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "ant_gain_24")
+		delete(additionalProperties, "ant_gain_5")
+		delete(additionalProperties, "ant_gain_6")
 		delete(additionalProperties, "band_24")
+		delete(additionalProperties, "band_24_usage")
 		delete(additionalProperties, "band_5")
+		delete(additionalProperties, "band_5_on_24_radio")
+		delete(additionalProperties, "band_6")
 		o.AdditionalProperties = additionalProperties
 	}
 

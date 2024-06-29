@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Bandwidth** | Pointer to [**Dot11Bandwidth**](Dot11Bandwidth.md) |  | [optional] [default to DOT11BANDWIDTH__20]
+**Bandwidth** | Pointer to [**Dot11Bandwidth**](Dot11Bandwidth.md) |  | [optional] 
 **Channel** | Pointer to **int32** | current channel the radio is running on | [optional] 
 **DynamicChainingEnalbed** | Pointer to **bool** | Use dynamic chaining for downlink | [optional] 
 **Mac** | Pointer to **string** | radio (base) mac, it can have 16 bssids (e.g. 5c5b350001a0-5c5b350001af) | [optional] 

@@ -28,11 +28,11 @@ type ApRadio struct {
 	// antenna gain for 6G - for models with external antenna only
 	AntGain6 *int32 `json:"ant_gain_6,omitempty"`
 	AntennaMode *ApRadioAntennaMode `json:"antenna_mode,omitempty"`
-	Band24 *ApRadioBand `json:"band_24,omitempty"`
+	Band24 *ApRadioBand24 `json:"band_24,omitempty"`
 	Band24Usage *ApRadioBand24Usage `json:"band_24_usage,omitempty"`
-	Band5 *ApRadioBand `json:"band_5,omitempty"`
-	Band5On24Radio *ApRadioBand `json:"band_5_on_24_radio,omitempty"`
-	Band6 *ApRadioBand `json:"band_6,omitempty"`
+	Band5 *ApRadioBand5 `json:"band_5,omitempty"`
+	Band5On24Radio *ApRadioBand5 `json:"band_5_on_24_radio,omitempty"`
+	Band6 *ApRadioBand6 `json:"band_6,omitempty"`
 	// to make an outdoor operate indoor. for an outdoor-ap, some channels are disallowed by default, this allows the user to use it as an indoor-ap
 	IndoorUse *bool `json:"indoor_use,omitempty"`
 	// whether scanning radio is enabled
@@ -52,8 +52,6 @@ func NewApRadio() *ApRadio {
 	this.AllowRrmDisable = &allowRrmDisable
 	var antennaMode ApRadioAntennaMode = APRADIOANTENNAMODE_DEFAULT
 	this.AntennaMode = &antennaMode
-	var band24Usage ApRadioBand24Usage = APRADIOBAND24USAGE__24
-	this.Band24Usage = &band24Usage
 	var indoorUse bool = false
 	this.IndoorUse = &indoorUse
 	return &this
@@ -68,8 +66,6 @@ func NewApRadioWithDefaults() *ApRadio {
 	this.AllowRrmDisable = &allowRrmDisable
 	var antennaMode ApRadioAntennaMode = APRADIOANTENNAMODE_DEFAULT
 	this.AntennaMode = &antennaMode
-	var band24Usage ApRadioBand24Usage = APRADIOBAND24USAGE__24
-	this.Band24Usage = &band24Usage
 	var indoorUse bool = false
 	this.IndoorUse = &indoorUse
 	return &this
@@ -236,9 +232,9 @@ func (o *ApRadio) SetAntennaMode(v ApRadioAntennaMode) {
 }
 
 // GetBand24 returns the Band24 field value if set, zero value otherwise.
-func (o *ApRadio) GetBand24() ApRadioBand {
+func (o *ApRadio) GetBand24() ApRadioBand24 {
 	if o == nil || IsNil(o.Band24) {
-		var ret ApRadioBand
+		var ret ApRadioBand24
 		return ret
 	}
 	return *o.Band24
@@ -246,7 +242,7 @@ func (o *ApRadio) GetBand24() ApRadioBand {
 
 // GetBand24Ok returns a tuple with the Band24 field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ApRadio) GetBand24Ok() (*ApRadioBand, bool) {
+func (o *ApRadio) GetBand24Ok() (*ApRadioBand24, bool) {
 	if o == nil || IsNil(o.Band24) {
 		return nil, false
 	}
@@ -262,8 +258,8 @@ func (o *ApRadio) HasBand24() bool {
 	return false
 }
 
-// SetBand24 gets a reference to the given ApRadioBand and assigns it to the Band24 field.
-func (o *ApRadio) SetBand24(v ApRadioBand) {
+// SetBand24 gets a reference to the given ApRadioBand24 and assigns it to the Band24 field.
+func (o *ApRadio) SetBand24(v ApRadioBand24) {
 	o.Band24 = &v
 }
 
@@ -300,9 +296,9 @@ func (o *ApRadio) SetBand24Usage(v ApRadioBand24Usage) {
 }
 
 // GetBand5 returns the Band5 field value if set, zero value otherwise.
-func (o *ApRadio) GetBand5() ApRadioBand {
+func (o *ApRadio) GetBand5() ApRadioBand5 {
 	if o == nil || IsNil(o.Band5) {
-		var ret ApRadioBand
+		var ret ApRadioBand5
 		return ret
 	}
 	return *o.Band5
@@ -310,7 +306,7 @@ func (o *ApRadio) GetBand5() ApRadioBand {
 
 // GetBand5Ok returns a tuple with the Band5 field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ApRadio) GetBand5Ok() (*ApRadioBand, bool) {
+func (o *ApRadio) GetBand5Ok() (*ApRadioBand5, bool) {
 	if o == nil || IsNil(o.Band5) {
 		return nil, false
 	}
@@ -326,15 +322,15 @@ func (o *ApRadio) HasBand5() bool {
 	return false
 }
 
-// SetBand5 gets a reference to the given ApRadioBand and assigns it to the Band5 field.
-func (o *ApRadio) SetBand5(v ApRadioBand) {
+// SetBand5 gets a reference to the given ApRadioBand5 and assigns it to the Band5 field.
+func (o *ApRadio) SetBand5(v ApRadioBand5) {
 	o.Band5 = &v
 }
 
 // GetBand5On24Radio returns the Band5On24Radio field value if set, zero value otherwise.
-func (o *ApRadio) GetBand5On24Radio() ApRadioBand {
+func (o *ApRadio) GetBand5On24Radio() ApRadioBand5 {
 	if o == nil || IsNil(o.Band5On24Radio) {
-		var ret ApRadioBand
+		var ret ApRadioBand5
 		return ret
 	}
 	return *o.Band5On24Radio
@@ -342,7 +338,7 @@ func (o *ApRadio) GetBand5On24Radio() ApRadioBand {
 
 // GetBand5On24RadioOk returns a tuple with the Band5On24Radio field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ApRadio) GetBand5On24RadioOk() (*ApRadioBand, bool) {
+func (o *ApRadio) GetBand5On24RadioOk() (*ApRadioBand5, bool) {
 	if o == nil || IsNil(o.Band5On24Radio) {
 		return nil, false
 	}
@@ -358,15 +354,15 @@ func (o *ApRadio) HasBand5On24Radio() bool {
 	return false
 }
 
-// SetBand5On24Radio gets a reference to the given ApRadioBand and assigns it to the Band5On24Radio field.
-func (o *ApRadio) SetBand5On24Radio(v ApRadioBand) {
+// SetBand5On24Radio gets a reference to the given ApRadioBand5 and assigns it to the Band5On24Radio field.
+func (o *ApRadio) SetBand5On24Radio(v ApRadioBand5) {
 	o.Band5On24Radio = &v
 }
 
 // GetBand6 returns the Band6 field value if set, zero value otherwise.
-func (o *ApRadio) GetBand6() ApRadioBand {
+func (o *ApRadio) GetBand6() ApRadioBand6 {
 	if o == nil || IsNil(o.Band6) {
-		var ret ApRadioBand
+		var ret ApRadioBand6
 		return ret
 	}
 	return *o.Band6
@@ -374,7 +370,7 @@ func (o *ApRadio) GetBand6() ApRadioBand {
 
 // GetBand6Ok returns a tuple with the Band6 field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ApRadio) GetBand6Ok() (*ApRadioBand, bool) {
+func (o *ApRadio) GetBand6Ok() (*ApRadioBand6, bool) {
 	if o == nil || IsNil(o.Band6) {
 		return nil, false
 	}
@@ -390,8 +386,8 @@ func (o *ApRadio) HasBand6() bool {
 	return false
 }
 
-// SetBand6 gets a reference to the given ApRadioBand and assigns it to the Band6 field.
-func (o *ApRadio) SetBand6(v ApRadioBand) {
+// SetBand6 gets a reference to the given ApRadioBand6 and assigns it to the Band6 field.
+func (o *ApRadio) SetBand6(v ApRadioBand6) {
 	o.Band6 = &v
 }
 

@@ -9,6 +9,8 @@
 
 * `_5` (value: `"5"`)
 
+* `_6` (value: `"6"`)
+
 * `AUTO` (value: `"auto"`)
 
 
