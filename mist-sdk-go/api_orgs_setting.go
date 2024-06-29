@@ -21,12 +21,117 @@ import (
 )
 
 
+type OrgsSettingAPI interface {
+
+	/*
+	CreateOrgWirelessClientsBlocklist createOrgWirelessClientsBlocklist
+
+	Create Org Blacklist Client List. 
+
+If there is already a blacklist, this API will replace it with the new one. 
+
+Max number of blacklist clients is 1000. 
+
+Retrieve the current blacklisted clients from `blacklist_url` under Org:Setting
+
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiCreateOrgWirelessClientsBlocklistRequest
+	*/
+	CreateOrgWirelessClientsBlocklist(ctx context.Context, orgId string) ApiCreateOrgWirelessClientsBlocklistRequest
+
+	// CreateOrgWirelessClientsBlocklistExecute executes the request
+	//  @return MacAddresses
+	CreateOrgWirelessClientsBlocklistExecute(r ApiCreateOrgWirelessClientsBlocklistRequest) (*MacAddresses, *http.Response, error)
+
+	/*
+	DeleteOrgWirelessClientsBlocklist deleteOrgWirelessClientsBlocklist
+
+	Delete Org Blacklist Station Clients
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiDeleteOrgWirelessClientsBlocklistRequest
+	*/
+	DeleteOrgWirelessClientsBlocklist(ctx context.Context, orgId string) ApiDeleteOrgWirelessClientsBlocklistRequest
+
+	// DeleteOrgWirelessClientsBlocklistExecute executes the request
+	DeleteOrgWirelessClientsBlocklistExecute(r ApiDeleteOrgWirelessClientsBlocklistRequest) (*http.Response, error)
+
+	/*
+	GetOrgSettings getOrgSettings
+
+	Get Org Settings
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiGetOrgSettingsRequest
+	*/
+	GetOrgSettings(ctx context.Context, orgId string) ApiGetOrgSettingsRequest
+
+	// GetOrgSettingsExecute executes the request
+	//  @return OrgSetting
+	GetOrgSettingsExecute(r ApiGetOrgSettingsRequest) (*OrgSetting, *http.Response, error)
+
+	/*
+	SetOrgCustomBucket setOrgCustomBucket
+
+	Provide Customer Bucket Name
+
+Setting up Custom PCAP Bucket Involves the following:
+* provide the bucket name
+* we’ll attempt to write a file MIST_TOKEN
+* you have to verify the ownership of the bucket by providing the content of the MIST_TOKEN
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiSetOrgCustomBucketRequest
+	*/
+	SetOrgCustomBucket(ctx context.Context, orgId string) ApiSetOrgCustomBucketRequest
+
+	// SetOrgCustomBucketExecute executes the request
+	//  @return ResponsePcapBucketConfig
+	SetOrgCustomBucketExecute(r ApiSetOrgCustomBucketRequest) (*ResponsePcapBucketConfig, *http.Response, error)
+
+	/*
+	UpdateOrgSettings updateOrgSettings
+
+	Update Org Settings
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiUpdateOrgSettingsRequest
+	*/
+	UpdateOrgSettings(ctx context.Context, orgId string) ApiUpdateOrgSettingsRequest
+
+	// UpdateOrgSettingsExecute executes the request
+	//  @return OrgSetting
+	UpdateOrgSettingsExecute(r ApiUpdateOrgSettingsRequest) (*OrgSetting, *http.Response, error)
+
+	/*
+	VerifyOrgCustomBucket verifyOrgCustomBucket
+
+	Verify Customer PCAP Bucket
+
+**Note**: If successful, a “VERIFIED” file will be created in the bucket
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiVerifyOrgCustomBucketRequest
+	*/
+	VerifyOrgCustomBucket(ctx context.Context, orgId string) ApiVerifyOrgCustomBucketRequest
+
+	// VerifyOrgCustomBucketExecute executes the request
+	VerifyOrgCustomBucketExecute(r ApiVerifyOrgCustomBucketRequest) (*http.Response, error)
+}
+
 // OrgsSettingAPIService OrgsSettingAPI service
 type OrgsSettingAPIService service
 
 type ApiCreateOrgWirelessClientsBlocklistRequest struct {
 	ctx context.Context
-	ApiService *OrgsSettingAPIService
+	ApiService OrgsSettingAPI
 	orgId string
 	macAddresses *MacAddresses
 }
@@ -213,7 +318,7 @@ func (a *OrgsSettingAPIService) CreateOrgWirelessClientsBlocklistExecute(r ApiCr
 
 type ApiDeleteOrgWirelessClientsBlocklistRequest struct {
 	ctx context.Context
-	ApiService *OrgsSettingAPIService
+	ApiService OrgsSettingAPI
 	orgId string
 }
 
@@ -373,7 +478,7 @@ func (a *OrgsSettingAPIService) DeleteOrgWirelessClientsBlocklistExecute(r ApiDe
 
 type ApiGetOrgSettingsRequest struct {
 	ctx context.Context
-	ApiService *OrgsSettingAPIService
+	ApiService OrgsSettingAPI
 	orgId string
 }
 
@@ -544,7 +649,7 @@ func (a *OrgsSettingAPIService) GetOrgSettingsExecute(r ApiGetOrgSettingsRequest
 
 type ApiSetOrgCustomBucketRequest struct {
 	ctx context.Context
-	ApiService *OrgsSettingAPIService
+	ApiService OrgsSettingAPI
 	orgId string
 	pcapBucket *PcapBucket
 }
@@ -729,7 +834,7 @@ func (a *OrgsSettingAPIService) SetOrgCustomBucketExecute(r ApiSetOrgCustomBucke
 
 type ApiUpdateOrgSettingsRequest struct {
 	ctx context.Context
-	ApiService *OrgsSettingAPIService
+	ApiService OrgsSettingAPI
 	orgId string
 	orgSetting *OrgSetting
 }
@@ -909,7 +1014,7 @@ func (a *OrgsSettingAPIService) UpdateOrgSettingsExecute(r ApiUpdateOrgSettingsR
 
 type ApiVerifyOrgCustomBucketRequest struct {
 	ctx context.Context
-	ApiService *OrgsSettingAPIService
+	ApiService OrgsSettingAPI
 	orgId string
 	pcapBucketVerify *PcapBucketVerify
 }

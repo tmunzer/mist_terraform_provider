@@ -21,12 +21,92 @@ import (
 )
 
 
+type OrgsSSORolesAPI interface {
+
+	/*
+	CreateOrgSsoRole createOrgSsoRole
+
+	Create Org SSO Role
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiCreateOrgSsoRoleRequest
+	*/
+	CreateOrgSsoRole(ctx context.Context, orgId string) ApiCreateOrgSsoRoleRequest
+
+	// CreateOrgSsoRoleExecute executes the request
+	//  @return SsoRoleOrg
+	CreateOrgSsoRoleExecute(r ApiCreateOrgSsoRoleRequest) (*SsoRoleOrg, *http.Response, error)
+
+	/*
+	DeleteOrgSsoRole deleteOrgSsoRole
+
+	Delete Org SSO Role
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param ssoroleId
+	@return ApiDeleteOrgSsoRoleRequest
+	*/
+	DeleteOrgSsoRole(ctx context.Context, orgId string, ssoroleId string) ApiDeleteOrgSsoRoleRequest
+
+	// DeleteOrgSsoRoleExecute executes the request
+	DeleteOrgSsoRoleExecute(r ApiDeleteOrgSsoRoleRequest) (*http.Response, error)
+
+	/*
+	GetOrgSsoRole getOrgSsoRole
+
+	Get Org SSO Role Details
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param ssoroleId
+	@return ApiGetOrgSsoRoleRequest
+	*/
+	GetOrgSsoRole(ctx context.Context, orgId string, ssoroleId string) ApiGetOrgSsoRoleRequest
+
+	// GetOrgSsoRoleExecute executes the request
+	//  @return SsoRoleOrg
+	GetOrgSsoRoleExecute(r ApiGetOrgSsoRoleRequest) (*SsoRoleOrg, *http.Response, error)
+
+	/*
+	ListOrgSsoRoles listOrgSsoRoles
+
+	Get List of Org SSO Roles
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiListOrgSsoRolesRequest
+	*/
+	ListOrgSsoRoles(ctx context.Context, orgId string) ApiListOrgSsoRolesRequest
+
+	// ListOrgSsoRolesExecute executes the request
+	//  @return []SsoRoleMsp
+	ListOrgSsoRolesExecute(r ApiListOrgSsoRolesRequest) ([]SsoRoleMsp, *http.Response, error)
+
+	/*
+	UpdateOrgSsoRole updateOrgSsoRole
+
+	Update Org SSO Role
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param ssoroleId
+	@return ApiUpdateOrgSsoRoleRequest
+	*/
+	UpdateOrgSsoRole(ctx context.Context, orgId string, ssoroleId string) ApiUpdateOrgSsoRoleRequest
+
+	// UpdateOrgSsoRoleExecute executes the request
+	//  @return SsoRoleOrg
+	UpdateOrgSsoRoleExecute(r ApiUpdateOrgSsoRoleRequest) (*SsoRoleOrg, *http.Response, error)
+}
+
 // OrgsSSORolesAPIService OrgsSSORolesAPI service
 type OrgsSSORolesAPIService service
 
 type ApiCreateOrgSsoRoleRequest struct {
 	ctx context.Context
-	ApiService *OrgsSSORolesAPIService
+	ApiService OrgsSSORolesAPI
 	orgId string
 	ssoRoleOrg *SsoRoleOrg
 }
@@ -206,7 +286,7 @@ func (a *OrgsSSORolesAPIService) CreateOrgSsoRoleExecute(r ApiCreateOrgSsoRoleRe
 
 type ApiDeleteOrgSsoRoleRequest struct {
 	ctx context.Context
-	ApiService *OrgsSSORolesAPIService
+	ApiService OrgsSSORolesAPI
 	orgId string
 	ssoroleId string
 }
@@ -370,7 +450,7 @@ func (a *OrgsSSORolesAPIService) DeleteOrgSsoRoleExecute(r ApiDeleteOrgSsoRoleRe
 
 type ApiGetOrgSsoRoleRequest struct {
 	ctx context.Context
-	ApiService *OrgsSSORolesAPIService
+	ApiService OrgsSSORolesAPI
 	orgId string
 	ssoroleId string
 }
@@ -545,7 +625,7 @@ func (a *OrgsSSORolesAPIService) GetOrgSsoRoleExecute(r ApiGetOrgSsoRoleRequest)
 
 type ApiListOrgSsoRolesRequest struct {
 	ctx context.Context
-	ApiService *OrgsSSORolesAPIService
+	ApiService OrgsSSORolesAPI
 	orgId string
 	page *int32
 	limit *int32
@@ -740,7 +820,7 @@ func (a *OrgsSSORolesAPIService) ListOrgSsoRolesExecute(r ApiListOrgSsoRolesRequ
 
 type ApiUpdateOrgSsoRoleRequest struct {
 	ctx context.Context
-	ApiService *OrgsSSORolesAPIService
+	ApiService OrgsSSORolesAPI
 	orgId string
 	ssoroleId string
 	ssoRoleOrg *SsoRoleOrg

@@ -12,6 +12,7 @@ openapi-generator generate \
     --additional-properties=packageName=mistsdkgo \
     --additional-properties=disallowAdditionalPropertiesIfNotPresent=false \
     --additional-properties=enumClassPrefix=true \
+    --additional-properties=generateInterfaces=true \
     --git-repo-id mistsdkgo \
     --git-user-id tmunzer
 

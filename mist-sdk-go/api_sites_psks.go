@@ -21,12 +21,133 @@ import (
 )
 
 
+type SitesPsksAPI interface {
+
+	/*
+	CreateSitePsk createSitePsk
+
+	Create Site PSK
+
+
+When `usage`==`macs`, corresponding "macs" field will hold a list consisting of client mac addresses (["xx:xx:xx:xx:xx",...]) or mac patterns(["xx:xx:*","xx*",...]) or both (["xx:xx:xx:xx:xx:xx", "xx:*", ...]). This list is capped at 5000
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiCreateSitePskRequest
+	*/
+	CreateSitePsk(ctx context.Context, siteId string) ApiCreateSitePskRequest
+
+	// CreateSitePskExecute executes the request
+	//  @return Psk
+	CreateSitePskExecute(r ApiCreateSitePskRequest) (*Psk, *http.Response, error)
+
+	/*
+	DeleteSitePsk deleteSitePsk
+
+	Delete Site PSK
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param pskId PSK ID
+	@return ApiDeleteSitePskRequest
+	*/
+	DeleteSitePsk(ctx context.Context, siteId string, pskId string) ApiDeleteSitePskRequest
+
+	// DeleteSitePskExecute executes the request
+	DeleteSitePskExecute(r ApiDeleteSitePskRequest) (*http.Response, error)
+
+	/*
+	GetSitePsk getSitePsk
+
+	Get Site PSK Details
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param pskId PSK ID
+	@return ApiGetSitePskRequest
+	*/
+	GetSitePsk(ctx context.Context, siteId string, pskId string) ApiGetSitePskRequest
+
+	// GetSitePskExecute executes the request
+	//  @return Psk
+	GetSitePskExecute(r ApiGetSitePskRequest) (*Psk, *http.Response, error)
+
+	/*
+	ImportSitePsks importSitePsks
+
+	Import PSK from CSV file or JSON
+
+## CSV File Format
+```csv
+PSK Import CSV File Format:
+name,ssid,passphrase,usage,vlan_id,mac
+Common,warehouse,foryoureyesonly,single,35,a31425f31278
+Justin,reception,visible,multi,1002
+```
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiImportSitePsksRequest
+	*/
+	ImportSitePsks(ctx context.Context, siteId string) ApiImportSitePsksRequest
+
+	// ImportSitePsksExecute executes the request
+	//  @return []Psk
+	ImportSitePsksExecute(r ApiImportSitePsksRequest) ([]Psk, *http.Response, error)
+
+	/*
+	ListSitePsks listSitePsks
+
+	Get List of Site PSKs
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiListSitePsksRequest
+	*/
+	ListSitePsks(ctx context.Context, siteId string) ApiListSitePsksRequest
+
+	// ListSitePsksExecute executes the request
+	//  @return []Psk
+	ListSitePsksExecute(r ApiListSitePsksRequest) ([]Psk, *http.Response, error)
+
+	/*
+	UpdateSiteMultiplePsks updateSiteMultiplePsks
+
+	Update multiple PSKs
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiUpdateSiteMultiplePsksRequest
+	*/
+	UpdateSiteMultiplePsks(ctx context.Context, siteId string) ApiUpdateSiteMultiplePsksRequest
+
+	// UpdateSiteMultiplePsksExecute executes the request
+	//  @return []Psk
+	UpdateSiteMultiplePsksExecute(r ApiUpdateSiteMultiplePsksRequest) ([]Psk, *http.Response, error)
+
+	/*
+	UpdateSitePsk updateSitePsk
+
+	Update Site PSK
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param pskId PSK ID
+	@return ApiUpdateSitePskRequest
+	*/
+	UpdateSitePsk(ctx context.Context, siteId string, pskId string) ApiUpdateSitePskRequest
+
+	// UpdateSitePskExecute executes the request
+	//  @return Psk
+	UpdateSitePskExecute(r ApiUpdateSitePskRequest) (*Psk, *http.Response, error)
+}
+
 // SitesPsksAPIService SitesPsksAPI service
 type SitesPsksAPIService service
 
 type ApiCreateSitePskRequest struct {
 	ctx context.Context
-	ApiService *SitesPsksAPIService
+	ApiService SitesPsksAPI
 	siteId string
 	psk *Psk
 }
@@ -209,7 +330,7 @@ func (a *SitesPsksAPIService) CreateSitePskExecute(r ApiCreateSitePskRequest) (*
 
 type ApiDeleteSitePskRequest struct {
 	ctx context.Context
-	ApiService *SitesPsksAPIService
+	ApiService SitesPsksAPI
 	siteId string
 	pskId string
 }
@@ -373,7 +494,7 @@ func (a *SitesPsksAPIService) DeleteSitePskExecute(r ApiDeleteSitePskRequest) (*
 
 type ApiGetSitePskRequest struct {
 	ctx context.Context
-	ApiService *SitesPsksAPIService
+	ApiService SitesPsksAPI
 	siteId string
 	pskId string
 }
@@ -548,7 +669,7 @@ func (a *SitesPsksAPIService) GetSitePskExecute(r ApiGetSitePskRequest) (*Psk, *
 
 type ApiImportSitePsksRequest struct {
 	ctx context.Context
-	ApiService *SitesPsksAPIService
+	ApiService SitesPsksAPI
 	siteId string
 	psk *[]Psk
 }
@@ -735,7 +856,7 @@ func (a *SitesPsksAPIService) ImportSitePsksExecute(r ApiImportSitePsksRequest) 
 
 type ApiListSitePsksRequest struct {
 	ctx context.Context
-	ApiService *SitesPsksAPIService
+	ApiService SitesPsksAPI
 	siteId string
 	ssid *string
 	role *string
@@ -960,7 +1081,7 @@ func (a *SitesPsksAPIService) ListSitePsksExecute(r ApiListSitePsksRequest) ([]P
 
 type ApiUpdateSiteMultiplePsksRequest struct {
 	ctx context.Context
-	ApiService *SitesPsksAPIService
+	ApiService SitesPsksAPI
 	siteId string
 	psk *[]Psk
 }
@@ -1139,7 +1260,7 @@ func (a *SitesPsksAPIService) UpdateSiteMultiplePsksExecute(r ApiUpdateSiteMulti
 
 type ApiUpdateSitePskRequest struct {
 	ctx context.Context
-	ApiService *SitesPsksAPIService
+	ApiService SitesPsksAPI
 	siteId string
 	pskId string
 	psk *Psk

@@ -21,12 +21,78 @@ import (
 )
 
 
+type SitesRRMAPI interface {
+
+	/*
+	GetSiteCurrentChannelPlanning getSiteCurrentChannelPlanning
+
+	Get Current Channel Planning
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiGetSiteCurrentChannelPlanningRequest
+	*/
+	GetSiteCurrentChannelPlanning(ctx context.Context, siteId string) ApiGetSiteCurrentChannelPlanningRequest
+
+	// GetSiteCurrentChannelPlanningExecute executes the request
+	//  @return Rrm
+	GetSiteCurrentChannelPlanningExecute(r ApiGetSiteCurrentChannelPlanningRequest) (*Rrm, *http.Response, error)
+
+	/*
+	GetSiteCurrentRrmConsiderations getSiteCurrentRrmConsiderations
+
+	Get Current RRM Considerations for an AP on a Specific Band
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param deviceId
+	@param band 802.11 Band
+	@return ApiGetSiteCurrentRrmConsiderationsRequest
+	*/
+	GetSiteCurrentRrmConsiderations(ctx context.Context, siteId string, deviceId string, band Dot11Band) ApiGetSiteCurrentRrmConsiderationsRequest
+
+	// GetSiteCurrentRrmConsiderationsExecute executes the request
+	//  @return ResponseRrmConsideration
+	GetSiteCurrentRrmConsiderationsExecute(r ApiGetSiteCurrentRrmConsiderationsRequest) (*ResponseRrmConsideration, *http.Response, error)
+
+	/*
+	GetSiteCurrentRrmNeighbors getSiteCurrentRrmNeighbors
+
+	Get Current RRM observed neighbors
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param band 802.11 Band
+	@return ApiGetSiteCurrentRrmNeighborsRequest
+	*/
+	GetSiteCurrentRrmNeighbors(ctx context.Context, siteId string, band Dot11Band) ApiGetSiteCurrentRrmNeighborsRequest
+
+	// GetSiteCurrentRrmNeighborsExecute executes the request
+	//  @return ResponseRrmNeighbors
+	GetSiteCurrentRrmNeighborsExecute(r ApiGetSiteCurrentRrmNeighborsRequest) (*ResponseRrmNeighbors, *http.Response, error)
+
+	/*
+	GetSiteRrmEvents getSiteRrmEvents
+
+	Get Site RRM Events
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiGetSiteRrmEventsRequest
+	*/
+	GetSiteRrmEvents(ctx context.Context, siteId string) ApiGetSiteRrmEventsRequest
+
+	// GetSiteRrmEventsExecute executes the request
+	//  @return ResponseEventsRrm
+	GetSiteRrmEventsExecute(r ApiGetSiteRrmEventsRequest) (*ResponseEventsRrm, *http.Response, error)
+}
+
 // SitesRRMAPIService SitesRRMAPI service
 type SitesRRMAPIService service
 
 type ApiGetSiteCurrentChannelPlanningRequest struct {
 	ctx context.Context
-	ApiService *SitesRRMAPIService
+	ApiService SitesRRMAPI
 	siteId string
 }
 
@@ -197,7 +263,7 @@ func (a *SitesRRMAPIService) GetSiteCurrentChannelPlanningExecute(r ApiGetSiteCu
 
 type ApiGetSiteCurrentRrmConsiderationsRequest struct {
 	ctx context.Context
-	ApiService *SitesRRMAPIService
+	ApiService SitesRRMAPI
 	siteId string
 	deviceId string
 	band Dot11Band
@@ -376,7 +442,7 @@ func (a *SitesRRMAPIService) GetSiteCurrentRrmConsiderationsExecute(r ApiGetSite
 
 type ApiGetSiteCurrentRrmNeighborsRequest struct {
 	ctx context.Context
-	ApiService *SitesRRMAPIService
+	ApiService SitesRRMAPI
 	siteId string
 	band Dot11Band
 	page *int32
@@ -575,7 +641,7 @@ func (a *SitesRRMAPIService) GetSiteCurrentRrmNeighborsExecute(r ApiGetSiteCurre
 
 type ApiGetSiteRrmEventsRequest struct {
 	ctx context.Context
-	ApiService *SitesRRMAPIService
+	ApiService SitesRRMAPI
 	siteId string
 	band *Dot11Band
 	page *int32

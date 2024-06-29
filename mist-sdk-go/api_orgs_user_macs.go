@@ -22,12 +22,113 @@ import (
 )
 
 
+type OrgsUserMACsAPI interface {
+
+	/*
+	CreateOrgUserMacs createOrgUserMacs
+
+	Create Org User MACs
+
+### Usermacs import CSV file format
+mac,labels,vlan,notes 
+921b638445cd,”bldg1,flor1”,vlan-100 
+721b638445ef,”bldg2,flor2”,vlan-101,Canon Printers 
+721b638445ee,”bldg3,flor3”,vlan-102 
+921b638445ce,”bldg4,flor4”,vlan-103 
+921b638445cf,”bldg5,flor5”,vlan-104
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiCreateOrgUserMacsRequest
+	*/
+	CreateOrgUserMacs(ctx context.Context, orgId string) ApiCreateOrgUserMacsRequest
+
+	// CreateOrgUserMacsExecute executes the request
+	//  @return UserMacImport
+	CreateOrgUserMacsExecute(r ApiCreateOrgUserMacsRequest) (*UserMacImport, *http.Response, error)
+
+	/*
+	DeleteOrgUserMac deleteOrgUserMac
+
+	Delete Org User MAC
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param usermacId
+	@return ApiDeleteOrgUserMacRequest
+	*/
+	DeleteOrgUserMac(ctx context.Context, orgId string, usermacId string) ApiDeleteOrgUserMacRequest
+
+	// DeleteOrgUserMacExecute executes the request
+	DeleteOrgUserMacExecute(r ApiDeleteOrgUserMacRequest) (*http.Response, error)
+
+	/*
+	GetOrgUserMac getOrgUserMac
+
+	Get Org User MAC
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param usermacId
+	@return ApiGetOrgUserMacRequest
+	*/
+	GetOrgUserMac(ctx context.Context, orgId string, usermacId string) ApiGetOrgUserMacRequest
+
+	// GetOrgUserMacExecute executes the request
+	//  @return UserMac
+	GetOrgUserMacExecute(r ApiGetOrgUserMacRequest) (*UserMac, *http.Response, error)
+
+	/*
+	ImportOrgUserMacs importOrgUserMacs
+
+	Import Org User MACs
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiImportOrgUserMacsRequest
+	*/
+	ImportOrgUserMacs(ctx context.Context, orgId string) ApiImportOrgUserMacsRequest
+
+	// ImportOrgUserMacsExecute executes the request
+	ImportOrgUserMacsExecute(r ApiImportOrgUserMacsRequest) (*http.Response, error)
+
+	/*
+	ListOrgUserMacs listOrgUserMacs
+
+	List Org User MACs
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiListOrgUserMacsRequest
+	*/
+	ListOrgUserMacs(ctx context.Context, orgId string) ApiListOrgUserMacsRequest
+
+	// ListOrgUserMacsExecute executes the request
+	//  @return []UserMac
+	ListOrgUserMacsExecute(r ApiListOrgUserMacsRequest) ([]UserMac, *http.Response, error)
+
+	/*
+	SearchOrgUserMacs searchOrgUserMacs
+
+	Search Org User MACs
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiSearchOrgUserMacsRequest
+	*/
+	SearchOrgUserMacs(ctx context.Context, orgId string) ApiSearchOrgUserMacsRequest
+
+	// SearchOrgUserMacsExecute executes the request
+	//  @return UserMacsSearch
+	SearchOrgUserMacsExecute(r ApiSearchOrgUserMacsRequest) (*UserMacsSearch, *http.Response, error)
+}
+
 // OrgsUserMACsAPIService OrgsUserMACsAPI service
 type OrgsUserMACsAPIService service
 
 type ApiCreateOrgUserMacsRequest struct {
 	ctx context.Context
-	ApiService *OrgsUserMACsAPIService
+	ApiService OrgsUserMACsAPI
 	orgId string
 	userMac *UserMac
 }
@@ -214,7 +315,7 @@ func (a *OrgsUserMACsAPIService) CreateOrgUserMacsExecute(r ApiCreateOrgUserMacs
 
 type ApiDeleteOrgUserMacRequest struct {
 	ctx context.Context
-	ApiService *OrgsUserMACsAPIService
+	ApiService OrgsUserMACsAPI
 	orgId string
 	usermacId string
 }
@@ -378,7 +479,7 @@ func (a *OrgsUserMACsAPIService) DeleteOrgUserMacExecute(r ApiDeleteOrgUserMacRe
 
 type ApiGetOrgUserMacRequest struct {
 	ctx context.Context
-	ApiService *OrgsUserMACsAPIService
+	ApiService OrgsUserMACsAPI
 	orgId string
 	usermacId string
 }
@@ -553,7 +654,7 @@ func (a *OrgsUserMACsAPIService) GetOrgUserMacExecute(r ApiGetOrgUserMacRequest)
 
 type ApiImportOrgUserMacsRequest struct {
 	ctx context.Context
-	ApiService *OrgsUserMACsAPIService
+	ApiService OrgsUserMACsAPI
 	orgId string
 	userMac *[]UserMac
 }
@@ -721,7 +822,7 @@ func (a *OrgsUserMACsAPIService) ImportOrgUserMacsExecute(r ApiImportOrgUserMacs
 
 type ApiListOrgUserMacsRequest struct {
 	ctx context.Context
-	ApiService *OrgsUserMACsAPIService
+	ApiService OrgsUserMACsAPI
 	orgId string
 	blacklisted *bool
 	forGuestWifi *bool
@@ -952,7 +1053,7 @@ func (a *OrgsUserMACsAPIService) ListOrgUserMacsExecute(r ApiListOrgUserMacsRequ
 
 type ApiSearchOrgUserMacsRequest struct {
 	ctx context.Context
-	ApiService *OrgsUserMACsAPIService
+	ApiService OrgsUserMACsAPI
 	orgId string
 	mac *string
 	labels *[]string

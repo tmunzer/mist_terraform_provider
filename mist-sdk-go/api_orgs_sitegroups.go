@@ -21,12 +21,92 @@ import (
 )
 
 
+type OrgsSitegroupsAPI interface {
+
+	/*
+	CreateOrgSiteGroup createOrgSiteGroup
+
+	Create Org Site Group
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiCreateOrgSiteGroupRequest
+	*/
+	CreateOrgSiteGroup(ctx context.Context, orgId string) ApiCreateOrgSiteGroupRequest
+
+	// CreateOrgSiteGroupExecute executes the request
+	//  @return Sitegroup
+	CreateOrgSiteGroupExecute(r ApiCreateOrgSiteGroupRequest) (*Sitegroup, *http.Response, error)
+
+	/*
+	DeleteOrgSiteGroup deleteOrgSiteGroup
+
+	Delete Org Site Group
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param sitegroupId
+	@return ApiDeleteOrgSiteGroupRequest
+	*/
+	DeleteOrgSiteGroup(ctx context.Context, orgId string, sitegroupId string) ApiDeleteOrgSiteGroupRequest
+
+	// DeleteOrgSiteGroupExecute executes the request
+	DeleteOrgSiteGroupExecute(r ApiDeleteOrgSiteGroupRequest) (*http.Response, error)
+
+	/*
+	GetOrgSiteGroup getOrgSiteGroup
+
+	Get Org Site Group
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param sitegroupId
+	@return ApiGetOrgSiteGroupRequest
+	*/
+	GetOrgSiteGroup(ctx context.Context, orgId string, sitegroupId string) ApiGetOrgSiteGroupRequest
+
+	// GetOrgSiteGroupExecute executes the request
+	//  @return Sitegroup
+	GetOrgSiteGroupExecute(r ApiGetOrgSiteGroupRequest) (*Sitegroup, *http.Response, error)
+
+	/*
+	ListOrgSiteGroups listOrgSiteGroups
+
+	Get List of Org Site Groups
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiListOrgSiteGroupsRequest
+	*/
+	ListOrgSiteGroups(ctx context.Context, orgId string) ApiListOrgSiteGroupsRequest
+
+	// ListOrgSiteGroupsExecute executes the request
+	//  @return []Sitegroup
+	ListOrgSiteGroupsExecute(r ApiListOrgSiteGroupsRequest) ([]Sitegroup, *http.Response, error)
+
+	/*
+	UpdateOrgSiteGroup updateOrgSiteGroup
+
+	Update Org Site Group
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param sitegroupId
+	@return ApiUpdateOrgSiteGroupRequest
+	*/
+	UpdateOrgSiteGroup(ctx context.Context, orgId string, sitegroupId string) ApiUpdateOrgSiteGroupRequest
+
+	// UpdateOrgSiteGroupExecute executes the request
+	//  @return Sitegroup
+	UpdateOrgSiteGroupExecute(r ApiUpdateOrgSiteGroupRequest) (*Sitegroup, *http.Response, error)
+}
+
 // OrgsSitegroupsAPIService OrgsSitegroupsAPI service
 type OrgsSitegroupsAPIService service
 
 type ApiCreateOrgSiteGroupRequest struct {
 	ctx context.Context
-	ApiService *OrgsSitegroupsAPIService
+	ApiService OrgsSitegroupsAPI
 	orgId string
 	sitegroup *Sitegroup
 }
@@ -206,7 +286,7 @@ func (a *OrgsSitegroupsAPIService) CreateOrgSiteGroupExecute(r ApiCreateOrgSiteG
 
 type ApiDeleteOrgSiteGroupRequest struct {
 	ctx context.Context
-	ApiService *OrgsSitegroupsAPIService
+	ApiService OrgsSitegroupsAPI
 	orgId string
 	sitegroupId string
 }
@@ -370,7 +450,7 @@ func (a *OrgsSitegroupsAPIService) DeleteOrgSiteGroupExecute(r ApiDeleteOrgSiteG
 
 type ApiGetOrgSiteGroupRequest struct {
 	ctx context.Context
-	ApiService *OrgsSitegroupsAPIService
+	ApiService OrgsSitegroupsAPI
 	orgId string
 	sitegroupId string
 }
@@ -545,7 +625,7 @@ func (a *OrgsSitegroupsAPIService) GetOrgSiteGroupExecute(r ApiGetOrgSiteGroupRe
 
 type ApiListOrgSiteGroupsRequest struct {
 	ctx context.Context
-	ApiService *OrgsSitegroupsAPIService
+	ApiService OrgsSitegroupsAPI
 	orgId string
 	page *int32
 	limit *int32
@@ -740,7 +820,7 @@ func (a *OrgsSitegroupsAPIService) ListOrgSiteGroupsExecute(r ApiListOrgSiteGrou
 
 type ApiUpdateOrgSiteGroupRequest struct {
 	ctx context.Context
-	ApiService *OrgsSitegroupsAPIService
+	ApiService OrgsSitegroupsAPI
 	orgId string
 	sitegroupId string
 	nameString *NameString

@@ -21,12 +21,30 @@ import (
 )
 
 
+type SitesRFTemplatesAPI interface {
+
+	/*
+	GetSiteRfTemplateDerived getSiteRfTemplateDerived
+
+	Get derived RF Templates for Site
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiGetSiteRfTemplateDerivedRequest
+	*/
+	GetSiteRfTemplateDerived(ctx context.Context, siteId string) ApiGetSiteRfTemplateDerivedRequest
+
+	// GetSiteRfTemplateDerivedExecute executes the request
+	//  @return RfTemplate
+	GetSiteRfTemplateDerivedExecute(r ApiGetSiteRfTemplateDerivedRequest) (*RfTemplate, *http.Response, error)
+}
+
 // SitesRFTemplatesAPIService SitesRFTemplatesAPI service
 type SitesRFTemplatesAPIService service
 
 type ApiGetSiteRfTemplateDerivedRequest struct {
 	ctx context.Context
-	ApiService *SitesRFTemplatesAPIService
+	ApiService SitesRFTemplatesAPI
 	siteId string
 	resolve *bool
 }

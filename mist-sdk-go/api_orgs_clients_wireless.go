@@ -21,12 +21,90 @@ import (
 )
 
 
+type OrgsClientsWirelessAPI interface {
+
+	/*
+	CountOrgWirelessClients countOrgWirelessClients
+
+	Count Org Wireless Clients
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiCountOrgWirelessClientsRequest
+	*/
+	CountOrgWirelessClients(ctx context.Context, orgId string) ApiCountOrgWirelessClientsRequest
+
+	// CountOrgWirelessClientsExecute executes the request
+	//  @return RepsonseCount
+	CountOrgWirelessClientsExecute(r ApiCountOrgWirelessClientsRequest) (*RepsonseCount, *http.Response, error)
+
+	/*
+	CountOrgWirelessClientsSessions countOrgWirelessClientsSessions
+
+	Count Org Wireless Clients Sessions
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiCountOrgWirelessClientsSessionsRequest
+	*/
+	CountOrgWirelessClientsSessions(ctx context.Context, orgId string) ApiCountOrgWirelessClientsSessionsRequest
+
+	// CountOrgWirelessClientsSessionsExecute executes the request
+	//  @return RepsonseCount
+	CountOrgWirelessClientsSessionsExecute(r ApiCountOrgWirelessClientsSessionsRequest) (*RepsonseCount, *http.Response, error)
+
+	/*
+	SearchOrgWirelessClientEvents searchOrgWirelessClientEvents
+
+	Get Org Clients Events
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiSearchOrgWirelessClientEventsRequest
+	*/
+	SearchOrgWirelessClientEvents(ctx context.Context, orgId string) ApiSearchOrgWirelessClientEventsRequest
+
+	// SearchOrgWirelessClientEventsExecute executes the request
+	//  @return ResponseEventsSearch
+	SearchOrgWirelessClientEventsExecute(r ApiSearchOrgWirelessClientEventsRequest) (*ResponseEventsSearch, *http.Response, error)
+
+	/*
+	SearchOrgWirelessClientSessions searchOrgWirelessClientSessions
+
+	Search Org Wireless Clients Sessions
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiSearchOrgWirelessClientSessionsRequest
+	*/
+	SearchOrgWirelessClientSessions(ctx context.Context, orgId string) ApiSearchOrgWirelessClientSessionsRequest
+
+	// SearchOrgWirelessClientSessionsExecute executes the request
+	//  @return SearchWirelssClientSession
+	SearchOrgWirelessClientSessionsExecute(r ApiSearchOrgWirelessClientSessionsRequest) (*SearchWirelssClientSession, *http.Response, error)
+
+	/*
+	SearchOrgWirelessClients searchOrgWirelessClients
+
+	Search Org Wireless Clients
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiSearchOrgWirelessClientsRequest
+	*/
+	SearchOrgWirelessClients(ctx context.Context, orgId string) ApiSearchOrgWirelessClientsRequest
+
+	// SearchOrgWirelessClientsExecute executes the request
+	//  @return ResponseClientSearch
+	SearchOrgWirelessClientsExecute(r ApiSearchOrgWirelessClientsRequest) (*ResponseClientSearch, *http.Response, error)
+}
+
 // OrgsClientsWirelessAPIService OrgsClientsWirelessAPI service
 type OrgsClientsWirelessAPIService service
 
 type ApiCountOrgWirelessClientsRequest struct {
 	ctx context.Context
-	ApiService *OrgsClientsWirelessAPIService
+	ApiService OrgsClientsWirelessAPI
 	orgId string
 	distinct *OrgClientsCountDistinct
 	mac *string
@@ -355,7 +433,7 @@ func (a *OrgsClientsWirelessAPIService) CountOrgWirelessClientsExecute(r ApiCoun
 
 type ApiCountOrgWirelessClientsSessionsRequest struct {
 	ctx context.Context
-	ApiService *OrgsClientsWirelessAPIService
+	ApiService OrgsClientsWirelessAPI
 	orgId string
 	distinct *OrgClientSessionsCountDistinct
 	ap *string
@@ -675,7 +753,7 @@ func (a *OrgsClientsWirelessAPIService) CountOrgWirelessClientsSessionsExecute(r
 
 type ApiSearchOrgWirelessClientEventsRequest struct {
 	ctx context.Context
-	ApiService *OrgsClientsWirelessAPIService
+	ApiService OrgsClientsWirelessAPI
 	orgId string
 	type_ *string
 	reasonCode *int32
@@ -971,7 +1049,7 @@ func (a *OrgsClientsWirelessAPIService) SearchOrgWirelessClientEventsExecute(r A
 
 type ApiSearchOrgWirelessClientSessionsRequest struct {
 	ctx context.Context
-	ApiService *OrgsClientsWirelessAPIService
+	ApiService OrgsClientsWirelessAPI
 	orgId string
 	ap *string
 	band *Dot11Band
@@ -1297,7 +1375,7 @@ func (a *OrgsClientsWirelessAPIService) SearchOrgWirelessClientSessionsExecute(r
 
 type ApiSearchOrgWirelessClientsRequest struct {
 	ctx context.Context
-	ApiService *OrgsClientsWirelessAPIService
+	ApiService OrgsClientsWirelessAPI
 	orgId string
 	siteId *string
 	mac *string

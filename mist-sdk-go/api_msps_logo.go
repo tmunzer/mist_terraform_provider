@@ -21,12 +21,43 @@ import (
 )
 
 
+type MSPsLogoAPI interface {
+
+	/*
+	DeleteMspLogo deleteMspLogo
+
+	Delete MSP Logo
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param mspId
+	@return ApiDeleteMspLogoRequest
+	*/
+	DeleteMspLogo(ctx context.Context, mspId string) ApiDeleteMspLogoRequest
+
+	// DeleteMspLogoExecute executes the request
+	DeleteMspLogoExecute(r ApiDeleteMspLogoRequest) (*http.Response, error)
+
+	/*
+	PostMspLogo postMspLogo
+
+	Upload Logo (only for advanced msp tier)
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param mspId
+	@return ApiPostMspLogoRequest
+	*/
+	PostMspLogo(ctx context.Context, mspId string) ApiPostMspLogoRequest
+
+	// PostMspLogoExecute executes the request
+	PostMspLogoExecute(r ApiPostMspLogoRequest) (*http.Response, error)
+}
+
 // MSPsLogoAPIService MSPsLogoAPI service
 type MSPsLogoAPIService service
 
 type ApiDeleteMspLogoRequest struct {
 	ctx context.Context
-	ApiService *MSPsLogoAPIService
+	ApiService MSPsLogoAPI
 	mspId string
 }
 
@@ -186,7 +217,7 @@ func (a *MSPsLogoAPIService) DeleteMspLogoExecute(r ApiDeleteMspLogoRequest) (*h
 
 type ApiPostMspLogoRequest struct {
 	ctx context.Context
-	ApiService *MSPsLogoAPIService
+	ApiService MSPsLogoAPI
 	mspId string
 	mspLogo *MspLogo
 }

@@ -21,12 +21,207 @@ import (
 )
 
 
+type UtilitiesLANAPI interface {
+
+	/*
+	CableTestFromSwitch cableTestFromSwitch
+
+	TDR can be performed from the Switch. The output will be available through websocket. As there can be multiple command issued against the same Switch at the same time and the output all goes through the same websocket stream, session is introduced for demux.
+
+#### Subscribe to Device Command outputs
+`WS /api-ws/v1/stream`
+
+```json
+{
+    "subscribe": "/sites/{site_id}/devices/{device_id}/cmd"
+}
+```
+##### Example output from ws stream
+```json
+{
+    "event": "data",
+    "channel": "/sites/4ac1dcf4-9d8b-7211-65c4-057819f0862b/devices/00000000-0000-0000-1000-5c5b350e0060/cmd",
+    "data": {
+        "session": "session_id",
+        "raw": "Interface TDR detail:\nTest status : Test successfully executed  ge-0/0/0\n"
+    }
+}
+```
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param deviceId
+	@return ApiCableTestFromSwitchRequest
+	*/
+	CableTestFromSwitch(ctx context.Context, siteId string, deviceId string) ApiCableTestFromSwitchRequest
+
+	// CableTestFromSwitchExecute executes the request
+	//  @return WebsocketSession
+	CableTestFromSwitchExecute(r ApiCableTestFromSwitchRequest) (*WebsocketSession, *http.Response, error)
+
+	/*
+	ClearAllLearnedMacsFromPortOnSwitch clearAllLearnedMacsFromPortOnSwitch
+
+	Clear all learned MAC addresses, including persistent MAC addresses, on a port.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param deviceId
+	@return ApiClearAllLearnedMacsFromPortOnSwitchRequest
+	*/
+	ClearAllLearnedMacsFromPortOnSwitch(ctx context.Context, siteId string, deviceId string) ApiClearAllLearnedMacsFromPortOnSwitchRequest
+
+	// ClearAllLearnedMacsFromPortOnSwitchExecute executes the request
+	ClearAllLearnedMacsFromPortOnSwitchExecute(r ApiClearAllLearnedMacsFromPortOnSwitchRequest) (*http.Response, error)
+
+	/*
+	ClearBpduErrosFromPortsOnSwitch clearBpduErrosFromPortsOnSwitch
+
+	Clear bridge protocol data unit (BPDU) error condition caused by the detection of a possible bridging loop from Spanning Tree Protocol (STP) operation that renders the port unoperational.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param deviceId
+	@return ApiClearBpduErrosFromPortsOnSwitchRequest
+	*/
+	ClearBpduErrosFromPortsOnSwitch(ctx context.Context, siteId string, deviceId string) ApiClearBpduErrosFromPortsOnSwitchRequest
+
+	// ClearBpduErrosFromPortsOnSwitchExecute executes the request
+	ClearBpduErrosFromPortsOnSwitchExecute(r ApiClearBpduErrosFromPortsOnSwitchRequest) (*http.Response, error)
+
+	/*
+	CreateSiteDeviceSnapshot createSiteDeviceSnapshot
+
+	Create recovery device snapshot (Available on Junos OS EX2300-, EX3400-, EX4400- devices)
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param deviceId
+	@return ApiCreateSiteDeviceSnapshotRequest
+	*/
+	CreateSiteDeviceSnapshot(ctx context.Context, siteId string, deviceId string) ApiCreateSiteDeviceSnapshotRequest
+
+	// CreateSiteDeviceSnapshotExecute executes the request
+	//  @return ResponseDeviceSnapshot
+	CreateSiteDeviceSnapshotExecute(r ApiCreateSiteDeviceSnapshotRequest) (*ResponseDeviceSnapshot, *http.Response, error)
+
+	/*
+	PollSiteSwitchStats pollSiteSwitchStats
+
+	This API can be used to poll statistics from the Switch proactively once. After it is called, the statistics will be pushed back to the cloud within the statistics interval.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param deviceId
+	@return ApiPollSiteSwitchStatsRequest
+	*/
+	PollSiteSwitchStats(ctx context.Context, siteId string, deviceId string) ApiPollSiteSwitchStatsRequest
+
+	// PollSiteSwitchStatsExecute executes the request
+	PollSiteSwitchStatsExecute(r ApiPollSiteSwitchStatsRequest) (*http.Response, error)
+
+	/*
+	PortsBounceFromSwitch portsBounceFromSwitch
+
+	Port Bounce can be performed from the Switch.The output will be available through websocket. As there can be multiple command issued against the same AP at the same time and the output all goes through the same websocket stream, session is introduced for demux.
+
+#### Subscribe to Device Command outputs
+`WS /api-ws/v1/stream`
+
+```json
+{
+    "subscribe": "/sites/{site_id}/devices/{device_id}/cmd"
+}
+```
+##### Example output from ws stream
+```json
+{
+    "event": "data",
+    "channel": "/sites/4ac1dcf4-9d8b-7211-65c4-057819f0862b/devices/00000000-0000-0000-1000-5c5b350e0060/cmd",
+    "data": {
+        "session": "session_id",
+        "raw": "Port bounce complete."
+    }
+}
+```
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param deviceId
+	@return ApiPortsBounceFromSwitchRequest
+	*/
+	PortsBounceFromSwitch(ctx context.Context, siteId string, deviceId string) ApiPortsBounceFromSwitchRequest
+
+	// PortsBounceFromSwitchExecute executes the request
+	PortsBounceFromSwitchExecute(r ApiPortsBounceFromSwitchRequest) (*http.Response, error)
+
+	/*
+	UpgradeDeviceBios upgradeDeviceBios
+
+	Upgrade device bios
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param deviceId
+	@return ApiUpgradeDeviceBiosRequest
+	*/
+	UpgradeDeviceBios(ctx context.Context, siteId string, deviceId string) ApiUpgradeDeviceBiosRequest
+
+	// UpgradeDeviceBiosExecute executes the request
+	//  @return ResponseDeviceBiosUpgrade
+	UpgradeDeviceBiosExecute(r ApiUpgradeDeviceBiosRequest) (*ResponseDeviceBiosUpgrade, *http.Response, error)
+
+	/*
+	UpgradeDeviceFPGA upgradeDeviceFPGA
+
+	Upgrade device fpga
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param deviceId
+	@return ApiUpgradeDeviceFPGARequest
+	*/
+	UpgradeDeviceFPGA(ctx context.Context, siteId string, deviceId string) ApiUpgradeDeviceFPGARequest
+
+	// UpgradeDeviceFPGAExecute executes the request
+	//  @return ResponseDeviceBiosUpgrade
+	UpgradeDeviceFPGAExecute(r ApiUpgradeDeviceFPGARequest) (*ResponseDeviceBiosUpgrade, *http.Response, error)
+
+	/*
+	UpgradeSiteDevicesBios upgradeSiteDevicesBios
+
+	Upgrade Bios on Multiple Device
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiUpgradeSiteDevicesBiosRequest
+	*/
+	UpgradeSiteDevicesBios(ctx context.Context, siteId string) ApiUpgradeSiteDevicesBiosRequest
+
+	// UpgradeSiteDevicesBiosExecute executes the request
+	UpgradeSiteDevicesBiosExecute(r ApiUpgradeSiteDevicesBiosRequest) (*http.Response, error)
+
+	/*
+	UpgradeSiteDevicesFpga upgradeSiteDevicesFpga
+
+	Upgrade Bios on Multiple Device
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiUpgradeSiteDevicesFpgaRequest
+	*/
+	UpgradeSiteDevicesFpga(ctx context.Context, siteId string) ApiUpgradeSiteDevicesFpgaRequest
+
+	// UpgradeSiteDevicesFpgaExecute executes the request
+	UpgradeSiteDevicesFpgaExecute(r ApiUpgradeSiteDevicesFpgaRequest) (*http.Response, error)
+}
+
 // UtilitiesLANAPIService UtilitiesLANAPI service
 type UtilitiesLANAPIService service
 
 type ApiCableTestFromSwitchRequest struct {
 	ctx context.Context
-	ApiService *UtilitiesLANAPIService
+	ApiService UtilitiesLANAPI
 	siteId string
 	deviceId string
 	utilsCableTest *UtilsCableTest
@@ -229,7 +424,7 @@ func (a *UtilitiesLANAPIService) CableTestFromSwitchExecute(r ApiCableTestFromSw
 
 type ApiClearAllLearnedMacsFromPortOnSwitchRequest struct {
 	ctx context.Context
-	ApiService *UtilitiesLANAPIService
+	ApiService UtilitiesLANAPI
 	siteId string
 	deviceId string
 	utilsClearMacs *UtilsClearMacs
@@ -401,7 +596,7 @@ func (a *UtilitiesLANAPIService) ClearAllLearnedMacsFromPortOnSwitchExecute(r Ap
 
 type ApiClearBpduErrosFromPortsOnSwitchRequest struct {
 	ctx context.Context
-	ApiService *UtilitiesLANAPIService
+	ApiService UtilitiesLANAPI
 	siteId string
 	deviceId string
 	utilsClearBpdu *UtilsClearBpdu
@@ -562,7 +757,7 @@ func (a *UtilitiesLANAPIService) ClearBpduErrosFromPortsOnSwitchExecute(r ApiCle
 
 type ApiCreateSiteDeviceSnapshotRequest struct {
 	ctx context.Context
-	ApiService *UtilitiesLANAPIService
+	ApiService UtilitiesLANAPI
 	siteId string
 	deviceId string
 }
@@ -737,7 +932,7 @@ func (a *UtilitiesLANAPIService) CreateSiteDeviceSnapshotExecute(r ApiCreateSite
 
 type ApiPollSiteSwitchStatsRequest struct {
 	ctx context.Context
-	ApiService *UtilitiesLANAPIService
+	ApiService UtilitiesLANAPI
 	siteId string
 	deviceId string
 }
@@ -901,7 +1096,7 @@ func (a *UtilitiesLANAPIService) PollSiteSwitchStatsExecute(r ApiPollSiteSwitchS
 
 type ApiPortsBounceFromSwitchRequest struct {
 	ctx context.Context
-	ApiService *UtilitiesLANAPIService
+	ApiService UtilitiesLANAPI
 	siteId string
 	deviceId string
 	utilsBouncePort *UtilsBouncePort
@@ -1094,7 +1289,7 @@ func (a *UtilitiesLANAPIService) PortsBounceFromSwitchExecute(r ApiPortsBounceFr
 
 type ApiUpgradeDeviceBiosRequest struct {
 	ctx context.Context
-	ApiService *UtilitiesLANAPIService
+	ApiService UtilitiesLANAPI
 	siteId string
 	deviceId string
 	upgradeBios *UpgradeBios
@@ -1277,7 +1472,7 @@ func (a *UtilitiesLANAPIService) UpgradeDeviceBiosExecute(r ApiUpgradeDeviceBios
 
 type ApiUpgradeDeviceFPGARequest struct {
 	ctx context.Context
-	ApiService *UtilitiesLANAPIService
+	ApiService UtilitiesLANAPI
 	siteId string
 	deviceId string
 	upgradeFpga *UpgradeFpga
@@ -1460,7 +1655,7 @@ func (a *UtilitiesLANAPIService) UpgradeDeviceFPGAExecute(r ApiUpgradeDeviceFPGA
 
 type ApiUpgradeSiteDevicesBiosRequest struct {
 	ctx context.Context
-	ApiService *UtilitiesLANAPIService
+	ApiService UtilitiesLANAPI
 	siteId string
 	upgradeBiosMulti *UpgradeBiosMulti
 }
@@ -1628,7 +1823,7 @@ func (a *UtilitiesLANAPIService) UpgradeSiteDevicesBiosExecute(r ApiUpgradeSiteD
 
 type ApiUpgradeSiteDevicesFpgaRequest struct {
 	ctx context.Context
-	ApiService *UtilitiesLANAPIService
+	ApiService UtilitiesLANAPI
 	siteId string
 	upgradeFpgaMulti *UpgradeFpgaMulti
 }

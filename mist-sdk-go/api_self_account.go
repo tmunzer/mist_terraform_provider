@@ -21,12 +21,94 @@ import (
 )
 
 
+type SelfAccountAPI interface {
+
+	/*
+	DeleteSelf deleteSelf
+
+	To delete ones account and every associated with it. The effects:
+
+the account would be deleted
+any orphaned Org (that only has this account as admin) will be deleted
+along with all data with Org (sites, wlans, devices) will be gone.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiDeleteSelfRequest
+	*/
+	DeleteSelf(ctx context.Context) ApiDeleteSelfRequest
+
+	// DeleteSelfExecute executes the request
+	DeleteSelfExecute(r ApiDeleteSelfRequest) (*http.Response, error)
+
+	/*
+	GetSelf getSelf
+
+	Get ‘whoami’ and privileges (which org and which sites I have access to)
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetSelfRequest
+	*/
+	GetSelf(ctx context.Context) ApiGetSelfRequest
+
+	// GetSelfExecute executes the request
+	//  @return Admin
+	GetSelfExecute(r ApiGetSelfRequest) (*Admin, *http.Response, error)
+
+	/*
+	UpdateSelf updateSelf
+
+	update Account Information
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiUpdateSelfRequest
+	*/
+	UpdateSelf(ctx context.Context) ApiUpdateSelfRequest
+
+	// UpdateSelfExecute executes the request
+	//  @return Admin
+	UpdateSelfExecute(r ApiUpdateSelfRequest) (*Admin, *http.Response, error)
+
+	/*
+	UpdateSelfEmail updateSelfEmail
+
+	Change Email
+We require the user to verify that they actually own the email address they intend to change it to.
+
+After the API call, the user will receive an email to the new email address with a link like https://manage.mist.com/verify/update?expire=:exp_time&email=:admin_email&token=:token
+
+Upon clicking the link, the user is provided with a login page to authenticate using existing credentials. After successful login, the email address of the user gets updated
+
+**Note**: The request parameter email can be used by UI to validate that the current session (if any) belongs to the admin or provide a login page (by pre-populating the email on login screen). UI can also use the request parameter expire to validate token expiry.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiUpdateSelfEmailRequest
+	*/
+	UpdateSelfEmail(ctx context.Context) ApiUpdateSelfEmailRequest
+
+	// UpdateSelfEmailExecute executes the request
+	UpdateSelfEmailExecute(r ApiUpdateSelfEmailRequest) (*http.Response, error)
+
+	/*
+	VerifySelfEmail verifySelfEmail
+
+	Verify Email change
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param token
+	@return ApiVerifySelfEmailRequest
+	*/
+	VerifySelfEmail(ctx context.Context, token string) ApiVerifySelfEmailRequest
+
+	// VerifySelfEmailExecute executes the request
+	VerifySelfEmailExecute(r ApiVerifySelfEmailRequest) (*http.Response, error)
+}
+
 // SelfAccountAPIService SelfAccountAPI service
 type SelfAccountAPIService service
 
 type ApiDeleteSelfRequest struct {
 	ctx context.Context
-	ApiService *SelfAccountAPIService
+	ApiService SelfAccountAPI
 }
 
 func (r ApiDeleteSelfRequest) Execute() (*http.Response, error) {
@@ -186,7 +268,7 @@ func (a *SelfAccountAPIService) DeleteSelfExecute(r ApiDeleteSelfRequest) (*http
 
 type ApiGetSelfRequest struct {
 	ctx context.Context
-	ApiService *SelfAccountAPIService
+	ApiService SelfAccountAPI
 }
 
 func (r ApiGetSelfRequest) Execute() (*Admin, *http.Response, error) {
@@ -353,7 +435,7 @@ func (a *SelfAccountAPIService) GetSelfExecute(r ApiGetSelfRequest) (*Admin, *ht
 
 type ApiUpdateSelfRequest struct {
 	ctx context.Context
-	ApiService *SelfAccountAPIService
+	ApiService SelfAccountAPI
 	admin *Admin
 }
 
@@ -529,7 +611,7 @@ func (a *SelfAccountAPIService) UpdateSelfExecute(r ApiUpdateSelfRequest) (*Admi
 
 type ApiUpdateSelfEmailRequest struct {
 	ctx context.Context
-	ApiService *SelfAccountAPIService
+	ApiService SelfAccountAPI
 	emailString *EmailString
 }
 
@@ -701,7 +783,7 @@ func (a *SelfAccountAPIService) UpdateSelfEmailExecute(r ApiUpdateSelfEmailReque
 
 type ApiVerifySelfEmailRequest struct {
 	ctx context.Context
-	ApiService *SelfAccountAPIService
+	ApiService SelfAccountAPI
 	token string
 }
 

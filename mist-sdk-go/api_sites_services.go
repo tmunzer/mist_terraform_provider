@@ -21,12 +21,60 @@ import (
 )
 
 
+type SitesServicesAPI interface {
+
+	/*
+	CountSiteServicePathEvents countSiteServicePathEvents
+
+	Count Service Path Events
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiCountSiteServicePathEventsRequest
+	*/
+	CountSiteServicePathEvents(ctx context.Context, siteId string) ApiCountSiteServicePathEventsRequest
+
+	// CountSiteServicePathEventsExecute executes the request
+	//  @return RepsonseCount
+	CountSiteServicePathEventsExecute(r ApiCountSiteServicePathEventsRequest) (*RepsonseCount, *http.Response, error)
+
+	/*
+	ListSiteServicesDerived listSiteServicesDerived
+
+	Retrieves the list of Services available for the Site
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiListSiteServicesDerivedRequest
+	*/
+	ListSiteServicesDerived(ctx context.Context, siteId string) ApiListSiteServicesDerivedRequest
+
+	// ListSiteServicesDerivedExecute executes the request
+	//  @return []Service
+	ListSiteServicesDerivedExecute(r ApiListSiteServicesDerivedRequest) ([]Service, *http.Response, error)
+
+	/*
+	SearchSiteServicePathEvents searchSiteServicePathEvents
+
+	Search Service Path Events
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiSearchSiteServicePathEventsRequest
+	*/
+	SearchSiteServicePathEvents(ctx context.Context, siteId string) ApiSearchSiteServicePathEventsRequest
+
+	// SearchSiteServicePathEventsExecute executes the request
+	//  @return ResponseEventsPathSearch
+	SearchSiteServicePathEventsExecute(r ApiSearchSiteServicePathEventsRequest) (*ResponseEventsPathSearch, *http.Response, error)
+}
+
 // SitesServicesAPIService SitesServicesAPI service
 type SitesServicesAPIService service
 
 type ApiCountSiteServicePathEventsRequest struct {
 	ctx context.Context
-	ApiService *SitesServicesAPIService
+	ApiService SitesServicesAPI
 	siteId string
 	distinct *SiteServiceEventsCountDistinct
 	type_ *string
@@ -354,7 +402,7 @@ func (a *SitesServicesAPIService) CountSiteServicePathEventsExecute(r ApiCountSi
 
 type ApiListSiteServicesDerivedRequest struct {
 	ctx context.Context
-	ApiService *SitesServicesAPIService
+	ApiService SitesServicesAPI
 	siteId string
 	resolve *bool
 }
@@ -538,7 +586,7 @@ func (a *SitesServicesAPIService) ListSiteServicesDerivedExecute(r ApiListSiteSe
 
 type ApiSearchSiteServicePathEventsRequest struct {
 	ctx context.Context
-	ApiService *SitesServicesAPIService
+	ApiService SitesServicesAPI
 	siteId string
 	type_ *string
 	text *string

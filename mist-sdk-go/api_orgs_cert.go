@@ -21,12 +21,59 @@ import (
 )
 
 
+type OrgsCertAPI interface {
+
+	/*
+	ClearOrgCertificates clearOrgCertificates
+
+	Clear Org Certificates
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiClearOrgCertificatesRequest
+	*/
+	ClearOrgCertificates(ctx context.Context, orgId string) ApiClearOrgCertificatesRequest
+
+	// ClearOrgCertificatesExecute executes the request
+	//  @return ResponseCertificate
+	ClearOrgCertificatesExecute(r ApiClearOrgCertificatesRequest) (*ResponseCertificate, *http.Response, error)
+
+	/*
+	GetOrgCertificates getOrgCertificates
+
+	Get Org Certificates
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiGetOrgCertificatesRequest
+	*/
+	GetOrgCertificates(ctx context.Context, orgId string) ApiGetOrgCertificatesRequest
+
+	// GetOrgCertificatesExecute executes the request
+	//  @return ResponseCertificate
+	GetOrgCertificatesExecute(r ApiGetOrgCertificatesRequest) (*ResponseCertificate, *http.Response, error)
+
+	/*
+	TruncateOrgCrlFile truncateOrgCrlFile
+
+	By default, all certs used by recently unclaimed devices within 9 month will be included in CRL. If the list grows too big, you can truncate it
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiTruncateOrgCrlFileRequest
+	*/
+	TruncateOrgCrlFile(ctx context.Context, orgId string) ApiTruncateOrgCrlFileRequest
+
+	// TruncateOrgCrlFileExecute executes the request
+	TruncateOrgCrlFileExecute(r ApiTruncateOrgCrlFileRequest) (*http.Response, error)
+}
+
 // OrgsCertAPIService OrgsCertAPI service
 type OrgsCertAPIService service
 
 type ApiClearOrgCertificatesRequest struct {
 	ctx context.Context
-	ApiService *OrgsCertAPIService
+	ApiService OrgsCertAPI
 	orgId string
 }
 
@@ -197,7 +244,7 @@ func (a *OrgsCertAPIService) ClearOrgCertificatesExecute(r ApiClearOrgCertificat
 
 type ApiGetOrgCertificatesRequest struct {
 	ctx context.Context
-	ApiService *OrgsCertAPIService
+	ApiService OrgsCertAPI
 	orgId string
 }
 
@@ -368,7 +415,7 @@ func (a *OrgsCertAPIService) GetOrgCertificatesExecute(r ApiGetOrgCertificatesRe
 
 type ApiTruncateOrgCrlFileRequest struct {
 	ctx context.Context
-	ApiService *OrgsCertAPIService
+	ApiService OrgsCertAPI
 	orgId string
 	daysNumber *DaysNumber
 }

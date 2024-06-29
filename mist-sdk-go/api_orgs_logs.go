@@ -21,12 +21,45 @@ import (
 )
 
 
+type OrgsLogsAPI interface {
+
+	/*
+	CountOrgLogs countOrgLogs
+
+	Count by Distinct Attributes of Audit Logs
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiCountOrgLogsRequest
+	*/
+	CountOrgLogs(ctx context.Context, orgId string) ApiCountOrgLogsRequest
+
+	// CountOrgLogsExecute executes the request
+	//  @return RepsonseCount
+	CountOrgLogsExecute(r ApiCountOrgLogsRequest) (*RepsonseCount, *http.Response, error)
+
+	/*
+	ListOrgLogs listOrgLogs
+
+	Get List of change logs for the current Org
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiListOrgLogsRequest
+	*/
+	ListOrgLogs(ctx context.Context, orgId string) ApiListOrgLogsRequest
+
+	// ListOrgLogsExecute executes the request
+	//  @return ResponseLogSearch
+	ListOrgLogsExecute(r ApiListOrgLogsRequest) (*ResponseLogSearch, *http.Response, error)
+}
+
 // OrgsLogsAPIService OrgsLogsAPI service
 type OrgsLogsAPIService service
 
 type ApiCountOrgLogsRequest struct {
 	ctx context.Context
-	ApiService *OrgsLogsAPIService
+	ApiService OrgsLogsAPI
 	orgId string
 	distinct *OrgLogsCountDistinct
 	adminId *string
@@ -302,7 +335,7 @@ func (a *OrgsLogsAPIService) CountOrgLogsExecute(r ApiCountOrgLogsRequest) (*Rep
 
 type ApiListOrgLogsRequest struct {
 	ctx context.Context
-	ApiService *OrgsLogsAPIService
+	ApiService OrgsLogsAPI
 	orgId string
 	siteId *string
 	adminName *string

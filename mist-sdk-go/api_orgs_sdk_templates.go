@@ -21,12 +21,92 @@ import (
 )
 
 
+type OrgsSDKTemplatesAPI interface {
+
+	/*
+	CreateSdkTemplate createSdkTemplate
+
+	Create SDK Template
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiCreateSdkTemplateRequest
+	*/
+	CreateSdkTemplate(ctx context.Context, orgId string) ApiCreateSdkTemplateRequest
+
+	// CreateSdkTemplateExecute executes the request
+	//  @return Sdktemplate
+	CreateSdkTemplateExecute(r ApiCreateSdkTemplateRequest) (*Sdktemplate, *http.Response, error)
+
+	/*
+	DeleteSdkTemplate deleteSdkTemplate
+
+	Delete SDK Template
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param sdktemplateId
+	@return ApiDeleteSdkTemplateRequest
+	*/
+	DeleteSdkTemplate(ctx context.Context, orgId string, sdktemplateId string) ApiDeleteSdkTemplateRequest
+
+	// DeleteSdkTemplateExecute executes the request
+	DeleteSdkTemplateExecute(r ApiDeleteSdkTemplateRequest) (*http.Response, error)
+
+	/*
+	GetSdkTemplate getSdkTemplate
+
+	Get SDK Template Details
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param sdktemplateId
+	@return ApiGetSdkTemplateRequest
+	*/
+	GetSdkTemplate(ctx context.Context, orgId string, sdktemplateId string) ApiGetSdkTemplateRequest
+
+	// GetSdkTemplateExecute executes the request
+	//  @return Sdktemplate
+	GetSdkTemplateExecute(r ApiGetSdkTemplateRequest) (*Sdktemplate, *http.Response, error)
+
+	/*
+	ListSdkTemplates listSdkTemplates
+
+	Get List of Org SDK Templates
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiListSdkTemplatesRequest
+	*/
+	ListSdkTemplates(ctx context.Context, orgId string) ApiListSdkTemplatesRequest
+
+	// ListSdkTemplatesExecute executes the request
+	//  @return []Sdktemplate
+	ListSdkTemplatesExecute(r ApiListSdkTemplatesRequest) ([]Sdktemplate, *http.Response, error)
+
+	/*
+	UpdateSdkTemplate updateSdkTemplate
+
+	Update SDK Template
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param sdktemplateId
+	@return ApiUpdateSdkTemplateRequest
+	*/
+	UpdateSdkTemplate(ctx context.Context, orgId string, sdktemplateId string) ApiUpdateSdkTemplateRequest
+
+	// UpdateSdkTemplateExecute executes the request
+	//  @return Sdktemplate
+	UpdateSdkTemplateExecute(r ApiUpdateSdkTemplateRequest) (*Sdktemplate, *http.Response, error)
+}
+
 // OrgsSDKTemplatesAPIService OrgsSDKTemplatesAPI service
 type OrgsSDKTemplatesAPIService service
 
 type ApiCreateSdkTemplateRequest struct {
 	ctx context.Context
-	ApiService *OrgsSDKTemplatesAPIService
+	ApiService OrgsSDKTemplatesAPI
 	orgId string
 	sdktemplate *Sdktemplate
 }
@@ -206,7 +286,7 @@ func (a *OrgsSDKTemplatesAPIService) CreateSdkTemplateExecute(r ApiCreateSdkTemp
 
 type ApiDeleteSdkTemplateRequest struct {
 	ctx context.Context
-	ApiService *OrgsSDKTemplatesAPIService
+	ApiService OrgsSDKTemplatesAPI
 	orgId string
 	sdktemplateId string
 }
@@ -370,7 +450,7 @@ func (a *OrgsSDKTemplatesAPIService) DeleteSdkTemplateExecute(r ApiDeleteSdkTemp
 
 type ApiGetSdkTemplateRequest struct {
 	ctx context.Context
-	ApiService *OrgsSDKTemplatesAPIService
+	ApiService OrgsSDKTemplatesAPI
 	orgId string
 	sdktemplateId string
 }
@@ -545,7 +625,7 @@ func (a *OrgsSDKTemplatesAPIService) GetSdkTemplateExecute(r ApiGetSdkTemplateRe
 
 type ApiListSdkTemplatesRequest struct {
 	ctx context.Context
-	ApiService *OrgsSDKTemplatesAPIService
+	ApiService OrgsSDKTemplatesAPI
 	orgId string
 }
 
@@ -716,7 +796,7 @@ func (a *OrgsSDKTemplatesAPIService) ListSdkTemplatesExecute(r ApiListSdkTemplat
 
 type ApiUpdateSdkTemplateRequest struct {
 	ctx context.Context
-	ApiService *OrgsSDKTemplatesAPIService
+	ApiService OrgsSDKTemplatesAPI
 	orgId string
 	sdktemplateId string
 	sdktemplate *Sdktemplate

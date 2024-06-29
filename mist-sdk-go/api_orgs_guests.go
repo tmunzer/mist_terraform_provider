@@ -21,12 +21,107 @@ import (
 )
 
 
+type OrgsGuestsAPI interface {
+
+	/*
+	CountOrgGuestAuthorizations countOrgGuestAuthorizations
+
+	Count Org Authorized Guest
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiCountOrgGuestAuthorizationsRequest
+	*/
+	CountOrgGuestAuthorizations(ctx context.Context, orgId string) ApiCountOrgGuestAuthorizationsRequest
+
+	// CountOrgGuestAuthorizationsExecute executes the request
+	//  @return RepsonseCount
+	CountOrgGuestAuthorizationsExecute(r ApiCountOrgGuestAuthorizationsRequest) (*RepsonseCount, *http.Response, error)
+
+	/*
+	DeleteOrgGuestAuthorization deleteOrgGuestAuthorization
+
+	Delete Guest Authorization
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param guestMac
+	@return ApiDeleteOrgGuestAuthorizationRequest
+	*/
+	DeleteOrgGuestAuthorization(ctx context.Context, orgId string, guestMac string) ApiDeleteOrgGuestAuthorizationRequest
+
+	// DeleteOrgGuestAuthorizationExecute executes the request
+	DeleteOrgGuestAuthorizationExecute(r ApiDeleteOrgGuestAuthorizationRequest) (*http.Response, error)
+
+	/*
+	GetOrgGuestAuthorization getOrgGuestAuthorization
+
+	Get Guest Authorization
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param guestMac
+	@return ApiGetOrgGuestAuthorizationRequest
+	*/
+	GetOrgGuestAuthorization(ctx context.Context, orgId string, guestMac string) ApiGetOrgGuestAuthorizationRequest
+
+	// GetOrgGuestAuthorizationExecute executes the request
+	//  @return Guest
+	GetOrgGuestAuthorizationExecute(r ApiGetOrgGuestAuthorizationRequest) (*Guest, *http.Response, error)
+
+	/*
+	ListOrgGuestAuthorizations listOrgGuestAuthorizations
+
+	Get List of Org Guest Authorizations
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiListOrgGuestAuthorizationsRequest
+	*/
+	ListOrgGuestAuthorizations(ctx context.Context, orgId string) ApiListOrgGuestAuthorizationsRequest
+
+	// ListOrgGuestAuthorizationsExecute executes the request
+	//  @return []Guest
+	ListOrgGuestAuthorizationsExecute(r ApiListOrgGuestAuthorizationsRequest) ([]Guest, *http.Response, error)
+
+	/*
+	SearchOrgGuestAuthorization searchOrgGuestAuthorization
+
+	Search Authorized Guest
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiSearchOrgGuestAuthorizationRequest
+	*/
+	SearchOrgGuestAuthorization(ctx context.Context, orgId string) ApiSearchOrgGuestAuthorizationRequest
+
+	// SearchOrgGuestAuthorizationExecute executes the request
+	//  @return ResponseGuestSearch
+	SearchOrgGuestAuthorizationExecute(r ApiSearchOrgGuestAuthorizationRequest) (*ResponseGuestSearch, *http.Response, error)
+
+	/*
+	UpdateOrgGuestAuthorization updateOrgGuestAuthorization
+
+	Update Guest Authorization
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param guestMac
+	@return ApiUpdateOrgGuestAuthorizationRequest
+	*/
+	UpdateOrgGuestAuthorization(ctx context.Context, orgId string, guestMac string) ApiUpdateOrgGuestAuthorizationRequest
+
+	// UpdateOrgGuestAuthorizationExecute executes the request
+	//  @return Guest
+	UpdateOrgGuestAuthorizationExecute(r ApiUpdateOrgGuestAuthorizationRequest) (*Guest, *http.Response, error)
+}
+
 // OrgsGuestsAPIService OrgsGuestsAPI service
 type OrgsGuestsAPIService service
 
 type ApiCountOrgGuestAuthorizationsRequest struct {
 	ctx context.Context
-	ApiService *OrgsGuestsAPIService
+	ApiService OrgsGuestsAPI
 	orgId string
 	distinct *OrgGuestsCountDistinct
 	page *int32
@@ -266,7 +361,7 @@ func (a *OrgsGuestsAPIService) CountOrgGuestAuthorizationsExecute(r ApiCountOrgG
 
 type ApiDeleteOrgGuestAuthorizationRequest struct {
 	ctx context.Context
-	ApiService *OrgsGuestsAPIService
+	ApiService OrgsGuestsAPI
 	orgId string
 	guestMac string
 }
@@ -430,7 +525,7 @@ func (a *OrgsGuestsAPIService) DeleteOrgGuestAuthorizationExecute(r ApiDeleteOrg
 
 type ApiGetOrgGuestAuthorizationRequest struct {
 	ctx context.Context
-	ApiService *OrgsGuestsAPIService
+	ApiService OrgsGuestsAPI
 	orgId string
 	guestMac string
 }
@@ -605,7 +700,7 @@ func (a *OrgsGuestsAPIService) GetOrgGuestAuthorizationExecute(r ApiGetOrgGuestA
 
 type ApiListOrgGuestAuthorizationsRequest struct {
 	ctx context.Context
-	ApiService *OrgsGuestsAPIService
+	ApiService OrgsGuestsAPI
 	orgId string
 }
 
@@ -776,7 +871,7 @@ func (a *OrgsGuestsAPIService) ListOrgGuestAuthorizationsExecute(r ApiListOrgGue
 
 type ApiSearchOrgGuestAuthorizationRequest struct {
 	ctx context.Context
-	ApiService *OrgsGuestsAPIService
+	ApiService OrgsGuestsAPI
 	orgId string
 	wlanId *string
 	authMethod *string
@@ -1019,7 +1114,7 @@ func (a *OrgsGuestsAPIService) SearchOrgGuestAuthorizationExecute(r ApiSearchOrg
 
 type ApiUpdateOrgGuestAuthorizationRequest struct {
 	ctx context.Context
-	ApiService *OrgsGuestsAPIService
+	ApiService OrgsGuestsAPI
 	orgId string
 	guestMac string
 	guest *Guest

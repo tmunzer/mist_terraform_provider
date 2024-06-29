@@ -21,12 +21,116 @@ import (
 )
 
 
+type AdminsAPI interface {
+
+	/*
+	GetAdminRegistrationInfo getAdminRegistrationInfo
+
+	Get Registration Information
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetAdminRegistrationInfoRequest
+	*/
+	GetAdminRegistrationInfo(ctx context.Context) ApiGetAdminRegistrationInfoRequest
+
+	// GetAdminRegistrationInfoExecute executes the request
+	//  @return Recaptcha
+	GetAdminRegistrationInfoExecute(r ApiGetAdminRegistrationInfoRequest) (*Recaptcha, *http.Response, error)
+
+	/*
+	RegisterNewAdmin registerNewAdmin
+
+	Register a new admin and his/her org
+An email will also be sent to the user with a link to `/verify/register?token={token}`
+
+### reCAPTCHA
+Google reCAPTCHA is the choice to prevent bot registration
+
+It needs this 
+
+&lt;script src='https://www.google.com/recaptcha/api.js' &gt;&lt;/script&gt;
+
+and this &lt;div&gt; in the desired place
+```html
+<div class="g-recaptcha" data_sitekey="6LdAewsTAAAAAE25XKQhPEQ2FiMTft-WrZXQ5NUd"></div>
+```
+
+Use GET /api/v1/register/recaptcha to read the current setting.
+Response example:
+```json
+{    
+  "flavor": "google",
+  "required": true,    
+  "sitekey": "6LdAewsTAAAAAE25XKQhPEQ2FiMTft-WrZXQ5NUd"
+}
+```
+
+### hCaptcha
+Alternative to reCAPTCHA is hCaptcha to prevent bot registration
+
+It needs this script
+
+&lt;script src='https://js.hcaptcha.com/1/api.js' async defer &gt;&lt;/script&gt;
+
+and this &lt;div&gt; in the desired place
+```html
+<div class="h-recaptcha" data_sitekey="6LdAewsTAAAAAE25XKQhPEQ2FiMTft-WrZXQ5NUd"></div>
+```
+
+Use GET /api/v1/register/recaptcha?recaptcha_flavor=hcaptcha to read the current setting for hcaptcha with reply.
+Response example:
+```json
+{
+  "flavor": "hcaptcha",
+  "required": true,
+  "sitekey": "6LdAewsTAAAAAE25XKQhPEQ2FiMTft-WrZXQ5NUd"
+}"
+```
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiRegisterNewAdminRequest
+	*/
+	RegisterNewAdmin(ctx context.Context) ApiRegisterNewAdminRequest
+
+	// RegisterNewAdminExecute executes the request
+	RegisterNewAdminExecute(r ApiRegisterNewAdminRequest) (*http.Response, error)
+
+	/*
+	VerifyAdminInvite verifyAdminInvite
+
+	**Note**: another call to ```GET /api/v1/self``` is required to see the new set of privileges
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param token
+	@return ApiVerifyAdminInviteRequest
+	*/
+	VerifyAdminInvite(ctx context.Context, token string) ApiVerifyAdminInviteRequest
+
+	// VerifyAdminInviteExecute executes the request
+	VerifyAdminInviteExecute(r ApiVerifyAdminInviteRequest) (*http.Response, error)
+
+	/*
+	VerifyRegistration verifyRegistration
+
+	Verify registration
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param token
+	@return ApiVerifyRegistrationRequest
+	*/
+	VerifyRegistration(ctx context.Context, token string) ApiVerifyRegistrationRequest
+
+	// VerifyRegistrationExecute executes the request
+	//  @return ResponseVerifyTokenSuccess
+	VerifyRegistrationExecute(r ApiVerifyRegistrationRequest) (*ResponseVerifyTokenSuccess, *http.Response, error)
+}
+
 // AdminsAPIService AdminsAPI service
 type AdminsAPIService service
 
 type ApiGetAdminRegistrationInfoRequest struct {
 	ctx context.Context
-	ApiService *AdminsAPIService
+	ApiService AdminsAPI
 	recaptchaFlavor *RecaptchaFlavor
 }
 
@@ -205,7 +309,7 @@ func (a *AdminsAPIService) GetAdminRegistrationInfoExecute(r ApiGetAdminRegistra
 
 type ApiRegisterNewAdminRequest struct {
 	ctx context.Context
-	ApiService *AdminsAPIService
+	ApiService AdminsAPI
 	adminInvite *AdminInvite
 }
 
@@ -415,7 +519,7 @@ func (a *AdminsAPIService) RegisterNewAdminExecute(r ApiRegisterNewAdminRequest)
 
 type ApiVerifyAdminInviteRequest struct {
 	ctx context.Context
-	ApiService *AdminsAPIService
+	ApiService AdminsAPI
 	token string
 }
 
@@ -575,7 +679,7 @@ func (a *AdminsAPIService) VerifyAdminInviteExecute(r ApiVerifyAdminInviteReques
 
 type ApiVerifyRegistrationRequest struct {
 	ctx context.Context
-	ApiService *AdminsAPIService
+	ApiService AdminsAPI
 	token string
 }
 

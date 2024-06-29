@@ -22,12 +22,153 @@ import (
 )
 
 
+type OrgsWlansAPI interface {
+
+	/*
+	CreateOrgWlan createOrgWlan
+
+	Create Org Wlan
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiCreateOrgWlanRequest
+	*/
+	CreateOrgWlan(ctx context.Context, orgId string) ApiCreateOrgWlanRequest
+
+	// CreateOrgWlanExecute executes the request
+	//  @return Wlan
+	CreateOrgWlanExecute(r ApiCreateOrgWlanRequest) (*Wlan, *http.Response, error)
+
+	/*
+	DeleteOrgWlan deleteOrgWlan
+
+	Delete Org WLAN
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param wlanId
+	@return ApiDeleteOrgWlanRequest
+	*/
+	DeleteOrgWlan(ctx context.Context, orgId string, wlanId string) ApiDeleteOrgWlanRequest
+
+	// DeleteOrgWlanExecute executes the request
+	DeleteOrgWlanExecute(r ApiDeleteOrgWlanRequest) (*http.Response, error)
+
+	/*
+	DeleteOrgWlanPortalImage deleteOrgWlanPortalImage
+
+	Delete Org WLAN Portal Image
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param wlanId
+	@return ApiDeleteOrgWlanPortalImageRequest
+	*/
+	DeleteOrgWlanPortalImage(ctx context.Context, orgId string, wlanId string) ApiDeleteOrgWlanPortalImageRequest
+
+	// DeleteOrgWlanPortalImageExecute executes the request
+	DeleteOrgWlanPortalImageExecute(r ApiDeleteOrgWlanPortalImageRequest) (*http.Response, error)
+
+	/*
+	GetOrgWLAN getOrgWLAN
+
+	Get Org Wlan Detail
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param wlanId
+	@return ApiGetOrgWLANRequest
+	*/
+	GetOrgWLAN(ctx context.Context, orgId string, wlanId string) ApiGetOrgWLANRequest
+
+	// GetOrgWLANExecute executes the request
+	//  @return []Wlan
+	GetOrgWLANExecute(r ApiGetOrgWLANRequest) ([]Wlan, *http.Response, error)
+
+	/*
+	ListOrgWlans listOrgWlans
+
+	Get List of Org Wlans
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiListOrgWlansRequest
+	*/
+	ListOrgWlans(ctx context.Context, orgId string) ApiListOrgWlansRequest
+
+	// ListOrgWlansExecute executes the request
+	//  @return []Wlan
+	ListOrgWlansExecute(r ApiListOrgWlansRequest) ([]Wlan, *http.Response, error)
+
+	/*
+	UpdateOrgWlan updateOrgWlan
+
+	Update Org Wlan
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param wlanId
+	@return ApiUpdateOrgWlanRequest
+	*/
+	UpdateOrgWlan(ctx context.Context, orgId string, wlanId string) ApiUpdateOrgWlanRequest
+
+	// UpdateOrgWlanExecute executes the request
+	//  @return Wlan
+	UpdateOrgWlanExecute(r ApiUpdateOrgWlanRequest) (*Wlan, *http.Response, error)
+
+	/*
+	UpdateOrgWlanPortalTemplate updateOrgWlanPortalTemplate
+
+	Update a Portal Template
+
+#### Sponsor Email Template
+Sponsor Email Template supports following template variables:
+
+| **Name** | **Description** |
+| --- | --- |
+| approve_url | Renders URL to approve the request; optionally &minutes=N query param can be appended to change the Authorization period of the guest, where N is a valid integer denoting number of minutes a guest remains authorized |
+| deny_url | Renders URL to reject the request |
+| guest_email | Renders Email ID of the guest |
+| guest_name | Renders Name of the guest |
+| field1 | Renders value of the Custom Field 1 |
+| field2 | Renders value of the Custom Field 2 |
+| company | Renders value of the Company field |
+| sponsor_link_validity_duration | Renders validity time of the request (i.e. Approve/Deny URL) |
+| auth_expire_minutes | Renders Wlan-level configured Guest Authorization Expiration time period (in minutes), If not configured then default (1 day in minutes) |
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param wlanId
+	@return ApiUpdateOrgWlanPortalTemplateRequest
+	*/
+	UpdateOrgWlanPortalTemplate(ctx context.Context, orgId string, wlanId string) ApiUpdateOrgWlanPortalTemplateRequest
+
+	// UpdateOrgWlanPortalTemplateExecute executes the request
+	//  @return PortalTemplate
+	UpdateOrgWlanPortalTemplateExecute(r ApiUpdateOrgWlanPortalTemplateRequest) (*PortalTemplate, *http.Response, error)
+
+	/*
+	UploadOrgWlanPortalImage uploadOrgWlanPortalImage
+
+	Upload Org WLAN Portal Image
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param wlanId
+	@return ApiUploadOrgWlanPortalImageRequest
+	*/
+	UploadOrgWlanPortalImage(ctx context.Context, orgId string, wlanId string) ApiUploadOrgWlanPortalImageRequest
+
+	// UploadOrgWlanPortalImageExecute executes the request
+	UploadOrgWlanPortalImageExecute(r ApiUploadOrgWlanPortalImageRequest) (*http.Response, error)
+}
+
 // OrgsWlansAPIService OrgsWlansAPI service
 type OrgsWlansAPIService service
 
 type ApiCreateOrgWlanRequest struct {
 	ctx context.Context
-	ApiService *OrgsWlansAPIService
+	ApiService OrgsWlansAPI
 	orgId string
 	wlan *Wlan
 }
@@ -207,7 +348,7 @@ func (a *OrgsWlansAPIService) CreateOrgWlanExecute(r ApiCreateOrgWlanRequest) (*
 
 type ApiDeleteOrgWlanRequest struct {
 	ctx context.Context
-	ApiService *OrgsWlansAPIService
+	ApiService OrgsWlansAPI
 	orgId string
 	wlanId string
 }
@@ -371,7 +512,7 @@ func (a *OrgsWlansAPIService) DeleteOrgWlanExecute(r ApiDeleteOrgWlanRequest) (*
 
 type ApiDeleteOrgWlanPortalImageRequest struct {
 	ctx context.Context
-	ApiService *OrgsWlansAPIService
+	ApiService OrgsWlansAPI
 	orgId string
 	wlanId string
 }
@@ -535,7 +676,7 @@ func (a *OrgsWlansAPIService) DeleteOrgWlanPortalImageExecute(r ApiDeleteOrgWlan
 
 type ApiGetOrgWLANRequest struct {
 	ctx context.Context
-	ApiService *OrgsWlansAPIService
+	ApiService OrgsWlansAPI
 	orgId string
 	wlanId string
 }
@@ -710,7 +851,7 @@ func (a *OrgsWlansAPIService) GetOrgWLANExecute(r ApiGetOrgWLANRequest) ([]Wlan,
 
 type ApiListOrgWlansRequest struct {
 	ctx context.Context
-	ApiService *OrgsWlansAPIService
+	ApiService OrgsWlansAPI
 	orgId string
 	page *int32
 	limit *int32
@@ -905,7 +1046,7 @@ func (a *OrgsWlansAPIService) ListOrgWlansExecute(r ApiListOrgWlansRequest) ([]W
 
 type ApiUpdateOrgWlanRequest struct {
 	ctx context.Context
-	ApiService *OrgsWlansAPIService
+	ApiService OrgsWlansAPI
 	orgId string
 	wlanId string
 	wlan *Wlan
@@ -1089,7 +1230,7 @@ func (a *OrgsWlansAPIService) UpdateOrgWlanExecute(r ApiUpdateOrgWlanRequest) (*
 
 type ApiUpdateOrgWlanPortalTemplateRequest struct {
 	ctx context.Context
-	ApiService *OrgsWlansAPIService
+	ApiService OrgsWlansAPI
 	orgId string
 	wlanId string
 	wlanPortalTemplate *WlanPortalTemplate
@@ -1288,7 +1429,7 @@ func (a *OrgsWlansAPIService) UpdateOrgWlanPortalTemplateExecute(r ApiUpdateOrgW
 
 type ApiUploadOrgWlanPortalImageRequest struct {
 	ctx context.Context
-	ApiService *OrgsWlansAPIService
+	ApiService OrgsWlansAPI
 	orgId string
 	wlanId string
 	file *os.File

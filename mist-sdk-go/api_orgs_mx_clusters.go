@@ -21,12 +21,92 @@ import (
 )
 
 
+type OrgsMxClustersAPI interface {
+
+	/*
+	CreateOrgMxEdgeCluster createOrgMxEdgeCluster
+
+	Create MxCluster
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiCreateOrgMxEdgeClusterRequest
+	*/
+	CreateOrgMxEdgeCluster(ctx context.Context, orgId string) ApiCreateOrgMxEdgeClusterRequest
+
+	// CreateOrgMxEdgeClusterExecute executes the request
+	//  @return Mxcluster
+	CreateOrgMxEdgeClusterExecute(r ApiCreateOrgMxEdgeClusterRequest) (*Mxcluster, *http.Response, error)
+
+	/*
+	DeleteOrgMxEdgeCluster deleteOrgMxEdgeCluster
+
+	Delete Org MXEdge Cluster
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param mxclusterId
+	@return ApiDeleteOrgMxEdgeClusterRequest
+	*/
+	DeleteOrgMxEdgeCluster(ctx context.Context, orgId string, mxclusterId string) ApiDeleteOrgMxEdgeClusterRequest
+
+	// DeleteOrgMxEdgeClusterExecute executes the request
+	DeleteOrgMxEdgeClusterExecute(r ApiDeleteOrgMxEdgeClusterRequest) (*http.Response, error)
+
+	/*
+	GetOrgMxEdgeCluster getOrgMxEdgeCluster
+
+	Get Org MxEdge Cluster Details
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param mxclusterId
+	@return ApiGetOrgMxEdgeClusterRequest
+	*/
+	GetOrgMxEdgeCluster(ctx context.Context, orgId string, mxclusterId string) ApiGetOrgMxEdgeClusterRequest
+
+	// GetOrgMxEdgeClusterExecute executes the request
+	//  @return Mxcluster
+	GetOrgMxEdgeClusterExecute(r ApiGetOrgMxEdgeClusterRequest) (*Mxcluster, *http.Response, error)
+
+	/*
+	ListOrgMxEdgeClusters listOrgMxEdgeClusters
+
+	Get List of Org MxEdge Clusters
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiListOrgMxEdgeClustersRequest
+	*/
+	ListOrgMxEdgeClusters(ctx context.Context, orgId string) ApiListOrgMxEdgeClustersRequest
+
+	// ListOrgMxEdgeClustersExecute executes the request
+	//  @return []Mxcluster
+	ListOrgMxEdgeClustersExecute(r ApiListOrgMxEdgeClustersRequest) ([]Mxcluster, *http.Response, error)
+
+	/*
+	UpdateOrgMxEdgeCluster updateOrgMxEdgeCluster
+
+	Update Org MxEdge Cluster
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param mxclusterId
+	@return ApiUpdateOrgMxEdgeClusterRequest
+	*/
+	UpdateOrgMxEdgeCluster(ctx context.Context, orgId string, mxclusterId string) ApiUpdateOrgMxEdgeClusterRequest
+
+	// UpdateOrgMxEdgeClusterExecute executes the request
+	//  @return Mxcluster
+	UpdateOrgMxEdgeClusterExecute(r ApiUpdateOrgMxEdgeClusterRequest) (*Mxcluster, *http.Response, error)
+}
+
 // OrgsMxClustersAPIService OrgsMxClustersAPI service
 type OrgsMxClustersAPIService service
 
 type ApiCreateOrgMxEdgeClusterRequest struct {
 	ctx context.Context
-	ApiService *OrgsMxClustersAPIService
+	ApiService OrgsMxClustersAPI
 	orgId string
 	mxcluster *Mxcluster
 }
@@ -206,7 +286,7 @@ func (a *OrgsMxClustersAPIService) CreateOrgMxEdgeClusterExecute(r ApiCreateOrgM
 
 type ApiDeleteOrgMxEdgeClusterRequest struct {
 	ctx context.Context
-	ApiService *OrgsMxClustersAPIService
+	ApiService OrgsMxClustersAPI
 	orgId string
 	mxclusterId string
 }
@@ -370,7 +450,7 @@ func (a *OrgsMxClustersAPIService) DeleteOrgMxEdgeClusterExecute(r ApiDeleteOrgM
 
 type ApiGetOrgMxEdgeClusterRequest struct {
 	ctx context.Context
-	ApiService *OrgsMxClustersAPIService
+	ApiService OrgsMxClustersAPI
 	orgId string
 	mxclusterId string
 }
@@ -545,7 +625,7 @@ func (a *OrgsMxClustersAPIService) GetOrgMxEdgeClusterExecute(r ApiGetOrgMxEdgeC
 
 type ApiListOrgMxEdgeClustersRequest struct {
 	ctx context.Context
-	ApiService *OrgsMxClustersAPIService
+	ApiService OrgsMxClustersAPI
 	orgId string
 	page *int32
 	limit *int32
@@ -740,7 +820,7 @@ func (a *OrgsMxClustersAPIService) ListOrgMxEdgeClustersExecute(r ApiListOrgMxEd
 
 type ApiUpdateOrgMxEdgeClusterRequest struct {
 	ctx context.Context
-	ApiService *OrgsMxClustersAPIService
+	ApiService OrgsMxClustersAPI
 	orgId string
 	mxclusterId string
 	mxcluster *Mxcluster

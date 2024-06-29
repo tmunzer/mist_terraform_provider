@@ -21,12 +21,65 @@ import (
 )
 
 
+type SitesAnomalyAPI interface {
+
+	/*
+	GetSiteAnomalyEvents getSiteAnomalyEvents
+
+	Get Site Anomaly Events
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param metric see /api/v1/const/insight_metrics for available metrics
+	@return ApiGetSiteAnomalyEventsRequest
+	*/
+	GetSiteAnomalyEvents(ctx context.Context, siteId string, metric string) ApiGetSiteAnomalyEventsRequest
+
+	// GetSiteAnomalyEventsExecute executes the request
+	//  @return ResponseAnomalySearch
+	GetSiteAnomalyEventsExecute(r ApiGetSiteAnomalyEventsRequest) (*ResponseAnomalySearch, *http.Response, error)
+
+	/*
+	GetSiteAnomalyEventsForClient getSiteAnomalyEventsForClient
+
+	Get Client Anomaly Events
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param clientMac
+	@param metric see /api/v1/const/insight_metrics for available metrics
+	@return ApiGetSiteAnomalyEventsForClientRequest
+	*/
+	GetSiteAnomalyEventsForClient(ctx context.Context, siteId string, clientMac string, metric string) ApiGetSiteAnomalyEventsForClientRequest
+
+	// GetSiteAnomalyEventsForClientExecute executes the request
+	//  @return ResponseAnomalySearch
+	GetSiteAnomalyEventsForClientExecute(r ApiGetSiteAnomalyEventsForClientRequest) (*ResponseAnomalySearch, *http.Response, error)
+
+	/*
+	GetSiteAnomalyEventsforDevice getSiteAnomalyEventsforDevice
+
+	Get Device Anomaly Events
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param metric see /api/v1/const/insight_metrics for available metrics
+	@param deviceMac
+	@return ApiGetSiteAnomalyEventsforDeviceRequest
+	*/
+	GetSiteAnomalyEventsforDevice(ctx context.Context, siteId string, metric string, deviceMac string) ApiGetSiteAnomalyEventsforDeviceRequest
+
+	// GetSiteAnomalyEventsforDeviceExecute executes the request
+	//  @return ResponseAnomalySearch
+	GetSiteAnomalyEventsforDeviceExecute(r ApiGetSiteAnomalyEventsforDeviceRequest) (*ResponseAnomalySearch, *http.Response, error)
+}
+
 // SitesAnomalyAPIService SitesAnomalyAPI service
 type SitesAnomalyAPIService service
 
 type ApiGetSiteAnomalyEventsRequest struct {
 	ctx context.Context
-	ApiService *SitesAnomalyAPIService
+	ApiService SitesAnomalyAPI
 	siteId string
 	metric string
 }
@@ -201,7 +254,7 @@ func (a *SitesAnomalyAPIService) GetSiteAnomalyEventsExecute(r ApiGetSiteAnomaly
 
 type ApiGetSiteAnomalyEventsForClientRequest struct {
 	ctx context.Context
-	ApiService *SitesAnomalyAPIService
+	ApiService SitesAnomalyAPI
 	siteId string
 	clientMac string
 	metric string
@@ -380,7 +433,7 @@ func (a *SitesAnomalyAPIService) GetSiteAnomalyEventsForClientExecute(r ApiGetSi
 
 type ApiGetSiteAnomalyEventsforDeviceRequest struct {
 	ctx context.Context
-	ApiService *SitesAnomalyAPIService
+	ApiService SitesAnomalyAPI
 	siteId string
 	metric string
 	deviceMac string

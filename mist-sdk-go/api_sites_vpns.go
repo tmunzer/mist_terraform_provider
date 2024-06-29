@@ -21,12 +21,30 @@ import (
 )
 
 
+type SitesVPNsAPI interface {
+
+	/*
+	ListSiteVpnsDerived listSiteVpnsDerived
+
+	VPN object represents an overlay network where gateways can participate in and optionally expose routes to.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiListSiteVpnsDerivedRequest
+	*/
+	ListSiteVpnsDerived(ctx context.Context, siteId string) ApiListSiteVpnsDerivedRequest
+
+	// ListSiteVpnsDerivedExecute executes the request
+	//  @return []Vpn
+	ListSiteVpnsDerivedExecute(r ApiListSiteVpnsDerivedRequest) ([]Vpn, *http.Response, error)
+}
+
 // SitesVPNsAPIService SitesVPNsAPI service
 type SitesVPNsAPIService service
 
 type ApiListSiteVpnsDerivedRequest struct {
 	ctx context.Context
-	ApiService *SitesVPNsAPIService
+	ApiService SitesVPNsAPI
 	siteId string
 	resolve *bool
 }

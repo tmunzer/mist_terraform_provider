@@ -23,6 +23,7 @@ type BgpConfigVia string
 const (
 	BGPCONFIGVIA_EMPTY BgpConfigVia = ""
 	BGPCONFIGVIA_LAN BgpConfigVia = "lan"
+	BGPCONFIGVIA_VPN BgpConfigVia = "vpn"
 	BGPCONFIGVIA_WAN BgpConfigVia = "wan"
 )
 
@@ -30,6 +31,7 @@ const (
 var AllowedBgpConfigViaEnumValues = []BgpConfigVia{
 	"",
 	"lan",
+	"vpn",
 	"wan",
 }
 

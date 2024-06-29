@@ -33,6 +33,19 @@ with open(SPEC_IN, "r") as f_in:
             }
         }
 
+    ## switch matching
+    if DATA.get("components",{}).get("schemas",{}).get("switch_matching_rule",{}).get("properties"):        
+        del DATA["components"]["schemas"]["switch_matching_rule"]["description"]
+
+        DATA["components"]["schemas"]["switch_matching_rule"]["properties"]["match_type"] = {
+             "type": "string",
+            "description": "string to match. e.g: `match_name[0:3]`, `match_name[2:6]`, `match_model`,  `match_model[0-6]`"
+        }
+        DATA["components"]["schemas"]["switch_matching_rule"]["properties"]["match_value"] = {
+             "type": "string",
+            "description": "value to match"
+        }
+
     with open(SPEC_OUT, "w") as f_out:
         yaml.dump({"openapi": DATA["openapi"]}, f_out)
         yaml.dump({"info": DATA["info"]}, f_out)

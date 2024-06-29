@@ -21,12 +21,89 @@ import (
 )
 
 
+type OrgsNACIDPAPI interface {
+
+	/*
+	ValidateOrgIdpCredential validateOrgIdpCredential
+
+	IDP Credential Validation. The output will be available through websocket. As there can be multiple command issued against the same device at the same time and the output all goes through the same websocket stream, `session` is introduced for demux.
+
+#### Subscribe to Device Command outputs
+`WS /api-ws/v1/stream`
+
+``` json
+{
+    "subscribe": "orgs/:org_id/mist_nac/test_idp"
+}
+
+ ```
+
+### Response (no idp can be found)
+
+``` json
+{
+    "event": "data",
+    "channel": "/orgs/:org_id/mist_nac/test_idp",
+    "status": 
+    "data": {
+        "status": "failure",
+        "error": "No matching IDP found"
+    }
+}
+
+ ```
+
+### Response OK
+
+``` json
+{
+    "event": "data",
+    "channel": "/orgs/:org_id/mist_nac/test_idp",
+    "status": 
+    "data": {
+        "status": "success",
+        "idp_id": "915793c0-1355-4e98-b1c0-23df2227b357",
+        "idp_type": "ldap",
+        // more attributes will be added later
+    }
+}
+
+ ```
+
+### Response Invalid Credentials
+
+``` json
+{
+    "event": "data",
+    "channel": "/orgs/:org_id/mist_nac/test_idp",
+    "status": 
+    "data": {
+        "status": "failure",
+        "error": "Invalid Credentials",
+        "idp_id": "915793c0-1355-4e98-b1c0-23df2227b357",
+        "idp_type": "ldap",
+    }
+}
+
+ ```
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiValidateOrgIdpCredentialRequest
+	*/
+	ValidateOrgIdpCredential(ctx context.Context, orgId string) ApiValidateOrgIdpCredentialRequest
+
+	// ValidateOrgIdpCredentialExecute executes the request
+	//  @return WebsocketSession
+	ValidateOrgIdpCredentialExecute(r ApiValidateOrgIdpCredentialRequest) (*WebsocketSession, *http.Response, error)
+}
+
 // OrgsNACIDPAPIService OrgsNACIDPAPI service
 type OrgsNACIDPAPIService service
 
 type ApiValidateOrgIdpCredentialRequest struct {
 	ctx context.Context
-	ApiService *OrgsNACIDPAPIService
+	ApiService OrgsNACIDPAPI
 	orgId string
 	usernamePassword *UsernamePassword
 }

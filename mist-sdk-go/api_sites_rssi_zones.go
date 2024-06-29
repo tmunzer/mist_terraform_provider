@@ -21,12 +21,92 @@ import (
 )
 
 
+type SitesRSSIZonesAPI interface {
+
+	/*
+	CreateSiteRssiZone createSiteRssiZone
+
+	Create RSSI Zone
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiCreateSiteRssiZoneRequest
+	*/
+	CreateSiteRssiZone(ctx context.Context, siteId string) ApiCreateSiteRssiZoneRequest
+
+	// CreateSiteRssiZoneExecute executes the request
+	//  @return RssiZone
+	CreateSiteRssiZoneExecute(r ApiCreateSiteRssiZoneRequest) (*RssiZone, *http.Response, error)
+
+	/*
+	DeleteSiteRssiZone deleteSiteRssiZone
+
+	Delete Site RSSI Zone
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param rssizoneId
+	@return ApiDeleteSiteRssiZoneRequest
+	*/
+	DeleteSiteRssiZone(ctx context.Context, siteId string, rssizoneId string) ApiDeleteSiteRssiZoneRequest
+
+	// DeleteSiteRssiZoneExecute executes the request
+	DeleteSiteRssiZoneExecute(r ApiDeleteSiteRssiZoneRequest) (*http.Response, error)
+
+	/*
+	GetSiteRssiZone getSiteRssiZone
+
+	Get Site RSSI Zone details
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param rssizoneId
+	@return ApiGetSiteRssiZoneRequest
+	*/
+	GetSiteRssiZone(ctx context.Context, siteId string, rssizoneId string) ApiGetSiteRssiZoneRequest
+
+	// GetSiteRssiZoneExecute executes the request
+	//  @return []RssiZone
+	GetSiteRssiZoneExecute(r ApiGetSiteRssiZoneRequest) ([]RssiZone, *http.Response, error)
+
+	/*
+	ListSiteRssiZones listSiteRssiZones
+
+	Get List of Site RSSI Zone (RSSI-based)
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiListSiteRssiZonesRequest
+	*/
+	ListSiteRssiZones(ctx context.Context, siteId string) ApiListSiteRssiZonesRequest
+
+	// ListSiteRssiZonesExecute executes the request
+	//  @return []RssiZone
+	ListSiteRssiZonesExecute(r ApiListSiteRssiZonesRequest) ([]RssiZone, *http.Response, error)
+
+	/*
+	UpdateSiteRssiZone updateSiteRssiZone
+
+	Update Site RSSI Zone
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param rssizoneId
+	@return ApiUpdateSiteRssiZoneRequest
+	*/
+	UpdateSiteRssiZone(ctx context.Context, siteId string, rssizoneId string) ApiUpdateSiteRssiZoneRequest
+
+	// UpdateSiteRssiZoneExecute executes the request
+	//  @return RssiZone
+	UpdateSiteRssiZoneExecute(r ApiUpdateSiteRssiZoneRequest) (*RssiZone, *http.Response, error)
+}
+
 // SitesRSSIZonesAPIService SitesRSSIZonesAPI service
 type SitesRSSIZonesAPIService service
 
 type ApiCreateSiteRssiZoneRequest struct {
 	ctx context.Context
-	ApiService *SitesRSSIZonesAPIService
+	ApiService SitesRSSIZonesAPI
 	siteId string
 	rssiZone *RssiZone
 }
@@ -206,7 +286,7 @@ func (a *SitesRSSIZonesAPIService) CreateSiteRssiZoneExecute(r ApiCreateSiteRssi
 
 type ApiDeleteSiteRssiZoneRequest struct {
 	ctx context.Context
-	ApiService *SitesRSSIZonesAPIService
+	ApiService SitesRSSIZonesAPI
 	siteId string
 	rssizoneId string
 }
@@ -370,7 +450,7 @@ func (a *SitesRSSIZonesAPIService) DeleteSiteRssiZoneExecute(r ApiDeleteSiteRssi
 
 type ApiGetSiteRssiZoneRequest struct {
 	ctx context.Context
-	ApiService *SitesRSSIZonesAPIService
+	ApiService SitesRSSIZonesAPI
 	siteId string
 	rssizoneId string
 }
@@ -545,7 +625,7 @@ func (a *SitesRSSIZonesAPIService) GetSiteRssiZoneExecute(r ApiGetSiteRssiZoneRe
 
 type ApiListSiteRssiZonesRequest struct {
 	ctx context.Context
-	ApiService *SitesRSSIZonesAPIService
+	ApiService SitesRSSIZonesAPI
 	siteId string
 	page *int32
 	limit *int32
@@ -740,7 +820,7 @@ func (a *SitesRSSIZonesAPIService) ListSiteRssiZonesExecute(r ApiListSiteRssiZon
 
 type ApiUpdateSiteRssiZoneRequest struct {
 	ctx context.Context
-	ApiService *SitesRSSIZonesAPIService
+	ApiService SitesRSSIZonesAPI
 	siteId string
 	rssizoneId string
 	rssiZone *RssiZone

@@ -20,12 +20,30 @@ import (
 )
 
 
+type SelfAuditLogsAPI interface {
+
+	/*
+	ListSelfAuditLogs listSelfAuditLogs
+
+	Get List of change logs across all Orgs for current admin
+Audit logs records all administrative activities done by current admin across all orgs
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiListSelfAuditLogsRequest
+	*/
+	ListSelfAuditLogs(ctx context.Context) ApiListSelfAuditLogsRequest
+
+	// ListSelfAuditLogsExecute executes the request
+	//  @return ResponseSelfAuditLogs
+	ListSelfAuditLogsExecute(r ApiListSelfAuditLogsRequest) (*ResponseSelfAuditLogs, *http.Response, error)
+}
+
 // SelfAuditLogsAPIService SelfAuditLogsAPI service
 type SelfAuditLogsAPIService service
 
 type ApiListSelfAuditLogsRequest struct {
 	ctx context.Context
-	ApiService *SelfAuditLogsAPIService
+	ApiService SelfAuditLogsAPI
 	page *int32
 	limit *int32
 	start *int32

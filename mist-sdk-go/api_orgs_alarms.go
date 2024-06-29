@@ -21,12 +21,120 @@ import (
 )
 
 
+type OrgsAlarmsAPI interface {
+
+	/*
+	AckOrgAlarm ackOrgAlarm
+
+	Ack Org Alarm
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param alarmId
+	@return ApiAckOrgAlarmRequest
+	*/
+	AckOrgAlarm(ctx context.Context, orgId string, alarmId string) ApiAckOrgAlarmRequest
+
+	// AckOrgAlarmExecute executes the request
+	AckOrgAlarmExecute(r ApiAckOrgAlarmRequest) (*http.Response, error)
+
+	/*
+	AckOrgAllAlarms ackOrgAllAlarms
+
+	Ack all Org Alarms
+
+**N.B.**: Batch size for multiple alarm ack and unack has to be less or or equal to 1000.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiAckOrgAllAlarmsRequest
+	*/
+	AckOrgAllAlarms(ctx context.Context, orgId string) ApiAckOrgAllAlarmsRequest
+
+	// AckOrgAllAlarmsExecute executes the request
+	AckOrgAllAlarmsExecute(r ApiAckOrgAllAlarmsRequest) (*http.Response, error)
+
+	/*
+	AckOrgMultipleAlarms ackOrgMultipleAlarms
+
+	Ack multiple Org Alarms
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiAckOrgMultipleAlarmsRequest
+	*/
+	AckOrgMultipleAlarms(ctx context.Context, orgId string) ApiAckOrgMultipleAlarmsRequest
+
+	// AckOrgMultipleAlarmsExecute executes the request
+	AckOrgMultipleAlarmsExecute(r ApiAckOrgMultipleAlarmsRequest) (*http.Response, error)
+
+	/*
+	CountOrgAlarms countOrgAlarms
+
+	Count Org Alarms
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiCountOrgAlarmsRequest
+	*/
+	CountOrgAlarms(ctx context.Context, orgId string) ApiCountOrgAlarmsRequest
+
+	// CountOrgAlarmsExecute executes the request
+	//  @return RepsonseCount
+	CountOrgAlarmsExecute(r ApiCountOrgAlarmsRequest) (*RepsonseCount, *http.Response, error)
+
+	/*
+	SearchOrgAlarms searchOrgAlarms
+
+	Search Org Alarms
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiSearchOrgAlarmsRequest
+	*/
+	SearchOrgAlarms(ctx context.Context, orgId string) ApiSearchOrgAlarmsRequest
+
+	// SearchOrgAlarmsExecute executes the request
+	//  @return AlarmSearchResult
+	SearchOrgAlarmsExecute(r ApiSearchOrgAlarmsRequest) (*AlarmSearchResult, *http.Response, error)
+
+	/*
+	UnackOrgAllArlarms unackOrgAllArlarms
+
+	Unack all Org Alarms
+
+**N.B.**: Batch size for multiple alarm ack and unack has to be less or or equal to 1000.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiUnackOrgAllArlarmsRequest
+	*/
+	UnackOrgAllArlarms(ctx context.Context, orgId string) ApiUnackOrgAllArlarmsRequest
+
+	// UnackOrgAllArlarmsExecute executes the request
+	UnackOrgAllArlarmsExecute(r ApiUnackOrgAllArlarmsRequest) (*http.Response, error)
+
+	/*
+	UnackOrgMultipleAlarms unackOrgMultipleAlarms
+
+	Unack multiple Org Alarms
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiUnackOrgMultipleAlarmsRequest
+	*/
+	UnackOrgMultipleAlarms(ctx context.Context, orgId string) ApiUnackOrgMultipleAlarmsRequest
+
+	// UnackOrgMultipleAlarmsExecute executes the request
+	UnackOrgMultipleAlarmsExecute(r ApiUnackOrgMultipleAlarmsRequest) (*http.Response, error)
+}
+
 // OrgsAlarmsAPIService OrgsAlarmsAPI service
 type OrgsAlarmsAPIService service
 
 type ApiAckOrgAlarmRequest struct {
 	ctx context.Context
-	ApiService *OrgsAlarmsAPIService
+	ApiService OrgsAlarmsAPI
 	orgId string
 	alarmId string
 	noteString *NoteString
@@ -199,7 +307,7 @@ func (a *OrgsAlarmsAPIService) AckOrgAlarmExecute(r ApiAckOrgAlarmRequest) (*htt
 
 type ApiAckOrgAllAlarmsRequest struct {
 	ctx context.Context
-	ApiService *OrgsAlarmsAPIService
+	ApiService OrgsAlarmsAPI
 	orgId string
 	noteString *NoteString
 }
@@ -369,7 +477,7 @@ func (a *OrgsAlarmsAPIService) AckOrgAllAlarmsExecute(r ApiAckOrgAllAlarmsReques
 
 type ApiAckOrgMultipleAlarmsRequest struct {
 	ctx context.Context
-	ApiService *OrgsAlarmsAPIService
+	ApiService OrgsAlarmsAPI
 	orgId string
 	alarms *Alarms
 }
@@ -538,7 +646,7 @@ func (a *OrgsAlarmsAPIService) AckOrgMultipleAlarmsExecute(r ApiAckOrgMultipleAl
 
 type ApiCountOrgAlarmsRequest struct {
 	ctx context.Context
-	ApiService *OrgsAlarmsAPIService
+	ApiService OrgsAlarmsAPI
 	orgId string
 	distinct *string
 	page *int32
@@ -775,7 +883,7 @@ func (a *OrgsAlarmsAPIService) CountOrgAlarmsExecute(r ApiCountOrgAlarmsRequest)
 
 type ApiSearchOrgAlarmsRequest struct {
 	ctx context.Context
-	ApiService *OrgsAlarmsAPIService
+	ApiService OrgsAlarmsAPI
 	orgId string
 	siteId *string
 	type_ *string
@@ -1009,7 +1117,7 @@ func (a *OrgsAlarmsAPIService) SearchOrgAlarmsExecute(r ApiSearchOrgAlarmsReques
 
 type ApiUnackOrgAllArlarmsRequest struct {
 	ctx context.Context
-	ApiService *OrgsAlarmsAPIService
+	ApiService OrgsAlarmsAPI
 	orgId string
 	noteString *NoteString
 }
@@ -1180,7 +1288,7 @@ func (a *OrgsAlarmsAPIService) UnackOrgAllArlarmsExecute(r ApiUnackOrgAllArlarms
 
 type ApiUnackOrgMultipleAlarmsRequest struct {
 	ctx context.Context
-	ApiService *OrgsAlarmsAPIService
+	ApiService OrgsAlarmsAPI
 	orgId string
 	alarms *Alarms
 }

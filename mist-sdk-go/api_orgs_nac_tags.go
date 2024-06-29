@@ -21,12 +21,92 @@ import (
 )
 
 
+type OrgsNACTagsAPI interface {
+
+	/*
+	CreateOrgNacTag createOrgNacTag
+
+	Create Org NAC Tag
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiCreateOrgNacTagRequest
+	*/
+	CreateOrgNacTag(ctx context.Context, orgId string) ApiCreateOrgNacTagRequest
+
+	// CreateOrgNacTagExecute executes the request
+	//  @return NacTag
+	CreateOrgNacTagExecute(r ApiCreateOrgNacTagRequest) (*NacTag, *http.Response, error)
+
+	/*
+	DeleteOrgNacTag deleteOrgNacTag
+
+	Delete Org NAC Tag
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param nactagId
+	@return ApiDeleteOrgNacTagRequest
+	*/
+	DeleteOrgNacTag(ctx context.Context, orgId string, nactagId string) ApiDeleteOrgNacTagRequest
+
+	// DeleteOrgNacTagExecute executes the request
+	DeleteOrgNacTagExecute(r ApiDeleteOrgNacTagRequest) (*http.Response, error)
+
+	/*
+	GetOrgNacTag getOrgNacTag
+
+	Get Org NAC Tag
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param nactagId
+	@return ApiGetOrgNacTagRequest
+	*/
+	GetOrgNacTag(ctx context.Context, orgId string, nactagId string) ApiGetOrgNacTagRequest
+
+	// GetOrgNacTagExecute executes the request
+	//  @return NacTag
+	GetOrgNacTagExecute(r ApiGetOrgNacTagRequest) (*NacTag, *http.Response, error)
+
+	/*
+	ListOrgNacTags listOrgNacTags
+
+	Get List of Org NAC Tags
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiListOrgNacTagsRequest
+	*/
+	ListOrgNacTags(ctx context.Context, orgId string) ApiListOrgNacTagsRequest
+
+	// ListOrgNacTagsExecute executes the request
+	//  @return []NacTag
+	ListOrgNacTagsExecute(r ApiListOrgNacTagsRequest) ([]NacTag, *http.Response, error)
+
+	/*
+	UpdateOrgNacTag updateOrgNacTag
+
+	Update Org NAC Tag
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param nactagId
+	@return ApiUpdateOrgNacTagRequest
+	*/
+	UpdateOrgNacTag(ctx context.Context, orgId string, nactagId string) ApiUpdateOrgNacTagRequest
+
+	// UpdateOrgNacTagExecute executes the request
+	//  @return NacTag
+	UpdateOrgNacTagExecute(r ApiUpdateOrgNacTagRequest) (*NacTag, *http.Response, error)
+}
+
 // OrgsNACTagsAPIService OrgsNACTagsAPI service
 type OrgsNACTagsAPIService service
 
 type ApiCreateOrgNacTagRequest struct {
 	ctx context.Context
-	ApiService *OrgsNACTagsAPIService
+	ApiService OrgsNACTagsAPI
 	orgId string
 	nacTag *NacTag
 }
@@ -205,7 +285,7 @@ func (a *OrgsNACTagsAPIService) CreateOrgNacTagExecute(r ApiCreateOrgNacTagReque
 
 type ApiDeleteOrgNacTagRequest struct {
 	ctx context.Context
-	ApiService *OrgsNACTagsAPIService
+	ApiService OrgsNACTagsAPI
 	orgId string
 	nactagId string
 }
@@ -369,7 +449,7 @@ func (a *OrgsNACTagsAPIService) DeleteOrgNacTagExecute(r ApiDeleteOrgNacTagReque
 
 type ApiGetOrgNacTagRequest struct {
 	ctx context.Context
-	ApiService *OrgsNACTagsAPIService
+	ApiService OrgsNACTagsAPI
 	orgId string
 	nactagId string
 }
@@ -544,7 +624,7 @@ func (a *OrgsNACTagsAPIService) GetOrgNacTagExecute(r ApiGetOrgNacTagRequest) (*
 
 type ApiListOrgNacTagsRequest struct {
 	ctx context.Context
-	ApiService *OrgsNACTagsAPIService
+	ApiService OrgsNACTagsAPI
 	orgId string
 	type_ *string
 	name *string
@@ -769,7 +849,7 @@ func (a *OrgsNACTagsAPIService) ListOrgNacTagsExecute(r ApiListOrgNacTagsRequest
 
 type ApiUpdateOrgNacTagRequest struct {
 	ctx context.Context
-	ApiService *OrgsNACTagsAPIService
+	ApiService OrgsNACTagsAPI
 	orgId string
 	nactagId string
 	nacTag *NacTag

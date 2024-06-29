@@ -21,12 +21,32 @@ import (
 )
 
 
+type OrgsVarsAPI interface {
+
+	/*
+	SearchOrgVars searchOrgVars
+
+	Search vars
+
+Example: /api/v1/orgs/:org_id/vars/search?vars=*
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiSearchOrgVarsRequest
+	*/
+	SearchOrgVars(ctx context.Context, orgId string) ApiSearchOrgVarsRequest
+
+	// SearchOrgVarsExecute executes the request
+	//  @return ResponseSearchVar
+	SearchOrgVarsExecute(r ApiSearchOrgVarsRequest) (*ResponseSearchVar, *http.Response, error)
+}
+
 // OrgsVarsAPIService OrgsVarsAPI service
 type OrgsVarsAPIService service
 
 type ApiSearchOrgVarsRequest struct {
 	ctx context.Context
-	ApiService *OrgsVarsAPIService
+	ApiService OrgsVarsAPI
 	orgId string
 	siteId *string
 	vars *string

@@ -21,12 +21,58 @@ import (
 )
 
 
+type AdminsLoginOAuth2API interface {
+
+	/*
+	GetOauth2AuthorizationUrlForLogin getOauth2AuthorizationUrlForLogin
+
+	Obtain Authorization URL for Login
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param provider
+	@return ApiGetOauth2AuthorizationUrlForLoginRequest
+	*/
+	GetOauth2AuthorizationUrlForLogin(ctx context.Context, provider string) ApiGetOauth2AuthorizationUrlForLoginRequest
+
+	// GetOauth2AuthorizationUrlForLoginExecute executes the request
+	//  @return ResponseLoginOauthUrl
+	GetOauth2AuthorizationUrlForLoginExecute(r ApiGetOauth2AuthorizationUrlForLoginRequest) (*ResponseLoginOauthUrl, *http.Response, error)
+
+	/*
+	LoginOauth2 loginOauth2
+
+	Login via OAuth2
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param provider
+	@return ApiLoginOauth2Request
+	*/
+	LoginOauth2(ctx context.Context, provider string) ApiLoginOauth2Request
+
+	// LoginOauth2Execute executes the request
+	LoginOauth2Execute(r ApiLoginOauth2Request) (*http.Response, error)
+
+	/*
+	UnlinkOauth2Provider unlinkOauth2Provider
+
+	Unlink OAuth2 Provider
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param provider
+	@return ApiUnlinkOauth2ProviderRequest
+	*/
+	UnlinkOauth2Provider(ctx context.Context, provider string) ApiUnlinkOauth2ProviderRequest
+
+	// UnlinkOauth2ProviderExecute executes the request
+	UnlinkOauth2ProviderExecute(r ApiUnlinkOauth2ProviderRequest) (*http.Response, error)
+}
+
 // AdminsLoginOAuth2APIService AdminsLoginOAuth2API service
 type AdminsLoginOAuth2APIService service
 
 type ApiGetOauth2AuthorizationUrlForLoginRequest struct {
 	ctx context.Context
-	ApiService *AdminsLoginOAuth2APIService
+	ApiService AdminsLoginOAuth2API
 	provider string
 	forward *string
 }
@@ -206,7 +252,7 @@ func (a *AdminsLoginOAuth2APIService) GetOauth2AuthorizationUrlForLoginExecute(r
 
 type ApiLoginOauth2Request struct {
 	ctx context.Context
-	ApiService *AdminsLoginOAuth2APIService
+	ApiService AdminsLoginOAuth2API
 	provider string
 	codeString *CodeString
 }
@@ -375,7 +421,7 @@ func (a *AdminsLoginOAuth2APIService) LoginOauth2Execute(r ApiLoginOauth2Request
 
 type ApiUnlinkOauth2ProviderRequest struct {
 	ctx context.Context
-	ApiService *AdminsLoginOAuth2APIService
+	ApiService AdminsLoginOAuth2API
 	provider string
 }
 

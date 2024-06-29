@@ -21,12 +21,30 @@ import (
 )
 
 
+type SitesNetworksAPI interface {
+
+	/*
+	ListSiteNetworksDerived listSiteNetworksDerived
+
+	Retrieves the list of Networks available for the Site
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiListSiteNetworksDerivedRequest
+	*/
+	ListSiteNetworksDerived(ctx context.Context, siteId string) ApiListSiteNetworksDerivedRequest
+
+	// ListSiteNetworksDerivedExecute executes the request
+	//  @return []Network
+	ListSiteNetworksDerivedExecute(r ApiListSiteNetworksDerivedRequest) ([]Network, *http.Response, error)
+}
+
 // SitesNetworksAPIService SitesNetworksAPI service
 type SitesNetworksAPIService service
 
 type ApiListSiteNetworksDerivedRequest struct {
 	ctx context.Context
-	ApiService *SitesNetworksAPIService
+	ApiService SitesNetworksAPI
 	siteId string
 	resolve *bool
 }

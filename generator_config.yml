@@ -1,131 +1,131 @@
 provider:
   name: mistapi
 resources:
-  # org:
-  #   create:
-  #     path: /api/v1/orgs
-  #     method: POST
-  #   read:
-  #     path: /api/v1/orgs/{org_id}
-  #     method: GET
-  #   delete:
-  #     path: /api/v1/orgs/{org_id}
-  #     method: DELETE
-  #   update:
-  #     path: /api/v1/orgs/{org_id}
-  #     method: PUT      
-  #   schema:
-  #     ignores:
-  #       - created_time
-  #       - modified_time
-  #     attributes:
-  #       aliases:
-  #         org_id: id
-  # site:
-  #   create:
-  #     path: /api/v1/orgs/{org_id}/sites
-  #     method: POST
-  #   read:
-  #     path: /api/v1/sites/{site_id}
-  #     method: GET
-  #   delete:
-  #     path: /api/v1/sites/{site_id}
-  #     method: DELETE
-  #   update:
-  #     path: /api/v1/sites/{site_id}
-  #     method: PUT      
-  #   schema:
-  #     attributes:
-  #       aliases:
-  #         site_id: id
-  #     ignores:
-  #       - created_time
-  #       - modified_time
-  # sitegroup:
-  #   create:
-  #     path: /api/v1/orgs/{org_id}/sitegroups
-  #     method: POST
-  #   read:
-  #     path: /api/v1/orgs/{org_id}/sitegroups/{sitegroup_id}
-  #     method: GET
-  #   delete:
-  #     path: /api/v1/orgs/{org_id}/sitegroups/{sitegroup_id}
-  #     method: DELETE
-  #   update:
-  #     path: /api/v1/orgs/{org_id}/sitegroups/{sitegroup_id}
-  #     method: PUT      
-  #   schema:
-  #     ignores:
-  #       - created_time
-  #       - modified_time
-  #       - site_ids
-  #     attributes:
-  #       aliases:
-  #         sitegroup_id: id
-  # networktemplate:
-  #   create:
-  #     path: /api/v1/orgs/{org_id}/networktemplates
-  #     method: POST
-  #   read:
-  #     path: /api/v1/orgs/{org_id}/networktemplates/{networktemplate_id}
-  #     method: GET
-  #   delete:
-  #     path: /api/v1/orgs/{org_id}/networktemplates/{networktemplate_id}
-  #     method: DELETE
-  #   update:
-  #     path: /api/v1/orgs/{org_id}/networktemplates/{networktemplate_id}
-  #     method: PUT      
-  #   schema:
-  #     ignores:
-  #       - created_time
-  #       - modified_time
-  #       - import_org_networks
-  #       - extra_routes6
-  #       - switch_matching.rules.switch_mgmt
-  #     attributes:
-  #       aliases:
-  #         networktemplate_id: id
-  #         switch_mgmt.tacacs.acct_servers : tacacs_acct_servers
-  # service:
-  #   create:
-  #     path: /api/v1/orgs/{org_id}/services
-  #     method: POST
-  #   read:
-  #     path: /api/v1/orgs/{org_id}/services/{service_id}
-  #     method: GET
-  #   delete:
-  #     path: /api/v1/orgs/{org_id}/services/{service_id}
-  #     method: DELETE
-  #   update:
-  #     path: /api/v1/orgs/{org_id}/services/{service_id}
-  #     method: PUT
-  #   schema:
-  #     ignores:
-  #       - created_time
-  #       - modified_time
-  #     attributes:
-  #       aliases:
-  #         service_id: id
-  # network:
-  #   create:
-  #     path: /api/v1/orgs/{org_id}/networks
-  #     method: POST
-  #   read:
-  #     path: /api/v1/orgs/{org_id}/networks/{network_id}
-  #     method: GET
-  #   delete:
-  #     path: /api/v1/orgs/{org_id}/networks/{network_id}
-  #     method: DELETE
-  #   update:
-  #     path: /api/v1/orgs/{org_id}/networks/{network_id}
-  #     method: PUT
-  #   schema:
-  #     ignores:
-  #       - created_time
-  #       - modified_time
-  #     attributes:
-  #       aliases:
-  #         network_id: id
+  org:
+    create:
+      path: /api/v1/orgs
+      method: POST
+    read:
+      path: /api/v1/orgs/{org_id}
+      method: GET
+    delete:
+      path: /api/v1/orgs/{org_id}
+      method: DELETE
+    update:
+      path: /api/v1/orgs/{org_id}
+      method: PUT      
+    schema:
+      ignores:
+        - created_time
+        - modified_time
+      attributes:
+        aliases:
+          org_id: id
+  site:
+    create:
+      path: /api/v1/orgs/{org_id}/sites
+      method: POST
+    read:
+      path: /api/v1/sites/{site_id}
+      method: GET
+    delete:
+      path: /api/v1/sites/{site_id}
+      method: DELETE
+    update:
+      path: /api/v1/sites/{site_id}
+      method: PUT      
+    schema:
+      attributes:
+        aliases:
+          site_id: id
+      ignores:
+        - created_time
+        - modified_time
+  sitegroup:
+    create:
+      path: /api/v1/orgs/{org_id}/sitegroups
+      method: POST
+    read:
+      path: /api/v1/orgs/{org_id}/sitegroups/{sitegroup_id}
+      method: GET
+    delete:
+      path: /api/v1/orgs/{org_id}/sitegroups/{sitegroup_id}
+      method: DELETE
+    update:
+      path: /api/v1/orgs/{org_id}/sitegroups/{sitegroup_id}
+      method: PUT      
+    schema:
+      ignores:
+        - created_time
+        - modified_time
+        - site_ids
+      attributes:
+        aliases:
+          sitegroup_id: id
+  networktemplate:
+    create:
+      path: /api/v1/orgs/{org_id}/networktemplates
+      method: POST
+    read:
+      path: /api/v1/orgs/{org_id}/networktemplates/{networktemplate_id}
+      method: GET
+    delete:
+      path: /api/v1/orgs/{org_id}/networktemplates/{networktemplate_id}
+      method: DELETE
+    update:
+      path: /api/v1/orgs/{org_id}/networktemplates/{networktemplate_id}
+      method: PUT      
+    schema:
+      ignores:
+        - created_time
+        - modified_time
+        - import_org_networks
+        - extra_routes6
+        - switch_matching.rules.switch_mgmt
+      attributes:
+        aliases:
+          networktemplate_id: id
+          switch_mgmt.tacacs.acct_servers : tacacs_acct_servers
+  service:
+    create:
+      path: /api/v1/orgs/{org_id}/services
+      method: POST
+    read:
+      path: /api/v1/orgs/{org_id}/services/{service_id}
+      method: GET
+    delete:
+      path: /api/v1/orgs/{org_id}/services/{service_id}
+      method: DELETE
+    update:
+      path: /api/v1/orgs/{org_id}/services/{service_id}
+      method: PUT
+    schema:
+      ignores:
+        - created_time
+        - modified_time
+      attributes:
+        aliases:
+          service_id: id
+  network:
+    create:
+      path: /api/v1/orgs/{org_id}/networks
+      method: POST
+    read:
+      path: /api/v1/orgs/{org_id}/networks/{network_id}
+      method: GET
+    delete:
+      path: /api/v1/orgs/{org_id}/networks/{network_id}
+      method: DELETE
+    update:
+      path: /api/v1/orgs/{org_id}/networks/{network_id}
+      method: PUT
+    schema:
+      ignores:
+        - created_time
+        - modified_time
+      attributes:
+        aliases:
+          network_id: id
   gatewaytemplate:
     create:
       path: /api/v1/orgs/{org_id}/gatewaytemplates

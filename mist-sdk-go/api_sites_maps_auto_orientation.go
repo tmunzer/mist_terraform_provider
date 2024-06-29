@@ -21,12 +21,63 @@ import (
 )
 
 
+type SitesMapsAutoOrientationAPI interface {
+
+	/*
+	ClearSiteApAutoOrient clearSiteApAutoOrient
+
+	This API is used to destroy the autoorientations of a map or subset of APs on a map.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param mapId
+	@return ApiClearSiteApAutoOrientRequest
+	*/
+	ClearSiteApAutoOrient(ctx context.Context, siteId string, mapId string) ApiClearSiteApAutoOrientRequest
+
+	// ClearSiteApAutoOrientExecute executes the request
+	ClearSiteApAutoOrientExecute(r ApiClearSiteApAutoOrientRequest) (*http.Response, error)
+
+	/*
+	DeleteSiteApAutoOrientation deleteSiteApAutoOrientation
+
+	This API is called to force stop auto placement for a given map
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param mapId
+	@param siteId
+	@return ApiDeleteSiteApAutoOrientationRequest
+	*/
+	DeleteSiteApAutoOrientation(ctx context.Context, mapId string, siteId string) ApiDeleteSiteApAutoOrientationRequest
+
+	// DeleteSiteApAutoOrientationExecute executes the request
+	DeleteSiteApAutoOrientationExecute(r ApiDeleteSiteApAutoOrientationRequest) (*http.Response, error)
+
+	/*
+	StartSiteApAutoOrientation startSiteApAutoOrientation
+
+	This API is called to trigger a map for auto orientation. For auto orient feature to work, BLE data needs to be collected from the APs on the map. This precess is not disruptive unlike FTM collection. Repeated POST to this endpoint while a map is still running will be rejected.
+
+List of devices to provide suggestions for is an optional parameter that can be given to this API. This will provide auto orient suggestions only for the devices specified. If no list of devices is provided, all APs asociated with that map are considered by default
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param mapId
+	@param siteId
+	@return ApiStartSiteApAutoOrientationRequest
+	*/
+	StartSiteApAutoOrientation(ctx context.Context, mapId string, siteId string) ApiStartSiteApAutoOrientationRequest
+
+	// StartSiteApAutoOrientationExecute executes the request
+	//  @return ResponseAutoOrientation
+	StartSiteApAutoOrientationExecute(r ApiStartSiteApAutoOrientationRequest) (*ResponseAutoOrientation, *http.Response, error)
+}
+
 // SitesMapsAutoOrientationAPIService SitesMapsAutoOrientationAPI service
 type SitesMapsAutoOrientationAPIService service
 
 type ApiClearSiteApAutoOrientRequest struct {
 	ctx context.Context
-	ApiService *SitesMapsAutoOrientationAPIService
+	ApiService SitesMapsAutoOrientationAPI
 	siteId string
 	mapId string
 	macAddresses *MacAddresses
@@ -198,7 +249,7 @@ func (a *SitesMapsAutoOrientationAPIService) ClearSiteApAutoOrientExecute(r ApiC
 
 type ApiDeleteSiteApAutoOrientationRequest struct {
 	ctx context.Context
-	ApiService *SitesMapsAutoOrientationAPIService
+	ApiService SitesMapsAutoOrientationAPI
 	mapId string
 	siteId string
 }
@@ -351,7 +402,7 @@ func (a *SitesMapsAutoOrientationAPIService) DeleteSiteApAutoOrientationExecute(
 
 type ApiStartSiteApAutoOrientationRequest struct {
 	ctx context.Context
-	ApiService *SitesMapsAutoOrientationAPIService
+	ApiService SitesMapsAutoOrientationAPI
 	mapId string
 	siteId string
 	autoOrient *AutoOrient

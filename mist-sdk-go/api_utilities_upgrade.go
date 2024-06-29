@@ -21,12 +21,308 @@ import (
 )
 
 
+type UtilitiesUpgradeAPI interface {
+
+	/*
+	CancelOrgSsrUpgrade cancelOrgSsrUpgrade
+
+	Best effort to cancel an upgrade. Devices which are already upgraded wont be touched↵
+
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param upgradeId
+	@return ApiCancelOrgSsrUpgradeRequest
+	*/
+	CancelOrgSsrUpgrade(ctx context.Context, orgId string, upgradeId string) ApiCancelOrgSsrUpgradeRequest
+
+	// CancelOrgSsrUpgradeExecute executes the request
+	CancelOrgSsrUpgradeExecute(r ApiCancelOrgSsrUpgradeRequest) (*http.Response, error)
+
+	/*
+	CancelSiteDeviceUpgrade cancelSiteDeviceUpgrade
+
+	Best effort to cancel an upgrade. Devices which are already upgraded wont be touched
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param upgradeId
+	@return ApiCancelSiteDeviceUpgradeRequest
+	*/
+	CancelSiteDeviceUpgrade(ctx context.Context, siteId string, upgradeId string) ApiCancelSiteDeviceUpgradeRequest
+
+	// CancelSiteDeviceUpgradeExecute executes the request
+	CancelSiteDeviceUpgradeExecute(r ApiCancelSiteDeviceUpgradeRequest) (*http.Response, error)
+
+	/*
+	GetOrgDeviceUpgrade getOrgDeviceUpgrade
+
+	Get Multiple Devices Upgrade
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param upgradeId
+	@return ApiGetOrgDeviceUpgradeRequest
+	*/
+	GetOrgDeviceUpgrade(ctx context.Context, orgId string, upgradeId string) ApiGetOrgDeviceUpgradeRequest
+
+	// GetOrgDeviceUpgradeExecute executes the request
+	//  @return ResponseUpgradeOrgDevices
+	GetOrgDeviceUpgradeExecute(r ApiGetOrgDeviceUpgradeRequest) (*ResponseUpgradeOrgDevices, *http.Response, error)
+
+	/*
+	GetOrgMxEdgeUpgrade getOrgMxEdgeUpgrade
+
+	Get Mist Edge Upgrade
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param upgradeId
+	@return ApiGetOrgMxEdgeUpgradeRequest
+	*/
+	GetOrgMxEdgeUpgrade(ctx context.Context, orgId string, upgradeId string) ApiGetOrgMxEdgeUpgradeRequest
+
+	// GetOrgMxEdgeUpgradeExecute executes the request
+	//  @return ResponseMxedgeUpgrade
+	GetOrgMxEdgeUpgradeExecute(r ApiGetOrgMxEdgeUpgradeRequest) (*ResponseMxedgeUpgrade, *http.Response, error)
+
+	/*
+	GetSiteDeviceUpgrade getSiteDeviceUpgrade
+
+	Get Site Device Upgrade
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param upgradeId
+	@return ApiGetSiteDeviceUpgradeRequest
+	*/
+	GetSiteDeviceUpgrade(ctx context.Context, siteId string, upgradeId string) ApiGetSiteDeviceUpgradeRequest
+
+	// GetSiteDeviceUpgradeExecute executes the request
+	//  @return ResponseDeviceUpgrade
+	GetSiteDeviceUpgradeExecute(r ApiGetSiteDeviceUpgradeRequest) (*ResponseDeviceUpgrade, *http.Response, error)
+
+	/*
+	GetSiteSsrUpgrade getSiteSsrUpgrade
+
+	Get Specific Site SSR Upgrade
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param upgradeId
+	@return ApiGetSiteSsrUpgradeRequest
+	*/
+	GetSiteSsrUpgrade(ctx context.Context, siteId string, upgradeId string) ApiGetSiteSsrUpgradeRequest
+
+	// GetSiteSsrUpgradeExecute executes the request
+	//  @return ResponseSsrUpgradeStatus
+	GetSiteSsrUpgradeExecute(r ApiGetSiteSsrUpgradeRequest) (*ResponseSsrUpgradeStatus, *http.Response, error)
+
+	/*
+	ListOrgAvailableSsrVersions listOrgAvailableSsrVersions
+
+	Get available version for SSR
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiListOrgAvailableSsrVersionsRequest
+	*/
+	ListOrgAvailableSsrVersions(ctx context.Context, orgId string) ApiListOrgAvailableSsrVersionsRequest
+
+	// ListOrgAvailableSsrVersionsExecute executes the request
+	//  @return []SsrVersion
+	ListOrgAvailableSsrVersionsExecute(r ApiListOrgAvailableSsrVersionsRequest) ([]SsrVersion, *http.Response, error)
+
+	/*
+	ListOrgDeviceUpgrades listOrgDeviceUpgrades
+
+	Get List of Org multiple devces upgrades
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiListOrgDeviceUpgradesRequest
+	*/
+	ListOrgDeviceUpgrades(ctx context.Context, orgId string) ApiListOrgDeviceUpgradesRequest
+
+	// ListOrgDeviceUpgradesExecute executes the request
+	//  @return []OrgDeviceUpgrade
+	ListOrgDeviceUpgradesExecute(r ApiListOrgDeviceUpgradesRequest) ([]OrgDeviceUpgrade, *http.Response, error)
+
+	/*
+	ListOrgMxEdgeUpgrades listOrgMxEdgeUpgrades
+
+	Get List of Org Mist Edge Upgrades
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiListOrgMxEdgeUpgradesRequest
+	*/
+	ListOrgMxEdgeUpgrades(ctx context.Context, orgId string) ApiListOrgMxEdgeUpgradesRequest
+
+	// ListOrgMxEdgeUpgradesExecute executes the request
+	//  @return []ResponseMxedgeUpgrade
+	ListOrgMxEdgeUpgradesExecute(r ApiListOrgMxEdgeUpgradesRequest) ([]ResponseMxedgeUpgrade, *http.Response, error)
+
+	/*
+	ListOrgSsrUpgrades listOrgSsrUpgrades
+
+	Get List of Org SSR Upgrades
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiListOrgSsrUpgradesRequest
+	*/
+	ListOrgSsrUpgrades(ctx context.Context, orgId string) ApiListOrgSsrUpgradesRequest
+
+	// ListOrgSsrUpgradesExecute executes the request
+	//  @return []SsrUpgradeResponse
+	ListOrgSsrUpgradesExecute(r ApiListOrgSsrUpgradesRequest) ([]SsrUpgradeResponse, *http.Response, error)
+
+	/*
+	ListSiteAvailableDeviceVersions listSiteAvailableDeviceVersions
+
+	Get List of Available Device Versions
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiListSiteAvailableDeviceVersionsRequest
+	*/
+	ListSiteAvailableDeviceVersions(ctx context.Context, siteId string) ApiListSiteAvailableDeviceVersionsRequest
+
+	// ListSiteAvailableDeviceVersionsExecute executes the request
+	//  @return []DeviceVersionItem
+	ListSiteAvailableDeviceVersionsExecute(r ApiListSiteAvailableDeviceVersionsRequest) ([]DeviceVersionItem, *http.Response, error)
+
+	/*
+	ListSiteDeviceUpgrades listSiteDeviceUpgrades
+
+	Get all upgrades for site
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiListSiteDeviceUpgradesRequest
+	*/
+	ListSiteDeviceUpgrades(ctx context.Context, siteId string) ApiListSiteDeviceUpgradesRequest
+
+	// ListSiteDeviceUpgradesExecute executes the request
+	//  @return []ResponseSiteDeviceUpgrade
+	ListSiteDeviceUpgradesExecute(r ApiListSiteDeviceUpgradesRequest) ([]ResponseSiteDeviceUpgrade, *http.Response, error)
+
+	/*
+	UpgradeDevice upgradeDevice
+
+	Device Upgrade
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param deviceId
+	@return ApiUpgradeDeviceRequest
+	*/
+	UpgradeDevice(ctx context.Context, siteId string, deviceId string) ApiUpgradeDeviceRequest
+
+	// UpgradeDeviceExecute executes the request
+	//  @return ResponseUpgradeDevice
+	UpgradeDeviceExecute(r ApiUpgradeDeviceRequest) (*ResponseUpgradeDevice, *http.Response, error)
+
+	/*
+	UpgradeOrgDevices upgradeOrgDevices
+
+	Upgrade Multiple Sites (Only supported for Access Points ugprades)
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiUpgradeOrgDevicesRequest
+	*/
+	UpgradeOrgDevices(ctx context.Context, orgId string) ApiUpgradeOrgDevicesRequest
+
+	// UpgradeOrgDevicesExecute executes the request
+	//  @return ResponseUpgradeOrgDevices
+	UpgradeOrgDevicesExecute(r ApiUpgradeOrgDevicesRequest) (*ResponseUpgradeOrgDevices, *http.Response, error)
+
+	/*
+	UpgradeOrgJsiDevice upgradeOrgJsiDevice
+
+	Upgrade
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param deviceMac
+	@return ApiUpgradeOrgJsiDeviceRequest
+	*/
+	UpgradeOrgJsiDevice(ctx context.Context, orgId string, deviceMac string) ApiUpgradeOrgJsiDeviceRequest
+
+	// UpgradeOrgJsiDeviceExecute executes the request
+	UpgradeOrgJsiDeviceExecute(r ApiUpgradeOrgJsiDeviceRequest) (*http.Response, error)
+
+	/*
+	UpgradeOrgMxEdges upgradeOrgMxEdges
+
+	Upgrade Mist Edges
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiUpgradeOrgMxEdgesRequest
+	*/
+	UpgradeOrgMxEdges(ctx context.Context, orgId string) ApiUpgradeOrgMxEdgesRequest
+
+	// UpgradeOrgMxEdgesExecute executes the request
+	UpgradeOrgMxEdgesExecute(r ApiUpgradeOrgMxEdgesRequest) (*http.Response, error)
+
+	/*
+	UpgradeOrgSsrs upgradeOrgSsrs
+
+	Upgrade Org SSRs
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiUpgradeOrgSsrsRequest
+	*/
+	UpgradeOrgSsrs(ctx context.Context, orgId string) ApiUpgradeOrgSsrsRequest
+
+	// UpgradeOrgSsrsExecute executes the request
+	//  @return SsrUpgradeResponse
+	UpgradeOrgSsrsExecute(r ApiUpgradeOrgSsrsRequest) (*SsrUpgradeResponse, *http.Response, error)
+
+	/*
+	UpgradeSiteDevices upgradeSiteDevices
+
+	Upgrade Site Device
+
+**Note**: this call doesn’t guarantee the devices to be upgraded right away (they may be offline)
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiUpgradeSiteDevicesRequest
+	*/
+	UpgradeSiteDevices(ctx context.Context, siteId string) ApiUpgradeSiteDevicesRequest
+
+	// UpgradeSiteDevicesExecute executes the request
+	//  @return ResponseUpgradeSiteDevices
+	UpgradeSiteDevicesExecute(r ApiUpgradeSiteDevicesRequest) (*ResponseUpgradeSiteDevices, *http.Response, error)
+
+	/*
+	UpgradeSsr upgradeSsr
+
+	Upgrade Site SSR device
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param deviceId
+	@return ApiUpgradeSsrRequest
+	*/
+	UpgradeSsr(ctx context.Context, siteId string, deviceId string) ApiUpgradeSsrRequest
+
+	// UpgradeSsrExecute executes the request
+	//  @return SsrUpgradeResponse
+	UpgradeSsrExecute(r ApiUpgradeSsrRequest) (*SsrUpgradeResponse, *http.Response, error)
+}
+
 // UtilitiesUpgradeAPIService UtilitiesUpgradeAPI service
 type UtilitiesUpgradeAPIService service
 
 type ApiCancelOrgSsrUpgradeRequest struct {
 	ctx context.Context
-	ApiService *UtilitiesUpgradeAPIService
+	ApiService UtilitiesUpgradeAPI
 	orgId string
 	upgradeId string
 }
@@ -191,7 +487,7 @@ func (a *UtilitiesUpgradeAPIService) CancelOrgSsrUpgradeExecute(r ApiCancelOrgSs
 
 type ApiCancelSiteDeviceUpgradeRequest struct {
 	ctx context.Context
-	ApiService *UtilitiesUpgradeAPIService
+	ApiService UtilitiesUpgradeAPI
 	siteId string
 	upgradeId string
 }
@@ -355,7 +651,7 @@ func (a *UtilitiesUpgradeAPIService) CancelSiteDeviceUpgradeExecute(r ApiCancelS
 
 type ApiGetOrgDeviceUpgradeRequest struct {
 	ctx context.Context
-	ApiService *UtilitiesUpgradeAPIService
+	ApiService UtilitiesUpgradeAPI
 	orgId string
 	upgradeId string
 }
@@ -530,7 +826,7 @@ func (a *UtilitiesUpgradeAPIService) GetOrgDeviceUpgradeExecute(r ApiGetOrgDevic
 
 type ApiGetOrgMxEdgeUpgradeRequest struct {
 	ctx context.Context
-	ApiService *UtilitiesUpgradeAPIService
+	ApiService UtilitiesUpgradeAPI
 	orgId string
 	upgradeId string
 }
@@ -705,7 +1001,7 @@ func (a *UtilitiesUpgradeAPIService) GetOrgMxEdgeUpgradeExecute(r ApiGetOrgMxEdg
 
 type ApiGetSiteDeviceUpgradeRequest struct {
 	ctx context.Context
-	ApiService *UtilitiesUpgradeAPIService
+	ApiService UtilitiesUpgradeAPI
 	siteId string
 	upgradeId string
 }
@@ -880,7 +1176,7 @@ func (a *UtilitiesUpgradeAPIService) GetSiteDeviceUpgradeExecute(r ApiGetSiteDev
 
 type ApiGetSiteSsrUpgradeRequest struct {
 	ctx context.Context
-	ApiService *UtilitiesUpgradeAPIService
+	ApiService UtilitiesUpgradeAPI
 	siteId string
 	upgradeId string
 }
@@ -1055,7 +1351,7 @@ func (a *UtilitiesUpgradeAPIService) GetSiteSsrUpgradeExecute(r ApiGetSiteSsrUpg
 
 type ApiListOrgAvailableSsrVersionsRequest struct {
 	ctx context.Context
-	ApiService *UtilitiesUpgradeAPIService
+	ApiService UtilitiesUpgradeAPI
 	orgId string
 	channel *string
 }
@@ -1235,7 +1531,7 @@ func (a *UtilitiesUpgradeAPIService) ListOrgAvailableSsrVersionsExecute(r ApiLis
 
 type ApiListOrgDeviceUpgradesRequest struct {
 	ctx context.Context
-	ApiService *UtilitiesUpgradeAPIService
+	ApiService UtilitiesUpgradeAPI
 	orgId string
 }
 
@@ -1406,7 +1702,7 @@ func (a *UtilitiesUpgradeAPIService) ListOrgDeviceUpgradesExecute(r ApiListOrgDe
 
 type ApiListOrgMxEdgeUpgradesRequest struct {
 	ctx context.Context
-	ApiService *UtilitiesUpgradeAPIService
+	ApiService UtilitiesUpgradeAPI
 	orgId string
 }
 
@@ -1577,7 +1873,7 @@ func (a *UtilitiesUpgradeAPIService) ListOrgMxEdgeUpgradesExecute(r ApiListOrgMx
 
 type ApiListOrgSsrUpgradesRequest struct {
 	ctx context.Context
-	ApiService *UtilitiesUpgradeAPIService
+	ApiService UtilitiesUpgradeAPI
 	orgId string
 }
 
@@ -1748,7 +2044,7 @@ func (a *UtilitiesUpgradeAPIService) ListOrgSsrUpgradesExecute(r ApiListOrgSsrUp
 
 type ApiListSiteAvailableDeviceVersionsRequest struct {
 	ctx context.Context
-	ApiService *UtilitiesUpgradeAPIService
+	ApiService UtilitiesUpgradeAPI
 	siteId string
 	type_ *DeviceType
 	model *string
@@ -1941,7 +2237,7 @@ func (a *UtilitiesUpgradeAPIService) ListSiteAvailableDeviceVersionsExecute(r Ap
 
 type ApiListSiteDeviceUpgradesRequest struct {
 	ctx context.Context
-	ApiService *UtilitiesUpgradeAPIService
+	ApiService UtilitiesUpgradeAPI
 	siteId string
 	status *DeviceUpgradeStatus
 }
@@ -2121,7 +2417,7 @@ func (a *UtilitiesUpgradeAPIService) ListSiteDeviceUpgradesExecute(r ApiListSite
 
 type ApiUpgradeDeviceRequest struct {
 	ctx context.Context
-	ApiService *UtilitiesUpgradeAPIService
+	ApiService UtilitiesUpgradeAPI
 	siteId string
 	deviceId string
 	deviceUpgrade *DeviceUpgrade
@@ -2304,7 +2600,7 @@ func (a *UtilitiesUpgradeAPIService) UpgradeDeviceExecute(r ApiUpgradeDeviceRequ
 
 type ApiUpgradeOrgDevicesRequest struct {
 	ctx context.Context
-	ApiService *UtilitiesUpgradeAPIService
+	ApiService UtilitiesUpgradeAPI
 	orgId string
 	upgradeOrgDevices *UpgradeOrgDevices
 }
@@ -2483,7 +2779,7 @@ func (a *UtilitiesUpgradeAPIService) UpgradeOrgDevicesExecute(r ApiUpgradeOrgDev
 
 type ApiUpgradeOrgJsiDeviceRequest struct {
 	ctx context.Context
-	ApiService *UtilitiesUpgradeAPIService
+	ApiService UtilitiesUpgradeAPI
 	orgId string
 	deviceMac string
 	versionString *VersionString
@@ -2655,7 +2951,7 @@ func (a *UtilitiesUpgradeAPIService) UpgradeOrgJsiDeviceExecute(r ApiUpgradeOrgJ
 
 type ApiUpgradeOrgMxEdgesRequest struct {
 	ctx context.Context
-	ApiService *UtilitiesUpgradeAPIService
+	ApiService UtilitiesUpgradeAPI
 	orgId string
 	mxedgeUpgradeMulti *MxedgeUpgradeMulti
 }
@@ -2824,7 +3120,7 @@ func (a *UtilitiesUpgradeAPIService) UpgradeOrgMxEdgesExecute(r ApiUpgradeOrgMxE
 
 type ApiUpgradeOrgSsrsRequest struct {
 	ctx context.Context
-	ApiService *UtilitiesUpgradeAPIService
+	ApiService UtilitiesUpgradeAPI
 	orgId string
 	ssrUpgradeMulti *SsrUpgradeMulti
 }
@@ -3003,7 +3299,7 @@ func (a *UtilitiesUpgradeAPIService) UpgradeOrgSsrsExecute(r ApiUpgradeOrgSsrsRe
 
 type ApiUpgradeSiteDevicesRequest struct {
 	ctx context.Context
-	ApiService *UtilitiesUpgradeAPIService
+	ApiService UtilitiesUpgradeAPI
 	siteId string
 	upgradeSiteDevices *UpgradeSiteDevices
 }
@@ -3185,7 +3481,7 @@ func (a *UtilitiesUpgradeAPIService) UpgradeSiteDevicesExecute(r ApiUpgradeSiteD
 
 type ApiUpgradeSsrRequest struct {
 	ctx context.Context
-	ApiService *UtilitiesUpgradeAPIService
+	ApiService UtilitiesUpgradeAPI
 	siteId string
 	deviceId string
 	ssrUpgrade *SsrUpgrade

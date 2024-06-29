@@ -22,12 +22,157 @@ import (
 )
 
 
+type OrgsSSOAPI interface {
+
+	/*
+	CreateOrgSso createOrgSso
+
+	Create Org SSO Configuration
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiCreateOrgSsoRequest
+	*/
+	CreateOrgSso(ctx context.Context, orgId string) ApiCreateOrgSsoRequest
+
+	// CreateOrgSsoExecute executes the request
+	//  @return Sso
+	CreateOrgSsoExecute(r ApiCreateOrgSsoRequest) (*Sso, *http.Response, error)
+
+	/*
+	DeleteOrgSso deleteOrgSso
+
+	Delete Org SSO Configuration
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param ssoId
+	@return ApiDeleteOrgSsoRequest
+	*/
+	DeleteOrgSso(ctx context.Context, orgId string, ssoId string) ApiDeleteOrgSsoRequest
+
+	// DeleteOrgSsoExecute executes the request
+	DeleteOrgSsoExecute(r ApiDeleteOrgSsoRequest) (*http.Response, error)
+
+	/*
+	DownloadOrgSsoSamlMetadata downloadOrgSsoSamlMetadata
+
+	Download Org SSO SAML Metdata
+
+Example of metadata.xml:
+```xml
+<?xml version="1.0" encoding="UTF-8"?><md:EntityDescriptor xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata" entityID="https://api.mist.com/api/v1/saml/5hdF5g/login" validUntil="2027-10-12T21:59:01Z" xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+    <md:SPSSODescriptor AuthnRequestsSigned="false" WantAssertionsSigned="true" protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol">
+        <md:SingleLogoutService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="https://api.mist.com/api/v1/saml/5hdF5g/logout" />
+        <md:NameIDFormat>urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified</md:NameIDFormat>
+        <md:AssertionConsumerService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="https://api.mist.com/api/v1/saml/5hdF5g/login" index="0" isDefault="true"/>
+        <md:AttributeConsumingService index="0">
+            <md:ServiceName xml:lang="en-US">Mist</md:ServiceName>
+            <md:RequestedAttribute Name="Role" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic" isRequired="true"/>
+            <md:RequestedAttribute Name="FirstName" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic" isRequired="false"/>
+            <md:RequestedAttribute Name="LastName" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic" isRequired="false"/>
+        </md:AttributeConsumingService>
+    </md:SPSSODescriptor>
+</md:EntityDescriptor>
+```
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param ssoId
+	@return ApiDownloadOrgSsoSamlMetadataRequest
+	*/
+	DownloadOrgSsoSamlMetadata(ctx context.Context, orgId string, ssoId string) ApiDownloadOrgSsoSamlMetadataRequest
+
+	// DownloadOrgSsoSamlMetadataExecute executes the request
+	//  @return *os.File
+	DownloadOrgSsoSamlMetadataExecute(r ApiDownloadOrgSsoSamlMetadataRequest) (*os.File, *http.Response, error)
+
+	/*
+	GetOrgSso getOrgSso
+
+	Get Org SSO Configuration Details
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param ssoId
+	@return ApiGetOrgSsoRequest
+	*/
+	GetOrgSso(ctx context.Context, orgId string, ssoId string) ApiGetOrgSsoRequest
+
+	// GetOrgSsoExecute executes the request
+	//  @return Sso
+	GetOrgSsoExecute(r ApiGetOrgSsoRequest) (*Sso, *http.Response, error)
+
+	/*
+	GetOrgSsoSamlMetadata getOrgSsoSamlMetadata
+
+	Get Org SSO SAML Metadata
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param ssoId
+	@return ApiGetOrgSsoSamlMetadataRequest
+	*/
+	GetOrgSsoSamlMetadata(ctx context.Context, orgId string, ssoId string) ApiGetOrgSsoSamlMetadataRequest
+
+	// GetOrgSsoSamlMetadataExecute executes the request
+	//  @return SsoSamlMetadata
+	GetOrgSsoSamlMetadataExecute(r ApiGetOrgSsoSamlMetadataRequest) (*SsoSamlMetadata, *http.Response, error)
+
+	/*
+	ListOrgSsoLatestFailures listOrgSsoLatestFailures
+
+	Get List of Org SSO Latest Failures
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param ssoId
+	@return ApiListOrgSsoLatestFailuresRequest
+	*/
+	ListOrgSsoLatestFailures(ctx context.Context, orgId string, ssoId string) ApiListOrgSsoLatestFailuresRequest
+
+	// ListOrgSsoLatestFailuresExecute executes the request
+	//  @return ResponseSsoFailureSearch
+	ListOrgSsoLatestFailuresExecute(r ApiListOrgSsoLatestFailuresRequest) (*ResponseSsoFailureSearch, *http.Response, error)
+
+	/*
+	ListOrgSsos listOrgSsos
+
+	Get List of Org SSO Configuration
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiListOrgSsosRequest
+	*/
+	ListOrgSsos(ctx context.Context, orgId string) ApiListOrgSsosRequest
+
+	// ListOrgSsosExecute executes the request
+	//  @return []Sso
+	ListOrgSsosExecute(r ApiListOrgSsosRequest) ([]Sso, *http.Response, error)
+
+	/*
+	UpdateOrgSso updateOrgSso
+
+	Update Org SSO Configuration
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param ssoId
+	@return ApiUpdateOrgSsoRequest
+	*/
+	UpdateOrgSso(ctx context.Context, orgId string, ssoId string) ApiUpdateOrgSsoRequest
+
+	// UpdateOrgSsoExecute executes the request
+	//  @return Sso
+	UpdateOrgSsoExecute(r ApiUpdateOrgSsoRequest) (*Sso, *http.Response, error)
+}
+
 // OrgsSSOAPIService OrgsSSOAPI service
 type OrgsSSOAPIService service
 
 type ApiCreateOrgSsoRequest struct {
 	ctx context.Context
-	ApiService *OrgsSSOAPIService
+	ApiService OrgsSSOAPI
 	orgId string
 	sso *Sso
 }
@@ -207,7 +352,7 @@ func (a *OrgsSSOAPIService) CreateOrgSsoExecute(r ApiCreateOrgSsoRequest) (*Sso,
 
 type ApiDeleteOrgSsoRequest struct {
 	ctx context.Context
-	ApiService *OrgsSSOAPIService
+	ApiService OrgsSSOAPI
 	orgId string
 	ssoId string
 }
@@ -371,7 +516,7 @@ func (a *OrgsSSOAPIService) DeleteOrgSsoExecute(r ApiDeleteOrgSsoRequest) (*http
 
 type ApiDownloadOrgSsoSamlMetadataRequest struct {
 	ctx context.Context
-	ApiService *OrgsSSOAPIService
+	ApiService OrgsSSOAPI
 	orgId string
 	ssoId string
 }
@@ -563,7 +708,7 @@ func (a *OrgsSSOAPIService) DownloadOrgSsoSamlMetadataExecute(r ApiDownloadOrgSs
 
 type ApiGetOrgSsoRequest struct {
 	ctx context.Context
-	ApiService *OrgsSSOAPIService
+	ApiService OrgsSSOAPI
 	orgId string
 	ssoId string
 }
@@ -738,7 +883,7 @@ func (a *OrgsSSOAPIService) GetOrgSsoExecute(r ApiGetOrgSsoRequest) (*Sso, *http
 
 type ApiGetOrgSsoSamlMetadataRequest struct {
 	ctx context.Context
-	ApiService *OrgsSSOAPIService
+	ApiService OrgsSSOAPI
 	orgId string
 	ssoId string
 }
@@ -913,7 +1058,7 @@ func (a *OrgsSSOAPIService) GetOrgSsoSamlMetadataExecute(r ApiGetOrgSsoSamlMetad
 
 type ApiListOrgSsoLatestFailuresRequest struct {
 	ctx context.Context
-	ApiService *OrgsSSOAPIService
+	ApiService OrgsSSOAPI
 	orgId string
 	ssoId string
 	page *int32
@@ -1145,7 +1290,7 @@ func (a *OrgsSSOAPIService) ListOrgSsoLatestFailuresExecute(r ApiListOrgSsoLates
 
 type ApiListOrgSsosRequest struct {
 	ctx context.Context
-	ApiService *OrgsSSOAPIService
+	ApiService OrgsSSOAPI
 	orgId string
 	page *int32
 	limit *int32
@@ -1340,7 +1485,7 @@ func (a *OrgsSSOAPIService) ListOrgSsosExecute(r ApiListOrgSsosRequest) ([]Sso, 
 
 type ApiUpdateOrgSsoRequest struct {
 	ctx context.Context
-	ApiService *OrgsSSOAPIService
+	ApiService OrgsSSOAPI
 	orgId string
 	ssoId string
 	sso *Sso

@@ -21,12 +21,92 @@ import (
 )
 
 
+type OrgsAPTemplatesAPI interface {
+
+	/*
+	CreateOrgAptemplate createOrgAptemplate
+
+	Create Org AP Template
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiCreateOrgAptemplateRequest
+	*/
+	CreateOrgAptemplate(ctx context.Context, orgId string) ApiCreateOrgAptemplateRequest
+
+	// CreateOrgAptemplateExecute executes the request
+	//  @return ApTemplate
+	CreateOrgAptemplateExecute(r ApiCreateOrgAptemplateRequest) (*ApTemplate, *http.Response, error)
+
+	/*
+	DeleteOrgAptemplate deleteOrgAptemplate
+
+	Delete existing AP Template
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param aptemplateId
+	@return ApiDeleteOrgAptemplateRequest
+	*/
+	DeleteOrgAptemplate(ctx context.Context, orgId string, aptemplateId string) ApiDeleteOrgAptemplateRequest
+
+	// DeleteOrgAptemplateExecute executes the request
+	DeleteOrgAptemplateExecute(r ApiDeleteOrgAptemplateRequest) (*http.Response, error)
+
+	/*
+	GetOrgAptemplate getOrgAptemplate
+
+	Get AP Template
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param aptemplateId
+	@return ApiGetOrgAptemplateRequest
+	*/
+	GetOrgAptemplate(ctx context.Context, orgId string, aptemplateId string) ApiGetOrgAptemplateRequest
+
+	// GetOrgAptemplateExecute executes the request
+	//  @return ApTemplate
+	GetOrgAptemplateExecute(r ApiGetOrgAptemplateRequest) (*ApTemplate, *http.Response, error)
+
+	/*
+	ListOrgAptemplates listOrgAptemplates
+
+	Get List of Org AP Templates
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiListOrgAptemplatesRequest
+	*/
+	ListOrgAptemplates(ctx context.Context, orgId string) ApiListOrgAptemplatesRequest
+
+	// ListOrgAptemplatesExecute executes the request
+	//  @return []ApTemplate
+	ListOrgAptemplatesExecute(r ApiListOrgAptemplatesRequest) ([]ApTemplate, *http.Response, error)
+
+	/*
+	UpdateOrgAptemplate updateOrgAptemplate
+
+	Update AP Template
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param aptemplateId
+	@return ApiUpdateOrgAptemplateRequest
+	*/
+	UpdateOrgAptemplate(ctx context.Context, orgId string, aptemplateId string) ApiUpdateOrgAptemplateRequest
+
+	// UpdateOrgAptemplateExecute executes the request
+	//  @return ApTemplate
+	UpdateOrgAptemplateExecute(r ApiUpdateOrgAptemplateRequest) (*ApTemplate, *http.Response, error)
+}
+
 // OrgsAPTemplatesAPIService OrgsAPTemplatesAPI service
 type OrgsAPTemplatesAPIService service
 
 type ApiCreateOrgAptemplateRequest struct {
 	ctx context.Context
-	ApiService *OrgsAPTemplatesAPIService
+	ApiService OrgsAPTemplatesAPI
 	orgId string
 	apTemplate *ApTemplate
 }
@@ -205,7 +285,7 @@ func (a *OrgsAPTemplatesAPIService) CreateOrgAptemplateExecute(r ApiCreateOrgApt
 
 type ApiDeleteOrgAptemplateRequest struct {
 	ctx context.Context
-	ApiService *OrgsAPTemplatesAPIService
+	ApiService OrgsAPTemplatesAPI
 	orgId string
 	aptemplateId string
 }
@@ -369,7 +449,7 @@ func (a *OrgsAPTemplatesAPIService) DeleteOrgAptemplateExecute(r ApiDeleteOrgApt
 
 type ApiGetOrgAptemplateRequest struct {
 	ctx context.Context
-	ApiService *OrgsAPTemplatesAPIService
+	ApiService OrgsAPTemplatesAPI
 	orgId string
 	aptemplateId string
 }
@@ -544,7 +624,7 @@ func (a *OrgsAPTemplatesAPIService) GetOrgAptemplateExecute(r ApiGetOrgAptemplat
 
 type ApiListOrgAptemplatesRequest struct {
 	ctx context.Context
-	ApiService *OrgsAPTemplatesAPIService
+	ApiService OrgsAPTemplatesAPI
 	orgId string
 	page *int32
 	limit *int32
@@ -739,7 +819,7 @@ func (a *OrgsAPTemplatesAPIService) ListOrgAptemplatesExecute(r ApiListOrgAptemp
 
 type ApiUpdateOrgAptemplateRequest struct {
 	ctx context.Context
-	ApiService *OrgsAPTemplatesAPIService
+	ApiService OrgsAPTemplatesAPI
 	orgId string
 	aptemplateId string
 	apTemplate *ApTemplate

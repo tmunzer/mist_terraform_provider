@@ -20,12 +20,99 @@ import (
 )
 
 
+type ConstantsEventsAPI interface {
+
+	/*
+	ListClientEventsDefinitions listClientEventsDefinitions
+
+	Get List of List of available Client Events
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiListClientEventsDefinitionsRequest
+	*/
+	ListClientEventsDefinitions(ctx context.Context) ApiListClientEventsDefinitionsRequest
+
+	// ListClientEventsDefinitionsExecute executes the request
+	//  @return []ConstEvent
+	ListClientEventsDefinitionsExecute(r ApiListClientEventsDefinitionsRequest) ([]ConstEvent, *http.Response, error)
+
+	/*
+	ListDeviceEventsDefinitions listDeviceEventsDefinitions
+
+	Get list of available Device Events
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiListDeviceEventsDefinitionsRequest
+	*/
+	ListDeviceEventsDefinitions(ctx context.Context) ApiListDeviceEventsDefinitionsRequest
+
+	// ListDeviceEventsDefinitionsExecute executes the request
+	//  @return []ConstEvent
+	ListDeviceEventsDefinitionsExecute(r ApiListDeviceEventsDefinitionsRequest) ([]ConstEvent, *http.Response, error)
+
+	/*
+	ListMxEdgeEventsDefinitions listMxEdgeEventsDefinitions
+
+	Get List of available MX Edge Events
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiListMxEdgeEventsDefinitionsRequest
+	*/
+	ListMxEdgeEventsDefinitions(ctx context.Context) ApiListMxEdgeEventsDefinitionsRequest
+
+	// ListMxEdgeEventsDefinitionsExecute executes the request
+	//  @return []ConstEvent
+	ListMxEdgeEventsDefinitionsExecute(r ApiListMxEdgeEventsDefinitionsRequest) ([]ConstEvent, *http.Response, error)
+
+	/*
+	ListNacEventsDefinitions listNacEventsDefinitions
+
+	Get List of List of available NAC Client Events
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiListNacEventsDefinitionsRequest
+	*/
+	ListNacEventsDefinitions(ctx context.Context) ApiListNacEventsDefinitionsRequest
+
+	// ListNacEventsDefinitionsExecute executes the request
+	//  @return []ConstNacEvent
+	ListNacEventsDefinitionsExecute(r ApiListNacEventsDefinitionsRequest) ([]ConstNacEvent, *http.Response, error)
+
+	/*
+	ListOtherDeviceEventsDefinitions listOtherDeviceEventsDefinitions
+
+	Supported Events Type
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiListOtherDeviceEventsDefinitionsRequest
+	*/
+	ListOtherDeviceEventsDefinitions(ctx context.Context) ApiListOtherDeviceEventsDefinitionsRequest
+
+	// ListOtherDeviceEventsDefinitionsExecute executes the request
+	//  @return []ConstEvent
+	ListOtherDeviceEventsDefinitionsExecute(r ApiListOtherDeviceEventsDefinitionsRequest) ([]ConstEvent, *http.Response, error)
+
+	/*
+	ListSystemEventsDefinitions listSystemEventsDefinitions
+
+	Get List of List of available System Events
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiListSystemEventsDefinitionsRequest
+	*/
+	ListSystemEventsDefinitions(ctx context.Context) ApiListSystemEventsDefinitionsRequest
+
+	// ListSystemEventsDefinitionsExecute executes the request
+	//  @return []ConstEvent
+	ListSystemEventsDefinitionsExecute(r ApiListSystemEventsDefinitionsRequest) ([]ConstEvent, *http.Response, error)
+}
+
 // ConstantsEventsAPIService ConstantsEventsAPI service
 type ConstantsEventsAPIService service
 
 type ApiListClientEventsDefinitionsRequest struct {
 	ctx context.Context
-	ApiService *ConstantsEventsAPIService
+	ApiService ConstantsEventsAPI
 }
 
 func (r ApiListClientEventsDefinitionsRequest) Execute() ([]ConstEvent, *http.Response, error) {
@@ -192,7 +279,7 @@ func (a *ConstantsEventsAPIService) ListClientEventsDefinitionsExecute(r ApiList
 
 type ApiListDeviceEventsDefinitionsRequest struct {
 	ctx context.Context
-	ApiService *ConstantsEventsAPIService
+	ApiService ConstantsEventsAPI
 }
 
 func (r ApiListDeviceEventsDefinitionsRequest) Execute() ([]ConstEvent, *http.Response, error) {
@@ -359,7 +446,7 @@ func (a *ConstantsEventsAPIService) ListDeviceEventsDefinitionsExecute(r ApiList
 
 type ApiListMxEdgeEventsDefinitionsRequest struct {
 	ctx context.Context
-	ApiService *ConstantsEventsAPIService
+	ApiService ConstantsEventsAPI
 }
 
 func (r ApiListMxEdgeEventsDefinitionsRequest) Execute() ([]ConstEvent, *http.Response, error) {
@@ -526,7 +613,7 @@ func (a *ConstantsEventsAPIService) ListMxEdgeEventsDefinitionsExecute(r ApiList
 
 type ApiListNacEventsDefinitionsRequest struct {
 	ctx context.Context
-	ApiService *ConstantsEventsAPIService
+	ApiService ConstantsEventsAPI
 }
 
 func (r ApiListNacEventsDefinitionsRequest) Execute() ([]ConstNacEvent, *http.Response, error) {
@@ -693,7 +780,7 @@ func (a *ConstantsEventsAPIService) ListNacEventsDefinitionsExecute(r ApiListNac
 
 type ApiListOtherDeviceEventsDefinitionsRequest struct {
 	ctx context.Context
-	ApiService *ConstantsEventsAPIService
+	ApiService ConstantsEventsAPI
 }
 
 func (r ApiListOtherDeviceEventsDefinitionsRequest) Execute() ([]ConstEvent, *http.Response, error) {
@@ -860,7 +947,7 @@ func (a *ConstantsEventsAPIService) ListOtherDeviceEventsDefinitionsExecute(r Ap
 
 type ApiListSystemEventsDefinitionsRequest struct {
 	ctx context.Context
-	ApiService *ConstantsEventsAPIService
+	ApiService ConstantsEventsAPI
 }
 
 func (r ApiListSystemEventsDefinitionsRequest) Execute() ([]ConstEvent, *http.Response, error) {

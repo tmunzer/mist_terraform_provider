@@ -21,12 +21,138 @@ import (
 )
 
 
+type SitesSettingAPI interface {
+
+	/*
+	CreateSiteWatchedStations createSiteWatchedStations
+
+	This endpoint is to provide list of client macs for annotation as watched station.
+
+Retrieve the current clients list from `watched_station_url` under Site:Setting
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiCreateSiteWatchedStationsRequest
+	*/
+	CreateSiteWatchedStations(ctx context.Context, siteId string) ApiCreateSiteWatchedStationsRequest
+
+	// CreateSiteWatchedStationsExecute executes the request
+	//  @return MacAddresses
+	CreateSiteWatchedStationsExecute(r ApiCreateSiteWatchedStationsRequest) (*MacAddresses, *http.Response, error)
+
+	/*
+	CreateSiteWirelessClientsAllowlist createSiteWirelessClientsAllowlist
+
+	This endpoint is to provide list of client macs for annotation as whitelist.
+
+Retrieve the current clients list from `whitelist_url` under Site:Setting
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiCreateSiteWirelessClientsAllowlistRequest
+	*/
+	CreateSiteWirelessClientsAllowlist(ctx context.Context, siteId string) ApiCreateSiteWirelessClientsAllowlistRequest
+
+	// CreateSiteWirelessClientsAllowlistExecute executes the request
+	//  @return MacAddresses
+	CreateSiteWirelessClientsAllowlistExecute(r ApiCreateSiteWirelessClientsAllowlistRequest) (*MacAddresses, *http.Response, error)
+
+	/*
+	CreateSiteWirelessClientsBlocklist createSiteWirelessClientsBlocklist
+
+	This endpoint is to provide list of client macs for annotation blacklist.
+
+Retrieve the current clients list `blacklist_url` under Site:Setting
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiCreateSiteWirelessClientsBlocklistRequest
+	*/
+	CreateSiteWirelessClientsBlocklist(ctx context.Context, siteId string) ApiCreateSiteWirelessClientsBlocklistRequest
+
+	// CreateSiteWirelessClientsBlocklistExecute executes the request
+	//  @return MacAddresses
+	CreateSiteWirelessClientsBlocklistExecute(r ApiCreateSiteWirelessClientsBlocklistRequest) (*MacAddresses, *http.Response, error)
+
+	/*
+	DeleteSiteWatchedStations deleteSiteWatchedStations
+
+	Delete Site Watched Station Clients
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiDeleteSiteWatchedStationsRequest
+	*/
+	DeleteSiteWatchedStations(ctx context.Context, siteId string) ApiDeleteSiteWatchedStationsRequest
+
+	// DeleteSiteWatchedStationsExecute executes the request
+	DeleteSiteWatchedStationsExecute(r ApiDeleteSiteWatchedStationsRequest) (*http.Response, error)
+
+	/*
+	DeleteSiteWirelessClientsAllowlist deleteSiteWirelessClientsAllowlist
+
+	Delete Site Whitelist Station Clients
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiDeleteSiteWirelessClientsAllowlistRequest
+	*/
+	DeleteSiteWirelessClientsAllowlist(ctx context.Context, siteId string) ApiDeleteSiteWirelessClientsAllowlistRequest
+
+	// DeleteSiteWirelessClientsAllowlistExecute executes the request
+	DeleteSiteWirelessClientsAllowlistExecute(r ApiDeleteSiteWirelessClientsAllowlistRequest) (*http.Response, error)
+
+	/*
+	DeleteSiteWirelessClientsBlocklist deleteSiteWirelessClientsBlocklist
+
+	Delete Site Blacklist Station Clients
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiDeleteSiteWirelessClientsBlocklistRequest
+	*/
+	DeleteSiteWirelessClientsBlocklist(ctx context.Context, siteId string) ApiDeleteSiteWirelessClientsBlocklistRequest
+
+	// DeleteSiteWirelessClientsBlocklistExecute executes the request
+	DeleteSiteWirelessClientsBlocklistExecute(r ApiDeleteSiteWirelessClientsBlocklistRequest) (*http.Response, error)
+
+	/*
+	GetSiteSetting getSiteSetting
+
+	Get Site Settings
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiGetSiteSettingRequest
+	*/
+	GetSiteSetting(ctx context.Context, siteId string) ApiGetSiteSettingRequest
+
+	// GetSiteSettingExecute executes the request
+	//  @return SiteSetting
+	GetSiteSettingExecute(r ApiGetSiteSettingRequest) (*SiteSetting, *http.Response, error)
+
+	/*
+	UpdateSiteSettings updateSiteSettings
+
+	Update Site Settings
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiUpdateSiteSettingsRequest
+	*/
+	UpdateSiteSettings(ctx context.Context, siteId string) ApiUpdateSiteSettingsRequest
+
+	// UpdateSiteSettingsExecute executes the request
+	//  @return SiteSetting
+	UpdateSiteSettingsExecute(r ApiUpdateSiteSettingsRequest) (*SiteSetting, *http.Response, error)
+}
+
 // SitesSettingAPIService SitesSettingAPI service
 type SitesSettingAPIService service
 
 type ApiCreateSiteWatchedStationsRequest struct {
 	ctx context.Context
-	ApiService *SitesSettingAPIService
+	ApiService SitesSettingAPI
 	siteId string
 	macAddresses *MacAddresses
 }
@@ -208,7 +334,7 @@ func (a *SitesSettingAPIService) CreateSiteWatchedStationsExecute(r ApiCreateSit
 
 type ApiCreateSiteWirelessClientsAllowlistRequest struct {
 	ctx context.Context
-	ApiService *SitesSettingAPIService
+	ApiService SitesSettingAPI
 	siteId string
 	macAddresses *MacAddresses
 }
@@ -390,7 +516,7 @@ func (a *SitesSettingAPIService) CreateSiteWirelessClientsAllowlistExecute(r Api
 
 type ApiCreateSiteWirelessClientsBlocklistRequest struct {
 	ctx context.Context
-	ApiService *SitesSettingAPIService
+	ApiService SitesSettingAPI
 	siteId string
 	macAddresses *MacAddresses
 }
@@ -572,7 +698,7 @@ func (a *SitesSettingAPIService) CreateSiteWirelessClientsBlocklistExecute(r Api
 
 type ApiDeleteSiteWatchedStationsRequest struct {
 	ctx context.Context
-	ApiService *SitesSettingAPIService
+	ApiService SitesSettingAPI
 	siteId string
 }
 
@@ -732,7 +858,7 @@ func (a *SitesSettingAPIService) DeleteSiteWatchedStationsExecute(r ApiDeleteSit
 
 type ApiDeleteSiteWirelessClientsAllowlistRequest struct {
 	ctx context.Context
-	ApiService *SitesSettingAPIService
+	ApiService SitesSettingAPI
 	siteId string
 }
 
@@ -892,7 +1018,7 @@ func (a *SitesSettingAPIService) DeleteSiteWirelessClientsAllowlistExecute(r Api
 
 type ApiDeleteSiteWirelessClientsBlocklistRequest struct {
 	ctx context.Context
-	ApiService *SitesSettingAPIService
+	ApiService SitesSettingAPI
 	siteId string
 }
 
@@ -1052,7 +1178,7 @@ func (a *SitesSettingAPIService) DeleteSiteWirelessClientsBlocklistExecute(r Api
 
 type ApiGetSiteSettingRequest struct {
 	ctx context.Context
-	ApiService *SitesSettingAPIService
+	ApiService SitesSettingAPI
 	siteId string
 }
 
@@ -1223,7 +1349,7 @@ func (a *SitesSettingAPIService) GetSiteSettingExecute(r ApiGetSiteSettingReques
 
 type ApiUpdateSiteSettingsRequest struct {
 	ctx context.Context
-	ApiService *SitesSettingAPIService
+	ApiService SitesSettingAPI
 	siteId string
 	siteSetting *SiteSetting
 }

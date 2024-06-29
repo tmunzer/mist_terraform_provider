@@ -21,12 +21,92 @@ import (
 )
 
 
+type OrgsNACRulesAPI interface {
+
+	/*
+	CreateOrgNacRule createOrgNacRule
+
+	create Org NAC Rule
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiCreateOrgNacRuleRequest
+	*/
+	CreateOrgNacRule(ctx context.Context, orgId string) ApiCreateOrgNacRuleRequest
+
+	// CreateOrgNacRuleExecute executes the request
+	//  @return NacRule
+	CreateOrgNacRuleExecute(r ApiCreateOrgNacRuleRequest) (*NacRule, *http.Response, error)
+
+	/*
+	DeleteOrgNacRule deleteOrgNacRule
+
+	Delete Org NAC Rule
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param nacruleId
+	@return ApiDeleteOrgNacRuleRequest
+	*/
+	DeleteOrgNacRule(ctx context.Context, orgId string, nacruleId string) ApiDeleteOrgNacRuleRequest
+
+	// DeleteOrgNacRuleExecute executes the request
+	DeleteOrgNacRuleExecute(r ApiDeleteOrgNacRuleRequest) (*http.Response, error)
+
+	/*
+	GetOrgNacRule getOrgNacRule
+
+	Get Org NAC Rule
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param nacruleId
+	@return ApiGetOrgNacRuleRequest
+	*/
+	GetOrgNacRule(ctx context.Context, orgId string, nacruleId string) ApiGetOrgNacRuleRequest
+
+	// GetOrgNacRuleExecute executes the request
+	//  @return NacRule
+	GetOrgNacRuleExecute(r ApiGetOrgNacRuleRequest) (*NacRule, *http.Response, error)
+
+	/*
+	ListOrgNacRules listOrgNacRules
+
+	Get List of Org NAC Rules
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiListOrgNacRulesRequest
+	*/
+	ListOrgNacRules(ctx context.Context, orgId string) ApiListOrgNacRulesRequest
+
+	// ListOrgNacRulesExecute executes the request
+	//  @return []NacRule
+	ListOrgNacRulesExecute(r ApiListOrgNacRulesRequest) ([]NacRule, *http.Response, error)
+
+	/*
+	UpdateOrgNacRule updateOrgNacRule
+
+	Update Org NAC Rule
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param nacruleId
+	@return ApiUpdateOrgNacRuleRequest
+	*/
+	UpdateOrgNacRule(ctx context.Context, orgId string, nacruleId string) ApiUpdateOrgNacRuleRequest
+
+	// UpdateOrgNacRuleExecute executes the request
+	//  @return NacRule
+	UpdateOrgNacRuleExecute(r ApiUpdateOrgNacRuleRequest) (*NacRule, *http.Response, error)
+}
+
 // OrgsNACRulesAPIService OrgsNACRulesAPI service
 type OrgsNACRulesAPIService service
 
 type ApiCreateOrgNacRuleRequest struct {
 	ctx context.Context
-	ApiService *OrgsNACRulesAPIService
+	ApiService OrgsNACRulesAPI
 	orgId string
 	nacRule *NacRule
 }
@@ -205,7 +285,7 @@ func (a *OrgsNACRulesAPIService) CreateOrgNacRuleExecute(r ApiCreateOrgNacRuleRe
 
 type ApiDeleteOrgNacRuleRequest struct {
 	ctx context.Context
-	ApiService *OrgsNACRulesAPIService
+	ApiService OrgsNACRulesAPI
 	orgId string
 	nacruleId string
 }
@@ -369,7 +449,7 @@ func (a *OrgsNACRulesAPIService) DeleteOrgNacRuleExecute(r ApiDeleteOrgNacRuleRe
 
 type ApiGetOrgNacRuleRequest struct {
 	ctx context.Context
-	ApiService *OrgsNACRulesAPIService
+	ApiService OrgsNACRulesAPI
 	orgId string
 	nacruleId string
 }
@@ -544,7 +624,7 @@ func (a *OrgsNACRulesAPIService) GetOrgNacRuleExecute(r ApiGetOrgNacRuleRequest)
 
 type ApiListOrgNacRulesRequest struct {
 	ctx context.Context
-	ApiService *OrgsNACRulesAPIService
+	ApiService OrgsNACRulesAPI
 	orgId string
 	page *int32
 	limit *int32
@@ -739,7 +819,7 @@ func (a *OrgsNACRulesAPIService) ListOrgNacRulesExecute(r ApiListOrgNacRulesRequ
 
 type ApiUpdateOrgNacRuleRequest struct {
 	ctx context.Context
-	ApiService *OrgsNACRulesAPIService
+	ApiService OrgsNACRulesAPI
 	orgId string
 	nacruleId string
 	nacRule *NacRule

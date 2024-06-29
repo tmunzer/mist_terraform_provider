@@ -21,12 +21,74 @@ import (
 )
 
 
+type SitesAPI interface {
+
+	/*
+	DeleteSite deleteSite
+
+	Delete Site
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiDeleteSiteRequest
+	*/
+	DeleteSite(ctx context.Context, siteId string) ApiDeleteSiteRequest
+
+	// DeleteSiteExecute executes the request
+	DeleteSiteExecute(r ApiDeleteSiteRequest) (*http.Response, error)
+
+	/*
+	GetSiteInfo getSiteInfo
+
+	Get Site Info
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiGetSiteInfoRequest
+	*/
+	GetSiteInfo(ctx context.Context, siteId string) ApiGetSiteInfoRequest
+
+	// GetSiteInfoExecute executes the request
+	//  @return Site
+	GetSiteInfoExecute(r ApiGetSiteInfoRequest) (*Site, *http.Response, error)
+
+	/*
+	GetSiteStats getSiteStats
+
+	Get Site Stats
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiGetSiteStatsRequest
+	*/
+	GetSiteStats(ctx context.Context, siteId string) ApiGetSiteStatsRequest
+
+	// GetSiteStatsExecute executes the request
+	//  @return StatsSite
+	GetSiteStatsExecute(r ApiGetSiteStatsRequest) (*StatsSite, *http.Response, error)
+
+	/*
+	UpdateSiteInfo updateSiteInfo
+
+	Update Site Info
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiUpdateSiteInfoRequest
+	*/
+	UpdateSiteInfo(ctx context.Context, siteId string) ApiUpdateSiteInfoRequest
+
+	// UpdateSiteInfoExecute executes the request
+	//  @return Site
+	UpdateSiteInfoExecute(r ApiUpdateSiteInfoRequest) (*Site, *http.Response, error)
+}
+
 // SitesAPIService SitesAPI service
 type SitesAPIService service
 
 type ApiDeleteSiteRequest struct {
 	ctx context.Context
-	ApiService *SitesAPIService
+	ApiService SitesAPI
 	siteId string
 }
 
@@ -186,7 +248,7 @@ func (a *SitesAPIService) DeleteSiteExecute(r ApiDeleteSiteRequest) (*http.Respo
 
 type ApiGetSiteInfoRequest struct {
 	ctx context.Context
-	ApiService *SitesAPIService
+	ApiService SitesAPI
 	siteId string
 }
 
@@ -357,7 +419,7 @@ func (a *SitesAPIService) GetSiteInfoExecute(r ApiGetSiteInfoRequest) (*Site, *h
 
 type ApiGetSiteStatsRequest struct {
 	ctx context.Context
-	ApiService *SitesAPIService
+	ApiService SitesAPI
 	siteId string
 }
 
@@ -528,7 +590,7 @@ func (a *SitesAPIService) GetSiteStatsExecute(r ApiGetSiteStatsRequest) (*StatsS
 
 type ApiUpdateSiteInfoRequest struct {
 	ctx context.Context
-	ApiService *SitesAPIService
+	ApiService SitesAPI
 	siteId string
 	site *Site
 }

@@ -22,12 +22,75 @@ import (
 )
 
 
+type OrgsClientsNACAPI interface {
+
+	/*
+	CountOrgNacClientEvents countOrgNacClientEvents
+
+	Count by Distinct Attributes of NAC Client-Events
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiCountOrgNacClientEventsRequest
+	*/
+	CountOrgNacClientEvents(ctx context.Context, orgId string) ApiCountOrgNacClientEventsRequest
+
+	// CountOrgNacClientEventsExecute executes the request
+	//  @return RepsonseCount
+	CountOrgNacClientEventsExecute(r ApiCountOrgNacClientEventsRequest) (*RepsonseCount, *http.Response, error)
+
+	/*
+	CountOrgNacClients countOrgNacClients
+
+	Count by Distinct Attributes of NAC Clients
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiCountOrgNacClientsRequest
+	*/
+	CountOrgNacClients(ctx context.Context, orgId string) ApiCountOrgNacClientsRequest
+
+	// CountOrgNacClientsExecute executes the request
+	//  @return RepsonseCount
+	CountOrgNacClientsExecute(r ApiCountOrgNacClientsRequest) (*RepsonseCount, *http.Response, error)
+
+	/*
+	SearchOrgNacClientEvents searchOrgNacClientEvents
+
+	Search NAC Client Events
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiSearchOrgNacClientEventsRequest
+	*/
+	SearchOrgNacClientEvents(ctx context.Context, orgId string) ApiSearchOrgNacClientEventsRequest
+
+	// SearchOrgNacClientEventsExecute executes the request
+	//  @return ResponseEventsNacClientSearch
+	SearchOrgNacClientEventsExecute(r ApiSearchOrgNacClientEventsRequest) (*ResponseEventsNacClientSearch, *http.Response, error)
+
+	/*
+	SearchOrgNacClients searchOrgNacClients
+
+	Search Org NAC Clients
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiSearchOrgNacClientsRequest
+	*/
+	SearchOrgNacClients(ctx context.Context, orgId string) ApiSearchOrgNacClientsRequest
+
+	// SearchOrgNacClientsExecute executes the request
+	//  @return ResponseClientNacSearch
+	SearchOrgNacClientsExecute(r ApiSearchOrgNacClientsRequest) (*ResponseClientNacSearch, *http.Response, error)
+}
+
 // OrgsClientsNACAPIService OrgsClientsNACAPI service
 type OrgsClientsNACAPIService service
 
 type ApiCountOrgNacClientEventsRequest struct {
 	ctx context.Context
-	ApiService *OrgsClientsNACAPIService
+	ApiService OrgsClientsNACAPI
 	orgId string
 	distinct *OrgNacClientEventsCountDistinct
 	type_ *string
@@ -262,7 +325,7 @@ func (a *OrgsClientsNACAPIService) CountOrgNacClientEventsExecute(r ApiCountOrgN
 
 type ApiCountOrgNacClientsRequest struct {
 	ctx context.Context
-	ApiService *OrgsClientsNACAPIService
+	ApiService OrgsClientsNACAPI
 	orgId string
 	distinct *OrgNacClientsCountDistinct
 	lastNacruleId *string
@@ -663,7 +726,7 @@ func (a *OrgsClientsNACAPIService) CountOrgNacClientsExecute(r ApiCountOrgNacCli
 
 type ApiSearchOrgNacClientEventsRequest struct {
 	ctx context.Context
-	ApiService *OrgsClientsNACAPIService
+	ApiService OrgsClientsNACAPI
 	orgId string
 	type_ *string
 	nacruleId *string
@@ -1077,7 +1140,7 @@ func (a *OrgsClientsNACAPIService) SearchOrgNacClientEventsExecute(r ApiSearchOr
 
 type ApiSearchOrgNacClientsRequest struct {
 	ctx context.Context
-	ApiService *OrgsClientsNACAPIService
+	ApiService OrgsClientsNACAPI
 	orgId string
 	nacruleId *string
 	nacruleMatched *bool

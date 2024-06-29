@@ -20,12 +20,29 @@ import (
 )
 
 
+type AdminsLookupAPI interface {
+
+	/*
+	Lookup lookup
+
+	Login Lookup
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiLookupRequest
+	*/
+	Lookup(ctx context.Context) ApiLookupRequest
+
+	// LookupExecute executes the request
+	//  @return ResponseLoginLookup
+	LookupExecute(r ApiLookupRequest) (*ResponseLoginLookup, *http.Response, error)
+}
+
 // AdminsLookupAPIService AdminsLookupAPI service
 type AdminsLookupAPIService service
 
 type ApiLookupRequest struct {
 	ctx context.Context
-	ApiService *AdminsLookupAPIService
+	ApiService AdminsLookupAPI
 	emailString *EmailString
 }
 

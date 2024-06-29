@@ -21,12 +21,92 @@ import (
 )
 
 
+type OrgsMxTunnelsAPI interface {
+
+	/*
+	CreateOrgMxTunnel createOrgMxTunnel
+
+	Create MxTunnel
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiCreateOrgMxTunnelRequest
+	*/
+	CreateOrgMxTunnel(ctx context.Context, orgId string) ApiCreateOrgMxTunnelRequest
+
+	// CreateOrgMxTunnelExecute executes the request
+	//  @return Mxtunnel
+	CreateOrgMxTunnelExecute(r ApiCreateOrgMxTunnelRequest) (*Mxtunnel, *http.Response, error)
+
+	/*
+	DeleteOrgMxTunnel deleteOrgMxTunnel
+
+	Delete Org MxTunnel
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param mxtunnelId
+	@return ApiDeleteOrgMxTunnelRequest
+	*/
+	DeleteOrgMxTunnel(ctx context.Context, orgId string, mxtunnelId string) ApiDeleteOrgMxTunnelRequest
+
+	// DeleteOrgMxTunnelExecute executes the request
+	DeleteOrgMxTunnelExecute(r ApiDeleteOrgMxTunnelRequest) (*http.Response, error)
+
+	/*
+	GetOrgMxTunnel getOrgMxTunnel
+
+	Get Org MxTunnel Details
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param mxtunnelId
+	@return ApiGetOrgMxTunnelRequest
+	*/
+	GetOrgMxTunnel(ctx context.Context, orgId string, mxtunnelId string) ApiGetOrgMxTunnelRequest
+
+	// GetOrgMxTunnelExecute executes the request
+	//  @return Mxtunnel
+	GetOrgMxTunnelExecute(r ApiGetOrgMxTunnelRequest) (*Mxtunnel, *http.Response, error)
+
+	/*
+	ListOrgMxTunnels listOrgMxTunnels
+
+	Get List of Org MxTunnels
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiListOrgMxTunnelsRequest
+	*/
+	ListOrgMxTunnels(ctx context.Context, orgId string) ApiListOrgMxTunnelsRequest
+
+	// ListOrgMxTunnelsExecute executes the request
+	//  @return []Mxtunnel
+	ListOrgMxTunnelsExecute(r ApiListOrgMxTunnelsRequest) ([]Mxtunnel, *http.Response, error)
+
+	/*
+	UpdateOrgMxTunnel updateOrgMxTunnel
+
+	Update Org MxTunnel
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param mxtunnelId
+	@return ApiUpdateOrgMxTunnelRequest
+	*/
+	UpdateOrgMxTunnel(ctx context.Context, orgId string, mxtunnelId string) ApiUpdateOrgMxTunnelRequest
+
+	// UpdateOrgMxTunnelExecute executes the request
+	//  @return Mxtunnel
+	UpdateOrgMxTunnelExecute(r ApiUpdateOrgMxTunnelRequest) (*Mxtunnel, *http.Response, error)
+}
+
 // OrgsMxTunnelsAPIService OrgsMxTunnelsAPI service
 type OrgsMxTunnelsAPIService service
 
 type ApiCreateOrgMxTunnelRequest struct {
 	ctx context.Context
-	ApiService *OrgsMxTunnelsAPIService
+	ApiService OrgsMxTunnelsAPI
 	orgId string
 	mxtunnel *Mxtunnel
 }
@@ -206,7 +286,7 @@ func (a *OrgsMxTunnelsAPIService) CreateOrgMxTunnelExecute(r ApiCreateOrgMxTunne
 
 type ApiDeleteOrgMxTunnelRequest struct {
 	ctx context.Context
-	ApiService *OrgsMxTunnelsAPIService
+	ApiService OrgsMxTunnelsAPI
 	orgId string
 	mxtunnelId string
 }
@@ -370,7 +450,7 @@ func (a *OrgsMxTunnelsAPIService) DeleteOrgMxTunnelExecute(r ApiDeleteOrgMxTunne
 
 type ApiGetOrgMxTunnelRequest struct {
 	ctx context.Context
-	ApiService *OrgsMxTunnelsAPIService
+	ApiService OrgsMxTunnelsAPI
 	orgId string
 	mxtunnelId string
 }
@@ -545,7 +625,7 @@ func (a *OrgsMxTunnelsAPIService) GetOrgMxTunnelExecute(r ApiGetOrgMxTunnelReque
 
 type ApiListOrgMxTunnelsRequest struct {
 	ctx context.Context
-	ApiService *OrgsMxTunnelsAPIService
+	ApiService OrgsMxTunnelsAPI
 	orgId string
 	page *int32
 	limit *int32
@@ -740,7 +820,7 @@ func (a *OrgsMxTunnelsAPIService) ListOrgMxTunnelsExecute(r ApiListOrgMxTunnelsR
 
 type ApiUpdateOrgMxTunnelRequest struct {
 	ctx context.Context
-	ApiService *OrgsMxTunnelsAPIService
+	ApiService OrgsMxTunnelsAPI
 	orgId string
 	mxtunnelId string
 	mxtunnel *Mxtunnel

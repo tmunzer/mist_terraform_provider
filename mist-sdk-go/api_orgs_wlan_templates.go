@@ -21,12 +21,108 @@ import (
 )
 
 
+type OrgsWLANTemplatesAPI interface {
+
+	/*
+	CloneOrgTemplate cloneOrgTemplate
+
+	Clone Org Template
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param templateId
+	@return ApiCloneOrgTemplateRequest
+	*/
+	CloneOrgTemplate(ctx context.Context, orgId string, templateId string) ApiCloneOrgTemplateRequest
+
+	// CloneOrgTemplateExecute executes the request
+	//  @return Template
+	CloneOrgTemplateExecute(r ApiCloneOrgTemplateRequest) (*Template, *http.Response, error)
+
+	/*
+	CreateOrgTemplate createOrgTemplate
+
+	Create Org Template
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiCreateOrgTemplateRequest
+	*/
+	CreateOrgTemplate(ctx context.Context, orgId string) ApiCreateOrgTemplateRequest
+
+	// CreateOrgTemplateExecute executes the request
+	//  @return Template
+	CreateOrgTemplateExecute(r ApiCreateOrgTemplateRequest) (*Template, *http.Response, error)
+
+	/*
+	DeleteOrgTemplate deleteOrgTemplate
+
+	Delete Org Template
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param templateId
+	@return ApiDeleteOrgTemplateRequest
+	*/
+	DeleteOrgTemplate(ctx context.Context, orgId string, templateId string) ApiDeleteOrgTemplateRequest
+
+	// DeleteOrgTemplateExecute executes the request
+	DeleteOrgTemplateExecute(r ApiDeleteOrgTemplateRequest) (*http.Response, error)
+
+	/*
+	GetOrgTemplate getOrgTemplate
+
+	Get Org Template Details
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param templateId
+	@return ApiGetOrgTemplateRequest
+	*/
+	GetOrgTemplate(ctx context.Context, orgId string, templateId string) ApiGetOrgTemplateRequest
+
+	// GetOrgTemplateExecute executes the request
+	//  @return Template
+	GetOrgTemplateExecute(r ApiGetOrgTemplateRequest) (*Template, *http.Response, error)
+
+	/*
+	ListOrgTemplates listOrgTemplates
+
+	Get List of Org WLAN Templates
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiListOrgTemplatesRequest
+	*/
+	ListOrgTemplates(ctx context.Context, orgId string) ApiListOrgTemplatesRequest
+
+	// ListOrgTemplatesExecute executes the request
+	//  @return []Template
+	ListOrgTemplatesExecute(r ApiListOrgTemplatesRequest) ([]Template, *http.Response, error)
+
+	/*
+	UpdateOrgTemplate updateOrgTemplate
+
+	Update Org Template
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param templateId
+	@return ApiUpdateOrgTemplateRequest
+	*/
+	UpdateOrgTemplate(ctx context.Context, orgId string, templateId string) ApiUpdateOrgTemplateRequest
+
+	// UpdateOrgTemplateExecute executes the request
+	//  @return Template
+	UpdateOrgTemplateExecute(r ApiUpdateOrgTemplateRequest) (*Template, *http.Response, error)
+}
+
 // OrgsWLANTemplatesAPIService OrgsWLANTemplatesAPI service
 type OrgsWLANTemplatesAPIService service
 
 type ApiCloneOrgTemplateRequest struct {
 	ctx context.Context
-	ApiService *OrgsWLANTemplatesAPIService
+	ApiService OrgsWLANTemplatesAPI
 	orgId string
 	templateId string
 	nameString *NameString
@@ -210,7 +306,7 @@ func (a *OrgsWLANTemplatesAPIService) CloneOrgTemplateExecute(r ApiCloneOrgTempl
 
 type ApiCreateOrgTemplateRequest struct {
 	ctx context.Context
-	ApiService *OrgsWLANTemplatesAPIService
+	ApiService OrgsWLANTemplatesAPI
 	orgId string
 	template *Template
 }
@@ -390,7 +486,7 @@ func (a *OrgsWLANTemplatesAPIService) CreateOrgTemplateExecute(r ApiCreateOrgTem
 
 type ApiDeleteOrgTemplateRequest struct {
 	ctx context.Context
-	ApiService *OrgsWLANTemplatesAPIService
+	ApiService OrgsWLANTemplatesAPI
 	orgId string
 	templateId string
 }
@@ -554,7 +650,7 @@ func (a *OrgsWLANTemplatesAPIService) DeleteOrgTemplateExecute(r ApiDeleteOrgTem
 
 type ApiGetOrgTemplateRequest struct {
 	ctx context.Context
-	ApiService *OrgsWLANTemplatesAPIService
+	ApiService OrgsWLANTemplatesAPI
 	orgId string
 	templateId string
 }
@@ -729,7 +825,7 @@ func (a *OrgsWLANTemplatesAPIService) GetOrgTemplateExecute(r ApiGetOrgTemplateR
 
 type ApiListOrgTemplatesRequest struct {
 	ctx context.Context
-	ApiService *OrgsWLANTemplatesAPIService
+	ApiService OrgsWLANTemplatesAPI
 	orgId string
 	page *int32
 	limit *int32
@@ -924,7 +1020,7 @@ func (a *OrgsWLANTemplatesAPIService) ListOrgTemplatesExecute(r ApiListOrgTempla
 
 type ApiUpdateOrgTemplateRequest struct {
 	ctx context.Context
-	ApiService *OrgsWLANTemplatesAPIService
+	ApiService OrgsWLANTemplatesAPI
 	orgId string
 	templateId string
 	template *Template

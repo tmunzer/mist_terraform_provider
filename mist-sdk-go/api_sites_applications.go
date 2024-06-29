@@ -21,12 +21,45 @@ import (
 )
 
 
+type SitesApplicationsAPI interface {
+
+	/*
+	CountSiteApps countSiteApps
+
+	Count by Distinct Attributes of Applications
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiCountSiteAppsRequest
+	*/
+	CountSiteApps(ctx context.Context, siteId string) ApiCountSiteAppsRequest
+
+	// CountSiteAppsExecute executes the request
+	//  @return RepsonseCount
+	CountSiteAppsExecute(r ApiCountSiteAppsRequest) (*RepsonseCount, *http.Response, error)
+
+	/*
+	ListSiteApps listSiteApps
+
+	Get List of Site Applications
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiListSiteAppsRequest
+	*/
+	ListSiteApps(ctx context.Context, siteId string) ApiListSiteAppsRequest
+
+	// ListSiteAppsExecute executes the request
+	//  @return []SiteApp
+	ListSiteAppsExecute(r ApiListSiteAppsRequest) ([]SiteApp, *http.Response, error)
+}
+
 // SitesApplicationsAPIService SitesApplicationsAPI service
 type SitesApplicationsAPIService service
 
 type ApiCountSiteAppsRequest struct {
 	ctx context.Context
-	ApiService *SitesApplicationsAPIService
+	ApiService SitesApplicationsAPI
 	siteId string
 	distinct *SiteAppsCountDistinct
 	deviceMac *string
@@ -237,7 +270,7 @@ func (a *SitesApplicationsAPIService) CountSiteAppsExecute(r ApiCountSiteAppsReq
 
 type ApiListSiteAppsRequest struct {
 	ctx context.Context
-	ApiService *SitesApplicationsAPIService
+	ApiService SitesApplicationsAPI
 	siteId string
 }
 

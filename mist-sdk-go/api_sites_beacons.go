@@ -21,12 +21,107 @@ import (
 )
 
 
+type SitesBeaconsAPI interface {
+
+	/*
+	CreateSiteBeacon createSiteBeacon
+
+	Create Site Beacon
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiCreateSiteBeaconRequest
+	*/
+	CreateSiteBeacon(ctx context.Context, siteId string) ApiCreateSiteBeaconRequest
+
+	// CreateSiteBeaconExecute executes the request
+	//  @return Beacon
+	CreateSiteBeaconExecute(r ApiCreateSiteBeaconRequest) (*Beacon, *http.Response, error)
+
+	/*
+	DeleteSiteBeacons deleteSiteBeacons
+
+	Delete Site Beacon
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param beaconId
+	@return ApiDeleteSiteBeaconsRequest
+	*/
+	DeleteSiteBeacons(ctx context.Context, siteId string, beaconId string) ApiDeleteSiteBeaconsRequest
+
+	// DeleteSiteBeaconsExecute executes the request
+	DeleteSiteBeaconsExecute(r ApiDeleteSiteBeaconsRequest) (*http.Response, error)
+
+	/*
+	GetSiteBeacon getSiteBeacon
+
+	Get Site Beacon Details
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param beaconId
+	@return ApiGetSiteBeaconRequest
+	*/
+	GetSiteBeacon(ctx context.Context, siteId string, beaconId string) ApiGetSiteBeaconRequest
+
+	// GetSiteBeaconExecute executes the request
+	//  @return Beacon
+	GetSiteBeaconExecute(r ApiGetSiteBeaconRequest) (*Beacon, *http.Response, error)
+
+	/*
+	ListSiteBeacons listSiteBeacons
+
+	Get List of Site Beacons
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiListSiteBeaconsRequest
+	*/
+	ListSiteBeacons(ctx context.Context, siteId string) ApiListSiteBeaconsRequest
+
+	// ListSiteBeaconsExecute executes the request
+	//  @return []Beacon
+	ListSiteBeaconsExecute(r ApiListSiteBeaconsRequest) ([]Beacon, *http.Response, error)
+
+	/*
+	ListSiteBeaconsStats listSiteBeaconsStats
+
+	Get List of Site Beacons Stats
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiListSiteBeaconsStatsRequest
+	*/
+	ListSiteBeaconsStats(ctx context.Context, siteId string) ApiListSiteBeaconsStatsRequest
+
+	// ListSiteBeaconsStatsExecute executes the request
+	//  @return []BeaconStatsItems
+	ListSiteBeaconsStatsExecute(r ApiListSiteBeaconsStatsRequest) ([]BeaconStatsItems, *http.Response, error)
+
+	/*
+	UpdateSiteBeacons updateSiteBeacons
+
+	Update Site Beacon
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param beaconId
+	@return ApiUpdateSiteBeaconsRequest
+	*/
+	UpdateSiteBeacons(ctx context.Context, siteId string, beaconId string) ApiUpdateSiteBeaconsRequest
+
+	// UpdateSiteBeaconsExecute executes the request
+	//  @return Beacon
+	UpdateSiteBeaconsExecute(r ApiUpdateSiteBeaconsRequest) (*Beacon, *http.Response, error)
+}
+
 // SitesBeaconsAPIService SitesBeaconsAPI service
 type SitesBeaconsAPIService service
 
 type ApiCreateSiteBeaconRequest struct {
 	ctx context.Context
-	ApiService *SitesBeaconsAPIService
+	ApiService SitesBeaconsAPI
 	siteId string
 	beacon *Beacon
 }
@@ -206,7 +301,7 @@ func (a *SitesBeaconsAPIService) CreateSiteBeaconExecute(r ApiCreateSiteBeaconRe
 
 type ApiDeleteSiteBeaconsRequest struct {
 	ctx context.Context
-	ApiService *SitesBeaconsAPIService
+	ApiService SitesBeaconsAPI
 	siteId string
 	beaconId string
 }
@@ -370,7 +465,7 @@ func (a *SitesBeaconsAPIService) DeleteSiteBeaconsExecute(r ApiDeleteSiteBeacons
 
 type ApiGetSiteBeaconRequest struct {
 	ctx context.Context
-	ApiService *SitesBeaconsAPIService
+	ApiService SitesBeaconsAPI
 	siteId string
 	beaconId string
 }
@@ -545,7 +640,7 @@ func (a *SitesBeaconsAPIService) GetSiteBeaconExecute(r ApiGetSiteBeaconRequest)
 
 type ApiListSiteBeaconsRequest struct {
 	ctx context.Context
-	ApiService *SitesBeaconsAPIService
+	ApiService SitesBeaconsAPI
 	siteId string
 	page *int32
 	limit *int32
@@ -740,7 +835,7 @@ func (a *SitesBeaconsAPIService) ListSiteBeaconsExecute(r ApiListSiteBeaconsRequ
 
 type ApiListSiteBeaconsStatsRequest struct {
 	ctx context.Context
-	ApiService *SitesBeaconsAPIService
+	ApiService SitesBeaconsAPI
 	siteId string
 	page *int32
 	limit *int32
@@ -968,7 +1063,7 @@ func (a *SitesBeaconsAPIService) ListSiteBeaconsStatsExecute(r ApiListSiteBeacon
 
 type ApiUpdateSiteBeaconsRequest struct {
 	ctx context.Context
-	ApiService *SitesBeaconsAPIService
+	ApiService SitesBeaconsAPI
 	siteId string
 	beaconId string
 	beacon *Beacon

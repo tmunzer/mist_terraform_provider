@@ -21,12 +21,151 @@ import (
 )
 
 
+type OrgsDevicesOthersAPI interface {
+
+	/*
+	CountOrgOtherDeviceEvents countOrgOtherDeviceEvents
+
+	Count Org OtherDevices Events
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiCountOrgOtherDeviceEventsRequest
+	*/
+	CountOrgOtherDeviceEvents(ctx context.Context, orgId string) ApiCountOrgOtherDeviceEventsRequest
+
+	// CountOrgOtherDeviceEventsExecute executes the request
+	//  @return RepsonseCount
+	CountOrgOtherDeviceEventsExecute(r ApiCountOrgOtherDeviceEventsRequest) (*RepsonseCount, *http.Response, error)
+
+	/*
+	DeleteOrgOtherDevice deleteOrgOtherDevice
+
+	Delete OtherDevice
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param deviceMac
+	@return ApiDeleteOrgOtherDeviceRequest
+	*/
+	DeleteOrgOtherDevice(ctx context.Context, orgId string, deviceMac string) ApiDeleteOrgOtherDeviceRequest
+
+	// DeleteOrgOtherDeviceExecute executes the request
+	DeleteOrgOtherDeviceExecute(r ApiDeleteOrgOtherDeviceRequest) (*http.Response, error)
+
+	/*
+	GetOrgOtherDevice getOrgOtherDevice
+
+	Get Org other device (3rd party device)
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param deviceMac
+	@return ApiGetOrgOtherDeviceRequest
+	*/
+	GetOrgOtherDevice(ctx context.Context, orgId string, deviceMac string) ApiGetOrgOtherDeviceRequest
+
+	// GetOrgOtherDeviceExecute executes the request
+	//  @return DeviceOther
+	GetOrgOtherDeviceExecute(r ApiGetOrgOtherDeviceRequest) (*DeviceOther, *http.Response, error)
+
+	/*
+	GetOrgOtherDeviceStats getOrgOtherDeviceStats
+
+	Get Otherdevice Stats
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param deviceMac
+	@return ApiGetOrgOtherDeviceStatsRequest
+	*/
+	GetOrgOtherDeviceStats(ctx context.Context, orgId string, deviceMac string) ApiGetOrgOtherDeviceStatsRequest
+
+	// GetOrgOtherDeviceStatsExecute executes the request
+	//  @return DeviceOtherStats
+	GetOrgOtherDeviceStatsExecute(r ApiGetOrgOtherDeviceStatsRequest) (*DeviceOtherStats, *http.Response, error)
+
+	/*
+	ListOrgOtherDevices listOrgOtherDevices
+
+	Get List of Org other devices (3rd party devices)
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiListOrgOtherDevicesRequest
+	*/
+	ListOrgOtherDevices(ctx context.Context, orgId string) ApiListOrgOtherDevicesRequest
+
+	// ListOrgOtherDevicesExecute executes the request
+	//  @return []DeviceOther
+	ListOrgOtherDevicesExecute(r ApiListOrgOtherDevicesRequest) ([]DeviceOther, *http.Response, error)
+
+	/*
+	RebootOrgOtherDevice rebootOrgOtherDevice
+
+	Reboot OtherDevice
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param deviceMac
+	@return ApiRebootOrgOtherDeviceRequest
+	*/
+	RebootOrgOtherDevice(ctx context.Context, orgId string, deviceMac string) ApiRebootOrgOtherDeviceRequest
+
+	// RebootOrgOtherDeviceExecute executes the request
+	RebootOrgOtherDeviceExecute(r ApiRebootOrgOtherDeviceRequest) (*http.Response, error)
+
+	/*
+	SearchOrgOtherDeviceEvents searchOrgOtherDeviceEvents
+
+	Search Org OtherDevices Events
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiSearchOrgOtherDeviceEventsRequest
+	*/
+	SearchOrgOtherDeviceEvents(ctx context.Context, orgId string) ApiSearchOrgOtherDeviceEventsRequest
+
+	// SearchOrgOtherDeviceEventsExecute executes the request
+	//  @return ResponseEventsOtherDevicesSearch
+	SearchOrgOtherDeviceEventsExecute(r ApiSearchOrgOtherDeviceEventsRequest) (*ResponseEventsOtherDevicesSearch, *http.Response, error)
+
+	/*
+	UpdateOrgOtherDevice updateOrgOtherDevice
+
+	If the Site / Device cannot be identified, a manual association can be made
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param deviceMac
+	@return ApiUpdateOrgOtherDeviceRequest
+	*/
+	UpdateOrgOtherDevice(ctx context.Context, orgId string, deviceMac string) ApiUpdateOrgOtherDeviceRequest
+
+	// UpdateOrgOtherDeviceExecute executes the request
+	UpdateOrgOtherDeviceExecute(r ApiUpdateOrgOtherDeviceRequest) (*http.Response, error)
+
+	/*
+	UpdateOrgOtherDevices updateOrgOtherDevices
+
+	Assign or unassign OtherDevices to and from a site.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiUpdateOrgOtherDevicesRequest
+	*/
+	UpdateOrgOtherDevices(ctx context.Context, orgId string) ApiUpdateOrgOtherDevicesRequest
+
+	// UpdateOrgOtherDevicesExecute executes the request
+	UpdateOrgOtherDevicesExecute(r ApiUpdateOrgOtherDevicesRequest) (*http.Response, error)
+}
+
 // OrgsDevicesOthersAPIService OrgsDevicesOthersAPI service
 type OrgsDevicesOthersAPIService service
 
 type ApiCountOrgOtherDeviceEventsRequest struct {
 	ctx context.Context
-	ApiService *OrgsDevicesOthersAPIService
+	ApiService OrgsDevicesOthersAPI
 	orgId string
 	distinct *OrgOtherdevicesEventsCountDistinct
 	type_ *string
@@ -264,7 +403,7 @@ func (a *OrgsDevicesOthersAPIService) CountOrgOtherDeviceEventsExecute(r ApiCoun
 
 type ApiDeleteOrgOtherDeviceRequest struct {
 	ctx context.Context
-	ApiService *OrgsDevicesOthersAPIService
+	ApiService OrgsDevicesOthersAPI
 	orgId string
 	deviceMac string
 }
@@ -428,7 +567,7 @@ func (a *OrgsDevicesOthersAPIService) DeleteOrgOtherDeviceExecute(r ApiDeleteOrg
 
 type ApiGetOrgOtherDeviceRequest struct {
 	ctx context.Context
-	ApiService *OrgsDevicesOthersAPIService
+	ApiService OrgsDevicesOthersAPI
 	orgId string
 	deviceMac string
 }
@@ -603,7 +742,7 @@ func (a *OrgsDevicesOthersAPIService) GetOrgOtherDeviceExecute(r ApiGetOrgOtherD
 
 type ApiGetOrgOtherDeviceStatsRequest struct {
 	ctx context.Context
-	ApiService *OrgsDevicesOthersAPIService
+	ApiService OrgsDevicesOthersAPI
 	orgId string
 	deviceMac string
 }
@@ -778,7 +917,7 @@ func (a *OrgsDevicesOthersAPIService) GetOrgOtherDeviceStatsExecute(r ApiGetOrgO
 
 type ApiListOrgOtherDevicesRequest struct {
 	ctx context.Context
-	ApiService *OrgsDevicesOthersAPIService
+	ApiService OrgsDevicesOthersAPI
 	orgId string
 	vendor *string
 	mac *string
@@ -1018,7 +1157,7 @@ func (a *OrgsDevicesOthersAPIService) ListOrgOtherDevicesExecute(r ApiListOrgOth
 
 type ApiRebootOrgOtherDeviceRequest struct {
 	ctx context.Context
-	ApiService *OrgsDevicesOthersAPIService
+	ApiService OrgsDevicesOthersAPI
 	orgId string
 	deviceMac string
 }
@@ -1182,7 +1321,7 @@ func (a *OrgsDevicesOthersAPIService) RebootOrgOtherDeviceExecute(r ApiRebootOrg
 
 type ApiSearchOrgOtherDeviceEventsRequest struct {
 	ctx context.Context
-	ApiService *OrgsDevicesOthersAPIService
+	ApiService OrgsDevicesOthersAPI
 	orgId string
 	siteId *string
 	mac *string
@@ -1458,7 +1597,7 @@ func (a *OrgsDevicesOthersAPIService) SearchOrgOtherDeviceEventsExecute(r ApiSea
 
 type ApiUpdateOrgOtherDeviceRequest struct {
 	ctx context.Context
-	ApiService *OrgsDevicesOthersAPIService
+	ApiService OrgsDevicesOthersAPI
 	orgId string
 	deviceMac string
 	otherDeviceUpdate *OtherDeviceUpdate
@@ -1630,7 +1769,7 @@ func (a *OrgsDevicesOthersAPIService) UpdateOrgOtherDeviceExecute(r ApiUpdateOrg
 
 type ApiUpdateOrgOtherDevicesRequest struct {
 	ctx context.Context
-	ApiService *OrgsDevicesOthersAPIService
+	ApiService OrgsDevicesOthersAPI
 	orgId string
 	otherDeviceUpdateMulti *OtherDeviceUpdateMulti
 }

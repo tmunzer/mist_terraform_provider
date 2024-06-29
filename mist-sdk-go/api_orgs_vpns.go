@@ -21,12 +21,122 @@ import (
 )
 
 
+type OrgsVPNsAPI interface {
+
+	/*
+	CountOrgPeerPathStats countOrgPeerPathStats
+
+	Count Org Peer Path Statgs
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiCountOrgPeerPathStatsRequest
+	*/
+	CountOrgPeerPathStats(ctx context.Context, orgId string) ApiCountOrgPeerPathStatsRequest
+
+	// CountOrgPeerPathStatsExecute executes the request
+	//  @return RepsonseCount
+	CountOrgPeerPathStatsExecute(r ApiCountOrgPeerPathStatsRequest) (*RepsonseCount, *http.Response, error)
+
+	/*
+	CreateOrgVpns createOrgVpns
+
+	Create Org VPN
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiCreateOrgVpnsRequest
+	*/
+	CreateOrgVpns(ctx context.Context, orgId string) ApiCreateOrgVpnsRequest
+
+	// CreateOrgVpnsExecute executes the request
+	//  @return Vpn
+	CreateOrgVpnsExecute(r ApiCreateOrgVpnsRequest) (*Vpn, *http.Response, error)
+
+	/*
+	DeleteOrgVpn deleteOrgVpn
+
+	delete Org Vpn
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param vpnId
+	@return ApiDeleteOrgVpnRequest
+	*/
+	DeleteOrgVpn(ctx context.Context, orgId string, vpnId string) ApiDeleteOrgVpnRequest
+
+	// DeleteOrgVpnExecute executes the request
+	DeleteOrgVpnExecute(r ApiDeleteOrgVpnRequest) (*http.Response, error)
+
+	/*
+	GetOrgVpn getOrgVpn
+
+	getOrgVpn
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param vpnId
+	@return ApiGetOrgVpnRequest
+	*/
+	GetOrgVpn(ctx context.Context, orgId string, vpnId string) ApiGetOrgVpnRequest
+
+	// GetOrgVpnExecute executes the request
+	//  @return Vpn
+	GetOrgVpnExecute(r ApiGetOrgVpnRequest) (*Vpn, *http.Response, error)
+
+	/*
+	ListOrgsVpns listOrgsVpns
+
+	Get List of Org VPNs
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiListOrgsVpnsRequest
+	*/
+	ListOrgsVpns(ctx context.Context, orgId string) ApiListOrgsVpnsRequest
+
+	// ListOrgsVpnsExecute executes the request
+	//  @return []Vpn
+	ListOrgsVpnsExecute(r ApiListOrgsVpnsRequest) ([]Vpn, *http.Response, error)
+
+	/*
+	SearchOrgPeerPathStats searchOrgPeerPathStats
+
+	Search Org Peer Path Stats
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiSearchOrgPeerPathStatsRequest
+	*/
+	SearchOrgPeerPathStats(ctx context.Context, orgId string) ApiSearchOrgPeerPathStatsRequest
+
+	// SearchOrgPeerPathStatsExecute executes the request
+	//  @return VpnPeerStatSearch
+	SearchOrgPeerPathStatsExecute(r ApiSearchOrgPeerPathStatsRequest) (*VpnPeerStatSearch, *http.Response, error)
+
+	/*
+	UpdateOrgVpn updateOrgVpn
+
+	update Org Vpn
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param vpnId
+	@return ApiUpdateOrgVpnRequest
+	*/
+	UpdateOrgVpn(ctx context.Context, orgId string, vpnId string) ApiUpdateOrgVpnRequest
+
+	// UpdateOrgVpnExecute executes the request
+	//  @return Vpn
+	UpdateOrgVpnExecute(r ApiUpdateOrgVpnRequest) (*Vpn, *http.Response, error)
+}
+
 // OrgsVPNsAPIService OrgsVPNsAPI service
 type OrgsVPNsAPIService service
 
 type ApiCountOrgPeerPathStatsRequest struct {
 	ctx context.Context
-	ApiService *OrgsVPNsAPIService
+	ApiService OrgsVPNsAPI
 	orgId string
 	distinct *string
 	page *int32
@@ -263,7 +373,7 @@ func (a *OrgsVPNsAPIService) CountOrgPeerPathStatsExecute(r ApiCountOrgPeerPathS
 
 type ApiCreateOrgVpnsRequest struct {
 	ctx context.Context
-	ApiService *OrgsVPNsAPIService
+	ApiService OrgsVPNsAPI
 	orgId string
 	vpn *Vpn
 }
@@ -442,7 +552,7 @@ func (a *OrgsVPNsAPIService) CreateOrgVpnsExecute(r ApiCreateOrgVpnsRequest) (*V
 
 type ApiDeleteOrgVpnRequest struct {
 	ctx context.Context
-	ApiService *OrgsVPNsAPIService
+	ApiService OrgsVPNsAPI
 	orgId string
 	vpnId string
 }
@@ -606,7 +716,7 @@ func (a *OrgsVPNsAPIService) DeleteOrgVpnExecute(r ApiDeleteOrgVpnRequest) (*htt
 
 type ApiGetOrgVpnRequest struct {
 	ctx context.Context
-	ApiService *OrgsVPNsAPIService
+	ApiService OrgsVPNsAPI
 	orgId string
 	vpnId string
 }
@@ -781,7 +891,7 @@ func (a *OrgsVPNsAPIService) GetOrgVpnExecute(r ApiGetOrgVpnRequest) (*Vpn, *htt
 
 type ApiListOrgsVpnsRequest struct {
 	ctx context.Context
-	ApiService *OrgsVPNsAPIService
+	ApiService OrgsVPNsAPI
 	orgId string
 	page *int32
 	limit *int32
@@ -976,7 +1086,7 @@ func (a *OrgsVPNsAPIService) ListOrgsVpnsExecute(r ApiListOrgsVpnsRequest) ([]Vp
 
 type ApiSearchOrgPeerPathStatsRequest struct {
 	ctx context.Context
-	ApiService *OrgsVPNsAPIService
+	ApiService OrgsVPNsAPI
 	orgId string
 	start *int32
 	end *int32
@@ -1192,7 +1302,7 @@ func (a *OrgsVPNsAPIService) SearchOrgPeerPathStatsExecute(r ApiSearchOrgPeerPat
 
 type ApiUpdateOrgVpnRequest struct {
 	ctx context.Context
-	ApiService *OrgsVPNsAPIService
+	ApiService OrgsVPNsAPI
 	orgId string
 	vpnId string
 	vpn *Vpn

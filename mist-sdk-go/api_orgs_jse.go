@@ -21,12 +21,78 @@ import (
 )
 
 
+type OrgsJSEAPI interface {
+
+	/*
+	DeleteOrgJsecCredential deleteOrgJsecCredential
+
+	Delete JSE credential
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiDeleteOrgJsecCredentialRequest
+	*/
+	DeleteOrgJsecCredential(ctx context.Context, orgId string) ApiDeleteOrgJsecCredentialRequest
+
+	// DeleteOrgJsecCredentialExecute executes the request
+	DeleteOrgJsecCredentialExecute(r ApiDeleteOrgJsecCredentialRequest) (*http.Response, error)
+
+	/*
+	GetOrgJseInfo getOrgJseInfo
+
+	Retrieves the list of JSE orgs associated with the account.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiGetOrgJseInfoRequest
+	*/
+	GetOrgJseInfo(ctx context.Context, orgId string) ApiGetOrgJseInfoRequest
+
+	// GetOrgJseInfoExecute executes the request
+	//  @return AccountJseInfo
+	GetOrgJseInfoExecute(r ApiGetOrgJseInfoRequest) (*AccountJseInfo, *http.Response, error)
+
+	/*
+	GetOrgJsecCredential getOrgJsecCredential
+
+	Get Org JSE Credential
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiGetOrgJsecCredentialRequest
+	*/
+	GetOrgJsecCredential(ctx context.Context, orgId string) ApiGetOrgJsecCredentialRequest
+
+	// GetOrgJsecCredentialExecute executes the request
+	//  @return AccountJseInfo
+	GetOrgJsecCredentialExecute(r ApiGetOrgJsecCredentialRequest) (*AccountJseInfo, *http.Response, error)
+
+	/*
+	SetupOrgJsecCredential setupOrgJsecCredential
+
+	in JSE UI: 
+1. Create custom role with Read access to service_location and RW access to site and IPSec profile APIs. 
+2. Create a user with the above custom role. - email: john@abc.com 
+3. Activate the user in the JSE account. 
+4. Create the service locations on the JSE account.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiSetupOrgJsecCredentialRequest
+	*/
+	SetupOrgJsecCredential(ctx context.Context, orgId string) ApiSetupOrgJsecCredentialRequest
+
+	// SetupOrgJsecCredentialExecute executes the request
+	//  @return AccountJseInfo
+	SetupOrgJsecCredentialExecute(r ApiSetupOrgJsecCredentialRequest) (*AccountJseInfo, *http.Response, error)
+}
+
 // OrgsJSEAPIService OrgsJSEAPI service
 type OrgsJSEAPIService service
 
 type ApiDeleteOrgJsecCredentialRequest struct {
 	ctx context.Context
-	ApiService *OrgsJSEAPIService
+	ApiService OrgsJSEAPI
 	orgId string
 }
 
@@ -186,7 +252,7 @@ func (a *OrgsJSEAPIService) DeleteOrgJsecCredentialExecute(r ApiDeleteOrgJsecCre
 
 type ApiGetOrgJseInfoRequest struct {
 	ctx context.Context
-	ApiService *OrgsJSEAPIService
+	ApiService OrgsJSEAPI
 	orgId string
 }
 
@@ -357,7 +423,7 @@ func (a *OrgsJSEAPIService) GetOrgJseInfoExecute(r ApiGetOrgJseInfoRequest) (*Ac
 
 type ApiGetOrgJsecCredentialRequest struct {
 	ctx context.Context
-	ApiService *OrgsJSEAPIService
+	ApiService OrgsJSEAPI
 	orgId string
 }
 
@@ -528,7 +594,7 @@ func (a *OrgsJSEAPIService) GetOrgJsecCredentialExecute(r ApiGetOrgJsecCredentia
 
 type ApiSetupOrgJsecCredentialRequest struct {
 	ctx context.Context
-	ApiService *OrgsJSEAPIService
+	ApiService OrgsJSEAPI
 	orgId string
 	accountJseConfig *AccountJseConfig
 }

@@ -21,12 +21,92 @@ import (
 )
 
 
+type OrgsSecPoliciesAPI interface {
+
+	/*
+	CreateOrgSecPolicies createOrgSecPolicies
+
+	Create Org Security Policy
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiCreateOrgSecPoliciesRequest
+	*/
+	CreateOrgSecPolicies(ctx context.Context, orgId string) ApiCreateOrgSecPoliciesRequest
+
+	// CreateOrgSecPoliciesExecute executes the request
+	//  @return Secpolicy
+	CreateOrgSecPoliciesExecute(r ApiCreateOrgSecPoliciesRequest) (*Secpolicy, *http.Response, error)
+
+	/*
+	DeleteOrgSecPolicy deleteOrgSecPolicy
+
+	Delete Org Security Policy
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param secpolicyId
+	@return ApiDeleteOrgSecPolicyRequest
+	*/
+	DeleteOrgSecPolicy(ctx context.Context, orgId string, secpolicyId string) ApiDeleteOrgSecPolicyRequest
+
+	// DeleteOrgSecPolicyExecute executes the request
+	DeleteOrgSecPolicyExecute(r ApiDeleteOrgSecPolicyRequest) (*http.Response, error)
+
+	/*
+	GetOrgSecPolicy getOrgSecPolicy
+
+	Get Org Security Policy
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param secpolicyId
+	@return ApiGetOrgSecPolicyRequest
+	*/
+	GetOrgSecPolicy(ctx context.Context, orgId string, secpolicyId string) ApiGetOrgSecPolicyRequest
+
+	// GetOrgSecPolicyExecute executes the request
+	//  @return Secpolicy
+	GetOrgSecPolicyExecute(r ApiGetOrgSecPolicyRequest) (*Secpolicy, *http.Response, error)
+
+	/*
+	ListOrgSecPolicies listOrgSecPolicies
+
+	Get List of Org Security Policies
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiListOrgSecPoliciesRequest
+	*/
+	ListOrgSecPolicies(ctx context.Context, orgId string) ApiListOrgSecPoliciesRequest
+
+	// ListOrgSecPoliciesExecute executes the request
+	//  @return []Secpolicy
+	ListOrgSecPoliciesExecute(r ApiListOrgSecPoliciesRequest) ([]Secpolicy, *http.Response, error)
+
+	/*
+	UpdateOrgSecPolicies updateOrgSecPolicies
+
+	Update Org Security Policy
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param secpolicyId
+	@return ApiUpdateOrgSecPoliciesRequest
+	*/
+	UpdateOrgSecPolicies(ctx context.Context, orgId string, secpolicyId string) ApiUpdateOrgSecPoliciesRequest
+
+	// UpdateOrgSecPoliciesExecute executes the request
+	//  @return Secpolicy
+	UpdateOrgSecPoliciesExecute(r ApiUpdateOrgSecPoliciesRequest) (*Secpolicy, *http.Response, error)
+}
+
 // OrgsSecPoliciesAPIService OrgsSecPoliciesAPI service
 type OrgsSecPoliciesAPIService service
 
 type ApiCreateOrgSecPoliciesRequest struct {
 	ctx context.Context
-	ApiService *OrgsSecPoliciesAPIService
+	ApiService OrgsSecPoliciesAPI
 	orgId string
 	secpolicy *Secpolicy
 }
@@ -205,7 +285,7 @@ func (a *OrgsSecPoliciesAPIService) CreateOrgSecPoliciesExecute(r ApiCreateOrgSe
 
 type ApiDeleteOrgSecPolicyRequest struct {
 	ctx context.Context
-	ApiService *OrgsSecPoliciesAPIService
+	ApiService OrgsSecPoliciesAPI
 	orgId string
 	secpolicyId string
 }
@@ -369,7 +449,7 @@ func (a *OrgsSecPoliciesAPIService) DeleteOrgSecPolicyExecute(r ApiDeleteOrgSecP
 
 type ApiGetOrgSecPolicyRequest struct {
 	ctx context.Context
-	ApiService *OrgsSecPoliciesAPIService
+	ApiService OrgsSecPoliciesAPI
 	orgId string
 	secpolicyId string
 }
@@ -544,7 +624,7 @@ func (a *OrgsSecPoliciesAPIService) GetOrgSecPolicyExecute(r ApiGetOrgSecPolicyR
 
 type ApiListOrgSecPoliciesRequest struct {
 	ctx context.Context
-	ApiService *OrgsSecPoliciesAPIService
+	ApiService OrgsSecPoliciesAPI
 	orgId string
 	page *int32
 	limit *int32
@@ -739,7 +819,7 @@ func (a *OrgsSecPoliciesAPIService) ListOrgSecPoliciesExecute(r ApiListOrgSecPol
 
 type ApiUpdateOrgSecPoliciesRequest struct {
 	ctx context.Context
-	ApiService *OrgsSecPoliciesAPIService
+	ApiService OrgsSecPoliciesAPI
 	orgId string
 	secpolicyId string
 	secpolicy *Secpolicy

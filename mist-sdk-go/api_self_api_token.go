@@ -21,12 +21,88 @@ import (
 )
 
 
+type SelfAPITokenAPI interface {
+
+	/*
+	CreateApiToken createApiToken
+
+	Create API Token
+Note that the key is only available during creation time.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiCreateApiTokenRequest
+	*/
+	CreateApiToken(ctx context.Context) ApiCreateApiTokenRequest
+
+	// CreateApiTokenExecute executes the request
+	//  @return []UserApitoken
+	CreateApiTokenExecute(r ApiCreateApiTokenRequest) ([]UserApitoken, *http.Response, error)
+
+	/*
+	DeleteApiToken deleteApiToken
+
+	Delete an API Token
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param apitokenId
+	@return ApiDeleteApiTokenRequest
+	*/
+	DeleteApiToken(ctx context.Context, apitokenId string) ApiDeleteApiTokenRequest
+
+	// DeleteApiTokenExecute executes the request
+	DeleteApiTokenExecute(r ApiDeleteApiTokenRequest) (*http.Response, error)
+
+	/*
+	GetApiToken getApiToken
+
+	Get User API Token
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param apitokenId
+	@return ApiGetApiTokenRequest
+	*/
+	GetApiToken(ctx context.Context, apitokenId string) ApiGetApiTokenRequest
+
+	// GetApiTokenExecute executes the request
+	//  @return UserApitoken
+	GetApiTokenExecute(r ApiGetApiTokenRequest) (*UserApitoken, *http.Response, error)
+
+	/*
+	ListApiTokens listApiTokens
+
+	Get List of Current User API Tokens
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiListApiTokensRequest
+	*/
+	ListApiTokens(ctx context.Context) ApiListApiTokensRequest
+
+	// ListApiTokensExecute executes the request
+	//  @return []UserApitoken
+	ListApiTokensExecute(r ApiListApiTokensRequest) ([]UserApitoken, *http.Response, error)
+
+	/*
+	UpdateApiToken updateApiToken
+
+	Update User API Token
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param apitokenId
+	@return ApiUpdateApiTokenRequest
+	*/
+	UpdateApiToken(ctx context.Context, apitokenId string) ApiUpdateApiTokenRequest
+
+	// UpdateApiTokenExecute executes the request
+	//  @return UserApitoken
+	UpdateApiTokenExecute(r ApiUpdateApiTokenRequest) (*UserApitoken, *http.Response, error)
+}
+
 // SelfAPITokenAPIService SelfAPITokenAPI service
 type SelfAPITokenAPIService service
 
 type ApiCreateApiTokenRequest struct {
 	ctx context.Context
-	ApiService *SelfAPITokenAPIService
+	ApiService SelfAPITokenAPI
 	userApitoken *UserApitoken
 }
 
@@ -202,7 +278,7 @@ func (a *SelfAPITokenAPIService) CreateApiTokenExecute(r ApiCreateApiTokenReques
 
 type ApiDeleteApiTokenRequest struct {
 	ctx context.Context
-	ApiService *SelfAPITokenAPIService
+	ApiService SelfAPITokenAPI
 	apitokenId string
 }
 
@@ -362,7 +438,7 @@ func (a *SelfAPITokenAPIService) DeleteApiTokenExecute(r ApiDeleteApiTokenReques
 
 type ApiGetApiTokenRequest struct {
 	ctx context.Context
-	ApiService *SelfAPITokenAPIService
+	ApiService SelfAPITokenAPI
 	apitokenId string
 }
 
@@ -533,7 +609,7 @@ func (a *SelfAPITokenAPIService) GetApiTokenExecute(r ApiGetApiTokenRequest) (*U
 
 type ApiListApiTokensRequest struct {
 	ctx context.Context
-	ApiService *SelfAPITokenAPIService
+	ApiService SelfAPITokenAPI
 }
 
 func (r ApiListApiTokensRequest) Execute() ([]UserApitoken, *http.Response, error) {
@@ -700,7 +776,7 @@ func (a *SelfAPITokenAPIService) ListApiTokensExecute(r ApiListApiTokensRequest)
 
 type ApiUpdateApiTokenRequest struct {
 	ctx context.Context
-	ApiService *SelfAPITokenAPIService
+	ApiService SelfAPITokenAPI
 	apitokenId string
 	userApitoken *UserApitoken
 }

@@ -21,12 +21,106 @@ import (
 )
 
 
+type SitesMapsAutoPlacementAPI interface {
+
+	/*
+	ClearSiteApAutoplacement clearSiteApAutoplacement
+
+	This API is used to destroy the cached autoplacement locations of a map or subset of APs on a map.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param mapId
+	@return ApiClearSiteApAutoplacementRequest
+	*/
+	ClearSiteApAutoplacement(ctx context.Context, siteId string, mapId string) ApiClearSiteApAutoplacementRequest
+
+	// ClearSiteApAutoplacementExecute executes the request
+	ClearSiteApAutoplacementExecute(r ApiClearSiteApAutoplacementRequest) (*http.Response, error)
+
+	/*
+	ConfirmSiteApLocalizationData confirmSiteApLocalizationData
+
+	This API is used to accept or reject the cached autoplacement and auto orientation values of a map or subset of APs on a map. A rejected AP will retain its current X,Y and orientation until accpeted.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param mapId
+	@return ApiConfirmSiteApLocalizationDataRequest
+	*/
+	ConfirmSiteApLocalizationData(ctx context.Context, siteId string, mapId string) ApiConfirmSiteApLocalizationDataRequest
+
+	// ConfirmSiteApLocalizationDataExecute executes the request
+	ConfirmSiteApLocalizationDataExecute(r ApiConfirmSiteApLocalizationDataRequest) (*http.Response, error)
+
+	/*
+	DeleteSiteApAutoplacement deleteSiteApAutoplacement
+
+	This API is called to force stop auto placement for a given map
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param mapId
+	@return ApiDeleteSiteApAutoplacementRequest
+	*/
+	DeleteSiteApAutoplacement(ctx context.Context, siteId string, mapId string) ApiDeleteSiteApAutoplacementRequest
+
+	// DeleteSiteApAutoplacementExecute executes the request
+	DeleteSiteApAutoplacementExecute(r ApiDeleteSiteApAutoplacementRequest) (*http.Response, error)
+
+	/*
+	GetSiteApAutoPlacement getSiteApAutoplacement
+
+	This API is called to view the current status of auto placement for a given map.
+
+
+#### Status Descriptions
+
+| Status | Description |
+| --- | --- |
+| `pending` | Autoplacement has not been requested for this map |
+| `inprogress` | Autoplacement is currently processing |
+| `done` | The autoplacement process has completed |
+| `data_needed` | Additional position data is required for autoplacement. Users should verify the requested anchor APs have a position on the map |
+| `invalid_model` | Autoplacement is not supported on the model of the APs on the map |
+| `invalid_version` | Autoplacement is not supported with the APs current firmware version |
+| `error` | There was an error in the autoplacement process |
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param mapId
+	@return ApiGetSiteApAutoPlacementRequest
+	*/
+	GetSiteApAutoPlacement(ctx context.Context, siteId string, mapId string) ApiGetSiteApAutoPlacementRequest
+
+	// GetSiteApAutoPlacementExecute executes the request
+	//  @return ResponseAutoPlacementInfo
+	GetSiteApAutoPlacementExecute(r ApiGetSiteApAutoPlacementRequest) (*ResponseAutoPlacementInfo, *http.Response, error)
+
+	/*
+	RunSiteApAutoplacement runSiteApAutoplacement
+
+	This API is called to trigger a map for auto placement. For auto placement feature to work, RTT-FTM data need to be collected from the APs on the map. This scan is disruptive and therefore the user must be notified of service disrution during the functioning of auto placement Repeated POST to this endpoint while a map is still running will be rejected.
+
+List of devices to provide suggestions for is an optional parameter that can be given to this API. This will provide autoplacement suggestions only for the devices specified. If no list of devices is provided, all APs asociated with that map are considered by default
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param mapId
+	@return ApiRunSiteApAutoplacementRequest
+	*/
+	RunSiteApAutoplacement(ctx context.Context, siteId string, mapId string) ApiRunSiteApAutoplacementRequest
+
+	// RunSiteApAutoplacementExecute executes the request
+	RunSiteApAutoplacementExecute(r ApiRunSiteApAutoplacementRequest) (*http.Response, error)
+}
+
 // SitesMapsAutoPlacementAPIService SitesMapsAutoPlacementAPI service
 type SitesMapsAutoPlacementAPIService service
 
 type ApiClearSiteApAutoplacementRequest struct {
 	ctx context.Context
-	ApiService *SitesMapsAutoPlacementAPIService
+	ApiService SitesMapsAutoPlacementAPI
 	siteId string
 	mapId string
 	macAddresses *MacAddresses
@@ -198,7 +292,7 @@ func (a *SitesMapsAutoPlacementAPIService) ClearSiteApAutoplacementExecute(r Api
 
 type ApiConfirmSiteApLocalizationDataRequest struct {
 	ctx context.Context
-	ApiService *SitesMapsAutoPlacementAPIService
+	ApiService SitesMapsAutoPlacementAPI
 	siteId string
 	mapId string
 	useAutoApValues *UseAutoApValues
@@ -359,7 +453,7 @@ func (a *SitesMapsAutoPlacementAPIService) ConfirmSiteApLocalizationDataExecute(
 
 type ApiDeleteSiteApAutoplacementRequest struct {
 	ctx context.Context
-	ApiService *SitesMapsAutoPlacementAPIService
+	ApiService SitesMapsAutoPlacementAPI
 	siteId string
 	mapId string
 }
@@ -512,7 +606,7 @@ func (a *SitesMapsAutoPlacementAPIService) DeleteSiteApAutoplacementExecute(r Ap
 
 type ApiGetSiteApAutoPlacementRequest struct {
 	ctx context.Context
-	ApiService *SitesMapsAutoPlacementAPIService
+	ApiService SitesMapsAutoPlacementAPI
 	siteId string
 	mapId string
 }
@@ -700,7 +794,7 @@ func (a *SitesMapsAutoPlacementAPIService) GetSiteApAutoPlacementExecute(r ApiGe
 
 type ApiRunSiteApAutoplacementRequest struct {
 	ctx context.Context
-	ApiService *SitesMapsAutoPlacementAPIService
+	ApiService SitesMapsAutoPlacementAPI
 	siteId string
 	mapId string
 	autoPlacement *AutoPlacement

@@ -21,12 +21,106 @@ import (
 )
 
 
+type OrgsInventoryAPI interface {
+
+	/*
+	AddOrgInventory addOrgInventory
+
+	Add Device to Org Inventory with the device claim codes
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiAddOrgInventoryRequest
+	*/
+	AddOrgInventory(ctx context.Context, orgId string) ApiAddOrgInventoryRequest
+
+	// AddOrgInventoryExecute executes the request
+	//  @return ResponseInventory
+	AddOrgInventoryExecute(r ApiAddOrgInventoryRequest) (*ResponseInventory, *http.Response, error)
+
+	/*
+	GetOrgInventory getOrgInventory
+
+	Get Org Inventory
+
+### VC (Virtual-Chassis) Management
+Ideally VC should be managed as a single device - where - one managed entity where config / monitoring is anchored against (with a stable identify MAC) - all members appears in the inventory
+
+In our implementation, we strive to achieve that without manual user configurations by 
+1. during claim or adoption a VC, we require FPC0 to exist and will use its MAC as identify for the entire chassis
+2. other VC members will be automatically populated when they’re all present
+
+The perceivable result is 
+1. from `/sites/:site_id/stats/devices/:fpc0_mac` API, you’d see the VC where module_stat contains the VC members 
+2. from `/orgs/:org_id/inventory?vc=true` API, you’d see all VC members with vc_mac pointing to the FPC0
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiGetOrgInventoryRequest
+	*/
+	GetOrgInventory(ctx context.Context, orgId string) ApiGetOrgInventoryRequest
+
+	// GetOrgInventoryExecute executes the request
+	//  @return []Inventory
+	GetOrgInventoryExecute(r ApiGetOrgInventoryRequest) ([]Inventory, *http.Response, error)
+
+	/*
+	ReevaluateOrgAutoAssignment reevaluateOrgAutoAssignment
+
+	Reevaluate Auto Assignment
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiReevaluateOrgAutoAssignmentRequest
+	*/
+	ReevaluateOrgAutoAssignment(ctx context.Context, orgId string) ApiReevaluateOrgAutoAssignmentRequest
+
+	// ReevaluateOrgAutoAssignmentExecute executes the request
+	ReevaluateOrgAutoAssignmentExecute(r ApiReevaluateOrgAutoAssignmentRequest) (*http.Response, error)
+
+	/*
+	ReplaceOrgDevices replaceOrgDevices
+
+	It’s a common request we get from the customers. When a AP HW has problem and need a replacement, they would want to copy the existing attributes (Device Config) of this old AP to the new one. It can be done by providing the MAC of a device that’s currently in the inventory but not assigned. The Device replaced will become unassigned.
+
+This API also supports replacement of Mist Edges. This API copies device agnostic attributes from old Mist edge to new one.
+Mist manufactured Mist Edges will be reset to factory settings but will still be in Inventory.Brownfield or VM’s will be
+deleted from Inventory
+
+**Note:** For Gateway devices only like-for-like replacements (can only replace a SRX320 with a SRX320 and not some otehr model) are allowed.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiReplaceOrgDevicesRequest
+	*/
+	ReplaceOrgDevices(ctx context.Context, orgId string) ApiReplaceOrgDevicesRequest
+
+	// ReplaceOrgDevicesExecute executes the request
+	//  @return ResponseOrgInventoryChange
+	ReplaceOrgDevicesExecute(r ApiReplaceOrgDevicesRequest) (*ResponseOrgInventoryChange, *http.Response, error)
+
+	/*
+	UpdateOrgInventoryAssignment updateOrgInventoryAssignment
+
+	Update Org Inventory
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiUpdateOrgInventoryAssignmentRequest
+	*/
+	UpdateOrgInventoryAssignment(ctx context.Context, orgId string) ApiUpdateOrgInventoryAssignmentRequest
+
+	// UpdateOrgInventoryAssignmentExecute executes the request
+	//  @return ResponseOrgInventoryChange
+	UpdateOrgInventoryAssignmentExecute(r ApiUpdateOrgInventoryAssignmentRequest) (*ResponseOrgInventoryChange, *http.Response, error)
+}
+
 // OrgsInventoryAPIService OrgsInventoryAPI service
 type OrgsInventoryAPIService service
 
 type ApiAddOrgInventoryRequest struct {
 	ctx context.Context
-	ApiService *OrgsInventoryAPIService
+	ApiService OrgsInventoryAPI
 	orgId string
 	requestBody *[]string
 }
@@ -206,7 +300,7 @@ func (a *OrgsInventoryAPIService) AddOrgInventoryExecute(r ApiAddOrgInventoryReq
 
 type ApiGetOrgInventoryRequest struct {
 	ctx context.Context
-	ApiService *OrgsInventoryAPIService
+	ApiService OrgsInventoryAPI
 	orgId string
 	serial *string
 	model *string
@@ -491,7 +585,7 @@ func (a *OrgsInventoryAPIService) GetOrgInventoryExecute(r ApiGetOrgInventoryReq
 
 type ApiReevaluateOrgAutoAssignmentRequest struct {
 	ctx context.Context
-	ApiService *OrgsInventoryAPIService
+	ApiService OrgsInventoryAPI
 	orgId string
 }
 
@@ -651,7 +745,7 @@ func (a *OrgsInventoryAPIService) ReevaluateOrgAutoAssignmentExecute(r ApiReeval
 
 type ApiReplaceOrgDevicesRequest struct {
 	ctx context.Context
-	ApiService *OrgsInventoryAPIService
+	ApiService OrgsInventoryAPI
 	orgId string
 	replaceDevice *ReplaceDevice
 }
@@ -837,7 +931,7 @@ func (a *OrgsInventoryAPIService) ReplaceOrgDevicesExecute(r ApiReplaceOrgDevice
 
 type ApiUpdateOrgInventoryAssignmentRequest struct {
 	ctx context.Context
-	ApiService *OrgsInventoryAPIService
+	ApiService OrgsInventoryAPI
 	orgId string
 	inventoryUpdate *InventoryUpdate
 }

@@ -21,12 +21,30 @@ import (
 )
 
 
+type OrgsDevicesSSRAPI interface {
+
+	/*
+	GetOrg128TRegistrationCommands getOrg128TRegistrationCommands
+
+	128T devices can be managed/adopted by Mist.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiGetOrg128TRegistrationCommandsRequest
+	*/
+	GetOrg128TRegistrationCommands(ctx context.Context, orgId string) ApiGetOrg128TRegistrationCommandsRequest
+
+	// GetOrg128TRegistrationCommandsExecute executes the request
+	//  @return ReponseRouter128tRegisterCmd
+	GetOrg128TRegistrationCommandsExecute(r ApiGetOrg128TRegistrationCommandsRequest) (*ReponseRouter128tRegisterCmd, *http.Response, error)
+}
+
 // OrgsDevicesSSRAPIService OrgsDevicesSSRAPI service
 type OrgsDevicesSSRAPIService service
 
 type ApiGetOrg128TRegistrationCommandsRequest struct {
 	ctx context.Context
-	ApiService *OrgsDevicesSSRAPIService
+	ApiService OrgsDevicesSSRAPI
 	orgId string
 }
 

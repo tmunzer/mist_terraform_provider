@@ -21,12 +21,92 @@ import (
 )
 
 
+type OrgsServicesAPI interface {
+
+	/*
+	CreateOrgService createOrgService
+
+	Create getOrgServices Service
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiCreateOrgServiceRequest
+	*/
+	CreateOrgService(ctx context.Context, orgId string) ApiCreateOrgServiceRequest
+
+	// CreateOrgServiceExecute executes the request
+	//  @return Service
+	CreateOrgServiceExecute(r ApiCreateOrgServiceRequest) (*Service, *http.Response, error)
+
+	/*
+	DeleteOrgService deleteOrgService
+
+	deleteOrgService
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param serviceId
+	@return ApiDeleteOrgServiceRequest
+	*/
+	DeleteOrgService(ctx context.Context, orgId string, serviceId string) ApiDeleteOrgServiceRequest
+
+	// DeleteOrgServiceExecute executes the request
+	DeleteOrgServiceExecute(r ApiDeleteOrgServiceRequest) (*http.Response, error)
+
+	/*
+	GetOrgService getOrgService
+
+	Get Org Service
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param serviceId
+	@return ApiGetOrgServiceRequest
+	*/
+	GetOrgService(ctx context.Context, orgId string, serviceId string) ApiGetOrgServiceRequest
+
+	// GetOrgServiceExecute executes the request
+	//  @return Service
+	GetOrgServiceExecute(r ApiGetOrgServiceRequest) (*Service, *http.Response, error)
+
+	/*
+	ListOrgServices listOrgServices
+
+	Get List of Org Services
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiListOrgServicesRequest
+	*/
+	ListOrgServices(ctx context.Context, orgId string) ApiListOrgServicesRequest
+
+	// ListOrgServicesExecute executes the request
+	//  @return []Service
+	ListOrgServicesExecute(r ApiListOrgServicesRequest) ([]Service, *http.Response, error)
+
+	/*
+	UpdateOrgService updateOrgService
+
+	update Org Service
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param serviceId
+	@return ApiUpdateOrgServiceRequest
+	*/
+	UpdateOrgService(ctx context.Context, orgId string, serviceId string) ApiUpdateOrgServiceRequest
+
+	// UpdateOrgServiceExecute executes the request
+	//  @return Service
+	UpdateOrgServiceExecute(r ApiUpdateOrgServiceRequest) (*Service, *http.Response, error)
+}
+
 // OrgsServicesAPIService OrgsServicesAPI service
 type OrgsServicesAPIService service
 
 type ApiCreateOrgServiceRequest struct {
 	ctx context.Context
-	ApiService *OrgsServicesAPIService
+	ApiService OrgsServicesAPI
 	orgId string
 	service *Service
 }
@@ -205,7 +285,7 @@ func (a *OrgsServicesAPIService) CreateOrgServiceExecute(r ApiCreateOrgServiceRe
 
 type ApiDeleteOrgServiceRequest struct {
 	ctx context.Context
-	ApiService *OrgsServicesAPIService
+	ApiService OrgsServicesAPI
 	orgId string
 	serviceId string
 }
@@ -369,7 +449,7 @@ func (a *OrgsServicesAPIService) DeleteOrgServiceExecute(r ApiDeleteOrgServiceRe
 
 type ApiGetOrgServiceRequest struct {
 	ctx context.Context
-	ApiService *OrgsServicesAPIService
+	ApiService OrgsServicesAPI
 	orgId string
 	serviceId string
 }
@@ -544,7 +624,7 @@ func (a *OrgsServicesAPIService) GetOrgServiceExecute(r ApiGetOrgServiceRequest)
 
 type ApiListOrgServicesRequest struct {
 	ctx context.Context
-	ApiService *OrgsServicesAPIService
+	ApiService OrgsServicesAPI
 	orgId string
 	page *int32
 	limit *int32
@@ -739,7 +819,7 @@ func (a *OrgsServicesAPIService) ListOrgServicesExecute(r ApiListOrgServicesRequ
 
 type ApiUpdateOrgServiceRequest struct {
 	ctx context.Context
-	ApiService *OrgsServicesAPIService
+	ApiService OrgsServicesAPI
 	orgId string
 	serviceId string
 	service *Service

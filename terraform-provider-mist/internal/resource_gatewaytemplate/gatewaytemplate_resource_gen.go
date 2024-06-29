@@ -229,6 +229,7 @@ func GatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 								stringvalidator.OneOf(
 									"",
 									"lan",
+									"vpn",
 									"wan",
 								),
 							},
@@ -484,6 +485,25 @@ func GatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 				},
 				Optional: true,
 				Computed: true,
+			},
+			"dns_override": schema.BoolAttribute{
+				Optional: true,
+				Computed: true,
+				Default:  booldefault.StaticBool(false),
+			},
+			"dns_servers": schema.ListAttribute{
+				ElementType:         types.StringType,
+				Optional:            true,
+				Computed:            true,
+				Description:         "Global dns settings. To keep compatibility, dns settings in `ip_config` and `oob_ip_config` will overwrite this setting",
+				MarkdownDescription: "Global dns settings. To keep compatibility, dns settings in `ip_config` and `oob_ip_config` will overwrite this setting",
+			},
+			"dns_suffix": schema.ListAttribute{
+				ElementType:         types.StringType,
+				Optional:            true,
+				Computed:            true,
+				Description:         "Global dns settings. To keep compatibility, dns settings in `ip_config` and `oob_ip_config` will overwrite this setting",
+				MarkdownDescription: "Global dns settings. To keep compatibility, dns settings in `ip_config` and `oob_ip_config` will overwrite this setting",
 			},
 			"extra_routes": schema.MapNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
@@ -954,6 +974,18 @@ func GatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 				},
 				Optional: true,
 				Computed: true,
+			},
+			"ntp_override": schema.BoolAttribute{
+				Optional: true,
+				Computed: true,
+				Default:  booldefault.StaticBool(false),
+			},
+			"ntp_servers": schema.ListAttribute{
+				ElementType:         types.StringType,
+				Optional:            true,
+				Computed:            true,
+				Description:         "list of NTP servers specific to this device. By default, those in Site Settings will be used",
+				MarkdownDescription: "list of NTP servers specific to this device. By default, those in Site Settings will be used",
 			},
 			"org_id": schema.StringAttribute{
 				Optional: true,
@@ -2534,12 +2566,17 @@ type GatewaytemplateModel struct {
 	AdditionalConfigCmds  types.List                 `tfsdk:"additional_config_cmds"`
 	BgpConfig             types.Map                  `tfsdk:"bgp_config"`
 	DhcpdConfig           DhcpdConfigValue           `tfsdk:"dhcpd_config"`
+	DnsOverride           types.Bool                 `tfsdk:"dns_override"`
+	DnsServers            types.List                 `tfsdk:"dns_servers"`
+	DnsSuffix             types.List                 `tfsdk:"dns_suffix"`
 	ExtraRoutes           types.Map                  `tfsdk:"extra_routes"`
 	Id                    types.String               `tfsdk:"id"`
 	IdpProfiles           types.Map                  `tfsdk:"idp_profiles"`
 	IpConfigs             types.Map                  `tfsdk:"ip_configs"`
 	Name                  types.String               `tfsdk:"name"`
 	Networks              types.List                 `tfsdk:"networks"`
+	NtpOverride           types.Bool                 `tfsdk:"ntp_override"`
+	NtpServers            types.List                 `tfsdk:"ntp_servers"`
 	OrgId                 types.String               `tfsdk:"org_id"`
 	PathPreferences       types.Map                  `tfsdk:"path_preferences"`
 	PortConfig            types.Map                  `tfsdk:"port_config"`

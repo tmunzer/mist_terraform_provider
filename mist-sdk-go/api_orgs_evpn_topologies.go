@@ -21,12 +21,107 @@ import (
 )
 
 
+type OrgsEVPNTopologiesAPI interface {
+
+	/*
+	CreateOrgEvpnTopology createOrgEvpnTopology
+
+	While all the `evpn_id` / `downlink_ips` can be specifidd by hand, the easiest way is to call the `build_vpn_topology` API, allowing you to examine the diff, and update it yourself. You can also simply call it with `overwrite=true` which will apply the updates for you.
+
+**Notes:**
+1. You can use `core` / `distribution` / `access` to create a CLOS topology
+2. You can also use `core` / `distribution` to form a 2-tier EVPN topology where ESI-Lag is configured distribution to connect to access switches
+3. In a small/medium campus, `collapsed-core` can be used where core switches are the inter-connected to do EVPN
+4. The API uses a few pre-defined parameters and best-practices to generate the configs. It can be customized by using `evpn_options` in Site Setting / Network Template. (e.g. a different subnet for the underlay)
+
+#### Collapsed Core
+In a small-medium campus, EVPN can also be enabled only at the core switches (up to 4) by assigning all participating switches with `collapsed-core role`. When there are more than 2 switches, a ring-like topology will be formed.
+
+#### ESI-Lag
+If the access switchess does not have EVPN support, you can take advantage of EVPN by setting up ESI-Lag on distribution switches
+
+#### Leaf / Access / Collapsed-Core
+For leaf nodes in a EVPN topology, you’d have to configure the IPs for networks that would participate in EVPN. Optionally, VRFs to isolate traffic from one tenant verus another
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiCreateOrgEvpnTopologyRequest
+	*/
+	CreateOrgEvpnTopology(ctx context.Context, orgId string) ApiCreateOrgEvpnTopologyRequest
+
+	// CreateOrgEvpnTopologyExecute executes the request
+	//  @return EvpnTopology
+	CreateOrgEvpnTopologyExecute(r ApiCreateOrgEvpnTopologyRequest) (*EvpnTopology, *http.Response, error)
+
+	/*
+	DeleteOrgEvpnTopology deleteOrgEvpnTopology
+
+	Delete the Org EVPN Topology
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param evpnTopologyId
+	@return ApiDeleteOrgEvpnTopologyRequest
+	*/
+	DeleteOrgEvpnTopology(ctx context.Context, orgId string, evpnTopologyId string) ApiDeleteOrgEvpnTopologyRequest
+
+	// DeleteOrgEvpnTopologyExecute executes the request
+	DeleteOrgEvpnTopologyExecute(r ApiDeleteOrgEvpnTopologyRequest) (*http.Response, error)
+
+	/*
+	GetOrgEvpnTolopogy getOrgEvpnTolopogy
+
+	Get One EVPN Topology Detail
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param evpnTopologyId
+	@return ApiGetOrgEvpnTolopogyRequest
+	*/
+	GetOrgEvpnTolopogy(ctx context.Context, orgId string, evpnTopologyId string) ApiGetOrgEvpnTolopogyRequest
+
+	// GetOrgEvpnTolopogyExecute executes the request
+	//  @return EvpnTopology
+	GetOrgEvpnTolopogyExecute(r ApiGetOrgEvpnTolopogyRequest) (*EvpnTopology, *http.Response, error)
+
+	/*
+	ListOrgEvpnTopologies listOrgEvpnTopologies
+
+	Get List of the existing Org EVPN topologies
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiListOrgEvpnTopologiesRequest
+	*/
+	ListOrgEvpnTopologies(ctx context.Context, orgId string) ApiListOrgEvpnTopologiesRequest
+
+	// ListOrgEvpnTopologiesExecute executes the request
+	//  @return []EvpnTopology
+	ListOrgEvpnTopologiesExecute(r ApiListOrgEvpnTopologiesRequest) ([]EvpnTopology, *http.Response, error)
+
+	/*
+	UpdateOrgEvpnTopology updateOrgEvpnTopology
+
+	Update the EVPN Topolgy
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param evpnTopologyId
+	@return ApiUpdateOrgEvpnTopologyRequest
+	*/
+	UpdateOrgEvpnTopology(ctx context.Context, orgId string, evpnTopologyId string) ApiUpdateOrgEvpnTopologyRequest
+
+	// UpdateOrgEvpnTopologyExecute executes the request
+	//  @return EvpnTopology
+	UpdateOrgEvpnTopologyExecute(r ApiUpdateOrgEvpnTopologyRequest) (*EvpnTopology, *http.Response, error)
+}
+
 // OrgsEVPNTopologiesAPIService OrgsEVPNTopologiesAPI service
 type OrgsEVPNTopologiesAPIService service
 
 type ApiCreateOrgEvpnTopologyRequest struct {
 	ctx context.Context
-	ApiService *OrgsEVPNTopologiesAPIService
+	ApiService OrgsEVPNTopologiesAPI
 	orgId string
 	evpnTopology *EvpnTopology
 }
@@ -220,7 +315,7 @@ func (a *OrgsEVPNTopologiesAPIService) CreateOrgEvpnTopologyExecute(r ApiCreateO
 
 type ApiDeleteOrgEvpnTopologyRequest struct {
 	ctx context.Context
-	ApiService *OrgsEVPNTopologiesAPIService
+	ApiService OrgsEVPNTopologiesAPI
 	orgId string
 	evpnTopologyId string
 }
@@ -384,7 +479,7 @@ func (a *OrgsEVPNTopologiesAPIService) DeleteOrgEvpnTopologyExecute(r ApiDeleteO
 
 type ApiGetOrgEvpnTolopogyRequest struct {
 	ctx context.Context
-	ApiService *OrgsEVPNTopologiesAPIService
+	ApiService OrgsEVPNTopologiesAPI
 	orgId string
 	evpnTopologyId string
 }
@@ -559,7 +654,7 @@ func (a *OrgsEVPNTopologiesAPIService) GetOrgEvpnTolopogyExecute(r ApiGetOrgEvpn
 
 type ApiListOrgEvpnTopologiesRequest struct {
 	ctx context.Context
-	ApiService *OrgsEVPNTopologiesAPIService
+	ApiService OrgsEVPNTopologiesAPI
 	orgId string
 	page *int32
 	limit *int32
@@ -754,7 +849,7 @@ func (a *OrgsEVPNTopologiesAPIService) ListOrgEvpnTopologiesExecute(r ApiListOrg
 
 type ApiUpdateOrgEvpnTopologyRequest struct {
 	ctx context.Context
-	ApiService *OrgsEVPNTopologiesAPIService
+	ApiService OrgsEVPNTopologiesAPI
 	orgId string
 	evpnTopologyId string
 	evpnTopology *EvpnTopology

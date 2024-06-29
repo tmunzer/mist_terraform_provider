@@ -21,12 +21,95 @@ import (
 )
 
 
+type OrgsAssetFiltersAPI interface {
+
+	/*
+	CreateOrgAssetFilters createOrgAssetFilters
+
+	Create Asset Filter
+
+Creates a single BLE asset filter for the given site. Any subset of filter properties can be included in the filter. A matching asset must meet the conditions of all given filter properties (logical ‘AND’).
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiCreateOrgAssetFiltersRequest
+	*/
+	CreateOrgAssetFilters(ctx context.Context, orgId string) ApiCreateOrgAssetFiltersRequest
+
+	// CreateOrgAssetFiltersExecute executes the request
+	//  @return AssetFilter
+	CreateOrgAssetFiltersExecute(r ApiCreateOrgAssetFiltersRequest) (*AssetFilter, *http.Response, error)
+
+	/*
+	DeleteOrgAssetFilter deleteOrgAssetFilter
+
+	Deletes an existing BLE asset filter for the given site.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param assetfilterId
+	@return ApiDeleteOrgAssetFilterRequest
+	*/
+	DeleteOrgAssetFilter(ctx context.Context, orgId string, assetfilterId string) ApiDeleteOrgAssetFilterRequest
+
+	// DeleteOrgAssetFilterExecute executes the request
+	DeleteOrgAssetFilterExecute(r ApiDeleteOrgAssetFilterRequest) (*http.Response, error)
+
+	/*
+	GetOrgAssetFilter getOrgAssetFilter
+
+	Get Org Asset Filter Details
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param assetfilterId
+	@return ApiGetOrgAssetFilterRequest
+	*/
+	GetOrgAssetFilter(ctx context.Context, orgId string, assetfilterId string) ApiGetOrgAssetFilterRequest
+
+	// GetOrgAssetFilterExecute executes the request
+	//  @return AssetFilter
+	GetOrgAssetFilterExecute(r ApiGetOrgAssetFilterRequest) (*AssetFilter, *http.Response, error)
+
+	/*
+	ListOrgAssetFilters listOrgAssetFilters
+
+	Get List of Org BLE asset filters. 
+Each asset filter in the list operates independently. For a filter object to match an asset, all of the filter properties must match (logical ‘AND’ of each filter property). For example, the “Visitor Tags” filter below will match an asset when both the “ibeacon\_uuid” and “ibeacon_major” properties match the asset. All non-matching assets are ignored.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiListOrgAssetFiltersRequest
+	*/
+	ListOrgAssetFilters(ctx context.Context, orgId string) ApiListOrgAssetFiltersRequest
+
+	// ListOrgAssetFiltersExecute executes the request
+	//  @return []AssetFilter
+	ListOrgAssetFiltersExecute(r ApiListOrgAssetFiltersRequest) ([]AssetFilter, *http.Response, error)
+
+	/*
+	UpdateOrgAssetFilters updateOrgAssetFilters
+
+	Updates an existing BLE asset filter for the given site.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param assetfilterId
+	@return ApiUpdateOrgAssetFiltersRequest
+	*/
+	UpdateOrgAssetFilters(ctx context.Context, orgId string, assetfilterId string) ApiUpdateOrgAssetFiltersRequest
+
+	// UpdateOrgAssetFiltersExecute executes the request
+	//  @return AssetFilter
+	UpdateOrgAssetFiltersExecute(r ApiUpdateOrgAssetFiltersRequest) (*AssetFilter, *http.Response, error)
+}
+
 // OrgsAssetFiltersAPIService OrgsAssetFiltersAPI service
 type OrgsAssetFiltersAPIService service
 
 type ApiCreateOrgAssetFiltersRequest struct {
 	ctx context.Context
-	ApiService *OrgsAssetFiltersAPIService
+	ApiService OrgsAssetFiltersAPI
 	orgId string
 	assetFilter *AssetFilter
 }
@@ -207,7 +290,7 @@ func (a *OrgsAssetFiltersAPIService) CreateOrgAssetFiltersExecute(r ApiCreateOrg
 
 type ApiDeleteOrgAssetFilterRequest struct {
 	ctx context.Context
-	ApiService *OrgsAssetFiltersAPIService
+	ApiService OrgsAssetFiltersAPI
 	orgId string
 	assetfilterId string
 }
@@ -371,7 +454,7 @@ func (a *OrgsAssetFiltersAPIService) DeleteOrgAssetFilterExecute(r ApiDeleteOrgA
 
 type ApiGetOrgAssetFilterRequest struct {
 	ctx context.Context
-	ApiService *OrgsAssetFiltersAPIService
+	ApiService OrgsAssetFiltersAPI
 	orgId string
 	assetfilterId string
 }
@@ -546,7 +629,7 @@ func (a *OrgsAssetFiltersAPIService) GetOrgAssetFilterExecute(r ApiGetOrgAssetFi
 
 type ApiListOrgAssetFiltersRequest struct {
 	ctx context.Context
-	ApiService *OrgsAssetFiltersAPIService
+	ApiService OrgsAssetFiltersAPI
 	orgId string
 	page *int32
 	limit *int32
@@ -742,7 +825,7 @@ func (a *OrgsAssetFiltersAPIService) ListOrgAssetFiltersExecute(r ApiListOrgAsse
 
 type ApiUpdateOrgAssetFiltersRequest struct {
 	ctx context.Context
-	ApiService *OrgsAssetFiltersAPIService
+	ApiService OrgsAssetFiltersAPI
 	orgId string
 	assetfilterId string
 	assetFilter *AssetFilter

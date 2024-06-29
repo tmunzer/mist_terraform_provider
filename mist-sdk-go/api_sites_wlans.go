@@ -22,12 +22,153 @@ import (
 )
 
 
+type SitesWlansAPI interface {
+
+	/*
+	CreateSiteWlan createSiteWlan
+
+	Create Site WLAN
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiCreateSiteWlanRequest
+	*/
+	CreateSiteWlan(ctx context.Context, siteId string) ApiCreateSiteWlanRequest
+
+	// CreateSiteWlanExecute executes the request
+	//  @return Wlan
+	CreateSiteWlanExecute(r ApiCreateSiteWlanRequest) (*Wlan, *http.Response, error)
+
+	/*
+	DeleteSiteWlan deleteSiteWlan
+
+	Delete Site WLAN
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param wlanId
+	@return ApiDeleteSiteWlanRequest
+	*/
+	DeleteSiteWlan(ctx context.Context, siteId string, wlanId string) ApiDeleteSiteWlanRequest
+
+	// DeleteSiteWlanExecute executes the request
+	DeleteSiteWlanExecute(r ApiDeleteSiteWlanRequest) (*http.Response, error)
+
+	/*
+	GetSiteWlan getSiteWlan
+
+	Get Site WLAN
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param wlanId
+	@return ApiGetSiteWlanRequest
+	*/
+	GetSiteWlan(ctx context.Context, siteId string, wlanId string) ApiGetSiteWlanRequest
+
+	// GetSiteWlanExecute executes the request
+	//  @return Wlan
+	GetSiteWlanExecute(r ApiGetSiteWlanRequest) (*Wlan, *http.Response, error)
+
+	/*
+	ListSiteWlanDerived listSiteWlanDerived
+
+	Get Wlans Derived
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiListSiteWlanDerivedRequest
+	*/
+	ListSiteWlanDerived(ctx context.Context, siteId string) ApiListSiteWlanDerivedRequest
+
+	// ListSiteWlanDerivedExecute executes the request
+	//  @return []Wlan
+	ListSiteWlanDerivedExecute(r ApiListSiteWlanDerivedRequest) ([]Wlan, *http.Response, error)
+
+	/*
+	ListSiteWlans listSiteWlans
+
+	Get List of Site WLANs
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiListSiteWlansRequest
+	*/
+	ListSiteWlans(ctx context.Context, siteId string) ApiListSiteWlansRequest
+
+	// ListSiteWlansExecute executes the request
+	//  @return []Wlan
+	ListSiteWlansExecute(r ApiListSiteWlansRequest) ([]Wlan, *http.Response, error)
+
+	/*
+	UpdateSiteWlan updateSiteWlan
+
+	Update Site WLAN
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param wlanId
+	@return ApiUpdateSiteWlanRequest
+	*/
+	UpdateSiteWlan(ctx context.Context, siteId string, wlanId string) ApiUpdateSiteWlanRequest
+
+	// UpdateSiteWlanExecute executes the request
+	//  @return Wlan
+	UpdateSiteWlanExecute(r ApiUpdateSiteWlanRequest) (*Wlan, *http.Response, error)
+
+	/*
+	UpdateSiteWlanPortalTemplate updateSiteWlanPortalTemplate
+
+	Update a Portal Template
+
+#### Sponsor Email Template
+Sponsor Email Template supports following template variables:
+
+| **Name** | **Description** |
+| --- | --- |
+| approve_url | Renders URL to approve the request; optionally &minutes=N query param can be appended to change the Authorization period of the guest, where N is a valid integer denoting number of minutes a guest remains authorized |
+| deny_url | Renders URL to reject the request |
+| guest_email | Renders Email ID of the guest |
+| guest_name | Renders Name of the guest |
+| field1 | Renders value of the Custom Field 1 |
+| field2 | Renders value of the Custom Field 2 |
+| company | Renders value of the Company field |
+| sponsor_link_validity_duration | Renders validity time of the request (i.e. Approve/Deny URL) |
+| auth_expire_minutes | Renders Wlan-level configured Guest Authorization Expiration time period (in minutes), If not configured then default (1 day in minutes) |
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param wlanId
+	@return ApiUpdateSiteWlanPortalTemplateRequest
+	*/
+	UpdateSiteWlanPortalTemplate(ctx context.Context, siteId string, wlanId string) ApiUpdateSiteWlanPortalTemplateRequest
+
+	// UpdateSiteWlanPortalTemplateExecute executes the request
+	//  @return PortalTemplate
+	UpdateSiteWlanPortalTemplateExecute(r ApiUpdateSiteWlanPortalTemplateRequest) (*PortalTemplate, *http.Response, error)
+
+	/*
+	UploadSiteWlanPortalImage uploadSiteWlanPortalImage
+
+	Wlan Portal Image Upload
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param wlanId
+	@return ApiUploadSiteWlanPortalImageRequest
+	*/
+	UploadSiteWlanPortalImage(ctx context.Context, siteId string, wlanId string) ApiUploadSiteWlanPortalImageRequest
+
+	// UploadSiteWlanPortalImageExecute executes the request
+	UploadSiteWlanPortalImageExecute(r ApiUploadSiteWlanPortalImageRequest) (*http.Response, error)
+}
+
 // SitesWlansAPIService SitesWlansAPI service
 type SitesWlansAPIService service
 
 type ApiCreateSiteWlanRequest struct {
 	ctx context.Context
-	ApiService *SitesWlansAPIService
+	ApiService SitesWlansAPI
 	siteId string
 	wlan *Wlan
 }
@@ -207,7 +348,7 @@ func (a *SitesWlansAPIService) CreateSiteWlanExecute(r ApiCreateSiteWlanRequest)
 
 type ApiDeleteSiteWlanRequest struct {
 	ctx context.Context
-	ApiService *SitesWlansAPIService
+	ApiService SitesWlansAPI
 	siteId string
 	wlanId string
 }
@@ -371,7 +512,7 @@ func (a *SitesWlansAPIService) DeleteSiteWlanExecute(r ApiDeleteSiteWlanRequest)
 
 type ApiGetSiteWlanRequest struct {
 	ctx context.Context
-	ApiService *SitesWlansAPIService
+	ApiService SitesWlansAPI
 	siteId string
 	wlanId string
 }
@@ -546,7 +687,7 @@ func (a *SitesWlansAPIService) GetSiteWlanExecute(r ApiGetSiteWlanRequest) (*Wla
 
 type ApiListSiteWlanDerivedRequest struct {
 	ctx context.Context
-	ApiService *SitesWlansAPIService
+	ApiService SitesWlansAPI
 	siteId string
 	resolve *bool
 	wlanId *string
@@ -740,7 +881,7 @@ func (a *SitesWlansAPIService) ListSiteWlanDerivedExecute(r ApiListSiteWlanDeriv
 
 type ApiListSiteWlansRequest struct {
 	ctx context.Context
-	ApiService *SitesWlansAPIService
+	ApiService SitesWlansAPI
 	siteId string
 	page *int32
 	limit *int32
@@ -935,7 +1076,7 @@ func (a *SitesWlansAPIService) ListSiteWlansExecute(r ApiListSiteWlansRequest) (
 
 type ApiUpdateSiteWlanRequest struct {
 	ctx context.Context
-	ApiService *SitesWlansAPIService
+	ApiService SitesWlansAPI
 	siteId string
 	wlanId string
 	wlan *Wlan
@@ -1119,7 +1260,7 @@ func (a *SitesWlansAPIService) UpdateSiteWlanExecute(r ApiUpdateSiteWlanRequest)
 
 type ApiUpdateSiteWlanPortalTemplateRequest struct {
 	ctx context.Context
-	ApiService *SitesWlansAPIService
+	ApiService SitesWlansAPI
 	siteId string
 	wlanId string
 	wlanPortalTemplate *WlanPortalTemplate
@@ -1318,7 +1459,7 @@ func (a *SitesWlansAPIService) UpdateSiteWlanPortalTemplateExecute(r ApiUpdateSi
 
 type ApiUploadSiteWlanPortalImageRequest struct {
 	ctx context.Context
-	ApiService *SitesWlansAPIService
+	ApiService SitesWlansAPI
 	siteId string
 	wlanId string
 	file *os.File

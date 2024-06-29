@@ -22,12 +22,185 @@ import (
 )
 
 
+type OrgsPskPortalsAPI interface {
+
+	/*
+	CountOrgPskPortalLogs countOrgPskPortalLogs
+
+	Count by Distinct Attributes of PskPortal Logs
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiCountOrgPskPortalLogsRequest
+	*/
+	CountOrgPskPortalLogs(ctx context.Context, orgId string) ApiCountOrgPskPortalLogsRequest
+
+	// CountOrgPskPortalLogsExecute executes the request
+	//  @return RepsonseCount
+	CountOrgPskPortalLogsExecute(r ApiCountOrgPskPortalLogsRequest) (*RepsonseCount, *http.Response, error)
+
+	/*
+	CreateOrgPskPortal createOrgPskPortal
+
+	Create Org Psk Portal
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiCreateOrgPskPortalRequest
+	*/
+	CreateOrgPskPortal(ctx context.Context, orgId string) ApiCreateOrgPskPortalRequest
+
+	// CreateOrgPskPortalExecute executes the request
+	//  @return PskPortal
+	CreateOrgPskPortalExecute(r ApiCreateOrgPskPortalRequest) (*PskPortal, *http.Response, error)
+
+	/*
+	DeleteOrgPskPortal deleteOrgPskPortal
+
+	Delete Org Psk Portal
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param pskportalId
+	@return ApiDeleteOrgPskPortalRequest
+	*/
+	DeleteOrgPskPortal(ctx context.Context, orgId string, pskportalId string) ApiDeleteOrgPskPortalRequest
+
+	// DeleteOrgPskPortalExecute executes the request
+	DeleteOrgPskPortalExecute(r ApiDeleteOrgPskPortalRequest) (*http.Response, error)
+
+	/*
+	DeleteOrgPskPortalImage deleteOrgPskPortalImage
+
+	Delete background image for PskPortal
+
+
+If image is not uploaded or is deleted, PskPortal will use default image.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param pskportalId
+	@return ApiDeleteOrgPskPortalImageRequest
+	*/
+	DeleteOrgPskPortalImage(ctx context.Context, orgId string, pskportalId string) ApiDeleteOrgPskPortalImageRequest
+
+	// DeleteOrgPskPortalImageExecute executes the request
+	DeleteOrgPskPortalImageExecute(r ApiDeleteOrgPskPortalImageRequest) (*http.Response, error)
+
+	/*
+	GetOrgPskPortal getOrgPskPortal
+
+	get Org Psk Portal Details
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param pskportalId
+	@return ApiGetOrgPskPortalRequest
+	*/
+	GetOrgPskPortal(ctx context.Context, orgId string, pskportalId string) ApiGetOrgPskPortalRequest
+
+	// GetOrgPskPortalExecute executes the request
+	//  @return PskPortal
+	GetOrgPskPortalExecute(r ApiGetOrgPskPortalRequest) (*PskPortal, *http.Response, error)
+
+	/*
+	ListOrgPskPortalLogs listOrgPskPortalLogs
+
+	Get the list of PSK Portals Logs
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiListOrgPskPortalLogsRequest
+	*/
+	ListOrgPskPortalLogs(ctx context.Context, orgId string) ApiListOrgPskPortalLogsRequest
+
+	// ListOrgPskPortalLogsExecute executes the request
+	//  @return ResponsePskPortalLogsSearch
+	ListOrgPskPortalLogsExecute(r ApiListOrgPskPortalLogsRequest) (*ResponsePskPortalLogsSearch, *http.Response, error)
+
+	/*
+	ListOrgPskPortals listOrgPskPortals
+
+	Get List of Org Psk Portals
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiListOrgPskPortalsRequest
+	*/
+	ListOrgPskPortals(ctx context.Context, orgId string) ApiListOrgPskPortalsRequest
+
+	// ListOrgPskPortalsExecute executes the request
+	//  @return []PskPortal
+	ListOrgPskPortalsExecute(r ApiListOrgPskPortalsRequest) ([]PskPortal, *http.Response, error)
+
+	/*
+	SearchOrgPskPortalLogs searchOrgPskPortalLogs
+
+	Search Org PSK Portal Logs
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiSearchOrgPskPortalLogsRequest
+	*/
+	SearchOrgPskPortalLogs(ctx context.Context, orgId string) ApiSearchOrgPskPortalLogsRequest
+
+	// SearchOrgPskPortalLogsExecute executes the request
+	//  @return ResponsePskPortalLogsSearch
+	SearchOrgPskPortalLogsExecute(r ApiSearchOrgPskPortalLogsRequest) (*ResponsePskPortalLogsSearch, *http.Response, error)
+
+	/*
+	UpdateOrgPskPortal updateOrgPskPortal
+
+	update Org Psk Portal
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param pskportalId
+	@return ApiUpdateOrgPskPortalRequest
+	*/
+	UpdateOrgPskPortal(ctx context.Context, orgId string, pskportalId string) ApiUpdateOrgPskPortalRequest
+
+	// UpdateOrgPskPortalExecute executes the request
+	//  @return PskPortal
+	UpdateOrgPskPortalExecute(r ApiUpdateOrgPskPortalRequest) (*PskPortal, *http.Response, error)
+
+	/*
+	UpdateOrgPskPortalTemplate updateOrgPskPortalTemplate
+
+	Update Org Psk Portal Template
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param pskportalId
+	@return ApiUpdateOrgPskPortalTemplateRequest
+	*/
+	UpdateOrgPskPortalTemplate(ctx context.Context, orgId string, pskportalId string) ApiUpdateOrgPskPortalTemplateRequest
+
+	// UpdateOrgPskPortalTemplateExecute executes the request
+	UpdateOrgPskPortalTemplateExecute(r ApiUpdateOrgPskPortalTemplateRequest) (*http.Response, error)
+
+	/*
+	UploadOrgPskPortalImage uploadOrgPskPortalImage
+
+	Upload background image for PskPortal
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param pskportalId
+	@return ApiUploadOrgPskPortalImageRequest
+	*/
+	UploadOrgPskPortalImage(ctx context.Context, orgId string, pskportalId string) ApiUploadOrgPskPortalImageRequest
+
+	// UploadOrgPskPortalImageExecute executes the request
+	UploadOrgPskPortalImageExecute(r ApiUploadOrgPskPortalImageRequest) (*http.Response, error)
+}
+
 // OrgsPskPortalsAPIService OrgsPskPortalsAPI service
 type OrgsPskPortalsAPIService service
 
 type ApiCountOrgPskPortalLogsRequest struct {
 	ctx context.Context
-	ApiService *OrgsPskPortalsAPIService
+	ApiService OrgsPskPortalsAPI
 	orgId string
 	distinct *OrgPskPortalLogsCountDistinct
 	start *int32
@@ -267,7 +440,7 @@ func (a *OrgsPskPortalsAPIService) CountOrgPskPortalLogsExecute(r ApiCountOrgPsk
 
 type ApiCreateOrgPskPortalRequest struct {
 	ctx context.Context
-	ApiService *OrgsPskPortalsAPIService
+	ApiService OrgsPskPortalsAPI
 	orgId string
 	pskPortal *PskPortal
 }
@@ -446,7 +619,7 @@ func (a *OrgsPskPortalsAPIService) CreateOrgPskPortalExecute(r ApiCreateOrgPskPo
 
 type ApiDeleteOrgPskPortalRequest struct {
 	ctx context.Context
-	ApiService *OrgsPskPortalsAPIService
+	ApiService OrgsPskPortalsAPI
 	orgId string
 	pskportalId string
 }
@@ -610,7 +783,7 @@ func (a *OrgsPskPortalsAPIService) DeleteOrgPskPortalExecute(r ApiDeleteOrgPskPo
 
 type ApiDeleteOrgPskPortalImageRequest struct {
 	ctx context.Context
-	ApiService *OrgsPskPortalsAPIService
+	ApiService OrgsPskPortalsAPI
 	orgId string
 	pskportalId string
 }
@@ -777,7 +950,7 @@ func (a *OrgsPskPortalsAPIService) DeleteOrgPskPortalImageExecute(r ApiDeleteOrg
 
 type ApiGetOrgPskPortalRequest struct {
 	ctx context.Context
-	ApiService *OrgsPskPortalsAPIService
+	ApiService OrgsPskPortalsAPI
 	orgId string
 	pskportalId string
 }
@@ -952,7 +1125,7 @@ func (a *OrgsPskPortalsAPIService) GetOrgPskPortalExecute(r ApiGetOrgPskPortalRe
 
 type ApiListOrgPskPortalLogsRequest struct {
 	ctx context.Context
-	ApiService *OrgsPskPortalsAPIService
+	ApiService OrgsPskPortalsAPI
 	orgId string
 	start *int32
 	end *int32
@@ -1180,7 +1353,7 @@ func (a *OrgsPskPortalsAPIService) ListOrgPskPortalLogsExecute(r ApiListOrgPskPo
 
 type ApiListOrgPskPortalsRequest struct {
 	ctx context.Context
-	ApiService *OrgsPskPortalsAPIService
+	ApiService OrgsPskPortalsAPI
 	orgId string
 	page *int32
 	limit *int32
@@ -1375,7 +1548,7 @@ func (a *OrgsPskPortalsAPIService) ListOrgPskPortalsExecute(r ApiListOrgPskPorta
 
 type ApiSearchOrgPskPortalLogsRequest struct {
 	ctx context.Context
-	ApiService *OrgsPskPortalsAPIService
+	ApiService OrgsPskPortalsAPI
 	orgId string
 	start *int32
 	end *int32
@@ -1668,7 +1841,7 @@ func (a *OrgsPskPortalsAPIService) SearchOrgPskPortalLogsExecute(r ApiSearchOrgP
 
 type ApiUpdateOrgPskPortalRequest struct {
 	ctx context.Context
-	ApiService *OrgsPskPortalsAPIService
+	ApiService OrgsPskPortalsAPI
 	orgId string
 	pskportalId string
 	pskPortal *PskPortal
@@ -1851,7 +2024,7 @@ func (a *OrgsPskPortalsAPIService) UpdateOrgPskPortalExecute(r ApiUpdateOrgPskPo
 
 type ApiUpdateOrgPskPortalTemplateRequest struct {
 	ctx context.Context
-	ApiService *OrgsPskPortalsAPIService
+	ApiService OrgsPskPortalsAPI
 	orgId string
 	pskportalId string
 	pskPortalTemplate *PskPortalTemplate
@@ -2023,7 +2196,7 @@ func (a *OrgsPskPortalsAPIService) UpdateOrgPskPortalTemplateExecute(r ApiUpdate
 
 type ApiUploadOrgPskPortalImageRequest struct {
 	ctx context.Context
-	ApiService *OrgsPskPortalsAPIService
+	ApiService OrgsPskPortalsAPI
 	orgId string
 	pskportalId string
 	file *os.File

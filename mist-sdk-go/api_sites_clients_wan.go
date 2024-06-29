@@ -21,12 +21,75 @@ import (
 )
 
 
+type SitesClientsWanAPI interface {
+
+	/*
+	CountSiteWanClientEvents countSiteWanClientEvents
+
+	Count by Distinct Attributes of Site WAN Client-Events
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiCountSiteWanClientEventsRequest
+	*/
+	CountSiteWanClientEvents(ctx context.Context, siteId string) ApiCountSiteWanClientEventsRequest
+
+	// CountSiteWanClientEventsExecute executes the request
+	//  @return RepsonseCount
+	CountSiteWanClientEventsExecute(r ApiCountSiteWanClientEventsRequest) (*RepsonseCount, *http.Response, error)
+
+	/*
+	CountSiteWanClients countSiteWanClients
+
+	Count Site WAN Clients
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiCountSiteWanClientsRequest
+	*/
+	CountSiteWanClients(ctx context.Context, siteId string) ApiCountSiteWanClientsRequest
+
+	// CountSiteWanClientsExecute executes the request
+	//  @return RepsonseCount
+	CountSiteWanClientsExecute(r ApiCountSiteWanClientsRequest) (*RepsonseCount, *http.Response, error)
+
+	/*
+	SearchSiteWanClientEvents searchSiteWanClientEvents
+
+	Search Site WAN Client Events
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiSearchSiteWanClientEventsRequest
+	*/
+	SearchSiteWanClientEvents(ctx context.Context, siteId string) ApiSearchSiteWanClientEventsRequest
+
+	// SearchSiteWanClientEventsExecute executes the request
+	//  @return SearchEventsWanClient
+	SearchSiteWanClientEventsExecute(r ApiSearchSiteWanClientEventsRequest) (*SearchEventsWanClient, *http.Response, error)
+
+	/*
+	SearchSiteWanClients searchSiteWanClients
+
+	Search Site WAN Clients
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiSearchSiteWanClientsRequest
+	*/
+	SearchSiteWanClients(ctx context.Context, siteId string) ApiSearchSiteWanClientsRequest
+
+	// SearchSiteWanClientsExecute executes the request
+	//  @return SearchWanClient
+	SearchSiteWanClientsExecute(r ApiSearchSiteWanClientsRequest) (*SearchWanClient, *http.Response, error)
+}
+
 // SitesClientsWanAPIService SitesClientsWanAPI service
 type SitesClientsWanAPIService service
 
 type ApiCountSiteWanClientEventsRequest struct {
 	ctx context.Context
-	ApiService *SitesClientsWanAPIService
+	ApiService SitesClientsWanAPI
 	siteId string
 	distinct *SiteWanClientEventsDistinct
 	type_ *string
@@ -264,7 +327,7 @@ func (a *SitesClientsWanAPIService) CountSiteWanClientEventsExecute(r ApiCountSi
 
 type ApiCountSiteWanClientsRequest struct {
 	ctx context.Context
-	ApiService *SitesClientsWanAPIService
+	ApiService SitesClientsWanAPI
 	siteId string
 	distinct *SiteWanClientsCountDistinct
 	start *int32
@@ -504,7 +567,7 @@ func (a *SitesClientsWanAPIService) CountSiteWanClientsExecute(r ApiCountSiteWan
 
 type ApiSearchSiteWanClientEventsRequest struct {
 	ctx context.Context
-	ApiService *SitesClientsWanAPIService
+	ApiService SitesClientsWanAPI
 	siteId string
 	type_ *string
 	mac *string
@@ -780,7 +843,7 @@ func (a *SitesClientsWanAPIService) SearchSiteWanClientEventsExecute(r ApiSearch
 
 type ApiSearchSiteWanClientsRequest struct {
 	ctx context.Context
-	ApiService *SitesClientsWanAPIService
+	ApiService SitesClientsWanAPI
 	siteId string
 	mac *string
 	hostname *string

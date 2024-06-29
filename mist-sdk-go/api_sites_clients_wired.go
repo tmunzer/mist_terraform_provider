@@ -21,12 +21,45 @@ import (
 )
 
 
+type SitesClientsWiredAPI interface {
+
+	/*
+	CountSiteWiredClients countSiteWiredClients
+
+	Count by Distinct Attributes of Clients
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiCountSiteWiredClientsRequest
+	*/
+	CountSiteWiredClients(ctx context.Context, siteId string) ApiCountSiteWiredClientsRequest
+
+	// CountSiteWiredClientsExecute executes the request
+	//  @return RepsonseCount
+	CountSiteWiredClientsExecute(r ApiCountSiteWiredClientsRequest) (*RepsonseCount, *http.Response, error)
+
+	/*
+	SearchSiteWiredClients searchSiteWiredClients
+
+	Search Wired Clients
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiSearchSiteWiredClientsRequest
+	*/
+	SearchSiteWiredClients(ctx context.Context, siteId string) ApiSearchSiteWiredClientsRequest
+
+	// SearchSiteWiredClientsExecute executes the request
+	//  @return SearchWiredClient
+	SearchSiteWiredClientsExecute(r ApiSearchSiteWiredClientsRequest) (*SearchWiredClient, *http.Response, error)
+}
+
 // SitesClientsWiredAPIService SitesClientsWiredAPI service
 type SitesClientsWiredAPIService service
 
 type ApiCountSiteWiredClientsRequest struct {
 	ctx context.Context
-	ApiService *SitesClientsWiredAPIService
+	ApiService SitesClientsWiredAPI
 	siteId string
 	distinct *SiteWiredClientsCountDistinct
 	mac *string
@@ -306,7 +339,7 @@ func (a *SitesClientsWiredAPIService) CountSiteWiredClientsExecute(r ApiCountSit
 
 type ApiSearchSiteWiredClientsRequest struct {
 	ctx context.Context
-	ApiService *SitesClientsWiredAPIService
+	ApiService SitesClientsWiredAPI
 	siteId string
 	deviceMac *string
 	mac *string

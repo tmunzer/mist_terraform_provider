@@ -8,6 +8,9 @@ Name | Type | Description | Notes
 **BgpConfig** | Pointer to [**map[string]BgpConfig**](BgpConfig.md) |  | [optional] 
 **CreatedTime** | Pointer to **float32** |  | [optional] [readonly] 
 **DhcpdConfig** | Pointer to [**DhcpdConfigs**](DhcpdConfigs.md) |  | [optional] 
+**DnsOverride** | Pointer to **bool** |  | [optional] [default to false]
+**DnsServers** | Pointer to **[]string** | Global dns settings. To keep compatibility, dns settings in &#x60;ip_config&#x60; and &#x60;oob_ip_config&#x60; will overwrite this setting | [optional] 
+**DnsSuffix** | Pointer to **[]string** | Global dns settings. To keep compatibility, dns settings in &#x60;ip_config&#x60; and &#x60;oob_ip_config&#x60; will overwrite this setting | [optional] 
 **ExtraRoutes** | Pointer to [**map[string]GatewayExtraRoute**](GatewayExtraRoute.md) |  | [optional] 
 **GatewayMatching** | Pointer to [**GatewayMatching**](GatewayMatching.md) |  | [optional] 
 **Id** | Pointer to **string** |  | [optional] [readonly] 
@@ -16,6 +19,8 @@ Name | Type | Description | Notes
 **ModifiedTime** | Pointer to **float32** |  | [optional] [readonly] 
 **Name** | **string** |  | 
 **Networks** | Pointer to [**[]Network**](Network.md) |  | [optional] 
+**NtpOverride** | Pointer to **bool** |  | [optional] [default to false]
+**NtpServers** | Pointer to **[]string** | list of NTP servers specific to this device. By default, those in Site Settings will be used | [optional] 
 **OobIpConfig** | Pointer to [**JunosOobIpConfigs**](JunosOobIpConfigs.md) |  | [optional] 
 **OrgId** | Pointer to **string** |  | [optional] [readonly] 
 **PathPreferences** | Pointer to [**map[string]GatewayTemplatePathPreferences**](GatewayTemplatePathPreferences.md) | Property key is the path name | [optional] 
@@ -145,6 +150,81 @@ SetDhcpdConfig sets DhcpdConfig field to given value.
 `func (o *GatewayTemplate) HasDhcpdConfig() bool`
 
 HasDhcpdConfig returns a boolean if a field has been set.
+
+### GetDnsOverride
+
+`func (o *GatewayTemplate) GetDnsOverride() bool`
+
+GetDnsOverride returns the DnsOverride field if non-nil, zero value otherwise.
+
+### GetDnsOverrideOk
+
+`func (o *GatewayTemplate) GetDnsOverrideOk() (*bool, bool)`
+
+GetDnsOverrideOk returns a tuple with the DnsOverride field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetDnsOverride
+
+`func (o *GatewayTemplate) SetDnsOverride(v bool)`
+
+SetDnsOverride sets DnsOverride field to given value.
+
+### HasDnsOverride
+
+`func (o *GatewayTemplate) HasDnsOverride() bool`
+
+HasDnsOverride returns a boolean if a field has been set.
+
+### GetDnsServers
+
+`func (o *GatewayTemplate) GetDnsServers() []string`
+
+GetDnsServers returns the DnsServers field if non-nil, zero value otherwise.
+
+### GetDnsServersOk
+
+`func (o *GatewayTemplate) GetDnsServersOk() (*[]string, bool)`
+
+GetDnsServersOk returns a tuple with the DnsServers field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetDnsServers
+
+`func (o *GatewayTemplate) SetDnsServers(v []string)`
+
+SetDnsServers sets DnsServers field to given value.
+
+### HasDnsServers
+
+`func (o *GatewayTemplate) HasDnsServers() bool`
+
+HasDnsServers returns a boolean if a field has been set.
+
+### GetDnsSuffix
+
+`func (o *GatewayTemplate) GetDnsSuffix() []string`
+
+GetDnsSuffix returns the DnsSuffix field if non-nil, zero value otherwise.
+
+### GetDnsSuffixOk
+
+`func (o *GatewayTemplate) GetDnsSuffixOk() (*[]string, bool)`
+
+GetDnsSuffixOk returns a tuple with the DnsSuffix field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetDnsSuffix
+
+`func (o *GatewayTemplate) SetDnsSuffix(v []string)`
+
+SetDnsSuffix sets DnsSuffix field to given value.
+
+### HasDnsSuffix
+
+`func (o *GatewayTemplate) HasDnsSuffix() bool`
+
+HasDnsSuffix returns a boolean if a field has been set.
 
 ### GetExtraRoutes
 
@@ -340,6 +420,56 @@ SetNetworks sets Networks field to given value.
 `func (o *GatewayTemplate) HasNetworks() bool`
 
 HasNetworks returns a boolean if a field has been set.
+
+### GetNtpOverride
+
+`func (o *GatewayTemplate) GetNtpOverride() bool`
+
+GetNtpOverride returns the NtpOverride field if non-nil, zero value otherwise.
+
+### GetNtpOverrideOk
+
+`func (o *GatewayTemplate) GetNtpOverrideOk() (*bool, bool)`
+
+GetNtpOverrideOk returns a tuple with the NtpOverride field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetNtpOverride
+
+`func (o *GatewayTemplate) SetNtpOverride(v bool)`
+
+SetNtpOverride sets NtpOverride field to given value.
+
+### HasNtpOverride
+
+`func (o *GatewayTemplate) HasNtpOverride() bool`
+
+HasNtpOverride returns a boolean if a field has been set.
+
+### GetNtpServers
+
+`func (o *GatewayTemplate) GetNtpServers() []string`
+
+GetNtpServers returns the NtpServers field if non-nil, zero value otherwise.
+
+### GetNtpServersOk
+
+`func (o *GatewayTemplate) GetNtpServersOk() (*[]string, bool)`
+
+GetNtpServersOk returns a tuple with the NtpServers field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetNtpServers
+
+`func (o *GatewayTemplate) SetNtpServers(v []string)`
+
+SetNtpServers sets NtpServers field to given value.
+
+### HasNtpServers
+
+`func (o *GatewayTemplate) HasNtpServers() bool`
+
+HasNtpServers returns a boolean if a field has been set.
 
 ### GetOobIpConfig
 

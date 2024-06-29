@@ -5,6 +5,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
+	"github.com/hashicorp/terraform-plugin-log/tflog"
 
 	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
 	mist_transform "terraform-provider-mist/internal/provider/utils/transform"
@@ -50,11 +51,12 @@ func switchMatchingRulesPortConfigTerraformToSdk(ctx context.Context, diags *dia
 	return data
 }
 func switchMatchingRulesTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ListValue) []mistsdkgo.SwitchMatchingRule {
+	tflog.Debug(ctx, "switchMatchingRulesTerraformToSdk")
 
 	var data []mistsdkgo.SwitchMatchingRule
 	for _, v := range d.Elements() {
 		var plan_interface interface{} = v
-		plan_obj := plan_interface.(SwitchMatchingRulesValue)
+		plan_obj := plan_interface.(MatchingRulesValue)
 		item_obj := mistsdkgo.NewSwitchMatchingRule()
 		switch_matching_rule_port_config := switchMatchingRulesPortConfigTerraformToSdk(ctx, diags, plan_obj.PortConfig)
 		switch_matching_rule_port_mirroring := switchMatchingRulesPortMirroringTerraformToSdk(ctx, diags, plan_obj.PortMirroring)
@@ -84,7 +86,7 @@ func switchMatchingTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, 
 	if d.IsNull() || d.IsUnknown() {
 		return *data
 	} else {
-		switch_matching_rules := switchMatchingRulesTerraformToSdk(ctx, diags, d.SwitchMatchingRules)
+		switch_matching_rules := switchMatchingRulesTerraformToSdk(ctx, diags, d.MatchingRules)
 
 		data.SetEnable(d.Enable.ValueBool())
 		data.SetRules(switch_matching_rules)

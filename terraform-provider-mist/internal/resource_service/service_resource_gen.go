@@ -16,8 +16,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-go/tftypes"
 	"strings"
 
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 )
 
@@ -85,7 +83,6 @@ func ServiceResourceSchema(ctx context.Context) schema.Schema {
 			"id": schema.StringAttribute{
 				Optional: true,
 				Computed: true,
-				PlanModifiers:       []planmodifier.String{stringplanmodifier.UseStateForUnknown()},
 			},
 			"max_jitter": schema.Int64Attribute{
 				Optional:            true,
@@ -110,7 +107,8 @@ func ServiceResourceSchema(ctx context.Context) schema.Schema {
 				Computed: true,
 			},
 			"org_id": schema.StringAttribute{
-				Required: true,
+				Optional: true,
+				Computed: true,
 			},
 			"sle_enabled": schema.BoolAttribute{
 				Optional:            true,

@@ -21,12 +21,76 @@ import (
 )
 
 
+type OrgsJSIAPI interface {
+
+	/*
+	AdoptOrgJsiDevice adoptOrgJsiDevice
+
+	Adopt JSI devices
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiAdoptOrgJsiDeviceRequest
+	*/
+	AdoptOrgJsiDevice(ctx context.Context, orgId string) ApiAdoptOrgJsiDeviceRequest
+
+	// AdoptOrgJsiDeviceExecute executes the request
+	//  @return ResponseDeviceConfigCmd
+	AdoptOrgJsiDeviceExecute(r ApiAdoptOrgJsiDeviceRequest) (*ResponseDeviceConfigCmd, *http.Response, error)
+
+	/*
+	CreateOrgJsiDeviceShellSession createOrgJsiDeviceShellSession
+
+	Create Shell Session
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param deviceMac
+	@return ApiCreateOrgJsiDeviceShellSessionRequest
+	*/
+	CreateOrgJsiDeviceShellSession(ctx context.Context, orgId string, deviceMac string) ApiCreateOrgJsiDeviceShellSessionRequest
+
+	// CreateOrgJsiDeviceShellSessionExecute executes the request
+	//  @return WebsocketSessionWithUrl
+	CreateOrgJsiDeviceShellSessionExecute(r ApiCreateOrgJsiDeviceShellSessionRequest) (*WebsocketSessionWithUrl, *http.Response, error)
+
+	/*
+	ListOrgJsiDevices listOrgJsiDevices
+
+	Get List of Org devices that connected to JSI
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiListOrgJsiDevicesRequest
+	*/
+	ListOrgJsiDevices(ctx context.Context, orgId string) ApiListOrgJsiDevicesRequest
+
+	// ListOrgJsiDevicesExecute executes the request
+	//  @return []JseDevice
+	ListOrgJsiDevicesExecute(r ApiListOrgJsiDevicesRequest) ([]JseDevice, *http.Response, error)
+
+	/*
+	ListOrgJsiPastPurchases listOrgJsiPastPurchases
+
+	Get List of all devices purchased from the accounts associated with the Org
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiListOrgJsiPastPurchasesRequest
+	*/
+	ListOrgJsiPastPurchases(ctx context.Context, orgId string) ApiListOrgJsiPastPurchasesRequest
+
+	// ListOrgJsiPastPurchasesExecute executes the request
+	//  @return []JseInventoryItem
+	ListOrgJsiPastPurchasesExecute(r ApiListOrgJsiPastPurchasesRequest) ([]JseInventoryItem, *http.Response, error)
+}
+
 // OrgsJSIAPIService OrgsJSIAPI service
 type OrgsJSIAPIService service
 
 type ApiAdoptOrgJsiDeviceRequest struct {
 	ctx context.Context
-	ApiService *OrgsJSIAPIService
+	ApiService OrgsJSIAPI
 	orgId string
 }
 
@@ -197,7 +261,7 @@ func (a *OrgsJSIAPIService) AdoptOrgJsiDeviceExecute(r ApiAdoptOrgJsiDeviceReque
 
 type ApiCreateOrgJsiDeviceShellSessionRequest struct {
 	ctx context.Context
-	ApiService *OrgsJSIAPIService
+	ApiService OrgsJSIAPI
 	orgId string
 	deviceMac string
 }
@@ -372,7 +436,7 @@ func (a *OrgsJSIAPIService) CreateOrgJsiDeviceShellSessionExecute(r ApiCreateOrg
 
 type ApiListOrgJsiDevicesRequest struct {
 	ctx context.Context
-	ApiService *OrgsJSIAPIService
+	ApiService OrgsJSIAPI
 	orgId string
 	limit *int32
 	page *int32
@@ -594,7 +658,7 @@ func (a *OrgsJSIAPIService) ListOrgJsiDevicesExecute(r ApiListOrgJsiDevicesReque
 
 type ApiListOrgJsiPastPurchasesRequest struct {
 	ctx context.Context
-	ApiService *OrgsJSIAPIService
+	ApiService OrgsJSIAPI
 	orgId string
 	limit *int32
 	page *int32

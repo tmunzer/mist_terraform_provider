@@ -21,12 +21,92 @@ import (
 )
 
 
+type OrgsRFTemplatesAPI interface {
+
+	/*
+	CreateOrgRfTemplate createOrgRfTemplate
+
+	Create Org RF Template
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiCreateOrgRfTemplateRequest
+	*/
+	CreateOrgRfTemplate(ctx context.Context, orgId string) ApiCreateOrgRfTemplateRequest
+
+	// CreateOrgRfTemplateExecute executes the request
+	//  @return RfTemplate
+	CreateOrgRfTemplateExecute(r ApiCreateOrgRfTemplateRequest) (*RfTemplate, *http.Response, error)
+
+	/*
+	DeleteOrgRfTemplate deleteOrgRfTemplate
+
+	Delete Org RF Template
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param rftemplateId
+	@return ApiDeleteOrgRfTemplateRequest
+	*/
+	DeleteOrgRfTemplate(ctx context.Context, orgId string, rftemplateId string) ApiDeleteOrgRfTemplateRequest
+
+	// DeleteOrgRfTemplateExecute executes the request
+	DeleteOrgRfTemplateExecute(r ApiDeleteOrgRfTemplateRequest) (*http.Response, error)
+
+	/*
+	GetOrgRfTemplate getOrgRfTemplate
+
+	Get Org RF Template Details
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param rftemplateId
+	@return ApiGetOrgRfTemplateRequest
+	*/
+	GetOrgRfTemplate(ctx context.Context, orgId string, rftemplateId string) ApiGetOrgRfTemplateRequest
+
+	// GetOrgRfTemplateExecute executes the request
+	//  @return RfTemplate
+	GetOrgRfTemplateExecute(r ApiGetOrgRfTemplateRequest) (*RfTemplate, *http.Response, error)
+
+	/*
+	ListOrgRfTemplates listOrgRfTemplates
+
+	Get List of Org RF Template
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiListOrgRfTemplatesRequest
+	*/
+	ListOrgRfTemplates(ctx context.Context, orgId string) ApiListOrgRfTemplatesRequest
+
+	// ListOrgRfTemplatesExecute executes the request
+	//  @return []RfTemplate
+	ListOrgRfTemplatesExecute(r ApiListOrgRfTemplatesRequest) ([]RfTemplate, *http.Response, error)
+
+	/*
+	UpdateOrgRfTemplate updateOrgRfTemplate
+
+	Update Org RF Template
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param rftemplateId
+	@return ApiUpdateOrgRfTemplateRequest
+	*/
+	UpdateOrgRfTemplate(ctx context.Context, orgId string, rftemplateId string) ApiUpdateOrgRfTemplateRequest
+
+	// UpdateOrgRfTemplateExecute executes the request
+	//  @return RfTemplate
+	UpdateOrgRfTemplateExecute(r ApiUpdateOrgRfTemplateRequest) (*RfTemplate, *http.Response, error)
+}
+
 // OrgsRFTemplatesAPIService OrgsRFTemplatesAPI service
 type OrgsRFTemplatesAPIService service
 
 type ApiCreateOrgRfTemplateRequest struct {
 	ctx context.Context
-	ApiService *OrgsRFTemplatesAPIService
+	ApiService OrgsRFTemplatesAPI
 	orgId string
 	rfTemplate *RfTemplate
 }
@@ -206,7 +286,7 @@ func (a *OrgsRFTemplatesAPIService) CreateOrgRfTemplateExecute(r ApiCreateOrgRfT
 
 type ApiDeleteOrgRfTemplateRequest struct {
 	ctx context.Context
-	ApiService *OrgsRFTemplatesAPIService
+	ApiService OrgsRFTemplatesAPI
 	orgId string
 	rftemplateId string
 }
@@ -370,7 +450,7 @@ func (a *OrgsRFTemplatesAPIService) DeleteOrgRfTemplateExecute(r ApiDeleteOrgRfT
 
 type ApiGetOrgRfTemplateRequest struct {
 	ctx context.Context
-	ApiService *OrgsRFTemplatesAPIService
+	ApiService OrgsRFTemplatesAPI
 	orgId string
 	rftemplateId string
 }
@@ -545,7 +625,7 @@ func (a *OrgsRFTemplatesAPIService) GetOrgRfTemplateExecute(r ApiGetOrgRfTemplat
 
 type ApiListOrgRfTemplatesRequest struct {
 	ctx context.Context
-	ApiService *OrgsRFTemplatesAPIService
+	ApiService OrgsRFTemplatesAPI
 	orgId string
 	page *int32
 	limit *int32
@@ -740,7 +820,7 @@ func (a *OrgsRFTemplatesAPIService) ListOrgRfTemplatesExecute(r ApiListOrgRfTemp
 
 type ApiUpdateOrgRfTemplateRequest struct {
 	ctx context.Context
-	ApiService *OrgsRFTemplatesAPIService
+	ApiService OrgsRFTemplatesAPI
 	orgId string
 	rftemplateId string
 	rfTemplate *RfTemplate

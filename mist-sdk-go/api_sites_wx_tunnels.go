@@ -21,12 +21,92 @@ import (
 )
 
 
+type SitesWxTunnelsAPI interface {
+
+	/*
+	CreateSiteWxTunnel createSiteWxTunnel
+
+	Create Site WxLan Tunnel
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiCreateSiteWxTunnelRequest
+	*/
+	CreateSiteWxTunnel(ctx context.Context, siteId string) ApiCreateSiteWxTunnelRequest
+
+	// CreateSiteWxTunnelExecute executes the request
+	//  @return WxlanTunnel
+	CreateSiteWxTunnelExecute(r ApiCreateSiteWxTunnelRequest) (*WxlanTunnel, *http.Response, error)
+
+	/*
+	DeleteSiteWxTunnel deleteSiteWxTunnel
+
+	Delete Site WxLan Tunnel
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param wxtunnelId
+	@return ApiDeleteSiteWxTunnelRequest
+	*/
+	DeleteSiteWxTunnel(ctx context.Context, siteId string, wxtunnelId string) ApiDeleteSiteWxTunnelRequest
+
+	// DeleteSiteWxTunnelExecute executes the request
+	DeleteSiteWxTunnelExecute(r ApiDeleteSiteWxTunnelRequest) (*http.Response, error)
+
+	/*
+	GetSiteWxTunnel getSiteWxTunnel
+
+	Get Site WxLan tunnel Details
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param wxtunnelId
+	@return ApiGetSiteWxTunnelRequest
+	*/
+	GetSiteWxTunnel(ctx context.Context, siteId string, wxtunnelId string) ApiGetSiteWxTunnelRequest
+
+	// GetSiteWxTunnelExecute executes the request
+	//  @return WxlanTunnel
+	GetSiteWxTunnelExecute(r ApiGetSiteWxTunnelRequest) (*WxlanTunnel, *http.Response, error)
+
+	/*
+	ListSiteWxTunnels listSiteWxTunnels
+
+	Get List of Site WxLan Tunnels
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiListSiteWxTunnelsRequest
+	*/
+	ListSiteWxTunnels(ctx context.Context, siteId string) ApiListSiteWxTunnelsRequest
+
+	// ListSiteWxTunnelsExecute executes the request
+	//  @return []WxlanTunnel
+	ListSiteWxTunnelsExecute(r ApiListSiteWxTunnelsRequest) ([]WxlanTunnel, *http.Response, error)
+
+	/*
+	UpdateSiteWxTunnel updateSiteWxTunnel
+
+	Update Site WxLan Tunnel
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param wxtunnelId
+	@return ApiUpdateSiteWxTunnelRequest
+	*/
+	UpdateSiteWxTunnel(ctx context.Context, siteId string, wxtunnelId string) ApiUpdateSiteWxTunnelRequest
+
+	// UpdateSiteWxTunnelExecute executes the request
+	//  @return WxlanTunnel
+	UpdateSiteWxTunnelExecute(r ApiUpdateSiteWxTunnelRequest) (*WxlanTunnel, *http.Response, error)
+}
+
 // SitesWxTunnelsAPIService SitesWxTunnelsAPI service
 type SitesWxTunnelsAPIService service
 
 type ApiCreateSiteWxTunnelRequest struct {
 	ctx context.Context
-	ApiService *SitesWxTunnelsAPIService
+	ApiService SitesWxTunnelsAPI
 	siteId string
 	wxlanTunnel *WxlanTunnel
 }
@@ -206,7 +286,7 @@ func (a *SitesWxTunnelsAPIService) CreateSiteWxTunnelExecute(r ApiCreateSiteWxTu
 
 type ApiDeleteSiteWxTunnelRequest struct {
 	ctx context.Context
-	ApiService *SitesWxTunnelsAPIService
+	ApiService SitesWxTunnelsAPI
 	siteId string
 	wxtunnelId string
 }
@@ -370,7 +450,7 @@ func (a *SitesWxTunnelsAPIService) DeleteSiteWxTunnelExecute(r ApiDeleteSiteWxTu
 
 type ApiGetSiteWxTunnelRequest struct {
 	ctx context.Context
-	ApiService *SitesWxTunnelsAPIService
+	ApiService SitesWxTunnelsAPI
 	siteId string
 	wxtunnelId string
 }
@@ -545,7 +625,7 @@ func (a *SitesWxTunnelsAPIService) GetSiteWxTunnelExecute(r ApiGetSiteWxTunnelRe
 
 type ApiListSiteWxTunnelsRequest struct {
 	ctx context.Context
-	ApiService *SitesWxTunnelsAPIService
+	ApiService SitesWxTunnelsAPI
 	siteId string
 	page *int32
 	limit *int32
@@ -740,7 +820,7 @@ func (a *SitesWxTunnelsAPIService) ListSiteWxTunnelsExecute(r ApiListSiteWxTunne
 
 type ApiUpdateSiteWxTunnelRequest struct {
 	ctx context.Context
-	ApiService *SitesWxTunnelsAPIService
+	ApiService SitesWxTunnelsAPI
 	siteId string
 	wxtunnelId string
 	wxlanTunnel *WxlanTunnel

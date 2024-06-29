@@ -22,12 +22,136 @@ import (
 )
 
 
+type MSPsOrgsAPI interface {
+
+	/*
+	CreateMspOrg createMspOrg
+
+	Create an Org under MSP
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param mspId
+	@return ApiCreateMspOrgRequest
+	*/
+	CreateMspOrg(ctx context.Context, mspId string) ApiCreateMspOrgRequest
+
+	// CreateMspOrgExecute executes the request
+	//  @return Org
+	CreateMspOrgExecute(r ApiCreateMspOrgRequest) (*Org, *http.Response, error)
+
+	/*
+	DeleteMspOrg deleteMspOrg
+
+	delete MSP Org
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param mspId
+	@param orgId
+	@return ApiDeleteMspOrgRequest
+	*/
+	DeleteMspOrg(ctx context.Context, mspId string, orgId string) ApiDeleteMspOrgRequest
+
+	// DeleteMspOrgExecute executes the request
+	DeleteMspOrgExecute(r ApiDeleteMspOrgRequest) (*http.Response, error)
+
+	/*
+	GetMspOrg getMspOrg
+
+	Get MSP Org Details
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param mspId
+	@param orgId
+	@return ApiGetMspOrgRequest
+	*/
+	GetMspOrg(ctx context.Context, mspId string, orgId string) ApiGetMspOrgRequest
+
+	// GetMspOrgExecute executes the request
+	//  @return Org
+	GetMspOrgExecute(r ApiGetMspOrgRequest) (*Org, *http.Response, error)
+
+	/*
+	ListMspOrgStats listMspOrgStats
+
+	Get List of MSP Orgs Stats
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param mspId
+	@return ApiListMspOrgStatsRequest
+	*/
+	ListMspOrgStats(ctx context.Context, mspId string) ApiListMspOrgStatsRequest
+
+	// ListMspOrgStatsExecute executes the request
+	//  @return []OrgStats
+	ListMspOrgStatsExecute(r ApiListMspOrgStatsRequest) ([]OrgStats, *http.Response, error)
+
+	/*
+	ListMspOrgs listMspOrgs
+
+	Get List of MSP Orgs
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param mspId
+	@return ApiListMspOrgsRequest
+	*/
+	ListMspOrgs(ctx context.Context, mspId string) ApiListMspOrgsRequest
+
+	// ListMspOrgsExecute executes the request
+	//  @return []Org
+	ListMspOrgsExecute(r ApiListMspOrgsRequest) ([]Org, *http.Response, error)
+
+	/*
+	ManageMspOrgs manageMspOrgs
+
+	Assign or Unassign Orgs to an MSP account
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param mspId
+	@return ApiManageMspOrgsRequest
+	*/
+	ManageMspOrgs(ctx context.Context, mspId string) ApiManageMspOrgsRequest
+
+	// ManageMspOrgsExecute executes the request
+	ManageMspOrgsExecute(r ApiManageMspOrgsRequest) (*http.Response, error)
+
+	/*
+	SearchMspOrgs searchMspOrgs
+
+	Search Org in MSP
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param mspId
+	@return ApiSearchMspOrgsRequest
+	*/
+	SearchMspOrgs(ctx context.Context, mspId string) ApiSearchMspOrgsRequest
+
+	// SearchMspOrgsExecute executes the request
+	//  @return ResponseOrgSearch
+	SearchMspOrgsExecute(r ApiSearchMspOrgsRequest) (*ResponseOrgSearch, *http.Response, error)
+
+	/*
+	UpdateMspOrg updateMspOrg
+
+	Update MSP Org
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param mspId
+	@param orgId
+	@return ApiUpdateMspOrgRequest
+	*/
+	UpdateMspOrg(ctx context.Context, mspId string, orgId string) ApiUpdateMspOrgRequest
+
+	// UpdateMspOrgExecute executes the request
+	//  @return Org
+	UpdateMspOrgExecute(r ApiUpdateMspOrgRequest) (*Org, *http.Response, error)
+}
+
 // MSPsOrgsAPIService MSPsOrgsAPI service
 type MSPsOrgsAPIService service
 
 type ApiCreateMspOrgRequest struct {
 	ctx context.Context
-	ApiService *MSPsOrgsAPIService
+	ApiService MSPsOrgsAPI
 	mspId string
 	org *Org
 }
@@ -207,7 +331,7 @@ func (a *MSPsOrgsAPIService) CreateMspOrgExecute(r ApiCreateMspOrgRequest) (*Org
 
 type ApiDeleteMspOrgRequest struct {
 	ctx context.Context
-	ApiService *MSPsOrgsAPIService
+	ApiService MSPsOrgsAPI
 	mspId string
 	orgId string
 }
@@ -371,7 +495,7 @@ func (a *MSPsOrgsAPIService) DeleteMspOrgExecute(r ApiDeleteMspOrgRequest) (*htt
 
 type ApiGetMspOrgRequest struct {
 	ctx context.Context
-	ApiService *MSPsOrgsAPIService
+	ApiService MSPsOrgsAPI
 	mspId string
 	orgId string
 }
@@ -546,7 +670,7 @@ func (a *MSPsOrgsAPIService) GetMspOrgExecute(r ApiGetMspOrgRequest) (*Org, *htt
 
 type ApiListMspOrgStatsRequest struct {
 	ctx context.Context
-	ApiService *MSPsOrgsAPIService
+	ApiService MSPsOrgsAPI
 	mspId string
 	page *int32
 	limit *int32
@@ -741,7 +865,7 @@ func (a *MSPsOrgsAPIService) ListMspOrgStatsExecute(r ApiListMspOrgStatsRequest)
 
 type ApiListMspOrgsRequest struct {
 	ctx context.Context
-	ApiService *MSPsOrgsAPIService
+	ApiService MSPsOrgsAPI
 	mspId string
 }
 
@@ -912,7 +1036,7 @@ func (a *MSPsOrgsAPIService) ListMspOrgsExecute(r ApiListMspOrgsRequest) ([]Org,
 
 type ApiManageMspOrgsRequest struct {
 	ctx context.Context
-	ApiService *MSPsOrgsAPIService
+	ApiService MSPsOrgsAPI
 	mspId string
 	mspOrgChange *MspOrgChange
 }
@@ -1081,7 +1205,7 @@ func (a *MSPsOrgsAPIService) ManageMspOrgsExecute(r ApiManageMspOrgsRequest) (*h
 
 type ApiSearchMspOrgsRequest struct {
 	ctx context.Context
-	ApiService *MSPsOrgsAPIService
+	ApiService MSPsOrgsAPI
 	mspId string
 	name *string
 	orgId *string
@@ -1324,7 +1448,7 @@ func (a *MSPsOrgsAPIService) SearchMspOrgsExecute(r ApiSearchMspOrgsRequest) (*R
 
 type ApiUpdateMspOrgRequest struct {
 	ctx context.Context
-	ApiService *MSPsOrgsAPIService
+	ApiService MSPsOrgsAPI
 	mspId string
 	orgId string
 	org *Org

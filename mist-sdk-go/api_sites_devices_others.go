@@ -21,12 +21,60 @@ import (
 )
 
 
+type SitesDevicesOthersAPI interface {
+
+	/*
+	CountSiteOtherDeviceEvents countSiteOtherDeviceEvents
+
+	Count Site OtherDevices Events
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiCountSiteOtherDeviceEventsRequest
+	*/
+	CountSiteOtherDeviceEvents(ctx context.Context, siteId string) ApiCountSiteOtherDeviceEventsRequest
+
+	// CountSiteOtherDeviceEventsExecute executes the request
+	//  @return RepsonseCount
+	CountSiteOtherDeviceEventsExecute(r ApiCountSiteOtherDeviceEventsRequest) (*RepsonseCount, *http.Response, error)
+
+	/*
+	ListSiteOtherDevices listSiteOtherDevices
+
+	Get List of Site other devices (3rd party devices)
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiListSiteOtherDevicesRequest
+	*/
+	ListSiteOtherDevices(ctx context.Context, siteId string) ApiListSiteOtherDevicesRequest
+
+	// ListSiteOtherDevicesExecute executes the request
+	//  @return []DeviceOther
+	ListSiteOtherDevicesExecute(r ApiListSiteOtherDevicesRequest) ([]DeviceOther, *http.Response, error)
+
+	/*
+	SearchSiteOtherDeviceEvents searchSiteOtherDeviceEvents
+
+	Search Site OtherDevices Events
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiSearchSiteOtherDeviceEventsRequest
+	*/
+	SearchSiteOtherDeviceEvents(ctx context.Context, siteId string) ApiSearchSiteOtherDeviceEventsRequest
+
+	// SearchSiteOtherDeviceEventsExecute executes the request
+	//  @return ResponseEventsOtherDevicesSearch
+	SearchSiteOtherDeviceEventsExecute(r ApiSearchSiteOtherDeviceEventsRequest) (*ResponseEventsOtherDevicesSearch, *http.Response, error)
+}
+
 // SitesDevicesOthersAPIService SitesDevicesOthersAPI service
 type SitesDevicesOthersAPIService service
 
 type ApiCountSiteOtherDeviceEventsRequest struct {
 	ctx context.Context
-	ApiService *SitesDevicesOthersAPIService
+	ApiService SitesDevicesOthersAPI
 	siteId string
 	distinct *SiteOtherDeviceEventsCountDistinct
 	type_ *string
@@ -264,7 +312,7 @@ func (a *SitesDevicesOthersAPIService) CountSiteOtherDeviceEventsExecute(r ApiCo
 
 type ApiListSiteOtherDevicesRequest struct {
 	ctx context.Context
-	ApiService *SitesDevicesOthersAPIService
+	ApiService SitesDevicesOthersAPI
 	siteId string
 	vendor *string
 	mac *string
@@ -504,7 +552,7 @@ func (a *SitesDevicesOthersAPIService) ListSiteOtherDevicesExecute(r ApiListSite
 
 type ApiSearchSiteOtherDeviceEventsRequest struct {
 	ctx context.Context
-	ApiService *SitesDevicesOthersAPIService
+	ApiService SitesDevicesOthersAPI
 	siteId string
 	mac *string
 	deviceMac *string

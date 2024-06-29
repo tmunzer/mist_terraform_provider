@@ -21,12 +21,45 @@ import (
 )
 
 
+type OrgsSubscriptionsAPI interface {
+
+	/*
+	SubscribeOrgAlarmsReports subscribeOrgAlarmsReports
+
+	Subscribe to Org Alarms/Reports
+Subscriptions define how Org Alarms/Reports are delivered to whom
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiSubscribeOrgAlarmsReportsRequest
+	*/
+	SubscribeOrgAlarmsReports(ctx context.Context, orgId string) ApiSubscribeOrgAlarmsReportsRequest
+
+	// SubscribeOrgAlarmsReportsExecute executes the request
+	SubscribeOrgAlarmsReportsExecute(r ApiSubscribeOrgAlarmsReportsRequest) (*http.Response, error)
+
+	/*
+	UnsubscribeOrgAlarmsReports unsubscribeOrgAlarmsReports
+
+	Unsubscribe from Org Alarms/Reports
+Subscriptions define how Org Alarms/Reports are delivered to whom
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiUnsubscribeOrgAlarmsReportsRequest
+	*/
+	UnsubscribeOrgAlarmsReports(ctx context.Context, orgId string) ApiUnsubscribeOrgAlarmsReportsRequest
+
+	// UnsubscribeOrgAlarmsReportsExecute executes the request
+	UnsubscribeOrgAlarmsReportsExecute(r ApiUnsubscribeOrgAlarmsReportsRequest) (*http.Response, error)
+}
+
 // OrgsSubscriptionsAPIService OrgsSubscriptionsAPI service
 type OrgsSubscriptionsAPIService service
 
 type ApiSubscribeOrgAlarmsReportsRequest struct {
 	ctx context.Context
-	ApiService *OrgsSubscriptionsAPIService
+	ApiService OrgsSubscriptionsAPI
 	orgId string
 }
 
@@ -187,7 +220,7 @@ func (a *OrgsSubscriptionsAPIService) SubscribeOrgAlarmsReportsExecute(r ApiSubs
 
 type ApiUnsubscribeOrgAlarmsReportsRequest struct {
 	ctx context.Context
-	ApiService *OrgsSubscriptionsAPIService
+	ApiService OrgsSubscriptionsAPI
 	orgId string
 }
 

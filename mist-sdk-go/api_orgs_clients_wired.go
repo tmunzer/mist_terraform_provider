@@ -21,12 +21,49 @@ import (
 )
 
 
+type OrgsClientsWiredAPI interface {
+
+	/*
+	CountOrgWiredClients countOrgWiredClients
+
+	Count by Distinct Attributes of Clients
+
+Note: For list of avaialable `type` values, please refer to [listClientEventsDefinitions]($e/Constants%20Events/listClientEventsDefinitions)
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiCountOrgWiredClientsRequest
+	*/
+	CountOrgWiredClients(ctx context.Context, orgId string) ApiCountOrgWiredClientsRequest
+
+	// CountOrgWiredClientsExecute executes the request
+	//  @return RepsonseCount
+	CountOrgWiredClientsExecute(r ApiCountOrgWiredClientsRequest) (*RepsonseCount, *http.Response, error)
+
+	/*
+	SearchOrgWiredClients searchOrgWiredClients
+
+	Search for Wired Clients in org
+
+Note: For list of avaialable `type` values, please refer to [listClientEventsDefinitions]($e/Constants%20Events/listClientEventsDefinitions)
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiSearchOrgWiredClientsRequest
+	*/
+	SearchOrgWiredClients(ctx context.Context, orgId string) ApiSearchOrgWiredClientsRequest
+
+	// SearchOrgWiredClientsExecute executes the request
+	//  @return SearchWiredClient
+	SearchOrgWiredClientsExecute(r ApiSearchOrgWiredClientsRequest) (*SearchWiredClient, *http.Response, error)
+}
+
 // OrgsClientsWiredAPIService OrgsClientsWiredAPI service
 type OrgsClientsWiredAPIService service
 
 type ApiCountOrgWiredClientsRequest struct {
 	ctx context.Context
-	ApiService *OrgsClientsWiredAPIService
+	ApiService OrgsClientsWiredAPI
 	orgId string
 	distinct *OrgWiredClientsCountDistinct
 	page *int32
@@ -268,7 +305,7 @@ func (a *OrgsClientsWiredAPIService) CountOrgWiredClientsExecute(r ApiCountOrgWi
 
 type ApiSearchOrgWiredClientsRequest struct {
 	ctx context.Context
-	ApiService *OrgsClientsWiredAPIService
+	ApiService OrgsClientsWiredAPI
 	orgId string
 	siteId *string
 	deviceMac *string

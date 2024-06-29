@@ -21,12 +21,203 @@ import (
 )
 
 
+type UtilitiesWiFiAPI interface {
+
+	/*
+	DeauthSiteWirelessClientsConnectedToARogue deauthSiteWirelessClientsConnectedToARogue
+
+	Send Deauth frame to clients connected to a Rogue AP
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param rogueBssid
+	@return ApiDeauthSiteWirelessClientsConnectedToARogueRequest
+	*/
+	DeauthSiteWirelessClientsConnectedToARogue(ctx context.Context, siteId string, rogueBssid string) ApiDeauthSiteWirelessClientsConnectedToARogueRequest
+
+	// DeauthSiteWirelessClientsConnectedToARogueExecute executes the request
+	DeauthSiteWirelessClientsConnectedToARogueExecute(r ApiDeauthSiteWirelessClientsConnectedToARogueRequest) (*http.Response, error)
+
+	/*
+	DisconnectSiteMultipleClients disconnectSiteMultipleClients
+
+	To unauthorize multiple clients
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiDisconnectSiteMultipleClientsRequest
+	*/
+	DisconnectSiteMultipleClients(ctx context.Context, siteId string) ApiDisconnectSiteMultipleClientsRequest
+
+	// DisconnectSiteMultipleClientsExecute executes the request
+	DisconnectSiteMultipleClientsExecute(r ApiDisconnectSiteMultipleClientsRequest) (*http.Response, error)
+
+	/*
+	DisconnectSiteWirelessClient disconnectSiteWirelessClient
+
+	This disconnect a client (and it’s likely to connect back)
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param clientMac
+	@return ApiDisconnectSiteWirelessClientRequest
+	*/
+	DisconnectSiteWirelessClient(ctx context.Context, siteId string, clientMac string) ApiDisconnectSiteWirelessClientRequest
+
+	// DisconnectSiteWirelessClientExecute executes the request
+	DisconnectSiteWirelessClientExecute(r ApiDisconnectSiteWirelessClientRequest) (*http.Response, error)
+
+	/*
+	OptimizeSiteRrm optimizeSiteRrm
+
+	Optimize Site RRM
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiOptimizeSiteRrmRequest
+	*/
+	OptimizeSiteRrm(ctx context.Context, siteId string) ApiOptimizeSiteRrmRequest
+
+	// OptimizeSiteRrmExecute executes the request
+	OptimizeSiteRrmExecute(r ApiOptimizeSiteRrmRequest) (*http.Response, error)
+
+	/*
+	ReauthOrgDot1xWirelessClient reauthOrgDot1xWirelessClient
+
+	Trigger a CoA (change of authorization) against a client
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param clientMac
+	@return ApiReauthOrgDot1xWirelessClientRequest
+	*/
+	ReauthOrgDot1xWirelessClient(ctx context.Context, orgId string, clientMac string) ApiReauthOrgDot1xWirelessClientRequest
+
+	// ReauthOrgDot1xWirelessClientExecute executes the request
+	ReauthOrgDot1xWirelessClientExecute(r ApiReauthOrgDot1xWirelessClientRequest) (*http.Response, error)
+
+	/*
+	ReauthSiteDot1xWirelessClient reauthSiteDot1xWirelessClient
+
+	Trigger a CoA (change of authorization) against a client
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param clientMac
+	@return ApiReauthSiteDot1xWirelessClientRequest
+	*/
+	ReauthSiteDot1xWirelessClient(ctx context.Context, siteId string, clientMac string) ApiReauthSiteDot1xWirelessClientRequest
+
+	// ReauthSiteDot1xWirelessClientExecute executes the request
+	ReauthSiteDot1xWirelessClientExecute(r ApiReauthSiteDot1xWirelessClientRequest) (*http.Response, error)
+
+	/*
+	ReprovisionSiteAllAps reprovisionSiteAllAps
+
+	To force all APs to reprovision itself again.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiReprovisionSiteAllApsRequest
+	*/
+	ReprovisionSiteAllAps(ctx context.Context, siteId string) ApiReprovisionSiteAllApsRequest
+
+	// ReprovisionSiteAllApsExecute executes the request
+	ReprovisionSiteAllApsExecute(r ApiReprovisionSiteAllApsRequest) (*http.Response, error)
+
+	/*
+	ResetSiteAllApsToUseRrm resetSiteAllApsToUseRrm
+
+	Reset all APs in the Site to use RRM
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiResetSiteAllApsToUseRrmRequest
+	*/
+	ResetSiteAllApsToUseRrm(ctx context.Context, siteId string) ApiResetSiteAllApsToUseRrmRequest
+
+	// ResetSiteAllApsToUseRrmExecute executes the request
+	ResetSiteAllApsToUseRrmExecute(r ApiResetSiteAllApsToUseRrmRequest) (*http.Response, error)
+
+	/*
+	TestSiteWlanTelstraSetup testSiteWlanTelstraSetup
+
+	Allows validation of Telstra sms gateway credentials.
+
+In case of success, a text message confirming successful setup should be received. In case of error, telstra error message are returned.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiTestSiteWlanTelstraSetupRequest
+	*/
+	TestSiteWlanTelstraSetup(ctx context.Context) ApiTestSiteWlanTelstraSetupRequest
+
+	// TestSiteWlanTelstraSetupExecute executes the request
+	TestSiteWlanTelstraSetupExecute(r ApiTestSiteWlanTelstraSetupRequest) (*http.Response, error)
+
+	/*
+	TestSiteWlanTwilioSetup testSiteWlanTwilioSetup
+
+	Allows validation of twilio setup
+In case of success, a text message confirming successful setup should be received. In case of error, twilio error code and message are returned.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiTestSiteWlanTwilioSetupRequest
+	*/
+	TestSiteWlanTwilioSetup(ctx context.Context) ApiTestSiteWlanTwilioSetupRequest
+
+	// TestSiteWlanTwilioSetupExecute executes the request
+	TestSiteWlanTwilioSetupExecute(r ApiTestSiteWlanTwilioSetupRequest) (*http.Response, error)
+
+	/*
+	UnauthorizeSiteMultipleClients unauthorizeSiteMultipleClients
+
+	This unauthorize clients (if they are guest) and disconnect them. From the guest’s perspective, they will see the splash page again and go through the flow (e.g. Terms of Use) again.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiUnauthorizeSiteMultipleClientsRequest
+	*/
+	UnauthorizeSiteMultipleClients(ctx context.Context, siteId string) ApiUnauthorizeSiteMultipleClientsRequest
+
+	// UnauthorizeSiteMultipleClientsExecute executes the request
+	UnauthorizeSiteMultipleClientsExecute(r ApiUnauthorizeSiteMultipleClientsRequest) (*http.Response, error)
+
+	/*
+	UnauthorizeSiteWirelessClient unauthorizeSiteWirelessClient
+
+	This unauthorize a client (if it’s a guest) and disconnect it. From the guest’s perspective, s/he will see the splash page again and go through the flow (e.g. Terms of Use) again.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param clientMac
+	@return ApiUnauthorizeSiteWirelessClientRequest
+	*/
+	UnauthorizeSiteWirelessClient(ctx context.Context, siteId string, clientMac string) ApiUnauthorizeSiteWirelessClientRequest
+
+	// UnauthorizeSiteWirelessClientExecute executes the request
+	UnauthorizeSiteWirelessClientExecute(r ApiUnauthorizeSiteWirelessClientRequest) (*http.Response, error)
+
+	/*
+	ZeroizeSiteFipsAllAps zeroizeSiteFipsAllAps
+
+	Zeroize all FIPS APs in the Site
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiZeroizeSiteFipsAllApsRequest
+	*/
+	ZeroizeSiteFipsAllAps(ctx context.Context, siteId string) ApiZeroizeSiteFipsAllApsRequest
+
+	// ZeroizeSiteFipsAllApsExecute executes the request
+	ZeroizeSiteFipsAllApsExecute(r ApiZeroizeSiteFipsAllApsRequest) (*http.Response, error)
+}
+
 // UtilitiesWiFiAPIService UtilitiesWiFiAPI service
 type UtilitiesWiFiAPIService service
 
 type ApiDeauthSiteWirelessClientsConnectedToARogueRequest struct {
 	ctx context.Context
-	ApiService *UtilitiesWiFiAPIService
+	ApiService UtilitiesWiFiAPI
 	siteId string
 	rogueBssid string
 }
@@ -190,7 +381,7 @@ func (a *UtilitiesWiFiAPIService) DeauthSiteWirelessClientsConnectedToARogueExec
 
 type ApiDisconnectSiteMultipleClientsRequest struct {
 	ctx context.Context
-	ApiService *UtilitiesWiFiAPIService
+	ApiService UtilitiesWiFiAPI
 	siteId string
 	macAddresses *MacAddresses
 }
@@ -359,7 +550,7 @@ func (a *UtilitiesWiFiAPIService) DisconnectSiteMultipleClientsExecute(r ApiDisc
 
 type ApiDisconnectSiteWirelessClientRequest struct {
 	ctx context.Context
-	ApiService *UtilitiesWiFiAPIService
+	ApiService UtilitiesWiFiAPI
 	siteId string
 	clientMac string
 }
@@ -523,7 +714,7 @@ func (a *UtilitiesWiFiAPIService) DisconnectSiteWirelessClientExecute(r ApiDisco
 
 type ApiOptimizeSiteRrmRequest struct {
 	ctx context.Context
-	ApiService *UtilitiesWiFiAPIService
+	ApiService UtilitiesWiFiAPI
 	siteId string
 	utilsRrmOptimize *UtilsRrmOptimize
 }
@@ -692,7 +883,7 @@ func (a *UtilitiesWiFiAPIService) OptimizeSiteRrmExecute(r ApiOptimizeSiteRrmReq
 
 type ApiReauthOrgDot1xWirelessClientRequest struct {
 	ctx context.Context
-	ApiService *UtilitiesWiFiAPIService
+	ApiService UtilitiesWiFiAPI
 	orgId string
 	clientMac string
 }
@@ -856,7 +1047,7 @@ func (a *UtilitiesWiFiAPIService) ReauthOrgDot1xWirelessClientExecute(r ApiReaut
 
 type ApiReauthSiteDot1xWirelessClientRequest struct {
 	ctx context.Context
-	ApiService *UtilitiesWiFiAPIService
+	ApiService UtilitiesWiFiAPI
 	siteId string
 	clientMac string
 }
@@ -1020,7 +1211,7 @@ func (a *UtilitiesWiFiAPIService) ReauthSiteDot1xWirelessClientExecute(r ApiReau
 
 type ApiReprovisionSiteAllApsRequest struct {
 	ctx context.Context
-	ApiService *UtilitiesWiFiAPIService
+	ApiService UtilitiesWiFiAPI
 	siteId string
 }
 
@@ -1180,7 +1371,7 @@ func (a *UtilitiesWiFiAPIService) ReprovisionSiteAllApsExecute(r ApiReprovisionS
 
 type ApiResetSiteAllApsToUseRrmRequest struct {
 	ctx context.Context
-	ApiService *UtilitiesWiFiAPIService
+	ApiService UtilitiesWiFiAPI
 	siteId string
 	utilsResetRadioConfig *UtilsResetRadioConfig
 }
@@ -1349,7 +1540,7 @@ func (a *UtilitiesWiFiAPIService) ResetSiteAllApsToUseRrmExecute(r ApiResetSiteA
 
 type ApiTestSiteWlanTelstraSetupRequest struct {
 	ctx context.Context
-	ApiService *UtilitiesWiFiAPIService
+	ApiService UtilitiesWiFiAPI
 	testTelstra *TestTelstra
 }
 
@@ -1515,7 +1706,7 @@ func (a *UtilitiesWiFiAPIService) TestSiteWlanTelstraSetupExecute(r ApiTestSiteW
 
 type ApiTestSiteWlanTwilioSetupRequest struct {
 	ctx context.Context
-	ApiService *UtilitiesWiFiAPIService
+	ApiService UtilitiesWiFiAPI
 	testTwilio *TestTwilio
 }
 
@@ -1681,7 +1872,7 @@ func (a *UtilitiesWiFiAPIService) TestSiteWlanTwilioSetupExecute(r ApiTestSiteWl
 
 type ApiUnauthorizeSiteMultipleClientsRequest struct {
 	ctx context.Context
-	ApiService *UtilitiesWiFiAPIService
+	ApiService UtilitiesWiFiAPI
 	siteId string
 	macAddresses *MacAddresses
 }
@@ -1850,7 +2041,7 @@ func (a *UtilitiesWiFiAPIService) UnauthorizeSiteMultipleClientsExecute(r ApiUna
 
 type ApiUnauthorizeSiteWirelessClientRequest struct {
 	ctx context.Context
-	ApiService *UtilitiesWiFiAPIService
+	ApiService UtilitiesWiFiAPI
 	siteId string
 	clientMac string
 }
@@ -2014,7 +2205,7 @@ func (a *UtilitiesWiFiAPIService) UnauthorizeSiteWirelessClientExecute(r ApiUnau
 
 type ApiZeroizeSiteFipsAllApsRequest struct {
 	ctx context.Context
-	ApiService *UtilitiesWiFiAPIService
+	ApiService UtilitiesWiFiAPI
 	siteId string
 	utilsZeroiseFips *UtilsZeroiseFips
 }

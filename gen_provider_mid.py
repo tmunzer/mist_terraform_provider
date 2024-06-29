@@ -5,6 +5,22 @@ SPEC_IN = "./provider-code-spec.json"
 
 RENAME = [
     {
+        "name": "networktemplate",
+        "get": ["schema", "attributes"],
+        "next": [
+            {
+                "name": "switch_matching",
+                "get": ["single_nested", "attributes"],
+                "next": [
+                    {
+                        "name": "rules",
+                        "rename": "matching_rules",
+                    }
+                ],
+            }
+        ],
+    },
+    {
         "name": "gatewaytemplate",
         "get": ["schema", "attributes"],
         "next": [
@@ -52,7 +68,7 @@ RENAME = [
                 "next": [
                     {
                         "name": "auto_provision",
-                        "get": ["single_nested",  "attributes"],
+                        "get": ["single_nested", "attributes"],
                         "next": [
                             {
                                 "name": "primary",
@@ -61,11 +77,12 @@ RENAME = [
                             {
                                 "name": "secondary",
                                 "rename": "auto_provision_secondary",
-                            }
+                            },
                         ],
                     }
                 ],
-            }, {
+            },
+            {
                 "name": "dhcpd_config",
                 "get": ["single_nested", "attributes"],
                 "next": [
@@ -94,7 +111,7 @@ RENAME = [
                 ],
             },
         ],
-    }
+    },
 ]
 
 

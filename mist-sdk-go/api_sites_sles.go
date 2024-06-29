@@ -21,12 +21,325 @@ import (
 )
 
 
+type SitesSLEsAPI interface {
+
+	/*
+	GetSiteSleClassifierDetails getSiteSleClassifierDetails
+
+	Get SLE classifier details
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param scope
+	@param scopeId * site_id if `scope`==`site` * device_id if `scope`==`ap`, `scope`==`switch` or `scope`==`gateway` * mac if `scope`==`client`
+	@param metric values from /api/v1/sites/{site_id}/sle/{scope}/{scope_id}/metrics
+	@param classifier
+	@return ApiGetSiteSleClassifierDetailsRequest
+	*/
+	GetSiteSleClassifierDetails(ctx context.Context, siteId string, scope SleSummaryScope, scopeId string, metric string, classifier string) ApiGetSiteSleClassifierDetailsRequest
+
+	// GetSiteSleClassifierDetailsExecute executes the request
+	//  @return SleClassifierSummary
+	GetSiteSleClassifierDetailsExecute(r ApiGetSiteSleClassifierDetailsRequest) (*SleClassifierSummary, *http.Response, error)
+
+	/*
+	GetSiteSleHistogram getSiteSleHistogram
+
+	Get the histogram for the SLE metric
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param scope
+	@param scopeId * site_id if `scope`==`site` * device_id if `scope`==`ap`, `scope`==`switch` or `scope`==`gateway` * mac if `scope`==`client`
+	@param metric values from /api/v1/sites/{site_id}/sle/{scope}/{scope_id}/metrics
+	@return ApiGetSiteSleHistogramRequest
+	*/
+	GetSiteSleHistogram(ctx context.Context, siteId string, scope SiteSleHistogramScopeParameters, scopeId string, metric string) ApiGetSiteSleHistogramRequest
+
+	// GetSiteSleHistogramExecute executes the request
+	//  @return SleHistogram
+	GetSiteSleHistogramExecute(r ApiGetSiteSleHistogramRequest) (*SleHistogram, *http.Response, error)
+
+	/*
+	GetSiteSleImpactSummary getSiteSleImpactSummary
+
+	Get impact summary counts optionally filtered by classifier and failure type
+ 
+* Wireless SLE Fields: `wlan`, `device_type`, `device_os` ,`band`, `ap`, `server`, `mxedge`
+* Wired SLE Fields: `switch`, `client`, `vlan`, `interface`, `chassis`
+* WAN SLE Fields: `gateway`, `client`, `interface`, `chassis`, `peer_path`, `gateway_zones`
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param scope
+	@param scopeId * site_id if `scope`==`site` * device_id if `scope`==`ap`, `scope`==`switch` or `scope`==`gateway` * mac if `scope`==`client`
+	@param metric values from /api/v1/sites/{site_id}/sle/{scope}/{scope_id}/metrics
+	@return ApiGetSiteSleImpactSummaryRequest
+	*/
+	GetSiteSleImpactSummary(ctx context.Context, siteId string, scope SiteSleImpactSummaryScopeParameters, scopeId string, metric string) ApiGetSiteSleImpactSummaryRequest
+
+	// GetSiteSleImpactSummaryExecute executes the request
+	//  @return SleImpactSummary
+	GetSiteSleImpactSummaryExecute(r ApiGetSiteSleImpactSummaryRequest) (*SleImpactSummary, *http.Response, error)
+
+	/*
+	GetSiteSleImpactedApplications getSiteSleImpactedApplications
+
+	For WAN SLEs. Get list of impacted interfaces optionally filtered by classifier and failure type
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param scope
+	@param scopeId
+	@param metric values from /api/v1/sites/{site_id}/sle/{scope}/{scope_id}/metrics
+	@return ApiGetSiteSleImpactedApplicationsRequest
+	*/
+	GetSiteSleImpactedApplications(ctx context.Context, siteId string, scope SiteSleScope, scopeId string, metric string) ApiGetSiteSleImpactedApplicationsRequest
+
+	// GetSiteSleImpactedApplicationsExecute executes the request
+	//  @return SleImpactedApplications
+	GetSiteSleImpactedApplicationsExecute(r ApiGetSiteSleImpactedApplicationsRequest) (*SleImpactedApplications, *http.Response, error)
+
+	/*
+	GetSiteSleImpactedAps getSiteSleImpactedAps
+
+	For Wireless SLEs. Get list of impacted APs optionally filtered by classifier and failure type
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param scope
+	@param scopeId
+	@param metric values from /api/v1/sites/{site_id}/sle/{scope}/{scope_id}/metrics
+	@return ApiGetSiteSleImpactedApsRequest
+	*/
+	GetSiteSleImpactedAps(ctx context.Context, siteId string, scope SiteSleImpactedApsScopeParameters, scopeId string, metric string) ApiGetSiteSleImpactedApsRequest
+
+	// GetSiteSleImpactedApsExecute executes the request
+	//  @return SleImpactedAps
+	GetSiteSleImpactedApsExecute(r ApiGetSiteSleImpactedApsRequest) (*SleImpactedAps, *http.Response, error)
+
+	/*
+	GetSiteSleImpactedChassis getSiteSleImpactedChassis
+
+	For Wired and WAN SLEs. Get list of impacted interfaces optionally filtered by classifier and failure type
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param scope
+	@param scopeId
+	@param metric values from /api/v1/sites/{site_id}/sle/{scope}/{scope_id}/metrics
+	@return ApiGetSiteSleImpactedChassisRequest
+	*/
+	GetSiteSleImpactedChassis(ctx context.Context, siteId string, scope SiteSleImpactedChassisScopeParameters, scopeId string, metric string) ApiGetSiteSleImpactedChassisRequest
+
+	// GetSiteSleImpactedChassisExecute executes the request
+	//  @return SleImpactedChassis
+	GetSiteSleImpactedChassisExecute(r ApiGetSiteSleImpactedChassisRequest) (*SleImpactedChassis, *http.Response, error)
+
+	/*
+	GetSiteSleImpactedGateways getSiteSleImpactedGateways
+
+	For WAN SLEs. Get list of impacted interfaces optionally filtered by classifier and failure type
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param scope
+	@param scopeId
+	@param metric values from /api/v1/sites/{site_id}/sle/{scope}/{scope_id}/metrics
+	@return ApiGetSiteSleImpactedGatewaysRequest
+	*/
+	GetSiteSleImpactedGateways(ctx context.Context, siteId string, scope SiteSleImpactedGatewaysScopeParameters, scopeId string, metric string) ApiGetSiteSleImpactedGatewaysRequest
+
+	// GetSiteSleImpactedGatewaysExecute executes the request
+	//  @return SleImpactedGateways
+	GetSiteSleImpactedGatewaysExecute(r ApiGetSiteSleImpactedGatewaysRequest) (*SleImpactedGateways, *http.Response, error)
+
+	/*
+	GetSiteSleImpactedInterfaces getSiteSleImpactedInterfaces
+
+	For Wired and WAN SLEs. Get list of impacted interfaces optionally filtered by classifier and failure type
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param scope
+	@param scopeId
+	@param metric values from /api/v1/sites/{site_id}/sle/{scope}/{scope_id}/metrics
+	@return ApiGetSiteSleImpactedInterfacesRequest
+	*/
+	GetSiteSleImpactedInterfaces(ctx context.Context, siteId string, scope SiteSleImpactedInterfacesScopeParameters, scopeId string, metric string) ApiGetSiteSleImpactedInterfacesRequest
+
+	// GetSiteSleImpactedInterfacesExecute executes the request
+	//  @return SleImpactedInterfaces
+	GetSiteSleImpactedInterfacesExecute(r ApiGetSiteSleImpactedInterfacesRequest) (*SleImpactedInterfaces, *http.Response, error)
+
+	/*
+	GetSiteSleImpactedSwitches getSiteSleImpactedSwitches
+
+	For Wired SLEs. Get list of impacted switches optionally filtered by classifier and failure type
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param scope
+	@param scopeId
+	@param metric values from /api/v1/sites/{site_id}/sle/{scope}/{scope_id}/metrics
+	@return ApiGetSiteSleImpactedSwitchesRequest
+	*/
+	GetSiteSleImpactedSwitches(ctx context.Context, siteId string, scope SiteSleImpactedSwitchesScopeParameters, scopeId string, metric string) ApiGetSiteSleImpactedSwitchesRequest
+
+	// GetSiteSleImpactedSwitchesExecute executes the request
+	//  @return SleImpactedSwitches
+	GetSiteSleImpactedSwitchesExecute(r ApiGetSiteSleImpactedSwitchesRequest) (*SleImpactedSwitches, *http.Response, error)
+
+	/*
+	GetSiteSleImpactedWiredClients getSiteSleImpactedWiredClients
+
+	For Wired SLEs. Get list of impacted interfaces optionally filtered by classifier and failure type
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param scope
+	@param scopeId
+	@param metric values from /api/v1/sites/{site_id}/sle/{scope}/{scope_id}/metrics
+	@return ApiGetSiteSleImpactedWiredClientsRequest
+	*/
+	GetSiteSleImpactedWiredClients(ctx context.Context, siteId string, scope SiteSleImpactedClientsScopeParameters, scopeId string, metric string) ApiGetSiteSleImpactedWiredClientsRequest
+
+	// GetSiteSleImpactedWiredClientsExecute executes the request
+	//  @return SleImpactedClients
+	GetSiteSleImpactedWiredClientsExecute(r ApiGetSiteSleImpactedWiredClientsRequest) (*SleImpactedClients, *http.Response, error)
+
+	/*
+	GetSiteSleImpactedWirelessClients getSiteSleImpactedWirelessClients
+
+	For Wireless SLEs. Get list of impacted wireless users optionally filtered by classifier and failure type
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param scope
+	@param scopeId
+	@param metric values from /api/v1/sites/{site_id}/sle/{scope}/{scope_id}/metrics
+	@return ApiGetSiteSleImpactedWirelessClientsRequest
+	*/
+	GetSiteSleImpactedWirelessClients(ctx context.Context, siteId string, scope SiteSleImpactedUsersScopeParameter, scopeId string, metric string) ApiGetSiteSleImpactedWirelessClientsRequest
+
+	// GetSiteSleImpactedWirelessClientsExecute executes the request
+	//  @return SleImpactedUsers
+	GetSiteSleImpactedWirelessClientsExecute(r ApiGetSiteSleImpactedWirelessClientsRequest) (*SleImpactedUsers, *http.Response, error)
+
+	/*
+	GetSiteSleMetricClassifiers getSiteSleMetricClassifiers
+
+	Get the list of classifiers for a specific metric
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param scope
+	@param scopeId * site_id if `scope`==`site` * device_id if `scope`==`ap`, `scope`==`switch` or `scope`==`gateway` * mac if `scope`==`client`
+	@param metric values from /api/v1/sites/{site_id}/sle/{scope}/{scope_id}/metrics
+	@return ApiGetSiteSleMetricClassifiersRequest
+	*/
+	GetSiteSleMetricClassifiers(ctx context.Context, siteId string, scope SiteSleMetricClassifiersScopeParameters, scopeId string, metric string) ApiGetSiteSleMetricClassifiersRequest
+
+	// GetSiteSleMetricClassifiersExecute executes the request
+	//  @return []string
+	GetSiteSleMetricClassifiersExecute(r ApiGetSiteSleMetricClassifiersRequest) ([]string, *http.Response, error)
+
+	/*
+	GetSiteSleSummary getSiteSleSummary
+
+	Get the summary for the SLE metric
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param scope
+	@param scopeId * site_id if `scope`==`site` * device_id if `scope`==`ap`, `scope`==`switch` or `scope`==`gateway` * mac if `scope`==`client`
+	@param metric values from /api/v1/sites/{site_id}/sle/{scope}/{scope_id}/metrics
+	@return ApiGetSiteSleSummaryRequest
+	*/
+	GetSiteSleSummary(ctx context.Context, siteId string, scope SiteSleMetricSummaryScopeParameters, scopeId string, metric string) ApiGetSiteSleSummaryRequest
+
+	// GetSiteSleSummaryExecute executes the request
+	//  @return SleSummary
+	GetSiteSleSummaryExecute(r ApiGetSiteSleSummaryRequest) (*SleSummary, *http.Response, error)
+
+	/*
+	GetSiteSleThreshold getSiteSleThreshold
+
+	Get the SLE threshold
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param scope
+	@param scopeId * site_id if `scope`==`site` * device_id if `scope`==`ap`, `scope`==`switch` or `scope`==`gateway` * mac if `scope`==`client`
+	@param metric values from /api/v1/sites/{site_id}/sle/{scope}/{scope_id}/metrics
+	@return ApiGetSiteSleThresholdRequest
+	*/
+	GetSiteSleThreshold(ctx context.Context, siteId string, scope SiteSleThresholdScopeParameter, scopeId string, metric string) ApiGetSiteSleThresholdRequest
+
+	// GetSiteSleThresholdExecute executes the request
+	//  @return SleThreshold
+	GetSiteSleThresholdExecute(r ApiGetSiteSleThresholdRequest) (*SleThreshold, *http.Response, error)
+
+	/*
+	GetSiteSlesMetrics getSiteSlesMetrics
+
+	Get the list of metrics for the given scope
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param scope
+	@param scopeId * site_id if `scope`==`site` * device_id if `scope`==`ap`, `scope`==`switch` or `scope`==`gateway` * mac if `scope`==`client`
+	@return ApiGetSiteSlesMetricsRequest
+	*/
+	GetSiteSlesMetrics(ctx context.Context, siteId string, scope SiteSleMetricsScopeParameters, scopeId string) ApiGetSiteSlesMetricsRequest
+
+	// GetSiteSlesMetricsExecute executes the request
+	//  @return SiteSleMetrics
+	GetSiteSlesMetricsExecute(r ApiGetSiteSlesMetricsRequest) (*SiteSleMetrics, *http.Response, error)
+
+	/*
+	ReplaceSiteSleThreshold replaceSiteSleThreshold
+
+	Replace the SLE threshold
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param scope
+	@param scopeId * site_id if `scope`==`site` * device_id if `scope`==`ap`, `scope`==`switch` or `scope`==`gateway` * mac if `scope`==`client`
+	@param metric values from /api/v1/sites/{site_id}/sle/{scope}/{scope_id}/metrics
+	@return ApiReplaceSiteSleThresholdRequest
+	*/
+	ReplaceSiteSleThreshold(ctx context.Context, siteId string, scope SiteSleThresholdScopeParameter, scopeId string, metric string) ApiReplaceSiteSleThresholdRequest
+
+	// ReplaceSiteSleThresholdExecute executes the request
+	//  @return SleThreshold
+	ReplaceSiteSleThresholdExecute(r ApiReplaceSiteSleThresholdRequest) (*SleThreshold, *http.Response, error)
+
+	/*
+	UpdateSiteSleThreshold updateSiteSleThreshold
+
+	Update the SLE threshold
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param scope
+	@param scopeId * site_id if `scope`==`site` * device_id if `scope`==`ap`, `scope`==`switch` or `scope`==`gateway` * mac if `scope`==`client`
+	@param metric values from /api/v1/sites/{site_id}/sle/{scope}/{scope_id}/metrics
+	@return ApiUpdateSiteSleThresholdRequest
+	*/
+	UpdateSiteSleThreshold(ctx context.Context, siteId string, scope SiteSleThresholdScopeParameter, scopeId string, metric string) ApiUpdateSiteSleThresholdRequest
+
+	// UpdateSiteSleThresholdExecute executes the request
+	//  @return SleThreshold
+	UpdateSiteSleThresholdExecute(r ApiUpdateSiteSleThresholdRequest) (*SleThreshold, *http.Response, error)
+}
+
 // SitesSLEsAPIService SitesSLEsAPI service
 type SitesSLEsAPIService service
 
 type ApiGetSiteSleClassifierDetailsRequest struct {
 	ctx context.Context
-	ApiService *SitesSLEsAPIService
+	ApiService SitesSLEsAPI
 	siteId string
 	scope SleSummaryScope
 	scopeId string
@@ -246,7 +559,7 @@ func (a *SitesSLEsAPIService) GetSiteSleClassifierDetailsExecute(r ApiGetSiteSle
 
 type ApiGetSiteSleHistogramRequest struct {
 	ctx context.Context
-	ApiService *SitesSLEsAPIService
+	ApiService SitesSLEsAPI
 	siteId string
 	scope SiteSleHistogramScopeParameters
 	scopeId string
@@ -462,7 +775,7 @@ func (a *SitesSLEsAPIService) GetSiteSleHistogramExecute(r ApiGetSiteSleHistogra
 
 type ApiGetSiteSleImpactSummaryRequest struct {
 	ctx context.Context
-	ApiService *SitesSLEsAPIService
+	ApiService SitesSLEsAPI
 	siteId string
 	scope SiteSleImpactSummaryScopeParameters
 	scopeId string
@@ -700,7 +1013,7 @@ func (a *SitesSLEsAPIService) GetSiteSleImpactSummaryExecute(r ApiGetSiteSleImpa
 
 type ApiGetSiteSleImpactedApplicationsRequest struct {
 	ctx context.Context
-	ApiService *SitesSLEsAPIService
+	ApiService SitesSLEsAPI
 	siteId string
 	scope SiteSleScope
 	scopeId string
@@ -925,7 +1238,7 @@ func (a *SitesSLEsAPIService) GetSiteSleImpactedApplicationsExecute(r ApiGetSite
 
 type ApiGetSiteSleImpactedApsRequest struct {
 	ctx context.Context
-	ApiService *SitesSLEsAPIService
+	ApiService SitesSLEsAPI
 	siteId string
 	scope SiteSleImpactedApsScopeParameters
 	scopeId string
@@ -1150,7 +1463,7 @@ func (a *SitesSLEsAPIService) GetSiteSleImpactedApsExecute(r ApiGetSiteSleImpact
 
 type ApiGetSiteSleImpactedChassisRequest struct {
 	ctx context.Context
-	ApiService *SitesSLEsAPIService
+	ApiService SitesSLEsAPI
 	siteId string
 	scope SiteSleImpactedChassisScopeParameters
 	scopeId string
@@ -1375,7 +1688,7 @@ func (a *SitesSLEsAPIService) GetSiteSleImpactedChassisExecute(r ApiGetSiteSleIm
 
 type ApiGetSiteSleImpactedGatewaysRequest struct {
 	ctx context.Context
-	ApiService *SitesSLEsAPIService
+	ApiService SitesSLEsAPI
 	siteId string
 	scope SiteSleImpactedGatewaysScopeParameters
 	scopeId string
@@ -1600,7 +1913,7 @@ func (a *SitesSLEsAPIService) GetSiteSleImpactedGatewaysExecute(r ApiGetSiteSleI
 
 type ApiGetSiteSleImpactedInterfacesRequest struct {
 	ctx context.Context
-	ApiService *SitesSLEsAPIService
+	ApiService SitesSLEsAPI
 	siteId string
 	scope SiteSleImpactedInterfacesScopeParameters
 	scopeId string
@@ -1825,7 +2138,7 @@ func (a *SitesSLEsAPIService) GetSiteSleImpactedInterfacesExecute(r ApiGetSiteSl
 
 type ApiGetSiteSleImpactedSwitchesRequest struct {
 	ctx context.Context
-	ApiService *SitesSLEsAPIService
+	ApiService SitesSLEsAPI
 	siteId string
 	scope SiteSleImpactedSwitchesScopeParameters
 	scopeId string
@@ -2050,7 +2363,7 @@ func (a *SitesSLEsAPIService) GetSiteSleImpactedSwitchesExecute(r ApiGetSiteSleI
 
 type ApiGetSiteSleImpactedWiredClientsRequest struct {
 	ctx context.Context
-	ApiService *SitesSLEsAPIService
+	ApiService SitesSLEsAPI
 	siteId string
 	scope SiteSleImpactedClientsScopeParameters
 	scopeId string
@@ -2275,7 +2588,7 @@ func (a *SitesSLEsAPIService) GetSiteSleImpactedWiredClientsExecute(r ApiGetSite
 
 type ApiGetSiteSleImpactedWirelessClientsRequest struct {
 	ctx context.Context
-	ApiService *SitesSLEsAPIService
+	ApiService SitesSLEsAPI
 	siteId string
 	scope SiteSleImpactedUsersScopeParameter
 	scopeId string
@@ -2500,7 +2813,7 @@ func (a *SitesSLEsAPIService) GetSiteSleImpactedWirelessClientsExecute(r ApiGetS
 
 type ApiGetSiteSleMetricClassifiersRequest struct {
 	ctx context.Context
-	ApiService *SitesSLEsAPIService
+	ApiService SitesSLEsAPI
 	siteId string
 	scope SiteSleMetricClassifiersScopeParameters
 	scopeId string
@@ -2683,7 +2996,7 @@ func (a *SitesSLEsAPIService) GetSiteSleMetricClassifiersExecute(r ApiGetSiteSle
 
 type ApiGetSiteSleSummaryRequest struct {
 	ctx context.Context
-	ApiService *SitesSLEsAPIService
+	ApiService SitesSLEsAPI
 	siteId string
 	scope SiteSleMetricSummaryScopeParameters
 	scopeId string
@@ -2899,7 +3212,7 @@ func (a *SitesSLEsAPIService) GetSiteSleSummaryExecute(r ApiGetSiteSleSummaryReq
 
 type ApiGetSiteSleThresholdRequest struct {
 	ctx context.Context
-	ApiService *SitesSLEsAPIService
+	ApiService SitesSLEsAPI
 	siteId string
 	scope SiteSleThresholdScopeParameter
 	scopeId string
@@ -3082,7 +3395,7 @@ func (a *SitesSLEsAPIService) GetSiteSleThresholdExecute(r ApiGetSiteSleThreshol
 
 type ApiGetSiteSlesMetricsRequest struct {
 	ctx context.Context
-	ApiService *SitesSLEsAPIService
+	ApiService SitesSLEsAPI
 	siteId string
 	scope SiteSleMetricsScopeParameters
 	scopeId string
@@ -3261,7 +3574,7 @@ func (a *SitesSLEsAPIService) GetSiteSlesMetricsExecute(r ApiGetSiteSlesMetricsR
 
 type ApiReplaceSiteSleThresholdRequest struct {
 	ctx context.Context
-	ApiService *SitesSLEsAPIService
+	ApiService SitesSLEsAPI
 	siteId string
 	scope SiteSleThresholdScopeParameter
 	scopeId string
@@ -3452,7 +3765,7 @@ func (a *SitesSLEsAPIService) ReplaceSiteSleThresholdExecute(r ApiReplaceSiteSle
 
 type ApiUpdateSiteSleThresholdRequest struct {
 	ctx context.Context
-	ApiService *SitesSLEsAPIService
+	ApiService SitesSLEsAPI
 	siteId string
 	scope SiteSleThresholdScopeParameter
 	scopeId string

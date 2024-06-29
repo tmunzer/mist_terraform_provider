@@ -21,12 +21,91 @@ import (
 )
 
 
+type SitesRoguesAPI interface {
+
+	/*
+	CountSiteRogueEvents countSiteRogueEvents
+
+	Count Rogue Events
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiCountSiteRogueEventsRequest
+	*/
+	CountSiteRogueEvents(ctx context.Context, siteId string) ApiCountSiteRogueEventsRequest
+
+	// CountSiteRogueEventsExecute executes the request
+	//  @return RepsonseCount
+	CountSiteRogueEventsExecute(r ApiCountSiteRogueEventsRequest) (*RepsonseCount, *http.Response, error)
+
+	/*
+	GetSiteRogueAP getSiteRogueAP
+
+	Get Rogue AP Details
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param rogueBssid
+	@return ApiGetSiteRogueAPRequest
+	*/
+	GetSiteRogueAP(ctx context.Context, siteId string, rogueBssid string) ApiGetSiteRogueAPRequest
+
+	// GetSiteRogueAPExecute executes the request
+	//  @return RogueDetails
+	GetSiteRogueAPExecute(r ApiGetSiteRogueAPRequest) (*RogueDetails, *http.Response, error)
+
+	/*
+	ListSiteRogueAPs listSiteRogueAPs
+
+	Get List of Site Rogue/Neighbor APs
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiListSiteRogueAPsRequest
+	*/
+	ListSiteRogueAPs(ctx context.Context, siteId string) ApiListSiteRogueAPsRequest
+
+	// ListSiteRogueAPsExecute executes the request
+	//  @return ResponseInsightRogue
+	ListSiteRogueAPsExecute(r ApiListSiteRogueAPsRequest) (*ResponseInsightRogue, *http.Response, error)
+
+	/*
+	ListSiteRogueClients listSiteRogueClients
+
+	Get List of Site Rogue Clients
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiListSiteRogueClientsRequest
+	*/
+	ListSiteRogueClients(ctx context.Context, siteId string) ApiListSiteRogueClientsRequest
+
+	// ListSiteRogueClientsExecute executes the request
+	//  @return ResponseInsightRogueClient
+	ListSiteRogueClientsExecute(r ApiListSiteRogueClientsRequest) (*ResponseInsightRogueClient, *http.Response, error)
+
+	/*
+	SearchSiteRogueEvents searchSiteRogueEvents
+
+	Search Rogue Events
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiSearchSiteRogueEventsRequest
+	*/
+	SearchSiteRogueEvents(ctx context.Context, siteId string) ApiSearchSiteRogueEventsRequest
+
+	// SearchSiteRogueEventsExecute executes the request
+	//  @return ResponseEventsRogueSearch
+	SearchSiteRogueEventsExecute(r ApiSearchSiteRogueEventsRequest) (*ResponseEventsRogueSearch, *http.Response, error)
+}
+
 // SitesRoguesAPIService SitesRoguesAPI service
 type SitesRoguesAPIService service
 
 type ApiCountSiteRogueEventsRequest struct {
 	ctx context.Context
-	ApiService *SitesRoguesAPIService
+	ApiService SitesRoguesAPI
 	siteId string
 	distinct *SiteRogueEventsCountDistinct
 	type_ *RogueType
@@ -313,7 +392,7 @@ func (a *SitesRoguesAPIService) CountSiteRogueEventsExecute(r ApiCountSiteRogueE
 
 type ApiGetSiteRogueAPRequest struct {
 	ctx context.Context
-	ApiService *SitesRoguesAPIService
+	ApiService SitesRoguesAPI
 	siteId string
 	rogueBssid string
 }
@@ -488,7 +567,7 @@ func (a *SitesRoguesAPIService) GetSiteRogueAPExecute(r ApiGetSiteRogueAPRequest
 
 type ApiListSiteRogueAPsRequest struct {
 	ctx context.Context
-	ApiService *SitesRoguesAPIService
+	ApiService SitesRoguesAPI
 	siteId string
 	type_ *RogueType
 	limit *int32
@@ -723,7 +802,7 @@ func (a *SitesRoguesAPIService) ListSiteRogueAPsExecute(r ApiListSiteRogueAPsReq
 
 type ApiListSiteRogueClientsRequest struct {
 	ctx context.Context
-	ApiService *SitesRoguesAPIService
+	ApiService SitesRoguesAPI
 	siteId string
 	limit *int32
 	start *int32
@@ -949,7 +1028,7 @@ func (a *SitesRoguesAPIService) ListSiteRogueClientsExecute(r ApiListSiteRogueCl
 
 type ApiSearchSiteRogueEventsRequest struct {
 	ctx context.Context
-	ApiService *SitesRoguesAPIService
+	ApiService SitesRoguesAPI
 	siteId string
 	type_ *RogueType
 	ssid *string

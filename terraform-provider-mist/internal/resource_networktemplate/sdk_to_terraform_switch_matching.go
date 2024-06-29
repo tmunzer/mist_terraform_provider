@@ -67,7 +67,7 @@ func switchMatchingRulesPortConfigSdkToTerraform(ctx context.Context, diags *dia
 }
 func switchMatchingRulesSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []mistsdkgo.SwitchMatchingRule) basetypes.ListValue {
 	tflog.Debug(ctx, "switchMatchingRulesSdkToTerraform")
-	var data_list = []SwitchMatchingRulesValue{}
+	var data_list = []MatchingRulesValue{}
 
 	for _, item := range d {
 		var match_type, match_value string
@@ -77,22 +77,30 @@ func switchMatchingRulesSdkToTerraform(ctx context.Context, diags *diag.Diagnost
 				match_value = value.(string)
 			}
 		}
-		data_map_attr_type := SwitchMatchingRulesValue{}.AttributeTypes(ctx)
+		// data := NewMatchingRulesValueNull()
+		// data.AdditionalConfigCmds = mist_transform.ListOfStringSdkToTerraform(ctx, item.GetAdditionalConfigCmds())
+		// data.MatchRole = types.StringValue(item.GetMatchRole())
+		// data.MatchType = types.StringValue(match_type)
+		// data.MatchValue = types.StringValue(match_value)
+		// data.Name = types.StringValue(item.GetName())
+		// data.PortConfig = switchMatchingRulesPortConfigSdkToTerraform(ctx, diags, item.GetPortConfig())
+		// data.PortMirroring = switchMatchingRulesPortMirroringSdkToTerraform(ctx, diags, item.GetPortMirroring())
+		data_map_attr_type := MatchingRulesValue{}.AttributeTypes(ctx)
 		data_map_value := map[string]attr.Value{
 			"additional_config_cmds": mist_transform.ListOfStringSdkToTerraform(ctx, item.GetAdditionalConfigCmds()),
 			"match_role":             types.StringValue(item.GetMatchRole()),
+			"match_type":             types.StringValue(match_type),
+			"match_value":            types.StringValue(match_value),
 			"name":                   types.StringValue(item.GetName()),
 			"port_config":            switchMatchingRulesPortConfigSdkToTerraform(ctx, diags, item.GetPortConfig()),
 			"port_mirroring":         switchMatchingRulesPortMirroringSdkToTerraform(ctx, diags, item.GetPortMirroring()),
-			"match_type":             types.StringValue(match_type),
-			"match_value":            types.StringValue(match_value),
 		}
-		data, e := NewSwitchMatchingRulesValue(data_map_attr_type, data_map_value)
+		data, e := NewMatchingRulesValue(data_map_attr_type, data_map_value)
 		diags.Append(e...)
 
 		data_list = append(data_list, data)
 	}
-	data_list_type := SwitchMatchingRulesValue{}.Type(ctx)
+	data_list_type := MatchingRulesValue{}.Type(ctx)
 	r, e := types.ListValueFrom(ctx, data_list_type, data_list)
 	if e.HasError() {
 		for _, f := range e.Errors() {

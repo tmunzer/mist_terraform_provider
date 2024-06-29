@@ -21,12 +21,68 @@ import (
 )
 
 
+type SitesInsightsAPI interface {
+
+	/*
+	GetSiteInsightMetrics getSiteInsightMetrics
+
+	Get Site Insight Metrics
+See metrics possibilities at /api/v1/const/insight_metrics
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param metric see /api/v1/const/insight_metrics for available metrics
+	@return ApiGetSiteInsightMetricsRequest
+	*/
+	GetSiteInsightMetrics(ctx context.Context, siteId string, metric string) ApiGetSiteInsightMetricsRequest
+
+	// GetSiteInsightMetricsExecute executes the request
+	//  @return InsightMetrics
+	GetSiteInsightMetricsExecute(r ApiGetSiteInsightMetricsRequest) (*InsightMetrics, *http.Response, error)
+
+	/*
+	GetSiteInsightMetricsForClient getSiteInsightMetricsForClient
+
+	Get Client Insight Metrics
+See metrics possibilities at /api/v1/const/insight_metrics
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param clientMac
+	@param metric see /api/v1/const/insight_metrics for available metrics
+	@return ApiGetSiteInsightMetricsForClientRequest
+	*/
+	GetSiteInsightMetricsForClient(ctx context.Context, siteId string, clientMac string, metric string) ApiGetSiteInsightMetricsForClientRequest
+
+	// GetSiteInsightMetricsForClientExecute executes the request
+	//  @return InsightMetrics
+	GetSiteInsightMetricsForClientExecute(r ApiGetSiteInsightMetricsForClientRequest) (*InsightMetrics, *http.Response, error)
+
+	/*
+	GetSiteInsightMetricsForDevice getSiteInsightMetricsForDevice
+
+	Get AP Insight Metrics
+See metrics possibilities at /api/v1/const/insight_metrics
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param metric see /api/v1/const/insight_metrics for available metrics
+	@param deviceMac
+	@return ApiGetSiteInsightMetricsForDeviceRequest
+	*/
+	GetSiteInsightMetricsForDevice(ctx context.Context, siteId string, metric string, deviceMac string) ApiGetSiteInsightMetricsForDeviceRequest
+
+	// GetSiteInsightMetricsForDeviceExecute executes the request
+	//  @return ResponseDeviceMetrics
+	GetSiteInsightMetricsForDeviceExecute(r ApiGetSiteInsightMetricsForDeviceRequest) (*ResponseDeviceMetrics, *http.Response, error)
+}
+
 // SitesInsightsAPIService SitesInsightsAPI service
 type SitesInsightsAPIService service
 
 type ApiGetSiteInsightMetricsRequest struct {
 	ctx context.Context
-	ApiService *SitesInsightsAPIService
+	ApiService SitesInsightsAPI
 	siteId string
 	metric string
 	page *int32
@@ -269,7 +325,7 @@ func (a *SitesInsightsAPIService) GetSiteInsightMetricsExecute(r ApiGetSiteInsig
 
 type ApiGetSiteInsightMetricsForClientRequest struct {
 	ctx context.Context
-	ApiService *SitesInsightsAPIService
+	ApiService SitesInsightsAPI
 	siteId string
 	clientMac string
 	metric string
@@ -516,7 +572,7 @@ func (a *SitesInsightsAPIService) GetSiteInsightMetricsForClientExecute(r ApiGet
 
 type ApiGetSiteInsightMetricsForDeviceRequest struct {
 	ctx context.Context
-	ApiService *SitesInsightsAPIService
+	ApiService SitesInsightsAPI
 	siteId string
 	metric string
 	deviceMac string

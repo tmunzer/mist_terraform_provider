@@ -1,20 +1,22 @@
 FILES = [
-#   "./terraform-provider-mist/internal/resource_networktemplate/networktemplate_resource_gen.go",
-#   "./terraform-provider-mist/internal/resource_network/network_resource_gen.go"
-  "./terraform-provider-mist/internal/resource_gatewaytemplate/gatewaytemplate_resource_gen.go",
+    "./terraform-provider-mist/internal/resource_networktemplate/networktemplate_resource_gen.go",
+    "./terraform-provider-mist/internal/resource_network/network_resource_gen.go",
+    "./terraform-provider-mist/internal/resource_gatewaytemplate/gatewaytemplate_resource_gen.go",
 ]
 
 ADD = {
-    "./terraform-provider-mist/internal/resource_networktemplate/networktemplate_resource_gen.go": [
-        "./tacacsAcctServers.fix",
-        "./switchMatchingRules.fix",
-    ]
+    # "./terraform-provider-mist/internal/resource_networktemplate/networktemplate_resource_gen.go": [
+    #     "./tacacsAcctServers.fix",
+    #     #      "./switchMatchingRules.fix",
+    # ]
 }
 
 REPLACE_ITEMS = {
-    # "Tacacs": [{"source": "AcctServers", "dest": "TacacsAcctServers"}],
-    # "SwitchMatching": [{"source": "Rules", "dest": "SwitchMatchingRules"}],
-    }
+    # "": {
+    #     # "Tacacs": [{"source": "AcctServers", "dest": "TacacsAcctServers"}],
+    #     "*": [{"source": "matching_rules", "dest": "rules"}]
+    # }
+}
 
 for file in FILES:
     with open(file, "r") as f_in:
@@ -34,7 +36,7 @@ for file in FILES:
                 for item in TO_REPLACE:
                     line = line.replace(item["source"], item["dest"])
 
-                if line.startswith("}"):                    
+                if line.startswith("}"):
                     UNSKIP_NEXT = True
                     TO_REPLACE = []
                 elif line.startswith("type") or line.startswith("func"):

@@ -21,12 +21,47 @@ import (
 )
 
 
+type SitesClientsSDKAPI interface {
+
+	/*
+	GetSiteSdkStats getSiteSdkStats
+
+	Get Detail Stats of a SdkClient
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param sdkclientId
+	@return ApiGetSiteSdkStatsRequest
+	*/
+	GetSiteSdkStats(ctx context.Context, siteId string, sdkclientId string) ApiGetSiteSdkStatsRequest
+
+	// GetSiteSdkStatsExecute executes the request
+	//  @return SdkstatsWirelessClient
+	GetSiteSdkStatsExecute(r ApiGetSiteSdkStatsRequest) (*SdkstatsWirelessClient, *http.Response, error)
+
+	/*
+	GetSiteSdkStatsByMap getSiteSdkStatsByMap
+
+	Get SdkClient Stats By Map
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param mapId
+	@return ApiGetSiteSdkStatsByMapRequest
+	*/
+	GetSiteSdkStatsByMap(ctx context.Context, siteId string, mapId string) ApiGetSiteSdkStatsByMapRequest
+
+	// GetSiteSdkStatsByMapExecute executes the request
+	//  @return []SdkclientStat
+	GetSiteSdkStatsByMapExecute(r ApiGetSiteSdkStatsByMapRequest) ([]SdkclientStat, *http.Response, error)
+}
+
 // SitesClientsSDKAPIService SitesClientsSDKAPI service
 type SitesClientsSDKAPIService service
 
 type ApiGetSiteSdkStatsRequest struct {
 	ctx context.Context
-	ApiService *SitesClientsSDKAPIService
+	ApiService SitesClientsSDKAPI
 	siteId string
 	sdkclientId string
 }
@@ -201,7 +236,7 @@ func (a *SitesClientsSDKAPIService) GetSiteSdkStatsExecute(r ApiGetSiteSdkStatsR
 
 type ApiGetSiteSdkStatsByMapRequest struct {
 	ctx context.Context
-	ApiService *SitesClientsSDKAPIService
+	ApiService SitesClientsSDKAPI
 	siteId string
 	mapId string
 }

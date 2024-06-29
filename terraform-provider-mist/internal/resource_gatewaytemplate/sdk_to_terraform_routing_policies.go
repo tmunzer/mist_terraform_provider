@@ -25,7 +25,7 @@ func routingPolocyTermMatchingRouteExistsSdkToTerraform(ctx context.Context, dia
 	return r
 }
 func routingPolocyTermMatchingVpnSlaSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdkgo.RoutingPolicyTermMatchingVpnPathSla) basetypes.ObjectValue {
-	r_attr_type := RoutingPolicyTermMatchingValue{}.AttributeTypes(ctx)
+	r_attr_type := VpnPathSlaValue{}.AttributeTypes(ctx)
 	r_attr_value := map[string]attr.Value{
 		"max_jitter":  types.Int64Value(int64(d.GetMaxJitter())),
 		"max_latency": types.Int64Value(int64(d.GetMaxLatency())),
@@ -77,21 +77,21 @@ func routingPolocyTermActionSdkToTerraform(ctx context.Context, diags *diag.Diag
 }
 
 func routingPolocyTermsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []mistsdkgo.RoutingPolicyTerm) basetypes.ListValue {
-	var data_list = []OverwritesValue{}
+	var data_list = []TermsValue{}
 
 	for _, v := range d {
-		data_map_attr_type := OverwritesValue{}.AttributeTypes(ctx)
+		data_map_attr_type := TermsValue{}.AttributeTypes(ctx)
 		action := routingPolocyTermActionSdkToTerraform(ctx, diags, v.GetAction())
 		data_map_value := map[string]attr.Value{
 			"action":                       action,
 			"routing_policy_term_matching": routingPolocyTermMatchingSdkToTerraform(ctx, diags, v.GetMatching()),
 		}
 
-		data, e := NewOverwritesValue(data_map_attr_type, data_map_value)
+		data, e := NewTermsValue(data_map_attr_type, data_map_value)
 		diags.Append(e...)
 		data_list = append(data_list, data)
 	}
-	data_list_type := OverwritesValue{}.Type(ctx)
+	data_list_type := TermsValue{}.Type(ctx)
 	r, e := types.ListValueFrom(ctx, data_list_type, data_list)
 	diags.Append(e...)
 	return r

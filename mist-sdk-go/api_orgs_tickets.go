@@ -22,12 +22,140 @@ import (
 )
 
 
+type OrgsTicketsAPI interface {
+
+	/*
+	AddOrgTicketComment addOrgTicketComment
+
+	Add Comment to support ticket
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param ticketId
+	@return ApiAddOrgTicketCommentRequest
+	*/
+	AddOrgTicketComment(ctx context.Context, orgId string, ticketId string) ApiAddOrgTicketCommentRequest
+
+	// AddOrgTicketCommentExecute executes the request
+	//  @return Ticket
+	AddOrgTicketCommentExecute(r ApiAddOrgTicketCommentRequest) (*Ticket, *http.Response, error)
+
+	/*
+	CountOrgTickets countOrgTickets
+
+	Count Org Tickets
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiCountOrgTicketsRequest
+	*/
+	CountOrgTickets(ctx context.Context, orgId string) ApiCountOrgTicketsRequest
+
+	// CountOrgTicketsExecute executes the request
+	//  @return RepsonseCount
+	CountOrgTicketsExecute(r ApiCountOrgTicketsRequest) (*RepsonseCount, *http.Response, error)
+
+	/*
+	CreateOrgTicket createOrgTicket
+
+	Create a support ticket
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiCreateOrgTicketRequest
+	*/
+	CreateOrgTicket(ctx context.Context, orgId string) ApiCreateOrgTicketRequest
+
+	// CreateOrgTicketExecute executes the request
+	//  @return Ticket
+	CreateOrgTicketExecute(r ApiCreateOrgTicketRequest) (*Ticket, *http.Response, error)
+
+	/*
+	GetOrgTicket getOrgTicket
+
+	Get support ticket details
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param ticketId
+	@return ApiGetOrgTicketRequest
+	*/
+	GetOrgTicket(ctx context.Context, orgId string, ticketId string) ApiGetOrgTicketRequest
+
+	// GetOrgTicketExecute executes the request
+	//  @return Ticket
+	GetOrgTicketExecute(r ApiGetOrgTicketRequest) (*Ticket, *http.Response, error)
+
+	/*
+	GetOrgTicketAttachment GetOrgTicketAttachment
+
+	Get Org ticket Attachment
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param ticketId
+	@param attachmentId
+	@return ApiGetOrgTicketAttachmentRequest
+	*/
+	GetOrgTicketAttachment(ctx context.Context, orgId string, ticketId string, attachmentId string) ApiGetOrgTicketAttachmentRequest
+
+	// GetOrgTicketAttachmentExecute executes the request
+	//  @return TicketAttachment
+	GetOrgTicketAttachmentExecute(r ApiGetOrgTicketAttachmentRequest) (*TicketAttachment, *http.Response, error)
+
+	/*
+	ListOrgTickets listOrgTickets
+
+	Get List of Tickets of an Org
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiListOrgTicketsRequest
+	*/
+	ListOrgTickets(ctx context.Context, orgId string) ApiListOrgTicketsRequest
+
+	// ListOrgTicketsExecute executes the request
+	//  @return []Ticket
+	ListOrgTicketsExecute(r ApiListOrgTicketsRequest) ([]Ticket, *http.Response, error)
+
+	/*
+	UpdateOrgTicket updateOrgTicket
+
+	Update support ticket
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param ticketId
+	@return ApiUpdateOrgTicketRequest
+	*/
+	UpdateOrgTicket(ctx context.Context, orgId string, ticketId string) ApiUpdateOrgTicketRequest
+
+	// UpdateOrgTicketExecute executes the request
+	//  @return Ticket
+	UpdateOrgTicketExecute(r ApiUpdateOrgTicketRequest) (*Ticket, *http.Response, error)
+
+	/*
+	UploadrgTicketAttachment UploadrgTicketAttachment
+
+	Get Org ticket Attachment
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param ticketId
+	@return ApiUploadrgTicketAttachmentRequest
+	*/
+	UploadrgTicketAttachment(ctx context.Context, orgId string, ticketId string) ApiUploadrgTicketAttachmentRequest
+
+	// UploadrgTicketAttachmentExecute executes the request
+	UploadrgTicketAttachmentExecute(r ApiUploadrgTicketAttachmentRequest) (*http.Response, error)
+}
+
 // OrgsTicketsAPIService OrgsTicketsAPI service
 type OrgsTicketsAPIService service
 
 type ApiAddOrgTicketCommentRequest struct {
 	ctx context.Context
-	ApiService *OrgsTicketsAPIService
+	ApiService OrgsTicketsAPI
 	orgId string
 	ticketId string
 	ticketComment *TicketComment
@@ -211,7 +339,7 @@ func (a *OrgsTicketsAPIService) AddOrgTicketCommentExecute(r ApiAddOrgTicketComm
 
 type ApiCountOrgTicketsRequest struct {
 	ctx context.Context
-	ApiService *OrgsTicketsAPIService
+	ApiService OrgsTicketsAPI
 	orgId string
 	distinct *OrgTicketsCountDistinct
 }
@@ -394,7 +522,7 @@ func (a *OrgsTicketsAPIService) CountOrgTicketsExecute(r ApiCountOrgTicketsReque
 
 type ApiCreateOrgTicketRequest struct {
 	ctx context.Context
-	ApiService *OrgsTicketsAPIService
+	ApiService OrgsTicketsAPI
 	orgId string
 	ticket *Ticket
 }
@@ -574,7 +702,7 @@ func (a *OrgsTicketsAPIService) CreateOrgTicketExecute(r ApiCreateOrgTicketReque
 
 type ApiGetOrgTicketRequest struct {
 	ctx context.Context
-	ApiService *OrgsTicketsAPIService
+	ApiService OrgsTicketsAPI
 	orgId string
 	ticketId string
 	start *int32
@@ -782,7 +910,7 @@ func (a *OrgsTicketsAPIService) GetOrgTicketExecute(r ApiGetOrgTicketRequest) (*
 
 type ApiGetOrgTicketAttachmentRequest struct {
 	ctx context.Context
-	ApiService *OrgsTicketsAPIService
+	ApiService OrgsTicketsAPI
 	orgId string
 	ticketId string
 	attachmentId string
@@ -994,7 +1122,7 @@ func (a *OrgsTicketsAPIService) GetOrgTicketAttachmentExecute(r ApiGetOrgTicketA
 
 type ApiListOrgTicketsRequest struct {
 	ctx context.Context
-	ApiService *OrgsTicketsAPIService
+	ApiService OrgsTicketsAPI
 	orgId string
 	start *int32
 	end *int32
@@ -1198,7 +1326,7 @@ func (a *OrgsTicketsAPIService) ListOrgTicketsExecute(r ApiListOrgTicketsRequest
 
 type ApiUpdateOrgTicketRequest struct {
 	ctx context.Context
-	ApiService *OrgsTicketsAPIService
+	ApiService OrgsTicketsAPI
 	orgId string
 	ticketId string
 	ticket *Ticket
@@ -1382,7 +1510,7 @@ func (a *OrgsTicketsAPIService) UpdateOrgTicketExecute(r ApiUpdateOrgTicketReque
 
 type ApiUploadrgTicketAttachmentRequest struct {
 	ctx context.Context
-	ApiService *OrgsTicketsAPIService
+	ApiService OrgsTicketsAPI
 	orgId string
 	ticketId string
 	file *os.File

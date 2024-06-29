@@ -21,12 +21,171 @@ import (
 )
 
 
+type OrgsDevicesAPI interface {
+
+	/*
+	CountOrgDeviceEvents countOrgDeviceEvents
+
+	Count Org Devices Events
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiCountOrgDeviceEventsRequest
+	*/
+	CountOrgDeviceEvents(ctx context.Context, orgId string) ApiCountOrgDeviceEventsRequest
+
+	// CountOrgDeviceEventsExecute executes the request
+	//  @return RepsonseCount
+	CountOrgDeviceEventsExecute(r ApiCountOrgDeviceEventsRequest) (*RepsonseCount, *http.Response, error)
+
+	/*
+	CountOrgDeviceLastConfigs countOrgDeviceLastConfigs
+
+	Counts the number of entries in device config history for distinct field with given filters
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiCountOrgDeviceLastConfigsRequest
+	*/
+	CountOrgDeviceLastConfigs(ctx context.Context, orgId string) ApiCountOrgDeviceLastConfigsRequest
+
+	// CountOrgDeviceLastConfigsExecute executes the request
+	//  @return RepsonseCount
+	CountOrgDeviceLastConfigsExecute(r ApiCountOrgDeviceLastConfigsRequest) (*RepsonseCount, *http.Response, error)
+
+	/*
+	CountOrgDevices countOrgDevices
+
+	Count Org Devices
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiCountOrgDevicesRequest
+	*/
+	CountOrgDevices(ctx context.Context, orgId string) ApiCountOrgDevicesRequest
+
+	// CountOrgDevicesExecute executes the request
+	//  @return RepsonseCount
+	CountOrgDevicesExecute(r ApiCountOrgDevicesRequest) (*RepsonseCount, *http.Response, error)
+
+	/*
+	GetOrgJuniperDevicesCommand getOrgJuniperDevicesCommand
+
+	Get Org Juniper Devices command
+
+Juniper devices can be managed/adopted by Mist. Currently outbound-ssh + netconf is used.
+A few lines of CLI commands are generated per-Org, allowing the Juniper devices to phone home to Mist.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiGetOrgJuniperDevicesCommandRequest
+	*/
+	GetOrgJuniperDevicesCommand(ctx context.Context, orgId string) ApiGetOrgJuniperDevicesCommandRequest
+
+	// GetOrgJuniperDevicesCommandExecute executes the request
+	//  @return ResponseDeviceConfigCmd
+	GetOrgJuniperDevicesCommandExecute(r ApiGetOrgJuniperDevicesCommandRequest) (*ResponseDeviceConfigCmd, *http.Response, error)
+
+	/*
+	ListOrgApsMacs listOrgApsMacs
+
+	For some scenarios like E911 or security systems, the BSSIDs are required to identify which AP the client is connecting to. Then the location of the AP can be used as the approximate location of the client.
+
+Each radio MAC can have 16 BSSIDs (enumerate the last octet from 0-F)
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiListOrgApsMacsRequest
+	*/
+	ListOrgApsMacs(ctx context.Context, orgId string) ApiListOrgApsMacsRequest
+
+	// ListOrgApsMacsExecute executes the request
+	//  @return []ApRadioMac
+	ListOrgApsMacsExecute(r ApiListOrgApsMacsRequest) ([]ApRadioMac, *http.Response, error)
+
+	/*
+	ListOrgDevices listOrgDevices
+
+	Get List of Org Devices
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiListOrgDevicesRequest
+	*/
+	ListOrgDevices(ctx context.Context, orgId string) ApiListOrgDevicesRequest
+
+	// ListOrgDevicesExecute executes the request
+	//  @return ResponseOrgDevices
+	ListOrgDevicesExecute(r ApiListOrgDevicesRequest) (*ResponseOrgDevices, *http.Response, error)
+
+	/*
+	ListOrgDevicesStats listOrgDevicesStats
+
+	Get List of Org Devices stats
+This API renders some high-level device stats, pagination is assumed and returned in response header (as the response is an array)
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiListOrgDevicesStatsRequest
+	*/
+	ListOrgDevicesStats(ctx context.Context, orgId string) ApiListOrgDevicesStatsRequest
+
+	// ListOrgDevicesStatsExecute executes the request
+	//  @return []StatsDevice
+	ListOrgDevicesStatsExecute(r ApiListOrgDevicesStatsRequest) ([]StatsDevice, *http.Response, error)
+
+	/*
+	SearchOrgDeviceEvents searchOrgDeviceEvents
+
+	Search Org Devices Events
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiSearchOrgDeviceEventsRequest
+	*/
+	SearchOrgDeviceEvents(ctx context.Context, orgId string) ApiSearchOrgDeviceEventsRequest
+
+	// SearchOrgDeviceEventsExecute executes the request
+	//  @return ResponseDeviceEventsSearch
+	SearchOrgDeviceEventsExecute(r ApiSearchOrgDeviceEventsRequest) (*ResponseDeviceEventsSearch, *http.Response, error)
+
+	/*
+	SearchOrgDeviceLastConfigs searchOrgDeviceLastConfigs
+
+	Search Device Last Configs
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiSearchOrgDeviceLastConfigsRequest
+	*/
+	SearchOrgDeviceLastConfigs(ctx context.Context, orgId string) ApiSearchOrgDeviceLastConfigsRequest
+
+	// SearchOrgDeviceLastConfigsExecute executes the request
+	//  @return ResponseConfigHistorySearch
+	SearchOrgDeviceLastConfigsExecute(r ApiSearchOrgDeviceLastConfigsRequest) (*ResponseConfigHistorySearch, *http.Response, error)
+
+	/*
+	SearchOrgDevices searchOrgDevices
+
+	Search Org Devices
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiSearchOrgDevicesRequest
+	*/
+	SearchOrgDevices(ctx context.Context, orgId string) ApiSearchOrgDevicesRequest
+
+	// SearchOrgDevicesExecute executes the request
+	//  @return ResponseDeviceSearch
+	SearchOrgDevicesExecute(r ApiSearchOrgDevicesRequest) (*ResponseDeviceSearch, *http.Response, error)
+}
+
 // OrgsDevicesAPIService OrgsDevicesAPI service
 type OrgsDevicesAPIService service
 
 type ApiCountOrgDeviceEventsRequest struct {
 	ctx context.Context
-	ApiService *OrgsDevicesAPIService
+	ApiService OrgsDevicesAPI
 	orgId string
 	distinct *OrgDevicesEventsCountDistinct
 	siteId *string
@@ -324,7 +483,7 @@ func (a *OrgsDevicesAPIService) CountOrgDeviceEventsExecute(r ApiCountOrgDeviceE
 
 type ApiCountOrgDeviceLastConfigsRequest struct {
 	ctx context.Context
-	ApiService *OrgsDevicesAPIService
+	ApiService OrgsDevicesAPI
 	orgId string
 	type_ *DeviceType
 	distinct *OrgDevicesLastConfigsCountDistinct
@@ -548,7 +707,7 @@ func (a *OrgsDevicesAPIService) CountOrgDeviceLastConfigsExecute(r ApiCountOrgDe
 
 type ApiCountOrgDevicesRequest struct {
 	ctx context.Context
-	ApiService *OrgsDevicesAPIService
+	ApiService OrgsDevicesAPI
 	orgId string
 	distinct *OrgDevicesCountDistinct
 	hostname *string
@@ -907,7 +1066,7 @@ func (a *OrgsDevicesAPIService) CountOrgDevicesExecute(r ApiCountOrgDevicesReque
 
 type ApiGetOrgJuniperDevicesCommandRequest struct {
 	ctx context.Context
-	ApiService *OrgsDevicesAPIService
+	ApiService OrgsDevicesAPI
 	orgId string
 	siteId *string
 }
@@ -1091,7 +1250,7 @@ func (a *OrgsDevicesAPIService) GetOrgJuniperDevicesCommandExecute(r ApiGetOrgJu
 
 type ApiListOrgApsMacsRequest struct {
 	ctx context.Context
-	ApiService *OrgsDevicesAPIService
+	ApiService OrgsDevicesAPI
 	orgId string
 	page *int32
 	limit *int32
@@ -1288,7 +1447,7 @@ func (a *OrgsDevicesAPIService) ListOrgApsMacsExecute(r ApiListOrgApsMacsRequest
 
 type ApiListOrgDevicesRequest struct {
 	ctx context.Context
-	ApiService *OrgsDevicesAPIService
+	ApiService OrgsDevicesAPI
 	orgId string
 }
 
@@ -1459,7 +1618,7 @@ func (a *OrgsDevicesAPIService) ListOrgDevicesExecute(r ApiListOrgDevicesRequest
 
 type ApiListOrgDevicesStatsRequest struct {
 	ctx context.Context
-	ApiService *OrgsDevicesAPIService
+	ApiService OrgsDevicesAPI
 	orgId string
 	type_ *DeviceTypeWithAll
 	status *DeviceStatus
@@ -1760,7 +1919,7 @@ func (a *OrgsDevicesAPIService) ListOrgDevicesStatsExecute(r ApiListOrgDevicesSt
 
 type ApiSearchOrgDeviceEventsRequest struct {
 	ctx context.Context
-	ApiService *OrgsDevicesAPIService
+	ApiService OrgsDevicesAPI
 	orgId string
 	mac *string
 	model *string
@@ -2048,7 +2207,7 @@ func (a *OrgsDevicesAPIService) SearchOrgDeviceEventsExecute(r ApiSearchOrgDevic
 
 type ApiSearchOrgDeviceLastConfigsRequest struct {
 	ctx context.Context
-	ApiService *OrgsDevicesAPIService
+	ApiService OrgsDevicesAPI
 	orgId string
 	type_ *DeviceType
 	mac *string
@@ -2303,7 +2462,7 @@ func (a *OrgsDevicesAPIService) SearchOrgDeviceLastConfigsExecute(r ApiSearchOrg
 
 type ApiSearchOrgDevicesRequest struct {
 	ctx context.Context
-	ApiService *OrgsDevicesAPIService
+	ApiService OrgsDevicesAPI
 	orgId string
 	hostname *string
 	siteId *string

@@ -21,12 +21,123 @@ import (
 )
 
 
+type SitesWxTagsAPI interface {
+
+	/*
+	CreateSiteWxTag createSiteWxTag
+
+	Create Site WxTag
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiCreateSiteWxTagRequest
+	*/
+	CreateSiteWxTag(ctx context.Context, siteId string) ApiCreateSiteWxTagRequest
+
+	// CreateSiteWxTagExecute executes the request
+	//  @return WxlanTag
+	CreateSiteWxTagExecute(r ApiCreateSiteWxTagRequest) (*WxlanTag, *http.Response, error)
+
+	/*
+	DeleteSiteWxTag deleteSiteWxTag
+
+	Delete Site WxTag
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param wxtagId
+	@return ApiDeleteSiteWxTagRequest
+	*/
+	DeleteSiteWxTag(ctx context.Context, siteId string, wxtagId string) ApiDeleteSiteWxTagRequest
+
+	// DeleteSiteWxTagExecute executes the request
+	DeleteSiteWxTagExecute(r ApiDeleteSiteWxTagRequest) (*http.Response, error)
+
+	/*
+	GetSiteApplicationList getSiteApplicationList
+
+	Get Application List
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiGetSiteApplicationListRequest
+	*/
+	GetSiteApplicationList(ctx context.Context, siteId string) ApiGetSiteApplicationListRequest
+
+	// GetSiteApplicationListExecute executes the request
+	//  @return []SearchWxtagAppsItem
+	GetSiteApplicationListExecute(r ApiGetSiteApplicationListRequest) ([]SearchWxtagAppsItem, *http.Response, error)
+
+	/*
+	GetSiteCurrentMatchingClientsOfAWxTag getSiteCurrentMatchingClientsOfAWxTag
+
+	Get Current Matching Clients of a WXLAN Tag
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param wxtagId
+	@return ApiGetSiteCurrentMatchingClientsOfAWxTagRequest
+	*/
+	GetSiteCurrentMatchingClientsOfAWxTag(ctx context.Context, siteId string, wxtagId string) ApiGetSiteCurrentMatchingClientsOfAWxTagRequest
+
+	// GetSiteCurrentMatchingClientsOfAWxTagExecute executes the request
+	//  @return []WxtagMatching
+	GetSiteCurrentMatchingClientsOfAWxTagExecute(r ApiGetSiteCurrentMatchingClientsOfAWxTagRequest) ([]WxtagMatching, *http.Response, error)
+
+	/*
+	GetSiteWxTag getSiteWxTag
+
+	Get Site WxTag Details
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param wxtagId
+	@return ApiGetSiteWxTagRequest
+	*/
+	GetSiteWxTag(ctx context.Context, siteId string, wxtagId string) ApiGetSiteWxTagRequest
+
+	// GetSiteWxTagExecute executes the request
+	//  @return WxlanTag
+	GetSiteWxTagExecute(r ApiGetSiteWxTagRequest) (*WxlanTag, *http.Response, error)
+
+	/*
+	ListSiteWxTags listSiteWxTags
+
+	Get List of Site WxTags
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiListSiteWxTagsRequest
+	*/
+	ListSiteWxTags(ctx context.Context, siteId string) ApiListSiteWxTagsRequest
+
+	// ListSiteWxTagsExecute executes the request
+	//  @return []WxlanTag
+	ListSiteWxTagsExecute(r ApiListSiteWxTagsRequest) ([]WxlanTag, *http.Response, error)
+
+	/*
+	UpdateSiteWxTag updateSiteWxTag
+
+	Update Site WxTag
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param wxtagId
+	@return ApiUpdateSiteWxTagRequest
+	*/
+	UpdateSiteWxTag(ctx context.Context, siteId string, wxtagId string) ApiUpdateSiteWxTagRequest
+
+	// UpdateSiteWxTagExecute executes the request
+	//  @return WxlanTag
+	UpdateSiteWxTagExecute(r ApiUpdateSiteWxTagRequest) (*WxlanTag, *http.Response, error)
+}
+
 // SitesWxTagsAPIService SitesWxTagsAPI service
 type SitesWxTagsAPIService service
 
 type ApiCreateSiteWxTagRequest struct {
 	ctx context.Context
-	ApiService *SitesWxTagsAPIService
+	ApiService SitesWxTagsAPI
 	siteId string
 	wxlanTag *WxlanTag
 }
@@ -206,7 +317,7 @@ func (a *SitesWxTagsAPIService) CreateSiteWxTagExecute(r ApiCreateSiteWxTagReque
 
 type ApiDeleteSiteWxTagRequest struct {
 	ctx context.Context
-	ApiService *SitesWxTagsAPIService
+	ApiService SitesWxTagsAPI
 	siteId string
 	wxtagId string
 }
@@ -370,7 +481,7 @@ func (a *SitesWxTagsAPIService) DeleteSiteWxTagExecute(r ApiDeleteSiteWxTagReque
 
 type ApiGetSiteApplicationListRequest struct {
 	ctx context.Context
-	ApiService *SitesWxTagsAPIService
+	ApiService SitesWxTagsAPI
 	siteId string
 }
 
@@ -541,7 +652,7 @@ func (a *SitesWxTagsAPIService) GetSiteApplicationListExecute(r ApiGetSiteApplic
 
 type ApiGetSiteCurrentMatchingClientsOfAWxTagRequest struct {
 	ctx context.Context
-	ApiService *SitesWxTagsAPIService
+	ApiService SitesWxTagsAPI
 	siteId string
 	wxtagId string
 }
@@ -716,7 +827,7 @@ func (a *SitesWxTagsAPIService) GetSiteCurrentMatchingClientsOfAWxTagExecute(r A
 
 type ApiGetSiteWxTagRequest struct {
 	ctx context.Context
-	ApiService *SitesWxTagsAPIService
+	ApiService SitesWxTagsAPI
 	siteId string
 	wxtagId string
 }
@@ -891,7 +1002,7 @@ func (a *SitesWxTagsAPIService) GetSiteWxTagExecute(r ApiGetSiteWxTagRequest) (*
 
 type ApiListSiteWxTagsRequest struct {
 	ctx context.Context
-	ApiService *SitesWxTagsAPIService
+	ApiService SitesWxTagsAPI
 	siteId string
 	page *int32
 	limit *int32
@@ -1086,7 +1197,7 @@ func (a *SitesWxTagsAPIService) ListSiteWxTagsExecute(r ApiListSiteWxTagsRequest
 
 type ApiUpdateSiteWxTagRequest struct {
 	ctx context.Context
-	ApiService *SitesWxTagsAPIService
+	ApiService SitesWxTagsAPI
 	siteId string
 	wxtagId string
 	wxlanTag *WxlanTag

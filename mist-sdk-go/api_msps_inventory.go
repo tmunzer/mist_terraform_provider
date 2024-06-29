@@ -21,12 +21,31 @@ import (
 )
 
 
+type MSPsInventoryAPI interface {
+
+	/*
+	GetMspInventoryByMac getMspInventoryByMac
+
+	Get Inventoy By device MAC address
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param mspId
+	@param deviceMac
+	@return ApiGetMspInventoryByMacRequest
+	*/
+	GetMspInventoryByMac(ctx context.Context, mspId string, deviceMac string) ApiGetMspInventoryByMacRequest
+
+	// GetMspInventoryByMacExecute executes the request
+	//  @return ResponseMspInventoryDevice
+	GetMspInventoryByMacExecute(r ApiGetMspInventoryByMacRequest) (*ResponseMspInventoryDevice, *http.Response, error)
+}
+
 // MSPsInventoryAPIService MSPsInventoryAPI service
 type MSPsInventoryAPIService service
 
 type ApiGetMspInventoryByMacRequest struct {
 	ctx context.Context
-	ApiService *MSPsInventoryAPIService
+	ApiService MSPsInventoryAPI
 	mspId string
 	deviceMac string
 }

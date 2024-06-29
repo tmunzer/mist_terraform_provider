@@ -21,12 +21,92 @@ import (
 )
 
 
+type SitesAssetFiltersAPI interface {
+
+	/*
+	CreateSiteAssetFilters createSiteAssetFilters
+
+	Create Site Asset Filter
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiCreateSiteAssetFiltersRequest
+	*/
+	CreateSiteAssetFilters(ctx context.Context, siteId string) ApiCreateSiteAssetFiltersRequest
+
+	// CreateSiteAssetFiltersExecute executes the request
+	//  @return AssetFilter
+	CreateSiteAssetFiltersExecute(r ApiCreateSiteAssetFiltersRequest) (*AssetFilter, *http.Response, error)
+
+	/*
+	DeleteSiteAssetFilter deleteSiteAssetFilter
+
+	Deletes an existing BLE asset filter for the given site.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param assetfilterId
+	@return ApiDeleteSiteAssetFilterRequest
+	*/
+	DeleteSiteAssetFilter(ctx context.Context, siteId string, assetfilterId string) ApiDeleteSiteAssetFilterRequest
+
+	// DeleteSiteAssetFilterExecute executes the request
+	DeleteSiteAssetFilterExecute(r ApiDeleteSiteAssetFilterRequest) (*http.Response, error)
+
+	/*
+	GetSiteAssetFilter getSiteAssetFilter
+
+	Get Site Asset Filter Details
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param assetfilterId
+	@return ApiGetSiteAssetFilterRequest
+	*/
+	GetSiteAssetFilter(ctx context.Context, siteId string, assetfilterId string) ApiGetSiteAssetFilterRequest
+
+	// GetSiteAssetFilterExecute executes the request
+	//  @return AssetFilter
+	GetSiteAssetFilterExecute(r ApiGetSiteAssetFilterRequest) (*AssetFilter, *http.Response, error)
+
+	/*
+	ListSiteAssetFilters listSiteAssetFilters
+
+	Get List of Site Asset Filters
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiListSiteAssetFiltersRequest
+	*/
+	ListSiteAssetFilters(ctx context.Context, siteId string) ApiListSiteAssetFiltersRequest
+
+	// ListSiteAssetFiltersExecute executes the request
+	//  @return []AssetFilter
+	ListSiteAssetFiltersExecute(r ApiListSiteAssetFiltersRequest) ([]AssetFilter, *http.Response, error)
+
+	/*
+	UpdateSiteAssetFilter updateSiteAssetFilter
+
+	Updates an existing BLE asset filter for the given site.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param assetfilterId
+	@return ApiUpdateSiteAssetFilterRequest
+	*/
+	UpdateSiteAssetFilter(ctx context.Context, siteId string, assetfilterId string) ApiUpdateSiteAssetFilterRequest
+
+	// UpdateSiteAssetFilterExecute executes the request
+	//  @return AssetFilter
+	UpdateSiteAssetFilterExecute(r ApiUpdateSiteAssetFilterRequest) (*AssetFilter, *http.Response, error)
+}
+
 // SitesAssetFiltersAPIService SitesAssetFiltersAPI service
 type SitesAssetFiltersAPIService service
 
 type ApiCreateSiteAssetFiltersRequest struct {
 	ctx context.Context
-	ApiService *SitesAssetFiltersAPIService
+	ApiService SitesAssetFiltersAPI
 	siteId string
 	assetFilter *AssetFilter
 }
@@ -206,7 +286,7 @@ func (a *SitesAssetFiltersAPIService) CreateSiteAssetFiltersExecute(r ApiCreateS
 
 type ApiDeleteSiteAssetFilterRequest struct {
 	ctx context.Context
-	ApiService *SitesAssetFiltersAPIService
+	ApiService SitesAssetFiltersAPI
 	siteId string
 	assetfilterId string
 }
@@ -370,7 +450,7 @@ func (a *SitesAssetFiltersAPIService) DeleteSiteAssetFilterExecute(r ApiDeleteSi
 
 type ApiGetSiteAssetFilterRequest struct {
 	ctx context.Context
-	ApiService *SitesAssetFiltersAPIService
+	ApiService SitesAssetFiltersAPI
 	siteId string
 	assetfilterId string
 }
@@ -545,7 +625,7 @@ func (a *SitesAssetFiltersAPIService) GetSiteAssetFilterExecute(r ApiGetSiteAsse
 
 type ApiListSiteAssetFiltersRequest struct {
 	ctx context.Context
-	ApiService *SitesAssetFiltersAPIService
+	ApiService SitesAssetFiltersAPI
 	siteId string
 	page *int32
 	limit *int32
@@ -740,7 +820,7 @@ func (a *SitesAssetFiltersAPIService) ListSiteAssetFiltersExecute(r ApiListSiteA
 
 type ApiUpdateSiteAssetFilterRequest struct {
 	ctx context.Context
-	ApiService *SitesAssetFiltersAPIService
+	ApiService SitesAssetFiltersAPI
 	siteId string
 	assetfilterId string
 	assetFilter *AssetFilter

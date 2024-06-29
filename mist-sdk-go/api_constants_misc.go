@@ -20,12 +20,141 @@ import (
 )
 
 
+type ConstantsMiscAPI interface {
+
+	/*
+	GetGatewayDefaultConfig getGatewayDefaultConfig
+
+	Generate Default Gateway Config
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetGatewayDefaultConfigRequest
+	*/
+	GetGatewayDefaultConfig(ctx context.Context) ApiGetGatewayDefaultConfigRequest
+
+	// GetGatewayDefaultConfigExecute executes the request
+	//  @return map[string]interface{}
+	GetGatewayDefaultConfigExecute(r ApiGetGatewayDefaultConfigRequest) (map[string]interface{}, *http.Response, error)
+
+	/*
+	GetLicenseTypes getLicenseTypes
+
+	Get License Types
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetLicenseTypesRequest
+	*/
+	GetLicenseTypes(ctx context.Context) ApiGetLicenseTypesRequest
+
+	// GetLicenseTypesExecute executes the request
+	//  @return []ConstLicenseType
+	GetLicenseTypesExecute(r ApiGetLicenseTypesRequest) ([]ConstLicenseType, *http.Response, error)
+
+	/*
+	ListApChannels listApChannels
+
+	Get List of List of Available channels per country code
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiListApChannelsRequest
+	*/
+	ListApChannels(ctx context.Context) ApiListApChannelsRequest
+
+	// ListApChannelsExecute executes the request
+	//  @return ConstApChannel
+	ListApChannelsExecute(r ApiListApChannelsRequest) (*ConstApChannel, *http.Response, error)
+
+	/*
+	ListApplications listApplications
+
+	Get List of a list of applications that Juniper-Mist APs recognize
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiListApplicationsRequest
+	*/
+	ListApplications(ctx context.Context) ApiListApplicationsRequest
+
+	// ListApplicationsExecute executes the request
+	//  @return []ConstApplicationDefinition
+	ListApplicationsExecute(r ApiListApplicationsRequest) ([]ConstApplicationDefinition, *http.Response, error)
+
+	/*
+	ListCountryCodes listCountryCodes
+
+	Get List of List of available Country Codes
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiListCountryCodesRequest
+	*/
+	ListCountryCodes(ctx context.Context) ApiListCountryCodesRequest
+
+	// ListCountryCodesExecute executes the request
+	//  @return []ConstCountry
+	ListCountryCodesExecute(r ApiListCountryCodesRequest) ([]ConstCountry, *http.Response, error)
+
+	/*
+	ListGatewayApplications listGatewayApplications
+
+	Get the full list of applications that we recognize
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiListGatewayApplicationsRequest
+	*/
+	ListGatewayApplications(ctx context.Context) ApiListGatewayApplicationsRequest
+
+	// ListGatewayApplicationsExecute executes the request
+	//  @return []ConstGatewayApplicationsDefinition
+	ListGatewayApplicationsExecute(r ApiListGatewayApplicationsRequest) ([]ConstGatewayApplicationsDefinition, *http.Response, error)
+
+	/*
+	ListInsightMetrics listInsightMetrics
+
+	List Insight Metrics
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiListInsightMetricsRequest
+	*/
+	ListInsightMetrics(ctx context.Context) ApiListInsightMetricsRequest
+
+	// ListInsightMetricsExecute executes the request
+	//  @return map[string]ConstInsightMetricsProperty
+	ListInsightMetricsExecute(r ApiListInsightMetricsRequest) (*map[string]ConstInsightMetricsProperty, *http.Response, error)
+
+	/*
+	ListSiteLanguages listSiteLanguages
+
+	Get List of Languages
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiListSiteLanguagesRequest
+	*/
+	ListSiteLanguages(ctx context.Context) ApiListSiteLanguagesRequest
+
+	// ListSiteLanguagesExecute executes the request
+	//  @return []ConstLanguage
+	ListSiteLanguagesExecute(r ApiListSiteLanguagesRequest) ([]ConstLanguage, *http.Response, error)
+
+	/*
+	ListTrafficTypes listTrafficTypes
+
+	Get List of identified traffic
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiListTrafficTypesRequest
+	*/
+	ListTrafficTypes(ctx context.Context) ApiListTrafficTypesRequest
+
+	// ListTrafficTypesExecute executes the request
+	//  @return []ConstTrafficType
+	ListTrafficTypesExecute(r ApiListTrafficTypesRequest) ([]ConstTrafficType, *http.Response, error)
+}
+
 // ConstantsMiscAPIService ConstantsMiscAPI service
 type ConstantsMiscAPIService service
 
 type ApiGetGatewayDefaultConfigRequest struct {
 	ctx context.Context
-	ApiService *ConstantsMiscAPIService
+	ApiService ConstantsMiscAPI
 	model *string
 	ha *string
 }
@@ -213,7 +342,7 @@ func (a *ConstantsMiscAPIService) GetGatewayDefaultConfigExecute(r ApiGetGateway
 
 type ApiGetLicenseTypesRequest struct {
 	ctx context.Context
-	ApiService *ConstantsMiscAPIService
+	ApiService ConstantsMiscAPI
 }
 
 func (r ApiGetLicenseTypesRequest) Execute() ([]ConstLicenseType, *http.Response, error) {
@@ -380,7 +509,7 @@ func (a *ConstantsMiscAPIService) GetLicenseTypesExecute(r ApiGetLicenseTypesReq
 
 type ApiListApChannelsRequest struct {
 	ctx context.Context
-	ApiService *ConstantsMiscAPIService
+	ApiService ConstantsMiscAPI
 	countryCode *string
 }
 
@@ -557,7 +686,7 @@ func (a *ConstantsMiscAPIService) ListApChannelsExecute(r ApiListApChannelsReque
 
 type ApiListApplicationsRequest struct {
 	ctx context.Context
-	ApiService *ConstantsMiscAPIService
+	ApiService ConstantsMiscAPI
 }
 
 func (r ApiListApplicationsRequest) Execute() ([]ConstApplicationDefinition, *http.Response, error) {
@@ -724,7 +853,7 @@ func (a *ConstantsMiscAPIService) ListApplicationsExecute(r ApiListApplicationsR
 
 type ApiListCountryCodesRequest struct {
 	ctx context.Context
-	ApiService *ConstantsMiscAPIService
+	ApiService ConstantsMiscAPI
 }
 
 func (r ApiListCountryCodesRequest) Execute() ([]ConstCountry, *http.Response, error) {
@@ -891,7 +1020,7 @@ func (a *ConstantsMiscAPIService) ListCountryCodesExecute(r ApiListCountryCodesR
 
 type ApiListGatewayApplicationsRequest struct {
 	ctx context.Context
-	ApiService *ConstantsMiscAPIService
+	ApiService ConstantsMiscAPI
 }
 
 func (r ApiListGatewayApplicationsRequest) Execute() ([]ConstGatewayApplicationsDefinition, *http.Response, error) {
@@ -1058,7 +1187,7 @@ func (a *ConstantsMiscAPIService) ListGatewayApplicationsExecute(r ApiListGatewa
 
 type ApiListInsightMetricsRequest struct {
 	ctx context.Context
-	ApiService *ConstantsMiscAPIService
+	ApiService ConstantsMiscAPI
 }
 
 func (r ApiListInsightMetricsRequest) Execute() (*map[string]ConstInsightMetricsProperty, *http.Response, error) {
@@ -1225,7 +1354,7 @@ func (a *ConstantsMiscAPIService) ListInsightMetricsExecute(r ApiListInsightMetr
 
 type ApiListSiteLanguagesRequest struct {
 	ctx context.Context
-	ApiService *ConstantsMiscAPIService
+	ApiService ConstantsMiscAPI
 }
 
 func (r ApiListSiteLanguagesRequest) Execute() ([]ConstLanguage, *http.Response, error) {
@@ -1392,7 +1521,7 @@ func (a *ConstantsMiscAPIService) ListSiteLanguagesExecute(r ApiListSiteLanguage
 
 type ApiListTrafficTypesRequest struct {
 	ctx context.Context
-	ApiService *ConstantsMiscAPIService
+	ApiService ConstantsMiscAPI
 }
 
 func (r ApiListTrafficTypesRequest) Execute() ([]ConstTrafficType, *http.Response, error) {

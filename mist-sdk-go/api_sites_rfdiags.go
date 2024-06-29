@@ -22,12 +22,124 @@ import (
 )
 
 
+type SitesRfdiagsAPI interface {
+
+	/*
+	DeleteSiteRfdiagRecording deleteSiteRfdiagRecording
+
+	Delete Recording
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param rfdiagId
+	@return ApiDeleteSiteRfdiagRecordingRequest
+	*/
+	DeleteSiteRfdiagRecording(ctx context.Context, siteId string, rfdiagId string) ApiDeleteSiteRfdiagRecordingRequest
+
+	// DeleteSiteRfdiagRecordingExecute executes the request
+	DeleteSiteRfdiagRecordingExecute(r ApiDeleteSiteRfdiagRecordingRequest) (*http.Response, error)
+
+	/*
+	DownloadSiteRfdiagRecording downloadSiteRfdiagRecording
+
+	Download Recording
+Download raw_events blob
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param rfdiagId
+	@return ApiDownloadSiteRfdiagRecordingRequest
+	*/
+	DownloadSiteRfdiagRecording(ctx context.Context, siteId string, rfdiagId string) ApiDownloadSiteRfdiagRecordingRequest
+
+	// DownloadSiteRfdiagRecordingExecute executes the request
+	//  @return *os.File
+	DownloadSiteRfdiagRecordingExecute(r ApiDownloadSiteRfdiagRecordingRequest) (*os.File, *http.Response, error)
+
+	/*
+	GetSiteRfdiagRecording getSiteRfdiagRecording
+
+	Get RF Diage Recording Details
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param rfdiagId
+	@return ApiGetSiteRfdiagRecordingRequest
+	*/
+	GetSiteRfdiagRecording(ctx context.Context, siteId string, rfdiagId string) ApiGetSiteRfdiagRecordingRequest
+
+	// GetSiteRfdiagRecordingExecute executes the request
+	//  @return []RfDiagInfoItem
+	GetSiteRfdiagRecordingExecute(r ApiGetSiteRfdiagRecordingRequest) ([]RfDiagInfoItem, *http.Response, error)
+
+	/*
+	GetSiteSiteRfdiagRecording getSiteSiteRfdiagRecording
+
+	List RF Glass Recording
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiGetSiteSiteRfdiagRecordingRequest
+	*/
+	GetSiteSiteRfdiagRecording(ctx context.Context, siteId string) ApiGetSiteSiteRfdiagRecordingRequest
+
+	// GetSiteSiteRfdiagRecordingExecute executes the request
+	//  @return [][]RfDiagInfoItem
+	GetSiteSiteRfdiagRecordingExecute(r ApiGetSiteSiteRfdiagRecordingRequest) ([][]RfDiagInfoItem, *http.Response, error)
+
+	/*
+	StartSiteRecording startSiteRecording
+
+	Start RF Glass Recording
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiStartSiteRecordingRequest
+	*/
+	StartSiteRecording(ctx context.Context, siteId string) ApiStartSiteRecordingRequest
+
+	// StartSiteRecordingExecute executes the request
+	//  @return []RfDiagInfoItem
+	StartSiteRecordingExecute(r ApiStartSiteRecordingRequest) ([]RfDiagInfoItem, *http.Response, error)
+
+	/*
+	StopSiteRfdiagRecording stopSiteRfdiagRecording
+
+	If the recording session is active for the given rfdiag_id, it will finish the recording. duration and end_time will be updated to reflect the correct values.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param rfdiagId
+	@return ApiStopSiteRfdiagRecordingRequest
+	*/
+	StopSiteRfdiagRecording(ctx context.Context, siteId string, rfdiagId string) ApiStopSiteRfdiagRecordingRequest
+
+	// StopSiteRfdiagRecordingExecute executes the request
+	StopSiteRfdiagRecordingExecute(r ApiStopSiteRfdiagRecordingRequest) (*http.Response, error)
+
+	/*
+	UpdateSiteRfdiagRecording updateSiteRfdiagRecording
+
+	Update Recording
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param rfdiagId
+	@return ApiUpdateSiteRfdiagRecordingRequest
+	*/
+	UpdateSiteRfdiagRecording(ctx context.Context, siteId string, rfdiagId string) ApiUpdateSiteRfdiagRecordingRequest
+
+	// UpdateSiteRfdiagRecordingExecute executes the request
+	//  @return []RfDiagInfoItem
+	UpdateSiteRfdiagRecordingExecute(r ApiUpdateSiteRfdiagRecordingRequest) ([]RfDiagInfoItem, *http.Response, error)
+}
+
 // SitesRfdiagsAPIService SitesRfdiagsAPI service
 type SitesRfdiagsAPIService service
 
 type ApiDeleteSiteRfdiagRecordingRequest struct {
 	ctx context.Context
-	ApiService *SitesRfdiagsAPIService
+	ApiService SitesRfdiagsAPI
 	siteId string
 	rfdiagId string
 }
@@ -191,7 +303,7 @@ func (a *SitesRfdiagsAPIService) DeleteSiteRfdiagRecordingExecute(r ApiDeleteSit
 
 type ApiDownloadSiteRfdiagRecordingRequest struct {
 	ctx context.Context
-	ApiService *SitesRfdiagsAPIService
+	ApiService SitesRfdiagsAPI
 	siteId string
 	rfdiagId string
 }
@@ -367,7 +479,7 @@ func (a *SitesRfdiagsAPIService) DownloadSiteRfdiagRecordingExecute(r ApiDownloa
 
 type ApiGetSiteRfdiagRecordingRequest struct {
 	ctx context.Context
-	ApiService *SitesRfdiagsAPIService
+	ApiService SitesRfdiagsAPI
 	siteId string
 	rfdiagId string
 }
@@ -542,7 +654,7 @@ func (a *SitesRfdiagsAPIService) GetSiteRfdiagRecordingExecute(r ApiGetSiteRfdia
 
 type ApiGetSiteSiteRfdiagRecordingRequest struct {
 	ctx context.Context
-	ApiService *SitesRfdiagsAPIService
+	ApiService SitesRfdiagsAPI
 	siteId string
 	page *int32
 	limit *int32
@@ -770,7 +882,7 @@ func (a *SitesRfdiagsAPIService) GetSiteSiteRfdiagRecordingExecute(r ApiGetSiteS
 
 type ApiStartSiteRecordingRequest struct {
 	ctx context.Context
-	ApiService *SitesRfdiagsAPIService
+	ApiService SitesRfdiagsAPI
 	siteId string
 	rfDiag *RfDiag
 }
@@ -950,7 +1062,7 @@ func (a *SitesRfdiagsAPIService) StartSiteRecordingExecute(r ApiStartSiteRecordi
 
 type ApiStopSiteRfdiagRecordingRequest struct {
 	ctx context.Context
-	ApiService *SitesRfdiagsAPIService
+	ApiService SitesRfdiagsAPI
 	siteId string
 	rfdiagId string
 }
@@ -1114,7 +1226,7 @@ func (a *SitesRfdiagsAPIService) StopSiteRfdiagRecordingExecute(r ApiStopSiteRfd
 
 type ApiUpdateSiteRfdiagRecordingRequest struct {
 	ctx context.Context
-	ApiService *SitesRfdiagsAPIService
+	ApiService SitesRfdiagsAPI
 	siteId string
 	rfdiagId string
 	rfDiag *RfDiag

@@ -21,12 +21,138 @@ import (
 )
 
 
+type SitesLocationAPI interface {
+
+	/*
+	ClearSiteMlOverwriteForDevice clearSiteMlOverwriteForDevice
+
+	Clear ML Overwrite for Device
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param deviceId
+	@return ApiClearSiteMlOverwriteForDeviceRequest
+	*/
+	ClearSiteMlOverwriteForDevice(ctx context.Context, siteId string, deviceId string) ApiClearSiteMlOverwriteForDeviceRequest
+
+	// ClearSiteMlOverwriteForDeviceExecute executes the request
+	ClearSiteMlOverwriteForDeviceExecute(r ApiClearSiteMlOverwriteForDeviceRequest) (*http.Response, error)
+
+	/*
+	ClearSiteMlOverwriteForMap clearSiteMlOverwriteForMap
+
+	Clear ML Overwrite for Map
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param mapId
+	@return ApiClearSiteMlOverwriteForMapRequest
+	*/
+	ClearSiteMlOverwriteForMap(ctx context.Context, siteId string, mapId string) ApiClearSiteMlOverwriteForMapRequest
+
+	// ClearSiteMlOverwriteForMapExecute executes the request
+	ClearSiteMlOverwriteForMapExecute(r ApiClearSiteMlOverwriteForMapRequest) (*http.Response, error)
+
+	/*
+	GetSiteBeamCoverageOverview getSiteBeamCoverageOverview
+
+	Get Beam Coverage Overview
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiGetSiteBeamCoverageOverviewRequest
+	*/
+	GetSiteBeamCoverageOverview(ctx context.Context, siteId string) ApiGetSiteBeamCoverageOverviewRequest
+
+	// GetSiteBeamCoverageOverviewExecute executes the request
+	//  @return ResponseLocationCoverage
+	GetSiteBeamCoverageOverviewExecute(r ApiGetSiteBeamCoverageOverviewRequest) (*ResponseLocationCoverage, *http.Response, error)
+
+	/*
+	GetSiteDefaultPlfForModels getSiteDefaultPlfForModels
+
+	Get Default PLF for Models
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiGetSiteDefaultPlfForModelsRequest
+	*/
+	GetSiteDefaultPlfForModels(ctx context.Context, siteId string) ApiGetSiteDefaultPlfForModelsRequest
+
+	// GetSiteDefaultPlfForModelsExecute executes the request
+	//  @return []map[string]interface{}
+	GetSiteDefaultPlfForModelsExecute(r ApiGetSiteDefaultPlfForModelsRequest) ([]map[string]interface{}, *http.Response, error)
+
+	/*
+	GetSiteMachineLearningCurrentStat getSiteMachineLearningCurrentStat
+
+	Get Machine Learning Current Stat
+For each VBLE AP, it has ML model parameters (e.g. Path-loss-estimate, Intercept) as well as completion indicators (Level and PercentageComplete). For the completeness, ML takes N sample to finish its first level and use N*0.25 samples to complete each successive level. When a device is moved, the completeness will be reset as it has to re-learn.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiGetSiteMachineLearningCurrentStatRequest
+	*/
+	GetSiteMachineLearningCurrentStat(ctx context.Context, siteId string) ApiGetSiteMachineLearningCurrentStatRequest
+
+	// GetSiteMachineLearningCurrentStatExecute executes the request
+	//  @return []map[string]interface{}
+	GetSiteMachineLearningCurrentStatExecute(r ApiGetSiteMachineLearningCurrentStatRequest) ([]map[string]interface{}, *http.Response, error)
+
+	/*
+	OverwriteSiteMlForDevice overwriteSiteMlForDevice
+
+	Overwrite ML For Device
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param deviceId
+	@return ApiOverwriteSiteMlForDeviceRequest
+	*/
+	OverwriteSiteMlForDevice(ctx context.Context, siteId string, deviceId string) ApiOverwriteSiteMlForDeviceRequest
+
+	// OverwriteSiteMlForDeviceExecute executes the request
+	//  @return []map[string]interface{}
+	OverwriteSiteMlForDeviceExecute(r ApiOverwriteSiteMlForDeviceRequest) ([]map[string]interface{}, *http.Response, error)
+
+	/*
+	OverwriteSiteMlForMap overwriteSiteMlForMap
+
+	Overwrite ML For Map
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param mapId
+	@return ApiOverwriteSiteMlForMapRequest
+	*/
+	OverwriteSiteMlForMap(ctx context.Context, siteId string, mapId string) ApiOverwriteSiteMlForMapRequest
+
+	// OverwriteSiteMlForMapExecute executes the request
+	//  @return []map[string]interface{}
+	OverwriteSiteMlForMapExecute(r ApiOverwriteSiteMlForMapRequest) ([]map[string]interface{}, *http.Response, error)
+
+	/*
+	ResetSiteMlStatsByMap resetSiteMlStatsByMap
+
+	Reset ML Stats by Map
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param mapId
+	@return ApiResetSiteMlStatsByMapRequest
+	*/
+	ResetSiteMlStatsByMap(ctx context.Context, siteId string, mapId string) ApiResetSiteMlStatsByMapRequest
+
+	// ResetSiteMlStatsByMapExecute executes the request
+	ResetSiteMlStatsByMapExecute(r ApiResetSiteMlStatsByMapRequest) (*http.Response, error)
+}
+
 // SitesLocationAPIService SitesLocationAPI service
 type SitesLocationAPIService service
 
 type ApiClearSiteMlOverwriteForDeviceRequest struct {
 	ctx context.Context
-	ApiService *SitesLocationAPIService
+	ApiService SitesLocationAPI
 	siteId string
 	deviceId string
 }
@@ -190,7 +316,7 @@ func (a *SitesLocationAPIService) ClearSiteMlOverwriteForDeviceExecute(r ApiClea
 
 type ApiClearSiteMlOverwriteForMapRequest struct {
 	ctx context.Context
-	ApiService *SitesLocationAPIService
+	ApiService SitesLocationAPI
 	siteId string
 	mapId string
 }
@@ -354,7 +480,7 @@ func (a *SitesLocationAPIService) ClearSiteMlOverwriteForMapExecute(r ApiClearSi
 
 type ApiGetSiteBeamCoverageOverviewRequest struct {
 	ctx context.Context
-	ApiService *SitesLocationAPIService
+	ApiService SitesLocationAPI
 	siteId string
 	mapId *string
 	type_ *RfClientType
@@ -599,7 +725,7 @@ func (a *SitesLocationAPIService) GetSiteBeamCoverageOverviewExecute(r ApiGetSit
 
 type ApiGetSiteDefaultPlfForModelsRequest struct {
 	ctx context.Context
-	ApiService *SitesLocationAPIService
+	ApiService SitesLocationAPI
 	siteId string
 }
 
@@ -770,7 +896,7 @@ func (a *SitesLocationAPIService) GetSiteDefaultPlfForModelsExecute(r ApiGetSite
 
 type ApiGetSiteMachineLearningCurrentStatRequest struct {
 	ctx context.Context
-	ApiService *SitesLocationAPIService
+	ApiService SitesLocationAPI
 	siteId string
 	mapId *string
 }
@@ -952,7 +1078,7 @@ func (a *SitesLocationAPIService) GetSiteMachineLearningCurrentStatExecute(r Api
 
 type ApiOverwriteSiteMlForDeviceRequest struct {
 	ctx context.Context
-	ApiService *SitesLocationAPIService
+	ApiService SitesLocationAPI
 	siteId string
 	deviceId string
 	requestBody *map[string]MlOverwriteAdditionalProperties
@@ -1136,7 +1262,7 @@ func (a *SitesLocationAPIService) OverwriteSiteMlForDeviceExecute(r ApiOverwrite
 
 type ApiOverwriteSiteMlForMapRequest struct {
 	ctx context.Context
-	ApiService *SitesLocationAPIService
+	ApiService SitesLocationAPI
 	siteId string
 	mapId string
 	requestBody *map[string]MlOverwriteAdditionalProperties
@@ -1320,7 +1446,7 @@ func (a *SitesLocationAPIService) OverwriteSiteMlForMapExecute(r ApiOverwriteSit
 
 type ApiResetSiteMlStatsByMapRequest struct {
 	ctx context.Context
-	ApiService *SitesLocationAPIService
+	ApiService SitesLocationAPI
 	siteId string
 	mapId string
 }

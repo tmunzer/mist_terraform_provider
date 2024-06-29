@@ -21,12 +21,44 @@ import (
 )
 
 
+type AdminsRecoverPasswordAPI interface {
+
+	/*
+	RecoverPassword recoverPassword
+
+	Recover Password
+An email will also be sent to the user with a link to https://manage.mist.com/verify/recover?token=:token
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiRecoverPasswordRequest
+	*/
+	RecoverPassword(ctx context.Context) ApiRecoverPasswordRequest
+
+	// RecoverPasswordExecute executes the request
+	RecoverPasswordExecute(r ApiRecoverPasswordRequest) (*http.Response, error)
+
+	/*
+	VerifyRecoverPasssword verifyRecoverPasssword
+
+	Verify Recover Password
+With correct verification, the user will be authenticated. UI can then prompt for new password
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param token
+	@return ApiVerifyRecoverPassswordRequest
+	*/
+	VerifyRecoverPasssword(ctx context.Context, token string) ApiVerifyRecoverPassswordRequest
+
+	// VerifyRecoverPassswordExecute executes the request
+	VerifyRecoverPassswordExecute(r ApiVerifyRecoverPassswordRequest) (*http.Response, error)
+}
+
 // AdminsRecoverPasswordAPIService AdminsRecoverPasswordAPI service
 type AdminsRecoverPasswordAPIService service
 
 type ApiRecoverPasswordRequest struct {
 	ctx context.Context
-	ApiService *AdminsRecoverPasswordAPIService
+	ApiService AdminsRecoverPasswordAPI
 	recover *Recover
 }
 
@@ -192,7 +224,7 @@ func (a *AdminsRecoverPasswordAPIService) RecoverPasswordExecute(r ApiRecoverPas
 
 type ApiVerifyRecoverPassswordRequest struct {
 	ctx context.Context
-	ApiService *AdminsRecoverPasswordAPIService
+	ApiService AdminsRecoverPasswordAPI
 	token string
 }
 

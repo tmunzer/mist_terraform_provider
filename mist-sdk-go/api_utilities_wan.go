@@ -21,12 +21,267 @@ import (
 )
 
 
+type UtilitiesWANAPI interface {
+
+	/*
+	ClearSiteSsrArpCache clearSiteSsrArpCache
+
+	Clear ARP cache for SSR, SRX and Switch
+
+Clear the entire ARP cache or a subset if arguments are provided.
+
+*Note*: port_id is optional if neither vlan nor ip is specified
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param deviceId
+	@return ApiClearSiteSsrArpCacheRequest
+	*/
+	ClearSiteSsrArpCache(ctx context.Context, siteId string, deviceId string) ApiClearSiteSsrArpCacheRequest
+
+	// ClearSiteSsrArpCacheExecute executes the request
+	//  @return WebsocketSession
+	ClearSiteSsrArpCacheExecute(r ApiClearSiteSsrArpCacheRequest) (*WebsocketSession, *http.Response, error)
+
+	/*
+	ClearSiteSsrBgpRoutes clearSiteBgpRoutes
+
+	Clear routes associated with one or all BGP neighbors
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param deviceId
+	@return ApiClearSiteSsrBgpRoutesRequest
+	*/
+	ClearSiteSsrBgpRoutes(ctx context.Context, siteId string, deviceId string) ApiClearSiteSsrBgpRoutesRequest
+
+	// ClearSiteSsrBgpRoutesExecute executes the request
+	//  @return WebsocketSession
+	ClearSiteSsrBgpRoutesExecute(r ApiClearSiteSsrBgpRoutesRequest) (*WebsocketSession, *http.Response, error)
+
+	/*
+	GetSiteSsrAndSrxRoutes getSiteDeviceRoutes
+
+	Get routes from SSR, SRX and Switch. 
+
+The output will be available through websocket. As there can be multiple command issued against the same device at the same time and the output all goes through the same websocket stream, `session` is introduced for demux.
+
+#### Subscribe to Device Command outputs
+`WS /api-ws/v1/stream`
+
+```json
+{
+    "subscribe": "/sites/{site_id}/devices/{device_id}/cmd"
+}
+```
+##### Example output from ws stream
+```
+admin@labsystem1.fiedler# show bgp neighbors
+BGP neighbor is 192.168.4.1, remote AS 4200000001, local AS 4200000128, external
+link
+  BGP version 4, remote router ID 1.1.1.1
+  BGP state = Established, up for 00:27:25
+  Last read 00:00:25, hold time is 90, keepalive interval is 30 seconds
+  Configured hold time is 90, keepalive interval is 30 seconds
+  Neighbor capabilities:
+    4 Byte AS: advertised and received
+    Route refresh: advertised and received(old &amp; new)
+    Address family IPv4 Unicast: advertised and received
+    Graceful Restart Capabilty: advertised and received
+      Remote Restart timer is 120 seconds
+      Address families by peer:
+        none
+        ...
+```
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param deviceId
+	@return ApiGetSiteSsrAndSrxRoutesRequest
+	*/
+	GetSiteSsrAndSrxRoutes(ctx context.Context, siteId string, deviceId string) ApiGetSiteSsrAndSrxRoutesRequest
+
+	// GetSiteSsrAndSrxRoutesExecute executes the request
+	//  @return WebsocketSession
+	GetSiteSsrAndSrxRoutesExecute(r ApiGetSiteSsrAndSrxRoutesRequest) (*WebsocketSession, *http.Response, error)
+
+	/*
+	GetSiteSsrAndSrxSessions getSiteSsrAndSrxSessions
+
+	Get active sessions passing through the Device.
+
+The output will be available through websocket. As there can be multiple command issued against the same device at the same time and the output all goes through the same websocket stream, session is introduced for demux.
+
+#### Subscribe to Device Command outputs
+`WS /api-ws/v1/stream`
+
+```json
+{
+    "subscribe": "/sites/{site_id}/devices/{device_id}/cmd"
+}
+```
+##### Example output from ws stream
+```
+admin@ssr.node# show sessions
+Fri 2020-04-17 16:55:34 UTC
+
+Node: node1
+
+====================================== ===== ============= =========== ========== ====== ======= ================= ========== ================= =========== ================= ========== =================== ========= =================
+ Session Id                             Dir   Service       Tenant      Dev Name   VLAN   Proto   Src IP            Src Port   Dest IP           Dest Port   NAT IP            NAT Port   Payload Encrypted   Timeout   Uptime
+====================================== ===== ============= =========== ========== ====== ======= ================= ========== ================= =========== ================= ========== =================== ========= =================
+ 01187fb8-765a-45e5-ae90-37d77f15e292   fwd   Internet      lanSubnet   lan           0   udp     192.168.0.28         44674   35.166.173.18          9930   96.230.191.130       19569   false                   154   0 days  0:00:28
+ 01187fb8-765a-45e5-ae90-37d77f15e292   rev   Internet      lanSubnet   wan           0   udp     35.166.173.18         9930   96.230.191.130        19569   0.0.0.0                  0   false                   154   0 days  0:00:28
+ 0859a4ae-bcff-4aa6-b812-79a5236a6c13   fwd   Internet      lanSubnet   lan           0   tcp     192.168.0.41         60843   17.249.171.246          443   96.230.191.130       51941   false                     2   0 days  0:00:10
+
+```
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param deviceId
+	@return ApiGetSiteSsrAndSrxSessionsRequest
+	*/
+	GetSiteSsrAndSrxSessions(ctx context.Context, siteId string, deviceId string) ApiGetSiteSsrAndSrxSessionsRequest
+
+	// GetSiteSsrAndSrxSessionsExecute executes the request
+	//  @return WebsocketSession
+	GetSiteSsrAndSrxSessionsExecute(r ApiGetSiteSsrAndSrxSessionsRequest) (*WebsocketSession, *http.Response, error)
+
+	/*
+	GetSiteSsrServicePath getSiteSsrServicePath
+
+	Get service path information of the Device.
+
+The output will be available through websocket. As there can be multiple command issued against the same device at the same time and the output all goes through the same websocket stream, session is introduced for demux.
+
+
+#### Subscribe to Device Command outputs
+`WS /api-ws/v1/stream`
+
+```json
+{
+    "subscribe": "/sites/{site_id}/devices/{device_id}/cmd"
+}
+```
+##### Example output from ws stream
+```
+show service_path
+
+Service    Service-route     Type              Destination  Next-Hop  Interface  Vector  Cost  Rate  Capacity        State
+
+Web        web-route1        service_agent     4.4.4.4      1.1.1.2     lan        red     10    1    200/3000       Up*
+Web        web-route1        service_agent     4.4.4.4      1.1.1.3     lan        red     10    1    200/3000       Up
+Web        web-route2        service_agent     5.5.5.5      2.2.2.2     lan       blue     20    2    50/unlimited   Down
+Login      <None>            BgpOverSVR        10.1.1.1     1.2.3.4     wan        red     10    3        -          Up
+Login      <None>            BgpOverSVR        11.1.1.1     1.2.3.4     wan        red     10    1        -          Up
+App1       <None>            Routed                -           -         -          -      -     -        -          -
+App1       learned-routed    Routed                -           -         -          -      -     -        -          -
+```
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param deviceId
+	@return ApiGetSiteSsrServicePathRequest
+	*/
+	GetSiteSsrServicePath(ctx context.Context, siteId string, deviceId string) ApiGetSiteSsrServicePathRequest
+
+	// GetSiteSsrServicePathExecute executes the request
+	//  @return WebsocketSession
+	GetSiteSsrServicePathExecute(r ApiGetSiteSsrServicePathRequest) (*WebsocketSession, *http.Response, error)
+
+	/*
+	ReleaseSiteSsrDhcpLease releaseSiteSsrDhcpLease
+
+	Releases an active DHCP lease.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param deviceId
+	@return ApiReleaseSiteSsrDhcpLeaseRequest
+	*/
+	ReleaseSiteSsrDhcpLease(ctx context.Context, siteId string, deviceId string) ApiReleaseSiteSsrDhcpLeaseRequest
+
+	// ReleaseSiteSsrDhcpLeaseExecute executes the request
+	ReleaseSiteSsrDhcpLeaseExecute(r ApiReleaseSiteSsrDhcpLeaseRequest) (*http.Response, error)
+
+	/*
+	ServicePingFromSsr servicePingFromSsr
+
+	Ping from SSR
+
+Service Ping can be performed from the Device. The output will be available through websocket. As there can be multiple command issued against the same device at the same time and the output all goes through the same websocket stream, session is introduced for demux.
+
+#### Subscribe to Device Command outputs
+`WS /api-ws/v1/stream`
+
+```json
+{
+    "subscribe": "/sites/{site_id}/devices/{device_id}/cmd"
+}
+```
+##### Example output from ws stream
+```json
+{
+    "event": "data",
+    "channel": "/sites/4ac1dcf4-9d8b-7211-65c4-057819f0862b/devices/00000000-0000-0000-1000-5c5b350e0060/cmd",
+    "data": {
+        "session": "session_id",
+        "raw": "64 bytes from 23.211.0.110: seq=8 ttl=58 time=12.323 ms\n"
+    }
+}
+```
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param deviceId
+	@return ApiServicePingFromSsrRequest
+	*/
+	ServicePingFromSsr(ctx context.Context, siteId string, deviceId string) ApiServicePingFromSsrRequest
+
+	// ServicePingFromSsrExecute executes the request
+	//  @return WebsocketSession
+	ServicePingFromSsrExecute(r ApiServicePingFromSsrRequest) (*WebsocketSession, *http.Response, error)
+
+	/*
+	TestSiteSsrDnsResolution testSiteSsrDnsResolution
+
+	DNS resolutions are performed on the Device.
+
+The output will be available through websocket. As there can be multiple command issued against the same SSR at the same time and the output all goes through the same websocket stream, `session` is used for demux.
+ 
+ #### Subscribe to Device Command outputs
+`WS /api-ws/v1/stream`
+
+```json
+{
+    "subscribe": "/sites/{site_id}/devices/{device_id}/cmd"
+}
+```
+##### Example output from ws stream
+```
+ Router      | Hostname               | Resolved | Last Resolved        | Expiration
+-------------|------------------------|----------|----------------------|---------------------
+ test-device | xxx.yyy.net            | Y        | 2022-03-28T03:56:49Z | 2022-03-28T03:57:49Z
+```
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param deviceId
+	@return ApiTestSiteSsrDnsResolutionRequest
+	*/
+	TestSiteSsrDnsResolution(ctx context.Context, siteId string, deviceId string) ApiTestSiteSsrDnsResolutionRequest
+
+	// TestSiteSsrDnsResolutionExecute executes the request
+	//  @return WebsocketSession
+	TestSiteSsrDnsResolutionExecute(r ApiTestSiteSsrDnsResolutionRequest) (*WebsocketSession, *http.Response, error)
+}
+
 // UtilitiesWANAPIService UtilitiesWANAPI service
 type UtilitiesWANAPIService service
 
 type ApiClearSiteSsrArpCacheRequest struct {
 	ctx context.Context
-	ApiService *UtilitiesWANAPIService
+	ApiService UtilitiesWANAPI
 	siteId string
 	deviceId string
 	utilsClearArp *UtilsClearArp
@@ -202,7 +457,7 @@ func (a *UtilitiesWANAPIService) ClearSiteSsrArpCacheExecute(r ApiClearSiteSsrAr
 
 type ApiClearSiteSsrBgpRoutesRequest struct {
 	ctx context.Context
-	ApiService *UtilitiesWANAPIService
+	ApiService UtilitiesWANAPI
 	siteId string
 	deviceId string
 	utilsClearBgp *UtilsClearBgp
@@ -374,7 +629,7 @@ func (a *UtilitiesWANAPIService) ClearSiteSsrBgpRoutesExecute(r ApiClearSiteSsrB
 
 type ApiGetSiteSsrAndSrxRoutesRequest struct {
 	ctx context.Context
-	ApiService *UtilitiesWANAPIService
+	ApiService UtilitiesWANAPI
 	siteId string
 	deviceId string
 	utilsShowRoute *UtilsShowRoute
@@ -588,7 +843,7 @@ func (a *UtilitiesWANAPIService) GetSiteSsrAndSrxRoutesExecute(r ApiGetSiteSsrAn
 
 type ApiGetSiteSsrAndSrxSessionsRequest struct {
 	ctx context.Context
-	ApiService *UtilitiesWANAPIService
+	ApiService UtilitiesWANAPI
 	siteId string
 	deviceId string
 	utilsShowSession *UtilsShowSession
@@ -797,7 +1052,7 @@ func (a *UtilitiesWANAPIService) GetSiteSsrAndSrxSessionsExecute(r ApiGetSiteSsr
 
 type ApiGetSiteSsrServicePathRequest struct {
 	ctx context.Context
-	ApiService *UtilitiesWANAPIService
+	ApiService UtilitiesWANAPI
 	siteId string
 	deviceId string
 	utilsShowServicePath *UtilsShowServicePath
@@ -1006,7 +1261,7 @@ func (a *UtilitiesWANAPIService) GetSiteSsrServicePathExecute(r ApiGetSiteSsrSer
 
 type ApiReleaseSiteSsrDhcpLeaseRequest struct {
 	ctx context.Context
-	ApiService *UtilitiesWANAPIService
+	ApiService UtilitiesWANAPI
 	siteId string
 	deviceId string
 	utilsReleaseDhcp *UtilsReleaseDhcp
@@ -1167,7 +1422,7 @@ func (a *UtilitiesWANAPIService) ReleaseSiteSsrDhcpLeaseExecute(r ApiReleaseSite
 
 type ApiServicePingFromSsrRequest struct {
 	ctx context.Context
-	ApiService *UtilitiesWANAPIService
+	ApiService UtilitiesWANAPI
 	siteId string
 	deviceId string
 	utilsServicePing *UtilsServicePing
@@ -1373,7 +1628,7 @@ func (a *UtilitiesWANAPIService) ServicePingFromSsrExecute(r ApiServicePingFromS
 
 type ApiTestSiteSsrDnsResolutionRequest struct {
 	ctx context.Context
-	ApiService *UtilitiesWANAPIService
+	ApiService UtilitiesWANAPI
 	siteId string
 	deviceId string
 }

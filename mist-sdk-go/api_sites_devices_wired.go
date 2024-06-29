@@ -21,12 +21,60 @@ import (
 )
 
 
+type SitesDevicesWiredAPI interface {
+
+	/*
+	DeleteSiteLocalSwitchPortConfig deleteSiteLocalSwitchPortConfig
+
+	Sometimes HelpDesk Admin needs to change port configs
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param deviceId
+	@return ApiDeleteSiteLocalSwitchPortConfigRequest
+	*/
+	DeleteSiteLocalSwitchPortConfig(ctx context.Context, siteId string, deviceId string) ApiDeleteSiteLocalSwitchPortConfigRequest
+
+	// DeleteSiteLocalSwitchPortConfigExecute executes the request
+	DeleteSiteLocalSwitchPortConfigExecute(r ApiDeleteSiteLocalSwitchPortConfigRequest) (*http.Response, error)
+
+	/*
+	GetSiteSwitchesMetrics getSiteSwitchesMetrics
+
+	Get version compliance metrics for managed or monitored switches
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiGetSiteSwitchesMetricsRequest
+	*/
+	GetSiteSwitchesMetrics(ctx context.Context, siteId string) ApiGetSiteSwitchesMetricsRequest
+
+	// GetSiteSwitchesMetricsExecute executes the request
+	//  @return ResponseSwitchMetrics
+	GetSiteSwitchesMetricsExecute(r ApiGetSiteSwitchesMetricsRequest) (*ResponseSwitchMetrics, *http.Response, error)
+
+	/*
+	UpdateSiteLocalSwitchPortConfig updateSiteLocalSwitchPortConfig
+
+	Sometimes HelpDesk Admin needs to change port configs
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param deviceId
+	@return ApiUpdateSiteLocalSwitchPortConfigRequest
+	*/
+	UpdateSiteLocalSwitchPortConfig(ctx context.Context, siteId string, deviceId string) ApiUpdateSiteLocalSwitchPortConfigRequest
+
+	// UpdateSiteLocalSwitchPortConfigExecute executes the request
+	UpdateSiteLocalSwitchPortConfigExecute(r ApiUpdateSiteLocalSwitchPortConfigRequest) (*http.Response, error)
+}
+
 // SitesDevicesWiredAPIService SitesDevicesWiredAPI service
 type SitesDevicesWiredAPIService service
 
 type ApiDeleteSiteLocalSwitchPortConfigRequest struct {
 	ctx context.Context
-	ApiService *SitesDevicesWiredAPIService
+	ApiService SitesDevicesWiredAPI
 	siteId string
 	deviceId string
 }
@@ -190,7 +238,7 @@ func (a *SitesDevicesWiredAPIService) DeleteSiteLocalSwitchPortConfigExecute(r A
 
 type ApiGetSiteSwitchesMetricsRequest struct {
 	ctx context.Context
-	ApiService *SitesDevicesWiredAPIService
+	ApiService SitesDevicesWiredAPI
 	siteId string
 	type_ *SwitchMetricType
 	scope *SwitchMetricScope
@@ -389,7 +437,7 @@ func (a *SitesDevicesWiredAPIService) GetSiteSwitchesMetricsExecute(r ApiGetSite
 
 type ApiUpdateSiteLocalSwitchPortConfigRequest struct {
 	ctx context.Context
-	ApiService *SitesDevicesWiredAPIService
+	ApiService SitesDevicesWiredAPI
 	siteId string
 	deviceId string
 	junosPortConfig *JunosPortConfig

@@ -21,12 +21,45 @@ import (
 )
 
 
+type OrgsDevicesWANClusterAPI interface {
+
+	/*
+	CreateOrgGatewayHaCluster createOrgGatewayHaCluster
+
+	Create HA Cluster from unassigned Gateways
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiCreateOrgGatewayHaClusterRequest
+	*/
+	CreateOrgGatewayHaCluster(ctx context.Context, orgId string) ApiCreateOrgGatewayHaClusterRequest
+
+	// CreateOrgGatewayHaClusterExecute executes the request
+	CreateOrgGatewayHaClusterExecute(r ApiCreateOrgGatewayHaClusterRequest) (*http.Response, error)
+
+	/*
+	DeleteOrgGatewayHaCluster deleteOrgGatewayHaCluster
+
+	Delete HA Cluster
+
+After HA cluster deleted, both of the nodes will be unassigned.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiDeleteOrgGatewayHaClusterRequest
+	*/
+	DeleteOrgGatewayHaCluster(ctx context.Context, orgId string) ApiDeleteOrgGatewayHaClusterRequest
+
+	// DeleteOrgGatewayHaClusterExecute executes the request
+	DeleteOrgGatewayHaClusterExecute(r ApiDeleteOrgGatewayHaClusterRequest) (*http.Response, error)
+}
+
 // OrgsDevicesWANClusterAPIService OrgsDevicesWANClusterAPI service
 type OrgsDevicesWANClusterAPIService service
 
 type ApiCreateOrgGatewayHaClusterRequest struct {
 	ctx context.Context
-	ApiService *OrgsDevicesWANClusterAPIService
+	ApiService OrgsDevicesWANClusterAPI
 	orgId string
 	haClusterConfig *HaClusterConfig
 }
@@ -194,7 +227,7 @@ func (a *OrgsDevicesWANClusterAPIService) CreateOrgGatewayHaClusterExecute(r Api
 
 type ApiDeleteOrgGatewayHaClusterRequest struct {
 	ctx context.Context
-	ApiService *OrgsDevicesWANClusterAPIService
+	ApiService OrgsDevicesWANClusterAPI
 	orgId string
 	haClusterDelete *HaClusterDelete
 }

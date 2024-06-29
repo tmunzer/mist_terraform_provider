@@ -21,12 +21,122 @@ import (
 )
 
 
+type SitesWxRulesAPI interface {
+
+	/*
+	CreateSiteWxRule createSiteWxRule
+
+	Create Site WxLan Rule
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiCreateSiteWxRuleRequest
+	*/
+	CreateSiteWxRule(ctx context.Context, siteId string) ApiCreateSiteWxRuleRequest
+
+	// CreateSiteWxRuleExecute executes the request
+	//  @return WxlanRule
+	CreateSiteWxRuleExecute(r ApiCreateSiteWxRuleRequest) (*WxlanRule, *http.Response, error)
+
+	/*
+	DeleteSiteWxRule deleteSiteWxRule
+
+	Delete Site WxLan Rule
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param wxrulesId
+	@return ApiDeleteSiteWxRuleRequest
+	*/
+	DeleteSiteWxRule(ctx context.Context, siteId string, wxrulesId string) ApiDeleteSiteWxRuleRequest
+
+	// DeleteSiteWxRuleExecute executes the request
+	DeleteSiteWxRuleExecute(r ApiDeleteSiteWxRuleRequest) (*http.Response, error)
+
+	/*
+	GetSiteWxRule getSiteWxRule
+
+	Get Site WxLan Rule Details
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param wxrulesId
+	@return ApiGetSiteWxRuleRequest
+	*/
+	GetSiteWxRule(ctx context.Context, siteId string, wxrulesId string) ApiGetSiteWxRuleRequest
+
+	// GetSiteWxRuleExecute executes the request
+	//  @return WxlanRule
+	GetSiteWxRuleExecute(r ApiGetSiteWxRuleRequest) (*WxlanRule, *http.Response, error)
+
+	/*
+	GetSiteWxRulesDerived getSiteWxRulesDerived
+
+	Get Site WxLan Rule Derived
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiGetSiteWxRulesDerivedRequest
+	*/
+	GetSiteWxRulesDerived(ctx context.Context, siteId string) ApiGetSiteWxRulesDerivedRequest
+
+	// GetSiteWxRulesDerivedExecute executes the request
+	//  @return []WxlanRule
+	GetSiteWxRulesDerivedExecute(r ApiGetSiteWxRulesDerivedRequest) ([]WxlanRule, *http.Response, error)
+
+	/*
+	GetSiteWxRulesUsage getSiteWxRulesUsage
+
+	Get Wxlan Rule usage
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiGetSiteWxRulesUsageRequest
+	*/
+	GetSiteWxRulesUsage(ctx context.Context, siteId string) ApiGetSiteWxRulesUsageRequest
+
+	// GetSiteWxRulesUsageExecute executes the request
+	//  @return []WxruleStat
+	GetSiteWxRulesUsageExecute(r ApiGetSiteWxRulesUsageRequest) ([]WxruleStat, *http.Response, error)
+
+	/*
+	ListSiteWxRules listSiteWxRules
+
+	Get List of Site WxLan Rules
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiListSiteWxRulesRequest
+	*/
+	ListSiteWxRules(ctx context.Context, siteId string) ApiListSiteWxRulesRequest
+
+	// ListSiteWxRulesExecute executes the request
+	//  @return []WxlanRule
+	ListSiteWxRulesExecute(r ApiListSiteWxRulesRequest) ([]WxlanRule, *http.Response, error)
+
+	/*
+	UpdateSiteWxRule updateSiteWxRule
+
+	Update Site WxLan Rule
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param wxrulesId
+	@return ApiUpdateSiteWxRuleRequest
+	*/
+	UpdateSiteWxRule(ctx context.Context, siteId string, wxrulesId string) ApiUpdateSiteWxRuleRequest
+
+	// UpdateSiteWxRuleExecute executes the request
+	//  @return WxlanRule
+	UpdateSiteWxRuleExecute(r ApiUpdateSiteWxRuleRequest) (*WxlanRule, *http.Response, error)
+}
+
 // SitesWxRulesAPIService SitesWxRulesAPI service
 type SitesWxRulesAPIService service
 
 type ApiCreateSiteWxRuleRequest struct {
 	ctx context.Context
-	ApiService *SitesWxRulesAPIService
+	ApiService SitesWxRulesAPI
 	siteId string
 	wxlanRule *WxlanRule
 }
@@ -206,7 +316,7 @@ func (a *SitesWxRulesAPIService) CreateSiteWxRuleExecute(r ApiCreateSiteWxRuleRe
 
 type ApiDeleteSiteWxRuleRequest struct {
 	ctx context.Context
-	ApiService *SitesWxRulesAPIService
+	ApiService SitesWxRulesAPI
 	siteId string
 	wxrulesId string
 }
@@ -370,7 +480,7 @@ func (a *SitesWxRulesAPIService) DeleteSiteWxRuleExecute(r ApiDeleteSiteWxRuleRe
 
 type ApiGetSiteWxRuleRequest struct {
 	ctx context.Context
-	ApiService *SitesWxRulesAPIService
+	ApiService SitesWxRulesAPI
 	siteId string
 	wxrulesId string
 }
@@ -545,7 +655,7 @@ func (a *SitesWxRulesAPIService) GetSiteWxRuleExecute(r ApiGetSiteWxRuleRequest)
 
 type ApiGetSiteWxRulesDerivedRequest struct {
 	ctx context.Context
-	ApiService *SitesWxRulesAPIService
+	ApiService SitesWxRulesAPI
 	siteId string
 }
 
@@ -716,7 +826,7 @@ func (a *SitesWxRulesAPIService) GetSiteWxRulesDerivedExecute(r ApiGetSiteWxRule
 
 type ApiGetSiteWxRulesUsageRequest struct {
 	ctx context.Context
-	ApiService *SitesWxRulesAPIService
+	ApiService SitesWxRulesAPI
 	siteId string
 }
 
@@ -887,7 +997,7 @@ func (a *SitesWxRulesAPIService) GetSiteWxRulesUsageExecute(r ApiGetSiteWxRulesU
 
 type ApiListSiteWxRulesRequest struct {
 	ctx context.Context
-	ApiService *SitesWxRulesAPIService
+	ApiService SitesWxRulesAPI
 	siteId string
 	page *int32
 	limit *int32
@@ -1082,7 +1192,7 @@ func (a *SitesWxRulesAPIService) ListSiteWxRulesExecute(r ApiListSiteWxRulesRequ
 
 type ApiUpdateSiteWxRuleRequest struct {
 	ctx context.Context
-	ApiService *SitesWxRulesAPIService
+	ApiService SitesWxRulesAPI
 	siteId string
 	wxrulesId string
 	wxlanRule *WxlanRule

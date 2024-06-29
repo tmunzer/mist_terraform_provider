@@ -21,12 +21,124 @@ import (
 )
 
 
+type OrgsDeviceProfilesAPI interface {
+
+	/*
+	AssignOrgDeviceProfile assignOrgDeviceProfile
+
+	Assign Org Device Profile to Devices
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param deviceprofileId
+	@return ApiAssignOrgDeviceProfileRequest
+	*/
+	AssignOrgDeviceProfile(ctx context.Context, orgId string, deviceprofileId string) ApiAssignOrgDeviceProfileRequest
+
+	// AssignOrgDeviceProfileExecute executes the request
+	//  @return ResponseAssignSuccess
+	AssignOrgDeviceProfileExecute(r ApiAssignOrgDeviceProfileRequest) (*ResponseAssignSuccess, *http.Response, error)
+
+	/*
+	CreateOrgDeviceProfiles createOrgDeviceProfiles
+
+	Create Device Profile
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiCreateOrgDeviceProfilesRequest
+	*/
+	CreateOrgDeviceProfiles(ctx context.Context, orgId string) ApiCreateOrgDeviceProfilesRequest
+
+	// CreateOrgDeviceProfilesExecute executes the request
+	//  @return Deviceprofile
+	CreateOrgDeviceProfilesExecute(r ApiCreateOrgDeviceProfilesRequest) (*Deviceprofile, *http.Response, error)
+
+	/*
+	DeleteOrgDeviceProfile deleteOrgDeviceProfile
+
+	Delete Org Device Profile
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param deviceprofileId
+	@return ApiDeleteOrgDeviceProfileRequest
+	*/
+	DeleteOrgDeviceProfile(ctx context.Context, orgId string, deviceprofileId string) ApiDeleteOrgDeviceProfileRequest
+
+	// DeleteOrgDeviceProfileExecute executes the request
+	DeleteOrgDeviceProfileExecute(r ApiDeleteOrgDeviceProfileRequest) (*http.Response, error)
+
+	/*
+	GetOrgDeviceProfile getOrgDeviceProfile
+
+	Get Org device Profile Details
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param deviceprofileId
+	@return ApiGetOrgDeviceProfileRequest
+	*/
+	GetOrgDeviceProfile(ctx context.Context, orgId string, deviceprofileId string) ApiGetOrgDeviceProfileRequest
+
+	// GetOrgDeviceProfileExecute executes the request
+	//  @return Deviceprofile
+	GetOrgDeviceProfileExecute(r ApiGetOrgDeviceProfileRequest) (*Deviceprofile, *http.Response, error)
+
+	/*
+	ListOrgDeviceProfiles listOrgDeviceProfiles
+
+	Get List of Org Device Profiles
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiListOrgDeviceProfilesRequest
+	*/
+	ListOrgDeviceProfiles(ctx context.Context, orgId string) ApiListOrgDeviceProfilesRequest
+
+	// ListOrgDeviceProfilesExecute executes the request
+	//  @return []Deviceprofile
+	ListOrgDeviceProfilesExecute(r ApiListOrgDeviceProfilesRequest) ([]Deviceprofile, *http.Response, error)
+
+	/*
+	UnassignOrgDeviceProfiles unassignOrgDeviceProfiles
+
+	Unassign Org Device Profile from Devices
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param deviceprofileId
+	@return ApiUnassignOrgDeviceProfilesRequest
+	*/
+	UnassignOrgDeviceProfiles(ctx context.Context, orgId string, deviceprofileId string) ApiUnassignOrgDeviceProfilesRequest
+
+	// UnassignOrgDeviceProfilesExecute executes the request
+	//  @return ResponseAssignSuccess
+	UnassignOrgDeviceProfilesExecute(r ApiUnassignOrgDeviceProfilesRequest) (*ResponseAssignSuccess, *http.Response, error)
+
+	/*
+	UpdateOrgDeviceProfile updateOrgDeviceProfiles
+
+	Update Org Device Profile
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param deviceprofileId
+	@return ApiUpdateOrgDeviceProfileRequest
+	*/
+	UpdateOrgDeviceProfile(ctx context.Context, orgId string, deviceprofileId string) ApiUpdateOrgDeviceProfileRequest
+
+	// UpdateOrgDeviceProfileExecute executes the request
+	//  @return Deviceprofile
+	UpdateOrgDeviceProfileExecute(r ApiUpdateOrgDeviceProfileRequest) (*Deviceprofile, *http.Response, error)
+}
+
 // OrgsDeviceProfilesAPIService OrgsDeviceProfilesAPI service
 type OrgsDeviceProfilesAPIService service
 
 type ApiAssignOrgDeviceProfileRequest struct {
 	ctx context.Context
-	ApiService *OrgsDeviceProfilesAPIService
+	ApiService OrgsDeviceProfilesAPI
 	orgId string
 	deviceprofileId string
 	macAddresses *MacAddresses
@@ -210,7 +322,7 @@ func (a *OrgsDeviceProfilesAPIService) AssignOrgDeviceProfileExecute(r ApiAssign
 
 type ApiCreateOrgDeviceProfilesRequest struct {
 	ctx context.Context
-	ApiService *OrgsDeviceProfilesAPIService
+	ApiService OrgsDeviceProfilesAPI
 	orgId string
 	deviceprofile *Deviceprofile
 }
@@ -390,7 +502,7 @@ func (a *OrgsDeviceProfilesAPIService) CreateOrgDeviceProfilesExecute(r ApiCreat
 
 type ApiDeleteOrgDeviceProfileRequest struct {
 	ctx context.Context
-	ApiService *OrgsDeviceProfilesAPIService
+	ApiService OrgsDeviceProfilesAPI
 	orgId string
 	deviceprofileId string
 }
@@ -554,7 +666,7 @@ func (a *OrgsDeviceProfilesAPIService) DeleteOrgDeviceProfileExecute(r ApiDelete
 
 type ApiGetOrgDeviceProfileRequest struct {
 	ctx context.Context
-	ApiService *OrgsDeviceProfilesAPIService
+	ApiService OrgsDeviceProfilesAPI
 	orgId string
 	deviceprofileId string
 }
@@ -729,7 +841,7 @@ func (a *OrgsDeviceProfilesAPIService) GetOrgDeviceProfileExecute(r ApiGetOrgDev
 
 type ApiListOrgDeviceProfilesRequest struct {
 	ctx context.Context
-	ApiService *OrgsDeviceProfilesAPIService
+	ApiService OrgsDeviceProfilesAPI
 	orgId string
 	type_ *DeviceType
 	limit *int32
@@ -936,7 +1048,7 @@ func (a *OrgsDeviceProfilesAPIService) ListOrgDeviceProfilesExecute(r ApiListOrg
 
 type ApiUnassignOrgDeviceProfilesRequest struct {
 	ctx context.Context
-	ApiService *OrgsDeviceProfilesAPIService
+	ApiService OrgsDeviceProfilesAPI
 	orgId string
 	deviceprofileId string
 	macAddresses *MacAddresses
@@ -1120,7 +1232,7 @@ func (a *OrgsDeviceProfilesAPIService) UnassignOrgDeviceProfilesExecute(r ApiUna
 
 type ApiUpdateOrgDeviceProfileRequest struct {
 	ctx context.Context
-	ApiService *OrgsDeviceProfilesAPIService
+	ApiService OrgsDeviceProfilesAPI
 	orgId string
 	deviceprofileId string
 	deviceprofile *Deviceprofile

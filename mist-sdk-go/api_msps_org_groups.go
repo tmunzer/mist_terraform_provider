@@ -21,12 +21,92 @@ import (
 )
 
 
+type MSPsOrgGroupsAPI interface {
+
+	/*
+	CreateMspOrgGroup createMspOrgGroup
+
+	Create MSP Org Group
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param mspId
+	@return ApiCreateMspOrgGroupRequest
+	*/
+	CreateMspOrgGroup(ctx context.Context, mspId string) ApiCreateMspOrgGroupRequest
+
+	// CreateMspOrgGroupExecute executes the request
+	//  @return Orggroup
+	CreateMspOrgGroupExecute(r ApiCreateMspOrgGroupRequest) (*Orggroup, *http.Response, error)
+
+	/*
+	DeleteMspOrgGroup deleteMspOrgGroup
+
+	Delete MSP Org Group
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param mspId
+	@param orggroupId
+	@return ApiDeleteMspOrgGroupRequest
+	*/
+	DeleteMspOrgGroup(ctx context.Context, mspId string, orggroupId string) ApiDeleteMspOrgGroupRequest
+
+	// DeleteMspOrgGroupExecute executes the request
+	DeleteMspOrgGroupExecute(r ApiDeleteMspOrgGroupRequest) (*http.Response, error)
+
+	/*
+	GetMspOrgGroup getMspOrgGroup
+
+	Get MSP Org Group Details
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param mspId
+	@param orggroupId
+	@return ApiGetMspOrgGroupRequest
+	*/
+	GetMspOrgGroup(ctx context.Context, mspId string, orggroupId string) ApiGetMspOrgGroupRequest
+
+	// GetMspOrgGroupExecute executes the request
+	//  @return Orggroup
+	GetMspOrgGroupExecute(r ApiGetMspOrgGroupRequest) (*Orggroup, *http.Response, error)
+
+	/*
+	ListMspOrgGroups listMspOrgGroups
+
+	Get List of MSP Org Groups
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param mspId
+	@return ApiListMspOrgGroupsRequest
+	*/
+	ListMspOrgGroups(ctx context.Context, mspId string) ApiListMspOrgGroupsRequest
+
+	// ListMspOrgGroupsExecute executes the request
+	//  @return []Orggroup
+	ListMspOrgGroupsExecute(r ApiListMspOrgGroupsRequest) ([]Orggroup, *http.Response, error)
+
+	/*
+	UpdateMspOrgGroup updateMspOrgGroup
+
+	Update MSP Org Group
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param mspId
+	@param orggroupId
+	@return ApiUpdateMspOrgGroupRequest
+	*/
+	UpdateMspOrgGroup(ctx context.Context, mspId string, orggroupId string) ApiUpdateMspOrgGroupRequest
+
+	// UpdateMspOrgGroupExecute executes the request
+	//  @return Orggroup
+	UpdateMspOrgGroupExecute(r ApiUpdateMspOrgGroupRequest) (*Orggroup, *http.Response, error)
+}
+
 // MSPsOrgGroupsAPIService MSPsOrgGroupsAPI service
 type MSPsOrgGroupsAPIService service
 
 type ApiCreateMspOrgGroupRequest struct {
 	ctx context.Context
-	ApiService *MSPsOrgGroupsAPIService
+	ApiService MSPsOrgGroupsAPI
 	mspId string
 	orggroup *Orggroup
 }
@@ -206,7 +286,7 @@ func (a *MSPsOrgGroupsAPIService) CreateMspOrgGroupExecute(r ApiCreateMspOrgGrou
 
 type ApiDeleteMspOrgGroupRequest struct {
 	ctx context.Context
-	ApiService *MSPsOrgGroupsAPIService
+	ApiService MSPsOrgGroupsAPI
 	mspId string
 	orggroupId string
 }
@@ -370,7 +450,7 @@ func (a *MSPsOrgGroupsAPIService) DeleteMspOrgGroupExecute(r ApiDeleteMspOrgGrou
 
 type ApiGetMspOrgGroupRequest struct {
 	ctx context.Context
-	ApiService *MSPsOrgGroupsAPIService
+	ApiService MSPsOrgGroupsAPI
 	mspId string
 	orggroupId string
 }
@@ -545,7 +625,7 @@ func (a *MSPsOrgGroupsAPIService) GetMspOrgGroupExecute(r ApiGetMspOrgGroupReque
 
 type ApiListMspOrgGroupsRequest struct {
 	ctx context.Context
-	ApiService *MSPsOrgGroupsAPIService
+	ApiService MSPsOrgGroupsAPI
 	mspId string
 }
 
@@ -716,7 +796,7 @@ func (a *MSPsOrgGroupsAPIService) ListMspOrgGroupsExecute(r ApiListMspOrgGroupsR
 
 type ApiUpdateMspOrgGroupRequest struct {
 	ctx context.Context
-	ApiService *MSPsOrgGroupsAPIService
+	ApiService MSPsOrgGroupsAPI
 	mspId string
 	orggroupId string
 	orggroup *Orggroup

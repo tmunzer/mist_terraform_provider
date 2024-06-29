@@ -21,12 +21,45 @@ import (
 )
 
 
+type SitesSkyatpAPI interface {
+
+	/*
+	CountSiteSkyatpEvents countSiteSkyatpEvents
+
+	Count by Distinct Attributes of Skyatp Events (WIP)
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiCountSiteSkyatpEventsRequest
+	*/
+	CountSiteSkyatpEvents(ctx context.Context, siteId string) ApiCountSiteSkyatpEventsRequest
+
+	// CountSiteSkyatpEventsExecute executes the request
+	//  @return RepsonseCount
+	CountSiteSkyatpEventsExecute(r ApiCountSiteSkyatpEventsRequest) (*RepsonseCount, *http.Response, error)
+
+	/*
+	SearchSiteSkyatpEvents searchSiteSkyatpEvents
+
+	Search Skyatp Events (WIP)
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiSearchSiteSkyatpEventsRequest
+	*/
+	SearchSiteSkyatpEvents(ctx context.Context, siteId string) ApiSearchSiteSkyatpEventsRequest
+
+	// SearchSiteSkyatpEventsExecute executes the request
+	//  @return ResponseEventsSkyAtpSearch
+	SearchSiteSkyatpEventsExecute(r ApiSearchSiteSkyatpEventsRequest) (*ResponseEventsSkyAtpSearch, *http.Response, error)
+}
+
 // SitesSkyatpAPIService SitesSkyatpAPI service
 type SitesSkyatpAPIService service
 
 type ApiCountSiteSkyatpEventsRequest struct {
 	ctx context.Context
-	ApiService *SitesSkyatpAPIService
+	ApiService SitesSkyatpAPI
 	siteId string
 	distinct *SiteSkyAtpEventsCountDistinct
 	type_ *string
@@ -303,7 +336,7 @@ func (a *SitesSkyatpAPIService) CountSiteSkyatpEventsExecute(r ApiCountSiteSkyat
 
 type ApiSearchSiteSkyatpEventsRequest struct {
 	ctx context.Context
-	ApiService *SitesSkyatpAPIService
+	ApiService SitesSkyatpAPI
 	siteId string
 	type_ *string
 	mac *string

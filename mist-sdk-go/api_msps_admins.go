@@ -21,12 +21,125 @@ import (
 )
 
 
+type MSPsAdminsAPI interface {
+
+	/*
+	GetMspAdmin getMspAdmin
+
+	Get MSP Admins
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param mspId
+	@param adminId
+	@return ApiGetMspAdminRequest
+	*/
+	GetMspAdmin(ctx context.Context, mspId string, adminId string) ApiGetMspAdminRequest
+
+	// GetMspAdminExecute executes the request
+	//  @return Admin
+	GetMspAdminExecute(r ApiGetMspAdminRequest) (*Admin, *http.Response, error)
+
+	/*
+	InviteMspAdmin inviteMspAdmin
+
+	Invite MSP Admin
+
+**Note**: An email will also be sent to the user with a link to https://manage.mist.com/verify/invite?token=:token
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param mspId
+	@return ApiInviteMspAdminRequest
+	*/
+	InviteMspAdmin(ctx context.Context, mspId string) ApiInviteMspAdminRequest
+
+	// InviteMspAdminExecute executes the request
+	//  @return Admin
+	InviteMspAdminExecute(r ApiInviteMspAdminRequest) (*Admin, *http.Response, error)
+
+	/*
+	ListMspAdmins listMspAdmins
+
+	Get List of MSP Admins
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param mspId
+	@return ApiListMspAdminsRequest
+	*/
+	ListMspAdmins(ctx context.Context, mspId string) ApiListMspAdminsRequest
+
+	// ListMspAdminsExecute executes the request
+	//  @return []Admin
+	ListMspAdminsExecute(r ApiListMspAdminsRequest) ([]Admin, *http.Response, error)
+
+	/*
+	RevokeMspAdmin revokeMspAdmin
+
+	This removes all privileges this admin has against the MSP. This goes deep all the way to the sites
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param mspId
+	@param adminId
+	@return ApiRevokeMspAdminRequest
+	*/
+	RevokeMspAdmin(ctx context.Context, mspId string, adminId string) ApiRevokeMspAdminRequest
+
+	// RevokeMspAdminExecute executes the request
+	RevokeMspAdminExecute(r ApiRevokeMspAdminRequest) (*http.Response, error)
+
+	/*
+	UninviteMspAdmin uninviteMspAdmin
+
+	Delete admin invite
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param mspId
+	@param inviteId
+	@return ApiUninviteMspAdminRequest
+	*/
+	UninviteMspAdmin(ctx context.Context, mspId string, inviteId string) ApiUninviteMspAdminRequest
+
+	// UninviteMspAdminExecute executes the request
+	UninviteMspAdminExecute(r ApiUninviteMspAdminRequest) (*http.Response, error)
+
+	/*
+	UpdateMspAdmin updateMspAdmin
+
+	Update MSP Admin
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param mspId
+	@param adminId
+	@return ApiUpdateMspAdminRequest
+	*/
+	UpdateMspAdmin(ctx context.Context, mspId string, adminId string) ApiUpdateMspAdminRequest
+
+	// UpdateMspAdminExecute executes the request
+	//  @return Admin
+	UpdateMspAdminExecute(r ApiUpdateMspAdminRequest) (*Admin, *http.Response, error)
+
+	/*
+	UpdateMspAdminInvite updateMspAdminInvite
+
+	Update MSP admin invite
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param mspId
+	@param inviteId
+	@return ApiUpdateMspAdminInviteRequest
+	*/
+	UpdateMspAdminInvite(ctx context.Context, mspId string, inviteId string) ApiUpdateMspAdminInviteRequest
+
+	// UpdateMspAdminInviteExecute executes the request
+	//  @return Admin
+	UpdateMspAdminInviteExecute(r ApiUpdateMspAdminInviteRequest) (*Admin, *http.Response, error)
+}
+
 // MSPsAdminsAPIService MSPsAdminsAPI service
 type MSPsAdminsAPIService service
 
 type ApiGetMspAdminRequest struct {
 	ctx context.Context
-	ApiService *MSPsAdminsAPIService
+	ApiService MSPsAdminsAPI
 	mspId string
 	adminId string
 }
@@ -201,7 +314,7 @@ func (a *MSPsAdminsAPIService) GetMspAdminExecute(r ApiGetMspAdminRequest) (*Adm
 
 type ApiInviteMspAdminRequest struct {
 	ctx context.Context
-	ApiService *MSPsAdminsAPIService
+	ApiService MSPsAdminsAPI
 	mspId string
 	admin *Admin
 }
@@ -383,7 +496,7 @@ func (a *MSPsAdminsAPIService) InviteMspAdminExecute(r ApiInviteMspAdminRequest)
 
 type ApiListMspAdminsRequest struct {
 	ctx context.Context
-	ApiService *MSPsAdminsAPIService
+	ApiService MSPsAdminsAPI
 	mspId string
 }
 
@@ -554,7 +667,7 @@ func (a *MSPsAdminsAPIService) ListMspAdminsExecute(r ApiListMspAdminsRequest) (
 
 type ApiRevokeMspAdminRequest struct {
 	ctx context.Context
-	ApiService *MSPsAdminsAPIService
+	ApiService MSPsAdminsAPI
 	mspId string
 	adminId string
 }
@@ -718,7 +831,7 @@ func (a *MSPsAdminsAPIService) RevokeMspAdminExecute(r ApiRevokeMspAdminRequest)
 
 type ApiUninviteMspAdminRequest struct {
 	ctx context.Context
-	ApiService *MSPsAdminsAPIService
+	ApiService MSPsAdminsAPI
 	mspId string
 	inviteId string
 }
@@ -882,7 +995,7 @@ func (a *MSPsAdminsAPIService) UninviteMspAdminExecute(r ApiUninviteMspAdminRequ
 
 type ApiUpdateMspAdminRequest struct {
 	ctx context.Context
-	ApiService *MSPsAdminsAPIService
+	ApiService MSPsAdminsAPI
 	mspId string
 	adminId string
 	admin *Admin
@@ -1066,7 +1179,7 @@ func (a *MSPsAdminsAPIService) UpdateMspAdminExecute(r ApiUpdateMspAdminRequest)
 
 type ApiUpdateMspAdminInviteRequest struct {
 	ctx context.Context
-	ApiService *MSPsAdminsAPIService
+	ApiService MSPsAdminsAPI
 	mspId string
 	inviteId string
 	admin *Admin

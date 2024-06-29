@@ -21,12 +21,109 @@ import (
 )
 
 
+type OrgsLinkedApplicationsAPI interface {
+
+	/*
+	AddOrgOauthAppAccounts addOrgOauthAppAccounts
+
+	Add Jamf, VMware Authorization With Mist Portal
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param appName OAuth application name
+	@return ApiAddOrgOauthAppAccountsRequest
+	*/
+	AddOrgOauthAppAccounts(ctx context.Context, orgId string, appName OauthAppName) ApiAddOrgOauthAppAccountsRequest
+
+	// AddOrgOauthAppAccountsExecute executes the request
+	AddOrgOauthAppAccountsExecute(r ApiAddOrgOauthAppAccountsRequest) (*http.Response, error)
+
+	/*
+	DeleteOrgOauthAppAuthorization deleteOrgOauthAppAuthorization
+
+	Delete Org Level OAuth Application Authorization With Mist Portal
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param appName OAuth application name
+	@param accountId
+	@return ApiDeleteOrgOauthAppAuthorizationRequest
+	*/
+	DeleteOrgOauthAppAuthorization(ctx context.Context, orgId string, appName AccountOauthAppName, accountId string) ApiDeleteOrgOauthAppAuthorizationRequest
+
+	// DeleteOrgOauthAppAuthorizationExecute executes the request
+	DeleteOrgOauthAppAuthorizationExecute(r ApiDeleteOrgOauthAppAuthorizationRequest) (*http.Response, error)
+
+	/*
+	GetOrgOauthAppLinkedStatus getOrgOauthAppAuthorizationUrl
+
+	Get Org Level OAuth Application Linked Status
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param appName OAuth application name
+	@return ApiGetOrgOauthAppLinkedStatusRequest
+	*/
+	GetOrgOauthAppLinkedStatus(ctx context.Context, orgId string, appName OauthAppName) ApiGetOrgOauthAppLinkedStatusRequest
+
+	// GetOrgOauthAppLinkedStatusExecute executes the request
+	//  @return ResponseOauthAppLink
+	GetOrgOauthAppLinkedStatusExecute(r ApiGetOrgOauthAppLinkedStatusRequest) (*ResponseOauthAppLink, *http.Response, error)
+
+	/*
+	LinkOrgToJuniperJuniperAccount linkOrgToJuniperJuniperAccount
+
+	Link Juniper Accounts
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiLinkOrgToJuniperJuniperAccountRequest
+	*/
+	LinkOrgToJuniperJuniperAccount(ctx context.Context, orgId string) ApiLinkOrgToJuniperJuniperAccountRequest
+
+	// LinkOrgToJuniperJuniperAccountExecute executes the request
+	//  @return AccountJuniperInfo
+	LinkOrgToJuniperJuniperAccountExecute(r ApiLinkOrgToJuniperJuniperAccountRequest) (*AccountJuniperInfo, *http.Response, error)
+
+	/*
+	UnlinkOrgFromJuniperCustomerId unlinkOrgFromJuniperCustomerId
+
+	Unlink Juniper Customer ID
+`linked_by` field is only required if there are duplicate account_names.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiUnlinkOrgFromJuniperCustomerIdRequest
+	*/
+	UnlinkOrgFromJuniperCustomerId(ctx context.Context, orgId string) ApiUnlinkOrgFromJuniperCustomerIdRequest
+
+	// UnlinkOrgFromJuniperCustomerIdExecute executes the request
+	UnlinkOrgFromJuniperCustomerIdExecute(r ApiUnlinkOrgFromJuniperCustomerIdRequest) (*http.Response, error)
+
+	/*
+	UpdateOrgOauthAppAccounts updateOrgOauthAppAccounts
+
+	Update Zoom, Teams, Intune Authorization.
+
+Request Payload, These Field And Values Will Be Specific To Each Of The Third Party Apps Accounts.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param appName OAuth application name
+	@return ApiUpdateOrgOauthAppAccountsRequest
+	*/
+	UpdateOrgOauthAppAccounts(ctx context.Context, orgId string, appName OauthAppName) ApiUpdateOrgOauthAppAccountsRequest
+
+	// UpdateOrgOauthAppAccountsExecute executes the request
+	UpdateOrgOauthAppAccountsExecute(r ApiUpdateOrgOauthAppAccountsRequest) (*http.Response, error)
+}
+
 // OrgsLinkedApplicationsAPIService OrgsLinkedApplicationsAPI service
 type OrgsLinkedApplicationsAPIService service
 
 type ApiAddOrgOauthAppAccountsRequest struct {
 	ctx context.Context
-	ApiService *OrgsLinkedApplicationsAPIService
+	ApiService OrgsLinkedApplicationsAPI
 	orgId string
 	appName OauthAppName
 	accountOauthAdd *AccountOauthAdd
@@ -187,7 +284,7 @@ func (a *OrgsLinkedApplicationsAPIService) AddOrgOauthAppAccountsExecute(r ApiAd
 
 type ApiDeleteOrgOauthAppAuthorizationRequest struct {
 	ctx context.Context
-	ApiService *OrgsLinkedApplicationsAPIService
+	ApiService OrgsLinkedApplicationsAPI
 	orgId string
 	appName AccountOauthAppName
 	accountId string
@@ -344,7 +441,7 @@ func (a *OrgsLinkedApplicationsAPIService) DeleteOrgOauthAppAuthorizationExecute
 
 type ApiGetOrgOauthAppLinkedStatusRequest struct {
 	ctx context.Context
-	ApiService *OrgsLinkedApplicationsAPIService
+	ApiService OrgsLinkedApplicationsAPI
 	orgId string
 	appName OauthAppName
 	forward *string
@@ -530,7 +627,7 @@ func (a *OrgsLinkedApplicationsAPIService) GetOrgOauthAppLinkedStatusExecute(r A
 
 type ApiLinkOrgToJuniperJuniperAccountRequest struct {
 	ctx context.Context
-	ApiService *OrgsLinkedApplicationsAPIService
+	ApiService OrgsLinkedApplicationsAPI
 	orgId string
 	accountJuniperConfig *AccountJuniperConfig
 }
@@ -709,7 +806,7 @@ func (a *OrgsLinkedApplicationsAPIService) LinkOrgToJuniperJuniperAccountExecute
 
 type ApiUnlinkOrgFromJuniperCustomerIdRequest struct {
 	ctx context.Context
-	ApiService *OrgsLinkedApplicationsAPIService
+	ApiService OrgsLinkedApplicationsAPI
 	orgId string
 	accountJuniperInfo *AccountJuniperInfo
 }
@@ -878,7 +975,7 @@ func (a *OrgsLinkedApplicationsAPIService) UnlinkOrgFromJuniperCustomerIdExecute
 
 type ApiUpdateOrgOauthAppAccountsRequest struct {
 	ctx context.Context
-	ApiService *OrgsLinkedApplicationsAPIService
+	ApiService OrgsLinkedApplicationsAPI
 	orgId string
 	appName OauthAppName
 	accountOauthConfig *AccountOauthConfig

@@ -21,12 +21,30 @@ import (
 )
 
 
+type OrgsClientsSDKAPI interface {
+
+	/*
+	UpdateSdkClient updateSdkClient
+
+	Update SDK Client
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param sdkclientId
+	@return ApiUpdateSdkClientRequest
+	*/
+	UpdateSdkClient(ctx context.Context, orgId string, sdkclientId string) ApiUpdateSdkClientRequest
+
+	// UpdateSdkClientExecute executes the request
+	UpdateSdkClientExecute(r ApiUpdateSdkClientRequest) (*http.Response, error)
+}
+
 // OrgsClientsSDKAPIService OrgsClientsSDKAPI service
 type OrgsClientsSDKAPIService service
 
 type ApiUpdateSdkClientRequest struct {
 	ctx context.Context
-	ApiService *OrgsClientsSDKAPIService
+	ApiService OrgsClientsSDKAPI
 	orgId string
 	sdkclientId string
 	nameString *NameString

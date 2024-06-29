@@ -21,12 +21,137 @@ import (
 )
 
 
+type OrgsAlarmTemplatesAPI interface {
+
+	/*
+	CreateOrgAlarmTemplate createOrgAlarmTemplate
+
+	Available rules can be found in Orgs>Consts>getAlarmDefs
+
+The delivery dict is only required if different from the template delivery settings.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiCreateOrgAlarmTemplateRequest
+	*/
+	CreateOrgAlarmTemplate(ctx context.Context, orgId string) ApiCreateOrgAlarmTemplateRequest
+
+	// CreateOrgAlarmTemplateExecute executes the request
+	//  @return AlarmTemplate
+	CreateOrgAlarmTemplateExecute(r ApiCreateOrgAlarmTemplateRequest) (*AlarmTemplate, *http.Response, error)
+
+	/*
+	DeleteOrgAlarmTemplate deleteOrgAlarmTemplate
+
+	Delete Org Alarm Template
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param alarmtemplateId
+	@return ApiDeleteOrgAlarmTemplateRequest
+	*/
+	DeleteOrgAlarmTemplate(ctx context.Context, orgId string, alarmtemplateId string) ApiDeleteOrgAlarmTemplateRequest
+
+	// DeleteOrgAlarmTemplateExecute executes the request
+	DeleteOrgAlarmTemplateExecute(r ApiDeleteOrgAlarmTemplateRequest) (*http.Response, error)
+
+	/*
+	GetOrgAlarmTemplate getOrgAlarmTemplate
+
+	Get Org Alarm Template Details
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param alarmtemplateId
+	@return ApiGetOrgAlarmTemplateRequest
+	*/
+	GetOrgAlarmTemplate(ctx context.Context, orgId string, alarmtemplateId string) ApiGetOrgAlarmTemplateRequest
+
+	// GetOrgAlarmTemplateExecute executes the request
+	//  @return AlarmTemplate
+	GetOrgAlarmTemplateExecute(r ApiGetOrgAlarmTemplateRequest) (*AlarmTemplate, *http.Response, error)
+
+	/*
+	ListOrgAlarmTemplates listOrgAlarmTemplates
+
+	Get List of Org Alarm Templates
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiListOrgAlarmTemplatesRequest
+	*/
+	ListOrgAlarmTemplates(ctx context.Context, orgId string) ApiListOrgAlarmTemplatesRequest
+
+	// ListOrgAlarmTemplatesExecute executes the request
+	//  @return []AlarmTemplate
+	ListOrgAlarmTemplatesExecute(r ApiListOrgAlarmTemplatesRequest) ([]AlarmTemplate, *http.Response, error)
+
+	/*
+	ListOrgSuppressedAlarms listOrgSuppressedAlarms
+
+	Get List of Org Alarms Currently Suppressed
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiListOrgSuppressedAlarmsRequest
+	*/
+	ListOrgSuppressedAlarms(ctx context.Context, orgId string) ApiListOrgSuppressedAlarmsRequest
+
+	// ListOrgSuppressedAlarmsExecute executes the request
+	//  @return ResponseOrgSuppressAlarm
+	ListOrgSuppressedAlarmsExecute(r ApiListOrgSuppressedAlarmsRequest) (*ResponseOrgSuppressAlarm, *http.Response, error)
+
+	/*
+	SuppressOrgAlarm suppressOrgAlarm
+
+	In certain situations, for example, scheduled maintenance, you may want to suspend alarms to be triggered against Sites for a period of time.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiSuppressOrgAlarmRequest
+	*/
+	SuppressOrgAlarm(ctx context.Context, orgId string) ApiSuppressOrgAlarmRequest
+
+	// SuppressOrgAlarmExecute executes the request
+	SuppressOrgAlarmExecute(r ApiSuppressOrgAlarmRequest) (*http.Response, error)
+
+	/*
+	UnsuppressOrgSuppressedAlarms unsuppressOrgSuppressedAlarms
+
+	Un-Suppress Suppressed Alarms
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiUnsuppressOrgSuppressedAlarmsRequest
+	*/
+	UnsuppressOrgSuppressedAlarms(ctx context.Context, orgId string) ApiUnsuppressOrgSuppressedAlarmsRequest
+
+	// UnsuppressOrgSuppressedAlarmsExecute executes the request
+	UnsuppressOrgSuppressedAlarmsExecute(r ApiUnsuppressOrgSuppressedAlarmsRequest) (*http.Response, error)
+
+	/*
+	UpdateOrgAlarmTemplate updateOrgAlarmTemplate
+
+	Update Org Alarm Template
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param alarmtemplateId
+	@return ApiUpdateOrgAlarmTemplateRequest
+	*/
+	UpdateOrgAlarmTemplate(ctx context.Context, orgId string, alarmtemplateId string) ApiUpdateOrgAlarmTemplateRequest
+
+	// UpdateOrgAlarmTemplateExecute executes the request
+	//  @return AlarmTemplate
+	UpdateOrgAlarmTemplateExecute(r ApiUpdateOrgAlarmTemplateRequest) (*AlarmTemplate, *http.Response, error)
+}
+
 // OrgsAlarmTemplatesAPIService OrgsAlarmTemplatesAPI service
 type OrgsAlarmTemplatesAPIService service
 
 type ApiCreateOrgAlarmTemplateRequest struct {
 	ctx context.Context
-	ApiService *OrgsAlarmTemplatesAPIService
+	ApiService OrgsAlarmTemplatesAPI
 	orgId string
 	alarmTemplate *AlarmTemplate
 }
@@ -208,7 +333,7 @@ func (a *OrgsAlarmTemplatesAPIService) CreateOrgAlarmTemplateExecute(r ApiCreate
 
 type ApiDeleteOrgAlarmTemplateRequest struct {
 	ctx context.Context
-	ApiService *OrgsAlarmTemplatesAPIService
+	ApiService OrgsAlarmTemplatesAPI
 	orgId string
 	alarmtemplateId string
 }
@@ -372,7 +497,7 @@ func (a *OrgsAlarmTemplatesAPIService) DeleteOrgAlarmTemplateExecute(r ApiDelete
 
 type ApiGetOrgAlarmTemplateRequest struct {
 	ctx context.Context
-	ApiService *OrgsAlarmTemplatesAPIService
+	ApiService OrgsAlarmTemplatesAPI
 	orgId string
 	alarmtemplateId string
 }
@@ -547,7 +672,7 @@ func (a *OrgsAlarmTemplatesAPIService) GetOrgAlarmTemplateExecute(r ApiGetOrgAla
 
 type ApiListOrgAlarmTemplatesRequest struct {
 	ctx context.Context
-	ApiService *OrgsAlarmTemplatesAPIService
+	ApiService OrgsAlarmTemplatesAPI
 	orgId string
 	page *int32
 	limit *int32
@@ -742,7 +867,7 @@ func (a *OrgsAlarmTemplatesAPIService) ListOrgAlarmTemplatesExecute(r ApiListOrg
 
 type ApiListOrgSuppressedAlarmsRequest struct {
 	ctx context.Context
-	ApiService *OrgsAlarmTemplatesAPIService
+	ApiService OrgsAlarmTemplatesAPI
 	orgId string
 	scope *SuppressedAlarmScope
 }
@@ -925,7 +1050,7 @@ func (a *OrgsAlarmTemplatesAPIService) ListOrgSuppressedAlarmsExecute(r ApiListO
 
 type ApiSuppressOrgAlarmRequest struct {
 	ctx context.Context
-	ApiService *OrgsAlarmTemplatesAPIService
+	ApiService OrgsAlarmTemplatesAPI
 	orgId string
 	suppressedAlarm *SuppressedAlarm
 }
@@ -1093,7 +1218,7 @@ func (a *OrgsAlarmTemplatesAPIService) SuppressOrgAlarmExecute(r ApiSuppressOrgA
 
 type ApiUnsuppressOrgSuppressedAlarmsRequest struct {
 	ctx context.Context
-	ApiService *OrgsAlarmTemplatesAPIService
+	ApiService OrgsAlarmTemplatesAPI
 	orgId string
 }
 
@@ -1253,7 +1378,7 @@ func (a *OrgsAlarmTemplatesAPIService) UnsuppressOrgSuppressedAlarmsExecute(r Ap
 
 type ApiUpdateOrgAlarmTemplateRequest struct {
 	ctx context.Context
-	ApiService *OrgsAlarmTemplatesAPIService
+	ApiService OrgsAlarmTemplatesAPI
 	orgId string
 	alarmtemplateId string
 	alarmTemplate *AlarmTemplate

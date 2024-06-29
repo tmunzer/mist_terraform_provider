@@ -21,12 +21,92 @@ import (
 )
 
 
+type OrgsGatewayTemplatesAPI interface {
+
+	/*
+	CreateOrgGatewayTemplate createOrgGatewayTemplate
+
+	Create Org Gateway Template
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiCreateOrgGatewayTemplateRequest
+	*/
+	CreateOrgGatewayTemplate(ctx context.Context, orgId string) ApiCreateOrgGatewayTemplateRequest
+
+	// CreateOrgGatewayTemplateExecute executes the request
+	//  @return GatewayTemplate
+	CreateOrgGatewayTemplateExecute(r ApiCreateOrgGatewayTemplateRequest) (*GatewayTemplate, *http.Response, error)
+
+	/*
+	DeleteOrgGatewayTemplate deleteOrgGatewayTemplate
+
+	Delete Organization Gateway Template
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param gatewaytemplateId
+	@return ApiDeleteOrgGatewayTemplateRequest
+	*/
+	DeleteOrgGatewayTemplate(ctx context.Context, orgId string, gatewaytemplateId string) ApiDeleteOrgGatewayTemplateRequest
+
+	// DeleteOrgGatewayTemplateExecute executes the request
+	DeleteOrgGatewayTemplateExecute(r ApiDeleteOrgGatewayTemplateRequest) (*http.Response, error)
+
+	/*
+	GetOrgGatewayTemplate getOrgGatewayTemplate
+
+	Get Organization Gateway Template details
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param gatewaytemplateId
+	@return ApiGetOrgGatewayTemplateRequest
+	*/
+	GetOrgGatewayTemplate(ctx context.Context, orgId string, gatewaytemplateId string) ApiGetOrgGatewayTemplateRequest
+
+	// GetOrgGatewayTemplateExecute executes the request
+	//  @return GatewayTemplate
+	GetOrgGatewayTemplateExecute(r ApiGetOrgGatewayTemplateRequest) (*GatewayTemplate, *http.Response, error)
+
+	/*
+	ListOrgGatewayTemplates listOrgGatewayTemplates
+
+	Get List of Org Gateway Templates
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiListOrgGatewayTemplatesRequest
+	*/
+	ListOrgGatewayTemplates(ctx context.Context, orgId string) ApiListOrgGatewayTemplatesRequest
+
+	// ListOrgGatewayTemplatesExecute executes the request
+	//  @return []GatewayTemplate
+	ListOrgGatewayTemplatesExecute(r ApiListOrgGatewayTemplatesRequest) ([]GatewayTemplate, *http.Response, error)
+
+	/*
+	UpdateOrgGatewayTemplate updateOrgGatewayTemplate
+
+	Update Organization Gateway Template
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param gatewaytemplateId
+	@return ApiUpdateOrgGatewayTemplateRequest
+	*/
+	UpdateOrgGatewayTemplate(ctx context.Context, orgId string, gatewaytemplateId string) ApiUpdateOrgGatewayTemplateRequest
+
+	// UpdateOrgGatewayTemplateExecute executes the request
+	//  @return GatewayTemplate
+	UpdateOrgGatewayTemplateExecute(r ApiUpdateOrgGatewayTemplateRequest) (*GatewayTemplate, *http.Response, error)
+}
+
 // OrgsGatewayTemplatesAPIService OrgsGatewayTemplatesAPI service
 type OrgsGatewayTemplatesAPIService service
 
 type ApiCreateOrgGatewayTemplateRequest struct {
 	ctx context.Context
-	ApiService *OrgsGatewayTemplatesAPIService
+	ApiService OrgsGatewayTemplatesAPI
 	orgId string
 	gatewayTemplate *GatewayTemplate
 }
@@ -206,7 +286,7 @@ func (a *OrgsGatewayTemplatesAPIService) CreateOrgGatewayTemplateExecute(r ApiCr
 
 type ApiDeleteOrgGatewayTemplateRequest struct {
 	ctx context.Context
-	ApiService *OrgsGatewayTemplatesAPIService
+	ApiService OrgsGatewayTemplatesAPI
 	orgId string
 	gatewaytemplateId string
 }
@@ -370,7 +450,7 @@ func (a *OrgsGatewayTemplatesAPIService) DeleteOrgGatewayTemplateExecute(r ApiDe
 
 type ApiGetOrgGatewayTemplateRequest struct {
 	ctx context.Context
-	ApiService *OrgsGatewayTemplatesAPIService
+	ApiService OrgsGatewayTemplatesAPI
 	orgId string
 	gatewaytemplateId string
 }
@@ -545,7 +625,7 @@ func (a *OrgsGatewayTemplatesAPIService) GetOrgGatewayTemplateExecute(r ApiGetOr
 
 type ApiListOrgGatewayTemplatesRequest struct {
 	ctx context.Context
-	ApiService *OrgsGatewayTemplatesAPIService
+	ApiService OrgsGatewayTemplatesAPI
 	orgId string
 	page *int32
 	limit *int32
@@ -740,7 +820,7 @@ func (a *OrgsGatewayTemplatesAPIService) ListOrgGatewayTemplatesExecute(r ApiLis
 
 type ApiUpdateOrgGatewayTemplateRequest struct {
 	ctx context.Context
-	ApiService *OrgsGatewayTemplatesAPIService
+	ApiService OrgsGatewayTemplatesAPI
 	orgId string
 	gatewaytemplateId string
 	gatewayTemplate *GatewayTemplate

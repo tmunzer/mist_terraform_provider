@@ -21,12 +21,92 @@ import (
 )
 
 
+type OrgsNetworksAPI interface {
+
+	/*
+	CreateOrgNetwork createOrgNetwork
+
+	Create Organization Network
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiCreateOrgNetworkRequest
+	*/
+	CreateOrgNetwork(ctx context.Context, orgId string) ApiCreateOrgNetworkRequest
+
+	// CreateOrgNetworkExecute executes the request
+	//  @return Network
+	CreateOrgNetworkExecute(r ApiCreateOrgNetworkRequest) (*Network, *http.Response, error)
+
+	/*
+	DeleteOrgNetwork deleteOrgNetwork
+
+	Delete Organization Network
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param networkId
+	@return ApiDeleteOrgNetworkRequest
+	*/
+	DeleteOrgNetwork(ctx context.Context, orgId string, networkId string) ApiDeleteOrgNetworkRequest
+
+	// DeleteOrgNetworkExecute executes the request
+	DeleteOrgNetworkExecute(r ApiDeleteOrgNetworkRequest) (*http.Response, error)
+
+	/*
+	GetOrgNetwork getOrgNetwork
+
+	Get Organization Network Details
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param networkId
+	@return ApiGetOrgNetworkRequest
+	*/
+	GetOrgNetwork(ctx context.Context, orgId string, networkId string) ApiGetOrgNetworkRequest
+
+	// GetOrgNetworkExecute executes the request
+	//  @return Network
+	GetOrgNetworkExecute(r ApiGetOrgNetworkRequest) (*Network, *http.Response, error)
+
+	/*
+	ListOrgNetworks listOrgNetworks
+
+	Get List of Org Networks
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiListOrgNetworksRequest
+	*/
+	ListOrgNetworks(ctx context.Context, orgId string) ApiListOrgNetworksRequest
+
+	// ListOrgNetworksExecute executes the request
+	//  @return []Network
+	ListOrgNetworksExecute(r ApiListOrgNetworksRequest) ([]Network, *http.Response, error)
+
+	/*
+	UpdateOrgNetwork updateOrgNetwork
+
+	Update Organization Network
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param networkId
+	@return ApiUpdateOrgNetworkRequest
+	*/
+	UpdateOrgNetwork(ctx context.Context, orgId string, networkId string) ApiUpdateOrgNetworkRequest
+
+	// UpdateOrgNetworkExecute executes the request
+	//  @return Network
+	UpdateOrgNetworkExecute(r ApiUpdateOrgNetworkRequest) (*Network, *http.Response, error)
+}
+
 // OrgsNetworksAPIService OrgsNetworksAPI service
 type OrgsNetworksAPIService service
 
 type ApiCreateOrgNetworkRequest struct {
 	ctx context.Context
-	ApiService *OrgsNetworksAPIService
+	ApiService OrgsNetworksAPI
 	orgId string
 	network *Network
 }
@@ -205,7 +285,7 @@ func (a *OrgsNetworksAPIService) CreateOrgNetworkExecute(r ApiCreateOrgNetworkRe
 
 type ApiDeleteOrgNetworkRequest struct {
 	ctx context.Context
-	ApiService *OrgsNetworksAPIService
+	ApiService OrgsNetworksAPI
 	orgId string
 	networkId string
 }
@@ -369,7 +449,7 @@ func (a *OrgsNetworksAPIService) DeleteOrgNetworkExecute(r ApiDeleteOrgNetworkRe
 
 type ApiGetOrgNetworkRequest struct {
 	ctx context.Context
-	ApiService *OrgsNetworksAPIService
+	ApiService OrgsNetworksAPI
 	orgId string
 	networkId string
 }
@@ -544,7 +624,7 @@ func (a *OrgsNetworksAPIService) GetOrgNetworkExecute(r ApiGetOrgNetworkRequest)
 
 type ApiListOrgNetworksRequest struct {
 	ctx context.Context
-	ApiService *OrgsNetworksAPIService
+	ApiService OrgsNetworksAPI
 	orgId string
 	page *int32
 	limit *int32
@@ -739,7 +819,7 @@ func (a *OrgsNetworksAPIService) ListOrgNetworksExecute(r ApiListOrgNetworksRequ
 
 type ApiUpdateOrgNetworkRequest struct {
 	ctx context.Context
-	ApiService *OrgsNetworksAPIService
+	ApiService OrgsNetworksAPI
 	orgId string
 	networkId string
 	network *Network

@@ -21,12 +21,30 @@ import (
 )
 
 
+type SitesGatewayTemplatesAPI interface {
+
+	/*
+	GetSiteGatewayTemplateDerived getSiteGatewayTemplateDerived
+
+	Get derived Gateway Templates for Site
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiGetSiteGatewayTemplateDerivedRequest
+	*/
+	GetSiteGatewayTemplateDerived(ctx context.Context, siteId string) ApiGetSiteGatewayTemplateDerivedRequest
+
+	// GetSiteGatewayTemplateDerivedExecute executes the request
+	//  @return GatewayTemplate
+	GetSiteGatewayTemplateDerivedExecute(r ApiGetSiteGatewayTemplateDerivedRequest) (*GatewayTemplate, *http.Response, error)
+}
+
 // SitesGatewayTemplatesAPIService SitesGatewayTemplatesAPI service
 type SitesGatewayTemplatesAPIService service
 
 type ApiGetSiteGatewayTemplateDerivedRequest struct {
 	ctx context.Context
-	ApiService *SitesGatewayTemplatesAPIService
+	ApiService SitesGatewayTemplatesAPI
 	siteId string
 	resolve *bool
 }

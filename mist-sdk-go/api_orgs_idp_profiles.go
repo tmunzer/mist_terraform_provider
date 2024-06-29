@@ -21,12 +21,91 @@ import (
 )
 
 
+type OrgsIDPProfilesAPI interface {
+
+	/*
+	CreateOrgIdpProfile createOrgIdpProfile
+
+	Create Org IDP Profile
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiCreateOrgIdpProfileRequest
+	*/
+	CreateOrgIdpProfile(ctx context.Context, orgId string) ApiCreateOrgIdpProfileRequest
+
+	// CreateOrgIdpProfileExecute executes the request
+	//  @return IdpProfile
+	CreateOrgIdpProfileExecute(r ApiCreateOrgIdpProfileRequest) (*IdpProfile, *http.Response, error)
+
+	/*
+	DeleteOrgIdpProfile deleteOrgIdpProfile
+
+	Delete Org IDP Profile
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param idpprofileId
+	@return ApiDeleteOrgIdpProfileRequest
+	*/
+	DeleteOrgIdpProfile(ctx context.Context, orgId string, idpprofileId string) ApiDeleteOrgIdpProfileRequest
+
+	// DeleteOrgIdpProfileExecute executes the request
+	DeleteOrgIdpProfileExecute(r ApiDeleteOrgIdpProfileRequest) (*http.Response, error)
+
+	/*
+	GetOrgIdpProfile getOrgIdpProfile
+
+	Get Org IDP Profile
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param idpprofileId
+	@return ApiGetOrgIdpProfileRequest
+	*/
+	GetOrgIdpProfile(ctx context.Context, orgId string, idpprofileId string) ApiGetOrgIdpProfileRequest
+
+	// GetOrgIdpProfileExecute executes the request
+	//  @return IdpProfile
+	GetOrgIdpProfileExecute(r ApiGetOrgIdpProfileRequest) (*IdpProfile, *http.Response, error)
+
+	/*
+	ListOrgIdpProfiles listOrgIdpProfiles
+
+	get the list of Org IDP Profiles
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiListOrgIdpProfilesRequest
+	*/
+	ListOrgIdpProfiles(ctx context.Context, orgId string) ApiListOrgIdpProfilesRequest
+
+	// ListOrgIdpProfilesExecute executes the request
+	//  @return []IdpProfile
+	ListOrgIdpProfilesExecute(r ApiListOrgIdpProfilesRequest) ([]IdpProfile, *http.Response, error)
+
+	/*
+	UpdateOrgIdpProfile updateOrgIdpProfile
+
+	Update Org IDP Profile
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param idpprofileId
+	@return ApiUpdateOrgIdpProfileRequest
+	*/
+	UpdateOrgIdpProfile(ctx context.Context, orgId string, idpprofileId string) ApiUpdateOrgIdpProfileRequest
+
+	// UpdateOrgIdpProfileExecute executes the request
+	UpdateOrgIdpProfileExecute(r ApiUpdateOrgIdpProfileRequest) (*http.Response, error)
+}
+
 // OrgsIDPProfilesAPIService OrgsIDPProfilesAPI service
 type OrgsIDPProfilesAPIService service
 
 type ApiCreateOrgIdpProfileRequest struct {
 	ctx context.Context
-	ApiService *OrgsIDPProfilesAPIService
+	ApiService OrgsIDPProfilesAPI
 	orgId string
 	idpProfile *IdpProfile
 }
@@ -205,7 +284,7 @@ func (a *OrgsIDPProfilesAPIService) CreateOrgIdpProfileExecute(r ApiCreateOrgIdp
 
 type ApiDeleteOrgIdpProfileRequest struct {
 	ctx context.Context
-	ApiService *OrgsIDPProfilesAPIService
+	ApiService OrgsIDPProfilesAPI
 	orgId string
 	idpprofileId string
 }
@@ -369,7 +448,7 @@ func (a *OrgsIDPProfilesAPIService) DeleteOrgIdpProfileExecute(r ApiDeleteOrgIdp
 
 type ApiGetOrgIdpProfileRequest struct {
 	ctx context.Context
-	ApiService *OrgsIDPProfilesAPIService
+	ApiService OrgsIDPProfilesAPI
 	orgId string
 	idpprofileId string
 }
@@ -544,7 +623,7 @@ func (a *OrgsIDPProfilesAPIService) GetOrgIdpProfileExecute(r ApiGetOrgIdpProfil
 
 type ApiListOrgIdpProfilesRequest struct {
 	ctx context.Context
-	ApiService *OrgsIDPProfilesAPIService
+	ApiService OrgsIDPProfilesAPI
 	orgId string
 	page *int32
 	limit *int32
@@ -739,7 +818,7 @@ func (a *OrgsIDPProfilesAPIService) ListOrgIdpProfilesExecute(r ApiListOrgIdpPro
 
 type ApiUpdateOrgIdpProfileRequest struct {
 	ctx context.Context
-	ApiService *OrgsIDPProfilesAPIService
+	ApiService OrgsIDPProfilesAPI
 	orgId string
 	idpprofileId string
 	idpProfile *IdpProfile

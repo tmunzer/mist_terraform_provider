@@ -21,12 +21,220 @@ import (
 )
 
 
+type SitesAssetsAPI interface {
+
+	/*
+	CountSiteAssets countSiteAssets
+
+	Count Asset by distinct field
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiCountSiteAssetsRequest
+	*/
+	CountSiteAssets(ctx context.Context, siteId string) ApiCountSiteAssetsRequest
+
+	// CountSiteAssetsExecute executes the request
+	//  @return RepsonseCount
+	CountSiteAssetsExecute(r ApiCountSiteAssetsRequest) (*RepsonseCount, *http.Response, error)
+
+	/*
+	CreateSiteAsset createSiteAsset
+
+	Create Site Asset
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiCreateSiteAssetRequest
+	*/
+	CreateSiteAsset(ctx context.Context, siteId string) ApiCreateSiteAssetRequest
+
+	// CreateSiteAssetExecute executes the request
+	//  @return Asset
+	CreateSiteAssetExecute(r ApiCreateSiteAssetRequest) (*Asset, *http.Response, error)
+
+	/*
+	DeleteSiteAsset deleteSiteAsset
+
+	Delete Site Asset
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param assetId
+	@return ApiDeleteSiteAssetRequest
+	*/
+	DeleteSiteAsset(ctx context.Context, siteId string, assetId string) ApiDeleteSiteAssetRequest
+
+	// DeleteSiteAssetExecute executes the request
+	DeleteSiteAssetExecute(r ApiDeleteSiteAssetRequest) (*http.Response, error)
+
+	/*
+	GetSiteAsset getSiteAsset
+
+	Get Site Asset Details
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param assetId
+	@return ApiGetSiteAssetRequest
+	*/
+	GetSiteAsset(ctx context.Context, siteId string, assetId string) ApiGetSiteAssetRequest
+
+	// GetSiteAssetExecute executes the request
+	//  @return Asset
+	GetSiteAssetExecute(r ApiGetSiteAssetRequest) (*Asset, *http.Response, error)
+
+	/*
+	GetSiteAssetStats getSiteAssetStats
+
+	Get Site Asset Details
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiGetSiteAssetStatsRequest
+	*/
+	GetSiteAssetStats(ctx context.Context, siteId string) ApiGetSiteAssetStatsRequest
+
+	// GetSiteAssetStatsExecute executes the request
+	//  @return StatsAsset
+	GetSiteAssetStatsExecute(r ApiGetSiteAssetStatsRequest) (*StatsAsset, *http.Response, error)
+
+	/*
+	GetSiteAssetsOfInterest getSiteAssetsOfInterest
+
+	Get a list of BLE beacons that matches Asset or AssetFilter
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiGetSiteAssetsOfInterestRequest
+	*/
+	GetSiteAssetsOfInterest(ctx context.Context, siteId string) ApiGetSiteAssetsOfInterestRequest
+
+	// GetSiteAssetsOfInterestExecute executes the request
+	//  @return []AssetOfInterest
+	GetSiteAssetsOfInterestExecute(r ApiGetSiteAssetsOfInterestRequest) ([]AssetOfInterest, *http.Response, error)
+
+	/*
+	GetSiteDiscoveredAssetByMap getSiteDiscoveredAssetByMap
+
+	Get a list of BLE beacons that we discovered (whether they’re defined as assets or not)
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param mapId
+	@return ApiGetSiteDiscoveredAssetByMapRequest
+	*/
+	GetSiteDiscoveredAssetByMap(ctx context.Context, siteId string, mapId string) ApiGetSiteDiscoveredAssetByMapRequest
+
+	// GetSiteDiscoveredAssetByMapExecute executes the request
+	//  @return []StatsAsset
+	GetSiteDiscoveredAssetByMapExecute(r ApiGetSiteDiscoveredAssetByMapRequest) ([]StatsAsset, *http.Response, error)
+
+	/*
+	ImportSiteAssets importSiteAssets
+
+	Impert Site Assets. 
+
+It can be done via a CSV file or a JSON payload.
+
+## CSV File Format
+```csv
+name,mac
+"asset_name",5c5b53010101
+```
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiImportSiteAssetsRequest
+	*/
+	ImportSiteAssets(ctx context.Context, siteId string) ApiImportSiteAssetsRequest
+
+	// ImportSiteAssetsExecute executes the request
+	ImportSiteAssetsExecute(r ApiImportSiteAssetsRequest) (*http.Response, error)
+
+	/*
+	ListSiteAssets listSiteAssets
+
+	Get List of Site Assets
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiListSiteAssetsRequest
+	*/
+	ListSiteAssets(ctx context.Context, siteId string) ApiListSiteAssetsRequest
+
+	// ListSiteAssetsExecute executes the request
+	//  @return []Asset
+	ListSiteAssetsExecute(r ApiListSiteAssetsRequest) ([]Asset, *http.Response, error)
+
+	/*
+	ListSiteAssetsStats listSiteAssetsStats
+
+	Get List of Site Assets Stats
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiListSiteAssetsStatsRequest
+	*/
+	ListSiteAssetsStats(ctx context.Context, siteId string) ApiListSiteAssetsStatsRequest
+
+	// ListSiteAssetsStatsExecute executes the request
+	//  @return []StatsAsset
+	ListSiteAssetsStatsExecute(r ApiListSiteAssetsStatsRequest) ([]StatsAsset, *http.Response, error)
+
+	/*
+	ListSiteDiscoveredAssets listSiteDiscoveredAssets
+
+	Get List of Site Discovered BLE Assets that doesn’t match any of the Asset / Assetfilters
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiListSiteDiscoveredAssetsRequest
+	*/
+	ListSiteDiscoveredAssets(ctx context.Context, siteId string) ApiListSiteDiscoveredAssetsRequest
+
+	// ListSiteDiscoveredAssetsExecute executes the request
+	//  @return []Asset
+	ListSiteDiscoveredAssetsExecute(r ApiListSiteDiscoveredAssetsRequest) ([]Asset, *http.Response, error)
+
+	/*
+	SearchSiteAssets searchSiteAssets
+
+	Assets Search
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiSearchSiteAssetsRequest
+	*/
+	SearchSiteAssets(ctx context.Context, siteId string) ApiSearchSiteAssetsRequest
+
+	// SearchSiteAssetsExecute executes the request
+	//  @return ResponseStatsAssets
+	SearchSiteAssetsExecute(r ApiSearchSiteAssetsRequest) (*ResponseStatsAssets, *http.Response, error)
+
+	/*
+	UpdateSiteAsset updateSiteAsset
+
+	Update Site Asset
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param assetId
+	@return ApiUpdateSiteAssetRequest
+	*/
+	UpdateSiteAsset(ctx context.Context, siteId string, assetId string) ApiUpdateSiteAssetRequest
+
+	// UpdateSiteAssetExecute executes the request
+	//  @return Asset
+	UpdateSiteAssetExecute(r ApiUpdateSiteAssetRequest) (*Asset, *http.Response, error)
+}
+
 // SitesAssetsAPIService SitesAssetsAPI service
 type SitesAssetsAPIService service
 
 type ApiCountSiteAssetsRequest struct {
 	ctx context.Context
-	ApiService *SitesAssetsAPIService
+	ApiService SitesAssetsAPI
 	siteId string
 	distinct *SiteAssetsCountDistinct
 }
@@ -209,7 +417,7 @@ func (a *SitesAssetsAPIService) CountSiteAssetsExecute(r ApiCountSiteAssetsReque
 
 type ApiCreateSiteAssetRequest struct {
 	ctx context.Context
-	ApiService *SitesAssetsAPIService
+	ApiService SitesAssetsAPI
 	siteId string
 	asset *Asset
 }
@@ -389,7 +597,7 @@ func (a *SitesAssetsAPIService) CreateSiteAssetExecute(r ApiCreateSiteAssetReque
 
 type ApiDeleteSiteAssetRequest struct {
 	ctx context.Context
-	ApiService *SitesAssetsAPIService
+	ApiService SitesAssetsAPI
 	siteId string
 	assetId string
 }
@@ -553,7 +761,7 @@ func (a *SitesAssetsAPIService) DeleteSiteAssetExecute(r ApiDeleteSiteAssetReque
 
 type ApiGetSiteAssetRequest struct {
 	ctx context.Context
-	ApiService *SitesAssetsAPIService
+	ApiService SitesAssetsAPI
 	siteId string
 	assetId string
 }
@@ -728,7 +936,7 @@ func (a *SitesAssetsAPIService) GetSiteAssetExecute(r ApiGetSiteAssetRequest) (*
 
 type ApiGetSiteAssetStatsRequest struct {
 	ctx context.Context
-	ApiService *SitesAssetsAPIService
+	ApiService SitesAssetsAPI
 	siteId string
 	start *int32
 	end *int32
@@ -932,7 +1140,7 @@ func (a *SitesAssetsAPIService) GetSiteAssetStatsExecute(r ApiGetSiteAssetStatsR
 
 type ApiGetSiteAssetsOfInterestRequest struct {
 	ctx context.Context
-	ApiService *SitesAssetsAPIService
+	ApiService SitesAssetsAPI
 	siteId string
 	duration *string
 	start *int32
@@ -1160,7 +1368,7 @@ func (a *SitesAssetsAPIService) GetSiteAssetsOfInterestExecute(r ApiGetSiteAsset
 
 type ApiGetSiteDiscoveredAssetByMapRequest struct {
 	ctx context.Context
-	ApiService *SitesAssetsAPIService
+	ApiService SitesAssetsAPI
 	siteId string
 	mapId string
 }
@@ -1335,7 +1543,7 @@ func (a *SitesAssetsAPIService) GetSiteDiscoveredAssetByMapExecute(r ApiGetSiteD
 
 type ApiImportSiteAssetsRequest struct {
 	ctx context.Context
-	ApiService *SitesAssetsAPIService
+	ApiService SitesAssetsAPI
 	siteId string
 	upsert *ImportSiteAssetsUpsert
 	assetImport *[]AssetImport
@@ -1524,7 +1732,7 @@ func (a *SitesAssetsAPIService) ImportSiteAssetsExecute(r ApiImportSiteAssetsReq
 
 type ApiListSiteAssetsRequest struct {
 	ctx context.Context
-	ApiService *SitesAssetsAPIService
+	ApiService SitesAssetsAPI
 	siteId string
 	page *int32
 	limit *int32
@@ -1719,7 +1927,7 @@ func (a *SitesAssetsAPIService) ListSiteAssetsExecute(r ApiListSiteAssetsRequest
 
 type ApiListSiteAssetsStatsRequest struct {
 	ctx context.Context
-	ApiService *SitesAssetsAPIService
+	ApiService SitesAssetsAPI
 	siteId string
 	page *int32
 	limit *int32
@@ -1947,7 +2155,7 @@ func (a *SitesAssetsAPIService) ListSiteAssetsStatsExecute(r ApiListSiteAssetsSt
 
 type ApiListSiteDiscoveredAssetsRequest struct {
 	ctx context.Context
-	ApiService *SitesAssetsAPIService
+	ApiService SitesAssetsAPI
 	siteId string
 	page *int32
 	limit *int32
@@ -2175,7 +2383,7 @@ func (a *SitesAssetsAPIService) ListSiteDiscoveredAssetsExecute(r ApiListSiteDis
 
 type ApiSearchSiteAssetsRequest struct {
 	ctx context.Context
-	ApiService *SitesAssetsAPIService
+	ApiService SitesAssetsAPI
 	siteId string
 	mac *string
 	mapId *string
@@ -2517,7 +2725,7 @@ func (a *SitesAssetsAPIService) SearchSiteAssetsExecute(r ApiSearchSiteAssetsReq
 
 type ApiUpdateSiteAssetRequest struct {
 	ctx context.Context
-	ApiService *SitesAssetsAPIService
+	ApiService SitesAssetsAPI
 	siteId string
 	assetId string
 	asset *Asset

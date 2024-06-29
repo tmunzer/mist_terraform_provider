@@ -22,12 +22,75 @@ import (
 )
 
 
+type SitesClientsNACAPI interface {
+
+	/*
+	CountSiteNacClientEvents countSiteNacClientEvents
+
+	Count by Distinct Attributes of NAC Client-Events
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiCountSiteNacClientEventsRequest
+	*/
+	CountSiteNacClientEvents(ctx context.Context, siteId string) ApiCountSiteNacClientEventsRequest
+
+	// CountSiteNacClientEventsExecute executes the request
+	//  @return RepsonseCount
+	CountSiteNacClientEventsExecute(r ApiCountSiteNacClientEventsRequest) (*RepsonseCount, *http.Response, error)
+
+	/*
+	CountSiteNacClients countSiteNacClients
+
+	Count by Distinct Attributes of NAC Clients
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiCountSiteNacClientsRequest
+	*/
+	CountSiteNacClients(ctx context.Context, siteId string) ApiCountSiteNacClientsRequest
+
+	// CountSiteNacClientsExecute executes the request
+	//  @return RepsonseCount
+	CountSiteNacClientsExecute(r ApiCountSiteNacClientsRequest) (*RepsonseCount, *http.Response, error)
+
+	/*
+	SearchSiteNacClients searchSiteNacClients
+
+	Search Site NAC Clients
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiSearchSiteNacClientsRequest
+	*/
+	SearchSiteNacClients(ctx context.Context, siteId string) ApiSearchSiteNacClientsRequest
+
+	// SearchSiteNacClientsExecute executes the request
+	//  @return ResponseClientNacSearch
+	SearchSiteNacClientsExecute(r ApiSearchSiteNacClientsRequest) (*ResponseClientNacSearch, *http.Response, error)
+
+	/*
+	SearcsearcSiteNacClientEventsacClientEvents searcsearcSiteNacClientEventsacClientEvents
+
+	Search NAC Client Events
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiSearcsearcSiteNacClientEventsacClientEventsRequest
+	*/
+	SearcsearcSiteNacClientEventsacClientEvents(ctx context.Context, siteId string) ApiSearcsearcSiteNacClientEventsacClientEventsRequest
+
+	// SearcsearcSiteNacClientEventsacClientEventsExecute executes the request
+	//  @return ResponseEventsNacClientSearch
+	SearcsearcSiteNacClientEventsacClientEventsExecute(r ApiSearcsearcSiteNacClientEventsacClientEventsRequest) (*ResponseEventsNacClientSearch, *http.Response, error)
+}
+
 // SitesClientsNACAPIService SitesClientsNACAPI service
 type SitesClientsNACAPIService service
 
 type ApiCountSiteNacClientEventsRequest struct {
 	ctx context.Context
-	ApiService *SitesClientsNACAPIService
+	ApiService SitesClientsNACAPI
 	siteId string
 	distinct *SiteNacClientEventsCountDistinct
 	type_ *string
@@ -262,7 +325,7 @@ func (a *SitesClientsNACAPIService) CountSiteNacClientEventsExecute(r ApiCountSi
 
 type ApiCountSiteNacClientsRequest struct {
 	ctx context.Context
-	ApiService *SitesClientsNACAPIService
+	ApiService SitesClientsNACAPI
 	siteId string
 	distinct *SiteNacClientsCountDistinct
 	lastNacruleId *string
@@ -653,7 +716,7 @@ func (a *SitesClientsNACAPIService) CountSiteNacClientsExecute(r ApiCountSiteNac
 
 type ApiSearchSiteNacClientsRequest struct {
 	ctx context.Context
-	ApiService *SitesClientsNACAPIService
+	ApiService SitesClientsNACAPI
 	siteId string
 	nacruleId *string
 	nacruleMatched *bool
@@ -1051,7 +1114,7 @@ func (a *SitesClientsNACAPIService) SearchSiteNacClientsExecute(r ApiSearchSiteN
 
 type ApiSearcsearcSiteNacClientEventsacClientEventsRequest struct {
 	ctx context.Context
-	ApiService *SitesClientsNACAPIService
+	ApiService SitesClientsNACAPI
 	siteId string
 	type_ *string
 	nacruleId *string

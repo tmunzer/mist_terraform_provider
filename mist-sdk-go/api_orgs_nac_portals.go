@@ -22,12 +22,157 @@ import (
 )
 
 
+type OrgsNACPortalsAPI interface {
+
+	/*
+	CreateOrgNacPortal createOrgNacPortal
+
+	Create Org NAC Portal
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiCreateOrgNacPortalRequest
+	*/
+	CreateOrgNacPortal(ctx context.Context, orgId string) ApiCreateOrgNacPortalRequest
+
+	// CreateOrgNacPortalExecute executes the request
+	//  @return NacPortal
+	CreateOrgNacPortalExecute(r ApiCreateOrgNacPortalRequest) (*NacPortal, *http.Response, error)
+
+	/*
+	DeleteOrgNacPortal deleteOrgNacPortal
+
+	Delete Org NAC Portal
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param nacportalId
+	@return ApiDeleteOrgNacPortalRequest
+	*/
+	DeleteOrgNacPortal(ctx context.Context, orgId string, nacportalId string) ApiDeleteOrgNacPortalRequest
+
+	// DeleteOrgNacPortalExecute executes the request
+	DeleteOrgNacPortalExecute(r ApiDeleteOrgNacPortalRequest) (*http.Response, error)
+
+	/*
+	DownloadOrgNacPortalSsoSamlMetadata downloadOrgNacPortalSsoSamlMetadata
+
+	Download Org NAC Portal SSO SAML Metdata
+
+Example of metadata.xml:
+```xml
+<?xml version="1.0" encoding="UTF-8"?><md:EntityDescriptor xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata" entityID="https://api.mist.com/api/v1/saml/5hdF5g/login" validUntil="2027-10-12T21:59:01Z" xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+    <md:SPSSODescriptor AuthnRequestsSigned="false" WantAssertionsSigned="true" protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol">
+        <md:SingleLogoutService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="https://api.mist.com/api/v1/saml/5hdF5g/logout" />
+        <md:NameIDFormat>urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified</md:NameIDFormat>
+        <md:AssertionConsumerService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="https://api.mist.com/api/v1/saml/5hdF5g/login" index="0" isDefault="true"/>
+        <md:AttributeConsumingService index="0">
+            <md:ServiceName xml:lang="en-US">Mist</md:ServiceName>
+            <md:RequestedAttribute Name="Role" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic" isRequired="true"/>
+            <md:RequestedAttribute Name="FirstName" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic" isRequired="false"/>
+            <md:RequestedAttribute Name="LastName" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic" isRequired="false"/>
+        </md:AttributeConsumingService>
+    </md:SPSSODescriptor>
+</md:EntityDescriptor>
+```
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param nacportalId
+	@return ApiDownloadOrgNacPortalSsoSamlMetadataRequest
+	*/
+	DownloadOrgNacPortalSsoSamlMetadata(ctx context.Context, orgId string, nacportalId string) ApiDownloadOrgNacPortalSsoSamlMetadataRequest
+
+	// DownloadOrgNacPortalSsoSamlMetadataExecute executes the request
+	//  @return *os.File
+	DownloadOrgNacPortalSsoSamlMetadataExecute(r ApiDownloadOrgNacPortalSsoSamlMetadataRequest) (*os.File, *http.Response, error)
+
+	/*
+	GetOrgNacPortal getOrgNacPortal
+
+	Get Org NAC Portal
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param nacportalId
+	@return ApiGetOrgNacPortalRequest
+	*/
+	GetOrgNacPortal(ctx context.Context, orgId string, nacportalId string) ApiGetOrgNacPortalRequest
+
+	// GetOrgNacPortalExecute executes the request
+	//  @return NacPortal
+	GetOrgNacPortalExecute(r ApiGetOrgNacPortalRequest) (*NacPortal, *http.Response, error)
+
+	/*
+	GetOrgNacPortalSsoSamlMetadata getOrgNacPortalSsoSamlMetadata
+
+	Get Org NAC Portal SSO SAML Metadata
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param nacportalId
+	@return ApiGetOrgNacPortalSsoSamlMetadataRequest
+	*/
+	GetOrgNacPortalSsoSamlMetadata(ctx context.Context, orgId string, nacportalId string) ApiGetOrgNacPortalSsoSamlMetadataRequest
+
+	// GetOrgNacPortalSsoSamlMetadataExecute executes the request
+	//  @return SsoSamlMetadata
+	GetOrgNacPortalSsoSamlMetadataExecute(r ApiGetOrgNacPortalSsoSamlMetadataRequest) (*SsoSamlMetadata, *http.Response, error)
+
+	/*
+	ListOrgNacPortalSsoLatestFailures listOrgNacPortalSsoLatestFailures
+
+	Get List of Org NAC Portal SSO Latest Failures
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param nacportalId
+	@return ApiListOrgNacPortalSsoLatestFailuresRequest
+	*/
+	ListOrgNacPortalSsoLatestFailures(ctx context.Context, orgId string, nacportalId string) ApiListOrgNacPortalSsoLatestFailuresRequest
+
+	// ListOrgNacPortalSsoLatestFailuresExecute executes the request
+	//  @return ResponseSsoFailureSearch
+	ListOrgNacPortalSsoLatestFailuresExecute(r ApiListOrgNacPortalSsoLatestFailuresRequest) (*ResponseSsoFailureSearch, *http.Response, error)
+
+	/*
+	ListOrgNacPortals listOrgNacPortals
+
+	List Org NAC Portals
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiListOrgNacPortalsRequest
+	*/
+	ListOrgNacPortals(ctx context.Context, orgId string) ApiListOrgNacPortalsRequest
+
+	// ListOrgNacPortalsExecute executes the request
+	//  @return []NacPortal
+	ListOrgNacPortalsExecute(r ApiListOrgNacPortalsRequest) ([]NacPortal, *http.Response, error)
+
+	/*
+	UpdateOrgNacPortal updateOrgNacPortal
+
+	Update Org NAC Portal
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param nacportalId
+	@return ApiUpdateOrgNacPortalRequest
+	*/
+	UpdateOrgNacPortal(ctx context.Context, orgId string, nacportalId string) ApiUpdateOrgNacPortalRequest
+
+	// UpdateOrgNacPortalExecute executes the request
+	//  @return NacPortal
+	UpdateOrgNacPortalExecute(r ApiUpdateOrgNacPortalRequest) (*NacPortal, *http.Response, error)
+}
+
 // OrgsNACPortalsAPIService OrgsNACPortalsAPI service
 type OrgsNACPortalsAPIService service
 
 type ApiCreateOrgNacPortalRequest struct {
 	ctx context.Context
-	ApiService *OrgsNACPortalsAPIService
+	ApiService OrgsNACPortalsAPI
 	orgId string
 	nacPortal *NacPortal
 }
@@ -206,7 +351,7 @@ func (a *OrgsNACPortalsAPIService) CreateOrgNacPortalExecute(r ApiCreateOrgNacPo
 
 type ApiDeleteOrgNacPortalRequest struct {
 	ctx context.Context
-	ApiService *OrgsNACPortalsAPIService
+	ApiService OrgsNACPortalsAPI
 	orgId string
 	nacportalId string
 }
@@ -370,7 +515,7 @@ func (a *OrgsNACPortalsAPIService) DeleteOrgNacPortalExecute(r ApiDeleteOrgNacPo
 
 type ApiDownloadOrgNacPortalSsoSamlMetadataRequest struct {
 	ctx context.Context
-	ApiService *OrgsNACPortalsAPIService
+	ApiService OrgsNACPortalsAPI
 	orgId string
 	nacportalId string
 }
@@ -562,7 +707,7 @@ func (a *OrgsNACPortalsAPIService) DownloadOrgNacPortalSsoSamlMetadataExecute(r 
 
 type ApiGetOrgNacPortalRequest struct {
 	ctx context.Context
-	ApiService *OrgsNACPortalsAPIService
+	ApiService OrgsNACPortalsAPI
 	orgId string
 	nacportalId string
 }
@@ -737,7 +882,7 @@ func (a *OrgsNACPortalsAPIService) GetOrgNacPortalExecute(r ApiGetOrgNacPortalRe
 
 type ApiGetOrgNacPortalSsoSamlMetadataRequest struct {
 	ctx context.Context
-	ApiService *OrgsNACPortalsAPIService
+	ApiService OrgsNACPortalsAPI
 	orgId string
 	nacportalId string
 }
@@ -912,7 +1057,7 @@ func (a *OrgsNACPortalsAPIService) GetOrgNacPortalSsoSamlMetadataExecute(r ApiGe
 
 type ApiListOrgNacPortalSsoLatestFailuresRequest struct {
 	ctx context.Context
-	ApiService *OrgsNACPortalsAPIService
+	ApiService OrgsNACPortalsAPI
 	orgId string
 	nacportalId string
 	page *int32
@@ -1144,7 +1289,7 @@ func (a *OrgsNACPortalsAPIService) ListOrgNacPortalSsoLatestFailuresExecute(r Ap
 
 type ApiListOrgNacPortalsRequest struct {
 	ctx context.Context
-	ApiService *OrgsNACPortalsAPIService
+	ApiService OrgsNACPortalsAPI
 	orgId string
 	page *int32
 	limit *int32
@@ -1339,7 +1484,7 @@ func (a *OrgsNACPortalsAPIService) ListOrgNacPortalsExecute(r ApiListOrgNacPorta
 
 type ApiUpdateOrgNacPortalRequest struct {
 	ctx context.Context
-	ApiService *OrgsNACPortalsAPIService
+	ApiService OrgsNACPortalsAPI
 	orgId string
 	nacportalId string
 	nacPortal *NacPortal

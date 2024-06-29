@@ -20,12 +20,76 @@ import (
 )
 
 
+type ConstantsDefinitionsAPI interface {
+
+	/*
+	ListAlarmDefinitions listAlarmDefinitions
+
+	Get List of brief definitions of all the supported alarm types. The
+example field contains an example payload as you would recieve in the
+alarm webhook output.
+
+
+HA cluster node names will be specified in the `node` field, if applicable.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiListAlarmDefinitionsRequest
+	*/
+	ListAlarmDefinitions(ctx context.Context) ApiListAlarmDefinitionsRequest
+
+	// ListAlarmDefinitionsExecute executes the request
+	//  @return []ConstAlarmDefinition
+	ListAlarmDefinitionsExecute(r ApiListAlarmDefinitionsRequest) ([]ConstAlarmDefinition, *http.Response, error)
+
+	/*
+	ListApLedDefinition listApLedDefinition
+
+	Get List of AP LED definition
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiListApLedDefinitionRequest
+	*/
+	ListApLedDefinition(ctx context.Context) ApiListApLedDefinitionRequest
+
+	// ListApLedDefinitionExecute executes the request
+	//  @return []ConstApLed
+	ListApLedDefinitionExecute(r ApiListApLedDefinitionRequest) ([]ConstApLed, *http.Response, error)
+
+	/*
+	ListAppCategoryDefinitions listAppCategoryDefinitions
+
+	Get List of definitions of all the supported Application Categories. The example field contains an example payload as you would recieve in the alarm webhook output.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiListAppCategoryDefinitionsRequest
+	*/
+	ListAppCategoryDefinitions(ctx context.Context) ApiListAppCategoryDefinitionsRequest
+
+	// ListAppCategoryDefinitionsExecute executes the request
+	//  @return []ConstAppCategoryDefinition
+	ListAppCategoryDefinitionsExecute(r ApiListAppCategoryDefinitionsRequest) ([]ConstAppCategoryDefinition, *http.Response, error)
+
+	/*
+	ListAppSubCategoryDefinitions listAppSubCategoryDefinitions
+
+	Get List of definitions of all the supported Application sub-categories. The example field contains an example payload as you would recieve in the alarm webhook output.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiListAppSubCategoryDefinitionsRequest
+	*/
+	ListAppSubCategoryDefinitions(ctx context.Context) ApiListAppSubCategoryDefinitionsRequest
+
+	// ListAppSubCategoryDefinitionsExecute executes the request
+	//  @return []ConstAppSubcategoryDefinition
+	ListAppSubCategoryDefinitionsExecute(r ApiListAppSubCategoryDefinitionsRequest) ([]ConstAppSubcategoryDefinition, *http.Response, error)
+}
+
 // ConstantsDefinitionsAPIService ConstantsDefinitionsAPI service
 type ConstantsDefinitionsAPIService service
 
 type ApiListAlarmDefinitionsRequest struct {
 	ctx context.Context
-	ApiService *ConstantsDefinitionsAPIService
+	ApiService ConstantsDefinitionsAPI
 }
 
 func (r ApiListAlarmDefinitionsRequest) Execute() ([]ConstAlarmDefinition, *http.Response, error) {
@@ -197,7 +261,7 @@ func (a *ConstantsDefinitionsAPIService) ListAlarmDefinitionsExecute(r ApiListAl
 
 type ApiListApLedDefinitionRequest struct {
 	ctx context.Context
-	ApiService *ConstantsDefinitionsAPIService
+	ApiService ConstantsDefinitionsAPI
 }
 
 func (r ApiListApLedDefinitionRequest) Execute() ([]ConstApLed, *http.Response, error) {
@@ -364,7 +428,7 @@ func (a *ConstantsDefinitionsAPIService) ListApLedDefinitionExecute(r ApiListApL
 
 type ApiListAppCategoryDefinitionsRequest struct {
 	ctx context.Context
-	ApiService *ConstantsDefinitionsAPIService
+	ApiService ConstantsDefinitionsAPI
 }
 
 func (r ApiListAppCategoryDefinitionsRequest) Execute() ([]ConstAppCategoryDefinition, *http.Response, error) {
@@ -531,7 +595,7 @@ func (a *ConstantsDefinitionsAPIService) ListAppCategoryDefinitionsExecute(r Api
 
 type ApiListAppSubCategoryDefinitionsRequest struct {
 	ctx context.Context
-	ApiService *ConstantsDefinitionsAPIService
+	ApiService ConstantsDefinitionsAPI
 }
 
 func (r ApiListAppSubCategoryDefinitionsRequest) Execute() ([]ConstAppSubcategoryDefinition, *http.Response, error) {

@@ -21,12 +21,124 @@ import (
 )
 
 
+type OrgsAPI interface {
+
+	/*
+	CloneOrg cloneOrg
+
+	Create an Org by cloning from another one. Org Settings, Templates, Wxlan Tags, Wxlan Tunnels, Wxlan Rules, Org Wlans will be copied. Sites and Site Groups will not be copied, and therefore, the copied template will not be applied to any site/sitegroups.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiCloneOrgRequest
+	*/
+	CloneOrg(ctx context.Context, orgId string) ApiCloneOrgRequest
+
+	// CloneOrgExecute executes the request
+	//  @return Org
+	CloneOrgExecute(r ApiCloneOrgRequest) (*Org, *http.Response, error)
+
+	/*
+	CreateOrg createOrg
+
+	Org admin can invite people to manage the org. Furthermore, he can dictate the level of security those accounts are. The check is enforced when the invited admin tries to “accept” the invitation and every time the admin tries to login
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiCreateOrgRequest
+	*/
+	CreateOrg(ctx context.Context) ApiCreateOrgRequest
+
+	// CreateOrgExecute executes the request
+	//  @return Org
+	CreateOrgExecute(r ApiCreateOrgRequest) (*Org, *http.Response, error)
+
+	/*
+	DeleteOrg deleteOrg
+
+	Delete Org
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiDeleteOrgRequest
+	*/
+	DeleteOrg(ctx context.Context, orgId string) ApiDeleteOrgRequest
+
+	// DeleteOrgExecute executes the request
+	DeleteOrgExecute(r ApiDeleteOrgRequest) (*http.Response, error)
+
+	/*
+	GetOrg getOrg
+
+	Get Organization information
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiGetOrgRequest
+	*/
+	GetOrg(ctx context.Context, orgId string) ApiGetOrgRequest
+
+	// GetOrgExecute executes the request
+	//  @return Org
+	GetOrgExecute(r ApiGetOrgRequest) (*Org, *http.Response, error)
+
+	/*
+	GetOrgStats getOrgStats
+
+	Get Org Stats
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiGetOrgStatsRequest
+	*/
+	GetOrgStats(ctx context.Context, orgId string) ApiGetOrgStatsRequest
+
+	// GetOrgStatsExecute executes the request
+	//  @return OrgStats
+	GetOrgStatsExecute(r ApiGetOrgStatsRequest) (*OrgStats, *http.Response, error)
+
+	/*
+	SearchOrgEvents searchOrgEvents
+
+	Search Org events
+
+
+Supported Event Types:
+- CRADLEPOINT_SYNC_FAILED
+- ORG_CA_CERT_ADDED
+- ORG_CA_CERT_REGENERATED
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiSearchOrgEventsRequest
+	*/
+	SearchOrgEvents(ctx context.Context, orgId string) ApiSearchOrgEventsRequest
+
+	// SearchOrgEventsExecute executes the request
+	//  @return ResponseEventsOrgsSearch
+	SearchOrgEventsExecute(r ApiSearchOrgEventsRequest) (*ResponseEventsOrgsSearch, *http.Response, error)
+
+	/*
+	UpdateOrg updateOrg
+
+	Update Org
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiUpdateOrgRequest
+	*/
+	UpdateOrg(ctx context.Context, orgId string) ApiUpdateOrgRequest
+
+	// UpdateOrgExecute executes the request
+	//  @return Org
+	UpdateOrgExecute(r ApiUpdateOrgRequest) (*Org, *http.Response, error)
+}
+
 // OrgsAPIService OrgsAPI service
 type OrgsAPIService service
 
 type ApiCloneOrgRequest struct {
 	ctx context.Context
-	ApiService *OrgsAPIService
+	ApiService OrgsAPI
 	orgId string
 	nameString *NameString
 }
@@ -206,7 +318,7 @@ func (a *OrgsAPIService) CloneOrgExecute(r ApiCloneOrgRequest) (*Org, *http.Resp
 
 type ApiCreateOrgRequest struct {
 	ctx context.Context
-	ApiService *OrgsAPIService
+	ApiService OrgsAPI
 	org *Org
 }
 
@@ -381,7 +493,7 @@ func (a *OrgsAPIService) CreateOrgExecute(r ApiCreateOrgRequest) (*Org, *http.Re
 
 type ApiDeleteOrgRequest struct {
 	ctx context.Context
-	ApiService *OrgsAPIService
+	ApiService OrgsAPI
 	orgId string
 }
 
@@ -541,7 +653,7 @@ func (a *OrgsAPIService) DeleteOrgExecute(r ApiDeleteOrgRequest) (*http.Response
 
 type ApiGetOrgRequest struct {
 	ctx context.Context
-	ApiService *OrgsAPIService
+	ApiService OrgsAPI
 	orgId string
 }
 
@@ -712,7 +824,7 @@ func (a *OrgsAPIService) GetOrgExecute(r ApiGetOrgRequest) (*Org, *http.Response
 
 type ApiGetOrgStatsRequest struct {
 	ctx context.Context
-	ApiService *OrgsAPIService
+	ApiService OrgsAPI
 	orgId string
 	page *int32
 	limit *int32
@@ -940,7 +1052,7 @@ func (a *OrgsAPIService) GetOrgStatsExecute(r ApiGetOrgStatsRequest) (*OrgStats,
 
 type ApiSearchOrgEventsRequest struct {
 	ctx context.Context
-	ApiService *OrgsAPIService
+	ApiService OrgsAPI
 	orgId string
 	type_ *string
 	start *int32
@@ -1172,7 +1284,7 @@ func (a *OrgsAPIService) SearchOrgEventsExecute(r ApiSearchOrgEventsRequest) (*R
 
 type ApiUpdateOrgRequest struct {
 	ctx context.Context
-	ApiService *OrgsAPIService
+	ApiService OrgsAPI
 	orgId string
 	org *Org
 }

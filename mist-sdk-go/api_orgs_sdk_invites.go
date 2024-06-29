@@ -22,12 +22,153 @@ import (
 )
 
 
+type OrgsSDKInvitesAPI interface {
+
+	/*
+	ActivateSdkInvite activateSdkInvite
+
+	Verify secret
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param secret
+	@return ApiActivateSdkInviteRequest
+	*/
+	ActivateSdkInvite(ctx context.Context, secret string) ApiActivateSdkInviteRequest
+
+	// ActivateSdkInviteExecute executes the request
+	//  @return ResponseMobileVerifySecret
+	ActivateSdkInviteExecute(r ApiActivateSdkInviteRequest) (*ResponseMobileVerifySecret, *http.Response, error)
+
+	/*
+	CreateSdkInvite createSdkInvite
+
+	Create SDK Invite
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiCreateSdkInviteRequest
+	*/
+	CreateSdkInvite(ctx context.Context, orgId string) ApiCreateSdkInviteRequest
+
+	// CreateSdkInviteExecute executes the request
+	//  @return Sdkinvite
+	CreateSdkInviteExecute(r ApiCreateSdkInviteRequest) (*Sdkinvite, *http.Response, error)
+
+	/*
+	GetSdkInvite getSdkInvite
+
+	Get SDK Invite Details
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param sdkinviteId
+	@return ApiGetSdkInviteRequest
+	*/
+	GetSdkInvite(ctx context.Context, orgId string, sdkinviteId string) ApiGetSdkInviteRequest
+
+	// GetSdkInviteExecute executes the request
+	//  @return Sdkinvite
+	GetSdkInviteExecute(r ApiGetSdkInviteRequest) (*Sdkinvite, *http.Response, error)
+
+	/*
+	GetSdkInviteQrCode getSdkInviteQrCode
+
+	Revoke SDK Invite
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param sdkinviteId
+	@return ApiGetSdkInviteQrCodeRequest
+	*/
+	GetSdkInviteQrCode(ctx context.Context, orgId string, sdkinviteId string) ApiGetSdkInviteQrCodeRequest
+
+	// GetSdkInviteQrCodeExecute executes the request
+	//  @return *os.File
+	GetSdkInviteQrCodeExecute(r ApiGetSdkInviteQrCodeRequest) (*os.File, *http.Response, error)
+
+	/*
+	ListSdkInvites listSdkInvites
+
+	Get List of Org SDK Invites
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiListSdkInvitesRequest
+	*/
+	ListSdkInvites(ctx context.Context, orgId string) ApiListSdkInvitesRequest
+
+	// ListSdkInvitesExecute executes the request
+	//  @return []Sdkinvite
+	ListSdkInvitesExecute(r ApiListSdkInvitesRequest) ([]Sdkinvite, *http.Response, error)
+
+	/*
+	RevokeSdkInvite revokeSdkInvite
+
+	Revoke SDK Invite
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param sdkinviteId
+	@return ApiRevokeSdkInviteRequest
+	*/
+	RevokeSdkInvite(ctx context.Context, orgId string, sdkinviteId string) ApiRevokeSdkInviteRequest
+
+	// RevokeSdkInviteExecute executes the request
+	RevokeSdkInviteExecute(r ApiRevokeSdkInviteRequest) (*http.Response, error)
+
+	/*
+	SendSdkInviteEmail sendSdkInviteEmail
+
+	Send SDK Invite by Email
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param sdkinviteId
+	@return ApiSendSdkInviteEmailRequest
+	*/
+	SendSdkInviteEmail(ctx context.Context, orgId string, sdkinviteId string) ApiSendSdkInviteEmailRequest
+
+	// SendSdkInviteEmailExecute executes the request
+	SendSdkInviteEmailExecute(r ApiSendSdkInviteEmailRequest) (*http.Response, error)
+
+	/*
+	SendSdkInviteSms sendSdkInviteSms
+
+	Send SDK Invite by SMS
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param sdkinviteId
+	@return ApiSendSdkInviteSmsRequest
+	*/
+	SendSdkInviteSms(ctx context.Context, orgId string, sdkinviteId string) ApiSendSdkInviteSmsRequest
+
+	// SendSdkInviteSmsExecute executes the request
+	SendSdkInviteSmsExecute(r ApiSendSdkInviteSmsRequest) (*http.Response, error)
+
+	/*
+	UpdateSdkInvite updateSdkInvite
+
+	Update SDK Invite
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param sdkinviteId
+	@return ApiUpdateSdkInviteRequest
+	*/
+	UpdateSdkInvite(ctx context.Context, orgId string, sdkinviteId string) ApiUpdateSdkInviteRequest
+
+	// UpdateSdkInviteExecute executes the request
+	//  @return Sdkinvite
+	UpdateSdkInviteExecute(r ApiUpdateSdkInviteRequest) (*Sdkinvite, *http.Response, error)
+}
+
 // OrgsSDKInvitesAPIService OrgsSDKInvitesAPI service
 type OrgsSDKInvitesAPIService service
 
 type ApiActivateSdkInviteRequest struct {
 	ctx context.Context
-	ApiService *OrgsSDKInvitesAPIService
+	ApiService OrgsSDKInvitesAPI
 	secret string
 	deviceIdString *DeviceIdString
 }
@@ -206,7 +347,7 @@ func (a *OrgsSDKInvitesAPIService) ActivateSdkInviteExecute(r ApiActivateSdkInvi
 
 type ApiCreateSdkInviteRequest struct {
 	ctx context.Context
-	ApiService *OrgsSDKInvitesAPIService
+	ApiService OrgsSDKInvitesAPI
 	orgId string
 	sdkinvite *Sdkinvite
 }
@@ -386,7 +527,7 @@ func (a *OrgsSDKInvitesAPIService) CreateSdkInviteExecute(r ApiCreateSdkInviteRe
 
 type ApiGetSdkInviteRequest struct {
 	ctx context.Context
-	ApiService *OrgsSDKInvitesAPIService
+	ApiService OrgsSDKInvitesAPI
 	orgId string
 	sdkinviteId string
 }
@@ -561,7 +702,7 @@ func (a *OrgsSDKInvitesAPIService) GetSdkInviteExecute(r ApiGetSdkInviteRequest)
 
 type ApiGetSdkInviteQrCodeRequest struct {
 	ctx context.Context
-	ApiService *OrgsSDKInvitesAPIService
+	ApiService OrgsSDKInvitesAPI
 	orgId string
 	sdkinviteId string
 }
@@ -736,7 +877,7 @@ func (a *OrgsSDKInvitesAPIService) GetSdkInviteQrCodeExecute(r ApiGetSdkInviteQr
 
 type ApiListSdkInvitesRequest struct {
 	ctx context.Context
-	ApiService *OrgsSDKInvitesAPIService
+	ApiService OrgsSDKInvitesAPI
 	orgId string
 }
 
@@ -907,7 +1048,7 @@ func (a *OrgsSDKInvitesAPIService) ListSdkInvitesExecute(r ApiListSdkInvitesRequ
 
 type ApiRevokeSdkInviteRequest struct {
 	ctx context.Context
-	ApiService *OrgsSDKInvitesAPIService
+	ApiService OrgsSDKInvitesAPI
 	orgId string
 	sdkinviteId string
 }
@@ -1071,7 +1212,7 @@ func (a *OrgsSDKInvitesAPIService) RevokeSdkInviteExecute(r ApiRevokeSdkInviteRe
 
 type ApiSendSdkInviteEmailRequest struct {
 	ctx context.Context
-	ApiService *OrgsSDKInvitesAPIService
+	ApiService OrgsSDKInvitesAPI
 	orgId string
 	sdkinviteId string
 	emailString *EmailString
@@ -1244,7 +1385,7 @@ func (a *OrgsSDKInvitesAPIService) SendSdkInviteEmailExecute(r ApiSendSdkInviteE
 
 type ApiSendSdkInviteSmsRequest struct {
 	ctx context.Context
-	ApiService *OrgsSDKInvitesAPIService
+	ApiService OrgsSDKInvitesAPI
 	orgId string
 	sdkinviteId string
 	sdkInviteSms *SdkInviteSms
@@ -1417,7 +1558,7 @@ func (a *OrgsSDKInvitesAPIService) SendSdkInviteSmsExecute(r ApiSendSdkInviteSms
 
 type ApiUpdateSdkInviteRequest struct {
 	ctx context.Context
-	ApiService *OrgsSDKInvitesAPIService
+	ApiService OrgsSDKInvitesAPI
 	orgId string
 	sdkinviteId string
 	sdkinvite *Sdkinvite

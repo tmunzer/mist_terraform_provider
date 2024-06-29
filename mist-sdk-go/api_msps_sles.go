@@ -21,12 +21,31 @@ import (
 )
 
 
+type MSPsSLEsAPI interface {
+
+	/*
+	GetMspSle getMspSle
+
+	Get MSP SLEs (all/worst Orgs ...)
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param mspId
+	@param metric see /api/v1/const/insight_metrics for available metrics
+	@return ApiGetMspSleRequest
+	*/
+	GetMspSle(ctx context.Context, mspId string, metric string) ApiGetMspSleRequest
+
+	// GetMspSleExecute executes the request
+	//  @return InsightMetrics
+	GetMspSleExecute(r ApiGetMspSleRequest) (*InsightMetrics, *http.Response, error)
+}
+
 // MSPsSLEsAPIService MSPsSLEsAPI service
 type MSPsSLEsAPIService service
 
 type ApiGetMspSleRequest struct {
 	ctx context.Context
-	ApiService *MSPsSLEsAPIService
+	ApiService MSPsSLEsAPI
 	mspId string
 	metric string
 	sle *string

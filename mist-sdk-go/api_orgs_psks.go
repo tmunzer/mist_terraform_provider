@@ -21,12 +21,167 @@ import (
 )
 
 
+type OrgsPsksAPI interface {
+
+	/*
+	CreateOrgPsk createOrgPsk
+
+	Create Org PSK
+
+
+When `usage`==`macs`, corresponding "macs" field will hold a list consisting of client mac addresses (["xx:xx:xx:xx:xx",...]) or mac patterns(["xx:xx:*","xx*",...]) or both (["xx:xx:xx:xx:xx:xx", "xx:*", ...]). This list is capped at 5000
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiCreateOrgPskRequest
+	*/
+	CreateOrgPsk(ctx context.Context, orgId string) ApiCreateOrgPskRequest
+
+	// CreateOrgPskExecute executes the request
+	//  @return Psk
+	CreateOrgPskExecute(r ApiCreateOrgPskRequest) (*Psk, *http.Response, error)
+
+	/*
+	DeleteOrgPsk deleteOrgPsk
+
+	Delete Org PSK
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param pskId PSK ID
+	@return ApiDeleteOrgPskRequest
+	*/
+	DeleteOrgPsk(ctx context.Context, orgId string, pskId string) ApiDeleteOrgPskRequest
+
+	// DeleteOrgPskExecute executes the request
+	DeleteOrgPskExecute(r ApiDeleteOrgPskRequest) (*http.Response, error)
+
+	/*
+	DeleteOrgPskList deleteOrgPskList
+
+	Delete Org PSK List
+
+Delete list of psks on the org. This API accepts single string or list of strings
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiDeleteOrgPskListRequest
+	*/
+	DeleteOrgPskList(ctx context.Context, orgId string) ApiDeleteOrgPskListRequest
+
+	// DeleteOrgPskListExecute executes the request
+	DeleteOrgPskListExecute(r ApiDeleteOrgPskListRequest) (*http.Response, error)
+
+	/*
+	DeleteOrgPskOldPassphrase deleteOrgPskOldPassphrase
+
+	Delete `old_passphrase` from PSK. 
+If successful, response is same as GET, returns the PSK with `old_passphrase` removed.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param pskId PSK ID
+	@return ApiDeleteOrgPskOldPassphraseRequest
+	*/
+	DeleteOrgPskOldPassphrase(ctx context.Context, orgId string, pskId string) ApiDeleteOrgPskOldPassphraseRequest
+
+	// DeleteOrgPskOldPassphraseExecute executes the request
+	//  @return Psk
+	DeleteOrgPskOldPassphraseExecute(r ApiDeleteOrgPskOldPassphraseRequest) (*Psk, *http.Response, error)
+
+	/*
+	GetOrgPsk getOrgPsk
+
+	Get Org PSK Details
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param pskId PSK ID
+	@return ApiGetOrgPskRequest
+	*/
+	GetOrgPsk(ctx context.Context, orgId string, pskId string) ApiGetOrgPskRequest
+
+	// GetOrgPskExecute executes the request
+	//  @return Psk
+	GetOrgPskExecute(r ApiGetOrgPskRequest) (*Psk, *http.Response, error)
+
+	/*
+	ImportOrgPsks importOrgPsks
+
+	Import PSK from CSV file or JSON
+
+## CSV File Format
+```
+PSK Import CSV File Format:
+name,ssid,passphrase,usage,vlan_id,mac,max_usage,role,expire_time,notify_expiry,expiry_notification_time,notify_on_create_or_edit,email
+Common,warehouse,foryoureyesonly,single,35,a31425f31278,0,student,1618594236
+Justin,reception,visible,multi,1002,200,teacher,1618594236
+Common2,ssid,1245678-xx,single,35,a31425f31278,0,student,1618594236,true,7,true,admin@test.com
+```
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiImportOrgPsksRequest
+	*/
+	ImportOrgPsks(ctx context.Context, orgId string) ApiImportOrgPsksRequest
+
+	// ImportOrgPsksExecute executes the request
+	//  @return []Psk
+	ImportOrgPsksExecute(r ApiImportOrgPsksRequest) ([]Psk, *http.Response, error)
+
+	/*
+	ListOrgPsks listOrgPsks
+
+	Get List of Org Psks
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiListOrgPsksRequest
+	*/
+	ListOrgPsks(ctx context.Context, orgId string) ApiListOrgPsksRequest
+
+	// ListOrgPsksExecute executes the request
+	//  @return []Psk
+	ListOrgPsksExecute(r ApiListOrgPsksRequest) ([]Psk, *http.Response, error)
+
+	/*
+	UpdateOrgMultiplePsks updateOrgMultiplePsks
+
+	Update Multiple PSKs
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiUpdateOrgMultiplePsksRequest
+	*/
+	UpdateOrgMultiplePsks(ctx context.Context, orgId string) ApiUpdateOrgMultiplePsksRequest
+
+	// UpdateOrgMultiplePsksExecute executes the request
+	//  @return []Psk
+	UpdateOrgMultiplePsksExecute(r ApiUpdateOrgMultiplePsksRequest) ([]Psk, *http.Response, error)
+
+	/*
+	UpdateOrgPsk updateOrgPsk
+
+	Update Org PSK
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param pskId PSK ID
+	@return ApiUpdateOrgPskRequest
+	*/
+	UpdateOrgPsk(ctx context.Context, orgId string, pskId string) ApiUpdateOrgPskRequest
+
+	// UpdateOrgPskExecute executes the request
+	//  @return Psk
+	UpdateOrgPskExecute(r ApiUpdateOrgPskRequest) (*Psk, *http.Response, error)
+}
+
 // OrgsPsksAPIService OrgsPsksAPI service
 type OrgsPsksAPIService service
 
 type ApiCreateOrgPskRequest struct {
 	ctx context.Context
-	ApiService *OrgsPsksAPIService
+	ApiService OrgsPsksAPI
 	orgId string
 	upsert *bool
 	psk *Psk
@@ -219,7 +374,7 @@ func (a *OrgsPsksAPIService) CreateOrgPskExecute(r ApiCreateOrgPskRequest) (*Psk
 
 type ApiDeleteOrgPskRequest struct {
 	ctx context.Context
-	ApiService *OrgsPsksAPIService
+	ApiService OrgsPsksAPI
 	orgId string
 	pskId string
 }
@@ -383,7 +538,7 @@ func (a *OrgsPsksAPIService) DeleteOrgPskExecute(r ApiDeleteOrgPskRequest) (*htt
 
 type ApiDeleteOrgPskListRequest struct {
 	ctx context.Context
-	ApiService *OrgsPsksAPIService
+	ApiService OrgsPsksAPI
 	orgId string
 	pskIdList *PskIdList
 }
@@ -553,7 +708,7 @@ func (a *OrgsPsksAPIService) DeleteOrgPskListExecute(r ApiDeleteOrgPskListReques
 
 type ApiDeleteOrgPskOldPassphraseRequest struct {
 	ctx context.Context
-	ApiService *OrgsPsksAPIService
+	ApiService OrgsPsksAPI
 	orgId string
 	pskId string
 }
@@ -729,7 +884,7 @@ func (a *OrgsPsksAPIService) DeleteOrgPskOldPassphraseExecute(r ApiDeleteOrgPskO
 
 type ApiGetOrgPskRequest struct {
 	ctx context.Context
-	ApiService *OrgsPsksAPIService
+	ApiService OrgsPsksAPI
 	orgId string
 	pskId string
 }
@@ -904,7 +1059,7 @@ func (a *OrgsPsksAPIService) GetOrgPskExecute(r ApiGetOrgPskRequest) (*Psk, *htt
 
 type ApiImportOrgPsksRequest struct {
 	ctx context.Context
-	ApiService *OrgsPsksAPIService
+	ApiService OrgsPsksAPI
 	orgId string
 	psk *[]Psk
 }
@@ -1092,7 +1247,7 @@ func (a *OrgsPsksAPIService) ImportOrgPsksExecute(r ApiImportOrgPsksRequest) ([]
 
 type ApiListOrgPsksRequest struct {
 	ctx context.Context
-	ApiService *OrgsPsksAPIService
+	ApiService OrgsPsksAPI
 	orgId string
 	name *string
 	ssid *string
@@ -1314,7 +1469,7 @@ func (a *OrgsPsksAPIService) ListOrgPsksExecute(r ApiListOrgPsksRequest) ([]Psk,
 
 type ApiUpdateOrgMultiplePsksRequest struct {
 	ctx context.Context
-	ApiService *OrgsPsksAPIService
+	ApiService OrgsPsksAPI
 	orgId string
 	psk *[]Psk
 }
@@ -1493,7 +1648,7 @@ func (a *OrgsPsksAPIService) UpdateOrgMultiplePsksExecute(r ApiUpdateOrgMultiple
 
 type ApiUpdateOrgPskRequest struct {
 	ctx context.Context
-	ApiService *OrgsPsksAPIService
+	ApiService OrgsPsksAPI
 	orgId string
 	pskId string
 	psk *Psk

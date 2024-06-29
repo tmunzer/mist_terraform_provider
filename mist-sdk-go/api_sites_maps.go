@@ -22,12 +22,199 @@ import (
 )
 
 
+type SitesMapsAPI interface {
+
+	/*
+	AddSiteMapImage addSiteMapImage
+
+	Add image map is a multipart POST which has an file (Image) and an optional json parameter
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param mapId
+	@return ApiAddSiteMapImageRequest
+	*/
+	AddSiteMapImage(ctx context.Context, siteId string, mapId string) ApiAddSiteMapImageRequest
+
+	// AddSiteMapImageExecute executes the request
+	AddSiteMapImageExecute(r ApiAddSiteMapImageRequest) (*http.Response, error)
+
+	/*
+	BulkAssignSiteApsToMap bulkAssignSiteApsToMap
+
+	This API can be used to assign a list of AP Macs associated with site_id to the specified map_id. Note that map_id must be associated with corresponding site_id. This API obeys the following rules 
+1. if AP is unassigned to any Map, it gets associated with map_id 
+2. Any moved APs are returned in the response 
+3. If the AP is considered a locked AP, no action will be taken
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param mapId
+	@return ApiBulkAssignSiteApsToMapRequest
+	*/
+	BulkAssignSiteApsToMap(ctx context.Context, siteId string, mapId string) ApiBulkAssignSiteApsToMapRequest
+
+	// BulkAssignSiteApsToMapExecute executes the request
+	//  @return ResponseSetDevicesMap
+	BulkAssignSiteApsToMapExecute(r ApiBulkAssignSiteApsToMapRequest) (*ResponseSetDevicesMap, *http.Response, error)
+
+	/*
+	CreateSiteMap createSiteMap
+
+	Create Site Map
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiCreateSiteMapRequest
+	*/
+	CreateSiteMap(ctx context.Context, siteId string) ApiCreateSiteMapRequest
+
+	// CreateSiteMapExecute executes the request
+	//  @return ModelMap
+	CreateSiteMapExecute(r ApiCreateSiteMapRequest) (*ModelMap, *http.Response, error)
+
+	/*
+	DeleteSiteMap deleteSiteMap
+
+	Delete Site Map
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param mapId
+	@return ApiDeleteSiteMapRequest
+	*/
+	DeleteSiteMap(ctx context.Context, siteId string, mapId string) ApiDeleteSiteMapRequest
+
+	// DeleteSiteMapExecute executes the request
+	DeleteSiteMapExecute(r ApiDeleteSiteMapRequest) (*http.Response, error)
+
+	/*
+	DeleteSiteMapImage deleteSiteMapImage
+
+	Delete Site Map Image
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param mapId
+	@return ApiDeleteSiteMapImageRequest
+	*/
+	DeleteSiteMapImage(ctx context.Context, siteId string, mapId string) ApiDeleteSiteMapImageRequest
+
+	// DeleteSiteMapImageExecute executes the request
+	DeleteSiteMapImageExecute(r ApiDeleteSiteMapImageRequest) (*http.Response, error)
+
+	/*
+	GetSiteMap getSiteMap
+
+	Get Site Map Details
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param mapId
+	@return ApiGetSiteMapRequest
+	*/
+	GetSiteMap(ctx context.Context, siteId string, mapId string) ApiGetSiteMapRequest
+
+	// GetSiteMapExecute executes the request
+	//  @return ModelMap
+	GetSiteMapExecute(r ApiGetSiteMapRequest) (*ModelMap, *http.Response, error)
+
+	/*
+	ImportSiteMaps importSiteMaps
+
+	Import data from files is a multipart POST which has an file, an optional json, and an optional csv, to create floorplan, assign matching inventory to specific site, place ap if name or mac matches.
+
+# Note
+This endpoint (at the site level), the AP must be already assigned to the site to be placed on the floorplan. If you want to place APs from the Org inventory, it is required to use the endpoint at the Org level [importOrgMaps](#operation/importOrgMaps)
+
+# CSV File Format
+```csv
+Vendor AP name,Mist AP Mac
+US Office AP-2,5c:5b:35:00:00:02
+US Office AP-3,5c5b35000002
+```
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiImportSiteMapsRequest
+	*/
+	ImportSiteMaps(ctx context.Context, siteId string) ApiImportSiteMapsRequest
+
+	// ImportSiteMapsExecute executes the request
+	//  @return ResponseMapImport
+	ImportSiteMapsExecute(r ApiImportSiteMapsRequest) (*ResponseMapImport, *http.Response, error)
+
+	/*
+	ImportSiteWayfindings importSiteWayfindings
+
+	This imports the vendor map meta data into the Map JSON. This is required by the SDK and App in order to access/render the vendor Map properly.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param mapId
+	@return ApiImportSiteWayfindingsRequest
+	*/
+	ImportSiteWayfindings(ctx context.Context, siteId string, mapId string) ApiImportSiteWayfindingsRequest
+
+	// ImportSiteWayfindingsExecute executes the request
+	ImportSiteWayfindingsExecute(r ApiImportSiteWayfindingsRequest) (*http.Response, error)
+
+	/*
+	ListSiteMaps listSiteMaps
+
+	Get List of Site Maps
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiListSiteMapsRequest
+	*/
+	ListSiteMaps(ctx context.Context, siteId string) ApiListSiteMapsRequest
+
+	// ListSiteMapsExecute executes the request
+	//  @return []ModelMap
+	ListSiteMapsExecute(r ApiListSiteMapsRequest) ([]ModelMap, *http.Response, error)
+
+	/*
+	ReplaceSiteMapImage replaceSiteMapImage
+
+	Replace Map Image
+
+
+This works like an PUT where the image will be replaced. If transform is provided, all the locations of the objects on the map (AP, Zone, Vbeacon, Beacon) will be transformed as well (relative to the new Map)
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param mapId
+	@return ApiReplaceSiteMapImageRequest
+	*/
+	ReplaceSiteMapImage(ctx context.Context, siteId string, mapId string) ApiReplaceSiteMapImageRequest
+
+	// ReplaceSiteMapImageExecute executes the request
+	ReplaceSiteMapImageExecute(r ApiReplaceSiteMapImageRequest) (*http.Response, error)
+
+	/*
+	UpdateSiteMap updateSiteMap
+
+	Update Site Map
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param mapId
+	@return ApiUpdateSiteMapRequest
+	*/
+	UpdateSiteMap(ctx context.Context, siteId string, mapId string) ApiUpdateSiteMapRequest
+
+	// UpdateSiteMapExecute executes the request
+	//  @return ModelMap
+	UpdateSiteMapExecute(r ApiUpdateSiteMapRequest) (*ModelMap, *http.Response, error)
+}
+
 // SitesMapsAPIService SitesMapsAPI service
 type SitesMapsAPIService service
 
 type ApiAddSiteMapImageRequest struct {
 	ctx context.Context
-	ApiService *SitesMapsAPIService
+	ApiService SitesMapsAPI
 	siteId string
 	mapId string
 	file *os.File
@@ -226,7 +413,7 @@ func (a *SitesMapsAPIService) AddSiteMapImageExecute(r ApiAddSiteMapImageRequest
 
 type ApiBulkAssignSiteApsToMapRequest struct {
 	ctx context.Context
-	ApiService *SitesMapsAPIService
+	ApiService SitesMapsAPI
 	siteId string
 	mapId string
 	macAddresses *MacAddresses
@@ -412,7 +599,7 @@ func (a *SitesMapsAPIService) BulkAssignSiteApsToMapExecute(r ApiBulkAssignSiteA
 
 type ApiCreateSiteMapRequest struct {
 	ctx context.Context
-	ApiService *SitesMapsAPIService
+	ApiService SitesMapsAPI
 	siteId string
 	modelMap *ModelMap
 }
@@ -592,7 +779,7 @@ func (a *SitesMapsAPIService) CreateSiteMapExecute(r ApiCreateSiteMapRequest) (*
 
 type ApiDeleteSiteMapRequest struct {
 	ctx context.Context
-	ApiService *SitesMapsAPIService
+	ApiService SitesMapsAPI
 	siteId string
 	mapId string
 }
@@ -756,7 +943,7 @@ func (a *SitesMapsAPIService) DeleteSiteMapExecute(r ApiDeleteSiteMapRequest) (*
 
 type ApiDeleteSiteMapImageRequest struct {
 	ctx context.Context
-	ApiService *SitesMapsAPIService
+	ApiService SitesMapsAPI
 	siteId string
 	mapId string
 }
@@ -920,7 +1107,7 @@ func (a *SitesMapsAPIService) DeleteSiteMapImageExecute(r ApiDeleteSiteMapImageR
 
 type ApiGetSiteMapRequest struct {
 	ctx context.Context
-	ApiService *SitesMapsAPIService
+	ApiService SitesMapsAPI
 	siteId string
 	mapId string
 }
@@ -1095,7 +1282,7 @@ func (a *SitesMapsAPIService) GetSiteMapExecute(r ApiGetSiteMapRequest) (*ModelM
 
 type ApiImportSiteMapsRequest struct {
 	ctx context.Context
-	ApiService *SitesMapsAPIService
+	ApiService SitesMapsAPI
 	siteId string
 	autoDeviceprofileAssignment *bool
 	csv *os.File
@@ -1343,7 +1530,7 @@ func (a *SitesMapsAPIService) ImportSiteMapsExecute(r ApiImportSiteMapsRequest) 
 
 type ApiImportSiteWayfindingsRequest struct {
 	ctx context.Context
-	ApiService *SitesMapsAPIService
+	ApiService SitesMapsAPI
 	siteId string
 	mapId string
 	wayfindingImportJson *WayfindingImportJson
@@ -1516,7 +1703,7 @@ func (a *SitesMapsAPIService) ImportSiteWayfindingsExecute(r ApiImportSiteWayfin
 
 type ApiListSiteMapsRequest struct {
 	ctx context.Context
-	ApiService *SitesMapsAPIService
+	ApiService SitesMapsAPI
 	siteId string
 	page *int32
 	limit *int32
@@ -1711,7 +1898,7 @@ func (a *SitesMapsAPIService) ListSiteMapsExecute(r ApiListSiteMapsRequest) ([]M
 
 type ApiReplaceSiteMapImageRequest struct {
 	ctx context.Context
-	ApiService *SitesMapsAPIService
+	ApiService SitesMapsAPI
 	siteId string
 	mapId string
 	file *os.File
@@ -1915,7 +2102,7 @@ func (a *SitesMapsAPIService) ReplaceSiteMapImageExecute(r ApiReplaceSiteMapImag
 
 type ApiUpdateSiteMapRequest struct {
 	ctx context.Context
-	ApiService *SitesMapsAPIService
+	ApiService SitesMapsAPI
 	siteId string
 	mapId string
 	modelMap *ModelMap

@@ -24,6 +24,12 @@ func TerraformToSdk(ctx context.Context, plan *GatewaytemplateModel) (mistsdkgo.
 	dhcpd_config := dhcpdConfigTerraformToSdk(ctx, &diags, plan.DhcpdConfig)
 	data.SetDhcpdConfig(dhcpd_config)
 
+	data.SetDnsOverride(plan.DnsOverride.ValueBool())
+
+	data.SetDnsServers(mist_transform.ListOfStringTerraformToSdk(ctx, plan.DnsServers))
+
+	data.SetDnsSuffix(mist_transform.ListOfStringTerraformToSdk(ctx, plan.DnsSuffix))
+
 	extra_routes := extraRouteTerraformToSdk(ctx, &diags, plan.ExtraRoutes)
 	data.SetExtraRoutes(extra_routes)
 
@@ -35,6 +41,10 @@ func TerraformToSdk(ctx context.Context, plan *GatewaytemplateModel) (mistsdkgo.
 
 	networks := networksTerraformToSdk(ctx, &diags, plan.Networks)
 	data.SetNetworks(networks)
+
+	data.SetNtpOverride(plan.NtpOverride.ValueBool())
+
+	data.SetNtpServers(mist_transform.ListOfStringTerraformToSdk(ctx, plan.NtpServers))
 
 	path_preferences := pathPreferencesTerraformToSdk(ctx, &diags, plan.PathPreferences)
 	data.SetPathPreferences(path_preferences)

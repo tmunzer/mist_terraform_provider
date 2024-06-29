@@ -21,12 +21,46 @@ import (
 )
 
 
+type OrgsSLEsAPI interface {
+
+	/*
+	GetOrgSitesSle getOrgSitesSle
+
+	Get Org Sites SLE
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiGetOrgSitesSleRequest
+	*/
+	GetOrgSitesSle(ctx context.Context, orgId string) ApiGetOrgSitesSleRequest
+
+	// GetOrgSitesSleExecute executes the request
+	//  @return ResponseOrgSiteSle
+	GetOrgSitesSleExecute(r ApiGetOrgSitesSleRequest) (*ResponseOrgSiteSle, *http.Response, error)
+
+	/*
+	GetOrgSle getOrgSle
+
+	Get Org SLEs (all/worst sites, Mx Edges, ...)
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param metric see /api/v1/const/insight_metrics for available metrics
+	@return ApiGetOrgSleRequest
+	*/
+	GetOrgSle(ctx context.Context, orgId string, metric string) ApiGetOrgSleRequest
+
+	// GetOrgSleExecute executes the request
+	//  @return InsightMetrics
+	GetOrgSleExecute(r ApiGetOrgSleRequest) (*InsightMetrics, *http.Response, error)
+}
+
 // OrgsSLEsAPIService OrgsSLEsAPI service
 type OrgsSLEsAPIService service
 
 type ApiGetOrgSitesSleRequest struct {
 	ctx context.Context
-	ApiService *OrgsSLEsAPIService
+	ApiService OrgsSLEsAPI
 	orgId string
 	sle *OrgSiteSleType
 	start *int32
@@ -273,7 +307,7 @@ func (a *OrgsSLEsAPIService) GetOrgSitesSleExecute(r ApiGetOrgSitesSleRequest) (
 
 type ApiGetOrgSleRequest struct {
 	ctx context.Context
-	ApiService *OrgsSLEsAPIService
+	ApiService OrgsSLEsAPI
 	orgId string
 	metric string
 	sle *string

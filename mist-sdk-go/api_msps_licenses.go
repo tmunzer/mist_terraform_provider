@@ -21,12 +21,74 @@ import (
 )
 
 
+type MSPsLicensesAPI interface {
+
+	/*
+	ClaimMspLicence claimMspLicence
+
+	Claim an Order by Activation Code
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param mspId
+	@return ApiClaimMspLicenceRequest
+	*/
+	ClaimMspLicence(ctx context.Context, mspId string) ApiClaimMspLicenceRequest
+
+	// ClaimMspLicenceExecute executes the request
+	//  @return ResponseClaimLicense
+	ClaimMspLicenceExecute(r ApiClaimMspLicenceRequest) (*ResponseClaimLicense, *http.Response, error)
+
+	/*
+	ListMspLicenses listMspLicenses
+
+	Get List of Msp Licenses
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param mspId
+	@return ApiListMspLicensesRequest
+	*/
+	ListMspLicenses(ctx context.Context, mspId string) ApiListMspLicensesRequest
+
+	// ListMspLicensesExecute executes the request
+	//  @return License
+	ListMspLicensesExecute(r ApiListMspLicensesRequest) (*License, *http.Response, error)
+
+	/*
+	ListMspOrgLicenses listMspOrgLicenses
+
+	Get List of MSP Licences
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param mspId
+	@return ApiListMspOrgLicensesRequest
+	*/
+	ListMspOrgLicenses(ctx context.Context, mspId string) ApiListMspOrgLicensesRequest
+
+	// ListMspOrgLicensesExecute executes the request
+	//  @return License
+	ListMspOrgLicensesExecute(r ApiListMspOrgLicensesRequest) (*License, *http.Response, error)
+
+	/*
+	MoveOrDeleteMspLicenseToAnotherOrg moveOrDeleteMspLicenseToAnotherOrg
+
+	Move or Delete MSP Licenses
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param mspId
+	@return ApiMoveOrDeleteMspLicenseToAnotherOrgRequest
+	*/
+	MoveOrDeleteMspLicenseToAnotherOrg(ctx context.Context, mspId string) ApiMoveOrDeleteMspLicenseToAnotherOrgRequest
+
+	// MoveOrDeleteMspLicenseToAnotherOrgExecute executes the request
+	MoveOrDeleteMspLicenseToAnotherOrgExecute(r ApiMoveOrDeleteMspLicenseToAnotherOrgRequest) (*http.Response, error)
+}
+
 // MSPsLicensesAPIService MSPsLicensesAPI service
 type MSPsLicensesAPIService service
 
 type ApiClaimMspLicenceRequest struct {
 	ctx context.Context
-	ApiService *MSPsLicensesAPIService
+	ApiService MSPsLicensesAPI
 	mspId string
 	codeString *CodeString
 }
@@ -194,7 +256,7 @@ func (a *MSPsLicensesAPIService) ClaimMspLicenceExecute(r ApiClaimMspLicenceRequ
 
 type ApiListMspLicensesRequest struct {
 	ctx context.Context
-	ApiService *MSPsLicensesAPIService
+	ApiService MSPsLicensesAPI
 	mspId string
 }
 
@@ -365,7 +427,7 @@ func (a *MSPsLicensesAPIService) ListMspLicensesExecute(r ApiListMspLicensesRequ
 
 type ApiListMspOrgLicensesRequest struct {
 	ctx context.Context
-	ApiService *MSPsLicensesAPIService
+	ApiService MSPsLicensesAPI
 	mspId string
 }
 
@@ -536,7 +598,7 @@ func (a *MSPsLicensesAPIService) ListMspOrgLicensesExecute(r ApiListMspOrgLicens
 
 type ApiMoveOrDeleteMspLicenseToAnotherOrgRequest struct {
 	ctx context.Context
-	ApiService *MSPsLicensesAPIService
+	ApiService MSPsLicensesAPI
 	mspId string
 	mspLicenseAction *MspLicenseAction
 }

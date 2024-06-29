@@ -21,12 +21,60 @@ import (
 )
 
 
+type SitesEventsAPI interface {
+
+	/*
+	CountSiteSystemEvents countSiteSystemEvents
+
+	Count System Events
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiCountSiteSystemEventsRequest
+	*/
+	CountSiteSystemEvents(ctx context.Context, siteId string) ApiCountSiteSystemEventsRequest
+
+	// CountSiteSystemEventsExecute executes the request
+	//  @return RepsonseCount
+	CountSiteSystemEventsExecute(r ApiCountSiteSystemEventsRequest) (*RepsonseCount, *http.Response, error)
+
+	/*
+	GetSiteRoamingEvents getSiteRoamingEvents
+
+	Get Roaming Events data
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiGetSiteRoamingEventsRequest
+	*/
+	GetSiteRoamingEvents(ctx context.Context, siteId string) ApiGetSiteRoamingEventsRequest
+
+	// GetSiteRoamingEventsExecute executes the request
+	//  @return ResponseEventsFastroam
+	GetSiteRoamingEventsExecute(r ApiGetSiteRoamingEventsRequest) (*ResponseEventsFastroam, *http.Response, error)
+
+	/*
+	SearchSiteSystemEvents searchSiteSystemEvents
+
+	Search System Events
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiSearchSiteSystemEventsRequest
+	*/
+	SearchSiteSystemEvents(ctx context.Context, siteId string) ApiSearchSiteSystemEventsRequest
+
+	// SearchSiteSystemEventsExecute executes the request
+	//  @return ResponseDeviceEventsSearch
+	SearchSiteSystemEventsExecute(r ApiSearchSiteSystemEventsRequest) (*ResponseDeviceEventsSearch, *http.Response, error)
+}
+
 // SitesEventsAPIService SitesEventsAPI service
 type SitesEventsAPIService service
 
 type ApiCountSiteSystemEventsRequest struct {
 	ctx context.Context
-	ApiService *SitesEventsAPIService
+	ApiService SitesEventsAPI
 	siteId string
 	distinct *SiteSystemEventsCountDistinct
 	type_ *string
@@ -264,7 +312,7 @@ func (a *SitesEventsAPIService) CountSiteSystemEventsExecute(r ApiCountSiteSyste
 
 type ApiGetSiteRoamingEventsRequest struct {
 	ctx context.Context
-	ApiService *SitesEventsAPIService
+	ApiService SitesEventsAPI
 	siteId string
 	type_ *FastRoamResult
 	limit *int32
@@ -490,7 +538,7 @@ func (a *SitesEventsAPIService) GetSiteRoamingEventsExecute(r ApiGetSiteRoamingE
 
 type ApiSearchSiteSystemEventsRequest struct {
 	ctx context.Context
-	ApiService *SitesEventsAPIService
+	ApiService SitesEventsAPI
 	siteId string
 	type_ *string
 	limit *int32

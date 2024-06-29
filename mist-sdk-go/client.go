@@ -50,351 +50,351 @@ type APIClient struct {
 
 	// API Services
 
-	AdminsAPI *AdminsAPIService
+	AdminsAPI AdminsAPI
 
-	AdminsLoginAPI *AdminsLoginAPIService
+	AdminsLoginAPI AdminsLoginAPI
 
-	AdminsLoginOAuth2API *AdminsLoginOAuth2APIService
+	AdminsLoginOAuth2API AdminsLoginOAuth2API
 
-	AdminsLogoutAPI *AdminsLogoutAPIService
+	AdminsLogoutAPI AdminsLogoutAPI
 
-	AdminsLookupAPI *AdminsLookupAPIService
+	AdminsLookupAPI AdminsLookupAPI
 
-	AdminsRecoverPasswordAPI *AdminsRecoverPasswordAPIService
+	AdminsRecoverPasswordAPI AdminsRecoverPasswordAPI
 
-	ConstantsDefinitionsAPI *ConstantsDefinitionsAPIService
+	ConstantsDefinitionsAPI ConstantsDefinitionsAPI
 
-	ConstantsEventsAPI *ConstantsEventsAPIService
+	ConstantsEventsAPI ConstantsEventsAPI
 
-	ConstantsMiscAPI *ConstantsMiscAPIService
+	ConstantsMiscAPI ConstantsMiscAPI
 
-	ConstantsModelsAPI *ConstantsModelsAPIService
+	ConstantsModelsAPI ConstantsModelsAPI
 
-	InstallerAPI *InstallerAPIService
+	InstallerAPI InstallerAPI
 
-	MSPsAPI *MSPsAPIService
+	MSPsAPI MSPsAPI
 
-	MSPsAdminsAPI *MSPsAdminsAPIService
+	MSPsAdminsAPI MSPsAdminsAPI
 
-	MSPsInventoryAPI *MSPsInventoryAPIService
+	MSPsInventoryAPI MSPsInventoryAPI
 
-	MSPsLicensesAPI *MSPsLicensesAPIService
+	MSPsLicensesAPI MSPsLicensesAPI
 
-	MSPsLogoAPI *MSPsLogoAPIService
+	MSPsLogoAPI MSPsLogoAPI
 
-	MSPsLogsAPI *MSPsLogsAPIService
+	MSPsLogsAPI MSPsLogsAPI
 
-	MSPsMarvisAPI *MSPsMarvisAPIService
+	MSPsMarvisAPI MSPsMarvisAPI
 
-	MSPsOrgGroupsAPI *MSPsOrgGroupsAPIService
+	MSPsOrgGroupsAPI MSPsOrgGroupsAPI
 
-	MSPsOrgsAPI *MSPsOrgsAPIService
+	MSPsOrgsAPI MSPsOrgsAPI
 
-	MSPsSLEsAPI *MSPsSLEsAPIService
+	MSPsSLEsAPI MSPsSLEsAPI
 
-	MSPsSSOAPI *MSPsSSOAPIService
+	MSPsSSOAPI MSPsSSOAPI
 
-	MSPsSSORolesAPI *MSPsSSORolesAPIService
+	MSPsSSORolesAPI MSPsSSORolesAPI
 
-	MSPsTicketsAPI *MSPsTicketsAPIService
+	MSPsTicketsAPI MSPsTicketsAPI
 
-	OrgsAPI *OrgsAPIService
+	OrgsAPI OrgsAPI
 
-	OrgsAPITokensAPI *OrgsAPITokensAPIService
+	OrgsAPITokensAPI OrgsAPITokensAPI
 
-	OrgsAPTemplatesAPI *OrgsAPTemplatesAPIService
+	OrgsAPTemplatesAPI OrgsAPTemplatesAPI
 
-	OrgsAdminsAPI *OrgsAdminsAPIService
+	OrgsAdminsAPI OrgsAdminsAPI
 
-	OrgsAlarmTemplatesAPI *OrgsAlarmTemplatesAPIService
+	OrgsAlarmTemplatesAPI OrgsAlarmTemplatesAPI
 
-	OrgsAlarmsAPI *OrgsAlarmsAPIService
+	OrgsAlarmsAPI OrgsAlarmsAPI
 
-	OrgsAssetFiltersAPI *OrgsAssetFiltersAPIService
+	OrgsAssetFiltersAPI OrgsAssetFiltersAPI
 
-	OrgsAssetsAPI *OrgsAssetsAPIService
+	OrgsAssetsAPI OrgsAssetsAPI
 
-	OrgsCRLAPI *OrgsCRLAPIService
+	OrgsCRLAPI OrgsCRLAPI
 
-	OrgsCertAPI *OrgsCertAPIService
+	OrgsCertAPI OrgsCertAPI
 
-	OrgsClientsMarvisAPI *OrgsClientsMarvisAPIService
+	OrgsClientsMarvisAPI OrgsClientsMarvisAPI
 
-	OrgsClientsNACAPI *OrgsClientsNACAPIService
+	OrgsClientsNACAPI OrgsClientsNACAPI
 
-	OrgsClientsSDKAPI *OrgsClientsSDKAPIService
+	OrgsClientsSDKAPI OrgsClientsSDKAPI
 
-	OrgsClientsWanAPI *OrgsClientsWanAPIService
+	OrgsClientsWanAPI OrgsClientsWanAPI
 
-	OrgsClientsWiredAPI *OrgsClientsWiredAPIService
+	OrgsClientsWiredAPI OrgsClientsWiredAPI
 
-	OrgsClientsWirelessAPI *OrgsClientsWirelessAPIService
+	OrgsClientsWirelessAPI OrgsClientsWirelessAPI
 
-	OrgsCradlepointAPI *OrgsCradlepointAPIService
+	OrgsCradlepointAPI OrgsCradlepointAPI
 
-	OrgsDeviceProfilesAPI *OrgsDeviceProfilesAPIService
+	OrgsDeviceProfilesAPI OrgsDeviceProfilesAPI
 
-	OrgsDevicesAPI *OrgsDevicesAPIService
+	OrgsDevicesAPI OrgsDevicesAPI
 
-	OrgsDevicesOthersAPI *OrgsDevicesOthersAPIService
+	OrgsDevicesOthersAPI OrgsDevicesOthersAPI
 
-	OrgsDevicesSSRAPI *OrgsDevicesSSRAPIService
+	OrgsDevicesSSRAPI OrgsDevicesSSRAPI
 
-	OrgsDevicesStatsAPI *OrgsDevicesStatsAPIService
+	OrgsDevicesStatsAPI OrgsDevicesStatsAPI
 
-	OrgsDevicesWANClusterAPI *OrgsDevicesWANClusterAPIService
+	OrgsDevicesWANClusterAPI OrgsDevicesWANClusterAPI
 
-	OrgsDevicesZscalerAPI *OrgsDevicesZscalerAPIService
+	OrgsDevicesZscalerAPI OrgsDevicesZscalerAPI
 
-	OrgsEVPNTopologiesAPI *OrgsEVPNTopologiesAPIService
+	OrgsEVPNTopologiesAPI OrgsEVPNTopologiesAPI
 
-	OrgsGatewayTemplatesAPI *OrgsGatewayTemplatesAPIService
+	OrgsGatewayTemplatesAPI OrgsGatewayTemplatesAPI
 
-	OrgsGuestsAPI *OrgsGuestsAPIService
+	OrgsGuestsAPI OrgsGuestsAPI
 
-	OrgsIDPProfilesAPI *OrgsIDPProfilesAPIService
+	OrgsIDPProfilesAPI OrgsIDPProfilesAPI
 
-	OrgsInventoryAPI *OrgsInventoryAPIService
+	OrgsInventoryAPI OrgsInventoryAPI
 
-	OrgsJSEAPI *OrgsJSEAPIService
+	OrgsJSEAPI OrgsJSEAPI
 
-	OrgsJSIAPI *OrgsJSIAPIService
+	OrgsJSIAPI OrgsJSIAPI
 
-	OrgsLicensesAPI *OrgsLicensesAPIService
+	OrgsLicensesAPI OrgsLicensesAPI
 
-	OrgsLinkedApplicationsAPI *OrgsLinkedApplicationsAPIService
+	OrgsLinkedApplicationsAPI OrgsLinkedApplicationsAPI
 
-	OrgsLogsAPI *OrgsLogsAPIService
+	OrgsLogsAPI OrgsLogsAPI
 
-	OrgsMapsAPI *OrgsMapsAPIService
+	OrgsMapsAPI OrgsMapsAPI
 
-	OrgsMarvisAPI *OrgsMarvisAPIService
+	OrgsMarvisAPI OrgsMarvisAPI
 
-	OrgsMxClustersAPI *OrgsMxClustersAPIService
+	OrgsMxClustersAPI OrgsMxClustersAPI
 
-	OrgsMxEdgesAPI *OrgsMxEdgesAPIService
+	OrgsMxEdgesAPI OrgsMxEdgesAPI
 
-	OrgsMxTunnelsAPI *OrgsMxTunnelsAPIService
+	OrgsMxTunnelsAPI OrgsMxTunnelsAPI
 
-	OrgsNACCRLAPI *OrgsNACCRLAPIService
+	OrgsNACCRLAPI OrgsNACCRLAPI
 
-	OrgsNACIDPAPI *OrgsNACIDPAPIService
+	OrgsNACIDPAPI OrgsNACIDPAPI
 
-	OrgsNACPortalsAPI *OrgsNACPortalsAPIService
+	OrgsNACPortalsAPI OrgsNACPortalsAPI
 
-	OrgsNACRulesAPI *OrgsNACRulesAPIService
+	OrgsNACRulesAPI OrgsNACRulesAPI
 
-	OrgsNACTagsAPI *OrgsNACTagsAPIService
+	OrgsNACTagsAPI OrgsNACTagsAPI
 
-	OrgsNetworkTemplatesAPI *OrgsNetworkTemplatesAPIService
+	OrgsNetworkTemplatesAPI OrgsNetworkTemplatesAPI
 
-	OrgsNetworksAPI *OrgsNetworksAPIService
+	OrgsNetworksAPI OrgsNetworksAPI
 
-	OrgsPremiumAnalyticsAPI *OrgsPremiumAnalyticsAPIService
+	OrgsPremiumAnalyticsAPI OrgsPremiumAnalyticsAPI
 
-	OrgsPskPortalsAPI *OrgsPskPortalsAPIService
+	OrgsPskPortalsAPI OrgsPskPortalsAPI
 
-	OrgsPsksAPI *OrgsPsksAPIService
+	OrgsPsksAPI OrgsPsksAPI
 
-	OrgsRFTemplatesAPI *OrgsRFTemplatesAPIService
+	OrgsRFTemplatesAPI OrgsRFTemplatesAPI
 
-	OrgsSDKInvitesAPI *OrgsSDKInvitesAPIService
+	OrgsSDKInvitesAPI OrgsSDKInvitesAPI
 
-	OrgsSDKTemplatesAPI *OrgsSDKTemplatesAPIService
+	OrgsSDKTemplatesAPI OrgsSDKTemplatesAPI
 
-	OrgsSLEsAPI *OrgsSLEsAPIService
+	OrgsSLEsAPI OrgsSLEsAPI
 
-	OrgsSSOAPI *OrgsSSOAPIService
+	OrgsSSOAPI OrgsSSOAPI
 
-	OrgsSSORolesAPI *OrgsSSORolesAPIService
+	OrgsSSORolesAPI OrgsSSORolesAPI
 
-	OrgsSecPoliciesAPI *OrgsSecPoliciesAPIService
+	OrgsSecPoliciesAPI OrgsSecPoliciesAPI
 
-	OrgsServicePoliciesAPI *OrgsServicePoliciesAPIService
+	OrgsServicePoliciesAPI OrgsServicePoliciesAPI
 
-	OrgsServicesAPI *OrgsServicesAPIService
+	OrgsServicesAPI OrgsServicesAPI
 
-	OrgsSettingAPI *OrgsSettingAPIService
+	OrgsSettingAPI OrgsSettingAPI
 
-	OrgsSiteTemplatesAPI *OrgsSiteTemplatesAPIService
+	OrgsSiteTemplatesAPI OrgsSiteTemplatesAPI
 
-	OrgsSitegroupsAPI *OrgsSitegroupsAPIService
+	OrgsSitegroupsAPI OrgsSitegroupsAPI
 
-	OrgsSitesAPI *OrgsSitesAPIService
+	OrgsSitesAPI OrgsSitesAPI
 
-	OrgsSubscriptionsAPI *OrgsSubscriptionsAPIService
+	OrgsSubscriptionsAPI OrgsSubscriptionsAPI
 
-	OrgsTicketsAPI *OrgsTicketsAPIService
+	OrgsTicketsAPI OrgsTicketsAPI
 
-	OrgsTunnelsAPI *OrgsTunnelsAPIService
+	OrgsTunnelsAPI OrgsTunnelsAPI
 
-	OrgsUserMACsAPI *OrgsUserMACsAPIService
+	OrgsUserMACsAPI OrgsUserMACsAPI
 
-	OrgsVPNsAPI *OrgsVPNsAPIService
+	OrgsVPNsAPI OrgsVPNsAPI
 
-	OrgsVarsAPI *OrgsVarsAPIService
+	OrgsVarsAPI OrgsVarsAPI
 
-	OrgsWLANTemplatesAPI *OrgsWLANTemplatesAPIService
+	OrgsWLANTemplatesAPI OrgsWLANTemplatesAPI
 
-	OrgsWebhooksAPI *OrgsWebhooksAPIService
+	OrgsWebhooksAPI OrgsWebhooksAPI
 
-	OrgsWlansAPI *OrgsWlansAPIService
+	OrgsWlansAPI OrgsWlansAPI
 
-	OrgsWxRulesAPI *OrgsWxRulesAPIService
+	OrgsWxRulesAPI OrgsWxRulesAPI
 
-	OrgsWxTagsAPI *OrgsWxTagsAPIService
+	OrgsWxTagsAPI OrgsWxTagsAPI
 
-	OrgsWxTunnelsAPI *OrgsWxTunnelsAPIService
+	OrgsWxTunnelsAPI OrgsWxTunnelsAPI
 
-	SamplesWebhookAPI *SamplesWebhookAPIService
+	SamplesWebhookAPI SamplesWebhookAPI
 
-	SelfAPITokenAPI *SelfAPITokenAPIService
+	SelfAPITokenAPI SelfAPITokenAPI
 
-	SelfAccountAPI *SelfAccountAPIService
+	SelfAccountAPI SelfAccountAPI
 
-	SelfAlarmsAPI *SelfAlarmsAPIService
+	SelfAlarmsAPI SelfAlarmsAPI
 
-	SelfAuditLogsAPI *SelfAuditLogsAPIService
+	SelfAuditLogsAPI SelfAuditLogsAPI
 
-	SelfMFAAPI *SelfMFAAPIService
+	SelfMFAAPI SelfMFAAPI
 
-	SelfOAuth2API *SelfOAuth2APIService
+	SelfOAuth2API SelfOAuth2API
 
-	SitesAPI *SitesAPIService
+	SitesAPI SitesAPI
 
-	SitesAPTemplatesAPI *SitesAPTemplatesAPIService
+	SitesAPTemplatesAPI SitesAPTemplatesAPI
 
-	SitesAlarmsAPI *SitesAlarmsAPIService
+	SitesAlarmsAPI SitesAlarmsAPI
 
-	SitesAnomalyAPI *SitesAnomalyAPIService
+	SitesAnomalyAPI SitesAnomalyAPI
 
-	SitesApplicationsAPI *SitesApplicationsAPIService
+	SitesApplicationsAPI SitesApplicationsAPI
 
-	SitesAssetFiltersAPI *SitesAssetFiltersAPIService
+	SitesAssetFiltersAPI SitesAssetFiltersAPI
 
-	SitesAssetsAPI *SitesAssetsAPIService
+	SitesAssetsAPI SitesAssetsAPI
 
-	SitesBeaconsAPI *SitesBeaconsAPIService
+	SitesBeaconsAPI SitesBeaconsAPI
 
-	SitesCallsAPI *SitesCallsAPIService
+	SitesCallsAPI SitesCallsAPI
 
-	SitesClientsNACAPI *SitesClientsNACAPIService
+	SitesClientsNACAPI SitesClientsNACAPI
 
-	SitesClientsSDKAPI *SitesClientsSDKAPIService
+	SitesClientsSDKAPI SitesClientsSDKAPI
 
-	SitesClientsWanAPI *SitesClientsWanAPIService
+	SitesClientsWanAPI SitesClientsWanAPI
 
-	SitesClientsWiredAPI *SitesClientsWiredAPIService
+	SitesClientsWiredAPI SitesClientsWiredAPI
 
-	SitesClientsWirelessAPI *SitesClientsWirelessAPIService
+	SitesClientsWirelessAPI SitesClientsWirelessAPI
 
-	SitesDeviceProfilesAPI *SitesDeviceProfilesAPIService
+	SitesDeviceProfilesAPI SitesDeviceProfilesAPI
 
-	SitesDevicesAPI *SitesDevicesAPIService
+	SitesDevicesAPI SitesDevicesAPI
 
-	SitesDevicesDiscoveredSwitchesAPI *SitesDevicesDiscoveredSwitchesAPIService
+	SitesDevicesDiscoveredSwitchesAPI SitesDevicesDiscoveredSwitchesAPI
 
-	SitesDevicesOthersAPI *SitesDevicesOthersAPIService
+	SitesDevicesOthersAPI SitesDevicesOthersAPI
 
-	SitesDevicesStatsAPI *SitesDevicesStatsAPIService
+	SitesDevicesStatsAPI SitesDevicesStatsAPI
 
-	SitesDevicesWANClusterAPI *SitesDevicesWANClusterAPIService
+	SitesDevicesWANClusterAPI SitesDevicesWANClusterAPI
 
-	SitesDevicesWiredAPI *SitesDevicesWiredAPIService
+	SitesDevicesWiredAPI SitesDevicesWiredAPI
 
-	SitesDevicesWiredVirtualChassisAPI *SitesDevicesWiredVirtualChassisAPIService
+	SitesDevicesWiredVirtualChassisAPI SitesDevicesWiredVirtualChassisAPI
 
-	SitesDevicesWirelessAPI *SitesDevicesWirelessAPIService
+	SitesDevicesWirelessAPI SitesDevicesWirelessAPI
 
-	SitesEVPNTopologiesAPI *SitesEVPNTopologiesAPIService
+	SitesEVPNTopologiesAPI SitesEVPNTopologiesAPI
 
-	SitesEventsAPI *SitesEventsAPIService
+	SitesEventsAPI SitesEventsAPI
 
-	SitesGatewayTemplatesAPI *SitesGatewayTemplatesAPIService
+	SitesGatewayTemplatesAPI SitesGatewayTemplatesAPI
 
-	SitesGuestsAPI *SitesGuestsAPIService
+	SitesGuestsAPI SitesGuestsAPI
 
-	SitesInsightsAPI *SitesInsightsAPIService
+	SitesInsightsAPI SitesInsightsAPI
 
-	SitesJSEAPI *SitesJSEAPIService
+	SitesJSEAPI SitesJSEAPI
 
-	SitesLicensesAPI *SitesLicensesAPIService
+	SitesLicensesAPI SitesLicensesAPI
 
-	SitesLocationAPI *SitesLocationAPIService
+	SitesLocationAPI SitesLocationAPI
 
-	SitesMapsAPI *SitesMapsAPIService
+	SitesMapsAPI SitesMapsAPI
 
-	SitesMapsAutoOrientationAPI *SitesMapsAutoOrientationAPIService
+	SitesMapsAutoOrientationAPI SitesMapsAutoOrientationAPI
 
-	SitesMapsAutoPlacementAPI *SitesMapsAutoPlacementAPIService
+	SitesMapsAutoPlacementAPI SitesMapsAutoPlacementAPI
 
-	SitesMxEdgesAPI *SitesMxEdgesAPIService
+	SitesMxEdgesAPI SitesMxEdgesAPI
 
-	SitesNetworkTemplatesAPI *SitesNetworkTemplatesAPIService
+	SitesNetworkTemplatesAPI SitesNetworkTemplatesAPI
 
-	SitesNetworksAPI *SitesNetworksAPIService
+	SitesNetworksAPI SitesNetworksAPI
 
-	SitesPsksAPI *SitesPsksAPIService
+	SitesPsksAPI SitesPsksAPI
 
-	SitesRFTemplatesAPI *SitesRFTemplatesAPIService
+	SitesRFTemplatesAPI SitesRFTemplatesAPI
 
-	SitesRRMAPI *SitesRRMAPIService
+	SitesRRMAPI SitesRRMAPI
 
-	SitesRSSIZonesAPI *SitesRSSIZonesAPIService
+	SitesRSSIZonesAPI SitesRSSIZonesAPI
 
-	SitesRfdiagsAPI *SitesRfdiagsAPIService
+	SitesRfdiagsAPI SitesRfdiagsAPI
 
-	SitesRoguesAPI *SitesRoguesAPIService
+	SitesRoguesAPI SitesRoguesAPI
 
-	SitesSLEsAPI *SitesSLEsAPIService
+	SitesSLEsAPI SitesSLEsAPI
 
-	SitesServicePoliciesAPI *SitesServicePoliciesAPIService
+	SitesServicePoliciesAPI SitesServicePoliciesAPI
 
-	SitesServicesAPI *SitesServicesAPIService
+	SitesServicesAPI SitesServicesAPI
 
-	SitesSettingAPI *SitesSettingAPIService
+	SitesSettingAPI SitesSettingAPI
 
-	SitesSiteTemplatesAPI *SitesSiteTemplatesAPIService
+	SitesSiteTemplatesAPI SitesSiteTemplatesAPI
 
-	SitesSkyatpAPI *SitesSkyatpAPIService
+	SitesSkyatpAPI SitesSkyatpAPI
 
-	SitesSyntheticTestsAPI *SitesSyntheticTestsAPIService
+	SitesSyntheticTestsAPI SitesSyntheticTestsAPI
 
-	SitesUISettingsAPI *SitesUISettingsAPIService
+	SitesUISettingsAPI SitesUISettingsAPI
 
-	SitesVBeaconsAPI *SitesVBeaconsAPIService
+	SitesVBeaconsAPI SitesVBeaconsAPI
 
-	SitesVPNsAPI *SitesVPNsAPIService
+	SitesVPNsAPI SitesVPNsAPI
 
-	SitesWANUsagesAPI *SitesWANUsagesAPIService
+	SitesWANUsagesAPI SitesWANUsagesAPI
 
-	SitesWebhooksAPI *SitesWebhooksAPIService
+	SitesWebhooksAPI SitesWebhooksAPI
 
-	SitesWlansAPI *SitesWlansAPIService
+	SitesWlansAPI SitesWlansAPI
 
-	SitesWxRulesAPI *SitesWxRulesAPIService
+	SitesWxRulesAPI SitesWxRulesAPI
 
-	SitesWxTagsAPI *SitesWxTagsAPIService
+	SitesWxTagsAPI SitesWxTagsAPI
 
-	SitesWxTunnelsAPI *SitesWxTunnelsAPIService
+	SitesWxTunnelsAPI SitesWxTunnelsAPI
 
-	SitesZonesAPI *SitesZonesAPIService
+	SitesZonesAPI SitesZonesAPI
 
-	UtilitiesCommonAPI *UtilitiesCommonAPIService
+	UtilitiesCommonAPI UtilitiesCommonAPI
 
-	UtilitiesLANAPI *UtilitiesLANAPIService
+	UtilitiesLANAPI UtilitiesLANAPI
 
-	UtilitiesLocationAPI *UtilitiesLocationAPIService
+	UtilitiesLocationAPI UtilitiesLocationAPI
 
-	UtilitiesMxEdgeAPI *UtilitiesMxEdgeAPIService
+	UtilitiesMxEdgeAPI UtilitiesMxEdgeAPI
 
-	UtilitiesPCAPsAPI *UtilitiesPCAPsAPIService
+	UtilitiesPCAPsAPI UtilitiesPCAPsAPI
 
-	UtilitiesUpgradeAPI *UtilitiesUpgradeAPIService
+	UtilitiesUpgradeAPI UtilitiesUpgradeAPI
 
-	UtilitiesWANAPI *UtilitiesWANAPIService
+	UtilitiesWANAPI UtilitiesWANAPI
 
-	UtilitiesWiFiAPI *UtilitiesWiFiAPIService
+	UtilitiesWiFiAPI UtilitiesWiFiAPI
 }
 
 type service struct {

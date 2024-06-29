@@ -67,6 +67,7 @@ func (r *gatewaytemplateResource) Create(ctx context.Context, req resource.Creat
 
 	data, _, err := r.client.OrgsGatewayTemplatesAPI.CreateOrgGatewayTemplate(ctx, plan.OrgId.ValueString()).GatewayTemplate(gatewaytemplate).Execute()
 	if err != nil {
+		//url, _ := httpr.Location()
 		resp.Diagnostics.AddError(
 			"Error creating GatewayTemplate",
 			"Could not create GatewayTemplate, unexpected error: "+err.Error(),

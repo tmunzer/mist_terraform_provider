@@ -21,12 +21,75 @@ import (
 )
 
 
+type SitesDevicesDiscoveredSwitchesAPI interface {
+
+	/*
+	CountSiteDiscoveredSwitches countSiteDiscoveredSwitches
+
+	Count Discovered Switches
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiCountSiteDiscoveredSwitchesRequest
+	*/
+	CountSiteDiscoveredSwitches(ctx context.Context, siteId string) ApiCountSiteDiscoveredSwitchesRequest
+
+	// CountSiteDiscoveredSwitchesExecute executes the request
+	//  @return RepsonseCount
+	CountSiteDiscoveredSwitchesExecute(r ApiCountSiteDiscoveredSwitchesRequest) (*RepsonseCount, *http.Response, error)
+
+	/*
+	GetSiteDiscoveredSwitchesMetrics getSiteDiscoveredSwitchesMetrics
+
+	Discovered switches related metrics, lists related switch system names & details if not compliant
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiGetSiteDiscoveredSwitchesMetricsRequest
+	*/
+	GetSiteDiscoveredSwitchesMetrics(ctx context.Context, siteId string) ApiGetSiteDiscoveredSwitchesMetricsRequest
+
+	// GetSiteDiscoveredSwitchesMetricsExecute executes the request
+	//  @return ResponseDswitchesMetrics
+	GetSiteDiscoveredSwitchesMetricsExecute(r ApiGetSiteDiscoveredSwitchesMetricsRequest) (*ResponseDswitchesMetrics, *http.Response, error)
+
+	/*
+	SearchSiteDiscoveredSwitches searchSiteDiscoveredSwitches
+
+	Search Discovered Switches
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiSearchSiteDiscoveredSwitchesRequest
+	*/
+	SearchSiteDiscoveredSwitches(ctx context.Context, siteId string) ApiSearchSiteDiscoveredSwitchesRequest
+
+	// SearchSiteDiscoveredSwitchesExecute executes the request
+	//  @return ResponseDiscoveredSwitches
+	SearchSiteDiscoveredSwitchesExecute(r ApiSearchSiteDiscoveredSwitchesRequest) (*ResponseDiscoveredSwitches, *http.Response, error)
+
+	/*
+	SearchSiteDiscoveredSwitchesMetrics searchSiteDiscoveredSwitchesMetrics
+
+	Search Discovered Switch Metrics
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiSearchSiteDiscoveredSwitchesMetricsRequest
+	*/
+	SearchSiteDiscoveredSwitchesMetrics(ctx context.Context, siteId string) ApiSearchSiteDiscoveredSwitchesMetricsRequest
+
+	// SearchSiteDiscoveredSwitchesMetricsExecute executes the request
+	//  @return ResponseDiscoveredSwitchMetrics
+	SearchSiteDiscoveredSwitchesMetricsExecute(r ApiSearchSiteDiscoveredSwitchesMetricsRequest) (*ResponseDiscoveredSwitchMetrics, *http.Response, error)
+}
+
 // SitesDevicesDiscoveredSwitchesAPIService SitesDevicesDiscoveredSwitchesAPI service
 type SitesDevicesDiscoveredSwitchesAPIService service
 
 type ApiCountSiteDiscoveredSwitchesRequest struct {
 	ctx context.Context
-	ApiService *SitesDevicesDiscoveredSwitchesAPIService
+	ApiService SitesDevicesDiscoveredSwitchesAPI
 	siteId string
 	distinct *SiteDiscoveredSwitchesCountDistinct
 	page *int32
@@ -266,7 +329,7 @@ func (a *SitesDevicesDiscoveredSwitchesAPIService) CountSiteDiscoveredSwitchesEx
 
 type ApiGetSiteDiscoveredSwitchesMetricsRequest struct {
 	ctx context.Context
-	ApiService *SitesDevicesDiscoveredSwitchesAPIService
+	ApiService SitesDevicesDiscoveredSwitchesAPI
 	siteId string
 	threshold *string
 	systemName *string
@@ -457,7 +520,7 @@ func (a *SitesDevicesDiscoveredSwitchesAPIService) GetSiteDiscoveredSwitchesMetr
 
 type ApiSearchSiteDiscoveredSwitchesRequest struct {
 	ctx context.Context
-	ApiService *SitesDevicesDiscoveredSwitchesAPIService
+	ApiService SitesDevicesDiscoveredSwitchesAPI
 	siteId string
 	adopted *bool
 	systemName *string
@@ -727,7 +790,7 @@ func (a *SitesDevicesDiscoveredSwitchesAPIService) SearchSiteDiscoveredSwitchesE
 
 type ApiSearchSiteDiscoveredSwitchesMetricsRequest struct {
 	ctx context.Context
-	ApiService *SitesDevicesDiscoveredSwitchesAPIService
+	ApiService SitesDevicesDiscoveredSwitchesAPI
 	siteId string
 	scope *DiscoveredSwitchesMetricScope
 	type_ *DiscoveredSwitchMetricType

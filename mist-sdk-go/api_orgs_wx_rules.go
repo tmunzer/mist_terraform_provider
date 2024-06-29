@@ -21,12 +21,107 @@ import (
 )
 
 
+type OrgsWxRulesAPI interface {
+
+	/*
+	CreateOrgWxRule createOrgWxRule
+
+	Create Org WxRule
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiCreateOrgWxRuleRequest
+	*/
+	CreateOrgWxRule(ctx context.Context, orgId string) ApiCreateOrgWxRuleRequest
+
+	// CreateOrgWxRuleExecute executes the request
+	//  @return WxlanRule
+	CreateOrgWxRuleExecute(r ApiCreateOrgWxRuleRequest) (*WxlanRule, *http.Response, error)
+
+	/*
+	DeleteOrgWxRule deleteOrgWxRule
+
+	Delete Org WxRule
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param wxrulesId
+	@return ApiDeleteOrgWxRuleRequest
+	*/
+	DeleteOrgWxRule(ctx context.Context, orgId string, wxrulesId string) ApiDeleteOrgWxRuleRequest
+
+	// DeleteOrgWxRuleExecute executes the request
+	DeleteOrgWxRuleExecute(r ApiDeleteOrgWxRuleRequest) (*http.Response, error)
+
+	/*
+	GetOrgWxRule getOrgWxRule
+
+	Get Org WxRule Details
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param wxrulesId
+	@return ApiGetOrgWxRuleRequest
+	*/
+	GetOrgWxRule(ctx context.Context, orgId string, wxrulesId string) ApiGetOrgWxRuleRequest
+
+	// GetOrgWxRuleExecute executes the request
+	//  @return WxlanRule
+	GetOrgWxRuleExecute(r ApiGetOrgWxRuleRequest) (*WxlanRule, *http.Response, error)
+
+	/*
+	GetOrgWxRulesDerived getOrgWxRulesDerived
+
+	Get Derived Org WxRule
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiGetOrgWxRulesDerivedRequest
+	*/
+	GetOrgWxRulesDerived(ctx context.Context, orgId string) ApiGetOrgWxRulesDerivedRequest
+
+	// GetOrgWxRulesDerivedExecute executes the request
+	//  @return []WxlanRule
+	GetOrgWxRulesDerivedExecute(r ApiGetOrgWxRulesDerivedRequest) ([]WxlanRule, *http.Response, error)
+
+	/*
+	ListOrgWxRules listOrgWxRules
+
+	Get List of Org WxRules
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiListOrgWxRulesRequest
+	*/
+	ListOrgWxRules(ctx context.Context, orgId string) ApiListOrgWxRulesRequest
+
+	// ListOrgWxRulesExecute executes the request
+	//  @return []WxlanRule
+	ListOrgWxRulesExecute(r ApiListOrgWxRulesRequest) ([]WxlanRule, *http.Response, error)
+
+	/*
+	UpdateOrgWxRule updateOrgWxRule
+
+	Update Org WxRule
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param wxrulesId
+	@return ApiUpdateOrgWxRuleRequest
+	*/
+	UpdateOrgWxRule(ctx context.Context, orgId string, wxrulesId string) ApiUpdateOrgWxRuleRequest
+
+	// UpdateOrgWxRuleExecute executes the request
+	//  @return WxlanRule
+	UpdateOrgWxRuleExecute(r ApiUpdateOrgWxRuleRequest) (*WxlanRule, *http.Response, error)
+}
+
 // OrgsWxRulesAPIService OrgsWxRulesAPI service
 type OrgsWxRulesAPIService service
 
 type ApiCreateOrgWxRuleRequest struct {
 	ctx context.Context
-	ApiService *OrgsWxRulesAPIService
+	ApiService OrgsWxRulesAPI
 	orgId string
 	wxlanRule *WxlanRule
 }
@@ -206,7 +301,7 @@ func (a *OrgsWxRulesAPIService) CreateOrgWxRuleExecute(r ApiCreateOrgWxRuleReque
 
 type ApiDeleteOrgWxRuleRequest struct {
 	ctx context.Context
-	ApiService *OrgsWxRulesAPIService
+	ApiService OrgsWxRulesAPI
 	orgId string
 	wxrulesId string
 }
@@ -370,7 +465,7 @@ func (a *OrgsWxRulesAPIService) DeleteOrgWxRuleExecute(r ApiDeleteOrgWxRuleReque
 
 type ApiGetOrgWxRuleRequest struct {
 	ctx context.Context
-	ApiService *OrgsWxRulesAPIService
+	ApiService OrgsWxRulesAPI
 	orgId string
 	wxrulesId string
 }
@@ -545,7 +640,7 @@ func (a *OrgsWxRulesAPIService) GetOrgWxRuleExecute(r ApiGetOrgWxRuleRequest) (*
 
 type ApiGetOrgWxRulesDerivedRequest struct {
 	ctx context.Context
-	ApiService *OrgsWxRulesAPIService
+	ApiService OrgsWxRulesAPI
 	orgId string
 }
 
@@ -716,7 +811,7 @@ func (a *OrgsWxRulesAPIService) GetOrgWxRulesDerivedExecute(r ApiGetOrgWxRulesDe
 
 type ApiListOrgWxRulesRequest struct {
 	ctx context.Context
-	ApiService *OrgsWxRulesAPIService
+	ApiService OrgsWxRulesAPI
 	orgId string
 	page *int32
 	limit *int32
@@ -911,7 +1006,7 @@ func (a *OrgsWxRulesAPIService) ListOrgWxRulesExecute(r ApiListOrgWxRulesRequest
 
 type ApiUpdateOrgWxRuleRequest struct {
 	ctx context.Context
-	ApiService *OrgsWxRulesAPIService
+	ApiService OrgsWxRulesAPI
 	orgId string
 	wxrulesId string
 	wxlanRule *WxlanRule

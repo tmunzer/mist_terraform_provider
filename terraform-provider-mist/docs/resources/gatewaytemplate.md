@@ -25,11 +25,16 @@ description: |-
 
 **Note**: no check is done
 - `bgp_config` (Attributes Map) (see [below for nested schema](#nestedatt--bgp_config))
-- `dhcpd_config` (Attributes Map) (see [below for nested schema](#nestedatt--dhcpd_config))
+- `dhcpd_config` (Attributes) (see [below for nested schema](#nestedatt--dhcpd_config))
+- `dns_override` (Boolean)
+- `dns_servers` (List of String) Global dns settings. To keep compatibility, dns settings in `ip_config` and `oob_ip_config` will overwrite this setting
+- `dns_suffix` (List of String) Global dns settings. To keep compatibility, dns settings in `ip_config` and `oob_ip_config` will overwrite this setting
 - `extra_routes` (Attributes Map) (see [below for nested schema](#nestedatt--extra_routes))
 - `idp_profiles` (Attributes Map) Property key is the profile name (see [below for nested schema](#nestedatt--idp_profiles))
 - `ip_configs` (Attributes Map) Property key is the network name (see [below for nested schema](#nestedatt--ip_configs))
 - `networks` (Attributes List) (see [below for nested schema](#nestedatt--networks))
+- `ntp_override` (Boolean)
+- `ntp_servers` (List of String) list of NTP servers specific to this device. By default, those in Site Settings will be used
 - `org_id` (String)
 - `path_preferences` (Attributes Map) Property key is the path name (see [below for nested schema](#nestedatt--path_preferences))
 - `port_config` (Attributes Map) Property key is the port(s) name or range (e.g. "ge-0/0/0-10") (see [below for nested schema](#nestedatt--port_config))
@@ -104,29 +109,36 @@ Optional:
 
 Optional:
 
-- `disabled` (Boolean) when defined in template, this allows device to override
+- `config` (Attributes Map) (see [below for nested schema](#nestedatt--dhcpd_config--config))
+- `enabled` (Boolean) if set to `true`, disable the DHCP server
+
+<a id="nestedatt--dhcpd_config--config"></a>
+### Nested Schema for `dhcpd_config.config`
+
+Optional:
+
 - `dns_servers` (List of String) if `type`==`local` - optional, if not defined, system one will be used
 - `dns_suffix` (List of String) if `type`==`local` - optional, if not defined, system one will be used
-- `fixed_bindings` (Attributes Map) Property key is the MAC Address (see [below for nested schema](#nestedatt--dhcpd_config--fixed_bindings))
+- `fixed_bindings` (Attributes Map) Property key is the MAC Address (see [below for nested schema](#nestedatt--dhcpd_config--config--fixed_bindings))
 - `gateway` (String) if `type`==`local` - optional, `ip` will be used if not provided
-- `ip_end` (String) if `type`==`local`
+- `ip_end4` (String) if `type`==`local`
 - `ip_end6` (String) if `type6`==`local`
-- `ip_start` (String) if `type`==`local`
+- `ip_start4` (String) if `type`==`local`
 - `ip_start6` (String) if `type6`==`local`
 - `lease_time` (Number) in seconds, lease time has to be between 3600 [1hr] - 604800 [1 week], default is 86400 [1 day]
-- `options` (Attributes Map) Property key is the DHCP option number (see [below for nested schema](#nestedatt--dhcpd_config--options))
+- `options` (Attributes Map) Property key is the DHCP option number (see [below for nested schema](#nestedatt--dhcpd_config--config--options))
 - `server_id_override` (Boolean) `server_id_override`==`true` means the device, when acts as DHCP relay and forwards DHCP responses from DHCP server to clients, 
 should overwrite the Sever Identifier option (i.e. DHCP option 54) in DHCP responses with its own IP address.
-- `servers` (List of String) if `type`==`relay`
+- `servers4` (List of String) if `type`==`relay`
 - `servers6` (List of String) if `type6`==`relay`
-- `type` (String) DHCP Server (local) or DHCP Relay (relay)
+- `type4` (String) DHCP Server (local) or DHCP Relay (relay)
 - `type6` (String) DHCP Server (local) or DHCP Relay (relay)
 - `vendor_encapulated` (Attributes Map) Property key is <enterprise number>:<sub option code>, with
 * enterprise number: 1-65535 (https://www.iana.org/assignments/enterprise-numbers/enterprise-numbers)
-* sub option code: 1-255, sub-option code (see [below for nested schema](#nestedatt--dhcpd_config--vendor_encapulated))
+* sub option code: 1-255, sub-option code (see [below for nested schema](#nestedatt--dhcpd_config--config--vendor_encapulated))
 
-<a id="nestedatt--dhcpd_config--fixed_bindings"></a>
-### Nested Schema for `dhcpd_config.fixed_bindings`
+<a id="nestedatt--dhcpd_config--config--fixed_bindings"></a>
+### Nested Schema for `dhcpd_config.config.fixed_bindings`
 
 Optional:
 
@@ -134,8 +146,8 @@ Optional:
 - `name` (String)
 
 
-<a id="nestedatt--dhcpd_config--options"></a>
-### Nested Schema for `dhcpd_config.options`
+<a id="nestedatt--dhcpd_config--config--options"></a>
+### Nested Schema for `dhcpd_config.config.options`
 
 Optional:
 
@@ -143,13 +155,14 @@ Optional:
 - `value` (String)
 
 
-<a id="nestedatt--dhcpd_config--vendor_encapulated"></a>
-### Nested Schema for `dhcpd_config.vendor_encapulated`
+<a id="nestedatt--dhcpd_config--config--vendor_encapulated"></a>
+### Nested Schema for `dhcpd_config.config.vendor_encapulated`
 
 Optional:
 
 - `type` (String)
 - `value` (String)
+
 
 
 
@@ -405,8 +418,8 @@ Optional:
 - `netmask` (String) used only if `subnet` is not specified in `networks`
 - `network` (String) optional, the network to be used for mgmt
 - `poser_password` (String) if `type`==`pppoe`
-- `ppoe_username` (String) if `type`==`pppoe`
 - `pppoe_auth` (String) if `type`==`pppoe`
+- `pppoe_username` (String) if `type`==`pppoe`
 - `type` (String)
 
 

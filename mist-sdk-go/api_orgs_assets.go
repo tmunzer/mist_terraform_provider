@@ -21,12 +21,159 @@ import (
 )
 
 
+type OrgsAssetsAPI interface {
+
+	/*
+	CountOrgAssetsByDistanceField countOrgAssetsByDistanceField
+
+	Count Org Assets
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiCountOrgAssetsByDistanceFieldRequest
+	*/
+	CountOrgAssetsByDistanceField(ctx context.Context, orgId string) ApiCountOrgAssetsByDistanceFieldRequest
+
+	// CountOrgAssetsByDistanceFieldExecute executes the request
+	//  @return RepsonseCount
+	CountOrgAssetsByDistanceFieldExecute(r ApiCountOrgAssetsByDistanceFieldRequest) (*RepsonseCount, *http.Response, error)
+
+	/*
+	CreateOrgAsset createOrgAsset
+
+	Create Org Asset
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiCreateOrgAssetRequest
+	*/
+	CreateOrgAsset(ctx context.Context, orgId string) ApiCreateOrgAssetRequest
+
+	// CreateOrgAssetExecute executes the request
+	//  @return Asset
+	CreateOrgAssetExecute(r ApiCreateOrgAssetRequest) (*Asset, *http.Response, error)
+
+	/*
+	DeleteOrgAsset deleteOrgAsset
+
+	Delete Org Asset
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param assetId
+	@return ApiDeleteOrgAssetRequest
+	*/
+	DeleteOrgAsset(ctx context.Context, orgId string, assetId string) ApiDeleteOrgAssetRequest
+
+	// DeleteOrgAssetExecute executes the request
+	DeleteOrgAssetExecute(r ApiDeleteOrgAssetRequest) (*http.Response, error)
+
+	/*
+	GetOrgAsset getOrgAsset
+
+	Get Org Asset Details
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param assetId
+	@return ApiGetOrgAssetRequest
+	*/
+	GetOrgAsset(ctx context.Context, orgId string, assetId string) ApiGetOrgAssetRequest
+
+	// GetOrgAssetExecute executes the request
+	//  @return Asset
+	GetOrgAssetExecute(r ApiGetOrgAssetRequest) (*Asset, *http.Response, error)
+
+	/*
+	ImportOrgAssets importOrgAssets
+
+	Impert Org Assets. 
+
+It can be done via a CSV file or a JSON payload.
+
+#### CSV File Format
+```csv
+name,mac
+"asset_name",5c5b53010101
+```
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiImportOrgAssetsRequest
+	*/
+	ImportOrgAssets(ctx context.Context, orgId string) ApiImportOrgAssetsRequest
+
+	// ImportOrgAssetsExecute executes the request
+	ImportOrgAssetsExecute(r ApiImportOrgAssetsRequest) (*http.Response, error)
+
+	/*
+	ListOrgAssets listOrgAssets
+
+	Get List of Org Assets
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiListOrgAssetsRequest
+	*/
+	ListOrgAssets(ctx context.Context, orgId string) ApiListOrgAssetsRequest
+
+	// ListOrgAssetsExecute executes the request
+	//  @return []Asset
+	ListOrgAssetsExecute(r ApiListOrgAssetsRequest) ([]Asset, *http.Response, error)
+
+	/*
+	ListOrgAssetsStats listOrgAssetsStats
+
+	Get List of Org Assets Stats
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiListOrgAssetsStatsRequest
+	*/
+	ListOrgAssetsStats(ctx context.Context, orgId string) ApiListOrgAssetsStatsRequest
+
+	// ListOrgAssetsStatsExecute executes the request
+	//  @return []StatsAsset
+	ListOrgAssetsStatsExecute(r ApiListOrgAssetsStatsRequest) ([]StatsAsset, *http.Response, error)
+
+	/*
+	SearchOrgAssets searchOrgAssets
+
+	Search for Org Assets
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiSearchOrgAssetsRequest
+	*/
+	SearchOrgAssets(ctx context.Context, orgId string) ApiSearchOrgAssetsRequest
+
+	// SearchOrgAssetsExecute executes the request
+	//  @return ResponseStatsAssets
+	SearchOrgAssetsExecute(r ApiSearchOrgAssetsRequest) (*ResponseStatsAssets, *http.Response, error)
+
+	/*
+	UpdateOrgAsset updateOrgAsset
+
+	Update Org Asset
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param assetId
+	@return ApiUpdateOrgAssetRequest
+	*/
+	UpdateOrgAsset(ctx context.Context, orgId string, assetId string) ApiUpdateOrgAssetRequest
+
+	// UpdateOrgAssetExecute executes the request
+	//  @return Asset
+	UpdateOrgAssetExecute(r ApiUpdateOrgAssetRequest) (*Asset, *http.Response, error)
+}
+
 // OrgsAssetsAPIService OrgsAssetsAPI service
 type OrgsAssetsAPIService service
 
 type ApiCountOrgAssetsByDistanceFieldRequest struct {
 	ctx context.Context
-	ApiService *OrgsAssetsAPIService
+	ApiService OrgsAssetsAPI
 	orgId string
 	distinct *OrgAssetCountDistinct
 }
@@ -206,7 +353,7 @@ func (a *OrgsAssetsAPIService) CountOrgAssetsByDistanceFieldExecute(r ApiCountOr
 
 type ApiCreateOrgAssetRequest struct {
 	ctx context.Context
-	ApiService *OrgsAssetsAPIService
+	ApiService OrgsAssetsAPI
 	orgId string
 	asset *Asset
 }
@@ -386,7 +533,7 @@ func (a *OrgsAssetsAPIService) CreateOrgAssetExecute(r ApiCreateOrgAssetRequest)
 
 type ApiDeleteOrgAssetRequest struct {
 	ctx context.Context
-	ApiService *OrgsAssetsAPIService
+	ApiService OrgsAssetsAPI
 	orgId string
 	assetId string
 }
@@ -550,7 +697,7 @@ func (a *OrgsAssetsAPIService) DeleteOrgAssetExecute(r ApiDeleteOrgAssetRequest)
 
 type ApiGetOrgAssetRequest struct {
 	ctx context.Context
-	ApiService *OrgsAssetsAPIService
+	ApiService OrgsAssetsAPI
 	orgId string
 	assetId string
 }
@@ -725,7 +872,7 @@ func (a *OrgsAssetsAPIService) GetOrgAssetExecute(r ApiGetOrgAssetRequest) (*Ass
 
 type ApiImportOrgAssetsRequest struct {
 	ctx context.Context
-	ApiService *OrgsAssetsAPIService
+	ApiService OrgsAssetsAPI
 	orgId string
 	assetImport *[]AssetImport
 }
@@ -901,7 +1048,7 @@ func (a *OrgsAssetsAPIService) ImportOrgAssetsExecute(r ApiImportOrgAssetsReques
 
 type ApiListOrgAssetsRequest struct {
 	ctx context.Context
-	ApiService *OrgsAssetsAPIService
+	ApiService OrgsAssetsAPI
 	orgId string
 	page *int32
 	limit *int32
@@ -1096,7 +1243,7 @@ func (a *OrgsAssetsAPIService) ListOrgAssetsExecute(r ApiListOrgAssetsRequest) (
 
 type ApiListOrgAssetsStatsRequest struct {
 	ctx context.Context
-	ApiService *OrgsAssetsAPIService
+	ApiService OrgsAssetsAPI
 	orgId string
 	page *int32
 	limit *int32
@@ -1324,7 +1471,7 @@ func (a *OrgsAssetsAPIService) ListOrgAssetsStatsExecute(r ApiListOrgAssetsStats
 
 type ApiSearchOrgAssetsRequest struct {
 	ctx context.Context
-	ApiService *OrgsAssetsAPIService
+	ApiService OrgsAssetsAPI
 	orgId string
 	siteId *string
 	mac *string
@@ -1666,7 +1813,7 @@ func (a *OrgsAssetsAPIService) SearchOrgAssetsExecute(r ApiSearchOrgAssetsReques
 
 type ApiUpdateOrgAssetRequest struct {
 	ctx context.Context
-	ApiService *OrgsAssetsAPIService
+	ApiService OrgsAssetsAPI
 	orgId string
 	assetId string
 	asset *Asset

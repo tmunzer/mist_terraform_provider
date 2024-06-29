@@ -22,12 +22,157 @@ import (
 )
 
 
+type MSPsSSOAPI interface {
+
+	/*
+	CreateMspSso createMspSso
+
+	Create MSP SSO profile
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param mspId
+	@return ApiCreateMspSsoRequest
+	*/
+	CreateMspSso(ctx context.Context, mspId string) ApiCreateMspSsoRequest
+
+	// CreateMspSsoExecute executes the request
+	//  @return Sso
+	CreateMspSsoExecute(r ApiCreateMspSsoRequest) (*Sso, *http.Response, error)
+
+	/*
+	DeleteMspSso deleteMspSso
+
+	Delete MSP SSO Config
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param mspId
+	@param ssoId
+	@return ApiDeleteMspSsoRequest
+	*/
+	DeleteMspSso(ctx context.Context, mspId string, ssoId string) ApiDeleteMspSsoRequest
+
+	// DeleteMspSsoExecute executes the request
+	DeleteMspSsoExecute(r ApiDeleteMspSsoRequest) (*http.Response, error)
+
+	/*
+	DownloadMspSsoSamlMetadata downloadMspSsoSamlMetadata
+
+	Download MSP SSO SAML Metadata
+
+Example of metadata.xml:
+```xml
+<?xml version="1.0" encoding="UTF-8"?><md:EntityDescriptor xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata" entityID="https://api.mist.com/api/v1/saml/5hdF5g/login" validUntil="2027-10-12T21:59:01Z" xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+    <md:SPSSODescriptor AuthnRequestsSigned="false" WantAssertionsSigned="true" protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol">
+        <md:SingleLogoutService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="https://api.mist.com/api/v1/saml/5hdF5g/logout" />
+        <md:NameIDFormat>urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified</md:NameIDFormat>
+        <md:AssertionConsumerService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="https://api.mist.com/api/v1/saml/5hdF5g/login" index="0" isDefault="true"/>
+        <md:AttributeConsumingService index="0">
+            <md:ServiceName xml:lang="en-US">Mist</md:ServiceName>
+            <md:RequestedAttribute Name="Role" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic" isRequired="true"/>
+            <md:RequestedAttribute Name="FirstName" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic" isRequired="false"/>
+            <md:RequestedAttribute Name="LastName" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic" isRequired="false"/>
+        </md:AttributeConsumingService>
+    </md:SPSSODescriptor>
+</md:EntityDescriptor>
+```
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param mspId
+	@param ssoId
+	@return ApiDownloadMspSsoSamlMetadataRequest
+	*/
+	DownloadMspSsoSamlMetadata(ctx context.Context, mspId string, ssoId string) ApiDownloadMspSsoSamlMetadataRequest
+
+	// DownloadMspSsoSamlMetadataExecute executes the request
+	//  @return *os.File
+	DownloadMspSsoSamlMetadataExecute(r ApiDownloadMspSsoSamlMetadataRequest) (*os.File, *http.Response, error)
+
+	/*
+	GetMspSso getMspSso
+
+	Get MSP SSO Config
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param mspId
+	@param ssoId
+	@return ApiGetMspSsoRequest
+	*/
+	GetMspSso(ctx context.Context, mspId string, ssoId string) ApiGetMspSsoRequest
+
+	// GetMspSsoExecute executes the request
+	//  @return Sso
+	GetMspSsoExecute(r ApiGetMspSsoRequest) (*Sso, *http.Response, error)
+
+	/*
+	GetMspSsoSamlMetadata getMspSsoSamlMetadata
+
+	Get MSP SSO SAML Metadata
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param mspId
+	@param ssoId
+	@return ApiGetMspSsoSamlMetadataRequest
+	*/
+	GetMspSsoSamlMetadata(ctx context.Context, mspId string, ssoId string) ApiGetMspSsoSamlMetadataRequest
+
+	// GetMspSsoSamlMetadataExecute executes the request
+	//  @return SsoSamlMetadata
+	GetMspSsoSamlMetadataExecute(r ApiGetMspSsoSamlMetadataRequest) (*SsoSamlMetadata, *http.Response, error)
+
+	/*
+	ListMspSsoLatestFailures listMspSsoLatestFailures
+
+	Get List of MSP SSO Latest Failures
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param mspId
+	@param ssoId
+	@return ApiListMspSsoLatestFailuresRequest
+	*/
+	ListMspSsoLatestFailures(ctx context.Context, mspId string, ssoId string) ApiListMspSsoLatestFailuresRequest
+
+	// ListMspSsoLatestFailuresExecute executes the request
+	//  @return ResponseSsoFailureSearch
+	ListMspSsoLatestFailuresExecute(r ApiListMspSsoLatestFailuresRequest) (*ResponseSsoFailureSearch, *http.Response, error)
+
+	/*
+	ListMspSsos listMspSsos
+
+	List MSP SSO Configs
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param mspId
+	@return ApiListMspSsosRequest
+	*/
+	ListMspSsos(ctx context.Context, mspId string) ApiListMspSsosRequest
+
+	// ListMspSsosExecute executes the request
+	//  @return []Sso
+	ListMspSsosExecute(r ApiListMspSsosRequest) ([]Sso, *http.Response, error)
+
+	/*
+	UpdateMspSso updateMspSso
+
+	Update MSP SSO config
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param mspId
+	@param ssoId
+	@return ApiUpdateMspSsoRequest
+	*/
+	UpdateMspSso(ctx context.Context, mspId string, ssoId string) ApiUpdateMspSsoRequest
+
+	// UpdateMspSsoExecute executes the request
+	//  @return Sso
+	UpdateMspSsoExecute(r ApiUpdateMspSsoRequest) (*Sso, *http.Response, error)
+}
+
 // MSPsSSOAPIService MSPsSSOAPI service
 type MSPsSSOAPIService service
 
 type ApiCreateMspSsoRequest struct {
 	ctx context.Context
-	ApiService *MSPsSSOAPIService
+	ApiService MSPsSSOAPI
 	mspId string
 	sso *Sso
 }
@@ -207,7 +352,7 @@ func (a *MSPsSSOAPIService) CreateMspSsoExecute(r ApiCreateMspSsoRequest) (*Sso,
 
 type ApiDeleteMspSsoRequest struct {
 	ctx context.Context
-	ApiService *MSPsSSOAPIService
+	ApiService MSPsSSOAPI
 	mspId string
 	ssoId string
 }
@@ -371,7 +516,7 @@ func (a *MSPsSSOAPIService) DeleteMspSsoExecute(r ApiDeleteMspSsoRequest) (*http
 
 type ApiDownloadMspSsoSamlMetadataRequest struct {
 	ctx context.Context
-	ApiService *MSPsSSOAPIService
+	ApiService MSPsSSOAPI
 	mspId string
 	ssoId string
 }
@@ -563,7 +708,7 @@ func (a *MSPsSSOAPIService) DownloadMspSsoSamlMetadataExecute(r ApiDownloadMspSs
 
 type ApiGetMspSsoRequest struct {
 	ctx context.Context
-	ApiService *MSPsSSOAPIService
+	ApiService MSPsSSOAPI
 	mspId string
 	ssoId string
 }
@@ -738,7 +883,7 @@ func (a *MSPsSSOAPIService) GetMspSsoExecute(r ApiGetMspSsoRequest) (*Sso, *http
 
 type ApiGetMspSsoSamlMetadataRequest struct {
 	ctx context.Context
-	ApiService *MSPsSSOAPIService
+	ApiService MSPsSSOAPI
 	mspId string
 	ssoId string
 }
@@ -913,7 +1058,7 @@ func (a *MSPsSSOAPIService) GetMspSsoSamlMetadataExecute(r ApiGetMspSsoSamlMetad
 
 type ApiListMspSsoLatestFailuresRequest struct {
 	ctx context.Context
-	ApiService *MSPsSSOAPIService
+	ApiService MSPsSSOAPI
 	mspId string
 	ssoId string
 }
@@ -1088,7 +1233,7 @@ func (a *MSPsSSOAPIService) ListMspSsoLatestFailuresExecute(r ApiListMspSsoLates
 
 type ApiListMspSsosRequest struct {
 	ctx context.Context
-	ApiService *MSPsSSOAPIService
+	ApiService MSPsSSOAPI
 	mspId string
 }
 
@@ -1259,7 +1404,7 @@ func (a *MSPsSSOAPIService) ListMspSsosExecute(r ApiListMspSsosRequest) ([]Sso, 
 
 type ApiUpdateMspSsoRequest struct {
 	ctx context.Context
-	ApiService *MSPsSSOAPIService
+	ApiService MSPsSSOAPI
 	mspId string
 	ssoId string
 	sso *Sso

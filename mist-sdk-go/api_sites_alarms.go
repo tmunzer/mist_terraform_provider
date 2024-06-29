@@ -21,12 +21,163 @@ import (
 )
 
 
+type SitesAlarmsAPI interface {
+
+	/*
+	AckSiteAlarm ackSiteAlarm
+
+	Ack Site Alarm
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param alarmId
+	@return ApiAckSiteAlarmRequest
+	*/
+	AckSiteAlarm(ctx context.Context, siteId string, alarmId string) ApiAckSiteAlarmRequest
+
+	// AckSiteAlarmExecute executes the request
+	AckSiteAlarmExecute(r ApiAckSiteAlarmRequest) (*http.Response, error)
+
+	/*
+	AckSiteAllAlarms ackSiteAllAlarms
+
+	Ack all Site Alarms
+
+**N.B.**: Batch size for multiple alarm ack and unack has to be less or or equal to 1000.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiAckSiteAllAlarmsRequest
+	*/
+	AckSiteAllAlarms(ctx context.Context, siteId string) ApiAckSiteAllAlarmsRequest
+
+	// AckSiteAllAlarmsExecute executes the request
+	AckSiteAllAlarmsExecute(r ApiAckSiteAllAlarmsRequest) (*http.Response, error)
+
+	/*
+	AckSiteMultipleAlarms AckSiteMultipleAlarms
+
+	Ack multiple Site Alarms
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiAckSiteMultipleAlarmsRequest
+	*/
+	AckSiteMultipleAlarms(ctx context.Context, siteId string) ApiAckSiteMultipleAlarmsRequest
+
+	// AckSiteMultipleAlarmsExecute executes the request
+	AckSiteMultipleAlarmsExecute(r ApiAckSiteMultipleAlarmsRequest) (*http.Response, error)
+
+	/*
+	CountSiteAlarms countSiteAlarms
+
+	Count Site Alarms
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiCountSiteAlarmsRequest
+	*/
+	CountSiteAlarms(ctx context.Context, siteId string) ApiCountSiteAlarmsRequest
+
+	// CountSiteAlarmsExecute executes the request
+	//  @return RepsonseCount
+	CountSiteAlarmsExecute(r ApiCountSiteAlarmsRequest) (*RepsonseCount, *http.Response, error)
+
+	/*
+	SearchSiteAlarms searchSiteAlarms
+
+	Search Site Alarms
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiSearchSiteAlarmsRequest
+	*/
+	SearchSiteAlarms(ctx context.Context, siteId string) ApiSearchSiteAlarmsRequest
+
+	// SearchSiteAlarmsExecute executes the request
+	//  @return AlarmSearchResult
+	SearchSiteAlarmsExecute(r ApiSearchSiteAlarmsRequest) (*AlarmSearchResult, *http.Response, error)
+
+	/*
+	SubscribeSiteAlarms SubscribeSiteAlarms
+
+	Subscribe to Site Alarms
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiSubscribeSiteAlarmsRequest
+	*/
+	SubscribeSiteAlarms(ctx context.Context, siteId string) ApiSubscribeSiteAlarmsRequest
+
+	// SubscribeSiteAlarmsExecute executes the request
+	SubscribeSiteAlarmsExecute(r ApiSubscribeSiteAlarmsRequest) (*http.Response, error)
+
+	/*
+	UnackSiteAlarm unackSiteAlarm
+
+	Unack Site Alarm
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param alarmId
+	@return ApiUnackSiteAlarmRequest
+	*/
+	UnackSiteAlarm(ctx context.Context, siteId string, alarmId string) ApiUnackSiteAlarmRequest
+
+	// UnackSiteAlarmExecute executes the request
+	UnackSiteAlarmExecute(r ApiUnackSiteAlarmRequest) (*http.Response, error)
+
+	/*
+	UnackSiteAllArlarms unackSiteAllArlarms
+
+	Unack all Site Alarms
+
+**N.B.**: Batch size for multiple alarm ack and unack has to be less or or equal to 1000.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiUnackSiteAllArlarmsRequest
+	*/
+	UnackSiteAllArlarms(ctx context.Context, siteId string) ApiUnackSiteAllArlarmsRequest
+
+	// UnackSiteAllArlarmsExecute executes the request
+	UnackSiteAllArlarmsExecute(r ApiUnackSiteAllArlarmsRequest) (*http.Response, error)
+
+	/*
+	UnackSiteMultipleAlarms unackSiteMultipleAlarms
+
+	Unack multiple Site Alarms
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiUnackSiteMultipleAlarmsRequest
+	*/
+	UnackSiteMultipleAlarms(ctx context.Context, siteId string) ApiUnackSiteMultipleAlarmsRequest
+
+	// UnackSiteMultipleAlarmsExecute executes the request
+	UnackSiteMultipleAlarmsExecute(r ApiUnackSiteMultipleAlarmsRequest) (*http.Response, error)
+
+	/*
+	UnsubscribeSiteAlarms UnsubscribeSiteAlarms
+
+	Unsubscribe to Site Alarms
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiUnsubscribeSiteAlarmsRequest
+	*/
+	UnsubscribeSiteAlarms(ctx context.Context, siteId string) ApiUnsubscribeSiteAlarmsRequest
+
+	// UnsubscribeSiteAlarmsExecute executes the request
+	UnsubscribeSiteAlarmsExecute(r ApiUnsubscribeSiteAlarmsRequest) (*http.Response, error)
+}
+
 // SitesAlarmsAPIService SitesAlarmsAPI service
 type SitesAlarmsAPIService service
 
 type ApiAckSiteAlarmRequest struct {
 	ctx context.Context
-	ApiService *SitesAlarmsAPIService
+	ApiService SitesAlarmsAPI
 	siteId string
 	alarmId string
 	noteString *NoteString
@@ -199,7 +350,7 @@ func (a *SitesAlarmsAPIService) AckSiteAlarmExecute(r ApiAckSiteAlarmRequest) (*
 
 type ApiAckSiteAllAlarmsRequest struct {
 	ctx context.Context
-	ApiService *SitesAlarmsAPIService
+	ApiService SitesAlarmsAPI
 	siteId string
 	noteString *NoteString
 }
@@ -369,7 +520,7 @@ func (a *SitesAlarmsAPIService) AckSiteAllAlarmsExecute(r ApiAckSiteAllAlarmsReq
 
 type ApiAckSiteMultipleAlarmsRequest struct {
 	ctx context.Context
-	ApiService *SitesAlarmsAPIService
+	ApiService SitesAlarmsAPI
 	siteId string
 	alarmAck *AlarmAck
 }
@@ -538,7 +689,7 @@ func (a *SitesAlarmsAPIService) AckSiteMultipleAlarmsExecute(r ApiAckSiteMultipl
 
 type ApiCountSiteAlarmsRequest struct {
 	ctx context.Context
-	ApiService *SitesAlarmsAPIService
+	ApiService SitesAlarmsAPI
 	siteId string
 	distinct *AlarmCountDisctinct
 	ackAdminName *string
@@ -828,7 +979,7 @@ func (a *SitesAlarmsAPIService) CountSiteAlarmsExecute(r ApiCountSiteAlarmsReque
 
 type ApiSearchSiteAlarmsRequest struct {
 	ctx context.Context
-	ApiService *SitesAlarmsAPIService
+	ApiService SitesAlarmsAPI
 	siteId string
 	type_ *string
 	ackAdminName *string
@@ -1093,7 +1244,7 @@ func (a *SitesAlarmsAPIService) SearchSiteAlarmsExecute(r ApiSearchSiteAlarmsReq
 
 type ApiSubscribeSiteAlarmsRequest struct {
 	ctx context.Context
-	ApiService *SitesAlarmsAPIService
+	ApiService SitesAlarmsAPI
 	siteId string
 }
 
@@ -1253,7 +1404,7 @@ func (a *SitesAlarmsAPIService) SubscribeSiteAlarmsExecute(r ApiSubscribeSiteAla
 
 type ApiUnackSiteAlarmRequest struct {
 	ctx context.Context
-	ApiService *SitesAlarmsAPIService
+	ApiService SitesAlarmsAPI
 	siteId string
 	alarmId string
 	noteString *NoteString
@@ -1426,7 +1577,7 @@ func (a *SitesAlarmsAPIService) UnackSiteAlarmExecute(r ApiUnackSiteAlarmRequest
 
 type ApiUnackSiteAllArlarmsRequest struct {
 	ctx context.Context
-	ApiService *SitesAlarmsAPIService
+	ApiService SitesAlarmsAPI
 	siteId string
 	noteString *NoteString
 }
@@ -1597,7 +1748,7 @@ func (a *SitesAlarmsAPIService) UnackSiteAllArlarmsExecute(r ApiUnackSiteAllArla
 
 type ApiUnackSiteMultipleAlarmsRequest struct {
 	ctx context.Context
-	ApiService *SitesAlarmsAPIService
+	ApiService SitesAlarmsAPI
 	siteId string
 	alarmAck *AlarmAck
 }
@@ -1766,7 +1917,7 @@ func (a *SitesAlarmsAPIService) UnackSiteMultipleAlarmsExecute(r ApiUnackSiteMul
 
 type ApiUnsubscribeSiteAlarmsRequest struct {
 	ctx context.Context
-	ApiService *SitesAlarmsAPIService
+	ApiService SitesAlarmsAPI
 	siteId string
 }
 

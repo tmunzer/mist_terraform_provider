@@ -21,12 +21,45 @@ import (
 )
 
 
+type OrgsTunnelsAPI interface {
+
+	/*
+	CountOrgTunnelsStats countOrgTunnelsStats
+
+	Count Mist Tunnels Stats
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiCountOrgTunnelsStatsRequest
+	*/
+	CountOrgTunnelsStats(ctx context.Context, orgId string) ApiCountOrgTunnelsStatsRequest
+
+	// CountOrgTunnelsStatsExecute executes the request
+	//  @return RepsonseCount
+	CountOrgTunnelsStatsExecute(r ApiCountOrgTunnelsStatsRequest) (*RepsonseCount, *http.Response, error)
+
+	/*
+	SearchOrgTunnelsStats searchOrgTunnelsStats
+
+	Search Org Tunnels Stats
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiSearchOrgTunnelsStatsRequest
+	*/
+	SearchOrgTunnelsStats(ctx context.Context, orgId string) ApiSearchOrgTunnelsStatsRequest
+
+	// SearchOrgTunnelsStatsExecute executes the request
+	//  @return ResponseTunnelSearch
+	SearchOrgTunnelsStatsExecute(r ApiSearchOrgTunnelsStatsRequest) (*ResponseTunnelSearch, *http.Response, error)
+}
+
 // OrgsTunnelsAPIService OrgsTunnelsAPI service
 type OrgsTunnelsAPIService service
 
 type ApiCountOrgTunnelsStatsRequest struct {
 	ctx context.Context
-	ApiService *OrgsTunnelsAPIService
+	ApiService OrgsTunnelsAPI
 	orgId string
 	distinct *OrgTunnelCountDistinct
 	type_ *OrgTunnelTypeCount
@@ -222,7 +255,7 @@ func (a *OrgsTunnelsAPIService) CountOrgTunnelsStatsExecute(r ApiCountOrgTunnels
 
 type ApiSearchOrgTunnelsStatsRequest struct {
 	ctx context.Context
-	ApiService *OrgsTunnelsAPIService
+	ApiService OrgsTunnelsAPI
 	orgId string
 	mxclusterId *string
 	siteId *string

@@ -22,12 +22,60 @@ import (
 )
 
 
+type OrgsNACCRLAPI interface {
+
+	/*
+	DeleteOrgNacCrl deleteOrgNacCrl
+
+	Delete NAC Org CRL file is a DELETE request to delete CRL file identified by its ID (ID assigned on file upload/creation)
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param naccrlId
+	@return ApiDeleteOrgNacCrlRequest
+	*/
+	DeleteOrgNacCrl(ctx context.Context, orgId string, naccrlId string) ApiDeleteOrgNacCrlRequest
+
+	// DeleteOrgNacCrlExecute executes the request
+	DeleteOrgNacCrlExecute(r ApiDeleteOrgNacCrlRequest) (*http.Response, error)
+
+	/*
+	GetOrgNacCrl getOrgNacCrl
+
+	Returns all uploaded CRL file IDs with names for the orgI
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiGetOrgNacCrlRequest
+	*/
+	GetOrgNacCrl(ctx context.Context, orgId string) ApiGetOrgNacCrlRequest
+
+	// GetOrgNacCrlExecute executes the request
+	//  @return ResponseNacCrlFiles
+	GetOrgNacCrlExecute(r ApiGetOrgNacCrlRequest) (*ResponseNacCrlFiles, *http.Response, error)
+
+	/*
+	ImportOrgNacCrl importOrgNacCrl
+
+	Import NAC Org CRL file is a multipart POST which has a .crl file to allow user to manually upload a Certificate Revocation List file. We support one file upload per Issuer. Re-uploads for the same issuer will overwrite the existing file.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiImportOrgNacCrlRequest
+	*/
+	ImportOrgNacCrl(ctx context.Context, orgId string) ApiImportOrgNacCrlRequest
+
+	// ImportOrgNacCrlExecute executes the request
+	//  @return NacCrlFile
+	ImportOrgNacCrlExecute(r ApiImportOrgNacCrlRequest) (*NacCrlFile, *http.Response, error)
+}
+
 // OrgsNACCRLAPIService OrgsNACCRLAPI service
 type OrgsNACCRLAPIService service
 
 type ApiDeleteOrgNacCrlRequest struct {
 	ctx context.Context
-	ApiService *OrgsNACCRLAPIService
+	ApiService OrgsNACCRLAPI
 	orgId string
 	naccrlId string
 }
@@ -191,7 +239,7 @@ func (a *OrgsNACCRLAPIService) DeleteOrgNacCrlExecute(r ApiDeleteOrgNacCrlReques
 
 type ApiGetOrgNacCrlRequest struct {
 	ctx context.Context
-	ApiService *OrgsNACCRLAPIService
+	ApiService OrgsNACCRLAPI
 	orgId string
 }
 
@@ -362,7 +410,7 @@ func (a *OrgsNACCRLAPIService) GetOrgNacCrlExecute(r ApiGetOrgNacCrlRequest) (*R
 
 type ApiImportOrgNacCrlRequest struct {
 	ctx context.Context
-	ApiService *OrgsNACCRLAPIService
+	ApiService OrgsNACCRLAPI
 	orgId string
 	file *os.File
 	json *string

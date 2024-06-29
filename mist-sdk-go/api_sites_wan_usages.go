@@ -21,12 +21,45 @@ import (
 )
 
 
+type SitesWANUsagesAPI interface {
+
+	/*
+	CountSiteWanUsage countSiteWanUsage
+
+	Count Site WAN Uages
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiCountSiteWanUsageRequest
+	*/
+	CountSiteWanUsage(ctx context.Context, siteId string) ApiCountSiteWanUsageRequest
+
+	// CountSiteWanUsageExecute executes the request
+	//  @return RepsonseCount
+	CountSiteWanUsageExecute(r ApiCountSiteWanUsageRequest) (*RepsonseCount, *http.Response, error)
+
+	/*
+	SearchSiteWanUsage searchSiteWanUsage
+
+	Search Site WAN Uages
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiSearchSiteWanUsageRequest
+	*/
+	SearchSiteWanUsage(ctx context.Context, siteId string) ApiSearchSiteWanUsageRequest
+
+	// SearchSiteWanUsageExecute executes the request
+	//  @return SearchWanUsage
+	SearchSiteWanUsageExecute(r ApiSearchSiteWanUsageRequest) (*SearchWanUsage, *http.Response, error)
+}
+
 // SitesWANUsagesAPIService SitesWANUsagesAPI service
 type SitesWANUsagesAPIService service
 
 type ApiCountSiteWanUsageRequest struct {
 	ctx context.Context
-	ApiService *SitesWANUsagesAPIService
+	ApiService SitesWANUsagesAPI
 	siteId string
 	mac *string
 	peerMac *string
@@ -336,7 +369,7 @@ func (a *SitesWANUsagesAPIService) CountSiteWanUsageExecute(r ApiCountSiteWanUsa
 
 type ApiSearchSiteWanUsageRequest struct {
 	ctx context.Context
-	ApiService *SitesWANUsagesAPIService
+	ApiService SitesWANUsagesAPI
 	siteId string
 	mac *string
 	peerMac *string

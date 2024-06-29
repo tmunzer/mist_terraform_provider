@@ -21,12 +21,106 @@ import (
 )
 
 
+type SitesSyntheticTestsAPI interface {
+
+	/*
+	GetSiteDeviceSyntheticTest getSiteDeviceSyntheticTest
+
+	Get Device Synthetic Test
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param deviceId
+	@return ApiGetSiteDeviceSyntheticTestRequest
+	*/
+	GetSiteDeviceSyntheticTest(ctx context.Context, siteId string, deviceId string) ApiGetSiteDeviceSyntheticTestRequest
+
+	// GetSiteDeviceSyntheticTestExecute executes the request
+	GetSiteDeviceSyntheticTestExecute(r ApiGetSiteDeviceSyntheticTestRequest) (*http.Response, error)
+
+	/*
+	GetSiteSyntheticTestStatus getSiteSyntheticTestStatus
+
+	Get Synthetic Testing Status
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiGetSiteSyntheticTestStatusRequest
+	*/
+	GetSiteSyntheticTestStatus(ctx context.Context, siteId string) ApiGetSiteSyntheticTestStatusRequest
+
+	// GetSiteSyntheticTestStatusExecute executes the request
+	//  @return SyntheticTestInfo
+	GetSiteSyntheticTestStatusExecute(r ApiGetSiteSyntheticTestStatusRequest) (*SyntheticTestInfo, *http.Response, error)
+
+	/*
+	SearchSiteSyntheticTest searchSiteSyntheticTest
+
+	Search Site Synthetic Testing
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiSearchSiteSyntheticTestRequest
+	*/
+	SearchSiteSyntheticTest(ctx context.Context, siteId string) ApiSearchSiteSyntheticTestRequest
+
+	// SearchSiteSyntheticTestExecute executes the request
+	//  @return ReponseSyntheticTestSearch
+	SearchSiteSyntheticTestExecute(r ApiSearchSiteSyntheticTestRequest) (*ReponseSyntheticTestSearch, *http.Response, error)
+
+	/*
+	StartSiteSwitchRadiusSyntheticTest triggerSiteSwitchRadiusSyntheticTest
+
+	Ping test from the AP to confirm ‘reachability’ of the Radius server. Utilize Juniper EX switch(to which an AP is connected to) radius test capabilities to get details on the Radius Server ‘availability’.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param deviceId
+	@return ApiStartSiteSwitchRadiusSyntheticTestRequest
+	*/
+	StartSiteSwitchRadiusSyntheticTest(ctx context.Context, siteId string, deviceId string) ApiStartSiteSwitchRadiusSyntheticTestRequest
+
+	// StartSiteSwitchRadiusSyntheticTestExecute executes the request
+	//  @return WebsocketSession
+	StartSiteSwitchRadiusSyntheticTestExecute(r ApiStartSiteSwitchRadiusSyntheticTestRequest) (*WebsocketSession, *http.Response, error)
+
+	/*
+	TriggerSiteDeviceSyntheticTest triggerSiteDeviceSyntheticTest
+
+	Trigger Device Synthetic Test
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param deviceId
+	@return ApiTriggerSiteDeviceSyntheticTestRequest
+	*/
+	TriggerSiteDeviceSyntheticTest(ctx context.Context, siteId string, deviceId string) ApiTriggerSiteDeviceSyntheticTestRequest
+
+	// TriggerSiteDeviceSyntheticTestExecute executes the request
+	TriggerSiteDeviceSyntheticTestExecute(r ApiTriggerSiteDeviceSyntheticTestRequest) (*http.Response, error)
+
+	/*
+	TriggerSiteSyntheticTest triggerSiteSyntheticTest
+
+	Trigger Synthetic Testing
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiTriggerSiteSyntheticTestRequest
+	*/
+	TriggerSiteSyntheticTest(ctx context.Context, siteId string) ApiTriggerSiteSyntheticTestRequest
+
+	// TriggerSiteSyntheticTestExecute executes the request
+	//  @return ReponseSyntheticTest
+	TriggerSiteSyntheticTestExecute(r ApiTriggerSiteSyntheticTestRequest) (*ReponseSyntheticTest, *http.Response, error)
+}
+
 // SitesSyntheticTestsAPIService SitesSyntheticTestsAPI service
 type SitesSyntheticTestsAPIService service
 
 type ApiGetSiteDeviceSyntheticTestRequest struct {
 	ctx context.Context
-	ApiService *SitesSyntheticTestsAPIService
+	ApiService SitesSyntheticTestsAPI
 	siteId string
 	deviceId string
 }
@@ -179,7 +273,7 @@ func (a *SitesSyntheticTestsAPIService) GetSiteDeviceSyntheticTestExecute(r ApiG
 
 type ApiGetSiteSyntheticTestStatusRequest struct {
 	ctx context.Context
-	ApiService *SitesSyntheticTestsAPIService
+	ApiService SitesSyntheticTestsAPI
 	siteId string
 }
 
@@ -350,7 +444,7 @@ func (a *SitesSyntheticTestsAPIService) GetSiteSyntheticTestStatusExecute(r ApiG
 
 type ApiSearchSiteSyntheticTestRequest struct {
 	ctx context.Context
-	ApiService *SitesSyntheticTestsAPIService
+	ApiService SitesSyntheticTestsAPI
 	siteId string
 	mac *string
 	portId *string
@@ -581,7 +675,7 @@ func (a *SitesSyntheticTestsAPIService) SearchSiteSyntheticTestExecute(r ApiSear
 
 type ApiStartSiteSwitchRadiusSyntheticTestRequest struct {
 	ctx context.Context
-	ApiService *SitesSyntheticTestsAPIService
+	ApiService SitesSyntheticTestsAPI
 	siteId string
 	deviceId string
 	syntheticTestRadiusServer *SyntheticTestRadiusServer
@@ -764,7 +858,7 @@ func (a *SitesSyntheticTestsAPIService) StartSiteSwitchRadiusSyntheticTestExecut
 
 type ApiTriggerSiteDeviceSyntheticTestRequest struct {
 	ctx context.Context
-	ApiService *SitesSyntheticTestsAPIService
+	ApiService SitesSyntheticTestsAPI
 	siteId string
 	deviceId string
 	syntheticTestDevice *SyntheticTestDevice
@@ -925,7 +1019,7 @@ func (a *SitesSyntheticTestsAPIService) TriggerSiteDeviceSyntheticTestExecute(r 
 
 type ApiTriggerSiteSyntheticTestRequest struct {
 	ctx context.Context
-	ApiService *SitesSyntheticTestsAPIService
+	ApiService SitesSyntheticTestsAPI
 	siteId string
 	syntheticTest *SyntheticTest
 }

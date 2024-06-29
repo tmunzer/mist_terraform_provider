@@ -20,8 +20,6 @@ import (
 	"strings"
 
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 )
 
 func NetworktemplateResourceSchema(ctx context.Context) schema.Schema {
@@ -302,7 +300,6 @@ func NetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 			"id": schema.StringAttribute{
 				Optional: true,
 				Computed: true,
-				PlanModifiers:       []planmodifier.String{stringplanmodifier.UseStateForUnknown()},
 			},
 			"mist_nac": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
@@ -372,7 +369,8 @@ func NetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 				MarkdownDescription: "list of NTP servers specific to this device. By default, those in Site Settings will be used",
 			},
 			"org_id": schema.StringAttribute{
-				Required: true,
+				Optional: true,
+				Computed: true,
 			},
 			"port_mirrorings": schema.MapNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
@@ -2043,12 +2041,14 @@ func NetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 								"match_type": schema.StringAttribute{
 									Optional:            true,
 									Computed:            true,
-									Description:         "'property key define the type of matching, value is the string to match. e.g: `match_name[0:3]`, `match_name[2:6]`, `match_model`,  `match_model[0-6]`",
-									MarkdownDescription: "'property key define the type of matching, value is the string to match. e.g: `match_name[0:3]`, `match_name[2:6]`, `match_model`,  `match_model[0-6]`",
+									Description:         "string to match. e.g: `match_name[0:3]`, `match_name[2:6]`, `match_model`,  `match_model[0-6]`",
+									MarkdownDescription: "string to match. e.g: `match_name[0:3]`, `match_name[2:6]`, `match_model`,  `match_model[0-6]`",
 								},
 								"match_value": schema.StringAttribute{
-									Optional: true,
-									Computed: true,
+									Optional:            true,
+									Computed:            true,
+									Description:         "value to match",
+									MarkdownDescription: "value to match",
 								},
 								"name": schema.StringAttribute{
 									Optional: true,
@@ -2219,9 +2219,9 @@ func NetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 									MarkdownDescription: "Property key is the port mirroring instance name\nport_mirroring can be added under device/site settings. It takes interface and ports as input for ingress, interface as input for egress and can take interface and port as output.",
 								},
 							},
-							CustomType: SwitchMatchingRulesType{
+							CustomType: MatchingRulesType{
 								ObjectType: types.ObjectType{
-									AttrTypes: SwitchMatchingRulesValue{}.AttributeTypes(ctx),
+									AttrTypes: MatchingRulesValue{}.AttributeTypes(ctx),
 								},
 							},
 						},
@@ -25881,7 +25881,7 @@ func (t SwitchMatchingType) ValueFromObject(ctx context.Context, in basetypes.Ob
 			fmt.Sprintf(`enable expected to be basetypes.BoolValue, was: %T`, enableAttribute))
 	}
 
-	rulesAttribute, ok := attributes["rules"]
+	matchingRulesAttribute, ok := attributes["rules"]
 
 	if !ok {
 		diags.AddError(
@@ -25891,12 +25891,12 @@ func (t SwitchMatchingType) ValueFromObject(ctx context.Context, in basetypes.Ob
 		return nil, diags
 	}
 
-	rulesVal, ok := rulesAttribute.(basetypes.ListValue)
+	matchingRulesVal, ok := matchingRulesAttribute.(basetypes.ListValue)
 
 	if !ok {
 		diags.AddError(
 			"Attribute Wrong Type",
-			fmt.Sprintf(`rules expected to be basetypes.ListValue, was: %T`, rulesAttribute))
+			fmt.Sprintf(`rules expected to be basetypes.ListValue, was: %T`, matchingRulesAttribute))
 	}
 
 	if diags.HasError() {
@@ -25904,9 +25904,9 @@ func (t SwitchMatchingType) ValueFromObject(ctx context.Context, in basetypes.Ob
 	}
 
 	return SwitchMatchingValue{
-		Enable: enableVal,
-		SwitchMatchingRules:  rulesVal,
-		state:  attr.ValueStateKnown,
+		Enable:        enableVal,
+		MatchingRules: matchingRulesVal,
+		state:         attr.ValueStateKnown,
 	}, diags
 }
 
@@ -25991,7 +25991,7 @@ func NewSwitchMatchingValue(attributeTypes map[string]attr.Type, attributes map[
 			fmt.Sprintf(`enable expected to be basetypes.BoolValue, was: %T`, enableAttribute))
 	}
 
-	rulesAttribute, ok := attributes["rules"]
+	matchingRulesAttribute, ok := attributes["rules"]
 
 	if !ok {
 		diags.AddError(
@@ -26001,12 +26001,12 @@ func NewSwitchMatchingValue(attributeTypes map[string]attr.Type, attributes map[
 		return NewSwitchMatchingValueUnknown(), diags
 	}
 
-	rulesVal, ok := rulesAttribute.(basetypes.ListValue)
+	matchingRulesVal, ok := matchingRulesAttribute.(basetypes.ListValue)
 
 	if !ok {
 		diags.AddError(
 			"Attribute Wrong Type",
-			fmt.Sprintf(`rules expected to be basetypes.ListValue, was: %T`, rulesAttribute))
+			fmt.Sprintf(`rules expected to be basetypes.ListValue, was: %T`, matchingRulesAttribute))
 	}
 
 	if diags.HasError() {
@@ -26014,9 +26014,9 @@ func NewSwitchMatchingValue(attributeTypes map[string]attr.Type, attributes map[
 	}
 
 	return SwitchMatchingValue{
-		Enable: enableVal,
-		SwitchMatchingRules:  rulesVal,
-		state:  attr.ValueStateKnown,
+		Enable:        enableVal,
+		MatchingRules: matchingRulesVal,
+		state:         attr.ValueStateKnown,
 	}, diags
 }
 
@@ -26088,9 +26088,9 @@ func (t SwitchMatchingType) ValueType(ctx context.Context) attr.Value {
 var _ basetypes.ObjectValuable = SwitchMatchingValue{}
 
 type SwitchMatchingValue struct {
-	Enable basetypes.BoolValue `tfsdk:"enable"`
-	SwitchMatchingRules  basetypes.ListValue `tfsdk:"rules"`
-	state  attr.ValueState
+	Enable        basetypes.BoolValue `tfsdk:"enable"`
+	MatchingRules basetypes.ListValue `tfsdk:"rules"`
+	state         attr.ValueState
 }
 
 func (v SwitchMatchingValue) ToTerraformValue(ctx context.Context) (tftypes.Value, error) {
@@ -26101,7 +26101,7 @@ func (v SwitchMatchingValue) ToTerraformValue(ctx context.Context) (tftypes.Valu
 
 	attrTypes["enable"] = basetypes.BoolType{}.TerraformType(ctx)
 	attrTypes["rules"] = basetypes.ListType{
-		ElemType: SwitchMatchingRulesValue{}.Type(ctx),
+		ElemType: MatchingRulesValue{}.Type(ctx),
 	}.TerraformType(ctx)
 
 	objectType := tftypes.Object{AttributeTypes: attrTypes}
@@ -26118,7 +26118,7 @@ func (v SwitchMatchingValue) ToTerraformValue(ctx context.Context) (tftypes.Valu
 
 		vals["enable"] = val
 
-		val, err = v.SwitchMatchingRules.ToTerraformValue(ctx)
+		val, err = v.MatchingRules.ToTerraformValue(ctx)
 
 		if err != nil {
 			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
@@ -26155,30 +26155,30 @@ func (v SwitchMatchingValue) String() string {
 func (v SwitchMatchingValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, diag.Diagnostics) {
 	var diags diag.Diagnostics
 
-	rules := types.ListValueMust(
-		SwitchMatchingRulesType{
+	matchingRules := types.ListValueMust(
+		MatchingRulesType{
 			basetypes.ObjectType{
-				AttrTypes: SwitchMatchingRulesValue{}.AttributeTypes(ctx),
+				AttrTypes: MatchingRulesValue{}.AttributeTypes(ctx),
 			},
 		},
-		v.SwitchMatchingRules.Elements(),
+		v.MatchingRules.Elements(),
 	)
 
-	if v.SwitchMatchingRules.IsNull() {
-		rules = types.ListNull(
-			SwitchMatchingRulesType{
+	if v.MatchingRules.IsNull() {
+		matchingRules = types.ListNull(
+			MatchingRulesType{
 				basetypes.ObjectType{
-					AttrTypes: SwitchMatchingRulesValue{}.AttributeTypes(ctx),
+					AttrTypes: MatchingRulesValue{}.AttributeTypes(ctx),
 				},
 			},
 		)
 	}
 
-	if v.SwitchMatchingRules.IsUnknown() {
-		rules = types.ListUnknown(
-			SwitchMatchingRulesType{
+	if v.MatchingRules.IsUnknown() {
+		matchingRules = types.ListUnknown(
+			MatchingRulesType{
 				basetypes.ObjectType{
-					AttrTypes: SwitchMatchingRulesValue{}.AttributeTypes(ctx),
+					AttrTypes: MatchingRulesValue{}.AttributeTypes(ctx),
 				},
 			},
 		)
@@ -26187,7 +26187,7 @@ func (v SwitchMatchingValue) ToObjectValue(ctx context.Context) (basetypes.Objec
 	attributeTypes := map[string]attr.Type{
 		"enable": basetypes.BoolType{},
 		"rules": basetypes.ListType{
-			ElemType: SwitchMatchingRulesValue{}.Type(ctx),
+			ElemType: MatchingRulesValue{}.Type(ctx),
 		},
 	}
 
@@ -26202,8 +26202,8 @@ func (v SwitchMatchingValue) ToObjectValue(ctx context.Context) (basetypes.Objec
 	objVal, diags := types.ObjectValue(
 		attributeTypes,
 		map[string]attr.Value{
-			"enable": v.Enable,
-			"rules":  rules,
+			"enable":         v.Enable,
+			"rules": matchingRules,
 		})
 
 	return objVal, diags
@@ -26228,7 +26228,7 @@ func (v SwitchMatchingValue) Equal(o attr.Value) bool {
 		return false
 	}
 
-	if !v.SwitchMatchingRules.Equal(other.SwitchMatchingRules) {
+	if !v.MatchingRules.Equal(other.MatchingRules) {
 		return false
 	}
 
@@ -26247,29 +26247,762 @@ func (v SwitchMatchingValue) AttributeTypes(ctx context.Context) map[string]attr
 	return map[string]attr.Type{
 		"enable": basetypes.BoolType{},
 		"rules": basetypes.ListType{
-			ElemType: SwitchMatchingRulesValue{}.Type(ctx),
+			ElemType: MatchingRulesValue{}.Type(ctx),
 		},
 	}
 }
 
+var _ basetypes.ObjectTypable = MatchingRulesType{}
 
+type MatchingRulesType struct {
+	basetypes.ObjectType
+}
 
+func (t MatchingRulesType) Equal(o attr.Type) bool {
+	other, ok := o.(MatchingRulesType)
 
+	if !ok {
+		return false
+	}
 
+	return t.ObjectType.Equal(other.ObjectType)
+}
 
+func (t MatchingRulesType) String() string {
+	return "MatchingRulesType"
+}
 
+func (t MatchingRulesType) ValueFromObject(ctx context.Context, in basetypes.ObjectValue) (basetypes.ObjectValuable, diag.Diagnostics) {
+	var diags diag.Diagnostics
 
+	attributes := in.Attributes()
 
+	additionalConfigCmdsAttribute, ok := attributes["additional_config_cmds"]
 
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`additional_config_cmds is missing from object`)
 
+		return nil, diags
+	}
 
+	additionalConfigCmdsVal, ok := additionalConfigCmdsAttribute.(basetypes.ListValue)
 
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`additional_config_cmds expected to be basetypes.ListValue, was: %T`, additionalConfigCmdsAttribute))
+	}
 
+	matchRoleAttribute, ok := attributes["match_role"]
 
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`match_role is missing from object`)
 
+		return nil, diags
+	}
 
+	matchRoleVal, ok := matchRoleAttribute.(basetypes.StringValue)
 
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`match_role expected to be basetypes.StringValue, was: %T`, matchRoleAttribute))
+	}
 
+	matchTypeAttribute, ok := attributes["match_type"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`match_type is missing from object`)
+
+		return nil, diags
+	}
+
+	matchTypeVal, ok := matchTypeAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`match_type expected to be basetypes.StringValue, was: %T`, matchTypeAttribute))
+	}
+
+	matchValueAttribute, ok := attributes["match_value"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`match_value is missing from object`)
+
+		return nil, diags
+	}
+
+	matchValueVal, ok := matchValueAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`match_value expected to be basetypes.StringValue, was: %T`, matchValueAttribute))
+	}
+
+	nameAttribute, ok := attributes["name"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`name is missing from object`)
+
+		return nil, diags
+	}
+
+	nameVal, ok := nameAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`name expected to be basetypes.StringValue, was: %T`, nameAttribute))
+	}
+
+	portConfigAttribute, ok := attributes["port_config"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`port_config is missing from object`)
+
+		return nil, diags
+	}
+
+	portConfigVal, ok := portConfigAttribute.(basetypes.MapValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`port_config expected to be basetypes.MapValue, was: %T`, portConfigAttribute))
+	}
+
+	portMirroringAttribute, ok := attributes["port_mirroring"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`port_mirroring is missing from object`)
+
+		return nil, diags
+	}
+
+	portMirroringVal, ok := portMirroringAttribute.(basetypes.MapValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`port_mirroring expected to be basetypes.MapValue, was: %T`, portMirroringAttribute))
+	}
+
+	if diags.HasError() {
+		return nil, diags
+	}
+
+	return MatchingRulesValue{
+		AdditionalConfigCmds: additionalConfigCmdsVal,
+		MatchRole:            matchRoleVal,
+		MatchType:            matchTypeVal,
+		MatchValue:           matchValueVal,
+		Name:                 nameVal,
+		PortConfig:           portConfigVal,
+		PortMirroring:        portMirroringVal,
+		state:                attr.ValueStateKnown,
+	}, diags
+}
+
+func NewMatchingRulesValueNull() MatchingRulesValue {
+	return MatchingRulesValue{
+		state: attr.ValueStateNull,
+	}
+}
+
+func NewMatchingRulesValueUnknown() MatchingRulesValue {
+	return MatchingRulesValue{
+		state: attr.ValueStateUnknown,
+	}
+}
+
+func NewMatchingRulesValue(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) (MatchingRulesValue, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	// Reference: https://github.com/hashicorp/terraform-plugin-framework/issues/521
+	ctx := context.Background()
+
+	for name, attributeType := range attributeTypes {
+		attribute, ok := attributes[name]
+
+		if !ok {
+			diags.AddError(
+				"Missing MatchingRulesValue Attribute Value",
+				"While creating a MatchingRulesValue value, a missing attribute value was detected. "+
+					"A MatchingRulesValue must contain values for all attributes, even if null or unknown. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("MatchingRulesValue Attribute Name (%s) Expected Type: %s", name, attributeType.String()),
+			)
+
+			continue
+		}
+
+		if !attributeType.Equal(attribute.Type(ctx)) {
+			diags.AddError(
+				"Invalid MatchingRulesValue Attribute Type",
+				"While creating a MatchingRulesValue value, an invalid attribute value was detected. "+
+					"A MatchingRulesValue must use a matching attribute type for the value. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("MatchingRulesValue Attribute Name (%s) Expected Type: %s\n", name, attributeType.String())+
+					fmt.Sprintf("MatchingRulesValue Attribute Name (%s) Given Type: %s", name, attribute.Type(ctx)),
+			)
+		}
+	}
+
+	for name := range attributes {
+		_, ok := attributeTypes[name]
+
+		if !ok {
+			diags.AddError(
+				"Extra MatchingRulesValue Attribute Value",
+				"While creating a MatchingRulesValue value, an extra attribute value was detected. "+
+					"A MatchingRulesValue must not contain values beyond the expected attribute types. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("Extra MatchingRulesValue Attribute Name: %s", name),
+			)
+		}
+	}
+
+	if diags.HasError() {
+		return NewMatchingRulesValueUnknown(), diags
+	}
+
+	additionalConfigCmdsAttribute, ok := attributes["additional_config_cmds"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`additional_config_cmds is missing from object`)
+
+		return NewMatchingRulesValueUnknown(), diags
+	}
+
+	additionalConfigCmdsVal, ok := additionalConfigCmdsAttribute.(basetypes.ListValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`additional_config_cmds expected to be basetypes.ListValue, was: %T`, additionalConfigCmdsAttribute))
+	}
+
+	matchRoleAttribute, ok := attributes["match_role"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`match_role is missing from object`)
+
+		return NewMatchingRulesValueUnknown(), diags
+	}
+
+	matchRoleVal, ok := matchRoleAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`match_role expected to be basetypes.StringValue, was: %T`, matchRoleAttribute))
+	}
+
+	matchTypeAttribute, ok := attributes["match_type"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`match_type is missing from object`)
+
+		return NewMatchingRulesValueUnknown(), diags
+	}
+
+	matchTypeVal, ok := matchTypeAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`match_type expected to be basetypes.StringValue, was: %T`, matchTypeAttribute))
+	}
+
+	matchValueAttribute, ok := attributes["match_value"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`match_value is missing from object`)
+
+		return NewMatchingRulesValueUnknown(), diags
+	}
+
+	matchValueVal, ok := matchValueAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`match_value expected to be basetypes.StringValue, was: %T`, matchValueAttribute))
+	}
+
+	nameAttribute, ok := attributes["name"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`name is missing from object`)
+
+		return NewMatchingRulesValueUnknown(), diags
+	}
+
+	nameVal, ok := nameAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`name expected to be basetypes.StringValue, was: %T`, nameAttribute))
+	}
+
+	portConfigAttribute, ok := attributes["port_config"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`port_config is missing from object`)
+
+		return NewMatchingRulesValueUnknown(), diags
+	}
+
+	portConfigVal, ok := portConfigAttribute.(basetypes.MapValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`port_config expected to be basetypes.MapValue, was: %T`, portConfigAttribute))
+	}
+
+	portMirroringAttribute, ok := attributes["port_mirroring"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`port_mirroring is missing from object`)
+
+		return NewMatchingRulesValueUnknown(), diags
+	}
+
+	portMirroringVal, ok := portMirroringAttribute.(basetypes.MapValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`port_mirroring expected to be basetypes.MapValue, was: %T`, portMirroringAttribute))
+	}
+
+	if diags.HasError() {
+		return NewMatchingRulesValueUnknown(), diags
+	}
+
+	return MatchingRulesValue{
+		AdditionalConfigCmds: additionalConfigCmdsVal,
+		MatchRole:            matchRoleVal,
+		MatchType:            matchTypeVal,
+		MatchValue:           matchValueVal,
+		Name:                 nameVal,
+		PortConfig:           portConfigVal,
+		PortMirroring:        portMirroringVal,
+		state:                attr.ValueStateKnown,
+	}, diags
+}
+
+func NewMatchingRulesValueMust(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) MatchingRulesValue {
+	object, diags := NewMatchingRulesValue(attributeTypes, attributes)
+
+	if diags.HasError() {
+		// This could potentially be added to the diag package.
+		diagsStrings := make([]string, 0, len(diags))
+
+		for _, diagnostic := range diags {
+			diagsStrings = append(diagsStrings, fmt.Sprintf(
+				"%s | %s | %s",
+				diagnostic.Severity(),
+				diagnostic.Summary(),
+				diagnostic.Detail()))
+		}
+
+		panic("NewMatchingRulesValueMust received error(s): " + strings.Join(diagsStrings, "\n"))
+	}
+
+	return object
+}
+
+func (t MatchingRulesType) ValueFromTerraform(ctx context.Context, in tftypes.Value) (attr.Value, error) {
+	if in.Type() == nil {
+		return NewMatchingRulesValueNull(), nil
+	}
+
+	if !in.Type().Equal(t.TerraformType(ctx)) {
+		return nil, fmt.Errorf("expected %s, got %s", t.TerraformType(ctx), in.Type())
+	}
+
+	if !in.IsKnown() {
+		return NewMatchingRulesValueUnknown(), nil
+	}
+
+	if in.IsNull() {
+		return NewMatchingRulesValueNull(), nil
+	}
+
+	attributes := map[string]attr.Value{}
+
+	val := map[string]tftypes.Value{}
+
+	err := in.As(&val)
+
+	if err != nil {
+		return nil, err
+	}
+
+	for k, v := range val {
+		a, err := t.AttrTypes[k].ValueFromTerraform(ctx, v)
+
+		if err != nil {
+			return nil, err
+		}
+
+		attributes[k] = a
+	}
+
+	return NewMatchingRulesValueMust(MatchingRulesValue{}.AttributeTypes(ctx), attributes), nil
+}
+
+func (t MatchingRulesType) ValueType(ctx context.Context) attr.Value {
+	return MatchingRulesValue{}
+}
+
+var _ basetypes.ObjectValuable = MatchingRulesValue{}
+
+type MatchingRulesValue struct {
+	AdditionalConfigCmds basetypes.ListValue   `tfsdk:"additional_config_cmds"`
+	MatchRole            basetypes.StringValue `tfsdk:"match_role"`
+	MatchType            basetypes.StringValue `tfsdk:"match_type"`
+	MatchValue           basetypes.StringValue `tfsdk:"match_value"`
+	Name                 basetypes.StringValue `tfsdk:"name"`
+	PortConfig           basetypes.MapValue    `tfsdk:"port_config"`
+	PortMirroring        basetypes.MapValue    `tfsdk:"port_mirroring"`
+	state                attr.ValueState
+}
+
+func (v MatchingRulesValue) ToTerraformValue(ctx context.Context) (tftypes.Value, error) {
+	attrTypes := make(map[string]tftypes.Type, 7)
+
+	var val tftypes.Value
+	var err error
+
+	attrTypes["additional_config_cmds"] = basetypes.ListType{
+		ElemType: types.StringType,
+	}.TerraformType(ctx)
+	attrTypes["match_role"] = basetypes.StringType{}.TerraformType(ctx)
+	attrTypes["match_type"] = basetypes.StringType{}.TerraformType(ctx)
+	attrTypes["match_value"] = basetypes.StringType{}.TerraformType(ctx)
+	attrTypes["name"] = basetypes.StringType{}.TerraformType(ctx)
+	attrTypes["port_config"] = basetypes.MapType{
+		ElemType: PortConfigValue{}.Type(ctx),
+	}.TerraformType(ctx)
+	attrTypes["port_mirroring"] = basetypes.MapType{
+		ElemType: PortMirroringValue{}.Type(ctx),
+	}.TerraformType(ctx)
+
+	objectType := tftypes.Object{AttributeTypes: attrTypes}
+
+	switch v.state {
+	case attr.ValueStateKnown:
+		vals := make(map[string]tftypes.Value, 7)
+
+		val, err = v.AdditionalConfigCmds.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["additional_config_cmds"] = val
+
+		val, err = v.MatchRole.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["match_role"] = val
+
+		val, err = v.MatchType.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["match_type"] = val
+
+		val, err = v.MatchValue.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["match_value"] = val
+
+		val, err = v.Name.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["name"] = val
+
+		val, err = v.PortConfig.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["port_config"] = val
+
+		val, err = v.PortMirroring.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["port_mirroring"] = val
+
+		if err := tftypes.ValidateValue(objectType, vals); err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		return tftypes.NewValue(objectType, vals), nil
+	case attr.ValueStateNull:
+		return tftypes.NewValue(objectType, nil), nil
+	case attr.ValueStateUnknown:
+		return tftypes.NewValue(objectType, tftypes.UnknownValue), nil
+	default:
+		panic(fmt.Sprintf("unhandled Object state in ToTerraformValue: %s", v.state))
+	}
+}
+
+func (v MatchingRulesValue) IsNull() bool {
+	return v.state == attr.ValueStateNull
+}
+
+func (v MatchingRulesValue) IsUnknown() bool {
+	return v.state == attr.ValueStateUnknown
+}
+
+func (v MatchingRulesValue) String() string {
+	return "MatchingRulesValue"
+}
+
+func (v MatchingRulesValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	portConfig := types.MapValueMust(
+		PortConfigType{
+			basetypes.ObjectType{
+				AttrTypes: PortConfigValue{}.AttributeTypes(ctx),
+			},
+		},
+		v.PortConfig.Elements(),
+	)
+
+	if v.PortConfig.IsNull() {
+		portConfig = types.MapNull(
+			PortConfigType{
+				basetypes.ObjectType{
+					AttrTypes: PortConfigValue{}.AttributeTypes(ctx),
+				},
+			},
+		)
+	}
+
+	if v.PortConfig.IsUnknown() {
+		portConfig = types.MapUnknown(
+			PortConfigType{
+				basetypes.ObjectType{
+					AttrTypes: PortConfigValue{}.AttributeTypes(ctx),
+				},
+			},
+		)
+	}
+
+	portMirroring := types.MapValueMust(
+		PortMirroringType{
+			basetypes.ObjectType{
+				AttrTypes: PortMirroringValue{}.AttributeTypes(ctx),
+			},
+		},
+		v.PortMirroring.Elements(),
+	)
+
+	if v.PortMirroring.IsNull() {
+		portMirroring = types.MapNull(
+			PortMirroringType{
+				basetypes.ObjectType{
+					AttrTypes: PortMirroringValue{}.AttributeTypes(ctx),
+				},
+			},
+		)
+	}
+
+	if v.PortMirroring.IsUnknown() {
+		portMirroring = types.MapUnknown(
+			PortMirroringType{
+				basetypes.ObjectType{
+					AttrTypes: PortMirroringValue{}.AttributeTypes(ctx),
+				},
+			},
+		)
+	}
+
+	additionalConfigCmdsVal, d := types.ListValue(types.StringType, v.AdditionalConfigCmds.Elements())
+
+	diags.Append(d...)
+
+	if d.HasError() {
+		return types.ObjectUnknown(map[string]attr.Type{
+			"additional_config_cmds": basetypes.ListType{
+				ElemType: types.StringType,
+			},
+			"match_role":  basetypes.StringType{},
+			"match_type":  basetypes.StringType{},
+			"match_value": basetypes.StringType{},
+			"name":        basetypes.StringType{},
+			"port_config": basetypes.MapType{
+				ElemType: PortConfigValue{}.Type(ctx),
+			},
+			"port_mirroring": basetypes.MapType{
+				ElemType: PortMirroringValue{}.Type(ctx),
+			},
+		}), diags
+	}
+
+	attributeTypes := map[string]attr.Type{
+		"additional_config_cmds": basetypes.ListType{
+			ElemType: types.StringType,
+		},
+		"match_role":  basetypes.StringType{},
+		"match_type":  basetypes.StringType{},
+		"match_value": basetypes.StringType{},
+		"name":        basetypes.StringType{},
+		"port_config": basetypes.MapType{
+			ElemType: PortConfigValue{}.Type(ctx),
+		},
+		"port_mirroring": basetypes.MapType{
+			ElemType: PortMirroringValue{}.Type(ctx),
+		},
+	}
+
+	if v.IsNull() {
+		return types.ObjectNull(attributeTypes), diags
+	}
+
+	if v.IsUnknown() {
+		return types.ObjectUnknown(attributeTypes), diags
+	}
+
+	objVal, diags := types.ObjectValue(
+		attributeTypes,
+		map[string]attr.Value{
+			"additional_config_cmds": additionalConfigCmdsVal,
+			"match_role":             v.MatchRole,
+			"match_type":             v.MatchType,
+			"match_value":            v.MatchValue,
+			"name":                   v.Name,
+			"port_config":            portConfig,
+			"port_mirroring":         portMirroring,
+		})
+
+	return objVal, diags
+}
+
+func (v MatchingRulesValue) Equal(o attr.Value) bool {
+	other, ok := o.(MatchingRulesValue)
+
+	if !ok {
+		return false
+	}
+
+	if v.state != other.state {
+		return false
+	}
+
+	if v.state != attr.ValueStateKnown {
+		return true
+	}
+
+	if !v.AdditionalConfigCmds.Equal(other.AdditionalConfigCmds) {
+		return false
+	}
+
+	if !v.MatchRole.Equal(other.MatchRole) {
+		return false
+	}
+
+	if !v.MatchType.Equal(other.MatchType) {
+		return false
+	}
+
+	if !v.MatchValue.Equal(other.MatchValue) {
+		return false
+	}
+
+	if !v.Name.Equal(other.Name) {
+		return false
+	}
+
+	if !v.PortConfig.Equal(other.PortConfig) {
+		return false
+	}
+
+	if !v.PortMirroring.Equal(other.PortMirroring) {
+		return false
+	}
+
+	return true
+}
+
+func (v MatchingRulesValue) Type(ctx context.Context) attr.Type {
+	return MatchingRulesType{
+		basetypes.ObjectType{
+			AttrTypes: v.AttributeTypes(ctx),
+		},
+	}
+}
+
+func (v MatchingRulesValue) AttributeTypes(ctx context.Context) map[string]attr.Type {
+	return map[string]attr.Type{
+		"additional_config_cmds": basetypes.ListType{
+			ElemType: types.StringType,
+		},
+		"match_role":  basetypes.StringType{},
+		"match_type":  basetypes.StringType{},
+		"match_value": basetypes.StringType{},
+		"name":        basetypes.StringType{},
+		"port_config": basetypes.MapType{
+			ElemType: PortConfigValue{}.Type(ctx),
+		},
+		"port_mirroring": basetypes.MapType{
+			ElemType: PortMirroringValue{}.Type(ctx),
+		},
+	}
+}
 
 var _ basetypes.ObjectTypable = PortConfigType{}
 
@@ -31944,757 +32677,5 @@ func (v TacacsAcctServersValue) AttributeTypes(ctx context.Context) map[string]a
 		"port":    basetypes.StringType{},
 		"secret":  basetypes.StringType{},
 		"timeout": basetypes.Int64Type{},
-	}
-}
-
-var _ basetypes.ObjectTypable = SwitchMatchingRulesType{}
-
-type SwitchMatchingRulesType struct {
-	basetypes.ObjectType
-}
-
-func (t SwitchMatchingRulesType) Equal(o attr.Type) bool {
-	other, ok := o.(SwitchMatchingRulesType)
-
-	if !ok {
-		return false
-	}
-
-	return t.ObjectType.Equal(other.ObjectType)
-}
-
-func (t SwitchMatchingRulesType) String() string {
-	return "SwitchMatchingRulesType"
-}
-
-func (t SwitchMatchingRulesType) ValueFromObject(ctx context.Context, in basetypes.ObjectValue) (basetypes.ObjectValuable, diag.Diagnostics) {
-	var diags diag.Diagnostics
-
-	attributes := in.Attributes()
-
-	additionalConfigCmdsAttribute, ok := attributes["additional_config_cmds"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`additional_config_cmds is missing from object`)
-
-		return nil, diags
-	}
-
-	additionalConfigCmdsVal, ok := additionalConfigCmdsAttribute.(basetypes.ListValue)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`additional_config_cmds expected to be basetypes.ListValue, was: %T`, additionalConfigCmdsAttribute))
-	}
-
-	matchRoleAttribute, ok := attributes["match_role"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`match_role is missing from object`)
-
-		return nil, diags
-	}
-
-	matchRoleVal, ok := matchRoleAttribute.(basetypes.StringValue)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`match_role expected to be basetypes.StringValue, was: %T`, matchRoleAttribute))
-	}
-
-	matchTypeAttribute, ok := attributes["match_type"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`match_type is missing from object`)
-
-		return nil, diags
-	}
-
-	matchTypeVal, ok := matchTypeAttribute.(basetypes.StringValue)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`match_type expected to be basetypes.StringValue, was: %T`, matchTypeAttribute))
-	}
-
-	matchValueAttribute, ok := attributes["match_value"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`match_value is missing from object`)
-
-		return nil, diags
-	}
-
-	matchValueVal, ok := matchValueAttribute.(basetypes.StringValue)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`match_value expected to be basetypes.StringValue, was: %T`, matchValueAttribute))
-	}
-
-	nameAttribute, ok := attributes["name"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`name is missing from object`)
-
-		return nil, diags
-	}
-
-	nameVal, ok := nameAttribute.(basetypes.StringValue)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`name expected to be basetypes.StringValue, was: %T`, nameAttribute))
-	}
-
-	portConfigAttribute, ok := attributes["port_config"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`port_config is missing from object`)
-
-		return nil, diags
-	}
-
-	portConfigVal, ok := portConfigAttribute.(basetypes.MapValue)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`port_config expected to be basetypes.MapValue, was: %T`, portConfigAttribute))
-	}
-
-	portMirroringAttribute, ok := attributes["port_mirroring"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`port_mirroring is missing from object`)
-
-		return nil, diags
-	}
-
-	portMirroringVal, ok := portMirroringAttribute.(basetypes.MapValue)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`port_mirroring expected to be basetypes.MapValue, was: %T`, portMirroringAttribute))
-	}
-
-	if diags.HasError() {
-		return nil, diags
-	}
-
-	return SwitchMatchingRulesValue{
-		AdditionalConfigCmds: additionalConfigCmdsVal,
-		MatchRole:            matchRoleVal,
-		MatchType:            matchTypeVal,
-		MatchValue:           matchValueVal,
-		Name:                 nameVal,
-		PortConfig:           portConfigVal,
-		PortMirroring:        portMirroringVal,
-		state:                attr.ValueStateKnown,
-	}, diags
-}
-
-func NewSwitchMatchingRulesValueNull() SwitchMatchingRulesValue {
-	return SwitchMatchingRulesValue{
-		state: attr.ValueStateNull,
-	}
-}
-
-func NewSwitchMatchingRulesValueUnknown() SwitchMatchingRulesValue {
-	return SwitchMatchingRulesValue{
-		state: attr.ValueStateUnknown,
-	}
-}
-
-func NewSwitchMatchingRulesValue(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) (SwitchMatchingRulesValue, diag.Diagnostics) {
-	var diags diag.Diagnostics
-
-	// Reference: https://github.com/hashicorp/terraform-plugin-framework/issues/521
-	ctx := context.Background()
-
-	for name, attributeType := range attributeTypes {
-		attribute, ok := attributes[name]
-
-		if !ok {
-			diags.AddError(
-				"Missing SwitchMatchingRulesValue Attribute Value",
-				"While creating a SwitchMatchingRulesValue value, a missing attribute value was detected. "+
-					"A SwitchMatchingRulesValue must contain values for all attributes, even if null or unknown. "+
-					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
-					fmt.Sprintf("SwitchMatchingRulesValue Attribute Name (%s) Expected Type: %s", name, attributeType.String()),
-			)
-
-			continue
-		}
-
-		if !attributeType.Equal(attribute.Type(ctx)) {
-			diags.AddError(
-				"Invalid SwitchMatchingRulesValue Attribute Type",
-				"While creating a SwitchMatchingRulesValue value, an invalid attribute value was detected. "+
-					"A SwitchMatchingRulesValue must use a matching attribute type for the value. "+
-					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
-					fmt.Sprintf("SwitchMatchingRulesValue Attribute Name (%s) Expected Type: %s\n", name, attributeType.String())+
-					fmt.Sprintf("SwitchMatchingRulesValue Attribute Name (%s) Given Type: %s", name, attribute.Type(ctx)),
-			)
-		}
-	}
-
-	for name := range attributes {
-		_, ok := attributeTypes[name]
-
-		if !ok {
-			diags.AddError(
-				"Extra SwitchMatchingRulesValue Attribute Value",
-				"While creating a SwitchMatchingRulesValue value, an extra attribute value was detected. "+
-					"A SwitchMatchingRulesValue must not contain values beyond the expected attribute types. "+
-					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
-					fmt.Sprintf("Extra SwitchMatchingRulesValue Attribute Name: %s", name),
-			)
-		}
-	}
-
-	if diags.HasError() {
-		return NewSwitchMatchingRulesValueUnknown(), diags
-	}
-
-	additionalConfigCmdsAttribute, ok := attributes["additional_config_cmds"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`additional_config_cmds is missing from object`)
-
-		return NewSwitchMatchingRulesValueUnknown(), diags
-	}
-
-	additionalConfigCmdsVal, ok := additionalConfigCmdsAttribute.(basetypes.ListValue)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`additional_config_cmds expected to be basetypes.ListValue, was: %T`, additionalConfigCmdsAttribute))
-	}
-
-	matchRoleAttribute, ok := attributes["match_role"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`match_role is missing from object`)
-
-		return NewSwitchMatchingRulesValueUnknown(), diags
-	}
-
-	matchRoleVal, ok := matchRoleAttribute.(basetypes.StringValue)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`match_role expected to be basetypes.StringValue, was: %T`, matchRoleAttribute))
-	}
-
-	matchTypeAttribute, ok := attributes["match_type"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`match_type is missing from object`)
-
-		return NewSwitchMatchingRulesValueUnknown(), diags
-	}
-
-	matchTypeVal, ok := matchTypeAttribute.(basetypes.StringValue)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`match_type expected to be basetypes.StringValue, was: %T`, matchTypeAttribute))
-	}
-
-	matchValueAttribute, ok := attributes["match_value"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`match_value is missing from object`)
-
-		return NewSwitchMatchingRulesValueUnknown(), diags
-	}
-
-	matchValueVal, ok := matchValueAttribute.(basetypes.StringValue)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`match_value expected to be basetypes.StringValue, was: %T`, matchValueAttribute))
-	}
-
-	nameAttribute, ok := attributes["name"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`name is missing from object`)
-
-		return NewSwitchMatchingRulesValueUnknown(), diags
-	}
-
-	nameVal, ok := nameAttribute.(basetypes.StringValue)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`name expected to be basetypes.StringValue, was: %T`, nameAttribute))
-	}
-
-	portConfigAttribute, ok := attributes["port_config"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`port_config is missing from object`)
-
-		return NewSwitchMatchingRulesValueUnknown(), diags
-	}
-
-	portConfigVal, ok := portConfigAttribute.(basetypes.MapValue)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`port_config expected to be basetypes.MapValue, was: %T`, portConfigAttribute))
-	}
-
-	portMirroringAttribute, ok := attributes["port_mirroring"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`port_mirroring is missing from object`)
-
-		return NewSwitchMatchingRulesValueUnknown(), diags
-	}
-
-	portMirroringVal, ok := portMirroringAttribute.(basetypes.MapValue)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`port_mirroring expected to be basetypes.MapValue, was: %T`, portMirroringAttribute))
-	}
-
-	if diags.HasError() {
-		return NewSwitchMatchingRulesValueUnknown(), diags
-	}
-
-	return SwitchMatchingRulesValue{
-		AdditionalConfigCmds: additionalConfigCmdsVal,
-		MatchRole:            matchRoleVal,
-		MatchType:            matchTypeVal,
-		MatchValue:           matchValueVal,
-		Name:                 nameVal,
-		PortConfig:           portConfigVal,
-		PortMirroring:        portMirroringVal,
-		state:                attr.ValueStateKnown,
-	}, diags
-}
-
-func NewSwitchMatchingRulesValueMust(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) SwitchMatchingRulesValue {
-	object, diags := NewSwitchMatchingRulesValue(attributeTypes, attributes)
-
-	if diags.HasError() {
-		// This could potentially be added to the diag package.
-		diagsStrings := make([]string, 0, len(diags))
-
-		for _, diagnostic := range diags {
-			diagsStrings = append(diagsStrings, fmt.Sprintf(
-				"%s | %s | %s",
-				diagnostic.Severity(),
-				diagnostic.Summary(),
-				diagnostic.Detail()))
-		}
-
-		panic("NewSwitchMatchingRulesValueMust received error(s): " + strings.Join(diagsStrings, "\n"))
-	}
-
-	return object
-}
-
-func (t SwitchMatchingRulesType) ValueFromTerraform(ctx context.Context, in tftypes.Value) (attr.Value, error) {
-	if in.Type() == nil {
-		return NewSwitchMatchingRulesValueNull(), nil
-	}
-
-	if !in.Type().Equal(t.TerraformType(ctx)) {
-		return nil, fmt.Errorf("expected %s, got %s", t.TerraformType(ctx), in.Type())
-	}
-
-	if !in.IsKnown() {
-		return NewSwitchMatchingRulesValueUnknown(), nil
-	}
-
-	if in.IsNull() {
-		return NewSwitchMatchingRulesValueNull(), nil
-	}
-
-	attributes := map[string]attr.Value{}
-
-	val := map[string]tftypes.Value{}
-
-	err := in.As(&val)
-
-	if err != nil {
-		return nil, err
-	}
-
-	for k, v := range val {
-		a, err := t.AttrTypes[k].ValueFromTerraform(ctx, v)
-
-		if err != nil {
-			return nil, err
-		}
-
-		attributes[k] = a
-	}
-
-	return NewSwitchMatchingRulesValueMust(SwitchMatchingRulesValue{}.AttributeTypes(ctx), attributes), nil
-}
-
-func (t SwitchMatchingRulesType) ValueType(ctx context.Context) attr.Value {
-	return SwitchMatchingRulesValue{}
-}
-
-var _ basetypes.ObjectValuable = SwitchMatchingRulesValue{}
-
-type SwitchMatchingRulesValue struct {
-	AdditionalConfigCmds basetypes.ListValue   `tfsdk:"additional_config_cmds"`
-	MatchRole            basetypes.StringValue `tfsdk:"match_role"`
-	MatchType            basetypes.StringValue `tfsdk:"match_type"`
-	MatchValue           basetypes.StringValue `tfsdk:"match_value"`
-	Name                 basetypes.StringValue `tfsdk:"name"`
-	PortConfig           basetypes.MapValue    `tfsdk:"port_config"`
-	PortMirroring        basetypes.MapValue    `tfsdk:"port_mirroring"`
-	state                attr.ValueState
-}
-
-func (v SwitchMatchingRulesValue) ToTerraformValue(ctx context.Context) (tftypes.Value, error) {
-	attrTypes := make(map[string]tftypes.Type, 7)
-
-	var val tftypes.Value
-	var err error
-
-	attrTypes["additional_config_cmds"] = basetypes.ListType{
-		ElemType: types.StringType,
-	}.TerraformType(ctx)
-	attrTypes["match_role"] = basetypes.StringType{}.TerraformType(ctx)
-	attrTypes["match_type"] = basetypes.StringType{}.TerraformType(ctx)
-	attrTypes["match_value"] = basetypes.StringType{}.TerraformType(ctx)
-	attrTypes["name"] = basetypes.StringType{}.TerraformType(ctx)
-	attrTypes["port_config"] = basetypes.MapType{
-		ElemType: PortConfigValue{}.Type(ctx),
-	}.TerraformType(ctx)
-	attrTypes["port_mirroring"] = basetypes.MapType{
-		ElemType: PortMirroringValue{}.Type(ctx),
-	}.TerraformType(ctx)
-
-	objectType := tftypes.Object{AttributeTypes: attrTypes}
-
-	switch v.state {
-	case attr.ValueStateKnown:
-		vals := make(map[string]tftypes.Value, 7)
-
-		val, err = v.AdditionalConfigCmds.ToTerraformValue(ctx)
-
-		if err != nil {
-			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
-		}
-
-		vals["additional_config_cmds"] = val
-
-		val, err = v.MatchRole.ToTerraformValue(ctx)
-
-		if err != nil {
-			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
-		}
-
-		vals["match_role"] = val
-
-		val, err = v.MatchType.ToTerraformValue(ctx)
-
-		if err != nil {
-			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
-		}
-
-		vals["match_type"] = val
-
-		val, err = v.MatchValue.ToTerraformValue(ctx)
-
-		if err != nil {
-			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
-		}
-
-		vals["match_value"] = val
-
-		val, err = v.Name.ToTerraformValue(ctx)
-
-		if err != nil {
-			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
-		}
-
-		vals["name"] = val
-
-		val, err = v.PortConfig.ToTerraformValue(ctx)
-
-		if err != nil {
-			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
-		}
-
-		vals["port_config"] = val
-
-		val, err = v.PortMirroring.ToTerraformValue(ctx)
-
-		if err != nil {
-			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
-		}
-
-		vals["port_mirroring"] = val
-
-		if err := tftypes.ValidateValue(objectType, vals); err != nil {
-			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
-		}
-
-		return tftypes.NewValue(objectType, vals), nil
-	case attr.ValueStateNull:
-		return tftypes.NewValue(objectType, nil), nil
-	case attr.ValueStateUnknown:
-		return tftypes.NewValue(objectType, tftypes.UnknownValue), nil
-	default:
-		panic(fmt.Sprintf("unhandled Object state in ToTerraformValue: %s", v.state))
-	}
-}
-
-func (v SwitchMatchingRulesValue) IsNull() bool {
-	return v.state == attr.ValueStateNull
-}
-
-func (v SwitchMatchingRulesValue) IsUnknown() bool {
-	return v.state == attr.ValueStateUnknown
-}
-
-func (v SwitchMatchingRulesValue) String() string {
-	return "SwitchMatchingRulesValue"
-}
-
-func (v SwitchMatchingRulesValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, diag.Diagnostics) {
-	var diags diag.Diagnostics
-
-	portConfig := types.MapValueMust(
-		PortConfigType{
-			basetypes.ObjectType{
-				AttrTypes: PortConfigValue{}.AttributeTypes(ctx),
-			},
-		},
-		v.PortConfig.Elements(),
-	)
-
-	if v.PortConfig.IsNull() {
-		portConfig = types.MapNull(
-			PortConfigType{
-				basetypes.ObjectType{
-					AttrTypes: PortConfigValue{}.AttributeTypes(ctx),
-				},
-			},
-		)
-	}
-
-	if v.PortConfig.IsUnknown() {
-		portConfig = types.MapUnknown(
-			PortConfigType{
-				basetypes.ObjectType{
-					AttrTypes: PortConfigValue{}.AttributeTypes(ctx),
-				},
-			},
-		)
-	}
-
-	portMirroring := types.MapValueMust(
-		PortMirroringType{
-			basetypes.ObjectType{
-				AttrTypes: PortMirroringValue{}.AttributeTypes(ctx),
-			},
-		},
-		v.PortMirroring.Elements(),
-	)
-
-	if v.PortMirroring.IsNull() {
-		portMirroring = types.MapNull(
-			PortMirroringType{
-				basetypes.ObjectType{
-					AttrTypes: PortMirroringValue{}.AttributeTypes(ctx),
-				},
-			},
-		)
-	}
-
-	if v.PortMirroring.IsUnknown() {
-		portMirroring = types.MapUnknown(
-			PortMirroringType{
-				basetypes.ObjectType{
-					AttrTypes: PortMirroringValue{}.AttributeTypes(ctx),
-				},
-			},
-		)
-	}
-
-	additionalConfigCmdsVal, d := types.ListValue(types.StringType, v.AdditionalConfigCmds.Elements())
-
-	diags.Append(d...)
-
-	if d.HasError() {
-		return types.ObjectUnknown(map[string]attr.Type{
-			"additional_config_cmds": basetypes.ListType{
-				ElemType: types.StringType,
-			},
-			"match_role":  basetypes.StringType{},
-			"match_type":  basetypes.StringType{},
-			"match_value": basetypes.StringType{},
-			"name":        basetypes.StringType{},
-			"port_config": basetypes.MapType{
-				ElemType: PortConfigValue{}.Type(ctx),
-			},
-			"port_mirroring": basetypes.MapType{
-				ElemType: PortMirroringValue{}.Type(ctx),
-			},
-		}), diags
-	}
-
-	attributeTypes := map[string]attr.Type{
-		"additional_config_cmds": basetypes.ListType{
-			ElemType: types.StringType,
-		},
-		"match_role":  basetypes.StringType{},
-		"match_type":  basetypes.StringType{},
-		"match_value": basetypes.StringType{},
-		"name":        basetypes.StringType{},
-		"port_config": basetypes.MapType{
-			ElemType: PortConfigValue{}.Type(ctx),
-		},
-		"port_mirroring": basetypes.MapType{
-			ElemType: PortMirroringValue{}.Type(ctx),
-		},
-	}
-
-	if v.IsNull() {
-		return types.ObjectNull(attributeTypes), diags
-	}
-
-	if v.IsUnknown() {
-		return types.ObjectUnknown(attributeTypes), diags
-	}
-
-	objVal, diags := types.ObjectValue(
-		attributeTypes,
-		map[string]attr.Value{
-			"additional_config_cmds": additionalConfigCmdsVal,
-			"match_role":             v.MatchRole,
-			"match_type":             v.MatchType,
-			"match_value":            v.MatchValue,
-			"name":                   v.Name,
-			"port_config":            portConfig,
-			"port_mirroring":         portMirroring,
-		})
-
-	return objVal, diags
-}
-
-func (v SwitchMatchingRulesValue) Equal(o attr.Value) bool {
-	other, ok := o.(SwitchMatchingRulesValue)
-
-	if !ok {
-		return false
-	}
-
-	if v.state != other.state {
-		return false
-	}
-
-	if v.state != attr.ValueStateKnown {
-		return true
-	}
-
-	if !v.AdditionalConfigCmds.Equal(other.AdditionalConfigCmds) {
-		return false
-	}
-
-	if !v.MatchRole.Equal(other.MatchRole) {
-		return false
-	}
-
-	if !v.MatchType.Equal(other.MatchType) {
-		return false
-	}
-
-	if !v.MatchValue.Equal(other.MatchValue) {
-		return false
-	}
-
-	if !v.Name.Equal(other.Name) {
-		return false
-	}
-
-	if !v.PortConfig.Equal(other.PortConfig) {
-		return false
-	}
-
-	if !v.PortMirroring.Equal(other.PortMirroring) {
-		return false
-	}
-
-	return true
-}
-
-func (v SwitchMatchingRulesValue) Type(ctx context.Context) attr.Type {
-	return SwitchMatchingRulesType{
-		basetypes.ObjectType{
-			AttrTypes: v.AttributeTypes(ctx),
-		},
-	}
-}
-
-func (v SwitchMatchingRulesValue) AttributeTypes(ctx context.Context) map[string]attr.Type {
-	return map[string]attr.Type{
-		"additional_config_cmds": basetypes.ListType{
-			ElemType: types.StringType,
-		},
-		"match_role":  basetypes.StringType{},
-		"match_type":  basetypes.StringType{},
-		"match_value": basetypes.StringType{},
-		"name":        basetypes.StringType{},
-		"port_config": basetypes.MapType{
-			ElemType: PortConfigValue{}.Type(ctx),
-		},
-		"port_mirroring": basetypes.MapType{
-			ElemType: PortMirroringValue{}.Type(ctx),
-		},
 	}
 }

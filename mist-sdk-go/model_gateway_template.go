@@ -26,6 +26,11 @@ type GatewayTemplate struct {
 	BgpConfig *map[string]BgpConfig `json:"bgp_config,omitempty"`
 	CreatedTime *float32 `json:"created_time,omitempty"`
 	DhcpdConfig *DhcpdConfigs `json:"dhcpd_config,omitempty"`
+	DnsOverride *bool `json:"dnsOverride,omitempty"`
+	// Global dns settings. To keep compatibility, dns settings in `ip_config` and `oob_ip_config` will overwrite this setting
+	DnsServers []string `json:"dns_servers,omitempty"`
+	// Global dns settings. To keep compatibility, dns settings in `ip_config` and `oob_ip_config` will overwrite this setting
+	DnsSuffix []string `json:"dns_suffix,omitempty"`
 	ExtraRoutes *map[string]GatewayExtraRoute `json:"extra_routes,omitempty"`
 	GatewayMatching *GatewayMatching `json:"gateway_matching,omitempty"`
 	Id *string `json:"id,omitempty"`
@@ -36,6 +41,9 @@ type GatewayTemplate struct {
 	ModifiedTime *float32 `json:"modified_time,omitempty"`
 	Name string `json:"name"`
 	Networks []Network `json:"networks,omitempty"`
+	NtpOverride *bool `json:"ntpOverride,omitempty"`
+	// list of NTP servers specific to this device. By default, those in Site Settings will be used
+	NtpServers []string `json:"ntp_servers,omitempty"`
 	OobIpConfig *JunosOobIpConfigs `json:"oob_ip_config,omitempty"`
 	OrgId *string `json:"org_id,omitempty"`
 	// Property key is the path name
@@ -62,7 +70,11 @@ type _GatewayTemplate GatewayTemplate
 // will change when the set of required properties is changed
 func NewGatewayTemplate(name string) *GatewayTemplate {
 	this := GatewayTemplate{}
+	var dnsOverride bool = false
+	this.DnsOverride = &dnsOverride
 	this.Name = name
+	var ntpOverride bool = false
+	this.NtpOverride = &ntpOverride
 	var type_ GatewayTemplateType = GATEWAYTEMPLATETYPE_STANDALONE
 	this.Type = &type_
 	return &this
@@ -73,6 +85,10 @@ func NewGatewayTemplate(name string) *GatewayTemplate {
 // but it doesn't guarantee that properties required by API are set
 func NewGatewayTemplateWithDefaults() *GatewayTemplate {
 	this := GatewayTemplate{}
+	var dnsOverride bool = false
+	this.DnsOverride = &dnsOverride
+	var ntpOverride bool = false
+	this.NtpOverride = &ntpOverride
 	var type_ GatewayTemplateType = GATEWAYTEMPLATETYPE_STANDALONE
 	this.Type = &type_
 	return &this
@@ -204,6 +220,102 @@ func (o *GatewayTemplate) HasDhcpdConfig() bool {
 // SetDhcpdConfig gets a reference to the given DhcpdConfigs and assigns it to the DhcpdConfig field.
 func (o *GatewayTemplate) SetDhcpdConfig(v DhcpdConfigs) {
 	o.DhcpdConfig = &v
+}
+
+// GetDnsOverride returns the DnsOverride field value if set, zero value otherwise.
+func (o *GatewayTemplate) GetDnsOverride() bool {
+	if o == nil || IsNil(o.DnsOverride) {
+		var ret bool
+		return ret
+	}
+	return *o.DnsOverride
+}
+
+// GetDnsOverrideOk returns a tuple with the DnsOverride field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *GatewayTemplate) GetDnsOverrideOk() (*bool, bool) {
+	if o == nil || IsNil(o.DnsOverride) {
+		return nil, false
+	}
+	return o.DnsOverride, true
+}
+
+// HasDnsOverride returns a boolean if a field has been set.
+func (o *GatewayTemplate) HasDnsOverride() bool {
+	if o != nil && !IsNil(o.DnsOverride) {
+		return true
+	}
+
+	return false
+}
+
+// SetDnsOverride gets a reference to the given bool and assigns it to the DnsOverride field.
+func (o *GatewayTemplate) SetDnsOverride(v bool) {
+	o.DnsOverride = &v
+}
+
+// GetDnsServers returns the DnsServers field value if set, zero value otherwise.
+func (o *GatewayTemplate) GetDnsServers() []string {
+	if o == nil || IsNil(o.DnsServers) {
+		var ret []string
+		return ret
+	}
+	return o.DnsServers
+}
+
+// GetDnsServersOk returns a tuple with the DnsServers field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *GatewayTemplate) GetDnsServersOk() ([]string, bool) {
+	if o == nil || IsNil(o.DnsServers) {
+		return nil, false
+	}
+	return o.DnsServers, true
+}
+
+// HasDnsServers returns a boolean if a field has been set.
+func (o *GatewayTemplate) HasDnsServers() bool {
+	if o != nil && !IsNil(o.DnsServers) {
+		return true
+	}
+
+	return false
+}
+
+// SetDnsServers gets a reference to the given []string and assigns it to the DnsServers field.
+func (o *GatewayTemplate) SetDnsServers(v []string) {
+	o.DnsServers = v
+}
+
+// GetDnsSuffix returns the DnsSuffix field value if set, zero value otherwise.
+func (o *GatewayTemplate) GetDnsSuffix() []string {
+	if o == nil || IsNil(o.DnsSuffix) {
+		var ret []string
+		return ret
+	}
+	return o.DnsSuffix
+}
+
+// GetDnsSuffixOk returns a tuple with the DnsSuffix field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *GatewayTemplate) GetDnsSuffixOk() ([]string, bool) {
+	if o == nil || IsNil(o.DnsSuffix) {
+		return nil, false
+	}
+	return o.DnsSuffix, true
+}
+
+// HasDnsSuffix returns a boolean if a field has been set.
+func (o *GatewayTemplate) HasDnsSuffix() bool {
+	if o != nil && !IsNil(o.DnsSuffix) {
+		return true
+	}
+
+	return false
+}
+
+// SetDnsSuffix gets a reference to the given []string and assigns it to the DnsSuffix field.
+func (o *GatewayTemplate) SetDnsSuffix(v []string) {
+	o.DnsSuffix = v
 }
 
 // GetExtraRoutes returns the ExtraRoutes field value if set, zero value otherwise.
@@ -452,6 +564,70 @@ func (o *GatewayTemplate) HasNetworks() bool {
 // SetNetworks gets a reference to the given []Network and assigns it to the Networks field.
 func (o *GatewayTemplate) SetNetworks(v []Network) {
 	o.Networks = v
+}
+
+// GetNtpOverride returns the NtpOverride field value if set, zero value otherwise.
+func (o *GatewayTemplate) GetNtpOverride() bool {
+	if o == nil || IsNil(o.NtpOverride) {
+		var ret bool
+		return ret
+	}
+	return *o.NtpOverride
+}
+
+// GetNtpOverrideOk returns a tuple with the NtpOverride field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *GatewayTemplate) GetNtpOverrideOk() (*bool, bool) {
+	if o == nil || IsNil(o.NtpOverride) {
+		return nil, false
+	}
+	return o.NtpOverride, true
+}
+
+// HasNtpOverride returns a boolean if a field has been set.
+func (o *GatewayTemplate) HasNtpOverride() bool {
+	if o != nil && !IsNil(o.NtpOverride) {
+		return true
+	}
+
+	return false
+}
+
+// SetNtpOverride gets a reference to the given bool and assigns it to the NtpOverride field.
+func (o *GatewayTemplate) SetNtpOverride(v bool) {
+	o.NtpOverride = &v
+}
+
+// GetNtpServers returns the NtpServers field value if set, zero value otherwise.
+func (o *GatewayTemplate) GetNtpServers() []string {
+	if o == nil || IsNil(o.NtpServers) {
+		var ret []string
+		return ret
+	}
+	return o.NtpServers
+}
+
+// GetNtpServersOk returns a tuple with the NtpServers field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *GatewayTemplate) GetNtpServersOk() ([]string, bool) {
+	if o == nil || IsNil(o.NtpServers) {
+		return nil, false
+	}
+	return o.NtpServers, true
+}
+
+// HasNtpServers returns a boolean if a field has been set.
+func (o *GatewayTemplate) HasNtpServers() bool {
+	if o != nil && !IsNil(o.NtpServers) {
+		return true
+	}
+
+	return false
+}
+
+// SetNtpServers gets a reference to the given []string and assigns it to the NtpServers field.
+func (o *GatewayTemplate) SetNtpServers(v []string) {
+	o.NtpServers = v
 }
 
 // GetOobIpConfig returns the OobIpConfig field value if set, zero value otherwise.
@@ -796,6 +972,15 @@ func (o GatewayTemplate) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.DhcpdConfig) {
 		toSerialize["dhcpd_config"] = o.DhcpdConfig
 	}
+	if !IsNil(o.DnsOverride) {
+		toSerialize["dnsOverride"] = o.DnsOverride
+	}
+	if !IsNil(o.DnsServers) {
+		toSerialize["dns_servers"] = o.DnsServers
+	}
+	if !IsNil(o.DnsSuffix) {
+		toSerialize["dns_suffix"] = o.DnsSuffix
+	}
 	if !IsNil(o.ExtraRoutes) {
 		toSerialize["extra_routes"] = o.ExtraRoutes
 	}
@@ -817,6 +1002,12 @@ func (o GatewayTemplate) ToMap() (map[string]interface{}, error) {
 	toSerialize["name"] = o.Name
 	if !IsNil(o.Networks) {
 		toSerialize["networks"] = o.Networks
+	}
+	if !IsNil(o.NtpOverride) {
+		toSerialize["ntpOverride"] = o.NtpOverride
+	}
+	if !IsNil(o.NtpServers) {
+		toSerialize["ntp_servers"] = o.NtpServers
 	}
 	if !IsNil(o.OobIpConfig) {
 		toSerialize["oob_ip_config"] = o.OobIpConfig
@@ -895,6 +1086,9 @@ func (o *GatewayTemplate) UnmarshalJSON(data []byte) (err error) {
 		delete(additionalProperties, "bgp_config")
 		delete(additionalProperties, "created_time")
 		delete(additionalProperties, "dhcpd_config")
+		delete(additionalProperties, "dnsOverride")
+		delete(additionalProperties, "dns_servers")
+		delete(additionalProperties, "dns_suffix")
 		delete(additionalProperties, "extra_routes")
 		delete(additionalProperties, "gateway_matching")
 		delete(additionalProperties, "id")
@@ -903,6 +1097,8 @@ func (o *GatewayTemplate) UnmarshalJSON(data []byte) (err error) {
 		delete(additionalProperties, "modified_time")
 		delete(additionalProperties, "name")
 		delete(additionalProperties, "networks")
+		delete(additionalProperties, "ntpOverride")
+		delete(additionalProperties, "ntp_servers")
 		delete(additionalProperties, "oob_ip_config")
 		delete(additionalProperties, "org_id")
 		delete(additionalProperties, "path_preferences")

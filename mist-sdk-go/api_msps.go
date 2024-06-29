@@ -21,12 +21,88 @@ import (
 )
 
 
+type MSPsAPI interface {
+
+	/*
+	CreateMsp createMsp
+
+	Create MSP account
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiCreateMspRequest
+	*/
+	CreateMsp(ctx context.Context) ApiCreateMspRequest
+
+	// CreateMspExecute executes the request
+	//  @return Msp
+	CreateMspExecute(r ApiCreateMspRequest) (*Msp, *http.Response, error)
+
+	/*
+	DeleteMsp deleteMsp
+
+	Deleting MSP removes the MSP and OrgGroup under the MSP as well as all privileges associated with them. It does not remove any Org or Admins
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param mspId
+	@return ApiDeleteMspRequest
+	*/
+	DeleteMsp(ctx context.Context, mspId string) ApiDeleteMspRequest
+
+	// DeleteMspExecute executes the request
+	DeleteMspExecute(r ApiDeleteMspRequest) (*http.Response, error)
+
+	/*
+	GetMspDetails getMspDetails
+
+	Get MSP Detail
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param mspId
+	@return ApiGetMspDetailsRequest
+	*/
+	GetMspDetails(ctx context.Context, mspId string) ApiGetMspDetailsRequest
+
+	// GetMspDetailsExecute executes the request
+	//  @return Msp
+	GetMspDetailsExecute(r ApiGetMspDetailsRequest) (*Msp, *http.Response, error)
+
+	/*
+	SearchMspOrgGroup searchMspOrgGroup
+
+	Search in MSP Orgs
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param mspId
+	@return ApiSearchMspOrgGroupRequest
+	*/
+	SearchMspOrgGroup(ctx context.Context, mspId string) ApiSearchMspOrgGroupRequest
+
+	// SearchMspOrgGroupExecute executes the request
+	//  @return ResponseSearch
+	SearchMspOrgGroupExecute(r ApiSearchMspOrgGroupRequest) (*ResponseSearch, *http.Response, error)
+
+	/*
+	UpdateMsp updateMsp
+
+	Update MSP
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param mspId
+	@return ApiUpdateMspRequest
+	*/
+	UpdateMsp(ctx context.Context, mspId string) ApiUpdateMspRequest
+
+	// UpdateMspExecute executes the request
+	//  @return Msp
+	UpdateMspExecute(r ApiUpdateMspRequest) (*Msp, *http.Response, error)
+}
+
 // MSPsAPIService MSPsAPI service
 type MSPsAPIService service
 
 type ApiCreateMspRequest struct {
 	ctx context.Context
-	ApiService *MSPsAPIService
+	ApiService MSPsAPI
 	msp *Msp
 }
 
@@ -202,7 +278,7 @@ func (a *MSPsAPIService) CreateMspExecute(r ApiCreateMspRequest) (*Msp, *http.Re
 
 type ApiDeleteMspRequest struct {
 	ctx context.Context
-	ApiService *MSPsAPIService
+	ApiService MSPsAPI
 	mspId string
 }
 
@@ -362,7 +438,7 @@ func (a *MSPsAPIService) DeleteMspExecute(r ApiDeleteMspRequest) (*http.Response
 
 type ApiGetMspDetailsRequest struct {
 	ctx context.Context
-	ApiService *MSPsAPIService
+	ApiService MSPsAPI
 	mspId string
 }
 
@@ -533,7 +609,7 @@ func (a *MSPsAPIService) GetMspDetailsExecute(r ApiGetMspDetailsRequest) (*Msp, 
 
 type ApiSearchMspOrgGroupRequest struct {
 	ctx context.Context
-	ApiService *MSPsAPIService
+	ApiService MSPsAPI
 	mspId string
 	type_ *MspSearchType
 	q *string
@@ -773,7 +849,7 @@ func (a *MSPsAPIService) SearchMspOrgGroupExecute(r ApiSearchMspOrgGroupRequest)
 
 type ApiUpdateMspRequest struct {
 	ctx context.Context
-	ApiService *MSPsAPIService
+	ApiService MSPsAPI
 	mspId string
 	msp *Msp
 }

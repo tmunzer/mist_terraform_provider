@@ -20,12 +20,29 @@ import (
 )
 
 
+type AdminsLogoutAPI interface {
+
+	/*
+	Logout logout
+
+	Logout
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiLogoutRequest
+	*/
+	Logout(ctx context.Context) ApiLogoutRequest
+
+	// LogoutExecute executes the request
+	//  @return ResponseLogout
+	LogoutExecute(r ApiLogoutRequest) (*ResponseLogout, *http.Response, error)
+}
+
 // AdminsLogoutAPIService AdminsLogoutAPI service
 type AdminsLogoutAPIService service
 
 type ApiLogoutRequest struct {
 	ctx context.Context
-	ApiService *AdminsLogoutAPIService
+	ApiService AdminsLogoutAPI
 }
 
 func (r ApiLogoutRequest) Execute() (*ResponseLogout, *http.Response, error) {

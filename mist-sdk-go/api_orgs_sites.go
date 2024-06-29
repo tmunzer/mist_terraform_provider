@@ -21,12 +21,75 @@ import (
 )
 
 
+type OrgsSitesAPI interface {
+
+	/*
+	CountOrgSites countOrgSites
+
+	Count Sites
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiCountOrgSitesRequest
+	*/
+	CountOrgSites(ctx context.Context, orgId string) ApiCountOrgSitesRequest
+
+	// CountOrgSitesExecute executes the request
+	//  @return RepsonseCount
+	CountOrgSitesExecute(r ApiCountOrgSitesRequest) (*RepsonseCount, *http.Response, error)
+
+	/*
+	CreateOrgSite createOrgSite
+
+	Create Org Site
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiCreateOrgSiteRequest
+	*/
+	CreateOrgSite(ctx context.Context, orgId string) ApiCreateOrgSiteRequest
+
+	// CreateOrgSiteExecute executes the request
+	//  @return Site
+	CreateOrgSiteExecute(r ApiCreateOrgSiteRequest) (*Site, *http.Response, error)
+
+	/*
+	ListOrgSites listOrgSites
+
+	Get List of Org Sites
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiListOrgSitesRequest
+	*/
+	ListOrgSites(ctx context.Context, orgId string) ApiListOrgSitesRequest
+
+	// ListOrgSitesExecute executes the request
+	//  @return []Site
+	ListOrgSitesExecute(r ApiListOrgSitesRequest) ([]Site, *http.Response, error)
+
+	/*
+	SearchOrgSites searchOrgSites
+
+	Search Sites
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiSearchOrgSitesRequest
+	*/
+	SearchOrgSites(ctx context.Context, orgId string) ApiSearchOrgSitesRequest
+
+	// SearchOrgSitesExecute executes the request
+	//  @return ResponseSiteSearch
+	SearchOrgSitesExecute(r ApiSearchOrgSitesRequest) (*ResponseSiteSearch, *http.Response, error)
+}
+
 // OrgsSitesAPIService OrgsSitesAPI service
 type OrgsSitesAPIService service
 
 type ApiCountOrgSitesRequest struct {
 	ctx context.Context
-	ApiService *OrgsSitesAPIService
+	ApiService OrgsSitesAPI
 	orgId string
 	distinct *OrgSitesCountDistinct
 	page *int32
@@ -266,7 +329,7 @@ func (a *OrgsSitesAPIService) CountOrgSitesExecute(r ApiCountOrgSitesRequest) (*
 
 type ApiCreateOrgSiteRequest struct {
 	ctx context.Context
-	ApiService *OrgsSitesAPIService
+	ApiService OrgsSitesAPI
 	orgId string
 	site *Site
 }
@@ -446,7 +509,7 @@ func (a *OrgsSitesAPIService) CreateOrgSiteExecute(r ApiCreateOrgSiteRequest) (*
 
 type ApiListOrgSitesRequest struct {
 	ctx context.Context
-	ApiService *OrgsSitesAPIService
+	ApiService OrgsSitesAPI
 	orgId string
 	limit *int32
 	page *int32
@@ -641,7 +704,7 @@ func (a *OrgsSitesAPIService) ListOrgSitesExecute(r ApiListOrgSitesRequest) ([]S
 
 type ApiSearchOrgSitesRequest struct {
 	ctx context.Context
-	ApiService *OrgsSitesAPIService
+	ApiService OrgsSitesAPI
 	orgId string
 	analyticEnabled *bool
 	appWaking *bool

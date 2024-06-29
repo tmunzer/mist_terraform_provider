@@ -21,12 +21,77 @@ import (
 )
 
 
+type SitesCallsAPI interface {
+
+	/*
+	CountSiteCalls countSiteCalls
+
+	Count by Distinct Attributes of Calls
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiCountSiteCallsRequest
+	*/
+	CountSiteCalls(ctx context.Context, siteId string) ApiCountSiteCallsRequest
+
+	// CountSiteCallsExecute executes the request
+	//  @return RepsonseCount
+	CountSiteCallsExecute(r ApiCountSiteCallsRequest) (*RepsonseCount, *http.Response, error)
+
+	/*
+	ListSiteTroubleshootCalls listSiteTroubleshootCalls
+
+	Summary of calls troubleshoot by site
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param clientMac
+	@return ApiListSiteTroubleshootCallsRequest
+	*/
+	ListSiteTroubleshootCalls(ctx context.Context, siteId string, clientMac string) ApiListSiteTroubleshootCallsRequest
+
+	// ListSiteTroubleshootCallsExecute executes the request
+	//  @return CallTroubleshootSummary
+	ListSiteTroubleshootCallsExecute(r ApiListSiteTroubleshootCallsRequest) (*CallTroubleshootSummary, *http.Response, error)
+
+	/*
+	SearchSiteCalls searchSiteCalls
+
+	Search Calls
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiSearchSiteCallsRequest
+	*/
+	SearchSiteCalls(ctx context.Context, siteId string) ApiSearchSiteCallsRequest
+
+	// SearchSiteCallsExecute executes the request
+	//  @return ResponseStatsCalls
+	SearchSiteCallsExecute(r ApiSearchSiteCallsRequest) (*ResponseStatsCalls, *http.Response, error)
+
+	/*
+	TroubleshootSiteCall troubleshootSiteCall
+
+	Troubleshoot a call
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param clientMac
+	@return ApiTroubleshootSiteCallRequest
+	*/
+	TroubleshootSiteCall(ctx context.Context, siteId string, clientMac string) ApiTroubleshootSiteCallRequest
+
+	// TroubleshootSiteCallExecute executes the request
+	//  @return CallTroubleshoot
+	TroubleshootSiteCallExecute(r ApiTroubleshootSiteCallRequest) (*CallTroubleshoot, *http.Response, error)
+}
+
 // SitesCallsAPIService SitesCallsAPI service
 type SitesCallsAPIService service
 
 type ApiCountSiteCallsRequest struct {
 	ctx context.Context
-	ApiService *SitesCallsAPIService
+	ApiService SitesCallsAPI
 	siteId string
 	distrinct *CountSiteCallsDistrinct
 	rating *int32
@@ -246,7 +311,7 @@ func (a *SitesCallsAPIService) CountSiteCallsExecute(r ApiCountSiteCallsRequest)
 
 type ApiListSiteTroubleshootCallsRequest struct {
 	ctx context.Context
-	ApiService *SitesCallsAPIService
+	ApiService SitesCallsAPI
 	siteId string
 	clientMac string
 	ap *string
@@ -518,7 +583,7 @@ func (a *SitesCallsAPIService) ListSiteTroubleshootCallsExecute(r ApiListSiteTro
 
 type ApiSearchSiteCallsRequest struct {
 	ctx context.Context
-	ApiService *SitesCallsAPIService
+	ApiService SitesCallsAPI
 	siteId string
 	mac *string
 	app *string
@@ -754,7 +819,7 @@ func (a *SitesCallsAPIService) SearchSiteCallsExecute(r ApiSearchSiteCallsReques
 
 type ApiTroubleshootSiteCallRequest struct {
 	ctx context.Context
-	ApiService *SitesCallsAPIService
+	ApiService SitesCallsAPI
 	siteId string
 	clientMac string
 	meetingId *string

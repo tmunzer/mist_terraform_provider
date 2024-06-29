@@ -20,7 +20,7 @@ Name | Type | Description | Notes
 **Mesh** | Pointer to [**ApMesh**](ApMesh.md) |  | [optional] 
 **ModifiedTime** | Pointer to **float32** |  | [optional] [readonly] 
 **Name** | **string** |  | 
-**NtpServers** | Pointer to **[]string** |  | [optional] 
+**NtpServers** | Pointer to **[]string** | list of NTP servers specific to this device. By default, those in Site Settings will be used | [optional] 
 **OrgId** | Pointer to **string** |  | [optional] [readonly] 
 **PoePassthrough** | Pointer to **bool** | whether to enable power out through module port (for APH) or eth1 (for APL/BT11) | [optional] [default to false]
 **PortConfig** | Pointer to [**map[string]GatewayPortConfig**](GatewayPortConfig.md) | Property key is the port(s) name or range (e.g. \&quot;ge-0/0/0-10\&quot;) | [optional] 
@@ -35,11 +35,15 @@ Name | Type | Description | Notes
 **AdditionalConfigCmds** | Pointer to **[]string** | additional CLI commands to append to the generated Junos config  **Note**: no check is done | [optional] 
 **BgpConfig** | Pointer to [**map[string]BgpConfig**](BgpConfig.md) |  | [optional] 
 **DhcpdConfig** | Pointer to [**DhcpdConfigs**](DhcpdConfigs.md) |  | [optional] 
+**DnsOverride** | Pointer to **bool** |  | [optional] [default to false]
+**DnsServers** | Pointer to **[]string** | Global dns settings. To keep compatibility, dns settings in &#x60;ip_config&#x60; and &#x60;oob_ip_config&#x60; will overwrite this setting | [optional] 
+**DnsSuffix** | Pointer to **[]string** | Global dns settings. To keep compatibility, dns settings in &#x60;ip_config&#x60; and &#x60;oob_ip_config&#x60; will overwrite this setting | [optional] 
 **ExtraRoutes** | Pointer to [**map[string]GatewayExtraRoute**](GatewayExtraRoute.md) |  | [optional] 
 **GatewayMatching** | Pointer to [**GatewayMatching**](GatewayMatching.md) |  | [optional] 
 **IdpProfiles** | Pointer to [**map[string]IdpProfile**](IdpProfile.md) | Property key is the profile name | [optional] 
 **IpConfigs** | Pointer to [**map[string]GatewayTemplateIpConfig**](GatewayTemplateIpConfig.md) | Property key is the network name | [optional] 
 **Networks** | Pointer to [**[]Network**](Network.md) |  | [optional] 
+**NtpOverride** | Pointer to **bool** |  | [optional] [default to false]
 **OobIpConfig** | Pointer to [**JunosOobIpConfigs**](JunosOobIpConfigs.md) |  | [optional] 
 **PathPreferences** | Pointer to [**map[string]GatewayTemplatePathPreferences**](GatewayTemplatePathPreferences.md) | Property key is the path name | [optional] 
 **RouterId** | Pointer to **string** | auto assigned if not set | [optional] 
@@ -837,6 +841,81 @@ SetDhcpdConfig sets DhcpdConfig field to given value.
 
 HasDhcpdConfig returns a boolean if a field has been set.
 
+### GetDnsOverride
+
+`func (o *Deviceprofile) GetDnsOverride() bool`
+
+GetDnsOverride returns the DnsOverride field if non-nil, zero value otherwise.
+
+### GetDnsOverrideOk
+
+`func (o *Deviceprofile) GetDnsOverrideOk() (*bool, bool)`
+
+GetDnsOverrideOk returns a tuple with the DnsOverride field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetDnsOverride
+
+`func (o *Deviceprofile) SetDnsOverride(v bool)`
+
+SetDnsOverride sets DnsOverride field to given value.
+
+### HasDnsOverride
+
+`func (o *Deviceprofile) HasDnsOverride() bool`
+
+HasDnsOverride returns a boolean if a field has been set.
+
+### GetDnsServers
+
+`func (o *Deviceprofile) GetDnsServers() []string`
+
+GetDnsServers returns the DnsServers field if non-nil, zero value otherwise.
+
+### GetDnsServersOk
+
+`func (o *Deviceprofile) GetDnsServersOk() (*[]string, bool)`
+
+GetDnsServersOk returns a tuple with the DnsServers field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetDnsServers
+
+`func (o *Deviceprofile) SetDnsServers(v []string)`
+
+SetDnsServers sets DnsServers field to given value.
+
+### HasDnsServers
+
+`func (o *Deviceprofile) HasDnsServers() bool`
+
+HasDnsServers returns a boolean if a field has been set.
+
+### GetDnsSuffix
+
+`func (o *Deviceprofile) GetDnsSuffix() []string`
+
+GetDnsSuffix returns the DnsSuffix field if non-nil, zero value otherwise.
+
+### GetDnsSuffixOk
+
+`func (o *Deviceprofile) GetDnsSuffixOk() (*[]string, bool)`
+
+GetDnsSuffixOk returns a tuple with the DnsSuffix field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetDnsSuffix
+
+`func (o *Deviceprofile) SetDnsSuffix(v []string)`
+
+SetDnsSuffix sets DnsSuffix field to given value.
+
+### HasDnsSuffix
+
+`func (o *Deviceprofile) HasDnsSuffix() bool`
+
+HasDnsSuffix returns a boolean if a field has been set.
+
 ### GetExtraRoutes
 
 `func (o *Deviceprofile) GetExtraRoutes() map[string]GatewayExtraRoute`
@@ -961,6 +1040,31 @@ SetNetworks sets Networks field to given value.
 `func (o *Deviceprofile) HasNetworks() bool`
 
 HasNetworks returns a boolean if a field has been set.
+
+### GetNtpOverride
+
+`func (o *Deviceprofile) GetNtpOverride() bool`
+
+GetNtpOverride returns the NtpOverride field if non-nil, zero value otherwise.
+
+### GetNtpOverrideOk
+
+`func (o *Deviceprofile) GetNtpOverrideOk() (*bool, bool)`
+
+GetNtpOverrideOk returns a tuple with the NtpOverride field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetNtpOverride
+
+`func (o *Deviceprofile) SetNtpOverride(v bool)`
+
+SetNtpOverride sets NtpOverride field to given value.
+
+### HasNtpOverride
+
+`func (o *Deviceprofile) HasNtpOverride() bool`
+
+HasNtpOverride returns a boolean if a field has been set.
 
 ### GetOobIpConfig
 

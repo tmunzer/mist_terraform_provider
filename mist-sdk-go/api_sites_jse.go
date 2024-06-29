@@ -21,12 +21,30 @@ import (
 )
 
 
+type SitesJSEAPI interface {
+
+	/*
+	GetSiteJseInfo getSiteJseInfo
+
+	Retrieves the list of JSE orgs associated with the account
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiGetSiteJseInfoRequest
+	*/
+	GetSiteJseInfo(ctx context.Context, siteId string) ApiGetSiteJseInfoRequest
+
+	// GetSiteJseInfoExecute executes the request
+	//  @return AccountJseInfo
+	GetSiteJseInfoExecute(r ApiGetSiteJseInfoRequest) (*AccountJseInfo, *http.Response, error)
+}
+
 // SitesJSEAPIService SitesJSEAPI service
 type SitesJSEAPIService service
 
 type ApiGetSiteJseInfoRequest struct {
 	ctx context.Context
-	ApiService *SitesJSEAPIService
+	ApiService SitesJSEAPI
 	siteId string
 }
 

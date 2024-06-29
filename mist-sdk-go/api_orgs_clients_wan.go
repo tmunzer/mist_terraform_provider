@@ -21,12 +21,75 @@ import (
 )
 
 
+type OrgsClientsWanAPI interface {
+
+	/*
+	CountOrgWanClientEvents countOrgWanClientEvents
+
+	Count by Distinct Attributes of Org WAN Client-Events
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiCountOrgWanClientEventsRequest
+	*/
+	CountOrgWanClientEvents(ctx context.Context, orgId string) ApiCountOrgWanClientEventsRequest
+
+	// CountOrgWanClientEventsExecute executes the request
+	//  @return RepsonseCount
+	CountOrgWanClientEventsExecute(r ApiCountOrgWanClientEventsRequest) (*RepsonseCount, *http.Response, error)
+
+	/*
+	CountOrgWanClients countOrgWanClients
+
+	Count Org WAN Clients
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiCountOrgWanClientsRequest
+	*/
+	CountOrgWanClients(ctx context.Context, orgId string) ApiCountOrgWanClientsRequest
+
+	// CountOrgWanClientsExecute executes the request
+	//  @return RepsonseCount
+	CountOrgWanClientsExecute(r ApiCountOrgWanClientsRequest) (*RepsonseCount, *http.Response, error)
+
+	/*
+	SearchOrgWanClientEvents searchOrgWanClientEvents
+
+	Search Org WAN Client Events
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiSearchOrgWanClientEventsRequest
+	*/
+	SearchOrgWanClientEvents(ctx context.Context, orgId string) ApiSearchOrgWanClientEventsRequest
+
+	// SearchOrgWanClientEventsExecute executes the request
+	//  @return SearchEventsWanClient
+	SearchOrgWanClientEventsExecute(r ApiSearchOrgWanClientEventsRequest) (*SearchEventsWanClient, *http.Response, error)
+
+	/*
+	SearchOrgWanClients searchOrgWanClients
+
+	Search Org WAN Clients
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiSearchOrgWanClientsRequest
+	*/
+	SearchOrgWanClients(ctx context.Context, orgId string) ApiSearchOrgWanClientsRequest
+
+	// SearchOrgWanClientsExecute executes the request
+	//  @return SearchWanClient
+	SearchOrgWanClientsExecute(r ApiSearchOrgWanClientsRequest) (*SearchWanClient, *http.Response, error)
+}
+
 // OrgsClientsWanAPIService OrgsClientsWanAPI service
 type OrgsClientsWanAPIService service
 
 type ApiCountOrgWanClientEventsRequest struct {
 	ctx context.Context
-	ApiService *OrgsClientsWanAPIService
+	ApiService OrgsClientsWanAPI
 	orgId string
 	distinct *OrgWanClientsEventsCountDistinct
 	type_ *string
@@ -264,7 +327,7 @@ func (a *OrgsClientsWanAPIService) CountOrgWanClientEventsExecute(r ApiCountOrgW
 
 type ApiCountOrgWanClientsRequest struct {
 	ctx context.Context
-	ApiService *OrgsClientsWanAPIService
+	ApiService OrgsClientsWanAPI
 	orgId string
 	distinct *OrgWanClientsCountDistinct
 	start *int32
@@ -504,7 +567,7 @@ func (a *OrgsClientsWanAPIService) CountOrgWanClientsExecute(r ApiCountOrgWanCli
 
 type ApiSearchOrgWanClientEventsRequest struct {
 	ctx context.Context
-	ApiService *OrgsClientsWanAPIService
+	ApiService OrgsClientsWanAPI
 	orgId string
 	type_ *string
 	mac *string
@@ -780,7 +843,7 @@ func (a *OrgsClientsWanAPIService) SearchOrgWanClientEventsExecute(r ApiSearchOr
 
 type ApiSearchOrgWanClientsRequest struct {
 	ctx context.Context
-	ApiService *OrgsClientsWanAPIService
+	ApiService OrgsClientsWanAPI
 	orgId string
 	mac *string
 	hostname *string

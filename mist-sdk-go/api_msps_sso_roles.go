@@ -21,12 +21,76 @@ import (
 )
 
 
+type MSPsSSORolesAPI interface {
+
+	/*
+	CreateMspSsoRole createMspSsoRole
+
+	Create MSP Role
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param mspId
+	@return ApiCreateMspSsoRoleRequest
+	*/
+	CreateMspSsoRole(ctx context.Context, mspId string) ApiCreateMspSsoRoleRequest
+
+	// CreateMspSsoRoleExecute executes the request
+	//  @return SsoRoleMsp
+	CreateMspSsoRoleExecute(r ApiCreateMspSsoRoleRequest) (*SsoRoleMsp, *http.Response, error)
+
+	/*
+	DeleteMspSsoRole deleteMspSsoRole
+
+	Delete MSP SSO Roles
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param mspId
+	@param ssoroleId
+	@return ApiDeleteMspSsoRoleRequest
+	*/
+	DeleteMspSsoRole(ctx context.Context, mspId string, ssoroleId string) ApiDeleteMspSsoRoleRequest
+
+	// DeleteMspSsoRoleExecute executes the request
+	DeleteMspSsoRoleExecute(r ApiDeleteMspSsoRoleRequest) (*http.Response, error)
+
+	/*
+	ListMspSsoRoles listMspSsoRoles
+
+	Get List of MSP SSO Roles
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param mspId
+	@return ApiListMspSsoRolesRequest
+	*/
+	ListMspSsoRoles(ctx context.Context, mspId string) ApiListMspSsoRolesRequest
+
+	// ListMspSsoRolesExecute executes the request
+	//  @return []SsoRoleOrg
+	ListMspSsoRolesExecute(r ApiListMspSsoRolesRequest) ([]SsoRoleOrg, *http.Response, error)
+
+	/*
+	UpdateMspSsoRole updateMspSsoRole
+
+	Update SSO Role
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param mspId
+	@param ssoroleId
+	@return ApiUpdateMspSsoRoleRequest
+	*/
+	UpdateMspSsoRole(ctx context.Context, mspId string, ssoroleId string) ApiUpdateMspSsoRoleRequest
+
+	// UpdateMspSsoRoleExecute executes the request
+	//  @return SsoRoleMsp
+	UpdateMspSsoRoleExecute(r ApiUpdateMspSsoRoleRequest) (*SsoRoleMsp, *http.Response, error)
+}
+
 // MSPsSSORolesAPIService MSPsSSORolesAPI service
 type MSPsSSORolesAPIService service
 
 type ApiCreateMspSsoRoleRequest struct {
 	ctx context.Context
-	ApiService *MSPsSSORolesAPIService
+	ApiService MSPsSSORolesAPI
 	mspId string
 	ssoRoleMsp *SsoRoleMsp
 }
@@ -206,7 +270,7 @@ func (a *MSPsSSORolesAPIService) CreateMspSsoRoleExecute(r ApiCreateMspSsoRoleRe
 
 type ApiDeleteMspSsoRoleRequest struct {
 	ctx context.Context
-	ApiService *MSPsSSORolesAPIService
+	ApiService MSPsSSORolesAPI
 	mspId string
 	ssoroleId string
 }
@@ -370,7 +434,7 @@ func (a *MSPsSSORolesAPIService) DeleteMspSsoRoleExecute(r ApiDeleteMspSsoRoleRe
 
 type ApiListMspSsoRolesRequest struct {
 	ctx context.Context
-	ApiService *MSPsSSORolesAPIService
+	ApiService MSPsSSORolesAPI
 	mspId string
 }
 
@@ -541,7 +605,7 @@ func (a *MSPsSSORolesAPIService) ListMspSsoRolesExecute(r ApiListMspSsoRolesRequ
 
 type ApiUpdateMspSsoRoleRequest struct {
 	ctx context.Context
-	ApiService *MSPsSSORolesAPIService
+	ApiService MSPsSSORolesAPI
 	mspId string
 	ssoroleId string
 	ssoRoleMsp *SsoRoleMsp

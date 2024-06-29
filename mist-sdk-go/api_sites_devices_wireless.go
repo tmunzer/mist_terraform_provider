@@ -21,12 +21,64 @@ import (
 )
 
 
+type SitesDevicesWirelessAPI interface {
+
+	/*
+	GetSiteDeviceIotPort getSiteDeviceIotPort
+
+	Returns the current state of each enabled IoT pin configured as an output.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param deviceId
+	@return ApiGetSiteDeviceIotPortRequest
+	*/
+	GetSiteDeviceIotPort(ctx context.Context, siteId string, deviceId string) ApiGetSiteDeviceIotPortRequest
+
+	// GetSiteDeviceIotPortExecute executes the request
+	//  @return map[string]int32
+	GetSiteDeviceIotPortExecute(r ApiGetSiteDeviceIotPortRequest) (map[string]int32, *http.Response, error)
+
+	/*
+	GetSiteDeviceRadioChannels getSiteDeviceRadioChannels
+
+	Get a list of allowed channels (per channel width)
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiGetSiteDeviceRadioChannelsRequest
+	*/
+	GetSiteDeviceRadioChannels(ctx context.Context, siteId string) ApiGetSiteDeviceRadioChannelsRequest
+
+	// GetSiteDeviceRadioChannelsExecute executes the request
+	//  @return ResponseDeviceRadioChannels
+	GetSiteDeviceRadioChannelsExecute(r ApiGetSiteDeviceRadioChannelsRequest) (*ResponseDeviceRadioChannels, *http.Response, error)
+
+	/*
+	SetSiteDeviceIotPort setSiteDeviceIotPort
+
+	**Note**: For each IoT pin referenced:
+ * The pin must be enabled using the Device `iot_config` API
+ * The pin must support the output direction
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param deviceId
+	@return ApiSetSiteDeviceIotPortRequest
+	*/
+	SetSiteDeviceIotPort(ctx context.Context, siteId string, deviceId string) ApiSetSiteDeviceIotPortRequest
+
+	// SetSiteDeviceIotPortExecute executes the request
+	//  @return map[string]int32
+	SetSiteDeviceIotPortExecute(r ApiSetSiteDeviceIotPortRequest) (map[string]int32, *http.Response, error)
+}
+
 // SitesDevicesWirelessAPIService SitesDevicesWirelessAPI service
 type SitesDevicesWirelessAPIService service
 
 type ApiGetSiteDeviceIotPortRequest struct {
 	ctx context.Context
-	ApiService *SitesDevicesWirelessAPIService
+	ApiService SitesDevicesWirelessAPI
 	siteId string
 	deviceId string
 }
@@ -201,7 +253,7 @@ func (a *SitesDevicesWirelessAPIService) GetSiteDeviceIotPortExecute(r ApiGetSit
 
 type ApiGetSiteDeviceRadioChannelsRequest struct {
 	ctx context.Context
-	ApiService *SitesDevicesWirelessAPIService
+	ApiService SitesDevicesWirelessAPI
 	siteId string
 	countryCode *string
 }
@@ -382,7 +434,7 @@ func (a *SitesDevicesWirelessAPIService) GetSiteDeviceRadioChannelsExecute(r Api
 
 type ApiSetSiteDeviceIotPortRequest struct {
 	ctx context.Context
-	ApiService *SitesDevicesWirelessAPIService
+	ApiService SitesDevicesWirelessAPI
 	siteId string
 	deviceId string
 	requestBody *map[string]int32

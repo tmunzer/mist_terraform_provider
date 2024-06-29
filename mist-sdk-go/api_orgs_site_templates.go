@@ -21,12 +21,92 @@ import (
 )
 
 
+type OrgsSiteTemplatesAPI interface {
+
+	/*
+	CreateOrgSiteTemplates createOrgSiteTemplates
+
+	Create Org Site Template
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiCreateOrgSiteTemplatesRequest
+	*/
+	CreateOrgSiteTemplates(ctx context.Context, orgId string) ApiCreateOrgSiteTemplatesRequest
+
+	// CreateOrgSiteTemplatesExecute executes the request
+	//  @return SiteTemplate
+	CreateOrgSiteTemplatesExecute(r ApiCreateOrgSiteTemplatesRequest) (*SiteTemplate, *http.Response, error)
+
+	/*
+	DeleteOrgSiteTemplate deleteOrgSiteTemplate
+
+	Delete Org Site Template
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param sitetemplateId
+	@return ApiDeleteOrgSiteTemplateRequest
+	*/
+	DeleteOrgSiteTemplate(ctx context.Context, orgId string, sitetemplateId string) ApiDeleteOrgSiteTemplateRequest
+
+	// DeleteOrgSiteTemplateExecute executes the request
+	DeleteOrgSiteTemplateExecute(r ApiDeleteOrgSiteTemplateRequest) (*http.Response, error)
+
+	/*
+	GetOrgSiteTemplate getOrgSiteTemplate
+
+	Get Org Site Template
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param sitetemplateId
+	@return ApiGetOrgSiteTemplateRequest
+	*/
+	GetOrgSiteTemplate(ctx context.Context, orgId string, sitetemplateId string) ApiGetOrgSiteTemplateRequest
+
+	// GetOrgSiteTemplateExecute executes the request
+	//  @return SiteTemplate
+	GetOrgSiteTemplateExecute(r ApiGetOrgSiteTemplateRequest) (*SiteTemplate, *http.Response, error)
+
+	/*
+	ListOrgSiteTemplates listOrgSiteTemplates
+
+	Get List of Org Site Templates
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiListOrgSiteTemplatesRequest
+	*/
+	ListOrgSiteTemplates(ctx context.Context, orgId string) ApiListOrgSiteTemplatesRequest
+
+	// ListOrgSiteTemplatesExecute executes the request
+	//  @return []SiteTemplate
+	ListOrgSiteTemplatesExecute(r ApiListOrgSiteTemplatesRequest) ([]SiteTemplate, *http.Response, error)
+
+	/*
+	UpdateOrgSiteTemplate updateOrgSiteTemplate
+
+	Update Org Site Template
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param sitetemplateId
+	@return ApiUpdateOrgSiteTemplateRequest
+	*/
+	UpdateOrgSiteTemplate(ctx context.Context, orgId string, sitetemplateId string) ApiUpdateOrgSiteTemplateRequest
+
+	// UpdateOrgSiteTemplateExecute executes the request
+	//  @return SiteTemplate
+	UpdateOrgSiteTemplateExecute(r ApiUpdateOrgSiteTemplateRequest) (*SiteTemplate, *http.Response, error)
+}
+
 // OrgsSiteTemplatesAPIService OrgsSiteTemplatesAPI service
 type OrgsSiteTemplatesAPIService service
 
 type ApiCreateOrgSiteTemplatesRequest struct {
 	ctx context.Context
-	ApiService *OrgsSiteTemplatesAPIService
+	ApiService OrgsSiteTemplatesAPI
 	orgId string
 	siteTemplate *SiteTemplate
 }
@@ -205,7 +285,7 @@ func (a *OrgsSiteTemplatesAPIService) CreateOrgSiteTemplatesExecute(r ApiCreateO
 
 type ApiDeleteOrgSiteTemplateRequest struct {
 	ctx context.Context
-	ApiService *OrgsSiteTemplatesAPIService
+	ApiService OrgsSiteTemplatesAPI
 	orgId string
 	sitetemplateId string
 }
@@ -369,7 +449,7 @@ func (a *OrgsSiteTemplatesAPIService) DeleteOrgSiteTemplateExecute(r ApiDeleteOr
 
 type ApiGetOrgSiteTemplateRequest struct {
 	ctx context.Context
-	ApiService *OrgsSiteTemplatesAPIService
+	ApiService OrgsSiteTemplatesAPI
 	orgId string
 	sitetemplateId string
 }
@@ -544,7 +624,7 @@ func (a *OrgsSiteTemplatesAPIService) GetOrgSiteTemplateExecute(r ApiGetOrgSiteT
 
 type ApiListOrgSiteTemplatesRequest struct {
 	ctx context.Context
-	ApiService *OrgsSiteTemplatesAPIService
+	ApiService OrgsSiteTemplatesAPI
 	orgId string
 	page *int32
 	limit *int32
@@ -739,7 +819,7 @@ func (a *OrgsSiteTemplatesAPIService) ListOrgSiteTemplatesExecute(r ApiListOrgSi
 
 type ApiUpdateOrgSiteTemplateRequest struct {
 	ctx context.Context
-	ApiService *OrgsSiteTemplatesAPIService
+	ApiService OrgsSiteTemplatesAPI
 	orgId string
 	sitetemplateId string
 	siteTemplate *SiteTemplate

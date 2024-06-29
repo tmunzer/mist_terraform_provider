@@ -20,12 +20,57 @@ import (
 )
 
 
+type ConstantsModelsAPI interface {
+
+	/*
+	ListDeviceModels listDeviceModels
+
+	Get list of AP device models for the Mist Site
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiListDeviceModelsRequest
+	*/
+	ListDeviceModels(ctx context.Context) ApiListDeviceModelsRequest
+
+	// ListDeviceModelsExecute executes the request
+	//  @return []ConstDeviceModel
+	ListDeviceModelsExecute(r ApiListDeviceModelsRequest) ([]ConstDeviceModel, *http.Response, error)
+
+	/*
+	ListMxEdgeModels listMxEdgeModels
+
+	Get List of available Mx Edge models
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiListMxEdgeModelsRequest
+	*/
+	ListMxEdgeModels(ctx context.Context) ApiListMxEdgeModelsRequest
+
+	// ListMxEdgeModelsExecute executes the request
+	//  @return []ConstMxedgeModel
+	ListMxEdgeModelsExecute(r ApiListMxEdgeModelsRequest) ([]ConstMxedgeModel, *http.Response, error)
+
+	/*
+	ListSupportedOtherDeviceModels listSupportedOtherDeviceModels
+
+	Supported OtherDevice Models
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiListSupportedOtherDeviceModelsRequest
+	*/
+	ListSupportedOtherDeviceModels(ctx context.Context) ApiListSupportedOtherDeviceModelsRequest
+
+	// ListSupportedOtherDeviceModelsExecute executes the request
+	//  @return []ConstOtherDeviceModel
+	ListSupportedOtherDeviceModelsExecute(r ApiListSupportedOtherDeviceModelsRequest) ([]ConstOtherDeviceModel, *http.Response, error)
+}
+
 // ConstantsModelsAPIService ConstantsModelsAPI service
 type ConstantsModelsAPIService service
 
 type ApiListDeviceModelsRequest struct {
 	ctx context.Context
-	ApiService *ConstantsModelsAPIService
+	ApiService ConstantsModelsAPI
 }
 
 func (r ApiListDeviceModelsRequest) Execute() ([]ConstDeviceModel, *http.Response, error) {
@@ -192,7 +237,7 @@ func (a *ConstantsModelsAPIService) ListDeviceModelsExecute(r ApiListDeviceModel
 
 type ApiListMxEdgeModelsRequest struct {
 	ctx context.Context
-	ApiService *ConstantsModelsAPIService
+	ApiService ConstantsModelsAPI
 }
 
 func (r ApiListMxEdgeModelsRequest) Execute() ([]ConstMxedgeModel, *http.Response, error) {
@@ -359,7 +404,7 @@ func (a *ConstantsModelsAPIService) ListMxEdgeModelsExecute(r ApiListMxEdgeModel
 
 type ApiListSupportedOtherDeviceModelsRequest struct {
 	ctx context.Context
-	ApiService *ConstantsModelsAPIService
+	ApiService ConstantsModelsAPI
 }
 
 func (r ApiListSupportedOtherDeviceModelsRequest) Execute() ([]ConstOtherDeviceModel, *http.Response, error) {

@@ -24,6 +24,14 @@ func SdkToTerraform(ctx context.Context, data *mistsdkgo.GatewayTemplate) (Gatew
 
 	state.DhcpdConfig = dhcpdConfigSdkToTerraform(ctx, &diags, data.GetDhcpdConfig())
 
+	if data.DnsOverride != nil {
+		state.DnsOverride = types.BoolValue(*data.DnsOverride)
+	}
+
+	state.DnsServers = mist_transform.ListOfStringSdkToTerraform(ctx, data.DnsServers)
+
+	state.DnsSuffix = mist_transform.ListOfStringSdkToTerraform(ctx, data.DnsSuffix)
+
 	state.ExtraRoutes = extraRoutesSdkToTerraform(ctx, &diags, data.GetExtraRoutes())
 
 	state.IdpProfiles = idpProfileSdkToTerraform(ctx, &diags, data.GetIdpProfiles())
@@ -31,6 +39,12 @@ func SdkToTerraform(ctx context.Context, data *mistsdkgo.GatewayTemplate) (Gatew
 	state.IpConfigs = ipConfigsSdkToTerraform(ctx, &diags, data.GetIpConfigs())
 
 	state.Networks = NetworksSdkToTerraform(ctx, &diags, data.GetNetworks())
+
+	if data.NtpOverride != nil {
+		state.NtpOverride = types.BoolValue(*data.NtpOverride)
+	}
+
+	state.NtpServers = mist_transform.ListOfStringSdkToTerraform(ctx, data.NtpServers)
 
 	state.PathPreferences = pathPreferencesSdkToTerraform(ctx, &diags, data.GetPathPreferences())
 

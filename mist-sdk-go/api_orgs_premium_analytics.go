@@ -21,12 +21,30 @@ import (
 )
 
 
+type OrgsPremiumAnalyticsAPI interface {
+
+	/*
+	ListOrgPmaDashboards listOrgPmaDashboards
+
+	Get List of premium analytics dashboards for this Org
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiListOrgPmaDashboardsRequest
+	*/
+	ListOrgPmaDashboards(ctx context.Context, orgId string) ApiListOrgPmaDashboardsRequest
+
+	// ListOrgPmaDashboardsExecute executes the request
+	//  @return []PmaDashboard
+	ListOrgPmaDashboardsExecute(r ApiListOrgPmaDashboardsRequest) ([]PmaDashboard, *http.Response, error)
+}
+
 // OrgsPremiumAnalyticsAPIService OrgsPremiumAnalyticsAPI service
 type OrgsPremiumAnalyticsAPIService service
 
 type ApiListOrgPmaDashboardsRequest struct {
 	ctx context.Context
-	ApiService *OrgsPremiumAnalyticsAPIService
+	ApiService OrgsPremiumAnalyticsAPI
 	orgId string
 	page *int32
 	limit *int32

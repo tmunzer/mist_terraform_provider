@@ -21,12 +21,157 @@ import (
 )
 
 
+type OrgsWebhooksAPI interface {
+
+	/*
+	CountOrgWebhooksDeliveries countOrgWebhooksDeliveries
+
+	Count Org Webhooks deliveries
+
+
+Topics Supported:
+- alarms
+- audits
+- device-updowns
+- occupancy-alerts
+- ping
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param webhookId
+	@return ApiCountOrgWebhooksDeliveriesRequest
+	*/
+	CountOrgWebhooksDeliveries(ctx context.Context, orgId string, webhookId string) ApiCountOrgWebhooksDeliveriesRequest
+
+	// CountOrgWebhooksDeliveriesExecute executes the request
+	//  @return RepsonseCount
+	CountOrgWebhooksDeliveriesExecute(r ApiCountOrgWebhooksDeliveriesRequest) (*RepsonseCount, *http.Response, error)
+
+	/*
+	CreateOrgWebhook createOrgWebhook
+
+	Create Org Webhook
+
+**N.B**. For org webhooks, only alarms/audits/client-info/client-join/client-sessions/device_events/device-updowns/mxedge_events Infrastructure topics are supported.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiCreateOrgWebhookRequest
+	*/
+	CreateOrgWebhook(ctx context.Context, orgId string) ApiCreateOrgWebhookRequest
+
+	// CreateOrgWebhookExecute executes the request
+	//  @return Webhook
+	CreateOrgWebhookExecute(r ApiCreateOrgWebhookRequest) (*Webhook, *http.Response, error)
+
+	/*
+	DeleteOrgWebhook deleteOrgWebhook
+
+	Delete Org Webhook
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param webhookId
+	@return ApiDeleteOrgWebhookRequest
+	*/
+	DeleteOrgWebhook(ctx context.Context, orgId string, webhookId string) ApiDeleteOrgWebhookRequest
+
+	// DeleteOrgWebhookExecute executes the request
+	DeleteOrgWebhookExecute(r ApiDeleteOrgWebhookRequest) (*http.Response, error)
+
+	/*
+	GetOrgWebhook getOrgWebhook
+
+	Get Org Webhook Details
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param webhookId
+	@return ApiGetOrgWebhookRequest
+	*/
+	GetOrgWebhook(ctx context.Context, orgId string, webhookId string) ApiGetOrgWebhookRequest
+
+	// GetOrgWebhookExecute executes the request
+	//  @return Webhook
+	GetOrgWebhookExecute(r ApiGetOrgWebhookRequest) (*Webhook, *http.Response, error)
+
+	/*
+	ListOrgWebhooks listOrgWebhooks
+
+	Get List of Org Webhooks
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiListOrgWebhooksRequest
+	*/
+	ListOrgWebhooks(ctx context.Context, orgId string) ApiListOrgWebhooksRequest
+
+	// ListOrgWebhooksExecute executes the request
+	//  @return []Webhook
+	ListOrgWebhooksExecute(r ApiListOrgWebhooksRequest) ([]Webhook, *http.Response, error)
+
+	/*
+	PingOrgWebhook pingOrgWebhook
+
+	send a Ping event to the webhook
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param webhookId
+	@return ApiPingOrgWebhookRequest
+	*/
+	PingOrgWebhook(ctx context.Context, orgId string, webhookId string) ApiPingOrgWebhookRequest
+
+	// PingOrgWebhookExecute executes the request
+	PingOrgWebhookExecute(r ApiPingOrgWebhookRequest) (*http.Response, error)
+
+	/*
+	SearchOrgWebhooksDeliveries searchOrgWebhooksDeliveries
+
+	Search Org Webhooks deliveries
+
+
+Topics Supported:
+- alarms
+- audits
+- device-updowns
+- occupancy-alerts
+- ping
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param webhookId
+	@return ApiSearchOrgWebhooksDeliveriesRequest
+	*/
+	SearchOrgWebhooksDeliveries(ctx context.Context, orgId string, webhookId string) ApiSearchOrgWebhooksDeliveriesRequest
+
+	// SearchOrgWebhooksDeliveriesExecute executes the request
+	//  @return SearchWebhookDelivery
+	SearchOrgWebhooksDeliveriesExecute(r ApiSearchOrgWebhooksDeliveriesRequest) (*SearchWebhookDelivery, *http.Response, error)
+
+	/*
+	UpdateOrgWebhook updateOrgWebhook
+
+	Update Org Webhook
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param webhookId
+	@return ApiUpdateOrgWebhookRequest
+	*/
+	UpdateOrgWebhook(ctx context.Context, orgId string, webhookId string) ApiUpdateOrgWebhookRequest
+
+	// UpdateOrgWebhookExecute executes the request
+	//  @return Webhook
+	UpdateOrgWebhookExecute(r ApiUpdateOrgWebhookRequest) (*Webhook, *http.Response, error)
+}
+
 // OrgsWebhooksAPIService OrgsWebhooksAPI service
 type OrgsWebhooksAPIService service
 
 type ApiCountOrgWebhooksDeliveriesRequest struct {
 	ctx context.Context
-	ApiService *OrgsWebhooksAPIService
+	ApiService OrgsWebhooksAPI
 	orgId string
 	webhookId string
 	error_ *string
@@ -301,7 +446,7 @@ func (a *OrgsWebhooksAPIService) CountOrgWebhooksDeliveriesExecute(r ApiCountOrg
 
 type ApiCreateOrgWebhookRequest struct {
 	ctx context.Context
-	ApiService *OrgsWebhooksAPIService
+	ApiService OrgsWebhooksAPI
 	orgId string
 	webhook *Webhook
 }
@@ -483,7 +628,7 @@ func (a *OrgsWebhooksAPIService) CreateOrgWebhookExecute(r ApiCreateOrgWebhookRe
 
 type ApiDeleteOrgWebhookRequest struct {
 	ctx context.Context
-	ApiService *OrgsWebhooksAPIService
+	ApiService OrgsWebhooksAPI
 	orgId string
 	webhookId string
 }
@@ -647,7 +792,7 @@ func (a *OrgsWebhooksAPIService) DeleteOrgWebhookExecute(r ApiDeleteOrgWebhookRe
 
 type ApiGetOrgWebhookRequest struct {
 	ctx context.Context
-	ApiService *OrgsWebhooksAPIService
+	ApiService OrgsWebhooksAPI
 	orgId string
 	webhookId string
 }
@@ -822,7 +967,7 @@ func (a *OrgsWebhooksAPIService) GetOrgWebhookExecute(r ApiGetOrgWebhookRequest)
 
 type ApiListOrgWebhooksRequest struct {
 	ctx context.Context
-	ApiService *OrgsWebhooksAPIService
+	ApiService OrgsWebhooksAPI
 	orgId string
 	page *int32
 	limit *int32
@@ -1017,7 +1162,7 @@ func (a *OrgsWebhooksAPIService) ListOrgWebhooksExecute(r ApiListOrgWebhooksRequ
 
 type ApiPingOrgWebhookRequest struct {
 	ctx context.Context
-	ApiService *OrgsWebhooksAPIService
+	ApiService OrgsWebhooksAPI
 	orgId string
 	webhookId string
 }
@@ -1181,7 +1326,7 @@ func (a *OrgsWebhooksAPIService) PingOrgWebhookExecute(r ApiPingOrgWebhookReques
 
 type ApiSearchOrgWebhooksDeliveriesRequest struct {
 	ctx context.Context
-	ApiService *OrgsWebhooksAPIService
+	ApiService OrgsWebhooksAPI
 	orgId string
 	webhookId string
 	error_ *string
@@ -1447,7 +1592,7 @@ func (a *OrgsWebhooksAPIService) SearchOrgWebhooksDeliveriesExecute(r ApiSearchO
 
 type ApiUpdateOrgWebhookRequest struct {
 	ctx context.Context
-	ApiService *OrgsWebhooksAPIService
+	ApiService OrgsWebhooksAPI
 	orgId string
 	webhookId string
 	webhook *Webhook

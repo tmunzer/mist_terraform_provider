@@ -21,12 +21,30 @@ import (
 )
 
 
+type SitesDeviceProfilesAPI interface {
+
+	/*
+	ListSiteDeviceProfilesDerived listSiteDeviceProfilesDerived
+
+	Retrieves the list of Device Profiles available for the Site
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiListSiteDeviceProfilesDerivedRequest
+	*/
+	ListSiteDeviceProfilesDerived(ctx context.Context, siteId string) ApiListSiteDeviceProfilesDerivedRequest
+
+	// ListSiteDeviceProfilesDerivedExecute executes the request
+	//  @return []Deviceprofile
+	ListSiteDeviceProfilesDerivedExecute(r ApiListSiteDeviceProfilesDerivedRequest) ([]Deviceprofile, *http.Response, error)
+}
+
 // SitesDeviceProfilesAPIService SitesDeviceProfilesAPI service
 type SitesDeviceProfilesAPIService service
 
 type ApiListSiteDeviceProfilesDerivedRequest struct {
 	ctx context.Context
-	ApiService *SitesDeviceProfilesAPIService
+	ApiService SitesDeviceProfilesAPI
 	siteId string
 	resolve *bool
 }

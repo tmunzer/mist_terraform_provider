@@ -21,12 +21,92 @@ import (
 )
 
 
+type OrgsWxTunnelsAPI interface {
+
+	/*
+	CreateOrgWxTunnel createOrgWxTunnel
+
+	Create Org WxAN Tunnel
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiCreateOrgWxTunnelRequest
+	*/
+	CreateOrgWxTunnel(ctx context.Context, orgId string) ApiCreateOrgWxTunnelRequest
+
+	// CreateOrgWxTunnelExecute executes the request
+	//  @return WxlanTunnel
+	CreateOrgWxTunnelExecute(r ApiCreateOrgWxTunnelRequest) (*WxlanTunnel, *http.Response, error)
+
+	/*
+	DeleteOrgWxTunnel deleteOrgWxTunnel
+
+	Delete Org WxLAN Tunnel
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param wxtunnelId
+	@return ApiDeleteOrgWxTunnelRequest
+	*/
+	DeleteOrgWxTunnel(ctx context.Context, orgId string, wxtunnelId string) ApiDeleteOrgWxTunnelRequest
+
+	// DeleteOrgWxTunnelExecute executes the request
+	DeleteOrgWxTunnelExecute(r ApiDeleteOrgWxTunnelRequest) (*http.Response, error)
+
+	/*
+	GetOrgWxTunnel getOrgWxTunnel
+
+	Get Org WxLAN Tunnel Details
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param wxtunnelId
+	@return ApiGetOrgWxTunnelRequest
+	*/
+	GetOrgWxTunnel(ctx context.Context, orgId string, wxtunnelId string) ApiGetOrgWxTunnelRequest
+
+	// GetOrgWxTunnelExecute executes the request
+	//  @return WxlanTunnel
+	GetOrgWxTunnelExecute(r ApiGetOrgWxTunnelRequest) (*WxlanTunnel, *http.Response, error)
+
+	/*
+	ListOrgWxTunnels listOrgWxTunnels
+
+	Get List of Org WxLAN Tunnels
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiListOrgWxTunnelsRequest
+	*/
+	ListOrgWxTunnels(ctx context.Context, orgId string) ApiListOrgWxTunnelsRequest
+
+	// ListOrgWxTunnelsExecute executes the request
+	//  @return []WxlanTunnel
+	ListOrgWxTunnelsExecute(r ApiListOrgWxTunnelsRequest) ([]WxlanTunnel, *http.Response, error)
+
+	/*
+	UpdateOrgWxTunnel updateOrgWxTunnel
+
+	Update Org WxLAN Tunnel
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param wxtunnelId
+	@return ApiUpdateOrgWxTunnelRequest
+	*/
+	UpdateOrgWxTunnel(ctx context.Context, orgId string, wxtunnelId string) ApiUpdateOrgWxTunnelRequest
+
+	// UpdateOrgWxTunnelExecute executes the request
+	//  @return WxlanTunnel
+	UpdateOrgWxTunnelExecute(r ApiUpdateOrgWxTunnelRequest) (*WxlanTunnel, *http.Response, error)
+}
+
 // OrgsWxTunnelsAPIService OrgsWxTunnelsAPI service
 type OrgsWxTunnelsAPIService service
 
 type ApiCreateOrgWxTunnelRequest struct {
 	ctx context.Context
-	ApiService *OrgsWxTunnelsAPIService
+	ApiService OrgsWxTunnelsAPI
 	orgId string
 	wxlanTunnel *WxlanTunnel
 }
@@ -206,7 +286,7 @@ func (a *OrgsWxTunnelsAPIService) CreateOrgWxTunnelExecute(r ApiCreateOrgWxTunne
 
 type ApiDeleteOrgWxTunnelRequest struct {
 	ctx context.Context
-	ApiService *OrgsWxTunnelsAPIService
+	ApiService OrgsWxTunnelsAPI
 	orgId string
 	wxtunnelId string
 }
@@ -370,7 +450,7 @@ func (a *OrgsWxTunnelsAPIService) DeleteOrgWxTunnelExecute(r ApiDeleteOrgWxTunne
 
 type ApiGetOrgWxTunnelRequest struct {
 	ctx context.Context
-	ApiService *OrgsWxTunnelsAPIService
+	ApiService OrgsWxTunnelsAPI
 	orgId string
 	wxtunnelId string
 }
@@ -545,7 +625,7 @@ func (a *OrgsWxTunnelsAPIService) GetOrgWxTunnelExecute(r ApiGetOrgWxTunnelReque
 
 type ApiListOrgWxTunnelsRequest struct {
 	ctx context.Context
-	ApiService *OrgsWxTunnelsAPIService
+	ApiService OrgsWxTunnelsAPI
 	orgId string
 	page *int32
 	limit *int32
@@ -740,7 +820,7 @@ func (a *OrgsWxTunnelsAPIService) ListOrgWxTunnelsExecute(r ApiListOrgWxTunnelsR
 
 type ApiUpdateOrgWxTunnelRequest struct {
 	ctx context.Context
-	ApiService *OrgsWxTunnelsAPIService
+	ApiService OrgsWxTunnelsAPI
 	orgId string
 	wxtunnelId string
 	wxlanTunnel *WxlanTunnel

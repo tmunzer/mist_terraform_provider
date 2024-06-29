@@ -22,12 +22,434 @@ import (
 )
 
 
+type InstallerAPI interface {
+
+	/*
+	AddInstallerDeviceImage addInstallerDeviceImage
+
+	Add image
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param imageName
+	@param deviceMac
+	@return ApiAddInstallerDeviceImageRequest
+	*/
+	AddInstallerDeviceImage(ctx context.Context, orgId string, imageName string, deviceMac string) ApiAddInstallerDeviceImageRequest
+
+	// AddInstallerDeviceImageExecute executes the request
+	AddInstallerDeviceImageExecute(r ApiAddInstallerDeviceImageRequest) (*http.Response, error)
+
+	/*
+	ClaimInstallerDevices claimInstallerDevices
+
+	This mirrors `POST /api/v1/orgs/{org_id}/inventory` (see Inventory API)
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiClaimInstallerDevicesRequest
+	*/
+	ClaimInstallerDevices(ctx context.Context, orgId string) ApiClaimInstallerDevicesRequest
+
+	// ClaimInstallerDevicesExecute executes the request
+	//  @return ResponseInventory
+	ClaimInstallerDevicesExecute(r ApiClaimInstallerDevicesRequest) (*ResponseInventory, *http.Response, error)
+
+	/*
+	CreateInstallerMap createInstallerMap
+
+	Create a MAP
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param siteName
+	@param mapId
+	@return ApiCreateInstallerMapRequest
+	*/
+	CreateInstallerMap(ctx context.Context, orgId string, siteName string, mapId string) ApiCreateInstallerMapRequest
+
+	// CreateInstallerMapExecute executes the request
+	//  @return ModelMap
+	CreateInstallerMapExecute(r ApiCreateInstallerMapRequest) (*ModelMap, *http.Response, error)
+
+	/*
+	CreateInstallerVirtualChassis createInstallerVirtualChassis
+
+	For models (e.g. EX3400 and up) having dedicated VC ports, it is easier to form a VC by just connecting cables with the dedicated VC ports. Cloud will detect the new VC and update the inventory.
+
+In case that the user would like to choose the dedicated switch as a VC master. Or for EX2300-C-12P and EX2300-C-12T which doesn’t have dedicated VC ports, below are procedures to automate the VC creation:
+
+1. Power on the switch that is choosen as the VC master first. And the powering on the other member switches.
+2. Claim or adopt all these switches under the same organization’s Inventory
+3. Assign these switches into the same Site
+4. Invoke vc command on the switch choosen to be the VC master. For EX2300-C-12P, VC ports will be created automatically.
+5. Connect the cables to the VC ports for these switches
+6. Wait for the VC to be formed. The Org’s inventory will be updated for the new VC.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param fpc0Mac FPC0 MAC Address
+	@return ApiCreateInstallerVirtualChassisRequest
+	*/
+	CreateInstallerVirtualChassis(ctx context.Context, orgId string, fpc0Mac string) ApiCreateInstallerVirtualChassisRequest
+
+	// CreateInstallerVirtualChassisExecute executes the request
+	//  @return ResponseVirtualChassisConfig
+	CreateInstallerVirtualChassisExecute(r ApiCreateInstallerVirtualChassisRequest) (*ResponseVirtualChassisConfig, *http.Response, error)
+
+	/*
+	CreateOrUpdateInstallerSites createOrUpdateInstallerSites
+
+	Often the Installers are asked to assign Devices to Sites. The Sites can either be pre-created or created/modified by the Installer. If this is an update, the same grace period also applies.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param siteName
+	@return ApiCreateOrUpdateInstallerSitesRequest
+	*/
+	CreateOrUpdateInstallerSites(ctx context.Context, orgId string, siteName string) ApiCreateOrUpdateInstallerSitesRequest
+
+	// CreateOrUpdateInstallerSitesExecute executes the request
+	CreateOrUpdateInstallerSitesExecute(r ApiCreateOrUpdateInstallerSitesRequest) (*http.Response, error)
+
+	/*
+	DeleteInstallerDeviceImage deleteInstallerDeviceImage
+
+	delete image
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param imageName
+	@param deviceMac
+	@return ApiDeleteInstallerDeviceImageRequest
+	*/
+	DeleteInstallerDeviceImage(ctx context.Context, orgId string, imageName string, deviceMac string) ApiDeleteInstallerDeviceImageRequest
+
+	// DeleteInstallerDeviceImageExecute executes the request
+	DeleteInstallerDeviceImageExecute(r ApiDeleteInstallerDeviceImageRequest) (*http.Response, error)
+
+	/*
+	DeleteInstallerMap deleteInstallerMap
+
+	Delete Map
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param siteName
+	@param mapId
+	@return ApiDeleteInstallerMapRequest
+	*/
+	DeleteInstallerMap(ctx context.Context, orgId string, siteName string, mapId string) ApiDeleteInstallerMapRequest
+
+	// DeleteInstallerMapExecute executes the request
+	DeleteInstallerMapExecute(r ApiDeleteInstallerMapRequest) (*http.Response, error)
+
+	/*
+	GetInstallerDeviceVirtualChassis getInstallerDeviceVirtualChassis
+
+	Get VC Status
+
+The API returns a combined view of the VC status which includes topology and stats
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param fpc0Mac FPC0 MAC Address
+	@return ApiGetInstallerDeviceVirtualChassisRequest
+	*/
+	GetInstallerDeviceVirtualChassis(ctx context.Context, orgId string, fpc0Mac string) ApiGetInstallerDeviceVirtualChassisRequest
+
+	// GetInstallerDeviceVirtualChassisExecute executes the request
+	//  @return ResponseVirtualChassisConfig
+	GetInstallerDeviceVirtualChassisExecute(r ApiGetInstallerDeviceVirtualChassisRequest) (*ResponseVirtualChassisConfig, *http.Response, error)
+
+	/*
+	ImportInstallerMap importInstallerMap
+
+	Import data from files is a multipart POST which has an file, an optional json, and an optional csv, to create floorplan, assign & place ap if name or mac matches
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param siteName
+	@return ApiImportInstallerMapRequest
+	*/
+	ImportInstallerMap(ctx context.Context, orgId string, siteName string) ApiImportInstallerMapRequest
+
+	// ImportInstallerMapExecute executes the request
+	//  @return ResponseMapImport
+	ImportInstallerMapExecute(r ApiImportInstallerMapRequest) (*ResponseMapImport, *http.Response, error)
+
+	/*
+	ListInstallerAlarmTemplates listInstallerAlarmTemplates
+
+	Get List of alarm templates
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiListInstallerAlarmTemplatesRequest
+	*/
+	ListInstallerAlarmTemplates(ctx context.Context, orgId string) ApiListInstallerAlarmTemplatesRequest
+
+	// ListInstallerAlarmTemplatesExecute executes the request
+	//  @return []InstallersItem
+	ListInstallerAlarmTemplatesExecute(r ApiListInstallerAlarmTemplatesRequest) ([]InstallersItem, *http.Response, error)
+
+	/*
+	ListInstallerDeviceProfiles listInstallerDeviceProfiles
+
+	Get List of Device Profiles
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiListInstallerDeviceProfilesRequest
+	*/
+	ListInstallerDeviceProfiles(ctx context.Context, orgId string) ApiListInstallerDeviceProfilesRequest
+
+	// ListInstallerDeviceProfilesExecute executes the request
+	//  @return []InstallersItem
+	ListInstallerDeviceProfilesExecute(r ApiListInstallerDeviceProfilesRequest) ([]InstallersItem, *http.Response, error)
+
+	/*
+	ListInstallerListOfRenctlyClaimedDevices listInstallerListOfRenctlyClaimedDevices
+
+	Get List of recently claimed devices
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiListInstallerListOfRenctlyClaimedDevicesRequest
+	*/
+	ListInstallerListOfRenctlyClaimedDevices(ctx context.Context, orgId string) ApiListInstallerListOfRenctlyClaimedDevicesRequest
+
+	// ListInstallerListOfRenctlyClaimedDevicesExecute executes the request
+	//  @return []InstallerDevice
+	ListInstallerListOfRenctlyClaimedDevicesExecute(r ApiListInstallerListOfRenctlyClaimedDevicesRequest) ([]InstallerDevice, *http.Response, error)
+
+	/*
+	ListInstallerMaps listInstallerMaps
+
+	Get List of Maps
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param siteName
+	@return ApiListInstallerMapsRequest
+	*/
+	ListInstallerMaps(ctx context.Context, orgId string, siteName string) ApiListInstallerMapsRequest
+
+	// ListInstallerMapsExecute executes the request
+	//  @return []ModelMap
+	ListInstallerMapsExecute(r ApiListInstallerMapsRequest) ([]ModelMap, *http.Response, error)
+
+	/*
+	ListInstallerRfTemplatesNames listInstallerRfTemplatesNames
+
+	Get List of RF Templates
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiListInstallerRfTemplatesNamesRequest
+	*/
+	ListInstallerRfTemplatesNames(ctx context.Context, orgId string) ApiListInstallerRfTemplatesNamesRequest
+
+	// ListInstallerRfTemplatesNamesExecute executes the request
+	//  @return []InstallersItem
+	ListInstallerRfTemplatesNamesExecute(r ApiListInstallerRfTemplatesNamesRequest) ([]InstallersItem, *http.Response, error)
+
+	/*
+	ListInstallerSiteGroups listInstallerSiteGroups
+
+	Get List of Site Groups
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiListInstallerSiteGroupsRequest
+	*/
+	ListInstallerSiteGroups(ctx context.Context, orgId string) ApiListInstallerSiteGroupsRequest
+
+	// ListInstallerSiteGroupsExecute executes the request
+	//  @return []InstallersItem
+	ListInstallerSiteGroupsExecute(r ApiListInstallerSiteGroupsRequest) ([]InstallersItem, *http.Response, error)
+
+	/*
+	ListInstallerSites listInstallerSites
+
+	Get List of Sites
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiListInstallerSitesRequest
+	*/
+	ListInstallerSites(ctx context.Context, orgId string) ApiListInstallerSitesRequest
+
+	// ListInstallerSitesExecute executes the request
+	//  @return []InstallerSite
+	ListInstallerSitesExecute(r ApiListInstallerSitesRequest) ([]InstallerSite, *http.Response, error)
+
+	/*
+	OptimizeInstallerRrm optimizeInstallerRrm
+
+	After installation is considered complete (APs are placed on maps, all powered up), you can trigger an optimize operation where RRM will kick in (and maybe other things in the future) before it’s automatically scheduled.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteName
+	@return ApiOptimizeInstallerRrmRequest
+	*/
+	OptimizeInstallerRrm(ctx context.Context, siteName string) ApiOptimizeInstallerRrmRequest
+
+	// OptimizeInstallerRrmExecute executes the request
+	OptimizeInstallerRrmExecute(r ApiOptimizeInstallerRrmRequest) (*http.Response, error)
+
+	/*
+	ProvisionInstallerDevices provisionInstallerDevices
+
+	Provision or Replace a device 
+
+If replacing_mac is in the request payload, other attributes are ignored, we attempt to replace existing device (with mac replacing_mac) with the inventory device being configured. The replacement device must be in the inventory but not assigned, and the replacing_mac device must be assigned to a site, and satisfy grace period requirements. The Device replaced will become unassigned.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param deviceMac
+	@return ApiProvisionInstallerDevicesRequest
+	*/
+	ProvisionInstallerDevices(ctx context.Context, orgId string, deviceMac string) ApiProvisionInstallerDevicesRequest
+
+	// ProvisionInstallerDevicesExecute executes the request
+	ProvisionInstallerDevicesExecute(r ApiProvisionInstallerDevicesRequest) (*http.Response, error)
+
+	/*
+	StartInstallerLocateDevice startInstallerLocateDevice
+
+	Locate a Device by blinking it’s LED, it’s a persisted state that has to be stopped by calling Stop Locating API
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param deviceMac
+	@return ApiStartInstallerLocateDeviceRequest
+	*/
+	StartInstallerLocateDevice(ctx context.Context, orgId string, deviceMac string) ApiStartInstallerLocateDeviceRequest
+
+	// StartInstallerLocateDeviceExecute executes the request
+	StartInstallerLocateDeviceExecute(r ApiStartInstallerLocateDeviceRequest) (*http.Response, error)
+
+	/*
+	StopInstallerLocateDevice stopInstallerLocateDevice
+
+	Stop it
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param deviceMac
+	@return ApiStopInstallerLocateDeviceRequest
+	*/
+	StopInstallerLocateDevice(ctx context.Context, orgId string, deviceMac string) ApiStopInstallerLocateDeviceRequest
+
+	// StopInstallerLocateDeviceExecute executes the request
+	StopInstallerLocateDeviceExecute(r ApiStopInstallerLocateDeviceRequest) (*http.Response, error)
+
+	/*
+	UnassignInstallerRecentlyClaimedDevice unassignInstallerRecentlyClaimedDevice
+
+	Unassign recently claimed devices
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param deviceMac
+	@return ApiUnassignInstallerRecentlyClaimedDeviceRequest
+	*/
+	UnassignInstallerRecentlyClaimedDevice(ctx context.Context, orgId string, deviceMac string) ApiUnassignInstallerRecentlyClaimedDeviceRequest
+
+	// UnassignInstallerRecentlyClaimedDeviceExecute executes the request
+	UnassignInstallerRecentlyClaimedDeviceExecute(r ApiUnassignInstallerRecentlyClaimedDeviceRequest) (*http.Response, error)
+
+	/*
+	UpdateInstallerMap updateInstallerMap
+
+	Update map
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param siteName
+	@param mapId
+	@return ApiUpdateInstallerMapRequest
+	*/
+	UpdateInstallerMap(ctx context.Context, orgId string, siteName string, mapId string) ApiUpdateInstallerMapRequest
+
+	// UpdateInstallerMapExecute executes the request
+	//  @return ModelMap
+	UpdateInstallerMapExecute(r ApiUpdateInstallerMapRequest) (*ModelMap, *http.Response, error)
+
+	/*
+	UpdateInstallerVirtualChassisMember updateInstallerVirtualChassisMember
+
+	The VC creation and adding member switch API will update the device’s virtual chassis config which is applied after VC is formed to create JUNOS pre-provisioned virtual chassis configuration.
+
+## Change to use preprovisioned VC
+To switch the VC to use preprovisioned VC, enable preprovisioned in virtual_chassis config. Both vc_role master and backup will be matched to routing-engine role in Junos preprovisioned VC config.
+
+In this config, fpc0 has to be the same as the mac of device_id. Use renumber if you want to replace fpc0 which involves device_id change.
+
+Notice: to configure preprovisioned VC, every member of the VC must be in the inventory.
+
+## Add new members
+For models (e.g. EX4300 and up) having dedicated VC ports, it is easier to add new member switches into a VC by just connecting cables with the dedicated VC ports. Cloud will detect the new members and update the inventory.
+
+For EX2300 VC, adding new members requires to follow the procedures below:
+1. Powering on the new member switches and ensuring cables are not connected to any VC ports.
+2. Claim or adopt all new member switches under the VC’s organization Inventory
+3. Assign all new member switches to the same Site as the VC
+4. Invoke vc command to add switches to the VC.
+5. Connect the cables to the VC ports for these switches
+6. After a while, the Org’s Inventory shows this new switches has been added into the VC.
+
+## Removing member switch
+To remove a member switch from the VC, following the procedures below:
+
+1. Ensuring the VC is connected to the cloud first
+2. Unplug the cable from the VC port of the switch
+3. Waiting for the VC state (vc_state) of this switch is changed to not-present
+4. Invoke update_vc with remove to remove this switch from the VC
+5. The Org’s Inventory shows the switch is removed.
+
+Please notice that member ID 0 (fpc0) cannot be removed. When a VC has two switches left, unpluging the cable may result in the situation that fpc0 becomes a line card (LC). When this situation is happened, please re-plug in the cable, wait for both switches becoming present (show virtual-chassis) and then removing the cable again.
+
+## Renumber a member switch
+When a member switch doesn’t work properly and needed to be replaced, the renumber API could be used. The following two types of renumber are supported:
+
+1. Replace a non-fpc0 member switch
+2. Replace fpc0. When fpc0 is relaced, PAPI device config and JUNOS config will be both updated.
+
+For renumber to work, the following procedures are needed: 
+1. Ensuring the VC is connected to the cloud and the state of the member switch to be replaced must be non present. 
+2. Adding the new member switch to the VC 
+3. Waiting for the VC state (vc_state) of this VC to be updated to API server 
+4. Invoke vc with renumber to replace the new member switch from fpc X to
+
+## Perprovision VC members
+By specifying “preprovision” op, you can convert the current VC to pre-provisioned mode, update VC members as well as specify vc_ports when adding new members for device models without dedicated vc ports. Use renumber for fpc0 replacement which involves device_id change.
+
+Note: 
+1. vc_ports is used for adding new members and not needed if * the device model has dedicated vc ports, or * no new member is added 
+2. New VC members to be added should exist in the same Site as the VC
+
+Update Device’s VC config can achieve similar purpose by directly modifying current virtual_chassis config. However, it cannot fulfill requests to enabling vc_ports on new members that are yet to belong to current VC.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param fpc0Mac FPC0 MAC Address
+	@return ApiUpdateInstallerVirtualChassisMemberRequest
+	*/
+	UpdateInstallerVirtualChassisMember(ctx context.Context, orgId string, fpc0Mac string) ApiUpdateInstallerVirtualChassisMemberRequest
+
+	// UpdateInstallerVirtualChassisMemberExecute executes the request
+	//  @return ResponseVirtualChassisConfig
+	UpdateInstallerVirtualChassisMemberExecute(r ApiUpdateInstallerVirtualChassisMemberRequest) (*ResponseVirtualChassisConfig, *http.Response, error)
+}
+
 // InstallerAPIService InstallerAPI service
 type InstallerAPIService service
 
 type ApiAddInstallerDeviceImageRequest struct {
 	ctx context.Context
-	ApiService *InstallerAPIService
+	ApiService InstallerAPI
 	orgId string
 	imageName string
 	deviceMac string
@@ -262,7 +684,7 @@ func (a *InstallerAPIService) AddInstallerDeviceImageExecute(r ApiAddInstallerDe
 
 type ApiClaimInstallerDevicesRequest struct {
 	ctx context.Context
-	ApiService *InstallerAPIService
+	ApiService InstallerAPI
 	orgId string
 	requestBody *[]string
 }
@@ -431,7 +853,7 @@ func (a *InstallerAPIService) ClaimInstallerDevicesExecute(r ApiClaimInstallerDe
 
 type ApiCreateInstallerMapRequest struct {
 	ctx context.Context
-	ApiService *InstallerAPIService
+	ApiService InstallerAPI
 	orgId string
 	siteName string
 	mapId string
@@ -619,7 +1041,7 @@ func (a *InstallerAPIService) CreateInstallerMapExecute(r ApiCreateInstallerMapR
 
 type ApiCreateInstallerVirtualChassisRequest struct {
 	ctx context.Context
-	ApiService *InstallerAPIService
+	ApiService InstallerAPI
 	orgId string
 	fpc0Mac string
 	virtualChassisConfig *VirtualChassisConfig
@@ -812,7 +1234,7 @@ func (a *InstallerAPIService) CreateInstallerVirtualChassisExecute(r ApiCreateIn
 
 type ApiCreateOrUpdateInstallerSitesRequest struct {
 	ctx context.Context
-	ApiService *InstallerAPIService
+	ApiService InstallerAPI
 	orgId string
 	siteName string
 	installerSite *InstallerSite
@@ -985,7 +1407,7 @@ func (a *InstallerAPIService) CreateOrUpdateInstallerSitesExecute(r ApiCreateOrU
 
 type ApiDeleteInstallerDeviceImageRequest struct {
 	ctx context.Context
-	ApiService *InstallerAPIService
+	ApiService InstallerAPI
 	orgId string
 	imageName string
 	deviceMac string
@@ -1153,7 +1575,7 @@ func (a *InstallerAPIService) DeleteInstallerDeviceImageExecute(r ApiDeleteInsta
 
 type ApiDeleteInstallerMapRequest struct {
 	ctx context.Context
-	ApiService *InstallerAPIService
+	ApiService InstallerAPI
 	orgId string
 	siteName string
 	mapId string
@@ -1321,7 +1743,7 @@ func (a *InstallerAPIService) DeleteInstallerMapExecute(r ApiDeleteInstallerMapR
 
 type ApiGetInstallerDeviceVirtualChassisRequest struct {
 	ctx context.Context
-	ApiService *InstallerAPIService
+	ApiService InstallerAPI
 	orgId string
 	fpc0Mac string
 }
@@ -1498,7 +1920,7 @@ func (a *InstallerAPIService) GetInstallerDeviceVirtualChassisExecute(r ApiGetIn
 
 type ApiImportInstallerMapRequest struct {
 	ctx context.Context
-	ApiService *InstallerAPIService
+	ApiService InstallerAPI
 	orgId string
 	siteName string
 	autoDeviceprofileAssignment *bool
@@ -1740,7 +2162,7 @@ func (a *InstallerAPIService) ImportInstallerMapExecute(r ApiImportInstallerMapR
 
 type ApiListInstallerAlarmTemplatesRequest struct {
 	ctx context.Context
-	ApiService *InstallerAPIService
+	ApiService InstallerAPI
 	orgId string
 }
 
@@ -1911,7 +2333,7 @@ func (a *InstallerAPIService) ListInstallerAlarmTemplatesExecute(r ApiListInstal
 
 type ApiListInstallerDeviceProfilesRequest struct {
 	ctx context.Context
-	ApiService *InstallerAPIService
+	ApiService InstallerAPI
 	orgId string
 	type_ *DeviceType
 }
@@ -2094,7 +2516,7 @@ func (a *InstallerAPIService) ListInstallerDeviceProfilesExecute(r ApiListInstal
 
 type ApiListInstallerListOfRenctlyClaimedDevicesRequest struct {
 	ctx context.Context
-	ApiService *InstallerAPIService
+	ApiService InstallerAPI
 	orgId string
 	model *string
 	siteName *string
@@ -2319,7 +2741,7 @@ func (a *InstallerAPIService) ListInstallerListOfRenctlyClaimedDevicesExecute(r 
 
 type ApiListInstallerMapsRequest struct {
 	ctx context.Context
-	ApiService *InstallerAPIService
+	ApiService InstallerAPI
 	orgId string
 	siteName string
 }
@@ -2494,7 +2916,7 @@ func (a *InstallerAPIService) ListInstallerMapsExecute(r ApiListInstallerMapsReq
 
 type ApiListInstallerRfTemplatesNamesRequest struct {
 	ctx context.Context
-	ApiService *InstallerAPIService
+	ApiService InstallerAPI
 	orgId string
 }
 
@@ -2665,7 +3087,7 @@ func (a *InstallerAPIService) ListInstallerRfTemplatesNamesExecute(r ApiListInst
 
 type ApiListInstallerSiteGroupsRequest struct {
 	ctx context.Context
-	ApiService *InstallerAPIService
+	ApiService InstallerAPI
 	orgId string
 }
 
@@ -2836,7 +3258,7 @@ func (a *InstallerAPIService) ListInstallerSiteGroupsExecute(r ApiListInstallerS
 
 type ApiListInstallerSitesRequest struct {
 	ctx context.Context
-	ApiService *InstallerAPIService
+	ApiService InstallerAPI
 	orgId string
 }
 
@@ -3007,7 +3429,7 @@ func (a *InstallerAPIService) ListInstallerSitesExecute(r ApiListInstallerSitesR
 
 type ApiOptimizeInstallerRrmRequest struct {
 	ctx context.Context
-	ApiService *InstallerAPIService
+	ApiService InstallerAPI
 	siteName string
 }
 
@@ -3167,7 +3589,7 @@ func (a *InstallerAPIService) OptimizeInstallerRrmExecute(r ApiOptimizeInstaller
 
 type ApiProvisionInstallerDevicesRequest struct {
 	ctx context.Context
-	ApiService *InstallerAPIService
+	ApiService InstallerAPI
 	orgId string
 	deviceMac string
 	installerProvisionDevice *InstallerProvisionDevice
@@ -3342,7 +3764,7 @@ func (a *InstallerAPIService) ProvisionInstallerDevicesExecute(r ApiProvisionIns
 
 type ApiStartInstallerLocateDeviceRequest struct {
 	ctx context.Context
-	ApiService *InstallerAPIService
+	ApiService InstallerAPI
 	orgId string
 	deviceMac string
 }
@@ -3506,7 +3928,7 @@ func (a *InstallerAPIService) StartInstallerLocateDeviceExecute(r ApiStartInstal
 
 type ApiStopInstallerLocateDeviceRequest struct {
 	ctx context.Context
-	ApiService *InstallerAPIService
+	ApiService InstallerAPI
 	orgId string
 	deviceMac string
 }
@@ -3670,7 +4092,7 @@ func (a *InstallerAPIService) StopInstallerLocateDeviceExecute(r ApiStopInstalle
 
 type ApiUnassignInstallerRecentlyClaimedDeviceRequest struct {
 	ctx context.Context
-	ApiService *InstallerAPIService
+	ApiService InstallerAPI
 	orgId string
 	deviceMac string
 }
@@ -3834,7 +4256,7 @@ func (a *InstallerAPIService) UnassignInstallerRecentlyClaimedDeviceExecute(r Ap
 
 type ApiUpdateInstallerMapRequest struct {
 	ctx context.Context
-	ApiService *InstallerAPIService
+	ApiService InstallerAPI
 	orgId string
 	siteName string
 	mapId string
@@ -4022,7 +4444,7 @@ func (a *InstallerAPIService) UpdateInstallerMapExecute(r ApiUpdateInstallerMapR
 
 type ApiUpdateInstallerVirtualChassisMemberRequest struct {
 	ctx context.Context
-	ApiService *InstallerAPIService
+	ApiService InstallerAPI
 	orgId string
 	fpc0Mac string
 	virtualChassisUpdate *VirtualChassisUpdate

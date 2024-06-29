@@ -20,12 +20,360 @@ import (
 )
 
 
+type SamplesWebhookAPI interface {
+
+	/*
+	Alarms alarms
+
+	Webhook sample for `alarm` topic
+
+**Note**: The server host will be your own server FQDN where the Mist Cloud is sending the webhook messages
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiAlarmsRequest
+	*/
+	Alarms(ctx context.Context) ApiAlarmsRequest
+
+	// AlarmsExecute executes the request
+	AlarmsExecute(r ApiAlarmsRequest) (*http.Response, error)
+
+	/*
+	AssetRaw assetRaw
+
+	Webhook sample for `asset_raw` topic
+
+**Note**: The server host will be your own server FQDN where the Mist Cloud is sending the webhook messages
+
+**will be deprecated after 06/30/2024**
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiAssetRawRequest
+	*/
+	AssetRaw(ctx context.Context) ApiAssetRawRequest
+
+	// AssetRawExecute executes the request
+	AssetRawExecute(r ApiAssetRawRequest) (*http.Response, error)
+
+	/*
+	Audits audits
+
+	Webhook sample for `audit` topic
+
+**Note**: The server host will be your own server FQDN where the Mist Cloud is sending the webhook messages
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiAuditsRequest
+	*/
+	Audits(ctx context.Context) ApiAuditsRequest
+
+	// AuditsExecute executes the request
+	AuditsExecute(r ApiAuditsRequest) (*http.Response, error)
+
+	/*
+	ClientInfo clientJoin
+
+	Webhook sample for `client_info` topic
+
+**Note**: The server host will be your own server FQDN where the Mist Cloud is sending the webhook messages
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiClientInfoRequest
+	*/
+	ClientInfo(ctx context.Context) ApiClientInfoRequest
+
+	// ClientInfoExecute executes the request
+	ClientInfoExecute(r ApiClientInfoRequest) (*http.Response, error)
+
+	/*
+	ClientJoin clientJoin
+
+	Webhook sample for `client_join` topic
+
+**Note**: The server host will be your own server FQDN where the Mist Cloud is sending the webhook messages
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiClientJoinRequest
+	*/
+	ClientJoin(ctx context.Context) ApiClientJoinRequest
+
+	// ClientJoinExecute executes the request
+	ClientJoinExecute(r ApiClientJoinRequest) (*http.Response, error)
+
+	/*
+	ClientLatency alarms
+
+	Webhook sample for `client-latency` topic
+
+**Note**: The server host will be your own server FQDN where the Mist Cloud is sending the webhook messages
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiClientLatencyRequest
+	*/
+	ClientLatency(ctx context.Context) ApiClientLatencyRequest
+
+	// ClientLatencyExecute executes the request
+	ClientLatencyExecute(r ApiClientLatencyRequest) (*http.Response, error)
+
+	/*
+	ClientSessions clientSessions
+
+	Webhook sample for `client_sessions` topic
+
+**Note**: The server host will be your own server FQDN where the Mist Cloud is sending the webhook messages
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiClientSessionsRequest
+	*/
+	ClientSessions(ctx context.Context) ApiClientSessionsRequest
+
+	// ClientSessionsExecute executes the request
+	ClientSessionsExecute(r ApiClientSessionsRequest) (*http.Response, error)
+
+	/*
+	DeviceEvents deviceEvents
+
+	Webhook sample for `device_events` topic
+
+**Note**: The server host will be your own server FQDN where the Mist Cloud is sending the webhook messages
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiDeviceEventsRequest
+	*/
+	DeviceEvents(ctx context.Context) ApiDeviceEventsRequest
+
+	// DeviceEventsExecute executes the request
+	DeviceEventsExecute(r ApiDeviceEventsRequest) (*http.Response, error)
+
+	/*
+	DeviceUpDown deviceUpDown
+
+	Webhook sample for `device_updowns` topic
+
+**Note**: The server host will be your own server FQDN where the Mist Cloud is sending the webhook messages
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiDeviceUpDownRequest
+	*/
+	DeviceUpDown(ctx context.Context) ApiDeviceUpDownRequest
+
+	// DeviceUpDownExecute executes the request
+	DeviceUpDownExecute(r ApiDeviceUpDownRequest) (*http.Response, error)
+
+	/*
+	DiscoveredRawRssi discovered-raw-rssi
+
+	Webhook sample for `discovered-raw-rssi` topic
+
+**Note**: The server host will be your own server FQDN where the Mist Cloud is sending the webhook messages
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiDiscoveredRawRssiRequest
+	*/
+	DiscoveredRawRssi(ctx context.Context) ApiDiscoveredRawRssiRequest
+
+	// DiscoveredRawRssiExecute executes the request
+	DiscoveredRawRssiExecute(r ApiDiscoveredRawRssiRequest) (*http.Response, error)
+
+	/*
+	Location location
+
+	Webhook sample for `location` topic
+
+**Note**: The server host will be your own server FQDN where the Mist Cloud is sending the webhook messages
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiLocationRequest
+	*/
+	Location(ctx context.Context) ApiLocationRequest
+
+	// LocationExecute executes the request
+	LocationExecute(r ApiLocationRequest) (*http.Response, error)
+
+	/*
+	LocationAsset location
+
+	Webhook sample for `location_asset` topic
+
+**Note**: The server host will be your own server FQDN where the Mist Cloud is sending the webhook messages
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiLocationAssetRequest
+	*/
+	LocationAsset(ctx context.Context) ApiLocationAssetRequest
+
+	// LocationAssetExecute executes the request
+	LocationAssetExecute(r ApiLocationAssetRequest) (*http.Response, error)
+
+	/*
+	LocationCentrak alarms
+
+	Webhook sample for `location_centrak` topic
+
+**Note**: The server host will be your own server FQDN where the Mist Cloud is sending the webhook messages
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiLocationCentrakRequest
+	*/
+	LocationCentrak(ctx context.Context) ApiLocationCentrakRequest
+
+	// LocationCentrakExecute executes the request
+	LocationCentrakExecute(r ApiLocationCentrakRequest) (*http.Response, error)
+
+	/*
+	LocationClient location
+
+	Webhook sample for `location_client` topic
+
+**Note**: The server host will be your own server FQDN where the Mist Cloud is sending the webhook messages
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiLocationClientRequest
+	*/
+	LocationClient(ctx context.Context) ApiLocationClientRequest
+
+	// LocationClientExecute executes the request
+	LocationClientExecute(r ApiLocationClientRequest) (*http.Response, error)
+
+	/*
+	LocationSdk location
+
+	Webhook sample for `location_sdk` topic
+
+**Note**: The server host will be your own server FQDN where the Mist Cloud is sending the webhook messages
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiLocationSdkRequest
+	*/
+	LocationSdk(ctx context.Context) ApiLocationSdkRequest
+
+	// LocationSdkExecute executes the request
+	LocationSdkExecute(r ApiLocationSdkRequest) (*http.Response, error)
+
+	/*
+	LocationUnclient location
+
+	Webhook sample for `location_unclient` topic
+
+**Note**: The server host will be your own server FQDN where the Mist Cloud is sending the webhook messages
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiLocationUnclientRequest
+	*/
+	LocationUnclient(ctx context.Context) ApiLocationUnclientRequest
+
+	// LocationUnclientExecute executes the request
+	LocationUnclientExecute(r ApiLocationUnclientRequest) (*http.Response, error)
+
+	/*
+	NacAccounting nacAccounting
+
+	Webhook sample for `nac-accounting` topic
+
+**Note**: The server host will be your own server FQDN where the Mist Cloud is sending the webhook messages
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiNacAccountingRequest
+	*/
+	NacAccounting(ctx context.Context) ApiNacAccountingRequest
+
+	// NacAccountingExecute executes the request
+	NacAccountingExecute(r ApiNacAccountingRequest) (*http.Response, error)
+
+	/*
+	NacEvents nac_events
+
+	Example Delivery of nac_events
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiNacEventsRequest
+	*/
+	NacEvents(ctx context.Context) ApiNacEventsRequest
+
+	// NacEventsExecute executes the request
+	NacEventsExecute(r ApiNacEventsRequest) (*http.Response, error)
+
+	/*
+	OccupancyAlerts occupancyAlerts
+
+	Webhook sample for `occupancy_alerts` topic
+
+**Note**: The server host will be your own server FQDN where the Mist Cloud is sending the webhook messages
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiOccupancyAlertsRequest
+	*/
+	OccupancyAlerts(ctx context.Context) ApiOccupancyAlertsRequest
+
+	// OccupancyAlertsExecute executes the request
+	OccupancyAlertsExecute(r ApiOccupancyAlertsRequest) (*http.Response, error)
+
+	/*
+	Ping ping
+
+	Webhook sample for `ping` topic
+
+**Note**: The server host will be your own server FQDN where the Mist Cloud is sending the webhook messages
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiPingRequest
+	*/
+	Ping(ctx context.Context) ApiPingRequest
+
+	// PingExecute executes the request
+	PingExecute(r ApiPingRequest) (*http.Response, error)
+
+	/*
+	SdkclientScanData sdkclientScanData
+
+	Webhook sample for `sdkclient_scan_data` topic
+
+**Note**: The server host will be your own server FQDN where the Mist Cloud is sending the webhook messages
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiSdkclientScanDataRequest
+	*/
+	SdkclientScanData(ctx context.Context) ApiSdkclientScanDataRequest
+
+	// SdkclientScanDataExecute executes the request
+	SdkclientScanDataExecute(r ApiSdkclientScanDataRequest) (*http.Response, error)
+
+	/*
+	SiteSle site_sle
+
+	Webhook sample for `site_sle` topic
+
+**Note**: The server host will be your own server FQDN where the Mist Cloud is sending the webhook messages
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiSiteSleRequest
+	*/
+	SiteSle(ctx context.Context) ApiSiteSleRequest
+
+	// SiteSleExecute executes the request
+	SiteSleExecute(r ApiSiteSleRequest) (*http.Response, error)
+
+	/*
+	Zone zone
+
+	Webhook sample for `zone` topic
+
+**Note**: The server host will be your own server FQDN where the Mist Cloud is sending the webhook messages
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiZoneRequest
+	*/
+	Zone(ctx context.Context) ApiZoneRequest
+
+	// ZoneExecute executes the request
+	ZoneExecute(r ApiZoneRequest) (*http.Response, error)
+}
+
 // SamplesWebhookAPIService SamplesWebhookAPI service
 type SamplesWebhookAPIService service
 
 type ApiAlarmsRequest struct {
 	ctx context.Context
-	ApiService *SamplesWebhookAPIService
+	ApiService SamplesWebhookAPI
 	webhookAlarms *WebhookAlarms
 }
 
@@ -138,7 +486,7 @@ func (a *SamplesWebhookAPIService) AlarmsExecute(r ApiAlarmsRequest) (*http.Resp
 
 type ApiAssetRawRequest struct {
 	ctx context.Context
-	ApiService *SamplesWebhookAPIService
+	ApiService SamplesWebhookAPI
 	webhookAssetRaw *WebhookAssetRaw
 }
 
@@ -252,7 +600,7 @@ func (a *SamplesWebhookAPIService) AssetRawExecute(r ApiAssetRawRequest) (*http.
 
 type ApiAuditsRequest struct {
 	ctx context.Context
-	ApiService *SamplesWebhookAPIService
+	ApiService SamplesWebhookAPI
 	webhookAudits *WebhookAudits
 }
 
@@ -365,7 +713,7 @@ func (a *SamplesWebhookAPIService) AuditsExecute(r ApiAuditsRequest) (*http.Resp
 
 type ApiClientInfoRequest struct {
 	ctx context.Context
-	ApiService *SamplesWebhookAPIService
+	ApiService SamplesWebhookAPI
 	webhookClientInfo *WebhookClientInfo
 }
 
@@ -477,7 +825,7 @@ func (a *SamplesWebhookAPIService) ClientInfoExecute(r ApiClientInfoRequest) (*h
 
 type ApiClientJoinRequest struct {
 	ctx context.Context
-	ApiService *SamplesWebhookAPIService
+	ApiService SamplesWebhookAPI
 	webhookClientJoin *WebhookClientJoin
 }
 
@@ -589,7 +937,7 @@ func (a *SamplesWebhookAPIService) ClientJoinExecute(r ApiClientJoinRequest) (*h
 
 type ApiClientLatencyRequest struct {
 	ctx context.Context
-	ApiService *SamplesWebhookAPIService
+	ApiService SamplesWebhookAPI
 	webhookClientLatency *WebhookClientLatency
 }
 
@@ -702,7 +1050,7 @@ func (a *SamplesWebhookAPIService) ClientLatencyExecute(r ApiClientLatencyReques
 
 type ApiClientSessionsRequest struct {
 	ctx context.Context
-	ApiService *SamplesWebhookAPIService
+	ApiService SamplesWebhookAPI
 	webhookClientSessions *WebhookClientSessions
 }
 
@@ -824,7 +1172,7 @@ func (a *SamplesWebhookAPIService) ClientSessionsExecute(r ApiClientSessionsRequ
 
 type ApiDeviceEventsRequest struct {
 	ctx context.Context
-	ApiService *SamplesWebhookAPIService
+	ApiService SamplesWebhookAPI
 	webhookDeviceEvents *WebhookDeviceEvents
 }
 
@@ -936,7 +1284,7 @@ func (a *SamplesWebhookAPIService) DeviceEventsExecute(r ApiDeviceEventsRequest)
 
 type ApiDeviceUpDownRequest struct {
 	ctx context.Context
-	ApiService *SamplesWebhookAPIService
+	ApiService SamplesWebhookAPI
 	webhookDeviceUpdowns *WebhookDeviceUpdowns
 }
 
@@ -1048,7 +1396,7 @@ func (a *SamplesWebhookAPIService) DeviceUpDownExecute(r ApiDeviceUpDownRequest)
 
 type ApiDiscoveredRawRssiRequest struct {
 	ctx context.Context
-	ApiService *SamplesWebhookAPIService
+	ApiService SamplesWebhookAPI
 	webhookDiscoveredRawRssi *WebhookDiscoveredRawRssi
 }
 
@@ -1160,7 +1508,7 @@ func (a *SamplesWebhookAPIService) DiscoveredRawRssiExecute(r ApiDiscoveredRawRs
 
 type ApiLocationRequest struct {
 	ctx context.Context
-	ApiService *SamplesWebhookAPIService
+	ApiService SamplesWebhookAPI
 	webhookLocation *WebhookLocation
 }
 
@@ -1272,7 +1620,7 @@ func (a *SamplesWebhookAPIService) LocationExecute(r ApiLocationRequest) (*http.
 
 type ApiLocationAssetRequest struct {
 	ctx context.Context
-	ApiService *SamplesWebhookAPIService
+	ApiService SamplesWebhookAPI
 	webhookLocationAsset *WebhookLocationAsset
 }
 
@@ -1384,7 +1732,7 @@ func (a *SamplesWebhookAPIService) LocationAssetExecute(r ApiLocationAssetReques
 
 type ApiLocationCentrakRequest struct {
 	ctx context.Context
-	ApiService *SamplesWebhookAPIService
+	ApiService SamplesWebhookAPI
 	webhookLocationCentrak *WebhookLocationCentrak
 }
 
@@ -1497,7 +1845,7 @@ func (a *SamplesWebhookAPIService) LocationCentrakExecute(r ApiLocationCentrakRe
 
 type ApiLocationClientRequest struct {
 	ctx context.Context
-	ApiService *SamplesWebhookAPIService
+	ApiService SamplesWebhookAPI
 	webhookLocationClient *WebhookLocationClient
 }
 
@@ -1609,7 +1957,7 @@ func (a *SamplesWebhookAPIService) LocationClientExecute(r ApiLocationClientRequ
 
 type ApiLocationSdkRequest struct {
 	ctx context.Context
-	ApiService *SamplesWebhookAPIService
+	ApiService SamplesWebhookAPI
 	webhookLocationSdk *WebhookLocationSdk
 }
 
@@ -1721,7 +2069,7 @@ func (a *SamplesWebhookAPIService) LocationSdkExecute(r ApiLocationSdkRequest) (
 
 type ApiLocationUnclientRequest struct {
 	ctx context.Context
-	ApiService *SamplesWebhookAPIService
+	ApiService SamplesWebhookAPI
 	webhookLocationUnclient *WebhookLocationUnclient
 }
 
@@ -1833,7 +2181,7 @@ func (a *SamplesWebhookAPIService) LocationUnclientExecute(r ApiLocationUnclient
 
 type ApiNacAccountingRequest struct {
 	ctx context.Context
-	ApiService *SamplesWebhookAPIService
+	ApiService SamplesWebhookAPI
 	webhookNacAccounting *WebhookNacAccounting
 }
 
@@ -1945,7 +2293,7 @@ func (a *SamplesWebhookAPIService) NacAccountingExecute(r ApiNacAccountingReques
 
 type ApiNacEventsRequest struct {
 	ctx context.Context
-	ApiService *SamplesWebhookAPIService
+	ApiService SamplesWebhookAPI
 	webhookNacEvents *WebhookNacEvents
 }
 
@@ -2055,7 +2403,7 @@ func (a *SamplesWebhookAPIService) NacEventsExecute(r ApiNacEventsRequest) (*htt
 
 type ApiOccupancyAlertsRequest struct {
 	ctx context.Context
-	ApiService *SamplesWebhookAPIService
+	ApiService SamplesWebhookAPI
 	webhookOccupancyAlerts *WebhookOccupancyAlerts
 }
 
@@ -2167,7 +2515,7 @@ func (a *SamplesWebhookAPIService) OccupancyAlertsExecute(r ApiOccupancyAlertsRe
 
 type ApiPingRequest struct {
 	ctx context.Context
-	ApiService *SamplesWebhookAPIService
+	ApiService SamplesWebhookAPI
 	webhookPing *WebhookPing
 }
 
@@ -2279,7 +2627,7 @@ func (a *SamplesWebhookAPIService) PingExecute(r ApiPingRequest) (*http.Response
 
 type ApiSdkclientScanDataRequest struct {
 	ctx context.Context
-	ApiService *SamplesWebhookAPIService
+	ApiService SamplesWebhookAPI
 	webhookSdkclientScanData *WebhookSdkclientScanData
 }
 
@@ -2391,7 +2739,7 @@ func (a *SamplesWebhookAPIService) SdkclientScanDataExecute(r ApiSdkclientScanDa
 
 type ApiSiteSleRequest struct {
 	ctx context.Context
-	ApiService *SamplesWebhookAPIService
+	ApiService SamplesWebhookAPI
 	webhookSiteSle *WebhookSiteSle
 }
 
@@ -2504,7 +2852,7 @@ func (a *SamplesWebhookAPIService) SiteSleExecute(r ApiSiteSleRequest) (*http.Re
 
 type ApiZoneRequest struct {
 	ctx context.Context
-	ApiService *SamplesWebhookAPIService
+	ApiService SamplesWebhookAPI
 	webhookZone *WebhookZone
 }
 

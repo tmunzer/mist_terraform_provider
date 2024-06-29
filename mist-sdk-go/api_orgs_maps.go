@@ -22,12 +22,59 @@ import (
 )
 
 
+type OrgsMapsAPI interface {
+
+	/*
+	ImportOrgMapToSite importOrgMapToSite
+
+	Import data from files is a multipart POST which has a file, an optional json, and an optional csv, to create floorplan, assign matching inventory to specific site, place ap if name or mac matches
+
+#### Request
+
+```
+"json": a JSON string describing your upload
+"file": a binary file
+```
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param siteName
+	@return ApiImportOrgMapToSiteRequest
+	*/
+	ImportOrgMapToSite(ctx context.Context, orgId string, siteName string) ApiImportOrgMapToSiteRequest
+
+	// ImportOrgMapToSiteExecute executes the request
+	//  @return ResponseMapImport
+	ImportOrgMapToSiteExecute(r ApiImportOrgMapToSiteRequest) (*ResponseMapImport, *http.Response, error)
+
+	/*
+	ImportOrgMaps importOrgMaps
+
+	Import data from files is a multipart POST which has a file, an optional json, and an optional csv, to create floorplan, assign matching inventory to specific site, place ap if name or mac matches
+
+### CSV File Format
+```csv
+Vendor AP name,Mist AP Mac
+US Office AP-2 - 5c:5b:35:00:00:02,5c5b35000002
+```
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiImportOrgMapsRequest
+	*/
+	ImportOrgMaps(ctx context.Context, orgId string) ApiImportOrgMapsRequest
+
+	// ImportOrgMapsExecute executes the request
+	//  @return ResponseMapImport
+	ImportOrgMapsExecute(r ApiImportOrgMapsRequest) (*ResponseMapImport, *http.Response, error)
+}
+
 // OrgsMapsAPIService OrgsMapsAPI service
 type OrgsMapsAPIService service
 
 type ApiImportOrgMapToSiteRequest struct {
 	ctx context.Context
-	ApiService *OrgsMapsAPIService
+	ApiService OrgsMapsAPI
 	orgId string
 	siteName string
 	autoDeviceprofileAssignment *bool
@@ -276,7 +323,7 @@ func (a *OrgsMapsAPIService) ImportOrgMapToSiteExecute(r ApiImportOrgMapToSiteRe
 
 type ApiImportOrgMapsRequest struct {
 	ctx context.Context
-	ApiService *OrgsMapsAPIService
+	ApiService OrgsMapsAPI
 	orgId string
 	autoDeviceprofileAssignment *bool
 	csv *os.File

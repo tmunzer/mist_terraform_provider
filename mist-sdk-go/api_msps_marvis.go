@@ -21,12 +21,30 @@ import (
 )
 
 
+type MSPsMarvisAPI interface {
+
+	/*
+	CountMspsMarvisActions countMspsMarvisActions
+
+	Count Marvis actions
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param mspId
+	@return ApiCountMspsMarvisActionsRequest
+	*/
+	CountMspsMarvisActions(ctx context.Context, mspId string) ApiCountMspsMarvisActionsRequest
+
+	// CountMspsMarvisActionsExecute executes the request
+	//  @return ResponseCountMarvisActions
+	CountMspsMarvisActionsExecute(r ApiCountMspsMarvisActionsRequest) (*ResponseCountMarvisActions, *http.Response, error)
+}
+
 // MSPsMarvisAPIService MSPsMarvisAPI service
 type MSPsMarvisAPIService service
 
 type ApiCountMspsMarvisActionsRequest struct {
 	ctx context.Context
-	ApiService *MSPsMarvisAPIService
+	ApiService MSPsMarvisAPI
 	mspId string
 	distinct *MspMarvisSuggestionsCountDistinct
 	limit *int32

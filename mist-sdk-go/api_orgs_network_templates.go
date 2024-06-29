@@ -21,12 +21,92 @@ import (
 )
 
 
+type OrgsNetworkTemplatesAPI interface {
+
+	/*
+	CreateOrgNetworkTemplate createOrgNetworkTemplate
+
+	Update Org Network Templates
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiCreateOrgNetworkTemplateRequest
+	*/
+	CreateOrgNetworkTemplate(ctx context.Context, orgId string) ApiCreateOrgNetworkTemplateRequest
+
+	// CreateOrgNetworkTemplateExecute executes the request
+	//  @return NetworkTemplate
+	CreateOrgNetworkTemplateExecute(r ApiCreateOrgNetworkTemplateRequest) (*NetworkTemplate, *http.Response, error)
+
+	/*
+	DeleteOrgNetworkTemplate deleteOrgNetworkTemplate
+
+	Delete Org Network Template
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param networktemplateId
+	@return ApiDeleteOrgNetworkTemplateRequest
+	*/
+	DeleteOrgNetworkTemplate(ctx context.Context, orgId string, networktemplateId string) ApiDeleteOrgNetworkTemplateRequest
+
+	// DeleteOrgNetworkTemplateExecute executes the request
+	DeleteOrgNetworkTemplateExecute(r ApiDeleteOrgNetworkTemplateRequest) (*http.Response, error)
+
+	/*
+	GetOrgNetworkTemplate getOrgNetworkTemplate
+
+	Get Org Network Templates Details
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param networktemplateId
+	@return ApiGetOrgNetworkTemplateRequest
+	*/
+	GetOrgNetworkTemplate(ctx context.Context, orgId string, networktemplateId string) ApiGetOrgNetworkTemplateRequest
+
+	// GetOrgNetworkTemplateExecute executes the request
+	//  @return NetworkTemplate
+	GetOrgNetworkTemplateExecute(r ApiGetOrgNetworkTemplateRequest) (*NetworkTemplate, *http.Response, error)
+
+	/*
+	ListOrgNetworkTemplates listOrgNetworkTemplates
+
+	Get List of Org Network Templates
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiListOrgNetworkTemplatesRequest
+	*/
+	ListOrgNetworkTemplates(ctx context.Context, orgId string) ApiListOrgNetworkTemplatesRequest
+
+	// ListOrgNetworkTemplatesExecute executes the request
+	//  @return []NetworkTemplate
+	ListOrgNetworkTemplatesExecute(r ApiListOrgNetworkTemplatesRequest) ([]NetworkTemplate, *http.Response, error)
+
+	/*
+	UpdateOrgNetworkTemplates updateOrgNetworkTemplates
+
+	Update Org Network Template
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param networktemplateId
+	@return ApiUpdateOrgNetworkTemplatesRequest
+	*/
+	UpdateOrgNetworkTemplates(ctx context.Context, orgId string, networktemplateId string) ApiUpdateOrgNetworkTemplatesRequest
+
+	// UpdateOrgNetworkTemplatesExecute executes the request
+	//  @return NetworkTemplate
+	UpdateOrgNetworkTemplatesExecute(r ApiUpdateOrgNetworkTemplatesRequest) (*NetworkTemplate, *http.Response, error)
+}
+
 // OrgsNetworkTemplatesAPIService OrgsNetworkTemplatesAPI service
 type OrgsNetworkTemplatesAPIService service
 
 type ApiCreateOrgNetworkTemplateRequest struct {
 	ctx context.Context
-	ApiService *OrgsNetworkTemplatesAPIService
+	ApiService OrgsNetworkTemplatesAPI
 	orgId string
 	networkTemplate *NetworkTemplate
 }
@@ -206,7 +286,7 @@ func (a *OrgsNetworkTemplatesAPIService) CreateOrgNetworkTemplateExecute(r ApiCr
 
 type ApiDeleteOrgNetworkTemplateRequest struct {
 	ctx context.Context
-	ApiService *OrgsNetworkTemplatesAPIService
+	ApiService OrgsNetworkTemplatesAPI
 	orgId string
 	networktemplateId string
 }
@@ -370,7 +450,7 @@ func (a *OrgsNetworkTemplatesAPIService) DeleteOrgNetworkTemplateExecute(r ApiDe
 
 type ApiGetOrgNetworkTemplateRequest struct {
 	ctx context.Context
-	ApiService *OrgsNetworkTemplatesAPIService
+	ApiService OrgsNetworkTemplatesAPI
 	orgId string
 	networktemplateId string
 }
@@ -545,7 +625,7 @@ func (a *OrgsNetworkTemplatesAPIService) GetOrgNetworkTemplateExecute(r ApiGetOr
 
 type ApiListOrgNetworkTemplatesRequest struct {
 	ctx context.Context
-	ApiService *OrgsNetworkTemplatesAPIService
+	ApiService OrgsNetworkTemplatesAPI
 	orgId string
 	page *int32
 	limit *int32
@@ -740,7 +820,7 @@ func (a *OrgsNetworkTemplatesAPIService) ListOrgNetworkTemplatesExecute(r ApiLis
 
 type ApiUpdateOrgNetworkTemplatesRequest struct {
 	ctx context.Context
-	ApiService *OrgsNetworkTemplatesAPIService
+	ApiService OrgsNetworkTemplatesAPI
 	orgId string
 	networktemplateId string
 	networkTemplate *NetworkTemplate

@@ -21,12 +21,105 @@ import (
 )
 
 
+type OrgsAdminsAPI interface {
+
+	/*
+	InviteOrgAdmin inviteOrgAdmin
+
+	If the request is successful, an email will also be sent to the user with a link to ```https://manage.mist.com/verify/invite?token=:token&expire=1459632743&org=OrgName```
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiInviteOrgAdminRequest
+	*/
+	InviteOrgAdmin(ctx context.Context, orgId string) ApiInviteOrgAdminRequest
+
+	// InviteOrgAdminExecute executes the request
+	InviteOrgAdminExecute(r ApiInviteOrgAdminRequest) (*http.Response, error)
+
+	/*
+	ListOrgAdmins listOrgAdmins
+
+	Get List of people who can manage the Site/Org under the Org
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiListOrgAdminsRequest
+	*/
+	ListOrgAdmins(ctx context.Context, orgId string) ApiListOrgAdminsRequest
+
+	// ListOrgAdminsExecute executes the request
+	//  @return []Admin
+	ListOrgAdminsExecute(r ApiListOrgAdminsRequest) ([]Admin, *http.Response, error)
+
+	/*
+	RevokeOrgAdmin revokeOrgAdmin
+
+	This removes all privileges this admin has against the org
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param adminId
+	@return ApiRevokeOrgAdminRequest
+	*/
+	RevokeOrgAdmin(ctx context.Context, orgId string, adminId string) ApiRevokeOrgAdminRequest
+
+	// RevokeOrgAdminExecute executes the request
+	RevokeOrgAdminExecute(r ApiRevokeOrgAdminRequest) (*http.Response, error)
+
+	/*
+	UninviteOrgAdmin uninviteOrgAdmin
+
+	Delete Admin Invite
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param inviteId
+	@return ApiUninviteOrgAdminRequest
+	*/
+	UninviteOrgAdmin(ctx context.Context, orgId string, inviteId string) ApiUninviteOrgAdminRequest
+
+	// UninviteOrgAdminExecute executes the request
+	UninviteOrgAdminExecute(r ApiUninviteOrgAdminRequest) (*http.Response, error)
+
+	/*
+	UpdateOrgAdmin updateOrgAdmin
+
+	Invite Org Admin
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param adminId
+	@return ApiUpdateOrgAdminRequest
+	*/
+	UpdateOrgAdmin(ctx context.Context, orgId string, adminId string) ApiUpdateOrgAdminRequest
+
+	// UpdateOrgAdminExecute executes the request
+	//  @return Admin
+	UpdateOrgAdminExecute(r ApiUpdateOrgAdminRequest) (*Admin, *http.Response, error)
+
+	/*
+	UpdateOrgAdminInvite updateOrgAdminInvite
+
+	Update Admin Invite
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param inviteId
+	@return ApiUpdateOrgAdminInviteRequest
+	*/
+	UpdateOrgAdminInvite(ctx context.Context, orgId string, inviteId string) ApiUpdateOrgAdminInviteRequest
+
+	// UpdateOrgAdminInviteExecute executes the request
+	UpdateOrgAdminInviteExecute(r ApiUpdateOrgAdminInviteRequest) (*http.Response, error)
+}
+
 // OrgsAdminsAPIService OrgsAdminsAPI service
 type OrgsAdminsAPIService service
 
 type ApiInviteOrgAdminRequest struct {
 	ctx context.Context
-	ApiService *OrgsAdminsAPIService
+	ApiService OrgsAdminsAPI
 	orgId string
 	admin *Admin
 }
@@ -195,7 +288,7 @@ func (a *OrgsAdminsAPIService) InviteOrgAdminExecute(r ApiInviteOrgAdminRequest)
 
 type ApiListOrgAdminsRequest struct {
 	ctx context.Context
-	ApiService *OrgsAdminsAPIService
+	ApiService OrgsAdminsAPI
 	orgId string
 }
 
@@ -366,7 +459,7 @@ func (a *OrgsAdminsAPIService) ListOrgAdminsExecute(r ApiListOrgAdminsRequest) (
 
 type ApiRevokeOrgAdminRequest struct {
 	ctx context.Context
-	ApiService *OrgsAdminsAPIService
+	ApiService OrgsAdminsAPI
 	orgId string
 	adminId string
 }
@@ -530,7 +623,7 @@ func (a *OrgsAdminsAPIService) RevokeOrgAdminExecute(r ApiRevokeOrgAdminRequest)
 
 type ApiUninviteOrgAdminRequest struct {
 	ctx context.Context
-	ApiService *OrgsAdminsAPIService
+	ApiService OrgsAdminsAPI
 	orgId string
 	inviteId string
 }
@@ -694,7 +787,7 @@ func (a *OrgsAdminsAPIService) UninviteOrgAdminExecute(r ApiUninviteOrgAdminRequ
 
 type ApiUpdateOrgAdminRequest struct {
 	ctx context.Context
-	ApiService *OrgsAdminsAPIService
+	ApiService OrgsAdminsAPI
 	orgId string
 	adminId string
 	admin *Admin
@@ -878,7 +971,7 @@ func (a *OrgsAdminsAPIService) UpdateOrgAdminExecute(r ApiUpdateOrgAdminRequest)
 
 type ApiUpdateOrgAdminInviteRequest struct {
 	ctx context.Context
-	ApiService *OrgsAdminsAPIService
+	ApiService OrgsAdminsAPI
 	orgId string
 	inviteId string
 	admin *Admin

@@ -21,12 +21,123 @@ import (
 )
 
 
+type OrgsWxTagsAPI interface {
+
+	/*
+	CreateOrgWxTag createOrgWxTag
+
+	Create WxLAN Tag
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiCreateOrgWxTagRequest
+	*/
+	CreateOrgWxTag(ctx context.Context, orgId string) ApiCreateOrgWxTagRequest
+
+	// CreateOrgWxTagExecute executes the request
+	//  @return WxlanTag
+	CreateOrgWxTagExecute(r ApiCreateOrgWxTagRequest) (*WxlanTag, *http.Response, error)
+
+	/*
+	DeleteOrgWxTag deleteOrgWxTag
+
+	Delete WxLAN Tag
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param wxtagId
+	@return ApiDeleteOrgWxTagRequest
+	*/
+	DeleteOrgWxTag(ctx context.Context, orgId string, wxtagId string) ApiDeleteOrgWxTagRequest
+
+	// DeleteOrgWxTagExecute executes the request
+	DeleteOrgWxTagExecute(r ApiDeleteOrgWxTagRequest) (*http.Response, error)
+
+	/*
+	GetOrgApplicationList getOrgApplicationList
+
+	Get Application List
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiGetOrgApplicationListRequest
+	*/
+	GetOrgApplicationList(ctx context.Context, orgId string) ApiGetOrgApplicationListRequest
+
+	// GetOrgApplicationListExecute executes the request
+	//  @return []SearchWxtagAppsItem
+	GetOrgApplicationListExecute(r ApiGetOrgApplicationListRequest) ([]SearchWxtagAppsItem, *http.Response, error)
+
+	/*
+	GetOrgCurrentMatchingClientsOfAWxTag getOrgCurrentMatchingClientsOfAWxTag
+
+	Get Current Matching Clients of a WXLAN Tag
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param wxtagId
+	@return ApiGetOrgCurrentMatchingClientsOfAWxTagRequest
+	*/
+	GetOrgCurrentMatchingClientsOfAWxTag(ctx context.Context, orgId string, wxtagId string) ApiGetOrgCurrentMatchingClientsOfAWxTagRequest
+
+	// GetOrgCurrentMatchingClientsOfAWxTagExecute executes the request
+	//  @return []WxtagClient
+	GetOrgCurrentMatchingClientsOfAWxTagExecute(r ApiGetOrgCurrentMatchingClientsOfAWxTagRequest) ([]WxtagClient, *http.Response, error)
+
+	/*
+	GetOrgWxTag getOrgWxTag
+
+	Get WxLAN Tag Details
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param wxtagId
+	@return ApiGetOrgWxTagRequest
+	*/
+	GetOrgWxTag(ctx context.Context, orgId string, wxtagId string) ApiGetOrgWxTagRequest
+
+	// GetOrgWxTagExecute executes the request
+	//  @return WxlanTag
+	GetOrgWxTagExecute(r ApiGetOrgWxTagRequest) (*WxlanTag, *http.Response, error)
+
+	/*
+	ListOrgWxTags listOrgWxTags
+
+	Get List of Org WxLAN Tags
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiListOrgWxTagsRequest
+	*/
+	ListOrgWxTags(ctx context.Context, orgId string) ApiListOrgWxTagsRequest
+
+	// ListOrgWxTagsExecute executes the request
+	//  @return []WxlanTag
+	ListOrgWxTagsExecute(r ApiListOrgWxTagsRequest) ([]WxlanTag, *http.Response, error)
+
+	/*
+	UpdateOrgWxTag updateOrgWxTag
+
+	Update WxLAN Tag
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param wxtagId
+	@return ApiUpdateOrgWxTagRequest
+	*/
+	UpdateOrgWxTag(ctx context.Context, orgId string, wxtagId string) ApiUpdateOrgWxTagRequest
+
+	// UpdateOrgWxTagExecute executes the request
+	//  @return WxlanTag
+	UpdateOrgWxTagExecute(r ApiUpdateOrgWxTagRequest) (*WxlanTag, *http.Response, error)
+}
+
 // OrgsWxTagsAPIService OrgsWxTagsAPI service
 type OrgsWxTagsAPIService service
 
 type ApiCreateOrgWxTagRequest struct {
 	ctx context.Context
-	ApiService *OrgsWxTagsAPIService
+	ApiService OrgsWxTagsAPI
 	orgId string
 	wxlanTag *WxlanTag
 }
@@ -206,7 +317,7 @@ func (a *OrgsWxTagsAPIService) CreateOrgWxTagExecute(r ApiCreateOrgWxTagRequest)
 
 type ApiDeleteOrgWxTagRequest struct {
 	ctx context.Context
-	ApiService *OrgsWxTagsAPIService
+	ApiService OrgsWxTagsAPI
 	orgId string
 	wxtagId string
 }
@@ -370,7 +481,7 @@ func (a *OrgsWxTagsAPIService) DeleteOrgWxTagExecute(r ApiDeleteOrgWxTagRequest)
 
 type ApiGetOrgApplicationListRequest struct {
 	ctx context.Context
-	ApiService *OrgsWxTagsAPIService
+	ApiService OrgsWxTagsAPI
 	orgId string
 }
 
@@ -541,7 +652,7 @@ func (a *OrgsWxTagsAPIService) GetOrgApplicationListExecute(r ApiGetOrgApplicati
 
 type ApiGetOrgCurrentMatchingClientsOfAWxTagRequest struct {
 	ctx context.Context
-	ApiService *OrgsWxTagsAPIService
+	ApiService OrgsWxTagsAPI
 	orgId string
 	wxtagId string
 }
@@ -716,7 +827,7 @@ func (a *OrgsWxTagsAPIService) GetOrgCurrentMatchingClientsOfAWxTagExecute(r Api
 
 type ApiGetOrgWxTagRequest struct {
 	ctx context.Context
-	ApiService *OrgsWxTagsAPIService
+	ApiService OrgsWxTagsAPI
 	orgId string
 	wxtagId string
 }
@@ -891,7 +1002,7 @@ func (a *OrgsWxTagsAPIService) GetOrgWxTagExecute(r ApiGetOrgWxTagRequest) (*Wxl
 
 type ApiListOrgWxTagsRequest struct {
 	ctx context.Context
-	ApiService *OrgsWxTagsAPIService
+	ApiService OrgsWxTagsAPI
 	orgId string
 	page *int32
 	limit *int32
@@ -1086,7 +1197,7 @@ func (a *OrgsWxTagsAPIService) ListOrgWxTagsExecute(r ApiListOrgWxTagsRequest) (
 
 type ApiUpdateOrgWxTagRequest struct {
 	ctx context.Context
-	ApiService *OrgsWxTagsAPIService
+	ApiService OrgsWxTagsAPI
 	orgId string
 	wxtagId string
 	wxlanTag *WxlanTag

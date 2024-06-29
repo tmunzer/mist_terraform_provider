@@ -21,12 +21,92 @@ import (
 )
 
 
+type OrgsClientsMarvisAPI interface {
+
+	/*
+	CreateOrgMarvisClientInvites createOrgMarvisClientInvites
+
+	Create Org Marvis Client Invites
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiCreateOrgMarvisClientInvitesRequest
+	*/
+	CreateOrgMarvisClientInvites(ctx context.Context, orgId string) ApiCreateOrgMarvisClientInvitesRequest
+
+	// CreateOrgMarvisClientInvitesExecute executes the request
+	//  @return MarvisClient
+	CreateOrgMarvisClientInvitesExecute(r ApiCreateOrgMarvisClientInvitesRequest) (*MarvisClient, *http.Response, error)
+
+	/*
+	DeleteOrgMarvisClientInvite deleteOrgMarvisClientInvite
+
+	Delete Org Marvis Client Invite
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param marvisinviteId
+	@return ApiDeleteOrgMarvisClientInviteRequest
+	*/
+	DeleteOrgMarvisClientInvite(ctx context.Context, orgId string, marvisinviteId string) ApiDeleteOrgMarvisClientInviteRequest
+
+	// DeleteOrgMarvisClientInviteExecute executes the request
+	DeleteOrgMarvisClientInviteExecute(r ApiDeleteOrgMarvisClientInviteRequest) (*http.Response, error)
+
+	/*
+	GetOrgMarvisClientInvites getOrgMarvisClientInvites
+
+	Get Org Marvis Client Invite
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param marvisinviteId
+	@return ApiGetOrgMarvisClientInvitesRequest
+	*/
+	GetOrgMarvisClientInvites(ctx context.Context, orgId string, marvisinviteId string) ApiGetOrgMarvisClientInvitesRequest
+
+	// GetOrgMarvisClientInvitesExecute executes the request
+	//  @return MarvisClient
+	GetOrgMarvisClientInvitesExecute(r ApiGetOrgMarvisClientInvitesRequest) (*MarvisClient, *http.Response, error)
+
+	/*
+	ListOrgMarvisClientInvites listOrgMarvisClientInvites
+
+	List Org Marvis Client Invites
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiListOrgMarvisClientInvitesRequest
+	*/
+	ListOrgMarvisClientInvites(ctx context.Context, orgId string) ApiListOrgMarvisClientInvitesRequest
+
+	// ListOrgMarvisClientInvitesExecute executes the request
+	//  @return []MarvisClient
+	ListOrgMarvisClientInvitesExecute(r ApiListOrgMarvisClientInvitesRequest) ([]MarvisClient, *http.Response, error)
+
+	/*
+	UpdateOrgMarvisClientInvite updateOrgMarvisClientInvites
+
+	Update Org Marvis Client Invite
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param marvisinviteId
+	@return ApiUpdateOrgMarvisClientInviteRequest
+	*/
+	UpdateOrgMarvisClientInvite(ctx context.Context, orgId string, marvisinviteId string) ApiUpdateOrgMarvisClientInviteRequest
+
+	// UpdateOrgMarvisClientInviteExecute executes the request
+	//  @return MarvisClient
+	UpdateOrgMarvisClientInviteExecute(r ApiUpdateOrgMarvisClientInviteRequest) (*MarvisClient, *http.Response, error)
+}
+
 // OrgsClientsMarvisAPIService OrgsClientsMarvisAPI service
 type OrgsClientsMarvisAPIService service
 
 type ApiCreateOrgMarvisClientInvitesRequest struct {
 	ctx context.Context
-	ApiService *OrgsClientsMarvisAPIService
+	ApiService OrgsClientsMarvisAPI
 	orgId string
 	marvisClient *MarvisClient
 }
@@ -205,7 +285,7 @@ func (a *OrgsClientsMarvisAPIService) CreateOrgMarvisClientInvitesExecute(r ApiC
 
 type ApiDeleteOrgMarvisClientInviteRequest struct {
 	ctx context.Context
-	ApiService *OrgsClientsMarvisAPIService
+	ApiService OrgsClientsMarvisAPI
 	orgId string
 	marvisinviteId string
 }
@@ -369,7 +449,7 @@ func (a *OrgsClientsMarvisAPIService) DeleteOrgMarvisClientInviteExecute(r ApiDe
 
 type ApiGetOrgMarvisClientInvitesRequest struct {
 	ctx context.Context
-	ApiService *OrgsClientsMarvisAPIService
+	ApiService OrgsClientsMarvisAPI
 	orgId string
 	marvisinviteId string
 }
@@ -544,7 +624,7 @@ func (a *OrgsClientsMarvisAPIService) GetOrgMarvisClientInvitesExecute(r ApiGetO
 
 type ApiListOrgMarvisClientInvitesRequest struct {
 	ctx context.Context
-	ApiService *OrgsClientsMarvisAPIService
+	ApiService OrgsClientsMarvisAPI
 	orgId string
 }
 
@@ -715,7 +795,7 @@ func (a *OrgsClientsMarvisAPIService) ListOrgMarvisClientInvitesExecute(r ApiLis
 
 type ApiUpdateOrgMarvisClientInviteRequest struct {
 	ctx context.Context
-	ApiService *OrgsClientsMarvisAPIService
+	ApiService OrgsClientsMarvisAPI
 	orgId string
 	marvisinviteId string
 	marvisClient *MarvisClient

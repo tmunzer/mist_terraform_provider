@@ -22,12 +22,30 @@ import (
 )
 
 
+type OrgsCRLAPI interface {
+
+	/*
+	GetOrgCrlFile getOrgCrlFile
+
+	Get Org CRL File
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiGetOrgCrlFileRequest
+	*/
+	GetOrgCrlFile(ctx context.Context, orgId string) ApiGetOrgCrlFileRequest
+
+	// GetOrgCrlFileExecute executes the request
+	//  @return *os.File
+	GetOrgCrlFileExecute(r ApiGetOrgCrlFileRequest) (*os.File, *http.Response, error)
+}
+
 // OrgsCRLAPIService OrgsCRLAPI service
 type OrgsCRLAPIService service
 
 type ApiGetOrgCrlFileRequest struct {
 	ctx context.Context
-	ApiService *OrgsCRLAPIService
+	ApiService OrgsCRLAPI
 	orgId string
 }
 

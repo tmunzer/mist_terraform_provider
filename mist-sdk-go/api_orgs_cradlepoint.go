@@ -21,12 +21,71 @@ import (
 )
 
 
+type OrgsCradlepointAPI interface {
+
+	/*
+	DeleteOrgCradlepointConnection deleteOrgCradlepointConnection
+
+	This deletes the Cradlepoint integration in Mist
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiDeleteOrgCradlepointConnectionRequest
+	*/
+	DeleteOrgCradlepointConnection(ctx context.Context, orgId string) ApiDeleteOrgCradlepointConnectionRequest
+
+	// DeleteOrgCradlepointConnectionExecute executes the request
+	DeleteOrgCradlepointConnectionExecute(r ApiDeleteOrgCradlepointConnectionRequest) (*http.Response, error)
+
+	/*
+	SetupOrgCradlepointConnectionToMist setupOrgCradlepointConnectionToMist
+
+	This sets up cradlepoint webhooks to send events to Mist
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiSetupOrgCradlepointConnectionToMistRequest
+	*/
+	SetupOrgCradlepointConnectionToMist(ctx context.Context, orgId string) ApiSetupOrgCradlepointConnectionToMistRequest
+
+	// SetupOrgCradlepointConnectionToMistExecute executes the request
+	SetupOrgCradlepointConnectionToMistExecute(r ApiSetupOrgCradlepointConnectionToMistRequest) (*http.Response, error)
+
+	/*
+	SyncOrgCradlepointRouters syncOrgCradlepointRouters
+
+	This syncs cradlepoint devices with Mist. We’ll also attempt to use the LLDP data from cradlepoint to identify the linkage against Mist Site / Device
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiSyncOrgCradlepointRoutersRequest
+	*/
+	SyncOrgCradlepointRouters(ctx context.Context, orgId string) ApiSyncOrgCradlepointRoutersRequest
+
+	// SyncOrgCradlepointRoutersExecute executes the request
+	SyncOrgCradlepointRoutersExecute(r ApiSyncOrgCradlepointRoutersRequest) (*http.Response, error)
+
+	/*
+	UpdateOrgCradlepointConnectionToMist updateOrgCradlepointConnectionToMist
+
+	This updates the Cradlepoint integration settings in Mist
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiUpdateOrgCradlepointConnectionToMistRequest
+	*/
+	UpdateOrgCradlepointConnectionToMist(ctx context.Context, orgId string) ApiUpdateOrgCradlepointConnectionToMistRequest
+
+	// UpdateOrgCradlepointConnectionToMistExecute executes the request
+	UpdateOrgCradlepointConnectionToMistExecute(r ApiUpdateOrgCradlepointConnectionToMistRequest) (*http.Response, error)
+}
+
 // OrgsCradlepointAPIService OrgsCradlepointAPI service
 type OrgsCradlepointAPIService service
 
 type ApiDeleteOrgCradlepointConnectionRequest struct {
 	ctx context.Context
-	ApiService *OrgsCradlepointAPIService
+	ApiService OrgsCradlepointAPI
 	orgId string
 }
 
@@ -186,7 +245,7 @@ func (a *OrgsCradlepointAPIService) DeleteOrgCradlepointConnectionExecute(r ApiD
 
 type ApiSetupOrgCradlepointConnectionToMistRequest struct {
 	ctx context.Context
-	ApiService *OrgsCradlepointAPIService
+	ApiService OrgsCradlepointAPI
 	orgId string
 	accountCradlepointConfig *AccountCradlepointConfig
 }
@@ -354,7 +413,7 @@ func (a *OrgsCradlepointAPIService) SetupOrgCradlepointConnectionToMistExecute(r
 
 type ApiSyncOrgCradlepointRoutersRequest struct {
 	ctx context.Context
-	ApiService *OrgsCradlepointAPIService
+	ApiService OrgsCradlepointAPI
 	orgId string
 }
 
@@ -514,7 +573,7 @@ func (a *OrgsCradlepointAPIService) SyncOrgCradlepointRoutersExecute(r ApiSyncOr
 
 type ApiUpdateOrgCradlepointConnectionToMistRequest struct {
 	ctx context.Context
-	ApiService *OrgsCradlepointAPIService
+	ApiService OrgsCradlepointAPI
 	orgId string
 	accountCradlepointConfig *AccountCradlepointConfig
 }

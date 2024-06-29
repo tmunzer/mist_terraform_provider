@@ -21,12 +21,198 @@ import (
 )
 
 
+type SitesDevicesStatsAPI interface {
+
+	/*
+	CountSiteBgpStats countSiteBgpStats
+
+	Count BGP Stats
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiCountSiteBgpStatsRequest
+	*/
+	CountSiteBgpStats(ctx context.Context, siteId string) ApiCountSiteBgpStatsRequest
+
+	// CountSiteBgpStatsExecute executes the request
+	//  @return RepsonseCount
+	CountSiteBgpStatsExecute(r ApiCountSiteBgpStatsRequest) (*RepsonseCount, *http.Response, error)
+
+	/*
+	CountSiteSwOrGwPorts countSiteSwOrGwPorts
+
+	Count by Distinct Attributes of Switch/Gateway Ports
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiCountSiteSwOrGwPortsRequest
+	*/
+	CountSiteSwOrGwPorts(ctx context.Context, siteId string) ApiCountSiteSwOrGwPortsRequest
+
+	// CountSiteSwOrGwPortsExecute executes the request
+	//  @return RepsonseCount
+	CountSiteSwOrGwPortsExecute(r ApiCountSiteSwOrGwPortsRequest) (*RepsonseCount, *http.Response, error)
+
+	/*
+	CountSiteSwitchPorts countSiteSwitchPorts
+
+	Count by Distinct Attributes of Switch/Gateway Ports
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiCountSiteSwitchPortsRequest
+	*/
+	CountSiteSwitchPorts(ctx context.Context, siteId string) ApiCountSiteSwitchPortsRequest
+
+	// CountSiteSwitchPortsExecute executes the request
+	//  @return RepsonseCount
+	CountSiteSwitchPortsExecute(r ApiCountSiteSwitchPortsRequest) (*RepsonseCount, *http.Response, error)
+
+	/*
+	GetSiteAllClientsStatsByDevice getSiteAllClientsStatsByDevice
+
+	Get wireless client stat by Device
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param deviceId
+	@return ApiGetSiteAllClientsStatsByDeviceRequest
+	*/
+	GetSiteAllClientsStatsByDevice(ctx context.Context, siteId string, deviceId string) ApiGetSiteAllClientsStatsByDeviceRequest
+
+	// GetSiteAllClientsStatsByDeviceExecute executes the request
+	//  @return [][]ClientWirelessStats
+	GetSiteAllClientsStatsByDeviceExecute(r ApiGetSiteAllClientsStatsByDeviceRequest) ([][]ClientWirelessStats, *http.Response, error)
+
+	/*
+	GetSiteDeviceStats getSiteDeviceStats
+
+	Get Site Device Stats Details
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param deviceId
+	@return ApiGetSiteDeviceStatsRequest
+	*/
+	GetSiteDeviceStats(ctx context.Context, siteId string, deviceId string) ApiGetSiteDeviceStatsRequest
+
+	// GetSiteDeviceStatsExecute executes the request
+	//  @return StatsDevice
+	GetSiteDeviceStatsExecute(r ApiGetSiteDeviceStatsRequest) (*StatsDevice, *http.Response, error)
+
+	/*
+	GetSiteGatewayMetrics getSiteGatewayMetrics
+
+	Get Site Gateway Metrics
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiGetSiteGatewayMetricsRequest
+	*/
+	GetSiteGatewayMetrics(ctx context.Context, siteId string) ApiGetSiteGatewayMetricsRequest
+
+	// GetSiteGatewayMetricsExecute executes the request
+	//  @return GatewayMetrics
+	GetSiteGatewayMetricsExecute(r ApiGetSiteGatewayMetricsRequest) (*GatewayMetrics, *http.Response, error)
+
+	/*
+	GetSiteMxEdgeStats getSiteMxEdgeStats
+
+	Get One Site MxEdge Stats
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param mxedgeId
+	@return ApiGetSiteMxEdgeStatsRequest
+	*/
+	GetSiteMxEdgeStats(ctx context.Context, siteId string, mxedgeId string) ApiGetSiteMxEdgeStatsRequest
+
+	// GetSiteMxEdgeStatsExecute executes the request
+	//  @return MxedgeStats
+	GetSiteMxEdgeStatsExecute(r ApiGetSiteMxEdgeStatsRequest) (*MxedgeStats, *http.Response, error)
+
+	/*
+	ListSiteDevicesStats listSiteDevicesStats
+
+	Get List of Site Devices Stats
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiListSiteDevicesStatsRequest
+	*/
+	ListSiteDevicesStats(ctx context.Context, siteId string) ApiListSiteDevicesStatsRequest
+
+	// ListSiteDevicesStatsExecute executes the request
+	//  @return []ResponseStatsDevice
+	ListSiteDevicesStatsExecute(r ApiListSiteDevicesStatsRequest) ([]ResponseStatsDevice, *http.Response, error)
+
+	/*
+	ListSiteMxEdgesStats listSiteMxEdgesStats
+
+	Get List of Site MxEdges Stats
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiListSiteMxEdgesStatsRequest
+	*/
+	ListSiteMxEdgesStats(ctx context.Context, siteId string) ApiListSiteMxEdgesStatsRequest
+
+	// ListSiteMxEdgesStatsExecute executes the request
+	//  @return []MxedgeStats
+	ListSiteMxEdgesStatsExecute(r ApiListSiteMxEdgesStatsRequest) ([]MxedgeStats, *http.Response, error)
+
+	/*
+	SearchSiteBgpStats searchSiteBgpStats
+
+	Search BGP Stats
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiSearchSiteBgpStatsRequest
+	*/
+	SearchSiteBgpStats(ctx context.Context, siteId string) ApiSearchSiteBgpStatsRequest
+
+	// SearchSiteBgpStatsExecute executes the request
+	//  @return ResponseSearchBgps
+	SearchSiteBgpStatsExecute(r ApiSearchSiteBgpStatsRequest) (*ResponseSearchBgps, *http.Response, error)
+
+	/*
+	SearchSiteSwOrGwPorts searchSiteSwOrGwPorts
+
+	Search Switch / Gateway Ports
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiSearchSiteSwOrGwPortsRequest
+	*/
+	SearchSiteSwOrGwPorts(ctx context.Context, siteId string) ApiSearchSiteSwOrGwPortsRequest
+
+	// SearchSiteSwOrGwPortsExecute executes the request
+	//  @return ResponseSwitchPortSearch
+	SearchSiteSwOrGwPortsExecute(r ApiSearchSiteSwOrGwPortsRequest) (*ResponseSwitchPortSearch, *http.Response, error)
+
+	/*
+	SearchSiteSwitchPorts searchSiteSwitchPorts
+
+	Search Switch / Gateway Ports
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiSearchSiteSwitchPortsRequest
+	*/
+	SearchSiteSwitchPorts(ctx context.Context, siteId string) ApiSearchSiteSwitchPortsRequest
+
+	// SearchSiteSwitchPortsExecute executes the request
+	//  @return ResponseSwitchPortSearch
+	SearchSiteSwitchPortsExecute(r ApiSearchSiteSwitchPortsRequest) (*ResponseSwitchPortSearch, *http.Response, error)
+}
+
 // SitesDevicesStatsAPIService SitesDevicesStatsAPI service
 type SitesDevicesStatsAPIService service
 
 type ApiCountSiteBgpStatsRequest struct {
 	ctx context.Context
-	ApiService *SitesDevicesStatsAPIService
+	ApiService SitesDevicesStatsAPI
 	siteId string
 	state *string
 	distinct *string
@@ -215,7 +401,7 @@ func (a *SitesDevicesStatsAPIService) CountSiteBgpStatsExecute(r ApiCountSiteBgp
 
 type ApiCountSiteSwOrGwPortsRequest struct {
 	ctx context.Context
-	ApiService *SitesDevicesStatsAPIService
+	ApiService SitesDevicesStatsAPI
 	siteId string
 	distinct *SitePortsCountDistinct
 	fullDuplex *bool
@@ -705,7 +891,7 @@ func (a *SitesDevicesStatsAPIService) CountSiteSwOrGwPortsExecute(r ApiCountSite
 
 type ApiCountSiteSwitchPortsRequest struct {
 	ctx context.Context
-	ApiService *SitesDevicesStatsAPIService
+	ApiService SitesDevicesStatsAPI
 	siteId string
 	distinct *SiteSwitchPortsCountDistinct
 	fullDuplex *bool
@@ -1195,7 +1381,7 @@ func (a *SitesDevicesStatsAPIService) CountSiteSwitchPortsExecute(r ApiCountSite
 
 type ApiGetSiteAllClientsStatsByDeviceRequest struct {
 	ctx context.Context
-	ApiService *SitesDevicesStatsAPIService
+	ApiService SitesDevicesStatsAPI
 	siteId string
 	deviceId string
 }
@@ -1370,7 +1556,7 @@ func (a *SitesDevicesStatsAPIService) GetSiteAllClientsStatsByDeviceExecute(r Ap
 
 type ApiGetSiteDeviceStatsRequest struct {
 	ctx context.Context
-	ApiService *SitesDevicesStatsAPIService
+	ApiService SitesDevicesStatsAPI
 	siteId string
 	deviceId string
 }
@@ -1545,7 +1731,7 @@ func (a *SitesDevicesStatsAPIService) GetSiteDeviceStatsExecute(r ApiGetSiteDevi
 
 type ApiGetSiteGatewayMetricsRequest struct {
 	ctx context.Context
-	ApiService *SitesDevicesStatsAPIService
+	ApiService SitesDevicesStatsAPI
 	siteId string
 }
 
@@ -1716,7 +1902,7 @@ func (a *SitesDevicesStatsAPIService) GetSiteGatewayMetricsExecute(r ApiGetSiteG
 
 type ApiGetSiteMxEdgeStatsRequest struct {
 	ctx context.Context
-	ApiService *SitesDevicesStatsAPIService
+	ApiService SitesDevicesStatsAPI
 	siteId string
 	mxedgeId string
 	start *int32
@@ -1924,7 +2110,7 @@ func (a *SitesDevicesStatsAPIService) GetSiteMxEdgeStatsExecute(r ApiGetSiteMxEd
 
 type ApiListSiteDevicesStatsRequest struct {
 	ctx context.Context
-	ApiService *SitesDevicesStatsAPIService
+	ApiService SitesDevicesStatsAPI
 	siteId string
 	type_ *DeviceTypeWithAll
 	status *StatDeviceStatusFilter
@@ -2143,7 +2329,7 @@ func (a *SitesDevicesStatsAPIService) ListSiteDevicesStatsExecute(r ApiListSiteD
 
 type ApiListSiteMxEdgesStatsRequest struct {
 	ctx context.Context
-	ApiService *SitesDevicesStatsAPIService
+	ApiService SitesDevicesStatsAPI
 	siteId string
 	page *int32
 	limit *int32
@@ -2371,7 +2557,7 @@ func (a *SitesDevicesStatsAPIService) ListSiteMxEdgesStatsExecute(r ApiListSiteM
 
 type ApiSearchSiteBgpStatsRequest struct {
 	ctx context.Context
-	ApiService *SitesDevicesStatsAPIService
+	ApiService SitesDevicesStatsAPI
 	siteId string
 }
 
@@ -2542,7 +2728,7 @@ func (a *SitesDevicesStatsAPIService) SearchSiteBgpStatsExecute(r ApiSearchSiteB
 
 type ApiSearchSiteSwOrGwPortsRequest struct {
 	ctx context.Context
-	ApiService *SitesDevicesStatsAPIService
+	ApiService SitesDevicesStatsAPI
 	siteId string
 	fullDuplex *bool
 	mac *string
@@ -3138,7 +3324,7 @@ func (a *SitesDevicesStatsAPIService) SearchSiteSwOrGwPortsExecute(r ApiSearchSi
 
 type ApiSearchSiteSwitchPortsRequest struct {
 	ctx context.Context
-	ApiService *SitesDevicesStatsAPIService
+	ApiService SitesDevicesStatsAPI
 	siteId string
 	fullDuplex *bool
 	mac *string

@@ -21,12 +21,352 @@ import (
 )
 
 
+type OrgsMxEdgesAPI interface {
+
+	/*
+	AddOrgMxEdgeImage addOrgMxEdgeImage
+
+	Attach up to 3 images to a mxedge
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param mxedgeId
+	@param imageNumber
+	@return ApiAddOrgMxEdgeImageRequest
+	*/
+	AddOrgMxEdgeImage(ctx context.Context, orgId string, mxedgeId string, imageNumber int32) ApiAddOrgMxEdgeImageRequest
+
+	// AddOrgMxEdgeImageExecute executes the request
+	AddOrgMxEdgeImageExecute(r ApiAddOrgMxEdgeImageRequest) (*http.Response, error)
+
+	/*
+	AssignOrgMxEdgeToSite assignOrgMxEdgeToSite
+
+	Assign Org MxEdge to Site
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiAssignOrgMxEdgeToSiteRequest
+	*/
+	AssignOrgMxEdgeToSite(ctx context.Context, orgId string) ApiAssignOrgMxEdgeToSiteRequest
+
+	// AssignOrgMxEdgeToSiteExecute executes the request
+	//  @return ResponseAssignSuccess
+	AssignOrgMxEdgeToSiteExecute(r ApiAssignOrgMxEdgeToSiteRequest) (*ResponseAssignSuccess, *http.Response, error)
+
+	/*
+	BounceOrgMxEdgeDataPorts bounceOrgMxEdgeDataPorts
+
+	Bounce TunTerm Data Ports
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param mxedgeId
+	@return ApiBounceOrgMxEdgeDataPortsRequest
+	*/
+	BounceOrgMxEdgeDataPorts(ctx context.Context, orgId string, mxedgeId string) ApiBounceOrgMxEdgeDataPortsRequest
+
+	// BounceOrgMxEdgeDataPortsExecute executes the request
+	BounceOrgMxEdgeDataPortsExecute(r ApiBounceOrgMxEdgeDataPortsRequest) (*http.Response, error)
+
+	/*
+	ClaimOrgMxEdge claimOrgMxEdge
+
+	For a Mist Edge in default state, it will show a random claim code like `135-546-673` which you can “claim” it into your Org
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiClaimOrgMxEdgeRequest
+	*/
+	ClaimOrgMxEdge(ctx context.Context, orgId string) ApiClaimOrgMxEdgeRequest
+
+	// ClaimOrgMxEdgeExecute executes the request
+	//  @return ResponseClaimMxEdge
+	ClaimOrgMxEdgeExecute(r ApiClaimOrgMxEdgeRequest) (*ResponseClaimMxEdge, *http.Response, error)
+
+	/*
+	ControlOrgMxEdgeServices controlOrgMxEdgeServices
+
+	Control Services on a Mist Edge
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param mxedgeId
+	@param name
+	@param action restart or start or stop
+	@return ApiControlOrgMxEdgeServicesRequest
+	*/
+	ControlOrgMxEdgeServices(ctx context.Context, orgId string, mxedgeId string, name MxedgeServiceName, action MxedgeServiceAction) ApiControlOrgMxEdgeServicesRequest
+
+	// ControlOrgMxEdgeServicesExecute executes the request
+	ControlOrgMxEdgeServicesExecute(r ApiControlOrgMxEdgeServicesRequest) (*http.Response, error)
+
+	/*
+	CountOrgMxEdges countOrgMxEdges
+
+	Count Org Mist Edges
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiCountOrgMxEdgesRequest
+	*/
+	CountOrgMxEdges(ctx context.Context, orgId string) ApiCountOrgMxEdgesRequest
+
+	// CountOrgMxEdgesExecute executes the request
+	//  @return RepsonseCount
+	CountOrgMxEdgesExecute(r ApiCountOrgMxEdgesRequest) (*RepsonseCount, *http.Response, error)
+
+	/*
+	CountOrgSiteMxEdgeEvents countOrgSiteMxEdgeEvents
+
+	Count Org Mist Edge Events
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiCountOrgSiteMxEdgeEventsRequest
+	*/
+	CountOrgSiteMxEdgeEvents(ctx context.Context, orgId string) ApiCountOrgSiteMxEdgeEventsRequest
+
+	// CountOrgSiteMxEdgeEventsExecute executes the request
+	//  @return RepsonseCount
+	CountOrgSiteMxEdgeEventsExecute(r ApiCountOrgSiteMxEdgeEventsRequest) (*RepsonseCount, *http.Response, error)
+
+	/*
+	CreateOrgMxEdge createOrgMxEdge
+
+	Create MxEdge
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiCreateOrgMxEdgeRequest
+	*/
+	CreateOrgMxEdge(ctx context.Context, orgId string) ApiCreateOrgMxEdgeRequest
+
+	// CreateOrgMxEdgeExecute executes the request
+	//  @return Mxedge
+	CreateOrgMxEdgeExecute(r ApiCreateOrgMxEdgeRequest) (*Mxedge, *http.Response, error)
+
+	/*
+	DeleteOrgMxEdge deleteOrgMxEdge
+
+	Delete Org MxEdge
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param mxedgeId
+	@return ApiDeleteOrgMxEdgeRequest
+	*/
+	DeleteOrgMxEdge(ctx context.Context, orgId string, mxedgeId string) ApiDeleteOrgMxEdgeRequest
+
+	// DeleteOrgMxEdgeExecute executes the request
+	DeleteOrgMxEdgeExecute(r ApiDeleteOrgMxEdgeRequest) (*http.Response, error)
+
+	/*
+	DeleteOrgMxEdgeImage deleteOrgMxEdgeImage
+
+	Remove MxEdge Image
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param mxedgeId
+	@param imageNumber
+	@return ApiDeleteOrgMxEdgeImageRequest
+	*/
+	DeleteOrgMxEdgeImage(ctx context.Context, orgId string, mxedgeId string, imageNumber int32) ApiDeleteOrgMxEdgeImageRequest
+
+	// DeleteOrgMxEdgeImageExecute executes the request
+	DeleteOrgMxEdgeImageExecute(r ApiDeleteOrgMxEdgeImageRequest) (*http.Response, error)
+
+	/*
+	GetOrgMxEdge getOrgMxEdge
+
+	Get Org MxEdge details
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param mxedgeId
+	@return ApiGetOrgMxEdgeRequest
+	*/
+	GetOrgMxEdge(ctx context.Context, orgId string, mxedgeId string) ApiGetOrgMxEdgeRequest
+
+	// GetOrgMxEdgeExecute executes the request
+	//  @return Mxedge
+	GetOrgMxEdgeExecute(r ApiGetOrgMxEdgeRequest) (*Mxedge, *http.Response, error)
+
+	/*
+	GetOrgMxEdgeStats getOrgMxEdgeStats
+
+	Get Org MxEdge Details Stats
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param mxedgeId
+	@return ApiGetOrgMxEdgeStatsRequest
+	*/
+	GetOrgMxEdgeStats(ctx context.Context, orgId string, mxedgeId string) ApiGetOrgMxEdgeStatsRequest
+
+	// GetOrgMxEdgeStatsExecute executes the request
+	//  @return MxedgeStats
+	GetOrgMxEdgeStatsExecute(r ApiGetOrgMxEdgeStatsRequest) (*MxedgeStats, *http.Response, error)
+
+	/*
+	GetOrgMxEdgeUpgradeInfo getOrgMxEdgeUpgradeInfo
+
+	Get Mist Edge Upgrade Information
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiGetOrgMxEdgeUpgradeInfoRequest
+	*/
+	GetOrgMxEdgeUpgradeInfo(ctx context.Context, orgId string) ApiGetOrgMxEdgeUpgradeInfoRequest
+
+	// GetOrgMxEdgeUpgradeInfoExecute executes the request
+	//  @return []MxedgeUpgradeInfoItems
+	GetOrgMxEdgeUpgradeInfoExecute(r ApiGetOrgMxEdgeUpgradeInfoRequest) ([]MxedgeUpgradeInfoItems, *http.Response, error)
+
+	/*
+	ListOrgMxEdges listOrgMxEdges
+
+	Get List of Org MxEdges
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiListOrgMxEdgesRequest
+	*/
+	ListOrgMxEdges(ctx context.Context, orgId string) ApiListOrgMxEdgesRequest
+
+	// ListOrgMxEdgesExecute executes the request
+	//  @return []Mxedge
+	ListOrgMxEdgesExecute(r ApiListOrgMxEdgesRequest) ([]Mxedge, *http.Response, error)
+
+	/*
+	ListOrgMxEdgesStats listOrgMxEdgesStats
+
+	Get List of Org MxEdge Stats
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiListOrgMxEdgesStatsRequest
+	*/
+	ListOrgMxEdgesStats(ctx context.Context, orgId string) ApiListOrgMxEdgesStatsRequest
+
+	// ListOrgMxEdgesStatsExecute executes the request
+	//  @return []MxedgeStats
+	ListOrgMxEdgesStatsExecute(r ApiListOrgMxEdgesStatsRequest) ([]MxedgeStats, *http.Response, error)
+
+	/*
+	RestartOrgMxEdge restartOrgMxEdge
+
+	In the case where a Mist Edge is replaced, you would need to unregister it. Which disconnects the currently the connected Mist Edge and allow another to register.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param mxedgeId
+	@return ApiRestartOrgMxEdgeRequest
+	*/
+	RestartOrgMxEdge(ctx context.Context, orgId string, mxedgeId string) ApiRestartOrgMxEdgeRequest
+
+	// RestartOrgMxEdgeExecute executes the request
+	RestartOrgMxEdgeExecute(r ApiRestartOrgMxEdgeRequest) (*http.Response, error)
+
+	/*
+	SearchOrgMistEdgeEvents searchOrgMistEdgeEvents
+
+	Search Org Mist Edge Events
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiSearchOrgMistEdgeEventsRequest
+	*/
+	SearchOrgMistEdgeEvents(ctx context.Context, orgId string) ApiSearchOrgMistEdgeEventsRequest
+
+	// SearchOrgMistEdgeEventsExecute executes the request
+	//  @return ResponseMxedgeEventsSearch
+	SearchOrgMistEdgeEventsExecute(r ApiSearchOrgMistEdgeEventsRequest) (*ResponseMxedgeEventsSearch, *http.Response, error)
+
+	/*
+	SearchOrgMxEdges searchOrgMxEdges
+
+	Search Org Mist Edges
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiSearchOrgMxEdgesRequest
+	*/
+	SearchOrgMxEdges(ctx context.Context, orgId string) ApiSearchOrgMxEdgesRequest
+
+	// SearchOrgMxEdgesExecute executes the request
+	//  @return ResponseMxedgeSearch
+	SearchOrgMxEdgesExecute(r ApiSearchOrgMxEdgesRequest) (*ResponseMxedgeSearch, *http.Response, error)
+
+	/*
+	UnassignOrgMxEdgeFromSite unassignOrgMxEdgeFromSite
+
+	Unassign Org MxEdge from Site
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiUnassignOrgMxEdgeFromSiteRequest
+	*/
+	UnassignOrgMxEdgeFromSite(ctx context.Context, orgId string) ApiUnassignOrgMxEdgeFromSiteRequest
+
+	// UnassignOrgMxEdgeFromSiteExecute executes the request
+	//  @return ResponseAssignSuccess
+	UnassignOrgMxEdgeFromSiteExecute(r ApiUnassignOrgMxEdgeFromSiteRequest) (*ResponseAssignSuccess, *http.Response, error)
+
+	/*
+	UnregisterOrgMxEdge unregisterOrgMxEdge
+
+	In the case where a Mist Edge is replaced, you would need to unregister it. Which disconnects the currently the connected Mist Edge and allow another to register.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param mxedgeId
+	@return ApiUnregisterOrgMxEdgeRequest
+	*/
+	UnregisterOrgMxEdge(ctx context.Context, orgId string, mxedgeId string) ApiUnregisterOrgMxEdgeRequest
+
+	// UnregisterOrgMxEdgeExecute executes the request
+	UnregisterOrgMxEdgeExecute(r ApiUnregisterOrgMxEdgeRequest) (*http.Response, error)
+
+	/*
+	UpdateOrgMxEdge updateOrgMxEdge
+
+	Update Org MxEdge
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param mxedgeId
+	@return ApiUpdateOrgMxEdgeRequest
+	*/
+	UpdateOrgMxEdge(ctx context.Context, orgId string, mxedgeId string) ApiUpdateOrgMxEdgeRequest
+
+	// UpdateOrgMxEdgeExecute executes the request
+	//  @return Mxedge
+	UpdateOrgMxEdgeExecute(r ApiUpdateOrgMxEdgeRequest) (*Mxedge, *http.Response, error)
+
+	/*
+	UploadOrgMxEdgeSupportFiles uploadOrgMxEdgeSupportFiles
+
+	Support / Upload Mist Edge support files
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param mxedgeId
+	@return ApiUploadOrgMxEdgeSupportFilesRequest
+	*/
+	UploadOrgMxEdgeSupportFiles(ctx context.Context, orgId string, mxedgeId string) ApiUploadOrgMxEdgeSupportFilesRequest
+
+	// UploadOrgMxEdgeSupportFilesExecute executes the request
+	UploadOrgMxEdgeSupportFilesExecute(r ApiUploadOrgMxEdgeSupportFilesRequest) (*http.Response, error)
+}
+
 // OrgsMxEdgesAPIService OrgsMxEdgesAPI service
 type OrgsMxEdgesAPIService service
 
 type ApiAddOrgMxEdgeImageRequest struct {
 	ctx context.Context
-	ApiService *OrgsMxEdgesAPIService
+	ApiService OrgsMxEdgesAPI
 	orgId string
 	mxedgeId string
 	imageNumber int32
@@ -208,7 +548,7 @@ func (a *OrgsMxEdgesAPIService) AddOrgMxEdgeImageExecute(r ApiAddOrgMxEdgeImageR
 
 type ApiAssignOrgMxEdgeToSiteRequest struct {
 	ctx context.Context
-	ApiService *OrgsMxEdgesAPIService
+	ApiService OrgsMxEdgesAPI
 	orgId string
 	mxedgesAssign *MxedgesAssign
 }
@@ -388,7 +728,7 @@ func (a *OrgsMxEdgesAPIService) AssignOrgMxEdgeToSiteExecute(r ApiAssignOrgMxEdg
 
 type ApiBounceOrgMxEdgeDataPortsRequest struct {
 	ctx context.Context
-	ApiService *OrgsMxEdgesAPIService
+	ApiService OrgsMxEdgesAPI
 	orgId string
 	mxedgeId string
 	utilsTuntermBouncePort *UtilsTuntermBouncePort
@@ -560,7 +900,7 @@ func (a *OrgsMxEdgesAPIService) BounceOrgMxEdgeDataPortsExecute(r ApiBounceOrgMx
 
 type ApiClaimOrgMxEdgeRequest struct {
 	ctx context.Context
-	ApiService *OrgsMxEdgesAPIService
+	ApiService OrgsMxEdgesAPI
 	orgId string
 	codeString *CodeString
 }
@@ -740,7 +1080,7 @@ func (a *OrgsMxEdgesAPIService) ClaimOrgMxEdgeExecute(r ApiClaimOrgMxEdgeRequest
 
 type ApiControlOrgMxEdgeServicesRequest struct {
 	ctx context.Context
-	ApiService *OrgsMxEdgesAPIService
+	ApiService OrgsMxEdgesAPI
 	orgId string
 	mxedgeId string
 	name MxedgeServiceName
@@ -912,7 +1252,7 @@ func (a *OrgsMxEdgesAPIService) ControlOrgMxEdgeServicesExecute(r ApiControlOrgM
 
 type ApiCountOrgMxEdgesRequest struct {
 	ctx context.Context
-	ApiService *OrgsMxEdgesAPIService
+	ApiService OrgsMxEdgesAPI
 	orgId string
 	distinct *OrgMxedgeCountDistinct
 	mxedgeId *string
@@ -1232,7 +1572,7 @@ func (a *OrgsMxEdgesAPIService) CountOrgMxEdgesExecute(r ApiCountOrgMxEdgesReque
 
 type ApiCountOrgSiteMxEdgeEventsRequest struct {
 	ctx context.Context
-	ApiService *OrgsMxEdgesAPIService
+	ApiService OrgsMxEdgesAPI
 	orgId string
 	distinct *OrgMxedgeEventsCountDistinct
 	mxedgeId *string
@@ -1500,7 +1840,7 @@ func (a *OrgsMxEdgesAPIService) CountOrgSiteMxEdgeEventsExecute(r ApiCountOrgSit
 
 type ApiCreateOrgMxEdgeRequest struct {
 	ctx context.Context
-	ApiService *OrgsMxEdgesAPIService
+	ApiService OrgsMxEdgesAPI
 	orgId string
 	mxedge *Mxedge
 }
@@ -1680,7 +2020,7 @@ func (a *OrgsMxEdgesAPIService) CreateOrgMxEdgeExecute(r ApiCreateOrgMxEdgeReque
 
 type ApiDeleteOrgMxEdgeRequest struct {
 	ctx context.Context
-	ApiService *OrgsMxEdgesAPIService
+	ApiService OrgsMxEdgesAPI
 	orgId string
 	mxedgeId string
 }
@@ -1844,7 +2184,7 @@ func (a *OrgsMxEdgesAPIService) DeleteOrgMxEdgeExecute(r ApiDeleteOrgMxEdgeReque
 
 type ApiDeleteOrgMxEdgeImageRequest struct {
 	ctx context.Context
-	ApiService *OrgsMxEdgesAPIService
+	ApiService OrgsMxEdgesAPI
 	orgId string
 	mxedgeId string
 	imageNumber int32
@@ -2018,7 +2358,7 @@ func (a *OrgsMxEdgesAPIService) DeleteOrgMxEdgeImageExecute(r ApiDeleteOrgMxEdge
 
 type ApiGetOrgMxEdgeRequest struct {
 	ctx context.Context
-	ApiService *OrgsMxEdgesAPIService
+	ApiService OrgsMxEdgesAPI
 	orgId string
 	mxedgeId string
 }
@@ -2193,7 +2533,7 @@ func (a *OrgsMxEdgesAPIService) GetOrgMxEdgeExecute(r ApiGetOrgMxEdgeRequest) (*
 
 type ApiGetOrgMxEdgeStatsRequest struct {
 	ctx context.Context
-	ApiService *OrgsMxEdgesAPIService
+	ApiService OrgsMxEdgesAPI
 	orgId string
 	mxedgeId string
 }
@@ -2368,7 +2708,7 @@ func (a *OrgsMxEdgesAPIService) GetOrgMxEdgeStatsExecute(r ApiGetOrgMxEdgeStatsR
 
 type ApiGetOrgMxEdgeUpgradeInfoRequest struct {
 	ctx context.Context
-	ApiService *OrgsMxEdgesAPIService
+	ApiService OrgsMxEdgesAPI
 	orgId string
 	channel *GetOrgMxedgeUpgradeInfoChannel
 }
@@ -2552,7 +2892,7 @@ func (a *OrgsMxEdgesAPIService) GetOrgMxEdgeUpgradeInfoExecute(r ApiGetOrgMxEdge
 
 type ApiListOrgMxEdgesRequest struct {
 	ctx context.Context
-	ApiService *OrgsMxEdgesAPIService
+	ApiService OrgsMxEdgesAPI
 	orgId string
 	forSites *MxedgeForSite
 	limit *int32
@@ -2760,7 +3100,7 @@ func (a *OrgsMxEdgesAPIService) ListOrgMxEdgesExecute(r ApiListOrgMxEdgesRequest
 
 type ApiListOrgMxEdgesStatsRequest struct {
 	ctx context.Context
-	ApiService *OrgsMxEdgesAPIService
+	ApiService OrgsMxEdgesAPI
 	orgId string
 	page *int32
 	limit *int32
@@ -3001,7 +3341,7 @@ func (a *OrgsMxEdgesAPIService) ListOrgMxEdgesStatsExecute(r ApiListOrgMxEdgesSt
 
 type ApiRestartOrgMxEdgeRequest struct {
 	ctx context.Context
-	ApiService *OrgsMxEdgesAPIService
+	ApiService OrgsMxEdgesAPI
 	orgId string
 	mxedgeId string
 }
@@ -3165,7 +3505,7 @@ func (a *OrgsMxEdgesAPIService) RestartOrgMxEdgeExecute(r ApiRestartOrgMxEdgeReq
 
 type ApiSearchOrgMistEdgeEventsRequest struct {
 	ctx context.Context
-	ApiService *OrgsMxEdgesAPIService
+	ApiService OrgsMxEdgesAPI
 	orgId string
 	mxedgeId *string
 	mxclusterId *string
@@ -3421,7 +3761,7 @@ func (a *OrgsMxEdgesAPIService) SearchOrgMistEdgeEventsExecute(r ApiSearchOrgMis
 
 type ApiSearchOrgMxEdgesRequest struct {
 	ctx context.Context
-	ApiService *OrgsMxEdgesAPIService
+	ApiService OrgsMxEdgesAPI
 	orgId string
 	mxedgeId *string
 	siteId *string
@@ -3729,7 +4069,7 @@ func (a *OrgsMxEdgesAPIService) SearchOrgMxEdgesExecute(r ApiSearchOrgMxEdgesReq
 
 type ApiUnassignOrgMxEdgeFromSiteRequest struct {
 	ctx context.Context
-	ApiService *OrgsMxEdgesAPIService
+	ApiService OrgsMxEdgesAPI
 	orgId string
 	mxedgesUnassign *MxedgesUnassign
 }
@@ -3909,7 +4249,7 @@ func (a *OrgsMxEdgesAPIService) UnassignOrgMxEdgeFromSiteExecute(r ApiUnassignOr
 
 type ApiUnregisterOrgMxEdgeRequest struct {
 	ctx context.Context
-	ApiService *OrgsMxEdgesAPIService
+	ApiService OrgsMxEdgesAPI
 	orgId string
 	mxedgeId string
 }
@@ -4073,7 +4413,7 @@ func (a *OrgsMxEdgesAPIService) UnregisterOrgMxEdgeExecute(r ApiUnregisterOrgMxE
 
 type ApiUpdateOrgMxEdgeRequest struct {
 	ctx context.Context
-	ApiService *OrgsMxEdgesAPIService
+	ApiService OrgsMxEdgesAPI
 	orgId string
 	mxedgeId string
 	mxedge *Mxedge
@@ -4257,7 +4597,7 @@ func (a *OrgsMxEdgesAPIService) UpdateOrgMxEdgeExecute(r ApiUpdateOrgMxEdgeReque
 
 type ApiUploadOrgMxEdgeSupportFilesRequest struct {
 	ctx context.Context
-	ApiService *OrgsMxEdgesAPIService
+	ApiService OrgsMxEdgesAPI
 	orgId string
 	mxedgeId string
 }

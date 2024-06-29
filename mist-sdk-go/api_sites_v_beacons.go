@@ -21,12 +21,92 @@ import (
 )
 
 
+type SitesVBeaconsAPI interface {
+
+	/*
+	CreateSiteVBeacon createSiteVBeacon
+
+	Create Virtual Beacon
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiCreateSiteVBeaconRequest
+	*/
+	CreateSiteVBeacon(ctx context.Context, siteId string) ApiCreateSiteVBeaconRequest
+
+	// CreateSiteVBeaconExecute executes the request
+	//  @return Vbeacon
+	CreateSiteVBeaconExecute(r ApiCreateSiteVBeaconRequest) (*Vbeacon, *http.Response, error)
+
+	/*
+	DeleteSiteVBeacon deleteSiteVBeacon
+
+	Delete Site Virtual Beacon
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param vbeaconId
+	@return ApiDeleteSiteVBeaconRequest
+	*/
+	DeleteSiteVBeacon(ctx context.Context, siteId string, vbeaconId string) ApiDeleteSiteVBeaconRequest
+
+	// DeleteSiteVBeaconExecute executes the request
+	DeleteSiteVBeaconExecute(r ApiDeleteSiteVBeaconRequest) (*http.Response, error)
+
+	/*
+	GetSiteVBeacon getSiteVBeacon
+
+	Get Site Virtual Beacon Details
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param vbeaconId
+	@return ApiGetSiteVBeaconRequest
+	*/
+	GetSiteVBeacon(ctx context.Context, siteId string, vbeaconId string) ApiGetSiteVBeaconRequest
+
+	// GetSiteVBeaconExecute executes the request
+	//  @return Vbeacon
+	GetSiteVBeaconExecute(r ApiGetSiteVBeaconRequest) (*Vbeacon, *http.Response, error)
+
+	/*
+	ListSiteVBeacons listSiteVBeacons
+
+	Get List of Site Virtual Beacons
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiListSiteVBeaconsRequest
+	*/
+	ListSiteVBeacons(ctx context.Context, siteId string) ApiListSiteVBeaconsRequest
+
+	// ListSiteVBeaconsExecute executes the request
+	//  @return []Vbeacon
+	ListSiteVBeaconsExecute(r ApiListSiteVBeaconsRequest) ([]Vbeacon, *http.Response, error)
+
+	/*
+	UpdateSiteVBeacon updateSiteVBeacon
+
+	Update Site Virtual Beacon
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param vbeaconId
+	@return ApiUpdateSiteVBeaconRequest
+	*/
+	UpdateSiteVBeacon(ctx context.Context, siteId string, vbeaconId string) ApiUpdateSiteVBeaconRequest
+
+	// UpdateSiteVBeaconExecute executes the request
+	//  @return Vbeacon
+	UpdateSiteVBeaconExecute(r ApiUpdateSiteVBeaconRequest) (*Vbeacon, *http.Response, error)
+}
+
 // SitesVBeaconsAPIService SitesVBeaconsAPI service
 type SitesVBeaconsAPIService service
 
 type ApiCreateSiteVBeaconRequest struct {
 	ctx context.Context
-	ApiService *SitesVBeaconsAPIService
+	ApiService SitesVBeaconsAPI
 	siteId string
 	vbeacon *Vbeacon
 }
@@ -206,7 +286,7 @@ func (a *SitesVBeaconsAPIService) CreateSiteVBeaconExecute(r ApiCreateSiteVBeaco
 
 type ApiDeleteSiteVBeaconRequest struct {
 	ctx context.Context
-	ApiService *SitesVBeaconsAPIService
+	ApiService SitesVBeaconsAPI
 	siteId string
 	vbeaconId string
 }
@@ -370,7 +450,7 @@ func (a *SitesVBeaconsAPIService) DeleteSiteVBeaconExecute(r ApiDeleteSiteVBeaco
 
 type ApiGetSiteVBeaconRequest struct {
 	ctx context.Context
-	ApiService *SitesVBeaconsAPIService
+	ApiService SitesVBeaconsAPI
 	siteId string
 	vbeaconId string
 }
@@ -545,7 +625,7 @@ func (a *SitesVBeaconsAPIService) GetSiteVBeaconExecute(r ApiGetSiteVBeaconReque
 
 type ApiListSiteVBeaconsRequest struct {
 	ctx context.Context
-	ApiService *SitesVBeaconsAPIService
+	ApiService SitesVBeaconsAPI
 	siteId string
 	page *int32
 	limit *int32
@@ -740,7 +820,7 @@ func (a *SitesVBeaconsAPIService) ListSiteVBeaconsExecute(r ApiListSiteVBeaconsR
 
 type ApiUpdateSiteVBeaconRequest struct {
 	ctx context.Context
-	ApiService *SitesVBeaconsAPIService
+	ApiService SitesVBeaconsAPI
 	siteId string
 	vbeaconId string
 	vbeacon *Vbeacon

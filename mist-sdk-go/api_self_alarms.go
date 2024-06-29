@@ -20,12 +20,29 @@ import (
 )
 
 
+type SelfAlarmsAPI interface {
+
+	/*
+	ListAlarmSubscriptions listAlarmSubscriptions
+
+	Get List of all the subscriptions
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiListAlarmSubscriptionsRequest
+	*/
+	ListAlarmSubscriptions(ctx context.Context) ApiListAlarmSubscriptionsRequest
+
+	// ListAlarmSubscriptionsExecute executes the request
+	//  @return []ResponseSelfSubscription
+	ListAlarmSubscriptionsExecute(r ApiListAlarmSubscriptionsRequest) ([]ResponseSelfSubscription, *http.Response, error)
+}
+
 // SelfAlarmsAPIService SelfAlarmsAPI service
 type SelfAlarmsAPIService service
 
 type ApiListAlarmSubscriptionsRequest struct {
 	ctx context.Context
-	ApiService *SelfAlarmsAPIService
+	ApiService SelfAlarmsAPI
 }
 
 func (r ApiListAlarmSubscriptionsRequest) Execute() ([]ResponseSelfSubscription, *http.Response, error) {

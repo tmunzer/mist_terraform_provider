@@ -21,12 +21,122 @@ import (
 )
 
 
+type SitesGuestsAPI interface {
+
+	/*
+	CountSiteGuestAuthorizations countSiteGuestAuthorizations
+
+	Count Authorized Guest
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiCountSiteGuestAuthorizationsRequest
+	*/
+	CountSiteGuestAuthorizations(ctx context.Context, siteId string) ApiCountSiteGuestAuthorizationsRequest
+
+	// CountSiteGuestAuthorizationsExecute executes the request
+	//  @return RepsonseCount
+	CountSiteGuestAuthorizationsExecute(r ApiCountSiteGuestAuthorizationsRequest) (*RepsonseCount, *http.Response, error)
+
+	/*
+	DeleteSiteGuestAuthorization deleteSiteGuestAuthorization
+
+	Delete Guest Authorization
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param guestMac
+	@return ApiDeleteSiteGuestAuthorizationRequest
+	*/
+	DeleteSiteGuestAuthorization(ctx context.Context, siteId string, guestMac string) ApiDeleteSiteGuestAuthorizationRequest
+
+	// DeleteSiteGuestAuthorizationExecute executes the request
+	DeleteSiteGuestAuthorizationExecute(r ApiDeleteSiteGuestAuthorizationRequest) (*http.Response, error)
+
+	/*
+	GetSiteGuestAuthorization getSiteGuestAuthorization
+
+	Get Guest Authorization
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param guestMac
+	@return ApiGetSiteGuestAuthorizationRequest
+	*/
+	GetSiteGuestAuthorization(ctx context.Context, siteId string, guestMac string) ApiGetSiteGuestAuthorizationRequest
+
+	// GetSiteGuestAuthorizationExecute executes the request
+	//  @return Guest
+	GetSiteGuestAuthorizationExecute(r ApiGetSiteGuestAuthorizationRequest) (*Guest, *http.Response, error)
+
+	/*
+	ListSiteAllGuestAuthorizations listSiteAllGuestAuthorizations
+
+	Get List of Site Guest Authorizations
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiListSiteAllGuestAuthorizationsRequest
+	*/
+	ListSiteAllGuestAuthorizations(ctx context.Context, siteId string) ApiListSiteAllGuestAuthorizationsRequest
+
+	// ListSiteAllGuestAuthorizationsExecute executes the request
+	//  @return []Guest
+	ListSiteAllGuestAuthorizationsExecute(r ApiListSiteAllGuestAuthorizationsRequest) ([]Guest, *http.Response, error)
+
+	/*
+	ListSiteAllGuestAuthorizationsDerived listSiteAllGuestAuthorizationsDerived
+
+	Get List of Site Guest Authorizations
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiListSiteAllGuestAuthorizationsDerivedRequest
+	*/
+	ListSiteAllGuestAuthorizationsDerived(ctx context.Context, siteId string) ApiListSiteAllGuestAuthorizationsDerivedRequest
+
+	// ListSiteAllGuestAuthorizationsDerivedExecute executes the request
+	//  @return []Guest
+	ListSiteAllGuestAuthorizationsDerivedExecute(r ApiListSiteAllGuestAuthorizationsDerivedRequest) ([]Guest, *http.Response, error)
+
+	/*
+	SearchSiteGuestAuthorization searchSiteGuestAuthorization
+
+	Search Authorized Guest
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiSearchSiteGuestAuthorizationRequest
+	*/
+	SearchSiteGuestAuthorization(ctx context.Context, siteId string) ApiSearchSiteGuestAuthorizationRequest
+
+	// SearchSiteGuestAuthorizationExecute executes the request
+	//  @return ResponseGuestSearch
+	SearchSiteGuestAuthorizationExecute(r ApiSearchSiteGuestAuthorizationRequest) (*ResponseGuestSearch, *http.Response, error)
+
+	/*
+	UpdateSiteGuestAuthorization updateSiteGuestAuthorization
+
+	Update Guest Authorization
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param guestMac
+	@return ApiUpdateSiteGuestAuthorizationRequest
+	*/
+	UpdateSiteGuestAuthorization(ctx context.Context, siteId string, guestMac string) ApiUpdateSiteGuestAuthorizationRequest
+
+	// UpdateSiteGuestAuthorizationExecute executes the request
+	//  @return Guest
+	UpdateSiteGuestAuthorizationExecute(r ApiUpdateSiteGuestAuthorizationRequest) (*Guest, *http.Response, error)
+}
+
 // SitesGuestsAPIService SitesGuestsAPI service
 type SitesGuestsAPIService service
 
 type ApiCountSiteGuestAuthorizationsRequest struct {
 	ctx context.Context
-	ApiService *SitesGuestsAPIService
+	ApiService SitesGuestsAPI
 	siteId string
 	distinct *SiteGuestsCountDistinct
 	page *int32
@@ -266,7 +376,7 @@ func (a *SitesGuestsAPIService) CountSiteGuestAuthorizationsExecute(r ApiCountSi
 
 type ApiDeleteSiteGuestAuthorizationRequest struct {
 	ctx context.Context
-	ApiService *SitesGuestsAPIService
+	ApiService SitesGuestsAPI
 	siteId string
 	guestMac string
 }
@@ -430,7 +540,7 @@ func (a *SitesGuestsAPIService) DeleteSiteGuestAuthorizationExecute(r ApiDeleteS
 
 type ApiGetSiteGuestAuthorizationRequest struct {
 	ctx context.Context
-	ApiService *SitesGuestsAPIService
+	ApiService SitesGuestsAPI
 	siteId string
 	guestMac string
 }
@@ -605,7 +715,7 @@ func (a *SitesGuestsAPIService) GetSiteGuestAuthorizationExecute(r ApiGetSiteGue
 
 type ApiListSiteAllGuestAuthorizationsRequest struct {
 	ctx context.Context
-	ApiService *SitesGuestsAPIService
+	ApiService SitesGuestsAPI
 	siteId string
 	wlanId *string
 }
@@ -786,7 +896,7 @@ func (a *SitesGuestsAPIService) ListSiteAllGuestAuthorizationsExecute(r ApiListS
 
 type ApiListSiteAllGuestAuthorizationsDerivedRequest struct {
 	ctx context.Context
-	ApiService *SitesGuestsAPIService
+	ApiService SitesGuestsAPI
 	siteId string
 	wlanId *string
 	crossSite *bool
@@ -980,7 +1090,7 @@ func (a *SitesGuestsAPIService) ListSiteAllGuestAuthorizationsDerivedExecute(r A
 
 type ApiSearchSiteGuestAuthorizationRequest struct {
 	ctx context.Context
-	ApiService *SitesGuestsAPIService
+	ApiService SitesGuestsAPI
 	siteId string
 	wlanId *string
 	authMethod *string
@@ -1223,7 +1333,7 @@ func (a *SitesGuestsAPIService) SearchSiteGuestAuthorizationExecute(r ApiSearchS
 
 type ApiUpdateSiteGuestAuthorizationRequest struct {
 	ctx context.Context
-	ApiService *SitesGuestsAPIService
+	ApiService SitesGuestsAPI
 	siteId string
 	guestMac string
 	guest *Guest

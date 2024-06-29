@@ -21,12 +21,136 @@ import (
 )
 
 
+type SitesMxEdgesAPI interface {
+
+	/*
+	CountSiteMxEdgeEvents countSiteMxEdgeEvents
+
+	Count Mist Edge Events
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiCountSiteMxEdgeEventsRequest
+	*/
+	CountSiteMxEdgeEvents(ctx context.Context, siteId string) ApiCountSiteMxEdgeEventsRequest
+
+	// CountSiteMxEdgeEventsExecute executes the request
+	//  @return RepsonseCount
+	CountSiteMxEdgeEventsExecute(r ApiCountSiteMxEdgeEventsRequest) (*RepsonseCount, *http.Response, error)
+
+	/*
+	CreateSiteMxEdge createSiteMxEdge
+
+	Create Site Mist Edge
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiCreateSiteMxEdgeRequest
+	*/
+	CreateSiteMxEdge(ctx context.Context, siteId string) ApiCreateSiteMxEdgeRequest
+
+	// CreateSiteMxEdgeExecute executes the request
+	//  @return Mxedge
+	CreateSiteMxEdgeExecute(r ApiCreateSiteMxEdgeRequest) (*Mxedge, *http.Response, error)
+
+	/*
+	DeleteSiteMxEdge deleteSiteMxEdge
+
+	Delete Site Mist Edge
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param mxedgeId
+	@return ApiDeleteSiteMxEdgeRequest
+	*/
+	DeleteSiteMxEdge(ctx context.Context, siteId string, mxedgeId string) ApiDeleteSiteMxEdgeRequest
+
+	// DeleteSiteMxEdgeExecute executes the request
+	DeleteSiteMxEdgeExecute(r ApiDeleteSiteMxEdgeRequest) (*http.Response, error)
+
+	/*
+	GetSiteMxEdge getSiteMxEdge
+
+	get Site Mist Edge
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param mxedgeId
+	@return ApiGetSiteMxEdgeRequest
+	*/
+	GetSiteMxEdge(ctx context.Context, siteId string, mxedgeId string) ApiGetSiteMxEdgeRequest
+
+	// GetSiteMxEdgeExecute executes the request
+	GetSiteMxEdgeExecute(r ApiGetSiteMxEdgeRequest) (*http.Response, error)
+
+	/*
+	ListSiteMxEdges listSiteMxEdges
+
+	Get List of Site Mist Edges
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiListSiteMxEdgesRequest
+	*/
+	ListSiteMxEdges(ctx context.Context, siteId string) ApiListSiteMxEdgesRequest
+
+	// ListSiteMxEdgesExecute executes the request
+	//  @return []Mxedge
+	ListSiteMxEdgesExecute(r ApiListSiteMxEdgesRequest) ([]Mxedge, *http.Response, error)
+
+	/*
+	SearchSiteMistEdgeEvents searchSiteMistEdgeEvents
+
+	Search Site Mist Edge Events
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiSearchSiteMistEdgeEventsRequest
+	*/
+	SearchSiteMistEdgeEvents(ctx context.Context, siteId string) ApiSearchSiteMistEdgeEventsRequest
+
+	// SearchSiteMistEdgeEventsExecute executes the request
+	//  @return ResponseMxedgeEventsSearch
+	SearchSiteMistEdgeEventsExecute(r ApiSearchSiteMistEdgeEventsRequest) (*ResponseMxedgeEventsSearch, *http.Response, error)
+
+	/*
+	UpdateSiteMxEdge updateSiteMxEdge
+
+	Update Site Mist Edge settings
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param mxedgeId
+	@return ApiUpdateSiteMxEdgeRequest
+	*/
+	UpdateSiteMxEdge(ctx context.Context, siteId string, mxedgeId string) ApiUpdateSiteMxEdgeRequest
+
+	// UpdateSiteMxEdgeExecute executes the request
+	//  @return Mxedge
+	UpdateSiteMxEdgeExecute(r ApiUpdateSiteMxEdgeRequest) (*Mxedge, *http.Response, error)
+
+	/*
+	UploadSiteMxEdgeSupportFiles uploadSiteMxEdgeSupportFiles
+
+	Support / Upload Mist Edge support files
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param mxedgeId
+	@return ApiUploadSiteMxEdgeSupportFilesRequest
+	*/
+	UploadSiteMxEdgeSupportFiles(ctx context.Context, siteId string, mxedgeId string) ApiUploadSiteMxEdgeSupportFilesRequest
+
+	// UploadSiteMxEdgeSupportFilesExecute executes the request
+	UploadSiteMxEdgeSupportFilesExecute(r ApiUploadSiteMxEdgeSupportFilesRequest) (*http.Response, error)
+}
+
 // SitesMxEdgesAPIService SitesMxEdgesAPI service
 type SitesMxEdgesAPIService service
 
 type ApiCountSiteMxEdgeEventsRequest struct {
 	ctx context.Context
-	ApiService *SitesMxEdgesAPIService
+	ApiService SitesMxEdgesAPI
 	siteId string
 	distinct *SiteMxedgeEventsCountDistinct
 	mxedgeId *string
@@ -294,7 +418,7 @@ func (a *SitesMxEdgesAPIService) CountSiteMxEdgeEventsExecute(r ApiCountSiteMxEd
 
 type ApiCreateSiteMxEdgeRequest struct {
 	ctx context.Context
-	ApiService *SitesMxEdgesAPIService
+	ApiService SitesMxEdgesAPI
 	siteId string
 	mxedge *Mxedge
 }
@@ -473,7 +597,7 @@ func (a *SitesMxEdgesAPIService) CreateSiteMxEdgeExecute(r ApiCreateSiteMxEdgeRe
 
 type ApiDeleteSiteMxEdgeRequest struct {
 	ctx context.Context
-	ApiService *SitesMxEdgesAPIService
+	ApiService SitesMxEdgesAPI
 	siteId string
 	mxedgeId string
 }
@@ -637,7 +761,7 @@ func (a *SitesMxEdgesAPIService) DeleteSiteMxEdgeExecute(r ApiDeleteSiteMxEdgeRe
 
 type ApiGetSiteMxEdgeRequest struct {
 	ctx context.Context
-	ApiService *SitesMxEdgesAPIService
+	ApiService SitesMxEdgesAPI
 	siteId string
 	mxedgeId string
 }
@@ -801,7 +925,7 @@ func (a *SitesMxEdgesAPIService) GetSiteMxEdgeExecute(r ApiGetSiteMxEdgeRequest)
 
 type ApiListSiteMxEdgesRequest struct {
 	ctx context.Context
-	ApiService *SitesMxEdgesAPIService
+	ApiService SitesMxEdgesAPI
 	siteId string
 	page *int32
 	limit *int32
@@ -996,7 +1120,7 @@ func (a *SitesMxEdgesAPIService) ListSiteMxEdgesExecute(r ApiListSiteMxEdgesRequ
 
 type ApiSearchSiteMistEdgeEventsRequest struct {
 	ctx context.Context
-	ApiService *SitesMxEdgesAPIService
+	ApiService SitesMxEdgesAPI
 	siteId string
 	mxedgeId *string
 	mxclusterId *string
@@ -1252,7 +1376,7 @@ func (a *SitesMxEdgesAPIService) SearchSiteMistEdgeEventsExecute(r ApiSearchSite
 
 type ApiUpdateSiteMxEdgeRequest struct {
 	ctx context.Context
-	ApiService *SitesMxEdgesAPIService
+	ApiService SitesMxEdgesAPI
 	siteId string
 	mxedgeId string
 	mxedge *Mxedge
@@ -1435,7 +1559,7 @@ func (a *SitesMxEdgesAPIService) UpdateSiteMxEdgeExecute(r ApiUpdateSiteMxEdgeRe
 
 type ApiUploadSiteMxEdgeSupportFilesRequest struct {
 	ctx context.Context
-	ApiService *SitesMxEdgesAPIService
+	ApiService SitesMxEdgesAPI
 	siteId string
 	mxedgeId string
 }

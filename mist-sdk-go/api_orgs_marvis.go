@@ -21,12 +21,36 @@ import (
 )
 
 
+type OrgsMarvisAPI interface {
+
+	/*
+	TroubleshootOrg troubleshootOrg
+
+	Troubleshoot sites, devices, clients, and wired clientsfor maximum of last 7 days from current time. See search APIs for device information:
+- [search Device]($e/Orgs%20Devices/searchOrgDevices)
+- [search Wireless Client]($e/Orgs%20Clients%20-%20Wireless/searchOrgWirelessClients)
+- [search Wired Client]($e/Orgs%20Clients%20-%20Wired/searchOrgWiredClients)
+- [search Wan Client]($e/Orgs%20Clients%20-%20Wan/searchOrgWanClients)
+
+**NOTE**: requires Marvis subscription license
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiTroubleshootOrgRequest
+	*/
+	TroubleshootOrg(ctx context.Context, orgId string) ApiTroubleshootOrgRequest
+
+	// TroubleshootOrgExecute executes the request
+	//  @return ResponseTroubleshoot
+	TroubleshootOrgExecute(r ApiTroubleshootOrgRequest) (*ResponseTroubleshoot, *http.Response, error)
+}
+
 // OrgsMarvisAPIService OrgsMarvisAPI service
 type OrgsMarvisAPIService service
 
 type ApiTroubleshootOrgRequest struct {
 	ctx context.Context
-	ApiService *OrgsMarvisAPIService
+	ApiService OrgsMarvisAPI
 	orgId string
 	mac *string
 	siteId *string

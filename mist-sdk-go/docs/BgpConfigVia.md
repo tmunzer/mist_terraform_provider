@@ -7,6 +7,8 @@
 
 * `LAN` (value: `"lan"`)
 
+* `VPN` (value: `"vpn"`)
+
 * `WAN` (value: `"wan"`)
 
 

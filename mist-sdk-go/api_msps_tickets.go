@@ -21,12 +21,45 @@ import (
 )
 
 
+type MSPsTicketsAPI interface {
+
+	/*
+	CountMspTickets countMspTickets
+
+	Count tickets
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param mspId
+	@return ApiCountMspTicketsRequest
+	*/
+	CountMspTickets(ctx context.Context, mspId string) ApiCountMspTicketsRequest
+
+	// CountMspTicketsExecute executes the request
+	//  @return RepsonseCount
+	CountMspTicketsExecute(r ApiCountMspTicketsRequest) (*RepsonseCount, *http.Response, error)
+
+	/*
+	ListMspTickets listMspTickets
+
+	Get List of Tickets of a MSP
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param mspId
+	@return ApiListMspTicketsRequest
+	*/
+	ListMspTickets(ctx context.Context, mspId string) ApiListMspTicketsRequest
+
+	// ListMspTicketsExecute executes the request
+	//  @return []Ticket
+	ListMspTicketsExecute(r ApiListMspTicketsRequest) ([]Ticket, *http.Response, error)
+}
+
 // MSPsTicketsAPIService MSPsTicketsAPI service
 type MSPsTicketsAPIService service
 
 type ApiCountMspTicketsRequest struct {
 	ctx context.Context
-	ApiService *MSPsTicketsAPIService
+	ApiService MSPsTicketsAPI
 	mspId string
 	distinct *MspTicketsCountDistinct
 }
@@ -209,7 +242,7 @@ func (a *MSPsTicketsAPIService) CountMspTicketsExecute(r ApiCountMspTicketsReque
 
 type ApiListMspTicketsRequest struct {
 	ctx context.Context
-	ApiService *MSPsTicketsAPIService
+	ApiService MSPsTicketsAPI
 	mspId string
 	start *int32
 	end *int32

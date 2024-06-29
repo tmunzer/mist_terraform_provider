@@ -21,12 +21,79 @@ import (
 )
 
 
+type OrgsLicensesAPI interface {
+
+	/*
+	ClaimOrgLicense claimOrgLicense
+
+	Claim Org licenses / activation codes
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiClaimOrgLicenseRequest
+	*/
+	ClaimOrgLicense(ctx context.Context, orgId string) ApiClaimOrgLicenseRequest
+
+	// ClaimOrgLicenseExecute executes the request
+	//  @return ResponseClaimLicense
+	ClaimOrgLicenseExecute(r ApiClaimOrgLicenseRequest) (*ResponseClaimLicense, *http.Response, error)
+
+	/*
+	GetOrgLicencesBySite getOrgLicencesBySite
+
+	Get Licenses Usage by Sites
+This shows license usage (i.e. needed) based on the features enabled for the site.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiGetOrgLicencesBySiteRequest
+	*/
+	GetOrgLicencesBySite(ctx context.Context, orgId string) ApiGetOrgLicencesBySiteRequest
+
+	// GetOrgLicencesBySiteExecute executes the request
+	//  @return []LicenseUsageOrg
+	GetOrgLicencesBySiteExecute(r ApiGetOrgLicencesBySiteRequest) ([]LicenseUsageOrg, *http.Response, error)
+
+	/*
+	GetOrgLicencesSummary getOrgLicencesSummary
+
+	Get the list of licenses
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiGetOrgLicencesSummaryRequest
+	*/
+	GetOrgLicencesSummary(ctx context.Context, orgId string) ApiGetOrgLicencesSummaryRequest
+
+	// GetOrgLicencesSummaryExecute executes the request
+	//  @return License
+	GetOrgLicencesSummaryExecute(r ApiGetOrgLicencesSummaryRequest) (*License, *http.Response, error)
+
+	/*
+	MoveOrDeleteOrgLicenseToAnotherOrg moveOrDeleteOrgLicenseToAnotherOrg
+
+	Move, Undo Move or Delete Org License to Another Org
+If the admin has admin privilege against the `org_id` and `dst_org_id`, he can move some of the licenses to another Org. Given that: 
+1. the specified license is currently active 
+2. there’s enough licenses left in the specified license (by subscription_id) 
+3. there will still be enough entitled licenses for the type of license after the amendment
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiMoveOrDeleteOrgLicenseToAnotherOrgRequest
+	*/
+	MoveOrDeleteOrgLicenseToAnotherOrg(ctx context.Context, orgId string) ApiMoveOrDeleteOrgLicenseToAnotherOrgRequest
+
+	// MoveOrDeleteOrgLicenseToAnotherOrgExecute executes the request
+	MoveOrDeleteOrgLicenseToAnotherOrgExecute(r ApiMoveOrDeleteOrgLicenseToAnotherOrgRequest) (*http.Response, error)
+}
+
 // OrgsLicensesAPIService OrgsLicensesAPI service
 type OrgsLicensesAPIService service
 
 type ApiClaimOrgLicenseRequest struct {
 	ctx context.Context
-	ApiService *OrgsLicensesAPIService
+	ApiService OrgsLicensesAPI
 	orgId string
 	claimActivation *ClaimActivation
 }
@@ -195,7 +262,7 @@ func (a *OrgsLicensesAPIService) ClaimOrgLicenseExecute(r ApiClaimOrgLicenseRequ
 
 type ApiGetOrgLicencesBySiteRequest struct {
 	ctx context.Context
-	ApiService *OrgsLicensesAPIService
+	ApiService OrgsLicensesAPI
 	orgId string
 }
 
@@ -367,7 +434,7 @@ func (a *OrgsLicensesAPIService) GetOrgLicencesBySiteExecute(r ApiGetOrgLicences
 
 type ApiGetOrgLicencesSummaryRequest struct {
 	ctx context.Context
-	ApiService *OrgsLicensesAPIService
+	ApiService OrgsLicensesAPI
 	orgId string
 }
 
@@ -538,7 +605,7 @@ func (a *OrgsLicensesAPIService) GetOrgLicencesSummaryExecute(r ApiGetOrgLicence
 
 type ApiMoveOrDeleteOrgLicenseToAnotherOrgRequest struct {
 	ctx context.Context
-	ApiService *OrgsLicensesAPIService
+	ApiService OrgsLicensesAPI
 	orgId string
 	orgLicenseAction *OrgLicenseAction
 }

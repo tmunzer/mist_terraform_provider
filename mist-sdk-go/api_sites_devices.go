@@ -22,12 +22,279 @@ import (
 )
 
 
+type SitesDevicesAPI interface {
+
+	/*
+	AddSiteDeviceImage addSiteDeviceImage
+
+	Attach up to 3 images to a device
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param deviceId
+	@param imageNumber
+	@return ApiAddSiteDeviceImageRequest
+	*/
+	AddSiteDeviceImage(ctx context.Context, siteId string, deviceId string, imageNumber int32) ApiAddSiteDeviceImageRequest
+
+	// AddSiteDeviceImageExecute executes the request
+	AddSiteDeviceImageExecute(r ApiAddSiteDeviceImageRequest) (*http.Response, error)
+
+	/*
+	CountSiteDeviceConfigHistory countSiteDeviceConfigHistory
+
+	Counts the number of entries in device config history for distinct field with given filters
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiCountSiteDeviceConfigHistoryRequest
+	*/
+	CountSiteDeviceConfigHistory(ctx context.Context, siteId string) ApiCountSiteDeviceConfigHistoryRequest
+
+	// CountSiteDeviceConfigHistoryExecute executes the request
+	//  @return RepsonseCount
+	CountSiteDeviceConfigHistoryExecute(r ApiCountSiteDeviceConfigHistoryRequest) (*RepsonseCount, *http.Response, error)
+
+	/*
+	CountSiteDeviceEvents countSiteDeviceEvents
+
+	Counts the number of entries in ap events history for distinct field with given filters
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiCountSiteDeviceEventsRequest
+	*/
+	CountSiteDeviceEvents(ctx context.Context, siteId string) ApiCountSiteDeviceEventsRequest
+
+	// CountSiteDeviceEventsExecute executes the request
+	//  @return RepsonseCount
+	CountSiteDeviceEventsExecute(r ApiCountSiteDeviceEventsRequest) (*RepsonseCount, *http.Response, error)
+
+	/*
+	CountSiteDeviceLastConfig countSiteDeviceLastConfig
+
+	Counts the number of entries in device config history for distinct field with given filters
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiCountSiteDeviceLastConfigRequest
+	*/
+	CountSiteDeviceLastConfig(ctx context.Context, siteId string) ApiCountSiteDeviceLastConfigRequest
+
+	// CountSiteDeviceLastConfigExecute executes the request
+	//  @return RepsonseCount
+	CountSiteDeviceLastConfigExecute(r ApiCountSiteDeviceLastConfigRequest) (*RepsonseCount, *http.Response, error)
+
+	/*
+	CountSiteDevices countSiteDevices
+
+	Counts the number of entries in ap events history for distinct field with given filters
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiCountSiteDevicesRequest
+	*/
+	CountSiteDevices(ctx context.Context, siteId string) ApiCountSiteDevicesRequest
+
+	// CountSiteDevicesExecute executes the request
+	//  @return RepsonseCount
+	CountSiteDevicesExecute(r ApiCountSiteDevicesRequest) (*RepsonseCount, *http.Response, error)
+
+	/*
+	DeleteSiteDevice deleteSiteDevice
+
+	Delete Site Device
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param deviceId
+	@return ApiDeleteSiteDeviceRequest
+	*/
+	DeleteSiteDevice(ctx context.Context, siteId string, deviceId string) ApiDeleteSiteDeviceRequest
+
+	// DeleteSiteDeviceExecute executes the request
+	DeleteSiteDeviceExecute(r ApiDeleteSiteDeviceRequest) (*http.Response, error)
+
+	/*
+	DeleteSiteDeviceImage deleteSiteDeviceImage
+
+	Delete image from a device
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param deviceId
+	@param imageNumber
+	@return ApiDeleteSiteDeviceImageRequest
+	*/
+	DeleteSiteDeviceImage(ctx context.Context, siteId string, deviceId string, imageNumber int32) ApiDeleteSiteDeviceImageRequest
+
+	// DeleteSiteDeviceImageExecute executes the request
+	DeleteSiteDeviceImageExecute(r ApiDeleteSiteDeviceImageRequest) (*http.Response, error)
+
+	/*
+	ExportSiteDevices exportSiteDevices
+
+	To download the exported device information
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiExportSiteDevicesRequest
+	*/
+	ExportSiteDevices(ctx context.Context, siteId string) ApiExportSiteDevicesRequest
+
+	// ExportSiteDevicesExecute executes the request
+	//  @return *os.File
+	ExportSiteDevicesExecute(r ApiExportSiteDevicesRequest) (*os.File, *http.Response, error)
+
+	/*
+	GetSiteDevice getSiteDevice
+
+	Get Device Configuration
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param deviceId
+	@return ApiGetSiteDeviceRequest
+	*/
+	GetSiteDevice(ctx context.Context, siteId string, deviceId string) ApiGetSiteDeviceRequest
+
+	// GetSiteDeviceExecute executes the request
+	//  @return ResponseDevice
+	GetSiteDeviceExecute(r ApiGetSiteDeviceRequest) (*ResponseDevice, *http.Response, error)
+
+	/*
+	ImportSiteDevices importSiteDevices
+
+	Import Information for Multiple Devices
+
+CSV format:
+```csv
+mac,name,map_id,x,y,height,orientation,labels,band_24.power,band_24.bandwidth,band_24.channel,band_24.disabled,band_5.power,band_5.bandwidth,band_5.channel,band_5.disabled,band_6.power,band_6.bandwidth,band_6.channel,band_6.disabled
+5c5b53010101,"AP 1",845a23bf-bed9-e43c-4c86-6fa474be7ae5,30,10,2.3,45,"guest, campus, vip",1,20,0,false,0,40,0,false,17,80,0,false
+```
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiImportSiteDevicesRequest
+	*/
+	ImportSiteDevices(ctx context.Context, siteId string) ApiImportSiteDevicesRequest
+
+	// ImportSiteDevicesExecute executes the request
+	//  @return []ConfigDevice
+	ImportSiteDevicesExecute(r ApiImportSiteDevicesRequest) ([]ConfigDevice, *http.Response, error)
+
+	/*
+	ListSiteDevices listSiteDevices
+
+	Get list of devices on the site.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiListSiteDevicesRequest
+	*/
+	ListSiteDevices(ctx context.Context, siteId string) ApiListSiteDevicesRequest
+
+	// ListSiteDevicesExecute executes the request
+	//  @return []ConfigDevice
+	ListSiteDevicesExecute(r ApiListSiteDevicesRequest) ([]ConfigDevice, *http.Response, error)
+
+	/*
+	RestartSiteMultipleDevices restartSiteMultipleDevices
+
+	Note that only the devices that are connected will be restarted.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiRestartSiteMultipleDevicesRequest
+	*/
+	RestartSiteMultipleDevices(ctx context.Context, siteId string) ApiRestartSiteMultipleDevicesRequest
+
+	// RestartSiteMultipleDevicesExecute executes the request
+	RestartSiteMultipleDevicesExecute(r ApiRestartSiteMultipleDevicesRequest) (*http.Response, error)
+
+	/*
+	SearchSiteDeviceConfigHistory searchSiteDeviceConfigHistory
+
+	Search for entries in device config history
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiSearchSiteDeviceConfigHistoryRequest
+	*/
+	SearchSiteDeviceConfigHistory(ctx context.Context, siteId string) ApiSearchSiteDeviceConfigHistoryRequest
+
+	// SearchSiteDeviceConfigHistoryExecute executes the request
+	//  @return ResponseConfigHistorySearch
+	SearchSiteDeviceConfigHistoryExecute(r ApiSearchSiteDeviceConfigHistoryRequest) (*ResponseConfigHistorySearch, *http.Response, error)
+
+	/*
+	SearchSiteDeviceEvents searchSiteDeviceEvents
+
+	Search Devices Events
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiSearchSiteDeviceEventsRequest
+	*/
+	SearchSiteDeviceEvents(ctx context.Context, siteId string) ApiSearchSiteDeviceEventsRequest
+
+	// SearchSiteDeviceEventsExecute executes the request
+	//  @return ResponseEventsDevices
+	SearchSiteDeviceEventsExecute(r ApiSearchSiteDeviceEventsRequest) (*ResponseEventsDevices, *http.Response, error)
+
+	/*
+	SearchSiteDeviceLastConfigs searchSiteDeviceLastConfigs
+
+	Search Device Last Configs
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiSearchSiteDeviceLastConfigsRequest
+	*/
+	SearchSiteDeviceLastConfigs(ctx context.Context, siteId string) ApiSearchSiteDeviceLastConfigsRequest
+
+	// SearchSiteDeviceLastConfigsExecute executes the request
+	//  @return ResponseConfigHistorySearch
+	SearchSiteDeviceLastConfigsExecute(r ApiSearchSiteDeviceLastConfigsRequest) (*ResponseConfigHistorySearch, *http.Response, error)
+
+	/*
+	SearchSiteDevices searchSiteDevices
+
+	Search Device
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiSearchSiteDevicesRequest
+	*/
+	SearchSiteDevices(ctx context.Context, siteId string) ApiSearchSiteDevicesRequest
+
+	// SearchSiteDevicesExecute executes the request
+	//  @return ResponseDeviceSearch
+	SearchSiteDevicesExecute(r ApiSearchSiteDevicesRequest) (*ResponseDeviceSearch, *http.Response, error)
+
+	/*
+	UpdateSiteDevice updateSiteDevice
+
+	Update Device Configuration
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param deviceId
+	@return ApiUpdateSiteDeviceRequest
+	*/
+	UpdateSiteDevice(ctx context.Context, siteId string, deviceId string) ApiUpdateSiteDeviceRequest
+
+	// UpdateSiteDeviceExecute executes the request
+	//  @return ResponseDevice
+	UpdateSiteDeviceExecute(r ApiUpdateSiteDeviceRequest) (*ResponseDevice, *http.Response, error)
+}
+
 // SitesDevicesAPIService SitesDevicesAPI service
 type SitesDevicesAPIService service
 
 type ApiAddSiteDeviceImageRequest struct {
 	ctx context.Context
-	ApiService *SitesDevicesAPIService
+	ApiService SitesDevicesAPI
 	siteId string
 	deviceId string
 	imageNumber int32
@@ -230,7 +497,7 @@ func (a *SitesDevicesAPIService) AddSiteDeviceImageExecute(r ApiAddSiteDeviceIma
 
 type ApiCountSiteDeviceConfigHistoryRequest struct {
 	ctx context.Context
-	ApiService *SitesDevicesAPIService
+	ApiService SitesDevicesAPI
 	siteId string
 	distinct *string
 	mac *string
@@ -476,7 +743,7 @@ func (a *SitesDevicesAPIService) CountSiteDeviceConfigHistoryExecute(r ApiCountS
 
 type ApiCountSiteDeviceEventsRequest struct {
 	ctx context.Context
-	ApiService *SitesDevicesAPIService
+	ApiService SitesDevicesAPI
 	siteId string
 	distinct *SiteDeviceEventsCountDistinct
 	model *string
@@ -732,7 +999,7 @@ func (a *SitesDevicesAPIService) CountSiteDeviceEventsExecute(r ApiCountSiteDevi
 
 type ApiCountSiteDeviceLastConfigRequest struct {
 	ctx context.Context
-	ApiService *SitesDevicesAPIService
+	ApiService SitesDevicesAPI
 	siteId string
 	distinct *SiteDeviceLastConfigCountDistinct
 	page *int32
@@ -972,7 +1239,7 @@ func (a *SitesDevicesAPIService) CountSiteDeviceLastConfigExecute(r ApiCountSite
 
 type ApiCountSiteDevicesRequest struct {
 	ctx context.Context
-	ApiService *SitesDevicesAPIService
+	ApiService SitesDevicesAPI
 	siteId string
 	distinct *SiteDevicesCountDistinct
 	hostname *string
@@ -1311,7 +1578,7 @@ func (a *SitesDevicesAPIService) CountSiteDevicesExecute(r ApiCountSiteDevicesRe
 
 type ApiDeleteSiteDeviceRequest struct {
 	ctx context.Context
-	ApiService *SitesDevicesAPIService
+	ApiService SitesDevicesAPI
 	siteId string
 	deviceId string
 }
@@ -1475,7 +1742,7 @@ func (a *SitesDevicesAPIService) DeleteSiteDeviceExecute(r ApiDeleteSiteDeviceRe
 
 type ApiDeleteSiteDeviceImageRequest struct {
 	ctx context.Context
-	ApiService *SitesDevicesAPIService
+	ApiService SitesDevicesAPI
 	siteId string
 	deviceId string
 	imageNumber int32
@@ -1643,7 +1910,7 @@ func (a *SitesDevicesAPIService) DeleteSiteDeviceImageExecute(r ApiDeleteSiteDev
 
 type ApiExportSiteDevicesRequest struct {
 	ctx context.Context
-	ApiService *SitesDevicesAPIService
+	ApiService SitesDevicesAPI
 	siteId string
 }
 
@@ -1814,7 +2081,7 @@ func (a *SitesDevicesAPIService) ExportSiteDevicesExecute(r ApiExportSiteDevices
 
 type ApiGetSiteDeviceRequest struct {
 	ctx context.Context
-	ApiService *SitesDevicesAPIService
+	ApiService SitesDevicesAPI
 	siteId string
 	deviceId string
 }
@@ -1989,7 +2256,7 @@ func (a *SitesDevicesAPIService) GetSiteDeviceExecute(r ApiGetSiteDeviceRequest)
 
 type ApiImportSiteDevicesRequest struct {
 	ctx context.Context
-	ApiService *SitesDevicesAPIService
+	ApiService SitesDevicesAPI
 	siteId string
 	ap *[]Ap
 }
@@ -2174,7 +2441,7 @@ func (a *SitesDevicesAPIService) ImportSiteDevicesExecute(r ApiImportSiteDevices
 
 type ApiListSiteDevicesRequest struct {
 	ctx context.Context
-	ApiService *SitesDevicesAPIService
+	ApiService SitesDevicesAPI
 	siteId string
 	type_ *DeviceTypeWithAll
 	name *string
@@ -2393,7 +2660,7 @@ func (a *SitesDevicesAPIService) ListSiteDevicesExecute(r ApiListSiteDevicesRequ
 
 type ApiRestartSiteMultipleDevicesRequest struct {
 	ctx context.Context
-	ApiService *SitesDevicesAPIService
+	ApiService SitesDevicesAPI
 	siteId string
 	utilsDevicesRestartMulti *UtilsDevicesRestartMulti
 }
@@ -2562,7 +2829,7 @@ func (a *SitesDevicesAPIService) RestartSiteMultipleDevicesExecute(r ApiRestartS
 
 type ApiSearchSiteDeviceConfigHistoryRequest struct {
 	ctx context.Context
-	ApiService *SitesDevicesAPIService
+	ApiService SitesDevicesAPI
 	siteId string
 	type_ *DeviceType
 	mac *string
@@ -2800,7 +3067,7 @@ func (a *SitesDevicesAPIService) SearchSiteDeviceConfigHistoryExecute(r ApiSearc
 
 type ApiSearchSiteDeviceEventsRequest struct {
 	ctx context.Context
-	ApiService *SitesDevicesAPIService
+	ApiService SitesDevicesAPI
 	siteId string
 	mac *string
 	model *string
@@ -3076,7 +3343,7 @@ func (a *SitesDevicesAPIService) SearchSiteDeviceEventsExecute(r ApiSearchSiteDe
 
 type ApiSearchSiteDeviceLastConfigsRequest struct {
 	ctx context.Context
-	ApiService *SitesDevicesAPIService
+	ApiService SitesDevicesAPI
 	siteId string
 	type_ *DeviceType
 	mac *string
@@ -3331,7 +3598,7 @@ func (a *SitesDevicesAPIService) SearchSiteDeviceLastConfigsExecute(r ApiSearchS
 
 type ApiSearchSiteDevicesRequest struct {
 	ctx context.Context
-	ApiService *SitesDevicesAPIService
+	ApiService SitesDevicesAPI
 	siteId string
 	hostname *string
 	type_ *DeviceType
@@ -3784,7 +4051,7 @@ func (a *SitesDevicesAPIService) SearchSiteDevicesExecute(r ApiSearchSiteDevices
 
 type ApiUpdateSiteDeviceRequest struct {
 	ctx context.Context
-	ApiService *SitesDevicesAPIService
+	ApiService SitesDevicesAPI
 	siteId string
 	deviceId string
 	mistDevice *MistDevice

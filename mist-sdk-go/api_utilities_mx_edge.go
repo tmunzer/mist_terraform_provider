@@ -21,12 +21,31 @@ import (
 )
 
 
+type UtilitiesMxEdgeAPI interface {
+
+	/*
+	PreemptSitesMxTunnel preemptSitesMxTunnel
+
+	To preempt AP’s which are not connected to preferred peer to the preferred peer
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param mxtunnelId
+	@return ApiPreemptSitesMxTunnelRequest
+	*/
+	PreemptSitesMxTunnel(ctx context.Context, siteId string, mxtunnelId string) ApiPreemptSitesMxTunnelRequest
+
+	// PreemptSitesMxTunnelExecute executes the request
+	//  @return ResponseMxtunnelsPreemptAps
+	PreemptSitesMxTunnelExecute(r ApiPreemptSitesMxTunnelRequest) (*ResponseMxtunnelsPreemptAps, *http.Response, error)
+}
+
 // UtilitiesMxEdgeAPIService UtilitiesMxEdgeAPI service
 type UtilitiesMxEdgeAPIService service
 
 type ApiPreemptSitesMxTunnelRequest struct {
 	ctx context.Context
-	ApiService *UtilitiesMxEdgeAPIService
+	ApiService UtilitiesMxEdgeAPI
 	siteId string
 	mxtunnelId string
 }

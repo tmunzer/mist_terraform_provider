@@ -21,12 +21,31 @@ import (
 )
 
 
+type UtilitiesLocationAPI interface {
+
+	/*
+	SendSiteDevicesArbitratryBleBeacon sendSiteDevicesArbitratryBleBeacon
+
+	Send arbitrary BLE Beacon for a period of time
+
+Note that only the devices that are connected will be restarted.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiSendSiteDevicesArbitratryBleBeaconRequest
+	*/
+	SendSiteDevicesArbitratryBleBeacon(ctx context.Context, siteId string) ApiSendSiteDevicesArbitratryBleBeaconRequest
+
+	// SendSiteDevicesArbitratryBleBeaconExecute executes the request
+	SendSiteDevicesArbitratryBleBeaconExecute(r ApiSendSiteDevicesArbitratryBleBeaconRequest) (*http.Response, error)
+}
+
 // UtilitiesLocationAPIService UtilitiesLocationAPI service
 type UtilitiesLocationAPIService service
 
 type ApiSendSiteDevicesArbitratryBleBeaconRequest struct {
 	ctx context.Context
-	ApiService *UtilitiesLocationAPIService
+	ApiService UtilitiesLocationAPI
 	siteId string
 	utilsSendBleBeacon *UtilsSendBleBeacon
 }

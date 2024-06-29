@@ -21,12 +21,92 @@ import (
 )
 
 
+type OrgsServicePoliciesAPI interface {
+
+	/*
+	CreateOrgServicePolicy createOrgServicePolicy
+
+	Create Org Serrvice Policy
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiCreateOrgServicePolicyRequest
+	*/
+	CreateOrgServicePolicy(ctx context.Context, orgId string) ApiCreateOrgServicePolicyRequest
+
+	// CreateOrgServicePolicyExecute executes the request
+	//  @return ServicePolicy
+	CreateOrgServicePolicyExecute(r ApiCreateOrgServicePolicyRequest) (*ServicePolicy, *http.Response, error)
+
+	/*
+	DeleteOrgServicePolicy deleteOrgServicePolicy
+
+	Delete Org Service Policuy
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param servicepolicyId
+	@return ApiDeleteOrgServicePolicyRequest
+	*/
+	DeleteOrgServicePolicy(ctx context.Context, orgId string, servicepolicyId string) ApiDeleteOrgServicePolicyRequest
+
+	// DeleteOrgServicePolicyExecute executes the request
+	DeleteOrgServicePolicyExecute(r ApiDeleteOrgServicePolicyRequest) (*http.Response, error)
+
+	/*
+	GetOrgServicePolicy getOrgServicePolicy
+
+	Get Org Service Policy Details
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param servicepolicyId
+	@return ApiGetOrgServicePolicyRequest
+	*/
+	GetOrgServicePolicy(ctx context.Context, orgId string, servicepolicyId string) ApiGetOrgServicePolicyRequest
+
+	// GetOrgServicePolicyExecute executes the request
+	//  @return ServicePolicy
+	GetOrgServicePolicyExecute(r ApiGetOrgServicePolicyRequest) (*ServicePolicy, *http.Response, error)
+
+	/*
+	ListOrgServicePolicies listOrgServicePolicies
+
+	Get List of Org Service Policies
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiListOrgServicePoliciesRequest
+	*/
+	ListOrgServicePolicies(ctx context.Context, orgId string) ApiListOrgServicePoliciesRequest
+
+	// ListOrgServicePoliciesExecute executes the request
+	//  @return []ServicePolicy
+	ListOrgServicePoliciesExecute(r ApiListOrgServicePoliciesRequest) ([]ServicePolicy, *http.Response, error)
+
+	/*
+	UpdateOrgServicePolicy updateOrgServicePolicy
+
+	Update Org Serrvice Policy
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param servicepolicyId
+	@return ApiUpdateOrgServicePolicyRequest
+	*/
+	UpdateOrgServicePolicy(ctx context.Context, orgId string, servicepolicyId string) ApiUpdateOrgServicePolicyRequest
+
+	// UpdateOrgServicePolicyExecute executes the request
+	//  @return ServicePolicy
+	UpdateOrgServicePolicyExecute(r ApiUpdateOrgServicePolicyRequest) (*ServicePolicy, *http.Response, error)
+}
+
 // OrgsServicePoliciesAPIService OrgsServicePoliciesAPI service
 type OrgsServicePoliciesAPIService service
 
 type ApiCreateOrgServicePolicyRequest struct {
 	ctx context.Context
-	ApiService *OrgsServicePoliciesAPIService
+	ApiService OrgsServicePoliciesAPI
 	orgId string
 	servicePolicy *ServicePolicy
 }
@@ -205,7 +285,7 @@ func (a *OrgsServicePoliciesAPIService) CreateOrgServicePolicyExecute(r ApiCreat
 
 type ApiDeleteOrgServicePolicyRequest struct {
 	ctx context.Context
-	ApiService *OrgsServicePoliciesAPIService
+	ApiService OrgsServicePoliciesAPI
 	orgId string
 	servicepolicyId string
 }
@@ -369,7 +449,7 @@ func (a *OrgsServicePoliciesAPIService) DeleteOrgServicePolicyExecute(r ApiDelet
 
 type ApiGetOrgServicePolicyRequest struct {
 	ctx context.Context
-	ApiService *OrgsServicePoliciesAPIService
+	ApiService OrgsServicePoliciesAPI
 	orgId string
 	servicepolicyId string
 }
@@ -544,7 +624,7 @@ func (a *OrgsServicePoliciesAPIService) GetOrgServicePolicyExecute(r ApiGetOrgSe
 
 type ApiListOrgServicePoliciesRequest struct {
 	ctx context.Context
-	ApiService *OrgsServicePoliciesAPIService
+	ApiService OrgsServicePoliciesAPI
 	orgId string
 	page *int32
 	limit *int32
@@ -739,7 +819,7 @@ func (a *OrgsServicePoliciesAPIService) ListOrgServicePoliciesExecute(r ApiListO
 
 type ApiUpdateOrgServicePolicyRequest struct {
 	ctx context.Context
-	ApiService *OrgsServicePoliciesAPIService
+	ApiService OrgsServicePoliciesAPI
 	orgId string
 	servicepolicyId string
 	servicePolicy *ServicePolicy

@@ -21,12 +21,478 @@ import (
 )
 
 
+type UtilitiesCommonAPI interface {
+
+	/*
+	ArpFromDevice arpFromDevice
+
+	ARP can be performed on the Device. The output will be available through websocket. As there can be multiple command issued against the same AP at the same time and the output all goes through the same websocket stream, session is introduced for demux.
+
+
+#### Subscribe to Device Command outputs
+`WS /api-ws/v1/stream`
+
+```json
+{
+    "subscribe": "/sites/{site_id}/devices/{device_id}/cmd"
+}
+```
+##### Example output from ws stream
+```json
+{ 
+ "event": "data", 
+ "channel": "/sites/4ac1dcf4-9d8b-7211-65c4-057819f0862b/devices/00000000-0000-0000-1000-5c5b350e0060/cmd", 
+ "data": { 
+   "session": "session_id", 
+   "raw": 
+   "Output": "\tMAC\t\tDEV\tVLAN\tRx Packets\t\t Rx Bytes\t\tTx Packets\t\t Tx Bytes\tFlows\tIdle sec\n-----------------------------------------------------------------------------------------------------------------------"
+  } 
+}
+```
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param deviceId
+	@return ApiArpFromDeviceRequest
+	*/
+	ArpFromDevice(ctx context.Context, siteId string, deviceId string) ApiArpFromDeviceRequest
+
+	// ArpFromDeviceExecute executes the request
+	//  @return WebsocketSession
+	ArpFromDeviceExecute(r ApiArpFromDeviceRequest) (*WebsocketSession, *http.Response, error)
+
+	/*
+	ClearSiteDeviceMacTable clearSiteDeviceMacTable
+
+	Clear MAC Table from the Device.
+
+The output will be available through websocket. As there can be multiple command issued against the same device at the same time and the output all goes through the same websocket stream, `session` is introduced for demux.
+
+#### Subscribe to Device Command outputs
+`WS /api-ws/v1/stream`
+
+```json
+{
+    "subscribe": "/sites/{site_id}/devices/{device_id}/cmd"
+}
+```
+
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param deviceId
+	@return ApiClearSiteDeviceMacTableRequest
+	*/
+	ClearSiteDeviceMacTable(ctx context.Context, siteId string, deviceId string) ApiClearSiteDeviceMacTableRequest
+
+	// ClearSiteDeviceMacTableExecute executes the request
+	//  @return WebsocketSession
+	ClearSiteDeviceMacTableExecute(r ApiClearSiteDeviceMacTableRequest) (*WebsocketSession, *http.Response, error)
+
+	/*
+	CreateSiteDeviceShellSession createSiteDeviceShellSession
+
+	Create Shell Session
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param deviceId
+	@return ApiCreateSiteDeviceShellSessionRequest
+	*/
+	CreateSiteDeviceShellSession(ctx context.Context, siteId string, deviceId string) ApiCreateSiteDeviceShellSessionRequest
+
+	// CreateSiteDeviceShellSessionExecute executes the request
+	//  @return WebsocketSessionWithUrl
+	CreateSiteDeviceShellSessionExecute(r ApiCreateSiteDeviceShellSessionRequest) (*WebsocketSessionWithUrl, *http.Response, error)
+
+	/*
+	GetSiteDeviceArpTable getSiteDeviceArpTable
+
+	Get ARP Table from the Device.
+
+The output will be available through websocket. As there can be multiple command issued against the same device at the same time and the output all goes through the same websocket stream, `session` is introduced for demux.
+
+#### Subscribe to Device Command outputs
+`WS /api-ws/v1/stream`
+
+```json
+{
+    "subscribe": "/sites/{site_id}/devices/{device_id}/cmd"
+}
+```
+
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param deviceId
+	@return ApiGetSiteDeviceArpTableRequest
+	*/
+	GetSiteDeviceArpTable(ctx context.Context, siteId string, deviceId string) ApiGetSiteDeviceArpTableRequest
+
+	// GetSiteDeviceArpTableExecute executes the request
+	//  @return WebsocketSession
+	GetSiteDeviceArpTableExecute(r ApiGetSiteDeviceArpTableRequest) (*WebsocketSession, *http.Response, error)
+
+	/*
+	GetSiteDeviceBgpSummary getSiteDeviceBgpSummary
+
+	Get BGP Summary from SSR, SRX and Switch.
+
+
+The output will be available through websocket. As there can be multiple command issued against the same device at the same time and the output all goes through the same websocket stream, `session` is introduced for demux.
+
+#### Subscribe to Device Command outputs
+`WS /api-ws/v1/stream`
+
+```json
+{
+    \"subscribe\": \"/sites/{site_id}/devices/{device_id}/cmd\"\
+
+}
+```
+
+##### Example output from ws stream
+```
+Tue 2024-04-23 16:36:06 UTC
+Retrieving bgp entries...
+BGP table version is 354, local router ID is 10.224.8.16, vrf id 0
+Default local pref 100, local AS 65000
+Status codes:  s suppressed, d damped, h history, * valid, > best, = multipath,
+              i internal, r RIB_failure, S Stale, R Removed
+Nexthop codes: @NNN nexthop's vrf id, < announce-nh-self
+Origin codes:  i - IGP, e - EGP, ? - incomplete
+RPKI validation codes: V valid, I invalid, N Not found
+
+  Network                                      Next Hop                                  Metric LocPrf Weight Path
+*> 161.161.161.0/24
+```"
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param deviceId
+	@return ApiGetSiteDeviceBgpSummaryRequest
+	*/
+	GetSiteDeviceBgpSummary(ctx context.Context, siteId string, deviceId string) ApiGetSiteDeviceBgpSummaryRequest
+
+	// GetSiteDeviceBgpSummaryExecute executes the request
+	//  @return WebsocketSession
+	GetSiteDeviceBgpSummaryExecute(r ApiGetSiteDeviceBgpSummaryRequest) (*WebsocketSession, *http.Response, error)
+
+	/*
+	GetSiteDeviceConfigCmd getSiteDeviceConfigCmd
+
+	Get Config CLI Commands
+For a brown-field switch deployment where we adopted the switch through Adoption Command, we do not wipe out / overwrite the existing config automatically. Instead, we generate CLI commands that we would have generated. The user can inspect, modify, and incorporate this into their existing config manually.
+
+Once they feel comfortable about the config we generate, they can enable allow_mist_config where we will take full control of their config like a claimed switch
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param deviceId
+	@return ApiGetSiteDeviceConfigCmdRequest
+	*/
+	GetSiteDeviceConfigCmd(ctx context.Context, siteId string, deviceId string) ApiGetSiteDeviceConfigCmdRequest
+
+	// GetSiteDeviceConfigCmdExecute executes the request
+	//  @return ResponseDeviceConfigCli
+	GetSiteDeviceConfigCmdExecute(r ApiGetSiteDeviceConfigCmdRequest) (*ResponseDeviceConfigCli, *http.Response, error)
+
+	/*
+	GetSiteDeviceEvpnDatabase getSiteDeviceEvpnDatabase
+
+	Get EVPN Database from the Device. The output will be available through websocket.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param deviceId
+	@return ApiGetSiteDeviceEvpnDatabaseRequest
+	*/
+	GetSiteDeviceEvpnDatabase(ctx context.Context, siteId string, deviceId string) ApiGetSiteDeviceEvpnDatabaseRequest
+
+	// GetSiteDeviceEvpnDatabaseExecute executes the request
+	//  @return WebsocketSession
+	GetSiteDeviceEvpnDatabaseExecute(r ApiGetSiteDeviceEvpnDatabaseRequest) (*WebsocketSession, *http.Response, error)
+
+	/*
+	GetSiteDeviceForwardingTable getSiteDeviceForwardingTable
+
+	Get ARP Table from the Device.
+
+Get forwarding table from the Device. The output will be available through websocket. As there can be multiple command issued against the same device at the same time and the output all goes through the same websocket stream, `session` is introduced for demux.
+
+#### Subscribe to Device Command outputs
+`WS /api-ws/v1/stream`
+
+```json
+{
+    "subscribe": "/sites/{site_id}/devices/{device_id}/cmd"
+}
+```
+
+##### Example output from ws stream
+```
+Mon 2024-05-20 16:47:30 UTC Retrieving fib entries… Entry Count: 3268 Capacity:    22668 ==================== ====== ======= ================== ===== ====================== =========== =========== ====== IP Prefix            Port   Proto   Tenant             VRF   Service                Next Hops   Vector      Cost ==================== ====== ======= ================== ===== ====================== =========== =========== ====== 0.0.0.0/0               0   None    Old_Mgmt           -     internet-wan_and_lte   1-2.0       broadband      1 1-4.0       lte           10 branch1-Kiosk      -     internet-wan_and_lte   1-2.0       broadband      1 1-4.0       lte           10 branch1-MGT        -     internet-wan_and_lte   1-2.0       broadband      1 1-4.0       lte           10 3.1.1.0/24              0   None    Old_Mgmt           -     internet-wan_and_lte   1-2.0       broadband      1 1-4.0       lte           10 branch1-Kiosk      -     internet-wan_and_lte   1-2.0       broadband      1 1-4.0       lte           10 branch1-MGT        -     internet-wan_and_lte   1-2.0       broadband      1 1-4.0       lte           10
+
+```
+
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param deviceId
+	@return ApiGetSiteDeviceForwardingTableRequest
+	*/
+	GetSiteDeviceForwardingTable(ctx context.Context, siteId string, deviceId string) ApiGetSiteDeviceForwardingTableRequest
+
+	// GetSiteDeviceForwardingTableExecute executes the request
+	//  @return WebsocketSession
+	GetSiteDeviceForwardingTableExecute(r ApiGetSiteDeviceForwardingTableRequest) (*WebsocketSession, *http.Response, error)
+
+	/*
+	GetSiteDeviceMacTable getSiteDeviceMacTable
+
+	Get MAC Table from the Device.
+
+The output will be available through websocket. As there can be multiple command issued against the same device at the same time and the output all goes through the same websocket stream, `session` is introduced for demux.
+
+#### Subscribe to Device Command outputs
+`WS /api-ws/v1/stream`
+
+```json
+{
+    "subscribe": "/sites/{site_id}/devices/{device_id}/cmd"
+}
+```
+
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param deviceId
+	@return ApiGetSiteDeviceMacTableRequest
+	*/
+	GetSiteDeviceMacTable(ctx context.Context, siteId string, deviceId string) ApiGetSiteDeviceMacTableRequest
+
+	// GetSiteDeviceMacTableExecute executes the request
+	//  @return WebsocketSession
+	GetSiteDeviceMacTableExecute(r ApiGetSiteDeviceMacTableRequest) (*WebsocketSession, *http.Response, error)
+
+	/*
+	GetSiteDeviceZtpPassword getSiteDeviceZtpPassword
+
+	In the case where soemthing happens during/after ZTP, the root-password is modified (required for ZTP to set up outbound-ssh) but the user-defined password config has not be configured. This API can be used to retrieve the temporary password.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param deviceId
+	@return ApiGetSiteDeviceZtpPasswordRequest
+	*/
+	GetSiteDeviceZtpPassword(ctx context.Context, siteId string, deviceId string) ApiGetSiteDeviceZtpPasswordRequest
+
+	// GetSiteDeviceZtpPasswordExecute executes the request
+	//  @return RootPasswordString
+	GetSiteDeviceZtpPasswordExecute(r ApiGetSiteDeviceZtpPasswordRequest) (*RootPasswordString, *http.Response, error)
+
+	/*
+	MonitorSiteDeviceTraffic monitorSiteDeviceTraffic
+
+	Monitor traffic on switches and SRX.
+
+JUNOS uses cmd “monitor interface” to monitor traffic on particular JUNOS uses cmd “monitor interface traffic” to monitor traffic on all ports
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param deviceId
+	@return ApiMonitorSiteDeviceTrafficRequest
+	*/
+	MonitorSiteDeviceTraffic(ctx context.Context, siteId string, deviceId string) ApiMonitorSiteDeviceTrafficRequest
+
+	// MonitorSiteDeviceTrafficExecute executes the request
+	//  @return WebsocketSessionWithUrl
+	MonitorSiteDeviceTrafficExecute(r ApiMonitorSiteDeviceTrafficRequest) (*WebsocketSessionWithUrl, *http.Response, error)
+
+	/*
+	PingFromDevice pingFromDevice
+
+	Ping from AP, Switch and SSR
+
+Ping can be performed from the Device. The output will be available through websocket. As there can be multiple command issued against the same AP at the same time and the output all goes through the same websocket stream, session is introduced for demux.
+
+#### Subscribe to Device Command outputs
+`WS /api-ws/v1/stream`
+
+```json
+{
+    "subscribe": "/sites/{site_id}/devices/{device_id}/cmd"
+}
+```
+##### Example output from ws stream
+```json
+{
+    "event": "data",
+    "channel": "/sites/4ac1dcf4-9d8b-7211-65c4-057819f0862b/devices/00000000-0000-0000-1000-5c5b350e0060/cmd",
+    "data": {
+        "session": "session_id",
+        "raw": "64 bytes from 23.211.0.110: seq=8 ttl=58 time=12.323 ms\n"
+    }
+}
+```
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param deviceId
+	@return ApiPingFromDeviceRequest
+	*/
+	PingFromDevice(ctx context.Context, siteId string, deviceId string) ApiPingFromDeviceRequest
+
+	// PingFromDeviceExecute executes the request
+	//  @return WebsocketSession
+	PingFromDeviceExecute(r ApiPingFromDeviceRequest) (*WebsocketSession, *http.Response, error)
+
+	/*
+	ReadoptSiteOctermDevice readoptSiteOctermDevice
+
+	For the octerm devices, the device ID must come from fpc0. However, for a VC, the users may change the original fpc0 from CLI. To fix the issue, the readopt API could be used to trigger the readopt process so the device would get the corret device ID to connect the cloud.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param deviceId
+	@return ApiReadoptSiteOctermDeviceRequest
+	*/
+	ReadoptSiteOctermDevice(ctx context.Context, siteId string, deviceId string) ApiReadoptSiteOctermDeviceRequest
+
+	// ReadoptSiteOctermDeviceExecute executes the request
+	ReadoptSiteOctermDeviceExecute(r ApiReadoptSiteOctermDeviceRequest) (*http.Response, error)
+
+	/*
+	ReprovisionSiteOctermDevice readoptSiteOctermDevice
+
+	To force one device to reprovision itself again.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param deviceId
+	@return ApiReprovisionSiteOctermDeviceRequest
+	*/
+	ReprovisionSiteOctermDevice(ctx context.Context, siteId string, deviceId string) ApiReprovisionSiteOctermDeviceRequest
+
+	// ReprovisionSiteOctermDeviceExecute executes the request
+	ReprovisionSiteOctermDeviceExecute(r ApiReprovisionSiteOctermDeviceRequest) (*http.Response, error)
+
+	/*
+	RestartSiteDevice restartSiteDevice
+
+	Restart / Reboot a device
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param deviceId
+	@return ApiRestartSiteDeviceRequest
+	*/
+	RestartSiteDevice(ctx context.Context, siteId string, deviceId string) ApiRestartSiteDeviceRequest
+
+	// RestartSiteDeviceExecute executes the request
+	RestartSiteDeviceExecute(r ApiRestartSiteDeviceRequest) (*http.Response, error)
+
+	/*
+	StartSiteLocateDevice startSiteLocateDevice
+
+	### Access Points
+Locate an Access Point by blinking it's LED.
+It is a persisted state that has to be stopped by calling Stop Locating API
+
+### Switches
+Locate a Switch by blinking all port LEDs. 
+By default, request is sent to `master` switch and LEDs will keep flashing for 5 minutes.
+In case of virtual chassis (VC) the desired member mac has to be passed in the request payload. 
+At anypoint, only one VC member can be requested to flash the LED. 
+To stop LED flashing before the duration ends /unlocate API request can be made. 
+If /unlocate API is not called LED will continue to flash on device for the given duration. 
+Default duration is 5 minutes and 120 minutes is the maximum.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param deviceId
+	@return ApiStartSiteLocateDeviceRequest
+	*/
+	StartSiteLocateDevice(ctx context.Context, siteId string, deviceId string) ApiStartSiteLocateDeviceRequest
+
+	// StartSiteLocateDeviceExecute executes the request
+	StartSiteLocateDeviceExecute(r ApiStartSiteLocateDeviceRequest) (*http.Response, error)
+
+	/*
+	StopSiteLocateDevice stopSiteLocateDevice
+
+	Stop Locate a Device
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param deviceId
+	@return ApiStopSiteLocateDeviceRequest
+	*/
+	StopSiteLocateDevice(ctx context.Context, siteId string, deviceId string) ApiStopSiteLocateDeviceRequest
+
+	// StopSiteLocateDeviceExecute executes the request
+	StopSiteLocateDeviceExecute(r ApiStopSiteLocateDeviceRequest) (*http.Response, error)
+
+	/*
+	TracerouteFromDevice tracerouteFromDevice
+
+	Traceroute can be performed from the Device.
+
+The output will be available through websocket. As there can be multiple command issued against the same AP at the same time and the output all goes through the same websocket stream, session is introduced for demux.
+
+#### Subscribe to Device Command outputs
+`WS /api-ws/v1/stream`
+
+```json
+{
+    "subscribe": "/sites/{site_id}/devices/{device_id}/cmd"
+}
+```
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param deviceId
+	@return ApiTracerouteFromDeviceRequest
+	*/
+	TracerouteFromDevice(ctx context.Context, siteId string, deviceId string) ApiTracerouteFromDeviceRequest
+
+	// TracerouteFromDeviceExecute executes the request
+	//  @return WebsocketSession
+	TracerouteFromDeviceExecute(r ApiTracerouteFromDeviceRequest) (*WebsocketSession, *http.Response, error)
+
+	/*
+	UploadSiteDeviceSupportFile uploadSiteDeviceSupportFile
+
+	Support / Upload device support files
+
+#### Info Param
+**Parameter**|**Description** 
+ :-------------: |:-------------: |:-------------: 
+process|Upload 1 file with output of show system processes extensive
+outbound-ssh|Upload 1 file that concatenates all /var/log/outbound-ssh.log* files
+messages|Upload 1 to 10 /var/log/messages* files
+core-dumps|Upload all core dump files, if any
+full|string|Upload 1 file with output of request support information, 1 file that concatenates all /var/log/outbound-ssh.log files, all core dump files, the 3 most recent /var/log/messages files, and Mist agent logs (for Junos devices running the Mist agent)
+var-logs|Upload all non-empty files in the /var/log/ directory
+jma-logs|Upload Mist agent logs (for Junos devices running the Mist agent only)
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param deviceId
+	@return ApiUploadSiteDeviceSupportFileRequest
+	*/
+	UploadSiteDeviceSupportFile(ctx context.Context, siteId string, deviceId string) ApiUploadSiteDeviceSupportFileRequest
+
+	// UploadSiteDeviceSupportFileExecute executes the request
+	UploadSiteDeviceSupportFileExecute(r ApiUploadSiteDeviceSupportFileRequest) (*http.Response, error)
+}
+
 // UtilitiesCommonAPIService UtilitiesCommonAPI service
 type UtilitiesCommonAPIService service
 
 type ApiArpFromDeviceRequest struct {
 	ctx context.Context
-	ApiService *UtilitiesCommonAPIService
+	ApiService UtilitiesCommonAPI
 	siteId string
 	deviceId string
 	haClusterNode *HaClusterNode
@@ -231,7 +697,7 @@ func (a *UtilitiesCommonAPIService) ArpFromDeviceExecute(r ApiArpFromDeviceReque
 
 type ApiClearSiteDeviceMacTableRequest struct {
 	ctx context.Context
-	ApiService *UtilitiesCommonAPIService
+	ApiService UtilitiesCommonAPI
 	siteId string
 	deviceId string
 	utilsMacTable *UtilsMacTable
@@ -427,7 +893,7 @@ func (a *UtilitiesCommonAPIService) ClearSiteDeviceMacTableExecute(r ApiClearSit
 
 type ApiCreateSiteDeviceShellSessionRequest struct {
 	ctx context.Context
-	ApiService *UtilitiesCommonAPIService
+	ApiService UtilitiesCommonAPI
 	siteId string
 	deviceId string
 }
@@ -602,7 +1068,7 @@ func (a *UtilitiesCommonAPIService) CreateSiteDeviceShellSessionExecute(r ApiCre
 
 type ApiGetSiteDeviceArpTableRequest struct {
 	ctx context.Context
-	ApiService *UtilitiesCommonAPIService
+	ApiService UtilitiesCommonAPI
 	siteId string
 	deviceId string
 	utilsShowArp *UtilsShowArp
@@ -798,7 +1264,7 @@ func (a *UtilitiesCommonAPIService) GetSiteDeviceArpTableExecute(r ApiGetSiteDev
 
 type ApiGetSiteDeviceBgpSummaryRequest struct {
 	ctx context.Context
-	ApiService *UtilitiesCommonAPIService
+	ApiService UtilitiesCommonAPI
 	siteId string
 	deviceId string
 	utilsShowBgpRummary *UtilsShowBgpRummary
@@ -1011,7 +1477,7 @@ func (a *UtilitiesCommonAPIService) GetSiteDeviceBgpSummaryExecute(r ApiGetSiteD
 
 type ApiGetSiteDeviceConfigCmdRequest struct {
 	ctx context.Context
-	ApiService *UtilitiesCommonAPIService
+	ApiService UtilitiesCommonAPI
 	siteId string
 	deviceId string
 	sort *bool
@@ -1202,7 +1668,7 @@ func (a *UtilitiesCommonAPIService) GetSiteDeviceConfigCmdExecute(r ApiGetSiteDe
 
 type ApiGetSiteDeviceEvpnDatabaseRequest struct {
 	ctx context.Context
-	ApiService *UtilitiesCommonAPIService
+	ApiService UtilitiesCommonAPI
 	siteId string
 	deviceId string
 	utilsShowEvpnDatabase *UtilsShowEvpnDatabase
@@ -1386,7 +1852,7 @@ func (a *UtilitiesCommonAPIService) GetSiteDeviceEvpnDatabaseExecute(r ApiGetSit
 
 type ApiGetSiteDeviceForwardingTableRequest struct {
 	ctx context.Context
-	ApiService *UtilitiesCommonAPIService
+	ApiService UtilitiesCommonAPI
 	siteId string
 	deviceId string
 	utilsShowForwardingTable *UtilsShowForwardingTable
@@ -1588,7 +2054,7 @@ func (a *UtilitiesCommonAPIService) GetSiteDeviceForwardingTableExecute(r ApiGet
 
 type ApiGetSiteDeviceMacTableRequest struct {
 	ctx context.Context
-	ApiService *UtilitiesCommonAPIService
+	ApiService UtilitiesCommonAPI
 	siteId string
 	deviceId string
 	utilsMacTable *UtilsMacTable
@@ -1784,7 +2250,7 @@ func (a *UtilitiesCommonAPIService) GetSiteDeviceMacTableExecute(r ApiGetSiteDev
 
 type ApiGetSiteDeviceZtpPasswordRequest struct {
 	ctx context.Context
-	ApiService *UtilitiesCommonAPIService
+	ApiService UtilitiesCommonAPI
 	siteId string
 	deviceId string
 }
@@ -1959,7 +2425,7 @@ func (a *UtilitiesCommonAPIService) GetSiteDeviceZtpPasswordExecute(r ApiGetSite
 
 type ApiMonitorSiteDeviceTrafficRequest struct {
 	ctx context.Context
-	ApiService *UtilitiesCommonAPIService
+	ApiService UtilitiesCommonAPI
 	siteId string
 	deviceId string
 	utilsMonitorTraffic *UtilsMonitorTraffic
@@ -2144,7 +2610,7 @@ func (a *UtilitiesCommonAPIService) MonitorSiteDeviceTrafficExecute(r ApiMonitor
 
 type ApiPingFromDeviceRequest struct {
 	ctx context.Context
-	ApiService *UtilitiesCommonAPIService
+	ApiService UtilitiesCommonAPI
 	siteId string
 	deviceId string
 	utilsPing *UtilsPing
@@ -2350,7 +2816,7 @@ func (a *UtilitiesCommonAPIService) PingFromDeviceExecute(r ApiPingFromDeviceReq
 
 type ApiReadoptSiteOctermDeviceRequest struct {
 	ctx context.Context
-	ApiService *UtilitiesCommonAPIService
+	ApiService UtilitiesCommonAPI
 	siteId string
 	deviceId string
 }
@@ -2514,7 +2980,7 @@ func (a *UtilitiesCommonAPIService) ReadoptSiteOctermDeviceExecute(r ApiReadoptS
 
 type ApiReprovisionSiteOctermDeviceRequest struct {
 	ctx context.Context
-	ApiService *UtilitiesCommonAPIService
+	ApiService UtilitiesCommonAPI
 	siteId string
 	deviceId string
 }
@@ -2678,7 +3144,7 @@ func (a *UtilitiesCommonAPIService) ReprovisionSiteOctermDeviceExecute(r ApiRepr
 
 type ApiRestartSiteDeviceRequest struct {
 	ctx context.Context
-	ApiService *UtilitiesCommonAPIService
+	ApiService UtilitiesCommonAPI
 	siteId string
 	deviceId string
 	utilsDevicesRestart *UtilsDevicesRestart
@@ -2850,7 +3316,7 @@ func (a *UtilitiesCommonAPIService) RestartSiteDeviceExecute(r ApiRestartSiteDev
 
 type ApiStartSiteLocateDeviceRequest struct {
 	ctx context.Context
-	ApiService *UtilitiesCommonAPIService
+	ApiService UtilitiesCommonAPI
 	siteId string
 	deviceId string
 	locateSwitch *LocateSwitch
@@ -3033,7 +3499,7 @@ func (a *UtilitiesCommonAPIService) StartSiteLocateDeviceExecute(r ApiStartSiteL
 
 type ApiStopSiteLocateDeviceRequest struct {
 	ctx context.Context
-	ApiService *UtilitiesCommonAPIService
+	ApiService UtilitiesCommonAPI
 	siteId string
 	deviceId string
 }
@@ -3197,7 +3663,7 @@ func (a *UtilitiesCommonAPIService) StopSiteLocateDeviceExecute(r ApiStopSiteLoc
 
 type ApiTracerouteFromDeviceRequest struct {
 	ctx context.Context
-	ApiService *UtilitiesCommonAPIService
+	ApiService UtilitiesCommonAPI
 	siteId string
 	deviceId string
 	utilsTraceroute *UtilsTraceroute
@@ -3392,7 +3858,7 @@ func (a *UtilitiesCommonAPIService) TracerouteFromDeviceExecute(r ApiTracerouteF
 
 type ApiUploadSiteDeviceSupportFileRequest struct {
 	ctx context.Context
-	ApiService *UtilitiesCommonAPIService
+	ApiService UtilitiesCommonAPI
 	siteId string
 	deviceId string
 	utilsSendSupportLogs *UtilsSendSupportLogs

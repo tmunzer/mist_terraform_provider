@@ -21,12 +21,107 @@ import (
 )
 
 
+type SitesUISettingsAPI interface {
+
+	/*
+	CreateSiteUiSettings createSiteUiSettings
+
+	Site UI settings
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiCreateSiteUiSettingsRequest
+	*/
+	CreateSiteUiSettings(ctx context.Context, siteId string) ApiCreateSiteUiSettingsRequest
+
+	// CreateSiteUiSettingsExecute executes the request
+	//  @return UiSettings
+	CreateSiteUiSettingsExecute(r ApiCreateSiteUiSettingsRequest) (*UiSettings, *http.Response, error)
+
+	/*
+	DeleteSiteUiSetting deleteSiteUiSetting
+
+	Site UI settings
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param uisettingId
+	@return ApiDeleteSiteUiSettingRequest
+	*/
+	DeleteSiteUiSetting(ctx context.Context, siteId string, uisettingId string) ApiDeleteSiteUiSettingRequest
+
+	// DeleteSiteUiSettingExecute executes the request
+	DeleteSiteUiSettingExecute(r ApiDeleteSiteUiSettingRequest) (*http.Response, error)
+
+	/*
+	GetSiteUiSetting getSiteUiSetting
+
+	Site UI settings
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param uisettingId
+	@return ApiGetSiteUiSettingRequest
+	*/
+	GetSiteUiSetting(ctx context.Context, siteId string, uisettingId string) ApiGetSiteUiSettingRequest
+
+	// GetSiteUiSettingExecute executes the request
+	//  @return []UiSettings
+	GetSiteUiSettingExecute(r ApiGetSiteUiSettingRequest) ([]UiSettings, *http.Response, error)
+
+	/*
+	GetSiteUiSettingDerived getSiteUiSettingDerived
+
+	Get both site UI settings(for_site=true) and org UI settings (for_site=false)
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiGetSiteUiSettingDerivedRequest
+	*/
+	GetSiteUiSettingDerived(ctx context.Context, siteId string) ApiGetSiteUiSettingDerivedRequest
+
+	// GetSiteUiSettingDerivedExecute executes the request
+	//  @return UiSettings
+	GetSiteUiSettingDerivedExecute(r ApiGetSiteUiSettingDerivedRequest) (*UiSettings, *http.Response, error)
+
+	/*
+	ListSiteUiSettings listSiteUiSettings
+
+	Site UI settings
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiListSiteUiSettingsRequest
+	*/
+	ListSiteUiSettings(ctx context.Context, siteId string) ApiListSiteUiSettingsRequest
+
+	// ListSiteUiSettingsExecute executes the request
+	//  @return []UiSettings
+	ListSiteUiSettingsExecute(r ApiListSiteUiSettingsRequest) ([]UiSettings, *http.Response, error)
+
+	/*
+	UpdateSiteUiSetting updateSiteUiSetting
+
+	Site UI settings
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param uisettingId
+	@return ApiUpdateSiteUiSettingRequest
+	*/
+	UpdateSiteUiSetting(ctx context.Context, siteId string, uisettingId string) ApiUpdateSiteUiSettingRequest
+
+	// UpdateSiteUiSettingExecute executes the request
+	//  @return UiSettings
+	UpdateSiteUiSettingExecute(r ApiUpdateSiteUiSettingRequest) (*UiSettings, *http.Response, error)
+}
+
 // SitesUISettingsAPIService SitesUISettingsAPI service
 type SitesUISettingsAPIService service
 
 type ApiCreateSiteUiSettingsRequest struct {
 	ctx context.Context
-	ApiService *SitesUISettingsAPIService
+	ApiService SitesUISettingsAPI
 	siteId string
 	uiSettings *UiSettings
 }
@@ -206,7 +301,7 @@ func (a *SitesUISettingsAPIService) CreateSiteUiSettingsExecute(r ApiCreateSiteU
 
 type ApiDeleteSiteUiSettingRequest struct {
 	ctx context.Context
-	ApiService *SitesUISettingsAPIService
+	ApiService SitesUISettingsAPI
 	siteId string
 	uisettingId string
 }
@@ -370,7 +465,7 @@ func (a *SitesUISettingsAPIService) DeleteSiteUiSettingExecute(r ApiDeleteSiteUi
 
 type ApiGetSiteUiSettingRequest struct {
 	ctx context.Context
-	ApiService *SitesUISettingsAPIService
+	ApiService SitesUISettingsAPI
 	siteId string
 	uisettingId string
 }
@@ -545,7 +640,7 @@ func (a *SitesUISettingsAPIService) GetSiteUiSettingExecute(r ApiGetSiteUiSettin
 
 type ApiGetSiteUiSettingDerivedRequest struct {
 	ctx context.Context
-	ApiService *SitesUISettingsAPIService
+	ApiService SitesUISettingsAPI
 	siteId string
 }
 
@@ -716,7 +811,7 @@ func (a *SitesUISettingsAPIService) GetSiteUiSettingDerivedExecute(r ApiGetSiteU
 
 type ApiListSiteUiSettingsRequest struct {
 	ctx context.Context
-	ApiService *SitesUISettingsAPIService
+	ApiService SitesUISettingsAPI
 	siteId string
 }
 
@@ -887,7 +982,7 @@ func (a *SitesUISettingsAPIService) ListSiteUiSettingsExecute(r ApiListSiteUiSet
 
 type ApiUpdateSiteUiSettingRequest struct {
 	ctx context.Context
-	ApiService *SitesUISettingsAPIService
+	ApiService SitesUISettingsAPI
 	siteId string
 	uisettingId string
 	uiSettings *UiSettings

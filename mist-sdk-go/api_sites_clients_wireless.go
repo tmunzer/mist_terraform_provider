@@ -21,12 +21,186 @@ import (
 )
 
 
+type SitesClientsWirelessAPI interface {
+
+	/*
+	CountSiteWirelessClientEvents countSiteWirelessClientEvents
+
+	Count by Distinct Attributes of Client-Events
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiCountSiteWirelessClientEventsRequest
+	*/
+	CountSiteWirelessClientEvents(ctx context.Context, siteId string) ApiCountSiteWirelessClientEventsRequest
+
+	// CountSiteWirelessClientEventsExecute executes the request
+	//  @return RepsonseCount
+	CountSiteWirelessClientEventsExecute(r ApiCountSiteWirelessClientEventsRequest) (*RepsonseCount, *http.Response, error)
+
+	/*
+	CountSiteWirelessClientSessions countSiteWirelessClientSessions
+
+	Count by Distinct Attributes of Client Sessions
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiCountSiteWirelessClientSessionsRequest
+	*/
+	CountSiteWirelessClientSessions(ctx context.Context, siteId string) ApiCountSiteWirelessClientSessionsRequest
+
+	// CountSiteWirelessClientSessionsExecute executes the request
+	//  @return RepsonseCount
+	CountSiteWirelessClientSessionsExecute(r ApiCountSiteWirelessClientSessionsRequest) (*RepsonseCount, *http.Response, error)
+
+	/*
+	CountSiteWirelessClients countSiteWirelessClients
+
+	Count by Distinct Attributes of Clients
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiCountSiteWirelessClientsRequest
+	*/
+	CountSiteWirelessClients(ctx context.Context, siteId string) ApiCountSiteWirelessClientsRequest
+
+	// CountSiteWirelessClientsExecute executes the request
+	//  @return RepsonseCount
+	CountSiteWirelessClientsExecute(r ApiCountSiteWirelessClientsRequest) (*RepsonseCount, *http.Response, error)
+
+	/*
+	GetSiteEventsForClient getSiteEventsForClient
+
+	Get the list of events for a specific client
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param clientMac
+	@return ApiGetSiteEventsForClientRequest
+	*/
+	GetSiteEventsForClient(ctx context.Context, siteId string, clientMac string) ApiGetSiteEventsForClientRequest
+
+	// GetSiteEventsForClientExecute executes the request
+	//  @return ResponseClientEventsSearch
+	GetSiteEventsForClientExecute(r ApiGetSiteEventsForClientRequest) (*ResponseClientEventsSearch, *http.Response, error)
+
+	/*
+	GetSiteWirelessClientStats getSiteWirelessClientStats
+
+	Get Site Client Stats Details
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param clientMac
+	@return ApiGetSiteWirelessClientStatsRequest
+	*/
+	GetSiteWirelessClientStats(ctx context.Context, siteId string, clientMac string) ApiGetSiteWirelessClientStatsRequest
+
+	// GetSiteWirelessClientStatsExecute executes the request
+	//  @return []ClientStats
+	GetSiteWirelessClientStatsExecute(r ApiGetSiteWirelessClientStatsRequest) ([]ClientStats, *http.Response, error)
+
+	/*
+	GetSiteWirelessClientsStatsByMap getSiteWirelessClientsStatsByMap
+
+	Get Site Clients Stats By Map
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param mapId
+	@return ApiGetSiteWirelessClientsStatsByMapRequest
+	*/
+	GetSiteWirelessClientsStatsByMap(ctx context.Context, siteId string, mapId string) ApiGetSiteWirelessClientsStatsByMapRequest
+
+	// GetSiteWirelessClientsStatsByMapExecute executes the request
+	//  @return [][]ClientWirelessStats
+	GetSiteWirelessClientsStatsByMapExecute(r ApiGetSiteWirelessClientsStatsByMapRequest) ([][]ClientWirelessStats, *http.Response, error)
+
+	/*
+	ListSiteUnconnectedClientStats listSiteUnconnectedClientStats
+
+	Get List of Site Unconnected Client Location
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param mapId
+	@return ApiListSiteUnconnectedClientStatsRequest
+	*/
+	ListSiteUnconnectedClientStats(ctx context.Context, siteId string, mapId string) ApiListSiteUnconnectedClientStatsRequest
+
+	// ListSiteUnconnectedClientStatsExecute executes the request
+	//  @return []UnconnectedClientStat
+	ListSiteUnconnectedClientStatsExecute(r ApiListSiteUnconnectedClientStatsRequest) ([]UnconnectedClientStat, *http.Response, error)
+
+	/*
+	ListSiteWirelessClientsStats listSiteWirelessClientsStats
+
+	Get List of Site All Clients Stats Details
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiListSiteWirelessClientsStatsRequest
+	*/
+	ListSiteWirelessClientsStats(ctx context.Context, siteId string) ApiListSiteWirelessClientsStatsRequest
+
+	// ListSiteWirelessClientsStatsExecute executes the request
+	//  @return []ClientStats
+	ListSiteWirelessClientsStatsExecute(r ApiListSiteWirelessClientsStatsRequest) ([]ClientStats, *http.Response, error)
+
+	/*
+	SearchSiteWirelessClientEvents searchSiteWirelessClientEvents
+
+	Get Site Clients Events
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiSearchSiteWirelessClientEventsRequest
+	*/
+	SearchSiteWirelessClientEvents(ctx context.Context, siteId string) ApiSearchSiteWirelessClientEventsRequest
+
+	// SearchSiteWirelessClientEventsExecute executes the request
+	//  @return ResponseEventsSearch
+	SearchSiteWirelessClientEventsExecute(r ApiSearchSiteWirelessClientEventsRequest) (*ResponseEventsSearch, *http.Response, error)
+
+	/*
+	SearchSiteWirelessClientSessions searchSiteWirelessClientSessions
+
+	Search Client Sessions
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiSearchSiteWirelessClientSessionsRequest
+	*/
+	SearchSiteWirelessClientSessions(ctx context.Context, siteId string) ApiSearchSiteWirelessClientSessionsRequest
+
+	// SearchSiteWirelessClientSessionsExecute executes the request
+	//  @return ResponseClientSessionsSearch
+	SearchSiteWirelessClientSessionsExecute(r ApiSearchSiteWirelessClientSessionsRequest) (*ResponseClientSessionsSearch, *http.Response, error)
+
+	/*
+	SearchSiteWirelessClients searchSiteWirelessClients
+
+	Search Wireless Clients
+
+**NOTE**: fuzzy logic can be used with ‘*’, supported filters: mac, hostname, device, os, model. E.g. /clients/search?device=Mac*&hostname=jerry
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiSearchSiteWirelessClientsRequest
+	*/
+	SearchSiteWirelessClients(ctx context.Context, siteId string) ApiSearchSiteWirelessClientsRequest
+
+	// SearchSiteWirelessClientsExecute executes the request
+	//  @return ResponseClientSearch
+	SearchSiteWirelessClientsExecute(r ApiSearchSiteWirelessClientsRequest) (*ResponseClientSearch, *http.Response, error)
+}
+
 // SitesClientsWirelessAPIService SitesClientsWirelessAPI service
 type SitesClientsWirelessAPIService service
 
 type ApiCountSiteWirelessClientEventsRequest struct {
 	ctx context.Context
-	ApiService *SitesClientsWirelessAPIService
+	ApiService SitesClientsWirelessAPI
 	siteId string
 	distinct *SiteClientEventsCountDistinct
 	type_ *string
@@ -321,7 +495,7 @@ func (a *SitesClientsWirelessAPIService) CountSiteWirelessClientEventsExecute(r 
 
 type ApiCountSiteWirelessClientSessionsRequest struct {
 	ctx context.Context
-	ApiService *SitesClientsWirelessAPIService
+	ApiService SitesClientsWirelessAPI
 	siteId string
 	distinct *SiteClientSessionsCountDistinct
 	ap *string
@@ -641,7 +815,7 @@ func (a *SitesClientsWirelessAPIService) CountSiteWirelessClientSessionsExecute(
 
 type ApiCountSiteWirelessClientsRequest struct {
 	ctx context.Context
-	ApiService *SitesClientsWirelessAPIService
+	ApiService SitesClientsWirelessAPI
 	siteId string
 	distinct *SiteClientsCountDistinct
 	ssid *string
@@ -953,7 +1127,7 @@ func (a *SitesClientsWirelessAPIService) CountSiteWirelessClientsExecute(r ApiCo
 
 type ApiGetSiteEventsForClientRequest struct {
 	ctx context.Context
-	ApiService *SitesClientsWirelessAPIService
+	ApiService SitesClientsWirelessAPI
 	siteId string
 	clientMac string
 	type_ *string
@@ -1242,7 +1416,7 @@ func (a *SitesClientsWirelessAPIService) GetSiteEventsForClientExecute(r ApiGetS
 
 type ApiGetSiteWirelessClientStatsRequest struct {
 	ctx context.Context
-	ApiService *SitesClientsWirelessAPIService
+	ApiService SitesClientsWirelessAPI
 	siteId string
 	clientMac string
 	wired *bool
@@ -1429,7 +1603,7 @@ func (a *SitesClientsWirelessAPIService) GetSiteWirelessClientStatsExecute(r Api
 
 type ApiGetSiteWirelessClientsStatsByMapRequest struct {
 	ctx context.Context
-	ApiService *SitesClientsWirelessAPIService
+	ApiService SitesClientsWirelessAPI
 	siteId string
 	mapId string
 	page *int32
@@ -1661,7 +1835,7 @@ func (a *SitesClientsWirelessAPIService) GetSiteWirelessClientsStatsByMapExecute
 
 type ApiListSiteUnconnectedClientStatsRequest struct {
 	ctx context.Context
-	ApiService *SitesClientsWirelessAPIService
+	ApiService SitesClientsWirelessAPI
 	siteId string
 	mapId string
 }
@@ -1836,7 +2010,7 @@ func (a *SitesClientsWirelessAPIService) ListSiteUnconnectedClientStatsExecute(r
 
 type ApiListSiteWirelessClientsStatsRequest struct {
 	ctx context.Context
-	ApiService *SitesClientsWirelessAPIService
+	ApiService SitesClientsWirelessAPI
 	siteId string
 	wired *bool
 	limit *int32
@@ -2064,7 +2238,7 @@ func (a *SitesClientsWirelessAPIService) ListSiteWirelessClientsStatsExecute(r A
 
 type ApiSearchSiteWirelessClientEventsRequest struct {
 	ctx context.Context
-	ApiService *SitesClientsWirelessAPIService
+	ApiService SitesClientsWirelessAPI
 	siteId string
 	type_ *string
 	reasonCode *int32
@@ -2360,7 +2534,7 @@ func (a *SitesClientsWirelessAPIService) SearchSiteWirelessClientEventsExecute(r
 
 type ApiSearchSiteWirelessClientSessionsRequest struct {
 	ctx context.Context
-	ApiService *SitesClientsWirelessAPIService
+	ApiService SitesClientsWirelessAPI
 	siteId string
 	ap *string
 	band *Dot11Band
@@ -2686,7 +2860,7 @@ func (a *SitesClientsWirelessAPIService) SearchSiteWirelessClientSessionsExecute
 
 type ApiSearchSiteWirelessClientsRequest struct {
 	ctx context.Context
-	ApiService *SitesClientsWirelessAPIService
+	ApiService SitesClientsWirelessAPI
 	siteId string
 	mac *string
 	ipAddress *string

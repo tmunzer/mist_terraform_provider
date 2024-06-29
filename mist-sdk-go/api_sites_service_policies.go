@@ -21,12 +21,30 @@ import (
 )
 
 
+type SitesServicePoliciesAPI interface {
+
+	/*
+	ListSiteServicePoliciesDerived listSiteServicePoliciesDerived
+
+	Retrieves the list of Service Policies available for the Site
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiListSiteServicePoliciesDerivedRequest
+	*/
+	ListSiteServicePoliciesDerived(ctx context.Context, siteId string) ApiListSiteServicePoliciesDerivedRequest
+
+	// ListSiteServicePoliciesDerivedExecute executes the request
+	//  @return []ServicePolicy
+	ListSiteServicePoliciesDerivedExecute(r ApiListSiteServicePoliciesDerivedRequest) ([]ServicePolicy, *http.Response, error)
+}
+
 // SitesServicePoliciesAPIService SitesServicePoliciesAPI service
 type SitesServicePoliciesAPIService service
 
 type ApiListSiteServicePoliciesDerivedRequest struct {
 	ctx context.Context
-	ApiService *SitesServicePoliciesAPIService
+	ApiService SitesServicePoliciesAPI
 	siteId string
 	resolve *bool
 }

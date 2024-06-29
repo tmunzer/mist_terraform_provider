@@ -20,12 +20,45 @@ import (
 )
 
 
+type AdminsLoginAPI interface {
+
+	/*
+	Login login
+
+	Log in with email/password.
+When 2FA is enabled, there are two ways to login:
+1. login with two_factor token (with Google Authenticator, etc) 
+2. login with email/password, generate the token, and use /login/two_factor with the token
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiLoginRequest
+	*/
+	Login(ctx context.Context) ApiLoginRequest
+
+	// LoginExecute executes the request
+	//  @return ResponseLoginSuccess
+	LoginExecute(r ApiLoginRequest) (*ResponseLoginSuccess, *http.Response, error)
+
+	/*
+	TwoFactor twoFactor
+
+	Send 2FA Code
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiTwoFactorRequest
+	*/
+	TwoFactor(ctx context.Context) ApiTwoFactorRequest
+
+	// TwoFactorExecute executes the request
+	TwoFactorExecute(r ApiTwoFactorRequest) (*http.Response, error)
+}
+
 // AdminsLoginAPIService AdminsLoginAPI service
 type AdminsLoginAPIService service
 
 type ApiLoginRequest struct {
 	ctx context.Context
-	ApiService *AdminsLoginAPIService
+	ApiService AdminsLoginAPI
 	login *Login
 }
 
@@ -159,7 +192,7 @@ func (a *AdminsLoginAPIService) LoginExecute(r ApiLoginRequest) (*ResponseLoginS
 
 type ApiTwoFactorRequest struct {
 	ctx context.Context
-	ApiService *AdminsLoginAPIService
+	ApiService AdminsLoginAPI
 	twoFactorString *TwoFactorString
 }
 

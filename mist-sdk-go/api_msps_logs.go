@@ -21,12 +21,45 @@ import (
 )
 
 
+type MSPsLogsAPI interface {
+
+	/*
+	CountMspLogs countMspLogs
+
+	Count by Distinct Attributes of Audit Logs
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param mspId
+	@return ApiCountMspLogsRequest
+	*/
+	CountMspLogs(ctx context.Context, mspId string) ApiCountMspLogsRequest
+
+	// CountMspLogsExecute executes the request
+	//  @return RepsonseCount
+	CountMspLogsExecute(r ApiCountMspLogsRequest) (*RepsonseCount, *http.Response, error)
+
+	/*
+	ListMspLogs listMspLogs
+
+	Get list of change logs for the current MSP
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param mspId
+	@return ApiListMspLogsRequest
+	*/
+	ListMspLogs(ctx context.Context, mspId string) ApiListMspLogsRequest
+
+	// ListMspLogsExecute executes the request
+	//  @return ResponseLogSearch
+	ListMspLogsExecute(r ApiListMspLogsRequest) (*ResponseLogSearch, *http.Response, error)
+}
+
 // MSPsLogsAPIService MSPsLogsAPI service
 type MSPsLogsAPIService service
 
 type ApiCountMspLogsRequest struct {
 	ctx context.Context
-	ApiService *MSPsLogsAPIService
+	ApiService MSPsLogsAPI
 	mspId string
 	distinct *MspLogsCountDistinct
 }
@@ -209,7 +242,7 @@ func (a *MSPsLogsAPIService) CountMspLogsExecute(r ApiCountMspLogsRequest) (*Rep
 
 type ApiListMspLogsRequest struct {
 	ctx context.Context
-	ApiService *MSPsLogsAPIService
+	ApiService MSPsLogsAPI
 	mspId string
 	siteId *string
 	adminName *string

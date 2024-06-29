@@ -21,12 +21,156 @@ import (
 )
 
 
+type SitesZonesAPI interface {
+
+	/*
+	CountSiteZoneSessions countSiteZoneSessions
+
+	Count Site Zone Sessions
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param zoneType
+	@return ApiCountSiteZoneSessionsRequest
+	*/
+	CountSiteZoneSessions(ctx context.Context, siteId string, zoneType ZoneType) ApiCountSiteZoneSessionsRequest
+
+	// CountSiteZoneSessionsExecute executes the request
+	//  @return RepsonseCount
+	CountSiteZoneSessionsExecute(r ApiCountSiteZoneSessionsRequest) (*RepsonseCount, *http.Response, error)
+
+	/*
+	CreateSiteZone createSiteZone
+
+	Create Site Zone
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiCreateSiteZoneRequest
+	*/
+	CreateSiteZone(ctx context.Context, siteId string) ApiCreateSiteZoneRequest
+
+	// CreateSiteZoneExecute executes the request
+	//  @return Zone
+	CreateSiteZoneExecute(r ApiCreateSiteZoneRequest) (*Zone, *http.Response, error)
+
+	/*
+	DeleteSiteZone deleteSiteZone
+
+	Delete Site Zone
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param zoneId
+	@return ApiDeleteSiteZoneRequest
+	*/
+	DeleteSiteZone(ctx context.Context, siteId string, zoneId string) ApiDeleteSiteZoneRequest
+
+	// DeleteSiteZoneExecute executes the request
+	DeleteSiteZoneExecute(r ApiDeleteSiteZoneRequest) (*http.Response, error)
+
+	/*
+	GetSiteZone getSiteZone
+
+	Get Site Zone Details
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param zoneId
+	@return ApiGetSiteZoneRequest
+	*/
+	GetSiteZone(ctx context.Context, siteId string, zoneId string) ApiGetSiteZoneRequest
+
+	// GetSiteZoneExecute executes the request
+	//  @return Zone
+	GetSiteZoneExecute(r ApiGetSiteZoneRequest) (*Zone, *http.Response, error)
+
+	/*
+	GetSiteZoneStats getSiteZoneStats
+
+	Get Detail Zone Stats
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param zoneType
+	@param zoneId
+	@return ApiGetSiteZoneStatsRequest
+	*/
+	GetSiteZoneStats(ctx context.Context, siteId string, zoneType ZoneType, zoneId string) ApiGetSiteZoneStatsRequest
+
+	// GetSiteZoneStatsExecute executes the request
+	//  @return ZoneStatsDetails
+	GetSiteZoneStatsExecute(r ApiGetSiteZoneStatsRequest) (*ZoneStatsDetails, *http.Response, error)
+
+	/*
+	ListSiteZones listSiteZones
+
+	Get List of Site Zones
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiListSiteZonesRequest
+	*/
+	ListSiteZones(ctx context.Context, siteId string) ApiListSiteZonesRequest
+
+	// ListSiteZonesExecute executes the request
+	//  @return []Zone
+	ListSiteZonesExecute(r ApiListSiteZonesRequest) ([]Zone, *http.Response, error)
+
+	/*
+	ListSiteZonesStats listSiteZonesStats
+
+	Get List of Site Zones Stats
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiListSiteZonesStatsRequest
+	*/
+	ListSiteZonesStats(ctx context.Context, siteId string) ApiListSiteZonesStatsRequest
+
+	// ListSiteZonesStatsExecute executes the request
+	//  @return []ZoneStats
+	ListSiteZonesStatsExecute(r ApiListSiteZonesStatsRequest) ([]ZoneStats, *http.Response, error)
+
+	/*
+	SearchSiteZoneSessions searchSiteZoneSessions
+
+	Search Zone Sessions
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param zoneType
+	@return ApiSearchSiteZoneSessionsRequest
+	*/
+	SearchSiteZoneSessions(ctx context.Context, siteId string, zoneType ZoneType) ApiSearchSiteZoneSessionsRequest
+
+	// SearchSiteZoneSessionsExecute executes the request
+	//  @return ResponseZoneSearch
+	SearchSiteZoneSessionsExecute(r ApiSearchSiteZoneSessionsRequest) (*ResponseZoneSearch, *http.Response, error)
+
+	/*
+	UpdateSiteZone updateSiteZone
+
+	Update Site Zone
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param zoneId
+	@return ApiUpdateSiteZoneRequest
+	*/
+	UpdateSiteZone(ctx context.Context, siteId string, zoneId string) ApiUpdateSiteZoneRequest
+
+	// UpdateSiteZoneExecute executes the request
+	//  @return Zone
+	UpdateSiteZoneExecute(r ApiUpdateSiteZoneRequest) (*Zone, *http.Response, error)
+}
+
 // SitesZonesAPIService SitesZonesAPI service
 type SitesZonesAPIService service
 
 type ApiCountSiteZoneSessionsRequest struct {
 	ctx context.Context
-	ApiService *SitesZonesAPIService
+	ApiService SitesZonesAPI
 	siteId string
 	zoneType ZoneType
 	distinct *SiteZoneCountDistinct
@@ -313,7 +457,7 @@ func (a *SitesZonesAPIService) CountSiteZoneSessionsExecute(r ApiCountSiteZoneSe
 
 type ApiCreateSiteZoneRequest struct {
 	ctx context.Context
-	ApiService *SitesZonesAPIService
+	ApiService SitesZonesAPI
 	siteId string
 	zone *Zone
 }
@@ -493,7 +637,7 @@ func (a *SitesZonesAPIService) CreateSiteZoneExecute(r ApiCreateSiteZoneRequest)
 
 type ApiDeleteSiteZoneRequest struct {
 	ctx context.Context
-	ApiService *SitesZonesAPIService
+	ApiService SitesZonesAPI
 	siteId string
 	zoneId string
 }
@@ -657,7 +801,7 @@ func (a *SitesZonesAPIService) DeleteSiteZoneExecute(r ApiDeleteSiteZoneRequest)
 
 type ApiGetSiteZoneRequest struct {
 	ctx context.Context
-	ApiService *SitesZonesAPIService
+	ApiService SitesZonesAPI
 	siteId string
 	zoneId string
 }
@@ -832,7 +976,7 @@ func (a *SitesZonesAPIService) GetSiteZoneExecute(r ApiGetSiteZoneRequest) (*Zon
 
 type ApiGetSiteZoneStatsRequest struct {
 	ctx context.Context
-	ApiService *SitesZonesAPIService
+	ApiService SitesZonesAPI
 	siteId string
 	zoneType ZoneType
 	zoneId string
@@ -1011,7 +1155,7 @@ func (a *SitesZonesAPIService) GetSiteZoneStatsExecute(r ApiGetSiteZoneStatsRequ
 
 type ApiListSiteZonesRequest struct {
 	ctx context.Context
-	ApiService *SitesZonesAPIService
+	ApiService SitesZonesAPI
 	siteId string
 	page *int32
 	limit *int32
@@ -1206,7 +1350,7 @@ func (a *SitesZonesAPIService) ListSiteZonesExecute(r ApiListSiteZonesRequest) (
 
 type ApiListSiteZonesStatsRequest struct {
 	ctx context.Context
-	ApiService *SitesZonesAPIService
+	ApiService SitesZonesAPI
 	siteId string
 	mapId *string
 }
@@ -1386,7 +1530,7 @@ func (a *SitesZonesAPIService) ListSiteZonesStatsExecute(r ApiListSiteZonesStats
 
 type ApiSearchSiteZoneSessionsRequest struct {
 	ctx context.Context
-	ApiService *SitesZonesAPIService
+	ApiService SitesZonesAPI
 	siteId string
 	zoneType ZoneType
 	userType *RfClientType
@@ -1661,7 +1805,7 @@ func (a *SitesZonesAPIService) SearchSiteZoneSessionsExecute(r ApiSearchSiteZone
 
 type ApiUpdateSiteZoneRequest struct {
 	ctx context.Context
-	ApiService *SitesZonesAPIService
+	ApiService SitesZonesAPI
 	siteId string
 	zoneId string
 	zone *Zone

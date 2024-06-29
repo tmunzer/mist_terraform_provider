@@ -21,12 +21,177 @@ import (
 )
 
 
+type SitesWebhooksAPI interface {
+
+	/*
+	CountSiteWebhooksDeliveries countSiteWebhooksDeliveries
+
+	Count Site Webhooks deliveries
+
+
+Topics Supported:
+- alarms
+- audits
+- device-updowns
+- occupancy-alerts
+- ping
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param webhookId
+	@return ApiCountSiteWebhooksDeliveriesRequest
+	*/
+	CountSiteWebhooksDeliveries(ctx context.Context, siteId string, webhookId string) ApiCountSiteWebhooksDeliveriesRequest
+
+	// CountSiteWebhooksDeliveriesExecute executes the request
+	//  @return RepsonseCount
+	CountSiteWebhooksDeliveriesExecute(r ApiCountSiteWebhooksDeliveriesRequest) (*RepsonseCount, *http.Response, error)
+
+	/*
+	CreateSiteWebhook createSiteWebhook
+
+	Webhook defines a webhook, modeled after [github’s model](https://developer.github.com/webhooks/).
+
+There is two types of webhooks:
+* webhooks ([examples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace/folder/224925-be01e694-7253-4195-8563-78e2a745e114))
+* raw data webhooks ([examples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace/folder/224925-e2d5d5f8-4bdb-4efc-93e4-90f4b33d0b2b))
+
+##### Webhooks
+Webhooks can be configured at the org level (subset of topics only) and at the site level. It is possible to have multiple topics in the same webhook configuration and/or to have multiple webhooks configured at the same time.
+
+##### Client Raw Data Webhooks
+Raw data webhooks are a special subset of webhooks that provide insight into raw data packets emitted by a client, identified by their advertising MAC address (assets, discovered ble, connected wifi, unconnected wifi). The data that client raw data webhooks encompasses are reporting AP information, RSSI Data, and any special packets/telemetry packets that the client may emit. Note that client raw webhooks are the raw data coming from the client and do not contain the X,Y location data of the client. In order to get the location data for a client please see our location webhooks. Clients can be identified uniquely across these client raw data topics and location webhook topic using MAC address as the Unique identifier (client identifier).
+
+###### Client Raw Data Webhooks Topics
+Topics that correspond to client raw data for different client types. 
+* `asset-raw-rssi` - Raw data from packets emitted by named and filtered assets 
+* `discovered-raw-rssi` - Raw data from packets emitted by passive BLE devices 
+* `wifi-conn-raw` - Raw data from packets emitted by connected devices 
+* `wifi-unconn-raw` - Raw data from packets emitted by unconnected devices (passive)
+
+###### Rules for configuring client raw data webhooks
+1. Only one instance of a webhook object containing a client raw data webhook topic is allowed. (a site level entry will override an org level entry for the client raw data webhook topic in question)
+2. Only one client raw data webhook topic is allowed per `http-post` message to webhooks api
+
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiCreateSiteWebhookRequest
+	*/
+	CreateSiteWebhook(ctx context.Context, siteId string) ApiCreateSiteWebhookRequest
+
+	// CreateSiteWebhookExecute executes the request
+	//  @return Webhook
+	CreateSiteWebhookExecute(r ApiCreateSiteWebhookRequest) (*Webhook, *http.Response, error)
+
+	/*
+	DeleteSiteWebhook deleteSiteWebhook
+
+	Delete Site Webhook
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param webhookId
+	@return ApiDeleteSiteWebhookRequest
+	*/
+	DeleteSiteWebhook(ctx context.Context, siteId string, webhookId string) ApiDeleteSiteWebhookRequest
+
+	// DeleteSiteWebhookExecute executes the request
+	DeleteSiteWebhookExecute(r ApiDeleteSiteWebhookRequest) (*http.Response, error)
+
+	/*
+	GetSiteWebhook getSiteWebhook
+
+	Get Site Webhook Details
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param webhookId
+	@return ApiGetSiteWebhookRequest
+	*/
+	GetSiteWebhook(ctx context.Context, siteId string, webhookId string) ApiGetSiteWebhookRequest
+
+	// GetSiteWebhookExecute executes the request
+	//  @return Webhook
+	GetSiteWebhookExecute(r ApiGetSiteWebhookRequest) (*Webhook, *http.Response, error)
+
+	/*
+	ListSiteWebhooks listSiteWebhooks
+
+	Get List of Site Webhooks
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiListSiteWebhooksRequest
+	*/
+	ListSiteWebhooks(ctx context.Context, siteId string) ApiListSiteWebhooksRequest
+
+	// ListSiteWebhooksExecute executes the request
+	//  @return []Webhook
+	ListSiteWebhooksExecute(r ApiListSiteWebhooksRequest) ([]Webhook, *http.Response, error)
+
+	/*
+	PingSiteWebhook pingSiteWebhook
+
+	send a Ping event to the webhook
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param webhookId
+	@return ApiPingSiteWebhookRequest
+	*/
+	PingSiteWebhook(ctx context.Context, siteId string, webhookId string) ApiPingSiteWebhookRequest
+
+	// PingSiteWebhookExecute executes the request
+	PingSiteWebhookExecute(r ApiPingSiteWebhookRequest) (*http.Response, error)
+
+	/*
+	SearchSiteWebhooksDeliveries searchSiteWebhooksDeliveries
+
+	Search Site Webhooks deliveries
+
+
+Topics Supported:
+- alarms
+- audits
+- device-updowns
+- occupancy-alerts
+- ping
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param webhookId
+	@return ApiSearchSiteWebhooksDeliveriesRequest
+	*/
+	SearchSiteWebhooksDeliveries(ctx context.Context, siteId string, webhookId string) ApiSearchSiteWebhooksDeliveriesRequest
+
+	// SearchSiteWebhooksDeliveriesExecute executes the request
+	//  @return SearchWebhookDelivery
+	SearchSiteWebhooksDeliveriesExecute(r ApiSearchSiteWebhooksDeliveriesRequest) (*SearchWebhookDelivery, *http.Response, error)
+
+	/*
+	UpdateSiteWebhook updateSiteWebhook
+
+	Update Site Webhook
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@param webhookId
+	@return ApiUpdateSiteWebhookRequest
+	*/
+	UpdateSiteWebhook(ctx context.Context, siteId string, webhookId string) ApiUpdateSiteWebhookRequest
+
+	// UpdateSiteWebhookExecute executes the request
+	//  @return Webhook
+	UpdateSiteWebhookExecute(r ApiUpdateSiteWebhookRequest) (*Webhook, *http.Response, error)
+}
+
 // SitesWebhooksAPIService SitesWebhooksAPI service
 type SitesWebhooksAPIService service
 
 type ApiCountSiteWebhooksDeliveriesRequest struct {
 	ctx context.Context
-	ApiService *SitesWebhooksAPIService
+	ApiService SitesWebhooksAPI
 	siteId string
 	webhookId string
 	error_ *string
@@ -301,7 +466,7 @@ func (a *SitesWebhooksAPIService) CountSiteWebhooksDeliveriesExecute(r ApiCountS
 
 type ApiCreateSiteWebhookRequest struct {
 	ctx context.Context
-	ApiService *SitesWebhooksAPIService
+	ApiService SitesWebhooksAPI
 	siteId string
 	webhook *Webhook
 }
@@ -503,7 +668,7 @@ func (a *SitesWebhooksAPIService) CreateSiteWebhookExecute(r ApiCreateSiteWebhoo
 
 type ApiDeleteSiteWebhookRequest struct {
 	ctx context.Context
-	ApiService *SitesWebhooksAPIService
+	ApiService SitesWebhooksAPI
 	siteId string
 	webhookId string
 }
@@ -667,7 +832,7 @@ func (a *SitesWebhooksAPIService) DeleteSiteWebhookExecute(r ApiDeleteSiteWebhoo
 
 type ApiGetSiteWebhookRequest struct {
 	ctx context.Context
-	ApiService *SitesWebhooksAPIService
+	ApiService SitesWebhooksAPI
 	siteId string
 	webhookId string
 }
@@ -842,7 +1007,7 @@ func (a *SitesWebhooksAPIService) GetSiteWebhookExecute(r ApiGetSiteWebhookReque
 
 type ApiListSiteWebhooksRequest struct {
 	ctx context.Context
-	ApiService *SitesWebhooksAPIService
+	ApiService SitesWebhooksAPI
 	siteId string
 	page *int32
 	limit *int32
@@ -1037,7 +1202,7 @@ func (a *SitesWebhooksAPIService) ListSiteWebhooksExecute(r ApiListSiteWebhooksR
 
 type ApiPingSiteWebhookRequest struct {
 	ctx context.Context
-	ApiService *SitesWebhooksAPIService
+	ApiService SitesWebhooksAPI
 	siteId string
 	webhookId string
 }
@@ -1201,7 +1366,7 @@ func (a *SitesWebhooksAPIService) PingSiteWebhookExecute(r ApiPingSiteWebhookReq
 
 type ApiSearchSiteWebhooksDeliveriesRequest struct {
 	ctx context.Context
-	ApiService *SitesWebhooksAPIService
+	ApiService SitesWebhooksAPI
 	siteId string
 	webhookId string
 	error_ *string
@@ -1467,7 +1632,7 @@ func (a *SitesWebhooksAPIService) SearchSiteWebhooksDeliveriesExecute(r ApiSearc
 
 type ApiUpdateSiteWebhookRequest struct {
 	ctx context.Context
-	ApiService *SitesWebhooksAPIService
+	ApiService SitesWebhooksAPI
 	siteId string
 	webhookId string
 	webhook *Webhook

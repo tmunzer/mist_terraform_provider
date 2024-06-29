@@ -21,12 +21,30 @@ import (
 )
 
 
+type SitesLicensesAPI interface {
+
+	/*
+	GetSiteLicenseUsage getSiteLicenseUsage
+
+	This shows license usage (i.e. needed) based on the features enabled for the site.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param siteId
+	@return ApiGetSiteLicenseUsageRequest
+	*/
+	GetSiteLicenseUsage(ctx context.Context, siteId string) ApiGetSiteLicenseUsageRequest
+
+	// GetSiteLicenseUsageExecute executes the request
+	//  @return LicenseUsageSite
+	GetSiteLicenseUsageExecute(r ApiGetSiteLicenseUsageRequest) (*LicenseUsageSite, *http.Response, error)
+}
+
 // SitesLicensesAPIService SitesLicensesAPI service
 type SitesLicensesAPIService service
 
 type ApiGetSiteLicenseUsageRequest struct {
 	ctx context.Context
-	ApiService *SitesLicensesAPIService
+	ApiService SitesLicensesAPI
 	siteId string
 }
 

@@ -21,12 +21,75 @@ import (
 )
 
 
+type OrgsDevicesStatsAPI interface {
+
+	/*
+	CountOrgBgpStats countOrgBgpStats
+
+	Count Org BGP Stats
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiCountOrgBgpStatsRequest
+	*/
+	CountOrgBgpStats(ctx context.Context, orgId string) ApiCountOrgBgpStatsRequest
+
+	// CountOrgBgpStatsExecute executes the request
+	//  @return RepsonseCount
+	CountOrgBgpStatsExecute(r ApiCountOrgBgpStatsRequest) (*RepsonseCount, *http.Response, error)
+
+	/*
+	CountOrgSwitchPorts countOrgSwitchPorts
+
+	Count by Distinct Attributes of Switch/Gateway Ports
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiCountOrgSwitchPortsRequest
+	*/
+	CountOrgSwitchPorts(ctx context.Context, orgId string) ApiCountOrgSwitchPortsRequest
+
+	// CountOrgSwitchPortsExecute executes the request
+	//  @return RepsonseCount
+	CountOrgSwitchPortsExecute(r ApiCountOrgSwitchPortsRequest) (*RepsonseCount, *http.Response, error)
+
+	/*
+	SearchOrgBgpStats searchOrgBgpStats
+
+	Search Org BGP Stats
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiSearchOrgBgpStatsRequest
+	*/
+	SearchOrgBgpStats(ctx context.Context, orgId string) ApiSearchOrgBgpStatsRequest
+
+	// SearchOrgBgpStatsExecute executes the request
+	//  @return ResponseSearchBgps
+	SearchOrgBgpStatsExecute(r ApiSearchOrgBgpStatsRequest) (*ResponseSearchBgps, *http.Response, error)
+
+	/*
+	SearchOrgSwOrGwPorts searchOrgSwOrGwPorts
+
+	Search Switch / Gateway Ports
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiSearchOrgSwOrGwPortsRequest
+	*/
+	SearchOrgSwOrGwPorts(ctx context.Context, orgId string) ApiSearchOrgSwOrGwPortsRequest
+
+	// SearchOrgSwOrGwPortsExecute executes the request
+	//  @return ResponsePortStatsSearch
+	SearchOrgSwOrGwPortsExecute(r ApiSearchOrgSwOrGwPortsRequest) (*ResponsePortStatsSearch, *http.Response, error)
+}
+
 // OrgsDevicesStatsAPIService OrgsDevicesStatsAPI service
 type OrgsDevicesStatsAPIService service
 
 type ApiCountOrgBgpStatsRequest struct {
 	ctx context.Context
-	ApiService *OrgsDevicesStatsAPIService
+	ApiService OrgsDevicesStatsAPI
 	orgId string
 }
 
@@ -197,7 +260,7 @@ func (a *OrgsDevicesStatsAPIService) CountOrgBgpStatsExecute(r ApiCountOrgBgpSta
 
 type ApiCountOrgSwitchPortsRequest struct {
 	ctx context.Context
-	ApiService *OrgsDevicesStatsAPIService
+	ApiService OrgsDevicesStatsAPI
 	orgId string
 	distinct *OrgSwitchPortCountDistinct
 	fullDuplex *bool
@@ -687,7 +750,7 @@ func (a *OrgsDevicesStatsAPIService) CountOrgSwitchPortsExecute(r ApiCountOrgSwi
 
 type ApiSearchOrgBgpStatsRequest struct {
 	ctx context.Context
-	ApiService *OrgsDevicesStatsAPIService
+	ApiService OrgsDevicesStatsAPI
 	orgId string
 }
 
@@ -858,7 +921,7 @@ func (a *OrgsDevicesStatsAPIService) SearchOrgBgpStatsExecute(r ApiSearchOrgBgpS
 
 type ApiSearchOrgSwOrGwPortsRequest struct {
 	ctx context.Context
-	ApiService *OrgsDevicesStatsAPIService
+	ApiService OrgsDevicesStatsAPI
 	orgId string
 	fullDuplex *bool
 	mac *string

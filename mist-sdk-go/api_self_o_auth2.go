@@ -21,12 +21,45 @@ import (
 )
 
 
+type SelfOAuth2API interface {
+
+	/*
+	GetOauth2UrlForLinking getOauth2UrlForLinking
+
+	Obtain Authorization URL for Linking
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param provider
+	@return ApiGetOauth2UrlForLinkingRequest
+	*/
+	GetOauth2UrlForLinking(ctx context.Context, provider string) ApiGetOauth2UrlForLinkingRequest
+
+	// GetOauth2UrlForLinkingExecute executes the request
+	//  @return ResponseSelfOauthUrl
+	GetOauth2UrlForLinkingExecute(r ApiGetOauth2UrlForLinkingRequest) (*ResponseSelfOauthUrl, *http.Response, error)
+
+	/*
+	LinkOauth2MistAccount linkOauth2MistAccount
+
+	Link Mist account with an OAuth2 Provider
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param provider
+	@return ApiLinkOauth2MistAccountRequest
+	*/
+	LinkOauth2MistAccount(ctx context.Context, provider string) ApiLinkOauth2MistAccountRequest
+
+	// LinkOauth2MistAccountExecute executes the request
+	//  @return ResponseSelfOauthLinkSuccess
+	LinkOauth2MistAccountExecute(r ApiLinkOauth2MistAccountRequest) (*ResponseSelfOauthLinkSuccess, *http.Response, error)
+}
+
 // SelfOAuth2APIService SelfOAuth2API service
 type SelfOAuth2APIService service
 
 type ApiGetOauth2UrlForLinkingRequest struct {
 	ctx context.Context
-	ApiService *SelfOAuth2APIService
+	ApiService SelfOAuth2API
 	provider string
 	forward *string
 }
@@ -206,7 +239,7 @@ func (a *SelfOAuth2APIService) GetOauth2UrlForLinkingExecute(r ApiGetOauth2UrlFo
 
 type ApiLinkOauth2MistAccountRequest struct {
 	ctx context.Context
-	ApiService *SelfOAuth2APIService
+	ApiService SelfOAuth2API
 	provider string
 	codeString *CodeString
 }

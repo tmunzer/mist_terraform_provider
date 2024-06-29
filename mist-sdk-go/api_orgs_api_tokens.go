@@ -21,12 +21,93 @@ import (
 )
 
 
+type OrgsAPITokensAPI interface {
+
+	/*
+	CreateOrgApiToken createOrgApiToken
+
+	Create Org API Token
+Note that the token key is only available during creation time.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiCreateOrgApiTokenRequest
+	*/
+	CreateOrgApiToken(ctx context.Context, orgId string) ApiCreateOrgApiTokenRequest
+
+	// CreateOrgApiTokenExecute executes the request
+	//  @return OrgApitoken
+	CreateOrgApiTokenExecute(r ApiCreateOrgApiTokenRequest) (*OrgApitoken, *http.Response, error)
+
+	/*
+	DeleteOrgApiToken deleteOrgApiToken
+
+	Delete Org API Token
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param apitokenId
+	@return ApiDeleteOrgApiTokenRequest
+	*/
+	DeleteOrgApiToken(ctx context.Context, orgId string, apitokenId string) ApiDeleteOrgApiTokenRequest
+
+	// DeleteOrgApiTokenExecute executes the request
+	DeleteOrgApiTokenExecute(r ApiDeleteOrgApiTokenRequest) (*http.Response, error)
+
+	/*
+	GetOrgApiToken getOrgApiToken
+
+	Get Org API Token
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param apitokenId
+	@return ApiGetOrgApiTokenRequest
+	*/
+	GetOrgApiToken(ctx context.Context, orgId string, apitokenId string) ApiGetOrgApiTokenRequest
+
+	// GetOrgApiTokenExecute executes the request
+	//  @return OrgApitoken
+	GetOrgApiTokenExecute(r ApiGetOrgApiTokenRequest) (*OrgApitoken, *http.Response, error)
+
+	/*
+	ListOrgApiTokens listOrgApiTokens
+
+	Get List of Org API Tokens
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiListOrgApiTokensRequest
+	*/
+	ListOrgApiTokens(ctx context.Context, orgId string) ApiListOrgApiTokensRequest
+
+	// ListOrgApiTokensExecute executes the request
+	//  @return []OrgApitoken
+	ListOrgApiTokensExecute(r ApiListOrgApiTokensRequest) ([]OrgApitoken, *http.Response, error)
+
+	/*
+	UpdateOrgApiToken updateOrgApiToken
+
+	Update Org API Token
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@param apitokenId
+	@return ApiUpdateOrgApiTokenRequest
+	*/
+	UpdateOrgApiToken(ctx context.Context, orgId string, apitokenId string) ApiUpdateOrgApiTokenRequest
+
+	// UpdateOrgApiTokenExecute executes the request
+	//  @return OrgApitoken
+	UpdateOrgApiTokenExecute(r ApiUpdateOrgApiTokenRequest) (*OrgApitoken, *http.Response, error)
+}
+
 // OrgsAPITokensAPIService OrgsAPITokensAPI service
 type OrgsAPITokensAPIService service
 
 type ApiCreateOrgApiTokenRequest struct {
 	ctx context.Context
-	ApiService *OrgsAPITokensAPIService
+	ApiService OrgsAPITokensAPI
 	orgId string
 	orgApitoken *OrgApitoken
 }
@@ -206,7 +287,7 @@ func (a *OrgsAPITokensAPIService) CreateOrgApiTokenExecute(r ApiCreateOrgApiToke
 
 type ApiDeleteOrgApiTokenRequest struct {
 	ctx context.Context
-	ApiService *OrgsAPITokensAPIService
+	ApiService OrgsAPITokensAPI
 	orgId string
 	apitokenId string
 }
@@ -370,7 +451,7 @@ func (a *OrgsAPITokensAPIService) DeleteOrgApiTokenExecute(r ApiDeleteOrgApiToke
 
 type ApiGetOrgApiTokenRequest struct {
 	ctx context.Context
-	ApiService *OrgsAPITokensAPIService
+	ApiService OrgsAPITokensAPI
 	orgId string
 	apitokenId string
 }
@@ -545,7 +626,7 @@ func (a *OrgsAPITokensAPIService) GetOrgApiTokenExecute(r ApiGetOrgApiTokenReque
 
 type ApiListOrgApiTokensRequest struct {
 	ctx context.Context
-	ApiService *OrgsAPITokensAPIService
+	ApiService OrgsAPITokensAPI
 	orgId string
 }
 
@@ -716,7 +797,7 @@ func (a *OrgsAPITokensAPIService) ListOrgApiTokensExecute(r ApiListOrgApiTokensR
 
 type ApiUpdateOrgApiTokenRequest struct {
 	ctx context.Context
-	ApiService *OrgsAPITokensAPIService
+	ApiService OrgsAPITokensAPI
 	orgId string
 	apitokenId string
 	orgApitoken *OrgApitoken

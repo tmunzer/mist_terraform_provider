@@ -21,12 +21,58 @@ import (
 )
 
 
+type OrgsDevicesZscalerAPI interface {
+
+	/*
+	DeleteOrgZscalerCredential deleteOrgZscalerCredential
+
+	To delete Zscaler credential
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiDeleteOrgZscalerCredentialRequest
+	*/
+	DeleteOrgZscalerCredential(ctx context.Context, orgId string) ApiDeleteOrgZscalerCredentialRequest
+
+	// DeleteOrgZscalerCredentialExecute executes the request
+	DeleteOrgZscalerCredentialExecute(r ApiDeleteOrgZscalerCredentialRequest) (*http.Response, error)
+
+	/*
+	GetOrgZscalerCredential getOrgZscalerCredential
+
+	To get Zscaler credential
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiGetOrgZscalerCredentialRequest
+	*/
+	GetOrgZscalerCredential(ctx context.Context, orgId string) ApiGetOrgZscalerCredentialRequest
+
+	// GetOrgZscalerCredentialExecute executes the request
+	//  @return AccountZscalerInfo
+	GetOrgZscalerCredentialExecute(r ApiGetOrgZscalerCredentialRequest) (*AccountZscalerInfo, *http.Response, error)
+
+	/*
+	SetupOrgZscalerCredential setupOrgZscalerCredential
+
+	To setup Zscaler credential
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orgId
+	@return ApiSetupOrgZscalerCredentialRequest
+	*/
+	SetupOrgZscalerCredential(ctx context.Context, orgId string) ApiSetupOrgZscalerCredentialRequest
+
+	// SetupOrgZscalerCredentialExecute executes the request
+	SetupOrgZscalerCredentialExecute(r ApiSetupOrgZscalerCredentialRequest) (*http.Response, error)
+}
+
 // OrgsDevicesZscalerAPIService OrgsDevicesZscalerAPI service
 type OrgsDevicesZscalerAPIService service
 
 type ApiDeleteOrgZscalerCredentialRequest struct {
 	ctx context.Context
-	ApiService *OrgsDevicesZscalerAPIService
+	ApiService OrgsDevicesZscalerAPI
 	orgId string
 }
 
@@ -186,7 +232,7 @@ func (a *OrgsDevicesZscalerAPIService) DeleteOrgZscalerCredentialExecute(r ApiDe
 
 type ApiGetOrgZscalerCredentialRequest struct {
 	ctx context.Context
-	ApiService *OrgsDevicesZscalerAPIService
+	ApiService OrgsDevicesZscalerAPI
 	orgId string
 }
 
@@ -357,7 +403,7 @@ func (a *OrgsDevicesZscalerAPIService) GetOrgZscalerCredentialExecute(r ApiGetOr
 
 type ApiSetupOrgZscalerCredentialRequest struct {
 	ctx context.Context
-	ApiService *OrgsDevicesZscalerAPIService
+	ApiService OrgsDevicesZscalerAPI
 	orgId string
 	accountZscalerConfig *AccountZscalerConfig
 }
