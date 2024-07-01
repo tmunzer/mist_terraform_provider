@@ -25,7 +25,7 @@ Name | Type | Description | Notes
 **TuntermExtraRoutes** | Pointer to [**map[string]MxedgeTuntermExtraRoute**](MxedgeTuntermExtraRoute.md) | Property key is a CIDR | [optional] 
 **TuntermIgmpSnoopingConfig** | Pointer to [**MxedgeTuntermIgmpSnoopingConfig**](MxedgeTuntermIgmpSnoopingConfig.md) |  | [optional] 
 **TuntermIpConfig** | Pointer to [**MxedgeTuntermIpConfig**](MxedgeTuntermIpConfig.md) |  | [optional] 
-**TuntermMonitoring** | Pointer to [**[]TuntermMonitoring**](TuntermMonitoring.md) |  | [optional] 
+**TuntermMonitoring** | Pointer to [**[][]TuntermMonitoringItem**]([]TuntermMonitoringItem.md) |  | [optional] 
 **TuntermMulticastConfig** | Pointer to [**MxedgeTuntermMulticastConfig**](MxedgeTuntermMulticastConfig.md) |  | [optional] 
 **TuntermOtherIpConfigs** | Pointer to [**map[string]MxedgeTuntermOtherIpConfig**](MxedgeTuntermOtherIpConfig.md) | ip configs by VLAN ID. Property key is the VLAN ID | [optional] 
 **TuntermPortConfig** | Pointer to [**TuntermPortConfig**](TuntermPortConfig.md) |  | [optional] 
@@ -569,20 +569,20 @@ HasTuntermIpConfig returns a boolean if a field has been set.
 
 ### GetTuntermMonitoring
 
-`func (o *Mxedge) GetTuntermMonitoring() []TuntermMonitoring`
+`func (o *Mxedge) GetTuntermMonitoring() [][]TuntermMonitoringItem`
 
 GetTuntermMonitoring returns the TuntermMonitoring field if non-nil, zero value otherwise.
 
 ### GetTuntermMonitoringOk
 
-`func (o *Mxedge) GetTuntermMonitoringOk() (*[]TuntermMonitoring, bool)`
+`func (o *Mxedge) GetTuntermMonitoringOk() (*[][]TuntermMonitoringItem, bool)`
 
 GetTuntermMonitoringOk returns a tuple with the TuntermMonitoring field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetTuntermMonitoring
 
-`func (o *Mxedge) SetTuntermMonitoring(v []TuntermMonitoring)`
+`func (o *Mxedge) SetTuntermMonitoring(v [][]TuntermMonitoringItem)`
 
 SetTuntermMonitoring sets TuntermMonitoring field to given value.
 

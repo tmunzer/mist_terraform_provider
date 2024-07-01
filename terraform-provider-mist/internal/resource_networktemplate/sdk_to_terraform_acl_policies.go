@@ -9,7 +9,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 
 	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
-	mist_transform "terraform-provider-mist/internal/provider/commons/utils"
+	mist_transform "terraform-provider-mist/internal/commons/utils"
 )
 
 func aclPolicyActionsToTerraform(ctx context.Context, diags *diag.Diagnostics, d []mistsdkgo.AclPolicyAction) basetypes.ListValue {

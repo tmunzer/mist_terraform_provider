@@ -2,7 +2,7 @@ package resource_wlantemplate
 
 import (
 	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
-	mist_transform "terraform-provider-mist/internal/provider/commons/utils"
+	mist_transform "terraform-provider-mist/internal/commons/utils"
 
 	"golang.org/x/net/context"
 

@@ -3,7 +3,7 @@ info:
   contact:
     email: tmunzer@juniper.net
     name: Thomas Munzer
-  description: '> Version: **2406.1.10**
+  description: '> Version: **2406.1.11**
 
     >
 
@@ -59877,8 +59877,8 @@ components:
       - op
       type: object
     inventory_update_macs:
-      description: if `op`==`assign`, `op`==`unassign`, `op`==`manage`or `op`==`unmanage`
-        , list of MAC, e.g. ["5c5b350e0001"]
+      description: if `op`==`assign`, `op`==`unassign`, `op`==`upgrade_to_mist`or
+        `op`==`downgrade_to_jsi` , list of MAC, e.g. ["5c5b350e0001"]
       items:
         type: string
       type: array
@@ -76923,6 +76923,10 @@ components:
       - relay
       type: string
     tunterm_monitoring:
+      items:
+        $ref: '#/components/schemas/tunterm_monitoring_item'
+      type: array
+    tunterm_monitoring_item:
       properties:
         host:
           description: can be ip, ipv6, hostname

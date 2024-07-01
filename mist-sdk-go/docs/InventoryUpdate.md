@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **DisableAutoConfig** | Pointer to **bool** | if &#x60;op&#x60;&#x3D;&#x3D;&#x60;assign&#x60;, a **cloud-ready** switch/gateway will be managed/configured by Mist by default, this disabled the behavior | [optional] [default to false]
-**Macs** | Pointer to **[]string** | if &#x60;op&#x60;&#x3D;&#x3D;&#x60;assign&#x60;, &#x60;op&#x60;&#x3D;&#x3D;&#x60;unassign&#x60;, &#x60;op&#x60;&#x3D;&#x3D;&#x60;manage&#x60;or &#x60;op&#x60;&#x3D;&#x3D;&#x60;unmanage&#x60; , list of MAC, e.g. [\&quot;5c5b350e0001\&quot;] | [optional] 
+**Macs** | Pointer to **[]string** | if &#x60;op&#x60;&#x3D;&#x3D;&#x60;assign&#x60;, &#x60;op&#x60;&#x3D;&#x3D;&#x60;unassign&#x60;, &#x60;op&#x60;&#x3D;&#x3D;&#x60;upgrade_to_mist&#x60;or &#x60;op&#x60;&#x3D;&#x3D;&#x60;downgrade_to_jsi&#x60; , list of MAC, e.g. [\&quot;5c5b350e0001\&quot;] | [optional] 
 **Managed** | Pointer to **bool** | if &#x60;op&#x60;&#x3D;&#x3D;&#x60;assign&#x60;, an **adopted** switch/gateway will not be managed/configured by Mist by default, this enables the behavior | [optional] [default to false]
 **NoReassign** | Pointer to **bool** | if &#x60;op&#x60;&#x3D;&#x3D;&#x60;assign&#x60;, if true, treat site assignment against an already assigned AP as error | [optional] 
 **Op** | [**InventoryUpdateOperation**](InventoryUpdateOperation.md) |  | 

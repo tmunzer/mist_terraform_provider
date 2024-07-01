@@ -1,7 +1,7 @@
 /*
 Mist API
 
-> Version: **2406.1.10** > > Date: **July 1, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
+> Version: **2406.1.11** > > Date: **July 1, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
 
 API version: 2406.1.11
 Contact: tmunzer@juniper.net
@@ -100,7 +100,7 @@ type SiteSetting struct {
 	SyntheticTest *SyntheticTestConfig `json:"synthetic_test,omitempty"`
 	// whether to track anonymous BLE assets (requires ‘track_asset’ enabled)
 	TrackAnonymousDevices *bool `json:"track_anonymous_devices,omitempty"`
-	TuntermMonitoring *TuntermMonitoring `json:"tunterm_monitoring,omitempty"`
+	TuntermMonitoring []TuntermMonitoringItem `json:"tunterm_monitoring,omitempty"`
 	TuntermMonitoringDisabled *bool `json:"tunterm_monitoring_disabled,omitempty"`
 	TuntermMulticastConfig *SiteSettingTuntermMulticastConfig `json:"tunterm_multicast_config,omitempty"`
 	// a dictionary of name->value, the vars can then be used in Wlans. This can overwrite those from Site Vars
@@ -2148,17 +2148,17 @@ func (o *SiteSetting) SetTrackAnonymousDevices(v bool) {
 }
 
 // GetTuntermMonitoring returns the TuntermMonitoring field value if set, zero value otherwise.
-func (o *SiteSetting) GetTuntermMonitoring() TuntermMonitoring {
+func (o *SiteSetting) GetTuntermMonitoring() []TuntermMonitoringItem {
 	if o == nil || IsNil(o.TuntermMonitoring) {
-		var ret TuntermMonitoring
+		var ret []TuntermMonitoringItem
 		return ret
 	}
-	return *o.TuntermMonitoring
+	return o.TuntermMonitoring
 }
 
 // GetTuntermMonitoringOk returns a tuple with the TuntermMonitoring field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *SiteSetting) GetTuntermMonitoringOk() (*TuntermMonitoring, bool) {
+func (o *SiteSetting) GetTuntermMonitoringOk() ([]TuntermMonitoringItem, bool) {
 	if o == nil || IsNil(o.TuntermMonitoring) {
 		return nil, false
 	}
@@ -2174,9 +2174,9 @@ func (o *SiteSetting) HasTuntermMonitoring() bool {
 	return false
 }
 
-// SetTuntermMonitoring gets a reference to the given TuntermMonitoring and assigns it to the TuntermMonitoring field.
-func (o *SiteSetting) SetTuntermMonitoring(v TuntermMonitoring) {
-	o.TuntermMonitoring = &v
+// SetTuntermMonitoring gets a reference to the given []TuntermMonitoringItem and assigns it to the TuntermMonitoring field.
+func (o *SiteSetting) SetTuntermMonitoring(v []TuntermMonitoringItem) {
+	o.TuntermMonitoring = v
 }
 
 // GetTuntermMonitoringDisabled returns the TuntermMonitoringDisabled field value if set, zero value otherwise.

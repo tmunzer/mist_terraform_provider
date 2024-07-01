@@ -65,7 +65,7 @@ Name | Type | Description | Notes
 **SwitchUpdownThreshold** | Pointer to **NullableInt32** | enable threshold-based device down delivery for Switch devices only. When configured it takes effect for SW devices and &#x60;device_updown_threshold&#x60; is ignored. | [optional] 
 **SyntheticTest** | Pointer to [**SyntheticTestConfig**](SyntheticTestConfig.md) |  | [optional] 
 **TrackAnonymousDevices** | Pointer to **bool** | whether to track anonymous BLE assets (requires ‘track_asset’ enabled) | [optional] [default to false]
-**TuntermMonitoring** | Pointer to [**TuntermMonitoring**](TuntermMonitoring.md) |  | [optional] 
+**TuntermMonitoring** | Pointer to [**[]TuntermMonitoringItem**](TuntermMonitoringItem.md) |  | [optional] 
 **TuntermMonitoringDisabled** | Pointer to **bool** |  | [optional] [default to false]
 **TuntermMulticastConfig** | Pointer to [**SiteSettingTuntermMulticastConfig**](SiteSettingTuntermMulticastConfig.md) |  | [optional] 
 **Vars** | Pointer to **map[string]string** | a dictionary of name-&gt;value, the vars can then be used in Wlans. This can overwrite those from Site Vars | [optional] 
@@ -1657,20 +1657,20 @@ HasTrackAnonymousDevices returns a boolean if a field has been set.
 
 ### GetTuntermMonitoring
 
-`func (o *SiteSetting) GetTuntermMonitoring() TuntermMonitoring`
+`func (o *SiteSetting) GetTuntermMonitoring() []TuntermMonitoringItem`
 
 GetTuntermMonitoring returns the TuntermMonitoring field if non-nil, zero value otherwise.
 
 ### GetTuntermMonitoringOk
 
-`func (o *SiteSetting) GetTuntermMonitoringOk() (*TuntermMonitoring, bool)`
+`func (o *SiteSetting) GetTuntermMonitoringOk() (*[]TuntermMonitoringItem, bool)`
 
 GetTuntermMonitoringOk returns a tuple with the TuntermMonitoring field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetTuntermMonitoring
 
-`func (o *SiteSetting) SetTuntermMonitoring(v TuntermMonitoring)`
+`func (o *SiteSetting) SetTuntermMonitoring(v []TuntermMonitoringItem)`
 
 SetTuntermMonitoring sets TuntermMonitoring field to given value.
 

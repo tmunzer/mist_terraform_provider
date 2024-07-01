@@ -10,6 +10,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
 	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
+	hours "terraform-provider-mist/internal/commons/hours"
 )
 
 func engagementDwellTagNamesSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdkgo.SiteEngagementDwellTagNames) basetypes.ObjectValue {
@@ -47,7 +48,7 @@ func engagementSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mi
 
 	tag_names := engagementDwellTagNamesSdkToTerraform(ctx, diags, d.GetDwellTagNames())
 	tags := engagementDwellTagsSdkToTerraform(ctx, diags, d.GetDwellTags())
-	hours := HoursSdkToTerraform(ctx, diags, d.GetHours())
+	hours := hours.HoursSdkToTerraform(ctx, diags, d.GetHours())
 	r_attr_type := EngagementValue{}.AttributeTypes(ctx)
 	r_attr_value := map[string]attr.Value{
 		"dwell_tag_names": tag_names,

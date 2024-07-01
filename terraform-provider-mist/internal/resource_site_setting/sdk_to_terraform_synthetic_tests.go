@@ -10,7 +10,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
 	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
-	mist_transform "terraform-provider-mist/internal/provider/commons/utils"
+	mist_transform "terraform-provider-mist/internal/commons/utils"
 )
 
 func synthteticTestVlansSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []mistsdkgo.SyntheticTestProperties) basetypes.ListValue {

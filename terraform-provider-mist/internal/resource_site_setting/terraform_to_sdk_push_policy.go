@@ -8,6 +8,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
 	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
+	hours "terraform-provider-mist/internal/commons/hours"
 )
 
 func pushPolicyPushWindowConfigTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) *mistsdkgo.SiteSettingConfigPushPolicyPushWindow {
@@ -21,7 +22,7 @@ func pushPolicyPushWindowConfigTerraformToSdk(ctx context.Context, diags *diag.D
 		v := v_interface.(PushWindowValue)
 		data.SetEnabled(v.Enabled.ValueBool())
 
-		hours := HoursConfigTerraformToSdk(ctx, diags, v.Hours)
+		hours := hours.HoursTerraformToSdk(ctx, diags, v.Hours)
 		data.SetHours(hours)
 
 		return data

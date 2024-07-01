@@ -23,7 +23,7 @@ Name | Type | Description | Notes
 **TuntermHosts** | Pointer to **[]string** | hostnames or IPs where a Mist Tunnel will use as the Peer (i.e. they are reachable from AP) | [optional] 
 **TuntermHostsOrder** | Pointer to **[]int32** | list of index of tunterm_hosts | [optional] 
 **TuntermHostsSelection** | Pointer to [**MxclusterTuntermHostsSelection**](MxclusterTuntermHostsSelection.md) |  | [optional] [default to MXCLUSTERTUNTERMHOSTSSELECTION_SHUFFLE]
-**TuntermMonitoring** | Pointer to [**[]TuntermMonitoring**](TuntermMonitoring.md) |  | [optional] 
+**TuntermMonitoring** | Pointer to [**[][]TuntermMonitoringItem**]([]TuntermMonitoringItem.md) |  | [optional] 
 **TuntermMonitoringDisabled** | Pointer to **bool** |  | [optional] 
 
 ## Methods
@@ -522,20 +522,20 @@ HasTuntermHostsSelection returns a boolean if a field has been set.
 
 ### GetTuntermMonitoring
 
-`func (o *Mxcluster) GetTuntermMonitoring() []TuntermMonitoring`
+`func (o *Mxcluster) GetTuntermMonitoring() [][]TuntermMonitoringItem`
 
 GetTuntermMonitoring returns the TuntermMonitoring field if non-nil, zero value otherwise.
 
 ### GetTuntermMonitoringOk
 
-`func (o *Mxcluster) GetTuntermMonitoringOk() (*[]TuntermMonitoring, bool)`
+`func (o *Mxcluster) GetTuntermMonitoringOk() (*[][]TuntermMonitoringItem, bool)`
 
 GetTuntermMonitoringOk returns a tuple with the TuntermMonitoring field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetTuntermMonitoring
 
-`func (o *Mxcluster) SetTuntermMonitoring(v []TuntermMonitoring)`
+`func (o *Mxcluster) SetTuntermMonitoring(v [][]TuntermMonitoringItem)`
 
 SetTuntermMonitoring sets TuntermMonitoring field to given value.
 

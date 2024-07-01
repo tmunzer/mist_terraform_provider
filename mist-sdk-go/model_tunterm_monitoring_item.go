@@ -1,7 +1,7 @@
 /*
 Mist API
 
-> Version: **2406.1.10** > > Date: **July 1, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
+> Version: **2406.1.11** > > Date: **July 1, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
 
 API version: 2406.1.11
 Contact: tmunzer@juniper.net
@@ -15,11 +15,11 @@ import (
 	"encoding/json"
 )
 
-// checks if the TuntermMonitoring type satisfies the MappedNullable interface at compile time
-var _ MappedNullable = &TuntermMonitoring{}
+// checks if the TuntermMonitoringItem type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &TuntermMonitoringItem{}
 
-// TuntermMonitoring struct for TuntermMonitoring
-type TuntermMonitoring struct {
+// TuntermMonitoringItem struct for TuntermMonitoringItem
+type TuntermMonitoringItem struct {
 	// can be ip, ipv6, hostname
 	Host *string `json:"host,omitempty"`
 	// when `protocol`==`tcp`
@@ -29,31 +29,31 @@ type TuntermMonitoring struct {
 	AdditionalProperties map[string]interface{}
 }
 
-type _TuntermMonitoring TuntermMonitoring
+type _TuntermMonitoringItem TuntermMonitoringItem
 
-// NewTuntermMonitoring instantiates a new TuntermMonitoring object
+// NewTuntermMonitoringItem instantiates a new TuntermMonitoringItem object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewTuntermMonitoring() *TuntermMonitoring {
-	this := TuntermMonitoring{}
+func NewTuntermMonitoringItem() *TuntermMonitoringItem {
+	this := TuntermMonitoringItem{}
 	var timeout int32 = 300
 	this.Timeout = &timeout
 	return &this
 }
 
-// NewTuntermMonitoringWithDefaults instantiates a new TuntermMonitoring object
+// NewTuntermMonitoringItemWithDefaults instantiates a new TuntermMonitoringItem object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewTuntermMonitoringWithDefaults() *TuntermMonitoring {
-	this := TuntermMonitoring{}
+func NewTuntermMonitoringItemWithDefaults() *TuntermMonitoringItem {
+	this := TuntermMonitoringItem{}
 	var timeout int32 = 300
 	this.Timeout = &timeout
 	return &this
 }
 
 // GetHost returns the Host field value if set, zero value otherwise.
-func (o *TuntermMonitoring) GetHost() string {
+func (o *TuntermMonitoringItem) GetHost() string {
 	if o == nil || IsNil(o.Host) {
 		var ret string
 		return ret
@@ -63,7 +63,7 @@ func (o *TuntermMonitoring) GetHost() string {
 
 // GetHostOk returns a tuple with the Host field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *TuntermMonitoring) GetHostOk() (*string, bool) {
+func (o *TuntermMonitoringItem) GetHostOk() (*string, bool) {
 	if o == nil || IsNil(o.Host) {
 		return nil, false
 	}
@@ -71,7 +71,7 @@ func (o *TuntermMonitoring) GetHostOk() (*string, bool) {
 }
 
 // HasHost returns a boolean if a field has been set.
-func (o *TuntermMonitoring) HasHost() bool {
+func (o *TuntermMonitoringItem) HasHost() bool {
 	if o != nil && !IsNil(o.Host) {
 		return true
 	}
@@ -80,12 +80,12 @@ func (o *TuntermMonitoring) HasHost() bool {
 }
 
 // SetHost gets a reference to the given string and assigns it to the Host field.
-func (o *TuntermMonitoring) SetHost(v string) {
+func (o *TuntermMonitoringItem) SetHost(v string) {
 	o.Host = &v
 }
 
 // GetPort returns the Port field value if set, zero value otherwise.
-func (o *TuntermMonitoring) GetPort() int32 {
+func (o *TuntermMonitoringItem) GetPort() int32 {
 	if o == nil || IsNil(o.Port) {
 		var ret int32
 		return ret
@@ -95,7 +95,7 @@ func (o *TuntermMonitoring) GetPort() int32 {
 
 // GetPortOk returns a tuple with the Port field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *TuntermMonitoring) GetPortOk() (*int32, bool) {
+func (o *TuntermMonitoringItem) GetPortOk() (*int32, bool) {
 	if o == nil || IsNil(o.Port) {
 		return nil, false
 	}
@@ -103,7 +103,7 @@ func (o *TuntermMonitoring) GetPortOk() (*int32, bool) {
 }
 
 // HasPort returns a boolean if a field has been set.
-func (o *TuntermMonitoring) HasPort() bool {
+func (o *TuntermMonitoringItem) HasPort() bool {
 	if o != nil && !IsNil(o.Port) {
 		return true
 	}
@@ -112,12 +112,12 @@ func (o *TuntermMonitoring) HasPort() bool {
 }
 
 // SetPort gets a reference to the given int32 and assigns it to the Port field.
-func (o *TuntermMonitoring) SetPort(v int32) {
+func (o *TuntermMonitoringItem) SetPort(v int32) {
 	o.Port = &v
 }
 
 // GetProtocol returns the Protocol field value if set, zero value otherwise.
-func (o *TuntermMonitoring) GetProtocol() TunternMonitoringProtocol {
+func (o *TuntermMonitoringItem) GetProtocol() TunternMonitoringProtocol {
 	if o == nil || IsNil(o.Protocol) {
 		var ret TunternMonitoringProtocol
 		return ret
@@ -127,7 +127,7 @@ func (o *TuntermMonitoring) GetProtocol() TunternMonitoringProtocol {
 
 // GetProtocolOk returns a tuple with the Protocol field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *TuntermMonitoring) GetProtocolOk() (*TunternMonitoringProtocol, bool) {
+func (o *TuntermMonitoringItem) GetProtocolOk() (*TunternMonitoringProtocol, bool) {
 	if o == nil || IsNil(o.Protocol) {
 		return nil, false
 	}
@@ -135,7 +135,7 @@ func (o *TuntermMonitoring) GetProtocolOk() (*TunternMonitoringProtocol, bool) {
 }
 
 // HasProtocol returns a boolean if a field has been set.
-func (o *TuntermMonitoring) HasProtocol() bool {
+func (o *TuntermMonitoringItem) HasProtocol() bool {
 	if o != nil && !IsNil(o.Protocol) {
 		return true
 	}
@@ -144,12 +144,12 @@ func (o *TuntermMonitoring) HasProtocol() bool {
 }
 
 // SetProtocol gets a reference to the given TunternMonitoringProtocol and assigns it to the Protocol field.
-func (o *TuntermMonitoring) SetProtocol(v TunternMonitoringProtocol) {
+func (o *TuntermMonitoringItem) SetProtocol(v TunternMonitoringProtocol) {
 	o.Protocol = &v
 }
 
 // GetTimeout returns the Timeout field value if set, zero value otherwise.
-func (o *TuntermMonitoring) GetTimeout() int32 {
+func (o *TuntermMonitoringItem) GetTimeout() int32 {
 	if o == nil || IsNil(o.Timeout) {
 		var ret int32
 		return ret
@@ -159,7 +159,7 @@ func (o *TuntermMonitoring) GetTimeout() int32 {
 
 // GetTimeoutOk returns a tuple with the Timeout field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *TuntermMonitoring) GetTimeoutOk() (*int32, bool) {
+func (o *TuntermMonitoringItem) GetTimeoutOk() (*int32, bool) {
 	if o == nil || IsNil(o.Timeout) {
 		return nil, false
 	}
@@ -167,7 +167,7 @@ func (o *TuntermMonitoring) GetTimeoutOk() (*int32, bool) {
 }
 
 // HasTimeout returns a boolean if a field has been set.
-func (o *TuntermMonitoring) HasTimeout() bool {
+func (o *TuntermMonitoringItem) HasTimeout() bool {
 	if o != nil && !IsNil(o.Timeout) {
 		return true
 	}
@@ -176,11 +176,11 @@ func (o *TuntermMonitoring) HasTimeout() bool {
 }
 
 // SetTimeout gets a reference to the given int32 and assigns it to the Timeout field.
-func (o *TuntermMonitoring) SetTimeout(v int32) {
+func (o *TuntermMonitoringItem) SetTimeout(v int32) {
 	o.Timeout = &v
 }
 
-func (o TuntermMonitoring) MarshalJSON() ([]byte, error) {
+func (o TuntermMonitoringItem) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
@@ -188,7 +188,7 @@ func (o TuntermMonitoring) MarshalJSON() ([]byte, error) {
 	return json.Marshal(toSerialize)
 }
 
-func (o TuntermMonitoring) ToMap() (map[string]interface{}, error) {
+func (o TuntermMonitoringItem) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if !IsNil(o.Host) {
 		toSerialize["host"] = o.Host
@@ -210,16 +210,16 @@ func (o TuntermMonitoring) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-func (o *TuntermMonitoring) UnmarshalJSON(data []byte) (err error) {
-	varTuntermMonitoring := _TuntermMonitoring{}
+func (o *TuntermMonitoringItem) UnmarshalJSON(data []byte) (err error) {
+	varTuntermMonitoringItem := _TuntermMonitoringItem{}
 
-	err = json.Unmarshal(data, &varTuntermMonitoring)
+	err = json.Unmarshal(data, &varTuntermMonitoringItem)
 
 	if err != nil {
 		return err
 	}
 
-	*o = TuntermMonitoring(varTuntermMonitoring)
+	*o = TuntermMonitoringItem(varTuntermMonitoringItem)
 
 	additionalProperties := make(map[string]interface{})
 
@@ -234,38 +234,38 @@ func (o *TuntermMonitoring) UnmarshalJSON(data []byte) (err error) {
 	return err
 }
 
-type NullableTuntermMonitoring struct {
-	value *TuntermMonitoring
+type NullableTuntermMonitoringItem struct {
+	value *TuntermMonitoringItem
 	isSet bool
 }
 
-func (v NullableTuntermMonitoring) Get() *TuntermMonitoring {
+func (v NullableTuntermMonitoringItem) Get() *TuntermMonitoringItem {
 	return v.value
 }
 
-func (v *NullableTuntermMonitoring) Set(val *TuntermMonitoring) {
+func (v *NullableTuntermMonitoringItem) Set(val *TuntermMonitoringItem) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableTuntermMonitoring) IsSet() bool {
+func (v NullableTuntermMonitoringItem) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableTuntermMonitoring) Unset() {
+func (v *NullableTuntermMonitoringItem) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableTuntermMonitoring(val *TuntermMonitoring) *NullableTuntermMonitoring {
-	return &NullableTuntermMonitoring{value: val, isSet: true}
+func NewNullableTuntermMonitoringItem(val *TuntermMonitoringItem) *NullableTuntermMonitoringItem {
+	return &NullableTuntermMonitoringItem{value: val, isSet: true}
 }
 
-func (v NullableTuntermMonitoring) MarshalJSON() ([]byte, error) {
+func (v NullableTuntermMonitoringItem) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableTuntermMonitoring) UnmarshalJSON(src []byte) error {
+func (v *NullableTuntermMonitoringItem) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

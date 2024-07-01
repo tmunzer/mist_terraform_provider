@@ -1,6 +1,6 @@
 # Go API client for mistsdkgo
 
-> Version: **2406.1.10**
+> Version: **2406.1.11**
 >
 > Date: **July 1, 2024**
 
@@ -2197,7 +2197,7 @@ Class | Method | HTTP request | Description
  - [TuntermDhcpdConfig](docs/TuntermDhcpdConfig.md)
  - [TuntermDhcpdConfigProperty](docs/TuntermDhcpdConfigProperty.md)
  - [TuntermDhcpdType](docs/TuntermDhcpdType.md)
- - [TuntermMonitoring](docs/TuntermMonitoring.md)
+ - [TuntermMonitoringItem](docs/TuntermMonitoringItem.md)
  - [TuntermPortConfig](docs/TuntermPortConfig.md)
  - [TunternMonitoringProtocol](docs/TunternMonitoringProtocol.md)
  - [TwoFactorCode](docs/TwoFactorCode.md)

@@ -6,7 +6,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 
 	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
-	mist_transform "terraform-provider-mist/internal/provider/commons/utils"
+	mist_transform "terraform-provider-mist/internal/commons/utils"
 	"terraform-provider-mist/internal/resource_networktemplate"
 )
 

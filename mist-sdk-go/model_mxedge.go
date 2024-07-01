@@ -1,7 +1,7 @@
 /*
 Mist API
 
-> Version: **2406.1.10** > > Date: **July 1, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
+> Version: **2406.1.11** > > Date: **July 1, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
 
 API version: 2406.1.11
 Contact: tmunzer@juniper.net
@@ -45,7 +45,7 @@ type Mxedge struct {
 	TuntermExtraRoutes *map[string]MxedgeTuntermExtraRoute `json:"tunterm_extra_routes,omitempty"`
 	TuntermIgmpSnoopingConfig *MxedgeTuntermIgmpSnoopingConfig `json:"tunterm_igmp_snooping_config,omitempty"`
 	TuntermIpConfig *MxedgeTuntermIpConfig `json:"tunterm_ip_config,omitempty"`
-	TuntermMonitoring []TuntermMonitoring `json:"tunterm_monitoring,omitempty"`
+	TuntermMonitoring [][]TuntermMonitoringItem `json:"tunterm_monitoring,omitempty"`
 	TuntermMulticastConfig *MxedgeTuntermMulticastConfig `json:"tunterm_multicast_config,omitempty"`
 	// ip configs by VLAN ID. Property key is the VLAN ID
 	TuntermOtherIpConfigs *map[string]MxedgeTuntermOtherIpConfig `json:"tunterm_other_ip_configs,omitempty"`
@@ -734,9 +734,9 @@ func (o *Mxedge) SetTuntermIpConfig(v MxedgeTuntermIpConfig) {
 }
 
 // GetTuntermMonitoring returns the TuntermMonitoring field value if set, zero value otherwise.
-func (o *Mxedge) GetTuntermMonitoring() []TuntermMonitoring {
+func (o *Mxedge) GetTuntermMonitoring() [][]TuntermMonitoringItem {
 	if o == nil || IsNil(o.TuntermMonitoring) {
-		var ret []TuntermMonitoring
+		var ret [][]TuntermMonitoringItem
 		return ret
 	}
 	return o.TuntermMonitoring
@@ -744,7 +744,7 @@ func (o *Mxedge) GetTuntermMonitoring() []TuntermMonitoring {
 
 // GetTuntermMonitoringOk returns a tuple with the TuntermMonitoring field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Mxedge) GetTuntermMonitoringOk() ([]TuntermMonitoring, bool) {
+func (o *Mxedge) GetTuntermMonitoringOk() ([][]TuntermMonitoringItem, bool) {
 	if o == nil || IsNil(o.TuntermMonitoring) {
 		return nil, false
 	}
@@ -760,8 +760,8 @@ func (o *Mxedge) HasTuntermMonitoring() bool {
 	return false
 }
 
-// SetTuntermMonitoring gets a reference to the given []TuntermMonitoring and assigns it to the TuntermMonitoring field.
-func (o *Mxedge) SetTuntermMonitoring(v []TuntermMonitoring) {
+// SetTuntermMonitoring gets a reference to the given [][]TuntermMonitoringItem and assigns it to the TuntermMonitoring field.
+func (o *Mxedge) SetTuntermMonitoring(v [][]TuntermMonitoringItem) {
 	o.TuntermMonitoring = v
 }
 

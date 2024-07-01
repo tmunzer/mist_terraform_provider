@@ -10,6 +10,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
 	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
+	hours "terraform-provider-mist/internal/commons/hours"
 )
 
 func configPushPolicyWindowSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdkgo.SiteSettingConfigPushPolicyPushWindow) basetypes.ObjectValue {
@@ -18,7 +19,7 @@ func configPushPolicyWindowSdkToTerraform(ctx context.Context, diags *diag.Diagn
 	r_attr_type := PushWindowValue{}.AttributeTypes(ctx)
 	r_attr_value := map[string]attr.Value{
 		"enabled": types.BoolValue(d.GetEnabled()),
-		"hours":   HoursSdkToTerraform(ctx, diags, d.GetHours()),
+		"hours":   hours.HoursSdkToTerraform(ctx, diags, d.GetHours()),
 	}
 	r, e := basetypes.NewObjectValue(r_attr_type, r_attr_value)
 	diags.Append(e...)

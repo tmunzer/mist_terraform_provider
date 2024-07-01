@@ -1,4 +1,4 @@
-# TuntermMonitoring
+# TuntermMonitoringItem
 
 ## Properties
 
@@ -11,120 +11,120 @@ Name | Type | Description | Notes
 
 ## Methods
 
-### NewTuntermMonitoring
+### NewTuntermMonitoringItem
 
-`func NewTuntermMonitoring() *TuntermMonitoring`
+`func NewTuntermMonitoringItem() *TuntermMonitoringItem`
 
-NewTuntermMonitoring instantiates a new TuntermMonitoring object
+NewTuntermMonitoringItem instantiates a new TuntermMonitoringItem object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewTuntermMonitoringWithDefaults
+### NewTuntermMonitoringItemWithDefaults
 
-`func NewTuntermMonitoringWithDefaults() *TuntermMonitoring`
+`func NewTuntermMonitoringItemWithDefaults() *TuntermMonitoringItem`
 
-NewTuntermMonitoringWithDefaults instantiates a new TuntermMonitoring object
+NewTuntermMonitoringItemWithDefaults instantiates a new TuntermMonitoringItem object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
 ### GetHost
 
-`func (o *TuntermMonitoring) GetHost() string`
+`func (o *TuntermMonitoringItem) GetHost() string`
 
 GetHost returns the Host field if non-nil, zero value otherwise.
 
 ### GetHostOk
 
-`func (o *TuntermMonitoring) GetHostOk() (*string, bool)`
+`func (o *TuntermMonitoringItem) GetHostOk() (*string, bool)`
 
 GetHostOk returns a tuple with the Host field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetHost
 
-`func (o *TuntermMonitoring) SetHost(v string)`
+`func (o *TuntermMonitoringItem) SetHost(v string)`
 
 SetHost sets Host field to given value.
 
 ### HasHost
 
-`func (o *TuntermMonitoring) HasHost() bool`
+`func (o *TuntermMonitoringItem) HasHost() bool`
 
 HasHost returns a boolean if a field has been set.
 
 ### GetPort
 
-`func (o *TuntermMonitoring) GetPort() int32`
+`func (o *TuntermMonitoringItem) GetPort() int32`
 
 GetPort returns the Port field if non-nil, zero value otherwise.
 
 ### GetPortOk
 
-`func (o *TuntermMonitoring) GetPortOk() (*int32, bool)`
+`func (o *TuntermMonitoringItem) GetPortOk() (*int32, bool)`
 
 GetPortOk returns a tuple with the Port field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetPort
 
-`func (o *TuntermMonitoring) SetPort(v int32)`
+`func (o *TuntermMonitoringItem) SetPort(v int32)`
 
 SetPort sets Port field to given value.
 
 ### HasPort
 
-`func (o *TuntermMonitoring) HasPort() bool`
+`func (o *TuntermMonitoringItem) HasPort() bool`
 
 HasPort returns a boolean if a field has been set.
 
 ### GetProtocol
 
-`func (o *TuntermMonitoring) GetProtocol() TunternMonitoringProtocol`
+`func (o *TuntermMonitoringItem) GetProtocol() TunternMonitoringProtocol`
 
 GetProtocol returns the Protocol field if non-nil, zero value otherwise.
 
 ### GetProtocolOk
 
-`func (o *TuntermMonitoring) GetProtocolOk() (*TunternMonitoringProtocol, bool)`
+`func (o *TuntermMonitoringItem) GetProtocolOk() (*TunternMonitoringProtocol, bool)`
 
 GetProtocolOk returns a tuple with the Protocol field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetProtocol
 
-`func (o *TuntermMonitoring) SetProtocol(v TunternMonitoringProtocol)`
+`func (o *TuntermMonitoringItem) SetProtocol(v TunternMonitoringProtocol)`
 
 SetProtocol sets Protocol field to given value.
 
 ### HasProtocol
 
-`func (o *TuntermMonitoring) HasProtocol() bool`
+`func (o *TuntermMonitoringItem) HasProtocol() bool`
 
 HasProtocol returns a boolean if a field has been set.
 
 ### GetTimeout
 
-`func (o *TuntermMonitoring) GetTimeout() int32`
+`func (o *TuntermMonitoringItem) GetTimeout() int32`
 
 GetTimeout returns the Timeout field if non-nil, zero value otherwise.
 
 ### GetTimeoutOk
 
-`func (o *TuntermMonitoring) GetTimeoutOk() (*int32, bool)`
+`func (o *TuntermMonitoringItem) GetTimeoutOk() (*int32, bool)`
 
 GetTimeoutOk returns a tuple with the Timeout field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetTimeout
 
-`func (o *TuntermMonitoring) SetTimeout(v int32)`
+`func (o *TuntermMonitoringItem) SetTimeout(v int32)`
 
 SetTimeout sets Timeout field to given value.
 
 ### HasTimeout
 
-`func (o *TuntermMonitoring) HasTimeout() bool`
+`func (o *TuntermMonitoringItem) HasTimeout() bool`
 
 HasTimeout returns a boolean if a field has been set.
 
