@@ -18,4 +18,14 @@ provider_installation {
 4. From the `terraform-provider-mist` folder, do `go install .` to install the provider
 5. Create a configuration file (you can use the one from the `test` folder)
 
+**note**
+It is recommended to store the provider configuration (api host and api token) in an environment file.
+To do so, create a `.env` file in the `test` folder (or in the folder storing the configuration to apply to Mist) and define the settings like this:
+```
+HOST=api.mist.com
+APITOKEN=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+```
+
+
+
 Documentation is currently available as Markdown in the `terraform-provider-mist/doc` folder
