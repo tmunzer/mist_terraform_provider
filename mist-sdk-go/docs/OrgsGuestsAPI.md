@@ -331,9 +331,9 @@ import (
 
 func main() {
 	orgId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	wlanId := "00000000-0000-0000-0000-000000000000" // string |  (optional)
-	authMethod := "authMethod_example" // string |  (optional)
-	ssid := "ssid_example" // string |  (optional)
+	wlanId := "00000000-0000-0000-0000-000000000000" // string | WLAN ID (optional)
+	authMethod := "authMethod_example" // string | Authentication Methdo (optional)
+	ssid := "ssid_example" // string | SSID (optional)
 	limit := int32(56) // int32 |  (optional) (default to 100)
 	start := int32(56) // int32 | start datetime, can be epoch or relative time like -1d, -1w; -1d if not specified (optional)
 	end := int32(56) // int32 | end datetime, can be epoch or relative time like -1d, -2h; now if not specified (optional)
@@ -367,9 +367,9 @@ Other parameters are passed through a pointer to a apiSearchOrgGuestAuthorizatio
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **wlanId** | **string** |  | 
- **authMethod** | **string** |  | 
- **ssid** | **string** |  | 
+ **wlanId** | **string** | WLAN ID | 
+ **authMethod** | **string** | Authentication Methdo | 
+ **ssid** | **string** | SSID | 
  **limit** | **int32** |  | [default to 100]
  **start** | **int32** | start datetime, can be epoch or relative time like -1d, -1w; -1d if not specified | 
  **end** | **int32** | end datetime, can be epoch or relative time like -1d, -2h; now if not specified | 

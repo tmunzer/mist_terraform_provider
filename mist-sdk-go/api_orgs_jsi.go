@@ -1,9 +1,9 @@
 /*
 Mist API
 
-> Version: **2406.1.10** > > Date: **June 29, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
+> Version: **2406.1.10** > > Date: **July 1, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
 
-API version: 2406.1.10
+API version: 2406.1.11
 Contact: tmunzer@juniper.net
 */
 
@@ -455,16 +455,19 @@ func (r ApiListOrgJsiDevicesRequest) Page(page int32) ApiListOrgJsiDevicesReques
 	return r
 }
 
+// Device model
 func (r ApiListOrgJsiDevicesRequest) Model(model string) ApiListOrgJsiDevicesRequest {
 	r.model = &model
 	return r
 }
 
+// Device serial
 func (r ApiListOrgJsiDevicesRequest) Serial(serial string) ApiListOrgJsiDevicesRequest {
 	r.serial = &serial
 	return r
 }
 
+// Device MAC Address
 func (r ApiListOrgJsiDevicesRequest) Mac(mac string) ApiListOrgJsiDevicesRequest {
 	r.mac = &mac
 	return r

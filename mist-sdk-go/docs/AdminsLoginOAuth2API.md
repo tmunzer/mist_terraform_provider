@@ -32,7 +32,7 @@ import (
 
 func main() {
 	provider := "provider_example" // string | 
-	forward := "http://manage.mist.com/oauth/callback.html" // string |  (optional)
+	forward := "http://manage.mist.com/oauth/callback.html" // string | callback URL (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -62,7 +62,7 @@ Other parameters are passed through a pointer to a apiGetOauth2AuthorizationUrlF
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **forward** | **string** |  | 
+ **forward** | **string** | callback URL | 
 
 ### Return type
 

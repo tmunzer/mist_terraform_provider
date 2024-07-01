@@ -178,9 +178,9 @@ func main() {
 	orgId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
 	limit := int32(56) // int32 |  (optional) (default to 100)
 	page := int32(56) // int32 |  (optional) (default to 1)
-	model := "model_example" // string |  (optional)
-	serial := "serial_example" // string |  (optional)
-	mac := "mac_example" // string |  (optional)
+	model := "model_example" // string | Device model (optional)
+	serial := "serial_example" // string | Device serial (optional)
+	mac := "mac_example" // string | Device MAC Address (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -212,9 +212,9 @@ Name | Type | Description  | Notes
 
  **limit** | **int32** |  | [default to 100]
  **page** | **int32** |  | [default to 1]
- **model** | **string** |  | 
- **serial** | **string** |  | 
- **mac** | **string** |  | 
+ **model** | **string** | Device model | 
+ **serial** | **string** | Device serial | 
+ **mac** | **string** | Device MAC Address | 
 
 ### Return type
 

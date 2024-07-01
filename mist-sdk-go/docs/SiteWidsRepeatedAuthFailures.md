@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Duration** | Pointer to **float32** | window where a trigger will be detected and action to be taken (in seconds) | [optional] 
+**Duration** | Pointer to **int32** | window where a trigger will be detected and action to be taken (in seconds) | [optional] 
 **Threshold** | Pointer to **int32** | count of events to trigger | [optional] 
 
 ## Methods
@@ -28,20 +28,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetDuration
 
-`func (o *SiteWidsRepeatedAuthFailures) GetDuration() float32`
+`func (o *SiteWidsRepeatedAuthFailures) GetDuration() int32`
 
 GetDuration returns the Duration field if non-nil, zero value otherwise.
 
 ### GetDurationOk
 
-`func (o *SiteWidsRepeatedAuthFailures) GetDurationOk() (*float32, bool)`
+`func (o *SiteWidsRepeatedAuthFailures) GetDurationOk() (*int32, bool)`
 
 GetDurationOk returns a tuple with the Duration field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetDuration
 
-`func (o *SiteWidsRepeatedAuthFailures) SetDuration(v float32)`
+`func (o *SiteWidsRepeatedAuthFailures) SetDuration(v int32)`
 
 SetDuration sets Duration field to given value.
 

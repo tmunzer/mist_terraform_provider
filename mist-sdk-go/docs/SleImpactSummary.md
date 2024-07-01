@@ -4,22 +4,22 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Ap** | [**[]SleImpactSummaryAp1**](SleImpactSummaryAp1.md) |  | 
-**Band** | [**[]SleImpactSummaryBand1**](SleImpactSummaryBand1.md) |  | 
+**Ap** | [**[]SleImpactSummaryApItem**](SleImpactSummaryApItem.md) |  | 
+**Band** | [**[]SleImpactSummaryBandItem**](SleImpactSummaryBandItem.md) |  | 
 **Classifier** | **string** |  | 
-**DeviceOs** | [**[]SleImpactSummaryDeviceOs1**](SleImpactSummaryDeviceOs1.md) |  | 
-**DeviceType** | [**[]SleImpactSummaryDeviceType1**](SleImpactSummaryDeviceType1.md) |  | 
+**DeviceOs** | [**[]SleImpactSummaryDeviceOsItem**](SleImpactSummaryDeviceOsItem.md) |  | 
+**DeviceType** | [**[]SleImpactSummaryDeviceTypeItem**](SleImpactSummaryDeviceTypeItem.md) |  | 
 **End** | **float32** |  | 
 **Failure** | **string** |  | 
 **Metric** | **string** |  | 
 **Start** | **float32** |  | 
-**Wlan** | [**[]SleImpactSummaryWlan1**](SleImpactSummaryWlan1.md) |  | 
+**Wlan** | [**[]SleImpactSummaryWlanItem**](SleImpactSummaryWlanItem.md) |  | 
 
 ## Methods
 
 ### NewSleImpactSummary
 
-`func NewSleImpactSummary(ap []SleImpactSummaryAp1, band []SleImpactSummaryBand1, classifier string, deviceOs []SleImpactSummaryDeviceOs1, deviceType []SleImpactSummaryDeviceType1, end float32, failure string, metric string, start float32, wlan []SleImpactSummaryWlan1, ) *SleImpactSummary`
+`func NewSleImpactSummary(ap []SleImpactSummaryApItem, band []SleImpactSummaryBandItem, classifier string, deviceOs []SleImpactSummaryDeviceOsItem, deviceType []SleImpactSummaryDeviceTypeItem, end float32, failure string, metric string, start float32, wlan []SleImpactSummaryWlanItem, ) *SleImpactSummary`
 
 NewSleImpactSummary instantiates a new SleImpactSummary object
 This constructor will assign default values to properties that have it defined,
@@ -36,40 +36,40 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetAp
 
-`func (o *SleImpactSummary) GetAp() []SleImpactSummaryAp1`
+`func (o *SleImpactSummary) GetAp() []SleImpactSummaryApItem`
 
 GetAp returns the Ap field if non-nil, zero value otherwise.
 
 ### GetApOk
 
-`func (o *SleImpactSummary) GetApOk() (*[]SleImpactSummaryAp1, bool)`
+`func (o *SleImpactSummary) GetApOk() (*[]SleImpactSummaryApItem, bool)`
 
 GetApOk returns a tuple with the Ap field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetAp
 
-`func (o *SleImpactSummary) SetAp(v []SleImpactSummaryAp1)`
+`func (o *SleImpactSummary) SetAp(v []SleImpactSummaryApItem)`
 
 SetAp sets Ap field to given value.
 
 
 ### GetBand
 
-`func (o *SleImpactSummary) GetBand() []SleImpactSummaryBand1`
+`func (o *SleImpactSummary) GetBand() []SleImpactSummaryBandItem`
 
 GetBand returns the Band field if non-nil, zero value otherwise.
 
 ### GetBandOk
 
-`func (o *SleImpactSummary) GetBandOk() (*[]SleImpactSummaryBand1, bool)`
+`func (o *SleImpactSummary) GetBandOk() (*[]SleImpactSummaryBandItem, bool)`
 
 GetBandOk returns a tuple with the Band field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetBand
 
-`func (o *SleImpactSummary) SetBand(v []SleImpactSummaryBand1)`
+`func (o *SleImpactSummary) SetBand(v []SleImpactSummaryBandItem)`
 
 SetBand sets Band field to given value.
 
@@ -96,40 +96,40 @@ SetClassifier sets Classifier field to given value.
 
 ### GetDeviceOs
 
-`func (o *SleImpactSummary) GetDeviceOs() []SleImpactSummaryDeviceOs1`
+`func (o *SleImpactSummary) GetDeviceOs() []SleImpactSummaryDeviceOsItem`
 
 GetDeviceOs returns the DeviceOs field if non-nil, zero value otherwise.
 
 ### GetDeviceOsOk
 
-`func (o *SleImpactSummary) GetDeviceOsOk() (*[]SleImpactSummaryDeviceOs1, bool)`
+`func (o *SleImpactSummary) GetDeviceOsOk() (*[]SleImpactSummaryDeviceOsItem, bool)`
 
 GetDeviceOsOk returns a tuple with the DeviceOs field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetDeviceOs
 
-`func (o *SleImpactSummary) SetDeviceOs(v []SleImpactSummaryDeviceOs1)`
+`func (o *SleImpactSummary) SetDeviceOs(v []SleImpactSummaryDeviceOsItem)`
 
 SetDeviceOs sets DeviceOs field to given value.
 
 
 ### GetDeviceType
 
-`func (o *SleImpactSummary) GetDeviceType() []SleImpactSummaryDeviceType1`
+`func (o *SleImpactSummary) GetDeviceType() []SleImpactSummaryDeviceTypeItem`
 
 GetDeviceType returns the DeviceType field if non-nil, zero value otherwise.
 
 ### GetDeviceTypeOk
 
-`func (o *SleImpactSummary) GetDeviceTypeOk() (*[]SleImpactSummaryDeviceType1, bool)`
+`func (o *SleImpactSummary) GetDeviceTypeOk() (*[]SleImpactSummaryDeviceTypeItem, bool)`
 
 GetDeviceTypeOk returns a tuple with the DeviceType field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetDeviceType
 
-`func (o *SleImpactSummary) SetDeviceType(v []SleImpactSummaryDeviceType1)`
+`func (o *SleImpactSummary) SetDeviceType(v []SleImpactSummaryDeviceTypeItem)`
 
 SetDeviceType sets DeviceType field to given value.
 
@@ -216,20 +216,20 @@ SetStart sets Start field to given value.
 
 ### GetWlan
 
-`func (o *SleImpactSummary) GetWlan() []SleImpactSummaryWlan1`
+`func (o *SleImpactSummary) GetWlan() []SleImpactSummaryWlanItem`
 
 GetWlan returns the Wlan field if non-nil, zero value otherwise.
 
 ### GetWlanOk
 
-`func (o *SleImpactSummary) GetWlanOk() (*[]SleImpactSummaryWlan1, bool)`
+`func (o *SleImpactSummary) GetWlanOk() (*[]SleImpactSummaryWlanItem, bool)`
 
 GetWlanOk returns a tuple with the Wlan field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetWlan
 
-`func (o *SleImpactSummary) SetWlan(v []SleImpactSummaryWlan1)`
+`func (o *SleImpactSummary) SetWlan(v []SleImpactSummaryWlanItem)`
 
 SetWlan sets Wlan field to given value.
 

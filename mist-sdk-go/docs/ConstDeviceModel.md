@@ -8,7 +8,7 @@ Name | Type | Description | Notes
 **Band24** | Pointer to [**ConstDeviceApBand24**](ConstDeviceApBand24.md) |  | [optional] 
 **Band5** | Pointer to [**ConstDeviceApBand5**](ConstDeviceApBand5.md) |  | [optional] 
 **Band6** | Pointer to [**ConstDeviceApBand6**](ConstDeviceApBand6.md) |  | [optional] 
-**Band24Usages** | Pointer to [**ApRadioBand24Usage**](ApRadioBand24Usage.md) |  | [optional] 
+**Band24Usages** | Pointer to [**RadioBand24Usage**](RadioBand24Usage.md) |  | [optional] 
 **CeDfsOk** | Pointer to **bool** |  | [optional] 
 **CiscoPace** | Pointer to **bool** |  | [optional] 
 **Description** | Pointer to **string** |  | [optional] 
@@ -190,20 +190,20 @@ HasBand6 returns a boolean if a field has been set.
 
 ### GetBand24Usages
 
-`func (o *ConstDeviceModel) GetBand24Usages() ApRadioBand24Usage`
+`func (o *ConstDeviceModel) GetBand24Usages() RadioBand24Usage`
 
 GetBand24Usages returns the Band24Usages field if non-nil, zero value otherwise.
 
 ### GetBand24UsagesOk
 
-`func (o *ConstDeviceModel) GetBand24UsagesOk() (*ApRadioBand24Usage, bool)`
+`func (o *ConstDeviceModel) GetBand24UsagesOk() (*RadioBand24Usage, bool)`
 
 GetBand24UsagesOk returns a tuple with the Band24Usages field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetBand24Usages
 
-`func (o *ConstDeviceModel) SetBand24Usages(v ApRadioBand24Usage)`
+`func (o *ConstDeviceModel) SetBand24Usages(v RadioBand24Usage)`
 
 SetBand24Usages sets Band24Usages field to given value.
 

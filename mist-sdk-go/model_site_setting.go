@@ -1,9 +1,9 @@
 /*
 Mist API
 
-> Version: **2406.1.10** > > Date: **June 29, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
+> Version: **2406.1.10** > > Date: **July 1, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
 
-API version: 2406.1.10
+API version: 2406.1.11
 Contact: tmunzer@juniper.net
 */
 
@@ -28,10 +28,9 @@ type SiteSetting struct {
 	// enable threshold-based device down delivery for AP devices only. When configured it takes effect for AP devices and `device_updown_threshold` is ignored.
 	ApUpdownThreshold NullableInt32 `json:"ap_updown_threshold,omitempty"`
 	AutoPlacement *SiteSettingAutoPlacement `json:"auto_placement,omitempty"`
-	AutoPreemption *AutoPreemption `json:"auto_preemption,omitempty"`
-	AutoUpgrade *SiteAutoUpgrade `json:"auto_upgrade,omitempty"`
+	AutoUpgrade *SiteSettingAutoUpgrade `json:"auto_upgrade,omitempty"`
 	BlacklistUrl *string `json:"blacklist_url,omitempty"`
-	BleConfig *ApBle `json:"ble_config,omitempty"`
+	BleConfig *BleConfig `json:"ble_config,omitempty"`
 	// whether to enable ap auto config revert
 	ConfigAutoRevert *bool `json:"config_auto_revert,omitempty"`
 	ConfigPushPolicy *SiteSettingConfigPushPolicy `json:"config_push_policy,omitempty"`
@@ -45,9 +44,6 @@ type SiteSetting struct {
 	DnsServers []string `json:"dns_servers,omitempty"`
 	// list of NTP servers
 	DnsSuffix []string `json:"dns_suffix,omitempty"`
-	// whether to enable channel 144 (some older clients may not support it)
-	// Deprecated
-	EnableChannel144 *bool `json:"enable_channel_144,omitempty"`
 	Engagement *SiteEngagement `json:"engagement,omitempty"`
 	EvpnOptions *EvpnOptions `json:"evpn_options,omitempty"`
 	// name/val pair objects for location engine to use
@@ -138,8 +134,6 @@ func NewSiteSetting() *SiteSetting {
 	this.ConfigAutoRevert = &configAutoRevert
 	var deviceUpdownThreshold int32 = 0
 	this.DeviceUpdownThreshold = &deviceUpdownThreshold
-	var enableChannel144 bool = false
-	this.EnableChannel144 = &enableChannel144
 	var persistConfigOnDevice bool = false
 	this.PersistConfigOnDevice = &persistConfigOnDevice
 	var reportGatt bool = false
@@ -160,8 +154,6 @@ func NewSiteSettingWithDefaults() *SiteSetting {
 	this.ConfigAutoRevert = &configAutoRevert
 	var deviceUpdownThreshold int32 = 0
 	this.DeviceUpdownThreshold = &deviceUpdownThreshold
-	var enableChannel144 bool = false
-	this.EnableChannel144 = &enableChannel144
 	var persistConfigOnDevice bool = false
 	this.PersistConfigOnDevice = &persistConfigOnDevice
 	var reportGatt bool = false
@@ -375,42 +367,10 @@ func (o *SiteSetting) SetAutoPlacement(v SiteSettingAutoPlacement) {
 	o.AutoPlacement = &v
 }
 
-// GetAutoPreemption returns the AutoPreemption field value if set, zero value otherwise.
-func (o *SiteSetting) GetAutoPreemption() AutoPreemption {
-	if o == nil || IsNil(o.AutoPreemption) {
-		var ret AutoPreemption
-		return ret
-	}
-	return *o.AutoPreemption
-}
-
-// GetAutoPreemptionOk returns a tuple with the AutoPreemption field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *SiteSetting) GetAutoPreemptionOk() (*AutoPreemption, bool) {
-	if o == nil || IsNil(o.AutoPreemption) {
-		return nil, false
-	}
-	return o.AutoPreemption, true
-}
-
-// HasAutoPreemption returns a boolean if a field has been set.
-func (o *SiteSetting) HasAutoPreemption() bool {
-	if o != nil && !IsNil(o.AutoPreemption) {
-		return true
-	}
-
-	return false
-}
-
-// SetAutoPreemption gets a reference to the given AutoPreemption and assigns it to the AutoPreemption field.
-func (o *SiteSetting) SetAutoPreemption(v AutoPreemption) {
-	o.AutoPreemption = &v
-}
-
 // GetAutoUpgrade returns the AutoUpgrade field value if set, zero value otherwise.
-func (o *SiteSetting) GetAutoUpgrade() SiteAutoUpgrade {
+func (o *SiteSetting) GetAutoUpgrade() SiteSettingAutoUpgrade {
 	if o == nil || IsNil(o.AutoUpgrade) {
-		var ret SiteAutoUpgrade
+		var ret SiteSettingAutoUpgrade
 		return ret
 	}
 	return *o.AutoUpgrade
@@ -418,7 +378,7 @@ func (o *SiteSetting) GetAutoUpgrade() SiteAutoUpgrade {
 
 // GetAutoUpgradeOk returns a tuple with the AutoUpgrade field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *SiteSetting) GetAutoUpgradeOk() (*SiteAutoUpgrade, bool) {
+func (o *SiteSetting) GetAutoUpgradeOk() (*SiteSettingAutoUpgrade, bool) {
 	if o == nil || IsNil(o.AutoUpgrade) {
 		return nil, false
 	}
@@ -434,8 +394,8 @@ func (o *SiteSetting) HasAutoUpgrade() bool {
 	return false
 }
 
-// SetAutoUpgrade gets a reference to the given SiteAutoUpgrade and assigns it to the AutoUpgrade field.
-func (o *SiteSetting) SetAutoUpgrade(v SiteAutoUpgrade) {
+// SetAutoUpgrade gets a reference to the given SiteSettingAutoUpgrade and assigns it to the AutoUpgrade field.
+func (o *SiteSetting) SetAutoUpgrade(v SiteSettingAutoUpgrade) {
 	o.AutoUpgrade = &v
 }
 
@@ -472,9 +432,9 @@ func (o *SiteSetting) SetBlacklistUrl(v string) {
 }
 
 // GetBleConfig returns the BleConfig field value if set, zero value otherwise.
-func (o *SiteSetting) GetBleConfig() ApBle {
+func (o *SiteSetting) GetBleConfig() BleConfig {
 	if o == nil || IsNil(o.BleConfig) {
-		var ret ApBle
+		var ret BleConfig
 		return ret
 	}
 	return *o.BleConfig
@@ -482,7 +442,7 @@ func (o *SiteSetting) GetBleConfig() ApBle {
 
 // GetBleConfigOk returns a tuple with the BleConfig field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *SiteSetting) GetBleConfigOk() (*ApBle, bool) {
+func (o *SiteSetting) GetBleConfigOk() (*BleConfig, bool) {
 	if o == nil || IsNil(o.BleConfig) {
 		return nil, false
 	}
@@ -498,8 +458,8 @@ func (o *SiteSetting) HasBleConfig() bool {
 	return false
 }
 
-// SetBleConfig gets a reference to the given ApBle and assigns it to the BleConfig field.
-func (o *SiteSetting) SetBleConfig(v ApBle) {
+// SetBleConfig gets a reference to the given BleConfig and assigns it to the BleConfig field.
+func (o *SiteSetting) SetBleConfig(v BleConfig) {
 	o.BleConfig = &v
 }
 
@@ -757,41 +717,6 @@ func (o *SiteSetting) HasDnsSuffix() bool {
 // SetDnsSuffix gets a reference to the given []string and assigns it to the DnsSuffix field.
 func (o *SiteSetting) SetDnsSuffix(v []string) {
 	o.DnsSuffix = v
-}
-
-// GetEnableChannel144 returns the EnableChannel144 field value if set, zero value otherwise.
-// Deprecated
-func (o *SiteSetting) GetEnableChannel144() bool {
-	if o == nil || IsNil(o.EnableChannel144) {
-		var ret bool
-		return ret
-	}
-	return *o.EnableChannel144
-}
-
-// GetEnableChannel144Ok returns a tuple with the EnableChannel144 field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-// Deprecated
-func (o *SiteSetting) GetEnableChannel144Ok() (*bool, bool) {
-	if o == nil || IsNil(o.EnableChannel144) {
-		return nil, false
-	}
-	return o.EnableChannel144, true
-}
-
-// HasEnableChannel144 returns a boolean if a field has been set.
-func (o *SiteSetting) HasEnableChannel144() bool {
-	if o != nil && !IsNil(o.EnableChannel144) {
-		return true
-	}
-
-	return false
-}
-
-// SetEnableChannel144 gets a reference to the given bool and assigns it to the EnableChannel144 field.
-// Deprecated
-func (o *SiteSetting) SetEnableChannel144(v bool) {
-	o.EnableChannel144 = &v
 }
 
 // GetEngagement returns the Engagement field value if set, zero value otherwise.
@@ -2730,9 +2655,6 @@ func (o SiteSetting) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.AutoPlacement) {
 		toSerialize["auto_placement"] = o.AutoPlacement
 	}
-	if !IsNil(o.AutoPreemption) {
-		toSerialize["auto_preemption"] = o.AutoPreemption
-	}
 	if !IsNil(o.AutoUpgrade) {
 		toSerialize["auto_upgrade"] = o.AutoUpgrade
 	}
@@ -2765,9 +2687,6 @@ func (o SiteSetting) ToMap() (map[string]interface{}, error) {
 	}
 	if !IsNil(o.DnsSuffix) {
 		toSerialize["dns_suffix"] = o.DnsSuffix
-	}
-	if !IsNil(o.EnableChannel144) {
-		toSerialize["enable_channel_144"] = o.EnableChannel144
 	}
 	if !IsNil(o.Engagement) {
 		toSerialize["engagement"] = o.Engagement
@@ -2974,7 +2893,6 @@ func (o *SiteSetting) UnmarshalJSON(data []byte) (err error) {
 		delete(additionalProperties, "ap_port_config")
 		delete(additionalProperties, "ap_updown_threshold")
 		delete(additionalProperties, "auto_placement")
-		delete(additionalProperties, "auto_preemption")
 		delete(additionalProperties, "auto_upgrade")
 		delete(additionalProperties, "blacklist_url")
 		delete(additionalProperties, "ble_config")
@@ -2986,7 +2904,6 @@ func (o *SiteSetting) UnmarshalJSON(data []byte) (err error) {
 		delete(additionalProperties, "disabled_system_defined_port_usages")
 		delete(additionalProperties, "dns_servers")
 		delete(additionalProperties, "dns_suffix")
-		delete(additionalProperties, "enable_channel_144")
 		delete(additionalProperties, "engagement")
 		delete(additionalProperties, "evpn_options")
 		delete(additionalProperties, "flags")

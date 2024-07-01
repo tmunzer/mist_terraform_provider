@@ -1140,7 +1140,6 @@ resource "mist_nacrule" "test" {
     ]
     auth_type = "eap-teap"
   }
-  apply_tags = []
   action     = "allow"
   enabled    = true
   name       = "test"
@@ -1278,14 +1277,6 @@ resource "mist_rftemplate" "test_rf" {
     ant_gain_5 = 2
     ant_gain_6 = 2
     ant_gain_24 = 1
-    model_specific = {
-        AP32E = {
-            band_5 = {
-                bandwidth = 40
-            }
-            ant_gain_5 = 3
-        }
-    }
     country_code = "FR"
     name = "tf"
     org_id = mist_org.terraform_test.id

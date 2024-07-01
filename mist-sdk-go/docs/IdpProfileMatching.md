@@ -6,7 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **AttackName** | Pointer to **[]string** |  | [optional] 
 **DstSubnet** | Pointer to **[]string** |  | [optional] 
-**Severity** | Pointer to [**[]IdpProfileMatchingSeverity1**](IdpProfileMatchingSeverity1.md) |  | [optional] 
+**Severity** | Pointer to [**[]IdpProfileMatchingSeverityValue**](IdpProfileMatchingSeverityValue.md) |  | [optional] 
 
 ## Methods
 
@@ -79,20 +79,20 @@ HasDstSubnet returns a boolean if a field has been set.
 
 ### GetSeverity
 
-`func (o *IdpProfileMatching) GetSeverity() []IdpProfileMatchingSeverity1`
+`func (o *IdpProfileMatching) GetSeverity() []IdpProfileMatchingSeverityValue`
 
 GetSeverity returns the Severity field if non-nil, zero value otherwise.
 
 ### GetSeverityOk
 
-`func (o *IdpProfileMatching) GetSeverityOk() (*[]IdpProfileMatchingSeverity1, bool)`
+`func (o *IdpProfileMatching) GetSeverityOk() (*[]IdpProfileMatchingSeverityValue, bool)`
 
 GetSeverityOk returns a tuple with the Severity field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetSeverity
 
-`func (o *IdpProfileMatching) SetSeverity(v []IdpProfileMatchingSeverity1)`
+`func (o *IdpProfileMatching) SetSeverity(v []IdpProfileMatchingSeverityValue)`
 
 SetSeverity sets Severity field to given value.
 

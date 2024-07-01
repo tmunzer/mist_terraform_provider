@@ -10,7 +10,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 
 	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
-	mist_transform "terraform-provider-mist/internal/provider/utils/transform"
+	mist_transform "terraform-provider-mist/internal/provider/commons/utils"
 )
 
 func dhcpdConfigVendorEncapsulatedSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]mistsdkgo.DhcpdConfigVendorOption) basetypes.MapValue {
@@ -85,16 +85,16 @@ func dhcpdConfigConfigsSdkToTerraform(ctx context.Context, diags *diag.Diagnosti
 				"dns_suffix":         mist_transform.ListOfStringSdkToTerraform(ctx, v.GetDnsSuffix()),
 				"fixed_bindings":     dhcpd_config_fixed_bindings,
 				"gateway":            types.StringValue(v.GetGateway()),
-				"ip_end4":            types.StringValue(v.GetIpEnd()),
+				"ip_end":             types.StringValue(v.GetIpEnd()),
 				"ip_end6":            types.StringValue(v.GetIpEnd6()),
-				"ip_start4":          types.StringValue(v.GetIpStart()),
+				"ip_start":           types.StringValue(v.GetIpStart()),
 				"ip_start6":          types.StringValue(v.GetIpStart6()),
 				"lease_time":         types.Int64Value(int64(v.GetLeaseTime())),
 				"options":            dhcpd_config__options,
 				"server_id_override": types.BoolValue(v.GetServerIdOverride()),
-				"servers4":           mist_transform.ListOfStringSdkToTerraform(ctx, v.GetServers()),
+				"servers":            mist_transform.ListOfStringSdkToTerraform(ctx, v.GetServers()),
 				"servers6":           mist_transform.ListOfStringSdkToTerraform(ctx, v.GetServers6()),
-				"type4":              types.StringValue(string(v.GetType())),
+				"type":               types.StringValue(string(v.GetType())),
 				"type6":              types.StringValue(string(v.GetType6())),
 				"vendor_encapulated": dhcpd_config__vendor_options,
 			}

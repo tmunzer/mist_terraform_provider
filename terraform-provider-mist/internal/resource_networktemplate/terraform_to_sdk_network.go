@@ -9,7 +9,7 @@ import (
 	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
 )
 
-func networksTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.MapValue) map[string]mistsdkgo.SwitchNetwork {
+func NetworksTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.MapValue) map[string]mistsdkgo.SwitchNetwork {
 	data := make(map[string]mistsdkgo.SwitchNetwork)
 	for vlan_name, vlan_data_attr := range d.Elements() {
 		var vlan_data_interface interface{} = vlan_data_attr

@@ -9,7 +9,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 
 	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
-	mist_transform "terraform-provider-mist/internal/provider/utils/transform"
+	mist_transform "terraform-provider-mist/internal/provider/commons/utils"
 )
 
 func routingPolocyTermMatchingRouteExistsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdkgo.RoutingPolicyTermMatchingRouteExists) basetypes.ObjectValue {
@@ -83,8 +83,8 @@ func routingPolocyTermsSdkToTerraform(ctx context.Context, diags *diag.Diagnosti
 		data_map_attr_type := TermsValue{}.AttributeTypes(ctx)
 		action := routingPolocyTermActionSdkToTerraform(ctx, diags, v.GetAction())
 		data_map_value := map[string]attr.Value{
-			"action":                       action,
-			"routing_policy_term_matching": routingPolocyTermMatchingSdkToTerraform(ctx, diags, v.GetMatching()),
+			"action":   action,
+			"matching": routingPolocyTermMatchingSdkToTerraform(ctx, diags, v.GetMatching()),
 		}
 
 		data, e := NewTermsValue(data_map_attr_type, data_map_value)

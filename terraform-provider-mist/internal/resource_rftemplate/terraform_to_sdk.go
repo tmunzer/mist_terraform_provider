@@ -21,7 +21,7 @@ func TerraformToSdk(ctx context.Context, plan *RftemplateModel) (mistsdkgo.RfTem
 	band24 := band24TerraformToSdk(ctx, &diags, plan.Band24)
 	data.SetBand24(band24)
 
-	data.SetBand24Usage(mistsdkgo.ApRadioBand24Usage(plan.Band24Usage.ValueString()))
+	data.SetBand24Usage(mistsdkgo.RadioBand24Usage(plan.Band24Usage.ValueString()))
 
 	band5 := band5TerraformToSdk(ctx, &diags, plan.Band5)
 	data.SetBand5(band5)

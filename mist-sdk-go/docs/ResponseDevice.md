@@ -5,11 +5,11 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Aeroscout** | Pointer to [**ApAeroscout**](ApAeroscout.md) |  | [optional] 
-**BleConfig** | Pointer to [**ApBle**](ApBle.md) |  | [optional] 
+**BleConfig** | Pointer to [**BleConfig**](BleConfig.md) |  | [optional] 
 **Centrak** | Pointer to [**ApCentrak**](ApCentrak.md) |  | [optional] 
 **ClientBridge** | Pointer to [**ApClientBridge**](ApClientBridge.md) |  | [optional] 
 **CreatedTime** | Pointer to **float32** |  | [optional] [readonly] 
-**DeviceprofileId** | Pointer to **string** |  | [optional] 
+**DeviceprofileId** | Pointer to **string** |  | [optional] [readonly] 
 **DisableEth1** | Pointer to **bool** | whether to disable eth1 port | [optional] [default to false]
 **DisableEth2** | Pointer to **bool** | whether to disable eth2 port | [optional] [default to false]
 **DisableEth3** | Pointer to **bool** | whether to disable eth3 port | [optional] [default to false]
@@ -119,20 +119,20 @@ HasAeroscout returns a boolean if a field has been set.
 
 ### GetBleConfig
 
-`func (o *ResponseDevice) GetBleConfig() ApBle`
+`func (o *ResponseDevice) GetBleConfig() BleConfig`
 
 GetBleConfig returns the BleConfig field if non-nil, zero value otherwise.
 
 ### GetBleConfigOk
 
-`func (o *ResponseDevice) GetBleConfigOk() (*ApBle, bool)`
+`func (o *ResponseDevice) GetBleConfigOk() (*BleConfig, bool)`
 
 GetBleConfigOk returns a tuple with the BleConfig field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetBleConfig
 
-`func (o *ResponseDevice) SetBleConfig(v ApBle)`
+`func (o *ResponseDevice) SetBleConfig(v BleConfig)`
 
 SetBleConfig sets BleConfig field to given value.
 

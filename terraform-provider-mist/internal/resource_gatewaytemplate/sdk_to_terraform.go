@@ -7,7 +7,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
-	mist_transform "terraform-provider-mist/internal/provider/utils/transform"
+	mist_transform "terraform-provider-mist/internal/provider/commons/utils"
 )
 
 func SdkToTerraform(ctx context.Context, data *mistsdkgo.GatewayTemplate) (GatewaytemplateModel, diag.Diagnostics) {

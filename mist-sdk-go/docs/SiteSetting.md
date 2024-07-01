@@ -10,10 +10,9 @@ Name | Type | Description | Notes
 **ApPortConfig** | Pointer to [**SiteSettingApPortConfig**](SiteSettingApPortConfig.md) |  | [optional] 
 **ApUpdownThreshold** | Pointer to **NullableInt32** | enable threshold-based device down delivery for AP devices only. When configured it takes effect for AP devices and &#x60;device_updown_threshold&#x60; is ignored. | [optional] 
 **AutoPlacement** | Pointer to [**SiteSettingAutoPlacement**](SiteSettingAutoPlacement.md) |  | [optional] 
-**AutoPreemption** | Pointer to [**AutoPreemption**](AutoPreemption.md) |  | [optional] 
-**AutoUpgrade** | Pointer to [**SiteAutoUpgrade**](SiteAutoUpgrade.md) |  | [optional] 
+**AutoUpgrade** | Pointer to [**SiteSettingAutoUpgrade**](SiteSettingAutoUpgrade.md) |  | [optional] 
 **BlacklistUrl** | Pointer to **string** |  | [optional] [readonly] 
-**BleConfig** | Pointer to [**ApBle**](ApBle.md) |  | [optional] 
+**BleConfig** | Pointer to [**BleConfig**](BleConfig.md) |  | [optional] 
 **ConfigAutoRevert** | Pointer to **bool** | whether to enable ap auto config revert | [optional] [default to false]
 **ConfigPushPolicy** | Pointer to [**SiteSettingConfigPushPolicy**](SiteSettingConfigPushPolicy.md) |  | [optional] 
 **CreatedTime** | Pointer to **float32** |  | [optional] [readonly] 
@@ -22,7 +21,6 @@ Name | Type | Description | Notes
 **DisabledSystemDefinedPortUsages** | Pointer to **[]string** | if some system-default port usages are not desired - namely, ap / iot / uplink | [optional] 
 **DnsServers** | Pointer to **[]string** | list of NTP servers | [optional] 
 **DnsSuffix** | Pointer to **[]string** | list of NTP servers | [optional] 
-**EnableChannel144** | Pointer to **bool** | whether to enable channel 144 (some older clients may not support it) | [optional] [default to false]
 **Engagement** | Pointer to [**SiteEngagement**](SiteEngagement.md) |  | [optional] 
 **EvpnOptions** | Pointer to [**EvpnOptions**](EvpnOptions.md) |  | [optional] 
 **Flags** | Pointer to **map[string]string** | name/val pair objects for location engine to use | [optional] 
@@ -262,47 +260,22 @@ SetAutoPlacement sets AutoPlacement field to given value.
 
 HasAutoPlacement returns a boolean if a field has been set.
 
-### GetAutoPreemption
-
-`func (o *SiteSetting) GetAutoPreemption() AutoPreemption`
-
-GetAutoPreemption returns the AutoPreemption field if non-nil, zero value otherwise.
-
-### GetAutoPreemptionOk
-
-`func (o *SiteSetting) GetAutoPreemptionOk() (*AutoPreemption, bool)`
-
-GetAutoPreemptionOk returns a tuple with the AutoPreemption field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetAutoPreemption
-
-`func (o *SiteSetting) SetAutoPreemption(v AutoPreemption)`
-
-SetAutoPreemption sets AutoPreemption field to given value.
-
-### HasAutoPreemption
-
-`func (o *SiteSetting) HasAutoPreemption() bool`
-
-HasAutoPreemption returns a boolean if a field has been set.
-
 ### GetAutoUpgrade
 
-`func (o *SiteSetting) GetAutoUpgrade() SiteAutoUpgrade`
+`func (o *SiteSetting) GetAutoUpgrade() SiteSettingAutoUpgrade`
 
 GetAutoUpgrade returns the AutoUpgrade field if non-nil, zero value otherwise.
 
 ### GetAutoUpgradeOk
 
-`func (o *SiteSetting) GetAutoUpgradeOk() (*SiteAutoUpgrade, bool)`
+`func (o *SiteSetting) GetAutoUpgradeOk() (*SiteSettingAutoUpgrade, bool)`
 
 GetAutoUpgradeOk returns a tuple with the AutoUpgrade field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetAutoUpgrade
 
-`func (o *SiteSetting) SetAutoUpgrade(v SiteAutoUpgrade)`
+`func (o *SiteSetting) SetAutoUpgrade(v SiteSettingAutoUpgrade)`
 
 SetAutoUpgrade sets AutoUpgrade field to given value.
 
@@ -339,20 +312,20 @@ HasBlacklistUrl returns a boolean if a field has been set.
 
 ### GetBleConfig
 
-`func (o *SiteSetting) GetBleConfig() ApBle`
+`func (o *SiteSetting) GetBleConfig() BleConfig`
 
 GetBleConfig returns the BleConfig field if non-nil, zero value otherwise.
 
 ### GetBleConfigOk
 
-`func (o *SiteSetting) GetBleConfigOk() (*ApBle, bool)`
+`func (o *SiteSetting) GetBleConfigOk() (*BleConfig, bool)`
 
 GetBleConfigOk returns a tuple with the BleConfig field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetBleConfig
 
-`func (o *SiteSetting) SetBleConfig(v ApBle)`
+`func (o *SiteSetting) SetBleConfig(v BleConfig)`
 
 SetBleConfig sets BleConfig field to given value.
 
@@ -561,31 +534,6 @@ SetDnsSuffix sets DnsSuffix field to given value.
 `func (o *SiteSetting) HasDnsSuffix() bool`
 
 HasDnsSuffix returns a boolean if a field has been set.
-
-### GetEnableChannel144
-
-`func (o *SiteSetting) GetEnableChannel144() bool`
-
-GetEnableChannel144 returns the EnableChannel144 field if non-nil, zero value otherwise.
-
-### GetEnableChannel144Ok
-
-`func (o *SiteSetting) GetEnableChannel144Ok() (*bool, bool)`
-
-GetEnableChannel144Ok returns a tuple with the EnableChannel144 field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetEnableChannel144
-
-`func (o *SiteSetting) SetEnableChannel144(v bool)`
-
-SetEnableChannel144 sets EnableChannel144 field to given value.
-
-### HasEnableChannel144
-
-`func (o *SiteSetting) HasEnableChannel144() bool`
-
-HasEnableChannel144 returns a boolean if a field has been set.
 
 ### GetEngagement
 

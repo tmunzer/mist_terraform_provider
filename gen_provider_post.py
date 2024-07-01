@@ -1,63 +1,79 @@
-FILES = [
-    "./terraform-provider-mist/internal/resource_networktemplate/networktemplate_resource_gen.go",
-    "./terraform-provider-mist/internal/resource_network/network_resource_gen.go",
-    "./terraform-provider-mist/internal/resource_gatewaytemplate/gatewaytemplate_resource_gen.go",
-    "./terraform-provider-mist/internal/resource_rftemplate/rftemplate_resource_gen.go",
-]
-
-ADD = {
-    # "./terraform-provider-mist/internal/resource_networktemplate/networktemplate_resource_gen.go": [
-    #     "./tacacsAcctServers.fix",
-    #     #      "./switchMatchingRules.fix",
-    # ]
+FILES = {
+    "./terraform-provider-mist/internal/resource_gatewaytemplate/gatewaytemplate_resource_gen.go": {
+        "rename": {
+            "ipd_profile_overwrite_matching": "matching",
+            "routing_policy_term_matching": "matching",
+            "auto_provision_primary": "primary",
+            "auto_provision_secondary": "secondary",
+            "ip_end4": "ip_end",
+            "ip_start4": "ip_start",
+            "servers4": "servers",
+            "type4": "type",
+        },
+        "dedup": ["DestinationNat", "TrafficShaping", "StaticNat"],
+    },
+    "./terraform-provider-mist/internal/resource_networktemplate/networktemplate_resource_gen.go": {
+        "rename": {
+            "matching_rules": "rules",
+            "tacacct_servers": "acct_servers",
+        },
+        "dedup": [
+            "ExtraRoutes",
+            "Archive",
+            "Contents",
+            "Users",
+        ],
+    },
+    "./terraform-provider-mist/internal/resource_network/network_resource_gen.go": {
+        "dedup": ["DestinationNat", "StaticNat"]
+    },
+    "./terraform-provider-mist/internal/resource_rftemplate/rftemplate_resource_gen.go": {
+        "dedup": [
+            "Band24",
+            "Band5",
+            "Band6",
+        ]
+    },
+    "./terraform-provider-mist/internal/resource_site_setting/site_setting_resource_gen.go": {
+        "dedup": [
+            "Hours",
+        ]
+    },
 }
 
-REPLACE_ITEMS = {
-    # "": {
-    #     # "Tacacs": [{"source": "AcctServers", "dest": "TacacsAcctServers"}],
-    #     "*": [{"source": "matching_rules", "dest": "rules"}]
-    # }
-}
 
-for file in FILES:
+for file, actions in FILES.items():
     with open(file, "r") as f_in:
         with open(f"{file}.bak", "w") as f_bak:
             f_bak.writelines(f_in)
     with open(file, "w") as f_out:
+        rename = actions.get("rename", {})
+        dedup = actions.get("dedup", [])
         with open(f"{file}.bak", "r") as f_in:
             SKIP = False
             UNSKIP_NEXT = False
-            TO_REPLACE = []
-            done = []
+            DONE = []
             for line in f_in.readlines():
                 if UNSKIP_NEXT:
                     UNSKIP_NEXT = False
                     SKIP = False
-
-                for item in TO_REPLACE:
-                    line = line.replace(item["source"], item["dest"])
-
                 if line.startswith("}"):
                     UNSKIP_NEXT = True
-                    TO_REPLACE = []
-                elif line.startswith("type") or line.startswith("func"):
-                    for item, value in REPLACE_ITEMS.items():
-                        if f"{item}Type" in line or f"{item}Value" in line:
-                            TO_REPLACE = value
-                    if line not in done:
-                        done.append(line)
-                    else:
-                        SKIP = True
-                        print(f"skipping {line}", end="")
+                if line.startswith("type") or line.startswith("func"):
+                    for dedup_string in dedup:
+                        if f"{dedup_string}Type" in line or f"{dedup_string}Value" in line:
+                            if not line in DONE:
+                                DONE.append(line)
+                            else:
+                                SKIP = True
+                                UNSKIP_NEXT = False
                 elif line.startswith("var"):
-                    if line not in done:
-                        done.append(line)
+                    if line not in DONE:
+                        DONE.append(line)
                     else:
                         SKIP = True
-                        UNSKIP_NEXT = False
-                        print(f"skipping {line}", end="")
+                        UNSKIP_NEXT = True
                 if not SKIP:
+                    for src_string, dst_string in rename.items():
+                        line = line.replace(src_string, dst_string)
                     f_out.write(f"{line}")
-        for fix in ADD.get(file, []):
-            with open(fix, "r") as f_fix:
-                f_out.writelines(f_fix.readlines())

@@ -1,9 +1,9 @@
 /*
 Mist API
 
-> Version: **2406.1.10** > > Date: **June 29, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
+> Version: **2406.1.10** > > Date: **July 1, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
 
-API version: 2406.1.10
+API version: 2406.1.11
 Contact: tmunzer@juniper.net
 */
 
@@ -21,7 +21,7 @@ var _ MappedNullable = &Ap{}
 // Ap AP
 type Ap struct {
 	Aeroscout *ApAeroscout `json:"aeroscout,omitempty"`
-	BleConfig *ApBle `json:"ble_config,omitempty"`
+	BleConfig *BleConfig `json:"ble_config,omitempty"`
 	Centrak *ApCentrak `json:"centrak,omitempty"`
 	ClientBridge *ApClientBridge `json:"client_bridge,omitempty"`
 	CreatedTime *float32 `json:"created_time,omitempty"`
@@ -148,9 +148,9 @@ func (o *Ap) SetAeroscout(v ApAeroscout) {
 }
 
 // GetBleConfig returns the BleConfig field value if set, zero value otherwise.
-func (o *Ap) GetBleConfig() ApBle {
+func (o *Ap) GetBleConfig() BleConfig {
 	if o == nil || IsNil(o.BleConfig) {
-		var ret ApBle
+		var ret BleConfig
 		return ret
 	}
 	return *o.BleConfig
@@ -158,7 +158,7 @@ func (o *Ap) GetBleConfig() ApBle {
 
 // GetBleConfigOk returns a tuple with the BleConfig field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Ap) GetBleConfigOk() (*ApBle, bool) {
+func (o *Ap) GetBleConfigOk() (*BleConfig, bool) {
 	if o == nil || IsNil(o.BleConfig) {
 		return nil, false
 	}
@@ -174,8 +174,8 @@ func (o *Ap) HasBleConfig() bool {
 	return false
 }
 
-// SetBleConfig gets a reference to the given ApBle and assigns it to the BleConfig field.
-func (o *Ap) SetBleConfig(v ApBle) {
+// SetBleConfig gets a reference to the given BleConfig and assigns it to the BleConfig field.
+func (o *Ap) SetBleConfig(v BleConfig) {
 	o.BleConfig = &v
 }
 

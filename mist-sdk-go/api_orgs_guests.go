@@ -1,9 +1,9 @@
 /*
 Mist API
 
-> Version: **2406.1.10** > > Date: **June 29, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
+> Version: **2406.1.10** > > Date: **July 1, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
 
-API version: 2406.1.10
+API version: 2406.1.11
 Contact: tmunzer@juniper.net
 */
 
@@ -882,16 +882,19 @@ type ApiSearchOrgGuestAuthorizationRequest struct {
 	duration *string
 }
 
+// WLAN ID
 func (r ApiSearchOrgGuestAuthorizationRequest) WlanId(wlanId string) ApiSearchOrgGuestAuthorizationRequest {
 	r.wlanId = &wlanId
 	return r
 }
 
+// Authentication Methdo
 func (r ApiSearchOrgGuestAuthorizationRequest) AuthMethod(authMethod string) ApiSearchOrgGuestAuthorizationRequest {
 	r.authMethod = &authMethod
 	return r
 }
 
+// SSID
 func (r ApiSearchOrgGuestAuthorizationRequest) Ssid(ssid string) ApiSearchOrgGuestAuthorizationRequest {
 	r.ssid = &ssid
 	return r

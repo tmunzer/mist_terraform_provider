@@ -1,9 +1,9 @@
 /*
 Mist API
 
-> Version: **2406.1.10** > > Date: **June 29, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
+> Version: **2406.1.10** > > Date: **July 1, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
 
-API version: 2406.1.10
+API version: 2406.1.11
 Contact: tmunzer@juniper.net
 */
 
@@ -21,7 +21,7 @@ var _ MappedNullable = &SiteWidsRepeatedAuthFailures{}
 // SiteWidsRepeatedAuthFailures struct for SiteWidsRepeatedAuthFailures
 type SiteWidsRepeatedAuthFailures struct {
 	// window where a trigger will be detected and action to be taken (in seconds)
-	Duration *float32 `json:"duration,omitempty"`
+	Duration *int32 `json:"duration,omitempty"`
 	// count of events to trigger
 	Threshold *int32 `json:"threshold,omitempty"`
 	AdditionalProperties map[string]interface{}
@@ -47,9 +47,9 @@ func NewSiteWidsRepeatedAuthFailuresWithDefaults() *SiteWidsRepeatedAuthFailures
 }
 
 // GetDuration returns the Duration field value if set, zero value otherwise.
-func (o *SiteWidsRepeatedAuthFailures) GetDuration() float32 {
+func (o *SiteWidsRepeatedAuthFailures) GetDuration() int32 {
 	if o == nil || IsNil(o.Duration) {
-		var ret float32
+		var ret int32
 		return ret
 	}
 	return *o.Duration
@@ -57,7 +57,7 @@ func (o *SiteWidsRepeatedAuthFailures) GetDuration() float32 {
 
 // GetDurationOk returns a tuple with the Duration field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *SiteWidsRepeatedAuthFailures) GetDurationOk() (*float32, bool) {
+func (o *SiteWidsRepeatedAuthFailures) GetDurationOk() (*int32, bool) {
 	if o == nil || IsNil(o.Duration) {
 		return nil, false
 	}
@@ -73,8 +73,8 @@ func (o *SiteWidsRepeatedAuthFailures) HasDuration() bool {
 	return false
 }
 
-// SetDuration gets a reference to the given float32 and assigns it to the Duration field.
-func (o *SiteWidsRepeatedAuthFailures) SetDuration(v float32) {
+// SetDuration gets a reference to the given int32 and assigns it to the Duration field.
+func (o *SiteWidsRepeatedAuthFailures) SetDuration(v int32) {
 	o.Duration = &v
 }
 

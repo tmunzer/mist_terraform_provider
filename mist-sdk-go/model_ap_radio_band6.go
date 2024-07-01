@@ -1,9 +1,9 @@
 /*
 Mist API
 
-> Version: **2406.1.10** > > Date: **June 29, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
+> Version: **2406.1.10** > > Date: **July 1, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
 
-API version: 2406.1.10
+API version: 2406.1.11
 Contact: tmunzer@juniper.net
 */
 
@@ -22,7 +22,7 @@ var _ MappedNullable = &ApRadioBand6{}
 type ApRadioBand6 struct {
 	AllowRrmDisable *bool `json:"allow_rrm_disable,omitempty"`
 	AntGain NullableInt32 `json:"ant_gain,omitempty"`
-	AntennaMode *ApRadioBandAntennaMode `json:"antenna_mode,omitempty"`
+	AntennaMode *RadioBandAntennaMode `json:"antenna_mode,omitempty"`
 	Bandwidth *Dot11Bandwidth6 `json:"bandwidth,omitempty"`
 	// For Device. (primary) channel for the band, 0 means using the Site Setting
 	Channel NullableInt32 `json:"channel,omitempty"`
@@ -36,7 +36,7 @@ type ApRadioBand6 struct {
 	PowerMax NullableInt32 `json:"power_max,omitempty"`
 	// when power=0, min tx power to use, HW-specific values will be used if not set
 	PowerMin NullableInt32 `json:"power_min,omitempty"`
-	Preamble *ApRadioBandPreamble `json:"preamble,omitempty"`
+	Preamble *RadioBandPreamble `json:"preamble,omitempty"`
 	// for 6GHz Only, standard-power operation, AFC (Automatic Frequency Coordination) will be performed and we'll fallback to Low Power Indoor if AFC failed
 	StandardPower *bool `json:"standard_power,omitempty"`
 	AdditionalProperties map[string]interface{}
@@ -54,7 +54,7 @@ func NewApRadioBand6() *ApRadioBand6 {
 	this.AllowRrmDisable = &allowRrmDisable
 	var antGain int32 = 0
 	this.AntGain = *NewNullableInt32(&antGain)
-	var antennaMode ApRadioBandAntennaMode = APRADIOBANDANTENNAMODE_DEFAULT
+	var antennaMode RadioBandAntennaMode = RADIOBANDANTENNAMODE_DEFAULT
 	this.AntennaMode = &antennaMode
 	var bandwidth Dot11Bandwidth6 = DOT11BANDWIDTH6__80
 	this.Bandwidth = &bandwidth
@@ -64,7 +64,7 @@ func NewApRadioBand6() *ApRadioBand6 {
 	this.PowerMax = *NewNullableInt32(&powerMax)
 	var powerMin int32 = 8
 	this.PowerMin = *NewNullableInt32(&powerMin)
-	var preamble ApRadioBandPreamble = APRADIOBANDPREAMBLE_SHORT
+	var preamble RadioBandPreamble = RADIOBANDPREAMBLE_SHORT
 	this.Preamble = &preamble
 	var standardPower bool = false
 	this.StandardPower = &standardPower
@@ -80,7 +80,7 @@ func NewApRadioBand6WithDefaults() *ApRadioBand6 {
 	this.AllowRrmDisable = &allowRrmDisable
 	var antGain int32 = 0
 	this.AntGain = *NewNullableInt32(&antGain)
-	var antennaMode ApRadioBandAntennaMode = APRADIOBANDANTENNAMODE_DEFAULT
+	var antennaMode RadioBandAntennaMode = RADIOBANDANTENNAMODE_DEFAULT
 	this.AntennaMode = &antennaMode
 	var bandwidth Dot11Bandwidth6 = DOT11BANDWIDTH6__80
 	this.Bandwidth = &bandwidth
@@ -90,7 +90,7 @@ func NewApRadioBand6WithDefaults() *ApRadioBand6 {
 	this.PowerMax = *NewNullableInt32(&powerMax)
 	var powerMin int32 = 8
 	this.PowerMin = *NewNullableInt32(&powerMin)
-	var preamble ApRadioBandPreamble = APRADIOBANDPREAMBLE_SHORT
+	var preamble RadioBandPreamble = RADIOBANDPREAMBLE_SHORT
 	this.Preamble = &preamble
 	var standardPower bool = false
 	this.StandardPower = &standardPower
@@ -172,9 +172,9 @@ func (o *ApRadioBand6) UnsetAntGain() {
 }
 
 // GetAntennaMode returns the AntennaMode field value if set, zero value otherwise.
-func (o *ApRadioBand6) GetAntennaMode() ApRadioBandAntennaMode {
+func (o *ApRadioBand6) GetAntennaMode() RadioBandAntennaMode {
 	if o == nil || IsNil(o.AntennaMode) {
-		var ret ApRadioBandAntennaMode
+		var ret RadioBandAntennaMode
 		return ret
 	}
 	return *o.AntennaMode
@@ -182,7 +182,7 @@ func (o *ApRadioBand6) GetAntennaMode() ApRadioBandAntennaMode {
 
 // GetAntennaModeOk returns a tuple with the AntennaMode field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ApRadioBand6) GetAntennaModeOk() (*ApRadioBandAntennaMode, bool) {
+func (o *ApRadioBand6) GetAntennaModeOk() (*RadioBandAntennaMode, bool) {
 	if o == nil || IsNil(o.AntennaMode) {
 		return nil, false
 	}
@@ -198,8 +198,8 @@ func (o *ApRadioBand6) HasAntennaMode() bool {
 	return false
 }
 
-// SetAntennaMode gets a reference to the given ApRadioBandAntennaMode and assigns it to the AntennaMode field.
-func (o *ApRadioBand6) SetAntennaMode(v ApRadioBandAntennaMode) {
+// SetAntennaMode gets a reference to the given RadioBandAntennaMode and assigns it to the AntennaMode field.
+func (o *ApRadioBand6) SetAntennaMode(v RadioBandAntennaMode) {
 	o.AntennaMode = &v
 }
 
@@ -469,9 +469,9 @@ func (o *ApRadioBand6) UnsetPowerMin() {
 }
 
 // GetPreamble returns the Preamble field value if set, zero value otherwise.
-func (o *ApRadioBand6) GetPreamble() ApRadioBandPreamble {
+func (o *ApRadioBand6) GetPreamble() RadioBandPreamble {
 	if o == nil || IsNil(o.Preamble) {
-		var ret ApRadioBandPreamble
+		var ret RadioBandPreamble
 		return ret
 	}
 	return *o.Preamble
@@ -479,7 +479,7 @@ func (o *ApRadioBand6) GetPreamble() ApRadioBandPreamble {
 
 // GetPreambleOk returns a tuple with the Preamble field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ApRadioBand6) GetPreambleOk() (*ApRadioBandPreamble, bool) {
+func (o *ApRadioBand6) GetPreambleOk() (*RadioBandPreamble, bool) {
 	if o == nil || IsNil(o.Preamble) {
 		return nil, false
 	}
@@ -495,8 +495,8 @@ func (o *ApRadioBand6) HasPreamble() bool {
 	return false
 }
 
-// SetPreamble gets a reference to the given ApRadioBandPreamble and assigns it to the Preamble field.
-func (o *ApRadioBand6) SetPreamble(v ApRadioBandPreamble) {
+// SetPreamble gets a reference to the given RadioBandPreamble and assigns it to the Preamble field.
+func (o *ApRadioBand6) SetPreamble(v RadioBandPreamble) {
 	o.Preamble = &v
 }
 

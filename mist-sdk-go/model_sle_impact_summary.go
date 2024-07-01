@@ -1,9 +1,9 @@
 /*
 Mist API
 
-> Version: **2406.1.10** > > Date: **June 29, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
+> Version: **2406.1.10** > > Date: **July 1, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
 
-API version: 2406.1.10
+API version: 2406.1.11
 Contact: tmunzer@juniper.net
 */
 
@@ -21,16 +21,16 @@ var _ MappedNullable = &SleImpactSummary{}
 
 // SleImpactSummary struct for SleImpactSummary
 type SleImpactSummary struct {
-	Ap []SleImpactSummaryAp1 `json:"ap"`
-	Band []SleImpactSummaryBand1 `json:"band"`
+	Ap []SleImpactSummaryApItem `json:"ap"`
+	Band []SleImpactSummaryBandItem `json:"band"`
 	Classifier string `json:"classifier"`
-	DeviceOs []SleImpactSummaryDeviceOs1 `json:"device_os"`
-	DeviceType []SleImpactSummaryDeviceType1 `json:"device_type"`
+	DeviceOs []SleImpactSummaryDeviceOsItem `json:"device_os"`
+	DeviceType []SleImpactSummaryDeviceTypeItem `json:"device_type"`
 	End float32 `json:"end"`
 	Failure string `json:"failure"`
 	Metric string `json:"metric"`
 	Start float32 `json:"start"`
-	Wlan []SleImpactSummaryWlan1 `json:"wlan"`
+	Wlan []SleImpactSummaryWlanItem `json:"wlan"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -40,7 +40,7 @@ type _SleImpactSummary SleImpactSummary
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewSleImpactSummary(ap []SleImpactSummaryAp1, band []SleImpactSummaryBand1, classifier string, deviceOs []SleImpactSummaryDeviceOs1, deviceType []SleImpactSummaryDeviceType1, end float32, failure string, metric string, start float32, wlan []SleImpactSummaryWlan1) *SleImpactSummary {
+func NewSleImpactSummary(ap []SleImpactSummaryApItem, band []SleImpactSummaryBandItem, classifier string, deviceOs []SleImpactSummaryDeviceOsItem, deviceType []SleImpactSummaryDeviceTypeItem, end float32, failure string, metric string, start float32, wlan []SleImpactSummaryWlanItem) *SleImpactSummary {
 	this := SleImpactSummary{}
 	this.Ap = ap
 	this.Band = band
@@ -64,9 +64,9 @@ func NewSleImpactSummaryWithDefaults() *SleImpactSummary {
 }
 
 // GetAp returns the Ap field value
-func (o *SleImpactSummary) GetAp() []SleImpactSummaryAp1 {
+func (o *SleImpactSummary) GetAp() []SleImpactSummaryApItem {
 	if o == nil {
-		var ret []SleImpactSummaryAp1
+		var ret []SleImpactSummaryApItem
 		return ret
 	}
 
@@ -75,7 +75,7 @@ func (o *SleImpactSummary) GetAp() []SleImpactSummaryAp1 {
 
 // GetApOk returns a tuple with the Ap field value
 // and a boolean to check if the value has been set.
-func (o *SleImpactSummary) GetApOk() ([]SleImpactSummaryAp1, bool) {
+func (o *SleImpactSummary) GetApOk() ([]SleImpactSummaryApItem, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -83,14 +83,14 @@ func (o *SleImpactSummary) GetApOk() ([]SleImpactSummaryAp1, bool) {
 }
 
 // SetAp sets field value
-func (o *SleImpactSummary) SetAp(v []SleImpactSummaryAp1) {
+func (o *SleImpactSummary) SetAp(v []SleImpactSummaryApItem) {
 	o.Ap = v
 }
 
 // GetBand returns the Band field value
-func (o *SleImpactSummary) GetBand() []SleImpactSummaryBand1 {
+func (o *SleImpactSummary) GetBand() []SleImpactSummaryBandItem {
 	if o == nil {
-		var ret []SleImpactSummaryBand1
+		var ret []SleImpactSummaryBandItem
 		return ret
 	}
 
@@ -99,7 +99,7 @@ func (o *SleImpactSummary) GetBand() []SleImpactSummaryBand1 {
 
 // GetBandOk returns a tuple with the Band field value
 // and a boolean to check if the value has been set.
-func (o *SleImpactSummary) GetBandOk() ([]SleImpactSummaryBand1, bool) {
+func (o *SleImpactSummary) GetBandOk() ([]SleImpactSummaryBandItem, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -107,7 +107,7 @@ func (o *SleImpactSummary) GetBandOk() ([]SleImpactSummaryBand1, bool) {
 }
 
 // SetBand sets field value
-func (o *SleImpactSummary) SetBand(v []SleImpactSummaryBand1) {
+func (o *SleImpactSummary) SetBand(v []SleImpactSummaryBandItem) {
 	o.Band = v
 }
 
@@ -136,9 +136,9 @@ func (o *SleImpactSummary) SetClassifier(v string) {
 }
 
 // GetDeviceOs returns the DeviceOs field value
-func (o *SleImpactSummary) GetDeviceOs() []SleImpactSummaryDeviceOs1 {
+func (o *SleImpactSummary) GetDeviceOs() []SleImpactSummaryDeviceOsItem {
 	if o == nil {
-		var ret []SleImpactSummaryDeviceOs1
+		var ret []SleImpactSummaryDeviceOsItem
 		return ret
 	}
 
@@ -147,7 +147,7 @@ func (o *SleImpactSummary) GetDeviceOs() []SleImpactSummaryDeviceOs1 {
 
 // GetDeviceOsOk returns a tuple with the DeviceOs field value
 // and a boolean to check if the value has been set.
-func (o *SleImpactSummary) GetDeviceOsOk() ([]SleImpactSummaryDeviceOs1, bool) {
+func (o *SleImpactSummary) GetDeviceOsOk() ([]SleImpactSummaryDeviceOsItem, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -155,14 +155,14 @@ func (o *SleImpactSummary) GetDeviceOsOk() ([]SleImpactSummaryDeviceOs1, bool) {
 }
 
 // SetDeviceOs sets field value
-func (o *SleImpactSummary) SetDeviceOs(v []SleImpactSummaryDeviceOs1) {
+func (o *SleImpactSummary) SetDeviceOs(v []SleImpactSummaryDeviceOsItem) {
 	o.DeviceOs = v
 }
 
 // GetDeviceType returns the DeviceType field value
-func (o *SleImpactSummary) GetDeviceType() []SleImpactSummaryDeviceType1 {
+func (o *SleImpactSummary) GetDeviceType() []SleImpactSummaryDeviceTypeItem {
 	if o == nil {
-		var ret []SleImpactSummaryDeviceType1
+		var ret []SleImpactSummaryDeviceTypeItem
 		return ret
 	}
 
@@ -171,7 +171,7 @@ func (o *SleImpactSummary) GetDeviceType() []SleImpactSummaryDeviceType1 {
 
 // GetDeviceTypeOk returns a tuple with the DeviceType field value
 // and a boolean to check if the value has been set.
-func (o *SleImpactSummary) GetDeviceTypeOk() ([]SleImpactSummaryDeviceType1, bool) {
+func (o *SleImpactSummary) GetDeviceTypeOk() ([]SleImpactSummaryDeviceTypeItem, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -179,7 +179,7 @@ func (o *SleImpactSummary) GetDeviceTypeOk() ([]SleImpactSummaryDeviceType1, boo
 }
 
 // SetDeviceType sets field value
-func (o *SleImpactSummary) SetDeviceType(v []SleImpactSummaryDeviceType1) {
+func (o *SleImpactSummary) SetDeviceType(v []SleImpactSummaryDeviceTypeItem) {
 	o.DeviceType = v
 }
 
@@ -280,9 +280,9 @@ func (o *SleImpactSummary) SetStart(v float32) {
 }
 
 // GetWlan returns the Wlan field value
-func (o *SleImpactSummary) GetWlan() []SleImpactSummaryWlan1 {
+func (o *SleImpactSummary) GetWlan() []SleImpactSummaryWlanItem {
 	if o == nil {
-		var ret []SleImpactSummaryWlan1
+		var ret []SleImpactSummaryWlanItem
 		return ret
 	}
 
@@ -291,7 +291,7 @@ func (o *SleImpactSummary) GetWlan() []SleImpactSummaryWlan1 {
 
 // GetWlanOk returns a tuple with the Wlan field value
 // and a boolean to check if the value has been set.
-func (o *SleImpactSummary) GetWlanOk() ([]SleImpactSummaryWlan1, bool) {
+func (o *SleImpactSummary) GetWlanOk() ([]SleImpactSummaryWlanItem, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -299,7 +299,7 @@ func (o *SleImpactSummary) GetWlanOk() ([]SleImpactSummaryWlan1, bool) {
 }
 
 // SetWlan sets field value
-func (o *SleImpactSummary) SetWlan(v []SleImpactSummaryWlan1) {
+func (o *SleImpactSummary) SetWlan(v []SleImpactSummaryWlanItem) {
 	o.Wlan = v
 }
 

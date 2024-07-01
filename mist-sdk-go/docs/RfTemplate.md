@@ -7,11 +7,11 @@ Name | Type | Description | Notes
 **AntGain24** | Pointer to **int32** |  | [optional] 
 **AntGain5** | Pointer to **int32** |  | [optional] 
 **AntGain6** | Pointer to **int32** |  | [optional] 
-**Band24** | Pointer to [**ApRadioBand24**](ApRadioBand24.md) |  | [optional] 
-**Band24Usage** | Pointer to [**ApRadioBand24Usage**](ApRadioBand24Usage.md) |  | [optional] 
-**Band5** | Pointer to [**ApRadioBand5**](ApRadioBand5.md) |  | [optional] 
-**Band5On24Radio** | Pointer to [**ApRadioBand5**](ApRadioBand5.md) |  | [optional] 
-**Band6** | Pointer to [**ApRadioBand6**](ApRadioBand6.md) |  | [optional] 
+**Band24** | Pointer to [**RftemplateRadioBand24**](RftemplateRadioBand24.md) |  | [optional] 
+**Band24Usage** | Pointer to [**RadioBand24Usage**](RadioBand24Usage.md) |  | [optional] 
+**Band5** | Pointer to [**RftemplateRadioBand5**](RftemplateRadioBand5.md) |  | [optional] 
+**Band5On24Radio** | Pointer to [**RftemplateRadioBand5**](RftemplateRadioBand5.md) |  | [optional] 
+**Band6** | Pointer to [**RftemplateRadioBand6**](RftemplateRadioBand6.md) |  | [optional] 
 **CountryCode** | Pointer to **string** | optional, country code to use. If specified, this gets applied to all sites using the RF Template | [optional] 
 **CreatedTime** | Pointer to **float32** |  | [optional] [readonly] 
 **ForSite** | Pointer to **bool** |  | [optional] [readonly] 
@@ -118,20 +118,20 @@ HasAntGain6 returns a boolean if a field has been set.
 
 ### GetBand24
 
-`func (o *RfTemplate) GetBand24() ApRadioBand24`
+`func (o *RfTemplate) GetBand24() RftemplateRadioBand24`
 
 GetBand24 returns the Band24 field if non-nil, zero value otherwise.
 
 ### GetBand24Ok
 
-`func (o *RfTemplate) GetBand24Ok() (*ApRadioBand24, bool)`
+`func (o *RfTemplate) GetBand24Ok() (*RftemplateRadioBand24, bool)`
 
 GetBand24Ok returns a tuple with the Band24 field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetBand24
 
-`func (o *RfTemplate) SetBand24(v ApRadioBand24)`
+`func (o *RfTemplate) SetBand24(v RftemplateRadioBand24)`
 
 SetBand24 sets Band24 field to given value.
 
@@ -143,20 +143,20 @@ HasBand24 returns a boolean if a field has been set.
 
 ### GetBand24Usage
 
-`func (o *RfTemplate) GetBand24Usage() ApRadioBand24Usage`
+`func (o *RfTemplate) GetBand24Usage() RadioBand24Usage`
 
 GetBand24Usage returns the Band24Usage field if non-nil, zero value otherwise.
 
 ### GetBand24UsageOk
 
-`func (o *RfTemplate) GetBand24UsageOk() (*ApRadioBand24Usage, bool)`
+`func (o *RfTemplate) GetBand24UsageOk() (*RadioBand24Usage, bool)`
 
 GetBand24UsageOk returns a tuple with the Band24Usage field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetBand24Usage
 
-`func (o *RfTemplate) SetBand24Usage(v ApRadioBand24Usage)`
+`func (o *RfTemplate) SetBand24Usage(v RadioBand24Usage)`
 
 SetBand24Usage sets Band24Usage field to given value.
 
@@ -168,20 +168,20 @@ HasBand24Usage returns a boolean if a field has been set.
 
 ### GetBand5
 
-`func (o *RfTemplate) GetBand5() ApRadioBand5`
+`func (o *RfTemplate) GetBand5() RftemplateRadioBand5`
 
 GetBand5 returns the Band5 field if non-nil, zero value otherwise.
 
 ### GetBand5Ok
 
-`func (o *RfTemplate) GetBand5Ok() (*ApRadioBand5, bool)`
+`func (o *RfTemplate) GetBand5Ok() (*RftemplateRadioBand5, bool)`
 
 GetBand5Ok returns a tuple with the Band5 field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetBand5
 
-`func (o *RfTemplate) SetBand5(v ApRadioBand5)`
+`func (o *RfTemplate) SetBand5(v RftemplateRadioBand5)`
 
 SetBand5 sets Band5 field to given value.
 
@@ -193,20 +193,20 @@ HasBand5 returns a boolean if a field has been set.
 
 ### GetBand5On24Radio
 
-`func (o *RfTemplate) GetBand5On24Radio() ApRadioBand5`
+`func (o *RfTemplate) GetBand5On24Radio() RftemplateRadioBand5`
 
 GetBand5On24Radio returns the Band5On24Radio field if non-nil, zero value otherwise.
 
 ### GetBand5On24RadioOk
 
-`func (o *RfTemplate) GetBand5On24RadioOk() (*ApRadioBand5, bool)`
+`func (o *RfTemplate) GetBand5On24RadioOk() (*RftemplateRadioBand5, bool)`
 
 GetBand5On24RadioOk returns a tuple with the Band5On24Radio field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetBand5On24Radio
 
-`func (o *RfTemplate) SetBand5On24Radio(v ApRadioBand5)`
+`func (o *RfTemplate) SetBand5On24Radio(v RftemplateRadioBand5)`
 
 SetBand5On24Radio sets Band5On24Radio field to given value.
 
@@ -218,20 +218,20 @@ HasBand5On24Radio returns a boolean if a field has been set.
 
 ### GetBand6
 
-`func (o *RfTemplate) GetBand6() ApRadioBand6`
+`func (o *RfTemplate) GetBand6() RftemplateRadioBand6`
 
 GetBand6 returns the Band6 field if non-nil, zero value otherwise.
 
 ### GetBand6Ok
 
-`func (o *RfTemplate) GetBand6Ok() (*ApRadioBand6, bool)`
+`func (o *RfTemplate) GetBand6Ok() (*RftemplateRadioBand6, bool)`
 
 GetBand6Ok returns a tuple with the Band6 field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetBand6
 
-`func (o *RfTemplate) SetBand6(v ApRadioBand6)`
+`func (o *RfTemplate) SetBand6(v RftemplateRadioBand6)`
 
 SetBand6 sets Band6 field to given value.
 

@@ -1,9 +1,9 @@
 /*
 Mist API
 
-> Version: **2406.1.10** > > Date: **June 29, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
+> Version: **2406.1.10** > > Date: **July 1, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
 
-API version: 2406.1.10
+API version: 2406.1.11
 Contact: tmunzer@juniper.net
 */
 
@@ -37,7 +37,7 @@ type Vbeacon struct {
 	OrgId *string `json:"org_id,omitempty"`
 	// required if `power_mode`==`custom`, -30 - 100, in dBm. For default power_mode, power = 4 dBm.
 	Power *int32 `json:"power,omitempty"`
-	PowerMode *ApBlePowerMode `json:"power_mode,omitempty"`
+	PowerMode *BleConfigPowerMode `json:"power_mode,omitempty"`
 	SiteId *string `json:"site_id,omitempty"`
 	// URL to show, optional
 	Url *string `json:"url,omitempty"`
@@ -62,7 +62,7 @@ func NewVbeacon() *Vbeacon {
 	this := Vbeacon{}
 	var power int32 = 4
 	this.Power = &power
-	var powerMode ApBlePowerMode = APBLEPOWERMODE_DEFAULT
+	var powerMode BleConfigPowerMode = BLECONFIGPOWERMODE_DEFAULT
 	this.PowerMode = &powerMode
 	return &this
 }
@@ -74,7 +74,7 @@ func NewVbeaconWithDefaults() *Vbeacon {
 	this := Vbeacon{}
 	var power int32 = 4
 	this.Power = &power
-	var powerMode ApBlePowerMode = APBLEPOWERMODE_DEFAULT
+	var powerMode BleConfigPowerMode = BLECONFIGPOWERMODE_DEFAULT
 	this.PowerMode = &powerMode
 	return &this
 }
@@ -432,9 +432,9 @@ func (o *Vbeacon) SetPower(v int32) {
 }
 
 // GetPowerMode returns the PowerMode field value if set, zero value otherwise.
-func (o *Vbeacon) GetPowerMode() ApBlePowerMode {
+func (o *Vbeacon) GetPowerMode() BleConfigPowerMode {
 	if o == nil || IsNil(o.PowerMode) {
-		var ret ApBlePowerMode
+		var ret BleConfigPowerMode
 		return ret
 	}
 	return *o.PowerMode
@@ -442,7 +442,7 @@ func (o *Vbeacon) GetPowerMode() ApBlePowerMode {
 
 // GetPowerModeOk returns a tuple with the PowerMode field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Vbeacon) GetPowerModeOk() (*ApBlePowerMode, bool) {
+func (o *Vbeacon) GetPowerModeOk() (*BleConfigPowerMode, bool) {
 	if o == nil || IsNil(o.PowerMode) {
 		return nil, false
 	}
@@ -458,8 +458,8 @@ func (o *Vbeacon) HasPowerMode() bool {
 	return false
 }
 
-// SetPowerMode gets a reference to the given ApBlePowerMode and assigns it to the PowerMode field.
-func (o *Vbeacon) SetPowerMode(v ApBlePowerMode) {
+// SetPowerMode gets a reference to the given BleConfigPowerMode and assigns it to the PowerMode field.
+func (o *Vbeacon) SetPowerMode(v BleConfigPowerMode) {
 	o.PowerMode = &v
 }
 

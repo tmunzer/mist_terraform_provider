@@ -331,8 +331,8 @@ import (
 
 func main() {
 	orgId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	siteId := "siteId_example" // string |  (optional)
-	type_ := "type__example" // string |  (optional)
+	siteId := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | site ID (optional)
+	type_ := "type__example" // string | alarm type (optional)
 	start := int32(56) // int32 | start datetime, can be epoch or relative time like -1d, -1w; -1d if not specified (optional)
 	end := int32(56) // int32 | end datetime, can be epoch or relative time like -1d, -2h; now if not specified (optional)
 	duration := "10m" // string | duration like 7d, 2w (optional) (default to "1d")
@@ -366,8 +366,8 @@ Other parameters are passed through a pointer to a apiSearchOrgAlarmsRequest str
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **siteId** | **string** |  | 
- **type_** | **string** |  | 
+ **siteId** | **string** | site ID | 
+ **type_** | **string** | alarm type | 
  **start** | **int32** | start datetime, can be epoch or relative time like -1d, -1w; -1d if not specified | 
  **end** | **int32** | end datetime, can be epoch or relative time like -1d, -2h; now if not specified | 
  **duration** | **string** | duration like 7d, 2w | [default to &quot;1d&quot;]

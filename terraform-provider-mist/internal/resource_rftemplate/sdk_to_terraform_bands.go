@@ -3,14 +3,14 @@ package resource_rftemplate
 import (
 	"context"
 	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
-	mist_transform "terraform-provider-mist/internal/provider/utils/transform"
+	mist_transform "terraform-provider-mist/internal/provider/commons/utils"
 
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
-func band24SdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdkgo.ApRadioBand24) Band24Value {
+func band24SdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdkgo.RftemplateRadioBand24) Band24Value {
 
 	data_map_attr_type := Band24Value{}.AttributeTypes(ctx)
 	data_map_value := map[string]attr.Value{
@@ -18,7 +18,6 @@ func band24SdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsd
 		"ant_gain":          types.Int64Value(int64(d.GetAntGain())),
 		"antenna_mode":      types.StringValue(string(d.GetAntennaMode())),
 		"bandwidth":         types.Int64Value(int64(d.GetBandwidth())),
-		"channel":           types.Int64Value(int64(d.GetChannel())),
 		"channels":          mist_transform.ListOfIntSdkToTerraform(ctx, d.GetChannels()),
 		"disabled":          types.BoolValue(d.GetDisabled()),
 		"power":             types.Int64Value(int64(d.GetPower())),
@@ -26,13 +25,14 @@ func band24SdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsd
 		"power_min":         types.Int64Value(int64(d.GetPowerMin())),
 		"preamble":          types.StringValue(string(d.GetPreamble())),
 	}
+
 	data, e := NewBand24Value(data_map_attr_type, data_map_value)
 	diags.Append(e...)
 
 	return data
 }
 
-func band5SdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdkgo.ApRadioBand5) Band5Value {
+func band5SdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdkgo.RftemplateRadioBand5) Band5Value {
 
 	data_map_attr_type := Band5Value{}.AttributeTypes(ctx)
 	data_map_value := map[string]attr.Value{
@@ -40,7 +40,6 @@ func band5SdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdk
 		"ant_gain":          types.Int64Value(int64(d.GetAntGain())),
 		"antenna_mode":      types.StringValue(string(d.GetAntennaMode())),
 		"bandwidth":         types.Int64Value(int64(d.GetBandwidth())),
-		"channel":           types.Int64Value(int64(d.GetChannel())),
 		"channels":          mist_transform.ListOfIntSdkToTerraform(ctx, d.GetChannels()),
 		"disabled":          types.BoolValue(d.GetDisabled()),
 		"power":             types.Int64Value(int64(d.GetPower())),
@@ -54,7 +53,7 @@ func band5SdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdk
 	return data
 }
 
-func band6SdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdkgo.ApRadioBand6) Band6Value {
+func band6SdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdkgo.RftemplateRadioBand6) Band6Value {
 
 	data_map_attr_type := Band6Value{}.AttributeTypes(ctx)
 	data_map_value := map[string]attr.Value{
@@ -62,7 +61,6 @@ func band6SdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdk
 		"ant_gain":          types.Int64Value(int64(d.GetAntGain())),
 		"antenna_mode":      types.StringValue(string(d.GetAntennaMode())),
 		"bandwidth":         types.Int64Value(int64(d.GetBandwidth())),
-		"channel":           types.Int64Value(int64(d.GetChannel())),
 		"channels":          mist_transform.ListOfIntSdkToTerraform(ctx, d.GetChannels()),
 		"disabled":          types.BoolValue(d.GetDisabled()),
 		"power":             types.Int64Value(int64(d.GetPower())),

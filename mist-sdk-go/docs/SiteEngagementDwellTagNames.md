@@ -4,16 +4,16 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Bounce** | **string** |  | 
-**Engaged** | **string** |  | 
-**Passerby** | **string** |  | 
-**Stationed** | **string** |  | 
+**Bounce** | Pointer to **string** |  | [optional] 
+**Engaged** | Pointer to **string** |  | [optional] 
+**Passerby** | Pointer to **string** |  | [optional] 
+**Stationed** | Pointer to **string** |  | [optional] 
 
 ## Methods
 
 ### NewSiteEngagementDwellTagNames
 
-`func NewSiteEngagementDwellTagNames(bounce string, engaged string, passerby string, stationed string, ) *SiteEngagementDwellTagNames`
+`func NewSiteEngagementDwellTagNames() *SiteEngagementDwellTagNames`
 
 NewSiteEngagementDwellTagNames instantiates a new SiteEngagementDwellTagNames object
 This constructor will assign default values to properties that have it defined,
@@ -47,6 +47,11 @@ and a boolean to check if the value has been set.
 
 SetBounce sets Bounce field to given value.
 
+### HasBounce
+
+`func (o *SiteEngagementDwellTagNames) HasBounce() bool`
+
+HasBounce returns a boolean if a field has been set.
 
 ### GetEngaged
 
@@ -67,6 +72,11 @@ and a boolean to check if the value has been set.
 
 SetEngaged sets Engaged field to given value.
 
+### HasEngaged
+
+`func (o *SiteEngagementDwellTagNames) HasEngaged() bool`
+
+HasEngaged returns a boolean if a field has been set.
 
 ### GetPasserby
 
@@ -87,6 +97,11 @@ and a boolean to check if the value has been set.
 
 SetPasserby sets Passerby field to given value.
 
+### HasPasserby
+
+`func (o *SiteEngagementDwellTagNames) HasPasserby() bool`
+
+HasPasserby returns a boolean if a field has been set.
 
 ### GetStationed
 
@@ -107,6 +122,11 @@ and a boolean to check if the value has been set.
 
 SetStationed sets Stationed field to given value.
 
+### HasStationed
+
+`func (o *SiteEngagementDwellTagNames) HasStationed() bool`
+
+HasStationed returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

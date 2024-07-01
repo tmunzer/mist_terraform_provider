@@ -722,9 +722,9 @@ import (
 func main() {
 	orgId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
 	type_ := openapiclient.device_type("") // DeviceType |  (optional) (default to "ap")
-	mac := "mac_example" // string |  (optional)
-	name := "name_example" // string |  (optional)
-	version := "version_example" // string |  (optional)
+	mac := "mac_example" // string | Device MAC address (optional)
+	name := "name_example" // string | Devices Name (optional)
+	version := "version_example" // string | Device Version (optional)
 	start := int32(56) // int32 | start datetime, can be epoch or relative time like -1d, -1w; -1d if not specified (optional)
 	end := int32(56) // int32 | end datetime, can be epoch or relative time like -1d, -2h; now if not specified (optional)
 	limit := int32(56) // int32 |  (optional) (default to 100)
@@ -759,9 +759,9 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
  **type_** | [**DeviceType**](DeviceType.md) |  | [default to &quot;ap&quot;]
- **mac** | **string** |  | 
- **name** | **string** |  | 
- **version** | **string** |  | 
+ **mac** | **string** | Device MAC address | 
+ **name** | **string** | Devices Name | 
+ **version** | **string** | Device Version | 
  **start** | **int32** | start datetime, can be epoch or relative time like -1d, -1w; -1d if not specified | 
  **end** | **int32** | end datetime, can be epoch or relative time like -1d, -2h; now if not specified | 
  **limit** | **int32** |  | [default to 100]

@@ -11,7 +11,7 @@ import (
 	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
 )
 
-func networksSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]mistsdkgo.SwitchNetwork) basetypes.MapValue {
+func NetworksSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]mistsdkgo.SwitchNetwork) basetypes.MapValue {
 
 	state_value_map_attr_type := NetworksValue{}.AttributeTypes(ctx)
 	state_value_map_value := make(map[string]attr.Value)

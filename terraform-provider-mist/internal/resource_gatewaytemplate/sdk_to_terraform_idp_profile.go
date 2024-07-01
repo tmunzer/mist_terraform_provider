@@ -10,10 +10,10 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 
 	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
-	mist_transform "terraform-provider-mist/internal/provider/utils/transform"
+	mist_transform "terraform-provider-mist/internal/provider/commons/utils"
 )
 
-func idpProfileOverwriteMatchingSeveritiesSdkToTerraform(ctx context.Context, data []mistsdkgo.IdpProfileMatchingSeverity1) basetypes.ListValue {
+func idpProfileOverwriteMatchingSeveritiesSdkToTerraform(ctx context.Context, data []mistsdkgo.IdpProfileMatchingSeverityValue) basetypes.ListValue {
 	var items []attr.Value
 	var items_type attr.Type = basetypes.StringType{}
 	for _, item := range data {
@@ -25,15 +25,15 @@ func idpProfileOverwriteMatchingSeveritiesSdkToTerraform(ctx context.Context, da
 }
 
 func idpProfileOverwriteMatchingSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdkgo.IdpProfileMatching) basetypes.MapValue {
-	data_map_type := MatchingValue{}.AttributeTypes(ctx)
+	data_map_type := IpdProfileOverwriteMatchingValue{}.AttributeTypes(ctx)
 	data_map_value := map[string]attr.Value{
 		"attack_name": mist_transform.ListOfStringSdkToTerraform(ctx, d.GetAttackName()),
 		"dst_subnet":  mist_transform.ListOfStringSdkToTerraform(ctx, d.GetDstSubnet()),
 		"severity":    idpProfileOverwriteMatchingSeveritiesSdkToTerraform(ctx, d.GetSeverity()),
 	}
 
-	data := NewMatchingValueMust(data_map_type, data_map_value)
-	r, e := types.MapValueFrom(ctx, MatchingValue{}.Type(ctx), data)
+	data := NewIpdProfileOverwriteMatchingValueMust(data_map_type, data_map_value)
+	r, e := types.MapValueFrom(ctx, IpdProfileOverwriteMatchingValue{}.Type(ctx), data)
 	diags.Append(e...)
 	return r
 }

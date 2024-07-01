@@ -8,7 +8,7 @@ Name | Type | Description | Notes
 **AclTags** | Pointer to [**map[string]AclTag**](AclTag.md) | ACL Tags to identify traffic source or destination. Key name is the tag name | [optional] 
 **AdditionalConfigCmds** | Pointer to **[]string** | additional CLI commands to append to the generated Junos config  **Note**: no check is done | [optional] 
 **CreatedTime** | Pointer to **float32** |  | [optional] [readonly] 
-**DeviceprofileId** | Pointer to **string** |  | [optional] 
+**DeviceprofileId** | Pointer to **string** |  | [optional] [readonly] 
 **DhcpConfig** | Pointer to [**DhcpdConfigs**](DhcpdConfigs.md) |  | [optional] 
 **DhcpSnooping** | Pointer to [**DhcpSnooping**](DhcpSnooping.md) |  | [optional] 
 **DisableAutoConfig** | Pointer to **bool** | for a claimed switch, we control the configs by default. This option (disables the behavior) | [optional] [default to false]

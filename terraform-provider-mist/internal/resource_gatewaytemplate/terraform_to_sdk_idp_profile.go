@@ -3,16 +3,16 @@ package resource_gatewaytemplate
 import (
 	"context"
 	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
-	mist_transform "terraform-provider-mist/internal/provider/utils/transform"
+	mist_transform "terraform-provider-mist/internal/provider/commons/utils"
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 )
 
-func idpProfileMatchingSeverityTerraformToSdk(ctx context.Context, list basetypes.ListValue) []mistsdkgo.IdpProfileMatchingSeverity1 {
-	var items []mistsdkgo.IdpProfileMatchingSeverity1
+func idpProfileMatchingSeverityTerraformToSdk(ctx context.Context, list basetypes.ListValue) []mistsdkgo.IdpProfileMatchingSeverityValue {
+	var items []mistsdkgo.IdpProfileMatchingSeverityValue
 	for _, item := range list.Elements() {
-		s, _ := mistsdkgo.NewIdpProfileMatchingSeverity1FromValue(item.String())
+		s, _ := mistsdkgo.NewIdpProfileMatchingSeverityValueFromValue(item.String())
 		items = append(items, *s)
 	}
 	return items
@@ -24,7 +24,7 @@ func idpProfileMatchingTerraformToSdk(ctx context.Context, diags *diag.Diagnosti
 		return data
 	} else {
 		var d_interface interface{} = d
-		plan := d_interface.(MatchingValue)
+		plan := d_interface.(IpdProfileOverwriteMatchingValue)
 
 		data.SetAttackName(mist_transform.ListOfStringTerraformToSdk(ctx, plan.AttackName))
 		data.SetDstSubnet(mist_transform.ListOfStringTerraformToSdk(ctx, plan.DstSubnet))
@@ -41,7 +41,7 @@ func idpProfileOverwritesTerraformToSdk(ctx context.Context, diags *diag.Diagnos
 		plan := v_interface.(OverwritesValue)
 		data := mistsdkgo.NewIdpProfileOverwrite()
 		data.SetAction(mistsdkgo.IdpProfileAction(plan.Action.ValueString()))
-		data.SetMatching(idpProfileMatchingTerraformToSdk(ctx, diags, plan.Matching))
+		data.SetMatching(idpProfileMatchingTerraformToSdk(ctx, diags, plan.IpdProfileOverwriteMatching))
 
 		data_list = append(data_list, *data)
 	}

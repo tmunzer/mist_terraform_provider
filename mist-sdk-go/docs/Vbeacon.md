@@ -15,7 +15,7 @@ Name | Type | Description | Notes
 **Name** | Pointer to **string** | name / label of the device | [optional] 
 **OrgId** | Pointer to **string** |  | [optional] [readonly] 
 **Power** | Pointer to **int32** | required if &#x60;power_mode&#x60;&#x3D;&#x3D;&#x60;custom&#x60;, -30 - 100, in dBm. For default power_mode, power &#x3D; 4 dBm. | [optional] [default to 4]
-**PowerMode** | Pointer to [**ApBlePowerMode**](ApBlePowerMode.md) |  | [optional] [default to APBLEPOWERMODE_DEFAULT]
+**PowerMode** | Pointer to [**BleConfigPowerMode**](BleConfigPowerMode.md) |  | [optional] [default to BLECONFIGPOWERMODE_DEFAULT]
 **SiteId** | Pointer to **string** |  | [optional] [readonly] 
 **Url** | Pointer to **string** | URL to show, optional | [optional] 
 **Uuid** | Pointer to **string** | bluetooth tag UUID | [optional] 
@@ -319,20 +319,20 @@ HasPower returns a boolean if a field has been set.
 
 ### GetPowerMode
 
-`func (o *Vbeacon) GetPowerMode() ApBlePowerMode`
+`func (o *Vbeacon) GetPowerMode() BleConfigPowerMode`
 
 GetPowerMode returns the PowerMode field if non-nil, zero value otherwise.
 
 ### GetPowerModeOk
 
-`func (o *Vbeacon) GetPowerModeOk() (*ApBlePowerMode, bool)`
+`func (o *Vbeacon) GetPowerModeOk() (*BleConfigPowerMode, bool)`
 
 GetPowerModeOk returns a tuple with the PowerMode field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetPowerMode
 
-`func (o *Vbeacon) SetPowerMode(v ApBlePowerMode)`
+`func (o *Vbeacon) SetPowerMode(v BleConfigPowerMode)`
 
 SetPowerMode sets PowerMode field to given value.
 

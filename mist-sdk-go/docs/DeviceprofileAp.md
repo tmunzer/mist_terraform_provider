@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Aeroscout** | Pointer to [**ApAeroscout**](ApAeroscout.md) |  | [optional] 
-**BleConfig** | Pointer to [**ApBle**](ApBle.md) |  | [optional] 
+**BleConfig** | Pointer to [**BleConfig**](BleConfig.md) |  | [optional] 
 **CreatedTime** | Pointer to **float32** |  | [optional] [readonly] 
 **DisableEth1** | Pointer to **bool** | whether to disable eth1 port | [optional] [default to false]
 **DisableEth2** | Pointer to **bool** | whether to disable eth2 port | [optional] [default to false]
@@ -79,20 +79,20 @@ HasAeroscout returns a boolean if a field has been set.
 
 ### GetBleConfig
 
-`func (o *DeviceprofileAp) GetBleConfig() ApBle`
+`func (o *DeviceprofileAp) GetBleConfig() BleConfig`
 
 GetBleConfig returns the BleConfig field if non-nil, zero value otherwise.
 
 ### GetBleConfigOk
 
-`func (o *DeviceprofileAp) GetBleConfigOk() (*ApBle, bool)`
+`func (o *DeviceprofileAp) GetBleConfigOk() (*BleConfig, bool)`
 
 GetBleConfigOk returns a tuple with the BleConfig field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetBleConfig
 
-`func (o *DeviceprofileAp) SetBleConfig(v ApBle)`
+`func (o *DeviceprofileAp) SetBleConfig(v BleConfig)`
 
 SetBleConfig sets BleConfig field to given value.
 

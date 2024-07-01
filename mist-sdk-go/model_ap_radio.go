@@ -1,9 +1,9 @@
 /*
 Mist API
 
-> Version: **2406.1.10** > > Date: **June 29, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
+> Version: **2406.1.10** > > Date: **July 1, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
 
-API version: 2406.1.10
+API version: 2406.1.11
 Contact: tmunzer@juniper.net
 */
 
@@ -29,7 +29,7 @@ type ApRadio struct {
 	AntGain6 *int32 `json:"ant_gain_6,omitempty"`
 	AntennaMode *ApRadioAntennaMode `json:"antenna_mode,omitempty"`
 	Band24 *ApRadioBand24 `json:"band_24,omitempty"`
-	Band24Usage *ApRadioBand24Usage `json:"band_24_usage,omitempty"`
+	Band24Usage *RadioBand24Usage `json:"band_24_usage,omitempty"`
 	Band5 *ApRadioBand5 `json:"band_5,omitempty"`
 	Band5On24Radio *ApRadioBand5 `json:"band_5_on_24_radio,omitempty"`
 	Band6 *ApRadioBand6 `json:"band_6,omitempty"`
@@ -264,9 +264,9 @@ func (o *ApRadio) SetBand24(v ApRadioBand24) {
 }
 
 // GetBand24Usage returns the Band24Usage field value if set, zero value otherwise.
-func (o *ApRadio) GetBand24Usage() ApRadioBand24Usage {
+func (o *ApRadio) GetBand24Usage() RadioBand24Usage {
 	if o == nil || IsNil(o.Band24Usage) {
-		var ret ApRadioBand24Usage
+		var ret RadioBand24Usage
 		return ret
 	}
 	return *o.Band24Usage
@@ -274,7 +274,7 @@ func (o *ApRadio) GetBand24Usage() ApRadioBand24Usage {
 
 // GetBand24UsageOk returns a tuple with the Band24Usage field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ApRadio) GetBand24UsageOk() (*ApRadioBand24Usage, bool) {
+func (o *ApRadio) GetBand24UsageOk() (*RadioBand24Usage, bool) {
 	if o == nil || IsNil(o.Band24Usage) {
 		return nil, false
 	}
@@ -290,8 +290,8 @@ func (o *ApRadio) HasBand24Usage() bool {
 	return false
 }
 
-// SetBand24Usage gets a reference to the given ApRadioBand24Usage and assigns it to the Band24Usage field.
-func (o *ApRadio) SetBand24Usage(v ApRadioBand24Usage) {
+// SetBand24Usage gets a reference to the given RadioBand24Usage and assigns it to the Band24Usage field.
+func (o *ApRadio) SetBand24Usage(v RadioBand24Usage) {
 	o.Band24Usage = &v
 }
 

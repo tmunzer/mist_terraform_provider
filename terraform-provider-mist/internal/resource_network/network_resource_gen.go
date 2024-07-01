@@ -3708,6 +3708,8 @@ func (v VpnAccessValue) AttributeTypes(ctx context.Context) map[string]attr.Type
 
 
 
+
+
 var _ basetypes.ObjectTypable = SourceNatType{}
 
 type SourceNatType struct {
@@ -4031,6 +4033,8 @@ func (v SourceNatValue) AttributeTypes(ctx context.Context) map[string]attr.Type
 		"exteral_ip": basetypes.StringType{},
 	}
 }
+
+
 
 
 

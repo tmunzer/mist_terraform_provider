@@ -6,7 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **AdditionalMxtunnels** | Pointer to [**map[string]SiteMxtunnelAdditionalMxtunnel**](SiteMxtunnelAdditionalMxtunnel.md) |  | [optional] 
 **ApSubnets** | Pointer to **[]string** | list of subnets where we allow AP to establish Mist Tunnels from | [optional] 
-**AutoPreemption** | Pointer to [**SiteMxtunnelAutoPreemption**](SiteMxtunnelAutoPreemption.md) |  | [optional] 
+**AutoPreemption** | Pointer to [**AutoPreemption**](AutoPreemption.md) |  | [optional] 
 **Clusters** | Pointer to [**[]SiteMxtunnelCluster**](SiteMxtunnelCluster.md) | for AP, how to connect to tunterm or radsecproxy | [optional] 
 **CreatedTime** | Pointer to **float32** |  | [optional] [readonly] 
 **Enabled** | Pointer to **bool** |  | [optional] 
@@ -18,10 +18,10 @@ Name | Type | Description | Notes
 **ModifiedTime** | Pointer to **float32** |  | [optional] [readonly] 
 **Mtu** | Pointer to **int32** | 0 to enable PMTU, 552-1500 to start PMTU with a lower MTU | [optional] [default to 0]
 **OrgId** | Pointer to **string** |  | [optional] [readonly] 
-**Protocol** | Pointer to [**SiteMxtunnelProtocol**](SiteMxtunnelProtocol.md) |  | [optional] 
+**Protocol** | Pointer to [**MxtunnelProtocol**](MxtunnelProtocol.md) |  | [optional] [default to MXTUNNELPROTOCOL_UDP]
 **Radsec** | Pointer to [**SiteMxtunnelRadsec**](SiteMxtunnelRadsec.md) |  | [optional] 
 **SiteId** | Pointer to **string** |  | [optional] [readonly] 
-**VlanIds** | Pointer to [**[]SiteMxtunnelVlanId**](SiteMxtunnelVlanId.md) | list of vlan_ids that will be use | [optional] 
+**VlanIds** | Pointer to **[]int32** | list of vlan_ids that will be used | [optional] 
 
 ## Methods
 
@@ -94,20 +94,20 @@ HasApSubnets returns a boolean if a field has been set.
 
 ### GetAutoPreemption
 
-`func (o *SiteMxtunnel) GetAutoPreemption() SiteMxtunnelAutoPreemption`
+`func (o *SiteMxtunnel) GetAutoPreemption() AutoPreemption`
 
 GetAutoPreemption returns the AutoPreemption field if non-nil, zero value otherwise.
 
 ### GetAutoPreemptionOk
 
-`func (o *SiteMxtunnel) GetAutoPreemptionOk() (*SiteMxtunnelAutoPreemption, bool)`
+`func (o *SiteMxtunnel) GetAutoPreemptionOk() (*AutoPreemption, bool)`
 
 GetAutoPreemptionOk returns a tuple with the AutoPreemption field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetAutoPreemption
 
-`func (o *SiteMxtunnel) SetAutoPreemption(v SiteMxtunnelAutoPreemption)`
+`func (o *SiteMxtunnel) SetAutoPreemption(v AutoPreemption)`
 
 SetAutoPreemption sets AutoPreemption field to given value.
 
@@ -394,20 +394,20 @@ HasOrgId returns a boolean if a field has been set.
 
 ### GetProtocol
 
-`func (o *SiteMxtunnel) GetProtocol() SiteMxtunnelProtocol`
+`func (o *SiteMxtunnel) GetProtocol() MxtunnelProtocol`
 
 GetProtocol returns the Protocol field if non-nil, zero value otherwise.
 
 ### GetProtocolOk
 
-`func (o *SiteMxtunnel) GetProtocolOk() (*SiteMxtunnelProtocol, bool)`
+`func (o *SiteMxtunnel) GetProtocolOk() (*MxtunnelProtocol, bool)`
 
 GetProtocolOk returns a tuple with the Protocol field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetProtocol
 
-`func (o *SiteMxtunnel) SetProtocol(v SiteMxtunnelProtocol)`
+`func (o *SiteMxtunnel) SetProtocol(v MxtunnelProtocol)`
 
 SetProtocol sets Protocol field to given value.
 
@@ -469,20 +469,20 @@ HasSiteId returns a boolean if a field has been set.
 
 ### GetVlanIds
 
-`func (o *SiteMxtunnel) GetVlanIds() []SiteMxtunnelVlanId`
+`func (o *SiteMxtunnel) GetVlanIds() []int32`
 
 GetVlanIds returns the VlanIds field if non-nil, zero value otherwise.
 
 ### GetVlanIdsOk
 
-`func (o *SiteMxtunnel) GetVlanIdsOk() (*[]SiteMxtunnelVlanId, bool)`
+`func (o *SiteMxtunnel) GetVlanIdsOk() (*[]int32, bool)`
 
 GetVlanIdsOk returns a tuple with the VlanIds field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetVlanIds
 
-`func (o *SiteMxtunnel) SetVlanIds(v []SiteMxtunnelVlanId)`
+`func (o *SiteMxtunnel) SetVlanIds(v []int32)`
 
 SetVlanIds sets VlanIds field to given value.
 

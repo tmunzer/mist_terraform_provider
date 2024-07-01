@@ -10,7 +10,7 @@ Name | Type | Description | Notes
 **AntGain6** | Pointer to **int32** | antenna gain for 6G - for models with external antenna only | [optional] 
 **AntennaMode** | Pointer to [**ApRadioAntennaMode**](ApRadioAntennaMode.md) |  | [optional] [default to APRADIOANTENNAMODE_DEFAULT]
 **Band24** | Pointer to [**ApRadioBand24**](ApRadioBand24.md) |  | [optional] 
-**Band24Usage** | Pointer to [**ApRadioBand24Usage**](ApRadioBand24Usage.md) |  | [optional] 
+**Band24Usage** | Pointer to [**RadioBand24Usage**](RadioBand24Usage.md) |  | [optional] 
 **Band5** | Pointer to [**ApRadioBand5**](ApRadioBand5.md) |  | [optional] 
 **Band5On24Radio** | Pointer to [**ApRadioBand5**](ApRadioBand5.md) |  | [optional] 
 **Band6** | Pointer to [**ApRadioBand6**](ApRadioBand6.md) |  | [optional] 
@@ -188,20 +188,20 @@ HasBand24 returns a boolean if a field has been set.
 
 ### GetBand24Usage
 
-`func (o *ApRadio) GetBand24Usage() ApRadioBand24Usage`
+`func (o *ApRadio) GetBand24Usage() RadioBand24Usage`
 
 GetBand24Usage returns the Band24Usage field if non-nil, zero value otherwise.
 
 ### GetBand24UsageOk
 
-`func (o *ApRadio) GetBand24UsageOk() (*ApRadioBand24Usage, bool)`
+`func (o *ApRadio) GetBand24UsageOk() (*RadioBand24Usage, bool)`
 
 GetBand24UsageOk returns a tuple with the Band24Usage field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetBand24Usage
 
-`func (o *ApRadio) SetBand24Usage(v ApRadioBand24Usage)`
+`func (o *ApRadio) SetBand24Usage(v RadioBand24Usage)`
 
 SetBand24Usage sets Band24Usage field to given value.
 

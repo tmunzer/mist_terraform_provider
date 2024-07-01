@@ -8,7 +8,6 @@ Name | Type | Description | Notes
 **Disable11k** | Pointer to **bool** | whether to disable 11k | [optional] [default to false]
 **DisableRadiosWhenPowerConstrained** | Pointer to **bool** |  | [optional] [default to false]
 **EnableArpSpoofCheck** | Pointer to **bool** | when proxy_arp is enabled, check for arp spoofing. | [optional] [default to false]
-**EnableChannel144** | Pointer to **bool** | whether to enable channel 144 (some older clients may not support it) | [optional] [default to false]
 **EnableSharedRadioScanning** | Pointer to **bool** |  | [optional] [default to true]
 **Enabled** | Pointer to **bool** | enable WIFI feature (using SUB-MAN license) | [optional] [default to true]
 **LocateConnected** | Pointer to **bool** | whether to locate connected clients | [optional] [default to true]
@@ -138,31 +137,6 @@ SetEnableArpSpoofCheck sets EnableArpSpoofCheck field to given value.
 `func (o *SiteWifi) HasEnableArpSpoofCheck() bool`
 
 HasEnableArpSpoofCheck returns a boolean if a field has been set.
-
-### GetEnableChannel144
-
-`func (o *SiteWifi) GetEnableChannel144() bool`
-
-GetEnableChannel144 returns the EnableChannel144 field if non-nil, zero value otherwise.
-
-### GetEnableChannel144Ok
-
-`func (o *SiteWifi) GetEnableChannel144Ok() (*bool, bool)`
-
-GetEnableChannel144Ok returns a tuple with the EnableChannel144 field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetEnableChannel144
-
-`func (o *SiteWifi) SetEnableChannel144(v bool)`
-
-SetEnableChannel144 sets EnableChannel144 field to given value.
-
-### HasEnableChannel144
-
-`func (o *SiteWifi) HasEnableChannel144() bool`
-
-HasEnableChannel144 returns a boolean if a field has been set.
 
 ### GetEnableSharedRadioScanning
 

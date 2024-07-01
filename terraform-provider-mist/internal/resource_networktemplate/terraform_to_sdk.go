@@ -6,7 +6,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 
 	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
-	mist_transform "terraform-provider-mist/internal/provider/utils/transform"
+	mist_transform "terraform-provider-mist/internal/provider/commons/utils"
 )
 
 func TerraformToSdk(ctx context.Context, plan *NetworktemplateModel) (mistsdkgo.NetworkTemplate, diag.Diagnostics) {
@@ -42,7 +42,7 @@ func TerraformToSdk(ctx context.Context, plan *NetworktemplateModel) (mistsdkgo.
 	ntpServers := mist_transform.ListOfStringTerraformToSdk(ctx, plan.NtpServers)
 	data.SetNtpServers(ntpServers)
 
-	networks := networksTerraformToSdk(ctx, &diags, plan.Networks)
+	networks := NetworksTerraformToSdk(ctx, &diags, plan.Networks)
 	data.SetNetworks(networks)
 
 	port_usage := portUsageTerraformToSdk(ctx, &diags, plan.PortUsages)

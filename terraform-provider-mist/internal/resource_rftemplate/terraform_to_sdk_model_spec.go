@@ -25,7 +25,7 @@ func modelSpecificTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d
 		band24 := band24TerraformToSdk(ctx, diags, plan_band24)
 		data.SetBand24(band24)
 
-		data.SetBand24Usage(mistsdkgo.ApRadioBand24Usage(plan.Band24Usage.ValueString()))
+		data.SetBand24Usage(mistsdkgo.RadioBand24Usage(plan.Band24Usage.ValueString()))
 
 		plan_band5, _ := NewBand5Value(plan.Band5.AttributeTypes(ctx), plan.Band5.Attributes())
 		band5 := band5TerraformToSdk(ctx, diags, plan_band5)

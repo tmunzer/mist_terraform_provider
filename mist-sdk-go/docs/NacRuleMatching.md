@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**AuthType** | Pointer to [**NacRuleMatchingAuthType**](NacRuleMatchingAuthType.md) |  | [optional] [default to NACRULEMATCHINGAUTHTYPE_EAP_TLS]
+**AuthType** | Pointer to [**NacRuleMatchingAuthType**](NacRuleMatchingAuthType.md) |  | [optional] 
 **Nactags** | Pointer to **[]string** |  | [optional] 
 **PortTypes** | Pointer to [**[]NacRuleMatchingPortType**](NacRuleMatchingPortType.md) |  | [optional] 
 **SiteIds** | Pointer to **[]string** | list of site ids to match | [optional] 

@@ -217,4 +217,58 @@ resources:
       attributes:
         aliases:
           rftemplate_id: id
+  site_setting:
+    create:
+      path: /api/v1/sites/{site_id}/setting
+      method: PUT
+    read:
+      path: /api/v1/sites/{site_id}/setting
+      method: GET
+    update:
+      path: /api/v1/sites/{site_id}/setting
+      method: PUT      
+    delete:
+      path: /api/v1/sites/{site_id}/setting
+      method: PUT      
+    schema:
+      ignores:
+        - created_time
+        - modified_time
+        - id
+        - for_site
+        - additional_config_cmds
+        - ap_matching
+        - ap_port_config
+        - auto_placement
+        - evpn_options
+        - flags
+        - gateway
+        - gateway_additional_config_cmds
+        - gateway_matching
+        - gateway_mgmt
+        - mxedge
+        - mxedge_mgmt
+        - mxtunnels
+        - ospf_areas
+        - paloalto_networks
+        - port_mirroring
+        - port_usages
+        - protect_re
+        - radio_config
+        - radius_config
+        - remote_syslog
+        - rtsa
+        - status_portal
+        - switch
+        - switch_matching
+        - switch_mgmt
+        - tunterm_monitoring
+        - tunterm_monitoring_disabled
+        - tunterm_multicast_config
+        - vrf_instances
+        - vrrp_groups
+        - vs_instances
+      attributes:
+        aliases:
+          site_id: id
         

@@ -111,9 +111,9 @@ func main() {
 	type_ := openapiclient.device_type("") // DeviceType |  (optional) (default to "ap")
 	mac := "mac_example" // string | MAC address (optional)
 	siteId := "siteId_example" // string | site id if assigned, null if not assigned (optional)
-	vcMac := "vcMac_example" // string |  (optional)
-	vc := "vc_example" // string |  (optional)
-	unassigned := true // bool |  (optional)
+	vcMac := "vcMac_example" // string | Virtual Chassis MAC Address (optional)
+	vc := true // bool | To display Virtual Chassis members (optional) (default to false)
+	unassigned := true // bool | to display Unassigned devices (optional) (default to true)
 	limit := int32(56) // int32 |  (optional) (default to 100)
 	page := int32(56) // int32 |  (optional) (default to 1)
 
@@ -150,9 +150,9 @@ Name | Type | Description  | Notes
  **type_** | [**DeviceType**](DeviceType.md) |  | [default to &quot;ap&quot;]
  **mac** | **string** | MAC address | 
  **siteId** | **string** | site id if assigned, null if not assigned | 
- **vcMac** | **string** |  | 
- **vc** | **string** |  | 
- **unassigned** | **bool** |  | 
+ **vcMac** | **string** | Virtual Chassis MAC Address | 
+ **vc** | **bool** | To display Virtual Chassis members | [default to false]
+ **unassigned** | **bool** | to display Unassigned devices | [default to true]
  **limit** | **int32** |  | [default to 100]
  **page** | **int32** |  | [default to 1]
 

@@ -6,7 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **AllowRrmDisable** | Pointer to **bool** |  | [optional] [default to false]
 **AntGain** | Pointer to **NullableInt32** |  | [optional] [default to 0]
-**AntennaMode** | Pointer to [**ApRadioBandAntennaMode**](ApRadioBandAntennaMode.md) |  | [optional] [default to APRADIOBANDANTENNAMODE_DEFAULT]
+**AntennaMode** | Pointer to [**RadioBandAntennaMode**](RadioBandAntennaMode.md) |  | [optional] [default to RADIOBANDANTENNAMODE_DEFAULT]
 **Bandwidth** | Pointer to [**Dot11Bandwidth24**](Dot11Bandwidth24.md) |  | [optional] [default to DOT11BANDWIDTH24__20]
 **Channel** | Pointer to **NullableInt32** | For Device. (primary) channel for the band, 0 means using the Site Setting | [optional] 
 **Channels** | Pointer to **[]int32** | For RFTemplates. List of channels, null or empty array means auto | [optional] [default to []]
@@ -14,7 +14,7 @@ Name | Type | Description | Notes
 **Power** | Pointer to **NullableInt32** | TX power of the radio. For Devices, 0 means auto. -1 / -2 / -3 / …: treated as 0 / -1 / -2 / … | [optional] 
 **PowerMax** | Pointer to **NullableInt32** | when power&#x3D;0, max tx power to use, HW-specific values will be used if not set | [optional] [default to 17]
 **PowerMin** | Pointer to **NullableInt32** | when power&#x3D;0, min tx power to use, HW-specific values will be used if not set | [optional] [default to 8]
-**Preamble** | Pointer to [**ApRadioBandPreamble**](ApRadioBandPreamble.md) |  | [optional] [default to APRADIOBANDPREAMBLE_SHORT]
+**Preamble** | Pointer to [**RadioBandPreamble**](RadioBandPreamble.md) |  | [optional] [default to RADIOBANDPREAMBLE_SHORT]
 
 ## Methods
 
@@ -97,20 +97,20 @@ HasAntGain returns a boolean if a field has been set.
 UnsetAntGain ensures that no value is present for AntGain, not even an explicit nil
 ### GetAntennaMode
 
-`func (o *ApRadioBand24) GetAntennaMode() ApRadioBandAntennaMode`
+`func (o *ApRadioBand24) GetAntennaMode() RadioBandAntennaMode`
 
 GetAntennaMode returns the AntennaMode field if non-nil, zero value otherwise.
 
 ### GetAntennaModeOk
 
-`func (o *ApRadioBand24) GetAntennaModeOk() (*ApRadioBandAntennaMode, bool)`
+`func (o *ApRadioBand24) GetAntennaModeOk() (*RadioBandAntennaMode, bool)`
 
 GetAntennaModeOk returns a tuple with the AntennaMode field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetAntennaMode
 
-`func (o *ApRadioBand24) SetAntennaMode(v ApRadioBandAntennaMode)`
+`func (o *ApRadioBand24) SetAntennaMode(v RadioBandAntennaMode)`
 
 SetAntennaMode sets AntennaMode field to given value.
 
@@ -347,20 +347,20 @@ HasPowerMin returns a boolean if a field has been set.
 UnsetPowerMin ensures that no value is present for PowerMin, not even an explicit nil
 ### GetPreamble
 
-`func (o *ApRadioBand24) GetPreamble() ApRadioBandPreamble`
+`func (o *ApRadioBand24) GetPreamble() RadioBandPreamble`
 
 GetPreamble returns the Preamble field if non-nil, zero value otherwise.
 
 ### GetPreambleOk
 
-`func (o *ApRadioBand24) GetPreambleOk() (*ApRadioBandPreamble, bool)`
+`func (o *ApRadioBand24) GetPreambleOk() (*RadioBandPreamble, bool)`
 
 GetPreambleOk returns a tuple with the Preamble field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetPreamble
 
-`func (o *ApRadioBand24) SetPreamble(v ApRadioBandPreamble)`
+`func (o *ApRadioBand24) SetPreamble(v RadioBandPreamble)`
 
 SetPreamble sets Preamble field to given value.
 

@@ -10,7 +10,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
 	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
-	mist_transform "terraform-provider-mist/internal/provider/utils/transform"
+	mist_transform "terraform-provider-mist/internal/provider/commons/utils"
 )
 
 func switchMgmtProtecCustomtReSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []mistsdkgo.ProtectReCustom) basetypes.ListValue {
@@ -112,7 +112,7 @@ func switchMgmtTacacsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics
 
 	data_map_attr_type := TacacsValue{}.AttributeTypes(ctx)
 	data_map_value := map[string]attr.Value{
-		"tacacct_servers": tacacs_acct_servers,
+		"acct_servers":    tacacs_acct_servers,
 		"enabled":         types.BoolValue(d.GetEnabled()),
 		"network":         types.StringValue(d.GetNetwork()),
 		"tacplus_servers": tacacs_auth_servers,

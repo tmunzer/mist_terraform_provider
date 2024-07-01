@@ -11,7 +11,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
 	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
-	mist_transform "terraform-provider-mist/internal/provider/utils/transform"
+	mist_transform "terraform-provider-mist/internal/provider/commons/utils"
 )
 
 func switchMatchingRulesPortMirroringSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]mistsdkgo.SwitchPortMirroring) basetypes.MapValue {
@@ -121,8 +121,8 @@ func switchMatchingSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, 
 
 	data_map_attr_type := SwitchMatchingValue{}.AttributeTypes(ctx)
 	data_map_value := map[string]attr.Value{
-		"enable":         types.BoolValue(d.GetEnable()),
-		"matching_rules": switch_matching_rules,
+		"enable": types.BoolValue(d.GetEnable()),
+		"rules":  switch_matching_rules,
 	}
 
 	state_result, e := NewSwitchMatchingValue(data_map_attr_type, data_map_value)

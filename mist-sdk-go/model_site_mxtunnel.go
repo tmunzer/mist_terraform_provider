@@ -1,9 +1,9 @@
 /*
 Mist API
 
-> Version: **2406.1.10** > > Date: **June 29, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
+> Version: **2406.1.10** > > Date: **July 1, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
 
-API version: 2406.1.10
+API version: 2406.1.11
 Contact: tmunzer@juniper.net
 */
 
@@ -23,7 +23,7 @@ type SiteMxtunnel struct {
 	AdditionalMxtunnels *map[string]SiteMxtunnelAdditionalMxtunnel `json:"additional_mxtunnels,omitempty"`
 	// list of subnets where we allow AP to establish Mist Tunnels from
 	ApSubnets []string `json:"ap_subnets,omitempty"`
-	AutoPreemption *SiteMxtunnelAutoPreemption `json:"auto_preemption,omitempty"`
+	AutoPreemption *AutoPreemption `json:"auto_preemption,omitempty"`
 	// for AP, how to connect to tunterm or radsecproxy
 	Clusters []SiteMxtunnelCluster `json:"clusters,omitempty"`
 	CreatedTime *float32 `json:"created_time,omitempty"`
@@ -39,11 +39,11 @@ type SiteMxtunnel struct {
 	// 0 to enable PMTU, 552-1500 to start PMTU with a lower MTU
 	Mtu *int32 `json:"mtu,omitempty"`
 	OrgId *string `json:"org_id,omitempty"`
-	Protocol *SiteMxtunnelProtocol `json:"protocol,omitempty"`
+	Protocol *MxtunnelProtocol `json:"protocol,omitempty"`
 	Radsec *SiteMxtunnelRadsec `json:"radsec,omitempty"`
 	SiteId *string `json:"site_id,omitempty"`
-	// list of vlan_ids that will be use
-	VlanIds []SiteMxtunnelVlanId `json:"vlan_ids,omitempty"`
+	// list of vlan_ids that will be used
+	VlanIds []int32 `json:"vlan_ids,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -61,6 +61,8 @@ func NewSiteMxtunnel() *SiteMxtunnel {
 	this.HelloRetries = &helloRetries
 	var mtu int32 = 0
 	this.Mtu = &mtu
+	var protocol MxtunnelProtocol = MXTUNNELPROTOCOL_UDP
+	this.Protocol = &protocol
 	return &this
 }
 
@@ -75,6 +77,8 @@ func NewSiteMxtunnelWithDefaults() *SiteMxtunnel {
 	this.HelloRetries = &helloRetries
 	var mtu int32 = 0
 	this.Mtu = &mtu
+	var protocol MxtunnelProtocol = MXTUNNELPROTOCOL_UDP
+	this.Protocol = &protocol
 	return &this
 }
 
@@ -143,9 +147,9 @@ func (o *SiteMxtunnel) SetApSubnets(v []string) {
 }
 
 // GetAutoPreemption returns the AutoPreemption field value if set, zero value otherwise.
-func (o *SiteMxtunnel) GetAutoPreemption() SiteMxtunnelAutoPreemption {
+func (o *SiteMxtunnel) GetAutoPreemption() AutoPreemption {
 	if o == nil || IsNil(o.AutoPreemption) {
-		var ret SiteMxtunnelAutoPreemption
+		var ret AutoPreemption
 		return ret
 	}
 	return *o.AutoPreemption
@@ -153,7 +157,7 @@ func (o *SiteMxtunnel) GetAutoPreemption() SiteMxtunnelAutoPreemption {
 
 // GetAutoPreemptionOk returns a tuple with the AutoPreemption field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *SiteMxtunnel) GetAutoPreemptionOk() (*SiteMxtunnelAutoPreemption, bool) {
+func (o *SiteMxtunnel) GetAutoPreemptionOk() (*AutoPreemption, bool) {
 	if o == nil || IsNil(o.AutoPreemption) {
 		return nil, false
 	}
@@ -169,8 +173,8 @@ func (o *SiteMxtunnel) HasAutoPreemption() bool {
 	return false
 }
 
-// SetAutoPreemption gets a reference to the given SiteMxtunnelAutoPreemption and assigns it to the AutoPreemption field.
-func (o *SiteMxtunnel) SetAutoPreemption(v SiteMxtunnelAutoPreemption) {
+// SetAutoPreemption gets a reference to the given AutoPreemption and assigns it to the AutoPreemption field.
+func (o *SiteMxtunnel) SetAutoPreemption(v AutoPreemption) {
 	o.AutoPreemption = &v
 }
 
@@ -527,9 +531,9 @@ func (o *SiteMxtunnel) SetOrgId(v string) {
 }
 
 // GetProtocol returns the Protocol field value if set, zero value otherwise.
-func (o *SiteMxtunnel) GetProtocol() SiteMxtunnelProtocol {
+func (o *SiteMxtunnel) GetProtocol() MxtunnelProtocol {
 	if o == nil || IsNil(o.Protocol) {
-		var ret SiteMxtunnelProtocol
+		var ret MxtunnelProtocol
 		return ret
 	}
 	return *o.Protocol
@@ -537,7 +541,7 @@ func (o *SiteMxtunnel) GetProtocol() SiteMxtunnelProtocol {
 
 // GetProtocolOk returns a tuple with the Protocol field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *SiteMxtunnel) GetProtocolOk() (*SiteMxtunnelProtocol, bool) {
+func (o *SiteMxtunnel) GetProtocolOk() (*MxtunnelProtocol, bool) {
 	if o == nil || IsNil(o.Protocol) {
 		return nil, false
 	}
@@ -553,8 +557,8 @@ func (o *SiteMxtunnel) HasProtocol() bool {
 	return false
 }
 
-// SetProtocol gets a reference to the given SiteMxtunnelProtocol and assigns it to the Protocol field.
-func (o *SiteMxtunnel) SetProtocol(v SiteMxtunnelProtocol) {
+// SetProtocol gets a reference to the given MxtunnelProtocol and assigns it to the Protocol field.
+func (o *SiteMxtunnel) SetProtocol(v MxtunnelProtocol) {
 	o.Protocol = &v
 }
 
@@ -623,9 +627,9 @@ func (o *SiteMxtunnel) SetSiteId(v string) {
 }
 
 // GetVlanIds returns the VlanIds field value if set, zero value otherwise.
-func (o *SiteMxtunnel) GetVlanIds() []SiteMxtunnelVlanId {
+func (o *SiteMxtunnel) GetVlanIds() []int32 {
 	if o == nil || IsNil(o.VlanIds) {
-		var ret []SiteMxtunnelVlanId
+		var ret []int32
 		return ret
 	}
 	return o.VlanIds
@@ -633,7 +637,7 @@ func (o *SiteMxtunnel) GetVlanIds() []SiteMxtunnelVlanId {
 
 // GetVlanIdsOk returns a tuple with the VlanIds field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *SiteMxtunnel) GetVlanIdsOk() ([]SiteMxtunnelVlanId, bool) {
+func (o *SiteMxtunnel) GetVlanIdsOk() ([]int32, bool) {
 	if o == nil || IsNil(o.VlanIds) {
 		return nil, false
 	}
@@ -649,8 +653,8 @@ func (o *SiteMxtunnel) HasVlanIds() bool {
 	return false
 }
 
-// SetVlanIds gets a reference to the given []SiteMxtunnelVlanId and assigns it to the VlanIds field.
-func (o *SiteMxtunnel) SetVlanIds(v []SiteMxtunnelVlanId) {
+// SetVlanIds gets a reference to the given []int32 and assigns it to the VlanIds field.
+func (o *SiteMxtunnel) SetVlanIds(v []int32) {
 	o.VlanIds = v
 }
 

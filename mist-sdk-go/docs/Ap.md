@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Aeroscout** | Pointer to [**ApAeroscout**](ApAeroscout.md) |  | [optional] 
-**BleConfig** | Pointer to [**ApBle**](ApBle.md) |  | [optional] 
+**BleConfig** | Pointer to [**BleConfig**](BleConfig.md) |  | [optional] 
 **Centrak** | Pointer to [**ApCentrak**](ApCentrak.md) |  | [optional] 
 **ClientBridge** | Pointer to [**ApClientBridge**](ApClientBridge.md) |  | [optional] 
 **CreatedTime** | Pointer to **float32** |  | [optional] [readonly] 
@@ -90,20 +90,20 @@ HasAeroscout returns a boolean if a field has been set.
 
 ### GetBleConfig
 
-`func (o *Ap) GetBleConfig() ApBle`
+`func (o *Ap) GetBleConfig() BleConfig`
 
 GetBleConfig returns the BleConfig field if non-nil, zero value otherwise.
 
 ### GetBleConfigOk
 
-`func (o *Ap) GetBleConfigOk() (*ApBle, bool)`
+`func (o *Ap) GetBleConfigOk() (*BleConfig, bool)`
 
 GetBleConfigOk returns a tuple with the BleConfig field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetBleConfig
 
-`func (o *Ap) SetBleConfig(v ApBle)`
+`func (o *Ap) SetBleConfig(v BleConfig)`
 
 SetBleConfig sets BleConfig field to given value.
 

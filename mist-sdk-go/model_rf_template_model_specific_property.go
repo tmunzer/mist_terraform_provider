@@ -1,9 +1,9 @@
 /*
 Mist API
 
-> Version: **2406.1.10** > > Date: **June 29, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
+> Version: **2406.1.10** > > Date: **July 1, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
 
-API version: 2406.1.10
+API version: 2406.1.11
 Contact: tmunzer@juniper.net
 */
 
@@ -23,11 +23,11 @@ type RfTemplateModelSpecificProperty struct {
 	AntGain24 *int32 `json:"ant_gain_24,omitempty"`
 	AntGain5 *int32 `json:"ant_gain_5,omitempty"`
 	AntGain6 *int32 `json:"ant_gain_6,omitempty"`
-	Band24 *ApRadioBand24 `json:"band_24,omitempty"`
-	Band24Usage *ApRadioBand24Usage `json:"band_24_usage,omitempty"`
-	Band5 *ApRadioBand5 `json:"band_5,omitempty"`
-	Band5On24Radio *ApRadioBand5 `json:"band_5_on_24_radio,omitempty"`
-	Band6 *ApRadioBand6 `json:"band_6,omitempty"`
+	Band24 *RftemplateRadioBand24 `json:"band_24,omitempty"`
+	Band24Usage *RadioBand24Usage `json:"band_24_usage,omitempty"`
+	Band5 *RftemplateRadioBand5 `json:"band_5,omitempty"`
+	Band5On24Radio *RftemplateRadioBand5 `json:"band_5_on_24_radio,omitempty"`
+	Band6 *RftemplateRadioBand6 `json:"band_6,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -147,9 +147,9 @@ func (o *RfTemplateModelSpecificProperty) SetAntGain6(v int32) {
 }
 
 // GetBand24 returns the Band24 field value if set, zero value otherwise.
-func (o *RfTemplateModelSpecificProperty) GetBand24() ApRadioBand24 {
+func (o *RfTemplateModelSpecificProperty) GetBand24() RftemplateRadioBand24 {
 	if o == nil || IsNil(o.Band24) {
-		var ret ApRadioBand24
+		var ret RftemplateRadioBand24
 		return ret
 	}
 	return *o.Band24
@@ -157,7 +157,7 @@ func (o *RfTemplateModelSpecificProperty) GetBand24() ApRadioBand24 {
 
 // GetBand24Ok returns a tuple with the Band24 field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RfTemplateModelSpecificProperty) GetBand24Ok() (*ApRadioBand24, bool) {
+func (o *RfTemplateModelSpecificProperty) GetBand24Ok() (*RftemplateRadioBand24, bool) {
 	if o == nil || IsNil(o.Band24) {
 		return nil, false
 	}
@@ -173,15 +173,15 @@ func (o *RfTemplateModelSpecificProperty) HasBand24() bool {
 	return false
 }
 
-// SetBand24 gets a reference to the given ApRadioBand24 and assigns it to the Band24 field.
-func (o *RfTemplateModelSpecificProperty) SetBand24(v ApRadioBand24) {
+// SetBand24 gets a reference to the given RftemplateRadioBand24 and assigns it to the Band24 field.
+func (o *RfTemplateModelSpecificProperty) SetBand24(v RftemplateRadioBand24) {
 	o.Band24 = &v
 }
 
 // GetBand24Usage returns the Band24Usage field value if set, zero value otherwise.
-func (o *RfTemplateModelSpecificProperty) GetBand24Usage() ApRadioBand24Usage {
+func (o *RfTemplateModelSpecificProperty) GetBand24Usage() RadioBand24Usage {
 	if o == nil || IsNil(o.Band24Usage) {
-		var ret ApRadioBand24Usage
+		var ret RadioBand24Usage
 		return ret
 	}
 	return *o.Band24Usage
@@ -189,7 +189,7 @@ func (o *RfTemplateModelSpecificProperty) GetBand24Usage() ApRadioBand24Usage {
 
 // GetBand24UsageOk returns a tuple with the Band24Usage field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RfTemplateModelSpecificProperty) GetBand24UsageOk() (*ApRadioBand24Usage, bool) {
+func (o *RfTemplateModelSpecificProperty) GetBand24UsageOk() (*RadioBand24Usage, bool) {
 	if o == nil || IsNil(o.Band24Usage) {
 		return nil, false
 	}
@@ -205,15 +205,15 @@ func (o *RfTemplateModelSpecificProperty) HasBand24Usage() bool {
 	return false
 }
 
-// SetBand24Usage gets a reference to the given ApRadioBand24Usage and assigns it to the Band24Usage field.
-func (o *RfTemplateModelSpecificProperty) SetBand24Usage(v ApRadioBand24Usage) {
+// SetBand24Usage gets a reference to the given RadioBand24Usage and assigns it to the Band24Usage field.
+func (o *RfTemplateModelSpecificProperty) SetBand24Usage(v RadioBand24Usage) {
 	o.Band24Usage = &v
 }
 
 // GetBand5 returns the Band5 field value if set, zero value otherwise.
-func (o *RfTemplateModelSpecificProperty) GetBand5() ApRadioBand5 {
+func (o *RfTemplateModelSpecificProperty) GetBand5() RftemplateRadioBand5 {
 	if o == nil || IsNil(o.Band5) {
-		var ret ApRadioBand5
+		var ret RftemplateRadioBand5
 		return ret
 	}
 	return *o.Band5
@@ -221,7 +221,7 @@ func (o *RfTemplateModelSpecificProperty) GetBand5() ApRadioBand5 {
 
 // GetBand5Ok returns a tuple with the Band5 field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RfTemplateModelSpecificProperty) GetBand5Ok() (*ApRadioBand5, bool) {
+func (o *RfTemplateModelSpecificProperty) GetBand5Ok() (*RftemplateRadioBand5, bool) {
 	if o == nil || IsNil(o.Band5) {
 		return nil, false
 	}
@@ -237,15 +237,15 @@ func (o *RfTemplateModelSpecificProperty) HasBand5() bool {
 	return false
 }
 
-// SetBand5 gets a reference to the given ApRadioBand5 and assigns it to the Band5 field.
-func (o *RfTemplateModelSpecificProperty) SetBand5(v ApRadioBand5) {
+// SetBand5 gets a reference to the given RftemplateRadioBand5 and assigns it to the Band5 field.
+func (o *RfTemplateModelSpecificProperty) SetBand5(v RftemplateRadioBand5) {
 	o.Band5 = &v
 }
 
 // GetBand5On24Radio returns the Band5On24Radio field value if set, zero value otherwise.
-func (o *RfTemplateModelSpecificProperty) GetBand5On24Radio() ApRadioBand5 {
+func (o *RfTemplateModelSpecificProperty) GetBand5On24Radio() RftemplateRadioBand5 {
 	if o == nil || IsNil(o.Band5On24Radio) {
-		var ret ApRadioBand5
+		var ret RftemplateRadioBand5
 		return ret
 	}
 	return *o.Band5On24Radio
@@ -253,7 +253,7 @@ func (o *RfTemplateModelSpecificProperty) GetBand5On24Radio() ApRadioBand5 {
 
 // GetBand5On24RadioOk returns a tuple with the Band5On24Radio field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RfTemplateModelSpecificProperty) GetBand5On24RadioOk() (*ApRadioBand5, bool) {
+func (o *RfTemplateModelSpecificProperty) GetBand5On24RadioOk() (*RftemplateRadioBand5, bool) {
 	if o == nil || IsNil(o.Band5On24Radio) {
 		return nil, false
 	}
@@ -269,15 +269,15 @@ func (o *RfTemplateModelSpecificProperty) HasBand5On24Radio() bool {
 	return false
 }
 
-// SetBand5On24Radio gets a reference to the given ApRadioBand5 and assigns it to the Band5On24Radio field.
-func (o *RfTemplateModelSpecificProperty) SetBand5On24Radio(v ApRadioBand5) {
+// SetBand5On24Radio gets a reference to the given RftemplateRadioBand5 and assigns it to the Band5On24Radio field.
+func (o *RfTemplateModelSpecificProperty) SetBand5On24Radio(v RftemplateRadioBand5) {
 	o.Band5On24Radio = &v
 }
 
 // GetBand6 returns the Band6 field value if set, zero value otherwise.
-func (o *RfTemplateModelSpecificProperty) GetBand6() ApRadioBand6 {
+func (o *RfTemplateModelSpecificProperty) GetBand6() RftemplateRadioBand6 {
 	if o == nil || IsNil(o.Band6) {
-		var ret ApRadioBand6
+		var ret RftemplateRadioBand6
 		return ret
 	}
 	return *o.Band6
@@ -285,7 +285,7 @@ func (o *RfTemplateModelSpecificProperty) GetBand6() ApRadioBand6 {
 
 // GetBand6Ok returns a tuple with the Band6 field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RfTemplateModelSpecificProperty) GetBand6Ok() (*ApRadioBand6, bool) {
+func (o *RfTemplateModelSpecificProperty) GetBand6Ok() (*RftemplateRadioBand6, bool) {
 	if o == nil || IsNil(o.Band6) {
 		return nil, false
 	}
@@ -301,8 +301,8 @@ func (o *RfTemplateModelSpecificProperty) HasBand6() bool {
 	return false
 }
 
-// SetBand6 gets a reference to the given ApRadioBand6 and assigns it to the Band6 field.
-func (o *RfTemplateModelSpecificProperty) SetBand6(v ApRadioBand6) {
+// SetBand6 gets a reference to the given RftemplateRadioBand6 and assigns it to the Band6 field.
+func (o *RfTemplateModelSpecificProperty) SetBand6(v RftemplateRadioBand6) {
 	o.Band6 = &v
 }
 

@@ -1,9 +1,9 @@
 /*
 Mist API
 
-> Version: **2406.1.10** > > Date: **June 29, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
+> Version: **2406.1.10** > > Date: **July 1, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
 
-API version: 2406.1.10
+API version: 2406.1.11
 Contact: tmunzer@juniper.net
 */
 
@@ -13,7 +13,6 @@ package mistsdkgo
 
 import (
 	"encoding/json"
-	"fmt"
 )
 
 // checks if the SiteEngagementDwellTagNames type satisfies the MappedNullable interface at compile time
@@ -21,10 +20,10 @@ var _ MappedNullable = &SiteEngagementDwellTagNames{}
 
 // SiteEngagementDwellTagNames struct for SiteEngagementDwellTagNames
 type SiteEngagementDwellTagNames struct {
-	Bounce string `json:"bounce"`
-	Engaged string `json:"engaged"`
-	Passerby string `json:"passerby"`
-	Stationed string `json:"stationed"`
+	Bounce *string `json:"bounce,omitempty"`
+	Engaged *string `json:"engaged,omitempty"`
+	Passerby *string `json:"passerby,omitempty"`
+	Stationed *string `json:"stationed,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -34,12 +33,8 @@ type _SiteEngagementDwellTagNames SiteEngagementDwellTagNames
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewSiteEngagementDwellTagNames(bounce string, engaged string, passerby string, stationed string) *SiteEngagementDwellTagNames {
+func NewSiteEngagementDwellTagNames() *SiteEngagementDwellTagNames {
 	this := SiteEngagementDwellTagNames{}
-	this.Bounce = bounce
-	this.Engaged = engaged
-	this.Passerby = passerby
-	this.Stationed = stationed
 	return &this
 }
 
@@ -51,100 +46,132 @@ func NewSiteEngagementDwellTagNamesWithDefaults() *SiteEngagementDwellTagNames {
 	return &this
 }
 
-// GetBounce returns the Bounce field value
+// GetBounce returns the Bounce field value if set, zero value otherwise.
 func (o *SiteEngagementDwellTagNames) GetBounce() string {
-	if o == nil {
+	if o == nil || IsNil(o.Bounce) {
 		var ret string
 		return ret
 	}
-
-	return o.Bounce
+	return *o.Bounce
 }
 
-// GetBounceOk returns a tuple with the Bounce field value
+// GetBounceOk returns a tuple with the Bounce field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *SiteEngagementDwellTagNames) GetBounceOk() (*string, bool) {
-	if o == nil {
+	if o == nil || IsNil(o.Bounce) {
 		return nil, false
 	}
-	return &o.Bounce, true
+	return o.Bounce, true
 }
 
-// SetBounce sets field value
+// HasBounce returns a boolean if a field has been set.
+func (o *SiteEngagementDwellTagNames) HasBounce() bool {
+	if o != nil && !IsNil(o.Bounce) {
+		return true
+	}
+
+	return false
+}
+
+// SetBounce gets a reference to the given string and assigns it to the Bounce field.
 func (o *SiteEngagementDwellTagNames) SetBounce(v string) {
-	o.Bounce = v
+	o.Bounce = &v
 }
 
-// GetEngaged returns the Engaged field value
+// GetEngaged returns the Engaged field value if set, zero value otherwise.
 func (o *SiteEngagementDwellTagNames) GetEngaged() string {
-	if o == nil {
+	if o == nil || IsNil(o.Engaged) {
 		var ret string
 		return ret
 	}
-
-	return o.Engaged
+	return *o.Engaged
 }
 
-// GetEngagedOk returns a tuple with the Engaged field value
+// GetEngagedOk returns a tuple with the Engaged field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *SiteEngagementDwellTagNames) GetEngagedOk() (*string, bool) {
-	if o == nil {
+	if o == nil || IsNil(o.Engaged) {
 		return nil, false
 	}
-	return &o.Engaged, true
+	return o.Engaged, true
 }
 
-// SetEngaged sets field value
+// HasEngaged returns a boolean if a field has been set.
+func (o *SiteEngagementDwellTagNames) HasEngaged() bool {
+	if o != nil && !IsNil(o.Engaged) {
+		return true
+	}
+
+	return false
+}
+
+// SetEngaged gets a reference to the given string and assigns it to the Engaged field.
 func (o *SiteEngagementDwellTagNames) SetEngaged(v string) {
-	o.Engaged = v
+	o.Engaged = &v
 }
 
-// GetPasserby returns the Passerby field value
+// GetPasserby returns the Passerby field value if set, zero value otherwise.
 func (o *SiteEngagementDwellTagNames) GetPasserby() string {
-	if o == nil {
+	if o == nil || IsNil(o.Passerby) {
 		var ret string
 		return ret
 	}
-
-	return o.Passerby
+	return *o.Passerby
 }
 
-// GetPasserbyOk returns a tuple with the Passerby field value
+// GetPasserbyOk returns a tuple with the Passerby field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *SiteEngagementDwellTagNames) GetPasserbyOk() (*string, bool) {
-	if o == nil {
+	if o == nil || IsNil(o.Passerby) {
 		return nil, false
 	}
-	return &o.Passerby, true
+	return o.Passerby, true
 }
 
-// SetPasserby sets field value
+// HasPasserby returns a boolean if a field has been set.
+func (o *SiteEngagementDwellTagNames) HasPasserby() bool {
+	if o != nil && !IsNil(o.Passerby) {
+		return true
+	}
+
+	return false
+}
+
+// SetPasserby gets a reference to the given string and assigns it to the Passerby field.
 func (o *SiteEngagementDwellTagNames) SetPasserby(v string) {
-	o.Passerby = v
+	o.Passerby = &v
 }
 
-// GetStationed returns the Stationed field value
+// GetStationed returns the Stationed field value if set, zero value otherwise.
 func (o *SiteEngagementDwellTagNames) GetStationed() string {
-	if o == nil {
+	if o == nil || IsNil(o.Stationed) {
 		var ret string
 		return ret
 	}
-
-	return o.Stationed
+	return *o.Stationed
 }
 
-// GetStationedOk returns a tuple with the Stationed field value
+// GetStationedOk returns a tuple with the Stationed field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *SiteEngagementDwellTagNames) GetStationedOk() (*string, bool) {
-	if o == nil {
+	if o == nil || IsNil(o.Stationed) {
 		return nil, false
 	}
-	return &o.Stationed, true
+	return o.Stationed, true
 }
 
-// SetStationed sets field value
+// HasStationed returns a boolean if a field has been set.
+func (o *SiteEngagementDwellTagNames) HasStationed() bool {
+	if o != nil && !IsNil(o.Stationed) {
+		return true
+	}
+
+	return false
+}
+
+// SetStationed gets a reference to the given string and assigns it to the Stationed field.
 func (o *SiteEngagementDwellTagNames) SetStationed(v string) {
-	o.Stationed = v
+	o.Stationed = &v
 }
 
 func (o SiteEngagementDwellTagNames) MarshalJSON() ([]byte, error) {
@@ -157,10 +184,18 @@ func (o SiteEngagementDwellTagNames) MarshalJSON() ([]byte, error) {
 
 func (o SiteEngagementDwellTagNames) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	toSerialize["bounce"] = o.Bounce
-	toSerialize["engaged"] = o.Engaged
-	toSerialize["passerby"] = o.Passerby
-	toSerialize["stationed"] = o.Stationed
+	if !IsNil(o.Bounce) {
+		toSerialize["bounce"] = o.Bounce
+	}
+	if !IsNil(o.Engaged) {
+		toSerialize["engaged"] = o.Engaged
+	}
+	if !IsNil(o.Passerby) {
+		toSerialize["passerby"] = o.Passerby
+	}
+	if !IsNil(o.Stationed) {
+		toSerialize["stationed"] = o.Stationed
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -170,30 +205,6 @@ func (o SiteEngagementDwellTagNames) ToMap() (map[string]interface{}, error) {
 }
 
 func (o *SiteEngagementDwellTagNames) UnmarshalJSON(data []byte) (err error) {
-	// This validates that all required properties are included in the JSON object
-	// by unmarshalling the object into a generic map with string keys and checking
-	// that every required field exists as a key in the generic map.
-	requiredProperties := []string{
-		"bounce",
-		"engaged",
-		"passerby",
-		"stationed",
-	}
-
-	allProperties := make(map[string]interface{})
-
-	err = json.Unmarshal(data, &allProperties)
-
-	if err != nil {
-		return err;
-	}
-
-	for _, requiredProperty := range(requiredProperties) {
-		if _, exists := allProperties[requiredProperty]; !exists {
-			return fmt.Errorf("no value given for required property %v", requiredProperty)
-		}
-	}
-
 	varSiteEngagementDwellTagNames := _SiteEngagementDwellTagNames{}
 
 	err = json.Unmarshal(data, &varSiteEngagementDwellTagNames)

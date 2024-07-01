@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**DwellTagNames** | [**SiteEngagementDwellTagNames**](SiteEngagementDwellTagNames.md) |  | 
+**DwellTagNames** | Pointer to [**SiteEngagementDwellTagNames**](SiteEngagementDwellTagNames.md) |  | [optional] 
 **DwellTags** | Pointer to [**SiteEngagementDwellTags**](SiteEngagementDwellTags.md) |  | [optional] 
 **Hours** | Pointer to [**Hours**](Hours.md) |  | [optional] 
 **MaxDwell** | Pointer to **int32** | max time, default is 43200(12h), max is 68400 (18h) | [optional] [default to 43200]
@@ -14,7 +14,7 @@ Name | Type | Description | Notes
 
 ### NewSiteEngagement
 
-`func NewSiteEngagement(dwellTagNames SiteEngagementDwellTagNames, ) *SiteEngagement`
+`func NewSiteEngagement() *SiteEngagement`
 
 NewSiteEngagement instantiates a new SiteEngagement object
 This constructor will assign default values to properties that have it defined,
@@ -48,6 +48,11 @@ and a boolean to check if the value has been set.
 
 SetDwellTagNames sets DwellTagNames field to given value.
 
+### HasDwellTagNames
+
+`func (o *SiteEngagement) HasDwellTagNames() bool`
+
+HasDwellTagNames returns a boolean if a field has been set.
 
 ### GetDwellTags
 

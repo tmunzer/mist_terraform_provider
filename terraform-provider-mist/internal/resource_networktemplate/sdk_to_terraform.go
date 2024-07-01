@@ -7,7 +7,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
-	mist_transform "terraform-provider-mist/internal/provider/utils/transform"
+	mist_transform "terraform-provider-mist/internal/provider/commons/utils"
 )
 
 func SdkToTerraform(ctx context.Context, data *mistsdkgo.NetworkTemplate) (NetworktemplateModel, diag.Diagnostics) {
@@ -36,7 +36,7 @@ func SdkToTerraform(ctx context.Context, data *mistsdkgo.NetworkTemplate) (Netwo
 
 	state.NtpServers = mist_transform.ListOfStringSdkToTerraform(ctx, data.GetNtpServers())
 
-	state.Networks = networksSdkToTerraform(ctx, &diags, data.GetNetworks())
+	state.Networks = NetworksSdkToTerraform(ctx, &diags, data.GetNetworks())
 
 	state.PortMirrorings = portMirroringSdkToTerraform(ctx, &diags, data.GetPortMirrorings())
 

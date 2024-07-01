@@ -1,9 +1,9 @@
 /*
 Mist API
 
-> Version: **2406.1.10** > > Date: **June 29, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
+> Version: **2406.1.10** > > Date: **July 1, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
 
-API version: 2406.1.10
+API version: 2406.1.11
 Contact: tmunzer@juniper.net
 */
 
@@ -13,7 +13,6 @@ package mistsdkgo
 
 import (
 	"encoding/json"
-	"fmt"
 )
 
 // checks if the SiteEngagement type satisfies the MappedNullable interface at compile time
@@ -21,7 +20,7 @@ var _ MappedNullable = &SiteEngagement{}
 
 // SiteEngagement **Note**: if hours does not exist, it’s treated as everyday of the week, 00:00-23:59. Currently we don’t allow multiple ranges for the same day  **Note**: default values for `dwell_tags`: passerby (1,300) bounce (301, 14400) engaged (14401, 28800) stationed (28801, 42000)  **Note**: default values for `dwell_tag_names`: passerby = “Passerby”, bounce = “Visitor”, engaged = “Associates”, stationed = “Assets”
 type SiteEngagement struct {
-	DwellTagNames SiteEngagementDwellTagNames `json:"dwell_tag_names"`
+	DwellTagNames *SiteEngagementDwellTagNames `json:"dwell_tag_names,omitempty"`
 	DwellTags *SiteEngagementDwellTags `json:"dwell_tags,omitempty"`
 	Hours *Hours `json:"hours,omitempty"`
 	// max time, default is 43200(12h), max is 68400 (18h)
@@ -37,9 +36,8 @@ type _SiteEngagement SiteEngagement
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewSiteEngagement(dwellTagNames SiteEngagementDwellTagNames) *SiteEngagement {
+func NewSiteEngagement() *SiteEngagement {
 	this := SiteEngagement{}
-	this.DwellTagNames = dwellTagNames
 	var maxDwell int32 = 43200
 	this.MaxDwell = &maxDwell
 	return &this
@@ -55,28 +53,36 @@ func NewSiteEngagementWithDefaults() *SiteEngagement {
 	return &this
 }
 
-// GetDwellTagNames returns the DwellTagNames field value
+// GetDwellTagNames returns the DwellTagNames field value if set, zero value otherwise.
 func (o *SiteEngagement) GetDwellTagNames() SiteEngagementDwellTagNames {
-	if o == nil {
+	if o == nil || IsNil(o.DwellTagNames) {
 		var ret SiteEngagementDwellTagNames
 		return ret
 	}
-
-	return o.DwellTagNames
+	return *o.DwellTagNames
 }
 
-// GetDwellTagNamesOk returns a tuple with the DwellTagNames field value
+// GetDwellTagNamesOk returns a tuple with the DwellTagNames field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *SiteEngagement) GetDwellTagNamesOk() (*SiteEngagementDwellTagNames, bool) {
-	if o == nil {
+	if o == nil || IsNil(o.DwellTagNames) {
 		return nil, false
 	}
-	return &o.DwellTagNames, true
+	return o.DwellTagNames, true
 }
 
-// SetDwellTagNames sets field value
+// HasDwellTagNames returns a boolean if a field has been set.
+func (o *SiteEngagement) HasDwellTagNames() bool {
+	if o != nil && !IsNil(o.DwellTagNames) {
+		return true
+	}
+
+	return false
+}
+
+// SetDwellTagNames gets a reference to the given SiteEngagementDwellTagNames and assigns it to the DwellTagNames field.
 func (o *SiteEngagement) SetDwellTagNames(v SiteEngagementDwellTagNames) {
-	o.DwellTagNames = v
+	o.DwellTagNames = &v
 }
 
 // GetDwellTags returns the DwellTags field value if set, zero value otherwise.
@@ -217,7 +223,9 @@ func (o SiteEngagement) MarshalJSON() ([]byte, error) {
 
 func (o SiteEngagement) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	toSerialize["dwell_tag_names"] = o.DwellTagNames
+	if !IsNil(o.DwellTagNames) {
+		toSerialize["dwell_tag_names"] = o.DwellTagNames
+	}
 	if !IsNil(o.DwellTags) {
 		toSerialize["dwell_tags"] = o.DwellTags
 	}
@@ -239,27 +247,6 @@ func (o SiteEngagement) ToMap() (map[string]interface{}, error) {
 }
 
 func (o *SiteEngagement) UnmarshalJSON(data []byte) (err error) {
-	// This validates that all required properties are included in the JSON object
-	// by unmarshalling the object into a generic map with string keys and checking
-	// that every required field exists as a key in the generic map.
-	requiredProperties := []string{
-		"dwell_tag_names",
-	}
-
-	allProperties := make(map[string]interface{})
-
-	err = json.Unmarshal(data, &allProperties)
-
-	if err != nil {
-		return err;
-	}
-
-	for _, requiredProperty := range(requiredProperties) {
-		if _, exists := allProperties[requiredProperty]; !exists {
-			return fmt.Errorf("no value given for required property %v", requiredProperty)
-		}
-	}
-
 	varSiteEngagement := _SiteEngagement{}
 
 	err = json.Unmarshal(data, &varSiteEngagement)

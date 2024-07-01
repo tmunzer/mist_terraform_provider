@@ -2022,7 +2022,7 @@ func NetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 						Optional: true,
 						Computed: true,
 					},
-					"matching_rules": schema.ListNestedAttribute{
+					"rules": schema.ListNestedAttribute{
 						NestedObject: schema.NestedAttributeObject{
 							Attributes: map[string]schema.Attribute{
 								"additional_config_cmds": schema.ListAttribute{
@@ -2352,7 +2352,7 @@ func NetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 								Description:         "which network the TACACS server resides",
 								MarkdownDescription: "which network the TACACS server resides",
 							},
-							"tacacct_servers": schema.ListNestedAttribute{
+							"acct_servers": schema.ListNestedAttribute{
 								NestedObject: schema.NestedAttributeObject{
 									Attributes: map[string]schema.Attribute{
 										"host": schema.StringAttribute{
@@ -15775,6 +15775,10 @@ func (v FilesValue) AttributeTypes(ctx context.Context) map[string]attr.Type {
 
 
 
+
+
+
+
 var _ basetypes.ObjectTypable = ServersType{}
 
 type ServersType struct {
@@ -16758,6 +16762,8 @@ func (v ServersValue) AttributeTypes(ctx context.Context) map[string]attr.Type {
 
 
 
+
+
 var _ basetypes.ObjectTypable = UsersType{}
 
 type UsersType struct {
@@ -17226,6 +17232,8 @@ func (v UsersValue) AttributeTypes(ctx context.Context) map[string]attr.Type {
 		"user":  basetypes.StringType{},
 	}
 }
+
+
 
 
 
@@ -21416,6 +21424,8 @@ func (v NotifyFilterValue) AttributeTypes(ctx context.Context) map[string]attr.T
 
 
 
+
+
 var _ basetypes.ObjectTypable = TargetAddressType{}
 
 type TargetAddressType struct {
@@ -23082,6 +23092,8 @@ func (v UsmValue) AttributeTypes(ctx context.Context) map[string]attr.Type {
 		},
 	}
 }
+
+
 
 
 
@@ -25881,12 +25893,12 @@ func (t SwitchMatchingType) ValueFromObject(ctx context.Context, in basetypes.Ob
 			fmt.Sprintf(`enable expected to be basetypes.BoolValue, was: %T`, enableAttribute))
 	}
 
-	matchingRulesAttribute, ok := attributes["matching_rules"]
+	matchingRulesAttribute, ok := attributes["rules"]
 
 	if !ok {
 		diags.AddError(
 			"Attribute Missing",
-			`matching_rules is missing from object`)
+			`rules is missing from object`)
 
 		return nil, diags
 	}
@@ -25896,7 +25908,7 @@ func (t SwitchMatchingType) ValueFromObject(ctx context.Context, in basetypes.Ob
 	if !ok {
 		diags.AddError(
 			"Attribute Wrong Type",
-			fmt.Sprintf(`matching_rules expected to be basetypes.ListValue, was: %T`, matchingRulesAttribute))
+			fmt.Sprintf(`rules expected to be basetypes.ListValue, was: %T`, matchingRulesAttribute))
 	}
 
 	if diags.HasError() {
@@ -25991,12 +26003,12 @@ func NewSwitchMatchingValue(attributeTypes map[string]attr.Type, attributes map[
 			fmt.Sprintf(`enable expected to be basetypes.BoolValue, was: %T`, enableAttribute))
 	}
 
-	matchingRulesAttribute, ok := attributes["matching_rules"]
+	matchingRulesAttribute, ok := attributes["rules"]
 
 	if !ok {
 		diags.AddError(
 			"Attribute Missing",
-			`matching_rules is missing from object`)
+			`rules is missing from object`)
 
 		return NewSwitchMatchingValueUnknown(), diags
 	}
@@ -26006,7 +26018,7 @@ func NewSwitchMatchingValue(attributeTypes map[string]attr.Type, attributes map[
 	if !ok {
 		diags.AddError(
 			"Attribute Wrong Type",
-			fmt.Sprintf(`matching_rules expected to be basetypes.ListValue, was: %T`, matchingRulesAttribute))
+			fmt.Sprintf(`rules expected to be basetypes.ListValue, was: %T`, matchingRulesAttribute))
 	}
 
 	if diags.HasError() {
@@ -26089,7 +26101,7 @@ var _ basetypes.ObjectValuable = SwitchMatchingValue{}
 
 type SwitchMatchingValue struct {
 	Enable        basetypes.BoolValue `tfsdk:"enable"`
-	MatchingRules basetypes.ListValue `tfsdk:"matching_rules"`
+	MatchingRules basetypes.ListValue `tfsdk:"rules"`
 	state         attr.ValueState
 }
 
@@ -26100,7 +26112,7 @@ func (v SwitchMatchingValue) ToTerraformValue(ctx context.Context) (tftypes.Valu
 	var err error
 
 	attrTypes["enable"] = basetypes.BoolType{}.TerraformType(ctx)
-	attrTypes["matching_rules"] = basetypes.ListType{
+	attrTypes["rules"] = basetypes.ListType{
 		ElemType: MatchingRulesValue{}.Type(ctx),
 	}.TerraformType(ctx)
 
@@ -26124,7 +26136,7 @@ func (v SwitchMatchingValue) ToTerraformValue(ctx context.Context) (tftypes.Valu
 			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
 		}
 
-		vals["matching_rules"] = val
+		vals["rules"] = val
 
 		if err := tftypes.ValidateValue(objectType, vals); err != nil {
 			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
@@ -26186,7 +26198,7 @@ func (v SwitchMatchingValue) ToObjectValue(ctx context.Context) (basetypes.Objec
 
 	attributeTypes := map[string]attr.Type{
 		"enable": basetypes.BoolType{},
-		"matching_rules": basetypes.ListType{
+		"rules": basetypes.ListType{
 			ElemType: MatchingRulesValue{}.Type(ctx),
 		},
 	}
@@ -26203,7 +26215,7 @@ func (v SwitchMatchingValue) ToObjectValue(ctx context.Context) (basetypes.Objec
 		attributeTypes,
 		map[string]attr.Value{
 			"enable":         v.Enable,
-			"matching_rules": matchingRules,
+			"rules": matchingRules,
 		})
 
 	return objVal, diags
@@ -26246,7 +26258,7 @@ func (v SwitchMatchingValue) Type(ctx context.Context) attr.Type {
 func (v SwitchMatchingValue) AttributeTypes(ctx context.Context) map[string]attr.Type {
 	return map[string]attr.Type{
 		"enable": basetypes.BoolType{},
-		"matching_rules": basetypes.ListType{
+		"rules": basetypes.ListType{
 			ElemType: MatchingRulesValue{}.Type(ctx),
 		},
 	}
@@ -30370,12 +30382,12 @@ func (t TacacsType) ValueFromObject(ctx context.Context, in basetypes.ObjectValu
 			fmt.Sprintf(`network expected to be basetypes.StringValue, was: %T`, networkAttribute))
 	}
 
-	tacacctServersAttribute, ok := attributes["tacacct_servers"]
+	tacacctServersAttribute, ok := attributes["acct_servers"]
 
 	if !ok {
 		diags.AddError(
 			"Attribute Missing",
-			`tacacct_servers is missing from object`)
+			`acct_servers is missing from object`)
 
 		return nil, diags
 	}
@@ -30385,7 +30397,7 @@ func (t TacacsType) ValueFromObject(ctx context.Context, in basetypes.ObjectValu
 	if !ok {
 		diags.AddError(
 			"Attribute Wrong Type",
-			fmt.Sprintf(`tacacct_servers expected to be basetypes.ListValue, was: %T`, tacacctServersAttribute))
+			fmt.Sprintf(`acct_servers expected to be basetypes.ListValue, was: %T`, tacacctServersAttribute))
 	}
 
 	tacplusServersAttribute, ok := attributes["tacplus_servers"]
@@ -30537,12 +30549,12 @@ func NewTacacsValue(attributeTypes map[string]attr.Type, attributes map[string]a
 			fmt.Sprintf(`network expected to be basetypes.StringValue, was: %T`, networkAttribute))
 	}
 
-	tacacctServersAttribute, ok := attributes["tacacct_servers"]
+	tacacctServersAttribute, ok := attributes["acct_servers"]
 
 	if !ok {
 		diags.AddError(
 			"Attribute Missing",
-			`tacacct_servers is missing from object`)
+			`acct_servers is missing from object`)
 
 		return NewTacacsValueUnknown(), diags
 	}
@@ -30552,7 +30564,7 @@ func NewTacacsValue(attributeTypes map[string]attr.Type, attributes map[string]a
 	if !ok {
 		diags.AddError(
 			"Attribute Wrong Type",
-			fmt.Sprintf(`tacacct_servers expected to be basetypes.ListValue, was: %T`, tacacctServersAttribute))
+			fmt.Sprintf(`acct_servers expected to be basetypes.ListValue, was: %T`, tacacctServersAttribute))
 	}
 
 	tacplusServersAttribute, ok := attributes["tacplus_servers"]
@@ -30658,7 +30670,7 @@ type TacacsValue struct {
 	DefaultRole    basetypes.StringValue `tfsdk:"default_role"`
 	Enabled        basetypes.BoolValue   `tfsdk:"enabled"`
 	Network        basetypes.StringValue `tfsdk:"network"`
-	TacacctServers basetypes.ListValue   `tfsdk:"tacacct_servers"`
+	TacacctServers basetypes.ListValue   `tfsdk:"acct_servers"`
 	TacplusServers basetypes.ListValue   `tfsdk:"tacplus_servers"`
 	state          attr.ValueState
 }
@@ -30672,7 +30684,7 @@ func (v TacacsValue) ToTerraformValue(ctx context.Context) (tftypes.Value, error
 	attrTypes["default_role"] = basetypes.StringType{}.TerraformType(ctx)
 	attrTypes["enabled"] = basetypes.BoolType{}.TerraformType(ctx)
 	attrTypes["network"] = basetypes.StringType{}.TerraformType(ctx)
-	attrTypes["tacacct_servers"] = basetypes.ListType{
+	attrTypes["acct_servers"] = basetypes.ListType{
 		ElemType: TacacctServersValue{}.Type(ctx),
 	}.TerraformType(ctx)
 	attrTypes["tacplus_servers"] = basetypes.ListType{
@@ -30715,7 +30727,7 @@ func (v TacacsValue) ToTerraformValue(ctx context.Context) (tftypes.Value, error
 			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
 		}
 
-		vals["tacacct_servers"] = val
+		vals["acct_servers"] = val
 
 		val, err = v.TacplusServers.ToTerraformValue(ctx)
 
@@ -30816,7 +30828,7 @@ func (v TacacsValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, 
 		"default_role": basetypes.StringType{},
 		"enabled":      basetypes.BoolType{},
 		"network":      basetypes.StringType{},
-		"tacacct_servers": basetypes.ListType{
+		"acct_servers": basetypes.ListType{
 			ElemType: TacacctServersValue{}.Type(ctx),
 		},
 		"tacplus_servers": basetypes.ListType{
@@ -30838,7 +30850,7 @@ func (v TacacsValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, 
 			"default_role":    v.DefaultRole,
 			"enabled":         v.Enabled,
 			"network":         v.Network,
-			"tacacct_servers": tacacctServers,
+			"acct_servers": tacacctServers,
 			"tacplus_servers": tacplusServers,
 		})
 
@@ -30896,7 +30908,7 @@ func (v TacacsValue) AttributeTypes(ctx context.Context) map[string]attr.Type {
 		"default_role": basetypes.StringType{},
 		"enabled":      basetypes.BoolType{},
 		"network":      basetypes.StringType{},
-		"tacacct_servers": basetypes.ListType{
+		"acct_servers": basetypes.ListType{
 			ElemType: TacacctServersValue{}.Type(ctx),
 		},
 		"tacplus_servers": basetypes.ListType{
@@ -32641,6 +32653,8 @@ func (v VrfInstancesValue) AttributeTypes(ctx context.Context) map[string]attr.T
 		},
 	}
 }
+
+
 
 
 
