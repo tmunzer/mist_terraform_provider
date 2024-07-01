@@ -14,7 +14,8 @@ provider_installation {
   direct {}
 }
 ```
-3. from the `terraform-provider-mist` folder, do `go install .` to install the provider
-4. Create a configuration file (you can use the one from the `test` folder)
+3. Clone the repository
+4. From the `terraform-provider-mist` folder, do `go install .` to install the provider
+5. Create a configuration file (you can use the one from the `test` folder)
 
 Documentation is currently available as Markdown in the `terraform-provider-mist/doc` folder
