@@ -10,9 +10,11 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
+	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 
 func networksTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ListValue) []mistsdkgo.Network {
+	tflog.Debug(ctx, "networksTerraformToSdk")
 	var data_list []mistsdkgo.Network
 	for _, v := range d.Elements() {
 		var v_interface interface{} = v

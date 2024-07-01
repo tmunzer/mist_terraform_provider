@@ -7,9 +7,11 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
+	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 
 func dhcpdConfigFixedBindingsTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.MapValue) map[string]mistsdkgo.DhcpdConfigFixedBinding {
+	tflog.Debug(ctx, "dhcpdConfigFixedBindingsTerraformToSdk")
 	data_map := make(map[string]mistsdkgo.DhcpdConfigFixedBinding)
 	for k, v := range d.Elements() {
 		var v_interface interface{} = v
@@ -25,6 +27,7 @@ func dhcpdConfigFixedBindingsTerraformToSdk(ctx context.Context, diags *diag.Dia
 }
 
 func dhcpdConfigOptionsTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.MapValue) map[string]mistsdkgo.DhcpdConfigOption {
+	tflog.Debug(ctx, "dhcpdConfigOptionsTerraformToSdk")
 	data_map := make(map[string]mistsdkgo.DhcpdConfigOption)
 	for k, v := range d.Elements() {
 		var v_interface interface{} = v
@@ -40,6 +43,7 @@ func dhcpdConfigOptionsTerraformToSdk(ctx context.Context, diags *diag.Diagnosti
 }
 
 func dhcpdConfigVendorOptionsTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.MapValue) map[string]mistsdkgo.DhcpdConfigVendorOption {
+	tflog.Debug(ctx, "dhcpdConfigVendorOptionsTerraformToSdk")
 	data_map := make(map[string]mistsdkgo.DhcpdConfigVendorOption)
 	for k, v := range d.Elements() {
 		var v_interface interface{} = v
@@ -55,6 +59,7 @@ func dhcpdConfigVendorOptionsTerraformToSdk(ctx context.Context, diags *diag.Dia
 }
 
 func dhcpdConfigConfigsTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.MapValue) map[string]interface{} {
+	tflog.Debug(ctx, "dhcpdConfigConfigsTerraformToSdk")
 	data_map := make(map[string]interface{})
 	for k, v := range d.Elements() {
 		var v_interface interface{} = v
@@ -88,6 +93,7 @@ func dhcpdConfigConfigsTerraformToSdk(ctx context.Context, diags *diag.Diagnosti
 }
 
 func dhcpdConfigTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d DhcpdConfigValue) mistsdkgo.DhcpdConfigs {
+	tflog.Debug(ctx, "dhcpdConfigTerraformToSdk")
 
 	data := *mistsdkgo.NewDhcpdConfigs()
 

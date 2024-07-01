@@ -7,11 +7,13 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
+	"github.com/hashicorp/terraform-plugin-log/tflog"
 
 	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
 )
 
 func criticalUrlMonitoringMonitorSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []mistsdkgo.SiteSettingCriticalUrlMonitoringMonitor) basetypes.ListValue {
+	tflog.Debug(ctx, "criticalUrlMonitoringMonitorSdkToTerraform")
 	var data_list = []MonitorsValue{}
 	for _, v := range d {
 		data_map_attr_type := MonitorsValue{}.AttributeTypes(ctx)
@@ -30,11 +32,12 @@ func criticalUrlMonitoringMonitorSdkToTerraform(ctx context.Context, diags *diag
 }
 
 func criticalUrlMonitoringSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdkgo.SiteSettingCriticalUrlMonitoring) CriticalUrlMonitoringValue {
+	tflog.Debug(ctx, "criticalUrlMonitoringSdkToTerraform")
 
 	r_attr_type := CriticalUrlMonitoringValue{}.AttributeTypes(ctx)
 	r_attr_value := map[string]attr.Value{
-		"monitors":    types.BoolValue(d.GetEnabled()),
-		"push_window": criticalUrlMonitoringMonitorSdkToTerraform(ctx, diags, d.GetMonitors()),
+		"enabled":  types.BoolValue(d.GetEnabled()),
+		"monitors": criticalUrlMonitoringMonitorSdkToTerraform(ctx, diags, d.GetMonitors()),
 	}
 	r, e := NewCriticalUrlMonitoringValue(r_attr_type, r_attr_value)
 	diags.Append(e...)

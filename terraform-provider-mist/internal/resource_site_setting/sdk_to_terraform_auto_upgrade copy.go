@@ -6,18 +6,20 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+	"github.com/hashicorp/terraform-plugin-log/tflog"
 
 	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
 )
 
 func autoUpgradeSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdkgo.SiteSettingAutoUpgrade) AutoUpgradeValue {
+	tflog.Debug(ctx, "autoUpgradeSdkToTerraform")
 
-	var custom_versions_map_type attr.Type = types.StringType
 	custom_versions_map_value := make(map[string]string)
 	for k, v := range d.GetCustomVersions() {
 		custom_versions_map_value[k] = v
 	}
-	custom_versions, e := types.MapValueFrom(ctx, custom_versions_map_type, custom_versions_map_value)
+	custom_versions, e := types.MapValueFrom(ctx, types.StringType, custom_versions_map_value)
+	diags.Append(e...)
 
 	r_attr_type := AutoUpgradeValue{}.AttributeTypes(ctx)
 	r_attr_value := map[string]attr.Value{

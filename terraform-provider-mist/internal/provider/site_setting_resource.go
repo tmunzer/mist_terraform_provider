@@ -42,7 +42,7 @@ func (r *siteSettingResource) Configure(ctx context.Context, req resource.Config
 	r.client = client
 }
 func (r *siteSettingResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
-	resp.TypeName = req.ProviderTypeName + "_siteSetting"
+	resp.TypeName = req.ProviderTypeName + "_site_setting"
 }
 
 func (r *siteSettingResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {

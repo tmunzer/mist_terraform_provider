@@ -5,12 +5,14 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
+	"github.com/hashicorp/terraform-plugin-log/tflog"
 
 	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
 	mist_transform "terraform-provider-mist/internal/provider/commons/utils"
 )
 
 func syntheticTestVlansTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, l basetypes.ListValue) []mistsdkgo.SyntheticTestProperties {
+	tflog.Debug(ctx, "syntheticTestVlansTerraformToSdk")
 	var data_list []mistsdkgo.SyntheticTestProperties
 	for _, v := range l.Elements() {
 		var v_interface interface{} = v
@@ -26,6 +28,7 @@ func syntheticTestVlansTerraformToSdk(ctx context.Context, diags *diag.Diagnosti
 }
 
 func syntheticTestTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d SyntheticTestValue) mistsdkgo.SyntheticTestConfig {
+	tflog.Debug(ctx, "syntheticTestTerraformToSdk")
 	data := mistsdkgo.NewSyntheticTestConfig()
 
 	data.SetDisabled(d.Disabled.ValueBool())

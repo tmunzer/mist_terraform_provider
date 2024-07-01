@@ -7,9 +7,11 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
+	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 
 func gatewayPortVpnPathTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.MapValue) map[string]mistsdkgo.GatewayPortVpnPath {
+	tflog.Debug(ctx, "gatewayPortVpnPathTerraformToSdk")
 	data_map := make(map[string]mistsdkgo.GatewayPortVpnPath)
 	for k, v := range d.Elements() {
 		var v_interface interface{} = v
@@ -28,6 +30,7 @@ func gatewayPortVpnPathTerraformToSdk(ctx context.Context, diags *diag.Diagnosti
 }
 
 func gatewayPortTrafficShapingTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) mistsdkgo.GatewayTrafficShaping {
+	tflog.Debug(ctx, "gatewayPortTrafficShapingTerraformToSdk")
 	data := *mistsdkgo.NewGatewayTrafficShaping()
 	if d.IsNull() || d.IsUnknown() {
 		return data
@@ -40,6 +43,7 @@ func gatewayPortTrafficShapingTerraformToSdk(ctx context.Context, diags *diag.Di
 }
 
 func gatewayIpConfigTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) mistsdkgo.GatewayIpConfig {
+	tflog.Debug(ctx, "gatewayIpConfigTerraformToSdk")
 	data := mistsdkgo.NewGatewayIpConfig()
 	if d.IsNull() || d.IsUnknown() {
 		return *data
@@ -60,6 +64,7 @@ func gatewayIpConfigTerraformToSdk(ctx context.Context, diags *diag.Diagnostics,
 }
 
 func portConfigTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.MapValue) map[string]mistsdkgo.GatewayPortConfig {
+	tflog.Debug(ctx, "portConfigTerraformToSdk")
 	data_map := make(map[string]mistsdkgo.GatewayPortConfig)
 	for k, v := range d.Elements() {
 		var v_interface interface{} = v

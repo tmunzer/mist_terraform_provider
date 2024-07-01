@@ -8,12 +8,14 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
+	"github.com/hashicorp/terraform-plugin-log/tflog"
 
 	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
 	mist_transform "terraform-provider-mist/internal/provider/commons/utils"
 )
 
 func dhcpdConfigVendorEncapsulatedSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]mistsdkgo.DhcpdConfigVendorOption) basetypes.MapValue {
+	tflog.Debug(ctx, "dhcpdConfigVendorEncapsulatedSdkToTerraform")
 
 	r_map_attr_type := VendorEncapulatedValue{}.AttributeTypes(ctx)
 	r_map_value := make(map[string]attr.Value)
@@ -33,6 +35,7 @@ func dhcpdConfigVendorEncapsulatedSdkToTerraform(ctx context.Context, diags *dia
 }
 
 func dhcpdConfigOptionsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]mistsdkgo.DhcpdConfigOption) basetypes.MapValue {
+	tflog.Debug(ctx, "dhcpdConfigOptionsSdkToTerraform")
 
 	r_map_attr_type := OptionsValue{}.AttributeTypes(ctx)
 	r_map_value := make(map[string]attr.Value)
@@ -52,6 +55,7 @@ func dhcpdConfigOptionsSdkToTerraform(ctx context.Context, diags *diag.Diagnosti
 }
 
 func dhcpdConfigFixedBindingsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]mistsdkgo.DhcpdConfigFixedBinding) basetypes.MapValue {
+	tflog.Debug(ctx, "dhcpdConfigFixedBindingsSdkToTerraform")
 	r_type := FixedBindingsValue{}.AttributeTypes(ctx)
 	r_map := make(map[string]attr.Value)
 	for k, v := range d {
@@ -70,6 +74,7 @@ func dhcpdConfigFixedBindingsSdkToTerraform(ctx context.Context, diags *diag.Dia
 }
 
 func dhcpdConfigConfigsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]interface{}) basetypes.MapValue {
+	tflog.Debug(ctx, "dhcpdConfigConfigsSdkToTerraform")
 	r_map_attr_type := ConfigValue{}.AttributeTypes(ctx)
 	r_map_value := make(map[string]attr.Value)
 	for k, v_interface := range d {
@@ -110,6 +115,7 @@ func dhcpdConfigConfigsSdkToTerraform(ctx context.Context, diags *diag.Diagnosti
 }
 
 func dhcpdConfigSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdkgo.DhcpdConfigs) DhcpdConfigValue {
+	tflog.Debug(ctx, "dhcpdConfigSdkToTerraform")
 
 	r_attr_type := DhcpdConfigValue{}.AttributeTypes(ctx)
 	t, _ := d.ToMap()

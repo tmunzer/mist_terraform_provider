@@ -730,10 +730,6 @@ func SiteSettingResourceSchema(ctx context.Context) schema.Schema {
 				Description:         "Occupancy Analytics settings",
 				MarkdownDescription: "Occupancy Analytics settings",
 			},
-			"org_id": schema.StringAttribute{
-				Optional: true,
-				Computed: true,
-			},
 			"persist_config_on_device": schema.BoolAttribute{
 				Optional:            true,
 				Computed:            true,
@@ -1331,7 +1327,6 @@ type SiteSettingModel struct {
 	Networks                        types.Map                  `tfsdk:"networks"`
 	NtpServers                      types.List                 `tfsdk:"ntp_servers"`
 	Occupancy                       OccupancyValue             `tfsdk:"occupancy"`
-	OrgId                           types.String               `tfsdk:"org_id"`
 	PersistConfigOnDevice           types.Bool                 `tfsdk:"persist_config_on_device"`
 	Proxy                           ProxyValue                 `tfsdk:"proxy"`
 	ReportGatt                      types.Bool                 `tfsdk:"report_gatt"`

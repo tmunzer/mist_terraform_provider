@@ -4,11 +4,13 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
+	"github.com/hashicorp/terraform-plugin-log/tflog"
 
 	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
 )
 
 func wifiTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d WifiValue) mistsdkgo.SiteWifi {
+	tflog.Debug(ctx, "wifiTerraformToSdk")
 	data := mistsdkgo.NewSiteWifi()
 
 	data.SetCiscoEnabled(d.CiscoEnabled.ValueBool())

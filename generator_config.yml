@@ -85,7 +85,6 @@ resources:
       attributes:
         aliases:
           networktemplate_id: id
-          switch_mgmt.tacacs.acct_servers : tacacs_acct_servers
   service:
     create:
       path: /api/v1/orgs/{org_id}/services
@@ -235,6 +234,7 @@ resources:
         - created_time
         - modified_time
         - id
+        - org_id
         - for_site
         - additional_config_cmds
         - ap_matching
@@ -271,4 +271,23 @@ resources:
       attributes:
         aliases:
           site_id: id
-        
+  wlantemplate:
+    create:
+      path: /api/v1/orgs/{org_id}/templates
+      method: POST
+    read:
+      path: /api/v1/orgs/{org_id}/templates/{template_id}
+      method: GET
+    delete:
+      path: /api/v1/orgs/{org_id}/templates/{template_id}
+      method: DELETE
+    update:
+      path: /api/v1/orgs/{org_id}/templates/{template_id}
+      method: PUT      
+    schema:
+      ignores:
+        - created_time
+        - modified_time
+      attributes:
+        aliases:
+          template_id: id      

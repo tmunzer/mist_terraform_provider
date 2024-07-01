@@ -6,9 +6,11 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
+	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 
 func extraRouteTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.MapValue) map[string]mistsdkgo.GatewayExtraRoute {
+	tflog.Debug(ctx, "extraRouteTerraformToSdk")
 	data_map := make(map[string]mistsdkgo.GatewayExtraRoute)
 	for k, v := range d.Elements() {
 		var v_interface interface{} = v

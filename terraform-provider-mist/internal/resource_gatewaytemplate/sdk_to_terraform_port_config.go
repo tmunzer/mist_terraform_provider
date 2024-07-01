@@ -7,12 +7,14 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
+	"github.com/hashicorp/terraform-plugin-log/tflog"
 
 	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
 	mist_transform "terraform-provider-mist/internal/provider/commons/utils"
 )
 
 func portConfigIpConfigSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdkgo.GatewayIpConfig) basetypes.ObjectValue {
+	tflog.Debug(ctx, "portConfigIpConfigSdkToTerraform")
 	r_attr_type := IpConfigValue{}.AttributeTypes(ctx)
 	r_attr_value := map[string]attr.Value{
 		"dns":            mist_transform.ListOfStringSdkToTerraform(ctx, d.GetDns()),
@@ -34,6 +36,7 @@ func portConfigIpConfigSdkToTerraform(ctx context.Context, diags *diag.Diagnosti
 }
 
 func portConfigTrafficShappingSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdkgo.GatewayTrafficShaping) basetypes.ObjectValue {
+	tflog.Debug(ctx, "portConfigTrafficShappingSdkToTerraform")
 	r_attr_type := TrafficShapingValue{}.AttributeTypes(ctx)
 	r_attr_value := map[string]attr.Value{
 		"class_percentages": mist_transform.ListOfIntSdkToTerraform(ctx, d.GetClassPercentages()),
@@ -47,6 +50,7 @@ func portConfigTrafficShappingSdkToTerraform(ctx context.Context, diags *diag.Di
 }
 
 func portConfigVpPathsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]mistsdkgo.GatewayPortVpnPath) basetypes.MapValue {
+	tflog.Debug(ctx, "portConfigVpPathsSdkToTerraform")
 	port_usage_type := VpnPathsValue{}.AttributeTypes(ctx)
 	state_value_map := make(map[string]attr.Value)
 	for k, v := range d {
@@ -68,6 +72,7 @@ func portConfigVpPathsSdkToTerraform(ctx context.Context, diags *diag.Diagnostic
 }
 
 func portConfigWanSourceNatSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdkgo.GatewayPortWanSourceNat) basetypes.ObjectValue {
+	tflog.Debug(ctx, "portConfigWanSourceNatSdkToTerraform")
 	r_attr_type := WanSourceNatValue{}.AttributeTypes(ctx)
 	r_attr_value := map[string]attr.Value{
 		"disabled": types.BoolValue(d.GetDisabled()),
@@ -81,6 +86,7 @@ func portConfigWanSourceNatSdkToTerraform(ctx context.Context, diags *diag.Diagn
 }
 
 func portConfigSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]mistsdkgo.GatewayPortConfig) basetypes.MapValue {
+	tflog.Debug(ctx, "portConfigSdkToTerraform")
 	port_usage_type := PortConfigValue{}.AttributeTypes(ctx)
 	state_value_map := make(map[string]attr.Value)
 	for k, v := range d {

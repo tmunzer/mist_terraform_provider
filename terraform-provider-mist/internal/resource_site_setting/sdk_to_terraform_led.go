@@ -6,11 +6,13 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+	"github.com/hashicorp/terraform-plugin-log/tflog"
 
 	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
 )
 
 func ledSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdkgo.ApLed) LedValue {
+	tflog.Debug(ctx, "ledSdkToTerraform")
 
 	r_attr_type := LedValue{}.AttributeTypes(ctx)
 	r_attr_value := map[string]attr.Value{

@@ -7,21 +7,25 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
+	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 
-func widsAuthFailureSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdkgo.SiteWidsRepeatedAuthFailures) RepeatedAuthFailuresValue {
+func widsAuthFailureSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdkgo.SiteWidsRepeatedAuthFailures) basetypes.ObjectValue {
+	tflog.Debug(ctx, "widsAuthFailureSdkToTerraform")
 
 	r_attr_type := RepeatedAuthFailuresValue{}.AttributeTypes(ctx)
 	r_attr_value := map[string]attr.Value{
 		"duration":  types.Int64Value(int64(d.GetDuration())),
 		"threshold": types.Int64Value(int64(d.GetThreshold())),
 	}
-	r, e := NewRepeatedAuthFailuresValue(r_attr_type, r_attr_value)
+	r, e := basetypes.NewObjectValue(r_attr_type, r_attr_value)
 	diags.Append(e...)
 	return r
 }
 
 func widsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdkgo.SiteWids) WidsValue {
+	tflog.Debug(ctx, "widsSdkToTerraform")
 
 	r_attr_type := WidsValue{}.AttributeTypes(ctx)
 	r_attr_value := map[string]attr.Value{

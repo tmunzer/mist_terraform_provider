@@ -7,6 +7,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
+	"github.com/hashicorp/terraform-plugin-log/tflog"
 
 	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
 	mist_transform "terraform-provider-mist/internal/provider/commons/utils"
@@ -14,6 +15,7 @@ import (
 )
 
 func NetworksSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []mistsdkgo.Network) basetypes.ListValue {
+	tflog.Debug(ctx, "NetworksSdkToTerraform")
 	var data_list = []NetworksValue{}
 
 	for _, v := range d {

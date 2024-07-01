@@ -9,9 +9,11 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
+	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 
 func tunnelProviderJseSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdkgo.TunnelProviderOptionsJse) basetypes.ObjectValue {
+	tflog.Debug(ctx, "tunnelProviderJseSdkToTerraform")
 	r_attr_type := JseValue{}.AttributeTypes(ctx)
 	r_attr_value := map[string]attr.Value{
 		"name":      types.StringValue(d.GetName()),
@@ -23,6 +25,7 @@ func tunnelProviderJseSdkToTerraform(ctx context.Context, diags *diag.Diagnostic
 }
 
 func tunnelProviderZscalerSubLocationSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []mistsdkgo.TunnelProviderOptionsZscalerSubLocation) basetypes.ListValue {
+	tflog.Debug(ctx, "tunnelProviderZscalerSubLocationSdkToTerraform")
 	var data_list = []SubLocationsValue{}
 	for _, v := range d {
 		data_map_attr_type := SubLocationsValue{}.AttributeTypes(ctx)
@@ -47,6 +50,7 @@ func tunnelProviderZscalerSubLocationSdkToTerraform(ctx context.Context, diags *
 	return r
 }
 func tunnelProviderZscalerSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdkgo.TunnelProviderOptionsZscaler) basetypes.ObjectValue {
+	tflog.Debug(ctx, "tunnelProviderZscalerSdkToTerraform")
 	r_attr_type := ZscalerValue{}.AttributeTypes(ctx)
 
 	sub_locations := tunnelProviderZscalerSubLocationSdkToTerraform(ctx, diags, d.GetSubLocations())
@@ -70,6 +74,7 @@ func tunnelProviderZscalerSdkToTerraform(ctx context.Context, diags *diag.Diagno
 }
 
 func tunnelProviderSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdkgo.TunnelProviderOptions) TunnelProviderOptionsValue {
+	tflog.Debug(ctx, "tunnelProviderSdkToTerraform")
 
 	data_map_attr_type := TunnelProviderOptionsValue{}.AttributeTypes(ctx)
 

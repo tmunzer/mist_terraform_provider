@@ -8,9 +8,11 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 
 func zoneOccupancySdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdkgo.SiteZoneOccupancyAlert) ZoneOccupancyAlertValue {
+	tflog.Debug(ctx, "zoneOccupancySdkToTerraform")
 
 	r_attr_type := ZoneOccupancyAlertValue{}.AttributeTypes(ctx)
 	r_attr_value := map[string]attr.Value{

@@ -8,9 +8,11 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
+	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 
 func servicePolicyAppqoeTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) mistsdkgo.ServicePolicyAppqoe {
+	tflog.Debug(ctx, "servicePolicyAppqoeTerraformToSdk")
 	data := *mistsdkgo.NewServicePolicyAppqoe()
 	if d.IsNull() || d.IsUnknown() {
 		return data
@@ -22,6 +24,7 @@ func servicePolicyAppqoeTerraformToSdk(ctx context.Context, diags *diag.Diagnost
 }
 
 func servicePolicyEwfRuleTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ListValue) []mistsdkgo.ServicePolicyEwfRule {
+	tflog.Debug(ctx, "servicePolicyEwfRuleTerraformToSdk")
 	var data_list []mistsdkgo.ServicePolicyEwfRule
 	for _, v := range d.Elements() {
 		var v_interface interface{} = v
@@ -38,6 +41,7 @@ func servicePolicyEwfRuleTerraformToSdk(ctx context.Context, diags *diag.Diagnos
 }
 
 func idpConfigTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) mistsdkgo.IdpConfig {
+	tflog.Debug(ctx, "idpConfigTerraformToSdk")
 	data := *mistsdkgo.NewIdpConfig()
 	if d.IsNull() || d.IsUnknown() {
 		return data
@@ -52,6 +56,7 @@ func idpConfigTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d bas
 }
 
 func servicePoliciesTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ListValue) []mistsdkgo.ServicePolicy {
+	tflog.Debug(ctx, "servicePoliciesTerraformToSdk")
 	var data_list []mistsdkgo.ServicePolicy
 	for _, v := range d.Elements() {
 		var v_interface interface{} = v

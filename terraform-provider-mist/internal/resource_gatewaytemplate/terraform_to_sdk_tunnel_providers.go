@@ -7,9 +7,11 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
+	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 
 func tunnelProviderOptionsJseTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) mistsdkgo.TunnelProviderOptionsJse {
+	tflog.Debug(ctx, "tunnelProviderOptionsJseTerraformToSdk")
 	data := *mistsdkgo.NewTunnelProviderOptionsJse()
 	if d.IsNull() || d.IsUnknown() {
 		return data
@@ -22,6 +24,7 @@ func tunnelProviderOptionsJseTerraformToSdk(ctx context.Context, diags *diag.Dia
 }
 
 func tunnelProviderOptionsZscalerSubLocationTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ListValue) []mistsdkgo.TunnelProviderOptionsZscalerSubLocation {
+	tflog.Debug(ctx, "tunnelProviderOptionsZscalerSubLocationTerraformToSdk")
 	var data_list []mistsdkgo.TunnelProviderOptionsZscalerSubLocation
 	for _, v := range d.Elements() {
 		var v_interface interface{} = v
@@ -43,6 +46,7 @@ func tunnelProviderOptionsZscalerSubLocationTerraformToSdk(ctx context.Context, 
 }
 
 func tunnelProviderOptionsZscalerTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) mistsdkgo.TunnelProviderOptionsZscaler {
+	tflog.Debug(ctx, "tunnelProviderOptionsZscalerTerraformToSdk")
 	data := *mistsdkgo.NewTunnelProviderOptionsZscaler()
 	if d.IsNull() || d.IsUnknown() {
 		return data
@@ -68,6 +72,7 @@ func tunnelProviderOptionsZscalerTerraformToSdk(ctx context.Context, diags *diag
 }
 
 func tunnelProviderOptionsTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d TunnelProviderOptionsValue) mistsdkgo.TunnelProviderOptions {
+	tflog.Debug(ctx, "tunnelProviderOptionsTerraformToSdk")
 
 	data := *mistsdkgo.NewTunnelProviderOptions()
 

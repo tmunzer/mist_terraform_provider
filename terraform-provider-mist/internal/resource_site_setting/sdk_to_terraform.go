@@ -16,16 +16,14 @@ func SdkToTerraform(ctx context.Context, data *mistsdkgo.SiteSetting) (SiteSetti
 	var diags diag.Diagnostics
 
 	state.SiteId = types.StringValue(data.GetSiteId())
-	state.OrgId = types.StringValue(data.GetOrgId())
 
-	analytic := analyticSdkToTerraform(ctx, &diags, *data.Analytic)
-	state.Analytic = analytic
+	state.Analytic = analyticSdkToTerraform(ctx, &diags, data.GetAnalytic())
 
 	state.ApUpdownThreshold = types.Int64Value(int64(data.GetApUpdownThreshold()))
 
 	state.AutoUpgrade = autoUpgradeSdkToTerraform(ctx, &diags, data.GetAutoUpgrade())
 
-	state.BleConfig = bleConfigsSdkToTerraform(ctx, &diags, *data.BleConfig)
+	state.BleConfig = bleConfigsSdkToTerraform(ctx, &diags, data.GetBleConfig())
 
 	state.ConfigAutoRevert = types.BoolValue(data.GetConfigAutoRevert())
 
@@ -61,7 +59,7 @@ func SdkToTerraform(ctx context.Context, data *mistsdkgo.SiteSetting) (SiteSetti
 
 	state.Rogue = rogueSdkToTerraform(ctx, &diags, data.GetRogue())
 
-	state.SimpleAlert = simpleAlertSdkToTerraform(ctx, &diags, *data.SimpleAlert)
+	state.SimpleAlert = simpleAlertSdkToTerraform(ctx, &diags, data.GetSimpleAlert())
 
 	state.Skyatp = skyAtpSdkToTerraform(ctx, &diags, data.GetSkyatp())
 

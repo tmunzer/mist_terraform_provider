@@ -7,12 +7,14 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
+	"github.com/hashicorp/terraform-plugin-log/tflog"
 
 	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
 	mist_transform "terraform-provider-mist/internal/provider/commons/utils"
 )
 
 func synthteticTestVlansSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []mistsdkgo.SyntheticTestProperties) basetypes.ListValue {
+	tflog.Debug(ctx, "synthteticTestVlansSdkToTerraform")
 	var data_list = []VlansValue{}
 	for _, v := range d {
 		data_map_attr_type := VlansValue{}.AttributeTypes(ctx)
@@ -32,6 +34,7 @@ func synthteticTestVlansSdkToTerraform(ctx context.Context, diags *diag.Diagnost
 }
 
 func synthteticTestSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdkgo.SyntheticTestConfig) SyntheticTestValue {
+	tflog.Debug(ctx, "synthteticTestSdkToTerraform")
 
 	r_attr_type := SyntheticTestValue{}.AttributeTypes(ctx)
 	r_attr_value := map[string]attr.Value{

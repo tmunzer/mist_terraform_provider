@@ -9894,12 +9894,6 @@
 						}
 					},
 					{
-						"name": "org_id",
-						"string": {
-							"computed_optional_required": "computed_optional"
-						}
-					},
-					{
 						"name": "persist_config_on_device",
 						"bool": {
 							"computed_optional_required": "computed_optional",
@@ -10644,6 +10638,112 @@
 			"name": "sitegroup",
 			"schema": {
 				"attributes": [
+					{
+						"name": "id",
+						"string": {
+							"computed_optional_required": "computed_optional"
+						}
+					},
+					{
+						"name": "name",
+						"string": {
+							"computed_optional_required": "required"
+						}
+					},
+					{
+						"name": "org_id",
+						"string": {
+							"computed_optional_required": "computed_optional"
+						}
+					}
+				]
+			}
+		},
+		{
+			"name": "wlantemplate",
+			"schema": {
+				"attributes": [
+					{
+						"name": "applies",
+						"single_nested": {
+							"computed_optional_required": "computed_optional",
+							"attributes": [
+								{
+									"name": "org_id",
+									"string": {
+										"computed_optional_required": "computed_optional"
+									}
+								},
+								{
+									"name": "site_ids",
+									"list": {
+										"computed_optional_required": "computed_optional",
+										"element_type": {
+											"string": {}
+										},
+										"description": "list of site ids"
+									}
+								},
+								{
+									"name": "sitegroup_ids",
+									"list": {
+										"computed_optional_required": "computed_optional",
+										"element_type": {
+											"string": {}
+										},
+										"description": "list of sitegroup ids"
+									}
+								}
+							],
+							"description": "where this template should be applied to, can be org_id, site_ids, sitegroup_ids"
+						}
+					},
+					{
+						"name": "deviceprofile_ids",
+						"list": {
+							"computed_optional_required": "computed_optional",
+							"element_type": {
+								"string": {}
+							},
+							"description": "list of Device Profile ids"
+						}
+					},
+					{
+						"name": "exceptions",
+						"single_nested": {
+							"computed_optional_required": "computed_optional",
+							"attributes": [
+								{
+									"name": "site_ids",
+									"list": {
+										"computed_optional_required": "computed_optional",
+										"element_type": {
+											"string": {}
+										},
+										"description": "list of site ids"
+									}
+								},
+								{
+									"name": "sitegroup_ids",
+									"list": {
+										"computed_optional_required": "computed_optional",
+										"element_type": {
+											"string": {}
+										},
+										"description": "list of sitegroup ids"
+									}
+								}
+							],
+							"description": "where this template should not be applied to (takes precedence)"
+						}
+					},
+					{
+						"name": "filter_by_deviceprofile",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"description": "whether to further filter by Device Profile"
+						}
+					},
 					{
 						"name": "id",
 						"string": {

@@ -7,9 +7,11 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
+	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 
 func tunnelConfigsAutoProvisionPrimaryTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) mistsdkgo.TunnelConfigsAutoProvisionNode {
+	tflog.Debug(ctx, "tunnelConfigsAutoProvisionPrimaryTerraformToSdk")
 	data := *mistsdkgo.NewTunnelConfigsAutoProvisionNode()
 	if d.IsNull() || d.IsUnknown() {
 		return data
@@ -23,6 +25,7 @@ func tunnelConfigsAutoProvisionPrimaryTerraformToSdk(ctx context.Context, diags 
 }
 
 func tunnelConfigsAutoProvisionSecondaryTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) mistsdkgo.TunnelConfigsAutoProvisionNode {
+	tflog.Debug(ctx, "tunnelConfigsAutoProvisionSecondaryTerraformToSdk")
 	data := *mistsdkgo.NewTunnelConfigsAutoProvisionNode()
 	if d.IsNull() || d.IsUnknown() {
 		return data
@@ -36,6 +39,7 @@ func tunnelConfigsAutoProvisionSecondaryTerraformToSdk(ctx context.Context, diag
 }
 
 func tunnelConfigsAutoProvisionTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) mistsdkgo.TunnelConfigsAutoProvision {
+	tflog.Debug(ctx, "tunnelConfigsAutoProvisionTerraformToSdk")
 	data := *mistsdkgo.NewTunnelConfigsAutoProvision()
 	if d.IsNull() || d.IsUnknown() {
 		return data
@@ -64,6 +68,7 @@ func tunnelConfigsAutoProvisionTerraformToSdk(ctx context.Context, diags *diag.D
 }
 
 func gatewayTemplateTunnelIkeProposalTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ListValue) []mistsdkgo.GatewayTemplateTunnelIkeProposal {
+	tflog.Debug(ctx, "gatewayTemplateTunnelIkeProposalTerraformToSdk")
 	var data_list []mistsdkgo.GatewayTemplateTunnelIkeProposal
 	for _, v := range d.Elements() {
 		var v_interface interface{} = v
@@ -79,6 +84,7 @@ func gatewayTemplateTunnelIkeProposalTerraformToSdk(ctx context.Context, diags *
 }
 
 func gatewayTemplateTunnelIpsecProposalTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ListValue) []mistsdkgo.GatewayTemplateTunnelIpsecProposal {
+	tflog.Debug(ctx, "gatewayTemplateTunnelIpsecProposalTerraformToSdk")
 	var data_list []mistsdkgo.GatewayTemplateTunnelIpsecProposal
 	for _, v := range d.Elements() {
 		var v_interface interface{} = v
@@ -94,6 +100,7 @@ func gatewayTemplateTunnelIpsecProposalTerraformToSdk(ctx context.Context, diags
 }
 
 func gatewayTemplateTunnelProbeTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) mistsdkgo.GatewayTemplateTunnelProbe {
+	tflog.Debug(ctx, "gatewayTemplateTunnelProbeTerraformToSdk")
 	data := *mistsdkgo.NewGatewayTemplateTunnelProbe()
 	if d.IsNull() || d.IsUnknown() {
 		return data
@@ -108,6 +115,7 @@ func gatewayTemplateTunnelProbeTerraformToSdk(ctx context.Context, diags *diag.D
 }
 
 func gatewayTemplateTunnelPrimaryProbeTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) mistsdkgo.GatewayTemplateTunnelNode {
+	tflog.Debug(ctx, "gatewayTemplateTunnelPrimaryProbeTerraformToSdk")
 	data := *mistsdkgo.NewGatewayTemplateTunnelNode()
 	if d.IsNull() || d.IsUnknown() {
 		return data
@@ -123,6 +131,7 @@ func gatewayTemplateTunnelPrimaryProbeTerraformToSdk(ctx context.Context, diags 
 }
 
 func gatewayTemplateTunnelSecondaryProbeTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) mistsdkgo.GatewayTemplateTunnelNode {
+	tflog.Debug(ctx, "gatewayTemplateTunnelSecondaryProbeTerraformToSdk")
 	data := *mistsdkgo.NewGatewayTemplateTunnelNode()
 	if d.IsNull() || d.IsUnknown() {
 		return data
@@ -138,6 +147,7 @@ func gatewayTemplateTunnelSecondaryProbeTerraformToSdk(ctx context.Context, diag
 }
 
 func tunnelConfigsTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.MapValue) map[string]mistsdkgo.TunnelConfigs {
+	tflog.Debug(ctx, "tunnelConfigsTerraformToSdk")
 	data_map := make(map[string]mistsdkgo.TunnelConfigs)
 	for k, v := range d.Elements() {
 		var v_interface interface{} = v

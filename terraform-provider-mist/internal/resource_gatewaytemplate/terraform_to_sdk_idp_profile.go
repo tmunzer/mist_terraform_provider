@@ -7,9 +7,11 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
+	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 
 func idpProfileMatchingSeverityTerraformToSdk(ctx context.Context, list basetypes.ListValue) []mistsdkgo.IdpProfileMatchingSeverityValue {
+	tflog.Debug(ctx, "idpProfileMatchingSeverityTerraformToSdk")
 	var items []mistsdkgo.IdpProfileMatchingSeverityValue
 	for _, item := range list.Elements() {
 		s, _ := mistsdkgo.NewIdpProfileMatchingSeverityValueFromValue(item.String())
@@ -19,6 +21,7 @@ func idpProfileMatchingSeverityTerraformToSdk(ctx context.Context, list basetype
 }
 
 func idpProfileMatchingTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) mistsdkgo.IdpProfileMatching {
+	tflog.Debug(ctx, "idpProfileMatchingTerraformToSdk")
 	data := *mistsdkgo.NewIdpProfileMatching()
 	if d.IsNull() || d.IsUnknown() {
 		return data
@@ -35,6 +38,7 @@ func idpProfileMatchingTerraformToSdk(ctx context.Context, diags *diag.Diagnosti
 }
 
 func idpProfileOverwritesTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ListValue) []mistsdkgo.IdpProfileOverwrite {
+	tflog.Debug(ctx, "idpProfileOverwritesTerraformToSdk")
 	var data_list []mistsdkgo.IdpProfileOverwrite
 	for _, v := range d.Elements() {
 		var v_interface interface{} = v
@@ -49,6 +53,7 @@ func idpProfileOverwritesTerraformToSdk(ctx context.Context, diags *diag.Diagnos
 }
 
 func idpProfileTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.MapValue) map[string]mistsdkgo.IdpProfile {
+	tflog.Debug(ctx, "idpProfileTerraformToSdk")
 	data_map := make(map[string]mistsdkgo.IdpProfile)
 	for k, v := range d.Elements() {
 		var v_interface interface{} = v

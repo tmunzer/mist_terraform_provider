@@ -7,12 +7,14 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
+	"github.com/hashicorp/terraform-plugin-log/tflog"
 
 	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
 	mist_transform "terraform-provider-mist/internal/provider/commons/utils"
 )
 
 func servicePolicyAppQoESdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdkgo.ServicePolicyAppqoe) basetypes.ObjectValue {
+	tflog.Debug(ctx, "servicePolicyAppQoESdkToTerraform")
 	r_attr_type := AppqoeValue{}.AttributeTypes(ctx)
 	r_attr_value := map[string]attr.Value{
 		"enabled": types.BoolValue(d.GetEnabled()),
@@ -23,6 +25,7 @@ func servicePolicyAppQoESdkToTerraform(ctx context.Context, diags *diag.Diagnost
 }
 
 func servicePolicyEwfSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []mistsdkgo.ServicePolicyEwfRule) basetypes.ListValue {
+	tflog.Debug(ctx, "servicePolicyEwfSdkToTerraform")
 	var data_list = []EwfValue{}
 	for _, v := range d {
 		data_map_attr_type := EwfValue{}.AttributeTypes(ctx)
@@ -43,6 +46,7 @@ func servicePolicyEwfSdkToTerraform(ctx context.Context, diags *diag.Diagnostics
 }
 
 func servicePolicyIdpSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdkgo.IdpConfig) basetypes.ObjectValue {
+	tflog.Debug(ctx, "servicePolicyIdpSdkToTerraform")
 	r_attr_type := IdpValue{}.AttributeTypes(ctx)
 	r_attr_value := map[string]attr.Value{
 		"alert_only":    types.BoolValue(d.GetAlertOnly()),
@@ -56,6 +60,7 @@ func servicePolicyIdpSdkToTerraform(ctx context.Context, diags *diag.Diagnostics
 }
 
 func servicePoliciesSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []mistsdkgo.ServicePolicy) basetypes.ListValue {
+	tflog.Debug(ctx, "servicePoliciesSdkToTerraform")
 	var data_list = []ServicePoliciesValue{}
 
 	for _, v := range d {

@@ -6,11 +6,14 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
+	"github.com/hashicorp/terraform-plugin-log/tflog"
 
 	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
 )
 
-func engagementDwellTagNamesSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdkgo.SiteEngagementDwellTagNames) DwellTagNamesValue {
+func engagementDwellTagNamesSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdkgo.SiteEngagementDwellTagNames) basetypes.ObjectValue {
+	tflog.Debug(ctx, "engagementDwellTagNamesSdkToTerraform")
 
 	r_attr_type := DwellTagNamesValue{}.AttributeTypes(ctx)
 	r_attr_value := map[string]attr.Value{
@@ -19,12 +22,13 @@ func engagementDwellTagNamesSdkToTerraform(ctx context.Context, diags *diag.Diag
 		"passerby":  types.StringValue(d.GetPasserby()),
 		"stationed": types.StringValue(d.GetStationed()),
 	}
-	r, e := NewDwellTagNamesValue(r_attr_type, r_attr_value)
+	r, e := basetypes.NewObjectValue(r_attr_type, r_attr_value)
 	diags.Append(e...)
 	return r
 }
 
-func engagementDwellTagsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdkgo.SiteEngagementDwellTags) DwellTagsValue {
+func engagementDwellTagsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdkgo.SiteEngagementDwellTags) basetypes.ObjectValue {
+	tflog.Debug(ctx, "engagementDwellTagsSdkToTerraform")
 
 	r_attr_type := DwellTagsValue{}.AttributeTypes(ctx)
 	r_attr_value := map[string]attr.Value{
@@ -33,12 +37,13 @@ func engagementDwellTagsSdkToTerraform(ctx context.Context, diags *diag.Diagnost
 		"passerby":  types.StringValue(d.GetPasserby()),
 		"stationed": types.StringValue(d.GetStationed()),
 	}
-	r, e := NewDwellTagsValue(r_attr_type, r_attr_value)
+	r, e := basetypes.NewObjectValue(r_attr_type, r_attr_value)
 	diags.Append(e...)
 	return r
 }
 
 func engagementSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdkgo.SiteEngagement) EngagementValue {
+	tflog.Debug(ctx, "engagementSdkToTerraform")
 
 	tag_names := engagementDwellTagNamesSdkToTerraform(ctx, diags, d.GetDwellTagNames())
 	tags := engagementDwellTagsSdkToTerraform(ctx, diags, d.GetDwellTags())

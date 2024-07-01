@@ -121,17 +121,17 @@ Optional:
 - `dns_suffix` (List of String) if `type`==`local` - optional, if not defined, system one will be used
 - `fixed_bindings` (Attributes Map) Property key is the MAC Address (see [below for nested schema](#nestedatt--dhcpd_config--config--fixed_bindings))
 - `gateway` (String) if `type`==`local` - optional, `ip` will be used if not provided
-- `ip_end4` (String) if `type`==`local`
+- `ip_end` (String) if `type`==`local`
 - `ip_end6` (String) if `type6`==`local`
-- `ip_start4` (String) if `type`==`local`
+- `ip_start` (String) if `type`==`local`
 - `ip_start6` (String) if `type6`==`local`
 - `lease_time` (Number) in seconds, lease time has to be between 3600 [1hr] - 604800 [1 week], default is 86400 [1 day]
 - `options` (Attributes Map) Property key is the DHCP option number (see [below for nested schema](#nestedatt--dhcpd_config--config--options))
 - `server_id_override` (Boolean) `server_id_override`==`true` means the device, when acts as DHCP relay and forwards DHCP responses from DHCP server to clients, 
 should overwrite the Sever Identifier option (i.e. DHCP option 54) in DHCP responses with its own IP address.
-- `servers4` (List of String) if `type`==`relay`
+- `servers` (List of String) if `type`==`relay`
 - `servers6` (List of String) if `type6`==`relay`
-- `type4` (String) DHCP Server (local) or DHCP Relay (relay)
+- `type` (String) DHCP Server (local) or DHCP Relay (relay)
 - `type6` (String) DHCP Server (local) or DHCP Relay (relay)
 - `vendor_encapulated` (Attributes Map) Property key is <enterprise number>:<sub option code>, with
 * enterprise number: 1-65535 (https://www.iana.org/assignments/enterprise-numbers/enterprise-numbers)
@@ -478,7 +478,7 @@ Optional:
 Optional:
 
 - `action` (Attributes) when used as import policy (see [below for nested schema](#nestedatt--routing_policies--terms--action))
-- `routing_policy_term_matching` (Attributes) zero or more criteria/filter can be specified to match the term, all criteria have to be met (see [below for nested schema](#nestedatt--routing_policies--terms--routing_policy_term_matching))
+- `matching` (Attributes) zero or more criteria/filter can be specified to match the term, all criteria have to be met (see [below for nested schema](#nestedatt--routing_policies--terms--matching))
 
 <a id="nestedatt--routing_policies--terms--action"></a>
 ### Nested Schema for `routing_policies.terms.action`
@@ -496,8 +496,8 @@ Optional:
 - `prepend_as_path` (List of String) when used as export policy, optional. By default, the local AS will be prepended, to change it
 
 
-<a id="nestedatt--routing_policies--terms--routing_policy_term_matching"></a>
-### Nested Schema for `routing_policies.terms.routing_policy_term_matching`
+<a id="nestedatt--routing_policies--terms--matching"></a>
+### Nested Schema for `routing_policies.terms.matching`
 
 Optional:
 
@@ -506,14 +506,14 @@ Optional:
 - `network` (List of String)
 - `prefix` (List of String) zero or more criteria/filter can be specified to match the term, all criteria have to be met
 - `protocol` (List of String) `direct`, `bgp`, `osp`, ...
-- `route_exists` (Attributes) (see [below for nested schema](#nestedatt--routing_policies--terms--routing_policy_term_matching--route_exists))
+- `route_exists` (Attributes) (see [below for nested schema](#nestedatt--routing_policies--terms--matching--route_exists))
 - `vpn_neighbor_mac` (List of String) overlay-facing criteria (used for bgp_config where via=vpn)
 - `vpn_path` (List of String) overlay-facing criteria (used for bgp_config where via=vpn)
 ordered-
-- `vpn_path_sla` (Attributes) (see [below for nested schema](#nestedatt--routing_policies--terms--routing_policy_term_matching--vpn_path_sla))
+- `vpn_path_sla` (Attributes) (see [below for nested schema](#nestedatt--routing_policies--terms--matching--vpn_path_sla))
 
-<a id="nestedatt--routing_policies--terms--routing_policy_term_matching--route_exists"></a>
-### Nested Schema for `routing_policies.terms.routing_policy_term_matching.route_exists`
+<a id="nestedatt--routing_policies--terms--matching--route_exists"></a>
+### Nested Schema for `routing_policies.terms.matching.route_exists`
 
 Optional:
 
@@ -522,8 +522,8 @@ Optional:
 it can also be the name of the VPN or wan if they
 
 
-<a id="nestedatt--routing_policies--terms--routing_policy_term_matching--vpn_path_sla"></a>
-### Nested Schema for `routing_policies.terms.routing_policy_term_matching.vpn_path_sla`
+<a id="nestedatt--routing_policies--terms--matching--vpn_path_sla"></a>
+### Nested Schema for `routing_policies.terms.matching.vpn_path_sla`
 
 Optional:
 
@@ -622,29 +622,11 @@ Optional:
 
 Optional:
 
-- `auto_provision_primary` (Attributes) (see [below for nested schema](#nestedatt--tunnel_configs--auto_provision--auto_provision_primary))
-- `auto_provision_secondary` (Attributes) (see [below for nested schema](#nestedatt--tunnel_configs--auto_provision--auto_provision_secondary))
 - `enable` (Boolean)
 - `latlng` (Attributes) (see [below for nested schema](#nestedatt--tunnel_configs--auto_provision--latlng))
+- `primary` (Attributes) (see [below for nested schema](#nestedatt--tunnel_configs--auto_provision--primary))
 - `region` (String)
-
-<a id="nestedatt--tunnel_configs--auto_provision--auto_provision_primary"></a>
-### Nested Schema for `tunnel_configs.auto_provision.auto_provision_primary`
-
-Optional:
-
-- `num_hosts` (String)
-- `wan_names` (List of String) optional, only needed if `vars_only`==`false`
-
-
-<a id="nestedatt--tunnel_configs--auto_provision--auto_provision_secondary"></a>
-### Nested Schema for `tunnel_configs.auto_provision.auto_provision_secondary`
-
-Optional:
-
-- `num_hosts` (String)
-- `wan_names` (List of String) optional, only needed if `vars_only`==`false`
-
+- `secondary` (Attributes) (see [below for nested schema](#nestedatt--tunnel_configs--auto_provision--secondary))
 
 <a id="nestedatt--tunnel_configs--auto_provision--latlng"></a>
 ### Nested Schema for `tunnel_configs.auto_provision.latlng`
@@ -653,6 +635,24 @@ Required:
 
 - `lat` (Number)
 - `lng` (Number)
+
+
+<a id="nestedatt--tunnel_configs--auto_provision--primary"></a>
+### Nested Schema for `tunnel_configs.auto_provision.primary`
+
+Optional:
+
+- `num_hosts` (String)
+- `wan_names` (List of String) optional, only needed if `vars_only`==`false`
+
+
+<a id="nestedatt--tunnel_configs--auto_provision--secondary"></a>
+### Nested Schema for `tunnel_configs.auto_provision.secondary`
+
+Optional:
+
+- `num_hosts` (String)
+- `wan_names` (List of String) optional, only needed if `vars_only`==`false`
 
 
 
