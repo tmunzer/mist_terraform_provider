@@ -5,3 +5,6 @@ terraform-provider-mistapi/terraform.tfstate.backup
 .env
 .tfstate
 .tfstate.backup
+test/terraform.tfstate
+test/terraform.tfstate.backup
+test/.env
