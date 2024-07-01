@@ -79476,12 +79476,6 @@ components:
           format: uuid
           readOnly: true
           type: string
-        mxtunnel:
-          additionalProperties:
-            $ref: '#/components/schemas/mxtunnel'
-          description: when `interface`=`site_medge`, the definition of the Mist Tunnels
-            (key is the name)
-          type: object
         mxtunnel_id:
           deprecated: true
           description: (deprecated, use mxtunnel_ids instead) when `interface`==`mxtunnel`,
@@ -81112,15 +81106,7 @@ components:
           default: false
           type: boolean
         hours:
-          additionalProperties:
-            type: string
-          description: "Property key is mon / tue / wed / thu / fri / sat / sun\n\
-            Property value is time range in \u201CHH:MM-HH:MM\u201D (24-hour format),\
-            \ the minimum resolution is 30 minute"
-          example:
-            fri: 09:00-17:00
-            mon: 09:00-17:00
-          type: object
+          $ref: '#/components/schemas/hours'
       type: object
     wlan_vlan_ids:
       description: "vlan_ids to use when there\u2019s no match from RA"

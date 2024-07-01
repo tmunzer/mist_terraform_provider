@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Enabled** | Pointer to **bool** |  | [optional] [default to false]
-**Hours** | Pointer to **map[string]string** | Property key is mon / tue / wed / thu / fri / sat / sun Property value is time range in “HH:MM-HH:MM” (24-hour format), the minimum resolution is 30 minute | [optional] 
+**Hours** | Pointer to [**Hours**](Hours.md) |  | [optional] 
 
 ## Methods
 
@@ -53,20 +53,20 @@ HasEnabled returns a boolean if a field has been set.
 
 ### GetHours
 
-`func (o *WlanSchedule) GetHours() map[string]string`
+`func (o *WlanSchedule) GetHours() Hours`
 
 GetHours returns the Hours field if non-nil, zero value otherwise.
 
 ### GetHoursOk
 
-`func (o *WlanSchedule) GetHoursOk() (*map[string]string, bool)`
+`func (o *WlanSchedule) GetHoursOk() (*Hours, bool)`
 
 GetHoursOk returns a tuple with the Hours field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetHours
 
-`func (o *WlanSchedule) SetHours(v map[string]string)`
+`func (o *WlanSchedule) SetHours(v Hours)`
 
 SetHours sets Hours field to given value.
 

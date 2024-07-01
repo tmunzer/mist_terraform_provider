@@ -67,7 +67,6 @@ Name | Type | Description | Notes
 **MistNac** | Pointer to [**WlanMistNac**](WlanMistNac.md) |  | [optional] 
 **ModifiedTime** | Pointer to **float32** |  | [optional] [readonly] 
 **MspId** | Pointer to **string** |  | [optional] [readonly] 
-**Mxtunnel** | Pointer to [**map[string]Mxtunnel**](Mxtunnel.md) | when &#x60;interface&#x60;&#x3D;&#x60;site_medge&#x60;, the definition of the Mist Tunnels (key is the name) | [optional] 
 **MxtunnelId** | Pointer to **string** | (deprecated, use mxtunnel_ids instead) when &#x60;interface&#x60;&#x3D;&#x3D;&#x60;mxtunnel&#x60;, id of the Mist Tunnel | [optional] 
 **MxtunnelIds** | Pointer to **[]string** | when &#x60;interface&#x60;&#x3D;&#x60;mxtunnel&#x60;, id of the Mist Tunnel | [optional] 
 **MxtunnelName** | Pointer to **[]string** | when &#x60;interface&#x60;&#x3D;&#x60;site_medge&#x60;, name of the mxtunnel that in mxtunnels under Site Setting | [optional] 
@@ -1768,31 +1767,6 @@ SetMspId sets MspId field to given value.
 `func (o *Wlan) HasMspId() bool`
 
 HasMspId returns a boolean if a field has been set.
-
-### GetMxtunnel
-
-`func (o *Wlan) GetMxtunnel() map[string]Mxtunnel`
-
-GetMxtunnel returns the Mxtunnel field if non-nil, zero value otherwise.
-
-### GetMxtunnelOk
-
-`func (o *Wlan) GetMxtunnelOk() (*map[string]Mxtunnel, bool)`
-
-GetMxtunnelOk returns a tuple with the Mxtunnel field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetMxtunnel
-
-`func (o *Wlan) SetMxtunnel(v map[string]Mxtunnel)`
-
-SetMxtunnel sets Mxtunnel field to given value.
-
-### HasMxtunnel
-
-`func (o *Wlan) HasMxtunnel() bool`
-
-HasMxtunnel returns a boolean if a field has been set.
 
 ### GetMxtunnelId
 

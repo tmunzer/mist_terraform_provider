@@ -21,8 +21,7 @@ var _ MappedNullable = &WlanSchedule{}
 // WlanSchedule WLAN operating schedule, default is disabled
 type WlanSchedule struct {
 	Enabled *bool `json:"enabled,omitempty"`
-	// Property key is mon / tue / wed / thu / fri / sat / sun Property value is time range in “HH:MM-HH:MM” (24-hour format), the minimum resolution is 30 minute
-	Hours *map[string]string `json:"hours,omitempty"`
+	Hours *Hours `json:"hours,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -82,9 +81,9 @@ func (o *WlanSchedule) SetEnabled(v bool) {
 }
 
 // GetHours returns the Hours field value if set, zero value otherwise.
-func (o *WlanSchedule) GetHours() map[string]string {
+func (o *WlanSchedule) GetHours() Hours {
 	if o == nil || IsNil(o.Hours) {
-		var ret map[string]string
+		var ret Hours
 		return ret
 	}
 	return *o.Hours
@@ -92,7 +91,7 @@ func (o *WlanSchedule) GetHours() map[string]string {
 
 // GetHoursOk returns a tuple with the Hours field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *WlanSchedule) GetHoursOk() (*map[string]string, bool) {
+func (o *WlanSchedule) GetHoursOk() (*Hours, bool) {
 	if o == nil || IsNil(o.Hours) {
 		return nil, false
 	}
@@ -108,8 +107,8 @@ func (o *WlanSchedule) HasHours() bool {
 	return false
 }
 
-// SetHours gets a reference to the given map[string]string and assigns it to the Hours field.
-func (o *WlanSchedule) SetHours(v map[string]string) {
+// SetHours gets a reference to the given Hours and assigns it to the Hours field.
+func (o *WlanSchedule) SetHours(v Hours) {
 	o.Hours = &v
 }
 

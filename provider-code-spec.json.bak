@@ -11313,14 +11313,6 @@
 						}
 					},
 					{
-						"name": "band",
-						"string": {
-							"computed_optional_required": "computed_optional",
-							"deprecation_message": "This attribute is deprecated.",
-							"description": "`band` is deprecated and kept for backward compability. Use bands instead"
-						}
-					},
-					{
 						"name": "band_steer",
 						"bool": {
 							"computed_optional_required": "computed_optional",
@@ -11889,12 +11881,6 @@
 						}
 					},
 					{
-						"name": "for_site",
-						"bool": {
-							"computed_optional_required": "computed_optional"
-						}
-					},
-					{
 						"name": "hide_ssid",
 						"bool": {
 							"computed_optional_required": "computed_optional",
@@ -12129,308 +12115,6 @@
 						"name": "msp_id",
 						"string": {
 							"computed_optional_required": "computed_optional"
-						}
-					},
-					{
-						"name": "mxtunnel",
-						"map_nested": {
-							"computed_optional_required": "computed_optional",
-							"nested_object": {
-								"attributes": [
-									{
-										"name": "anchor_mxtunnel_ids",
-										"list": {
-											"computed_optional_required": "computed_optional",
-											"element_type": {
-												"string": {}
-											},
-											"description": "list of anchor mxtunnels used for forming edge to edge tunnels"
-										}
-									},
-									{
-										"name": "auto_preemption",
-										"single_nested": {
-											"computed_optional_required": "computed_optional",
-											"attributes": [
-												{
-													"name": "day_of_week",
-													"string": {
-														"computed_optional_required": "computed_optional",
-														"validators": [
-															{
-																"custom": {
-																	"imports": [
-																		{
-																			"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
-																		}
-																	],
-																	"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"any\",\n\"mon\",\n\"tue\",\n\"wed\",\n\"thu\",\n\"fri\",\n\"sat\",\n\"sun\",\n)"
-																}
-															}
-														]
-													}
-												},
-												{
-													"name": "enabled",
-													"bool": {
-														"computed_optional_required": "computed_optional",
-														"default": {
-															"static": false
-														},
-														"description": "whether auto preemption should happen"
-													}
-												},
-												{
-													"name": "time_of_day",
-													"string": {
-														"computed_optional_required": "computed_optional",
-														"default": {
-															"static": "any"
-														},
-														"description": "any / HH:MM (24-hour format)"
-													}
-												}
-											],
-											"description": "schedule to preempt ap’s which are not connected to preferred peer"
-										}
-									},
-									{
-										"name": "created_time",
-										"number": {
-											"computed_optional_required": "computed_optional"
-										}
-									},
-									{
-										"name": "for_site",
-										"bool": {
-											"computed_optional_required": "computed_optional"
-										}
-									},
-									{
-										"name": "hello_interval",
-										"int64": {
-											"computed_optional_required": "computed_optional",
-											"default": {
-												"static": 60
-											},
-											"description": "in seconds, used as heartbeat to detect if a tunnel is alive. AP will try another peer after missing N hellos specified by `hello_retries`.",
-											"validators": [
-												{
-													"custom": {
-														"imports": [
-															{
-																"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
-															}
-														],
-														"schema_definition": "int64validator.Between(1, 300)"
-													}
-												}
-											]
-										}
-									},
-									{
-										"name": "hello_retries",
-										"int64": {
-											"computed_optional_required": "computed_optional",
-											"default": {
-												"static": 7
-											},
-											"validators": [
-												{
-													"custom": {
-														"imports": [
-															{
-																"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
-															}
-														],
-														"schema_definition": "int64validator.Between(2, 30)"
-													}
-												}
-											]
-										}
-									},
-									{
-										"name": "id",
-										"string": {
-											"computed_optional_required": "computed_optional"
-										}
-									},
-									{
-										"name": "ipsec",
-										"single_nested": {
-											"computed_optional_required": "computed_optional",
-											"attributes": [
-												{
-													"name": "dns_servers",
-													"list": {
-														"computed_optional_required": "computed_optional",
-														"element_type": {
-															"string": {}
-														}
-													}
-												},
-												{
-													"name": "dns_suffix",
-													"list": {
-														"computed_optional_required": "computed_optional",
-														"element_type": {
-															"string": {}
-														},
-														"validators": [
-															{
-																"custom": {
-																	"imports": [
-																		{
-																			"path": "github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
-																		}
-																	],
-																	"schema_definition": "listvalidator.UniqueValues()"
-																}
-															}
-														]
-													}
-												},
-												{
-													"name": "enabled",
-													"bool": {
-														"computed_optional_required": "computed_optional"
-													}
-												},
-												{
-													"name": "extra_routes",
-													"list_nested": {
-														"computed_optional_required": "computed_optional",
-														"nested_object": {
-															"attributes": [
-																{
-																	"name": "dest",
-																	"string": {
-																		"computed_optional_required": "computed_optional"
-																	}
-																},
-																{
-																	"name": "next_hop",
-																	"string": {
-																		"computed_optional_required": "computed_optional"
-																	}
-																}
-															]
-														}
-													}
-												},
-												{
-													"name": "split_tunnel",
-													"bool": {
-														"computed_optional_required": "computed_optional"
-													}
-												},
-												{
-													"name": "use_mxedge",
-													"bool": {
-														"computed_optional_required": "computed_optional"
-													}
-												}
-											]
-										}
-									},
-									{
-										"name": "modified_time",
-										"number": {
-											"computed_optional_required": "computed_optional"
-										}
-									},
-									{
-										"name": "mtu",
-										"int64": {
-											"computed_optional_required": "computed_optional",
-											"default": {
-												"static": 0
-											},
-											"description": "0 to enable PMTU, 552-1500 to start PMTU with a lower MTU",
-											"validators": [
-												{
-													"custom": {
-														"imports": [
-															{
-																"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
-															}
-														],
-														"schema_definition": "int64validator.Between(0, 1500)"
-													}
-												}
-											]
-										}
-									},
-									{
-										"name": "mxcluster_ids",
-										"list": {
-											"computed_optional_required": "computed_optional",
-											"element_type": {
-												"string": {}
-											},
-											"description": "list of mxclusters to deploy this tunnel to"
-										}
-									},
-									{
-										"name": "name",
-										"string": {
-											"computed_optional_required": "computed_optional"
-										}
-									},
-									{
-										"name": "org_id",
-										"string": {
-											"computed_optional_required": "computed_optional"
-										}
-									},
-									{
-										"name": "protocol",
-										"string": {
-											"computed_optional_required": "computed_optional",
-											"default": {
-												"static": "udp"
-											},
-											"validators": [
-												{
-													"custom": {
-														"imports": [
-															{
-																"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
-															}
-														],
-														"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"udp\",\n\"ip\",\n)"
-													}
-												}
-											]
-										}
-									},
-									{
-										"name": "site_id",
-										"string": {
-											"computed_optional_required": "computed_optional"
-										}
-									},
-									{
-										"name": "vlan_ids",
-										"list": {
-											"computed_optional_required": "computed_optional",
-											"element_type": {
-												"int64": {}
-											},
-											"description": "list of vlan_ids that will be used"
-										}
-									}
-								]
-							},
-							"description": "when `interface`=`site_medge`, the definition of the Mist Tunnels (key is the name)"
-						}
-					},
-					{
-						"name": "mxtunnel_id",
-						"string": {
-							"computed_optional_required": "computed_optional",
-							"deprecation_message": "This attribute is deprecated.",
-							"description": "(deprecated, use mxtunnel_ids instead) when `interface`==`mxtunnel`, id of the Mist Tunnel"
 						}
 					},
 					{
@@ -13398,12 +13082,53 @@
 								},
 								{
 									"name": "hours",
-									"map": {
+									"single_nested": {
 										"computed_optional_required": "computed_optional",
-										"element_type": {
-											"string": {}
-										},
-										"description": "Property key is mon / tue / wed / thu / fri / sat / sun\nProperty value is time range in “HH:MM-HH:MM” (24-hour format), the minimum resolution is 30 minute"
+										"attributes": [
+											{
+												"name": "fri",
+												"string": {
+													"computed_optional_required": "computed_optional"
+												}
+											},
+											{
+												"name": "mon",
+												"string": {
+													"computed_optional_required": "computed_optional"
+												}
+											},
+											{
+												"name": "sat",
+												"string": {
+													"computed_optional_required": "computed_optional"
+												}
+											},
+											{
+												"name": "sun",
+												"string": {
+													"computed_optional_required": "computed_optional"
+												}
+											},
+											{
+												"name": "thu",
+												"string": {
+													"computed_optional_required": "computed_optional"
+												}
+											},
+											{
+												"name": "tue",
+												"string": {
+													"computed_optional_required": "computed_optional"
+												}
+											},
+											{
+												"name": "wed",
+												"string": {
+													"computed_optional_required": "computed_optional"
+												}
+											}
+										],
+										"description": "hours of operation filter, the available days (mon, tue, wed, thu, fri, sat, sun). \n\n**Note**: If the dow is not defined then it’s treated as 00:00-23:59."
 									}
 								}
 							],

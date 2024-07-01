@@ -51,11 +51,11 @@ func HoursTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetyp
 	}
 }
 
-/**
+/************************************************************************
 
-HOURS DEFINITION
+DEFINITION
 
-**/
+**************************************************************************/
 
 var _ basetypes.ObjectTypable = HoursType{}
 

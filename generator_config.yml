@@ -308,7 +308,10 @@ resources:
       ignores:
         - created_time
         - modified_time
+        - for_site
+        - mxtunnel_id
         - rateset
+        - band
       attributes:
         aliases:
           wlan_id: id      

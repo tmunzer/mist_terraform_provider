@@ -127,8 +127,6 @@ type Wlan struct {
 	MistNac *WlanMistNac `json:"mist_nac,omitempty"`
 	ModifiedTime *float32 `json:"modified_time,omitempty"`
 	MspId *string `json:"msp_id,omitempty"`
-	// when `interface`=`site_medge`, the definition of the Mist Tunnels (key is the name)
-	Mxtunnel *map[string]Mxtunnel `json:"mxtunnel,omitempty"`
 	// (deprecated, use mxtunnel_ids instead) when `interface`==`mxtunnel`, id of the Mist Tunnel
 	// Deprecated
 	MxtunnelId *string `json:"mxtunnel_id,omitempty"`
@@ -2457,38 +2455,6 @@ func (o *Wlan) SetMspId(v string) {
 	o.MspId = &v
 }
 
-// GetMxtunnel returns the Mxtunnel field value if set, zero value otherwise.
-func (o *Wlan) GetMxtunnel() map[string]Mxtunnel {
-	if o == nil || IsNil(o.Mxtunnel) {
-		var ret map[string]Mxtunnel
-		return ret
-	}
-	return *o.Mxtunnel
-}
-
-// GetMxtunnelOk returns a tuple with the Mxtunnel field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *Wlan) GetMxtunnelOk() (*map[string]Mxtunnel, bool) {
-	if o == nil || IsNil(o.Mxtunnel) {
-		return nil, false
-	}
-	return o.Mxtunnel, true
-}
-
-// HasMxtunnel returns a boolean if a field has been set.
-func (o *Wlan) HasMxtunnel() bool {
-	if o != nil && !IsNil(o.Mxtunnel) {
-		return true
-	}
-
-	return false
-}
-
-// SetMxtunnel gets a reference to the given map[string]Mxtunnel and assigns it to the Mxtunnel field.
-func (o *Wlan) SetMxtunnel(v map[string]Mxtunnel) {
-	o.Mxtunnel = &v
-}
-
 // GetMxtunnelId returns the MxtunnelId field value if set, zero value otherwise.
 // Deprecated
 func (o *Wlan) GetMxtunnelId() string {
@@ -3926,9 +3892,6 @@ func (o Wlan) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.MspId) {
 		toSerialize["msp_id"] = o.MspId
 	}
-	if !IsNil(o.Mxtunnel) {
-		toSerialize["mxtunnel"] = o.Mxtunnel
-	}
 	if !IsNil(o.MxtunnelId) {
 		toSerialize["mxtunnel_id"] = o.MxtunnelId
 	}
@@ -4141,7 +4104,6 @@ func (o *Wlan) UnmarshalJSON(data []byte) (err error) {
 		delete(additionalProperties, "mist_nac")
 		delete(additionalProperties, "modified_time")
 		delete(additionalProperties, "msp_id")
-		delete(additionalProperties, "mxtunnel")
 		delete(additionalProperties, "mxtunnel_id")
 		delete(additionalProperties, "mxtunnel_ids")
 		delete(additionalProperties, "mxtunnel_name")
