@@ -231,7 +231,7 @@ Name | Type | Description  | Notes
 
 ## GetOrgWLAN
 
-> []Wlan GetOrgWLAN(ctx, orgId, wlanId).Execute()
+> Wlan GetOrgWLAN(ctx, orgId, wlanId).Execute()
 
 getOrgWLAN
 
@@ -260,7 +260,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `OrgsWlansAPI.GetOrgWLAN``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `GetOrgWLAN`: []Wlan
+	// response from `GetOrgWLAN`: Wlan
 	fmt.Fprintf(os.Stdout, "Response from `OrgsWlansAPI.GetOrgWLAN`: %v\n", resp)
 }
 ```
@@ -286,7 +286,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**[]Wlan**](Wlan.md)
+[**Wlan**](Wlan.md)
 
 ### Authorization
 

@@ -12204,8 +12204,11 @@
 								},
 								{
 									"name": "amazon_expire",
-									"number": {
+									"float64": {
 										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": 0
+										},
 										"description": "interval for which guest remains authorized using amazon auth (in minutes), if not provided, uses expire`"
 									}
 								},
@@ -12257,8 +12260,11 @@
 								},
 								{
 									"name": "azure_expire",
-									"number": {
+									"float64": {
 										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": 0
+										},
 										"description": "interval for which guest remains authorized using azure auth (in minutes), if not provided, uses expire`"
 									}
 								},
@@ -12339,8 +12345,11 @@
 								},
 								{
 									"name": "expire",
-									"number": {
+									"float64": {
 										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": 1440
+										},
 										"description": "how long to remain authorized, in minutes"
 									}
 								},
@@ -12387,8 +12396,11 @@
 								},
 								{
 									"name": "facebook_expire",
-									"number": {
+									"float64": {
 										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": 0
+										},
 										"description": "interval for which guest remains authorized using facebook auth (in minutes), if not provided, uses expire`"
 									}
 								},
@@ -12445,8 +12457,11 @@
 								},
 								{
 									"name": "google_expire",
-									"number": {
+									"float64": {
 										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": 0
+										},
 										"description": "interval for which guest remains authorized using google auth (in minutes), if not provided, uses expire`"
 									}
 								},
@@ -12500,8 +12515,11 @@
 								},
 								{
 									"name": "microsoft_expire",
-									"number": {
+									"float64": {
 										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": 0
+										},
 										"description": "interval for which guest remains authorized using microsoft auth (in minutes), if not provided, uses expire`"
 									}
 								},
@@ -12517,8 +12535,11 @@
 								},
 								{
 									"name": "passphrase_expire",
-									"number": {
+									"float64": {
 										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": 0
+										},
 										"description": "interval for which guest remains authorized using passphrase auth (in minutes), if not provided, uses `expire`"
 									}
 								},
@@ -12629,8 +12650,11 @@
 								},
 								{
 									"name": "sms_expire",
-									"number": {
+									"float64": {
 										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": 0
+										},
 										"description": "interval for which guest remains authorized using sms auth (in minutes), if not provided, uses expire`"
 									}
 								},
@@ -12687,8 +12711,11 @@
 								},
 								{
 									"name": "sponsor_expire",
-									"number": {
+									"float64": {
 										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": 0
+										},
 										"description": "interval for which guest remains authorized using sponsor auth (in minutes), if not provided, uses expire`"
 									}
 								},

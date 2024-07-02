@@ -1,9 +1,9 @@
 /*
 Mist API
 
-> Version: **2406.1.11** > > Date: **July 1, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
+> Version: **2406.1.12** > > Date: **July 2, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
 
-API version: 2406.1.11
+API version: 2406.1.12
 Contact: tmunzer@juniper.net
 */
 
@@ -82,8 +82,8 @@ type OrgsWlansAPI interface {
 	GetOrgWLAN(ctx context.Context, orgId string, wlanId string) ApiGetOrgWLANRequest
 
 	// GetOrgWLANExecute executes the request
-	//  @return []Wlan
-	GetOrgWLANExecute(r ApiGetOrgWLANRequest) ([]Wlan, *http.Response, error)
+	//  @return Wlan
+	GetOrgWLANExecute(r ApiGetOrgWLANRequest) (*Wlan, *http.Response, error)
 
 	/*
 	ListOrgWlans listOrgWlans
@@ -681,7 +681,7 @@ type ApiGetOrgWLANRequest struct {
 	wlanId string
 }
 
-func (r ApiGetOrgWLANRequest) Execute() ([]Wlan, *http.Response, error) {
+func (r ApiGetOrgWLANRequest) Execute() (*Wlan, *http.Response, error) {
 	return r.ApiService.GetOrgWLANExecute(r)
 }
 
@@ -705,13 +705,13 @@ func (a *OrgsWlansAPIService) GetOrgWLAN(ctx context.Context, orgId string, wlan
 }
 
 // Execute executes the request
-//  @return []Wlan
-func (a *OrgsWlansAPIService) GetOrgWLANExecute(r ApiGetOrgWLANRequest) ([]Wlan, *http.Response, error) {
+//  @return Wlan
+func (a *OrgsWlansAPIService) GetOrgWLANExecute(r ApiGetOrgWLANRequest) (*Wlan, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  []Wlan
+		localVarReturnValue  *Wlan
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "OrgsWlansAPIService.GetOrgWLAN")

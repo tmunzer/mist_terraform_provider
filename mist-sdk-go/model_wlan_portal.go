@@ -1,9 +1,9 @@
 /*
 Mist API
 
-> Version: **2406.1.11** > > Date: **July 1, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
+> Version: **2406.1.12** > > Date: **July 2, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
 
-API version: 2406.1.11
+API version: 2406.1.12
 Contact: tmunzer@juniper.net
 */
 
@@ -29,7 +29,7 @@ type WlanPortal struct {
 	// whether amazon is enabled as a login method
 	AmazonEnabled *bool `json:"amazon_enabled,omitempty"`
 	// interval for which guest remains authorized using amazon auth (in minutes), if not provided, uses expire`
-	AmazonExpire NullableFloat32 `json:"amazon_expire,omitempty"`
+	AmazonExpire NullableFloat64 `json:"amazon_expire,omitempty"`
 	Auth *WlanPortalAuth `json:"auth,omitempty"`
 	// Required if `azure_enabled`==`true`. Azure active directory app client id
 	AzureClientId NullableString `json:"azure_client_id,omitempty"`
@@ -38,7 +38,7 @@ type WlanPortal struct {
 	// whether Azure Active Directory is enabled as a login method
 	AzureEnabled *bool `json:"azure_enabled,omitempty"`
 	// interval for which guest remains authorized using azure auth (in minutes), if not provided, uses expire`
-	AzureExpire NullableFloat32 `json:"azure_expire,omitempty"`
+	AzureExpire NullableFloat64 `json:"azure_expire,omitempty"`
 	// Required if `azure_enabled`==`true`. Azure active directory tenant id.
 	AzureTenantId NullableString `json:"azure_tenant_id,omitempty"`
 	// when `sms_provider`==`broadnet`
@@ -58,7 +58,7 @@ type WlanPortal struct {
 	// whether guest portal is enabled
 	Enabled *bool `json:"enabled,omitempty"`
 	// how long to remain authorized, in minutes
-	Expire *float32 `json:"expire,omitempty"`
+	Expire *float64 `json:"expire,omitempty"`
 	// external portal URL (e.g. https://host/url) where we can append our query parameters to
 	ExternalPortalUrl *string `json:"external_portal_url,omitempty"`
 	// Required if `facebook_enabled`==`true`. Facebook OAuth2 app id. This is optional. If not provided, it will use a default one.
@@ -70,7 +70,7 @@ type WlanPortal struct {
 	// whether facebook is enabled as a login method
 	FacebookEnabled *bool `json:"facebook_enabled,omitempty"`
 	// interval for which guest remains authorized using facebook auth (in minutes), if not provided, uses expire`
-	FacebookExpire NullableFloat32 `json:"facebook_expire,omitempty"`
+	FacebookExpire NullableFloat64 `json:"facebook_expire,omitempty"`
 	// whether to forward the user to another URL after authorized
 	Forward *bool `json:"forward,omitempty"`
 	// the URL to forward the user to
@@ -84,7 +84,7 @@ type WlanPortal struct {
 	// whether google is enabled as login method
 	GoogleEnabled *bool `json:"google_enabled,omitempty"`
 	// interval for which guest remains authorized using google auth (in minutes), if not provided, uses expire`
-	GoogleExpire NullableFloat32 `json:"google_expire,omitempty"`
+	GoogleExpire NullableFloat64 `json:"google_expire,omitempty"`
 	// when `sms_provider`==`gupshup`
 	GupshupPassword *string `json:"gupshup_password,omitempty"`
 	// when `sms_provider`==`gupshup`
@@ -98,11 +98,11 @@ type WlanPortal struct {
 	// whether microsoft 365 is enabled as a login method
 	MicrosoftEnabled *bool `json:"microsoft_enabled,omitempty"`
 	// interval for which guest remains authorized using microsoft auth (in minutes), if not provided, uses expire`
-	MicrosoftExpire NullableFloat32 `json:"microsoft_expire,omitempty"`
+	MicrosoftExpire NullableFloat64 `json:"microsoft_expire,omitempty"`
 	// whether password is enabled
 	PassphraseEnabled *bool `json:"passphrase_enabled,omitempty"`
 	// interval for which guest remains authorized using passphrase auth (in minutes), if not provided, uses `expire`
-	PassphraseExpire NullableFloat32 `json:"passphrase_expire,omitempty"`
+	PassphraseExpire NullableFloat64 `json:"passphrase_expire,omitempty"`
 	// passphrase
 	Password NullableString `json:"password,omitempty"`
 	// list of hostnames without http(s):// (matched by substring)
@@ -130,7 +130,7 @@ type WlanPortal struct {
 	// whether sms is enabled as a login method
 	SmsEnabled *bool `json:"sms_enabled,omitempty"`
 	// interval for which guest remains authorized using sms auth (in minutes), if not provided, uses expire`
-	SmsExpire NullableFloat32 `json:"sms_expire,omitempty"`
+	SmsExpire NullableFloat64 `json:"sms_expire,omitempty"`
 	SmsProvider *WlanPortalSmsProvider `json:"sms_provider,omitempty"`
 	// whether to automatically approve guest and allow sponsor to revoke guest access, needs predefined_sponsors_enabled enabled and sponsor_notify_all disabled
 	SponsorAutoApprove *bool `json:"sponsor_auto_approve,omitempty"`
@@ -139,7 +139,7 @@ type WlanPortal struct {
 	// whether sponsor is enabled
 	SponsorEnabled *bool `json:"sponsor_enabled,omitempty"`
 	// interval for which guest remains authorized using sponsor auth (in minutes), if not provided, uses expire`
-	SponsorExpire NullableFloat32 `json:"sponsor_expire,omitempty"`
+	SponsorExpire NullableFloat64 `json:"sponsor_expire,omitempty"`
 	// how long to remain valid sponsored guest request approve/deny link received in email, in minutes.
 	SponsorLinkValidityDuration *int32 `json:"sponsor_link_validity_duration,omitempty"`
 	// whether to notify all sponsors that are mentioned in `sponsors` object. Both `sponsor_notify_all` and `predefined_sponsors_enabled` should be true in order to notify sponsors. If true, email sent to 10 sponsors in no particular order.
@@ -197,7 +197,7 @@ func NewWlanPortal() *WlanPortal {
 	this.CrossSite = &crossSite
 	var enabled bool = false
 	this.Enabled = &enabled
-	var expire float32 = 1440
+	var expire float64 = 1440
 	this.Expire = &expire
 	var facebookEnabled bool = false
 	this.FacebookEnabled = &facebookEnabled
@@ -251,7 +251,7 @@ func NewWlanPortalWithDefaults() *WlanPortal {
 	this.CrossSite = &crossSite
 	var enabled bool = false
 	this.Enabled = &enabled
-	var expire float32 = 1440
+	var expire float64 = 1440
 	this.Expire = &expire
 	var facebookEnabled bool = false
 	this.FacebookEnabled = &facebookEnabled
@@ -435,9 +435,9 @@ func (o *WlanPortal) SetAmazonEnabled(v bool) {
 }
 
 // GetAmazonExpire returns the AmazonExpire field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *WlanPortal) GetAmazonExpire() float32 {
+func (o *WlanPortal) GetAmazonExpire() float64 {
 	if o == nil || IsNil(o.AmazonExpire.Get()) {
-		var ret float32
+		var ret float64
 		return ret
 	}
 	return *o.AmazonExpire.Get()
@@ -446,7 +446,7 @@ func (o *WlanPortal) GetAmazonExpire() float32 {
 // GetAmazonExpireOk returns a tuple with the AmazonExpire field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *WlanPortal) GetAmazonExpireOk() (*float32, bool) {
+func (o *WlanPortal) GetAmazonExpireOk() (*float64, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -462,8 +462,8 @@ func (o *WlanPortal) HasAmazonExpire() bool {
 	return false
 }
 
-// SetAmazonExpire gets a reference to the given NullableFloat32 and assigns it to the AmazonExpire field.
-func (o *WlanPortal) SetAmazonExpire(v float32) {
+// SetAmazonExpire gets a reference to the given NullableFloat64 and assigns it to the AmazonExpire field.
+func (o *WlanPortal) SetAmazonExpire(v float64) {
 	o.AmazonExpire.Set(&v)
 }
 // SetAmazonExpireNil sets the value for AmazonExpire to be an explicit nil
@@ -625,9 +625,9 @@ func (o *WlanPortal) SetAzureEnabled(v bool) {
 }
 
 // GetAzureExpire returns the AzureExpire field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *WlanPortal) GetAzureExpire() float32 {
+func (o *WlanPortal) GetAzureExpire() float64 {
 	if o == nil || IsNil(o.AzureExpire.Get()) {
-		var ret float32
+		var ret float64
 		return ret
 	}
 	return *o.AzureExpire.Get()
@@ -636,7 +636,7 @@ func (o *WlanPortal) GetAzureExpire() float32 {
 // GetAzureExpireOk returns a tuple with the AzureExpire field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *WlanPortal) GetAzureExpireOk() (*float32, bool) {
+func (o *WlanPortal) GetAzureExpireOk() (*float64, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -652,8 +652,8 @@ func (o *WlanPortal) HasAzureExpire() bool {
 	return false
 }
 
-// SetAzureExpire gets a reference to the given NullableFloat32 and assigns it to the AzureExpire field.
-func (o *WlanPortal) SetAzureExpire(v float32) {
+// SetAzureExpire gets a reference to the given NullableFloat64 and assigns it to the AzureExpire field.
+func (o *WlanPortal) SetAzureExpire(v float64) {
 	o.AzureExpire.Set(&v)
 }
 // SetAzureExpireNil sets the value for AzureExpire to be an explicit nil
@@ -965,9 +965,9 @@ func (o *WlanPortal) SetEnabled(v bool) {
 }
 
 // GetExpire returns the Expire field value if set, zero value otherwise.
-func (o *WlanPortal) GetExpire() float32 {
+func (o *WlanPortal) GetExpire() float64 {
 	if o == nil || IsNil(o.Expire) {
-		var ret float32
+		var ret float64
 		return ret
 	}
 	return *o.Expire
@@ -975,7 +975,7 @@ func (o *WlanPortal) GetExpire() float32 {
 
 // GetExpireOk returns a tuple with the Expire field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *WlanPortal) GetExpireOk() (*float32, bool) {
+func (o *WlanPortal) GetExpireOk() (*float64, bool) {
 	if o == nil || IsNil(o.Expire) {
 		return nil, false
 	}
@@ -991,8 +991,8 @@ func (o *WlanPortal) HasExpire() bool {
 	return false
 }
 
-// SetExpire gets a reference to the given float32 and assigns it to the Expire field.
-func (o *WlanPortal) SetExpire(v float32) {
+// SetExpire gets a reference to the given float64 and assigns it to the Expire field.
+func (o *WlanPortal) SetExpire(v float64) {
 	o.Expire = &v
 }
 
@@ -1177,9 +1177,9 @@ func (o *WlanPortal) SetFacebookEnabled(v bool) {
 }
 
 // GetFacebookExpire returns the FacebookExpire field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *WlanPortal) GetFacebookExpire() float32 {
+func (o *WlanPortal) GetFacebookExpire() float64 {
 	if o == nil || IsNil(o.FacebookExpire.Get()) {
-		var ret float32
+		var ret float64
 		return ret
 	}
 	return *o.FacebookExpire.Get()
@@ -1188,7 +1188,7 @@ func (o *WlanPortal) GetFacebookExpire() float32 {
 // GetFacebookExpireOk returns a tuple with the FacebookExpire field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *WlanPortal) GetFacebookExpireOk() (*float32, bool) {
+func (o *WlanPortal) GetFacebookExpireOk() (*float64, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -1204,8 +1204,8 @@ func (o *WlanPortal) HasFacebookExpire() bool {
 	return false
 }
 
-// SetFacebookExpire gets a reference to the given NullableFloat32 and assigns it to the FacebookExpire field.
-func (o *WlanPortal) SetFacebookExpire(v float32) {
+// SetFacebookExpire gets a reference to the given NullableFloat64 and assigns it to the FacebookExpire field.
+func (o *WlanPortal) SetFacebookExpire(v float64) {
 	o.FacebookExpire.Set(&v)
 }
 // SetFacebookExpireNil sets the value for FacebookExpire to be an explicit nil
@@ -1441,9 +1441,9 @@ func (o *WlanPortal) SetGoogleEnabled(v bool) {
 }
 
 // GetGoogleExpire returns the GoogleExpire field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *WlanPortal) GetGoogleExpire() float32 {
+func (o *WlanPortal) GetGoogleExpire() float64 {
 	if o == nil || IsNil(o.GoogleExpire.Get()) {
-		var ret float32
+		var ret float64
 		return ret
 	}
 	return *o.GoogleExpire.Get()
@@ -1452,7 +1452,7 @@ func (o *WlanPortal) GetGoogleExpire() float32 {
 // GetGoogleExpireOk returns a tuple with the GoogleExpire field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *WlanPortal) GetGoogleExpireOk() (*float32, bool) {
+func (o *WlanPortal) GetGoogleExpireOk() (*float64, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -1468,8 +1468,8 @@ func (o *WlanPortal) HasGoogleExpire() bool {
 	return false
 }
 
-// SetGoogleExpire gets a reference to the given NullableFloat32 and assigns it to the GoogleExpire field.
-func (o *WlanPortal) SetGoogleExpire(v float32) {
+// SetGoogleExpire gets a reference to the given NullableFloat64 and assigns it to the GoogleExpire field.
+func (o *WlanPortal) SetGoogleExpire(v float64) {
 	o.GoogleExpire.Set(&v)
 }
 // SetGoogleExpireNil sets the value for GoogleExpire to be an explicit nil
@@ -1695,9 +1695,9 @@ func (o *WlanPortal) SetMicrosoftEnabled(v bool) {
 }
 
 // GetMicrosoftExpire returns the MicrosoftExpire field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *WlanPortal) GetMicrosoftExpire() float32 {
+func (o *WlanPortal) GetMicrosoftExpire() float64 {
 	if o == nil || IsNil(o.MicrosoftExpire.Get()) {
-		var ret float32
+		var ret float64
 		return ret
 	}
 	return *o.MicrosoftExpire.Get()
@@ -1706,7 +1706,7 @@ func (o *WlanPortal) GetMicrosoftExpire() float32 {
 // GetMicrosoftExpireOk returns a tuple with the MicrosoftExpire field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *WlanPortal) GetMicrosoftExpireOk() (*float32, bool) {
+func (o *WlanPortal) GetMicrosoftExpireOk() (*float64, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -1722,8 +1722,8 @@ func (o *WlanPortal) HasMicrosoftExpire() bool {
 	return false
 }
 
-// SetMicrosoftExpire gets a reference to the given NullableFloat32 and assigns it to the MicrosoftExpire field.
-func (o *WlanPortal) SetMicrosoftExpire(v float32) {
+// SetMicrosoftExpire gets a reference to the given NullableFloat64 and assigns it to the MicrosoftExpire field.
+func (o *WlanPortal) SetMicrosoftExpire(v float64) {
 	o.MicrosoftExpire.Set(&v)
 }
 // SetMicrosoftExpireNil sets the value for MicrosoftExpire to be an explicit nil
@@ -1769,9 +1769,9 @@ func (o *WlanPortal) SetPassphraseEnabled(v bool) {
 }
 
 // GetPassphraseExpire returns the PassphraseExpire field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *WlanPortal) GetPassphraseExpire() float32 {
+func (o *WlanPortal) GetPassphraseExpire() float64 {
 	if o == nil || IsNil(o.PassphraseExpire.Get()) {
-		var ret float32
+		var ret float64
 		return ret
 	}
 	return *o.PassphraseExpire.Get()
@@ -1780,7 +1780,7 @@ func (o *WlanPortal) GetPassphraseExpire() float32 {
 // GetPassphraseExpireOk returns a tuple with the PassphraseExpire field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *WlanPortal) GetPassphraseExpireOk() (*float32, bool) {
+func (o *WlanPortal) GetPassphraseExpireOk() (*float64, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -1796,8 +1796,8 @@ func (o *WlanPortal) HasPassphraseExpire() bool {
 	return false
 }
 
-// SetPassphraseExpire gets a reference to the given NullableFloat32 and assigns it to the PassphraseExpire field.
-func (o *WlanPortal) SetPassphraseExpire(v float32) {
+// SetPassphraseExpire gets a reference to the given NullableFloat64 and assigns it to the PassphraseExpire field.
+func (o *WlanPortal) SetPassphraseExpire(v float64) {
 	o.PassphraseExpire.Set(&v)
 }
 // SetPassphraseExpireNil sets the value for PassphraseExpire to be an explicit nil
@@ -2269,9 +2269,9 @@ func (o *WlanPortal) SetSmsEnabled(v bool) {
 }
 
 // GetSmsExpire returns the SmsExpire field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *WlanPortal) GetSmsExpire() float32 {
+func (o *WlanPortal) GetSmsExpire() float64 {
 	if o == nil || IsNil(o.SmsExpire.Get()) {
-		var ret float32
+		var ret float64
 		return ret
 	}
 	return *o.SmsExpire.Get()
@@ -2280,7 +2280,7 @@ func (o *WlanPortal) GetSmsExpire() float32 {
 // GetSmsExpireOk returns a tuple with the SmsExpire field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *WlanPortal) GetSmsExpireOk() (*float32, bool) {
+func (o *WlanPortal) GetSmsExpireOk() (*float64, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -2296,8 +2296,8 @@ func (o *WlanPortal) HasSmsExpire() bool {
 	return false
 }
 
-// SetSmsExpire gets a reference to the given NullableFloat32 and assigns it to the SmsExpire field.
-func (o *WlanPortal) SetSmsExpire(v float32) {
+// SetSmsExpire gets a reference to the given NullableFloat64 and assigns it to the SmsExpire field.
+func (o *WlanPortal) SetSmsExpire(v float64) {
 	o.SmsExpire.Set(&v)
 }
 // SetSmsExpireNil sets the value for SmsExpire to be an explicit nil
@@ -2439,9 +2439,9 @@ func (o *WlanPortal) SetSponsorEnabled(v bool) {
 }
 
 // GetSponsorExpire returns the SponsorExpire field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *WlanPortal) GetSponsorExpire() float32 {
+func (o *WlanPortal) GetSponsorExpire() float64 {
 	if o == nil || IsNil(o.SponsorExpire.Get()) {
-		var ret float32
+		var ret float64
 		return ret
 	}
 	return *o.SponsorExpire.Get()
@@ -2450,7 +2450,7 @@ func (o *WlanPortal) GetSponsorExpire() float32 {
 // GetSponsorExpireOk returns a tuple with the SponsorExpire field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *WlanPortal) GetSponsorExpireOk() (*float32, bool) {
+func (o *WlanPortal) GetSponsorExpireOk() (*float64, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -2466,8 +2466,8 @@ func (o *WlanPortal) HasSponsorExpire() bool {
 	return false
 }
 
-// SetSponsorExpire gets a reference to the given NullableFloat32 and assigns it to the SponsorExpire field.
-func (o *WlanPortal) SetSponsorExpire(v float32) {
+// SetSponsorExpire gets a reference to the given NullableFloat64 and assigns it to the SponsorExpire field.
+func (o *WlanPortal) SetSponsorExpire(v float64) {
 	o.SponsorExpire.Set(&v)
 }
 // SetSponsorExpireNil sets the value for SponsorExpire to be an explicit nil

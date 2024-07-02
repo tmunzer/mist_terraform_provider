@@ -8,12 +8,12 @@ Name | Type | Description | Notes
 **AmazonClientSecret** | Pointer to **NullableString** | amazon OAuth2 client secret. If amazon_client_id was provided, provide a correspoinding value. Else leave blank. | [optional] 
 **AmazonEmailDomains** | Pointer to **[]string** | Matches authenticated user email against provided domains. If null or [], all authenticated emails will be allowed. | [optional] 
 **AmazonEnabled** | Pointer to **bool** | whether amazon is enabled as a login method | [optional] [default to false]
-**AmazonExpire** | Pointer to **NullableFloat32** | interval for which guest remains authorized using amazon auth (in minutes), if not provided, uses expire&#x60; | [optional] 
+**AmazonExpire** | Pointer to **NullableFloat64** | interval for which guest remains authorized using amazon auth (in minutes), if not provided, uses expire&#x60; | [optional] 
 **Auth** | Pointer to [**WlanPortalAuth**](WlanPortalAuth.md) |  | [optional] [default to WLANPORTALAUTH_NONE]
 **AzureClientId** | Pointer to **NullableString** | Required if &#x60;azure_enabled&#x60;&#x3D;&#x3D;&#x60;true&#x60;. Azure active directory app client id | [optional] 
 **AzureClientSecret** | Pointer to **NullableString** | Required if &#x60;azure_enabled&#x60;&#x3D;&#x3D;&#x60;true&#x60;. Azure active directory app client secret | [optional] 
 **AzureEnabled** | Pointer to **bool** | whether Azure Active Directory is enabled as a login method | [optional] [default to false]
-**AzureExpire** | Pointer to **NullableFloat32** | interval for which guest remains authorized using azure auth (in minutes), if not provided, uses expire&#x60; | [optional] 
+**AzureExpire** | Pointer to **NullableFloat64** | interval for which guest remains authorized using azure auth (in minutes), if not provided, uses expire&#x60; | [optional] 
 **AzureTenantId** | Pointer to **NullableString** | Required if &#x60;azure_enabled&#x60;&#x3D;&#x3D;&#x60;true&#x60;. Azure active directory tenant id. | [optional] 
 **BroadnetPassword** | Pointer to **string** | when &#x60;sms_provider&#x60;&#x3D;&#x3D;&#x60;broadnet&#x60; | [optional] 
 **BroadnetSid** | Pointer to **string** | when &#x60;sms_provider&#x60;&#x3D;&#x3D;&#x60;broadnet&#x60; | [optional] [default to "MIST"]
@@ -23,29 +23,29 @@ Name | Type | Description | Notes
 **CrossSite** | Pointer to **bool** | whether to allow guest to roam between WLANs (with same &#x60;WLAN.ssid&#x60;, regardless of variables) of different sites of same org without reauthentication (disable random_mac for seamless roaming) | [optional] [default to false]
 **EmailEnabled** | Pointer to **bool** | whether email (access code verification) is enabled as a login method | [optional] 
 **Enabled** | Pointer to **bool** | whether guest portal is enabled | [optional] [default to false]
-**Expire** | Pointer to **float32** | how long to remain authorized, in minutes | [optional] [default to 1440]
+**Expire** | Pointer to **float64** | how long to remain authorized, in minutes | [optional] [default to 1440]
 **ExternalPortalUrl** | Pointer to **string** | external portal URL (e.g. https://host/url) where we can append our query parameters to | [optional] 
 **FacebookClientId** | Pointer to **NullableString** | Required if &#x60;facebook_enabled&#x60;&#x3D;&#x3D;&#x60;true&#x60;. Facebook OAuth2 app id. This is optional. If not provided, it will use a default one. | [optional] 
 **FacebookClientSecret** | Pointer to **NullableString** | Required if &#x60;facebook_enabled&#x60;&#x3D;&#x3D;&#x60;true&#x60;. Facebook OAuth2 app secret. If facebook_client_id was provided, provide a correspoinding value. Else leave blank. | [optional] 
 **FacebookEmailDomains** | Pointer to **[]string** | Matches authenticated user email against provided domains. If null or [], all authenticated emails will be allowed. | [optional] 
 **FacebookEnabled** | Pointer to **bool** | whether facebook is enabled as a login method | [optional] [default to false]
-**FacebookExpire** | Pointer to **NullableFloat32** | interval for which guest remains authorized using facebook auth (in minutes), if not provided, uses expire&#x60; | [optional] 
+**FacebookExpire** | Pointer to **NullableFloat64** | interval for which guest remains authorized using facebook auth (in minutes), if not provided, uses expire&#x60; | [optional] 
 **Forward** | Pointer to **bool** | whether to forward the user to another URL after authorized | [optional] [default to false]
 **ForwardUrl** | Pointer to **NullableString** | the URL to forward the user to | [optional] 
 **GoogleClientId** | Pointer to **NullableString** | Google OAuth2 app id. This is optional. If not provided, it will use a default one. | [optional] 
 **GoogleClientSecret** | Pointer to **NullableString** | Google OAuth2 app secret. If google_client_id was provided, provide a correspoinding value. Else leave blank. | [optional] 
 **GoogleEmailDomains** | Pointer to **[]string** | Matches authenticated user email against provided domains. If null or [], all authenticated emails will be allowed. | [optional] 
 **GoogleEnabled** | Pointer to **bool** | whether google is enabled as login method | [optional] [default to false]
-**GoogleExpire** | Pointer to **NullableFloat32** | interval for which guest remains authorized using google auth (in minutes), if not provided, uses expire&#x60; | [optional] 
+**GoogleExpire** | Pointer to **NullableFloat64** | interval for which guest remains authorized using google auth (in minutes), if not provided, uses expire&#x60; | [optional] 
 **GupshupPassword** | Pointer to **string** | when &#x60;sms_provider&#x60;&#x3D;&#x3D;&#x60;gupshup&#x60; | [optional] 
 **GupshupUserid** | Pointer to **string** | when &#x60;sms_provider&#x60;&#x3D;&#x3D;&#x60;gupshup&#x60; | [optional] 
 **MicrosoftClientId** | Pointer to **NullableString** | microsoft 365 OAuth2 client id. This is optional. If not provided, it will use a default one. | [optional] 
 **MicrosoftClientSecret** | Pointer to **NullableString** | microsoft 365 OAuth2 client secret. If microsoft_client_id was provided, provide a correspoinding value. Else leave blank. | [optional] 
 **MicrosoftEmailDomains** | Pointer to **[]string** | Matches authenticated user email against provided domains. If null or [], all authenticated emails will be allowed. | [optional] 
 **MicrosoftEnabled** | Pointer to **bool** | whether microsoft 365 is enabled as a login method | [optional] [default to false]
-**MicrosoftExpire** | Pointer to **NullableFloat32** | interval for which guest remains authorized using microsoft auth (in minutes), if not provided, uses expire&#x60; | [optional] 
+**MicrosoftExpire** | Pointer to **NullableFloat64** | interval for which guest remains authorized using microsoft auth (in minutes), if not provided, uses expire&#x60; | [optional] 
 **PassphraseEnabled** | Pointer to **bool** | whether password is enabled | [optional] [default to false]
-**PassphraseExpire** | Pointer to **NullableFloat32** | interval for which guest remains authorized using passphrase auth (in minutes), if not provided, uses &#x60;expire&#x60; | [optional] 
+**PassphraseExpire** | Pointer to **NullableFloat64** | interval for which guest remains authorized using passphrase auth (in minutes), if not provided, uses &#x60;expire&#x60; | [optional] 
 **Password** | Pointer to **NullableString** | passphrase | [optional] 
 **PortalAllowedHostnames** | Pointer to **string** | list of hostnames without http(s):// (matched by substring) | [optional] 
 **PortalAllowedSubnets** | Pointer to **string** | list of CIDRs | [optional] 
@@ -60,12 +60,12 @@ Name | Type | Description | Notes
 **PuzzelUsername** | Pointer to **string** | when &#x60;sms_provider&#x60;&#x3D;&#x3D;&#x60;puzzel&#x60; | [optional] 
 **SmsMessageFormat** | Pointer to **string** |  | [optional] 
 **SmsEnabled** | Pointer to **bool** | whether sms is enabled as a login method | [optional] [default to false]
-**SmsExpire** | Pointer to **NullableFloat32** | interval for which guest remains authorized using sms auth (in minutes), if not provided, uses expire&#x60; | [optional] 
+**SmsExpire** | Pointer to **NullableFloat64** | interval for which guest remains authorized using sms auth (in minutes), if not provided, uses expire&#x60; | [optional] 
 **SmsProvider** | Pointer to [**WlanPortalSmsProvider**](WlanPortalSmsProvider.md) |  | [optional] [default to WLANPORTALSMSPROVIDER_MANUAL]
 **SponsorAutoApprove** | Pointer to **bool** | whether to automatically approve guest and allow sponsor to revoke guest access, needs predefined_sponsors_enabled enabled and sponsor_notify_all disabled | [optional] [default to false]
 **SponsorEmailDomains** | Pointer to **[]string** | list of domain allowed for sponsor email. Required if &#x60;sponsor_enabled&#x60; is &#x60;true&#x60; and &#x60;sponsors&#x60; is empty. | [optional] 
 **SponsorEnabled** | Pointer to **bool** | whether sponsor is enabled | [optional] [default to false]
-**SponsorExpire** | Pointer to **NullableFloat32** | interval for which guest remains authorized using sponsor auth (in minutes), if not provided, uses expire&#x60; | [optional] 
+**SponsorExpire** | Pointer to **NullableFloat64** | interval for which guest remains authorized using sponsor auth (in minutes), if not provided, uses expire&#x60; | [optional] 
 **SponsorLinkValidityDuration** | Pointer to **int32** | how long to remain valid sponsored guest request approve/deny link received in email, in minutes. | [optional] [default to 60]
 **SponsorNotifyAll** | Pointer to **bool** | whether to notify all sponsors that are mentioned in &#x60;sponsors&#x60; object. Both &#x60;sponsor_notify_all&#x60; and &#x60;predefined_sponsors_enabled&#x60; should be true in order to notify sponsors. If true, email sent to 10 sponsors in no particular order. | [optional] [default to false]
 **SponsorStatusNotify** | Pointer to **bool** | if enabled, guest will get email about sponsor&#39;s action (approve/deny) | [optional] [default to false]
@@ -225,20 +225,20 @@ HasAmazonEnabled returns a boolean if a field has been set.
 
 ### GetAmazonExpire
 
-`func (o *WlanPortal) GetAmazonExpire() float32`
+`func (o *WlanPortal) GetAmazonExpire() float64`
 
 GetAmazonExpire returns the AmazonExpire field if non-nil, zero value otherwise.
 
 ### GetAmazonExpireOk
 
-`func (o *WlanPortal) GetAmazonExpireOk() (*float32, bool)`
+`func (o *WlanPortal) GetAmazonExpireOk() (*float64, bool)`
 
 GetAmazonExpireOk returns a tuple with the AmazonExpire field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetAmazonExpire
 
-`func (o *WlanPortal) SetAmazonExpire(v float32)`
+`func (o *WlanPortal) SetAmazonExpire(v float64)`
 
 SetAmazonExpire sets AmazonExpire field to given value.
 
@@ -380,20 +380,20 @@ HasAzureEnabled returns a boolean if a field has been set.
 
 ### GetAzureExpire
 
-`func (o *WlanPortal) GetAzureExpire() float32`
+`func (o *WlanPortal) GetAzureExpire() float64`
 
 GetAzureExpire returns the AzureExpire field if non-nil, zero value otherwise.
 
 ### GetAzureExpireOk
 
-`func (o *WlanPortal) GetAzureExpireOk() (*float32, bool)`
+`func (o *WlanPortal) GetAzureExpireOk() (*float64, bool)`
 
 GetAzureExpireOk returns a tuple with the AzureExpire field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetAzureExpire
 
-`func (o *WlanPortal) SetAzureExpire(v float32)`
+`func (o *WlanPortal) SetAzureExpire(v float64)`
 
 SetAzureExpire sets AzureExpire field to given value.
 
@@ -650,20 +650,20 @@ HasEnabled returns a boolean if a field has been set.
 
 ### GetExpire
 
-`func (o *WlanPortal) GetExpire() float32`
+`func (o *WlanPortal) GetExpire() float64`
 
 GetExpire returns the Expire field if non-nil, zero value otherwise.
 
 ### GetExpireOk
 
-`func (o *WlanPortal) GetExpireOk() (*float32, bool)`
+`func (o *WlanPortal) GetExpireOk() (*float64, bool)`
 
 GetExpireOk returns a tuple with the Expire field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetExpire
 
-`func (o *WlanPortal) SetExpire(v float32)`
+`func (o *WlanPortal) SetExpire(v float64)`
 
 SetExpire sets Expire field to given value.
 
@@ -820,20 +820,20 @@ HasFacebookEnabled returns a boolean if a field has been set.
 
 ### GetFacebookExpire
 
-`func (o *WlanPortal) GetFacebookExpire() float32`
+`func (o *WlanPortal) GetFacebookExpire() float64`
 
 GetFacebookExpire returns the FacebookExpire field if non-nil, zero value otherwise.
 
 ### GetFacebookExpireOk
 
-`func (o *WlanPortal) GetFacebookExpireOk() (*float32, bool)`
+`func (o *WlanPortal) GetFacebookExpireOk() (*float64, bool)`
 
 GetFacebookExpireOk returns a tuple with the FacebookExpire field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetFacebookExpire
 
-`func (o *WlanPortal) SetFacebookExpire(v float32)`
+`func (o *WlanPortal) SetFacebookExpire(v float64)`
 
 SetFacebookExpire sets FacebookExpire field to given value.
 
@@ -1035,20 +1035,20 @@ HasGoogleEnabled returns a boolean if a field has been set.
 
 ### GetGoogleExpire
 
-`func (o *WlanPortal) GetGoogleExpire() float32`
+`func (o *WlanPortal) GetGoogleExpire() float64`
 
 GetGoogleExpire returns the GoogleExpire field if non-nil, zero value otherwise.
 
 ### GetGoogleExpireOk
 
-`func (o *WlanPortal) GetGoogleExpireOk() (*float32, bool)`
+`func (o *WlanPortal) GetGoogleExpireOk() (*float64, bool)`
 
 GetGoogleExpireOk returns a tuple with the GoogleExpire field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetGoogleExpire
 
-`func (o *WlanPortal) SetGoogleExpire(v float32)`
+`func (o *WlanPortal) SetGoogleExpire(v float64)`
 
 SetGoogleExpire sets GoogleExpire field to given value.
 
@@ -1240,20 +1240,20 @@ HasMicrosoftEnabled returns a boolean if a field has been set.
 
 ### GetMicrosoftExpire
 
-`func (o *WlanPortal) GetMicrosoftExpire() float32`
+`func (o *WlanPortal) GetMicrosoftExpire() float64`
 
 GetMicrosoftExpire returns the MicrosoftExpire field if non-nil, zero value otherwise.
 
 ### GetMicrosoftExpireOk
 
-`func (o *WlanPortal) GetMicrosoftExpireOk() (*float32, bool)`
+`func (o *WlanPortal) GetMicrosoftExpireOk() (*float64, bool)`
 
 GetMicrosoftExpireOk returns a tuple with the MicrosoftExpire field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetMicrosoftExpire
 
-`func (o *WlanPortal) SetMicrosoftExpire(v float32)`
+`func (o *WlanPortal) SetMicrosoftExpire(v float64)`
 
 SetMicrosoftExpire sets MicrosoftExpire field to given value.
 
@@ -1300,20 +1300,20 @@ HasPassphraseEnabled returns a boolean if a field has been set.
 
 ### GetPassphraseExpire
 
-`func (o *WlanPortal) GetPassphraseExpire() float32`
+`func (o *WlanPortal) GetPassphraseExpire() float64`
 
 GetPassphraseExpire returns the PassphraseExpire field if non-nil, zero value otherwise.
 
 ### GetPassphraseExpireOk
 
-`func (o *WlanPortal) GetPassphraseExpireOk() (*float32, bool)`
+`func (o *WlanPortal) GetPassphraseExpireOk() (*float64, bool)`
 
 GetPassphraseExpireOk returns a tuple with the PassphraseExpire field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetPassphraseExpire
 
-`func (o *WlanPortal) SetPassphraseExpire(v float32)`
+`func (o *WlanPortal) SetPassphraseExpire(v float64)`
 
 SetPassphraseExpire sets PassphraseExpire field to given value.
 
@@ -1695,20 +1695,20 @@ HasSmsEnabled returns a boolean if a field has been set.
 
 ### GetSmsExpire
 
-`func (o *WlanPortal) GetSmsExpire() float32`
+`func (o *WlanPortal) GetSmsExpire() float64`
 
 GetSmsExpire returns the SmsExpire field if non-nil, zero value otherwise.
 
 ### GetSmsExpireOk
 
-`func (o *WlanPortal) GetSmsExpireOk() (*float32, bool)`
+`func (o *WlanPortal) GetSmsExpireOk() (*float64, bool)`
 
 GetSmsExpireOk returns a tuple with the SmsExpire field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetSmsExpire
 
-`func (o *WlanPortal) SetSmsExpire(v float32)`
+`func (o *WlanPortal) SetSmsExpire(v float64)`
 
 SetSmsExpire sets SmsExpire field to given value.
 
@@ -1830,20 +1830,20 @@ HasSponsorEnabled returns a boolean if a field has been set.
 
 ### GetSponsorExpire
 
-`func (o *WlanPortal) GetSponsorExpire() float32`
+`func (o *WlanPortal) GetSponsorExpire() float64`
 
 GetSponsorExpire returns the SponsorExpire field if non-nil, zero value otherwise.
 
 ### GetSponsorExpireOk
 
-`func (o *WlanPortal) GetSponsorExpireOk() (*float32, bool)`
+`func (o *WlanPortal) GetSponsorExpireOk() (*float64, bool)`
 
 GetSponsorExpireOk returns a tuple with the SponsorExpire field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetSponsorExpire
 
-`func (o *WlanPortal) SetSponsorExpire(v float32)`
+`func (o *WlanPortal) SetSponsorExpire(v float64)`
 
 SetSponsorExpire sets SponsorExpire field to given value.
 

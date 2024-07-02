@@ -11,6 +11,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/float64default"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
@@ -1161,11 +1162,12 @@ func WlanResourceSchema(ctx context.Context) schema.Schema {
 						MarkdownDescription: "whether amazon is enabled as a login method",
 						Default:             booldefault.StaticBool(false),
 					},
-					"amazon_expire": schema.NumberAttribute{
+					"amazon_expire": schema.Float64Attribute{
 						Optional:            true,
 						Computed:            true,
 						Description:         "interval for which guest remains authorized using amazon auth (in minutes), if not provided, uses expire`",
 						MarkdownDescription: "interval for which guest remains authorized using amazon auth (in minutes), if not provided, uses expire`",
+						Default:             float64default.StaticFloat64(0),
 					},
 					"auth": schema.StringAttribute{
 						Optional:            true,
@@ -1201,11 +1203,12 @@ func WlanResourceSchema(ctx context.Context) schema.Schema {
 						MarkdownDescription: "whether Azure Active Directory is enabled as a login method",
 						Default:             booldefault.StaticBool(false),
 					},
-					"azure_expire": schema.NumberAttribute{
+					"azure_expire": schema.Float64Attribute{
 						Optional:            true,
 						Computed:            true,
 						Description:         "interval for which guest remains authorized using azure auth (in minutes), if not provided, uses expire`",
 						MarkdownDescription: "interval for which guest remains authorized using azure auth (in minutes), if not provided, uses expire`",
+						Default:             float64default.StaticFloat64(0),
 					},
 					"azure_tenant_id": schema.StringAttribute{
 						Optional:            true,
@@ -1265,11 +1268,12 @@ func WlanResourceSchema(ctx context.Context) schema.Schema {
 						MarkdownDescription: "whether guest portal is enabled",
 						Default:             booldefault.StaticBool(false),
 					},
-					"expire": schema.NumberAttribute{
+					"expire": schema.Float64Attribute{
 						Optional:            true,
 						Computed:            true,
 						Description:         "how long to remain authorized, in minutes",
 						MarkdownDescription: "how long to remain authorized, in minutes",
+						Default:             float64default.StaticFloat64(1440),
 					},
 					"external_portal_url": schema.StringAttribute{
 						Optional:            true,
@@ -1303,11 +1307,12 @@ func WlanResourceSchema(ctx context.Context) schema.Schema {
 						MarkdownDescription: "whether facebook is enabled as a login method",
 						Default:             booldefault.StaticBool(false),
 					},
-					"facebook_expire": schema.NumberAttribute{
+					"facebook_expire": schema.Float64Attribute{
 						Optional:            true,
 						Computed:            true,
 						Description:         "interval for which guest remains authorized using facebook auth (in minutes), if not provided, uses expire`",
 						MarkdownDescription: "interval for which guest remains authorized using facebook auth (in minutes), if not provided, uses expire`",
+						Default:             float64default.StaticFloat64(0),
 					},
 					"forward": schema.BoolAttribute{
 						Optional:            true,
@@ -1348,11 +1353,12 @@ func WlanResourceSchema(ctx context.Context) schema.Schema {
 						MarkdownDescription: "whether google is enabled as login method",
 						Default:             booldefault.StaticBool(false),
 					},
-					"google_expire": schema.NumberAttribute{
+					"google_expire": schema.Float64Attribute{
 						Optional:            true,
 						Computed:            true,
 						Description:         "interval for which guest remains authorized using google auth (in minutes), if not provided, uses expire`",
 						MarkdownDescription: "interval for which guest remains authorized using google auth (in minutes), if not provided, uses expire`",
+						Default:             float64default.StaticFloat64(0),
 					},
 					"gupshup_password": schema.StringAttribute{
 						Optional:            true,
@@ -1392,11 +1398,12 @@ func WlanResourceSchema(ctx context.Context) schema.Schema {
 						MarkdownDescription: "whether microsoft 365 is enabled as a login method",
 						Default:             booldefault.StaticBool(false),
 					},
-					"microsoft_expire": schema.NumberAttribute{
+					"microsoft_expire": schema.Float64Attribute{
 						Optional:            true,
 						Computed:            true,
 						Description:         "interval for which guest remains authorized using microsoft auth (in minutes), if not provided, uses expire`",
 						MarkdownDescription: "interval for which guest remains authorized using microsoft auth (in minutes), if not provided, uses expire`",
+						Default:             float64default.StaticFloat64(0),
 					},
 					"passphrase_enabled": schema.BoolAttribute{
 						Optional:            true,
@@ -1405,11 +1412,12 @@ func WlanResourceSchema(ctx context.Context) schema.Schema {
 						MarkdownDescription: "whether password is enabled",
 						Default:             booldefault.StaticBool(false),
 					},
-					"passphrase_expire": schema.NumberAttribute{
+					"passphrase_expire": schema.Float64Attribute{
 						Optional:            true,
 						Computed:            true,
 						Description:         "interval for which guest remains authorized using passphrase auth (in minutes), if not provided, uses `expire`",
 						MarkdownDescription: "interval for which guest remains authorized using passphrase auth (in minutes), if not provided, uses `expire`",
+						Default:             float64default.StaticFloat64(0),
 					},
 					"password": schema.StringAttribute{
 						Optional:            true,
@@ -1490,11 +1498,12 @@ func WlanResourceSchema(ctx context.Context) schema.Schema {
 						MarkdownDescription: "whether sms is enabled as a login method",
 						Default:             booldefault.StaticBool(false),
 					},
-					"sms_expire": schema.NumberAttribute{
+					"sms_expire": schema.Float64Attribute{
 						Optional:            true,
 						Computed:            true,
 						Description:         "interval for which guest remains authorized using sms auth (in minutes), if not provided, uses expire`",
 						MarkdownDescription: "interval for which guest remains authorized using sms auth (in minutes), if not provided, uses expire`",
+						Default:             float64default.StaticFloat64(0),
 					},
 					"sms_message_format": schema.StringAttribute{
 						Optional: true,
@@ -1538,11 +1547,12 @@ func WlanResourceSchema(ctx context.Context) schema.Schema {
 						MarkdownDescription: "whether sponsor is enabled",
 						Default:             booldefault.StaticBool(false),
 					},
-					"sponsor_expire": schema.NumberAttribute{
+					"sponsor_expire": schema.Float64Attribute{
 						Optional:            true,
 						Computed:            true,
 						Description:         "interval for which guest remains authorized using sponsor auth (in minutes), if not provided, uses expire`",
 						MarkdownDescription: "interval for which guest remains authorized using sponsor auth (in minutes), if not provided, uses expire`",
+						Default:             float64default.StaticFloat64(0),
 					},
 					"sponsor_link_validity_duration": schema.Int64Attribute{
 						Optional:            true,
@@ -12096,12 +12106,12 @@ func (t PortalType) ValueFromObject(ctx context.Context, in basetypes.ObjectValu
 		return nil, diags
 	}
 
-	amazonExpireVal, ok := amazonExpireAttribute.(basetypes.NumberValue)
+	amazonExpireVal, ok := amazonExpireAttribute.(basetypes.Float64Value)
 
 	if !ok {
 		diags.AddError(
 			"Attribute Wrong Type",
-			fmt.Sprintf(`amazon_expire expected to be basetypes.NumberValue, was: %T`, amazonExpireAttribute))
+			fmt.Sprintf(`amazon_expire expected to be basetypes.Float64Value, was: %T`, amazonExpireAttribute))
 	}
 
 	authAttribute, ok := attributes["auth"]
@@ -12186,12 +12196,12 @@ func (t PortalType) ValueFromObject(ctx context.Context, in basetypes.ObjectValu
 		return nil, diags
 	}
 
-	azureExpireVal, ok := azureExpireAttribute.(basetypes.NumberValue)
+	azureExpireVal, ok := azureExpireAttribute.(basetypes.Float64Value)
 
 	if !ok {
 		diags.AddError(
 			"Attribute Wrong Type",
-			fmt.Sprintf(`azure_expire expected to be basetypes.NumberValue, was: %T`, azureExpireAttribute))
+			fmt.Sprintf(`azure_expire expected to be basetypes.Float64Value, was: %T`, azureExpireAttribute))
 	}
 
 	azureTenantIdAttribute, ok := attributes["azure_tenant_id"]
@@ -12366,12 +12376,12 @@ func (t PortalType) ValueFromObject(ctx context.Context, in basetypes.ObjectValu
 		return nil, diags
 	}
 
-	expireVal, ok := expireAttribute.(basetypes.NumberValue)
+	expireVal, ok := expireAttribute.(basetypes.Float64Value)
 
 	if !ok {
 		diags.AddError(
 			"Attribute Wrong Type",
-			fmt.Sprintf(`expire expected to be basetypes.NumberValue, was: %T`, expireAttribute))
+			fmt.Sprintf(`expire expected to be basetypes.Float64Value, was: %T`, expireAttribute))
 	}
 
 	externalPortalUrlAttribute, ok := attributes["external_portal_url"]
@@ -12474,12 +12484,12 @@ func (t PortalType) ValueFromObject(ctx context.Context, in basetypes.ObjectValu
 		return nil, diags
 	}
 
-	facebookExpireVal, ok := facebookExpireAttribute.(basetypes.NumberValue)
+	facebookExpireVal, ok := facebookExpireAttribute.(basetypes.Float64Value)
 
 	if !ok {
 		diags.AddError(
 			"Attribute Wrong Type",
-			fmt.Sprintf(`facebook_expire expected to be basetypes.NumberValue, was: %T`, facebookExpireAttribute))
+			fmt.Sprintf(`facebook_expire expected to be basetypes.Float64Value, was: %T`, facebookExpireAttribute))
 	}
 
 	forwardAttribute, ok := attributes["forward"]
@@ -12600,12 +12610,12 @@ func (t PortalType) ValueFromObject(ctx context.Context, in basetypes.ObjectValu
 		return nil, diags
 	}
 
-	googleExpireVal, ok := googleExpireAttribute.(basetypes.NumberValue)
+	googleExpireVal, ok := googleExpireAttribute.(basetypes.Float64Value)
 
 	if !ok {
 		diags.AddError(
 			"Attribute Wrong Type",
-			fmt.Sprintf(`google_expire expected to be basetypes.NumberValue, was: %T`, googleExpireAttribute))
+			fmt.Sprintf(`google_expire expected to be basetypes.Float64Value, was: %T`, googleExpireAttribute))
 	}
 
 	gupshupPasswordAttribute, ok := attributes["gupshup_password"]
@@ -12726,12 +12736,12 @@ func (t PortalType) ValueFromObject(ctx context.Context, in basetypes.ObjectValu
 		return nil, diags
 	}
 
-	microsoftExpireVal, ok := microsoftExpireAttribute.(basetypes.NumberValue)
+	microsoftExpireVal, ok := microsoftExpireAttribute.(basetypes.Float64Value)
 
 	if !ok {
 		diags.AddError(
 			"Attribute Wrong Type",
-			fmt.Sprintf(`microsoft_expire expected to be basetypes.NumberValue, was: %T`, microsoftExpireAttribute))
+			fmt.Sprintf(`microsoft_expire expected to be basetypes.Float64Value, was: %T`, microsoftExpireAttribute))
 	}
 
 	passphraseEnabledAttribute, ok := attributes["passphrase_enabled"]
@@ -12762,12 +12772,12 @@ func (t PortalType) ValueFromObject(ctx context.Context, in basetypes.ObjectValu
 		return nil, diags
 	}
 
-	passphraseExpireVal, ok := passphraseExpireAttribute.(basetypes.NumberValue)
+	passphraseExpireVal, ok := passphraseExpireAttribute.(basetypes.Float64Value)
 
 	if !ok {
 		diags.AddError(
 			"Attribute Wrong Type",
-			fmt.Sprintf(`passphrase_expire expected to be basetypes.NumberValue, was: %T`, passphraseExpireAttribute))
+			fmt.Sprintf(`passphrase_expire expected to be basetypes.Float64Value, was: %T`, passphraseExpireAttribute))
 	}
 
 	passwordAttribute, ok := attributes["password"]
@@ -13014,12 +13024,12 @@ func (t PortalType) ValueFromObject(ctx context.Context, in basetypes.ObjectValu
 		return nil, diags
 	}
 
-	smsExpireVal, ok := smsExpireAttribute.(basetypes.NumberValue)
+	smsExpireVal, ok := smsExpireAttribute.(basetypes.Float64Value)
 
 	if !ok {
 		diags.AddError(
 			"Attribute Wrong Type",
-			fmt.Sprintf(`sms_expire expected to be basetypes.NumberValue, was: %T`, smsExpireAttribute))
+			fmt.Sprintf(`sms_expire expected to be basetypes.Float64Value, was: %T`, smsExpireAttribute))
 	}
 
 	smsMessageFormatAttribute, ok := attributes["sms_message_format"]
@@ -13122,12 +13132,12 @@ func (t PortalType) ValueFromObject(ctx context.Context, in basetypes.ObjectValu
 		return nil, diags
 	}
 
-	sponsorExpireVal, ok := sponsorExpireAttribute.(basetypes.NumberValue)
+	sponsorExpireVal, ok := sponsorExpireAttribute.(basetypes.Float64Value)
 
 	if !ok {
 		diags.AddError(
 			"Attribute Wrong Type",
-			fmt.Sprintf(`sponsor_expire expected to be basetypes.NumberValue, was: %T`, sponsorExpireAttribute))
+			fmt.Sprintf(`sponsor_expire expected to be basetypes.Float64Value, was: %T`, sponsorExpireAttribute))
 	}
 
 	sponsorLinkValidityDurationAttribute, ok := attributes["sponsor_link_validity_duration"]
@@ -13669,12 +13679,12 @@ func NewPortalValue(attributeTypes map[string]attr.Type, attributes map[string]a
 		return NewPortalValueUnknown(), diags
 	}
 
-	amazonExpireVal, ok := amazonExpireAttribute.(basetypes.NumberValue)
+	amazonExpireVal, ok := amazonExpireAttribute.(basetypes.Float64Value)
 
 	if !ok {
 		diags.AddError(
 			"Attribute Wrong Type",
-			fmt.Sprintf(`amazon_expire expected to be basetypes.NumberValue, was: %T`, amazonExpireAttribute))
+			fmt.Sprintf(`amazon_expire expected to be basetypes.Float64Value, was: %T`, amazonExpireAttribute))
 	}
 
 	authAttribute, ok := attributes["auth"]
@@ -13759,12 +13769,12 @@ func NewPortalValue(attributeTypes map[string]attr.Type, attributes map[string]a
 		return NewPortalValueUnknown(), diags
 	}
 
-	azureExpireVal, ok := azureExpireAttribute.(basetypes.NumberValue)
+	azureExpireVal, ok := azureExpireAttribute.(basetypes.Float64Value)
 
 	if !ok {
 		diags.AddError(
 			"Attribute Wrong Type",
-			fmt.Sprintf(`azure_expire expected to be basetypes.NumberValue, was: %T`, azureExpireAttribute))
+			fmt.Sprintf(`azure_expire expected to be basetypes.Float64Value, was: %T`, azureExpireAttribute))
 	}
 
 	azureTenantIdAttribute, ok := attributes["azure_tenant_id"]
@@ -13939,12 +13949,12 @@ func NewPortalValue(attributeTypes map[string]attr.Type, attributes map[string]a
 		return NewPortalValueUnknown(), diags
 	}
 
-	expireVal, ok := expireAttribute.(basetypes.NumberValue)
+	expireVal, ok := expireAttribute.(basetypes.Float64Value)
 
 	if !ok {
 		diags.AddError(
 			"Attribute Wrong Type",
-			fmt.Sprintf(`expire expected to be basetypes.NumberValue, was: %T`, expireAttribute))
+			fmt.Sprintf(`expire expected to be basetypes.Float64Value, was: %T`, expireAttribute))
 	}
 
 	externalPortalUrlAttribute, ok := attributes["external_portal_url"]
@@ -14047,12 +14057,12 @@ func NewPortalValue(attributeTypes map[string]attr.Type, attributes map[string]a
 		return NewPortalValueUnknown(), diags
 	}
 
-	facebookExpireVal, ok := facebookExpireAttribute.(basetypes.NumberValue)
+	facebookExpireVal, ok := facebookExpireAttribute.(basetypes.Float64Value)
 
 	if !ok {
 		diags.AddError(
 			"Attribute Wrong Type",
-			fmt.Sprintf(`facebook_expire expected to be basetypes.NumberValue, was: %T`, facebookExpireAttribute))
+			fmt.Sprintf(`facebook_expire expected to be basetypes.Float64Value, was: %T`, facebookExpireAttribute))
 	}
 
 	forwardAttribute, ok := attributes["forward"]
@@ -14173,12 +14183,12 @@ func NewPortalValue(attributeTypes map[string]attr.Type, attributes map[string]a
 		return NewPortalValueUnknown(), diags
 	}
 
-	googleExpireVal, ok := googleExpireAttribute.(basetypes.NumberValue)
+	googleExpireVal, ok := googleExpireAttribute.(basetypes.Float64Value)
 
 	if !ok {
 		diags.AddError(
 			"Attribute Wrong Type",
-			fmt.Sprintf(`google_expire expected to be basetypes.NumberValue, was: %T`, googleExpireAttribute))
+			fmt.Sprintf(`google_expire expected to be basetypes.Float64Value, was: %T`, googleExpireAttribute))
 	}
 
 	gupshupPasswordAttribute, ok := attributes["gupshup_password"]
@@ -14299,12 +14309,12 @@ func NewPortalValue(attributeTypes map[string]attr.Type, attributes map[string]a
 		return NewPortalValueUnknown(), diags
 	}
 
-	microsoftExpireVal, ok := microsoftExpireAttribute.(basetypes.NumberValue)
+	microsoftExpireVal, ok := microsoftExpireAttribute.(basetypes.Float64Value)
 
 	if !ok {
 		diags.AddError(
 			"Attribute Wrong Type",
-			fmt.Sprintf(`microsoft_expire expected to be basetypes.NumberValue, was: %T`, microsoftExpireAttribute))
+			fmt.Sprintf(`microsoft_expire expected to be basetypes.Float64Value, was: %T`, microsoftExpireAttribute))
 	}
 
 	passphraseEnabledAttribute, ok := attributes["passphrase_enabled"]
@@ -14335,12 +14345,12 @@ func NewPortalValue(attributeTypes map[string]attr.Type, attributes map[string]a
 		return NewPortalValueUnknown(), diags
 	}
 
-	passphraseExpireVal, ok := passphraseExpireAttribute.(basetypes.NumberValue)
+	passphraseExpireVal, ok := passphraseExpireAttribute.(basetypes.Float64Value)
 
 	if !ok {
 		diags.AddError(
 			"Attribute Wrong Type",
-			fmt.Sprintf(`passphrase_expire expected to be basetypes.NumberValue, was: %T`, passphraseExpireAttribute))
+			fmt.Sprintf(`passphrase_expire expected to be basetypes.Float64Value, was: %T`, passphraseExpireAttribute))
 	}
 
 	passwordAttribute, ok := attributes["password"]
@@ -14587,12 +14597,12 @@ func NewPortalValue(attributeTypes map[string]attr.Type, attributes map[string]a
 		return NewPortalValueUnknown(), diags
 	}
 
-	smsExpireVal, ok := smsExpireAttribute.(basetypes.NumberValue)
+	smsExpireVal, ok := smsExpireAttribute.(basetypes.Float64Value)
 
 	if !ok {
 		diags.AddError(
 			"Attribute Wrong Type",
-			fmt.Sprintf(`sms_expire expected to be basetypes.NumberValue, was: %T`, smsExpireAttribute))
+			fmt.Sprintf(`sms_expire expected to be basetypes.Float64Value, was: %T`, smsExpireAttribute))
 	}
 
 	smsMessageFormatAttribute, ok := attributes["sms_message_format"]
@@ -14695,12 +14705,12 @@ func NewPortalValue(attributeTypes map[string]attr.Type, attributes map[string]a
 		return NewPortalValueUnknown(), diags
 	}
 
-	sponsorExpireVal, ok := sponsorExpireAttribute.(basetypes.NumberValue)
+	sponsorExpireVal, ok := sponsorExpireAttribute.(basetypes.Float64Value)
 
 	if !ok {
 		diags.AddError(
 			"Attribute Wrong Type",
-			fmt.Sprintf(`sponsor_expire expected to be basetypes.NumberValue, was: %T`, sponsorExpireAttribute))
+			fmt.Sprintf(`sponsor_expire expected to be basetypes.Float64Value, was: %T`, sponsorExpireAttribute))
 	}
 
 	sponsorLinkValidityDurationAttribute, ok := attributes["sponsor_link_validity_duration"]
@@ -15165,85 +15175,85 @@ func (t PortalType) ValueType(ctx context.Context) attr.Value {
 var _ basetypes.ObjectValuable = PortalValue{}
 
 type PortalValue struct {
-	AmazonClientId              basetypes.StringValue `tfsdk:"amazon_client_id"`
-	AmazonClientSecret          basetypes.StringValue `tfsdk:"amazon_client_secret"`
-	AmazonEmailDomains          basetypes.ListValue   `tfsdk:"amazon_email_domains"`
-	AmazonEnabled               basetypes.BoolValue   `tfsdk:"amazon_enabled"`
-	AmazonExpire                basetypes.NumberValue `tfsdk:"amazon_expire"`
-	Auth                        basetypes.StringValue `tfsdk:"auth"`
-	AzureClientId               basetypes.StringValue `tfsdk:"azure_client_id"`
-	AzureClientSecret           basetypes.StringValue `tfsdk:"azure_client_secret"`
-	AzureEnabled                basetypes.BoolValue   `tfsdk:"azure_enabled"`
-	AzureExpire                 basetypes.NumberValue `tfsdk:"azure_expire"`
-	AzureTenantId               basetypes.StringValue `tfsdk:"azure_tenant_id"`
-	BroadnetPassword            basetypes.StringValue `tfsdk:"broadnet_password"`
-	BroadnetSid                 basetypes.StringValue `tfsdk:"broadnet_sid"`
-	BroadnetUserId              basetypes.StringValue `tfsdk:"broadnet_user_id"`
-	BypassWhenCloudDown         basetypes.BoolValue   `tfsdk:"bypass_when_cloud_down"`
-	ClickatellApiKey            basetypes.StringValue `tfsdk:"clickatell_api_key"`
-	CrossSite                   basetypes.BoolValue   `tfsdk:"cross_site"`
-	EmailEnabled                basetypes.BoolValue   `tfsdk:"email_enabled"`
-	Enabled                     basetypes.BoolValue   `tfsdk:"enabled"`
-	Expire                      basetypes.NumberValue `tfsdk:"expire"`
-	ExternalPortalUrl           basetypes.StringValue `tfsdk:"external_portal_url"`
-	FacebookClientId            basetypes.StringValue `tfsdk:"facebook_client_id"`
-	FacebookClientSecret        basetypes.StringValue `tfsdk:"facebook_client_secret"`
-	FacebookEmailDomains        basetypes.ListValue   `tfsdk:"facebook_email_domains"`
-	FacebookEnabled             basetypes.BoolValue   `tfsdk:"facebook_enabled"`
-	FacebookExpire              basetypes.NumberValue `tfsdk:"facebook_expire"`
-	Forward                     basetypes.BoolValue   `tfsdk:"forward"`
-	ForwardUrl                  basetypes.StringValue `tfsdk:"forward_url"`
-	GoogleClientId              basetypes.StringValue `tfsdk:"google_client_id"`
-	GoogleClientSecret          basetypes.StringValue `tfsdk:"google_client_secret"`
-	GoogleEmailDomains          basetypes.ListValue   `tfsdk:"google_email_domains"`
-	GoogleEnabled               basetypes.BoolValue   `tfsdk:"google_enabled"`
-	GoogleExpire                basetypes.NumberValue `tfsdk:"google_expire"`
-	GupshupPassword             basetypes.StringValue `tfsdk:"gupshup_password"`
-	GupshupUserid               basetypes.StringValue `tfsdk:"gupshup_userid"`
-	MicrosoftClientId           basetypes.StringValue `tfsdk:"microsoft_client_id"`
-	MicrosoftClientSecret       basetypes.StringValue `tfsdk:"microsoft_client_secret"`
-	MicrosoftEmailDomains       basetypes.ListValue   `tfsdk:"microsoft_email_domains"`
-	MicrosoftEnabled            basetypes.BoolValue   `tfsdk:"microsoft_enabled"`
-	MicrosoftExpire             basetypes.NumberValue `tfsdk:"microsoft_expire"`
-	PassphraseEnabled           basetypes.BoolValue   `tfsdk:"passphrase_enabled"`
-	PassphraseExpire            basetypes.NumberValue `tfsdk:"passphrase_expire"`
-	Password                    basetypes.StringValue `tfsdk:"password"`
-	PortalAllowedHostnames      basetypes.StringValue `tfsdk:"portal_allowed_hostnames"`
-	PortalAllowedSubnets        basetypes.StringValue `tfsdk:"portal_allowed_subnets"`
-	PortalApiSecret             basetypes.StringValue `tfsdk:"portal_api_secret"`
-	PortalDeniedHostnames       basetypes.StringValue `tfsdk:"portal_denied_hostnames"`
-	PortalImage                 basetypes.StringValue `tfsdk:"portal_image"`
-	PortalSsoUrl                basetypes.StringValue `tfsdk:"portal_sso_url"`
-	PredefinedSponsorsEnabled   basetypes.BoolValue   `tfsdk:"predefined_sponsors_enabled"`
-	Privacy                     basetypes.BoolValue   `tfsdk:"privacy"`
-	PuzzelPassword              basetypes.StringValue `tfsdk:"puzzel_password"`
-	PuzzelServiceId             basetypes.StringValue `tfsdk:"puzzel_service_id"`
-	PuzzelUsername              basetypes.StringValue `tfsdk:"puzzel_username"`
-	SmsEnabled                  basetypes.BoolValue   `tfsdk:"sms_enabled"`
-	SmsExpire                   basetypes.NumberValue `tfsdk:"sms_expire"`
-	SmsMessageFormat            basetypes.StringValue `tfsdk:"sms_message_format"`
-	SmsProvider                 basetypes.StringValue `tfsdk:"sms_provider"`
-	SponsorAutoApprove          basetypes.BoolValue   `tfsdk:"sponsor_auto_approve"`
-	SponsorEmailDomains         basetypes.ListValue   `tfsdk:"sponsor_email_domains"`
-	SponsorEnabled              basetypes.BoolValue   `tfsdk:"sponsor_enabled"`
-	SponsorExpire               basetypes.NumberValue `tfsdk:"sponsor_expire"`
-	SponsorLinkValidityDuration basetypes.Int64Value  `tfsdk:"sponsor_link_validity_duration"`
-	SponsorNotifyAll            basetypes.BoolValue   `tfsdk:"sponsor_notify_all"`
-	SponsorStatusNotify         basetypes.BoolValue   `tfsdk:"sponsor_status_notify"`
-	Sponsors                    basetypes.MapValue    `tfsdk:"sponsors"`
-	SsoDefaultRole              basetypes.StringValue `tfsdk:"sso_default_role"`
-	SsoForcedRole               basetypes.StringValue `tfsdk:"sso_forced_role"`
-	SsoIdpCert                  basetypes.StringValue `tfsdk:"sso_idp_cert"`
-	SsoIdpSignAlgo              basetypes.StringValue `tfsdk:"sso_idp_sign_algo"`
-	SsoIdpSsoUrl                basetypes.StringValue `tfsdk:"sso_idp_sso_url"`
-	SsoIssuer                   basetypes.StringValue `tfsdk:"sso_issuer"`
-	SsoNameidFormat             basetypes.StringValue `tfsdk:"sso_nameid_format"`
-	TelstraClientId             basetypes.StringValue `tfsdk:"telstra_client_id"`
-	TelstraClientSecret         basetypes.StringValue `tfsdk:"telstra_client_secret"`
-	Thumbnail                   basetypes.StringValue `tfsdk:"thumbnail"`
-	TwilioAuthToken             basetypes.StringValue `tfsdk:"twilio_auth_token"`
-	TwilioPhoneNumber           basetypes.StringValue `tfsdk:"twilio_phone_number"`
-	TwilioSid                   basetypes.StringValue `tfsdk:"twilio_sid"`
+	AmazonClientId              basetypes.StringValue  `tfsdk:"amazon_client_id"`
+	AmazonClientSecret          basetypes.StringValue  `tfsdk:"amazon_client_secret"`
+	AmazonEmailDomains          basetypes.ListValue    `tfsdk:"amazon_email_domains"`
+	AmazonEnabled               basetypes.BoolValue    `tfsdk:"amazon_enabled"`
+	AmazonExpire                basetypes.Float64Value `tfsdk:"amazon_expire"`
+	Auth                        basetypes.StringValue  `tfsdk:"auth"`
+	AzureClientId               basetypes.StringValue  `tfsdk:"azure_client_id"`
+	AzureClientSecret           basetypes.StringValue  `tfsdk:"azure_client_secret"`
+	AzureEnabled                basetypes.BoolValue    `tfsdk:"azure_enabled"`
+	AzureExpire                 basetypes.Float64Value `tfsdk:"azure_expire"`
+	AzureTenantId               basetypes.StringValue  `tfsdk:"azure_tenant_id"`
+	BroadnetPassword            basetypes.StringValue  `tfsdk:"broadnet_password"`
+	BroadnetSid                 basetypes.StringValue  `tfsdk:"broadnet_sid"`
+	BroadnetUserId              basetypes.StringValue  `tfsdk:"broadnet_user_id"`
+	BypassWhenCloudDown         basetypes.BoolValue    `tfsdk:"bypass_when_cloud_down"`
+	ClickatellApiKey            basetypes.StringValue  `tfsdk:"clickatell_api_key"`
+	CrossSite                   basetypes.BoolValue    `tfsdk:"cross_site"`
+	EmailEnabled                basetypes.BoolValue    `tfsdk:"email_enabled"`
+	Enabled                     basetypes.BoolValue    `tfsdk:"enabled"`
+	Expire                      basetypes.Float64Value `tfsdk:"expire"`
+	ExternalPortalUrl           basetypes.StringValue  `tfsdk:"external_portal_url"`
+	FacebookClientId            basetypes.StringValue  `tfsdk:"facebook_client_id"`
+	FacebookClientSecret        basetypes.StringValue  `tfsdk:"facebook_client_secret"`
+	FacebookEmailDomains        basetypes.ListValue    `tfsdk:"facebook_email_domains"`
+	FacebookEnabled             basetypes.BoolValue    `tfsdk:"facebook_enabled"`
+	FacebookExpire              basetypes.Float64Value `tfsdk:"facebook_expire"`
+	Forward                     basetypes.BoolValue    `tfsdk:"forward"`
+	ForwardUrl                  basetypes.StringValue  `tfsdk:"forward_url"`
+	GoogleClientId              basetypes.StringValue  `tfsdk:"google_client_id"`
+	GoogleClientSecret          basetypes.StringValue  `tfsdk:"google_client_secret"`
+	GoogleEmailDomains          basetypes.ListValue    `tfsdk:"google_email_domains"`
+	GoogleEnabled               basetypes.BoolValue    `tfsdk:"google_enabled"`
+	GoogleExpire                basetypes.Float64Value `tfsdk:"google_expire"`
+	GupshupPassword             basetypes.StringValue  `tfsdk:"gupshup_password"`
+	GupshupUserid               basetypes.StringValue  `tfsdk:"gupshup_userid"`
+	MicrosoftClientId           basetypes.StringValue  `tfsdk:"microsoft_client_id"`
+	MicrosoftClientSecret       basetypes.StringValue  `tfsdk:"microsoft_client_secret"`
+	MicrosoftEmailDomains       basetypes.ListValue    `tfsdk:"microsoft_email_domains"`
+	MicrosoftEnabled            basetypes.BoolValue    `tfsdk:"microsoft_enabled"`
+	MicrosoftExpire             basetypes.Float64Value `tfsdk:"microsoft_expire"`
+	PassphraseEnabled           basetypes.BoolValue    `tfsdk:"passphrase_enabled"`
+	PassphraseExpire            basetypes.Float64Value `tfsdk:"passphrase_expire"`
+	Password                    basetypes.StringValue  `tfsdk:"password"`
+	PortalAllowedHostnames      basetypes.StringValue  `tfsdk:"portal_allowed_hostnames"`
+	PortalAllowedSubnets        basetypes.StringValue  `tfsdk:"portal_allowed_subnets"`
+	PortalApiSecret             basetypes.StringValue  `tfsdk:"portal_api_secret"`
+	PortalDeniedHostnames       basetypes.StringValue  `tfsdk:"portal_denied_hostnames"`
+	PortalImage                 basetypes.StringValue  `tfsdk:"portal_image"`
+	PortalSsoUrl                basetypes.StringValue  `tfsdk:"portal_sso_url"`
+	PredefinedSponsorsEnabled   basetypes.BoolValue    `tfsdk:"predefined_sponsors_enabled"`
+	Privacy                     basetypes.BoolValue    `tfsdk:"privacy"`
+	PuzzelPassword              basetypes.StringValue  `tfsdk:"puzzel_password"`
+	PuzzelServiceId             basetypes.StringValue  `tfsdk:"puzzel_service_id"`
+	PuzzelUsername              basetypes.StringValue  `tfsdk:"puzzel_username"`
+	SmsEnabled                  basetypes.BoolValue    `tfsdk:"sms_enabled"`
+	SmsExpire                   basetypes.Float64Value `tfsdk:"sms_expire"`
+	SmsMessageFormat            basetypes.StringValue  `tfsdk:"sms_message_format"`
+	SmsProvider                 basetypes.StringValue  `tfsdk:"sms_provider"`
+	SponsorAutoApprove          basetypes.BoolValue    `tfsdk:"sponsor_auto_approve"`
+	SponsorEmailDomains         basetypes.ListValue    `tfsdk:"sponsor_email_domains"`
+	SponsorEnabled              basetypes.BoolValue    `tfsdk:"sponsor_enabled"`
+	SponsorExpire               basetypes.Float64Value `tfsdk:"sponsor_expire"`
+	SponsorLinkValidityDuration basetypes.Int64Value   `tfsdk:"sponsor_link_validity_duration"`
+	SponsorNotifyAll            basetypes.BoolValue    `tfsdk:"sponsor_notify_all"`
+	SponsorStatusNotify         basetypes.BoolValue    `tfsdk:"sponsor_status_notify"`
+	Sponsors                    basetypes.MapValue     `tfsdk:"sponsors"`
+	SsoDefaultRole              basetypes.StringValue  `tfsdk:"sso_default_role"`
+	SsoForcedRole               basetypes.StringValue  `tfsdk:"sso_forced_role"`
+	SsoIdpCert                  basetypes.StringValue  `tfsdk:"sso_idp_cert"`
+	SsoIdpSignAlgo              basetypes.StringValue  `tfsdk:"sso_idp_sign_algo"`
+	SsoIdpSsoUrl                basetypes.StringValue  `tfsdk:"sso_idp_sso_url"`
+	SsoIssuer                   basetypes.StringValue  `tfsdk:"sso_issuer"`
+	SsoNameidFormat             basetypes.StringValue  `tfsdk:"sso_nameid_format"`
+	TelstraClientId             basetypes.StringValue  `tfsdk:"telstra_client_id"`
+	TelstraClientSecret         basetypes.StringValue  `tfsdk:"telstra_client_secret"`
+	Thumbnail                   basetypes.StringValue  `tfsdk:"thumbnail"`
+	TwilioAuthToken             basetypes.StringValue  `tfsdk:"twilio_auth_token"`
+	TwilioPhoneNumber           basetypes.StringValue  `tfsdk:"twilio_phone_number"`
+	TwilioSid                   basetypes.StringValue  `tfsdk:"twilio_sid"`
 	state                       attr.ValueState
 }
 
@@ -15259,12 +15269,12 @@ func (v PortalValue) ToTerraformValue(ctx context.Context) (tftypes.Value, error
 		ElemType: types.StringType,
 	}.TerraformType(ctx)
 	attrTypes["amazon_enabled"] = basetypes.BoolType{}.TerraformType(ctx)
-	attrTypes["amazon_expire"] = basetypes.NumberType{}.TerraformType(ctx)
+	attrTypes["amazon_expire"] = basetypes.Float64Type{}.TerraformType(ctx)
 	attrTypes["auth"] = basetypes.StringType{}.TerraformType(ctx)
 	attrTypes["azure_client_id"] = basetypes.StringType{}.TerraformType(ctx)
 	attrTypes["azure_client_secret"] = basetypes.StringType{}.TerraformType(ctx)
 	attrTypes["azure_enabled"] = basetypes.BoolType{}.TerraformType(ctx)
-	attrTypes["azure_expire"] = basetypes.NumberType{}.TerraformType(ctx)
+	attrTypes["azure_expire"] = basetypes.Float64Type{}.TerraformType(ctx)
 	attrTypes["azure_tenant_id"] = basetypes.StringType{}.TerraformType(ctx)
 	attrTypes["broadnet_password"] = basetypes.StringType{}.TerraformType(ctx)
 	attrTypes["broadnet_sid"] = basetypes.StringType{}.TerraformType(ctx)
@@ -15274,7 +15284,7 @@ func (v PortalValue) ToTerraformValue(ctx context.Context) (tftypes.Value, error
 	attrTypes["cross_site"] = basetypes.BoolType{}.TerraformType(ctx)
 	attrTypes["email_enabled"] = basetypes.BoolType{}.TerraformType(ctx)
 	attrTypes["enabled"] = basetypes.BoolType{}.TerraformType(ctx)
-	attrTypes["expire"] = basetypes.NumberType{}.TerraformType(ctx)
+	attrTypes["expire"] = basetypes.Float64Type{}.TerraformType(ctx)
 	attrTypes["external_portal_url"] = basetypes.StringType{}.TerraformType(ctx)
 	attrTypes["facebook_client_id"] = basetypes.StringType{}.TerraformType(ctx)
 	attrTypes["facebook_client_secret"] = basetypes.StringType{}.TerraformType(ctx)
@@ -15282,7 +15292,7 @@ func (v PortalValue) ToTerraformValue(ctx context.Context) (tftypes.Value, error
 		ElemType: types.StringType,
 	}.TerraformType(ctx)
 	attrTypes["facebook_enabled"] = basetypes.BoolType{}.TerraformType(ctx)
-	attrTypes["facebook_expire"] = basetypes.NumberType{}.TerraformType(ctx)
+	attrTypes["facebook_expire"] = basetypes.Float64Type{}.TerraformType(ctx)
 	attrTypes["forward"] = basetypes.BoolType{}.TerraformType(ctx)
 	attrTypes["forward_url"] = basetypes.StringType{}.TerraformType(ctx)
 	attrTypes["google_client_id"] = basetypes.StringType{}.TerraformType(ctx)
@@ -15291,7 +15301,7 @@ func (v PortalValue) ToTerraformValue(ctx context.Context) (tftypes.Value, error
 		ElemType: types.StringType,
 	}.TerraformType(ctx)
 	attrTypes["google_enabled"] = basetypes.BoolType{}.TerraformType(ctx)
-	attrTypes["google_expire"] = basetypes.NumberType{}.TerraformType(ctx)
+	attrTypes["google_expire"] = basetypes.Float64Type{}.TerraformType(ctx)
 	attrTypes["gupshup_password"] = basetypes.StringType{}.TerraformType(ctx)
 	attrTypes["gupshup_userid"] = basetypes.StringType{}.TerraformType(ctx)
 	attrTypes["microsoft_client_id"] = basetypes.StringType{}.TerraformType(ctx)
@@ -15300,9 +15310,9 @@ func (v PortalValue) ToTerraformValue(ctx context.Context) (tftypes.Value, error
 		ElemType: types.StringType,
 	}.TerraformType(ctx)
 	attrTypes["microsoft_enabled"] = basetypes.BoolType{}.TerraformType(ctx)
-	attrTypes["microsoft_expire"] = basetypes.NumberType{}.TerraformType(ctx)
+	attrTypes["microsoft_expire"] = basetypes.Float64Type{}.TerraformType(ctx)
 	attrTypes["passphrase_enabled"] = basetypes.BoolType{}.TerraformType(ctx)
-	attrTypes["passphrase_expire"] = basetypes.NumberType{}.TerraformType(ctx)
+	attrTypes["passphrase_expire"] = basetypes.Float64Type{}.TerraformType(ctx)
 	attrTypes["password"] = basetypes.StringType{}.TerraformType(ctx)
 	attrTypes["portal_allowed_hostnames"] = basetypes.StringType{}.TerraformType(ctx)
 	attrTypes["portal_allowed_subnets"] = basetypes.StringType{}.TerraformType(ctx)
@@ -15316,7 +15326,7 @@ func (v PortalValue) ToTerraformValue(ctx context.Context) (tftypes.Value, error
 	attrTypes["puzzel_service_id"] = basetypes.StringType{}.TerraformType(ctx)
 	attrTypes["puzzel_username"] = basetypes.StringType{}.TerraformType(ctx)
 	attrTypes["sms_enabled"] = basetypes.BoolType{}.TerraformType(ctx)
-	attrTypes["sms_expire"] = basetypes.NumberType{}.TerraformType(ctx)
+	attrTypes["sms_expire"] = basetypes.Float64Type{}.TerraformType(ctx)
 	attrTypes["sms_message_format"] = basetypes.StringType{}.TerraformType(ctx)
 	attrTypes["sms_provider"] = basetypes.StringType{}.TerraformType(ctx)
 	attrTypes["sponsor_auto_approve"] = basetypes.BoolType{}.TerraformType(ctx)
@@ -15324,7 +15334,7 @@ func (v PortalValue) ToTerraformValue(ctx context.Context) (tftypes.Value, error
 		ElemType: types.StringType,
 	}.TerraformType(ctx)
 	attrTypes["sponsor_enabled"] = basetypes.BoolType{}.TerraformType(ctx)
-	attrTypes["sponsor_expire"] = basetypes.NumberType{}.TerraformType(ctx)
+	attrTypes["sponsor_expire"] = basetypes.Float64Type{}.TerraformType(ctx)
 	attrTypes["sponsor_link_validity_duration"] = basetypes.Int64Type{}.TerraformType(ctx)
 	attrTypes["sponsor_notify_all"] = basetypes.BoolType{}.TerraformType(ctx)
 	attrTypes["sponsor_status_notify"] = basetypes.BoolType{}.TerraformType(ctx)
@@ -16024,12 +16034,12 @@ func (v PortalValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, 
 				ElemType: types.StringType,
 			},
 			"amazon_enabled":         basetypes.BoolType{},
-			"amazon_expire":          basetypes.NumberType{},
+			"amazon_expire":          basetypes.Float64Type{},
 			"auth":                   basetypes.StringType{},
 			"azure_client_id":        basetypes.StringType{},
 			"azure_client_secret":    basetypes.StringType{},
 			"azure_enabled":          basetypes.BoolType{},
-			"azure_expire":           basetypes.NumberType{},
+			"azure_expire":           basetypes.Float64Type{},
 			"azure_tenant_id":        basetypes.StringType{},
 			"broadnet_password":      basetypes.StringType{},
 			"broadnet_sid":           basetypes.StringType{},
@@ -16039,7 +16049,7 @@ func (v PortalValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, 
 			"cross_site":             basetypes.BoolType{},
 			"email_enabled":          basetypes.BoolType{},
 			"enabled":                basetypes.BoolType{},
-			"expire":                 basetypes.NumberType{},
+			"expire":                 basetypes.Float64Type{},
 			"external_portal_url":    basetypes.StringType{},
 			"facebook_client_id":     basetypes.StringType{},
 			"facebook_client_secret": basetypes.StringType{},
@@ -16047,7 +16057,7 @@ func (v PortalValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, 
 				ElemType: types.StringType,
 			},
 			"facebook_enabled":     basetypes.BoolType{},
-			"facebook_expire":      basetypes.NumberType{},
+			"facebook_expire":      basetypes.Float64Type{},
 			"forward":              basetypes.BoolType{},
 			"forward_url":          basetypes.StringType{},
 			"google_client_id":     basetypes.StringType{},
@@ -16056,7 +16066,7 @@ func (v PortalValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, 
 				ElemType: types.StringType,
 			},
 			"google_enabled":          basetypes.BoolType{},
-			"google_expire":           basetypes.NumberType{},
+			"google_expire":           basetypes.Float64Type{},
 			"gupshup_password":        basetypes.StringType{},
 			"gupshup_userid":          basetypes.StringType{},
 			"microsoft_client_id":     basetypes.StringType{},
@@ -16065,9 +16075,9 @@ func (v PortalValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, 
 				ElemType: types.StringType,
 			},
 			"microsoft_enabled":           basetypes.BoolType{},
-			"microsoft_expire":            basetypes.NumberType{},
+			"microsoft_expire":            basetypes.Float64Type{},
 			"passphrase_enabled":          basetypes.BoolType{},
-			"passphrase_expire":           basetypes.NumberType{},
+			"passphrase_expire":           basetypes.Float64Type{},
 			"password":                    basetypes.StringType{},
 			"portal_allowed_hostnames":    basetypes.StringType{},
 			"portal_allowed_subnets":      basetypes.StringType{},
@@ -16081,7 +16091,7 @@ func (v PortalValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, 
 			"puzzel_service_id":           basetypes.StringType{},
 			"puzzel_username":             basetypes.StringType{},
 			"sms_enabled":                 basetypes.BoolType{},
-			"sms_expire":                  basetypes.NumberType{},
+			"sms_expire":                  basetypes.Float64Type{},
 			"sms_message_format":          basetypes.StringType{},
 			"sms_provider":                basetypes.StringType{},
 			"sponsor_auto_approve":        basetypes.BoolType{},
@@ -16089,7 +16099,7 @@ func (v PortalValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, 
 				ElemType: types.StringType,
 			},
 			"sponsor_enabled":                basetypes.BoolType{},
-			"sponsor_expire":                 basetypes.NumberType{},
+			"sponsor_expire":                 basetypes.Float64Type{},
 			"sponsor_link_validity_duration": basetypes.Int64Type{},
 			"sponsor_notify_all":             basetypes.BoolType{},
 			"sponsor_status_notify":          basetypes.BoolType{},
@@ -16124,12 +16134,12 @@ func (v PortalValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, 
 				ElemType: types.StringType,
 			},
 			"amazon_enabled":         basetypes.BoolType{},
-			"amazon_expire":          basetypes.NumberType{},
+			"amazon_expire":          basetypes.Float64Type{},
 			"auth":                   basetypes.StringType{},
 			"azure_client_id":        basetypes.StringType{},
 			"azure_client_secret":    basetypes.StringType{},
 			"azure_enabled":          basetypes.BoolType{},
-			"azure_expire":           basetypes.NumberType{},
+			"azure_expire":           basetypes.Float64Type{},
 			"azure_tenant_id":        basetypes.StringType{},
 			"broadnet_password":      basetypes.StringType{},
 			"broadnet_sid":           basetypes.StringType{},
@@ -16139,7 +16149,7 @@ func (v PortalValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, 
 			"cross_site":             basetypes.BoolType{},
 			"email_enabled":          basetypes.BoolType{},
 			"enabled":                basetypes.BoolType{},
-			"expire":                 basetypes.NumberType{},
+			"expire":                 basetypes.Float64Type{},
 			"external_portal_url":    basetypes.StringType{},
 			"facebook_client_id":     basetypes.StringType{},
 			"facebook_client_secret": basetypes.StringType{},
@@ -16147,7 +16157,7 @@ func (v PortalValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, 
 				ElemType: types.StringType,
 			},
 			"facebook_enabled":     basetypes.BoolType{},
-			"facebook_expire":      basetypes.NumberType{},
+			"facebook_expire":      basetypes.Float64Type{},
 			"forward":              basetypes.BoolType{},
 			"forward_url":          basetypes.StringType{},
 			"google_client_id":     basetypes.StringType{},
@@ -16156,7 +16166,7 @@ func (v PortalValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, 
 				ElemType: types.StringType,
 			},
 			"google_enabled":          basetypes.BoolType{},
-			"google_expire":           basetypes.NumberType{},
+			"google_expire":           basetypes.Float64Type{},
 			"gupshup_password":        basetypes.StringType{},
 			"gupshup_userid":          basetypes.StringType{},
 			"microsoft_client_id":     basetypes.StringType{},
@@ -16165,9 +16175,9 @@ func (v PortalValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, 
 				ElemType: types.StringType,
 			},
 			"microsoft_enabled":           basetypes.BoolType{},
-			"microsoft_expire":            basetypes.NumberType{},
+			"microsoft_expire":            basetypes.Float64Type{},
 			"passphrase_enabled":          basetypes.BoolType{},
-			"passphrase_expire":           basetypes.NumberType{},
+			"passphrase_expire":           basetypes.Float64Type{},
 			"password":                    basetypes.StringType{},
 			"portal_allowed_hostnames":    basetypes.StringType{},
 			"portal_allowed_subnets":      basetypes.StringType{},
@@ -16181,7 +16191,7 @@ func (v PortalValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, 
 			"puzzel_service_id":           basetypes.StringType{},
 			"puzzel_username":             basetypes.StringType{},
 			"sms_enabled":                 basetypes.BoolType{},
-			"sms_expire":                  basetypes.NumberType{},
+			"sms_expire":                  basetypes.Float64Type{},
 			"sms_message_format":          basetypes.StringType{},
 			"sms_provider":                basetypes.StringType{},
 			"sponsor_auto_approve":        basetypes.BoolType{},
@@ -16189,7 +16199,7 @@ func (v PortalValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, 
 				ElemType: types.StringType,
 			},
 			"sponsor_enabled":                basetypes.BoolType{},
-			"sponsor_expire":                 basetypes.NumberType{},
+			"sponsor_expire":                 basetypes.Float64Type{},
 			"sponsor_link_validity_duration": basetypes.Int64Type{},
 			"sponsor_notify_all":             basetypes.BoolType{},
 			"sponsor_status_notify":          basetypes.BoolType{},
@@ -16224,12 +16234,12 @@ func (v PortalValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, 
 				ElemType: types.StringType,
 			},
 			"amazon_enabled":         basetypes.BoolType{},
-			"amazon_expire":          basetypes.NumberType{},
+			"amazon_expire":          basetypes.Float64Type{},
 			"auth":                   basetypes.StringType{},
 			"azure_client_id":        basetypes.StringType{},
 			"azure_client_secret":    basetypes.StringType{},
 			"azure_enabled":          basetypes.BoolType{},
-			"azure_expire":           basetypes.NumberType{},
+			"azure_expire":           basetypes.Float64Type{},
 			"azure_tenant_id":        basetypes.StringType{},
 			"broadnet_password":      basetypes.StringType{},
 			"broadnet_sid":           basetypes.StringType{},
@@ -16239,7 +16249,7 @@ func (v PortalValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, 
 			"cross_site":             basetypes.BoolType{},
 			"email_enabled":          basetypes.BoolType{},
 			"enabled":                basetypes.BoolType{},
-			"expire":                 basetypes.NumberType{},
+			"expire":                 basetypes.Float64Type{},
 			"external_portal_url":    basetypes.StringType{},
 			"facebook_client_id":     basetypes.StringType{},
 			"facebook_client_secret": basetypes.StringType{},
@@ -16247,7 +16257,7 @@ func (v PortalValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, 
 				ElemType: types.StringType,
 			},
 			"facebook_enabled":     basetypes.BoolType{},
-			"facebook_expire":      basetypes.NumberType{},
+			"facebook_expire":      basetypes.Float64Type{},
 			"forward":              basetypes.BoolType{},
 			"forward_url":          basetypes.StringType{},
 			"google_client_id":     basetypes.StringType{},
@@ -16256,7 +16266,7 @@ func (v PortalValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, 
 				ElemType: types.StringType,
 			},
 			"google_enabled":          basetypes.BoolType{},
-			"google_expire":           basetypes.NumberType{},
+			"google_expire":           basetypes.Float64Type{},
 			"gupshup_password":        basetypes.StringType{},
 			"gupshup_userid":          basetypes.StringType{},
 			"microsoft_client_id":     basetypes.StringType{},
@@ -16265,9 +16275,9 @@ func (v PortalValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, 
 				ElemType: types.StringType,
 			},
 			"microsoft_enabled":           basetypes.BoolType{},
-			"microsoft_expire":            basetypes.NumberType{},
+			"microsoft_expire":            basetypes.Float64Type{},
 			"passphrase_enabled":          basetypes.BoolType{},
-			"passphrase_expire":           basetypes.NumberType{},
+			"passphrase_expire":           basetypes.Float64Type{},
 			"password":                    basetypes.StringType{},
 			"portal_allowed_hostnames":    basetypes.StringType{},
 			"portal_allowed_subnets":      basetypes.StringType{},
@@ -16281,7 +16291,7 @@ func (v PortalValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, 
 			"puzzel_service_id":           basetypes.StringType{},
 			"puzzel_username":             basetypes.StringType{},
 			"sms_enabled":                 basetypes.BoolType{},
-			"sms_expire":                  basetypes.NumberType{},
+			"sms_expire":                  basetypes.Float64Type{},
 			"sms_message_format":          basetypes.StringType{},
 			"sms_provider":                basetypes.StringType{},
 			"sponsor_auto_approve":        basetypes.BoolType{},
@@ -16289,7 +16299,7 @@ func (v PortalValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, 
 				ElemType: types.StringType,
 			},
 			"sponsor_enabled":                basetypes.BoolType{},
-			"sponsor_expire":                 basetypes.NumberType{},
+			"sponsor_expire":                 basetypes.Float64Type{},
 			"sponsor_link_validity_duration": basetypes.Int64Type{},
 			"sponsor_notify_all":             basetypes.BoolType{},
 			"sponsor_status_notify":          basetypes.BoolType{},
@@ -16324,12 +16334,12 @@ func (v PortalValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, 
 				ElemType: types.StringType,
 			},
 			"amazon_enabled":         basetypes.BoolType{},
-			"amazon_expire":          basetypes.NumberType{},
+			"amazon_expire":          basetypes.Float64Type{},
 			"auth":                   basetypes.StringType{},
 			"azure_client_id":        basetypes.StringType{},
 			"azure_client_secret":    basetypes.StringType{},
 			"azure_enabled":          basetypes.BoolType{},
-			"azure_expire":           basetypes.NumberType{},
+			"azure_expire":           basetypes.Float64Type{},
 			"azure_tenant_id":        basetypes.StringType{},
 			"broadnet_password":      basetypes.StringType{},
 			"broadnet_sid":           basetypes.StringType{},
@@ -16339,7 +16349,7 @@ func (v PortalValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, 
 			"cross_site":             basetypes.BoolType{},
 			"email_enabled":          basetypes.BoolType{},
 			"enabled":                basetypes.BoolType{},
-			"expire":                 basetypes.NumberType{},
+			"expire":                 basetypes.Float64Type{},
 			"external_portal_url":    basetypes.StringType{},
 			"facebook_client_id":     basetypes.StringType{},
 			"facebook_client_secret": basetypes.StringType{},
@@ -16347,7 +16357,7 @@ func (v PortalValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, 
 				ElemType: types.StringType,
 			},
 			"facebook_enabled":     basetypes.BoolType{},
-			"facebook_expire":      basetypes.NumberType{},
+			"facebook_expire":      basetypes.Float64Type{},
 			"forward":              basetypes.BoolType{},
 			"forward_url":          basetypes.StringType{},
 			"google_client_id":     basetypes.StringType{},
@@ -16356,7 +16366,7 @@ func (v PortalValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, 
 				ElemType: types.StringType,
 			},
 			"google_enabled":          basetypes.BoolType{},
-			"google_expire":           basetypes.NumberType{},
+			"google_expire":           basetypes.Float64Type{},
 			"gupshup_password":        basetypes.StringType{},
 			"gupshup_userid":          basetypes.StringType{},
 			"microsoft_client_id":     basetypes.StringType{},
@@ -16365,9 +16375,9 @@ func (v PortalValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, 
 				ElemType: types.StringType,
 			},
 			"microsoft_enabled":           basetypes.BoolType{},
-			"microsoft_expire":            basetypes.NumberType{},
+			"microsoft_expire":            basetypes.Float64Type{},
 			"passphrase_enabled":          basetypes.BoolType{},
-			"passphrase_expire":           basetypes.NumberType{},
+			"passphrase_expire":           basetypes.Float64Type{},
 			"password":                    basetypes.StringType{},
 			"portal_allowed_hostnames":    basetypes.StringType{},
 			"portal_allowed_subnets":      basetypes.StringType{},
@@ -16381,7 +16391,7 @@ func (v PortalValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, 
 			"puzzel_service_id":           basetypes.StringType{},
 			"puzzel_username":             basetypes.StringType{},
 			"sms_enabled":                 basetypes.BoolType{},
-			"sms_expire":                  basetypes.NumberType{},
+			"sms_expire":                  basetypes.Float64Type{},
 			"sms_message_format":          basetypes.StringType{},
 			"sms_provider":                basetypes.StringType{},
 			"sponsor_auto_approve":        basetypes.BoolType{},
@@ -16389,7 +16399,7 @@ func (v PortalValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, 
 				ElemType: types.StringType,
 			},
 			"sponsor_enabled":                basetypes.BoolType{},
-			"sponsor_expire":                 basetypes.NumberType{},
+			"sponsor_expire":                 basetypes.Float64Type{},
 			"sponsor_link_validity_duration": basetypes.Int64Type{},
 			"sponsor_notify_all":             basetypes.BoolType{},
 			"sponsor_status_notify":          basetypes.BoolType{},
@@ -16424,12 +16434,12 @@ func (v PortalValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, 
 				ElemType: types.StringType,
 			},
 			"amazon_enabled":         basetypes.BoolType{},
-			"amazon_expire":          basetypes.NumberType{},
+			"amazon_expire":          basetypes.Float64Type{},
 			"auth":                   basetypes.StringType{},
 			"azure_client_id":        basetypes.StringType{},
 			"azure_client_secret":    basetypes.StringType{},
 			"azure_enabled":          basetypes.BoolType{},
-			"azure_expire":           basetypes.NumberType{},
+			"azure_expire":           basetypes.Float64Type{},
 			"azure_tenant_id":        basetypes.StringType{},
 			"broadnet_password":      basetypes.StringType{},
 			"broadnet_sid":           basetypes.StringType{},
@@ -16439,7 +16449,7 @@ func (v PortalValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, 
 			"cross_site":             basetypes.BoolType{},
 			"email_enabled":          basetypes.BoolType{},
 			"enabled":                basetypes.BoolType{},
-			"expire":                 basetypes.NumberType{},
+			"expire":                 basetypes.Float64Type{},
 			"external_portal_url":    basetypes.StringType{},
 			"facebook_client_id":     basetypes.StringType{},
 			"facebook_client_secret": basetypes.StringType{},
@@ -16447,7 +16457,7 @@ func (v PortalValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, 
 				ElemType: types.StringType,
 			},
 			"facebook_enabled":     basetypes.BoolType{},
-			"facebook_expire":      basetypes.NumberType{},
+			"facebook_expire":      basetypes.Float64Type{},
 			"forward":              basetypes.BoolType{},
 			"forward_url":          basetypes.StringType{},
 			"google_client_id":     basetypes.StringType{},
@@ -16456,7 +16466,7 @@ func (v PortalValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, 
 				ElemType: types.StringType,
 			},
 			"google_enabled":          basetypes.BoolType{},
-			"google_expire":           basetypes.NumberType{},
+			"google_expire":           basetypes.Float64Type{},
 			"gupshup_password":        basetypes.StringType{},
 			"gupshup_userid":          basetypes.StringType{},
 			"microsoft_client_id":     basetypes.StringType{},
@@ -16465,9 +16475,9 @@ func (v PortalValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, 
 				ElemType: types.StringType,
 			},
 			"microsoft_enabled":           basetypes.BoolType{},
-			"microsoft_expire":            basetypes.NumberType{},
+			"microsoft_expire":            basetypes.Float64Type{},
 			"passphrase_enabled":          basetypes.BoolType{},
-			"passphrase_expire":           basetypes.NumberType{},
+			"passphrase_expire":           basetypes.Float64Type{},
 			"password":                    basetypes.StringType{},
 			"portal_allowed_hostnames":    basetypes.StringType{},
 			"portal_allowed_subnets":      basetypes.StringType{},
@@ -16481,7 +16491,7 @@ func (v PortalValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, 
 			"puzzel_service_id":           basetypes.StringType{},
 			"puzzel_username":             basetypes.StringType{},
 			"sms_enabled":                 basetypes.BoolType{},
-			"sms_expire":                  basetypes.NumberType{},
+			"sms_expire":                  basetypes.Float64Type{},
 			"sms_message_format":          basetypes.StringType{},
 			"sms_provider":                basetypes.StringType{},
 			"sponsor_auto_approve":        basetypes.BoolType{},
@@ -16489,7 +16499,7 @@ func (v PortalValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, 
 				ElemType: types.StringType,
 			},
 			"sponsor_enabled":                basetypes.BoolType{},
-			"sponsor_expire":                 basetypes.NumberType{},
+			"sponsor_expire":                 basetypes.Float64Type{},
 			"sponsor_link_validity_duration": basetypes.Int64Type{},
 			"sponsor_notify_all":             basetypes.BoolType{},
 			"sponsor_status_notify":          basetypes.BoolType{},
@@ -16524,12 +16534,12 @@ func (v PortalValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, 
 				ElemType: types.StringType,
 			},
 			"amazon_enabled":         basetypes.BoolType{},
-			"amazon_expire":          basetypes.NumberType{},
+			"amazon_expire":          basetypes.Float64Type{},
 			"auth":                   basetypes.StringType{},
 			"azure_client_id":        basetypes.StringType{},
 			"azure_client_secret":    basetypes.StringType{},
 			"azure_enabled":          basetypes.BoolType{},
-			"azure_expire":           basetypes.NumberType{},
+			"azure_expire":           basetypes.Float64Type{},
 			"azure_tenant_id":        basetypes.StringType{},
 			"broadnet_password":      basetypes.StringType{},
 			"broadnet_sid":           basetypes.StringType{},
@@ -16539,7 +16549,7 @@ func (v PortalValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, 
 			"cross_site":             basetypes.BoolType{},
 			"email_enabled":          basetypes.BoolType{},
 			"enabled":                basetypes.BoolType{},
-			"expire":                 basetypes.NumberType{},
+			"expire":                 basetypes.Float64Type{},
 			"external_portal_url":    basetypes.StringType{},
 			"facebook_client_id":     basetypes.StringType{},
 			"facebook_client_secret": basetypes.StringType{},
@@ -16547,7 +16557,7 @@ func (v PortalValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, 
 				ElemType: types.StringType,
 			},
 			"facebook_enabled":     basetypes.BoolType{},
-			"facebook_expire":      basetypes.NumberType{},
+			"facebook_expire":      basetypes.Float64Type{},
 			"forward":              basetypes.BoolType{},
 			"forward_url":          basetypes.StringType{},
 			"google_client_id":     basetypes.StringType{},
@@ -16556,7 +16566,7 @@ func (v PortalValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, 
 				ElemType: types.StringType,
 			},
 			"google_enabled":          basetypes.BoolType{},
-			"google_expire":           basetypes.NumberType{},
+			"google_expire":           basetypes.Float64Type{},
 			"gupshup_password":        basetypes.StringType{},
 			"gupshup_userid":          basetypes.StringType{},
 			"microsoft_client_id":     basetypes.StringType{},
@@ -16565,9 +16575,9 @@ func (v PortalValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, 
 				ElemType: types.StringType,
 			},
 			"microsoft_enabled":           basetypes.BoolType{},
-			"microsoft_expire":            basetypes.NumberType{},
+			"microsoft_expire":            basetypes.Float64Type{},
 			"passphrase_enabled":          basetypes.BoolType{},
-			"passphrase_expire":           basetypes.NumberType{},
+			"passphrase_expire":           basetypes.Float64Type{},
 			"password":                    basetypes.StringType{},
 			"portal_allowed_hostnames":    basetypes.StringType{},
 			"portal_allowed_subnets":      basetypes.StringType{},
@@ -16581,7 +16591,7 @@ func (v PortalValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, 
 			"puzzel_service_id":           basetypes.StringType{},
 			"puzzel_username":             basetypes.StringType{},
 			"sms_enabled":                 basetypes.BoolType{},
-			"sms_expire":                  basetypes.NumberType{},
+			"sms_expire":                  basetypes.Float64Type{},
 			"sms_message_format":          basetypes.StringType{},
 			"sms_provider":                basetypes.StringType{},
 			"sponsor_auto_approve":        basetypes.BoolType{},
@@ -16589,7 +16599,7 @@ func (v PortalValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, 
 				ElemType: types.StringType,
 			},
 			"sponsor_enabled":                basetypes.BoolType{},
-			"sponsor_expire":                 basetypes.NumberType{},
+			"sponsor_expire":                 basetypes.Float64Type{},
 			"sponsor_link_validity_duration": basetypes.Int64Type{},
 			"sponsor_notify_all":             basetypes.BoolType{},
 			"sponsor_status_notify":          basetypes.BoolType{},
@@ -16619,12 +16629,12 @@ func (v PortalValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, 
 			ElemType: types.StringType,
 		},
 		"amazon_enabled":         basetypes.BoolType{},
-		"amazon_expire":          basetypes.NumberType{},
+		"amazon_expire":          basetypes.Float64Type{},
 		"auth":                   basetypes.StringType{},
 		"azure_client_id":        basetypes.StringType{},
 		"azure_client_secret":    basetypes.StringType{},
 		"azure_enabled":          basetypes.BoolType{},
-		"azure_expire":           basetypes.NumberType{},
+		"azure_expire":           basetypes.Float64Type{},
 		"azure_tenant_id":        basetypes.StringType{},
 		"broadnet_password":      basetypes.StringType{},
 		"broadnet_sid":           basetypes.StringType{},
@@ -16634,7 +16644,7 @@ func (v PortalValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, 
 		"cross_site":             basetypes.BoolType{},
 		"email_enabled":          basetypes.BoolType{},
 		"enabled":                basetypes.BoolType{},
-		"expire":                 basetypes.NumberType{},
+		"expire":                 basetypes.Float64Type{},
 		"external_portal_url":    basetypes.StringType{},
 		"facebook_client_id":     basetypes.StringType{},
 		"facebook_client_secret": basetypes.StringType{},
@@ -16642,7 +16652,7 @@ func (v PortalValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, 
 			ElemType: types.StringType,
 		},
 		"facebook_enabled":     basetypes.BoolType{},
-		"facebook_expire":      basetypes.NumberType{},
+		"facebook_expire":      basetypes.Float64Type{},
 		"forward":              basetypes.BoolType{},
 		"forward_url":          basetypes.StringType{},
 		"google_client_id":     basetypes.StringType{},
@@ -16651,7 +16661,7 @@ func (v PortalValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, 
 			ElemType: types.StringType,
 		},
 		"google_enabled":          basetypes.BoolType{},
-		"google_expire":           basetypes.NumberType{},
+		"google_expire":           basetypes.Float64Type{},
 		"gupshup_password":        basetypes.StringType{},
 		"gupshup_userid":          basetypes.StringType{},
 		"microsoft_client_id":     basetypes.StringType{},
@@ -16660,9 +16670,9 @@ func (v PortalValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, 
 			ElemType: types.StringType,
 		},
 		"microsoft_enabled":           basetypes.BoolType{},
-		"microsoft_expire":            basetypes.NumberType{},
+		"microsoft_expire":            basetypes.Float64Type{},
 		"passphrase_enabled":          basetypes.BoolType{},
-		"passphrase_expire":           basetypes.NumberType{},
+		"passphrase_expire":           basetypes.Float64Type{},
 		"password":                    basetypes.StringType{},
 		"portal_allowed_hostnames":    basetypes.StringType{},
 		"portal_allowed_subnets":      basetypes.StringType{},
@@ -16676,7 +16686,7 @@ func (v PortalValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, 
 		"puzzel_service_id":           basetypes.StringType{},
 		"puzzel_username":             basetypes.StringType{},
 		"sms_enabled":                 basetypes.BoolType{},
-		"sms_expire":                  basetypes.NumberType{},
+		"sms_expire":                  basetypes.Float64Type{},
 		"sms_message_format":          basetypes.StringType{},
 		"sms_provider":                basetypes.StringType{},
 		"sponsor_auto_approve":        basetypes.BoolType{},
@@ -16684,7 +16694,7 @@ func (v PortalValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, 
 			ElemType: types.StringType,
 		},
 		"sponsor_enabled":                basetypes.BoolType{},
-		"sponsor_expire":                 basetypes.NumberType{},
+		"sponsor_expire":                 basetypes.Float64Type{},
 		"sponsor_link_validity_duration": basetypes.Int64Type{},
 		"sponsor_notify_all":             basetypes.BoolType{},
 		"sponsor_status_notify":          basetypes.BoolType{},
@@ -17151,12 +17161,12 @@ func (v PortalValue) AttributeTypes(ctx context.Context) map[string]attr.Type {
 			ElemType: types.StringType,
 		},
 		"amazon_enabled":         basetypes.BoolType{},
-		"amazon_expire":          basetypes.NumberType{},
+		"amazon_expire":          basetypes.Float64Type{},
 		"auth":                   basetypes.StringType{},
 		"azure_client_id":        basetypes.StringType{},
 		"azure_client_secret":    basetypes.StringType{},
 		"azure_enabled":          basetypes.BoolType{},
-		"azure_expire":           basetypes.NumberType{},
+		"azure_expire":           basetypes.Float64Type{},
 		"azure_tenant_id":        basetypes.StringType{},
 		"broadnet_password":      basetypes.StringType{},
 		"broadnet_sid":           basetypes.StringType{},
@@ -17166,7 +17176,7 @@ func (v PortalValue) AttributeTypes(ctx context.Context) map[string]attr.Type {
 		"cross_site":             basetypes.BoolType{},
 		"email_enabled":          basetypes.BoolType{},
 		"enabled":                basetypes.BoolType{},
-		"expire":                 basetypes.NumberType{},
+		"expire":                 basetypes.Float64Type{},
 		"external_portal_url":    basetypes.StringType{},
 		"facebook_client_id":     basetypes.StringType{},
 		"facebook_client_secret": basetypes.StringType{},
@@ -17174,7 +17184,7 @@ func (v PortalValue) AttributeTypes(ctx context.Context) map[string]attr.Type {
 			ElemType: types.StringType,
 		},
 		"facebook_enabled":     basetypes.BoolType{},
-		"facebook_expire":      basetypes.NumberType{},
+		"facebook_expire":      basetypes.Float64Type{},
 		"forward":              basetypes.BoolType{},
 		"forward_url":          basetypes.StringType{},
 		"google_client_id":     basetypes.StringType{},
@@ -17183,7 +17193,7 @@ func (v PortalValue) AttributeTypes(ctx context.Context) map[string]attr.Type {
 			ElemType: types.StringType,
 		},
 		"google_enabled":          basetypes.BoolType{},
-		"google_expire":           basetypes.NumberType{},
+		"google_expire":           basetypes.Float64Type{},
 		"gupshup_password":        basetypes.StringType{},
 		"gupshup_userid":          basetypes.StringType{},
 		"microsoft_client_id":     basetypes.StringType{},
@@ -17192,9 +17202,9 @@ func (v PortalValue) AttributeTypes(ctx context.Context) map[string]attr.Type {
 			ElemType: types.StringType,
 		},
 		"microsoft_enabled":           basetypes.BoolType{},
-		"microsoft_expire":            basetypes.NumberType{},
+		"microsoft_expire":            basetypes.Float64Type{},
 		"passphrase_enabled":          basetypes.BoolType{},
-		"passphrase_expire":           basetypes.NumberType{},
+		"passphrase_expire":           basetypes.Float64Type{},
 		"password":                    basetypes.StringType{},
 		"portal_allowed_hostnames":    basetypes.StringType{},
 		"portal_allowed_subnets":      basetypes.StringType{},
@@ -17208,7 +17218,7 @@ func (v PortalValue) AttributeTypes(ctx context.Context) map[string]attr.Type {
 		"puzzel_service_id":           basetypes.StringType{},
 		"puzzel_username":             basetypes.StringType{},
 		"sms_enabled":                 basetypes.BoolType{},
-		"sms_expire":                  basetypes.NumberType{},
+		"sms_expire":                  basetypes.Float64Type{},
 		"sms_message_format":          basetypes.StringType{},
 		"sms_provider":                basetypes.StringType{},
 		"sponsor_auto_approve":        basetypes.BoolType{},
@@ -17216,7 +17226,7 @@ func (v PortalValue) AttributeTypes(ctx context.Context) map[string]attr.Type {
 			ElemType: types.StringType,
 		},
 		"sponsor_enabled":                basetypes.BoolType{},
-		"sponsor_expire":                 basetypes.NumberType{},
+		"sponsor_expire":                 basetypes.Float64Type{},
 		"sponsor_link_validity_duration": basetypes.Int64Type{},
 		"sponsor_notify_all":             basetypes.BoolType{},
 		"sponsor_status_notify":          basetypes.BoolType{},

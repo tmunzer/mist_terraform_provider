@@ -3,11 +3,11 @@ info:
   contact:
     email: tmunzer@juniper.net
     name: Thomas Munzer
-  description: '> Version: **2406.1.11**
+  description: '> Version: **2406.1.12**
 
     >
 
-    > Date: **July 1, 2024**
+    > Date: **July 2, 2024**
 
 
     ---
@@ -43,7 +43,7 @@ info:
     name: MIT
     url: https://raw.githubusercontent.com/tmunzer/Mist-OAS3.0/main/LICENSE
   title: Mist API
-  version: 2406.1.11
+  version: 2406.1.12
 servers:
 - description: Mist Global 01
   url: https://api.mist.com
@@ -19353,7 +19353,7 @@ paths:
       operationId: getOrgWLAN
       responses:
         '200':
-          $ref: '#/components/responses/WlansArray'
+          $ref: '#/components/responses/Wlan'
         '400':
           $ref: '#/components/responses/HTTP400'
         '401':
@@ -80280,6 +80280,7 @@ components:
           default: null
           description: interval for which guest remains authorized using amazon auth
             (in minutes), if not provided, uses expire`
+          format: double
           nullable: true
           type: number
         auth:
@@ -80304,6 +80305,7 @@ components:
           default: null
           description: interval for which guest remains authorized using azure auth
             (in minutes), if not provided, uses expire`
+          format: double
           nullable: true
           type: number
         azure_tenant_id:
@@ -80351,6 +80353,7 @@ components:
           default: 1440
           description: how long to remain authorized, in minutes
           example: 1440
+          format: double
           type: number
         external_portal_url:
           description: external portal URL (e.g. https://host/url) where we can append
@@ -80380,6 +80383,7 @@ components:
           default: null
           description: interval for which guest remains authorized using facebook
             auth (in minutes), if not provided, uses expire`
+          format: double
           nullable: true
           type: number
         forward:
@@ -80411,6 +80415,7 @@ components:
           default: null
           description: interval for which guest remains authorized using google auth
             (in minutes), if not provided, uses expire`
+          format: double
           nullable: true
           type: number
         gupshup_password:
@@ -80439,6 +80444,7 @@ components:
           default: null
           description: interval for which guest remains authorized using microsoft
             auth (in minutes), if not provided, uses expire`
+          format: double
           nullable: true
           type: number
         passphrase_enabled:
@@ -80449,6 +80455,7 @@ components:
           default: null
           description: interval for which guest remains authorized using passphrase
             auth (in minutes), if not provided, uses `expire`
+          format: double
           nullable: true
           type: number
         password:
@@ -80505,6 +80512,7 @@ components:
           default: null
           description: interval for which guest remains authorized using sms auth
             (in minutes), if not provided, uses expire`
+          format: double
           nullable: true
           type: number
         sms_provider:
@@ -80525,6 +80533,7 @@ components:
           default: null
           description: interval for which guest remains authorized using sponsor auth
             (in minutes), if not provided, uses expire`
+          format: double
           nullable: true
           type: number
         sponsor_link_validity_duration:
