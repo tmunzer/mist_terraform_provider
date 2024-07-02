@@ -13422,6 +13422,341 @@
 					}
 				]
 			}
+		},
+		{
+			"name": "wxrule",
+			"schema": {
+				"attributes": [
+					{
+						"name": "action",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"description": "type of action, allow / block",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+											}
+										],
+										"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"allow\",\n\"block\",\n)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "apply_tags",
+						"list": {
+							"computed_optional_required": "computed_optional",
+							"element_type": {
+								"string": {}
+							}
+						}
+					},
+					{
+						"name": "blocked_apps",
+						"list": {
+							"computed_optional_required": "computed_optional",
+							"element_type": {
+								"string": {}
+							},
+							"description": "blocked apps (always blocking, ignoring action), the key of Get Application List"
+						}
+					},
+					{
+						"name": "dst_allow_wxtags",
+						"list": {
+							"computed_optional_required": "computed_optional",
+							"element_type": {
+								"string": {}
+							},
+							"description": "tag list to indicate these tags are allowed access"
+						}
+					},
+					{
+						"name": "dst_deny_wxtags",
+						"list": {
+							"computed_optional_required": "computed_optional",
+							"element_type": {
+								"string": {}
+							},
+							"description": "tag list to indicate these tags are blocked access"
+						}
+					},
+					{
+						"name": "enabled",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": true
+							}
+						}
+					},
+					{
+						"name": "id",
+						"string": {
+							"computed_optional_required": "computed_optional"
+						}
+					},
+					{
+						"name": "order",
+						"int64": {
+							"computed_optional_required": "required",
+							"description": "the order how rules would be looked up, \u003e 0 and bigger order got matched first, -1 means LAST, uniqueness not checked",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+											}
+										],
+										"schema_definition": "int64validator.AtLeast(1)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "org_id",
+						"string": {
+							"computed_optional_required": "computed_optional"
+						}
+					},
+					{
+						"name": "site_id",
+						"string": {
+							"computed_optional_required": "computed_optional"
+						}
+					},
+					{
+						"name": "src_wxtags",
+						"list": {
+							"computed_optional_required": "required",
+							"element_type": {
+								"string": {}
+							},
+							"description": "tag list to determine if this rule would match"
+						}
+					},
+					{
+						"name": "template_id",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"description": "Only for Org Level WxRule"
+						}
+					}
+				]
+			}
+		},
+		{
+			"name": "wxtag",
+			"schema": {
+				"attributes": [
+					{
+						"name": "id",
+						"string": {
+							"computed_optional_required": "computed_optional"
+						}
+					},
+					{
+						"name": "last_ips",
+						"list": {
+							"computed_optional_required": "computed_optional",
+							"element_type": {
+								"string": {}
+							},
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
+											}
+										],
+										"schema_definition": "listvalidator.UniqueValues()"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "mac",
+						"string": {
+							"computed_optional_required": "computed_optional"
+						}
+					},
+					{
+						"name": "match",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+											}
+										],
+										"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"ap_id\",\n\"app\",\n\"asset_mac\",\n\"client_mac\",\n\"hostname\",\n\"ip_range_subnet\",\n\"port\",\n\"radius_attr\",\n\"radius_group\",\n\"radius_username\",\n\"wlan_id\",\n\"psk_name\",\n\"psk_role\",\n)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "name",
+						"string": {
+							"computed_optional_required": "required",
+							"description": "The name"
+						}
+					},
+					{
+						"name": "op",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": "in"
+							},
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+											}
+										],
+										"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"in\",\n\"not_in\",\n)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "org_id",
+						"string": {
+							"computed_optional_required": "computed_optional"
+						}
+					},
+					{
+						"name": "resource_mac",
+						"string": {
+							"computed_optional_required": "computed_optional"
+						}
+					},
+					{
+						"name": "services",
+						"list": {
+							"computed_optional_required": "computed_optional",
+							"element_type": {
+								"string": {}
+							},
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
+											}
+										],
+										"schema_definition": "listvalidator.UniqueValues()"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "site_id",
+						"string": {
+							"computed_optional_required": "computed_optional"
+						}
+					},
+					{
+						"name": "specs",
+						"list_nested": {
+							"computed_optional_required": "computed_optional",
+							"nested_object": {
+								"attributes": [
+									{
+										"name": "port_range",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": "0"
+											},
+											"description": "matched dst port, \"0\" means any"
+										}
+									},
+									{
+										"name": "protocol",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": "any"
+											},
+											"description": "tcp / udp / icmp / gre / any / \":protocol_number\", `protocol_number` is between 1-254"
+										}
+									},
+									{
+										"name": "subnets",
+										"list": {
+											"computed_optional_required": "computed_optional",
+											"element_type": {
+												"string": {}
+											},
+											"description": "matched dst subnet"
+										}
+									}
+								]
+							},
+							"description": "if `type`==`specs`"
+						}
+					},
+					{
+						"name": "subnet",
+						"string": {
+							"computed_optional_required": "computed_optional"
+						}
+					},
+					{
+						"name": "type",
+						"string": {
+							"computed_optional_required": "required",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+											}
+										],
+										"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"match\",\n\"client\",\n\"resource\",\n\"subnet\",\n\"spec\",\n\"vlan\",\n)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "values",
+						"list": {
+							"computed_optional_required": "computed_optional",
+							"element_type": {
+								"string": {}
+							},
+							"description": "if `type`!=`vlan_id` and `type`!=`specs`, list of values to match"
+						}
+					},
+					{
+						"name": "vlan_id",
+						"int64": {
+							"computed_optional_required": "computed_optional",
+							"description": "if `type`==`vlan_id`"
+						}
+					}
+				]
+			}
 		}
 	],
 	"version": "0.1"

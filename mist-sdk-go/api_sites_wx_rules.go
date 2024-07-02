@@ -45,10 +45,10 @@ type SitesWxRulesAPI interface {
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@param siteId
-	@param wxrulesId
+	@param wxruleId
 	@return ApiDeleteSiteWxRuleRequest
 	*/
-	DeleteSiteWxRule(ctx context.Context, siteId string, wxrulesId string) ApiDeleteSiteWxRuleRequest
+	DeleteSiteWxRule(ctx context.Context, siteId string, wxruleId string) ApiDeleteSiteWxRuleRequest
 
 	// DeleteSiteWxRuleExecute executes the request
 	DeleteSiteWxRuleExecute(r ApiDeleteSiteWxRuleRequest) (*http.Response, error)
@@ -60,10 +60,10 @@ type SitesWxRulesAPI interface {
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@param siteId
-	@param wxrulesId
+	@param wxruleId
 	@return ApiGetSiteWxRuleRequest
 	*/
-	GetSiteWxRule(ctx context.Context, siteId string, wxrulesId string) ApiGetSiteWxRuleRequest
+	GetSiteWxRule(ctx context.Context, siteId string, wxruleId string) ApiGetSiteWxRuleRequest
 
 	// GetSiteWxRuleExecute executes the request
 	//  @return WxlanRule
@@ -121,10 +121,10 @@ type SitesWxRulesAPI interface {
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@param siteId
-	@param wxrulesId
+	@param wxruleId
 	@return ApiUpdateSiteWxRuleRequest
 	*/
-	UpdateSiteWxRule(ctx context.Context, siteId string, wxrulesId string) ApiUpdateSiteWxRuleRequest
+	UpdateSiteWxRule(ctx context.Context, siteId string, wxruleId string) ApiUpdateSiteWxRuleRequest
 
 	// UpdateSiteWxRuleExecute executes the request
 	//  @return WxlanRule
@@ -318,7 +318,7 @@ type ApiDeleteSiteWxRuleRequest struct {
 	ctx context.Context
 	ApiService SitesWxRulesAPI
 	siteId string
-	wxrulesId string
+	wxruleId string
 }
 
 func (r ApiDeleteSiteWxRuleRequest) Execute() (*http.Response, error) {
@@ -332,15 +332,15 @@ Delete Site WxLan Rule
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param siteId
- @param wxrulesId
+ @param wxruleId
  @return ApiDeleteSiteWxRuleRequest
 */
-func (a *SitesWxRulesAPIService) DeleteSiteWxRule(ctx context.Context, siteId string, wxrulesId string) ApiDeleteSiteWxRuleRequest {
+func (a *SitesWxRulesAPIService) DeleteSiteWxRule(ctx context.Context, siteId string, wxruleId string) ApiDeleteSiteWxRuleRequest {
 	return ApiDeleteSiteWxRuleRequest{
 		ApiService: a,
 		ctx: ctx,
 		siteId: siteId,
-		wxrulesId: wxrulesId,
+		wxruleId: wxruleId,
 	}
 }
 
@@ -357,9 +357,9 @@ func (a *SitesWxRulesAPIService) DeleteSiteWxRuleExecute(r ApiDeleteSiteWxRuleRe
 		return nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/sites/{site_id}/wxrules/{wxrules_id}"
+	localVarPath := localBasePath + "/api/v1/sites/{site_id}/wxrules/{wxrule_id}"
 	localVarPath = strings.Replace(localVarPath, "{"+"site_id"+"}", url.PathEscape(parameterValueToString(r.siteId, "siteId")), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"wxrules_id"+"}", url.PathEscape(parameterValueToString(r.wxrulesId, "wxrulesId")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"wxrule_id"+"}", url.PathEscape(parameterValueToString(r.wxruleId, "wxruleId")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -482,7 +482,7 @@ type ApiGetSiteWxRuleRequest struct {
 	ctx context.Context
 	ApiService SitesWxRulesAPI
 	siteId string
-	wxrulesId string
+	wxruleId string
 }
 
 func (r ApiGetSiteWxRuleRequest) Execute() (*WxlanRule, *http.Response, error) {
@@ -496,15 +496,15 @@ Get Site WxLan Rule Details
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param siteId
- @param wxrulesId
+ @param wxruleId
  @return ApiGetSiteWxRuleRequest
 */
-func (a *SitesWxRulesAPIService) GetSiteWxRule(ctx context.Context, siteId string, wxrulesId string) ApiGetSiteWxRuleRequest {
+func (a *SitesWxRulesAPIService) GetSiteWxRule(ctx context.Context, siteId string, wxruleId string) ApiGetSiteWxRuleRequest {
 	return ApiGetSiteWxRuleRequest{
 		ApiService: a,
 		ctx: ctx,
 		siteId: siteId,
-		wxrulesId: wxrulesId,
+		wxruleId: wxruleId,
 	}
 }
 
@@ -523,9 +523,9 @@ func (a *SitesWxRulesAPIService) GetSiteWxRuleExecute(r ApiGetSiteWxRuleRequest)
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/sites/{site_id}/wxrules/{wxrules_id}"
+	localVarPath := localBasePath + "/api/v1/sites/{site_id}/wxrules/{wxrule_id}"
 	localVarPath = strings.Replace(localVarPath, "{"+"site_id"+"}", url.PathEscape(parameterValueToString(r.siteId, "siteId")), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"wxrules_id"+"}", url.PathEscape(parameterValueToString(r.wxrulesId, "wxrulesId")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"wxrule_id"+"}", url.PathEscape(parameterValueToString(r.wxruleId, "wxruleId")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -1194,7 +1194,7 @@ type ApiUpdateSiteWxRuleRequest struct {
 	ctx context.Context
 	ApiService SitesWxRulesAPI
 	siteId string
-	wxrulesId string
+	wxruleId string
 	wxlanRule *WxlanRule
 }
 
@@ -1215,15 +1215,15 @@ Update Site WxLan Rule
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param siteId
- @param wxrulesId
+ @param wxruleId
  @return ApiUpdateSiteWxRuleRequest
 */
-func (a *SitesWxRulesAPIService) UpdateSiteWxRule(ctx context.Context, siteId string, wxrulesId string) ApiUpdateSiteWxRuleRequest {
+func (a *SitesWxRulesAPIService) UpdateSiteWxRule(ctx context.Context, siteId string, wxruleId string) ApiUpdateSiteWxRuleRequest {
 	return ApiUpdateSiteWxRuleRequest{
 		ApiService: a,
 		ctx: ctx,
 		siteId: siteId,
-		wxrulesId: wxrulesId,
+		wxruleId: wxruleId,
 	}
 }
 
@@ -1242,9 +1242,9 @@ func (a *SitesWxRulesAPIService) UpdateSiteWxRuleExecute(r ApiUpdateSiteWxRuleRe
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/sites/{site_id}/wxrules/{wxrules_id}"
+	localVarPath := localBasePath + "/api/v1/sites/{site_id}/wxrules/{wxrule_id}"
 	localVarPath = strings.Replace(localVarPath, "{"+"site_id"+"}", url.PathEscape(parameterValueToString(r.siteId, "siteId")), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"wxrules_id"+"}", url.PathEscape(parameterValueToString(r.wxrulesId, "wxrulesId")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"wxrule_id"+"}", url.PathEscape(parameterValueToString(r.wxruleId, "wxruleId")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}

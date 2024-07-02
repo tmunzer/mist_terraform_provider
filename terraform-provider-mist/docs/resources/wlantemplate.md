@@ -18,7 +18,6 @@ description: |-
 ### Required
 
 - `name` (String)
-- `org_id` (String)
 
 ### Optional
 
@@ -26,6 +25,7 @@ description: |-
 - `deviceprofile_ids` (List of String) list of Device Profile ids
 - `exceptions` (Attributes) where this template should not be applied to (takes precedence) (see [below for nested schema](#nestedatt--exceptions))
 - `filter_by_deviceprofile` (Boolean) whether to further filter by Device Profile
+- `org_id` (String)
 
 ### Read-Only
 

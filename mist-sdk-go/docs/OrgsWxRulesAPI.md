@@ -5,11 +5,11 @@ All URIs are relative to *https://api.mist.com*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**CreateOrgWxRule**](OrgsWxRulesAPI.md#CreateOrgWxRule) | **Post** /api/v1/orgs/{org_id}/wxrules | createOrgWxRule
-[**DeleteOrgWxRule**](OrgsWxRulesAPI.md#DeleteOrgWxRule) | **Delete** /api/v1/orgs/{org_id}/wxrules/{wxrules_id} | deleteOrgWxRule
-[**GetOrgWxRule**](OrgsWxRulesAPI.md#GetOrgWxRule) | **Get** /api/v1/orgs/{org_id}/wxrules/{wxrules_id} | getOrgWxRule
+[**DeleteOrgWxRule**](OrgsWxRulesAPI.md#DeleteOrgWxRule) | **Delete** /api/v1/orgs/{org_id}/wxrules/{wxrule_id} | deleteOrgWxRule
+[**GetOrgWxRule**](OrgsWxRulesAPI.md#GetOrgWxRule) | **Get** /api/v1/orgs/{org_id}/wxrules/{wxrule_id} | getOrgWxRule
 [**GetOrgWxRulesDerived**](OrgsWxRulesAPI.md#GetOrgWxRulesDerived) | **Get** /api/v1/orgs/{org_id}/wxrules/derived | getOrgWxRulesDerived
 [**ListOrgWxRules**](OrgsWxRulesAPI.md#ListOrgWxRules) | **Get** /api/v1/orgs/{org_id}/wxrules | listOrgWxRules
-[**UpdateOrgWxRule**](OrgsWxRulesAPI.md#UpdateOrgWxRule) | **Put** /api/v1/orgs/{org_id}/wxrules/{wxrules_id} | updateOrgWxRule
+[**UpdateOrgWxRule**](OrgsWxRulesAPI.md#UpdateOrgWxRule) | **Put** /api/v1/orgs/{org_id}/wxrules/{wxrule_id} | updateOrgWxRule
 
 
 
@@ -35,7 +35,7 @@ import (
 
 func main() {
 	orgId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	wxlanRule := *openapiclient.NewWxlanRule(float32(1), []string{"SrcWxtags_example"}) // WxlanRule | Request Body (optional)
+	wxlanRule := *openapiclient.NewWxlanRule(int32(1), []string{"SrcWxtags_example"}) // WxlanRule | Request Body (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -87,7 +87,7 @@ Name | Type | Description  | Notes
 
 ## DeleteOrgWxRule
 
-> DeleteOrgWxRule(ctx, orgId, wxrulesId).Execute()
+> DeleteOrgWxRule(ctx, orgId, wxruleId).Execute()
 
 deleteOrgWxRule
 
@@ -107,11 +107,11 @@ import (
 
 func main() {
 	orgId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	wxrulesId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
+	wxruleId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	r, err := apiClient.OrgsWxRulesAPI.DeleteOrgWxRule(context.Background(), orgId, wxrulesId).Execute()
+	r, err := apiClient.OrgsWxRulesAPI.DeleteOrgWxRule(context.Background(), orgId, wxruleId).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `OrgsWxRulesAPI.DeleteOrgWxRule``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -126,7 +126,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
 **orgId** | **string** |  | 
-**wxrulesId** | **string** |  | 
+**wxruleId** | **string** |  | 
 
 ### Other Parameters
 
@@ -158,7 +158,7 @@ Name | Type | Description  | Notes
 
 ## GetOrgWxRule
 
-> WxlanRule GetOrgWxRule(ctx, orgId, wxrulesId).Execute()
+> WxlanRule GetOrgWxRule(ctx, orgId, wxruleId).Execute()
 
 getOrgWxRule
 
@@ -178,11 +178,11 @@ import (
 
 func main() {
 	orgId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	wxrulesId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
+	wxruleId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.OrgsWxRulesAPI.GetOrgWxRule(context.Background(), orgId, wxrulesId).Execute()
+	resp, r, err := apiClient.OrgsWxRulesAPI.GetOrgWxRule(context.Background(), orgId, wxruleId).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `OrgsWxRulesAPI.GetOrgWxRule``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -199,7 +199,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
 **orgId** | **string** |  | 
-**wxrulesId** | **string** |  | 
+**wxruleId** | **string** |  | 
 
 ### Other Parameters
 
@@ -375,7 +375,7 @@ Name | Type | Description  | Notes
 
 ## UpdateOrgWxRule
 
-> WxlanRule UpdateOrgWxRule(ctx, orgId, wxrulesId).WxlanRule(wxlanRule).Execute()
+> WxlanRule UpdateOrgWxRule(ctx, orgId, wxruleId).WxlanRule(wxlanRule).Execute()
 
 updateOrgWxRule
 
@@ -395,12 +395,12 @@ import (
 
 func main() {
 	orgId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	wxrulesId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	wxlanRule := *openapiclient.NewWxlanRule(float32(1), []string{"SrcWxtags_example"}) // WxlanRule | Request Body (optional)
+	wxruleId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
+	wxlanRule := *openapiclient.NewWxlanRule(int32(1), []string{"SrcWxtags_example"}) // WxlanRule | Request Body (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.OrgsWxRulesAPI.UpdateOrgWxRule(context.Background(), orgId, wxrulesId).WxlanRule(wxlanRule).Execute()
+	resp, r, err := apiClient.OrgsWxRulesAPI.UpdateOrgWxRule(context.Background(), orgId, wxruleId).WxlanRule(wxlanRule).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `OrgsWxRulesAPI.UpdateOrgWxRule``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -417,7 +417,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
 **orgId** | **string** |  | 
-**wxrulesId** | **string** |  | 
+**wxruleId** | **string** |  | 
 
 ### Other Parameters
 

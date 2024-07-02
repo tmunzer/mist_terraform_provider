@@ -35,11 +35,13 @@ type WxlanRule struct {
 	Id *string `json:"id,omitempty"`
 	ModifiedTime *float32 `json:"modified_time,omitempty"`
 	// the order how rules would be looked up, > 0 and bigger order got matched first, -1 means LAST, uniqueness not checked
-	Order float32 `json:"order"`
+	Order int32 `json:"order"`
 	OrgId *string `json:"org_id,omitempty"`
 	SiteId *string `json:"site_id,omitempty"`
 	// tag list to determine if this rule would match
 	SrcWxtags []string `json:"src_wxtags"`
+	// Only for Org Level WxRule
+	TemplateId *string `json:"template_id,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -49,7 +51,7 @@ type _WxlanRule WxlanRule
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewWxlanRule(order float32, srcWxtags []string) *WxlanRule {
+func NewWxlanRule(order int32, srcWxtags []string) *WxlanRule {
 	this := WxlanRule{}
 	var enabled bool = true
 	this.Enabled = &enabled
@@ -389,9 +391,9 @@ func (o *WxlanRule) SetModifiedTime(v float32) {
 }
 
 // GetOrder returns the Order field value
-func (o *WxlanRule) GetOrder() float32 {
+func (o *WxlanRule) GetOrder() int32 {
 	if o == nil {
-		var ret float32
+		var ret int32
 		return ret
 	}
 
@@ -400,7 +402,7 @@ func (o *WxlanRule) GetOrder() float32 {
 
 // GetOrderOk returns a tuple with the Order field value
 // and a boolean to check if the value has been set.
-func (o *WxlanRule) GetOrderOk() (*float32, bool) {
+func (o *WxlanRule) GetOrderOk() (*int32, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -408,7 +410,7 @@ func (o *WxlanRule) GetOrderOk() (*float32, bool) {
 }
 
 // SetOrder sets field value
-func (o *WxlanRule) SetOrder(v float32) {
+func (o *WxlanRule) SetOrder(v int32) {
 	o.Order = v
 }
 
@@ -500,6 +502,38 @@ func (o *WxlanRule) SetSrcWxtags(v []string) {
 	o.SrcWxtags = v
 }
 
+// GetTemplateId returns the TemplateId field value if set, zero value otherwise.
+func (o *WxlanRule) GetTemplateId() string {
+	if o == nil || IsNil(o.TemplateId) {
+		var ret string
+		return ret
+	}
+	return *o.TemplateId
+}
+
+// GetTemplateIdOk returns a tuple with the TemplateId field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *WxlanRule) GetTemplateIdOk() (*string, bool) {
+	if o == nil || IsNil(o.TemplateId) {
+		return nil, false
+	}
+	return o.TemplateId, true
+}
+
+// HasTemplateId returns a boolean if a field has been set.
+func (o *WxlanRule) HasTemplateId() bool {
+	if o != nil && !IsNil(o.TemplateId) {
+		return true
+	}
+
+	return false
+}
+
+// SetTemplateId gets a reference to the given string and assigns it to the TemplateId field.
+func (o *WxlanRule) SetTemplateId(v string) {
+	o.TemplateId = &v
+}
+
 func (o WxlanRule) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -548,6 +582,9 @@ func (o WxlanRule) ToMap() (map[string]interface{}, error) {
 		toSerialize["site_id"] = o.SiteId
 	}
 	toSerialize["src_wxtags"] = o.SrcWxtags
+	if !IsNil(o.TemplateId) {
+		toSerialize["template_id"] = o.TemplateId
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -606,6 +643,7 @@ func (o *WxlanRule) UnmarshalJSON(data []byte) (err error) {
 		delete(additionalProperties, "org_id")
 		delete(additionalProperties, "site_id")
 		delete(additionalProperties, "src_wxtags")
+		delete(additionalProperties, "template_id")
 		o.AdditionalProperties = additionalProperties
 	}
 

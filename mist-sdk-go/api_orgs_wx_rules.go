@@ -45,10 +45,10 @@ type OrgsWxRulesAPI interface {
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@param orgId
-	@param wxrulesId
+	@param wxruleId
 	@return ApiDeleteOrgWxRuleRequest
 	*/
-	DeleteOrgWxRule(ctx context.Context, orgId string, wxrulesId string) ApiDeleteOrgWxRuleRequest
+	DeleteOrgWxRule(ctx context.Context, orgId string, wxruleId string) ApiDeleteOrgWxRuleRequest
 
 	// DeleteOrgWxRuleExecute executes the request
 	DeleteOrgWxRuleExecute(r ApiDeleteOrgWxRuleRequest) (*http.Response, error)
@@ -60,10 +60,10 @@ type OrgsWxRulesAPI interface {
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@param orgId
-	@param wxrulesId
+	@param wxruleId
 	@return ApiGetOrgWxRuleRequest
 	*/
-	GetOrgWxRule(ctx context.Context, orgId string, wxrulesId string) ApiGetOrgWxRuleRequest
+	GetOrgWxRule(ctx context.Context, orgId string, wxruleId string) ApiGetOrgWxRuleRequest
 
 	// GetOrgWxRuleExecute executes the request
 	//  @return WxlanRule
@@ -106,10 +106,10 @@ type OrgsWxRulesAPI interface {
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@param orgId
-	@param wxrulesId
+	@param wxruleId
 	@return ApiUpdateOrgWxRuleRequest
 	*/
-	UpdateOrgWxRule(ctx context.Context, orgId string, wxrulesId string) ApiUpdateOrgWxRuleRequest
+	UpdateOrgWxRule(ctx context.Context, orgId string, wxruleId string) ApiUpdateOrgWxRuleRequest
 
 	// UpdateOrgWxRuleExecute executes the request
 	//  @return WxlanRule
@@ -303,7 +303,7 @@ type ApiDeleteOrgWxRuleRequest struct {
 	ctx context.Context
 	ApiService OrgsWxRulesAPI
 	orgId string
-	wxrulesId string
+	wxruleId string
 }
 
 func (r ApiDeleteOrgWxRuleRequest) Execute() (*http.Response, error) {
@@ -317,15 +317,15 @@ Delete Org WxRule
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param orgId
- @param wxrulesId
+ @param wxruleId
  @return ApiDeleteOrgWxRuleRequest
 */
-func (a *OrgsWxRulesAPIService) DeleteOrgWxRule(ctx context.Context, orgId string, wxrulesId string) ApiDeleteOrgWxRuleRequest {
+func (a *OrgsWxRulesAPIService) DeleteOrgWxRule(ctx context.Context, orgId string, wxruleId string) ApiDeleteOrgWxRuleRequest {
 	return ApiDeleteOrgWxRuleRequest{
 		ApiService: a,
 		ctx: ctx,
 		orgId: orgId,
-		wxrulesId: wxrulesId,
+		wxruleId: wxruleId,
 	}
 }
 
@@ -342,9 +342,9 @@ func (a *OrgsWxRulesAPIService) DeleteOrgWxRuleExecute(r ApiDeleteOrgWxRuleReque
 		return nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/orgs/{org_id}/wxrules/{wxrules_id}"
+	localVarPath := localBasePath + "/api/v1/orgs/{org_id}/wxrules/{wxrule_id}"
 	localVarPath = strings.Replace(localVarPath, "{"+"org_id"+"}", url.PathEscape(parameterValueToString(r.orgId, "orgId")), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"wxrules_id"+"}", url.PathEscape(parameterValueToString(r.wxrulesId, "wxrulesId")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"wxrule_id"+"}", url.PathEscape(parameterValueToString(r.wxruleId, "wxruleId")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -467,7 +467,7 @@ type ApiGetOrgWxRuleRequest struct {
 	ctx context.Context
 	ApiService OrgsWxRulesAPI
 	orgId string
-	wxrulesId string
+	wxruleId string
 }
 
 func (r ApiGetOrgWxRuleRequest) Execute() (*WxlanRule, *http.Response, error) {
@@ -481,15 +481,15 @@ Get Org WxRule Details
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param orgId
- @param wxrulesId
+ @param wxruleId
  @return ApiGetOrgWxRuleRequest
 */
-func (a *OrgsWxRulesAPIService) GetOrgWxRule(ctx context.Context, orgId string, wxrulesId string) ApiGetOrgWxRuleRequest {
+func (a *OrgsWxRulesAPIService) GetOrgWxRule(ctx context.Context, orgId string, wxruleId string) ApiGetOrgWxRuleRequest {
 	return ApiGetOrgWxRuleRequest{
 		ApiService: a,
 		ctx: ctx,
 		orgId: orgId,
-		wxrulesId: wxrulesId,
+		wxruleId: wxruleId,
 	}
 }
 
@@ -508,9 +508,9 @@ func (a *OrgsWxRulesAPIService) GetOrgWxRuleExecute(r ApiGetOrgWxRuleRequest) (*
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/orgs/{org_id}/wxrules/{wxrules_id}"
+	localVarPath := localBasePath + "/api/v1/orgs/{org_id}/wxrules/{wxrule_id}"
 	localVarPath = strings.Replace(localVarPath, "{"+"org_id"+"}", url.PathEscape(parameterValueToString(r.orgId, "orgId")), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"wxrules_id"+"}", url.PathEscape(parameterValueToString(r.wxrulesId, "wxrulesId")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"wxrule_id"+"}", url.PathEscape(parameterValueToString(r.wxruleId, "wxruleId")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -1008,7 +1008,7 @@ type ApiUpdateOrgWxRuleRequest struct {
 	ctx context.Context
 	ApiService OrgsWxRulesAPI
 	orgId string
-	wxrulesId string
+	wxruleId string
 	wxlanRule *WxlanRule
 }
 
@@ -1029,15 +1029,15 @@ Update Org WxRule
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param orgId
- @param wxrulesId
+ @param wxruleId
  @return ApiUpdateOrgWxRuleRequest
 */
-func (a *OrgsWxRulesAPIService) UpdateOrgWxRule(ctx context.Context, orgId string, wxrulesId string) ApiUpdateOrgWxRuleRequest {
+func (a *OrgsWxRulesAPIService) UpdateOrgWxRule(ctx context.Context, orgId string, wxruleId string) ApiUpdateOrgWxRuleRequest {
 	return ApiUpdateOrgWxRuleRequest{
 		ApiService: a,
 		ctx: ctx,
 		orgId: orgId,
-		wxrulesId: wxrulesId,
+		wxruleId: wxruleId,
 	}
 }
 
@@ -1056,9 +1056,9 @@ func (a *OrgsWxRulesAPIService) UpdateOrgWxRuleExecute(r ApiUpdateOrgWxRuleReque
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/orgs/{org_id}/wxrules/{wxrules_id}"
+	localVarPath := localBasePath + "/api/v1/orgs/{org_id}/wxrules/{wxrule_id}"
 	localVarPath = strings.Replace(localVarPath, "{"+"org_id"+"}", url.PathEscape(parameterValueToString(r.orgId, "orgId")), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"wxrules_id"+"}", url.PathEscape(parameterValueToString(r.wxrulesId, "wxrulesId")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"wxrule_id"+"}", url.PathEscape(parameterValueToString(r.wxruleId, "wxruleId")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}

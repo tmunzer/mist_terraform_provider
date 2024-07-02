@@ -19832,7 +19832,7 @@ paths:
       - Orgs WxRules
     parameters:
     - $ref: '#/components/parameters/org_id'
-  /api/v1/orgs/{org_id}/wxrules/{wxrules_id}:
+  /api/v1/orgs/{org_id}/wxrules/{wxrule_id}:
     delete:
       description: Delete Org WxRule
       operationId: deleteOrgWxRule
@@ -19873,7 +19873,7 @@ paths:
       - Orgs WxRules
     parameters:
     - $ref: '#/components/parameters/org_id'
-    - $ref: '#/components/parameters/wxrules_id'
+    - $ref: '#/components/parameters/wxrule_id'
     put:
       description: Update Org WxRule
       operationId: updateOrgWxRule
@@ -34705,7 +34705,7 @@ paths:
       - Sites WxRules
     parameters:
     - $ref: '#/components/parameters/site_id'
-  /api/v1/sites/{site_id}/wxrules/{wxrules_id}:
+  /api/v1/sites/{site_id}/wxrules/{wxrule_id}:
     delete:
       description: Delete Site WxLan Rule
       operationId: deleteSiteWxRule
@@ -34746,7 +34746,7 @@ paths:
       - Sites WxRules
     parameters:
     - $ref: '#/components/parameters/site_id'
-    - $ref: '#/components/parameters/wxrules_id'
+    - $ref: '#/components/parameters/wxrule_id'
     put:
       description: Update Site WxLan Rule
       operationId: updateSiteWxRule
@@ -36224,9 +36224,9 @@ components:
         example: 000000ab-00ab-00ab-00ab-0000000000ab
         format: uuid
         type: string
-    wxrules_id:
+    wxrule_id:
       in: path
-      name: wxrules_id
+      name: wxrule_id
       required: true
       schema:
         example: 000000ab-00ab-00ab-00ab-0000000000ab
@@ -81176,13 +81176,18 @@ components:
             got matched first, -1 means LAST, uniqueness not checked
           example: 1
           minimum: 1
-          type: number
+          type: integer
         org_id:
           $ref: '#/components/schemas/org_id'
         site_id:
           $ref: '#/components/schemas/site_id'
         src_wxtags:
           $ref: '#/components/schemas/wxlan_rule_src_wxtags'
+        template_id:
+          description: Only for Org Level WxRule
+          example: 6aa54cbd-e039-4878-846a-04f270de8a5c
+          format: uuid
+          type: string
       required:
       - order
       - src_wxtags

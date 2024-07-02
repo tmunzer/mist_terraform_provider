@@ -57,7 +57,7 @@ RENAME = [
     #                 {
     #                     "name": "rules",
     #                     "rename": "gateway_matching_rules",
-    #                 }
+    #                 }                    
     #             ],
     #         },
     #     ],
@@ -66,16 +66,6 @@ RENAME = [
         "name": "gatewaytemplate",
         "get": ["schema", "attributes"],
         "next": [
-            {
-                "name": "org_id",
-                "get": ["string"],
-                "next": [
-                    {
-                        "field": "computed_optional_required",
-                        "value": "required",
-                    }
-                ],
-            },
             {
                 "name": "idp_profiles",
                 "get": ["map_nested", "nested_object", "attributes"],
@@ -167,29 +157,22 @@ def next_item(data: dict, entries: list, path: list):
         get = entry.get("get")
         n = entry.get("next")
         rename = entry.get("rename")
-        field = entry.get("field")
-        value = entry.get("value")
         curr_path = path.copy()
         curr_path.append(name)
-        sub_data = None
         try:
             sub_data = next(i for i in data if i["name"] == name)
-        except:
-            print(f"not found {'.'.join(curr_path)}")
-
-        if sub_data:
             if get:
                 for g in get:
                     sub_data = sub_data.get(g)
                     curr_path.append(g)
                     if not sub_data:
                         print(f"not able to get {'.'.join(curr_path)}")
-            if value:
-                sub_data[field] = value
             if rename:
                 sub_data["name"] = rename
             if n:
                 next_item(sub_data, n, curr_path)
+        except:
+            print(f"not found {'.'.join(curr_path)}")
 
 
 with open(SPEC_IN, "r") as f_in:

@@ -14,16 +14,17 @@ Name | Type | Description | Notes
 **ForSite** | Pointer to **bool** |  | [optional] [readonly] 
 **Id** | Pointer to **string** |  | [optional] [readonly] 
 **ModifiedTime** | Pointer to **float32** |  | [optional] [readonly] 
-**Order** | **float32** | the order how rules would be looked up, &gt; 0 and bigger order got matched first, -1 means LAST, uniqueness not checked | 
+**Order** | **int32** | the order how rules would be looked up, &gt; 0 and bigger order got matched first, -1 means LAST, uniqueness not checked | 
 **OrgId** | Pointer to **string** |  | [optional] [readonly] 
 **SiteId** | Pointer to **string** |  | [optional] [readonly] 
 **SrcWxtags** | **[]string** | tag list to determine if this rule would match | 
+**TemplateId** | Pointer to **string** | Only for Org Level WxRule | [optional] 
 
 ## Methods
 
 ### NewWxlanRule
 
-`func NewWxlanRule(order float32, srcWxtags []string, ) *WxlanRule`
+`func NewWxlanRule(order int32, srcWxtags []string, ) *WxlanRule`
 
 NewWxlanRule instantiates a new WxlanRule object
 This constructor will assign default values to properties that have it defined,
@@ -290,20 +291,20 @@ HasModifiedTime returns a boolean if a field has been set.
 
 ### GetOrder
 
-`func (o *WxlanRule) GetOrder() float32`
+`func (o *WxlanRule) GetOrder() int32`
 
 GetOrder returns the Order field if non-nil, zero value otherwise.
 
 ### GetOrderOk
 
-`func (o *WxlanRule) GetOrderOk() (*float32, bool)`
+`func (o *WxlanRule) GetOrderOk() (*int32, bool)`
 
 GetOrderOk returns a tuple with the Order field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetOrder
 
-`func (o *WxlanRule) SetOrder(v float32)`
+`func (o *WxlanRule) SetOrder(v int32)`
 
 SetOrder sets Order field to given value.
 
@@ -377,6 +378,31 @@ and a boolean to check if the value has been set.
 
 SetSrcWxtags sets SrcWxtags field to given value.
 
+
+### GetTemplateId
+
+`func (o *WxlanRule) GetTemplateId() string`
+
+GetTemplateId returns the TemplateId field if non-nil, zero value otherwise.
+
+### GetTemplateIdOk
+
+`func (o *WxlanRule) GetTemplateIdOk() (*string, bool)`
+
+GetTemplateIdOk returns a tuple with the TemplateId field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetTemplateId
+
+`func (o *WxlanRule) SetTemplateId(v string)`
+
+SetTemplateId sets TemplateId field to given value.
+
+### HasTemplateId
+
+`func (o *WxlanRule) HasTemplateId() bool`
+
+HasTemplateId returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
