@@ -1663,6 +1663,7 @@ docs/WlanAppQosAppsProperties.md
 docs/WlanAppQosOthersItem.md
 docs/WlanApplyTo.md
 docs/WlanAuth.md
+docs/WlanAuthOwe.md
 docs/WlanAuthPairwiseItem.md
 docs/WlanAuthServerSelection.md
 docs/WlanAuthType.md
@@ -3038,6 +3039,7 @@ model_wlan_app_qos_apps_properties.go
 model_wlan_app_qos_others_item.go
 model_wlan_apply_to.go
 model_wlan_auth.go
+model_wlan_auth_owe.go
 model_wlan_auth_pairwise_item.go
 model_wlan_auth_server_selection.go
 model_wlan_auth_type.go

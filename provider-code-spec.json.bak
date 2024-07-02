@@ -1,4 +1,49 @@
 {
+	"datasources": [
+		{
+			"name": "countries",
+			"schema": {
+				"attributes": [
+					{
+						"name": "countries",
+						"set_nested": {
+							"computed_optional_required": "computed",
+							"nested_object": {
+								"attributes": [
+									{
+										"name": "alpha2",
+										"string": {
+											"computed_optional_required": "computed",
+											"description": "country code, in two-character"
+										}
+									},
+									{
+										"name": "certified",
+										"bool": {
+											"computed_optional_required": "computed"
+										}
+									},
+									{
+										"name": "name",
+										"string": {
+											"computed_optional_required": "computed"
+										}
+									},
+									{
+										"name": "numeric",
+										"number": {
+											"computed_optional_required": "computed",
+											"description": "country code, ISO 3166-1 numeric"
+										}
+									}
+								]
+							}
+						}
+					}
+				]
+			}
+		}
+	],
 	"provider": {
 		"name": "mistapi"
 	},
@@ -9085,6 +9130,9 @@
 									"name": "beacon_rate",
 									"int64": {
 										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": 0
+										},
 										"description": "required if `beacon_rate_mode`==`custom`, 1-10, in number-beacons-per-second"
 									}
 								},
@@ -9133,6 +9181,9 @@
 									"name": "custom_ble_packet_frame",
 									"string": {
 										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
 										"description": "The custom frame to be sent out in this beacon. The frame must be a hexstring"
 									}
 								},
@@ -9140,6 +9191,9 @@
 									"name": "custom_ble_packet_freq_msec",
 									"int64": {
 										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": 0
+										},
 										"description": "Frequency (msec) of data emitted by custom ble beacon",
 										"validators": [
 											{
@@ -9159,6 +9213,9 @@
 									"name": "eddystone_uid_adv_power",
 									"int64": {
 										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": 0
+										},
 										"description": "advertised TX Power, -100 to 20 (dBm), omit this attribute to use default",
 										"validators": [
 											{
@@ -9177,7 +9234,10 @@
 								{
 									"name": "eddystone_uid_beams",
 									"string": {
-										"computed_optional_required": "computed_optional"
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										}
 									}
 								},
 								{
@@ -9194,6 +9254,9 @@
 									"name": "eddystone_uid_freq_msec",
 									"int64": {
 										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": 0
+										},
 										"description": "Frequency (msec) of data emmit by Eddystone-UID beacon"
 									}
 								},
@@ -9201,6 +9264,9 @@
 									"name": "eddystone_uid_instance",
 									"string": {
 										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
 										"description": "Eddystone-UID instance for the device"
 									}
 								},
@@ -9208,6 +9274,9 @@
 									"name": "eddystone_uid_namespace",
 									"string": {
 										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
 										"description": "Eddystone-UID namespace"
 									}
 								},
@@ -9215,6 +9284,9 @@
 									"name": "eddystone_url_adv_power",
 									"int64": {
 										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": 0
+										},
 										"description": "advertised TX Power, -100 to 20 (dBm), omit this attribute to use default",
 										"validators": [
 											{
@@ -9233,13 +9305,19 @@
 								{
 									"name": "eddystone_url_beams",
 									"string": {
-										"computed_optional_required": "computed_optional"
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										}
 									}
 								},
 								{
 									"name": "eddystone_url_enabled",
 									"bool": {
 										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										},
 										"description": "only if `beacon_enabled`==`false`, Whether Eddystone-URL beacon is enabled"
 									}
 								},
@@ -9247,6 +9325,9 @@
 									"name": "eddystone_url_freq_msec",
 									"int64": {
 										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": 0
+										},
 										"description": "Frequency (msec) of data emit by Eddystone-UID beacon"
 									}
 								},
@@ -9254,6 +9335,9 @@
 									"name": "eddystone_url_url",
 									"string": {
 										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
 										"description": "URL pointed by Eddystone-URL beacon"
 									}
 								},
@@ -9261,6 +9345,9 @@
 									"name": "ibeacon_adv_power",
 									"int64": {
 										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": 0
+										},
 										"description": "advertised TX Power, -100 to 20 (dBm), omit this attribute to use default",
 										"validators": [
 											{
@@ -9279,7 +9366,10 @@
 								{
 									"name": "ibeacon_beams",
 									"string": {
-										"computed_optional_required": "computed_optional"
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										}
 									}
 								},
 								{
@@ -9296,6 +9386,9 @@
 									"name": "ibeacon_freq_msec",
 									"int64": {
 										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": 0
+										},
 										"description": "Frequency (msec) of data emmit for iBeacon"
 									}
 								},
@@ -9303,6 +9396,9 @@
 									"name": "ibeacon_major",
 									"int64": {
 										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": 0
+										},
 										"description": "Major number for iBeacon",
 										"validators": [
 											{
@@ -9322,6 +9418,9 @@
 									"name": "ibeacon_minor",
 									"int64": {
 										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": 0
+										},
 										"description": "Minor number for iBeacon",
 										"validators": [
 											{
@@ -9341,6 +9440,9 @@
 									"name": "ibeacon_uuid",
 									"string": {
 										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
 										"description": "optional, if not specified, the same UUID as the beacon will be used"
 									}
 								},
@@ -9426,7 +9528,7 @@
 												"bool": {
 													"computed_optional_required": "computed_optional",
 													"default": {
-														"static": true
+														"static": false
 													}
 												}
 											},
@@ -9438,43 +9540,64 @@
 														{
 															"name": "fri",
 															"string": {
-																"computed_optional_required": "computed_optional"
+																"computed_optional_required": "computed_optional",
+																"default": {
+																	"static": ""
+																}
 															}
 														},
 														{
 															"name": "mon",
 															"string": {
-																"computed_optional_required": "computed_optional"
+																"computed_optional_required": "computed_optional",
+																"default": {
+																	"static": ""
+																}
 															}
 														},
 														{
 															"name": "sat",
 															"string": {
-																"computed_optional_required": "computed_optional"
+																"computed_optional_required": "computed_optional",
+																"default": {
+																	"static": ""
+																}
 															}
 														},
 														{
 															"name": "sun",
 															"string": {
-																"computed_optional_required": "computed_optional"
+																"computed_optional_required": "computed_optional",
+																"default": {
+																	"static": ""
+																}
 															}
 														},
 														{
 															"name": "thu",
 															"string": {
-																"computed_optional_required": "computed_optional"
+																"computed_optional_required": "computed_optional",
+																"default": {
+																	"static": ""
+																}
 															}
 														},
 														{
 															"name": "tue",
 															"string": {
-																"computed_optional_required": "computed_optional"
+																"computed_optional_required": "computed_optional",
+																"default": {
+																	"static": ""
+																}
 															}
 														},
 														{
 															"name": "wed",
 															"string": {
-																"computed_optional_required": "computed_optional"
+																"computed_optional_required": "computed_optional",
+																"default": {
+																	"static": ""
+																}
 															}
 														}
 													],
@@ -9662,43 +9785,64 @@
 											{
 												"name": "fri",
 												"string": {
-													"computed_optional_required": "computed_optional"
+													"computed_optional_required": "computed_optional",
+													"default": {
+														"static": ""
+													}
 												}
 											},
 											{
 												"name": "mon",
 												"string": {
-													"computed_optional_required": "computed_optional"
+													"computed_optional_required": "computed_optional",
+													"default": {
+														"static": ""
+													}
 												}
 											},
 											{
 												"name": "sat",
 												"string": {
-													"computed_optional_required": "computed_optional"
+													"computed_optional_required": "computed_optional",
+													"default": {
+														"static": ""
+													}
 												}
 											},
 											{
 												"name": "sun",
 												"string": {
-													"computed_optional_required": "computed_optional"
+													"computed_optional_required": "computed_optional",
+													"default": {
+														"static": ""
+													}
 												}
 											},
 											{
 												"name": "thu",
 												"string": {
-													"computed_optional_required": "computed_optional"
+													"computed_optional_required": "computed_optional",
+													"default": {
+														"static": ""
+													}
 												}
 											},
 											{
 												"name": "tue",
 												"string": {
-													"computed_optional_required": "computed_optional"
+													"computed_optional_required": "computed_optional",
+													"default": {
+														"static": ""
+													}
 												}
 											},
 											{
 												"name": "wed",
 												"string": {
-													"computed_optional_required": "computed_optional"
+													"computed_optional_required": "computed_optional",
+													"default": {
+														"static": ""
+													}
 												}
 											}
 										],
@@ -9891,6 +10035,12 @@
 								}
 							],
 							"description": "Occupancy Analytics settings"
+						}
+					},
+					{
+						"name": "org_id",
+						"string": {
+							"computed_optional_required": "computed_optional"
 						}
 					},
 					{
@@ -10775,6 +10925,9 @@
 									"name": "api_key",
 									"string": {
 										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
 										"description": "API Key"
 									}
 								},
@@ -10782,19 +10935,28 @@
 									"name": "console_url",
 									"string": {
 										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
 										"description": "console URL"
 									}
 								},
 								{
 									"name": "enabled",
 									"bool": {
-										"computed_optional_required": "computed_optional"
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										}
 									}
 								},
 								{
 									"name": "password",
 									"string": {
 										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
 										"description": "password"
 									}
 								},
@@ -10802,6 +10964,9 @@
 									"name": "username",
 									"string": {
 										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
 										"description": "username"
 									}
 								}
@@ -10925,7 +11090,10 @@
 								{
 									"name": "enabled",
 									"bool": {
-										"computed_optional_required": "computed_optional"
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										}
 									}
 								},
 								{
@@ -11114,7 +11282,23 @@
 								{
 									"name": "owe",
 									"string": {
-										"computed_optional_required": "computed_optional"
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": "disabled"
+										},
+										"description": "`enabled` means transition mode",
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+														}
+													],
+													"schema_definition": "stringvalidator.OneOf(\n\"enabled\",\n\"disabled\",\n\"required\",\n)"
+												}
+											}
+										]
 									}
 								},
 								{
@@ -11131,6 +11315,9 @@
 									"name": "private_wlan",
 									"bool": {
 										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										},
 										"description": "whether private wlan is enabled. only applicable to multi_psk mode"
 									}
 								},
@@ -11138,6 +11325,9 @@
 									"name": "psk",
 									"string": {
 										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
 										"description": "when type=psk, 8-64 characters, or 64 hex characters",
 										"validators": [
 											{
@@ -11178,6 +11368,9 @@
 									"name": "wep_as_secondary_auth",
 									"bool": {
 										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										},
 										"description": "enable WEP as secondary auth"
 									}
 								}
@@ -12068,6 +12261,9 @@
 						"name": "limit_probe_response",
 						"bool": {
 							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": false
+							},
 							"description": "limit probe response base on some heuristic rules"
 						}
 					},
@@ -12114,7 +12310,10 @@
 					{
 						"name": "msp_id",
 						"string": {
-							"computed_optional_required": "computed_optional"
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": ""
+							}
 						}
 					},
 					{
@@ -12172,6 +12371,9 @@
 									"name": "amazon_client_id",
 									"string": {
 										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
 										"description": "amazon OAuth2 client id. This is optional. If not provided, it will use a default one."
 									}
 								},
@@ -12179,6 +12381,9 @@
 									"name": "amazon_client_secret",
 									"string": {
 										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
 										"description": "amazon OAuth2 client secret. If amazon_client_id was provided, provide a correspoinding value. Else leave blank."
 									}
 								},
@@ -12238,6 +12443,9 @@
 									"name": "azure_client_id",
 									"string": {
 										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
 										"description": "Required if `azure_enabled`==`true`.\nAzure active directory app client id"
 									}
 								},
@@ -12245,6 +12453,9 @@
 									"name": "azure_client_secret",
 									"string": {
 										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
 										"description": "Required if `azure_enabled`==`true`.\nAzure active directory app client secret"
 									}
 								},
@@ -12272,6 +12483,9 @@
 									"name": "azure_tenant_id",
 									"string": {
 										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
 										"description": "Required if `azure_enabled`==`true`.\nAzure active directory tenant id."
 									}
 								},
@@ -12279,6 +12493,9 @@
 									"name": "broadnet_password",
 									"string": {
 										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
 										"description": "when `sms_provider`==`broadnet`"
 									}
 								},
@@ -12296,6 +12513,9 @@
 									"name": "broadnet_user_id",
 									"string": {
 										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
 										"description": "when `sms_provider`==`broadnet`"
 									}
 								},
@@ -12313,6 +12533,9 @@
 									"name": "clickatell_api_key",
 									"string": {
 										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
 										"description": "when `sms_provider`==`clickatell`"
 									}
 								},
@@ -12357,6 +12580,9 @@
 									"name": "external_portal_url",
 									"string": {
 										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
 										"description": "external portal URL (e.g. https://host/url) where we can append our query parameters to"
 									}
 								},
@@ -12364,6 +12590,9 @@
 									"name": "facebook_client_id",
 									"string": {
 										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
 										"description": "Required if `facebook_enabled`==`true`.\nFacebook OAuth2 app id. This is optional. If not provided, it will use a default one."
 									}
 								},
@@ -12371,6 +12600,9 @@
 									"name": "facebook_client_secret",
 									"string": {
 										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
 										"description": "Required if `facebook_enabled`==`true`.\nFacebook OAuth2 app secret. If facebook_client_id was provided, provide a correspoinding value. Else leave blank."
 									}
 								},
@@ -12418,6 +12650,9 @@
 									"name": "forward_url",
 									"string": {
 										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
 										"description": "the URL to forward the user to"
 									}
 								},
@@ -12425,6 +12660,9 @@
 									"name": "google_client_id",
 									"string": {
 										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
 										"description": "Google OAuth2 app id. This is optional. If not provided, it will use a default one."
 									}
 								},
@@ -12432,6 +12670,9 @@
 									"name": "google_client_secret",
 									"string": {
 										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
 										"description": "Google OAuth2 app secret. If google_client_id was provided, provide a correspoinding value. Else leave blank."
 									}
 								},
@@ -12469,6 +12710,9 @@
 									"name": "gupshup_password",
 									"string": {
 										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
 										"description": "when `sms_provider`==`gupshup`"
 									}
 								},
@@ -12476,6 +12720,9 @@
 									"name": "gupshup_userid",
 									"string": {
 										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
 										"description": "when `sms_provider`==`gupshup`"
 									}
 								},
@@ -12483,6 +12730,9 @@
 									"name": "microsoft_client_id",
 									"string": {
 										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
 										"description": "microsoft 365 OAuth2 client id. This is optional. If not provided, it will use a default one."
 									}
 								},
@@ -12490,6 +12740,9 @@
 									"name": "microsoft_client_secret",
 									"string": {
 										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
 										"description": "microsoft 365 OAuth2 client secret. If microsoft_client_id was provided, provide a correspoinding value. Else leave blank."
 									}
 								},
@@ -12547,6 +12800,9 @@
 									"name": "password",
 									"string": {
 										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
 										"description": "passphrase"
 									}
 								},
@@ -12554,6 +12810,9 @@
 									"name": "portal_allowed_hostnames",
 									"string": {
 										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
 										"description": "list of hostnames without http(s):// (matched by substring)"
 									}
 								},
@@ -12561,6 +12820,9 @@
 									"name": "portal_allowed_subnets",
 									"string": {
 										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
 										"description": "list of CIDRs"
 									}
 								},
@@ -12568,6 +12830,9 @@
 									"name": "portal_api_secret",
 									"string": {
 										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
 										"description": "api secret (auto-generated) that can be used to sign guest authorization requests"
 									}
 								},
@@ -12575,6 +12840,9 @@
 									"name": "portal_denied_hostnames",
 									"string": {
 										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
 										"description": "list of hostnames without http(s):// (matched by substring), this takes precedence over portal_allowed_hostnames"
 									}
 								},
@@ -12582,6 +12850,9 @@
 									"name": "portal_image",
 									"string": {
 										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
 										"description": "Url of portal background image"
 									}
 								},
@@ -12615,6 +12886,9 @@
 									"name": "puzzel_password",
 									"string": {
 										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
 										"description": "when `sms_provider`==`puzzel`"
 									}
 								},
@@ -12622,6 +12896,9 @@
 									"name": "puzzel_service_id",
 									"string": {
 										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
 										"description": "when `sms_provider`==`puzzel`"
 									}
 								},
@@ -12629,13 +12906,19 @@
 									"name": "puzzel_username",
 									"string": {
 										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
 										"description": "when `sms_provider`==`puzzel`"
 									}
 								},
 								{
 									"name": "sms_message_format",
 									"string": {
-										"computed_optional_required": "computed_optional"
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										}
 									}
 								},
 								{
@@ -12763,19 +13046,28 @@
 									"name": "sso_default_role",
 									"string": {
 										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
 										"description": "default role to assign if there’s no match. By default, an assertion is treated as invalid when there’s no role matched"
 									}
 								},
 								{
 									"name": "sso_forced_role",
 									"string": {
-										"computed_optional_required": "computed_optional"
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										}
 									}
 								},
 								{
 									"name": "sso_idp_cert",
 									"string": {
 										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
 										"description": "IDP Cert (used to verify the signed response)"
 									}
 								},
@@ -12783,6 +13075,9 @@
 									"name": "sso_idp_sign_algo",
 									"string": {
 										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
 										"description": "signing algorithm for SAML Assertion"
 									}
 								},
@@ -12790,6 +13085,9 @@
 									"name": "sso_idp_sso_url",
 									"string": {
 										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
 										"description": "IDP Single-Sign-On URL"
 									}
 								},
@@ -12797,6 +13095,9 @@
 									"name": "sso_issuer",
 									"string": {
 										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
 										"description": "IDP issuer URL"
 									}
 								},
@@ -12825,6 +13126,9 @@
 									"name": "telstra_client_id",
 									"string": {
 										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
 										"description": "when `sms_provider`==`telstra`, Client ID provided by Telstra"
 									}
 								},
@@ -12832,6 +13136,9 @@
 									"name": "telstra_client_secret",
 									"string": {
 										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
 										"description": "when `sms_provider`==`telstra`, Client secret provided by Telstra"
 									}
 								},
@@ -12839,6 +13146,9 @@
 									"name": "thumbnail",
 									"string": {
 										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
 										"description": "Url of portal background image thumbnail"
 									}
 								},
@@ -12846,6 +13156,9 @@
 									"name": "twilio_auth_token",
 									"string": {
 										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
 										"description": "when `sms_provider`==`twilio`, Auth token account with twilio account"
 									}
 								},
@@ -12853,6 +13166,9 @@
 									"name": "twilio_phone_number",
 									"string": {
 										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
 										"description": "when `sms_provider`==`twilio`, Twilio phone number associated with the account. See example for accepted format."
 									}
 								},
@@ -12860,6 +13176,9 @@
 									"name": "twilio_sid",
 									"string": {
 										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
 										"description": "when `sms_provider`==`twilio`, Account SID provided by Twilio"
 									}
 								}
@@ -12891,6 +13210,9 @@
 						"name": "portal_api_secret",
 						"string": {
 							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": ""
+							},
 							"description": "api secret (auto-generated) that can be used to sign guest authorization requests"
 						}
 					},
@@ -12908,6 +13230,9 @@
 						"name": "portal_image",
 						"string": {
 							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": ""
+							},
 							"description": "Url of portal background image"
 						}
 					},
@@ -12921,6 +13246,9 @@
 						"name": "portal_template_url",
 						"string": {
 							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": ""
+							},
 							"description": "N.B portal_template will be forked out of wlan objects soon. To fetch portal_template, please query portal_template_url. To update portal_template, use Wlan Portal Template."
 						}
 					},
@@ -13115,43 +13443,64 @@
 											{
 												"name": "fri",
 												"string": {
-													"computed_optional_required": "computed_optional"
+													"computed_optional_required": "computed_optional",
+													"default": {
+														"static": ""
+													}
 												}
 											},
 											{
 												"name": "mon",
 												"string": {
-													"computed_optional_required": "computed_optional"
+													"computed_optional_required": "computed_optional",
+													"default": {
+														"static": ""
+													}
 												}
 											},
 											{
 												"name": "sat",
 												"string": {
-													"computed_optional_required": "computed_optional"
+													"computed_optional_required": "computed_optional",
+													"default": {
+														"static": ""
+													}
 												}
 											},
 											{
 												"name": "sun",
 												"string": {
-													"computed_optional_required": "computed_optional"
+													"computed_optional_required": "computed_optional",
+													"default": {
+														"static": ""
+													}
 												}
 											},
 											{
 												"name": "thu",
 												"string": {
-													"computed_optional_required": "computed_optional"
+													"computed_optional_required": "computed_optional",
+													"default": {
+														"static": ""
+													}
 												}
 											},
 											{
 												"name": "tue",
 												"string": {
-													"computed_optional_required": "computed_optional"
+													"computed_optional_required": "computed_optional",
+													"default": {
+														"static": ""
+													}
 												}
 											},
 											{
 												"name": "wed",
 												"string": {
-													"computed_optional_required": "computed_optional"
+													"computed_optional_required": "computed_optional",
+													"default": {
+														"static": ""
+													}
 												}
 											}
 										],
@@ -13188,13 +13537,19 @@
 					{
 						"name": "template_id",
 						"string": {
-							"computed_optional_required": "computed_optional"
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": ""
+							}
 						}
 					},
 					{
 						"name": "thumbnail",
 						"string": {
 							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": ""
+							},
 							"description": "Url of portal background image thumbnail"
 						}
 					},
@@ -13260,6 +13615,9 @@
 						"name": "wlan_limit_down",
 						"int64": {
 							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": 0
+							},
 							"description": "kbps"
 						}
 					},
@@ -13277,6 +13635,9 @@
 						"name": "wlan_limit_up",
 						"int64": {
 							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": 0
+							},
 							"description": "kbps"
 						}
 					},
@@ -13304,6 +13665,9 @@
 						"name": "wxtunnel_id",
 						"string": {
 							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": ""
+							},
 							"description": "when `interface`=`wxtunnel`, id of the WXLAN Tunnel"
 						}
 					},
@@ -13311,6 +13675,9 @@
 						"name": "wxtunnel_remote_id",
 						"string": {
 							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": ""
+							},
 							"description": "when `interface`=`wxtunnel`, remote tunnel identifier"
 						}
 					}
@@ -13418,6 +13785,341 @@
 						"name": "org_id",
 						"string": {
 							"computed_optional_required": "computed_optional"
+						}
+					}
+				]
+			}
+		},
+		{
+			"name": "wxrule",
+			"schema": {
+				"attributes": [
+					{
+						"name": "action",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"description": "type of action, allow / block",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+											}
+										],
+										"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"allow\",\n\"block\",\n)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "apply_tags",
+						"list": {
+							"computed_optional_required": "computed_optional",
+							"element_type": {
+								"string": {}
+							}
+						}
+					},
+					{
+						"name": "blocked_apps",
+						"list": {
+							"computed_optional_required": "computed_optional",
+							"element_type": {
+								"string": {}
+							},
+							"description": "blocked apps (always blocking, ignoring action), the key of Get Application List"
+						}
+					},
+					{
+						"name": "dst_allow_wxtags",
+						"list": {
+							"computed_optional_required": "computed_optional",
+							"element_type": {
+								"string": {}
+							},
+							"description": "tag list to indicate these tags are allowed access"
+						}
+					},
+					{
+						"name": "dst_deny_wxtags",
+						"list": {
+							"computed_optional_required": "computed_optional",
+							"element_type": {
+								"string": {}
+							},
+							"description": "tag list to indicate these tags are blocked access"
+						}
+					},
+					{
+						"name": "enabled",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": true
+							}
+						}
+					},
+					{
+						"name": "id",
+						"string": {
+							"computed_optional_required": "computed_optional"
+						}
+					},
+					{
+						"name": "order",
+						"int64": {
+							"computed_optional_required": "required",
+							"description": "the order how rules would be looked up, \u003e 0 and bigger order got matched first, -1 means LAST, uniqueness not checked",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+											}
+										],
+										"schema_definition": "int64validator.AtLeast(1)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "org_id",
+						"string": {
+							"computed_optional_required": "computed_optional"
+						}
+					},
+					{
+						"name": "site_id",
+						"string": {
+							"computed_optional_required": "computed_optional"
+						}
+					},
+					{
+						"name": "src_wxtags",
+						"list": {
+							"computed_optional_required": "required",
+							"element_type": {
+								"string": {}
+							},
+							"description": "tag list to determine if this rule would match"
+						}
+					},
+					{
+						"name": "template_id",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"description": "Only for Org Level WxRule"
+						}
+					}
+				]
+			}
+		},
+		{
+			"name": "wxtag",
+			"schema": {
+				"attributes": [
+					{
+						"name": "id",
+						"string": {
+							"computed_optional_required": "computed_optional"
+						}
+					},
+					{
+						"name": "last_ips",
+						"list": {
+							"computed_optional_required": "computed_optional",
+							"element_type": {
+								"string": {}
+							},
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
+											}
+										],
+										"schema_definition": "listvalidator.UniqueValues()"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "mac",
+						"string": {
+							"computed_optional_required": "computed_optional"
+						}
+					},
+					{
+						"name": "match",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+											}
+										],
+										"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"ap_id\",\n\"app\",\n\"asset_mac\",\n\"client_mac\",\n\"hostname\",\n\"ip_range_subnet\",\n\"port\",\n\"radius_attr\",\n\"radius_group\",\n\"radius_username\",\n\"wlan_id\",\n\"psk_name\",\n\"psk_role\",\n)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "name",
+						"string": {
+							"computed_optional_required": "required",
+							"description": "The name"
+						}
+					},
+					{
+						"name": "op",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": "in"
+							},
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+											}
+										],
+										"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"in\",\n\"not_in\",\n)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "org_id",
+						"string": {
+							"computed_optional_required": "computed_optional"
+						}
+					},
+					{
+						"name": "resource_mac",
+						"string": {
+							"computed_optional_required": "computed_optional"
+						}
+					},
+					{
+						"name": "services",
+						"list": {
+							"computed_optional_required": "computed_optional",
+							"element_type": {
+								"string": {}
+							},
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
+											}
+										],
+										"schema_definition": "listvalidator.UniqueValues()"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "site_id",
+						"string": {
+							"computed_optional_required": "computed_optional"
+						}
+					},
+					{
+						"name": "specs",
+						"list_nested": {
+							"computed_optional_required": "computed_optional",
+							"nested_object": {
+								"attributes": [
+									{
+										"name": "port_range",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": "0"
+											},
+											"description": "matched dst port, \"0\" means any"
+										}
+									},
+									{
+										"name": "protocol",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": "any"
+											},
+											"description": "tcp / udp / icmp / gre / any / \":protocol_number\", `protocol_number` is between 1-254"
+										}
+									},
+									{
+										"name": "subnets",
+										"list": {
+											"computed_optional_required": "computed_optional",
+											"element_type": {
+												"string": {}
+											},
+											"description": "matched dst subnet"
+										}
+									}
+								]
+							},
+							"description": "if `type`==`specs`"
+						}
+					},
+					{
+						"name": "subnet",
+						"string": {
+							"computed_optional_required": "computed_optional"
+						}
+					},
+					{
+						"name": "type",
+						"string": {
+							"computed_optional_required": "required",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+											}
+										],
+										"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"match\",\n\"client\",\n\"resource\",\n\"subnet\",\n\"spec\",\n\"vlan\",\n)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "values",
+						"list": {
+							"computed_optional_required": "computed_optional",
+							"element_type": {
+								"string": {}
+							},
+							"description": "if `type`!=`vlan_id` and `type`!=`specs`, list of values to match"
+						}
+					},
+					{
+						"name": "vlan_id",
+						"int64": {
+							"computed_optional_required": "computed_optional",
+							"description": "if `type`==`vlan_id`"
 						}
 					}
 				]

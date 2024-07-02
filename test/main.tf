@@ -29,7 +29,7 @@ resource "mist_site" "terraform_site" {
 <<<<<<< Updated upstream
   sitegroup_ids      = [mist_sitegroup.test_group.id, mist_sitegroup.test_group2.id]
   networktemplate_id = mist_networktemplate.switch_template.id
-  rftemplate_id = mist_rftemplate.test_rf.id
+  rftemplate_id      = mist_rftemplate.test_rf.id
   gatewaytemplate_id = mist_gatewaytemplate.stag.id
 =======
   sitegroup_ids      = [mist_org_sitegroup.test_group.id, mist_org_sitegroup.test_group2.id]
@@ -1147,11 +1147,11 @@ resource "mist_org_nacrule" "test" {
     ]
     auth_type = "eap-teap"
   }
-  action     = "allow"
-  enabled    = true
-  name       = "test"
-  org_id     = mist_org.terraform_test.id
-  order      = 0
+  action  = "allow"
+  enabled = true
+  name    = "test"
+  org_id  = mist_org.terraform_test.id
+  order   = 0
 }
 resource "mist_org_nacrule" "wifi_teap_sta" {
   matching = {
@@ -1326,13 +1326,13 @@ resource "mist_site_setting" "test" {
   analytic = {
     enabled = true
   }
-  ap_updown_threshold = 5
+  ap_updown_threshold     = 5
   device_updown_threshold = 5
-  auto_upgrade= {
-    enabled = true
+  auto_upgrade = {
+    enabled     = true
     day_of_week = "tue"
     time_of_day = "02:00"
-    version = "beta"
+    version     = "beta"
   }
   config_auto_revert = true
   dns_servers = [
@@ -1341,80 +1341,56 @@ resource "mist_site_setting" "test" {
   ]
   persist_config_on_device = true
   proxy = {
-    url ="http://myproxy:3128"
+    url = "http://myproxy:3128"
   }
   rogue = {
-    enabled = true
+    enabled          = true
     honeypot_enabled = true
-    min_duration = 5
+    min_duration     = 5
   }
 }
 
 resource "mist_org_wlantemplate" "test101" {
   org_id = mist_org.terraform_test.id
-  name = "test101"
+  name   = "test101"
   applies = {
-    site_ids= [
+    site_ids = [
       mist_site.terraform_site.id
     ]
   }
 }
-resource "mist_org_wlan" "wlan_cwp" {
-  ssid              = "MlN.test"
-  # bands             = ["5"]
-  # vlan_id           = 143
-  # wlan_limit_up     = 10000
-  # wlan_limit_down   = 20000
-  # client_limit_up   = 512
-  # client_limit_down = 1000
-  # portal = {
-  #   enabled                = true
-  #   bypass_when_cloud_down = true
-  #   auth                   = "sso"
-  #   privacy                = false
-  #   sso_issuer             = "https://sts.windows.net/f2532c2f-938c-4529-b6e4-aa26992b6b62/"
-  #   sso_nameid_format      = "email"
-  #   sso_idp_sign_algo      = "sha256"
-  #   sso_idp_cert           = "-----BEGIN CERTIFICATE-----\nMIIC8DCCAdigAwIBAgIQE5pOI9W1DZFHbB9m2Q7ADzANBgkqhkiG9w0BAQsFADA0MTIwMAYDVQQD\nEylNaWNyb3NvZnQgQXp1cmUgRmVkZXJhdGVkIFNTTyBDZXJ0aWZpY2F0ZTAeFw0yMjAyMDIxNDEz\nMTNaFw0yNTAyMDIxNDEzMTNaMDQxMjAwBgNVBAMTKU1pY3Jvc29mdCBBenVyZSBGZWRlcmF0ZWQg\nU1NPIENlcnRpZmljYXRlMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA5gQTCccB3oE7\nelNYH2+11Q69Iq/2f3qf5KUZEQKwL++HyoBCOAM3wL3uLWwvRaih4+qpAeZvNsuShNIyB08SDcWN\nYsqVxaUsLYfzDD0c9VG9mwAx0Kh01S2JvtaLCaFveac7UXVfn/E/QbPXibS1EQvHUj0hwNXMrdS4\nh4TOk4D1Q70+OnCWyy7ykG1/RuO8UerIfqkQEy4C3QFb3Cyo4E7bEaYQo0NiCqD9IoM3B0wZib8Y\n3yRGJKdzXyDxuVJFb5rF7XMAHTWWAbxaN4KOLhZnjaJla7Pu/sFAj2Npm8Hm5pYEYBaUz4fc/8kg\nIwakFb3mnbnYw0xQwf+aJss1vQIDAQABMA0GCSqGSIb3DQEBCwUAA4IBAQCF+oKuLmnooDzALwaE\nbFVI7PVGhU7/UZzAnq6HHI9ngF0Af2+uIrvAz6rdUM1bsGhRbj3SV2oaj26pe/1TDrGescXWhTPw\nKcXOwBnVmFr8FlMkozwpHRNzCQyFYGiTAztgQcmtwF7pilVndOmEc+p3LvCdI5JZB+LtMM/o9V+1\n+Yhm4MEWO6wTSY+j7goc/vi5f76TDZPN6PkRv17+EkybEudJuTOuIoNiqsAbNB52bVNHtxFHGIwb\nH9iS45QJ4/RG1WUr91xe3Vzh/fp1BkiHZVL4iOywOIF0TYcW7h958JEf+q0HD5LUMO47NPEbc/Cd\n+fVCTXWzABXXy4D+S8gA\n-----END CERTIFICATE-----"
-  #   sso_idp_sso_url        = "https://login.microsoftonline.com/f2532c2f-938c-4529-b6e4-aa26992b6b62/saml2"
-  #   email_enabled          = true
-  # }
-  # portal_allowed_hostnames = [
-  #   "login.microsoftonline.com",
-  #   "portal.mist.com",
-  #   "login.live.com",
-  #   "aadcdn.msauth.net",
-  #   "logincdn.msauth.net"
-  # ]
-  # auth = {
-  #   type = "psk"
-  #   psk  = "Juniper123"
-  # }
-  # apply_to    = "site"
-  template_id = mist_org_wlantemplate.test101.id
-  org_id      = mist_org.terraform_test.id
-  #interface   = "all"
-}
-
-resource "mist_org_wxtag" "test" {
-  op = "in"
-  values = [
-    "demopsk"
-  ]
-  name   = "demopsk"
-  org_id = mist_org.terraform_test.id
-  type   = "match"
-  match  = "radius_group"
-
-}
-
-resource "mist_org_wxrule" "test" {
-  org_id = mist_org.terraform_test.id
-  template_id = mist_org_wlantemplate.test101.id
-  order = 1
-  src_wxtags = [
-    mist_org_wxtag.test.id
-  ]
-  enabled = true
-  action = "allow"  
-}
+resource "mist_wlan" "wlan_cwp"     {
+        ssid= "MlN.test"
+        bands= ["5"]
+        vlan_id= 143
+        wlan_limit_up= 10000
+        wlan_limit_down= 20000
+        client_limit_up= 512
+        client_limit_down= 1000
+        portal= {
+            enabled= true
+            bypass_when_cloud_down= true
+            auth= "sso"
+            privacy= false
+            sso_issuer= "https://sts.windows.net/f2532c2f-938c-4529-b6e4-aa26992b6b62/"
+            sso_nameid_format= "email"
+            sso_idp_sign_algo= "sha256"
+            sso_idp_cert= "-----BEGIN CERTIFICATE-----\nMIIC8DCCAdigAwIBAgIQE5pOI9W1DZFHbB9m2Q7ADzANBgkqhkiG9w0BAQsFADA0MTIwMAYDVQQD\nEylNaWNyb3NvZnQgQXp1cmUgRmVkZXJhdGVkIFNTTyBDZXJ0aWZpY2F0ZTAeFw0yMjAyMDIxNDEz\nMTNaFw0yNTAyMDIxNDEzMTNaMDQxMjAwBgNVBAMTKU1pY3Jvc29mdCBBenVyZSBGZWRlcmF0ZWQg\nU1NPIENlcnRpZmljYXRlMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA5gQTCccB3oE7\nelNYH2+11Q69Iq/2f3qf5KUZEQKwL++HyoBCOAM3wL3uLWwvRaih4+qpAeZvNsuShNIyB08SDcWN\nYsqVxaUsLYfzDD0c9VG9mwAx0Kh01S2JvtaLCaFveac7UXVfn/E/QbPXibS1EQvHUj0hwNXMrdS4\nh4TOk4D1Q70+OnCWyy7ykG1/RuO8UerIfqkQEy4C3QFb3Cyo4E7bEaYQo0NiCqD9IoM3B0wZib8Y\n3yRGJKdzXyDxuVJFb5rF7XMAHTWWAbxaN4KOLhZnjaJla7Pu/sFAj2Npm8Hm5pYEYBaUz4fc/8kg\nIwakFb3mnbnYw0xQwf+aJss1vQIDAQABMA0GCSqGSIb3DQEBCwUAA4IBAQCF+oKuLmnooDzALwaE\nbFVI7PVGhU7/UZzAnq6HHI9ngF0Af2+uIrvAz6rdUM1bsGhRbj3SV2oaj26pe/1TDrGescXWhTPw\nKcXOwBnVmFr8FlMkozwpHRNzCQyFYGiTAztgQcmtwF7pilVndOmEc+p3LvCdI5JZB+LtMM/o9V+1\n+Yhm4MEWO6wTSY+j7goc/vi5f76TDZPN6PkRv17+EkybEudJuTOuIoNiqsAbNB52bVNHtxFHGIwb\nH9iS45QJ4/RG1WUr91xe3Vzh/fp1BkiHZVL4iOywOIF0TYcW7h958JEf+q0HD5LUMO47NPEbc/Cd\n+fVCTXWzABXXy4D+S8gA\n-----END CERTIFICATE-----"
+            sso_idp_sso_url= "https://login.microsoftonline.com/f2532c2f-938c-4529-b6e4-aa26992b6b62/saml2"
+            email_enabled= true
+        }
+        portal_allowed_hostnames= [
+            "login.microsoftonline.com",
+            "portal.mist.com",
+            "login.live.com",
+            "aadcdn.msauth.net",
+            "logincdn.msauth.net"
+        ]
+        auth= {
+            type= "psk"
+            psk= "Juniper123"
+        }
+        apply_to= "site"
+        template_id= mist_wlantemplate.test101.id
+        interface= "all"
+    }

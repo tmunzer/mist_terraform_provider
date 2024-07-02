@@ -54,14 +54,20 @@ type _ApPortConfig ApPortConfig
 // will change when the set of required properties is changed
 func NewApPortConfig() *ApPortConfig {
 	this := ApPortConfig{}
+	var disabled bool = false
+	this.Disabled = &disabled
 	var enableMacAuth bool = false
 	this.EnableMacAuth = &enableMacAuth
 	var forwarding ApPortConfigForwarding = APPORTCONFIGFORWARDING_ALL
 	this.Forwarding = &forwarding
 	var macAuthProtocol ApPortConfigMacAuthProtocol = APPORTCONFIGMACAUTHPROTOCOL_PAP
 	this.MacAuthProtocol = &macAuthProtocol
+	var mxtunnelName string = ""
+	this.MxtunnelName = &mxtunnelName
 	var portAuth ApPortConfigPortAuth = APPORTCONFIGPORTAUTH_NONE
 	this.PortAuth = &portAuth
+	var wxtunnelRemoteId string = ""
+	this.WxtunnelRemoteId = &wxtunnelRemoteId
 	return &this
 }
 
@@ -70,14 +76,20 @@ func NewApPortConfig() *ApPortConfig {
 // but it doesn't guarantee that properties required by API are set
 func NewApPortConfigWithDefaults() *ApPortConfig {
 	this := ApPortConfig{}
+	var disabled bool = false
+	this.Disabled = &disabled
 	var enableMacAuth bool = false
 	this.EnableMacAuth = &enableMacAuth
 	var forwarding ApPortConfigForwarding = APPORTCONFIGFORWARDING_ALL
 	this.Forwarding = &forwarding
 	var macAuthProtocol ApPortConfigMacAuthProtocol = APPORTCONFIGMACAUTHPROTOCOL_PAP
 	this.MacAuthProtocol = &macAuthProtocol
+	var mxtunnelName string = ""
+	this.MxtunnelName = &mxtunnelName
 	var portAuth ApPortConfigPortAuth = APPORTCONFIGPORTAUTH_NONE
 	this.PortAuth = &portAuth
+	var wxtunnelRemoteId string = ""
+	this.WxtunnelRemoteId = &wxtunnelRemoteId
 	return &this
 }
 

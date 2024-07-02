@@ -5,12 +5,12 @@ All URIs are relative to *https://api.mist.com*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**CreateSiteWxRule**](SitesWxRulesAPI.md#CreateSiteWxRule) | **Post** /api/v1/sites/{site_id}/wxrules | createSiteWxRule
-[**DeleteSiteWxRule**](SitesWxRulesAPI.md#DeleteSiteWxRule) | **Delete** /api/v1/sites/{site_id}/wxrules/{wxrules_id} | deleteSiteWxRule
-[**GetSiteWxRule**](SitesWxRulesAPI.md#GetSiteWxRule) | **Get** /api/v1/sites/{site_id}/wxrules/{wxrules_id} | getSiteWxRule
+[**DeleteSiteWxRule**](SitesWxRulesAPI.md#DeleteSiteWxRule) | **Delete** /api/v1/sites/{site_id}/wxrules/{wxrule_id} | deleteSiteWxRule
+[**GetSiteWxRule**](SitesWxRulesAPI.md#GetSiteWxRule) | **Get** /api/v1/sites/{site_id}/wxrules/{wxrule_id} | getSiteWxRule
 [**GetSiteWxRulesDerived**](SitesWxRulesAPI.md#GetSiteWxRulesDerived) | **Get** /api/v1/sites/{site_id}/wxrules/derived | getSiteWxRulesDerived
 [**GetSiteWxRulesUsage**](SitesWxRulesAPI.md#GetSiteWxRulesUsage) | **Get** /api/v1/sites/{site_id}/stats/wxrules | getSiteWxRulesUsage
 [**ListSiteWxRules**](SitesWxRulesAPI.md#ListSiteWxRules) | **Get** /api/v1/sites/{site_id}/wxrules | listSiteWxRules
-[**UpdateSiteWxRule**](SitesWxRulesAPI.md#UpdateSiteWxRule) | **Put** /api/v1/sites/{site_id}/wxrules/{wxrules_id} | updateSiteWxRule
+[**UpdateSiteWxRule**](SitesWxRulesAPI.md#UpdateSiteWxRule) | **Put** /api/v1/sites/{site_id}/wxrules/{wxrule_id} | updateSiteWxRule
 
 
 
@@ -36,7 +36,7 @@ import (
 
 func main() {
 	siteId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	wxlanRule := *openapiclient.NewWxlanRule(float32(1), []string{"SrcWxtags_example"}) // WxlanRule | Request Body (optional)
+	wxlanRule := *openapiclient.NewWxlanRule(int32(1), []string{"SrcWxtags_example"}) // WxlanRule | Request Body (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -88,7 +88,7 @@ Name | Type | Description  | Notes
 
 ## DeleteSiteWxRule
 
-> DeleteSiteWxRule(ctx, siteId, wxrulesId).Execute()
+> DeleteSiteWxRule(ctx, siteId, wxruleId).Execute()
 
 deleteSiteWxRule
 
@@ -108,11 +108,11 @@ import (
 
 func main() {
 	siteId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	wxrulesId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
+	wxruleId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	r, err := apiClient.SitesWxRulesAPI.DeleteSiteWxRule(context.Background(), siteId, wxrulesId).Execute()
+	r, err := apiClient.SitesWxRulesAPI.DeleteSiteWxRule(context.Background(), siteId, wxruleId).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `SitesWxRulesAPI.DeleteSiteWxRule``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -127,7 +127,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
 **siteId** | **string** |  | 
-**wxrulesId** | **string** |  | 
+**wxruleId** | **string** |  | 
 
 ### Other Parameters
 
@@ -159,7 +159,7 @@ Name | Type | Description  | Notes
 
 ## GetSiteWxRule
 
-> WxlanRule GetSiteWxRule(ctx, siteId, wxrulesId).Execute()
+> WxlanRule GetSiteWxRule(ctx, siteId, wxruleId).Execute()
 
 getSiteWxRule
 
@@ -179,11 +179,11 @@ import (
 
 func main() {
 	siteId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	wxrulesId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
+	wxruleId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.SitesWxRulesAPI.GetSiteWxRule(context.Background(), siteId, wxrulesId).Execute()
+	resp, r, err := apiClient.SitesWxRulesAPI.GetSiteWxRule(context.Background(), siteId, wxruleId).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `SitesWxRulesAPI.GetSiteWxRule``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -200,7 +200,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
 **siteId** | **string** |  | 
-**wxrulesId** | **string** |  | 
+**wxruleId** | **string** |  | 
 
 ### Other Parameters
 
@@ -446,7 +446,7 @@ Name | Type | Description  | Notes
 
 ## UpdateSiteWxRule
 
-> WxlanRule UpdateSiteWxRule(ctx, siteId, wxrulesId).WxlanRule(wxlanRule).Execute()
+> WxlanRule UpdateSiteWxRule(ctx, siteId, wxruleId).WxlanRule(wxlanRule).Execute()
 
 updateSiteWxRule
 
@@ -466,12 +466,12 @@ import (
 
 func main() {
 	siteId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	wxrulesId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
-	wxlanRule := *openapiclient.NewWxlanRule(float32(1), []string{"SrcWxtags_example"}) // WxlanRule | Request Body (optional)
+	wxruleId := "000000ab-00ab-00ab-00ab-0000000000ab" // string | 
+	wxlanRule := *openapiclient.NewWxlanRule(int32(1), []string{"SrcWxtags_example"}) // WxlanRule | Request Body (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.SitesWxRulesAPI.UpdateSiteWxRule(context.Background(), siteId, wxrulesId).WxlanRule(wxlanRule).Execute()
+	resp, r, err := apiClient.SitesWxRulesAPI.UpdateSiteWxRule(context.Background(), siteId, wxruleId).WxlanRule(wxlanRule).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `SitesWxRulesAPI.UpdateSiteWxRule``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -488,7 +488,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
 **siteId** | **string** |  | 
-**wxrulesId** | **string** |  | 
+**wxruleId** | **string** |  | 
 
 ### Other Parameters
 

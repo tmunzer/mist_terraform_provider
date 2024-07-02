@@ -41,9 +41,9 @@ func Test_mistsdkgo_SitesWxRulesAPIService(t *testing.T) {
 		t.Skip("skip test")  // remove to run test
 
 		var siteId string
-		var wxrulesId string
+		var wxruleId string
 
-		httpRes, err := apiClient.SitesWxRulesAPI.DeleteSiteWxRule(context.Background(), siteId, wxrulesId).Execute()
+		httpRes, err := apiClient.SitesWxRulesAPI.DeleteSiteWxRule(context.Background(), siteId, wxruleId).Execute()
 
 		require.Nil(t, err)
 		assert.Equal(t, 200, httpRes.StatusCode)
@@ -55,9 +55,9 @@ func Test_mistsdkgo_SitesWxRulesAPIService(t *testing.T) {
 		t.Skip("skip test")  // remove to run test
 
 		var siteId string
-		var wxrulesId string
+		var wxruleId string
 
-		resp, httpRes, err := apiClient.SitesWxRulesAPI.GetSiteWxRule(context.Background(), siteId, wxrulesId).Execute()
+		resp, httpRes, err := apiClient.SitesWxRulesAPI.GetSiteWxRule(context.Background(), siteId, wxruleId).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -112,9 +112,9 @@ func Test_mistsdkgo_SitesWxRulesAPIService(t *testing.T) {
 		t.Skip("skip test")  // remove to run test
 
 		var siteId string
-		var wxrulesId string
+		var wxruleId string
 
-		resp, httpRes, err := apiClient.SitesWxRulesAPI.UpdateSiteWxRule(context.Background(), siteId, wxrulesId).Execute()
+		resp, httpRes, err := apiClient.SitesWxRulesAPI.UpdateSiteWxRule(context.Background(), siteId, wxruleId).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)

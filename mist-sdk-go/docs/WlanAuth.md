@@ -8,14 +8,14 @@ Name | Type | Description | Notes
 **EapReauth** | Pointer to **bool** | whether to trigger EAP reauth when the session ends | [optional] [default to false]
 **EnableMacAuth** | Pointer to **bool** | whether to enable MAC Auth, uses the same auth_servers | [optional] [default to false]
 **KeyIdx** | Pointer to **int32** | when type&#x3D;wep | [optional] [default to 1]
-**Keys** | Pointer to **[]string** | when type&#x3D;wep, four 10-character or 26-character hex string, null can be used. All keys, if provided, have to be in the same length | [optional] 
+**Keys** | Pointer to **[]string** | when type&#x3D;wep, four 10-character or 26-character hex string, null can be used. All keys, if provided, have to be in the same length | [optional] [default to []]
 **MultiPskOnly** | Pointer to **bool** | whether to only use multi_psk | [optional] [default to false]
-**Owe** | Pointer to **string** |  | [optional] 
+**Owe** | Pointer to [**WlanAuthOwe**](WlanAuthOwe.md) |  | [optional] [default to WLANAUTHOWE_DISABLED]
 **Pairwise** | Pointer to [**[]WlanAuthPairwiseItem**](WlanAuthPairwiseItem.md) | when type&#x3D;psk / eap, one or more of wpa2-ccmp / wpa1-tkip / wpa1-ccmp / wpa2-tkip | [optional] [default to ["wpa2-ccmp"]]
-**PrivateWlan** | Pointer to **bool** | whether private wlan is enabled. only applicable to multi_psk mode | [optional] 
-**Psk** | Pointer to **NullableString** | when type&#x3D;psk, 8-64 characters, or 64 hex characters | [optional] 
+**PrivateWlan** | Pointer to **bool** | whether private wlan is enabled. only applicable to multi_psk mode | [optional] [default to false]
+**Psk** | Pointer to **NullableString** | when type&#x3D;psk, 8-64 characters, or 64 hex characters | [optional] [default to ""]
 **Type** | [**WlanAuthType**](WlanAuthType.md) |  | [default to WLANAUTHTYPE_OPEN]
-**WepAsSecondaryAuth** | Pointer to **bool** | enable WEP as secondary auth | [optional] 
+**WepAsSecondaryAuth** | Pointer to **bool** | enable WEP as secondary auth | [optional] [default to false]
 
 ## Methods
 
@@ -188,20 +188,20 @@ HasMultiPskOnly returns a boolean if a field has been set.
 
 ### GetOwe
 
-`func (o *WlanAuth) GetOwe() string`
+`func (o *WlanAuth) GetOwe() WlanAuthOwe`
 
 GetOwe returns the Owe field if non-nil, zero value otherwise.
 
 ### GetOweOk
 
-`func (o *WlanAuth) GetOweOk() (*string, bool)`
+`func (o *WlanAuth) GetOweOk() (*WlanAuthOwe, bool)`
 
 GetOweOk returns a tuple with the Owe field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetOwe
 
-`func (o *WlanAuth) SetOwe(v string)`
+`func (o *WlanAuth) SetOwe(v WlanAuthOwe)`
 
 SetOwe sets Owe field to given value.
 

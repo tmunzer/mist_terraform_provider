@@ -4,8 +4,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Apps** | Pointer to [**map[string]WlanAppQosAppsProperties**](WlanAppQosAppsProperties.md) |  | [optional] 
-**Enabled** | Pointer to **bool** |  | [optional] 
+**Apps** | Pointer to [**map[string]WlanAppQosAppsProperties**](WlanAppQosAppsProperties.md) |  | [optional] [default to {}]
+**Enabled** | Pointer to **bool** |  | [optional] [default to false]
 **Others** | Pointer to [**[]WlanAppQosOthersItem**](WlanAppQosOthersItem.md) |  | [optional] 
 
 ## Methods

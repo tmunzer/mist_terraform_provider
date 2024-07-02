@@ -6,19 +6,19 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **AcctImmediateUpdate** | Pointer to **bool** | enable coa-immediate-update and address-change-immediate-update on the access profile. | [optional] [default to false]
 **AcctInterimInterval** | Pointer to **int32** | how frequently should interim accounting be reported, 60-65535. default is 0 (use one specified in Access-Accept request from RADIUS Server). Very frequent messages can affect the performance of the radius server, 600 and up is recommended when enabled | [optional] [default to 0]
-**AcctServers** | Pointer to [**[]RadiusAcctServer**](RadiusAcctServer.md) | list of RADIUS accounting servers, optional, order matters where the first one is treated as primary | [optional] 
+**AcctServers** | Pointer to [**[]RadiusAcctServer**](RadiusAcctServer.md) | list of RADIUS accounting servers, optional, order matters where the first one is treated as primary | [optional] [default to []]
 **Airwatch** | Pointer to [**WlanAirwatch**](WlanAirwatch.md) |  | [optional] 
 **AllowIpv6Ndp** | Pointer to **bool** | only applicable when limit_bcast&#x3D;&#x3D;true, which allows or disallows ipv6 Neighbor Discovery packets to go through | [optional] [default to true]
 **AllowMdns** | Pointer to **bool** | only applicable when limit_bcast&#x3D;&#x3D;true, which allows mDNS / Bonjour packets to go through | [optional] [default to false]
 **AllowSsdp** | Pointer to **bool** | only applicable when &#x60;limit_bcast&#x60;&#x3D;&#x3D;&#x60;tru&#x60;e, which allows SSDP | [optional] [default to false]
-**ApIds** | Pointer to **[]string** | list of device ids | [optional] 
+**ApIds** | Pointer to **[]string** | list of device ids | [optional] [default to []]
 **AppLimit** | Pointer to [**WlanAppLimit**](WlanAppLimit.md) |  | [optional] 
 **AppQos** | Pointer to [**WlanAppQos**](WlanAppQos.md) |  | [optional] 
 **ApplyTo** | Pointer to [**WlanApplyTo**](WlanApplyTo.md) |  | [optional] 
 **ArpFilter** | Pointer to **bool** | whether to enable smart arp filter | [optional] [default to false]
 **Auth** | Pointer to [**WlanAuth**](WlanAuth.md) |  | [optional] 
 **AuthServerSelection** | Pointer to [**WlanAuthServerSelection**](WlanAuthServerSelection.md) |  | [optional] [default to WLANAUTHSERVERSELECTION_ORDERED]
-**AuthServers** | Pointer to [**[]RadiusAuthServer**](RadiusAuthServer.md) | list of RADIUS authentication servers, at least one is needed if &#x60;auth type&#x60;&#x3D;&#x3D;&#x60;eap&#x60;, order matters where the first one is treated as primary | [optional] 
+**AuthServers** | Pointer to [**[]RadiusAuthServer**](RadiusAuthServer.md) | list of RADIUS authentication servers, at least one is needed if &#x60;auth type&#x60;&#x3D;&#x3D;&#x60;eap&#x60;, order matters where the first one is treated as primary | [optional] [default to []]
 **AuthServersNasId** | Pointer to **NullableString** | optional, up to 48 bytes, will be dynamically generated if not provided. used only for authentication servers | [optional] 
 **AuthServersNasIp** | Pointer to **NullableString** | optional, NAS-IP-ADDRESS to use | [optional] 
 **AuthServersRetries** | Pointer to **int32** | radius auth session retries. Following fast timers are set if “fast_dot1x_timers” knob is enabled. ‘retries’ are set to value of auth_servers_retries. ‘max-requests’ is also set when setting auth_servers_retries and is set to default value to 3. | [optional] [default to 2]
@@ -62,7 +62,7 @@ Name | Type | Description | Notes
 **L2Isolation** | Pointer to **bool** | if isolation is enabled, whether to deny clients to talk to L2 on the LAN | [optional] [default to false]
 **LegacyOverds** | Pointer to **bool** | legacy devices requires the Over-DS (for Fast BSS Transition) bit set (while our chip doesn’t support it). Warning! Enabling this will cause problem for iOS devices. | [optional] [default to false]
 **LimitBcast** | Pointer to **bool** | whether to limit broadcast packets going to wireless (i.e. only allow certain bcast packets to go through) | [optional] [default to false]
-**LimitProbeResponse** | Pointer to **bool** | limit probe response base on some heuristic rules | [optional] 
+**LimitProbeResponse** | Pointer to **bool** | limit probe response base on some heuristic rules | [optional] [default to false]
 **MaxIdletime** | Pointer to **int32** | max idle time in seconds | [optional] [default to 1800]
 **MistNac** | Pointer to [**WlanMistNac**](WlanMistNac.md) |  | [optional] 
 **ModifiedTime** | Pointer to **float32** |  | [optional] [readonly] 
@@ -74,13 +74,13 @@ Name | Type | Description | Notes
 **NoStaticIp** | Pointer to **bool** | whether to only allow client that we’ve learned from DHCP exchange to talk | [optional] [default to false]
 **OrgId** | Pointer to **string** |  | [optional] [readonly] 
 **Portal** | Pointer to [**WlanPortal**](WlanPortal.md) |  | [optional] 
-**PortalAllowedHostnames** | Pointer to **[]string** | list of hostnames without http(s):// (matched by substring) | [optional] 
-**PortalAllowedSubnets** | Pointer to **[]string** | list of CIDRs | [optional] 
-**PortalApiSecret** | Pointer to **NullableString** | api secret (auto-generated) that can be used to sign guest authorization requests | [optional] 
-**PortalDeniedHostnames** | Pointer to **[]string** | list of hostnames without http(s):// (matched by substring), this takes precedence over portal_allowed_hostnames | [optional] 
-**PortalImage** | Pointer to **NullableString** | Url of portal background image | [optional] 
+**PortalAllowedHostnames** | Pointer to **[]string** | list of hostnames without http(s):// (matched by substring) | [optional] [default to []]
+**PortalAllowedSubnets** | Pointer to **[]string** | list of CIDRs | [optional] [default to []]
+**PortalApiSecret** | Pointer to **NullableString** | api secret (auto-generated) that can be used to sign guest authorization requests | [optional] [default to ""]
+**PortalDeniedHostnames** | Pointer to **[]string** | list of hostnames without http(s):// (matched by substring), this takes precedence over portal_allowed_hostnames | [optional] [default to []]
+**PortalImage** | Pointer to **NullableString** | Url of portal background image | [optional] [readonly] [default to ""]
 **PortalSsoUrl** | Pointer to **NullableString** |  | [optional] [readonly] 
-**PortalTemplateUrl** | Pointer to **NullableString** | N.B portal_template will be forked out of wlan objects soon. To fetch portal_template, please query portal_template_url. To update portal_template, use Wlan Portal Template. | [optional] [readonly] 
+**PortalTemplateUrl** | Pointer to **NullableString** | N.B portal_template will be forked out of wlan objects soon. To fetch portal_template, please query portal_template_url. To update portal_template, use Wlan Portal Template. | [optional] [readonly] [default to ""]
 **Qos** | Pointer to [**WlanQos**](WlanQos.md) |  | [optional] 
 **Radsec** | Pointer to [**Radsec**](Radsec.md) |  | [optional] 
 **Rateset** | Pointer to [**WlanRateset**](WlanRateset.md) |  | [optional] 
@@ -90,19 +90,19 @@ Name | Type | Description | Notes
 **SleExcluded** | Pointer to **bool** | whether to exclude this WLAN from SLE metrics | [optional] [default to false]
 **Ssid** | **string** | the name of the SSID | 
 **TemplateId** | Pointer to **NullableString** |  | [optional] 
-**Thumbnail** | Pointer to **NullableString** | Url of portal background image thumbnail | [optional] 
+**Thumbnail** | Pointer to **NullableString** | Url of portal background image thumbnail | [optional] [readonly] [default to ""]
 **UseEapolV1** | Pointer to **bool** | if &#x60;auth.type&#x60;&#x3D;&#x3D;’eap’ or ‘psk’, should only be set for legacy client, such as pre-2004, 802.11b devices | [optional] [default to false]
 **VlanEnabled** | Pointer to **bool** | if vlan tagging is enabled | [optional] [default to false]
 **VlanId** | Pointer to **NullableInt32** |  | [optional] 
 **VlanIds** | Pointer to **[]int32** | vlan_ids to use when there’s no match from RA | [optional] 
 **VlanPooling** | Pointer to **bool** | vlan pooling allows AP to place client on different VLAN using a deterministic algorithm | [optional] [default to false]
-**WlanLimitDown** | Pointer to **int32** | kbps | [optional] 
+**WlanLimitDown** | Pointer to **NullableInt32** | kbps | [optional] 
 **WlanLimitDownEnabled** | Pointer to **bool** | if downlink limiting for whole wlan is enabled | [optional] [default to false]
-**WlanLimitUp** | Pointer to **int32** | kbps | [optional] 
+**WlanLimitUp** | Pointer to **NullableInt32** | kbps | [optional] 
 **WlanLimitUpEnabled** | Pointer to **bool** | if uplink limiting for whole wlan is enabled | [optional] [default to false]
 **WxtagIds** | Pointer to **[]string** | list of wxtag_ids | [optional] 
-**WxtunnelId** | Pointer to **NullableString** | when &#x60;interface&#x60;&#x3D;&#x60;wxtunnel&#x60;, id of the WXLAN Tunnel | [optional] 
-**WxtunnelRemoteId** | Pointer to **NullableString** | when &#x60;interface&#x60;&#x3D;&#x60;wxtunnel&#x60;, remote tunnel identifier | [optional] 
+**WxtunnelId** | Pointer to **NullableString** | when &#x60;interface&#x60;&#x3D;&#x60;wxtunnel&#x60;, id of the WXLAN Tunnel | [optional] [default to ""]
+**WxtunnelRemoteId** | Pointer to **NullableString** | when &#x60;interface&#x60;&#x3D;&#x60;wxtunnel&#x60;, remote tunnel identifier | [optional] [default to ""]
 
 ## Methods
 
@@ -2583,6 +2583,16 @@ SetWlanLimitDown sets WlanLimitDown field to given value.
 
 HasWlanLimitDown returns a boolean if a field has been set.
 
+### SetWlanLimitDownNil
+
+`func (o *Wlan) SetWlanLimitDownNil(b bool)`
+
+ SetWlanLimitDownNil sets the value for WlanLimitDown to be an explicit nil
+
+### UnsetWlanLimitDown
+`func (o *Wlan) UnsetWlanLimitDown()`
+
+UnsetWlanLimitDown ensures that no value is present for WlanLimitDown, not even an explicit nil
 ### GetWlanLimitDownEnabled
 
 `func (o *Wlan) GetWlanLimitDownEnabled() bool`
@@ -2633,6 +2643,16 @@ SetWlanLimitUp sets WlanLimitUp field to given value.
 
 HasWlanLimitUp returns a boolean if a field has been set.
 
+### SetWlanLimitUpNil
+
+`func (o *Wlan) SetWlanLimitUpNil(b bool)`
+
+ SetWlanLimitUpNil sets the value for WlanLimitUp to be an explicit nil
+
+### UnsetWlanLimitUp
+`func (o *Wlan) UnsetWlanLimitUp()`
+
+UnsetWlanLimitUp ensures that no value is present for WlanLimitUp, not even an explicit nil
 ### GetWlanLimitUpEnabled
 
 `func (o *Wlan) GetWlanLimitUpEnabled() bool`

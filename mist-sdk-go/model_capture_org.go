@@ -13,6 +13,7 @@ package mistsdkgo
 
 import (
 	"encoding/json"
+	"gopkg.in/validator.v2"
 	"fmt"
 )
 
@@ -40,7 +41,11 @@ func (dst *CaptureOrg) UnmarshalJSON(data []byte) error {
 		if string(jsonCaptureMxedge) == "{}" { // empty struct
 			dst.CaptureMxedge = nil
 		} else {
-			match++
+			if err = validator.Validate(dst.CaptureMxedge); err != nil {
+				dst.CaptureMxedge = nil
+			} else {
+				match++
+			}
 		}
 	} else {
 		dst.CaptureMxedge = nil

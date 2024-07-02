@@ -13,7 +13,11 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/float64default"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/listplanmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
@@ -97,6 +101,9 @@ func WlanResourceSchema(ctx context.Context) schema.Schema {
 				Computed:            true,
 				Description:         "list of RADIUS accounting servers, optional, order matters where the first one is treated as primary",
 				MarkdownDescription: "list of RADIUS accounting servers, optional, order matters where the first one is treated as primary",
+				PlanModifiers: []planmodifier.List{
+					listplanmodifier.UseStateForUnknown(),
+				},
 			},
 			"airwatch": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
@@ -105,28 +112,33 @@ func WlanResourceSchema(ctx context.Context) schema.Schema {
 						Computed:            true,
 						Description:         "API Key",
 						MarkdownDescription: "API Key",
+						Default:             stringdefault.StaticString(""),
 					},
 					"console_url": schema.StringAttribute{
 						Optional:            true,
 						Computed:            true,
 						Description:         "console URL",
 						MarkdownDescription: "console URL",
+						Default:             stringdefault.StaticString(""),
 					},
 					"enabled": schema.BoolAttribute{
 						Optional: true,
 						Computed: true,
+						Default:  booldefault.StaticBool(false),
 					},
 					"password": schema.StringAttribute{
 						Optional:            true,
 						Computed:            true,
 						Description:         "password",
 						MarkdownDescription: "password",
+						Default:             stringdefault.StaticString(""),
 					},
 					"username": schema.StringAttribute{
 						Optional:            true,
 						Computed:            true,
 						Description:         "username",
 						MarkdownDescription: "username",
+						Default:             stringdefault.StaticString(""),
 					},
 				},
 				CustomType: AirwatchType{
@@ -138,6 +150,9 @@ func WlanResourceSchema(ctx context.Context) schema.Schema {
 				Computed:            true,
 				Description:         "airwatch wlan settings",
 				MarkdownDescription: "airwatch wlan settings",
+				PlanModifiers: []planmodifier.Object{
+					objectplanmodifier.UseStateForUnknown(),
+				},
 			},
 			"allow_ipv6_ndp": schema.BoolAttribute{
 				Optional:            true,
@@ -198,6 +213,9 @@ func WlanResourceSchema(ctx context.Context) schema.Schema {
 				Computed:            true,
 				Description:         "bandwidth limiting for apps (applies to up/down)",
 				MarkdownDescription: "bandwidth limiting for apps (applies to up/down)",
+				PlanModifiers: []planmodifier.Object{
+					objectplanmodifier.UseStateForUnknown(),
+				},
 			},
 			"app_qos": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
@@ -233,6 +251,7 @@ func WlanResourceSchema(ctx context.Context) schema.Schema {
 					"enabled": schema.BoolAttribute{
 						Optional: true,
 						Computed: true,
+						Default:  booldefault.StaticBool(false),
 					},
 					"others": schema.ListNestedAttribute{
 						NestedObject: schema.NestedAttributeObject{
@@ -281,10 +300,16 @@ func WlanResourceSchema(ctx context.Context) schema.Schema {
 				Computed:            true,
 				Description:         "app qos wlan settings",
 				MarkdownDescription: "app qos wlan settings",
+				PlanModifiers: []planmodifier.Object{
+					objectplanmodifier.UseStateForUnknown(),
+				},
 			},
 			"apply_to": schema.StringAttribute{
 				Optional: true,
 				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
 				Validators: []validator.String{
 					stringvalidator.OneOf(
 						"",
@@ -352,8 +377,18 @@ func WlanResourceSchema(ctx context.Context) schema.Schema {
 						Default:             booldefault.StaticBool(false),
 					},
 					"owe": schema.StringAttribute{
-						Optional: true,
-						Computed: true,
+						Optional:            true,
+						Computed:            true,
+						Description:         "`enabled` means transition mode",
+						MarkdownDescription: "`enabled` means transition mode",
+						Validators: []validator.String{
+							stringvalidator.OneOf(
+								"enabled",
+								"disabled",
+								"required",
+							),
+						},
+						Default: stringdefault.StaticString("disabled"),
 					},
 					"pairwise": schema.ListAttribute{
 						ElementType:         types.StringType,
@@ -367,6 +402,7 @@ func WlanResourceSchema(ctx context.Context) schema.Schema {
 						Computed:            true,
 						Description:         "whether private wlan is enabled. only applicable to multi_psk mode",
 						MarkdownDescription: "whether private wlan is enabled. only applicable to multi_psk mode",
+						Default:             booldefault.StaticBool(false),
 					},
 					"psk": schema.StringAttribute{
 						Optional:            true,
@@ -376,6 +412,7 @@ func WlanResourceSchema(ctx context.Context) schema.Schema {
 						Validators: []validator.String{
 							stringvalidator.LengthBetween(8, 64),
 						},
+						Default: stringdefault.StaticString(""),
 					},
 					"type": schema.StringAttribute{
 						Optional: true,
@@ -399,6 +436,7 @@ func WlanResourceSchema(ctx context.Context) schema.Schema {
 						Computed:            true,
 						Description:         "enable WEP as secondary auth",
 						MarkdownDescription: "enable WEP as secondary auth",
+						Default:             booldefault.StaticBool(false),
 					},
 				},
 				CustomType: AuthType{
@@ -410,6 +448,9 @@ func WlanResourceSchema(ctx context.Context) schema.Schema {
 				Computed:            true,
 				Description:         "authentication wlan settings",
 				MarkdownDescription: "authentication wlan settings",
+				PlanModifiers: []planmodifier.Object{
+					objectplanmodifier.UseStateForUnknown(),
+				},
 			},
 			"auth_server_selection": schema.StringAttribute{
 				Optional:            true,
@@ -479,6 +520,9 @@ func WlanResourceSchema(ctx context.Context) schema.Schema {
 				Computed:            true,
 				Description:         "list of RADIUS authentication servers, at least one is needed if `auth type`==`eap`, order matters where the first one is treated as primary",
 				MarkdownDescription: "list of RADIUS authentication servers, at least one is needed if `auth type`==`eap`, order matters where the first one is treated as primary",
+				PlanModifiers: []planmodifier.List{
+					listplanmodifier.UseStateForUnknown(),
+				},
 			},
 			"auth_servers_nas_id": schema.StringAttribute{
 				Optional:            true,
@@ -602,6 +646,9 @@ func WlanResourceSchema(ctx context.Context) schema.Schema {
 				Computed:            true,
 				Description:         "bonjour gateway wlan settings",
 				MarkdownDescription: "bonjour gateway wlan settings",
+				PlanModifiers: []planmodifier.Object{
+					objectplanmodifier.UseStateForUnknown(),
+				},
 			},
 			"cisco_cwa": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
@@ -641,6 +688,9 @@ func WlanResourceSchema(ctx context.Context) schema.Schema {
 				Computed:            true,
 				Description:         "Cisco CWA (central web authentication) required RADIUS with COA in order to work. See CWA: https://www.cisco.com/c/en/us/support/docs/security/identity-services-engine/115732-central-web-auth-00.html",
 				MarkdownDescription: "Cisco CWA (central web authentication) required RADIUS with COA in order to work. See CWA: https://www.cisco.com/c/en/us/support/docs/security/identity-services-engine/115732-central-web-auth-00.html",
+				PlanModifiers: []planmodifier.Object{
+					objectplanmodifier.UseStateForUnknown(),
+				},
 			},
 			"client_limit_down": schema.Int64Attribute{
 				Optional:            true,
@@ -772,6 +822,9 @@ func WlanResourceSchema(ctx context.Context) schema.Schema {
 				Computed:            true,
 				Description:         "for radius_group-based DNS server (rewrite DNS request depending on the Group RADIUS server returns)",
 				MarkdownDescription: "for radius_group-based DNS server (rewrite DNS request depending on the Group RADIUS server returns)",
+				PlanModifiers: []planmodifier.Object{
+					objectplanmodifier.UseStateForUnknown(),
+				},
 			},
 			"dtim": schema.Int64Attribute{
 				Optional: true,
@@ -832,6 +885,9 @@ func WlanResourceSchema(ctx context.Context) schema.Schema {
 				Computed:            true,
 				Description:         "for dynamic PSK where we get per_user PSK from Radius\ndynamic_psk allows PSK to be selected at runtime depending on context (wlan/site/user/...) thus following configurations are assumed (currently)\n- PSK will come from RADIUS server\n- AP sends client MAC as username ans password (i.e. `enable_mac_auth` is assumed)\n- AP sends BSSID:SSID as Caller-Station-ID\n- `auth_servers` is required\n- PSK will come from cloud WLC if source is cloud_psks\n- default_psk will be used if cloud WLC is not available\n- `multi_psk_only` and `psk` is ignored\n- `pairwise` can only be wpa2-ccmp (for now, wpa3 support on the roadmap)",
 				MarkdownDescription: "for dynamic PSK where we get per_user PSK from Radius\ndynamic_psk allows PSK to be selected at runtime depending on context (wlan/site/user/...) thus following configurations are assumed (currently)\n- PSK will come from RADIUS server\n- AP sends client MAC as username ans password (i.e. `enable_mac_auth` is assumed)\n- AP sends BSSID:SSID as Caller-Station-ID\n- `auth_servers` is required\n- PSK will come from cloud WLC if source is cloud_psks\n- default_psk will be used if cloud WLC is not available\n- `multi_psk_only` and `psk` is ignored\n- `pairwise` can only be wpa2-ccmp (for now, wpa3 support on the roadmap)",
+				PlanModifiers: []planmodifier.Object{
+					objectplanmodifier.UseStateForUnknown(),
+				},
 			},
 			"dynamic_vlan": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
@@ -890,6 +946,9 @@ func WlanResourceSchema(ctx context.Context) schema.Schema {
 				Computed:            true,
 				Description:         "for 802.1x",
 				MarkdownDescription: "for 802.1x",
+				PlanModifiers: []planmodifier.Object{
+					objectplanmodifier.UseStateForUnknown(),
+				},
 			},
 			"enable_local_keycaching": schema.BoolAttribute{
 				Optional:            true,
@@ -989,6 +1048,9 @@ func WlanResourceSchema(ctx context.Context) schema.Schema {
 				Computed:            true,
 				Description:         "hostspot 2.0 wlan settings",
 				MarkdownDescription: "hostspot 2.0 wlan settings",
+				PlanModifiers: []planmodifier.Object{
+					objectplanmodifier.UseStateForUnknown(),
+				},
 			},
 			"id": schema.StringAttribute{
 				Optional: true,
@@ -1015,6 +1077,9 @@ func WlanResourceSchema(ctx context.Context) schema.Schema {
 				},
 				Optional: true,
 				Computed: true,
+				PlanModifiers: []planmodifier.Object{
+					objectplanmodifier.UseStateForUnknown(),
+				},
 			},
 			"interface": schema.StringAttribute{
 				Optional:            true,
@@ -1069,6 +1134,7 @@ func WlanResourceSchema(ctx context.Context) schema.Schema {
 				Computed:            true,
 				Description:         "limit probe response base on some heuristic rules",
 				MarkdownDescription: "limit probe response base on some heuristic rules",
+				Default:             booldefault.StaticBool(false),
 			},
 			"max_idletime": schema.Int64Attribute{
 				Optional:            true,
@@ -1097,10 +1163,14 @@ func WlanResourceSchema(ctx context.Context) schema.Schema {
 				},
 				Optional: true,
 				Computed: true,
+				PlanModifiers: []planmodifier.Object{
+					objectplanmodifier.UseStateForUnknown(),
+				},
 			},
 			"msp_id": schema.StringAttribute{
 				Optional: true,
 				Computed: true,
+				Default:  stringdefault.StaticString(""),
 			},
 			"mxtunnel_ids": schema.ListAttribute{
 				ElementType:         types.StringType,
@@ -1141,12 +1211,14 @@ func WlanResourceSchema(ctx context.Context) schema.Schema {
 						Computed:            true,
 						Description:         "amazon OAuth2 client id. This is optional. If not provided, it will use a default one.",
 						MarkdownDescription: "amazon OAuth2 client id. This is optional. If not provided, it will use a default one.",
+						Default:             stringdefault.StaticString(""),
 					},
 					"amazon_client_secret": schema.StringAttribute{
 						Optional:            true,
 						Computed:            true,
 						Description:         "amazon OAuth2 client secret. If amazon_client_id was provided, provide a correspoinding value. Else leave blank.",
 						MarkdownDescription: "amazon OAuth2 client secret. If amazon_client_id was provided, provide a correspoinding value. Else leave blank.",
+						Default:             stringdefault.StaticString(""),
 					},
 					"amazon_email_domains": schema.ListAttribute{
 						ElementType:         types.StringType,
@@ -1189,12 +1261,14 @@ func WlanResourceSchema(ctx context.Context) schema.Schema {
 						Computed:            true,
 						Description:         "Required if `azure_enabled`==`true`.\nAzure active directory app client id",
 						MarkdownDescription: "Required if `azure_enabled`==`true`.\nAzure active directory app client id",
+						Default:             stringdefault.StaticString(""),
 					},
 					"azure_client_secret": schema.StringAttribute{
 						Optional:            true,
 						Computed:            true,
 						Description:         "Required if `azure_enabled`==`true`.\nAzure active directory app client secret",
 						MarkdownDescription: "Required if `azure_enabled`==`true`.\nAzure active directory app client secret",
+						Default:             stringdefault.StaticString(""),
 					},
 					"azure_enabled": schema.BoolAttribute{
 						Optional:            true,
@@ -1215,12 +1289,14 @@ func WlanResourceSchema(ctx context.Context) schema.Schema {
 						Computed:            true,
 						Description:         "Required if `azure_enabled`==`true`.\nAzure active directory tenant id.",
 						MarkdownDescription: "Required if `azure_enabled`==`true`.\nAzure active directory tenant id.",
+						Default:             stringdefault.StaticString(""),
 					},
 					"broadnet_password": schema.StringAttribute{
 						Optional:            true,
 						Computed:            true,
 						Description:         "when `sms_provider`==`broadnet`",
 						MarkdownDescription: "when `sms_provider`==`broadnet`",
+						Default:             stringdefault.StaticString(""),
 					},
 					"broadnet_sid": schema.StringAttribute{
 						Optional:            true,
@@ -1234,6 +1310,7 @@ func WlanResourceSchema(ctx context.Context) schema.Schema {
 						Computed:            true,
 						Description:         "when `sms_provider`==`broadnet`",
 						MarkdownDescription: "when `sms_provider`==`broadnet`",
+						Default:             stringdefault.StaticString(""),
 					},
 					"bypass_when_cloud_down": schema.BoolAttribute{
 						Optional:            true,
@@ -1247,6 +1324,7 @@ func WlanResourceSchema(ctx context.Context) schema.Schema {
 						Computed:            true,
 						Description:         "when `sms_provider`==`clickatell`",
 						MarkdownDescription: "when `sms_provider`==`clickatell`",
+						Default:             stringdefault.StaticString(""),
 					},
 					"cross_site": schema.BoolAttribute{
 						Optional:            true,
@@ -1280,18 +1358,21 @@ func WlanResourceSchema(ctx context.Context) schema.Schema {
 						Computed:            true,
 						Description:         "external portal URL (e.g. https://host/url) where we can append our query parameters to",
 						MarkdownDescription: "external portal URL (e.g. https://host/url) where we can append our query parameters to",
+						Default:             stringdefault.StaticString(""),
 					},
 					"facebook_client_id": schema.StringAttribute{
 						Optional:            true,
 						Computed:            true,
 						Description:         "Required if `facebook_enabled`==`true`.\nFacebook OAuth2 app id. This is optional. If not provided, it will use a default one.",
 						MarkdownDescription: "Required if `facebook_enabled`==`true`.\nFacebook OAuth2 app id. This is optional. If not provided, it will use a default one.",
+						Default:             stringdefault.StaticString(""),
 					},
 					"facebook_client_secret": schema.StringAttribute{
 						Optional:            true,
 						Computed:            true,
 						Description:         "Required if `facebook_enabled`==`true`.\nFacebook OAuth2 app secret. If facebook_client_id was provided, provide a correspoinding value. Else leave blank.",
 						MarkdownDescription: "Required if `facebook_enabled`==`true`.\nFacebook OAuth2 app secret. If facebook_client_id was provided, provide a correspoinding value. Else leave blank.",
+						Default:             stringdefault.StaticString(""),
 					},
 					"facebook_email_domains": schema.ListAttribute{
 						ElementType:         types.StringType,
@@ -1326,18 +1407,21 @@ func WlanResourceSchema(ctx context.Context) schema.Schema {
 						Computed:            true,
 						Description:         "the URL to forward the user to",
 						MarkdownDescription: "the URL to forward the user to",
+						Default:             stringdefault.StaticString(""),
 					},
 					"google_client_id": schema.StringAttribute{
 						Optional:            true,
 						Computed:            true,
 						Description:         "Google OAuth2 app id. This is optional. If not provided, it will use a default one.",
 						MarkdownDescription: "Google OAuth2 app id. This is optional. If not provided, it will use a default one.",
+						Default:             stringdefault.StaticString(""),
 					},
 					"google_client_secret": schema.StringAttribute{
 						Optional:            true,
 						Computed:            true,
 						Description:         "Google OAuth2 app secret. If google_client_id was provided, provide a correspoinding value. Else leave blank.",
 						MarkdownDescription: "Google OAuth2 app secret. If google_client_id was provided, provide a correspoinding value. Else leave blank.",
+						Default:             stringdefault.StaticString(""),
 					},
 					"google_email_domains": schema.ListAttribute{
 						ElementType:         types.StringType,
@@ -1365,24 +1449,28 @@ func WlanResourceSchema(ctx context.Context) schema.Schema {
 						Computed:            true,
 						Description:         "when `sms_provider`==`gupshup`",
 						MarkdownDescription: "when `sms_provider`==`gupshup`",
+						Default:             stringdefault.StaticString(""),
 					},
 					"gupshup_userid": schema.StringAttribute{
 						Optional:            true,
 						Computed:            true,
 						Description:         "when `sms_provider`==`gupshup`",
 						MarkdownDescription: "when `sms_provider`==`gupshup`",
+						Default:             stringdefault.StaticString(""),
 					},
 					"microsoft_client_id": schema.StringAttribute{
 						Optional:            true,
 						Computed:            true,
 						Description:         "microsoft 365 OAuth2 client id. This is optional. If not provided, it will use a default one.",
 						MarkdownDescription: "microsoft 365 OAuth2 client id. This is optional. If not provided, it will use a default one.",
+						Default:             stringdefault.StaticString(""),
 					},
 					"microsoft_client_secret": schema.StringAttribute{
 						Optional:            true,
 						Computed:            true,
 						Description:         "microsoft 365 OAuth2 client secret. If microsoft_client_id was provided, provide a correspoinding value. Else leave blank.",
 						MarkdownDescription: "microsoft 365 OAuth2 client secret. If microsoft_client_id was provided, provide a correspoinding value. Else leave blank.",
+						Default:             stringdefault.StaticString(""),
 					},
 					"microsoft_email_domains": schema.ListAttribute{
 						ElementType:         types.StringType,
@@ -1424,36 +1512,42 @@ func WlanResourceSchema(ctx context.Context) schema.Schema {
 						Computed:            true,
 						Description:         "passphrase",
 						MarkdownDescription: "passphrase",
+						Default:             stringdefault.StaticString(""),
 					},
 					"portal_allowed_hostnames": schema.StringAttribute{
 						Optional:            true,
 						Computed:            true,
 						Description:         "list of hostnames without http(s):// (matched by substring)",
 						MarkdownDescription: "list of hostnames without http(s):// (matched by substring)",
+						Default:             stringdefault.StaticString(""),
 					},
 					"portal_allowed_subnets": schema.StringAttribute{
 						Optional:            true,
 						Computed:            true,
 						Description:         "list of CIDRs",
 						MarkdownDescription: "list of CIDRs",
+						Default:             stringdefault.StaticString(""),
 					},
 					"portal_api_secret": schema.StringAttribute{
 						Optional:            true,
 						Computed:            true,
 						Description:         "api secret (auto-generated) that can be used to sign guest authorization requests",
 						MarkdownDescription: "api secret (auto-generated) that can be used to sign guest authorization requests",
+						Default:             stringdefault.StaticString(""),
 					},
 					"portal_denied_hostnames": schema.StringAttribute{
 						Optional:            true,
 						Computed:            true,
 						Description:         "list of hostnames without http(s):// (matched by substring), this takes precedence over portal_allowed_hostnames",
 						MarkdownDescription: "list of hostnames without http(s):// (matched by substring), this takes precedence over portal_allowed_hostnames",
+						Default:             stringdefault.StaticString(""),
 					},
 					"portal_image": schema.StringAttribute{
 						Optional:            true,
 						Computed:            true,
 						Description:         "Url of portal background image",
 						MarkdownDescription: "Url of portal background image",
+						Default:             stringdefault.StaticString(""),
 					},
 					"portal_sso_url": schema.StringAttribute{
 						Optional:            true,
@@ -1478,18 +1572,21 @@ func WlanResourceSchema(ctx context.Context) schema.Schema {
 						Computed:            true,
 						Description:         "when `sms_provider`==`puzzel`",
 						MarkdownDescription: "when `sms_provider`==`puzzel`",
+						Default:             stringdefault.StaticString(""),
 					},
 					"puzzel_service_id": schema.StringAttribute{
 						Optional:            true,
 						Computed:            true,
 						Description:         "when `sms_provider`==`puzzel`",
 						MarkdownDescription: "when `sms_provider`==`puzzel`",
+						Default:             stringdefault.StaticString(""),
 					},
 					"puzzel_username": schema.StringAttribute{
 						Optional:            true,
 						Computed:            true,
 						Description:         "when `sms_provider`==`puzzel`",
 						MarkdownDescription: "when `sms_provider`==`puzzel`",
+						Default:             stringdefault.StaticString(""),
 					},
 					"sms_enabled": schema.BoolAttribute{
 						Optional:            true,
@@ -1508,6 +1605,7 @@ func WlanResourceSchema(ctx context.Context) schema.Schema {
 					"sms_message_format": schema.StringAttribute{
 						Optional: true,
 						Computed: true,
+						Default:  stringdefault.StaticString(""),
 					},
 					"sms_provider": schema.StringAttribute{
 						Optional: true,
@@ -1587,34 +1685,40 @@ func WlanResourceSchema(ctx context.Context) schema.Schema {
 						Computed:            true,
 						Description:         "default role to assign if there’s no match. By default, an assertion is treated as invalid when there’s no role matched",
 						MarkdownDescription: "default role to assign if there’s no match. By default, an assertion is treated as invalid when there’s no role matched",
+						Default:             stringdefault.StaticString(""),
 					},
 					"sso_forced_role": schema.StringAttribute{
 						Optional: true,
 						Computed: true,
+						Default:  stringdefault.StaticString(""),
 					},
 					"sso_idp_cert": schema.StringAttribute{
 						Optional:            true,
 						Computed:            true,
 						Description:         "IDP Cert (used to verify the signed response)",
 						MarkdownDescription: "IDP Cert (used to verify the signed response)",
+						Default:             stringdefault.StaticString(""),
 					},
 					"sso_idp_sign_algo": schema.StringAttribute{
 						Optional:            true,
 						Computed:            true,
 						Description:         "signing algorithm for SAML Assertion",
 						MarkdownDescription: "signing algorithm for SAML Assertion",
+						Default:             stringdefault.StaticString(""),
 					},
 					"sso_idp_sso_url": schema.StringAttribute{
 						Optional:            true,
 						Computed:            true,
 						Description:         "IDP Single-Sign-On URL",
 						MarkdownDescription: "IDP Single-Sign-On URL",
+						Default:             stringdefault.StaticString(""),
 					},
 					"sso_issuer": schema.StringAttribute{
 						Optional:            true,
 						Computed:            true,
 						Description:         "IDP issuer URL",
 						MarkdownDescription: "IDP issuer URL",
+						Default:             stringdefault.StaticString(""),
 					},
 					"sso_nameid_format": schema.StringAttribute{
 						Optional: true,
@@ -1633,36 +1737,42 @@ func WlanResourceSchema(ctx context.Context) schema.Schema {
 						Computed:            true,
 						Description:         "when `sms_provider`==`telstra`, Client ID provided by Telstra",
 						MarkdownDescription: "when `sms_provider`==`telstra`, Client ID provided by Telstra",
+						Default:             stringdefault.StaticString(""),
 					},
 					"telstra_client_secret": schema.StringAttribute{
 						Optional:            true,
 						Computed:            true,
 						Description:         "when `sms_provider`==`telstra`, Client secret provided by Telstra",
 						MarkdownDescription: "when `sms_provider`==`telstra`, Client secret provided by Telstra",
+						Default:             stringdefault.StaticString(""),
 					},
 					"thumbnail": schema.StringAttribute{
 						Optional:            true,
 						Computed:            true,
 						Description:         "Url of portal background image thumbnail",
 						MarkdownDescription: "Url of portal background image thumbnail",
+						Default:             stringdefault.StaticString(""),
 					},
 					"twilio_auth_token": schema.StringAttribute{
 						Optional:            true,
 						Computed:            true,
 						Description:         "when `sms_provider`==`twilio`, Auth token account with twilio account",
 						MarkdownDescription: "when `sms_provider`==`twilio`, Auth token account with twilio account",
+						Default:             stringdefault.StaticString(""),
 					},
 					"twilio_phone_number": schema.StringAttribute{
 						Optional:            true,
 						Computed:            true,
 						Description:         "when `sms_provider`==`twilio`, Twilio phone number associated with the account. See example for accepted format.",
 						MarkdownDescription: "when `sms_provider`==`twilio`, Twilio phone number associated with the account. See example for accepted format.",
+						Default:             stringdefault.StaticString(""),
 					},
 					"twilio_sid": schema.StringAttribute{
 						Optional:            true,
 						Computed:            true,
 						Description:         "when `sms_provider`==`twilio`, Account SID provided by Twilio",
 						MarkdownDescription: "when `sms_provider`==`twilio`, Account SID provided by Twilio",
+						Default:             stringdefault.StaticString(""),
 					},
 				},
 				CustomType: PortalType{
@@ -1674,6 +1784,9 @@ func WlanResourceSchema(ctx context.Context) schema.Schema {
 				Computed:            true,
 				Description:         "portal wlan settings",
 				MarkdownDescription: "portal wlan settings",
+				PlanModifiers: []planmodifier.Object{
+					objectplanmodifier.UseStateForUnknown(),
+				},
 			},
 			"portal_allowed_hostnames": schema.ListAttribute{
 				ElementType:         types.StringType,
@@ -1694,6 +1807,7 @@ func WlanResourceSchema(ctx context.Context) schema.Schema {
 				Computed:            true,
 				Description:         "api secret (auto-generated) that can be used to sign guest authorization requests",
 				MarkdownDescription: "api secret (auto-generated) that can be used to sign guest authorization requests",
+				Default:             stringdefault.StaticString(""),
 			},
 			"portal_denied_hostnames": schema.ListAttribute{
 				ElementType:         types.StringType,
@@ -1707,6 +1821,7 @@ func WlanResourceSchema(ctx context.Context) schema.Schema {
 				Computed:            true,
 				Description:         "Url of portal background image",
 				MarkdownDescription: "Url of portal background image",
+				Default:             stringdefault.StaticString(""),
 			},
 			"portal_sso_url": schema.StringAttribute{
 				Optional: true,
@@ -1717,6 +1832,7 @@ func WlanResourceSchema(ctx context.Context) schema.Schema {
 				Computed:            true,
 				Description:         "N.B portal_template will be forked out of wlan objects soon. To fetch portal_template, please query portal_template_url. To update portal_template, use Wlan Portal Template.",
 				MarkdownDescription: "N.B portal_template will be forked out of wlan objects soon. To fetch portal_template, please query portal_template_url. To update portal_template, use Wlan Portal Template.",
+				Default:             stringdefault.StaticString(""),
 			},
 			"qos": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
@@ -1834,6 +1950,9 @@ func WlanResourceSchema(ctx context.Context) schema.Schema {
 				Computed:            true,
 				Description:         "Radsec settings",
 				MarkdownDescription: "Radsec settings",
+				PlanModifiers: []planmodifier.Object{
+					objectplanmodifier.UseStateForUnknown(),
+				},
 			},
 			"roam_mode": schema.StringAttribute{
 				Optional: true,
@@ -1860,30 +1979,37 @@ func WlanResourceSchema(ctx context.Context) schema.Schema {
 							"fri": schema.StringAttribute{
 								Optional: true,
 								Computed: true,
+								Default:  stringdefault.StaticString(""),
 							},
 							"mon": schema.StringAttribute{
 								Optional: true,
 								Computed: true,
+								Default:  stringdefault.StaticString(""),
 							},
 							"sat": schema.StringAttribute{
 								Optional: true,
 								Computed: true,
+								Default:  stringdefault.StaticString(""),
 							},
 							"sun": schema.StringAttribute{
 								Optional: true,
 								Computed: true,
+								Default:  stringdefault.StaticString(""),
 							},
 							"thu": schema.StringAttribute{
 								Optional: true,
 								Computed: true,
+								Default:  stringdefault.StaticString(""),
 							},
 							"tue": schema.StringAttribute{
 								Optional: true,
 								Computed: true,
+								Default:  stringdefault.StaticString(""),
 							},
 							"wed": schema.StringAttribute{
 								Optional: true,
 								Computed: true,
+								Default:  stringdefault.StaticString(""),
 							},
 						},
 						CustomType: HoursType{
@@ -1906,6 +2032,9 @@ func WlanResourceSchema(ctx context.Context) schema.Schema {
 				Computed:            true,
 				Description:         "WLAN operating schedule, default is disabled",
 				MarkdownDescription: "WLAN operating schedule, default is disabled",
+				PlanModifiers: []planmodifier.Object{
+					objectplanmodifier.UseStateForUnknown(),
+				},
 			},
 			"site_id": schema.StringAttribute{
 				Optional: true,
@@ -1926,12 +2055,14 @@ func WlanResourceSchema(ctx context.Context) schema.Schema {
 			"template_id": schema.StringAttribute{
 				Optional: true,
 				Computed: true,
+				Default:  stringdefault.StaticString(""),
 			},
 			"thumbnail": schema.StringAttribute{
 				Optional:            true,
 				Computed:            true,
 				Description:         "Url of portal background image thumbnail",
 				MarkdownDescription: "Url of portal background image thumbnail",
+				Default:             stringdefault.StaticString(""),
 			},
 			"use_eapol_v1": schema.BoolAttribute{
 				Optional:            true,
@@ -1973,6 +2104,7 @@ func WlanResourceSchema(ctx context.Context) schema.Schema {
 				Computed:            true,
 				Description:         "kbps",
 				MarkdownDescription: "kbps",
+				Default:             int64default.StaticInt64(0),
 			},
 			"wlan_limit_down_enabled": schema.BoolAttribute{
 				Optional:            true,
@@ -1986,6 +2118,7 @@ func WlanResourceSchema(ctx context.Context) schema.Schema {
 				Computed:            true,
 				Description:         "kbps",
 				MarkdownDescription: "kbps",
+				Default:             int64default.StaticInt64(0),
 			},
 			"wlan_limit_up_enabled": schema.BoolAttribute{
 				Optional:            true,
@@ -2006,12 +2139,14 @@ func WlanResourceSchema(ctx context.Context) schema.Schema {
 				Computed:            true,
 				Description:         "when `interface`=`wxtunnel`, id of the WXLAN Tunnel",
 				MarkdownDescription: "when `interface`=`wxtunnel`, id of the WXLAN Tunnel",
+				Default:             stringdefault.StaticString(""),
 			},
 			"wxtunnel_remote_id": schema.StringAttribute{
 				Optional:            true,
 				Computed:            true,
 				Description:         "when `interface`=`wxtunnel`, remote tunnel identifier",
 				MarkdownDescription: "when `interface`=`wxtunnel`, remote tunnel identifier",
+				Default:             stringdefault.StaticString(""),
 			},
 		},
 	}

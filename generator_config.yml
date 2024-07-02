@@ -1,5 +1,11 @@
 provider:
   name: mistapi
+data_sources:
+  countries:
+    read:
+      path: /api/v1/const/countries
+      method: GET
+
 resources:
   org:
     create:
@@ -234,7 +240,6 @@ resources:
         - created_time
         - modified_time
         - id
-        - org_id
         - for_site
         - additional_config_cmds
         - ap_matching
@@ -315,3 +320,45 @@ resources:
       attributes:
         aliases:
           wlan_id: id      
+  wxrule:
+    create:
+      path: /api/v1/orgs/{org_id}/wxrules
+      method: POST
+    read:
+      path: /api/v1/orgs/{org_id}/wxrules/{wxrule_id}
+      method: GET
+    delete:
+      path: /api/v1/orgs/{org_id}/wxrules/{wxrule_id}
+      method: DELETE
+    update:
+      path: /api/v1/orgs/{org_id}/wxrules/{wxrule_id}
+      method: PUT      
+    schema:
+      ignores:
+        - created_time
+        - modified_time
+        - for_site
+      attributes:
+        aliases:
+          wxrule_id: id      
+  wxtag:
+    create:
+      path: /api/v1/orgs/{org_id}/wxtags
+      method: POST
+    read:
+      path: /api/v1/orgs/{org_id}/wxtags/{wxtag_id}
+      method: GET
+    delete:
+      path: /api/v1/orgs/{org_id}/wxtags/{wxtag_id}
+      method: DELETE
+    update:
+      path: /api/v1/orgs/{org_id}/wxtags/{wxtag_id}
+      method: PUT      
+    schema:
+      ignores:
+        - created_time
+        - modified_time
+        - for_site
+      attributes:
+        aliases:
+          wxtag_id: id     

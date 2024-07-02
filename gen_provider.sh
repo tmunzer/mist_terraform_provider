@@ -64,6 +64,10 @@ tfplugingen-framework generate resources \
     --input ./provider-code-spec.json \
     --output ./terraform-provider-mist/internal
 
+tfplugingen-framework generate data-sources \
+    --input ./provider-code-spec.json \
+    --output ./terraform-provider-mist/internal
+
 echo "fix provider..."
 python3 ./gen_provider_post.py
 

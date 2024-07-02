@@ -4,13 +4,13 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Fri** | Pointer to **string** |  | [optional] 
-**Mon** | Pointer to **string** |  | [optional] 
-**Sat** | Pointer to **string** |  | [optional] 
-**Sun** | Pointer to **string** |  | [optional] 
-**Thu** | Pointer to **string** |  | [optional] 
-**Tue** | Pointer to **string** |  | [optional] 
-**Wed** | Pointer to **string** |  | [optional] 
+**Fri** | Pointer to **string** |  | [optional] [default to ""]
+**Mon** | Pointer to **string** |  | [optional] [default to ""]
+**Sat** | Pointer to **string** |  | [optional] [default to ""]
+**Sun** | Pointer to **string** |  | [optional] [default to ""]
+**Thu** | Pointer to **string** |  | [optional] [default to ""]
+**Tue** | Pointer to **string** |  | [optional] [default to ""]
+**Wed** | Pointer to **string** |  | [optional] [default to ""]
 
 ## Methods
 

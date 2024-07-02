@@ -13,6 +13,7 @@ package mistsdkgo
 
 import (
 	"encoding/json"
+	"gopkg.in/validator.v2"
 	"fmt"
 )
 
@@ -48,7 +49,11 @@ func (dst *ClientStats) UnmarshalJSON(data []byte) error {
 		if string(jsonStatsWiredClient) == "{}" { // empty struct
 			dst.StatsWiredClient = nil
 		} else {
-			match++
+			if err = validator.Validate(dst.StatsWiredClient); err != nil {
+				dst.StatsWiredClient = nil
+			} else {
+				match++
+			}
 		}
 	} else {
 		dst.StatsWiredClient = nil
@@ -61,7 +66,11 @@ func (dst *ClientStats) UnmarshalJSON(data []byte) error {
 		if string(jsonArrayOfClientWirelessStats) == "{}" { // empty struct
 			dst.ArrayOfClientWirelessStats = nil
 		} else {
-			match++
+			if err = validator.Validate(dst.ArrayOfClientWirelessStats); err != nil {
+				dst.ArrayOfClientWirelessStats = nil
+			} else {
+				match++
+			}
 		}
 	} else {
 		dst.ArrayOfClientWirelessStats = nil

@@ -13,6 +13,7 @@ package mistsdkgo
 
 import (
 	"encoding/json"
+	"gopkg.in/validator.v2"
 	"fmt"
 )
 
@@ -56,7 +57,11 @@ func (dst *ResponseDevice) UnmarshalJSON(data []byte) error {
 		if string(jsonAp) == "{}" { // empty struct
 			dst.Ap = nil
 		} else {
-			match++
+			if err = validator.Validate(dst.Ap); err != nil {
+				dst.Ap = nil
+			} else {
+				match++
+			}
 		}
 	} else {
 		dst.Ap = nil
@@ -69,7 +74,11 @@ func (dst *ResponseDevice) UnmarshalJSON(data []byte) error {
 		if string(jsonGateway) == "{}" { // empty struct
 			dst.Gateway = nil
 		} else {
-			match++
+			if err = validator.Validate(dst.Gateway); err != nil {
+				dst.Gateway = nil
+			} else {
+				match++
+			}
 		}
 	} else {
 		dst.Gateway = nil
@@ -82,7 +91,11 @@ func (dst *ResponseDevice) UnmarshalJSON(data []byte) error {
 		if string(jsonModelSwitch) == "{}" { // empty struct
 			dst.ModelSwitch = nil
 		} else {
-			match++
+			if err = validator.Validate(dst.ModelSwitch); err != nil {
+				dst.ModelSwitch = nil
+			} else {
+				match++
+			}
 		}
 	} else {
 		dst.ModelSwitch = nil

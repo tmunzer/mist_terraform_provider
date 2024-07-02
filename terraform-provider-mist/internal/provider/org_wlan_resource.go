@@ -41,7 +41,6 @@ func (r *orgWlanResource) Configure(ctx context.Context, req resource.ConfigureR
 
 	r.client = client
 }
-<<<<<<< Updated upstream:terraform-provider-mist/internal/provider/wlan_resource.go
 func (r *wlanResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
 =======
 func (r *orgWlanResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {

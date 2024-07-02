@@ -13,6 +13,7 @@ package mistsdkgo
 
 import (
 	"encoding/json"
+	"gopkg.in/validator.v2"
 	"fmt"
 )
 
@@ -48,7 +49,11 @@ func (dst *AccountOauthAdd) UnmarshalJSON(data []byte) error {
 		if string(jsonAccountJamfConfig) == "{}" { // empty struct
 			dst.AccountJamfConfig = nil
 		} else {
-			match++
+			if err = validator.Validate(dst.AccountJamfConfig); err != nil {
+				dst.AccountJamfConfig = nil
+			} else {
+				match++
+			}
 		}
 	} else {
 		dst.AccountJamfConfig = nil
@@ -61,7 +66,11 @@ func (dst *AccountOauthAdd) UnmarshalJSON(data []byte) error {
 		if string(jsonAccountVmwareConfig) == "{}" { // empty struct
 			dst.AccountVmwareConfig = nil
 		} else {
-			match++
+			if err = validator.Validate(dst.AccountVmwareConfig); err != nil {
+				dst.AccountVmwareConfig = nil
+			} else {
+				match++
+			}
 		}
 	} else {
 		dst.AccountVmwareConfig = nil

@@ -176,11 +176,11 @@ type Wlan struct {
 	// vlan pooling allows AP to place client on different VLAN using a deterministic algorithm
 	VlanPooling *bool `json:"vlan_pooling,omitempty"`
 	// kbps
-	WlanLimitDown *int32 `json:"wlan_limit_down,omitempty"`
+	WlanLimitDown NullableInt32 `json:"wlan_limit_down,omitempty"`
 	// if downlink limiting for whole wlan is enabled
 	WlanLimitDownEnabled *bool `json:"wlan_limit_down_enabled,omitempty"`
 	// kbps
-	WlanLimitUp *int32 `json:"wlan_limit_up,omitempty"`
+	WlanLimitUp NullableInt32 `json:"wlan_limit_up,omitempty"`
 	// if uplink limiting for whole wlan is enabled
 	WlanLimitUpEnabled *bool `json:"wlan_limit_up_enabled,omitempty"`
 	// list of wxtag_ids
@@ -266,12 +266,16 @@ func NewWlan(ssid string) *Wlan {
 	this.LegacyOverds = &legacyOverds
 	var limitBcast bool = false
 	this.LimitBcast = &limitBcast
+	var limitProbeResponse bool = false
+	this.LimitProbeResponse = &limitProbeResponse
 	var maxIdletime int32 = 1800
 	this.MaxIdletime = &maxIdletime
 	var noStaticDns bool = false
 	this.NoStaticDns = &noStaticDns
 	var noStaticIp bool = false
 	this.NoStaticIp = &noStaticIp
+	var portalApiSecret string = ""
+	this.PortalApiSecret = *NewNullableString(&portalApiSecret)
 	var roamMode WlanRoamMode = WLANROAMMODE_NONE
 	this.RoamMode = &roamMode
 	var sleExcluded bool = false
@@ -287,6 +291,10 @@ func NewWlan(ssid string) *Wlan {
 	this.WlanLimitDownEnabled = &wlanLimitDownEnabled
 	var wlanLimitUpEnabled bool = false
 	this.WlanLimitUpEnabled = &wlanLimitUpEnabled
+	var wxtunnelId string = ""
+	this.WxtunnelId = *NewNullableString(&wxtunnelId)
+	var wxtunnelRemoteId string = ""
+	this.WxtunnelRemoteId = *NewNullableString(&wxtunnelRemoteId)
 	return &this
 }
 
@@ -361,12 +369,16 @@ func NewWlanWithDefaults() *Wlan {
 	this.LegacyOverds = &legacyOverds
 	var limitBcast bool = false
 	this.LimitBcast = &limitBcast
+	var limitProbeResponse bool = false
+	this.LimitProbeResponse = &limitProbeResponse
 	var maxIdletime int32 = 1800
 	this.MaxIdletime = &maxIdletime
 	var noStaticDns bool = false
 	this.NoStaticDns = &noStaticDns
 	var noStaticIp bool = false
 	this.NoStaticIp = &noStaticIp
+	var portalApiSecret string = ""
+	this.PortalApiSecret = *NewNullableString(&portalApiSecret)
 	var roamMode WlanRoamMode = WLANROAMMODE_NONE
 	this.RoamMode = &roamMode
 	var sleExcluded bool = false
@@ -381,6 +393,10 @@ func NewWlanWithDefaults() *Wlan {
 	this.WlanLimitDownEnabled = &wlanLimitDownEnabled
 	var wlanLimitUpEnabled bool = false
 	this.WlanLimitUpEnabled = &wlanLimitUpEnabled
+	var wxtunnelId string = ""
+	this.WxtunnelId = *NewNullableString(&wxtunnelId)
+	var wxtunnelRemoteId string = ""
+	this.WxtunnelRemoteId = *NewNullableString(&wxtunnelRemoteId)
 	return &this
 }
 
@@ -3448,36 +3464,46 @@ func (o *Wlan) SetVlanPooling(v bool) {
 	o.VlanPooling = &v
 }
 
-// GetWlanLimitDown returns the WlanLimitDown field value if set, zero value otherwise.
+// GetWlanLimitDown returns the WlanLimitDown field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *Wlan) GetWlanLimitDown() int32 {
-	if o == nil || IsNil(o.WlanLimitDown) {
+	if o == nil || IsNil(o.WlanLimitDown.Get()) {
 		var ret int32
 		return ret
 	}
-	return *o.WlanLimitDown
+	return *o.WlanLimitDown.Get()
 }
 
 // GetWlanLimitDownOk returns a tuple with the WlanLimitDown field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *Wlan) GetWlanLimitDownOk() (*int32, bool) {
-	if o == nil || IsNil(o.WlanLimitDown) {
+	if o == nil {
 		return nil, false
 	}
-	return o.WlanLimitDown, true
+	return o.WlanLimitDown.Get(), o.WlanLimitDown.IsSet()
 }
 
 // HasWlanLimitDown returns a boolean if a field has been set.
 func (o *Wlan) HasWlanLimitDown() bool {
-	if o != nil && !IsNil(o.WlanLimitDown) {
+	if o != nil && o.WlanLimitDown.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetWlanLimitDown gets a reference to the given int32 and assigns it to the WlanLimitDown field.
+// SetWlanLimitDown gets a reference to the given NullableInt32 and assigns it to the WlanLimitDown field.
 func (o *Wlan) SetWlanLimitDown(v int32) {
-	o.WlanLimitDown = &v
+	o.WlanLimitDown.Set(&v)
+}
+// SetWlanLimitDownNil sets the value for WlanLimitDown to be an explicit nil
+func (o *Wlan) SetWlanLimitDownNil() {
+	o.WlanLimitDown.Set(nil)
+}
+
+// UnsetWlanLimitDown ensures that no value is present for WlanLimitDown, not even an explicit nil
+func (o *Wlan) UnsetWlanLimitDown() {
+	o.WlanLimitDown.Unset()
 }
 
 // GetWlanLimitDownEnabled returns the WlanLimitDownEnabled field value if set, zero value otherwise.
@@ -3512,36 +3538,46 @@ func (o *Wlan) SetWlanLimitDownEnabled(v bool) {
 	o.WlanLimitDownEnabled = &v
 }
 
-// GetWlanLimitUp returns the WlanLimitUp field value if set, zero value otherwise.
+// GetWlanLimitUp returns the WlanLimitUp field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *Wlan) GetWlanLimitUp() int32 {
-	if o == nil || IsNil(o.WlanLimitUp) {
+	if o == nil || IsNil(o.WlanLimitUp.Get()) {
 		var ret int32
 		return ret
 	}
-	return *o.WlanLimitUp
+	return *o.WlanLimitUp.Get()
 }
 
 // GetWlanLimitUpOk returns a tuple with the WlanLimitUp field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *Wlan) GetWlanLimitUpOk() (*int32, bool) {
-	if o == nil || IsNil(o.WlanLimitUp) {
+	if o == nil {
 		return nil, false
 	}
-	return o.WlanLimitUp, true
+	return o.WlanLimitUp.Get(), o.WlanLimitUp.IsSet()
 }
 
 // HasWlanLimitUp returns a boolean if a field has been set.
 func (o *Wlan) HasWlanLimitUp() bool {
-	if o != nil && !IsNil(o.WlanLimitUp) {
+	if o != nil && o.WlanLimitUp.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetWlanLimitUp gets a reference to the given int32 and assigns it to the WlanLimitUp field.
+// SetWlanLimitUp gets a reference to the given NullableInt32 and assigns it to the WlanLimitUp field.
 func (o *Wlan) SetWlanLimitUp(v int32) {
-	o.WlanLimitUp = &v
+	o.WlanLimitUp.Set(&v)
+}
+// SetWlanLimitUpNil sets the value for WlanLimitUp to be an explicit nil
+func (o *Wlan) SetWlanLimitUpNil() {
+	o.WlanLimitUp.Set(nil)
+}
+
+// UnsetWlanLimitUp ensures that no value is present for WlanLimitUp, not even an explicit nil
+func (o *Wlan) UnsetWlanLimitUp() {
+	o.WlanLimitUp.Unset()
 }
 
 // GetWlanLimitUpEnabled returns the WlanLimitUpEnabled field value if set, zero value otherwise.
@@ -3977,14 +4013,14 @@ func (o Wlan) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.VlanPooling) {
 		toSerialize["vlan_pooling"] = o.VlanPooling
 	}
-	if !IsNil(o.WlanLimitDown) {
-		toSerialize["wlan_limit_down"] = o.WlanLimitDown
+	if o.WlanLimitDown.IsSet() {
+		toSerialize["wlan_limit_down"] = o.WlanLimitDown.Get()
 	}
 	if !IsNil(o.WlanLimitDownEnabled) {
 		toSerialize["wlan_limit_down_enabled"] = o.WlanLimitDownEnabled
 	}
-	if !IsNil(o.WlanLimitUp) {
-		toSerialize["wlan_limit_up"] = o.WlanLimitUp
+	if o.WlanLimitUp.IsSet() {
+		toSerialize["wlan_limit_up"] = o.WlanLimitUp.Get()
 	}
 	if !IsNil(o.WlanLimitUpEnabled) {
 		toSerialize["wlan_limit_up_enabled"] = o.WlanLimitUpEnabled

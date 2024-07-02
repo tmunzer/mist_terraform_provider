@@ -99,6 +99,7 @@ func portalSkToTerraform(ctx context.Context, diags *diag.Diagnostics, data mist
 		"twilio_phone_number":            types.StringValue(data.GetTwilioPhoneNumber()),
 		"twilio_sid":                     types.StringValue(data.GetTwilioSid()),
 	}
+
 	r, e := NewPortalValue(PortalValue{}.AttributeTypes(ctx), plan_attr)
 	diags.Append(e...)
 
