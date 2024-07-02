@@ -16,6 +16,7 @@ func SdkToTerraform(ctx context.Context, data *mistsdkgo.SiteSetting) (SiteSetti
 	var diags diag.Diagnostics
 
 	state.SiteId = types.StringValue(data.GetSiteId())
+	state.OrgId = types.StringValue(data.GetOrgId())
 
 	state.Analytic = analyticSdkToTerraform(ctx, &diags, data.GetAnalytic())
 
@@ -24,6 +25,8 @@ func SdkToTerraform(ctx context.Context, data *mistsdkgo.SiteSetting) (SiteSetti
 	state.AutoUpgrade = autoUpgradeSdkToTerraform(ctx, &diags, data.GetAutoUpgrade())
 
 	state.BleConfig = bleConfigsSdkToTerraform(ctx, &diags, data.GetBleConfig())
+
+	state.BlacklistUrl = types.StringValue(data.GetBlacklistUrl())
 
 	state.ConfigAutoRevert = types.BoolValue(data.GetConfigAutoRevert())
 
@@ -80,6 +83,10 @@ func SdkToTerraform(ctx context.Context, data *mistsdkgo.SiteSetting) (SiteSetti
 	state.Vna = vnaSdkToTerraform(ctx, &diags, data.GetVna())
 
 	state.WanVna = wanVnaSdkToTerraform(ctx, &diags, data.GetWanVna())
+
+	state.WatchedStationUrl = types.StringValue(data.GetWatchedStationUrl())
+
+	state.WhitelistUrl = types.StringValue(data.GetWhitelistUrl())
 
 	state.Wids = widsSdkToTerraform(ctx, &diags, data.GetWids())
 

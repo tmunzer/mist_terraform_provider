@@ -40,6 +40,16 @@ type _WlanAirwatch WlanAirwatch
 // will change when the set of required properties is changed
 func NewWlanAirwatch() *WlanAirwatch {
 	this := WlanAirwatch{}
+	var apiKey string = ""
+	this.ApiKey = &apiKey
+	var consoleUrl string = ""
+	this.ConsoleUrl = &consoleUrl
+	var enabled bool = false
+	this.Enabled = &enabled
+	var password string = ""
+	this.Password = &password
+	var username string = ""
+	this.Username = &username
 	return &this
 }
 
@@ -48,6 +58,16 @@ func NewWlanAirwatch() *WlanAirwatch {
 // but it doesn't guarantee that properties required by API are set
 func NewWlanAirwatchWithDefaults() *WlanAirwatch {
 	this := WlanAirwatch{}
+	var apiKey string = ""
+	this.ApiKey = &apiKey
+	var consoleUrl string = ""
+	this.ConsoleUrl = &consoleUrl
+	var enabled bool = false
+	this.Enabled = &enabled
+	var password string = ""
+	this.Password = &password
+	var username string = ""
+	this.Username = &username
 	return &this
 }
 

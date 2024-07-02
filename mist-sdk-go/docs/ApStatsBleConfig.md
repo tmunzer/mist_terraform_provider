@@ -6,7 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **BeaconRate** | Pointer to **int32** |  | [optional] 
 **BeaconRateModel** | Pointer to **string** |  | [optional] 
-**BeamDisabled** | Pointer to **[]int32** |  | [optional] 
+**BeamDisabled** | Pointer to **[]int32** |  | [optional] [default to []]
 **Power** | Pointer to **int32** |  | [optional] 
 **PowerMode** | Pointer to **string** |  | [optional] 
 

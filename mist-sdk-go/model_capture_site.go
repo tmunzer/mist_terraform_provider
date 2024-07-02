@@ -13,6 +13,7 @@ package mistsdkgo
 
 import (
 	"encoding/json"
+	"gopkg.in/validator.v2"
 	"fmt"
 )
 
@@ -104,7 +105,11 @@ func (dst *CaptureSite) UnmarshalJSON(data []byte) error {
 		if string(jsonCaptureClient) == "{}" { // empty struct
 			dst.CaptureClient = nil
 		} else {
-			match++
+			if err = validator.Validate(dst.CaptureClient); err != nil {
+				dst.CaptureClient = nil
+			} else {
+				match++
+			}
 		}
 	} else {
 		dst.CaptureClient = nil
@@ -117,7 +122,11 @@ func (dst *CaptureSite) UnmarshalJSON(data []byte) error {
 		if string(jsonCaptureGateway) == "{}" { // empty struct
 			dst.CaptureGateway = nil
 		} else {
-			match++
+			if err = validator.Validate(dst.CaptureGateway); err != nil {
+				dst.CaptureGateway = nil
+			} else {
+				match++
+			}
 		}
 	} else {
 		dst.CaptureGateway = nil
@@ -130,7 +139,11 @@ func (dst *CaptureSite) UnmarshalJSON(data []byte) error {
 		if string(jsonCaptureNewAssoc) == "{}" { // empty struct
 			dst.CaptureNewAssoc = nil
 		} else {
-			match++
+			if err = validator.Validate(dst.CaptureNewAssoc); err != nil {
+				dst.CaptureNewAssoc = nil
+			} else {
+				match++
+			}
 		}
 	} else {
 		dst.CaptureNewAssoc = nil
@@ -143,7 +156,11 @@ func (dst *CaptureSite) UnmarshalJSON(data []byte) error {
 		if string(jsonCaptureRadiotap) == "{}" { // empty struct
 			dst.CaptureRadiotap = nil
 		} else {
-			match++
+			if err = validator.Validate(dst.CaptureRadiotap); err != nil {
+				dst.CaptureRadiotap = nil
+			} else {
+				match++
+			}
 		}
 	} else {
 		dst.CaptureRadiotap = nil
@@ -156,7 +173,11 @@ func (dst *CaptureSite) UnmarshalJSON(data []byte) error {
 		if string(jsonCaptureRadiotapwired) == "{}" { // empty struct
 			dst.CaptureRadiotapwired = nil
 		} else {
-			match++
+			if err = validator.Validate(dst.CaptureRadiotapwired); err != nil {
+				dst.CaptureRadiotapwired = nil
+			} else {
+				match++
+			}
 		}
 	} else {
 		dst.CaptureRadiotapwired = nil
@@ -169,7 +190,11 @@ func (dst *CaptureSite) UnmarshalJSON(data []byte) error {
 		if string(jsonCaptureScan) == "{}" { // empty struct
 			dst.CaptureScan = nil
 		} else {
-			match++
+			if err = validator.Validate(dst.CaptureScan); err != nil {
+				dst.CaptureScan = nil
+			} else {
+				match++
+			}
 		}
 	} else {
 		dst.CaptureScan = nil
@@ -182,7 +207,11 @@ func (dst *CaptureSite) UnmarshalJSON(data []byte) error {
 		if string(jsonCaptureSwitch) == "{}" { // empty struct
 			dst.CaptureSwitch = nil
 		} else {
-			match++
+			if err = validator.Validate(dst.CaptureSwitch); err != nil {
+				dst.CaptureSwitch = nil
+			} else {
+				match++
+			}
 		}
 	} else {
 		dst.CaptureSwitch = nil
@@ -195,7 +224,11 @@ func (dst *CaptureSite) UnmarshalJSON(data []byte) error {
 		if string(jsonCaptureWired) == "{}" { // empty struct
 			dst.CaptureWired = nil
 		} else {
-			match++
+			if err = validator.Validate(dst.CaptureWired); err != nil {
+				dst.CaptureWired = nil
+			} else {
+				match++
+			}
 		}
 	} else {
 		dst.CaptureWired = nil
@@ -208,7 +241,11 @@ func (dst *CaptureSite) UnmarshalJSON(data []byte) error {
 		if string(jsonCaptureWireless) == "{}" { // empty struct
 			dst.CaptureWireless = nil
 		} else {
-			match++
+			if err = validator.Validate(dst.CaptureWireless); err != nil {
+				dst.CaptureWireless = nil
+			} else {
+				match++
+			}
 		}
 	} else {
 		dst.CaptureWireless = nil

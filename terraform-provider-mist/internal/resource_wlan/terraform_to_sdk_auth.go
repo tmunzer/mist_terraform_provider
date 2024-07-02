@@ -36,7 +36,11 @@ func authTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, plan AuthV
 	data.SetKeyIdx(int32(plan.KeyIdx.ValueInt64()))
 	data.SetKeys(authKeysTerraformToSdk(ctx, diags, plan.Keys))
 	data.SetMultiPskOnly(plan.MultiPskOnly.ValueBool())
-	data.SetOwe(plan.Owe.ValueString())
+	owe, e := mistsdkgo.NewWlanAuthOweFromValue(plan.Owe.ValueString())
+	if e != nil {
+		diags.AddError("authTerraformToSdk -> OWE", e.Error())
+	}
+	data.SetOwe(*owe)
 	data.SetPairwise(authPairwiseTerraformToSdk(ctx, diags, plan.Pairwise))
 	data.SetPsk(plan.Psk.ValueString())
 	data.SetWepAsSecondaryAuth(plan.WepAsSecondaryAuth.ValueBool())

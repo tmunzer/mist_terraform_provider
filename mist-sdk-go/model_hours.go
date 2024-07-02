@@ -38,6 +38,20 @@ type _Hours Hours
 // will change when the set of required properties is changed
 func NewHours() *Hours {
 	this := Hours{}
+	var fri string = ""
+	this.Fri = &fri
+	var mon string = ""
+	this.Mon = &mon
+	var sat string = ""
+	this.Sat = &sat
+	var sun string = ""
+	this.Sun = &sun
+	var thu string = ""
+	this.Thu = &thu
+	var tue string = ""
+	this.Tue = &tue
+	var wed string = ""
+	this.Wed = &wed
 	return &this
 }
 
@@ -46,6 +60,20 @@ func NewHours() *Hours {
 // but it doesn't guarantee that properties required by API are set
 func NewHoursWithDefaults() *Hours {
 	this := Hours{}
+	var fri string = ""
+	this.Fri = &fri
+	var mon string = ""
+	this.Mon = &mon
+	var sat string = ""
+	this.Sat = &sat
+	var sun string = ""
+	this.Sun = &sun
+	var thu string = ""
+	this.Thu = &thu
+	var tue string = ""
+	this.Tue = &tue
+	var wed string = ""
+	this.Wed = &wed
 	return &this
 }
 

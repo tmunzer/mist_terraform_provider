@@ -54,6 +54,42 @@ type _ApStatsBleStat ApStatsBleStat
 // will change when the set of required properties is changed
 func NewApStatsBleStat() *ApStatsBleStat {
 	this := ApStatsBleStat{}
+	var beaconRate int32 = 0
+	this.BeaconRate = &beaconRate
+	var eddystoneUidEnabled bool = false
+	this.EddystoneUidEnabled = &eddystoneUidEnabled
+	var eddystoneUidFreqMsec int32 = 0
+	this.EddystoneUidFreqMsec = &eddystoneUidFreqMsec
+	var eddystoneUidInstance string = ""
+	this.EddystoneUidInstance = &eddystoneUidInstance
+	var eddystoneUidNamespace string = ""
+	this.EddystoneUidNamespace = &eddystoneUidNamespace
+	var eddystoneUrlEnabled bool = false
+	this.EddystoneUrlEnabled = &eddystoneUrlEnabled
+	var eddystoneUrlFreqMsec int32 = 0
+	this.EddystoneUrlFreqMsec = &eddystoneUrlFreqMsec
+	var eddystoneUrlUrl string = ""
+	this.EddystoneUrlUrl = &eddystoneUrlUrl
+	var ibeaconEnabled bool = false
+	this.IbeaconEnabled = &ibeaconEnabled
+	var ibeaconMajor int32 = 0
+	this.IbeaconMajor = &ibeaconMajor
+	var ibeaconMinor int32 = 0
+	this.IbeaconMinor = &ibeaconMinor
+	var major int32 = 0
+	this.Major = &major
+	var power int32 = 9
+	this.Power = &power
+	var rxBytes int32 = 0
+	this.RxBytes = &rxBytes
+	var rxPkts int32 = 0
+	this.RxPkts = &rxPkts
+	var txBytes int32 = 0
+	this.TxBytes = &txBytes
+	var txPkts int32 = 0
+	this.TxPkts = &txPkts
+	var txResets int32 = 0
+	this.TxResets = &txResets
 	return &this
 }
 
@@ -62,6 +98,42 @@ func NewApStatsBleStat() *ApStatsBleStat {
 // but it doesn't guarantee that properties required by API are set
 func NewApStatsBleStatWithDefaults() *ApStatsBleStat {
 	this := ApStatsBleStat{}
+	var beaconRate int32 = 0
+	this.BeaconRate = &beaconRate
+	var eddystoneUidEnabled bool = false
+	this.EddystoneUidEnabled = &eddystoneUidEnabled
+	var eddystoneUidFreqMsec int32 = 0
+	this.EddystoneUidFreqMsec = &eddystoneUidFreqMsec
+	var eddystoneUidInstance string = ""
+	this.EddystoneUidInstance = &eddystoneUidInstance
+	var eddystoneUidNamespace string = ""
+	this.EddystoneUidNamespace = &eddystoneUidNamespace
+	var eddystoneUrlEnabled bool = false
+	this.EddystoneUrlEnabled = &eddystoneUrlEnabled
+	var eddystoneUrlFreqMsec int32 = 0
+	this.EddystoneUrlFreqMsec = &eddystoneUrlFreqMsec
+	var eddystoneUrlUrl string = ""
+	this.EddystoneUrlUrl = &eddystoneUrlUrl
+	var ibeaconEnabled bool = false
+	this.IbeaconEnabled = &ibeaconEnabled
+	var ibeaconMajor int32 = 0
+	this.IbeaconMajor = &ibeaconMajor
+	var ibeaconMinor int32 = 0
+	this.IbeaconMinor = &ibeaconMinor
+	var major int32 = 0
+	this.Major = &major
+	var power int32 = 9
+	this.Power = &power
+	var rxBytes int32 = 0
+	this.RxBytes = &rxBytes
+	var rxPkts int32 = 0
+	this.RxPkts = &rxPkts
+	var txBytes int32 = 0
+	this.TxBytes = &txBytes
+	var txPkts int32 = 0
+	this.TxPkts = &txPkts
+	var txResets int32 = 0
+	this.TxResets = &txResets
 	return &this
 }
 

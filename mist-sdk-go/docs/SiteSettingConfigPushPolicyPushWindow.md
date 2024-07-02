@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Enabled** | Pointer to **bool** |  | [optional] [default to true]
+**Enabled** | Pointer to **bool** |  | [optional] [default to false]
 **Hours** | Pointer to [**Hours**](Hours.md) |  | [optional] 
 
 ## Methods

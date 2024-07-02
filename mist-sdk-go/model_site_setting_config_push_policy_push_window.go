@@ -33,7 +33,7 @@ type _SiteSettingConfigPushPolicyPushWindow SiteSettingConfigPushPolicyPushWindo
 // will change when the set of required properties is changed
 func NewSiteSettingConfigPushPolicyPushWindow() *SiteSettingConfigPushPolicyPushWindow {
 	this := SiteSettingConfigPushPolicyPushWindow{}
-	var enabled bool = true
+	var enabled bool = false
 	this.Enabled = &enabled
 	return &this
 }
@@ -43,7 +43,7 @@ func NewSiteSettingConfigPushPolicyPushWindow() *SiteSettingConfigPushPolicyPush
 // but it doesn't guarantee that properties required by API are set
 func NewSiteSettingConfigPushPolicyPushWindowWithDefaults() *SiteSettingConfigPushPolicyPushWindow {
 	this := SiteSettingConfigPushPolicyPushWindow{}
-	var enabled bool = true
+	var enabled bool = false
 	this.Enabled = &enabled
 	return &this
 }

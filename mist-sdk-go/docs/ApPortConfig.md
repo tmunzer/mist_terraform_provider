@@ -4,14 +4,14 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Disabled** | Pointer to **bool** |  | [optional] 
+**Disabled** | Pointer to **bool** |  | [optional] [default to false]
 **DynamicVlan** | Pointer to [**ApPortConfigDynamicVlan**](ApPortConfigDynamicVlan.md) |  | [optional] 
 **EnableMacAuth** | Pointer to **bool** |  | [optional] [default to false]
 **Forwarding** | Pointer to [**ApPortConfigForwarding**](ApPortConfigForwarding.md) |  | [optional] [default to APPORTCONFIGFORWARDING_ALL]
 **MacAuthProtocol** | Pointer to [**ApPortConfigMacAuthProtocol**](ApPortConfigMacAuthProtocol.md) |  | [optional] [default to APPORTCONFIGMACAUTHPROTOCOL_PAP]
 **MistNac** | Pointer to [**WlanMistNac**](WlanMistNac.md) |  | [optional] 
 **MxTunnelId** | Pointer to **string** | if &#x60;forwarding&#x60;&#x3D;&#x3D;&#x60;mxtunnel&#x60;, vlan_ids comes from mxtunnel | [optional] 
-**MxtunnelName** | Pointer to **string** | if &#x60;forwarding&#x60;&#x3D;&#x3D;&#x60;site_mxedge&#x60;, vlan_ids comes from site_mxedge (&#x60;mxtunnels&#x60; under site setting) | [optional] 
+**MxtunnelName** | Pointer to **string** | if &#x60;forwarding&#x60;&#x3D;&#x3D;&#x60;site_mxedge&#x60;, vlan_ids comes from site_mxedge (&#x60;mxtunnels&#x60; under site setting) | [optional] [default to ""]
 **PortAuth** | Pointer to [**ApPortConfigPortAuth**](ApPortConfigPortAuth.md) |  | [optional] [default to APPORTCONFIGPORTAUTH_NONE]
 **PortVlanId** | Pointer to **int32** | if &#x60;forwrding&#x60;&#x3D;&#x3D;&#x60;limited&#x60; | [optional] 
 **RadiusConfig** | Pointer to [**RadiusConfig**](RadiusConfig.md) |  | [optional] 
@@ -19,7 +19,7 @@ Name | Type | Description | Notes
 **VlanId** | Pointer to **int32** | optional to specify the vlan id for a tunnel if forwarding is for &#x60;wxtunnel&#x60;, &#x60;mxtunnel&#x60; or &#x60;site_mxedge&#x60;. * if vlan_id is not specified then it will use first one in vlan_ids[] of the mxtunnel. * if forwarding &#x3D;&#x3D; site_mxedge, vlan_ids comes from site_mxedge (&#x60;mxtunnels&#x60; under site setting) | [optional] 
 **VlandIds** | Pointer to **[]int32** | if &#x60;forwrding&#x60;&#x3D;&#x3D;&#x60;limited&#x60; | [optional] 
 **WxtunnelId** | Pointer to **string** | if &#x60;forwarding&#x60;&#x3D;&#x3D;&#x60;wxtunnel&#x60;, the port is bridged to the vlan of the session | [optional] 
-**WxtunnelRemoteId** | Pointer to **string** | if &#x60;forwarding&#x60;&#x3D;&#x3D;&#x60;wxtunnel&#x60;, the port is bridged to the vlan of the session | [optional] 
+**WxtunnelRemoteId** | Pointer to **string** | if &#x60;forwarding&#x60;&#x3D;&#x3D;&#x60;wxtunnel&#x60;, the port is bridged to the vlan of the session | [optional] [default to ""]
 
 ## Methods
 

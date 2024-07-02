@@ -34,6 +34,8 @@ type _WlanAppQos WlanAppQos
 // will change when the set of required properties is changed
 func NewWlanAppQos() *WlanAppQos {
 	this := WlanAppQos{}
+	var enabled bool = false
+	this.Enabled = &enabled
 	return &this
 }
 
@@ -42,6 +44,8 @@ func NewWlanAppQos() *WlanAppQos {
 // but it doesn't guarantee that properties required by API are set
 func NewWlanAppQosWithDefaults() *WlanAppQos {
 	this := WlanAppQos{}
+	var enabled bool = false
+	this.Enabled = &enabled
 	return &this
 }
 

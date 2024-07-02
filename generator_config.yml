@@ -1,5 +1,11 @@
 provider:
   name: mistapi
+data_sources:
+  countries:
+    read:
+      path: /api/v1/const/countries
+      method: GET
+
 resources:
   org:
     create:
@@ -234,7 +240,6 @@ resources:
         - created_time
         - modified_time
         - id
-        - org_id
         - for_site
         - additional_config_cmds
         - ap_matching

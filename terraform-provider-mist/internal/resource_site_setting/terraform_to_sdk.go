@@ -27,16 +27,14 @@ func TerraformToSdk(ctx context.Context, plan *SiteSettingModel) (mistsdkgo.Site
 		data.SetAutoUpgrade(*mistsdkgo.NewSiteSettingAutoUpgradeWithDefaults())
 	}
 
-	if !plan.BleConfig.IsNull() && !plan.BleConfig.IsUnknown() {
-		ble_config := siteSettingBleConfigTerraformToSdk(ctx, &diags, plan.BleConfig)
-		data.SetBleConfig(*ble_config)
-	}
+	ble_config := siteSettingBleConfigTerraformToSdk(ctx, &diags, plan.BleConfig)
+	data.SetBleConfig(*ble_config)
+
 	data.SetConfigAutoRevert(plan.ConfigAutoRevert.ValueBool())
 
 	if !plan.ConfigPushPolicy.IsNull() && !plan.ConfigPushPolicy.IsUnknown() {
 		push_policy := pushPolicyConfigTerraformToSdk(ctx, &diags, plan.ConfigPushPolicy)
 		data.SetConfigPushPolicy(*push_policy)
-
 	}
 
 	if !plan.CriticalUrlMonitoring.IsNull() && !plan.CriticalUrlMonitoring.IsUnknown() {

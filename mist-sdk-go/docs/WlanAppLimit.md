@@ -4,9 +4,9 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Apps** | Pointer to **map[string]int32** | Map from app key to bandwidth in kbps.  Property key is the app key, defined in Get Application List | [optional] 
+**Apps** | Pointer to **map[string]int32** | Map from app key to bandwidth in kbps.  Property key is the app key, defined in Get Application List | [optional] [default to {}]
 **Enabled** | Pointer to **bool** |  | [optional] [default to false]
-**WxtagIds** | Pointer to **map[string]int32** | Map from wxtag_id of Hostname Wxlan Tags to bandwidth in kbps Property key is the wxtag id | [optional] 
+**WxtagIds** | Pointer to **map[string]int32** | Map from wxtag_id of Hostname Wxlan Tags to bandwidth in kbps Property key is the wxtag id | [optional] [default to {}]
 
 ## Methods
 

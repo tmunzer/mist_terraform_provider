@@ -51555,6 +51555,7 @@ components:
     ap_port_config:
       properties:
         disabled:
+          default: false
           type: boolean
         dynamic_vlan:
           $ref: '#/components/schemas/ap_port_config_dynamic_vlan'
@@ -51568,11 +51569,13 @@ components:
         mist_nac:
           $ref: '#/components/schemas/wlan_mist_nac'
         mx_tunnel_id:
+          default: ''
           description: if `forwarding`==`mxtunnel`, vlan_ids comes from mxtunnel
           example: 08cd7499-5841-51c8-e663-fb16b6f3b45e
           format: uuid
           type: string
         mxtunnel_name:
+          default: ''
           description: if `forwarding`==`site_mxedge`, vlan_ids comes from site_mxedge
             (`mxtunnels` under site setting)
           type: string
@@ -51604,12 +51607,14 @@ components:
         vland_ids:
           $ref: '#/components/schemas/ap_port_config_vland_ids'
         wxtunnel_id:
+          default: ''
           description: if `forwarding`==`wxtunnel`, the port is bridged to the vlan
             of the session
           example: 7dae216d-7c98-a51b-e068-dd7d477b7216
           format: uuid
           type: string
         wxtunnel_remote_id:
+          default: ''
           description: if `forwarding`==`wxtunnel`, the port is bridged to the vlan
             of the session
           example: wifiguest
@@ -52475,74 +52480,95 @@ components:
           type: string
       type: object
     ap_stats_ble_config_beam_disabled:
+      default: []
       items:
         type: integer
       type: array
     ap_stats_ble_stat:
       properties:
         beacon_rate:
+          default: 0
           example: 3
           type: integer
         eddystone_uid_enabled:
+          default: false
           example: false
           type: boolean
         eddystone_uid_freq_msec:
+          default: 0
           example: 200
           type: integer
         eddystone_uid_instance:
+          default: ''
           example: 5c5b35000001
           type: string
         eddystone_uid_namespace:
+          default: ''
           example: 2818e3868dec25629ede
           type: string
         eddystone_url_enabled:
+          default: false
           example: true
           type: boolean
         eddystone_url_freq_msec:
+          default: 0
           description: Frequency (msec) of data emmit by Eddystone-UID beacon
           example: 100
           type: integer
         eddystone_url_url:
+          default: ''
           example: https://www.abc.com
           type: string
         ibeacon_enabled:
+          default: false
           example: true
           type: boolean
         ibeacon_major:
+          default: 0
           example: 13
           type: integer
         ibeacon_minor:
+          default: 0
           example: 138
           type: integer
         ibeacon_uuid:
+          default: ''
           example: f3f17139-704a-f03a-2786-0400279e37c3
           format: uuid
           type: string
         major:
+          default: 0
           example: 12345
           type: integer
         minors:
           $ref: '#/components/schemas/integers'
         power:
+          default: 9
           example: 10
           type: integer
         rx_bytes:
+          default: 0
           example: 135
           type: integer
         rx_pkts:
+          default: 0
           example: 135
           type: integer
         tx_bytes:
+          default: 0
           example: 5231513353
           type: integer
         tx_pkts:
+          default: 0
           example: 135135135
           type: integer
         tx_resets:
+          default: 0
           description: resets due to tx hung
           example: 0
           type: integer
         uuid:
+          default: ''
           example: ada72f8f-1643-e5c6-94db-f2a5636f1a64
           format: uuid
           type: string
@@ -53715,6 +53741,7 @@ components:
           description: whether Mist beacons is enabled
           type: boolean
         beacon_rate:
+          default: 0
           description: required if `beacon_rate_mode`==`custom`, 1-10, in number-beacons-per-second
           example: 3
           type: integer
@@ -53728,16 +53755,19 @@ components:
             custom packet
           type: boolean
         custom_ble_packet_frame:
+          default: ''
           description: The custom frame to be sent out in this beacon. The frame must
             be a hexstring
           example: 0x........
           type: string
         custom_ble_packet_freq_msec:
+          default: 0
           description: Frequency (msec) of data emitted by custom ble beacon
           example: 300
           minimum: 0
           type: integer
         eddystone_uid_adv_power:
+          default: 0
           description: advertised TX Power, -100 to 20 (dBm), omit this attribute
             to use default
           example: -65
@@ -53745,6 +53775,7 @@ components:
           minimum: -100
           type: integer
         eddystone_uid_beams:
+          default: ''
           example: 2-4,7
           type: string
         eddystone_uid_enabled:
@@ -53753,18 +53784,22 @@ components:
             is enabled
           type: boolean
         eddystone_uid_freq_msec:
+          default: 0
           description: Frequency (msec) of data emmit by Eddystone-UID beacon
           example: 200
           type: integer
         eddystone_uid_instance:
+          default: ''
           description: Eddystone-UID instance for the device
           example: 5c5b35000001
           type: string
         eddystone_uid_namespace:
+          default: ''
           description: Eddystone-UID namespace
           example: 2818e3868dec25629ede
           type: string
         eddystone_url_adv_power:
+          default: 0
           description: advertised TX Power, -100 to 20 (dBm), omit this attribute
             to use default
           example: -65
@@ -53772,21 +53807,26 @@ components:
           minimum: -100
           type: integer
         eddystone_url_beams:
+          default: ''
           example: 2-4,7
           type: string
         eddystone_url_enabled:
+          default: false
           description: only if `beacon_enabled`==`false`, Whether Eddystone-URL beacon
             is enabled
           type: boolean
         eddystone_url_freq_msec:
+          default: 0
           description: Frequency (msec) of data emit by Eddystone-UID beacon
           example: 1000
           type: integer
         eddystone_url_url:
+          default: ''
           description: URL pointed by Eddystone-URL beacon
           example: https://www.abc.com
           type: string
         ibeacon_adv_power:
+          default: 0
           description: advertised TX Power, -100 to 20 (dBm), omit this attribute
             to use default
           example: -65
@@ -53794,6 +53834,7 @@ components:
           minimum: -100
           type: integer
         ibeacon_beams:
+          default: ''
           example: 2-4,7
           type: string
         ibeacon_enabled:
@@ -53802,21 +53843,25 @@ components:
             iBeacon
           type: boolean
         ibeacon_freq_msec:
+          default: 0
           description: Frequency (msec) of data emmit for iBeacon
           type: integer
         ibeacon_major:
+          default: 0
           description: Major number for iBeacon
           example: 13
           maximum: 65535
           minimum: 1
           type: integer
         ibeacon_minor:
+          default: 0
           description: Minor number for iBeacon
           example: 138
           maximum: 65535
           minimum: 1
           type: integer
         ibeacon_uuid:
+          default: ''
           description: optional, if not specified, the same UUID as the beacon will
             be used
           example: f3f17139-704a-f03a-2786-0400279e37c3
@@ -59384,24 +59429,31 @@ components:
         s treated as 00:00-23:59."
       properties:
         fri:
+          default: ''
           example: 09:00-17:00
           type: string
         mon:
+          default: ''
           example: 09:00-17:00
           type: string
         sat:
+          default: ''
           example: 09:00-12:00
           type: string
         sun:
+          default: ''
           example: 09:00-12:00
           type: string
         thu:
+          default: ''
           example: 09:00-17:00
           type: string
         tue:
+          default: ''
           example: 09:00-17:00
           type: string
         wed:
+          default: ''
           example: 09:00-17:00
           type: string
       type: object
@@ -72333,7 +72385,7 @@ components:
         specified time window
       properties:
         enabled:
-          default: true
+          default: false
           type: boolean
         hours:
           $ref: '#/components/schemas/hours'
@@ -79458,6 +79510,7 @@ components:
             only allow certain bcast packets to go through)
           type: boolean
         limit_probe_response:
+          default: false
           description: limit probe response base on some heuristic rules
           type: boolean
         max_idletime:
@@ -79473,6 +79526,7 @@ components:
           readOnly: true
           type: number
         msp_id:
+          default: ''
           format: uuid
           readOnly: true
           type: string
@@ -79505,6 +79559,7 @@ components:
         portal_allowed_subnets:
           $ref: '#/components/schemas/wlan_portal_allowed_subnets'
         portal_api_secret:
+          default: ''
           description: api secret (auto-generated) that can be used to sign guest
             authorization requests
           example: EIfPMOykI3lMlDdNPub2WcbqT6dNOtWwmYHAd6bY
@@ -79513,15 +79568,18 @@ components:
         portal_denied_hostnames:
           $ref: '#/components/schemas/wlan_portal_denied_hostnames'
         portal_image:
+          default: ''
           description: Url of portal background image
           format: uri
           nullable: true
+          readOnly: true
           type: string
         portal_sso_url:
           nullable: true
           readOnly: true
           type: string
         portal_template_url:
+          default: ''
           description: N.B portal_template will be forked out of wlan objects soon.
             To fetch portal_template, please query portal_template_url. To update
             portal_template, use Wlan Portal Template.
@@ -79549,13 +79607,16 @@ components:
           example: corporate
           type: string
         template_id:
+          default: ''
           format: uuid
           nullable: true
           type: string
         thumbnail:
+          default: ''
           description: Url of portal background image thumbnail
           format: uri
           nullable: true
+          readOnly: true
           type: string
         use_eapol_v1:
           default: false
@@ -79579,14 +79640,18 @@ components:
             a deterministic algorithm
           type: boolean
         wlan_limit_down:
+          default: null
           description: kbps
+          nullable: true
           type: integer
         wlan_limit_down_enabled:
           default: false
           description: if downlink limiting for whole wlan is enabled
           type: boolean
         wlan_limit_up:
+          default: null
           description: kbps
+          nullable: true
           type: integer
         wlan_limit_up_enabled:
           default: false
@@ -79595,10 +79660,12 @@ components:
         wxtag_ids:
           $ref: '#/components/schemas/wlan_wxtag_ids'
         wxtunnel_id:
+          default: ''
           description: when `interface`=`wxtunnel`, id of the WXLAN Tunnel
           nullable: true
           type: string
         wxtunnel_remote_id:
+          default: ''
           description: when `interface`=`wxtunnel`, remote tunnel identifier
           nullable: true
           type: string
@@ -79606,6 +79673,7 @@ components:
       - ssid
       type: object
     wlan_acct_servers:
+      default: []
       description: list of RADIUS accounting servers, optional, order matters where
         the first one is treated as primary
       items:
@@ -79615,25 +79683,31 @@ components:
       description: airwatch wlan settings
       properties:
         api_key:
+          default: ''
           description: API Key
           example: aHhlbGxvYXNkZmFzZGZhc2Rmc2RmCg=="
           type: string
         console_url:
+          default: ''
           description: console URL
           example: https://hs1.airwatchportals.com
           type: string
         enabled:
+          default: false
           type: boolean
         password:
+          default: ''
           description: password
           example: user1
           type: string
         username:
+          default: ''
           description: username
           example: test123
           type: string
       type: object
     wlan_ap_ids:
+      default: []
       description: list of device ids
       items:
         format: uuid
@@ -79646,6 +79720,7 @@ components:
         apps:
           additionalProperties:
             type: integer
+          default: {}
           description: "Map from app key to bandwidth in kbps. \nProperty key is the\
             \ app key, defined in Get Application List"
           example:
@@ -79658,6 +79733,7 @@ components:
         wxtag_ids:
           additionalProperties:
             type: integer
+          default: {}
           description: 'Map from wxtag_id of Hostname Wxlan Tags to bandwidth in kbps
 
             Property key is the wxtag id'
@@ -79671,6 +79747,7 @@ components:
         apps:
           additionalProperties:
             $ref: '#/components/schemas/wlan_app_qos_apps_properties'
+          default: {}
           example:
             skype-business-video:
               dscp: 32
@@ -79678,9 +79755,11 @@ components:
               src_subnet: 10.2.0.0/16
           type: object
         enabled:
+          default: false
           type: boolean
         others:
           $ref: '#/components/schemas/wlan_app_qos_others'
+          default: {}
       type: object
     wlan_app_qos_apps_properties:
       properties:
@@ -79757,14 +79836,16 @@ components:
           description: whether to only use multi_psk
           type: boolean
         owe:
-          type: string
+          $ref: '#/components/schemas/wlan_auth_owe'
         pairwise:
           $ref: '#/components/schemas/wlan_auth_pairwise'
         private_wlan:
+          default: false
           description: whether private wlan is enabled. only applicable to multi_psk
             mode
           type: boolean
         psk:
+          default: ''
           description: when type=psk, 8-64 characters, or 64 hex characters
           example: foryoureyesonly
           maxLength: 64
@@ -79774,18 +79855,28 @@ components:
         type:
           $ref: '#/components/schemas/wlan_auth_type'
         wep_as_secondary_auth:
+          default: false
           description: enable WEP as secondary auth
           type: boolean
       required:
       - type
       type: object
     wlan_auth_keys:
+      default: []
       description: when type=wep, four 10-character or 26-character hex string, null
         can be used. All keys, if provided, have to be in the same length
       items:
         nullable: true
         type: string
       type: array
+    wlan_auth_owe:
+      default: disabled
+      description: '`enabled` means transition mode'
+      enum:
+      - enabled
+      - disabled
+      - required
+      type: string
     wlan_auth_pairwise:
       default:
       - wpa2-ccmp
@@ -79816,6 +79907,7 @@ components:
       example: ordered
       type: string
     wlan_auth_servers:
+      default: []
       description: list of RADIUS authentication servers, at least one is needed if
         `auth type`==`eap`, order matters where the first one is treated as primary
       items:
@@ -79855,6 +79947,7 @@ components:
         services:
           additionalProperties:
             $ref: '#/components/schemas/wlan_bonjour_service_properties'
+          default: {}
           description: "what services are allowed. \nProperty key is the service name"
           example:
             airplay:
@@ -79867,6 +79960,7 @@ components:
       - additional_vlan_ids
       type: object
     wlan_bonjour_additional_vlan_ids:
+      default: []
       description: additional VLAN IDs (on the LAN side or from other WLANs) should
         we be forwarding bonjour queries/responses
       items:
@@ -80255,11 +80349,13 @@ components:
       description: portal wlan settings
       properties:
         amazon_client_id:
+          default: ''
           description: amazon OAuth2 client id. This is optional. If not provided,
             it will use a default one.
           nullable: true
           type: string
         amazon_client_secret:
+          default: ''
           description: amazon OAuth2 client secret. If amazon_client_id was provided,
             provide a correspoinding value. Else leave blank.
           nullable: true
@@ -80280,12 +80376,14 @@ components:
         auth:
           $ref: '#/components/schemas/wlan_portal_auth'
         azure_client_id:
+          default: ''
           description: 'Required if `azure_enabled`==`true`.
 
             Azure active directory app client id'
           nullable: true
           type: string
         azure_client_secret:
+          default: ''
           description: 'Required if `azure_enabled`==`true`.
 
             Azure active directory app client secret'
@@ -80303,12 +80401,14 @@ components:
           nullable: true
           type: number
         azure_tenant_id:
+          default: ''
           description: 'Required if `azure_enabled`==`true`.
 
             Azure active directory tenant id.'
           nullable: true
           type: string
         broadnet_password:
+          default: ''
           description: when `sms_provider`==`broadnet`
           example: password
           type: string
@@ -80318,6 +80418,7 @@ components:
           example: MIST
           type: string
         broadnet_user_id:
+          default: ''
           description: when `sms_provider`==`broadnet`
           example: juniper
           type: string
@@ -80327,6 +80428,7 @@ components:
             (and apply the default policies)
           type: boolean
         clickatell_api_key:
+          default: ''
           description: when `sms_provider`==`clickatell`
           type: string
         cross_site:
@@ -80350,10 +80452,12 @@ components:
           format: double
           type: number
         external_portal_url:
+          default: ''
           description: external portal URL (e.g. https://host/url) where we can append
             our query parameters to
           type: string
         facebook_client_id:
+          default: ''
           description: 'Required if `facebook_enabled`==`true`.
 
             Facebook OAuth2 app id. This is optional. If not provided, it will use
@@ -80361,6 +80465,7 @@ components:
           nullable: true
           type: string
         facebook_client_secret:
+          default: ''
           description: 'Required if `facebook_enabled`==`true`.
 
             Facebook OAuth2 app secret. If facebook_client_id was provided, provide
@@ -80385,16 +80490,19 @@ components:
           description: whether to forward the user to another URL after authorized
           type: boolean
         forward_url:
+          default: ''
           description: the URL to forward the user to
           example: http://abc.com/promotions
           nullable: true
           type: string
         google_client_id:
+          default: ''
           description: Google OAuth2 app id. This is optional. If not provided, it
             will use a default one.
           nullable: true
           type: string
         google_client_secret:
+          default: ''
           description: Google OAuth2 app secret. If google_client_id was provided,
             provide a correspoinding value. Else leave blank.
           nullable: true
@@ -80413,17 +80521,21 @@ components:
           nullable: true
           type: number
         gupshup_password:
+          default: ''
           description: when `sms_provider`==`gupshup`
           type: string
         gupshup_userid:
+          default: ''
           description: when `sms_provider`==`gupshup`
           type: string
         microsoft_client_id:
+          default: ''
           description: microsoft 365 OAuth2 client id. This is optional. If not provided,
             it will use a default one.
           nullable: true
           type: string
         microsoft_client_secret:
+          default: ''
           description: microsoft 365 OAuth2 client secret. If microsoft_client_id
             was provided, provide a correspoinding value. Else leave blank.
           nullable: true
@@ -80453,30 +80565,37 @@ components:
           nullable: true
           type: number
         password:
+          default: ''
           description: passphrase
           example: let me in
           nullable: true
           type: string
         portal_allowed_hostnames:
+          default: ''
           description: list of hostnames without http(s):// (matched by substring)
           type: string
         portal_allowed_subnets:
+          default: ''
           description: list of CIDRs
           type: string
         portal_api_secret:
+          default: ''
           description: api secret (auto-generated) that can be used to sign guest
             authorization requests
           type: string
         portal_denied_hostnames:
+          default: ''
           description: list of hostnames without http(s):// (matched by substring),
             this takes precedence over portal_allowed_hostnames
           type: string
         portal_image:
+          default: ''
           description: Url of portal background image
           example: https://url/to/image.png
           type: string
         portal_sso_url:
           description: for SAML, this is used as the ACS URL
+          readOnly: true
           type: string
         predefined_sponsors_enabled:
           default: true
@@ -80488,15 +80607,19 @@ components:
           default: true
           type: boolean
         puzzel_password:
+          default: ''
           description: when `sms_provider`==`puzzel`
           type: string
         puzzel_service_id:
+          default: ''
           description: when `sms_provider`==`puzzel`
           type: string
         puzzel_username:
+          default: ''
           description: when `sms_provider`==`puzzel`
           type: string
         smsMessageFormat:
+          default: ''
           type: string
         sms_enabled:
           default: false
@@ -80550,6 +80673,7 @@ components:
         sponsors:
           additionalProperties:
             type: string
+          default: {}
           description: 'object of allowed sponsors email with name. Required if `sponsor_enabled`
             is `true` and `sponsor_email_domains` is empty.
 
@@ -80559,53 +80683,66 @@ components:
             sponsor2@company.com: FirstName2 LastName2
           type: object
         sso_default_role:
+          default: ''
           description: "default role to assign if there\u2019s no match. By default,\
             \ an assertion is treated as invalid when there\u2019s no role matched"
           type: string
         sso_forced_role:
+          default: ''
           type: string
         sso_idp_cert:
+          default: ''
           description: IDP Cert (used to verify the signed response)
           type: string
         sso_idp_sign_algo:
+          default: ''
           description: signing algorithm for SAML Assertion
           type: string
         sso_idp_sso_url:
+          default: ''
           description: IDP Single-Sign-On URL
           type: string
         sso_issuer:
+          default: ''
           description: IDP issuer URL
           type: string
         sso_nameid_format:
           $ref: '#/components/schemas/wlan_portal_sso_nameid_format'
         telstra_client_id:
+          default: ''
           description: when `sms_provider`==`telstra`, Client ID provided by Telstra
           type: string
         telstra_client_secret:
+          default: ''
           description: when `sms_provider`==`telstra`, Client secret provided by Telstra
           type: string
         thumbnail:
+          default: ''
           description: Url of portal background image thumbnail
           type: string
         twilio_auth_token:
+          default: ''
           description: when `sms_provider`==`twilio`, Auth token account with twilio
             account
           example: af9dac44c344a875ab5d31cb7abcdefg
           nullable: true
           type: string
         twilio_phone_number:
+          default: ''
           description: when `sms_provider`==`twilio`, Twilio phone number associated
             with the account. See example for accepted format.
           example: '+18548888888'
           nullable: true
           type: string
         twilio_sid:
+          default: ''
           description: when `sms_provider`==`twilio`, Account SID provided by Twilio
           example: AC72ec6ba0ec5af30e6731c5e47abcdefgh
           nullable: true
           type: string
       type: object
     wlan_portal_allowed_hostnames:
+      default: []
       description: list of hostnames without http(s):// (matched by substring)
       example:
       - snapchat.com
@@ -80614,6 +80751,7 @@ components:
         type: string
       type: array
     wlan_portal_allowed_subnets:
+      default: []
       description: list of CIDRs
       example:
       - 63.5.3.0/24
@@ -80621,6 +80759,7 @@ components:
         type: string
       type: array
     wlan_portal_amazon_email_domains:
+      default: []
       description: Matches authenticated user email against provided domains. If null
         or [], all authenticated emails will be allowed.
       items:
@@ -80637,6 +80776,7 @@ components:
       example: none
       type: string
     wlan_portal_denied_hostnames:
+      default: []
       description: list of hostnames without http(s):// (matched by substring), this
         takes precedence over portal_allowed_hostnames
       example:
@@ -80645,12 +80785,14 @@ components:
         type: string
       type: array
     wlan_portal_facebook_email_domains:
+      default: []
       description: Matches authenticated user email against provided domains. If null
         or [], all authenticated emails will be allowed.
       items:
         type: string
       type: array
     wlan_portal_google_email_domains:
+      default: []
       description: Matches authenticated user email against provided domains. If null
         or [], all authenticated emails will be allowed.
       example:
@@ -80660,6 +80802,7 @@ components:
         type: string
       type: array
     wlan_portal_microsoft_email_domains:
+      default: []
       description: Matches authenticated user email against provided domains. If null
         or [], all authenticated emails will be allowed.
       items:
@@ -80679,6 +80822,7 @@ components:
       example: twilio
       type: string
     wlan_portal_sponsor_email_domains:
+      default: []
       description: list of domain allowed for sponsor email. Required if `sponsor_enabled`
         is `true` and `sponsors` is empty.
       example:

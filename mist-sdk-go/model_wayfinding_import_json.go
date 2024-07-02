@@ -13,6 +13,7 @@ package mistsdkgo
 
 import (
 	"encoding/json"
+	"gopkg.in/validator.v2"
 	"fmt"
 )
 
@@ -48,7 +49,11 @@ func (dst *WayfindingImportJson) UnmarshalJSON(data []byte) error {
 		if string(jsonMapJibestream) == "{}" { // empty struct
 			dst.MapJibestream = nil
 		} else {
-			match++
+			if err = validator.Validate(dst.MapJibestream); err != nil {
+				dst.MapJibestream = nil
+			} else {
+				match++
+			}
 		}
 	} else {
 		dst.MapJibestream = nil
@@ -61,7 +66,11 @@ func (dst *WayfindingImportJson) UnmarshalJSON(data []byte) error {
 		if string(jsonMapMicello) == "{}" { // empty struct
 			dst.MapMicello = nil
 		} else {
-			match++
+			if err = validator.Validate(dst.MapMicello); err != nil {
+				dst.MapMicello = nil
+			} else {
+				match++
+			}
 		}
 	} else {
 		dst.MapMicello = nil

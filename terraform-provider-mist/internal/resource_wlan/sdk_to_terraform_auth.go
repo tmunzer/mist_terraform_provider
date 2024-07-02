@@ -35,7 +35,7 @@ func authSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, data mists
 		"key_idx":               types.Int64Value(int64(data.GetKeyIdx())),
 		"keys":                  keys,
 		"multi_psk_only":        types.BoolValue(data.GetMultiPskOnly()),
-		"owe":                   types.StringValue(data.GetOwe()),
+		"owe":                   types.StringValue(string(data.GetOwe())),
 		"pairwise":              pairwise,
 		"private_wlan":          types.BoolValue(data.GetPrivateWlan()),
 		"psk":                   types.StringValue(data.GetPsk()),

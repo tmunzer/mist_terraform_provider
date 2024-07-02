@@ -18,11 +18,11 @@ func pushPolicyPushWindowConfigTerraformToSdk(ctx context.Context, diags *diag.D
 	if d.IsNull() || d.IsUnknown() {
 		return data
 	} else {
-		var v_interface interface{} = d
-		v := v_interface.(PushWindowValue)
-		data.SetEnabled(v.Enabled.ValueBool())
+		vd, e := NewPushWindowValue(PushWindowValue{}.AttributeTypes(ctx), d.Attributes())
+		diags.Append(e...)
+		data.SetEnabled(vd.Enabled.ValueBool())
 
-		hours := hours.HoursTerraformToSdk(ctx, diags, v.Hours)
+		hours := hours.HoursTerraformToSdk(ctx, diags, vd.Hours)
 		data.SetHours(hours)
 
 		return data

@@ -4,11 +4,11 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**ApiKey** | Pointer to **string** | API Key | [optional] 
-**ConsoleUrl** | Pointer to **string** | console URL | [optional] 
-**Enabled** | Pointer to **bool** |  | [optional] 
-**Password** | Pointer to **string** | password | [optional] 
-**Username** | Pointer to **string** | username | [optional] 
+**ApiKey** | Pointer to **string** | API Key | [optional] [default to ""]
+**ConsoleUrl** | Pointer to **string** | console URL | [optional] [default to ""]
+**Enabled** | Pointer to **bool** |  | [optional] [default to false]
+**Password** | Pointer to **string** | password | [optional] [default to ""]
+**Username** | Pointer to **string** | username | [optional] [default to ""]
 
 ## Methods
 

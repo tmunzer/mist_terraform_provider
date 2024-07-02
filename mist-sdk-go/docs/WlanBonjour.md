@@ -4,9 +4,9 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**AdditionalVlanIds** | **[]int32** | additional VLAN IDs (on the LAN side or from other WLANs) should we be forwarding bonjour queries/responses | 
+**AdditionalVlanIds** | **[]int32** | additional VLAN IDs (on the LAN side or from other WLANs) should we be forwarding bonjour queries/responses | [default to []]
 **Enabled** | Pointer to **bool** | whether to enable bonjour for this WLAN. Once enabled, limit_bcast is assumed true, allow_mdns is assumed false | [optional] [default to false]
-**Services** | [**map[string]WlanBonjourServiceProperties**](WlanBonjourServiceProperties.md) | what services are allowed.  Property key is the service name | 
+**Services** | [**map[string]WlanBonjourServiceProperties**](WlanBonjourServiceProperties.md) | what services are allowed.  Property key is the service name | [default to {}]
 
 ## Methods
 

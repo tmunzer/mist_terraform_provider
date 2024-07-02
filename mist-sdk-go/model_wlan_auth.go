@@ -33,7 +33,7 @@ type WlanAuth struct {
 	Keys []*string `json:"keys,omitempty"`
 	// whether to only use multi_psk
 	MultiPskOnly *bool `json:"multi_psk_only,omitempty"`
-	Owe *string `json:"owe,omitempty"`
+	Owe *WlanAuthOwe `json:"owe,omitempty"`
 	// when type=psk / eap, one or more of wpa2-ccmp / wpa1-tkip / wpa1-ccmp / wpa2-tkip
 	Pairwise []WlanAuthPairwiseItem `json:"pairwise,omitempty"`
 	// whether private wlan is enabled. only applicable to multi_psk mode
@@ -64,7 +64,15 @@ func NewWlanAuth(type_ WlanAuthType) *WlanAuth {
 	this.KeyIdx = &keyIdx
 	var multiPskOnly bool = false
 	this.MultiPskOnly = &multiPskOnly
+	var owe WlanAuthOwe = WLANAUTHOWE_DISABLED
+	this.Owe = &owe
+	var privateWlan bool = false
+	this.PrivateWlan = &privateWlan
+	var psk string = ""
+	this.Psk = *NewNullableString(&psk)
 	this.Type = type_
+	var wepAsSecondaryAuth bool = false
+	this.WepAsSecondaryAuth = &wepAsSecondaryAuth
 	return &this
 }
 
@@ -83,8 +91,16 @@ func NewWlanAuthWithDefaults() *WlanAuth {
 	this.KeyIdx = &keyIdx
 	var multiPskOnly bool = false
 	this.MultiPskOnly = &multiPskOnly
+	var owe WlanAuthOwe = WLANAUTHOWE_DISABLED
+	this.Owe = &owe
+	var privateWlan bool = false
+	this.PrivateWlan = &privateWlan
+	var psk string = ""
+	this.Psk = *NewNullableString(&psk)
 	var type_ WlanAuthType = WLANAUTHTYPE_OPEN
 	this.Type = type_
+	var wepAsSecondaryAuth bool = false
+	this.WepAsSecondaryAuth = &wepAsSecondaryAuth
 	return &this
 }
 
@@ -281,9 +297,9 @@ func (o *WlanAuth) SetMultiPskOnly(v bool) {
 }
 
 // GetOwe returns the Owe field value if set, zero value otherwise.
-func (o *WlanAuth) GetOwe() string {
+func (o *WlanAuth) GetOwe() WlanAuthOwe {
 	if o == nil || IsNil(o.Owe) {
-		var ret string
+		var ret WlanAuthOwe
 		return ret
 	}
 	return *o.Owe
@@ -291,7 +307,7 @@ func (o *WlanAuth) GetOwe() string {
 
 // GetOweOk returns a tuple with the Owe field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *WlanAuth) GetOweOk() (*string, bool) {
+func (o *WlanAuth) GetOweOk() (*WlanAuthOwe, bool) {
 	if o == nil || IsNil(o.Owe) {
 		return nil, false
 	}
@@ -307,8 +323,8 @@ func (o *WlanAuth) HasOwe() bool {
 	return false
 }
 
-// SetOwe gets a reference to the given string and assigns it to the Owe field.
-func (o *WlanAuth) SetOwe(v string) {
+// SetOwe gets a reference to the given WlanAuthOwe and assigns it to the Owe field.
+func (o *WlanAuth) SetOwe(v WlanAuthOwe) {
 	o.Owe = &v
 }
 
