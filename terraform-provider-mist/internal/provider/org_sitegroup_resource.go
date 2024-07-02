@@ -11,19 +11,19 @@ import (
 )
 
 var (
-	_ resource.Resource              = &sitegroupResource{}
-	_ resource.ResourceWithConfigure = &sitegroupResource{}
+	_ resource.Resource              = &orgSiteGroupResource{}
+	_ resource.ResourceWithConfigure = &orgSiteGroupResource{}
 )
 
-func NewSitegroupResource() resource.Resource {
-	return &sitegroupResource{}
+func NewOrgSiteGroupResource() resource.Resource {
+	return &orgSiteGroupResource{}
 }
 
-type sitegroupResource struct {
+type orgSiteGroupResource struct {
 	client *mistsdkgo.APIClient
 }
 
-func (r *sitegroupResource) Configure(ctx context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
+func (r *orgSiteGroupResource) Configure(ctx context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
 	tflog.Info(ctx, "Configuring Mist SiteGroup client")
 	if req.ProviderData == nil {
 		return
@@ -40,15 +40,15 @@ func (r *sitegroupResource) Configure(ctx context.Context, req resource.Configur
 
 	r.client = client
 }
-func (r *sitegroupResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
-	resp.TypeName = req.ProviderTypeName + "_sitegroup"
+func (r *orgSiteGroupResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
+	resp.TypeName = req.ProviderTypeName + "_org_sitegroup"
 }
 
-func (r *sitegroupResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
+func (r *orgSiteGroupResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = resource_sitegroup.SitegroupResourceSchema(ctx)
 }
 
-func (r *sitegroupResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
+func (r *orgSiteGroupResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
 	tflog.Info(ctx, "Starting SiteGroup Create")
 	var plan, state resource_sitegroup.SitegroupModel
 
@@ -87,7 +87,7 @@ func (r *sitegroupResource) Create(ctx context.Context, req resource.CreateReque
 
 }
 
-func (r *sitegroupResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
+func (r *orgSiteGroupResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
 	var state resource_sitegroup.SitegroupModel
 	tflog.Info(ctx, "Starting SiteGroup Read: sitegroup_id "+state.Id.ValueString())
 
@@ -119,7 +119,7 @@ func (r *sitegroupResource) Read(ctx context.Context, req resource.ReadRequest, 
 	}
 }
 
-func (r *sitegroupResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
+func (r *orgSiteGroupResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
 	var state, plan resource_sitegroup.SitegroupModel
 	tflog.Info(ctx, "Starting SiteGroup Update")
 
@@ -167,7 +167,7 @@ func (r *sitegroupResource) Update(ctx context.Context, req resource.UpdateReque
 
 }
 
-func (r *sitegroupResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
+func (r *orgSiteGroupResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
 	var state resource_sitegroup.SitegroupModel
 	tflog.Info(ctx, "Starting SiteGroup Delete: sitegroup_id "+state.Id.ValueString())
 

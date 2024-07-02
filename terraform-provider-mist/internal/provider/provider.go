@@ -137,9 +137,21 @@ func (p *mistProvider) DataSources(ctx context.Context) []func() datasource.Data
 func (p *mistProvider) Resources(ctx context.Context) []func() resource.Resource {
 	return []func() resource.Resource{
 		NewOrgResource,
-		NewSitegroupResource,
+		NewOrgSiteGroupResource,
+		NewOrgNetworkTemplate,
+		NewOrgServiceResource,
+		NewOrgNetworkResource,
+		NewOrgGatewayTemplate,
+		NewOrgNacTag,
+		NewOrgNacRule,
+		NewOrgRfTemplate,
+		NewOrgWlanTemplate,
+		NewOrgWlan,
+		NewOrgWxTag,
+		NewOrgWxRule,
 		NewSiteResource,
 		NewSiteSettingResource,
+<<<<<<< Updated upstream
 		NewNetworkTemplate,
 		NewServiceResource,
 		NewNetworkResource,
@@ -149,5 +161,8 @@ func (p *mistProvider) Resources(ctx context.Context) []func() resource.Resource
 		NewRfTemplate,
 		NewWlanTemplate,
 		NewWlan,
+=======
+		NewSiteWlan,
+>>>>>>> Stashed changes
 	}
 }

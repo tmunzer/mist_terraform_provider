@@ -12,19 +12,19 @@ import (
 )
 
 var (
-	_ resource.Resource              = &gatewaytemplateResource{}
-	_ resource.ResourceWithConfigure = &gatewaytemplateResource{}
+	_ resource.Resource              = &orgGatewaytemplateResource{}
+	_ resource.ResourceWithConfigure = &orgGatewaytemplateResource{}
 )
 
-func NewGatewayTemplate() resource.Resource {
-	return &gatewaytemplateResource{}
+func NewOrgGatewayTemplate() resource.Resource {
+	return &orgGatewaytemplateResource{}
 }
 
-type gatewaytemplateResource struct {
+type orgGatewaytemplateResource struct {
 	client *mistsdkgo.APIClient
 }
 
-func (r *gatewaytemplateResource) Configure(ctx context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
+func (r *orgGatewaytemplateResource) Configure(ctx context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
 	tflog.Info(ctx, "Configuring Mist GatewayTemplate client")
 	if req.ProviderData == nil {
 		return
@@ -41,15 +41,15 @@ func (r *gatewaytemplateResource) Configure(ctx context.Context, req resource.Co
 
 	r.client = client
 }
-func (r *gatewaytemplateResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
-	resp.TypeName = req.ProviderTypeName + "_gatewaytemplate"
+func (r *orgGatewaytemplateResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
+	resp.TypeName = req.ProviderTypeName + "_org_gatewaytemplate"
 }
 
-func (r *gatewaytemplateResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
+func (r *orgGatewaytemplateResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = resource_gatewaytemplate.GatewaytemplateResourceSchema(ctx)
 }
 
-func (r *gatewaytemplateResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
+func (r *orgGatewaytemplateResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
 	tflog.Info(ctx, "Starting GatewayTemplate Create")
 	var plan, state resource_gatewaytemplate.GatewaytemplateModel
 
@@ -89,7 +89,7 @@ func (r *gatewaytemplateResource) Create(ctx context.Context, req resource.Creat
 
 }
 
-func (r *gatewaytemplateResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
+func (r *orgGatewaytemplateResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
 	var state resource_gatewaytemplate.GatewaytemplateModel
 	tflog.Info(ctx, "Starting GatewayTemplate Read: gatewaytemplate_id "+state.Id.ValueString())
 
@@ -120,7 +120,7 @@ func (r *gatewaytemplateResource) Read(ctx context.Context, req resource.ReadReq
 	}
 }
 
-func (r *gatewaytemplateResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
+func (r *orgGatewaytemplateResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
 	var state, plan resource_gatewaytemplate.GatewaytemplateModel
 	tflog.Info(ctx, "Starting GatewayTemplate Update")
 
@@ -169,7 +169,7 @@ func (r *gatewaytemplateResource) Update(ctx context.Context, req resource.Updat
 
 }
 
-func (r *gatewaytemplateResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
+func (r *orgGatewaytemplateResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
 	var state resource_gatewaytemplate.GatewaytemplateModel
 	tflog.Info(ctx, "Starting GatewayTemplate Delete: gatewaytemplate_id "+state.Id.ValueString())
 

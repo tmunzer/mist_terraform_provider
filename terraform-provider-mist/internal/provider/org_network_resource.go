@@ -12,19 +12,19 @@ import (
 )
 
 var (
-	_ resource.Resource              = &networkResource{}
-	_ resource.ResourceWithConfigure = &networkResource{}
+	_ resource.Resource              = &orgNetworkResource{}
+	_ resource.ResourceWithConfigure = &orgNetworkResource{}
 )
 
-func NewNetworkResource() resource.Resource {
-	return &networkResource{}
+func NewOrgNetworkResource() resource.Resource {
+	return &orgNetworkResource{}
 }
 
-type networkResource struct {
+type orgNetworkResource struct {
 	client *mistsdkgo.APIClient
 }
 
-func (r *networkResource) Configure(ctx context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
+func (r *orgNetworkResource) Configure(ctx context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
 	tflog.Info(ctx, "Configuring Mist Network client")
 	if req.ProviderData == nil {
 		return
@@ -41,15 +41,15 @@ func (r *networkResource) Configure(ctx context.Context, req resource.ConfigureR
 
 	r.client = client
 }
-func (r *networkResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
-	resp.TypeName = req.ProviderTypeName + "_network"
+func (r *orgNetworkResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
+	resp.TypeName = req.ProviderTypeName + "_org_network"
 }
 
-func (r *networkResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
+func (r *orgNetworkResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = resource_network.NetworkResourceSchema(ctx)
 }
 
-func (r *networkResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
+func (r *orgNetworkResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
 	tflog.Info(ctx, "Starting Network Create")
 	var plan, state resource_network.NetworkModel
 
@@ -90,7 +90,7 @@ func (r *networkResource) Create(ctx context.Context, req resource.CreateRequest
 
 }
 
-func (r *networkResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
+func (r *orgNetworkResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
 	var state resource_network.NetworkModel
 	tflog.Info(ctx, "Starting Network Read: network_id "+state.Id.ValueString())
 
@@ -121,7 +121,7 @@ func (r *networkResource) Read(ctx context.Context, req resource.ReadRequest, re
 	}
 }
 
-func (r *networkResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
+func (r *orgNetworkResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
 	var state, plan resource_network.NetworkModel
 	tflog.Info(ctx, "Starting Network Update")
 
@@ -167,7 +167,7 @@ func (r *networkResource) Update(ctx context.Context, req resource.UpdateRequest
 
 }
 
-func (r *networkResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
+func (r *orgNetworkResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
 	var state resource_network.NetworkModel
 	tflog.Info(ctx, "Starting Network Delete: network_id "+state.Id.ValueString())
 

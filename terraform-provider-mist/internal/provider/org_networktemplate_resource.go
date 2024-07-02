@@ -12,19 +12,19 @@ import (
 )
 
 var (
-	_ resource.Resource              = &networktemplateResource{}
-	_ resource.ResourceWithConfigure = &networktemplateResource{}
+	_ resource.Resource              = &orgNetworkTemplateResource{}
+	_ resource.ResourceWithConfigure = &orgNetworkTemplateResource{}
 )
 
-func NewNetworkTemplate() resource.Resource {
-	return &networktemplateResource{}
+func NewOrgNetworkTemplate() resource.Resource {
+	return &orgNetworkTemplateResource{}
 }
 
-type networktemplateResource struct {
+type orgNetworkTemplateResource struct {
 	client *mistsdkgo.APIClient
 }
 
-func (r *networktemplateResource) Configure(ctx context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
+func (r *orgNetworkTemplateResource) Configure(ctx context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
 	tflog.Info(ctx, "Configuring Mist NetworkTemplate client")
 	if req.ProviderData == nil {
 		return
@@ -41,15 +41,15 @@ func (r *networktemplateResource) Configure(ctx context.Context, req resource.Co
 
 	r.client = client
 }
-func (r *networktemplateResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
-	resp.TypeName = req.ProviderTypeName + "_networktemplate"
+func (r *orgNetworkTemplateResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
+	resp.TypeName = req.ProviderTypeName + "_org_networktemplate"
 }
 
-func (r *networktemplateResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
+func (r *orgNetworkTemplateResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = resource_networktemplate.NetworktemplateResourceSchema(ctx)
 }
 
-func (r *networktemplateResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
+func (r *orgNetworkTemplateResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
 	tflog.Info(ctx, "Starting NetworkTemplate Create")
 	var plan, state resource_networktemplate.NetworktemplateModel
 
@@ -88,7 +88,7 @@ func (r *networktemplateResource) Create(ctx context.Context, req resource.Creat
 
 }
 
-func (r *networktemplateResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
+func (r *orgNetworkTemplateResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
 	var state resource_networktemplate.NetworktemplateModel
 	tflog.Info(ctx, "Starting NetworkTemplate Read: networktemplate_id "+state.Id.ValueString())
 
@@ -119,7 +119,7 @@ func (r *networktemplateResource) Read(ctx context.Context, req resource.ReadReq
 	}
 }
 
-func (r *networktemplateResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
+func (r *orgNetworkTemplateResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
 	var state, plan resource_networktemplate.NetworktemplateModel
 	tflog.Info(ctx, "Starting NetworkTemplate Update")
 
@@ -168,7 +168,7 @@ func (r *networktemplateResource) Update(ctx context.Context, req resource.Updat
 
 }
 
-func (r *networktemplateResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
+func (r *orgNetworkTemplateResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
 	var state resource_networktemplate.NetworktemplateModel
 	tflog.Info(ctx, "Starting NetworkTemplate Delete: networktemplate_id "+state.Id.ValueString())
 

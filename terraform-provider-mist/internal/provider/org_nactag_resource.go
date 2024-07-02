@@ -12,19 +12,19 @@ import (
 )
 
 var (
-	_ resource.Resource              = &nactagResource{}
-	_ resource.ResourceWithConfigure = &nactagResource{}
+	_ resource.Resource              = &orgNacTagResource{}
+	_ resource.ResourceWithConfigure = &orgNacTagResource{}
 )
 
-func NewNacTag() resource.Resource {
-	return &nactagResource{}
+func NewOrgNacTag() resource.Resource {
+	return &orgNacTagResource{}
 }
 
-type nactagResource struct {
+type orgNacTagResource struct {
 	client *mistsdkgo.APIClient
 }
 
-func (r *nactagResource) Configure(ctx context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
+func (r *orgNacTagResource) Configure(ctx context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
 	tflog.Info(ctx, "Configuring Mist NacTag client")
 	if req.ProviderData == nil {
 		return
@@ -41,15 +41,15 @@ func (r *nactagResource) Configure(ctx context.Context, req resource.ConfigureRe
 
 	r.client = client
 }
-func (r *nactagResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
-	resp.TypeName = req.ProviderTypeName + "_nactag"
+func (r *orgNacTagResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
+	resp.TypeName = req.ProviderTypeName + "_org_nactag"
 }
 
-func (r *nactagResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
+func (r *orgNacTagResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = resource_nactag.NactagResourceSchema(ctx)
 }
 
-func (r *nactagResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
+func (r *orgNacTagResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
 	tflog.Info(ctx, "Starting NacTag Create")
 	var plan, state resource_nactag.NactagModel
 
@@ -89,7 +89,7 @@ func (r *nactagResource) Create(ctx context.Context, req resource.CreateRequest,
 
 }
 
-func (r *nactagResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
+func (r *orgNacTagResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
 	var state resource_nactag.NactagModel
 	tflog.Info(ctx, "Starting NacTag Read: nactag_id "+state.Id.ValueString())
 
@@ -120,7 +120,7 @@ func (r *nactagResource) Read(ctx context.Context, req resource.ReadRequest, res
 	}
 }
 
-func (r *nactagResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
+func (r *orgNacTagResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
 	var state, plan resource_nactag.NactagModel
 	tflog.Info(ctx, "Starting NacTag Update")
 
@@ -169,7 +169,7 @@ func (r *nactagResource) Update(ctx context.Context, req resource.UpdateRequest,
 
 }
 
-func (r *nactagResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
+func (r *orgNacTagResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
 	var state resource_nactag.NactagModel
 	tflog.Info(ctx, "Starting NacTag Delete: nactag_id "+state.Id.ValueString())
 

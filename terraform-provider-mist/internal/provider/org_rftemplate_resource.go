@@ -12,19 +12,19 @@ import (
 )
 
 var (
-	_ resource.Resource              = &rftemplateResource{}
-	_ resource.ResourceWithConfigure = &rftemplateResource{}
+	_ resource.Resource              = &orgRfTemplateResource{}
+	_ resource.ResourceWithConfigure = &orgRfTemplateResource{}
 )
 
-func NewRfTemplate() resource.Resource {
-	return &rftemplateResource{}
+func NewOrgRfTemplate() resource.Resource {
+	return &orgRfTemplateResource{}
 }
 
-type rftemplateResource struct {
+type orgRfTemplateResource struct {
 	client *mistsdkgo.APIClient
 }
 
-func (r *rftemplateResource) Configure(ctx context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
+func (r *orgRfTemplateResource) Configure(ctx context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
 	tflog.Info(ctx, "Configuring Mist RfTemplate client")
 	if req.ProviderData == nil {
 		return
@@ -41,15 +41,15 @@ func (r *rftemplateResource) Configure(ctx context.Context, req resource.Configu
 
 	r.client = client
 }
-func (r *rftemplateResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
-	resp.TypeName = req.ProviderTypeName + "_rftemplate"
+func (r *orgRfTemplateResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
+	resp.TypeName = req.ProviderTypeName + "_org_rftemplate"
 }
 
-func (r *rftemplateResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
+func (r *orgRfTemplateResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = resource_rftemplate.RftemplateResourceSchema(ctx)
 }
 
-func (r *rftemplateResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
+func (r *orgRfTemplateResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
 	tflog.Info(ctx, "Starting RfTemplate Create")
 	var plan, state resource_rftemplate.RftemplateModel
 
@@ -89,7 +89,7 @@ func (r *rftemplateResource) Create(ctx context.Context, req resource.CreateRequ
 
 }
 
-func (r *rftemplateResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
+func (r *orgRfTemplateResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
 	var state resource_rftemplate.RftemplateModel
 	tflog.Info(ctx, "Starting RfTemplate Read: rftemplate_id "+state.Id.ValueString())
 
@@ -120,7 +120,7 @@ func (r *rftemplateResource) Read(ctx context.Context, req resource.ReadRequest,
 	}
 }
 
-func (r *rftemplateResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
+func (r *orgRfTemplateResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
 	var state, plan resource_rftemplate.RftemplateModel
 	tflog.Info(ctx, "Starting RfTemplate Update")
 
@@ -169,7 +169,7 @@ func (r *rftemplateResource) Update(ctx context.Context, req resource.UpdateRequ
 
 }
 
-func (r *rftemplateResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
+func (r *orgRfTemplateResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
 	var state resource_rftemplate.RftemplateModel
 	tflog.Info(ctx, "Starting RfTemplate Delete: rftemplate_id "+state.Id.ValueString())
 

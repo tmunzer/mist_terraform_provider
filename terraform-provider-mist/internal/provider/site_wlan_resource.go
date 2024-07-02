@@ -12,19 +12,19 @@ import (
 )
 
 var (
-	_ resource.Resource              = &wlanResource{}
-	_ resource.ResourceWithConfigure = &wlanResource{}
+	_ resource.Resource              = &siteWlanResource{}
+	_ resource.ResourceWithConfigure = &siteWlanResource{}
 )
 
-func NewWlan() resource.Resource {
-	return &wlanResource{}
+func NewSiteWlan() resource.Resource {
+	return &siteWlanResource{}
 }
 
-type wlanResource struct {
+type siteWlanResource struct {
 	client *mistsdkgo.APIClient
 }
 
-func (r *wlanResource) Configure(ctx context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
+func (r *siteWlanResource) Configure(ctx context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
 	tflog.Info(ctx, "Configuring Mist Wlan client")
 	if req.ProviderData == nil {
 		return
@@ -41,15 +41,15 @@ func (r *wlanResource) Configure(ctx context.Context, req resource.ConfigureRequ
 
 	r.client = client
 }
-func (r *wlanResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
-	resp.TypeName = req.ProviderTypeName + "_org_wlan"
+func (r *siteWlanResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
+	resp.TypeName = req.ProviderTypeName + "_site_wlan"
 }
 
-func (r *wlanResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
+func (r *siteWlanResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = resource_wlan.WlanResourceSchema(ctx)
 }
 
-func (r *wlanResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
+func (r *siteWlanResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
 	tflog.Info(ctx, "Starting Wlan Create")
 	var plan, state resource_wlan.WlanModel
 
@@ -65,7 +65,7 @@ func (r *wlanResource) Create(ctx context.Context, req resource.CreateRequest, r
 		return
 	}
 
-	data, _, err := r.client.OrgsWlansAPI.CreateOrgWlan(ctx, plan.OrgId.ValueString()).Wlan(wlan).Execute()
+	data, _, err := r.client.SitesWlansAPI.CreateSiteWlan(ctx, plan.SiteId.ValueString()).Wlan(wlan).Execute()
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Error creating Wlan",
@@ -88,7 +88,7 @@ func (r *wlanResource) Create(ctx context.Context, req resource.CreateRequest, r
 
 }
 
-func (r *wlanResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
+func (r *siteWlanResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
 	var state resource_wlan.WlanModel
 	tflog.Info(ctx, "Starting Wlan Read: wlan_id "+state.Id.ValueString())
 
@@ -98,7 +98,7 @@ func (r *wlanResource) Read(ctx context.Context, req resource.ReadRequest, resp 
 		return
 	}
 
-	data, _, err := r.client.OrgsWlansAPI.GetOrgWLAN(ctx, state.OrgId.ValueString(), state.Id.ValueString()).Execute()
+	data, _, err := r.client.SitesWlansAPI.GetSiteWlan(ctx, state.SiteId.ValueString(), state.Id.ValueString()).Execute()
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Error getting Wlan",
@@ -119,7 +119,7 @@ func (r *wlanResource) Read(ctx context.Context, req resource.ReadRequest, resp 
 	}
 }
 
-func (r *wlanResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
+func (r *siteWlanResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
 	var state, plan resource_wlan.WlanModel
 	tflog.Info(ctx, "Starting Wlan Update")
 
@@ -141,8 +141,8 @@ func (r *wlanResource) Update(ctx context.Context, req resource.UpdateRequest, r
 	}
 
 	tflog.Info(ctx, "Starting Wlan Update for Wlan "+state.Id.ValueString())
-	data, _, err := r.client.OrgsWlansAPI.
-		UpdateOrgWlan(ctx, state.OrgId.ValueString(), state.Id.ValueString()).
+	data, _, err := r.client.SitesWlansAPI.
+		UpdateSiteWlan(ctx, state.SiteId.ValueString(), state.Id.ValueString()).
 		Wlan(wlan).
 		Execute()
 
@@ -168,7 +168,7 @@ func (r *wlanResource) Update(ctx context.Context, req resource.UpdateRequest, r
 
 }
 
-func (r *wlanResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
+func (r *siteWlanResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
 	var state resource_wlan.WlanModel
 	tflog.Info(ctx, "Starting Wlan Delete: wlan_id "+state.Id.ValueString())
 
@@ -178,7 +178,7 @@ func (r *wlanResource) Delete(ctx context.Context, req resource.DeleteRequest, r
 		return
 	}
 
-	_, err := r.client.OrgsWlansAPI.DeleteOrgWlan(ctx, state.OrgId.ValueString(), state.Id.ValueString()).Execute()
+	_, err := r.client.SitesWlansAPI.DeleteSiteWlan(ctx, state.SiteId.ValueString(), state.Id.ValueString()).Execute()
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Error creating Wlan",

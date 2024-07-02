@@ -12,19 +12,19 @@ import (
 )
 
 var (
-	_ resource.Resource              = &nacruleResource{}
-	_ resource.ResourceWithConfigure = &nacruleResource{}
+	_ resource.Resource              = &orgNacRuleResource{}
+	_ resource.ResourceWithConfigure = &orgNacRuleResource{}
 )
 
-func NewNacRule() resource.Resource {
-	return &nacruleResource{}
+func NewOrgNacRule() resource.Resource {
+	return &orgNacRuleResource{}
 }
 
-type nacruleResource struct {
+type orgNacRuleResource struct {
 	client *mistsdkgo.APIClient
 }
 
-func (r *nacruleResource) Configure(ctx context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
+func (r *orgNacRuleResource) Configure(ctx context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
 	tflog.Info(ctx, "Configuring Mist NacRule client")
 	if req.ProviderData == nil {
 		return
@@ -41,15 +41,15 @@ func (r *nacruleResource) Configure(ctx context.Context, req resource.ConfigureR
 
 	r.client = client
 }
-func (r *nacruleResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
-	resp.TypeName = req.ProviderTypeName + "_nacrule"
+func (r *orgNacRuleResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
+	resp.TypeName = req.ProviderTypeName + "_org_nacrule"
 }
 
-func (r *nacruleResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
+func (r *orgNacRuleResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = resource_nacrule.NacruleResourceSchema(ctx)
 }
 
-func (r *nacruleResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
+func (r *orgNacRuleResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
 	tflog.Info(ctx, "Starting NacRule Create")
 	var plan, state resource_nacrule.NacruleModel
 
@@ -89,7 +89,7 @@ func (r *nacruleResource) Create(ctx context.Context, req resource.CreateRequest
 
 }
 
-func (r *nacruleResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
+func (r *orgNacRuleResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
 	var state resource_nacrule.NacruleModel
 	tflog.Info(ctx, "Starting NacRule Read: nacrule_id "+state.Id.ValueString())
 
@@ -120,7 +120,7 @@ func (r *nacruleResource) Read(ctx context.Context, req resource.ReadRequest, re
 	}
 }
 
-func (r *nacruleResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
+func (r *orgNacRuleResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
 	var state, plan resource_nacrule.NacruleModel
 	tflog.Info(ctx, "Starting NacRule Update")
 
@@ -169,7 +169,7 @@ func (r *nacruleResource) Update(ctx context.Context, req resource.UpdateRequest
 
 }
 
-func (r *nacruleResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
+func (r *orgNacRuleResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
 	var state resource_nacrule.NacruleModel
 	tflog.Info(ctx, "Starting NacRule Delete: nacrule_id "+state.Id.ValueString())
 

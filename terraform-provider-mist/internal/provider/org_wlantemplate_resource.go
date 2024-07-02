@@ -12,19 +12,19 @@ import (
 )
 
 var (
-	_ resource.Resource              = &wlantemplateResource{}
-	_ resource.ResourceWithConfigure = &wlantemplateResource{}
+	_ resource.Resource              = &orgWlanTemplateResource{}
+	_ resource.ResourceWithConfigure = &orgWlanTemplateResource{}
 )
 
-func NewWlanTemplate() resource.Resource {
-	return &wlantemplateResource{}
+func NewOrgWlanTemplate() resource.Resource {
+	return &orgWlanTemplateResource{}
 }
 
-type wlantemplateResource struct {
+type orgWlanTemplateResource struct {
 	client *mistsdkgo.APIClient
 }
 
-func (r *wlantemplateResource) Configure(ctx context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
+func (r *orgWlanTemplateResource) Configure(ctx context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
 	tflog.Info(ctx, "Configuring Mist WlanTemplate client")
 	if req.ProviderData == nil {
 		return
@@ -41,15 +41,15 @@ func (r *wlantemplateResource) Configure(ctx context.Context, req resource.Confi
 
 	r.client = client
 }
-func (r *wlantemplateResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
-	resp.TypeName = req.ProviderTypeName + "_wlantemplate"
+func (r *orgWlanTemplateResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
+	resp.TypeName = req.ProviderTypeName + "_org_wlantemplate"
 }
 
-func (r *wlantemplateResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
+func (r *orgWlanTemplateResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = resource_wlantemplate.WlantemplateResourceSchema(ctx)
 }
 
-func (r *wlantemplateResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
+func (r *orgWlanTemplateResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
 	tflog.Info(ctx, "Starting WlanTemplate Create")
 	var plan, state resource_wlantemplate.WlantemplateModel
 
@@ -88,7 +88,7 @@ func (r *wlantemplateResource) Create(ctx context.Context, req resource.CreateRe
 
 }
 
-func (r *wlantemplateResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
+func (r *orgWlanTemplateResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
 	var state resource_wlantemplate.WlantemplateModel
 	tflog.Info(ctx, "Starting WlanTemplate Read: wlantemplate_id "+state.Id.ValueString())
 
@@ -119,7 +119,7 @@ func (r *wlantemplateResource) Read(ctx context.Context, req resource.ReadReques
 	}
 }
 
-func (r *wlantemplateResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
+func (r *orgWlanTemplateResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
 	var state, plan resource_wlantemplate.WlantemplateModel
 	tflog.Info(ctx, "Starting WlanTemplate Update")
 
@@ -168,7 +168,7 @@ func (r *wlantemplateResource) Update(ctx context.Context, req resource.UpdateRe
 
 }
 
-func (r *wlantemplateResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
+func (r *orgWlanTemplateResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
 	var state resource_wlantemplate.WlantemplateModel
 	tflog.Info(ctx, "Starting WlanTemplate Delete: wlantemplate_id "+state.Id.ValueString())
 

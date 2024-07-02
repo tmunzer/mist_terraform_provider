@@ -12,19 +12,19 @@ import (
 )
 
 var (
-	_ resource.Resource              = &serviceResource{}
-	_ resource.ResourceWithConfigure = &serviceResource{}
+	_ resource.Resource              = &orgServiceResource{}
+	_ resource.ResourceWithConfigure = &orgServiceResource{}
 )
 
-func NewServiceResource() resource.Resource {
-	return &serviceResource{}
+func NewOrgServiceResource() resource.Resource {
+	return &orgServiceResource{}
 }
 
-type serviceResource struct {
+type orgServiceResource struct {
 	client *mistsdkgo.APIClient
 }
 
-func (r *serviceResource) Configure(ctx context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
+func (r *orgServiceResource) Configure(ctx context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
 	tflog.Info(ctx, "Configuring Mist Service client")
 	if req.ProviderData == nil {
 		return
@@ -42,14 +42,14 @@ func (r *serviceResource) Configure(ctx context.Context, req resource.ConfigureR
 	r.client = client
 }
 
-func (r *serviceResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
-	resp.TypeName = req.ProviderTypeName + "_service"
+func (r *orgServiceResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
+	resp.TypeName = req.ProviderTypeName + "_org_service"
 }
-func (r *serviceResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
+func (r *orgServiceResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = resource_service.ServiceResourceSchema(ctx)
 }
 
-func (r *serviceResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
+func (r *orgServiceResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
 	tflog.Info(ctx, "Starting Service Create")
 	var plan, state resource_service.ServiceModel
 
@@ -89,7 +89,7 @@ func (r *serviceResource) Create(ctx context.Context, req resource.CreateRequest
 	}
 }
 
-func (r *serviceResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
+func (r *orgServiceResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
 	var state resource_service.ServiceModel
 	tflog.Info(ctx, "Starting Service Read: service_id "+state.Id.ValueString())
 
@@ -120,7 +120,7 @@ func (r *serviceResource) Read(ctx context.Context, req resource.ReadRequest, re
 	}
 }
 
-func (r *serviceResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
+func (r *orgServiceResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
 	var state, plan resource_service.ServiceModel
 	tflog.Info(ctx, "Starting Service Update")
 
@@ -166,7 +166,7 @@ func (r *serviceResource) Update(ctx context.Context, req resource.UpdateRequest
 
 }
 
-func (r *serviceResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
+func (r *orgServiceResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
 	var state resource_service.ServiceModel
 	tflog.Info(ctx, "Starting Service Delete: service_id "+state.Id.ValueString())
 

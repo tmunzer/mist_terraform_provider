@@ -26,23 +26,30 @@ resource "mist_site" "terraform_site" {
     lat = 48.899268
     lng = 2.214447
   }
+<<<<<<< Updated upstream
   sitegroup_ids      = [mist_sitegroup.test_group.id, mist_sitegroup.test_group2.id]
   networktemplate_id = mist_networktemplate.switch_template.id
   rftemplate_id = mist_rftemplate.test_rf.id
   gatewaytemplate_id = mist_gatewaytemplate.stag.id
+=======
+  sitegroup_ids      = [mist_org_sitegroup.test_group.id, mist_org_sitegroup.test_group2.id]
+  networktemplate_id = mist_org_networktemplate.switch_template.id
+  rftemplate_id      = mist_org_rftemplate.test_rf.id
+  gatewaytemplate_id = mist_org_gatewaytemplate.stag.id
+>>>>>>> Stashed changes
 }
 
 
-resource "mist_sitegroup" "test_group" {
+resource "mist_org_sitegroup" "test_group" {
   org_id = mist_org.terraform_test.id
   name   = "test group"
 }
-resource "mist_sitegroup" "test_group2" {
+resource "mist_org_sitegroup" "test_group2" {
   org_id = mist_org.terraform_test.id
   name   = "test group2b"
 }
 
-resource "mist_service" "lab" {
+resource "mist_org_service" "lab" {
   org_id = mist_org.terraform_test.id
   addresses = [
     "10.3.0.0/24", "10.4.0.0/24"
@@ -59,14 +66,14 @@ resource "mist_service" "lab" {
 }
 
 
-resource "mist_network" "corp" {
+resource "mist_org_network" "corp" {
   org_id                 = mist_org.terraform_test.id
   disallow_mist_services = false
   name                   = "prd_corp"
   subnet                 = "10.3.0.0"
 }
 
-resource "mist_networktemplate" "switch_template" {
+resource "mist_org_networktemplate" "switch_template" {
   name                   = "test switch"
   org_id                 = mist_org.terraform_test.id
   dns_servers            = ["10.3.51.222"]
@@ -180,7 +187,7 @@ resource "mist_networktemplate" "switch_template" {
 }
 
 
-resource "mist_network" "mgmt" {
+resource "mist_org_network" "mgmt" {
   org_id  = mist_org.terraform_test.id
   vlan_id = 172
   subnet  = "10.3.172.0/24"
@@ -196,7 +203,7 @@ resource "mist_network" "mgmt" {
   disallow_mist_services = false
   name                   = "SRX-Mgmt"
 }
-resource "mist_network" "reg" {
+resource "mist_org_network" "reg" {
   org_id                 = mist_org.terraform_test.id
   isolation              = true
   vlan_id                = 12
@@ -204,7 +211,7 @@ resource "mist_network" "reg" {
   disallow_mist_services = false
   name                   = "SRX-REG"
 }
-resource "mist_network" "ssr" {
+resource "mist_org_network" "ssr" {
   org_id                 = mist_org.terraform_test.id
   isolation              = true
   vlan_id                = 128
@@ -212,7 +219,7 @@ resource "mist_network" "ssr" {
   disallow_mist_services = false
   name                   = "SRX-Core-128T"
 }
-resource "mist_network" "mxe" {
+resource "mist_org_network" "mxe" {
   org_id                 = mist_org.terraform_test.id
   isolation              = true
   vlan_id                = 1000
@@ -242,7 +249,7 @@ resource "mist_network" "mxe" {
   }
   name = "SRX-MXE-tt-in"
 }
-resource "mist_network" "iot" {
+resource "mist_org_network" "iot" {
   org_id                 = mist_org.terraform_test.id
   isolation              = true
   vlan_id                = 8
@@ -277,7 +284,7 @@ resource "mist_network" "iot" {
   }
   name = "SRX-IoT"
 }
-resource "mist_network" "dmz" {
+resource "mist_org_network" "dmz" {
   org_id                 = mist_org.terraform_test.id
   isolation              = true
   vlan_id                = 3
@@ -304,7 +311,7 @@ resource "mist_network" "dmz" {
 }
 
 
-resource "mist_gatewaytemplate" "stag" {
+resource "mist_org_gatewaytemplate" "stag" {
 
   port_config = {
     "ge-0/0/3" = {
@@ -505,7 +512,7 @@ resource "mist_gatewaytemplate" "stag" {
   org_id = mist_org.terraform_test.id
 }
 
-resource "mist_gatewaytemplate" "demo" {
+resource "mist_org_gatewaytemplate" "demo" {
   ntp_override = true
   service_policies = [
     {
@@ -753,13 +760,13 @@ resource "mist_gatewaytemplate" "demo" {
 }
 
 
-resource "mist_nactag" "vlan_sta" {
+resource "mist_org_nactag" "vlan_sta" {
   vlan   = "10"
   name   = "vlan.sta"
   type   = "vlan"
   org_id = mist_org.terraform_test.id
 }
-resource "mist_nactag" "ssid_mln_do1x" {
+resource "mist_org_nactag" "ssid_mln_do1x" {
   values = [
     "MlN.1X"
   ]
@@ -768,7 +775,7 @@ resource "mist_nactag" "ssid_mln_do1x" {
   match  = "ssid"
   org_id = mist_org.terraform_test.id
 }
-resource "mist_nactag" "ssid_mln_nac" {
+resource "mist_org_nactag" "ssid_mln_nac" {
   values = [
     "MlN.NAC"
   ]
@@ -777,7 +784,7 @@ resource "mist_nactag" "ssid_mln_nac" {
   match  = "ssid"
   org_id = mist_org.terraform_test.id
 }
-resource "mist_nactag" "ssid_mln" {
+resource "mist_org_nactag" "ssid_mln" {
   values = [
     "MlN"
   ]
@@ -786,7 +793,7 @@ resource "mist_nactag" "ssid_mln" {
   match  = "ssid"
   org_id = mist_org.terraform_test.id
 }
-resource "mist_nactag" "mac_printer" {
+resource "mist_org_nactag" "mac_printer" {
   values = [
     "deadbeefdead"
   ]
@@ -795,19 +802,19 @@ resource "mist_nactag" "mac_printer" {
   match  = "client_mac"
   org_id = mist_org.terraform_test.id
 }
-resource "mist_nactag" "vlan_admin" {
+resource "mist_org_nactag" "vlan_admin" {
   vlan   = "20"
   name   = "vlan.admins"
   type   = "vlan"
   org_id = mist_org.terraform_test.id
 }
-resource "mist_nactag" "vlan_guest" {
+resource "mist_org_nactag" "vlan_guest" {
   vlan   = "12"
   name   = "vlan.guest"
   type   = "vlan"
   org_id = mist_org.terraform_test.id
 }
-resource "mist_nactag" "ssor_corp_dot1x" {
+resource "mist_org_nactag" "ssor_corp_dot1x" {
   values = [
     "Corp"
   ]
@@ -816,31 +823,31 @@ resource "mist_nactag" "ssor_corp_dot1x" {
   match  = "ssid"
   org_id = mist_org.terraform_test.id
 }
-resource "mist_nactag" "role_admin" {
+resource "mist_org_nactag" "role_admin" {
   radius_group = "admin"
   name         = "role.admin"
   type         = "radius_group"
   org_id       = mist_org.terraform_test.id
 }
-resource "mist_nactag" "role_user" {
+resource "mist_org_nactag" "role_user" {
   radius_group = "user"
   name         = "role.user"
   type         = "radius_group"
   org_id       = mist_org.terraform_test.id
 }
-resource "mist_nactag" "role_byod" {
+resource "mist_org_nactag" "role_byod" {
   radius_group = "byod"
   name         = "role.byod"
   type         = "radius_group"
   org_id       = mist_org.terraform_test.id
 }
-resource "mist_nactag" "vlan_srv" {
+resource "mist_org_nactag" "vlan_srv" {
   vlan   = "20"
   name   = "vlan.srv"
   type   = "vlan"
   org_id = mist_org.terraform_test.id
 }
-resource "mist_nactag" "cert_stag" {
+resource "mist_org_nactag" "cert_stag" {
   values = [
     "/DC=one/DC=stag/CN=stag-DC-CA"
   ]
@@ -849,7 +856,7 @@ resource "mist_nactag" "cert_stag" {
   match  = "cert_issuer"
   org_id = mist_org.terraform_test.id
 }
-resource "mist_nactag" "cert_juniper" {
+resource "mist_org_nactag" "cert_juniper" {
   values = [
     "/DC=net/DC=jnpr/CN=Juniper Networks Issuing AWS1 CA"
   ]
@@ -858,7 +865,7 @@ resource "mist_nactag" "cert_juniper" {
   match  = "cert_issuer"
   org_id = mist_org.terraform_test.id
 }
-resource "mist_nactag" "cert_tm" {
+resource "mist_org_nactag" "cert_tm" {
   values = [
     "tmunzer@juniper.net"
   ]
@@ -867,13 +874,13 @@ resource "mist_nactag" "cert_tm" {
   match  = "cert_san"
   org_id = mist_org.terraform_test.id
 }
-resource "mist_nactag" "role_corp" {
+resource "mist_org_nactag" "role_corp" {
   radius_group = "corporate"
   name         = "role.corporate"
   type         = "radius_group"
   org_id       = mist_org.terraform_test.id
 }
-resource "mist_nactag" "group_dot11" {
+resource "mist_org_nactag" "group_dot11" {
   values = [
     "dot11"
   ]
@@ -882,7 +889,7 @@ resource "mist_nactag" "group_dot11" {
   match  = "idp_role"
   org_id = mist_org.terraform_test.id
 }
-resource "mist_nactag" "cert_mist" {
+resource "mist_org_nactag" "cert_mist" {
   values = [
     "/C=US/O=Mist/OU=OrgCA/CN=203d3d02-dbc0-4c1b-9f41-76896a3330f4"
   ]
@@ -891,31 +898,31 @@ resource "mist_nactag" "cert_mist" {
   match  = "cert_issuer"
   org_id = mist_org.terraform_test.id
 }
-resource "mist_nactag" "role_ap" {
+resource "mist_org_nactag" "role_ap" {
   radius_group = "wireless"
   name         = "role.AP"
   type         = "radius_group"
   org_id       = mist_org.terraform_test.id
 }
-resource "mist_nactag" "session_7d" {
+resource "mist_org_nactag" "session_7d" {
   session_timeout = 604800
   name            = "session.7d"
   type            = "session_timeout"
   org_id          = mist_org.terraform_test.id
 }
-resource "mist_nactag" "vman_mgmt" {
+resource "mist_org_nactag" "vman_mgmt" {
   vlan   = "172"
   name   = "vlan.mgmt"
   type   = "vlan"
   org_id = mist_org.terraform_test.id
 }
-resource "mist_nactag" "session_1d" {
+resource "mist_org_nactag" "session_1d" {
   session_timeout = 86440
   name            = "session.1d"
   type            = "session_timeout"
   org_id          = mist_org.terraform_test.id
 }
-resource "mist_nactag" "mac_pc" {
+resource "mist_org_nactag" "mac_pc" {
   values = [
     "04d9f5c8b26e",
     "04d9f5c8b26d"
@@ -925,7 +932,7 @@ resource "mist_nactag" "mac_pc" {
   match  = "client_mac"
   org_id = mist_org.terraform_test.id
 }
-resource "mist_nactag" "group_admins" {
+resource "mist_org_nactag" "group_admins" {
   values = [
     "administrators"
   ]
@@ -934,13 +941,13 @@ resource "mist_nactag" "group_admins" {
   match  = "idp_role"
   org_id = mist_org.terraform_test.id
 }
-resource "mist_nactag" "vlan_reg" {
+resource "mist_org_nactag" "vlan_reg" {
   vlan   = "12"
   name   = "vlan.reg"
   type   = "vlan"
   org_id = mist_org.terraform_test.id
 }
-resource "mist_nactag" "cert_mist_eu" {
+resource "mist_org_nactag" "cert_mist_eu" {
   values = [
     "/C=US/O=Mist/OU=OrgCA/CN=39ce2088-1dbe-4346-987a-1a5a88bab5ee"
   ]
@@ -949,7 +956,7 @@ resource "mist_nactag" "cert_mist_eu" {
   match  = "cert_issuer"
   org_id = mist_org.terraform_test.id
 }
-resource "mist_nactag" "trunk_ap" {
+resource "mist_org_nactag" "trunk_ap" {
   egress_vlan_names = [
     "2mgt",
     "1corp",
@@ -964,7 +971,7 @@ resource "mist_nactag" "trunk_ap" {
   type   = "egress_vlan_names"
   org_id = mist_org.terraform_test.id
 }
-resource "mist_nactag" "mac_srv" {
+resource "mist_org_nactag" "mac_srv" {
   values = [
     "dca6321e2f86",
     "e45f018e7054",
@@ -977,7 +984,7 @@ resource "mist_nactag" "mac_srv" {
   match  = "client_mac"
   org_id = mist_org.terraform_test.id
 }
-resource "mist_nactag" "mdm_compliant" {
+resource "mist_org_nactag" "mdm_compliant" {
   values = [
     "compliant"
   ]
@@ -986,7 +993,7 @@ resource "mist_nactag" "mdm_compliant" {
   match  = "mdm_status"
   org_id = mist_org.terraform_test.id
 }
-resource "mist_nactag" "mdm_non_compliant" {
+resource "mist_org_nactag" "mdm_non_compliant" {
   values = [
     "non-compliant",
     "unknown"
@@ -996,7 +1003,7 @@ resource "mist_nactag" "mdm_non_compliant" {
   match  = "mdm_status"
   org_id = mist_org.terraform_test.id
 }
-resource "mist_nactag" "mac_ap" {
+resource "mist_org_nactag" "mac_ap" {
   values = [
     "5c5b35*"
   ]
@@ -1005,26 +1012,26 @@ resource "mist_nactag" "mac_ap" {
   match  = "client_mac"
   org_id = mist_org.terraform_test.id
 }
-resource "mist_nactag" "vlan_dmz" {
+resource "mist_org_nactag" "vlan_dmz" {
   vlan   = "192"
   name   = "vlan.dmz"
   type   = "vlan"
   org_id = mist_org.terraform_test.id
 }
 
-resource "mist_nacrule" "wired_man" {
+resource "mist_org_nacrule" "wired_man" {
   matching = {
     port_types = [
       "wired"
     ]
     auth_type = "mab"
     nactags = [
-      mist_nactag.mac_srv.id
+      mist_org_nactag.mac_srv.id
     ]
   }
   apply_tags = [
-    mist_nactag.vlan_srv.id,
-    mist_nactag.session_1d.id
+    mist_org_nactag.vlan_srv.id,
+    mist_org_nactag.session_1d.id
   ]
   action  = "allow"
   enabled = true
@@ -1032,14 +1039,14 @@ resource "mist_nacrule" "wired_man" {
   org_id  = mist_org.terraform_test.id
   order   = 9
 }
-resource "mist_nacrule" "default_wired" {
+resource "mist_org_nacrule" "default_wired" {
   matching = {
     port_types = [
       "wired"
     ]
   }
   apply_tags = [
-    mist_nactag.vlan_reg.id
+    mist_org_nactag.vlan_reg.id
   ]
   action  = "allow"
   enabled = true
@@ -1047,11 +1054,11 @@ resource "mist_nacrule" "default_wired" {
   org_id  = mist_org.terraform_test.id
   order   = 11
 }
-resource "mist_nacrule" "wired_mac_ap_stag" {
+resource "mist_org_nacrule" "wired_mac_ap_stag" {
   matching = {
     auth_type = "mab"
     nactags = [
-      mist_nactag.mac_ap.id
+      mist_org_nactag.mac_ap.id
     ]
     port_types = [
       "wired"
@@ -1064,23 +1071,23 @@ resource "mist_nacrule" "wired_mac_ap_stag" {
   org_id     = mist_org.terraform_test.id
   order      = 7
 }
-resource "mist_nacrule" "wifi_tls_minc_sta" {
+resource "mist_org_nacrule" "wifi_tls_minc_sta" {
   matching = {
     auth_type = "cert"
     nactags = [
-      mist_nactag.cert_stag.id,
-      mist_nactag.group_dot11.id,
-      mist_nactag.ssid_mln_nac.id,
-      mist_nactag.mdm_non_compliant.id
+      mist_org_nactag.cert_stag.id,
+      mist_org_nactag.group_dot11.id,
+      mist_org_nactag.ssid_mln_nac.id,
+      mist_org_nactag.mdm_non_compliant.id
     ]
     port_types = [
       "wireless"
     ]
   }
   apply_tags = [
-    mist_nactag.vlan_sta.id,
-    mist_nactag.role_byod.id,
-    mist_nactag.session_1d.id
+    mist_org_nactag.vlan_sta.id,
+    mist_org_nactag.role_byod.id,
+    mist_org_nactag.session_1d.id
   ]
   action  = "allow"
   enabled = true
@@ -1088,19 +1095,19 @@ resource "mist_nacrule" "wifi_tls_minc_sta" {
   org_id  = mist_org.terraform_test.id
   order   = 4
 }
-resource "mist_nacrule" "wifi_tls_sta" {
+resource "mist_org_nacrule" "wifi_tls_sta" {
   matching = {
     auth_type = "cert"
     nactags = [
-      mist_nactag.cert_stag.id,
-      mist_nactag.ssid_mln_nac.id
+      mist_org_nactag.cert_stag.id,
+      mist_org_nactag.ssid_mln_nac.id
     ]
     port_types = [
       "wireless"
     ]
   }
   apply_tags = [
-    mist_nactag.vlan_sta.id
+    mist_org_nactag.vlan_sta.id
   ]
   action  = "allow"
   enabled = true
@@ -1108,21 +1115,21 @@ resource "mist_nacrule" "wifi_tls_sta" {
   org_id  = mist_org.terraform_test.id
   order   = 5
 }
-resource "mist_nacrule" "wired_tls_ap" {
+resource "mist_org_nacrule" "wired_tls_ap" {
   matching = {
     port_types = [
       "wired"
     ]
     nactags = [
-      mist_nactag.cert_mist.id,
+      mist_org_nactag.cert_mist.id,
       "cert",
-      mist_nactag.cert_mist_eu.id
+      mist_org_nactag.cert_mist_eu.id
     ]
     auth_type = "cert"
   }
   apply_tags = [
-    mist_nactag.trunk_ap.id,
-    mist_nactag.session_7d.id
+    mist_org_nactag.trunk_ap.id,
+    mist_org_nactag.session_7d.id
   ]
   action  = "allow"
   enabled = true
@@ -1130,13 +1137,13 @@ resource "mist_nacrule" "wired_tls_ap" {
   org_id  = mist_org.terraform_test.id
   order   = 6
 }
-resource "mist_nacrule" "test" {
+resource "mist_org_nacrule" "test" {
   matching = {
     port_types = [
       "wired"
     ]
     nactags = [
-      mist_nactag.ssid_mln_nac.id
+      mist_org_nactag.ssid_mln_nac.id
     ]
     auth_type = "eap-teap"
   }
@@ -1146,7 +1153,7 @@ resource "mist_nacrule" "test" {
   org_id     = mist_org.terraform_test.id
   order      = 0
 }
-resource "mist_nacrule" "wifi_teap_sta" {
+resource "mist_org_nacrule" "wifi_teap_sta" {
   matching = {
     port_types = [
       "wired"
@@ -1154,8 +1161,8 @@ resource "mist_nacrule" "wifi_teap_sta" {
     auth_type = "cert"
   }
   apply_tags = [
-    mist_nactag.session_1d.id,
-    mist_nactag.vlan_srv.id
+    mist_org_nactag.session_1d.id,
+    mist_org_nactag.vlan_srv.id
   ]
   action  = "allow"
   enabled = true
@@ -1163,20 +1170,20 @@ resource "mist_nacrule" "wifi_teap_sta" {
   org_id  = mist_org.terraform_test.id
   order   = 8
 }
-resource "mist_nacrule" "wifi_teap_corp" {
+resource "mist_org_nacrule" "wifi_teap_corp" {
   matching = {
     auth_type = "eap-teap"
     nactags = [
-      mist_nactag.ssid_mln_nac.id
+      mist_org_nactag.ssid_mln_nac.id
     ]
     port_types = [
       "wireless"
     ]
   }
   apply_tags = [
-    mist_nactag.vlan_sta.id,
-    mist_nactag.role_byod.id,
-    mist_nactag.session_1d.id
+    mist_org_nactag.vlan_sta.id,
+    mist_org_nactag.role_byod.id,
+    mist_org_nactag.session_1d.id
   ]
   action  = "allow"
   enabled = true
@@ -1184,22 +1191,22 @@ resource "mist_nacrule" "wifi_teap_corp" {
   org_id  = mist_org.terraform_test.id
   order   = 1
 }
-resource "mist_nacrule" "wifi_tls_corp" {
+resource "mist_org_nacrule" "wifi_tls_corp" {
   matching = {
     auth_type = "cert"
     port_types = [
       "wireless"
     ]
     nactags = [
-      mist_nactag.ssid_mln_nac.id,
-      mist_nactag.cert_juniper.id,
-      mist_nactag.cert_tm.id
+      mist_org_nactag.ssid_mln_nac.id,
+      mist_org_nactag.cert_juniper.id,
+      mist_org_nactag.cert_tm.id
     ]
   }
   apply_tags = [
-    mist_nactag.vlan_sta.id,
-    mist_nactag.role_corp.id,
-    mist_nactag.session_1d.id
+    mist_org_nactag.vlan_sta.id,
+    mist_org_nactag.role_corp.id,
+    mist_org_nactag.session_1d.id
   ]
   action  = "allow"
   enabled = true
@@ -1207,13 +1214,13 @@ resource "mist_nacrule" "wifi_tls_corp" {
   org_id  = mist_org.terraform_test.id
   order   = 2
 }
-resource "mist_nacrule" "wifi_tsl_mic_sta" {
+resource "mist_org_nacrule" "wifi_tsl_mic_sta" {
   matching = {
     nactags = [
-      mist_nactag.cert_stag.id,
-      mist_nactag.group_dot11.id,
-      mist_nactag.ssid_mln_nac.id,
-      mist_nactag.mdm_compliant.id
+      mist_org_nactag.cert_stag.id,
+      mist_org_nactag.group_dot11.id,
+      mist_org_nactag.ssid_mln_nac.id,
+      mist_org_nactag.mdm_compliant.id
     ]
     auth_type = "eap-tls"
     port_types = [
@@ -1221,9 +1228,9 @@ resource "mist_nacrule" "wifi_tsl_mic_sta" {
     ]
   }
   apply_tags = [
-    mist_nactag.vlan_sta.id,
-    mist_nactag.role_byod.id,
-    mist_nactag.session_1d.id
+    mist_org_nactag.vlan_sta.id,
+    mist_org_nactag.role_byod.id,
+    mist_org_nactag.session_1d.id
   ]
   action  = "allow"
   enabled = true
@@ -1231,18 +1238,18 @@ resource "mist_nacrule" "wifi_tsl_mic_sta" {
   org_id  = mist_org.terraform_test.id
   order   = 3
 }
-resource "mist_nacrule" "wired_mac_sta" {
+resource "mist_org_nacrule" "wired_mac_sta" {
   matching = {
     auth_type = "mab"
     port_types = [
       "wired"
     ]
     nactags = [
-      mist_nactag.mac_pc.id
+      mist_org_nactag.mac_pc.id
     ]
   }
   apply_tags = [
-    mist_nactag.vlan_sta.id
+    mist_org_nactag.vlan_sta.id
   ]
   action  = "allow"
   enabled = true
@@ -1251,6 +1258,7 @@ resource "mist_nacrule" "wired_mac_sta" {
   order   = 10
 }
 
+<<<<<<< Updated upstream
 resource "mist_rftemplate" "test_rf" {
     band_24_usage = "auto"
     band_5 = {
@@ -1280,6 +1288,37 @@ resource "mist_rftemplate" "test_rf" {
     country_code = "FR"
     name = "tf"
     org_id = mist_org.terraform_test.id
+=======
+resource "mist_org_rftemplate" "test_rf" {
+  band_24_usage = "auto"
+  band_5 = {
+    ant_gain = 2
+    power    = 8
+    channels = [
+      60,
+      104,
+      132
+    ]
+    bandwidth = 20
+  }
+  band_6 = {
+    ant_gain = 2
+    power    = 8
+  }
+  band_24 = {
+    ant_gain          = 1
+    allow_rrm_disable = true
+    power_min         = 18
+    power_max         = 18
+    bandwidth         = 20
+  }
+  ant_gain_5   = 2
+  ant_gain_6   = 2
+  ant_gain_24  = 1
+  country_code = "FR"
+  name         = "tf"
+  org_id       = mist_org.terraform_test.id
+>>>>>>> Stashed changes
 }
 
 resource "mist_site_setting" "test" {
@@ -1311,7 +1350,7 @@ resource "mist_site_setting" "test" {
   }
 }
 
-resource "mist_wlantemplate" "test101" {
+resource "mist_org_wlantemplate" "test101" {
   org_id = mist_org.terraform_test.id
   name = "test101"
   applies = {
@@ -1320,38 +1359,62 @@ resource "mist_wlantemplate" "test101" {
     ]
   }
 }
-resource "mist_wlan" "wlan_cwp"     {
-        ssid= "MlN.test"
-        bands= ["5"]
-        vlan_id= 143
-        wlan_limit_up= 10000
-        wlan_limit_down= 20000
-        client_limit_up= 512
-        client_limit_down= 1000
-        portal= {
-            enabled= true
-            bypass_when_cloud_down= true
-            auth= "sso"
-            privacy= false
-            sso_issuer= "https://sts.windows.net/f2532c2f-938c-4529-b6e4-aa26992b6b62/"
-            sso_nameid_format= "email"
-            sso_idp_sign_algo= "sha256"
-            sso_idp_cert= "-----BEGIN CERTIFICATE-----\nMIIC8DCCAdigAwIBAgIQE5pOI9W1DZFHbB9m2Q7ADzANBgkqhkiG9w0BAQsFADA0MTIwMAYDVQQD\nEylNaWNyb3NvZnQgQXp1cmUgRmVkZXJhdGVkIFNTTyBDZXJ0aWZpY2F0ZTAeFw0yMjAyMDIxNDEz\nMTNaFw0yNTAyMDIxNDEzMTNaMDQxMjAwBgNVBAMTKU1pY3Jvc29mdCBBenVyZSBGZWRlcmF0ZWQg\nU1NPIENlcnRpZmljYXRlMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA5gQTCccB3oE7\nelNYH2+11Q69Iq/2f3qf5KUZEQKwL++HyoBCOAM3wL3uLWwvRaih4+qpAeZvNsuShNIyB08SDcWN\nYsqVxaUsLYfzDD0c9VG9mwAx0Kh01S2JvtaLCaFveac7UXVfn/E/QbPXibS1EQvHUj0hwNXMrdS4\nh4TOk4D1Q70+OnCWyy7ykG1/RuO8UerIfqkQEy4C3QFb3Cyo4E7bEaYQo0NiCqD9IoM3B0wZib8Y\n3yRGJKdzXyDxuVJFb5rF7XMAHTWWAbxaN4KOLhZnjaJla7Pu/sFAj2Npm8Hm5pYEYBaUz4fc/8kg\nIwakFb3mnbnYw0xQwf+aJss1vQIDAQABMA0GCSqGSIb3DQEBCwUAA4IBAQCF+oKuLmnooDzALwaE\nbFVI7PVGhU7/UZzAnq6HHI9ngF0Af2+uIrvAz6rdUM1bsGhRbj3SV2oaj26pe/1TDrGescXWhTPw\nKcXOwBnVmFr8FlMkozwpHRNzCQyFYGiTAztgQcmtwF7pilVndOmEc+p3LvCdI5JZB+LtMM/o9V+1\n+Yhm4MEWO6wTSY+j7goc/vi5f76TDZPN6PkRv17+EkybEudJuTOuIoNiqsAbNB52bVNHtxFHGIwb\nH9iS45QJ4/RG1WUr91xe3Vzh/fp1BkiHZVL4iOywOIF0TYcW7h958JEf+q0HD5LUMO47NPEbc/Cd\n+fVCTXWzABXXy4D+S8gA\n-----END CERTIFICATE-----"
-            sso_idp_sso_url= "https://login.microsoftonline.com/f2532c2f-938c-4529-b6e4-aa26992b6b62/saml2"
-            email_enabled= true
-        }
-        portal_allowed_hostnames= [
-            "login.microsoftonline.com",
-            "portal.mist.com",
-            "login.live.com",
-            "aadcdn.msauth.net",
-            "logincdn.msauth.net"
-        ]
-        auth= {
-            type= "psk"
-            psk= "Juniper123"
-        }
-        apply_to= "site"
-        template_id= mist_wlantemplate.test101.id
-        interface= "all"
-    }
+resource "mist_org_wlan" "wlan_cwp" {
+  ssid              = "MlN.test"
+  # bands             = ["5"]
+  # vlan_id           = 143
+  # wlan_limit_up     = 10000
+  # wlan_limit_down   = 20000
+  # client_limit_up   = 512
+  # client_limit_down = 1000
+  # portal = {
+  #   enabled                = true
+  #   bypass_when_cloud_down = true
+  #   auth                   = "sso"
+  #   privacy                = false
+  #   sso_issuer             = "https://sts.windows.net/f2532c2f-938c-4529-b6e4-aa26992b6b62/"
+  #   sso_nameid_format      = "email"
+  #   sso_idp_sign_algo      = "sha256"
+  #   sso_idp_cert           = "-----BEGIN CERTIFICATE-----\nMIIC8DCCAdigAwIBAgIQE5pOI9W1DZFHbB9m2Q7ADzANBgkqhkiG9w0BAQsFADA0MTIwMAYDVQQD\nEylNaWNyb3NvZnQgQXp1cmUgRmVkZXJhdGVkIFNTTyBDZXJ0aWZpY2F0ZTAeFw0yMjAyMDIxNDEz\nMTNaFw0yNTAyMDIxNDEzMTNaMDQxMjAwBgNVBAMTKU1pY3Jvc29mdCBBenVyZSBGZWRlcmF0ZWQg\nU1NPIENlcnRpZmljYXRlMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA5gQTCccB3oE7\nelNYH2+11Q69Iq/2f3qf5KUZEQKwL++HyoBCOAM3wL3uLWwvRaih4+qpAeZvNsuShNIyB08SDcWN\nYsqVxaUsLYfzDD0c9VG9mwAx0Kh01S2JvtaLCaFveac7UXVfn/E/QbPXibS1EQvHUj0hwNXMrdS4\nh4TOk4D1Q70+OnCWyy7ykG1/RuO8UerIfqkQEy4C3QFb3Cyo4E7bEaYQo0NiCqD9IoM3B0wZib8Y\n3yRGJKdzXyDxuVJFb5rF7XMAHTWWAbxaN4KOLhZnjaJla7Pu/sFAj2Npm8Hm5pYEYBaUz4fc/8kg\nIwakFb3mnbnYw0xQwf+aJss1vQIDAQABMA0GCSqGSIb3DQEBCwUAA4IBAQCF+oKuLmnooDzALwaE\nbFVI7PVGhU7/UZzAnq6HHI9ngF0Af2+uIrvAz6rdUM1bsGhRbj3SV2oaj26pe/1TDrGescXWhTPw\nKcXOwBnVmFr8FlMkozwpHRNzCQyFYGiTAztgQcmtwF7pilVndOmEc+p3LvCdI5JZB+LtMM/o9V+1\n+Yhm4MEWO6wTSY+j7goc/vi5f76TDZPN6PkRv17+EkybEudJuTOuIoNiqsAbNB52bVNHtxFHGIwb\nH9iS45QJ4/RG1WUr91xe3Vzh/fp1BkiHZVL4iOywOIF0TYcW7h958JEf+q0HD5LUMO47NPEbc/Cd\n+fVCTXWzABXXy4D+S8gA\n-----END CERTIFICATE-----"
+  #   sso_idp_sso_url        = "https://login.microsoftonline.com/f2532c2f-938c-4529-b6e4-aa26992b6b62/saml2"
+  #   email_enabled          = true
+  # }
+  # portal_allowed_hostnames = [
+  #   "login.microsoftonline.com",
+  #   "portal.mist.com",
+  #   "login.live.com",
+  #   "aadcdn.msauth.net",
+  #   "logincdn.msauth.net"
+  # ]
+  # auth = {
+  #   type = "psk"
+  #   psk  = "Juniper123"
+  # }
+  # apply_to    = "site"
+  template_id = mist_org_wlantemplate.test101.id
+  org_id      = mist_org.terraform_test.id
+  #interface   = "all"
+}
+
+resource "mist_org_wxtag" "test" {
+  op = "in"
+  values = [
+    "demopsk"
+  ]
+  name   = "demopsk"
+  org_id = mist_org.terraform_test.id
+  type   = "match"
+  match  = "radius_group"
+
+}
+
+resource "mist_org_wxrule" "test" {
+  org_id = mist_org.terraform_test.id
+  template_id = mist_org_wlantemplate.test101.id
+  order = 1
+  src_wxtags = [
+    mist_org_wxtag.test.id
+  ]
+  enabled = true
+  action = "allow"  
+}
