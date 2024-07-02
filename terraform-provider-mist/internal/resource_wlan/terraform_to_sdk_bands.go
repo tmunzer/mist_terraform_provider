@@ -12,8 +12,14 @@ func bandsTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, plan base
 
 	var data_list []mistsdkgo.Dot11Band
 	for _, v := range plan.Elements() {
-		v_plan, _ := mistsdkgo.NewDot11BandFromValue(v.String())
-		data_list = append(data_list, *v_plan)
+		var v_interface interface{} = v
+		v_plan := v_interface.(basetypes.StringValue)
+		data, e := mistsdkgo.NewDot11BandFromValue(v_plan.ValueString())
+		if e != nil {
+			diags.AddError("bandsTerraformToSdk", e.Error())
+		} else {
+			data_list = append(data_list, *data)
+		}
 	}
 
 	return data_list

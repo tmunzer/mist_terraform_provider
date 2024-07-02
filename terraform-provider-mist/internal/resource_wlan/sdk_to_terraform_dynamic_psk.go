@@ -17,6 +17,7 @@ func dynamicPskSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, data
 		"enabled":         types.BoolValue(data.GetEnabled()),
 		"force_lookup":    types.BoolValue(data.GetForceLookup()),
 		"source":          types.StringValue(string(data.GetSource())),
+		"vlan_ids":        vlanIdsSkToTerraform(ctx, diags, data.GetVlanIds()),
 	}
 	r, e := NewDynamicPskValue(DynamicPskValue{}.AttributeTypes(ctx), plan_attr)
 	diags.Append(e...)

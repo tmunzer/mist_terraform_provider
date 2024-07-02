@@ -23,7 +23,7 @@ func dynamicVlanSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, dat
 	for k, v := range data.GetVlans() {
 		vlans_attr[k] = types.StringValue(string(v))
 	}
-	vlans, e := types.MapValueFrom(ctx, types.Int64Type, vlans_attr)
+	vlans, e := types.MapValueFrom(ctx, basetypes.StringType{}, vlans_attr)
 	diags.Append(e...)
 
 	plan_attr := map[string]attr.Value{

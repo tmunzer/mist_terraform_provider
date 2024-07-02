@@ -128,7 +128,6 @@ func TerraformToSdk(ctx context.Context, plan *WlanModel) (mistsdkgo.Wlan, diag.
 	data.SetPortalAllowedHostnames(mist_transform.ListOfStringTerraformToSdk(ctx, plan.PortalAllowedHostnames))
 	data.SetPortalAllowedSubnets(mist_transform.ListOfStringTerraformToSdk(ctx, plan.PortalAllowedSubnets))
 	data.SetPortalDeniedHostnames(mist_transform.ListOfStringTerraformToSdk(ctx, plan.PortalDeniedHostnames))
-	data.SetPortalSsoUrl(plan.PortalSsoUrl.ValueString())
 
 	qos := qosTerraformToSdk(ctx, &diags, plan.Qos)
 	data.SetQos(qos)

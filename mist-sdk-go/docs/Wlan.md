@@ -79,7 +79,7 @@ Name | Type | Description | Notes
 **PortalApiSecret** | Pointer to **NullableString** | api secret (auto-generated) that can be used to sign guest authorization requests | [optional] 
 **PortalDeniedHostnames** | Pointer to **[]string** | list of hostnames without http(s):// (matched by substring), this takes precedence over portal_allowed_hostnames | [optional] 
 **PortalImage** | Pointer to **NullableString** | Url of portal background image | [optional] 
-**PortalSsoUrl** | Pointer to **NullableString** |  | [optional] 
+**PortalSsoUrl** | Pointer to **NullableString** |  | [optional] [readonly] 
 **PortalTemplateUrl** | Pointer to **NullableString** | N.B portal_template will be forked out of wlan objects soon. To fetch portal_template, please query portal_template_url. To update portal_template, use Wlan Portal Template. | [optional] [readonly] 
 **Qos** | Pointer to [**WlanQos**](WlanQos.md) |  | [optional] 
 **Radsec** | Pointer to [**Radsec**](Radsec.md) |  | [optional] 

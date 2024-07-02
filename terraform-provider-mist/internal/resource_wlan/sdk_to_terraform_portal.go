@@ -15,7 +15,7 @@ func portalSkToTerraform(ctx context.Context, diags *diag.Diagnostics, data mist
 	for k, v := range data.GetSponsors() {
 		sponsors_attr[k] = types.StringValue(string(v))
 	}
-	sponsors, e := types.MapValueFrom(ctx, types.Int64Type, sponsors_attr)
+	sponsors, e := types.MapValueFrom(ctx, types.StringType, sponsors_attr)
 	diags.Append(e...)
 
 	plan_attr := map[string]attr.Value{

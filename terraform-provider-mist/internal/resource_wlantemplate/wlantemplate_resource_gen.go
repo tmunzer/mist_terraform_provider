@@ -97,8 +97,7 @@ func WlantemplateResourceSchema(ctx context.Context) schema.Schema {
 				Required: true,
 			},
 			"org_id": schema.StringAttribute{
-				Optional: true,
-				Computed: true,
+				Required: true,
 			},
 		},
 	}

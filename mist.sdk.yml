@@ -79519,6 +79519,7 @@ components:
           type: string
         portal_sso_url:
           nullable: true
+          readOnly: true
           type: string
         portal_template_url:
           description: N.B portal_template will be forked out of wlan objects soon.

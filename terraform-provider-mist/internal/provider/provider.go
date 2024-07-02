@@ -147,5 +147,7 @@ func (p *mistProvider) Resources(ctx context.Context) []func() resource.Resource
 		NewNacTag,
 		NewNacRule,
 		NewRfTemplate,
+		NewWlanTemplate,
+		NewWlan,
 	}
 }
