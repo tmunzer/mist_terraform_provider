@@ -4,7 +4,8 @@
 
 ### How to use the pre-version
 1. Make sure to have Go installed: https://go.dev/doc/install
-2. create a `.terraformrc` file in your home folder with (replace `<home_folder_path>` with your actual home folder paht):
+2. Install Terraform: https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli
+3. create a `.terraformrc` file in your home folder with (replace `<home_folder_path>` with your actual home folder paht):
 ```
 provider_installation {
   dev_overrides {
