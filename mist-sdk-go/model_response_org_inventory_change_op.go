@@ -1,9 +1,9 @@
 /*
 Mist API
 
-> Version: **2406.1.12** > > Date: **July 2, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
+> Version: **2406.1.14** > > Date: **July 3, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
 
-API version: 2406.1.12
+API version: 2406.1.14
 Contact: tmunzer@juniper.net
 */
 
@@ -22,19 +22,21 @@ type ResponseOrgInventoryChangeOp string
 // List of response_org_inventory_change_op
 const (
 	RESPONSEORGINVENTORYCHANGEOP_EMPTY ResponseOrgInventoryChangeOp = ""
-	RESPONSEORGINVENTORYCHANGEOP_DELETE ResponseOrgInventoryChangeOp = "delete"
 	RESPONSEORGINVENTORYCHANGEOP_ASSIGN ResponseOrgInventoryChangeOp = "assign"
-	RESPONSEORGINVENTORYCHANGEOP_MANAGE ResponseOrgInventoryChangeOp = "manage"
-	RESPONSEORGINVENTORYCHANGEOP_UNMANAGE ResponseOrgInventoryChangeOp = "unmanage"
+	RESPONSEORGINVENTORYCHANGEOP_UNASSIGN ResponseOrgInventoryChangeOp = "unassign"
+	RESPONSEORGINVENTORYCHANGEOP_DELETE ResponseOrgInventoryChangeOp = "delete"
+	RESPONSEORGINVENTORYCHANGEOP_UPGRADE_TO_MIST ResponseOrgInventoryChangeOp = "upgrade_to_mist"
+	RESPONSEORGINVENTORYCHANGEOP_DOWNGRADE_TO_JSI ResponseOrgInventoryChangeOp = "downgrade_to_jsi"
 )
 
 // All allowed values of ResponseOrgInventoryChangeOp enum
 var AllowedResponseOrgInventoryChangeOpEnumValues = []ResponseOrgInventoryChangeOp{
 	"",
-	"delete",
 	"assign",
-	"manage",
-	"unmanage",
+	"unassign",
+	"delete",
+	"upgrade_to_mist",
+	"downgrade_to_jsi",
 }
 
 func (v *ResponseOrgInventoryChangeOp) UnmarshalJSON(src []byte) error {

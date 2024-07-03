@@ -91,7 +91,6 @@ func (r *orgWlanResource) Create(ctx context.Context, req resource.CreateRequest
 
 func (r *orgWlanResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
 	var state resource_org_wlan.OrgWlanModel
-	tflog.Info(ctx, "Starting Wlan Read: wlan_id "+state.Id.ValueString())
 
 	diags := resp.State.Get(ctx, &state)
 	resp.Diagnostics.Append(diags...)
@@ -99,6 +98,7 @@ func (r *orgWlanResource) Read(ctx context.Context, req resource.ReadRequest, re
 		return
 	}
 
+	tflog.Info(ctx, "Starting Wlan Read: wlan_id "+state.Id.ValueString())
 	data, _, err := r.client.OrgsWlansAPI.GetOrgWLAN(ctx, state.OrgId.ValueString(), state.Id.ValueString()).Execute()
 	if err != nil {
 		resp.Diagnostics.AddError(
@@ -171,7 +171,6 @@ func (r *orgWlanResource) Update(ctx context.Context, req resource.UpdateRequest
 
 func (r *orgWlanResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
 	var state resource_org_wlan.OrgWlanModel
-	tflog.Info(ctx, "Starting Wlan Delete: wlan_id "+state.Id.ValueString())
 
 	diags := resp.State.Get(ctx, &state)
 	resp.Diagnostics.Append(diags...)
@@ -179,6 +178,7 @@ func (r *orgWlanResource) Delete(ctx context.Context, req resource.DeleteRequest
 		return
 	}
 
+	tflog.Info(ctx, "Starting Wlan Delete: wlan_id "+state.Id.ValueString())
 	_, err := r.client.OrgsWlansAPI.DeleteOrgWlan(ctx, state.OrgId.ValueString(), state.Id.ValueString()).Execute()
 	if err != nil {
 		resp.Diagnostics.AddError(

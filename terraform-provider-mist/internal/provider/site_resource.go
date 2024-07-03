@@ -92,7 +92,6 @@ func (r *siteResource) Create(ctx context.Context, req resource.CreateRequest, r
 
 func (r *siteResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
 	var state resource_site.SiteModel
-	tflog.Info(ctx, "Starting Site Read: site_id "+state.Id.ValueString())
 
 	diags := resp.State.Get(ctx, &state)
 	resp.Diagnostics.Append(diags...)
@@ -100,6 +99,7 @@ func (r *siteResource) Read(ctx context.Context, req resource.ReadRequest, resp 
 		return
 	}
 
+	tflog.Info(ctx, "Starting Site Read: site_id "+state.Id.ValueString())
 	data, _, err := r.client.SitesAPI.GetSiteInfo(ctx, state.Id.ValueString()).Execute()
 	if err != nil {
 		resp.Diagnostics.AddError(
@@ -169,7 +169,6 @@ func (r *siteResource) Update(ctx context.Context, req resource.UpdateRequest, r
 
 func (r *siteResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
 	var state resource_site.SiteModel
-	tflog.Info(ctx, "Starting Site Delete: site_id "+state.Id.ValueString())
 
 	diags := resp.State.Get(ctx, &state)
 	resp.Diagnostics.Append(diags...)
@@ -177,6 +176,7 @@ func (r *siteResource) Delete(ctx context.Context, req resource.DeleteRequest, r
 		return
 	}
 
+	tflog.Info(ctx, "Starting Site Delete: site_id "+state.Id.ValueString())
 	_, err := r.client.SitesAPI.DeleteSite(ctx, state.Id.ValueString()).Execute()
 	if err != nil {
 		resp.Diagnostics.AddError(

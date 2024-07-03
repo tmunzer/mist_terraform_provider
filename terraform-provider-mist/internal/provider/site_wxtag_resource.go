@@ -91,7 +91,6 @@ func (r *siteWxTagResource) Create(ctx context.Context, req resource.CreateReque
 
 func (r *siteWxTagResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
 	var state resource_site_wxtag.SiteWxtagModel
-	tflog.Info(ctx, "Starting WxTag Read: wxtag_id "+state.Id.ValueString())
 
 	diags := resp.State.Get(ctx, &state)
 	resp.Diagnostics.Append(diags...)
@@ -99,6 +98,7 @@ func (r *siteWxTagResource) Read(ctx context.Context, req resource.ReadRequest, 
 		return
 	}
 
+	tflog.Info(ctx, "Starting WxTag Read: wxtag_id "+state.Id.ValueString())
 	data, _, err := r.client.SitesWxTagsAPI.GetSiteWxTag(ctx, state.SiteId.ValueString(), state.Id.ValueString()).Execute()
 	if err != nil {
 		resp.Diagnostics.AddError(
@@ -171,7 +171,6 @@ func (r *siteWxTagResource) Update(ctx context.Context, req resource.UpdateReque
 
 func (r *siteWxTagResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
 	var state resource_site_wxtag.SiteWxtagModel
-	tflog.Info(ctx, "Starting WxTag Delete: wxtag_id "+state.Id.ValueString())
 
 	diags := resp.State.Get(ctx, &state)
 	resp.Diagnostics.Append(diags...)
@@ -179,6 +178,7 @@ func (r *siteWxTagResource) Delete(ctx context.Context, req resource.DeleteReque
 		return
 	}
 
+	tflog.Info(ctx, "Starting WxTag Delete: wxtag_id "+state.Id.ValueString())
 	_, err := r.client.SitesWxTagsAPI.DeleteSiteWxTag(ctx, state.SiteId.ValueString(), state.Id.ValueString()).Execute()
 	if err != nil {
 		resp.Diagnostics.AddError(

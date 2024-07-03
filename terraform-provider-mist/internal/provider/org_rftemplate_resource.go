@@ -91,7 +91,6 @@ func (r *orgRfTemplateResource) Create(ctx context.Context, req resource.CreateR
 
 func (r *orgRfTemplateResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
 	var state resource_rftemplate.RftemplateModel
-	tflog.Info(ctx, "Starting RfTemplate Read: rftemplate_id "+state.Id.ValueString())
 
 	diags := resp.State.Get(ctx, &state)
 	resp.Diagnostics.Append(diags...)
@@ -99,6 +98,7 @@ func (r *orgRfTemplateResource) Read(ctx context.Context, req resource.ReadReque
 		return
 	}
 
+	tflog.Info(ctx, "Starting RfTemplate Read: rftemplate_id "+state.Id.ValueString())
 	data, _, err := r.client.OrgsRFTemplatesAPI.GetOrgRfTemplate(ctx, state.OrgId.ValueString(), state.Id.ValueString()).Execute()
 	if err != nil {
 		resp.Diagnostics.AddError(
@@ -171,7 +171,6 @@ func (r *orgRfTemplateResource) Update(ctx context.Context, req resource.UpdateR
 
 func (r *orgRfTemplateResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
 	var state resource_rftemplate.RftemplateModel
-	tflog.Info(ctx, "Starting RfTemplate Delete: rftemplate_id "+state.Id.ValueString())
 
 	diags := resp.State.Get(ctx, &state)
 	resp.Diagnostics.Append(diags...)
@@ -179,6 +178,7 @@ func (r *orgRfTemplateResource) Delete(ctx context.Context, req resource.DeleteR
 		return
 	}
 
+	tflog.Info(ctx, "Starting RfTemplate Delete: rftemplate_id "+state.Id.ValueString())
 	_, err := r.client.OrgsRFTemplatesAPI.DeleteOrgRfTemplate(ctx, state.OrgId.ValueString(), state.Id.ValueString()).Execute()
 	if err != nil {
 		resp.Diagnostics.AddError(

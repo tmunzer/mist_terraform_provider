@@ -1,9 +1,9 @@
 /*
 Mist API
 
-> Version: **2406.1.12** > > Date: **July 2, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
+> Version: **2406.1.14** > > Date: **July 3, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
 
-API version: 2406.1.12
+API version: 2406.1.14
 Contact: tmunzer@juniper.net
 */
 
@@ -52,6 +52,8 @@ type Inventory struct {
 	// device stock keeping unit
 	Sku *string `json:"sku,omitempty"`
 	Type *DeviceType `json:"type,omitempty"`
+	// only if `type`==`switch`, MAC Address of the Virtual Chassis
+	VcMac *string `json:"vc_mac,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -664,6 +666,38 @@ func (o *Inventory) SetType(v DeviceType) {
 	o.Type = &v
 }
 
+// GetVcMac returns the VcMac field value if set, zero value otherwise.
+func (o *Inventory) GetVcMac() string {
+	if o == nil || IsNil(o.VcMac) {
+		var ret string
+		return ret
+	}
+	return *o.VcMac
+}
+
+// GetVcMacOk returns a tuple with the VcMac field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Inventory) GetVcMacOk() (*string, bool) {
+	if o == nil || IsNil(o.VcMac) {
+		return nil, false
+	}
+	return o.VcMac, true
+}
+
+// HasVcMac returns a boolean if a field has been set.
+func (o *Inventory) HasVcMac() bool {
+	if o != nil && !IsNil(o.VcMac) {
+		return true
+	}
+
+	return false
+}
+
+// SetVcMac gets a reference to the given string and assigns it to the VcMac field.
+func (o *Inventory) SetVcMac(v string) {
+	o.VcMac = &v
+}
+
 func (o Inventory) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -728,6 +762,9 @@ func (o Inventory) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Type) {
 		toSerialize["type"] = o.Type
 	}
+	if !IsNil(o.VcMac) {
+		toSerialize["vc_mac"] = o.VcMac
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -768,6 +805,7 @@ func (o *Inventory) UnmarshalJSON(data []byte) (err error) {
 		delete(additionalProperties, "site_id")
 		delete(additionalProperties, "sku")
 		delete(additionalProperties, "type")
+		delete(additionalProperties, "vc_mac")
 		o.AdditionalProperties = additionalProperties
 	}
 

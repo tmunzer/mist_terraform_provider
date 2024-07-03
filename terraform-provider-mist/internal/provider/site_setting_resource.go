@@ -91,7 +91,6 @@ func (r *siteSettingResource) Create(ctx context.Context, req resource.CreateReq
 
 func (r *siteSettingResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
 	var state resource_site_setting.SiteSettingModel
-	tflog.Info(ctx, "Starting SiteSetting Read: siteSetting_id "+state.SiteId.ValueString())
 
 	diags := resp.State.Get(ctx, &state)
 	resp.Diagnostics.Append(diags...)
@@ -99,6 +98,7 @@ func (r *siteSettingResource) Read(ctx context.Context, req resource.ReadRequest
 		return
 	}
 
+	tflog.Info(ctx, "Starting SiteSetting Read: siteSetting_id "+state.SiteId.ValueString())
 	data, _, err := r.client.SitesSettingAPI.GetSiteSetting(ctx, state.SiteId.ValueString()).Execute()
 	if err != nil {
 		resp.Diagnostics.AddError(
@@ -168,7 +168,6 @@ func (r *siteSettingResource) Update(ctx context.Context, req resource.UpdateReq
 
 func (r *siteSettingResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
 	var state resource_site_setting.SiteSettingModel
-	tflog.Info(ctx, "Starting SiteSetting Delete: siteSetting_id "+state.SiteId.ValueString())
 
 	diags := resp.State.Get(ctx, &state)
 	resp.Diagnostics.Append(diags...)
@@ -176,8 +175,8 @@ func (r *siteSettingResource) Delete(ctx context.Context, req resource.DeleteReq
 		return
 	}
 
+	tflog.Info(ctx, "Starting SiteSetting Delete: siteSetting_id "+state.SiteId.ValueString())
 	data := *mistsdkgo.NewSiteSetting()
-
 	_, _, err := r.client.SitesSettingAPI.UpdateSiteSettings(ctx, state.SiteId.ValueString()).SiteSetting(data).Execute()
 	if err != nil {
 		resp.Diagnostics.AddError(

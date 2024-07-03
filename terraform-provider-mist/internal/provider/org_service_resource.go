@@ -91,7 +91,6 @@ func (r *orgServiceResource) Create(ctx context.Context, req resource.CreateRequ
 
 func (r *orgServiceResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
 	var state resource_service.ServiceModel
-	tflog.Info(ctx, "Starting Service Read: service_id "+state.Id.ValueString())
 
 	diags := resp.State.Get(ctx, &state)
 	resp.Diagnostics.Append(diags...)
@@ -99,6 +98,7 @@ func (r *orgServiceResource) Read(ctx context.Context, req resource.ReadRequest,
 		return
 	}
 
+	tflog.Info(ctx, "Starting Service Read: service_id "+state.Id.ValueString())
 	data, _, err := r.client.OrgsServicesAPI.GetOrgService(ctx, state.OrgId.ValueString(), state.Id.ValueString()).Execute()
 	if err != nil {
 		resp.Diagnostics.AddError(
@@ -168,7 +168,6 @@ func (r *orgServiceResource) Update(ctx context.Context, req resource.UpdateRequ
 
 func (r *orgServiceResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
 	var state resource_service.ServiceModel
-	tflog.Info(ctx, "Starting Service Delete: service_id "+state.Id.ValueString())
 
 	diags := resp.State.Get(ctx, &state)
 	resp.Diagnostics.Append(diags...)
@@ -176,6 +175,7 @@ func (r *orgServiceResource) Delete(ctx context.Context, req resource.DeleteRequ
 		return
 	}
 
+	tflog.Info(ctx, "Starting Service Delete: service_id "+state.Id.ValueString())
 	_, err := r.client.OrgsServicesAPI.DeleteOrgService(ctx, state.OrgId.ValueString(), state.Id.ValueString()).Execute()
 	if err != nil {
 		resp.Diagnostics.AddError(

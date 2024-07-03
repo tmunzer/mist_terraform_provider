@@ -90,7 +90,6 @@ func (r *siteNetworkTemplateResource) Create(ctx context.Context, req resource.C
 
 func (r *siteNetworkTemplateResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
 	var state resource_site_networktemplate.SiteNetworktemplateModel
-	tflog.Info(ctx, "Starting NetworkTemplate Read: networktemplate_id "+state.SiteId.ValueString())
 
 	diags := resp.State.Get(ctx, &state)
 	resp.Diagnostics.Append(diags...)
@@ -98,6 +97,7 @@ func (r *siteNetworkTemplateResource) Read(ctx context.Context, req resource.Rea
 		return
 	}
 
+	tflog.Info(ctx, "Starting NetworkTemplate Read: networktemplate_id "+state.SiteId.ValueString())
 	data, _, err := r.client.SitesSettingAPI.GetSiteSetting(ctx, state.SiteId.ValueString()).Execute()
 	if err != nil {
 		resp.Diagnostics.AddError(
@@ -170,13 +170,13 @@ func (r *siteNetworkTemplateResource) Update(ctx context.Context, req resource.U
 
 func (r *siteNetworkTemplateResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
 	var state resource_site_networktemplate.SiteNetworktemplateModel
-	tflog.Info(ctx, "Starting NetworkTemplate Delete: site_id "+state.SiteId.ValueString())
 
 	diags := resp.State.Get(ctx, &state)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
 	}
+	tflog.Info(ctx, "Starting NetworkTemplate Delete: site_id "+state.SiteId.ValueString())
 	networktemplate, diags := resource_site_networktemplate.DeleteTerraformToSdk(ctx)
 	resp.Diagnostics.Append(diags...)
 

@@ -91,7 +91,6 @@ func (r *orgNacTagResource) Create(ctx context.Context, req resource.CreateReque
 
 func (r *orgNacTagResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
 	var state resource_org_nactag.OrgNactagModel
-	tflog.Info(ctx, "Starting NacTag Read: nactag_id "+state.Id.ValueString())
 
 	diags := resp.State.Get(ctx, &state)
 	resp.Diagnostics.Append(diags...)
@@ -99,6 +98,7 @@ func (r *orgNacTagResource) Read(ctx context.Context, req resource.ReadRequest, 
 		return
 	}
 
+	tflog.Info(ctx, "Starting NacTag Read: nactag_id "+state.Id.ValueString())
 	data, _, err := r.client.OrgsNACTagsAPI.GetOrgNacTag(ctx, state.OrgId.ValueString(), state.Id.ValueString()).Execute()
 	if err != nil {
 		resp.Diagnostics.AddError(
@@ -171,7 +171,6 @@ func (r *orgNacTagResource) Update(ctx context.Context, req resource.UpdateReque
 
 func (r *orgNacTagResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
 	var state resource_org_nactag.OrgNactagModel
-	tflog.Info(ctx, "Starting NacTag Delete: nactag_id "+state.Id.ValueString())
 
 	diags := resp.State.Get(ctx, &state)
 	resp.Diagnostics.Append(diags...)
@@ -179,6 +178,7 @@ func (r *orgNacTagResource) Delete(ctx context.Context, req resource.DeleteReque
 		return
 	}
 
+	tflog.Info(ctx, "Starting NacTag Delete: nactag_id "+state.Id.ValueString())
 	_, err := r.client.OrgsNACTagsAPI.DeleteOrgNacTag(ctx, state.OrgId.ValueString(), state.Id.ValueString()).Execute()
 	if err != nil {
 		resp.Diagnostics.AddError(

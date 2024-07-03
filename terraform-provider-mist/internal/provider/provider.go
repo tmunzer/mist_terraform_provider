@@ -142,6 +142,7 @@ func (p *mistProvider) Resources(ctx context.Context) []func() resource.Resource
 		NewOrgServiceResource,
 		NewOrgNetworkResource,
 		NewOrgGatewayTemplate,
+		NewOrgInventory,
 		NewOrgNacTag,
 		NewOrgNacRule,
 		NewOrgRfTemplate,

@@ -1,9 +1,9 @@
 /*
 Mist API
 
-> Version: **2406.1.12** > > Date: **July 2, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
+> Version: **2406.1.14** > > Date: **July 3, 2024**  ---  ### Additional Documentation * [Mist Automation Guide](https://www.juniper.net/documentation/us/en/software/mist/automation-integration/index.html) * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html) * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)  ---  ### Helpful Resources * [API Sandbox and Exercises](https://api-class.mist.com/) * [Postman Collection, Runners and Webhook Samples](https://www.postman.com/juniper-mist/workspace/mist-systems-s-public-workspace) * [API Demo Apps](https://apps.mist-lab.fr/) * [Juniper Blog](https://blogs.juniper.net/)  --- 
 
-API version: 2406.1.12
+API version: 2406.1.14
 Contact: tmunzer@juniper.net
 */
 
@@ -16,7 +16,7 @@ import (
 	"fmt"
 )
 
-// InventoryUpdateOperation * if `op`== `upgrade_to_mist`: Upgrade to mist-managed * if `op`== `downgrade_to_jsi`: Downgrade to basic monitoring. When downgrading a VC member to jsi, we will move the cloud connection of the VC to jsi-terminator and keep all VC device/inventories intact for pain-free upgrading back to mist. * if `op`== `assign`: Assign inventory to a site * if `op`== `unassign`: Unassign inventory to a site * if `op`== `delete`: Delete multiple inventory from org. If the device is already assigned to a site, it will be unassigned.
+// InventoryUpdateOperation * if `op`== `upgrade_to_mist`: Upgrade to mist-managed * if `op`== `downgrade_to_jsi`: Downgrade to basic monitoring. When downgrading a VC member to jsi, we will move the cloud connection of the VC to jsi-terminator and keep all VC device/inventories intact for pain-free upgrading back to mist. * if `op`== `assign`: Assign inventory to a site * if `op`== `unassign`: Unassign inventory from a site * if `op`== `delete`: Delete multiple inventory from org. If the device is already assigned to a site, it will be unassigned.
 type InventoryUpdateOperation string
 
 // List of inventory_update_operation

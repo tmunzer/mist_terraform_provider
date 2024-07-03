@@ -39,7 +39,7 @@ FILES = {
     "./terraform-provider-mist/internal/resource_org_network/org_network_resource_gen.go": {
         "dedup": ["DestinationNat", "StaticNat"]
     },
-    "./terraform-provider-mist/internal/resource_rftemplate/rftemplate_resource_gen.go": {
+    "./terraform-provider-mist/internal/resource_org_rftemplate/rftemplate_org_resource_gen.go": {
         "dedup": [
             "Band24",
             "Band5",

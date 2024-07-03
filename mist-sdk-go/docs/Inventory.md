@@ -22,6 +22,7 @@ Name | Type | Description | Notes
 **SiteId** | Pointer to **string** |  | [optional] [readonly] 
 **Sku** | Pointer to **string** | device stock keeping unit | [optional] 
 **Type** | Pointer to [**DeviceType**](DeviceType.md) |  | [optional] [default to DEVICETYPE_AP]
+**VcMac** | Pointer to **string** | only if &#x60;type&#x60;&#x3D;&#x3D;&#x60;switch&#x60;, MAC Address of the Virtual Chassis | [optional] 
 
 ## Methods
 
@@ -501,6 +502,31 @@ SetType sets Type field to given value.
 `func (o *Inventory) HasType() bool`
 
 HasType returns a boolean if a field has been set.
+
+### GetVcMac
+
+`func (o *Inventory) GetVcMac() string`
+
+GetVcMac returns the VcMac field if non-nil, zero value otherwise.
+
+### GetVcMacOk
+
+`func (o *Inventory) GetVcMacOk() (*string, bool)`
+
+GetVcMacOk returns a tuple with the VcMac field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetVcMac
+
+`func (o *Inventory) SetVcMac(v string)`
+
+SetVcMac sets VcMac field to given value.
+
+### HasVcMac
+
+`func (o *Inventory) HasVcMac() bool`
+
+HasVcMac returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

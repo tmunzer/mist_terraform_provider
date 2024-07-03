@@ -90,7 +90,6 @@ func (r *orgWlanTemplateResource) Create(ctx context.Context, req resource.Creat
 
 func (r *orgWlanTemplateResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
 	var state resource_org_wlantemplate.OrgWlantemplateModel
-	tflog.Info(ctx, "Starting WlanTemplate Read: wlantemplate_id "+state.Id.ValueString())
 
 	diags := resp.State.Get(ctx, &state)
 	resp.Diagnostics.Append(diags...)
@@ -98,6 +97,7 @@ func (r *orgWlanTemplateResource) Read(ctx context.Context, req resource.ReadReq
 		return
 	}
 
+	tflog.Info(ctx, "Starting WlanTemplate Read: wlantemplate_id "+state.Id.ValueString())
 	data, _, err := r.client.OrgsWLANTemplatesAPI.GetOrgTemplate(ctx, state.OrgId.ValueString(), state.Id.ValueString()).Execute()
 	if err != nil {
 		resp.Diagnostics.AddError(
@@ -170,7 +170,6 @@ func (r *orgWlanTemplateResource) Update(ctx context.Context, req resource.Updat
 
 func (r *orgWlanTemplateResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
 	var state resource_org_wlantemplate.OrgWlantemplateModel
-	tflog.Info(ctx, "Starting WlanTemplate Delete: wlantemplate_id "+state.Id.ValueString())
 
 	diags := resp.State.Get(ctx, &state)
 	resp.Diagnostics.Append(diags...)
@@ -178,6 +177,7 @@ func (r *orgWlanTemplateResource) Delete(ctx context.Context, req resource.Delet
 		return
 	}
 
+	tflog.Info(ctx, "Starting WlanTemplate Delete: wlantemplate_id "+state.Id.ValueString())
 	_, err := r.client.OrgsWLANTemplatesAPI.DeleteOrgTemplate(ctx, state.OrgId.ValueString(), state.Id.ValueString()).Execute()
 	if err != nil {
 		resp.Diagnostics.AddError(

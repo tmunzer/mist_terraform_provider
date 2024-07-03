@@ -90,7 +90,6 @@ func (r *orgNetworkTemplateResource) Create(ctx context.Context, req resource.Cr
 
 func (r *orgNetworkTemplateResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
 	var state resource_org_networktemplate.OrgNetworktemplateModel
-	tflog.Info(ctx, "Starting NetworkTemplate Read: networktemplate_id "+state.Id.ValueString())
 
 	diags := resp.State.Get(ctx, &state)
 	resp.Diagnostics.Append(diags...)
@@ -98,6 +97,7 @@ func (r *orgNetworkTemplateResource) Read(ctx context.Context, req resource.Read
 		return
 	}
 
+	tflog.Info(ctx, "Starting NetworkTemplate Read: networktemplate_id "+state.Id.ValueString())
 	data, _, err := r.client.OrgsNetworkTemplatesAPI.GetOrgNetworkTemplate(ctx, state.OrgId.ValueString(), state.Id.ValueString()).Execute()
 	if err != nil {
 		resp.Diagnostics.AddError(
@@ -170,7 +170,6 @@ func (r *orgNetworkTemplateResource) Update(ctx context.Context, req resource.Up
 
 func (r *orgNetworkTemplateResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
 	var state resource_org_networktemplate.OrgNetworktemplateModel
-	tflog.Info(ctx, "Starting NetworkTemplate Delete: networktemplate_id "+state.Id.ValueString())
 
 	diags := resp.State.Get(ctx, &state)
 	resp.Diagnostics.Append(diags...)
@@ -178,6 +177,7 @@ func (r *orgNetworkTemplateResource) Delete(ctx context.Context, req resource.De
 		return
 	}
 
+	tflog.Info(ctx, "Starting NetworkTemplate Delete: networktemplate_id "+state.Id.ValueString())
 	_, err := r.client.OrgsNetworkTemplatesAPI.DeleteOrgNetworkTemplate(ctx, state.OrgId.ValueString(), state.Id.ValueString()).Execute()
 	if err != nil {
 		resp.Diagnostics.AddError(

@@ -549,3 +549,16 @@ resources:
       attributes:
         aliases:
           wxtag_id: id     
+  # org_inventory:
+  #   create:
+  #     path: /api/v1/orgs/{org_id}/inventory
+  #     method: POST
+  #   read:
+  #     path: /api/v1/orgs/{org_id}/inventory
+  #     method: GET
+  #   delete:
+  #     path: /api/v1/orgs/{org_id}/inventory
+  #     method: PUT
+  #   update:
+  #     path: /api/v1/orgs/{org_id}/inventory
+  #     method: PUT        

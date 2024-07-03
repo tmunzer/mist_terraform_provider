@@ -3,11 +3,11 @@ info:
   contact:
     email: tmunzer@juniper.net
     name: Thomas Munzer
-  description: '> Version: **2406.1.12**
+  description: '> Version: **2406.1.14**
 
     >
 
-    > Date: **July 2, 2024**
+    > Date: **July 3, 2024**
 
 
     ---
@@ -43,7 +43,7 @@ info:
     name: MIT
     url: https://raw.githubusercontent.com/tmunzer/Mist-OAS3.0/main/LICENSE
   title: Mist API
-  version: 2406.1.12
+  version: 2406.1.14
 servers:
 - description: Mist Global 01
   url: https://api.mist.com
@@ -59887,6 +59887,9 @@ components:
           type: string
         type:
           $ref: '#/components/schemas/device_type'
+        vc_mac:
+          description: only if `type`==`switch`, MAC Address of the Virtual Chassis
+          type: string
       type: object
     inventory_list:
       items:
@@ -59937,7 +59940,7 @@ components:
 
         * if `op`== `assign`: Assign inventory to a site
 
-        * if `op`== `unassign`: Unassign inventory to a site
+        * if `op`== `unassign`: Unassign inventory from a site
 
         * if `op`== `delete`: Delete multiple inventory from org. If the device is
         already assigned to a site, it will be unassigned.'
@@ -68531,10 +68534,11 @@ components:
     response_org_inventory_change_op:
       enum:
       - ''
-      - delete
       - assign
-      - manage
-      - unmanage
+      - unassign
+      - delete
+      - upgrade_to_mist
+      - downgrade_to_jsi
       type: string
     response_org_search:
       properties:
@@ -79872,6 +79876,7 @@ components:
       default: disabled
       description: '`enabled` means transition mode'
       enum:
+      - ''
       - enabled
       - disabled
       - required

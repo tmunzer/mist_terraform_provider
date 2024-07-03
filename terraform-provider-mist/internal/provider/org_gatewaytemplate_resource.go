@@ -91,7 +91,6 @@ func (r *orgGatewaytemplateResource) Create(ctx context.Context, req resource.Cr
 
 func (r *orgGatewaytemplateResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
 	var state resource_org_gatewaytemplate.OrgGatewaytemplateModel
-	tflog.Info(ctx, "Starting GatewayTemplate Read: gatewaytemplate_id "+state.Id.ValueString())
 
 	diags := resp.State.Get(ctx, &state)
 	resp.Diagnostics.Append(diags...)
@@ -99,6 +98,7 @@ func (r *orgGatewaytemplateResource) Read(ctx context.Context, req resource.Read
 		return
 	}
 
+	tflog.Info(ctx, "Starting GatewayTemplate Read: gatewaytemplate_id "+state.Id.ValueString())
 	data, _, err := r.client.OrgsGatewayTemplatesAPI.GetOrgGatewayTemplate(ctx, state.OrgId.ValueString(), state.Id.ValueString()).Execute()
 	if err != nil {
 		resp.Diagnostics.AddError(
@@ -171,7 +171,6 @@ func (r *orgGatewaytemplateResource) Update(ctx context.Context, req resource.Up
 
 func (r *orgGatewaytemplateResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
 	var state resource_org_gatewaytemplate.OrgGatewaytemplateModel
-	tflog.Info(ctx, "Starting GatewayTemplate Delete: gatewaytemplate_id "+state.Id.ValueString())
 
 	diags := resp.State.Get(ctx, &state)
 	resp.Diagnostics.Append(diags...)
@@ -179,6 +178,7 @@ func (r *orgGatewaytemplateResource) Delete(ctx context.Context, req resource.De
 		return
 	}
 
+	tflog.Info(ctx, "Starting GatewayTemplate Delete: gatewaytemplate_id "+state.Id.ValueString())
 	_, err := r.client.OrgsGatewayTemplatesAPI.DeleteOrgGatewayTemplate(ctx, state.OrgId.ValueString(), state.Id.ValueString()).Execute()
 	if err != nil {
 		resp.Diagnostics.AddError(

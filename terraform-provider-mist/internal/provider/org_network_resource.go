@@ -92,7 +92,6 @@ func (r *orgNetworkResource) Create(ctx context.Context, req resource.CreateRequ
 
 func (r *orgNetworkResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
 	var state resource_org_network.OrgNetworkModel
-	tflog.Info(ctx, "Starting Network Read: network_id "+state.Id.ValueString())
 
 	diags := resp.State.Get(ctx, &state)
 	resp.Diagnostics.Append(diags...)
@@ -100,6 +99,7 @@ func (r *orgNetworkResource) Read(ctx context.Context, req resource.ReadRequest,
 		return
 	}
 
+	tflog.Info(ctx, "Starting Network Read: network_id "+state.Id.ValueString())
 	data, _, err := r.client.OrgsNetworksAPI.GetOrgNetwork(ctx, state.OrgId.ValueString(), state.Id.ValueString()).Execute()
 	if err != nil {
 		resp.Diagnostics.AddError(
@@ -169,7 +169,6 @@ func (r *orgNetworkResource) Update(ctx context.Context, req resource.UpdateRequ
 
 func (r *orgNetworkResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
 	var state resource_org_network.OrgNetworkModel
-	tflog.Info(ctx, "Starting Network Delete: network_id "+state.Id.ValueString())
 
 	diags := resp.State.Get(ctx, &state)
 	resp.Diagnostics.Append(diags...)
@@ -177,6 +176,7 @@ func (r *orgNetworkResource) Delete(ctx context.Context, req resource.DeleteRequ
 		return
 	}
 
+	tflog.Info(ctx, "Starting Network Delete: network_id "+state.Id.ValueString())
 	_, err := r.client.OrgsNetworksAPI.DeleteOrgNetwork(ctx, state.OrgId.ValueString(), state.Id.ValueString()).Execute()
 	if err != nil {
 		resp.Diagnostics.AddError(

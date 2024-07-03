@@ -91,7 +91,6 @@ func (r *orgWxRuleResource) Create(ctx context.Context, req resource.CreateReque
 
 func (r *orgWxRuleResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
 	var state resource_org_wxrule.OrgWxruleModel
-	tflog.Info(ctx, "Starting WxRule Read: wxrule_id "+state.Id.ValueString())
 
 	diags := resp.State.Get(ctx, &state)
 	resp.Diagnostics.Append(diags...)
@@ -99,6 +98,7 @@ func (r *orgWxRuleResource) Read(ctx context.Context, req resource.ReadRequest, 
 		return
 	}
 
+	tflog.Info(ctx, "Starting WxRule Read: wxrule_id "+state.Id.ValueString())
 	data, _, err := r.client.OrgsWxRulesAPI.GetOrgWxRule(ctx, state.OrgId.ValueString(), state.Id.ValueString()).Execute()
 	if err != nil {
 		resp.Diagnostics.AddError(
@@ -171,7 +171,6 @@ func (r *orgWxRuleResource) Update(ctx context.Context, req resource.UpdateReque
 
 func (r *orgWxRuleResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
 	var state resource_org_wxrule.OrgWxruleModel
-	tflog.Info(ctx, "Starting WxRule Delete: wxrule_id "+state.Id.ValueString())
 
 	diags := resp.State.Get(ctx, &state)
 	resp.Diagnostics.Append(diags...)
@@ -179,6 +178,7 @@ func (r *orgWxRuleResource) Delete(ctx context.Context, req resource.DeleteReque
 		return
 	}
 
+	tflog.Info(ctx, "Starting WxRule Delete: wxrule_id "+state.Id.ValueString())
 	_, err := r.client.OrgsWxRulesAPI.DeleteOrgWxRule(ctx, state.OrgId.ValueString(), state.Id.ValueString()).Execute()
 	if err != nil {
 		resp.Diagnostics.AddError(
