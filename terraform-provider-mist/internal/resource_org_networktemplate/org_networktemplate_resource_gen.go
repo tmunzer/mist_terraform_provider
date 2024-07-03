@@ -369,8 +369,7 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 				MarkdownDescription: "list of NTP servers specific to this device. By default, those in Site Settings will be used",
 			},
 			"org_id": schema.StringAttribute{
-				Optional: true,
-				Computed: true,
+				Required: true,
 			},
 			"port_mirrorings": schema.MapNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{

@@ -184,8 +184,7 @@ func OrgNacruleResourceSchema(ctx context.Context) schema.Schema {
 				},
 			},
 			"org_id": schema.StringAttribute{
-				Optional: true,
-				Computed: true,
+				Required: true,
 			},
 		},
 	}

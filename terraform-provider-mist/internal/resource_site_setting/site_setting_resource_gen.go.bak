@@ -955,8 +955,7 @@ func SiteSettingResourceSchema(ctx context.Context) schema.Schema {
 				},
 			},
 			"site_id": schema.StringAttribute{
-				Optional: true,
-				Computed: true,
+				Required: true,
 			},
 			"skyatp": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{

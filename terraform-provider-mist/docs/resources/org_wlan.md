@@ -17,6 +17,7 @@ description: |-
 
 ### Required
 
+- `org_id` (String)
 - `ssid` (String) the name of the SSID
 
 ### Optional
@@ -92,7 +93,6 @@ dynamic_psk allows PSK to be selected at runtime depending on context (wlan/site
 - `mxtunnel_name` (List of String) when `interface`=`site_medge`, name of the mxtunnel that in mxtunnels under Site Setting
 - `no_static_dns` (Boolean) whether to only allow client to use DNS that we’ve learned from DHCP response
 - `no_static_ip` (Boolean) whether to only allow client that we’ve learned from DHCP exchange to talk
-- `org_id` (String)
 - `portal` (Attributes) portal wlan settings (see [below for nested schema](#nestedatt--portal))
 - `portal_allowed_hostnames` (List of String) list of hostnames without http(s):// (matched by substring)
 - `portal_allowed_subnets` (List of String) list of CIDRs

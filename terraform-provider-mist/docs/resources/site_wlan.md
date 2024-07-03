@@ -17,6 +17,7 @@ description: |-
 
 ### Required
 
+- `site_id` (String)
 - `ssid` (String) the name of the SSID
 
 ### Optional
@@ -105,7 +106,6 @@ dynamic_psk allows PSK to be selected at runtime depending on context (wlan/site
 - `radsec` (Attributes) Radsec settings (see [below for nested schema](#nestedatt--radsec))
 - `roam_mode` (String)
 - `schedule` (Attributes) WLAN operating schedule, default is disabled (see [below for nested schema](#nestedatt--schedule))
-- `site_id` (String)
 - `sle_excluded` (Boolean) whether to exclude this WLAN from SLE metrics
 - `template_id` (String)
 - `thumbnail` (String) Url of portal background image thumbnail

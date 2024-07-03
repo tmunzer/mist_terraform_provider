@@ -77,8 +77,7 @@ func SiteWxruleResourceSchema(ctx context.Context) schema.Schema {
 				Computed: true,
 			},
 			"site_id": schema.StringAttribute{
-				Optional: true,
-				Computed: true,
+				Required: true,
 			},
 			"src_wxtags": schema.ListAttribute{
 				ElementType:         types.StringType,

@@ -900,8 +900,7 @@ func OrgRftemplateResourceSchema(ctx context.Context) schema.Schema {
 				MarkdownDescription: "The name of the RF template",
 			},
 			"org_id": schema.StringAttribute{
-				Optional: true,
-				Computed: true,
+				Required: true,
 			},
 			"scanning_enabled": schema.BoolAttribute{
 				Optional:            true,

@@ -34,13 +34,224 @@ RENAME = [
                     },
                 ],
             },
+            {
+                "name": "org_id",
+                "get": ["string"],
+                "computed_optional_required": "required",
+            },
         ],
     },
+        {
+        "name": "org_sitegroup",
+        "get": ["schema", "attributes"],
+        "next": [
+            {
+                "name": "name",
+                "get": ["string"],
+                "computed_optional_required": "required",
+            },
+            {
+                "name": "org_id",
+                "get": ["string"],
+                "computed_optional_required": "required",
+            },
+        ]
+        },
+        {
+        "name": "org_wlantemplate",
+        "get": ["schema", "attributes"],
+        "next": [
+            {
+                "name": "name",
+                "get": ["string"],
+                "computed_optional_required": "required",
+            },
+            {
+                "name": "org_id",
+                "get": ["string"],
+                "computed_optional_required": "required",
+            },
+        ]
+        },
+        {
+        "name": "org_wlan",
+        "get": ["schema", "attributes"],
+        "next": [
+            {
+                "name": "ssid",
+                "get": ["string"],
+                "computed_optional_required": "required",
+            },
+            {
+                "name": "org_id",
+                "get": ["string"],
+                "computed_optional_required": "required",
+            },
+        ]
+        },
+        {
+        "name": "org_service",
+        "get": ["schema", "attributes"],
+        "next": [
+            {
+                "name": "name",
+                "get": ["string"],
+                "computed_optional_required": "required",
+            },
+            {
+                "name": "org_id",
+                "get": ["string"],
+                "computed_optional_required": "required",
+            },
+        ]
+        },
+        {
+        "name": "org_network",
+        "get": ["schema", "attributes"],
+        "next": [
+            {
+                "name": "name",
+                "get": ["string"],
+                "computed_optional_required": "required",
+            },
+            {
+                "name": "org_id",
+                "get": ["string"],
+                "computed_optional_required": "required",
+            },
+        ]
+        },
+        {
+        "name": "org_nactag",
+        "get": ["schema", "attributes"],
+        "next": [
+            {
+                "name": "name",
+                "get": ["string"],
+                "computed_optional_required": "required",
+            },
+            {
+                "name": "org_id",
+                "get": ["string"],
+                "computed_optional_required": "required",
+            },
+        ]
+        },
+        {
+        "name": "org_wxrule",
+        "get": ["schema", "attributes"],
+        "next": [
+            {
+                "name": "org_id",
+                "get": ["string"],
+                "computed_optional_required": "required",
+            },
+        ]
+        },
+        {
+        "name": "org_wxtag",
+        "get": ["schema", "attributes"],
+        "next": [
+            {
+                "name": "name",
+                "get": ["string"],
+                "computed_optional_required": "required",
+            },
+            {
+                "name": "org_id",
+                "get": ["string"],
+                "computed_optional_required": "required",
+            },
+        ]
+        },
+        {
+        "name": "site_wxrule",
+        "get": ["schema", "attributes"],
+        "next": [
+            {
+                "name": "site_id",
+                "get": ["string"],
+                "computed_optional_required": "required",
+            },
+        ]
+        },
+        {
+        "name": "site_wxtag",
+        "get": ["schema", "attributes"],
+        "next": [
+            {
+                "name": "name",
+                "get": ["string"],
+                "computed_optional_required": "required",
+            },
+            {
+                "name": "site_id",
+                "get": ["string"],
+                "computed_optional_required": "required",
+            },
+        ]
+        },
+        {
+        "name": "org_rftemplate",
+        "get": ["schema", "attributes"],
+        "next": [
+            {
+                "name": "name",
+                "get": ["string"],
+                "computed_optional_required": "required",
+            },
+            {
+                "name": "org_id",
+                "get": ["string"],
+                "computed_optional_required": "required",
+            },
+        ]
+        },
+        {
+        "name": "org_nacrule",
+        "get": ["schema", "attributes"],
+        "next": [
+            {
+                "name": "name",
+                "get": ["string"],
+                "computed_optional_required": "required",
+            },
+            {
+                "name": "org_id",
+                "get": ["string"],
+                "computed_optional_required": "required",
+            },
+        ]
+        },
+        {
+        "name": "site_wlan",
+        "get": ["schema", "attributes"],
+        "next": [
+            {
+                "name": "ssid",
+                "get": ["string"],
+                "computed_optional_required": "required",
+            },
+            {
+                "name": "site_id",
+                "get": ["string"],
+                "computed_optional_required": "required",
+            },
+        ]
+        },
     {
         "name": "site_networktemplate",
         "get": ["schema", "attributes"],
         "next": [
-            {"name": "id", "rename": "site_id"},
+            {
+                "name": "id",
+                "rename": "site_id",
+            },
+                        {
+                "name": "site_id",
+                "get": ["string"],
+                "computed_optional_required": "required",
+            },
             {
                 "name": "switch_matching",
                 "get": ["single_nested", "attributes"],
@@ -73,6 +284,11 @@ RENAME = [
         "name": "site_setting",
         "get": ["schema", "attributes"],
         "next": [
+            {
+                "name": "site_id",
+                "get": ["string"],
+                "computed_optional_required": "required",
+            },
             {
                 "name": "analytic",
                 "get": ["single_nested"],
@@ -528,6 +744,11 @@ RENAME = [
         "get": ["schema", "attributes"],
         "next": [
             {
+                "name": "org_id",
+                "get": ["string"],
+                "computed_optional_required": "required",
+            },
+            {
                 "name": "idp_profiles",
                 "get": ["map_nested", "nested_object", "attributes"],
                 "next": [
@@ -616,18 +837,7 @@ RENAME = [
             {
                 "name": "org_id",
                 "get": ["string"],
-                "plan_modifiers": [
-                    {
-                        "custom": {
-                            "imports": [
-                                {
-                                    "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
-                                }
-                            ],
-                            "schema_definition": "stringplanmodifier.UseStateForUnknown()",
-                        }
-                    }
-                ],
+                "computed_optional_required": "required",                
             },
             {
                 "name": "site_id",
@@ -1070,18 +1280,7 @@ RENAME = [
             {
                 "name": "site_id",
                 "get": ["string"],
-                "plan_modifiers": [
-                    {
-                        "custom": {
-                            "imports": [
-                                {
-                                    "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
-                                }
-                            ],
-                            "schema_definition": "stringplanmodifier.UseStateForUnknown()",
-                        }
-                    }
-                ],
+                "computed_optional_required": "required",
             },
             {
                 "name": "id",
@@ -1495,6 +1694,7 @@ def next_item(data: dict, entries: list, path: list):
         n = entry.get("next")
         rename = entry.get("rename")
         plan_modifiers = entry.get("plan_modifiers")
+        computed_optional_required = entry.get("computed_optional_required")
         curr_path = path.copy()
         curr_path.append(name)
         try:
@@ -1509,6 +1709,8 @@ def next_item(data: dict, entries: list, path: list):
                 sub_data["name"] = rename
             if plan_modifiers:
                 sub_data["plan_modifiers"] = plan_modifiers
+            if computed_optional_required:
+                sub_data["computed_optional_required"] = computed_optional_required
             if n:
                 next_item(sub_data, n, curr_path)
         except:

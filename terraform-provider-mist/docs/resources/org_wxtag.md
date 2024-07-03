@@ -18,6 +18,7 @@ description: |-
 ### Required
 
 - `name` (String) The name
+- `org_id` (String)
 - `type` (String)
 
 ### Optional
@@ -26,7 +27,6 @@ description: |-
 - `mac` (String)
 - `match` (String)
 - `op` (String)
-- `org_id` (String)
 - `resource_mac` (String)
 - `services` (List of String)
 - `site_id` (String)

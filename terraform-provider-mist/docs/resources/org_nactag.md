@@ -18,6 +18,7 @@ description: |-
 ### Required
 
 - `name` (String)
+- `org_id` (String)
 - `type` (String)
 
 ### Optional
@@ -32,7 +33,6 @@ description: |-
 
 
 Currently it makes sense to set this field to `true` only if the `match`==`idp_role` or `match`==`usermac_label`
-- `org_id` (String)
 - `radius_attrs` (List of String) if `type`==`radius_attrs`, user can specify a list of one or more standard attributes in the field "radius_attrs". 
 It is the responsibility of the user to provide a syntactically correct string, otherwise it may not work as expected.
 Note that it is allowed to have more than one radius_attrs in the result of a given rule.

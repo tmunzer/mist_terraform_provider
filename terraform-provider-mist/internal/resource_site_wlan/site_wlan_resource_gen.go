@@ -2058,11 +2058,7 @@ func SiteWlanResourceSchema(ctx context.Context) schema.Schema {
 				},
 			},
 			"site_id": schema.StringAttribute{
-				Optional: true,
-				Computed: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
+				Required: true,
 			},
 			"sle_excluded": schema.BoolAttribute{
 				Optional:            true,

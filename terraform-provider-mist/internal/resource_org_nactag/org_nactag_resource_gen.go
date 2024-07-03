@@ -78,8 +78,7 @@ func OrgNactagResourceSchema(ctx context.Context) schema.Schema {
 				},
 			},
 			"org_id": schema.StringAttribute{
-				Optional: true,
-				Computed: true,
+				Required: true,
 			},
 			"radius_attrs": schema.ListAttribute{
 				ElementType:         types.StringType,

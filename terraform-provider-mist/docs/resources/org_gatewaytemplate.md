@@ -18,6 +18,7 @@ description: |-
 ### Required
 
 - `name` (String)
+- `org_id` (String)
 
 ### Optional
 
@@ -35,7 +36,6 @@ description: |-
 - `networks` (Attributes List) (see [below for nested schema](#nestedatt--networks))
 - `ntp_override` (Boolean)
 - `ntp_servers` (List of String) list of NTP servers specific to this device. By default, those in Site Settings will be used
-- `org_id` (String)
 - `path_preferences` (Attributes Map) Property key is the path name (see [below for nested schema](#nestedatt--path_preferences))
 - `port_config` (Attributes Map) Property key is the port(s) name or range (e.g. "ge-0/0/0-10") (see [below for nested schema](#nestedatt--port_config))
 - `router_id` (String) auto assigned if not set

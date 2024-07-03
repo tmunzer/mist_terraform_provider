@@ -19,6 +19,7 @@ description: |-
 
 - `action` (String)
 - `name` (String)
+- `org_id` (String)
 
 ### Optional
 
@@ -27,7 +28,6 @@ description: |-
 - `matching` (Attributes) (see [below for nested schema](#nestedatt--matching))
 - `not_matching` (Attributes) (see [below for nested schema](#nestedatt--not_matching))
 - `order` (Number) the order of the rule, lower value implies higher priority
-- `org_id` (String)
 
 ### Read-Only
 

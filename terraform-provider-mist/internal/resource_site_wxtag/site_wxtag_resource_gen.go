@@ -94,8 +94,7 @@ func SiteWxtagResourceSchema(ctx context.Context) schema.Schema {
 				},
 			},
 			"site_id": schema.StringAttribute{
-				Optional: true,
-				Computed: true,
+				Required: true,
 			},
 			"specs": schema.ListNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{

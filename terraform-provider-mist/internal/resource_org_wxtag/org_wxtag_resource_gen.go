@@ -78,8 +78,7 @@ func OrgWxtagResourceSchema(ctx context.Context) schema.Schema {
 				Default: stringdefault.StaticString("in"),
 			},
 			"org_id": schema.StringAttribute{
-				Optional: true,
-				Computed: true,
+				Required: true,
 			},
 			"resource_mac": schema.StringAttribute{
 				Optional: true,

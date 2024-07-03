@@ -145,12 +145,10 @@ func OrgNetworkResourceSchema(ctx context.Context) schema.Schema {
 				MarkdownDescription: "whether to allow clients in the network to talk to each other",
 			},
 			"name": schema.StringAttribute{
-				Optional: true,
-				Computed: true,
+				Required: true,
 			},
 			"org_id": schema.StringAttribute{
-				Optional: true,
-				Computed: true,
+				Required: true,
 			},
 			"routed_for_networks": schema.ListAttribute{
 				ElementType:         types.StringType,

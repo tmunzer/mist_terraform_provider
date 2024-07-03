@@ -103,12 +103,10 @@ func OrgServiceResourceSchema(ctx context.Context) schema.Schema {
 				MarkdownDescription: "when `traffic_type`==`custom`, for uplink selection",
 			},
 			"name": schema.StringAttribute{
-				Optional: true,
-				Computed: true,
+				Required: true,
 			},
 			"org_id": schema.StringAttribute{
-				Optional: true,
-				Computed: true,
+				Required: true,
 			},
 			"sle_enabled": schema.BoolAttribute{
 				Optional:            true,
