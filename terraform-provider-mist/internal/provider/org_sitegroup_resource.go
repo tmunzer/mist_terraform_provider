@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
-	"terraform-provider-mist/internal/resource_sitegroup"
+	"terraform-provider-mist/internal/resource_org_sitegroup"
 
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
@@ -45,12 +45,12 @@ func (r *orgSiteGroupResource) Metadata(ctx context.Context, req resource.Metada
 }
 
 func (r *orgSiteGroupResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
-	resp.Schema = resource_sitegroup.SitegroupResourceSchema(ctx)
+	resp.Schema = resource_org_sitegroup.OrgSitegroupResourceSchema(ctx)
 }
 
 func (r *orgSiteGroupResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
 	tflog.Info(ctx, "Starting SiteGroup Create")
-	var plan, state resource_sitegroup.SitegroupModel
+	var plan, state resource_org_sitegroup.OrgSitegroupModel
 
 	diags := req.Plan.Get(ctx, &plan)
 	resp.Diagnostics.Append(diags...)
@@ -58,7 +58,7 @@ func (r *orgSiteGroupResource) Create(ctx context.Context, req resource.CreateRe
 		return
 	}
 
-	sitegroup, orgId, diags := resource_sitegroup.TerraformToSdk(&plan)
+	sitegroup, orgId, diags := resource_org_sitegroup.TerraformToSdk(&plan)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -73,7 +73,7 @@ func (r *orgSiteGroupResource) Create(ctx context.Context, req resource.CreateRe
 		return
 	}
 
-	state, diags = resource_sitegroup.SdkToTerraform(data)
+	state, diags = resource_org_sitegroup.SdkToTerraform(data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -88,7 +88,7 @@ func (r *orgSiteGroupResource) Create(ctx context.Context, req resource.CreateRe
 }
 
 func (r *orgSiteGroupResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
-	var state resource_sitegroup.SitegroupModel
+	var state resource_org_sitegroup.OrgSitegroupModel
 	tflog.Info(ctx, "Starting SiteGroup Read: sitegroup_id "+state.Id.ValueString())
 
 	diags := resp.State.Get(ctx, &state)
@@ -105,7 +105,7 @@ func (r *orgSiteGroupResource) Read(ctx context.Context, req resource.ReadReques
 		)
 		return
 	}
-	state, diags = resource_sitegroup.SdkToTerraform(data)
+	state, diags = resource_org_sitegroup.SdkToTerraform(data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -120,7 +120,7 @@ func (r *orgSiteGroupResource) Read(ctx context.Context, req resource.ReadReques
 }
 
 func (r *orgSiteGroupResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
-	var state, plan resource_sitegroup.SitegroupModel
+	var state, plan resource_org_sitegroup.OrgSitegroupModel
 	tflog.Info(ctx, "Starting SiteGroup Update")
 
 	diags := resp.State.Get(ctx, &state)
@@ -135,7 +135,7 @@ func (r *orgSiteGroupResource) Update(ctx context.Context, req resource.UpdateRe
 	}
 
 	sitegroupId := plan.Id.ValueString()
-	sitegroup, orgId, diags := resource_sitegroup.TerraformToSdk(&plan)
+	sitegroup, orgId, diags := resource_org_sitegroup.TerraformToSdk(&plan)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -153,7 +153,7 @@ func (r *orgSiteGroupResource) Update(ctx context.Context, req resource.UpdateRe
 		return
 	}
 
-	state, diags = resource_sitegroup.SdkToTerraform(data)
+	state, diags = resource_org_sitegroup.SdkToTerraform(data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -168,7 +168,7 @@ func (r *orgSiteGroupResource) Update(ctx context.Context, req resource.UpdateRe
 }
 
 func (r *orgSiteGroupResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
-	var state resource_sitegroup.SitegroupModel
+	var state resource_org_sitegroup.OrgSitegroupModel
 	tflog.Info(ctx, "Starting SiteGroup Delete: sitegroup_id "+state.Id.ValueString())
 
 	diags := resp.State.Get(ctx, &state)

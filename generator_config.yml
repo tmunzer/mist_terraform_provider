@@ -47,7 +47,7 @@ resources:
       ignores:
         - created_time
         - modified_time
-  sitegroup:
+  org_sitegroup:
     create:
       path: /api/v1/orgs/{org_id}/sitegroups
       method: POST
@@ -68,7 +68,7 @@ resources:
       attributes:
         aliases:
           sitegroup_id: id
-  networktemplate:
+  org_networktemplate:
     create:
       path: /api/v1/orgs/{org_id}/networktemplates
       method: POST
@@ -91,7 +91,7 @@ resources:
       attributes:
         aliases:
           networktemplate_id: id
-  service:
+  org_service:
     create:
       path: /api/v1/orgs/{org_id}/services
       method: POST
@@ -111,7 +111,7 @@ resources:
       attributes:
         aliases:
           service_id: id
-  network:
+  org_network:
     create:
       path: /api/v1/orgs/{org_id}/networks
       method: POST
@@ -131,7 +131,7 @@ resources:
       attributes:
         aliases:
           network_id: id
-  gatewaytemplate:
+  org_gatewaytemplate:
     create:
       path: /api/v1/orgs/{org_id}/gatewaytemplates
       method: POST
@@ -160,7 +160,7 @@ resources:
       attributes:
         aliases:
           gatewaytemplate_id: id
-  nactag:
+  org_nactag:
     create:
       path: /api/v1/orgs/{org_id}/nactags
       method: POST
@@ -180,7 +180,7 @@ resources:
       ignores:
         - created_time
         - modified_time
-  nacrule:
+  org_nacrule:
     create:
       path: /api/v1/orgs/{org_id}/nacrules
       method: POST
@@ -200,7 +200,7 @@ resources:
       ignores:
         - created_time
         - modified_time
-  rftemplate:
+  org_rftemplate:
     create:
       path: /api/v1/orgs/{org_id}/rftemplates
       method: POST
@@ -396,7 +396,7 @@ resources:
       attributes:
         aliases:
           site_id: id
-  wlantemplate:
+  org_wlantemplate:
     create:
       path: /api/v1/orgs/{org_id}/templates
       method: POST
@@ -416,7 +416,7 @@ resources:
       attributes:
         aliases:
           template_id: id      
-  wlan:
+  org_wlan:
     create:
       path: /api/v1/orgs/{org_id}/wlans
       method: POST
@@ -440,7 +440,31 @@ resources:
       attributes:
         aliases:
           wlan_id: id      
-  wxrule:
+  site_wlan:
+    create:
+      path: /api/v1/sites/{site_id}/wlans
+      method: POST
+    read:
+      path: /api/v1/sites/{site_id}/wlans/{wlan_id}
+      method: GET
+    delete:
+      path: /api/v1/sites/{site_id}/wlans/{wlan_id}
+      method: DELETE
+    update:
+      path: /api/v1/sites/{site_id}/wlans/{wlan_id}
+      method: PUT      
+    schema:
+      ignores:
+        - created_time
+        - modified_time
+        - for_site
+        - mxtunnel_id
+        - rateset
+        - band
+      attributes:
+        aliases:
+          wlan_id: id      
+  org_wxrule:
     create:
       path: /api/v1/orgs/{org_id}/wxrules
       method: POST
@@ -461,7 +485,7 @@ resources:
       attributes:
         aliases:
           wxrule_id: id      
-  wxtag:
+  org_wxtag:
     create:
       path: /api/v1/orgs/{org_id}/wxtags
       method: POST
@@ -473,6 +497,48 @@ resources:
       method: DELETE
     update:
       path: /api/v1/orgs/{org_id}/wxtags/{wxtag_id}
+      method: PUT      
+    schema:
+      ignores:
+        - created_time
+        - modified_time
+        - for_site
+      attributes:
+        aliases:
+          wxtag_id: id     
+  site_wxrule:
+    create:
+      path: /api/v1/sites/{site_id}/wxrules
+      method: POST
+    read:
+      path: /api/v1/sites/{site_id}/wxrules/{wxrule_id}
+      method: GET
+    delete:
+      path: /api/v1/sites/{site_id}/wxrules/{wxrule_id}
+      method: DELETE
+    update:
+      path: /api/v1/sites/{site_id}/wxrules/{wxrule_id}
+      method: PUT      
+    schema:
+      ignores:
+        - created_time
+        - modified_time
+        - for_site
+      attributes:
+        aliases:
+          wxrule_id: id      
+  site_wxtag:
+    create:
+      path: /api/v1/sites/{site_id}/wxtags
+      method: POST
+    read:
+      path: /api/v1/sites/{site_id}/wxtags/{wxtag_id}
+      method: GET
+    delete:
+      path: /api/v1/sites/{site_id}/wxtags/{wxtag_id}
+      method: DELETE
+    update:
+      path: /api/v1/sites/{site_id}/wxtags/{wxtag_id}
       method: PUT      
     schema:
       ignores:

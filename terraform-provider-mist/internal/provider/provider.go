@@ -152,5 +152,8 @@ func (p *mistProvider) Resources(ctx context.Context) []func() resource.Resource
 		NewSiteResource,
 		NewSiteSettingResource,
 		NewSiteNetworkTemplate,
+		NewSiteWlan,
+		NewSiteWxRule,
+		NewSiteWxTag,
 	}
 }

@@ -5,7 +5,7 @@ import (
 	"fmt"
 
 	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
-	"terraform-provider-mist/internal/resource_network"
+	"terraform-provider-mist/internal/resource_org_network"
 
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
@@ -46,12 +46,12 @@ func (r *orgNetworkResource) Metadata(ctx context.Context, req resource.Metadata
 }
 
 func (r *orgNetworkResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
-	resp.Schema = resource_network.NetworkResourceSchema(ctx)
+	resp.Schema = resource_org_network.OrgNetworkResourceSchema(ctx)
 }
 
 func (r *orgNetworkResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
 	tflog.Info(ctx, "Starting Network Create")
-	var plan, state resource_network.NetworkModel
+	var plan, state resource_org_network.OrgNetworkModel
 
 	diags := req.Plan.Get(ctx, &plan)
 	resp.Diagnostics.Append(diags...)
@@ -59,7 +59,7 @@ func (r *orgNetworkResource) Create(ctx context.Context, req resource.CreateRequ
 		return
 	}
 
-	network, diags := resource_network.TerraformToSdk(ctx, &plan)
+	network, diags := resource_org_network.TerraformToSdk(ctx, &plan)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -76,7 +76,7 @@ func (r *orgNetworkResource) Create(ctx context.Context, req resource.CreateRequ
 		return
 	}
 
-	state, diags = resource_network.SdkToTerraform(ctx, data)
+	state, diags = resource_org_network.SdkToTerraform(ctx, data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -91,7 +91,7 @@ func (r *orgNetworkResource) Create(ctx context.Context, req resource.CreateRequ
 }
 
 func (r *orgNetworkResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
-	var state resource_network.NetworkModel
+	var state resource_org_network.OrgNetworkModel
 	tflog.Info(ctx, "Starting Network Read: network_id "+state.Id.ValueString())
 
 	diags := resp.State.Get(ctx, &state)
@@ -108,7 +108,7 @@ func (r *orgNetworkResource) Read(ctx context.Context, req resource.ReadRequest,
 		)
 		return
 	}
-	state, diags = resource_network.SdkToTerraform(ctx, data)
+	state, diags = resource_org_network.SdkToTerraform(ctx, data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -122,7 +122,7 @@ func (r *orgNetworkResource) Read(ctx context.Context, req resource.ReadRequest,
 }
 
 func (r *orgNetworkResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
-	var state, plan resource_network.NetworkModel
+	var state, plan resource_org_network.OrgNetworkModel
 	tflog.Info(ctx, "Starting Network Update")
 
 	diags := resp.State.Get(ctx, &state)
@@ -136,7 +136,7 @@ func (r *orgNetworkResource) Update(ctx context.Context, req resource.UpdateRequ
 		return
 	}
 
-	network, diags := resource_network.TerraformToSdk(ctx, &plan)
+	network, diags := resource_org_network.TerraformToSdk(ctx, &plan)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -153,7 +153,7 @@ func (r *orgNetworkResource) Update(ctx context.Context, req resource.UpdateRequ
 		return
 	}
 
-	state, diags = resource_network.SdkToTerraform(ctx, data)
+	state, diags = resource_org_network.SdkToTerraform(ctx, data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -168,7 +168,7 @@ func (r *orgNetworkResource) Update(ctx context.Context, req resource.UpdateRequ
 }
 
 func (r *orgNetworkResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
-	var state resource_network.NetworkModel
+	var state resource_org_network.OrgNetworkModel
 	tflog.Info(ctx, "Starting Network Delete: network_id "+state.Id.ValueString())
 
 	diags := resp.State.Get(ctx, &state)

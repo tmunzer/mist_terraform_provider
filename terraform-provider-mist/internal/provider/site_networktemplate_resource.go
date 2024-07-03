@@ -106,14 +106,12 @@ func (r *siteNetworkTemplateResource) Read(ctx context.Context, req resource.Rea
 		)
 		return
 	}
-	tflog.Error(ctx, "-----------------------1")
 	state, diags = resource_site_networktemplate.SdkToTerraform(ctx, data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
 	}
 
-	tflog.Error(ctx, "-----------------------2")
 	diags = resp.State.Set(ctx, &state)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {

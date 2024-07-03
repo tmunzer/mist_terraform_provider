@@ -32,20 +32,6 @@ resource "mist_site" "terraform_site" {
   gatewaytemplate_id = mist_org_gatewaytemplate.stag.id
 }
 
-resource "mist_site" "terraform_site2" {
-  org_id       = mist_org.terraform_test.id
-  name         = "terraform_site2"
-  country_code = "FR"
-  timezone     = "Europe/Paris"
-  address      = "77 Terrasse de l'Universit\u00e9, 92000 Nanterre, France"
-  notes        = "Created with Terraform, Updated with Terraform"
-  latlng = {
-    lat = 48.899268
-    lng = 2.214447
-  }
-  sitegroup_ids      = [mist_org_sitegroup.test_group.id, mist_org_sitegroup.test_group2.id]
-}
-
 
 resource "mist_org_sitegroup" "test_group" {
   org_id = mist_org.terraform_test.id
@@ -79,120 +65,6 @@ resource "mist_org_network" "corp" {
   name                   = "prd_corp"
   subnet                 = "10.3.0.0"
 }
-
-resource "mist_org_networktemplate" "switch_template" {
-  name                   = "test switch"
-  org_id                 = mist_org.terraform_test.id
-  dns_servers            = ["10.3.51.222"]
-  dns_suffix             = ["stag.one"]
-  ntp_servers            = ["10.3.51.222"]
-  additional_config_cmds = ["set system hostnam test", "set system services ssh root-login allow"]
-  networks = {
-    test = {
-      subnet  = "1.2.3.4"
-      vlan_id = 10
-    }
-    test2 = {
-      subnet  = "1.2.3.4"
-      vlan_id = 11
-
-    }
-  }
-  radius_config = {
-    acct_interim_interval = 60
-    coa_enabled           = true
-    network               = "test"
-    acct_servers = [
-      {
-        host   = "1.2.3.4"
-        secret = "secret"
-      }
-    ]
-    auth_servers = [
-      {
-        host   = "1.2.3.4"
-        secret = "secret"
-      }
-    ]
-  }
-  port_usages = {
-    trunk = {
-      all_networks  = true
-      description   = "profile for trunk ports"
-      enable_qos    = true
-      mode          = "trunk"
-      port_networks = "test2"
-    }
-  }
-  remote_syslog = {
-    archive = {
-      files = 2
-      size  = "5m"
-    }
-    console = {
-      contents = [
-        {
-          facility = "kernel"
-          severity = "alert"
-        }
-      ]
-    }
-    enabled             = true
-    network             = "test"
-    send_to_all_servers = false
-    servers = [
-      {
-        contents = [
-          {
-            facility = "any"
-            severity = "any"
-          }
-        ]
-        host = "1.2.3.4"
-      }
-    ]
-    structured_data = true
-  }
-  switch_mgmt = {
-    config_revert = 5
-    protect_re = {
-      enabled = true
-    }
-    root_password = "Juniper123"
-  }
-  switch_matching = {
-    enable = true
-    rules = [
-      {
-        match_type  = "match_name[0:3]"
-        match_value = "abc"
-        additional_config_cmds = [
-          "set system name-server 8.8.8.8"
-        ]
-        match_role = "access"
-        name       = "access"
-        port_config = {
-          "ge-0/0/0-10" = {
-            usage = "trunk"
-          }
-        }
-      },
-      {
-        additional_config_cmds = [
-          "set system name-server 8.8.8.8"
-        ]
-        match_role = "core"
-        name       = "core"
-        port_config = {
-          "ge-0/0/0-10" = {
-            usage = "trunk"
-          }
-        }
-      }
-    ]
-  }
-}
-
 
 resource "mist_org_network" "mgmt" {
   org_id  = mist_org.terraform_test.id
@@ -1331,6 +1203,7 @@ resource "mist_org_wlantemplate" "test101" {
     ]
   }
 }
+
 resource "mist_org_wlan" "wlan_cwp"     {
         ssid= "MlN.test"
         bands= ["5"]
@@ -1366,3 +1239,278 @@ resource "mist_org_wlan" "wlan_cwp"     {
         template_id= mist_org_wlantemplate.test101.id
         interface= "all"
     }
+
+
+
+
+
+resource "mist_site" "terraform_site2" {
+  org_id       = mist_org.terraform_test.id
+  name         = "terraform_site2"
+  country_code = "FR"
+  timezone     = "Europe/Paris"
+  address      = "77 Terrasse de l'Universit\u00e9, 92000 Nanterre, France"
+  notes        = "Created with Terraform, Updated with Terraform"
+  latlng = {
+    lat = 48.899268
+    lng = 2.214447
+  }
+  sitegroup_ids      = [mist_org_sitegroup.test_group.id, mist_org_sitegroup.test_group2.id]
+}
+
+
+
+
+resource "mist_site_networktemplate" "site_switch_template" {
+  site_id                 = mist_site.terraform_site2.id
+  dns_servers            = ["10.3.51.222"]
+  dns_suffix             = ["stag.one"]
+  ntp_servers            = ["10.3.51.222"]
+  additional_config_cmds = ["set system hostnam test", "set system services ssh root-login allow"]
+  networks = {
+    test = {
+      subnet  = "1.2.3.4"
+      vlan_id = 10
+    }
+    test2 = {
+      subnet  = "1.2.3.4"
+      vlan_id = 11
+
+    }
+  }
+  radius_config = {
+    acct_interim_interval = 60
+    coa_enabled           = true
+    network               = "test"
+    acct_servers = [
+      {
+        host   = "1.2.3.4"
+        secret = "secret"
+      }
+    ]
+    auth_servers = [
+      {
+        host   = "1.2.3.4"
+        secret = "secret"
+      }
+    ]
+  }
+  port_usages = {
+    trunk = {
+      all_networks  = true
+      description   = "profile for trunk ports"
+      enable_qos    = true
+      mode          = "trunk"
+      port_networks = "test2"
+    }
+  }
+  remote_syslog = {
+    archive = {
+      files = 2
+      size  = "5m"
+    }
+    console = {
+      contents = [
+        {
+          facility = "kernel"
+          severity = "alert"
+        }
+      ]
+    }
+    enabled             = true
+    network             = "test"
+    send_to_all_servers = false
+    servers = [
+      {
+        contents = [
+          {
+            facility = "any"
+            severity = "any"
+          }
+        ]
+        host = "1.2.3.4"
+      }
+    ]
+    structured_data = true
+  }
+  switch_mgmt = {
+    config_revert = 5
+    protect_re = {
+      enabled = true
+    }
+    root_password = "Juniper123"
+  }
+  switch_matching = {
+    enable = true
+    rules = [
+      {
+        match_type  = "match_name[0:3]"
+        match_value = "abc"
+        additional_config_cmds = [
+          "set system name-server 8.8.8.8"
+        ]
+        match_role = "access"
+        name       = "access"
+        port_config = {
+          "ge-0/0/0-10" = {
+            usage = "trunk"
+          }
+        }
+      },
+      {
+        additional_config_cmds = [
+          "set system name-server 8.8.8.8"
+        ]
+        match_role = "core"
+        name       = "core"
+        port_config = {
+          "ge-0/0/0-10" = {
+            usage = "trunk"
+          }
+        }
+      }
+    ]
+  }
+}
+
+resource "mist_org_networktemplate" "switch_template" {
+  name                   = "test switch"
+  org_id                 = mist_org.terraform_test.id
+  dns_servers            = ["10.3.51.222"]
+  dns_suffix             = ["stag.one"]
+  ntp_servers            = ["10.3.51.222"]
+  additional_config_cmds = ["set system hostnam test", "set system services ssh root-login allow"]
+  networks = {
+    test = {
+      subnet  = "1.2.3.4"
+      vlan_id = 10
+    }
+    test2 = {
+      subnet  = "1.2.3.4"
+      vlan_id = 11
+
+    }
+  }
+  radius_config = {
+    acct_interim_interval = 60
+    coa_enabled           = true
+    network               = "test"
+    acct_servers = [
+      {
+        host   = "1.2.3.4"
+        secret = "secret"
+      }
+    ]
+    auth_servers = [
+      {
+        host   = "1.2.3.4"
+        secret = "secret"
+      }
+    ]
+  }
+  remote_syslog = {
+    archive = {
+      files = 2
+      size  = "5m"
+    }
+    console = {
+      contents = [
+        {
+          facility = "kernel"
+          severity = "alert"
+        }
+      ]
+    }
+    enabled             = true
+    network             = "test"
+    send_to_all_servers = false
+    servers = [
+      {
+        contents = [
+          {
+            facility = "any"
+            severity = "any"
+          }
+        ]
+        host = "1.2.3.4"
+      }
+    ]
+    structured_data = true
+  }
+  switch_mgmt = {
+    config_revert = 5
+    protect_re = {
+      enabled = true
+    }
+    root_password = "Juniper123"
+  }
+  switch_matching = {
+    enable = true
+    rules = [
+      {
+        match_type  = "match_name[0:3]"
+        match_value = "abc"
+        additional_config_cmds = [
+          "set system name-server 8.8.8.8"
+        ]
+        match_role = "access"
+        name       = "access"
+        port_config = {
+          "ge-0/0/0-10" = {
+            usage = "trunk"
+          }
+        }
+      },
+      {
+        additional_config_cmds = [
+          "set system name-server 8.8.8.8"
+        ]
+        match_role = "core"
+        name       = "core"
+        port_config = {
+          "ge-0/0/0-10" = {
+            usage = "trunk"
+          }
+        }
+      }
+    ]
+  }
+}
+
+
+resource "mist_site_wlan" "wlan_cwp2"     {
+        ssid= "MlN.test"
+        bands= ["5"]
+        vlan_id= 143
+        wlan_limit_up= 10000
+        wlan_limit_down= 20000
+        client_limit_up= 512
+        client_limit_down= 1000
+        portal= {
+            enabled= true
+            bypass_when_cloud_down= true
+            auth= "sso"
+            privacy= false
+            sso_issuer= "https://sts.windows.net/f2532c2f-938c-4529-b6e4-aa26992b6b62/"
+            sso_nameid_format= "email"
+            sso_idp_sign_algo= "sha256"
+            sso_idp_cert= "-----BEGIN CERTIFICATE-----\nMIIC8DCCAdigAwIBAgIQE5pOI9W1DZFHbB9m2Q7ADzANBgkqhkiG9w0BAQsFADA0MTIwMAYDVQQD\nEylNaWNyb3NvZnQgQXp1cmUgRmVkZXJhdGVkIFNTTyBDZXJ0aWZpY2F0ZTAeFw0yMjAyMDIxNDEz\nMTNaFw0yNTAyMDIxNDEzMTNaMDQxMjAwBgNVBAMTKU1pY3Jvc29mdCBBenVyZSBGZWRlcmF0ZWQg\nU1NPIENlcnRpZmljYXRlMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA5gQTCccB3oE7\nelNYH2+11Q69Iq/2f3qf5KUZEQKwL++HyoBCOAM3wL3uLWwvRaih4+qpAeZvNsuShNIyB08SDcWN\nYsqVxaUsLYfzDD0c9VG9mwAx0Kh01S2JvtaLCaFveac7UXVfn/E/QbPXibS1EQvHUj0hwNXMrdS4\nh4TOk4D1Q70+OnCWyy7ykG1/RuO8UerIfqkQEy4C3QFb3Cyo4E7bEaYQo0NiCqD9IoM3B0wZib8Y\n3yRGJKdzXyDxuVJFb5rF7XMAHTWWAbxaN4KOLhZnjaJla7Pu/sFAj2Npm8Hm5pYEYBaUz4fc/8kg\nIwakFb3mnbnYw0xQwf+aJss1vQIDAQABMA0GCSqGSIb3DQEBCwUAA4IBAQCF+oKuLmnooDzALwaE\nbFVI7PVGhU7/UZzAnq6HHI9ngF0Af2+uIrvAz6rdUM1bsGhRbj3SV2oaj26pe/1TDrGescXWhTPw\nKcXOwBnVmFr8FlMkozwpHRNzCQyFYGiTAztgQcmtwF7pilVndOmEc+p3LvCdI5JZB+LtMM/o9V+1\n+Yhm4MEWO6wTSY+j7goc/vi5f76TDZPN6PkRv17+EkybEudJuTOuIoNiqsAbNB52bVNHtxFHGIwb\nH9iS45QJ4/RG1WUr91xe3Vzh/fp1BkiHZVL4iOywOIF0TYcW7h958JEf+q0HD5LUMO47NPEbc/Cd\n+fVCTXWzABXXy4D+S8gA\n-----END CERTIFICATE-----"
+            sso_idp_sso_url= "https://login.microsoftonline.com/f2532c2f-938c-4529-b6e4-aa26992b6b62/saml2"
+            email_enabled= true
+        }
+        portal_allowed_hostnames= [
+            "login.microsoftonline.com",
+            "portal.mist.com",
+            "login.live.com",
+            "aadcdn.msauth.net",
+            "logincdn.msauth.net"
+        ]
+        auth= {
+            type= "psk"
+            psk= "Juniper123"
+        }
+        apply_to= "site"
+        interface= "all"
+        site_id = mist_site.terraform_site2.id
+    }
+

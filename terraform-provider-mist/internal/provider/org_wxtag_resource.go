@@ -5,7 +5,7 @@ import (
 	"fmt"
 
 	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
-	"terraform-provider-mist/internal/resource_wxtag"
+	"terraform-provider-mist/internal/resource_org_wxtag"
 
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
@@ -46,12 +46,12 @@ func (r *orgWxTagResource) Metadata(ctx context.Context, req resource.MetadataRe
 }
 
 func (r *orgWxTagResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
-	resp.Schema = resource_wxtag.WxtagResourceSchema(ctx)
+	resp.Schema = resource_org_wxtag.OrgWxtagResourceSchema(ctx)
 }
 
 func (r *orgWxTagResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
 	tflog.Info(ctx, "Starting WxTag Create")
-	var plan, state resource_wxtag.WxtagModel
+	var plan, state resource_org_wxtag.OrgWxtagModel
 
 	diags := req.Plan.Get(ctx, &plan)
 	resp.Diagnostics.Append(diags...)
@@ -59,7 +59,7 @@ func (r *orgWxTagResource) Create(ctx context.Context, req resource.CreateReques
 		return
 	}
 
-	wxtag, diags := resource_wxtag.TerraformToSdk(ctx, &plan)
+	wxtag, diags := resource_org_wxtag.TerraformToSdk(ctx, &plan)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -75,7 +75,7 @@ func (r *orgWxTagResource) Create(ctx context.Context, req resource.CreateReques
 		return
 	}
 
-	state, diags = resource_wxtag.SdkToTerraform(ctx, data)
+	state, diags = resource_org_wxtag.SdkToTerraform(ctx, data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -90,7 +90,7 @@ func (r *orgWxTagResource) Create(ctx context.Context, req resource.CreateReques
 }
 
 func (r *orgWxTagResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
-	var state resource_wxtag.WxtagModel
+	var state resource_org_wxtag.OrgWxtagModel
 	tflog.Info(ctx, "Starting WxTag Read: wxtag_id "+state.Id.ValueString())
 
 	diags := resp.State.Get(ctx, &state)
@@ -107,7 +107,7 @@ func (r *orgWxTagResource) Read(ctx context.Context, req resource.ReadRequest, r
 		)
 		return
 	}
-	state, diags = resource_wxtag.SdkToTerraform(ctx, data)
+	state, diags = resource_org_wxtag.SdkToTerraform(ctx, data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -121,7 +121,7 @@ func (r *orgWxTagResource) Read(ctx context.Context, req resource.ReadRequest, r
 }
 
 func (r *orgWxTagResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
-	var state, plan resource_wxtag.WxtagModel
+	var state, plan resource_org_wxtag.OrgWxtagModel
 	tflog.Info(ctx, "Starting WxTag Update")
 
 	diags := resp.State.Get(ctx, &state)
@@ -135,7 +135,7 @@ func (r *orgWxTagResource) Update(ctx context.Context, req resource.UpdateReques
 		return
 	}
 
-	wxtag, diags := resource_wxtag.TerraformToSdk(ctx, &plan)
+	wxtag, diags := resource_org_wxtag.TerraformToSdk(ctx, &plan)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -155,7 +155,7 @@ func (r *orgWxTagResource) Update(ctx context.Context, req resource.UpdateReques
 		return
 	}
 
-	state, diags = resource_wxtag.SdkToTerraform(ctx, data)
+	state, diags = resource_org_wxtag.SdkToTerraform(ctx, data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -170,7 +170,7 @@ func (r *orgWxTagResource) Update(ctx context.Context, req resource.UpdateReques
 }
 
 func (r *orgWxTagResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
-	var state resource_wxtag.WxtagModel
+	var state resource_org_wxtag.OrgWxtagModel
 	tflog.Info(ctx, "Starting WxTag Delete: wxtag_id "+state.Id.ValueString())
 
 	diags := resp.State.Get(ctx, &state)

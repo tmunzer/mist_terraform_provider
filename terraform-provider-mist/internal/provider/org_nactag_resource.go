@@ -5,7 +5,7 @@ import (
 	"fmt"
 
 	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
-	"terraform-provider-mist/internal/resource_nactag"
+	"terraform-provider-mist/internal/resource_org_nactag"
 
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
@@ -46,12 +46,12 @@ func (r *orgNacTagResource) Metadata(ctx context.Context, req resource.MetadataR
 }
 
 func (r *orgNacTagResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
-	resp.Schema = resource_nactag.NactagResourceSchema(ctx)
+	resp.Schema = resource_org_nactag.OrgNactagResourceSchema(ctx)
 }
 
 func (r *orgNacTagResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
 	tflog.Info(ctx, "Starting NacTag Create")
-	var plan, state resource_nactag.NactagModel
+	var plan, state resource_org_nactag.OrgNactagModel
 
 	diags := req.Plan.Get(ctx, &plan)
 	resp.Diagnostics.Append(diags...)
@@ -59,7 +59,7 @@ func (r *orgNacTagResource) Create(ctx context.Context, req resource.CreateReque
 		return
 	}
 
-	nactag, diags := resource_nactag.TerraformToSdk(ctx, &plan)
+	nactag, diags := resource_org_nactag.TerraformToSdk(ctx, &plan)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -75,7 +75,7 @@ func (r *orgNacTagResource) Create(ctx context.Context, req resource.CreateReque
 		return
 	}
 
-	state, diags = resource_nactag.SdkToTerraform(ctx, data)
+	state, diags = resource_org_nactag.SdkToTerraform(ctx, data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -90,7 +90,7 @@ func (r *orgNacTagResource) Create(ctx context.Context, req resource.CreateReque
 }
 
 func (r *orgNacTagResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
-	var state resource_nactag.NactagModel
+	var state resource_org_nactag.OrgNactagModel
 	tflog.Info(ctx, "Starting NacTag Read: nactag_id "+state.Id.ValueString())
 
 	diags := resp.State.Get(ctx, &state)
@@ -107,7 +107,7 @@ func (r *orgNacTagResource) Read(ctx context.Context, req resource.ReadRequest, 
 		)
 		return
 	}
-	state, diags = resource_nactag.SdkToTerraform(ctx, data)
+	state, diags = resource_org_nactag.SdkToTerraform(ctx, data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -121,7 +121,7 @@ func (r *orgNacTagResource) Read(ctx context.Context, req resource.ReadRequest, 
 }
 
 func (r *orgNacTagResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
-	var state, plan resource_nactag.NactagModel
+	var state, plan resource_org_nactag.OrgNactagModel
 	tflog.Info(ctx, "Starting NacTag Update")
 
 	diags := resp.State.Get(ctx, &state)
@@ -135,7 +135,7 @@ func (r *orgNacTagResource) Update(ctx context.Context, req resource.UpdateReque
 		return
 	}
 
-	nactag, diags := resource_nactag.TerraformToSdk(ctx, &plan)
+	nactag, diags := resource_org_nactag.TerraformToSdk(ctx, &plan)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -155,7 +155,7 @@ func (r *orgNacTagResource) Update(ctx context.Context, req resource.UpdateReque
 		return
 	}
 
-	state, diags = resource_nactag.SdkToTerraform(ctx, data)
+	state, diags = resource_org_nactag.SdkToTerraform(ctx, data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -170,7 +170,7 @@ func (r *orgNacTagResource) Update(ctx context.Context, req resource.UpdateReque
 }
 
 func (r *orgNacTagResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
-	var state resource_nactag.NactagModel
+	var state resource_org_nactag.OrgNactagModel
 	tflog.Info(ctx, "Starting NacTag Delete: nactag_id "+state.Id.ValueString())
 
 	diags := resp.State.Get(ctx, &state)

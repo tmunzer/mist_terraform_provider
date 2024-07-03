@@ -3,7 +3,7 @@ package provider
 import (
 	"context"
 	"fmt"
-	"terraform-provider-mist/internal/resource_wlan"
+	"terraform-provider-mist/internal/resource_site_wlan"
 
 	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
 
@@ -46,12 +46,12 @@ func (r *siteWlanResource) Metadata(ctx context.Context, req resource.MetadataRe
 }
 
 func (r *siteWlanResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
-	resp.Schema = resource_wlan.WlanResourceSchema(ctx)
+	resp.Schema = resource_site_wlan.SiteWlanResourceSchema(ctx)
 }
 
 func (r *siteWlanResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
 	tflog.Info(ctx, "Starting Wlan Create")
-	var plan, state resource_wlan.WlanModel
+	var plan, state resource_site_wlan.SiteWlanModel
 
 	diags := req.Plan.Get(ctx, &plan)
 	resp.Diagnostics.Append(diags...)
@@ -59,7 +59,7 @@ func (r *siteWlanResource) Create(ctx context.Context, req resource.CreateReques
 		return
 	}
 
-	wlan, diags := resource_wlan.TerraformToSdk(ctx, &plan)
+	wlan, diags := resource_site_wlan.TerraformToSdk(ctx, &plan)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -74,7 +74,7 @@ func (r *siteWlanResource) Create(ctx context.Context, req resource.CreateReques
 		return
 	}
 
-	state, diags = resource_wlan.SdkToTerraform(ctx, data)
+	state, diags = resource_site_wlan.SdkToTerraform(ctx, data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -89,7 +89,7 @@ func (r *siteWlanResource) Create(ctx context.Context, req resource.CreateReques
 }
 
 func (r *siteWlanResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
-	var state resource_wlan.WlanModel
+	var state resource_site_wlan.SiteWlanModel
 	tflog.Info(ctx, "Starting Wlan Read: wlan_id "+state.Id.ValueString())
 
 	diags := resp.State.Get(ctx, &state)
@@ -106,7 +106,7 @@ func (r *siteWlanResource) Read(ctx context.Context, req resource.ReadRequest, r
 		)
 		return
 	}
-	state, diags = resource_wlan.SdkToTerraform(ctx, data)
+	state, diags = resource_site_wlan.SdkToTerraform(ctx, data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -120,7 +120,7 @@ func (r *siteWlanResource) Read(ctx context.Context, req resource.ReadRequest, r
 }
 
 func (r *siteWlanResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
-	var state, plan resource_wlan.WlanModel
+	var state, plan resource_site_wlan.SiteWlanModel
 	tflog.Info(ctx, "Starting Wlan Update")
 
 	diags := resp.State.Get(ctx, &state)
@@ -134,7 +134,7 @@ func (r *siteWlanResource) Update(ctx context.Context, req resource.UpdateReques
 		return
 	}
 
-	wlan, diags := resource_wlan.TerraformToSdk(ctx, &plan)
+	wlan, diags := resource_site_wlan.TerraformToSdk(ctx, &plan)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -154,7 +154,7 @@ func (r *siteWlanResource) Update(ctx context.Context, req resource.UpdateReques
 		return
 	}
 
-	state, diags = resource_wlan.SdkToTerraform(ctx, data)
+	state, diags = resource_site_wlan.SdkToTerraform(ctx, data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -169,7 +169,7 @@ func (r *siteWlanResource) Update(ctx context.Context, req resource.UpdateReques
 }
 
 func (r *siteWlanResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
-	var state resource_wlan.WlanModel
+	var state resource_site_wlan.SiteWlanModel
 	tflog.Info(ctx, "Starting Wlan Delete: wlan_id "+state.Id.ValueString())
 
 	diags := resp.State.Get(ctx, &state)

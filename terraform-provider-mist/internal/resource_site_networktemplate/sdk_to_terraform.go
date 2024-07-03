@@ -5,7 +5,6 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
-	"github.com/hashicorp/terraform-plugin-log/tflog"
 
 	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
 	mist_transform "terraform-provider-mist/internal/commons/utils"
@@ -23,9 +22,7 @@ func SdkToTerraform(ctx context.Context, data *mistsdkgo.SiteSetting) (SiteNetwo
 
 	state.AdditionalConfigCmds = mist_transform.ListOfStringSdkToTerraform(ctx, data.GetAdditionalConfigCmds())
 
-	tflog.Error(ctx, "testing 1")
 	if data.HasDhcpSnooping() {
-		tflog.Error(ctx, "testing 2")
 		state.DhcpSnooping = dhcpSnoopingSdkToTerraform(ctx, &diags, data.GetDhcpSnooping())
 	}
 

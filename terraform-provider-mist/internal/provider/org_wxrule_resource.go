@@ -5,7 +5,7 @@ import (
 	"fmt"
 
 	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
-	"terraform-provider-mist/internal/resource_wxrule"
+	"terraform-provider-mist/internal/resource_org_wxrule"
 
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
@@ -46,12 +46,12 @@ func (r *orgWxRuleResource) Metadata(ctx context.Context, req resource.MetadataR
 }
 
 func (r *orgWxRuleResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
-	resp.Schema = resource_wxrule.WxruleResourceSchema(ctx)
+	resp.Schema = resource_org_wxrule.OrgWxruleResourceSchema(ctx)
 }
 
 func (r *orgWxRuleResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
 	tflog.Info(ctx, "Starting WxRule Create")
-	var plan, state resource_wxrule.WxruleModel
+	var plan, state resource_org_wxrule.OrgWxruleModel
 
 	diags := req.Plan.Get(ctx, &plan)
 	resp.Diagnostics.Append(diags...)
@@ -59,7 +59,7 @@ func (r *orgWxRuleResource) Create(ctx context.Context, req resource.CreateReque
 		return
 	}
 
-	wxrule, diags := resource_wxrule.TerraformToSdk(ctx, &plan)
+	wxrule, diags := resource_org_wxrule.TerraformToSdk(ctx, &plan)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -75,7 +75,7 @@ func (r *orgWxRuleResource) Create(ctx context.Context, req resource.CreateReque
 		return
 	}
 
-	state, diags = resource_wxrule.SdkToTerraform(ctx, data)
+	state, diags = resource_org_wxrule.SdkToTerraform(ctx, data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -90,7 +90,7 @@ func (r *orgWxRuleResource) Create(ctx context.Context, req resource.CreateReque
 }
 
 func (r *orgWxRuleResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
-	var state resource_wxrule.WxruleModel
+	var state resource_org_wxrule.OrgWxruleModel
 	tflog.Info(ctx, "Starting WxRule Read: wxrule_id "+state.Id.ValueString())
 
 	diags := resp.State.Get(ctx, &state)
@@ -107,7 +107,7 @@ func (r *orgWxRuleResource) Read(ctx context.Context, req resource.ReadRequest, 
 		)
 		return
 	}
-	state, diags = resource_wxrule.SdkToTerraform(ctx, data)
+	state, diags = resource_org_wxrule.SdkToTerraform(ctx, data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -121,7 +121,7 @@ func (r *orgWxRuleResource) Read(ctx context.Context, req resource.ReadRequest, 
 }
 
 func (r *orgWxRuleResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
-	var state, plan resource_wxrule.WxruleModel
+	var state, plan resource_org_wxrule.OrgWxruleModel
 	tflog.Info(ctx, "Starting WxRule Update")
 
 	diags := resp.State.Get(ctx, &state)
@@ -135,7 +135,7 @@ func (r *orgWxRuleResource) Update(ctx context.Context, req resource.UpdateReque
 		return
 	}
 
-	wxrule, diags := resource_wxrule.TerraformToSdk(ctx, &plan)
+	wxrule, diags := resource_org_wxrule.TerraformToSdk(ctx, &plan)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -155,7 +155,7 @@ func (r *orgWxRuleResource) Update(ctx context.Context, req resource.UpdateReque
 		return
 	}
 
-	state, diags = resource_wxrule.SdkToTerraform(ctx, data)
+	state, diags = resource_org_wxrule.SdkToTerraform(ctx, data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -170,7 +170,7 @@ func (r *orgWxRuleResource) Update(ctx context.Context, req resource.UpdateReque
 }
 
 func (r *orgWxRuleResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
-	var state resource_wxrule.WxruleModel
+	var state resource_org_wxrule.OrgWxruleModel
 	tflog.Info(ctx, "Starting WxRule Delete: wxrule_id "+state.Id.ValueString())
 
 	diags := resp.State.Get(ctx, &state)

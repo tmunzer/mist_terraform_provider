@@ -1,5 +1,5 @@
 FILES = {
-    "./terraform-provider-mist/internal/resource_gatewaytemplate/gatewaytemplate_resource_gen.go": {
+    "./terraform-provider-mist/internal/resource_org_gatewaytemplate/org_gatewaytemplate_resource_gen.go": {
         "rename": {
             "ipd_profile_overwrite_matching": "matching",
             "routing_policy_term_matching": "matching",
@@ -12,7 +12,7 @@ FILES = {
         },
         "dedup": ["DestinationNat", "TrafficShaping", "StaticNat"],
     },
-    "./terraform-provider-mist/internal/resource_networktemplate/networktemplate_resource_gen.go": {
+    "./terraform-provider-mist/internal/resource_org_networktemplate/org_networktemplate_resource_gen.go": {
         "rename": {
             "matching_rules": "rules",
             "tacacct_servers": "acct_servers",
@@ -36,7 +36,7 @@ FILES = {
             "Users",
         ],
     },
-    "./terraform-provider-mist/internal/resource_network/network_resource_gen.go": {
+    "./terraform-provider-mist/internal/resource_org_network/org_network_resource_gen.go": {
         "dedup": ["DestinationNat", "StaticNat"]
     },
     "./terraform-provider-mist/internal/resource_rftemplate/rftemplate_resource_gen.go": {

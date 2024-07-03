@@ -5,7 +5,7 @@ import (
 	"fmt"
 
 	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
-	"terraform-provider-mist/internal/resource_nacrule"
+	"terraform-provider-mist/internal/resource_org_nacrule"
 
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
@@ -46,12 +46,12 @@ func (r *orgNacRuleResource) Metadata(ctx context.Context, req resource.Metadata
 }
 
 func (r *orgNacRuleResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
-	resp.Schema = resource_nacrule.NacruleResourceSchema(ctx)
+	resp.Schema = resource_org_nacrule.OrgNacruleResourceSchema(ctx)
 }
 
 func (r *orgNacRuleResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
 	tflog.Info(ctx, "Starting NacRule Create")
-	var plan, state resource_nacrule.NacruleModel
+	var plan, state resource_org_nacrule.OrgNacruleModel
 
 	diags := req.Plan.Get(ctx, &plan)
 	resp.Diagnostics.Append(diags...)
@@ -59,7 +59,7 @@ func (r *orgNacRuleResource) Create(ctx context.Context, req resource.CreateRequ
 		return
 	}
 
-	nacrule, diags := resource_nacrule.TerraformToSdk(ctx, &plan)
+	nacrule, diags := resource_org_nacrule.TerraformToSdk(ctx, &plan)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -75,7 +75,7 @@ func (r *orgNacRuleResource) Create(ctx context.Context, req resource.CreateRequ
 		return
 	}
 
-	state, diags = resource_nacrule.SdkToTerraform(ctx, data)
+	state, diags = resource_org_nacrule.SdkToTerraform(ctx, data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -90,7 +90,7 @@ func (r *orgNacRuleResource) Create(ctx context.Context, req resource.CreateRequ
 }
 
 func (r *orgNacRuleResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
-	var state resource_nacrule.NacruleModel
+	var state resource_org_nacrule.OrgNacruleModel
 	tflog.Info(ctx, "Starting NacRule Read: nacrule_id "+state.Id.ValueString())
 
 	diags := resp.State.Get(ctx, &state)
@@ -107,7 +107,7 @@ func (r *orgNacRuleResource) Read(ctx context.Context, req resource.ReadRequest,
 		)
 		return
 	}
-	state, diags = resource_nacrule.SdkToTerraform(ctx, data)
+	state, diags = resource_org_nacrule.SdkToTerraform(ctx, data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -121,7 +121,7 @@ func (r *orgNacRuleResource) Read(ctx context.Context, req resource.ReadRequest,
 }
 
 func (r *orgNacRuleResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
-	var state, plan resource_nacrule.NacruleModel
+	var state, plan resource_org_nacrule.OrgNacruleModel
 	tflog.Info(ctx, "Starting NacRule Update")
 
 	diags := resp.State.Get(ctx, &state)
@@ -135,7 +135,7 @@ func (r *orgNacRuleResource) Update(ctx context.Context, req resource.UpdateRequ
 		return
 	}
 
-	nacrule, diags := resource_nacrule.TerraformToSdk(ctx, &plan)
+	nacrule, diags := resource_org_nacrule.TerraformToSdk(ctx, &plan)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -155,7 +155,7 @@ func (r *orgNacRuleResource) Update(ctx context.Context, req resource.UpdateRequ
 		return
 	}
 
-	state, diags = resource_nacrule.SdkToTerraform(ctx, data)
+	state, diags = resource_org_nacrule.SdkToTerraform(ctx, data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -170,7 +170,7 @@ func (r *orgNacRuleResource) Update(ctx context.Context, req resource.UpdateRequ
 }
 
 func (r *orgNacRuleResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
-	var state resource_nacrule.NacruleModel
+	var state resource_org_nacrule.OrgNacruleModel
 	tflog.Info(ctx, "Starting NacRule Delete: nacrule_id "+state.Id.ValueString())
 
 	diags := resp.State.Get(ctx, &state)
