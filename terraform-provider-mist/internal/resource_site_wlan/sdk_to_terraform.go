@@ -16,7 +16,6 @@ func SdkToTerraform(ctx context.Context, data *mistsdkgo.Wlan) (SiteWlanModel, d
 	state.Id = types.StringValue(data.GetId())
 	state.SiteId = types.StringValue(data.GetSiteId())
 	state.OrgId = types.StringValue(data.GetOrgId())
-	state.TemplateId = types.StringValue(data.GetTemplateId())
 	state.Ssid = types.StringValue(data.GetSsid())
 
 	state.AcctImmediateUpdate = types.BoolValue(data.GetAcctImmediateUpdate())
@@ -107,5 +106,6 @@ func SdkToTerraform(ctx context.Context, data *mistsdkgo.Wlan) (SiteWlanModel, d
 	state.WxtagIds = mist_transform.ListOfStringSdkToTerraform(ctx, data.GetWxtagIds())
 	state.WxtunnelId = types.StringValue(data.GetWxtunnelId())
 	state.WxtunnelRemoteId = types.StringValue(data.GetWxtunnelRemoteId())
+
 	return state, diags
 }

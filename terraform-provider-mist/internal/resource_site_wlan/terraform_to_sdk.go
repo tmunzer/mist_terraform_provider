@@ -14,9 +14,9 @@ func TerraformToSdk(ctx context.Context, plan *SiteWlanModel) (mistsdkgo.Wlan, d
 	data.SetId(plan.Id.ValueString())
 	data.SetSiteId(plan.SiteId.ValueString())
 	data.SetOrgId(plan.OrgId.ValueString())
-	data.SetTemplateId(plan.TemplateId.ValueString())
 
 	unset := make(map[string]interface{})
+
 	if plan.AcctImmediateUpdate.IsNull() || plan.AcctImmediateUpdate.IsUnknown() {
 		unset["-acct_immediate_update"] = ""
 	} else {

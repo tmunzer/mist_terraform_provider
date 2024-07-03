@@ -71,6 +71,11 @@ RENAME = [
                 "get": ["string"],
                 "computed_optional_required": "required",
             },
+            {
+                "name": "template_id",
+                "get": ["string"],
+                "computed_optional_required": "required",
+            },
         ]
         },
         {
