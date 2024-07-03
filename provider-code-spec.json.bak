@@ -19763,15 +19763,6 @@
 						}
 					},
 					{
-						"name": "template_id",
-						"string": {
-							"computed_optional_required": "computed_optional",
-							"default": {
-								"static": ""
-							}
-						}
-					},
-					{
 						"name": "thumbnail",
 						"string": {
 							"computed_optional_required": "computed_optional",

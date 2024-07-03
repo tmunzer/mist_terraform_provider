@@ -13,11 +13,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/float64default"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/listplanmodifier"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
@@ -147,9 +143,6 @@ func SiteWlanResourceSchema(ctx context.Context) schema.Schema {
 				Computed:            true,
 				Description:         "airwatch wlan settings",
 				MarkdownDescription: "airwatch wlan settings",
-				PlanModifiers: []planmodifier.Object{
-					objectplanmodifier.UseStateForUnknown(),
-				},
 			},
 			"allow_ipv6_ndp": schema.BoolAttribute{
 				Optional:            true,
@@ -178,9 +171,6 @@ func SiteWlanResourceSchema(ctx context.Context) schema.Schema {
 				Computed:            true,
 				Description:         "list of device ids",
 				MarkdownDescription: "list of device ids",
-				PlanModifiers: []planmodifier.List{
-					listplanmodifier.UseStateForUnknown(),
-				},
 			},
 			"app_limit": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
@@ -213,9 +203,6 @@ func SiteWlanResourceSchema(ctx context.Context) schema.Schema {
 				Computed:            true,
 				Description:         "bandwidth limiting for apps (applies to up/down)",
 				MarkdownDescription: "bandwidth limiting for apps (applies to up/down)",
-				PlanModifiers: []planmodifier.Object{
-					objectplanmodifier.UseStateForUnknown(),
-				},
 			},
 			"app_qos": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
@@ -300,16 +287,10 @@ func SiteWlanResourceSchema(ctx context.Context) schema.Schema {
 				Computed:            true,
 				Description:         "app qos wlan settings",
 				MarkdownDescription: "app qos wlan settings",
-				PlanModifiers: []planmodifier.Object{
-					objectplanmodifier.UseStateForUnknown(),
-				},
 			},
 			"apply_to": schema.StringAttribute{
 				Optional: true,
 				Computed: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
 				Validators: []validator.String{
 					stringvalidator.OneOf(
 						"",
@@ -448,9 +429,6 @@ func SiteWlanResourceSchema(ctx context.Context) schema.Schema {
 				Computed:            true,
 				Description:         "authentication wlan settings",
 				MarkdownDescription: "authentication wlan settings",
-				PlanModifiers: []planmodifier.Object{
-					objectplanmodifier.UseStateForUnknown(),
-				},
 			},
 			"auth_server_selection": schema.StringAttribute{
 				Optional:            true,
@@ -526,18 +504,12 @@ func SiteWlanResourceSchema(ctx context.Context) schema.Schema {
 				Computed:            true,
 				Description:         "optional, up to 48 bytes, will be dynamically generated if not provided. used only for authentication servers",
 				MarkdownDescription: "optional, up to 48 bytes, will be dynamically generated if not provided. used only for authentication servers",
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
 			},
 			"auth_servers_nas_ip": schema.StringAttribute{
 				Optional:            true,
 				Computed:            true,
 				Description:         "optional, NAS-IP-ADDRESS to use",
 				MarkdownDescription: "optional, NAS-IP-ADDRESS to use",
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
 			},
 			"auth_servers_retries": schema.Int64Attribute{
 				Optional:            true,
@@ -649,9 +621,6 @@ func SiteWlanResourceSchema(ctx context.Context) schema.Schema {
 				Computed:            true,
 				Description:         "bonjour gateway wlan settings",
 				MarkdownDescription: "bonjour gateway wlan settings",
-				PlanModifiers: []planmodifier.Object{
-					objectplanmodifier.UseStateForUnknown(),
-				},
 			},
 			"cisco_cwa": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
@@ -691,9 +660,6 @@ func SiteWlanResourceSchema(ctx context.Context) schema.Schema {
 				Computed:            true,
 				Description:         "Cisco CWA (central web authentication) required RADIUS with COA in order to work. See CWA: https://www.cisco.com/c/en/us/support/docs/security/identity-services-engine/115732-central-web-auth-00.html",
 				MarkdownDescription: "Cisco CWA (central web authentication) required RADIUS with COA in order to work. See CWA: https://www.cisco.com/c/en/us/support/docs/security/identity-services-engine/115732-central-web-auth-00.html",
-				PlanModifiers: []planmodifier.Object{
-					objectplanmodifier.UseStateForUnknown(),
-				},
 			},
 			"client_limit_down": schema.Int64Attribute{
 				Optional:            true,
@@ -825,9 +791,6 @@ func SiteWlanResourceSchema(ctx context.Context) schema.Schema {
 				Computed:            true,
 				Description:         "for radius_group-based DNS server (rewrite DNS request depending on the Group RADIUS server returns)",
 				MarkdownDescription: "for radius_group-based DNS server (rewrite DNS request depending on the Group RADIUS server returns)",
-				PlanModifiers: []planmodifier.Object{
-					objectplanmodifier.UseStateForUnknown(),
-				},
 			},
 			"dtim": schema.Int64Attribute{
 				Optional: true,
@@ -888,9 +851,6 @@ func SiteWlanResourceSchema(ctx context.Context) schema.Schema {
 				Computed:            true,
 				Description:         "for dynamic PSK where we get per_user PSK from Radius\ndynamic_psk allows PSK to be selected at runtime depending on context (wlan/site/user/...) thus following configurations are assumed (currently)\n- PSK will come from RADIUS server\n- AP sends client MAC as username ans password (i.e. `enable_mac_auth` is assumed)\n- AP sends BSSID:SSID as Caller-Station-ID\n- `auth_servers` is required\n- PSK will come from cloud WLC if source is cloud_psks\n- default_psk will be used if cloud WLC is not available\n- `multi_psk_only` and `psk` is ignored\n- `pairwise` can only be wpa2-ccmp (for now, wpa3 support on the roadmap)",
 				MarkdownDescription: "for dynamic PSK where we get per_user PSK from Radius\ndynamic_psk allows PSK to be selected at runtime depending on context (wlan/site/user/...) thus following configurations are assumed (currently)\n- PSK will come from RADIUS server\n- AP sends client MAC as username ans password (i.e. `enable_mac_auth` is assumed)\n- AP sends BSSID:SSID as Caller-Station-ID\n- `auth_servers` is required\n- PSK will come from cloud WLC if source is cloud_psks\n- default_psk will be used if cloud WLC is not available\n- `multi_psk_only` and `psk` is ignored\n- `pairwise` can only be wpa2-ccmp (for now, wpa3 support on the roadmap)",
-				PlanModifiers: []planmodifier.Object{
-					objectplanmodifier.UseStateForUnknown(),
-				},
 			},
 			"dynamic_vlan": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
@@ -949,9 +909,6 @@ func SiteWlanResourceSchema(ctx context.Context) schema.Schema {
 				Computed:            true,
 				Description:         "for 802.1x",
 				MarkdownDescription: "for 802.1x",
-				PlanModifiers: []planmodifier.Object{
-					objectplanmodifier.UseStateForUnknown(),
-				},
 			},
 			"enable_local_keycaching": schema.BoolAttribute{
 				Optional:            true,
@@ -1051,16 +1008,10 @@ func SiteWlanResourceSchema(ctx context.Context) schema.Schema {
 				Computed:            true,
 				Description:         "hostspot 2.0 wlan settings",
 				MarkdownDescription: "hostspot 2.0 wlan settings",
-				PlanModifiers: []planmodifier.Object{
-					objectplanmodifier.UseStateForUnknown(),
-				},
 			},
 			"id": schema.StringAttribute{
 				Optional: true,
 				Computed: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
 			},
 			"inject_dhcp_option_82": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
@@ -1083,9 +1034,6 @@ func SiteWlanResourceSchema(ctx context.Context) schema.Schema {
 				},
 				Optional: true,
 				Computed: true,
-				PlanModifiers: []planmodifier.Object{
-					objectplanmodifier.UseStateForUnknown(),
-				},
 			},
 			"interface": schema.StringAttribute{
 				Optional:            true,
@@ -1169,9 +1117,6 @@ func SiteWlanResourceSchema(ctx context.Context) schema.Schema {
 				},
 				Optional: true,
 				Computed: true,
-				PlanModifiers: []planmodifier.Object{
-					objectplanmodifier.UseStateForUnknown(),
-				},
 			},
 			"msp_id": schema.StringAttribute{
 				Optional: true,
@@ -1184,9 +1129,6 @@ func SiteWlanResourceSchema(ctx context.Context) schema.Schema {
 				Computed:            true,
 				Description:         "when `interface`=`mxtunnel`, id of the Mist Tunnel",
 				MarkdownDescription: "when `interface`=`mxtunnel`, id of the Mist Tunnel",
-				PlanModifiers: []planmodifier.List{
-					listplanmodifier.UseStateForUnknown(),
-				},
 			},
 			"mxtunnel_name": schema.ListAttribute{
 				ElementType:         types.StringType,
@@ -1194,9 +1136,6 @@ func SiteWlanResourceSchema(ctx context.Context) schema.Schema {
 				Computed:            true,
 				Description:         "when `interface`=`site_medge`, name of the mxtunnel that in mxtunnels under Site Setting",
 				MarkdownDescription: "when `interface`=`site_medge`, name of the mxtunnel that in mxtunnels under Site Setting",
-				PlanModifiers: []planmodifier.List{
-					listplanmodifier.UseStateForUnknown(),
-				},
 			},
 			"no_static_dns": schema.BoolAttribute{
 				Optional:            true,
@@ -1215,9 +1154,6 @@ func SiteWlanResourceSchema(ctx context.Context) schema.Schema {
 			"org_id": schema.StringAttribute{
 				Optional: true,
 				Computed: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
 			},
 			"portal": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
@@ -1799,9 +1735,6 @@ func SiteWlanResourceSchema(ctx context.Context) schema.Schema {
 				Computed:            true,
 				Description:         "portal wlan settings",
 				MarkdownDescription: "portal wlan settings",
-				PlanModifiers: []planmodifier.Object{
-					objectplanmodifier.UseStateForUnknown(),
-				},
 			},
 			"portal_allowed_hostnames": schema.ListAttribute{
 				ElementType:         types.StringType,
@@ -1841,9 +1774,6 @@ func SiteWlanResourceSchema(ctx context.Context) schema.Schema {
 			"portal_sso_url": schema.StringAttribute{
 				Optional: true,
 				Computed: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
 			},
 			"portal_template_url": schema.StringAttribute{
 				Optional:            true,
@@ -1883,9 +1813,6 @@ func SiteWlanResourceSchema(ctx context.Context) schema.Schema {
 				},
 				Optional: true,
 				Computed: true,
-				PlanModifiers: []planmodifier.Object{
-					objectplanmodifier.UseStateForUnknown(),
-				},
 			},
 			"radsec": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
@@ -1971,9 +1898,6 @@ func SiteWlanResourceSchema(ctx context.Context) schema.Schema {
 				Computed:            true,
 				Description:         "Radsec settings",
 				MarkdownDescription: "Radsec settings",
-				PlanModifiers: []planmodifier.Object{
-					objectplanmodifier.UseStateForUnknown(),
-				},
 			},
 			"roam_mode": schema.StringAttribute{
 				Optional: true,
@@ -2053,9 +1977,6 @@ func SiteWlanResourceSchema(ctx context.Context) schema.Schema {
 				Computed:            true,
 				Description:         "WLAN operating schedule, default is disabled",
 				MarkdownDescription: "WLAN operating schedule, default is disabled",
-				PlanModifiers: []planmodifier.Object{
-					objectplanmodifier.UseStateForUnknown(),
-				},
 			},
 			"site_id": schema.StringAttribute{
 				Required: true,
@@ -2071,11 +1992,6 @@ func SiteWlanResourceSchema(ctx context.Context) schema.Schema {
 				Required:            true,
 				Description:         "the name of the SSID",
 				MarkdownDescription: "the name of the SSID",
-			},
-			"template_id": schema.StringAttribute{
-				Optional: true,
-				Computed: true,
-				Default:  stringdefault.StaticString(""),
 			},
 			"thumbnail": schema.StringAttribute{
 				Optional:            true,
@@ -2252,7 +2168,6 @@ type SiteWlanModel struct {
 	SiteId                             types.String            `tfsdk:"site_id"`
 	SleExcluded                        types.Bool              `tfsdk:"sle_excluded"`
 	Ssid                               types.String            `tfsdk:"ssid"`
-	TemplateId                         types.String            `tfsdk:"template_id"`
 	Thumbnail                          types.String            `tfsdk:"thumbnail"`
 	UseEapolV1                         types.Bool              `tfsdk:"use_eapol_v1"`
 	VlanEnabled                        types.Bool              `tfsdk:"vlan_enabled"`

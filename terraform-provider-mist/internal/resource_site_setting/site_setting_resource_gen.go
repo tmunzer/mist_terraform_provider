@@ -11,13 +11,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64planmodifier"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/listplanmodifier"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/mapplanmodifier"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
@@ -47,9 +41,6 @@ func SiteSettingResourceSchema(ctx context.Context) schema.Schema {
 				},
 				Optional: true,
 				Computed: true,
-				PlanModifiers: []planmodifier.Object{
-					objectplanmodifier.UseStateForUnknown(),
-				},
 			},
 			"ap_updown_threshold": schema.Int64Attribute{
 				Optional:            true,
@@ -121,16 +112,10 @@ func SiteSettingResourceSchema(ctx context.Context) schema.Schema {
 				Computed:            true,
 				Description:         "Auto Upgrade Settings",
 				MarkdownDescription: "Auto Upgrade Settings",
-				PlanModifiers: []planmodifier.Object{
-					objectplanmodifier.UseStateForUnknown(),
-				},
 			},
 			"blacklist_url": schema.StringAttribute{
 				Optional: true,
 				Computed: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
 			},
 			"ble_config": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
@@ -358,9 +343,6 @@ func SiteSettingResourceSchema(ctx context.Context) schema.Schema {
 				Computed:            true,
 				Description:         "BLE AP settings",
 				MarkdownDescription: "BLE AP settings",
-				PlanModifiers: []planmodifier.Object{
-					objectplanmodifier.UseStateForUnknown(),
-				},
 			},
 			"config_auto_revert": schema.BoolAttribute{
 				Optional:            true,
@@ -454,9 +436,6 @@ func SiteSettingResourceSchema(ctx context.Context) schema.Schema {
 				Computed:            true,
 				Description:         "mist also uses some heuristic rules to prevent destructive configs from being pushed",
 				MarkdownDescription: "mist also uses some heuristic rules to prevent destructive configs from being pushed",
-				PlanModifiers: []planmodifier.Object{
-					objectplanmodifier.UseStateForUnknown(),
-				},
 			},
 			"critical_url_monitoring": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
@@ -497,9 +476,6 @@ func SiteSettingResourceSchema(ctx context.Context) schema.Schema {
 				Computed:            true,
 				Description:         "you can define some URLs that's critical to site operaitons the latency will be captured and considered for site health",
 				MarkdownDescription: "you can define some URLs that's critical to site operaitons the latency will be captured and considered for site health",
-				PlanModifiers: []planmodifier.Object{
-					objectplanmodifier.UseStateForUnknown(),
-				},
 			},
 			"device_updown_threshold": schema.Int64Attribute{
 				Optional:            true,
@@ -517,9 +493,6 @@ func SiteSettingResourceSchema(ctx context.Context) schema.Schema {
 				Computed:            true,
 				Description:         "if some system-default port usages are not desired - namely, ap / iot / uplink",
 				MarkdownDescription: "if some system-default port usages are not desired - namely, ap / iot / uplink",
-				PlanModifiers: []planmodifier.List{
-					listplanmodifier.UseStateForUnknown(),
-				},
 			},
 			"engagement": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
@@ -656,18 +629,12 @@ func SiteSettingResourceSchema(ctx context.Context) schema.Schema {
 				Computed:            true,
 				Description:         "**Note**: if hours does not exist, it’s treated as everyday of the week, 00:00-23:59. Currently we don’t allow multiple ranges for the same day\n\n**Note**: default values for `dwell_tags`: passerby (1,300) bounce (301, 14400) engaged (14401, 28800) stationed (28801, 42000)\n\n**Note**: default values for `dwell_tag_names`: passerby = “Passerby”, bounce = “Visitor”, engaged = “Associates”, stationed = “Assets”",
 				MarkdownDescription: "**Note**: if hours does not exist, it’s treated as everyday of the week, 00:00-23:59. Currently we don’t allow multiple ranges for the same day\n\n**Note**: default values for `dwell_tags`: passerby (1,300) bounce (301, 14400) engaged (14401, 28800) stationed (28801, 42000)\n\n**Note**: default values for `dwell_tag_names`: passerby = “Passerby”, bounce = “Visitor”, engaged = “Associates”, stationed = “Assets”",
-				PlanModifiers: []planmodifier.Object{
-					objectplanmodifier.UseStateForUnknown(),
-				},
 			},
 			"gateway_updown_threshold": schema.Int64Attribute{
 				Optional:            true,
 				Computed:            true,
 				Description:         "enable threshold-based device down delivery for Gateway devices only. When configured it takes effect for GW devices and `device_updown_threshold` is ignored.",
 				MarkdownDescription: "enable threshold-based device down delivery for Gateway devices only. When configured it takes effect for GW devices and `device_updown_threshold` is ignored.",
-				PlanModifiers: []planmodifier.Int64{
-					int64planmodifier.UseStateForUnknown(),
-				},
 			},
 			"led": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
@@ -691,9 +658,6 @@ func SiteSettingResourceSchema(ctx context.Context) schema.Schema {
 				Computed:            true,
 				Description:         "LED AP settings",
 				MarkdownDescription: "LED AP settings",
-				PlanModifiers: []planmodifier.Object{
-					objectplanmodifier.UseStateForUnknown(),
-				},
 			},
 			"occupancy": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
@@ -742,16 +706,10 @@ func SiteSettingResourceSchema(ctx context.Context) schema.Schema {
 				Computed:            true,
 				Description:         "Occupancy Analytics settings",
 				MarkdownDescription: "Occupancy Analytics settings",
-				PlanModifiers: []planmodifier.Object{
-					objectplanmodifier.UseStateForUnknown(),
-				},
 			},
 			"org_id": schema.StringAttribute{
 				Optional: true,
 				Computed: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
 			},
 			"persist_config_on_device": schema.BoolAttribute{
 				Optional:            true,
@@ -950,9 +908,6 @@ func SiteSettingResourceSchema(ctx context.Context) schema.Schema {
 				Computed:            true,
 				Description:         "Set of heuristic rules will be enabled when marvis subscription is not available.\nIt triggers when, in a Z minute window, there are more than Y distinct client encountring over X failures",
 				MarkdownDescription: "Set of heuristic rules will be enabled when marvis subscription is not available.\nIt triggers when, in a Z minute window, there are more than Y distinct client encountring over X failures",
-				PlanModifiers: []planmodifier.Object{
-					objectplanmodifier.UseStateForUnknown(),
-				},
 			},
 			"site_id": schema.StringAttribute{
 				Required: true,
@@ -978,9 +933,6 @@ func SiteSettingResourceSchema(ctx context.Context) schema.Schema {
 				},
 				Optional: true,
 				Computed: true,
-				PlanModifiers: []planmodifier.Object{
-					objectplanmodifier.UseStateForUnknown(),
-				},
 			},
 			"srx_app": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
@@ -997,9 +949,6 @@ func SiteSettingResourceSchema(ctx context.Context) schema.Schema {
 				},
 				Optional: true,
 				Computed: true,
-				PlanModifiers: []planmodifier.Object{
-					objectplanmodifier.UseStateForUnknown(),
-				},
 			},
 			"ssh_keys": schema.ListAttribute{
 				ElementType:         types.StringType,
@@ -1007,9 +956,6 @@ func SiteSettingResourceSchema(ctx context.Context) schema.Schema {
 				Computed:            true,
 				Description:         "when limit_ssh_access = true in Org Setting, list of SSH public keys provided by Mist Support to install onto APs (see Org:Setting)",
 				MarkdownDescription: "when limit_ssh_access = true in Org Setting, list of SSH public keys provided by Mist Support to install onto APs (see Org:Setting)",
-				PlanModifiers: []planmodifier.List{
-					listplanmodifier.UseStateForUnknown(),
-				},
 			},
 			"ssr": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
@@ -1030,18 +976,12 @@ func SiteSettingResourceSchema(ctx context.Context) schema.Schema {
 				},
 				Optional: true,
 				Computed: true,
-				PlanModifiers: []planmodifier.Object{
-					objectplanmodifier.UseStateForUnknown(),
-				},
 			},
 			"switch_updown_threshold": schema.Int64Attribute{
 				Optional:            true,
 				Computed:            true,
 				Description:         "enable threshold-based device down delivery for Switch devices only. When configured it takes effect for SW devices and `device_updown_threshold` is ignored.",
 				MarkdownDescription: "enable threshold-based device down delivery for Switch devices only. When configured it takes effect for SW devices and `device_updown_threshold` is ignored.",
-				PlanModifiers: []planmodifier.Int64{
-					int64planmodifier.UseStateForUnknown(),
-				},
 			},
 			"synthetic_test": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
@@ -1088,9 +1028,6 @@ func SiteSettingResourceSchema(ctx context.Context) schema.Schema {
 				},
 				Optional: true,
 				Computed: true,
-				PlanModifiers: []planmodifier.Object{
-					objectplanmodifier.UseStateForUnknown(),
-				},
 			},
 			"track_anonymous_devices": schema.BoolAttribute{
 				Optional:            true,
@@ -1105,9 +1042,6 @@ func SiteSettingResourceSchema(ctx context.Context) schema.Schema {
 				Computed:            true,
 				Description:         "a dictionary of name->value, the vars can then be used in Wlans. This can overwrite those from Site Vars",
 				MarkdownDescription: "a dictionary of name->value, the vars can then be used in Wlans. This can overwrite those from Site Vars",
-				PlanModifiers: []planmodifier.Map{
-					mapplanmodifier.UseStateForUnknown(),
-				},
 			},
 			"vna": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
@@ -1126,9 +1060,6 @@ func SiteSettingResourceSchema(ctx context.Context) schema.Schema {
 				},
 				Optional: true,
 				Computed: true,
-				PlanModifiers: []planmodifier.Object{
-					objectplanmodifier.UseStateForUnknown(),
-				},
 			},
 			"wan_vna": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
@@ -1145,23 +1076,14 @@ func SiteSettingResourceSchema(ctx context.Context) schema.Schema {
 				},
 				Optional: true,
 				Computed: true,
-				PlanModifiers: []planmodifier.Object{
-					objectplanmodifier.UseStateForUnknown(),
-				},
 			},
 			"watched_station_url": schema.StringAttribute{
 				Optional: true,
 				Computed: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
 			},
 			"whitelist_url": schema.StringAttribute{
 				Optional: true,
 				Computed: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
 			},
 			"wids": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
@@ -1198,9 +1120,6 @@ func SiteSettingResourceSchema(ctx context.Context) schema.Schema {
 				Computed:            true,
 				Description:         "WIDS site settings",
 				MarkdownDescription: "WIDS site settings",
-				PlanModifiers: []planmodifier.Object{
-					objectplanmodifier.UseStateForUnknown(),
-				},
 			},
 			"wifi": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
@@ -1311,9 +1230,6 @@ func SiteSettingResourceSchema(ctx context.Context) schema.Schema {
 				Computed:            true,
 				Description:         "Wi-Fi site settings",
 				MarkdownDescription: "Wi-Fi site settings",
-				PlanModifiers: []planmodifier.Object{
-					objectplanmodifier.UseStateForUnknown(),
-				},
 			},
 			"wired_vna": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
@@ -1330,9 +1246,6 @@ func SiteSettingResourceSchema(ctx context.Context) schema.Schema {
 				},
 				Optional: true,
 				Computed: true,
-				PlanModifiers: []planmodifier.Object{
-					objectplanmodifier.UseStateForUnknown(),
-				},
 			},
 			"zone_occupancy_alert": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
@@ -1370,9 +1283,6 @@ func SiteSettingResourceSchema(ctx context.Context) schema.Schema {
 				Computed:            true,
 				Description:         "Zone Occupancy alert site settings",
 				MarkdownDescription: "Zone Occupancy alert site settings",
-				PlanModifiers: []planmodifier.Object{
-					objectplanmodifier.UseStateForUnknown(),
-				},
 			},
 		},
 	}

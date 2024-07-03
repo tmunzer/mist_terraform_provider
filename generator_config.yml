@@ -458,6 +458,7 @@ resources:
         - created_time
         - modified_time
         - for_site
+        - template_id
         - mxtunnel_id
         - rateset
         - band

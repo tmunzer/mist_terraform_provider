@@ -294,454 +294,454 @@ RENAME = [
                 "get": ["string"],
                 "computed_optional_required": "required",
             },
-            {
-                "name": "analytic",
-                "get": ["single_nested"],
-                "plan_modifiers": [
-                    {
-                        "custom": {
-                            "imports": [
-                                {
-                                    "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
-                                }
-                            ],
-                            "schema_definition": "objectplanmodifier.UseStateForUnknown()",
-                        }
-                    }
-                ],
-            },
-            {
-                "name": "auto_upgrade",
-                "get": ["single_nested"],
-                "plan_modifiers": [
-                    {
-                        "custom": {
-                            "imports": [
-                                {
-                                    "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
-                                }
-                            ],
-                            "schema_definition": "objectplanmodifier.UseStateForUnknown()",
-                        }
-                    }
-                ],
-            },
-            {
-                "name": "ble_config",
-                "get": ["single_nested"],
-                "plan_modifiers": [
-                    {
-                        "custom": {
-                            "imports": [
-                                {
-                                    "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
-                                }
-                            ],
-                            "schema_definition": "objectplanmodifier.UseStateForUnknown()",
-                        }
-                    }
-                ],
-            },
-            {
-                "name": "config_push_policy",
-                "get": ["single_nested"],
-                "plan_modifiers": [
-                    {
-                        "custom": {
-                            "imports": [
-                                {
-                                    "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
-                                }
-                            ],
-                            "schema_definition": "objectplanmodifier.UseStateForUnknown()",
-                        }
-                    }
-                ],
-            },
-            {
-                "name": "critical_url_monitoring",
-                "get": ["single_nested"],
-                "plan_modifiers": [
-                    {
-                        "custom": {
-                            "imports": [
-                                {
-                                    "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
-                                }
-                            ],
-                            "schema_definition": "objectplanmodifier.UseStateForUnknown()",
-                        }
-                    }
-                ],
-            },
-            {
-                "name": "engagement",
-                "get": ["single_nested"],
-                "plan_modifiers": [
-                    {
-                        "custom": {
-                            "imports": [
-                                {
-                                    "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
-                                }
-                            ],
-                            "schema_definition": "objectplanmodifier.UseStateForUnknown()",
-                        }
-                    }
-                ],
-            },
-            {
-                "name": "led",
-                "get": ["single_nested"],
-                "plan_modifiers": [
-                    {
-                        "custom": {
-                            "imports": [
-                                {
-                                    "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
-                                }
-                            ],
-                            "schema_definition": "objectplanmodifier.UseStateForUnknown()",
-                        }
-                    }
-                ],
-            },
-            {
-                "name": "occupancy",
-                "get": ["single_nested"],
-                "plan_modifiers": [
-                    {
-                        "custom": {
-                            "imports": [
-                                {
-                                    "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
-                                }
-                            ],
-                            "schema_definition": "objectplanmodifier.UseStateForUnknown()",
-                        }
-                    }
-                ],
-            },
-            {
-                "name": "simple_alert",
-                "get": ["single_nested"],
-                "plan_modifiers": [
-                    {
-                        "custom": {
-                            "imports": [
-                                {
-                                    "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
-                                }
-                            ],
-                            "schema_definition": "objectplanmodifier.UseStateForUnknown()",
-                        }
-                    }
-                ],
-            },
-            {
-                "name": "skyatp",
-                "get": ["single_nested"],
-                "plan_modifiers": [
-                    {
-                        "custom": {
-                            "imports": [
-                                {
-                                    "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
-                                }
-                            ],
-                            "schema_definition": "objectplanmodifier.UseStateForUnknown()",
-                        }
-                    }
-                ],
-            },
-            {
-                "name": "srx_app",
-                "get": ["single_nested"],
-                "plan_modifiers": [
-                    {
-                        "custom": {
-                            "imports": [
-                                {
-                                    "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
-                                }
-                            ],
-                            "schema_definition": "objectplanmodifier.UseStateForUnknown()",
-                        }
-                    }
-                ],
-            },
-            {
-                "name": "ssr",
-                "get": ["single_nested"],
-                "plan_modifiers": [
-                    {
-                        "custom": {
-                            "imports": [
-                                {
-                                    "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
-                                }
-                            ],
-                            "schema_definition": "objectplanmodifier.UseStateForUnknown()",
-                        }
-                    }
-                ],
-            },
-            {
-                "name": "synthetic_test",
-                "get": ["single_nested"],
-                "plan_modifiers": [
-                    {
-                        "custom": {
-                            "imports": [
-                                {
-                                    "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
-                                }
-                            ],
-                            "schema_definition": "objectplanmodifier.UseStateForUnknown()",
-                        }
-                    }
-                ],
-            },
-            {
-                "name": "vna",
-                "get": ["single_nested"],
-                "plan_modifiers": [
-                    {
-                        "custom": {
-                            "imports": [
-                                {
-                                    "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
-                                }
-                            ],
-                            "schema_definition": "objectplanmodifier.UseStateForUnknown()",
-                        }
-                    }
-                ],
-            },
-            {
-                "name": "wan_vna",
-                "get": ["single_nested"],
-                "plan_modifiers": [
-                    {
-                        "custom": {
-                            "imports": [
-                                {
-                                    "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
-                                }
-                            ],
-                            "schema_definition": "objectplanmodifier.UseStateForUnknown()",
-                        }
-                    }
-                ],
-            },
-            {
-                "name": "wids",
-                "get": ["single_nested"],
-                "plan_modifiers": [
-                    {
-                        "custom": {
-                            "imports": [
-                                {
-                                    "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
-                                }
-                            ],
-                            "schema_definition": "objectplanmodifier.UseStateForUnknown()",
-                        }
-                    }
-                ],
-            },
-            {
-                "name": "wifi",
-                "get": ["single_nested"],
-                "plan_modifiers": [
-                    {
-                        "custom": {
-                            "imports": [
-                                {
-                                    "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
-                                }
-                            ],
-                            "schema_definition": "objectplanmodifier.UseStateForUnknown()",
-                        }
-                    }
-                ],
-            },
-            {
-                "name": "wired_vna",
-                "get": ["single_nested"],
-                "plan_modifiers": [
-                    {
-                        "custom": {
-                            "imports": [
-                                {
-                                    "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
-                                }
-                            ],
-                            "schema_definition": "objectplanmodifier.UseStateForUnknown()",
-                        }
-                    }
-                ],
-            },
-            {
-                "name": "zone_occupancy_alert",
-                "get": ["single_nested"],
-                "plan_modifiers": [
-                    {
-                        "custom": {
-                            "imports": [
-                                {
-                                    "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
-                                }
-                            ],
-                            "schema_definition": "objectplanmodifier.UseStateForUnknown()",
-                        }
-                    }
-                ],
-            },
-            {
-                "name": "vars",
-                "get": ["map"],
-                "plan_modifiers": [
-                    {
-                        "custom": {
-                            "imports": [
-                                {
-                                    "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/mapplanmodifier"
-                                }
-                            ],
-                            "schema_definition": "mapplanmodifier.UseStateForUnknown()",
-                        }
-                    }
-                ],
-            },
-            {
-                "name": "disabled_system_defined_port_usages",
-                "get": ["list"],
-                "plan_modifiers": [
-                    {
-                        "custom": {
-                            "imports": [
-                                {
-                                    "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/listplanmodifier"
-                                }
-                            ],
-                            "schema_definition": "listplanmodifier.UseStateForUnknown()",
-                        }
-                    }
-                ],
-            },
-            {
-                "name": "ssh_keys",
-                "get": ["list"],
-                "plan_modifiers": [
-                    {
-                        "custom": {
-                            "imports": [
-                                {
-                                    "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/listplanmodifier"
-                                }
-                            ],
-                            "schema_definition": "listplanmodifier.UseStateForUnknown()",
-                        }
-                    }
-                ],
-            },
-            {
-                "name": "org_id",
-                "get": ["string"],
-                "plan_modifiers": [
-                    {
-                        "custom": {
-                            "imports": [
-                                {
-                                    "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
-                                }
-                            ],
-                            "schema_definition": "stringplanmodifier.UseStateForUnknown()",
-                        }
-                    }
-                ],
-            },
-            {
-                "name": "blacklist_url",
-                "get": ["string"],
-                "plan_modifiers": [
-                    {
-                        "custom": {
-                            "imports": [
-                                {
-                                    "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
-                                }
-                            ],
-                            "schema_definition": "stringplanmodifier.UseStateForUnknown()",
-                        }
-                    }
-                ],
-            },
-            {
-                "name": "watched_station_url",
-                "get": ["string"],
-                "plan_modifiers": [
-                    {
-                        "custom": {
-                            "imports": [
-                                {
-                                    "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
-                                }
-                            ],
-                            "schema_definition": "stringplanmodifier.UseStateForUnknown()",
-                        }
-                    }
-                ],
-            },
-            {
-                "name": "whitelist_url",
-                "get": ["string"],
-                "plan_modifiers": [
-                    {
-                        "custom": {
-                            "imports": [
-                                {
-                                    "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
-                                }
-                            ],
-                            "schema_definition": "stringplanmodifier.UseStateForUnknown()",
-                        }
-                    }
-                ],
-            },
-            {
-                "name": "gateway_updown_threshold",
-                "get": ["int64"],
-                "plan_modifiers": [
-                    {
-                        "custom": {
-                            "imports": [
-                                {
-                                    "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/int64planmodifier"
-                                }
-                            ],
-                            "schema_definition": "int64planmodifier.UseStateForUnknown()",
-                        }
-                    }
-                ],
-            },
-            {
-                "name": "switch_updown_threshold",
-                "get": ["int64"],
-                "plan_modifiers": [
-                    {
-                        "custom": {
-                            "imports": [
-                                {
-                                    "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/int64planmodifier"
-                                }
-                            ],
-                            "schema_definition": "int64planmodifier.UseStateForUnknown()",
-                        }
-                    }
-                ],
-            },
+            # {
+            #     "name": "analytic",
+            #     "get": ["single_nested"],
+            #     "plan_modifiers": [
+            #         {
+            #             "custom": {
+            #                 "imports": [
+            #                     {
+            #                         "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
+            #                     }
+            #                 ],
+            #                 "schema_definition": "objectplanmodifier.UseStateForUnknown()",
+            #             }
+            #         }
+            #     ],
+            # },
+            # {
+            #     "name": "auto_upgrade",
+            #     "get": ["single_nested"],
+            #     "plan_modifiers": [
+            #         {
+            #             "custom": {
+            #                 "imports": [
+            #                     {
+            #                         "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
+            #                     }
+            #                 ],
+            #                 "schema_definition": "objectplanmodifier.UseStateForUnknown()",
+            #             }
+            #         }
+            #     ],
+            # },
+            # {
+            #     "name": "ble_config",
+            #     "get": ["single_nested"],
+            #     "plan_modifiers": [
+            #         {
+            #             "custom": {
+            #                 "imports": [
+            #                     {
+            #                         "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
+            #                     }
+            #                 ],
+            #                 "schema_definition": "objectplanmodifier.UseStateForUnknown()",
+            #             }
+            #         }
+            #     ],
+            # },
+            # {
+            #     "name": "config_push_policy",
+            #     "get": ["single_nested"],
+            #     "plan_modifiers": [
+            #         {
+            #             "custom": {
+            #                 "imports": [
+            #                     {
+            #                         "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
+            #                     }
+            #                 ],
+            #                 "schema_definition": "objectplanmodifier.UseStateForUnknown()",
+            #             }
+            #         }
+            #     ],
+            # },
+            # {
+            #     "name": "critical_url_monitoring",
+            #     "get": ["single_nested"],
+            #     "plan_modifiers": [
+            #         {
+            #             "custom": {
+            #                 "imports": [
+            #                     {
+            #                         "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
+            #                     }
+            #                 ],
+            #                 "schema_definition": "objectplanmodifier.UseStateForUnknown()",
+            #             }
+            #         }
+            #     ],
+            # },
+            # {
+            #     "name": "engagement",
+            #     "get": ["single_nested"],
+            #     "plan_modifiers": [
+            #         {
+            #             "custom": {
+            #                 "imports": [
+            #                     {
+            #                         "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
+            #                     }
+            #                 ],
+            #                 "schema_definition": "objectplanmodifier.UseStateForUnknown()",
+            #             }
+            #         }
+            #     ],
+            # },
+            # {
+            #     "name": "led",
+            #     "get": ["single_nested"],
+            #     "plan_modifiers": [
+            #         {
+            #             "custom": {
+            #                 "imports": [
+            #                     {
+            #                         "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
+            #                     }
+            #                 ],
+            #                 "schema_definition": "objectplanmodifier.UseStateForUnknown()",
+            #             }
+            #         }
+            #     ],
+            # },
+            # {
+            #     "name": "occupancy",
+            #     "get": ["single_nested"],
+            #     "plan_modifiers": [
+            #         {
+            #             "custom": {
+            #                 "imports": [
+            #                     {
+            #                         "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
+            #                     }
+            #                 ],
+            #                 "schema_definition": "objectplanmodifier.UseStateForUnknown()",
+            #             }
+            #         }
+            #     ],
+            # },
+            # {
+            #     "name": "simple_alert",
+            #     "get": ["single_nested"],
+            #     "plan_modifiers": [
+            #         {
+            #             "custom": {
+            #                 "imports": [
+            #                     {
+            #                         "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
+            #                     }
+            #                 ],
+            #                 "schema_definition": "objectplanmodifier.UseStateForUnknown()",
+            #             }
+            #         }
+            #     ],
+            # },
+            # {
+            #     "name": "skyatp",
+            #     "get": ["single_nested"],
+            #     "plan_modifiers": [
+            #         {
+            #             "custom": {
+            #                 "imports": [
+            #                     {
+            #                         "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
+            #                     }
+            #                 ],
+            #                 "schema_definition": "objectplanmodifier.UseStateForUnknown()",
+            #             }
+            #         }
+            #     ],
+            # },
+            # {
+            #     "name": "srx_app",
+            #     "get": ["single_nested"],
+            #     "plan_modifiers": [
+            #         {
+            #             "custom": {
+            #                 "imports": [
+            #                     {
+            #                         "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
+            #                     }
+            #                 ],
+            #                 "schema_definition": "objectplanmodifier.UseStateForUnknown()",
+            #             }
+            #         }
+            #     ],
+            # },
+            # {
+            #     "name": "ssr",
+            #     "get": ["single_nested"],
+            #     "plan_modifiers": [
+            #         {
+            #             "custom": {
+            #                 "imports": [
+            #                     {
+            #                         "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
+            #                     }
+            #                 ],
+            #                 "schema_definition": "objectplanmodifier.UseStateForUnknown()",
+            #             }
+            #         }
+            #     ],
+            # },
+            # {
+            #     "name": "synthetic_test",
+            #     "get": ["single_nested"],
+            #     "plan_modifiers": [
+            #         {
+            #             "custom": {
+            #                 "imports": [
+            #                     {
+            #                         "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
+            #                     }
+            #                 ],
+            #                 "schema_definition": "objectplanmodifier.UseStateForUnknown()",
+            #             }
+            #         }
+            #     ],
+            # },
+            # {
+            #     "name": "vna",
+            #     "get": ["single_nested"],
+            #     "plan_modifiers": [
+            #         {
+            #             "custom": {
+            #                 "imports": [
+            #                     {
+            #                         "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
+            #                     }
+            #                 ],
+            #                 "schema_definition": "objectplanmodifier.UseStateForUnknown()",
+            #             }
+            #         }
+            #     ],
+            # },
+            # {
+            #     "name": "wan_vna",
+            #     "get": ["single_nested"],
+            #     "plan_modifiers": [
+            #         {
+            #             "custom": {
+            #                 "imports": [
+            #                     {
+            #                         "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
+            #                     }
+            #                 ],
+            #                 "schema_definition": "objectplanmodifier.UseStateForUnknown()",
+            #             }
+            #         }
+            #     ],
+            # },
+            # {
+            #     "name": "wids",
+            #     "get": ["single_nested"],
+            #     "plan_modifiers": [
+            #         {
+            #             "custom": {
+            #                 "imports": [
+            #                     {
+            #                         "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
+            #                     }
+            #                 ],
+            #                 "schema_definition": "objectplanmodifier.UseStateForUnknown()",
+            #             }
+            #         }
+            #     ],
+            # },
+            # {
+            #     "name": "wifi",
+            #     "get": ["single_nested"],
+            #     "plan_modifiers": [
+            #         {
+            #             "custom": {
+            #                 "imports": [
+            #                     {
+            #                         "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
+            #                     }
+            #                 ],
+            #                 "schema_definition": "objectplanmodifier.UseStateForUnknown()",
+            #             }
+            #         }
+            #     ],
+            # },
+            # {
+            #     "name": "wired_vna",
+            #     "get": ["single_nested"],
+            #     "plan_modifiers": [
+            #         {
+            #             "custom": {
+            #                 "imports": [
+            #                     {
+            #                         "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
+            #                     }
+            #                 ],
+            #                 "schema_definition": "objectplanmodifier.UseStateForUnknown()",
+            #             }
+            #         }
+            #     ],
+            # },
+            # {
+            #     "name": "zone_occupancy_alert",
+            #     "get": ["single_nested"],
+            #     "plan_modifiers": [
+            #         {
+            #             "custom": {
+            #                 "imports": [
+            #                     {
+            #                         "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
+            #                     }
+            #                 ],
+            #                 "schema_definition": "objectplanmodifier.UseStateForUnknown()",
+            #             }
+            #         }
+            #     ],
+            # },
+            # {
+            #     "name": "vars",
+            #     "get": ["map"],
+            #     "plan_modifiers": [
+            #         {
+            #             "custom": {
+            #                 "imports": [
+            #                     {
+            #                         "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/mapplanmodifier"
+            #                     }
+            #                 ],
+            #                 "schema_definition": "mapplanmodifier.UseStateForUnknown()",
+            #             }
+            #         }
+            #     ],
+            # },
+            # {
+            #     "name": "disabled_system_defined_port_usages",
+            #     "get": ["list"],
+            #     "plan_modifiers": [
+            #         {
+            #             "custom": {
+            #                 "imports": [
+            #                     {
+            #                         "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/listplanmodifier"
+            #                     }
+            #                 ],
+            #                 "schema_definition": "listplanmodifier.UseStateForUnknown()",
+            #             }
+            #         }
+            #     ],
+            # },
+            # {
+            #     "name": "ssh_keys",
+            #     "get": ["list"],
+            #     "plan_modifiers": [
+            #         {
+            #             "custom": {
+            #                 "imports": [
+            #                     {
+            #                         "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/listplanmodifier"
+            #                     }
+            #                 ],
+            #                 "schema_definition": "listplanmodifier.UseStateForUnknown()",
+            #             }
+            #         }
+            #     ],
+            # },
+            # {
+            #     "name": "org_id",
+            #     "get": ["string"],
+            #     "plan_modifiers": [
+            #         {
+            #             "custom": {
+            #                 "imports": [
+            #                     {
+            #                         "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+            #                     }
+            #                 ],
+            #                 "schema_definition": "stringplanmodifier.UseStateForUnknown()",
+            #             }
+            #         }
+            #     ],
+            # },
+            # {
+            #     "name": "blacklist_url",
+            #     "get": ["string"],
+            #     "plan_modifiers": [
+            #         {
+            #             "custom": {
+            #                 "imports": [
+            #                     {
+            #                         "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+            #                     }
+            #                 ],
+            #                 "schema_definition": "stringplanmodifier.UseStateForUnknown()",
+            #             }
+            #         }
+            #     ],
+            # },
+            # {
+            #     "name": "watched_station_url",
+            #     "get": ["string"],
+            #     "plan_modifiers": [
+            #         {
+            #             "custom": {
+            #                 "imports": [
+            #                     {
+            #                         "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+            #                     }
+            #                 ],
+            #                 "schema_definition": "stringplanmodifier.UseStateForUnknown()",
+            #             }
+            #         }
+            #     ],
+            # },
+            # {
+            #     "name": "whitelist_url",
+            #     "get": ["string"],
+            #     "plan_modifiers": [
+            #         {
+            #             "custom": {
+            #                 "imports": [
+            #                     {
+            #                         "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+            #                     }
+            #                 ],
+            #                 "schema_definition": "stringplanmodifier.UseStateForUnknown()",
+            #             }
+            #         }
+            #     ],
+            # },
+            # {
+            #     "name": "gateway_updown_threshold",
+            #     "get": ["int64"],
+            #     "plan_modifiers": [
+            #         {
+            #             "custom": {
+            #                 "imports": [
+            #                     {
+            #                         "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/int64planmodifier"
+            #                     }
+            #                 ],
+            #                 "schema_definition": "int64planmodifier.UseStateForUnknown()",
+            #             }
+            #         }
+            #     ],
+            # },
+            # {
+            #     "name": "switch_updown_threshold",
+            #     "get": ["int64"],
+            #     "plan_modifiers": [
+            #         {
+            #             "custom": {
+            #                 "imports": [
+            #                     {
+            #                         "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/int64planmodifier"
+            #                     }
+            #                 ],
+            #                 "schema_definition": "int64planmodifier.UseStateForUnknown()",
+            #             }
+            #         }
+            #     ],
+            # },
         ],
     },
     {
@@ -844,849 +844,849 @@ RENAME = [
                 "get": ["string"],
                 "computed_optional_required": "required",                
             },
-            {
-                "name": "site_id",
-                "get": ["string"],
-                "plan_modifiers": [
-                    {
-                        "custom": {
-                            "imports": [
-                                {
-                                    "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
-                                }
-                            ],
-                            "schema_definition": "stringplanmodifier.UseStateForUnknown()",
-                        }
-                    }
-                ],
-            },
-            {
-                "name": "id",
-                "get": ["string"],
-                "plan_modifiers": [
-                    {
-                        "custom": {
-                            "imports": [
-                                {
-                                    "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
-                                }
-                            ],
-                            "schema_definition": "stringplanmodifier.UseStateForUnknown()",
-                        }
-                    }
-                ],
-            },
-            {
-                "name": "portal_sso_url",
-                "get": ["string"],
-                "plan_modifiers": [
-                    {
-                        "custom": {
-                            "imports": [
-                                {
-                                    "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
-                                }
-                            ],
-                            "schema_definition": "stringplanmodifier.UseStateForUnknown()",
-                        }
-                    }
-                ],
-            },
-            {
-                "name": "mxtunnel_name",
-                "get": ["list"],
-                "plan_modifiers": [
-                    {
-                        "custom": {
-                            "imports": [
-                                {
-                                    "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/listplanmodifier"
-                                }
-                            ],
-                            "schema_definition": "listplanmodifier.UseStateForUnknown()",
-                        }
-                    }
-                ],
-            },
-            {
-                "name": "mxtunnel_ids",
-                "get": ["list"],
-                "plan_modifiers": [
-                    {
-                        "custom": {
-                            "imports": [
-                                {
-                                    "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/listplanmodifier"
-                                }
-                            ],
-                            "schema_definition": "listplanmodifier.UseStateForUnknown()",
-                        }
-                    }
-                ],
-            },
-            {
-                "name": "airwatch",
-                "get": ["single_nested"],
-                "plan_modifiers": [
-                    {
-                        "custom": {
-                            "imports": [
-                                {
-                                    "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
-                                }
-                            ],
-                            "schema_definition": "objectplanmodifier.UseStateForUnknown()",
-                        }
-                    }
-                ],
-            },
-            {
-                "name": "ap_ids",
-                "get": ["list"],
-                "plan_modifiers": [
-                    {
-                        "custom": {
-                            "imports": [
-                                {
-                                    "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/listplanmodifier"
-                                }
-                            ],
-                            "schema_definition": "listplanmodifier.UseStateForUnknown()",
-                        }
-                    }
-                ],
-            },
-            {
-                "name": "app_limit",
-                "get": ["single_nested"],
-                "plan_modifiers": [
-                    {
-                        "custom": {
-                            "imports": [
-                                {
-                                    "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
-                                }
-                            ],
-                            "schema_definition": "objectplanmodifier.UseStateForUnknown()",
-                        }
-                    }
-                ],
-            },
-            {
-                "name": "app_qos",
-                "get": ["single_nested"],
-                "plan_modifiers": [
-                    {
-                        "custom": {
-                            "imports": [
-                                {
-                                    "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
-                                }
-                            ],
-                            "schema_definition": "objectplanmodifier.UseStateForUnknown()",
-                        }
-                    }
-                ],
-            },
-            {
-                "name": "qos",
-                "get": ["single_nested"],
-                "plan_modifiers": [
-                    {
-                        "custom": {
-                            "imports": [
-                                {
-                                    "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
-                                }
-                            ],
-                            "schema_definition": "objectplanmodifier.UseStateForUnknown()",
-                        }
-                    }
-                ],
-            },
-            {
-                "name": "apply_to",
-                "get": ["string"],
-                "plan_modifiers": [
-                    {
-                        "custom": {
-                            "imports": [
-                                {
-                                    "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
-                                }
-                            ],
-                            "schema_definition": "stringplanmodifier.UseStateForUnknown()",
-                        }
-                    }
-                ],
-            },
-            {
-                "name": "auth_servers_nas_id",
-                "get": ["string"],
-                "plan_modifiers": [
-                    {
-                        "custom": {
-                            "imports": [
-                                {
-                                    "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
-                                }
-                            ],
-                            "schema_definition": "stringplanmodifier.UseStateForUnknown()",
-                        }
-                    }
-                ],
-            },
-            {
-                "name": "id",
-                "get": ["string"],
-                "plan_modifiers": [
-                    {
-                        "custom": {
-                            "imports": [
-                                {
-                                    "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
-                                }
-                            ],
-                            "schema_definition": "stringplanmodifier.UseStateForUnknown()",
-                        }
-                    }
-                ],
-            },
-            {
-                "name": "auth_servers_nas_ip",
-                "get": ["string"],
-                "plan_modifiers": [
-                    {
-                        "custom": {
-                            "imports": [
-                                {
-                                    "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
-                                }
-                            ],
-                            "schema_definition": "stringplanmodifier.UseStateForUnknown()",
-                        }
-                    }
-                ],
-            },
-            {
-                "name": "auth",
-                "get": ["single_nested"],
-                "plan_modifiers": [
-                    {
-                        "custom": {
-                            "imports": [
-                                {
-                                    "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
-                                }
-                            ],
-                            "schema_definition": "objectplanmodifier.UseStateForUnknown()",
-                        }
-                    }
-                ],
-            },
-            {
-                "name": "bonjour",
-                "get": ["single_nested"],
-                "plan_modifiers": [
-                    {
-                        "custom": {
-                            "imports": [
-                                {
-                                    "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
-                                }
-                            ],
-                            "schema_definition": "objectplanmodifier.UseStateForUnknown()",
-                        }
-                    }
-                ],
-            },
-            {
-                "name": "cisco_cwa",
-                "get": ["single_nested"],
-                "plan_modifiers": [
-                    {
-                        "custom": {
-                            "imports": [
-                                {
-                                    "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
-                                }
-                            ],
-                            "schema_definition": "objectplanmodifier.UseStateForUnknown()",
-                        }
-                    }
-                ],
-            },
-            {
-                "name": "dns_server_rewrite",
-                "get": ["single_nested"],
-                "plan_modifiers": [
-                    {
-                        "custom": {
-                            "imports": [
-                                {
-                                    "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
-                                }
-                            ],
-                            "schema_definition": "objectplanmodifier.UseStateForUnknown()",
-                        }
-                    }
-                ],
-            },
-            {
-                "name": "dynamic_psk",
-                "get": ["single_nested"],
-                "plan_modifiers": [
-                    {
-                        "custom": {
-                            "imports": [
-                                {
-                                    "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
-                                }
-                            ],
-                            "schema_definition": "objectplanmodifier.UseStateForUnknown()",
-                        }
-                    }
-                ],
-            },
-            {
-                "name": "dynamic_vlan",
-                "get": ["single_nested"],
-                "plan_modifiers": [
-                    {
-                        "custom": {
-                            "imports": [
-                                {
-                                    "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
-                                }
-                            ],
-                            "schema_definition": "objectplanmodifier.UseStateForUnknown()",
-                        }
-                    }
-                ],
-            },
-            {
-                "name": "hotspot20",
-                "get": ["single_nested"],
-                "plan_modifiers": [
-                    {
-                        "custom": {
-                            "imports": [
-                                {
-                                    "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
-                                }
-                            ],
-                            "schema_definition": "objectplanmodifier.UseStateForUnknown()",
-                        }
-                    }
-                ],
-            },
-            {
-                "name": "inject_dhcp_option_82",
-                "get": ["single_nested"],
-                "plan_modifiers": [
-                    {
-                        "custom": {
-                            "imports": [
-                                {
-                                    "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
-                                }
-                            ],
-                            "schema_definition": "objectplanmodifier.UseStateForUnknown()",
-                        }
-                    }
-                ],
-            },
-            {
-                "name": "mist_nac",
-                "get": ["single_nested"],
-                "plan_modifiers": [
-                    {
-                        "custom": {
-                            "imports": [
-                                {
-                                    "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
-                                }
-                            ],
-                            "schema_definition": "objectplanmodifier.UseStateForUnknown()",
-                        }
-                    }
-                ],
-            },
-            {
-                "name": "portal",
-                "get": ["single_nested"],
-                "plan_modifiers": [
-                    {
-                        "custom": {
-                            "imports": [
-                                {
-                                    "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
-                                }
-                            ],
-                            "schema_definition": "objectplanmodifier.UseStateForUnknown()",
-                        }
-                    }
-                ],
-            },
-            {
-                "name": "radsec",
-                "get": ["single_nested"],
-                "plan_modifiers": [
-                    {
-                        "custom": {
-                            "imports": [
-                                {
-                                    "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
-                                }
-                            ],
-                            "schema_definition": "objectplanmodifier.UseStateForUnknown()",
-                        }
-                    }
-                ],
-            },
-            {
-                "name": "schedule",
-                "get": ["single_nested"],
-                "plan_modifiers": [
-                    {
-                        "custom": {
-                            "imports": [
-                                {
-                                    "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
-                                }
-                            ],
-                            "schema_definition": "objectplanmodifier.UseStateForUnknown()",
-                        }
-                    }
-                ],
-            },
+            # {
+            #     "name": "site_id",
+            #     "get": ["string"],
+            #     "plan_modifiers": [
+            #         {
+            #             "custom": {
+            #                 "imports": [
+            #                     {
+            #                         "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+            #                     }
+            #                 ],
+            #                 "schema_definition": "stringplanmodifier.UseStateForUnknown()",
+            #             }
+            #         }
+            #     ],
+            # },
+            # {
+            #     "name": "id",
+            #     "get": ["string"],
+            #     "plan_modifiers": [
+            #         {
+            #             "custom": {
+            #                 "imports": [
+            #                     {
+            #                         "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+            #                     }
+            #                 ],
+            #                 "schema_definition": "stringplanmodifier.UseStateForUnknown()",
+            #             }
+            #         }
+            #     ],
+            # },
+            # {
+            #     "name": "portal_sso_url",
+            #     "get": ["string"],
+            #     "plan_modifiers": [
+            #         {
+            #             "custom": {
+            #                 "imports": [
+            #                     {
+            #                         "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+            #                     }
+            #                 ],
+            #                 "schema_definition": "stringplanmodifier.UseStateForUnknown()",
+            #             }
+            #         }
+            #     ],
+            # },
+            # {
+            #     "name": "mxtunnel_name",
+            #     "get": ["list"],
+            #     "plan_modifiers": [
+            #         {
+            #             "custom": {
+            #                 "imports": [
+            #                     {
+            #                         "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/listplanmodifier"
+            #                     }
+            #                 ],
+            #                 "schema_definition": "listplanmodifier.UseStateForUnknown()",
+            #             }
+            #         }
+            #     ],
+            # },
+            # {
+            #     "name": "mxtunnel_ids",
+            #     "get": ["list"],
+            #     "plan_modifiers": [
+            #         {
+            #             "custom": {
+            #                 "imports": [
+            #                     {
+            #                         "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/listplanmodifier"
+            #                     }
+            #                 ],
+            #                 "schema_definition": "listplanmodifier.UseStateForUnknown()",
+            #             }
+            #         }
+            #     ],
+            # },
+            # {
+            #     "name": "airwatch",
+            #     "get": ["single_nested"],
+            #     "plan_modifiers": [
+            #         {
+            #             "custom": {
+            #                 "imports": [
+            #                     {
+            #                         "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
+            #                     }
+            #                 ],
+            #                 "schema_definition": "objectplanmodifier.UseStateForUnknown()",
+            #             }
+            #         }
+            #     ],
+            # },
+            # {
+            #     "name": "ap_ids",
+            #     "get": ["list"],
+            #     "plan_modifiers": [
+            #         {
+            #             "custom": {
+            #                 "imports": [
+            #                     {
+            #                         "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/listplanmodifier"
+            #                     }
+            #                 ],
+            #                 "schema_definition": "listplanmodifier.UseStateForUnknown()",
+            #             }
+            #         }
+            #     ],
+            # },
+            # {
+            #     "name": "app_limit",
+            #     "get": ["single_nested"],
+            #     "plan_modifiers": [
+            #         {
+            #             "custom": {
+            #                 "imports": [
+            #                     {
+            #                         "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
+            #                     }
+            #                 ],
+            #                 "schema_definition": "objectplanmodifier.UseStateForUnknown()",
+            #             }
+            #         }
+            #     ],
+            # },
+            # {
+            #     "name": "app_qos",
+            #     "get": ["single_nested"],
+            #     "plan_modifiers": [
+            #         {
+            #             "custom": {
+            #                 "imports": [
+            #                     {
+            #                         "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
+            #                     }
+            #                 ],
+            #                 "schema_definition": "objectplanmodifier.UseStateForUnknown()",
+            #             }
+            #         }
+            #     ],
+            # },
+            # {
+            #     "name": "qos",
+            #     "get": ["single_nested"],
+            #     "plan_modifiers": [
+            #         {
+            #             "custom": {
+            #                 "imports": [
+            #                     {
+            #                         "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
+            #                     }
+            #                 ],
+            #                 "schema_definition": "objectplanmodifier.UseStateForUnknown()",
+            #             }
+            #         }
+            #     ],
+            # },
+            # {
+            #     "name": "apply_to",
+            #     "get": ["string"],
+            #     "plan_modifiers": [
+            #         {
+            #             "custom": {
+            #                 "imports": [
+            #                     {
+            #                         "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+            #                     }
+            #                 ],
+            #                 "schema_definition": "stringplanmodifier.UseStateForUnknown()",
+            #             }
+            #         }
+            #     ],
+            # },
+            # {
+            #     "name": "auth_servers_nas_id",
+            #     "get": ["string"],
+            #     "plan_modifiers": [
+            #         {
+            #             "custom": {
+            #                 "imports": [
+            #                     {
+            #                         "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+            #                     }
+            #                 ],
+            #                 "schema_definition": "stringplanmodifier.UseStateForUnknown()",
+            #             }
+            #         }
+            #     ],
+            # },
+            # {
+            #     "name": "id",
+            #     "get": ["string"],
+            #     "plan_modifiers": [
+            #         {
+            #             "custom": {
+            #                 "imports": [
+            #                     {
+            #                         "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+            #                     }
+            #                 ],
+            #                 "schema_definition": "stringplanmodifier.UseStateForUnknown()",
+            #             }
+            #         }
+            #     ],
+            # },
+            # {
+            #     "name": "auth_servers_nas_ip",
+            #     "get": ["string"],
+            #     "plan_modifiers": [
+            #         {
+            #             "custom": {
+            #                 "imports": [
+            #                     {
+            #                         "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+            #                     }
+            #                 ],
+            #                 "schema_definition": "stringplanmodifier.UseStateForUnknown()",
+            #             }
+            #         }
+            #     ],
+            # },
+            # {
+            #     "name": "auth",
+            #     "get": ["single_nested"],
+            #     "plan_modifiers": [
+            #         {
+            #             "custom": {
+            #                 "imports": [
+            #                     {
+            #                         "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
+            #                     }
+            #                 ],
+            #                 "schema_definition": "objectplanmodifier.UseStateForUnknown()",
+            #             }
+            #         }
+            #     ],
+            # },
+            # {
+            #     "name": "bonjour",
+            #     "get": ["single_nested"],
+            #     "plan_modifiers": [
+            #         {
+            #             "custom": {
+            #                 "imports": [
+            #                     {
+            #                         "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
+            #                     }
+            #                 ],
+            #                 "schema_definition": "objectplanmodifier.UseStateForUnknown()",
+            #             }
+            #         }
+            #     ],
+            # },
+            # {
+            #     "name": "cisco_cwa",
+            #     "get": ["single_nested"],
+            #     "plan_modifiers": [
+            #         {
+            #             "custom": {
+            #                 "imports": [
+            #                     {
+            #                         "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
+            #                     }
+            #                 ],
+            #                 "schema_definition": "objectplanmodifier.UseStateForUnknown()",
+            #             }
+            #         }
+            #     ],
+            # },
+            # {
+            #     "name": "dns_server_rewrite",
+            #     "get": ["single_nested"],
+            #     "plan_modifiers": [
+            #         {
+            #             "custom": {
+            #                 "imports": [
+            #                     {
+            #                         "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
+            #                     }
+            #                 ],
+            #                 "schema_definition": "objectplanmodifier.UseStateForUnknown()",
+            #             }
+            #         }
+            #     ],
+            # },
+            # {
+            #     "name": "dynamic_psk",
+            #     "get": ["single_nested"],
+            #     "plan_modifiers": [
+            #         {
+            #             "custom": {
+            #                 "imports": [
+            #                     {
+            #                         "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
+            #                     }
+            #                 ],
+            #                 "schema_definition": "objectplanmodifier.UseStateForUnknown()",
+            #             }
+            #         }
+            #     ],
+            # },
+            # {
+            #     "name": "dynamic_vlan",
+            #     "get": ["single_nested"],
+            #     "plan_modifiers": [
+            #         {
+            #             "custom": {
+            #                 "imports": [
+            #                     {
+            #                         "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
+            #                     }
+            #                 ],
+            #                 "schema_definition": "objectplanmodifier.UseStateForUnknown()",
+            #             }
+            #         }
+            #     ],
+            # },
+            # {
+            #     "name": "hotspot20",
+            #     "get": ["single_nested"],
+            #     "plan_modifiers": [
+            #         {
+            #             "custom": {
+            #                 "imports": [
+            #                     {
+            #                         "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
+            #                     }
+            #                 ],
+            #                 "schema_definition": "objectplanmodifier.UseStateForUnknown()",
+            #             }
+            #         }
+            #     ],
+            # },
+            # {
+            #     "name": "inject_dhcp_option_82",
+            #     "get": ["single_nested"],
+            #     "plan_modifiers": [
+            #         {
+            #             "custom": {
+            #                 "imports": [
+            #                     {
+            #                         "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
+            #                     }
+            #                 ],
+            #                 "schema_definition": "objectplanmodifier.UseStateForUnknown()",
+            #             }
+            #         }
+            #     ],
+            # },
+            # {
+            #     "name": "mist_nac",
+            #     "get": ["single_nested"],
+            #     "plan_modifiers": [
+            #         {
+            #             "custom": {
+            #                 "imports": [
+            #                     {
+            #                         "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
+            #                     }
+            #                 ],
+            #                 "schema_definition": "objectplanmodifier.UseStateForUnknown()",
+            #             }
+            #         }
+            #     ],
+            # },
+            # {
+            #     "name": "portal",
+            #     "get": ["single_nested"],
+            #     "plan_modifiers": [
+            #         {
+            #             "custom": {
+            #                 "imports": [
+            #                     {
+            #                         "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
+            #                     }
+            #                 ],
+            #                 "schema_definition": "objectplanmodifier.UseStateForUnknown()",
+            #             }
+            #         }
+            #     ],
+            # },
+            # {
+            #     "name": "radsec",
+            #     "get": ["single_nested"],
+            #     "plan_modifiers": [
+            #         {
+            #             "custom": {
+            #                 "imports": [
+            #                     {
+            #                         "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
+            #                     }
+            #                 ],
+            #                 "schema_definition": "objectplanmodifier.UseStateForUnknown()",
+            #             }
+            #         }
+            #     ],
+            # },
+            # {
+            #     "name": "schedule",
+            #     "get": ["single_nested"],
+            #     "plan_modifiers": [
+            #         {
+            #             "custom": {
+            #                 "imports": [
+            #                     {
+            #                         "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
+            #                     }
+            #                 ],
+            #                 "schema_definition": "objectplanmodifier.UseStateForUnknown()",
+            #             }
+            #         }
+            #     ],
+            # },
         ],
     },
     {
         "name": "site_wlan",
         "get": ["schema", "attributes"],
         "next": [
-            {
-                "name": "org_id",
-                "get": ["string"],
-                "plan_modifiers": [
-                    {
-                        "custom": {
-                            "imports": [
-                                {
-                                    "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
-                                }
-                            ],
-                            "schema_definition": "stringplanmodifier.UseStateForUnknown()",
-                        }
-                    }
-                ],
-            },
+            # {
+            #     "name": "org_id",
+            #     "get": ["string"],
+            #     "plan_modifiers": [
+            #         {
+            #             "custom": {
+            #                 "imports": [
+            #                     {
+            #                         "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+            #                     }
+            #                 ],
+            #                 "schema_definition": "stringplanmodifier.UseStateForUnknown()",
+            #             }
+            #         }
+            #     ],
+            # },
             {
                 "name": "site_id",
                 "get": ["string"],
                 "computed_optional_required": "required",
             },
-            {
-                "name": "id",
-                "get": ["string"],
-                "plan_modifiers": [
-                    {
-                        "custom": {
-                            "imports": [
-                                {
-                                    "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
-                                }
-                            ],
-                            "schema_definition": "stringplanmodifier.UseStateForUnknown()",
-                        }
-                    }
-                ],
-            },
-            {
-                "name": "portal_sso_url",
-                "get": ["string"],
-                "plan_modifiers": [
-                    {
-                        "custom": {
-                            "imports": [
-                                {
-                                    "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
-                                }
-                            ],
-                            "schema_definition": "stringplanmodifier.UseStateForUnknown()",
-                        }
-                    }
-                ],
-            },
-            {
-                "name": "mxtunnel_name",
-                "get": ["list"],
-                "plan_modifiers": [
-                    {
-                        "custom": {
-                            "imports": [
-                                {
-                                    "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/listplanmodifier"
-                                }
-                            ],
-                            "schema_definition": "listplanmodifier.UseStateForUnknown()",
-                        }
-                    }
-                ],
-            },
-            {
-                "name": "mxtunnel_ids",
-                "get": ["list"],
-                "plan_modifiers": [
-                    {
-                        "custom": {
-                            "imports": [
-                                {
-                                    "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/listplanmodifier"
-                                }
-                            ],
-                            "schema_definition": "listplanmodifier.UseStateForUnknown()",
-                        }
-                    }
-                ],
-            },
-            {
-                "name": "airwatch",
-                "get": ["single_nested"],
-                "plan_modifiers": [
-                    {
-                        "custom": {
-                            "imports": [
-                                {
-                                    "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
-                                }
-                            ],
-                            "schema_definition": "objectplanmodifier.UseStateForUnknown()",
-                        }
-                    }
-                ],
-            },
-            {
-                "name": "ap_ids",
-                "get": ["list"],
-                "plan_modifiers": [
-                    {
-                        "custom": {
-                            "imports": [
-                                {
-                                    "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/listplanmodifier"
-                                }
-                            ],
-                            "schema_definition": "listplanmodifier.UseStateForUnknown()",
-                        }
-                    }
-                ],
-            },
-            {
-                "name": "app_limit",
-                "get": ["single_nested"],
-                "plan_modifiers": [
-                    {
-                        "custom": {
-                            "imports": [
-                                {
-                                    "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
-                                }
-                            ],
-                            "schema_definition": "objectplanmodifier.UseStateForUnknown()",
-                        }
-                    }
-                ],
-            },
-            {
-                "name": "app_qos",
-                "get": ["single_nested"],
-                "plan_modifiers": [
-                    {
-                        "custom": {
-                            "imports": [
-                                {
-                                    "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
-                                }
-                            ],
-                            "schema_definition": "objectplanmodifier.UseStateForUnknown()",
-                        }
-                    }
-                ],
-            },
-            {
-                "name": "qos",
-                "get": ["single_nested"],
-                "plan_modifiers": [
-                    {
-                        "custom": {
-                            "imports": [
-                                {
-                                    "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
-                                }
-                            ],
-                            "schema_definition": "objectplanmodifier.UseStateForUnknown()",
-                        }
-                    }
-                ],
-            },
-            {
-                "name": "apply_to",
-                "get": ["string"],
-                "plan_modifiers": [
-                    {
-                        "custom": {
-                            "imports": [
-                                {
-                                    "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
-                                }
-                            ],
-                            "schema_definition": "stringplanmodifier.UseStateForUnknown()",
-                        }
-                    }
-                ],
-            },
-            {
-                "name": "auth_servers_nas_id",
-                "get": ["string"],
-                "plan_modifiers": [
-                    {
-                        "custom": {
-                            "imports": [
-                                {
-                                    "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
-                                }
-                            ],
-                            "schema_definition": "stringplanmodifier.UseStateForUnknown()",
-                        }
-                    }
-                ],
-            },
-            {
-                "name": "id",
-                "get": ["string"],
-                "plan_modifiers": [
-                    {
-                        "custom": {
-                            "imports": [
-                                {
-                                    "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
-                                }
-                            ],
-                            "schema_definition": "stringplanmodifier.UseStateForUnknown()",
-                        }
-                    }
-                ],
-            },
-            {
-                "name": "auth_servers_nas_ip",
-                "get": ["string"],
-                "plan_modifiers": [
-                    {
-                        "custom": {
-                            "imports": [
-                                {
-                                    "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
-                                }
-                            ],
-                            "schema_definition": "stringplanmodifier.UseStateForUnknown()",
-                        }
-                    }
-                ],
-            },
-            {
-                "name": "auth",
-                "get": ["single_nested"],
-                "plan_modifiers": [
-                    {
-                        "custom": {
-                            "imports": [
-                                {
-                                    "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
-                                }
-                            ],
-                            "schema_definition": "objectplanmodifier.UseStateForUnknown()",
-                        }
-                    }
-                ],
-            },
-            {
-                "name": "bonjour",
-                "get": ["single_nested"],
-                "plan_modifiers": [
-                    {
-                        "custom": {
-                            "imports": [
-                                {
-                                    "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
-                                }
-                            ],
-                            "schema_definition": "objectplanmodifier.UseStateForUnknown()",
-                        }
-                    }
-                ],
-            },
-            {
-                "name": "cisco_cwa",
-                "get": ["single_nested"],
-                "plan_modifiers": [
-                    {
-                        "custom": {
-                            "imports": [
-                                {
-                                    "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
-                                }
-                            ],
-                            "schema_definition": "objectplanmodifier.UseStateForUnknown()",
-                        }
-                    }
-                ],
-            },
-            {
-                "name": "dns_server_rewrite",
-                "get": ["single_nested"],
-                "plan_modifiers": [
-                    {
-                        "custom": {
-                            "imports": [
-                                {
-                                    "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
-                                }
-                            ],
-                            "schema_definition": "objectplanmodifier.UseStateForUnknown()",
-                        }
-                    }
-                ],
-            },
-            {
-                "name": "dynamic_psk",
-                "get": ["single_nested"],
-                "plan_modifiers": [
-                    {
-                        "custom": {
-                            "imports": [
-                                {
-                                    "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
-                                }
-                            ],
-                            "schema_definition": "objectplanmodifier.UseStateForUnknown()",
-                        }
-                    }
-                ],
-            },
-            {
-                "name": "dynamic_vlan",
-                "get": ["single_nested"],
-                "plan_modifiers": [
-                    {
-                        "custom": {
-                            "imports": [
-                                {
-                                    "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
-                                }
-                            ],
-                            "schema_definition": "objectplanmodifier.UseStateForUnknown()",
-                        }
-                    }
-                ],
-            },
-            {
-                "name": "hotspot20",
-                "get": ["single_nested"],
-                "plan_modifiers": [
-                    {
-                        "custom": {
-                            "imports": [
-                                {
-                                    "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
-                                }
-                            ],
-                            "schema_definition": "objectplanmodifier.UseStateForUnknown()",
-                        }
-                    }
-                ],
-            },
-            {
-                "name": "inject_dhcp_option_82",
-                "get": ["single_nested"],
-                "plan_modifiers": [
-                    {
-                        "custom": {
-                            "imports": [
-                                {
-                                    "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
-                                }
-                            ],
-                            "schema_definition": "objectplanmodifier.UseStateForUnknown()",
-                        }
-                    }
-                ],
-            },
-            {
-                "name": "mist_nac",
-                "get": ["single_nested"],
-                "plan_modifiers": [
-                    {
-                        "custom": {
-                            "imports": [
-                                {
-                                    "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
-                                }
-                            ],
-                            "schema_definition": "objectplanmodifier.UseStateForUnknown()",
-                        }
-                    }
-                ],
-            },
-            {
-                "name": "portal",
-                "get": ["single_nested"],
-                "plan_modifiers": [
-                    {
-                        "custom": {
-                            "imports": [
-                                {
-                                    "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
-                                }
-                            ],
-                            "schema_definition": "objectplanmodifier.UseStateForUnknown()",
-                        }
-                    }
-                ],
-            },
-            {
-                "name": "radsec",
-                "get": ["single_nested"],
-                "plan_modifiers": [
-                    {
-                        "custom": {
-                            "imports": [
-                                {
-                                    "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
-                                }
-                            ],
-                            "schema_definition": "objectplanmodifier.UseStateForUnknown()",
-                        }
-                    }
-                ],
-            },
-            {
-                "name": "schedule",
-                "get": ["single_nested"],
-                "plan_modifiers": [
-                    {
-                        "custom": {
-                            "imports": [
-                                {
-                                    "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
-                                }
-                            ],
-                            "schema_definition": "objectplanmodifier.UseStateForUnknown()",
-                        }
-                    }
-                ],
-            },
+            # {
+            #     "name": "id",
+            #     "get": ["string"],
+            #     "plan_modifiers": [
+            #         {
+            #             "custom": {
+            #                 "imports": [
+            #                     {
+            #                         "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+            #                     }
+            #                 ],
+            #                 "schema_definition": "stringplanmodifier.UseStateForUnknown()",
+            #             }
+            #         }
+            #     ],
+            # },
+            # {
+            #     "name": "portal_sso_url",
+            #     "get": ["string"],
+            #     "plan_modifiers": [
+            #         {
+            #             "custom": {
+            #                 "imports": [
+            #                     {
+            #                         "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+            #                     }
+            #                 ],
+            #                 "schema_definition": "stringplanmodifier.UseStateForUnknown()",
+            #             }
+            #         }
+            #     ],
+            # },
+            # {
+            #     "name": "mxtunnel_name",
+            #     "get": ["list"],
+            #     "plan_modifiers": [
+            #         {
+            #             "custom": {
+            #                 "imports": [
+            #                     {
+            #                         "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/listplanmodifier"
+            #                     }
+            #                 ],
+            #                 "schema_definition": "listplanmodifier.UseStateForUnknown()",
+            #             }
+            #         }
+            #     ],
+            # },
+            # {
+            #     "name": "mxtunnel_ids",
+            #     "get": ["list"],
+            #     "plan_modifiers": [
+            #         {
+            #             "custom": {
+            #                 "imports": [
+            #                     {
+            #                         "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/listplanmodifier"
+            #                     }
+            #                 ],
+            #                 "schema_definition": "listplanmodifier.UseStateForUnknown()",
+            #             }
+            #         }
+            #     ],
+            # },
+            # {
+            #     "name": "airwatch",
+            #     "get": ["single_nested"],
+            #     "plan_modifiers": [
+            #         {
+            #             "custom": {
+            #                 "imports": [
+            #                     {
+            #                         "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
+            #                     }
+            #                 ],
+            #                 "schema_definition": "objectplanmodifier.UseStateForUnknown()",
+            #             }
+            #         }
+            #     ],
+            # },
+            # {
+            #     "name": "ap_ids",
+            #     "get": ["list"],
+            #     "plan_modifiers": [
+            #         {
+            #             "custom": {
+            #                 "imports": [
+            #                     {
+            #                         "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/listplanmodifier"
+            #                     }
+            #                 ],
+            #                 "schema_definition": "listplanmodifier.UseStateForUnknown()",
+            #             }
+            #         }
+            #     ],
+            # },
+            # {
+            #     "name": "app_limit",
+            #     "get": ["single_nested"],
+            #     "plan_modifiers": [
+            #         {
+            #             "custom": {
+            #                 "imports": [
+            #                     {
+            #                         "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
+            #                     }
+            #                 ],
+            #                 "schema_definition": "objectplanmodifier.UseStateForUnknown()",
+            #             }
+            #         }
+            #     ],
+            # },
+            # {
+            #     "name": "app_qos",
+            #     "get": ["single_nested"],
+            #     "plan_modifiers": [
+            #         {
+            #             "custom": {
+            #                 "imports": [
+            #                     {
+            #                         "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
+            #                     }
+            #                 ],
+            #                 "schema_definition": "objectplanmodifier.UseStateForUnknown()",
+            #             }
+            #         }
+            #     ],
+            # },
+            # {
+            #     "name": "qos",
+            #     "get": ["single_nested"],
+            #     "plan_modifiers": [
+            #         {
+            #             "custom": {
+            #                 "imports": [
+            #                     {
+            #                         "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
+            #                     }
+            #                 ],
+            #                 "schema_definition": "objectplanmodifier.UseStateForUnknown()",
+            #             }
+            #         }
+            #     ],
+            # },
+            # {
+            #     "name": "apply_to",
+            #     "get": ["string"],
+            #     "plan_modifiers": [
+            #         {
+            #             "custom": {
+            #                 "imports": [
+            #                     {
+            #                         "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+            #                     }
+            #                 ],
+            #                 "schema_definition": "stringplanmodifier.UseStateForUnknown()",
+            #             }
+            #         }
+            #     ],
+            # },
+            # {
+            #     "name": "auth_servers_nas_id",
+            #     "get": ["string"],
+            #     "plan_modifiers": [
+            #         {
+            #             "custom": {
+            #                 "imports": [
+            #                     {
+            #                         "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+            #                     }
+            #                 ],
+            #                 "schema_definition": "stringplanmodifier.UseStateForUnknown()",
+            #             }
+            #         }
+            #     ],
+            # },
+            # {
+            #     "name": "id",
+            #     "get": ["string"],
+            #     "plan_modifiers": [
+            #         {
+            #             "custom": {
+            #                 "imports": [
+            #                     {
+            #                         "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+            #                     }
+            #                 ],
+            #                 "schema_definition": "stringplanmodifier.UseStateForUnknown()",
+            #             }
+            #         }
+            #     ],
+            # },
+            # {
+            #     "name": "auth_servers_nas_ip",
+            #     "get": ["string"],
+            #     "plan_modifiers": [
+            #         {
+            #             "custom": {
+            #                 "imports": [
+            #                     {
+            #                         "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+            #                     }
+            #                 ],
+            #                 "schema_definition": "stringplanmodifier.UseStateForUnknown()",
+            #             }
+            #         }
+            #     ],
+            # },
+            # {
+            #     "name": "auth",
+            #     "get": ["single_nested"],
+            #     "plan_modifiers": [
+            #         {
+            #             "custom": {
+            #                 "imports": [
+            #                     {
+            #                         "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
+            #                     }
+            #                 ],
+            #                 "schema_definition": "objectplanmodifier.UseStateForUnknown()",
+            #             }
+            #         }
+            #     ],
+            # },
+            # {
+            #     "name": "bonjour",
+            #     "get": ["single_nested"],
+            #     "plan_modifiers": [
+            #         {
+            #             "custom": {
+            #                 "imports": [
+            #                     {
+            #                         "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
+            #                     }
+            #                 ],
+            #                 "schema_definition": "objectplanmodifier.UseStateForUnknown()",
+            #             }
+            #         }
+            #     ],
+            # },
+            # {
+            #     "name": "cisco_cwa",
+            #     "get": ["single_nested"],
+            #     "plan_modifiers": [
+            #         {
+            #             "custom": {
+            #                 "imports": [
+            #                     {
+            #                         "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
+            #                     }
+            #                 ],
+            #                 "schema_definition": "objectplanmodifier.UseStateForUnknown()",
+            #             }
+            #         }
+            #     ],
+            # },
+            # {
+            #     "name": "dns_server_rewrite",
+            #     "get": ["single_nested"],
+            #     "plan_modifiers": [
+            #         {
+            #             "custom": {
+            #                 "imports": [
+            #                     {
+            #                         "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
+            #                     }
+            #                 ],
+            #                 "schema_definition": "objectplanmodifier.UseStateForUnknown()",
+            #             }
+            #         }
+            #     ],
+            # },
+            # {
+            #     "name": "dynamic_psk",
+            #     "get": ["single_nested"],
+            #     "plan_modifiers": [
+            #         {
+            #             "custom": {
+            #                 "imports": [
+            #                     {
+            #                         "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
+            #                     }
+            #                 ],
+            #                 "schema_definition": "objectplanmodifier.UseStateForUnknown()",
+            #             }
+            #         }
+            #     ],
+            # },
+            # {
+            #     "name": "dynamic_vlan",
+            #     "get": ["single_nested"],
+            #     "plan_modifiers": [
+            #         {
+            #             "custom": {
+            #                 "imports": [
+            #                     {
+            #                         "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
+            #                     }
+            #                 ],
+            #                 "schema_definition": "objectplanmodifier.UseStateForUnknown()",
+            #             }
+            #         }
+            #     ],
+            # },
+            # {
+            #     "name": "hotspot20",
+            #     "get": ["single_nested"],
+            #     "plan_modifiers": [
+            #         {
+            #             "custom": {
+            #                 "imports": [
+            #                     {
+            #                         "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
+            #                     }
+            #                 ],
+            #                 "schema_definition": "objectplanmodifier.UseStateForUnknown()",
+            #             }
+            #         }
+            #     ],
+            # },
+            # {
+            #     "name": "inject_dhcp_option_82",
+            #     "get": ["single_nested"],
+            #     "plan_modifiers": [
+            #         {
+            #             "custom": {
+            #                 "imports": [
+            #                     {
+            #                         "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
+            #                     }
+            #                 ],
+            #                 "schema_definition": "objectplanmodifier.UseStateForUnknown()",
+            #             }
+            #         }
+            #     ],
+            # },
+            # {
+            #     "name": "mist_nac",
+            #     "get": ["single_nested"],
+            #     "plan_modifiers": [
+            #         {
+            #             "custom": {
+            #                 "imports": [
+            #                     {
+            #                         "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
+            #                     }
+            #                 ],
+            #                 "schema_definition": "objectplanmodifier.UseStateForUnknown()",
+            #             }
+            #         }
+            #     ],
+            # },
+            # {
+            #     "name": "portal",
+            #     "get": ["single_nested"],
+            #     "plan_modifiers": [
+            #         {
+            #             "custom": {
+            #                 "imports": [
+            #                     {
+            #                         "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
+            #                     }
+            #                 ],
+            #                 "schema_definition": "objectplanmodifier.UseStateForUnknown()",
+            #             }
+            #         }
+            #     ],
+            # },
+            # {
+            #     "name": "radsec",
+            #     "get": ["single_nested"],
+            #     "plan_modifiers": [
+            #         {
+            #             "custom": {
+            #                 "imports": [
+            #                     {
+            #                         "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
+            #                     }
+            #                 ],
+            #                 "schema_definition": "objectplanmodifier.UseStateForUnknown()",
+            #             }
+            #         }
+            #     ],
+            # },
+            # {
+            #     "name": "schedule",
+            #     "get": ["single_nested"],
+            #     "plan_modifiers": [
+            #         {
+            #             "custom": {
+            #                 "imports": [
+            #                     {
+            #                         "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
+            #                     }
+            #                 ],
+            #                 "schema_definition": "objectplanmodifier.UseStateForUnknown()",
+            #             }
+            #         }
+            #     ],
+            # },
         ],
     },
 ]

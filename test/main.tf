@@ -31,6 +31,7 @@ resource "mist_site" "terraform_site" {
  # networktemplate_id = mist_org_networktemplate.switch_template.id
  # rftemplate_id      = mist_org_rftemplate.test_rf.id
  # gatewaytemplate_id = mist_org_gatewaytemplate.stag.id
+ rftemplate_id=""
 }
 
 

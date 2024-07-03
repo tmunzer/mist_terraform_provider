@@ -28,7 +28,7 @@ func SdkToTerraform(ctx context.Context, data *mistsdkgo.Wlan) (OrgWlanModel, di
 	state.AllowSsdp = types.BoolValue(data.GetAllowSsdp())
 	state.ApIds = mist_transform.ListOfStringSdkToTerraform(ctx, data.GetApIds())
 	state.AppLimit = appLimitSdkToTerraform(ctx, &diags, data.GetAppLimit())
-	state.AppQos = appQosSdkToTerraform(ctx, &diags, *data.AppQos)
+	state.AppQos = appQosSdkToTerraform(ctx, &diags, data.GetAppQos())
 	state.ApplyTo = types.StringValue(string(data.GetApplyTo()))
 	state.ArpFilter = types.BoolValue(data.GetArpFilter())
 	state.Auth = authSdkToTerraform(ctx, &diags, data.GetAuth())
