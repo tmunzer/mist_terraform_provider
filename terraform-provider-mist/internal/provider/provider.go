@@ -151,18 +151,6 @@ func (p *mistProvider) Resources(ctx context.Context) []func() resource.Resource
 		NewOrgWxRule,
 		NewSiteResource,
 		NewSiteSettingResource,
-<<<<<<< Updated upstream
-		NewNetworkTemplate,
-		NewServiceResource,
-		NewNetworkResource,
-		NewGatewayTemplate,
-		NewNacTag,
-		NewNacRule,
-		NewRfTemplate,
-		NewWlanTemplate,
-		NewWlan,
-=======
-		NewSiteWlan,
->>>>>>> Stashed changes
+		NewSiteNetworkTemplate,
 	}
 }

@@ -41,10 +41,8 @@ func (r *orgWlanResource) Configure(ctx context.Context, req resource.ConfigureR
 
 	r.client = client
 }
-func (r *wlanResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
-=======
+
 func (r *orgWlanResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
->>>>>>> Stashed changes:terraform-provider-mist/internal/provider/org_wlan_resource.go
 	resp.TypeName = req.ProviderTypeName + "_org_wlan"
 }
 

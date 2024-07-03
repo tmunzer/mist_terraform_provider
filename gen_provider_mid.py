@@ -37,6 +37,42 @@ RENAME = [
         ],
     },
     {
+        "name": "site_networktemplate",
+        "get": ["schema", "attributes"],
+        "next": [
+            {
+                "name": "id",
+                "rename": "site_id"
+            },
+            {
+                "name": "switch_matching",
+                "get": ["single_nested", "attributes"],
+                "next": [
+                    {
+                        "name": "rules",
+                        "rename": "matching_rules",
+                    }
+                ],
+            },
+            {
+                "name": "switch_mgmt",
+                "get": ["single_nested", "attributes"],
+                "next": [
+                    {
+                        "name": "tacacs",
+                        "get": ["single_nested", "attributes"],
+                        "next": [
+                            {
+                                "name": "acct_servers",
+                                "rename": "tacacct_servers",
+                            }
+                        ],
+                    },
+                ],
+            },
+        ],
+    },
+    {
         "name": "site_setting",
         "get": ["schema", "attributes"],
         "next": [
@@ -345,22 +381,6 @@ RENAME = [
                 ],
             },
             {
-                "name": "networks",
-                "get": ["map_nested"],
-                "plan_modifiers": [
-                    {
-                        "custom": {
-                            "imports": [
-                                {
-                                    "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/mapplanmodifier"
-                                }
-                            ],
-                            "schema_definition": "mapplanmodifier.UseStateForUnknown()",
-                        }
-                    }
-                ],
-            },
-            {
                 "name": "vars",
                 "get": ["map"],
                 "plan_modifiers": [
@@ -378,54 +398,6 @@ RENAME = [
             },
             {
                 "name": "disabled_system_defined_port_usages",
-                "get": ["list"],
-                "plan_modifiers": [
-                    {
-                        "custom": {
-                            "imports": [
-                                {
-                                    "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/listplanmodifier"
-                                }
-                            ],
-                            "schema_definition": "listplanmodifier.UseStateForUnknown()",
-                        }
-                    }
-                ],
-            },
-            {
-                "name": "dns_servers",
-                "get": ["list"],
-                "plan_modifiers": [
-                    {
-                        "custom": {
-                            "imports": [
-                                {
-                                    "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/listplanmodifier"
-                                }
-                            ],
-                            "schema_definition": "listplanmodifier.UseStateForUnknown()",
-                        }
-                    }
-                ],
-            },
-            {
-                "name": "dns_suffix",
-                "get": ["list"],
-                "plan_modifiers": [
-                    {
-                        "custom": {
-                            "imports": [
-                                {
-                                    "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/listplanmodifier"
-                                }
-                            ],
-                            "schema_definition": "listplanmodifier.UseStateForUnknown()",
-                        }
-                    }
-                ],
-            },
-            {
-                "name": "ntp_servers",
                 "get": ["list"],
                 "plan_modifiers": [
                     {

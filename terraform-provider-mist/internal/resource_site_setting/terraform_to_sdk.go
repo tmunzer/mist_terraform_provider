@@ -7,7 +7,6 @@ import (
 
 	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
 	mist_transform "terraform-provider-mist/internal/commons/utils"
-	"terraform-provider-mist/internal/resource_networktemplate"
 )
 
 func TerraformToSdk(ctx context.Context, plan *SiteSettingModel) (mistsdkgo.SiteSetting, diag.Diagnostics) {
@@ -44,8 +43,6 @@ func TerraformToSdk(ctx context.Context, plan *SiteSettingModel) (mistsdkgo.Site
 
 	data.SetDeviceUpdownThreshold(int32(plan.DeviceUpdownThreshold.ValueInt64()))
 	data.SetDisabledSystemDefinedPortUsages(mist_transform.ListOfStringTerraformToSdk(ctx, plan.DisabledSystemDefinedPortUsages))
-	data.SetDnsServers(mist_transform.ListOfStringTerraformToSdk(ctx, plan.DnsServers))
-	data.SetDnsSuffix(mist_transform.ListOfStringTerraformToSdk(ctx, plan.DnsSuffix))
 
 	if !plan.Engagement.IsNull() && !plan.Engagement.IsUnknown() {
 		engagement := engagementTerraformToSdk(ctx, &diags, plan.Engagement)
@@ -64,14 +61,6 @@ func TerraformToSdk(ctx context.Context, plan *SiteSettingModel) (mistsdkgo.Site
 	} else {
 		data.SetLed(*mistsdkgo.NewApLedWithDefaults())
 	}
-
-	if !plan.Networks.IsNull() && !plan.Networks.IsUnknown() {
-		network := resource_networktemplate.NetworksTerraformToSdk(ctx, &diags, plan.Networks)
-		data.SetNetworks(network)
-
-	}
-
-	data.SetNtpServers(mist_transform.ListOfStringTerraformToSdk(ctx, plan.NtpServers))
 
 	if !plan.Occupancy.IsNull() && !plan.Occupancy.IsUnknown() {
 		occupancy := occupancyTerraformToSdk(ctx, &diags, plan.Occupancy)

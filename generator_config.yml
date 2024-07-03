@@ -241,38 +241,158 @@ resources:
         - modified_time
         - id
         - for_site
-        - additional_config_cmds
+        - flags
+        - status_portal
+        - rtsa
+        ## AP
         - ap_matching
         - ap_port_config
         - auto_placement
-        - evpn_options
-        - flags
-        - gateway
-        - gateway_additional_config_cmds
-        - gateway_matching
-        - gateway_mgmt
+        - radio_config
+        ## MX EDGE
         - mxedge
         - mxedge_mgmt
         - mxtunnels
-        - ospf_areas
-        - paloalto_networks
-        - port_mirroring
-        - port_usages
-        - protect_re
-        - radio_config
-        - radius_config
-        - remote_syslog
-        - rtsa
-        - status_portal
-        - switch
-        - switch_matching
-        - switch_mgmt
         - tunterm_monitoring
         - tunterm_monitoring_disabled
         - tunterm_multicast_config
-        - vrf_instances
+        # OTHERS
+        - evpn_options
+        - gateway
+        - gateway_matching
+        - gateway_mgmt
+        - ospf_areas
+        - paloalto_networks
+        - switch
         - vrrp_groups
-        - vs_instances
+        ### SWITCH TPL
+        - acl_policies
+        - acl_tags
+        - additional_config_cmds
+        - dhcp_snooping
+        - dns_servers
+        - dns_suffix
+        - extra_routes
+        - extra_routes6
+        - id
+        - mist_nac
+        - name
+        - networks
+        - ntp_servers
+        - port_mirrorings
+        - port_usages
+        - radius_config
+        - remote_syslog
+        - snmp_config
+        - switch_matching
+        - switch_mgmt
+        - vrf_config
+        - vrf_instances    
+        ## GATEWAY TPL
+        - gateway_additional_config_cmds
+        - bgp_config
+        - dhcpd_config
+        - dns_override
+        - dns_servers
+        - dns_suffix
+        - extra_routes
+        - id
+        - idp_profiles
+        - ip_configs
+        - name
+        - networks
+        - ntp_override
+        - ntp_servers
+        - path_preferences
+        - port_config
+        - router_id
+        - routing_policies
+        - service_policies
+        - tunnel_configs
+        - tunnel_provider_options
+        - type         
+      attributes:
+        aliases:
+          site_id: id
+  site_networktemplate:
+    create:
+      path: /api/v1/sites/{site_id}/setting
+      method: PUT
+    read:
+      path: /api/v1/sites/{site_id}/setting
+      method: GET
+    update:
+      path: /api/v1/sites/{site_id}/setting
+      method: PUT      
+    delete:
+      path: /api/v1/sites/{site_id}/setting
+      method: PUT      
+    schema:
+      ignores:
+        - extra_routes6
+        - switch_matching.rules.switch_mgmt
+        ###
+        - analytic
+        - ap_matching
+        - ap_port_config
+        - ap_updown_threshold
+        - auto_placement
+        - auto_upgrade
+        - blacklist_url
+        - ble_config
+        - config_auto_revert
+        - config_push_policy
+        - created_time
+        - critical_url_monitoring
+        - device_updown_threshold
+        - disabled_system_defined_port_usages
+        - engagement
+        - evpn_options
+        - flags
+        - for_site
+        - gateway
+        - gateway_additional_config_cmds
+        - gateway_mgmt
+        - gateway_updown_threshold
+        - led
+        - modified_time
+        - mxedge
+        - mxedge_mgmt
+        - mxtunnels
+        - occupancy
+        - org_id
+        - ospf_areas
+        - paloalto_networks
+        - persist_config_on_device
+        - proxy
+        - radio_config
+        - report_gatt
+        - rogue
+        - rtsa
+        - simple_alert
+        - site_id
+        - skyatp
+        - srx_app
+        - ssh_keys
+        - ssr
+        - status_portal
+        - switch
+        - switch_updown_threshold
+        - synthetic_test
+        - track_anonymous_devices
+        - tunterm_monitoring
+        - tunterm_monitoring_disabled
+        - tunterm_multicast_config
+        - vars
+        - vna
+        - vrrp_groups
+        - wan_vna
+        - watched_station_url
+        - whitelist_url
+        - wids
+        - wifi
+        - wired_vna
+        - zone_occupancy_alert
       attributes:
         aliases:
           site_id: id

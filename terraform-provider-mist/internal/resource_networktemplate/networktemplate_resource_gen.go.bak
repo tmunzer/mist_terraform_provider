@@ -838,7 +838,6 @@ func NetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 						Optional: true,
 						Computed: true,
 						Validators: []validator.List{
-							listvalidator.SizeAtLeast(1),
 							listvalidator.UniqueValues(),
 						},
 					},

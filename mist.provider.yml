@@ -46595,13 +46595,6 @@ components:
                         ip: 10.182.104.129
                       wap:
                         ip: 10.182.102.1
-                vs_instances:
-                  property1:
-                    networks:
-                    - guest
-                  property2:
-                    networks:
-                    - guest
                 wan_vna:
                   enabled: false
                 watched_station_url: https://papi.s3.amazonaws.com/watched_station/xxx...
@@ -66392,7 +66385,6 @@ components:
     radius_acct_servers:
       items:
         $ref: '#/components/schemas/radius_acct_server'
-      minItems: 1
       type: array
       uniqueItems: true
     radius_auth_server:
@@ -72077,6 +72069,10 @@ components:
     site_setting:
       description: Site Settings
       properties:
+        acl_policies:
+          $ref: '#/components/schemas/acl_policies'
+        acl_tags:
+          $ref: '#/components/schemas/acl_tags'
         additional_config_cmds:
           $ref: '#/components/schemas/additional_config_cmds'
         analytic:
@@ -72121,16 +72117,22 @@ components:
           maximum: 30
           minimum: 0
           type: integer
+        dhcp_snooping:
+          $ref: '#/components/schemas/dhcp_snooping'
         disabled_system_defined_port_usages:
           $ref: '#/components/schemas/site_setting_disabled_system_defined_port_usages'
         dns_servers:
-          $ref: '#/components/schemas/site_setting_dns_servers'
+          $ref: '#/components/schemas/dns_servers'
         dns_suffix:
-          $ref: '#/components/schemas/site_setting_dns_suffix'
+          $ref: '#/components/schemas/dns_suffix'
         engagement:
           $ref: '#/components/schemas/site_engagement'
         evpn_options:
           $ref: '#/components/schemas/evpn_options'
+        extra_routes:
+          $ref: '#/components/schemas/extra_routes'
+        extra_routes6:
+          $ref: '#/components/schemas/extra_routes6'
         flags:
           $ref: '#/components/schemas/site_setting_flags'
         for_site:
@@ -72155,6 +72157,8 @@ components:
           type: string
         led:
           $ref: '#/components/schemas/ap_led'
+        mist_nac:
+          $ref: '#/components/schemas/network_template_mist_nac'
         modified_time:
           readOnly: true
           type: number
@@ -72180,12 +72184,17 @@ components:
           default: false
           description: whether to store the config on AP
           type: boolean
-        port_mirroring:
-          $ref: '#/components/schemas/switch_port_mirrorings'
+        port_mirrorings:
+          additionalProperties:
+            $ref: '#/components/schemas/switch_port_mirroring'
+          description: 'Property key is the port mirroring instance name
+
+            port_mirroring can be added under device/site settings. It takes interface
+            and ports as input for ingress, interface as input for egress and can
+            take interface and port as output.'
+          type: object
         port_usages:
           $ref: '#/components/schemas/switch_port_usages'
-        protect_re:
-          $ref: '#/components/schemas/protect_re'
         proxy:
           $ref: '#/components/schemas/proxy'
         radio_config:
@@ -72210,6 +72219,8 @@ components:
           $ref: '#/components/schemas/site_id'
         skyatp:
           $ref: '#/components/schemas/site_setting_skyatp'
+        snmp_config:
+          $ref: '#/components/schemas/snmp_config'
         srx_app:
           $ref: '#/components/schemas/site_setting_srx_app'
         ssh_keys:
@@ -72223,7 +72234,7 @@ components:
         switch_matching:
           $ref: '#/components/schemas/switch_matching'
         switch_mgmt:
-          $ref: '#/components/schemas/config_switch'
+          $ref: '#/components/schemas/switch_mgmt'
         switch_updown_threshold:
           description: enable threshold-based device down delivery for Switch devices
             only. When configured it takes effect for SW devices and `device_updown_threshold`
@@ -72249,12 +72260,12 @@ components:
           $ref: '#/components/schemas/vars'
         vna:
           $ref: '#/components/schemas/site_setting_vna'
+        vrf_config:
+          $ref: '#/components/schemas/vrf_config'
         vrf_instances:
           $ref: '#/components/schemas/vrf_instances'
         vrrp_groups:
           $ref: '#/components/schemas/site_setting_vrrp_groups'
-        vs_instances:
-          $ref: '#/components/schemas/site_setting_vs_instances'
         wan_vna:
           $ref: '#/components/schemas/site_setting_wan_vna'
         watched_station_url:
@@ -72650,16 +72661,6 @@ components:
         example: guest
         type: string
       type: array
-    site_setting_vs_instances:
-      additionalProperties:
-        $ref: '#/components/schemas/site_setting_vs_instance'
-      description: 'virtual-switch (for EX92xx and QFX5130)
-
-        all the networks not included here will be placed in default `evpn_vs` virtual-switch
-        RI
-
-        Property key is the instance name'
-      type: object
     site_setting_wan_vna:
       properties:
         enabled:
@@ -79680,7 +79681,6 @@ components:
       - ssid
       type: object
     wlan_acct_servers:
-      default: []
       description: list of RADIUS accounting servers, optional, order matters where
         the first one is treated as primary
       items:
@@ -79714,7 +79714,6 @@ components:
           type: string
       type: object
     wlan_ap_ids:
-      default: []
       description: list of device ids
       items:
         format: uuid
@@ -79914,7 +79913,6 @@ components:
       example: ordered
       type: string
     wlan_auth_servers:
-      default: []
       description: list of RADIUS authentication servers, at least one is needed if
         `auth type`==`eap`, order matters where the first one is treated as primary
       items:

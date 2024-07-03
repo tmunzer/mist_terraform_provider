@@ -20,6 +20,9 @@ var _ MappedNullable = &SiteSetting{}
 
 // SiteSetting Site Settings
 type SiteSetting struct {
+	AclPolicies []AclPolicy `json:"acl_policies,omitempty"`
+	// ACL Tags to identify traffic source or destination. Key name is the tag name
+	AclTags *map[string]AclTag `json:"acl_tags,omitempty"`
 	// additional CLI commands to append to the generated Junos config  **Note**: no check is done
 	AdditionalConfigCmds []string `json:"additional_config_cmds,omitempty"`
 	Analytic *SiteSettingAnalytic `json:"analytic,omitempty"`
@@ -38,14 +41,18 @@ type SiteSetting struct {
 	CriticalUrlMonitoring *SiteSettingCriticalUrlMonitoring `json:"critical_url_monitoring,omitempty"`
 	// sending AP_DISCONNECTED event in device-updowns only if AP_CONNECTED is not seen within the threshold, in minutes
 	DeviceUpdownThreshold *int32 `json:"device_updown_threshold,omitempty"`
+	DhcpSnooping *DhcpSnooping `json:"dhcp_snooping,omitempty"`
 	// if some system-default port usages are not desired - namely, ap / iot / uplink
 	DisabledSystemDefinedPortUsages []string `json:"disabled_system_defined_port_usages,omitempty"`
-	// list of NTP servers
+	// Global dns settings. To keep compatibility, dns settings in `ip_config` and `oob_ip_config` will overwrite this setting
 	DnsServers []string `json:"dns_servers,omitempty"`
-	// list of NTP servers
+	// Global dns settings. To keep compatibility, dns settings in `ip_config` and `oob_ip_config` will overwrite this setting
 	DnsSuffix []string `json:"dns_suffix,omitempty"`
 	Engagement *SiteEngagement `json:"engagement,omitempty"`
 	EvpnOptions *EvpnOptions `json:"evpn_options,omitempty"`
+	ExtraRoutes *map[string]ExtraRouteProperties `json:"extra_routes,omitempty"`
+	// Property key is the destination CIDR (e.g. \"2a02:1234:420a:10c9::/64\")
+	ExtraRoutes6 *map[string]ExtraRoute6Properties `json:"extra_routes6,omitempty"`
 	// name/val pair objects for location engine to use
 	Flags *map[string]string `json:"flags,omitempty"`
 	ForSite *bool `json:"for_site,omitempty"`
@@ -57,6 +64,7 @@ type SiteSetting struct {
 	GatewayUpdownThreshold NullableInt32 `json:"gateway_updown_threshold,omitempty"`
 	Id *string `json:"id,omitempty"`
 	Led *ApLed `json:"led,omitempty"`
+	MistNac *NetworkTemplateMistNac `json:"mist_nac,omitempty"`
 	ModifiedTime *float32 `json:"modified_time,omitempty"`
 	Mxedge *SiteSettingMxedge `json:"mxedge,omitempty"`
 	MxedgeMgmt *MxedgeMgmt `json:"mxedge_mgmt,omitempty"`
@@ -73,9 +81,8 @@ type SiteSetting struct {
 	// whether to store the config on AP
 	PersistConfigOnDevice *bool `json:"persist_config_on_device,omitempty"`
 	// Property key is the port mirroring instance name port_mirroring can be added under device/site settings. It takes interface and ports as input for ingress, interface as input for egress and can take interface and port as output.
-	PortMirroring *map[string]SwitchPortMirroring `json:"port_mirroring,omitempty"`
+	PortMirrorings *map[string]SwitchPortMirroring `json:"port_mirrorings,omitempty"`
 	PortUsages *map[string]SwitchPortUsage `json:"port_usages,omitempty"`
-	ProtectRe *ProtectRe `json:"protect_re,omitempty"`
 	Proxy *Proxy `json:"proxy,omitempty"`
 	RadioConfig *ApRadio `json:"radio_config,omitempty"`
 	RadiusConfig *RadiusConfig `json:"radius_config,omitempty"`
@@ -87,6 +94,7 @@ type SiteSetting struct {
 	SimpleAlert *SimpleAlert `json:"simple_alert,omitempty"`
 	SiteId *string `json:"site_id,omitempty"`
 	Skyatp *SiteSettingSkyatp `json:"skyatp,omitempty"`
+	SnmpConfig *SnmpConfig `json:"snmp_config,omitempty"`
 	SrxApp *SiteSettingSrxApp `json:"srx_app,omitempty"`
 	// when limit_ssh_access = true in Org Setting, list of SSH public keys provided by Mist Support to install onto APs (see Org:Setting)
 	SshKeys []string `json:"ssh_keys,omitempty"`
@@ -94,7 +102,7 @@ type SiteSetting struct {
 	StatusPortal *SiteSettingStatusPortal `json:"status_portal,omitempty"`
 	Switch *NetworkTemplate `json:"switch,omitempty"`
 	SwitchMatching *SwitchMatching `json:"switch_matching,omitempty"`
-	SwitchMgmt *ConfigSwitch `json:"switch_mgmt,omitempty"`
+	SwitchMgmt *SwitchMgmt `json:"switch_mgmt,omitempty"`
 	// enable threshold-based device down delivery for Switch devices only. When configured it takes effect for SW devices and `device_updown_threshold` is ignored.
 	SwitchUpdownThreshold NullableInt32 `json:"switch_updown_threshold,omitempty"`
 	SyntheticTest *SyntheticTestConfig `json:"synthetic_test,omitempty"`
@@ -106,12 +114,11 @@ type SiteSetting struct {
 	// a dictionary of name->value, the vars can then be used in Wlans. This can overwrite those from Site Vars
 	Vars *map[string]string `json:"vars,omitempty"`
 	Vna *SiteSettingVna `json:"vna,omitempty"`
+	VrfConfig *VrfConfig `json:"vrf_config,omitempty"`
 	// Property key is the network name
 	VrfInstances *map[string]VrfInstance `json:"vrf_instances,omitempty"`
 	// Property key is the vrrp group
 	VrrpGroups *map[string]VrrpGroup `json:"vrrp_groups,omitempty"`
-	// virtual-switch (for EX92xx and QFX5130) all the networks not included here will be placed in default `evpn_vs` virtual-switch RI Property key is the instance name
-	VsInstances *map[string]SiteSettingVsInstance `json:"vs_instances,omitempty"`
 	WanVna *SiteSettingWanVna `json:"wan_vna,omitempty"`
 	WatchedStationUrl *string `json:"watched_station_url,omitempty"`
 	WhitelistUrl *string `json:"whitelist_url,omitempty"`
@@ -163,6 +170,70 @@ func NewSiteSettingWithDefaults() *SiteSetting {
 	var tuntermMonitoringDisabled bool = false
 	this.TuntermMonitoringDisabled = &tuntermMonitoringDisabled
 	return &this
+}
+
+// GetAclPolicies returns the AclPolicies field value if set, zero value otherwise.
+func (o *SiteSetting) GetAclPolicies() []AclPolicy {
+	if o == nil || IsNil(o.AclPolicies) {
+		var ret []AclPolicy
+		return ret
+	}
+	return o.AclPolicies
+}
+
+// GetAclPoliciesOk returns a tuple with the AclPolicies field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *SiteSetting) GetAclPoliciesOk() ([]AclPolicy, bool) {
+	if o == nil || IsNil(o.AclPolicies) {
+		return nil, false
+	}
+	return o.AclPolicies, true
+}
+
+// HasAclPolicies returns a boolean if a field has been set.
+func (o *SiteSetting) HasAclPolicies() bool {
+	if o != nil && !IsNil(o.AclPolicies) {
+		return true
+	}
+
+	return false
+}
+
+// SetAclPolicies gets a reference to the given []AclPolicy and assigns it to the AclPolicies field.
+func (o *SiteSetting) SetAclPolicies(v []AclPolicy) {
+	o.AclPolicies = v
+}
+
+// GetAclTags returns the AclTags field value if set, zero value otherwise.
+func (o *SiteSetting) GetAclTags() map[string]AclTag {
+	if o == nil || IsNil(o.AclTags) {
+		var ret map[string]AclTag
+		return ret
+	}
+	return *o.AclTags
+}
+
+// GetAclTagsOk returns a tuple with the AclTags field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *SiteSetting) GetAclTagsOk() (*map[string]AclTag, bool) {
+	if o == nil || IsNil(o.AclTags) {
+		return nil, false
+	}
+	return o.AclTags, true
+}
+
+// HasAclTags returns a boolean if a field has been set.
+func (o *SiteSetting) HasAclTags() bool {
+	if o != nil && !IsNil(o.AclTags) {
+		return true
+	}
+
+	return false
+}
+
+// SetAclTags gets a reference to the given map[string]AclTag and assigns it to the AclTags field.
+func (o *SiteSetting) SetAclTags(v map[string]AclTag) {
+	o.AclTags = &v
 }
 
 // GetAdditionalConfigCmds returns the AdditionalConfigCmds field value if set, zero value otherwise.
@@ -623,6 +694,38 @@ func (o *SiteSetting) SetDeviceUpdownThreshold(v int32) {
 	o.DeviceUpdownThreshold = &v
 }
 
+// GetDhcpSnooping returns the DhcpSnooping field value if set, zero value otherwise.
+func (o *SiteSetting) GetDhcpSnooping() DhcpSnooping {
+	if o == nil || IsNil(o.DhcpSnooping) {
+		var ret DhcpSnooping
+		return ret
+	}
+	return *o.DhcpSnooping
+}
+
+// GetDhcpSnoopingOk returns a tuple with the DhcpSnooping field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *SiteSetting) GetDhcpSnoopingOk() (*DhcpSnooping, bool) {
+	if o == nil || IsNil(o.DhcpSnooping) {
+		return nil, false
+	}
+	return o.DhcpSnooping, true
+}
+
+// HasDhcpSnooping returns a boolean if a field has been set.
+func (o *SiteSetting) HasDhcpSnooping() bool {
+	if o != nil && !IsNil(o.DhcpSnooping) {
+		return true
+	}
+
+	return false
+}
+
+// SetDhcpSnooping gets a reference to the given DhcpSnooping and assigns it to the DhcpSnooping field.
+func (o *SiteSetting) SetDhcpSnooping(v DhcpSnooping) {
+	o.DhcpSnooping = &v
+}
+
 // GetDisabledSystemDefinedPortUsages returns the DisabledSystemDefinedPortUsages field value if set, zero value otherwise.
 func (o *SiteSetting) GetDisabledSystemDefinedPortUsages() []string {
 	if o == nil || IsNil(o.DisabledSystemDefinedPortUsages) {
@@ -781,6 +884,70 @@ func (o *SiteSetting) HasEvpnOptions() bool {
 // SetEvpnOptions gets a reference to the given EvpnOptions and assigns it to the EvpnOptions field.
 func (o *SiteSetting) SetEvpnOptions(v EvpnOptions) {
 	o.EvpnOptions = &v
+}
+
+// GetExtraRoutes returns the ExtraRoutes field value if set, zero value otherwise.
+func (o *SiteSetting) GetExtraRoutes() map[string]ExtraRouteProperties {
+	if o == nil || IsNil(o.ExtraRoutes) {
+		var ret map[string]ExtraRouteProperties
+		return ret
+	}
+	return *o.ExtraRoutes
+}
+
+// GetExtraRoutesOk returns a tuple with the ExtraRoutes field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *SiteSetting) GetExtraRoutesOk() (*map[string]ExtraRouteProperties, bool) {
+	if o == nil || IsNil(o.ExtraRoutes) {
+		return nil, false
+	}
+	return o.ExtraRoutes, true
+}
+
+// HasExtraRoutes returns a boolean if a field has been set.
+func (o *SiteSetting) HasExtraRoutes() bool {
+	if o != nil && !IsNil(o.ExtraRoutes) {
+		return true
+	}
+
+	return false
+}
+
+// SetExtraRoutes gets a reference to the given map[string]ExtraRouteProperties and assigns it to the ExtraRoutes field.
+func (o *SiteSetting) SetExtraRoutes(v map[string]ExtraRouteProperties) {
+	o.ExtraRoutes = &v
+}
+
+// GetExtraRoutes6 returns the ExtraRoutes6 field value if set, zero value otherwise.
+func (o *SiteSetting) GetExtraRoutes6() map[string]ExtraRoute6Properties {
+	if o == nil || IsNil(o.ExtraRoutes6) {
+		var ret map[string]ExtraRoute6Properties
+		return ret
+	}
+	return *o.ExtraRoutes6
+}
+
+// GetExtraRoutes6Ok returns a tuple with the ExtraRoutes6 field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *SiteSetting) GetExtraRoutes6Ok() (*map[string]ExtraRoute6Properties, bool) {
+	if o == nil || IsNil(o.ExtraRoutes6) {
+		return nil, false
+	}
+	return o.ExtraRoutes6, true
+}
+
+// HasExtraRoutes6 returns a boolean if a field has been set.
+func (o *SiteSetting) HasExtraRoutes6() bool {
+	if o != nil && !IsNil(o.ExtraRoutes6) {
+		return true
+	}
+
+	return false
+}
+
+// SetExtraRoutes6 gets a reference to the given map[string]ExtraRoute6Properties and assigns it to the ExtraRoutes6 field.
+func (o *SiteSetting) SetExtraRoutes6(v map[string]ExtraRoute6Properties) {
+	o.ExtraRoutes6 = &v
 }
 
 // GetFlags returns the Flags field value if set, zero value otherwise.
@@ -1047,6 +1214,38 @@ func (o *SiteSetting) HasLed() bool {
 // SetLed gets a reference to the given ApLed and assigns it to the Led field.
 func (o *SiteSetting) SetLed(v ApLed) {
 	o.Led = &v
+}
+
+// GetMistNac returns the MistNac field value if set, zero value otherwise.
+func (o *SiteSetting) GetMistNac() NetworkTemplateMistNac {
+	if o == nil || IsNil(o.MistNac) {
+		var ret NetworkTemplateMistNac
+		return ret
+	}
+	return *o.MistNac
+}
+
+// GetMistNacOk returns a tuple with the MistNac field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *SiteSetting) GetMistNacOk() (*NetworkTemplateMistNac, bool) {
+	if o == nil || IsNil(o.MistNac) {
+		return nil, false
+	}
+	return o.MistNac, true
+}
+
+// HasMistNac returns a boolean if a field has been set.
+func (o *SiteSetting) HasMistNac() bool {
+	if o != nil && !IsNil(o.MistNac) {
+		return true
+	}
+
+	return false
+}
+
+// SetMistNac gets a reference to the given NetworkTemplateMistNac and assigns it to the MistNac field.
+func (o *SiteSetting) SetMistNac(v NetworkTemplateMistNac) {
+	o.MistNac = &v
 }
 
 // GetModifiedTime returns the ModifiedTime field value if set, zero value otherwise.
@@ -1401,36 +1600,36 @@ func (o *SiteSetting) SetPersistConfigOnDevice(v bool) {
 	o.PersistConfigOnDevice = &v
 }
 
-// GetPortMirroring returns the PortMirroring field value if set, zero value otherwise.
-func (o *SiteSetting) GetPortMirroring() map[string]SwitchPortMirroring {
-	if o == nil || IsNil(o.PortMirroring) {
+// GetPortMirrorings returns the PortMirrorings field value if set, zero value otherwise.
+func (o *SiteSetting) GetPortMirrorings() map[string]SwitchPortMirroring {
+	if o == nil || IsNil(o.PortMirrorings) {
 		var ret map[string]SwitchPortMirroring
 		return ret
 	}
-	return *o.PortMirroring
+	return *o.PortMirrorings
 }
 
-// GetPortMirroringOk returns a tuple with the PortMirroring field value if set, nil otherwise
+// GetPortMirroringsOk returns a tuple with the PortMirrorings field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *SiteSetting) GetPortMirroringOk() (*map[string]SwitchPortMirroring, bool) {
-	if o == nil || IsNil(o.PortMirroring) {
+func (o *SiteSetting) GetPortMirroringsOk() (*map[string]SwitchPortMirroring, bool) {
+	if o == nil || IsNil(o.PortMirrorings) {
 		return nil, false
 	}
-	return o.PortMirroring, true
+	return o.PortMirrorings, true
 }
 
-// HasPortMirroring returns a boolean if a field has been set.
-func (o *SiteSetting) HasPortMirroring() bool {
-	if o != nil && !IsNil(o.PortMirroring) {
+// HasPortMirrorings returns a boolean if a field has been set.
+func (o *SiteSetting) HasPortMirrorings() bool {
+	if o != nil && !IsNil(o.PortMirrorings) {
 		return true
 	}
 
 	return false
 }
 
-// SetPortMirroring gets a reference to the given map[string]SwitchPortMirroring and assigns it to the PortMirroring field.
-func (o *SiteSetting) SetPortMirroring(v map[string]SwitchPortMirroring) {
-	o.PortMirroring = &v
+// SetPortMirrorings gets a reference to the given map[string]SwitchPortMirroring and assigns it to the PortMirrorings field.
+func (o *SiteSetting) SetPortMirrorings(v map[string]SwitchPortMirroring) {
+	o.PortMirrorings = &v
 }
 
 // GetPortUsages returns the PortUsages field value if set, zero value otherwise.
@@ -1463,38 +1662,6 @@ func (o *SiteSetting) HasPortUsages() bool {
 // SetPortUsages gets a reference to the given map[string]SwitchPortUsage and assigns it to the PortUsages field.
 func (o *SiteSetting) SetPortUsages(v map[string]SwitchPortUsage) {
 	o.PortUsages = &v
-}
-
-// GetProtectRe returns the ProtectRe field value if set, zero value otherwise.
-func (o *SiteSetting) GetProtectRe() ProtectRe {
-	if o == nil || IsNil(o.ProtectRe) {
-		var ret ProtectRe
-		return ret
-	}
-	return *o.ProtectRe
-}
-
-// GetProtectReOk returns a tuple with the ProtectRe field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *SiteSetting) GetProtectReOk() (*ProtectRe, bool) {
-	if o == nil || IsNil(o.ProtectRe) {
-		return nil, false
-	}
-	return o.ProtectRe, true
-}
-
-// HasProtectRe returns a boolean if a field has been set.
-func (o *SiteSetting) HasProtectRe() bool {
-	if o != nil && !IsNil(o.ProtectRe) {
-		return true
-	}
-
-	return false
-}
-
-// SetProtectRe gets a reference to the given ProtectRe and assigns it to the ProtectRe field.
-func (o *SiteSetting) SetProtectRe(v ProtectRe) {
-	o.ProtectRe = &v
 }
 
 // GetProxy returns the Proxy field value if set, zero value otherwise.
@@ -1817,6 +1984,38 @@ func (o *SiteSetting) SetSkyatp(v SiteSettingSkyatp) {
 	o.Skyatp = &v
 }
 
+// GetSnmpConfig returns the SnmpConfig field value if set, zero value otherwise.
+func (o *SiteSetting) GetSnmpConfig() SnmpConfig {
+	if o == nil || IsNil(o.SnmpConfig) {
+		var ret SnmpConfig
+		return ret
+	}
+	return *o.SnmpConfig
+}
+
+// GetSnmpConfigOk returns a tuple with the SnmpConfig field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *SiteSetting) GetSnmpConfigOk() (*SnmpConfig, bool) {
+	if o == nil || IsNil(o.SnmpConfig) {
+		return nil, false
+	}
+	return o.SnmpConfig, true
+}
+
+// HasSnmpConfig returns a boolean if a field has been set.
+func (o *SiteSetting) HasSnmpConfig() bool {
+	if o != nil && !IsNil(o.SnmpConfig) {
+		return true
+	}
+
+	return false
+}
+
+// SetSnmpConfig gets a reference to the given SnmpConfig and assigns it to the SnmpConfig field.
+func (o *SiteSetting) SetSnmpConfig(v SnmpConfig) {
+	o.SnmpConfig = &v
+}
+
 // GetSrxApp returns the SrxApp field value if set, zero value otherwise.
 func (o *SiteSetting) GetSrxApp() SiteSettingSrxApp {
 	if o == nil || IsNil(o.SrxApp) {
@@ -2010,9 +2209,9 @@ func (o *SiteSetting) SetSwitchMatching(v SwitchMatching) {
 }
 
 // GetSwitchMgmt returns the SwitchMgmt field value if set, zero value otherwise.
-func (o *SiteSetting) GetSwitchMgmt() ConfigSwitch {
+func (o *SiteSetting) GetSwitchMgmt() SwitchMgmt {
 	if o == nil || IsNil(o.SwitchMgmt) {
-		var ret ConfigSwitch
+		var ret SwitchMgmt
 		return ret
 	}
 	return *o.SwitchMgmt
@@ -2020,7 +2219,7 @@ func (o *SiteSetting) GetSwitchMgmt() ConfigSwitch {
 
 // GetSwitchMgmtOk returns a tuple with the SwitchMgmt field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *SiteSetting) GetSwitchMgmtOk() (*ConfigSwitch, bool) {
+func (o *SiteSetting) GetSwitchMgmtOk() (*SwitchMgmt, bool) {
 	if o == nil || IsNil(o.SwitchMgmt) {
 		return nil, false
 	}
@@ -2036,8 +2235,8 @@ func (o *SiteSetting) HasSwitchMgmt() bool {
 	return false
 }
 
-// SetSwitchMgmt gets a reference to the given ConfigSwitch and assigns it to the SwitchMgmt field.
-func (o *SiteSetting) SetSwitchMgmt(v ConfigSwitch) {
+// SetSwitchMgmt gets a reference to the given SwitchMgmt and assigns it to the SwitchMgmt field.
+func (o *SiteSetting) SetSwitchMgmt(v SwitchMgmt) {
 	o.SwitchMgmt = &v
 }
 
@@ -2307,6 +2506,38 @@ func (o *SiteSetting) SetVna(v SiteSettingVna) {
 	o.Vna = &v
 }
 
+// GetVrfConfig returns the VrfConfig field value if set, zero value otherwise.
+func (o *SiteSetting) GetVrfConfig() VrfConfig {
+	if o == nil || IsNil(o.VrfConfig) {
+		var ret VrfConfig
+		return ret
+	}
+	return *o.VrfConfig
+}
+
+// GetVrfConfigOk returns a tuple with the VrfConfig field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *SiteSetting) GetVrfConfigOk() (*VrfConfig, bool) {
+	if o == nil || IsNil(o.VrfConfig) {
+		return nil, false
+	}
+	return o.VrfConfig, true
+}
+
+// HasVrfConfig returns a boolean if a field has been set.
+func (o *SiteSetting) HasVrfConfig() bool {
+	if o != nil && !IsNil(o.VrfConfig) {
+		return true
+	}
+
+	return false
+}
+
+// SetVrfConfig gets a reference to the given VrfConfig and assigns it to the VrfConfig field.
+func (o *SiteSetting) SetVrfConfig(v VrfConfig) {
+	o.VrfConfig = &v
+}
+
 // GetVrfInstances returns the VrfInstances field value if set, zero value otherwise.
 func (o *SiteSetting) GetVrfInstances() map[string]VrfInstance {
 	if o == nil || IsNil(o.VrfInstances) {
@@ -2369,38 +2600,6 @@ func (o *SiteSetting) HasVrrpGroups() bool {
 // SetVrrpGroups gets a reference to the given map[string]VrrpGroup and assigns it to the VrrpGroups field.
 func (o *SiteSetting) SetVrrpGroups(v map[string]VrrpGroup) {
 	o.VrrpGroups = &v
-}
-
-// GetVsInstances returns the VsInstances field value if set, zero value otherwise.
-func (o *SiteSetting) GetVsInstances() map[string]SiteSettingVsInstance {
-	if o == nil || IsNil(o.VsInstances) {
-		var ret map[string]SiteSettingVsInstance
-		return ret
-	}
-	return *o.VsInstances
-}
-
-// GetVsInstancesOk returns a tuple with the VsInstances field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *SiteSetting) GetVsInstancesOk() (*map[string]SiteSettingVsInstance, bool) {
-	if o == nil || IsNil(o.VsInstances) {
-		return nil, false
-	}
-	return o.VsInstances, true
-}
-
-// HasVsInstances returns a boolean if a field has been set.
-func (o *SiteSetting) HasVsInstances() bool {
-	if o != nil && !IsNil(o.VsInstances) {
-		return true
-	}
-
-	return false
-}
-
-// SetVsInstances gets a reference to the given map[string]SiteSettingVsInstance and assigns it to the VsInstances field.
-func (o *SiteSetting) SetVsInstances(v map[string]SiteSettingVsInstance) {
-	o.VsInstances = &v
 }
 
 // GetWanVna returns the WanVna field value if set, zero value otherwise.
@@ -2637,6 +2836,12 @@ func (o SiteSetting) MarshalJSON() ([]byte, error) {
 
 func (o SiteSetting) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
+	if !IsNil(o.AclPolicies) {
+		toSerialize["acl_policies"] = o.AclPolicies
+	}
+	if !IsNil(o.AclTags) {
+		toSerialize["acl_tags"] = o.AclTags
+	}
 	if !IsNil(o.AdditionalConfigCmds) {
 		toSerialize["additional_config_cmds"] = o.AdditionalConfigCmds
 	}
@@ -2679,6 +2884,9 @@ func (o SiteSetting) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.DeviceUpdownThreshold) {
 		toSerialize["device_updown_threshold"] = o.DeviceUpdownThreshold
 	}
+	if !IsNil(o.DhcpSnooping) {
+		toSerialize["dhcp_snooping"] = o.DhcpSnooping
+	}
 	if !IsNil(o.DisabledSystemDefinedPortUsages) {
 		toSerialize["disabled_system_defined_port_usages"] = o.DisabledSystemDefinedPortUsages
 	}
@@ -2693,6 +2901,12 @@ func (o SiteSetting) ToMap() (map[string]interface{}, error) {
 	}
 	if !IsNil(o.EvpnOptions) {
 		toSerialize["evpn_options"] = o.EvpnOptions
+	}
+	if !IsNil(o.ExtraRoutes) {
+		toSerialize["extra_routes"] = o.ExtraRoutes
+	}
+	if !IsNil(o.ExtraRoutes6) {
+		toSerialize["extra_routes6"] = o.ExtraRoutes6
 	}
 	if !IsNil(o.Flags) {
 		toSerialize["flags"] = o.Flags
@@ -2717,6 +2931,9 @@ func (o SiteSetting) ToMap() (map[string]interface{}, error) {
 	}
 	if !IsNil(o.Led) {
 		toSerialize["led"] = o.Led
+	}
+	if !IsNil(o.MistNac) {
+		toSerialize["mist_nac"] = o.MistNac
 	}
 	if !IsNil(o.ModifiedTime) {
 		toSerialize["modified_time"] = o.ModifiedTime
@@ -2751,14 +2968,11 @@ func (o SiteSetting) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.PersistConfigOnDevice) {
 		toSerialize["persist_config_on_device"] = o.PersistConfigOnDevice
 	}
-	if !IsNil(o.PortMirroring) {
-		toSerialize["port_mirroring"] = o.PortMirroring
+	if !IsNil(o.PortMirrorings) {
+		toSerialize["port_mirrorings"] = o.PortMirrorings
 	}
 	if !IsNil(o.PortUsages) {
 		toSerialize["port_usages"] = o.PortUsages
-	}
-	if !IsNil(o.ProtectRe) {
-		toSerialize["protect_re"] = o.ProtectRe
 	}
 	if !IsNil(o.Proxy) {
 		toSerialize["proxy"] = o.Proxy
@@ -2789,6 +3003,9 @@ func (o SiteSetting) ToMap() (map[string]interface{}, error) {
 	}
 	if !IsNil(o.Skyatp) {
 		toSerialize["skyatp"] = o.Skyatp
+	}
+	if !IsNil(o.SnmpConfig) {
+		toSerialize["snmp_config"] = o.SnmpConfig
 	}
 	if !IsNil(o.SrxApp) {
 		toSerialize["srx_app"] = o.SrxApp
@@ -2835,14 +3052,14 @@ func (o SiteSetting) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Vna) {
 		toSerialize["vna"] = o.Vna
 	}
+	if !IsNil(o.VrfConfig) {
+		toSerialize["vrf_config"] = o.VrfConfig
+	}
 	if !IsNil(o.VrfInstances) {
 		toSerialize["vrf_instances"] = o.VrfInstances
 	}
 	if !IsNil(o.VrrpGroups) {
 		toSerialize["vrrp_groups"] = o.VrrpGroups
-	}
-	if !IsNil(o.VsInstances) {
-		toSerialize["vs_instances"] = o.VsInstances
 	}
 	if !IsNil(o.WanVna) {
 		toSerialize["wan_vna"] = o.WanVna
@@ -2887,6 +3104,8 @@ func (o *SiteSetting) UnmarshalJSON(data []byte) (err error) {
 	additionalProperties := make(map[string]interface{})
 
 	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "acl_policies")
+		delete(additionalProperties, "acl_tags")
 		delete(additionalProperties, "additional_config_cmds")
 		delete(additionalProperties, "analytic")
 		delete(additionalProperties, "ap_matching")
@@ -2901,11 +3120,14 @@ func (o *SiteSetting) UnmarshalJSON(data []byte) (err error) {
 		delete(additionalProperties, "created_time")
 		delete(additionalProperties, "critical_url_monitoring")
 		delete(additionalProperties, "device_updown_threshold")
+		delete(additionalProperties, "dhcp_snooping")
 		delete(additionalProperties, "disabled_system_defined_port_usages")
 		delete(additionalProperties, "dns_servers")
 		delete(additionalProperties, "dns_suffix")
 		delete(additionalProperties, "engagement")
 		delete(additionalProperties, "evpn_options")
+		delete(additionalProperties, "extra_routes")
+		delete(additionalProperties, "extra_routes6")
 		delete(additionalProperties, "flags")
 		delete(additionalProperties, "for_site")
 		delete(additionalProperties, "gateway")
@@ -2914,6 +3136,7 @@ func (o *SiteSetting) UnmarshalJSON(data []byte) (err error) {
 		delete(additionalProperties, "gateway_updown_threshold")
 		delete(additionalProperties, "id")
 		delete(additionalProperties, "led")
+		delete(additionalProperties, "mist_nac")
 		delete(additionalProperties, "modified_time")
 		delete(additionalProperties, "mxedge")
 		delete(additionalProperties, "mxedge_mgmt")
@@ -2925,9 +3148,8 @@ func (o *SiteSetting) UnmarshalJSON(data []byte) (err error) {
 		delete(additionalProperties, "ospf_areas")
 		delete(additionalProperties, "paloalto_networks")
 		delete(additionalProperties, "persist_config_on_device")
-		delete(additionalProperties, "port_mirroring")
+		delete(additionalProperties, "port_mirrorings")
 		delete(additionalProperties, "port_usages")
-		delete(additionalProperties, "protect_re")
 		delete(additionalProperties, "proxy")
 		delete(additionalProperties, "radio_config")
 		delete(additionalProperties, "radius_config")
@@ -2938,6 +3160,7 @@ func (o *SiteSetting) UnmarshalJSON(data []byte) (err error) {
 		delete(additionalProperties, "simple_alert")
 		delete(additionalProperties, "site_id")
 		delete(additionalProperties, "skyatp")
+		delete(additionalProperties, "snmp_config")
 		delete(additionalProperties, "srx_app")
 		delete(additionalProperties, "ssh_keys")
 		delete(additionalProperties, "ssr")
@@ -2953,9 +3176,9 @@ func (o *SiteSetting) UnmarshalJSON(data []byte) (err error) {
 		delete(additionalProperties, "tunterm_multicast_config")
 		delete(additionalProperties, "vars")
 		delete(additionalProperties, "vna")
+		delete(additionalProperties, "vrf_config")
 		delete(additionalProperties, "vrf_instances")
 		delete(additionalProperties, "vrrp_groups")
-		delete(additionalProperties, "vs_instances")
 		delete(additionalProperties, "wan_vna")
 		delete(additionalProperties, "watched_station_url")
 		delete(additionalProperties, "whitelist_url")

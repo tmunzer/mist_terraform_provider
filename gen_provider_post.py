@@ -24,6 +24,18 @@ FILES = {
             "Users",
         ],
     },
+    "./terraform-provider-mist/internal/resource_site_networktemplate/site_networktemplate_resource_gen.go": {
+        "rename": {
+            "matching_rules": "rules",
+            "tacacct_servers": "acct_servers",
+        },
+        "dedup": [
+            "ExtraRoutes",
+            "Archive",
+            "Contents",
+            "Users",
+        ],
+    },
     "./terraform-provider-mist/internal/resource_network/network_resource_gen.go": {
         "dedup": ["DestinationNat", "StaticNat"]
     },

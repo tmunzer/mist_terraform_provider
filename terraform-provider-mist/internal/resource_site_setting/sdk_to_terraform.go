@@ -8,7 +8,6 @@ import (
 
 	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
 	mist_list "terraform-provider-mist/internal/commons/utils"
-	"terraform-provider-mist/internal/resource_networktemplate"
 )
 
 func SdkToTerraform(ctx context.Context, data *mistsdkgo.SiteSetting) (SiteSettingModel, diag.Diagnostics) {
@@ -38,19 +37,11 @@ func SdkToTerraform(ctx context.Context, data *mistsdkgo.SiteSetting) (SiteSetti
 
 	state.DisabledSystemDefinedPortUsages = mist_list.ListOfStringSdkToTerraform(ctx, data.GetDisabledSystemDefinedPortUsages())
 
-	state.DnsServers = mist_list.ListOfStringSdkToTerraform(ctx, data.GetDnsServers())
-
-	state.DnsSuffix = mist_list.ListOfStringSdkToTerraform(ctx, data.GetDnsSuffix())
-
 	state.Engagement = engagementSdkToTerraform(ctx, &diags, data.GetEngagement())
 
 	state.GatewayUpdownThreshold = types.Int64Value(int64(data.GetGatewayUpdownThreshold()))
 
 	state.Led = ledSdkToTerraform(ctx, &diags, data.GetLed())
-
-	state.Networks = resource_networktemplate.NetworksSdkToTerraform(ctx, &diags, data.GetNetworks())
-
-	state.NtpServers = mist_list.ListOfStringSdkToTerraform(ctx, data.GetNtpServers())
 
 	state.Occupancy = occupancySdkToTerraform(ctx, &diags, data.GetOccupancy())
 

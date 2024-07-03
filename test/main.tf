@@ -32,6 +32,20 @@ resource "mist_site" "terraform_site" {
   gatewaytemplate_id = mist_org_gatewaytemplate.stag.id
 }
 
+resource "mist_site" "terraform_site2" {
+  org_id       = mist_org.terraform_test.id
+  name         = "terraform_site2"
+  country_code = "FR"
+  timezone     = "Europe/Paris"
+  address      = "77 Terrasse de l'Universit\u00e9, 92000 Nanterre, France"
+  notes        = "Created with Terraform, Updated with Terraform"
+  latlng = {
+    lat = 48.899268
+    lng = 2.214447
+  }
+  sitegroup_ids      = [mist_org_sitegroup.test_group.id, mist_org_sitegroup.test_group2.id]
+}
+
 
 resource "mist_org_sitegroup" "test_group" {
   org_id = mist_org.terraform_test.id
@@ -1296,10 +1310,7 @@ resource "mist_site_setting" "test" {
     version     = "beta"
   }
   config_auto_revert = true
-  dns_servers = [
-    "8.8.8.8",
-    "1.1.1.1"
-  ]
+ 
   persist_config_on_device = true
   proxy = {
     url = "http://myproxy:3128"
@@ -1320,7 +1331,7 @@ resource "mist_org_wlantemplate" "test101" {
     ]
   }
 }
-resource "mist_wlan" "wlan_cwp"     {
+resource "mist_org_wlan" "wlan_cwp"     {
         ssid= "MlN.test"
         bands= ["5"]
         vlan_id= 143
@@ -1352,6 +1363,6 @@ resource "mist_wlan" "wlan_cwp"     {
             psk= "Juniper123"
         }
         apply_to= "site"
-        template_id= mist_wlantemplate.test101.id
+        template_id= mist_org_wlantemplate.test101.id
         interface= "all"
     }

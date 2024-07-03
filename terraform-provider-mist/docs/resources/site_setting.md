@@ -27,8 +27,6 @@ description: |-
 - `critical_url_monitoring` (Attributes) you can define some URLs that's critical to site operaitons the latency will be captured and considered for site health (see [below for nested schema](#nestedatt--critical_url_monitoring))
 - `device_updown_threshold` (Number) sending AP_DISCONNECTED event in device-updowns only if AP_CONNECTED is not seen within the threshold, in minutes
 - `disabled_system_defined_port_usages` (List of String) if some system-default port usages are not desired - namely, ap / iot / uplink
-- `dns_servers` (List of String) list of NTP servers
-- `dns_suffix` (List of String) list of NTP servers
 - `engagement` (Attributes) **Note**: if hours does not exist, it’s treated as everyday of the week, 00:00-23:59. Currently we don’t allow multiple ranges for the same day
 
 **Note**: default values for `dwell_tags`: passerby (1,300) bounce (301, 14400) engaged (14401, 28800) stationed (28801, 42000)
@@ -36,9 +34,8 @@ description: |-
 **Note**: default values for `dwell_tag_names`: passerby = “Passerby”, bounce = “Visitor”, engaged = “Associates”, stationed = “Assets” (see [below for nested schema](#nestedatt--engagement))
 - `gateway_updown_threshold` (Number) enable threshold-based device down delivery for Gateway devices only. When configured it takes effect for GW devices and `device_updown_threshold` is ignored.
 - `led` (Attributes) LED AP settings (see [below for nested schema](#nestedatt--led))
-- `networks` (Attributes Map) Property key is network name (see [below for nested schema](#nestedatt--networks))
-- `ntp_servers` (List of String) list of NTP servers
 - `occupancy` (Attributes) Occupancy Analytics settings (see [below for nested schema](#nestedatt--occupancy))
+- `org_id` (String)
 - `persist_config_on_device` (Boolean) whether to store the config on AP
 - `proxy` (Attributes) Proxy Configuration to talk to Mist (see [below for nested schema](#nestedatt--proxy))
 - `report_gatt` (Boolean) whether AP should periodically connect to BLE devices and report GATT device info (device name, manufacturer name, serial number, battery %, temperature, humidity)
@@ -226,21 +223,6 @@ Optional:
 
 - `brightness` (Number)
 - `enabled` (Boolean)
-
-
-<a id="nestedatt--networks"></a>
-### Nested Schema for `networks`
-
-Required:
-
-- `vlan_id` (Number)
-
-Optional:
-
-- `isolation` (Boolean) whether to stop clients to talk to each other, default is false (when enabled, a unique isolation_vlan_id is required)
-NOTE: this features requires uplink device to also a be Juniper device and `inter_switch_link` to be set
-- `isolation_vlan_id` (String)
-- `subnet` (String) optional for pure switching, required when L3 / routing features are used
 
 
 <a id="nestedatt--occupancy"></a>
