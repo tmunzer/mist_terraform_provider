@@ -210,9 +210,9 @@ func (r *orgInventoryResource) Update(ctx context.Context, req resource.UpdateRe
 			if dev_state.Magic.Equal(dev_plan.Magic) {
 				to_unclaim = false
 			}
-			if to_unclaim {
-				unclaim_devices = append(unclaim_devices, dev_state.Serial.ValueString())
-			}
+		}
+		if to_unclaim {
+			unclaim_devices = append(unclaim_devices, dev_state.Serial.ValueString())
 		}
 	}
 

@@ -364,6 +364,7 @@ func SiteWlanResourceSchema(ctx context.Context) schema.Schema {
 						MarkdownDescription: "`enabled` means transition mode",
 						Validators: []validator.String{
 							stringvalidator.OneOf(
+								"",
 								"enabled",
 								"disabled",
 								"required",

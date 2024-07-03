@@ -37,7 +37,7 @@ func SdkToTerraform(ctx context.Context, orgId string, data []mistsdkgo.Inventor
 		devices = append(devices, dev)
 	}
 
-	devices_list, e := basetypes.NewListValueFrom(ctx, DevicesValue{}.Type(ctx), devices)
+	devices_list, e := basetypes.NewListValue(DevicesValue{}.Type(ctx), devices)
 	diags.Append(e...)
 	state.Devices = devices_list
 

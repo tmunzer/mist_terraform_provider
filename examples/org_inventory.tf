@@ -24,7 +24,7 @@ resource "mist_site" "terraform_site" {
 resource "mist_org_inventory" "inventory" {
   org_id       = mist_org.terraform_org.id
   devices = [{
-    magic = "CPKL2EXN8JY98AC"
+    magic = "DEVICE_CLAIM_CODE"
     site_id = mist_site.terraform_site.id
     }
   ]
