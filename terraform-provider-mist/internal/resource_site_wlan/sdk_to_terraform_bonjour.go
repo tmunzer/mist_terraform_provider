@@ -2,8 +2,9 @@ package resource_site_wlan
 
 import (
 	"context"
-	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
 	mist_transform "terraform-provider-mist/internal/commons/utils"
+
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
@@ -11,7 +12,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 )
 
-func bonjourServicesSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, data map[string]mistsdkgo.WlanBonjourServiceProperties) basetypes.MapValue {
+func bonjourServicesSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, data map[string]mistapigo.WlanBonjourServiceProperties) basetypes.MapValue {
 
 	map_attr_values := make(map[string]attr.Value)
 	for k, v := range data {
@@ -29,7 +30,7 @@ func bonjourServicesSdkToTerraform(ctx context.Context, diags *diag.Diagnostics,
 	return r
 }
 
-func bonjourSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, data mistsdkgo.WlanBonjour) BonjourValue {
+func bonjourSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, data mistapigo.WlanBonjour) BonjourValue {
 	var additional_vlan_ids_list []attr.Value
 	for _, v := range data.GetAdditionalVlanIds() {
 		additional_vlan_ids_list = append(additional_vlan_ids_list, types.Int64Value(int64(v)))

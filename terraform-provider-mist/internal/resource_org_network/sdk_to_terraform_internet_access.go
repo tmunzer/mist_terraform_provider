@@ -2,14 +2,15 @@ package resource_org_network
 
 import (
 	"context"
-	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
+
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
-func InternetAccessSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdkgo.NetworkInternetAccess) InternetAccessValue {
+func InternetAccessSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistapigo.NetworkInternetAccess) InternetAccessValue {
 
 	data_map_attr_type := InternetAccessValue{}.AttributeTypes(ctx)
 	data_map_value := map[string]attr.Value{

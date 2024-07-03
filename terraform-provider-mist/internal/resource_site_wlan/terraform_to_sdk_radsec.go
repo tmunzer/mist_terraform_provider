@@ -6,16 +6,17 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 
-	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
 	mist_transform "terraform-provider-mist/internal/commons/utils"
+
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 )
 
-func radsecServersTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ListValue) []mistsdkgo.RadsecServer {
-	var data_list []mistsdkgo.RadsecServer
+func radsecServersTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ListValue) []mistapigo.RadsecServer {
+	var data_list []mistapigo.RadsecServer
 	for _, v := range d.Elements() {
 		var v_interface interface{} = v
 		plan := v_interface.(ServersValue)
-		data := mistsdkgo.NewRadsecServer()
+		data := mistapigo.NewRadsecServer()
 		data.SetHost(plan.Host.ValueString())
 		data.SetPort(int32(plan.Port.ValueInt64()))
 
@@ -24,8 +25,8 @@ func radsecServersTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d
 	return data_list
 }
 
-func radsecTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d RadsecValue) mistsdkgo.Radsec {
-	data := mistsdkgo.NewRadsec()
+func radsecTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d RadsecValue) mistapigo.Radsec {
+	data := mistapigo.NewRadsec()
 
 	data.SetCoaEnabled(d.CoaEnabled.ValueBool())
 	data.SetEnabled(d.Enabled.ValueBool())

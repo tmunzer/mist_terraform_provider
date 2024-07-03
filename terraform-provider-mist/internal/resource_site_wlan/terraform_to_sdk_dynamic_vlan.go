@@ -2,13 +2,14 @@ package resource_site_wlan
 
 import (
 	"context"
-	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
+
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 )
 
-func dynamicVlanTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, plan DynamicVlanValue) mistsdkgo.WlanDynamicVlan {
+func dynamicVlanTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, plan DynamicVlanValue) mistapigo.WlanDynamicVlan {
 
 	var local_vlan_ids []*int32
 	for _, item := range plan.LocalVlanIds.Elements() {
@@ -25,11 +26,11 @@ func dynamicVlanTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, pla
 		vlans[k] = v_plan.ValueString()
 	}
 
-	data := *mistsdkgo.NewWlanDynamicVlan()
+	data := *mistapigo.NewWlanDynamicVlan()
 	data.SetDefaultVlanId(int32(plan.DefaultVlanId.ValueInt64()))
 	data.SetEnabled(plan.Enabled.ValueBool())
 	data.SetLocalVlanIds(local_vlan_ids)
-	data.SetType(mistsdkgo.WlanDynamicVlanType(plan.DynamicVlanType.ValueString()))
+	data.SetType(mistapigo.WlanDynamicVlanType(plan.DynamicVlanType.ValueString()))
 	data.SetVlans(vlans)
 
 	return data

@@ -7,13 +7,14 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
-	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
 	hours "terraform-provider-mist/internal/commons/hours"
+
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 )
 
-func pushPolicyPushWindowConfigTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) *mistsdkgo.SiteSettingConfigPushPolicyPushWindow {
+func pushPolicyPushWindowConfigTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) *mistapigo.SiteSettingConfigPushPolicyPushWindow {
 	tflog.Debug(ctx, "pushPolicyPushWindowConfigTerraformToSdk")
-	data := mistsdkgo.NewSiteSettingConfigPushPolicyPushWindow()
+	data := mistapigo.NewSiteSettingConfigPushPolicyPushWindow()
 
 	if d.IsNull() || d.IsUnknown() {
 		return data
@@ -29,9 +30,9 @@ func pushPolicyPushWindowConfigTerraformToSdk(ctx context.Context, diags *diag.D
 	}
 }
 
-func pushPolicyConfigTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d ConfigPushPolicyValue) *mistsdkgo.SiteSettingConfigPushPolicy {
+func pushPolicyConfigTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d ConfigPushPolicyValue) *mistapigo.SiteSettingConfigPushPolicy {
 	tflog.Debug(ctx, "pushPolicyConfigTerraformToSdk")
-	data := mistsdkgo.NewSiteSettingConfigPushPolicy()
+	data := mistapigo.NewSiteSettingConfigPushPolicy()
 
 	data.SetNoPush(d.NoPush.ValueBool())
 

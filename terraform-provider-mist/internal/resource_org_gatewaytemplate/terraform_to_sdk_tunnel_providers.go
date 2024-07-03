@@ -2,17 +2,18 @@ package resource_org_gatewaytemplate
 
 import (
 	"context"
-	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
 	mist_transform "terraform-provider-mist/internal/commons/utils"
+
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 
-func tunnelProviderOptionsJseTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) mistsdkgo.TunnelProviderOptionsJse {
+func tunnelProviderOptionsJseTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) mistapigo.TunnelProviderOptionsJse {
 	tflog.Debug(ctx, "tunnelProviderOptionsJseTerraformToSdk")
-	data := *mistsdkgo.NewTunnelProviderOptionsJse()
+	data := *mistapigo.NewTunnelProviderOptionsJse()
 	if d.IsNull() || d.IsUnknown() {
 		return data
 	} else {
@@ -23,13 +24,13 @@ func tunnelProviderOptionsJseTerraformToSdk(ctx context.Context, diags *diag.Dia
 	}
 }
 
-func tunnelProviderOptionsZscalerSubLocationTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ListValue) []mistsdkgo.TunnelProviderOptionsZscalerSubLocation {
+func tunnelProviderOptionsZscalerSubLocationTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ListValue) []mistapigo.TunnelProviderOptionsZscalerSubLocation {
 	tflog.Debug(ctx, "tunnelProviderOptionsZscalerSubLocationTerraformToSdk")
-	var data_list []mistsdkgo.TunnelProviderOptionsZscalerSubLocation
+	var data_list []mistapigo.TunnelProviderOptionsZscalerSubLocation
 	for _, v := range d.Elements() {
 		var v_interface interface{} = v
 		plan := v_interface.(SubLocationsValue)
-		data := mistsdkgo.NewTunnelProviderOptionsZscalerSubLocation()
+		data := mistapigo.NewTunnelProviderOptionsZscalerSubLocation()
 		data.SetAupAcceptanceRequired(plan.AupAcceptanceRequired.ValueBool())
 		data.SetAupExpire(int32(plan.AupExpire.ValueInt64()))
 		data.SetAupSslProxy(plan.AupSslProxy.ValueBool())
@@ -45,9 +46,9 @@ func tunnelProviderOptionsZscalerSubLocationTerraformToSdk(ctx context.Context, 
 	return data_list
 }
 
-func tunnelProviderOptionsZscalerTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) mistsdkgo.TunnelProviderOptionsZscaler {
+func tunnelProviderOptionsZscalerTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) mistapigo.TunnelProviderOptionsZscaler {
 	tflog.Debug(ctx, "tunnelProviderOptionsZscalerTerraformToSdk")
-	data := *mistsdkgo.NewTunnelProviderOptionsZscaler()
+	data := *mistapigo.NewTunnelProviderOptionsZscaler()
 	if d.IsNull() || d.IsUnknown() {
 		return data
 	} else {
@@ -71,10 +72,10 @@ func tunnelProviderOptionsZscalerTerraformToSdk(ctx context.Context, diags *diag
 	}
 }
 
-func tunnelProviderOptionsTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d TunnelProviderOptionsValue) mistsdkgo.TunnelProviderOptions {
+func tunnelProviderOptionsTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d TunnelProviderOptionsValue) mistapigo.TunnelProviderOptions {
 	tflog.Debug(ctx, "tunnelProviderOptionsTerraformToSdk")
 
-	data := *mistsdkgo.NewTunnelProviderOptions()
+	data := *mistapigo.NewTunnelProviderOptions()
 
 	jse := tunnelProviderOptionsJseTerraformToSdk(ctx, diags, d.Jse)
 	data.SetJse(jse)

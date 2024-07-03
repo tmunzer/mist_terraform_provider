@@ -6,12 +6,12 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
-	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 )
 
-func wifiTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d WifiValue) mistsdkgo.SiteWifi {
+func wifiTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d WifiValue) mistapigo.SiteWifi {
 	tflog.Debug(ctx, "wifiTerraformToSdk")
-	data := mistsdkgo.NewSiteWifi()
+	data := mistapigo.NewSiteWifi()
 
 	data.SetCiscoEnabled(d.CiscoEnabled.ValueBool())
 	data.SetDisable11k(d.Disable11k.ValueBool())
@@ -26,7 +26,7 @@ func wifiTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d WifiValu
 	data.SetMeshEnabled(d.MeshEnabled.ValueBool())
 	data.SetMeshPsk(d.MeshPsk.ValueString())
 	data.SetMeshSsid(d.MeshSsid.ValueString())
-	data.SetProxyArp(mistsdkgo.SiteWifiProxyArp(d.ProxyArp.ValueString()))
+	data.SetProxyArp(mistapigo.SiteWifiProxyArp(d.ProxyArp.ValueString()))
 
 	return *data
 }

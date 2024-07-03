@@ -2,7 +2,8 @@ package resource_site_wlan
 
 import (
 	"context"
-	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
+
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
@@ -10,7 +11,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 )
 
-func appQosAppsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, data map[string]mistsdkgo.WlanAppQosAppsProperties) basetypes.MapValue {
+func appQosAppsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, data map[string]mistapigo.WlanAppQosAppsProperties) basetypes.MapValue {
 
 	map_attr_values := make(map[string]attr.Value)
 	for k, v := range data {
@@ -28,7 +29,7 @@ func appQosAppsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, data
 	return r
 }
 
-func appQosOthersSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, data []mistsdkgo.WlanAppQosOthersItem) basetypes.ListValue {
+func appQosOthersSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, data []mistapigo.WlanAppQosOthersItem) basetypes.ListValue {
 
 	var data_list = []OthersValue{}
 	for _, v := range data {
@@ -48,7 +49,7 @@ func appQosOthersSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, da
 	return r
 }
 
-func appQosSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, data mistsdkgo.WlanAppQos) AppQosValue {
+func appQosSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, data mistapigo.WlanAppQos) AppQosValue {
 
 	plan_attr := map[string]attr.Value{
 		"apps":    appQosAppsSdkToTerraform(ctx, diags, data.GetApps()),

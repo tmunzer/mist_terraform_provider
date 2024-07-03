@@ -6,11 +6,12 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 
-	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
 	mist_transform "terraform-provider-mist/internal/commons/utils"
+
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 )
 
-func SdkToTerraform(ctx context.Context, data *mistsdkgo.NacTag) (OrgNactagModel, diag.Diagnostics) {
+func SdkToTerraform(ctx context.Context, data *mistapigo.NacTag) (OrgNactagModel, diag.Diagnostics) {
 	var state OrgNactagModel
 	var diags diag.Diagnostics
 

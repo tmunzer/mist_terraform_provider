@@ -5,12 +5,13 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 
-	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
 	mist_transform "terraform-provider-mist/internal/commons/utils"
+
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 )
 
-func TerraformToSdk(ctx context.Context, plan *SiteSettingModel) (mistsdkgo.SiteSetting, diag.Diagnostics) {
-	data := *mistsdkgo.NewSiteSetting()
+func TerraformToSdk(ctx context.Context, plan *SiteSettingModel) (mistapigo.SiteSetting, diag.Diagnostics) {
+	data := *mistapigo.NewSiteSetting()
 	var diags diag.Diagnostics
 
 	data.SetSiteId(plan.SiteId.ValueString())
@@ -23,7 +24,7 @@ func TerraformToSdk(ctx context.Context, plan *SiteSettingModel) (mistsdkgo.Site
 		auto_upgrade := siteSettingAutoUpgradeTerraformToSdk(ctx, &diags, plan.AutoUpgrade)
 		data.SetAutoUpgrade(*auto_upgrade)
 	} else {
-		data.SetAutoUpgrade(*mistsdkgo.NewSiteSettingAutoUpgradeWithDefaults())
+		data.SetAutoUpgrade(*mistapigo.NewSiteSettingAutoUpgradeWithDefaults())
 	}
 
 	ble_config := siteSettingBleConfigTerraformToSdk(ctx, &diags, plan.BleConfig)
@@ -59,7 +60,7 @@ func TerraformToSdk(ctx context.Context, plan *SiteSettingModel) (mistsdkgo.Site
 		led := ledTerraformToSdk(ctx, &diags, plan.Led)
 		data.SetLed(led)
 	} else {
-		data.SetLed(*mistsdkgo.NewApLedWithDefaults())
+		data.SetLed(*mistapigo.NewApLedWithDefaults())
 	}
 
 	if !plan.Occupancy.IsNull() && !plan.Occupancy.IsUnknown() {

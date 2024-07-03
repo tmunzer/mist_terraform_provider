@@ -2,14 +2,15 @@ package resource_org_wlan
 
 import (
 	"context"
-	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
+
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
-func qosSkToTerraform(ctx context.Context, diags *diag.Diagnostics, data mistsdkgo.WlanQos) QosValue {
+func qosSkToTerraform(ctx context.Context, diags *diag.Diagnostics, data mistapigo.WlanQos) QosValue {
 
 	plan_attr := map[string]attr.Value{
 		"class":     types.StringValue(string(data.GetClass())),

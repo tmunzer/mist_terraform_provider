@@ -8,10 +8,10 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
-	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 )
 
-func srxAppSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdkgo.SiteSettingSrxApp) SrxAppValue {
+func srxAppSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistapigo.SiteSettingSrxApp) SrxAppValue {
 	tflog.Debug(ctx, "srxAppSdkToTerraform")
 
 	r_attr_type := SrxAppValue{}.AttributeTypes(ctx)

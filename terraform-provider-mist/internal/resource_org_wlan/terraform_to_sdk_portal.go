@@ -3,14 +3,15 @@ package resource_org_wlan
 import (
 	"context"
 
-	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
 	mist_transform "terraform-provider-mist/internal/commons/utils"
+
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 )
 
-func portalTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, plan PortalValue) mistsdkgo.WlanPortal {
+func portalTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, plan PortalValue) mistapigo.WlanPortal {
 
 	sponsors := make(map[string]string)
 	for k, v := range plan.Sponsors.Elements() {
@@ -19,7 +20,7 @@ func portalTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, plan Por
 		sponsors[k] = v_plan.ValueString()
 	}
 
-	data := *mistsdkgo.NewWlanPortal()
+	data := *mistapigo.NewWlanPortal()
 	data.SetAmazonClientId(plan.AmazonClientId.ValueString())
 
 	data.SetAmazonClientId(plan.AmazonClientId.ValueString())
@@ -27,7 +28,7 @@ func portalTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, plan Por
 	data.SetAmazonEmailDomains(mist_transform.ListOfStringTerraformToSdk(ctx, plan.AmazonEmailDomains))
 	data.SetAmazonEnabled(plan.AmazonEnabled.ValueBool())
 	data.SetAmazonExpire(plan.AmazonExpire.ValueFloat64())
-	data.SetAuth(mistsdkgo.WlanPortalAuth(plan.Auth.ValueString()))
+	data.SetAuth(mistapigo.WlanPortalAuth(plan.Auth.ValueString()))
 	data.SetAzureClientId(plan.AzureClientId.ValueString())
 	data.SetAzureClientSecret(plan.AzureClientSecret.ValueString())
 	data.SetAzureEnabled(plan.AzureEnabled.ValueBool())
@@ -79,7 +80,7 @@ func portalTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, plan Por
 	data.SetSmsEnabled(plan.SmsEnabled.ValueBool())
 	data.SetSmsExpire(plan.SmsExpire.ValueFloat64())
 	data.SetSmsMessageFormat(plan.SmsMessageFormat.ValueString())
-	data.SetSmsProvider(mistsdkgo.WlanPortalSmsProvider(plan.SmsProvider.ValueString()))
+	data.SetSmsProvider(mistapigo.WlanPortalSmsProvider(plan.SmsProvider.ValueString()))
 	data.SetSponsorAutoApprove(plan.SponsorAutoApprove.ValueBool())
 	data.SetSponsorEmailDomains(mist_transform.ListOfStringTerraformToSdk(ctx, plan.SponsorEmailDomains))
 	data.SetSponsorEnabled(plan.SponsorEnabled.ValueBool())
@@ -94,7 +95,7 @@ func portalTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, plan Por
 	data.SetSsoIdpSignAlgo(plan.SsoIdpSignAlgo.ValueString())
 	data.SetSsoIdpSsoUrl(plan.SsoIdpSsoUrl.ValueString())
 	data.SetSsoIssuer(plan.SsoIssuer.ValueString())
-	data.SetSsoNameidFormat(mistsdkgo.WlanPortalSsoNameidFormat(plan.SsoNameidFormat.ValueString()))
+	data.SetSsoNameidFormat(mistapigo.WlanPortalSsoNameidFormat(plan.SsoNameidFormat.ValueString()))
 	data.SetTelstraClientId(plan.TelstraClientId.ValueString())
 	data.SetTelstraClientSecret(plan.TelstraClientSecret.ValueString())
 	data.SetThumbnail(plan.Thumbnail.ValueString())

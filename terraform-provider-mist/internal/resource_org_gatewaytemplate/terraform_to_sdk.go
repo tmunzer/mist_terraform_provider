@@ -2,18 +2,19 @@ package resource_org_gatewaytemplate
 
 import (
 	"context"
-	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
+
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 
 	mist_transform "terraform-provider-mist/internal/commons/utils"
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 )
 
-func TerraformToSdk(ctx context.Context, plan *OrgGatewaytemplateModel) (mistsdkgo.GatewayTemplate, diag.Diagnostics) {
+func TerraformToSdk(ctx context.Context, plan *OrgGatewaytemplateModel) (mistapigo.GatewayTemplate, diag.Diagnostics) {
 	var diags diag.Diagnostics
 	unset := make(map[string]interface{})
 
-	data := *mistsdkgo.NewGatewayTemplate(plan.Name.ValueString())
+	data := *mistapigo.NewGatewayTemplate(plan.Name.ValueString())
 	data.SetId(plan.Id.ValueString())
 	data.SetOrgId(plan.OrgId.ValueString())
 
@@ -116,7 +117,7 @@ func TerraformToSdk(ctx context.Context, plan *OrgGatewaytemplateModel) (mistsdk
 		data.SetTunnelProviderOptions(tunnel_provider_options)
 	}
 
-	data.SetType(mistsdkgo.GatewayTemplateType(plan.Type.ValueString()))
+	data.SetType(mistapigo.GatewayTemplateType(plan.Type.ValueString()))
 
 	return data, diags
 }

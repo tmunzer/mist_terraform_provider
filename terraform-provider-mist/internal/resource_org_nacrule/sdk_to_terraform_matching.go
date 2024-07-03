@@ -2,8 +2,9 @@ package resource_org_nacrule
 
 import (
 	"context"
-	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
 	mist_transform "terraform-provider-mist/internal/commons/utils"
+
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
@@ -11,7 +12,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 )
 
-func matchingPortTypesSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []mistsdkgo.NacRuleMatchingPortType) basetypes.ListValue {
+func matchingPortTypesSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []mistapigo.NacRuleMatchingPortType) basetypes.ListValue {
 	list_attr_types := types.StringType
 	var list_attr_values []attr.Value
 	for _, v := range d {
@@ -24,7 +25,7 @@ func matchingPortTypesSdkToTerraform(ctx context.Context, diags *diag.Diagnostic
 	return r
 }
 
-func matchingSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdkgo.NacRuleMatching) MatchingValue {
+func matchingSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistapigo.NacRuleMatching) MatchingValue {
 
 	data_map_attr_type := MatchingValue{}.AttributeTypes(ctx)
 	data_map_value := map[string]attr.Value{
@@ -41,7 +42,7 @@ func matchingSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mist
 	return data
 }
 
-func notMatchingSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdkgo.NacRuleMatching) NotMatchingValue {
+func notMatchingSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistapigo.NacRuleMatching) NotMatchingValue {
 
 	data_map_attr_type := NotMatchingValue{}.AttributeTypes(ctx)
 	data_map_value := map[string]attr.Value{

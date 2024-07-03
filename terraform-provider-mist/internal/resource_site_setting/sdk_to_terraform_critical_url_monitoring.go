@@ -9,10 +9,10 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
-	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 )
 
-func criticalUrlMonitoringMonitorSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []mistsdkgo.SiteSettingCriticalUrlMonitoringMonitor) basetypes.ListValue {
+func criticalUrlMonitoringMonitorSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []mistapigo.SiteSettingCriticalUrlMonitoringMonitor) basetypes.ListValue {
 	tflog.Debug(ctx, "criticalUrlMonitoringMonitorSdkToTerraform")
 	var data_list = []MonitorsValue{}
 	for _, v := range d {
@@ -31,7 +31,7 @@ func criticalUrlMonitoringMonitorSdkToTerraform(ctx context.Context, diags *diag
 	return r
 }
 
-func criticalUrlMonitoringSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdkgo.SiteSettingCriticalUrlMonitoring) CriticalUrlMonitoringValue {
+func criticalUrlMonitoringSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistapigo.SiteSettingCriticalUrlMonitoring) CriticalUrlMonitoringValue {
 	tflog.Debug(ctx, "criticalUrlMonitoringSdkToTerraform")
 
 	r_attr_type := CriticalUrlMonitoringValue{}.AttributeTypes(ctx)

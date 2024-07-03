@@ -2,15 +2,16 @@ package resource_org_wlantemplate
 
 import (
 	"context"
-	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
 	mist_transform "terraform-provider-mist/internal/commons/utils"
+
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 )
 
-func TerraformToSdk(ctx context.Context, plan *OrgWlantemplateModel) (mistsdkgo.Template, diag.Diagnostics) {
+func TerraformToSdk(ctx context.Context, plan *OrgWlantemplateModel) (mistapigo.Template, diag.Diagnostics) {
 	var diags diag.Diagnostics
-	data := *mistsdkgo.NewTemplate(plan.Name.ValueString())
+	data := *mistapigo.NewTemplate(plan.Name.ValueString())
 	data.SetId(plan.Id.ValueString())
 	data.SetOrgId(plan.OrgId.ValueString())
 

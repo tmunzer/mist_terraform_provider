@@ -1,13 +1,13 @@
 package resource_org_sitegroup
 
 import (
-	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
-func SdkToTerraform(data *mistsdkgo.Sitegroup) (OrgSitegroupModel, diag.Diagnostics) {
+func SdkToTerraform(data *mistapigo.Sitegroup) (OrgSitegroupModel, diag.Diagnostics) {
 	var state OrgSitegroupModel
 	var diags diag.Diagnostics
 

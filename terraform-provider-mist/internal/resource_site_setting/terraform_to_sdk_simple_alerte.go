@@ -7,12 +7,12 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
-	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 )
 
-func simpleAlertArpTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, o basetypes.ObjectValue) mistsdkgo.SimpleAlertArpFailure {
+func simpleAlertArpTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, o basetypes.ObjectValue) mistapigo.SimpleAlertArpFailure {
 	tflog.Debug(ctx, "simpleAlertArpTerraformToSdk")
-	data := mistsdkgo.NewSimpleAlertArpFailure()
+	data := mistapigo.NewSimpleAlertArpFailure()
 	if o.IsNull() || o.IsUnknown() {
 		return *data
 	} else {
@@ -26,9 +26,9 @@ func simpleAlertArpTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, 
 	}
 }
 
-func simpleAlertDhcpTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, o basetypes.ObjectValue) mistsdkgo.SimpleAlertDhcpFailure {
+func simpleAlertDhcpTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, o basetypes.ObjectValue) mistapigo.SimpleAlertDhcpFailure {
 	tflog.Debug(ctx, "simpleAlertDhcpTerraformToSdk")
-	data := mistsdkgo.NewSimpleAlertDhcpFailure()
+	data := mistapigo.NewSimpleAlertDhcpFailure()
 	if o.IsNull() || o.IsUnknown() {
 		return *data
 	} else {
@@ -42,9 +42,9 @@ func simpleAlertDhcpTerraformToSdk(ctx context.Context, diags *diag.Diagnostics,
 	}
 }
 
-func simpleAlertDnsTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, o basetypes.ObjectValue) mistsdkgo.SimpleAlertDnsFailure {
+func simpleAlertDnsTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, o basetypes.ObjectValue) mistapigo.SimpleAlertDnsFailure {
 	tflog.Debug(ctx, "simpleAlertDnsTerraformToSdk")
-	data := mistsdkgo.NewSimpleAlertDnsFailure()
+	data := mistapigo.NewSimpleAlertDnsFailure()
 	if o.IsNull() || o.IsUnknown() {
 		return *data
 	} else {
@@ -58,9 +58,9 @@ func simpleAlertDnsTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, 
 	}
 }
 
-func simpleAlertTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d SimpleAlertValue) mistsdkgo.SimpleAlert {
+func simpleAlertTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d SimpleAlertValue) mistapigo.SimpleAlert {
 	tflog.Debug(ctx, "simpleAlertTerraformToSdk")
-	data := mistsdkgo.NewSimpleAlert()
+	data := mistapigo.NewSimpleAlert()
 
 	arp := simpleAlertArpTerraformToSdk(ctx, diags, d.ArpFailure)
 	data.SetArpFailure(arp)

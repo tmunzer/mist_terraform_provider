@@ -2,14 +2,15 @@ package resource_org
 
 import (
 	"math/big"
-	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
+
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
-func SdkToTerraform(data *mistsdkgo.Org) (OrgModel, diag.Diagnostics) {
+func SdkToTerraform(data *mistapigo.Org) (OrgModel, diag.Diagnostics) {
 	var state OrgModel
 	var diags diag.Diagnostics
 

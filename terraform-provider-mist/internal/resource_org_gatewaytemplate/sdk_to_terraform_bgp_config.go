@@ -9,11 +9,12 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
-	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
 	mist_transform "terraform-provider-mist/internal/commons/utils"
+
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 )
 
-func bgpConfigNeighborsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]mistsdkgo.BgpConfigNeighbors) basetypes.MapValue {
+func bgpConfigNeighborsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]mistapigo.BgpConfigNeighbors) basetypes.MapValue {
 	tflog.Debug(ctx, "bgpConfigNeighborsSdkToTerraform")
 
 	state_value_map_attr_type := NeighborsValue{}.AttributeTypes(ctx)
@@ -37,7 +38,7 @@ func bgpConfigNeighborsSdkToTerraform(ctx context.Context, diags *diag.Diagnosti
 	return state_result_map
 }
 
-func bgpConfigCommunitiesSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []mistsdkgo.BgpConfigCommunity) basetypes.ListValue {
+func bgpConfigCommunitiesSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []mistapigo.BgpConfigCommunity) basetypes.ListValue {
 	tflog.Debug(ctx, "bgpConfigCommunitiesSdkToTerraform")
 	var data_list = []CommunitiesValue{}
 
@@ -59,7 +60,7 @@ func bgpConfigCommunitiesSdkToTerraform(ctx context.Context, diags *diag.Diagnos
 	return r
 }
 
-func bgpConfigSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]mistsdkgo.BgpConfig) basetypes.MapValue {
+func bgpConfigSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]mistapigo.BgpConfig) basetypes.MapValue {
 	tflog.Debug(ctx, "bgpConfigSdkToTerraform")
 	port_usage_type := BgpConfigValue{}.AttributeTypes(ctx)
 	state_value_map := make(map[string]attr.Value)

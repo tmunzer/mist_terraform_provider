@@ -12,10 +12,10 @@ import (
 	"github.com/hashicorp/terraform-plugin-go/tftypes"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
-	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 )
 
-func HoursSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdkgo.Hours) basetypes.ObjectValue {
+func HoursSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistapigo.Hours) basetypes.ObjectValue {
 	tflog.Debug(ctx, "HoursSdkToTerraform")
 	r_attr_type := HoursValue{}.AttributeTypes(ctx)
 	r_attr_value := map[string]attr.Value{
@@ -32,9 +32,9 @@ func HoursSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdk
 	return r
 }
 
-func HoursTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) mistsdkgo.Hours {
+func HoursTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) mistapigo.Hours {
 	tflog.Debug(ctx, "HoursConfigTerraformToSdk")
-	data := mistsdkgo.NewHours()
+	data := mistapigo.NewHours()
 	if d.IsNull() || d.IsUnknown() {
 		return *data
 	} else {

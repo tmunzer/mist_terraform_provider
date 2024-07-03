@@ -2,7 +2,8 @@ package resource_org_inventory
 
 import (
 	"context"
-	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
+
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
@@ -11,7 +12,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 
-func SdkToTerraform(ctx context.Context, orgId string, data []mistsdkgo.Inventory) (OrgInventoryModel, diag.Diagnostics) {
+func SdkToTerraform(ctx context.Context, orgId string, data []mistapigo.Inventory) (OrgInventoryModel, diag.Diagnostics) {
 	var state OrgInventoryModel
 	var diags diag.Diagnostics
 

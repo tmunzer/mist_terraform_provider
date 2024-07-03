@@ -8,10 +8,10 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
-	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 )
 
-func occupancySdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdkgo.SiteOccupancyAnalytics) OccupancyValue {
+func occupancySdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistapigo.SiteOccupancyAnalytics) OccupancyValue {
 	tflog.Debug(ctx, "occupancySdkToTerraform")
 
 	r_attr_type := OccupancyValue{}.AttributeTypes(ctx)

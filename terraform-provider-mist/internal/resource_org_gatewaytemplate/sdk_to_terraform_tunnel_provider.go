@@ -2,8 +2,9 @@ package resource_org_gatewaytemplate
 
 import (
 	"context"
-	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
 	mist_transform "terraform-provider-mist/internal/commons/utils"
+
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
@@ -12,7 +13,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 
-func tunnelProviderJseSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdkgo.TunnelProviderOptionsJse) basetypes.ObjectValue {
+func tunnelProviderJseSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistapigo.TunnelProviderOptionsJse) basetypes.ObjectValue {
 	tflog.Debug(ctx, "tunnelProviderJseSdkToTerraform")
 	r_attr_type := JseValue{}.AttributeTypes(ctx)
 	r_attr_value := map[string]attr.Value{
@@ -24,7 +25,7 @@ func tunnelProviderJseSdkToTerraform(ctx context.Context, diags *diag.Diagnostic
 	return r
 }
 
-func tunnelProviderZscalerSubLocationSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []mistsdkgo.TunnelProviderOptionsZscalerSubLocation) basetypes.ListValue {
+func tunnelProviderZscalerSubLocationSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []mistapigo.TunnelProviderOptionsZscalerSubLocation) basetypes.ListValue {
 	tflog.Debug(ctx, "tunnelProviderZscalerSubLocationSdkToTerraform")
 	var data_list = []SubLocationsValue{}
 	for _, v := range d {
@@ -49,7 +50,7 @@ func tunnelProviderZscalerSubLocationSdkToTerraform(ctx context.Context, diags *
 	diags.Append(e...)
 	return r
 }
-func tunnelProviderZscalerSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdkgo.TunnelProviderOptionsZscaler) basetypes.ObjectValue {
+func tunnelProviderZscalerSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistapigo.TunnelProviderOptionsZscaler) basetypes.ObjectValue {
 	tflog.Debug(ctx, "tunnelProviderZscalerSdkToTerraform")
 	r_attr_type := ZscalerValue{}.AttributeTypes(ctx)
 
@@ -73,7 +74,7 @@ func tunnelProviderZscalerSdkToTerraform(ctx context.Context, diags *diag.Diagno
 	return r
 }
 
-func tunnelProviderSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdkgo.TunnelProviderOptions) TunnelProviderOptionsValue {
+func tunnelProviderSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistapigo.TunnelProviderOptions) TunnelProviderOptionsValue {
 	tflog.Debug(ctx, "tunnelProviderSdkToTerraform")
 
 	data_map_attr_type := TunnelProviderOptionsValue{}.AttributeTypes(ctx)

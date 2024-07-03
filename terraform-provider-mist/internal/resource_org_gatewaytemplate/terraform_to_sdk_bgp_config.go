@@ -2,22 +2,23 @@ package resource_org_gatewaytemplate
 
 import (
 	"context"
-	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
 	mist_transform "terraform-provider-mist/internal/commons/utils"
+
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 
-func bgpConfigCommunitiesTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ListValue) []mistsdkgo.BgpConfigCommunity {
+func bgpConfigCommunitiesTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ListValue) []mistapigo.BgpConfigCommunity {
 	tflog.Debug(ctx, "bgpConfigCommunitiesTerraformToSdk")
 
-	var data_list []mistsdkgo.BgpConfigCommunity
+	var data_list []mistapigo.BgpConfigCommunity
 	for _, v := range d.Elements() {
 		var v_interface interface{} = v
 		plan := v_interface.(CommunitiesValue)
-		data := mistsdkgo.NewBgpConfigCommunity()
+		data := mistapigo.NewBgpConfigCommunity()
 		data.SetId(plan.Id.ValueString())
 		data.SetLocalPreference(int32(plan.LocalPreference.ValueInt64()))
 		data.SetVpnName(plan.VpnName.ValueString())
@@ -27,14 +28,14 @@ func bgpConfigCommunitiesTerraformToSdk(ctx context.Context, diags *diag.Diagnos
 	return data_list
 }
 
-func bgpConfigNeighborsTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.MapValue) map[string]mistsdkgo.BgpConfigNeighbors {
+func bgpConfigNeighborsTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.MapValue) map[string]mistapigo.BgpConfigNeighbors {
 	tflog.Debug(ctx, "bgpConfigNeighborsTerraformToSdk")
-	data_map := make(map[string]mistsdkgo.BgpConfigNeighbors)
+	data_map := make(map[string]mistapigo.BgpConfigNeighbors)
 	for k, v := range d.Elements() {
 		var v_interface interface{} = v
 		plan := v_interface.(NeighborsValue)
 
-		data := *mistsdkgo.NewBgpConfigNeighbors()
+		data := *mistapigo.NewBgpConfigNeighbors()
 		data.SetDisabled(plan.Disabled.ValueBool())
 		data.SetExportPolicy(plan.ExportPolicy.ValueString())
 		data.SetHoldTime(int32(plan.HoldTime.ValueInt64()))
@@ -47,9 +48,9 @@ func bgpConfigNeighborsTerraformToSdk(ctx context.Context, diags *diag.Diagnosti
 	return data_map
 }
 
-func bgpConfigTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.MapValue) map[string]mistsdkgo.BgpConfig {
+func bgpConfigTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.MapValue) map[string]mistapigo.BgpConfig {
 	tflog.Debug(ctx, "bgpConfigTerraformToSdk")
-	data_map := make(map[string]mistsdkgo.BgpConfig)
+	data_map := make(map[string]mistapigo.BgpConfig)
 	for k, v := range d.Elements() {
 		var v_interface interface{} = v
 		plan := v_interface.(BgpConfigValue)
@@ -57,7 +58,7 @@ func bgpConfigTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d bas
 		communities := bgpConfigCommunitiesTerraformToSdk(ctx, diags, plan.Communities)
 		neighbors := bgpConfigNeighborsTerraformToSdk(ctx, diags, plan.Neighbors)
 
-		data := *mistsdkgo.NewBgpConfig()
+		data := *mistapigo.NewBgpConfig()
 		data.SetAuthKey(plan.AuthKey.ValueString())
 		data.SetBfdMinimumInterval(int32(plan.BfdMinimumInterval.ValueInt64()))
 		data.SetBfdMultiplier(int32(plan.BfdMultiplier.ValueInt64()))
@@ -74,8 +75,8 @@ func bgpConfigTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d bas
 		data.SetNeighbors(neighbors)
 		data.SetNetworks(mist_transform.ListOfStringTerraformToSdk(ctx, plan.Networks))
 		data.SetNoReadvertiseToOverlay(plan.NoReadvertiseToOverlay.ValueBool())
-		data.SetType(mistsdkgo.BgpConfigType(plan.BgpConfigType.ValueString()))
-		data.SetVia(mistsdkgo.BgpConfigVia(plan.Via.ValueString()))
+		data.SetType(mistapigo.BgpConfigType(plan.BgpConfigType.ValueString()))
+		data.SetVia(mistapigo.BgpConfigVia(plan.Via.ValueString()))
 		data.SetVpnName(plan.VpnName.ValueString())
 		data.SetWanName(plan.WanName.ValueString())
 

@@ -9,11 +9,12 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
-	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
 	mist_transform "terraform-provider-mist/internal/commons/utils"
+
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 )
 
-func pathPreferencePathsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []mistsdkgo.GatewayTemplatePathPreferencesPath) basetypes.ListValue {
+func pathPreferencePathsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []mistapigo.GatewayTemplatePathPreferencesPath) basetypes.ListValue {
 	tflog.Debug(ctx, "pathPreferencePathsSdkToTerraform")
 	var data_list = []PathsValue{}
 
@@ -41,7 +42,7 @@ func pathPreferencePathsSdkToTerraform(ctx context.Context, diags *diag.Diagnost
 	return r
 }
 
-func pathPreferencesSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]mistsdkgo.GatewayTemplatePathPreferences) basetypes.MapValue {
+func pathPreferencesSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]mistapigo.GatewayTemplatePathPreferences) basetypes.MapValue {
 	tflog.Debug(ctx, "pathPreferencesSdkToTerraform")
 	port_usage_type := PathPreferencesValue{}.AttributeTypes(ctx)
 	state_value_map := make(map[string]attr.Value)

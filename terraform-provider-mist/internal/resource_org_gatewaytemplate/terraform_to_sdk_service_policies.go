@@ -2,7 +2,8 @@ package resource_org_gatewaytemplate
 
 import (
 	"context"
-	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
+
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 
 	mist_transform "terraform-provider-mist/internal/commons/utils"
 
@@ -11,9 +12,9 @@ import (
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 
-func servicePolicyAppqoeTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) mistsdkgo.ServicePolicyAppqoe {
+func servicePolicyAppqoeTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) mistapigo.ServicePolicyAppqoe {
 	tflog.Debug(ctx, "servicePolicyAppqoeTerraformToSdk")
-	data := *mistsdkgo.NewServicePolicyAppqoe()
+	data := *mistapigo.NewServicePolicyAppqoe()
 	if d.IsNull() || d.IsUnknown() {
 		return data
 	} else {
@@ -23,26 +24,26 @@ func servicePolicyAppqoeTerraformToSdk(ctx context.Context, diags *diag.Diagnost
 	}
 }
 
-func servicePolicyEwfRuleTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ListValue) []mistsdkgo.ServicePolicyEwfRule {
+func servicePolicyEwfRuleTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ListValue) []mistapigo.ServicePolicyEwfRule {
 	tflog.Debug(ctx, "servicePolicyEwfRuleTerraformToSdk")
-	var data_list []mistsdkgo.ServicePolicyEwfRule
+	var data_list []mistapigo.ServicePolicyEwfRule
 	for _, v := range d.Elements() {
 		var v_interface interface{} = v
 		plan := v_interface.(EwfValue)
-		data := mistsdkgo.NewServicePolicyEwfRule()
+		data := mistapigo.NewServicePolicyEwfRule()
 		data.SetAlertOnly(plan.AlertOnly.ValueBool())
 		data.SetBlockMessage(plan.BlockMessage.ValueString())
 		data.SetEnabled(plan.Enabled.ValueBool())
-		data.SetProfile(mistsdkgo.ServicePolicyEwfRuleProfile(plan.Profile.ValueString()))
+		data.SetProfile(mistapigo.ServicePolicyEwfRuleProfile(plan.Profile.ValueString()))
 
 		data_list = append(data_list, *data)
 	}
 	return data_list
 }
 
-func idpConfigTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) mistsdkgo.IdpConfig {
+func idpConfigTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) mistapigo.IdpConfig {
 	tflog.Debug(ctx, "idpConfigTerraformToSdk")
-	data := *mistsdkgo.NewIdpConfig()
+	data := *mistapigo.NewIdpConfig()
 	if d.IsNull() || d.IsUnknown() {
 		return data
 	} else {
@@ -55,15 +56,15 @@ func idpConfigTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d bas
 	}
 }
 
-func servicePoliciesTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ListValue) []mistsdkgo.ServicePolicy {
+func servicePoliciesTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ListValue) []mistapigo.ServicePolicy {
 	tflog.Debug(ctx, "servicePoliciesTerraformToSdk")
-	var data_list []mistsdkgo.ServicePolicy
+	var data_list []mistapigo.ServicePolicy
 	for _, v := range d.Elements() {
 		var v_interface interface{} = v
 		plan := v_interface.(ServicePoliciesValue)
-		data := mistsdkgo.NewServicePolicy()
+		data := mistapigo.NewServicePolicy()
 
-		data.SetAction(mistsdkgo.AllowDeny(plan.Action.ValueString()))
+		data.SetAction(mistapigo.AllowDeny(plan.Action.ValueString()))
 
 		appqoe := servicePolicyAppqoeTerraformToSdk(ctx, diags, plan.Appqoe)
 		data.SetAppqoe(appqoe)

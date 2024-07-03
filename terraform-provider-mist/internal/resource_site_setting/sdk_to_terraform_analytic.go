@@ -8,10 +8,10 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
-	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 )
 
-func analyticSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdkgo.SiteSettingAnalytic) AnalyticValue {
+func analyticSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistapigo.SiteSettingAnalytic) AnalyticValue {
 	tflog.Debug(ctx, "analyticSdkToTerraform")
 
 	r_attr_type := AnalyticValue{}.AttributeTypes(ctx)

@@ -5,12 +5,12 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 
-	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 )
 
-func qosTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d QosValue) mistsdkgo.WlanQos {
-	data := mistsdkgo.NewWlanQos()
-	data.SetClass(mistsdkgo.WlanQosClass(d.Class.ValueString()))
+func qosTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d QosValue) mistapigo.WlanQos {
+	data := mistapigo.NewWlanQos()
+	data.SetClass(mistapigo.WlanQosClass(d.Class.ValueString()))
 	data.SetOverwrite(d.Overwrite.ValueBool())
 
 	return *data

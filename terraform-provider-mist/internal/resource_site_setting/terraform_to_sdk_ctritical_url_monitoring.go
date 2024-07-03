@@ -7,16 +7,16 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
-	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 )
 
-func criticalUrlMonitoringMonitorsTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ListValue) []mistsdkgo.SiteSettingCriticalUrlMonitoringMonitor {
+func criticalUrlMonitoringMonitorsTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ListValue) []mistapigo.SiteSettingCriticalUrlMonitoringMonitor {
 	tflog.Debug(ctx, "criticalUrlMonitoringMonitorsTerraformToSdk")
-	var data_list []mistsdkgo.SiteSettingCriticalUrlMonitoringMonitor
+	var data_list []mistapigo.SiteSettingCriticalUrlMonitoringMonitor
 	for _, v := range d.Elements() {
 		var v_interface interface{} = v
 		plan := v_interface.(MonitorsValue)
-		data := mistsdkgo.NewSiteSettingCriticalUrlMonitoringMonitor()
+		data := mistapigo.NewSiteSettingCriticalUrlMonitoringMonitor()
 		data.SetUrl(plan.Url.ValueString())
 		data.SetVlanId(int32(plan.VlanId.ValueInt64()))
 
@@ -25,9 +25,9 @@ func criticalUrlMonitoringMonitorsTerraformToSdk(ctx context.Context, diags *dia
 	return data_list
 }
 
-func criticalUrlMonitoringTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d CriticalUrlMonitoringValue) mistsdkgo.SiteSettingCriticalUrlMonitoring {
+func criticalUrlMonitoringTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d CriticalUrlMonitoringValue) mistapigo.SiteSettingCriticalUrlMonitoring {
 	tflog.Debug(ctx, "criticalUrlMonitoringTerraformToSdk")
-	data := mistsdkgo.NewSiteSettingCriticalUrlMonitoring()
+	data := mistapigo.NewSiteSettingCriticalUrlMonitoring()
 
 	data.SetEnabled(d.Enabled.ValueBool())
 

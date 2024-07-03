@@ -5,11 +5,11 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 
-	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 )
 
-func mistNacTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d MistNacValue) mistsdkgo.WlanMistNac {
-	data := mistsdkgo.NewWlanMistNac()
+func mistNacTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d MistNacValue) mistapigo.WlanMistNac {
+	data := mistapigo.NewWlanMistNac()
 	data.SetEnabled(d.Enabled.ValueBool())
 	return *data
 }

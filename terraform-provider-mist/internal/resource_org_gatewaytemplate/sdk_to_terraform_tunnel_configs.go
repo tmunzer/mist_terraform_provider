@@ -9,11 +9,12 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
-	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
 	mist_transform "terraform-provider-mist/internal/commons/utils"
+
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 )
 
-func tunnelConfigAutoProvNodeSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdkgo.TunnelConfigsAutoProvisionNode, r_type map[string]attr.Type) basetypes.ObjectValue {
+func tunnelConfigAutoProvNodeSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistapigo.TunnelConfigsAutoProvisionNode, r_type map[string]attr.Type) basetypes.ObjectValue {
 	tflog.Debug(ctx, "tunnelConfigAutoProvNodeSdkToTerraform")
 	r_attr_value := map[string]attr.Value{
 		"num_hosts": types.StringValue(d.GetNumHosts()),
@@ -24,7 +25,7 @@ func tunnelConfigAutoProvNodeSdkToTerraform(ctx context.Context, diags *diag.Dia
 	return r
 }
 
-func tunnelConfigAutoProvSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdkgo.TunnelConfigsAutoProvision) basetypes.ObjectValue {
+func tunnelConfigAutoProvSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistapigo.TunnelConfigsAutoProvision) basetypes.ObjectValue {
 	tflog.Debug(ctx, "tunnelConfigAutoProvSdkToTerraform")
 	r_attr_type := AutoProvisionValue{}.AttributeTypes(ctx)
 
@@ -54,7 +55,7 @@ func tunnelConfigAutoProvSdkToTerraform(ctx context.Context, diags *diag.Diagnos
 	return r
 }
 
-func tunnelConfigIkeProposalSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []mistsdkgo.GatewayTemplateTunnelIkeProposal) basetypes.ListValue {
+func tunnelConfigIkeProposalSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []mistapigo.GatewayTemplateTunnelIkeProposal) basetypes.ListValue {
 	tflog.Debug(ctx, "tunnelConfigIkeProposalSdkToTerraform")
 	var data_list = []IkeProposalsValue{}
 	for _, v := range d {
@@ -74,7 +75,7 @@ func tunnelConfigIkeProposalSdkToTerraform(ctx context.Context, diags *diag.Diag
 	return r
 }
 
-func tunnelConfigIpsecProposalSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []mistsdkgo.GatewayTemplateTunnelIpsecProposal) basetypes.ListValue {
+func tunnelConfigIpsecProposalSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []mistapigo.GatewayTemplateTunnelIpsecProposal) basetypes.ListValue {
 	tflog.Debug(ctx, "tunnelConfigIpsecProposalSdkToTerraform")
 	var data_list = []IpsecProposalsValue{}
 	for _, v := range d {
@@ -94,7 +95,7 @@ func tunnelConfigIpsecProposalSdkToTerraform(ctx context.Context, diags *diag.Di
 	return r
 }
 
-func tunnelConfigNodeSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdkgo.GatewayTemplateTunnelNode, r_type map[string]attr.Type) basetypes.ObjectValue {
+func tunnelConfigNodeSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistapigo.GatewayTemplateTunnelNode, r_type map[string]attr.Type) basetypes.ObjectValue {
 	tflog.Debug(ctx, "tunnelConfigNodeSdkToTerraform")
 	r_attr_value := map[string]attr.Value{
 		"hosts":        mist_transform.ListOfStringSdkToTerraform(ctx, d.GetHosts()),
@@ -108,7 +109,7 @@ func tunnelConfigNodeSdkToTerraform(ctx context.Context, diags *diag.Diagnostics
 	return r
 }
 
-func tunnelConfigProbeSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdkgo.GatewayTemplateTunnelProbe) basetypes.ObjectValue {
+func tunnelConfigProbeSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistapigo.GatewayTemplateTunnelProbe) basetypes.ObjectValue {
 	tflog.Debug(ctx, "tunnelConfigProbeSdkToTerraform")
 	r_attr_type := ProbeValue{}.AttributeTypes(ctx)
 	r_attr_value := map[string]attr.Value{
@@ -122,7 +123,7 @@ func tunnelConfigProbeSdkToTerraform(ctx context.Context, diags *diag.Diagnostic
 	return r
 }
 
-func tunnelConfigsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]mistsdkgo.TunnelConfigs) basetypes.MapValue {
+func tunnelConfigsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]mistapigo.TunnelConfigs) basetypes.MapValue {
 	tflog.Debug(ctx, "tunnelConfigsSdkToTerraform")
 	r_type := TunnelConfigsValue{}.AttributeTypes(ctx)
 	state_value_map := make(map[string]attr.Value)

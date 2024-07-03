@@ -6,13 +6,14 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
-	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
 	mist_transform "terraform-provider-mist/internal/commons/utils"
+
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 )
 
-func rogueTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d RogueValue) mistsdkgo.SiteRogue {
+func rogueTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d RogueValue) mistapigo.SiteRogue {
 	tflog.Debug(ctx, "rogueTerraformToSdk")
-	data := mistsdkgo.NewSiteRogue()
+	data := mistapigo.NewSiteRogue()
 
 	data.SetEnabled(d.Enabled.ValueBool())
 	data.SetHoneypotEnabled(d.HoneypotEnabled.ValueBool())

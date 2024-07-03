@@ -2,17 +2,18 @@ package resource_org_gatewaytemplate
 
 import (
 	"context"
-	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
 	mist_transform "terraform-provider-mist/internal/commons/utils"
+
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 
-func routingPolicyTermActionTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) mistsdkgo.RoutingPolicyTermAction {
+func routingPolicyTermActionTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) mistapigo.RoutingPolicyTermAction {
 	tflog.Debug(ctx, "routingPolicyTermActionTerraformToSdk")
-	data := *mistsdkgo.NewRoutingPolicyTermAction()
+	data := *mistapigo.NewRoutingPolicyTermAction()
 	if d.IsNull() || d.IsUnknown() {
 		return data
 	} else {
@@ -29,9 +30,9 @@ func routingPolicyTermActionTerraformToSdk(ctx context.Context, diags *diag.Diag
 	}
 }
 
-func routingPolicyTermMatchingRouteExistsTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) mistsdkgo.RoutingPolicyTermMatchingRouteExists {
+func routingPolicyTermMatchingRouteExistsTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) mistapigo.RoutingPolicyTermMatchingRouteExists {
 	tflog.Debug(ctx, "routingPolicyTermMatchingRouteExistsTerraformToSdk")
-	data := *mistsdkgo.NewRoutingPolicyTermMatchingRouteExists()
+	data := *mistapigo.NewRoutingPolicyTermMatchingRouteExists()
 	if d.IsNull() || d.IsUnknown() {
 		return data
 	} else {
@@ -42,9 +43,9 @@ func routingPolicyTermMatchingRouteExistsTerraformToSdk(ctx context.Context, dia
 	}
 }
 
-func routingPolicyTermMatchingVpnPathSlaExistsTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) mistsdkgo.RoutingPolicyTermMatchingVpnPathSla {
+func routingPolicyTermMatchingVpnPathSlaExistsTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) mistapigo.RoutingPolicyTermMatchingVpnPathSla {
 	tflog.Debug(ctx, "routingPolicyTermMatchingVpnPathSlaExistsTerraformToSdk")
-	data := *mistsdkgo.NewRoutingPolicyTermMatchingVpnPathSla()
+	data := *mistapigo.NewRoutingPolicyTermMatchingVpnPathSla()
 	if d.IsNull() || d.IsUnknown() {
 		return data
 	} else {
@@ -56,9 +57,9 @@ func routingPolicyTermMatchingVpnPathSlaExistsTerraformToSdk(ctx context.Context
 	}
 }
 
-func routingPolicyTermMatchingTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) mistsdkgo.RoutingPolicyTermMatching {
+func routingPolicyTermMatchingTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) mistapigo.RoutingPolicyTermMatching {
 	tflog.Debug(ctx, "routingPolicyTermMatchingTerraformToSdk")
-	data := *mistsdkgo.NewRoutingPolicyTermMatching()
+	data := *mistapigo.NewRoutingPolicyTermMatching()
 	if d.IsNull() || d.IsUnknown() {
 		return data
 	} else {
@@ -81,13 +82,13 @@ func routingPolicyTermMatchingTerraformToSdk(ctx context.Context, diags *diag.Di
 	}
 }
 
-func routingPolicyTermerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ListValue) []mistsdkgo.RoutingPolicyTerm {
+func routingPolicyTermerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ListValue) []mistapigo.RoutingPolicyTerm {
 	tflog.Debug(ctx, "routingPolicyTermerraformToSdk")
-	var data_list []mistsdkgo.RoutingPolicyTerm
+	var data_list []mistapigo.RoutingPolicyTerm
 	for _, v := range d.Elements() {
 		var v_interface interface{} = v
 		plan := v_interface.(TermsValue)
-		data := mistsdkgo.NewRoutingPolicyTerm()
+		data := mistapigo.NewRoutingPolicyTerm()
 
 		action := routingPolicyTermActionTerraformToSdk(ctx, diags, plan.Action)
 		data.SetAction(action)
@@ -100,14 +101,14 @@ func routingPolicyTermerraformToSdk(ctx context.Context, diags *diag.Diagnostics
 	return data_list
 }
 
-func routingPoliciesTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.MapValue) map[string]mistsdkgo.RoutingPolicy {
+func routingPoliciesTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.MapValue) map[string]mistapigo.RoutingPolicy {
 	tflog.Debug(ctx, "routingPoliciesTerraformToSdk")
-	data_map := make(map[string]mistsdkgo.RoutingPolicy)
+	data_map := make(map[string]mistapigo.RoutingPolicy)
 	for k, v := range d.Elements() {
 		var v_interface interface{} = v
 		plan := v_interface.(RoutingPoliciesValue)
 
-		data := *mistsdkgo.NewRoutingPolicy()
+		data := *mistapigo.NewRoutingPolicy()
 		terms := routingPolicyTermerraformToSdk(ctx, diags, plan.Terms)
 		data.SetTerms(terms)
 

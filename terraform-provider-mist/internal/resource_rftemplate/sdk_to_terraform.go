@@ -2,13 +2,14 @@ package resource_rftemplate
 
 import (
 	"context"
-	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
+
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
-func SdkToTerraform(ctx context.Context, data *mistsdkgo.RfTemplate) (RftemplateModel, diag.Diagnostics) {
+func SdkToTerraform(ctx context.Context, data *mistapigo.RfTemplate) (RftemplateModel, diag.Diagnostics) {
 	var state RftemplateModel
 	var diags diag.Diagnostics
 

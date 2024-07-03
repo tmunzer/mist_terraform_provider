@@ -10,11 +10,12 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
-	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
 	mist_transform "terraform-provider-mist/internal/commons/utils"
+
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 )
 
-func dhcpdConfigVendorEncapsulatedSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]mistsdkgo.DhcpdConfigVendorOption) basetypes.MapValue {
+func dhcpdConfigVendorEncapsulatedSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]mistapigo.DhcpdConfigVendorOption) basetypes.MapValue {
 	tflog.Debug(ctx, "dhcpdConfigVendorEncapsulatedSdkToTerraform")
 
 	r_map_attr_type := VendorEncapulatedValue{}.AttributeTypes(ctx)
@@ -34,7 +35,7 @@ func dhcpdConfigVendorEncapsulatedSdkToTerraform(ctx context.Context, diags *dia
 	return state_result_map
 }
 
-func dhcpdConfigOptionsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]mistsdkgo.DhcpdConfigOption) basetypes.MapValue {
+func dhcpdConfigOptionsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]mistapigo.DhcpdConfigOption) basetypes.MapValue {
 	tflog.Debug(ctx, "dhcpdConfigOptionsSdkToTerraform")
 
 	r_map_attr_type := OptionsValue{}.AttributeTypes(ctx)
@@ -54,7 +55,7 @@ func dhcpdConfigOptionsSdkToTerraform(ctx context.Context, diags *diag.Diagnosti
 	return state_result_map
 }
 
-func dhcpdConfigFixedBindingsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]mistsdkgo.DhcpdConfigFixedBinding) basetypes.MapValue {
+func dhcpdConfigFixedBindingsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]mistapigo.DhcpdConfigFixedBinding) basetypes.MapValue {
 	tflog.Debug(ctx, "dhcpdConfigFixedBindingsSdkToTerraform")
 	r_type := FixedBindingsValue{}.AttributeTypes(ctx)
 	r_map := make(map[string]attr.Value)
@@ -80,7 +81,7 @@ func dhcpdConfigConfigsSdkToTerraform(ctx context.Context, diags *diag.Diagnosti
 	for k, v_interface := range d {
 		if k != "enabled" {
 			v_bytes, _ := json.Marshal(v_interface)
-			v := mistsdkgo.NewDhcpdConfig()
+			v := mistapigo.NewDhcpdConfig()
 			v.UnmarshalJSON(v_bytes)
 			dhcpd_config_fixed_bindings := dhcpdConfigFixedBindingsSdkToTerraform(ctx, diags, v.GetFixedBindings())
 			dhcpd_config__options := dhcpdConfigOptionsSdkToTerraform(ctx, diags, v.GetOptions())
@@ -114,7 +115,7 @@ func dhcpdConfigConfigsSdkToTerraform(ctx context.Context, diags *diag.Diagnosti
 	return r
 }
 
-func dhcpdConfigSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdkgo.DhcpdConfigs) DhcpdConfigValue {
+func dhcpdConfigSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistapigo.DhcpdConfigs) DhcpdConfigValue {
 	tflog.Debug(ctx, "dhcpdConfigSdkToTerraform")
 
 	r_attr_type := DhcpdConfigValue{}.AttributeTypes(ctx)

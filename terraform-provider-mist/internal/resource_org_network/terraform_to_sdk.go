@@ -2,16 +2,17 @@ package resource_org_network
 
 import (
 	"context"
-	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
+
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 
 	mist_transform "terraform-provider-mist/internal/commons/utils"
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 )
 
-func TerraformToSdk(ctx context.Context, plan *OrgNetworkModel) (mistsdkgo.Network, diag.Diagnostics) {
+func TerraformToSdk(ctx context.Context, plan *OrgNetworkModel) (mistapigo.Network, diag.Diagnostics) {
 	var diags diag.Diagnostics
-	data := *mistsdkgo.NewNetwork()
+	data := *mistapigo.NewNetwork()
 	data.SetId(plan.Id.ValueString())
 	data.SetOrgId(plan.OrgId.ValueString())
 	data.SetName(plan.Name.ValueString())

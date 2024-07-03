@@ -1,8 +1,9 @@
 package resource_org_wlantemplate
 
 import (
-	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
 	mist_transform "terraform-provider-mist/internal/commons/utils"
+
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 
 	"golang.org/x/net/context"
 
@@ -10,7 +11,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 )
 
-func exceptionsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, data mistsdkgo.TemplateExceptions) ExceptionsValue {
+func exceptionsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, data mistapigo.TemplateExceptions) ExceptionsValue {
 
 	r_attr_type := ExceptionsValue{}.AttributeTypes(ctx)
 	r_attr_value := map[string]attr.Value{

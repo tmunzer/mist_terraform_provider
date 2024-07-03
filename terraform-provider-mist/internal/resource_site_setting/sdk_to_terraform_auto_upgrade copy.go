@@ -8,10 +8,10 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
-	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 )
 
-func autoUpgradeSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdkgo.SiteSettingAutoUpgrade) AutoUpgradeValue {
+func autoUpgradeSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistapigo.SiteSettingAutoUpgrade) AutoUpgradeValue {
 	tflog.Debug(ctx, "autoUpgradeSdkToTerraform")
 
 	custom_versions_map_value := make(map[string]string)

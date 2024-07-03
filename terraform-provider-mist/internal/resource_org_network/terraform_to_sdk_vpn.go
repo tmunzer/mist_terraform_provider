@@ -2,15 +2,16 @@ package resource_org_network
 
 import (
 	"context"
-	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
 	mist_transform "terraform-provider-mist/internal/commons/utils"
+
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 )
 
-func VpnTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.MapValue) map[string]mistsdkgo.NetworkVpnAccessConfig {
-	data_map := make(map[string]mistsdkgo.NetworkVpnAccessConfig)
+func VpnTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.MapValue) map[string]mistapigo.NetworkVpnAccessConfig {
+	data_map := make(map[string]mistapigo.NetworkVpnAccessConfig)
 	for k, v := range d.Elements() {
 		var v_interface interface{} = v
 		v_plan := v_interface.(VpnAccessValue)
@@ -19,7 +20,7 @@ func VpnTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes
 		source_nat := sourceNatTerraformToSdk(ctx, diags, v_plan.SourceNat)
 		static_nat := staticNatTerraformToSdk(ctx, diags, v_plan.StaticNat)
 
-		data := *mistsdkgo.NewNetworkVpnAccessConfig()
+		data := *mistapigo.NewNetworkVpnAccessConfig()
 		data.SetAdvertisedSubnet(v_plan.AdvertisedSubnet.ValueString())
 		data.SetAllowPing(v_plan.AllowPing.ValueBool())
 		data.SetDestinationNat(destination_nat)

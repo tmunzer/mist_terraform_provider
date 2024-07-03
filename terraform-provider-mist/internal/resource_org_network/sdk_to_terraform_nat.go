@@ -2,7 +2,8 @@ package resource_org_network
 
 import (
 	"context"
-	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
+
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
@@ -10,7 +11,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 )
 
-func destinationNatSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]mistsdkgo.NetworkDestinationNatProperty) basetypes.MapValue {
+func destinationNatSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]mistapigo.NetworkDestinationNatProperty) basetypes.MapValue {
 	state_value_map_attr_type := DestinationNatValue{}.AttributeTypes(ctx)
 	state_value_map_value := make(map[string]attr.Value)
 	for k, v := range d {
@@ -28,7 +29,7 @@ func destinationNatSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, 
 	diags.Append(e...)
 	return state_result_map
 }
-func staticNatSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]mistsdkgo.NetworkStaticNatProperty) basetypes.MapValue {
+func staticNatSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]mistapigo.NetworkStaticNatProperty) basetypes.MapValue {
 	state_value_map_attr_type := StaticNatValue{}.AttributeTypes(ctx)
 	state_value_map_value := make(map[string]attr.Value)
 	for k, v := range d {
@@ -46,7 +47,7 @@ func staticNatSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map
 	diags.Append(e...)
 	return state_result_map
 }
-func sourceNatSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdkgo.NetworkSourceNat) basetypes.ObjectValue {
+func sourceNatSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistapigo.NetworkSourceNat) basetypes.ObjectValue {
 	state_value_map_attr_type := SourceNatValue{}.AttributeTypes(ctx)
 
 	state_value_map_attr_value := map[string]attr.Value{

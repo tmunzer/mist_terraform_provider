@@ -8,10 +8,10 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 
-	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 )
 
-func radiusServersAcctSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []mistsdkgo.RadiusAcctServer) basetypes.ListValue {
+func radiusServersAcctSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []mistapigo.RadiusAcctServer) basetypes.ListValue {
 	var acct_value_list []attr.Value
 	acct_value_list_type := AcctServersValue{}.AttributeTypes(ctx)
 	for _, srv_data := range d {
@@ -37,7 +37,7 @@ func radiusServersAcctSdkToTerraform(ctx context.Context, diags *diag.Diagnostic
 	return acct_state_list
 }
 
-func radiusServersAuthSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []mistsdkgo.RadiusAuthServer) basetypes.ListValue {
+func radiusServersAuthSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []mistapigo.RadiusAuthServer) basetypes.ListValue {
 	var auth_value_list []attr.Value
 	auth_value_list_type := AuthServersValue{}.AttributeTypes(ctx)
 	for _, srv_data := range d {

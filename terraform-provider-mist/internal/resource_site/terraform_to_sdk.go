@@ -5,16 +5,16 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 
-	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 )
 
-func TerraformToSdk(ctx context.Context, plan *SiteModel) (mistsdkgo.Site, diag.Diagnostics) {
-	data := *mistsdkgo.NewSite(plan.Name.ValueString())
+func TerraformToSdk(ctx context.Context, plan *SiteModel) (mistapigo.Site, diag.Diagnostics) {
+	data := *mistapigo.NewSite(plan.Name.ValueString())
 	var diags diag.Diagnostics
 
 	data.SetAddress(plan.Address.ValueString())
 
-	var data_latlng mistsdkgo.LatLng
+	var data_latlng mistapigo.LatLng
 	data_latlng.SetLat(plan.Latlng.Lat.ValueFloat64())
 	data_latlng.SetLng(plan.Latlng.Lng.ValueFloat64())
 	data.SetLatlng(data_latlng)

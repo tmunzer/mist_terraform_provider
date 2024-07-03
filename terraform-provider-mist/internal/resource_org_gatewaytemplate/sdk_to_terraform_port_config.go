@@ -9,11 +9,12 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
-	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
 	mist_transform "terraform-provider-mist/internal/commons/utils"
+
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 )
 
-func portConfigIpConfigSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdkgo.GatewayIpConfig) basetypes.ObjectValue {
+func portConfigIpConfigSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistapigo.GatewayIpConfig) basetypes.ObjectValue {
 	tflog.Debug(ctx, "portConfigIpConfigSdkToTerraform")
 	r_attr_type := IpConfigValue{}.AttributeTypes(ctx)
 	r_attr_value := map[string]attr.Value{
@@ -35,7 +36,7 @@ func portConfigIpConfigSdkToTerraform(ctx context.Context, diags *diag.Diagnosti
 	return r
 }
 
-func portConfigTrafficShappingSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdkgo.GatewayTrafficShaping) basetypes.ObjectValue {
+func portConfigTrafficShappingSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistapigo.GatewayTrafficShaping) basetypes.ObjectValue {
 	tflog.Debug(ctx, "portConfigTrafficShappingSdkToTerraform")
 	r_attr_type := TrafficShapingValue{}.AttributeTypes(ctx)
 	r_attr_value := map[string]attr.Value{
@@ -49,7 +50,7 @@ func portConfigTrafficShappingSdkToTerraform(ctx context.Context, diags *diag.Di
 	return r
 }
 
-func portConfigVpPathsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]mistsdkgo.GatewayPortVpnPath) basetypes.MapValue {
+func portConfigVpPathsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]mistapigo.GatewayPortVpnPath) basetypes.MapValue {
 	tflog.Debug(ctx, "portConfigVpPathsSdkToTerraform")
 	port_usage_type := VpnPathsValue{}.AttributeTypes(ctx)
 	state_value_map := make(map[string]attr.Value)
@@ -71,7 +72,7 @@ func portConfigVpPathsSdkToTerraform(ctx context.Context, diags *diag.Diagnostic
 	return state_result
 }
 
-func portConfigWanSourceNatSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdkgo.GatewayPortWanSourceNat) basetypes.ObjectValue {
+func portConfigWanSourceNatSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistapigo.GatewayPortWanSourceNat) basetypes.ObjectValue {
 	tflog.Debug(ctx, "portConfigWanSourceNatSdkToTerraform")
 	r_attr_type := WanSourceNatValue{}.AttributeTypes(ctx)
 	r_attr_value := map[string]attr.Value{
@@ -85,7 +86,7 @@ func portConfigWanSourceNatSdkToTerraform(ctx context.Context, diags *diag.Diagn
 	return r
 }
 
-func portConfigSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]mistsdkgo.GatewayPortConfig) basetypes.MapValue {
+func portConfigSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]mistapigo.GatewayPortConfig) basetypes.MapValue {
 	tflog.Debug(ctx, "portConfigSdkToTerraform")
 	port_usage_type := PortConfigValue{}.AttributeTypes(ctx)
 	state_value_map := make(map[string]attr.Value)

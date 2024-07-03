@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"terraform-provider-mist/internal/resource_org_wlan"
 
-	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
@@ -21,7 +21,7 @@ func NewOrgWlan() resource.Resource {
 }
 
 type orgWlanResource struct {
-	client *mistsdkgo.APIClient
+	client *mistapigo.APIClient
 }
 
 func (r *orgWlanResource) Configure(ctx context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
@@ -30,11 +30,11 @@ func (r *orgWlanResource) Configure(ctx context.Context, req resource.ConfigureR
 		return
 	}
 
-	client, ok := req.ProviderData.(*mistsdkgo.APIClient)
+	client, ok := req.ProviderData.(*mistapigo.APIClient)
 	if !ok {
 		resp.Diagnostics.AddError(
 			"Unexpected Data Source Configure Type",
-			fmt.Sprintf("Expected *mistsdkgo.APIClient, got: %T. Please report this issue to the provider developers.", req.ProviderData),
+			fmt.Sprintf("Expected *mistapigo.APIClient, got: %T. Please report this issue to the provider developers.", req.ProviderData),
 		)
 		return
 	}

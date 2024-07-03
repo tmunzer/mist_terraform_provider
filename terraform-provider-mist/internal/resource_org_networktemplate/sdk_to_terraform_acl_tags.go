@@ -8,11 +8,12 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 
-	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
 	mist_transform "terraform-provider-mist/internal/commons/utils"
+
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 )
 
-func aclTagSpecsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []mistsdkgo.AclTagSpec) basetypes.ListValue {
+func aclTagSpecsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []mistapigo.AclTagSpec) basetypes.ListValue {
 
 	var data_list = []SpecsValue{}
 
@@ -32,7 +33,7 @@ func aclTagSpecsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d [
 	diags.Append(e...)
 	return r
 }
-func aclTagsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]mistsdkgo.AclTag) basetypes.MapValue {
+func aclTagsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]mistapigo.AclTag) basetypes.MapValue {
 
 	state_value_map_attr_type := AclTagsValue{}.AttributeTypes(ctx)
 	state_value_map_value := make(map[string]attr.Value)

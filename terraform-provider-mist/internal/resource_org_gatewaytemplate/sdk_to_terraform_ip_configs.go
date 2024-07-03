@@ -9,11 +9,12 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
-	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
 	mist_transform "terraform-provider-mist/internal/commons/utils"
+
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 )
 
-func ipConfigsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]mistsdkgo.GatewayTemplateIpConfig) basetypes.MapValue {
+func ipConfigsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]mistapigo.GatewayTemplateIpConfig) basetypes.MapValue {
 	tflog.Debug(ctx, "ipConfigsSdkToTerraform")
 	port_usage_type := IpConfigsValue{}.AttributeTypes(ctx)
 	state_value_map := make(map[string]attr.Value)

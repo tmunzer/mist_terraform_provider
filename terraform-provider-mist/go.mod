@@ -7,11 +7,9 @@ require (
 	github.com/hashicorp/terraform-plugin-framework-validators v0.12.0
 	github.com/hashicorp/terraform-plugin-go v0.23.0
 	github.com/hashicorp/terraform-plugin-log v0.9.0
+	github.com/tmunzer/mistapi-go v0.1.4
 	golang.org/x/net v0.23.0
-	terraform-provider-mist/github.com/tmunzer/mist-sdk-go v0.0.0-00010101000000-000000000000
 )
-
-replace terraform-provider-mist/github.com/tmunzer/mist-sdk-go => ./../mist-sdk-go
 
 require (
 	github.com/fatih/color v1.16.0 // indirect

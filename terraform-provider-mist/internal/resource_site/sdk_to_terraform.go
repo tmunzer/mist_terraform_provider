@@ -9,10 +9,10 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 
-	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 )
 
-func SdkToTerraform(ctx context.Context, data *mistsdkgo.Site) (SiteModel, diag.Diagnostics) {
+func SdkToTerraform(ctx context.Context, data *mistapigo.Site) (SiteModel, diag.Diagnostics) {
 	var state SiteModel
 	var diags diag.Diagnostics
 

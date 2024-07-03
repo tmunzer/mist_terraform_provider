@@ -6,27 +6,28 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 
-	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
 	mist_transform "terraform-provider-mist/internal/commons/utils"
+
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 )
 
-func switchMgmtProtectReCustomTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ListValue) []mistsdkgo.ProtectReCustom {
-	var data []mistsdkgo.ProtectReCustom
+func switchMgmtProtectReCustomTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ListValue) []mistapigo.ProtectReCustom {
+	var data []mistapigo.ProtectReCustom
 	for _, item := range d.Elements() {
 		var item_interface interface{} = item
 		item_obj := item_interface.(CustomValue)
 
-		data_item := mistsdkgo.NewProtectReCustom()
+		data_item := mistapigo.NewProtectReCustom()
 		data_item.SetPortRange(item_obj.PortRange.ValueString())
-		data_item.SetProtocol(mistsdkgo.ProtectReCustomProtocol(item_obj.Protocol.ValueString()))
+		data_item.SetProtocol(mistapigo.ProtectReCustomProtocol(item_obj.Protocol.ValueString()))
 		data_item.SetSubnet(mist_transform.ListOfStringTerraformToSdk(ctx, item_obj.Subnet))
 
 		data = append(data, *data_item)
 	}
 	return data
 }
-func switchMgmtProtectReTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) mistsdkgo.ProtectRe {
-	data := mistsdkgo.NewProtectRe()
+func switchMgmtProtectReTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) mistapigo.ProtectRe {
+	data := mistapigo.NewProtectRe()
 	if d.IsNull() || d.IsUnknown() {
 		return *data
 	} else {
@@ -44,13 +45,13 @@ func switchMgmtProtectReTerraformToSdk(ctx context.Context, diags *diag.Diagnost
 		return *data
 	}
 }
-func TacacsAcctServersTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ListValue) []mistsdkgo.TacacsAcctServer {
+func TacacsAcctServersTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ListValue) []mistapigo.TacacsAcctServer {
 
-	var data []mistsdkgo.TacacsAcctServer
+	var data []mistapigo.TacacsAcctServer
 	for _, plan_attr := range d.Elements() {
 		var srv_plan_interface interface{} = plan_attr
-		srv_plan := srv_plan_interface.(mistsdkgo.TacacsAcctServer)
-		srv_data := mistsdkgo.NewTacacsAcctServer()
+		srv_plan := srv_plan_interface.(mistapigo.TacacsAcctServer)
+		srv_data := mistapigo.NewTacacsAcctServer()
 		srv_data.SetHost(srv_plan.GetHost())
 		srv_data.SetPort(srv_plan.GetPort())
 		srv_data.SetSecret(srv_plan.GetSecret())
@@ -59,13 +60,13 @@ func TacacsAcctServersTerraformToSdk(ctx context.Context, diags *diag.Diagnostic
 	}
 	return data
 }
-func TacacsAuthServersTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ListValue) []mistsdkgo.TacacsAuthServer {
+func TacacsAuthServersTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ListValue) []mistapigo.TacacsAuthServer {
 
-	var data []mistsdkgo.TacacsAuthServer
+	var data []mistapigo.TacacsAuthServer
 	for _, plan_attr := range d.Elements() {
 		var srv_plan_interface interface{} = plan_attr
 		srv_plan := srv_plan_interface.(TacplusServersValue)
-		srv_data := mistsdkgo.NewTacacsAuthServer()
+		srv_data := mistapigo.NewTacacsAuthServer()
 		srv_data.SetHost(srv_plan.Host.ValueString())
 		srv_data.SetPort(srv_plan.Port.ValueString())
 		srv_data.SetSecret(srv_plan.Secret.ValueString())
@@ -74,9 +75,9 @@ func TacacsAuthServersTerraformToSdk(ctx context.Context, diags *diag.Diagnostic
 	}
 	return data
 }
-func switchMgmtTacacsTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) mistsdkgo.Tacacs {
+func switchMgmtTacacsTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) mistapigo.Tacacs {
 
-	data := mistsdkgo.NewTacacs()
+	data := mistapigo.NewTacacs()
 
 	if d.IsNull() || d.IsUnknown() {
 		return *data
@@ -93,14 +94,14 @@ func switchMgmtTacacsTerraformToSdk(ctx context.Context, diags *diag.Diagnostics
 		data.SetNetwork(item_obj.Network.ValueString())
 		data.SetAcctServers(acct_servers)
 		data.SetTacplusServers(auth_servers)
-		data.SetDefaultRole(mistsdkgo.TacacsDefaultRole(item_obj.DefaultRole.ValueString()))
+		data.SetDefaultRole(mistapigo.TacacsDefaultRole(item_obj.DefaultRole.ValueString()))
 
 		return *data
 	}
 }
-func switchMgmtTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d SwitchMgmtValue) mistsdkgo.SwitchMgmt {
+func switchMgmtTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d SwitchMgmtValue) mistapigo.SwitchMgmt {
 
-	data := mistsdkgo.NewSwitchMgmt()
+	data := mistapigo.NewSwitchMgmt()
 	if d.IsNull() || d.IsUnknown() {
 		return *data
 	} else {

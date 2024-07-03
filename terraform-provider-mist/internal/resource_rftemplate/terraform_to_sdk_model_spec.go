@@ -3,19 +3,19 @@ package resource_rftemplate
 import (
 	"context"
 
-	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 )
 
-func modelSpecificTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.MapValue) map[string]mistsdkgo.RfTemplateModelSpecificProperty {
+func modelSpecificTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.MapValue) map[string]mistapigo.RfTemplateModelSpecificProperty {
 
-	data_map := make(map[string]mistsdkgo.RfTemplateModelSpecificProperty)
+	data_map := make(map[string]mistapigo.RfTemplateModelSpecificProperty)
 	for k, v := range d.Elements() {
 		var v_interface interface{} = v
 		plan := v_interface.(ModelSpecificValue)
-		data := *mistsdkgo.NewRfTemplateModelSpecificProperty()
+		data := *mistapigo.NewRfTemplateModelSpecificProperty()
 
 		data.SetAntGain24(int32(*plan.AntGain24.ValueInt64Pointer()))
 		data.SetAntGain5(int32(plan.AntGain5.ValueInt64()))
@@ -25,7 +25,7 @@ func modelSpecificTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d
 		band24 := band24TerraformToSdk(ctx, diags, plan_band24)
 		data.SetBand24(band24)
 
-		data.SetBand24Usage(mistsdkgo.RadioBand24Usage(plan.Band24Usage.ValueString()))
+		data.SetBand24Usage(mistapigo.RadioBand24Usage(plan.Band24Usage.ValueString()))
 
 		plan_band5, _ := NewBand5Value(plan.Band5.AttributeTypes(ctx), plan.Band5.Attributes())
 		band5 := band5TerraformToSdk(ctx, diags, plan_band5)

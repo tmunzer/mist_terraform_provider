@@ -2,24 +2,25 @@ package resource_org_gatewaytemplate
 
 import (
 	"context"
-	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
 	mist_transform "terraform-provider-mist/internal/commons/utils"
+
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 
-func gatewayPortVpnPathTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.MapValue) map[string]mistsdkgo.GatewayPortVpnPath {
+func gatewayPortVpnPathTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.MapValue) map[string]mistapigo.GatewayPortVpnPath {
 	tflog.Debug(ctx, "gatewayPortVpnPathTerraformToSdk")
-	data_map := make(map[string]mistsdkgo.GatewayPortVpnPath)
+	data_map := make(map[string]mistapigo.GatewayPortVpnPath)
 	for k, v := range d.Elements() {
 		var v_interface interface{} = v
 		plan := v_interface.(VpnPathsValue)
-		data := *mistsdkgo.NewGatewayPortVpnPath()
-		data.SetBfdProfile(mistsdkgo.GatewayPortVpnPathBfdProfile(plan.BfdProfile.ValueString()))
+		data := *mistapigo.NewGatewayPortVpnPath()
+		data.SetBfdProfile(mistapigo.GatewayPortVpnPathBfdProfile(plan.BfdProfile.ValueString()))
 		data.SetBfdUseTunnelMode(plan.BfdUseTunnelMode.ValueBool())
-		data.SetRole(mistsdkgo.GatewayPortVpnPathRole(plan.Role.ValueString()))
+		data.SetRole(mistapigo.GatewayPortVpnPathRole(plan.Role.ValueString()))
 
 		traffic_shaping := gatewayPortTrafficShapingTerraformToSdk(ctx, diags, plan.TrafficShaping)
 		data.SetTrafficShaping(traffic_shaping)
@@ -29,9 +30,9 @@ func gatewayPortVpnPathTerraformToSdk(ctx context.Context, diags *diag.Diagnosti
 	return data_map
 }
 
-func gatewayPortTrafficShapingTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) mistsdkgo.GatewayTrafficShaping {
+func gatewayPortTrafficShapingTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) mistapigo.GatewayTrafficShaping {
 	tflog.Debug(ctx, "gatewayPortTrafficShapingTerraformToSdk")
-	data := *mistsdkgo.NewGatewayTrafficShaping()
+	data := *mistapigo.NewGatewayTrafficShaping()
 	if d.IsNull() || d.IsUnknown() {
 		return data
 	} else {
@@ -42,9 +43,9 @@ func gatewayPortTrafficShapingTerraformToSdk(ctx context.Context, diags *diag.Di
 	}
 }
 
-func gatewayIpConfigTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) mistsdkgo.GatewayIpConfig {
+func gatewayIpConfigTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) mistapigo.GatewayIpConfig {
 	tflog.Debug(ctx, "gatewayIpConfigTerraformToSdk")
-	data := mistsdkgo.NewGatewayIpConfig()
+	data := mistapigo.NewGatewayIpConfig()
 	if d.IsNull() || d.IsUnknown() {
 		return *data
 	} else {
@@ -57,34 +58,34 @@ func gatewayIpConfigTerraformToSdk(ctx context.Context, diags *diag.Diagnostics,
 		data.SetNetwork(plan.Network.ValueString())
 		data.SetPoserPassword(plan.PoserPassword.ValueString())
 		data.SetPppoeUsername(plan.PppoeUsername.ValueString())
-		data.SetPppoeAuth(mistsdkgo.GatewayWanPpoeAuth(plan.PppoeAuth.ValueString()))
-		data.SetType(mistsdkgo.GatewayWanType(plan.IpConfigType.ValueString()))
+		data.SetPppoeAuth(mistapigo.GatewayWanPpoeAuth(plan.PppoeAuth.ValueString()))
+		data.SetType(mistapigo.GatewayWanType(plan.IpConfigType.ValueString()))
 		return *data
 	}
 }
 
-func portConfigTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.MapValue) map[string]mistsdkgo.GatewayPortConfig {
+func portConfigTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.MapValue) map[string]mistapigo.GatewayPortConfig {
 	tflog.Debug(ctx, "portConfigTerraformToSdk")
-	data_map := make(map[string]mistsdkgo.GatewayPortConfig)
+	data_map := make(map[string]mistapigo.GatewayPortConfig)
 	for k, v := range d.Elements() {
 		var v_interface interface{} = v
 		plan := v_interface.(PortConfigValue)
 
-		data := *mistsdkgo.NewGatewayPortConfig(mistsdkgo.GatewayPortUsage(plan.Usage.ValueString()))
+		data := *mistapigo.NewGatewayPortConfig(mistapigo.GatewayPortUsage(plan.Usage.ValueString()))
 		data.SetDescription(plan.Description.ValueString())
 		data.SetDisableAutoneg(plan.DisableAutoneg.ValueBool())
 		data.SetDisabled(plan.Disabled.ValueBool())
-		data.SetDslType(mistsdkgo.GatewayPortDslType(plan.DslType.ValueString()))
+		data.SetDslType(mistapigo.GatewayPortDslType(plan.DslType.ValueString()))
 		data.SetDslVci(int32(plan.DslVci.ValueInt64()))
 		data.SetDslVpi(int32(plan.DslVpi.ValueInt64()))
-		data.SetDuplex(mistsdkgo.GatewayPortDuplex(plan.Duplex.ValueString()))
+		data.SetDuplex(mistapigo.GatewayPortDuplex(plan.Duplex.ValueString()))
 
 		t, _ := plan.IpConfig.ToObjectValue(ctx)
 		ip_config := gatewayIpConfigTerraformToSdk(ctx, diags, t)
 		data.SetIpConfig(ip_config)
 
 		data.SetLteApn(plan.LteApn.ValueString())
-		data.SetLteAuth(mistsdkgo.GatewayPortLteAuth(plan.LteAuth.ValueString()))
+		data.SetLteAuth(mistapigo.GatewayPortLteAuth(plan.LteAuth.ValueString()))
 		data.SetLteBackup(plan.LteBackup.ValueBool())
 		data.SetLtePassword(plan.LtePassword.ValueString())
 		data.SetLteUsername(plan.LteUsername.ValueString())
@@ -110,9 +111,9 @@ func portConfigTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d ba
 		vpn_paths := gatewayPortVpnPathTerraformToSdk(ctx, diags, plan.VpnPaths)
 		data.SetVpnPaths(vpn_paths)
 
-		data.SetWanArpPolicer(mistsdkgo.GatewayPortWanArpPolicer(plan.WanArpPolicer.ValueString()))
+		data.SetWanArpPolicer(mistapigo.GatewayPortWanArpPolicer(plan.WanArpPolicer.ValueString()))
 		data.SetWanExtIp(plan.WanExtIp.ValueString())
-		data.SetWanType(mistsdkgo.GatewayPortWanType(plan.WanType.ValueString()))
+		data.SetWanType(mistapigo.GatewayPortWanType(plan.WanType.ValueString()))
 
 		data_map[k] = data
 	}

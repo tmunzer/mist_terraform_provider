@@ -2,7 +2,8 @@ package resource_org_wlan
 
 import (
 	"context"
-	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
+
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
@@ -17,20 +18,20 @@ func authKeysTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, plan b
 	}
 	return items
 }
-func authPairwiseTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, plan basetypes.ListValue) []mistsdkgo.WlanAuthPairwiseItem {
-	var items []mistsdkgo.WlanAuthPairwiseItem
+func authPairwiseTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, plan basetypes.ListValue) []mistapigo.WlanAuthPairwiseItem {
+	var items []mistapigo.WlanAuthPairwiseItem
 	for _, v := range plan.Elements() {
 		var v_inteface interface{} = v
-		v_plan := v_inteface.(mistsdkgo.WlanAuthPairwiseItem)
+		v_plan := v_inteface.(mistapigo.WlanAuthPairwiseItem)
 		items = append(items, v_plan)
 	}
 	return items
 }
-func authTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, plan AuthValue) mistsdkgo.WlanAuth {
+func authTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, plan AuthValue) mistapigo.WlanAuth {
 
-	data := *mistsdkgo.NewWlanAuthWithDefaults()
+	data := *mistapigo.NewWlanAuthWithDefaults()
 	if !plan.IsNull() || !plan.IsUnknown() {
-		data = *mistsdkgo.NewWlanAuth(mistsdkgo.WlanAuthType(plan.AuthType.ValueString()))
+		data = *mistapigo.NewWlanAuth(mistapigo.WlanAuthType(plan.AuthType.ValueString()))
 
 		data.SetAnticlogThreshold(int32(plan.AnticlogThreshold.ValueInt64()))
 		data.SetEapReauth(plan.EapReauth.ValueBool())
@@ -38,7 +39,7 @@ func authTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, plan AuthV
 		data.SetKeyIdx(int32(plan.KeyIdx.ValueInt64()))
 		data.SetKeys(authKeysTerraformToSdk(ctx, diags, plan.Keys))
 		data.SetMultiPskOnly(plan.MultiPskOnly.ValueBool())
-		owe, e := mistsdkgo.NewWlanAuthOweFromValue(plan.Owe.ValueString())
+		owe, e := mistapigo.NewWlanAuthOweFromValue(plan.Owe.ValueString())
 		if e != nil {
 			diags.AddError("authTerraformToSdk -> OWE", e.Error())
 		}

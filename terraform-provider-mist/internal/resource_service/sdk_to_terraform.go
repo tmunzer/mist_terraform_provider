@@ -2,7 +2,8 @@ package resource_service
 
 import (
 	"context"
-	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
+
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 
 	mist_transform "terraform-provider-mist/internal/commons/utils"
 
@@ -12,7 +13,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 )
 
-func serviceSpecsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []mistsdkgo.ServiceSpec) basetypes.ListValue {
+func serviceSpecsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []mistapigo.ServiceSpec) basetypes.ListValue {
 
 	var data_list = []SpecsValue{}
 
@@ -33,7 +34,7 @@ func serviceSpecsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d 
 	return r
 }
 
-func SdkToTerraform(ctx context.Context, data *mistsdkgo.Service) (ServiceModel, diag.Diagnostics) {
+func SdkToTerraform(ctx context.Context, data *mistapigo.Service) (ServiceModel, diag.Diagnostics) {
 	var state ServiceModel
 	var diags diag.Diagnostics
 

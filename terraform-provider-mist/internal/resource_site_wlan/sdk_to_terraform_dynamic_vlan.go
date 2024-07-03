@@ -2,7 +2,8 @@ package resource_site_wlan
 
 import (
 	"context"
-	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
+
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
@@ -10,7 +11,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 )
 
-func dynamicVlanSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, data mistsdkgo.WlanDynamicVlan) DynamicVlanValue {
+func dynamicVlanSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, data mistapigo.WlanDynamicVlan) DynamicVlanValue {
 
 	var local_vlan_ids_list []attr.Value
 	for _, v := range data.GetLocalVlanIds() {

@@ -2,7 +2,8 @@ package resource_site_setting
 
 import (
 	"context"
-	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
+
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
@@ -10,7 +11,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 
-func wanVnaSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdkgo.SiteSettingWanVna) WanVnaValue {
+func wanVnaSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistapigo.SiteSettingWanVna) WanVnaValue {
 	tflog.Debug(ctx, "wanVnaSdkToTerraform")
 
 	r_attr_type := WanVnaValue{}.AttributeTypes(ctx)

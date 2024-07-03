@@ -2,8 +2,9 @@ package resource_site_wxtag
 
 import (
 	"context"
-	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
 	mist_transform "terraform-provider-mist/internal/commons/utils"
+
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
@@ -11,7 +12,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 )
 
-func specsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, data []mistsdkgo.WxlanTagSpec) basetypes.ListValue {
+func specsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, data []mistapigo.WxlanTagSpec) basetypes.ListValue {
 
 	var data_list = []SpecsValue{}
 	for _, v := range data {

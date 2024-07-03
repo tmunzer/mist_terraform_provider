@@ -7,13 +7,14 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
-	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
 	hours "terraform-provider-mist/internal/commons/hours"
+
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 )
 
-func engagementDwellTagNamesTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) mistsdkgo.SiteEngagementDwellTagNames {
+func engagementDwellTagNamesTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) mistapigo.SiteEngagementDwellTagNames {
 	tflog.Debug(ctx, "engagementDwellTagNamesTerraformToSdk")
-	data := mistsdkgo.NewSiteEngagementDwellTagNames()
+	data := mistapigo.NewSiteEngagementDwellTagNames()
 	if d.IsNull() || d.IsUnknown() {
 		return *data
 	} else {
@@ -27,9 +28,9 @@ func engagementDwellTagNamesTerraformToSdk(ctx context.Context, diags *diag.Diag
 	}
 }
 
-func engagementDwellTagsTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) mistsdkgo.SiteEngagementDwellTags {
+func engagementDwellTagsTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) mistapigo.SiteEngagementDwellTags {
 	tflog.Debug(ctx, "engagementDwellTagsTerraformToSdk")
-	data := mistsdkgo.NewSiteEngagementDwellTags()
+	data := mistapigo.NewSiteEngagementDwellTags()
 	if d.IsNull() || d.IsUnknown() {
 		return *data
 	} else {
@@ -43,9 +44,9 @@ func engagementDwellTagsTerraformToSdk(ctx context.Context, diags *diag.Diagnost
 	}
 }
 
-func engagementTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d EngagementValue) *mistsdkgo.SiteEngagement {
+func engagementTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d EngagementValue) *mistapigo.SiteEngagement {
 	tflog.Debug(ctx, "engagementTerraformToSdk")
-	data := mistsdkgo.NewSiteEngagement()
+	data := mistapigo.NewSiteEngagement()
 
 	dwell_tag_name := engagementDwellTagNamesTerraformToSdk(ctx, diags, d.DwellTagNames)
 	data.SetDwellTagNames(dwell_tag_name)

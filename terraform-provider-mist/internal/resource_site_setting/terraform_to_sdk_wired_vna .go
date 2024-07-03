@@ -6,12 +6,12 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
-	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 )
 
-func wiredVnaTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d WiredVnaValue) mistsdkgo.SiteSettingWiredVna {
+func wiredVnaTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d WiredVnaValue) mistapigo.SiteSettingWiredVna {
 	tflog.Debug(ctx, "wiredVnaTerraformToSdk")
-	data := mistsdkgo.NewSiteSettingWiredVna()
+	data := mistapigo.NewSiteSettingWiredVna()
 
 	data.SetEnabled(d.Enabled.ValueBool())
 

@@ -9,11 +9,12 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
-	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
 	mist_transform "terraform-provider-mist/internal/commons/utils"
+
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 )
 
-func servicePolicyAppQoESdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdkgo.ServicePolicyAppqoe) basetypes.ObjectValue {
+func servicePolicyAppQoESdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistapigo.ServicePolicyAppqoe) basetypes.ObjectValue {
 	tflog.Debug(ctx, "servicePolicyAppQoESdkToTerraform")
 	r_attr_type := AppqoeValue{}.AttributeTypes(ctx)
 	r_attr_value := map[string]attr.Value{
@@ -24,7 +25,7 @@ func servicePolicyAppQoESdkToTerraform(ctx context.Context, diags *diag.Diagnost
 	return r
 }
 
-func servicePolicyEwfSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []mistsdkgo.ServicePolicyEwfRule) basetypes.ListValue {
+func servicePolicyEwfSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []mistapigo.ServicePolicyEwfRule) basetypes.ListValue {
 	tflog.Debug(ctx, "servicePolicyEwfSdkToTerraform")
 	var data_list = []EwfValue{}
 	for _, v := range d {
@@ -45,7 +46,7 @@ func servicePolicyEwfSdkToTerraform(ctx context.Context, diags *diag.Diagnostics
 	return r
 }
 
-func servicePolicyIdpSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdkgo.IdpConfig) basetypes.ObjectValue {
+func servicePolicyIdpSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistapigo.IdpConfig) basetypes.ObjectValue {
 	tflog.Debug(ctx, "servicePolicyIdpSdkToTerraform")
 	r_attr_type := IdpValue{}.AttributeTypes(ctx)
 	r_attr_value := map[string]attr.Value{
@@ -59,7 +60,7 @@ func servicePolicyIdpSdkToTerraform(ctx context.Context, diags *diag.Diagnostics
 	return r
 }
 
-func servicePoliciesSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []mistsdkgo.ServicePolicy) basetypes.ListValue {
+func servicePoliciesSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []mistapigo.ServicePolicy) basetypes.ListValue {
 	tflog.Debug(ctx, "servicePoliciesSdkToTerraform")
 	var data_list = []ServicePoliciesValue{}
 

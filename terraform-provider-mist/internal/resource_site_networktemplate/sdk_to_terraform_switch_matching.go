@@ -10,11 +10,12 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
-	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
 	mist_transform "terraform-provider-mist/internal/commons/utils"
+
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 )
 
-func switchMatchingRulesPortMirroringSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]mistsdkgo.SwitchPortMirroring) basetypes.MapValue {
+func switchMatchingRulesPortMirroringSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]mistapigo.SwitchPortMirroring) basetypes.MapValue {
 	map_item_value := make(map[string]attr.Value)
 	map_item_type := PortMirroringValue{}.Type(ctx)
 	item_type := PortMirroringsValue{}.AttributeTypes(ctx)
@@ -34,7 +35,7 @@ func switchMatchingRulesPortMirroringSdkToTerraform(ctx context.Context, diags *
 	diags.Append(e...)
 	return r
 }
-func switchMatchingRulesPortConfigSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]mistsdkgo.JunosPortConfig) basetypes.MapValue {
+func switchMatchingRulesPortConfigSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]mistapigo.JunosPortConfig) basetypes.MapValue {
 	map_item_value := make(map[string]attr.Value)
 	map_item_type := PortConfigValue{}.Type(ctx)
 	item_type := PortConfigValue{}.AttributeTypes(ctx)
@@ -65,7 +66,7 @@ func switchMatchingRulesPortConfigSdkToTerraform(ctx context.Context, diags *dia
 	diags.Append(e...)
 	return r
 }
-func switchMatchingRulesSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []mistsdkgo.SwitchMatchingRule) basetypes.ListValue {
+func switchMatchingRulesSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []mistapigo.SwitchMatchingRule) basetypes.ListValue {
 	tflog.Debug(ctx, "switchMatchingRulesSdkToTerraform")
 	var data_list = []MatchingRulesValue{}
 
@@ -114,7 +115,7 @@ func switchMatchingRulesSdkToTerraform(ctx context.Context, diags *diag.Diagnost
 	return r
 }
 
-func switchMatchingSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdkgo.SwitchMatching) SwitchMatchingValue {
+func switchMatchingSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistapigo.SwitchMatching) SwitchMatchingValue {
 	tflog.Debug(ctx, "switchMatchingSdkToTerraform")
 
 	switch_matching_rules := switchMatchingRulesSdkToTerraform(ctx, diags, d.GetRules())

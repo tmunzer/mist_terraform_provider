@@ -8,11 +8,12 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
-	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
 	mist_transform "terraform-provider-mist/internal/commons/utils"
+
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 )
 
-func bleConfigsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdkgo.BleConfig) BleConfigValue {
+func bleConfigsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistapigo.BleConfig) BleConfigValue {
 	tflog.Debug(ctx, "bleConfigsSdkToTerraform")
 
 	r_attr_type := BleConfigValue{}.AttributeTypes(ctx)

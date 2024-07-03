@@ -1,8 +1,9 @@
 package resource_org_wlantemplate
 
 import (
-	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
 	mist_transform "terraform-provider-mist/internal/commons/utils"
+
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 
 	"golang.org/x/net/context"
 
@@ -11,7 +12,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
-func appliesSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, data mistsdkgo.TemplateApplies) AppliesValue {
+func appliesSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, data mistapigo.TemplateApplies) AppliesValue {
 
 	r_attr_type := AppliesValue{}.AttributeTypes(ctx)
 	r_attr_value := map[string]attr.Value{

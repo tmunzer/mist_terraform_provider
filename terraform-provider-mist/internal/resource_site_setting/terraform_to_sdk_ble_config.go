@@ -6,17 +6,18 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
-	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
 	mist_transform "terraform-provider-mist/internal/commons/utils"
+
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 )
 
-func siteSettingBleConfigTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d BleConfigValue) *mistsdkgo.BleConfig {
+func siteSettingBleConfigTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d BleConfigValue) *mistapigo.BleConfig {
 	tflog.Debug(ctx, "siteSettingBleConfigTerraformToSdk")
-	data := mistsdkgo.NewBleConfig()
+	data := mistapigo.NewBleConfig()
 
 	data.SetBeaconEnabled(d.BeaconEnabled.ValueBool())
 	data.SetBeaconRate(int32(d.BeaconRate.ValueInt64()))
-	data.SetBeaconRateMode(mistsdkgo.BleConfigBeaconRateMode(d.BeaconRateMode.ValueString()))
+	data.SetBeaconRateMode(mistapigo.BleConfigBeaconRateMode(d.BeaconRateMode.ValueString()))
 	data.SetBeamDisabled(mist_transform.ListOfIntTerraformToSdk(ctx, d.BeamDisabled))
 	data.SetCustomBlePacketEnabled(d.CustomBlePacketEnabled.ValueBool())
 	data.SetCustomBlePacketFrame(d.CustomBlePacketFrame.ValueString())
@@ -40,7 +41,7 @@ func siteSettingBleConfigTerraformToSdk(ctx context.Context, diags *diag.Diagnos
 	data.SetIbeaconMinor(int32(d.IbeaconMinor.ValueInt64()))
 	data.SetIbeaconUuid(d.IbeaconUuid.ValueString())
 	data.SetPower(int32(d.Power.ValueInt64()))
-	data.SetPowerMode(mistsdkgo.BleConfigPowerMode(d.PowerMode.ValueString()))
+	data.SetPowerMode(mistapigo.BleConfigPowerMode(d.PowerMode.ValueString()))
 
 	return data
 }

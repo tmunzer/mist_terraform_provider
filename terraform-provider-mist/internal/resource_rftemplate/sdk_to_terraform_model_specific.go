@@ -2,7 +2,8 @@ package resource_rftemplate
 
 import (
 	"context"
-	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
+
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
@@ -10,7 +11,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 )
 
-func modelSpecificSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]mistsdkgo.RfTemplateModelSpecificProperty) basetypes.MapValue {
+func modelSpecificSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]mistapigo.RfTemplateModelSpecificProperty) basetypes.MapValue {
 	state_value_map_attr_type := ModelSpecificValue{}.AttributeTypes(ctx)
 	state_value_map_value := make(map[string]attr.Value)
 	for k, v := range d {

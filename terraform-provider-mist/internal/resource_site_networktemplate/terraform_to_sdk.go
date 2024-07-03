@@ -5,14 +5,15 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 
-	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
 	mist_transform "terraform-provider-mist/internal/commons/utils"
+
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 )
 
-func TerraformToSdk(ctx context.Context, plan *SiteNetworktemplateModel) (mistsdkgo.SiteSetting, diag.Diagnostics) {
+func TerraformToSdk(ctx context.Context, plan *SiteNetworktemplateModel) (mistapigo.SiteSetting, diag.Diagnostics) {
 	var diags diag.Diagnostics
 
-	data := *mistsdkgo.NewSiteSetting()
+	data := *mistapigo.NewSiteSetting()
 
 	aclPolicies := aclPoliciesTerraformToSdk(ctx, &diags, plan.AclPolicies)
 	data.SetAclPolicies(aclPolicies)

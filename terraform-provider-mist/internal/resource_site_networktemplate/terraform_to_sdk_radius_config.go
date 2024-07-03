@@ -6,14 +6,14 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 
-	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 )
 
-func radiusConfigTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d RadiusConfigValue) mistsdkgo.RadiusConfig {
+func radiusConfigTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d RadiusConfigValue) mistapigo.RadiusConfig {
 
 	acct_servers := RadiusAcctServersTerraformToSdk(ctx, diags, d.AcctServers)
 	auth_server := RadiusAuthServersTerraformToSdk(ctx, diags, d.AuthServers)
-	data := mistsdkgo.NewRadiusConfig()
+	data := mistapigo.NewRadiusConfig()
 	data.SetAcctInterimInterval(int32(d.AcctInterimInterval.ValueInt64()))
 	data.SetAcctServers(acct_servers)
 	data.SetAuthServersRetries(int32(d.AuthServersRetries.ValueInt64()))
@@ -27,14 +27,14 @@ func radiusConfigTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d 
 	return *data
 }
 
-func RadiusAcctServersTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ListValue) []mistsdkgo.RadiusAcctServer {
+func RadiusAcctServersTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ListValue) []mistapigo.RadiusAcctServer {
 
-	var data []mistsdkgo.RadiusAcctServer
+	var data []mistapigo.RadiusAcctServer
 	for _, plan_attr := range d.Elements() {
 		var srv_plan_interface interface{} = plan_attr
 		srv_plan := srv_plan_interface.(AcctServersValue)
-		keywrap_format, _ := mistsdkgo.NewRadiusKeywrapFormatFromValue(srv_plan.KeywrapFormat.ValueString())
-		srv_data := mistsdkgo.NewRadiusAcctServer(srv_plan.Host.ValueString(), int32(srv_plan.Port.ValueInt64()), srv_plan.Secret.ValueString())
+		keywrap_format, _ := mistapigo.NewRadiusKeywrapFormatFromValue(srv_plan.KeywrapFormat.ValueString())
+		srv_data := mistapigo.NewRadiusAcctServer(srv_plan.Host.ValueString(), int32(srv_plan.Port.ValueInt64()), srv_plan.Secret.ValueString())
 		srv_data.SetKeywrapEnabled(srv_plan.KeywrapEnabled.ValueBool())
 		srv_data.SetKeywrapFormat(*keywrap_format)
 		srv_data.SetKeywrapKek(srv_plan.KeywrapKek.ValueString())
@@ -44,14 +44,14 @@ func RadiusAcctServersTerraformToSdk(ctx context.Context, diags *diag.Diagnostic
 	return data
 }
 
-func RadiusAuthServersTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ListValue) []mistsdkgo.RadiusAuthServer {
+func RadiusAuthServersTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ListValue) []mistapigo.RadiusAuthServer {
 
-	var data []mistsdkgo.RadiusAuthServer
+	var data []mistapigo.RadiusAuthServer
 	for _, plan_attr := range d.Elements() {
 		var srv_plan_interface interface{} = plan_attr
 		srv_plan := srv_plan_interface.(AuthServersValue)
-		keywrap_format, _ := mistsdkgo.NewRadiusKeywrapFormatFromValue(srv_plan.KeywrapFormat.ValueString())
-		srv_data := mistsdkgo.NewRadiusAuthServer(srv_plan.Host.ValueString(), int32(srv_plan.Port.ValueInt64()), srv_plan.Secret.ValueString())
+		keywrap_format, _ := mistapigo.NewRadiusKeywrapFormatFromValue(srv_plan.KeywrapFormat.ValueString())
+		srv_data := mistapigo.NewRadiusAuthServer(srv_plan.Host.ValueString(), int32(srv_plan.Port.ValueInt64()), srv_plan.Secret.ValueString())
 		srv_data.SetKeywrapEnabled(srv_plan.KeywrapEnabled.ValueBool())
 		srv_data.SetKeywrapFormat(*keywrap_format)
 		srv_data.SetKeywrapKek(srv_plan.KeywrapKek.ValueString())

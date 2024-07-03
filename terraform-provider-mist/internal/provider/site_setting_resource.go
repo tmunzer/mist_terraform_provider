@@ -4,8 +4,9 @@ import (
 	"context"
 	"fmt"
 
-	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
 	"terraform-provider-mist/internal/resource_site_setting"
+
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
@@ -21,7 +22,7 @@ func NewSiteSettingResource() resource.Resource {
 }
 
 type siteSettingResource struct {
-	client *mistsdkgo.APIClient
+	client *mistapigo.APIClient
 }
 
 func (r *siteSettingResource) Configure(ctx context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
@@ -30,11 +31,11 @@ func (r *siteSettingResource) Configure(ctx context.Context, req resource.Config
 		return
 	}
 
-	client, ok := req.ProviderData.(*mistsdkgo.APIClient)
+	client, ok := req.ProviderData.(*mistapigo.APIClient)
 	if !ok {
 		resp.Diagnostics.AddError(
 			"Unexpected Data Source Configure Type",
-			fmt.Sprintf("Expected *mistsdkgo.APIClient, got: %T. Please report this issue to the provider developers.", req.ProviderData),
+			fmt.Sprintf("Expected *mistapigo.APIClient, got: %T. Please report this issue to the provider developers.", req.ProviderData),
 		)
 		return
 	}
@@ -176,7 +177,7 @@ func (r *siteSettingResource) Delete(ctx context.Context, req resource.DeleteReq
 	}
 
 	tflog.Info(ctx, "Starting SiteSetting Delete: siteSetting_id "+state.SiteId.ValueString())
-	data := *mistsdkgo.NewSiteSetting()
+	data := *mistapigo.NewSiteSetting()
 	_, _, err := r.client.SitesSettingAPI.UpdateSiteSettings(ctx, state.SiteId.ValueString()).SiteSetting(data).Execute()
 	if err != nil {
 		resp.Diagnostics.AddError(

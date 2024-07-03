@@ -9,12 +9,13 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
-	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
 	mist_transform "terraform-provider-mist/internal/commons/utils"
 	mist_network "terraform-provider-mist/internal/resource_org_network"
+
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 )
 
-func NetworksSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []mistsdkgo.Network) basetypes.ListValue {
+func NetworksSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []mistapigo.Network) basetypes.ListValue {
 	tflog.Debug(ctx, "NetworksSdkToTerraform")
 	var data_list = []NetworksValue{}
 

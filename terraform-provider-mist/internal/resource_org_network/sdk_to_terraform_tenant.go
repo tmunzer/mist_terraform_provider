@@ -2,8 +2,9 @@ package resource_org_network
 
 import (
 	"context"
-	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
 	mist_transform "terraform-provider-mist/internal/commons/utils"
+
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
@@ -11,7 +12,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 )
 
-func TenantSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]mistsdkgo.NetworkTenant) basetypes.MapValue {
+func TenantSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]mistapigo.NetworkTenant) basetypes.MapValue {
 
 	state_value_map_attr_type := TenantsValue{}.AttributeTypes(ctx)
 	state_value_map_value := make(map[string]attr.Value)

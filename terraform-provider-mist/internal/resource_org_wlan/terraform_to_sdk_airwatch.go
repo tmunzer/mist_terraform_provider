@@ -2,14 +2,15 @@ package resource_org_wlan
 
 import (
 	"context"
-	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
+
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 )
 
-func airwatchTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, plan AirwatchValue) mistsdkgo.WlanAirwatch {
+func airwatchTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, plan AirwatchValue) mistapigo.WlanAirwatch {
 
-	data := *mistsdkgo.NewWlanAirwatch()
+	data := *mistapigo.NewWlanAirwatch()
 
 	data.SetApiKey(plan.ApiKey.ValueString())
 	data.SetConsoleUrl(plan.ConsoleUrl.ValueString())

@@ -3,8 +3,9 @@ package provider
 import (
 	"context"
 	"fmt"
-	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
 	"terraform-provider-mist/internal/resource_org_sitegroup"
+
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
@@ -20,7 +21,7 @@ func NewOrgSiteGroupResource() resource.Resource {
 }
 
 type orgSiteGroupResource struct {
-	client *mistsdkgo.APIClient
+	client *mistapigo.APIClient
 }
 
 func (r *orgSiteGroupResource) Configure(ctx context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
@@ -29,11 +30,11 @@ func (r *orgSiteGroupResource) Configure(ctx context.Context, req resource.Confi
 		return
 	}
 
-	client, ok := req.ProviderData.(*mistsdkgo.APIClient)
+	client, ok := req.ProviderData.(*mistapigo.APIClient)
 	if !ok {
 		resp.Diagnostics.AddError(
 			"Unexpected Data Source Configure Type",
-			fmt.Sprintf("Expected *mistsdkgo.APIClient, got: %T. Please report this issue to the provider developers.", req.ProviderData),
+			fmt.Sprintf("Expected *mistapigo.APIClient, got: %T. Please report this issue to the provider developers.", req.ProviderData),
 		)
 		return
 	}
@@ -141,7 +142,7 @@ func (r *orgSiteGroupResource) Update(ctx context.Context, req resource.UpdateRe
 		return
 	}
 	tflog.Info(ctx, "Starting SiteGroup Update for Site "+sitegroupId)
-	name := *mistsdkgo.NewNameString()
+	name := *mistapigo.NewNameString()
 	name.SetName(sitegroup.Name)
 	data, _, err := r.client.OrgsSitegroupsAPI.UpdateOrgSiteGroup(ctx, orgId, sitegroupId).NameString(name).Execute()
 

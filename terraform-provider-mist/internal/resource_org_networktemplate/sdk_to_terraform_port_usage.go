@@ -8,11 +8,12 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 
-	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
 	mist_transform "terraform-provider-mist/internal/commons/utils"
+
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 )
 
-func portUsageStormControlSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdkgo.SwitchPortUsageStormControl) basetypes.ObjectValue {
+func portUsageStormControlSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistapigo.SwitchPortUsageStormControl) basetypes.ObjectValue {
 	storm_control_attr_type := StormControlValue{}.AttributeTypes(ctx)
 	storm_control_attr_value := map[string]attr.Value{
 		"no_broadcast":            types.BoolValue(d.GetNoBroadcast()),
@@ -28,7 +29,7 @@ func portUsageStormControlSdkToTerraform(ctx context.Context, diags *diag.Diagno
 	return r
 }
 
-func portUsageRulesSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []mistsdkgo.SwitchPortUsageDynamicRule) basetypes.ListValue {
+func portUsageRulesSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []mistapigo.SwitchPortUsageDynamicRule) basetypes.ListValue {
 	var value_list []attr.Value
 	value_list_type := RulesValue{}.AttributeTypes(ctx)
 	for _, v := range d {
@@ -52,11 +53,11 @@ func portUsageRulesSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, 
 	return state_list
 }
 
-func portUsagesSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]mistsdkgo.SwitchPortUsage) basetypes.MapValue {
+func portUsagesSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]mistapigo.SwitchPortUsage) basetypes.MapValue {
 	port_usage_type := PortUsagesValue{}.AttributeTypes(ctx)
 	state_value_map := make(map[string]attr.Value)
 	for k, v := range d {
-		storm_control_state := portUsageStormControlSdkToTerraform(ctx, diags, mistsdkgo.SwitchPortUsageStormControl(v.GetStormControl()))
+		storm_control_state := portUsageStormControlSdkToTerraform(ctx, diags, mistapigo.SwitchPortUsageStormControl(v.GetStormControl()))
 		rules_state := portUsageRulesSdkToTerraform(ctx, diags, v.GetRules())
 		var port_usage_state = map[string]attr.Value{
 			"all_networks":                                    types.BoolValue(v.GetAllNetworks()),

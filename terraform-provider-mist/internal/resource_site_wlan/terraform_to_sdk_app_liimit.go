@@ -2,14 +2,15 @@ package resource_site_wlan
 
 import (
 	"context"
-	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
+
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 )
 
-func appLimitTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, plan AppLimitValue) mistsdkgo.WlanAppLimit {
+func appLimitTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, plan AppLimitValue) mistapigo.WlanAppLimit {
 
-	data := *mistsdkgo.NewWlanAppLimit()
+	data := *mistapigo.NewWlanAppLimit()
 
 	app_limit := make(map[string]int32)
 	for k, v := range plan.Apps.Elements() {

@@ -5,8 +5,9 @@ import (
 	"fmt"
 	"strings"
 
-	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
 	"terraform-provider-mist/internal/resource_org_inventory"
+
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
@@ -22,7 +23,7 @@ func NewOrgInventory() resource.Resource {
 }
 
 type orgInventoryResource struct {
-	client *mistsdkgo.APIClient
+	client *mistapigo.APIClient
 }
 
 func (r *orgInventoryResource) Configure(ctx context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
@@ -31,11 +32,11 @@ func (r *orgInventoryResource) Configure(ctx context.Context, req resource.Confi
 		return
 	}
 
-	client, ok := req.ProviderData.(*mistsdkgo.APIClient)
+	client, ok := req.ProviderData.(*mistapigo.APIClient)
 	if !ok {
 		resp.Diagnostics.AddError(
 			"Unexpected Data Source Configure Type",
-			fmt.Sprintf("Expected *mistsdkgo.APIClient, got: %T. Please report this issue to the provider developers.", req.ProviderData),
+			fmt.Sprintf("Expected *mistapigo.APIClient, got: %T. Please report this issue to the provider developers.", req.ProviderData),
 		)
 		return
 	}
@@ -236,7 +237,7 @@ func (r *orgInventoryResource) Update(ctx context.Context, req resource.UpdateRe
 	/////////////////////// UNCLAIM
 	if len(unclaim_devices) > 0 {
 		tflog.Info(ctx, "Starting to Unclaim devices: ", map[string]interface{}{"serials": strings.Join(unclaim_devices, ", ")})
-		unclaim_op, err := mistsdkgo.NewInventoryUpdateOperationFromValue("delete")
+		unclaim_op, err := mistapigo.NewInventoryUpdateOperationFromValue("delete")
 		if err != nil {
 			resp.Diagnostics.AddError(
 				"Error Unclaiming Devices from the Org Inventory",
@@ -244,7 +245,7 @@ func (r *orgInventoryResource) Update(ctx context.Context, req resource.UpdateRe
 			)
 			return
 		}
-		unclaim_body := *mistsdkgo.NewInventoryUpdateWithDefaults()
+		unclaim_body := *mistapigo.NewInventoryUpdateWithDefaults()
 		unclaim_body.SetOp(*unclaim_op)
 		unclaim_body.SetSerials(unclaim_devices)
 		unclaim_response, _, err := r.client.OrgsInventoryAPI.UpdateOrgInventoryAssignment(ctx, plan.OrgId.ValueString()).InventoryUpdate(unclaim_body).Execute()
@@ -264,7 +265,7 @@ func (r *orgInventoryResource) Update(ctx context.Context, req resource.UpdateRe
 	/////////////////////// UNASSIGN
 	if len(unassign_devices) > 0 {
 		tflog.Info(ctx, "Starting to Unassign devices: ", map[string]interface{}{"macs": strings.Join(unassign_devices, ", ")})
-		unassign_op, err := mistsdkgo.NewInventoryUpdateOperationFromValue("unassign")
+		unassign_op, err := mistapigo.NewInventoryUpdateOperationFromValue("unassign")
 		if err != nil {
 			resp.Diagnostics.AddError(
 				"Error Unassigning Devices from the Org Inventory",
@@ -272,7 +273,7 @@ func (r *orgInventoryResource) Update(ctx context.Context, req resource.UpdateRe
 			)
 			return
 		}
-		unassign_body := *mistsdkgo.NewInventoryUpdateWithDefaults()
+		unassign_body := *mistapigo.NewInventoryUpdateWithDefaults()
 		unassign_body.SetOp(*unassign_op)
 		unassign_body.SetMacs(unassign_devices)
 		unassign_response, _, err := r.client.OrgsInventoryAPI.UpdateOrgInventoryAssignment(ctx, plan.OrgId.ValueString()).InventoryUpdate(unassign_body).Execute()
@@ -293,7 +294,7 @@ func (r *orgInventoryResource) Update(ctx context.Context, req resource.UpdateRe
 	}
 	/////////////////////// ASSIGN
 	if len(assign_devices) > 0 {
-		assign_op, err := mistsdkgo.NewInventoryUpdateOperationFromValue("assign")
+		assign_op, err := mistapigo.NewInventoryUpdateOperationFromValue("assign")
 		if err != nil {
 			resp.Diagnostics.AddError(
 				"Error Assigning Devices to the Org Inventory",
@@ -303,7 +304,7 @@ func (r *orgInventoryResource) Update(ctx context.Context, req resource.UpdateRe
 		}
 		for k, v := range assign_devices {
 			tflog.Info(ctx, "Starting to Assign devices to site "+k+": ", map[string]interface{}{"macs": strings.Join(v, ", ")})
-			assign_body := *mistsdkgo.NewInventoryUpdateWithDefaults()
+			assign_body := *mistapigo.NewInventoryUpdateWithDefaults()
 			assign_body.SetOp(*assign_op)
 			assign_body.SetMacs(v)
 			assign_body.SetSiteId(k)
@@ -362,7 +363,7 @@ func (r *orgInventoryResource) Delete(ctx context.Context, req resource.DeleteRe
 		var dev_state = vi.(resource_org_inventory.DevicesValue)
 		serials = append(serials, dev_state.Serial.ValueString())
 	}
-	unclaim_op, err := mistsdkgo.NewInventoryUpdateOperationFromValue("delete")
+	unclaim_op, err := mistapigo.NewInventoryUpdateOperationFromValue("delete")
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Error Unclaiming Devices to the Org Inventory",
@@ -370,7 +371,7 @@ func (r *orgInventoryResource) Delete(ctx context.Context, req resource.DeleteRe
 		)
 		return
 	}
-	unclaim_body := *mistsdkgo.NewInventoryUpdateWithDefaults()
+	unclaim_body := *mistapigo.NewInventoryUpdateWithDefaults()
 	unclaim_body.SetOp(*unclaim_op)
 	unclaim_body.SetSerials(serials)
 	_, _, err = r.client.OrgsInventoryAPI.UpdateOrgInventoryAssignment(ctx, state.OrgId.ValueString()).InventoryUpdate(unclaim_body).Execute()

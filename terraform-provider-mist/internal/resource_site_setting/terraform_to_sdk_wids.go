@@ -7,12 +7,12 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
-	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 )
 
-func widsAuthFailureTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, o basetypes.ObjectValue) mistsdkgo.SiteWidsRepeatedAuthFailures {
+func widsAuthFailureTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, o basetypes.ObjectValue) mistapigo.SiteWidsRepeatedAuthFailures {
 	tflog.Debug(ctx, "widsAuthFailureTerraformToSdk")
-	data := mistsdkgo.NewSiteWidsRepeatedAuthFailures()
+	data := mistapigo.NewSiteWidsRepeatedAuthFailures()
 	if o.IsNull() || o.IsUnknown() {
 		return *data
 	} else {
@@ -23,9 +23,9 @@ func widsAuthFailureTerraformToSdk(ctx context.Context, diags *diag.Diagnostics,
 	}
 }
 
-func widsTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d WidsValue) mistsdkgo.SiteWids {
+func widsTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d WidsValue) mistapigo.SiteWids {
 	tflog.Debug(ctx, "widsTerraformToSdk")
-	data := mistsdkgo.NewSiteWids()
+	data := mistapigo.NewSiteWids()
 
 	if !d.IsNull() {
 		repeated_auth_failures := widsAuthFailureTerraformToSdk(ctx, diags, d.RepeatedAuthFailures)

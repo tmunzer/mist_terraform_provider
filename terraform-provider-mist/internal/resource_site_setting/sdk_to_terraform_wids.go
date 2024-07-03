@@ -2,7 +2,8 @@ package resource_site_setting
 
 import (
 	"context"
-	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
+
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
@@ -11,7 +12,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 
-func widsAuthFailureSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdkgo.SiteWidsRepeatedAuthFailures) basetypes.ObjectValue {
+func widsAuthFailureSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistapigo.SiteWidsRepeatedAuthFailures) basetypes.ObjectValue {
 	tflog.Debug(ctx, "widsAuthFailureSdkToTerraform")
 
 	r_attr_type := RepeatedAuthFailuresValue{}.AttributeTypes(ctx)
@@ -24,7 +25,7 @@ func widsAuthFailureSdkToTerraform(ctx context.Context, diags *diag.Diagnostics,
 	return r
 }
 
-func widsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdkgo.SiteWids) WidsValue {
+func widsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistapigo.SiteWids) WidsValue {
 	tflog.Debug(ctx, "widsSdkToTerraform")
 
 	r_attr_type := WidsValue{}.AttributeTypes(ctx)

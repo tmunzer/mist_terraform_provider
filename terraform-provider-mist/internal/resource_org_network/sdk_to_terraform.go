@@ -2,7 +2,8 @@ package resource_org_network
 
 import (
 	"context"
-	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
+
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 
 	mist_transform "terraform-provider-mist/internal/commons/utils"
 
@@ -10,7 +11,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
-func SdkToTerraform(ctx context.Context, data *mistsdkgo.Network) (OrgNetworkModel, diag.Diagnostics) {
+func SdkToTerraform(ctx context.Context, data *mistapigo.Network) (OrgNetworkModel, diag.Diagnostics) {
 	var state OrgNetworkModel
 	var diags diag.Diagnostics
 

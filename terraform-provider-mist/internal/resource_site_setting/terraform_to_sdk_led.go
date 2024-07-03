@@ -6,12 +6,12 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
-	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 )
 
-func ledTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d LedValue) mistsdkgo.ApLed {
+func ledTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d LedValue) mistapigo.ApLed {
 	tflog.Debug(ctx, "ledTerraformToSdk")
-	data := mistsdkgo.NewApLed()
+	data := mistapigo.NewApLed()
 
 	data.SetBrightness(int32(d.Brightness.ValueInt64()))
 	data.SetEnabled(d.Enabled.ValueBool())

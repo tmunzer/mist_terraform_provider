@@ -2,7 +2,8 @@ package provider
 
 import (
 	"context"
-	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
+
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 
 	"os"
 
@@ -31,7 +32,7 @@ type mistProvider struct {
 	version string
 }
 type mistProviderData struct {
-	client *mistsdkgo.APIClient
+	client *mistapigo.APIClient
 }
 type mistProviderModel struct {
 	Host     types.String `tfsdk:"host"`
@@ -116,10 +117,10 @@ func (p *mistProvider) Configure(ctx context.Context, req provider.ConfigureRequ
 		return
 	}
 
-	configuration := mistsdkgo.NewConfiguration()
+	configuration := mistapigo.NewConfiguration()
 	configuration.Host = host
 	configuration.AddDefaultHeader("Authorization", "Token "+apitoken)
-	client := mistsdkgo.NewAPIClient(configuration)
+	client := mistapigo.NewAPIClient(configuration)
 
 	resp.DataSourceData = client
 	resp.ResourceData = client

@@ -2,14 +2,15 @@ package resource_site_wlan
 
 import (
 	"context"
-	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
+
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 )
 
-func injectDhcpOption82TerraformToSdk(ctx context.Context, diags *diag.Diagnostics, plan InjectDhcpOption82Value) mistsdkgo.WlanInjectDhcpOption82 {
+func injectDhcpOption82TerraformToSdk(ctx context.Context, diags *diag.Diagnostics, plan InjectDhcpOption82Value) mistapigo.WlanInjectDhcpOption82 {
 
-	data := *mistsdkgo.NewWlanInjectDhcpOption82()
+	data := *mistapigo.NewWlanInjectDhcpOption82()
 	data.SetCircuitId(plan.CircuitId.ValueString())
 	data.SetEnabled(plan.Enabled.ValueBool())
 

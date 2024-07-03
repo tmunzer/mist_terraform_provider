@@ -9,11 +9,12 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
-	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
 	hours "terraform-provider-mist/internal/commons/hours"
+
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 )
 
-func configPushPolicyWindowSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdkgo.SiteSettingConfigPushPolicyPushWindow) basetypes.ObjectValue {
+func configPushPolicyWindowSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistapigo.SiteSettingConfigPushPolicyPushWindow) basetypes.ObjectValue {
 	tflog.Debug(ctx, "configPushPolicyWindowSdkToTerraform")
 
 	r_attr_type := PushWindowValue{}.AttributeTypes(ctx)
@@ -26,7 +27,7 @@ func configPushPolicyWindowSdkToTerraform(ctx context.Context, diags *diag.Diagn
 	return r
 }
 
-func configPushPolicySdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdkgo.SiteSettingConfigPushPolicy) ConfigPushPolicyValue {
+func configPushPolicySdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistapigo.SiteSettingConfigPushPolicy) ConfigPushPolicyValue {
 	tflog.Debug(ctx, "configPushPolicySdkToTerraform")
 
 	r_attr_type := ConfigPushPolicyValue{}.AttributeTypes(ctx)

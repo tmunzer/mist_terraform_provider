@@ -9,10 +9,10 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
-	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 )
 
-func extraRoutesSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]mistsdkgo.GatewayExtraRoute) basetypes.MapValue {
+func extraRoutesSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]mistapigo.GatewayExtraRoute) basetypes.MapValue {
 	tflog.Debug(ctx, "extraRoutesSdkToTerraform")
 
 	state_value_map_attr_type := ExtraRoutesValue{}.AttributeTypes(ctx)

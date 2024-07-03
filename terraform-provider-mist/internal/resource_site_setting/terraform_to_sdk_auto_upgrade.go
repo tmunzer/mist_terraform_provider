@@ -7,12 +7,12 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
-	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 )
 
-func siteSettingAutoUpgradeTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d AutoUpgradeValue) *mistsdkgo.SiteSettingAutoUpgrade {
+func siteSettingAutoUpgradeTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d AutoUpgradeValue) *mistapigo.SiteSettingAutoUpgrade {
 	tflog.Debug(ctx, "siteSettingAutoUpgradeTerraformToSdk")
-	data := mistsdkgo.NewSiteSettingAutoUpgrade()
+	data := mistapigo.NewSiteSettingAutoUpgrade()
 
 	custom_versions := make(map[string]string)
 	for k, v := range d.CustomVersions.Elements() {
@@ -21,10 +21,10 @@ func siteSettingAutoUpgradeTerraformToSdk(ctx context.Context, diags *diag.Diagn
 		custom_versions[k] = vd.ValueString()
 	}
 	data.SetCustomVersions(custom_versions)
-	data.SetDayOfWeek(mistsdkgo.DayOfWeek(d.DayOfWeek.ValueString()))
+	data.SetDayOfWeek(mistapigo.DayOfWeek(d.DayOfWeek.ValueString()))
 	data.SetEnabled(d.Enabled.ValueBool())
 	data.SetTimeOfDay(d.TimeOfDay.ValueString())
-	data.SetVersion(mistsdkgo.SiteAutoUpgradeVersion(d.Version.ValueString()))
+	data.SetVersion(mistapigo.SiteAutoUpgradeVersion(d.Version.ValueString()))
 
 	return data
 }

@@ -2,13 +2,14 @@ package resource_org_wlan
 
 import (
 	"context"
-	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
+
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 )
 
-func dynamicPskTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, plan DynamicPskValue) mistsdkgo.WlanDynamicPsk {
+func dynamicPskTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, plan DynamicPskValue) mistapigo.WlanDynamicPsk {
 
 	var vlan_ids []*int32
 	for _, item := range plan.VlanIds.Elements() {
@@ -18,12 +19,12 @@ func dynamicPskTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, plan
 		vlan_ids = append(vlan_ids, &j)
 	}
 
-	data := *mistsdkgo.NewWlanDynamicPsk()
+	data := *mistapigo.NewWlanDynamicPsk()
 	data.SetDefaultPsk(plan.DefaultPsk.ValueString())
 	data.SetDefaultVlanId(int32(plan.DefaultVlanId.ValueInt64()))
 	data.SetEnabled(plan.Enabled.ValueBool())
 	data.SetForceLookup(plan.ForceLookup.ValueBool())
-	data.SetSource(mistsdkgo.DynamicPskSource(plan.Source.ValueString()))
+	data.SetSource(mistapigo.DynamicPskSource(plan.Source.ValueString()))
 	data.SetVlanIds(vlan_ids)
 
 	return data

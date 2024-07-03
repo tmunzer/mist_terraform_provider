@@ -7,17 +7,18 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
-	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
 	mist_transform "terraform-provider-mist/internal/commons/utils"
+
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 )
 
-func switchMatchingRulesPortMirroringTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.MapValue) map[string]mistsdkgo.SwitchPortMirroring {
+func switchMatchingRulesPortMirroringTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.MapValue) map[string]mistapigo.SwitchPortMirroring {
 
-	data := make(map[string]mistsdkgo.SwitchPortMirroring)
+	data := make(map[string]mistapigo.SwitchPortMirroring)
 	for k, v := range d.Elements() {
 		var plan_interface interface{} = v
 		plan_obj := plan_interface.(PortMirroringValue)
-		item_obj := mistsdkgo.NewSwitchPortMirroring()
+		item_obj := mistapigo.NewSwitchPortMirroring()
 		item_obj.SetInputNetworksIngress(mist_transform.ListOfStringTerraformToSdk(ctx, plan_obj.InputNetworksIngress))
 		item_obj.SetInputPortIdsEgress(mist_transform.ListOfStringTerraformToSdk(ctx, plan_obj.InputPortIdsEgress))
 		item_obj.SetInputPortIdsIngress(mist_transform.ListOfStringTerraformToSdk(ctx, plan_obj.InputPortIdsIngress))
@@ -26,13 +27,13 @@ func switchMatchingRulesPortMirroringTerraformToSdk(ctx context.Context, diags *
 	}
 	return data
 }
-func switchMatchingRulesPortConfigTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.MapValue) map[string]mistsdkgo.JunosPortConfig {
+func switchMatchingRulesPortConfigTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.MapValue) map[string]mistapigo.JunosPortConfig {
 
-	data := make(map[string]mistsdkgo.JunosPortConfig)
+	data := make(map[string]mistapigo.JunosPortConfig)
 	for k, v := range d.Elements() {
 		var plan_interface interface{} = v
 		plan_obj := plan_interface.(PortConfigValue)
-		item_obj := mistsdkgo.NewJunosPortConfig(plan_obj.Usage.ValueString())
+		item_obj := mistapigo.NewJunosPortConfig(plan_obj.Usage.ValueString())
 		item_obj.SetAeDisableLacp(plan_obj.AeDisableLacp.ValueBool())
 		item_obj.SetAeIdx(int32(plan_obj.AeIdx.ValueInt64()))
 		item_obj.SetAeLacpSlow(plan_obj.AeLacpSlow.ValueBool())
@@ -45,19 +46,19 @@ func switchMatchingRulesPortConfigTerraformToSdk(ctx context.Context, diags *dia
 		item_obj.SetMtu(int32(plan_obj.Mtu.ValueInt64()))
 		item_obj.SetNoLocalOverwrite(plan_obj.NoLocalOverwrite.ValueBool())
 		item_obj.SetPoeDisabled(plan_obj.PoeDisabled.ValueBool())
-		item_obj.SetSpeed(mistsdkgo.JunosPortConfigSpeed(plan_obj.Speed.ValueString()))
+		item_obj.SetSpeed(mistapigo.JunosPortConfigSpeed(plan_obj.Speed.ValueString()))
 		data[k] = *item_obj
 	}
 	return data
 }
-func switchMatchingRulesTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ListValue) []mistsdkgo.SwitchMatchingRule {
+func switchMatchingRulesTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ListValue) []mistapigo.SwitchMatchingRule {
 	tflog.Debug(ctx, "switchMatchingRulesTerraformToSdk")
 
-	var data []mistsdkgo.SwitchMatchingRule
+	var data []mistapigo.SwitchMatchingRule
 	for _, v := range d.Elements() {
 		var plan_interface interface{} = v
 		plan_obj := plan_interface.(MatchingRulesValue)
-		item_obj := mistsdkgo.NewSwitchMatchingRule()
+		item_obj := mistapigo.NewSwitchMatchingRule()
 		switch_matching_rule_port_config := switchMatchingRulesPortConfigTerraformToSdk(ctx, diags, plan_obj.PortConfig)
 		switch_matching_rule_port_mirroring := switchMatchingRulesPortMirroringTerraformToSdk(ctx, diags, plan_obj.PortMirroring)
 
@@ -80,9 +81,9 @@ func switchMatchingRulesTerraformToSdk(ctx context.Context, diags *diag.Diagnost
 	return data
 }
 
-func switchMatchingTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d SwitchMatchingValue) mistsdkgo.SwitchMatching {
+func switchMatchingTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d SwitchMatchingValue) mistapigo.SwitchMatching {
 
-	data := mistsdkgo.NewSwitchMatching()
+	data := mistapigo.NewSwitchMatching()
 	if d.IsNull() || d.IsUnknown() {
 		return *data
 	} else {

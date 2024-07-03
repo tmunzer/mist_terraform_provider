@@ -8,10 +8,10 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
-	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 )
 
-func ledSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdkgo.ApLed) LedValue {
+func ledSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistapigo.ApLed) LedValue {
 	tflog.Debug(ctx, "ledSdkToTerraform")
 
 	r_attr_type := LedValue{}.AttributeTypes(ctx)

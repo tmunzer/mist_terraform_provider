@@ -2,17 +2,18 @@ package resource_org_gatewaytemplate
 
 import (
 	"context"
-	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
 	mist_transform "terraform-provider-mist/internal/commons/utils"
+
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 
-func tunnelConfigsAutoProvisionPrimaryTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) mistsdkgo.TunnelConfigsAutoProvisionNode {
+func tunnelConfigsAutoProvisionPrimaryTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) mistapigo.TunnelConfigsAutoProvisionNode {
 	tflog.Debug(ctx, "tunnelConfigsAutoProvisionPrimaryTerraformToSdk")
-	data := *mistsdkgo.NewTunnelConfigsAutoProvisionNode()
+	data := *mistapigo.NewTunnelConfigsAutoProvisionNode()
 	if d.IsNull() || d.IsUnknown() {
 		return data
 	} else {
@@ -24,9 +25,9 @@ func tunnelConfigsAutoProvisionPrimaryTerraformToSdk(ctx context.Context, diags 
 	}
 }
 
-func tunnelConfigsAutoProvisionSecondaryTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) mistsdkgo.TunnelConfigsAutoProvisionNode {
+func tunnelConfigsAutoProvisionSecondaryTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) mistapigo.TunnelConfigsAutoProvisionNode {
 	tflog.Debug(ctx, "tunnelConfigsAutoProvisionSecondaryTerraformToSdk")
-	data := *mistsdkgo.NewTunnelConfigsAutoProvisionNode()
+	data := *mistapigo.NewTunnelConfigsAutoProvisionNode()
 	if d.IsNull() || d.IsUnknown() {
 		return data
 	} else {
@@ -38,9 +39,9 @@ func tunnelConfigsAutoProvisionSecondaryTerraformToSdk(ctx context.Context, diag
 	}
 }
 
-func tunnelConfigsAutoProvisionTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) mistsdkgo.TunnelConfigsAutoProvision {
+func tunnelConfigsAutoProvisionTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) mistapigo.TunnelConfigsAutoProvision {
 	tflog.Debug(ctx, "tunnelConfigsAutoProvisionTerraformToSdk")
-	data := *mistsdkgo.NewTunnelConfigsAutoProvision()
+	data := *mistapigo.NewTunnelConfigsAutoProvision()
 	if d.IsNull() || d.IsUnknown() {
 		return data
 	} else {
@@ -50,7 +51,7 @@ func tunnelConfigsAutoProvisionTerraformToSdk(ctx context.Context, diags *diag.D
 		var plan_latlng_interface interface{} = plan.Latlng
 		plan_latlng := plan_latlng_interface.(LatlngValue)
 
-		var latlng mistsdkgo.LatLng
+		var latlng mistapigo.LatLng
 		latlng.SetLat(plan_latlng.Lat.ValueFloat64())
 		latlng.SetLng(plan_latlng.Lng.ValueFloat64())
 		data.SetLatlng(latlng)
@@ -58,7 +59,7 @@ func tunnelConfigsAutoProvisionTerraformToSdk(ctx context.Context, diags *diag.D
 		primary := tunnelConfigsAutoProvisionPrimaryTerraformToSdk(ctx, diags, plan.AutoProvisionPrimary)
 		data.SetPrimary(primary)
 
-		data.SetRegion(mistsdkgo.TunnelConfigsAutoProvisionRegion(plan.Region.ValueString()))
+		data.SetRegion(mistapigo.TunnelConfigsAutoProvisionRegion(plan.Region.ValueString()))
 
 		secondary := tunnelConfigsAutoProvisionSecondaryTerraformToSdk(ctx, diags, plan.AutoProvisionSecondary)
 		data.SetSecondary(secondary)
@@ -67,41 +68,41 @@ func tunnelConfigsAutoProvisionTerraformToSdk(ctx context.Context, diags *diag.D
 	}
 }
 
-func gatewayTemplateTunnelIkeProposalTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ListValue) []mistsdkgo.GatewayTemplateTunnelIkeProposal {
+func gatewayTemplateTunnelIkeProposalTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ListValue) []mistapigo.GatewayTemplateTunnelIkeProposal {
 	tflog.Debug(ctx, "gatewayTemplateTunnelIkeProposalTerraformToSdk")
-	var data_list []mistsdkgo.GatewayTemplateTunnelIkeProposal
+	var data_list []mistapigo.GatewayTemplateTunnelIkeProposal
 	for _, v := range d.Elements() {
 		var v_interface interface{} = v
 		plan := v_interface.(IkeProposalsValue)
-		data := mistsdkgo.NewGatewayTemplateTunnelIkeProposal()
-		data.SetAuthAlgo(mistsdkgo.TunnelConfigsAuthAlgo(plan.AuthAlgo.ValueString()))
-		data.SetDhGroup(mistsdkgo.GatewayTemplateTunnelIkeDhGroup(plan.DhGroup.ValueString()))
-		data.SetEncAlgo(mistsdkgo.TunnelConfigsEncAlgo(plan.EncAlgo.ValueString()))
+		data := mistapigo.NewGatewayTemplateTunnelIkeProposal()
+		data.SetAuthAlgo(mistapigo.TunnelConfigsAuthAlgo(plan.AuthAlgo.ValueString()))
+		data.SetDhGroup(mistapigo.GatewayTemplateTunnelIkeDhGroup(plan.DhGroup.ValueString()))
+		data.SetEncAlgo(mistapigo.TunnelConfigsEncAlgo(plan.EncAlgo.ValueString()))
 
 		data_list = append(data_list, *data)
 	}
 	return data_list
 }
 
-func gatewayTemplateTunnelIpsecProposalTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ListValue) []mistsdkgo.GatewayTemplateTunnelIpsecProposal {
+func gatewayTemplateTunnelIpsecProposalTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ListValue) []mistapigo.GatewayTemplateTunnelIpsecProposal {
 	tflog.Debug(ctx, "gatewayTemplateTunnelIpsecProposalTerraformToSdk")
-	var data_list []mistsdkgo.GatewayTemplateTunnelIpsecProposal
+	var data_list []mistapigo.GatewayTemplateTunnelIpsecProposal
 	for _, v := range d.Elements() {
 		var v_interface interface{} = v
 		plan := v_interface.(IpsecProposalsValue)
-		data := mistsdkgo.NewGatewayTemplateTunnelIpsecProposal()
-		data.SetAuthAlgo(mistsdkgo.TunnelConfigsAuthAlgo(plan.AuthAlgo.ValueString()))
-		data.SetDhGroup(mistsdkgo.TunnelConfigsDhGroup(plan.DhGroup.ValueString()))
-		data.SetEncAlgo(mistsdkgo.TunnelConfigsEncAlgo(plan.EncAlgo.ValueString()))
+		data := mistapigo.NewGatewayTemplateTunnelIpsecProposal()
+		data.SetAuthAlgo(mistapigo.TunnelConfigsAuthAlgo(plan.AuthAlgo.ValueString()))
+		data.SetDhGroup(mistapigo.TunnelConfigsDhGroup(plan.DhGroup.ValueString()))
+		data.SetEncAlgo(mistapigo.TunnelConfigsEncAlgo(plan.EncAlgo.ValueString()))
 
 		data_list = append(data_list, *data)
 	}
 	return data_list
 }
 
-func gatewayTemplateTunnelProbeTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) mistsdkgo.GatewayTemplateTunnelProbe {
+func gatewayTemplateTunnelProbeTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) mistapigo.GatewayTemplateTunnelProbe {
 	tflog.Debug(ctx, "gatewayTemplateTunnelProbeTerraformToSdk")
-	data := *mistsdkgo.NewGatewayTemplateTunnelProbe()
+	data := *mistapigo.NewGatewayTemplateTunnelProbe()
 	if d.IsNull() || d.IsUnknown() {
 		return data
 	} else {
@@ -109,14 +110,14 @@ func gatewayTemplateTunnelProbeTerraformToSdk(ctx context.Context, diags *diag.D
 		data.SetInterval(int32(plan.Interval.ValueInt64()))
 		data.SetThreshold(int32(plan.Threshold.ValueInt64()))
 		data.SetTimeout(int32(plan.Timeout.ValueInt64()))
-		data.SetType(mistsdkgo.GatewayTemplateProbeType(plan.ProbeType.ValueString()))
+		data.SetType(mistapigo.GatewayTemplateProbeType(plan.ProbeType.ValueString()))
 		return data
 	}
 }
 
-func gatewayTemplateTunnelPrimaryProbeTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) mistsdkgo.GatewayTemplateTunnelNode {
+func gatewayTemplateTunnelPrimaryProbeTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) mistapigo.GatewayTemplateTunnelNode {
 	tflog.Debug(ctx, "gatewayTemplateTunnelPrimaryProbeTerraformToSdk")
-	data := *mistsdkgo.NewGatewayTemplateTunnelNode()
+	data := *mistapigo.NewGatewayTemplateTunnelNode()
 	if d.IsNull() || d.IsUnknown() {
 		return data
 	} else {
@@ -130,9 +131,9 @@ func gatewayTemplateTunnelPrimaryProbeTerraformToSdk(ctx context.Context, diags 
 	}
 }
 
-func gatewayTemplateTunnelSecondaryProbeTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) mistsdkgo.GatewayTemplateTunnelNode {
+func gatewayTemplateTunnelSecondaryProbeTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) mistapigo.GatewayTemplateTunnelNode {
 	tflog.Debug(ctx, "gatewayTemplateTunnelSecondaryProbeTerraformToSdk")
-	data := *mistsdkgo.NewGatewayTemplateTunnelNode()
+	data := *mistapigo.NewGatewayTemplateTunnelNode()
 	if d.IsNull() || d.IsUnknown() {
 		return data
 	} else {
@@ -146,20 +147,20 @@ func gatewayTemplateTunnelSecondaryProbeTerraformToSdk(ctx context.Context, diag
 	}
 }
 
-func tunnelConfigsTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.MapValue) map[string]mistsdkgo.TunnelConfigs {
+func tunnelConfigsTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.MapValue) map[string]mistapigo.TunnelConfigs {
 	tflog.Debug(ctx, "tunnelConfigsTerraformToSdk")
-	data_map := make(map[string]mistsdkgo.TunnelConfigs)
+	data_map := make(map[string]mistapigo.TunnelConfigs)
 	for k, v := range d.Elements() {
 		var v_interface interface{} = v
 		plan := v_interface.(TunnelConfigsValue)
 
-		data := *mistsdkgo.NewTunnelConfigs()
+		data := *mistapigo.NewTunnelConfigs()
 
 		auto_provision := tunnelConfigsAutoProvisionTerraformToSdk(ctx, diags, plan.AutoProvision)
 		data.SetAutoProvision(auto_provision)
 
 		data.SetIkeLifetime(int32(plan.IkeLifetime.ValueInt64()))
-		data.SetIkeMode(mistsdkgo.GatewayTemplateTunnelIkeMode(plan.IkeMode.ValueString()))
+		data.SetIkeMode(mistapigo.GatewayTemplateTunnelIkeMode(plan.IkeMode.ValueString()))
 
 		ike_proposals := gatewayTemplateTunnelIkeProposalTerraformToSdk(ctx, diags, plan.IkeProposals)
 		data.SetIkeProposals(ike_proposals)
@@ -177,14 +178,14 @@ func tunnelConfigsTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d
 		probe := gatewayTemplateTunnelProbeTerraformToSdk(ctx, diags, plan.Probe)
 		data.SetProbe(probe)
 
-		data.SetProtocol(mistsdkgo.GatewayTemplateTunnelProtocol(plan.Protocol.ValueString()))
-		data.SetProvider(mistsdkgo.TunnelProviderOptionsName(plan.Provider.ValueString()))
+		data.SetProtocol(mistapigo.GatewayTemplateTunnelProtocol(plan.Protocol.ValueString()))
+		data.SetProvider(mistapigo.TunnelProviderOptionsName(plan.Provider.ValueString()))
 		data.SetPsk(plan.Psk.ValueString())
 
 		secondary := gatewayTemplateTunnelSecondaryProbeTerraformToSdk(ctx, diags, plan.Secondary)
 		data.SetSecondary(secondary)
 
-		data.SetVersion(mistsdkgo.GatewayTemplateTunnelVersion(plan.Version.ValueString()))
+		data.SetVersion(mistapigo.GatewayTemplateTunnelVersion(plan.Version.ValueString()))
 
 		data_map[k] = data
 	}

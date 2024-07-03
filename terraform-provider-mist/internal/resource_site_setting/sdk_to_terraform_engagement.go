@@ -9,11 +9,12 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
-	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
 	hours "terraform-provider-mist/internal/commons/hours"
+
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 )
 
-func engagementDwellTagNamesSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdkgo.SiteEngagementDwellTagNames) basetypes.ObjectValue {
+func engagementDwellTagNamesSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistapigo.SiteEngagementDwellTagNames) basetypes.ObjectValue {
 	tflog.Debug(ctx, "engagementDwellTagNamesSdkToTerraform")
 
 	r_attr_type := DwellTagNamesValue{}.AttributeTypes(ctx)
@@ -28,7 +29,7 @@ func engagementDwellTagNamesSdkToTerraform(ctx context.Context, diags *diag.Diag
 	return r
 }
 
-func engagementDwellTagsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdkgo.SiteEngagementDwellTags) basetypes.ObjectValue {
+func engagementDwellTagsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistapigo.SiteEngagementDwellTags) basetypes.ObjectValue {
 	tflog.Debug(ctx, "engagementDwellTagsSdkToTerraform")
 
 	r_attr_type := DwellTagsValue{}.AttributeTypes(ctx)
@@ -43,7 +44,7 @@ func engagementDwellTagsSdkToTerraform(ctx context.Context, diags *diag.Diagnost
 	return r
 }
 
-func engagementSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdkgo.SiteEngagement) EngagementValue {
+func engagementSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistapigo.SiteEngagement) EngagementValue {
 	tflog.Debug(ctx, "engagementSdkToTerraform")
 
 	tag_names := engagementDwellTagNamesSdkToTerraform(ctx, diags, d.GetDwellTagNames())

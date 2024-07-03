@@ -6,12 +6,12 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
-	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 )
 
-func proxyTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d ProxyValue) mistsdkgo.Proxy {
+func proxyTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d ProxyValue) mistapigo.Proxy {
 	tflog.Debug(ctx, "proxyTerraformToSdk")
-	data := mistsdkgo.NewProxy()
+	data := mistapigo.NewProxy()
 
 	data.SetUrl(d.Url.ValueString())
 

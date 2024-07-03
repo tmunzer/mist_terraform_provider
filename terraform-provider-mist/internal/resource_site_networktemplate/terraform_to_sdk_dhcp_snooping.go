@@ -5,12 +5,13 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 
-	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
 	mist_transform "terraform-provider-mist/internal/commons/utils"
+
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 )
 
-func dhcpSnoopingTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d DhcpSnoopingValue) mistsdkgo.DhcpSnooping {
-	data := mistsdkgo.NewDhcpSnooping()
+func dhcpSnoopingTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d DhcpSnoopingValue) mistapigo.DhcpSnooping {
+	data := mistapigo.NewDhcpSnooping()
 	data.SetAllNetworks(d.AllNetworks.ValueBool())
 	data.SetEnableArpSpoofCheck(d.EnableArpSpoofCheck.ValueBool())
 	data.SetEnableIpSourceGuard(d.EnableIpSourceGuard.ValueBool())

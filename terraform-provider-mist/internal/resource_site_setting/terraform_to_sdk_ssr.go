@@ -6,13 +6,14 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
-	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
 	mist_transform "terraform-provider-mist/internal/commons/utils"
+
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 )
 
-func ssrTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d SsrValue) mistsdkgo.SiteSettingSsr {
+func ssrTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d SsrValue) mistapigo.SiteSettingSsr {
 	tflog.Debug(ctx, "ssrTerraformToSdk")
-	data := mistsdkgo.NewSiteSettingSsr()
+	data := mistapigo.NewSiteSettingSsr()
 
 	data.SetConductorHosts(mist_transform.ListOfStringTerraformToSdk(ctx, d.ConductorHosts))
 	data.SetDisableStats(d.DisableStats.ValueBool())

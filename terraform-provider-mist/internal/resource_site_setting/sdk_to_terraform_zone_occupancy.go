@@ -2,8 +2,9 @@ package resource_site_setting
 
 import (
 	"context"
-	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
 	mist_transform "terraform-provider-mist/internal/commons/utils"
+
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
@@ -11,7 +12,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 
-func zoneOccupancySdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistsdkgo.SiteZoneOccupancyAlert) ZoneOccupancyAlertValue {
+func zoneOccupancySdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistapigo.SiteZoneOccupancyAlert) ZoneOccupancyAlertValue {
 	tflog.Debug(ctx, "zoneOccupancySdkToTerraform")
 
 	r_attr_type := ZoneOccupancyAlertValue{}.AttributeTypes(ctx)

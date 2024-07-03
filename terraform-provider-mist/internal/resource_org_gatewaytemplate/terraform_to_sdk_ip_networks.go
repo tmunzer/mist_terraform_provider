@@ -2,7 +2,8 @@ package resource_org_gatewaytemplate
 
 import (
 	"context"
-	mistsdkgo "terraform-provider-mist/github.com/tmunzer/mist-sdk-go"
+
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 
 	mist_transform "terraform-provider-mist/internal/commons/utils"
 	"terraform-provider-mist/internal/resource_org_network"
@@ -12,13 +13,13 @@ import (
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 
-func networksTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ListValue) []mistsdkgo.Network {
+func networksTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ListValue) []mistapigo.Network {
 	tflog.Debug(ctx, "networksTerraformToSdk")
-	var data_list []mistsdkgo.Network
+	var data_list []mistapigo.Network
 	for _, v := range d.Elements() {
 		var v_interface interface{} = v
 		plan := v_interface.(NetworksValue)
-		data := mistsdkgo.NewNetwork()
+		data := mistapigo.NewNetwork()
 
 		data.SetDisallowMistServices(plan.DisallowMistServices.ValueBool())
 		data.SetGateway(plan.Gateway.ValueString())
