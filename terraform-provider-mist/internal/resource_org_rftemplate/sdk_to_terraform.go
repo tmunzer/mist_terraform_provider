@@ -1,4 +1,4 @@
-package resource_rftemplate
+package resource_org_rftemplate
 
 import (
 	"context"
@@ -9,8 +9,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
-func SdkToTerraform(ctx context.Context, data *mistapigo.RfTemplate) (RftemplateModel, diag.Diagnostics) {
-	var state RftemplateModel
+func SdkToTerraform(ctx context.Context, data *mistapigo.RfTemplate) (OrgRftemplateModel, diag.Diagnostics) {
+	var state OrgRftemplateModel
 	var diags diag.Diagnostics
 
 	state.Id = types.StringValue(data.GetId())

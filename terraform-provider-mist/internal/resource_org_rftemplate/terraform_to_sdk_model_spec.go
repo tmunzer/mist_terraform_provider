@@ -1,4 +1,4 @@
-package resource_rftemplate
+package resource_org_rftemplate
 
 import (
 	"context"

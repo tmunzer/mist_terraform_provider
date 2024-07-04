@@ -1,4 +1,4 @@
-package resource_service
+package resource_org_service
 
 import (
 	"context"
@@ -34,8 +34,8 @@ func serviceSpecsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d 
 	return r
 }
 
-func SdkToTerraform(ctx context.Context, data *mistapigo.Service) (ServiceModel, diag.Diagnostics) {
-	var state ServiceModel
+func SdkToTerraform(ctx context.Context, data *mistapigo.Service) (OrgServiceModel, diag.Diagnostics) {
+	var state OrgServiceModel
 	var diags diag.Diagnostics
 
 	state.Id = types.StringValue(data.GetId())

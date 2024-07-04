@@ -1,4 +1,4 @@
-package resource_rftemplate
+package resource_org_rftemplate
 
 import (
 	"context"
@@ -8,7 +8,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 )
 
-func TerraformToSdk(ctx context.Context, plan *RftemplateModel) (mistapigo.RfTemplate, diag.Diagnostics) {
+func TerraformToSdk(ctx context.Context, plan *OrgRftemplateModel) (mistapigo.RfTemplate, diag.Diagnostics) {
 	var diags diag.Diagnostics
 	data := *mistapigo.NewRfTemplate(plan.Name.ValueString())
 

@@ -1,4 +1,4 @@
-package resource_service
+package resource_org_service
 
 import (
 	"context"
@@ -24,7 +24,7 @@ func actTagSpecsTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d b
 	return data
 }
 
-func TerraformToSdk(ctx context.Context, plan *ServiceModel) (mistapigo.Service, diag.Diagnostics) {
+func TerraformToSdk(ctx context.Context, plan *OrgServiceModel) (mistapigo.Service, diag.Diagnostics) {
 	var diags diag.Diagnostics
 	data := *mistapigo.NewService()
 	data.SetId(plan.Id.ValueString())

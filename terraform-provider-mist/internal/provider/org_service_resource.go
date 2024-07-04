@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"terraform-provider-mist/internal/resource_service"
+	"terraform-provider-mist/internal/resource_org_service"
 
 	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 
@@ -47,12 +47,12 @@ func (r *orgServiceResource) Metadata(ctx context.Context, req resource.Metadata
 	resp.TypeName = req.ProviderTypeName + "_org_service"
 }
 func (r *orgServiceResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
-	resp.Schema = resource_service.ServiceResourceSchema(ctx)
+	resp.Schema = resource_org_service.OrgServiceResourceSchema(ctx)
 }
 
 func (r *orgServiceResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
 	tflog.Info(ctx, "Starting Service Create")
-	var plan, state resource_service.ServiceModel
+	var plan, state resource_org_service.OrgServiceModel
 
 	diags := req.Plan.Get(ctx, &plan)
 	resp.Diagnostics.Append(diags...)
@@ -60,7 +60,7 @@ func (r *orgServiceResource) Create(ctx context.Context, req resource.CreateRequ
 		return
 	}
 
-	service, diags := resource_service.TerraformToSdk(ctx, &plan)
+	service, diags := resource_org_service.TerraformToSdk(ctx, &plan)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -77,7 +77,7 @@ func (r *orgServiceResource) Create(ctx context.Context, req resource.CreateRequ
 		return
 	}
 
-	state, diags = resource_service.SdkToTerraform(ctx, data)
+	state, diags = resource_org_service.SdkToTerraform(ctx, data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -91,7 +91,7 @@ func (r *orgServiceResource) Create(ctx context.Context, req resource.CreateRequ
 }
 
 func (r *orgServiceResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
-	var state resource_service.ServiceModel
+	var state resource_org_service.OrgServiceModel
 
 	diags := resp.State.Get(ctx, &state)
 	resp.Diagnostics.Append(diags...)
@@ -108,7 +108,7 @@ func (r *orgServiceResource) Read(ctx context.Context, req resource.ReadRequest,
 		)
 		return
 	}
-	state, diags = resource_service.SdkToTerraform(ctx, data)
+	state, diags = resource_org_service.SdkToTerraform(ctx, data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -122,7 +122,7 @@ func (r *orgServiceResource) Read(ctx context.Context, req resource.ReadRequest,
 }
 
 func (r *orgServiceResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
-	var state, plan resource_service.ServiceModel
+	var state, plan resource_org_service.OrgServiceModel
 	tflog.Info(ctx, "Starting Service Update")
 
 	diags := resp.State.Get(ctx, &state)
@@ -136,7 +136,7 @@ func (r *orgServiceResource) Update(ctx context.Context, req resource.UpdateRequ
 		return
 	}
 
-	service, diags := resource_service.TerraformToSdk(ctx, &plan)
+	service, diags := resource_org_service.TerraformToSdk(ctx, &plan)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -153,7 +153,7 @@ func (r *orgServiceResource) Update(ctx context.Context, req resource.UpdateRequ
 		return
 	}
 
-	state, diags = resource_service.SdkToTerraform(ctx, data)
+	state, diags = resource_org_service.SdkToTerraform(ctx, data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -168,7 +168,7 @@ func (r *orgServiceResource) Update(ctx context.Context, req resource.UpdateRequ
 }
 
 func (r *orgServiceResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
-	var state resource_service.ServiceModel
+	var state resource_org_service.OrgServiceModel
 
 	diags := resp.State.Get(ctx, &state)
 	resp.Diagnostics.Append(diags...)

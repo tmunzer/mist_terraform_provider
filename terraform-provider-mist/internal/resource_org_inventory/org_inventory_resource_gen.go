@@ -856,8 +856,8 @@ func (v DevicesValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue,
 			"site_id": 		v.SiteId,
 			"type": 		v.DeviceType,
 			"vc_mac": 		v.VcMac,
-			"hostname": 	v.VcMac,
-			"device_id": 	v.VcMac,
+			"hostname": 	v.Hostname,
+			"device_id": 	v.DeviceId,
 		})
 
 	return objVal, diags

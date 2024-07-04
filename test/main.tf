@@ -18,7 +18,17 @@ resource "mist_org" "terraform_test" {
 resource "mist_org_inventory" "inventory" {
   org_id       = mist_org.terraform_test.id
   devices = [
+    {
+      magic = "CPKL2EXN8JY98AC"
+      site_id = mist_site.terraform_site.id
+
+    }
   ]
+}
+resource "mist_device_ap" "test_ap" {
+  id = mist_org_inventory.inventory.devices[0].device_id
+  site_id  = mist_org_inventory.inventory.devices[0].site_id
+  name = "test"
 }
 ### SITES
 resource "mist_site" "terraform_site" {

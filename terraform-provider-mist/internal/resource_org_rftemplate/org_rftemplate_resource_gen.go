@@ -86,7 +86,7 @@ func OrgRftemplateResourceSchema(ctx context.Context) schema.Schema {
 						Computed:            true,
 						Description:         "For RFTemplates. List of channels, null or empty array means auto",
 						MarkdownDescription: "For RFTemplates. List of channels, null or empty array means auto",
-						Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
+						Default:             listdefault.StaticValue(types.ListValueMust(types.Int64Type, []attr.Value{})),
 					},
 					"disabled": schema.BoolAttribute{
 						Optional:            true,
@@ -211,7 +211,7 @@ func OrgRftemplateResourceSchema(ctx context.Context) schema.Schema {
 						Computed:            true,
 						Description:         "For RFTemplates. List of channels, null or empty array means auto",
 						MarkdownDescription: "For RFTemplates. List of channels, null or empty array means auto",
-						Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
+						Default:             listdefault.StaticValue(types.ListValueMust(types.Int64Type, []attr.Value{})),
 					},
 					"disabled": schema.BoolAttribute{
 						Optional:            true,
@@ -325,7 +325,7 @@ func OrgRftemplateResourceSchema(ctx context.Context) schema.Schema {
 						Computed:            true,
 						Description:         "For RFTemplates. List of channels, null or empty array means auto",
 						MarkdownDescription: "For RFTemplates. List of channels, null or empty array means auto",
-						Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
+						Default:             listdefault.StaticValue(types.ListValueMust(types.Int64Type, []attr.Value{})),
 					},
 					"disabled": schema.BoolAttribute{
 						Optional:            true,
@@ -469,7 +469,7 @@ func OrgRftemplateResourceSchema(ctx context.Context) schema.Schema {
 									Computed:            true,
 									Description:         "For RFTemplates. List of channels, null or empty array means auto",
 									MarkdownDescription: "For RFTemplates. List of channels, null or empty array means auto",
-									Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
+									Default:             listdefault.StaticValue(types.ListValueMust(types.Int64Type, []attr.Value{})),
 								},
 								"disabled": schema.BoolAttribute{
 									Optional:            true,
@@ -594,7 +594,7 @@ func OrgRftemplateResourceSchema(ctx context.Context) schema.Schema {
 									Computed:            true,
 									Description:         "For RFTemplates. List of channels, null or empty array means auto",
 									MarkdownDescription: "For RFTemplates. List of channels, null or empty array means auto",
-									Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
+									Default:             listdefault.StaticValue(types.ListValueMust(types.Int64Type, []attr.Value{})),
 								},
 								"disabled": schema.BoolAttribute{
 									Optional:            true,
@@ -706,7 +706,7 @@ func OrgRftemplateResourceSchema(ctx context.Context) schema.Schema {
 									Computed:            true,
 									Description:         "For RFTemplates. List of channels, null or empty array means auto",
 									MarkdownDescription: "For RFTemplates. List of channels, null or empty array means auto",
-									Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
+									Default:             listdefault.StaticValue(types.ListValueMust(types.Int64Type, []attr.Value{})),
 								},
 								"disabled": schema.BoolAttribute{
 									Optional:            true,
@@ -820,7 +820,7 @@ func OrgRftemplateResourceSchema(ctx context.Context) schema.Schema {
 									Computed:            true,
 									Description:         "For RFTemplates. List of channels, null or empty array means auto",
 									MarkdownDescription: "For RFTemplates. List of channels, null or empty array means auto",
-									Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
+									Default:             listdefault.StaticValue(types.ListValueMust(types.Int64Type, []attr.Value{})),
 								},
 								"disabled": schema.BoolAttribute{
 									Optional:            true,

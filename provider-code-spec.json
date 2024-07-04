@@ -49,6 +49,2222 @@
     },
     "resources": [
         {
+            "name": "device_ap",
+            "schema": {
+                "attributes": [
+                    {
+                        "name": "aeroscout",
+                        "single_nested": {
+                            "computed_optional_required": "computed_optional",
+                            "attributes": [
+                                {
+                                    "name": "enabled",
+                                    "bool": {
+                                        "computed_optional_required": "computed_optional",
+                                        "default": {
+                                            "static": false
+                                        },
+                                        "description": "whether to enable aeroscout config"
+                                    }
+                                },
+                                {
+                                    "name": "host",
+                                    "string": {
+                                        "computed_optional_required": "computed_optional",
+                                        "description": "required if enabled, aeroscout server host"
+                                    }
+                                },
+                                {
+                                    "name": "locate_connected",
+                                    "bool": {
+                                        "computed_optional_required": "computed_optional",
+                                        "default": {
+                                            "static": true
+                                        },
+                                        "description": "whether to enable the feature to allow wireless clients data received and sent to AES server for location calculation"
+                                    }
+                                }
+                            ],
+                            "description": "Aeroscout AP settings"
+                        }
+                    },
+                    {
+                        "name": "ble_config",
+                        "single_nested": {
+                            "computed_optional_required": "computed_optional",
+                            "attributes": [
+                                {
+                                    "name": "beacon_enabled",
+                                    "bool": {
+                                        "computed_optional_required": "computed_optional",
+                                        "default": {
+                                            "static": false
+                                        },
+                                        "description": "whether Mist beacons is enabled"
+                                    }
+                                },
+                                {
+                                    "name": "beacon_rate",
+                                    "int64": {
+                                        "computed_optional_required": "computed_optional",
+                                        "default": {
+                                            "static": 0
+                                        },
+                                        "description": "required if `beacon_rate_mode`==`custom`, 1-10, in number-beacons-per-second"
+                                    }
+                                },
+                                {
+                                    "name": "beacon_rate_mode",
+                                    "string": {
+                                        "computed_optional_required": "computed_optional",
+                                        "default": {
+                                            "static": "default"
+                                        },
+                                        "validators": [
+                                            {
+                                                "custom": {
+                                                    "imports": [
+                                                        {
+                                                            "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                                        }
+                                                    ],
+                                                    "schema_definition": "stringvalidator.OneOf(\n\"\",\n\"default\",\n\"custom\",\n)"
+                                                }
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "beam_disabled",
+                                    "list": {
+                                        "default": {
+                                            "custom": {
+                                                "imports": [
+                                                    {
+                                                        "path": "github.com/hashicorp/terraform-plugin-framework/attr"
+                                                    },
+                                                    {
+                                                        "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault"
+                                                    },
+                                                    {
+                                                        "path": "github.com/hashicorp/terraform-plugin-framework/types"
+                                                    }
+                                                ],
+                                                "schema_definition": "listdefault.StaticValue(types.ListValueMust(types.Int64Type, []attr.Value{}))"
+                                            }
+                                        },
+                                        "computed_optional_required": "computed_optional",
+                                        "element_type": {
+                                            "int64": {}
+                                        },
+                                        "description": "list of AP BLE location beam numbers (1-8) which should be disabled at the AP and not transmit location information (where beam 1 is oriented at the top the AP, growing counter-clock-wise, with 9 being the omni BLE beam)"
+                                    }
+                                },
+                                {
+                                    "name": "custom_ble_packet_enabled",
+                                    "bool": {
+                                        "computed_optional_required": "computed_optional",
+                                        "default": {
+                                            "static": false
+                                        },
+                                        "description": "can be enabled if `beacon_enabled`==`true`, whether to send custom packet"
+                                    }
+                                },
+                                {
+                                    "name": "custom_ble_packet_frame",
+                                    "string": {
+                                        "computed_optional_required": "computed_optional",
+                                        "default": {
+                                            "static": ""
+                                        },
+                                        "description": "The custom frame to be sent out in this beacon. The frame must be a hexstring"
+                                    }
+                                },
+                                {
+                                    "name": "custom_ble_packet_freq_msec",
+                                    "int64": {
+                                        "computed_optional_required": "computed_optional",
+                                        "default": {
+                                            "static": 0
+                                        },
+                                        "description": "Frequency (msec) of data emitted by custom ble beacon",
+                                        "validators": [
+                                            {
+                                                "custom": {
+                                                    "imports": [
+                                                        {
+                                                            "path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+                                                        }
+                                                    ],
+                                                    "schema_definition": "int64validator.AtLeast(0)"
+                                                }
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "eddystone_uid_adv_power",
+                                    "int64": {
+                                        "computed_optional_required": "computed_optional",
+                                        "default": {
+                                            "static": 0
+                                        },
+                                        "description": "advertised TX Power, -100 to 20 (dBm), omit this attribute to use default",
+                                        "validators": [
+                                            {
+                                                "custom": {
+                                                    "imports": [
+                                                        {
+                                                            "path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+                                                        }
+                                                    ],
+                                                    "schema_definition": "int64validator.Between(-100, 20)"
+                                                }
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "eddystone_uid_beams",
+                                    "string": {
+                                        "computed_optional_required": "computed_optional",
+                                        "default": {
+                                            "static": ""
+                                        }
+                                    }
+                                },
+                                {
+                                    "name": "eddystone_uid_enabled",
+                                    "bool": {
+                                        "computed_optional_required": "computed_optional",
+                                        "default": {
+                                            "static": false
+                                        },
+                                        "description": "only if `beacon_enabled`==`false`, Whether Eddystone-UID beacon is enabled"
+                                    }
+                                },
+                                {
+                                    "name": "eddystone_uid_freq_msec",
+                                    "int64": {
+                                        "computed_optional_required": "computed_optional",
+                                        "default": {
+                                            "static": 0
+                                        },
+                                        "description": "Frequency (msec) of data emmit by Eddystone-UID beacon"
+                                    }
+                                },
+                                {
+                                    "name": "eddystone_uid_instance",
+                                    "string": {
+                                        "computed_optional_required": "computed_optional",
+                                        "default": {
+                                            "static": ""
+                                        },
+                                        "description": "Eddystone-UID instance for the device"
+                                    }
+                                },
+                                {
+                                    "name": "eddystone_uid_namespace",
+                                    "string": {
+                                        "computed_optional_required": "computed_optional",
+                                        "default": {
+                                            "static": ""
+                                        },
+                                        "description": "Eddystone-UID namespace"
+                                    }
+                                },
+                                {
+                                    "name": "eddystone_url_adv_power",
+                                    "int64": {
+                                        "computed_optional_required": "computed_optional",
+                                        "default": {
+                                            "static": 0
+                                        },
+                                        "description": "advertised TX Power, -100 to 20 (dBm), omit this attribute to use default",
+                                        "validators": [
+                                            {
+                                                "custom": {
+                                                    "imports": [
+                                                        {
+                                                            "path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+                                                        }
+                                                    ],
+                                                    "schema_definition": "int64validator.Between(-100, 20)"
+                                                }
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "eddystone_url_beams",
+                                    "string": {
+                                        "computed_optional_required": "computed_optional",
+                                        "default": {
+                                            "static": ""
+                                        }
+                                    }
+                                },
+                                {
+                                    "name": "eddystone_url_enabled",
+                                    "bool": {
+                                        "computed_optional_required": "computed_optional",
+                                        "default": {
+                                            "static": false
+                                        },
+                                        "description": "only if `beacon_enabled`==`false`, Whether Eddystone-URL beacon is enabled"
+                                    }
+                                },
+                                {
+                                    "name": "eddystone_url_freq_msec",
+                                    "int64": {
+                                        "computed_optional_required": "computed_optional",
+                                        "default": {
+                                            "static": 0
+                                        },
+                                        "description": "Frequency (msec) of data emit by Eddystone-UID beacon"
+                                    }
+                                },
+                                {
+                                    "name": "eddystone_url_url",
+                                    "string": {
+                                        "computed_optional_required": "computed_optional",
+                                        "default": {
+                                            "static": ""
+                                        },
+                                        "description": "URL pointed by Eddystone-URL beacon"
+                                    }
+                                },
+                                {
+                                    "name": "ibeacon_adv_power",
+                                    "int64": {
+                                        "computed_optional_required": "computed_optional",
+                                        "default": {
+                                            "static": 0
+                                        },
+                                        "description": "advertised TX Power, -100 to 20 (dBm), omit this attribute to use default",
+                                        "validators": [
+                                            {
+                                                "custom": {
+                                                    "imports": [
+                                                        {
+                                                            "path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+                                                        }
+                                                    ],
+                                                    "schema_definition": "int64validator.Between(-100, 20)"
+                                                }
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "ibeacon_beams",
+                                    "string": {
+                                        "computed_optional_required": "computed_optional",
+                                        "default": {
+                                            "static": ""
+                                        }
+                                    }
+                                },
+                                {
+                                    "name": "ibeacon_enabled",
+                                    "bool": {
+                                        "computed_optional_required": "computed_optional",
+                                        "default": {
+                                            "static": false
+                                        },
+                                        "description": "can be enabled if `beacon_enabled`==`true`, whether to send iBeacon"
+                                    }
+                                },
+                                {
+                                    "name": "ibeacon_freq_msec",
+                                    "int64": {
+                                        "computed_optional_required": "computed_optional",
+                                        "default": {
+                                            "static": 0
+                                        },
+                                        "description": "Frequency (msec) of data emmit for iBeacon"
+                                    }
+                                },
+                                {
+                                    "name": "ibeacon_major",
+                                    "int64": {
+                                        "computed_optional_required": "computed_optional",
+                                        "default": {
+                                            "static": 0
+                                        },
+                                        "description": "Major number for iBeacon",
+                                        "validators": [
+                                            {
+                                                "custom": {
+                                                    "imports": [
+                                                        {
+                                                            "path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+                                                        }
+                                                    ],
+                                                    "schema_definition": "int64validator.Between(1, 65535)"
+                                                }
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "ibeacon_minor",
+                                    "int64": {
+                                        "computed_optional_required": "computed_optional",
+                                        "default": {
+                                            "static": 0
+                                        },
+                                        "description": "Minor number for iBeacon",
+                                        "validators": [
+                                            {
+                                                "custom": {
+                                                    "imports": [
+                                                        {
+                                                            "path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+                                                        }
+                                                    ],
+                                                    "schema_definition": "int64validator.Between(1, 65535)"
+                                                }
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "ibeacon_uuid",
+                                    "string": {
+                                        "computed_optional_required": "computed_optional",
+                                        "default": {
+                                            "static": ""
+                                        },
+                                        "description": "optional, if not specified, the same UUID as the beacon will be used"
+                                    }
+                                },
+                                {
+                                    "name": "power",
+                                    "int64": {
+                                        "computed_optional_required": "computed_optional",
+                                        "default": {
+                                            "static": 9
+                                        },
+                                        "description": "required if `power_mode`==`custom`",
+                                        "validators": [
+                                            {
+                                                "custom": {
+                                                    "imports": [
+                                                        {
+                                                            "path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+                                                        }
+                                                    ],
+                                                    "schema_definition": "int64validator.Between(1, 10)"
+                                                }
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "power_mode",
+                                    "string": {
+                                        "computed_optional_required": "computed_optional",
+                                        "default": {
+                                            "static": "default"
+                                        },
+                                        "validators": [
+                                            {
+                                                "custom": {
+                                                    "imports": [
+                                                        {
+                                                            "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                                        }
+                                                    ],
+                                                    "schema_definition": "stringvalidator.OneOf(\n\"\",\n\"default\",\n\"custom\",\n)"
+                                                }
+                                            }
+                                        ]
+                                    }
+                                }
+                            ],
+                            "description": "BLE AP settings"
+                        }
+                    },
+                    {
+                        "name": "centrak",
+                        "single_nested": {
+                            "computed_optional_required": "computed_optional",
+                            "attributes": [
+                                {
+                                    "name": "enabled",
+                                    "bool": {
+                                        "computed_optional_required": "computed_optional",
+                                        "default": {
+                                            "static": false
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "name": "client_bridge",
+                        "single_nested": {
+                            "computed_optional_required": "computed_optional",
+                            "attributes": [
+                                {
+                                    "name": "auth",
+                                    "single_nested": {
+                                        "computed_optional_required": "computed_optional",
+                                        "attributes": [
+                                            {
+                                                "name": "psk",
+                                                "string": {
+                                                    "computed_optional_required": "computed_optional",
+                                                    "validators": [
+                                                        {
+                                                            "custom": {
+                                                                "imports": [
+                                                                    {
+                                                                        "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                                                    }
+                                                                ],
+                                                                "schema_definition": "stringvalidator.LengthAtLeast(1)"
+                                                            }
+                                                        }
+                                                    ]
+                                                }
+                                            },
+                                            {
+                                                "name": "type",
+                                                "string": {
+                                                    "computed_optional_required": "computed_optional",
+                                                    "default": {
+                                                        "static": "psk"
+                                                    },
+                                                    "description": "wpa2-AES/CCMPp is assumed when `type`==`psk`",
+                                                    "validators": [
+                                                        {
+                                                            "custom": {
+                                                                "imports": [
+                                                                    {
+                                                                        "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                                                    }
+                                                                ],
+                                                                "schema_definition": "stringvalidator.OneOf(\n\"\",\n\"open\",\n\"psk\",\n)"
+                                                            }
+                                                        },
+                                                        {
+                                                            "custom": {
+                                                                "imports": [
+                                                                    {
+                                                                        "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                                                    }
+                                                                ],
+                                                                "schema_definition": "stringvalidator.LengthAtLeast(1)"
+                                                            }
+                                                        }
+                                                    ]
+                                                }
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "enabled",
+                                    "bool": {
+                                        "computed_optional_required": "computed_optional",
+                                        "default": {
+                                            "static": false
+                                        },
+                                        "description": "when acted as client bridge:\n* only 5G radio can be used\n* will not serve as AP on any radios"
+                                    }
+                                },
+                                {
+                                    "name": "ssid",
+                                    "string": {
+                                        "computed_optional_required": "computed_optional",
+                                        "validators": [
+                                            {
+                                                "custom": {
+                                                    "imports": [
+                                                        {
+                                                            "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                                        }
+                                                    ],
+                                                    "schema_definition": "stringvalidator.LengthAtLeast(1)"
+                                                }
+                                            }
+                                        ]
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "name": "deviceprofile_id",
+                        "string": {
+                            "computed_optional_required": "computed_optional"
+                        }
+                    },
+                    {
+                        "name": "disable_eth1",
+                        "bool": {
+                            "computed_optional_required": "computed_optional",
+                            "default": {
+                                "static": false
+                            },
+                            "description": "whether to disable eth1 port"
+                        }
+                    },
+                    {
+                        "name": "disable_eth2",
+                        "bool": {
+                            "computed_optional_required": "computed_optional",
+                            "default": {
+                                "static": false
+                            },
+                            "description": "whether to disable eth2 port"
+                        }
+                    },
+                    {
+                        "name": "disable_eth3",
+                        "bool": {
+                            "computed_optional_required": "computed_optional",
+                            "default": {
+                                "static": false
+                            },
+                            "description": "whether to disable eth3 port"
+                        }
+                    },
+                    {
+                        "name": "disable_module",
+                        "bool": {
+                            "computed_optional_required": "computed_optional",
+                            "default": {
+                                "static": false
+                            },
+                            "description": "whether to disable module port"
+                        }
+                    },
+                    {
+                        "name": "esl_config",
+                        "single_nested": {
+                            "computed_optional_required": "computed_optional",
+                            "attributes": [
+                                {
+                                    "name": "cacert",
+                                    "string": {
+                                        "computed_optional_required": "computed_optional",
+                                        "description": "Only if `type`==`imagotag` or `type`==`native`"
+                                    }
+                                },
+                                {
+                                    "name": "channel",
+                                    "int64": {
+                                        "computed_optional_required": "computed_optional",
+                                        "description": "Only if `type`==`imagotag` or `type`==`native`"
+                                    }
+                                },
+                                {
+                                    "name": "enabled",
+                                    "bool": {
+                                        "computed_optional_required": "computed_optional",
+                                        "default": {
+                                            "static": false
+                                        },
+                                        "description": "usb_config is ignored if esl_config enabled"
+                                    }
+                                },
+                                {
+                                    "name": "host",
+                                    "string": {
+                                        "computed_optional_required": "computed_optional",
+                                        "description": "Only if `type`==`imagotag` or `type`==`native`"
+                                    }
+                                },
+                                {
+                                    "name": "port",
+                                    "int64": {
+                                        "computed_optional_required": "computed_optional",
+                                        "description": "Only if `type`==`imagotag` or `type`==`native`"
+                                    }
+                                },
+                                {
+                                    "name": "type",
+                                    "string": {
+                                        "computed_optional_required": "computed_optional",
+                                        "description": "note: ble_config will be ingored if esl_config is enabled and with native mode.",
+                                        "validators": [
+                                            {
+                                                "custom": {
+                                                    "imports": [
+                                                        {
+                                                            "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                                        }
+                                                    ],
+                                                    "schema_definition": "stringvalidator.OneOf(\n\"\",\n\"imagotag\",\n\"hanshow\",\n\"solum\",\n\"native\",\n)"
+                                                }
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "verify_cert",
+                                    "bool": {
+                                        "computed_optional_required": "computed_optional",
+                                        "description": "Only if `type`==`imagotag` or `type`==`native`"
+                                    }
+                                },
+                                {
+                                    "name": "vlan_id",
+                                    "int64": {
+                                        "computed_optional_required": "computed_optional",
+                                        "default": {
+                                            "static": 1
+                                        },
+                                        "description": "Only if `type`==`solum` or `type`==`hansho`"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "name": "height",
+                        "float64": {
+                            "computed_optional_required": "computed_optional",
+                            "description": "height, in meters, optional"
+                        }
+                    },
+                    {
+                        "name": "id",
+                        "string": {
+                            "computed_optional_required": "computed_optional"
+                        }
+                    },
+                    {
+                        "name": "image1_url",
+                        "string": {
+                            "computed_optional_required": "computed_optional"
+                        }
+                    },
+                    {
+                        "name": "image2_url",
+                        "string": {
+                            "computed_optional_required": "computed_optional"
+                        }
+                    },
+                    {
+                        "name": "image3_url",
+                        "string": {
+                            "computed_optional_required": "computed_optional"
+                        }
+                    },
+                    {
+                        "name": "ip_config",
+                        "single_nested": {
+                            "computed_optional_required": "computed_optional",
+                            "attributes": [
+                                {
+                                    "name": "dns",
+                                    "list": {
+                                        "default": {
+                                            "custom": {
+                                                "imports": [
+                                                    {
+                                                        "path": "github.com/hashicorp/terraform-plugin-framework/attr"
+                                                    },
+                                                    {
+                                                        "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault"
+                                                    },
+                                                    {
+                                                        "path": "github.com/hashicorp/terraform-plugin-framework/types"
+                                                    }
+                                                ],
+                                                "schema_definition": "listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{}))"
+                                            }
+                                        },
+                                        "computed_optional_required": "computed_optional",
+                                        "element_type": {
+                                            "string": {}
+                                        },
+                                        "description": "if `type`==`static`"
+                                    }
+                                },
+                                {
+                                    "name": "dns_suffix",
+                                    "list": {
+                                        "default": {
+                                            "custom": {
+                                                "imports": [
+                                                    {
+                                                        "path": "github.com/hashicorp/terraform-plugin-framework/attr"
+                                                    },
+                                                    {
+                                                        "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault"
+                                                    },
+                                                    {
+                                                        "path": "github.com/hashicorp/terraform-plugin-framework/types"
+                                                    }
+                                                ],
+                                                "schema_definition": "listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{}))"
+                                            }
+                                        },
+                                        "computed_optional_required": "computed_optional",
+                                        "element_type": {
+                                            "string": {}
+                                        },
+                                        "description": "required if `type`==`static`"
+                                    }
+                                },
+                                {
+                                    "name": "gateway",
+                                    "string": {
+                                        "computed_optional_required": "computed_optional",
+                                        "description": "required if `type`==`static`"
+                                    }
+                                },
+                                {
+                                    "name": "gateway6",
+                                    "string": {
+                                        "computed_optional_required": "computed_optional"
+                                    }
+                                },
+                                {
+                                    "name": "ip",
+                                    "string": {
+                                        "computed_optional_required": "computed_optional",
+                                        "description": "required if `type`==`static`"
+                                    }
+                                },
+                                {
+                                    "name": "ip6",
+                                    "string": {
+                                        "computed_optional_required": "computed_optional"
+                                    }
+                                },
+                                {
+                                    "name": "mtu",
+                                    "int64": {
+                                        "computed_optional_required": "computed_optional"
+                                    }
+                                },
+                                {
+                                    "name": "netmask",
+                                    "string": {
+                                        "computed_optional_required": "computed_optional",
+                                        "description": "required if `type`==`static`"
+                                    }
+                                },
+                                {
+                                    "name": "netmask6",
+                                    "string": {
+                                        "computed_optional_required": "computed_optional"
+                                    }
+                                },
+                                {
+                                    "name": "type",
+                                    "string": {
+                                        "computed_optional_required": "computed_optional",
+                                        "default": {
+                                            "static": "dhcp"
+                                        },
+                                        "validators": [
+                                            {
+                                                "custom": {
+                                                    "imports": [
+                                                        {
+                                                            "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                                        }
+                                                    ],
+                                                    "schema_definition": "stringvalidator.OneOf(\n\"\",\n\"static\",\n\"dhcp\",\n)"
+                                                }
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "type6",
+                                    "string": {
+                                        "computed_optional_required": "computed_optional",
+                                        "default": {
+                                            "static": "disabled"
+                                        },
+                                        "validators": [
+                                            {
+                                                "custom": {
+                                                    "imports": [
+                                                        {
+                                                            "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                                        }
+                                                    ],
+                                                    "schema_definition": "stringvalidator.OneOf(\n\"\",\n\"disabled\",\n\"static\",\n\"dhcp\",\n\"autoconf\",\n)"
+                                                }
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "vlan_id",
+                                    "int64": {
+                                        "computed_optional_required": "computed_optional",
+                                        "default": {
+                                            "static": 1
+                                        },
+                                        "description": "management vlan id, default is 1 (untagged)"
+                                    }
+                                }
+                            ],
+                            "description": "IP AP settings"
+                        }
+                    },
+                    {
+                        "name": "led",
+                        "single_nested": {
+                            "computed_optional_required": "computed_optional",
+                            "attributes": [
+                                {
+                                    "name": "brightness",
+                                    "int64": {
+                                        "computed_optional_required": "computed_optional",
+                                        "default": {
+                                            "static": 255
+                                        }
+                                    }
+                                },
+                                {
+                                    "name": "enabled",
+                                    "bool": {
+                                        "computed_optional_required": "computed_optional",
+                                        "default": {
+                                            "static": true
+                                        }
+                                    }
+                                }
+                            ],
+                            "description": "LED AP settings"
+                        }
+                    },
+                    {
+                        "name": "locked",
+                        "bool": {
+                            "computed_optional_required": "computed_optional",
+                            "description": "whether this map is considered locked down"
+                        }
+                    },
+                    {
+                        "name": "map_id",
+                        "string": {
+                            "computed_optional_required": "computed_optional",
+                            "description": "map where the device belongs to"
+                        }
+                    },
+                    {
+                        "name": "mesh",
+                        "single_nested": {
+                            "computed_optional_required": "computed_optional",
+                            "attributes": [
+                                {
+                                    "name": "enabled",
+                                    "bool": {
+                                        "computed_optional_required": "computed_optional",
+                                        "default": {
+                                            "static": false
+                                        },
+                                        "description": "whether mesh is enabled on this AP"
+                                    }
+                                },
+                                {
+                                    "name": "group",
+                                    "int64": {
+                                        "computed_optional_required": "computed_optional",
+                                        "description": "mesh group, base AP(s) will only allow remote AP(s) in the same mesh group to join, 1-9, optional",
+                                        "validators": [
+                                            {
+                                                "custom": {
+                                                    "imports": [
+                                                        {
+                                                            "path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+                                                        }
+                                                    ],
+                                                    "schema_definition": "int64validator.Between(1, 9)"
+                                                }
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "role",
+                                    "string": {
+                                        "computed_optional_required": "computed_optional",
+                                        "validators": [
+                                            {
+                                                "custom": {
+                                                    "imports": [
+                                                        {
+                                                            "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                                        }
+                                                    ],
+                                                    "schema_definition": "stringvalidator.OneOf(\n\"\",\n\"base\",\n\"remote\",\n)"
+                                                }
+                                            }
+                                        ]
+                                    }
+                                }
+                            ],
+                            "description": "Mesh AP settings"
+                        }
+                    },
+                    {
+                        "name": "name",
+                        "string": {
+                            "computed_optional_required": "computed_optional"
+                        }
+                    },
+                    {
+                        "name": "notes",
+                        "string": {
+                            "computed_optional_required": "computed_optional",
+                            "description": "any notes about this AP"
+                        }
+                    },
+                    {
+                        "name": "ntp_servers",
+                        "list": {
+                            "default": {
+                                "custom": {
+                                    "imports": [
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/attr"
+                                        },
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault"
+                                        },
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/types"
+                                        }
+                                    ],
+                                    "schema_definition": "listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{}))"
+                                }
+                            },
+                            "computed_optional_required": "computed_optional",
+                            "element_type": {
+                                "string": {}
+                            },
+                            "validators": [
+                                {
+                                    "custom": {
+                                        "imports": [
+                                            {
+                                                "path": "github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
+                                            }
+                                        ],
+                                        "schema_definition": "listvalidator.UniqueValues()"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "name": "org_id",
+                        "string": {
+                            "computed_optional_required": "computed_optional"
+                        }
+                    },
+                    {
+                        "name": "orientation",
+                        "int64": {
+                            "computed_optional_required": "computed_optional",
+                            "description": "orientation, 0-359, in degrees, up is 0, right is 90."
+                        }
+                    },
+                    {
+                        "name": "poe_passthrough",
+                        "bool": {
+                            "computed_optional_required": "computed_optional",
+                            "default": {
+                                "static": false
+                            },
+                            "description": "whether to enable power out through module port (for APH) or eth1 (for APL/BT11)"
+                        }
+                    },
+                    {
+                        "name": "pwr_config",
+                        "single_nested": {
+                            "computed_optional_required": "computed_optional",
+                            "attributes": [
+                                {
+                                    "name": "base",
+                                    "int64": {
+                                        "computed_optional_required": "computed_optional",
+                                        "default": {
+                                            "static": 0
+                                        },
+                                        "description": "additional power to request during negotiating with PSE over PoE, in mW"
+                                    }
+                                },
+                                {
+                                    "name": "prefer_usb_over_wifi",
+                                    "bool": {
+                                        "computed_optional_required": "computed_optional",
+                                        "default": {
+                                            "static": false
+                                        },
+                                        "description": "whether to enable power out to peripheral, meanwhile will reduce power to wifi (only for AP45 at power mode)"
+                                    }
+                                }
+                            ],
+                            "description": "power related configs"
+                        }
+                    },
+                    {
+                        "name": "radio_config",
+                        "single_nested": {
+                            "computed_optional_required": "computed_optional",
+                            "attributes": [
+                                {
+                                    "name": "allow_rrm_disable",
+                                    "bool": {
+                                        "computed_optional_required": "computed_optional",
+                                        "default": {
+                                            "static": false
+                                        }
+                                    }
+                                },
+                                {
+                                    "name": "ant_gain_24",
+                                    "int64": {
+                                        "computed_optional_required": "computed_optional",
+                                        "description": "antenna gain for 2.4G - for models with external antenna only",
+                                        "validators": [
+                                            {
+                                                "custom": {
+                                                    "imports": [
+                                                        {
+                                                            "path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+                                                        }
+                                                    ],
+                                                    "schema_definition": "int64validator.AtLeast(0)"
+                                                }
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "ant_gain_5",
+                                    "int64": {
+                                        "computed_optional_required": "computed_optional",
+                                        "description": "antenna gain for 5G - for models with external antenna only",
+                                        "validators": [
+                                            {
+                                                "custom": {
+                                                    "imports": [
+                                                        {
+                                                            "path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+                                                        }
+                                                    ],
+                                                    "schema_definition": "int64validator.AtLeast(0)"
+                                                }
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "ant_gain_6",
+                                    "int64": {
+                                        "computed_optional_required": "computed_optional",
+                                        "description": "antenna gain for 6G - for models with external antenna only",
+                                        "validators": [
+                                            {
+                                                "custom": {
+                                                    "imports": [
+                                                        {
+                                                            "path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+                                                        }
+                                                    ],
+                                                    "schema_definition": "int64validator.AtLeast(0)"
+                                                }
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "antenna_mode",
+                                    "string": {
+                                        "computed_optional_required": "computed_optional",
+                                        "default": {
+                                            "static": "default"
+                                        },
+                                        "validators": [
+                                            {
+                                                "custom": {
+                                                    "imports": [
+                                                        {
+                                                            "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                                        }
+                                                    ],
+                                                    "schema_definition": "stringvalidator.OneOf(\n\"\",\n\"default\",\n\"1x1\",\n\"2x2\",\n\"3x3\",\n\"4x4\",\n)"
+                                                }
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "band_24",
+                                    "single_nested": {
+                                        "computed_optional_required": "computed_optional",
+                                        "attributes": [
+                                            {
+                                                "name": "allow_rrm_disable",
+                                                "bool": {
+                                                    "computed_optional_required": "computed_optional",
+                                                    "default": {
+                                                        "static": false
+                                                    }
+                                                }
+                                            },
+                                            {
+                                                "name": "ant_gain",
+                                                "int64": {
+                                                    "computed_optional_required": "computed_optional",
+                                                    "default": {
+                                                        "static": 0
+                                                    },
+                                                    "validators": [
+                                                        {
+                                                            "custom": {
+                                                                "imports": [
+                                                                    {
+                                                                        "path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+                                                                    }
+                                                                ],
+                                                                "schema_definition": "int64validator.Between(0, 10)"
+                                                            }
+                                                        }
+                                                    ]
+                                                }
+                                            },
+                                            {
+                                                "name": "antenna_mode",
+                                                "string": {
+                                                    "computed_optional_required": "computed_optional",
+                                                    "default": {
+                                                        "static": "default"
+                                                    },
+                                                    "validators": [
+                                                        {
+                                                            "custom": {
+                                                                "imports": [
+                                                                    {
+                                                                        "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                                                    }
+                                                                ],
+                                                                "schema_definition": "stringvalidator.OneOf(\n\"\",\n\"default\",\n\"1x1\",\n\"2x2\",\n\"3x3\",\n\"4x4\",\n)"
+                                                            }
+                                                        }
+                                                    ]
+                                                }
+                                            },
+                                            {
+                                                "name": "bandwidth",
+                                                "int64": {
+                                                    "computed_optional_required": "computed_optional",
+                                                    "default": {
+                                                        "static": 20
+                                                    },
+                                                    "description": "channel width for the 2.4GHz band",
+                                                    "validators": [
+                                                        {
+                                                            "custom": {
+                                                                "imports": [
+                                                                    {
+                                                                        "path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+                                                                    }
+                                                                ],
+                                                                "schema_definition": "int64validator.OneOf(\n20,\n40,\n)"
+                                                            }
+                                                        }
+                                                    ]
+                                                }
+                                            },
+                                            {
+                                                "name": "channel",
+                                                "int64": {
+                                                    "computed_optional_required": "computed_optional",
+                                                    "default": {
+                                                        "static": 0
+                                                    },
+                                                    "description": "For Device. (primary) channel for the band, 0 means using the Site Setting",
+                                                    "validators": [
+                                                        {
+                                                            "custom": {
+                                                                "imports": [
+                                                                    {
+                                                                        "path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+                                                                    }
+                                                                ],
+                                                                "schema_definition": "int64validator.Between(1, 13)"
+                                                            }
+                                                        }
+                                                    ]
+                                                }
+                                            },
+                                            {
+                                                "name": "channels",
+                                                "list": {
+                                                    "default": {
+                                                        "custom": {
+                                                            "imports": [
+                                                                {
+                                                                    "path": "github.com/hashicorp/terraform-plugin-framework/attr"
+                                                                },
+                                                                {
+                                                                    "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault"
+                                                                },
+                                                                {
+                                                                    "path": "github.com/hashicorp/terraform-plugin-framework/types"
+                                                                }
+                                                            ],
+                                                            "schema_definition": "listdefault.StaticValue(types.ListValueMust(types.Int64Type, []attr.Value{}))"
+                                                        }
+                                                    },
+                                                    "computed_optional_required": "computed_optional",
+                                                    "element_type": {
+                                                        "int64": {}
+                                                    },
+                                                    "description": "For RFTemplates. List of channels, null or empty array means auto"
+                                                }
+                                            },
+                                            {
+                                                "name": "disabled",
+                                                "bool": {
+                                                    "computed_optional_required": "computed_optional",
+                                                    "default": {
+                                                        "static": false
+                                                    },
+                                                    "description": "whether to disable the radio"
+                                                }
+                                            },
+                                            {
+                                                "name": "power",
+                                                "int64": {
+                                                    "computed_optional_required": "computed_optional",
+                                                    "default": {
+                                                        "static": 0
+                                                    },
+                                                    "description": "TX power of the radio. For Devices, 0 means auto. -1 / -2 / -3 / \u2026: treated as 0 / -1 / -2 / \u2026",
+                                                    "validators": [
+                                                        {
+                                                            "custom": {
+                                                                "imports": [
+                                                                    {
+                                                                        "path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+                                                                    }
+                                                                ],
+                                                                "schema_definition": "int64validator.Between(3, 25)"
+                                                            }
+                                                        }
+                                                    ]
+                                                }
+                                            },
+                                            {
+                                                "name": "power_max",
+                                                "int64": {
+                                                    "computed_optional_required": "computed_optional",
+                                                    "default": {
+                                                        "static": 17
+                                                    },
+                                                    "description": "when power=0, max tx power to use, HW-specific values will be used if not set",
+                                                    "validators": [
+                                                        {
+                                                            "custom": {
+                                                                "imports": [
+                                                                    {
+                                                                        "path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+                                                                    }
+                                                                ],
+                                                                "schema_definition": "int64validator.Between(3, 18)"
+                                                            }
+                                                        }
+                                                    ]
+                                                }
+                                            },
+                                            {
+                                                "name": "power_min",
+                                                "int64": {
+                                                    "computed_optional_required": "computed_optional",
+                                                    "default": {
+                                                        "static": 8
+                                                    },
+                                                    "description": "when power=0, min tx power to use, HW-specific values will be used if not set",
+                                                    "validators": [
+                                                        {
+                                                            "custom": {
+                                                                "imports": [
+                                                                    {
+                                                                        "path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+                                                                    }
+                                                                ],
+                                                                "schema_definition": "int64validator.Between(3, 18)"
+                                                            }
+                                                        }
+                                                    ]
+                                                }
+                                            },
+                                            {
+                                                "name": "preamble",
+                                                "string": {
+                                                    "computed_optional_required": "computed_optional",
+                                                    "default": {
+                                                        "static": "short"
+                                                    },
+                                                    "validators": [
+                                                        {
+                                                            "custom": {
+                                                                "imports": [
+                                                                    {
+                                                                        "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                                                    }
+                                                                ],
+                                                                "schema_definition": "stringvalidator.OneOf(\n\"\",\n\"short\",\n\"long\",\n\"auto\",\n)"
+                                                            }
+                                                        }
+                                                    ]
+                                                }
+                                            }
+                                        ],
+                                        "description": "Radio Band AP settings"
+                                    }
+                                },
+                                {
+                                    "name": "band_24_usage",
+                                    "string": {
+                                        "computed_optional_required": "computed_optional",
+                                        "validators": [
+                                            {
+                                                "custom": {
+                                                    "imports": [
+                                                        {
+                                                            "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                                        }
+                                                    ],
+                                                    "schema_definition": "stringvalidator.OneOf(\n\"\",\n\"24\",\n\"5\",\n\"6\",\n\"auto\",\n)"
+                                                }
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "band_5",
+                                    "single_nested": {
+                                        "computed_optional_required": "computed_optional",
+                                        "attributes": [
+                                            {
+                                                "name": "allow_rrm_disable",
+                                                "bool": {
+                                                    "computed_optional_required": "computed_optional",
+                                                    "default": {
+                                                        "static": false
+                                                    }
+                                                }
+                                            },
+                                            {
+                                                "name": "ant_gain",
+                                                "int64": {
+                                                    "computed_optional_required": "computed_optional",
+                                                    "default": {
+                                                        "static": 0
+                                                    },
+                                                    "validators": [
+                                                        {
+                                                            "custom": {
+                                                                "imports": [
+                                                                    {
+                                                                        "path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+                                                                    }
+                                                                ],
+                                                                "schema_definition": "int64validator.Between(0, 10)"
+                                                            }
+                                                        }
+                                                    ]
+                                                }
+                                            },
+                                            {
+                                                "name": "antenna_mode",
+                                                "string": {
+                                                    "computed_optional_required": "computed_optional",
+                                                    "default": {
+                                                        "static": "default"
+                                                    },
+                                                    "validators": [
+                                                        {
+                                                            "custom": {
+                                                                "imports": [
+                                                                    {
+                                                                        "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                                                    }
+                                                                ],
+                                                                "schema_definition": "stringvalidator.OneOf(\n\"\",\n\"default\",\n\"1x1\",\n\"2x2\",\n\"3x3\",\n\"4x4\",\n)"
+                                                            }
+                                                        }
+                                                    ]
+                                                }
+                                            },
+                                            {
+                                                "name": "bandwidth",
+                                                "int64": {
+                                                    "computed_optional_required": "computed_optional",
+                                                    "description": "channel width for the 5GHz band",
+                                                    "validators": [
+                                                        {
+                                                            "custom": {
+                                                                "imports": [
+                                                                    {
+                                                                        "path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+                                                                    }
+                                                                ],
+                                                                "schema_definition": "int64validator.OneOf(\n20,\n40,\n80,\n)"
+                                                            }
+                                                        }
+                                                    ]
+                                                }
+                                            },
+                                            {
+                                                "name": "channel",
+                                                "int64": {
+                                                    "computed_optional_required": "computed_optional",
+                                                    "default": {
+                                                        "static": 0
+                                                    },
+                                                    "description": "For Device. (primary) channel for the band, 0 means using the Site Setting"
+                                                }
+                                            },
+                                            {
+                                                "name": "channels",
+                                                "list": {
+                                                    "default": {
+                                                        "custom": {
+                                                            "imports": [
+                                                                {
+                                                                    "path": "github.com/hashicorp/terraform-plugin-framework/attr"
+                                                                },
+                                                                {
+                                                                    "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault"
+                                                                },
+                                                                {
+                                                                    "path": "github.com/hashicorp/terraform-plugin-framework/types"
+                                                                }
+                                                            ],
+                                                            "schema_definition": "listdefault.StaticValue(types.ListValueMust(types.Int64Type, []attr.Value{}))"
+                                                        }
+                                                    },
+                                                    "computed_optional_required": "computed_optional",
+                                                    "element_type": {
+                                                        "int64": {}
+                                                    },
+                                                    "description": "For RFTemplates. List of channels, null or empty array means auto"
+                                                }
+                                            },
+                                            {
+                                                "name": "disabled",
+                                                "bool": {
+                                                    "computed_optional_required": "computed_optional",
+                                                    "default": {
+                                                        "static": false
+                                                    },
+                                                    "description": "whether to disable the radio"
+                                                }
+                                            },
+                                            {
+                                                "name": "power",
+                                                "int64": {
+                                                    "computed_optional_required": "computed_optional",
+                                                    "default": {
+                                                        "static": 0
+                                                    },
+                                                    "description": "TX power of the radio. For Devices, 0 means auto. -1 / -2 / -3 / \u2026: treated as 0 / -1 / -2 / \u2026",
+                                                    "validators": [
+                                                        {
+                                                            "custom": {
+                                                                "imports": [
+                                                                    {
+                                                                        "path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+                                                                    }
+                                                                ],
+                                                                "schema_definition": "int64validator.Between(5, 25)"
+                                                            }
+                                                        }
+                                                    ]
+                                                }
+                                            },
+                                            {
+                                                "name": "power_max",
+                                                "int64": {
+                                                    "computed_optional_required": "computed_optional",
+                                                    "default": {
+                                                        "static": 17
+                                                    },
+                                                    "description": "when power=0, max tx power to use, HW-specific values will be used if not set",
+                                                    "validators": [
+                                                        {
+                                                            "custom": {
+                                                                "imports": [
+                                                                    {
+                                                                        "path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+                                                                    }
+                                                                ],
+                                                                "schema_definition": "int64validator.Between(5, 17)"
+                                                            }
+                                                        }
+                                                    ]
+                                                }
+                                            },
+                                            {
+                                                "name": "power_min",
+                                                "int64": {
+                                                    "computed_optional_required": "computed_optional",
+                                                    "default": {
+                                                        "static": 8
+                                                    },
+                                                    "description": "when power=0, min tx power to use, HW-specific values will be used if not set",
+                                                    "validators": [
+                                                        {
+                                                            "custom": {
+                                                                "imports": [
+                                                                    {
+                                                                        "path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+                                                                    }
+                                                                ],
+                                                                "schema_definition": "int64validator.Between(5, 17)"
+                                                            }
+                                                        }
+                                                    ]
+                                                }
+                                            },
+                                            {
+                                                "name": "preamble",
+                                                "string": {
+                                                    "computed_optional_required": "computed_optional",
+                                                    "default": {
+                                                        "static": "short"
+                                                    },
+                                                    "validators": [
+                                                        {
+                                                            "custom": {
+                                                                "imports": [
+                                                                    {
+                                                                        "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                                                    }
+                                                                ],
+                                                                "schema_definition": "stringvalidator.OneOf(\n\"\",\n\"short\",\n\"long\",\n\"auto\",\n)"
+                                                            }
+                                                        }
+                                                    ]
+                                                }
+                                            }
+                                        ],
+                                        "description": "Radio Band AP settings"
+                                    }
+                                },
+                                {
+                                    "name": "band_5_on_24_radio",
+                                    "single_nested": {
+                                        "computed_optional_required": "computed_optional",
+                                        "attributes": [
+                                            {
+                                                "name": "allow_rrm_disable",
+                                                "bool": {
+                                                    "computed_optional_required": "computed_optional",
+                                                    "default": {
+                                                        "static": false
+                                                    }
+                                                }
+                                            },
+                                            {
+                                                "name": "ant_gain",
+                                                "int64": {
+                                                    "computed_optional_required": "computed_optional",
+                                                    "default": {
+                                                        "static": 0
+                                                    },
+                                                    "validators": [
+                                                        {
+                                                            "custom": {
+                                                                "imports": [
+                                                                    {
+                                                                        "path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+                                                                    }
+                                                                ],
+                                                                "schema_definition": "int64validator.Between(0, 10)"
+                                                            }
+                                                        }
+                                                    ]
+                                                }
+                                            },
+                                            {
+                                                "name": "antenna_mode",
+                                                "string": {
+                                                    "computed_optional_required": "computed_optional",
+                                                    "default": {
+                                                        "static": "default"
+                                                    },
+                                                    "validators": [
+                                                        {
+                                                            "custom": {
+                                                                "imports": [
+                                                                    {
+                                                                        "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                                                    }
+                                                                ],
+                                                                "schema_definition": "stringvalidator.OneOf(\n\"\",\n\"default\",\n\"1x1\",\n\"2x2\",\n\"3x3\",\n\"4x4\",\n)"
+                                                            }
+                                                        }
+                                                    ]
+                                                }
+                                            },
+                                            {
+                                                "name": "bandwidth",
+                                                "int64": {
+                                                    "computed_optional_required": "computed_optional",
+                                                    "description": "channel width for the 5GHz band",
+                                                    "validators": [
+                                                        {
+                                                            "custom": {
+                                                                "imports": [
+                                                                    {
+                                                                        "path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+                                                                    }
+                                                                ],
+                                                                "schema_definition": "int64validator.OneOf(\n20,\n40,\n80,\n)"
+                                                            }
+                                                        }
+                                                    ]
+                                                }
+                                            },
+                                            {
+                                                "name": "channel",
+                                                "int64": {
+                                                    "computed_optional_required": "computed_optional",
+                                                    "default": {
+                                                        "static": 0
+                                                    },
+                                                    "description": "For Device. (primary) channel for the band, 0 means using the Site Setting"
+                                                }
+                                            },
+                                            {
+                                                "name": "channels",
+                                                "list": {
+                                                    "default": {
+                                                        "custom": {
+                                                            "imports": [
+                                                                {
+                                                                    "path": "github.com/hashicorp/terraform-plugin-framework/attr"
+                                                                },
+                                                                {
+                                                                    "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault"
+                                                                },
+                                                                {
+                                                                    "path": "github.com/hashicorp/terraform-plugin-framework/types"
+                                                                }
+                                                            ],
+                                                            "schema_definition": "listdefault.StaticValue(types.ListValueMust(types.Int64Type, []attr.Value{}))"
+                                                        }
+                                                    },
+                                                    "computed_optional_required": "computed_optional",
+                                                    "element_type": {
+                                                        "int64": {}
+                                                    },
+                                                    "description": "For RFTemplates. List of channels, null or empty array means auto"
+                                                }
+                                            },
+                                            {
+                                                "name": "disabled",
+                                                "bool": {
+                                                    "computed_optional_required": "computed_optional",
+                                                    "default": {
+                                                        "static": false
+                                                    },
+                                                    "description": "whether to disable the radio"
+                                                }
+                                            },
+                                            {
+                                                "name": "power",
+                                                "int64": {
+                                                    "computed_optional_required": "computed_optional",
+                                                    "default": {
+                                                        "static": 0
+                                                    },
+                                                    "description": "TX power of the radio. For Devices, 0 means auto. -1 / -2 / -3 / \u2026: treated as 0 / -1 / -2 / \u2026",
+                                                    "validators": [
+                                                        {
+                                                            "custom": {
+                                                                "imports": [
+                                                                    {
+                                                                        "path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+                                                                    }
+                                                                ],
+                                                                "schema_definition": "int64validator.Between(5, 25)"
+                                                            }
+                                                        }
+                                                    ]
+                                                }
+                                            },
+                                            {
+                                                "name": "power_max",
+                                                "int64": {
+                                                    "computed_optional_required": "computed_optional",
+                                                    "default": {
+                                                        "static": 17
+                                                    },
+                                                    "description": "when power=0, max tx power to use, HW-specific values will be used if not set",
+                                                    "validators": [
+                                                        {
+                                                            "custom": {
+                                                                "imports": [
+                                                                    {
+                                                                        "path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+                                                                    }
+                                                                ],
+                                                                "schema_definition": "int64validator.Between(5, 17)"
+                                                            }
+                                                        }
+                                                    ]
+                                                }
+                                            },
+                                            {
+                                                "name": "power_min",
+                                                "int64": {
+                                                    "computed_optional_required": "computed_optional",
+                                                    "default": {
+                                                        "static": 8
+                                                    },
+                                                    "description": "when power=0, min tx power to use, HW-specific values will be used if not set",
+                                                    "validators": [
+                                                        {
+                                                            "custom": {
+                                                                "imports": [
+                                                                    {
+                                                                        "path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+                                                                    }
+                                                                ],
+                                                                "schema_definition": "int64validator.Between(5, 17)"
+                                                            }
+                                                        }
+                                                    ]
+                                                }
+                                            },
+                                            {
+                                                "name": "preamble",
+                                                "string": {
+                                                    "computed_optional_required": "computed_optional",
+                                                    "default": {
+                                                        "static": "short"
+                                                    },
+                                                    "validators": [
+                                                        {
+                                                            "custom": {
+                                                                "imports": [
+                                                                    {
+                                                                        "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                                                    }
+                                                                ],
+                                                                "schema_definition": "stringvalidator.OneOf(\n\"\",\n\"short\",\n\"long\",\n\"auto\",\n)"
+                                                            }
+                                                        }
+                                                    ]
+                                                }
+                                            }
+                                        ],
+                                        "description": "Radio Band AP settings"
+                                    }
+                                },
+                                {
+                                    "name": "band_6",
+                                    "single_nested": {
+                                        "computed_optional_required": "computed_optional",
+                                        "attributes": [
+                                            {
+                                                "name": "allow_rrm_disable",
+                                                "bool": {
+                                                    "computed_optional_required": "computed_optional",
+                                                    "default": {
+                                                        "static": false
+                                                    }
+                                                }
+                                            },
+                                            {
+                                                "name": "ant_gain",
+                                                "int64": {
+                                                    "computed_optional_required": "computed_optional",
+                                                    "default": {
+                                                        "static": 0
+                                                    },
+                                                    "validators": [
+                                                        {
+                                                            "custom": {
+                                                                "imports": [
+                                                                    {
+                                                                        "path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+                                                                    }
+                                                                ],
+                                                                "schema_definition": "int64validator.Between(0, 10)"
+                                                            }
+                                                        }
+                                                    ]
+                                                }
+                                            },
+                                            {
+                                                "name": "antenna_mode",
+                                                "string": {
+                                                    "computed_optional_required": "computed_optional",
+                                                    "default": {
+                                                        "static": "default"
+                                                    },
+                                                    "validators": [
+                                                        {
+                                                            "custom": {
+                                                                "imports": [
+                                                                    {
+                                                                        "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                                                    }
+                                                                ],
+                                                                "schema_definition": "stringvalidator.OneOf(\n\"\",\n\"default\",\n\"1x1\",\n\"2x2\",\n\"3x3\",\n\"4x4\",\n)"
+                                                            }
+                                                        }
+                                                    ]
+                                                }
+                                            },
+                                            {
+                                                "name": "bandwidth",
+                                                "int64": {
+                                                    "computed_optional_required": "computed_optional",
+                                                    "default": {
+                                                        "static": 80
+                                                    },
+                                                    "description": "channel width for the 6GHz band",
+                                                    "validators": [
+                                                        {
+                                                            "custom": {
+                                                                "imports": [
+                                                                    {
+                                                                        "path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+                                                                    }
+                                                                ],
+                                                                "schema_definition": "int64validator.OneOf(\n20,\n40,\n80,\n160,\n)"
+                                                            }
+                                                        }
+                                                    ]
+                                                }
+                                            },
+                                            {
+                                                "name": "channel",
+                                                "int64": {
+                                                    "computed_optional_required": "computed_optional",
+                                                    "default": {
+                                                        "static": 0
+                                                    },
+                                                    "description": "For Device. (primary) channel for the band, 0 means using the Site Setting"
+                                                }
+                                            },
+                                            {
+                                                "name": "channels",
+                                                "list": {
+                                                    "default": {
+                                                        "custom": {
+                                                            "imports": [
+                                                                {
+                                                                    "path": "github.com/hashicorp/terraform-plugin-framework/attr"
+                                                                },
+                                                                {
+                                                                    "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault"
+                                                                },
+                                                                {
+                                                                    "path": "github.com/hashicorp/terraform-plugin-framework/types"
+                                                                }
+                                                            ],
+                                                            "schema_definition": "listdefault.StaticValue(types.ListValueMust(types.Int64Type, []attr.Value{}))"
+                                                        }
+                                                    },
+                                                    "computed_optional_required": "computed_optional",
+                                                    "element_type": {
+                                                        "int64": {}
+                                                    },
+                                                    "description": "For RFTemplates. List of channels, null or empty array means auto"
+                                                }
+                                            },
+                                            {
+                                                "name": "disabled",
+                                                "bool": {
+                                                    "computed_optional_required": "computed_optional",
+                                                    "default": {
+                                                        "static": false
+                                                    },
+                                                    "description": "whether to disable the radio"
+                                                }
+                                            },
+                                            {
+                                                "name": "power",
+                                                "int64": {
+                                                    "computed_optional_required": "computed_optional",
+                                                    "default": {
+                                                        "static": 0
+                                                    },
+                                                    "description": "TX power of the radio. For Devices, 0 means auto. -1 / -2 / -3 / \u2026: treated as 0 / -1 / -2 / \u2026",
+                                                    "validators": [
+                                                        {
+                                                            "custom": {
+                                                                "imports": [
+                                                                    {
+                                                                        "path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+                                                                    }
+                                                                ],
+                                                                "schema_definition": "int64validator.Between(5, 25)"
+                                                            }
+                                                        }
+                                                    ]
+                                                }
+                                            },
+                                            {
+                                                "name": "power_max",
+                                                "int64": {
+                                                    "computed_optional_required": "computed_optional",
+                                                    "default": {
+                                                        "static": 18
+                                                    },
+                                                    "description": "when power=0, max tx power to use, HW-specific values will be used if not set",
+                                                    "validators": [
+                                                        {
+                                                            "custom": {
+                                                                "imports": [
+                                                                    {
+                                                                        "path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+                                                                    }
+                                                                ],
+                                                                "schema_definition": "int64validator.Between(5, 18)"
+                                                            }
+                                                        }
+                                                    ]
+                                                }
+                                            },
+                                            {
+                                                "name": "power_min",
+                                                "int64": {
+                                                    "computed_optional_required": "computed_optional",
+                                                    "default": {
+                                                        "static": 8
+                                                    },
+                                                    "description": "when power=0, min tx power to use, HW-specific values will be used if not set",
+                                                    "validators": [
+                                                        {
+                                                            "custom": {
+                                                                "imports": [
+                                                                    {
+                                                                        "path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+                                                                    }
+                                                                ],
+                                                                "schema_definition": "int64validator.Between(5, 18)"
+                                                            }
+                                                        }
+                                                    ]
+                                                }
+                                            },
+                                            {
+                                                "name": "preamble",
+                                                "string": {
+                                                    "computed_optional_required": "computed_optional",
+                                                    "default": {
+                                                        "static": "short"
+                                                    },
+                                                    "validators": [
+                                                        {
+                                                            "custom": {
+                                                                "imports": [
+                                                                    {
+                                                                        "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                                                    }
+                                                                ],
+                                                                "schema_definition": "stringvalidator.OneOf(\n\"\",\n\"short\",\n\"long\",\n\"auto\",\n)"
+                                                            }
+                                                        }
+                                                    ]
+                                                }
+                                            },
+                                            {
+                                                "name": "standard_power",
+                                                "bool": {
+                                                    "computed_optional_required": "computed_optional",
+                                                    "default": {
+                                                        "static": false
+                                                    },
+                                                    "description": "for 6GHz Only, standard-power operation, AFC (Automatic Frequency Coordination) will be performed and we'll fallback to Low Power Indoor if AFC failed"
+                                                }
+                                            }
+                                        ],
+                                        "description": "Radio Band AP settings"
+                                    }
+                                },
+                                {
+                                    "name": "indoor_use",
+                                    "bool": {
+                                        "computed_optional_required": "computed_optional",
+                                        "default": {
+                                            "static": false
+                                        },
+                                        "description": "to make an outdoor operate indoor.\nfor an outdoor-ap, some channels are disallowed by default, this allows the user to use it as an indoor-ap"
+                                    }
+                                },
+                                {
+                                    "name": "scanning_enabled",
+                                    "bool": {
+                                        "computed_optional_required": "computed_optional",
+                                        "description": "whether scanning radio is enabled"
+                                    }
+                                }
+                            ],
+                            "description": "Radio AP settings"
+                        }
+                    },
+                    {
+                        "name": "site_id",
+                        "string": {
+                            "computed_optional_required": "computed_optional"
+                        }
+                    },
+                    {
+                        "name": "uplink_port_config",
+                        "single_nested": {
+                            "computed_optional_required": "computed_optional",
+                            "attributes": [
+                                {
+                                    "name": "dot1x",
+                                    "bool": {
+                                        "computed_optional_required": "computed_optional",
+                                        "default": {
+                                            "static": false
+                                        },
+                                        "description": "Whether to do 802.1x against uplink switch. When enaled, AP cert will be used to do EAP-TLS and the Org's CA Cert has to be provisioned at the switch"
+                                    }
+                                },
+                                {
+                                    "name": "keep_wlans_up_if_down",
+                                    "bool": {
+                                        "computed_optional_required": "computed_optional",
+                                        "default": {
+                                            "static": false
+                                        },
+                                        "description": "by default, WLANs are disabled when uplink is down. In some scenario, like SiteSurvey, one would want the AP to keep sending beacons."
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "name": "usb_config",
+                        "single_nested": {
+                            "computed_optional_required": "computed_optional",
+                            "attributes": [
+                                {
+                                    "name": "cacert",
+                                    "string": {
+                                        "computed_optional_required": "computed_optional",
+                                        "description": "only if `type`==`imagotag`"
+                                    }
+                                },
+                                {
+                                    "name": "channel",
+                                    "int64": {
+                                        "computed_optional_required": "computed_optional",
+                                        "description": "only if `type`==`imagotag`\nchannel selection, not needed by default, required for manual channel override only"
+                                    }
+                                },
+                                {
+                                    "name": "enabled",
+                                    "bool": {
+                                        "computed_optional_required": "computed_optional",
+                                        "description": "whether to enable any usb config"
+                                    }
+                                },
+                                {
+                                    "name": "host",
+                                    "string": {
+                                        "computed_optional_required": "computed_optional",
+                                        "description": "only if `type`==`imagotag`"
+                                    }
+                                },
+                                {
+                                    "name": "port",
+                                    "int64": {
+                                        "computed_optional_required": "computed_optional",
+                                        "default": {
+                                            "static": 0
+                                        },
+                                        "description": "only if `type`==`imagotag`"
+                                    }
+                                },
+                                {
+                                    "name": "type",
+                                    "string": {
+                                        "computed_optional_required": "computed_optional",
+                                        "description": "usb config type",
+                                        "validators": [
+                                            {
+                                                "custom": {
+                                                    "imports": [
+                                                        {
+                                                            "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                                        }
+                                                    ],
+                                                    "schema_definition": "stringvalidator.OneOf(\n\"\",\n\"imagotag\",\n\"solum\",\n\"hanshow\",\n)"
+                                                }
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "verify_cert",
+                                    "bool": {
+                                        "computed_optional_required": "computed_optional",
+                                        "description": "only if `type`==`imagotag`, whether to turn on SSL verification"
+                                    }
+                                },
+                                {
+                                    "name": "vlan_id",
+                                    "int64": {
+                                        "computed_optional_required": "computed_optional",
+                                        "default": {
+                                            "static": 1
+                                        },
+                                        "description": "only if `type`==`solum` or `type`==`hanshow`"
+                                    }
+                                }
+                            ],
+                            "description": "USB AP settings\nNote: if native imagotag is enabled, BLE will be disabled automatically\nNote: legacy, new config moved to ESL Config."
+                        }
+                    },
+                    {
+                        "name": "vars",
+                        "map": {
+                            "computed_optional_required": "computed_optional",
+                            "element_type": {
+                                "string": {}
+                            },
+                            "description": "a dictionary of name->value, the vars can then be used in Wlans. This can overwrite those from Site Vars"
+                        }
+                    },
+                    {
+                        "name": "x",
+                        "float64": {
+                            "computed_optional_required": "computed_optional",
+                            "description": "x in pixel"
+                        }
+                    },
+                    {
+                        "name": "y",
+                        "float64": {
+                            "computed_optional_required": "computed_optional",
+                            "description": "y in pixel"
+                        }
+                    }
+                ]
+            }
+        },
+        {
             "name": "org",
             "schema": {
                 "attributes": [
@@ -8832,7 +11048,7 @@
                                                         "path": "github.com/hashicorp/terraform-plugin-framework/types"
                                                     }
                                                 ],
-                                                "schema_definition": "listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{}))"
+                                                "schema_definition": "listdefault.StaticValue(types.ListValueMust(types.Int64Type, []attr.Value{}))"
                                             }
                                         },
                                         "computed_optional_required": "computed_optional",
@@ -9052,7 +11268,7 @@
                                                         "path": "github.com/hashicorp/terraform-plugin-framework/types"
                                                     }
                                                 ],
-                                                "schema_definition": "listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{}))"
+                                                "schema_definition": "listdefault.StaticValue(types.ListValueMust(types.Int64Type, []attr.Value{}))"
                                             }
                                         },
                                         "computed_optional_required": "computed_optional",
@@ -9257,7 +11473,7 @@
                                                         "path": "github.com/hashicorp/terraform-plugin-framework/types"
                                                     }
                                                 ],
-                                                "schema_definition": "listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{}))"
+                                                "schema_definition": "listdefault.StaticValue(types.ListValueMust(types.Int64Type, []attr.Value{}))"
                                             }
                                         },
                                         "computed_optional_required": "computed_optional",
@@ -9509,7 +11725,7 @@
                                                                         "path": "github.com/hashicorp/terraform-plugin-framework/types"
                                                                     }
                                                                 ],
-                                                                "schema_definition": "listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{}))"
+                                                                "schema_definition": "listdefault.StaticValue(types.ListValueMust(types.Int64Type, []attr.Value{}))"
                                                             }
                                                         },
                                                         "computed_optional_required": "computed_optional",
@@ -9729,7 +11945,7 @@
                                                                         "path": "github.com/hashicorp/terraform-plugin-framework/types"
                                                                     }
                                                                 ],
-                                                                "schema_definition": "listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{}))"
+                                                                "schema_definition": "listdefault.StaticValue(types.ListValueMust(types.Int64Type, []attr.Value{}))"
                                                             }
                                                         },
                                                         "computed_optional_required": "computed_optional",
@@ -9931,7 +12147,7 @@
                                                                         "path": "github.com/hashicorp/terraform-plugin-framework/types"
                                                                     }
                                                                 ],
-                                                                "schema_definition": "listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{}))"
+                                                                "schema_definition": "listdefault.StaticValue(types.ListValueMust(types.Int64Type, []attr.Value{}))"
                                                             }
                                                         },
                                                         "computed_optional_required": "computed_optional",
@@ -10136,7 +12352,7 @@
                                                                         "path": "github.com/hashicorp/terraform-plugin-framework/types"
                                                                     }
                                                                 ],
-                                                                "schema_definition": "listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{}))"
+                                                                "schema_definition": "listdefault.StaticValue(types.ListValueMust(types.Int64Type, []attr.Value{}))"
                                                             }
                                                         },
                                                         "computed_optional_required": "computed_optional",

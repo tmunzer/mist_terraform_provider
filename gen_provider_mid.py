@@ -33,6 +33,74 @@ with open(SPEC_IN, "w") as f:
 
 RENAME = [
     {
+        "name": "device_ap",
+        "get": ["schema", "attributes"],
+        "next": [
+
+            {
+                "name": "ble_config",
+                "get": ["single_nested", "attributes"],
+                "next": [
+                    {
+                        "name": "beam_disabled",
+                        "get": ["list"],
+                        "default": json.loads(CUSTOM_DEFAULT_LIST_OF_INT),
+                    }
+                ],
+            },
+            {
+                "name": "radio_config",
+                "get": ["single_nested", "attributes"],
+                "next": [
+                    {
+                        "name": "band_24",
+                        "get": ["single_nested", "attributes"],
+                        "next": [
+                            {
+                                "name": "channels",
+                                "get": ["list"],
+                                "default": json.loads(CUSTOM_DEFAULT_LIST_OF_INT),
+                            },
+                        ],
+                    },                    
+                    {
+                        "name": "band_5",
+                        "get": ["single_nested", "attributes"],
+                        "next": [
+                            {
+                                "name": "channels",
+                                "get": ["list"],
+                                "default": json.loads(CUSTOM_DEFAULT_LIST_OF_INT),
+                            },
+                        ],
+                    },                    
+                    {
+                        "name": "band_5_on_24_radio",
+                        "get": ["single_nested", "attributes"],
+                        "next": [
+                            {
+                                "name": "channels",
+                                "get": ["list"],
+                                "default": json.loads(CUSTOM_DEFAULT_LIST_OF_INT),
+                            },
+                        ],
+                    },                    
+                    {
+                        "name": "band_6",
+                        "get": ["single_nested", "attributes"],
+                        "next": [
+                            {
+                                "name": "channels",
+                                "get": ["list"],
+                                "default": json.loads(CUSTOM_DEFAULT_LIST_OF_INT),
+                            },
+                        ],
+                    },                    
+                ],
+            },
+        ],
+    },
+    {
         "name": "org_gatewaytemplate",
         "get": ["schema", "attributes"],
         "next": [
@@ -376,6 +444,100 @@ RENAME = [
                 "get": ["string"],
                 "computed_optional_required": "required",
             },
+
+                    {
+                        "name": "band_24",
+                        "get": ["single_nested", "attributes"],
+                        "next": [
+                            {
+                                "name": "channels",
+                                "get": ["list"],
+                                "default": json.loads(CUSTOM_DEFAULT_LIST_OF_INT),
+                            },
+                        ],
+                    },                    
+                    {
+                        "name": "band_5",
+                        "get": ["single_nested", "attributes"],
+                        "next": [
+                            {
+                                "name": "channels",
+                                "get": ["list"],
+                                "default": json.loads(CUSTOM_DEFAULT_LIST_OF_INT),
+                            },
+                        ],
+                    },                    
+                    {
+                        "name": "band_5_on_24_radio",
+                        "get": ["single_nested", "attributes"],
+                        "next": [
+                            {
+                                "name": "channels",
+                                "get": ["list"],
+                                "default": json.loads(CUSTOM_DEFAULT_LIST_OF_INT),
+                            },
+                        ],
+                    },                    
+                    {
+                        "name": "band_6",
+                        "get": ["single_nested", "attributes"],
+                        "next": [
+                            {
+                                "name": "channels",
+                                "get": ["list"],
+                                "default": json.loads(CUSTOM_DEFAULT_LIST_OF_INT),
+                            },
+                        ],
+                    },    
+                    {"name": "model_specific",
+                     "get": ["map_nested", "nested_object", "attributes"],
+                     "next":[
+                             {
+                        "name": "band_24",
+                        "get": ["single_nested", "attributes"],
+                        "next": [
+                            {
+                                "name": "channels",
+                                "get": ["list"],
+                                "default": json.loads(CUSTOM_DEFAULT_LIST_OF_INT),
+                            },
+                        ],
+                    },                    
+                    {
+                        "name": "band_5",
+                        "get": ["single_nested", "attributes"],
+                        "next": [
+                            {
+                                "name": "channels",
+                                "get": ["list"],
+                                "default": json.loads(CUSTOM_DEFAULT_LIST_OF_INT),
+                            },
+                        ],
+                    },                    
+                    {
+                        "name": "band_5_on_24_radio",
+                        "get": ["single_nested", "attributes"],
+                        "next": [
+                            {
+                                "name": "channels",
+                                "get": ["list"],
+                                "default": json.loads(CUSTOM_DEFAULT_LIST_OF_INT),
+                            },
+                        ],
+                    },                    
+                    {
+                        "name": "band_6",
+                        "get": ["single_nested", "attributes"],
+                        "next": [
+                            {
+                                "name": "channels",
+                                "get": ["list"],
+                                "default": json.loads(CUSTOM_DEFAULT_LIST_OF_INT),
+                            },
+                        ],
+                    },    
+                     ]
+                     }
         ],
     },
     {

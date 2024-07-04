@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"terraform-provider-mist/internal/resource_rftemplate"
+	"terraform-provider-mist/internal/resource_org_rftemplate"
 
 	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 
@@ -47,12 +47,12 @@ func (r *orgRfTemplateResource) Metadata(ctx context.Context, req resource.Metad
 }
 
 func (r *orgRfTemplateResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
-	resp.Schema = resource_rftemplate.RftemplateResourceSchema(ctx)
+	resp.Schema = resource_org_rftemplate.OrgRftemplateResourceSchema(ctx)
 }
 
 func (r *orgRfTemplateResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
 	tflog.Info(ctx, "Starting RfTemplate Create")
-	var plan, state resource_rftemplate.RftemplateModel
+	var plan, state resource_org_rftemplate.OrgRftemplateModel
 
 	diags := req.Plan.Get(ctx, &plan)
 	resp.Diagnostics.Append(diags...)
@@ -60,7 +60,7 @@ func (r *orgRfTemplateResource) Create(ctx context.Context, req resource.CreateR
 		return
 	}
 
-	rftemplate, diags := resource_rftemplate.TerraformToSdk(ctx, &plan)
+	rftemplate, diags := resource_org_rftemplate.TerraformToSdk(ctx, &plan)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -76,7 +76,7 @@ func (r *orgRfTemplateResource) Create(ctx context.Context, req resource.CreateR
 		return
 	}
 
-	state, diags = resource_rftemplate.SdkToTerraform(ctx, data)
+	state, diags = resource_org_rftemplate.SdkToTerraform(ctx, data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -91,7 +91,7 @@ func (r *orgRfTemplateResource) Create(ctx context.Context, req resource.CreateR
 }
 
 func (r *orgRfTemplateResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
-	var state resource_rftemplate.RftemplateModel
+	var state resource_org_rftemplate.OrgRftemplateModel
 
 	diags := resp.State.Get(ctx, &state)
 	resp.Diagnostics.Append(diags...)
@@ -108,7 +108,7 @@ func (r *orgRfTemplateResource) Read(ctx context.Context, req resource.ReadReque
 		)
 		return
 	}
-	state, diags = resource_rftemplate.SdkToTerraform(ctx, data)
+	state, diags = resource_org_rftemplate.SdkToTerraform(ctx, data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -122,7 +122,7 @@ func (r *orgRfTemplateResource) Read(ctx context.Context, req resource.ReadReque
 }
 
 func (r *orgRfTemplateResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
-	var state, plan resource_rftemplate.RftemplateModel
+	var state, plan resource_org_rftemplate.OrgRftemplateModel
 	tflog.Info(ctx, "Starting RfTemplate Update")
 
 	diags := resp.State.Get(ctx, &state)
@@ -136,7 +136,7 @@ func (r *orgRfTemplateResource) Update(ctx context.Context, req resource.UpdateR
 		return
 	}
 
-	rftemplate, diags := resource_rftemplate.TerraformToSdk(ctx, &plan)
+	rftemplate, diags := resource_org_rftemplate.TerraformToSdk(ctx, &plan)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -156,7 +156,7 @@ func (r *orgRfTemplateResource) Update(ctx context.Context, req resource.UpdateR
 		return
 	}
 
-	state, diags = resource_rftemplate.SdkToTerraform(ctx, data)
+	state, diags = resource_org_rftemplate.SdkToTerraform(ctx, data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -171,7 +171,7 @@ func (r *orgRfTemplateResource) Update(ctx context.Context, req resource.UpdateR
 }
 
 func (r *orgRfTemplateResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
-	var state resource_rftemplate.RftemplateModel
+	var state resource_org_rftemplate.OrgRftemplateModel
 
 	diags := resp.State.Get(ctx, &state)
 	resp.Diagnostics.Append(diags...)

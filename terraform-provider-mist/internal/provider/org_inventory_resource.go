@@ -158,6 +158,7 @@ func (r *orgInventoryResource) Update(ctx context.Context, req resource.UpdateRe
 	var claim_devices []string
 	var unclaim_devices []string
 	var unassign_devices []string
+	asign_claimed_devices := make(map[string]string)
 	assign_devices := make(map[string][]string)
 
 	for _, dev_plan_attr := range plan.Devices.Elements() {
@@ -190,6 +191,10 @@ func (r *orgInventoryResource) Update(ctx context.Context, req resource.UpdateRe
 		}
 		if !already_claimed {
 			claim_devices = append(claim_devices, dev_plan.Magic.ValueString())
+			if !dev_plan.SiteId.IsNull() && !dev_plan.SiteId.IsUnknown() {
+				tflog.Debug(ctx, "Device "+dev_plan.Magic.ValueString()+" will be claimed then assigned to "+dev_plan.SiteId.ValueString())
+				asign_claimed_devices[dev_plan.Magic.ValueString()] = dev_plan.SiteId.ValueString()
+			}
 		}
 		switch op {
 		case "assign":
@@ -228,11 +233,14 @@ func (r *orgInventoryResource) Update(ctx context.Context, req resource.UpdateRe
 			)
 			return
 		}
-		tflog.Info(ctx, "response for API Call to claim devices:", map[string]interface{}{
-			"added":      strings.Join(claim_response.Added, ", "),
-			"duplicated": strings.Join(claim_response.Duplicated, ", "),
-			"error":      strings.Join(claim_response.Error, ", "),
-		})
+		inventory_added := claim_response.InventoryAdded
+		for _, v := range inventory_added {
+			site_id, ok := asign_claimed_devices[v.Magic]
+			if ok {
+				assign_devices[site_id] = append(assign_devices[site_id], v.Mac)
+			}
+
+		}
 	}
 	/////////////////////// UNCLAIM
 	if len(unclaim_devices) > 0 {

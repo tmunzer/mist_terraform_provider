@@ -50772,6 +50772,7 @@ components:
           description: height, in meters, optional
           example: 2.75
           type: number
+          format: double
         id:
           format: uuid
           readOnly: true
@@ -50819,6 +50820,7 @@ components:
           description: orientation, 0-359, in degrees, up is 0, right is 90.
           example: 45
           type: integer
+          format: int64
         poe_passthrough:
           default: false
           description: whether to enable power out through module port (for APH) or
@@ -50846,10 +50848,12 @@ components:
           description: x in pixel
           example: 53.5
           type: number
+          format: double
         y:
           description: y in pixel
           example: 173.1
           type: number
+          format: double
       type: object
     ap_aeroscout:
       description: Aeroscout AP settings
@@ -51684,7 +51688,7 @@ components:
           description: additional power to request during negotiating with PSE over
             PoE, in mW
           example: 2000
-          type: number
+          type: integer
         prefer_usb_over_wifi:
           default: false
           description: whether to enable power out to peripheral, meanwhile will reduce
@@ -52851,9 +52855,10 @@ components:
       type: array
     ap_switch_setting_port_vlan_id:
       description: native VLAN id, optional
-      oneOf:
-      - type: integer
-      - type: string
+      type: string
+      # oneOf:
+      # - type: integer
+      # - type: string
     ap_switch_setting_vlan_ids:
       description: list of VLAN ids this
       items:
@@ -61111,10 +61116,11 @@ components:
       - qrcode
       type: string
     mist_device:
-      oneOf:
-      - $ref: '#/components/schemas/ap'
-      - $ref: '#/components/schemas/switch'
-      - $ref: '#/components/schemas/gateway'
+      $ref: '#/components/schemas/ap'
+      # anyOf:
+      # - $ref: '#/components/schemas/ap'
+      # - $ref: '#/components/schemas/switch'
+      # - $ref: '#/components/schemas/gateway'
     ml_overwrite:
       additionalProperties:
         $ref: '#/components/schemas/ml_overwrite_additional_properties'
@@ -67313,10 +67319,11 @@ components:
           type: string
       type: object
     response_device:
-      oneOf:
-      - $ref: '#/components/schemas/ap'
-      - $ref: '#/components/schemas/switch'
-      - $ref: '#/components/schemas/gateway'
+      $ref: '#/components/schemas/ap'
+      # oneOf:
+      # - $ref: '#/components/schemas/ap'
+      # - $ref: '#/components/schemas/switch'
+      # - $ref: '#/components/schemas/gateway'
     response_device_bios_upgrade:
       properties:
         status:
