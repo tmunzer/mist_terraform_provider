@@ -16,6 +16,9 @@ FILES = {
         "rename": {
             "matching_rules": "rules",
             "tacacct_servers": "acct_servers",
+            "snmpv3_contents": "contents",
+            "snmpv3_users": "users",
+            "snmpv3_vacm_content": "content"
         },
         "dedup": [
             "ExtraRoutes",
@@ -28,6 +31,9 @@ FILES = {
         "rename": {
             "matching_rules": "rules",
             "tacacct_servers": "acct_servers",
+            "snmpv3_contents": "contents",
+            "snmpv3_users": "users",
+            "snmpv3_vacm_content": "content"
         },
         "dedup": [
             "ExtraRoutes",

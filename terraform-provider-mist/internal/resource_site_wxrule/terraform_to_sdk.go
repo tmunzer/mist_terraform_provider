@@ -17,8 +17,6 @@ func TerraformToSdk(ctx context.Context, plan *SiteWxruleModel) (*mistapigo.Wxla
 
 	data := *mistapigo.NewWxlanRule(order, src_wxtags)
 
-	data.SetTemplateId(plan.TemplateId.ValueString())
-
 	data.SetAction(mistapigo.WxlanRuleAction(plan.Action.ValueString()))
 	data.SetApplyTags(mist_transform.ListOfStringTerraformToSdk(ctx, plan.ApplyTags))
 	data.SetBlockedApps(mist_transform.ListOfStringTerraformToSdk(ctx, plan.BlockedApps))

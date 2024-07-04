@@ -6556,29 +6556,31 @@
 								},
 								{
 									"name": "views",
-									"single_nested": {
+									"list_nested": {
 										"computed_optional_required": "computed_optional",
-										"attributes": [
-											{
-												"name": "include",
-												"bool": {
-													"computed_optional_required": "computed_optional",
-													"description": "if the root oid configured is included"
+										"nested_object": {
+											"attributes": [
+												{
+													"name": "include",
+													"bool": {
+														"computed_optional_required": "computed_optional",
+														"description": "if the root oid configured is included"
+													}
+												},
+												{
+													"name": "oid",
+													"string": {
+														"computed_optional_required": "computed_optional"
+													}
+												},
+												{
+													"name": "view_name",
+													"string": {
+														"computed_optional_required": "computed_optional"
+													}
 												}
-											},
-											{
-												"name": "oid",
-												"string": {
-													"computed_optional_required": "computed_optional"
-												}
-											},
-											{
-												"name": "view_name",
-												"string": {
-													"computed_optional_required": "computed_optional"
-												}
-											}
-										]
+											]
+										}
 									}
 								}
 							]
@@ -6622,14 +6624,13 @@
 													"name": "match_type",
 													"string": {
 														"computed_optional_required": "computed_optional",
-														"description": "string to match. e.g: `match_name[0:3]`, `match_name[2:6]`, `match_model`,  `match_model[0-6]`"
+														"description": "'property key define the type of matching, value is the string to match. e.g: `match_name[0:3]`, `match_name[2:6]`, `match_model`,  `match_model[0-6]`"
 													}
 												},
 												{
 													"name": "match_value",
 													"string": {
-														"computed_optional_required": "computed_optional",
-														"description": "value to match"
+														"computed_optional_required": "computed_optional"
 													}
 												},
 												{
@@ -14716,29 +14717,31 @@
 								},
 								{
 									"name": "views",
-									"single_nested": {
+									"list_nested": {
 										"computed_optional_required": "computed_optional",
-										"attributes": [
-											{
-												"name": "include",
-												"bool": {
-													"computed_optional_required": "computed_optional",
-													"description": "if the root oid configured is included"
+										"nested_object": {
+											"attributes": [
+												{
+													"name": "include",
+													"bool": {
+														"computed_optional_required": "computed_optional",
+														"description": "if the root oid configured is included"
+													}
+												},
+												{
+													"name": "oid",
+													"string": {
+														"computed_optional_required": "computed_optional"
+													}
+												},
+												{
+													"name": "view_name",
+													"string": {
+														"computed_optional_required": "computed_optional"
+													}
 												}
-											},
-											{
-												"name": "oid",
-												"string": {
-													"computed_optional_required": "computed_optional"
-												}
-											},
-											{
-												"name": "view_name",
-												"string": {
-													"computed_optional_required": "computed_optional"
-												}
-											}
-										]
+											]
+										}
 									}
 								}
 							]
@@ -14782,14 +14785,13 @@
 													"name": "match_type",
 													"string": {
 														"computed_optional_required": "computed_optional",
-														"description": "string to match. e.g: `match_name[0:3]`, `match_name[2:6]`, `match_model`,  `match_model[0-6]`"
+														"description": "'property key define the type of matching, value is the string to match. e.g: `match_name[0:3]`, `match_name[2:6]`, `match_model`,  `match_model[0-6]`"
 													}
 												},
 												{
 													"name": "match_value",
 													"string": {
-														"computed_optional_required": "computed_optional",
-														"description": "value to match"
+														"computed_optional_required": "computed_optional"
 													}
 												},
 												{

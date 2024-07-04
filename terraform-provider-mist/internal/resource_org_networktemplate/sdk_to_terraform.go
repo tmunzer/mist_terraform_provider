@@ -47,6 +47,8 @@ func SdkToTerraform(ctx context.Context, data *mistapigo.NetworkTemplate) (OrgNe
 
 	state.RadiusConfig = radiusConfigSdkToTerraform(ctx, &diags, data.GetRadiusConfig())
 
+	state.SnmpConfig = snmpConfigSdkToTerraform(ctx, &diags, data.GetSnmpConfig())
+
 	state.SwitchMatching = switchMatchingSdkToTerraform(ctx, &diags, data.GetSwitchMatching())
 
 	state.SwitchMgmt = switchMgmtSdkToTerraform(ctx, &diags, data.GetSwitchMgmt())

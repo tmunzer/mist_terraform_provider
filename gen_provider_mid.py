@@ -35,13 +35,61 @@ RENAME = [
                 ],
             },
             {
+                "name": "snmp_config",
+                "get": ["single_nested", "attributes"],
+                "next": [
+                    {
+                        "name": "v3_config",
+                        "get": ["single_nested", "attributes"],
+                        "next": [
+                            {
+                                "name": "notify_filter",
+                                "get": ["list_nested", "nested_object", "attributes"],
+                                "next": [
+                                    {
+                                        "name": "contents",
+                                        "rename": "snmpv3_contents",
+                                    }
+                                ],
+                            },
+                            {
+                                "name": "usm",
+                                "get": ["single_nested", "attributes"],
+                                "next": [
+                                    {
+                                        "name": "users",
+                                        "rename": "snmpv3_users",
+                                    }
+                                ],
+                            },
+                            {
+                                "name": "vacm",
+                                "get": ["single_nested", "attributes"],
+                                "next": [
+                                    {
+                                        "name": "security_to_group",
+                                        "get": ["single_nested", "attributes"],
+                                        "next": [
+                                            {
+                                                "name": "content",
+                                                "rename": "snmpv3_vacm_content",
+                                            }
+                                        ],
+                                    },
+                                ],
+                            },
+                        ],
+                    },
+                ],
+            },
+            {
                 "name": "org_id",
                 "get": ["string"],
                 "computed_optional_required": "required",
             },
         ],
     },
-        {
+    {
         "name": "org_sitegroup",
         "get": ["schema", "attributes"],
         "next": [
@@ -55,9 +103,9 @@ RENAME = [
                 "get": ["string"],
                 "computed_optional_required": "required",
             },
-        ]
-        },
-        {
+        ],
+    },
+    {
         "name": "org_wlantemplate",
         "get": ["schema", "attributes"],
         "next": [
@@ -76,9 +124,9 @@ RENAME = [
                 "get": ["string"],
                 "computed_optional_required": "required",
             },
-        ]
-        },
-        {
+        ],
+    },
+    {
         "name": "org_wlan",
         "get": ["schema", "attributes"],
         "next": [
@@ -92,9 +140,9 @@ RENAME = [
                 "get": ["string"],
                 "computed_optional_required": "required",
             },
-        ]
-        },
-        {
+        ],
+    },
+    {
         "name": "org_service",
         "get": ["schema", "attributes"],
         "next": [
@@ -108,9 +156,9 @@ RENAME = [
                 "get": ["string"],
                 "computed_optional_required": "required",
             },
-        ]
-        },
-        {
+        ],
+    },
+    {
         "name": "org_network",
         "get": ["schema", "attributes"],
         "next": [
@@ -124,9 +172,9 @@ RENAME = [
                 "get": ["string"],
                 "computed_optional_required": "required",
             },
-        ]
-        },
-        {
+        ],
+    },
+    {
         "name": "org_nactag",
         "get": ["schema", "attributes"],
         "next": [
@@ -140,9 +188,9 @@ RENAME = [
                 "get": ["string"],
                 "computed_optional_required": "required",
             },
-        ]
-        },
-        {
+        ],
+    },
+    {
         "name": "org_wxrule",
         "get": ["schema", "attributes"],
         "next": [
@@ -151,9 +199,9 @@ RENAME = [
                 "get": ["string"],
                 "computed_optional_required": "required",
             },
-        ]
-        },
-        {
+        ],
+    },
+    {
         "name": "org_wxtag",
         "get": ["schema", "attributes"],
         "next": [
@@ -167,9 +215,9 @@ RENAME = [
                 "get": ["string"],
                 "computed_optional_required": "required",
             },
-        ]
-        },
-        {
+        ],
+    },
+    {
         "name": "site_wxrule",
         "get": ["schema", "attributes"],
         "next": [
@@ -178,9 +226,9 @@ RENAME = [
                 "get": ["string"],
                 "computed_optional_required": "required",
             },
-        ]
-        },
-        {
+        ],
+    },
+    {
         "name": "site_wxtag",
         "get": ["schema", "attributes"],
         "next": [
@@ -194,9 +242,9 @@ RENAME = [
                 "get": ["string"],
                 "computed_optional_required": "required",
             },
-        ]
-        },
-        {
+        ],
+    },
+    {
         "name": "org_rftemplate",
         "get": ["schema", "attributes"],
         "next": [
@@ -210,9 +258,9 @@ RENAME = [
                 "get": ["string"],
                 "computed_optional_required": "required",
             },
-        ]
-        },
-        {
+        ],
+    },
+    {
         "name": "org_nacrule",
         "get": ["schema", "attributes"],
         "next": [
@@ -226,9 +274,9 @@ RENAME = [
                 "get": ["string"],
                 "computed_optional_required": "required",
             },
-        ]
-        },
-        {
+        ],
+    },
+    {
         "name": "site_wlan",
         "get": ["schema", "attributes"],
         "next": [
@@ -242,8 +290,8 @@ RENAME = [
                 "get": ["string"],
                 "computed_optional_required": "required",
             },
-        ]
-        },
+        ],
+    },
     {
         "name": "site_networktemplate",
         "get": ["schema", "attributes"],
@@ -252,7 +300,7 @@ RENAME = [
                 "name": "id",
                 "rename": "site_id",
             },
-                        {
+            {
                 "name": "site_id",
                 "get": ["string"],
                 "computed_optional_required": "required",
@@ -279,6 +327,54 @@ RENAME = [
                                 "name": "acct_servers",
                                 "rename": "tacacct_servers",
                             }
+                        ],
+                    },
+                ],
+            },
+            {
+                "name": "snmp_config",
+                "get": ["single_nested", "attributes"],
+                "next": [
+                    {
+                        "name": "v3_config",
+                        "get": ["single_nested", "attributes"],
+                        "next": [
+                            {
+                                "name": "notify_filter",
+                                "get": ["list_nested", "nested_object", "attributes"],
+                                "next": [
+                                    {
+                                        "name": "contents",
+                                        "rename": "snmpv3_contents",
+                                    }
+                                ],
+                            },
+                            {
+                                "name": "usm",
+                                "get": ["single_nested", "attributes"],
+                                "next": [
+                                    {
+                                        "name": "users",
+                                        "rename": "snmpv3_users",
+                                    }
+                                ],
+                            },
+                            {
+                                "name": "vacm",
+                                "get": ["single_nested", "attributes"],
+                                "next": [
+                                    {
+                                        "name": "security_to_group",
+                                        "get": ["single_nested", "attributes"],
+                                        "next": [
+                                            {
+                                                "name": "content",
+                                                "rename": "snmpv3_vacm_content",
+                                            }
+                                        ],
+                                    },
+                                ],
+                            },
                         ],
                     },
                 ],
@@ -842,7 +938,7 @@ RENAME = [
             {
                 "name": "org_id",
                 "get": ["string"],
-                "computed_optional_required": "required",                
+                "computed_optional_required": "required",
             },
             # {
             #     "name": "site_id",
