@@ -264,7 +264,7 @@ func snmpV3VacmSecurityToGroupContentSdkToTerraform(ctx context.Context, diags *
 func snmpV3VacmSecurityToGroupSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistapigo.SnmpVacmSecurityToGroup) basetypes.ObjectValue {
 	content := snmpV3VacmSecurityToGroupContentSdkToTerraform(ctx, diags, d.GetContent())
 
-	r_attr_type := VacmValue{}.AttributeTypes(ctx)
+	r_attr_type := SecurityToGroupValue{}.AttributeTypes(ctx)
 	r_attr_value := map[string]attr.Value{
 		"security_model": types.StringValue(string(d.GetSecurityModel())),
 		"content":        content,
