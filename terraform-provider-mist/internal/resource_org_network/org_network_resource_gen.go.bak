@@ -8,6 +8,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 	"github.com/hashicorp/terraform-plugin-go/tftypes"
@@ -156,6 +157,7 @@ func OrgNetworkResourceSchema(ctx context.Context) schema.Schema {
 				Computed:            true,
 				Description:         "for a Network (usually LAN), it can be routable to other networks (e.g. OSPF)",
 				MarkdownDescription: "for a Network (usually LAN), it can be routable to other networks (e.g. OSPF)",
+				Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 			},
 			"subnet": schema.StringAttribute{
 				Optional: true,
@@ -172,6 +174,7 @@ func OrgNetworkResourceSchema(ctx context.Context) schema.Schema {
 							ElementType: types.StringType,
 							Optional:    true,
 							Computed:    true,
+							Default:     listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 						},
 					},
 					CustomType: TenantsType{
@@ -261,6 +264,7 @@ func OrgNetworkResourceSchema(ctx context.Context) schema.Schema {
 							Computed:            true,
 							Description:         "by default, the routes are only readvertised toward the same vrf on spoke\nto allow it to be leaked to other vrfs",
 							MarkdownDescription: "by default, the routes are only readvertised toward the same vrf on spoke\nto allow it to be leaked to other vrfs",
+							Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 						},
 						"routed": schema.BoolAttribute{
 							Optional:            true,

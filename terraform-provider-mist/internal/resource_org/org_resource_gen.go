@@ -4,7 +4,9 @@ package resource_org
 
 import (
 	"context"
+	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -49,6 +51,7 @@ func OrgResourceSchema(ctx context.Context) schema.Schema {
 				ElementType: types.StringType,
 				Optional:    true,
 				Computed:    true,
+				Default:     listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 			},
 			"session_expiry": schema.NumberAttribute{
 				Optional: true,

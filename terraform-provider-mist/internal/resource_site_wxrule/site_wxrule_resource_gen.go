@@ -6,7 +6,9 @@ import (
 	"context"
 	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 
@@ -33,6 +35,7 @@ func SiteWxruleResourceSchema(ctx context.Context) schema.Schema {
 				ElementType: types.StringType,
 				Optional:    true,
 				Computed:    true,
+				Default:     listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 			},
 			"blocked_apps": schema.ListAttribute{
 				ElementType:         types.StringType,
@@ -40,6 +43,7 @@ func SiteWxruleResourceSchema(ctx context.Context) schema.Schema {
 				Computed:            true,
 				Description:         "blocked apps (always blocking, ignoring action), the key of Get Application List",
 				MarkdownDescription: "blocked apps (always blocking, ignoring action), the key of Get Application List",
+				Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 			},
 			"dst_allow_wxtags": schema.ListAttribute{
 				ElementType:         types.StringType,
@@ -47,6 +51,7 @@ func SiteWxruleResourceSchema(ctx context.Context) schema.Schema {
 				Computed:            true,
 				Description:         "tag list to indicate these tags are allowed access",
 				MarkdownDescription: "tag list to indicate these tags are allowed access",
+				Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 			},
 			"dst_deny_wxtags": schema.ListAttribute{
 				ElementType:         types.StringType,
@@ -54,6 +59,7 @@ func SiteWxruleResourceSchema(ctx context.Context) schema.Schema {
 				Computed:            true,
 				Description:         "tag list to indicate these tags are blocked access",
 				MarkdownDescription: "tag list to indicate these tags are blocked access",
+				Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 			},
 			"enabled": schema.BoolAttribute{
 				Optional: true,

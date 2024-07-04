@@ -12,6 +12,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -69,6 +70,7 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 							Computed:            true,
 							Description:         "- for GBP-based policy, all src_tags and dst_tags have to be gbp-based\n- for ACL-based policy, `network` is required in either the source or destination so that we know where to attach the policy to",
 							MarkdownDescription: "- for GBP-based policy, all src_tags and dst_tags have to be gbp-based\n- for ACL-based policy, `network` is required in either the source or destination so that we know where to attach the policy to",
+							Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 						},
 					},
 					CustomType: AclPoliciesType{
@@ -95,6 +97,7 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 							Computed:            true,
 							Description:         "required if \n- `type`==`mac`\n- `type`==`static_gbp` if from matching mac",
 							MarkdownDescription: "required if \n- `type`==`mac`\n- `type`==`static_gbp` if from matching mac",
+							Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 						},
 						"network": schema.StringAttribute{
 							Optional:            true,
@@ -143,6 +146,7 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 							Computed:            true,
 							Description:         "if \n- `type`==`subnet` \n- `type`==`resource` (optional. default is `any`)\n- `type`==`static_gbp` if from matching subnet",
 							MarkdownDescription: "if \n- `type`==`subnet` \n- `type`==`resource` (optional. default is `any`)\n- `type`==`static_gbp` if from matching subnet",
+							Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 						},
 						"type": schema.StringAttribute{
 							Required: true,
@@ -178,6 +182,7 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 				Computed:            true,
 				Description:         "additional CLI commands to append to the generated Junos config\n\n**Note**: no check is done",
 				MarkdownDescription: "additional CLI commands to append to the generated Junos config\n\n**Note**: no check is done",
+				Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 			},
 			"dhcp_snooping": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
@@ -207,6 +212,7 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 						Computed:            true,
 						Description:         "if `all_networks`==`false`, list of network with DHCP snooping enabled",
 						MarkdownDescription: "if `all_networks`==`false`, list of network with DHCP snooping enabled",
+						Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 					},
 				},
 				CustomType: DhcpSnoopingType{
@@ -223,6 +229,7 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 				Computed:            true,
 				Description:         "Global dns settings. To keep compatibility, dns settings in `ip_config` and `oob_ip_config` will overwrite this setting",
 				MarkdownDescription: "Global dns settings. To keep compatibility, dns settings in `ip_config` and `oob_ip_config` will overwrite this setting",
+				Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 			},
 			"dns_suffix": schema.ListAttribute{
 				ElementType:         types.StringType,
@@ -230,6 +237,7 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 				Computed:            true,
 				Description:         "Global dns settings. To keep compatibility, dns settings in `ip_config` and `oob_ip_config` will overwrite this setting",
 				MarkdownDescription: "Global dns settings. To keep compatibility, dns settings in `ip_config` and `oob_ip_config` will overwrite this setting",
+				Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 			},
 			"extra_routes": schema.MapNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
@@ -359,6 +367,7 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 				Computed:            true,
 				Description:         "list of NTP servers",
 				MarkdownDescription: "list of NTP servers",
+				Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 			},
 			"port_mirrorings": schema.MapNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
@@ -369,6 +378,7 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 							Computed:            true,
 							Description:         "at least one of the `ingress_port_ids`, `egress_port_ids` or `ingress_networks ` should be specified",
 							MarkdownDescription: "at least one of the `ingress_port_ids`, `egress_port_ids` or `ingress_networks ` should be specified",
+							Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 						},
 						"input_port_ids_egress": schema.ListAttribute{
 							ElementType:         types.StringType,
@@ -376,6 +386,7 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 							Computed:            true,
 							Description:         "at least one of the `ingress_port_ids`, `egress_port_ids` or `ingress_networks ` should be specified",
 							MarkdownDescription: "at least one of the `ingress_port_ids`, `egress_port_ids` or `ingress_networks ` should be specified",
+							Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 						},
 						"input_port_ids_ingress": schema.ListAttribute{
 							ElementType:         types.StringType,
@@ -383,6 +394,7 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 							Computed:            true,
 							Description:         "at least one of the `ingress_port_ids`, `egress_port_ids` or `ingress_networks ` should be specified",
 							MarkdownDescription: "at least one of the `ingress_port_ids`, `egress_port_ids` or `ingress_networks ` should be specified",
+							Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 						},
 						"output_network": schema.StringAttribute{
 							Optional: true,
@@ -484,6 +496,7 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 							Computed:            true,
 							Description:         "Only if `mode`!=`dynamic` if dynamic vlan is used, specify the possible networks/vlans RADIUS can return",
 							MarkdownDescription: "Only if `mode`!=`dynamic` if dynamic vlan is used, specify the possible networks/vlans RADIUS can return",
+							Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 						},
 						"enable_mac_auth": schema.BoolAttribute{
 							Optional:            true,
@@ -568,6 +581,7 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 							Computed:            true,
 							Description:         "Only if `mode`==`trunk`, the list of network/vlans",
 							MarkdownDescription: "Only if `mode`==`trunk`, the list of network/vlans",
+							Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 						},
 						"persist_mac": schema.BoolAttribute{
 							Optional:            true,
@@ -638,6 +652,7 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 										Computed:            true,
 										Description:         "use `equals_any` to match any item in a list",
 										MarkdownDescription: "use `equals_any` to match any item in a list",
+										Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 									},
 									"expression": schema.StringAttribute{
 										Optional:            true,
@@ -1419,6 +1434,7 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 									ElementType: types.StringType,
 									Optional:    true,
 									Computed:    true,
+									Default:     listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 								},
 							},
 							CustomType: ClientListType{
@@ -1476,6 +1492,7 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 									ElementType: types.StringType,
 									Optional:    true,
 									Computed:    true,
+									Default:     listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 								},
 								"group_name": schema.StringAttribute{
 									Optional:            true,
@@ -1487,6 +1504,7 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 									ElementType: types.StringType,
 									Optional:    true,
 									Computed:    true,
+									Default:     listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 								},
 								"version": schema.StringAttribute{
 									Optional: true,
@@ -2023,6 +2041,7 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 									Computed:            true,
 									Description:         "additional CLI commands to append to the generated Junos config\n\n**Note**: no check is done",
 									MarkdownDescription: "additional CLI commands to append to the generated Junos config\n\n**Note**: no check is done",
+									Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 								},
 								"match_role": schema.StringAttribute{
 									Optional:            true,
@@ -2171,6 +2190,7 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 												Computed:            true,
 												Description:         "at least one of the `ingress_port_ids`, `egress_port_ids` or `ingress_networks ` should be specified",
 												MarkdownDescription: "at least one of the `ingress_port_ids`, `egress_port_ids` or `ingress_networks ` should be specified",
+												Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 											},
 											"input_port_ids_egress": schema.ListAttribute{
 												ElementType:         types.StringType,
@@ -2178,6 +2198,7 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 												Computed:            true,
 												Description:         "at least one of the `ingress_port_ids`, `egress_port_ids` or `ingress_networks ` should be specified",
 												MarkdownDescription: "at least one of the `ingress_port_ids`, `egress_port_ids` or `ingress_networks ` should be specified",
+												Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 											},
 											"input_port_ids_ingress": schema.ListAttribute{
 												ElementType:         types.StringType,
@@ -2185,6 +2206,7 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 												Computed:            true,
 												Description:         "at least one of the `ingress_port_ids`, `egress_port_ids` or `ingress_networks ` should be specified",
 												MarkdownDescription: "at least one of the `ingress_port_ids`, `egress_port_ids` or `ingress_networks ` should be specified",
+												Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 											},
 											"output_network": schema.StringAttribute{
 												Optional: true,
@@ -2247,6 +2269,7 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 								Computed:            true,
 								Description:         "optionally, services we'll allow",
 								MarkdownDescription: "optionally, services we'll allow",
+								Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 							},
 							"custom": schema.ListNestedAttribute{
 								NestedObject: schema.NestedAttributeObject{
@@ -2276,6 +2299,7 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 											ElementType: types.StringType,
 											Optional:    true,
 											Computed:    true,
+											Default:     listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 										},
 									},
 									CustomType: CustomType{
@@ -2300,6 +2324,7 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 								Computed:            true,
 								Description:         "host/subnets we'll allow traffic to/from",
 								MarkdownDescription: "host/subnets we'll allow traffic to/from",
+								Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 							},
 						},
 						CustomType: ProtectReType{
@@ -2468,6 +2493,7 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 							Validators: []validator.List{
 								listvalidator.UniqueValues(),
 							},
+							Default: listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 						},
 					},
 					CustomType: VrfInstancesType{

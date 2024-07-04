@@ -36,19 +36,12 @@ PNAME="terraform-provider-mistapi"
 
 # mkdir -p internal/provider
 
-cd mist_openapi
-git pull
-cd ..
-# tfplugingen-framework scaffold provider \
-#   --name mist \
-#   --output-dir ./internal/provider
+# cd mist_openapi
+# git pull
+# cd ..
 
-# ts=`date "+%s"`
-# echo "backuping src"
-# cp ./provider-code-spec.json ./provider-code-spec.json.$ts.bak
-
-echo "fix openapi specs..."
-python3 ./gen_provider_pre.py
+# echo "fix openapi specs..."
+# python3 ./gen_provider_pre.py
 
 echo "generate provider specs..."
 tfplugingen-openapi generate \

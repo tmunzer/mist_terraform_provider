@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 	"github.com/hashicorp/terraform-plugin-go/tftypes"
@@ -30,6 +31,7 @@ func OrgWlantemplateResourceSchema(ctx context.Context) schema.Schema {
 						Computed:            true,
 						Description:         "list of site ids",
 						MarkdownDescription: "list of site ids",
+						Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 					},
 					"sitegroup_ids": schema.ListAttribute{
 						ElementType:         types.StringType,
@@ -37,6 +39,7 @@ func OrgWlantemplateResourceSchema(ctx context.Context) schema.Schema {
 						Computed:            true,
 						Description:         "list of sitegroup ids",
 						MarkdownDescription: "list of sitegroup ids",
+						Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 					},
 				},
 				CustomType: AppliesType{
@@ -55,6 +58,7 @@ func OrgWlantemplateResourceSchema(ctx context.Context) schema.Schema {
 				Computed:            true,
 				Description:         "list of Device Profile ids",
 				MarkdownDescription: "list of Device Profile ids",
+				Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 			},
 			"exceptions": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
@@ -64,6 +68,7 @@ func OrgWlantemplateResourceSchema(ctx context.Context) schema.Schema {
 						Computed:            true,
 						Description:         "list of site ids",
 						MarkdownDescription: "list of site ids",
+						Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 					},
 					"sitegroup_ids": schema.ListAttribute{
 						ElementType:         types.StringType,
@@ -71,6 +76,7 @@ func OrgWlantemplateResourceSchema(ctx context.Context) schema.Schema {
 						Computed:            true,
 						Description:         "list of sitegroup ids",
 						MarkdownDescription: "list of sitegroup ids",
+						Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 					},
 				},
 				CustomType: ExceptionsType{

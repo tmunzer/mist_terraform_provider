@@ -50265,6 +50265,7 @@ components:
         example: set snmp community public
         type: string
       type: array
+      default: []
     admin:
       properties:
         admin_id:

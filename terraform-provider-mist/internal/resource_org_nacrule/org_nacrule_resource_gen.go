@@ -10,6 +10,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
@@ -38,6 +39,7 @@ func OrgNacruleResourceSchema(ctx context.Context) schema.Schema {
 				Computed:            true,
 				Description:         "all optional, this goes into Access-Accept",
 				MarkdownDescription: "all optional, this goes into Access-Accept",
+				Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 			},
 			"enabled": schema.BoolAttribute{
 				Optional:            true,
@@ -76,11 +78,13 @@ func OrgNacruleResourceSchema(ctx context.Context) schema.Schema {
 						ElementType: types.StringType,
 						Optional:    true,
 						Computed:    true,
+						Default:     listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 					},
 					"port_types": schema.ListAttribute{
 						ElementType: types.StringType,
 						Optional:    true,
 						Computed:    true,
+						Default:     listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 					},
 					"site_ids": schema.ListAttribute{
 						ElementType:         types.StringType,
@@ -88,6 +92,7 @@ func OrgNacruleResourceSchema(ctx context.Context) schema.Schema {
 						Computed:            true,
 						Description:         "list of site ids to match",
 						MarkdownDescription: "list of site ids to match",
+						Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 					},
 					"sitegroup_ids": schema.ListAttribute{
 						ElementType:         types.StringType,
@@ -95,6 +100,7 @@ func OrgNacruleResourceSchema(ctx context.Context) schema.Schema {
 						Computed:            true,
 						Description:         "list of sitegroup ids to match",
 						MarkdownDescription: "list of sitegroup ids to match",
+						Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 					},
 					"vendor": schema.ListAttribute{
 						ElementType:         types.StringType,
@@ -102,6 +108,7 @@ func OrgNacruleResourceSchema(ctx context.Context) schema.Schema {
 						Computed:            true,
 						Description:         "list of vendors to match",
 						MarkdownDescription: "list of vendors to match",
+						Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 					},
 				},
 				CustomType: MatchingType{
@@ -138,11 +145,13 @@ func OrgNacruleResourceSchema(ctx context.Context) schema.Schema {
 						ElementType: types.StringType,
 						Optional:    true,
 						Computed:    true,
+						Default:     listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 					},
 					"port_types": schema.ListAttribute{
 						ElementType: types.StringType,
 						Optional:    true,
 						Computed:    true,
+						Default:     listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 					},
 					"site_ids": schema.ListAttribute{
 						ElementType:         types.StringType,
@@ -150,6 +159,7 @@ func OrgNacruleResourceSchema(ctx context.Context) schema.Schema {
 						Computed:            true,
 						Description:         "list of site ids to match",
 						MarkdownDescription: "list of site ids to match",
+						Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 					},
 					"sitegroup_ids": schema.ListAttribute{
 						ElementType:         types.StringType,
@@ -157,6 +167,7 @@ func OrgNacruleResourceSchema(ctx context.Context) schema.Schema {
 						Computed:            true,
 						Description:         "list of sitegroup ids to match",
 						MarkdownDescription: "list of sitegroup ids to match",
+						Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 					},
 					"vendor": schema.ListAttribute{
 						ElementType:         types.StringType,
@@ -164,6 +175,7 @@ func OrgNacruleResourceSchema(ctx context.Context) schema.Schema {
 						Computed:            true,
 						Description:         "list of vendors to match",
 						MarkdownDescription: "list of vendors to match",
+						Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 					},
 				},
 				CustomType: NotMatchingType{
