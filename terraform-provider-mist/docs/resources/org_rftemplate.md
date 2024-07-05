@@ -18,6 +18,7 @@ description: |-
 ### Required
 
 - `name` (String) The name of the RF template
+- `org_id` (String)
 
 ### Optional
 
@@ -30,7 +31,6 @@ description: |-
 - `band_6` (Attributes) Radio Band AP settings (see [below for nested schema](#nestedatt--band_6))
 - `country_code` (String) optional, country code to use. If specified, this gets applied to all sites using the RF Template
 - `model_specific` (Attributes Map) overwrites for a specific model. If a band is specified, it will shadow the default. Property key is the model name (e.g. "AP63") (see [below for nested schema](#nestedatt--model_specific))
-- `org_id` (String)
 - `scanning_enabled` (Boolean) whether scanning radio is enabled
 
 ### Read-Only

@@ -33,11 +33,11 @@ resource "mist_org_inventory" "inventory" {
   org_id       = mist_org.terraform_org.id
   devices = [
     {
-    magic = "DEVICE_CLAIM_CODE_1"
+    claim_code = "DEVICE_CLAIM_CODE_1"
     site_id = mist_site.terraform_site.id
     },
     {
-    magic = "DEVICE_CLAIM_CODE_2"
+    claim_code = "DEVICE_CLAIM_CODE_2"
     },
   ]
 }

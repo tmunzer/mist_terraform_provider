@@ -21,16 +21,16 @@ func SdkToTerraform(ctx context.Context, orgId string, data []mistapigo.Inventor
 	var devices []attr.Value
 	for _, v := range data {
 		dev_att := map[string]attr.Value{
-			"magic":     types.StringValue(v.GetMagic()),
-			"mac":       types.StringValue(v.GetMac()),
-			"model":     types.StringValue(v.GetModel()),
-			"org_id":    types.StringValue(v.GetOrgId()),
-			"serial":    types.StringValue(v.GetSerial()),
-			"site_id":   types.StringValue(v.GetSiteId()),
-			"type":      types.StringValue(string(v.GetType())),
-			"vc_mac":    types.StringValue(v.GetVcMac()),
-			"hostname":  types.StringValue(v.GetHostname()),
-			"device_id": types.StringValue(v.GetId()),
+			"claim_code": types.StringValue(v.GetMagic()),
+			"mac":        types.StringValue(v.GetMac()),
+			"model":      types.StringValue(v.GetModel()),
+			"org_id":     types.StringValue(v.GetOrgId()),
+			"serial":     types.StringValue(v.GetSerial()),
+			"site_id":    types.StringValue(v.GetSiteId()),
+			"type":       types.StringValue(string(v.GetType())),
+			"vc_mac":     types.StringValue(v.GetVcMac()),
+			"hostname":   types.StringValue(v.GetHostname()),
+			"device_id":  types.StringValue(v.GetId()),
 		}
 		tflog.Debug(ctx, "----------")
 		dev, e := NewDevicesValue(DevicesValue{}.AttributeTypes(ctx), dev_att)

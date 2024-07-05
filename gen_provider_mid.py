@@ -5,6 +5,214 @@ SPEC_IN = "./provider-code-spec.json"
 
 RENAME = [
     {
+<<<<<<< Updated upstream
+=======
+        "name": "device_ap",
+        "get": ["schema", "attributes"],
+        "next": [
+            {
+                "name": "ble_config",
+                "get": ["single_nested", "attributes"],
+                "next": [
+                    {
+                        "name": "beam_disabled",
+                        "get": ["list"],
+                        "default": json.loads(CUSTOM_DEFAULT_LIST_OF_INT),
+                    }
+                ],
+            },
+            {
+                "name": "radio_config",
+                "get": ["single_nested", "attributes"],
+                "next": [
+                    {
+                        "name": "band_24",
+                        "get": ["single_nested", "attributes"],
+                        "next": [
+                            {
+                                "name": "channels",
+                                "get": ["list"],
+                                "default": json.loads(CUSTOM_DEFAULT_LIST_OF_INT),
+                            },
+                        ],
+                    },
+                    {
+                        "name": "band_5",
+                        "get": ["single_nested", "attributes"],
+                        "next": [
+                            {
+                                "name": "channels",
+                                "get": ["list"],
+                                "default": json.loads(CUSTOM_DEFAULT_LIST_OF_INT),
+                            },
+                        ],
+                    },
+                    {
+                        "name": "band_5_on_24_radio",
+                        "get": ["single_nested", "attributes"],
+                        "next": [
+                            {
+                                "name": "channels",
+                                "get": ["list"],
+                                "default": json.loads(CUSTOM_DEFAULT_LIST_OF_INT),
+                            },
+                        ],
+                    },
+                    {
+                        "name": "band_6",
+                        "get": ["single_nested", "attributes"],
+                        "next": [
+                            {
+                                "name": "channels",
+                                "get": ["list"],
+                                "default": json.loads(CUSTOM_DEFAULT_LIST_OF_INT),
+                            },
+                        ],
+                    },
+                ],
+            },
+            {
+                "name": "site_id",
+                "get": ["string"],
+                "computed_optional_required": "required",
+            },
+        ],
+    },
+    {
+        "name": "org_gatewaytemplate",
+        "get": ["schema", "attributes"],
+        "next": [
+            {
+                "name": "port_config",
+                "get": ["map_nested", "nested_object", "attributes"],
+                "next": [
+                    {
+                        "name": "traffic_shaping",
+                        "get": ["single_nested", "attributes"],
+                        "next": [
+                            {
+                                "name": "class_percentages",
+                                "get": ["list"],
+                                "default": json.loads(CUSTOM_DEFAULT_LIST_OF_INT),
+                            },
+                        ],
+                    },
+                    {
+                        "name": "vpn_paths",
+                        "get": ["map_nested", "nested_object", "attributes"],
+                        "next": [
+                            {
+                                "name": "traffic_shaping",
+                                "get": ["single_nested", "attributes"],
+                                "next": [
+                                    {
+                                        "name": "class_percentages",
+                                        "get": ["list"],
+                                        "default": json.loads(
+                                            CUSTOM_DEFAULT_LIST_OF_INT
+                                        ),
+                                    },
+                                ],
+                            },
+                        ],
+                    },
+                ],
+            },
+        ],
+    },
+    {
+        "name": "device_switch",
+        "get": ["schema", "attributes"],
+        "next": [
+            {
+                "name": "switch_mgmt",
+                "get": ["single_nested", "attributes"],
+                "next": [
+                    {
+                        "name": "tacacs",
+                        "get": ["single_nested", "attributes"],
+                        "next": [
+                            {
+                                "name": "acct_servers",
+                                "rename": "tacacct_servers",
+                            }
+                        ],
+                    },
+                ],
+            },
+            {
+                "name": "switch_mgmt",
+                "get": ["single_nested", "attributes"],
+                "next": [
+                    {
+                        "name": "tacacs",
+                        "get": ["single_nested", "attributes"],
+                        "next": [
+                            {
+                                "name": "acct_servers",
+                                "rename": "tacacct_servers",
+                            }
+                        ],
+                    },
+                ],
+            },
+            {
+                "name": "snmp_config",
+                "get": ["single_nested", "attributes"],
+                "next": [
+                    {
+                        "name": "v3_config",
+                        "get": ["single_nested", "attributes"],
+                        "next": [
+                            {
+                                "name": "notify_filter",
+                                "get": ["list_nested", "nested_object", "attributes"],
+                                "next": [
+                                    {
+                                        "name": "contents",
+                                        "rename": "snmpv3_contents",
+                                    }
+                                ],
+                            },
+                            {
+                                "name": "usm",
+                                "get": ["single_nested", "attributes"],
+                                "next": [
+                                    {
+                                        "name": "users",
+                                        "rename": "snmpv3_users",
+                                    }
+                                ],
+                            },
+                            {
+                                "name": "vacm",
+                                "get": ["single_nested", "attributes"],
+                                "next": [
+                                    {
+                                        "name": "security_to_group",
+                                        "get": ["single_nested", "attributes"],
+                                        "next": [
+                                            {
+                                                "name": "content",
+                                                "rename": "snmpv3_vacm_content",
+                                            }
+                                        ],
+                                    },
+                                ],
+                            },
+                        ],
+                    },
+                ],
+            },
+            {
+                "name": "site_id",
+                "get": ["string"],
+                "computed_optional_required": "required",
+            },
+        ],
+    },
+    {
+>>>>>>> Stashed changes
         "name": "org_networktemplate",
         "get": ["schema", "attributes"],
         "next": [
@@ -92,9 +300,53 @@ RENAME = [
                 "get": ["string"],
                 "computed_optional_required": "required",
             },
+<<<<<<< Updated upstream
         ]
         },
         {
+=======
+            {
+                "name": "dynamic_psk",
+                "get": ["single_nested", "attributes"],
+                "next": [
+                    {
+                        "name": "vlan_ids",
+                        "get": ["list"],
+                        "default": json.loads(CUSTOM_DEFAULT_LIST_OF_INT),
+                    }
+                ],
+            },
+            {
+                "name": "dynamic_vlan",
+                "get": ["single_nested", "attributes"],
+                "next": [
+                    {
+                        "name": "local_vlan_ids",
+                        "get": ["list"],
+                        "default": json.loads(CUSTOM_DEFAULT_LIST_OF_INT),
+                    }
+                ],
+            },
+            {
+                "name": "bonjour",
+                "get": ["single_nested", "attributes"],
+                "next": [
+                    {
+                        "name": "additional_vlan_ids",
+                        "get": ["list"],
+                        "no_default": True,
+                    }
+                ],
+            },
+            {
+                "name": "vlan_ids",
+                "get": ["list"],
+                "default": json.loads(CUSTOM_DEFAULT_LIST_OF_INT),
+            },
+        ],
+    },
+    {
+>>>>>>> Stashed changes
         "name": "org_service",
         "get": ["schema", "attributes"],
         "next": [
@@ -151,9 +403,20 @@ RENAME = [
                 "get": ["string"],
                 "computed_optional_required": "required",
             },
+<<<<<<< Updated upstream
         ]
         },
         {
+=======
+            {
+                "name": "src_wxtags",
+                "get": ["list"],
+                "no_default": True,
+            },
+        ],
+    },
+    {
+>>>>>>> Stashed changes
         "name": "org_wxtag",
         "get": ["schema", "attributes"],
         "next": [
@@ -178,9 +441,20 @@ RENAME = [
                 "get": ["string"],
                 "computed_optional_required": "required",
             },
+<<<<<<< Updated upstream
         ]
         },
         {
+=======
+            {
+                "name": "src_wxtags",
+                "get": ["list"],
+                "no_default": True,
+            },
+        ],
+    },
+    {
+>>>>>>> Stashed changes
         "name": "site_wxtag",
         "get": ["schema", "attributes"],
         "next": [
@@ -210,9 +484,109 @@ RENAME = [
                 "get": ["string"],
                 "computed_optional_required": "required",
             },
+<<<<<<< Updated upstream
         ]
         },
         {
+=======
+            {
+                "name": "band_24",
+                "get": ["single_nested", "attributes"],
+                "next": [
+                    {
+                        "name": "channels",
+                        "get": ["list"],
+                        "default": json.loads(CUSTOM_DEFAULT_LIST_OF_INT),
+                    },
+                ],
+            },
+            {
+                "name": "band_5",
+                "get": ["single_nested", "attributes"],
+                "next": [
+                    {
+                        "name": "channels",
+                        "get": ["list"],
+                        "default": json.loads(CUSTOM_DEFAULT_LIST_OF_INT),
+                    },
+                ],
+            },
+            {
+                "name": "band_5_on_24_radio",
+                "get": ["single_nested", "attributes"],
+                "next": [
+                    {
+                        "name": "channels",
+                        "get": ["list"],
+                        "default": json.loads(CUSTOM_DEFAULT_LIST_OF_INT),
+                    },
+                ],
+            },
+            {
+                "name": "band_6",
+                "get": ["single_nested", "attributes"],
+                "next": [
+                    {
+                        "name": "channels",
+                        "get": ["list"],
+                        "default": json.loads(CUSTOM_DEFAULT_LIST_OF_INT),
+                    },
+                ],
+            },
+            {
+                "name": "model_specific",
+                "get": ["map_nested", "nested_object", "attributes"],
+                "next": [
+                    {
+                        "name": "band_24",
+                        "get": ["single_nested", "attributes"],
+                        "next": [
+                            {
+                                "name": "channels",
+                                "get": ["list"],
+                                "default": json.loads(CUSTOM_DEFAULT_LIST_OF_INT),
+                            },
+                        ],
+                    },
+                    {
+                        "name": "band_5",
+                        "get": ["single_nested", "attributes"],
+                        "next": [
+                            {
+                                "name": "channels",
+                                "get": ["list"],
+                                "default": json.loads(CUSTOM_DEFAULT_LIST_OF_INT),
+                            },
+                        ],
+                    },
+                    {
+                        "name": "band_5_on_24_radio",
+                        "get": ["single_nested", "attributes"],
+                        "next": [
+                            {
+                                "name": "channels",
+                                "get": ["list"],
+                                "default": json.loads(CUSTOM_DEFAULT_LIST_OF_INT),
+                            },
+                        ],
+                    },
+                    {
+                        "name": "band_6",
+                        "get": ["single_nested", "attributes"],
+                        "next": [
+                            {
+                                "name": "channels",
+                                "get": ["list"],
+                                "default": json.loads(CUSTOM_DEFAULT_LIST_OF_INT),
+                            },
+                        ],
+                    },
+                ],
+            },
+        ],
+    },
+    {
+>>>>>>> Stashed changes
         "name": "org_nacrule",
         "get": ["schema", "attributes"],
         "next": [
@@ -242,8 +616,51 @@ RENAME = [
                 "get": ["string"],
                 "computed_optional_required": "required",
             },
+<<<<<<< Updated upstream
         ]
         },
+=======
+            {
+                "name": "dynamic_psk",
+                "get": ["single_nested", "attributes"],
+                "next": [
+                    {
+                        "name": "vlan_ids",
+                        "get": ["list"],
+                        "default": json.loads(CUSTOM_DEFAULT_LIST_OF_INT),
+                    }
+                ],
+            },
+            {
+                "name": "dynamic_vlan",
+                "get": ["single_nested", "attributes"],
+                "next": [
+                    {
+                        "name": "local_vlan_ids",
+                        "get": ["list"],
+                        "default": json.loads(CUSTOM_DEFAULT_LIST_OF_INT),
+                    }
+                ],
+            },
+            {
+                "name": "bonjour",
+                "get": ["single_nested", "attributes"],
+                "next": [
+                    {
+                        "name": "additional_vlan_ids",
+                        "get": ["list"],
+                        "no_default": True,
+                    }
+                ],
+            },
+            {
+                "name": "vlan_ids",
+                "get": ["list"],
+                "default": json.loads(CUSTOM_DEFAULT_LIST_OF_INT),
+            },
+        ],
+    },
+>>>>>>> Stashed changes
     {
         "name": "site_networktemplate",
         "get": ["schema", "attributes"],

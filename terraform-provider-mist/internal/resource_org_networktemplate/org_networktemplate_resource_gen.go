@@ -297,6 +297,74 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 				Optional: true,
 				Computed: true,
 			},
+			"extra_routes6": schema.MapNestedAttribute{
+				NestedObject: schema.NestedAttributeObject{
+					Attributes: map[string]schema.Attribute{
+						"discard": schema.BoolAttribute{
+							Optional:            true,
+							Computed:            true,
+							Description:         "this takes precedence",
+							MarkdownDescription: "this takes precedence",
+							Default:             booldefault.StaticBool(false),
+						},
+						"metric": schema.Int64Attribute{
+							Optional: true,
+							Computed: true,
+							Validators: []validator.Int64{
+								int64validator.Between(0, 4294967295),
+							},
+						},
+						"next_qualified": schema.MapNestedAttribute{
+							NestedObject: schema.NestedAttributeObject{
+								Attributes: map[string]schema.Attribute{
+									"metric": schema.Int64Attribute{
+										Optional: true,
+										Computed: true,
+									},
+									"preference": schema.Int64Attribute{
+										Optional: true,
+										Computed: true,
+									},
+								},
+								CustomType: NextQualifiedType{
+									ObjectType: types.ObjectType{
+										AttrTypes: NextQualifiedValue{}.AttributeTypes(ctx),
+									},
+								},
+							},
+							Optional: true,
+							Computed: true,
+						},
+						"no_resolve": schema.BoolAttribute{
+							Optional: true,
+							Computed: true,
+							Default:  booldefault.StaticBool(false),
+						},
+						"preference": schema.Int64Attribute{
+							Optional: true,
+							Computed: true,
+							Validators: []validator.Int64{
+								int64validator.Between(0, 4294967295),
+							},
+						},
+						"via": schema.StringAttribute{
+							Optional:            true,
+							Computed:            true,
+							Description:         "next-hop IP Address",
+							MarkdownDescription: "next-hop IP Address",
+						},
+					},
+					CustomType: ExtraRoutes6Type{
+						ObjectType: types.ObjectType{
+							AttrTypes: ExtraRoutes6Value{}.AttributeTypes(ctx),
+						},
+					},
+				},
+				Optional:            true,
+				Computed:            true,
+				Description:         "Property key is the destination CIDR (e.g. \"2a02:1234:420a:10c9::/64\")",
+				MarkdownDescription: "Property key is the destination CIDR (e.g. \"2a02:1234:420a:10c9::/64\")",
+			},
 			"id": schema.StringAttribute{
 				Optional: true,
 				Computed: true,
@@ -371,7 +439,7 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 			"org_id": schema.StringAttribute{
 				Required: true,
 			},
-			"port_mirrorings": schema.MapNestedAttribute{
+			"port_mirroring": schema.MapNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"input_networks_ingress": schema.ListAttribute{
@@ -406,9 +474,9 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 							MarkdownDescription: "exaclty on of the `output_port_id` or `output_network` should be provided",
 						},
 					},
-					CustomType: PortMirroringsType{
+					CustomType: PortMirroringType{
 						ObjectType: types.ObjectType{
-							AttrTypes: PortMirroringsValue{}.AttributeTypes(ctx),
+							AttrTypes: PortMirroringValue{}.AttributeTypes(ctx),
 						},
 					},
 				},
@@ -2501,13 +2569,14 @@ type OrgNetworktemplateModel struct {
 	DnsServers           types.List          `tfsdk:"dns_servers"`
 	DnsSuffix            types.List          `tfsdk:"dns_suffix"`
 	ExtraRoutes          types.Map           `tfsdk:"extra_routes"`
+	ExtraRoutes6         types.Map           `tfsdk:"extra_routes6"`
 	Id                   types.String        `tfsdk:"id"`
 	MistNac              MistNacValue        `tfsdk:"mist_nac"`
 	Name                 types.String        `tfsdk:"name"`
 	Networks             types.Map           `tfsdk:"networks"`
 	NtpServers           types.List          `tfsdk:"ntp_servers"`
 	OrgId                types.String        `tfsdk:"org_id"`
-	PortMirrorings       types.Map           `tfsdk:"port_mirrorings"`
+	PortMirroring        types.Map           `tfsdk:"port_mirroring"`
 	PortUsages           types.Map           `tfsdk:"port_usages"`
 	RadiusConfig         RadiusConfigValue   `tfsdk:"radius_config"`
 	RemoteSyslog         RemoteSyslogValue   `tfsdk:"remote_syslog"`
@@ -6091,6 +6160,661 @@ func (v NextQualifiedValue) AttributeTypes(ctx context.Context) map[string]attr.
 	}
 }
 
+var _ basetypes.ObjectTypable = ExtraRoutes6Type{}
+
+type ExtraRoutes6Type struct {
+	basetypes.ObjectType
+}
+
+func (t ExtraRoutes6Type) Equal(o attr.Type) bool {
+	other, ok := o.(ExtraRoutes6Type)
+
+	if !ok {
+		return false
+	}
+
+	return t.ObjectType.Equal(other.ObjectType)
+}
+
+func (t ExtraRoutes6Type) String() string {
+	return "ExtraRoutes6Type"
+}
+
+func (t ExtraRoutes6Type) ValueFromObject(ctx context.Context, in basetypes.ObjectValue) (basetypes.ObjectValuable, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	attributes := in.Attributes()
+
+	discardAttribute, ok := attributes["discard"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`discard is missing from object`)
+
+		return nil, diags
+	}
+
+	discardVal, ok := discardAttribute.(basetypes.BoolValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`discard expected to be basetypes.BoolValue, was: %T`, discardAttribute))
+	}
+
+	metricAttribute, ok := attributes["metric"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`metric is missing from object`)
+
+		return nil, diags
+	}
+
+	metricVal, ok := metricAttribute.(basetypes.Int64Value)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`metric expected to be basetypes.Int64Value, was: %T`, metricAttribute))
+	}
+
+	nextQualifiedAttribute, ok := attributes["next_qualified"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`next_qualified is missing from object`)
+
+		return nil, diags
+	}
+
+	nextQualifiedVal, ok := nextQualifiedAttribute.(basetypes.MapValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`next_qualified expected to be basetypes.MapValue, was: %T`, nextQualifiedAttribute))
+	}
+
+	noResolveAttribute, ok := attributes["no_resolve"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`no_resolve is missing from object`)
+
+		return nil, diags
+	}
+
+	noResolveVal, ok := noResolveAttribute.(basetypes.BoolValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`no_resolve expected to be basetypes.BoolValue, was: %T`, noResolveAttribute))
+	}
+
+	preferenceAttribute, ok := attributes["preference"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`preference is missing from object`)
+
+		return nil, diags
+	}
+
+	preferenceVal, ok := preferenceAttribute.(basetypes.Int64Value)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`preference expected to be basetypes.Int64Value, was: %T`, preferenceAttribute))
+	}
+
+	viaAttribute, ok := attributes["via"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`via is missing from object`)
+
+		return nil, diags
+	}
+
+	viaVal, ok := viaAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`via expected to be basetypes.StringValue, was: %T`, viaAttribute))
+	}
+
+	if diags.HasError() {
+		return nil, diags
+	}
+
+	return ExtraRoutes6Value{
+		Discard:       discardVal,
+		Metric:        metricVal,
+		NextQualified: nextQualifiedVal,
+		NoResolve:     noResolveVal,
+		Preference:    preferenceVal,
+		Via:           viaVal,
+		state:         attr.ValueStateKnown,
+	}, diags
+}
+
+func NewExtraRoutes6ValueNull() ExtraRoutes6Value {
+	return ExtraRoutes6Value{
+		state: attr.ValueStateNull,
+	}
+}
+
+func NewExtraRoutes6ValueUnknown() ExtraRoutes6Value {
+	return ExtraRoutes6Value{
+		state: attr.ValueStateUnknown,
+	}
+}
+
+func NewExtraRoutes6Value(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) (ExtraRoutes6Value, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	// Reference: https://github.com/hashicorp/terraform-plugin-framework/issues/521
+	ctx := context.Background()
+
+	for name, attributeType := range attributeTypes {
+		attribute, ok := attributes[name]
+
+		if !ok {
+			diags.AddError(
+				"Missing ExtraRoutes6Value Attribute Value",
+				"While creating a ExtraRoutes6Value value, a missing attribute value was detected. "+
+					"A ExtraRoutes6Value must contain values for all attributes, even if null or unknown. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("ExtraRoutes6Value Attribute Name (%s) Expected Type: %s", name, attributeType.String()),
+			)
+
+			continue
+		}
+
+		if !attributeType.Equal(attribute.Type(ctx)) {
+			diags.AddError(
+				"Invalid ExtraRoutes6Value Attribute Type",
+				"While creating a ExtraRoutes6Value value, an invalid attribute value was detected. "+
+					"A ExtraRoutes6Value must use a matching attribute type for the value. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("ExtraRoutes6Value Attribute Name (%s) Expected Type: %s\n", name, attributeType.String())+
+					fmt.Sprintf("ExtraRoutes6Value Attribute Name (%s) Given Type: %s", name, attribute.Type(ctx)),
+			)
+		}
+	}
+
+	for name := range attributes {
+		_, ok := attributeTypes[name]
+
+		if !ok {
+			diags.AddError(
+				"Extra ExtraRoutes6Value Attribute Value",
+				"While creating a ExtraRoutes6Value value, an extra attribute value was detected. "+
+					"A ExtraRoutes6Value must not contain values beyond the expected attribute types. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("Extra ExtraRoutes6Value Attribute Name: %s", name),
+			)
+		}
+	}
+
+	if diags.HasError() {
+		return NewExtraRoutes6ValueUnknown(), diags
+	}
+
+	discardAttribute, ok := attributes["discard"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`discard is missing from object`)
+
+		return NewExtraRoutes6ValueUnknown(), diags
+	}
+
+	discardVal, ok := discardAttribute.(basetypes.BoolValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`discard expected to be basetypes.BoolValue, was: %T`, discardAttribute))
+	}
+
+	metricAttribute, ok := attributes["metric"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`metric is missing from object`)
+
+		return NewExtraRoutes6ValueUnknown(), diags
+	}
+
+	metricVal, ok := metricAttribute.(basetypes.Int64Value)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`metric expected to be basetypes.Int64Value, was: %T`, metricAttribute))
+	}
+
+	nextQualifiedAttribute, ok := attributes["next_qualified"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`next_qualified is missing from object`)
+
+		return NewExtraRoutes6ValueUnknown(), diags
+	}
+
+	nextQualifiedVal, ok := nextQualifiedAttribute.(basetypes.MapValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`next_qualified expected to be basetypes.MapValue, was: %T`, nextQualifiedAttribute))
+	}
+
+	noResolveAttribute, ok := attributes["no_resolve"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`no_resolve is missing from object`)
+
+		return NewExtraRoutes6ValueUnknown(), diags
+	}
+
+	noResolveVal, ok := noResolveAttribute.(basetypes.BoolValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`no_resolve expected to be basetypes.BoolValue, was: %T`, noResolveAttribute))
+	}
+
+	preferenceAttribute, ok := attributes["preference"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`preference is missing from object`)
+
+		return NewExtraRoutes6ValueUnknown(), diags
+	}
+
+	preferenceVal, ok := preferenceAttribute.(basetypes.Int64Value)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`preference expected to be basetypes.Int64Value, was: %T`, preferenceAttribute))
+	}
+
+	viaAttribute, ok := attributes["via"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`via is missing from object`)
+
+		return NewExtraRoutes6ValueUnknown(), diags
+	}
+
+	viaVal, ok := viaAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`via expected to be basetypes.StringValue, was: %T`, viaAttribute))
+	}
+
+	if diags.HasError() {
+		return NewExtraRoutes6ValueUnknown(), diags
+	}
+
+	return ExtraRoutes6Value{
+		Discard:       discardVal,
+		Metric:        metricVal,
+		NextQualified: nextQualifiedVal,
+		NoResolve:     noResolveVal,
+		Preference:    preferenceVal,
+		Via:           viaVal,
+		state:         attr.ValueStateKnown,
+	}, diags
+}
+
+func NewExtraRoutes6ValueMust(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) ExtraRoutes6Value {
+	object, diags := NewExtraRoutes6Value(attributeTypes, attributes)
+
+	if diags.HasError() {
+		// This could potentially be added to the diag package.
+		diagsStrings := make([]string, 0, len(diags))
+
+		for _, diagnostic := range diags {
+			diagsStrings = append(diagsStrings, fmt.Sprintf(
+				"%s | %s | %s",
+				diagnostic.Severity(),
+				diagnostic.Summary(),
+				diagnostic.Detail()))
+		}
+
+		panic("NewExtraRoutes6ValueMust received error(s): " + strings.Join(diagsStrings, "\n"))
+	}
+
+	return object
+}
+
+func (t ExtraRoutes6Type) ValueFromTerraform(ctx context.Context, in tftypes.Value) (attr.Value, error) {
+	if in.Type() == nil {
+		return NewExtraRoutes6ValueNull(), nil
+	}
+
+	if !in.Type().Equal(t.TerraformType(ctx)) {
+		return nil, fmt.Errorf("expected %s, got %s", t.TerraformType(ctx), in.Type())
+	}
+
+	if !in.IsKnown() {
+		return NewExtraRoutes6ValueUnknown(), nil
+	}
+
+	if in.IsNull() {
+		return NewExtraRoutes6ValueNull(), nil
+	}
+
+	attributes := map[string]attr.Value{}
+
+	val := map[string]tftypes.Value{}
+
+	err := in.As(&val)
+
+	if err != nil {
+		return nil, err
+	}
+
+	for k, v := range val {
+		a, err := t.AttrTypes[k].ValueFromTerraform(ctx, v)
+
+		if err != nil {
+			return nil, err
+		}
+
+		attributes[k] = a
+	}
+
+	return NewExtraRoutes6ValueMust(ExtraRoutes6Value{}.AttributeTypes(ctx), attributes), nil
+}
+
+func (t ExtraRoutes6Type) ValueType(ctx context.Context) attr.Value {
+	return ExtraRoutes6Value{}
+}
+
+var _ basetypes.ObjectValuable = ExtraRoutes6Value{}
+
+type ExtraRoutes6Value struct {
+	Discard       basetypes.BoolValue   `tfsdk:"discard"`
+	Metric        basetypes.Int64Value  `tfsdk:"metric"`
+	NextQualified basetypes.MapValue    `tfsdk:"next_qualified"`
+	NoResolve     basetypes.BoolValue   `tfsdk:"no_resolve"`
+	Preference    basetypes.Int64Value  `tfsdk:"preference"`
+	Via           basetypes.StringValue `tfsdk:"via"`
+	state         attr.ValueState
+}
+
+func (v ExtraRoutes6Value) ToTerraformValue(ctx context.Context) (tftypes.Value, error) {
+	attrTypes := make(map[string]tftypes.Type, 6)
+
+	var val tftypes.Value
+	var err error
+
+	attrTypes["discard"] = basetypes.BoolType{}.TerraformType(ctx)
+	attrTypes["metric"] = basetypes.Int64Type{}.TerraformType(ctx)
+	attrTypes["next_qualified"] = basetypes.MapType{
+		ElemType: NextQualifiedValue{}.Type(ctx),
+	}.TerraformType(ctx)
+	attrTypes["no_resolve"] = basetypes.BoolType{}.TerraformType(ctx)
+	attrTypes["preference"] = basetypes.Int64Type{}.TerraformType(ctx)
+	attrTypes["via"] = basetypes.StringType{}.TerraformType(ctx)
+
+	objectType := tftypes.Object{AttributeTypes: attrTypes}
+
+	switch v.state {
+	case attr.ValueStateKnown:
+		vals := make(map[string]tftypes.Value, 6)
+
+		val, err = v.Discard.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["discard"] = val
+
+		val, err = v.Metric.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["metric"] = val
+
+		val, err = v.NextQualified.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["next_qualified"] = val
+
+		val, err = v.NoResolve.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["no_resolve"] = val
+
+		val, err = v.Preference.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["preference"] = val
+
+		val, err = v.Via.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["via"] = val
+
+		if err := tftypes.ValidateValue(objectType, vals); err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		return tftypes.NewValue(objectType, vals), nil
+	case attr.ValueStateNull:
+		return tftypes.NewValue(objectType, nil), nil
+	case attr.ValueStateUnknown:
+		return tftypes.NewValue(objectType, tftypes.UnknownValue), nil
+	default:
+		panic(fmt.Sprintf("unhandled Object state in ToTerraformValue: %s", v.state))
+	}
+}
+
+func (v ExtraRoutes6Value) IsNull() bool {
+	return v.state == attr.ValueStateNull
+}
+
+func (v ExtraRoutes6Value) IsUnknown() bool {
+	return v.state == attr.ValueStateUnknown
+}
+
+func (v ExtraRoutes6Value) String() string {
+	return "ExtraRoutes6Value"
+}
+
+func (v ExtraRoutes6Value) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	nextQualified := types.MapValueMust(
+		NextQualifiedType{
+			basetypes.ObjectType{
+				AttrTypes: NextQualifiedValue{}.AttributeTypes(ctx),
+			},
+		},
+		v.NextQualified.Elements(),
+	)
+
+	if v.NextQualified.IsNull() {
+		nextQualified = types.MapNull(
+			NextQualifiedType{
+				basetypes.ObjectType{
+					AttrTypes: NextQualifiedValue{}.AttributeTypes(ctx),
+				},
+			},
+		)
+	}
+
+	if v.NextQualified.IsUnknown() {
+		nextQualified = types.MapUnknown(
+			NextQualifiedType{
+				basetypes.ObjectType{
+					AttrTypes: NextQualifiedValue{}.AttributeTypes(ctx),
+				},
+			},
+		)
+	}
+
+	attributeTypes := map[string]attr.Type{
+		"discard": basetypes.BoolType{},
+		"metric":  basetypes.Int64Type{},
+		"next_qualified": basetypes.MapType{
+			ElemType: NextQualifiedValue{}.Type(ctx),
+		},
+		"no_resolve": basetypes.BoolType{},
+		"preference": basetypes.Int64Type{},
+		"via":        basetypes.StringType{},
+	}
+
+	if v.IsNull() {
+		return types.ObjectNull(attributeTypes), diags
+	}
+
+	if v.IsUnknown() {
+		return types.ObjectUnknown(attributeTypes), diags
+	}
+
+	objVal, diags := types.ObjectValue(
+		attributeTypes,
+		map[string]attr.Value{
+			"discard":        v.Discard,
+			"metric":         v.Metric,
+			"next_qualified": nextQualified,
+			"no_resolve":     v.NoResolve,
+			"preference":     v.Preference,
+			"via":            v.Via,
+		})
+
+	return objVal, diags
+}
+
+func (v ExtraRoutes6Value) Equal(o attr.Value) bool {
+	other, ok := o.(ExtraRoutes6Value)
+
+	if !ok {
+		return false
+	}
+
+	if v.state != other.state {
+		return false
+	}
+
+	if v.state != attr.ValueStateKnown {
+		return true
+	}
+
+	if !v.Discard.Equal(other.Discard) {
+		return false
+	}
+
+	if !v.Metric.Equal(other.Metric) {
+		return false
+	}
+
+	if !v.NextQualified.Equal(other.NextQualified) {
+		return false
+	}
+
+	if !v.NoResolve.Equal(other.NoResolve) {
+		return false
+	}
+
+	if !v.Preference.Equal(other.Preference) {
+		return false
+	}
+
+	if !v.Via.Equal(other.Via) {
+		return false
+	}
+
+	return true
+}
+
+func (v ExtraRoutes6Value) Type(ctx context.Context) attr.Type {
+	return ExtraRoutes6Type{
+		basetypes.ObjectType{
+			AttrTypes: v.AttributeTypes(ctx),
+		},
+	}
+}
+
+func (v ExtraRoutes6Value) AttributeTypes(ctx context.Context) map[string]attr.Type {
+	return map[string]attr.Type{
+		"discard": basetypes.BoolType{},
+		"metric":  basetypes.Int64Type{},
+		"next_qualified": basetypes.MapType{
+			ElemType: NextQualifiedValue{}.Type(ctx),
+		},
+		"no_resolve": basetypes.BoolType{},
+		"preference": basetypes.Int64Type{},
+		"via":        basetypes.StringType{},
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 var _ basetypes.ObjectTypable = MistNacType{}
 
 type MistNacType struct {
@@ -6959,14 +7683,14 @@ func (v NetworksValue) AttributeTypes(ctx context.Context) map[string]attr.Type 
 	}
 }
 
-var _ basetypes.ObjectTypable = PortMirroringsType{}
+var _ basetypes.ObjectTypable = PortMirroringType{}
 
-type PortMirroringsType struct {
+type PortMirroringType struct {
 	basetypes.ObjectType
 }
 
-func (t PortMirroringsType) Equal(o attr.Type) bool {
-	other, ok := o.(PortMirroringsType)
+func (t PortMirroringType) Equal(o attr.Type) bool {
+	other, ok := o.(PortMirroringType)
 
 	if !ok {
 		return false
@@ -6975,11 +7699,11 @@ func (t PortMirroringsType) Equal(o attr.Type) bool {
 	return t.ObjectType.Equal(other.ObjectType)
 }
 
-func (t PortMirroringsType) String() string {
-	return "PortMirroringsType"
+func (t PortMirroringType) String() string {
+	return "PortMirroringType"
 }
 
-func (t PortMirroringsType) ValueFromObject(ctx context.Context, in basetypes.ObjectValue) (basetypes.ObjectValuable, diag.Diagnostics) {
+func (t PortMirroringType) ValueFromObject(ctx context.Context, in basetypes.ObjectValue) (basetypes.ObjectValuable, diag.Diagnostics) {
 	var diags diag.Diagnostics
 
 	attributes := in.Attributes()
@@ -7078,7 +7802,7 @@ func (t PortMirroringsType) ValueFromObject(ctx context.Context, in basetypes.Ob
 		return nil, diags
 	}
 
-	return PortMirroringsValue{
+	return PortMirroringValue{
 		InputNetworksIngress: inputNetworksIngressVal,
 		InputPortIdsEgress:   inputPortIdsEgressVal,
 		InputPortIdsIngress:  inputPortIdsIngressVal,
@@ -7088,19 +7812,19 @@ func (t PortMirroringsType) ValueFromObject(ctx context.Context, in basetypes.Ob
 	}, diags
 }
 
-func NewPortMirroringsValueNull() PortMirroringsValue {
-	return PortMirroringsValue{
+func NewPortMirroringValueNull() PortMirroringValue {
+	return PortMirroringValue{
 		state: attr.ValueStateNull,
 	}
 }
 
-func NewPortMirroringsValueUnknown() PortMirroringsValue {
-	return PortMirroringsValue{
+func NewPortMirroringValueUnknown() PortMirroringValue {
+	return PortMirroringValue{
 		state: attr.ValueStateUnknown,
 	}
 }
 
-func NewPortMirroringsValue(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) (PortMirroringsValue, diag.Diagnostics) {
+func NewPortMirroringValue(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) (PortMirroringValue, diag.Diagnostics) {
 	var diags diag.Diagnostics
 
 	// Reference: https://github.com/hashicorp/terraform-plugin-framework/issues/521
@@ -7111,11 +7835,11 @@ func NewPortMirroringsValue(attributeTypes map[string]attr.Type, attributes map[
 
 		if !ok {
 			diags.AddError(
-				"Missing PortMirroringsValue Attribute Value",
-				"While creating a PortMirroringsValue value, a missing attribute value was detected. "+
-					"A PortMirroringsValue must contain values for all attributes, even if null or unknown. "+
+				"Missing PortMirroringValue Attribute Value",
+				"While creating a PortMirroringValue value, a missing attribute value was detected. "+
+					"A PortMirroringValue must contain values for all attributes, even if null or unknown. "+
 					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
-					fmt.Sprintf("PortMirroringsValue Attribute Name (%s) Expected Type: %s", name, attributeType.String()),
+					fmt.Sprintf("PortMirroringValue Attribute Name (%s) Expected Type: %s", name, attributeType.String()),
 			)
 
 			continue
@@ -7123,12 +7847,12 @@ func NewPortMirroringsValue(attributeTypes map[string]attr.Type, attributes map[
 
 		if !attributeType.Equal(attribute.Type(ctx)) {
 			diags.AddError(
-				"Invalid PortMirroringsValue Attribute Type",
-				"While creating a PortMirroringsValue value, an invalid attribute value was detected. "+
-					"A PortMirroringsValue must use a matching attribute type for the value. "+
+				"Invalid PortMirroringValue Attribute Type",
+				"While creating a PortMirroringValue value, an invalid attribute value was detected. "+
+					"A PortMirroringValue must use a matching attribute type for the value. "+
 					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
-					fmt.Sprintf("PortMirroringsValue Attribute Name (%s) Expected Type: %s\n", name, attributeType.String())+
-					fmt.Sprintf("PortMirroringsValue Attribute Name (%s) Given Type: %s", name, attribute.Type(ctx)),
+					fmt.Sprintf("PortMirroringValue Attribute Name (%s) Expected Type: %s\n", name, attributeType.String())+
+					fmt.Sprintf("PortMirroringValue Attribute Name (%s) Given Type: %s", name, attribute.Type(ctx)),
 			)
 		}
 	}
@@ -7138,17 +7862,17 @@ func NewPortMirroringsValue(attributeTypes map[string]attr.Type, attributes map[
 
 		if !ok {
 			diags.AddError(
-				"Extra PortMirroringsValue Attribute Value",
-				"While creating a PortMirroringsValue value, an extra attribute value was detected. "+
-					"A PortMirroringsValue must not contain values beyond the expected attribute types. "+
+				"Extra PortMirroringValue Attribute Value",
+				"While creating a PortMirroringValue value, an extra attribute value was detected. "+
+					"A PortMirroringValue must not contain values beyond the expected attribute types. "+
 					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
-					fmt.Sprintf("Extra PortMirroringsValue Attribute Name: %s", name),
+					fmt.Sprintf("Extra PortMirroringValue Attribute Name: %s", name),
 			)
 		}
 	}
 
 	if diags.HasError() {
-		return NewPortMirroringsValueUnknown(), diags
+		return NewPortMirroringValueUnknown(), diags
 	}
 
 	inputNetworksIngressAttribute, ok := attributes["input_networks_ingress"]
@@ -7158,7 +7882,7 @@ func NewPortMirroringsValue(attributeTypes map[string]attr.Type, attributes map[
 			"Attribute Missing",
 			`input_networks_ingress is missing from object`)
 
-		return NewPortMirroringsValueUnknown(), diags
+		return NewPortMirroringValueUnknown(), diags
 	}
 
 	inputNetworksIngressVal, ok := inputNetworksIngressAttribute.(basetypes.ListValue)
@@ -7176,7 +7900,7 @@ func NewPortMirroringsValue(attributeTypes map[string]attr.Type, attributes map[
 			"Attribute Missing",
 			`input_port_ids_egress is missing from object`)
 
-		return NewPortMirroringsValueUnknown(), diags
+		return NewPortMirroringValueUnknown(), diags
 	}
 
 	inputPortIdsEgressVal, ok := inputPortIdsEgressAttribute.(basetypes.ListValue)
@@ -7194,7 +7918,7 @@ func NewPortMirroringsValue(attributeTypes map[string]attr.Type, attributes map[
 			"Attribute Missing",
 			`input_port_ids_ingress is missing from object`)
 
-		return NewPortMirroringsValueUnknown(), diags
+		return NewPortMirroringValueUnknown(), diags
 	}
 
 	inputPortIdsIngressVal, ok := inputPortIdsIngressAttribute.(basetypes.ListValue)
@@ -7212,7 +7936,7 @@ func NewPortMirroringsValue(attributeTypes map[string]attr.Type, attributes map[
 			"Attribute Missing",
 			`output_network is missing from object`)
 
-		return NewPortMirroringsValueUnknown(), diags
+		return NewPortMirroringValueUnknown(), diags
 	}
 
 	outputNetworkVal, ok := outputNetworkAttribute.(basetypes.StringValue)
@@ -7230,7 +7954,7 @@ func NewPortMirroringsValue(attributeTypes map[string]attr.Type, attributes map[
 			"Attribute Missing",
 			`output_port_id is missing from object`)
 
-		return NewPortMirroringsValueUnknown(), diags
+		return NewPortMirroringValueUnknown(), diags
 	}
 
 	outputPortIdVal, ok := outputPortIdAttribute.(basetypes.StringValue)
@@ -7242,10 +7966,10 @@ func NewPortMirroringsValue(attributeTypes map[string]attr.Type, attributes map[
 	}
 
 	if diags.HasError() {
-		return NewPortMirroringsValueUnknown(), diags
+		return NewPortMirroringValueUnknown(), diags
 	}
 
-	return PortMirroringsValue{
+	return PortMirroringValue{
 		InputNetworksIngress: inputNetworksIngressVal,
 		InputPortIdsEgress:   inputPortIdsEgressVal,
 		InputPortIdsIngress:  inputPortIdsIngressVal,
@@ -7255,8 +7979,8 @@ func NewPortMirroringsValue(attributeTypes map[string]attr.Type, attributes map[
 	}, diags
 }
 
-func NewPortMirroringsValueMust(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) PortMirroringsValue {
-	object, diags := NewPortMirroringsValue(attributeTypes, attributes)
+func NewPortMirroringValueMust(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) PortMirroringValue {
+	object, diags := NewPortMirroringValue(attributeTypes, attributes)
 
 	if diags.HasError() {
 		// This could potentially be added to the diag package.
@@ -7270,15 +7994,15 @@ func NewPortMirroringsValueMust(attributeTypes map[string]attr.Type, attributes 
 				diagnostic.Detail()))
 		}
 
-		panic("NewPortMirroringsValueMust received error(s): " + strings.Join(diagsStrings, "\n"))
+		panic("NewPortMirroringValueMust received error(s): " + strings.Join(diagsStrings, "\n"))
 	}
 
 	return object
 }
 
-func (t PortMirroringsType) ValueFromTerraform(ctx context.Context, in tftypes.Value) (attr.Value, error) {
+func (t PortMirroringType) ValueFromTerraform(ctx context.Context, in tftypes.Value) (attr.Value, error) {
 	if in.Type() == nil {
-		return NewPortMirroringsValueNull(), nil
+		return NewPortMirroringValueNull(), nil
 	}
 
 	if !in.Type().Equal(t.TerraformType(ctx)) {
@@ -7286,11 +8010,11 @@ func (t PortMirroringsType) ValueFromTerraform(ctx context.Context, in tftypes.V
 	}
 
 	if !in.IsKnown() {
-		return NewPortMirroringsValueUnknown(), nil
+		return NewPortMirroringValueUnknown(), nil
 	}
 
 	if in.IsNull() {
-		return NewPortMirroringsValueNull(), nil
+		return NewPortMirroringValueNull(), nil
 	}
 
 	attributes := map[string]attr.Value{}
@@ -7313,16 +8037,16 @@ func (t PortMirroringsType) ValueFromTerraform(ctx context.Context, in tftypes.V
 		attributes[k] = a
 	}
 
-	return NewPortMirroringsValueMust(PortMirroringsValue{}.AttributeTypes(ctx), attributes), nil
+	return NewPortMirroringValueMust(PortMirroringValue{}.AttributeTypes(ctx), attributes), nil
 }
 
-func (t PortMirroringsType) ValueType(ctx context.Context) attr.Value {
-	return PortMirroringsValue{}
+func (t PortMirroringType) ValueType(ctx context.Context) attr.Value {
+	return PortMirroringValue{}
 }
 
-var _ basetypes.ObjectValuable = PortMirroringsValue{}
+var _ basetypes.ObjectValuable = PortMirroringValue{}
 
-type PortMirroringsValue struct {
+type PortMirroringValue struct {
 	InputNetworksIngress basetypes.ListValue   `tfsdk:"input_networks_ingress"`
 	InputPortIdsEgress   basetypes.ListValue   `tfsdk:"input_port_ids_egress"`
 	InputPortIdsIngress  basetypes.ListValue   `tfsdk:"input_port_ids_ingress"`
@@ -7331,7 +8055,7 @@ type PortMirroringsValue struct {
 	state                attr.ValueState
 }
 
-func (v PortMirroringsValue) ToTerraformValue(ctx context.Context) (tftypes.Value, error) {
+func (v PortMirroringValue) ToTerraformValue(ctx context.Context) (tftypes.Value, error) {
 	attrTypes := make(map[string]tftypes.Type, 5)
 
 	var val tftypes.Value
@@ -7409,19 +8133,19 @@ func (v PortMirroringsValue) ToTerraformValue(ctx context.Context) (tftypes.Valu
 	}
 }
 
-func (v PortMirroringsValue) IsNull() bool {
+func (v PortMirroringValue) IsNull() bool {
 	return v.state == attr.ValueStateNull
 }
 
-func (v PortMirroringsValue) IsUnknown() bool {
+func (v PortMirroringValue) IsUnknown() bool {
 	return v.state == attr.ValueStateUnknown
 }
 
-func (v PortMirroringsValue) String() string {
-	return "PortMirroringsValue"
+func (v PortMirroringValue) String() string {
+	return "PortMirroringValue"
 }
 
-func (v PortMirroringsValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, diag.Diagnostics) {
+func (v PortMirroringValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, diag.Diagnostics) {
 	var diags diag.Diagnostics
 
 	inputNetworksIngressVal, d := types.ListValue(types.StringType, v.InputNetworksIngress.Elements())
@@ -7519,8 +8243,8 @@ func (v PortMirroringsValue) ToObjectValue(ctx context.Context) (basetypes.Objec
 	return objVal, diags
 }
 
-func (v PortMirroringsValue) Equal(o attr.Value) bool {
-	other, ok := o.(PortMirroringsValue)
+func (v PortMirroringValue) Equal(o attr.Value) bool {
+	other, ok := o.(PortMirroringValue)
 
 	if !ok {
 		return false
@@ -7557,15 +8281,15 @@ func (v PortMirroringsValue) Equal(o attr.Value) bool {
 	return true
 }
 
-func (v PortMirroringsValue) Type(ctx context.Context) attr.Type {
-	return PortMirroringsType{
+func (v PortMirroringValue) Type(ctx context.Context) attr.Type {
+	return PortMirroringType{
 		basetypes.ObjectType{
 			AttrTypes: v.AttributeTypes(ctx),
 		},
 	}
 }
 
-func (v PortMirroringsValue) AttributeTypes(ctx context.Context) map[string]attr.Type {
+func (v PortMirroringValue) AttributeTypes(ctx context.Context) map[string]attr.Type {
 	return map[string]attr.Type{
 		"input_networks_ingress": basetypes.ListType{
 			ElemType: types.StringType,
@@ -28108,627 +28832,26 @@ func (v PortConfigValue) AttributeTypes(ctx context.Context) map[string]attr.Typ
 	}
 }
 
-var _ basetypes.ObjectTypable = PortMirroringType{}
 
-type PortMirroringType struct {
-	basetypes.ObjectType
-}
 
-func (t PortMirroringType) Equal(o attr.Type) bool {
-	other, ok := o.(PortMirroringType)
 
-	if !ok {
-		return false
-	}
 
-	return t.ObjectType.Equal(other.ObjectType)
-}
 
-func (t PortMirroringType) String() string {
-	return "PortMirroringType"
-}
 
-func (t PortMirroringType) ValueFromObject(ctx context.Context, in basetypes.ObjectValue) (basetypes.ObjectValuable, diag.Diagnostics) {
-	var diags diag.Diagnostics
 
-	attributes := in.Attributes()
 
-	inputNetworksIngressAttribute, ok := attributes["input_networks_ingress"]
 
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`input_networks_ingress is missing from object`)
 
-		return nil, diags
-	}
 
-	inputNetworksIngressVal, ok := inputNetworksIngressAttribute.(basetypes.ListValue)
 
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`input_networks_ingress expected to be basetypes.ListValue, was: %T`, inputNetworksIngressAttribute))
-	}
 
-	inputPortIdsEgressAttribute, ok := attributes["input_port_ids_egress"]
 
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`input_port_ids_egress is missing from object`)
 
-		return nil, diags
-	}
 
-	inputPortIdsEgressVal, ok := inputPortIdsEgressAttribute.(basetypes.ListValue)
 
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`input_port_ids_egress expected to be basetypes.ListValue, was: %T`, inputPortIdsEgressAttribute))
-	}
 
-	inputPortIdsIngressAttribute, ok := attributes["input_port_ids_ingress"]
 
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`input_port_ids_ingress is missing from object`)
 
-		return nil, diags
-	}
-
-	inputPortIdsIngressVal, ok := inputPortIdsIngressAttribute.(basetypes.ListValue)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`input_port_ids_ingress expected to be basetypes.ListValue, was: %T`, inputPortIdsIngressAttribute))
-	}
-
-	outputNetworkAttribute, ok := attributes["output_network"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`output_network is missing from object`)
-
-		return nil, diags
-	}
-
-	outputNetworkVal, ok := outputNetworkAttribute.(basetypes.StringValue)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`output_network expected to be basetypes.StringValue, was: %T`, outputNetworkAttribute))
-	}
-
-	outputPortIdAttribute, ok := attributes["output_port_id"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`output_port_id is missing from object`)
-
-		return nil, diags
-	}
-
-	outputPortIdVal, ok := outputPortIdAttribute.(basetypes.StringValue)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`output_port_id expected to be basetypes.StringValue, was: %T`, outputPortIdAttribute))
-	}
-
-	if diags.HasError() {
-		return nil, diags
-	}
-
-	return PortMirroringValue{
-		InputNetworksIngress: inputNetworksIngressVal,
-		InputPortIdsEgress:   inputPortIdsEgressVal,
-		InputPortIdsIngress:  inputPortIdsIngressVal,
-		OutputNetwork:        outputNetworkVal,
-		OutputPortId:         outputPortIdVal,
-		state:                attr.ValueStateKnown,
-	}, diags
-}
-
-func NewPortMirroringValueNull() PortMirroringValue {
-	return PortMirroringValue{
-		state: attr.ValueStateNull,
-	}
-}
-
-func NewPortMirroringValueUnknown() PortMirroringValue {
-	return PortMirroringValue{
-		state: attr.ValueStateUnknown,
-	}
-}
-
-func NewPortMirroringValue(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) (PortMirroringValue, diag.Diagnostics) {
-	var diags diag.Diagnostics
-
-	// Reference: https://github.com/hashicorp/terraform-plugin-framework/issues/521
-	ctx := context.Background()
-
-	for name, attributeType := range attributeTypes {
-		attribute, ok := attributes[name]
-
-		if !ok {
-			diags.AddError(
-				"Missing PortMirroringValue Attribute Value",
-				"While creating a PortMirroringValue value, a missing attribute value was detected. "+
-					"A PortMirroringValue must contain values for all attributes, even if null or unknown. "+
-					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
-					fmt.Sprintf("PortMirroringValue Attribute Name (%s) Expected Type: %s", name, attributeType.String()),
-			)
-
-			continue
-		}
-
-		if !attributeType.Equal(attribute.Type(ctx)) {
-			diags.AddError(
-				"Invalid PortMirroringValue Attribute Type",
-				"While creating a PortMirroringValue value, an invalid attribute value was detected. "+
-					"A PortMirroringValue must use a matching attribute type for the value. "+
-					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
-					fmt.Sprintf("PortMirroringValue Attribute Name (%s) Expected Type: %s\n", name, attributeType.String())+
-					fmt.Sprintf("PortMirroringValue Attribute Name (%s) Given Type: %s", name, attribute.Type(ctx)),
-			)
-		}
-	}
-
-	for name := range attributes {
-		_, ok := attributeTypes[name]
-
-		if !ok {
-			diags.AddError(
-				"Extra PortMirroringValue Attribute Value",
-				"While creating a PortMirroringValue value, an extra attribute value was detected. "+
-					"A PortMirroringValue must not contain values beyond the expected attribute types. "+
-					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
-					fmt.Sprintf("Extra PortMirroringValue Attribute Name: %s", name),
-			)
-		}
-	}
-
-	if diags.HasError() {
-		return NewPortMirroringValueUnknown(), diags
-	}
-
-	inputNetworksIngressAttribute, ok := attributes["input_networks_ingress"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`input_networks_ingress is missing from object`)
-
-		return NewPortMirroringValueUnknown(), diags
-	}
-
-	inputNetworksIngressVal, ok := inputNetworksIngressAttribute.(basetypes.ListValue)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`input_networks_ingress expected to be basetypes.ListValue, was: %T`, inputNetworksIngressAttribute))
-	}
-
-	inputPortIdsEgressAttribute, ok := attributes["input_port_ids_egress"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`input_port_ids_egress is missing from object`)
-
-		return NewPortMirroringValueUnknown(), diags
-	}
-
-	inputPortIdsEgressVal, ok := inputPortIdsEgressAttribute.(basetypes.ListValue)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`input_port_ids_egress expected to be basetypes.ListValue, was: %T`, inputPortIdsEgressAttribute))
-	}
-
-	inputPortIdsIngressAttribute, ok := attributes["input_port_ids_ingress"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`input_port_ids_ingress is missing from object`)
-
-		return NewPortMirroringValueUnknown(), diags
-	}
-
-	inputPortIdsIngressVal, ok := inputPortIdsIngressAttribute.(basetypes.ListValue)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`input_port_ids_ingress expected to be basetypes.ListValue, was: %T`, inputPortIdsIngressAttribute))
-	}
-
-	outputNetworkAttribute, ok := attributes["output_network"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`output_network is missing from object`)
-
-		return NewPortMirroringValueUnknown(), diags
-	}
-
-	outputNetworkVal, ok := outputNetworkAttribute.(basetypes.StringValue)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`output_network expected to be basetypes.StringValue, was: %T`, outputNetworkAttribute))
-	}
-
-	outputPortIdAttribute, ok := attributes["output_port_id"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`output_port_id is missing from object`)
-
-		return NewPortMirroringValueUnknown(), diags
-	}
-
-	outputPortIdVal, ok := outputPortIdAttribute.(basetypes.StringValue)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`output_port_id expected to be basetypes.StringValue, was: %T`, outputPortIdAttribute))
-	}
-
-	if diags.HasError() {
-		return NewPortMirroringValueUnknown(), diags
-	}
-
-	return PortMirroringValue{
-		InputNetworksIngress: inputNetworksIngressVal,
-		InputPortIdsEgress:   inputPortIdsEgressVal,
-		InputPortIdsIngress:  inputPortIdsIngressVal,
-		OutputNetwork:        outputNetworkVal,
-		OutputPortId:         outputPortIdVal,
-		state:                attr.ValueStateKnown,
-	}, diags
-}
-
-func NewPortMirroringValueMust(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) PortMirroringValue {
-	object, diags := NewPortMirroringValue(attributeTypes, attributes)
-
-	if diags.HasError() {
-		// This could potentially be added to the diag package.
-		diagsStrings := make([]string, 0, len(diags))
-
-		for _, diagnostic := range diags {
-			diagsStrings = append(diagsStrings, fmt.Sprintf(
-				"%s | %s | %s",
-				diagnostic.Severity(),
-				diagnostic.Summary(),
-				diagnostic.Detail()))
-		}
-
-		panic("NewPortMirroringValueMust received error(s): " + strings.Join(diagsStrings, "\n"))
-	}
-
-	return object
-}
-
-func (t PortMirroringType) ValueFromTerraform(ctx context.Context, in tftypes.Value) (attr.Value, error) {
-	if in.Type() == nil {
-		return NewPortMirroringValueNull(), nil
-	}
-
-	if !in.Type().Equal(t.TerraformType(ctx)) {
-		return nil, fmt.Errorf("expected %s, got %s", t.TerraformType(ctx), in.Type())
-	}
-
-	if !in.IsKnown() {
-		return NewPortMirroringValueUnknown(), nil
-	}
-
-	if in.IsNull() {
-		return NewPortMirroringValueNull(), nil
-	}
-
-	attributes := map[string]attr.Value{}
-
-	val := map[string]tftypes.Value{}
-
-	err := in.As(&val)
-
-	if err != nil {
-		return nil, err
-	}
-
-	for k, v := range val {
-		a, err := t.AttrTypes[k].ValueFromTerraform(ctx, v)
-
-		if err != nil {
-			return nil, err
-		}
-
-		attributes[k] = a
-	}
-
-	return NewPortMirroringValueMust(PortMirroringValue{}.AttributeTypes(ctx), attributes), nil
-}
-
-func (t PortMirroringType) ValueType(ctx context.Context) attr.Value {
-	return PortMirroringValue{}
-}
-
-var _ basetypes.ObjectValuable = PortMirroringValue{}
-
-type PortMirroringValue struct {
-	InputNetworksIngress basetypes.ListValue   `tfsdk:"input_networks_ingress"`
-	InputPortIdsEgress   basetypes.ListValue   `tfsdk:"input_port_ids_egress"`
-	InputPortIdsIngress  basetypes.ListValue   `tfsdk:"input_port_ids_ingress"`
-	OutputNetwork        basetypes.StringValue `tfsdk:"output_network"`
-	OutputPortId         basetypes.StringValue `tfsdk:"output_port_id"`
-	state                attr.ValueState
-}
-
-func (v PortMirroringValue) ToTerraformValue(ctx context.Context) (tftypes.Value, error) {
-	attrTypes := make(map[string]tftypes.Type, 5)
-
-	var val tftypes.Value
-	var err error
-
-	attrTypes["input_networks_ingress"] = basetypes.ListType{
-		ElemType: types.StringType,
-	}.TerraformType(ctx)
-	attrTypes["input_port_ids_egress"] = basetypes.ListType{
-		ElemType: types.StringType,
-	}.TerraformType(ctx)
-	attrTypes["input_port_ids_ingress"] = basetypes.ListType{
-		ElemType: types.StringType,
-	}.TerraformType(ctx)
-	attrTypes["output_network"] = basetypes.StringType{}.TerraformType(ctx)
-	attrTypes["output_port_id"] = basetypes.StringType{}.TerraformType(ctx)
-
-	objectType := tftypes.Object{AttributeTypes: attrTypes}
-
-	switch v.state {
-	case attr.ValueStateKnown:
-		vals := make(map[string]tftypes.Value, 5)
-
-		val, err = v.InputNetworksIngress.ToTerraformValue(ctx)
-
-		if err != nil {
-			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
-		}
-
-		vals["input_networks_ingress"] = val
-
-		val, err = v.InputPortIdsEgress.ToTerraformValue(ctx)
-
-		if err != nil {
-			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
-		}
-
-		vals["input_port_ids_egress"] = val
-
-		val, err = v.InputPortIdsIngress.ToTerraformValue(ctx)
-
-		if err != nil {
-			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
-		}
-
-		vals["input_port_ids_ingress"] = val
-
-		val, err = v.OutputNetwork.ToTerraformValue(ctx)
-
-		if err != nil {
-			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
-		}
-
-		vals["output_network"] = val
-
-		val, err = v.OutputPortId.ToTerraformValue(ctx)
-
-		if err != nil {
-			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
-		}
-
-		vals["output_port_id"] = val
-
-		if err := tftypes.ValidateValue(objectType, vals); err != nil {
-			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
-		}
-
-		return tftypes.NewValue(objectType, vals), nil
-	case attr.ValueStateNull:
-		return tftypes.NewValue(objectType, nil), nil
-	case attr.ValueStateUnknown:
-		return tftypes.NewValue(objectType, tftypes.UnknownValue), nil
-	default:
-		panic(fmt.Sprintf("unhandled Object state in ToTerraformValue: %s", v.state))
-	}
-}
-
-func (v PortMirroringValue) IsNull() bool {
-	return v.state == attr.ValueStateNull
-}
-
-func (v PortMirroringValue) IsUnknown() bool {
-	return v.state == attr.ValueStateUnknown
-}
-
-func (v PortMirroringValue) String() string {
-	return "PortMirroringValue"
-}
-
-func (v PortMirroringValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, diag.Diagnostics) {
-	var diags diag.Diagnostics
-
-	inputNetworksIngressVal, d := types.ListValue(types.StringType, v.InputNetworksIngress.Elements())
-
-	diags.Append(d...)
-
-	if d.HasError() {
-		return types.ObjectUnknown(map[string]attr.Type{
-			"input_networks_ingress": basetypes.ListType{
-				ElemType: types.StringType,
-			},
-			"input_port_ids_egress": basetypes.ListType{
-				ElemType: types.StringType,
-			},
-			"input_port_ids_ingress": basetypes.ListType{
-				ElemType: types.StringType,
-			},
-			"output_network": basetypes.StringType{},
-			"output_port_id": basetypes.StringType{},
-		}), diags
-	}
-
-	inputPortIdsEgressVal, d := types.ListValue(types.StringType, v.InputPortIdsEgress.Elements())
-
-	diags.Append(d...)
-
-	if d.HasError() {
-		return types.ObjectUnknown(map[string]attr.Type{
-			"input_networks_ingress": basetypes.ListType{
-				ElemType: types.StringType,
-			},
-			"input_port_ids_egress": basetypes.ListType{
-				ElemType: types.StringType,
-			},
-			"input_port_ids_ingress": basetypes.ListType{
-				ElemType: types.StringType,
-			},
-			"output_network": basetypes.StringType{},
-			"output_port_id": basetypes.StringType{},
-		}), diags
-	}
-
-	inputPortIdsIngressVal, d := types.ListValue(types.StringType, v.InputPortIdsIngress.Elements())
-
-	diags.Append(d...)
-
-	if d.HasError() {
-		return types.ObjectUnknown(map[string]attr.Type{
-			"input_networks_ingress": basetypes.ListType{
-				ElemType: types.StringType,
-			},
-			"input_port_ids_egress": basetypes.ListType{
-				ElemType: types.StringType,
-			},
-			"input_port_ids_ingress": basetypes.ListType{
-				ElemType: types.StringType,
-			},
-			"output_network": basetypes.StringType{},
-			"output_port_id": basetypes.StringType{},
-		}), diags
-	}
-
-	attributeTypes := map[string]attr.Type{
-		"input_networks_ingress": basetypes.ListType{
-			ElemType: types.StringType,
-		},
-		"input_port_ids_egress": basetypes.ListType{
-			ElemType: types.StringType,
-		},
-		"input_port_ids_ingress": basetypes.ListType{
-			ElemType: types.StringType,
-		},
-		"output_network": basetypes.StringType{},
-		"output_port_id": basetypes.StringType{},
-	}
-
-	if v.IsNull() {
-		return types.ObjectNull(attributeTypes), diags
-	}
-
-	if v.IsUnknown() {
-		return types.ObjectUnknown(attributeTypes), diags
-	}
-
-	objVal, diags := types.ObjectValue(
-		attributeTypes,
-		map[string]attr.Value{
-			"input_networks_ingress": inputNetworksIngressVal,
-			"input_port_ids_egress":  inputPortIdsEgressVal,
-			"input_port_ids_ingress": inputPortIdsIngressVal,
-			"output_network":         v.OutputNetwork,
-			"output_port_id":         v.OutputPortId,
-		})
-
-	return objVal, diags
-}
-
-func (v PortMirroringValue) Equal(o attr.Value) bool {
-	other, ok := o.(PortMirroringValue)
-
-	if !ok {
-		return false
-	}
-
-	if v.state != other.state {
-		return false
-	}
-
-	if v.state != attr.ValueStateKnown {
-		return true
-	}
-
-	if !v.InputNetworksIngress.Equal(other.InputNetworksIngress) {
-		return false
-	}
-
-	if !v.InputPortIdsEgress.Equal(other.InputPortIdsEgress) {
-		return false
-	}
-
-	if !v.InputPortIdsIngress.Equal(other.InputPortIdsIngress) {
-		return false
-	}
-
-	if !v.OutputNetwork.Equal(other.OutputNetwork) {
-		return false
-	}
-
-	if !v.OutputPortId.Equal(other.OutputPortId) {
-		return false
-	}
-
-	return true
-}
-
-func (v PortMirroringValue) Type(ctx context.Context) attr.Type {
-	return PortMirroringType{
-		basetypes.ObjectType{
-			AttrTypes: v.AttributeTypes(ctx),
-		},
-	}
-}
-
-func (v PortMirroringValue) AttributeTypes(ctx context.Context) map[string]attr.Type {
-	return map[string]attr.Type{
-		"input_networks_ingress": basetypes.ListType{
-			ElemType: types.StringType,
-		},
-		"input_port_ids_egress": basetypes.ListType{
-			ElemType: types.StringType,
-		},
-		"input_port_ids_ingress": basetypes.ListType{
-			ElemType: types.StringType,
-		},
-		"output_network": basetypes.StringType{},
-		"output_port_id": basetypes.StringType{},
-	}
-}
 
 var _ basetypes.ObjectTypable = SwitchMgmtType{}
 

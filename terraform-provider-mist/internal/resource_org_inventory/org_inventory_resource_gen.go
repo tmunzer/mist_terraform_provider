@@ -42,7 +42,7 @@ func OrgInventoryResourceSchema(ctx context.Context) schema.Schema {
 							Optional: true,
 							Computed: true,
 						},
-						"magic": schema.StringAttribute{
+						"claim_code": schema.StringAttribute{
 							Required: true,
 						},
 						"serial": schema.StringAttribute{
@@ -146,22 +146,22 @@ func (t DevicesType) ValueFromObject(ctx context.Context, in basetypes.ObjectVal
 	}
 
 
-	magicAttribute, ok := attributes["magic"]
+	claim_codeAttribute, ok := attributes["claim_code"]
 
 	if !ok {
 		diags.AddError(
 			"Attribute Missing",
-			`magic is missing from object`)
+			`claim_code is missing from object`)
 
 		return nil, diags
 	}
 
-	magicVal, ok := magicAttribute.(basetypes.StringValue)
+	claim_codeVal, ok := claim_codeAttribute.(basetypes.StringValue)
 
 	if !ok {
 		diags.AddError(
 			"Attribute Wrong Type",
-			fmt.Sprintf(`magic expected to be basetypes.StringValue, was: %T`, magicAttribute))
+			fmt.Sprintf(`claim_code expected to be basetypes.StringValue, was: %T`, claim_codeAttribute))
 	}
 
 
@@ -317,7 +317,7 @@ func (t DevicesType) ValueFromObject(ctx context.Context, in basetypes.ObjectVal
 
 
 	return DevicesValue{
-		Magic: 			magicVal,
+		Magic: 			claim_codeVal,
 		Mac:    		macVal,
 		Model: 			modelVal,
 		OrgId: 			orgIdVal,
@@ -394,22 +394,22 @@ func NewDevicesValue(attributeTypes map[string]attr.Type, attributes map[string]
 		return NewDevicesValueUnknown(), diags
 	}
 
-	magicAttribute, ok := attributes["magic"]
+	claim_codeAttribute, ok := attributes["claim_code"]
 
 	if !ok {
 		diags.AddError(
 			"Attribute Missing",
-			`magic is missing from object`)
+			`claim_code is missing from object`)
 
 		return NewDevicesValueUnknown(), diags
 	}
 
-	magicVal, ok := magicAttribute.(basetypes.StringValue)
+	claim_codeVal, ok := claim_codeAttribute.(basetypes.StringValue)
 
 	if !ok {
 		diags.AddError(
 			"Attribute Wrong Type",
-			fmt.Sprintf(`magic expected to be basetypes.StringValue, was: %T`, magicAttribute))
+			fmt.Sprintf(`claim_code expected to be basetypes.StringValue, was: %T`, claim_codeAttribute))
 	}
 
 	
@@ -597,7 +597,7 @@ func NewDevicesValue(attributeTypes map[string]attr.Type, attributes map[string]
 	}
 
 	return DevicesValue{
-		Magic: 			magicVal,
+		Magic: 			claim_codeVal,
 		Mac:    		macVal,
 		Model: 			modelVal,
 		OrgId: 			orgIdVal,
@@ -679,7 +679,7 @@ func (t DevicesType) ValueType(ctx context.Context) attr.Value {
 var _ basetypes.ObjectValuable = DevicesValue{}
 
 type DevicesValue struct {
-	Magic 			basetypes.StringValue   		`tfsdk:"magic"`
+	Magic 			basetypes.StringValue   		`tfsdk:"claim_code"`
 	Mac 			basetypes.StringValue   		`tfsdk:"mac"`
 	Model 			basetypes.StringValue   		`tfsdk:"model"`
 	OrgId 			basetypes.StringValue   		`tfsdk:"org_id"`
@@ -698,7 +698,7 @@ func (v DevicesValue) ToTerraformValue(ctx context.Context) (tftypes.Value, erro
 	var val tftypes.Value
 	var err error
 
-	attrTypes["magic"] = basetypes.StringType{}.TerraformType(ctx)
+	attrTypes["claim_code"] = basetypes.StringType{}.TerraformType(ctx)
 	attrTypes["mac"] = basetypes.StringType{}.TerraformType(ctx)
 	attrTypes["model"] = basetypes.StringType{}.TerraformType(ctx)
 	attrTypes["org_id"] = basetypes.StringType{}.TerraformType(ctx)
@@ -721,7 +721,7 @@ func (v DevicesValue) ToTerraformValue(ctx context.Context) (tftypes.Value, erro
 			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
 		}
 
-		vals["magic"] = val
+		vals["claim_code"] = val
 
 		val, err = v.Mac.ToTerraformValue(ctx)
 
@@ -825,7 +825,7 @@ func (v DevicesValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue,
 	var diags diag.Diagnostics
 	
 	attributeTypes := map[string]attr.Type{
-		"magic": 		basetypes.StringType{},
+		"claim_code": 		basetypes.StringType{},
 		"mac": 			basetypes.StringType{},
 		"model": 		basetypes.StringType{},
 		"org_id": 		basetypes.StringType{},
@@ -848,7 +848,7 @@ func (v DevicesValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue,
 	objVal, diags := types.ObjectValue(
 		attributeTypes,
 		map[string]attr.Value{
-			"magic":  		v.Magic,
+			"claim_code":  		v.Magic,
 			"mac":     		v.Mac,
 			"model": 		v.Model,
 			"org_id": 		v.OrgId,
@@ -931,7 +931,7 @@ func (v DevicesValue) Type(ctx context.Context) attr.Type {
 
 func (v DevicesValue) AttributeTypes(ctx context.Context) map[string]attr.Type {
 	return map[string]attr.Type{
-		"magic": 		basetypes.StringType{},
+		"claim_code": 		basetypes.StringType{},
 		"mac": 			basetypes.StringType{},
 		"model": 		basetypes.StringType{},
 		"org_id": 		basetypes.StringType{},

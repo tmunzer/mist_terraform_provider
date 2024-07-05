@@ -34,8 +34,24 @@ func TerraformToSdk(ctx context.Context, plan *OrgNetworktemplateModel) (mistapi
 	dhcpSnooping := dhcpSnoopingTerraformToSdk(ctx, &diags, plan.DhcpSnooping)
 	data.SetDhcpSnooping(dhcpSnooping)
 
+<<<<<<< Updated upstream
 	extraRoutes := extraRoutesTerraformToSdk(ctx, &diags, plan.ExtraRoutes)
 	data.SetExtraRoutes(extraRoutes)
+=======
+	if plan.ExtraRoutes6.IsNull() || plan.ExtraRoutes6.IsUnknown() {
+		unset["-extra_routes6"] = ""
+	} else {
+		extra_routes6 := extraRoutes6TerraformToSdk(ctx, &diags, plan.ExtraRoutes6)
+		data.SetExtraRoutes6(extra_routes6)
+	}
+
+	if plan.MistNac.IsNull() || plan.MistNac.IsUnknown() {
+		unset["-mist_nac"] = ""
+	} else {
+		mistNac := mistNacTerraformToSdk(ctx, &diags, plan.MistNac)
+		data.SetMistNac(mistNac)
+	}
+>>>>>>> Stashed changes
 
 	mistNac := mistNacTerraformToSdk(ctx, &diags, plan.MistNac)
 	data.SetMistNac(mistNac)
@@ -43,8 +59,17 @@ func TerraformToSdk(ctx context.Context, plan *OrgNetworktemplateModel) (mistapi
 	ntpServers := mist_transform.ListOfStringTerraformToSdk(ctx, plan.NtpServers)
 	data.SetNtpServers(ntpServers)
 
+<<<<<<< Updated upstream
 	networks := NetworksTerraformToSdk(ctx, &diags, plan.Networks)
 	data.SetNetworks(networks)
+=======
+	if plan.PortMirroring.IsNull() || plan.PortMirroring.IsUnknown() {
+		unset["-port_mirrorings"] = ""
+	} else {
+		port_mirroring := portMirroringTerraformToSdk(ctx, &diags, plan.PortMirroring)
+		data.SetPortMirroring(port_mirroring)
+	}
+>>>>>>> Stashed changes
 
 	port_usage := portUsageTerraformToSdk(ctx, &diags, plan.PortUsages)
 	data.SetPortUsages(port_usage)

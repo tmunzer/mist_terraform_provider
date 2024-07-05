@@ -12,13 +12,13 @@ import (
 	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 )
 
-func switchMatchingRulesPortMirroringTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.MapValue) map[string]mistapigo.SwitchPortMirroring {
+func switchMatchingRulesPortMirroringTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.MapValue) map[string]mistapigo.SwitchPortMirroringProperty {
 
-	data := make(map[string]mistapigo.SwitchPortMirroring)
+	data := make(map[string]mistapigo.SwitchPortMirroringProperty)
 	for k, v := range d.Elements() {
 		var plan_interface interface{} = v
 		plan_obj := plan_interface.(PortMirroringValue)
-		item_obj := mistapigo.NewSwitchPortMirroring()
+		item_obj := mistapigo.NewSwitchPortMirroringProperty()
 		item_obj.SetInputNetworksIngress(mist_transform.ListOfStringTerraformToSdk(ctx, plan_obj.InputNetworksIngress))
 		item_obj.SetInputPortIdsEgress(mist_transform.ListOfStringTerraformToSdk(ctx, plan_obj.InputPortIdsEgress))
 		item_obj.SetInputPortIdsIngress(mist_transform.ListOfStringTerraformToSdk(ctx, plan_obj.InputPortIdsIngress))

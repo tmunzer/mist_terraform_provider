@@ -441,7 +441,7 @@ Optional:
 - `trap_groups` (Attributes List) (see [below for nested schema](#nestedatt--snmp_config--trap_groups))
 - `v2c_config` (Attributes List) (see [below for nested schema](#nestedatt--snmp_config--v2c_config))
 - `v3_config` (Attributes) (see [below for nested schema](#nestedatt--snmp_config--v3_config))
-- `views` (Attributes) (see [below for nested schema](#nestedatt--snmp_config--views))
+- `views` (Attributes List) (see [below for nested schema](#nestedatt--snmp_config--views))
 
 <a id="nestedatt--snmp_config--client_list"></a>
 ### Nested Schema for `snmp_config.client_list`
@@ -643,8 +643,8 @@ Optional:
 
 **Note**: no check is done
 - `match_role` (String) role to match
-- `match_type` (String) string to match. e.g: `match_name[0:3]`, `match_name[2:6]`, `match_model`,  `match_model[0-6]`
-- `match_value` (String) value to match
+- `match_type` (String) 'property key define the type of matching, value is the string to match. e.g: `match_name[0:3]`, `match_name[2:6]`, `match_model`,  `match_model[0-6]`
+- `match_value` (String)
 - `name` (String)
 - `port_config` (Attributes Map) Propery key is the interface name or interface range (see [below for nested schema](#nestedatt--switch_matching--rules--port_config))
 - `port_mirroring` (Attributes Map) Property key is the port mirroring instance name

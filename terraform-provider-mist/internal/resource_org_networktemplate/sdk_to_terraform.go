@@ -33,13 +33,15 @@ func SdkToTerraform(ctx context.Context, data *mistapigo.NetworkTemplate) (OrgNe
 
 	state.ExtraRoutes = extraRoutesSdkToTerraform(ctx, &diags, data.GetExtraRoutes())
 
+	state.ExtraRoutes6 = extraRoutes6SdkToTerraform(ctx, &diags, data.GetExtraRoutes6())
+
 	state.MistNac = mistNacSdkToTerraform(ctx, &diags, data.GetMistNac())
 
 	state.NtpServers = mist_transform.ListOfStringSdkToTerraform(ctx, data.GetNtpServers())
 
 	state.Networks = NetworksSdkToTerraform(ctx, &diags, data.GetNetworks())
 
-	state.PortMirrorings = portMirroringSdkToTerraform(ctx, &diags, data.GetPortMirrorings())
+	state.PortMirroring = portMirroringSdkToTerraform(ctx, &diags, data.GetPortMirroring())
 
 	state.PortUsages = portUsagesSdkToTerraform(ctx, &diags, data.GetPortUsages())
 

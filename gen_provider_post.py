@@ -22,6 +22,8 @@ FILES = {
             "Archive",
             "Contents",
             "Users",
+            "PortMirroring",
+            "NextQualified",
         ],
     },
     "./terraform-provider-mist/internal/resource_site_networktemplate/site_networktemplate_resource_gen.go": {
@@ -34,6 +36,8 @@ FILES = {
             "Archive",
             "Contents",
             "Users",
+            "PortMirroring",
+            "NextQualified",
         ],
     },
     "./terraform-provider-mist/internal/resource_org_network/org_network_resource_gen.go": {
@@ -51,6 +55,27 @@ FILES = {
             "Hours",
         ]
     },
+    "./terraform-provider-mist/internal/resource_device_switch/device_switch_resource_gen.go": {
+        "rename": {
+            "tacacct_servers": "acct_servers",
+            "snmpv3_contents": "contents",
+            "snmpv3_users": "users",
+            "snmpv3_vacm_content": "content"
+        },
+        "dedup": [
+            "ExtraRoutes",
+            "Archive",
+            "Contents",
+            "Users",
+            "NextQualified",
+            "PortMirroring",
+        ]
+    },
+        "./terraform-provider-mist/internal/resource_org_inventory/org_inventory_resource_gen.go": {
+        "rename": {
+            "magic": "claim_code",
+        },
+        }
 }
 
 

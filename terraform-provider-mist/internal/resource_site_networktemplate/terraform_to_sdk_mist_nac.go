@@ -8,8 +8,8 @@ import (
 	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 )
 
-func mistNacTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d MistNacValue) mistapigo.NetworkTemplateMistNac {
-	data := mistapigo.NewNetworkTemplateMistNac()
+func mistNacTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d MistNacValue) mistapigo.SwitchMistNac {
+	data := mistapigo.NewSwitchMistNac()
 	data.SetEnabled(d.Enabled.ValueBool())
 	data.SetNetwork(d.Network.ValueString())
 	return *data

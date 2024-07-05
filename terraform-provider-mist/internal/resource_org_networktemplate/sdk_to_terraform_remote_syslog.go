@@ -161,7 +161,7 @@ func remoteSyslogSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d 
 		"network":             types.StringValue(d.GetNetwork()),
 		"send_to_all_servers": types.BoolValue(d.GetSendToAllServers()),
 		"servers":             remote_syslog_servers,
-		"time_format":         types.StringValue(string(*d.TimeFormat)),
+		"time_format":         types.StringValue(string(d.GetTimeFormat())),
 		"users":               remote_syslog_users,
 	}
 

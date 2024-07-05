@@ -86,7 +86,6 @@ resources:
         - created_time
         - modified_time
         - import_org_networks
-        - extra_routes6
         - switch_matching.rules.switch_mgmt
       attributes:
         aliases:
@@ -156,7 +155,6 @@ resources:
         - networks.modified_time
         - networks.id
         - networks.org_id
-        - oob_ip_config
       attributes:
         aliases:
           gatewaytemplate_id: id
@@ -295,7 +293,6 @@ resources:
         - dns_override
         - dns_servers
         - dns_suffix
-        - extra_routes
         - id
         - idp_profiles
         - ip_configs
@@ -329,7 +326,6 @@ resources:
       method: PUT      
     schema:
       ignores:
-        - extra_routes6
         - switch_matching.rules.switch_mgmt
         ###
         - analytic
@@ -549,6 +545,75 @@ resources:
       attributes:
         aliases:
           wxtag_id: id     
+<<<<<<< Updated upstream
+=======
+  # device_ap:
+  #   create:
+  #     path: /api/v1/sites/{site_id}/devices/{device_id}
+  #     method: PUT
+  #   read:
+  #     path: /api/v1/sites/{site_id}/devices/{device_id}
+  #     method: GET
+  #   delete:
+  #     path: /api/v1/sites/{site_id}/devices/{device_id}
+  #     method: PUT
+  #   update:
+  #     path: /api/v1/sites/{site_id}/devices/{device_id}
+  #     method: PUT      
+  #   schema:
+  #     ignores:
+  #       - created_time
+  #       - modified_time
+  #       - for_site
+  #       - iot_config
+  #       - port_config
+  #     attributes:
+  #       aliases:
+  #         device_id: id     
+  # device_switch:
+  #   create:
+  #     path: /api/v1/sites/{site_id}/devices/{device_id}
+  #     method: PUT
+  #   read:
+  #     path: /api/v1/sites/{site_id}/devices/{device_id}
+  #     method: GET
+  #   delete:
+  #     path: /api/v1/sites/{site_id}/devices/{device_id}
+  #     method: PUT
+  #   update:
+  #     path: /api/v1/sites/{site_id}/devices/{device_id}
+  #     method: PUT      
+  #   schema:
+  #     ignores:
+  #       - created_time
+  #       - modified_time
+  #       - for_site
+  #       - evpn_config
+  #     attributes:
+  #       aliases:
+  #         device_id: id     
+  # device_gateway:
+  #   create:
+  #     path: /api/v1/sites/{site_id}/devices/{device_id}
+  #     method: PUT
+  #   read:
+  #     path: /api/v1/sites/{site_id}/devices/{device_id}
+  #     method: GET
+  #   delete:
+  #     path: /api/v1/sites/{site_id}/devices/{device_id}
+  #     method: PUT
+  #   update:
+  #     path: /api/v1/sites/{site_id}/devices/{device_id}
+  #     method: PUT      
+  #   schema:
+  #     ignores:
+  #       - created_time
+  #       - modified_time
+  #       - for_site
+  #     attributes:
+  #       aliases:
+  #         device_id: id     
+>>>>>>> Stashed changes
   # org_inventory:
   #   create:
   #     path: /api/v1/orgs/{org_id}/inventory

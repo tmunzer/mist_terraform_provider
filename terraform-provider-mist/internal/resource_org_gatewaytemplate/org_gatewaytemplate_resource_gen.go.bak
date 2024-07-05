@@ -987,6 +987,116 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 				Description:         "list of NTP servers specific to this device. By default, those in Site Settings will be used",
 				MarkdownDescription: "list of NTP servers specific to this device. By default, those in Site Settings will be used",
 			},
+			"oob_ip_config": schema.SingleNestedAttribute{
+				Attributes: map[string]schema.Attribute{
+					"ip": schema.StringAttribute{
+						Optional: true,
+						Computed: true,
+					},
+					"netmask": schema.StringAttribute{
+						Optional:            true,
+						Computed:            true,
+						Description:         "used only if `subnet` is not specified in `networks`",
+						MarkdownDescription: "used only if `subnet` is not specified in `networks`",
+					},
+					"network": schema.StringAttribute{
+						Optional:            true,
+						Computed:            true,
+						Description:         "optional, the network to be used for mgmt",
+						MarkdownDescription: "optional, the network to be used for mgmt",
+					},
+					"node1": schema.SingleNestedAttribute{
+						Attributes: map[string]schema.Attribute{
+							"ip": schema.StringAttribute{
+								Optional: true,
+								Computed: true,
+							},
+							"netmask": schema.StringAttribute{
+								Optional:            true,
+								Computed:            true,
+								Description:         "used only if `subnet` is not specified in `networks`",
+								MarkdownDescription: "used only if `subnet` is not specified in `networks`",
+							},
+							"network": schema.StringAttribute{
+								Optional:            true,
+								Computed:            true,
+								Description:         "optional, the network to be used for mgmt",
+								MarkdownDescription: "optional, the network to be used for mgmt",
+							},
+							"type": schema.StringAttribute{
+								Optional: true,
+								Computed: true,
+								Validators: []validator.String{
+									stringvalidator.OneOf(
+										"",
+										"static",
+										"dynamic",
+									),
+								},
+								Default: stringdefault.StaticString("dynamic"),
+							},
+							"use_mgmt_vrf": schema.BoolAttribute{
+								Optional:            true,
+								Computed:            true,
+								Description:         "if supported on the platform. If enabled, DNS will be using this routing-instance, too",
+								MarkdownDescription: "if supported on the platform. If enabled, DNS will be using this routing-instance, too",
+								Default:             booldefault.StaticBool(false),
+							},
+							"use_mgmt_vrf_for_host_out": schema.BoolAttribute{
+								Optional:            true,
+								Computed:            true,
+								Description:         "whether to use `mgmt_junos` for host-out traffic (NTP/TACPLUS/RADIUS/SYSLOG/SNMP), if alternative source network/ip is desired",
+								MarkdownDescription: "whether to use `mgmt_junos` for host-out traffic (NTP/TACPLUS/RADIUS/SYSLOG/SNMP), if alternative source network/ip is desired",
+								Default:             booldefault.StaticBool(false),
+							},
+						},
+						CustomType: Node1Type{
+							ObjectType: types.ObjectType{
+								AttrTypes: Node1Value{}.AttributeTypes(ctx),
+							},
+						},
+						Optional:            true,
+						Computed:            true,
+						Description:         "for HA Cluster, node1 can have different IP Config",
+						MarkdownDescription: "for HA Cluster, node1 can have different IP Config",
+					},
+					"type": schema.StringAttribute{
+						Optional: true,
+						Computed: true,
+						Validators: []validator.String{
+							stringvalidator.OneOf(
+								"",
+								"static",
+								"dynamic",
+							),
+						},
+						Default: stringdefault.StaticString("dynamic"),
+					},
+					"use_mgmt_vrf": schema.BoolAttribute{
+						Optional:            true,
+						Computed:            true,
+						Description:         "f supported on the platform. If enabled, DNS will be using this routing-instance, too",
+						MarkdownDescription: "f supported on the platform. If enabled, DNS will be using this routing-instance, too",
+						Default:             booldefault.StaticBool(false),
+					},
+					"use_mgmt_vrf_for_host_out": schema.BoolAttribute{
+						Optional:            true,
+						Computed:            true,
+						Description:         "for host-out traffic (NTP/TACPLUS/RADIUS/SYSLOG/SNMP), if alternative source network/ip is desired,",
+						MarkdownDescription: "for host-out traffic (NTP/TACPLUS/RADIUS/SYSLOG/SNMP), if alternative source network/ip is desired,",
+						Default:             booldefault.StaticBool(false),
+					},
+				},
+				CustomType: OobIpConfigType{
+					ObjectType: types.ObjectType{
+						AttrTypes: OobIpConfigValue{}.AttributeTypes(ctx),
+					},
+				},
+				Optional:            true,
+				Computed:            true,
+				Description:         "out-of-band (vme/em0/fxp0) IP config",
+				MarkdownDescription: "out-of-band (vme/em0/fxp0) IP config",
+			},
 			"org_id": schema.StringAttribute{
 				Required: true,
 			},
@@ -2576,6 +2686,7 @@ type OrgGatewaytemplateModel struct {
 	Networks              types.List                 `tfsdk:"networks"`
 	NtpOverride           types.Bool                 `tfsdk:"ntp_override"`
 	NtpServers            types.List                 `tfsdk:"ntp_servers"`
+	OobIpConfig           OobIpConfigValue           `tfsdk:"oob_ip_config"`
 	OrgId                 types.String               `tfsdk:"org_id"`
 	PathPreferences       types.Map                  `tfsdk:"path_preferences"`
 	PortConfig            types.Map                  `tfsdk:"port_config"`
@@ -15956,6 +16067,1286 @@ func (v StaticNatValue) AttributeTypes(ctx context.Context) map[string]attr.Type
 		"internal_ip": basetypes.StringType{},
 		"name":        basetypes.StringType{},
 		"wan_name":    basetypes.StringType{},
+	}
+}
+
+var _ basetypes.ObjectTypable = OobIpConfigType{}
+
+type OobIpConfigType struct {
+	basetypes.ObjectType
+}
+
+func (t OobIpConfigType) Equal(o attr.Type) bool {
+	other, ok := o.(OobIpConfigType)
+
+	if !ok {
+		return false
+	}
+
+	return t.ObjectType.Equal(other.ObjectType)
+}
+
+func (t OobIpConfigType) String() string {
+	return "OobIpConfigType"
+}
+
+func (t OobIpConfigType) ValueFromObject(ctx context.Context, in basetypes.ObjectValue) (basetypes.ObjectValuable, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	attributes := in.Attributes()
+
+	ipAttribute, ok := attributes["ip"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`ip is missing from object`)
+
+		return nil, diags
+	}
+
+	ipVal, ok := ipAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`ip expected to be basetypes.StringValue, was: %T`, ipAttribute))
+	}
+
+	netmaskAttribute, ok := attributes["netmask"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`netmask is missing from object`)
+
+		return nil, diags
+	}
+
+	netmaskVal, ok := netmaskAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`netmask expected to be basetypes.StringValue, was: %T`, netmaskAttribute))
+	}
+
+	networkAttribute, ok := attributes["network"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`network is missing from object`)
+
+		return nil, diags
+	}
+
+	networkVal, ok := networkAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`network expected to be basetypes.StringValue, was: %T`, networkAttribute))
+	}
+
+	node1Attribute, ok := attributes["node1"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`node1 is missing from object`)
+
+		return nil, diags
+	}
+
+	node1Val, ok := node1Attribute.(basetypes.ObjectValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`node1 expected to be basetypes.ObjectValue, was: %T`, node1Attribute))
+	}
+
+	typeAttribute, ok := attributes["type"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`type is missing from object`)
+
+		return nil, diags
+	}
+
+	typeVal, ok := typeAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`type expected to be basetypes.StringValue, was: %T`, typeAttribute))
+	}
+
+	useMgmtVrfAttribute, ok := attributes["use_mgmt_vrf"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`use_mgmt_vrf is missing from object`)
+
+		return nil, diags
+	}
+
+	useMgmtVrfVal, ok := useMgmtVrfAttribute.(basetypes.BoolValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`use_mgmt_vrf expected to be basetypes.BoolValue, was: %T`, useMgmtVrfAttribute))
+	}
+
+	useMgmtVrfForHostOutAttribute, ok := attributes["use_mgmt_vrf_for_host_out"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`use_mgmt_vrf_for_host_out is missing from object`)
+
+		return nil, diags
+	}
+
+	useMgmtVrfForHostOutVal, ok := useMgmtVrfForHostOutAttribute.(basetypes.BoolValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`use_mgmt_vrf_for_host_out expected to be basetypes.BoolValue, was: %T`, useMgmtVrfForHostOutAttribute))
+	}
+
+	if diags.HasError() {
+		return nil, diags
+	}
+
+	return OobIpConfigValue{
+		Ip:                   ipVal,
+		Netmask:              netmaskVal,
+		Network:              networkVal,
+		Node1:                node1Val,
+		OobIpConfigType:      typeVal,
+		UseMgmtVrf:           useMgmtVrfVal,
+		UseMgmtVrfForHostOut: useMgmtVrfForHostOutVal,
+		state:                attr.ValueStateKnown,
+	}, diags
+}
+
+func NewOobIpConfigValueNull() OobIpConfigValue {
+	return OobIpConfigValue{
+		state: attr.ValueStateNull,
+	}
+}
+
+func NewOobIpConfigValueUnknown() OobIpConfigValue {
+	return OobIpConfigValue{
+		state: attr.ValueStateUnknown,
+	}
+}
+
+func NewOobIpConfigValue(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) (OobIpConfigValue, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	// Reference: https://github.com/hashicorp/terraform-plugin-framework/issues/521
+	ctx := context.Background()
+
+	for name, attributeType := range attributeTypes {
+		attribute, ok := attributes[name]
+
+		if !ok {
+			diags.AddError(
+				"Missing OobIpConfigValue Attribute Value",
+				"While creating a OobIpConfigValue value, a missing attribute value was detected. "+
+					"A OobIpConfigValue must contain values for all attributes, even if null or unknown. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("OobIpConfigValue Attribute Name (%s) Expected Type: %s", name, attributeType.String()),
+			)
+
+			continue
+		}
+
+		if !attributeType.Equal(attribute.Type(ctx)) {
+			diags.AddError(
+				"Invalid OobIpConfigValue Attribute Type",
+				"While creating a OobIpConfigValue value, an invalid attribute value was detected. "+
+					"A OobIpConfigValue must use a matching attribute type for the value. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("OobIpConfigValue Attribute Name (%s) Expected Type: %s\n", name, attributeType.String())+
+					fmt.Sprintf("OobIpConfigValue Attribute Name (%s) Given Type: %s", name, attribute.Type(ctx)),
+			)
+		}
+	}
+
+	for name := range attributes {
+		_, ok := attributeTypes[name]
+
+		if !ok {
+			diags.AddError(
+				"Extra OobIpConfigValue Attribute Value",
+				"While creating a OobIpConfigValue value, an extra attribute value was detected. "+
+					"A OobIpConfigValue must not contain values beyond the expected attribute types. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("Extra OobIpConfigValue Attribute Name: %s", name),
+			)
+		}
+	}
+
+	if diags.HasError() {
+		return NewOobIpConfigValueUnknown(), diags
+	}
+
+	ipAttribute, ok := attributes["ip"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`ip is missing from object`)
+
+		return NewOobIpConfigValueUnknown(), diags
+	}
+
+	ipVal, ok := ipAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`ip expected to be basetypes.StringValue, was: %T`, ipAttribute))
+	}
+
+	netmaskAttribute, ok := attributes["netmask"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`netmask is missing from object`)
+
+		return NewOobIpConfigValueUnknown(), diags
+	}
+
+	netmaskVal, ok := netmaskAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`netmask expected to be basetypes.StringValue, was: %T`, netmaskAttribute))
+	}
+
+	networkAttribute, ok := attributes["network"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`network is missing from object`)
+
+		return NewOobIpConfigValueUnknown(), diags
+	}
+
+	networkVal, ok := networkAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`network expected to be basetypes.StringValue, was: %T`, networkAttribute))
+	}
+
+	node1Attribute, ok := attributes["node1"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`node1 is missing from object`)
+
+		return NewOobIpConfigValueUnknown(), diags
+	}
+
+	node1Val, ok := node1Attribute.(basetypes.ObjectValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`node1 expected to be basetypes.ObjectValue, was: %T`, node1Attribute))
+	}
+
+	typeAttribute, ok := attributes["type"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`type is missing from object`)
+
+		return NewOobIpConfigValueUnknown(), diags
+	}
+
+	typeVal, ok := typeAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`type expected to be basetypes.StringValue, was: %T`, typeAttribute))
+	}
+
+	useMgmtVrfAttribute, ok := attributes["use_mgmt_vrf"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`use_mgmt_vrf is missing from object`)
+
+		return NewOobIpConfigValueUnknown(), diags
+	}
+
+	useMgmtVrfVal, ok := useMgmtVrfAttribute.(basetypes.BoolValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`use_mgmt_vrf expected to be basetypes.BoolValue, was: %T`, useMgmtVrfAttribute))
+	}
+
+	useMgmtVrfForHostOutAttribute, ok := attributes["use_mgmt_vrf_for_host_out"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`use_mgmt_vrf_for_host_out is missing from object`)
+
+		return NewOobIpConfigValueUnknown(), diags
+	}
+
+	useMgmtVrfForHostOutVal, ok := useMgmtVrfForHostOutAttribute.(basetypes.BoolValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`use_mgmt_vrf_for_host_out expected to be basetypes.BoolValue, was: %T`, useMgmtVrfForHostOutAttribute))
+	}
+
+	if diags.HasError() {
+		return NewOobIpConfigValueUnknown(), diags
+	}
+
+	return OobIpConfigValue{
+		Ip:                   ipVal,
+		Netmask:              netmaskVal,
+		Network:              networkVal,
+		Node1:                node1Val,
+		OobIpConfigType:      typeVal,
+		UseMgmtVrf:           useMgmtVrfVal,
+		UseMgmtVrfForHostOut: useMgmtVrfForHostOutVal,
+		state:                attr.ValueStateKnown,
+	}, diags
+}
+
+func NewOobIpConfigValueMust(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) OobIpConfigValue {
+	object, diags := NewOobIpConfigValue(attributeTypes, attributes)
+
+	if diags.HasError() {
+		// This could potentially be added to the diag package.
+		diagsStrings := make([]string, 0, len(diags))
+
+		for _, diagnostic := range diags {
+			diagsStrings = append(diagsStrings, fmt.Sprintf(
+				"%s | %s | %s",
+				diagnostic.Severity(),
+				diagnostic.Summary(),
+				diagnostic.Detail()))
+		}
+
+		panic("NewOobIpConfigValueMust received error(s): " + strings.Join(diagsStrings, "\n"))
+	}
+
+	return object
+}
+
+func (t OobIpConfigType) ValueFromTerraform(ctx context.Context, in tftypes.Value) (attr.Value, error) {
+	if in.Type() == nil {
+		return NewOobIpConfigValueNull(), nil
+	}
+
+	if !in.Type().Equal(t.TerraformType(ctx)) {
+		return nil, fmt.Errorf("expected %s, got %s", t.TerraformType(ctx), in.Type())
+	}
+
+	if !in.IsKnown() {
+		return NewOobIpConfigValueUnknown(), nil
+	}
+
+	if in.IsNull() {
+		return NewOobIpConfigValueNull(), nil
+	}
+
+	attributes := map[string]attr.Value{}
+
+	val := map[string]tftypes.Value{}
+
+	err := in.As(&val)
+
+	if err != nil {
+		return nil, err
+	}
+
+	for k, v := range val {
+		a, err := t.AttrTypes[k].ValueFromTerraform(ctx, v)
+
+		if err != nil {
+			return nil, err
+		}
+
+		attributes[k] = a
+	}
+
+	return NewOobIpConfigValueMust(OobIpConfigValue{}.AttributeTypes(ctx), attributes), nil
+}
+
+func (t OobIpConfigType) ValueType(ctx context.Context) attr.Value {
+	return OobIpConfigValue{}
+}
+
+var _ basetypes.ObjectValuable = OobIpConfigValue{}
+
+type OobIpConfigValue struct {
+	Ip                   basetypes.StringValue `tfsdk:"ip"`
+	Netmask              basetypes.StringValue `tfsdk:"netmask"`
+	Network              basetypes.StringValue `tfsdk:"network"`
+	Node1                basetypes.ObjectValue `tfsdk:"node1"`
+	OobIpConfigType      basetypes.StringValue `tfsdk:"type"`
+	UseMgmtVrf           basetypes.BoolValue   `tfsdk:"use_mgmt_vrf"`
+	UseMgmtVrfForHostOut basetypes.BoolValue   `tfsdk:"use_mgmt_vrf_for_host_out"`
+	state                attr.ValueState
+}
+
+func (v OobIpConfigValue) ToTerraformValue(ctx context.Context) (tftypes.Value, error) {
+	attrTypes := make(map[string]tftypes.Type, 7)
+
+	var val tftypes.Value
+	var err error
+
+	attrTypes["ip"] = basetypes.StringType{}.TerraformType(ctx)
+	attrTypes["netmask"] = basetypes.StringType{}.TerraformType(ctx)
+	attrTypes["network"] = basetypes.StringType{}.TerraformType(ctx)
+	attrTypes["node1"] = basetypes.ObjectType{
+		AttrTypes: Node1Value{}.AttributeTypes(ctx),
+	}.TerraformType(ctx)
+	attrTypes["type"] = basetypes.StringType{}.TerraformType(ctx)
+	attrTypes["use_mgmt_vrf"] = basetypes.BoolType{}.TerraformType(ctx)
+	attrTypes["use_mgmt_vrf_for_host_out"] = basetypes.BoolType{}.TerraformType(ctx)
+
+	objectType := tftypes.Object{AttributeTypes: attrTypes}
+
+	switch v.state {
+	case attr.ValueStateKnown:
+		vals := make(map[string]tftypes.Value, 7)
+
+		val, err = v.Ip.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["ip"] = val
+
+		val, err = v.Netmask.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["netmask"] = val
+
+		val, err = v.Network.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["network"] = val
+
+		val, err = v.Node1.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["node1"] = val
+
+		val, err = v.OobIpConfigType.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["type"] = val
+
+		val, err = v.UseMgmtVrf.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["use_mgmt_vrf"] = val
+
+		val, err = v.UseMgmtVrfForHostOut.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["use_mgmt_vrf_for_host_out"] = val
+
+		if err := tftypes.ValidateValue(objectType, vals); err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		return tftypes.NewValue(objectType, vals), nil
+	case attr.ValueStateNull:
+		return tftypes.NewValue(objectType, nil), nil
+	case attr.ValueStateUnknown:
+		return tftypes.NewValue(objectType, tftypes.UnknownValue), nil
+	default:
+		panic(fmt.Sprintf("unhandled Object state in ToTerraformValue: %s", v.state))
+	}
+}
+
+func (v OobIpConfigValue) IsNull() bool {
+	return v.state == attr.ValueStateNull
+}
+
+func (v OobIpConfigValue) IsUnknown() bool {
+	return v.state == attr.ValueStateUnknown
+}
+
+func (v OobIpConfigValue) String() string {
+	return "OobIpConfigValue"
+}
+
+func (v OobIpConfigValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	var node1 basetypes.ObjectValue
+
+	if v.Node1.IsNull() {
+		node1 = types.ObjectNull(
+			Node1Value{}.AttributeTypes(ctx),
+		)
+	}
+
+	if v.Node1.IsUnknown() {
+		node1 = types.ObjectUnknown(
+			Node1Value{}.AttributeTypes(ctx),
+		)
+	}
+
+	if !v.Node1.IsNull() && !v.Node1.IsUnknown() {
+		node1 = types.ObjectValueMust(
+			Node1Value{}.AttributeTypes(ctx),
+			v.Node1.Attributes(),
+		)
+	}
+
+	attributeTypes := map[string]attr.Type{
+		"ip":      basetypes.StringType{},
+		"netmask": basetypes.StringType{},
+		"network": basetypes.StringType{},
+		"node1": basetypes.ObjectType{
+			AttrTypes: Node1Value{}.AttributeTypes(ctx),
+		},
+		"type":                      basetypes.StringType{},
+		"use_mgmt_vrf":              basetypes.BoolType{},
+		"use_mgmt_vrf_for_host_out": basetypes.BoolType{},
+	}
+
+	if v.IsNull() {
+		return types.ObjectNull(attributeTypes), diags
+	}
+
+	if v.IsUnknown() {
+		return types.ObjectUnknown(attributeTypes), diags
+	}
+
+	objVal, diags := types.ObjectValue(
+		attributeTypes,
+		map[string]attr.Value{
+			"ip":                        v.Ip,
+			"netmask":                   v.Netmask,
+			"network":                   v.Network,
+			"node1":                     node1,
+			"type":                      v.OobIpConfigType,
+			"use_mgmt_vrf":              v.UseMgmtVrf,
+			"use_mgmt_vrf_for_host_out": v.UseMgmtVrfForHostOut,
+		})
+
+	return objVal, diags
+}
+
+func (v OobIpConfigValue) Equal(o attr.Value) bool {
+	other, ok := o.(OobIpConfigValue)
+
+	if !ok {
+		return false
+	}
+
+	if v.state != other.state {
+		return false
+	}
+
+	if v.state != attr.ValueStateKnown {
+		return true
+	}
+
+	if !v.Ip.Equal(other.Ip) {
+		return false
+	}
+
+	if !v.Netmask.Equal(other.Netmask) {
+		return false
+	}
+
+	if !v.Network.Equal(other.Network) {
+		return false
+	}
+
+	if !v.Node1.Equal(other.Node1) {
+		return false
+	}
+
+	if !v.OobIpConfigType.Equal(other.OobIpConfigType) {
+		return false
+	}
+
+	if !v.UseMgmtVrf.Equal(other.UseMgmtVrf) {
+		return false
+	}
+
+	if !v.UseMgmtVrfForHostOut.Equal(other.UseMgmtVrfForHostOut) {
+		return false
+	}
+
+	return true
+}
+
+func (v OobIpConfigValue) Type(ctx context.Context) attr.Type {
+	return OobIpConfigType{
+		basetypes.ObjectType{
+			AttrTypes: v.AttributeTypes(ctx),
+		},
+	}
+}
+
+func (v OobIpConfigValue) AttributeTypes(ctx context.Context) map[string]attr.Type {
+	return map[string]attr.Type{
+		"ip":      basetypes.StringType{},
+		"netmask": basetypes.StringType{},
+		"network": basetypes.StringType{},
+		"node1": basetypes.ObjectType{
+			AttrTypes: Node1Value{}.AttributeTypes(ctx),
+		},
+		"type":                      basetypes.StringType{},
+		"use_mgmt_vrf":              basetypes.BoolType{},
+		"use_mgmt_vrf_for_host_out": basetypes.BoolType{},
+	}
+}
+
+var _ basetypes.ObjectTypable = Node1Type{}
+
+type Node1Type struct {
+	basetypes.ObjectType
+}
+
+func (t Node1Type) Equal(o attr.Type) bool {
+	other, ok := o.(Node1Type)
+
+	if !ok {
+		return false
+	}
+
+	return t.ObjectType.Equal(other.ObjectType)
+}
+
+func (t Node1Type) String() string {
+	return "Node1Type"
+}
+
+func (t Node1Type) ValueFromObject(ctx context.Context, in basetypes.ObjectValue) (basetypes.ObjectValuable, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	attributes := in.Attributes()
+
+	ipAttribute, ok := attributes["ip"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`ip is missing from object`)
+
+		return nil, diags
+	}
+
+	ipVal, ok := ipAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`ip expected to be basetypes.StringValue, was: %T`, ipAttribute))
+	}
+
+	netmaskAttribute, ok := attributes["netmask"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`netmask is missing from object`)
+
+		return nil, diags
+	}
+
+	netmaskVal, ok := netmaskAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`netmask expected to be basetypes.StringValue, was: %T`, netmaskAttribute))
+	}
+
+	networkAttribute, ok := attributes["network"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`network is missing from object`)
+
+		return nil, diags
+	}
+
+	networkVal, ok := networkAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`network expected to be basetypes.StringValue, was: %T`, networkAttribute))
+	}
+
+	typeAttribute, ok := attributes["type"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`type is missing from object`)
+
+		return nil, diags
+	}
+
+	typeVal, ok := typeAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`type expected to be basetypes.StringValue, was: %T`, typeAttribute))
+	}
+
+	useMgmtVrfAttribute, ok := attributes["use_mgmt_vrf"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`use_mgmt_vrf is missing from object`)
+
+		return nil, diags
+	}
+
+	useMgmtVrfVal, ok := useMgmtVrfAttribute.(basetypes.BoolValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`use_mgmt_vrf expected to be basetypes.BoolValue, was: %T`, useMgmtVrfAttribute))
+	}
+
+	useMgmtVrfForHostOutAttribute, ok := attributes["use_mgmt_vrf_for_host_out"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`use_mgmt_vrf_for_host_out is missing from object`)
+
+		return nil, diags
+	}
+
+	useMgmtVrfForHostOutVal, ok := useMgmtVrfForHostOutAttribute.(basetypes.BoolValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`use_mgmt_vrf_for_host_out expected to be basetypes.BoolValue, was: %T`, useMgmtVrfForHostOutAttribute))
+	}
+
+	if diags.HasError() {
+		return nil, diags
+	}
+
+	return Node1Value{
+		Ip:                   ipVal,
+		Netmask:              netmaskVal,
+		Network:              networkVal,
+		Node1Type:            typeVal,
+		UseMgmtVrf:           useMgmtVrfVal,
+		UseMgmtVrfForHostOut: useMgmtVrfForHostOutVal,
+		state:                attr.ValueStateKnown,
+	}, diags
+}
+
+func NewNode1ValueNull() Node1Value {
+	return Node1Value{
+		state: attr.ValueStateNull,
+	}
+}
+
+func NewNode1ValueUnknown() Node1Value {
+	return Node1Value{
+		state: attr.ValueStateUnknown,
+	}
+}
+
+func NewNode1Value(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) (Node1Value, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	// Reference: https://github.com/hashicorp/terraform-plugin-framework/issues/521
+	ctx := context.Background()
+
+	for name, attributeType := range attributeTypes {
+		attribute, ok := attributes[name]
+
+		if !ok {
+			diags.AddError(
+				"Missing Node1Value Attribute Value",
+				"While creating a Node1Value value, a missing attribute value was detected. "+
+					"A Node1Value must contain values for all attributes, even if null or unknown. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("Node1Value Attribute Name (%s) Expected Type: %s", name, attributeType.String()),
+			)
+
+			continue
+		}
+
+		if !attributeType.Equal(attribute.Type(ctx)) {
+			diags.AddError(
+				"Invalid Node1Value Attribute Type",
+				"While creating a Node1Value value, an invalid attribute value was detected. "+
+					"A Node1Value must use a matching attribute type for the value. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("Node1Value Attribute Name (%s) Expected Type: %s\n", name, attributeType.String())+
+					fmt.Sprintf("Node1Value Attribute Name (%s) Given Type: %s", name, attribute.Type(ctx)),
+			)
+		}
+	}
+
+	for name := range attributes {
+		_, ok := attributeTypes[name]
+
+		if !ok {
+			diags.AddError(
+				"Extra Node1Value Attribute Value",
+				"While creating a Node1Value value, an extra attribute value was detected. "+
+					"A Node1Value must not contain values beyond the expected attribute types. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("Extra Node1Value Attribute Name: %s", name),
+			)
+		}
+	}
+
+	if diags.HasError() {
+		return NewNode1ValueUnknown(), diags
+	}
+
+	ipAttribute, ok := attributes["ip"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`ip is missing from object`)
+
+		return NewNode1ValueUnknown(), diags
+	}
+
+	ipVal, ok := ipAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`ip expected to be basetypes.StringValue, was: %T`, ipAttribute))
+	}
+
+	netmaskAttribute, ok := attributes["netmask"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`netmask is missing from object`)
+
+		return NewNode1ValueUnknown(), diags
+	}
+
+	netmaskVal, ok := netmaskAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`netmask expected to be basetypes.StringValue, was: %T`, netmaskAttribute))
+	}
+
+	networkAttribute, ok := attributes["network"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`network is missing from object`)
+
+		return NewNode1ValueUnknown(), diags
+	}
+
+	networkVal, ok := networkAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`network expected to be basetypes.StringValue, was: %T`, networkAttribute))
+	}
+
+	typeAttribute, ok := attributes["type"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`type is missing from object`)
+
+		return NewNode1ValueUnknown(), diags
+	}
+
+	typeVal, ok := typeAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`type expected to be basetypes.StringValue, was: %T`, typeAttribute))
+	}
+
+	useMgmtVrfAttribute, ok := attributes["use_mgmt_vrf"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`use_mgmt_vrf is missing from object`)
+
+		return NewNode1ValueUnknown(), diags
+	}
+
+	useMgmtVrfVal, ok := useMgmtVrfAttribute.(basetypes.BoolValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`use_mgmt_vrf expected to be basetypes.BoolValue, was: %T`, useMgmtVrfAttribute))
+	}
+
+	useMgmtVrfForHostOutAttribute, ok := attributes["use_mgmt_vrf_for_host_out"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`use_mgmt_vrf_for_host_out is missing from object`)
+
+		return NewNode1ValueUnknown(), diags
+	}
+
+	useMgmtVrfForHostOutVal, ok := useMgmtVrfForHostOutAttribute.(basetypes.BoolValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`use_mgmt_vrf_for_host_out expected to be basetypes.BoolValue, was: %T`, useMgmtVrfForHostOutAttribute))
+	}
+
+	if diags.HasError() {
+		return NewNode1ValueUnknown(), diags
+	}
+
+	return Node1Value{
+		Ip:                   ipVal,
+		Netmask:              netmaskVal,
+		Network:              networkVal,
+		Node1Type:            typeVal,
+		UseMgmtVrf:           useMgmtVrfVal,
+		UseMgmtVrfForHostOut: useMgmtVrfForHostOutVal,
+		state:                attr.ValueStateKnown,
+	}, diags
+}
+
+func NewNode1ValueMust(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) Node1Value {
+	object, diags := NewNode1Value(attributeTypes, attributes)
+
+	if diags.HasError() {
+		// This could potentially be added to the diag package.
+		diagsStrings := make([]string, 0, len(diags))
+
+		for _, diagnostic := range diags {
+			diagsStrings = append(diagsStrings, fmt.Sprintf(
+				"%s | %s | %s",
+				diagnostic.Severity(),
+				diagnostic.Summary(),
+				diagnostic.Detail()))
+		}
+
+		panic("NewNode1ValueMust received error(s): " + strings.Join(diagsStrings, "\n"))
+	}
+
+	return object
+}
+
+func (t Node1Type) ValueFromTerraform(ctx context.Context, in tftypes.Value) (attr.Value, error) {
+	if in.Type() == nil {
+		return NewNode1ValueNull(), nil
+	}
+
+	if !in.Type().Equal(t.TerraformType(ctx)) {
+		return nil, fmt.Errorf("expected %s, got %s", t.TerraformType(ctx), in.Type())
+	}
+
+	if !in.IsKnown() {
+		return NewNode1ValueUnknown(), nil
+	}
+
+	if in.IsNull() {
+		return NewNode1ValueNull(), nil
+	}
+
+	attributes := map[string]attr.Value{}
+
+	val := map[string]tftypes.Value{}
+
+	err := in.As(&val)
+
+	if err != nil {
+		return nil, err
+	}
+
+	for k, v := range val {
+		a, err := t.AttrTypes[k].ValueFromTerraform(ctx, v)
+
+		if err != nil {
+			return nil, err
+		}
+
+		attributes[k] = a
+	}
+
+	return NewNode1ValueMust(Node1Value{}.AttributeTypes(ctx), attributes), nil
+}
+
+func (t Node1Type) ValueType(ctx context.Context) attr.Value {
+	return Node1Value{}
+}
+
+var _ basetypes.ObjectValuable = Node1Value{}
+
+type Node1Value struct {
+	Ip                   basetypes.StringValue `tfsdk:"ip"`
+	Netmask              basetypes.StringValue `tfsdk:"netmask"`
+	Network              basetypes.StringValue `tfsdk:"network"`
+	Node1Type            basetypes.StringValue `tfsdk:"type"`
+	UseMgmtVrf           basetypes.BoolValue   `tfsdk:"use_mgmt_vrf"`
+	UseMgmtVrfForHostOut basetypes.BoolValue   `tfsdk:"use_mgmt_vrf_for_host_out"`
+	state                attr.ValueState
+}
+
+func (v Node1Value) ToTerraformValue(ctx context.Context) (tftypes.Value, error) {
+	attrTypes := make(map[string]tftypes.Type, 6)
+
+	var val tftypes.Value
+	var err error
+
+	attrTypes["ip"] = basetypes.StringType{}.TerraformType(ctx)
+	attrTypes["netmask"] = basetypes.StringType{}.TerraformType(ctx)
+	attrTypes["network"] = basetypes.StringType{}.TerraformType(ctx)
+	attrTypes["type"] = basetypes.StringType{}.TerraformType(ctx)
+	attrTypes["use_mgmt_vrf"] = basetypes.BoolType{}.TerraformType(ctx)
+	attrTypes["use_mgmt_vrf_for_host_out"] = basetypes.BoolType{}.TerraformType(ctx)
+
+	objectType := tftypes.Object{AttributeTypes: attrTypes}
+
+	switch v.state {
+	case attr.ValueStateKnown:
+		vals := make(map[string]tftypes.Value, 6)
+
+		val, err = v.Ip.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["ip"] = val
+
+		val, err = v.Netmask.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["netmask"] = val
+
+		val, err = v.Network.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["network"] = val
+
+		val, err = v.Node1Type.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["type"] = val
+
+		val, err = v.UseMgmtVrf.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["use_mgmt_vrf"] = val
+
+		val, err = v.UseMgmtVrfForHostOut.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["use_mgmt_vrf_for_host_out"] = val
+
+		if err := tftypes.ValidateValue(objectType, vals); err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		return tftypes.NewValue(objectType, vals), nil
+	case attr.ValueStateNull:
+		return tftypes.NewValue(objectType, nil), nil
+	case attr.ValueStateUnknown:
+		return tftypes.NewValue(objectType, tftypes.UnknownValue), nil
+	default:
+		panic(fmt.Sprintf("unhandled Object state in ToTerraformValue: %s", v.state))
+	}
+}
+
+func (v Node1Value) IsNull() bool {
+	return v.state == attr.ValueStateNull
+}
+
+func (v Node1Value) IsUnknown() bool {
+	return v.state == attr.ValueStateUnknown
+}
+
+func (v Node1Value) String() string {
+	return "Node1Value"
+}
+
+func (v Node1Value) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	attributeTypes := map[string]attr.Type{
+		"ip":                        basetypes.StringType{},
+		"netmask":                   basetypes.StringType{},
+		"network":                   basetypes.StringType{},
+		"type":                      basetypes.StringType{},
+		"use_mgmt_vrf":              basetypes.BoolType{},
+		"use_mgmt_vrf_for_host_out": basetypes.BoolType{},
+	}
+
+	if v.IsNull() {
+		return types.ObjectNull(attributeTypes), diags
+	}
+
+	if v.IsUnknown() {
+		return types.ObjectUnknown(attributeTypes), diags
+	}
+
+	objVal, diags := types.ObjectValue(
+		attributeTypes,
+		map[string]attr.Value{
+			"ip":                        v.Ip,
+			"netmask":                   v.Netmask,
+			"network":                   v.Network,
+			"type":                      v.Node1Type,
+			"use_mgmt_vrf":              v.UseMgmtVrf,
+			"use_mgmt_vrf_for_host_out": v.UseMgmtVrfForHostOut,
+		})
+
+	return objVal, diags
+}
+
+func (v Node1Value) Equal(o attr.Value) bool {
+	other, ok := o.(Node1Value)
+
+	if !ok {
+		return false
+	}
+
+	if v.state != other.state {
+		return false
+	}
+
+	if v.state != attr.ValueStateKnown {
+		return true
+	}
+
+	if !v.Ip.Equal(other.Ip) {
+		return false
+	}
+
+	if !v.Netmask.Equal(other.Netmask) {
+		return false
+	}
+
+	if !v.Network.Equal(other.Network) {
+		return false
+	}
+
+	if !v.Node1Type.Equal(other.Node1Type) {
+		return false
+	}
+
+	if !v.UseMgmtVrf.Equal(other.UseMgmtVrf) {
+		return false
+	}
+
+	if !v.UseMgmtVrfForHostOut.Equal(other.UseMgmtVrfForHostOut) {
+		return false
+	}
+
+	return true
+}
+
+func (v Node1Value) Type(ctx context.Context) attr.Type {
+	return Node1Type{
+		basetypes.ObjectType{
+			AttrTypes: v.AttributeTypes(ctx),
+		},
+	}
+}
+
+func (v Node1Value) AttributeTypes(ctx context.Context) map[string]attr.Type {
+	return map[string]attr.Type{
+		"ip":                        basetypes.StringType{},
+		"netmask":                   basetypes.StringType{},
+		"network":                   basetypes.StringType{},
+		"type":                      basetypes.StringType{},
+		"use_mgmt_vrf":              basetypes.BoolType{},
+		"use_mgmt_vrf_for_host_out": basetypes.BoolType{},
 	}
 }
 

@@ -11,7 +11,7 @@ import (
 )
 
 // ////////////////// MIST NAC ///////////////////////
-func mistNacSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistapigo.NetworkTemplateMistNac) MistNacValue {
+func mistNacSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistapigo.SwitchMistNac) MistNacValue {
 	mist_nac_attr_type := MistNacValue{}.AttributeTypes(ctx)
 	mist_nac_attr_value := map[string]attr.Value{
 		"enabled": types.BoolValue(d.GetEnabled()),

@@ -7,9 +7,17 @@ require (
 	github.com/hashicorp/terraform-plugin-framework-validators v0.12.0
 	github.com/hashicorp/terraform-plugin-go v0.23.0
 	github.com/hashicorp/terraform-plugin-log v0.9.0
+<<<<<<< Updated upstream
 	github.com/tmunzer/mistapi-go v0.1.4
 	golang.org/x/net v0.23.0
+=======
+	//github.com/tmunzer/mistapi-go v0.1.20
+	golang.org/x/net v0.27.0
+>>>>>>> Stashed changes
 )
+replace mistapi => /Users/tmunzer/Downloads/mist-api-go_generic_lib
+
+require mistapi v0.0.0
 
 require (
 	github.com/fatih/color v1.16.0 // indirect

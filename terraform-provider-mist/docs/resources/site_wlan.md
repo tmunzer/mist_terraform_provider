@@ -107,7 +107,6 @@ dynamic_psk allows PSK to be selected at runtime depending on context (wlan/site
 - `roam_mode` (String)
 - `schedule` (Attributes) WLAN operating schedule, default is disabled (see [below for nested schema](#nestedatt--schedule))
 - `sle_excluded` (Boolean) whether to exclude this WLAN from SLE metrics
-- `template_id` (String)
 - `thumbnail` (String) Url of portal background image thumbnail
 - `use_eapol_v1` (Boolean) if `auth.type`==’eap’ or ‘psk’, should only be set for legacy client, such as pre-2004, 802.11b devices
 - `vlan_enabled` (Boolean) if vlan tagging is enabled

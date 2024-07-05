@@ -15,10 +15,10 @@ import (
 	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 )
 
-func switchMatchingRulesPortMirroringSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]mistapigo.SwitchPortMirroring) basetypes.MapValue {
+func switchMatchingRulesPortMirroringSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]mistapigo.SwitchPortMirroringProperty) basetypes.MapValue {
 	map_item_value := make(map[string]attr.Value)
 	map_item_type := PortMirroringValue{}.Type(ctx)
-	item_type := PortMirroringsValue{}.AttributeTypes(ctx)
+	item_type := PortMirroringValue{}.AttributeTypes(ctx)
 	for k, v := range d {
 
 		var item_value = map[string]attr.Value{
@@ -27,7 +27,7 @@ func switchMatchingRulesPortMirroringSdkToTerraform(ctx context.Context, diags *
 			"input_port_ids_ingress": mist_transform.ListOfStringSdkToTerraform(ctx, v.GetInputPortIdsIngress()),
 			"output_port_id":         types.StringValue(v.GetOutputPortId()),
 		}
-		item_obj, e := NewPortMirroringsValue(item_type, item_value)
+		item_obj, e := NewPortMirroringValue(item_type, item_value)
 		diags.Append(e...)
 		map_item_value[k] = item_obj
 	}

@@ -1333,6 +1333,146 @@
 						}
 					},
 					{
+						"name": "oob_ip_config",
+						"single_nested": {
+							"computed_optional_required": "computed_optional",
+							"attributes": [
+								{
+									"name": "ip",
+									"string": {
+										"computed_optional_required": "computed_optional"
+									}
+								},
+								{
+									"name": "netmask",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"description": "used only if `subnet` is not specified in `networks`"
+									}
+								},
+								{
+									"name": "network",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"description": "optional, the network to be used for mgmt"
+									}
+								},
+								{
+									"name": "node1",
+									"single_nested": {
+										"computed_optional_required": "computed_optional",
+										"attributes": [
+											{
+												"name": "ip",
+												"string": {
+													"computed_optional_required": "computed_optional"
+												}
+											},
+											{
+												"name": "netmask",
+												"string": {
+													"computed_optional_required": "computed_optional",
+													"description": "used only if `subnet` is not specified in `networks`"
+												}
+											},
+											{
+												"name": "network",
+												"string": {
+													"computed_optional_required": "computed_optional",
+													"description": "optional, the network to be used for mgmt"
+												}
+											},
+											{
+												"name": "type",
+												"string": {
+													"computed_optional_required": "computed_optional",
+													"default": {
+														"static": "dynamic"
+													},
+													"validators": [
+														{
+															"custom": {
+																"imports": [
+																	{
+																		"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																	}
+																],
+																"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"static\",\n\"dynamic\",\n)"
+															}
+														}
+													]
+												}
+											},
+											{
+												"name": "use_mgmt_vrf",
+												"bool": {
+													"computed_optional_required": "computed_optional",
+													"default": {
+														"static": false
+													},
+													"description": "if supported on the platform. If enabled, DNS will be using this routing-instance, too"
+												}
+											},
+											{
+												"name": "use_mgmt_vrf_for_host_out",
+												"bool": {
+													"computed_optional_required": "computed_optional",
+													"default": {
+														"static": false
+													},
+													"description": "whether to use `mgmt_junos` for host-out traffic (NTP/TACPLUS/RADIUS/SYSLOG/SNMP), if alternative source network/ip is desired"
+												}
+											}
+										],
+										"description": "for HA Cluster, node1 can have different IP Config"
+									}
+								},
+								{
+									"name": "type",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": "dynamic"
+										},
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+														}
+													],
+													"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"static\",\n\"dynamic\",\n)"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "use_mgmt_vrf",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										},
+										"description": "f supported on the platform. If enabled, DNS will be using this routing-instance, too"
+									}
+								},
+								{
+									"name": "use_mgmt_vrf_for_host_out",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										},
+										"description": "for host-out traffic (NTP/TACPLUS/RADIUS/SYSLOG/SNMP), if alternative source network/ip is desired,"
+									}
+								}
+							],
+							"description": "out-of-band (vme/em0/fxp0) IP config"
+						}
+					},
+					{
 						"name": "org_id",
 						"string": {
 							"computed_optional_required": "computed_optional"
@@ -4497,6 +4637,101 @@
 						}
 					},
 					{
+						"name": "extra_routes6",
+						"map_nested": {
+							"computed_optional_required": "computed_optional",
+							"nested_object": {
+								"attributes": [
+									{
+										"name": "discard",
+										"bool": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": false
+											},
+											"description": "this takes precedence"
+										}
+									},
+									{
+										"name": "metric",
+										"int64": {
+											"computed_optional_required": "computed_optional",
+											"validators": [
+												{
+													"custom": {
+														"imports": [
+															{
+																"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+															}
+														],
+														"schema_definition": "int64validator.Between(0, 4294967295)"
+													}
+												}
+											]
+										}
+									},
+									{
+										"name": "next_qualified",
+										"map_nested": {
+											"computed_optional_required": "computed_optional",
+											"nested_object": {
+												"attributes": [
+													{
+														"name": "metric",
+														"int64": {
+															"computed_optional_required": "computed_optional"
+														}
+													},
+													{
+														"name": "preference",
+														"int64": {
+															"computed_optional_required": "computed_optional"
+														}
+													}
+												]
+											}
+										}
+									},
+									{
+										"name": "no_resolve",
+										"bool": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": false
+											}
+										}
+									},
+									{
+										"name": "preference",
+										"int64": {
+											"computed_optional_required": "computed_optional",
+											"validators": [
+												{
+													"custom": {
+														"imports": [
+															{
+																"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+															}
+														],
+														"schema_definition": "int64validator.Between(0, 4294967295)"
+													}
+												}
+											]
+										}
+									},
+									{
+										"name": "via",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"description": "next-hop IP Address"
+										}
+									}
+								]
+							},
+							"description": "Property key is the destination CIDR (e.g. \"2a02:1234:420a:10c9::/64\")"
+						}
+					},
+					{
 						"name": "id",
 						"string": {
 							"computed_optional_required": "computed_optional"
@@ -4586,7 +4821,7 @@
 						}
 					},
 					{
-						"name": "port_mirrorings",
+						"name": "port_mirroring",
 						"map_nested": {
 							"computed_optional_required": "computed_optional",
 							"nested_object": {
@@ -12669,6 +12904,101 @@
 						}
 					},
 					{
+						"name": "extra_routes6",
+						"map_nested": {
+							"computed_optional_required": "computed_optional",
+							"nested_object": {
+								"attributes": [
+									{
+										"name": "discard",
+										"bool": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": false
+											},
+											"description": "this takes precedence"
+										}
+									},
+									{
+										"name": "metric",
+										"int64": {
+											"computed_optional_required": "computed_optional",
+											"validators": [
+												{
+													"custom": {
+														"imports": [
+															{
+																"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+															}
+														],
+														"schema_definition": "int64validator.Between(0, 4294967295)"
+													}
+												}
+											]
+										}
+									},
+									{
+										"name": "next_qualified",
+										"map_nested": {
+											"computed_optional_required": "computed_optional",
+											"nested_object": {
+												"attributes": [
+													{
+														"name": "metric",
+														"int64": {
+															"computed_optional_required": "computed_optional"
+														}
+													},
+													{
+														"name": "preference",
+														"int64": {
+															"computed_optional_required": "computed_optional"
+														}
+													}
+												]
+											}
+										}
+									},
+									{
+										"name": "no_resolve",
+										"bool": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": false
+											}
+										}
+									},
+									{
+										"name": "preference",
+										"int64": {
+											"computed_optional_required": "computed_optional",
+											"validators": [
+												{
+													"custom": {
+														"imports": [
+															{
+																"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+															}
+														],
+														"schema_definition": "int64validator.Between(0, 4294967295)"
+													}
+												}
+											]
+										}
+									},
+									{
+										"name": "via",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"description": "next-hop IP Address"
+										}
+									}
+								]
+							},
+							"description": "Property key is the destination CIDR (e.g. \"2a02:1234:420a:10c9::/64\")"
+						}
+					},
+					{
 						"name": "id",
 						"string": {
 							"computed_optional_required": "computed_optional"
@@ -15319,6 +15649,23 @@
 							},
 							"description": "Property key is the network name"
 						}
+					},
+					{
+						"name": "vs_instance",
+						"single_nested": {
+							"computed_optional_required": "computed_optional",
+							"attributes": [
+								{
+									"name": "networks",
+									"list": {
+										"computed_optional_required": "computed_optional",
+										"element_type": {
+											"string": {}
+										}
+									}
+								}
+							]
+						}
 					}
 				]
 			}
@@ -16752,6 +17099,23 @@
 											"static": false
 										},
 										"description": "enable Virtual Network Assistant (using SUB-VNA license). This applied to AP / Switch / Gateway"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "vs_instance",
+						"single_nested": {
+							"computed_optional_required": "computed_optional",
+							"attributes": [
+								{
+									"name": "networks",
+									"list": {
+										"computed_optional_required": "computed_optional",
+										"element_type": {
+											"string": {}
+										}
 									}
 								}
 							]

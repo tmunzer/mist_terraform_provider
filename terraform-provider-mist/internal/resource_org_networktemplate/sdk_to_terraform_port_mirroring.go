@@ -13,7 +13,7 @@ import (
 	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 )
 
-func portMirroringSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]mistapigo.SwitchPortMirroring) basetypes.MapValue {
+func portMirroringSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]mistapigo.SwitchPortMirroringProperty) basetypes.MapValue {
 	data_map_attr_type := PortMirroringValue{}.AttributeTypes(ctx)
 	data_map_value := make(map[string]attr.Value)
 	for k, v := range d {
