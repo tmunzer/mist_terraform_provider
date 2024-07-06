@@ -3,10 +3,9 @@ package provider
 import (
 	"context"
 	"fmt"
+	"mistapi"
 
 	"terraform-provider-mist/internal/resource_device_switch"
-
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
@@ -22,7 +21,7 @@ func NewDeviceSwitchResource() resource.Resource {
 }
 
 type device_switchResource struct {
-	client *mistapigo.APIClient
+	client mistapi.ClientInterface
 }
 
 func (r *device_switchResource) Configure(ctx context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
@@ -31,7 +30,7 @@ func (r *device_switchResource) Configure(ctx context.Context, req resource.Conf
 		return
 	}
 
-	client, ok := req.ProviderData.(*mistapigo.APIClient)
+	client, ok := req.ProviderData.(mistapi.ClientInterface)
 	if !ok {
 		resp.Diagnostics.AddError(
 			"Unexpected Data Source Configure Type",
@@ -66,7 +65,7 @@ func (r *device_switchResource) Create(ctx context.Context, req resource.CreateR
 		return
 	}
 	tflog.Info(ctx, "Starting DeviceSwitch Create on Site "+plan.SiteId.ValueString()+" for device "+plan.Id.ValueString())
-	data, _, err := r.client.SitesDevicesAPI.UpdateSiteDevice(ctx, plan.SiteId.ValueString(), plan.Id.ValueString()).MistDevice(device_switch).Execute()
+	data, err := r.client.SitesDevicesAPI.UpdateSiteDevice(ctx, plan.SiteId.ValueString(), plan.Id.ValueString()).MistDevice(device_switch
 
 	if err != nil {
 		resp.Diagnostics.AddError(
@@ -76,7 +75,7 @@ func (r *device_switchResource) Create(ctx context.Context, req resource.CreateR
 		return
 	}
 
-	state, diags = resource_device_switch.SdkToTerraform(ctx, data)
+	state, diags = resource_device_switch.SdkToTerraform(ctx, data.Data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -100,7 +99,7 @@ func (r *device_switchResource) Read(ctx context.Context, req resource.ReadReque
 	}
 
 	tflog.Info(ctx, "Starting DeviceSwitch Read: device_switch_id "+state.Id.ValueString())
-	data, _, err := r.client.SitesDevicesAPI.GetSiteDevice(ctx, state.SiteId.ValueString(), state.Id.ValueString()).Execute()
+	data, err := r.client.SitesDevicesAPI.GetSiteDevice(ctx, state.SiteId.ValueString(), state.Id.ValueString()
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Error getting device_switch",
@@ -108,7 +107,7 @@ func (r *device_switchResource) Read(ctx context.Context, req resource.ReadReque
 		)
 		return
 	}
-	state, diags = resource_device_switch.SdkToTerraform(ctx, data)
+	state, diags = resource_device_switch.SdkToTerraform(ctx, data.Data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -143,7 +142,7 @@ func (r *device_switchResource) Update(ctx context.Context, req resource.UpdateR
 	}
 
 	tflog.Info(ctx, "Starting DeviceSwitch Update for DeviceSwitch "+state.Id.ValueString())
-	data, _, err := r.client.SitesDevicesAPI.UpdateSiteDevice(ctx, state.SiteId.ValueString(), state.Id.ValueString()).MistDevice(device_switch).Execute()
+	data, err := r.client.SitesDevicesAPI.UpdateSiteDevice(ctx, state.SiteId.ValueString(), state.Id.ValueString()).MistDevice(device_switch
 
 	if err != nil {
 		resp.Diagnostics.AddError(
@@ -153,7 +152,7 @@ func (r *device_switchResource) Update(ctx context.Context, req resource.UpdateR
 		return
 	}
 
-	state, diags = resource_device_switch.SdkToTerraform(ctx, data)
+	state, diags = resource_device_switch.SdkToTerraform(ctx, data.Data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -183,7 +182,7 @@ func (r *device_switchResource) Delete(ctx context.Context, req resource.DeleteR
 	}
 
 	tflog.Info(ctx, "Starting DeviceSwitch Delete: device_switch_id "+state.Id.ValueString())
-	_, _, err := r.client.SitesDevicesAPI.UpdateSiteDevice(ctx, state.SiteId.ValueString(), state.Id.ValueString()).MistDevice(device_switch).Execute()
+	_, _, err := r.client.SitesDevicesAPI.UpdateSiteDevice(ctx, state.SiteId.ValueString(), state.Id.ValueString()).MistDevice(device_switch
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Error creating device_switch",

@@ -3,10 +3,10 @@ package provider
 import (
 	"context"
 	"fmt"
+	"mistapi"
 	"terraform-provider-mist/internal/resource_org"
 
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
-
+	"github.com/google/uuid"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
@@ -21,7 +21,7 @@ func NewOrgResource() resource.Resource {
 }
 
 type orgResource struct {
-	client *mistapigo.APIClient
+	client mistapi.ClientInterface
 }
 
 func (r *orgResource) Configure(ctx context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
@@ -30,11 +30,11 @@ func (r *orgResource) Configure(ctx context.Context, req resource.ConfigureReque
 		return
 	}
 
-	client, ok := req.ProviderData.(*mistapigo.APIClient)
+	client, ok := req.ProviderData.(mistapi.ClientInterface)
 	if !ok {
 		resp.Diagnostics.AddError(
 			"Unexpected Data Source Configure Type",
-			fmt.Sprintf("Expected *mistapigo.APIClient, got: %T. Please report this issue to the provider developers.", req.ProviderData),
+			fmt.Sprintf("Expected *models.APIClient, got: %T. Please report this issue to the provider developers.", req.ProviderData),
 		)
 		return
 	}
@@ -64,7 +64,7 @@ func (r *orgResource) Create(ctx context.Context, req resource.CreateRequest, re
 	if resp.Diagnostics.HasError() {
 		return
 	}
-	data, _, err := r.client.OrgsAPI.CreateOrg(ctx).Org(org).Execute()
+	data, err := r.client.Orgs().CreateOrg(ctx, org)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Error creating org",
@@ -73,7 +73,7 @@ func (r *orgResource) Create(ctx context.Context, req resource.CreateRequest, re
 		return
 	}
 
-	state, diags = resource_org.SdkToTerraform(data)
+	state, diags = resource_org.SdkToTerraform(data.Data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -96,8 +96,9 @@ func (r *orgResource) Read(ctx context.Context, req resource.ReadRequest, resp *
 		return
 	}
 
+	orgId := uuid.MustParse(state.Id.ValueString())
 	tflog.Info(ctx, "Starting Org Read: org_id "+state.Id.ValueString())
-	data, _, err := r.client.OrgsAPI.GetOrg(ctx, state.Id.ValueString()).Execute()
+	data, err := r.client.Orgs().GetOrg(ctx, orgId)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Error getting org",
@@ -105,7 +106,7 @@ func (r *orgResource) Read(ctx context.Context, req resource.ReadRequest, resp *
 		)
 		return
 	}
-	state, diags = resource_org.SdkToTerraform(data)
+	state, diags = resource_org.SdkToTerraform(data.Data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -133,15 +134,15 @@ func (r *orgResource) Update(ctx context.Context, req resource.UpdateRequest, re
 		return
 	}
 
-	orgId := plan.Id.ValueString()
+	orgId := uuid.MustParse(state.Id.ValueString())
 	org, diags := resource_org.TerraformToSdk(&plan)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
 	}
 
-	tflog.Info(ctx, "Starting Org Update for Org "+orgId)
-	data, _, err := r.client.OrgsAPI.UpdateOrg(ctx, orgId).Org(org).Execute()
+	tflog.Info(ctx, "Starting Org Update for Org "+orgId.String())
+	data, err := r.client.Orgs().UpdateOrg(ctx, orgId, org)
 
 	if err != nil {
 		resp.Diagnostics.AddError(
@@ -151,7 +152,7 @@ func (r *orgResource) Update(ctx context.Context, req resource.UpdateRequest, re
 		return
 	}
 
-	state, diags = resource_org.SdkToTerraform(data)
+	state, diags = resource_org.SdkToTerraform(data.Data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -174,8 +175,10 @@ func (r *orgResource) Delete(ctx context.Context, req resource.DeleteRequest, re
 		return
 	}
 
+	orgId := uuid.MustParse(state.Id.ValueString())
+
 	tflog.Info(ctx, "Starting Org Delete: org_id "+state.Id.ValueString())
-	_, err := r.client.OrgsAPI.DeleteOrg(ctx, state.Id.ValueString()).Execute()
+	_, err := r.client.Orgs().DeleteOrg(ctx, orgId)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Error creating org",

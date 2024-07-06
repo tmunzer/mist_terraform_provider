@@ -3,31 +3,52 @@ package resource_site_networktemplate
 import (
 	"context"
 
+	"mistapi/models"
+
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
-
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 )
 
-func radiusServersAcctSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []mistapigo.RadiusAcctServer) basetypes.ListValue {
+func radiusServersAcctSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, l []models.RadiusAcctServer) basetypes.ListValue {
 	var acct_value_list []attr.Value
-	acct_value_list_type := AcctServersValue{}.AttributeTypes(ctx)
-	for _, srv_data := range d {
-		rc_srv_state_value := map[string]attr.Value{
-			"host":            types.StringValue(srv_data.GetHost()),
-			"port":            types.Int64Value(int64(srv_data.GetPort())),
-			"secret":          types.StringValue(srv_data.GetSecret()),
-			"keywrap_enabled": types.BoolValue(srv_data.GetKeywrapEnabled()),
-			"keywrap_format":  types.StringValue(string(srv_data.GetKeywrapFormat())),
-			"keywrap_kek":     types.StringValue(srv_data.GetKeywrapKek()),
-			"keywrap_mack":    types.StringValue(srv_data.GetKeywrapMack()),
+	for _, d := range l {
+		var host basetypes.StringValue = types.StringValue(d.Host)
+		var keywrap_enabled basetypes.BoolValue
+		var keywrap_format basetypes.StringValue
+		var keywrap_kek basetypes.StringValue
+		var keywrap_mack basetypes.StringValue
+		var port basetypes.Int64Value = types.Int64Value(int64(d.Port))
+		var secret basetypes.StringValue = types.StringValue(d.Secret)
+
+		if d.KeywrapEnabled != nil {
+			keywrap_enabled = types.BoolValue(*d.KeywrapEnabled)
 		}
-		acct_server, e := NewAcctServersValue(acct_value_list_type, rc_srv_state_value)
+		if d.KeywrapFormat != nil {
+			keywrap_format = types.StringValue(string(*d.KeywrapFormat))
+		}
+		if d.KeywrapKek != nil {
+			keywrap_kek = types.StringValue(*d.KeywrapKek)
+		}
+		if d.KeywrapMack != nil {
+			keywrap_mack = types.StringValue(*d.KeywrapMack)
+		}
+
+		data_map_attr_type := AcctServersValue{}.AttributeTypes(ctx)
+		data_map_value := map[string]attr.Value{
+			"host":            host,
+			"keywrap_enabled": keywrap_enabled,
+			"keywrap_format":  keywrap_format,
+			"keywrap_kek":     keywrap_kek,
+			"keywrap_mack":    keywrap_mack,
+			"port":            port,
+			"secret":          secret,
+		}
+		data, e := NewAcctServersValue(data_map_attr_type, data_map_value)
 		diags.Append(e...)
 
-		acct_value_list = append(acct_value_list, acct_server)
+		acct_value_list = append(acct_value_list, data)
 	}
 
 	acct_state_list_type := AcctServersValue{}.Type(ctx)
@@ -37,49 +58,105 @@ func radiusServersAcctSdkToTerraform(ctx context.Context, diags *diag.Diagnostic
 	return acct_state_list
 }
 
-func radiusServersAuthSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []mistapigo.RadiusAuthServer) basetypes.ListValue {
+func radiusServersAuthSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, l []models.RadiusAuthServer) basetypes.ListValue {
 	var auth_value_list []attr.Value
-	auth_value_list_type := AuthServersValue{}.AttributeTypes(ctx)
-	for _, srv_data := range d {
-		rc_srv_state_value := map[string]attr.Value{
-			"host":            types.StringValue(srv_data.GetHost()),
-			"port":            types.Int64Value(int64(srv_data.GetPort())),
-			"secret":          types.StringValue(srv_data.GetSecret()),
-			"keywrap_enabled": types.BoolValue(srv_data.GetKeywrapEnabled()),
-			"keywrap_format":  types.StringValue(string(srv_data.GetKeywrapFormat())),
-			"keywrap_kek":     types.StringValue(srv_data.GetKeywrapKek()),
-			"keywrap_mack":    types.StringValue(srv_data.GetKeywrapMack()),
+	for _, d := range l {
+		var host basetypes.StringValue = types.StringValue(d.Host)
+		var keywrap_enabled basetypes.BoolValue
+		var keywrap_format basetypes.StringValue
+		var keywrap_kek basetypes.StringValue
+		var keywrap_mack basetypes.StringValue
+		var port basetypes.Int64Value = types.Int64Value(int64(d.Port))
+		var secret basetypes.StringValue = types.StringValue(d.Secret)
+
+		if d.KeywrapEnabled != nil {
+			keywrap_enabled = types.BoolValue(*d.KeywrapEnabled)
 		}
-		auth_server, e := NewAuthServersValue(auth_value_list_type, rc_srv_state_value)
+		if d.KeywrapFormat != nil {
+			keywrap_format = types.StringValue(string(*d.KeywrapFormat))
+		}
+		if d.KeywrapKek != nil {
+			keywrap_kek = types.StringValue(*d.KeywrapKek)
+		}
+		if d.KeywrapMack != nil {
+			keywrap_mack = types.StringValue(*d.KeywrapMack)
+		}
+
+		data_map_attr_type := AuthServersValue{}.AttributeTypes(ctx)
+		data_map_value := map[string]attr.Value{
+			"host":            host,
+			"keywrap_enabled": keywrap_enabled,
+			"keywrap_format":  keywrap_format,
+			"keywrap_kek":     keywrap_kek,
+			"keywrap_mack":    keywrap_mack,
+			"port":            port,
+			"secret":          secret,
+		}
+		data, e := NewAcctServersValue(data_map_attr_type, data_map_value)
 		diags.Append(e...)
 
-		auth_value_list = append(auth_value_list, auth_server)
+		auth_value_list = append(auth_value_list, data)
 	}
 
 	auth_state_list_type := AuthServersValue{}.Type(ctx)
 	auth_state_list, e := types.ListValueFrom(ctx, auth_state_list_type, auth_value_list)
 	diags.Append(e...)
-
 	return auth_state_list
 }
 
-func radiusConfigSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistapigo.RadiusConfig) RadiusConfigValue {
-	acct_state_result := radiusServersAcctSdkToTerraform(ctx, diags, d.AcctServers)
-	auth_state_result := radiusServersAuthSdkToTerraform(ctx, diags, d.AuthServers)
-	radius_config_type := RadiusConfigValue{}.AttributeTypes(ctx)
-	radius_config_map := map[string]attr.Value{
-		"acct_interim_interval": types.Int64Value(int64(d.GetAcctInterimInterval())),
-		"auth_servers_retries":  types.Int64Value(int64(d.GetAuthServersRetries())),
-		"auth_servers_timeout":  types.Int64Value(int64(d.GetAuthServersTimeout())),
-		"coa_enabled":           types.BoolValue(d.GetCoaEnabled()),
-		"coa_port":              types.Int64Value(int64(d.GetCoaPort())),
-		"network":               types.StringValue(d.GetNetwork()),
-		"source_ip":             types.StringValue(d.GetSourceIp()),
-		"acct_servers":          acct_state_result,
-		"auth_servers":          auth_state_result,
+func radiusConfigSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d *models.RadiusConfig) RadiusConfigValue {
+	var acct_interim_interval basetypes.Int64Value
+	var acct_servers basetypes.ListValue
+	var auth_servers basetypes.ListValue
+	var auth_servers_retries basetypes.Int64Value
+	var auth_servers_timeout basetypes.Int64Value
+	var coa_enabled basetypes.BoolValue
+	var coa_port basetypes.Int64Value
+	var network basetypes.StringValue
+	var source_ip basetypes.StringValue
+
+	if d != nil && d.AcctInterimInterval != nil {
+		acct_interim_interval = types.Int64Value(int64(*d.AcctInterimInterval))
+	}
+	if d != nil && d.AcctServers != nil {
+		acct_servers = radiusServersAcctSdkToTerraform(ctx, diags, d.AcctServers)
+	}
+	if d != nil && d.AuthServers != nil {
+		auth_servers = radiusServersAuthSdkToTerraform(ctx, diags, d.AuthServers)
+	}
+	if d != nil && d.AuthServersRetries != nil {
+		auth_servers_retries = types.Int64Value(int64(*d.AuthServersRetries))
+	}
+	if d != nil && d.AuthServersTimeout != nil {
+		auth_servers_timeout = types.Int64Value(int64(*d.AuthServersTimeout))
+	}
+	if d != nil && d.CoaEnabled != nil {
+		coa_enabled = types.BoolValue(*d.CoaEnabled)
+	}
+	if d != nil && d.CoaPort != nil {
+		coa_port = types.Int64Value(int64(*d.CoaPort))
+	}
+	if d != nil && d.Network != nil {
+		network = types.StringValue(*d.Network)
+	}
+	if d != nil && d.SourceIp != nil {
+		source_ip = types.StringValue(*d.SourceIp)
 	}
 
-	state_result, e := NewRadiusConfigValue(radius_config_type, radius_config_map)
+	data_map_attr_type := RadiusConfigValue{}.AttributeTypes(ctx)
+	data_map_value := map[string]attr.Value{
+		"acct_interim_interval": acct_interim_interval,
+		"acct_servers":          acct_servers,
+		"auth_servers":          auth_servers,
+		"auth_servers_retries":  auth_servers_retries,
+		"auth_servers_timeout":  auth_servers_timeout,
+		"coa_enabled":           coa_enabled,
+		"coa_port":              coa_port,
+		"network":               network,
+		"source_ip":             source_ip,
+	}
+	data, e := NewRadiusConfigValue(data_map_attr_type, data_map_value)
 	diags.Append(e...)
-	return state_result
+
+	return data
 }

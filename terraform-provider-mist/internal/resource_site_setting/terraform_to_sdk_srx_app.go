@@ -6,12 +6,12 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
+	"mistapi/models"
 )
 
-func srxAppTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d SrxAppValue) mistapigo.SiteSettingSrxApp {
+func srxAppTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d SrxAppValue) models.SiteSettingSrxApp {
 	tflog.Debug(ctx, "srxAppTerraformToSdk")
-	data := mistapigo.NewSiteSettingSrxApp()
+	data := models.NewSiteSettingSrxApp()
 
 	data.SetEnabled(d.Enabled.ValueBool())
 

@@ -3,15 +3,15 @@ package resource_site_setting
 import (
 	"context"
 
+	"mistapi/models"
+
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
-
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 )
 
-func occupancySdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistapigo.SiteOccupancyAnalytics) OccupancyValue {
+func occupancySdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d models.SiteOccupancyAnalytics) OccupancyValue {
 	tflog.Debug(ctx, "occupancySdkToTerraform")
 
 	r_attr_type := OccupancyValue{}.AttributeTypes(ctx)

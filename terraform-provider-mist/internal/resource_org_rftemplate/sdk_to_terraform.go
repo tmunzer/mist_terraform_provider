@@ -1,15 +1,14 @@
-package resource_rftemplate
+package resource_org_rftemplate
 
 import (
 	"context"
-
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
+	"mistapi/models"
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
-func SdkToTerraform(ctx context.Context, data *mistapigo.RfTemplate) (RftemplateModel, diag.Diagnostics) {
+func SdkToTerraform(ctx context.Context, data *models.RfTemplate) (RftemplateModel, diag.Diagnostics) {
 	var state RftemplateModel
 	var diags diag.Diagnostics
 

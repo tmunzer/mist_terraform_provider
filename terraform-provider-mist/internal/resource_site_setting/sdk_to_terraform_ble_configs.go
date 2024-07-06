@@ -3,17 +3,17 @@ package resource_site_setting
 import (
 	"context"
 
+	"mistapi/models"
+
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
 	mist_transform "terraform-provider-mist/internal/commons/utils"
-
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 )
 
-func bleConfigsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistapigo.BleConfig) BleConfigValue {
+func bleConfigsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d models.BleConfig) BleConfigValue {
 	tflog.Debug(ctx, "bleConfigsSdkToTerraform")
 
 	r_attr_type := BleConfigValue{}.AttributeTypes(ctx)

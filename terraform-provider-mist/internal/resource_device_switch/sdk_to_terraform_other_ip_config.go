@@ -7,11 +7,10 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
-
 	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 )
 
-func otherIpConfigSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]mistapigo.JunosOtherIpConfig) basetypes.MapValue {
+func otherIpConfigSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]models.JunosOtherIpConfig) basetypes.MapValue {
 
 	state_value_map_attr_type := OtherIpConfigsValue{}.AttributeTypes(ctx)
 	state_value_map_value := make(map[string]attr.Value)

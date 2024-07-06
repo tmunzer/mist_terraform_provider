@@ -9,12 +9,12 @@ import (
 
 	hours "terraform-provider-mist/internal/commons/hours"
 
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
+	"mistapi/models"
 )
 
-func engagementDwellTagNamesTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) mistapigo.SiteEngagementDwellTagNames {
+func engagementDwellTagNamesTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) models.SiteEngagementDwellTagNames {
 	tflog.Debug(ctx, "engagementDwellTagNamesTerraformToSdk")
-	data := mistapigo.NewSiteEngagementDwellTagNames()
+	data := models.NewSiteEngagementDwellTagNames()
 	if d.IsNull() || d.IsUnknown() {
 		return *data
 	} else {
@@ -28,9 +28,9 @@ func engagementDwellTagNamesTerraformToSdk(ctx context.Context, diags *diag.Diag
 	}
 }
 
-func engagementDwellTagsTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) mistapigo.SiteEngagementDwellTags {
+func engagementDwellTagsTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) models.SiteEngagementDwellTags {
 	tflog.Debug(ctx, "engagementDwellTagsTerraformToSdk")
-	data := mistapigo.NewSiteEngagementDwellTags()
+	data := models.NewSiteEngagementDwellTags()
 	if d.IsNull() || d.IsUnknown() {
 		return *data
 	} else {
@@ -44,9 +44,9 @@ func engagementDwellTagsTerraformToSdk(ctx context.Context, diags *diag.Diagnost
 	}
 }
 
-func engagementTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d EngagementValue) *mistapigo.SiteEngagement {
+func engagementTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d EngagementValue) *models.SiteEngagement {
 	tflog.Debug(ctx, "engagementTerraformToSdk")
-	data := mistapigo.NewSiteEngagement()
+	data := models.NewSiteEngagement()
 
 	dwell_tag_name := engagementDwellTagNamesTerraformToSdk(ctx, diags, d.DwellTagNames)
 	data.SetDwellTagNames(dwell_tag_name)

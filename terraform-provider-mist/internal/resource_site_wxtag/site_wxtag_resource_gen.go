@@ -9,6 +9,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -33,6 +34,7 @@ func SiteWxtagResourceSchema(ctx context.Context) schema.Schema {
 				Validators: []validator.List{
 					listvalidator.UniqueValues(),
 				},
+				Default: listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 			},
 			"mac": schema.StringAttribute{
 				Optional: true,
@@ -92,6 +94,7 @@ func SiteWxtagResourceSchema(ctx context.Context) schema.Schema {
 				Validators: []validator.List{
 					listvalidator.UniqueValues(),
 				},
+				Default: listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 			},
 			"site_id": schema.StringAttribute{
 				Required: true,
@@ -119,6 +122,7 @@ func SiteWxtagResourceSchema(ctx context.Context) schema.Schema {
 							Computed:            true,
 							Description:         "matched dst subnet",
 							MarkdownDescription: "matched dst subnet",
+							Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 						},
 					},
 					CustomType: SpecsType{
@@ -156,6 +160,7 @@ func SiteWxtagResourceSchema(ctx context.Context) schema.Schema {
 				Computed:            true,
 				Description:         "if `type`!=`vlan_id` and `type`!=`specs`, list of values to match",
 				MarkdownDescription: "if `type`!=`vlan_id` and `type`!=`specs`, list of values to match",
+				Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 			},
 			"vlan_id": schema.Int64Attribute{
 				Optional:            true,

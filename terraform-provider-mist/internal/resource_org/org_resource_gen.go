@@ -4,7 +4,10 @@ package resource_org
 
 import (
 	"context"
+	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -49,10 +52,12 @@ func OrgResourceSchema(ctx context.Context) schema.Schema {
 				ElementType: types.StringType,
 				Optional:    true,
 				Computed:    true,
+				Default:     listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 			},
-			"session_expiry": schema.NumberAttribute{
+			"session_expiry": schema.Int64Attribute{
 				Optional: true,
 				Computed: true,
+				Default:  int64default.StaticInt64(1440),
 			},
 		},
 	}
@@ -67,5 +72,5 @@ type OrgModel struct {
 	MspName         types.String `tfsdk:"msp_name"`
 	Name            types.String `tfsdk:"name"`
 	OrggroupIds     types.List   `tfsdk:"orggroup_ids"`
-	SessionExpiry   types.Number `tfsdk:"session_expiry"`
+	SessionExpiry   types.Int64  `tfsdk:"session_expiry"`
 }

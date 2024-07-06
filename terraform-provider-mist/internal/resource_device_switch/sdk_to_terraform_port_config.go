@@ -7,13 +7,12 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 
 	mist_transform "terraform-provider-mist/internal/commons/utils"
-
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 )
 
-func switchMatchingRulesPortMirroringSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]mistapigo.SwitchPortMirroringProperty) basetypes.MapValue {
+func switchMatchingRulesPortMirroringSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]models.SwitchPortMirroringProperty) basetypes.MapValue {
 	map_item_value := make(map[string]attr.Value)
 	map_item_type := PortMirroringValue{}.Type(ctx)
 	item_type := PortMirroringValue{}.AttributeTypes(ctx)
@@ -33,7 +32,7 @@ func switchMatchingRulesPortMirroringSdkToTerraform(ctx context.Context, diags *
 	diags.Append(e...)
 	return r
 }
-func portConfigSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]mistapigo.JunosPortConfig) basetypes.MapValue {
+func portConfigSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]models.JunosPortConfig) basetypes.MapValue {
 	map_item_value := make(map[string]attr.Value)
 	map_item_type := PortConfigValue{}.Type(ctx)
 	item_type := PortConfigValue{}.AttributeTypes(ctx)

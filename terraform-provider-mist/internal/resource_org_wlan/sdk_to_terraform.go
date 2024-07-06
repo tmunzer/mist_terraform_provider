@@ -4,13 +4,13 @@ import (
 	"context"
 	mist_transform "terraform-provider-mist/internal/commons/utils"
 
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
+	"mistapi/models"
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
-func SdkToTerraform(ctx context.Context, data *mistapigo.Wlan) (OrgWlanModel, diag.Diagnostics) {
+func SdkToTerraform(ctx context.Context, data *models.Wlan) (OrgWlanModel, diag.Diagnostics) {
 	var state OrgWlanModel
 	var diags diag.Diagnostics
 

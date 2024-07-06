@@ -3,11 +3,11 @@ package provider
 import (
 	"context"
 	"fmt"
+	"mistapi"
 
 	"terraform-provider-mist/internal/resource_org_wxrule"
 
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
-
+	"github.com/google/uuid"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
@@ -22,7 +22,7 @@ func NewOrgWxRule() resource.Resource {
 }
 
 type orgWxRuleResource struct {
-	client *mistapigo.APIClient
+	client mistapi.ClientInterface
 }
 
 func (r *orgWxRuleResource) Configure(ctx context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
@@ -31,7 +31,7 @@ func (r *orgWxRuleResource) Configure(ctx context.Context, req resource.Configur
 		return
 	}
 
-	client, ok := req.ProviderData.(*mistapigo.APIClient)
+	client, ok := req.ProviderData.(mistapi.ClientInterface)
 	if !ok {
 		resp.Diagnostics.AddError(
 			"Unexpected Data Source Configure Type",
@@ -66,7 +66,8 @@ func (r *orgWxRuleResource) Create(ctx context.Context, req resource.CreateReque
 		return
 	}
 
-	data, _, err := r.client.OrgsWxRulesAPI.CreateOrgWxRule(ctx, plan.OrgId.ValueString()).WxlanRule(*wxrule).Execute()
+	orgId := uuid.MustParse(plan.OrgId.ValueString())
+	data, err := r.client.OrgsWxRules().CreateOrgWxRule(ctx, orgId, wxrule)
 	if err != nil {
 		//url, _ := httpr.Location()
 		resp.Diagnostics.AddError(
@@ -76,7 +77,7 @@ func (r *orgWxRuleResource) Create(ctx context.Context, req resource.CreateReque
 		return
 	}
 
-	state, diags = resource_org_wxrule.SdkToTerraform(ctx, data)
+	state, diags = resource_org_wxrule.SdkToTerraform(ctx, &data.Data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -100,7 +101,9 @@ func (r *orgWxRuleResource) Read(ctx context.Context, req resource.ReadRequest, 
 	}
 
 	tflog.Info(ctx, "Starting WxRule Read: wxrule_id "+state.Id.ValueString())
-	data, _, err := r.client.OrgsWxRulesAPI.GetOrgWxRule(ctx, state.OrgId.ValueString(), state.Id.ValueString()).Execute()
+	orgId := uuid.MustParse(state.OrgId.ValueString())
+	wxruleId := uuid.MustParse(state.Id.ValueString())
+	data, err := r.client.OrgsWxRules().GetOrgWxRule(ctx, orgId, wxruleId)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Error getting WxRule",
@@ -108,7 +111,7 @@ func (r *orgWxRuleResource) Read(ctx context.Context, req resource.ReadRequest, 
 		)
 		return
 	}
-	state, diags = resource_org_wxrule.SdkToTerraform(ctx, data)
+	state, diags = resource_org_wxrule.SdkToTerraform(ctx, &data.Data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -142,11 +145,10 @@ func (r *orgWxRuleResource) Update(ctx context.Context, req resource.UpdateReque
 		return
 	}
 
+	orgId := uuid.MustParse(state.OrgId.ValueString())
+	wxruleId := uuid.MustParse(state.Id.ValueString())
 	tflog.Info(ctx, "Starting WxRule Update for WxRule "+state.Id.ValueString())
-	data, _, err := r.client.OrgsWxRulesAPI.
-		UpdateOrgWxRule(ctx, state.OrgId.ValueString(), state.Id.ValueString()).
-		WxlanRule(*wxrule).
-		Execute()
+	data, err := r.client.OrgsWxRules().UpdateOrgWxRule(ctx, orgId, wxruleId, wxrule)
 
 	if err != nil {
 		resp.Diagnostics.AddError(
@@ -156,7 +158,7 @@ func (r *orgWxRuleResource) Update(ctx context.Context, req resource.UpdateReque
 		return
 	}
 
-	state, diags = resource_org_wxrule.SdkToTerraform(ctx, data)
+	state, diags = resource_org_wxrule.SdkToTerraform(ctx, &data.Data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -179,8 +181,10 @@ func (r *orgWxRuleResource) Delete(ctx context.Context, req resource.DeleteReque
 		return
 	}
 
+	orgId := uuid.MustParse(state.OrgId.ValueString())
+	wxruleId := uuid.MustParse(state.Id.ValueString())
 	tflog.Info(ctx, "Starting WxRule Delete: wxrule_id "+state.Id.ValueString())
-	_, err := r.client.OrgsWxRulesAPI.DeleteOrgWxRule(ctx, state.OrgId.ValueString(), state.Id.ValueString()).Execute()
+	_, err := r.client.OrgsWxRules().DeleteOrgWxRule(ctx, orgId, wxruleId)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Error creating WxRule",

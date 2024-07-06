@@ -16,7 +16,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-go/tftypes"
 
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
 )
 
 func OrgInventoryResourceSchema(ctx context.Context) schema.Schema {
@@ -55,7 +54,6 @@ func OrgInventoryResourceSchema(ctx context.Context) schema.Schema {
 							Computed:            true,
 							Description:         "site id if assigned, null if not assigned",
 							MarkdownDescription: "site id if assigned, null if not assigned",
-							Default: stringdefault.StaticString(""),
 						},
 						"type": schema.StringAttribute{
 							Computed: true,

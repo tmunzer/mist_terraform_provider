@@ -5,7 +5,9 @@ package resource_org_nactag
 import (
 	"context"
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 
@@ -28,6 +30,7 @@ func OrgNactagResourceSchema(ctx context.Context) schema.Schema {
 				Computed:            true,
 				Description:         "if `type`==`egress_vlan_names`, list of egress vlans to return",
 				MarkdownDescription: "if `type`==`egress_vlan_names`, list of egress vlans to return",
+				Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 			},
 			"gbp_tag": schema.Int64Attribute{
 				Optional:            true,
@@ -86,6 +89,7 @@ func OrgNactagResourceSchema(ctx context.Context) schema.Schema {
 				Computed:            true,
 				Description:         "if `type`==`radius_attrs`, user can specify a list of one or more standard attributes in the field \"radius_attrs\". \nIt is the responsibility of the user to provide a syntactically correct string, otherwise it may not work as expected.\nNote that it is allowed to have more than one radius_attrs in the result of a given rule.",
 				MarkdownDescription: "if `type`==`radius_attrs`, user can specify a list of one or more standard attributes in the field \"radius_attrs\". \nIt is the responsibility of the user to provide a syntactically correct string, otherwise it may not work as expected.\nNote that it is allowed to have more than one radius_attrs in the result of a given rule.",
+				Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 			},
 			"radius_group": schema.StringAttribute{
 				Optional:            true,
@@ -99,6 +103,7 @@ func OrgNactagResourceSchema(ctx context.Context) schema.Schema {
 				Computed:            true,
 				Description:         "if `type`==`radius_vendor_attrs`, user can specify a list of one or more vendor-specific attributes in the field \"radius_vendor_attrs\". \nIt is the responsibility of the user to provide a syntactically correct string, otherwise it may not work as expected.\nNote that it is allowed to have more than one radius_vendor_attrs in the result of a given rule.",
 				MarkdownDescription: "if `type`==`radius_vendor_attrs`, user can specify a list of one or more vendor-specific attributes in the field \"radius_vendor_attrs\". \nIt is the responsibility of the user to provide a syntactically correct string, otherwise it may not work as expected.\nNote that it is allowed to have more than one radius_vendor_attrs in the result of a given rule.",
+				Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 			},
 			"session_timeout": schema.Int64Attribute{
 				Optional:            true,
@@ -129,6 +134,7 @@ func OrgNactagResourceSchema(ctx context.Context) schema.Schema {
 				Computed:            true,
 				Description:         "if `type`==`match`",
 				MarkdownDescription: "if `type`==`match`",
+				Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 			},
 			"vlan": schema.StringAttribute{
 				Optional:            true,

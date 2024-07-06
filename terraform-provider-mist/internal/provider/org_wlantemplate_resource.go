@@ -3,10 +3,10 @@ package provider
 import (
 	"context"
 	"fmt"
+	"mistapi"
 	"terraform-provider-mist/internal/resource_org_wlantemplate"
 
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
-
+	"github.com/google/uuid"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
@@ -21,7 +21,7 @@ func NewOrgWlanTemplate() resource.Resource {
 }
 
 type orgWlanTemplateResource struct {
-	client *mistapigo.APIClient
+	client mistapi.ClientInterface
 }
 
 func (r *orgWlanTemplateResource) Configure(ctx context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
@@ -30,7 +30,7 @@ func (r *orgWlanTemplateResource) Configure(ctx context.Context, req resource.Co
 		return
 	}
 
-	client, ok := req.ProviderData.(*mistapigo.APIClient)
+	client, ok := req.ProviderData.(mistapi.ClientInterface)
 	if !ok {
 		resp.Diagnostics.AddError(
 			"Unexpected Data Source Configure Type",
@@ -65,7 +65,8 @@ func (r *orgWlanTemplateResource) Create(ctx context.Context, req resource.Creat
 		return
 	}
 
-	data, _, err := r.client.OrgsWLANTemplatesAPI.CreateOrgTemplate(ctx, plan.OrgId.ValueString()).Template(wlantemplate).Execute()
+	orgId := uuid.MustParse(plan.OrgId.ValueString())
+	data, err := r.client.OrgsWLANTemplates().CreateOrgTemplate(ctx, orgId, wlantemplate)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Error creating WlanTemplate",
@@ -74,7 +75,7 @@ func (r *orgWlanTemplateResource) Create(ctx context.Context, req resource.Creat
 		return
 	}
 
-	state, diags = resource_org_wlantemplate.SdkToTerraform(ctx, data)
+	state, diags = resource_org_wlantemplate.SdkToTerraform(ctx, data.Data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -98,7 +99,9 @@ func (r *orgWlanTemplateResource) Read(ctx context.Context, req resource.ReadReq
 	}
 
 	tflog.Info(ctx, "Starting WlanTemplate Read: wlantemplate_id "+state.Id.ValueString())
-	data, _, err := r.client.OrgsWLANTemplatesAPI.GetOrgTemplate(ctx, state.OrgId.ValueString(), state.Id.ValueString()).Execute()
+	orgId := uuid.MustParse(state.OrgId.ValueString())
+	wlantemplateId := uuid.MustParse(state.Id.ValueString())
+	data, err := r.client.OrgsWLANTemplates().GetOrgTemplate(ctx, orgId, wlantemplateId)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Error getting WlanTemplate",
@@ -106,7 +109,7 @@ func (r *orgWlanTemplateResource) Read(ctx context.Context, req resource.ReadReq
 		)
 		return
 	}
-	state, diags = resource_org_wlantemplate.SdkToTerraform(ctx, data)
+	state, diags = resource_org_wlantemplate.SdkToTerraform(ctx, data.Data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -141,10 +144,9 @@ func (r *orgWlanTemplateResource) Update(ctx context.Context, req resource.Updat
 	}
 
 	tflog.Info(ctx, "Starting WlanTemplate Update for WlanTemplate "+state.Id.ValueString())
-	data, _, err := r.client.OrgsWLANTemplatesAPI.
-		UpdateOrgTemplate(ctx, state.OrgId.ValueString(), state.Id.ValueString()).
-		Template(wlantemplate).
-		Execute()
+	orgId := uuid.MustParse(state.OrgId.ValueString())
+	wlantemplateId := uuid.MustParse(state.Id.ValueString())
+	data, err := r.client.OrgsWLANTemplates().UpdateOrgTemplate(ctx, orgId, wlantemplateId, wlantemplate)
 
 	if err != nil {
 		resp.Diagnostics.AddError(
@@ -154,7 +156,7 @@ func (r *orgWlanTemplateResource) Update(ctx context.Context, req resource.Updat
 		return
 	}
 
-	state, diags = resource_org_wlantemplate.SdkToTerraform(ctx, data)
+	state, diags = resource_org_wlantemplate.SdkToTerraform(ctx, data.Data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -178,7 +180,9 @@ func (r *orgWlanTemplateResource) Delete(ctx context.Context, req resource.Delet
 	}
 
 	tflog.Info(ctx, "Starting WlanTemplate Delete: wlantemplate_id "+state.Id.ValueString())
-	_, err := r.client.OrgsWLANTemplatesAPI.DeleteOrgTemplate(ctx, state.OrgId.ValueString(), state.Id.ValueString()).Execute()
+	orgId := uuid.MustParse(state.OrgId.ValueString())
+	wlantemplateId := uuid.MustParse(state.Id.ValueString())
+	_, err := r.client.OrgsWLANTemplates().DeleteOrgTemplate(ctx, orgId, wlantemplateId)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Error creating WlanTemplate",

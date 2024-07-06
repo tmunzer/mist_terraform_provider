@@ -3,6 +3,8 @@ package resource_org_gatewaytemplate
 import (
 	"context"
 
+	"mistapi/models"
+
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -10,16 +12,14 @@ import (
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
 	mist_transform "terraform-provider-mist/internal/commons/utils"
-
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 )
 
-func routingPolocyTermMatchingRouteExistsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistapigo.RoutingPolicyTermMatchingRouteExists) basetypes.ObjectValue {
+func routingPolocyTermMatchingRouteExistsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d models.RoutingPolicyTermMatchingRouteExists) basetypes.ObjectValue {
 	tflog.Debug(ctx, "routingPolocyTermMatchingRouteExistsSdkToTerraform")
 	r_attr_type := RouteExistsValue{}.AttributeTypes(ctx)
 	r_attr_value := map[string]attr.Value{
-		"route":    types.StringValue(d.GetRoute()),
-		"vrf_name": types.StringValue(d.GetVrfName()),
+		"route":    types.StringValue(*d.Route),
+		"vrf_name": types.StringValue(*d.VrfName),
 	}
 
 	r, e := basetypes.NewObjectValue(r_attr_type, r_attr_value)
@@ -27,13 +27,13 @@ func routingPolocyTermMatchingRouteExistsSdkToTerraform(ctx context.Context, dia
 
 	return r
 }
-func routingPolocyTermMatchingVpnSlaSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistapigo.RoutingPolicyTermMatchingVpnPathSla) basetypes.ObjectValue {
+func routingPolocyTermMatchingVpnSlaSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d models.RoutingPolicyTermMatchingVpnPathSla) basetypes.ObjectValue {
 	tflog.Debug(ctx, "routingPolocyTermMatchingVpnSlaSdkToTerraform")
 	r_attr_type := VpnPathSlaValue{}.AttributeTypes(ctx)
 	r_attr_value := map[string]attr.Value{
-		"max_jitter":  types.Int64Value(int64(d.GetMaxJitter())),
-		"max_latency": types.Int64Value(int64(d.GetMaxLatency())),
-		"max_loss":    types.Int64Value(int64(d.GetMaxLoss())),
+		"max_jitter":  types.Int64Value(int64(*d.MaxJitter.Value())),
+		"max_latency": types.Int64Value(int64(*d.MaxLatency.Value())),
+		"max_loss":    types.Int64Value(int64(*d.MaxLoss.Value())),
 	}
 
 	r, e := basetypes.NewObjectValue(r_attr_type, r_attr_value)
@@ -41,19 +41,19 @@ func routingPolocyTermMatchingVpnSlaSdkToTerraform(ctx context.Context, diags *d
 
 	return r
 }
-func routingPolocyTermMatchingSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistapigo.RoutingPolicyTermMatching) basetypes.ObjectValue {
+func routingPolocyTermMatchingSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d models.RoutingPolicyTermMatching) basetypes.ObjectValue {
 	tflog.Debug(ctx, "routingPolocyTermMatchingSdkToTerraform")
 	r_attr_type := RoutingPolicyTermMatchingValue{}.AttributeTypes(ctx)
 	r_attr_value := map[string]attr.Value{
-		"as_path":          mist_transform.ListOfStringSdkToTerraform(ctx, d.GetAsPath()),
-		"community":        mist_transform.ListOfStringSdkToTerraform(ctx, d.GetCommunity()),
-		"network":          mist_transform.ListOfStringSdkToTerraform(ctx, d.GetNetwork()),
-		"prefix":           mist_transform.ListOfStringSdkToTerraform(ctx, d.GetPrefix()),
-		"protocol":         mist_transform.ListOfStringSdkToTerraform(ctx, d.GetProtocol()),
-		"route_exists":     routingPolocyTermMatchingRouteExistsSdkToTerraform(ctx, diags, d.GetRouteExists()),
-		"vpn_neighbor_mac": mist_transform.ListOfStringSdkToTerraform(ctx, d.GetVpnNeighborMac()),
-		"vpn_path":         mist_transform.ListOfStringSdkToTerraform(ctx, d.GetVpnPath()),
-		"vpn_path_sla":     routingPolocyTermMatchingVpnSlaSdkToTerraform(ctx, diags, d.GetVpnPathSla()),
+		"as_path":          mist_transform.ListOfStringSdkToTerraform(ctx, d.AsPath),
+		"community":        mist_transform.ListOfStringSdkToTerraform(ctx, d.Community),
+		"network":          mist_transform.ListOfStringSdkToTerraform(ctx, d.Network),
+		"prefix":           mist_transform.ListOfStringSdkToTerraform(ctx, d.Prefix),
+		"protocol":         mist_transform.ListOfStringSdkToTerraform(ctx, d.Protocol),
+		"route_exists":     routingPolocyTermMatchingRouteExistsSdkToTerraform(ctx, diags, *d.RouteExists),
+		"vpn_neighbor_mac": mist_transform.ListOfStringSdkToTerraform(ctx, d.VpnNeighborMac),
+		"vpn_path":         mist_transform.ListOfStringSdkToTerraform(ctx, d.VpnPath),
+		"vpn_path_sla":     routingPolocyTermMatchingVpnSlaSdkToTerraform(ctx, diags, *d.VpnPathSla),
 	}
 
 	r, e := basetypes.NewObjectValue(r_attr_type, r_attr_value)
@@ -61,19 +61,19 @@ func routingPolocyTermMatchingSdkToTerraform(ctx context.Context, diags *diag.Di
 
 	return r
 }
-func routingPolocyTermActionSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistapigo.RoutingPolicyTermAction) basetypes.ObjectValue {
+func routingPolocyTermActionSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d models.RoutingPolicyTermAction) basetypes.ObjectValue {
 	tflog.Debug(ctx, "routingPolocyTermActionSdkToTerraform")
 	r_attr_type := ActionValue{}.AttributeTypes(ctx)
 	r_attr_value := map[string]attr.Value{
-		"accept":              types.BoolValue(d.GetAccept()),
-		"add_community":       mist_transform.ListOfStringSdkToTerraform(ctx, d.GetAddCommunity()),
-		"add_target_vrfs":     mist_transform.ListOfStringSdkToTerraform(ctx, d.GetAddTargetVrfs()),
-		"community":           mist_transform.ListOfStringSdkToTerraform(ctx, d.GetCommunity()),
-		"exclude_as_path":     mist_transform.ListOfStringSdkToTerraform(ctx, d.GetExcludeAsPath()),
-		"exclude_community":   mist_transform.ListOfStringSdkToTerraform(ctx, d.GetExcludeCommunity()),
-		"export_communitites": mist_transform.ListOfStringSdkToTerraform(ctx, d.GetExportCommunitites()),
-		"local_preference":    types.StringValue(d.GetLocalPreference()),
-		"prepend_as_path":     mist_transform.ListOfStringSdkToTerraform(ctx, d.GetPrependAsPath()),
+		"accept":              types.BoolValue(*d.Accept),
+		"add_community":       mist_transform.ListOfStringSdkToTerraform(ctx, d.AddCommunity),
+		"add_target_vrfs":     mist_transform.ListOfStringSdkToTerraform(ctx, d.AddTargetVrfs),
+		"community":           mist_transform.ListOfStringSdkToTerraform(ctx, d.Community),
+		"exclude_as_path":     mist_transform.ListOfStringSdkToTerraform(ctx, d.ExcludeAsPath),
+		"exclude_community":   mist_transform.ListOfStringSdkToTerraform(ctx, d.ExcludeCommunity),
+		"export_communitites": mist_transform.ListOfStringSdkToTerraform(ctx, d.ExportCommunitites),
+		"local_preference":    types.StringValue(*d.LocalPreference),
+		"prepend_as_path":     mist_transform.ListOfStringSdkToTerraform(ctx, d.PrependAsPath),
 	}
 
 	r, e := basetypes.NewObjectValue(r_attr_type, r_attr_value)
@@ -82,16 +82,16 @@ func routingPolocyTermActionSdkToTerraform(ctx context.Context, diags *diag.Diag
 	return r
 }
 
-func routingPolocyTermsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []mistapigo.RoutingPolicyTerm) basetypes.ListValue {
+func routingPolocyTermsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []models.RoutingPolicyTerm) basetypes.ListValue {
 	tflog.Debug(ctx, "routingPolocyTermsSdkToTerraform")
 	var data_list = []TermsValue{}
 
 	for _, v := range d {
 		data_map_attr_type := TermsValue{}.AttributeTypes(ctx)
-		action := routingPolocyTermActionSdkToTerraform(ctx, diags, v.GetAction())
+		action := routingPolocyTermActionSdkToTerraform(ctx, diags, *v.Action)
 		data_map_value := map[string]attr.Value{
 			"action":   action,
-			"matching": routingPolocyTermMatchingSdkToTerraform(ctx, diags, v.GetMatching()),
+			"matching": routingPolocyTermMatchingSdkToTerraform(ctx, diags, *v.Matching),
 		}
 
 		data, e := NewTermsValue(data_map_attr_type, data_map_value)
@@ -104,12 +104,12 @@ func routingPolocyTermsSdkToTerraform(ctx context.Context, diags *diag.Diagnosti
 	return r
 }
 
-func routingPolociesSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]mistapigo.RoutingPolicy) basetypes.MapValue {
+func routingPolociesSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]models.RoutingPolicy) basetypes.MapValue {
 	tflog.Debug(ctx, "routingPolociesSdkToTerraform")
 	r_type := RoutingPoliciesValue{}.AttributeTypes(ctx)
 	state_value_map := make(map[string]attr.Value)
 	for k, v := range d {
-		terms := routingPolocyTermsSdkToTerraform(ctx, diags, v.GetTerms())
+		terms := routingPolocyTermsSdkToTerraform(ctx, diags, v.Terms)
 		var r_state = map[string]attr.Value{
 			"terms": terms,
 		}

@@ -3,7 +3,7 @@ package resource_site_setting
 import (
 	"context"
 
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
+	"mistapi/models"
 
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
@@ -11,7 +11,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 
-func wanVnaSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistapigo.SiteSettingWanVna) WanVnaValue {
+func wanVnaSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d models.SiteSettingWanVna) WanVnaValue {
 	tflog.Debug(ctx, "wanVnaSdkToTerraform")
 
 	r_attr_type := WanVnaValue{}.AttributeTypes(ctx)

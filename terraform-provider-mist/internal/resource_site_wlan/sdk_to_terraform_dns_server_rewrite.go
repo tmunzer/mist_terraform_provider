@@ -3,14 +3,14 @@ package resource_site_wlan
 import (
 	"context"
 
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
+	"mistapi/models"
 
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
-func dnsServerRewriteSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, data mistapigo.WlanDnsServerRewrite) DnsServerRewriteValue {
+func dnsServerRewriteSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, data models.WlanDnsServerRewrite) DnsServerRewriteValue {
 
 	radius_groups_values := make(map[string]attr.Value)
 	for k, v := range data.GetRadiusGroups() {

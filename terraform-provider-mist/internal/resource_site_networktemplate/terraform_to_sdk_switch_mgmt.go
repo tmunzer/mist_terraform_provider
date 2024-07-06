@@ -8,112 +8,107 @@ import (
 
 	mist_transform "terraform-provider-mist/internal/commons/utils"
 
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
+	"mistapi/models"
 )
 
-func switchMgmtProtectReCustomTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ListValue) []mistapigo.ProtectReCustom {
-	var data []mistapigo.ProtectReCustom
+func switchMgmtProtectReCustomTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ListValue) []models.ProtectReCustom {
+	var data []models.ProtectReCustom
 	for _, item := range d.Elements() {
 		var item_interface interface{} = item
 		item_obj := item_interface.(CustomValue)
 
-		data_item := mistapigo.NewProtectReCustom()
-		data_item.SetPortRange(item_obj.PortRange.ValueString())
-		data_item.SetProtocol(mistapigo.ProtectReCustomProtocol(item_obj.Protocol.ValueString()))
-		data_item.SetSubnet(mist_transform.ListOfStringTerraformToSdk(ctx, item_obj.Subnet))
+		data_item := models.ProtectReCustom{}
+		data_item.PortRange = models.ToPointer(item_obj.PortRange.ValueString())
+		data_item.Protocol = models.ToPointer(models.ProtectReCustomProtocolEnum(item_obj.Protocol.ValueString()))
+		data_item.Subnet = mist_transform.ListOfStringTerraformToSdk(ctx, item_obj.Subnet)
 
-		data = append(data, *data_item)
+		data = append(data, data_item)
 	}
 	return data
 }
-func switchMgmtProtectReTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) mistapigo.ProtectRe {
-	data := mistapigo.NewProtectRe()
+func switchMgmtProtectReTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) *models.ProtectRe {
+	data := models.ProtectRe{}
 	if d.IsNull() || d.IsUnknown() {
-		return *data
+		return &data
 	} else {
 		item, e := NewProtectReValue(ProtectReValue{}.AttributeTypes(ctx), d.Attributes())
 		diags.Append(e...)
 		var item_interface interface{} = item
 		item_obj := item_interface.(ProtectReValue)
 
-		customRe := switchMgmtProtectReCustomTerraformToSdk(ctx, diags, item_obj.Custom)
-
-		data.SetAllowedServices(mist_transform.ListOfStringTerraformToSdk(ctx, item_obj.AllowedServices))
-		data.SetCustom(customRe)
-		data.SetEnabled(item_obj.Enabled.ValueBool())
-		data.SetTrustedHosts(mist_transform.ListOfStringTerraformToSdk(ctx, item_obj.TrustedHosts))
-		return *data
+		data.AllowedServices = mist_transform.ListOfStringTerraformToSdk(ctx, item_obj.AllowedServices)
+		data.Custom = switchMgmtProtectReCustomTerraformToSdk(ctx, diags, item_obj.Custom)
+		data.Enabled = models.ToPointer(item_obj.Enabled.ValueBool())
+		data.TrustedHosts = mist_transform.ListOfStringTerraformToSdk(ctx, item_obj.TrustedHosts)
+		return &data
 	}
 }
-func TacacsAcctServersTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ListValue) []mistapigo.TacacsAcctServer {
+func TacacsAcctServersTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ListValue) []models.TacacsAcctServer {
 
-	var data []mistapigo.TacacsAcctServer
+	var data []models.TacacsAcctServer
 	for _, plan_attr := range d.Elements() {
 		var srv_plan_interface interface{} = plan_attr
-		srv_plan := srv_plan_interface.(mistapigo.TacacsAcctServer)
-		srv_data := mistapigo.NewTacacsAcctServer()
-		srv_data.SetHost(srv_plan.GetHost())
-		srv_data.SetPort(srv_plan.GetPort())
-		srv_data.SetSecret(srv_plan.GetSecret())
-		srv_data.SetTimeout(int32(srv_plan.GetTimeout()))
-		data = append(data, *srv_data)
+		srv_plan := srv_plan_interface.(models.TacacsAcctServer)
+
+		srv_data := models.TacacsAcctServer{}
+		srv_data.Host = srv_plan.Host
+		srv_data.Port = srv_plan.Port
+		srv_data.Secret = srv_plan.Secret
+		srv_data.Timeout = models.ToPointer(int(*srv_plan.Timeout))
+		data = append(data, srv_data)
 	}
 	return data
 }
-func TacacsAuthServersTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ListValue) []mistapigo.TacacsAuthServer {
+func TacacsAuthServersTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ListValue) []models.TacacsAuthServer {
 
-	var data []mistapigo.TacacsAuthServer
+	var data []models.TacacsAuthServer
 	for _, plan_attr := range d.Elements() {
 		var srv_plan_interface interface{} = plan_attr
 		srv_plan := srv_plan_interface.(TacplusServersValue)
-		srv_data := mistapigo.NewTacacsAuthServer()
-		srv_data.SetHost(srv_plan.Host.ValueString())
-		srv_data.SetPort(srv_plan.Port.ValueString())
-		srv_data.SetSecret(srv_plan.Secret.ValueString())
-		srv_data.SetTimeout(int32(srv_plan.Timeout.ValueInt64()))
-		data = append(data, *srv_data)
+
+		srv_data := models.TacacsAuthServer{}
+		srv_data.Host = models.ToPointer(srv_plan.Host.ValueString())
+		srv_data.Port = models.ToPointer(srv_plan.Port.ValueString())
+		srv_data.Secret = models.ToPointer(srv_plan.Secret.ValueString())
+		srv_data.Timeout = models.ToPointer(int(srv_plan.Timeout.ValueInt64()))
+		data = append(data, srv_data)
 	}
 	return data
 }
-func switchMgmtTacacsTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) mistapigo.Tacacs {
+func switchMgmtTacacsTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) *models.Tacacs {
 
-	data := mistapigo.NewTacacs()
+	data := models.Tacacs{}
 
 	if d.IsNull() || d.IsUnknown() {
-		return *data
+		return &data
 	} else {
 		item, e := NewProtectReValue(TacacsValue{}.AttributeTypes(ctx), d.Attributes())
 		diags.Append(e...)
 		var item_interface interface{} = item
 		item_obj := item_interface.(TacacsValue)
 
-		acct_servers := TacacsAcctServersTerraformToSdk(ctx, diags, item_obj.TacacctServers)
-		auth_servers := TacacsAuthServersTerraformToSdk(ctx, diags, item_obj.TacplusServers)
+		data.Enabled = models.ToPointer(item_obj.Enabled.ValueBool())
+		data.Network = models.ToPointer(item_obj.Network.ValueString())
+		data.AcctServers = TacacsAcctServersTerraformToSdk(ctx, diags, item_obj.TacacctServers)
+		data.TacplusServers = TacacsAuthServersTerraformToSdk(ctx, diags, item_obj.TacplusServers)
+		data.DefaultRole = models.ToPointer(models.TacacsDefaultRoleEnum(item_obj.DefaultRole.ValueString()))
 
-		data.SetEnabled(item_obj.Enabled.ValueBool())
-		data.SetNetwork(item_obj.Network.ValueString())
-		data.SetAcctServers(acct_servers)
-		data.SetTacplusServers(auth_servers)
-		data.SetDefaultRole(mistapigo.TacacsDefaultRole(item_obj.DefaultRole.ValueString()))
-
-		return *data
+		return &data
 	}
 }
-func switchMgmtTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d SwitchMgmtValue) mistapigo.SwitchMgmt {
+func switchMgmtTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d SwitchMgmtValue) *models.SwitchMgmt {
 
-	data := mistapigo.NewSwitchMgmt()
+	data := models.SwitchMgmt{}
 	if d.IsNull() || d.IsUnknown() {
-		return *data
+		return &data
 	} else {
-		protectRe := switchMgmtProtectReTerraformToSdk(ctx, diags, d.ProtectRe)
-		tacas := switchMgmtTacacsTerraformToSdk(ctx, diags, d.Tacacs)
 
-		data.SetConfigRevert(int32(d.ConfigRevert.ValueInt64()))
-		data.SetProtectRe(protectRe)
-		data.SetRootPassword(d.RootPassword.ValueString())
-		data.SetTacacs(tacas)
+		data.ConfigRevert = models.ToPointer(int(d.ConfigRevert.ValueInt64()))
+		data.ProtectRe = switchMgmtProtectReTerraformToSdk(ctx, diags, d.ProtectRe)
+		data.RootPassword = models.ToPointer(d.RootPassword.ValueString())
+		data.Tacacs = switchMgmtTacacsTerraformToSdk(ctx, diags, d.Tacacs)
 
-		return *data
+		return &data
 	}
 
 }

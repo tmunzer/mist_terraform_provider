@@ -7,11 +7,10 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
-
 	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 )
 
-func vrrpGroupsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]mistapigo.VrrpConfigGroup) basetypes.MapValue {
+func vrrpGroupsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]models.VrrpConfigGroup) basetypes.MapValue {
 	data_map_attr_type := GroupsValue{}.AttributeTypes(ctx)
 	data_map_value := make(map[string]attr.Value)
 	for k, v := range d {
@@ -28,7 +27,7 @@ func vrrpGroupsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d ma
 	return state_result
 }
 
-func vrrpSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistapigo.VrrpConfig) VrrpConfigValue {
+func vrrpSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d models.VrrpConfig) VrrpConfigValue {
 
 	state_value_map_attr_type := VrrpConfigValue{}.AttributeTypes(ctx)
 

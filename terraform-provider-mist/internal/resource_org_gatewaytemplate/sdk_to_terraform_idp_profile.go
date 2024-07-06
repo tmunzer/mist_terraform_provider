@@ -4,6 +4,8 @@ import (
 	"context"
 	"strings"
 
+	"mistapi/models"
+
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -11,11 +13,9 @@ import (
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
 	mist_transform "terraform-provider-mist/internal/commons/utils"
-
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 )
 
-func idpProfileOverwriteMatchingSeveritiesSdkToTerraform(ctx context.Context, data []mistapigo.IdpProfileMatchingSeverityValue) basetypes.ListValue {
+func idpProfileOverwriteMatchingSeveritiesSdkToTerraform(ctx context.Context, data []models.IdpProfileMatchingSeverityValueEnum) basetypes.ListValue {
 	tflog.Debug(ctx, "idpProfileOverwriteMatchingSeveritiesSdkToTerraform")
 	var items []attr.Value
 	var items_type attr.Type = basetypes.StringType{}
@@ -27,13 +27,13 @@ func idpProfileOverwriteMatchingSeveritiesSdkToTerraform(ctx context.Context, da
 	return list
 }
 
-func idpProfileOverwriteMatchingSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistapigo.IdpProfileMatching) basetypes.MapValue {
+func idpProfileOverwriteMatchingSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d models.IdpProfileMatching) basetypes.MapValue {
 	tflog.Debug(ctx, "idpProfileOverwriteMatchingSdkToTerraform")
 	data_map_type := IpdProfileOverwriteMatchingValue{}.AttributeTypes(ctx)
 	data_map_value := map[string]attr.Value{
-		"attack_name": mist_transform.ListOfStringSdkToTerraform(ctx, d.GetAttackName()),
-		"dst_subnet":  mist_transform.ListOfStringSdkToTerraform(ctx, d.GetDstSubnet()),
-		"severity":    idpProfileOverwriteMatchingSeveritiesSdkToTerraform(ctx, d.GetSeverity()),
+		"attack_name": mist_transform.ListOfStringSdkToTerraform(ctx, d.AttackName),
+		"dst_subnet":  mist_transform.ListOfStringSdkToTerraform(ctx, d.DstSubnet),
+		"severity":    idpProfileOverwriteMatchingSeveritiesSdkToTerraform(ctx, d.Severity),
 	}
 
 	data := NewIpdProfileOverwriteMatchingValueMust(data_map_type, data_map_value)
@@ -42,15 +42,15 @@ func idpProfileOverwriteMatchingSdkToTerraform(ctx context.Context, diags *diag.
 	return r
 }
 
-func idpProfileOverwritesSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []mistapigo.IdpProfileOverwrite) basetypes.ListValue {
+func idpProfileOverwritesSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []models.IdpProfileOverwrite) basetypes.ListValue {
 	tflog.Debug(ctx, "idpProfileOverwritesSdkToTerraform")
 	var data_list = []OverwritesValue{}
 
 	for _, v := range d {
 		data_map_attr_type := OverwritesValue{}.AttributeTypes(ctx)
 		data_map_value := map[string]attr.Value{
-			"action":   types.StringValue(string(v.GetAction())),
-			"matching": idpProfileOverwriteMatchingSdkToTerraform(ctx, diags, v.GetMatching()),
+			"action":   types.StringValue(string(*v.Action)),
+			"matching": idpProfileOverwriteMatchingSdkToTerraform(ctx, diags, *v.Matching),
 		}
 
 		data, e := NewOverwritesValue(data_map_attr_type, data_map_value)
@@ -63,15 +63,15 @@ func idpProfileOverwritesSdkToTerraform(ctx context.Context, diags *diag.Diagnos
 	return r
 }
 
-func idpProfileSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]mistapigo.IdpProfile) basetypes.MapValue {
+func idpProfileSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]models.IdpProfile) basetypes.MapValue {
 	tflog.Debug(ctx, "idpProfileSdkToTerraform")
 	port_usage_type := IdpProfilesValue{}.AttributeTypes(ctx)
 	state_value_map := make(map[string]attr.Value)
 	for k, v := range d {
 		var port_usage_state = map[string]attr.Value{
-			"base_profile": types.StringValue(string(v.GetBaseProfile())),
-			"name":         types.StringValue(v.GetName()),
-			"overwrites":   idpProfileOverwritesSdkToTerraform(ctx, diags, v.GetOverwrites()),
+			"base_profile": types.StringValue(string(*v.BaseProfile)),
+			"name":         types.StringValue(*v.Name),
+			"overwrites":   idpProfileOverwritesSdkToTerraform(ctx, diags, v.Overwrites),
 		}
 		port_usage_object, e := NewIdpProfilesValue(port_usage_type, port_usage_state)
 		diags.Append(e...)

@@ -4,7 +4,7 @@ import (
 	"context"
 	mist_transform "terraform-provider-mist/internal/commons/utils"
 
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
+	"mistapi/models"
 
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
@@ -12,26 +12,26 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 )
 
-func VpnSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]mistapigo.NetworkVpnAccessConfig) basetypes.MapValue {
+func VpnSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]models.NetworkVpnAccessConfig) basetypes.MapValue {
 
 	state_value_map_attr_type := VpnAccessValue{}.AttributeTypes(ctx)
 	state_value_map_value := make(map[string]attr.Value)
 	for k, v := range d {
 		state_value_map_attr_value := map[string]attr.Value{
-			"advertised_subnet":             types.StringValue(v.GetAdvertisedSubnet()),
-			"allow_ping":                    types.BoolValue(v.GetAllowPing()),
-			"destination_nat":               destinationNatSdkToTerraform(ctx, diags, v.GetDestinationNat()),
-			"nat_pool":                      types.StringValue(v.GetNatPool()),
-			"no_readvertise_to_lan_bgp":     types.BoolValue(v.GetNoReadvertiseToLanBgp()),
-			"no_readvertise_to_lan_ospf":    types.BoolValue(v.GetNoReadvertiseToLanOspf()),
-			"no_readvertise_to_overlay":     types.BoolValue(v.GetNoReadvertiseToOverlay()),
-			"other_vrfs":                    mist_transform.ListOfStringSdkToTerraform(ctx, v.GetOtherVrfs()),
-			"routed":                        types.BoolValue(v.GetRouted()),
-			"source_nat":                    sourceNatSdkToTerraform(ctx, diags, v.GetSourceNat()),
-			"static_nat":                    staticNatSdkToTerraform(ctx, diags, v.GetStaticNat()),
-			"summarized_subnet":             types.StringValue(v.GetSummarizedSubnet()),
-			"summarized_subnet_to_lan_bgp":  types.StringValue(v.GetSummarizedSubnetToLanBgp()),
-			"summarized_subnet_to_lan_ospf": types.StringValue(v.GetSummarizedSubnetToLanOspf()),
+			"advertised_subnet":             types.StringValue(*v.AdvertisedSubnet),
+			"allow_ping":                    types.BoolValue(*v.AllowPing),
+			"destination_nat":               destinationNatSdkToTerraform(ctx, diags, v.DestinationNat),
+			"nat_pool":                      types.StringValue(*v.NatPool),
+			"no_readvertise_to_lan_bgp":     types.BoolValue(*v.NoReadvertiseToLanBgp),
+			"no_readvertise_to_lan_ospf":    types.BoolValue(*v.NoReadvertiseToLanOspf),
+			"no_readvertise_to_overlay":     types.BoolValue(*v.NoReadvertiseToOverlay),
+			"other_vrfs":                    mist_transform.ListOfStringSdkToTerraform(ctx, v.OtherVrfs),
+			"routed":                        types.BoolValue(*v.Routed),
+			"source_nat":                    sourceNatSdkToTerraform(ctx, diags, *v.SourceNat),
+			"static_nat":                    staticNatSdkToTerraform(ctx, diags, v.StaticNat),
+			"summarized_subnet":             types.StringValue(*v.SummarizedSubnet),
+			"summarized_subnet_to_lan_bgp":  types.StringValue(*v.SummarizedSubnetToLanBgp),
+			"summarized_subnet_to_lan_ospf": types.StringValue(*v.SummarizedSubnetToLanOspf),
 		}
 		n, e := NewVpnAccessValue(state_value_map_attr_type, state_value_map_attr_value)
 		diags.Append(e...)

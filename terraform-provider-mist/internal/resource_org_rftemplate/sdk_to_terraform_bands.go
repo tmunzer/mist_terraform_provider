@@ -1,17 +1,16 @@
-package resource_rftemplate
+package resource_org_rftemplate
 
 import (
 	"context"
+	"mistapi/models"
 	mist_transform "terraform-provider-mist/internal/commons/utils"
-
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
-func band24SdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistapigo.RftemplateRadioBand24) Band24Value {
+func band24SdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d models.RftemplateRadioBand24) Band24Value {
 
 	data_map_attr_type := Band24Value{}.AttributeTypes(ctx)
 	data_map_value := map[string]attr.Value{
@@ -33,7 +32,7 @@ func band24SdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistap
 	return data
 }
 
-func band5SdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistapigo.RftemplateRadioBand5) Band5Value {
+func band5SdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d models.RftemplateRadioBand5) Band5Value {
 
 	data_map_attr_type := Band5Value{}.AttributeTypes(ctx)
 	data_map_value := map[string]attr.Value{
@@ -54,7 +53,7 @@ func band5SdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistapi
 	return data
 }
 
-func band6SdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistapigo.RftemplateRadioBand6) Band6Value {
+func band6SdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d models.RftemplateRadioBand6) Band6Value {
 
 	data_map_attr_type := Band6Value{}.AttributeTypes(ctx)
 	data_map_value := map[string]attr.Value{

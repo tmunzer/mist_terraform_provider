@@ -3,26 +3,23 @@ package resource_org_nacrule
 import (
 	"context"
 
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
-
+	"mistapi/models"
 	mist_transform "terraform-provider-mist/internal/commons/utils"
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 )
 
-func TerraformToSdk(ctx context.Context, plan *OrgNacruleModel) (mistapigo.NacRule, diag.Diagnostics) {
+func TerraformToSdk(ctx context.Context, plan *OrgNacruleModel) (models.NacRule, diag.Diagnostics) {
 	var diags diag.Diagnostics
-	data := *mistapigo.NewNacRule(mistapigo.NacRuleAction(plan.Action.ValueString()), plan.Name.ValueString())
-	data.SetId(plan.Id.ValueString())
-	data.SetOrgId(plan.OrgId.ValueString())
+	data := models.NacRule{}
 
-	data.SetApplyTags(mist_transform.ListOfStringTerraformToSdk(ctx, plan.ApplyTags))
-	data.SetEnabled(plan.Enabled.ValueBool())
-	matching := matchingTerraformToSdk(ctx, &diags, plan.Matching)
-	data.SetMatching(matching)
-	not_matching := notMatchingTerraformToSdk(ctx, &diags, plan.NotMatching)
-	data.SetNotMatching(not_matching)
-	data.SetOrder(int32(plan.Order.ValueInt64()))
+	data.Action = *models.ToPointer(models.NacRuleActionEnum(plan.Action.ValueString()))
+	data.ApplyTags = mist_transform.ListOfStringTerraformToSdk(ctx, plan.ApplyTags)
+	data.Enabled = models.ToPointer(plan.Enabled.ValueBool())
+	data.Matching = matchingTerraformToSdk(ctx, &diags, plan.Matching)
+	data.Name = plan.Name.ValueString()
+	data.NotMatching = notMatchingTerraformToSdk(ctx, &diags, plan.NotMatching)
+	data.Order = models.ToPointer(int(plan.Order.ValueInt64()))
 
 	return data, diags
 }

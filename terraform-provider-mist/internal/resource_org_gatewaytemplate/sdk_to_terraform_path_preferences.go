@@ -3,6 +3,8 @@ package resource_org_gatewaytemplate
 import (
 	"context"
 
+	"mistapi/models"
+
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -10,26 +12,24 @@ import (
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
 	mist_transform "terraform-provider-mist/internal/commons/utils"
-
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 )
 
-func pathPreferencePathsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []mistapigo.GatewayTemplatePathPreferencesPath) basetypes.ListValue {
+func pathPreferencePathsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []models.GatewayTemplatePathPreferencesPath) basetypes.ListValue {
 	tflog.Debug(ctx, "pathPreferencePathsSdkToTerraform")
 	var data_list = []PathsValue{}
 
 	for _, v := range d {
 		data_map_attr_type := PathsValue{}.AttributeTypes(ctx)
 		data_map_value := map[string]attr.Value{
-			"cost":            types.Int64Value(int64(v.GetCost())),
-			"disabled":        types.BoolValue(v.GetDisabled()),
-			"gateway_ip":      types.StringValue(v.GetGatewayIp()),
-			"internet_access": types.BoolValue(v.GetInternetAccess()),
-			"name":            types.StringValue(v.GetName()),
-			"networks":        mist_transform.ListOfStringSdkToTerraform(ctx, v.GetNetworks()),
-			"target_ips":      mist_transform.ListOfStringSdkToTerraform(ctx, v.GetTargetIps()),
-			"type":            types.StringValue(string(v.GetType())),
-			"wan_name":        types.StringValue(v.GetWanName()),
+			"cost":            types.Int64Value(int64(*v.Cost)),
+			"disabled":        types.BoolValue(*v.Disabled),
+			"gateway_ip":      types.StringValue(*v.GatewayIp),
+			"internet_access": types.BoolValue(*v.InternetAccess),
+			"name":            types.StringValue(*v.Name),
+			"networks":        mist_transform.ListOfStringSdkToTerraform(ctx, v.Networks),
+			"target_ips":      mist_transform.ListOfStringSdkToTerraform(ctx, v.TargetIps),
+			"type":            types.StringValue(string(*v.Type)),
+			"wan_name":        types.StringValue(*v.WanName),
 		}
 
 		data, e := NewPathsValue(data_map_attr_type, data_map_value)
@@ -42,15 +42,15 @@ func pathPreferencePathsSdkToTerraform(ctx context.Context, diags *diag.Diagnost
 	return r
 }
 
-func pathPreferencesSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]mistapigo.GatewayTemplatePathPreferences) basetypes.MapValue {
+func pathPreferencesSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]models.GatewayTemplatePathPreferences) basetypes.MapValue {
 	tflog.Debug(ctx, "pathPreferencesSdkToTerraform")
 	port_usage_type := PathPreferencesValue{}.AttributeTypes(ctx)
 	state_value_map := make(map[string]attr.Value)
 	for k, v := range d {
-		paths := pathPreferencePathsSdkToTerraform(ctx, diags, v.GetPaths())
+		paths := pathPreferencePathsSdkToTerraform(ctx, diags, v.Paths)
 		var port_usage_state = map[string]attr.Value{
 			"paths":    paths,
-			"strategy": types.StringValue(string(v.GetStrategy())),
+			"strategy": types.StringValue(string(*v.Strategy)),
 		}
 		port_usage_object, e := NewPathPreferencesValue(port_usage_type, port_usage_state)
 		diags.Append(e...)

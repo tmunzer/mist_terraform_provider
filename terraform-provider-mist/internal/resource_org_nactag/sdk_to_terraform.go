@@ -3,34 +3,34 @@ package resource_org_nactag
 import (
 	"context"
 
+	"mistapi/models"
+
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	mist_transform "terraform-provider-mist/internal/commons/utils"
-
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 )
 
-func SdkToTerraform(ctx context.Context, data *mistapigo.NacTag) (OrgNactagModel, diag.Diagnostics) {
+func SdkToTerraform(ctx context.Context, data models.NacTag) (OrgNactagModel, diag.Diagnostics) {
 	var state OrgNactagModel
 	var diags diag.Diagnostics
 
-	state.Id = types.StringValue(data.GetId())
-	state.OrgId = types.StringValue(data.GetOrgId())
-	state.Name = types.StringValue(data.GetName())
+	state.Id = types.StringValue(data.Id.String())
+	state.OrgId = types.StringValue(data.OrgId.String())
+	state.Name = types.StringValue(data.Name)
 
-	state.AllowUsermacOverride = types.BoolValue(data.GetAllowUsermacOverride())
-	state.EgressVlanNames = mist_transform.ListOfStringSdkToTerraform(ctx, data.GetEgressVlanNames())
-	state.GbpTag = types.Int64Value(int64(data.GetGbpTag()))
-	state.Match = types.StringValue(string(data.GetMatch()))
-	state.MatchAll = types.BoolValue(data.GetMatchAll())
-	state.RadiusAttrs = mist_transform.ListOfStringSdkToTerraform(ctx, data.GetRadiusAttrs())
-	state.RadiusGroup = types.StringValue(data.GetRadiusGroup())
+	state.AllowUsermacOverride = types.BoolValue(*data.AllowUsermacOverride)
+	state.EgressVlanNames = mist_transform.ListOfStringSdkToTerraform(ctx, data.EgressVlanNames)
+	state.GbpTag = types.Int64Value(int64(*data.GbpTag))
+	state.Match = types.StringValue(string(*data.Match))
+	state.MatchAll = types.BoolValue(*data.MatchAll)
+	state.RadiusAttrs = mist_transform.ListOfStringSdkToTerraform(ctx, data.RadiusAttrs)
+	state.RadiusGroup = types.StringValue(*data.RadiusGroup)
 	state.RadiusVendorAttrs = mist_transform.ListOfStringSdkToTerraform(ctx, data.RadiusVendorAttrs)
 	state.SessionTimeout = types.Int64Value(int64(*data.SessionTimeout))
-	state.Type = types.StringValue(string(data.GetType()))
-	state.Values = mist_transform.ListOfStringSdkToTerraform(ctx, data.GetValues())
-	state.Vlan = types.StringValue(data.GetVlan())
+	state.Type = types.StringValue(string(data.Type))
+	state.Values = mist_transform.ListOfStringSdkToTerraform(ctx, data.Values)
+	state.Vlan = types.StringValue(*data.Vlan)
 
 	return state, diags
 }

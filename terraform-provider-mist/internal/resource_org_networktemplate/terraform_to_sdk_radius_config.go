@@ -6,57 +6,61 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
+	"mistapi/models"
 )
 
-func radiusAcctServersTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ListValue) []mistapigo.RadiusAcctServer {
+func radiusAcctServersTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ListValue) []models.RadiusAcctServer {
 
-	var data []mistapigo.RadiusAcctServer
+	var data []models.RadiusAcctServer
 	for _, plan_attr := range d.Elements() {
 		var srv_plan_interface interface{} = plan_attr
 		srv_plan := srv_plan_interface.(AcctServersValue)
-		keywrap_format, _ := mistapigo.NewRadiusKeywrapFormatFromValue(srv_plan.KeywrapFormat.ValueString())
-		srv_data := mistapigo.NewRadiusAcctServer(srv_plan.Host.ValueString(), int32(srv_plan.Port.ValueInt64()), srv_plan.Secret.ValueString())
-		srv_data.SetKeywrapEnabled(srv_plan.KeywrapEnabled.ValueBool())
-		srv_data.SetKeywrapFormat(*keywrap_format)
-		srv_data.SetKeywrapKek(srv_plan.KeywrapKek.ValueString())
-		srv_data.SetKeywrapMack(srv_plan.KeywrapMack.ValueString())
-		data = append(data, *srv_data)
+
+		srv_data := models.RadiusAcctServer{}
+		srv_data.Host = srv_plan.Host.ValueString()
+		srv_data.Port = int(srv_plan.Port.ValueInt64())
+		srv_data.Secret = srv_plan.Secret.ValueString()
+		srv_data.KeywrapEnabled = models.ToPointer(srv_plan.KeywrapEnabled.ValueBool())
+		srv_data.KeywrapFormat = models.ToPointer(models.RadiusKeywrapFormatEnum(srv_plan.KeywrapFormat.ValueString()))
+		srv_data.KeywrapKek = models.ToPointer(srv_plan.KeywrapKek.ValueString())
+		srv_data.KeywrapMack = models.ToPointer(srv_plan.KeywrapMack.ValueString())
+		data = append(data, srv_data)
 	}
 	return data
 }
 
-func radiusAuthServersTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ListValue) []mistapigo.RadiusAuthServer {
+func radiusAuthServersTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ListValue) []models.RadiusAuthServer {
 
-	var data []mistapigo.RadiusAuthServer
+	var data []models.RadiusAuthServer
 	for _, plan_attr := range d.Elements() {
 		var srv_plan_interface interface{} = plan_attr
 		srv_plan := srv_plan_interface.(AuthServersValue)
-		keywrap_format, _ := mistapigo.NewRadiusKeywrapFormatFromValue(srv_plan.KeywrapFormat.ValueString())
-		srv_data := mistapigo.NewRadiusAuthServer(srv_plan.Host.ValueString(), int32(srv_plan.Port.ValueInt64()), srv_plan.Secret.ValueString())
-		srv_data.SetKeywrapEnabled(srv_plan.KeywrapEnabled.ValueBool())
-		srv_data.SetKeywrapFormat(*keywrap_format)
-		srv_data.SetKeywrapKek(srv_plan.KeywrapKek.ValueString())
-		srv_data.SetKeywrapMack(srv_plan.KeywrapMack.ValueString())
-		data = append(data, *srv_data)
+
+		srv_data := models.RadiusAuthServer{}
+		srv_data.Host = srv_plan.Host.ValueString()
+		srv_data.Port = int(srv_plan.Port.ValueInt64())
+		srv_data.Secret = srv_plan.Secret.ValueString()
+		srv_data.KeywrapEnabled = models.ToPointer(srv_plan.KeywrapEnabled.ValueBool())
+		srv_data.KeywrapFormat = models.ToPointer(models.RadiusKeywrapFormatEnum(srv_plan.KeywrapFormat.ValueString()))
+		srv_data.KeywrapKek = models.ToPointer(srv_plan.KeywrapKek.ValueString())
+		srv_data.KeywrapMack = models.ToPointer(srv_plan.KeywrapMack.ValueString())
+		data = append(data, srv_data)
 	}
 	return data
 }
 
-func radiusConfigTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d RadiusConfigValue) mistapigo.RadiusConfig {
+func radiusConfigTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d RadiusConfigValue) *models.RadiusConfig {
 
-	acct_servers := radiusAcctServersTerraformToSdk(ctx, diags, d.AcctServers)
-	auth_server := radiusAuthServersTerraformToSdk(ctx, diags, d.AuthServers)
-	data := mistapigo.NewRadiusConfig()
-	data.SetAcctInterimInterval(int32(d.AcctInterimInterval.ValueInt64()))
-	data.SetAcctServers(acct_servers)
-	data.SetAuthServersRetries(int32(d.AuthServersRetries.ValueInt64()))
-	data.SetAuthServersTimeout(int32(d.AuthServersTimeout.ValueInt64()))
-	data.SetCoaEnabled(d.CoaEnabled.ValueBool())
-	data.SetCoaPort(int32(d.CoaPort.ValueInt64()))
-	data.SetNetwork(d.Network.ValueString())
-	data.SetSourceIp(d.SourceIp.ValueString())
-	data.SetAuthServers(auth_server)
+	data := models.RadiusConfig{}
+	data.AcctInterimInterval = models.ToPointer(int(d.AcctInterimInterval.ValueInt64()))
+	data.AcctServers = radiusAcctServersTerraformToSdk(ctx, diags, d.AcctServers)
+	data.AuthServersRetries = models.ToPointer(int(d.AuthServersRetries.ValueInt64()))
+	data.AuthServersTimeout = models.ToPointer(int(d.AuthServersTimeout.ValueInt64()))
+	data.CoaEnabled = models.ToPointer(d.CoaEnabled.ValueBool())
+	data.CoaPort = models.ToPointer(int(d.CoaPort.ValueInt64()))
+	data.Network = models.ToPointer(d.Network.ValueString())
+	data.SourceIp = models.ToPointer(d.SourceIp.ValueString())
+	data.AuthServers = radiusAuthServersTerraformToSdk(ctx, diags, d.AuthServers)
 
-	return *data
+	return &data
 }

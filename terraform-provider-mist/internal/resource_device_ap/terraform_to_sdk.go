@@ -5,12 +5,11 @@ import (
 	mist_transform "terraform-provider-mist/internal/commons/utils"
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
-
 	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 )
 
-func TerraformToSdk(ctx context.Context, plan *DeviceApModel) (mistapigo.MistDevice, diag.Diagnostics) {
-	data := mistapigo.NewDeviceAp()
+func TerraformToSdk(ctx context.Context, plan *DeviceApModel) (models.MistDevice, diag.Diagnostics) {
+	data := models.NewDeviceAp()
 	var diags diag.Diagnostics
 	unset := make(map[string]interface{})
 
@@ -130,7 +129,7 @@ func TerraformToSdk(ctx context.Context, plan *DeviceApModel) (mistapigo.MistDev
 
 	data.AdditionalProperties = unset
 
-	var mist_device mistapigo.MistDevice
+	var mist_device models.MistDevice
 	mist_device.DeviceAp = data
 	return mist_device, diags
 }

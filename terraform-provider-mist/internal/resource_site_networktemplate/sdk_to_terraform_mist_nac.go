@@ -3,23 +3,34 @@ package resource_site_networktemplate
 import (
 	"context"
 
+	"mistapi/models"
+
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
-
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
+	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 )
 
 // ////////////////// MIST NAC ///////////////////////
-func mistNacSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistapigo.SwitchMistNac) MistNacValue {
-	mist_nac_attr_type := MistNacValue{}.AttributeTypes(ctx)
-	mist_nac_attr_value := map[string]attr.Value{
-		"enabled": types.BoolValue(d.GetEnabled()),
-		"network": types.StringValue(d.GetNetwork()),
+func mistNacSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d *models.SwitchMistNac) MistNacValue {
+
+	var enabled basetypes.BoolValue
+	var network basetypes.StringValue
+
+	if d != nil && d.Enabled != nil {
+		enabled = types.BoolValue(*d.Enabled)
+	}
+	if d != nil && d.Network != nil {
+		network = types.StringValue(*d.Network)
 	}
 
-	r, e := NewMistNacValue(mist_nac_attr_type, mist_nac_attr_value)
+	data_map_attr_type := MistNacValue{}.AttributeTypes(ctx)
+	data_map_value := map[string]attr.Value{
+		"enabled": enabled,
+		"network": network,
+	}
+	data, e := NewMistNacValue(data_map_attr_type, data_map_value)
 	diags.Append(e...)
 
-	return r
+	return data
 }

@@ -3,11 +3,11 @@ package provider
 import (
 	"context"
 	"fmt"
+	"mistapi"
 
 	"terraform-provider-mist/internal/resource_org_network"
 
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
-
+	"github.com/google/uuid"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
@@ -22,7 +22,7 @@ func NewOrgNetworkResource() resource.Resource {
 }
 
 type orgNetworkResource struct {
-	client *mistapigo.APIClient
+	client mistapi.ClientInterface
 }
 
 func (r *orgNetworkResource) Configure(ctx context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
@@ -31,7 +31,7 @@ func (r *orgNetworkResource) Configure(ctx context.Context, req resource.Configu
 		return
 	}
 
-	client, ok := req.ProviderData.(*mistapigo.APIClient)
+	client, ok := req.ProviderData.(mistapi.ClientInterface)
 	if !ok {
 		resp.Diagnostics.AddError(
 			"Unexpected Data Source Configure Type",
@@ -60,14 +60,15 @@ func (r *orgNetworkResource) Create(ctx context.Context, req resource.CreateRequ
 		return
 	}
 
+	orgId := uuid.MustParse(plan.OrgId.ValueString())
 	network, diags := resource_org_network.TerraformToSdk(ctx, &plan)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
 	}
 
-	tflog.Info(ctx, "Starting Network Create for Org "+plan.OrgId.ValueString())
-	data, _, err := r.client.OrgsNetworksAPI.CreateOrgNetwork(ctx, plan.OrgId.ValueString()).Network(network).Execute()
+	tflog.Info(ctx, "Starting Network Create for Org "+plan.OrgId.String())
+	data, err := r.client.OrgsNetworks().CreateOrgNetwork(ctx, orgId, network)
 
 	if err != nil {
 		resp.Diagnostics.AddError(
@@ -77,7 +78,7 @@ func (r *orgNetworkResource) Create(ctx context.Context, req resource.CreateRequ
 		return
 	}
 
-	state, diags = resource_org_network.SdkToTerraform(ctx, data)
+	state, diags = resource_org_network.SdkToTerraform(ctx, data.Data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -100,8 +101,10 @@ func (r *orgNetworkResource) Read(ctx context.Context, req resource.ReadRequest,
 		return
 	}
 
+	orgId := uuid.MustParse(state.OrgId.ValueString())
+	networkId := uuid.MustParse(state.Id.ValueString())
 	tflog.Info(ctx, "Starting Network Read: network_id "+state.Id.ValueString())
-	data, _, err := r.client.OrgsNetworksAPI.GetOrgNetwork(ctx, state.OrgId.ValueString(), state.Id.ValueString()).Execute()
+	data, err := r.client.OrgsNetworks().GetOrgNetwork(ctx, orgId, networkId)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Error getting network",
@@ -109,7 +112,7 @@ func (r *orgNetworkResource) Read(ctx context.Context, req resource.ReadRequest,
 		)
 		return
 	}
-	state, diags = resource_org_network.SdkToTerraform(ctx, data)
+	state, diags = resource_org_network.SdkToTerraform(ctx, data.Data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -137,6 +140,8 @@ func (r *orgNetworkResource) Update(ctx context.Context, req resource.UpdateRequ
 		return
 	}
 
+	orgId := uuid.MustParse(state.OrgId.ValueString())
+	networkId := uuid.MustParse(state.Id.ValueString())
 	network, diags := resource_org_network.TerraformToSdk(ctx, &plan)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
@@ -144,7 +149,7 @@ func (r *orgNetworkResource) Update(ctx context.Context, req resource.UpdateRequ
 	}
 
 	tflog.Info(ctx, "Starting Network Update for Network "+state.Id.ValueString())
-	data, _, err := r.client.OrgsNetworksAPI.UpdateOrgNetwork(ctx, state.OrgId.ValueString(), state.Id.ValueString()).Network(network).Execute()
+	data, err := r.client.OrgsNetworks().UpdateOrgNetwork(ctx, orgId, networkId, network)
 
 	if err != nil {
 		resp.Diagnostics.AddError(
@@ -154,7 +159,7 @@ func (r *orgNetworkResource) Update(ctx context.Context, req resource.UpdateRequ
 		return
 	}
 
-	state, diags = resource_org_network.SdkToTerraform(ctx, data)
+	state, diags = resource_org_network.SdkToTerraform(ctx, data.Data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -177,8 +182,10 @@ func (r *orgNetworkResource) Delete(ctx context.Context, req resource.DeleteRequ
 		return
 	}
 
+	orgId := uuid.MustParse(state.OrgId.ValueString())
+	networkId := uuid.MustParse(state.Id.ValueString())
 	tflog.Info(ctx, "Starting Network Delete: network_id "+state.Id.ValueString())
-	_, err := r.client.OrgsNetworksAPI.DeleteOrgNetwork(ctx, state.OrgId.ValueString(), state.Id.ValueString()).Execute()
+	_, err := r.client.OrgsNetworks().DeleteOrgNetwork(ctx, orgId, networkId)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Error creating network",

@@ -3,13 +3,13 @@ package resource_org_wlan
 import (
 	"context"
 
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
+	"mistapi/models"
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 )
 
-func dynamicVlanTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, plan DynamicVlanValue) mistapigo.WlanDynamicVlan {
+func dynamicVlanTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, plan DynamicVlanValue) models.WlanDynamicVlan {
 
 	var local_vlan_ids []*int32
 	for _, item := range plan.LocalVlanIds.Elements() {
@@ -26,11 +26,11 @@ func dynamicVlanTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, pla
 		vlans[k] = v_plan.ValueString()
 	}
 
-	data := *mistapigo.NewWlanDynamicVlan()
+	data := *models.NewWlanDynamicVlan()
 	data.SetDefaultVlanId(int32(plan.DefaultVlanId.ValueInt64()))
 	data.SetEnabled(plan.Enabled.ValueBool())
 	data.SetLocalVlanIds(local_vlan_ids)
-	data.SetType(mistapigo.WlanDynamicVlanType(plan.DynamicVlanType.ValueString()))
+	data.SetType(models.WlanDynamicVlanType(plan.DynamicVlanType.ValueString()))
 	data.SetVlans(vlans)
 
 	return data

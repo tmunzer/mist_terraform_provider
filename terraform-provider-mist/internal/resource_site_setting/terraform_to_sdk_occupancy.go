@@ -6,12 +6,12 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
+	"mistapi/models"
 )
 
-func occupancyTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d OccupancyValue) mistapigo.SiteOccupancyAnalytics {
+func occupancyTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d OccupancyValue) models.SiteOccupancyAnalytics {
 	tflog.Debug(ctx, "occupancyTerraformToSdk")
-	data := mistapigo.NewSiteOccupancyAnalytics()
+	data := models.NewSiteOccupancyAnalytics()
 
 	data.SetAssetsEnabled(d.AssetsEnabled.ValueBool())
 	data.SetClientsEnabled(d.ClientsEnabled.ValueBool())

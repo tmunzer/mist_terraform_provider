@@ -3,46 +3,44 @@ package resource_org_network
 import (
 	"context"
 
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
-
+	"mistapi/models"
 	mist_transform "terraform-provider-mist/internal/commons/utils"
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 )
 
-func TerraformToSdk(ctx context.Context, plan *OrgNetworkModel) (mistapigo.Network, diag.Diagnostics) {
+func TerraformToSdk(ctx context.Context, plan *OrgNetworkModel) (*models.Network, diag.Diagnostics) {
 	var diags diag.Diagnostics
-	data := *mistapigo.NewNetwork()
-	data.SetId(plan.Id.ValueString())
-	data.SetOrgId(plan.OrgId.ValueString())
-	data.SetName(plan.Name.ValueString())
+	data := models.Network{}
 
-	data.SetDisallowMistServices(plan.DisallowMistServices.ValueBool())
-	data.SetGateway(plan.Gateway.ValueString())
-	data.SetGateway6(plan.Gateway6.ValueString())
+	data.Name = plan.Name.ValueStringPointer()
+
+	data.DisallowMistServices = plan.DisallowMistServices.ValueBoolPointer()
+	data.Gateway = plan.Gateway.ValueStringPointer()
+	data.Gateway6 = plan.Gateway6.ValueStringPointer()
 
 	internal_access := InternalAccessTerraformToSdk(ctx, &diags, plan.InternalAccess)
-	data.SetInternalAccess(internal_access)
+	data.InternalAccess = internal_access
 
 	internet_access := InternetAccessTerraformToSdk(ctx, &diags, plan.InternetAccess)
-	data.SetInternetAccess(internet_access)
+	data.InternetAccess = internet_access
 
-	data.SetIsolation(plan.Isolation.ValueBool())
+	data.Isolation = plan.Isolation.ValueBoolPointer()
 
 	routed_for_networks := mist_transform.ListOfStringTerraformToSdk(ctx, plan.RoutedForNetworks)
-	data.SetRoutedForNetworks(routed_for_networks)
+	data.RoutedForNetworks = routed_for_networks
 
-	data.SetSubnet(plan.Subnet.ValueString())
+	data.Subnet = plan.Subnet.ValueStringPointer()
 
-	data.SetSubnet6(plan.Subnet6.ValueString())
+	data.Subnet6 = plan.Subnet6.ValueStringPointer()
 
 	tenants := TenantTerraformToSdk(ctx, &diags, plan.Tenants)
-	data.SetTenants(tenants)
+	data.Tenants = tenants
 
-	data.SetVlanId(int32(plan.VlanId.ValueInt64()))
+	data.VlanId = models.ToPointer(int(plan.VlanId.ValueInt64()))
 
 	vpn_access := VpnTerraformToSdk(ctx, &diags, plan.VpnAccess)
-	data.SetVpnAccess(vpn_access)
+	data.VpnAccess = vpn_access
 
-	return data, diags
+	return &data, diags
 }

@@ -7,11 +7,10 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
-
 	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 )
 
-func extraRoute6NextQualifiedSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]mistapigo.ExtraRoute6PropertiesNextQualifiedProperties) basetypes.MapValue {
+func extraRoute6NextQualifiedSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]models.ExtraRoute6PropertiesNextQualifiedProperties) basetypes.MapValue {
 
 	state_value_map_attr_type := NextQualifiedValue{}.AttributeTypes(ctx)
 	state_value_map_value := make(map[string]attr.Value)
@@ -29,7 +28,7 @@ func extraRoute6NextQualifiedSdkToTerraform(ctx context.Context, diags *diag.Dia
 	diags.Append(e...)
 	return state_result_map
 }
-func extraRoutes6SdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]mistapigo.ExtraRoute6Properties) basetypes.MapValue {
+func extraRoutes6SdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]models.ExtraRoute6Properties) basetypes.MapValue {
 
 	state_value_map_attr_type := ExtraRoutes6Value{}.AttributeTypes(ctx)
 	state_value_map_value := make(map[string]attr.Value)

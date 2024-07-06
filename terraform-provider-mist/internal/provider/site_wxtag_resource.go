@@ -3,11 +3,11 @@ package provider
 import (
 	"context"
 	"fmt"
+	"mistapi"
 
 	"terraform-provider-mist/internal/resource_site_wxtag"
 
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
-
+	"github.com/google/uuid"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
@@ -22,7 +22,7 @@ func NewSiteWxTag() resource.Resource {
 }
 
 type siteWxTagResource struct {
-	client *mistapigo.APIClient
+	client mistapi.ClientInterface
 }
 
 func (r *siteWxTagResource) Configure(ctx context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
@@ -31,11 +31,11 @@ func (r *siteWxTagResource) Configure(ctx context.Context, req resource.Configur
 		return
 	}
 
-	client, ok := req.ProviderData.(*mistapigo.APIClient)
+	client, ok := req.ProviderData.(mistapi.ClientInterface)
 	if !ok {
 		resp.Diagnostics.AddError(
 			"Unexpected Data Source Configure Type",
-			fmt.Sprintf("Expected *mistapigo.APIClient, got: %T. Please report this issue to the provider developers.", req.ProviderData),
+			fmt.Sprintf("Expected *models.APIClient, got: %T. Please report this issue to the provider developers.", req.ProviderData),
 		)
 		return
 	}
@@ -60,13 +60,15 @@ func (r *siteWxTagResource) Create(ctx context.Context, req resource.CreateReque
 		return
 	}
 
+	siteId := uuid.MustParse(plan.SiteId.ValueString())
 	wxtag, diags := resource_site_wxtag.TerraformToSdk(ctx, &plan)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
 	}
 
-	data, _, err := r.client.SitesWxTagsAPI.CreateSiteWxTag(ctx, plan.SiteId.ValueString()).WxlanTag(*wxtag).Execute()
+	data, err := r.client.SitesWxTags().CreateSiteWxTag(ctx, siteId, wxtag)
+	//.SitesWxTagsAPI().CreateSiteWxTag(ctx, plan.SiteId.ValueString()).WxlanTag(*wxtag)
 	if err != nil {
 		//url, _ := httpr.Location()
 		resp.Diagnostics.AddError(
@@ -76,7 +78,7 @@ func (r *siteWxTagResource) Create(ctx context.Context, req resource.CreateReque
 		return
 	}
 
-	state, diags = resource_site_wxtag.SdkToTerraform(ctx, data)
+	state, diags = resource_site_wxtag.SdkToTerraform(ctx, data.Data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -99,8 +101,11 @@ func (r *siteWxTagResource) Read(ctx context.Context, req resource.ReadRequest, 
 		return
 	}
 
+	siteId := uuid.MustParse(state.SiteId.ValueString())
+	wxtagId := uuid.MustParse(state.Id.ValueString())
+
 	tflog.Info(ctx, "Starting WxTag Read: wxtag_id "+state.Id.ValueString())
-	data, _, err := r.client.SitesWxTagsAPI.GetSiteWxTag(ctx, state.SiteId.ValueString(), state.Id.ValueString()).Execute()
+	data, err := r.client.SitesWxTags().GetSiteWxTag(ctx, siteId, wxtagId)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Error getting WxTag",
@@ -108,7 +113,7 @@ func (r *siteWxTagResource) Read(ctx context.Context, req resource.ReadRequest, 
 		)
 		return
 	}
-	state, diags = resource_site_wxtag.SdkToTerraform(ctx, data)
+	state, diags = resource_site_wxtag.SdkToTerraform(ctx, data.Data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -136,6 +141,8 @@ func (r *siteWxTagResource) Update(ctx context.Context, req resource.UpdateReque
 		return
 	}
 
+	siteId := uuid.MustParse(state.SiteId.ValueString())
+	wxtagId := uuid.MustParse(state.Id.ValueString())
 	wxtag, diags := resource_site_wxtag.TerraformToSdk(ctx, &plan)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
@@ -143,10 +150,7 @@ func (r *siteWxTagResource) Update(ctx context.Context, req resource.UpdateReque
 	}
 
 	tflog.Info(ctx, "Starting WxTag Update for WxTag "+state.Id.ValueString())
-	data, _, err := r.client.SitesWxTagsAPI.
-		UpdateSiteWxTag(ctx, state.SiteId.ValueString(), state.Id.ValueString()).
-		WxlanTag(*wxtag).
-		Execute()
+	data, err := r.client.SitesWxTags().UpdateSiteWxTag(ctx, siteId, wxtagId, wxtag)
 
 	if err != nil {
 		resp.Diagnostics.AddError(
@@ -156,7 +160,7 @@ func (r *siteWxTagResource) Update(ctx context.Context, req resource.UpdateReque
 		return
 	}
 
-	state, diags = resource_site_wxtag.SdkToTerraform(ctx, data)
+	state, diags = resource_site_wxtag.SdkToTerraform(ctx, data.Data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -179,8 +183,11 @@ func (r *siteWxTagResource) Delete(ctx context.Context, req resource.DeleteReque
 		return
 	}
 
+	siteId := uuid.MustParse(state.SiteId.ValueString())
+	wxtagId := uuid.MustParse(state.Id.ValueString())
+
 	tflog.Info(ctx, "Starting WxTag Delete: wxtag_id "+state.Id.ValueString())
-	_, err := r.client.SitesWxTagsAPI.DeleteSiteWxTag(ctx, state.SiteId.ValueString(), state.Id.ValueString()).Execute()
+	_, err := r.client.SitesWxTags().DeleteSiteWxTag(ctx, siteId, wxtagId)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Error creating WxTag",

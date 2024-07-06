@@ -3,15 +3,15 @@ package resource_site_networktemplate
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-framework/diag"
+	"mistapi/models"
 
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
+	"github.com/hashicorp/terraform-plugin-framework/diag"
 )
 
-func DeleteTerraformToSdk(ctx context.Context) (mistapigo.SiteSetting, diag.Diagnostics) {
+func DeleteTerraformToSdk(ctx context.Context) (models.SiteSetting, diag.Diagnostics) {
 	var diags diag.Diagnostics
-	//var data mistapigo.SiteSetting
-	data := *mistapigo.NewSiteSetting()
+	//var data models.SiteSetting
+	data := models.SiteSetting{}
 
 	tmp := SiteNetworktemplateResourceSchema(ctx)
 	unset := make(map[string]interface{})

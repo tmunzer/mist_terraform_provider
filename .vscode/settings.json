@@ -1,9 +1,9 @@
 {
     "apimatic.notifications.whenApiFileIsDetected.enabled": false,
     "workbench.colorCustomizations": {
-        "statusBar.background": "#3c1d85",
+        "statusBar.background": "#1D856D",
         "statusBar.foreground": "#fff",
-        "activityBar.background": "#3c1d85",
+        "activityBar.background": "#1D856D",
         "activityBar.foreground": "#fff"
     },
     "now.instance.user.name": "",

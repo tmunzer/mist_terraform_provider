@@ -8,15 +8,15 @@ import (
 
 	mist_transform "terraform-provider-mist/internal/commons/utils"
 
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
+	"mistapi/models"
 )
 
-func radsecServersTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ListValue) []mistapigo.RadsecServer {
-	var data_list []mistapigo.RadsecServer
+func radsecServersTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ListValue) []models.RadsecServer {
+	var data_list []models.RadsecServer
 	for _, v := range d.Elements() {
 		var v_interface interface{} = v
 		plan := v_interface.(ServersValue)
-		data := mistapigo.NewRadsecServer()
+		data := models.NewRadsecServer()
 		data.SetHost(plan.Host.ValueString())
 		data.SetPort(int32(plan.Port.ValueInt64()))
 
@@ -25,8 +25,8 @@ func radsecServersTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d
 	return data_list
 }
 
-func radsecTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d RadsecValue) mistapigo.Radsec {
-	data := mistapigo.NewRadsec()
+func radsecTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d RadsecValue) models.Radsec {
+	data := models.NewRadsec()
 
 	data.SetCoaEnabled(d.CoaEnabled.ValueBool())
 	data.SetEnabled(d.Enabled.ValueBool())

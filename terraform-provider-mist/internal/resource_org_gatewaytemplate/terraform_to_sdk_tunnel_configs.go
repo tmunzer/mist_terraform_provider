@@ -4,188 +4,188 @@ import (
 	"context"
 	mist_transform "terraform-provider-mist/internal/commons/utils"
 
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
+	"mistapi/models"
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 
-func tunnelConfigsAutoProvisionPrimaryTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) mistapigo.TunnelConfigsAutoProvisionNode {
+func tunnelConfigsAutoProvisionPrimaryTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) models.TunnelConfigsAutoProvisionNode {
 	tflog.Debug(ctx, "tunnelConfigsAutoProvisionPrimaryTerraformToSdk")
-	data := *mistapigo.NewTunnelConfigsAutoProvisionNode()
+	data := models.TunnelConfigsAutoProvisionNode{}
 	if d.IsNull() || d.IsUnknown() {
 		return data
 	} else {
 		plan := NewAutoProvisionPrimaryValueMust(d.AttributeTypes(ctx), d.Attributes())
-		data.SetNumHosts(plan.NumHosts.ValueString())
-		data.SetWanNames(mist_transform.ListOfStringTerraformToSdk(ctx, plan.WanNames))
+		data.NumHosts = models.ToPointer(plan.NumHosts.ValueString())
+		data.WanNames = mist_transform.ListOfStringTerraformToSdk(ctx, plan.WanNames)
 
 		return data
 	}
 }
 
-func tunnelConfigsAutoProvisionSecondaryTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) mistapigo.TunnelConfigsAutoProvisionNode {
+func tunnelConfigsAutoProvisionSecondaryTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) models.TunnelConfigsAutoProvisionNode {
 	tflog.Debug(ctx, "tunnelConfigsAutoProvisionSecondaryTerraformToSdk")
-	data := *mistapigo.NewTunnelConfigsAutoProvisionNode()
+	data := models.TunnelConfigsAutoProvisionNode{}
 	if d.IsNull() || d.IsUnknown() {
 		return data
 	} else {
 		plan := NewAutoProvisionSecondaryValueMust(d.AttributeTypes(ctx), d.Attributes())
-		data.SetNumHosts(plan.NumHosts.ValueString())
-		data.SetWanNames(mist_transform.ListOfStringTerraformToSdk(ctx, plan.WanNames))
+		data.NumHosts = models.ToPointer(plan.NumHosts.ValueString())
+		data.WanNames = mist_transform.ListOfStringTerraformToSdk(ctx, plan.WanNames)
 
 		return data
 	}
 }
 
-func tunnelConfigsAutoProvisionTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) mistapigo.TunnelConfigsAutoProvision {
+func tunnelConfigsAutoProvisionTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) models.TunnelConfigsAutoProvision {
 	tflog.Debug(ctx, "tunnelConfigsAutoProvisionTerraformToSdk")
-	data := *mistapigo.NewTunnelConfigsAutoProvision()
+	data := models.TunnelConfigsAutoProvision{}
 	if d.IsNull() || d.IsUnknown() {
 		return data
 	} else {
 		plan := NewAutoProvisionValueMust(d.AttributeTypes(ctx), d.Attributes())
-		data.SetEnable(plan.Enable.ValueBool())
+		data.Enable = models.ToPointer(plan.Enable.ValueBool())
 
 		var plan_latlng_interface interface{} = plan.Latlng
 		plan_latlng := plan_latlng_interface.(LatlngValue)
 
-		var latlng mistapigo.LatLng
-		latlng.SetLat(plan_latlng.Lat.ValueFloat64())
-		latlng.SetLng(plan_latlng.Lng.ValueFloat64())
-		data.SetLatlng(latlng)
+		var latlng models.LatLng
+		latlng.Lat = plan_latlng.Lng.ValueFloat64()
+		latlng.Lng = plan_latlng.Lng.ValueFloat64()
+		data.Latlng = models.ToPointer(latlng)
 
 		primary := tunnelConfigsAutoProvisionPrimaryTerraformToSdk(ctx, diags, plan.AutoProvisionPrimary)
-		data.SetPrimary(primary)
+		data.Primary = &primary
 
-		data.SetRegion(mistapigo.TunnelConfigsAutoProvisionRegion(plan.Region.ValueString()))
+		data.Region = models.ToPointer(models.TunnelConfigsAutoProvisionRegionEnum(plan.Region.ValueString()))
 
 		secondary := tunnelConfigsAutoProvisionSecondaryTerraformToSdk(ctx, diags, plan.AutoProvisionSecondary)
-		data.SetSecondary(secondary)
+		data.Secondary = &secondary
 
 		return data
 	}
 }
 
-func gatewayTemplateTunnelIkeProposalTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ListValue) []mistapigo.GatewayTemplateTunnelIkeProposal {
+func gatewayTemplateTunnelIkeProposalTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ListValue) []models.GatewayTemplateTunnelIkeProposal {
 	tflog.Debug(ctx, "gatewayTemplateTunnelIkeProposalTerraformToSdk")
-	var data_list []mistapigo.GatewayTemplateTunnelIkeProposal
+	var data_list []models.GatewayTemplateTunnelIkeProposal
 	for _, v := range d.Elements() {
 		var v_interface interface{} = v
 		plan := v_interface.(IkeProposalsValue)
-		data := mistapigo.NewGatewayTemplateTunnelIkeProposal()
-		data.SetAuthAlgo(mistapigo.TunnelConfigsAuthAlgo(plan.AuthAlgo.ValueString()))
-		data.SetDhGroup(mistapigo.GatewayTemplateTunnelIkeDhGroup(plan.DhGroup.ValueString()))
-		data.SetEncAlgo(mistapigo.TunnelConfigsEncAlgo(plan.EncAlgo.ValueString()))
+		data := models.GatewayTemplateTunnelIkeProposal{}
+		data.AuthAlgo = models.ToPointer(models.TunnelConfigsAuthAlgoEnum(plan.AuthAlgo.ValueString()))
+		data.DhGroup = models.ToPointer(models.GatewayTemplateTunnelIkeDhGroupEnum(plan.DhGroup.ValueString()))
+		data.EncAlgo.SetValue(models.ToPointer(models.TunnelConfigsEncAlgoEnum(plan.EncAlgo.ValueString())))
 
-		data_list = append(data_list, *data)
+		data_list = append(data_list, data)
 	}
 	return data_list
 }
 
-func gatewayTemplateTunnelIpsecProposalTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ListValue) []mistapigo.GatewayTemplateTunnelIpsecProposal {
+func gatewayTemplateTunnelIpsecProposalTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ListValue) []models.GatewayTemplateTunnelIpsecProposal {
 	tflog.Debug(ctx, "gatewayTemplateTunnelIpsecProposalTerraformToSdk")
-	var data_list []mistapigo.GatewayTemplateTunnelIpsecProposal
+	var data_list []models.GatewayTemplateTunnelIpsecProposal
 	for _, v := range d.Elements() {
 		var v_interface interface{} = v
 		plan := v_interface.(IpsecProposalsValue)
-		data := mistapigo.NewGatewayTemplateTunnelIpsecProposal()
-		data.SetAuthAlgo(mistapigo.TunnelConfigsAuthAlgo(plan.AuthAlgo.ValueString()))
-		data.SetDhGroup(mistapigo.TunnelConfigsDhGroup(plan.DhGroup.ValueString()))
-		data.SetEncAlgo(mistapigo.TunnelConfigsEncAlgo(plan.EncAlgo.ValueString()))
+		data := models.GatewayTemplateTunnelIpsecProposal{}
+		data.AuthAlgo = models.ToPointer(models.TunnelConfigsAuthAlgoEnum(plan.AuthAlgo.ValueString()))
+		data.DhGroup = models.ToPointer(models.TunnelConfigsDhGroupEnum(plan.DhGroup.ValueString()))
+		data.EncAlgo.SetValue(models.ToPointer(models.TunnelConfigsEncAlgoEnum(plan.EncAlgo.ValueString())))
 
-		data_list = append(data_list, *data)
+		data_list = append(data_list, data)
 	}
 	return data_list
 }
 
-func gatewayTemplateTunnelProbeTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) mistapigo.GatewayTemplateTunnelProbe {
+func gatewayTemplateTunnelProbeTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) models.GatewayTemplateTunnelProbe {
 	tflog.Debug(ctx, "gatewayTemplateTunnelProbeTerraformToSdk")
-	data := *mistapigo.NewGatewayTemplateTunnelProbe()
+	data := models.GatewayTemplateTunnelProbe{}
 	if d.IsNull() || d.IsUnknown() {
 		return data
 	} else {
 		plan := NewProbeValueMust(d.AttributeTypes(ctx), d.Attributes())
-		data.SetInterval(int32(plan.Interval.ValueInt64()))
-		data.SetThreshold(int32(plan.Threshold.ValueInt64()))
-		data.SetTimeout(int32(plan.Timeout.ValueInt64()))
-		data.SetType(mistapigo.GatewayTemplateProbeType(plan.ProbeType.ValueString()))
+		data.Interval = models.ToPointer(int(plan.Interval.ValueInt64()))
+		data.Threshold = models.ToPointer(int(plan.Threshold.ValueInt64()))
+		data.Timeout = models.ToPointer(int(plan.Timeout.ValueInt64()))
+		data.Type = models.ToPointer(models.GatewayTemplateProbeTypeEnum(plan.ProbeType.ValueString()))
 		return data
 	}
 }
 
-func gatewayTemplateTunnelPrimaryProbeTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) mistapigo.GatewayTemplateTunnelNode {
+func gatewayTemplateTunnelPrimaryProbeTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) models.GatewayTemplateTunnelNode {
 	tflog.Debug(ctx, "gatewayTemplateTunnelPrimaryProbeTerraformToSdk")
-	data := *mistapigo.NewGatewayTemplateTunnelNode()
+	data := models.GatewayTemplateTunnelNode{}
 	if d.IsNull() || d.IsUnknown() {
 		return data
 	} else {
 		plan := NewPrimaryValueMust(d.AttributeTypes(ctx), d.Attributes())
-		data.SetHosts(mist_transform.ListOfStringTerraformToSdk(ctx, plan.Hosts))
-		data.SetInternalIps(mist_transform.ListOfStringTerraformToSdk(ctx, plan.InternalIps))
-		data.SetProbeIps(mist_transform.ListOfStringTerraformToSdk(ctx, plan.ProbeIps))
-		data.SetRemoteIds(mist_transform.ListOfStringTerraformToSdk(ctx, plan.RemoteIds))
-		data.SetWanNames(mist_transform.ListOfStringTerraformToSdk(ctx, plan.WanNames))
+		data.Hosts = mist_transform.ListOfStringTerraformToSdk(ctx, plan.Hosts)
+		data.InternalIps = mist_transform.ListOfStringTerraformToSdk(ctx, plan.InternalIps)
+		data.ProbeIps = mist_transform.ListOfStringTerraformToSdk(ctx, plan.ProbeIps)
+		data.RemoteIds = mist_transform.ListOfStringTerraformToSdk(ctx, plan.RemoteIds)
+		data.WanNames = mist_transform.ListOfStringTerraformToSdk(ctx, plan.WanNames)
 		return data
 	}
 }
 
-func gatewayTemplateTunnelSecondaryProbeTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) mistapigo.GatewayTemplateTunnelNode {
+func gatewayTemplateTunnelSecondaryProbeTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) models.GatewayTemplateTunnelNode {
 	tflog.Debug(ctx, "gatewayTemplateTunnelSecondaryProbeTerraformToSdk")
-	data := *mistapigo.NewGatewayTemplateTunnelNode()
+	data := models.GatewayTemplateTunnelNode{}
 	if d.IsNull() || d.IsUnknown() {
 		return data
 	} else {
 		plan := NewSecondaryValueMust(d.AttributeTypes(ctx), d.Attributes())
-		data.SetHosts(mist_transform.ListOfStringTerraformToSdk(ctx, plan.Hosts))
-		data.SetInternalIps(mist_transform.ListOfStringTerraformToSdk(ctx, plan.InternalIps))
-		data.SetProbeIps(mist_transform.ListOfStringTerraformToSdk(ctx, plan.ProbeIps))
-		data.SetRemoteIds(mist_transform.ListOfStringTerraformToSdk(ctx, plan.RemoteIds))
-		data.SetWanNames(mist_transform.ListOfStringTerraformToSdk(ctx, plan.WanNames))
+		data.Hosts = mist_transform.ListOfStringTerraformToSdk(ctx, plan.Hosts)
+		data.InternalIps = mist_transform.ListOfStringTerraformToSdk(ctx, plan.InternalIps)
+		data.ProbeIps = mist_transform.ListOfStringTerraformToSdk(ctx, plan.ProbeIps)
+		data.RemoteIds = mist_transform.ListOfStringTerraformToSdk(ctx, plan.RemoteIds)
+		data.WanNames = mist_transform.ListOfStringTerraformToSdk(ctx, plan.WanNames)
 		return data
 	}
 }
 
-func tunnelConfigsTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.MapValue) map[string]mistapigo.TunnelConfigs {
+func tunnelConfigsTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.MapValue) map[string]models.TunnelConfigs {
 	tflog.Debug(ctx, "tunnelConfigsTerraformToSdk")
-	data_map := make(map[string]mistapigo.TunnelConfigs)
+	data_map := make(map[string]models.TunnelConfigs)
 	for k, v := range d.Elements() {
 		var v_interface interface{} = v
 		plan := v_interface.(TunnelConfigsValue)
 
-		data := *mistapigo.NewTunnelConfigs()
+		data := models.TunnelConfigs{}
 
 		auto_provision := tunnelConfigsAutoProvisionTerraformToSdk(ctx, diags, plan.AutoProvision)
-		data.SetAutoProvision(auto_provision)
+		data.AutoProvision = &auto_provision
 
-		data.SetIkeLifetime(int32(plan.IkeLifetime.ValueInt64()))
-		data.SetIkeMode(mistapigo.GatewayTemplateTunnelIkeMode(plan.IkeMode.ValueString()))
+		data.IkeLifetime = models.ToPointer(int(plan.IkeLifetime.ValueInt64()))
+		data.IkeMode = models.ToPointer(models.GatewayTemplateTunnelIkeModeEnum(plan.IkeMode.ValueString()))
 
 		ike_proposals := gatewayTemplateTunnelIkeProposalTerraformToSdk(ctx, diags, plan.IkeProposals)
-		data.SetIkeProposals(ike_proposals)
+		data.IkeProposals = ike_proposals
 
-		data.SetIpsecLifetime(int32(plan.IpsecLifetime.ValueInt64()))
+		data.IpsecLifetime = models.ToPointer(int(plan.IpsecLifetime.ValueInt64()))
 
 		primary := gatewayTemplateTunnelPrimaryProbeTerraformToSdk(ctx, diags, plan.Primary)
-		data.SetPrimary(primary)
+		data.Primary = &primary
 
 		ipsec_proposals := gatewayTemplateTunnelIpsecProposalTerraformToSdk(ctx, diags, plan.IpsecProposals)
-		data.SetIpsecProposals(ipsec_proposals)
+		data.IpsecProposals = ipsec_proposals
 
-		data.SetLocalId(plan.LocalId.ValueString())
+		data.LocalId = models.ToPointer(plan.LocalId.ValueString())
 
 		probe := gatewayTemplateTunnelProbeTerraformToSdk(ctx, diags, plan.Probe)
-		data.SetProbe(probe)
+		data.Probe = &probe
 
-		data.SetProtocol(mistapigo.GatewayTemplateTunnelProtocol(plan.Protocol.ValueString()))
-		data.SetProvider(mistapigo.TunnelProviderOptionsName(plan.Provider.ValueString()))
-		data.SetPsk(plan.Psk.ValueString())
+		data.Protocol = models.ToPointer(models.GatewayTemplateTunnelProtocolEnum(plan.Protocol.ValueString()))
+		data.Provider = models.ToPointer(models.TunnelProviderOptionsNameEnum(plan.Provider.ValueString()))
+		data.Psk = models.ToPointer(plan.Psk.ValueString())
 
 		secondary := gatewayTemplateTunnelSecondaryProbeTerraformToSdk(ctx, diags, plan.Secondary)
-		data.SetSecondary(secondary)
+		data.Secondary = &secondary
 
-		data.SetVersion(mistapigo.GatewayTemplateTunnelVersion(plan.Version.ValueString()))
+		data.Version = models.ToPointer(models.GatewayTemplateTunnelVersionEnum(plan.Version.ValueString()))
 
 		data_map[k] = data
 	}

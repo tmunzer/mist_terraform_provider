@@ -4,7 +4,7 @@ import (
 	"context"
 	mist_transform "terraform-provider-mist/internal/commons/utils"
 
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
+	"mistapi/models"
 
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
@@ -12,7 +12,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 )
 
-func hotspot20SdkToTerraform(ctx context.Context, diags *diag.Diagnostics, data mistapigo.WlanHotspot20) Hotspot20Value {
+func hotspot20SdkToTerraform(ctx context.Context, diags *diag.Diagnostics, data models.WlanHotspot20) Hotspot20Value {
 
 	var operators_list []attr.Value
 	for _, v := range data.GetOperators() {

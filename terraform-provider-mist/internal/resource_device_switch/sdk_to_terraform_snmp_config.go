@@ -8,13 +8,12 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
-
 	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 )
 
 // //////////////////////////////////
 // ////////// CLIENTS
-func snmpClientListSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, data []mistapigo.SnmpConfigClientList) basetypes.ListValue {
+func snmpClientListSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, data []models.SnmpConfigClientList) basetypes.ListValue {
 	var data_list = []ClientListValue{}
 	for _, v := range data {
 		data_map_value := map[string]attr.Value{
@@ -32,7 +31,7 @@ func snmpClientListSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, 
 
 // //////////////////////////////////
 // ////////// TRAP GROUPS
-func snmpTrapGroupsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, data []mistapigo.SnmpConfigTrapGroup) basetypes.ListValue {
+func snmpTrapGroupsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, data []models.SnmpConfigTrapGroup) basetypes.ListValue {
 	var data_list = []TrapGroupsValue{}
 	for _, v := range data {
 		data_map_value := map[string]attr.Value{
@@ -52,7 +51,7 @@ func snmpTrapGroupsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, 
 
 // //////////////////////////////////
 // ////////// V2
-func snmpV2cSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, data []mistapigo.SnmpConfigV2cConfig) basetypes.ListValue {
+func snmpV2cSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, data []models.SnmpConfigV2cConfig) basetypes.ListValue {
 	var data_list = []V2cConfigValue{}
 	for _, v := range data {
 		data_map_value := map[string]attr.Value{
@@ -73,7 +72,7 @@ func snmpV2cSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, data []
 // //////////////////////////////////
 // ////////// V3
 // NOTIFY
-func snmpV3NotifySdkToTerraform(ctx context.Context, diags *diag.Diagnostics, data []mistapigo.Snmpv3ConfigNotifyItems) basetypes.ListValue {
+func snmpV3NotifySdkToTerraform(ctx context.Context, diags *diag.Diagnostics, data []models.Snmpv3ConfigNotifyItems) basetypes.ListValue {
 	var data_list = []NotifyValue{}
 	for _, v := range data {
 		data_map_value := map[string]attr.Value{
@@ -91,7 +90,7 @@ func snmpV3NotifySdkToTerraform(ctx context.Context, diags *diag.Diagnostics, da
 }
 
 // NOTIFY Filter
-func snmpV3NotifyFilterContentSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, data []mistapigo.Snmpv3ConfigNotifyFilterItemContent) basetypes.ListValue {
+func snmpV3NotifyFilterContentSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, data []models.Snmpv3ConfigNotifyFilterItemContent) basetypes.ListValue {
 	var data_list = []Snmpv3ContentsValue{}
 	for _, v := range data {
 		data_map_value := map[string]attr.Value{
@@ -106,7 +105,7 @@ func snmpV3NotifyFilterContentSdkToTerraform(ctx context.Context, diags *diag.Di
 	diags.Append(e...)
 	return r
 }
-func snmpV3NotifyFilterSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, data []mistapigo.Snmpv3ConfigNotifyFilterItem) basetypes.ListValue {
+func snmpV3NotifyFilterSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, data []models.Snmpv3ConfigNotifyFilterItem) basetypes.ListValue {
 	var data_list = []NotifyFilterValue{}
 	for _, v := range data {
 
@@ -126,7 +125,7 @@ func snmpV3NotifyFilterSdkToTerraform(ctx context.Context, diags *diag.Diagnosti
 }
 
 // TARGET ADDRESS
-func snmpV3TargetAddressSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, data []mistapigo.Snmpv3ConfigTargetAddressItem) basetypes.ListValue {
+func snmpV3TargetAddressSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, data []models.Snmpv3ConfigTargetAddressItem) basetypes.ListValue {
 	var data_list = []TargetAddressValue{}
 	for _, v := range data {
 
@@ -148,7 +147,7 @@ func snmpV3TargetAddressSdkToTerraform(ctx context.Context, diags *diag.Diagnost
 }
 
 // TARGET PARAMETERS
-func snmpV3TargetParametersSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, data []mistapigo.Snmpv3ConfigTargetParam) basetypes.ListValue {
+func snmpV3TargetParametersSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, data []models.Snmpv3ConfigTargetParam) basetypes.ListValue {
 	var data_list = []TargetParametersValue{}
 	for _, v := range data {
 
@@ -170,7 +169,7 @@ func snmpV3TargetParametersSdkToTerraform(ctx context.Context, diags *diag.Diagn
 }
 
 // USM
-func snmpV3UsmUsersSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, data []mistapigo.SnmpUsmpUser) basetypes.ListValue {
+func snmpV3UsmUsersSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, data []models.SnmpUsmpUser) basetypes.ListValue {
 	var data_list = []Snmpv3UsersValue{}
 	for _, v := range data {
 
@@ -189,7 +188,7 @@ func snmpV3UsmUsersSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, 
 	diags.Append(e...)
 	return r
 }
-func snmpV3UsmSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistapigo.SnmpUsm) basetypes.ObjectValue {
+func snmpV3UsmSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d models.SnmpUsm) basetypes.ObjectValue {
 	users := snmpV3UsmUsersSdkToTerraform(ctx, diags, d.GetUsers())
 
 	r_attr_type := UsmValue{}.AttributeTypes(ctx)
@@ -204,7 +203,7 @@ func snmpV3UsmSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mis
 }
 
 // VACM ACCESS
-func snmpV3VacmAccessPrefixListSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, data []mistapigo.SnmpVacmAccessItemPrefixListItem) basetypes.ListValue {
+func snmpV3VacmAccessPrefixListSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, data []models.SnmpVacmAccessItemPrefixListItem) basetypes.ListValue {
 	var data_list = []PrefixListValue{}
 	for _, v := range data {
 
@@ -225,7 +224,7 @@ func snmpV3VacmAccessPrefixListSdkToTerraform(ctx context.Context, diags *diag.D
 	diags.Append(e...)
 	return r
 }
-func snmpV3VacmAccessSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, data []mistapigo.SnmpVacmAccessItem) basetypes.ListValue {
+func snmpV3VacmAccessSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, data []models.SnmpVacmAccessItem) basetypes.ListValue {
 	var data_list = []AccessValue{}
 	for _, v := range data {
 
@@ -245,7 +244,7 @@ func snmpV3VacmAccessSdkToTerraform(ctx context.Context, diags *diag.Diagnostics
 }
 
 // VACM SECURITY TO GROUP
-func snmpV3VacmSecurityToGroupContentSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, data []mistapigo.SnmpVacmSecurityToGroupContentItem) basetypes.ListValue {
+func snmpV3VacmSecurityToGroupContentSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, data []models.SnmpVacmSecurityToGroupContentItem) basetypes.ListValue {
 	var data_list = []Snmpv3VacmContentValue{}
 	for _, v := range data {
 
@@ -261,7 +260,7 @@ func snmpV3VacmSecurityToGroupContentSdkToTerraform(ctx context.Context, diags *
 	diags.Append(e...)
 	return r
 }
-func snmpV3VacmSecurityToGroupSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistapigo.SnmpVacmSecurityToGroup) basetypes.ObjectValue {
+func snmpV3VacmSecurityToGroupSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d models.SnmpVacmSecurityToGroup) basetypes.ObjectValue {
 	content := snmpV3VacmSecurityToGroupContentSdkToTerraform(ctx, diags, d.GetContent())
 
 	r_attr_type := SecurityToGroupValue{}.AttributeTypes(ctx)
@@ -275,7 +274,7 @@ func snmpV3VacmSecurityToGroupSdkToTerraform(ctx context.Context, diags *diag.Di
 }
 
 // VACM
-func snmpV3VacmSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistapigo.SnmpVacm) basetypes.ObjectValue {
+func snmpV3VacmSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d models.SnmpVacm) basetypes.ObjectValue {
 	access := snmpV3VacmAccessSdkToTerraform(ctx, diags, d.GetAccess())
 	security_to_group := snmpV3VacmSecurityToGroupSdkToTerraform(ctx, diags, d.GetSecurityToGroup())
 
@@ -290,7 +289,7 @@ func snmpV3VacmSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mi
 }
 
 // V3
-func snmpV3SdkToTerraform(ctx context.Context, diags *diag.Diagnostics, data mistapigo.Snmpv3Config) basetypes.ObjectValue {
+func snmpV3SdkToTerraform(ctx context.Context, diags *diag.Diagnostics, data models.Snmpv3Config) basetypes.ObjectValue {
 	notify := snmpV3NotifySdkToTerraform(ctx, diags, data.GetNotify())
 	notify_filter := snmpV3NotifyFilterSdkToTerraform(ctx, diags, data.GetNotifyFilter())
 	target_address := snmpV3TargetAddressSdkToTerraform(ctx, diags, data.GetTargetAddress())
@@ -314,7 +313,7 @@ func snmpV3SdkToTerraform(ctx context.Context, diags *diag.Diagnostics, data mis
 
 // ////////////////////////////////
 // VIEWS
-func snmpConfigViewsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, data []mistapigo.SnmpConfigView) basetypes.ListValue {
+func snmpConfigViewsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, data []models.SnmpConfigView) basetypes.ListValue {
 	var data_list = []ViewsValue{}
 	for _, v := range data {
 
@@ -334,7 +333,7 @@ func snmpConfigViewsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics,
 
 // //////////////////////////////////
 // ////////// MAIN
-func snmpConfigSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistapigo.SnmpConfig) SnmpConfigValue {
+func snmpConfigSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d models.SnmpConfig) SnmpConfigValue {
 
 	client_list := snmpClientListSdkToTerraform(ctx, diags, d.GetClientList())
 	trap_groups := snmpTrapGroupsSdkToTerraform(ctx, diags, d.GetTrapGroups())

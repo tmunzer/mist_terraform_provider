@@ -4,37 +4,28 @@ import (
 	"context"
 	mist_transform "terraform-provider-mist/internal/commons/utils"
 
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
+	"mistapi/models"
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 )
 
-func TerraformToSdk(ctx context.Context, plan *OrgWxtagModel) (*mistapigo.WxlanTag, diag.Diagnostics) {
+func TerraformToSdk(ctx context.Context, plan *OrgWxtagModel) (*models.WxlanTag, diag.Diagnostics) {
 	var diags diag.Diagnostics
+	specs := specsTerraformToSdk(ctx, &diags, plan.Specs)
 
-	tag_type, e := mistapigo.NewWxlanTagTypeFromValue(plan.Type.ValueString())
-	if e != nil {
-		diags.AddError("TerraformToSdk: Unable to get tag type", e.Error())
-		return nil, diags
-	} else {
-		data := *mistapigo.NewWxlanTag(plan.Name.ValueString(), *tag_type)
-		data.SetName(plan.Name.ValueString())
+	data := models.WxlanTag{}
+	data.Mac.SetValue(models.ToPointer(plan.Mac.ValueString()))
+	data.Match = models.ToPointer(models.WxlanTagMatchEnum(plan.Match.ValueString()))
+	data.Name = plan.Name.ValueString()
+	data.Op = models.ToPointer(models.WxlanTagOperationEnum(plan.Op.ValueString()))
+	data.ResourceMac.SetValue(models.ToPointer(plan.ResourceMac.ValueString()))
+	data.Services = mist_transform.ListOfStringTerraformToSdk(ctx, plan.Services)
+	data.Specs = specs
+	data.Subnet = models.ToPointer(plan.Subnet.ValueString())
+	data.Type = models.WxlanTagTypeEnum(plan.Type.ValueString())
+	data.Values = mist_transform.ListOfStringTerraformToSdk(ctx, plan.Values)
+	data.VlanId = models.ToPointer(int(plan.VlanId.ValueInt64()))
 
-		data.SetMac(plan.Mac.ValueString())
-		data.SetMatch(mistapigo.WxlanTagMatch(plan.Match.ValueString()))
-		data.SetOp(mistapigo.WxlanTagOperation(plan.Op.ValueString()))
-		data.SetResourceMac(plan.ResourceMac.ValueString())
-		data.SetServices(mist_transform.ListOfStringTerraformToSdk(ctx, plan.Services))
-
-		specs := specsTerraformToSdk(ctx, &diags, plan.Specs)
-		data.SetSpecs(specs)
-
-		data.SetSubnet(plan.Subnet.ValueString())
-		data.SetValues(mist_transform.ListOfStringTerraformToSdk(ctx, plan.Values))
-		data.SetVlanId(int32(plan.VlanId.ValueInt64()))
-
-		return &data, diags
-
-	}
+	return &data, diags
 
 }

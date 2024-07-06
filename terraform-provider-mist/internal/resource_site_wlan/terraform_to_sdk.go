@@ -4,14 +4,14 @@ import (
 	"context"
 	mist_transform "terraform-provider-mist/internal/commons/utils"
 
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
+	"mistapi/models"
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 )
 
-func TerraformToSdk(ctx context.Context, plan *SiteWlanModel) (mistapigo.Wlan, diag.Diagnostics) {
+func TerraformToSdk(ctx context.Context, plan *SiteWlanModel) (models.Wlan, diag.Diagnostics) {
 	var diags diag.Diagnostics
-	data := *mistapigo.NewWlan(plan.Ssid.ValueString())
+	data := *models.NewWlan(plan.Ssid.ValueString())
 	data.SetId(plan.Id.ValueString())
 	data.SetSiteId(plan.SiteId.ValueString())
 	data.SetOrgId(plan.OrgId.ValueString())
@@ -85,7 +85,7 @@ func TerraformToSdk(ctx context.Context, plan *SiteWlanModel) (mistapigo.Wlan, d
 	if plan.ApplyTo.IsNull() || plan.ApplyTo.IsUnknown() {
 		unset["-apply_to"] = ""
 	} else {
-		data.SetApplyTo(mistapigo.WlanApplyTo(plan.ApplyTo.ValueString()))
+		data.SetApplyTo(models.WlanApplyTo(plan.ApplyTo.ValueString()))
 	}
 
 	if plan.ArpFilter.IsNull() || plan.ArpFilter.IsUnknown() {
@@ -104,7 +104,7 @@ func TerraformToSdk(ctx context.Context, plan *SiteWlanModel) (mistapigo.Wlan, d
 	if plan.AuthServerSelection.IsNull() || plan.AuthServerSelection.IsUnknown() {
 		unset["-auth_server_selection"] = ""
 	} else {
-		data.SetAuthServerSelection(mistapigo.WlanAuthServerSelection(plan.AuthServerSelection.ValueString()))
+		data.SetAuthServerSelection(models.WlanAuthServerSelection(plan.AuthServerSelection.ValueString()))
 	}
 
 	if plan.AuthServers.IsNull() || plan.AuthServers.IsUnknown() {
@@ -330,7 +330,7 @@ func TerraformToSdk(ctx context.Context, plan *SiteWlanModel) (mistapigo.Wlan, d
 	if plan.Interface.IsNull() || plan.Interface.IsUnknown() {
 		unset["-interface"] = ""
 	} else {
-		data.SetInterface(mistapigo.WlanInterface(plan.Interface.ValueString()))
+		data.SetInterface(models.WlanInterface(plan.Interface.ValueString()))
 	}
 
 	if plan.Isolation.IsNull() || plan.Isolation.IsUnknown() {
@@ -442,7 +442,7 @@ func TerraformToSdk(ctx context.Context, plan *SiteWlanModel) (mistapigo.Wlan, d
 	if plan.RoamMode.IsNull() || plan.RoamMode.IsUnknown() {
 		unset["-roam_mode"] = ""
 	} else {
-		data.SetRoamMode(mistapigo.WlanRoamMode(plan.RoamMode.ValueString()))
+		data.SetRoamMode(models.WlanRoamMode(plan.RoamMode.ValueString()))
 	}
 
 	if plan.Schedule.IsNull() || plan.Schedule.IsUnknown() {

@@ -3,11 +3,11 @@ package provider
 import (
 	"context"
 	"fmt"
+	"mistapi"
 
 	"terraform-provider-mist/internal/resource_org_nactag"
 
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
-
+	"github.com/google/uuid"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
@@ -22,7 +22,7 @@ func NewOrgNacTag() resource.Resource {
 }
 
 type orgNacTagResource struct {
-	client *mistapigo.APIClient
+	client mistapi.ClientInterface
 }
 
 func (r *orgNacTagResource) Configure(ctx context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
@@ -31,7 +31,7 @@ func (r *orgNacTagResource) Configure(ctx context.Context, req resource.Configur
 		return
 	}
 
-	client, ok := req.ProviderData.(*mistapigo.APIClient)
+	client, ok := req.ProviderData.(mistapi.ClientInterface)
 	if !ok {
 		resp.Diagnostics.AddError(
 			"Unexpected Data Source Configure Type",
@@ -60,13 +60,14 @@ func (r *orgNacTagResource) Create(ctx context.Context, req resource.CreateReque
 		return
 	}
 
+	orgId := uuid.MustParse(plan.OrgId.ValueString())
 	nactag, diags := resource_org_nactag.TerraformToSdk(ctx, &plan)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
 	}
 
-	data, _, err := r.client.OrgsNACTagsAPI.CreateOrgNacTag(ctx, plan.OrgId.ValueString()).NacTag(nactag).Execute()
+	data, err := r.client.OrgsNACTags().CreateOrgNacTag(ctx, orgId, &nactag)
 	if err != nil {
 		//url, _ := httpr.Location()
 		resp.Diagnostics.AddError(
@@ -76,7 +77,7 @@ func (r *orgNacTagResource) Create(ctx context.Context, req resource.CreateReque
 		return
 	}
 
-	state, diags = resource_org_nactag.SdkToTerraform(ctx, data)
+	state, diags = resource_org_nactag.SdkToTerraform(ctx, data.Data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -99,8 +100,10 @@ func (r *orgNacTagResource) Read(ctx context.Context, req resource.ReadRequest, 
 		return
 	}
 
+	orgId := uuid.MustParse(state.OrgId.ValueString())
+	nactagId := uuid.MustParse(state.Id.ValueString())
 	tflog.Info(ctx, "Starting NacTag Read: nactag_id "+state.Id.ValueString())
-	data, _, err := r.client.OrgsNACTagsAPI.GetOrgNacTag(ctx, state.OrgId.ValueString(), state.Id.ValueString()).Execute()
+	data, err := r.client.OrgsNACTags().GetOrgNacTag(ctx, orgId, nactagId)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Error getting NacTag",
@@ -108,7 +111,7 @@ func (r *orgNacTagResource) Read(ctx context.Context, req resource.ReadRequest, 
 		)
 		return
 	}
-	state, diags = resource_org_nactag.SdkToTerraform(ctx, data)
+	state, diags = resource_org_nactag.SdkToTerraform(ctx, data.Data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -142,12 +145,11 @@ func (r *orgNacTagResource) Update(ctx context.Context, req resource.UpdateReque
 		return
 	}
 
+	orgId := uuid.MustParse(state.OrgId.ValueString())
+	nactagId := uuid.MustParse(state.Id.ValueString())
 	tflog.Info(ctx, "Starting NacTag Update for NacTag "+state.Id.ValueString())
-	data, _, err := r.client.OrgsNACTagsAPI.
-		UpdateOrgNacTag(ctx, state.OrgId.ValueString(), state.Id.ValueString()).
-		NacTag(nactag).
-		Execute()
-
+	data, err := r.client.OrgsNACTags().
+		UpdateOrgNacTag(ctx, orgId, nactagId, &nactag)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Error creating NacTag",
@@ -156,7 +158,7 @@ func (r *orgNacTagResource) Update(ctx context.Context, req resource.UpdateReque
 		return
 	}
 
-	state, diags = resource_org_nactag.SdkToTerraform(ctx, data)
+	state, diags = resource_org_nactag.SdkToTerraform(ctx, data.Data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -179,8 +181,10 @@ func (r *orgNacTagResource) Delete(ctx context.Context, req resource.DeleteReque
 		return
 	}
 
+	orgId := uuid.MustParse(state.OrgId.ValueString())
+	nactagId := uuid.MustParse(state.Id.ValueString())
 	tflog.Info(ctx, "Starting NacTag Delete: nactag_id "+state.Id.ValueString())
-	_, err := r.client.OrgsNACTagsAPI.DeleteOrgNacTag(ctx, state.OrgId.ValueString(), state.Id.ValueString()).Execute()
+	_, err := r.client.OrgsNACTags().DeleteOrgNacTag(ctx, orgId, nactagId)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Error creating NacTag",

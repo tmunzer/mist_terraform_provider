@@ -1,9 +1,8 @@
-package resource_rftemplate
+package resource_org_rftemplate
 
 import (
 	"context"
-
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
+	"mistapi/models"
 
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
@@ -11,7 +10,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 )
 
-func modelSpecificSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]mistapigo.RfTemplateModelSpecificProperty) basetypes.MapValue {
+func modelSpecificSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]models.RfTemplateModelSpecificProperty) basetypes.MapValue {
 	state_value_map_attr_type := ModelSpecificValue{}.AttributeTypes(ctx)
 	state_value_map_value := make(map[string]attr.Value)
 	for k, v := range d {

@@ -545,8 +545,6 @@ resources:
       attributes:
         aliases:
           wxtag_id: id     
-<<<<<<< Updated upstream
-=======
   # device_ap:
   #   create:
   #     path: /api/v1/sites/{site_id}/devices/{device_id}
@@ -613,7 +611,6 @@ resources:
   #     attributes:
   #       aliases:
   #         device_id: id     
->>>>>>> Stashed changes
   # org_inventory:
   #   create:
   #     path: /api/v1/orgs/{org_id}/inventory

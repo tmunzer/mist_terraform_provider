@@ -7,11 +7,10 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
-
 	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 )
 
-func ospfAreasConfigSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]mistapigo.OspfConfigArea) basetypes.MapValue {
+func ospfAreasConfigSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]models.OspfConfigArea) basetypes.MapValue {
 
 	state_value_map_attr_type := AreasValue{}.AttributeTypes(ctx)
 	state_value_map_value := make(map[string]attr.Value)
@@ -29,7 +28,7 @@ func ospfAreasConfigSdkToTerraform(ctx context.Context, diags *diag.Diagnostics,
 	return state_result_map
 }
 
-func ospfConfigSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistapigo.OspfConfig) OspfConfigValue {
+func ospfConfigSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d models.OspfConfig) OspfConfigValue {
 
 	state_value_map_attr_type := OspfConfigValue{}.AttributeTypes(ctx)
 

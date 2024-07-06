@@ -4,21 +4,21 @@ import (
 	"context"
 	mist_transform "terraform-provider-mist/internal/commons/utils"
 
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
+	"mistapi/models"
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 
-func dhcpdConfigFixedBindingsTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.MapValue) map[string]mistapigo.DhcpdConfigFixedBinding {
+func dhcpdConfigFixedBindingsTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.MapValue) map[string]models.DhcpdConfigFixedBinding {
 	tflog.Debug(ctx, "dhcpdConfigFixedBindingsTerraformToSdk")
-	data_map := make(map[string]mistapigo.DhcpdConfigFixedBinding)
+	data_map := make(map[string]models.DhcpdConfigFixedBinding)
 	for k, v := range d.Elements() {
 		var v_interface interface{} = v
 		plan := v_interface.(FixedBindingsValue)
 
-		data := *mistapigo.NewDhcpdConfigFixedBinding()
+		data := *models.NewDhcpdConfigFixedBinding()
 		data.SetIp(plan.Ip.ValueString())
 		data.SetName(plan.Name.ValueString())
 
@@ -27,15 +27,15 @@ func dhcpdConfigFixedBindingsTerraformToSdk(ctx context.Context, diags *diag.Dia
 	return data_map
 }
 
-func dhcpdConfigOptionsTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.MapValue) map[string]mistapigo.DhcpdConfigOption {
+func dhcpdConfigOptionsTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.MapValue) map[string]models.DhcpdConfigOption {
 	tflog.Debug(ctx, "dhcpdConfigOptionsTerraformToSdk")
-	data_map := make(map[string]mistapigo.DhcpdConfigOption)
+	data_map := make(map[string]models.DhcpdConfigOption)
 	for k, v := range d.Elements() {
 		var v_interface interface{} = v
 		plan := v_interface.(OptionsValue)
 
-		data := *mistapigo.NewDhcpdConfigOption()
-		data.SetType(mistapigo.DhcpdConfigOptionType(plan.OptionsType.ValueString()))
+		data := *models.NewDhcpdConfigOption()
+		data.SetType(models.DhcpdConfigOptionType(plan.OptionsType.ValueString()))
 		data.SetValue(plan.Value.ValueString())
 
 		data_map[k] = data
@@ -43,15 +43,15 @@ func dhcpdConfigOptionsTerraformToSdk(ctx context.Context, diags *diag.Diagnosti
 	return data_map
 }
 
-func dhcpdConfigVendorOptionsTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.MapValue) map[string]mistapigo.DhcpdConfigVendorOption {
+func dhcpdConfigVendorOptionsTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.MapValue) map[string]models.DhcpdConfigVendorOption {
 	tflog.Debug(ctx, "dhcpdConfigVendorOptionsTerraformToSdk")
-	data_map := make(map[string]mistapigo.DhcpdConfigVendorOption)
+	data_map := make(map[string]models.DhcpdConfigVendorOption)
 	for k, v := range d.Elements() {
 		var v_interface interface{} = v
 		plan := v_interface.(VendorEncapulatedValue)
 
-		data := *mistapigo.NewDhcpdConfigVendorOption()
-		data.SetType(mistapigo.DhcpdConfigVendorOptionType(plan.VendorEncapulatedType.ValueString()))
+		data := *models.NewDhcpdConfigVendorOption()
+		data.SetType(models.DhcpdConfigVendorOptionType(plan.VendorEncapulatedType.ValueString()))
 		data.SetValue(plan.Value.ValueString())
 
 		data_map[k] = data
@@ -70,7 +70,7 @@ func dhcpdConfigConfigsTerraformToSdk(ctx context.Context, diags *diag.Diagnosti
 		options := dhcpdConfigOptionsTerraformToSdk(ctx, diags, plan.Options)
 		vendor_encapulated := dhcpdConfigVendorOptionsTerraformToSdk(ctx, diags, plan.VendorEncapulated)
 
-		data := *mistapigo.NewDhcpdConfig()
+		data := *models.NewDhcpdConfig()
 		data.SetDnsServers(mist_transform.ListOfStringTerraformToSdk(ctx, plan.DnsServers))
 		data.SetDnsSuffix(mist_transform.ListOfStringTerraformToSdk(ctx, plan.DnsSuffix))
 		data.SetFixedBindings(fixed_bindings)
@@ -84,8 +84,8 @@ func dhcpdConfigConfigsTerraformToSdk(ctx context.Context, diags *diag.Diagnosti
 		data.SetServerIdOverride(plan.ServerIdOverride.ValueBool())
 		data.SetServers(mist_transform.ListOfStringTerraformToSdk(ctx, plan.Servers))
 		data.SetServers6(mist_transform.ListOfStringTerraformToSdk(ctx, plan.Servers6))
-		data.SetType(mistapigo.DhcpdConfigType(plan.ConfigType.ValueString()))
-		data.SetType6(mistapigo.DhcpdConfigType6(plan.Type6.ValueString()))
+		data.SetType(models.DhcpdConfigType(plan.ConfigType.ValueString()))
+		data.SetType6(models.DhcpdConfigType6(plan.Type6.ValueString()))
 		data.SetVendorEncapulated(vendor_encapulated)
 
 		data_map[k] = data
@@ -93,10 +93,10 @@ func dhcpdConfigConfigsTerraformToSdk(ctx context.Context, diags *diag.Diagnosti
 	return data_map
 }
 
-func dhcpdConfigTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d DhcpdConfigValue) mistapigo.DhcpdConfigs {
+func dhcpdConfigTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d DhcpdConfigValue) models.DhcpdConfigs {
 	tflog.Debug(ctx, "dhcpdConfigTerraformToSdk")
 
-	data := *mistapigo.NewDhcpdConfigs()
+	data := *models.NewDhcpdConfigs()
 
 	data.SetEnabled(d.Enabled.ValueBool())
 	data.AdditionalProperties = dhcpdConfigConfigsTerraformToSdk(ctx, diags, d.Config)

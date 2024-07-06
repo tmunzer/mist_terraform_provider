@@ -2,30 +2,40 @@ package resource_org_networktemplate
 
 import (
 	"context"
+	mist_transform "terraform-provider-mist/internal/commons/utils"
+
+	"mistapi/models"
 
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
-
-	mist_transform "terraform-provider-mist/internal/commons/utils"
-
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 )
 
-func aclTagSpecsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []mistapigo.AclTagSpec) basetypes.ListValue {
+func aclTagSpecsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, l []models.AclTagSpec) basetypes.ListValue {
 
 	var data_list = []SpecsValue{}
 
-	for _, item := range d {
-		data_map_attr_type := SpecsValue{}.AttributeTypes(ctx)
-		data_map_value := map[string]attr.Value{
-			"port_range": types.StringValue(string(item.GetPortRange())),
-			"protocol":   types.StringValue(string(item.GetProtocol())),
+	for _, d := range l {
+
+		var port_range basetypes.StringValue
+		var protocol basetypes.StringValue
+
+		if d.PortRange != nil {
+			port_range = types.StringValue(*d.PortRange)
+		}
+		if d.Protocol != nil {
+			protocol = types.StringValue(*d.Protocol)
 		}
 
+		data_map_attr_type := SpecsValue{}.AttributeTypes(ctx)
+		data_map_value := map[string]attr.Value{
+			"port_range": port_range,
+			"protocol":   protocol,
+		}
 		data, e := NewSpecsValue(data_map_attr_type, data_map_value)
 		diags.Append(e...)
+
 		data_list = append(data_list, data)
 	}
 	data_list_type := SpecsValue{}.Type(ctx)
@@ -33,24 +43,51 @@ func aclTagSpecsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d [
 	diags.Append(e...)
 	return r
 }
-func aclTagsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]mistapigo.AclTag) basetypes.MapValue {
+func aclTagsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, m map[string]models.AclTag) basetypes.MapValue {
 
-	state_value_map_attr_type := AclTagsValue{}.AttributeTypes(ctx)
 	state_value_map_value := make(map[string]attr.Value)
-	for k, v := range d {
-		specs := aclTagSpecsSdkToTerraform(ctx, diags, v.GetSpecs())
-		state_value_map_attr_value := map[string]attr.Value{
-			"gbp_tag":      types.Float64Value(float64(v.GetGbpTag())),
-			"macs":         mist_transform.ListOfStringSdkToTerraform(ctx, v.GetMacs()),
-			"network":      types.StringValue(v.GetNetwork()),
-			"radius_group": types.StringValue(v.GetRadiusGroup()),
-			"specs":        specs,
-			"subnets":      mist_transform.ListOfStringSdkToTerraform(ctx, v.GetSubnets()),
-			"type":         types.StringValue(string(v.GetType())),
+	for k, d := range m {
+		var gbp_tag basetypes.Int64Value
+		var macs basetypes.ListValue
+		var network basetypes.StringValue
+		var radius_group basetypes.StringValue
+		var specs basetypes.ListValue
+		var subnets basetypes.ListValue
+		var tag_type basetypes.StringValue = types.StringValue(string(d.Type))
+
+		if d.GbpTag != nil {
+			gbp_tag = types.Int64Value(int64(*d.GbpTag))
 		}
-		n, e := NewAclTagsValue(state_value_map_attr_type, state_value_map_attr_value)
+		if d.Macs != nil {
+			macs = mist_transform.ListOfStringSdkToTerraform(ctx, d.Macs)
+		}
+		if d.Network != nil {
+			network = types.StringValue(*d.Network)
+		}
+		if d.RadiusGroup != nil {
+			radius_group = types.StringValue(*d.RadiusGroup)
+		}
+		if d.Specs != nil {
+			specs = aclTagSpecsSdkToTerraform(ctx, diags, d.Specs)
+		}
+		if d.Subnets != nil {
+			subnets = mist_transform.ListOfStringSdkToTerraform(ctx, d.Subnets)
+		}
+
+		data_map_attr_type := AclTagsValue{}.AttributeTypes(ctx)
+		data_map_value := map[string]attr.Value{
+			"gbp_tag":      gbp_tag,
+			"macs":         macs,
+			"network":      network,
+			"radius_group": radius_group,
+			"specs":        specs,
+			"subnets":      subnets,
+			"type":         tag_type,
+		}
+		data, e := NewAclTagsValue(data_map_attr_type, data_map_value)
 		diags.Append(e...)
-		state_value_map_value[k] = n
+
+		state_value_map_value[k] = data
 	}
 	state_result_map_type := AclTagsValue{}.Type(ctx)
 	state_result_map, e := types.MapValueFrom(ctx, state_result_map_type, state_value_map_value)

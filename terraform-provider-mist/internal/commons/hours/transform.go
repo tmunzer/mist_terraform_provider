@@ -12,42 +12,43 @@ import (
 	"github.com/hashicorp/terraform-plugin-go/tftypes"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
+	"mistapi/models"
 )
 
-func HoursSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistapigo.Hours) basetypes.ObjectValue {
+func HoursSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d models.Hours) basetypes.ObjectValue {
 	tflog.Debug(ctx, "HoursSdkToTerraform")
 	r_attr_type := HoursValue{}.AttributeTypes(ctx)
 	r_attr_value := map[string]attr.Value{
-		"mon": types.StringValue(d.GetMon()),
-		"tue": types.StringValue(d.GetTue()),
-		"wed": types.StringValue(d.GetWed()),
-		"thu": types.StringValue(d.GetThu()),
-		"fri": types.StringValue(d.GetFri()),
-		"sat": types.StringValue(d.GetSat()),
-		"sun": types.StringValue(d.GetSun()),
+		"mon": types.StringValue(*d.Mon),
+		"tue": types.StringValue(*d.Tue),
+		"wed": types.StringValue(*d.Wed),
+		"thu": types.StringValue(*d.Thu),
+		"fri": types.StringValue(*d.Fri),
+		"sat": types.StringValue(*d.Sat),
+		"sun": types.StringValue(*d.Sun),
 	}
 	r, e := basetypes.NewObjectValue(r_attr_type, r_attr_value)
 	diags.Append(e...)
 	return r
 }
 
-func HoursTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) mistapigo.Hours {
+func HoursTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) models.Hours {
 	tflog.Debug(ctx, "HoursConfigTerraformToSdk")
-	data := mistapigo.NewHours()
 	if d.IsNull() || d.IsUnknown() {
-		return *data
+		return models.Hours{}
 	} else {
 		v := NewHoursValueMust(d.AttributeTypes(ctx), d.Attributes())
-		data.SetMon(v.Mon.ValueString())
-		data.SetThu(v.Tue.ValueString())
-		data.SetWed(v.Wed.ValueString())
-		data.SetThu(v.Thu.ValueString())
-		data.SetFri(v.Fri.ValueString())
-		data.SetSat(v.Sat.ValueString())
-		data.SetSun(v.Sun.ValueString())
+		data := models.Hours{
+			Mon: v.Mon.ValueStringPointer(),
+			Tue: v.Tue.ValueStringPointer(),
+			Wed: v.Wed.ValueStringPointer(),
+			Thu: v.Thu.ValueStringPointer(),
+			Fri: v.Fri.ValueStringPointer(),
+			Sat: v.Sat.ValueStringPointer(),
+			Sun: v.Sun.ValueStringPointer(),
+		}
 
-		return *data
+		return data
 	}
 }
 

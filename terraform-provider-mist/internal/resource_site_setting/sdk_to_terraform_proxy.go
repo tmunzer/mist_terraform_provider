@@ -3,15 +3,15 @@ package resource_site_setting
 import (
 	"context"
 
+	"mistapi/models"
+
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
-
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 )
 
-func proxySdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistapigo.Proxy) ProxyValue {
+func proxySdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d models.Proxy) ProxyValue {
 	tflog.Debug(ctx, "proxySdkToTerraform")
 
 	r_attr_type := ProxyValue{}.AttributeTypes(ctx)

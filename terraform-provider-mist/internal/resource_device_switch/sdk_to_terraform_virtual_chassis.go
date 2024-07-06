@@ -7,11 +7,10 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
-
 	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 )
 
-func virtualChassisMembersSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []mistapigo.SwitchVirtualChassisMember) basetypes.ListValue {
+func virtualChassisMembersSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []models.SwitchVirtualChassisMember) basetypes.ListValue {
 
 	var data_list = []MembersValue{}
 	for _, v := range d {
@@ -29,7 +28,7 @@ func virtualChassisMembersSdkToTerraform(ctx context.Context, diags *diag.Diagno
 	return r
 }
 
-func virtualChassisSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistapigo.SwitchVirtualChassis) VirtualChassisValue {
+func virtualChassisSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d models.SwitchVirtualChassis) VirtualChassisValue {
 
 	state_value_map_attr_type := VirtualChassisValue{}.AttributeTypes(ctx)
 

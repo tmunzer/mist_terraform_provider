@@ -3,14 +3,14 @@ package resource_site_wlan
 import (
 	"context"
 
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
+	"mistapi/models"
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 )
 
-func appLimitTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, plan AppLimitValue) mistapigo.WlanAppLimit {
+func appLimitTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, plan AppLimitValue) models.WlanAppLimit {
 
-	data := *mistapigo.NewWlanAppLimit()
+	data := *models.NewWlanAppLimit()
 
 	app_limit := make(map[string]int32)
 	for k, v := range plan.Apps.Elements() {

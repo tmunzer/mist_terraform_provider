@@ -7,11 +7,11 @@ import (
 
 	"terraform-provider-mist/internal/commons/hours"
 
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
+	"mistapi/models"
 )
 
-func scheduleTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d ScheduleValue) mistapigo.WlanSchedule {
-	data := mistapigo.NewWlanSchedule()
+func scheduleTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d ScheduleValue) models.WlanSchedule {
+	data := models.NewWlanSchedule()
 
 	data.SetEnabled(d.Enabled.ValueBool())
 

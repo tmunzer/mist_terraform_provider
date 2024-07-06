@@ -3,38 +3,51 @@ package resource_site_networktemplate
 import (
 	"context"
 
+	"mistapi/models"
+
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 
 	mist_transform "terraform-provider-mist/internal/commons/utils"
-
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 )
 
-func vrfConfigSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistapigo.VrfConfig) VrfConfigValue {
-	data_attr_type := VrfConfigValue{}.AttributeTypes(ctx)
-	data_attr_value := map[string]attr.Value{
-		"enabled": types.BoolValue(d.GetEnabled()),
+func vrfConfigSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d *models.VrfConfig) VrfConfigValue {
+
+	var enabled basetypes.BoolValue
+
+	if d != nil && d.Enabled != nil {
+		enabled = types.BoolValue(*d.Enabled)
 	}
 
-	r, e := NewVrfConfigValue(data_attr_type, data_attr_value)
+	data_map_attr_type := VrfConfigValue{}.AttributeTypes(ctx)
+	data_map_value := map[string]attr.Value{
+		"enabled": enabled,
+	}
+	data, e := NewVrfConfigValue(data_map_attr_type, data_map_value)
 	diags.Append(e...)
 
-	return r
+	return data
 }
 
-func vrfInstanceExtraRouteSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]mistapigo.VrfExtraRoute) basetypes.MapValue {
-	data_map_attr_type := ExtraRoutesValue{}.AttributeTypes(ctx)
+func vrfInstanceExtraRouteSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, m map[string]models.VrfExtraRoute) basetypes.MapValue {
 	data_map_value := make(map[string]attr.Value)
-	for k, v := range d {
-		var data_map_item = map[string]attr.Value{
-			"via": types.StringValue(v.GetVia()),
+	for k, d := range m {
+		var via basetypes.StringValue
+
+		if d.Via != nil {
+			via = types.StringValue(*d.Via)
 		}
-		data_map_item_object, e := NewExtraRoutesValue(data_map_attr_type, data_map_item)
+
+		data_map_attr_type := VrfExtraRoutesValue{}.AttributeTypes(ctx)
+		data_map_value := map[string]attr.Value{
+			"via": via,
+		}
+		data, e := NewVrfExtraRoutesValue(data_map_attr_type, data_map_value)
 		diags.Append(e...)
-		data_map_value[k] = data_map_item_object
+
+		data_map_value[k] = data
 	}
 	state_type := ExtraRoutesValue{}.Type(ctx)
 	state_result, e := types.MapValueFrom(ctx, state_type, data_map_value)
@@ -42,18 +55,22 @@ func vrfInstanceExtraRouteSdkToTerraform(ctx context.Context, diags *diag.Diagno
 	return state_result
 }
 
-func vrfInstancesSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]mistapigo.VrfInstance) basetypes.MapValue {
-	data_map_attr_type := VrfInstancesValue{}.AttributeTypes(ctx)
+func vrfInstancesSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, m map[string]models.VrfInstance) basetypes.MapValue {
+
 	data_map_value := make(map[string]attr.Value)
-	for k, v := range d {
-		extra_routes := vrfInstanceExtraRouteSdkToTerraform(ctx, diags, v.GetExtraRoutes())
-		var data_map_item = map[string]attr.Value{
+	for k, d := range m {
+		var extra_routes basetypes.MapValue = vrfInstanceExtraRouteSdkToTerraform(ctx, diags, d.ExtraRoutes)
+		var networks basetypes.ListValue = mist_transform.ListOfStringSdkToTerraform(ctx, d.Networks)
+
+		data_map_attr_type := VrfInstancesValue{}.AttributeTypes(ctx)
+		data_map_value := map[string]attr.Value{
 			"extra_routes": extra_routes,
-			"networks":     mist_transform.ListOfStringSdkToTerraform(ctx, v.GetNetworks()),
+			"networks":     networks,
 		}
-		data_map_item_object, e := NewVrfInstancesValue(data_map_attr_type, data_map_item)
+		data, e := NewVrfInstancesValue(data_map_attr_type, data_map_value)
 		diags.Append(e...)
-		data_map_value[k] = data_map_item_object
+
+		data_map_value[k] = data
 	}
 	state_type := VrfInstancesValue{}.Type(ctx)
 	state_result, e := types.MapValueFrom(ctx, state_type, data_map_value)

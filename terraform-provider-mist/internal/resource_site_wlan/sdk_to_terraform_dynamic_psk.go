@@ -3,14 +3,14 @@ package resource_site_wlan
 import (
 	"context"
 
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
+	"mistapi/models"
 
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
-func dynamicPskSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, data mistapigo.WlanDynamicPsk) DynamicPskValue {
+func dynamicPskSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, data models.WlanDynamicPsk) DynamicPskValue {
 
 	plan_attr := map[string]attr.Value{
 		"default_psk":     types.StringValue(data.GetDefaultPsk()),

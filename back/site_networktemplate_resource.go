@@ -3,9 +3,8 @@ package provider
 import (
 	"context"
 	"fmt"
+	"mistapi"
 	"terraform-provider-mist/internal/resource_site_networktemplate"
-
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
@@ -21,7 +20,7 @@ func NewSiteNetworkTemplate() resource.Resource {
 }
 
 type siteNetworkTemplateResource struct {
-	client *mistapigo.APIClient
+	client mistapi.ClientInterface
 }
 
 func (r *siteNetworkTemplateResource) Configure(ctx context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
@@ -30,7 +29,7 @@ func (r *siteNetworkTemplateResource) Configure(ctx context.Context, req resourc
 		return
 	}
 
-	client, ok := req.ProviderData.(*mistapigo.APIClient)
+	client, ok := req.ProviderData.(mistapi.ClientInterface)
 	if !ok {
 		resp.Diagnostics.AddError(
 			"Unexpected Data Source Configure Type",
@@ -65,7 +64,7 @@ func (r *siteNetworkTemplateResource) Create(ctx context.Context, req resource.C
 		return
 	}
 
-	data, _, err := r.client.SitesSettingAPI.UpdateSiteSettings(ctx, plan.SiteId.ValueString()).SiteSetting(networktemplate).Execute()
+	data, err := r.client.SitesSettingAPI.UpdateSiteSettings(ctx, plan.SiteId.ValueString()).SiteSetting(networktemplate
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Error creating NetworkTemplate",
@@ -74,7 +73,7 @@ func (r *siteNetworkTemplateResource) Create(ctx context.Context, req resource.C
 		return
 	}
 
-	state, diags = resource_site_networktemplate.SdkToTerraform(ctx, data)
+	state, diags = resource_site_networktemplate.SdkToTerraform(ctx, data.Data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -98,7 +97,7 @@ func (r *siteNetworkTemplateResource) Read(ctx context.Context, req resource.Rea
 	}
 
 	tflog.Info(ctx, "Starting NetworkTemplate Read: networktemplate_id "+state.SiteId.ValueString())
-	data, _, err := r.client.SitesSettingAPI.GetSiteSetting(ctx, state.SiteId.ValueString()).Execute()
+	data, err := r.client.SitesSettingAPI.GetSiteSetting(ctx, state.SiteId.ValueString()
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Error getting NetworkTemplate",
@@ -106,7 +105,7 @@ func (r *siteNetworkTemplateResource) Read(ctx context.Context, req resource.Rea
 		)
 		return
 	}
-	state, diags = resource_site_networktemplate.SdkToTerraform(ctx, data)
+	state, diags = resource_site_networktemplate.SdkToTerraform(ctx, data.Data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -141,7 +140,7 @@ func (r *siteNetworkTemplateResource) Update(ctx context.Context, req resource.U
 	}
 
 	tflog.Info(ctx, "Starting NetworkTemplate Update for Site "+state.SiteId.ValueString())
-	data, _, err := r.client.SitesSettingAPI.
+	data, err := r.client.SitesSettingAPI.
 		UpdateSiteSettings(ctx, state.SiteId.ValueString()).
 		SiteSetting(networktemplate).
 		Execute()
@@ -154,7 +153,7 @@ func (r *siteNetworkTemplateResource) Update(ctx context.Context, req resource.U
 		return
 	}
 
-	state, diags = resource_site_networktemplate.SdkToTerraform(ctx, data)
+	state, diags = resource_site_networktemplate.SdkToTerraform(ctx, data.Data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -180,7 +179,7 @@ func (r *siteNetworkTemplateResource) Delete(ctx context.Context, req resource.D
 	networktemplate, diags := resource_site_networktemplate.DeleteTerraformToSdk(ctx)
 	resp.Diagnostics.Append(diags...)
 
-	_, _, err := r.client.SitesSettingAPI.UpdateSiteSettings(ctx, state.SiteId.ValueString()).SiteSetting(networktemplate).Execute()
+	_, _, err := r.client.SitesSettingAPI.UpdateSiteSettings(ctx, state.SiteId.ValueString()).SiteSetting(networktemplate
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Error creating NetworkTemplate",

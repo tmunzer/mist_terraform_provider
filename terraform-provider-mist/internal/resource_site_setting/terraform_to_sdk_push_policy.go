@@ -9,12 +9,12 @@ import (
 
 	hours "terraform-provider-mist/internal/commons/hours"
 
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
+	"mistapi/models"
 )
 
-func pushPolicyPushWindowConfigTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) *mistapigo.SiteSettingConfigPushPolicyPushWindow {
+func pushPolicyPushWindowConfigTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) *models.SiteSettingConfigPushPolicyPushWindow {
 	tflog.Debug(ctx, "pushPolicyPushWindowConfigTerraformToSdk")
-	data := mistapigo.NewSiteSettingConfigPushPolicyPushWindow()
+	data := models.NewSiteSettingConfigPushPolicyPushWindow()
 
 	if d.IsNull() || d.IsUnknown() {
 		return data
@@ -30,9 +30,9 @@ func pushPolicyPushWindowConfigTerraformToSdk(ctx context.Context, diags *diag.D
 	}
 }
 
-func pushPolicyConfigTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d ConfigPushPolicyValue) *mistapigo.SiteSettingConfigPushPolicy {
+func pushPolicyConfigTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d ConfigPushPolicyValue) *models.SiteSettingConfigPushPolicy {
 	tflog.Debug(ctx, "pushPolicyConfigTerraformToSdk")
-	data := mistapigo.NewSiteSettingConfigPushPolicy()
+	data := models.NewSiteSettingConfigPushPolicy()
 
 	data.SetNoPush(d.NoPush.ValueBool())
 

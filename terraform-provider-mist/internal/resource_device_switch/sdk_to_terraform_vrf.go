@@ -7,13 +7,12 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 
 	mist_transform "terraform-provider-mist/internal/commons/utils"
-
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 )
 
-func vrfConfigSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistapigo.VrfConfig) VrfConfigValue {
+func vrfConfigSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d models.VrfConfig) VrfConfigValue {
 	data_attr_type := VrfConfigValue{}.AttributeTypes(ctx)
 	data_attr_value := map[string]attr.Value{
 		"enabled": types.BoolValue(d.GetEnabled()),
@@ -25,7 +24,7 @@ func vrfConfigSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mis
 	return r
 }
 
-func vrfInstanceExtraRouteSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]mistapigo.VrfExtraRoute) basetypes.MapValue {
+func vrfInstanceExtraRouteSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]models.VrfExtraRoute) basetypes.MapValue {
 	data_map_attr_type := ExtraRoutesValue{}.AttributeTypes(ctx)
 	data_map_value := make(map[string]attr.Value)
 	for k, v := range d {
@@ -42,7 +41,7 @@ func vrfInstanceExtraRouteSdkToTerraform(ctx context.Context, diags *diag.Diagno
 	return state_result
 }
 
-func vrfInstancesSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]mistapigo.VrfInstance) basetypes.MapValue {
+func vrfInstancesSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]models.VrfInstance) basetypes.MapValue {
 	data_map_attr_type := VrfInstancesValue{}.AttributeTypes(ctx)
 	data_map_value := make(map[string]attr.Value)
 	for k, v := range d {

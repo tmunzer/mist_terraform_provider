@@ -6,12 +6,12 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
+	"mistapi/models"
 )
 
-func wanVnaTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d WanVnaValue) mistapigo.SiteSettingWanVna {
+func wanVnaTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d WanVnaValue) models.SiteSettingWanVna {
 	tflog.Debug(ctx, "wanVnaTerraformToSdk")
-	data := mistapigo.NewSiteSettingWanVna()
+	data := models.NewSiteSettingWanVna()
 
 	data.SetEnabled(d.Enabled.ValueBool())
 

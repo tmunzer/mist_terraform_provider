@@ -4,7 +4,7 @@ import (
 	"context"
 	mist_transform "terraform-provider-mist/internal/commons/utils"
 
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
+	"mistapi/models"
 
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
@@ -12,13 +12,13 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 )
 
-func TenantSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]mistapigo.NetworkTenant) basetypes.MapValue {
+func TenantSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]models.NetworkTenant) basetypes.MapValue {
 
 	state_value_map_attr_type := TenantsValue{}.AttributeTypes(ctx)
 	state_value_map_value := make(map[string]attr.Value)
 	for k, v := range d {
 		state_value_map_attr_value := map[string]attr.Value{
-			"addresses": mist_transform.ListOfStringSdkToTerraform(ctx, v.GetAddresses()),
+			"addresses": mist_transform.ListOfStringSdkToTerraform(ctx, v.Addresses),
 		}
 		n, e := NewTenantsValue(state_value_map_attr_type, state_value_map_attr_value)
 		diags.Append(e...)

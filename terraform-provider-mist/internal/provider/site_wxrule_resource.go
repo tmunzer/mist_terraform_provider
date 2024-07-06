@@ -3,11 +3,11 @@ package provider
 import (
 	"context"
 	"fmt"
+	"mistapi"
 
 	"terraform-provider-mist/internal/resource_site_wxrule"
 
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
-
+	"github.com/google/uuid"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
@@ -22,7 +22,7 @@ func NewSiteWxRule() resource.Resource {
 }
 
 type siteWxRuleResource struct {
-	client *mistapigo.APIClient
+	client mistapi.ClientInterface
 }
 
 func (r *siteWxRuleResource) Configure(ctx context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
@@ -31,7 +31,7 @@ func (r *siteWxRuleResource) Configure(ctx context.Context, req resource.Configu
 		return
 	}
 
-	client, ok := req.ProviderData.(*mistapigo.APIClient)
+	client, ok := req.ProviderData.(mistapi.ClientInterface)
 	if !ok {
 		resp.Diagnostics.AddError(
 			"Unexpected Data Source Configure Type",
@@ -60,13 +60,14 @@ func (r *siteWxRuleResource) Create(ctx context.Context, req resource.CreateRequ
 		return
 	}
 
+	siteId := uuid.MustParse(plan.SiteId.ValueString())
 	wxrule, diags := resource_site_wxrule.TerraformToSdk(ctx, &plan)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
 	}
 
-	data, _, err := r.client.SitesWxRulesAPI.CreateSiteWxRule(ctx, plan.SiteId.ValueString()).WxlanRule(*wxrule).Execute()
+	data, err := r.client.SitesWxRules().CreateSiteWxRule(ctx, siteId, wxrule)
 	if err != nil {
 		//url, _ := httpr.Location()
 		resp.Diagnostics.AddError(
@@ -76,7 +77,7 @@ func (r *siteWxRuleResource) Create(ctx context.Context, req resource.CreateRequ
 		return
 	}
 
-	state, diags = resource_site_wxrule.SdkToTerraform(ctx, data)
+	state, diags = resource_site_wxrule.SdkToTerraform(ctx, data.Data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -99,8 +100,10 @@ func (r *siteWxRuleResource) Read(ctx context.Context, req resource.ReadRequest,
 		return
 	}
 
+	siteId := uuid.MustParse(state.SiteId.ValueString())
+	wxruleId := uuid.MustParse(state.Id.ValueString())
 	tflog.Info(ctx, "Starting WxRule Read: wxrule_id "+state.Id.ValueString())
-	data, _, err := r.client.SitesWxRulesAPI.GetSiteWxRule(ctx, state.SiteId.ValueString(), state.Id.ValueString()).Execute()
+	data, err := r.client.SitesWxRules().GetSiteWxRule(ctx, siteId, wxruleId)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Error getting WxRule",
@@ -108,7 +111,7 @@ func (r *siteWxRuleResource) Read(ctx context.Context, req resource.ReadRequest,
 		)
 		return
 	}
-	state, diags = resource_site_wxrule.SdkToTerraform(ctx, data)
+	state, diags = resource_site_wxrule.SdkToTerraform(ctx, data.Data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -142,11 +145,10 @@ func (r *siteWxRuleResource) Update(ctx context.Context, req resource.UpdateRequ
 		return
 	}
 
+	siteId := uuid.MustParse(state.SiteId.ValueString())
+	wxruleId := uuid.MustParse(state.Id.ValueString())
 	tflog.Info(ctx, "Starting WxRule Update for WxRule "+state.Id.ValueString())
-	data, _, err := r.client.SitesWxRulesAPI.
-		UpdateSiteWxRule(ctx, state.SiteId.ValueString(), state.Id.ValueString()).
-		WxlanRule(*wxrule).
-		Execute()
+	data, err := r.client.SitesWxRules().UpdateSiteWxRule(ctx, siteId, wxruleId, wxrule)
 
 	if err != nil {
 		resp.Diagnostics.AddError(
@@ -156,7 +158,7 @@ func (r *siteWxRuleResource) Update(ctx context.Context, req resource.UpdateRequ
 		return
 	}
 
-	state, diags = resource_site_wxrule.SdkToTerraform(ctx, data)
+	state, diags = resource_site_wxrule.SdkToTerraform(ctx, data.Data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -179,8 +181,10 @@ func (r *siteWxRuleResource) Delete(ctx context.Context, req resource.DeleteRequ
 		return
 	}
 
+	siteId := uuid.MustParse(state.SiteId.ValueString())
+	wxruleId := uuid.MustParse(state.Id.ValueString())
 	tflog.Info(ctx, "Starting WxRule Delete: wxrule_id "+state.Id.ValueString())
-	_, err := r.client.SitesWxRulesAPI.DeleteSiteWxRule(ctx, state.SiteId.ValueString(), state.Id.ValueString()).Execute()
+	_, err := r.client.SitesWxRules().DeleteSiteWxRule(ctx, siteId, wxruleId)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Error creating WxRule",

@@ -3,19 +3,19 @@ package resource_org_wlan
 import (
 	"context"
 
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
+	"mistapi/models"
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 )
 
-func bandsTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, plan basetypes.ListValue) []mistapigo.Dot11Band {
+func bandsTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, plan basetypes.ListValue) []models.Dot11Band {
 
-	var data_list []mistapigo.Dot11Band
+	var data_list []models.Dot11Band
 	for _, v := range plan.Elements() {
 		var v_interface interface{} = v
 		v_plan := v_interface.(basetypes.StringValue)
-		data, e := mistapigo.NewDot11BandFromValue(v_plan.ValueString())
+		data, e := models.NewDot11BandFromValue(v_plan.ValueString())
 		if e != nil {
 			diags.AddError("bandsTerraformToSdk", e.Error())
 		} else {

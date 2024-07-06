@@ -8,12 +8,12 @@ import (
 
 	mist_transform "terraform-provider-mist/internal/commons/utils"
 
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
+	"mistapi/models"
 )
 
-func ssrTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d SsrValue) mistapigo.SiteSettingSsr {
+func ssrTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d SsrValue) models.SiteSettingSsr {
 	tflog.Debug(ctx, "ssrTerraformToSdk")
-	data := mistapigo.NewSiteSettingSsr()
+	data := models.NewSiteSettingSsr()
 
 	data.SetConductorHosts(mist_transform.ListOfStringTerraformToSdk(ctx, d.ConductorHosts))
 	data.SetDisableStats(d.DisableStats.ValueBool())

@@ -3,16 +3,16 @@ package resource_site_setting
 import (
 	"context"
 
+	"mistapi/models"
+
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
-
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 )
 
-func simpleAlertArpSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistapigo.SimpleAlertArpFailure) basetypes.ObjectValue {
+func simpleAlertArpSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d models.SimpleAlertArpFailure) basetypes.ObjectValue {
 	tflog.Debug(ctx, "simpleAlertArpSdkToTerraform")
 
 	r_attr_type := ArpFailureValue{}.AttributeTypes(ctx)
@@ -25,7 +25,7 @@ func simpleAlertArpSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, 
 	diags.Append(e...)
 	return r
 }
-func simpleAlertDnsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistapigo.SimpleAlertDnsFailure) basetypes.ObjectValue {
+func simpleAlertDnsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d models.SimpleAlertDnsFailure) basetypes.ObjectValue {
 	tflog.Debug(ctx, "simpleAlertDnsSdkToTerraform")
 
 	r_attr_type := DnsFailureValue{}.AttributeTypes(ctx)
@@ -38,7 +38,7 @@ func simpleAlertDnsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, 
 	diags.Append(e...)
 	return r
 }
-func simpleAlertDhcpSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistapigo.SimpleAlertDhcpFailure) basetypes.ObjectValue {
+func simpleAlertDhcpSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d models.SimpleAlertDhcpFailure) basetypes.ObjectValue {
 	tflog.Debug(ctx, "simpleAlertDhcpSdkToTerraform")
 
 	r_attr_type := DhcpFailureValue{}.AttributeTypes(ctx)
@@ -52,7 +52,7 @@ func simpleAlertDhcpSdkToTerraform(ctx context.Context, diags *diag.Diagnostics,
 	return r
 }
 
-func simpleAlertSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistapigo.SimpleAlert) SimpleAlertValue {
+func simpleAlertSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d models.SimpleAlert) SimpleAlertValue {
 	tflog.Debug(ctx, "simpleAlertSdkToTerraform")
 
 	r_attr_type := SimpleAlertValue{}.AttributeTypes(ctx)

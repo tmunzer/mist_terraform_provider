@@ -7,8 +7,10 @@ import (
 
 	"terraform-provider-mist/internal/resource_org_inventory"
 
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
+	"mistapi"
+	"mistapi/models"
 
+	"github.com/google/uuid"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
@@ -23,7 +25,7 @@ func NewOrgInventory() resource.Resource {
 }
 
 type orgInventoryResource struct {
-	client *mistapigo.APIClient
+	client mistapi.ClientInterface
 }
 
 func (r *orgInventoryResource) Configure(ctx context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
@@ -32,7 +34,7 @@ func (r *orgInventoryResource) Configure(ctx context.Context, req resource.Confi
 		return
 	}
 
-	client, ok := req.ProviderData.(*mistapigo.APIClient)
+	client, ok := req.ProviderData.(mistapi.ClientInterface)
 	if !ok {
 		resp.Diagnostics.AddError(
 			"Unexpected Data Source Configure Type",
@@ -69,11 +71,12 @@ func (r *orgInventoryResource) Create(ctx context.Context, req resource.CreateRe
 
 	}
 
-	response_body, _, err := r.client.OrgsInventoryAPI.AddOrgInventory(ctx, plan.OrgId.ValueString()).RequestBody(magics).Execute()
+	orgId := uuid.MustParse(plan.OrgId.ValueString())
+	response_body, err := r.client.OrgsInventory().AddOrgInventory(ctx, orgId, magics)
 	tflog.Info(ctx, "response for API Call to claim devices:", map[string]interface{}{
-		"added":      strings.Join(response_body.Added, ", "),
-		"duplicated": strings.Join(response_body.Duplicated, ", "),
-		"error":      strings.Join(response_body.Error, ", "),
+		"added":      strings.Join(response_body.Data.Added, ", "),
+		"duplicated": strings.Join(response_body.Data.Duplicated, ", "),
+		"error":      strings.Join(response_body.Data.Error, ", "),
 	})
 	if err != nil {
 		//url, _ := httpr.Location()
@@ -85,7 +88,18 @@ func (r *orgInventoryResource) Create(ctx context.Context, req resource.CreateRe
 	}
 
 	tflog.Info(ctx, "Starting Inventory state refresh: org_id  "+state.OrgId.ValueString())
-	data, _, err := r.client.OrgsInventoryAPI.GetOrgInventory(ctx, plan.OrgId.ValueString()).Execute()
+	var serial string
+	var model string
+	var mType models.DeviceTypeEnum
+	var mac string
+	var siteId string
+	var vcMac string
+	var vc bool = true
+	var unassigned bool
+	var limit int = 1000
+	var page int
+	tflog.Info(ctx, "Starting Inventory Read: org_id  "+state.OrgId.ValueString())
+	data, err := r.client.OrgsInventory().GetOrgInventory(ctx, orgId, &serial, &model, &mType, &mac, &siteId, &vcMac, &vc, &unassigned, &limit, &page)
 	if err != nil {
 		//url, _ := httpr.Location()
 		resp.Diagnostics.AddError(
@@ -95,7 +109,7 @@ func (r *orgInventoryResource) Create(ctx context.Context, req resource.CreateRe
 		return
 	}
 
-	state, diags = resource_org_inventory.SdkToTerraform(ctx, plan.OrgId.ValueString(), data)
+	state, diags = resource_org_inventory.SdkToTerraform(ctx, plan.OrgId.ValueString(), data.Data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -118,8 +132,20 @@ func (r *orgInventoryResource) Read(ctx context.Context, req resource.ReadReques
 		return
 	}
 
+	orgId := uuid.MustParse(state.OrgId.ValueString())
 	tflog.Info(ctx, "Starting Inventory Read: org_id  "+state.OrgId.ValueString())
-	data, _, err := r.client.OrgsInventoryAPI.GetOrgInventory(ctx, state.OrgId.ValueString()).Execute()
+	var serial string
+	var model string
+	var mType models.DeviceTypeEnum
+	var mac string
+	var siteId string
+	var vcMac string
+	var vc bool = true
+	var unassigned bool
+	var limit int = 1000
+	var page int
+	tflog.Info(ctx, "Starting Inventory Read: org_id  "+state.OrgId.ValueString())
+	data, err := r.client.OrgsInventory().GetOrgInventory(ctx, orgId, &serial, &model, &mType, &mac, &siteId, &vcMac, &vc, &unassigned, &limit, &page)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Error getting Inventory",
@@ -127,7 +153,7 @@ func (r *orgInventoryResource) Read(ctx context.Context, req resource.ReadReques
 		)
 		return
 	}
-	state, diags = resource_org_inventory.SdkToTerraform(ctx, state.OrgId.ValueString(), data)
+	state, diags = resource_org_inventory.SdkToTerraform(ctx, state.OrgId.ValueString(), data.Data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -155,9 +181,11 @@ func (r *orgInventoryResource) Update(ctx context.Context, req resource.UpdateRe
 		return
 	}
 
+	orgId := uuid.MustParse(plan.OrgId.ValueString())
 	var claim_devices []string
 	var unclaim_devices []string
 	var unassign_devices []string
+	asign_claimed_devices := make(map[string]string)
 	assign_devices := make(map[string][]string)
 
 	for _, dev_plan_attr := range plan.Devices.Elements() {
@@ -190,6 +218,10 @@ func (r *orgInventoryResource) Update(ctx context.Context, req resource.UpdateRe
 		}
 		if !already_claimed {
 			claim_devices = append(claim_devices, dev_plan.Magic.ValueString())
+			if !dev_plan.SiteId.IsNull() && !dev_plan.SiteId.IsUnknown() {
+				tflog.Debug(ctx, "Device "+dev_plan.Magic.ValueString()+" will be claimed then assigned to "+dev_plan.SiteId.ValueString())
+				asign_claimed_devices[dev_plan.Magic.ValueString()] = dev_plan.SiteId.ValueString()
+			}
 		}
 		switch op {
 		case "assign":
@@ -220,7 +252,7 @@ func (r *orgInventoryResource) Update(ctx context.Context, req resource.UpdateRe
 	/////////////////////// CLAIM
 	if len(claim_devices) > 0 {
 		tflog.Info(ctx, "Starting to Claim devices")
-		claim_response, _, err := r.client.OrgsInventoryAPI.AddOrgInventory(ctx, plan.OrgId.ValueString()).RequestBody(claim_devices).Execute()
+		claim_response, err := r.client.OrgsInventory().AddOrgInventory(ctx, orgId, claim_devices)
 		if err != nil {
 			resp.Diagnostics.AddError(
 				"Error Claiming Devices to the Org Inventory",
@@ -228,27 +260,23 @@ func (r *orgInventoryResource) Update(ctx context.Context, req resource.UpdateRe
 			)
 			return
 		}
-		tflog.Info(ctx, "response for API Call to claim devices:", map[string]interface{}{
-			"added":      strings.Join(claim_response.Added, ", "),
-			"duplicated": strings.Join(claim_response.Duplicated, ", "),
-			"error":      strings.Join(claim_response.Error, ", "),
-		})
+		inventory_added := claim_response.Data.InventoryAdded
+		for _, v := range inventory_added {
+			site_id, ok := asign_claimed_devices[v.Magic]
+			if ok {
+				assign_devices[site_id] = append(assign_devices[site_id], v.Mac)
+			}
+
+		}
 	}
 	/////////////////////// UNCLAIM
 	if len(unclaim_devices) > 0 {
 		tflog.Info(ctx, "Starting to Unclaim devices: ", map[string]interface{}{"serials": strings.Join(unclaim_devices, ", ")})
-		unclaim_op, err := mistapigo.NewInventoryUpdateOperationFromValue("delete")
-		if err != nil {
-			resp.Diagnostics.AddError(
-				"Error Unclaiming Devices from the Org Inventory",
-				"Could not Unclaim devices, unexpected error: "+err.Error(),
-			)
-			return
-		}
-		unclaim_body := *mistapigo.NewInventoryUpdateWithDefaults()
-		unclaim_body.SetOp(*unclaim_op)
-		unclaim_body.SetSerials(unclaim_devices)
-		unclaim_response, _, err := r.client.OrgsInventoryAPI.UpdateOrgInventoryAssignment(ctx, plan.OrgId.ValueString()).InventoryUpdate(unclaim_body).Execute()
+
+		unclaim_body := models.InventoryUpdate{}
+		unclaim_body.Op = models.InventoryUpdateOperationEnum_DELETE
+		unclaim_body.Serials = unclaim_devices
+		unclaim_response, err := r.client.OrgsInventory().UpdateOrgInventoryAssignment(ctx, orgId, &unclaim_body)
 		if err != nil {
 			resp.Diagnostics.AddError(
 				"Error Unclaiming Devices from the Org Inventory",
@@ -257,31 +285,23 @@ func (r *orgInventoryResource) Update(ctx context.Context, req resource.UpdateRe
 			return
 		}
 		tflog.Info(ctx, "response for API Call to unclaim devices:", map[string]interface{}{
-			"Error":   strings.Join(unclaim_response.GetError(), ", "),
-			"Reason":  strings.Join(unclaim_response.GetReason(), ", "),
-			"Success": strings.Join(unclaim_response.GetSuccess(), ", "),
+			"Error":   strings.Join(unclaim_response.Data.Error, ", "),
+			"Reason":  strings.Join(unclaim_response.Data.Reason, ", "),
+			"Success": strings.Join(unclaim_response.Data.Success, ", "),
 		})
 	}
 	/////////////////////// UNASSIGN
 	if len(unassign_devices) > 0 {
 		tflog.Info(ctx, "Starting to Unassign devices: ", map[string]interface{}{"macs": strings.Join(unassign_devices, ", ")})
-		unassign_op, err := mistapigo.NewInventoryUpdateOperationFromValue("unassign")
-		if err != nil {
-			resp.Diagnostics.AddError(
-				"Error Unassigning Devices from the Org Inventory",
-				"Could not Unassign devices, unexpected error: "+err.Error(),
-			)
-			return
-		}
-		unassign_body := *mistapigo.NewInventoryUpdateWithDefaults()
-		unassign_body.SetOp(*unassign_op)
-		unassign_body.SetMacs(unassign_devices)
-		unassign_response, _, err := r.client.OrgsInventoryAPI.UpdateOrgInventoryAssignment(ctx, plan.OrgId.ValueString()).InventoryUpdate(unassign_body).Execute()
 
+		unassign_body := models.InventoryUpdate{}
+		unassign_body.Op = models.InventoryUpdateOperationEnum_UNASSIGN
+		unassign_body.Macs = unassign_devices
+		unassign_response, err := r.client.OrgsInventory().UpdateOrgInventoryAssignment(ctx, orgId, &unassign_body)
 		tflog.Info(ctx, "response for API Call to claim devices:", map[string]interface{}{
-			"Error":   strings.Join(unassign_response.GetError(), ", "),
-			"Reason":  strings.Join(unassign_response.GetReason(), ", "),
-			"Success": strings.Join(unassign_response.GetSuccess(), ", "),
+			"Error":   strings.Join(unassign_response.Data.Error, ", "),
+			"Reason":  strings.Join(unassign_response.Data.Reason, ", "),
+			"Success": strings.Join(unassign_response.Data.Success, ", "),
 		})
 
 		if err != nil {
@@ -294,21 +314,15 @@ func (r *orgInventoryResource) Update(ctx context.Context, req resource.UpdateRe
 	}
 	/////////////////////// ASSIGN
 	if len(assign_devices) > 0 {
-		assign_op, err := mistapigo.NewInventoryUpdateOperationFromValue("assign")
-		if err != nil {
-			resp.Diagnostics.AddError(
-				"Error Assigning Devices to the Org Inventory",
-				"Could not Assign devices, unexpected error: "+err.Error(),
-			)
-			return
-		}
 		for k, v := range assign_devices {
 			tflog.Info(ctx, "Starting to Assign devices to site "+k+": ", map[string]interface{}{"macs": strings.Join(v, ", ")})
-			assign_body := *mistapigo.NewInventoryUpdateWithDefaults()
-			assign_body.SetOp(*assign_op)
-			assign_body.SetMacs(v)
-			assign_body.SetSiteId(k)
-			assign_response, _, err := r.client.OrgsInventoryAPI.UpdateOrgInventoryAssignment(ctx, plan.OrgId.ValueString()).InventoryUpdate(assign_body).Execute()
+
+			assign_body := models.InventoryUpdate{}
+			assign_body.Op = models.InventoryUpdateOperationEnum_ASSIGN
+			assign_body.Macs = unassign_devices
+			assign_body.SiteId = models.ToPointer(uuid.MustParse(k))
+
+			assign_response, err := r.client.OrgsInventory().UpdateOrgInventoryAssignment(ctx, orgId, &assign_body)
 			if err != nil {
 				resp.Diagnostics.AddError(
 					"Error Assigning Devices to the Org Inventory",
@@ -317,15 +331,26 @@ func (r *orgInventoryResource) Update(ctx context.Context, req resource.UpdateRe
 				return
 			}
 			tflog.Info(ctx, "response for API Call to assign devices:", map[string]interface{}{
-				"Error":   strings.Join(assign_response.GetError(), ", "),
-				"Reason":  strings.Join(assign_response.GetReason(), ", "),
-				"Success": strings.Join(assign_response.GetSuccess(), ", "),
+				"Error":   strings.Join(assign_response.Data.Error, ", "),
+				"Reason":  strings.Join(assign_response.Data.Reason, ", "),
+				"Success": strings.Join(assign_response.Data.Success, ", "),
 			})
 		}
 	}
 	/////////////////////// Check
 	tflog.Info(ctx, "Starting Inventory state refresh: org_id  "+state.OrgId.ValueString())
-	data, _, err := r.client.OrgsInventoryAPI.GetOrgInventory(ctx, state.OrgId.ValueString()).Execute()
+	var serial string
+	var model string
+	var mType models.DeviceTypeEnum
+	var mac string
+	var siteId string
+	var vcMac string
+	var vc bool = true
+	var unassigned bool
+	var limit int = 1000
+	var page int
+	tflog.Info(ctx, "Starting Inventory Read: org_id  "+state.OrgId.ValueString())
+	data, err := r.client.OrgsInventory().GetOrgInventory(ctx, orgId, &serial, &model, &mType, &mac, &siteId, &vcMac, &vc, &unassigned, &limit, &page)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Error refreshing Inventory",
@@ -333,7 +358,7 @@ func (r *orgInventoryResource) Update(ctx context.Context, req resource.UpdateRe
 		)
 		return
 	}
-	state, diags = resource_org_inventory.SdkToTerraform(ctx, state.OrgId.ValueString(), data)
+	state, diags = resource_org_inventory.SdkToTerraform(ctx, state.OrgId.ValueString(), data.Data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -363,23 +388,22 @@ func (r *orgInventoryResource) Delete(ctx context.Context, req resource.DeleteRe
 		var dev_state = vi.(resource_org_inventory.DevicesValue)
 		serials = append(serials, dev_state.Serial.ValueString())
 	}
-	unclaim_op, err := mistapigo.NewInventoryUpdateOperationFromValue("delete")
+
+	orgId := uuid.MustParse(state.OrgId.ValueString())
+	unclaim_body := models.InventoryUpdate{}
+	unclaim_body.Op = models.InventoryUpdateOperationEnum_DELETE
+	unclaim_body.Serials = serials
+	unclaim_response, err := r.client.OrgsInventory().UpdateOrgInventoryAssignment(ctx, orgId, &unclaim_body)
 	if err != nil {
 		resp.Diagnostics.AddError(
-			"Error Unclaiming Devices to the Org Inventory",
-			"Could not create Inventory, unexpected error: "+err.Error(),
+			"Error Unclaiming Devices from the Org Inventory",
+			"Could not Unclaim devices, unexpected error: "+err.Error(),
 		)
 		return
 	}
-	unclaim_body := *mistapigo.NewInventoryUpdateWithDefaults()
-	unclaim_body.SetOp(*unclaim_op)
-	unclaim_body.SetSerials(serials)
-	_, _, err = r.client.OrgsInventoryAPI.UpdateOrgInventoryAssignment(ctx, state.OrgId.ValueString()).InventoryUpdate(unclaim_body).Execute()
-	if err != nil {
-		resp.Diagnostics.AddError(
-			"Error Unclaiming Devices to the Org Inventory",
-			"Could not create Inventory, unexpected error: "+err.Error(),
-		)
-		return
-	}
+	tflog.Info(ctx, "response for API Call to unclaim devices:", map[string]interface{}{
+		"Error":   strings.Join(unclaim_response.Data.Error, ", "),
+		"Reason":  strings.Join(unclaim_response.Data.Reason, ", "),
+		"Success": strings.Join(unclaim_response.Data.Success, ", "),
+	})
 }

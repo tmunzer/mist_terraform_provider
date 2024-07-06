@@ -2,7 +2,7 @@ import re
 import yaml
 
 SPEC_IN = "./mist_openapi/workdir/mist.openapi.yml"
-SPEC_OUT = "./mist.provder.yml"
+SPEC_OUT = "./mist.provider.yml"
 SPEC_OUT_JSON = "./mist.sdk.json"
 REG = r"^( *)enum:$"
 
@@ -29,12 +29,6 @@ if (
     del DATA["components"]["schemas"]["switch_matching_rule"][
         "additionalProperties"
     ]
-if (
-    not DATA.get("components", {})
-    .get("schemas", {})
-    .get("switch_matching_rule", {})
-    .get("properties", {}.get("match_type"))
-):
     DATA["components"]["schemas"]["switch_matching_rule"]["properties"][
         "match_type"
     ] = {
@@ -42,12 +36,6 @@ if (
         "description": "'property key define the type of matching, value is the string to match. e.g: `match_name[0:3]`, `match_name[2:6]`, `match_model`,  `match_model[0-6]`",
         "example": "match_name[0:3]",
     }
-if (
-    not DATA.get("components", {})
-    .get("schemas", {})
-    .get("switch_matching_rule", {})
-    .get("properties", {}.get("match_value"))
-):
     DATA["components"]["schemas"]["switch_matching_rule"]["properties"][
         "match_value"
     ] = {"type": "string"}

@@ -3,11 +3,11 @@ package provider
 import (
 	"context"
 	"fmt"
+	"mistapi"
 
 	"terraform-provider-mist/internal/resource_org_wxtag"
 
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
-
+	"github.com/google/uuid"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
@@ -22,7 +22,7 @@ func NewOrgWxTag() resource.Resource {
 }
 
 type orgWxTagResource struct {
-	client *mistapigo.APIClient
+	client mistapi.ClientInterface
 }
 
 func (r *orgWxTagResource) Configure(ctx context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
@@ -31,7 +31,7 @@ func (r *orgWxTagResource) Configure(ctx context.Context, req resource.Configure
 		return
 	}
 
-	client, ok := req.ProviderData.(*mistapigo.APIClient)
+	client, ok := req.ProviderData.(mistapi.ClientInterface)
 	if !ok {
 		resp.Diagnostics.AddError(
 			"Unexpected Data Source Configure Type",
@@ -66,7 +66,8 @@ func (r *orgWxTagResource) Create(ctx context.Context, req resource.CreateReques
 		return
 	}
 
-	data, _, err := r.client.OrgsWxTagsAPI.CreateOrgWxTag(ctx, plan.OrgId.ValueString()).WxlanTag(*wxtag).Execute()
+	orgId := uuid.MustParse(plan.OrgId.ValueString())
+	data, err := r.client.OrgsWxTags().CreateOrgWxTag(ctx, orgId, wxtag)
 	if err != nil {
 		//url, _ := httpr.Location()
 		resp.Diagnostics.AddError(
@@ -76,7 +77,7 @@ func (r *orgWxTagResource) Create(ctx context.Context, req resource.CreateReques
 		return
 	}
 
-	state, diags = resource_org_wxtag.SdkToTerraform(ctx, data)
+	state, diags = resource_org_wxtag.SdkToTerraform(ctx, data.Data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -100,7 +101,9 @@ func (r *orgWxTagResource) Read(ctx context.Context, req resource.ReadRequest, r
 	}
 
 	tflog.Info(ctx, "Starting WxTag Read: wxtag_id "+state.Id.ValueString())
-	data, _, err := r.client.OrgsWxTagsAPI.GetOrgWxTag(ctx, state.OrgId.ValueString(), state.Id.ValueString()).Execute()
+	orgId := uuid.MustParse(state.OrgId.ValueString())
+	wxtagId := uuid.MustParse(state.Id.ValueString())
+	data, err := r.client.OrgsWxTags().GetOrgWxTag(ctx, orgId, wxtagId)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Error getting WxTag",
@@ -108,7 +111,7 @@ func (r *orgWxTagResource) Read(ctx context.Context, req resource.ReadRequest, r
 		)
 		return
 	}
-	state, diags = resource_org_wxtag.SdkToTerraform(ctx, data)
+	state, diags = resource_org_wxtag.SdkToTerraform(ctx, data.Data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -143,10 +146,9 @@ func (r *orgWxTagResource) Update(ctx context.Context, req resource.UpdateReques
 	}
 
 	tflog.Info(ctx, "Starting WxTag Update for WxTag "+state.Id.ValueString())
-	data, _, err := r.client.OrgsWxTagsAPI.
-		UpdateOrgWxTag(ctx, state.OrgId.ValueString(), state.Id.ValueString()).
-		WxlanTag(*wxtag).
-		Execute()
+	orgId := uuid.MustParse(state.OrgId.ValueString())
+	wxtagId := uuid.MustParse(state.Id.ValueString())
+	data, err := r.client.OrgsWxTags().UpdateOrgWxTag(ctx, orgId, wxtagId, wxtag)
 
 	if err != nil {
 		resp.Diagnostics.AddError(
@@ -156,7 +158,7 @@ func (r *orgWxTagResource) Update(ctx context.Context, req resource.UpdateReques
 		return
 	}
 
-	state, diags = resource_org_wxtag.SdkToTerraform(ctx, data)
+	state, diags = resource_org_wxtag.SdkToTerraform(ctx, data.Data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -180,7 +182,9 @@ func (r *orgWxTagResource) Delete(ctx context.Context, req resource.DeleteReques
 	}
 
 	tflog.Info(ctx, "Starting WxTag Delete: wxtag_id "+state.Id.ValueString())
-	_, err := r.client.OrgsWxTagsAPI.DeleteOrgWxTag(ctx, state.OrgId.ValueString(), state.Id.ValueString()).Execute()
+	orgId := uuid.MustParse(state.OrgId.ValueString())
+	wxtagId := uuid.MustParse(state.Id.ValueString())
+	_, err := r.client.OrgsWxTags().DeleteOrgWxTag(ctx, orgId, wxtagId)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Error creating WxTag",

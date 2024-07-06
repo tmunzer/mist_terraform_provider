@@ -4,29 +4,29 @@ import (
 	"context"
 	mist_transform "terraform-provider-mist/internal/commons/utils"
 
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
+	"mistapi/models"
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
-func SdkToTerraform(ctx context.Context, data *mistapigo.WxlanRule) (OrgWxruleModel, diag.Diagnostics) {
+func SdkToTerraform(ctx context.Context, data *models.WxlanRule) (OrgWxruleModel, diag.Diagnostics) {
 	var state OrgWxruleModel
 	var diags diag.Diagnostics
 
-	state.Id = types.StringValue(data.GetId())
-	state.OrgId = types.StringValue(data.GetOrgId())
-	state.SiteId = types.StringValue(data.GetSiteId())
-	state.TemplateId = types.StringValue(data.GetTemplateId())
+	state.Id = types.StringValue(data.Id.String())
+	state.OrgId = types.StringValue(data.OrgId.String())
+	state.SiteId = types.StringValue(data.SiteId.String())
+	state.TemplateId = types.StringValue(data.TemplateId.String())
 
-	state.Action = types.StringValue(string(data.GetAction()))
-	state.ApplyTags = mist_transform.ListOfStringSdkToTerraform(ctx, data.GetApplyTags())
-	state.BlockedApps = mist_transform.ListOfStringSdkToTerraform(ctx, data.GetBlockedApps())
-	state.DstAllowWxtags = mist_transform.ListOfStringSdkToTerraform(ctx, data.GetDstAllowWxtags())
-	state.DstDenyWxtags = mist_transform.ListOfStringSdkToTerraform(ctx, data.GetDstDenyWxtags())
-	state.Enabled = types.BoolValue(data.GetEnabled())
-	state.Order = types.Int64Value(int64(data.GetOrder()))
-	state.SrcWxtags = mist_transform.ListOfStringSdkToTerraform(ctx, data.GetSrcWxtags())
+	state.Action = types.StringValue(string(*data.Action))
+	state.ApplyTags = mist_transform.ListOfStringSdkToTerraform(ctx, data.ApplyTags)
+	state.BlockedApps = mist_transform.ListOfStringSdkToTerraform(ctx, data.BlockedApps)
+	state.DstAllowWxtags = mist_transform.ListOfStringSdkToTerraform(ctx, data.DstAllowWxtags)
+	state.DstDenyWxtags = mist_transform.ListOfStringSdkToTerraform(ctx, data.DstDenyWxtags)
+	state.Enabled = types.BoolValue(*data.Enabled)
+	state.Order = types.Int64Value(int64(data.Order))
+	state.SrcWxtags = mist_transform.ListOfStringSdkToTerraform(ctx, data.SrcWxtags)
 
 	return state, diags
 }

@@ -6,13 +6,12 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 
 	mist_transform "terraform-provider-mist/internal/commons/utils"
-
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 )
 
-func ipConfigSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistapigo.JunosIpConfig) IpConfigValue {
+func ipConfigSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d models.JunosIpConfig) IpConfigValue {
 
 	state_value_map_attr_type := IpConfigValue{}.AttributeTypes(ctx)
 

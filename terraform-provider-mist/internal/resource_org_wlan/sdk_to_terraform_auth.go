@@ -3,7 +3,7 @@ package resource_org_wlan
 import (
 	"context"
 
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
+	"mistapi/models"
 
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
@@ -11,7 +11,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 )
 
-func authSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, data mistapigo.WlanAuth) AuthValue {
+func authSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, data models.WlanAuth) AuthValue {
 
 	var keys_list []attr.Value
 	for _, item := range data.GetKeys() {

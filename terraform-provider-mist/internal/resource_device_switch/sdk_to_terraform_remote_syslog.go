@@ -8,11 +8,10 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
-
 	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 )
 
-func remoteSyslogArchiveSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistapigo.RemoteSyslogArchive) basetypes.ObjectValue {
+func remoteSyslogArchiveSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d models.RemoteSyslogArchive) basetypes.ObjectValue {
 	data_map_attr_type := ArchiveValue{}.AttributeTypes(ctx)
 	data_map_value := map[string]attr.Value{
 		"files": types.Int64Value(int64(d.GetFiles())),
@@ -25,7 +24,7 @@ func remoteSyslogArchiveSdkToTerraform(ctx context.Context, diags *diag.Diagnost
 	diags.Append(e...)
 	return o
 }
-func remoteSyslogContentsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []mistapigo.RemoteSyslogContent) basetypes.ListValue {
+func remoteSyslogContentsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []models.RemoteSyslogContent) basetypes.ListValue {
 	var data_list = []ContentsValue{}
 
 	for _, item := range d {
@@ -44,7 +43,7 @@ func remoteSyslogContentsSdkToTerraform(ctx context.Context, diags *diag.Diagnos
 	diags.Append(e...)
 	return r
 }
-func remoteSyslogConsoleSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistapigo.RemoteSyslogConsole) basetypes.ObjectValue {
+func remoteSyslogConsoleSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d models.RemoteSyslogConsole) basetypes.ObjectValue {
 	data_map_attr_type := ConsoleValue{}.AttributeTypes(ctx)
 	data_map_value := map[string]attr.Value{
 		"contents": remoteSyslogContentsSdkToTerraform(ctx, diags, d.GetContents()),
@@ -57,7 +56,7 @@ func remoteSyslogConsoleSdkToTerraform(ctx context.Context, diags *diag.Diagnost
 	diags.Append(e...)
 	return o
 }
-func remoteSyslogFilesSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []mistapigo.RemoteSyslogFileConfig) basetypes.ListValue {
+func remoteSyslogFilesSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []models.RemoteSyslogFileConfig) basetypes.ListValue {
 	var data_list = []FilesValue{}
 
 	for _, item := range d {
@@ -83,7 +82,7 @@ func remoteSyslogFilesSdkToTerraform(ctx context.Context, diags *diag.Diagnostic
 
 	return r
 }
-func remoteSyslogServerSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []mistapigo.RemoteSyslogServer) basetypes.ListValue {
+func remoteSyslogServerSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []models.RemoteSyslogServer) basetypes.ListValue {
 	var data_list = []ServersValue{}
 
 	for _, item := range d {
@@ -113,7 +112,7 @@ func remoteSyslogServerSdkToTerraform(ctx context.Context, diags *diag.Diagnosti
 	diags.Append(e...)
 	return r
 }
-func remoteSyslogUsersSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []mistapigo.RemoteSyslogUser) basetypes.ListValue {
+func remoteSyslogUsersSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []models.RemoteSyslogUser) basetypes.ListValue {
 	var data_list = []UsersValue{}
 
 	for _, item := range d {
@@ -144,7 +143,7 @@ func remoteSyslogUsersSdkToTerraform(ctx context.Context, diags *diag.Diagnostic
 	return r
 }
 
-func remoteSyslogSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistapigo.RemoteSyslog) RemoteSyslogValue {
+func remoteSyslogSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d models.RemoteSyslog) RemoteSyslogValue {
 
 	remote_syslog_archive := remoteSyslogArchiveSdkToTerraform(ctx, diags, d.GetArchive())
 	remote_syslog_console := remoteSyslogConsoleSdkToTerraform(ctx, diags, d.GetConsole())

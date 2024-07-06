@@ -3,17 +3,17 @@ package resource_site_setting
 import (
 	"context"
 
+	"mistapi/models"
+
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
 	mist_transform "terraform-provider-mist/internal/commons/utils"
-
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 )
 
-func ssrSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistapigo.SiteSettingSsr) SsrValue {
+func ssrSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d models.SiteSettingSsr) SsrValue {
 	tflog.Debug(ctx, "ssrSdkToTerraform")
 
 	r_attr_type := SsrValue{}.AttributeTypes(ctx)

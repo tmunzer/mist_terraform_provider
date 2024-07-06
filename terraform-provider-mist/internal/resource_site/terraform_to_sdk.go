@@ -5,47 +5,71 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
+	"mistapi/models"
+
+	"github.com/google/uuid"
 )
 
-func TerraformToSdk(ctx context.Context, plan *SiteModel) (mistapigo.Site, diag.Diagnostics) {
-	data := *mistapigo.NewSite(plan.Name.ValueString())
+func TerraformToSdk(ctx context.Context, plan *SiteModel) (*models.Site, diag.Diagnostics) {
 	var diags diag.Diagnostics
 
-	data.SetAddress(plan.Address.ValueString())
+	data := models.Site{}
+	data.Name = plan.Name.ValueString()
 
-	var data_latlng mistapigo.LatLng
-	data_latlng.SetLat(plan.Latlng.Lat.ValueFloat64())
-	data_latlng.SetLng(plan.Latlng.Lng.ValueFloat64())
-	data.SetLatlng(data_latlng)
+	data.Address = models.ToPointer(plan.Address.ValueString())
 
-	data.SetCountryCode(plan.CountryCode.ValueString())
+	var data_latlng models.LatLng
+	data_latlng.Lat = plan.Latlng.Lat.ValueFloat64()
+	data_latlng.Lng = plan.Latlng.Lng.ValueFloat64()
+	data.Latlng = models.ToPointer(data_latlng)
 
-	data.SetTimezone(plan.Timezone.ValueString())
+	data.CountryCode = plan.CountryCode.ValueStringPointer()
 
-	data.SetNotes(plan.Notes.ValueString())
+	data.Timezone = plan.Timezone.ValueStringPointer()
 
-	data.SetAlarmtemplateId(plan.AlarmtemplateId.ValueString())
+	data.Notes = plan.Notes.ValueStringPointer()
 
-	data.SetAptemplateId(plan.AptemplateId.ValueString())
-
-	data.SetGatewaytemplateId(plan.GatewaytemplateId.ValueString())
-
-	data.SetNetworktemplateId(plan.NetworktemplateId.ValueString())
-
-	data.SetRftemplateId(plan.RftemplateId.ValueString())
-
-	data.SetSecpolicyId(plan.SecpolicyId.ValueString())
-
-	data.SetSitetemplateId(plan.SitetemplateId.ValueString())
-
-	data.SetOrgId(plan.OrgId.ValueString())
-
-	var items []string
-	for _, item := range plan.SitegroupIds.Elements() {
-		items = append(items, item.String())
+	var alarmtemplate_id uuid.UUID
+	var aptemplate_id uuid.UUID
+	var gatewaytemplate_id uuid.UUID
+	var networktemplate_id uuid.UUID
+	var rftemplate_id uuid.UUID
+	var secpolicy_id uuid.UUID
+	var sitetemplate_id uuid.UUID
+	if !plan.AlarmtemplateId.IsNull() && !plan.AlarmtemplateId.IsUnknown() {
+		alarmtemplate_id = uuid.MustParse(plan.AlarmtemplateId.ValueString())
 	}
-	data.SetSitegroupIds(items)
+	if !plan.AptemplateId.IsNull() && !plan.AptemplateId.IsUnknown() {
+		aptemplate_id = uuid.MustParse(plan.AptemplateId.ValueString())
+	}
+	if !plan.GatewaytemplateId.IsNull() && !plan.GatewaytemplateId.IsUnknown() {
+		gatewaytemplate_id = uuid.MustParse(plan.GatewaytemplateId.ValueString())
+	}
+	if !plan.NetworktemplateId.IsNull() && !plan.NetworktemplateId.IsUnknown() {
+		networktemplate_id = uuid.MustParse(plan.NetworktemplateId.ValueString())
+	}
+	if !plan.RftemplateId.IsNull() && !plan.RftemplateId.IsUnknown() {
+		rftemplate_id = uuid.MustParse(plan.RftemplateId.ValueString())
+	}
+	if !plan.SecpolicyId.IsNull() && !plan.SecpolicyId.IsUnknown() {
+		secpolicy_id = uuid.MustParse(plan.SecpolicyId.ValueString())
+	}
+	if !plan.SitetemplateId.IsNull() && !plan.SitetemplateId.IsUnknown() {
+		sitetemplate_id = uuid.MustParse(plan.SitetemplateId.ValueString())
+	}
+	data.AlarmtemplateId.SetValue(&alarmtemplate_id)
+	data.AptemplateId.SetValue(&aptemplate_id)
+	data.GatewaytemplateId.SetValue(&gatewaytemplate_id)
+	data.NetworktemplateId.SetValue(&networktemplate_id)
+	data.RftemplateId.SetValue(&rftemplate_id)
+	data.SecpolicyId.SetValue(&secpolicy_id)
+	data.SitetemplateId.SetValue(&sitetemplate_id)
 
-	return data, diags
+	var items []uuid.UUID
+	for _, item := range plan.SitegroupIds.Elements() {
+		items = append(items, uuid.MustParse(item.String()))
+	}
+	data.SitegroupIds = items
+
+	return &data, diags
 }

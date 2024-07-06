@@ -13,6 +13,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/float64default"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -171,6 +172,7 @@ func OrgWlanResourceSchema(ctx context.Context) schema.Schema {
 				Computed:            true,
 				Description:         "list of device ids",
 				MarkdownDescription: "list of device ids",
+				Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 			},
 			"app_limit": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
@@ -349,6 +351,7 @@ func OrgWlanResourceSchema(ctx context.Context) schema.Schema {
 						Computed:            true,
 						Description:         "when type=wep, four 10-character or 26-character hex string, null can be used. All keys, if provided, have to be in the same length",
 						MarkdownDescription: "when type=wep, four 10-character or 26-character hex string, null can be used. All keys, if provided, have to be in the same length",
+						Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 					},
 					"multi_psk_only": schema.BoolAttribute{
 						Optional:            true,
@@ -378,6 +381,7 @@ func OrgWlanResourceSchema(ctx context.Context) schema.Schema {
 						Computed:            true,
 						Description:         "when type=psk / eap, one or more of wpa2-ccmp / wpa1-tkip / wpa1-ccmp / wpa2-tkip",
 						MarkdownDescription: "when type=psk / eap, one or more of wpa2-ccmp / wpa1-tkip / wpa1-ccmp / wpa2-tkip",
+						Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 					},
 					"private_wlan": schema.BoolAttribute{
 						Optional:            true,
@@ -546,6 +550,7 @@ func OrgWlanResourceSchema(ctx context.Context) schema.Schema {
 				Computed:            true,
 				Description:         "list of radios that the wlan should apply to",
 				MarkdownDescription: "list of radios that the wlan should apply to",
+				Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 			},
 			"block_blacklist_clients": schema.BoolAttribute{
 				Optional:            true,
@@ -585,6 +590,7 @@ func OrgWlanResourceSchema(ctx context.Context) schema.Schema {
 									Computed:            true,
 									Description:         "optional, if the service is further restricted for certain RADIUS groups",
 									MarkdownDescription: "optional, if the service is further restricted for certain RADIUS groups",
+									Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 								},
 								"scope": schema.StringAttribute{
 									Optional:            true,
@@ -631,6 +637,7 @@ func OrgWlanResourceSchema(ctx context.Context) schema.Schema {
 						Computed:            true,
 						Description:         "list of hostnames without http(s):// (matched by substring)",
 						MarkdownDescription: "list of hostnames without http(s):// (matched by substring)",
+						Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 					},
 					"allowed_subnets": schema.ListAttribute{
 						ElementType:         types.StringType,
@@ -638,6 +645,7 @@ func OrgWlanResourceSchema(ctx context.Context) schema.Schema {
 						Computed:            true,
 						Description:         "list of CIDRs",
 						MarkdownDescription: "list of CIDRs",
+						Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 					},
 					"blocked_subnets": schema.ListAttribute{
 						ElementType:         types.StringType,
@@ -645,6 +653,7 @@ func OrgWlanResourceSchema(ctx context.Context) schema.Schema {
 						Computed:            true,
 						Description:         "list of blocked CIDRs",
 						MarkdownDescription: "list of blocked CIDRs",
+						Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 					},
 					"enabled": schema.BoolAttribute{
 						Optional: true,
@@ -841,6 +850,7 @@ func OrgWlanResourceSchema(ctx context.Context) schema.Schema {
 						ElementType: types.Int64Type,
 						Optional:    true,
 						Computed:    true,
+						Default:     listdefault.StaticValue(types.ListValueMust(types.Int64Type, []attr.Value{})),
 					},
 				},
 				CustomType: DynamicPskType{
@@ -878,6 +888,7 @@ func OrgWlanResourceSchema(ctx context.Context) schema.Schema {
 						Computed:            true,
 						Description:         "vlan_ids to be locally bridged",
 						MarkdownDescription: "vlan_ids to be locally bridged",
+						Default:             listdefault.StaticValue(types.ListValueMust(types.Int64Type, []attr.Value{})),
 					},
 					"type": schema.StringAttribute{
 						Optional:            true,
@@ -966,6 +977,7 @@ func OrgWlanResourceSchema(ctx context.Context) schema.Schema {
 						ElementType: types.StringType,
 						Optional:    true,
 						Computed:    true,
+						Default:     listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 					},
 					"enabled": schema.BoolAttribute{
 						Optional:            true,
@@ -980,6 +992,7 @@ func OrgWlanResourceSchema(ctx context.Context) schema.Schema {
 						Validators: []validator.List{
 							listvalidator.UniqueValues(),
 						},
+						Default: listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 					},
 					"operators": schema.ListAttribute{
 						ElementType:         types.StringType,
@@ -987,11 +1000,13 @@ func OrgWlanResourceSchema(ctx context.Context) schema.Schema {
 						Computed:            true,
 						Description:         "list of operators to support",
 						MarkdownDescription: "list of operators to support",
+						Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 					},
 					"rcoi": schema.ListAttribute{
 						ElementType: types.StringType,
 						Optional:    true,
 						Computed:    true,
+						Default:     listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 					},
 					"venue_name": schema.StringAttribute{
 						Optional:            true,
@@ -1130,6 +1145,7 @@ func OrgWlanResourceSchema(ctx context.Context) schema.Schema {
 				Computed:            true,
 				Description:         "when `interface`=`mxtunnel`, id of the Mist Tunnel",
 				MarkdownDescription: "when `interface`=`mxtunnel`, id of the Mist Tunnel",
+				Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 			},
 			"mxtunnel_name": schema.ListAttribute{
 				ElementType:         types.StringType,
@@ -1137,6 +1153,7 @@ func OrgWlanResourceSchema(ctx context.Context) schema.Schema {
 				Computed:            true,
 				Description:         "when `interface`=`site_medge`, name of the mxtunnel that in mxtunnels under Site Setting",
 				MarkdownDescription: "when `interface`=`site_medge`, name of the mxtunnel that in mxtunnels under Site Setting",
+				Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 			},
 			"no_static_dns": schema.BoolAttribute{
 				Optional:            true,
@@ -1177,6 +1194,7 @@ func OrgWlanResourceSchema(ctx context.Context) schema.Schema {
 						Computed:            true,
 						Description:         "Matches authenticated user email against provided domains. If null or [], all authenticated emails will be allowed.",
 						MarkdownDescription: "Matches authenticated user email against provided domains. If null or [], all authenticated emails will be allowed.",
+						Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 					},
 					"amazon_enabled": schema.BoolAttribute{
 						Optional:            true,
@@ -1331,6 +1349,7 @@ func OrgWlanResourceSchema(ctx context.Context) schema.Schema {
 						Computed:            true,
 						Description:         "Matches authenticated user email against provided domains. If null or [], all authenticated emails will be allowed.",
 						MarkdownDescription: "Matches authenticated user email against provided domains. If null or [], all authenticated emails will be allowed.",
+						Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 					},
 					"facebook_enabled": schema.BoolAttribute{
 						Optional:            true,
@@ -1380,6 +1399,7 @@ func OrgWlanResourceSchema(ctx context.Context) schema.Schema {
 						Computed:            true,
 						Description:         "Matches authenticated user email against provided domains. If null or [], all authenticated emails will be allowed.",
 						MarkdownDescription: "Matches authenticated user email against provided domains. If null or [], all authenticated emails will be allowed.",
+						Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 					},
 					"google_enabled": schema.BoolAttribute{
 						Optional:            true,
@@ -1429,6 +1449,7 @@ func OrgWlanResourceSchema(ctx context.Context) schema.Schema {
 						Computed:            true,
 						Description:         "Matches authenticated user email against provided domains. If null or [], all authenticated emails will be allowed.",
 						MarkdownDescription: "Matches authenticated user email against provided domains. If null or [], all authenticated emails will be allowed.",
+						Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 					},
 					"microsoft_enabled": schema.BoolAttribute{
 						Optional:            true,
@@ -1588,6 +1609,7 @@ func OrgWlanResourceSchema(ctx context.Context) schema.Schema {
 						Computed:            true,
 						Description:         "list of domain allowed for sponsor email. Required if `sponsor_enabled` is `true` and `sponsors` is empty.",
 						MarkdownDescription: "list of domain allowed for sponsor email. Required if `sponsor_enabled` is `true` and `sponsors` is empty.",
+						Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 					},
 					"sponsor_enabled": schema.BoolAttribute{
 						Optional:            true,
@@ -1742,6 +1764,7 @@ func OrgWlanResourceSchema(ctx context.Context) schema.Schema {
 				Computed:            true,
 				Description:         "list of hostnames without http(s):// (matched by substring)",
 				MarkdownDescription: "list of hostnames without http(s):// (matched by substring)",
+				Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 			},
 			"portal_allowed_subnets": schema.ListAttribute{
 				ElementType:         types.StringType,
@@ -1749,6 +1772,7 @@ func OrgWlanResourceSchema(ctx context.Context) schema.Schema {
 				Computed:            true,
 				Description:         "list of CIDRs",
 				MarkdownDescription: "list of CIDRs",
+				Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 			},
 			"portal_api_secret": schema.StringAttribute{
 				Optional:            true,
@@ -1763,6 +1787,7 @@ func OrgWlanResourceSchema(ctx context.Context) schema.Schema {
 				Computed:            true,
 				Description:         "list of hostnames without http(s):// (matched by substring), this takes precedence over portal_allowed_hostnames",
 				MarkdownDescription: "list of hostnames without http(s):// (matched by substring), this takes precedence over portal_allowed_hostnames",
+				Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 			},
 			"portal_image": schema.StringAttribute{
 				Optional:            true,
@@ -1835,6 +1860,7 @@ func OrgWlanResourceSchema(ctx context.Context) schema.Schema {
 						Computed:            true,
 						Description:         "To use Org mxedges when this WLAN does not use mxtunnel, specify their mxcluster_ids.\nOrg mxedge(s) identified by mxcluster_ids",
 						MarkdownDescription: "To use Org mxedges when this WLAN does not use mxtunnel, specify their mxcluster_ids.\nOrg mxedge(s) identified by mxcluster_ids",
+						Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 					},
 					"proxy_hosts": schema.ListAttribute{
 						ElementType:         types.StringType,
@@ -1842,6 +1868,7 @@ func OrgWlanResourceSchema(ctx context.Context) schema.Schema {
 						Computed:            true,
 						Description:         "default is site.mxedge.radsec.proxy_hosts which must be a superset of all wlans[*].radsec.proxy_hosts\nwhen radsec.proxy_hosts are not used, tunnel peers (org or site mxedges) are used irrespective of use_site_mxedge",
 						MarkdownDescription: "default is site.mxedge.radsec.proxy_hosts which must be a superset of all wlans[*].radsec.proxy_hosts\nwhen radsec.proxy_hosts are not used, tunnel peers (org or site mxedges) are used irrespective of use_site_mxedge",
+						Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 					},
 					"server_name": schema.StringAttribute{
 						Optional:            true,
@@ -2033,6 +2060,7 @@ func OrgWlanResourceSchema(ctx context.Context) schema.Schema {
 				Computed:            true,
 				Description:         "vlan_ids to use when there’s no match from RA",
 				MarkdownDescription: "vlan_ids to use when there’s no match from RA",
+				Default:             listdefault.StaticValue(types.ListValueMust(types.Int64Type, []attr.Value{})),
 			},
 			"vlan_pooling": schema.BoolAttribute{
 				Optional:            true,
@@ -2075,6 +2103,7 @@ func OrgWlanResourceSchema(ctx context.Context) schema.Schema {
 				Computed:            true,
 				Description:         "list of wxtag_ids",
 				MarkdownDescription: "list of wxtag_ids",
+				Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 			},
 			"wxtunnel_id": schema.StringAttribute{
 				Optional:            true,

@@ -6,13 +6,12 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 
 	mist_transform "terraform-provider-mist/internal/commons/utils"
-
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 )
 
-func dhcpSnoopingSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistapigo.DhcpSnooping) DhcpSnoopingValue {
+func dhcpSnoopingSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d models.DhcpSnooping) DhcpSnoopingValue {
 	data_attr_type := DhcpSnoopingValue{}.AttributeTypes(ctx)
 	data_attr_value := map[string]attr.Value{
 		"all_networks":           types.BoolValue(d.GetAllNetworks()),

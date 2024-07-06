@@ -6,12 +6,12 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
+	"mistapi/models"
 )
 
-func skyAtpTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d SkyatpValue) mistapigo.SiteSettingSkyatp {
+func skyAtpTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d SkyatpValue) models.SiteSettingSkyatp {
 	tflog.Debug(ctx, "skyAtpTerraformToSdk")
-	data := mistapigo.NewSiteSettingSkyatp()
+	data := models.NewSiteSettingSkyatp()
 
 	data.SetEnabled(d.Enabled.ValueBool())
 	data.SetSendIpMacMapping(d.SendIpMacMapping.ValueBool())

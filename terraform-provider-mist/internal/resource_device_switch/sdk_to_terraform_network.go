@@ -7,11 +7,10 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
-
 	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 )
 
-func NetworksSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]mistapigo.SwitchNetwork) basetypes.MapValue {
+func NetworksSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]models.SwitchNetwork) basetypes.MapValue {
 
 	state_value_map_attr_type := NetworksValue{}.AttributeTypes(ctx)
 	state_value_map_value := make(map[string]attr.Value)

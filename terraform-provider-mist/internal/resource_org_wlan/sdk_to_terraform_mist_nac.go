@@ -3,14 +3,14 @@ package resource_org_wlan
 import (
 	"context"
 
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
+	"mistapi/models"
 
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
-func mistNacdSkToTerraform(ctx context.Context, diags *diag.Diagnostics, data mistapigo.WlanMistNac) MistNacValue {
+func mistNacdSkToTerraform(ctx context.Context, diags *diag.Diagnostics, data models.WlanMistNac) MistNacValue {
 
 	plan_attr := map[string]attr.Value{
 		"enabled": types.BoolValue(data.GetEnabled()),

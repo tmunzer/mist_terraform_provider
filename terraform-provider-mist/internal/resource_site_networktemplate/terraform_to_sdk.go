@@ -7,67 +7,137 @@ import (
 
 	mist_transform "terraform-provider-mist/internal/commons/utils"
 
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
+	"mistapi/models"
 )
 
-func TerraformToSdk(ctx context.Context, plan *SiteNetworktemplateModel) (mistapigo.SiteSetting, diag.Diagnostics) {
+func TerraformToSdk(ctx context.Context, plan *SiteNetworktemplateModel) (models.NetworkTemplate, diag.Diagnostics) {
 	var diags diag.Diagnostics
 
-	data := *mistapigo.NewSiteSetting()
+	unset := make(map[string]interface{})
 
-	aclPolicies := aclPoliciesTerraformToSdk(ctx, &diags, plan.AclPolicies)
-	data.SetAclPolicies(aclPolicies)
+	data := models.NetworkTemplate{}
 
-	aclTAgs := actTagsTerraformToSdk(ctx, &diags, plan.AclTags)
-	data.SetAclTags(aclTAgs)
+	if plan.AclPolicies.IsNull() || plan.AclPolicies.IsUnknown() {
+		unset["-acl_policies"] = ""
+	} else {
+		acl_policies := aclPoliciesTerraformToSdk(ctx, &diags, plan.AclPolicies)
+		data.AclPolicies = acl_policies
+	}
 
-	addictionalConfigCmds := mist_transform.ListOfStringTerraformToSdk(ctx, plan.AdditionalConfigCmds)
-	data.SetAdditionalConfigCmds(addictionalConfigCmds)
+	if plan.AclTags.IsNull() || plan.AclTags.IsUnknown() {
+		unset["-acl_tags"] = ""
+	} else {
+		acl_tags := actTagsTerraformToSdk(ctx, &diags, plan.AclTags)
+		data.AclTags = acl_tags
+	}
 
-	dnsServers := mist_transform.ListOfStringTerraformToSdk(ctx, plan.DnsServers)
-	data.SetDnsServers(dnsServers)
+	data.AdditionalConfigCmds = mist_transform.ListOfStringTerraformToSdk(ctx, plan.AdditionalConfigCmds)
 
-	dnsSuffix := mist_transform.ListOfStringTerraformToSdk(ctx, plan.DnsSuffix)
-	data.SetDnsSuffix(dnsSuffix)
+	data.DnsServers = mist_transform.ListOfStringTerraformToSdk(ctx, plan.DnsServers)
 
-	dhcpSnooping := dhcpSnoopingTerraformToSdk(ctx, &diags, plan.DhcpSnooping)
-	data.SetDhcpSnooping(dhcpSnooping)
+	data.DnsSuffix = mist_transform.ListOfStringTerraformToSdk(ctx, plan.DnsSuffix)
 
-	extraRoutes := extraRoutesTerraformToSdk(ctx, &diags, plan.ExtraRoutes)
-	data.SetExtraRoutes(extraRoutes)
+	if plan.DhcpSnooping.IsNull() || plan.DhcpSnooping.IsUnknown() {
+		unset["-dhcp_snooping"] = ""
+	} else {
+		dhcp_snooping := dhcpSnoopingTerraformToSdk(ctx, &diags, plan.DhcpSnooping)
+		data.DhcpSnooping = dhcp_snooping
+	}
 
-	mistNac := mistNacTerraformToSdk(ctx, &diags, plan.MistNac)
-	data.SetMistNac(mistNac)
+	if plan.ExtraRoutes.IsNull() || plan.ExtraRoutes.IsUnknown() {
+		unset["-extra_routes"] = ""
+	} else {
+		extra_routes := extraRoutesTerraformToSdk(ctx, &diags, plan.ExtraRoutes)
+		data.ExtraRoutes = extra_routes
+	}
 
-	ntpServers := mist_transform.ListOfStringTerraformToSdk(ctx, plan.NtpServers)
-	data.SetNtpServers(ntpServers)
+	if plan.ExtraRoutes6.IsNull() || plan.ExtraRoutes6.IsUnknown() {
+		unset["-extra_routes6"] = ""
+	} else {
+		extra_routes6 := extraRoutes6TerraformToSdk(ctx, &diags, plan.ExtraRoutes6)
+		data.ExtraRoutes6 = extra_routes6
+	}
 
-	networks := NetworksTerraformToSdk(ctx, &diags, plan.Networks)
-	data.SetNetworks(networks)
+	if plan.MistNac.IsNull() || plan.MistNac.IsUnknown() {
+		unset["-mist_nac"] = ""
+	} else {
+		mist_nac := mistNacTerraformToSdk(ctx, &diags, plan.MistNac)
+		data.MistNac = mist_nac
+	}
 
-	port_usage := portUsageTerraformToSdk(ctx, &diags, plan.PortUsages)
-	data.SetPortUsages(port_usage)
+	if plan.Networks.IsNull() || plan.Networks.IsUnknown() {
+		unset["-networks"] = ""
+	} else {
+		networks := NetworksTerraformToSdk(ctx, &diags, plan.Networks)
+		data.Networks = networks
+	}
 
-	port_mirroring := portMirroringTerraformToSdk(ctx, &diags, plan.PortMirrorings)
-	data.SetPortMirrorings(port_mirroring)
+	data.NtpServers = mist_transform.ListOfStringTerraformToSdk(ctx, plan.NtpServers)
 
-	radius_config := radiusConfigTerraformToSdk(ctx, &diags, plan.RadiusConfig)
-	data.SetRadiusConfig(radius_config)
+	if plan.PortMirroring.IsNull() || plan.PortMirroring.IsUnknown() {
+		unset["-port_mirrorings"] = ""
+	} else {
+		port_mirroring := portMirroringTerraformToSdk(ctx, &diags, plan.PortMirroring)
+		data.PortMirroring = port_mirroring
+	}
 
-	remote_syslog := remoteSyslogTerraformToSdk(ctx, &diags, plan.RemoteSyslog)
-	data.SetRemoteSyslog(remote_syslog)
+	if plan.PortUsages.IsNull() || plan.PortUsages.IsUnknown() {
+		unset["-port_usages"] = ""
+	} else {
+		port_usages := portUsageTerraformToSdk(ctx, &diags, plan.PortUsages)
+		data.PortUsages = port_usages
+	}
 
-	switch_matching := switchMatchingTerraformToSdk(ctx, &diags, plan.SwitchMatching)
-	data.SetSwitchMatching(switch_matching)
+	if plan.PortMirroring.IsNull() || plan.PortMirroring.IsUnknown() {
+		unset["-port_mirroring"] = ""
+	} else {
+		port_mirroring := portMirroringTerraformToSdk(ctx, &diags, plan.PortMirroring)
+		data.PortMirroring = port_mirroring
+	}
 
-	switch_mgmt := switchMgmtTerraformToSdk(ctx, &diags, plan.SwitchMgmt)
-	data.SetSwitchMgmt(switch_mgmt)
+	if plan.RadiusConfig.IsNull() || plan.RadiusConfig.IsUnknown() {
+		unset["-radius_config"] = ""
+	} else {
+		radius_config := radiusConfigTerraformToSdk(ctx, &diags, plan.RadiusConfig)
+		data.RadiusConfig = radius_config
+	}
 
-	vrfConfig := vrfConfigTerraformToSdk(ctx, &diags, plan.VrfConfig)
-	data.SetVrfConfig(vrfConfig)
+	if plan.RemoteSyslog.IsNull() || plan.RemoteSyslog.IsUnknown() {
+		unset["-port_mirroring"] = ""
+	} else {
+		remote_syslog := remoteSyslogTerraformToSdk(ctx, &diags, plan.RemoteSyslog)
+		data.RemoteSyslog = remote_syslog
+	}
 
-	vrfInstance := vrfInstancesTerraformToSdk(ctx, &diags, plan.VrfInstances)
-	data.SetVrfInstances(vrfInstance)
+	if plan.SwitchMatching.IsNull() || plan.SwitchMatching.IsUnknown() {
+		unset["-switch_matching"] = ""
+	} else {
+		switch_matching := switchMatchingTerraformToSdk(ctx, &diags, plan.SwitchMatching)
+		data.SwitchMatching = switch_matching
+	}
+
+	if plan.SwitchMgmt.IsNull() || plan.SwitchMgmt.IsUnknown() {
+		unset["-port_mirroring"] = ""
+	} else {
+		switch_mgmt := switchMgmtTerraformToSdk(ctx, &diags, plan.SwitchMgmt)
+		data.SwitchMgmt = switch_mgmt
+	}
+
+	if plan.VrfConfig.IsNull() || plan.VrfConfig.IsUnknown() {
+		unset["-vrf_config"] = ""
+	} else {
+		vrf_config := vrfConfigTerraformToSdk(ctx, &diags, plan.VrfConfig)
+		data.VrfConfig = vrf_config
+	}
+
+	if plan.VrfInstances.IsNull() || plan.VrfInstances.IsUnknown() {
+		unset["-vrf_instances"] = ""
+	} else {
+		vrf_instances := vrfInstancesTerraformToSdk(ctx, &diags, plan.VrfInstances)
+		data.VrfInstances = vrf_instances
+	}
+
+	data.AdditionalProperties = unset
 
 	return data, diags
 }

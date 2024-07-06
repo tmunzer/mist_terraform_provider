@@ -8,47 +8,43 @@ import (
 
 	mist_transform "terraform-provider-mist/internal/commons/utils"
 
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
+	"mistapi/models"
 )
 
-func matchingPortTypesTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ListValue) []mistapigo.NacRuleMatchingPortType {
+func matchingPortTypesTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ListValue) []models.NacRuleMatchingPortTypeEnum {
 
-	var data []mistapigo.NacRuleMatchingPortType
+	var data []models.NacRuleMatchingPortTypeEnum
 	for _, v := range d.Elements() {
 		var v_interface interface{} = v
 		plan := v_interface.(basetypes.StringValue)
-		data_item, e := mistapigo.NewNacRuleMatchingPortTypeFromValue(plan.ValueString())
-		if e != nil {
-			diags.AddError("unable to process Nac Rule Port Type", e.Error())
-		}
-
-		data = append(data, *data_item)
+		data_item := models.NacRuleMatchingPortTypeEnum(plan.ValueString())
+		data = append(data, data_item)
 	}
 	return data
 }
 
-func matchingTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d MatchingValue) mistapigo.NacRuleMatching {
+func matchingTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d MatchingValue) *models.NacRuleMatching {
 
-	data := mistapigo.NewNacRuleMatching()
+	data := models.NacRuleMatching{}
 
-	data.SetAuthType(mistapigo.NacRuleMatchingAuthType(d.AuthType.ValueString()))
-	data.SetNactags(mist_transform.ListOfStringTerraformToSdk(ctx, d.Nactags))
-	data.SetPortTypes(matchingPortTypesTerraformToSdk(ctx, diags, d.PortTypes))
-	data.SetSitegroupIds(mist_transform.ListOfStringTerraformToSdk(ctx, d.SitegroupIds))
-	data.SetVendor(mist_transform.ListOfStringTerraformToSdk(ctx, d.Vendor))
+	data.AuthType = models.ToPointer(models.NacRuleMatchingAuthTypeEnum(d.AuthType.ValueString()))
+	data.Nactags = mist_transform.ListOfStringTerraformToSdk(ctx, d.Nactags)
+	data.PortTypes = matchingPortTypesTerraformToSdk(ctx, diags, d.PortTypes)
+	data.SitegroupIds = mist_transform.ListOfUuidTerraformToSdk(ctx, d.SitegroupIds)
+	data.Vendor = mist_transform.ListOfStringTerraformToSdk(ctx, d.Vendor)
 
-	return *data
+	return &data
 }
 
-func notMatchingTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d NotMatchingValue) mistapigo.NacRuleMatching {
+func notMatchingTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d NotMatchingValue) *models.NacRuleMatching {
 
-	data := mistapigo.NewNacRuleMatching()
+	data := models.NacRuleMatching{}
 
-	data.SetAuthType(mistapigo.NacRuleMatchingAuthType(d.AuthType.ValueString()))
-	data.SetNactags(mist_transform.ListOfStringTerraformToSdk(ctx, d.Nactags))
-	data.SetPortTypes(matchingPortTypesTerraformToSdk(ctx, diags, d.PortTypes))
-	data.SetSitegroupIds(mist_transform.ListOfStringTerraformToSdk(ctx, d.SitegroupIds))
-	data.SetVendor(mist_transform.ListOfStringTerraformToSdk(ctx, d.Vendor))
+	data.AuthType = models.ToPointer(models.NacRuleMatchingAuthTypeEnum(d.AuthType.ValueString()))
+	data.Nactags = mist_transform.ListOfStringTerraformToSdk(ctx, d.Nactags)
+	data.PortTypes = matchingPortTypesTerraformToSdk(ctx, diags, d.PortTypes)
+	data.SitegroupIds = mist_transform.ListOfUuidTerraformToSdk(ctx, d.SitegroupIds)
+	data.Vendor = mist_transform.ListOfStringTerraformToSdk(ctx, d.Vendor)
 
-	return *data
+	return &data
 }

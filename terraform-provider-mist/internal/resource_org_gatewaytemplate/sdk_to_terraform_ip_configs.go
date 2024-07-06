@@ -3,6 +3,8 @@ package resource_org_gatewaytemplate
 import (
 	"context"
 
+	"mistapi/models"
+
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -10,19 +12,17 @@ import (
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
 	mist_transform "terraform-provider-mist/internal/commons/utils"
-
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 )
 
-func ipConfigsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]mistapigo.GatewayTemplateIpConfig) basetypes.MapValue {
+func ipConfigsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]models.GatewayTemplateIpConfig) basetypes.MapValue {
 	tflog.Debug(ctx, "ipConfigsSdkToTerraform")
 	port_usage_type := IpConfigsValue{}.AttributeTypes(ctx)
 	state_value_map := make(map[string]attr.Value)
 	for k, v := range d {
 		var port_usage_state = map[string]attr.Value{
-			"ip":            types.StringValue(v.GetIp()),
-			"netmask":       types.StringValue(v.GetNetmask()),
-			"secondary_ips": mist_transform.ListOfStringSdkToTerraform(ctx, v.GetSecondaryIps()),
+			"ip":            types.StringValue(*v.Ip),
+			"netmask":       types.StringValue(*v.Netmask),
+			"secondary_ips": mist_transform.ListOfStringSdkToTerraform(ctx, v.SecondaryIps),
 		}
 		port_usage_object, e := NewIpConfigsValue(port_usage_type, port_usage_state)
 		diags.Append(e...)

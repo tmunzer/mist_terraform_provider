@@ -7,15 +7,15 @@ import (
 
 	mist_transform "terraform-provider-mist/internal/commons/utils"
 
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
+	"mistapi/models"
 )
 
-func dhcpSnoopingTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d DhcpSnoopingValue) mistapigo.DhcpSnooping {
-	data := mistapigo.NewDhcpSnooping()
-	data.SetAllNetworks(d.AllNetworks.ValueBool())
-	data.SetEnableArpSpoofCheck(d.EnableArpSpoofCheck.ValueBool())
-	data.SetEnableIpSourceGuard(d.EnableIpSourceGuard.ValueBool())
-	data.SetEnabled(d.Enabled.ValueBool())
-	data.SetNetworks(mist_transform.ListOfStringTerraformToSdk(ctx, d.Networks))
-	return *data
+func dhcpSnoopingTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d DhcpSnoopingValue) *models.DhcpSnooping {
+	data := models.DhcpSnooping{}
+	data.AllNetworks = models.ToPointer(d.AllNetworks.ValueBool())
+	data.EnableArpSpoofCheck = models.ToPointer(d.EnableArpSpoofCheck.ValueBool())
+	data.EnableIpSourceGuard = models.ToPointer(d.EnableIpSourceGuard.ValueBool())
+	data.Enabled = models.ToPointer(d.Enabled.ValueBool())
+	data.Networks = mist_transform.ListOfStringTerraformToSdk(ctx, d.Networks)
+	return &data
 }

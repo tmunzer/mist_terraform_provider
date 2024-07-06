@@ -4,14 +4,14 @@ import (
 	"context"
 	mist_transform "terraform-provider-mist/internal/commons/utils"
 
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
+	"mistapi/models"
 
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
-func ciscoCwaSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, data mistapigo.WlanCiscoCwa) CiscoCwaValue {
+func ciscoCwaSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, data models.WlanCiscoCwa) CiscoCwaValue {
 
 	plan_attr := map[string]attr.Value{
 		"allowed_hostnames": mist_transform.ListOfStringSdkToTerraform(ctx, data.GetAllowedHostnames()),

@@ -3,11 +3,10 @@ package provider
 import (
 	"context"
 	"fmt"
-
+	"mistapi"
 	"terraform-provider-mist/internal/resource_site"
 
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
-
+	"github.com/google/uuid"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
@@ -22,7 +21,7 @@ func NewSiteResource() resource.Resource {
 }
 
 type siteResource struct {
-	client *mistapigo.APIClient
+	client mistapi.ClientInterface
 }
 
 func (r *siteResource) Configure(ctx context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
@@ -31,7 +30,7 @@ func (r *siteResource) Configure(ctx context.Context, req resource.ConfigureRequ
 		return
 	}
 
-	client, ok := req.ProviderData.(*mistapigo.APIClient)
+	client, ok := req.ProviderData.(mistapi.ClientInterface)
 	if !ok {
 		resp.Diagnostics.AddError(
 			"Unexpected Data Source Configure Type",
@@ -65,9 +64,9 @@ func (r *siteResource) Create(ctx context.Context, req resource.CreateRequest, r
 	if resp.Diagnostics.HasError() {
 		return
 	}
-	orgId := site.GetOrgId()
-	tflog.Info(ctx, "Starting Site Create for Org "+orgId)
-	data, _, err := r.client.OrgsSitesAPI.CreateOrgSite(ctx, orgId).Site(site).Execute()
+	orgId := uuid.MustParse(plan.OrgId.ValueString())
+	tflog.Info(ctx, "Starting Site Create for Org "+plan.OrgId.ValueString())
+	data, err := r.client.OrgsSites().CreateOrgSite(ctx, orgId, site)
 
 	if err != nil {
 		resp.Diagnostics.AddError(
@@ -77,7 +76,7 @@ func (r *siteResource) Create(ctx context.Context, req resource.CreateRequest, r
 		return
 	}
 
-	state, diags = resource_site.SdkToTerraform(ctx, data)
+	state, diags = resource_site.SdkToTerraform(ctx, &data.Data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -100,8 +99,9 @@ func (r *siteResource) Read(ctx context.Context, req resource.ReadRequest, resp 
 		return
 	}
 
+	siteId := uuid.MustParse(state.Id.String())
 	tflog.Info(ctx, "Starting Site Read: site_id "+state.Id.ValueString())
-	data, _, err := r.client.SitesAPI.GetSiteInfo(ctx, state.Id.ValueString()).Execute()
+	data, err := r.client.Sites().GetSiteInfo(ctx, siteId)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Error getting site",
@@ -109,7 +109,7 @@ func (r *siteResource) Read(ctx context.Context, req resource.ReadRequest, resp 
 		)
 		return
 	}
-	state, diags = resource_site.SdkToTerraform(ctx, data)
+	state, diags = resource_site.SdkToTerraform(ctx, &data.Data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -143,8 +143,9 @@ func (r *siteResource) Update(ctx context.Context, req resource.UpdateRequest, r
 		return
 	}
 
+	siteId := uuid.MustParse(state.Id.String())
 	tflog.Info(ctx, "Starting Site Update for Site "+state.Id.ValueString())
-	data, _, err := r.client.SitesAPI.UpdateSiteInfo(ctx, state.Id.ValueString()).Site(site).Execute()
+	data, err := r.client.Sites().UpdateSiteInfo(ctx, siteId, site)
 
 	if err != nil {
 		resp.Diagnostics.AddError(
@@ -154,7 +155,7 @@ func (r *siteResource) Update(ctx context.Context, req resource.UpdateRequest, r
 		return
 	}
 
-	state, diags = resource_site.SdkToTerraform(ctx, data)
+	state, diags = resource_site.SdkToTerraform(ctx, &data.Data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -177,8 +178,9 @@ func (r *siteResource) Delete(ctx context.Context, req resource.DeleteRequest, r
 		return
 	}
 
+	siteId := uuid.MustParse(state.Id.String())
 	tflog.Info(ctx, "Starting Site Delete: site_id "+state.Id.ValueString())
-	_, err := r.client.SitesAPI.DeleteSite(ctx, state.Id.ValueString()).Execute()
+	_, err := r.client.Sites().DeleteSite(ctx, siteId)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Error creating site",

@@ -4,7 +4,7 @@ import (
 	"context"
 	mist_transform "terraform-provider-mist/internal/commons/utils"
 
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
+	"mistapi/models"
 
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
@@ -12,14 +12,14 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 )
 
-func specsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, data []mistapigo.WxlanTagSpec) basetypes.ListValue {
+func specsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, data []models.WxlanTagSpec) basetypes.ListValue {
 
 	var data_list = []SpecsValue{}
 	for _, v := range data {
 		data_map_value := map[string]attr.Value{
-			"port_range": types.StringValue(v.GetPortRange()),
-			"protocol":   types.StringValue(v.GetProtocol()),
-			"subnets":    mist_transform.ListOfStringSdkToTerraform(ctx, v.GetSubnets()),
+			"port_range": types.StringValue(*v.PortRange),
+			"protocol":   types.StringValue(*v.Protocol),
+			"subnets":    mist_transform.ListOfStringSdkToTerraform(ctx, v.Subnets),
 		}
 		data, e := NewSpecsValue(SpecsValue{}.AttributeTypes(ctx), data_map_value)
 		diags.Append(e...)

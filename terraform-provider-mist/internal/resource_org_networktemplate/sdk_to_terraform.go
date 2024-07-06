@@ -8,53 +8,55 @@ import (
 
 	mist_transform "terraform-provider-mist/internal/commons/utils"
 
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
+	"mistapi/models"
 )
 
-func SdkToTerraform(ctx context.Context, data *mistapigo.NetworkTemplate) (OrgNetworktemplateModel, diag.Diagnostics) {
+func SdkToTerraform(ctx context.Context, data models.NetworkTemplate) (OrgNetworktemplateModel, diag.Diagnostics) {
 	var state OrgNetworktemplateModel
 	var diags diag.Diagnostics
 
-	state.Id = types.StringValue(data.GetId())
-	state.OrgId = types.StringValue(data.GetOrgId())
-	state.Name = types.StringValue(data.GetName())
+	state.Id = types.StringValue(data.Id.String())
+	state.OrgId = types.StringValue(data.OrgId.String())
+	state.Name = types.StringValue(*data.Name)
 
-	state.AclPolicies = aclPoliciesSdkToTerraform(ctx, &diags, data.GetAclPolicies())
+	state.AclPolicies = aclPoliciesSdkToTerraform(ctx, &diags, data.AclPolicies)
 
-	state.AclTags = aclTagsSdkToTerraform(ctx, &diags, data.GetAclTags())
+	state.AclTags = aclTagsSdkToTerraform(ctx, &diags, data.AclTags)
 
-	state.AdditionalConfigCmds = mist_transform.ListOfStringSdkToTerraform(ctx, data.GetAdditionalConfigCmds())
+	state.AdditionalConfigCmds = mist_transform.ListOfStringSdkToTerraform(ctx, data.AdditionalConfigCmds)
 
-	state.DhcpSnooping = dhcpSnoopingSdkToTerraform(ctx, &diags, data.GetDhcpSnooping())
+	state.DhcpSnooping = dhcpSnoopingSdkToTerraform(ctx, &diags, data.DhcpSnooping)
 
-	state.DnsServers = mist_transform.ListOfStringSdkToTerraform(ctx, data.GetDnsServers())
+	state.DnsServers = mist_transform.ListOfStringSdkToTerraform(ctx, data.DnsServers)
 
-	state.DnsSuffix = mist_transform.ListOfStringSdkToTerraform(ctx, data.GetDnsSuffix())
+	state.DnsSuffix = mist_transform.ListOfStringSdkToTerraform(ctx, data.DnsSuffix)
 
-	state.ExtraRoutes = extraRoutesSdkToTerraform(ctx, &diags, data.GetExtraRoutes())
+	state.ExtraRoutes = extraRoutesSdkToTerraform(ctx, &diags, data.ExtraRoutes)
 
-	state.ExtraRoutes6 = extraRoutes6SdkToTerraform(ctx, &diags, data.GetExtraRoutes6())
+	state.ExtraRoutes6 = extraRoutes6SdkToTerraform(ctx, &diags, data.ExtraRoutes6)
 
-	state.MistNac = mistNacSdkToTerraform(ctx, &diags, data.GetMistNac())
+	state.MistNac = mistNacSdkToTerraform(ctx, &diags, data.MistNac)
 
-	state.NtpServers = mist_transform.ListOfStringSdkToTerraform(ctx, data.GetNtpServers())
+	state.NtpServers = mist_transform.ListOfStringSdkToTerraform(ctx, data.NtpServers)
 
-	state.Networks = NetworksSdkToTerraform(ctx, &diags, data.GetNetworks())
+	state.Networks = NetworksSdkToTerraform(ctx, &diags, data.Networks)
 
-	state.PortMirroring = portMirroringSdkToTerraform(ctx, &diags, data.GetPortMirroring())
+	state.PortMirroring = portMirroringSdkToTerraform(ctx, &diags, data.PortMirroring)
 
-	state.PortUsages = portUsagesSdkToTerraform(ctx, &diags, data.GetPortUsages())
+	state.PortUsages = portUsagesSdkToTerraform(ctx, &diags, data.PortUsages)
 
-	state.RemoteSyslog = remoteSyslogSdkToTerraform(ctx, &diags, data.GetRemoteSyslog())
+	state.RemoteSyslog = remoteSyslogSdkToTerraform(ctx, &diags, *data.RemoteSyslog)
 
-	state.RadiusConfig = radiusConfigSdkToTerraform(ctx, &diags, data.GetRadiusConfig())
+	state.RadiusConfig = radiusConfigSdkToTerraform(ctx, &diags, data.RadiusConfig)
 
-	state.SwitchMatching = switchMatchingSdkToTerraform(ctx, &diags, data.GetSwitchMatching())
+	state.SnmpConfig = snmpConfigSdkToTerraform(ctx, &diags, *data.SnmpConfig)
 
-	state.SwitchMgmt = switchMgmtSdkToTerraform(ctx, &diags, data.GetSwitchMgmt())
+	state.SwitchMatching = switchMatchingSdkToTerraform(ctx, &diags, data.SwitchMatching)
 
-	state.VrfConfig = vrfConfigSdkToTerraform(ctx, &diags, data.GetVrfConfig())
+	state.SwitchMgmt = switchMgmtSdkToTerraform(ctx, &diags, data.SwitchMgmt)
 
-	state.VrfInstances = vrfInstancesSdkToTerraform(ctx, &diags, data.GetVrfInstances())
+	state.VrfConfig = vrfConfigSdkToTerraform(ctx, &diags, data.VrfConfig)
+
+	state.VrfInstances = vrfInstancesSdkToTerraform(ctx, &diags, data.VrfInstances)
 	return state, diags
 }

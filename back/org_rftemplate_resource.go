@@ -3,10 +3,9 @@ package provider
 import (
 	"context"
 	"fmt"
+	"mistapi"
 
 	"terraform-provider-mist/internal/resource_rftemplate"
-
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
@@ -22,7 +21,7 @@ func NewOrgRfTemplate() resource.Resource {
 }
 
 type orgRfTemplateResource struct {
-	client *mistapigo.APIClient
+	client mistapi.ClientInterface
 }
 
 func (r *orgRfTemplateResource) Configure(ctx context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
@@ -31,7 +30,7 @@ func (r *orgRfTemplateResource) Configure(ctx context.Context, req resource.Conf
 		return
 	}
 
-	client, ok := req.ProviderData.(*mistapigo.APIClient)
+	client, ok := req.ProviderData.(mistapi.ClientInterface)
 	if !ok {
 		resp.Diagnostics.AddError(
 			"Unexpected Data Source Configure Type",
@@ -66,7 +65,7 @@ func (r *orgRfTemplateResource) Create(ctx context.Context, req resource.CreateR
 		return
 	}
 
-	data, _, err := r.client.OrgsRFTemplatesAPI.CreateOrgRfTemplate(ctx, plan.OrgId.ValueString()).RfTemplate(rftemplate).Execute()
+	data, err := r.client.OrgsRFTemplatesAPI.CreateOrgRfTemplate(ctx, plan.OrgId.ValueString()).RfTemplate(rftemplate
 	if err != nil {
 		//url, _ := httpr.Location()
 		resp.Diagnostics.AddError(
@@ -76,7 +75,7 @@ func (r *orgRfTemplateResource) Create(ctx context.Context, req resource.CreateR
 		return
 	}
 
-	state, diags = resource_rftemplate.SdkToTerraform(ctx, data)
+	state, diags = resource_rftemplate.SdkToTerraform(ctx, data.Data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -100,7 +99,7 @@ func (r *orgRfTemplateResource) Read(ctx context.Context, req resource.ReadReque
 	}
 
 	tflog.Info(ctx, "Starting RfTemplate Read: rftemplate_id "+state.Id.ValueString())
-	data, _, err := r.client.OrgsRFTemplatesAPI.GetOrgRfTemplate(ctx, state.OrgId.ValueString(), state.Id.ValueString()).Execute()
+	data, err := r.client.OrgsRFTemplatesAPI.GetOrgRfTemplate(ctx, state.OrgId.ValueString(), state.Id.ValueString()
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Error getting RfTemplate",
@@ -108,7 +107,7 @@ func (r *orgRfTemplateResource) Read(ctx context.Context, req resource.ReadReque
 		)
 		return
 	}
-	state, diags = resource_rftemplate.SdkToTerraform(ctx, data)
+	state, diags = resource_rftemplate.SdkToTerraform(ctx, data.Data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -143,7 +142,7 @@ func (r *orgRfTemplateResource) Update(ctx context.Context, req resource.UpdateR
 	}
 
 	tflog.Info(ctx, "Starting RfTemplate Update for RfTemplate "+state.Id.ValueString())
-	data, _, err := r.client.OrgsRFTemplatesAPI.
+	data, err := r.client.OrgsRFTemplatesAPI.
 		UpdateOrgRfTemplate(ctx, state.OrgId.ValueString(), state.Id.ValueString()).
 		RfTemplate(rftemplate).
 		Execute()
@@ -156,7 +155,7 @@ func (r *orgRfTemplateResource) Update(ctx context.Context, req resource.UpdateR
 		return
 	}
 
-	state, diags = resource_rftemplate.SdkToTerraform(ctx, data)
+	state, diags = resource_rftemplate.SdkToTerraform(ctx, data.Data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -180,7 +179,7 @@ func (r *orgRfTemplateResource) Delete(ctx context.Context, req resource.DeleteR
 	}
 
 	tflog.Info(ctx, "Starting RfTemplate Delete: rftemplate_id "+state.Id.ValueString())
-	_, err := r.client.OrgsRFTemplatesAPI.DeleteOrgRfTemplate(ctx, state.OrgId.ValueString(), state.Id.ValueString()).Execute()
+	_, err := r.client.OrgsRFTemplatesAPI.DeleteOrgRfTemplate(ctx, state.OrgId.ValueString(), state.Id.ValueString()
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Error creating RfTemplate",

@@ -3,28 +3,39 @@ package resource_site_networktemplate
 import (
 	"context"
 
+	"mistapi/models"
+
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 
 	mist_transform "terraform-provider-mist/internal/commons/utils"
-
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 )
 
-func aclPolicyActionsToTerraform(ctx context.Context, diags *diag.Diagnostics, d []mistapigo.AclPolicyAction) basetypes.ListValue {
+func aclPolicyActionsToTerraform(ctx context.Context, diags *diag.Diagnostics, l []models.AclPolicyAction) basetypes.ListValue {
 	var data_list []attr.Value
-	data_list_type := ActionsValue{}.AttributeTypes(ctx)
-	for _, v := range d {
-		rc_srv_state_value := map[string]attr.Value{
-			"action":  types.StringValue(string(v.GetAction())),
-			"dst_tag": types.StringValue(v.GetDstTag()),
+	for _, d := range l {
+
+		var action basetypes.StringValue
+		var dst_tag basetypes.StringValue
+
+		if d.Action != nil {
+			action = types.StringValue(string(*d.Action))
 		}
-		acct_server, e := NewActionsValue(data_list_type, rc_srv_state_value)
+		if d.DstTag != nil {
+			dst_tag = types.StringValue(*d.DstTag)
+		}
+
+		data_map_attr_type := ActionsValue{}.AttributeTypes(ctx)
+		data_map_value := map[string]attr.Value{
+			"action":  action,
+			"dst_tag": dst_tag,
+		}
+		data, e := NewActionsValue(data_map_attr_type, data_map_value)
 		diags.Append(e...)
 
-		data_list = append(data_list, acct_server)
+		data_list = append(data_list, data)
 	}
 
 	state_list_type := ActionsValue{}.Type(ctx)
@@ -32,21 +43,65 @@ func aclPolicyActionsToTerraform(ctx context.Context, diags *diag.Diagnostics, d
 	diags.Append(e...)
 	return state_list
 }
+func actionsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, l []models.AclPolicyAction) basetypes.ListValue {
 
-func aclPoliciesSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []mistapigo.AclPolicy) basetypes.ListValue {
-	var data_list []attr.Value
-	data_list_type := AclPoliciesValue{}.AttributeTypes(ctx)
-	for _, v := range d {
-		actions := aclPolicyActionsToTerraform(ctx, diags, v.GetActions())
-		rc_srv_state_value := map[string]attr.Value{
-			"actions":  actions,
-			"name":     types.StringValue(v.GetName()),
-			"src_tags": mist_transform.ListOfStringSdkToTerraform(ctx, v.GetSrcTags()),
+	var list_attr_values []attr.Value
+	for _, d := range l {
+		var action basetypes.StringValue
+		var dst_tag basetypes.StringValue
+
+		if d.Action != nil {
+			action = types.StringValue(string(*d.Action))
 		}
-		acct_server, e := NewAclPoliciesValue(data_list_type, rc_srv_state_value)
+		if d.DstTag != nil {
+			dst_tag = types.StringValue(*d.DstTag)
+		}
+
+		data_map_attr_type := ActionsValue{}.AttributeTypes(ctx)
+		data_map_value := map[string]attr.Value{
+			"action":  action,
+			"dst_tag": dst_tag,
+		}
+		data, e := NewActionsValue(data_map_attr_type, data_map_value)
 		diags.Append(e...)
 
-		data_list = append(data_list, acct_server)
+		list_attr_values = append(list_attr_values, data)
+	}
+
+	list_attr_types := ActionsValue{}.Type(ctx)
+	r, e := types.ListValueFrom(ctx, list_attr_types, list_attr_values)
+	diags.Append(e...)
+	return r
+}
+
+func aclPoliciesSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, l []models.AclPolicy) basetypes.ListValue {
+	var data_list []attr.Value
+	for _, d := range l {
+
+		var actions basetypes.ListValue
+		var name basetypes.StringValue
+		var src_tags basetypes.ListValue
+
+		if d.Actions != nil {
+			actions = actionsSdkToTerraform(ctx, diags, d.Actions)
+		}
+		if d.Name != nil {
+			name = types.StringValue(*d.Name)
+		}
+		if d.SrcTags != nil {
+			src_tags = mist_transform.ListOfStringSdkToTerraform(ctx, d.SrcTags)
+		}
+
+		data_map_attr_type := AclPoliciesValue{}.AttributeTypes(ctx)
+		data_map_value := map[string]attr.Value{
+			"actions":  actions,
+			"name":     name,
+			"src_tags": src_tags,
+		}
+		data, e := NewAclPoliciesValue(data_map_attr_type, data_map_value)
+		diags.Append(e...)
+
+		data_list = append(data_list, data)
 	}
 
 	state_list_type := AclPoliciesValue{}.Type(ctx)

@@ -4,16 +4,19 @@ import (
 	"context"
 	mist_transform "terraform-provider-mist/internal/commons/utils"
 
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
+	"mistapi/models"
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 )
 
-func exceptionsTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, plan ExceptionsValue) mistapigo.TemplateExceptions {
+func exceptionsTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, plan ExceptionsValue) *models.TemplateExceptions {
 
-	data := mistapigo.NewTemplateExceptions()
-	data.SetSiteIds(mist_transform.ListOfStringTerraformToSdk(ctx, plan.SiteIds))
-	data.SetSitegroupIds(mist_transform.ListOfStringTerraformToSdk(ctx, plan.SitegroupIds))
-
-	return *data
+	data := models.TemplateExceptions{}
+	if !plan.SiteIds.IsNull() && !plan.SiteIds.IsUnknown() {
+		data.SiteIds = mist_transform.ListOfUuidTerraformToSdk(ctx, plan.SiteIds)
+	}
+	if !plan.SitegroupIds.IsNull() && !plan.SitegroupIds.IsUnknown() {
+		data.SitegroupIds = mist_transform.ListOfUuidTerraformToSdk(ctx, plan.SitegroupIds)
+	}
+	return &data
 }

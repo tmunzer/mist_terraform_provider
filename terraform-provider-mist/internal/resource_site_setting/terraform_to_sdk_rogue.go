@@ -8,12 +8,12 @@ import (
 
 	mist_transform "terraform-provider-mist/internal/commons/utils"
 
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
+	"mistapi/models"
 )
 
-func rogueTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d RogueValue) mistapigo.SiteRogue {
+func rogueTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d RogueValue) models.SiteRogue {
 	tflog.Debug(ctx, "rogueTerraformToSdk")
-	data := mistapigo.NewSiteRogue()
+	data := models.NewSiteRogue()
 
 	data.SetEnabled(d.Enabled.ValueBool())
 	data.SetHoneypotEnabled(d.HoneypotEnabled.ValueBool())

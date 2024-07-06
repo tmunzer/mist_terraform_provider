@@ -3,6 +3,8 @@ package resource_site_setting
 import (
 	"context"
 
+	"mistapi/models"
+
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -10,11 +12,9 @@ import (
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
 	mist_transform "terraform-provider-mist/internal/commons/utils"
-
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 )
 
-func synthteticTestVlansSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []mistapigo.SyntheticTestProperties) basetypes.ListValue {
+func synthteticTestVlansSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []models.SyntheticTestProperties) basetypes.ListValue {
 	tflog.Debug(ctx, "synthteticTestVlansSdkToTerraform")
 	var data_list = []VlansValue{}
 	for _, v := range d {
@@ -34,7 +34,7 @@ func synthteticTestVlansSdkToTerraform(ctx context.Context, diags *diag.Diagnost
 	return r
 }
 
-func synthteticTestSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistapigo.SyntheticTestConfig) SyntheticTestValue {
+func synthteticTestSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d models.SyntheticTestConfig) SyntheticTestValue {
 	tflog.Debug(ctx, "synthteticTestSdkToTerraform")
 
 	r_attr_type := SyntheticTestValue{}.AttributeTypes(ctx)

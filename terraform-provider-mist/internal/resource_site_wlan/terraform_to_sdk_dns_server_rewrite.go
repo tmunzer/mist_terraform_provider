@@ -3,13 +3,13 @@ package resource_site_wlan
 import (
 	"context"
 
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
+	"mistapi/models"
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 )
 
-func dnsServerRewriteTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, plan DnsServerRewriteValue) mistapigo.WlanDnsServerRewrite {
+func dnsServerRewriteTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, plan DnsServerRewriteValue) models.WlanDnsServerRewrite {
 
 	radius_groups := make(map[string]string)
 	for k, v := range plan.RadiusGroups.Elements() {
@@ -18,7 +18,7 @@ func dnsServerRewriteTerraformToSdk(ctx context.Context, diags *diag.Diagnostics
 		radius_groups[k] = v_plan.ValueString()
 	}
 
-	data := *mistapigo.NewWlanDnsServerRewrite()
+	data := *models.NewWlanDnsServerRewrite()
 	data.SetEnabled(plan.Enabled.ValueBool())
 	data.SetRadiusGroups(radius_groups)
 

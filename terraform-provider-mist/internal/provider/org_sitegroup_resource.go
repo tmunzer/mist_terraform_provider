@@ -5,8 +5,10 @@ import (
 	"fmt"
 	"terraform-provider-mist/internal/resource_org_sitegroup"
 
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
+	"mistapi"
+	"mistapi/models"
 
+	"github.com/google/uuid"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
@@ -21,7 +23,7 @@ func NewOrgSiteGroupResource() resource.Resource {
 }
 
 type orgSiteGroupResource struct {
-	client *mistapigo.APIClient
+	client mistapi.ClientInterface
 }
 
 func (r *orgSiteGroupResource) Configure(ctx context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
@@ -30,7 +32,7 @@ func (r *orgSiteGroupResource) Configure(ctx context.Context, req resource.Confi
 		return
 	}
 
-	client, ok := req.ProviderData.(*mistapigo.APIClient)
+	client, ok := req.ProviderData.(mistapi.ClientInterface)
 	if !ok {
 		resp.Diagnostics.AddError(
 			"Unexpected Data Source Configure Type",
@@ -59,13 +61,13 @@ func (r *orgSiteGroupResource) Create(ctx context.Context, req resource.CreateRe
 		return
 	}
 
-	sitegroup, orgId, diags := resource_org_sitegroup.TerraformToSdk(&plan)
+	sitegroup, diags := resource_org_sitegroup.TerraformToSdk(&plan)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
 	}
-
-	data, _, err := r.client.OrgsSitegroupsAPI.CreateOrgSiteGroup(ctx, orgId).Sitegroup(sitegroup).Execute()
+	orgId := uuid.MustParse(plan.OrgId.ValueString())
+	data, err := r.client.OrgsSitegroups().CreateOrgSiteGroup(ctx, orgId, sitegroup)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Error creating SiteGroup",
@@ -74,7 +76,7 @@ func (r *orgSiteGroupResource) Create(ctx context.Context, req resource.CreateRe
 		return
 	}
 
-	state, diags = resource_org_sitegroup.SdkToTerraform(data)
+	state, diags = resource_org_sitegroup.SdkToTerraform(&data.Data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -97,8 +99,10 @@ func (r *orgSiteGroupResource) Read(ctx context.Context, req resource.ReadReques
 		return
 	}
 
+	orgId := uuid.MustParse(state.OrgId.ValueString())
+	sitegroupId := uuid.MustParse(state.Id.ValueString())
 	tflog.Info(ctx, "Starting SiteGroup Read: sitegroup_id "+state.Id.ValueString())
-	data, _, err := r.client.OrgsSitegroupsAPI.GetOrgSiteGroup(ctx, state.OrgId.ValueString(), state.Id.ValueString()).Execute()
+	data, err := r.client.OrgsSitegroups().GetOrgSiteGroup(ctx, orgId, sitegroupId)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Error getting SiteGroup",
@@ -106,7 +110,7 @@ func (r *orgSiteGroupResource) Read(ctx context.Context, req resource.ReadReques
 		)
 		return
 	}
-	state, diags = resource_org_sitegroup.SdkToTerraform(data)
+	state, diags = resource_org_sitegroup.SdkToTerraform(&data.Data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -135,16 +139,16 @@ func (r *orgSiteGroupResource) Update(ctx context.Context, req resource.UpdateRe
 		return
 	}
 
-	sitegroupId := plan.Id.ValueString()
-	sitegroup, orgId, diags := resource_org_sitegroup.TerraformToSdk(&plan)
+	orgId := uuid.MustParse(state.OrgId.ValueString())
+	sitegroupId := uuid.MustParse(state.Id.ValueString())
+	sitegroup_name := models.NameString{}
+	sitegroup_name.Name = plan.Name.ValueStringPointer()
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
 	}
-	tflog.Info(ctx, "Starting SiteGroup Update for Site "+sitegroupId)
-	name := *mistapigo.NewNameString()
-	name.SetName(sitegroup.Name)
-	data, _, err := r.client.OrgsSitegroupsAPI.UpdateOrgSiteGroup(ctx, orgId, sitegroupId).NameString(name).Execute()
+	tflog.Info(ctx, "Starting SiteGroup Update for Site "+plan.Id.ValueString())
+	data, err := r.client.OrgsSitegroups().UpdateOrgSiteGroup(ctx, orgId, sitegroupId, &sitegroup_name)
 
 	if err != nil {
 		resp.Diagnostics.AddError(
@@ -154,7 +158,7 @@ func (r *orgSiteGroupResource) Update(ctx context.Context, req resource.UpdateRe
 		return
 	}
 
-	state, diags = resource_org_sitegroup.SdkToTerraform(data)
+	state, diags = resource_org_sitegroup.SdkToTerraform(&data.Data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -177,8 +181,10 @@ func (r *orgSiteGroupResource) Delete(ctx context.Context, req resource.DeleteRe
 		return
 	}
 
+	orgId := uuid.MustParse(state.OrgId.ValueString())
+	sitegroupId := uuid.MustParse(state.Id.ValueString())
 	tflog.Info(ctx, "Starting SiteGroup Delete: sitegroup_id "+state.Id.ValueString())
-	_, err := r.client.OrgsSitegroupsAPI.DeleteOrgSiteGroup(ctx, state.OrgId.ValueString(), state.Id.ValueString()).Execute()
+	_, err := r.client.OrgsSitegroups().DeleteOrgSiteGroup(ctx, orgId, sitegroupId)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Error creating SiteGroup",

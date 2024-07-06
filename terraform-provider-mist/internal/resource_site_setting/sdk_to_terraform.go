@@ -3,15 +3,15 @@ package resource_site_setting
 import (
 	"context"
 
+	"mistapi/models"
+
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	mist_list "terraform-provider-mist/internal/commons/utils"
-
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 )
 
-func SdkToTerraform(ctx context.Context, data *mistapigo.SiteSetting) (SiteSettingModel, diag.Diagnostics) {
+func SdkToTerraform(ctx context.Context, data *models.SiteSetting) (SiteSettingModel, diag.Diagnostics) {
 	var state SiteSettingModel
 	var diags diag.Diagnostics
 

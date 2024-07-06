@@ -8,12 +8,12 @@ import (
 
 	mist_transform "terraform-provider-mist/internal/commons/utils"
 
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
+	"mistapi/models"
 )
 
-func zoneOccupancyTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d ZoneOccupancyAlertValue) mistapigo.SiteZoneOccupancyAlert {
+func zoneOccupancyTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d ZoneOccupancyAlertValue) models.SiteZoneOccupancyAlert {
 	tflog.Debug(ctx, "zoneOccupancyTerraformToSdk")
-	data := mistapigo.NewSiteZoneOccupancyAlert()
+	data := models.NewSiteZoneOccupancyAlert()
 
 	data.SetEmailNotifiers(mist_transform.ListOfStringTerraformToSdk(ctx, d.EmailNotifiers))
 	data.SetEnabled(d.Enabled.ValueBool())

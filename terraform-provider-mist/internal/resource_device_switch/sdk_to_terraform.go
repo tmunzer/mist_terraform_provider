@@ -5,20 +5,19 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 
 	mist_transform "terraform-provider-mist/internal/commons/utils"
-
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 )
 
-func SdkToTerraform(ctx context.Context, mist_device *mistapigo.MistDevice) (DeviceSwitchModel, diag.Diagnostics) {
+func SdkToTerraform(ctx context.Context, mist_device *models.MistDevice) (DeviceSwitchModel, diag.Diagnostics) {
 	var state DeviceSwitchModel
 	var diags diag.Diagnostics
 
 	data := mist_device.DeviceSwitch
 
 	// a, _ := mist_device.MarshalJSON()
-	// data := mistapigo.NewDeviceSwitch()
+	// data := models.NewDeviceSwitch()
 	// data.UnmarshalJSON(a)
 
 	state.Id = types.StringValue(data.GetId())

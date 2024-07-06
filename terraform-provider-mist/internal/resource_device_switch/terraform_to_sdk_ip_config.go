@@ -4,16 +4,16 @@ import (
 	"context"
 	mist_transform "terraform-provider-mist/internal/commons/utils"
 
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
+	"mistapi/models"
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 
-func ipConfigTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d IpConfigValue) mistapigo.JunosIpConfig {
+func ipConfigTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d IpConfigValue) models.JunosIpConfig {
 	tflog.Debug(ctx, "dhcpdConfigTerraformToSdk")
 
-	data := *mistapigo.NewJunosIpConfig()
+	data := *models.NewJunosIpConfig()
 
 	data.SetDns(mist_transform.ListOfStringTerraformToSdk(ctx, d.Dns))
 	data.SetDnsSuffix(mist_transform.ListOfStringTerraformToSdk(ctx, d.DnsSuffix))
@@ -21,7 +21,7 @@ func ipConfigTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d IpCo
 	data.SetIp(d.Ip.ValueString())
 	data.SetNetmask(d.Netmask.ValueString())
 	data.SetNetwork(d.Network.ValueString())
-	data.SetType(mistapigo.IpConfigType(d.IpConfigType.ValueString()))
+	data.SetType(models.IpConfigType(d.IpConfigType.ValueString()))
 
 	return data
 }

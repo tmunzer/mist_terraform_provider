@@ -1,12 +1,35 @@
 import json
-
+import re
 SPEC_IN = "./provider-code-spec.json"
 
+CUSTOM_DEFAULT_LIST_OF_STR = """
+                  {"custom": {"imports": [
+                    {"path": "github.com/hashicorp/terraform-plugin-framework/attr"},
+                    {"path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault"},
+                    {"path": "github.com/hashicorp/terraform-plugin-framework/types"}
+                  ],
+                  "schema_definition": "listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{}))"}}
+"""
+CUSTOM_DEFAULT_LIST_OF_INT = """
+                   {"custom": {"imports": [
+                    {"path": "github.com/hashicorp/terraform-plugin-framework/attr"},
+                    {"path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault"},
+                    {"path": "github.com/hashicorp/terraform-plugin-framework/types"}
+                  ],
+                  "schema_definition": "listdefault.StaticValue(types.ListValueMust(types.Int64Type, []attr.Value{}))"}}
+"""
+
+RE_LIST = r"\"list\": {"
+with open(SPEC_IN, "r") as f:
+    RAW = f.read()
+
+out = re.sub(RE_LIST, '"list": { "default": ' + CUSTOM_DEFAULT_LIST_OF_STR + ",", RAW)
+
+with open(SPEC_IN, "w") as f:
+    f.write(out)
 
 RENAME = [
     {
-<<<<<<< Updated upstream
-=======
         "name": "device_ap",
         "get": ["schema", "attributes"],
         "next": [
@@ -77,49 +100,7 @@ RENAME = [
                 "computed_optional_required": "required",
             },
         ],
-    },
-    {
-        "name": "org_gatewaytemplate",
-        "get": ["schema", "attributes"],
-        "next": [
-            {
-                "name": "port_config",
-                "get": ["map_nested", "nested_object", "attributes"],
-                "next": [
-                    {
-                        "name": "traffic_shaping",
-                        "get": ["single_nested", "attributes"],
-                        "next": [
-                            {
-                                "name": "class_percentages",
-                                "get": ["list"],
-                                "default": json.loads(CUSTOM_DEFAULT_LIST_OF_INT),
-                            },
-                        ],
-                    },
-                    {
-                        "name": "vpn_paths",
-                        "get": ["map_nested", "nested_object", "attributes"],
-                        "next": [
-                            {
-                                "name": "traffic_shaping",
-                                "get": ["single_nested", "attributes"],
-                                "next": [
-                                    {
-                                        "name": "class_percentages",
-                                        "get": ["list"],
-                                        "default": json.loads(
-                                            CUSTOM_DEFAULT_LIST_OF_INT
-                                        ),
-                                    },
-                                ],
-                            },
-                        ],
-                    },
-                ],
-            },
-        ],
-    },
+    },    
     {
         "name": "device_switch",
         "get": ["schema", "attributes"],
@@ -212,7 +193,6 @@ RENAME = [
         ],
     },
     {
->>>>>>> Stashed changes
         "name": "org_networktemplate",
         "get": ["schema", "attributes"],
         "next": [
@@ -243,9 +223,68 @@ RENAME = [
                 ],
             },
             {
+                "name": "vrf_instances",
+                "get": ["map_nested","nested_object", "attributes"],
+                "next": [
+                    
+                            {
+                                "name": "extra_routes",
+                                "rename": "vrf_extra_routes",
+                            }
+                        ],
+            },
+            {
                 "name": "org_id",
                 "get": ["string"],
                 "computed_optional_required": "required",
+            },
+            {
+                "name": "snmp_config",
+                "get": ["single_nested", "attributes"],
+                "next": [
+                    {
+                        "name": "v3_config",
+                        "get": ["single_nested", "attributes"],
+                        "next": [
+                            {
+                                "name": "notify_filter",
+                                "get": ["list_nested", "nested_object", "attributes"],
+                                "next": [
+                                    {
+                                        "name": "contents",
+                                        "rename": "snmpv3_contents",
+                                    }
+                                ],
+                            },
+                            {
+                                "name": "usm",
+                                "get": ["single_nested", "attributes"],
+                                "next": [
+                                    {
+                                        "name": "users",
+                                        "rename": "snmpv3_users",
+                                    }
+                                ],
+                            },
+                            {
+                                "name": "vacm",
+                                "get": ["single_nested", "attributes"],
+                                "next": [
+                                    {
+                                        "name": "security_to_group",
+                                        "get": ["single_nested", "attributes"],
+                                        "next": [
+                                            {
+                                                "name": "content",
+                                                "rename": "snmpv3_vacm_content",
+                                            }
+                                        ],
+                                    },
+                                ],
+                            },
+                        ],
+                    },
+                ],
             },
         ],
     },
@@ -300,11 +339,6 @@ RENAME = [
                 "get": ["string"],
                 "computed_optional_required": "required",
             },
-<<<<<<< Updated upstream
-        ]
-        },
-        {
-=======
             {
                 "name": "dynamic_psk",
                 "get": ["single_nested", "attributes"],
@@ -346,7 +380,6 @@ RENAME = [
         ],
     },
     {
->>>>>>> Stashed changes
         "name": "org_service",
         "get": ["schema", "attributes"],
         "next": [
@@ -403,11 +436,6 @@ RENAME = [
                 "get": ["string"],
                 "computed_optional_required": "required",
             },
-<<<<<<< Updated upstream
-        ]
-        },
-        {
-=======
             {
                 "name": "src_wxtags",
                 "get": ["list"],
@@ -416,7 +444,6 @@ RENAME = [
         ],
     },
     {
->>>>>>> Stashed changes
         "name": "org_wxtag",
         "get": ["schema", "attributes"],
         "next": [
@@ -441,11 +468,6 @@ RENAME = [
                 "get": ["string"],
                 "computed_optional_required": "required",
             },
-<<<<<<< Updated upstream
-        ]
-        },
-        {
-=======
             {
                 "name": "src_wxtags",
                 "get": ["list"],
@@ -454,7 +476,6 @@ RENAME = [
         ],
     },
     {
->>>>>>> Stashed changes
         "name": "site_wxtag",
         "get": ["schema", "attributes"],
         "next": [
@@ -484,11 +505,6 @@ RENAME = [
                 "get": ["string"],
                 "computed_optional_required": "required",
             },
-<<<<<<< Updated upstream
-        ]
-        },
-        {
-=======
             {
                 "name": "band_24",
                 "get": ["single_nested", "attributes"],
@@ -586,7 +602,6 @@ RENAME = [
         ],
     },
     {
->>>>>>> Stashed changes
         "name": "org_nacrule",
         "get": ["schema", "attributes"],
         "next": [
@@ -616,10 +631,6 @@ RENAME = [
                 "get": ["string"],
                 "computed_optional_required": "required",
             },
-<<<<<<< Updated upstream
-        ]
-        },
-=======
             {
                 "name": "dynamic_psk",
                 "get": ["single_nested", "attributes"],
@@ -660,7 +671,6 @@ RENAME = [
             },
         ],
     },
->>>>>>> Stashed changes
     {
         "name": "site_networktemplate",
         "get": ["schema", "attributes"],
@@ -685,6 +695,17 @@ RENAME = [
                 ],
             },
             {
+                "name": "vrf_instances",
+                "get": ["map_nested","nested_object", "attributes"],
+                "next": [
+                    
+                            {
+                                "name": "extra_routes",
+                                "rename": "vrf_extra_routes",
+                            }
+                        ],
+            },
+            {
                 "name": "switch_mgmt",
                 "get": ["single_nested", "attributes"],
                 "next": [
@@ -696,6 +717,54 @@ RENAME = [
                                 "name": "acct_servers",
                                 "rename": "tacacct_servers",
                             }
+                        ],
+                    },
+                ],
+            },
+            {
+                "name": "snmp_config",
+                "get": ["single_nested", "attributes"],
+                "next": [
+                    {
+                        "name": "v3_config",
+                        "get": ["single_nested", "attributes"],
+                        "next": [
+                            {
+                                "name": "notify_filter",
+                                "get": ["list_nested", "nested_object", "attributes"],
+                                "next": [
+                                    {
+                                        "name": "contents",
+                                        "rename": "snmpv3_contents",
+                                    }
+                                ],
+                            },
+                            {
+                                "name": "usm",
+                                "get": ["single_nested", "attributes"],
+                                "next": [
+                                    {
+                                        "name": "users",
+                                        "rename": "snmpv3_users",
+                                    }
+                                ],
+                            },
+                            {
+                                "name": "vacm",
+                                "get": ["single_nested", "attributes"],
+                                "next": [
+                                    {
+                                        "name": "security_to_group",
+                                        "get": ["single_nested", "attributes"],
+                                        "next": [
+                                            {
+                                                "name": "content",
+                                                "rename": "snmpv3_vacm_content",
+                                            }
+                                        ],
+                                    },
+                                ],
+                            },
                         ],
                     },
                 ],
@@ -1165,6 +1234,42 @@ RENAME = [
         "name": "org_gatewaytemplate",
         "get": ["schema", "attributes"],
         "next": [
+            {
+                "name": "port_config",
+                "get": ["map_nested", "nested_object", "attributes"],
+                "next": [
+                    {
+                        "name": "traffic_shaping",
+                        "get": ["single_nested", "attributes"],
+                        "next": [
+                            {
+                                "name": "class_percentages",
+                                "get": ["list"],
+                                "default": json.loads(CUSTOM_DEFAULT_LIST_OF_INT),
+                            },
+                        ],
+                    },
+                    {
+                        "name": "vpn_paths",
+                        "get": ["map_nested", "nested_object", "attributes"],
+                        "next": [
+                            {
+                                "name": "traffic_shaping",
+                                "get": ["single_nested", "attributes"],
+                                "next": [
+                                    {
+                                        "name": "class_percentages",
+                                        "get": ["list"],
+                                        "default": json.loads(
+                                            CUSTOM_DEFAULT_LIST_OF_INT
+                                        ),
+                                    },
+                                ],
+                            },
+                        ],
+                    },
+                ],
+            },
             {
                 "name": "org_id",
                 "get": ["string"],
@@ -2117,6 +2222,8 @@ def next_item(data: dict, entries: list, path: list):
         rename = entry.get("rename")
         plan_modifiers = entry.get("plan_modifiers")
         computed_optional_required = entry.get("computed_optional_required")
+        default = entry.get("default")
+        no_default = entry.get("no_default")
         curr_path = path.copy()
         curr_path.append(name)
         try:
@@ -2129,6 +2236,10 @@ def next_item(data: dict, entries: list, path: list):
                         print(f"not able to get {'.'.join(curr_path)}")
             if rename:
                 sub_data["name"] = rename
+            if default:
+                sub_data["default"] = default
+            if no_default and sub_data.get("default"):
+                del sub_data["default"]
             if plan_modifiers:
                 sub_data["plan_modifiers"] = plan_modifiers
             if computed_optional_required:
@@ -2146,4 +2257,4 @@ next_item(DATA["resources"], RENAME, [])
 
 
 with open(SPEC_IN, "w") as f_out:
-    json.dump(DATA, f_out)
+    json.dump(DATA, f_out, indent=4)

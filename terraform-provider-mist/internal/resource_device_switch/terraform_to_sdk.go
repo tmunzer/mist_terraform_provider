@@ -4,17 +4,16 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 
 	mist_transform "terraform-provider-mist/internal/commons/utils"
-
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 )
 
-func TerraformToSdk(ctx context.Context, plan *DeviceSwitchModel) (mistapigo.MistDevice, diag.Diagnostics) {
+func TerraformToSdk(ctx context.Context, plan *DeviceSwitchModel) (models.MistDevice, diag.Diagnostics) {
 	var diags diag.Diagnostics
 	unset := make(map[string]interface{})
 
-	data := mistapigo.NewDeviceSwitch()
+	data := models.NewDeviceSwitch()
 	data.SetDeviceprofileId(plan.DeviceprofileId.ValueString())
 	data.SetMapId(plan.MapId.ValueString())
 	data.SetName(plan.Name.ValueString())
@@ -221,7 +220,7 @@ func TerraformToSdk(ctx context.Context, plan *DeviceSwitchModel) (mistapigo.Mis
 
 	data.AdditionalProperties = unset
 
-	var mist_device mistapigo.MistDevice
+	var mist_device models.MistDevice
 	mist_device.DeviceSwitch = data
 
 	return mist_device, diags

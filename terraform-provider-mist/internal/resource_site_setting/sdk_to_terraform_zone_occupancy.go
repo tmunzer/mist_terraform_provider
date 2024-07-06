@@ -4,7 +4,7 @@ import (
 	"context"
 	mist_transform "terraform-provider-mist/internal/commons/utils"
 
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
+	"mistapi/models"
 
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
@@ -12,7 +12,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 
-func zoneOccupancySdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistapigo.SiteZoneOccupancyAlert) ZoneOccupancyAlertValue {
+func zoneOccupancySdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d models.SiteZoneOccupancyAlert) ZoneOccupancyAlertValue {
 	tflog.Debug(ctx, "zoneOccupancySdkToTerraform")
 
 	r_attr_type := ZoneOccupancyAlertValue{}.AttributeTypes(ctx)

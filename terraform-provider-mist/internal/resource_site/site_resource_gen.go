@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 	"github.com/hashicorp/terraform-plugin-go/tftypes"
@@ -106,6 +107,7 @@ func SiteResourceSchema(ctx context.Context) schema.Schema {
 				Computed:            true,
 				Description:         "sitegroups this site belongs to",
 				MarkdownDescription: "sitegroups this site belongs to",
+				Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 			},
 			"sitetemplate_id": schema.StringAttribute{
 				Optional:            true,

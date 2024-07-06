@@ -8,13 +8,12 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 
 	mist_transform "terraform-provider-mist/internal/commons/utils"
-
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 )
 
-func switchMgmtProtecCustomtReSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []mistapigo.ProtectReCustom) basetypes.ListValue {
+func switchMgmtProtecCustomtReSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []models.ProtectReCustom) basetypes.ListValue {
 	tflog.Debug(ctx, "switchMgmtProtecCustomtReSdkToTerraform")
 	var data_list = []CustomValue{}
 
@@ -36,7 +35,7 @@ func switchMgmtProtecCustomtReSdkToTerraform(ctx context.Context, diags *diag.Di
 
 	return r
 }
-func switchMgmtProtectReSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistapigo.ProtectRe) basetypes.ObjectValue {
+func switchMgmtProtectReSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d models.ProtectRe) basetypes.ObjectValue {
 	tflog.Debug(ctx, "switchMgmtProtectReSdkToTerraform")
 
 	custom_re := switchMgmtProtecCustomtReSdkToTerraform(ctx, diags, d.GetCustom())
@@ -57,7 +56,7 @@ func switchMgmtProtectReSdkToTerraform(ctx context.Context, diags *diag.Diagnost
 	return o
 }
 
-func switchMgmtTacacsAcctSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []mistapigo.TacacsAcctServer) basetypes.ListValue {
+func switchMgmtTacacsAcctSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []models.TacacsAcctServer) basetypes.ListValue {
 	tflog.Debug(ctx, "switchMgmtTacacsAcctSdkToTerraform")
 
 	var acct_value_list []attr.Value
@@ -81,7 +80,7 @@ func switchMgmtTacacsAcctSdkToTerraform(ctx context.Context, diags *diag.Diagnos
 
 	return acct_state_list
 }
-func switchMgmtTacacsAuthSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []mistapigo.TacacsAuthServer) basetypes.ListValue {
+func switchMgmtTacacsAuthSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []models.TacacsAuthServer) basetypes.ListValue {
 	tflog.Debug(ctx, "switchMgmtTacacsAuthSdkToTerraform")
 
 	var acct_value_list []attr.Value
@@ -105,7 +104,7 @@ func switchMgmtTacacsAuthSdkToTerraform(ctx context.Context, diags *diag.Diagnos
 
 	return acct_state_list
 }
-func switchMgmtTacacsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistapigo.Tacacs) basetypes.ObjectValue {
+func switchMgmtTacacsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d models.Tacacs) basetypes.ObjectValue {
 	tflog.Debug(ctx, "switchMgmtTacacsSdkToTerraform")
 
 	tacacs_acct_servers := switchMgmtTacacsAcctSdkToTerraform(ctx, diags, d.GetAcctServers())
@@ -127,7 +126,7 @@ func switchMgmtTacacsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics
 	diags.Append(e...)
 	return o
 }
-func switchMgmtSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistapigo.SwitchMgmt) SwitchMgmtValue {
+func switchMgmtSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d models.SwitchMgmt) SwitchMgmtValue {
 	tflog.Debug(ctx, "switchMgmtSdkToTerraform")
 
 	switch_mgmt_protect_re := switchMgmtProtectReSdkToTerraform(ctx, diags, d.GetProtectRe())

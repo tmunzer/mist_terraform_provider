@@ -3,8 +3,7 @@ package provider
 import (
 	"context"
 
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
-
+	"mistapi"
 	"os"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
@@ -32,7 +31,7 @@ type mistProvider struct {
 	version string
 }
 type mistProviderData struct {
-	client *mistapigo.APIClient
+	client mistapi.ClientInterface
 }
 type mistProviderModel struct {
 	Host     types.String `tfsdk:"host"`
@@ -117,10 +116,18 @@ func (p *mistProvider) Configure(ctx context.Context, req provider.ConfigureRequ
 		return
 	}
 
-	configuration := mistapigo.NewConfiguration()
-	configuration.Host = host
-	configuration.AddDefaultHeader("Authorization", "Token "+apitoken)
-	client := mistapigo.NewAPIClient(configuration)
+	client := mistapi.NewClient(
+		mistapi.CreateConfiguration(
+			mistapi.WithEnvironment(mistapi.MIST_GLOBAL_01),
+			mistapi.WithApiTokenCredentials(
+				mistapi.NewApiTokenCredentials("Token "+apitoken),
+			),
+		),
+	)
+	// configuration := models.NewConfiguration()
+	// configuration.Host = host
+	// configuration.AddDefaultHeader("Authorization", "Token "+apitoken)
+	// client := models.NewAPIClient(configuration)
 
 	resp.DataSourceData = client
 	resp.ResourceData = client
@@ -146,21 +153,18 @@ func (p *mistProvider) Resources(ctx context.Context) []func() resource.Resource
 		NewOrgInventory,
 		NewOrgNacTag,
 		NewOrgNacRule,
-		NewOrgRfTemplate,
+		// NewOrgRfTemplate,
 		NewOrgWlanTemplate,
-		NewOrgWlan,
+		// NewOrgWlan,
 		NewOrgWxTag,
 		NewOrgWxRule,
 		NewSiteResource,
-		NewSiteSettingResource,
-		NewSiteNetworkTemplate,
-		NewSiteWlan,
+		// NewSiteSettingResource,
+		// NewSiteNetworkTemplate,
+		// NewSiteWlan,
 		NewSiteWxRule,
 		NewSiteWxTag,
-<<<<<<< Updated upstream
-=======
-		NewDeviceApResource,
-		NewDeviceSwitchResource,
->>>>>>> Stashed changes
+		//NewDeviceApResource,
+		//NewDeviceSwitchResource,
 	}
 }

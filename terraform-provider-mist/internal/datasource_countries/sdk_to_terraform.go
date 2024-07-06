@@ -8,10 +8,10 @@ import (
 
 	mist_transform "terraform-provider-mist/internal/commons/utils"
 
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
+	"mistapi/models"
 )
 
-func SdkToTerraform(ctx context.Context, data *mistapigo.NacTag) (NactagModel, diag.Diagnostics) {
+func SdkToTerraform(ctx context.Context, data *models.NacTag) (NactagModel, diag.Diagnostics) {
 	var state NactagModel
 	var diags diag.Diagnostics
 

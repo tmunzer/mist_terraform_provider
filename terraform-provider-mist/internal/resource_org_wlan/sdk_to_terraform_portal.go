@@ -4,14 +4,14 @@ import (
 	"context"
 	mist_transform "terraform-provider-mist/internal/commons/utils"
 
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
+	"mistapi/models"
 
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
-func portalSkToTerraform(ctx context.Context, diags *diag.Diagnostics, data mistapigo.WlanPortal) PortalValue {
+func portalSkToTerraform(ctx context.Context, diags *diag.Diagnostics, data models.WlanPortal) PortalValue {
 	sponsors_attr := make(map[string]attr.Value)
 	for k, v := range data.GetSponsors() {
 		sponsors_attr[k] = types.StringValue(string(v))

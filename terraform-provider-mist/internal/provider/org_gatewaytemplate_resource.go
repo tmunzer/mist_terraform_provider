@@ -3,10 +3,11 @@ package provider
 import (
 	"context"
 	"fmt"
+	"mistapi"
 
 	"terraform-provider-mist/internal/resource_org_gatewaytemplate"
 
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
+	"github.com/google/uuid"
 
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
@@ -22,7 +23,7 @@ func NewOrgGatewayTemplate() resource.Resource {
 }
 
 type orgGatewaytemplateResource struct {
-	client *mistapigo.APIClient
+	client mistapi.ClientInterface
 }
 
 func (r *orgGatewaytemplateResource) Configure(ctx context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
@@ -31,11 +32,11 @@ func (r *orgGatewaytemplateResource) Configure(ctx context.Context, req resource
 		return
 	}
 
-	client, ok := req.ProviderData.(*mistapigo.APIClient)
+	client, ok := req.ProviderData.(mistapi.ClientInterface)
 	if !ok {
 		resp.Diagnostics.AddError(
 			"Unexpected Data Source Configure Type",
-			fmt.Sprintf("Expected *mistapigo.APIClient, got: %T. Please report this issue to the provider developers.", req.ProviderData),
+			fmt.Sprintf("Expected *models.APIClient, got: %T. Please report this issue to the provider developers.", req.ProviderData),
 		)
 		return
 	}
@@ -60,13 +61,14 @@ func (r *orgGatewaytemplateResource) Create(ctx context.Context, req resource.Cr
 		return
 	}
 
+	orgId := uuid.MustParse(plan.OrgId.ValueString())
 	gatewaytemplate, diags := resource_org_gatewaytemplate.TerraformToSdk(ctx, &plan)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
 	}
 
-	data, _, err := r.client.OrgsGatewayTemplatesAPI.CreateOrgGatewayTemplate(ctx, plan.OrgId.ValueString()).GatewayTemplate(gatewaytemplate).Execute()
+	data, err := r.client.OrgsGatewayTemplates().CreateOrgGatewayTemplate(ctx, orgId, gatewaytemplate)
 	if err != nil {
 		//url, _ := httpr.Location()
 		resp.Diagnostics.AddError(
@@ -76,7 +78,7 @@ func (r *orgGatewaytemplateResource) Create(ctx context.Context, req resource.Cr
 		return
 	}
 
-	state, diags = resource_org_gatewaytemplate.SdkToTerraform(ctx, data)
+	state, diags = resource_org_gatewaytemplate.SdkToTerraform(ctx, &data.Data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -99,8 +101,10 @@ func (r *orgGatewaytemplateResource) Read(ctx context.Context, req resource.Read
 		return
 	}
 
+	orgId := uuid.MustParse(state.OrgId.ValueString())
+	templateId := uuid.MustParse(state.Id.ValueString())
 	tflog.Info(ctx, "Starting GatewayTemplate Read: gatewaytemplate_id "+state.Id.ValueString())
-	data, _, err := r.client.OrgsGatewayTemplatesAPI.GetOrgGatewayTemplate(ctx, state.OrgId.ValueString(), state.Id.ValueString()).Execute()
+	data, err := r.client.OrgsGatewayTemplates().GetOrgGatewayTemplate(ctx, orgId, templateId)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Error getting GatewayTemplate",
@@ -108,7 +112,7 @@ func (r *orgGatewaytemplateResource) Read(ctx context.Context, req resource.Read
 		)
 		return
 	}
-	state, diags = resource_org_gatewaytemplate.SdkToTerraform(ctx, data)
+	state, diags = resource_org_gatewaytemplate.SdkToTerraform(ctx, &data.Data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -136,6 +140,8 @@ func (r *orgGatewaytemplateResource) Update(ctx context.Context, req resource.Up
 		return
 	}
 
+	orgId := uuid.MustParse(state.OrgId.ValueString())
+	templateId := uuid.MustParse(state.Id.ValueString())
 	gatewaytemplate, diags := resource_org_gatewaytemplate.TerraformToSdk(ctx, &plan)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
@@ -143,10 +149,8 @@ func (r *orgGatewaytemplateResource) Update(ctx context.Context, req resource.Up
 	}
 
 	tflog.Info(ctx, "Starting GatewayTemplate Update for GatewayTemplate "+state.Id.ValueString())
-	data, _, err := r.client.OrgsGatewayTemplatesAPI.
-		UpdateOrgGatewayTemplate(ctx, state.OrgId.ValueString(), state.Id.ValueString()).
-		GatewayTemplate(gatewaytemplate).
-		Execute()
+	data, err := r.client.OrgsGatewayTemplates().
+		UpdateOrgGatewayTemplate(ctx, orgId, templateId, gatewaytemplate)
 
 	if err != nil {
 		resp.Diagnostics.AddError(
@@ -156,7 +160,7 @@ func (r *orgGatewaytemplateResource) Update(ctx context.Context, req resource.Up
 		return
 	}
 
-	state, diags = resource_org_gatewaytemplate.SdkToTerraform(ctx, data)
+	state, diags = resource_org_gatewaytemplate.SdkToTerraform(ctx, &data.Data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -179,8 +183,10 @@ func (r *orgGatewaytemplateResource) Delete(ctx context.Context, req resource.De
 		return
 	}
 
+	orgId := uuid.MustParse(state.OrgId.ValueString())
+	templateId := uuid.MustParse(state.Id.ValueString())
 	tflog.Info(ctx, "Starting GatewayTemplate Delete: gatewaytemplate_id "+state.Id.ValueString())
-	_, err := r.client.OrgsGatewayTemplatesAPI.DeleteOrgGatewayTemplate(ctx, state.OrgId.ValueString(), state.Id.ValueString()).Execute()
+	_, err := r.client.OrgsGatewayTemplates().DeleteOrgGatewayTemplate(ctx, orgId, templateId)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Error creating GatewayTemplate",

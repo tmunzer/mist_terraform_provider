@@ -4,7 +4,7 @@ import (
 	"context"
 	mist_transform "terraform-provider-mist/internal/commons/utils"
 
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
+	"mistapi/models"
 
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
@@ -12,7 +12,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 )
 
-func radsecServersSkToTerraform(ctx context.Context, diags *diag.Diagnostics, data []mistapigo.RadsecServer) basetypes.ListValue {
+func radsecServersSkToTerraform(ctx context.Context, diags *diag.Diagnostics, data []models.RadsecServer) basetypes.ListValue {
 	var data_list = []ServersValue{}
 	for _, v := range data {
 		data_map_value := map[string]attr.Value{
@@ -27,7 +27,7 @@ func radsecServersSkToTerraform(ctx context.Context, diags *diag.Diagnostics, da
 	diags.Append(e...)
 	return r
 }
-func radsecSkToTerraform(ctx context.Context, diags *diag.Diagnostics, data mistapigo.Radsec) RadsecValue {
+func radsecSkToTerraform(ctx context.Context, diags *diag.Diagnostics, data models.Radsec) RadsecValue {
 
 	plan_attr := map[string]attr.Value{
 		"coa_enabled":     types.BoolValue(data.GetCoaEnabled()),

@@ -3,18 +3,18 @@ package resource_org_wlan
 import (
 	"context"
 
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
+	"mistapi/models"
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 )
 
-func appQosAppsTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, plan basetypes.MapValue) map[string]mistapigo.WlanAppQosAppsProperties {
-	data_map := make(map[string]mistapigo.WlanAppQosAppsProperties)
+func appQosAppsTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, plan basetypes.MapValue) map[string]models.WlanAppQosAppsProperties {
+	data_map := make(map[string]models.WlanAppQosAppsProperties)
 	for k, v := range plan.Elements() {
 		var v_interface interface{} = v
 		v_plan := v_interface.(AppsValue)
-		data := mistapigo.NewWlanAppQosAppsProperties()
+		data := models.NewWlanAppQosAppsProperties()
 		data.SetDscp(int32(v_plan.Dscp.ValueInt64()))
 		data.SetDstSubnet(v_plan.DstSubnet.ValueString())
 		data.SetSrcSubnet(v_plan.SrcSubnet.ValueString())
@@ -22,12 +22,12 @@ func appQosAppsTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, plan
 	}
 	return data_map
 }
-func appQosOthersTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, plan basetypes.ListValue) []mistapigo.WlanAppQosOthersItem {
-	var data_list []mistapigo.WlanAppQosOthersItem
+func appQosOthersTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, plan basetypes.ListValue) []models.WlanAppQosOthersItem {
+	var data_list []models.WlanAppQosOthersItem
 	for _, v := range plan.Elements() {
 		var v_interface interface{} = v
 		v_plan := v_interface.(OthersValue)
-		data := mistapigo.NewWlanAppQosOthersItem()
+		data := models.NewWlanAppQosOthersItem()
 		data.SetDscp(int32(v_plan.Dscp.ValueInt64()))
 		data.SetDstSubnet(v_plan.DstSubnet.ValueString())
 		data.SetPortRanges(v_plan.PortRanges.ValueString())
@@ -38,9 +38,9 @@ func appQosOthersTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, pl
 	return data_list
 }
 
-func appQosTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, plan AppQosValue) mistapigo.WlanAppQos {
+func appQosTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, plan AppQosValue) models.WlanAppQos {
 
-	data := *mistapigo.NewWlanAppQos()
+	data := *models.NewWlanAppQos()
 
 	apps := appQosAppsTerraformToSdk(ctx, diags, plan.Apps)
 	data.SetApps(apps)

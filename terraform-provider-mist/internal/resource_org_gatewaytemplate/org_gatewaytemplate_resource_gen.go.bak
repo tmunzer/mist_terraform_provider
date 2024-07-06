@@ -12,6 +12,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -31,6 +32,7 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 				Computed:            true,
 				Description:         "additional CLI commands to append to the generated Junos config\n\n**Note**: no check is done",
 				MarkdownDescription: "additional CLI commands to append to the generated Junos config\n\n**Note**: no check is done",
+				Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 			},
 			"bgp_config": schema.MapNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
@@ -200,6 +202,7 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 							Computed:            true,
 							Description:         "if `type`!=`external`or `via`==`wan`networks where we expect BGP neighbor to connect to/from",
 							MarkdownDescription: "if `type`!=`external`or `via`==`wan`networks where we expect BGP neighbor to connect to/from",
+							Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 						},
 						"no_readvertise_to_overlay": schema.BoolAttribute{
 							Optional:            true,
@@ -266,6 +269,7 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 									Computed:            true,
 									Description:         "if `type`==`local` - optional, if not defined, system one will be used",
 									MarkdownDescription: "if `type`==`local` - optional, if not defined, system one will be used",
+									Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 								},
 								"dns_suffix": schema.ListAttribute{
 									ElementType:         types.StringType,
@@ -273,6 +277,7 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 									Computed:            true,
 									Description:         "if `type`==`local` - optional, if not defined, system one will be used",
 									MarkdownDescription: "if `type`==`local` - optional, if not defined, system one will be used",
+									Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 								},
 								"fixed_bindings": schema.MapNestedAttribute{
 									NestedObject: schema.NestedAttributeObject{
@@ -386,6 +391,7 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 									Computed:            true,
 									Description:         "if `type`==`relay`",
 									MarkdownDescription: "if `type`==`relay`",
+									Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 								},
 								"servers6": schema.ListAttribute{
 									ElementType:         types.StringType,
@@ -393,6 +399,7 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 									Computed:            true,
 									Description:         "if `type6`==`relay`",
 									MarkdownDescription: "if `type6`==`relay`",
+									Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 								},
 								"type4": schema.StringAttribute{
 									Optional:            true,
@@ -497,6 +504,7 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 				Computed:            true,
 				Description:         "Global dns settings. To keep compatibility, dns settings in `ip_config` and `oob_ip_config` will overwrite this setting",
 				MarkdownDescription: "Global dns settings. To keep compatibility, dns settings in `ip_config` and `oob_ip_config` will overwrite this setting",
+				Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 			},
 			"dns_suffix": schema.ListAttribute{
 				ElementType:         types.StringType,
@@ -504,6 +512,7 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 				Computed:            true,
 				Description:         "Global dns settings. To keep compatibility, dns settings in `ip_config` and `oob_ip_config` will overwrite this setting",
 				MarkdownDescription: "Global dns settings. To keep compatibility, dns settings in `ip_config` and `oob_ip_config` will overwrite this setting",
+				Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 			},
 			"extra_routes": schema.MapNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
@@ -568,16 +577,19 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 												ElementType: types.StringType,
 												Optional:    true,
 												Computed:    true,
+												Default:     listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 											},
 											"dst_subnet": schema.ListAttribute{
 												ElementType: types.StringType,
 												Optional:    true,
 												Computed:    true,
+												Default:     listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 											},
 											"severity": schema.ListAttribute{
 												ElementType: types.StringType,
 												Optional:    true,
 												Computed:    true,
+												Default:     listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 											},
 										},
 										CustomType: IpdProfileOverwriteMatchingType{
@@ -627,6 +639,7 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 							Computed:            true,
 							Description:         "optional list of secondary IPs in CIDR format",
 							MarkdownDescription: "optional list of secondary IPs in CIDR format",
+							Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 						},
 					},
 					CustomType: IpConfigsType{
@@ -777,6 +790,7 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 							Computed:            true,
 							Description:         "for a Network (usually LAN), it can be routable to other networks (e.g. OSPF)",
 							MarkdownDescription: "for a Network (usually LAN), it can be routable to other networks (e.g. OSPF)",
+							Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 						},
 						"subnet": schema.StringAttribute{
 							Optional: true,
@@ -793,6 +807,7 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 										ElementType: types.StringType,
 										Optional:    true,
 										Computed:    true,
+										Default:     listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 									},
 								},
 								CustomType: TenantsType{
@@ -882,6 +897,7 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 										Computed:            true,
 										Description:         "by default, the routes are only readvertised toward the same vrf on spoke\nto allow it to be leaked to other vrfs",
 										MarkdownDescription: "by default, the routes are only readvertised toward the same vrf on spoke\nto allow it to be leaked to other vrfs",
+										Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 									},
 									"routed": schema.BoolAttribute{
 										Optional:            true,
@@ -986,6 +1002,7 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 				Computed:            true,
 				Description:         "list of NTP servers specific to this device. By default, those in Site Settings will be used",
 				MarkdownDescription: "list of NTP servers specific to this device. By default, those in Site Settings will be used",
+				Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 			},
 			"oob_ip_config": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
@@ -1139,6 +1156,7 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 										Computed:            true,
 										Description:         "if `type`==`local`",
 										MarkdownDescription: "if `type`==`local`",
+										Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 									},
 									"target_ips": schema.ListAttribute{
 										ElementType:         types.StringType,
@@ -1146,6 +1164,7 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 										Computed:            true,
 										Description:         "if `type`==`local`, if destination IP is to be replaced",
 										MarkdownDescription: "if `type`==`local`, if destination IP is to be replaced",
+										Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 									},
 									"type": schema.StringAttribute{
 										Optional: true,
@@ -1269,6 +1288,7 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 									Computed:            true,
 									Description:         "except for out-of_band interface (vme/em0/fxp0)",
 									MarkdownDescription: "except for out-of_band interface (vme/em0/fxp0)",
+									Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 								},
 								"dns_suffix": schema.ListAttribute{
 									ElementType:         types.StringType,
@@ -1276,6 +1296,7 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 									Computed:            true,
 									Description:         "except for out-of_band interface (vme/em0/fxp0)",
 									MarkdownDescription: "except for out-of_band interface (vme/em0/fxp0)",
+									Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 								},
 								"gateway": schema.StringAttribute{
 									Optional:            true,
@@ -1403,6 +1424,7 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 							Computed:            true,
 							Description:         "if `usage`==`lan`",
 							MarkdownDescription: "if `usage`==`lan`",
+							Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 						},
 						"outer_vlan_id": schema.Int64Attribute{
 							Optional:            true,
@@ -1452,6 +1474,7 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 							Computed:            true,
 							Description:         "SSR only - supporting vlan-based redundancy (matching the size of `networks`)",
 							MarkdownDescription: "SSR only - supporting vlan-based redundancy (matching the size of `networks`)",
+							Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 						},
 						"speed": schema.StringAttribute{
 							Optional: true,
@@ -1480,6 +1503,7 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 									Computed:            true,
 									Description:         "percentages for differet class of traffic: high / medium / low / best-effort\nsum must be equal to 100",
 									MarkdownDescription: "percentages for differet class of traffic: high / medium / low / best-effort\nsum must be equal to 100",
+									Default:             listdefault.StaticValue(types.ListValueMust(types.Int64Type, []attr.Value{})),
 								},
 								"enabled": schema.BoolAttribute{
 									Optional: true,
@@ -1563,6 +1587,7 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 												Computed:            true,
 												Description:         "percentages for differet class of traffic: high / medium / low / best-effort\nsum must be equal to 100",
 												MarkdownDescription: "percentages for differet class of traffic: high / medium / low / best-effort\nsum must be equal to 100",
+												Default:             listdefault.StaticValue(types.ListValueMust(types.Int64Type, []attr.Value{})),
 											},
 											"enabled": schema.BoolAttribute{
 												Optional: true,
@@ -1684,6 +1709,7 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 												ElementType: types.StringType,
 												Optional:    true,
 												Computed:    true,
+												Default:     listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 											},
 											"add_target_vrfs": schema.ListAttribute{
 												ElementType:         types.StringType,
@@ -1691,6 +1717,7 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 												Computed:            true,
 												Description:         "for SSR, hub decides how VRF routes are leaked on spoke",
 												MarkdownDescription: "for SSR, hub decides how VRF routes are leaked on spoke",
+												Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 											},
 											"community": schema.ListAttribute{
 												ElementType:         types.StringType,
@@ -1698,6 +1725,7 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 												Computed:            true,
 												Description:         "when used as export policy, optional",
 												MarkdownDescription: "when used as export policy, optional",
+												Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 											},
 											"exclude_as_path": schema.ListAttribute{
 												ElementType:         types.StringType,
@@ -1705,11 +1733,13 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 												Computed:            true,
 												Description:         "when used as export policy, optional. To exclude certain AS",
 												MarkdownDescription: "when used as export policy, optional. To exclude certain AS",
+												Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 											},
 											"exclude_community": schema.ListAttribute{
 												ElementType: types.StringType,
 												Optional:    true,
 												Computed:    true,
+												Default:     listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 											},
 											"export_communitites": schema.ListAttribute{
 												ElementType:         types.StringType,
@@ -1717,6 +1747,7 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 												Computed:            true,
 												Description:         "when used as export policy, optional",
 												MarkdownDescription: "when used as export policy, optional",
+												Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 											},
 											"local_preference": schema.StringAttribute{
 												Optional:            true,
@@ -1730,6 +1761,7 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 												Computed:            true,
 												Description:         "when used as export policy, optional. By default, the local AS will be prepended, to change it",
 												MarkdownDescription: "when used as export policy, optional. By default, the local AS will be prepended, to change it",
+												Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 											},
 										},
 										CustomType: ActionType{
@@ -1750,11 +1782,13 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 												Computed:            true,
 												Description:         "takes regular expression",
 												MarkdownDescription: "takes regular expression",
+												Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 											},
 											"community": schema.ListAttribute{
 												ElementType: types.StringType,
 												Optional:    true,
 												Computed:    true,
+												Default:     listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 											},
 											"network": schema.ListAttribute{
 												ElementType: types.StringType,
@@ -1763,6 +1797,7 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 												Validators: []validator.List{
 													listvalidator.UniqueValues(),
 												},
+												Default: listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 											},
 											"prefix": schema.ListAttribute{
 												ElementType:         types.StringType,
@@ -1770,6 +1805,7 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 												Computed:            true,
 												Description:         "zero or more criteria/filter can be specified to match the term, all criteria have to be met",
 												MarkdownDescription: "zero or more criteria/filter can be specified to match the term, all criteria have to be met",
+												Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 											},
 											"protocol": schema.ListAttribute{
 												ElementType:         types.StringType,
@@ -1777,6 +1813,7 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 												Computed:            true,
 												Description:         "`direct`, `bgp`, `osp`, ...",
 												MarkdownDescription: "`direct`, `bgp`, `osp`, ...",
+												Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 											},
 											"route_exists": schema.SingleNestedAttribute{
 												Attributes: map[string]schema.Attribute{
@@ -1806,6 +1843,7 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 												Computed:            true,
 												Description:         "overlay-facing criteria (used for bgp_config where via=vpn)",
 												MarkdownDescription: "overlay-facing criteria (used for bgp_config where via=vpn)",
+												Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 											},
 											"vpn_path": schema.ListAttribute{
 												ElementType:         types.StringType,
@@ -1813,6 +1851,7 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 												Computed:            true,
 												Description:         "overlay-facing criteria (used for bgp_config where via=vpn)\nordered-",
 												MarkdownDescription: "overlay-facing criteria (used for bgp_config where via=vpn)\nordered-",
+												Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 											},
 											"vpn_path_sla": schema.SingleNestedAttribute{
 												Attributes: map[string]schema.Attribute{
@@ -2009,6 +2048,7 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 							Validators: []validator.List{
 								listvalidator.UniqueValues(),
 							},
+							Default: listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 						},
 						"tenants": schema.ListAttribute{
 							ElementType: types.StringType,
@@ -2017,6 +2057,7 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 							Validators: []validator.List{
 								listvalidator.UniqueValues(),
 							},
+							Default: listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 						},
 					},
 					CustomType: ServicePoliciesType{
@@ -2045,6 +2086,7 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 											Computed:            true,
 											Description:         "optional, only needed if `vars_only`==`false`",
 											MarkdownDescription: "optional, only needed if `vars_only`==`false`",
+											Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 										},
 									},
 									CustomType: AutoProvisionPrimaryType{
@@ -2067,6 +2109,7 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 											Computed:            true,
 											Description:         "optional, only needed if `vars_only`==`false`",
 											MarkdownDescription: "optional, only needed if `vars_only`==`false`",
+											Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 										},
 									},
 									CustomType: AutoProvisionSecondaryType{
@@ -2299,6 +2342,7 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 									ElementType: types.StringType,
 									Optional:    true,
 									Computed:    true,
+									Default:     listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 								},
 								"internal_ips": schema.ListAttribute{
 									ElementType:         types.StringType,
@@ -2306,6 +2350,7 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 									Computed:            true,
 									Description:         "Only if:\n* `provider`== `zscaler-gre` \n* `provider`== `custom-gre`",
 									MarkdownDescription: "Only if:\n* `provider`== `zscaler-gre` \n* `provider`== `custom-gre`",
+									Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 								},
 								"probe_ips": schema.ListAttribute{
 									ElementType: types.StringType,
@@ -2314,6 +2359,7 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 									Validators: []validator.List{
 										listvalidator.UniqueValues(),
 									},
+									Default: listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 								},
 								"remote_ids": schema.ListAttribute{
 									ElementType:         types.StringType,
@@ -2321,11 +2367,13 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 									Computed:            true,
 									Description:         "Only if:\n* `provider`== `custom-ipsec`",
 									MarkdownDescription: "Only if:\n* `provider`== `custom-ipsec`",
+									Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 								},
 								"wan_names": schema.ListAttribute{
 									ElementType: types.StringType,
 									Optional:    true,
 									Computed:    true,
+									Default:     listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 								},
 							},
 							CustomType: PrimaryType{
@@ -2418,6 +2466,7 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 									ElementType: types.StringType,
 									Optional:    true,
 									Computed:    true,
+									Default:     listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 								},
 								"internal_ips": schema.ListAttribute{
 									ElementType:         types.StringType,
@@ -2425,6 +2474,7 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 									Computed:            true,
 									Description:         "Only if:\n* `provider`== `zscaler-gre` \n* `provider`== `custom-gre`",
 									MarkdownDescription: "Only if:\n* `provider`== `zscaler-gre` \n* `provider`== `custom-gre`",
+									Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 								},
 								"probe_ips": schema.ListAttribute{
 									ElementType: types.StringType,
@@ -2433,6 +2483,7 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 									Validators: []validator.List{
 										listvalidator.UniqueValues(),
 									},
+									Default: listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 								},
 								"remote_ids": schema.ListAttribute{
 									ElementType:         types.StringType,
@@ -2440,11 +2491,13 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 									Computed:            true,
 									Description:         "Only if:\n* `provider`== `custom-ipsec`",
 									MarkdownDescription: "Only if:\n* `provider`== `custom-ipsec`",
+									Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 								},
 								"wan_names": schema.ListAttribute{
 									ElementType: types.StringType,
 									Optional:    true,
 									Computed:    true,
+									Default:     listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 								},
 							},
 							CustomType: SecondaryType{
@@ -2604,6 +2657,7 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 											ElementType: types.StringType,
 											Optional:    true,
 											Computed:    true,
+											Default:     listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 										},
 										"upload_mbps": schema.Int64Attribute{
 											Optional:            true,

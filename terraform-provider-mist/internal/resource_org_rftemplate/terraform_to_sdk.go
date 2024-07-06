@@ -1,16 +1,16 @@
-package resource_rftemplate
+package resource_org_rftemplate
 
 import (
 	"context"
 
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
+	"mistapi/models"
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 )
 
-func TerraformToSdk(ctx context.Context, plan *RftemplateModel) (mistapigo.RfTemplate, diag.Diagnostics) {
+func TerraformToSdk(ctx context.Context, plan *RftemplateModel) (models.RfTemplate, diag.Diagnostics) {
 	var diags diag.Diagnostics
-	data := *mistapigo.NewRfTemplate(plan.Name.ValueString())
+	data := *models.NewRfTemplate(plan.Name.ValueString())
 
 	data.SetId(plan.Id.ValueString())
 	data.SetOrgId(plan.OrgId.ValueString())
@@ -22,7 +22,7 @@ func TerraformToSdk(ctx context.Context, plan *RftemplateModel) (mistapigo.RfTem
 	band24 := band24TerraformToSdk(ctx, &diags, plan.Band24)
 	data.SetBand24(band24)
 
-	data.SetBand24Usage(mistapigo.RadioBand24Usage(plan.Band24Usage.ValueString()))
+	data.SetBand24Usage(models.RadioBand24Usage(plan.Band24Usage.ValueString()))
 
 	band5 := band5TerraformToSdk(ctx, &diags, plan.Band5)
 	data.SetBand5(band5)

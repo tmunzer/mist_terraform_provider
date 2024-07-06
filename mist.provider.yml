@@ -3,19 +3,11 @@ info:
   contact:
     email: tmunzer@juniper.net
     name: Thomas Munzer
-<<<<<<< Updated upstream
-  description: '> Version: **2406.1.14**
-
-    >
-
-    > Date: **July 3, 2024**
-=======
-  description: '> Version: **2406.1.17**
+  description: '> Version: **2406.1.18**
 
     >
 
     > Date: **July 5, 2024**
->>>>>>> Stashed changes
 
 
     ---
@@ -51,11 +43,7 @@ info:
     name: MIT
     url: https://raw.githubusercontent.com/tmunzer/Mist-OAS3.0/main/LICENSE
   title: Mist API
-<<<<<<< Updated upstream
-  version: 2406.1.14
-=======
-  version: 2406.1.17
->>>>>>> Stashed changes
+  version: 2406.1.18
 servers:
 - description: Mist Global 01
   url: https://api.mist.com
@@ -50294,6 +50282,7 @@ components:
           $ref: '#/components/schemas/admin_privileges'
         session_expiry:
           example: 1440
+          format: int64
           readOnly: true
           type: integer
         tags:
@@ -50711,132 +50700,6 @@ components:
         type: string
       readOnly: true
       type: array
-<<<<<<< Updated upstream
-    ap:
-      description: AP
-      properties:
-        aeroscout:
-          $ref: '#/components/schemas/ap_aeroscout'
-        ble_config:
-          $ref: '#/components/schemas/ble_config'
-        centrak:
-          $ref: '#/components/schemas/ap_centrak'
-        client_bridge:
-          $ref: '#/components/schemas/ap_client_bridge'
-        created_time:
-          readOnly: true
-          type: number
-        deviceprofile_id:
-          example: 6f4bf402-45f9-2a56-6c8b-7f83d3bc98e9
-          format: uuid
-          nullable: true
-          type: string
-        disable_eth1:
-          default: false
-          description: whether to disable eth1 port
-          type: boolean
-        disable_eth2:
-          default: false
-          description: whether to disable eth2 port
-          type: boolean
-        disable_eth3:
-          default: false
-          description: whether to disable eth3 port
-          type: boolean
-        disable_module:
-          default: false
-          description: whether to disable module port
-          type: boolean
-        esl_config:
-          $ref: '#/components/schemas/ap_esl_config'
-        for_site:
-          readOnly: true
-          type: boolean
-        height:
-          description: height, in meters, optional
-          example: 2.75
-          type: number
-        id:
-          format: uuid
-          readOnly: true
-          type: string
-        image1_url:
-          nullable: true
-          type: string
-        image2_url:
-          nullable: true
-          type: string
-        image3_url:
-          nullable: true
-          type: string
-        iot_config:
-          $ref: '#/components/schemas/ap_iot'
-        ip_config:
-          $ref: '#/components/schemas/ap_ip_config'
-        led:
-          $ref: '#/components/schemas/ap_led'
-        locked:
-          description: whether this map is considered locked down
-          type: boolean
-        map_id:
-          description: map where the device belongs to
-          example: 63eda950-c6da-11e4-a628-60f81dd250cc
-          format: uuid
-          type: string
-        mesh:
-          $ref: '#/components/schemas/ap_mesh'
-        modified_time:
-          readOnly: true
-          type: number
-        name:
-          example: conference room
-          type: string
-        notes:
-          description: any notes about this AP
-          example: slightly off center
-          type: string
-        ntp_servers:
-          $ref: '#/components/schemas/strings'
-        org_id:
-          $ref: '#/components/schemas/org_id'
-        orientation:
-          description: orientation, 0-359, in degrees, up is 0, right is 90.
-          example: 45
-          type: integer
-        poe_passthrough:
-          default: false
-          description: whether to enable power out through module port (for APH) or
-            eth1 (for APL/BT11)
-          type: boolean
-        port_config:
-          additionalProperties:
-            $ref: '#/components/schemas/ap_port_config'
-          description: "eth0 is not allowed here. \nProperty key is the interface(s)\
-            \ name (e.g. \"eth1\" or\"eth1,eth2\")"
-          type: object
-        pwr_config:
-          $ref: '#/components/schemas/ap_pwr_config'
-        radio_config:
-          $ref: '#/components/schemas/ap_radio'
-        site_id:
-          $ref: '#/components/schemas/site_id'
-        uplink_port_config:
-          $ref: '#/components/schemas/ap_uplink_port_config'
-        usb_config:
-          $ref: '#/components/schemas/ap_usb'
-        vars:
-          $ref: '#/components/schemas/vars'
-        x:
-          description: x in pixel
-          example: 53.5
-          type: number
-        y:
-          description: y in pixel
-          example: 173.1
-          type: number
-      type: object
-=======
->>>>>>> Stashed changes
     ap_aeroscout:
       description: Aeroscout AP settings
       properties:
@@ -51670,7 +51533,7 @@ components:
           description: additional power to request during negotiating with PSE over
             PoE, in mW
           example: 2000
-          type: number
+          type: integer
         prefer_usb_over_wifi:
           default: false
           description: whether to enable power out to peripheral, meanwhile will reduce
@@ -52358,9 +52221,11 @@ components:
           type: string
         x:
           example: 53.5
+          format: double
           type: number
         y:
           example: 173.1
+          format: double
           type: number
       required:
       - mac
@@ -52391,18 +52256,22 @@ components:
         x:
           description: X Autoplaced Position in pixels
           example: 53.5
+          format: double
           type: number
         x_m:
           description: X Autoplaced Position in meters
           example: 5.35
+          format: double
           type: number
         y:
           description: Y Autoplaced Position in pixels
           example: 173.1
+          format: double
           type: number
         y_m:
           description: X Autoplaced Position in meters
           example: 17.31
+          format: double
           type: number
       type: object
     ap_stats_auto_placement_info:
@@ -52434,14 +52303,10 @@ components:
             meters
           type: number
         x:
-          description: "X-coordinate of the potential placement\u2019s center, measured\
-            \ in pixels"
-          example: 5.65
-          type: number
-        y:
           description: "Y-coordinate of the potential placement\u2019s center, measured\
             \ in pixels"
           example: 17
+          format: double
           type: number
       type: object
     ap_stats_ble_config:
@@ -53468,8 +53333,10 @@ components:
         type:
           type: string
         x:
+          format: double
           type: number
         y:
+          format: double
           type: number
       required:
       - mac
@@ -55318,15 +55185,19 @@ components:
           $ref: '#/components/schemas/client_wireless_stats_wxrule_usages'
         x:
           description: estimated clinet location in pixels
+          format: double
           type: number
         x_m:
           description: estimated client location in meter
+          format: double
           type: number
         y:
           description: estimated clinet location in pixels
+          format: double
           type: number
         y_m:
           description: estimated client location in meter
+          format: double
           type: number
         zones:
           $ref: '#/components/schemas/client_wireless_stats_zones'
@@ -56830,6 +56701,7 @@ components:
         height:
           description: height, in meters, optional
           example: 2.75
+          format: double
           type: number
         id:
           format: uuid
@@ -60000,6 +59872,7 @@ components:
           type: string
         height:
           example: 2.7
+          format: double
           type: number
         ip:
           example: 192.168.1.111
@@ -60022,7 +59895,7 @@ components:
           type: string
         orientation:
           example: 90
-          type: number
+          type: integer
         serial:
           example: FXLH2015150025
           type: string
@@ -60041,9 +59914,11 @@ components:
           type: string
         x:
           example: 150
+          format: double
           type: number
         y:
           example: 300
+          format: double
           type: number
       type: object
     installer_devices:
@@ -60061,6 +59936,7 @@ components:
           type: boolean
         height:
           example: 2.7
+          format: double
           type: number
         map_id:
           example: 845a23bf-bed9-e43c-4c86-6fa474be7ae5
@@ -60071,7 +59947,7 @@ components:
           type: string
         orientation:
           example: 90
-          type: number
+          type: integer
         replacing_mac:
           description: Onlif this is to replace an existing device
           example: 5c5b3500003
@@ -60088,9 +59964,11 @@ components:
           type: string
         x:
           example: 150
+          format: double
           type: number
         y:
           example: 300
+          format: double
           type: number
       required:
       - name
@@ -60886,6 +60764,7 @@ components:
           example: 1500
           type: integer
         height_m:
+          format: double
           type: number
         id:
           format: uuid
@@ -60965,6 +60844,7 @@ components:
           example: 1250
           type: integer
         width_m:
+          format: double
           type: number
       type: object
     map_import_json:
@@ -61097,9 +60977,11 @@ components:
       properties:
         x:
           example: 746
+          format: double
           type: number
         y:
           example: 104
+          format: double
           type: number
       required:
       - x
@@ -61198,12 +61080,14 @@ components:
           description: where the (0, 0) of the new image is relative to the original
             map
           example: 3.16
+          format: double
           type: number
         y:
           default: 0
           description: where the (0, 0) of the new image is relative to the original
             map
           example: 12
+          format: double
           type: number
       type: object
     map_sitesurvey_path:
@@ -61343,18 +61227,10 @@ components:
       - qrcode
       type: string
     mist_device:
-<<<<<<< Updated upstream
       oneOf:
-      - $ref: '#/components/schemas/ap'
-      - $ref: '#/components/schemas/switch'
-      - $ref: '#/components/schemas/gateway'
-=======
-      $ref: '#/components/schemas/device_ap'
-      # oneOf:
-      # - $ref: '#/components/schemas/device_ap'
-      # - $ref: '#/components/schemas/device_switch'
-      # - $ref: '#/components/schemas/device_gateway'
->>>>>>> Stashed changes
+      - $ref: '#/components/schemas/device_ap'
+      - $ref: '#/components/schemas/device_switch'
+      - $ref: '#/components/schemas/device_gateway'
     ml_overwrite:
       additionalProperties:
         $ref: '#/components/schemas/ml_overwrite_additional_properties'
@@ -63859,7 +63735,8 @@ components:
         session_expiry:
           default: 1440
           example: 1440
-          type: number
+          format: int64
+          type: integer
       required:
       - name
       type: object
@@ -65026,6 +64903,7 @@ components:
         orggroup_ids:
           $ref: '#/components/schemas/org_stats_orggroup_ids'
         session_expiry:
+          format: int64
           type: integer
         sle:
           $ref: '#/components/schemas/org_sle_stats'
@@ -67537,14 +67415,6 @@ components:
         detail:
           type: string
       type: object
-<<<<<<< Updated upstream
-    response_device:
-      oneOf:
-      - $ref: '#/components/schemas/ap'
-      - $ref: '#/components/schemas/switch'
-      - $ref: '#/components/schemas/gateway'
-=======
->>>>>>> Stashed changes
     response_device_bios_upgrade:
       properties:
         status:
@@ -68512,6 +68382,7 @@ components:
           format: uuid
           type: string
         height:
+          format: double
           type: number
         mac:
           type: string
@@ -68519,7 +68390,7 @@ components:
           format: uuid
           type: string
         orientation:
-          type: number
+          type: integer
         reason:
           type: string
       required:
@@ -70866,10 +70737,12 @@ components:
         x:
           description: x (in pixels) of user location on the map (if known)
           example: 60
+          format: double
           type: number
         y:
           description: y (in pixels) of user location on the map (if known)
           example: 80
+          format: double
           type: number
       required:
       - id
@@ -71003,9 +70876,11 @@ components:
           $ref: '#/components/schemas/sdkclient_wireless_stats_vbeacons'
         x:
           description: x (in pixels) of user location on the map (if known)
+          format: double
           type: number
         y:
           description: y (in pixels) of user location on the map (if known)
+          format: double
           type: number
         zones:
           $ref: '#/components/schemas/sdkclient_wireless_stats_zones'
@@ -72576,12 +72451,14 @@ components:
       properties:
         orientation:
           example: 45
-          type: number
+          type: integer
         x:
           example: 30
+          format: double
           type: number
         y:
           example: 60
+          format: double
           type: number
       type: object
     site_setting_auto_upgrade:
@@ -74237,7 +74114,7 @@ components:
       items:
         $ref: '#/components/schemas/snmp_config_v2c_config'
       type: array
-    snmp_config_views:
+    snmp_config_view:
       properties:
         include:
           description: if the root oid configured is included
@@ -74249,6 +74126,10 @@ components:
           example: all
           type: string
       type: object
+    snmp_config_views:
+      items:
+        $ref: '#/components/schemas/snmp_config_view'
+      type: array
     snmp_usm:
       properties:
         engine-id:
@@ -74662,7 +74543,7 @@ components:
             cn\u201D</li></ul></td></tr></table>"
           type: string
         role_attr_from:
-          default: role
+          default: Role
           description: name of the attribute in SAML Assertion to extract role from
           type: string
         scim_enabled:
@@ -75383,6 +75264,8 @@ components:
           $ref: '#/components/schemas/switch_matching_rules'
       type: object
     switch_matching_rule:
+      description: 'property key define the type of matching, value is the string
+        to match. e.g: `match_name[0:3]`, `match_name[2:6]`, `match_model`,  `match_model[0-6]`'
       example:
         match_model: EX4300
         match_name[0:3]: abc
@@ -75394,11 +75277,11 @@ components:
           example: access
           type: string
         match_type:
-          description: 'string to match. e.g: `match_name[0:3]`, `match_name[2:6]`,
-            `match_model`,  `match_model[0-6]`'
+          description: '''property key define the type of matching, value is the string
+            to match. e.g: `match_name[0:3]`, `match_name[2:6]`, `match_model`,  `match_model[0-6]`'
+          example: match_name[0:3]
           type: string
         match_value:
-          description: value to match
           type: string
         name:
           example: access_ex4300
@@ -75521,6 +75404,8 @@ components:
         - If there are 2 routing engines, re1 mgmt IP has to be set separately (if
         desired): key parameter = `re1`'
       properties:
+        gateway:
+          type: string
         ip:
           type: string
         netmask:
@@ -77380,10 +77265,12 @@ components:
           type: integer
         x:
           description: x (in pixels) of user location on the map (if known)
-          type: integer
+          format: double
+          type: number
         y:
           description: y (in pixels) of user location on the map (if known)
-          type: integer
+          format: double
+          type: number
       required:
       - mac
       - ap_mac

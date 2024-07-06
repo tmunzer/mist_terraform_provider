@@ -4,26 +4,24 @@ import (
 	"context"
 	mist_transform "terraform-provider-mist/internal/commons/utils"
 
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
+	"mistapi/models"
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 )
 
-func TerraformToSdk(ctx context.Context, plan *OrgWlantemplateModel) (mistapigo.Template, diag.Diagnostics) {
+func TerraformToSdk(ctx context.Context, plan *OrgWlantemplateModel) (*models.Template, diag.Diagnostics) {
 	var diags diag.Diagnostics
-	data := *mistapigo.NewTemplate(plan.Name.ValueString())
-	data.SetId(plan.Id.ValueString())
-	data.SetOrgId(plan.OrgId.ValueString())
 
-	applies := appliesTerraformToSdk(ctx, &diags, plan.Applies)
-	data.SetApplies(applies)
+	data := models.Template{}
+	data.Name = plan.Name.ValueString()
 
-	data.SetDeviceprofileIds(mist_transform.ListOfStringTerraformToSdk(ctx, plan.DeviceprofileIds))
+	data.Applies = appliesTerraformToSdk(ctx, &diags, plan.Applies)
 
-	exceptions := exceptionsTerraformToSdk(ctx, &diags, plan.Exceptions)
-	data.SetExceptions(exceptions)
+	data.DeviceprofileIds = mist_transform.ListOfUuidTerraformToSdk(ctx, plan.DeviceprofileIds)
 
-	data.SetFilterByDeviceprofile(plan.FilterByDeviceprofile.ValueBool())
+	data.Exceptions = exceptionsTerraformToSdk(ctx, &diags, plan.Exceptions)
 
-	return data, diags
+	data.FilterByDeviceprofile = models.ToPointer(plan.FilterByDeviceprofile.ValueBool())
+
+	return &data, diags
 }

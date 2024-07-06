@@ -3,11 +3,11 @@ package provider
 import (
 	"context"
 	"fmt"
+	"mistapi"
 
 	"terraform-provider-mist/internal/resource_org_nacrule"
 
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
-
+	"github.com/google/uuid"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
@@ -22,7 +22,7 @@ func NewOrgNacRule() resource.Resource {
 }
 
 type orgNacRuleResource struct {
-	client *mistapigo.APIClient
+	client mistapi.ClientInterface
 }
 
 func (r *orgNacRuleResource) Configure(ctx context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
@@ -31,7 +31,7 @@ func (r *orgNacRuleResource) Configure(ctx context.Context, req resource.Configu
 		return
 	}
 
-	client, ok := req.ProviderData.(*mistapigo.APIClient)
+	client, ok := req.ProviderData.(mistapi.ClientInterface)
 	if !ok {
 		resp.Diagnostics.AddError(
 			"Unexpected Data Source Configure Type",
@@ -66,7 +66,8 @@ func (r *orgNacRuleResource) Create(ctx context.Context, req resource.CreateRequ
 		return
 	}
 
-	data, _, err := r.client.OrgsNACRulesAPI.CreateOrgNacRule(ctx, plan.OrgId.ValueString()).NacRule(nacrule).Execute()
+	orgId := uuid.MustParse(plan.OrgId.ValueString())
+	data, err := r.client.OrgsNACRules().CreateOrgNacRule(ctx, orgId, &nacrule)
 	if err != nil {
 		//url, _ := httpr.Location()
 		resp.Diagnostics.AddError(
@@ -76,7 +77,7 @@ func (r *orgNacRuleResource) Create(ctx context.Context, req resource.CreateRequ
 		return
 	}
 
-	state, diags = resource_org_nacrule.SdkToTerraform(ctx, data)
+	state, diags = resource_org_nacrule.SdkToTerraform(ctx, data.Data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -99,8 +100,10 @@ func (r *orgNacRuleResource) Read(ctx context.Context, req resource.ReadRequest,
 		return
 	}
 
+	orgId := uuid.MustParse(state.OrgId.ValueString())
+	nacruleId := uuid.MustParse(state.Id.ValueString())
 	tflog.Info(ctx, "Starting NacRule Read: nacrule_id "+state.Id.ValueString())
-	data, _, err := r.client.OrgsNACRulesAPI.GetOrgNacRule(ctx, state.OrgId.ValueString(), state.Id.ValueString()).Execute()
+	data, err := r.client.OrgsNACRules().GetOrgNacRule(ctx, orgId, nacruleId)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Error getting NacRule",
@@ -108,7 +111,7 @@ func (r *orgNacRuleResource) Read(ctx context.Context, req resource.ReadRequest,
 		)
 		return
 	}
-	state, diags = resource_org_nacrule.SdkToTerraform(ctx, data)
+	state, diags = resource_org_nacrule.SdkToTerraform(ctx, data.Data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -142,11 +145,11 @@ func (r *orgNacRuleResource) Update(ctx context.Context, req resource.UpdateRequ
 		return
 	}
 
+	orgId := uuid.MustParse(state.OrgId.ValueString())
+	nacruleId := uuid.MustParse(state.Id.ValueString())
 	tflog.Info(ctx, "Starting NacRule Update for NacRule "+state.Id.ValueString())
-	data, _, err := r.client.OrgsNACRulesAPI.
-		UpdateOrgNacRule(ctx, state.OrgId.ValueString(), state.Id.ValueString()).
-		NacRule(nacrule).
-		Execute()
+	data, err := r.client.OrgsNACRules().
+		UpdateOrgNacRule(ctx, orgId, nacruleId, &nacrule)
 
 	if err != nil {
 		resp.Diagnostics.AddError(
@@ -156,7 +159,7 @@ func (r *orgNacRuleResource) Update(ctx context.Context, req resource.UpdateRequ
 		return
 	}
 
-	state, diags = resource_org_nacrule.SdkToTerraform(ctx, data)
+	state, diags = resource_org_nacrule.SdkToTerraform(ctx, data.Data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -179,8 +182,10 @@ func (r *orgNacRuleResource) Delete(ctx context.Context, req resource.DeleteRequ
 		return
 	}
 
+	orgId := uuid.MustParse(state.OrgId.ValueString())
+	nacruleId := uuid.MustParse(state.Id.ValueString())
 	tflog.Info(ctx, "Starting NacRule Delete: nacrule_id "+state.Id.ValueString())
-	_, err := r.client.OrgsNACRulesAPI.DeleteOrgNacRule(ctx, state.OrgId.ValueString(), state.Id.ValueString()).Execute()
+	_, err := r.client.OrgsNACRules().DeleteOrgNacRule(ctx, orgId, nacruleId)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Error creating NacRule",

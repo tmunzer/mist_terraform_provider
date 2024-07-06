@@ -2,52 +2,88 @@ package resource_org_networktemplate
 
 import (
 	"context"
+	"mistapi/models"
 
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
-
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 )
 
-func extraRoute6NextQualifiedSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]mistapigo.ExtraRoute6PropertiesNextQualifiedProperties) basetypes.MapValue {
+func extraRoute6NextQualifiedSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, m map[string]models.ExtraRoute6PropertiesNextQualifiedProperties) basetypes.MapValue {
 
-	state_value_map_attr_type := NextQualifiedValue{}.AttributeTypes(ctx)
 	state_value_map_value := make(map[string]attr.Value)
-	for k, v := range d {
-		state_value_map_attr_value := map[string]attr.Value{
-			"metric":     types.Int64Value(int64(v.GetMetric())),
-			"preference": types.Int64Value(int64(v.GetPreference())),
+	for k, d := range m {
+		var metric basetypes.Int64Value
+		var preference basetypes.Int64Value
+
+		if d.Metric.IsValueSet() {
+			metric = types.Int64Value(int64(*d.Metric.Value()))
 		}
-		n, e := NewNextQualifiedValue(state_value_map_attr_type, state_value_map_attr_value)
+		if d.Preference.IsValueSet() {
+			preference = types.Int64Value(int64(*d.Preference.Value()))
+		}
+
+		data_map_attr_type := NextQualifiedValue{}.AttributeTypes(ctx)
+		data_map_value := map[string]attr.Value{
+			"metric":     metric,
+			"preference": preference,
+		}
+		data, e := NewNextQualifiedValue(data_map_attr_type, data_map_value)
 		diags.Append(e...)
-		state_value_map_value[k] = n
+
+		state_value_map_value[k] = data
 	}
 	state_result_map_type := NextQualifiedValue{}.Type(ctx)
 	state_result_map, e := types.MapValueFrom(ctx, state_result_map_type, state_value_map_value)
 	diags.Append(e...)
 	return state_result_map
 }
-func extraRoutes6SdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]mistapigo.ExtraRoute6Properties) basetypes.MapValue {
+func extraRoutes6SdkToTerraform(ctx context.Context, diags *diag.Diagnostics, m map[string]models.ExtraRoute6Properties) basetypes.MapValue {
 
-	state_value_map_attr_type := ExtraRoutes6Value{}.AttributeTypes(ctx)
 	state_value_map_value := make(map[string]attr.Value)
-	for k, v := range d {
-		next_qualified := extraRoute6NextQualifiedSdkToTerraform(ctx, diags, v.GetNextQualified())
-		state_value_map_attr_value := map[string]attr.Value{
-			"discard":        types.BoolValue(v.GetDiscard()),
-			"metric":         types.Int64Value(int64(v.GetMetric())),
-			"next_qualified": next_qualified,
-			"no_resolve":     types.BoolValue(v.GetNoResolve()),
-			"preference":     types.Int64Value(int64(v.GetPreference())),
-			"via":            types.StringValue(v.GetVia()),
+	for k, d := range m {
+		var discard basetypes.BoolValue
+		var metric basetypes.Int64Value
+		var next_qualified basetypes.MapValue
+		var no_resolve basetypes.BoolValue
+		var preference basetypes.Int64Value
+		var via basetypes.StringValue
+
+		if d.Discard != nil {
+			discard = types.BoolValue(*d.Discard)
 		}
-		n, e := NewExtraRoutes6Value(state_value_map_attr_type, state_value_map_attr_value)
+		if d.Metric.IsValueSet() {
+			metric = types.Int64Value(int64(*d.Metric.Value()))
+		}
+		if d.NextQualified != nil {
+			next_qualified = extraRoute6NextQualifiedSdkToTerraform(ctx, diags, d.NextQualified)
+		}
+		if d.NoResolve != nil {
+			no_resolve = types.BoolValue(*d.NoResolve)
+		}
+		if d.Preference.IsValueSet() {
+			preference = types.Int64Value(int64(*d.Preference.Value()))
+		}
+		if d.Via != nil {
+			via = types.StringValue(*d.Via)
+		}
+
+		data_map_attr_type := ExtraRoutesValue{}.AttributeTypes(ctx)
+		data_map_value := map[string]attr.Value{
+			"discard":        discard,
+			"metric":         metric,
+			"next_qualified": next_qualified,
+			"no_resolve":     no_resolve,
+			"preference":     preference,
+			"via":            via,
+		}
+		data, e := NewExtraRoutesValue(data_map_attr_type, data_map_value)
 		diags.Append(e...)
-		state_value_map_value[k] = n
+
+		state_value_map_value[k] = data
 	}
-	state_result_map_type := ExtraRoutes6Value{}.Type(ctx)
+	state_result_map_type := ExtraRoutesValue{}.Type(ctx)
 	state_result_map, e := types.MapValueFrom(ctx, state_result_map_type, state_value_map_value)
 	diags.Append(e...)
 	return state_result_map

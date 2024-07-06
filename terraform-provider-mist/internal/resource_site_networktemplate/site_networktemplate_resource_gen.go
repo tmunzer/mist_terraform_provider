@@ -12,6 +12,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -69,6 +70,7 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 							Computed:            true,
 							Description:         "- for GBP-based policy, all src_tags and dst_tags have to be gbp-based\n- for ACL-based policy, `network` is required in either the source or destination so that we know where to attach the policy to",
 							MarkdownDescription: "- for GBP-based policy, all src_tags and dst_tags have to be gbp-based\n- for ACL-based policy, `network` is required in either the source or destination so that we know where to attach the policy to",
+							Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 						},
 					},
 					CustomType: AclPoliciesType{
@@ -95,6 +97,7 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 							Computed:            true,
 							Description:         "required if \n- `type`==`mac`\n- `type`==`static_gbp` if from matching mac",
 							MarkdownDescription: "required if \n- `type`==`mac`\n- `type`==`static_gbp` if from matching mac",
+							Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 						},
 						"network": schema.StringAttribute{
 							Optional:            true,
@@ -143,6 +146,7 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 							Computed:            true,
 							Description:         "if \n- `type`==`subnet` \n- `type`==`resource` (optional. default is `any`)\n- `type`==`static_gbp` if from matching subnet",
 							MarkdownDescription: "if \n- `type`==`subnet` \n- `type`==`resource` (optional. default is `any`)\n- `type`==`static_gbp` if from matching subnet",
+							Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 						},
 						"type": schema.StringAttribute{
 							Required: true,
@@ -178,6 +182,7 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 				Computed:            true,
 				Description:         "additional CLI commands to append to the generated Junos config\n\n**Note**: no check is done",
 				MarkdownDescription: "additional CLI commands to append to the generated Junos config\n\n**Note**: no check is done",
+				Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 			},
 			"dhcp_snooping": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
@@ -207,6 +212,7 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 						Computed:            true,
 						Description:         "if `all_networks`==`false`, list of network with DHCP snooping enabled",
 						MarkdownDescription: "if `all_networks`==`false`, list of network with DHCP snooping enabled",
+						Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 					},
 				},
 				CustomType: DhcpSnoopingType{
@@ -223,6 +229,7 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 				Computed:            true,
 				Description:         "Global dns settings. To keep compatibility, dns settings in `ip_config` and `oob_ip_config` will overwrite this setting",
 				MarkdownDescription: "Global dns settings. To keep compatibility, dns settings in `ip_config` and `oob_ip_config` will overwrite this setting",
+				Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 			},
 			"dns_suffix": schema.ListAttribute{
 				ElementType:         types.StringType,
@@ -230,6 +237,7 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 				Computed:            true,
 				Description:         "Global dns settings. To keep compatibility, dns settings in `ip_config` and `oob_ip_config` will overwrite this setting",
 				MarkdownDescription: "Global dns settings. To keep compatibility, dns settings in `ip_config` and `oob_ip_config` will overwrite this setting",
+				Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 			},
 			"extra_routes": schema.MapNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
@@ -427,6 +435,7 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 				Computed:            true,
 				Description:         "list of NTP servers",
 				MarkdownDescription: "list of NTP servers",
+				Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 			},
 			"port_mirrorings": schema.MapNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
@@ -437,6 +446,7 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 							Computed:            true,
 							Description:         "at least one of the `ingress_port_ids`, `egress_port_ids` or `ingress_networks ` should be specified",
 							MarkdownDescription: "at least one of the `ingress_port_ids`, `egress_port_ids` or `ingress_networks ` should be specified",
+							Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 						},
 						"input_port_ids_egress": schema.ListAttribute{
 							ElementType:         types.StringType,
@@ -444,6 +454,7 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 							Computed:            true,
 							Description:         "at least one of the `ingress_port_ids`, `egress_port_ids` or `ingress_networks ` should be specified",
 							MarkdownDescription: "at least one of the `ingress_port_ids`, `egress_port_ids` or `ingress_networks ` should be specified",
+							Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 						},
 						"input_port_ids_ingress": schema.ListAttribute{
 							ElementType:         types.StringType,
@@ -451,6 +462,7 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 							Computed:            true,
 							Description:         "at least one of the `ingress_port_ids`, `egress_port_ids` or `ingress_networks ` should be specified",
 							MarkdownDescription: "at least one of the `ingress_port_ids`, `egress_port_ids` or `ingress_networks ` should be specified",
+							Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 						},
 						"output_network": schema.StringAttribute{
 							Optional: true,
@@ -552,6 +564,7 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 							Computed:            true,
 							Description:         "Only if `mode`!=`dynamic` if dynamic vlan is used, specify the possible networks/vlans RADIUS can return",
 							MarkdownDescription: "Only if `mode`!=`dynamic` if dynamic vlan is used, specify the possible networks/vlans RADIUS can return",
+							Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 						},
 						"enable_mac_auth": schema.BoolAttribute{
 							Optional:            true,
@@ -636,6 +649,7 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 							Computed:            true,
 							Description:         "Only if `mode`==`trunk`, the list of network/vlans",
 							MarkdownDescription: "Only if `mode`==`trunk`, the list of network/vlans",
+							Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 						},
 						"persist_mac": schema.BoolAttribute{
 							Optional:            true,
@@ -706,6 +720,7 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 										Computed:            true,
 										Description:         "use `equals_any` to match any item in a list",
 										MarkdownDescription: "use `equals_any` to match any item in a list",
+										Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 									},
 									"expression": schema.StringAttribute{
 										Optional:            true,
@@ -1487,6 +1502,7 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 									ElementType: types.StringType,
 									Optional:    true,
 									Computed:    true,
+									Default:     listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 								},
 							},
 							CustomType: ClientListType{
@@ -1544,6 +1560,7 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 									ElementType: types.StringType,
 									Optional:    true,
 									Computed:    true,
+									Default:     listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 								},
 								"group_name": schema.StringAttribute{
 									Optional:            true,
@@ -1555,6 +1572,7 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 									ElementType: types.StringType,
 									Optional:    true,
 									Computed:    true,
+									Default:     listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 								},
 								"version": schema.StringAttribute{
 									Optional: true,
@@ -1649,6 +1667,10 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 							"notify_filter": schema.ListNestedAttribute{
 								NestedObject: schema.NestedAttributeObject{
 									Attributes: map[string]schema.Attribute{
+										"profile_name": schema.StringAttribute{
+											Optional: true,
+											Computed: true,
+										},
 										"contents": schema.ListNestedAttribute{
 											NestedObject: schema.NestedAttributeObject{
 												Attributes: map[string]schema.Attribute{
@@ -1661,16 +1683,12 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 														Computed: true,
 													},
 												},
-												CustomType: ContentsType{
+												CustomType: Snmpv3ContentsType{
 													ObjectType: types.ObjectType{
-														AttrTypes: ContentsValue{}.AttributeTypes(ctx),
+														AttrTypes: Snmpv3ContentsValue{}.AttributeTypes(ctx),
 													},
 												},
 											},
-											Optional: true,
-											Computed: true,
-										},
-										"profile_name": schema.StringAttribute{
 											Optional: true,
 											Computed: true,
 										},
@@ -1867,9 +1885,9 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 													Computed: true,
 												},
 											},
-											CustomType: UsersType{
+											CustomType: Snmpv3UsersType{
 												ObjectType: types.ObjectType{
-													AttrTypes: UsersValue{}.AttributeTypes(ctx),
+													AttrTypes: Snmpv3UsersValue{}.AttributeTypes(ctx),
 												},
 											},
 										},
@@ -1978,6 +1996,18 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 									},
 									"security_to_group": schema.SingleNestedAttribute{
 										Attributes: map[string]schema.Attribute{
+											"security_model": schema.StringAttribute{
+												Optional: true,
+												Computed: true,
+												Validators: []validator.String{
+													stringvalidator.OneOf(
+														"",
+														"usm",
+														"v1",
+														"v2c",
+													),
+												},
+											},
 											"content": schema.ListNestedAttribute{
 												NestedObject: schema.NestedAttributeObject{
 													Attributes: map[string]schema.Attribute{
@@ -1992,26 +2022,14 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 															Computed: true,
 														},
 													},
-													CustomType: ContentType{
+													CustomType: Snmpv3VacmContentType{
 														ObjectType: types.ObjectType{
-															AttrTypes: ContentValue{}.AttributeTypes(ctx),
+															AttrTypes: Snmpv3VacmContentValue{}.AttributeTypes(ctx),
 														},
 													},
 												},
 												Optional: true,
 												Computed: true,
-											},
-											"security_model": schema.StringAttribute{
-												Optional: true,
-												Computed: true,
-												Validators: []validator.String{
-													stringvalidator.OneOf(
-														"",
-														"usm",
-														"v1",
-														"v2c",
-													),
-												},
 											},
 										},
 										CustomType: SecurityToGroupType{
@@ -2040,26 +2058,28 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 						Optional: true,
 						Computed: true,
 					},
-					"views": schema.SingleNestedAttribute{
-						Attributes: map[string]schema.Attribute{
-							"include": schema.BoolAttribute{
-								Optional:            true,
-								Computed:            true,
-								Description:         "if the root oid configured is included",
-								MarkdownDescription: "if the root oid configured is included",
+					"views": schema.ListNestedAttribute{
+						NestedObject: schema.NestedAttributeObject{
+							Attributes: map[string]schema.Attribute{
+								"include": schema.BoolAttribute{
+									Optional:            true,
+									Computed:            true,
+									Description:         "if the root oid configured is included",
+									MarkdownDescription: "if the root oid configured is included",
+								},
+								"oid": schema.StringAttribute{
+									Optional: true,
+									Computed: true,
+								},
+								"view_name": schema.StringAttribute{
+									Optional: true,
+									Computed: true,
+								},
 							},
-							"oid": schema.StringAttribute{
-								Optional: true,
-								Computed: true,
-							},
-							"view_name": schema.StringAttribute{
-								Optional: true,
-								Computed: true,
-							},
-						},
-						CustomType: ViewsType{
-							ObjectType: types.ObjectType{
-								AttrTypes: ViewsValue{}.AttributeTypes(ctx),
+							CustomType: ViewsType{
+								ObjectType: types.ObjectType{
+									AttrTypes: ViewsValue{}.AttributeTypes(ctx),
+								},
 							},
 						},
 						Optional: true,
@@ -2089,6 +2109,7 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 									Computed:            true,
 									Description:         "additional CLI commands to append to the generated Junos config\n\n**Note**: no check is done",
 									MarkdownDescription: "additional CLI commands to append to the generated Junos config\n\n**Note**: no check is done",
+									Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 								},
 								"match_role": schema.StringAttribute{
 									Optional:            true,
@@ -2099,14 +2120,12 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 								"match_type": schema.StringAttribute{
 									Optional:            true,
 									Computed:            true,
-									Description:         "string to match. e.g: `match_name[0:3]`, `match_name[2:6]`, `match_model`,  `match_model[0-6]`",
-									MarkdownDescription: "string to match. e.g: `match_name[0:3]`, `match_name[2:6]`, `match_model`,  `match_model[0-6]`",
+									Description:         "'property key define the type of matching, value is the string to match. e.g: `match_name[0:3]`, `match_name[2:6]`, `match_model`,  `match_model[0-6]`",
+									MarkdownDescription: "'property key define the type of matching, value is the string to match. e.g: `match_name[0:3]`, `match_name[2:6]`, `match_model`,  `match_model[0-6]`",
 								},
 								"match_value": schema.StringAttribute{
-									Optional:            true,
-									Computed:            true,
-									Description:         "value to match",
-									MarkdownDescription: "value to match",
+									Optional: true,
+									Computed: true,
 								},
 								"name": schema.StringAttribute{
 									Optional: true,
@@ -2239,6 +2258,7 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 												Computed:            true,
 												Description:         "at least one of the `ingress_port_ids`, `egress_port_ids` or `ingress_networks ` should be specified",
 												MarkdownDescription: "at least one of the `ingress_port_ids`, `egress_port_ids` or `ingress_networks ` should be specified",
+												Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 											},
 											"input_port_ids_egress": schema.ListAttribute{
 												ElementType:         types.StringType,
@@ -2246,6 +2266,7 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 												Computed:            true,
 												Description:         "at least one of the `ingress_port_ids`, `egress_port_ids` or `ingress_networks ` should be specified",
 												MarkdownDescription: "at least one of the `ingress_port_ids`, `egress_port_ids` or `ingress_networks ` should be specified",
+												Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 											},
 											"input_port_ids_ingress": schema.ListAttribute{
 												ElementType:         types.StringType,
@@ -2253,6 +2274,7 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 												Computed:            true,
 												Description:         "at least one of the `ingress_port_ids`, `egress_port_ids` or `ingress_networks ` should be specified",
 												MarkdownDescription: "at least one of the `ingress_port_ids`, `egress_port_ids` or `ingress_networks ` should be specified",
+												Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 											},
 											"output_network": schema.StringAttribute{
 												Optional: true,
@@ -2315,6 +2337,7 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 								Computed:            true,
 								Description:         "optionally, services we'll allow",
 								MarkdownDescription: "optionally, services we'll allow",
+								Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 							},
 							"custom": schema.ListNestedAttribute{
 								NestedObject: schema.NestedAttributeObject{
@@ -2344,6 +2367,7 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 											ElementType: types.StringType,
 											Optional:    true,
 											Computed:    true,
+											Default:     listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 										},
 									},
 									CustomType: CustomType{
@@ -2368,6 +2392,7 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 								Computed:            true,
 								Description:         "host/subnets we'll allow traffic to/from",
 								MarkdownDescription: "host/subnets we'll allow traffic to/from",
+								Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 							},
 						},
 						CustomType: ProtectReType{
@@ -2508,7 +2533,16 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 			"vrf_instances": schema.MapNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
-						"extra_routes": schema.MapNestedAttribute{
+						"networks": schema.ListAttribute{
+							ElementType: types.StringType,
+							Optional:    true,
+							Computed:    true,
+							Validators: []validator.List{
+								listvalidator.UniqueValues(),
+							},
+							Default: listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
+						},
+						"vrf_extra_routes": schema.MapNestedAttribute{
 							NestedObject: schema.NestedAttributeObject{
 								Attributes: map[string]schema.Attribute{
 									"via": schema.StringAttribute{
@@ -2518,9 +2552,9 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 										MarkdownDescription: "Next-hop address",
 									},
 								},
-								CustomType: ExtraRoutesType{
+								CustomType: VrfExtraRoutesType{
 									ObjectType: types.ObjectType{
-										AttrTypes: ExtraRoutesValue{}.AttributeTypes(ctx),
+										AttrTypes: VrfExtraRoutesValue{}.AttributeTypes(ctx),
 									},
 								},
 							},
@@ -2528,14 +2562,6 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 							Computed:            true,
 							Description:         "Property key is the destination CIDR (e.g. \"10.0.0.0/8\")",
 							MarkdownDescription: "Property key is the destination CIDR (e.g. \"10.0.0.0/8\")",
-						},
-						"networks": schema.ListAttribute{
-							ElementType: types.StringType,
-							Optional:    true,
-							Computed:    true,
-							Validators: []validator.List{
-								listvalidator.UniqueValues(),
-							},
 						},
 					},
 					CustomType: VrfInstancesType{
@@ -18217,12 +18243,12 @@ func (t SnmpConfigType) ValueFromObject(ctx context.Context, in basetypes.Object
 		return nil, diags
 	}
 
-	viewsVal, ok := viewsAttribute.(basetypes.ObjectValue)
+	viewsVal, ok := viewsAttribute.(basetypes.ListValue)
 
 	if !ok {
 		diags.AddError(
 			"Attribute Wrong Type",
-			fmt.Sprintf(`views expected to be basetypes.ObjectValue, was: %T`, viewsAttribute))
+			fmt.Sprintf(`views expected to be basetypes.ListValue, was: %T`, viewsAttribute))
 	}
 
 	if diags.HasError() {
@@ -18517,12 +18543,12 @@ func NewSnmpConfigValue(attributeTypes map[string]attr.Type, attributes map[stri
 		return NewSnmpConfigValueUnknown(), diags
 	}
 
-	viewsVal, ok := viewsAttribute.(basetypes.ObjectValue)
+	viewsVal, ok := viewsAttribute.(basetypes.ListValue)
 
 	if !ok {
 		diags.AddError(
 			"Attribute Wrong Type",
-			fmt.Sprintf(`views expected to be basetypes.ObjectValue, was: %T`, viewsAttribute))
+			fmt.Sprintf(`views expected to be basetypes.ListValue, was: %T`, viewsAttribute))
 	}
 
 	if diags.HasError() {
@@ -18625,7 +18651,7 @@ type SnmpConfigValue struct {
 	TrapGroups  basetypes.ListValue   `tfsdk:"trap_groups"`
 	V2cConfig   basetypes.ListValue   `tfsdk:"v2c_config"`
 	V3Config    basetypes.ObjectValue `tfsdk:"v3_config"`
-	Views       basetypes.ObjectValue `tfsdk:"views"`
+	Views       basetypes.ListValue   `tfsdk:"views"`
 	state       attr.ValueState
 }
 
@@ -18654,8 +18680,8 @@ func (v SnmpConfigValue) ToTerraformValue(ctx context.Context) (tftypes.Value, e
 	attrTypes["v3_config"] = basetypes.ObjectType{
 		AttrTypes: V3ConfigValue{}.AttributeTypes(ctx),
 	}.TerraformType(ctx)
-	attrTypes["views"] = basetypes.ObjectType{
-		AttrTypes: ViewsValue{}.AttributeTypes(ctx),
+	attrTypes["views"] = basetypes.ListType{
+		ElemType: ViewsValue{}.Type(ctx),
 	}.TerraformType(ctx)
 
 	objectType := tftypes.Object{AttributeTypes: attrTypes}
@@ -18897,24 +18923,32 @@ func (v SnmpConfigValue) ToObjectValue(ctx context.Context) (basetypes.ObjectVal
 		)
 	}
 
-	var views basetypes.ObjectValue
+	views := types.ListValueMust(
+		ViewsType{
+			basetypes.ObjectType{
+				AttrTypes: ViewsValue{}.AttributeTypes(ctx),
+			},
+		},
+		v.Views.Elements(),
+	)
 
 	if v.Views.IsNull() {
-		views = types.ObjectNull(
-			ViewsValue{}.AttributeTypes(ctx),
+		views = types.ListNull(
+			ViewsType{
+				basetypes.ObjectType{
+					AttrTypes: ViewsValue{}.AttributeTypes(ctx),
+				},
+			},
 		)
 	}
 
 	if v.Views.IsUnknown() {
-		views = types.ObjectUnknown(
-			ViewsValue{}.AttributeTypes(ctx),
-		)
-	}
-
-	if !v.Views.IsNull() && !v.Views.IsUnknown() {
-		views = types.ObjectValueMust(
-			ViewsValue{}.AttributeTypes(ctx),
-			v.Views.Attributes(),
+		views = types.ListUnknown(
+			ViewsType{
+				basetypes.ObjectType{
+					AttrTypes: ViewsValue{}.AttributeTypes(ctx),
+				},
+			},
 		)
 	}
 
@@ -18938,8 +18972,8 @@ func (v SnmpConfigValue) ToObjectValue(ctx context.Context) (basetypes.ObjectVal
 		"v3_config": basetypes.ObjectType{
 			AttrTypes: V3ConfigValue{}.AttributeTypes(ctx),
 		},
-		"views": basetypes.ObjectType{
-			AttrTypes: ViewsValue{}.AttributeTypes(ctx),
+		"views": basetypes.ListType{
+			ElemType: ViewsValue{}.Type(ctx),
 		},
 	}
 
@@ -19066,8 +19100,8 @@ func (v SnmpConfigValue) AttributeTypes(ctx context.Context) map[string]attr.Typ
 		"v3_config": basetypes.ObjectType{
 			AttrTypes: V3ConfigValue{}.AttributeTypes(ctx),
 		},
-		"views": basetypes.ObjectType{
-			AttrTypes: ViewsValue{}.AttributeTypes(ctx),
+		"views": basetypes.ListType{
+			ElemType: ViewsValue{}.Type(ctx),
 		},
 	}
 }
@@ -21746,24 +21780,6 @@ func (t NotifyFilterType) ValueFromObject(ctx context.Context, in basetypes.Obje
 
 	attributes := in.Attributes()
 
-	contentsAttribute, ok := attributes["contents"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`contents is missing from object`)
-
-		return nil, diags
-	}
-
-	contentsVal, ok := contentsAttribute.(basetypes.ListValue)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`contents expected to be basetypes.ListValue, was: %T`, contentsAttribute))
-	}
-
 	profileNameAttribute, ok := attributes["profile_name"]
 
 	if !ok {
@@ -21782,14 +21798,32 @@ func (t NotifyFilterType) ValueFromObject(ctx context.Context, in basetypes.Obje
 			fmt.Sprintf(`profile_name expected to be basetypes.StringValue, was: %T`, profileNameAttribute))
 	}
 
+	snmpv3ContentsAttribute, ok := attributes["contents"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`contents is missing from object`)
+
+		return nil, diags
+	}
+
+	snmpv3ContentsVal, ok := snmpv3ContentsAttribute.(basetypes.ListValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`contents expected to be basetypes.ListValue, was: %T`, snmpv3ContentsAttribute))
+	}
+
 	if diags.HasError() {
 		return nil, diags
 	}
 
 	return NotifyFilterValue{
-		Contents:    contentsVal,
-		ProfileName: profileNameVal,
-		state:       attr.ValueStateKnown,
+		ProfileName:    profileNameVal,
+		Snmpv3Contents: snmpv3ContentsVal,
+		state:          attr.ValueStateKnown,
 	}, diags
 }
 
@@ -21856,24 +21890,6 @@ func NewNotifyFilterValue(attributeTypes map[string]attr.Type, attributes map[st
 		return NewNotifyFilterValueUnknown(), diags
 	}
 
-	contentsAttribute, ok := attributes["contents"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`contents is missing from object`)
-
-		return NewNotifyFilterValueUnknown(), diags
-	}
-
-	contentsVal, ok := contentsAttribute.(basetypes.ListValue)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`contents expected to be basetypes.ListValue, was: %T`, contentsAttribute))
-	}
-
 	profileNameAttribute, ok := attributes["profile_name"]
 
 	if !ok {
@@ -21892,14 +21908,32 @@ func NewNotifyFilterValue(attributeTypes map[string]attr.Type, attributes map[st
 			fmt.Sprintf(`profile_name expected to be basetypes.StringValue, was: %T`, profileNameAttribute))
 	}
 
+	snmpv3ContentsAttribute, ok := attributes["contents"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`contents is missing from object`)
+
+		return NewNotifyFilterValueUnknown(), diags
+	}
+
+	snmpv3ContentsVal, ok := snmpv3ContentsAttribute.(basetypes.ListValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`contents expected to be basetypes.ListValue, was: %T`, snmpv3ContentsAttribute))
+	}
+
 	if diags.HasError() {
 		return NewNotifyFilterValueUnknown(), diags
 	}
 
 	return NotifyFilterValue{
-		Contents:    contentsVal,
-		ProfileName: profileNameVal,
-		state:       attr.ValueStateKnown,
+		ProfileName:    profileNameVal,
+		Snmpv3Contents: snmpv3ContentsVal,
+		state:          attr.ValueStateKnown,
 	}, diags
 }
 
@@ -21971,9 +22005,9 @@ func (t NotifyFilterType) ValueType(ctx context.Context) attr.Value {
 var _ basetypes.ObjectValuable = NotifyFilterValue{}
 
 type NotifyFilterValue struct {
-	Contents    basetypes.ListValue   `tfsdk:"contents"`
-	ProfileName basetypes.StringValue `tfsdk:"profile_name"`
-	state       attr.ValueState
+	ProfileName    basetypes.StringValue `tfsdk:"profile_name"`
+	Snmpv3Contents basetypes.ListValue   `tfsdk:"contents"`
+	state          attr.ValueState
 }
 
 func (v NotifyFilterValue) ToTerraformValue(ctx context.Context) (tftypes.Value, error) {
@@ -21982,24 +22016,16 @@ func (v NotifyFilterValue) ToTerraformValue(ctx context.Context) (tftypes.Value,
 	var val tftypes.Value
 	var err error
 
-	attrTypes["contents"] = basetypes.ListType{
-		ElemType: ContentsValue{}.Type(ctx),
-	}.TerraformType(ctx)
 	attrTypes["profile_name"] = basetypes.StringType{}.TerraformType(ctx)
+	attrTypes["contents"] = basetypes.ListType{
+		ElemType: Snmpv3ContentsValue{}.Type(ctx),
+	}.TerraformType(ctx)
 
 	objectType := tftypes.Object{AttributeTypes: attrTypes}
 
 	switch v.state {
 	case attr.ValueStateKnown:
 		vals := make(map[string]tftypes.Value, 2)
-
-		val, err = v.Contents.ToTerraformValue(ctx)
-
-		if err != nil {
-			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
-		}
-
-		vals["contents"] = val
 
 		val, err = v.ProfileName.ToTerraformValue(ctx)
 
@@ -22008,6 +22034,14 @@ func (v NotifyFilterValue) ToTerraformValue(ctx context.Context) (tftypes.Value,
 		}
 
 		vals["profile_name"] = val
+
+		val, err = v.Snmpv3Contents.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["contents"] = val
 
 		if err := tftypes.ValidateValue(objectType, vals); err != nil {
 			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
@@ -22038,40 +22072,40 @@ func (v NotifyFilterValue) String() string {
 func (v NotifyFilterValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, diag.Diagnostics) {
 	var diags diag.Diagnostics
 
-	contents := types.ListValueMust(
-		ContentsType{
+	snmpv3Contents := types.ListValueMust(
+		Snmpv3ContentsType{
 			basetypes.ObjectType{
-				AttrTypes: ContentsValue{}.AttributeTypes(ctx),
+				AttrTypes: Snmpv3ContentsValue{}.AttributeTypes(ctx),
 			},
 		},
-		v.Contents.Elements(),
+		v.Snmpv3Contents.Elements(),
 	)
 
-	if v.Contents.IsNull() {
-		contents = types.ListNull(
-			ContentsType{
+	if v.Snmpv3Contents.IsNull() {
+		snmpv3Contents = types.ListNull(
+			Snmpv3ContentsType{
 				basetypes.ObjectType{
-					AttrTypes: ContentsValue{}.AttributeTypes(ctx),
+					AttrTypes: Snmpv3ContentsValue{}.AttributeTypes(ctx),
 				},
 			},
 		)
 	}
 
-	if v.Contents.IsUnknown() {
-		contents = types.ListUnknown(
-			ContentsType{
+	if v.Snmpv3Contents.IsUnknown() {
+		snmpv3Contents = types.ListUnknown(
+			Snmpv3ContentsType{
 				basetypes.ObjectType{
-					AttrTypes: ContentsValue{}.AttributeTypes(ctx),
+					AttrTypes: Snmpv3ContentsValue{}.AttributeTypes(ctx),
 				},
 			},
 		)
 	}
 
 	attributeTypes := map[string]attr.Type{
-		"contents": basetypes.ListType{
-			ElemType: ContentsValue{}.Type(ctx),
-		},
 		"profile_name": basetypes.StringType{},
+		"contents": basetypes.ListType{
+			ElemType: Snmpv3ContentsValue{}.Type(ctx),
+		},
 	}
 
 	if v.IsNull() {
@@ -22085,8 +22119,8 @@ func (v NotifyFilterValue) ToObjectValue(ctx context.Context) (basetypes.ObjectV
 	objVal, diags := types.ObjectValue(
 		attributeTypes,
 		map[string]attr.Value{
-			"contents":     contents,
-			"profile_name": v.ProfileName,
+			"profile_name":    v.ProfileName,
+			"contents": snmpv3Contents,
 		})
 
 	return objVal, diags
@@ -22107,11 +22141,11 @@ func (v NotifyFilterValue) Equal(o attr.Value) bool {
 		return true
 	}
 
-	if !v.Contents.Equal(other.Contents) {
+	if !v.ProfileName.Equal(other.ProfileName) {
 		return false
 	}
 
-	if !v.ProfileName.Equal(other.ProfileName) {
+	if !v.Snmpv3Contents.Equal(other.Snmpv3Contents) {
 		return false
 	}
 
@@ -22128,33 +22162,391 @@ func (v NotifyFilterValue) Type(ctx context.Context) attr.Type {
 
 func (v NotifyFilterValue) AttributeTypes(ctx context.Context) map[string]attr.Type {
 	return map[string]attr.Type{
-		"contents": basetypes.ListType{
-			ElemType: ContentsValue{}.Type(ctx),
-		},
 		"profile_name": basetypes.StringType{},
+		"contents": basetypes.ListType{
+			ElemType: Snmpv3ContentsValue{}.Type(ctx),
+		},
 	}
 }
 
+var _ basetypes.ObjectTypable = Snmpv3ContentsType{}
 
+type Snmpv3ContentsType struct {
+	basetypes.ObjectType
+}
 
+func (t Snmpv3ContentsType) Equal(o attr.Type) bool {
+	other, ok := o.(Snmpv3ContentsType)
 
+	if !ok {
+		return false
+	}
 
+	return t.ObjectType.Equal(other.ObjectType)
+}
 
+func (t Snmpv3ContentsType) String() string {
+	return "Snmpv3ContentsType"
+}
 
+func (t Snmpv3ContentsType) ValueFromObject(ctx context.Context, in basetypes.ObjectValue) (basetypes.ObjectValuable, diag.Diagnostics) {
+	var diags diag.Diagnostics
 
+	attributes := in.Attributes()
 
+	includeAttribute, ok := attributes["include"]
 
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`include is missing from object`)
 
+		return nil, diags
+	}
 
+	includeVal, ok := includeAttribute.(basetypes.BoolValue)
 
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`include expected to be basetypes.BoolValue, was: %T`, includeAttribute))
+	}
 
+	oidAttribute, ok := attributes["oid"]
 
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`oid is missing from object`)
 
+		return nil, diags
+	}
 
+	oidVal, ok := oidAttribute.(basetypes.StringValue)
 
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`oid expected to be basetypes.StringValue, was: %T`, oidAttribute))
+	}
 
+	if diags.HasError() {
+		return nil, diags
+	}
 
+	return Snmpv3ContentsValue{
+		Include: includeVal,
+		Oid:     oidVal,
+		state:   attr.ValueStateKnown,
+	}, diags
+}
 
+func NewSnmpv3ContentsValueNull() Snmpv3ContentsValue {
+	return Snmpv3ContentsValue{
+		state: attr.ValueStateNull,
+	}
+}
+
+func NewSnmpv3ContentsValueUnknown() Snmpv3ContentsValue {
+	return Snmpv3ContentsValue{
+		state: attr.ValueStateUnknown,
+	}
+}
+
+func NewSnmpv3ContentsValue(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) (Snmpv3ContentsValue, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	// Reference: https://github.com/hashicorp/terraform-plugin-framework/issues/521
+	ctx := context.Background()
+
+	for name, attributeType := range attributeTypes {
+		attribute, ok := attributes[name]
+
+		if !ok {
+			diags.AddError(
+				"Missing Snmpv3ContentsValue Attribute Value",
+				"While creating a Snmpv3ContentsValue value, a missing attribute value was detected. "+
+					"A Snmpv3ContentsValue must contain values for all attributes, even if null or unknown. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("Snmpv3ContentsValue Attribute Name (%s) Expected Type: %s", name, attributeType.String()),
+			)
+
+			continue
+		}
+
+		if !attributeType.Equal(attribute.Type(ctx)) {
+			diags.AddError(
+				"Invalid Snmpv3ContentsValue Attribute Type",
+				"While creating a Snmpv3ContentsValue value, an invalid attribute value was detected. "+
+					"A Snmpv3ContentsValue must use a matching attribute type for the value. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("Snmpv3ContentsValue Attribute Name (%s) Expected Type: %s\n", name, attributeType.String())+
+					fmt.Sprintf("Snmpv3ContentsValue Attribute Name (%s) Given Type: %s", name, attribute.Type(ctx)),
+			)
+		}
+	}
+
+	for name := range attributes {
+		_, ok := attributeTypes[name]
+
+		if !ok {
+			diags.AddError(
+				"Extra Snmpv3ContentsValue Attribute Value",
+				"While creating a Snmpv3ContentsValue value, an extra attribute value was detected. "+
+					"A Snmpv3ContentsValue must not contain values beyond the expected attribute types. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("Extra Snmpv3ContentsValue Attribute Name: %s", name),
+			)
+		}
+	}
+
+	if diags.HasError() {
+		return NewSnmpv3ContentsValueUnknown(), diags
+	}
+
+	includeAttribute, ok := attributes["include"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`include is missing from object`)
+
+		return NewSnmpv3ContentsValueUnknown(), diags
+	}
+
+	includeVal, ok := includeAttribute.(basetypes.BoolValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`include expected to be basetypes.BoolValue, was: %T`, includeAttribute))
+	}
+
+	oidAttribute, ok := attributes["oid"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`oid is missing from object`)
+
+		return NewSnmpv3ContentsValueUnknown(), diags
+	}
+
+	oidVal, ok := oidAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`oid expected to be basetypes.StringValue, was: %T`, oidAttribute))
+	}
+
+	if diags.HasError() {
+		return NewSnmpv3ContentsValueUnknown(), diags
+	}
+
+	return Snmpv3ContentsValue{
+		Include: includeVal,
+		Oid:     oidVal,
+		state:   attr.ValueStateKnown,
+	}, diags
+}
+
+func NewSnmpv3ContentsValueMust(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) Snmpv3ContentsValue {
+	object, diags := NewSnmpv3ContentsValue(attributeTypes, attributes)
+
+	if diags.HasError() {
+		// This could potentially be added to the diag package.
+		diagsStrings := make([]string, 0, len(diags))
+
+		for _, diagnostic := range diags {
+			diagsStrings = append(diagsStrings, fmt.Sprintf(
+				"%s | %s | %s",
+				diagnostic.Severity(),
+				diagnostic.Summary(),
+				diagnostic.Detail()))
+		}
+
+		panic("NewSnmpv3ContentsValueMust received error(s): " + strings.Join(diagsStrings, "\n"))
+	}
+
+	return object
+}
+
+func (t Snmpv3ContentsType) ValueFromTerraform(ctx context.Context, in tftypes.Value) (attr.Value, error) {
+	if in.Type() == nil {
+		return NewSnmpv3ContentsValueNull(), nil
+	}
+
+	if !in.Type().Equal(t.TerraformType(ctx)) {
+		return nil, fmt.Errorf("expected %s, got %s", t.TerraformType(ctx), in.Type())
+	}
+
+	if !in.IsKnown() {
+		return NewSnmpv3ContentsValueUnknown(), nil
+	}
+
+	if in.IsNull() {
+		return NewSnmpv3ContentsValueNull(), nil
+	}
+
+	attributes := map[string]attr.Value{}
+
+	val := map[string]tftypes.Value{}
+
+	err := in.As(&val)
+
+	if err != nil {
+		return nil, err
+	}
+
+	for k, v := range val {
+		a, err := t.AttrTypes[k].ValueFromTerraform(ctx, v)
+
+		if err != nil {
+			return nil, err
+		}
+
+		attributes[k] = a
+	}
+
+	return NewSnmpv3ContentsValueMust(Snmpv3ContentsValue{}.AttributeTypes(ctx), attributes), nil
+}
+
+func (t Snmpv3ContentsType) ValueType(ctx context.Context) attr.Value {
+	return Snmpv3ContentsValue{}
+}
+
+var _ basetypes.ObjectValuable = Snmpv3ContentsValue{}
+
+type Snmpv3ContentsValue struct {
+	Include basetypes.BoolValue   `tfsdk:"include"`
+	Oid     basetypes.StringValue `tfsdk:"oid"`
+	state   attr.ValueState
+}
+
+func (v Snmpv3ContentsValue) ToTerraformValue(ctx context.Context) (tftypes.Value, error) {
+	attrTypes := make(map[string]tftypes.Type, 2)
+
+	var val tftypes.Value
+	var err error
+
+	attrTypes["include"] = basetypes.BoolType{}.TerraformType(ctx)
+	attrTypes["oid"] = basetypes.StringType{}.TerraformType(ctx)
+
+	objectType := tftypes.Object{AttributeTypes: attrTypes}
+
+	switch v.state {
+	case attr.ValueStateKnown:
+		vals := make(map[string]tftypes.Value, 2)
+
+		val, err = v.Include.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["include"] = val
+
+		val, err = v.Oid.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["oid"] = val
+
+		if err := tftypes.ValidateValue(objectType, vals); err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		return tftypes.NewValue(objectType, vals), nil
+	case attr.ValueStateNull:
+		return tftypes.NewValue(objectType, nil), nil
+	case attr.ValueStateUnknown:
+		return tftypes.NewValue(objectType, tftypes.UnknownValue), nil
+	default:
+		panic(fmt.Sprintf("unhandled Object state in ToTerraformValue: %s", v.state))
+	}
+}
+
+func (v Snmpv3ContentsValue) IsNull() bool {
+	return v.state == attr.ValueStateNull
+}
+
+func (v Snmpv3ContentsValue) IsUnknown() bool {
+	return v.state == attr.ValueStateUnknown
+}
+
+func (v Snmpv3ContentsValue) String() string {
+	return "Snmpv3ContentsValue"
+}
+
+func (v Snmpv3ContentsValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	attributeTypes := map[string]attr.Type{
+		"include": basetypes.BoolType{},
+		"oid":     basetypes.StringType{},
+	}
+
+	if v.IsNull() {
+		return types.ObjectNull(attributeTypes), diags
+	}
+
+	if v.IsUnknown() {
+		return types.ObjectUnknown(attributeTypes), diags
+	}
+
+	objVal, diags := types.ObjectValue(
+		attributeTypes,
+		map[string]attr.Value{
+			"include": v.Include,
+			"oid":     v.Oid,
+		})
+
+	return objVal, diags
+}
+
+func (v Snmpv3ContentsValue) Equal(o attr.Value) bool {
+	other, ok := o.(Snmpv3ContentsValue)
+
+	if !ok {
+		return false
+	}
+
+	if v.state != other.state {
+		return false
+	}
+
+	if v.state != attr.ValueStateKnown {
+		return true
+	}
+
+	if !v.Include.Equal(other.Include) {
+		return false
+	}
+
+	if !v.Oid.Equal(other.Oid) {
+		return false
+	}
+
+	return true
+}
+
+func (v Snmpv3ContentsValue) Type(ctx context.Context) attr.Type {
+	return Snmpv3ContentsType{
+		basetypes.ObjectType{
+			AttrTypes: v.AttributeTypes(ctx),
+		},
+	}
+}
+
+func (v Snmpv3ContentsValue) AttributeTypes(ctx context.Context) map[string]attr.Type {
+	return map[string]attr.Type{
+		"include": basetypes.BoolType{},
+		"oid":     basetypes.StringType{},
+	}
+}
 
 var _ basetypes.ObjectTypable = TargetAddressType{}
 
@@ -23415,7 +23807,7 @@ func (t UsmType) ValueFromObject(ctx context.Context, in basetypes.ObjectValue) 
 			fmt.Sprintf(`engineid expected to be basetypes.StringValue, was: %T`, engineidAttribute))
 	}
 
-	usersAttribute, ok := attributes["users"]
+	snmpv3UsersAttribute, ok := attributes["users"]
 
 	if !ok {
 		diags.AddError(
@@ -23425,12 +23817,12 @@ func (t UsmType) ValueFromObject(ctx context.Context, in basetypes.ObjectValue) 
 		return nil, diags
 	}
 
-	usersVal, ok := usersAttribute.(basetypes.ListValue)
+	snmpv3UsersVal, ok := snmpv3UsersAttribute.(basetypes.ListValue)
 
 	if !ok {
 		diags.AddError(
 			"Attribute Wrong Type",
-			fmt.Sprintf(`users expected to be basetypes.ListValue, was: %T`, usersAttribute))
+			fmt.Sprintf(`users expected to be basetypes.ListValue, was: %T`, snmpv3UsersAttribute))
 	}
 
 	if diags.HasError() {
@@ -23438,10 +23830,10 @@ func (t UsmType) ValueFromObject(ctx context.Context, in basetypes.ObjectValue) 
 	}
 
 	return UsmValue{
-		EngineType: engineTypeVal,
-		Engineid:   engineidVal,
-		Users:      usersVal,
-		state:      attr.ValueStateKnown,
+		EngineType:  engineTypeVal,
+		Engineid:    engineidVal,
+		Snmpv3Users: snmpv3UsersVal,
+		state:       attr.ValueStateKnown,
 	}, diags
 }
 
@@ -23544,7 +23936,7 @@ func NewUsmValue(attributeTypes map[string]attr.Type, attributes map[string]attr
 			fmt.Sprintf(`engineid expected to be basetypes.StringValue, was: %T`, engineidAttribute))
 	}
 
-	usersAttribute, ok := attributes["users"]
+	snmpv3UsersAttribute, ok := attributes["users"]
 
 	if !ok {
 		diags.AddError(
@@ -23554,12 +23946,12 @@ func NewUsmValue(attributeTypes map[string]attr.Type, attributes map[string]attr
 		return NewUsmValueUnknown(), diags
 	}
 
-	usersVal, ok := usersAttribute.(basetypes.ListValue)
+	snmpv3UsersVal, ok := snmpv3UsersAttribute.(basetypes.ListValue)
 
 	if !ok {
 		diags.AddError(
 			"Attribute Wrong Type",
-			fmt.Sprintf(`users expected to be basetypes.ListValue, was: %T`, usersAttribute))
+			fmt.Sprintf(`users expected to be basetypes.ListValue, was: %T`, snmpv3UsersAttribute))
 	}
 
 	if diags.HasError() {
@@ -23567,10 +23959,10 @@ func NewUsmValue(attributeTypes map[string]attr.Type, attributes map[string]attr
 	}
 
 	return UsmValue{
-		EngineType: engineTypeVal,
-		Engineid:   engineidVal,
-		Users:      usersVal,
-		state:      attr.ValueStateKnown,
+		EngineType:  engineTypeVal,
+		Engineid:    engineidVal,
+		Snmpv3Users: snmpv3UsersVal,
+		state:       attr.ValueStateKnown,
 	}, diags
 }
 
@@ -23642,10 +24034,10 @@ func (t UsmType) ValueType(ctx context.Context) attr.Value {
 var _ basetypes.ObjectValuable = UsmValue{}
 
 type UsmValue struct {
-	EngineType basetypes.StringValue `tfsdk:"engine_type"`
-	Engineid   basetypes.StringValue `tfsdk:"engineid"`
-	Users      basetypes.ListValue   `tfsdk:"users"`
-	state      attr.ValueState
+	EngineType  basetypes.StringValue `tfsdk:"engine_type"`
+	Engineid    basetypes.StringValue `tfsdk:"engineid"`
+	Snmpv3Users basetypes.ListValue   `tfsdk:"users"`
+	state       attr.ValueState
 }
 
 func (v UsmValue) ToTerraformValue(ctx context.Context) (tftypes.Value, error) {
@@ -23657,7 +24049,7 @@ func (v UsmValue) ToTerraformValue(ctx context.Context) (tftypes.Value, error) {
 	attrTypes["engine_type"] = basetypes.StringType{}.TerraformType(ctx)
 	attrTypes["engineid"] = basetypes.StringType{}.TerraformType(ctx)
 	attrTypes["users"] = basetypes.ListType{
-		ElemType: UsersValue{}.Type(ctx),
+		ElemType: Snmpv3UsersValue{}.Type(ctx),
 	}.TerraformType(ctx)
 
 	objectType := tftypes.Object{AttributeTypes: attrTypes}
@@ -23682,7 +24074,7 @@ func (v UsmValue) ToTerraformValue(ctx context.Context) (tftypes.Value, error) {
 
 		vals["engineid"] = val
 
-		val, err = v.Users.ToTerraformValue(ctx)
+		val, err = v.Snmpv3Users.ToTerraformValue(ctx)
 
 		if err != nil {
 			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
@@ -23719,30 +24111,30 @@ func (v UsmValue) String() string {
 func (v UsmValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, diag.Diagnostics) {
 	var diags diag.Diagnostics
 
-	users := types.ListValueMust(
-		UsersType{
+	snmpv3Users := types.ListValueMust(
+		Snmpv3UsersType{
 			basetypes.ObjectType{
-				AttrTypes: UsersValue{}.AttributeTypes(ctx),
+				AttrTypes: Snmpv3UsersValue{}.AttributeTypes(ctx),
 			},
 		},
-		v.Users.Elements(),
+		v.Snmpv3Users.Elements(),
 	)
 
-	if v.Users.IsNull() {
-		users = types.ListNull(
-			UsersType{
+	if v.Snmpv3Users.IsNull() {
+		snmpv3Users = types.ListNull(
+			Snmpv3UsersType{
 				basetypes.ObjectType{
-					AttrTypes: UsersValue{}.AttributeTypes(ctx),
+					AttrTypes: Snmpv3UsersValue{}.AttributeTypes(ctx),
 				},
 			},
 		)
 	}
 
-	if v.Users.IsUnknown() {
-		users = types.ListUnknown(
-			UsersType{
+	if v.Snmpv3Users.IsUnknown() {
+		snmpv3Users = types.ListUnknown(
+			Snmpv3UsersType{
 				basetypes.ObjectType{
-					AttrTypes: UsersValue{}.AttributeTypes(ctx),
+					AttrTypes: Snmpv3UsersValue{}.AttributeTypes(ctx),
 				},
 			},
 		)
@@ -23752,7 +24144,7 @@ func (v UsmValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, dia
 		"engine_type": basetypes.StringType{},
 		"engineid":    basetypes.StringType{},
 		"users": basetypes.ListType{
-			ElemType: UsersValue{}.Type(ctx),
+			ElemType: Snmpv3UsersValue{}.Type(ctx),
 		},
 	}
 
@@ -23767,9 +24159,9 @@ func (v UsmValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, dia
 	objVal, diags := types.ObjectValue(
 		attributeTypes,
 		map[string]attr.Value{
-			"engine_type": v.EngineType,
-			"engineid":    v.Engineid,
-			"users":       users,
+			"engine_type":  v.EngineType,
+			"engineid":     v.Engineid,
+			"users": snmpv3Users,
 		})
 
 	return objVal, diags
@@ -23798,7 +24190,7 @@ func (v UsmValue) Equal(o attr.Value) bool {
 		return false
 	}
 
-	if !v.Users.Equal(other.Users) {
+	if !v.Snmpv3Users.Equal(other.Snmpv3Users) {
 		return false
 	}
 
@@ -23818,31 +24210,554 @@ func (v UsmValue) AttributeTypes(ctx context.Context) map[string]attr.Type {
 		"engine_type": basetypes.StringType{},
 		"engineid":    basetypes.StringType{},
 		"users": basetypes.ListType{
-			ElemType: UsersValue{}.Type(ctx),
+			ElemType: Snmpv3UsersValue{}.Type(ctx),
 		},
 	}
 }
 
+var _ basetypes.ObjectTypable = Snmpv3UsersType{}
 
+type Snmpv3UsersType struct {
+	basetypes.ObjectType
+}
 
+func (t Snmpv3UsersType) Equal(o attr.Type) bool {
+	other, ok := o.(Snmpv3UsersType)
 
+	if !ok {
+		return false
+	}
 
+	return t.ObjectType.Equal(other.ObjectType)
+}
 
+func (t Snmpv3UsersType) String() string {
+	return "Snmpv3UsersType"
+}
 
+func (t Snmpv3UsersType) ValueFromObject(ctx context.Context, in basetypes.ObjectValue) (basetypes.ObjectValuable, diag.Diagnostics) {
+	var diags diag.Diagnostics
 
+	attributes := in.Attributes()
 
+	authenticationPasswordAttribute, ok := attributes["authentication_password"]
 
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`authentication_password is missing from object`)
 
+		return nil, diags
+	}
 
+	authenticationPasswordVal, ok := authenticationPasswordAttribute.(basetypes.StringValue)
 
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`authentication_password expected to be basetypes.StringValue, was: %T`, authenticationPasswordAttribute))
+	}
 
+	authenticationTypeAttribute, ok := attributes["authentication_type"]
 
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`authentication_type is missing from object`)
 
+		return nil, diags
+	}
 
+	authenticationTypeVal, ok := authenticationTypeAttribute.(basetypes.StringValue)
 
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`authentication_type expected to be basetypes.StringValue, was: %T`, authenticationTypeAttribute))
+	}
 
+	encryptionPasswordAttribute, ok := attributes["encryption_password"]
 
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`encryption_password is missing from object`)
 
+		return nil, diags
+	}
+
+	encryptionPasswordVal, ok := encryptionPasswordAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`encryption_password expected to be basetypes.StringValue, was: %T`, encryptionPasswordAttribute))
+	}
+
+	encryptionTypeAttribute, ok := attributes["encryption_type"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`encryption_type is missing from object`)
+
+		return nil, diags
+	}
+
+	encryptionTypeVal, ok := encryptionTypeAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`encryption_type expected to be basetypes.StringValue, was: %T`, encryptionTypeAttribute))
+	}
+
+	nameAttribute, ok := attributes["name"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`name is missing from object`)
+
+		return nil, diags
+	}
+
+	nameVal, ok := nameAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`name expected to be basetypes.StringValue, was: %T`, nameAttribute))
+	}
+
+	if diags.HasError() {
+		return nil, diags
+	}
+
+	return Snmpv3UsersValue{
+		AuthenticationPassword: authenticationPasswordVal,
+		AuthenticationType:     authenticationTypeVal,
+		EncryptionPassword:     encryptionPasswordVal,
+		EncryptionType:         encryptionTypeVal,
+		Name:                   nameVal,
+		state:                  attr.ValueStateKnown,
+	}, diags
+}
+
+func NewSnmpv3UsersValueNull() Snmpv3UsersValue {
+	return Snmpv3UsersValue{
+		state: attr.ValueStateNull,
+	}
+}
+
+func NewSnmpv3UsersValueUnknown() Snmpv3UsersValue {
+	return Snmpv3UsersValue{
+		state: attr.ValueStateUnknown,
+	}
+}
+
+func NewSnmpv3UsersValue(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) (Snmpv3UsersValue, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	// Reference: https://github.com/hashicorp/terraform-plugin-framework/issues/521
+	ctx := context.Background()
+
+	for name, attributeType := range attributeTypes {
+		attribute, ok := attributes[name]
+
+		if !ok {
+			diags.AddError(
+				"Missing Snmpv3UsersValue Attribute Value",
+				"While creating a Snmpv3UsersValue value, a missing attribute value was detected. "+
+					"A Snmpv3UsersValue must contain values for all attributes, even if null or unknown. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("Snmpv3UsersValue Attribute Name (%s) Expected Type: %s", name, attributeType.String()),
+			)
+
+			continue
+		}
+
+		if !attributeType.Equal(attribute.Type(ctx)) {
+			diags.AddError(
+				"Invalid Snmpv3UsersValue Attribute Type",
+				"While creating a Snmpv3UsersValue value, an invalid attribute value was detected. "+
+					"A Snmpv3UsersValue must use a matching attribute type for the value. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("Snmpv3UsersValue Attribute Name (%s) Expected Type: %s\n", name, attributeType.String())+
+					fmt.Sprintf("Snmpv3UsersValue Attribute Name (%s) Given Type: %s", name, attribute.Type(ctx)),
+			)
+		}
+	}
+
+	for name := range attributes {
+		_, ok := attributeTypes[name]
+
+		if !ok {
+			diags.AddError(
+				"Extra Snmpv3UsersValue Attribute Value",
+				"While creating a Snmpv3UsersValue value, an extra attribute value was detected. "+
+					"A Snmpv3UsersValue must not contain values beyond the expected attribute types. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("Extra Snmpv3UsersValue Attribute Name: %s", name),
+			)
+		}
+	}
+
+	if diags.HasError() {
+		return NewSnmpv3UsersValueUnknown(), diags
+	}
+
+	authenticationPasswordAttribute, ok := attributes["authentication_password"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`authentication_password is missing from object`)
+
+		return NewSnmpv3UsersValueUnknown(), diags
+	}
+
+	authenticationPasswordVal, ok := authenticationPasswordAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`authentication_password expected to be basetypes.StringValue, was: %T`, authenticationPasswordAttribute))
+	}
+
+	authenticationTypeAttribute, ok := attributes["authentication_type"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`authentication_type is missing from object`)
+
+		return NewSnmpv3UsersValueUnknown(), diags
+	}
+
+	authenticationTypeVal, ok := authenticationTypeAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`authentication_type expected to be basetypes.StringValue, was: %T`, authenticationTypeAttribute))
+	}
+
+	encryptionPasswordAttribute, ok := attributes["encryption_password"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`encryption_password is missing from object`)
+
+		return NewSnmpv3UsersValueUnknown(), diags
+	}
+
+	encryptionPasswordVal, ok := encryptionPasswordAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`encryption_password expected to be basetypes.StringValue, was: %T`, encryptionPasswordAttribute))
+	}
+
+	encryptionTypeAttribute, ok := attributes["encryption_type"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`encryption_type is missing from object`)
+
+		return NewSnmpv3UsersValueUnknown(), diags
+	}
+
+	encryptionTypeVal, ok := encryptionTypeAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`encryption_type expected to be basetypes.StringValue, was: %T`, encryptionTypeAttribute))
+	}
+
+	nameAttribute, ok := attributes["name"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`name is missing from object`)
+
+		return NewSnmpv3UsersValueUnknown(), diags
+	}
+
+	nameVal, ok := nameAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`name expected to be basetypes.StringValue, was: %T`, nameAttribute))
+	}
+
+	if diags.HasError() {
+		return NewSnmpv3UsersValueUnknown(), diags
+	}
+
+	return Snmpv3UsersValue{
+		AuthenticationPassword: authenticationPasswordVal,
+		AuthenticationType:     authenticationTypeVal,
+		EncryptionPassword:     encryptionPasswordVal,
+		EncryptionType:         encryptionTypeVal,
+		Name:                   nameVal,
+		state:                  attr.ValueStateKnown,
+	}, diags
+}
+
+func NewSnmpv3UsersValueMust(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) Snmpv3UsersValue {
+	object, diags := NewSnmpv3UsersValue(attributeTypes, attributes)
+
+	if diags.HasError() {
+		// This could potentially be added to the diag package.
+		diagsStrings := make([]string, 0, len(diags))
+
+		for _, diagnostic := range diags {
+			diagsStrings = append(diagsStrings, fmt.Sprintf(
+				"%s | %s | %s",
+				diagnostic.Severity(),
+				diagnostic.Summary(),
+				diagnostic.Detail()))
+		}
+
+		panic("NewSnmpv3UsersValueMust received error(s): " + strings.Join(diagsStrings, "\n"))
+	}
+
+	return object
+}
+
+func (t Snmpv3UsersType) ValueFromTerraform(ctx context.Context, in tftypes.Value) (attr.Value, error) {
+	if in.Type() == nil {
+		return NewSnmpv3UsersValueNull(), nil
+	}
+
+	if !in.Type().Equal(t.TerraformType(ctx)) {
+		return nil, fmt.Errorf("expected %s, got %s", t.TerraformType(ctx), in.Type())
+	}
+
+	if !in.IsKnown() {
+		return NewSnmpv3UsersValueUnknown(), nil
+	}
+
+	if in.IsNull() {
+		return NewSnmpv3UsersValueNull(), nil
+	}
+
+	attributes := map[string]attr.Value{}
+
+	val := map[string]tftypes.Value{}
+
+	err := in.As(&val)
+
+	if err != nil {
+		return nil, err
+	}
+
+	for k, v := range val {
+		a, err := t.AttrTypes[k].ValueFromTerraform(ctx, v)
+
+		if err != nil {
+			return nil, err
+		}
+
+		attributes[k] = a
+	}
+
+	return NewSnmpv3UsersValueMust(Snmpv3UsersValue{}.AttributeTypes(ctx), attributes), nil
+}
+
+func (t Snmpv3UsersType) ValueType(ctx context.Context) attr.Value {
+	return Snmpv3UsersValue{}
+}
+
+var _ basetypes.ObjectValuable = Snmpv3UsersValue{}
+
+type Snmpv3UsersValue struct {
+	AuthenticationPassword basetypes.StringValue `tfsdk:"authentication_password"`
+	AuthenticationType     basetypes.StringValue `tfsdk:"authentication_type"`
+	EncryptionPassword     basetypes.StringValue `tfsdk:"encryption_password"`
+	EncryptionType         basetypes.StringValue `tfsdk:"encryption_type"`
+	Name                   basetypes.StringValue `tfsdk:"name"`
+	state                  attr.ValueState
+}
+
+func (v Snmpv3UsersValue) ToTerraformValue(ctx context.Context) (tftypes.Value, error) {
+	attrTypes := make(map[string]tftypes.Type, 5)
+
+	var val tftypes.Value
+	var err error
+
+	attrTypes["authentication_password"] = basetypes.StringType{}.TerraformType(ctx)
+	attrTypes["authentication_type"] = basetypes.StringType{}.TerraformType(ctx)
+	attrTypes["encryption_password"] = basetypes.StringType{}.TerraformType(ctx)
+	attrTypes["encryption_type"] = basetypes.StringType{}.TerraformType(ctx)
+	attrTypes["name"] = basetypes.StringType{}.TerraformType(ctx)
+
+	objectType := tftypes.Object{AttributeTypes: attrTypes}
+
+	switch v.state {
+	case attr.ValueStateKnown:
+		vals := make(map[string]tftypes.Value, 5)
+
+		val, err = v.AuthenticationPassword.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["authentication_password"] = val
+
+		val, err = v.AuthenticationType.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["authentication_type"] = val
+
+		val, err = v.EncryptionPassword.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["encryption_password"] = val
+
+		val, err = v.EncryptionType.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["encryption_type"] = val
+
+		val, err = v.Name.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["name"] = val
+
+		if err := tftypes.ValidateValue(objectType, vals); err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		return tftypes.NewValue(objectType, vals), nil
+	case attr.ValueStateNull:
+		return tftypes.NewValue(objectType, nil), nil
+	case attr.ValueStateUnknown:
+		return tftypes.NewValue(objectType, tftypes.UnknownValue), nil
+	default:
+		panic(fmt.Sprintf("unhandled Object state in ToTerraformValue: %s", v.state))
+	}
+}
+
+func (v Snmpv3UsersValue) IsNull() bool {
+	return v.state == attr.ValueStateNull
+}
+
+func (v Snmpv3UsersValue) IsUnknown() bool {
+	return v.state == attr.ValueStateUnknown
+}
+
+func (v Snmpv3UsersValue) String() string {
+	return "Snmpv3UsersValue"
+}
+
+func (v Snmpv3UsersValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	attributeTypes := map[string]attr.Type{
+		"authentication_password": basetypes.StringType{},
+		"authentication_type":     basetypes.StringType{},
+		"encryption_password":     basetypes.StringType{},
+		"encryption_type":         basetypes.StringType{},
+		"name":                    basetypes.StringType{},
+	}
+
+	if v.IsNull() {
+		return types.ObjectNull(attributeTypes), diags
+	}
+
+	if v.IsUnknown() {
+		return types.ObjectUnknown(attributeTypes), diags
+	}
+
+	objVal, diags := types.ObjectValue(
+		attributeTypes,
+		map[string]attr.Value{
+			"authentication_password": v.AuthenticationPassword,
+			"authentication_type":     v.AuthenticationType,
+			"encryption_password":     v.EncryptionPassword,
+			"encryption_type":         v.EncryptionType,
+			"name":                    v.Name,
+		})
+
+	return objVal, diags
+}
+
+func (v Snmpv3UsersValue) Equal(o attr.Value) bool {
+	other, ok := o.(Snmpv3UsersValue)
+
+	if !ok {
+		return false
+	}
+
+	if v.state != other.state {
+		return false
+	}
+
+	if v.state != attr.ValueStateKnown {
+		return true
+	}
+
+	if !v.AuthenticationPassword.Equal(other.AuthenticationPassword) {
+		return false
+	}
+
+	if !v.AuthenticationType.Equal(other.AuthenticationType) {
+		return false
+	}
+
+	if !v.EncryptionPassword.Equal(other.EncryptionPassword) {
+		return false
+	}
+
+	if !v.EncryptionType.Equal(other.EncryptionType) {
+		return false
+	}
+
+	if !v.Name.Equal(other.Name) {
+		return false
+	}
+
+	return true
+}
+
+func (v Snmpv3UsersValue) Type(ctx context.Context) attr.Type {
+	return Snmpv3UsersType{
+		basetypes.ObjectType{
+			AttrTypes: v.AttributeTypes(ctx),
+		},
+	}
+}
+
+func (v Snmpv3UsersValue) AttributeTypes(ctx context.Context) map[string]attr.Type {
+	return map[string]attr.Type{
+		"authentication_password": basetypes.StringType{},
+		"authentication_type":     basetypes.StringType{},
+		"encryption_password":     basetypes.StringType{},
+		"encryption_type":         basetypes.StringType{},
+		"name":                    basetypes.StringType{},
+	}
+}
 
 var _ basetypes.ObjectTypable = VacmType{}
 
@@ -25378,24 +26293,6 @@ func (t SecurityToGroupType) ValueFromObject(ctx context.Context, in basetypes.O
 
 	attributes := in.Attributes()
 
-	contentAttribute, ok := attributes["content"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`content is missing from object`)
-
-		return nil, diags
-	}
-
-	contentVal, ok := contentAttribute.(basetypes.ListValue)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`content expected to be basetypes.ListValue, was: %T`, contentAttribute))
-	}
-
 	securityModelAttribute, ok := attributes["security_model"]
 
 	if !ok {
@@ -25414,14 +26311,32 @@ func (t SecurityToGroupType) ValueFromObject(ctx context.Context, in basetypes.O
 			fmt.Sprintf(`security_model expected to be basetypes.StringValue, was: %T`, securityModelAttribute))
 	}
 
+	snmpv3VacmContentAttribute, ok := attributes["content"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`content is missing from object`)
+
+		return nil, diags
+	}
+
+	snmpv3VacmContentVal, ok := snmpv3VacmContentAttribute.(basetypes.ListValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`content expected to be basetypes.ListValue, was: %T`, snmpv3VacmContentAttribute))
+	}
+
 	if diags.HasError() {
 		return nil, diags
 	}
 
 	return SecurityToGroupValue{
-		Content:       contentVal,
-		SecurityModel: securityModelVal,
-		state:         attr.ValueStateKnown,
+		SecurityModel:     securityModelVal,
+		Snmpv3VacmContent: snmpv3VacmContentVal,
+		state:             attr.ValueStateKnown,
 	}, diags
 }
 
@@ -25488,24 +26403,6 @@ func NewSecurityToGroupValue(attributeTypes map[string]attr.Type, attributes map
 		return NewSecurityToGroupValueUnknown(), diags
 	}
 
-	contentAttribute, ok := attributes["content"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`content is missing from object`)
-
-		return NewSecurityToGroupValueUnknown(), diags
-	}
-
-	contentVal, ok := contentAttribute.(basetypes.ListValue)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`content expected to be basetypes.ListValue, was: %T`, contentAttribute))
-	}
-
 	securityModelAttribute, ok := attributes["security_model"]
 
 	if !ok {
@@ -25524,14 +26421,32 @@ func NewSecurityToGroupValue(attributeTypes map[string]attr.Type, attributes map
 			fmt.Sprintf(`security_model expected to be basetypes.StringValue, was: %T`, securityModelAttribute))
 	}
 
+	snmpv3VacmContentAttribute, ok := attributes["content"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`content is missing from object`)
+
+		return NewSecurityToGroupValueUnknown(), diags
+	}
+
+	snmpv3VacmContentVal, ok := snmpv3VacmContentAttribute.(basetypes.ListValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`content expected to be basetypes.ListValue, was: %T`, snmpv3VacmContentAttribute))
+	}
+
 	if diags.HasError() {
 		return NewSecurityToGroupValueUnknown(), diags
 	}
 
 	return SecurityToGroupValue{
-		Content:       contentVal,
-		SecurityModel: securityModelVal,
-		state:         attr.ValueStateKnown,
+		SecurityModel:     securityModelVal,
+		Snmpv3VacmContent: snmpv3VacmContentVal,
+		state:             attr.ValueStateKnown,
 	}, diags
 }
 
@@ -25603,9 +26518,9 @@ func (t SecurityToGroupType) ValueType(ctx context.Context) attr.Value {
 var _ basetypes.ObjectValuable = SecurityToGroupValue{}
 
 type SecurityToGroupValue struct {
-	Content       basetypes.ListValue   `tfsdk:"content"`
-	SecurityModel basetypes.StringValue `tfsdk:"security_model"`
-	state         attr.ValueState
+	SecurityModel     basetypes.StringValue `tfsdk:"security_model"`
+	Snmpv3VacmContent basetypes.ListValue   `tfsdk:"content"`
+	state             attr.ValueState
 }
 
 func (v SecurityToGroupValue) ToTerraformValue(ctx context.Context) (tftypes.Value, error) {
@@ -25614,24 +26529,16 @@ func (v SecurityToGroupValue) ToTerraformValue(ctx context.Context) (tftypes.Val
 	var val tftypes.Value
 	var err error
 
-	attrTypes["content"] = basetypes.ListType{
-		ElemType: ContentValue{}.Type(ctx),
-	}.TerraformType(ctx)
 	attrTypes["security_model"] = basetypes.StringType{}.TerraformType(ctx)
+	attrTypes["content"] = basetypes.ListType{
+		ElemType: Snmpv3VacmContentValue{}.Type(ctx),
+	}.TerraformType(ctx)
 
 	objectType := tftypes.Object{AttributeTypes: attrTypes}
 
 	switch v.state {
 	case attr.ValueStateKnown:
 		vals := make(map[string]tftypes.Value, 2)
-
-		val, err = v.Content.ToTerraformValue(ctx)
-
-		if err != nil {
-			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
-		}
-
-		vals["content"] = val
 
 		val, err = v.SecurityModel.ToTerraformValue(ctx)
 
@@ -25640,6 +26547,14 @@ func (v SecurityToGroupValue) ToTerraformValue(ctx context.Context) (tftypes.Val
 		}
 
 		vals["security_model"] = val
+
+		val, err = v.Snmpv3VacmContent.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["content"] = val
 
 		if err := tftypes.ValidateValue(objectType, vals); err != nil {
 			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
@@ -25670,40 +26585,40 @@ func (v SecurityToGroupValue) String() string {
 func (v SecurityToGroupValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, diag.Diagnostics) {
 	var diags diag.Diagnostics
 
-	content := types.ListValueMust(
-		ContentType{
+	snmpv3VacmContent := types.ListValueMust(
+		Snmpv3VacmContentType{
 			basetypes.ObjectType{
-				AttrTypes: ContentValue{}.AttributeTypes(ctx),
+				AttrTypes: Snmpv3VacmContentValue{}.AttributeTypes(ctx),
 			},
 		},
-		v.Content.Elements(),
+		v.Snmpv3VacmContent.Elements(),
 	)
 
-	if v.Content.IsNull() {
-		content = types.ListNull(
-			ContentType{
+	if v.Snmpv3VacmContent.IsNull() {
+		snmpv3VacmContent = types.ListNull(
+			Snmpv3VacmContentType{
 				basetypes.ObjectType{
-					AttrTypes: ContentValue{}.AttributeTypes(ctx),
+					AttrTypes: Snmpv3VacmContentValue{}.AttributeTypes(ctx),
 				},
 			},
 		)
 	}
 
-	if v.Content.IsUnknown() {
-		content = types.ListUnknown(
-			ContentType{
+	if v.Snmpv3VacmContent.IsUnknown() {
+		snmpv3VacmContent = types.ListUnknown(
+			Snmpv3VacmContentType{
 				basetypes.ObjectType{
-					AttrTypes: ContentValue{}.AttributeTypes(ctx),
+					AttrTypes: Snmpv3VacmContentValue{}.AttributeTypes(ctx),
 				},
 			},
 		)
 	}
 
 	attributeTypes := map[string]attr.Type{
-		"content": basetypes.ListType{
-			ElemType: ContentValue{}.Type(ctx),
-		},
 		"security_model": basetypes.StringType{},
+		"content": basetypes.ListType{
+			ElemType: Snmpv3VacmContentValue{}.Type(ctx),
+		},
 	}
 
 	if v.IsNull() {
@@ -25717,8 +26632,8 @@ func (v SecurityToGroupValue) ToObjectValue(ctx context.Context) (basetypes.Obje
 	objVal, diags := types.ObjectValue(
 		attributeTypes,
 		map[string]attr.Value{
-			"content":        content,
-			"security_model": v.SecurityModel,
+			"security_model":      v.SecurityModel,
+			"content": snmpv3VacmContent,
 		})
 
 	return objVal, diags
@@ -25739,11 +26654,11 @@ func (v SecurityToGroupValue) Equal(o attr.Value) bool {
 		return true
 	}
 
-	if !v.Content.Equal(other.Content) {
+	if !v.SecurityModel.Equal(other.SecurityModel) {
 		return false
 	}
 
-	if !v.SecurityModel.Equal(other.SecurityModel) {
+	if !v.Snmpv3VacmContent.Equal(other.Snmpv3VacmContent) {
 		return false
 	}
 
@@ -25760,21 +26675,21 @@ func (v SecurityToGroupValue) Type(ctx context.Context) attr.Type {
 
 func (v SecurityToGroupValue) AttributeTypes(ctx context.Context) map[string]attr.Type {
 	return map[string]attr.Type{
-		"content": basetypes.ListType{
-			ElemType: ContentValue{}.Type(ctx),
-		},
 		"security_model": basetypes.StringType{},
+		"content": basetypes.ListType{
+			ElemType: Snmpv3VacmContentValue{}.Type(ctx),
+		},
 	}
 }
 
-var _ basetypes.ObjectTypable = ContentType{}
+var _ basetypes.ObjectTypable = Snmpv3VacmContentType{}
 
-type ContentType struct {
+type Snmpv3VacmContentType struct {
 	basetypes.ObjectType
 }
 
-func (t ContentType) Equal(o attr.Type) bool {
-	other, ok := o.(ContentType)
+func (t Snmpv3VacmContentType) Equal(o attr.Type) bool {
+	other, ok := o.(Snmpv3VacmContentType)
 
 	if !ok {
 		return false
@@ -25783,11 +26698,11 @@ func (t ContentType) Equal(o attr.Type) bool {
 	return t.ObjectType.Equal(other.ObjectType)
 }
 
-func (t ContentType) String() string {
-	return "ContentType"
+func (t Snmpv3VacmContentType) String() string {
+	return "Snmpv3VacmContentType"
 }
 
-func (t ContentType) ValueFromObject(ctx context.Context, in basetypes.ObjectValue) (basetypes.ObjectValuable, diag.Diagnostics) {
+func (t Snmpv3VacmContentType) ValueFromObject(ctx context.Context, in basetypes.ObjectValue) (basetypes.ObjectValuable, diag.Diagnostics) {
 	var diags diag.Diagnostics
 
 	attributes := in.Attributes()
@@ -25832,26 +26747,26 @@ func (t ContentType) ValueFromObject(ctx context.Context, in basetypes.ObjectVal
 		return nil, diags
 	}
 
-	return ContentValue{
+	return Snmpv3VacmContentValue{
 		Group:        groupVal,
 		SecurityName: securityNameVal,
 		state:        attr.ValueStateKnown,
 	}, diags
 }
 
-func NewContentValueNull() ContentValue {
-	return ContentValue{
+func NewSnmpv3VacmContentValueNull() Snmpv3VacmContentValue {
+	return Snmpv3VacmContentValue{
 		state: attr.ValueStateNull,
 	}
 }
 
-func NewContentValueUnknown() ContentValue {
-	return ContentValue{
+func NewSnmpv3VacmContentValueUnknown() Snmpv3VacmContentValue {
+	return Snmpv3VacmContentValue{
 		state: attr.ValueStateUnknown,
 	}
 }
 
-func NewContentValue(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) (ContentValue, diag.Diagnostics) {
+func NewSnmpv3VacmContentValue(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) (Snmpv3VacmContentValue, diag.Diagnostics) {
 	var diags diag.Diagnostics
 
 	// Reference: https://github.com/hashicorp/terraform-plugin-framework/issues/521
@@ -25862,11 +26777,11 @@ func NewContentValue(attributeTypes map[string]attr.Type, attributes map[string]
 
 		if !ok {
 			diags.AddError(
-				"Missing ContentValue Attribute Value",
-				"While creating a ContentValue value, a missing attribute value was detected. "+
-					"A ContentValue must contain values for all attributes, even if null or unknown. "+
+				"Missing Snmpv3VacmContentValue Attribute Value",
+				"While creating a Snmpv3VacmContentValue value, a missing attribute value was detected. "+
+					"A Snmpv3VacmContentValue must contain values for all attributes, even if null or unknown. "+
 					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
-					fmt.Sprintf("ContentValue Attribute Name (%s) Expected Type: %s", name, attributeType.String()),
+					fmt.Sprintf("Snmpv3VacmContentValue Attribute Name (%s) Expected Type: %s", name, attributeType.String()),
 			)
 
 			continue
@@ -25874,12 +26789,12 @@ func NewContentValue(attributeTypes map[string]attr.Type, attributes map[string]
 
 		if !attributeType.Equal(attribute.Type(ctx)) {
 			diags.AddError(
-				"Invalid ContentValue Attribute Type",
-				"While creating a ContentValue value, an invalid attribute value was detected. "+
-					"A ContentValue must use a matching attribute type for the value. "+
+				"Invalid Snmpv3VacmContentValue Attribute Type",
+				"While creating a Snmpv3VacmContentValue value, an invalid attribute value was detected. "+
+					"A Snmpv3VacmContentValue must use a matching attribute type for the value. "+
 					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
-					fmt.Sprintf("ContentValue Attribute Name (%s) Expected Type: %s\n", name, attributeType.String())+
-					fmt.Sprintf("ContentValue Attribute Name (%s) Given Type: %s", name, attribute.Type(ctx)),
+					fmt.Sprintf("Snmpv3VacmContentValue Attribute Name (%s) Expected Type: %s\n", name, attributeType.String())+
+					fmt.Sprintf("Snmpv3VacmContentValue Attribute Name (%s) Given Type: %s", name, attribute.Type(ctx)),
 			)
 		}
 	}
@@ -25889,17 +26804,17 @@ func NewContentValue(attributeTypes map[string]attr.Type, attributes map[string]
 
 		if !ok {
 			diags.AddError(
-				"Extra ContentValue Attribute Value",
-				"While creating a ContentValue value, an extra attribute value was detected. "+
-					"A ContentValue must not contain values beyond the expected attribute types. "+
+				"Extra Snmpv3VacmContentValue Attribute Value",
+				"While creating a Snmpv3VacmContentValue value, an extra attribute value was detected. "+
+					"A Snmpv3VacmContentValue must not contain values beyond the expected attribute types. "+
 					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
-					fmt.Sprintf("Extra ContentValue Attribute Name: %s", name),
+					fmt.Sprintf("Extra Snmpv3VacmContentValue Attribute Name: %s", name),
 			)
 		}
 	}
 
 	if diags.HasError() {
-		return NewContentValueUnknown(), diags
+		return NewSnmpv3VacmContentValueUnknown(), diags
 	}
 
 	groupAttribute, ok := attributes["group"]
@@ -25909,7 +26824,7 @@ func NewContentValue(attributeTypes map[string]attr.Type, attributes map[string]
 			"Attribute Missing",
 			`group is missing from object`)
 
-		return NewContentValueUnknown(), diags
+		return NewSnmpv3VacmContentValueUnknown(), diags
 	}
 
 	groupVal, ok := groupAttribute.(basetypes.StringValue)
@@ -25927,7 +26842,7 @@ func NewContentValue(attributeTypes map[string]attr.Type, attributes map[string]
 			"Attribute Missing",
 			`security_name is missing from object`)
 
-		return NewContentValueUnknown(), diags
+		return NewSnmpv3VacmContentValueUnknown(), diags
 	}
 
 	securityNameVal, ok := securityNameAttribute.(basetypes.StringValue)
@@ -25939,18 +26854,18 @@ func NewContentValue(attributeTypes map[string]attr.Type, attributes map[string]
 	}
 
 	if diags.HasError() {
-		return NewContentValueUnknown(), diags
+		return NewSnmpv3VacmContentValueUnknown(), diags
 	}
 
-	return ContentValue{
+	return Snmpv3VacmContentValue{
 		Group:        groupVal,
 		SecurityName: securityNameVal,
 		state:        attr.ValueStateKnown,
 	}, diags
 }
 
-func NewContentValueMust(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) ContentValue {
-	object, diags := NewContentValue(attributeTypes, attributes)
+func NewSnmpv3VacmContentValueMust(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) Snmpv3VacmContentValue {
+	object, diags := NewSnmpv3VacmContentValue(attributeTypes, attributes)
 
 	if diags.HasError() {
 		// This could potentially be added to the diag package.
@@ -25964,15 +26879,15 @@ func NewContentValueMust(attributeTypes map[string]attr.Type, attributes map[str
 				diagnostic.Detail()))
 		}
 
-		panic("NewContentValueMust received error(s): " + strings.Join(diagsStrings, "\n"))
+		panic("NewSnmpv3VacmContentValueMust received error(s): " + strings.Join(diagsStrings, "\n"))
 	}
 
 	return object
 }
 
-func (t ContentType) ValueFromTerraform(ctx context.Context, in tftypes.Value) (attr.Value, error) {
+func (t Snmpv3VacmContentType) ValueFromTerraform(ctx context.Context, in tftypes.Value) (attr.Value, error) {
 	if in.Type() == nil {
-		return NewContentValueNull(), nil
+		return NewSnmpv3VacmContentValueNull(), nil
 	}
 
 	if !in.Type().Equal(t.TerraformType(ctx)) {
@@ -25980,11 +26895,11 @@ func (t ContentType) ValueFromTerraform(ctx context.Context, in tftypes.Value) (
 	}
 
 	if !in.IsKnown() {
-		return NewContentValueUnknown(), nil
+		return NewSnmpv3VacmContentValueUnknown(), nil
 	}
 
 	if in.IsNull() {
-		return NewContentValueNull(), nil
+		return NewSnmpv3VacmContentValueNull(), nil
 	}
 
 	attributes := map[string]attr.Value{}
@@ -26007,22 +26922,22 @@ func (t ContentType) ValueFromTerraform(ctx context.Context, in tftypes.Value) (
 		attributes[k] = a
 	}
 
-	return NewContentValueMust(ContentValue{}.AttributeTypes(ctx), attributes), nil
+	return NewSnmpv3VacmContentValueMust(Snmpv3VacmContentValue{}.AttributeTypes(ctx), attributes), nil
 }
 
-func (t ContentType) ValueType(ctx context.Context) attr.Value {
-	return ContentValue{}
+func (t Snmpv3VacmContentType) ValueType(ctx context.Context) attr.Value {
+	return Snmpv3VacmContentValue{}
 }
 
-var _ basetypes.ObjectValuable = ContentValue{}
+var _ basetypes.ObjectValuable = Snmpv3VacmContentValue{}
 
-type ContentValue struct {
+type Snmpv3VacmContentValue struct {
 	Group        basetypes.StringValue `tfsdk:"group"`
 	SecurityName basetypes.StringValue `tfsdk:"security_name"`
 	state        attr.ValueState
 }
 
-func (v ContentValue) ToTerraformValue(ctx context.Context) (tftypes.Value, error) {
+func (v Snmpv3VacmContentValue) ToTerraformValue(ctx context.Context) (tftypes.Value, error) {
 	attrTypes := make(map[string]tftypes.Type, 2)
 
 	var val tftypes.Value
@@ -26067,19 +26982,19 @@ func (v ContentValue) ToTerraformValue(ctx context.Context) (tftypes.Value, erro
 	}
 }
 
-func (v ContentValue) IsNull() bool {
+func (v Snmpv3VacmContentValue) IsNull() bool {
 	return v.state == attr.ValueStateNull
 }
 
-func (v ContentValue) IsUnknown() bool {
+func (v Snmpv3VacmContentValue) IsUnknown() bool {
 	return v.state == attr.ValueStateUnknown
 }
 
-func (v ContentValue) String() string {
-	return "ContentValue"
+func (v Snmpv3VacmContentValue) String() string {
+	return "Snmpv3VacmContentValue"
 }
 
-func (v ContentValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, diag.Diagnostics) {
+func (v Snmpv3VacmContentValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, diag.Diagnostics) {
 	var diags diag.Diagnostics
 
 	attributeTypes := map[string]attr.Type{
@@ -26105,8 +27020,8 @@ func (v ContentValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue,
 	return objVal, diags
 }
 
-func (v ContentValue) Equal(o attr.Value) bool {
-	other, ok := o.(ContentValue)
+func (v Snmpv3VacmContentValue) Equal(o attr.Value) bool {
+	other, ok := o.(Snmpv3VacmContentValue)
 
 	if !ok {
 		return false
@@ -26131,15 +27046,15 @@ func (v ContentValue) Equal(o attr.Value) bool {
 	return true
 }
 
-func (v ContentValue) Type(ctx context.Context) attr.Type {
-	return ContentType{
+func (v Snmpv3VacmContentValue) Type(ctx context.Context) attr.Type {
+	return Snmpv3VacmContentType{
 		basetypes.ObjectType{
 			AttrTypes: v.AttributeTypes(ctx),
 		},
 	}
 }
 
-func (v ContentValue) AttributeTypes(ctx context.Context) map[string]attr.Type {
+func (v Snmpv3VacmContentValue) AttributeTypes(ctx context.Context) map[string]attr.Type {
 	return map[string]attr.Type{
 		"group":         basetypes.StringType{},
 		"security_name": basetypes.StringType{},
@@ -32974,24 +33889,6 @@ func (t VrfInstancesType) ValueFromObject(ctx context.Context, in basetypes.Obje
 
 	attributes := in.Attributes()
 
-	extraRoutesAttribute, ok := attributes["extra_routes"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`extra_routes is missing from object`)
-
-		return nil, diags
-	}
-
-	extraRoutesVal, ok := extraRoutesAttribute.(basetypes.MapValue)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`extra_routes expected to be basetypes.MapValue, was: %T`, extraRoutesAttribute))
-	}
-
 	networksAttribute, ok := attributes["networks"]
 
 	if !ok {
@@ -33010,14 +33907,32 @@ func (t VrfInstancesType) ValueFromObject(ctx context.Context, in basetypes.Obje
 			fmt.Sprintf(`networks expected to be basetypes.ListValue, was: %T`, networksAttribute))
 	}
 
+	vrfExtraRoutesAttribute, ok := attributes["vrf_extra_routes"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`vrf_extra_routes is missing from object`)
+
+		return nil, diags
+	}
+
+	vrfExtraRoutesVal, ok := vrfExtraRoutesAttribute.(basetypes.MapValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`vrf_extra_routes expected to be basetypes.MapValue, was: %T`, vrfExtraRoutesAttribute))
+	}
+
 	if diags.HasError() {
 		return nil, diags
 	}
 
 	return VrfInstancesValue{
-		ExtraRoutes: extraRoutesVal,
-		Networks:    networksVal,
-		state:       attr.ValueStateKnown,
+		Networks:       networksVal,
+		VrfExtraRoutes: vrfExtraRoutesVal,
+		state:          attr.ValueStateKnown,
 	}, diags
 }
 
@@ -33084,24 +33999,6 @@ func NewVrfInstancesValue(attributeTypes map[string]attr.Type, attributes map[st
 		return NewVrfInstancesValueUnknown(), diags
 	}
 
-	extraRoutesAttribute, ok := attributes["extra_routes"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`extra_routes is missing from object`)
-
-		return NewVrfInstancesValueUnknown(), diags
-	}
-
-	extraRoutesVal, ok := extraRoutesAttribute.(basetypes.MapValue)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`extra_routes expected to be basetypes.MapValue, was: %T`, extraRoutesAttribute))
-	}
-
 	networksAttribute, ok := attributes["networks"]
 
 	if !ok {
@@ -33120,14 +34017,32 @@ func NewVrfInstancesValue(attributeTypes map[string]attr.Type, attributes map[st
 			fmt.Sprintf(`networks expected to be basetypes.ListValue, was: %T`, networksAttribute))
 	}
 
+	vrfExtraRoutesAttribute, ok := attributes["vrf_extra_routes"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`vrf_extra_routes is missing from object`)
+
+		return NewVrfInstancesValueUnknown(), diags
+	}
+
+	vrfExtraRoutesVal, ok := vrfExtraRoutesAttribute.(basetypes.MapValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`vrf_extra_routes expected to be basetypes.MapValue, was: %T`, vrfExtraRoutesAttribute))
+	}
+
 	if diags.HasError() {
 		return NewVrfInstancesValueUnknown(), diags
 	}
 
 	return VrfInstancesValue{
-		ExtraRoutes: extraRoutesVal,
-		Networks:    networksVal,
-		state:       attr.ValueStateKnown,
+		Networks:       networksVal,
+		VrfExtraRoutes: vrfExtraRoutesVal,
+		state:          attr.ValueStateKnown,
 	}, diags
 }
 
@@ -33199,9 +34114,9 @@ func (t VrfInstancesType) ValueType(ctx context.Context) attr.Value {
 var _ basetypes.ObjectValuable = VrfInstancesValue{}
 
 type VrfInstancesValue struct {
-	ExtraRoutes basetypes.MapValue  `tfsdk:"extra_routes"`
-	Networks    basetypes.ListValue `tfsdk:"networks"`
-	state       attr.ValueState
+	Networks       basetypes.ListValue `tfsdk:"networks"`
+	VrfExtraRoutes basetypes.MapValue  `tfsdk:"vrf_extra_routes"`
+	state          attr.ValueState
 }
 
 func (v VrfInstancesValue) ToTerraformValue(ctx context.Context) (tftypes.Value, error) {
@@ -33210,11 +34125,11 @@ func (v VrfInstancesValue) ToTerraformValue(ctx context.Context) (tftypes.Value,
 	var val tftypes.Value
 	var err error
 
-	attrTypes["extra_routes"] = basetypes.MapType{
-		ElemType: ExtraRoutesValue{}.Type(ctx),
-	}.TerraformType(ctx)
 	attrTypes["networks"] = basetypes.ListType{
 		ElemType: types.StringType,
+	}.TerraformType(ctx)
+	attrTypes["vrf_extra_routes"] = basetypes.MapType{
+		ElemType: VrfExtraRoutesValue{}.Type(ctx),
 	}.TerraformType(ctx)
 
 	objectType := tftypes.Object{AttributeTypes: attrTypes}
@@ -33223,14 +34138,6 @@ func (v VrfInstancesValue) ToTerraformValue(ctx context.Context) (tftypes.Value,
 	case attr.ValueStateKnown:
 		vals := make(map[string]tftypes.Value, 2)
 
-		val, err = v.ExtraRoutes.ToTerraformValue(ctx)
-
-		if err != nil {
-			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
-		}
-
-		vals["extra_routes"] = val
-
 		val, err = v.Networks.ToTerraformValue(ctx)
 
 		if err != nil {
@@ -33238,6 +34145,14 @@ func (v VrfInstancesValue) ToTerraformValue(ctx context.Context) (tftypes.Value,
 		}
 
 		vals["networks"] = val
+
+		val, err = v.VrfExtraRoutes.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["vrf_extra_routes"] = val
 
 		if err := tftypes.ValidateValue(objectType, vals); err != nil {
 			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
@@ -33268,30 +34183,30 @@ func (v VrfInstancesValue) String() string {
 func (v VrfInstancesValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, diag.Diagnostics) {
 	var diags diag.Diagnostics
 
-	extraRoutes := types.MapValueMust(
-		ExtraRoutesType{
+	vrfExtraRoutes := types.MapValueMust(
+		VrfExtraRoutesType{
 			basetypes.ObjectType{
-				AttrTypes: ExtraRoutesValue{}.AttributeTypes(ctx),
+				AttrTypes: VrfExtraRoutesValue{}.AttributeTypes(ctx),
 			},
 		},
-		v.ExtraRoutes.Elements(),
+		v.VrfExtraRoutes.Elements(),
 	)
 
-	if v.ExtraRoutes.IsNull() {
-		extraRoutes = types.MapNull(
-			ExtraRoutesType{
+	if v.VrfExtraRoutes.IsNull() {
+		vrfExtraRoutes = types.MapNull(
+			VrfExtraRoutesType{
 				basetypes.ObjectType{
-					AttrTypes: ExtraRoutesValue{}.AttributeTypes(ctx),
+					AttrTypes: VrfExtraRoutesValue{}.AttributeTypes(ctx),
 				},
 			},
 		)
 	}
 
-	if v.ExtraRoutes.IsUnknown() {
-		extraRoutes = types.MapUnknown(
-			ExtraRoutesType{
+	if v.VrfExtraRoutes.IsUnknown() {
+		vrfExtraRoutes = types.MapUnknown(
+			VrfExtraRoutesType{
 				basetypes.ObjectType{
-					AttrTypes: ExtraRoutesValue{}.AttributeTypes(ctx),
+					AttrTypes: VrfExtraRoutesValue{}.AttributeTypes(ctx),
 				},
 			},
 		)
@@ -33303,21 +34218,21 @@ func (v VrfInstancesValue) ToObjectValue(ctx context.Context) (basetypes.ObjectV
 
 	if d.HasError() {
 		return types.ObjectUnknown(map[string]attr.Type{
-			"extra_routes": basetypes.MapType{
-				ElemType: ExtraRoutesValue{}.Type(ctx),
-			},
 			"networks": basetypes.ListType{
 				ElemType: types.StringType,
+			},
+			"vrf_extra_routes": basetypes.MapType{
+				ElemType: VrfExtraRoutesValue{}.Type(ctx),
 			},
 		}), diags
 	}
 
 	attributeTypes := map[string]attr.Type{
-		"extra_routes": basetypes.MapType{
-			ElemType: ExtraRoutesValue{}.Type(ctx),
-		},
 		"networks": basetypes.ListType{
 			ElemType: types.StringType,
+		},
+		"vrf_extra_routes": basetypes.MapType{
+			ElemType: VrfExtraRoutesValue{}.Type(ctx),
 		},
 	}
 
@@ -33332,8 +34247,8 @@ func (v VrfInstancesValue) ToObjectValue(ctx context.Context) (basetypes.ObjectV
 	objVal, diags := types.ObjectValue(
 		attributeTypes,
 		map[string]attr.Value{
-			"extra_routes": extraRoutes,
-			"networks":     networksVal,
+			"networks":         networksVal,
+			"vrf_extra_routes": vrfExtraRoutes,
 		})
 
 	return objVal, diags
@@ -33354,11 +34269,11 @@ func (v VrfInstancesValue) Equal(o attr.Value) bool {
 		return true
 	}
 
-	if !v.ExtraRoutes.Equal(other.ExtraRoutes) {
+	if !v.Networks.Equal(other.Networks) {
 		return false
 	}
 
-	if !v.Networks.Equal(other.Networks) {
+	if !v.VrfExtraRoutes.Equal(other.VrfExtraRoutes) {
 		return false
 	}
 
@@ -33375,35 +34290,338 @@ func (v VrfInstancesValue) Type(ctx context.Context) attr.Type {
 
 func (v VrfInstancesValue) AttributeTypes(ctx context.Context) map[string]attr.Type {
 	return map[string]attr.Type{
-		"extra_routes": basetypes.MapType{
-			ElemType: ExtraRoutesValue{}.Type(ctx),
-		},
 		"networks": basetypes.ListType{
 			ElemType: types.StringType,
+		},
+		"vrf_extra_routes": basetypes.MapType{
+			ElemType: VrfExtraRoutesValue{}.Type(ctx),
 		},
 	}
 }
 
+var _ basetypes.ObjectTypable = VrfExtraRoutesType{}
 
+type VrfExtraRoutesType struct {
+	basetypes.ObjectType
+}
 
+func (t VrfExtraRoutesType) Equal(o attr.Type) bool {
+	other, ok := o.(VrfExtraRoutesType)
 
+	if !ok {
+		return false
+	}
 
+	return t.ObjectType.Equal(other.ObjectType)
+}
 
+func (t VrfExtraRoutesType) String() string {
+	return "VrfExtraRoutesType"
+}
 
+func (t VrfExtraRoutesType) ValueFromObject(ctx context.Context, in basetypes.ObjectValue) (basetypes.ObjectValuable, diag.Diagnostics) {
+	var diags diag.Diagnostics
 
+	attributes := in.Attributes()
 
+	viaAttribute, ok := attributes["via"]
 
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`via is missing from object`)
 
+		return nil, diags
+	}
 
+	viaVal, ok := viaAttribute.(basetypes.StringValue)
 
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`via expected to be basetypes.StringValue, was: %T`, viaAttribute))
+	}
 
+	if diags.HasError() {
+		return nil, diags
+	}
 
+	return VrfExtraRoutesValue{
+		Via:   viaVal,
+		state: attr.ValueStateKnown,
+	}, diags
+}
 
+func NewVrfExtraRoutesValueNull() VrfExtraRoutesValue {
+	return VrfExtraRoutesValue{
+		state: attr.ValueStateNull,
+	}
+}
 
+func NewVrfExtraRoutesValueUnknown() VrfExtraRoutesValue {
+	return VrfExtraRoutesValue{
+		state: attr.ValueStateUnknown,
+	}
+}
 
+func NewVrfExtraRoutesValue(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) (VrfExtraRoutesValue, diag.Diagnostics) {
+	var diags diag.Diagnostics
 
+	// Reference: https://github.com/hashicorp/terraform-plugin-framework/issues/521
+	ctx := context.Background()
 
+	for name, attributeType := range attributeTypes {
+		attribute, ok := attributes[name]
 
+		if !ok {
+			diags.AddError(
+				"Missing VrfExtraRoutesValue Attribute Value",
+				"While creating a VrfExtraRoutesValue value, a missing attribute value was detected. "+
+					"A VrfExtraRoutesValue must contain values for all attributes, even if null or unknown. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("VrfExtraRoutesValue Attribute Name (%s) Expected Type: %s", name, attributeType.String()),
+			)
+
+			continue
+		}
+
+		if !attributeType.Equal(attribute.Type(ctx)) {
+			diags.AddError(
+				"Invalid VrfExtraRoutesValue Attribute Type",
+				"While creating a VrfExtraRoutesValue value, an invalid attribute value was detected. "+
+					"A VrfExtraRoutesValue must use a matching attribute type for the value. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("VrfExtraRoutesValue Attribute Name (%s) Expected Type: %s\n", name, attributeType.String())+
+					fmt.Sprintf("VrfExtraRoutesValue Attribute Name (%s) Given Type: %s", name, attribute.Type(ctx)),
+			)
+		}
+	}
+
+	for name := range attributes {
+		_, ok := attributeTypes[name]
+
+		if !ok {
+			diags.AddError(
+				"Extra VrfExtraRoutesValue Attribute Value",
+				"While creating a VrfExtraRoutesValue value, an extra attribute value was detected. "+
+					"A VrfExtraRoutesValue must not contain values beyond the expected attribute types. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("Extra VrfExtraRoutesValue Attribute Name: %s", name),
+			)
+		}
+	}
+
+	if diags.HasError() {
+		return NewVrfExtraRoutesValueUnknown(), diags
+	}
+
+	viaAttribute, ok := attributes["via"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`via is missing from object`)
+
+		return NewVrfExtraRoutesValueUnknown(), diags
+	}
+
+	viaVal, ok := viaAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`via expected to be basetypes.StringValue, was: %T`, viaAttribute))
+	}
+
+	if diags.HasError() {
+		return NewVrfExtraRoutesValueUnknown(), diags
+	}
+
+	return VrfExtraRoutesValue{
+		Via:   viaVal,
+		state: attr.ValueStateKnown,
+	}, diags
+}
+
+func NewVrfExtraRoutesValueMust(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) VrfExtraRoutesValue {
+	object, diags := NewVrfExtraRoutesValue(attributeTypes, attributes)
+
+	if diags.HasError() {
+		// This could potentially be added to the diag package.
+		diagsStrings := make([]string, 0, len(diags))
+
+		for _, diagnostic := range diags {
+			diagsStrings = append(diagsStrings, fmt.Sprintf(
+				"%s | %s | %s",
+				diagnostic.Severity(),
+				diagnostic.Summary(),
+				diagnostic.Detail()))
+		}
+
+		panic("NewVrfExtraRoutesValueMust received error(s): " + strings.Join(diagsStrings, "\n"))
+	}
+
+	return object
+}
+
+func (t VrfExtraRoutesType) ValueFromTerraform(ctx context.Context, in tftypes.Value) (attr.Value, error) {
+	if in.Type() == nil {
+		return NewVrfExtraRoutesValueNull(), nil
+	}
+
+	if !in.Type().Equal(t.TerraformType(ctx)) {
+		return nil, fmt.Errorf("expected %s, got %s", t.TerraformType(ctx), in.Type())
+	}
+
+	if !in.IsKnown() {
+		return NewVrfExtraRoutesValueUnknown(), nil
+	}
+
+	if in.IsNull() {
+		return NewVrfExtraRoutesValueNull(), nil
+	}
+
+	attributes := map[string]attr.Value{}
+
+	val := map[string]tftypes.Value{}
+
+	err := in.As(&val)
+
+	if err != nil {
+		return nil, err
+	}
+
+	for k, v := range val {
+		a, err := t.AttrTypes[k].ValueFromTerraform(ctx, v)
+
+		if err != nil {
+			return nil, err
+		}
+
+		attributes[k] = a
+	}
+
+	return NewVrfExtraRoutesValueMust(VrfExtraRoutesValue{}.AttributeTypes(ctx), attributes), nil
+}
+
+func (t VrfExtraRoutesType) ValueType(ctx context.Context) attr.Value {
+	return VrfExtraRoutesValue{}
+}
+
+var _ basetypes.ObjectValuable = VrfExtraRoutesValue{}
+
+type VrfExtraRoutesValue struct {
+	Via   basetypes.StringValue `tfsdk:"via"`
+	state attr.ValueState
+}
+
+func (v VrfExtraRoutesValue) ToTerraformValue(ctx context.Context) (tftypes.Value, error) {
+	attrTypes := make(map[string]tftypes.Type, 1)
+
+	var val tftypes.Value
+	var err error
+
+	attrTypes["via"] = basetypes.StringType{}.TerraformType(ctx)
+
+	objectType := tftypes.Object{AttributeTypes: attrTypes}
+
+	switch v.state {
+	case attr.ValueStateKnown:
+		vals := make(map[string]tftypes.Value, 1)
+
+		val, err = v.Via.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["via"] = val
+
+		if err := tftypes.ValidateValue(objectType, vals); err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		return tftypes.NewValue(objectType, vals), nil
+	case attr.ValueStateNull:
+		return tftypes.NewValue(objectType, nil), nil
+	case attr.ValueStateUnknown:
+		return tftypes.NewValue(objectType, tftypes.UnknownValue), nil
+	default:
+		panic(fmt.Sprintf("unhandled Object state in ToTerraformValue: %s", v.state))
+	}
+}
+
+func (v VrfExtraRoutesValue) IsNull() bool {
+	return v.state == attr.ValueStateNull
+}
+
+func (v VrfExtraRoutesValue) IsUnknown() bool {
+	return v.state == attr.ValueStateUnknown
+}
+
+func (v VrfExtraRoutesValue) String() string {
+	return "VrfExtraRoutesValue"
+}
+
+func (v VrfExtraRoutesValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	attributeTypes := map[string]attr.Type{
+		"via": basetypes.StringType{},
+	}
+
+	if v.IsNull() {
+		return types.ObjectNull(attributeTypes), diags
+	}
+
+	if v.IsUnknown() {
+		return types.ObjectUnknown(attributeTypes), diags
+	}
+
+	objVal, diags := types.ObjectValue(
+		attributeTypes,
+		map[string]attr.Value{
+			"via": v.Via,
+		})
+
+	return objVal, diags
+}
+
+func (v VrfExtraRoutesValue) Equal(o attr.Value) bool {
+	other, ok := o.(VrfExtraRoutesValue)
+
+	if !ok {
+		return false
+	}
+
+	if v.state != other.state {
+		return false
+	}
+
+	if v.state != attr.ValueStateKnown {
+		return true
+	}
+
+	if !v.Via.Equal(other.Via) {
+		return false
+	}
+
+	return true
+}
+
+func (v VrfExtraRoutesValue) Type(ctx context.Context) attr.Type {
+	return VrfExtraRoutesType{
+		basetypes.ObjectType{
+			AttrTypes: v.AttributeTypes(ctx),
+		},
+	}
+}
+
+func (v VrfExtraRoutesValue) AttributeTypes(ctx context.Context) map[string]attr.Type {
+	return map[string]attr.Type{
+		"via": basetypes.StringType{},
+	}
+}
 
 var _ basetypes.ObjectTypable = VsInstanceType{}
 

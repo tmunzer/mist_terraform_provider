@@ -3,6 +3,8 @@ package resource_org_gatewaytemplate
 import (
 	"context"
 
+	"mistapi/models"
+
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -10,22 +12,31 @@ import (
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
 	mist_transform "terraform-provider-mist/internal/commons/utils"
-
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 )
 
-func tunnelConfigAutoProvNodeSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistapigo.TunnelConfigsAutoProvisionNode, r_type map[string]attr.Type) basetypes.ObjectValue {
+func tunnelConfigAutoProvNodeSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d models.TunnelConfigsAutoProvisionNode, r_type map[string]attr.Type) basetypes.ObjectValue {
 	tflog.Debug(ctx, "tunnelConfigAutoProvNodeSdkToTerraform")
+
+	var num_hosts basetypes.StringValue
+	var wan_names basetypes.ListValue
+
+	if d.NumHosts != nil {
+		num_hosts = types.StringValue(*d.NumHosts)
+	}
+	if d.WanNames != nil {
+		wan_names = mist_transform.ListOfStringSdkToTerraform(ctx, d.WanNames)
+	}
+
 	r_attr_value := map[string]attr.Value{
-		"num_hosts": types.StringValue(d.GetNumHosts()),
-		"wan_names": mist_transform.ListOfStringSdkToTerraform(ctx, d.GetWanNames()),
+		"num_hosts": num_hosts,
+		"wan_names": wan_names,
 	}
 	r, e := basetypes.NewObjectValue(r_type, r_attr_value)
 	diags.Append(e...)
 	return r
 }
 
-func tunnelConfigAutoProvSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistapigo.TunnelConfigsAutoProvision) basetypes.ObjectValue {
+func tunnelConfigAutoProvSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d models.TunnelConfigsAutoProvision) basetypes.ObjectValue {
 	tflog.Debug(ctx, "tunnelConfigAutoProvSdkToTerraform")
 	r_attr_type := AutoProvisionValue{}.AttributeTypes(ctx)
 
@@ -34,20 +45,20 @@ func tunnelConfigAutoProvSdkToTerraform(ctx context.Context, diags *diag.Diagnos
 		"lng": basetypes.Float64Type{},
 	}
 	latlng_value := map[string]attr.Value{
-		"lat": types.Float64Value(d.Latlng.GetLat()),
-		"lng": types.Float64Value(d.Latlng.GetLng()),
+		"lat": types.Float64Value(d.Latlng.Lat),
+		"lng": types.Float64Value(d.Latlng.Lng),
 	}
 	latlng, e := NewLatlngValue(latlng_type, latlng_value)
 	diags.Append(e...)
 
-	primary := tunnelConfigAutoProvNodeSdkToTerraform(ctx, diags, d.GetPrimary(), PrimaryValue{}.AttributeTypes(ctx))
-	secondary := tunnelConfigAutoProvNodeSdkToTerraform(ctx, diags, d.GetSecondary(), SecondaryValue{}.AttributeTypes(ctx))
+	primary := tunnelConfigAutoProvNodeSdkToTerraform(ctx, diags, *d.Primary, PrimaryValue{}.AttributeTypes(ctx))
+	secondary := tunnelConfigAutoProvNodeSdkToTerraform(ctx, diags, *d.Secondary, SecondaryValue{}.AttributeTypes(ctx))
 
 	r_attr_value := map[string]attr.Value{
-		"enable":    types.BoolValue(d.GetEnable()),
+		"enable":    types.BoolValue(*d.Enable),
 		"latlng":    latlng,
 		"primary":   primary,
-		"region":    types.StringValue(string(d.GetRegion())),
+		"region":    types.StringValue(string(*d.Region)),
 		"secondary": secondary,
 	}
 	r, e := basetypes.NewObjectValue(r_attr_type, r_attr_value)
@@ -55,15 +66,15 @@ func tunnelConfigAutoProvSdkToTerraform(ctx context.Context, diags *diag.Diagnos
 	return r
 }
 
-func tunnelConfigIkeProposalSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []mistapigo.GatewayTemplateTunnelIkeProposal) basetypes.ListValue {
+func tunnelConfigIkeProposalSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []models.GatewayTemplateTunnelIkeProposal) basetypes.ListValue {
 	tflog.Debug(ctx, "tunnelConfigIkeProposalSdkToTerraform")
 	var data_list = []IkeProposalsValue{}
 	for _, v := range d {
 		data_map_attr_type := IkeProposalsValue{}.AttributeTypes(ctx)
 		data_map_value := map[string]attr.Value{
-			"auth_algo": types.StringValue(string(v.GetAuthAlgo())),
-			"dh_group":  types.StringValue(string(v.GetDhGroup())),
-			"enc_algo":  types.StringValue(string(v.GetEncAlgo())),
+			"auth_algo": types.StringValue(string(*v.AuthAlgo)),
+			"dh_group":  types.StringValue(string(*v.DhGroup)),
+			"enc_algo":  types.StringValue(string(*v.EncAlgo.Value())),
 		}
 		data, e := NewIkeProposalsValue(data_map_attr_type, data_map_value)
 		diags.Append(e...)
@@ -75,15 +86,15 @@ func tunnelConfigIkeProposalSdkToTerraform(ctx context.Context, diags *diag.Diag
 	return r
 }
 
-func tunnelConfigIpsecProposalSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []mistapigo.GatewayTemplateTunnelIpsecProposal) basetypes.ListValue {
+func tunnelConfigIpsecProposalSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []models.GatewayTemplateTunnelIpsecProposal) basetypes.ListValue {
 	tflog.Debug(ctx, "tunnelConfigIpsecProposalSdkToTerraform")
 	var data_list = []IpsecProposalsValue{}
 	for _, v := range d {
 		data_map_attr_type := IpsecProposalsValue{}.AttributeTypes(ctx)
 		data_map_value := map[string]attr.Value{
-			"auth_algo": types.StringValue(string(v.GetAuthAlgo())),
-			"dh_group":  types.StringValue(string(v.GetDhGroup())),
-			"enc_algo":  types.StringValue(string(v.GetEncAlgo())),
+			"auth_algo": types.StringValue(string(*v.AuthAlgo)),
+			"dh_group":  types.StringValue(string(*v.DhGroup)),
+			"enc_algo":  types.StringValue(string(*v.EncAlgo.Value())),
 		}
 		data, e := NewIpsecProposalsValue(data_map_attr_type, data_map_value)
 		diags.Append(e...)
@@ -95,61 +106,61 @@ func tunnelConfigIpsecProposalSdkToTerraform(ctx context.Context, diags *diag.Di
 	return r
 }
 
-func tunnelConfigNodeSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistapigo.GatewayTemplateTunnelNode, r_type map[string]attr.Type) basetypes.ObjectValue {
+func tunnelConfigNodeSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d models.GatewayTemplateTunnelNode, r_type map[string]attr.Type) basetypes.ObjectValue {
 	tflog.Debug(ctx, "tunnelConfigNodeSdkToTerraform")
 	r_attr_value := map[string]attr.Value{
-		"hosts":        mist_transform.ListOfStringSdkToTerraform(ctx, d.GetHosts()),
-		"internal_ips": mist_transform.ListOfStringSdkToTerraform(ctx, d.GetInternalIps()),
-		"probe_ips":    mist_transform.ListOfStringSdkToTerraform(ctx, d.GetProbeIps()),
-		"remote_ids":   mist_transform.ListOfStringSdkToTerraform(ctx, d.GetRemoteIds()),
-		"wan_names":    mist_transform.ListOfStringSdkToTerraform(ctx, d.GetWanNames()),
+		"hosts":        mist_transform.ListOfStringSdkToTerraform(ctx, d.Hosts),
+		"internal_ips": mist_transform.ListOfStringSdkToTerraform(ctx, d.InternalIps),
+		"probe_ips":    mist_transform.ListOfStringSdkToTerraform(ctx, d.ProbeIps),
+		"remote_ids":   mist_transform.ListOfStringSdkToTerraform(ctx, d.RemoteIds),
+		"wan_names":    mist_transform.ListOfStringSdkToTerraform(ctx, d.WanNames),
 	}
 	r, e := basetypes.NewObjectValue(r_type, r_attr_value)
 	diags.Append(e...)
 	return r
 }
 
-func tunnelConfigProbeSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistapigo.GatewayTemplateTunnelProbe) basetypes.ObjectValue {
+func tunnelConfigProbeSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d models.GatewayTemplateTunnelProbe) basetypes.ObjectValue {
 	tflog.Debug(ctx, "tunnelConfigProbeSdkToTerraform")
 	r_attr_type := ProbeValue{}.AttributeTypes(ctx)
 	r_attr_value := map[string]attr.Value{
-		"interval":  types.Int64Value(int64(d.GetInterval())),
-		"threshold": types.Int64Value(int64(d.GetThreshold())),
-		"timeout":   types.Int64Value(int64(d.GetTimeout())),
-		"type":      types.StringValue(string(d.GetType())),
+		"interval":  types.Int64Value(int64(*d.Interval)),
+		"threshold": types.Int64Value(int64(*d.Threshold)),
+		"timeout":   types.Int64Value(int64(*d.Timeout)),
+		"type":      types.StringValue(string(*d.Type)),
 	}
 	r, e := basetypes.NewObjectValue(r_attr_type, r_attr_value)
 	diags.Append(e...)
 	return r
 }
 
-func tunnelConfigsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]mistapigo.TunnelConfigs) basetypes.MapValue {
+func tunnelConfigsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]models.TunnelConfigs) basetypes.MapValue {
 	tflog.Debug(ctx, "tunnelConfigsSdkToTerraform")
 	r_type := TunnelConfigsValue{}.AttributeTypes(ctx)
 	state_value_map := make(map[string]attr.Value)
 	for k, v := range d {
-		auto_provision := tunnelConfigAutoProvSdkToTerraform(ctx, diags, v.GetAutoProvision())
-		ike_proposals := tunnelConfigIkeProposalSdkToTerraform(ctx, diags, v.GetIkeProposals())
-		ipsec_proposals := tunnelConfigIpsecProposalSdkToTerraform(ctx, diags, v.GetIpsecProposals())
-		primary := tunnelConfigNodeSdkToTerraform(ctx, diags, v.GetPrimary(), PrimaryValue{}.AttributeTypes(ctx))
-		probe := tunnelConfigProbeSdkToTerraform(ctx, diags, v.GetProbe())
-		secondary := tunnelConfigNodeSdkToTerraform(ctx, diags, v.GetSecondary(), SecondaryValue{}.AttributeTypes(ctx))
+		auto_provision := tunnelConfigAutoProvSdkToTerraform(ctx, diags, *v.AutoProvision)
+		ike_proposals := tunnelConfigIkeProposalSdkToTerraform(ctx, diags, v.IkeProposals)
+		ipsec_proposals := tunnelConfigIpsecProposalSdkToTerraform(ctx, diags, v.IpsecProposals)
+		primary := tunnelConfigNodeSdkToTerraform(ctx, diags, *v.Primary, PrimaryValue{}.AttributeTypes(ctx))
+		probe := tunnelConfigProbeSdkToTerraform(ctx, diags, *v.Probe)
+		secondary := tunnelConfigNodeSdkToTerraform(ctx, diags, *v.Secondary, SecondaryValue{}.AttributeTypes(ctx))
 		var r_state = map[string]attr.Value{
 			"auto_provision":  auto_provision,
-			"ike_lifetime":    types.Int64Value(int64(v.GetIkeLifetime())),
-			"ike_mode":        types.StringValue(string(v.GetIkeMode())),
+			"ike_lifetime":    types.Int64Value(int64(*v.IkeLifetime)),
+			"ike_mode":        types.StringValue(string(*v.IkeMode)),
 			"ike_proposals":   ike_proposals,
-			"ipsec_lifetime":  types.Int64Value(int64(v.GetIpsecLifetime())),
+			"ipsec_lifetime":  types.Int64Value(int64(*v.IpsecLifetime)),
 			"ipsec_proposals": ipsec_proposals,
-			"local_id":        types.StringValue(v.GetLocalId()),
-			"mode":            types.StringValue(string(v.GetMode())),
+			"local_id":        types.StringValue(*v.LocalId),
+			"mode":            types.StringValue(string(*v.Mode)),
 			"primary":         primary,
 			"probe":           probe,
-			"protocol":        types.StringValue(string(v.GetProtocol())),
-			"provider":        types.StringValue(string(v.GetProvider())),
-			"psk":             types.StringValue(v.GetPsk()),
+			"protocol":        types.StringValue(string(*v.Protocol)),
+			"provider":        types.StringValue(string(*v.Provider)),
+			"psk":             types.StringValue(*v.Psk),
 			"secondary":       secondary,
-			"version":         types.StringValue(string(v.GetVersion())),
+			"version":         types.StringValue(string(*v.Version)),
 		}
 		r_object, e := NewTunnelConfigsValue(r_type, r_state)
 		diags.Append(e...)

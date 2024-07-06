@@ -2,6 +2,7 @@ package resource_org_networktemplate
 
 import (
 	"context"
+	"mistapi/models"
 
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
@@ -9,24 +10,45 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 
 	mist_transform "terraform-provider-mist/internal/commons/utils"
-
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 )
 
-func portMirroringSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]mistapigo.SwitchPortMirroringProperty) basetypes.MapValue {
-	data_map_attr_type := PortMirroringValue{}.AttributeTypes(ctx)
+func portMirroringSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, m map[string]models.SwitchPortMirroringProperty) basetypes.MapValue {
 	data_map_value := make(map[string]attr.Value)
-	for k, v := range d {
-		var data_map_item = map[string]attr.Value{
-			"input_networks_ingress": mist_transform.ListOfStringSdkToTerraform(ctx, v.GetInputNetworksIngress()),
-			"input_port_ids_egress":  mist_transform.ListOfStringSdkToTerraform(ctx, v.GetInputPortIdsEgress()),
-			"input_port_ids_ingress": mist_transform.ListOfStringSdkToTerraform(ctx, v.GetInputPortIdsIngress()),
-			"output_network":         types.StringValue(v.GetOutputNetwork()),
-			"output_port_id":         types.StringValue(v.GetOutputPortId()),
+	for k, d := range m {
+		var input_networks_ingress basetypes.ListValue
+		var input_port_ids_egress basetypes.ListValue
+		var input_port_ids_ingress basetypes.ListValue
+		var output_network basetypes.StringValue
+		var output_port_id basetypes.StringValue
+
+		if d.InputNetworksIngress != nil {
+			input_networks_ingress = mist_transform.ListOfStringSdkToTerraform(ctx, d.InputNetworksIngress)
 		}
-		data_map_item_object, e := NewPortMirroringValue(data_map_attr_type, data_map_item)
+		if d.InputPortIdsEgress != nil {
+			input_port_ids_egress = mist_transform.ListOfStringSdkToTerraform(ctx, d.InputPortIdsEgress)
+		}
+		if d.InputPortIdsIngress != nil {
+			input_port_ids_ingress = mist_transform.ListOfStringSdkToTerraform(ctx, d.InputPortIdsIngress)
+		}
+		if d.OutputNetwork != nil {
+			output_network = types.StringValue(*d.OutputNetwork)
+		}
+		if d.OutputPortId != nil {
+			output_port_id = types.StringValue(*d.OutputPortId)
+		}
+
+		data_map_attr_type := PortMirroringValue{}.AttributeTypes(ctx)
+		data_map_value := map[string]attr.Value{
+			"input_networks_ingress": input_networks_ingress,
+			"input_port_ids_egress":  input_port_ids_egress,
+			"input_port_ids_ingress": input_port_ids_ingress,
+			"output_network":         output_network,
+			"output_port_id":         output_port_id,
+		}
+		data, e := NewPortMirroringValue(data_map_attr_type, data_map_value)
 		diags.Append(e...)
-		data_map_value[k] = data_map_item_object
+
+		data_map_value[k] = data
 	}
 	state_type := PortMirroringValue{}.Type(ctx)
 	state_result, e := types.MapValueFrom(ctx, state_type, data_map_value)

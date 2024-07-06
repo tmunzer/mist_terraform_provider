@@ -4,7 +4,7 @@ import (
 	"context"
 	mist_transform "terraform-provider-mist/internal/commons/utils"
 
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
+	"mistapi/models"
 
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
@@ -13,75 +13,166 @@ import (
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 
-func tunnelProviderJseSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistapigo.TunnelProviderOptionsJse) basetypes.ObjectValue {
+func tunnelProviderJseSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d *models.TunnelProviderOptions) basetypes.ObjectValue {
 	tflog.Debug(ctx, "tunnelProviderJseSdkToTerraform")
+
+	var name basetypes.StringValue
+	var num_users basetypes.Int64Value
+
+	if d != nil && d.Jse != nil && d.Jse.Name != nil {
+		name = types.StringValue(*d.Jse.Name)
+	}
+	if d != nil && d.Jse != nil && d.Jse.NumUsers != nil {
+		num_users = types.Int64Value(int64(*d.Jse.NumUsers))
+	}
+
 	r_attr_type := JseValue{}.AttributeTypes(ctx)
 	r_attr_value := map[string]attr.Value{
-		"name":      types.StringValue(d.GetName()),
-		"num_users": types.Int64Value(int64(d.GetNumUsers())),
+		"name":      name,
+		"num_users": num_users,
 	}
 	r, e := basetypes.NewObjectValue(r_attr_type, r_attr_value)
 	diags.Append(e...)
 	return r
 }
 
-func tunnelProviderZscalerSubLocationSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []mistapigo.TunnelProviderOptionsZscalerSubLocation) basetypes.ListValue {
+func tunnelProviderZscalerSubLocationSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, t *models.TunnelProviderOptions) basetypes.ListValue {
 	tflog.Debug(ctx, "tunnelProviderZscalerSubLocationSdkToTerraform")
 	var data_list = []SubLocationsValue{}
-	for _, v := range d {
-		data_map_attr_type := SubLocationsValue{}.AttributeTypes(ctx)
-		data_map_value := map[string]attr.Value{
-			"aup_acceptance_required": types.BoolValue(v.GetAupAcceptanceRequired()),
-			"aup_expire":              types.Int64Value(int64(v.GetAupExpire())),
-			"aup_ssl_proxy":           types.BoolValue(v.GetAupSslProxy()),
-			"download_mbps":           types.Int64Value(int64(v.GetDownloadMbps())),
-			"enable_aup":              types.BoolValue(v.GetEnableAup()),
-			"enable_caution":          types.BoolValue(v.GetEnableCaution()),
-			"enforce_authentication":  types.BoolValue(v.GetEnforceAuthentication()),
-			"subnets":                 mist_transform.ListOfStringSdkToTerraform(ctx, v.GetSubnets()),
-			"upload_mbps":             types.Int64Value(int64(v.GetUploadMbps())),
+	if t != nil && t.Zscaler != nil && t.Zscaler.SubLocations != nil {
+		for _, v := range t.Zscaler.SubLocations {
+			var aup_acceptance_required basetypes.BoolValue
+			var aup_expire basetypes.Int64Value
+			var aup_ssl_proxy basetypes.BoolValue
+			var download_mbps basetypes.Int64Value
+			var enable_aup basetypes.BoolValue
+			var enable_caution basetypes.BoolValue
+			var enforce_authentication basetypes.BoolValue
+			var subnets basetypes.ListValue = mist_transform.ListOfStringSdkToTerraform(ctx, v.Subnets)
+			var upload_mbps basetypes.Int64Value
+
+			if v.AupAcceptanceRequired != nil {
+				aup_acceptance_required = types.BoolValue(*v.AupAcceptanceRequired)
+			}
+			if v.AupExpire != nil {
+				aup_expire = types.Int64Value(int64(*v.AupExpire))
+			}
+			if v.AupSslProxy != nil {
+				aup_ssl_proxy = types.BoolValue(*v.AupSslProxy)
+			}
+			if v.DownloadMbps != nil {
+				download_mbps = types.Int64Value(int64(*v.DownloadMbps))
+			}
+			if v.EnableAup != nil {
+				enable_aup = types.BoolValue(*v.EnableAup)
+			}
+			if v.EnableCaution != nil {
+				enable_caution = types.BoolValue(*v.EnableCaution)
+			}
+			if v.EnforceAuthentication != nil {
+				enforce_authentication = types.BoolValue(*v.EnforceAuthentication)
+			}
+			if v.UploadMbps != nil {
+				upload_mbps = types.Int64Value(int64(*v.UploadMbps))
+			}
+
+			data_map_attr_type := SubLocationsValue{}.AttributeTypes(ctx)
+			data_map_value := map[string]attr.Value{
+				"aup_acceptance_required": aup_acceptance_required,
+				"aup_expire":              aup_expire,
+				"aup_ssl_proxy":           aup_ssl_proxy,
+				"download_mbps":           download_mbps,
+				"enable_aup":              enable_aup,
+				"enable_caution":          enable_caution,
+				"enforce_authentication":  enforce_authentication,
+				"subnets":                 subnets,
+				"upload_mbps":             upload_mbps,
+			}
+			data, e := NewSubLocationsValue(data_map_attr_type, data_map_value)
+			diags.Append(e...)
+			data_list = append(data_list, data)
 		}
-		data, e := NewSubLocationsValue(data_map_attr_type, data_map_value)
-		diags.Append(e...)
-		data_list = append(data_list, data)
 	}
 	data_list_type := SubLocationsValue{}.Type(ctx)
 	r, e := types.ListValueFrom(ctx, data_list_type, data_list)
 	diags.Append(e...)
 	return r
 }
-func tunnelProviderZscalerSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistapigo.TunnelProviderOptionsZscaler) basetypes.ObjectValue {
+func tunnelProviderZscalerSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, t *models.TunnelProviderOptions) basetypes.ObjectValue {
 	tflog.Debug(ctx, "tunnelProviderZscalerSdkToTerraform")
+
+	var aup_acceptance_required basetypes.BoolValue
+	var aup_expire basetypes.Int64Value
+	var aup_ssl_proxy basetypes.BoolValue
+	var download_mbps basetypes.Int64Value
+	var enable_aup basetypes.BoolValue
+	var enable_caution basetypes.BoolValue
+	var enforce_authentication basetypes.BoolValue
+	var name basetypes.StringValue
+	var sub_locations basetypes.ListValue = tunnelProviderZscalerSubLocationSdkToTerraform(ctx, diags, t)
+	var upload_mbps basetypes.Int64Value
+	var use_xff basetypes.BoolValue
+
+	if t != nil && t.Zscaler != nil && t.Zscaler.AupAcceptanceRequired != nil {
+		aup_acceptance_required = types.BoolValue(*t.Zscaler.AupAcceptanceRequired)
+	}
+	if t != nil && t.Zscaler != nil && t.Zscaler.AupExpire != nil {
+		aup_expire = types.Int64Value(int64(*t.Zscaler.AupExpire))
+	}
+	if t != nil && t.Zscaler != nil && t.Zscaler.AupSslProxy != nil {
+		aup_ssl_proxy = types.BoolValue(*t.Zscaler.AupSslProxy)
+	}
+	if t != nil && t.Zscaler != nil && t.Zscaler.DownloadMbps != nil {
+		download_mbps = types.Int64Value(int64(*t.Zscaler.DownloadMbps))
+	}
+	if t != nil && t.Zscaler != nil && t.Zscaler.EnableAup != nil {
+		enable_aup = types.BoolValue(*t.Zscaler.EnableAup)
+	}
+	if t != nil && t.Zscaler != nil && t.Zscaler.EnableCaution != nil {
+		enable_caution = types.BoolValue(*t.Zscaler.EnableCaution)
+	}
+	if t != nil && t.Zscaler != nil && t.Zscaler.EnforceAuthentication != nil {
+		enforce_authentication = types.BoolValue(*t.Zscaler.EnforceAuthentication)
+	}
+	if t != nil && t.Zscaler != nil && t.Zscaler.Name != nil {
+		name = types.StringValue(*t.Zscaler.Name)
+	}
+	if t != nil && t.Zscaler != nil && t.Zscaler.UploadMbps != nil {
+		upload_mbps = types.Int64Value(int64(*t.Zscaler.UploadMbps))
+	}
+	if t != nil && t.Zscaler != nil && t.Zscaler.UseXff != nil {
+		use_xff = types.BoolValue(*t.Zscaler.UseXff)
+	}
+
 	r_attr_type := ZscalerValue{}.AttributeTypes(ctx)
-
-	sub_locations := tunnelProviderZscalerSubLocationSdkToTerraform(ctx, diags, d.GetSubLocations())
-
 	r_attr_value := map[string]attr.Value{
-		"aup_acceptance_required": types.BoolValue(d.GetAupAcceptanceRequired()),
-		"aup_expire":              types.Int64Value(int64(d.GetAupExpire())),
-		"aup_ssl_proxy":           types.BoolValue(d.GetAupSslProxy()),
-		"download_mbps":           types.Int64Value(int64(d.GetDownloadMbps())),
-		"enable_aup":              types.BoolValue(d.GetEnableAup()),
-		"enable_caution":          types.BoolValue(d.GetEnableCaution()),
-		"enforce_authentication":  types.BoolValue(d.GetEnforceAuthentication()),
-		"name":                    types.StringValue(d.GetName()),
+		"aup_acceptance_required": aup_acceptance_required,
+		"aup_expire":              aup_expire,
+		"aup_ssl_proxy":           aup_ssl_proxy,
+		"download_mbps":           download_mbps,
+		"enable_aup":              enable_aup,
+		"enable_caution":          enable_caution,
+		"enforce_authentication":  enforce_authentication,
+		"name":                    name,
 		"sub_locations":           sub_locations,
-		"upload_mbps":             types.Int64Value(int64(d.GetUploadMbps())),
-		"use_xff":                 types.BoolValue(d.GetUseXff()),
+		"upload_mbps":             upload_mbps,
+		"use_xff":                 use_xff,
 	}
 	r, e := basetypes.NewObjectValue(r_attr_type, r_attr_value)
 	diags.Append(e...)
 	return r
 }
 
-func tunnelProviderSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mistapigo.TunnelProviderOptions) TunnelProviderOptionsValue {
+func tunnelProviderSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d *models.TunnelProviderOptions) TunnelProviderOptionsValue {
 	tflog.Debug(ctx, "tunnelProviderSdkToTerraform")
+	var jse basetypes.ObjectValue
+	var zscaler basetypes.ObjectValue
+
+	jse = tunnelProviderJseSdkToTerraform(ctx, diags, d)
+
+	zscaler = tunnelProviderZscalerSdkToTerraform(ctx, diags, d)
 
 	data_map_attr_type := TunnelProviderOptionsValue{}.AttributeTypes(ctx)
-
-	jse := tunnelProviderJseSdkToTerraform(ctx, diags, d.GetJse())
-	zscaler := tunnelProviderZscalerSdkToTerraform(ctx, diags, d.GetZscaler())
-
 	data_map_value := map[string]attr.Value{
 		"jse":     jse,
 		"zscaler": zscaler,

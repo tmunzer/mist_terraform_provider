@@ -9,16 +9,16 @@ import (
 
 	mist_transform "terraform-provider-mist/internal/commons/utils"
 
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
+	"mistapi/models"
 )
 
-func syntheticTestVlansTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, l basetypes.ListValue) []mistapigo.SyntheticTestProperties {
+func syntheticTestVlansTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, l basetypes.ListValue) []models.SyntheticTestProperties {
 	tflog.Debug(ctx, "syntheticTestVlansTerraformToSdk")
-	var data_list []mistapigo.SyntheticTestProperties
+	var data_list []models.SyntheticTestProperties
 	for _, v := range l.Elements() {
 		var v_interface interface{} = v
 		plan := v_interface.(VlansValue)
-		data := mistapigo.NewSyntheticTestProperties()
+		data := models.NewSyntheticTestProperties()
 		data.SetCustomTestUrls(mist_transform.ListOfStringTerraformToSdk(ctx, plan.CustomTestUrls))
 		data.SetDisabled(plan.Disabled.ValueBool())
 		data.SetVlanIds(mist_transform.ListOfIntTerraformToSdk(ctx, plan.VlanIds))
@@ -28,9 +28,9 @@ func syntheticTestVlansTerraformToSdk(ctx context.Context, diags *diag.Diagnosti
 	return data_list
 }
 
-func syntheticTestTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d SyntheticTestValue) mistapigo.SyntheticTestConfig {
+func syntheticTestTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d SyntheticTestValue) models.SyntheticTestConfig {
 	tflog.Debug(ctx, "syntheticTestTerraformToSdk")
-	data := mistapigo.NewSyntheticTestConfig()
+	data := models.NewSyntheticTestConfig()
 
 	data.SetDisabled(d.Disabled.ValueBool())
 

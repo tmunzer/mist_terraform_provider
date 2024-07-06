@@ -3,14 +3,14 @@ package resource_org_wlan
 import (
 	"context"
 
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
+	"mistapi/models"
 
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
-func appLimitSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, data mistapigo.WlanAppLimit) AppLimitValue {
+func appLimitSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, data models.WlanAppLimit) AppLimitValue {
 
 	app_limit_attr := make(map[string]attr.Value)
 	for k, v := range data.GetApps() {

@@ -4,14 +4,13 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
-
 	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 )
 
-func DeleteTerraformToSdk(ctx context.Context) (mistapigo.MistDevice, diag.Diagnostics) {
+func DeleteTerraformToSdk(ctx context.Context) (models.MistDevice, diag.Diagnostics) {
 	var diags diag.Diagnostics
-	//var data mistapigo.SiteSetting
-	data := mistapigo.NewDeviceSwitch()
+	//var data models.SiteSetting
+	data := models.NewDeviceSwitch()
 
 	tmp := DeviceSwitchResourceSchema(ctx)
 	unset := make(map[string]interface{})
@@ -20,7 +19,7 @@ func DeleteTerraformToSdk(ctx context.Context) (mistapigo.MistDevice, diag.Diagn
 	}
 	data.AdditionalProperties = unset
 
-	mist_device := mistapigo.MistDevice{}
+	mist_device := models.MistDevice{}
 	mist_device.DeviceSwitch = data
 	return mist_device, diags
 }

@@ -3,14 +3,14 @@ package resource_org_wlan
 import (
 	"context"
 
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
+	"mistapi/models"
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 )
 
-func airwatchTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, plan AirwatchValue) mistapigo.WlanAirwatch {
+func airwatchTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, plan AirwatchValue) models.WlanAirwatch {
 
-	data := *mistapigo.NewWlanAirwatch()
+	data := *models.NewWlanAirwatch()
 
 	data.SetApiKey(plan.ApiKey.ValueString())
 	data.SetConsoleUrl(plan.ConsoleUrl.ValueString())

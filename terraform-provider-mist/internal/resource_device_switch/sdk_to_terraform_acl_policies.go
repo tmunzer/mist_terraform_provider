@@ -7,13 +7,12 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 
 	mist_transform "terraform-provider-mist/internal/commons/utils"
-
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 )
 
-func aclPolicyActionsToTerraform(ctx context.Context, diags *diag.Diagnostics, d []mistapigo.AclPolicyAction) basetypes.ListValue {
+func aclPolicyActionsToTerraform(ctx context.Context, diags *diag.Diagnostics, d []models.AclPolicyAction) basetypes.ListValue {
 	var data_list []attr.Value
 	data_list_type := ActionsValue{}.AttributeTypes(ctx)
 	for _, v := range d {
@@ -33,7 +32,7 @@ func aclPolicyActionsToTerraform(ctx context.Context, diags *diag.Diagnostics, d
 	return state_list
 }
 
-func aclPoliciesSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []mistapigo.AclPolicy) basetypes.ListValue {
+func aclPoliciesSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []models.AclPolicy) basetypes.ListValue {
 	var data_list []attr.Value
 	data_list_type := AclPoliciesValue{}.AttributeTypes(ctx)
 	for _, v := range d {

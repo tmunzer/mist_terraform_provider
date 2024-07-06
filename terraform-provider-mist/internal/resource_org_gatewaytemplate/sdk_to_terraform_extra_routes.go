@@ -3,23 +3,23 @@ package resource_org_gatewaytemplate
 import (
 	"context"
 
+	"mistapi/models"
+
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
-
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 )
 
-func extraRoutesSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]mistapigo.GatewayExtraRoute) basetypes.MapValue {
+func extraRoutesSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]models.GatewayExtraRoute) basetypes.MapValue {
 	tflog.Debug(ctx, "extraRoutesSdkToTerraform")
 
 	state_value_map_attr_type := ExtraRoutesValue{}.AttributeTypes(ctx)
 	state_value_map_value := make(map[string]attr.Value)
 	for k, v := range d {
 		state_value_map_attr_value := map[string]attr.Value{
-			"via": types.StringValue(v.GetVia()),
+			"via": types.StringValue(*v.Via),
 		}
 		n, e := NewExtraRoutesValue(state_value_map_attr_type, state_value_map_attr_value)
 		diags.Append(e...)

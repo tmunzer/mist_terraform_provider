@@ -5,13 +5,12 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 
 	mist_list "terraform-provider-mist/internal/commons/utils"
-
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 )
 
-func SdkToTerraform(ctx context.Context, mist_device *mistapigo.MistDevice) (DeviceApModel, diag.Diagnostics) {
+func SdkToTerraform(ctx context.Context, mist_device *models.MistDevice) (DeviceApModel, diag.Diagnostics) {
 	var state DeviceApModel
 	var diags diag.Diagnostics
 

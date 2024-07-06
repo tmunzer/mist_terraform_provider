@@ -3,10 +3,10 @@ package provider
 import (
 	"context"
 	"fmt"
+	"mistapi"
 	"terraform-provider-mist/internal/resource_org_networktemplate"
 
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
-
+	"github.com/google/uuid"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
@@ -21,7 +21,7 @@ func NewOrgNetworkTemplate() resource.Resource {
 }
 
 type orgNetworkTemplateResource struct {
-	client *mistapigo.APIClient
+	client mistapi.ClientInterface
 }
 
 func (r *orgNetworkTemplateResource) Configure(ctx context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
@@ -30,7 +30,7 @@ func (r *orgNetworkTemplateResource) Configure(ctx context.Context, req resource
 		return
 	}
 
-	client, ok := req.ProviderData.(*mistapigo.APIClient)
+	client, ok := req.ProviderData.(mistapi.ClientInterface)
 	if !ok {
 		resp.Diagnostics.AddError(
 			"Unexpected Data Source Configure Type",
@@ -59,13 +59,14 @@ func (r *orgNetworkTemplateResource) Create(ctx context.Context, req resource.Cr
 		return
 	}
 
+	orgId := uuid.MustParse(plan.OrgId.ValueString())
 	networktemplate, diags := resource_org_networktemplate.TerraformToSdk(ctx, &plan)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
 	}
 
-	data, _, err := r.client.OrgsNetworkTemplatesAPI.CreateOrgNetworkTemplate(ctx, plan.OrgId.ValueString()).NetworkTemplate(networktemplate).Execute()
+	data, err := r.client.OrgsNetworkTemplates().CreateOrgNetworkTemplate(ctx, orgId, &networktemplate)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Error creating NetworkTemplate",
@@ -74,7 +75,7 @@ func (r *orgNetworkTemplateResource) Create(ctx context.Context, req resource.Cr
 		return
 	}
 
-	state, diags = resource_org_networktemplate.SdkToTerraform(ctx, data)
+	state, diags = resource_org_networktemplate.SdkToTerraform(ctx, data.Data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -98,7 +99,10 @@ func (r *orgNetworkTemplateResource) Read(ctx context.Context, req resource.Read
 	}
 
 	tflog.Info(ctx, "Starting NetworkTemplate Read: networktemplate_id "+state.Id.ValueString())
-	data, _, err := r.client.OrgsNetworkTemplatesAPI.GetOrgNetworkTemplate(ctx, state.OrgId.ValueString(), state.Id.ValueString()).Execute()
+
+	orgId := uuid.MustParse(state.OrgId.ValueString())
+	templateId := uuid.MustParse(state.Id.ValueString())
+	data, err := r.client.OrgsNetworkTemplates().GetOrgNetworkTemplate(ctx, orgId, templateId)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Error getting NetworkTemplate",
@@ -106,7 +110,7 @@ func (r *orgNetworkTemplateResource) Read(ctx context.Context, req resource.Read
 		)
 		return
 	}
-	state, diags = resource_org_networktemplate.SdkToTerraform(ctx, data)
+	state, diags = resource_org_networktemplate.SdkToTerraform(ctx, data.Data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -134,6 +138,8 @@ func (r *orgNetworkTemplateResource) Update(ctx context.Context, req resource.Up
 		return
 	}
 
+	orgId := uuid.MustParse(state.OrgId.ValueString())
+	templateId := uuid.MustParse(state.Id.ValueString())
 	networktemplate, diags := resource_org_networktemplate.TerraformToSdk(ctx, &plan)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
@@ -141,10 +147,7 @@ func (r *orgNetworkTemplateResource) Update(ctx context.Context, req resource.Up
 	}
 
 	tflog.Info(ctx, "Starting NetworkTemplate Update for NetworkTemplate "+state.Id.ValueString())
-	data, _, err := r.client.OrgsNetworkTemplatesAPI.
-		UpdateOrgNetworkTemplates(ctx, state.OrgId.ValueString(), state.Id.ValueString()).
-		NetworkTemplate(networktemplate).
-		Execute()
+	data, err := r.client.OrgsNetworkTemplates().UpdateOrgNetworkTemplates(ctx, orgId, templateId, &networktemplate)
 
 	if err != nil {
 		resp.Diagnostics.AddError(
@@ -154,7 +157,7 @@ func (r *orgNetworkTemplateResource) Update(ctx context.Context, req resource.Up
 		return
 	}
 
-	state, diags = resource_org_networktemplate.SdkToTerraform(ctx, data)
+	state, diags = resource_org_networktemplate.SdkToTerraform(ctx, data.Data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -177,8 +180,10 @@ func (r *orgNetworkTemplateResource) Delete(ctx context.Context, req resource.De
 		return
 	}
 
+	orgId := uuid.MustParse(state.OrgId.ValueString())
+	templateId := uuid.MustParse(state.Id.ValueString())
 	tflog.Info(ctx, "Starting NetworkTemplate Delete: networktemplate_id "+state.Id.ValueString())
-	_, err := r.client.OrgsNetworkTemplatesAPI.DeleteOrgNetworkTemplate(ctx, state.OrgId.ValueString(), state.Id.ValueString()).Execute()
+	_, err := r.client.OrgsNetworkTemplates().DeleteOrgNetworkTemplate(ctx, orgId, templateId)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Error creating NetworkTemplate",
