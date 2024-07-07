@@ -43,13 +43,13 @@ func routingPolocyTermMatchingVpnSlaSdkToTerraform(ctx context.Context, diags *d
 	var max_latency basetypes.Int64Value
 	var max_loss basetypes.Int64Value
 
-	if d.MaxJitter.IsValueSet() {
+	if d.MaxJitter.Value() != nil {
 		max_jitter = types.Int64Value(int64(*d.MaxJitter.Value()))
 	}
-	if d.MaxLatency.IsValueSet() {
+	if d.MaxLatency.Value() != nil {
 		max_latency = types.Int64Value(int64(*d.MaxLatency.Value()))
 	}
-	if d.MaxLoss.IsValueSet() {
+	if d.MaxLoss.Value() != nil {
 		max_loss = types.Int64Value(int64(*d.MaxLoss.Value()))
 	}
 

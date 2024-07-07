@@ -60,8 +60,8 @@ func bgpConfigTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d bas
 
 		data := models.BgpConfig{}
 		data.AuthKey = models.ToPointer(plan.AuthKey.ValueString())
-		data.BfdMinimumInterval.SetValue(models.ToPointer(int(plan.BfdMinimumInterval.ValueInt64())))
-		data.BfdMultiplier.SetValue(models.ToPointer(int(plan.BfdMultiplier.ValueInt64())))
+		data.BfdMinimumInterval = models.NewOptional(models.ToPointer(int(plan.BfdMinimumInterval.ValueInt64())))
+		data.BfdMultiplier = models.NewOptional(models.ToPointer(int(plan.BfdMultiplier.ValueInt64())))
 		data.Communities = communities
 		data.DisableBfd = models.ToPointer(plan.DisableBfd.ValueBool())
 		data.Export = models.ToPointer(plan.Export.ValueString())

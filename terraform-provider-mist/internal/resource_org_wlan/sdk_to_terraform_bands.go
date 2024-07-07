@@ -11,11 +11,11 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 )
 
-func bandsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, data []models.Dot11Band) basetypes.ListValue {
+func bandsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, l []models.Dot11BandEnum) basetypes.ListValue {
 
 	var data_list []attr.Value
-	for _, v := range data {
-		data_list = append(data_list, types.StringValue(string(v)))
+	for _, d := range l {
+		data_list = append(data_list, types.StringValue(string(d)))
 	}
 	r, e := types.ListValueFrom(ctx, basetypes.StringType{}, data_list)
 	diags.Append(e...)

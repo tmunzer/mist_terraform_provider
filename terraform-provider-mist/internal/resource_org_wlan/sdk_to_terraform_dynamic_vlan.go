@@ -11,32 +11,44 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 )
 
-func dynamicVlanSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, data models.WlanDynamicVlan) DynamicVlanValue {
+func dynamicVlanSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d *models.WlanDynamicVlan) DynamicVlanValue {
 
-	var local_vlan_ids_list []attr.Value
-	for _, v := range data.GetLocalVlanIds() {
-		local_vlan_ids_list = append(local_vlan_ids_list, types.Int64Value(int64(*v)))
+	var default_vlan_id basetypes.Int64Value
+	var enabled basetypes.BoolValue
+	var local_vlan_ids basetypes.ListValue
+	var type_dynamic_vlan basetypes.StringValue
+	var vlans basetypes.MapValue
+
+	if d != nil && d.DefaultVlanId.Value() != nil {
+		default_vlan_id = types.Int64Value(int64(*d.DefaultVlanId.Value()))
 	}
-	local_vlan_ids, e := types.ListValue(basetypes.Int64Type{}, local_vlan_ids_list)
-	diags.Append(e...)
-
-	vlans_attr := make(map[string]attr.Value)
-	for k, v := range data.GetVlans() {
-		vlans_attr[k] = types.StringValue(string(v))
+	if d != nil && d.Enabled != nil {
+		enabled = types.BoolValue(*d.Enabled)
 	}
-	vlans, e := types.MapValueFrom(ctx, basetypes.StringType{}, vlans_attr)
-	diags.Append(e...)
+	if d != nil && d.LocalVlanIds != nil {
+		local_vlan_ids = vlanIdsSkToTerraform(ctx, diags, d.LocalVlanIds)
+	}
+	if d != nil && d.Type != nil {
+		type_dynamic_vlan = types.StringValue(string(*d.Type))
+	}
+	if d != nil && d.Vlans != nil {
+		vlans_attr := make(map[string]attr.Value)
+		for k, v := range d.Vlans {
+			vlans_attr[k] = types.StringValue(string(v))
+		}
+		vlans = types.MapValueMust(basetypes.StringType{}, vlans_attr)
+	}
 
-	plan_attr := map[string]attr.Value{
-		"default_vlan_id": types.Int64Value(int64(data.GetDefaultVlanId())),
-		"enabled":         types.BoolValue(data.GetEnabled()),
+	data_map_attr_type := DynamicVlanValue{}.AttributeTypes(ctx)
+	data_map_value := map[string]attr.Value{
+		"default_vlan_id": default_vlan_id,
+		"enabled":         enabled,
 		"local_vlan_ids":  local_vlan_ids,
-		"type":            types.StringValue(string(data.GetType())),
+		"type":            type_dynamic_vlan,
 		"vlans":           vlans,
 	}
-	r, e := NewDynamicVlanValue(DynamicVlanValue{}.AttributeTypes(ctx), plan_attr)
+	data, e := NewDynamicVlanValue(data_map_attr_type, data_map_value)
 	diags.Append(e...)
 
-	return r
-
+	return data
 }

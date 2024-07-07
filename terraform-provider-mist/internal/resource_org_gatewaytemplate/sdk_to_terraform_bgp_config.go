@@ -130,10 +130,10 @@ func bgpConfigSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, m map
 		if d.AuthKey != nil {
 			auth_key = types.StringValue(*d.AuthKey)
 		}
-		if d.BfdMinimumInterval.IsValueSet() {
+		if d.BfdMinimumInterval.Value() != nil {
 			bfd_minimum_interval = types.Int64Value(int64(*d.BfdMinimumInterval.Value()))
 		}
-		if d.BfdMultiplier.IsValueSet() {
+		if d.BfdMultiplier.Value() != nil {
 			bfd_multiplier = types.Int64Value(int64(*d.BfdMultiplier.Value()))
 		}
 		if d.Communities != nil {

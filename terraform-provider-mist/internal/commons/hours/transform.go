@@ -1,4 +1,4 @@
-package hours
+package mist_hours
 
 import (
 	"context"

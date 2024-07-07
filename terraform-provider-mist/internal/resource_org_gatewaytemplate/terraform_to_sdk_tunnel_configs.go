@@ -77,7 +77,7 @@ func gatewayTemplateTunnelIkeProposalTerraformToSdk(ctx context.Context, diags *
 		data := models.GatewayTemplateTunnelIkeProposal{}
 		data.AuthAlgo = models.ToPointer(models.TunnelConfigsAuthAlgoEnum(plan.AuthAlgo.ValueString()))
 		data.DhGroup = models.ToPointer(models.GatewayTemplateTunnelIkeDhGroupEnum(plan.DhGroup.ValueString()))
-		data.EncAlgo.SetValue(models.ToPointer(models.TunnelConfigsEncAlgoEnum(plan.EncAlgo.ValueString())))
+		data.EncAlgo = models.NewOptional(models.ToPointer(models.TunnelConfigsEncAlgoEnum(plan.EncAlgo.ValueString())))
 
 		data_list = append(data_list, data)
 	}
@@ -93,7 +93,7 @@ func gatewayTemplateTunnelIpsecProposalTerraformToSdk(ctx context.Context, diags
 		data := models.GatewayTemplateTunnelIpsecProposal{}
 		data.AuthAlgo = models.ToPointer(models.TunnelConfigsAuthAlgoEnum(plan.AuthAlgo.ValueString()))
 		data.DhGroup = models.ToPointer(models.TunnelConfigsDhGroupEnum(plan.DhGroup.ValueString()))
-		data.EncAlgo.SetValue(models.ToPointer(models.TunnelConfigsEncAlgoEnum(plan.EncAlgo.ValueString())))
+		data.EncAlgo = models.NewOptional(models.ToPointer(models.TunnelConfigsEncAlgoEnum(plan.EncAlgo.ValueString())))
 
 		data_list = append(data_list, data)
 	}

@@ -19,7 +19,7 @@ func radiusServersAcctSdkToTerraform(ctx context.Context, diags *diag.Diagnostic
 		var keywrap_format basetypes.StringValue
 		var keywrap_kek basetypes.StringValue
 		var keywrap_mack basetypes.StringValue
-		var port basetypes.Int64Value = types.Int64Value(int64(d.Port))
+		var port basetypes.Int64Value = types.Int64Value(int64(*d.Port))
 		var secret basetypes.StringValue = types.StringValue(d.Secret)
 
 		if d.KeywrapEnabled != nil {
@@ -66,7 +66,7 @@ func radiusServersAuthSdkToTerraform(ctx context.Context, diags *diag.Diagnostic
 		var keywrap_format basetypes.StringValue
 		var keywrap_kek basetypes.StringValue
 		var keywrap_mack basetypes.StringValue
-		var port basetypes.Int64Value = types.Int64Value(int64(d.Port))
+		var port basetypes.Int64Value = types.Int64Value(int64(*d.Port))
 		var secret basetypes.StringValue = types.StringValue(d.Secret)
 
 		if d.KeywrapEnabled != nil {

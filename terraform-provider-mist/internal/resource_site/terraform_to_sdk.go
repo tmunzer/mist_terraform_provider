@@ -57,13 +57,13 @@ func TerraformToSdk(ctx context.Context, plan *SiteModel) (*models.Site, diag.Di
 	if !plan.SitetemplateId.IsNull() && !plan.SitetemplateId.IsUnknown() {
 		sitetemplate_id = uuid.MustParse(plan.SitetemplateId.ValueString())
 	}
-	data.AlarmtemplateId.SetValue(&alarmtemplate_id)
-	data.AptemplateId.SetValue(&aptemplate_id)
-	data.GatewaytemplateId.SetValue(&gatewaytemplate_id)
-	data.NetworktemplateId.SetValue(&networktemplate_id)
-	data.RftemplateId.SetValue(&rftemplate_id)
-	data.SecpolicyId.SetValue(&secpolicy_id)
-	data.SitetemplateId.SetValue(&sitetemplate_id)
+	data.AlarmtemplateId = models.NewOptional(&alarmtemplate_id)
+	data.AptemplateId = models.NewOptional(&aptemplate_id)
+	data.GatewaytemplateId = models.NewOptional(&gatewaytemplate_id)
+	data.NetworktemplateId = models.NewOptional(&networktemplate_id)
+	data.RftemplateId = models.NewOptional(&rftemplate_id)
+	data.SecpolicyId = models.NewOptional(&secpolicy_id)
+	data.SitetemplateId = models.NewOptional(&sitetemplate_id)
 
 	var items []uuid.UUID
 	for _, item := range plan.SitegroupIds.Elements() {

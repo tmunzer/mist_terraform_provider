@@ -64,7 +64,10 @@ def gen_code_model(model: str, meta: list) -> list:
         ejson = line.get("ejson")
         tmp_var.append(f"var {ejson} {etype}")
         tmp_if.append(f"if d.{evar} != nil " + "{")
-        tmp_if.append(f"{ejson} = types.{etype.split('.')[1]}(*d.{evar})")
+        if len(etype.split('.')) > 1:
+            tmp_if.append(f"{ejson} = types.{etype.split('.')[1]}(*d.{evar})")
+        else:
+            tmp_if.append(f"{ejson} = types.{etype}(*d.{evar})")
         tmp_if.append("}")
         tmp_map.append(f'"{ejson}": {ejson}')
     return model, tmp_var, tmp_if, tmp_map

@@ -9,14 +9,14 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 )
 
-func dynamicVlanTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, plan DynamicVlanValue) models.WlanDynamicVlan {
+func dynamicVlanTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, plan DynamicVlanValue) *models.WlanDynamicVlan {
 
-	var local_vlan_ids []*int32
+	var local_vlan_ids []int
 	for _, item := range plan.LocalVlanIds.Elements() {
 		var item_interface interface{} = item
 		i := item_interface.(basetypes.Int64Value)
-		j := int32(i.ValueInt64())
-		local_vlan_ids = append(local_vlan_ids, &j)
+		j := int(i.ValueInt64())
+		local_vlan_ids = append(local_vlan_ids, j)
 	}
 
 	vlans := make(map[string]string)
@@ -26,12 +26,12 @@ func dynamicVlanTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, pla
 		vlans[k] = v_plan.ValueString()
 	}
 
-	data := *models.NewWlanDynamicVlan()
-	data.SetDefaultVlanId(int32(plan.DefaultVlanId.ValueInt64()))
-	data.SetEnabled(plan.Enabled.ValueBool())
-	data.SetLocalVlanIds(local_vlan_ids)
-	data.SetType(models.WlanDynamicVlanType(plan.DynamicVlanType.ValueString()))
-	data.SetVlans(vlans)
+	data := models.WlanDynamicVlan{}
+	data.DefaultVlanId = models.NewOptional(models.ToPointer(int(plan.DefaultVlanId.ValueInt64())))
+	data.Enabled = plan.Enabled.ValueBoolPointer()
+	data.LocalVlanIds = local_vlan_ids
+	data.Type = models.ToPointer(models.WlanDynamicVlanTypeEnum(string(plan.DynamicVlanType.ValueString())))
+	data.Vlans = vlans
 
-	return data
+	return &data
 }

@@ -101,7 +101,7 @@ func tunnelConfigIkeProposalSdkToTerraform(ctx context.Context, diags *diag.Diag
 		if d.DhGroup != nil {
 			dh_group = types.StringValue(string(*d.DhGroup))
 		}
-		if d.EncAlgo.IsValueSet() {
+		if d.EncAlgo.Value() != nil {
 			enc_algo = types.StringValue(string(*d.EncAlgo.Value()))
 		}
 
@@ -136,7 +136,7 @@ func tunnelConfigIpsecProposalSdkToTerraform(ctx context.Context, diags *diag.Di
 		if d.DhGroup != nil {
 			dh_group = types.StringValue(string(*d.DhGroup))
 		}
-		if d.EncAlgo.IsValueSet() {
+		if d.EncAlgo.Value() != nil {
 			enc_algo = types.StringValue(string(*d.EncAlgo.Value()))
 		}
 

@@ -17,10 +17,10 @@ func extraRoute6NextQualifiedSdkToTerraform(ctx context.Context, diags *diag.Dia
 		var metric basetypes.Int64Value
 		var preference basetypes.Int64Value
 
-		if d.Metric.IsValueSet() {
+		if d.Metric.Value() != nil {
 			metric = types.Int64Value(int64(*d.Metric.Value()))
 		}
-		if d.Preference.IsValueSet() {
+		if d.Preference.Value() != nil {
 			preference = types.Int64Value(int64(*d.Preference.Value()))
 		}
 
@@ -53,7 +53,7 @@ func extraRoutes6SdkToTerraform(ctx context.Context, diags *diag.Diagnostics, m 
 		if d.Discard != nil {
 			discard = types.BoolValue(*d.Discard)
 		}
-		if d.Metric.IsValueSet() {
+		if d.Metric.Value() != nil {
 			metric = types.Int64Value(int64(*d.Metric.Value()))
 		}
 		if d.NextQualified != nil {
@@ -62,7 +62,7 @@ func extraRoutes6SdkToTerraform(ctx context.Context, diags *diag.Diagnostics, m 
 		if d.NoResolve != nil {
 			no_resolve = types.BoolValue(*d.NoResolve)
 		}
-		if d.Preference.IsValueSet() {
+		if d.Preference.Value() != nil {
 			preference = types.Int64Value(int64(*d.Preference.Value()))
 		}
 		if d.Via != nil {

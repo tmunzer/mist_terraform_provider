@@ -165,7 +165,7 @@ func portUsagesSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, m ma
 		if d.EnableQos != nil {
 			enable_qos = types.BoolValue(*d.EnableQos)
 		}
-		if d.GuestNetwork.IsValueSet() {
+		if d.GuestNetwork.Value() != nil {
 			guest_network = types.StringValue(*d.GuestNetwork.Value())
 		}
 		if d.InterSwitchLink != nil {
@@ -204,7 +204,7 @@ func portUsagesSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, m ma
 		if d.ReauthInterval != nil {
 			reauth_interval = types.Int64Value(int64(*d.ReauthInterval))
 		}
-		if d.RejectedNetwork.IsValueSet() {
+		if d.RejectedNetwork.Value() != nil {
 			rejected_network = types.StringValue(*d.RejectedNetwork.Value())
 		}
 		if d.ResetDefaultWhen != nil {

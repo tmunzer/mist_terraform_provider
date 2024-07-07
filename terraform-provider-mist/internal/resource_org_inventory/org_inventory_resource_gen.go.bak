@@ -76,7 +76,7 @@ func OrgInventoryResourceSchema(ctx context.Context) schema.Schema {
 							Description:         "Device Hostname",
 							MarkdownDescription: "Device Hostname",
 						},
-						"device_id": schema.StringAttribute{
+						"id": schema.StringAttribute{
 							Computed:            true,
 							Description:         "Mist Device ID",
 							MarkdownDescription: "Mist Device ID",
@@ -294,12 +294,12 @@ func (t DevicesType) ValueFromObject(ctx context.Context, in basetypes.ObjectVal
 			fmt.Sprintf(`hostname expected to be basetypes.StringValue, was: %T`, hostnameAttribute))
 	}
 
-	deviceIdAttribute, ok := attributes["device_id"]
+	deviceIdAttribute, ok := attributes["id"]
 
 	if !ok {
 		diags.AddError(
 			"Attribute Missing",
-			`device_id is missing from object`)
+			`id is missing from object`)
 
 		return nil, diags
 	}
@@ -309,7 +309,7 @@ func (t DevicesType) ValueFromObject(ctx context.Context, in basetypes.ObjectVal
 	if !ok {
 		diags.AddError(
 			"Attribute Wrong Type",
-			fmt.Sprintf(`device_id expected to be basetypes.StringValue, was: %T`, deviceIdAttribute))
+			fmt.Sprintf(`id expected to be basetypes.StringValue, was: %T`, deviceIdAttribute))
 	}
 
 
@@ -324,7 +324,7 @@ func (t DevicesType) ValueFromObject(ctx context.Context, in basetypes.ObjectVal
 		DeviceType: 	deviceTypeVal,
 		VcMac: 			vcMacVal,
 		Hostname:		hostnameVal,
-		DeviceId:		deviceIdVal,
+		Id:				deviceIdVal,
 		state:   		attr.ValueStateKnown,
 	}, diags
 }
@@ -570,12 +570,12 @@ func NewDevicesValue(attributeTypes map[string]attr.Type, attributes map[string]
 	}
 	
 
-	deviceIdAttribute, ok := attributes["device_id"]
+	deviceIdAttribute, ok := attributes["id"]
 
 	if !ok {
 		diags.AddError(
 			"Attribute Missing",
-			`device_id is missing from object`)
+			`id is missing from object`)
 
 		return NewDevicesValueUnknown(), diags
 	}
@@ -585,7 +585,7 @@ func NewDevicesValue(attributeTypes map[string]attr.Type, attributes map[string]
 	if !ok {
 		diags.AddError(
 			"Attribute Wrong Type",
-			fmt.Sprintf(`device_id expected to be basetypes.StringValue, was: %T`, deviceIdAttribute))
+			fmt.Sprintf(`id expected to be basetypes.StringValue, was: %T`, deviceIdAttribute))
 	}
 
 	
@@ -604,7 +604,7 @@ func NewDevicesValue(attributeTypes map[string]attr.Type, attributes map[string]
 		DeviceType: 	deviceTypeVal,
 		VcMac: 			vcMacVal,
 		Hostname:		hostnameVal,
-		DeviceId:		deviceIdVal,
+		Id:				deviceIdVal,
 		state:   		attr.ValueStateKnown,
 	}, diags
 }
@@ -686,7 +686,7 @@ type DevicesValue struct {
 	DeviceType 		basetypes.StringValue   		`tfsdk:"type"`
 	VcMac 			basetypes.StringValue   		`tfsdk:"vc_mac"`
 	Hostname		basetypes.StringValue   		`tfsdk:"hostname"`
-	DeviceId		basetypes.StringValue   		`tfsdk:"device_id"`
+	Id				basetypes.StringValue   		`tfsdk:"id"`
 	state   		attr.ValueState
 }
 
@@ -705,7 +705,7 @@ func (v DevicesValue) ToTerraformValue(ctx context.Context) (tftypes.Value, erro
 	attrTypes["type"] = basetypes.StringType{}.TerraformType(ctx)
 	attrTypes["vc_mac"] = basetypes.StringType{}.TerraformType(ctx)
 	attrTypes["hostname"] = basetypes.StringType{}.TerraformType(ctx)
-	attrTypes["device_id"] = basetypes.StringType{}.TerraformType(ctx)
+	attrTypes["id"] = basetypes.StringType{}.TerraformType(ctx)
 
 	objectType := tftypes.Object{AttributeTypes: attrTypes}
 
@@ -785,13 +785,13 @@ func (v DevicesValue) ToTerraformValue(ctx context.Context) (tftypes.Value, erro
 
 		vals["hostname"] = val
 
-		val, err = v.DeviceId.ToTerraformValue(ctx)
+		val, err = v.Id.ToTerraformValue(ctx)
 
 		if err != nil {
 			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
 		}
 
-		vals["device_id"] = val
+		vals["id"] = val
 
 		if err := tftypes.ValidateValue(objectType, vals); err != nil {
 			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
@@ -832,7 +832,7 @@ func (v DevicesValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue,
 		"type": 		basetypes.StringType{},
 		"vc_mac": 		basetypes.StringType{},
 		"hostname": 	basetypes.StringType{},
-		"device_id": 	basetypes.StringType{},
+		"id": 			basetypes.StringType{},
 	}
 
 	if v.IsNull() {
@@ -854,8 +854,8 @@ func (v DevicesValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue,
 			"site_id": 		v.SiteId,
 			"type": 		v.DeviceType,
 			"vc_mac": 		v.VcMac,
-			"hostname": 	v.VcMac,
-			"device_id": 	v.VcMac,
+			"hostname": 	v.Hostname,
+			"id": 			v.Id,
 		})
 
 	return objVal, diags
@@ -908,7 +908,7 @@ func (v DevicesValue) Equal(o attr.Value) bool {
 		return false
 	}
 
-	if !v.DeviceId.Equal(other.DeviceId) {
+	if !v.Id.Equal(other.Id) {
 		return false
 	}
 
@@ -930,15 +930,15 @@ func (v DevicesValue) Type(ctx context.Context) attr.Type {
 func (v DevicesValue) AttributeTypes(ctx context.Context) map[string]attr.Type {
 	return map[string]attr.Type{
 		"claim_code": 		basetypes.StringType{},
-		"mac": 			basetypes.StringType{},
-		"model": 		basetypes.StringType{},
-		"org_id": 		basetypes.StringType{},
-		"serial": 		basetypes.StringType{},
-		"site_id": 		basetypes.StringType{},
-		"type": 		basetypes.StringType{},
-		"vc_mac": 		basetypes.StringType{},
-		"hostname": 	basetypes.StringType{},
-		"device_id": 	basetypes.StringType{},
+		"mac": 				basetypes.StringType{},
+		"model": 			basetypes.StringType{},
+		"org_id": 			basetypes.StringType{},
+		"serial": 			basetypes.StringType{},
+		"site_id": 			basetypes.StringType{},
+		"type": 			basetypes.StringType{},
+		"vc_mac": 			basetypes.StringType{},
+		"hostname": 		basetypes.StringType{},
+		"id": 				basetypes.StringType{},
 	}
 }
 	

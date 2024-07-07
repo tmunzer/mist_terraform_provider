@@ -15,13 +15,15 @@ func radiusAcctServersTerraformToSdk(ctx context.Context, diags *diag.Diagnostic
 	for _, plan_attr := range d.Elements() {
 		var srv_plan_interface interface{} = plan_attr
 		srv_plan := srv_plan_interface.(AcctServersValue)
-		keywrap_format, _ := models.NewRadiusKeywrapFormatFromValue(srv_plan.KeywrapFormat.ValueString())
-		srv_data := models.NewRadiusAcctServer(srv_plan.Host.ValueString(), int32(srv_plan.Port.ValueInt64()), srv_plan.Secret.ValueString())
-		srv_data.SetKeywrapEnabled(srv_plan.KeywrapEnabled.ValueBool())
-		srv_data.SetKeywrapFormat(*keywrap_format)
-		srv_data.SetKeywrapKek(srv_plan.KeywrapKek.ValueString())
-		srv_data.SetKeywrapMack(srv_plan.KeywrapMack.ValueString())
-		data = append(data, *srv_data)
+		srv_data := models.RadiusAcctServer{}
+		srv_data.Host = srv_plan.Host.ValueString()
+		srv_data.Port = models.ToPointer(int(srv_plan.Port.ValueInt64()))
+		srv_data.Secret = srv_plan.Secret.ValueString()
+		srv_data.KeywrapEnabled = srv_plan.KeywrapEnabled.ValueBoolPointer()
+		srv_data.KeywrapFormat = models.ToPointer(models.RadiusKeywrapFormatEnum(string(srv_plan.KeywrapFormat.ValueString())))
+		srv_data.KeywrapKek = srv_plan.KeywrapKek.ValueStringPointer()
+		srv_data.KeywrapMack = srv_plan.KeywrapMack.ValueStringPointer()
+		data = append(data, srv_data)
 	}
 	return data
 }
@@ -32,13 +34,15 @@ func radiusAuthServersTerraformToSdk(ctx context.Context, diags *diag.Diagnostic
 	for _, plan_attr := range d.Elements() {
 		var srv_plan_interface interface{} = plan_attr
 		srv_plan := srv_plan_interface.(AuthServersValue)
-		keywrap_format, _ := models.NewRadiusKeywrapFormatFromValue(srv_plan.KeywrapFormat.ValueString())
-		srv_data := models.NewRadiusAuthServer(srv_plan.Host.ValueString(), int32(srv_plan.Port.ValueInt64()), srv_plan.Secret.ValueString())
-		srv_data.SetKeywrapEnabled(srv_plan.KeywrapEnabled.ValueBool())
-		srv_data.SetKeywrapFormat(*keywrap_format)
-		srv_data.SetKeywrapKek(srv_plan.KeywrapKek.ValueString())
-		srv_data.SetKeywrapMack(srv_plan.KeywrapMack.ValueString())
-		data = append(data, *srv_data)
+		srv_data := models.RadiusAuthServer{}
+		srv_data.Host = srv_plan.Host.ValueString()
+		srv_data.Port = models.ToPointer(int(srv_plan.Port.ValueInt64()))
+		srv_data.Secret = srv_plan.Secret.ValueString()
+		srv_data.KeywrapEnabled = srv_plan.KeywrapEnabled.ValueBoolPointer()
+		srv_data.KeywrapFormat = models.ToPointer(models.RadiusKeywrapFormatEnum(string(srv_plan.KeywrapFormat.ValueString())))
+		srv_data.KeywrapKek = srv_plan.KeywrapKek.ValueStringPointer()
+		srv_data.KeywrapMack = srv_plan.KeywrapMack.ValueStringPointer()
+		data = append(data, srv_data)
 	}
 	return data
 }

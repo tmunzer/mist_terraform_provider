@@ -95,7 +95,6 @@ func OrgWlanResourceSchema(ctx context.Context) schema.Schema {
 					},
 				},
 				Optional:            true,
-				Computed:            true,
 				Description:         "list of RADIUS accounting servers, optional, order matters where the first one is treated as primary",
 				MarkdownDescription: "list of RADIUS accounting servers, optional, order matters where the first one is treated as primary",
 			},
@@ -141,30 +140,23 @@ func OrgWlanResourceSchema(ctx context.Context) schema.Schema {
 					},
 				},
 				Optional:            true,
-				Computed:            true,
 				Description:         "airwatch wlan settings",
 				MarkdownDescription: "airwatch wlan settings",
 			},
 			"allow_ipv6_ndp": schema.BoolAttribute{
 				Optional:            true,
-				Computed:            true,
 				Description:         "only applicable when limit_bcast==true, which allows or disallows ipv6 Neighbor Discovery packets to go through",
 				MarkdownDescription: "only applicable when limit_bcast==true, which allows or disallows ipv6 Neighbor Discovery packets to go through",
-				Default:             booldefault.StaticBool(true),
 			},
 			"allow_mdns": schema.BoolAttribute{
 				Optional:            true,
-				Computed:            true,
 				Description:         "only applicable when limit_bcast==true, which allows mDNS / Bonjour packets to go through",
 				MarkdownDescription: "only applicable when limit_bcast==true, which allows mDNS / Bonjour packets to go through",
-				Default:             booldefault.StaticBool(false),
 			},
 			"allow_ssdp": schema.BoolAttribute{
 				Optional:            true,
-				Computed:            true,
 				Description:         "only applicable when `limit_bcast`==`tru`e, which allows SSDP",
 				MarkdownDescription: "only applicable when `limit_bcast`==`tru`e, which allows SSDP",
-				Default:             booldefault.StaticBool(false),
 			},
 			"ap_ids": schema.ListAttribute{
 				ElementType:         types.StringType,
@@ -1135,7 +1127,6 @@ func OrgWlanResourceSchema(ctx context.Context) schema.Schema {
 				Computed: true,
 			},
 			"msp_id": schema.StringAttribute{
-				Optional: true,
 				Computed: true,
 				Default:  stringdefault.StaticString(""),
 			},
@@ -1501,7 +1492,6 @@ func OrgWlanResourceSchema(ctx context.Context) schema.Schema {
 						Default:             stringdefault.StaticString(""),
 					},
 					"portal_api_secret": schema.StringAttribute{
-						Optional:            true,
 						Computed:            true,
 						Description:         "api secret (auto-generated) that can be used to sign guest authorization requests",
 						MarkdownDescription: "api secret (auto-generated) that can be used to sign guest authorization requests",
@@ -1509,23 +1499,20 @@ func OrgWlanResourceSchema(ctx context.Context) schema.Schema {
 					},
 					"portal_denied_hostnames": schema.StringAttribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "list of hostnames without http(s):// (matched by substring), this takes precedence over portal_allowed_hostnames",
 						MarkdownDescription: "list of hostnames without http(s):// (matched by substring), this takes precedence over portal_allowed_hostnames",
-						Default:             stringdefault.StaticString(""),
 					},
 					"portal_image": schema.StringAttribute{
-						Optional:            true,
 						Computed:            true,
 						Description:         "Url of portal background image",
 						MarkdownDescription: "Url of portal background image",
 						Default:             stringdefault.StaticString(""),
 					},
 					"portal_sso_url": schema.StringAttribute{
-						Optional:            true,
 						Computed:            true,
 						Description:         "for SAML, this is used as the ACS URL",
 						MarkdownDescription: "for SAML, this is used as the ACS URL",
+						Default:             stringdefault.StaticString(""),
 					},
 					"predefined_sponsors_enabled": schema.BoolAttribute{
 						Optional:            true,
@@ -1717,13 +1704,6 @@ func OrgWlanResourceSchema(ctx context.Context) schema.Schema {
 						Computed:            true,
 						Description:         "when `sms_provider`==`telstra`, Client secret provided by Telstra",
 						MarkdownDescription: "when `sms_provider`==`telstra`, Client secret provided by Telstra",
-						Default:             stringdefault.StaticString(""),
-					},
-					"thumbnail": schema.StringAttribute{
-						Optional:            true,
-						Computed:            true,
-						Description:         "Url of portal background image thumbnail",
-						MarkdownDescription: "Url of portal background image thumbnail",
 						Default:             stringdefault.StaticString(""),
 					},
 					"twilio_auth_token": schema.StringAttribute{
@@ -2006,7 +1986,6 @@ func OrgWlanResourceSchema(ctx context.Context) schema.Schema {
 				MarkdownDescription: "WLAN operating schedule, default is disabled",
 			},
 			"site_id": schema.StringAttribute{
-				Optional: true,
 				Computed: true,
 			},
 			"sle_excluded": schema.BoolAttribute{
@@ -13480,24 +13459,6 @@ func (t PortalType) ValueFromObject(ctx context.Context, in basetypes.ObjectValu
 			fmt.Sprintf(`telstra_client_secret expected to be basetypes.StringValue, was: %T`, telstraClientSecretAttribute))
 	}
 
-	thumbnailAttribute, ok := attributes["thumbnail"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`thumbnail is missing from object`)
-
-		return nil, diags
-	}
-
-	thumbnailVal, ok := thumbnailAttribute.(basetypes.StringValue)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`thumbnail expected to be basetypes.StringValue, was: %T`, thumbnailAttribute))
-	}
-
 	twilioAuthTokenAttribute, ok := attributes["twilio_auth_token"]
 
 	if !ok {
@@ -13632,7 +13593,6 @@ func (t PortalType) ValueFromObject(ctx context.Context, in basetypes.ObjectValu
 		SsoNameidFormat:             ssoNameidFormatVal,
 		TelstraClientId:             telstraClientIdVal,
 		TelstraClientSecret:         telstraClientSecretVal,
-		Thumbnail:                   thumbnailVal,
 		TwilioAuthToken:             twilioAuthTokenVal,
 		TwilioPhoneNumber:           twilioPhoneNumberVal,
 		TwilioSid:                   twilioSidVal,
@@ -15053,24 +15013,6 @@ func NewPortalValue(attributeTypes map[string]attr.Type, attributes map[string]a
 			fmt.Sprintf(`telstra_client_secret expected to be basetypes.StringValue, was: %T`, telstraClientSecretAttribute))
 	}
 
-	thumbnailAttribute, ok := attributes["thumbnail"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`thumbnail is missing from object`)
-
-		return NewPortalValueUnknown(), diags
-	}
-
-	thumbnailVal, ok := thumbnailAttribute.(basetypes.StringValue)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`thumbnail expected to be basetypes.StringValue, was: %T`, thumbnailAttribute))
-	}
-
 	twilioAuthTokenAttribute, ok := attributes["twilio_auth_token"]
 
 	if !ok {
@@ -15205,7 +15147,6 @@ func NewPortalValue(attributeTypes map[string]attr.Type, attributes map[string]a
 		SsoNameidFormat:             ssoNameidFormatVal,
 		TelstraClientId:             telstraClientIdVal,
 		TelstraClientSecret:         telstraClientSecretVal,
-		Thumbnail:                   thumbnailVal,
 		TwilioAuthToken:             twilioAuthTokenVal,
 		TwilioPhoneNumber:           twilioPhoneNumberVal,
 		TwilioSid:                   twilioSidVal,
@@ -15356,7 +15297,6 @@ type PortalValue struct {
 	SsoNameidFormat             basetypes.StringValue  `tfsdk:"sso_nameid_format"`
 	TelstraClientId             basetypes.StringValue  `tfsdk:"telstra_client_id"`
 	TelstraClientSecret         basetypes.StringValue  `tfsdk:"telstra_client_secret"`
-	Thumbnail                   basetypes.StringValue  `tfsdk:"thumbnail"`
 	TwilioAuthToken             basetypes.StringValue  `tfsdk:"twilio_auth_token"`
 	TwilioPhoneNumber           basetypes.StringValue  `tfsdk:"twilio_phone_number"`
 	TwilioSid                   basetypes.StringValue  `tfsdk:"twilio_sid"`
@@ -15456,7 +15396,6 @@ func (v PortalValue) ToTerraformValue(ctx context.Context) (tftypes.Value, error
 	attrTypes["sso_nameid_format"] = basetypes.StringType{}.TerraformType(ctx)
 	attrTypes["telstra_client_id"] = basetypes.StringType{}.TerraformType(ctx)
 	attrTypes["telstra_client_secret"] = basetypes.StringType{}.TerraformType(ctx)
-	attrTypes["thumbnail"] = basetypes.StringType{}.TerraformType(ctx)
 	attrTypes["twilio_auth_token"] = basetypes.StringType{}.TerraformType(ctx)
 	attrTypes["twilio_phone_number"] = basetypes.StringType{}.TerraformType(ctx)
 	attrTypes["twilio_sid"] = basetypes.StringType{}.TerraformType(ctx)
@@ -16065,15 +16004,7 @@ func (v PortalValue) ToTerraformValue(ctx context.Context) (tftypes.Value, error
 			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
 		}
 
-		vals["telstra_client_secret"] = val
-
-		val, err = v.Thumbnail.ToTerraformValue(ctx)
-
-		if err != nil {
-			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
-		}
-
-		vals["thumbnail"] = val
+		vals["telstra_client_secret"] = val		
 
 		val, err = v.TwilioAuthToken.ToTerraformValue(ctx)
 
@@ -16221,7 +16152,6 @@ func (v PortalValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, 
 			"sso_nameid_format":     basetypes.StringType{},
 			"telstra_client_id":     basetypes.StringType{},
 			"telstra_client_secret": basetypes.StringType{},
-			"thumbnail":             basetypes.StringType{},
 			"twilio_auth_token":     basetypes.StringType{},
 			"twilio_phone_number":   basetypes.StringType{},
 			"twilio_sid":            basetypes.StringType{},
@@ -16321,7 +16251,6 @@ func (v PortalValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, 
 			"sso_nameid_format":     basetypes.StringType{},
 			"telstra_client_id":     basetypes.StringType{},
 			"telstra_client_secret": basetypes.StringType{},
-			"thumbnail":             basetypes.StringType{},
 			"twilio_auth_token":     basetypes.StringType{},
 			"twilio_phone_number":   basetypes.StringType{},
 			"twilio_sid":            basetypes.StringType{},
@@ -16421,7 +16350,6 @@ func (v PortalValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, 
 			"sso_nameid_format":     basetypes.StringType{},
 			"telstra_client_id":     basetypes.StringType{},
 			"telstra_client_secret": basetypes.StringType{},
-			"thumbnail":             basetypes.StringType{},
 			"twilio_auth_token":     basetypes.StringType{},
 			"twilio_phone_number":   basetypes.StringType{},
 			"twilio_sid":            basetypes.StringType{},
@@ -16521,7 +16449,6 @@ func (v PortalValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, 
 			"sso_nameid_format":     basetypes.StringType{},
 			"telstra_client_id":     basetypes.StringType{},
 			"telstra_client_secret": basetypes.StringType{},
-			"thumbnail":             basetypes.StringType{},
 			"twilio_auth_token":     basetypes.StringType{},
 			"twilio_phone_number":   basetypes.StringType{},
 			"twilio_sid":            basetypes.StringType{},
@@ -16621,7 +16548,6 @@ func (v PortalValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, 
 			"sso_nameid_format":     basetypes.StringType{},
 			"telstra_client_id":     basetypes.StringType{},
 			"telstra_client_secret": basetypes.StringType{},
-			"thumbnail":             basetypes.StringType{},
 			"twilio_auth_token":     basetypes.StringType{},
 			"twilio_phone_number":   basetypes.StringType{},
 			"twilio_sid":            basetypes.StringType{},
@@ -16721,7 +16647,6 @@ func (v PortalValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, 
 			"sso_nameid_format":     basetypes.StringType{},
 			"telstra_client_id":     basetypes.StringType{},
 			"telstra_client_secret": basetypes.StringType{},
-			"thumbnail":             basetypes.StringType{},
 			"twilio_auth_token":     basetypes.StringType{},
 			"twilio_phone_number":   basetypes.StringType{},
 			"twilio_sid":            basetypes.StringType{},
@@ -16816,7 +16741,6 @@ func (v PortalValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, 
 		"sso_nameid_format":     basetypes.StringType{},
 		"telstra_client_id":     basetypes.StringType{},
 		"telstra_client_secret": basetypes.StringType{},
-		"thumbnail":             basetypes.StringType{},
 		"twilio_auth_token":     basetypes.StringType{},
 		"twilio_phone_number":   basetypes.StringType{},
 		"twilio_sid":            basetypes.StringType{},
@@ -16908,7 +16832,6 @@ func (v PortalValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, 
 			"sso_nameid_format":              v.SsoNameidFormat,
 			"telstra_client_id":              v.TelstraClientId,
 			"telstra_client_secret":          v.TelstraClientSecret,
-			"thumbnail":                      v.Thumbnail,
 			"twilio_auth_token":              v.TwilioAuthToken,
 			"twilio_phone_number":            v.TwilioPhoneNumber,
 			"twilio_sid":                     v.TwilioSid,
@@ -17232,10 +17155,6 @@ func (v PortalValue) Equal(o attr.Value) bool {
 		return false
 	}
 
-	if !v.Thumbnail.Equal(other.Thumbnail) {
-		return false
-	}
-
 	if !v.TwilioAuthToken.Equal(other.TwilioAuthToken) {
 		return false
 	}
@@ -17348,7 +17267,6 @@ func (v PortalValue) AttributeTypes(ctx context.Context) map[string]attr.Type {
 		"sso_nameid_format":     basetypes.StringType{},
 		"telstra_client_id":     basetypes.StringType{},
 		"telstra_client_secret": basetypes.StringType{},
-		"thumbnail":             basetypes.StringType{},
 		"twilio_auth_token":     basetypes.StringType{},
 		"twilio_phone_number":   basetypes.StringType{},
 		"twilio_sid":            basetypes.StringType{},

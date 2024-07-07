@@ -15,21 +15,21 @@ func bonjourServicesTerraformToSdk(ctx context.Context, diags *diag.Diagnostics,
 	for k, v := range plan.Elements() {
 		var v_interface interface{} = v
 		v_plan := v_interface.(ServicesValue)
-		v_data := models.NewWlanBonjourServiceProperties()
-		v_data.SetDisableLocal(v_plan.DisableLocal.ValueBool())
-		v_data.SetRadiusGroups(mist_transform.ListOfStringTerraformToSdk(ctx, v_plan.RadiusGroups))
-		v_data.SetScope(models.WlanBonjourServicePropertiesScope(v_plan.Scope.ValueString()))
+		v_data := models.WlanBonjourServiceProperties{}
+		v_data.DisableLocal = v_plan.DisableLocal.ValueBoolPointer()
+		v_data.RadiusGroups = mist_transform.ListOfStringTerraformToSdk(ctx, v_plan.RadiusGroups)
+		v_data.Scope = models.ToPointer(models.WlanBonjourServicePropertiesScopeEnum(string(v_plan.Scope.ValueString())))
 
-		data_map[k] = *v_data
+		data_map[k] = v_data
 	}
 	return data_map
 }
-func bonjourTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, plan BonjourValue) models.WlanBonjour {
+func bonjourTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, plan BonjourValue) *models.WlanBonjour {
 
-	additional_vlan_ids := mist_transform.ListOfIntTerraformToSdk(ctx, plan.AdditionalVlanIds)
-	services := bonjourServicesTerraformToSdk(ctx, diags, plan.Services)
-	data := models.NewWlanBonjour(additional_vlan_ids, services)
-	data.SetEnabled(plan.Enabled.ValueBool())
+	data := models.WlanBonjour{}
+	data.AdditionalVlanIds = mist_transform.ListOfIntTerraformToSdk(ctx, plan.AdditionalVlanIds)
+	data.Services = bonjourServicesTerraformToSdk(ctx, diags, plan.Services)
+	data.Enabled = plan.Enabled.ValueBoolPointer()
 
-	return *data
+	return &data
 }

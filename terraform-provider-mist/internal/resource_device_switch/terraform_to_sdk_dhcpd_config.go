@@ -36,7 +36,7 @@ func dhcpdConfigOptionsTerraformToSdk(ctx context.Context, diags *diag.Diagnosti
 
 		data := *models.NewDhcpdConfigOption()
 		data.SetType(models.DhcpdConfigOptionType(plan.OptionsType.ValueString()))
-		data.SetValue(plan.Value.ValueString())
+		data = models.NewOptional(plan.Value.ValueString())
 
 		data_map[k] = data
 	}
@@ -52,7 +52,7 @@ func dhcpdConfigVendorOptionsTerraformToSdk(ctx context.Context, diags *diag.Dia
 
 		data := *models.NewDhcpdConfigVendorOption()
 		data.SetType(models.DhcpdConfigVendorOptionType(plan.VendorEncapulatedType.ValueString()))
-		data.SetValue(plan.Value.ValueString())
+		data = models.NewOptional(plan.Value.ValueString())
 
 		data_map[k] = data
 	}

@@ -9,67 +9,67 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 )
 
-func channelsTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ListValue) []int32 {
-	var data []int32
+func channelsTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ListValue) []int {
+	var data []int
 	for _, v := range d.Elements() {
 		var i interface{} = v
 		d := i.(basetypes.Int64Value)
-		data = append(data, int32(d.ValueInt64()))
+		data = append(data, int(d.ValueInt64()))
 	}
 	return data
 }
 
-func band24TerraformToSdk(ctx context.Context, diags *diag.Diagnostics, plan Band24Value) models.RftemplateRadioBand24 {
+func band24TerraformToSdk(ctx context.Context, diags *diag.Diagnostics, plan Band24Value) *models.RftemplateRadioBand24 {
 
-	data := models.NewRftemplateRadioBand24()
+	data := models.RftemplateRadioBand24{}
 
-	data.SetAllowRrmDisable(plan.AllowRrmDisable.ValueBool())
-	data.SetAntGain(int32(plan.AntGain.ValueInt64()))
-	data.SetAntennaMode(models.RadioBandAntennaMode(plan.AntennaMode.ValueString()))
-	data.SetBandwidth(models.Dot11Bandwidth24(plan.Bandwidth.ValueInt64()))
-	data.SetChannels(channelsTerraformToSdk(ctx, diags, plan.Channels))
-	data.SetDisabled(plan.Disabled.ValueBool())
-	data.SetPower(int32(plan.Power.ValueInt64()))
-	data.SetPowerMax(int32(plan.PowerMax.ValueInt64()))
-	data.SetPowerMin(int32(plan.PowerMin.ValueInt64()))
-	data.SetPreamble(models.RadioBandPreamble(plan.Preamble.ValueString()))
+	data.AllowRrmDisable = plan.AllowRrmDisable.ValueBoolPointer()
+	data.AntGain = models.NewOptional(models.ToPointer(int(plan.AntGain.ValueInt64())))
+	data.AntennaMode = models.ToPointer(models.RadioBandAntennaModeEnum(plan.AntennaMode.ValueString()))
+	data.Bandwidth = models.ToPointer(models.Dot11Bandwidth24Enum(plan.Bandwidth.ValueInt64()))
+	data.Channels = models.NewOptional(models.ToPointer(channelsTerraformToSdk(ctx, diags, plan.Channels)))
+	data.Disabled = plan.Disabled.ValueBoolPointer()
+	data.Power = models.NewOptional(models.ToPointer(int(plan.Power.ValueInt64())))
+	data.PowerMax = models.NewOptional(models.ToPointer(int(plan.PowerMax.ValueInt64())))
+	data.PowerMin = models.NewOptional(models.ToPointer(int(plan.PowerMin.ValueInt64())))
+	data.Preamble = models.ToPointer(models.RadioBandPreambleEnum(plan.Preamble.ValueString()))
 
-	return *data
+	return &data
 }
 
-func band5TerraformToSdk(ctx context.Context, diags *diag.Diagnostics, plan Band5Value) models.RftemplateRadioBand5 {
+func band5TerraformToSdk(ctx context.Context, diags *diag.Diagnostics, plan Band5Value) *models.RftemplateRadioBand5 {
 
-	data := models.NewRftemplateRadioBand5()
+	data := models.RftemplateRadioBand5{}
 
-	data.SetAllowRrmDisable(plan.AllowRrmDisable.ValueBool())
-	data.SetAntGain(int32(plan.AntGain.ValueInt64()))
-	data.SetAntennaMode(models.RadioBandAntennaMode(plan.AntennaMode.ValueString()))
-	data.SetBandwidth(models.Dot11Bandwidth5(plan.Bandwidth.ValueInt64()))
-	data.SetChannels(channelsTerraformToSdk(ctx, diags, plan.Channels))
-	data.SetDisabled(plan.Disabled.ValueBool())
-	data.SetPower(int32(plan.Power.ValueInt64()))
-	data.SetPowerMax(int32(plan.PowerMax.ValueInt64()))
-	data.SetPowerMin(int32(plan.PowerMin.ValueInt64()))
-	data.SetPreamble(models.RadioBandPreamble(plan.Preamble.ValueString()))
+	data.AllowRrmDisable = plan.AllowRrmDisable.ValueBoolPointer()
+	data.AntGain = models.NewOptional(models.ToPointer(int(plan.AntGain.ValueInt64())))
+	data.AntennaMode = models.ToPointer(models.RadioBandAntennaModeEnum(plan.AntennaMode.ValueString()))
+	data.Bandwidth = models.ToPointer(models.Dot11Bandwidth5Enum(plan.Bandwidth.ValueInt64()))
+	data.Channels = models.NewOptional(models.ToPointer(channelsTerraformToSdk(ctx, diags, plan.Channels)))
+	data.Disabled = plan.Disabled.ValueBoolPointer()
+	data.Power = models.NewOptional(models.ToPointer(int(plan.Power.ValueInt64())))
+	data.PowerMax = models.NewOptional(models.ToPointer(int(plan.PowerMax.ValueInt64())))
+	data.PowerMin = models.NewOptional(models.ToPointer(int(plan.PowerMin.ValueInt64())))
+	data.Preamble = models.ToPointer(models.RadioBandPreambleEnum(plan.Preamble.ValueString()))
 
-	return *data
+	return &data
 }
 
-func band6TerraformToSdk(ctx context.Context, diags *diag.Diagnostics, plan Band6Value) models.RftemplateRadioBand6 {
+func band6TerraformToSdk(ctx context.Context, diags *diag.Diagnostics, plan Band6Value) *models.RftemplateRadioBand6 {
 
-	data := models.NewRftemplateRadioBand6()
+	data := models.RftemplateRadioBand6{}
 
-	data.SetAllowRrmDisable(plan.AllowRrmDisable.ValueBool())
-	data.SetAntGain(int32(plan.AntGain.ValueInt64()))
-	data.SetAntennaMode(models.RadioBandAntennaMode(plan.AntennaMode.ValueString()))
-	data.SetBandwidth(models.Dot11Bandwidth6(plan.Bandwidth.ValueInt64()))
-	data.SetChannels(channelsTerraformToSdk(ctx, diags, plan.Channels))
-	data.SetDisabled(plan.Disabled.ValueBool())
-	data.SetPower(int32(plan.Power.ValueInt64()))
-	data.SetPowerMax(int32(plan.PowerMax.ValueInt64()))
-	data.SetPowerMin(int32(plan.PowerMin.ValueInt64()))
-	data.SetPreamble(models.RadioBandPreamble(plan.Preamble.ValueString()))
-	data.SetStandardPower(plan.StandardPower.ValueBool())
+	data.AllowRrmDisable = plan.AllowRrmDisable.ValueBoolPointer()
+	data.AntGain = models.NewOptional(models.ToPointer(int(plan.AntGain.ValueInt64())))
+	data.AntennaMode = models.ToPointer(models.RadioBandAntennaModeEnum(plan.AntennaMode.ValueString()))
+	data.Bandwidth = models.ToPointer(models.Dot11Bandwidth6Enum(plan.Bandwidth.ValueInt64()))
+	data.Channels = models.NewOptional(models.ToPointer(channelsTerraformToSdk(ctx, diags, plan.Channels)))
+	data.Disabled = plan.Disabled.ValueBoolPointer()
+	data.Power = models.NewOptional(models.ToPointer(int(plan.Power.ValueInt64())))
+	data.PowerMax = models.NewOptional(models.ToPointer(int(plan.PowerMax.ValueInt64())))
+	data.PowerMin = models.NewOptional(models.ToPointer(int(plan.PowerMin.ValueInt64())))
+	data.Preamble = models.ToPointer(models.RadioBandPreambleEnum(plan.Preamble.ValueString()))
+	data.StandardPower = plan.StandardPower.ValueBoolPointer()
 
-	return *data
+	return &data
 }

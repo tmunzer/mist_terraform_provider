@@ -6,36 +6,56 @@ import (
 	"mistapi/models"
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
+	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 
-func TerraformToSdk(ctx context.Context, plan *RftemplateModel) (models.RfTemplate, diag.Diagnostics) {
+func TerraformToSdk(ctx context.Context, plan *OrgRftemplateModel) (*models.RfTemplate, diag.Diagnostics) {
 	var diags diag.Diagnostics
-	data := *models.NewRfTemplate(plan.Name.ValueString())
 
-	data.SetId(plan.Id.ValueString())
-	data.SetOrgId(plan.OrgId.ValueString())
+	unset := make(map[string]interface{})
 
-	data.SetAntGain24(int32(*plan.AntGain24.ValueInt64Pointer()))
-	data.SetAntGain5(int32(plan.AntGain5.ValueInt64()))
-	data.SetAntGain6(int32(plan.AntGain6.ValueInt64()))
+	data := models.RfTemplate{}
 
-	band24 := band24TerraformToSdk(ctx, &diags, plan.Band24)
-	data.SetBand24(band24)
+	data.Name = plan.Name.ValueString()
 
-	data.SetBand24Usage(models.RadioBand24Usage(plan.Band24Usage.ValueString()))
+	data.AntGain24 = models.ToPointer(int(plan.AntGain24.ValueInt64()))
+	data.AntGain5 = models.ToPointer(int(plan.AntGain5.ValueInt64()))
+	data.AntGain6 = models.ToPointer(int(plan.AntGain6.ValueInt64()))
 
-	band5 := band5TerraformToSdk(ctx, &diags, plan.Band5)
-	data.SetBand5(band5)
+	data.Band24Usage = models.ToPointer(models.RadioBand24UsageEnum(string(plan.Band24Usage.ValueString())))
 
-	band6 := band6TerraformToSdk(ctx, &diags, plan.Band6)
-	data.SetBand6(band6)
+	if plan.Band24.IsNull() || plan.Band24.IsUnknown() {
+		unset["-band_24"] = ""
+	} else {
+		data.Band24 = band24TerraformToSdk(ctx, &diags, plan.Band24)
+	}
 
-	data.SetCountryCode(plan.CountryCode.ValueString())
+	if plan.Band5.IsNull() || plan.Band5.IsUnknown() {
+		unset["-band_5"] = ""
+	} else {
+		data.Band5 = band5TerraformToSdk(ctx, &diags, plan.Band5)
+	}
 
-	model_specific := modelSpecificTerraformToSdk(ctx, &diags, plan.ModelSpecific)
-	data.SetModelSpecific(model_specific)
+	if plan.Band6.IsNull() || plan.Band6.IsUnknown() {
+		unset["-band_6"] = ""
+	} else {
+		data.Band6 = band6TerraformToSdk(ctx, &diags, plan.Band6)
+	}
 
-	data.SetScanningEnabled(plan.ScanningEnabled.ValueBool())
+	data.CountryCode = plan.CountryCode.ValueStringPointer()
 
-	return data, diags
+	if plan.ModelSpecific.IsNull() || plan.ModelSpecific.IsUnknown() {
+		unset["-model_specific"] = ""
+	} else {
+		data.ModelSpecific = modelSpecificTerraformToSdk(ctx, &diags, plan.ModelSpecific)
+	}
+
+	data.ScanningEnabled = plan.ScanningEnabled.ValueBoolPointer()
+
+	data.AdditionalProperties = unset
+
+	tflog.Error(ctx, "-------", map[string]interface{}{
+		"tet": data,
+	})
+	return &data, diags
 }

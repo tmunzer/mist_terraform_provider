@@ -8,10 +8,10 @@ import (
 	"mistapi/models"
 )
 
-func qosTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d QosValue) models.WlanQos {
-	data := models.NewWlanQos()
-	data.SetClass(models.WlanQosClass(d.Class.ValueString()))
-	data.SetOverwrite(d.Overwrite.ValueBool())
+func qosTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d QosValue) *models.WlanQos {
+	data := models.WlanQos{}
+	data.Class = models.ToPointer(models.WlanQosClassEnum(string(d.Class.ValueString())))
+	data.Overwrite = d.Overwrite.ValueBoolPointer()
 
-	return *data
+	return &data
 }

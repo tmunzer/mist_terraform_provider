@@ -16,30 +16,30 @@ func radsecServersTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d
 	for _, v := range d.Elements() {
 		var v_interface interface{} = v
 		plan := v_interface.(ServersValue)
-		data := models.NewRadsecServer()
-		data.SetHost(plan.Host.ValueString())
-		data.SetPort(int32(plan.Port.ValueInt64()))
+		data := models.RadsecServer{}
+		data.Host = plan.Host.ValueStringPointer()
+		data.Port = models.ToPointer(int(plan.Port.ValueInt64()))
 
-		data_list = append(data_list, *data)
+		data_list = append(data_list, data)
 	}
 	return data_list
 }
 
-func radsecTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d RadsecValue) models.Radsec {
-	data := models.NewRadsec()
+func radsecTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d RadsecValue) *models.Radsec {
+	data := models.Radsec{}
 
-	data.SetCoaEnabled(d.CoaEnabled.ValueBool())
-	data.SetEnabled(d.Enabled.ValueBool())
-	data.SetIdleTimeout(int32(d.IdleTimeout.ValueInt64()))
-	data.SetMxclusterIds(mist_transform.ListOfStringTerraformToSdk(ctx, d.MxclusterIds))
-	data.SetProxyHosts(mist_transform.ListOfStringTerraformToSdk(ctx, d.ProxyHosts))
-	data.SetServerName(d.ServerName.ValueString())
+	data.CoaEnabled = d.CoaEnabled.ValueBoolPointer()
+	data.Enabled = d.Enabled.ValueBoolPointer()
+	data.IdleTimeout = models.ToPointer(int(d.IdleTimeout.ValueInt64()))
+	data.MxclusterIds = mist_transform.ListOfUuidTerraformToSdk(ctx, d.MxclusterIds)
+	data.ProxyHosts = mist_transform.ListOfStringTerraformToSdk(ctx, d.ProxyHosts)
+	data.ServerName = d.ServerName.ValueStringPointer()
 
 	servers := radsecServersTerraformToSdk(ctx, diags, d.Servers)
-	data.SetServers(servers)
+	data.Servers = servers
 
-	data.SetUseMxedge(d.UseMxedge.ValueBool())
-	data.SetUseSiteMxedge(d.UseSiteMxedge.ValueBool())
+	data.UseMxedge = d.UseMxedge.ValueBoolPointer()
+	data.UseSiteMxedge = d.UseSiteMxedge.ValueBoolPointer()
 
-	return *data
+	return &data
 }

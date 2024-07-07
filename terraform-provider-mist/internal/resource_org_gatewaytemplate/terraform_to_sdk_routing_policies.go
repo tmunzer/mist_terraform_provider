@@ -50,9 +50,9 @@ func routingPolicyTermMatchingVpnPathSlaExistsTerraformToSdk(ctx context.Context
 		return &data
 	} else {
 		plan := NewVpnPathSlaValueMust(d.AttributeTypes(ctx), d.Attributes())
-		data.MaxJitter.SetValue(models.ToPointer(int(plan.MaxJitter.ValueInt64())))
-		data.MaxLatency.SetValue(models.ToPointer(int(plan.MaxLatency.ValueInt64())))
-		data.MaxLoss.SetValue(models.ToPointer(int(plan.MaxLoss.ValueInt64())))
+		data.MaxJitter = models.NewOptional(models.ToPointer(int(plan.MaxJitter.ValueInt64())))
+		data.MaxLatency = models.NewOptional(models.ToPointer(int(plan.MaxLatency.ValueInt64())))
+		data.MaxLoss = models.NewOptional(models.ToPointer(int(plan.MaxLoss.ValueInt64())))
 		return &data
 	}
 }

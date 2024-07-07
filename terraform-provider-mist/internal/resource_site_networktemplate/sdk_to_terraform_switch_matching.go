@@ -103,7 +103,7 @@ func switchMatchingRulesPortConfigSdkToTerraform(ctx context.Context, diags *dia
 		if d.Duplex != nil {
 			duplex = types.StringValue(string(*d.Duplex))
 		}
-		if d.DynamicUsage.IsValueSet() {
+		if d.DynamicUsage.Value() != nil {
 			dynamic_usage = types.StringValue(*d.DynamicUsage.Value())
 		}
 		if d.Esilag != nil {

@@ -11,37 +11,79 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 )
 
-func appQosAppsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, data map[string]models.WlanAppQosAppsProperties) basetypes.MapValue {
+func appQosAppsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, m map[string]models.WlanAppQosAppsProperties) basetypes.MapValue {
 
 	map_attr_values := make(map[string]attr.Value)
-	for k, v := range data {
-		var v_item = map[string]attr.Value{
-			"dscp":       types.Int64Value(int64(v.GetDscp())),
-			"dst_subnet": types.StringValue(v.GetDstSubnet()),
-			"src_subnet": types.StringValue(v.GetSrcSubnet()),
+	for k, d := range m {
+
+		var dscp basetypes.Int64Value
+		var dst_subnet basetypes.StringValue
+		var src_subnet basetypes.StringValue
+
+		if d.Dscp != nil {
+			dscp = types.Int64Value(int64(*d.Dscp))
 		}
-		v_obj, e := NewAppsValue(AppsValue{}.AttributeTypes(ctx), v_item)
+		if d.DstSubnet != nil {
+			dst_subnet = types.StringValue(*d.DstSubnet)
+		}
+		if d.SrcSubnet != nil {
+			src_subnet = types.StringValue(*d.SrcSubnet)
+		}
+
+		data_map_attr_type := AppsValue{}.AttributeTypes(ctx)
+		data_map_value := map[string]attr.Value{
+			"dscp":       dscp,
+			"dst_subnet": dst_subnet,
+			"src_subnet": src_subnet,
+		}
+		data, e := NewAppsValue(data_map_attr_type, data_map_value)
 		diags.Append(e...)
-		map_attr_values[k] = v_obj
+		map_attr_values[k] = data
 	}
+
 	r, e := types.MapValueFrom(ctx, AppsValue{}.Type(ctx), map_attr_values)
 	diags.Append(e...)
 	return r
 }
 
-func appQosOthersSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, data []models.WlanAppQosOthersItem) basetypes.ListValue {
+func appQosOthersSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, l []models.WlanAppQosOthersItem) basetypes.ListValue {
 
 	var data_list = []OthersValue{}
-	for _, v := range data {
-		data_map_value := map[string]attr.Value{
-			"dscp":        types.Int64Value(int64(v.GetDscp())),
-			"dst_subnet":  types.StringValue(v.GetDstSubnet()),
-			"port_ranges": types.StringValue(v.GetPortRanges()),
-			"protocol":    types.StringValue(v.GetProtocol()),
-			"src_subnet":  types.StringValue(v.GetSrcSubnet()),
+	for _, d := range l {
+
+		var dscp basetypes.Int64Value
+		var dst_subnet basetypes.StringValue
+		var port_ranges basetypes.StringValue
+		var protocol basetypes.StringValue
+		var src_subnet basetypes.StringValue
+
+		if d.Dscp != nil {
+			dscp = types.Int64Value(int64(*d.Dscp))
 		}
-		data, e := NewOthersValue(OthersValue{}.AttributeTypes(ctx), data_map_value)
+		if d.DstSubnet != nil {
+			dst_subnet = types.StringValue(*d.DstSubnet)
+		}
+		if d.PortRanges != nil {
+			port_ranges = types.StringValue(*d.PortRanges)
+		}
+		if d.Protocol != nil {
+			protocol = types.StringValue(*d.Protocol)
+		}
+		if d.SrcSubnet != nil {
+			src_subnet = types.StringValue(*d.SrcSubnet)
+		}
+
+		data_map_attr_type := OthersValue{}.AttributeTypes(ctx)
+		data_map_value := map[string]attr.Value{
+			"dscp":        dscp,
+			"dst_subnet":  dst_subnet,
+			"port_ranges": port_ranges,
+			"protocol":    protocol,
+			"src_subnet":  src_subnet,
+		}
+		data, e := NewOthersValue(data_map_attr_type, data_map_value)
 		diags.Append(e...)
+
 		data_list = append(data_list, data)
 	}
 	r, e := types.ListValueFrom(ctx, OthersValue{}.Type(ctx), data_list)
@@ -49,16 +91,30 @@ func appQosOthersSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, da
 	return r
 }
 
-func appQosSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, data models.WlanAppQos) AppQosValue {
+func appQosSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d models.WlanAppQos) AppQosValue {
+	var apps basetypes.MapValue = types.MapNull(AppsValue{}.Type(ctx))
+	var enabled basetypes.BoolValue
+	var others basetypes.ListValue = types.ListNull(OthersValue{}.Type(ctx))
 
-	plan_attr := map[string]attr.Value{
-		"apps":    appQosAppsSdkToTerraform(ctx, diags, data.GetApps()),
-		"enabled": types.BoolValue(data.GetEnabled()),
-		"others":  appQosOthersSdkToTerraform(ctx, diags, data.GetOthers()),
+	if d.Apps != nil {
+		apps = appQosAppsSdkToTerraform(ctx, diags, d.Apps)
 	}
-	r, e := NewAppQosValue(AppQosValue{}.AttributeTypes(ctx), plan_attr)
+	if d.Enabled != nil {
+		enabled = types.BoolValue(*d.Enabled)
+	}
+	if d.Others != nil {
+		others = appQosOthersSdkToTerraform(ctx, diags, d.Others)
+	}
+
+	data_map_attr_type := AppQosValue{}.AttributeTypes(ctx)
+	data_map_value := map[string]attr.Value{
+		"apps":    apps,
+		"enabled": enabled,
+		"others":  others,
+	}
+	data, e := NewAppQosValue(data_map_attr_type, data_map_value)
 	diags.Append(e...)
 
-	return r
+	return data
 
 }

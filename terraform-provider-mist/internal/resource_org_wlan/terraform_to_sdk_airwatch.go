@@ -8,15 +8,15 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 )
 
-func airwatchTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, plan AirwatchValue) models.WlanAirwatch {
+func airwatchTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, plan AirwatchValue) *models.WlanAirwatch {
 
-	data := *models.NewWlanAirwatch()
+	data := models.WlanAirwatch{}
 
-	data.SetApiKey(plan.ApiKey.ValueString())
-	data.SetConsoleUrl(plan.ConsoleUrl.ValueString())
-	data.SetEnabled(plan.Enabled.ValueBool())
-	data.SetPassword(plan.Password.ValueString())
-	data.SetUsername(plan.Username.ValueString())
+	data.ApiKey = plan.ApiKey.ValueStringPointer()
+	data.ConsoleUrl = plan.ConsoleUrl.ValueStringPointer()
+	data.Enabled = plan.Enabled.ValueBoolPointer()
+	data.Password = plan.Password.ValueStringPointer()
+	data.Username = plan.Username.ValueStringPointer()
 
-	return data
+	return &data
 }

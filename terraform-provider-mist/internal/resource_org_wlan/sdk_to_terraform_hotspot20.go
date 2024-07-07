@@ -12,26 +12,48 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 )
 
-func hotspot20SdkToTerraform(ctx context.Context, diags *diag.Diagnostics, data models.WlanHotspot20) Hotspot20Value {
+func hotspot20SdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d *models.WlanHotspot20) Hotspot20Value {
+	var domain_name basetypes.ListValue = mist_transform.ListOfStringSdkToTerraformEmpty(ctx)
+	var enabled basetypes.BoolValue
+	var nai_realms basetypes.ListValue = mist_transform.ListOfStringSdkToTerraformEmpty(ctx)
+	var operators basetypes.ListValue = mist_transform.ListOfStringSdkToTerraformEmpty(ctx)
+	var rcoi basetypes.ListValue = mist_transform.ListOfStringSdkToTerraformEmpty(ctx)
+	var venue_name basetypes.StringValue
 
-	var operators_list []attr.Value
-	for _, v := range data.GetOperators() {
-		operators_list = append(operators_list, types.StringValue(string(v)))
+	if d != nil && d.DomainName != nil {
+		domain_name = mist_transform.ListOfStringSdkToTerraform(ctx, d.DomainName)
 	}
-	operators, e := types.ListValue(basetypes.StringType{}, operators_list)
-	diags.Append(e...)
+	if d != nil && d.Enabled != nil {
+		enabled = types.BoolValue(*d.Enabled)
+	}
+	if d != nil && d.NaiRealms != nil {
+		nai_realms = mist_transform.ListOfStringSdkToTerraform(ctx, d.NaiRealms)
+	}
+	if d != nil && d.Operators != nil {
+		var operators_list []attr.Value
+		for _, v := range d.Operators {
+			operators_list = append(operators_list, types.StringValue(string(v)))
+		}
+		operators = types.ListValueMust(basetypes.StringType{}, operators_list)
+	}
+	if d != nil && d.Rcoi != nil {
+		rcoi = mist_transform.ListOfStringSdkToTerraform(ctx, d.Rcoi)
+	}
+	if d != nil && d.VenueName != nil {
+		venue_name = types.StringValue(*d.VenueName)
+	}
 
-	plan_attr := map[string]attr.Value{
-		"domain_name": mist_transform.ListOfStringSdkToTerraform(ctx, data.GetDomainName()),
-		"enabled":     types.BoolValue(data.GetEnabled()),
-		"nai_realms":  mist_transform.ListOfStringSdkToTerraform(ctx, data.GetNaiRealms()),
+	data_map_attr_type := Hotspot20Value{}.AttributeTypes(ctx)
+	data_map_value := map[string]attr.Value{
+		"domain_name": domain_name,
+		"enabled":     enabled,
+		"nai_realms":  nai_realms,
 		"operators":   operators,
-		"rcoi":        mist_transform.ListOfStringSdkToTerraform(ctx, data.GetRcoi()),
-		"venue_name":  types.StringValue(data.GetVenueName()),
+		"rcoi":        rcoi,
+		"venue_name":  venue_name,
 	}
-	r, e := NewHotspot20Value(Hotspot20Value{}.AttributeTypes(ctx), plan_attr)
+	data, e := NewHotspot20Value(data_map_attr_type, data_map_value)
 	diags.Append(e...)
 
-	return r
-
+	return data
 }

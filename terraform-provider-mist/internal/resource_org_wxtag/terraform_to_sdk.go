@@ -14,11 +14,11 @@ func TerraformToSdk(ctx context.Context, plan *OrgWxtagModel) (*models.WxlanTag,
 	specs := specsTerraformToSdk(ctx, &diags, plan.Specs)
 
 	data := models.WxlanTag{}
-	data.Mac.SetValue(models.ToPointer(plan.Mac.ValueString()))
+	data.Mac = models.NewOptional(models.ToPointer(plan.Mac.ValueString()))
 	data.Match = models.ToPointer(models.WxlanTagMatchEnum(plan.Match.ValueString()))
 	data.Name = plan.Name.ValueString()
 	data.Op = models.ToPointer(models.WxlanTagOperationEnum(plan.Op.ValueString()))
-	data.ResourceMac.SetValue(models.ToPointer(plan.ResourceMac.ValueString()))
+	data.ResourceMac = models.NewOptional(models.ToPointer(plan.ResourceMac.ValueString()))
 	data.Services = mist_transform.ListOfStringTerraformToSdk(ctx, plan.Services)
 	data.Specs = specs
 	data.Subnet = models.ToPointer(plan.Subnet.ValueString())

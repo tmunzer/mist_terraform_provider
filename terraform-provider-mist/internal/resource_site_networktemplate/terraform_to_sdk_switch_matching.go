@@ -43,7 +43,7 @@ func switchMatchingRulesPortConfigTerraformToSdk(ctx context.Context, diags *dia
 		item_obj.Description = models.ToPointer(plan_obj.Description.ValueString())
 		item_obj.DisableAutoneg = models.ToPointer(plan_obj.DisableAutoneg.ValueBool())
 		item_obj.Duplex = models.ToPointer(models.JunosPortConfigDuplexEnum(plan_obj.Duplex.ValueString()))
-		item_obj.DynamicUsage.SetValue(models.ToPointer(plan_obj.DynamicUsage.ValueString()))
+		item_obj.DynamicUsage = models.NewOptional(models.ToPointer(plan_obj.DynamicUsage.ValueString()))
 		item_obj.Esilag = models.ToPointer(plan_obj.Esilag.ValueBool())
 		item_obj.Mtu = models.ToPointer(int(plan_obj.Mtu.ValueInt64()))
 		item_obj.NoLocalOverwrite = models.ToPointer(plan_obj.NoLocalOverwrite.ValueBool())
