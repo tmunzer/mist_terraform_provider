@@ -15,19 +15,30 @@ import (
 	mist_transform "terraform-provider-mist/internal/commons/utils"
 )
 
-func dhcpdConfigVendorEncapsulatedSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]models.DhcpdConfigVendorOption) basetypes.MapValue {
+func dhcpdConfigVendorEncapsulatedSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, m map[string]models.DhcpdConfigVendorOption) basetypes.MapValue {
 	tflog.Debug(ctx, "dhcpdConfigVendorEncapsulatedSdkToTerraform")
 
-	r_map_attr_type := VendorEncapulatedValue{}.AttributeTypes(ctx)
 	r_map_value := make(map[string]attr.Value)
-	for k, v := range d {
-		r_map_attr_value := map[string]attr.Value{
-			"type":  types.StringValue(string(*v.Type)),
-			"value": types.StringValue(*v.Value),
+	for k, d := range m {
+		var type_option basetypes.StringValue
+		var value basetypes.StringValue
+
+		if d.Type != nil {
+			type_option = types.StringValue(string(*d.Type))
 		}
-		n, e := NewVendorEncapulatedValue(r_map_attr_type, r_map_attr_value)
+		if d.Value != nil {
+			value = types.StringValue(*d.Value)
+		}
+
+		data_map_attr_type := VendorEncapulatedValue{}.AttributeTypes(ctx)
+		data_map_value := map[string]attr.Value{
+			"type":  type_option,
+			"value": value,
+		}
+		data, e := NewVendorEncapulatedValue(data_map_attr_type, data_map_value)
 		diags.Append(e...)
-		r_map_value[k] = n
+
+		r_map_value[k] = data
 	}
 	state_result_map_type := VendorEncapulatedValue{}.Type(ctx)
 	state_result_map, e := types.MapValueFrom(ctx, state_result_map_type, r_map_value)
@@ -35,19 +46,30 @@ func dhcpdConfigVendorEncapsulatedSdkToTerraform(ctx context.Context, diags *dia
 	return state_result_map
 }
 
-func dhcpdConfigOptionsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]models.DhcpdConfigOption) basetypes.MapValue {
+func dhcpdConfigOptionsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, m map[string]models.DhcpdConfigOption) basetypes.MapValue {
 	tflog.Debug(ctx, "dhcpdConfigOptionsSdkToTerraform")
 
-	r_map_attr_type := OptionsValue{}.AttributeTypes(ctx)
 	r_map_value := make(map[string]attr.Value)
-	for k, v := range d {
-		r_map_attr_value := map[string]attr.Value{
-			"type":  types.StringValue(string(*v.Type)),
-			"value": types.StringValue(*v.Value),
+	for k, d := range m {
+		var type_option basetypes.StringValue
+		var value basetypes.StringValue
+
+		if d.Type != nil {
+			type_option = types.StringValue(string(*d.Type))
 		}
-		n, e := NewOptionsValue(r_map_attr_type, r_map_attr_value)
+		if d.Value != nil {
+			value = types.StringValue(*d.Value)
+		}
+
+		data_map_attr_type := OptionsValue{}.AttributeTypes(ctx)
+		data_map_value := map[string]attr.Value{
+			"type":  type_option,
+			"value": value,
+		}
+		data, e := NewOptionsValue(data_map_attr_type, data_map_value)
 		diags.Append(e...)
-		r_map_value[k] = n
+
+		r_map_value[k] = data
 	}
 	state_result_map_type := OptionsValue{}.Type(ctx)
 	state_result_map, e := types.MapValueFrom(ctx, state_result_map_type, r_map_value)
@@ -55,18 +77,29 @@ func dhcpdConfigOptionsSdkToTerraform(ctx context.Context, diags *diag.Diagnosti
 	return state_result_map
 }
 
-func dhcpdConfigFixedBindingsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]models.DhcpdConfigFixedBinding) basetypes.MapValue {
+func dhcpdConfigFixedBindingsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, m map[string]models.DhcpdConfigFixedBinding) basetypes.MapValue {
 	tflog.Debug(ctx, "dhcpdConfigFixedBindingsSdkToTerraform")
-	r_type := FixedBindingsValue{}.AttributeTypes(ctx)
 	r_map := make(map[string]attr.Value)
-	for k, v := range d {
-		var port_usage_state = map[string]attr.Value{
-			"ip":   types.StringValue(*v.Ip),
-			"name": types.StringValue(*v.Name),
+	for k, d := range m {
+		var ip basetypes.StringValue
+		var name basetypes.StringValue
+
+		if d.Ip != nil {
+			ip = types.StringValue(*d.Ip)
 		}
-		port_usage_object, e := NewFixedBindingsValue(r_type, port_usage_state)
+		if d.Name != nil {
+			name = types.StringValue(*d.Name)
+		}
+
+		data_map_attr_type := FixedBindingsValue{}.AttributeTypes(ctx)
+		data_map_value := map[string]attr.Value{
+			"ip":   ip,
+			"name": name,
+		}
+		data, e := NewFixedBindingsValue(data_map_attr_type, data_map_value)
 		diags.Append(e...)
-		r_map[k] = port_usage_object
+
+		r_map[k] = data
 	}
 	state_type := FixedBindingsValue{}.Type(ctx)
 	state_result, e := types.MapValueFrom(ctx, state_type, r_map)
@@ -74,39 +107,103 @@ func dhcpdConfigFixedBindingsSdkToTerraform(ctx context.Context, diags *diag.Dia
 	return state_result
 }
 
-func dhcpdConfigConfigsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]interface{}) basetypes.MapValue {
+func dhcpdConfigConfigsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, m map[string]interface{}) basetypes.MapValue {
 	tflog.Debug(ctx, "dhcpdConfigConfigsSdkToTerraform")
-	r_map_attr_type := ConfigValue{}.AttributeTypes(ctx)
 	r_map_value := make(map[string]attr.Value)
-	for k, v_interface := range d {
+	for k, d_interface := range m {
 		if k != "enabled" {
-			v_bytes, _ := json.Marshal(v_interface)
-			v := models.DhcpdConfig{}
-			v.UnmarshalJSON(v_bytes)
-			dhcpd_config_fixed_bindings := dhcpdConfigFixedBindingsSdkToTerraform(ctx, diags, v.FixedBindings)
-			dhcpd_config__options := dhcpdConfigOptionsSdkToTerraform(ctx, diags, v.Options)
-			dhcpd_config__vendor_options := dhcpdConfigVendorEncapsulatedSdkToTerraform(ctx, diags, v.VendorEncapulated)
-			var port_usage_state = map[string]attr.Value{
-				"dns_servers":        mist_transform.ListOfStringSdkToTerraform(ctx, v.DnsServers),
-				"dns_suffix":         mist_transform.ListOfStringSdkToTerraform(ctx, v.DnsSuffix),
-				"fixed_bindings":     dhcpd_config_fixed_bindings,
-				"gateway":            types.StringValue(*v.Gateway),
-				"ip_end":             types.StringValue(*v.IpEnd),
-				"ip_end6":            types.StringValue(*v.IpEnd6),
-				"ip_start":           types.StringValue(*v.IpStart),
-				"ip_start6":          types.StringValue(*v.IpStart6),
-				"lease_time":         types.Int64Value(int64(*v.LeaseTime)),
-				"options":            dhcpd_config__options,
-				"server_id_override": types.BoolValue(*v.ServerIdOverride),
-				"servers":            mist_transform.ListOfStringSdkToTerraform(ctx, v.Servers),
-				"servers6":           mist_transform.ListOfStringSdkToTerraform(ctx, v.Servers6),
-				"type":               types.StringValue(string(*v.Type)),
-				"type6":              types.StringValue(string(*v.Type6)),
-				"vendor_encapulated": dhcpd_config__vendor_options,
+			d_bytes, _ := json.Marshal(d_interface)
+			d := models.DhcpdConfig{}
+			d.UnmarshalJSON(d_bytes)
+			var dns_servers basetypes.ListValue = mist_transform.ListOfStringSdkToTerraformEmpty(ctx)
+			var dns_suffix basetypes.ListValue = mist_transform.ListOfStringSdkToTerraformEmpty(ctx)
+			var fixed_bindings basetypes.MapValue = types.MapNull(FixedBindingsValue{}.Type(ctx))
+			var gateway basetypes.StringValue
+			var ip_end basetypes.StringValue
+			var ip_end6 basetypes.StringValue
+			var ip_start basetypes.StringValue
+			var ip_start6 basetypes.StringValue
+			var lease_time basetypes.Int64Value
+			var options basetypes.MapValue = types.MapNull(OptionsValue{}.Type(ctx))
+			var server_id_override basetypes.BoolValue
+			var servers basetypes.ListValue = mist_transform.ListOfStringSdkToTerraformEmpty(ctx)
+			var servers6 basetypes.ListValue = mist_transform.ListOfStringSdkToTerraformEmpty(ctx)
+			var type4 basetypes.StringValue
+			var type6 basetypes.StringValue
+			var vendor_encapulated basetypes.MapValue = types.MapNull(VendorEncapulatedValue{}.Type(ctx))
+
+			if d.DnsServers != nil {
+				dns_servers = mist_transform.ListOfStringSdkToTerraform(ctx, d.DnsServers)
 			}
-			port_usage_object, e := NewConfigValue(r_map_attr_type, port_usage_state)
+			if d.DnsSuffix != nil {
+				dns_suffix = mist_transform.ListOfStringSdkToTerraform(ctx, d.DnsSuffix)
+			}
+			if d.FixedBindings != nil {
+				fixed_bindings = dhcpdConfigFixedBindingsSdkToTerraform(ctx, diags, d.FixedBindings)
+			}
+			if d.Gateway != nil {
+				gateway = types.StringValue(*d.Gateway)
+			}
+			if d.IpEnd != nil {
+				ip_end = types.StringValue(*d.IpEnd)
+			}
+			if d.IpEnd6 != nil {
+				ip_end6 = types.StringValue(*d.IpEnd6)
+			}
+			if d.IpStart != nil {
+				ip_start = types.StringValue(*d.IpStart)
+			}
+			if d.IpStart6 != nil {
+				ip_start6 = types.StringValue(*d.IpStart6)
+			}
+			if d.LeaseTime != nil {
+				lease_time = types.Int64Value(int64(*d.LeaseTime))
+			}
+			if d.Options != nil {
+				options = dhcpdConfigOptionsSdkToTerraform(ctx, diags, d.Options)
+			}
+			if d.ServerIdOverride != nil {
+				server_id_override = types.BoolValue(*d.ServerIdOverride)
+			}
+			if d.Servers != nil {
+				servers = mist_transform.ListOfStringSdkToTerraform(ctx, d.Servers)
+			}
+			if d.Servers6 != nil {
+				servers6 = mist_transform.ListOfStringSdkToTerraform(ctx, d.Servers6)
+			}
+			if d.Type != nil {
+				type4 = types.StringValue(string(*d.Type))
+			}
+			if d.Type6 != nil {
+				type6 = types.StringValue(string(*d.Type6))
+			}
+			if d.VendorEncapulated != nil {
+				vendor_encapulated = dhcpdConfigVendorEncapsulatedSdkToTerraform(ctx, diags, d.VendorEncapulated)
+			}
+
+			data_map_attr_type := ConfigValue{}.AttributeTypes(ctx)
+			data_map_value := map[string]attr.Value{
+				"dns_servers":        dns_servers,
+				"dns_suffix":         dns_suffix,
+				"fixed_bindings":     fixed_bindings,
+				"gateway":            gateway,
+				"ip_end":             ip_end,
+				"ip_end6":            ip_end6,
+				"ip_start":           ip_start,
+				"ip_start6":          ip_start6,
+				"lease_time":         lease_time,
+				"options":            options,
+				"server_id_override": server_id_override,
+				"servers":            servers,
+				"servers6":           servers6,
+				"type":               type4,
+				"type6":              type6,
+				"vendor_encapulated": vendor_encapulated,
+			}
+			data, e := NewConfigValue(data_map_attr_type, data_map_value)
 			diags.Append(e...)
-			r_map_value[k] = port_usage_object
+
+			r_map_value[k] = data
 		}
 	}
 	state_type := ConfigValue{}.Type(ctx)
@@ -115,15 +212,26 @@ func dhcpdConfigConfigsSdkToTerraform(ctx context.Context, diags *diag.Diagnosti
 	return r
 }
 
-func dhcpdConfigSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d models.DhcpdConfigs) DhcpdConfigValue {
+func dhcpdConfigSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d *models.DhcpdConfigs) DhcpdConfigValue {
 	tflog.Debug(ctx, "dhcpdConfigSdkToTerraform")
 
-	r_attr_type := DhcpdConfigValue{}.AttributeTypes(ctx)
-	r_attr_value := map[string]attr.Value{
-		"enabled": types.BoolValue(*d.Enabled),
-		"config":  dhcpdConfigConfigsSdkToTerraform(ctx, diags, d.AdditionalProperties),
+	var config basetypes.MapValue = types.MapNull(DhcpdConfigValue{}.Type(ctx))
+	var enabled basetypes.BoolValue
+
+	if d != nil {
+		config = dhcpdConfigConfigsSdkToTerraform(ctx, diags, d.AdditionalProperties)
 	}
-	r, e := NewDhcpdConfigValue(r_attr_type, r_attr_value)
+	if d != nil {
+		enabled = types.BoolValue(*d.Enabled)
+	}
+
+	data_map_attr_type := DhcpdConfigValue{}.AttributeTypes(ctx)
+	data_map_value := map[string]attr.Value{
+		"config":  config,
+		"enabled": enabled,
+	}
+	data, e := NewDhcpdConfigValue(data_map_attr_type, data_map_value)
 	diags.Append(e...)
-	return r
+
+	return data
 }

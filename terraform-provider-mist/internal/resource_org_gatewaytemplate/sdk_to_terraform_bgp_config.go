@@ -14,23 +14,50 @@ import (
 	mist_transform "terraform-provider-mist/internal/commons/utils"
 )
 
-func bgpConfigNeighborsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]models.BgpConfigNeighbors) basetypes.MapValue {
+func bgpConfigNeighborsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, m map[string]models.BgpConfigNeighbors) basetypes.MapValue {
 	tflog.Debug(ctx, "bgpConfigNeighborsSdkToTerraform")
 
-	state_value_map_attr_type := NeighborsValue{}.AttributeTypes(ctx)
 	state_value_map_value := make(map[string]attr.Value)
-	for k, v := range d {
-		state_value_map_attr_value := map[string]attr.Value{
-			"disabled":      types.BoolValue(*v.Disabled),
-			"export_policy": types.StringValue(*v.ExportPolicy),
-			"hold_time":     types.Int64Value(int64(*v.HoldTime)),
-			"import_policy": types.StringValue(*v.ImportPolicy),
-			"multihop_ttl":  types.Int64Value(int64(*v.MultihopTtl)),
-			"neighbor_as":   types.Int64Value(int64(*v.NeighborAs)),
+	for k, d := range m {
+		var disabled basetypes.BoolValue
+		var export_policy basetypes.StringValue
+		var hold_time basetypes.Int64Value
+		var import_policy basetypes.StringValue
+		var multihop_ttl basetypes.Int64Value
+		var neighbor_as basetypes.Int64Value
+
+		if d.Disabled != nil {
+			disabled = types.BoolValue(*d.Disabled)
 		}
-		n, e := NewNeighborsValue(state_value_map_attr_type, state_value_map_attr_value)
+		if d.ExportPolicy != nil {
+			export_policy = types.StringValue(*d.ExportPolicy)
+		}
+		if d.HoldTime != nil {
+			hold_time = types.Int64Value(int64(*d.HoldTime))
+		}
+		if d.ImportPolicy != nil {
+			import_policy = types.StringValue(*d.ImportPolicy)
+		}
+		if d.MultihopTtl != nil {
+			multihop_ttl = types.Int64Value(int64(*d.MultihopTtl))
+		}
+		if d.NeighborAs != nil {
+			neighbor_as = types.Int64Value(int64(*d.NeighborAs))
+		}
+
+		data_map_attr_type := NeighborsValue{}.AttributeTypes(ctx)
+		data_map_value := map[string]attr.Value{
+			"disabled":      disabled,
+			"export_policy": export_policy,
+			"hold_time":     hold_time,
+			"import_policy": import_policy,
+			"multihop_ttl":  multihop_ttl,
+			"neighbor_as":   neighbor_as,
+		}
+		data, e := NewNeighborsValue(data_map_attr_type, data_map_value)
 		diags.Append(e...)
-		state_value_map_value[k] = n
+
+		state_value_map_value[k] = data
 	}
 	state_result_map_type := NeighborsValue{}.Type(ctx)
 	state_result_map, e := types.MapValueFrom(ctx, state_result_map_type, state_value_map_value)
@@ -38,20 +65,34 @@ func bgpConfigNeighborsSdkToTerraform(ctx context.Context, diags *diag.Diagnosti
 	return state_result_map
 }
 
-func bgpConfigCommunitiesSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []models.BgpConfigCommunity) basetypes.ListValue {
+func bgpConfigCommunitiesSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, l []models.BgpConfigCommunity) basetypes.ListValue {
 	tflog.Debug(ctx, "bgpConfigCommunitiesSdkToTerraform")
 	var data_list = []CommunitiesValue{}
 
-	for _, v := range d {
-		data_map_attr_type := CommunitiesValue{}.AttributeTypes(ctx)
-		data_map_value := map[string]attr.Value{
-			"id":               types.StringValue(*v.Id),
-			"local_preference": types.Int64Value(int64(*v.LocalPreference)),
-			"vpn_name":         types.StringValue(*v.VpnName),
+	for _, d := range l {
+		var id basetypes.StringValue
+		var local_preference basetypes.Int64Value
+		var vpn_name basetypes.StringValue
+
+		if d.Id != nil {
+			id = types.StringValue(*d.Id)
+		}
+		if d.LocalPreference != nil {
+			local_preference = types.Int64Value(int64(*d.LocalPreference))
+		}
+		if d.VpnName != nil {
+			vpn_name = types.StringValue(*d.VpnName)
 		}
 
+		data_map_attr_type := CommunitiesValue{}.AttributeTypes(ctx)
+		data_map_value := map[string]attr.Value{
+			"id":               id,
+			"local_preference": local_preference,
+			"vpn_name":         vpn_name,
+		}
 		data, e := NewCommunitiesValue(data_map_attr_type, data_map_value)
 		diags.Append(e...)
+
 		data_list = append(data_list, data)
 	}
 	data_list_type := CommunitiesValue{}.Type(ctx)
@@ -60,39 +101,124 @@ func bgpConfigCommunitiesSdkToTerraform(ctx context.Context, diags *diag.Diagnos
 	return r
 }
 
-func bgpConfigSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]models.BgpConfig) basetypes.MapValue {
+func bgpConfigSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, m map[string]models.BgpConfig) basetypes.MapValue {
 	tflog.Debug(ctx, "bgpConfigSdkToTerraform")
-	port_usage_type := BgpConfigValue{}.AttributeTypes(ctx)
 	state_value_map := make(map[string]attr.Value)
-	for k, v := range d {
-		bgp_config_communities := bgpConfigCommunitiesSdkToTerraform(ctx, diags, v.Communities)
-		bgp_config_neighbors := bgpConfigNeighborsSdkToTerraform(ctx, diags, v.Neighbors)
-		var port_usage_state = map[string]attr.Value{
-			"auth_key":                  types.StringValue(*v.AuthKey),
-			"bfd_minimum_interval":      types.Int64Value(int64(*v.BfdMinimumInterval.Value())),
-			"bfd_multiplier":            types.Int64Value(int64(*v.BfdMultiplier.Value())),
-			"communities":               bgp_config_communities,
-			"disable_bfd":               types.BoolValue(*v.DisableBfd),
-			"export":                    types.StringValue(*v.Export),
-			"export_policy":             types.StringValue(*v.ExportPolicy),
-			"extended_v4_nexthop":       types.BoolValue(*v.ExtendedV4Nexthop),
-			"graceful_restart_time":     types.Int64Value(int64(*v.GracefulRestartTime)),
-			"hold_time":                 types.Int64Value(int64(*v.HoldTime)),
-			"import":                    types.StringValue(*v.Import),
-			"import_policy":             types.StringValue(*v.ImportPolicy),
-			"local_as":                  types.Int64Value(int64(*v.LocalAs)),
-			"neighbor_as":               types.Int64Value(int64(*v.NeighborAs)),
-			"neighbors":                 bgp_config_neighbors,
-			"networks":                  mist_transform.ListOfStringSdkToTerraform(ctx, v.Networks),
-			"no_readvertise_to_overlay": types.BoolValue(*v.NoReadvertiseToOverlay),
-			"type":                      types.StringValue(string(*v.Type)),
-			"via":                       types.StringValue(string(*v.Via)),
-			"vpn_name":                  types.StringValue(*v.VpnName),
-			"wan_name":                  types.StringValue(*v.WanName),
+	for k, d := range m {
+		var auth_key basetypes.StringValue
+		var bfd_minimum_interval basetypes.Int64Value
+		var bfd_multiplier basetypes.Int64Value
+		var communities basetypes.ListValue = types.ListNull(CommunitiesValue{}.Type(ctx))
+		var disable_bfd basetypes.BoolValue
+		var export basetypes.StringValue
+		var export_policy basetypes.StringValue
+		var extended_v4_nexthop basetypes.BoolValue
+		var graceful_restart_time basetypes.Int64Value
+		var hold_time basetypes.Int64Value
+		var import_bgp basetypes.StringValue
+		var import_policy basetypes.StringValue
+		var local_as basetypes.Int64Value
+		var neighbor_as basetypes.Int64Value
+		var neighbors basetypes.MapValue = types.MapNull(NeighborsValue{}.Type(ctx))
+		var networks basetypes.ListValue = types.ListNull(NetworksValue{}.Type(ctx))
+		var no_readvertise_to_overlay basetypes.BoolValue
+		var type_bgp basetypes.StringValue
+		var via basetypes.StringValue
+		var vpn_name basetypes.StringValue
+		var wan_name basetypes.StringValue
+
+		if d.AuthKey != nil {
+			auth_key = types.StringValue(*d.AuthKey)
 		}
-		port_usage_object, e := NewBgpConfigValue(port_usage_type, port_usage_state)
+		if d.BfdMinimumInterval.IsValueSet() {
+			bfd_minimum_interval = types.Int64Value(int64(*d.BfdMinimumInterval.Value()))
+		}
+		if d.BfdMultiplier.IsValueSet() {
+			bfd_multiplier = types.Int64Value(int64(*d.BfdMultiplier.Value()))
+		}
+		if d.Communities != nil {
+			communities = bgpConfigCommunitiesSdkToTerraform(ctx, diags, d.Communities)
+		}
+		if d.DisableBfd != nil {
+			disable_bfd = types.BoolValue(*d.DisableBfd)
+		}
+		if d.Export != nil {
+			export = types.StringValue(*d.Export)
+		}
+		if d.ExportPolicy != nil {
+			export_policy = types.StringValue(*d.ExportPolicy)
+		}
+		if d.ExtendedV4Nexthop != nil {
+			extended_v4_nexthop = types.BoolValue(*d.ExtendedV4Nexthop)
+		}
+		if d.GracefulRestartTime != nil {
+			graceful_restart_time = types.Int64Value(int64(*d.GracefulRestartTime))
+		}
+		if d.HoldTime != nil {
+			hold_time = types.Int64Value(int64(*d.HoldTime))
+		}
+		if d.Import != nil {
+			import_bgp = types.StringValue(*d.Import)
+		}
+		if d.ImportPolicy != nil {
+			import_policy = types.StringValue(*d.ImportPolicy)
+		}
+		if d.LocalAs != nil {
+			local_as = types.Int64Value(int64(*d.LocalAs))
+		}
+		if d.NeighborAs != nil {
+			neighbor_as = types.Int64Value(int64(*d.NeighborAs))
+		}
+		if d.Neighbors != nil {
+			neighbors = bgpConfigNeighborsSdkToTerraform(ctx, diags, d.Neighbors)
+		}
+		if d.Networks != nil {
+			networks = mist_transform.ListOfStringSdkToTerraform(ctx, d.Networks)
+		}
+		if d.NoReadvertiseToOverlay != nil {
+			no_readvertise_to_overlay = types.BoolValue(*d.NoReadvertiseToOverlay)
+		}
+		if d.Type != nil {
+			type_bgp = types.StringValue(string(*d.Type))
+		}
+		if d.Via != nil {
+			via = types.StringValue(string(*d.Via))
+		}
+		if d.VpnName != nil {
+			vpn_name = types.StringValue(*d.VpnName)
+		}
+		if d.WanName != nil {
+			wan_name = types.StringValue(*d.WanName)
+		}
+
+		data_map_attr_type := BgpConfigValue{}.AttributeTypes(ctx)
+		data_map_value := map[string]attr.Value{
+			"auth_key":                  auth_key,
+			"bfd_minimum_interval":      bfd_minimum_interval,
+			"bfd_multiplier":            bfd_multiplier,
+			"communities":               communities,
+			"disable_bfd":               disable_bfd,
+			"export":                    export,
+			"export_policy":             export_policy,
+			"extended_v4_nexthop":       extended_v4_nexthop,
+			"graceful_restart_time":     graceful_restart_time,
+			"hold_time":                 hold_time,
+			"import":                    import_bgp,
+			"import_policy":             import_policy,
+			"local_as":                  local_as,
+			"neighbor_as":               neighbor_as,
+			"neighbors":                 neighbors,
+			"networks":                  networks,
+			"no_readvertise_to_overlay": no_readvertise_to_overlay,
+			"type":                      type_bgp,
+			"via":                       via,
+			"vpn_name":                  vpn_name,
+			"wan_name":                  wan_name,
+		}
+		data, e := NewBgpConfigValue(data_map_attr_type, data_map_value)
 		diags.Append(e...)
-		state_value_map[k] = port_usage_object
+
+		state_value_map[k] = data
 	}
 	state_type := BgpConfigValue{}.Type(ctx)
 	state_result, e := types.MapValueFrom(ctx, state_type, state_value_map)

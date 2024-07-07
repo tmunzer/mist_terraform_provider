@@ -165,12 +165,15 @@ func tunnelProviderZscalerSdkToTerraform(ctx context.Context, diags *diag.Diagno
 
 func tunnelProviderSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d *models.TunnelProviderOptions) TunnelProviderOptionsValue {
 	tflog.Debug(ctx, "tunnelProviderSdkToTerraform")
-	var jse basetypes.ObjectValue
-	var zscaler basetypes.ObjectValue
+	var jse basetypes.ObjectValue = types.ObjectNull(JseValue{}.AttributeTypes(ctx))
+	var zscaler basetypes.ObjectValue = types.ObjectNull(ZscalerValue{}.AttributeTypes(ctx))
 
-	jse = tunnelProviderJseSdkToTerraform(ctx, diags, d)
-
-	zscaler = tunnelProviderZscalerSdkToTerraform(ctx, diags, d)
+	if d != nil && d.Jse != nil {
+		jse = tunnelProviderJseSdkToTerraform(ctx, diags, d)
+	}
+	if d != nil && d.Zscaler != nil {
+		zscaler = tunnelProviderZscalerSdkToTerraform(ctx, diags, d)
+	}
 
 	data_map_attr_type := TunnelProviderOptionsValue{}.AttributeTypes(ctx)
 	data_map_value := map[string]attr.Value{

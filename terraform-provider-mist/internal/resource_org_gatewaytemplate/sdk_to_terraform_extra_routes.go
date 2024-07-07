@@ -12,18 +12,25 @@ import (
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 
-func extraRoutesSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]models.GatewayExtraRoute) basetypes.MapValue {
+func extraRoutesSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, m map[string]models.GatewayExtraRoute) basetypes.MapValue {
 	tflog.Debug(ctx, "extraRoutesSdkToTerraform")
 
-	state_value_map_attr_type := ExtraRoutesValue{}.AttributeTypes(ctx)
 	state_value_map_value := make(map[string]attr.Value)
-	for k, v := range d {
-		state_value_map_attr_value := map[string]attr.Value{
-			"via": types.StringValue(*v.Via),
+	for k, d := range m {
+		var via basetypes.StringValue
+
+		if d.Via != nil {
+			via = types.StringValue(*d.Via)
 		}
-		n, e := NewExtraRoutesValue(state_value_map_attr_type, state_value_map_attr_value)
+
+		data_map_attr_type := ExtraRoutesValue{}.AttributeTypes(ctx)
+		data_map_value := map[string]attr.Value{
+			"via": via,
+		}
+		data, e := NewExtraRoutesValue(data_map_attr_type, data_map_value)
 		diags.Append(e...)
-		state_value_map_value[k] = n
+
+		state_value_map_value[k] = data
 	}
 	state_result_map_type := ExtraRoutesValue{}.Type(ctx)
 	state_result_map, e := types.MapValueFrom(ctx, state_result_map_type, state_value_map_value)

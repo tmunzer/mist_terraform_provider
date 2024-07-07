@@ -582,9 +582,9 @@ func snmpConfigViewsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics,
 
 // //////////////////////////////////
 // ////////// MAIN
-func snmpConfigSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d models.SnmpConfig) SnmpConfigValue {
+func snmpConfigSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d *models.SnmpConfig) SnmpConfigValue {
 
-	var client_list basetypes.ListValue = snmpClientListSdkToTerraform(ctx, diags, d.ClientList)
+	var client_list basetypes.ListValue = types.ListNull(ClientListValue{}.Type(ctx))
 	var contact basetypes.StringValue
 	var description basetypes.StringValue
 	var enabled basetypes.BoolValue
@@ -592,31 +592,39 @@ func snmpConfigSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d mo
 	var location basetypes.StringValue
 	var name basetypes.StringValue
 	var network basetypes.StringValue
-	var trap_groups basetypes.ListValue = snmpTrapGroupsSdkToTerraform(ctx, diags, d.TrapGroups)
-	var v2c_config basetypes.ListValue = snmpV2cSdkToTerraform(ctx, diags, d.V2cConfig)
-	var v3_config basetypes.ObjectValue = snmpV3SdkToTerraform(ctx, diags, d.V3Config)
-	var views basetypes.ListValue = snmpConfigViewsSdkToTerraform(ctx, diags, d.Views)
+	var trap_groups basetypes.ListValue = types.ListNull(TrapGroupsValue{}.Type(ctx))
+	var v2c_config basetypes.ListValue = types.ListNull(V2cConfigValue{}.Type(ctx))
+	var v3_config basetypes.ObjectValue = types.ObjectNull(V3ConfigValue{}.AttributeTypes(ctx))
+	var views basetypes.ListValue = types.ListNull(ViewsValue{}.Type(ctx))
 
-	if d.Contact != nil {
-		contact = types.StringValue(*d.Contact)
-	}
-	if d.Description != nil {
-		description = types.StringValue(*d.Description)
-	}
-	if d.Enabled != nil {
-		enabled = types.BoolValue(*d.Enabled)
-	}
-	if d.EngineId != nil {
-		engine_id = types.StringValue(string(*d.EngineId))
-	}
-	if d.Location != nil {
-		location = types.StringValue(*d.Location)
-	}
-	if d.Name != nil {
-		name = types.StringValue(*d.Name)
-	}
-	if d.Network != nil {
-		network = types.StringValue(*d.Network)
+	if d != nil {
+		client_list = snmpClientListSdkToTerraform(ctx, diags, d.ClientList)
+
+		if d.Contact != nil {
+			contact = types.StringValue(*d.Contact)
+		}
+		if d.Description != nil {
+			description = types.StringValue(*d.Description)
+		}
+		if d.Enabled != nil {
+			enabled = types.BoolValue(*d.Enabled)
+		}
+		if d.EngineId != nil {
+			engine_id = types.StringValue(string(*d.EngineId))
+		}
+		if d.Location != nil {
+			location = types.StringValue(*d.Location)
+		}
+		if d.Name != nil {
+			name = types.StringValue(*d.Name)
+		}
+		if d.Network != nil {
+			network = types.StringValue(*d.Network)
+		}
+		trap_groups = snmpTrapGroupsSdkToTerraform(ctx, diags, d.TrapGroups)
+		v2c_config = snmpV2cSdkToTerraform(ctx, diags, d.V2cConfig)
+		v3_config = snmpV3SdkToTerraform(ctx, diags, d.V3Config)
+		views = snmpConfigViewsSdkToTerraform(ctx, diags, d.Views)
 	}
 
 	data_map_attr_type := SnmpConfigValue{}.AttributeTypes(ctx)

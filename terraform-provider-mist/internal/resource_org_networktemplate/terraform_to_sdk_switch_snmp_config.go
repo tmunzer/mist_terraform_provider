@@ -18,11 +18,11 @@ func snmpConfigClientListTerraformToSdk(ctx context.Context, diags *diag.Diagnos
 	for _, v := range d.Elements() {
 		var v_interface interface{} = v
 		plan := v_interface.(ClientListValue)
-		data := models.NewSnmpConfigClientList()
-		data.SetClients(mist_transform.ListOfStringTerraformToSdk(ctx, plan.Clients))
-		data.SetClientListName(plan.ClientListName.ValueString())
+		data := models.SnmpConfigClientList{}
+		data.Clients = mist_transform.ListOfStringTerraformToSdk(ctx, plan.Clients)
+		data.ClientListName = plan.ClientListName.ValueStringPointer()
 
-		data_list = append(data_list, *data)
+		data_list = append(data_list, data)
 	}
 
 	return data_list
@@ -35,13 +35,13 @@ func snmpConfigTrapGroupsTerraformToSdk(ctx context.Context, diags *diag.Diagnos
 	for _, v := range d.Elements() {
 		var v_interface interface{} = v
 		plan := v_interface.(TrapGroupsValue)
-		data := models.NewSnmpConfigTrapGroup()
-		data.SetCategories(mist_transform.ListOfStringTerraformToSdk(ctx, plan.Categories))
-		data.SetGroupName(plan.GroupName.ValueString())
-		data.SetTargets(mist_transform.ListOfStringTerraformToSdk(ctx, plan.Targets))
-		data.SetVersion(models.SnmpConfigTrapVerion(plan.Version.ValueString()))
+		data := models.SnmpConfigTrapGroup{}
+		data.Categories = mist_transform.ListOfStringTerraformToSdk(ctx, plan.Categories)
+		data.GroupName = plan.GroupName.ValueStringPointer()
+		data.Targets = mist_transform.ListOfStringTerraformToSdk(ctx, plan.Targets)
+		data.Version = models.ToPointer(models.SnmpConfigTrapVerionEnum(plan.Version.ValueString()))
 
-		data_list = append(data_list, *data)
+		data_list = append(data_list, data)
 	}
 
 	return data_list
@@ -49,18 +49,18 @@ func snmpConfigTrapGroupsTerraformToSdk(ctx context.Context, diags *diag.Diagnos
 
 // //////////////////////////////////
 // ////////// V2c
-func snmpConfigV2cTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ListValue) []models.SnmpConfigV2cConfig {
-	var data_list []models.SnmpConfigV2cConfig
+func snmpConfigV2cTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ListValue) []models.SnmpConfigV2CConfig {
+	var data_list []models.SnmpConfigV2CConfig
 	for _, v := range d.Elements() {
 		var v_interface interface{} = v
 		plan := v_interface.(V2cConfigValue)
-		data := models.NewSnmpConfigV2cConfig()
-		data.SetAuthorization(plan.Authorization.ValueString())
-		data.SetClientListName(plan.ClientListName.ValueString())
-		data.SetCommunityName(plan.CommunityName.ValueString())
-		data.SetView(plan.View.ValueString())
+		data := models.SnmpConfigV2CConfig{}
+		data.Authorization = plan.Authorization.ValueStringPointer()
+		data.ClientListName = plan.ClientListName.ValueStringPointer()
+		data.CommunityName = plan.CommunityName.ValueStringPointer()
+		data.View = plan.View.ValueStringPointer()
 
-		data_list = append(data_list, *data)
+		data_list = append(data_list, data)
 	}
 
 	return data_list
@@ -74,12 +74,12 @@ func snmpConfigV3NotifyTerraformToSdk(ctx context.Context, diags *diag.Diagnosti
 	for _, v := range d.Elements() {
 		var v_interface interface{} = v
 		plan := v_interface.(NotifyValue)
-		data := models.NewSnmpv3ConfigNotifyItems()
-		data.SetName(plan.Name.ValueString())
-		data.SetTag(plan.Tag.ValueString())
-		data.SetType(models.Snmpv3ConfigNotifyType(plan.Tag.ValueString()))
+		data := models.Snmpv3ConfigNotifyItems{}
+		data.Name = plan.Name.ValueStringPointer()
+		data.Tag = plan.Tag.ValueStringPointer()
+		data.Type = models.ToPointer(models.Snmpv3ConfigNotifyTypeEnum(plan.Tag.ValueString()))
 
-		data_list = append(data_list, *data)
+		data_list = append(data_list, data)
 	}
 
 	return data_list
@@ -90,12 +90,12 @@ func snmpConfigV3NotifyFilterContentTerraformToSdk(ctx context.Context, diags *d
 	for _, v := range d.Elements() {
 		var v_interface interface{} = v
 		plan := v_interface.(Snmpv3ContentsValue)
-		data := models.NewSnmpv3ConfigNotifyFilterItemContent()
+		data := models.Snmpv3ConfigNotifyFilterItemContent{}
 
-		data.SetInclude(plan.Include.ValueBool())
-		data.SetOid(plan.Oid.ValueString())
+		data.Include = plan.Include.ValueBoolPointer()
+		data.Oid = plan.Oid.ValueStringPointer()
 
-		data_list = append(data_list, *data)
+		data_list = append(data_list, data)
 	}
 
 	return data_list
@@ -106,14 +106,14 @@ func snmpConfigV3NotifyFilterTerraformToSdk(ctx context.Context, diags *diag.Dia
 	for _, v := range d.Elements() {
 		var v_interface interface{} = v
 		plan := v_interface.(NotifyFilterValue)
-		data := models.NewSnmpv3ConfigNotifyFilterItem()
+		data := models.Snmpv3ConfigNotifyFilterItem{}
 
 		content := snmpConfigV3NotifyFilterContentTerraformToSdk(ctx, diags, plan.Snmpv3Contents)
 
-		data.SetContents(content)
-		data.SetProfileName(plan.ProfileName.ValueString())
+		data.Contents = content
+		data.ProfileName = plan.ProfileName.ValueStringPointer()
 
-		data_list = append(data_list, *data)
+		data_list = append(data_list, data)
 	}
 
 	return data_list
@@ -125,16 +125,16 @@ func snmpConfigV3TargetAddressTerraformToSdk(ctx context.Context, diags *diag.Di
 	for _, v := range d.Elements() {
 		var v_interface interface{} = v
 		plan := v_interface.(TargetAddressValue)
-		data := models.NewSnmpv3ConfigTargetAddressItem()
+		data := models.Snmpv3ConfigTargetAddressItem{}
 
-		data.SetAddress(plan.Address.ValueString())
-		data.SetAddressMask(plan.AddressMask.ValueString())
-		data.SetPort(int32(plan.Port.ValueInt64()))
-		data.SetTagList(plan.TagList.ValueString())
-		data.SetTargetAddressName(plan.TargetAddressName.ValueString())
-		data.SetTargetParameters(plan.TargetParameters.ValueString())
+		data.Address = plan.Address.ValueStringPointer()
+		data.AddressMask = plan.AddressMask.ValueStringPointer()
+		data.Port = models.ToPointer(int(plan.Port.ValueInt64()))
+		data.TagList = plan.TagList.ValueStringPointer()
+		data.TargetAddressName = plan.TargetAddressName.ValueStringPointer()
+		data.TargetParameters = plan.TargetParameters.ValueStringPointer()
 
-		data_list = append(data_list, *data)
+		data_list = append(data_list, data)
 	}
 
 	return data_list
@@ -145,16 +145,16 @@ func snmpConfigV3TargetParametersTerraformToSdk(ctx context.Context, diags *diag
 	for _, v := range d.Elements() {
 		var v_interface interface{} = v
 		plan := v_interface.(TargetParametersValue)
-		data := models.NewSnmpv3ConfigTargetParam()
+		data := models.Snmpv3ConfigTargetParam{}
 
-		data.SetMessageProcessingModel(models.Snmpv3ConfigTargetParamMessProcessModel(plan.MessageProcessingModel.ValueString()))
-		data.SetName(plan.Name.ValueString())
-		data.SetNotifyFilter(plan.NotifyFilter.ValueString())
-		data.SetSecurityLevel(models.Snmpv3ConfigTargetParamSecurityLevel(plan.SecurityLevel.ValueString()))
-		data.SetSecurityModel(models.Snmpv3ConfigTargetParamSecurityModel(plan.SecurityModel.ValueString()))
-		data.SetSecurityName(plan.SecurityName.ValueString())
+		data.MessageProcessingModel = models.ToPointer(models.Snmpv3ConfigTargetParamMessProcessModelEnum(plan.MessageProcessingModel.ValueString()))
+		data.Name = plan.Name.ValueStringPointer()
+		data.NotifyFilter = plan.NotifyFilter.ValueStringPointer()
+		data.SecurityLevel = models.ToPointer(models.Snmpv3ConfigTargetParamSecurityLevelEnum(plan.SecurityLevel.ValueString()))
+		data.SecurityModel = models.ToPointer(models.Snmpv3ConfigTargetParamSecurityModelEnum(plan.SecurityModel.ValueString()))
+		data.SecurityName = plan.SecurityName.ValueStringPointer()
 
-		data_list = append(data_list, *data)
+		data_list = append(data_list, data)
 	}
 
 	return data_list
@@ -166,34 +166,32 @@ func snmpConfigV3UsmUsersTerraformToSdk(ctx context.Context, diags *diag.Diagnos
 	for _, v := range d.Elements() {
 		var v_interface interface{} = v
 		plan := v_interface.(Snmpv3UsersValue)
-		data := models.NewSnmpUsmpUser()
+		data := models.SnmpUsmpUser{}
 
-		data.SetAuthenticationPassword(plan.AuthenticationPassword.ValueString())
-		data.SetAuthenticationType(models.SnmpUsmpUserAuthenticationType(plan.AuthenticationType.ValueString()))
-		data.SetEncryptionPassword(plan.EncryptionPassword.ValueString())
-		data.SetEncryptionType(models.SnmpUsmpUserEncryptionType(plan.EncryptionType.ValueString()))
-		data.SetName(plan.Name.ValueString())
+		data.AuthenticationPassword = plan.AuthenticationPassword.ValueStringPointer()
+		data.AuthenticationType = models.ToPointer(models.SnmpUsmpUserAuthenticationTypeEnum(plan.AuthenticationType.ValueString()))
+		data.EncryptionPassword = plan.EncryptionPassword.ValueStringPointer()
+		data.EncryptionType = models.ToPointer(models.SnmpUsmpUserEncryptionTypeEnum(plan.EncryptionType.ValueString()))
+		data.Name = plan.Name.ValueStringPointer()
 
-		data_list = append(data_list, *data)
+		data_list = append(data_list, data)
 	}
 
 	return data_list
 }
-func snmpConfigV3UsmTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) models.SnmpUsm {
-	data := *models.NewSnmpUsm()
+func snmpConfigV3UsmTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) *models.SnmpUsm {
+	data := models.SnmpUsm{}
 	if d.IsNull() || d.IsUnknown() {
-		return data
+		return &data
 	} else {
 		var d_interface interface{} = d
 		plan := d_interface.(UsmValue)
 
-		users := snmpConfigV3UsmUsersTerraformToSdk(ctx, diags, plan.Snmpv3Users)
+		data.EngineType = models.ToPointer(models.SnmpUsmEngineTypeEnum(plan.EngineType.ValueString()))
+		data.EngineId = plan.Engineid.ValueStringPointer()
+		data.Users = snmpConfigV3UsmUsersTerraformToSdk(ctx, diags, plan.Snmpv3Users)
 
-		data.SetEngineType(models.SnmpUsmEngineType(plan.EngineType.ValueString()))
-		data.SetEngineId(plan.Engineid.ValueString())
-		data.SetUsers(users)
-
-		return data
+		return &data
 	}
 }
 
@@ -203,17 +201,17 @@ func snmpConfigV3VacmAccessPrefixTerraformToSdk(ctx context.Context, diags *diag
 	for _, v := range d.Elements() {
 		var v_interface interface{} = v
 		plan := v_interface.(PrefixListValue)
-		data := models.NewSnmpVacmAccessItemPrefixListItem()
+		data := models.SnmpVacmAccessItemPrefixListItem{}
 
-		data.SetContextPrefix(plan.ContextPrefix.ValueString())
-		data.SetNotifyView(plan.NotifyView.ValueString())
-		data.SetReadView(plan.ReadView.ValueString())
-		data.SetSecurityLevel(models.SnmpVacmAccessItemPrefixListItemLevel(plan.SecurityLevel.ValueString()))
-		data.SetSecurityModel(models.SnmpVacmAccessItemPrefixListItemModel(plan.SecurityModel.ValueString()))
-		data.SetContextPrefix(plan.PrefixListType.ValueString())
-		data.SetWriteView(plan.WriteView.ValueString())
+		data.ContextPrefix = plan.ContextPrefix.ValueStringPointer()
+		data.NotifyView = plan.NotifyView.ValueStringPointer()
+		data.ReadView = plan.ReadView.ValueStringPointer()
+		data.SecurityLevel = models.ToPointer(models.SnmpVacmAccessItemPrefixListItemLevelEnum(plan.SecurityLevel.ValueString()))
+		data.SecurityModel = models.ToPointer(models.SnmpVacmAccessItemPrefixListItemModelEnum(plan.SecurityModel.ValueString()))
+		data.ContextPrefix = plan.PrefixListType.ValueStringPointer()
+		data.WriteView = plan.WriteView.ValueStringPointer()
 
-		data_list = append(data_list, *data)
+		data_list = append(data_list, data)
 	}
 
 	return data_list
@@ -223,14 +221,14 @@ func snmpConfigV3VacmAccessTerraformToSdk(ctx context.Context, diags *diag.Diagn
 	for _, v := range d.Elements() {
 		var v_interface interface{} = v
 		plan := v_interface.(AccessValue)
-		data := models.NewSnmpVacmAccessItem()
+		data := models.SnmpVacmAccessItem{}
 
 		prefix_list := snmpConfigV3VacmAccessPrefixTerraformToSdk(ctx, diags, plan.PrefixList)
 
-		data.SetGroupName(plan.GroupName.ValueString())
-		data.SetPrefixList(prefix_list)
+		data.GroupName = plan.GroupName.ValueStringPointer()
+		data.PrefixList = prefix_list
 
-		data_list = append(data_list, *data)
+		data_list = append(data_list, data)
 	}
 
 	return data_list
@@ -242,73 +240,61 @@ func snmpConfigV3VacmSecurityToGroupContentTerraformToSdk(ctx context.Context, d
 	for _, v := range d.Elements() {
 		var v_interface interface{} = v
 		plan := v_interface.(Snmpv3VacmContentValue)
-		data := models.NewSnmpVacmSecurityToGroupContentItem()
+		data := models.SnmpVacmSecurityToGroupContentItem{}
 
-		data.SetGroup(plan.Group.ValueString())
-		data.SetSecurityName(plan.SecurityName.ValueString())
+		data.Group = plan.Group.ValueStringPointer()
+		data.SecurityName = plan.SecurityName.ValueStringPointer()
 
-		data_list = append(data_list, *data)
+		data_list = append(data_list, data)
 	}
 
 	return data_list
 }
-func snmpConfigV3VacmSecurityToGroupTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) models.SnmpVacmSecurityToGroup {
-	data := *models.NewSnmpVacmSecurityToGroup()
+func snmpConfigV3VacmSecurityToGroupTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) *models.SnmpVacmSecurityToGroup {
+	data := models.SnmpVacmSecurityToGroup{}
 	if d.IsNull() || d.IsUnknown() {
-		return data
+		return &data
 	} else {
 		var d_interface interface{} = d
 		plan := d_interface.(SecurityToGroupValue)
 
-		content := snmpConfigV3VacmSecurityToGroupContentTerraformToSdk(ctx, diags, plan.Snmpv3VacmContent)
+		data.SecurityModel = models.ToPointer(models.SnmpVacmSecurityModelEnum(plan.SecurityModel.ValueString()))
+		data.Content = snmpConfigV3VacmSecurityToGroupContentTerraformToSdk(ctx, diags, plan.Snmpv3VacmContent)
 
-		data.SetSecurityModel(models.SnmpVacmSecurityModel(plan.SecurityModel.ValueString()))
-		data.SetContent(content)
-
-		return data
+		return &data
 	}
 }
-func snmpConfigV3VacmTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) models.SnmpVacm {
-	data := *models.NewSnmpVacm()
+func snmpConfigV3VacmTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) *models.SnmpVacm {
+	data := models.SnmpVacm{}
 	if d.IsNull() || d.IsUnknown() {
-		return data
+		return &data
 	} else {
 		var d_interface interface{} = d
 		plan := d_interface.(VacmValue)
 
-		access := snmpConfigV3VacmAccessTerraformToSdk(ctx, diags, plan.Access)
-		security_to_group := snmpConfigV3VacmSecurityToGroupTerraformToSdk(ctx, diags, plan.SecurityToGroup)
+		data.Access = snmpConfigV3VacmAccessTerraformToSdk(ctx, diags, plan.Access)
+		data.SecurityToGroup = snmpConfigV3VacmSecurityToGroupTerraformToSdk(ctx, diags, plan.SecurityToGroup)
 
-		data.SetAccess(access)
-		data.SetSecurityToGroup(security_to_group)
-
-		return data
+		return &data
 	}
 }
 
 // V3 MAIN
-func snmpConfigV3TerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) models.Snmpv3Config {
-	data := *models.NewSnmpv3Config()
+func snmpConfigV3TerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) *models.Snmpv3Config {
+	data := models.Snmpv3Config{}
 	if d.IsNull() || d.IsUnknown() {
-		return data
+		return &data
 	} else {
 		var d_interface interface{} = d
 		plan := d_interface.(V3ConfigValue)
 
-		notify := snmpConfigV3NotifyTerraformToSdk(ctx, diags, plan.Notify)
-		notify_filter := snmpConfigV3NotifyFilterTerraformToSdk(ctx, diags, plan.NotifyFilter)
-		target_address := snmpConfigV3TargetAddressTerraformToSdk(ctx, diags, plan.TargetAddress)
-		target_parameters := snmpConfigV3TargetParametersTerraformToSdk(ctx, diags, plan.TargetParameters)
-		usm := snmpConfigV3UsmTerraformToSdk(ctx, diags, plan.Usm)
-		vacm := snmpConfigV3VacmTerraformToSdk(ctx, diags, plan.Vacm)
-
-		data.SetNotify(notify)
-		data.SetNotifyFilter(notify_filter)
-		data.SetTargetAddress(target_address)
-		data.SetTargetParameters(target_parameters)
-		data.SetUsm(usm)
-		data.SetVacm(vacm)
-		return data
+		data.Notify = snmpConfigV3NotifyTerraformToSdk(ctx, diags, plan.Notify)
+		data.NotifyFilter = snmpConfigV3NotifyFilterTerraformToSdk(ctx, diags, plan.NotifyFilter)
+		data.TargetAddress = snmpConfigV3TargetAddressTerraformToSdk(ctx, diags, plan.TargetAddress)
+		data.TargetParameters = snmpConfigV3TargetParametersTerraformToSdk(ctx, diags, plan.TargetParameters)
+		data.Usm = snmpConfigV3UsmTerraformToSdk(ctx, diags, plan.Usm)
+		data.Vacm = snmpConfigV3VacmTerraformToSdk(ctx, diags, plan.Vacm)
+		return &data
 	}
 }
 
@@ -319,13 +305,13 @@ func snmpConfigViewsTerraformToSdk(ctx context.Context, diags *diag.Diagnostics,
 	for _, v := range d.Elements() {
 		var v_interface interface{} = v
 		plan := v_interface.(ViewsValue)
-		data := models.NewSnmpConfigView()
+		data := models.SnmpConfigView{}
 
-		data.SetInclude(plan.Include.ValueBool())
-		data.SetOid(plan.Oid.ValueString())
-		data.SetViewName(plan.ViewName.ValueString())
+		data.Include = plan.Include.ValueBoolPointer()
+		data.Oid = plan.Oid.ValueStringPointer()
+		data.ViewName = plan.ViewName.ValueStringPointer()
 
-		data_list = append(data_list, *data)
+		data_list = append(data_list, data)
 	}
 
 	return data_list
@@ -341,19 +327,19 @@ func snmpConfigTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d Sn
 	v3_config := snmpConfigV3TerraformToSdk(ctx, diags, d.V3Config)
 	views := snmpConfigViewsTerraformToSdk(ctx, diags, d.Views)
 
-	data := models.NewSnmpConfig()
-	data.SetClientList(client_list)
-	data.SetContact(d.Contact.ValueString())
-	data.SetDescription(d.Description.ValueString())
-	data.SetEnabled(d.Enabled.ValueBool())
-	data.SetEngineId(models.SnmpConfigEngineId(d.EngineId.ValueString()))
-	data.SetLocation(d.Location.ValueString())
-	data.SetName(d.Name.ValueString())
-	data.SetNetwork(d.Network.ValueString())
-	data.SetTrapGroups(trap_groups)
-	data.SetV2cConfig(v2c_config)
-	data.SetV3Config(v3_config)
-	data.SetViews(views)
+	data := models.SnmpConfig{}
+	data.ClientList = client_list
+	data.Contact = d.Contact.ValueStringPointer()
+	data.Description = d.Description.ValueStringPointer()
+	data.Enabled = d.Enabled.ValueBoolPointer()
+	data.EngineId = models.ToPointer(models.SnmpConfigEngineIdEnum(d.EngineId.ValueString()))
+	data.Location = d.Location.ValueStringPointer()
+	data.Name = d.Name.ValueStringPointer()
+	data.Network = d.Network.ValueStringPointer()
+	data.TrapGroups = trap_groups
+	data.V2cConfig = v2c_config
+	data.V3Config = v3_config
+	data.Views = views
 
-	return *data
+	return &data
 }

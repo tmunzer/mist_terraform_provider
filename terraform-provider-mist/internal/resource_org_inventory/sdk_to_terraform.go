@@ -24,11 +24,11 @@ func SdkToTerraform(ctx context.Context, orgId string, data []models.Inventory) 
 		var model basetypes.StringValue
 		var org_id basetypes.StringValue
 		var serial basetypes.StringValue
-		var site_id basetypes.StringValue //= types.StringValue("")
+		var site_id basetypes.StringValue
 		var device_type basetypes.StringValue
 		var vc_mac basetypes.StringValue
 		var hostname basetypes.StringValue
-		var device_id basetypes.StringValue
+		var id basetypes.StringValue
 
 		if d.Magic != nil {
 			claim_code = types.StringValue(*d.Magic)
@@ -58,7 +58,7 @@ func SdkToTerraform(ctx context.Context, orgId string, data []models.Inventory) 
 			hostname = types.StringValue(*d.Hostname)
 		}
 		if d.Id != nil {
-			device_id = types.StringValue(*d.Id)
+			id = types.StringValue(*d.Id)
 		}
 
 		data_map_attr_type := DevicesValue{}.AttributeTypes(ctx)
@@ -72,7 +72,7 @@ func SdkToTerraform(ctx context.Context, orgId string, data []models.Inventory) 
 			"type":       device_type,
 			"vc_mac":     vc_mac,
 			"hostname":   hostname,
-			"device_id":  device_id,
+			"id":         id,
 		}
 		data, e := NewDevicesValue(data_map_attr_type, data_map_value)
 		diags.Append(e...)

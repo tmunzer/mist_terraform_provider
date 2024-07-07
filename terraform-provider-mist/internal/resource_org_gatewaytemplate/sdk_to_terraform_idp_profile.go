@@ -27,34 +27,58 @@ func idpProfileOverwriteMatchingSeveritiesSdkToTerraform(ctx context.Context, da
 	return list
 }
 
-func idpProfileOverwriteMatchingSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d models.IdpProfileMatching) basetypes.MapValue {
+func idpProfileOverwriteMatchingSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d *models.IdpProfileMatching) basetypes.ObjectValue {
 	tflog.Debug(ctx, "idpProfileOverwriteMatchingSdkToTerraform")
-	data_map_type := IpdProfileOverwriteMatchingValue{}.AttributeTypes(ctx)
-	data_map_value := map[string]attr.Value{
-		"attack_name": mist_transform.ListOfStringSdkToTerraform(ctx, d.AttackName),
-		"dst_subnet":  mist_transform.ListOfStringSdkToTerraform(ctx, d.DstSubnet),
-		"severity":    idpProfileOverwriteMatchingSeveritiesSdkToTerraform(ctx, d.Severity),
+
+	var attack_name basetypes.ListValue = mist_transform.ListOfStringSdkToTerraformEmpty(ctx)
+	var dst_subnet basetypes.ListValue = mist_transform.ListOfStringSdkToTerraformEmpty(ctx)
+	var severity basetypes.ListValue = mist_transform.ListOfStringSdkToTerraformEmpty(ctx)
+
+	if d != nil && d.AttackName != nil {
+		attack_name = mist_transform.ListOfStringSdkToTerraform(ctx, d.AttackName)
+	}
+	if d != nil && d.DstSubnet != nil {
+		dst_subnet = mist_transform.ListOfStringSdkToTerraform(ctx, d.DstSubnet)
+	}
+	if d != nil && d.Severity != nil {
+		severity = idpProfileOverwriteMatchingSeveritiesSdkToTerraform(ctx, d.Severity)
 	}
 
-	data := NewIpdProfileOverwriteMatchingValueMust(data_map_type, data_map_value)
-	r, e := types.MapValueFrom(ctx, IpdProfileOverwriteMatchingValue{}.Type(ctx), data)
+	data_map_attr_type := IpdProfileOverwriteMatchingValue{}.AttributeTypes(ctx)
+	data_map_value := map[string]attr.Value{
+		"attack_name": attack_name,
+		"dst_subnet":  dst_subnet,
+		"severity":    severity,
+	}
+	data, e := basetypes.NewObjectValue(data_map_attr_type, data_map_value)
 	diags.Append(e...)
-	return r
+
+	return data
 }
 
-func idpProfileOverwritesSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []models.IdpProfileOverwrite) basetypes.ListValue {
+func idpProfileOverwritesSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, l []models.IdpProfileOverwrite) basetypes.ListValue {
 	tflog.Debug(ctx, "idpProfileOverwritesSdkToTerraform")
 	var data_list = []OverwritesValue{}
 
-	for _, v := range d {
-		data_map_attr_type := OverwritesValue{}.AttributeTypes(ctx)
-		data_map_value := map[string]attr.Value{
-			"action":   types.StringValue(string(*v.Action)),
-			"matching": idpProfileOverwriteMatchingSdkToTerraform(ctx, diags, *v.Matching),
+	for _, d := range l {
+		var action basetypes.StringValue
+		var matching basetypes.ObjectValue = types.ObjectNull(IpdProfileOverwriteMatchingValue{}.AttributeTypes(ctx))
+
+		if d.Action != nil {
+			action = types.StringValue(string(*d.Action))
+		}
+		if d.Matching != nil {
+			matching = idpProfileOverwriteMatchingSdkToTerraform(ctx, diags, d.Matching)
 		}
 
+		data_map_attr_type := OverwritesValue{}.AttributeTypes(ctx)
+		data_map_value := map[string]attr.Value{
+			"action":   action,
+			"matching": matching,
+		}
 		data, e := NewOverwritesValue(data_map_attr_type, data_map_value)
 		diags.Append(e...)
+
 		data_list = append(data_list, data)
 	}
 	data_list_type := OverwritesValue{}.Type(ctx)
@@ -63,19 +87,36 @@ func idpProfileOverwritesSdkToTerraform(ctx context.Context, diags *diag.Diagnos
 	return r
 }
 
-func idpProfileSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]models.IdpProfile) basetypes.MapValue {
+func idpProfileSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, m map[string]models.IdpProfile) basetypes.MapValue {
 	tflog.Debug(ctx, "idpProfileSdkToTerraform")
-	port_usage_type := IdpProfilesValue{}.AttributeTypes(ctx)
+
 	state_value_map := make(map[string]attr.Value)
-	for k, v := range d {
-		var port_usage_state = map[string]attr.Value{
-			"base_profile": types.StringValue(string(*v.BaseProfile)),
-			"name":         types.StringValue(*v.Name),
-			"overwrites":   idpProfileOverwritesSdkToTerraform(ctx, diags, v.Overwrites),
+	for k, d := range m {
+
+		var base_profile basetypes.StringValue
+		var name basetypes.StringValue
+		var overwrites basetypes.ListValue = types.ListNull(OverwritesValue{}.Type(ctx))
+
+		if d.BaseProfile != nil {
+			base_profile = types.StringValue(string(*d.BaseProfile))
 		}
-		port_usage_object, e := NewIdpProfilesValue(port_usage_type, port_usage_state)
+		if d.Name != nil {
+			name = types.StringValue(*d.Name)
+		}
+		if d.Overwrites != nil {
+			overwrites = idpProfileOverwritesSdkToTerraform(ctx, diags, d.Overwrites)
+		}
+
+		data_map_attr_type := IdpProfilesValue{}.AttributeTypes(ctx)
+		data_map_value := map[string]attr.Value{
+			"base_profile": base_profile,
+			"name":         name,
+			"overwrites":   overwrites,
+		}
+		data, e := NewIdpProfilesValue(data_map_attr_type, data_map_value)
 		diags.Append(e...)
-		state_value_map[k] = port_usage_object
+
+		state_value_map[k] = data
 	}
 	state_type := IdpProfilesValue{}.Type(ctx)
 	state_result, e := types.MapValueFrom(ctx, state_type, state_value_map)

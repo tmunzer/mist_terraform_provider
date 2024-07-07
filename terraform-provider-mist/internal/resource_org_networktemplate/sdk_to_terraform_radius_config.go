@@ -106,8 +106,8 @@ func radiusServersAuthSdkToTerraform(ctx context.Context, diags *diag.Diagnostic
 
 func radiusConfigSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d *models.RadiusConfig) RadiusConfigValue {
 	var acct_interim_interval basetypes.Int64Value
-	var acct_servers basetypes.ListValue
-	var auth_servers basetypes.ListValue
+	var acct_servers basetypes.ListValue = types.ListNull(AcctServersValue{}.Type(ctx))
+	var auth_servers basetypes.ListValue = types.ListNull(AuthServersValue{}.Type(ctx))
 	var auth_servers_retries basetypes.Int64Value
 	var auth_servers_timeout basetypes.Int64Value
 	var coa_enabled basetypes.BoolValue

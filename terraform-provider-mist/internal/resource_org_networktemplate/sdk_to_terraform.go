@@ -45,11 +45,11 @@ func SdkToTerraform(ctx context.Context, data models.NetworkTemplate) (OrgNetwor
 
 	state.PortUsages = portUsagesSdkToTerraform(ctx, &diags, data.PortUsages)
 
-	state.RemoteSyslog = remoteSyslogSdkToTerraform(ctx, &diags, *data.RemoteSyslog)
+	state.RemoteSyslog = remoteSyslogSdkToTerraform(ctx, &diags, data.RemoteSyslog)
 
 	state.RadiusConfig = radiusConfigSdkToTerraform(ctx, &diags, data.RadiusConfig)
 
-	state.SnmpConfig = snmpConfigSdkToTerraform(ctx, &diags, *data.SnmpConfig)
+	state.SnmpConfig = snmpConfigSdkToTerraform(ctx, &diags, data.SnmpConfig)
 
 	state.SwitchMatching = switchMatchingSdkToTerraform(ctx, &diags, data.SwitchMatching)
 

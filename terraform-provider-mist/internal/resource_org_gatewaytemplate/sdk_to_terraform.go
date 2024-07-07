@@ -23,7 +23,7 @@ func SdkToTerraform(ctx context.Context, data *models.GatewayTemplate) (OrgGatew
 
 	state.BgpConfig = bgpConfigSdkToTerraform(ctx, &diags, data.BgpConfig)
 
-	state.DhcpdConfig = dhcpdConfigSdkToTerraform(ctx, &diags, *data.DhcpdConfig)
+	state.DhcpdConfig = dhcpdConfigSdkToTerraform(ctx, &diags, data.DhcpdConfig)
 
 	if data.DnsOverride != nil {
 		state.DnsOverride = types.BoolValue(*data.DnsOverride)

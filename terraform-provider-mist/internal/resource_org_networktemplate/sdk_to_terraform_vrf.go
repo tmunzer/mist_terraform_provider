@@ -59,8 +59,15 @@ func vrfInstancesSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, m 
 
 	data_map_value := make(map[string]attr.Value)
 	for k, d := range m {
-		var extra_routes basetypes.MapValue = vrfInstanceExtraRouteSdkToTerraform(ctx, diags, d.ExtraRoutes)
-		var networks basetypes.ListValue = mist_transform.ListOfStringSdkToTerraform(ctx, d.Networks)
+		var extra_routes basetypes.MapValue = types.MapNull(VrfExtraRoutesValue{}.Type(ctx))
+		var networks basetypes.ListValue = mist_transform.ListOfStringSdkToTerraformEmpty(ctx)
+
+		if d.ExtraRoutes != nil {
+			extra_routes = vrfInstanceExtraRouteSdkToTerraform(ctx, diags, d.ExtraRoutes)
+		}
+		if d.Networks != nil {
+			networks = mist_transform.ListOfStringSdkToTerraform(ctx, d.Networks)
+		}
 
 		data_map_attr_type := VrfInstancesValue{}.AttributeTypes(ctx)
 		data_map_value := map[string]attr.Value{
