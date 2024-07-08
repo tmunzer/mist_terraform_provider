@@ -27,16 +27,52 @@
             "computed_optional_required": "computed"
         },
         {
-            "name":"band_24",          
-              "get": [
+            "name": "band_24",
+            "get": [
                 "single_nested",
                 "attributes"
             ],
-            "next": {
-                "name": "channels",
-                "get": ["list"],
-                "computed_optional_required": "computed_optional"
-            }
+            "next": [
+                {
+                    "name": "channels",
+                    "get": [
+                        "list"
+                    ],
+                    "computed_optional_required": "computed_optional"
+                }
+            ]
+        },
+        {
+            "name": "band_5",
+            "get": [
+                "single_nested",
+                "attributes"
+            ],
+            "next": [
+                {
+                    "name": "channels",
+                    "get": [
+                        "list"
+                    ],
+                    "computed_optional_required": "computed_optional"
+                }
+            ]
+        },
+        {
+            "name": "band_6",
+            "get": [
+                "single_nested",
+                "attributes"
+            ],
+            "next": [
+                {
+                    "name": "channels",
+                    "get": [
+                        "list"
+                    ],
+                    "computed_optional_required": "computed_optional"
+                }
+            ]
         }
     ]
 }

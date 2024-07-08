@@ -58,7 +58,7 @@ func synthteticTestSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, 
 	if d != nil && d.Disabled != nil {
 		disabled = types.BoolValue(*d.Disabled)
 	}
-	if d.Vlans != nil {
+	if d != nil && d.Vlans != nil {
 		vlans = synthteticTestVlansSdkToTerraform(ctx, diags, d.Vlans)
 	}
 

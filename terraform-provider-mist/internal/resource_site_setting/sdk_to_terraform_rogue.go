@@ -21,8 +21,8 @@ func rogueSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d *models
 	var honeypot_enabled basetypes.BoolValue
 	var min_duration basetypes.Int64Value
 	var min_rssi basetypes.Int64Value
-	var whitelisted_bssids basetypes.ListValue = types.ListNull(types.StringType)
-	var whitelisted_ssids basetypes.ListValue = types.ListNull(types.StringType)
+	var whitelisted_bssids basetypes.ListValue = mist_transform.ListOfStringSdkToTerraformEmpty(ctx)
+	var whitelisted_ssids basetypes.ListValue = mist_transform.ListOfStringSdkToTerraformEmpty(ctx)
 
 	if d != nil && d.Enabled != nil {
 		enabled = types.BoolValue(*d.Enabled)

@@ -11,6 +11,66 @@
                 "string"
             ],
             "computed_optional_required": "required"
+        },
+        {
+            "name": "blacklist_url",
+            "get": [
+                "string"
+            ],
+            "computed_optional_required": "computed"
+        },
+        {
+            "name": "watched_station_url",
+            "get": [
+                "string"
+            ],
+            "computed_optional_required": "computed"
+        },
+        {
+            "name": "whitelist_url",
+            "get": [
+                "string"
+            ],
+            "computed_optional_required": "computed"
+        },
+        {
+            "name": "rogue",
+            "get": [
+                "single_nested",
+                "attributes"
+            ],
+            "next": [
+                {
+                    "name": "whitelisted_bssids",
+                    "get": [
+                        "list"
+                    ],
+                    "computed_optional_required": "computed_optional"
+                },
+                {
+                    "name": "whitelisted_ssids",
+                    "get": [
+                        "list"
+                    ],
+                    "computed_optional_required": "computed_optional"
+                }
+            ]
+        },
+        {
+            "name": "auto_upgrade",
+            "get": [
+                "single_nested",
+                "attributes"
+            ],
+            "next": [
+                {
+                    "name": "custom_versions",
+                    "get": [
+                        "map"
+                    ],
+                    "computed_optional_required": "computed_optional"
+                }
+            ]
         }
     ]
 }

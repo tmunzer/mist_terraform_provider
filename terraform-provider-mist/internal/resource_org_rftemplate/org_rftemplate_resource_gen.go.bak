@@ -9,6 +9,9 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
@@ -37,15 +40,20 @@ func OrgRftemplateResourceSchema(ctx context.Context) schema.Schema {
 				Attributes: map[string]schema.Attribute{
 					"allow_rrm_disable": schema.BoolAttribute{
 						Optional: true,
+						Computed: true,
+						Default:  booldefault.StaticBool(false),
 					},
 					"ant_gain": schema.Int64Attribute{
 						Optional: true,
+						Computed: true,
 						Validators: []validator.Int64{
 							int64validator.Between(0, 10),
 						},
+						Default: int64default.StaticInt64(0),
 					},
 					"antenna_mode": schema.StringAttribute{
 						Optional: true,
+						Computed: true,
 						Validators: []validator.String{
 							stringvalidator.OneOf(
 								"",
@@ -56,9 +64,11 @@ func OrgRftemplateResourceSchema(ctx context.Context) schema.Schema {
 								"4x4",
 							),
 						},
+						Default: stringdefault.StaticString("default"),
 					},
 					"bandwidth": schema.Int64Attribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "channel width for the 2.4GHz band",
 						MarkdownDescription: "channel width for the 2.4GHz band",
 						Validators: []validator.Int64{
@@ -67,44 +77,55 @@ func OrgRftemplateResourceSchema(ctx context.Context) schema.Schema {
 								40,
 							),
 						},
+						Default: int64default.StaticInt64(20),
 					},
 					"channels": schema.ListAttribute{
 						ElementType:         types.Int64Type,
 						Optional:            true,
+						Computed:            true,
 						Description:         "For RFTemplates. List of channels, null or empty array means auto",
 						MarkdownDescription: "For RFTemplates. List of channels, null or empty array means auto",
 					},
 					"disabled": schema.BoolAttribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "whether to disable the radio",
 						MarkdownDescription: "whether to disable the radio",
+						Default:             booldefault.StaticBool(false),
 					},
 					"power": schema.Int64Attribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "TX power of the radio. For Devices, 0 means auto. -1 / -2 / -3 / …: treated as 0 / -1 / -2 / …",
 						MarkdownDescription: "TX power of the radio. For Devices, 0 means auto. -1 / -2 / -3 / …: treated as 0 / -1 / -2 / …",
 						Validators: []validator.Int64{
 							int64validator.Between(3, 25),
 						},
+						Default: int64default.StaticInt64(0),
 					},
 					"power_max": schema.Int64Attribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "when power=0, max tx power to use, HW-specific values will be used if not set",
 						MarkdownDescription: "when power=0, max tx power to use, HW-specific values will be used if not set",
 						Validators: []validator.Int64{
 							int64validator.Between(3, 18),
 						},
+						Default: int64default.StaticInt64(17),
 					},
 					"power_min": schema.Int64Attribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "when power=0, min tx power to use, HW-specific values will be used if not set",
 						MarkdownDescription: "when power=0, min tx power to use, HW-specific values will be used if not set",
 						Validators: []validator.Int64{
 							int64validator.Between(3, 18),
 						},
+						Default: int64default.StaticInt64(8),
 					},
 					"preamble": schema.StringAttribute{
 						Optional: true,
+						Computed: true,
 						Validators: []validator.String{
 							stringvalidator.OneOf(
 								"",
@@ -113,6 +134,7 @@ func OrgRftemplateResourceSchema(ctx context.Context) schema.Schema {
 								"auto",
 							),
 						},
+						Default: stringdefault.StaticString("short"),
 					},
 				},
 				CustomType: Band24Type{
@@ -140,15 +162,20 @@ func OrgRftemplateResourceSchema(ctx context.Context) schema.Schema {
 				Attributes: map[string]schema.Attribute{
 					"allow_rrm_disable": schema.BoolAttribute{
 						Optional: true,
+						Computed: true,
+						Default:  booldefault.StaticBool(false),
 					},
 					"ant_gain": schema.Int64Attribute{
 						Optional: true,
+						Computed: true,
 						Validators: []validator.Int64{
 							int64validator.Between(0, 10),
 						},
+						Default: int64default.StaticInt64(0),
 					},
 					"antenna_mode": schema.StringAttribute{
 						Optional: true,
+						Computed: true,
 						Validators: []validator.String{
 							stringvalidator.OneOf(
 								"",
@@ -159,6 +186,7 @@ func OrgRftemplateResourceSchema(ctx context.Context) schema.Schema {
 								"4x4",
 							),
 						},
+						Default: stringdefault.StaticString("default"),
 					},
 					"bandwidth": schema.Int64Attribute{
 						Optional:            true,
@@ -175,40 +203,50 @@ func OrgRftemplateResourceSchema(ctx context.Context) schema.Schema {
 					"channels": schema.ListAttribute{
 						ElementType:         types.Int64Type,
 						Optional:            true,
+						Computed:            true,
 						Description:         "For RFTemplates. List of channels, null or empty array means auto",
 						MarkdownDescription: "For RFTemplates. List of channels, null or empty array means auto",
 					},
 					"disabled": schema.BoolAttribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "whether to disable the radio",
 						MarkdownDescription: "whether to disable the radio",
+						Default:             booldefault.StaticBool(false),
 					},
 					"power": schema.Int64Attribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "TX power of the radio. For Devices, 0 means auto. -1 / -2 / -3 / …: treated as 0 / -1 / -2 / …",
 						MarkdownDescription: "TX power of the radio. For Devices, 0 means auto. -1 / -2 / -3 / …: treated as 0 / -1 / -2 / …",
 						Validators: []validator.Int64{
 							int64validator.Between(5, 25),
 						},
+						Default: int64default.StaticInt64(0),
 					},
 					"power_max": schema.Int64Attribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "when power=0, max tx power to use, HW-specific values will be used if not set",
 						MarkdownDescription: "when power=0, max tx power to use, HW-specific values will be used if not set",
 						Validators: []validator.Int64{
 							int64validator.Between(5, 17),
 						},
+						Default: int64default.StaticInt64(17),
 					},
 					"power_min": schema.Int64Attribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "when power=0, min tx power to use, HW-specific values will be used if not set",
 						MarkdownDescription: "when power=0, min tx power to use, HW-specific values will be used if not set",
 						Validators: []validator.Int64{
 							int64validator.Between(5, 17),
 						},
+						Default: int64default.StaticInt64(8),
 					},
 					"preamble": schema.StringAttribute{
 						Optional: true,
+						Computed: true,
 						Validators: []validator.String{
 							stringvalidator.OneOf(
 								"",
@@ -217,6 +255,7 @@ func OrgRftemplateResourceSchema(ctx context.Context) schema.Schema {
 								"auto",
 							),
 						},
+						Default: stringdefault.StaticString("short"),
 					},
 				},
 				CustomType: Band5Type{
@@ -232,15 +271,20 @@ func OrgRftemplateResourceSchema(ctx context.Context) schema.Schema {
 				Attributes: map[string]schema.Attribute{
 					"allow_rrm_disable": schema.BoolAttribute{
 						Optional: true,
+						Computed: true,
+						Default:  booldefault.StaticBool(false),
 					},
 					"ant_gain": schema.Int64Attribute{
 						Optional: true,
+						Computed: true,
 						Validators: []validator.Int64{
 							int64validator.Between(0, 10),
 						},
+						Default: int64default.StaticInt64(0),
 					},
 					"antenna_mode": schema.StringAttribute{
 						Optional: true,
+						Computed: true,
 						Validators: []validator.String{
 							stringvalidator.OneOf(
 								"",
@@ -251,6 +295,7 @@ func OrgRftemplateResourceSchema(ctx context.Context) schema.Schema {
 								"4x4",
 							),
 						},
+						Default: stringdefault.StaticString("default"),
 					},
 					"bandwidth": schema.Int64Attribute{
 						Optional:            true,
@@ -272,35 +317,44 @@ func OrgRftemplateResourceSchema(ctx context.Context) schema.Schema {
 					},
 					"disabled": schema.BoolAttribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "whether to disable the radio",
 						MarkdownDescription: "whether to disable the radio",
+						Default:             booldefault.StaticBool(false),
 					},
 					"power": schema.Int64Attribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "TX power of the radio. For Devices, 0 means auto. -1 / -2 / -3 / …: treated as 0 / -1 / -2 / …",
 						MarkdownDescription: "TX power of the radio. For Devices, 0 means auto. -1 / -2 / -3 / …: treated as 0 / -1 / -2 / …",
 						Validators: []validator.Int64{
 							int64validator.Between(5, 25),
 						},
+						Default: int64default.StaticInt64(0),
 					},
 					"power_max": schema.Int64Attribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "when power=0, max tx power to use, HW-specific values will be used if not set",
 						MarkdownDescription: "when power=0, max tx power to use, HW-specific values will be used if not set",
 						Validators: []validator.Int64{
 							int64validator.Between(5, 17),
 						},
+						Default: int64default.StaticInt64(17),
 					},
 					"power_min": schema.Int64Attribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "when power=0, min tx power to use, HW-specific values will be used if not set",
 						MarkdownDescription: "when power=0, min tx power to use, HW-specific values will be used if not set",
 						Validators: []validator.Int64{
 							int64validator.Between(5, 17),
 						},
+						Default: int64default.StaticInt64(8),
 					},
 					"preamble": schema.StringAttribute{
 						Optional: true,
+						Computed: true,
 						Validators: []validator.String{
 							stringvalidator.OneOf(
 								"",
@@ -309,6 +363,7 @@ func OrgRftemplateResourceSchema(ctx context.Context) schema.Schema {
 								"auto",
 							),
 						},
+						Default: stringdefault.StaticString("short"),
 					},
 				},
 				CustomType: Band5On24RadioType{
@@ -324,15 +379,20 @@ func OrgRftemplateResourceSchema(ctx context.Context) schema.Schema {
 				Attributes: map[string]schema.Attribute{
 					"allow_rrm_disable": schema.BoolAttribute{
 						Optional: true,
+						Computed: true,
+						Default:  booldefault.StaticBool(false),
 					},
 					"ant_gain": schema.Int64Attribute{
 						Optional: true,
+						Computed: true,
 						Validators: []validator.Int64{
 							int64validator.Between(0, 10),
 						},
+						Default: int64default.StaticInt64(0),
 					},
 					"antenna_mode": schema.StringAttribute{
 						Optional: true,
+						Computed: true,
 						Validators: []validator.String{
 							stringvalidator.OneOf(
 								"",
@@ -343,9 +403,11 @@ func OrgRftemplateResourceSchema(ctx context.Context) schema.Schema {
 								"4x4",
 							),
 						},
+						Default: stringdefault.StaticString("default"),
 					},
 					"bandwidth": schema.Int64Attribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "channel width for the 6GHz band",
 						MarkdownDescription: "channel width for the 6GHz band",
 						Validators: []validator.Int64{
@@ -356,44 +418,55 @@ func OrgRftemplateResourceSchema(ctx context.Context) schema.Schema {
 								160,
 							),
 						},
+						Default: int64default.StaticInt64(80),
 					},
 					"channels": schema.ListAttribute{
 						ElementType:         types.Int64Type,
 						Optional:            true,
+						Computed:            true,
 						Description:         "For RFTemplates. List of channels, null or empty array means auto",
 						MarkdownDescription: "For RFTemplates. List of channels, null or empty array means auto",
 					},
 					"disabled": schema.BoolAttribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "whether to disable the radio",
 						MarkdownDescription: "whether to disable the radio",
+						Default:             booldefault.StaticBool(false),
 					},
 					"power": schema.Int64Attribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "TX power of the radio. For Devices, 0 means auto. -1 / -2 / -3 / …: treated as 0 / -1 / -2 / …",
 						MarkdownDescription: "TX power of the radio. For Devices, 0 means auto. -1 / -2 / -3 / …: treated as 0 / -1 / -2 / …",
 						Validators: []validator.Int64{
 							int64validator.Between(5, 25),
 						},
+						Default: int64default.StaticInt64(0),
 					},
 					"power_max": schema.Int64Attribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "when power=0, max tx power to use, HW-specific values will be used if not set",
 						MarkdownDescription: "when power=0, max tx power to use, HW-specific values will be used if not set",
 						Validators: []validator.Int64{
 							int64validator.Between(5, 18),
 						},
+						Default: int64default.StaticInt64(18),
 					},
 					"power_min": schema.Int64Attribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "when power=0, min tx power to use, HW-specific values will be used if not set",
 						MarkdownDescription: "when power=0, min tx power to use, HW-specific values will be used if not set",
 						Validators: []validator.Int64{
 							int64validator.Between(5, 18),
 						},
+						Default: int64default.StaticInt64(8),
 					},
 					"preamble": schema.StringAttribute{
 						Optional: true,
+						Computed: true,
 						Validators: []validator.String{
 							stringvalidator.OneOf(
 								"",
@@ -402,11 +475,14 @@ func OrgRftemplateResourceSchema(ctx context.Context) schema.Schema {
 								"auto",
 							),
 						},
+						Default: stringdefault.StaticString("short"),
 					},
 					"standard_power": schema.BoolAttribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "for 6GHz Only, standard-power operation, AFC (Automatic Frequency Coordination) will be performed and we'll fallback to Low Power Indoor if AFC failed",
 						MarkdownDescription: "for 6GHz Only, standard-power operation, AFC (Automatic Frequency Coordination) will be performed and we'll fallback to Low Power Indoor if AFC failed",
+						Default:             booldefault.StaticBool(false),
 					},
 				},
 				CustomType: Band6Type{
@@ -445,15 +521,20 @@ func OrgRftemplateResourceSchema(ctx context.Context) schema.Schema {
 							Attributes: map[string]schema.Attribute{
 								"allow_rrm_disable": schema.BoolAttribute{
 									Optional: true,
+									Computed: true,
+									Default:  booldefault.StaticBool(false),
 								},
 								"ant_gain": schema.Int64Attribute{
 									Optional: true,
+									Computed: true,
 									Validators: []validator.Int64{
 										int64validator.Between(0, 10),
 									},
+									Default: int64default.StaticInt64(0),
 								},
 								"antenna_mode": schema.StringAttribute{
 									Optional: true,
+									Computed: true,
 									Validators: []validator.String{
 										stringvalidator.OneOf(
 											"",
@@ -464,9 +545,11 @@ func OrgRftemplateResourceSchema(ctx context.Context) schema.Schema {
 											"4x4",
 										),
 									},
+									Default: stringdefault.StaticString("default"),
 								},
 								"bandwidth": schema.Int64Attribute{
 									Optional:            true,
+									Computed:            true,
 									Description:         "channel width for the 2.4GHz band",
 									MarkdownDescription: "channel width for the 2.4GHz band",
 									Validators: []validator.Int64{
@@ -475,6 +558,7 @@ func OrgRftemplateResourceSchema(ctx context.Context) schema.Schema {
 											40,
 										),
 									},
+									Default: int64default.StaticInt64(20),
 								},
 								"channels": schema.ListAttribute{
 									ElementType:         types.Int64Type,
@@ -484,35 +568,44 @@ func OrgRftemplateResourceSchema(ctx context.Context) schema.Schema {
 								},
 								"disabled": schema.BoolAttribute{
 									Optional:            true,
+									Computed:            true,
 									Description:         "whether to disable the radio",
 									MarkdownDescription: "whether to disable the radio",
+									Default:             booldefault.StaticBool(false),
 								},
 								"power": schema.Int64Attribute{
 									Optional:            true,
+									Computed:            true,
 									Description:         "TX power of the radio. For Devices, 0 means auto. -1 / -2 / -3 / …: treated as 0 / -1 / -2 / …",
 									MarkdownDescription: "TX power of the radio. For Devices, 0 means auto. -1 / -2 / -3 / …: treated as 0 / -1 / -2 / …",
 									Validators: []validator.Int64{
 										int64validator.Between(3, 25),
 									},
+									Default: int64default.StaticInt64(0),
 								},
 								"power_max": schema.Int64Attribute{
 									Optional:            true,
+									Computed:            true,
 									Description:         "when power=0, max tx power to use, HW-specific values will be used if not set",
 									MarkdownDescription: "when power=0, max tx power to use, HW-specific values will be used if not set",
 									Validators: []validator.Int64{
 										int64validator.Between(3, 18),
 									},
+									Default: int64default.StaticInt64(17),
 								},
 								"power_min": schema.Int64Attribute{
 									Optional:            true,
+									Computed:            true,
 									Description:         "when power=0, min tx power to use, HW-specific values will be used if not set",
 									MarkdownDescription: "when power=0, min tx power to use, HW-specific values will be used if not set",
 									Validators: []validator.Int64{
 										int64validator.Between(3, 18),
 									},
+									Default: int64default.StaticInt64(8),
 								},
 								"preamble": schema.StringAttribute{
 									Optional: true,
+									Computed: true,
 									Validators: []validator.String{
 										stringvalidator.OneOf(
 											"",
@@ -521,6 +614,7 @@ func OrgRftemplateResourceSchema(ctx context.Context) schema.Schema {
 											"auto",
 										),
 									},
+									Default: stringdefault.StaticString("short"),
 								},
 							},
 							CustomType: Band24Type{
@@ -548,15 +642,20 @@ func OrgRftemplateResourceSchema(ctx context.Context) schema.Schema {
 							Attributes: map[string]schema.Attribute{
 								"allow_rrm_disable": schema.BoolAttribute{
 									Optional: true,
+									Computed: true,
+									Default:  booldefault.StaticBool(false),
 								},
 								"ant_gain": schema.Int64Attribute{
 									Optional: true,
+									Computed: true,
 									Validators: []validator.Int64{
 										int64validator.Between(0, 10),
 									},
+									Default: int64default.StaticInt64(0),
 								},
 								"antenna_mode": schema.StringAttribute{
 									Optional: true,
+									Computed: true,
 									Validators: []validator.String{
 										stringvalidator.OneOf(
 											"",
@@ -567,6 +666,7 @@ func OrgRftemplateResourceSchema(ctx context.Context) schema.Schema {
 											"4x4",
 										),
 									},
+									Default: stringdefault.StaticString("default"),
 								},
 								"bandwidth": schema.Int64Attribute{
 									Optional:            true,
@@ -588,35 +688,44 @@ func OrgRftemplateResourceSchema(ctx context.Context) schema.Schema {
 								},
 								"disabled": schema.BoolAttribute{
 									Optional:            true,
+									Computed:            true,
 									Description:         "whether to disable the radio",
 									MarkdownDescription: "whether to disable the radio",
+									Default:             booldefault.StaticBool(false),
 								},
 								"power": schema.Int64Attribute{
 									Optional:            true,
+									Computed:            true,
 									Description:         "TX power of the radio. For Devices, 0 means auto. -1 / -2 / -3 / …: treated as 0 / -1 / -2 / …",
 									MarkdownDescription: "TX power of the radio. For Devices, 0 means auto. -1 / -2 / -3 / …: treated as 0 / -1 / -2 / …",
 									Validators: []validator.Int64{
 										int64validator.Between(5, 25),
 									},
+									Default: int64default.StaticInt64(0),
 								},
 								"power_max": schema.Int64Attribute{
 									Optional:            true,
+									Computed:            true,
 									Description:         "when power=0, max tx power to use, HW-specific values will be used if not set",
 									MarkdownDescription: "when power=0, max tx power to use, HW-specific values will be used if not set",
 									Validators: []validator.Int64{
 										int64validator.Between(5, 17),
 									},
+									Default: int64default.StaticInt64(17),
 								},
 								"power_min": schema.Int64Attribute{
 									Optional:            true,
+									Computed:            true,
 									Description:         "when power=0, min tx power to use, HW-specific values will be used if not set",
 									MarkdownDescription: "when power=0, min tx power to use, HW-specific values will be used if not set",
 									Validators: []validator.Int64{
 										int64validator.Between(5, 17),
 									},
+									Default: int64default.StaticInt64(8),
 								},
 								"preamble": schema.StringAttribute{
 									Optional: true,
+									Computed: true,
 									Validators: []validator.String{
 										stringvalidator.OneOf(
 											"",
@@ -625,6 +734,7 @@ func OrgRftemplateResourceSchema(ctx context.Context) schema.Schema {
 											"auto",
 										),
 									},
+									Default: stringdefault.StaticString("short"),
 								},
 							},
 							CustomType: Band5Type{
@@ -640,15 +750,20 @@ func OrgRftemplateResourceSchema(ctx context.Context) schema.Schema {
 							Attributes: map[string]schema.Attribute{
 								"allow_rrm_disable": schema.BoolAttribute{
 									Optional: true,
+									Computed: true,
+									Default:  booldefault.StaticBool(false),
 								},
 								"ant_gain": schema.Int64Attribute{
 									Optional: true,
+									Computed: true,
 									Validators: []validator.Int64{
 										int64validator.Between(0, 10),
 									},
+									Default: int64default.StaticInt64(0),
 								},
 								"antenna_mode": schema.StringAttribute{
 									Optional: true,
+									Computed: true,
 									Validators: []validator.String{
 										stringvalidator.OneOf(
 											"",
@@ -659,6 +774,7 @@ func OrgRftemplateResourceSchema(ctx context.Context) schema.Schema {
 											"4x4",
 										),
 									},
+									Default: stringdefault.StaticString("default"),
 								},
 								"bandwidth": schema.Int64Attribute{
 									Optional:            true,
@@ -680,35 +796,44 @@ func OrgRftemplateResourceSchema(ctx context.Context) schema.Schema {
 								},
 								"disabled": schema.BoolAttribute{
 									Optional:            true,
+									Computed:            true,
 									Description:         "whether to disable the radio",
 									MarkdownDescription: "whether to disable the radio",
+									Default:             booldefault.StaticBool(false),
 								},
 								"power": schema.Int64Attribute{
 									Optional:            true,
+									Computed:            true,
 									Description:         "TX power of the radio. For Devices, 0 means auto. -1 / -2 / -3 / …: treated as 0 / -1 / -2 / …",
 									MarkdownDescription: "TX power of the radio. For Devices, 0 means auto. -1 / -2 / -3 / …: treated as 0 / -1 / -2 / …",
 									Validators: []validator.Int64{
 										int64validator.Between(5, 25),
 									},
+									Default: int64default.StaticInt64(0),
 								},
 								"power_max": schema.Int64Attribute{
 									Optional:            true,
+									Computed:            true,
 									Description:         "when power=0, max tx power to use, HW-specific values will be used if not set",
 									MarkdownDescription: "when power=0, max tx power to use, HW-specific values will be used if not set",
 									Validators: []validator.Int64{
 										int64validator.Between(5, 17),
 									},
+									Default: int64default.StaticInt64(17),
 								},
 								"power_min": schema.Int64Attribute{
 									Optional:            true,
+									Computed:            true,
 									Description:         "when power=0, min tx power to use, HW-specific values will be used if not set",
 									MarkdownDescription: "when power=0, min tx power to use, HW-specific values will be used if not set",
 									Validators: []validator.Int64{
 										int64validator.Between(5, 17),
 									},
+									Default: int64default.StaticInt64(8),
 								},
 								"preamble": schema.StringAttribute{
 									Optional: true,
+									Computed: true,
 									Validators: []validator.String{
 										stringvalidator.OneOf(
 											"",
@@ -717,6 +842,7 @@ func OrgRftemplateResourceSchema(ctx context.Context) schema.Schema {
 											"auto",
 										),
 									},
+									Default: stringdefault.StaticString("short"),
 								},
 							},
 							CustomType: Band5On24RadioType{
@@ -732,15 +858,20 @@ func OrgRftemplateResourceSchema(ctx context.Context) schema.Schema {
 							Attributes: map[string]schema.Attribute{
 								"allow_rrm_disable": schema.BoolAttribute{
 									Optional: true,
+									Computed: true,
+									Default:  booldefault.StaticBool(false),
 								},
 								"ant_gain": schema.Int64Attribute{
 									Optional: true,
+									Computed: true,
 									Validators: []validator.Int64{
 										int64validator.Between(0, 10),
 									},
+									Default: int64default.StaticInt64(0),
 								},
 								"antenna_mode": schema.StringAttribute{
 									Optional: true,
+									Computed: true,
 									Validators: []validator.String{
 										stringvalidator.OneOf(
 											"",
@@ -751,9 +882,11 @@ func OrgRftemplateResourceSchema(ctx context.Context) schema.Schema {
 											"4x4",
 										),
 									},
+									Default: stringdefault.StaticString("default"),
 								},
 								"bandwidth": schema.Int64Attribute{
 									Optional:            true,
+									Computed:            true,
 									Description:         "channel width for the 6GHz band",
 									MarkdownDescription: "channel width for the 6GHz band",
 									Validators: []validator.Int64{
@@ -764,6 +897,7 @@ func OrgRftemplateResourceSchema(ctx context.Context) schema.Schema {
 											160,
 										),
 									},
+									Default: int64default.StaticInt64(80),
 								},
 								"channels": schema.ListAttribute{
 									ElementType:         types.Int64Type,
@@ -773,35 +907,44 @@ func OrgRftemplateResourceSchema(ctx context.Context) schema.Schema {
 								},
 								"disabled": schema.BoolAttribute{
 									Optional:            true,
+									Computed:            true,
 									Description:         "whether to disable the radio",
 									MarkdownDescription: "whether to disable the radio",
+									Default:             booldefault.StaticBool(false),
 								},
 								"power": schema.Int64Attribute{
 									Optional:            true,
+									Computed:            true,
 									Description:         "TX power of the radio. For Devices, 0 means auto. -1 / -2 / -3 / …: treated as 0 / -1 / -2 / …",
 									MarkdownDescription: "TX power of the radio. For Devices, 0 means auto. -1 / -2 / -3 / …: treated as 0 / -1 / -2 / …",
 									Validators: []validator.Int64{
 										int64validator.Between(5, 25),
 									},
+									Default: int64default.StaticInt64(0),
 								},
 								"power_max": schema.Int64Attribute{
 									Optional:            true,
+									Computed:            true,
 									Description:         "when power=0, max tx power to use, HW-specific values will be used if not set",
 									MarkdownDescription: "when power=0, max tx power to use, HW-specific values will be used if not set",
 									Validators: []validator.Int64{
 										int64validator.Between(5, 18),
 									},
+									Default: int64default.StaticInt64(18),
 								},
 								"power_min": schema.Int64Attribute{
 									Optional:            true,
+									Computed:            true,
 									Description:         "when power=0, min tx power to use, HW-specific values will be used if not set",
 									MarkdownDescription: "when power=0, min tx power to use, HW-specific values will be used if not set",
 									Validators: []validator.Int64{
 										int64validator.Between(5, 18),
 									},
+									Default: int64default.StaticInt64(8),
 								},
 								"preamble": schema.StringAttribute{
 									Optional: true,
+									Computed: true,
 									Validators: []validator.String{
 										stringvalidator.OneOf(
 											"",
@@ -810,11 +953,14 @@ func OrgRftemplateResourceSchema(ctx context.Context) schema.Schema {
 											"auto",
 										),
 									},
+									Default: stringdefault.StaticString("short"),
 								},
 								"standard_power": schema.BoolAttribute{
 									Optional:            true,
+									Computed:            true,
 									Description:         "for 6GHz Only, standard-power operation, AFC (Automatic Frequency Coordination) will be performed and we'll fallback to Low Power Indoor if AFC failed",
 									MarkdownDescription: "for 6GHz Only, standard-power operation, AFC (Automatic Frequency Coordination) will be performed and we'll fallback to Low Power Indoor if AFC failed",
+									Default:             booldefault.StaticBool(false),
 								},
 							},
 							CustomType: Band6Type{

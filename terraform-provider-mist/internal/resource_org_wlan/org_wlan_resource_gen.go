@@ -10,6 +10,11 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/float64default"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
@@ -24,16 +29,20 @@ func OrgWlanResourceSchema(ctx context.Context) schema.Schema {
 		Attributes: map[string]schema.Attribute{
 			"acct_immediate_update": schema.BoolAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "enable coa-immediate-update and address-change-immediate-update on the access profile.",
 				MarkdownDescription: "enable coa-immediate-update and address-change-immediate-update on the access profile.",
+				Default:             booldefault.StaticBool(false),
 			},
 			"acct_interim_interval": schema.Int64Attribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "how frequently should interim accounting be reported, 60-65535. default is 0 (use one specified in Access-Accept request from RADIUS Server). Very frequent messages can affect the performance of the radius server, 600 and up is recommended when enabled",
 				MarkdownDescription: "how frequently should interim accounting be reported, 60-65535. default is 0 (use one specified in Access-Accept request from RADIUS Server). Very frequent messages can affect the performance of the radius server, 600 and up is recommended when enabled",
 				Validators: []validator.Int64{
 					int64validator.Between(0, 65535),
 				},
+				Default: int64default.StaticInt64(0),
 			},
 			"acct_servers": schema.ListNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
@@ -67,8 +76,10 @@ func OrgWlanResourceSchema(ctx context.Context) schema.Schema {
 						},
 						"port": schema.Int64Attribute{
 							Optional:            true,
+							Computed:            true,
 							Description:         "Acct port of RADIUS server",
 							MarkdownDescription: "Acct port of RADIUS server",
+							Default:             int64default.StaticInt64(1813),
 						},
 						"secret": schema.StringAttribute{
 							Required:            true,
@@ -90,26 +101,36 @@ func OrgWlanResourceSchema(ctx context.Context) schema.Schema {
 				Attributes: map[string]schema.Attribute{
 					"api_key": schema.StringAttribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "API Key",
 						MarkdownDescription: "API Key",
+						Default:             stringdefault.StaticString(""),
 					},
 					"console_url": schema.StringAttribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "console URL",
 						MarkdownDescription: "console URL",
+						Default:             stringdefault.StaticString(""),
 					},
 					"enabled": schema.BoolAttribute{
 						Optional: true,
+						Computed: true,
+						Default:  booldefault.StaticBool(false),
 					},
 					"password": schema.StringAttribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "password",
 						MarkdownDescription: "password",
+						Default:             stringdefault.StaticString(""),
 					},
 					"username": schema.StringAttribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "username",
 						MarkdownDescription: "username",
+						Default:             stringdefault.StaticString(""),
 					},
 				},
 				CustomType: AirwatchType{
@@ -123,24 +144,32 @@ func OrgWlanResourceSchema(ctx context.Context) schema.Schema {
 			},
 			"allow_ipv6_ndp": schema.BoolAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "only applicable when limit_bcast==true, which allows or disallows ipv6 Neighbor Discovery packets to go through",
 				MarkdownDescription: "only applicable when limit_bcast==true, which allows or disallows ipv6 Neighbor Discovery packets to go through",
+				Default:             booldefault.StaticBool(true),
 			},
 			"allow_mdns": schema.BoolAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "only applicable when limit_bcast==true, which allows mDNS / Bonjour packets to go through",
 				MarkdownDescription: "only applicable when limit_bcast==true, which allows mDNS / Bonjour packets to go through",
+				Default:             booldefault.StaticBool(false),
 			},
 			"allow_ssdp": schema.BoolAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "only applicable when `limit_bcast`==`tru`e, which allows SSDP",
 				MarkdownDescription: "only applicable when `limit_bcast`==`tru`e, which allows SSDP",
+				Default:             booldefault.StaticBool(false),
 			},
 			"ap_ids": schema.ListAttribute{
 				ElementType:         types.StringType,
 				Optional:            true,
+				Computed:            true,
 				Description:         "list of device ids",
 				MarkdownDescription: "list of device ids",
+				Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 			},
 			"app_limit": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
@@ -152,10 +181,13 @@ func OrgWlanResourceSchema(ctx context.Context) schema.Schema {
 					},
 					"enabled": schema.BoolAttribute{
 						Optional: true,
+						Computed: true,
+						Default:  booldefault.StaticBool(false),
 					},
 					"wxtag_ids": schema.MapAttribute{
 						ElementType:         types.Int64Type,
 						Optional:            true,
+						Computed:            true,
 						Description:         "Map from wxtag_id of Hostname Wxlan Tags to bandwidth in kbps\nProperty key is the wxtag id",
 						MarkdownDescription: "Map from wxtag_id of Hostname Wxlan Tags to bandwidth in kbps\nProperty key is the wxtag id",
 					},
@@ -199,6 +231,8 @@ func OrgWlanResourceSchema(ctx context.Context) schema.Schema {
 					},
 					"enabled": schema.BoolAttribute{
 						Optional: true,
+						Computed: true,
+						Default:  booldefault.StaticBool(false),
 					},
 					"others": schema.ListNestedAttribute{
 						NestedObject: schema.NestedAttributeObject{
@@ -259,50 +293,64 @@ func OrgWlanResourceSchema(ctx context.Context) schema.Schema {
 			},
 			"arp_filter": schema.BoolAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "whether to enable smart arp filter",
 				MarkdownDescription: "whether to enable smart arp filter",
+				Default:             booldefault.StaticBool(false),
 			},
 			"auth": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
 					"anticlog_threshold": schema.Int64Attribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "SAE anti-clogging token threshold",
 						MarkdownDescription: "SAE anti-clogging token threshold",
 						Validators: []validator.Int64{
 							int64validator.Between(16, 32),
 						},
+						Default: int64default.StaticInt64(16),
 					},
 					"eap_reauth": schema.BoolAttribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "whether to trigger EAP reauth when the session ends",
 						MarkdownDescription: "whether to trigger EAP reauth when the session ends",
+						Default:             booldefault.StaticBool(false),
 					},
 					"enable_mac_auth": schema.BoolAttribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "whether to enable MAC Auth, uses the same auth_servers",
 						MarkdownDescription: "whether to enable MAC Auth, uses the same auth_servers",
+						Default:             booldefault.StaticBool(false),
 					},
 					"key_idx": schema.Int64Attribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "when type=wep",
 						MarkdownDescription: "when type=wep",
 						Validators: []validator.Int64{
 							int64validator.Between(1, 4),
 						},
+						Default: int64default.StaticInt64(1),
 					},
 					"keys": schema.ListAttribute{
 						ElementType:         types.StringType,
 						Optional:            true,
+						Computed:            true,
 						Description:         "when type=wep, four 10-character or 26-character hex string, null can be used. All keys, if provided, have to be in the same length",
 						MarkdownDescription: "when type=wep, four 10-character or 26-character hex string, null can be used. All keys, if provided, have to be in the same length",
 					},
 					"multi_psk_only": schema.BoolAttribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "whether to only use multi_psk",
 						MarkdownDescription: "whether to only use multi_psk",
+						Default:             booldefault.StaticBool(false),
 					},
 					"owe": schema.StringAttribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "`enabled` means transition mode",
 						MarkdownDescription: "`enabled` means transition mode",
 						Validators: []validator.String{
@@ -313,28 +361,35 @@ func OrgWlanResourceSchema(ctx context.Context) schema.Schema {
 								"required",
 							),
 						},
+						Default: stringdefault.StaticString("disabled"),
 					},
 					"pairwise": schema.ListAttribute{
 						ElementType:         types.StringType,
 						Optional:            true,
+						Computed:            true,
 						Description:         "when type=psk / eap, one or more of wpa2-ccmp / wpa1-tkip / wpa1-ccmp / wpa2-tkip",
 						MarkdownDescription: "when type=psk / eap, one or more of wpa2-ccmp / wpa1-tkip / wpa1-ccmp / wpa2-tkip",
 					},
 					"private_wlan": schema.BoolAttribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "whether private wlan is enabled. only applicable to multi_psk mode",
 						MarkdownDescription: "whether private wlan is enabled. only applicable to multi_psk mode",
+						Default:             booldefault.StaticBool(false),
 					},
 					"psk": schema.StringAttribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "when type=psk, 8-64 characters, or 64 hex characters",
 						MarkdownDescription: "when type=psk, 8-64 characters, or 64 hex characters",
 						Validators: []validator.String{
 							stringvalidator.LengthBetween(8, 64),
 						},
+						Default: stringdefault.StaticString(""),
 					},
 					"type": schema.StringAttribute{
 						Optional: true,
+						Computed: true,
 						Validators: []validator.String{
 							stringvalidator.OneOf(
 								"",
@@ -347,11 +402,14 @@ func OrgWlanResourceSchema(ctx context.Context) schema.Schema {
 								"psk-wpa2-tkip",
 							),
 						},
+						Default: stringdefault.StaticString("open"),
 					},
 					"wep_as_secondary_auth": schema.BoolAttribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "enable WEP as secondary auth",
 						MarkdownDescription: "enable WEP as secondary auth",
+						Default:             booldefault.StaticBool(false),
 					},
 				},
 				CustomType: AuthType{
@@ -365,6 +423,7 @@ func OrgWlanResourceSchema(ctx context.Context) schema.Schema {
 			},
 			"auth_server_selection": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "When ordered, AP will prefer and go back to the first server if possible",
 				MarkdownDescription: "When ordered, AP will prefer and go back to the first server if possible",
 				Validators: []validator.String{
@@ -374,6 +433,7 @@ func OrgWlanResourceSchema(ctx context.Context) schema.Schema {
 						"unordered",
 					),
 				},
+				Default: stringdefault.StaticString("ordered"),
 			},
 			"auth_servers": schema.ListNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
@@ -407,8 +467,10 @@ func OrgWlanResourceSchema(ctx context.Context) schema.Schema {
 						},
 						"port": schema.Int64Attribute{
 							Optional:            true,
+							Computed:            true,
 							Description:         "Auth port of RADIUS server",
 							MarkdownDescription: "Auth port of RADIUS server",
+							Default:             int64default.StaticInt64(1812),
 						},
 						"secret": schema.StringAttribute{
 							Required:            true,
@@ -438,23 +500,31 @@ func OrgWlanResourceSchema(ctx context.Context) schema.Schema {
 			},
 			"auth_servers_retries": schema.Int64Attribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "radius auth session retries. Following fast timers are set if “fast_dot1x_timers” knob is enabled. ‘retries’ are set to value of auth_servers_retries. ‘max-requests’ is also set when setting auth_servers_retries and is set to default value to 3.",
 				MarkdownDescription: "radius auth session retries. Following fast timers are set if “fast_dot1x_timers” knob is enabled. ‘retries’ are set to value of auth_servers_retries. ‘max-requests’ is also set when setting auth_servers_retries and is set to default value to 3.",
+				Default:             int64default.StaticInt64(2),
 			},
 			"auth_servers_timeout": schema.Int64Attribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "radius auth session timeout. Following fast timers are set if “fast_dot1x_timers” knob is enabled. ‘quite-period’ and ‘transmit-period’ are set to half the value of auth_servers_timeout. ‘supplicant-timeout’ is also set when setting auth_servers_timeout and is set to default value of 10.",
 				MarkdownDescription: "radius auth session timeout. Following fast timers are set if “fast_dot1x_timers” knob is enabled. ‘quite-period’ and ‘transmit-period’ are set to half the value of auth_servers_timeout. ‘supplicant-timeout’ is also set when setting auth_servers_timeout and is set to default value of 10.",
+				Default:             int64default.StaticInt64(5),
 			},
 			"band_steer": schema.BoolAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "whether to enable band_steering, this works only when band==both",
 				MarkdownDescription: "whether to enable band_steering, this works only when band==both",
+				Default:             booldefault.StaticBool(false),
 			},
 			"band_steer_force_band5": schema.BoolAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "force dual_band capable client to connect to 5G",
 				MarkdownDescription: "force dual_band capable client to connect to 5G",
+				Default:             booldefault.StaticBool(false),
 			},
 			"bands": schema.ListAttribute{
 				ElementType:         types.StringType,
@@ -464,8 +534,10 @@ func OrgWlanResourceSchema(ctx context.Context) schema.Schema {
 			},
 			"block_blacklist_clients": schema.BoolAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "whether to block the clients in the blacklist (up to first 256 macs)",
 				MarkdownDescription: "whether to block the clients in the blacklist (up to first 256 macs)",
+				Default:             booldefault.StaticBool(false),
 			},
 			"bonjour": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
@@ -477,16 +549,20 @@ func OrgWlanResourceSchema(ctx context.Context) schema.Schema {
 					},
 					"enabled": schema.BoolAttribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "whether to enable bonjour for this WLAN. Once enabled, limit_bcast is assumed true, allow_mdns is assumed false",
 						MarkdownDescription: "whether to enable bonjour for this WLAN. Once enabled, limit_bcast is assumed true, allow_mdns is assumed false",
+						Default:             booldefault.StaticBool(false),
 					},
 					"services": schema.MapNestedAttribute{
 						NestedObject: schema.NestedAttributeObject{
 							Attributes: map[string]schema.Attribute{
 								"disable_local": schema.BoolAttribute{
 									Optional:            true,
+									Computed:            true,
 									Description:         "whether to prevent wireless clients to discover bonjour devices on the same WLAN",
 									MarkdownDescription: "whether to prevent wireless clients to discover bonjour devices on the same WLAN",
+									Default:             booldefault.StaticBool(false),
 								},
 								"radius_groups": schema.ListAttribute{
 									ElementType:         types.StringType,
@@ -496,6 +572,7 @@ func OrgWlanResourceSchema(ctx context.Context) schema.Schema {
 								},
 								"scope": schema.StringAttribute{
 									Optional:            true,
+									Computed:            true,
 									Description:         "how bonjour services should be discovered for the same WLAN",
 									MarkdownDescription: "how bonjour services should be discovered for the same WLAN",
 									Validators: []validator.String{
@@ -506,6 +583,7 @@ func OrgWlanResourceSchema(ctx context.Context) schema.Schema {
 											"same_ap",
 										),
 									},
+									Default: stringdefault.StaticString("same_site"),
 								},
 							},
 							CustomType: ServicesType{
@@ -550,6 +628,8 @@ func OrgWlanResourceSchema(ctx context.Context) schema.Schema {
 					},
 					"enabled": schema.BoolAttribute{
 						Optional: true,
+						Computed: true,
+						Default:  booldefault.StaticBool(false),
 					},
 				},
 				CustomType: CiscoCwaType{
@@ -568,8 +648,10 @@ func OrgWlanResourceSchema(ctx context.Context) schema.Schema {
 			},
 			"client_limit_down_enabled": schema.BoolAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "if downlink limiting per-client is enabled",
 				MarkdownDescription: "if downlink limiting per-client is enabled",
+				Default:             booldefault.StaticBool(false),
 			},
 			"client_limit_up": schema.Int64Attribute{
 				Optional:            true,
@@ -578,25 +660,33 @@ func OrgWlanResourceSchema(ctx context.Context) schema.Schema {
 			},
 			"client_limit_up_enabled": schema.BoolAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "if uplink limiting per-client is enabled",
 				MarkdownDescription: "if uplink limiting per-client is enabled",
+				Default:             booldefault.StaticBool(false),
 			},
 			"coa_servers": schema.ListNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"disable_event_timestamp_check": schema.BoolAttribute{
 							Optional:            true,
+							Computed:            true,
 							Description:         "whether to disable Event-Timestamp Check",
 							MarkdownDescription: "whether to disable Event-Timestamp Check",
+							Default:             booldefault.StaticBool(false),
 						},
 						"enabled": schema.BoolAttribute{
 							Optional: true,
+							Computed: true,
+							Default:  booldefault.StaticBool(false),
 						},
 						"ip": schema.StringAttribute{
 							Required: true,
 						},
 						"port": schema.Int64Attribute{
 							Optional: true,
+							Computed: true,
+							Default:  int64default.StaticInt64(3799),
 						},
 						"secret": schema.StringAttribute{
 							Required: true,
@@ -614,38 +704,52 @@ func OrgWlanResourceSchema(ctx context.Context) schema.Schema {
 			},
 			"disable_11ax": schema.BoolAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "some old WLAN drivers may not be compatible",
 				MarkdownDescription: "some old WLAN drivers may not be compatible",
+				Default:             booldefault.StaticBool(false),
 			},
 			"disable_ht_vht_rates": schema.BoolAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "to disable ht or vht rates",
 				MarkdownDescription: "to disable ht or vht rates",
+				Default:             booldefault.StaticBool(false),
 			},
 			"disable_uapsd": schema.BoolAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "whether to disable U-APSD",
 				MarkdownDescription: "whether to disable U-APSD",
+				Default:             booldefault.StaticBool(false),
 			},
 			"disable_v1_roam_notify": schema.BoolAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "disable sending v2 roam notification messages",
 				MarkdownDescription: "disable sending v2 roam notification messages",
+				Default:             booldefault.StaticBool(false),
 			},
 			"disable_v2_roam_notify": schema.BoolAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "disable sending v2 roam notification messages",
 				MarkdownDescription: "disable sending v2 roam notification messages",
+				Default:             booldefault.StaticBool(false),
 			},
 			"disable_wmm": schema.BoolAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "whether to disable WMM",
 				MarkdownDescription: "whether to disable WMM",
+				Default:             booldefault.StaticBool(false),
 			},
 			"dns_server_rewrite": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
 					"enabled": schema.BoolAttribute{
 						Optional: true,
+						Computed: true,
+						Default:  booldefault.StaticBool(false),
 					},
 					"radius_groups": schema.MapAttribute{
 						ElementType:         types.StringType,
@@ -665,6 +769,8 @@ func OrgWlanResourceSchema(ctx context.Context) schema.Schema {
 			},
 			"dtim": schema.Int64Attribute{
 				Optional: true,
+				Computed: true,
+				Default:  int64default.StaticInt64(2),
 			},
 			"dynamic_psk": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
@@ -682,14 +788,19 @@ func OrgWlanResourceSchema(ctx context.Context) schema.Schema {
 					},
 					"enabled": schema.BoolAttribute{
 						Optional: true,
+						Computed: true,
+						Default:  booldefault.StaticBool(false),
 					},
 					"force_lookup": schema.BoolAttribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "when 11r is enabled, we'll try to use the cached PMK, this can be disabled\n`false` means auto",
 						MarkdownDescription: "when 11r is enabled, we'll try to use the cached PMK, this can be disabled\n`false` means auto",
+						Default:             booldefault.StaticBool(false),
 					},
 					"source": schema.StringAttribute{
 						Optional: true,
+						Computed: true,
 						Validators: []validator.String{
 							stringvalidator.OneOf(
 								"",
@@ -697,6 +808,7 @@ func OrgWlanResourceSchema(ctx context.Context) schema.Schema {
 								"cloud_psks",
 							),
 						},
+						Default: stringdefault.StaticString("radius"),
 					},
 					"vlan_ids": schema.ListAttribute{
 						ElementType: types.Int64Type,
@@ -716,16 +828,20 @@ func OrgWlanResourceSchema(ctx context.Context) schema.Schema {
 				Attributes: map[string]schema.Attribute{
 					"default_vlan_id": schema.Int64Attribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "vlan_id to use when there’s no match from RADIUS",
 						MarkdownDescription: "vlan_id to use when there’s no match from RADIUS",
 						Validators: []validator.Int64{
 							int64validator.Between(1, 4094),
 						},
+						Default: int64default.StaticInt64(999),
 					},
 					"enabled": schema.BoolAttribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "whether to enable dynamic vlan",
 						MarkdownDescription: "whether to enable dynamic vlan",
+						Default:             booldefault.StaticBool(false),
 					},
 					"local_vlan_ids": schema.ListAttribute{
 						ElementType:         types.Int64Type,
@@ -735,6 +851,7 @@ func OrgWlanResourceSchema(ctx context.Context) schema.Schema {
 					},
 					"type": schema.StringAttribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "standard (using Tunnel-Private-Group-ID, widely supported), airespace-interface-name (Airespace/Cisco)",
 						MarkdownDescription: "standard (using Tunnel-Private-Group-ID, widely supported), airespace-interface-name (Airespace/Cisco)",
 						Validators: []validator.String{
@@ -744,6 +861,7 @@ func OrgWlanResourceSchema(ctx context.Context) schema.Schema {
 								"airespace-interface-name",
 							),
 						},
+						Default: stringdefault.StaticString("standard"),
 					},
 					"vlans": schema.MapAttribute{
 						ElementType:         types.StringType,
@@ -763,38 +881,52 @@ func OrgWlanResourceSchema(ctx context.Context) schema.Schema {
 			},
 			"enable_local_keycaching": schema.BoolAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "enable AP-AP keycaching via multicast",
 				MarkdownDescription: "enable AP-AP keycaching via multicast",
+				Default:             booldefault.StaticBool(false),
 			},
 			"enable_wireless_bridging": schema.BoolAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "by default, we'd inspect all DHCP packets and drop those unrelated to the wireless client itself in the case where client is a wireless bridge (DHCP packets for other MACs will need to be orwarded), wireless_bridging can be enabled",
 				MarkdownDescription: "by default, we'd inspect all DHCP packets and drop those unrelated to the wireless client itself in the case where client is a wireless bridge (DHCP packets for other MACs will need to be orwarded), wireless_bridging can be enabled",
+				Default:             booldefault.StaticBool(false),
 			},
 			"enable_wireless_bridging_dhcp_tracking": schema.BoolAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "if the client bridge is doing DHCP on behalf of other devices (L2-NAT), enable dhcp_tracking will cut down DHCP response packets to be forwarded to wireless",
 				MarkdownDescription: "if the client bridge is doing DHCP on behalf of other devices (L2-NAT), enable dhcp_tracking will cut down DHCP response packets to be forwarded to wireless",
+				Default:             booldefault.StaticBool(false),
 			},
 			"enabled": schema.BoolAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "if this wlan is enabled",
 				MarkdownDescription: "if this wlan is enabled",
+				Default:             booldefault.StaticBool(true),
 			},
 			"fast_dot1x_timers": schema.BoolAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "if set to true, sets default fast-timers with values calculated from ‘auth_servers_timeout’ and ‘auth_server_retries’.",
 				MarkdownDescription: "if set to true, sets default fast-timers with values calculated from ‘auth_servers_timeout’ and ‘auth_server_retries’.",
+				Default:             booldefault.StaticBool(false),
 			},
 			"hide_ssid": schema.BoolAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "whether to hide SSID in beacon",
 				MarkdownDescription: "whether to hide SSID in beacon",
+				Default:             booldefault.StaticBool(false),
 			},
 			"hostname_ie": schema.BoolAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "include hostname inside IE in AP beacons / probe responses",
 				MarkdownDescription: "include hostname inside IE in AP beacons / probe responses",
+				Default:             booldefault.StaticBool(false),
 			},
 			"hotspot20": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
@@ -850,8 +982,10 @@ func OrgWlanResourceSchema(ctx context.Context) schema.Schema {
 					},
 					"enabled": schema.BoolAttribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "whether to inject option 82 when forwarding DHCP packets",
 						MarkdownDescription: "whether to inject option 82 when forwarding DHCP packets",
+						Default:             booldefault.StaticBool(false),
 					},
 				},
 				CustomType: InjectDhcpOption82Type{
@@ -863,6 +997,7 @@ func OrgWlanResourceSchema(ctx context.Context) schema.Schema {
 			},
 			"interface": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "where this WLAN will be connected to",
 				MarkdownDescription: "where this WLAN will be connected to",
 				Validators: []validator.String{
@@ -878,46 +1013,61 @@ func OrgWlanResourceSchema(ctx context.Context) schema.Schema {
 						"site_mxedge",
 					),
 				},
+				Default: stringdefault.StaticString("all"),
 			},
 			"isolation": schema.BoolAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "whether to stop clients to talk to each other",
 				MarkdownDescription: "whether to stop clients to talk to each other",
+				Default:             booldefault.StaticBool(false),
 			},
 			"l2_isolation": schema.BoolAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "if isolation is enabled, whether to deny clients to talk to L2 on the LAN",
 				MarkdownDescription: "if isolation is enabled, whether to deny clients to talk to L2 on the LAN",
+				Default:             booldefault.StaticBool(false),
 			},
 			"legacy_overds": schema.BoolAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "legacy devices requires the Over-DS (for Fast BSS Transition) bit set (while our chip doesn’t support it). Warning! Enabling this will cause problem for iOS devices.",
 				MarkdownDescription: "legacy devices requires the Over-DS (for Fast BSS Transition) bit set (while our chip doesn’t support it). Warning! Enabling this will cause problem for iOS devices.",
+				Default:             booldefault.StaticBool(false),
 			},
 			"limit_bcast": schema.BoolAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "whether to limit broadcast packets going to wireless (i.e. only allow certain bcast packets to go through)",
 				MarkdownDescription: "whether to limit broadcast packets going to wireless (i.e. only allow certain bcast packets to go through)",
+				Default:             booldefault.StaticBool(false),
 			},
 			"limit_probe_response": schema.BoolAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "limit probe response base on some heuristic rules",
 				MarkdownDescription: "limit probe response base on some heuristic rules",
+				Default:             booldefault.StaticBool(false),
 			},
 			"max_idletime": schema.Int64Attribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "max idle time in seconds",
 				MarkdownDescription: "max idle time in seconds",
 				Validators: []validator.Int64{
 					int64validator.Between(60, 86400),
 				},
+				Default: int64default.StaticInt64(1800),
 			},
 			"mist_nac": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
 					"enabled": schema.BoolAttribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "when enabled:\n* `auth_servers` is ignored\n* `acct_servers` is ignored\n* `auth_servers_*` are ignored\n* `coa_servers` is ignored\n* `radsec` is ignored\n* `coa_enabled` is assumed",
 						MarkdownDescription: "when enabled:\n* `auth_servers` is ignored\n* `acct_servers` is ignored\n* `auth_servers_*` are ignored\n* `coa_servers` is ignored\n* `radsec` is ignored\n* `coa_enabled` is assumed",
+						Default:             booldefault.StaticBool(false),
 					},
 				},
 				CustomType: MistNacType{
@@ -928,29 +1078,39 @@ func OrgWlanResourceSchema(ctx context.Context) schema.Schema {
 				Optional: true,
 			},
 			"msp_id": schema.StringAttribute{
+				Optional: true,
 				Computed: true,
+				Default:  stringdefault.StaticString(""),
 			},
 			"mxtunnel_ids": schema.ListAttribute{
 				ElementType:         types.StringType,
 				Optional:            true,
+				Computed:            true,
 				Description:         "when `interface`=`mxtunnel`, id of the Mist Tunnel",
 				MarkdownDescription: "when `interface`=`mxtunnel`, id of the Mist Tunnel",
+				Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 			},
 			"mxtunnel_name": schema.ListAttribute{
 				ElementType:         types.StringType,
 				Optional:            true,
+				Computed:            true,
 				Description:         "when `interface`=`site_medge`, name of the mxtunnel that in mxtunnels under Site Setting",
 				MarkdownDescription: "when `interface`=`site_medge`, name of the mxtunnel that in mxtunnels under Site Setting",
+				Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 			},
 			"no_static_dns": schema.BoolAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "whether to only allow client to use DNS that we’ve learned from DHCP response",
 				MarkdownDescription: "whether to only allow client to use DNS that we’ve learned from DHCP response",
+				Default:             booldefault.StaticBool(false),
 			},
 			"no_static_ip": schema.BoolAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "whether to only allow client that we’ve learned from DHCP exchange to talk",
 				MarkdownDescription: "whether to only allow client that we’ve learned from DHCP exchange to talk",
+				Default:             booldefault.StaticBool(false),
 			},
 			"org_id": schema.StringAttribute{
 				Required: true,
@@ -959,32 +1119,43 @@ func OrgWlanResourceSchema(ctx context.Context) schema.Schema {
 				Attributes: map[string]schema.Attribute{
 					"amazon_client_id": schema.StringAttribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "amazon OAuth2 client id. This is optional. If not provided, it will use a default one.",
 						MarkdownDescription: "amazon OAuth2 client id. This is optional. If not provided, it will use a default one.",
+						Default:             stringdefault.StaticString(""),
 					},
 					"amazon_client_secret": schema.StringAttribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "amazon OAuth2 client secret. If amazon_client_id was provided, provide a correspoinding value. Else leave blank.",
 						MarkdownDescription: "amazon OAuth2 client secret. If amazon_client_id was provided, provide a correspoinding value. Else leave blank.",
+						Default:             stringdefault.StaticString(""),
 					},
 					"amazon_email_domains": schema.ListAttribute{
 						ElementType:         types.StringType,
 						Optional:            true,
+						Computed:            true,
 						Description:         "Matches authenticated user email against provided domains. If null or [], all authenticated emails will be allowed.",
 						MarkdownDescription: "Matches authenticated user email against provided domains. If null or [], all authenticated emails will be allowed.",
+						Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 					},
 					"amazon_enabled": schema.BoolAttribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "whether amazon is enabled as a login method",
 						MarkdownDescription: "whether amazon is enabled as a login method",
+						Default:             booldefault.StaticBool(false),
 					},
 					"amazon_expire": schema.Float64Attribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "interval for which guest remains authorized using amazon auth (in minutes), if not provided, uses expire`",
 						MarkdownDescription: "interval for which guest remains authorized using amazon auth (in minutes), if not provided, uses expire`",
+						Default:             float64default.StaticFloat64(0),
 					},
 					"auth": schema.StringAttribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "authentication scheme",
 						MarkdownDescription: "authentication scheme",
 						Validators: []validator.String{
@@ -995,61 +1166,84 @@ func OrgWlanResourceSchema(ctx context.Context) schema.Schema {
 								"sso",
 							),
 						},
+						Default: stringdefault.StaticString("none"),
 					},
 					"azure_client_id": schema.StringAttribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "Required if `azure_enabled`==`true`.\nAzure active directory app client id",
 						MarkdownDescription: "Required if `azure_enabled`==`true`.\nAzure active directory app client id",
+						Default:             stringdefault.StaticString(""),
 					},
 					"azure_client_secret": schema.StringAttribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "Required if `azure_enabled`==`true`.\nAzure active directory app client secret",
 						MarkdownDescription: "Required if `azure_enabled`==`true`.\nAzure active directory app client secret",
+						Default:             stringdefault.StaticString(""),
 					},
 					"azure_enabled": schema.BoolAttribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "whether Azure Active Directory is enabled as a login method",
 						MarkdownDescription: "whether Azure Active Directory is enabled as a login method",
+						Default:             booldefault.StaticBool(false),
 					},
 					"azure_expire": schema.Float64Attribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "interval for which guest remains authorized using azure auth (in minutes), if not provided, uses expire`",
 						MarkdownDescription: "interval for which guest remains authorized using azure auth (in minutes), if not provided, uses expire`",
+						Default:             float64default.StaticFloat64(0),
 					},
 					"azure_tenant_id": schema.StringAttribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "Required if `azure_enabled`==`true`.\nAzure active directory tenant id.",
 						MarkdownDescription: "Required if `azure_enabled`==`true`.\nAzure active directory tenant id.",
+						Default:             stringdefault.StaticString(""),
 					},
 					"broadnet_password": schema.StringAttribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "when `sms_provider`==`broadnet`",
 						MarkdownDescription: "when `sms_provider`==`broadnet`",
+						Default:             stringdefault.StaticString(""),
 					},
 					"broadnet_sid": schema.StringAttribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "when `sms_provider`==`broadnet`",
 						MarkdownDescription: "when `sms_provider`==`broadnet`",
+						Default:             stringdefault.StaticString("MIST"),
 					},
 					"broadnet_user_id": schema.StringAttribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "when `sms_provider`==`broadnet`",
 						MarkdownDescription: "when `sms_provider`==`broadnet`",
+						Default:             stringdefault.StaticString(""),
 					},
 					"bypass_when_cloud_down": schema.BoolAttribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "whether to bypass the guest portal when cloud not reachable (and apply the default policies)",
 						MarkdownDescription: "whether to bypass the guest portal when cloud not reachable (and apply the default policies)",
+						Default:             booldefault.StaticBool(false),
 					},
 					"clickatell_api_key": schema.StringAttribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "when `sms_provider`==`clickatell`",
 						MarkdownDescription: "when `sms_provider`==`clickatell`",
+						Default:             stringdefault.StaticString(""),
 					},
 					"cross_site": schema.BoolAttribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "whether to allow guest to roam between WLANs (with same `WLAN.ssid`, regardless of variables) of different sites of same org without reauthentication (disable random_mac for seamless roaming)",
 						MarkdownDescription: "whether to allow guest to roam between WLANs (with same `WLAN.ssid`, regardless of variables) of different sites of same org without reauthentication (disable random_mac for seamless roaming)",
+						Default:             booldefault.StaticBool(false),
 					},
 					"email_enabled": schema.BoolAttribute{
 						Optional:            true,
@@ -1058,156 +1252,195 @@ func OrgWlanResourceSchema(ctx context.Context) schema.Schema {
 					},
 					"enabled": schema.BoolAttribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "whether guest portal is enabled",
 						MarkdownDescription: "whether guest portal is enabled",
+						Default:             booldefault.StaticBool(false),
 					},
 					"expire": schema.Float64Attribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "how long to remain authorized, in minutes",
 						MarkdownDescription: "how long to remain authorized, in minutes",
+						Default:             float64default.StaticFloat64(1440),
 					},
 					"external_portal_url": schema.StringAttribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "external portal URL (e.g. https://host/url) where we can append our query parameters to",
 						MarkdownDescription: "external portal URL (e.g. https://host/url) where we can append our query parameters to",
+						Default:             stringdefault.StaticString(""),
 					},
 					"facebook_client_id": schema.StringAttribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "Required if `facebook_enabled`==`true`.\nFacebook OAuth2 app id. This is optional. If not provided, it will use a default one.",
 						MarkdownDescription: "Required if `facebook_enabled`==`true`.\nFacebook OAuth2 app id. This is optional. If not provided, it will use a default one.",
+						Default:             stringdefault.StaticString(""),
 					},
 					"facebook_client_secret": schema.StringAttribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "Required if `facebook_enabled`==`true`.\nFacebook OAuth2 app secret. If facebook_client_id was provided, provide a correspoinding value. Else leave blank.",
 						MarkdownDescription: "Required if `facebook_enabled`==`true`.\nFacebook OAuth2 app secret. If facebook_client_id was provided, provide a correspoinding value. Else leave blank.",
+						Default:             stringdefault.StaticString(""),
 					},
 					"facebook_email_domains": schema.ListAttribute{
 						ElementType:         types.StringType,
 						Optional:            true,
+						Computed:            true,
 						Description:         "Matches authenticated user email against provided domains. If null or [], all authenticated emails will be allowed.",
 						MarkdownDescription: "Matches authenticated user email against provided domains. If null or [], all authenticated emails will be allowed.",
+						Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 					},
 					"facebook_enabled": schema.BoolAttribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "whether facebook is enabled as a login method",
 						MarkdownDescription: "whether facebook is enabled as a login method",
+						Default:             booldefault.StaticBool(false),
 					},
 					"facebook_expire": schema.Float64Attribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "interval for which guest remains authorized using facebook auth (in minutes), if not provided, uses expire`",
 						MarkdownDescription: "interval for which guest remains authorized using facebook auth (in minutes), if not provided, uses expire`",
+						Default:             float64default.StaticFloat64(0),
 					},
 					"forward": schema.BoolAttribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "whether to forward the user to another URL after authorized",
 						MarkdownDescription: "whether to forward the user to another URL after authorized",
+						Default:             booldefault.StaticBool(false),
 					},
 					"forward_url": schema.StringAttribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "the URL to forward the user to",
 						MarkdownDescription: "the URL to forward the user to",
+						Default:             stringdefault.StaticString(""),
 					},
 					"google_client_id": schema.StringAttribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "Google OAuth2 app id. This is optional. If not provided, it will use a default one.",
 						MarkdownDescription: "Google OAuth2 app id. This is optional. If not provided, it will use a default one.",
+						Default:             stringdefault.StaticString(""),
 					},
 					"google_client_secret": schema.StringAttribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "Google OAuth2 app secret. If google_client_id was provided, provide a correspoinding value. Else leave blank.",
 						MarkdownDescription: "Google OAuth2 app secret. If google_client_id was provided, provide a correspoinding value. Else leave blank.",
+						Default:             stringdefault.StaticString(""),
 					},
 					"google_email_domains": schema.ListAttribute{
 						ElementType:         types.StringType,
 						Optional:            true,
+						Computed:            true,
 						Description:         "Matches authenticated user email against provided domains. If null or [], all authenticated emails will be allowed.",
 						MarkdownDescription: "Matches authenticated user email against provided domains. If null or [], all authenticated emails will be allowed.",
+						Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 					},
 					"google_enabled": schema.BoolAttribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "whether google is enabled as login method",
 						MarkdownDescription: "whether google is enabled as login method",
+						Default:             booldefault.StaticBool(false),
 					},
 					"google_expire": schema.Float64Attribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "interval for which guest remains authorized using google auth (in minutes), if not provided, uses expire`",
 						MarkdownDescription: "interval for which guest remains authorized using google auth (in minutes), if not provided, uses expire`",
+						Default:             float64default.StaticFloat64(0),
 					},
 					"gupshup_password": schema.StringAttribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "when `sms_provider`==`gupshup`",
 						MarkdownDescription: "when `sms_provider`==`gupshup`",
+						Default:             stringdefault.StaticString(""),
 					},
 					"gupshup_userid": schema.StringAttribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "when `sms_provider`==`gupshup`",
 						MarkdownDescription: "when `sms_provider`==`gupshup`",
+						Default:             stringdefault.StaticString(""),
 					},
 					"microsoft_client_id": schema.StringAttribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "microsoft 365 OAuth2 client id. This is optional. If not provided, it will use a default one.",
 						MarkdownDescription: "microsoft 365 OAuth2 client id. This is optional. If not provided, it will use a default one.",
+						Default:             stringdefault.StaticString(""),
 					},
 					"microsoft_client_secret": schema.StringAttribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "microsoft 365 OAuth2 client secret. If microsoft_client_id was provided, provide a correspoinding value. Else leave blank.",
 						MarkdownDescription: "microsoft 365 OAuth2 client secret. If microsoft_client_id was provided, provide a correspoinding value. Else leave blank.",
+						Default:             stringdefault.StaticString(""),
 					},
 					"microsoft_email_domains": schema.ListAttribute{
 						ElementType:         types.StringType,
 						Optional:            true,
+						Computed:            true,
 						Description:         "Matches authenticated user email against provided domains. If null or [], all authenticated emails will be allowed.",
 						MarkdownDescription: "Matches authenticated user email against provided domains. If null or [], all authenticated emails will be allowed.",
+						Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 					},
 					"microsoft_enabled": schema.BoolAttribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "whether microsoft 365 is enabled as a login method",
 						MarkdownDescription: "whether microsoft 365 is enabled as a login method",
+						Default:             booldefault.StaticBool(false),
 					},
 					"microsoft_expire": schema.Float64Attribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "interval for which guest remains authorized using microsoft auth (in minutes), if not provided, uses expire`",
 						MarkdownDescription: "interval for which guest remains authorized using microsoft auth (in minutes), if not provided, uses expire`",
+						Default:             float64default.StaticFloat64(0),
 					},
 					"passphrase_enabled": schema.BoolAttribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "whether password is enabled",
 						MarkdownDescription: "whether password is enabled",
+						Default:             booldefault.StaticBool(false),
 					},
 					"passphrase_expire": schema.Float64Attribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "interval for which guest remains authorized using passphrase auth (in minutes), if not provided, uses `expire`",
 						MarkdownDescription: "interval for which guest remains authorized using passphrase auth (in minutes), if not provided, uses `expire`",
+						Default:             float64default.StaticFloat64(0),
 					},
 					"password": schema.StringAttribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "passphrase",
 						MarkdownDescription: "passphrase",
-					},
-					"portal_allowed_hostnames": schema.StringAttribute{
-						Optional:            true,
-						Description:         "list of hostnames without http(s):// (matched by substring)",
-						MarkdownDescription: "list of hostnames without http(s):// (matched by substring)",
-					},
-					"portal_allowed_subnets": schema.StringAttribute{
-						Optional:            true,
-						Description:         "list of CIDRs",
-						MarkdownDescription: "list of CIDRs",
+						Default:             stringdefault.StaticString(""),
 					},
 					"portal_api_secret": schema.StringAttribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "api secret (auto-generated) that can be used to sign guest authorization requests",
 						MarkdownDescription: "api secret (auto-generated) that can be used to sign guest authorization requests",
-					},
-					"portal_denied_hostnames": schema.StringAttribute{
-						Optional:            true,
-						Description:         "list of hostnames without http(s):// (matched by substring), this takes precedence over portal_allowed_hostnames",
-						MarkdownDescription: "list of hostnames without http(s):// (matched by substring), this takes precedence over portal_allowed_hostnames",
+						Default:             stringdefault.StaticString(""),
 					},
 					"portal_image": schema.StringAttribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "Url of portal background image",
 						MarkdownDescription: "Url of portal background image",
+						Default:             stringdefault.StaticString(""),
 					},
 					"portal_sso_url": schema.StringAttribute{
 						Optional:            true,
@@ -1216,42 +1449,59 @@ func OrgWlanResourceSchema(ctx context.Context) schema.Schema {
 					},
 					"predefined_sponsors_enabled": schema.BoolAttribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "whether to show list of sponsor emails mentioned in `sponsors` object as a dropdown. If both `sponsor_notify_all` and `predefined_sponsors_enabled` are false, behaviour is acc to `sponsor_email_domains`",
 						MarkdownDescription: "whether to show list of sponsor emails mentioned in `sponsors` object as a dropdown. If both `sponsor_notify_all` and `predefined_sponsors_enabled` are false, behaviour is acc to `sponsor_email_domains`",
+						Default:             booldefault.StaticBool(true),
 					},
 					"privacy": schema.BoolAttribute{
 						Optional: true,
+						Computed: true,
+						Default:  booldefault.StaticBool(true),
 					},
 					"puzzel_password": schema.StringAttribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "when `sms_provider`==`puzzel`",
 						MarkdownDescription: "when `sms_provider`==`puzzel`",
+						Default:             stringdefault.StaticString(""),
 					},
 					"puzzel_service_id": schema.StringAttribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "when `sms_provider`==`puzzel`",
 						MarkdownDescription: "when `sms_provider`==`puzzel`",
+						Default:             stringdefault.StaticString(""),
 					},
 					"puzzel_username": schema.StringAttribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "when `sms_provider`==`puzzel`",
 						MarkdownDescription: "when `sms_provider`==`puzzel`",
+						Default:             stringdefault.StaticString(""),
 					},
 					"sms_enabled": schema.BoolAttribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "whether sms is enabled as a login method",
 						MarkdownDescription: "whether sms is enabled as a login method",
+						Default:             booldefault.StaticBool(false),
 					},
 					"sms_expire": schema.Float64Attribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "interval for which guest remains authorized using sms auth (in minutes), if not provided, uses expire`",
 						MarkdownDescription: "interval for which guest remains authorized using sms auth (in minutes), if not provided, uses expire`",
+						Default:             float64default.StaticFloat64(0),
 					},
 					"sms_message_format": schema.StringAttribute{
 						Optional: true,
+						Computed: true,
+						Default:  stringdefault.StaticString(""),
 					},
 					"sms_provider": schema.StringAttribute{
 						Optional: true,
+						Computed: true,
 						Validators: []validator.String{
 							stringvalidator.OneOf(
 								"",
@@ -1264,79 +1514,108 @@ func OrgWlanResourceSchema(ctx context.Context) schema.Schema {
 								"telstra",
 							),
 						},
+						Default: stringdefault.StaticString("manual"),
 					},
 					"sponsor_auto_approve": schema.BoolAttribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "whether to automatically approve guest and allow sponsor to revoke guest access, needs predefined_sponsors_enabled enabled and sponsor_notify_all disabled",
 						MarkdownDescription: "whether to automatically approve guest and allow sponsor to revoke guest access, needs predefined_sponsors_enabled enabled and sponsor_notify_all disabled",
+						Default:             booldefault.StaticBool(false),
 					},
 					"sponsor_email_domains": schema.ListAttribute{
 						ElementType:         types.StringType,
 						Optional:            true,
+						Computed:            true,
 						Description:         "list of domain allowed for sponsor email. Required if `sponsor_enabled` is `true` and `sponsors` is empty.",
 						MarkdownDescription: "list of domain allowed for sponsor email. Required if `sponsor_enabled` is `true` and `sponsors` is empty.",
+						Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 					},
 					"sponsor_enabled": schema.BoolAttribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "whether sponsor is enabled",
 						MarkdownDescription: "whether sponsor is enabled",
+						Default:             booldefault.StaticBool(false),
 					},
 					"sponsor_expire": schema.Float64Attribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "interval for which guest remains authorized using sponsor auth (in minutes), if not provided, uses expire`",
 						MarkdownDescription: "interval for which guest remains authorized using sponsor auth (in minutes), if not provided, uses expire`",
+						Default:             float64default.StaticFloat64(0),
 					},
 					"sponsor_link_validity_duration": schema.Int64Attribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "how long to remain valid sponsored guest request approve/deny link received in email, in minutes.",
 						MarkdownDescription: "how long to remain valid sponsored guest request approve/deny link received in email, in minutes.",
+						Default:             int64default.StaticInt64(60),
 					},
 					"sponsor_notify_all": schema.BoolAttribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "whether to notify all sponsors that are mentioned in `sponsors` object. Both `sponsor_notify_all` and `predefined_sponsors_enabled` should be true in order to notify sponsors. If true, email sent to 10 sponsors in no particular order.",
 						MarkdownDescription: "whether to notify all sponsors that are mentioned in `sponsors` object. Both `sponsor_notify_all` and `predefined_sponsors_enabled` should be true in order to notify sponsors. If true, email sent to 10 sponsors in no particular order.",
+						Default:             booldefault.StaticBool(false),
 					},
 					"sponsor_status_notify": schema.BoolAttribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "if enabled, guest will get email about sponsor's action (approve/deny)",
 						MarkdownDescription: "if enabled, guest will get email about sponsor's action (approve/deny)",
+						Default:             booldefault.StaticBool(false),
 					},
 					"sponsors": schema.MapAttribute{
 						ElementType:         types.StringType,
 						Optional:            true,
+						Computed:            true,
 						Description:         "object of allowed sponsors email with name. Required if `sponsor_enabled` is `true` and `sponsor_email_domains` is empty.\nProperty key is the sponsor email, Property value is the sponsor name",
 						MarkdownDescription: "object of allowed sponsors email with name. Required if `sponsor_enabled` is `true` and `sponsor_email_domains` is empty.\nProperty key is the sponsor email, Property value is the sponsor name",
 					},
 					"sso_default_role": schema.StringAttribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "default role to assign if there’s no match. By default, an assertion is treated as invalid when there’s no role matched",
 						MarkdownDescription: "default role to assign if there’s no match. By default, an assertion is treated as invalid when there’s no role matched",
+						Default:             stringdefault.StaticString(""),
 					},
 					"sso_forced_role": schema.StringAttribute{
 						Optional: true,
+						Computed: true,
+						Default:  stringdefault.StaticString(""),
 					},
 					"sso_idp_cert": schema.StringAttribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "IDP Cert (used to verify the signed response)",
 						MarkdownDescription: "IDP Cert (used to verify the signed response)",
+						Default:             stringdefault.StaticString(""),
 					},
 					"sso_idp_sign_algo": schema.StringAttribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "signing algorithm for SAML Assertion",
 						MarkdownDescription: "signing algorithm for SAML Assertion",
+						Default:             stringdefault.StaticString(""),
 					},
 					"sso_idp_sso_url": schema.StringAttribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "IDP Single-Sign-On URL",
 						MarkdownDescription: "IDP Single-Sign-On URL",
+						Default:             stringdefault.StaticString(""),
 					},
 					"sso_issuer": schema.StringAttribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "IDP issuer URL",
 						MarkdownDescription: "IDP issuer URL",
+						Default:             stringdefault.StaticString(""),
 					},
 					"sso_nameid_format": schema.StringAttribute{
 						Optional: true,
+						Computed: true,
 						Validators: []validator.String{
 							stringvalidator.OneOf(
 								"",
@@ -1344,31 +1623,42 @@ func OrgWlanResourceSchema(ctx context.Context) schema.Schema {
 								"unspecified",
 							),
 						},
+						Default: stringdefault.StaticString("email"),
 					},
 					"telstra_client_id": schema.StringAttribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "when `sms_provider`==`telstra`, Client ID provided by Telstra",
 						MarkdownDescription: "when `sms_provider`==`telstra`, Client ID provided by Telstra",
+						Default:             stringdefault.StaticString(""),
 					},
 					"telstra_client_secret": schema.StringAttribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "when `sms_provider`==`telstra`, Client secret provided by Telstra",
 						MarkdownDescription: "when `sms_provider`==`telstra`, Client secret provided by Telstra",
+						Default:             stringdefault.StaticString(""),
 					},
 					"twilio_auth_token": schema.StringAttribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "when `sms_provider`==`twilio`, Auth token account with twilio account",
 						MarkdownDescription: "when `sms_provider`==`twilio`, Auth token account with twilio account",
+						Default:             stringdefault.StaticString(""),
 					},
 					"twilio_phone_number": schema.StringAttribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "when `sms_provider`==`twilio`, Twilio phone number associated with the account. See example for accepted format.",
 						MarkdownDescription: "when `sms_provider`==`twilio`, Twilio phone number associated with the account. See example for accepted format.",
+						Default:             stringdefault.StaticString(""),
 					},
 					"twilio_sid": schema.StringAttribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "when `sms_provider`==`twilio`, Account SID provided by Twilio",
 						MarkdownDescription: "when `sms_provider`==`twilio`, Account SID provided by Twilio",
+						Default:             stringdefault.StaticString(""),
 					},
 				},
 				CustomType: PortalType{
@@ -1389,37 +1679,48 @@ func OrgWlanResourceSchema(ctx context.Context) schema.Schema {
 			"portal_allowed_subnets": schema.ListAttribute{
 				ElementType:         types.StringType,
 				Optional:            true,
+				Computed:            true,
 				Description:         "list of CIDRs",
 				MarkdownDescription: "list of CIDRs",
+				Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 			},
 			"portal_api_secret": schema.StringAttribute{
+				Optional:            true,
 				Computed:            true,
 				Description:         "api secret (auto-generated) that can be used to sign guest authorization requests",
 				MarkdownDescription: "api secret (auto-generated) that can be used to sign guest authorization requests",
+				Default:             stringdefault.StaticString(""),
 			},
 			"portal_denied_hostnames": schema.ListAttribute{
 				ElementType:         types.StringType,
 				Optional:            true,
+				Computed:            true,
 				Description:         "list of hostnames without http(s):// (matched by substring), this takes precedence over portal_allowed_hostnames",
 				MarkdownDescription: "list of hostnames without http(s):// (matched by substring), this takes precedence over portal_allowed_hostnames",
+				Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 			},
 			"portal_image": schema.StringAttribute{
+				Optional:            true,
 				Computed:            true,
 				Description:         "Url of portal background image",
 				MarkdownDescription: "Url of portal background image",
+				Default:             stringdefault.StaticString(""),
 			},
 			"portal_sso_url": schema.StringAttribute{
 				Computed: true,
 			},
 			"portal_template_url": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "N.B portal_template will be forked out of wlan objects soon. To fetch portal_template, please query portal_template_url. To update portal_template, use Wlan Portal Template.",
 				MarkdownDescription: "N.B portal_template will be forked out of wlan objects soon. To fetch portal_template, please query portal_template_url. To update portal_template, use Wlan Portal Template.",
+				Default:             stringdefault.StaticString(""),
 			},
 			"qos": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
 					"class": schema.StringAttribute{
 						Optional: true,
+						Computed: true,
 						Validators: []validator.String{
 							stringvalidator.OneOf(
 								"",
@@ -1429,11 +1730,14 @@ func OrgWlanResourceSchema(ctx context.Context) schema.Schema {
 								"voice",
 							),
 						},
+						Default: stringdefault.StaticString("best_effort"),
 					},
 					"overwrite": schema.BoolAttribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "whether to overwrite QoS",
 						MarkdownDescription: "whether to overwrite QoS",
+						Default:             booldefault.StaticBool(false),
 					},
 				},
 				CustomType: QosType{
@@ -1447,6 +1751,8 @@ func OrgWlanResourceSchema(ctx context.Context) schema.Schema {
 				Attributes: map[string]schema.Attribute{
 					"coa_enabled": schema.BoolAttribute{
 						Optional: true,
+						Computed: true,
+						Default:  booldefault.StaticBool(false),
 					},
 					"enabled": schema.BoolAttribute{
 						Optional: true,
@@ -1505,8 +1811,10 @@ func OrgWlanResourceSchema(ctx context.Context) schema.Schema {
 					},
 					"use_site_mxedge": schema.BoolAttribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "To use Site mxedges when this WLAN does not use mxtunnel",
 						MarkdownDescription: "To use Site mxedges when this WLAN does not use mxtunnel",
+						Default:             booldefault.StaticBool(false),
 					},
 				},
 				CustomType: RadsecType{
@@ -1520,6 +1828,7 @@ func OrgWlanResourceSchema(ctx context.Context) schema.Schema {
 			},
 			"roam_mode": schema.StringAttribute{
 				Optional: true,
+				Computed: true,
 				Validators: []validator.String{
 					stringvalidator.OneOf(
 						"",
@@ -1528,34 +1837,51 @@ func OrgWlanResourceSchema(ctx context.Context) schema.Schema {
 						"11r",
 					),
 				},
+				Default: stringdefault.StaticString("none"),
 			},
 			"schedule": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
 					"enabled": schema.BoolAttribute{
 						Optional: true,
+						Computed: true,
+						Default:  booldefault.StaticBool(false),
 					},
 					"hours": schema.SingleNestedAttribute{
 						Attributes: map[string]schema.Attribute{
 							"fri": schema.StringAttribute{
 								Optional: true,
+								Computed: true,
+								Default:  stringdefault.StaticString(""),
 							},
 							"mon": schema.StringAttribute{
 								Optional: true,
+								Computed: true,
+								Default:  stringdefault.StaticString(""),
 							},
 							"sat": schema.StringAttribute{
 								Optional: true,
+								Computed: true,
+								Default:  stringdefault.StaticString(""),
 							},
 							"sun": schema.StringAttribute{
 								Optional: true,
+								Computed: true,
+								Default:  stringdefault.StaticString(""),
 							},
 							"thu": schema.StringAttribute{
 								Optional: true,
+								Computed: true,
+								Default:  stringdefault.StaticString(""),
 							},
 							"tue": schema.StringAttribute{
 								Optional: true,
+								Computed: true,
+								Default:  stringdefault.StaticString(""),
 							},
 							"wed": schema.StringAttribute{
 								Optional: true,
+								Computed: true,
+								Default:  stringdefault.StaticString(""),
 							},
 						},
 						CustomType: HoursType{
@@ -1583,8 +1909,10 @@ func OrgWlanResourceSchema(ctx context.Context) schema.Schema {
 			},
 			"sle_excluded": schema.BoolAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "whether to exclude this WLAN from SLE metrics",
 				MarkdownDescription: "whether to exclude this WLAN from SLE metrics",
+				Default:             booldefault.StaticBool(false),
 			},
 			"ssid": schema.StringAttribute{
 				Required:            true,
@@ -1593,24 +1921,33 @@ func OrgWlanResourceSchema(ctx context.Context) schema.Schema {
 			},
 			"template_id": schema.StringAttribute{
 				Optional: true,
+				Computed: true,
+				Default:  stringdefault.StaticString(""),
 			},
 			"thumbnail": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Url of portal background image thumbnail",
 				MarkdownDescription: "Url of portal background image thumbnail",
+				Default:             stringdefault.StaticString(""),
 			},
 			"use_eapol_v1": schema.BoolAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "if `auth.type`==’eap’ or ‘psk’, should only be set for legacy client, such as pre-2004, 802.11b devices",
 				MarkdownDescription: "if `auth.type`==’eap’ or ‘psk’, should only be set for legacy client, such as pre-2004, 802.11b devices",
+				Default:             booldefault.StaticBool(false),
 			},
 			"vlan_enabled": schema.BoolAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "if vlan tagging is enabled",
 				MarkdownDescription: "if vlan tagging is enabled",
+				Default:             booldefault.StaticBool(false),
 			},
 			"vlan_id": schema.Int64Attribute{
 				Optional: true,
+				Computed: true,
 				Validators: []validator.Int64{
 					int64validator.Between(1, 4094),
 				},
@@ -1618,49 +1955,67 @@ func OrgWlanResourceSchema(ctx context.Context) schema.Schema {
 			"vlan_ids": schema.ListAttribute{
 				ElementType:         types.Int64Type,
 				Optional:            true,
+				Computed:            true,
 				Description:         "vlan_ids to use when there’s no match from RA",
 				MarkdownDescription: "vlan_ids to use when there’s no match from RA",
+				Default:             listdefault.StaticValue(types.ListValueMust(types.Int64Type, []attr.Value{})),
 			},
 			"vlan_pooling": schema.BoolAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "vlan pooling allows AP to place client on different VLAN using a deterministic algorithm",
 				MarkdownDescription: "vlan pooling allows AP to place client on different VLAN using a deterministic algorithm",
+				Default:             booldefault.StaticBool(false),
 			},
 			"wlan_limit_down": schema.Int64Attribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "kbps",
 				MarkdownDescription: "kbps",
+				Default:             int64default.StaticInt64(0),
 			},
 			"wlan_limit_down_enabled": schema.BoolAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "if downlink limiting for whole wlan is enabled",
 				MarkdownDescription: "if downlink limiting for whole wlan is enabled",
+				Default:             booldefault.StaticBool(false),
 			},
 			"wlan_limit_up": schema.Int64Attribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "kbps",
 				MarkdownDescription: "kbps",
+				Default:             int64default.StaticInt64(0),
 			},
 			"wlan_limit_up_enabled": schema.BoolAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "if uplink limiting for whole wlan is enabled",
 				MarkdownDescription: "if uplink limiting for whole wlan is enabled",
+				Default:             booldefault.StaticBool(false),
 			},
 			"wxtag_ids": schema.ListAttribute{
 				ElementType:         types.StringType,
 				Optional:            true,
+				Computed:            true,
 				Description:         "list of wxtag_ids",
 				MarkdownDescription: "list of wxtag_ids",
+				Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 			},
 			"wxtunnel_id": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "when `interface`=`wxtunnel`, id of the WXLAN Tunnel",
 				MarkdownDescription: "when `interface`=`wxtunnel`, id of the WXLAN Tunnel",
+				Default:             stringdefault.StaticString(""),
 			},
 			"wxtunnel_remote_id": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "when `interface`=`wxtunnel`, remote tunnel identifier",
 				MarkdownDescription: "when `interface`=`wxtunnel`, remote tunnel identifier",
+				Default:             stringdefault.StaticString(""),
 			},
 		},
 	}
@@ -12447,42 +12802,6 @@ func (t PortalType) ValueFromObject(ctx context.Context, in basetypes.ObjectValu
 			fmt.Sprintf(`password expected to be basetypes.StringValue, was: %T`, passwordAttribute))
 	}
 
-	portalAllowedHostnamesAttribute, ok := attributes["portal_allowed_hostnames"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`portal_allowed_hostnames is missing from object`)
-
-		return nil, diags
-	}
-
-	portalAllowedHostnamesVal, ok := portalAllowedHostnamesAttribute.(basetypes.StringValue)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`portal_allowed_hostnames expected to be basetypes.StringValue, was: %T`, portalAllowedHostnamesAttribute))
-	}
-
-	portalAllowedSubnetsAttribute, ok := attributes["portal_allowed_subnets"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`portal_allowed_subnets is missing from object`)
-
-		return nil, diags
-	}
-
-	portalAllowedSubnetsVal, ok := portalAllowedSubnetsAttribute.(basetypes.StringValue)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`portal_allowed_subnets expected to be basetypes.StringValue, was: %T`, portalAllowedSubnetsAttribute))
-	}
-
 	portalApiSecretAttribute, ok := attributes["portal_api_secret"]
 
 	if !ok {
@@ -12499,24 +12818,6 @@ func (t PortalType) ValueFromObject(ctx context.Context, in basetypes.ObjectValu
 		diags.AddError(
 			"Attribute Wrong Type",
 			fmt.Sprintf(`portal_api_secret expected to be basetypes.StringValue, was: %T`, portalApiSecretAttribute))
-	}
-
-	portalDeniedHostnamesAttribute, ok := attributes["portal_denied_hostnames"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`portal_denied_hostnames is missing from object`)
-
-		return nil, diags
-	}
-
-	portalDeniedHostnamesVal, ok := portalDeniedHostnamesAttribute.(basetypes.StringValue)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`portal_denied_hostnames expected to be basetypes.StringValue, was: %T`, portalDeniedHostnamesAttribute))
 	}
 
 	portalImageAttribute, ok := attributes["portal_image"]
@@ -13125,10 +13426,7 @@ func (t PortalType) ValueFromObject(ctx context.Context, in basetypes.ObjectValu
 		PassphraseEnabled:           passphraseEnabledVal,
 		PassphraseExpire:            passphraseExpireVal,
 		Password:                    passwordVal,
-		PortalAllowedHostnames:      portalAllowedHostnamesVal,
-		PortalAllowedSubnets:        portalAllowedSubnetsVal,
 		PortalApiSecret:             portalApiSecretVal,
-		PortalDeniedHostnames:       portalDeniedHostnamesVal,
 		PortalImage:                 portalImageVal,
 		PortalSsoUrl:                portalSsoUrlVal,
 		PredefinedSponsorsEnabled:   predefinedSponsorsEnabledVal,
@@ -14001,42 +14299,6 @@ func NewPortalValue(attributeTypes map[string]attr.Type, attributes map[string]a
 			fmt.Sprintf(`password expected to be basetypes.StringValue, was: %T`, passwordAttribute))
 	}
 
-	portalAllowedHostnamesAttribute, ok := attributes["portal_allowed_hostnames"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`portal_allowed_hostnames is missing from object`)
-
-		return NewPortalValueUnknown(), diags
-	}
-
-	portalAllowedHostnamesVal, ok := portalAllowedHostnamesAttribute.(basetypes.StringValue)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`portal_allowed_hostnames expected to be basetypes.StringValue, was: %T`, portalAllowedHostnamesAttribute))
-	}
-
-	portalAllowedSubnetsAttribute, ok := attributes["portal_allowed_subnets"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`portal_allowed_subnets is missing from object`)
-
-		return NewPortalValueUnknown(), diags
-	}
-
-	portalAllowedSubnetsVal, ok := portalAllowedSubnetsAttribute.(basetypes.StringValue)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`portal_allowed_subnets expected to be basetypes.StringValue, was: %T`, portalAllowedSubnetsAttribute))
-	}
-
 	portalApiSecretAttribute, ok := attributes["portal_api_secret"]
 
 	if !ok {
@@ -14053,24 +14315,6 @@ func NewPortalValue(attributeTypes map[string]attr.Type, attributes map[string]a
 		diags.AddError(
 			"Attribute Wrong Type",
 			fmt.Sprintf(`portal_api_secret expected to be basetypes.StringValue, was: %T`, portalApiSecretAttribute))
-	}
-
-	portalDeniedHostnamesAttribute, ok := attributes["portal_denied_hostnames"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`portal_denied_hostnames is missing from object`)
-
-		return NewPortalValueUnknown(), diags
-	}
-
-	portalDeniedHostnamesVal, ok := portalDeniedHostnamesAttribute.(basetypes.StringValue)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`portal_denied_hostnames expected to be basetypes.StringValue, was: %T`, portalDeniedHostnamesAttribute))
 	}
 
 	portalImageAttribute, ok := attributes["portal_image"]
@@ -14679,10 +14923,7 @@ func NewPortalValue(attributeTypes map[string]attr.Type, attributes map[string]a
 		PassphraseEnabled:           passphraseEnabledVal,
 		PassphraseExpire:            passphraseExpireVal,
 		Password:                    passwordVal,
-		PortalAllowedHostnames:      portalAllowedHostnamesVal,
-		PortalAllowedSubnets:        portalAllowedSubnetsVal,
 		PortalApiSecret:             portalApiSecretVal,
-		PortalDeniedHostnames:       portalDeniedHostnamesVal,
 		PortalImage:                 portalImageVal,
 		PortalSsoUrl:                portalSsoUrlVal,
 		PredefinedSponsorsEnabled:   predefinedSponsorsEnabledVal,
@@ -14829,10 +15070,7 @@ type PortalValue struct {
 	PassphraseEnabled           basetypes.BoolValue    `tfsdk:"passphrase_enabled"`
 	PassphraseExpire            basetypes.Float64Value `tfsdk:"passphrase_expire"`
 	Password                    basetypes.StringValue  `tfsdk:"password"`
-	PortalAllowedHostnames      basetypes.StringValue  `tfsdk:"portal_allowed_hostnames"`
-	PortalAllowedSubnets        basetypes.StringValue  `tfsdk:"portal_allowed_subnets"`
 	PortalApiSecret             basetypes.StringValue  `tfsdk:"portal_api_secret"`
-	PortalDeniedHostnames       basetypes.StringValue  `tfsdk:"portal_denied_hostnames"`
 	PortalImage                 basetypes.StringValue  `tfsdk:"portal_image"`
 	PortalSsoUrl                basetypes.StringValue  `tfsdk:"portal_sso_url"`
 	PredefinedSponsorsEnabled   basetypes.BoolValue    `tfsdk:"predefined_sponsors_enabled"`
@@ -14868,7 +15106,7 @@ type PortalValue struct {
 }
 
 func (v PortalValue) ToTerraformValue(ctx context.Context) (tftypes.Value, error) {
-	attrTypes := make(map[string]tftypes.Type, 78)
+	attrTypes := make(map[string]tftypes.Type, 75)
 
 	var val tftypes.Value
 	var err error
@@ -14924,10 +15162,7 @@ func (v PortalValue) ToTerraformValue(ctx context.Context) (tftypes.Value, error
 	attrTypes["passphrase_enabled"] = basetypes.BoolType{}.TerraformType(ctx)
 	attrTypes["passphrase_expire"] = basetypes.Float64Type{}.TerraformType(ctx)
 	attrTypes["password"] = basetypes.StringType{}.TerraformType(ctx)
-	attrTypes["portal_allowed_hostnames"] = basetypes.StringType{}.TerraformType(ctx)
-	attrTypes["portal_allowed_subnets"] = basetypes.StringType{}.TerraformType(ctx)
 	attrTypes["portal_api_secret"] = basetypes.StringType{}.TerraformType(ctx)
-	attrTypes["portal_denied_hostnames"] = basetypes.StringType{}.TerraformType(ctx)
 	attrTypes["portal_image"] = basetypes.StringType{}.TerraformType(ctx)
 	attrTypes["portal_sso_url"] = basetypes.StringType{}.TerraformType(ctx)
 	attrTypes["predefined_sponsors_enabled"] = basetypes.BoolType{}.TerraformType(ctx)
@@ -14968,7 +15203,7 @@ func (v PortalValue) ToTerraformValue(ctx context.Context) (tftypes.Value, error
 
 	switch v.state {
 	case attr.ValueStateKnown:
-		vals := make(map[string]tftypes.Value, 78)
+		vals := make(map[string]tftypes.Value, 75)
 
 		val, err = v.AmazonClientId.ToTerraformValue(ctx)
 
@@ -15314,22 +15549,6 @@ func (v PortalValue) ToTerraformValue(ctx context.Context) (tftypes.Value, error
 
 		vals["password"] = val
 
-		val, err = v.PortalAllowedHostnames.ToTerraformValue(ctx)
-
-		if err != nil {
-			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
-		}
-
-		vals["portal_allowed_hostnames"] = val
-
-		val, err = v.PortalAllowedSubnets.ToTerraformValue(ctx)
-
-		if err != nil {
-			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
-		}
-
-		vals["portal_allowed_subnets"] = val
-
 		val, err = v.PortalApiSecret.ToTerraformValue(ctx)
 
 		if err != nil {
@@ -15337,14 +15556,6 @@ func (v PortalValue) ToTerraformValue(ctx context.Context) (tftypes.Value, error
 		}
 
 		vals["portal_api_secret"] = val
-
-		val, err = v.PortalDeniedHostnames.ToTerraformValue(ctx)
-
-		if err != nil {
-			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
-		}
-
-		vals["portal_denied_hostnames"] = val
 
 		val, err = v.PortalImage.ToTerraformValue(ctx)
 
@@ -15680,10 +15891,7 @@ func (v PortalValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, 
 			"passphrase_enabled":          basetypes.BoolType{},
 			"passphrase_expire":           basetypes.Float64Type{},
 			"password":                    basetypes.StringType{},
-			"portal_allowed_hostnames":    basetypes.StringType{},
-			"portal_allowed_subnets":      basetypes.StringType{},
 			"portal_api_secret":           basetypes.StringType{},
-			"portal_denied_hostnames":     basetypes.StringType{},
 			"portal_image":                basetypes.StringType{},
 			"portal_sso_url":              basetypes.StringType{},
 			"predefined_sponsors_enabled": basetypes.BoolType{},
@@ -15779,10 +15987,7 @@ func (v PortalValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, 
 			"passphrase_enabled":          basetypes.BoolType{},
 			"passphrase_expire":           basetypes.Float64Type{},
 			"password":                    basetypes.StringType{},
-			"portal_allowed_hostnames":    basetypes.StringType{},
-			"portal_allowed_subnets":      basetypes.StringType{},
 			"portal_api_secret":           basetypes.StringType{},
-			"portal_denied_hostnames":     basetypes.StringType{},
 			"portal_image":                basetypes.StringType{},
 			"portal_sso_url":              basetypes.StringType{},
 			"predefined_sponsors_enabled": basetypes.BoolType{},
@@ -15878,10 +16083,7 @@ func (v PortalValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, 
 			"passphrase_enabled":          basetypes.BoolType{},
 			"passphrase_expire":           basetypes.Float64Type{},
 			"password":                    basetypes.StringType{},
-			"portal_allowed_hostnames":    basetypes.StringType{},
-			"portal_allowed_subnets":      basetypes.StringType{},
 			"portal_api_secret":           basetypes.StringType{},
-			"portal_denied_hostnames":     basetypes.StringType{},
 			"portal_image":                basetypes.StringType{},
 			"portal_sso_url":              basetypes.StringType{},
 			"predefined_sponsors_enabled": basetypes.BoolType{},
@@ -15977,10 +16179,7 @@ func (v PortalValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, 
 			"passphrase_enabled":          basetypes.BoolType{},
 			"passphrase_expire":           basetypes.Float64Type{},
 			"password":                    basetypes.StringType{},
-			"portal_allowed_hostnames":    basetypes.StringType{},
-			"portal_allowed_subnets":      basetypes.StringType{},
 			"portal_api_secret":           basetypes.StringType{},
-			"portal_denied_hostnames":     basetypes.StringType{},
 			"portal_image":                basetypes.StringType{},
 			"portal_sso_url":              basetypes.StringType{},
 			"predefined_sponsors_enabled": basetypes.BoolType{},
@@ -16076,10 +16275,7 @@ func (v PortalValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, 
 			"passphrase_enabled":          basetypes.BoolType{},
 			"passphrase_expire":           basetypes.Float64Type{},
 			"password":                    basetypes.StringType{},
-			"portal_allowed_hostnames":    basetypes.StringType{},
-			"portal_allowed_subnets":      basetypes.StringType{},
 			"portal_api_secret":           basetypes.StringType{},
-			"portal_denied_hostnames":     basetypes.StringType{},
 			"portal_image":                basetypes.StringType{},
 			"portal_sso_url":              basetypes.StringType{},
 			"predefined_sponsors_enabled": basetypes.BoolType{},
@@ -16175,10 +16371,7 @@ func (v PortalValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, 
 			"passphrase_enabled":          basetypes.BoolType{},
 			"passphrase_expire":           basetypes.Float64Type{},
 			"password":                    basetypes.StringType{},
-			"portal_allowed_hostnames":    basetypes.StringType{},
-			"portal_allowed_subnets":      basetypes.StringType{},
 			"portal_api_secret":           basetypes.StringType{},
-			"portal_denied_hostnames":     basetypes.StringType{},
 			"portal_image":                basetypes.StringType{},
 			"portal_sso_url":              basetypes.StringType{},
 			"predefined_sponsors_enabled": basetypes.BoolType{},
@@ -16269,10 +16462,7 @@ func (v PortalValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, 
 		"passphrase_enabled":          basetypes.BoolType{},
 		"passphrase_expire":           basetypes.Float64Type{},
 		"password":                    basetypes.StringType{},
-		"portal_allowed_hostnames":    basetypes.StringType{},
-		"portal_allowed_subnets":      basetypes.StringType{},
 		"portal_api_secret":           basetypes.StringType{},
-		"portal_denied_hostnames":     basetypes.StringType{},
 		"portal_image":                basetypes.StringType{},
 		"portal_sso_url":              basetypes.StringType{},
 		"predefined_sponsors_enabled": basetypes.BoolType{},
@@ -16364,10 +16554,7 @@ func (v PortalValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, 
 			"passphrase_enabled":             v.PassphraseEnabled,
 			"passphrase_expire":              v.PassphraseExpire,
 			"password":                       v.Password,
-			"portal_allowed_hostnames":       v.PortalAllowedHostnames,
-			"portal_allowed_subnets":         v.PortalAllowedSubnets,
 			"portal_api_secret":              v.PortalApiSecret,
-			"portal_denied_hostnames":        v.PortalDeniedHostnames,
 			"portal_image":                   v.PortalImage,
 			"portal_sso_url":                 v.PortalSsoUrl,
 			"predefined_sponsors_enabled":    v.PredefinedSponsorsEnabled,
@@ -16591,19 +16778,7 @@ func (v PortalValue) Equal(o attr.Value) bool {
 		return false
 	}
 
-	if !v.PortalAllowedHostnames.Equal(other.PortalAllowedHostnames) {
-		return false
-	}
-
-	if !v.PortalAllowedSubnets.Equal(other.PortalAllowedSubnets) {
-		return false
-	}
-
 	if !v.PortalApiSecret.Equal(other.PortalApiSecret) {
-		return false
-	}
-
-	if !v.PortalDeniedHostnames.Equal(other.PortalDeniedHostnames) {
 		return false
 	}
 
@@ -16795,10 +16970,7 @@ func (v PortalValue) AttributeTypes(ctx context.Context) map[string]attr.Type {
 		"passphrase_enabled":          basetypes.BoolType{},
 		"passphrase_expire":           basetypes.Float64Type{},
 		"password":                    basetypes.StringType{},
-		"portal_allowed_hostnames":    basetypes.StringType{},
-		"portal_allowed_subnets":      basetypes.StringType{},
 		"portal_api_secret":           basetypes.StringType{},
-		"portal_denied_hostnames":     basetypes.StringType{},
 		"portal_image":                basetypes.StringType{},
 		"portal_sso_url":              basetypes.StringType{},
 		"predefined_sponsors_enabled": basetypes.BoolType{},

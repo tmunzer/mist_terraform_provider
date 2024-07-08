@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 	"github.com/hashicorp/terraform-plugin-go/tftypes"
@@ -20,8 +21,10 @@ func OrgNetworkResourceSchema(ctx context.Context) schema.Schema {
 		Attributes: map[string]schema.Attribute{
 			"disallow_mist_services": schema.BoolAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "whether to disallow Mist Devices in the network",
 				MarkdownDescription: "whether to disallow Mist Devices in the network",
+				Default:             booldefault.StaticBool(false),
 			},
 			"gateway": schema.StringAttribute{
 				Optional: true,
@@ -52,6 +55,8 @@ func OrgNetworkResourceSchema(ctx context.Context) schema.Schema {
 				Attributes: map[string]schema.Attribute{
 					"create_simple_service_policy": schema.BoolAttribute{
 						Optional: true,
+						Computed: true,
+						Default:  booldefault.StaticBool(false),
 					},
 					"destination_nat": schema.MapNestedAttribute{
 						NestedObject: schema.NestedAttributeObject{
@@ -85,8 +90,10 @@ func OrgNetworkResourceSchema(ctx context.Context) schema.Schema {
 					},
 					"restricted": schema.BoolAttribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "by default, all access is allowed, to only allow certain traffic, make `restricted`=`true` and define service_policies",
 						MarkdownDescription: "by default, all access is allowed, to only allow certain traffic, make `restricted`=`true` and define service_policies",
+						Default:             booldefault.StaticBool(false),
 					},
 					"static_nat": schema.MapNestedAttribute{
 						NestedObject: schema.NestedAttributeObject{
@@ -216,13 +223,17 @@ func OrgNetworkResourceSchema(ctx context.Context) schema.Schema {
 						},
 						"no_readvertise_to_lan_bgp": schema.BoolAttribute{
 							Optional:            true,
+							Computed:            true,
 							Description:         "toward LAN-side BGP peers",
 							MarkdownDescription: "toward LAN-side BGP peers",
+							Default:             booldefault.StaticBool(false),
 						},
 						"no_readvertise_to_lan_ospf": schema.BoolAttribute{
 							Optional:            true,
+							Computed:            true,
 							Description:         "toward LAN-side OSPF peers",
 							MarkdownDescription: "toward LAN-side OSPF peers",
+							Default:             booldefault.StaticBool(false),
 						},
 						"no_readvertise_to_overlay": schema.BoolAttribute{
 							Optional:            true,

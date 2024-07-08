@@ -1,0 +1,50 @@
+{
+    "name": "org",
+    "get": [
+        "schema",
+        "attributes"
+    ],
+    "next": [
+        {
+            "name": "name",
+            "get": [
+                "string"
+            ],
+            "computed_optional_required": "required"
+        },
+        {
+            "name": "id",
+            "get": [
+                "string"
+            ],
+            "computed_optional_required": "computed"
+        },
+        {
+            "name": "orggroup_ids",
+            "get": [
+                "list"
+            ],
+            "computed_optional_required": "computed"
+        },
+        {
+            "name": "allow_mist",
+            "get": [
+                "bool"
+            ],
+            "computed_optional_required": "computed_optional",
+            "default": {
+                "static": true
+            }
+        },
+        {
+            "name": "session_expiry",
+            "get": [
+                "int64"
+            ],
+            "computed_optional_required": "computed_optional",
+            "default": {
+                "static": 1440
+            }
+        }
+    ]
+}

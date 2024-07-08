@@ -4,6 +4,8 @@ package resource_org
 
 import (
 	"context"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -18,9 +20,10 @@ func OrgResourceSchema(ctx context.Context) schema.Schema {
 			},
 			"allow_mist": schema.BoolAttribute{
 				Optional: true,
+				Computed: true,
+				Default:  booldefault.StaticBool(true),
 			},
 			"id": schema.StringAttribute{
-				Optional: true,
 				Computed: true,
 			},
 			"msp_id": schema.StringAttribute{
@@ -42,10 +45,12 @@ func OrgResourceSchema(ctx context.Context) schema.Schema {
 			},
 			"orggroup_ids": schema.ListAttribute{
 				ElementType: types.StringType,
-				Optional:    true,
+				Computed:    true,
 			},
 			"session_expiry": schema.Int64Attribute{
 				Optional: true,
+				Computed: true,
+				Default:  int64default.StaticInt64(1440),
 			},
 		},
 	}

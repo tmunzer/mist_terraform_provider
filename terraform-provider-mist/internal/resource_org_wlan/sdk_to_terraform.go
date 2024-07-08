@@ -26,11 +26,7 @@ func SdkToTerraform(ctx context.Context, data *models.Wlan) (OrgWlanModel, diag.
 		state.AcctInterimInterval = types.Int64Null()
 	}
 
-	//if data.AcctServers != nil {
 	state.AcctServers = radiusServersAcctSdkToTerraform(ctx, &diags, data.AcctServers)
-	//} else {
-	//state.AcctServers = types.ListNull(AcctServersValue{}.Type(ctx))
-	//}
 
 	if data.Airwatch != nil {
 		state.Airwatch = airwatchSdkToTerraform(ctx, &diags, data.Airwatch)
@@ -53,7 +49,7 @@ func SdkToTerraform(ctx context.Context, data *models.Wlan) (OrgWlanModel, diag.
 	if data.AllowSsdp != nil {
 		state.AllowSsdp = types.BoolValue(*data.AllowSsdp)
 	} else {
-		state.AllowSsdp = types.BoolNull()
+		state.AllowSsdp = types.BoolValue(false)
 	}
 
 	if data.ApIds.IsValueSet() && data.ApIds.Value() != nil {

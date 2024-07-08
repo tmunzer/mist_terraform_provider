@@ -73,7 +73,7 @@ func (r *orgResource) Create(ctx context.Context, req resource.CreateRequest, re
 		return
 	}
 
-	state, diags = resource_org.SdkToTerraform(data.Data)
+	state, diags = resource_org.SdkToTerraform(ctx, data.Data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -106,7 +106,7 @@ func (r *orgResource) Read(ctx context.Context, req resource.ReadRequest, resp *
 		)
 		return
 	}
-	state, diags = resource_org.SdkToTerraform(data.Data)
+	state, diags = resource_org.SdkToTerraform(ctx, data.Data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -152,7 +152,7 @@ func (r *orgResource) Update(ctx context.Context, req resource.UpdateRequest, re
 		return
 	}
 
-	state, diags = resource_org.SdkToTerraform(data.Data)
+	state, diags = resource_org.SdkToTerraform(ctx, data.Data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return

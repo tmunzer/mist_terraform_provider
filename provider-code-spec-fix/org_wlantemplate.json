@@ -25,6 +25,84 @@
                 "string"
             ],
             "computed_optional_required": "computed"
+        },
+        {
+            "name": "filter_by_deviceprofile",
+            "get": [
+                "bool"
+            ],
+            "computed_optional_required": "computed_optional",
+            "default": {
+                "static": false
+            }
+        },
+        {
+            "name": "deviceprofile_ids",
+            "get": [
+                "list"
+            ],
+            "computed_optional_required": "computed_optional",
+            "default_type": "list_of_str"
+        },
+        {
+            "name": "applies",
+            "get": [
+                "single_nested"
+            ],
+            "computed_optional_required": "computed_optional"
+        },
+        {
+            "name": "applies",
+            "get": [
+                "single_nested",
+                "attributes"
+            ],
+            "next": [
+                {
+                    "name": "site_ids",
+                    "get": [
+                        "list"
+                    ],
+                    "computed_optional_required": "computed_optional"
+                },
+                {
+                    "name": "sitegroup_ids",
+                    "get": [
+                        "list"
+                    ],
+                    "computed_optional_required": "computed_optional"
+                }
+            ]
+        },
+        {
+            "name": "exceptions",
+            "get": [
+                "single_nested"
+            ],
+            "computed_optional_required": "computed_optional"
+        },
+        {
+            "name": "exceptions",
+            "get": [
+                "single_nested",
+                "attributes"
+            ],
+            "next": [
+                {
+                    "name": "site_ids",
+                    "get": [
+                        "list"
+                    ],
+                    "computed_optional_required": "computed_optional"
+                },
+                {
+                    "name": "sitegroup_ids",
+                    "get": [
+                        "list"
+                    ],
+                    "computed_optional_required": "computed_optional"
+                }
+            ]
         }
     ]
 }

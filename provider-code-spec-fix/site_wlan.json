@@ -20,6 +20,13 @@
             "computed_optional_required": "computed"
         },
         {
+            "name": "site_id",
+            "get": [
+                "string"
+            ],
+            "computed_optional_required": "required"
+        },
+        {
             "name": "id",
             "get": [
                 "string"
@@ -53,6 +60,172 @@
                 "string"
             ],
             "computed_optional_required": "computed"
+        },
+        {
+            "name": "auth",
+            "get": [
+                "single_nested",
+                "attributes"
+            ],
+            "next": [
+                {
+                    "name": "keys",
+                    "get": [
+                        "list"
+                    ],
+                    "computed_optional_required": "computed_optional"
+                },
+                {
+                    "name": "pairwise",
+                    "get": [
+                        "list"
+                    ],
+                    "computed_optional_required": "computed_optional"
+                }
+            ]
+        },
+        {
+            "name": "portal",
+            "get": [
+                "single_nested",
+                "attributes"
+            ],
+            "next": [
+                {
+                    "name": "amazon_email_domains",
+                    "get": [
+                        "list"
+                    ],
+                    "default_type": "list_of_str",
+                    "computed_optional_required": "computed_optional"
+                },
+                {
+                    "name": "facebook_email_domains",
+                    "get": [
+                        "list"
+                    ],
+                    "default_type": "list_of_str",
+                    "computed_optional_required": "computed_optional"
+                },
+                {
+                    "name": "google_email_domains",
+                    "get": [
+                        "list"
+                    ],
+                    "default_type": "list_of_str",
+                    "computed_optional_required": "computed_optional"
+                },
+                {
+                    "name": "microsoft_email_domains",
+                    "get": [
+                        "list"
+                    ],
+                    "default_type": "list_of_str",
+                    "computed_optional_required": "computed_optional"
+                },
+                {
+                    "name": "sponsor_email_domains",
+                    "get": [
+                        "list"
+                    ],
+                    "default_type": "list_of_str",
+                    "computed_optional_required": "computed_optional"
+                },
+                {
+                    "name": "sponsors",
+                    "get": [
+                        "map"
+                    ],
+                    "computed_optional_required": "computed_optional"
+                }
+            ]
+        },
+        {
+            "name": "portal_allowed_subnets",
+            "get": [
+                "list"
+            ],
+            "default_type": "list_of_str",
+            "computed_optional_required": "computed_optional"            
+        },
+        {
+            "name": "portal_denied_hostnames",
+            "get": [
+                "list"
+            ],
+            "default_type": "list_of_str",
+            "computed_optional_required": "computed_optional"                    
+        },
+        {
+            "name": "portal_allowed_subnets",
+            "get": [
+                "list"
+            ],
+            "default_type": "list_of_str",
+            "computed_optional_required": "computed_optional"
+        },
+        {
+            "name": "ap_ids",
+            "get": [
+                "list"
+            ],
+            "default_type": "list_of_str",
+            "computed_optional_required": "computed_optional"
+        },
+        {
+            "name": "wxtag_ids",
+            "get": [
+                "list"
+            ],
+            "default_type": "list_of_str",
+            "computed_optional_required": "computed_optional"
+        },
+        {
+            "name": "mxtunnel_ids",
+            "get": [
+                "list"
+            ],
+            "default_type": "list_of_str",
+            "computed_optional_required": "computed_optional"
+        },
+        {
+            "name": "mxtunnel_name",
+            "get": [
+                "list"
+            ],
+            "default_type": "list_of_str",
+            "computed_optional_required": "computed_optional"
+        },
+        {
+            "name": "vlan_ids",
+            "get": [
+                "list"
+            ],
+            "default_type": "list_of_int",
+            "computed_optional_required": "computed_optional"
+        },
+        {
+            "name": "app_limit",
+            "get": [
+                "single_nested",
+                "attributes"
+            ],
+            "next": [
+                {
+                    "name": "wxtag_ids",
+                    "get": [
+                        "map"
+                    ],
+                    "computed_optional_required": "computed_optional"
+                }
+            ]
+        },
+        {
+            "name": "vlan_id",
+            "get": [
+                "int64"
+            ],
+            "computed_optional_required": "computed_optional"
         }
     ]
 }

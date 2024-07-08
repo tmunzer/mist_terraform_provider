@@ -18,10 +18,19 @@ func SdkToTerraform(ctx context.Context, data models.Template) (OrgWlantemplateM
 	state.OrgId = types.StringValue(data.OrgId.String())
 	state.Name = types.StringValue(data.Name)
 
-	state.Applies = appliesSdkToTerraform(ctx, &diags, *data.Applies)
+	if data.Applies != nil {
+		state.Applies = appliesSdkToTerraform(ctx, &diags, *data.Applies)
+	}
+
 	state.DeviceprofileIds = mist_transform.ListOfUuidSdkToTerraform(ctx, data.DeviceprofileIds)
-	state.Exceptions = exceptionsSdkToTerraform(ctx, &diags, *data.Exceptions)
-	state.FilterByDeviceprofile = types.BoolValue(*data.FilterByDeviceprofile)
+
+	if data.Exceptions != nil {
+		state.Exceptions = exceptionsSdkToTerraform(ctx, &diags, *data.Exceptions)
+	}
+
+	if data.FilterByDeviceprofile != nil {
+		state.FilterByDeviceprofile = types.BoolValue(*data.FilterByDeviceprofile)
+	}
 
 	return state, diags
 }

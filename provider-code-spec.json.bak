@@ -11306,26 +11306,6 @@
 									}
 								},
 								{
-									"name": "portal_allowed_hostnames",
-									"string": {
-										"computed_optional_required": "computed_optional",
-										"default": {
-											"static": ""
-										},
-										"description": "list of hostnames without http(s):// (matched by substring)"
-									}
-								},
-								{
-									"name": "portal_allowed_subnets",
-									"string": {
-										"computed_optional_required": "computed_optional",
-										"default": {
-											"static": ""
-										},
-										"description": "list of CIDRs"
-									}
-								},
-								{
 									"name": "portal_api_secret",
 									"string": {
 										"computed_optional_required": "computed_optional",
@@ -11333,16 +11313,6 @@
 											"static": ""
 										},
 										"description": "api secret (auto-generated) that can be used to sign guest authorization requests"
-									}
-								},
-								{
-									"name": "portal_denied_hostnames",
-									"string": {
-										"computed_optional_required": "computed_optional",
-										"default": {
-											"static": ""
-										},
-										"description": "list of hostnames without http(s):// (matched by substring), this takes precedence over portal_allowed_hostnames"
 									}
 								},
 								{
@@ -19564,26 +19534,6 @@
 									}
 								},
 								{
-									"name": "portal_allowed_hostnames",
-									"string": {
-										"computed_optional_required": "computed_optional",
-										"default": {
-											"static": ""
-										},
-										"description": "list of hostnames without http(s):// (matched by substring)"
-									}
-								},
-								{
-									"name": "portal_allowed_subnets",
-									"string": {
-										"computed_optional_required": "computed_optional",
-										"default": {
-											"static": ""
-										},
-										"description": "list of CIDRs"
-									}
-								},
-								{
 									"name": "portal_api_secret",
 									"string": {
 										"computed_optional_required": "computed_optional",
@@ -19591,16 +19541,6 @@
 											"static": ""
 										},
 										"description": "api secret (auto-generated) that can be used to sign guest authorization requests"
-									}
-								},
-								{
-									"name": "portal_denied_hostnames",
-									"string": {
-										"computed_optional_required": "computed_optional",
-										"default": {
-											"static": ""
-										},
-										"description": "list of hostnames without http(s):// (matched by substring), this takes precedence over portal_allowed_hostnames"
 									}
 								},
 								{

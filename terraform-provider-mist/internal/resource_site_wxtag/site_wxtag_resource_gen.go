@@ -9,6 +9,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
@@ -64,6 +65,7 @@ func SiteWxtagResourceSchema(ctx context.Context) schema.Schema {
 			},
 			"op": schema.StringAttribute{
 				Optional: true,
+				Computed: true,
 				Validators: []validator.String{
 					stringvalidator.OneOf(
 						"",
@@ -71,6 +73,7 @@ func SiteWxtagResourceSchema(ctx context.Context) schema.Schema {
 						"not_in",
 					),
 				},
+				Default: stringdefault.StaticString("in"),
 			},
 			"org_id": schema.StringAttribute{
 				Optional: true,
@@ -96,13 +99,17 @@ func SiteWxtagResourceSchema(ctx context.Context) schema.Schema {
 					Attributes: map[string]schema.Attribute{
 						"port_range": schema.StringAttribute{
 							Optional:            true,
+							Computed:            true,
 							Description:         "matched dst port, \"0\" means any",
 							MarkdownDescription: "matched dst port, \"0\" means any",
+							Default:             stringdefault.StaticString("0"),
 						},
 						"protocol": schema.StringAttribute{
 							Optional:            true,
+							Computed:            true,
 							Description:         "tcp / udp / icmp / gre / any / \":protocol_number\", `protocol_number` is between 1-254",
 							MarkdownDescription: "tcp / udp / icmp / gre / any / \":protocol_number\", `protocol_number` is between 1-254",
+							Default:             stringdefault.StaticString("any"),
 						},
 						"subnets": schema.ListAttribute{
 							ElementType:         types.StringType,

@@ -56,10 +56,7 @@ func portalSkToTerraform(ctx context.Context, diags *diag.Diagnostics, d *models
 	var passphrase_enabled basetypes.BoolValue
 	var passphrase_expire basetypes.Float64Value
 	var password basetypes.StringValue
-	var portal_allowed_hostnames basetypes.StringValue
-	var portal_allowed_subnets basetypes.StringValue
 	var portal_api_secret basetypes.StringValue = types.StringValue("")
-	var portal_denied_hostnames basetypes.StringValue
 	var portal_image basetypes.StringValue = types.StringValue("")
 	var portal_sso_url basetypes.StringValue
 	var predefined_sponsors_enabled basetypes.BoolValue
@@ -221,17 +218,8 @@ func portalSkToTerraform(ctx context.Context, diags *diag.Diagnostics, d *models
 	if d != nil && d.Password.IsValueSet() {
 		password = types.StringValue(*d.Password.Value())
 	}
-	if d != nil && d.PortalAllowedHostnames != nil {
-		portal_allowed_hostnames = types.StringValue(*d.PortalAllowedHostnames)
-	}
-	if d != nil && d.PortalAllowedSubnets != nil {
-		portal_allowed_subnets = types.StringValue(*d.PortalAllowedSubnets)
-	}
 	if d != nil && d.PortalApiSecret != nil {
 		portal_api_secret = types.StringValue(*d.PortalApiSecret)
-	}
-	if d != nil && d.PortalDeniedHostnames != nil {
-		portal_denied_hostnames = types.StringValue(*d.PortalDeniedHostnames)
 	}
 	if d != nil && d.PortalImage != nil {
 		portal_image = types.StringValue(*d.PortalImage)
@@ -377,10 +365,7 @@ func portalSkToTerraform(ctx context.Context, diags *diag.Diagnostics, d *models
 		"passphrase_enabled":             passphrase_enabled,
 		"passphrase_expire":              passphrase_expire,
 		"password":                       password,
-		"portal_allowed_hostnames":       portal_allowed_hostnames,
-		"portal_allowed_subnets":         portal_allowed_subnets,
 		"portal_api_secret":              portal_api_secret,
-		"portal_denied_hostnames":        portal_denied_hostnames,
 		"portal_image":                   portal_image,
 		"portal_sso_url":                 portal_sso_url,
 		"predefined_sponsors_enabled":    predefined_sponsors_enabled,

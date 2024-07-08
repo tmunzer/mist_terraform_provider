@@ -8,6 +8,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
@@ -55,6 +57,7 @@ func OrgServiceResourceSchema(ctx context.Context) schema.Schema {
 			},
 			"failover_policy": schema.StringAttribute{
 				Optional: true,
+				Computed: true,
 				Validators: []validator.String{
 					stringvalidator.OneOf(
 						"",
@@ -63,6 +66,7 @@ func OrgServiceResourceSchema(ctx context.Context) schema.Schema {
 						"none",
 					),
 				},
+				Default: stringdefault.StaticString("revertable"),
 			},
 			"hostnames": schema.ListAttribute{
 				ElementType:         types.StringType,
@@ -96,8 +100,10 @@ func OrgServiceResourceSchema(ctx context.Context) schema.Schema {
 			},
 			"sle_enabled": schema.BoolAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "whether to enable measure SLE",
 				MarkdownDescription: "whether to enable measure SLE",
+				Default:             booldefault.StaticBool(false),
 			},
 			"specs": schema.ListNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
@@ -108,8 +114,10 @@ func OrgServiceResourceSchema(ctx context.Context) schema.Schema {
 						},
 						"protocol": schema.StringAttribute{
 							Optional:            true,
+							Computed:            true,
 							Description:         "`https`/ `tcp` / `udp` / `icmp` / `gre` / `any` / `:protocol_number`.\n`protocol_number` is between 1-254",
 							MarkdownDescription: "`https`/ `tcp` / `udp` / `icmp` / `gre` / `any` / `:protocol_number`.\n`protocol_number` is between 1-254",
+							Default:             stringdefault.StaticString("any"),
 						},
 					},
 					CustomType: SpecsType{
@@ -122,9 +130,12 @@ func OrgServiceResourceSchema(ctx context.Context) schema.Schema {
 			},
 			"ssr_relaxed_tcp_state_enforcement": schema.BoolAttribute{
 				Optional: true,
+				Computed: true,
+				Default:  booldefault.StaticBool(false),
 			},
 			"traffic_class": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "when `traffic_type`==`custom`",
 				MarkdownDescription: "when `traffic_type`==`custom`",
 				Validators: []validator.String{
@@ -136,14 +147,18 @@ func OrgServiceResourceSchema(ctx context.Context) schema.Schema {
 						"low",
 					),
 				},
+				Default: stringdefault.StaticString("best_effort"),
 			},
 			"traffic_type": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "values from `/api/v1/consts/traffic_types`\n* when `type`==`apps`, we'll choose traffic_type automatically\n* when `type`==`addresses` or `type`==`hostnames`, you can provide your own settings (optional)",
 				MarkdownDescription: "values from `/api/v1/consts/traffic_types`\n* when `type`==`apps`, we'll choose traffic_type automatically\n* when `type`==`addresses` or `type`==`hostnames`, you can provide your own settings (optional)",
+				Default:             stringdefault.StaticString("data_best_effort"),
 			},
 			"type": schema.StringAttribute{
 				Optional: true,
+				Computed: true,
 				Validators: []validator.String{
 					stringvalidator.OneOf(
 						"",
@@ -153,6 +168,7 @@ func OrgServiceResourceSchema(ctx context.Context) schema.Schema {
 						"urls",
 					),
 				},
+				Default: stringdefault.StaticString("custom"),
 			},
 			"urls": schema.ListAttribute{
 				ElementType:         types.StringType,

@@ -12,12 +12,12 @@ import (
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 
-func analyticSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d models.SiteOccupancyAnalytics) AnalyticValue {
+func analyticSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d *models.SiteOccupancyAnalytics) AnalyticValue {
 	tflog.Debug(ctx, "analyticSdkToTerraform")
 
 	var enabled basetypes.BoolValue
 
-	if d.Enabled != nil {
+	if d != nil && d.Enabled != nil {
 		enabled = types.BoolValue(*d.Enabled)
 	}
 

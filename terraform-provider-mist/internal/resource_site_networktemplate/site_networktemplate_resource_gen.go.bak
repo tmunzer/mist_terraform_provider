@@ -10,6 +10,9 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
@@ -30,6 +33,7 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 								Attributes: map[string]schema.Attribute{
 									"action": schema.StringAttribute{
 										Optional: true,
+										Computed: true,
 										Validators: []validator.String{
 											stringvalidator.OneOf(
 												"",
@@ -37,6 +41,7 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 												"deny",
 											),
 										},
+										Default: stringdefault.StaticString("allow"),
 									},
 									"dst_tag": schema.StringAttribute{
 										Optional: true,
@@ -101,13 +106,17 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 								Attributes: map[string]schema.Attribute{
 									"port_range": schema.StringAttribute{
 										Optional:            true,
+										Computed:            true,
 										Description:         "matched dst port, \"0\" means any",
 										MarkdownDescription: "matched dst port, \"0\" means any",
+										Default:             stringdefault.StaticString("80"),
 									},
 									"protocol": schema.StringAttribute{
 										Optional:            true,
+										Computed:            true,
 										Description:         "`tcp` / `udp` / `icmp` / `gre` / `any` / `:protocol_number`. `protocol_number` is between 1-254",
 										MarkdownDescription: "`tcp` / `udp` / `icmp` / `gre` / `any` / `:protocol_number`. `protocol_number` is between 1-254",
+										Default:             stringdefault.StaticString("any"),
 									},
 								},
 								CustomType: SpecsType{
@@ -210,8 +219,10 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 					Attributes: map[string]schema.Attribute{
 						"discard": schema.BoolAttribute{
 							Optional:            true,
+							Computed:            true,
 							Description:         "this takes precedence",
 							MarkdownDescription: "this takes precedence",
+							Default:             booldefault.StaticBool(false),
 						},
 						"metric": schema.Int64Attribute{
 							Optional: true,
@@ -241,6 +252,8 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 						},
 						"no_resolve": schema.BoolAttribute{
 							Optional: true,
+							Computed: true,
+							Default:  booldefault.StaticBool(false),
 						},
 						"preference": schema.Int64Attribute{
 							Optional: true,
@@ -267,8 +280,10 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 					Attributes: map[string]schema.Attribute{
 						"discard": schema.BoolAttribute{
 							Optional:            true,
+							Computed:            true,
 							Description:         "this takes precedence",
 							MarkdownDescription: "this takes precedence",
+							Default:             booldefault.StaticBool(false),
 						},
 						"metric": schema.Int64Attribute{
 							Optional: true,
@@ -298,6 +313,8 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 						},
 						"no_resolve": schema.BoolAttribute{
 							Optional: true,
+							Computed: true,
+							Default:  booldefault.StaticBool(false),
 						},
 						"preference": schema.Int64Attribute{
 							Optional: true,
@@ -346,8 +363,10 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 					Attributes: map[string]schema.Attribute{
 						"isolation": schema.BoolAttribute{
 							Optional:            true,
+							Computed:            true,
 							Description:         "whether to stop clients to talk to each other, default is false (when enabled, a unique isolation_vlan_id is required)\nNOTE: this features requires uplink device to also a be Juniper device and `inter_switch_link` to be set",
 							MarkdownDescription: "whether to stop clients to talk to each other, default is false (when enabled, a unique isolation_vlan_id is required)\nNOTE: this features requires uplink device to also a be Juniper device and `inter_switch_link` to be set",
+							Default:             booldefault.StaticBool(false),
 						},
 						"isolation_vlan_id": schema.StringAttribute{
 							Optional: true,
@@ -424,8 +443,10 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 					Attributes: map[string]schema.Attribute{
 						"all_networks": schema.BoolAttribute{
 							Optional:            true,
+							Computed:            true,
 							Description:         "Only if `mode`==`trunk` whether to trunk all network/vlans",
 							MarkdownDescription: "Only if `mode`==`trunk` whether to trunk all network/vlans",
+							Default:             booldefault.StaticBool(false),
 						},
 						"allow_dhcpd": schema.BoolAttribute{
 							Optional:            true,
@@ -434,18 +455,24 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 						},
 						"allow_multiple_supplicants": schema.BoolAttribute{
 							Optional:            true,
+							Computed:            true,
 							Description:         "Only if `mode`!=`dynamic`",
 							MarkdownDescription: "Only if `mode`!=`dynamic`",
+							Default:             booldefault.StaticBool(false),
 						},
 						"bypass_auth_when_server_down": schema.BoolAttribute{
 							Optional:            true,
+							Computed:            true,
 							Description:         "Only if `mode`!=`dynamic` and `port_auth`==`dot1x` bypass auth for known clients if set to true when RADIUS server is down",
 							MarkdownDescription: "Only if `mode`!=`dynamic` and `port_auth`==`dot1x` bypass auth for known clients if set to true when RADIUS server is down",
+							Default:             booldefault.StaticBool(false),
 						},
 						"bypass_auth_when_server_down_for_unkonwn_client": schema.BoolAttribute{
 							Optional:            true,
+							Computed:            true,
 							Description:         "Only if `mode`!=`dynamic` and `port_auth`=`dot1x` bypass auth for all (including unknown clients) if set to true when RADIUS server is down",
 							MarkdownDescription: "Only if `mode`!=`dynamic` and `port_auth`=`dot1x` bypass auth for all (including unknown clients) if set to true when RADIUS server is down",
+							Default:             booldefault.StaticBool(false),
 						},
 						"description": schema.StringAttribute{
 							Optional:            true,
@@ -454,16 +481,21 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 						},
 						"disable_autoneg": schema.BoolAttribute{
 							Optional:            true,
+							Computed:            true,
 							Description:         "Only if `mode`!=`dynamic` if speed and duplex are specified, whether to disable autonegotiation",
 							MarkdownDescription: "Only if `mode`!=`dynamic` if speed and duplex are specified, whether to disable autonegotiation",
+							Default:             booldefault.StaticBool(false),
 						},
 						"disabled": schema.BoolAttribute{
 							Optional:            true,
+							Computed:            true,
 							Description:         "Only if `mode`!=`dynamic` whether the port is disabled",
 							MarkdownDescription: "Only if `mode`!=`dynamic` whether the port is disabled",
+							Default:             booldefault.StaticBool(false),
 						},
 						"duplex": schema.StringAttribute{
 							Optional:            true,
+							Computed:            true,
 							Description:         "Only if `mode`!=`dynamic` link connection mode",
 							MarkdownDescription: "Only if `mode`!=`dynamic` link connection mode",
 							Validators: []validator.String{
@@ -474,6 +506,7 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 									"auto",
 								),
 							},
+							Default: stringdefault.StaticString("auto"),
 						},
 						"dynamic_vlan_networks": schema.ListAttribute{
 							ElementType:         types.StringType,
@@ -483,11 +516,15 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 						},
 						"enable_mac_auth": schema.BoolAttribute{
 							Optional:            true,
+							Computed:            true,
 							Description:         "Only if `mode`!=`dynamic` and `port_auth`==`dot1x` whether to enable MAC Auth",
 							MarkdownDescription: "Only if `mode`!=`dynamic` and `port_auth`==`dot1x` whether to enable MAC Auth",
+							Default:             booldefault.StaticBool(false),
 						},
 						"enable_qos": schema.BoolAttribute{
 							Optional: true,
+							Computed: true,
+							Default:  booldefault.StaticBool(false),
 						},
 						"guest_network": schema.StringAttribute{
 							Optional:            true,
@@ -496,8 +533,10 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 						},
 						"inter_switch_link": schema.BoolAttribute{
 							Optional:            true,
+							Computed:            true,
 							Description:         "Only if `mode`!=`dynamic` inter_switch_link is used together with \"isolation\" under networks\nNOTE: inter_switch_link works only between Juniper device. This has to be applied to both ports connected together",
 							MarkdownDescription: "Only if `mode`!=`dynamic` inter_switch_link is used together with \"isolation\" under networks\nNOTE: inter_switch_link works only between Juniper device. This has to be applied to both ports connected together",
+							Default:             booldefault.StaticBool(false),
 						},
 						"mac_auth_only": schema.BoolAttribute{
 							Optional:            true,
@@ -506,6 +545,7 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 						},
 						"mac_auth_protocol": schema.StringAttribute{
 							Optional:            true,
+							Computed:            true,
 							Description:         "if `enable_mac_auth` ==`true`. This type is ignored if mist_nac is enabled.",
 							MarkdownDescription: "if `enable_mac_auth` ==`true`. This type is ignored if mist_nac is enabled.",
 							Validators: []validator.String{
@@ -516,14 +556,17 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 									"eap-md5",
 								),
 							},
+							Default: stringdefault.StaticString("eap-md5"),
 						},
 						"mac_limit": schema.Int64Attribute{
 							Optional:            true,
+							Computed:            true,
 							Description:         "Only if `mode`!=`dynamic` max number of mac addresses, default is 0 for unlimited, otherwise range is 1 or higher, with upper bound constrained by platform",
 							MarkdownDescription: "Only if `mode`!=`dynamic` max number of mac addresses, default is 0 for unlimited, otherwise range is 1 or higher, with upper bound constrained by platform",
 							Validators: []validator.Int64{
 								int64validator.AtLeast(0),
 							},
+							Default: int64default.StaticInt64(0),
 						},
 						"mode": schema.StringAttribute{
 							Optional:            true,
@@ -552,13 +595,17 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 						},
 						"persist_mac": schema.BoolAttribute{
 							Optional:            true,
+							Computed:            true,
 							Description:         "Only if `mode`!=`dynamic` and `mode`==`access` and `port_auth`!=`dot1x` whether the port should retain dynamically learned MAC addresses",
 							MarkdownDescription: "Only if `mode`!=`dynamic` and `mode`==`access` and `port_auth`!=`dot1x` whether the port should retain dynamically learned MAC addresses",
+							Default:             booldefault.StaticBool(false),
 						},
 						"poe_disabled": schema.BoolAttribute{
 							Optional:            true,
+							Computed:            true,
 							Description:         "Only if `mode`!=`dynamic` whether PoE capabilities are disabled for a port",
 							MarkdownDescription: "Only if `mode`!=`dynamic` whether PoE capabilities are disabled for a port",
+							Default:             booldefault.StaticBool(false),
 						},
 						"port_auth": schema.StringAttribute{
 							Optional:            true,
@@ -572,11 +619,13 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 						},
 						"reauth_interval": schema.Int64Attribute{
 							Optional:            true,
+							Computed:            true,
 							Description:         "Only if `mode`!=`dynamic` and `port_auth`=`dot1x` reauthentication interval range",
 							MarkdownDescription: "Only if `mode`!=`dynamic` and `port_auth`=`dot1x` reauthentication interval range",
 							Validators: []validator.Int64{
 								int64validator.Between(10, 65535),
 							},
+							Default: int64default.StaticInt64(3600),
 						},
 						"rejected_network": schema.StringAttribute{
 							Optional:            true,
@@ -585,6 +634,7 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 						},
 						"reset_default_when": schema.StringAttribute{
 							Optional:            true,
+							Computed:            true,
 							Description:         "Only if `mode`==`dynamic` Control when the DPC port should be changed to the default port usage\nConfiguring to none will let the DPC port keep at the current port usage.",
 							MarkdownDescription: "Only if `mode`==`dynamic` Control when the DPC port should be changed to the default port usage\nConfiguring to none will let the DPC port keep at the current port usage.",
 							Validators: []validator.String{
@@ -594,6 +644,7 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 									"link_down",
 								),
 							},
+							Default: stringdefault.StaticString("link_down"),
 						},
 						"rules": schema.ListNestedAttribute{
 							NestedObject: schema.NestedAttributeObject{
@@ -656,31 +707,41 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 							Attributes: map[string]schema.Attribute{
 								"no_broadcast": schema.BoolAttribute{
 									Optional:            true,
+									Computed:            true,
 									Description:         "whether to disable storm control on broadcast traffic",
 									MarkdownDescription: "whether to disable storm control on broadcast traffic",
+									Default:             booldefault.StaticBool(false),
 								},
 								"no_multicast": schema.BoolAttribute{
 									Optional:            true,
+									Computed:            true,
 									Description:         "whether to disable storm control on multicast traffic",
 									MarkdownDescription: "whether to disable storm control on multicast traffic",
+									Default:             booldefault.StaticBool(false),
 								},
 								"no_registered_multicast": schema.BoolAttribute{
 									Optional:            true,
+									Computed:            true,
 									Description:         "whether to disable storm control on registered multicast traffic",
 									MarkdownDescription: "whether to disable storm control on registered multicast traffic",
+									Default:             booldefault.StaticBool(false),
 								},
 								"no_unknown_unicast": schema.BoolAttribute{
 									Optional:            true,
+									Computed:            true,
 									Description:         "whether to disable storm control on unknown unicast traffic",
 									MarkdownDescription: "whether to disable storm control on unknown unicast traffic",
+									Default:             booldefault.StaticBool(false),
 								},
 								"percentage": schema.Int64Attribute{
 									Optional:            true,
+									Computed:            true,
 									Description:         "bandwidth-percentage, configures the storm control level as a percentage of the available bandwidth",
 									MarkdownDescription: "bandwidth-percentage, configures the storm control level as a percentage of the available bandwidth",
 									Validators: []validator.Int64{
 										int64validator.Between(0, 100),
 									},
+									Default: int64default.StaticInt64(80),
 								},
 							},
 							CustomType: StormControlType{
@@ -694,8 +755,10 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 						},
 						"stp_edge": schema.BoolAttribute{
 							Optional:            true,
+							Computed:            true,
 							Description:         "Only if `mode`!=`dynamic` when enabled, the port is not expected to receive BPDU frames",
 							MarkdownDescription: "Only if `mode`!=`dynamic` when enabled, the port is not expected to receive BPDU frames",
+							Default:             booldefault.StaticBool(false),
 						},
 						"voip_network": schema.StringAttribute{
 							Optional:            true,
@@ -715,11 +778,13 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 				Attributes: map[string]schema.Attribute{
 					"acct_interim_interval": schema.Int64Attribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "how frequently should interim accounting be reported, 60-65535. default is 0 (use one specified in Access-Accept request from RADIUS Server). Very frequent messages can affect the performance of the radius server, 600 and up is recommended when enabled",
 						MarkdownDescription: "how frequently should interim accounting be reported, 60-65535. default is 0 (use one specified in Access-Accept request from RADIUS Server). Very frequent messages can affect the performance of the radius server, 600 and up is recommended when enabled",
 						Validators: []validator.Int64{
 							int64validator.Between(0, 65535),
 						},
+						Default: int64default.StaticInt64(0),
 					},
 					"acct_servers": schema.ListNestedAttribute{
 						NestedObject: schema.NestedAttributeObject{
@@ -753,8 +818,10 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 								},
 								"port": schema.Int64Attribute{
 									Optional:            true,
+									Computed:            true,
 									Description:         "Acct port of RADIUS server",
 									MarkdownDescription: "Acct port of RADIUS server",
+									Default:             int64default.StaticInt64(1813),
 								},
 								"secret": schema.StringAttribute{
 									Required:            true,
@@ -805,8 +872,10 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 								},
 								"port": schema.Int64Attribute{
 									Optional:            true,
+									Computed:            true,
 									Description:         "Auth port of RADIUS server",
 									MarkdownDescription: "Auth port of RADIUS server",
+									Default:             int64default.StaticInt64(1812),
 								},
 								"secret": schema.StringAttribute{
 									Required:            true,
@@ -828,19 +897,27 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 					},
 					"auth_servers_retries": schema.Int64Attribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "radius auth session retries",
 						MarkdownDescription: "radius auth session retries",
+						Default:             int64default.StaticInt64(3),
 					},
 					"auth_servers_timeout": schema.Int64Attribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "radius auth session timeout",
 						MarkdownDescription: "radius auth session timeout",
+						Default:             int64default.StaticInt64(5),
 					},
 					"coa_enabled": schema.BoolAttribute{
 						Optional: true,
+						Computed: true,
+						Default:  booldefault.StaticBool(false),
 					},
 					"coa_port": schema.Int64Attribute{
 						Optional: true,
+						Computed: true,
+						Default:  int64default.StaticInt64(3799),
 					},
 					"network": schema.StringAttribute{
 						Optional:            true,
@@ -889,6 +966,7 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 									Attributes: map[string]schema.Attribute{
 										"facility": schema.StringAttribute{
 											Optional: true,
+											Computed: true,
 											Validators: []validator.String{
 												stringvalidator.OneOf(
 													"",
@@ -910,9 +988,11 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 													"user",
 												),
 											},
+											Default: stringdefault.StaticString("any"),
 										},
 										"severity": schema.StringAttribute{
 											Optional: true,
+											Computed: true,
 											Validators: []validator.String{
 												stringvalidator.OneOf(
 													"",
@@ -926,6 +1006,7 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 													"error",
 												),
 											},
+											Default: stringdefault.StaticString("any"),
 										},
 									},
 									CustomType: ContentsType{
@@ -946,6 +1027,8 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 					},
 					"enabled": schema.BoolAttribute{
 						Optional: true,
+						Computed: true,
+						Default:  booldefault.StaticBool(false),
 					},
 					"files": schema.ListNestedAttribute{
 						NestedObject: schema.NestedAttributeObject{
@@ -973,6 +1056,7 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 										Attributes: map[string]schema.Attribute{
 											"facility": schema.StringAttribute{
 												Optional: true,
+												Computed: true,
 												Validators: []validator.String{
 													stringvalidator.OneOf(
 														"",
@@ -994,9 +1078,11 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 														"user",
 													),
 												},
+												Default: stringdefault.StaticString("any"),
 											},
 											"severity": schema.StringAttribute{
 												Optional: true,
+												Computed: true,
 												Validators: []validator.String{
 													stringvalidator.OneOf(
 														"",
@@ -1010,6 +1096,7 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 														"error",
 													),
 												},
+												Default: stringdefault.StaticString("any"),
 											},
 										},
 										CustomType: ContentsType{
@@ -1052,6 +1139,8 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 					},
 					"send_to_all_servers": schema.BoolAttribute{
 						Optional: true,
+						Computed: true,
+						Default:  booldefault.StaticBool(false),
 					},
 					"servers": schema.ListNestedAttribute{
 						NestedObject: schema.NestedAttributeObject{
@@ -1061,6 +1150,7 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 										Attributes: map[string]schema.Attribute{
 											"facility": schema.StringAttribute{
 												Optional: true,
+												Computed: true,
 												Validators: []validator.String{
 													stringvalidator.OneOf(
 														"",
@@ -1082,9 +1172,11 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 														"user",
 													),
 												},
+												Default: stringdefault.StaticString("any"),
 											},
 											"severity": schema.StringAttribute{
 												Optional: true,
+												Computed: true,
 												Validators: []validator.String{
 													stringvalidator.OneOf(
 														"",
@@ -1098,6 +1190,7 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 														"error",
 													),
 												},
+												Default: stringdefault.StaticString("any"),
 											},
 										},
 										CustomType: ContentsType{
@@ -1114,6 +1207,7 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 								},
 								"facility": schema.StringAttribute{
 									Optional: true,
+									Computed: true,
 									Validators: []validator.String{
 										stringvalidator.OneOf(
 											"",
@@ -1135,6 +1229,7 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 											"user",
 										),
 									},
+									Default: stringdefault.StaticString("any"),
 								},
 								"host": schema.StringAttribute{
 									Optional: true,
@@ -1146,9 +1241,12 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 								},
 								"port": schema.Int64Attribute{
 									Optional: true,
+									Computed: true,
+									Default:  int64default.StaticInt64(514),
 								},
 								"protocol": schema.StringAttribute{
 									Optional: true,
+									Computed: true,
 									Validators: []validator.String{
 										stringvalidator.OneOf(
 											"",
@@ -1156,6 +1254,7 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 											"tcp",
 										),
 									},
+									Default: stringdefault.StaticString("udp"),
 								},
 								"routing_instance": schema.StringAttribute{
 									Optional: true,
@@ -1163,6 +1262,7 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 								},
 								"severity": schema.StringAttribute{
 									Optional: true,
+									Computed: true,
 									Validators: []validator.String{
 										stringvalidator.OneOf(
 											"",
@@ -1176,6 +1276,7 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 											"error",
 										),
 									},
+									Default: stringdefault.StaticString("any"),
 								},
 								"source_address": schema.StringAttribute{
 									Optional:            true,
@@ -1218,6 +1319,7 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 										Attributes: map[string]schema.Attribute{
 											"facility": schema.StringAttribute{
 												Optional: true,
+												Computed: true,
 												Validators: []validator.String{
 													stringvalidator.OneOf(
 														"",
@@ -1239,9 +1341,11 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 														"user",
 													),
 												},
+												Default: stringdefault.StaticString("any"),
 											},
 											"severity": schema.StringAttribute{
 												Optional: true,
+												Computed: true,
 												Validators: []validator.String{
 													stringvalidator.OneOf(
 														"",
@@ -1255,6 +1359,7 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 														"error",
 													),
 												},
+												Default: stringdefault.StaticString("any"),
 											},
 										},
 										CustomType: ContentsType{
@@ -1325,6 +1430,8 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 					},
 					"enabled": schema.BoolAttribute{
 						Optional: true,
+						Computed: true,
+						Default:  booldefault.StaticBool(true),
 					},
 					"engine_id": schema.StringAttribute{
 						Optional: true,
@@ -1348,6 +1455,8 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 					},
 					"network": schema.StringAttribute{
 						Optional: true,
+						Computed: true,
+						Default:  stringdefault.StaticString("default"),
 					},
 					"trap_groups": schema.ListNestedAttribute{
 						NestedObject: schema.NestedAttributeObject{
@@ -1367,6 +1476,7 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 								},
 								"version": schema.StringAttribute{
 									Optional: true,
+									Computed: true,
 									Validators: []validator.String{
 										stringvalidator.OneOf(
 											"",
@@ -1375,6 +1485,7 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 											"all",
 										),
 									},
+									Default: stringdefault.StaticString("v2"),
 								},
 							},
 							CustomType: TrapGroupsType{
@@ -1496,6 +1607,8 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 										},
 										"port": schema.Int64Attribute{
 											Optional: true,
+											Computed: true,
+											Default:  int64default.StaticInt64(161),
 										},
 										"tag_list": schema.StringAttribute{
 											Optional:            true,
@@ -1886,11 +1999,15 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 											},
 											"ae_lacp_slow": schema.BoolAttribute{
 												Optional:            true,
+												Computed:            true,
 												Description:         "to use fast timeout",
 												MarkdownDescription: "to use fast timeout",
+												Default:             booldefault.StaticBool(true),
 											},
 											"aggregated": schema.BoolAttribute{
 												Optional: true,
+												Computed: true,
+												Default:  booldefault.StaticBool(false),
 											},
 											"critical": schema.BoolAttribute{
 												Optional:            true,
@@ -1903,11 +2020,14 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 											},
 											"disable_autoneg": schema.BoolAttribute{
 												Optional:            true,
+												Computed:            true,
 												Description:         "if `speed` and `duplex` are specified, whether to disable autonegotiation",
 												MarkdownDescription: "if `speed` and `duplex` are specified, whether to disable autonegotiation",
+												Default:             booldefault.StaticBool(false),
 											},
 											"duplex": schema.StringAttribute{
 												Optional: true,
+												Computed: true,
 												Validators: []validator.String{
 													stringvalidator.OneOf(
 														"",
@@ -1916,6 +2036,7 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 														"half",
 													),
 												},
+												Default: stringdefault.StaticString("auto"),
 											},
 											"dynamic_usage": schema.StringAttribute{
 												Optional:            true,
@@ -1928,8 +2049,10 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 											},
 											"mtu": schema.Int64Attribute{
 												Optional:            true,
+												Computed:            true,
 												Description:         "media maximum transmission unit (MTU) is the largest data unit that can be forwarded without fragmentation",
 												MarkdownDescription: "media maximum transmission unit (MTU) is the largest data unit that can be forwarded without fragmentation",
+												Default:             int64default.StaticInt64(1514),
 											},
 											"no_local_overwrite": schema.BoolAttribute{
 												Optional:            true,
@@ -1938,9 +2061,12 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 											},
 											"poe_disabled": schema.BoolAttribute{
 												Optional: true,
+												Computed: true,
+												Default:  booldefault.StaticBool(false),
 											},
 											"speed": schema.StringAttribute{
 												Optional: true,
+												Computed: true,
 												Validators: []validator.String{
 													stringvalidator.OneOf(
 														"",
@@ -1952,6 +2078,7 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 														"5g",
 													),
 												},
+												Default: stringdefault.StaticString("auto"),
 											},
 											"usage": schema.StringAttribute{
 												Required:            true,
@@ -2036,6 +2163,8 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 				Attributes: map[string]schema.Attribute{
 					"config_revert": schema.Int64Attribute{
 						Optional: true,
+						Computed: true,
+						Default:  int64default.StaticInt64(10),
 					},
 					"protect_re": schema.SingleNestedAttribute{
 						Attributes: map[string]schema.Attribute{
@@ -2050,11 +2179,14 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 									Attributes: map[string]schema.Attribute{
 										"port_range": schema.StringAttribute{
 											Optional:            true,
+											Computed:            true,
 											Description:         "matched dst port, \"0\" means any",
 											MarkdownDescription: "matched dst port, \"0\" means any",
+											Default:             stringdefault.StaticString("0"),
 										},
 										"protocol": schema.StringAttribute{
 											Optional: true,
+											Computed: true,
 											Validators: []validator.String{
 												stringvalidator.OneOf(
 													"",
@@ -2064,6 +2196,7 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 													"any",
 												),
 											},
+											Default: stringdefault.StaticString("any"),
 										},
 										"subnet": schema.ListAttribute{
 											ElementType: types.StringType,
@@ -2080,8 +2213,10 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 							},
 							"enabled": schema.BoolAttribute{
 								Optional:            true,
+								Computed:            true,
 								Description:         "when enabled, all traffic that is not essential to our operation will be dropped\ne.g. ntp / dns / traffic to mist will be allowed by default\n     if dhcpd is enabled, we'll make sure it works",
 								MarkdownDescription: "when enabled, all traffic that is not essential to our operation will be dropped\ne.g. ntp / dns / traffic to mist will be allowed by default\n     if dhcpd is enabled, we'll make sure it works",
+								Default:             booldefault.StaticBool(false),
 							},
 							"trusted_hosts": schema.ListAttribute{
 								ElementType:         types.StringType,
@@ -2107,6 +2242,7 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 						Attributes: map[string]schema.Attribute{
 							"default_role": schema.StringAttribute{
 								Optional: true,
+								Computed: true,
 								Validators: []validator.String{
 									stringvalidator.OneOf(
 										"",
@@ -2116,6 +2252,7 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 										"helpdesk",
 									),
 								},
+								Default: stringdefault.StaticString("none"),
 							},
 							"enabled": schema.BoolAttribute{
 								Optional: true,
@@ -2143,6 +2280,8 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 										},
 										"timeout": schema.Int64Attribute{
 											Optional: true,
+											Computed: true,
+											Default:  int64default.StaticInt64(10),
 										},
 									},
 									CustomType: TacacctServersType{
@@ -2170,6 +2309,8 @@ func SiteNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 										},
 										"timeout": schema.Int64Attribute{
 											Optional: true,
+											Computed: true,
+											Default:  int64default.StaticInt64(10),
 										},
 									},
 									CustomType: TacplusServersType{

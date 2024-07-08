@@ -7,6 +7,8 @@ import (
 	"fmt"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 	"github.com/hashicorp/terraform-plugin-go/tftypes"
@@ -27,12 +29,14 @@ func OrgWlantemplateResourceSchema(ctx context.Context) schema.Schema {
 					"site_ids": schema.ListAttribute{
 						ElementType:         types.StringType,
 						Optional:            true,
+						Computed:            true,
 						Description:         "list of site ids",
 						MarkdownDescription: "list of site ids",
 					},
 					"sitegroup_ids": schema.ListAttribute{
 						ElementType:         types.StringType,
 						Optional:            true,
+						Computed:            true,
 						Description:         "list of sitegroup ids",
 						MarkdownDescription: "list of sitegroup ids",
 					},
@@ -43,26 +47,31 @@ func OrgWlantemplateResourceSchema(ctx context.Context) schema.Schema {
 					},
 				},
 				Optional:            true,
+				Computed:            true,
 				Description:         "where this template should be applied to, can be org_id, site_ids, sitegroup_ids",
 				MarkdownDescription: "where this template should be applied to, can be org_id, site_ids, sitegroup_ids",
 			},
 			"deviceprofile_ids": schema.ListAttribute{
 				ElementType:         types.StringType,
 				Optional:            true,
+				Computed:            true,
 				Description:         "list of Device Profile ids",
 				MarkdownDescription: "list of Device Profile ids",
+				Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 			},
 			"exceptions": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
 					"site_ids": schema.ListAttribute{
 						ElementType:         types.StringType,
 						Optional:            true,
+						Computed:            true,
 						Description:         "list of site ids",
 						MarkdownDescription: "list of site ids",
 					},
 					"sitegroup_ids": schema.ListAttribute{
 						ElementType:         types.StringType,
 						Optional:            true,
+						Computed:            true,
 						Description:         "list of sitegroup ids",
 						MarkdownDescription: "list of sitegroup ids",
 					},
@@ -73,13 +82,16 @@ func OrgWlantemplateResourceSchema(ctx context.Context) schema.Schema {
 					},
 				},
 				Optional:            true,
+				Computed:            true,
 				Description:         "where this template should not be applied to (takes precedence)",
 				MarkdownDescription: "where this template should not be applied to (takes precedence)",
 			},
 			"filter_by_deviceprofile": schema.BoolAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "whether to further filter by Device Profile",
 				MarkdownDescription: "whether to further filter by Device Profile",
+				Default:             booldefault.StaticBool(false),
 			},
 			"id": schema.StringAttribute{
 				Computed: true,
