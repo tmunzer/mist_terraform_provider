@@ -97,9 +97,9 @@ func simpleAlertDhcpSdkToTerraform(ctx context.Context, diags *diag.Diagnostics,
 
 func simpleAlertSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d *models.SimpleAlert) SimpleAlertValue {
 	tflog.Debug(ctx, "simpleAlertSdkToTerraform")
-	var arp_failure basetypes.ObjectValue
-	var dhcp_failure basetypes.ObjectValue
-	var dns_failure basetypes.ObjectValue
+	var arp_failure basetypes.ObjectValue = types.ObjectNull(ArpFailureValue{}.AttributeTypes(ctx))
+	var dhcp_failure basetypes.ObjectValue = types.ObjectNull(DhcpFailureValue{}.AttributeTypes(ctx))
+	var dns_failure basetypes.ObjectValue = types.ObjectNull(DnsFailureValue{}.AttributeTypes(ctx))
 
 	if d != nil && d.ArpFailure != nil {
 		arp_failure = simpleAlertArpSdkToTerraform(ctx, diags, d.ArpFailure)

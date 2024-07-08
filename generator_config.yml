@@ -283,7 +283,7 @@ resources:
         - name
         - networks
         - ntp_servers
-        - port_mirrorings
+        - port_mirroring
         - port_usages
         - radius_config
         - remote_syslog

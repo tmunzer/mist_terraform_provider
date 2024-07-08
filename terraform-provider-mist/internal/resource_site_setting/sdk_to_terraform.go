@@ -28,7 +28,9 @@ func SdkToTerraform(ctx context.Context, data *models.SiteSetting) (SiteSettingM
 		state.AutoUpgrade = autoUpgradeSdkToTerraform(ctx, &diags, *data.AutoUpgrade)
 	}
 
-	state.BleConfig = bleConfigsSdkToTerraform(ctx, &diags, data.BleConfig)
+	if data.BleConfig != nil {
+		state.BleConfig = bleConfigsSdkToTerraform(ctx, &diags, data.BleConfig)
+	}
 
 	if data.BlacklistUrl != nil {
 		state.BlacklistUrl = types.StringValue(*data.BlacklistUrl)
@@ -38,59 +40,92 @@ func SdkToTerraform(ctx context.Context, data *models.SiteSetting) (SiteSettingM
 		state.ConfigAutoRevert = types.BoolValue(*data.ConfigAutoRevert)
 	}
 
-	state.ConfigPushPolicy = configPushPolicySdkToTerraform(ctx, &diags, data.ConfigPushPolicy)
+	if data.ConfigPushPolicy != nil {
+		state.ConfigPushPolicy = configPushPolicySdkToTerraform(ctx, &diags, data.ConfigPushPolicy)
+	}
 
-	state.CriticalUrlMonitoring = criticalUrlMonitoringSdkToTerraform(ctx, &diags, data.CriticalUrlMonitoring)
+	if data.CriticalUrlMonitoring != nil {
+		state.CriticalUrlMonitoring = criticalUrlMonitoringSdkToTerraform(ctx, &diags, data.CriticalUrlMonitoring)
+	}
 
 	if data.DeviceUpdownThreshold != nil {
 		state.DeviceUpdownThreshold = types.Int64Value(int64(*data.DeviceUpdownThreshold))
 	}
 
-	state.DisabledSystemDefinedPortUsages = mist_list.ListOfStringSdkToTerraform(ctx, data.DisabledSystemDefinedPortUsages)
+	if data.DisabledSystemDefinedPortUsages != nil {
+		state.DisabledSystemDefinedPortUsages = mist_list.ListOfStringSdkToTerraform(ctx, data.DisabledSystemDefinedPortUsages)
+	} else {
+		state.DisabledSystemDefinedPortUsages = types.ListNull(types.StringType)
+	}
 
-	state.Engagement = engagementSdkToTerraform(ctx, &diags, data.Engagement)
+	if data.Engagement != nil {
+		state.Engagement = engagementSdkToTerraform(ctx, &diags, data.Engagement)
+	}
 
 	if data.GatewayUpdownThreshold.Value() != nil {
 		state.GatewayUpdownThreshold = types.Int64Value(int64(*data.GatewayUpdownThreshold.Value()))
 	}
 
-	state.Led = ledSdkToTerraform(ctx, &diags, data.Led)
+	if data.Led != nil {
+		state.Led = ledSdkToTerraform(ctx, &diags, data.Led)
+	}
 
-	state.Occupancy = occupancySdkToTerraform(ctx, &diags, data.Occupancy)
+	if data.Occupancy != nil {
+		state.Occupancy = occupancySdkToTerraform(ctx, &diags, data.Occupancy)
+	}
 
 	if data.PersistConfigOnDevice != nil {
 		state.PersistConfigOnDevice = types.BoolValue(*data.PersistConfigOnDevice)
 	}
 
-	state.Proxy = proxySdkToTerraform(ctx, &diags, data.Proxy)
+	if data.Proxy != nil {
+		state.Proxy = proxySdkToTerraform(ctx, &diags, data.Proxy)
+	}
 
 	if data.ReportGatt != nil {
 		state.ReportGatt = types.BoolValue(*data.ReportGatt)
 	}
 
-	state.Rogue = rogueSdkToTerraform(ctx, &diags, data.Rogue)
+	if data.Rogue != nil {
+		state.Rogue = rogueSdkToTerraform(ctx, &diags, data.Rogue)
+	}
 
-	state.SimpleAlert = simpleAlertSdkToTerraform(ctx, &diags, data.SimpleAlert)
+	if data.SimpleAlert != nil {
+		state.SimpleAlert = simpleAlertSdkToTerraform(ctx, &diags, data.SimpleAlert)
+	}
 
-	state.Skyatp = skyAtpSdkToTerraform(ctx, &diags, data.Skyatp)
+	if data.Skyatp != nil {
+		state.Skyatp = skyAtpSdkToTerraform(ctx, &diags, data.Skyatp)
+	}
 
 	// state.SrxApp = srxAppSdkToTerraform(ctx, &diags, data.SrxApp)
+	if data.SshKeys != nil {
+		state.SshKeys = mist_list.ListOfStringSdkToTerraform(ctx, data.SshKeys)
+	} else {
+		state.SshKeys = types.ListNull(types.StringType)
+	}
 
-	state.SshKeys = mist_list.ListOfStringSdkToTerraform(ctx, data.SshKeys)
-
-	state.Ssr = ssrSdkToTerraform(ctx, &diags, data.Ssr)
+	if data.Ssr != nil {
+		state.Ssr = ssrSdkToTerraform(ctx, &diags, data.Ssr)
+	}
 
 	if data.SwitchUpdownThreshold.Value() != nil {
 		state.SwitchUpdownThreshold = types.Int64Value(int64(*data.SwitchUpdownThreshold.Value()))
 	}
 
-	state.SyntheticTest = synthteticTestSdkToTerraform(ctx, &diags, data.Synthetictest)
+	if data.Synthetictest != nil {
+		state.SyntheticTest = synthteticTestSdkToTerraform(ctx, &diags, data.Synthetictest)
+	}
 
 	if data.TrackAnonymousDevices != nil {
 		state.TrackAnonymousDevices = types.BoolValue(*data.TrackAnonymousDevices)
 	}
 
-	state.Vars = varsSdkToTerraform(ctx, &diags, data.Vars)
+	if data.Vars != nil {
+		state.Vars = varsSdkToTerraform(ctx, &diags, data.Vars)
+	} else {
+		state.Vars = types.MapNull(types.StringType)
+	}
 
 	// state.Vna = vnaSdkToTerraform(ctx, &diags, data.Vna)
 
@@ -104,9 +139,13 @@ func SdkToTerraform(ctx context.Context, data *models.SiteSetting) (SiteSettingM
 		state.WhitelistUrl = types.StringValue(*data.WhitelistUrl)
 	}
 
-	state.Wids = widsSdkToTerraform(ctx, &diags, data.Wids)
+	if data.Wids != nil {
+		state.Wids = widsSdkToTerraform(ctx, &diags, data.Wids)
+	}
 
-	state.Wifi = wifiSdkToTerraform(ctx, &diags, data.Wifi)
+	if data.Wifi != nil {
+		state.Wifi = wifiSdkToTerraform(ctx, &diags, data.Wifi)
+	}
 
 	// state.WiredVna = wiredVnaSdkToTerraform(ctx, &diags, data.WiredVna)
 

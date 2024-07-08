@@ -39,7 +39,7 @@ func widsAuthFailureSdkToTerraform(ctx context.Context, diags *diag.Diagnostics,
 func widsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d *models.SiteWids) WidsValue {
 	tflog.Debug(ctx, "widsSdkToTerraform")
 
-	var repeated_auth_failures basetypes.ObjectValue
+	var repeated_auth_failures basetypes.ObjectValue = types.ObjectNull(RepeatedAuthFailuresValue{}.AttributeTypes(ctx))
 
 	if d != nil && d.RepeatedAuthFailures != nil {
 		repeated_auth_failures = widsAuthFailureSdkToTerraform(ctx, diags, d.RepeatedAuthFailures)

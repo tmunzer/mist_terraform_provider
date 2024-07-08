@@ -20,7 +20,7 @@ func bleConfigsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d *m
 	var beacon_enabled basetypes.BoolValue
 	var beacon_rate basetypes.Int64Value
 	var beacon_rate_mode basetypes.StringValue
-	var beam_disabled basetypes.ListValue
+	var beam_disabled basetypes.ListValue = mist_transform.ListOfIntSdkToTerraformEmpty(ctx)
 	var custom_ble_packet_enabled basetypes.BoolValue
 	var custom_ble_packet_frame basetypes.StringValue
 	var custom_ble_packet_freq_msec basetypes.Int64Value

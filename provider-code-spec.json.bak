@@ -16787,60 +16787,6 @@
 						}
 					},
 					{
-						"name": "port_mirroring",
-						"map_nested": {
-							"computed_optional_required": "computed_optional",
-							"nested_object": {
-								"attributes": [
-									{
-										"name": "input_networks_ingress",
-										"list": {
-											"computed_optional_required": "computed_optional",
-											"element_type": {
-												"string": {}
-											},
-											"description": "at least one of the `ingress_port_ids`, `egress_port_ids` or `ingress_networks ` should be specified"
-										}
-									},
-									{
-										"name": "input_port_ids_egress",
-										"list": {
-											"computed_optional_required": "computed_optional",
-											"element_type": {
-												"string": {}
-											},
-											"description": "at least one of the `ingress_port_ids`, `egress_port_ids` or `ingress_networks ` should be specified"
-										}
-									},
-									{
-										"name": "input_port_ids_ingress",
-										"list": {
-											"computed_optional_required": "computed_optional",
-											"element_type": {
-												"string": {}
-											},
-											"description": "at least one of the `ingress_port_ids`, `egress_port_ids` or `ingress_networks ` should be specified"
-										}
-									},
-									{
-										"name": "output_network",
-										"string": {
-											"computed_optional_required": "computed_optional"
-										}
-									},
-									{
-										"name": "output_port_id",
-										"string": {
-											"computed_optional_required": "computed_optional",
-											"description": "exaclty on of the `output_port_id` or `output_network` should be provided"
-										}
-									}
-								]
-							},
-							"description": "Property key is the port mirroring instance name\nport_mirroring can be added under device/site settings. It takes interface and ports as input for ingress, interface as input for egress and can take interface and port as output."
-						}
-					},
-					{
 						"name": "proxy",
 						"single_nested": {
 							"computed_optional_required": "computed_optional",

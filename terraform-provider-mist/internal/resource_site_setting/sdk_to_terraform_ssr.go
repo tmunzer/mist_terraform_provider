@@ -17,7 +17,7 @@ import (
 func ssrSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d *models.SiteSettingSsr) SsrValue {
 	tflog.Debug(ctx, "ssrSdkToTerraform")
 
-	var conductor_hosts basetypes.ListValue
+	var conductor_hosts basetypes.ListValue = mist_transform.ListOfStringSdkToTerraformEmpty(ctx)
 	var disable_stats basetypes.BoolValue
 
 	if d != nil && d.ConductorHosts != nil {
