@@ -9,6 +9,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -31,20 +32,26 @@ func OrgServiceResourceSchema(ctx context.Context) schema.Schema {
 			"app_categories": schema.ListAttribute{
 				ElementType:         types.StringType,
 				Optional:            true,
+				Computed:            true,
 				Description:         "when `type`==`app_categories`\nlist of application categories are available through /api/v1/const/app_categories",
 				MarkdownDescription: "when `type`==`app_categories`\nlist of application categories are available through /api/v1/const/app_categories",
+				Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 			},
 			"app_subcategories": schema.ListAttribute{
 				ElementType:         types.StringType,
 				Optional:            true,
+				Computed:            true,
 				Description:         "when `type`==`app_categories`\nlist of application categories are available through /api/v1/const/app_subcategories",
 				MarkdownDescription: "when `type`==`app_categories`\nlist of application categories are available through /api/v1/const/app_subcategories",
+				Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 			},
 			"apps": schema.ListAttribute{
 				ElementType:         types.StringType,
 				Optional:            true,
+				Computed:            true,
 				Description:         "when `type`==`apps`\nlist of applications are available through:\n  - /api/v1/const/applications,\n  - /api/v1/const/gateway_applications\n  - /insight/top_app_by-bytes?wired=true",
 				MarkdownDescription: "when `type`==`apps`\nlist of applications are available through:\n  - /api/v1/const/applications,\n  - /api/v1/const/gateway_applications\n  - /insight/top_app_by-bytes?wired=true",
+				Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 			},
 			"description": schema.StringAttribute{
 				Optional: true,
@@ -71,8 +78,10 @@ func OrgServiceResourceSchema(ctx context.Context) schema.Schema {
 			"hostnames": schema.ListAttribute{
 				ElementType:         types.StringType,
 				Optional:            true,
+				Computed:            true,
 				Description:         "if `type`==`custom`, web filtering",
 				MarkdownDescription: "if `type`==`custom`, web filtering",
+				Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 			},
 			"id": schema.StringAttribute{
 				Computed: true,
@@ -173,8 +182,10 @@ func OrgServiceResourceSchema(ctx context.Context) schema.Schema {
 			"urls": schema.ListAttribute{
 				ElementType:         types.StringType,
 				Optional:            true,
+				Computed:            true,
 				Description:         "when `type`==`urls\nno need for spec as URL can encode the ports being used`",
 				MarkdownDescription: "when `type`==`urls\nno need for spec as URL can encode the ports being used`",
+				Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 			},
 		},
 	}

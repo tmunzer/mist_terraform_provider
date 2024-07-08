@@ -25,6 +25,46 @@
                 "string"
             ],
             "computed_optional_required": "computed"
+        },
+        {
+            "name": "hostnames",
+            "get": [
+                "list"
+            ],
+            "default_type": "list_of_str",
+            "computed_optional_required": "computed_optional"            
+        },
+        {
+            "name": "urls",
+            "get": [
+                "list"
+            ],
+            "default_type": "list_of_str",
+            "computed_optional_required": "computed_optional"            
+        },
+        {
+            "name": "app_categories",
+            "get": [
+                "list"
+            ],
+            "default_type": "list_of_str",
+            "computed_optional_required": "computed_optional"            
+        },
+        {
+            "name": "app_subcategories",
+            "get": [
+                "list"
+            ],
+            "default_type": "list_of_str",
+            "computed_optional_required": "computed_optional"            
+        },
+        {
+            "name": "apps",
+            "get": [
+                "list"
+            ],
+            "default_type": "list_of_str",
+            "computed_optional_required": "computed_optional"            
         }
     ]
 }

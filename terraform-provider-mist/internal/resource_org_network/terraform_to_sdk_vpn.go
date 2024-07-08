@@ -16,22 +16,20 @@ func VpnTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes
 		var v_interface interface{} = v
 		v_plan := v_interface.(VpnAccessValue)
 
-		destination_nat := destinationNatTerraformToSdk(ctx, diags, v_plan.DestinationNat)
-		source_nat := sourceNatTerraformToSdk(ctx, diags, v_plan.SourceNat)
-		static_nat := staticNatTerraformToSdk(ctx, diags, v_plan.StaticNat)
-
 		data := models.NetworkVpnAccessConfig{}
 		data.AdvertisedSubnet = v_plan.AdvertisedSubnet.ValueStringPointer()
 		data.AllowPing = v_plan.AllowPing.ValueBoolPointer()
-		data.DestinationNat = destination_nat
+		data.DestinationNat = destinationNatTerraformToSdk(ctx, diags, v_plan.DestinationNat)
 		data.NatPool = v_plan.NatPool.ValueStringPointer()
 		data.NoReadvertiseToLanBgp = v_plan.NoReadvertiseToLanBgp.ValueBoolPointer()
 		data.NoReadvertiseToLanOspf = v_plan.NoReadvertiseToLanOspf.ValueBoolPointer()
 		data.NoReadvertiseToOverlay = v_plan.NoReadvertiseToOverlay.ValueBoolPointer()
-		data.OtherVrfs = mist_transform.ListOfStringTerraformToSdk(ctx, v_plan.OtherVrfs)
+		if !v_plan.OtherVrfs.IsNull() && !v_plan.OtherVrfs.IsUnknown() {
+			data.OtherVrfs = mist_transform.ListOfStringTerraformToSdk(ctx, v_plan.OtherVrfs)
+		}
 		data.Routed = v_plan.Routed.ValueBoolPointer()
-		data.SourceNat = &source_nat
-		data.StaticNat = static_nat
+		data.SourceNat = sourceNatTerraformToSdk(ctx, diags, v_plan.SourceNat)
+		data.StaticNat = staticNatTerraformToSdk(ctx, diags, v_plan.StaticNat)
 		data.SummarizedSubnet = v_plan.SummarizedSubnet.ValueStringPointer()
 		data.SummarizedSubnetToLanBgp = v_plan.SummarizedSubnetToLanBgp.ValueStringPointer()
 		data.SummarizedSubnetToLanOspf = v_plan.SummarizedSubnetToLanOspf.ValueStringPointer()

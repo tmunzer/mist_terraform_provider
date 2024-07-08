@@ -9062,31 +9062,79 @@
                     {
                         "name": "app_categories",
                         "list": {
-                            "computed_optional_required": "optional",
+                            "computed_optional_required": "computed_optional",
                             "element_type": {
                                 "string": {}
                             },
-                            "description": "when `type`==`app_categories`\nlist of application categories are available through /api/v1/const/app_categories"
+                            "description": "when `type`==`app_categories`\nlist of application categories are available through /api/v1/const/app_categories",
+                            "default": {
+                                "custom": {
+                                    "imports": [
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/attr"
+                                        },
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault"
+                                        },
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/types"
+                                        }
+                                    ],
+                                    "schema_definition": "listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{}))"
+                                }
+                            }
                         }
                     },
                     {
                         "name": "app_subcategories",
                         "list": {
-                            "computed_optional_required": "optional",
+                            "computed_optional_required": "computed_optional",
                             "element_type": {
                                 "string": {}
                             },
-                            "description": "when `type`==`app_categories`\nlist of application categories are available through /api/v1/const/app_subcategories"
+                            "description": "when `type`==`app_categories`\nlist of application categories are available through /api/v1/const/app_subcategories",
+                            "default": {
+                                "custom": {
+                                    "imports": [
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/attr"
+                                        },
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault"
+                                        },
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/types"
+                                        }
+                                    ],
+                                    "schema_definition": "listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{}))"
+                                }
+                            }
                         }
                     },
                     {
                         "name": "apps",
                         "list": {
-                            "computed_optional_required": "optional",
+                            "computed_optional_required": "computed_optional",
                             "element_type": {
                                 "string": {}
                             },
-                            "description": "when `type`==`apps`\nlist of applications are available through:\n  - /api/v1/const/applications,\n  - /api/v1/const/gateway_applications\n  - /insight/top_app_by-bytes?wired=true"
+                            "description": "when `type`==`apps`\nlist of applications are available through:\n  - /api/v1/const/applications,\n  - /api/v1/const/gateway_applications\n  - /insight/top_app_by-bytes?wired=true",
+                            "default": {
+                                "custom": {
+                                    "imports": [
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/attr"
+                                        },
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault"
+                                        },
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/types"
+                                        }
+                                    ],
+                                    "schema_definition": "listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{}))"
+                                }
+                            }
                         }
                     },
                     {
@@ -9126,11 +9174,27 @@
                     {
                         "name": "hostnames",
                         "list": {
-                            "computed_optional_required": "optional",
+                            "computed_optional_required": "computed_optional",
                             "element_type": {
                                 "string": {}
                             },
-                            "description": "if `type`==`custom`, web filtering"
+                            "description": "if `type`==`custom`, web filtering",
+                            "default": {
+                                "custom": {
+                                    "imports": [
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/attr"
+                                        },
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault"
+                                        },
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/types"
+                                        }
+                                    ],
+                                    "schema_definition": "listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{}))"
+                                }
+                            }
                         }
                     },
                     {
@@ -9273,11 +9337,27 @@
                     {
                         "name": "urls",
                         "list": {
-                            "computed_optional_required": "optional",
+                            "computed_optional_required": "computed_optional",
                             "element_type": {
                                 "string": {}
                             },
-                            "description": "when `type`==`urls\nno need for spec as URL can encode the ports being used`"
+                            "description": "when `type`==`urls\nno need for spec as URL can encode the ports being used`",
+                            "default": {
+                                "custom": {
+                                    "imports": [
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/attr"
+                                        },
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault"
+                                        },
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/types"
+                                        }
+                                    ],
+                                    "schema_definition": "listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{}))"
+                                }
+                            }
                         }
                     }
                 ]

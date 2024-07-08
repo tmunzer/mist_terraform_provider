@@ -71,21 +71,21 @@ resource "mist_org_sitegroup" "test_group2" {
 }
 
 # # ### ORG LEVEL
-# resource "mist_org_service" "lab" {
-#   org_id = mist_org.terraform_test.id
-#   addresses = [
-#     "10.3.0.0/24", "10.4.0.0/24"
-#   ]
-#   description = "the lab network"
-#   name        = "lab_network"
-#   type        = "custom"
-#   specs = [
-#     {
-#       protocol   = "tcp"
-#       port_range = "443"
-#     }
-#   ]
-# }
+resource "mist_org_service" "lab" {
+  org_id = mist_org.terraform_test.id
+  addresses = [
+    "10.3.0.0/24", "10.4.0.0/24"
+  ]
+  description = "the lab network"
+  name        = "lab_network"
+  type        = "custom"
+  specs = [
+    {
+      protocol   = "tcp"
+      port_range = "443"
+    }
+  ]
+}
 
 
 # resource "mist_org_network" "corp" {
