@@ -8,6 +8,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 	"github.com/hashicorp/terraform-plugin-go/tftypes"
@@ -213,6 +214,7 @@ func OrgNetworkResourceSchema(ctx context.Context) schema.Schema {
 								},
 							},
 							Optional:            true,
+							Computed:            true,
 							Description:         "Property key may be an IP/Port (i.e. \"63.16.0.3:443\"), or a port (i.e. \":2222\")",
 							MarkdownDescription: "Property key may be an IP/Port (i.e. \"63.16.0.3:443\"), or a port (i.e. \":2222\")",
 						},
@@ -243,8 +245,10 @@ func OrgNetworkResourceSchema(ctx context.Context) schema.Schema {
 						"other_vrfs": schema.ListAttribute{
 							ElementType:         types.StringType,
 							Optional:            true,
+							Computed:            true,
 							Description:         "by default, the routes are only readvertised toward the same vrf on spoke\nto allow it to be leaked to other vrfs",
 							MarkdownDescription: "by default, the routes are only readvertised toward the same vrf on spoke\nto allow it to be leaked to other vrfs",
+							Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 						},
 						"routed": schema.BoolAttribute{
 							Optional:            true,
@@ -255,7 +259,6 @@ func OrgNetworkResourceSchema(ctx context.Context) schema.Schema {
 							Attributes: map[string]schema.Attribute{
 								"exteral_ip": schema.StringAttribute{
 									Optional: true,
-									Computed: true,
 								},
 							},
 							CustomType: SourceNatType{
@@ -264,6 +267,7 @@ func OrgNetworkResourceSchema(ctx context.Context) schema.Schema {
 								},
 							},
 							Optional:            true,
+							Computed:            true,
 							Description:         "if `routed`==`false` (usually at Spoke), but some hosts needs to be reachable from Hub",
 							MarkdownDescription: "if `routed`==`false` (usually at Spoke), but some hosts needs to be reachable from Hub",
 						},
@@ -291,6 +295,7 @@ func OrgNetworkResourceSchema(ctx context.Context) schema.Schema {
 								},
 							},
 							Optional:            true,
+							Computed:            true,
 							Description:         "Property key may be an IP Address (i.e. \"172.16.0.1\"), and IP Address and Port (i.e. \"172.16.0.1:8443\") or a CIDR (i.e. \"172.16.0.12/20\")",
 							MarkdownDescription: "Property key may be an IP Address (i.e. \"172.16.0.1\"), and IP Address and Port (i.e. \"172.16.0.1:8443\") or a CIDR (i.e. \"172.16.0.12/20\")",
 						},

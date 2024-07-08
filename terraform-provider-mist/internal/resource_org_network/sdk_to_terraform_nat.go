@@ -47,7 +47,7 @@ func staticNatSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map
 	diags.Append(e...)
 	return state_result_map
 }
-func sourceNatSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d models.NetworkSourceNat) basetypes.ObjectValue {
+func sourceNatSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d *models.NetworkSourceNat) basetypes.ObjectValue {
 
 	state_value_map_attr_type := SourceNatValue{}.AttributeTypes(ctx)
 

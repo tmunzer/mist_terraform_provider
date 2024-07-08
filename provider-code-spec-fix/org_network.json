@@ -25,6 +25,61 @@
                 "string"
             ],
             "computed_optional_required": "computed"
+        },
+        {
+            "name": "vpn_access",
+            "get": [
+                "map_nested",
+                "nested_object",
+                "attributes"
+            ],
+            "next": [
+                {
+                    "name": "other_vrfs",
+                    "get": [
+                        "list"
+                    ],
+                    "default_type": "list_of_str",
+                    "computed_optional_required": "computed_optional"
+                },
+                {
+                    "name": "destination_nat",
+                    "get": [
+                        "map_nested"
+                    ],
+                    "computed_optional_required": "computed_optional"
+                },
+                {
+                    "name": "source_nat",
+                    "get": [
+                        "single_nested"
+                    ],
+                    "computed_optional_required": "computed_optional"
+                },
+                {
+                    "name": "static_nat",
+                    "get": [
+                        "map_nested"
+                    ],
+                    "computed_optional_required": "computed_optional"
+                },
+                {
+                    "name": "source_nat",
+                    "get": [
+                        "single_nested",
+                        "attributes"
+                    ],
+                    "next": [
+                        {
+                            "name": "exteral_ip",
+                            "get": [
+                                "string"
+                            ],
+                            "computed_optional_required": "optional"
+                        }
+                    ]
+                }
+            ]
         }
     ]
 }

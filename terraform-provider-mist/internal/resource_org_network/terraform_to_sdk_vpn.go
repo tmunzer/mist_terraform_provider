@@ -24,9 +24,7 @@ func VpnTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes
 		data.NoReadvertiseToLanBgp = v_plan.NoReadvertiseToLanBgp.ValueBoolPointer()
 		data.NoReadvertiseToLanOspf = v_plan.NoReadvertiseToLanOspf.ValueBoolPointer()
 		data.NoReadvertiseToOverlay = v_plan.NoReadvertiseToOverlay.ValueBoolPointer()
-		if !v_plan.OtherVrfs.IsNull() && !v_plan.OtherVrfs.IsUnknown() {
-			data.OtherVrfs = mist_transform.ListOfStringTerraformToSdk(ctx, v_plan.OtherVrfs)
-		}
+		data.OtherVrfs = mist_transform.ListOfStringTerraformToSdk(ctx, v_plan.OtherVrfs)
 		data.Routed = v_plan.Routed.ValueBoolPointer()
 		data.SourceNat = sourceNatTerraformToSdk(ctx, diags, v_plan.SourceNat)
 		data.StaticNat = staticNatTerraformToSdk(ctx, diags, v_plan.StaticNat)

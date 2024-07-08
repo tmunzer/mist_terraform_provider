@@ -88,135 +88,135 @@ resource "mist_org_service" "lab" {
 }
 
 
-# resource "mist_org_network" "corp" {
-#   org_id                 = mist_org.terraform_test.id
-#   disallow_mist_services = false
-#   name                   = "prd_corp"
-#   subnet                 = "10.3.0.0"
-# }
+resource "mist_org_network" "corp" {
+  org_id                 = mist_org.terraform_test.id
+  disallow_mist_services = false
+  name                   = "prd_corp"
+  subnet                 = "10.3.0.0"
+}
 
-# resource "mist_org_network" "mgmt" {
-#   org_id  = mist_org.terraform_test.id
-#   vlan_id = 172
-#   subnet  = "10.3.172.0/24"
-#   gateway = "10.3.172.9"
-#   vpn_access = {
-#     "OrgOverlay" : {
-#       routed                    = true
-#       no_readvertise_to_overlay = false
-#       no_readvertise_to_lan_bgp = false
-#     }
-#   }
-#   isolation              = true
-#   disallow_mist_services = false
-#   name                   = "SRX-Mgmt"
-# }
-# resource "mist_org_network" "reg" {
-#   org_id                 = mist_org.terraform_test.id
-#   isolation              = true
-#   vlan_id                = 12
-#   subnet                 = "10.3.12.0/24"
-#   disallow_mist_services = false
-#   name                   = "SRX-REG"
-# }
-# resource "mist_org_network" "ssr" {
-#   org_id                 = mist_org.terraform_test.id
-#   isolation              = true
-#   vlan_id                = 128
-#   subnet                 = "10.128.100.0/16"
-#   disallow_mist_services = false
-#   name                   = "SRX-Core-128T"
-# }
-# resource "mist_org_network" "mxe" {
-#   org_id                 = mist_org.terraform_test.id
-#   isolation              = true
-#   vlan_id                = 1000
-#   subnet                 = "10.10.0.0/24"
-#   disallow_mist_services = false
-#   tenants = {
-#     "mxe-ext" = {
-#       addresses = [
-#         "10.10.0.10"
-#       ]
-#     }
-#   }
-#   internet_access = {
-#     static_nat = {}
-#     destination_nat = {
-#       "192.168.1.9:500" : {
-#         name        = "ike"
-#         internal_ip = "10.10.0.10"
-#         port        = "500"
-#       }
-#       "192.168.1.9:4500" : {
-#         name        = "isakmp"
-#         internal_ip = "10.10.0.10"
-#         port        = "4500"
-#       }
-#     }
-#   }
-#   name = "SRX-MXE-tt-in"
-# }
-# resource "mist_org_network" "iot" {
-#   org_id                 = mist_org.terraform_test.id
-#   isolation              = true
-#   vlan_id                = 8
-#   subnet                 = "10.3.8.0/24"
-#   disallow_mist_services = true
-#   tenants = {
-#     netatmo = {
-#       addresses = [
-#         "10.3.8.201/32"
-#       ]
-#     }
-#     "cctv-e" = {
-#       addresses = [
-#         "10.3.8.40/32"
-#       ]
-#     }
-#     "cctv-b" = {
-#       addresses = [
-#         "10.3.8.41/32"
-#       ]
-#     }
-#     "cctv-c" = {
-#       addresses = [
-#         "10.3.8.42/32"
-#       ]
-#     }
-#     "cctv-x" = {
-#       addresses = [
-#         "10.3.8.44/32"
-#       ]
-#     }
-#   }
-#   name = "SRX-IoT"
-# }
-# resource "mist_org_network" "dmz" {
-#   org_id                 = mist_org.terraform_test.id
-#   isolation              = true
-#   vlan_id                = 3
-#   subnet                 = "10.3.3.0/24"
-#   disallow_mist_services = true
-#   tenants = {
-#     aws = {
-#       addresses = [
-#         "10.3.3.3"
-#       ]
-#     }
-#   }
-#   internet_access = {
-#     static_nat = {}
-#     destination_nat = {
-#       "192.168.1.9:5431" : {
-#         name        = "aws-wg"
-#         internal_ip = "10.3.3.3"
-#         port        = "51820"
-#       }
-#     }
-#   }
-#   name = "SRX-DMZ"
-# }
+resource "mist_org_network" "mgmt" {
+  org_id  = mist_org.terraform_test.id
+  vlan_id = 172
+  subnet  = "10.3.172.0/24"
+  gateway = "10.3.172.9"
+  vpn_access = {
+    "OrgOverlay" : {
+      routed                    = true
+      no_readvertise_to_overlay = false
+      no_readvertise_to_lan_bgp = false
+    }
+  }
+  isolation              = true
+  disallow_mist_services = false
+  name                   = "SRX-Mgmt"
+}
+resource "mist_org_network" "reg" {
+  org_id                 = mist_org.terraform_test.id
+  isolation              = true
+  vlan_id                = 12
+  subnet                 = "10.3.12.0/24"
+  disallow_mist_services = false
+  name                   = "SRX-REG"
+}
+resource "mist_org_network" "ssr" {
+  org_id                 = mist_org.terraform_test.id
+  isolation              = true
+  vlan_id                = 128
+  subnet                 = "10.128.100.0/16"
+  disallow_mist_services = false
+  name                   = "SRX-Core-128T"
+}
+resource "mist_org_network" "mxe" {
+  org_id                 = mist_org.terraform_test.id
+  isolation              = true
+  vlan_id                = 1000
+  subnet                 = "10.10.0.0/24"
+  disallow_mist_services = false
+  tenants = {
+    "mxe-ext" = {
+      addresses = [
+        "10.10.0.10"
+      ]
+    }
+  }
+  internet_access = {
+    static_nat = {}
+    destination_nat = {
+      "192.168.1.9:500" : {
+        name        = "ike"
+        internal_ip = "10.10.0.10"
+        port        = "500"
+      }
+      "192.168.1.9:4500" : {
+        name        = "isakmp"
+        internal_ip = "10.10.0.10"
+        port        = "4500"
+      }
+    }
+  }
+  name = "SRX-MXE-tt-in"
+}
+resource "mist_org_network" "iot" {
+  org_id                 = mist_org.terraform_test.id
+  isolation              = true
+  vlan_id                = 8
+  subnet                 = "10.3.8.0/24"
+  disallow_mist_services = true
+  tenants = {
+    netatmo = {
+      addresses = [
+        "10.3.8.201/32"
+      ]
+    }
+    "cctv-e" = {
+      addresses = [
+        "10.3.8.40/32"
+      ]
+    }
+    "cctv-b" = {
+      addresses = [
+        "10.3.8.41/32"
+      ]
+    }
+    "cctv-c" = {
+      addresses = [
+        "10.3.8.42/32"
+      ]
+    }
+    "cctv-x" = {
+      addresses = [
+        "10.3.8.44/32"
+      ]
+    }
+  }
+  name = "SRX-IoT"
+}
+resource "mist_org_network" "dmz" {
+  org_id                 = mist_org.terraform_test.id
+  isolation              = true
+  vlan_id                = 3
+  subnet                 = "10.3.3.0/24"
+  disallow_mist_services = true
+  tenants = {
+    aws = {
+      addresses = [
+        "10.3.3.3"
+      ]
+    }
+  }
+  internet_access = {
+    static_nat = {}
+    destination_nat = {
+      "192.168.1.9:5431" : {
+        name        = "aws-wg"
+        internal_ip = "10.3.3.3"
+        port        = "51820"
+      }
+    }
+  }
+  name = "SRX-DMZ"
+}
 
 
 # resource "mist_org_gatewaytemplate" "stag" {
