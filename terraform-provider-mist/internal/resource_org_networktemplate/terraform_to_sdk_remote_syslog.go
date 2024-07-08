@@ -18,10 +18,10 @@ func remoteSyslogConfigArchiveTerraformToSdk(ctx context.Context, diags *diag.Di
 		diags.Append(e...)
 		var item_interface interface{} = item
 		item_obj := item_interface.(ArchiveValue)
-		if !item_obj.Files.IsNull() && !item_obj.Files.IsUnknown() {
+		if item_obj.Files.ValueInt64Pointer() != nil {
 			data.Files = models.ToPointer(int(item_obj.Files.ValueInt64()))
 		}
-		if !item_obj.Size.IsNull() && !item_obj.Size.IsUnknown() {
+		if item_obj.Size.ValueStringPointer() != nil {
 			data.Size = models.ToPointer(item_obj.Size.ValueString())
 		}
 		return &data
@@ -36,10 +36,10 @@ func remoteSyslogArchiveTerraformToSdk(ctx context.Context, diags *diag.Diagnost
 		diags.Append(e...)
 		var item_interface interface{} = item
 		item_obj := item_interface.(ArchiveValue)
-		if !item_obj.Files.IsNull() && !item_obj.Files.IsUnknown() {
+		if item_obj.Files.ValueInt64Pointer() != nil {
 			data.Files = models.ToPointer(int(item_obj.Files.ValueInt64()))
 		}
-		if !item_obj.Size.IsNull() && !item_obj.Size.IsUnknown() {
+		if item_obj.Size.ValueStringPointer() != nil {
 			data.Size = models.ToPointer(item_obj.Size.ValueString())
 		}
 		return &data
@@ -84,16 +84,16 @@ func remoteSyslogFilesTerraformToSdk(ctx context.Context, diags *diag.Diagnostic
 		data_item := models.RemoteSyslogFileConfig{}
 		data_item.Archive = remoteSyslogConfigArchiveTerraformToSdk(ctx, diags, item_obj.Archive)
 		data_item.Contents = remoteSyslogContentTerraformToSdk(ctx, diags, item_obj.Contents)
-		if !item_obj.ExplicitPriority.IsNull() && !item_obj.ExplicitPriority.IsUnknown() {
+		if item_obj.ExplicitPriority.ValueBoolPointer() != nil {
 			data_item.ExplicitPriority = models.ToPointer(item_obj.ExplicitPriority.ValueBool())
 		}
-		if !item_obj.File.IsNull() && !item_obj.File.IsUnknown() {
+		if item_obj.File.ValueStringPointer() != nil {
 			data_item.File = models.ToPointer(item_obj.File.ValueString())
 		}
-		if !item_obj.Match.IsNull() && !item_obj.Match.IsUnknown() {
+		if item_obj.Match.ValueStringPointer() != nil {
 			data_item.Match = models.ToPointer(item_obj.Match.ValueString())
 		}
-		if !item_obj.StructuredData.IsNull() && !item_obj.StructuredData.IsUnknown() {
+		if item_obj.StructuredData.ValueBoolPointer() != nil {
 			data_item.StructuredData = models.ToPointer(item_obj.StructuredData.ValueBool())
 		}
 		data = append(data, data_item)
@@ -111,37 +111,37 @@ func remoteSyslogServersTerraformToSdk(ctx context.Context, diags *diag.Diagnost
 
 		data_item := models.RemoteSyslogServer{}
 		data_item.Contents = remoteSyslogContentTerraformToSdk(ctx, diags, item_obj.Contents)
-		if !item_obj.ExplicitPriority.IsNull() && !item_obj.ExplicitPriority.IsUnknown() {
+		if item_obj.ExplicitPriority.ValueBoolPointer() != nil {
 			data_item.ExplicitPriority = models.ToPointer(item_obj.ExplicitPriority.ValueBool())
 		}
-		if !item_obj.Facility.IsNull() && !item_obj.Facility.IsUnknown() {
+		if item_obj.Facility.ValueStringPointer() != nil {
 			data_item.Facility = models.ToPointer(models.RemoteSyslogFacilityEnum(item_obj.Facility.ValueString()))
 		}
-		if !item_obj.Host.IsNull() && !item_obj.Host.IsUnknown() {
+		if item_obj.Host.ValueStringPointer() != nil {
 			data_item.Host = models.ToPointer(item_obj.Host.ValueString())
 		}
-		if !item_obj.Match.IsNull() && !item_obj.Match.IsUnknown() {
+		if item_obj.Match.ValueStringPointer() != nil {
 			data_item.Match = models.ToPointer(item_obj.Match.ValueString())
 		}
-		if !item_obj.Port.IsNull() && !item_obj.Port.IsUnknown() {
+		if item_obj.Port.ValueInt64Pointer() != nil {
 			data_item.Port = models.ToPointer(int(item_obj.Port.ValueInt64()))
 		}
-		if !item_obj.Protocol.IsNull() && !item_obj.Protocol.IsUnknown() {
+		if item_obj.Protocol.ValueStringPointer() != nil {
 			data_item.Protocol = models.ToPointer(models.RemoteSyslogServerProtocolEnum(item_obj.Protocol.ValueString()))
 		}
-		if !item_obj.RoutingInstance.IsNull() && !item_obj.RoutingInstance.IsUnknown() {
+		if item_obj.RoutingInstance.ValueStringPointer() != nil {
 			data_item.RoutingInstance = models.ToPointer(item_obj.RoutingInstance.ValueString())
 		}
-		if !item_obj.Severity.IsNull() && !item_obj.Severity.IsUnknown() {
+		if item_obj.Severity.ValueStringPointer() != nil {
 			data_item.Severity = models.ToPointer(models.RemoteSyslogSeverityEnum(item_obj.Severity.ValueString()))
 		}
-		if !item_obj.SourceAddress.IsNull() && !item_obj.SourceAddress.IsUnknown() {
+		if item_obj.SourceAddress.ValueStringPointer() != nil {
 			data_item.SourceAddress = models.ToPointer(item_obj.SourceAddress.ValueString())
 		}
-		if !item_obj.StructuredData.IsNull() && !item_obj.StructuredData.IsUnknown() {
+		if item_obj.StructuredData.ValueBoolPointer() != nil {
 			data_item.StructuredData = models.ToPointer(item_obj.StructuredData.ValueBool())
 		}
-		if !item_obj.Tag.IsNull() && !item_obj.Tag.IsUnknown() {
+		if item_obj.Tag.ValueStringPointer() != nil {
 			data_item.Tag = models.ToPointer(item_obj.Tag.ValueString())
 		}
 		data = append(data, data_item)
@@ -162,20 +162,20 @@ func remoteSyslogUsersTerraformToSdk(ctx context.Context, diags *diag.Diagnostic
 			content_obj := content_interface.(ContentsValue)
 			content_out := models.RemoteSyslogContent{}
 
-			if !content_obj.Facility.IsNull() && !content_obj.Facility.IsUnknown() {
+			if content_obj.Facility.ValueStringPointer() != nil {
 				content_out.Facility = models.ToPointer(models.RemoteSyslogFacilityEnum(content_obj.Facility.ValueString()))
 			}
-			if !content_obj.Severity.IsNull() && !content_obj.Severity.IsUnknown() {
+			if content_obj.Severity.ValueStringPointer() != nil {
 				content_out.Severity = models.ToPointer(models.RemoteSyslogSeverityEnum(content_obj.Severity.ValueString()))
 			}
 			content_list = append(content_list, content_out)
 		}
 
 		data_item := models.RemoteSyslogUser{}
-		if !item_obj.Match.IsNull() && !item_obj.Match.IsUnknown() {
+		if item_obj.Match.ValueStringPointer() != nil {
 			data_item.Match = models.ToPointer(item_obj.Match.ValueString())
 		}
-		if !item_obj.User.IsNull() && !item_obj.User.IsUnknown() {
+		if item_obj.User.ValueStringPointer() != nil {
 			data_item.User = models.ToPointer(item_obj.User.ValueString())
 		}
 		data_item.Contents = content_list
@@ -189,10 +189,10 @@ func remoteSyslogUsersTerraformToSdk(ctx context.Context, diags *diag.Diagnostic
 func remoteSyslogTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d RemoteSyslogValue) *models.RemoteSyslog {
 
 	data := models.RemoteSyslog{}
-	if !d.Enabled.IsNull() && !d.Enabled.IsUnknown() {
+	if d.Enabled.ValueBoolPointer() != nil {
 		data.Enabled = models.ToPointer(d.Enabled.ValueBool())
 	}
-	if !d.Network.IsNull() && !d.Network.IsUnknown() {
+	if d.Network.ValueStringPointer() != nil {
 		data.Network = models.ToPointer(d.Network.ValueString())
 	}
 	if !d.Archive.IsNull() && !d.Archive.IsUnknown() {
@@ -204,16 +204,16 @@ func remoteSyslogTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d 
 	if !d.Files.IsNull() && !d.Files.IsUnknown() {
 		data.Files = remoteSyslogFilesTerraformToSdk(ctx, diags, d.Files)
 	}
-	if !d.Network.IsNull() && !d.Network.IsUnknown() {
+	if d.Network.ValueStringPointer() != nil {
 		data.Network = models.ToPointer(d.Network.ValueString())
 	}
-	if !d.SendToAllServers.IsNull() && !d.SendToAllServers.IsUnknown() {
+	if d.SendToAllServers.ValueBoolPointer() != nil {
 		data.SendToAllServers = models.ToPointer(d.SendToAllServers.ValueBool())
 	}
 	if !d.Servers.IsNull() && !d.Servers.IsUnknown() {
 		data.Servers = remoteSyslogServersTerraformToSdk(ctx, diags, d.Servers)
 	}
-	if !d.TimeFormat.IsNull() && !d.TimeFormat.IsUnknown() {
+	if d.TimeFormat.ValueStringPointer() != nil {
 		data.TimeFormat = models.ToPointer(models.RemoteSyslogTimeFormatEnum(d.TimeFormat.ValueString()))
 	}
 	if !d.Users.IsNull() && !d.Users.IsUnknown() {

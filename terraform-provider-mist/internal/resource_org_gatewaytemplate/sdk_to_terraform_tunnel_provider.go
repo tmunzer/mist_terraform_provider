@@ -41,13 +41,13 @@ func tunnelProviderZscalerSubLocationSdkToTerraform(ctx context.Context, diags *
 	var data_list = []SubLocationsValue{}
 	if t != nil && t.Zscaler != nil && t.Zscaler.SubLocations != nil {
 		for _, v := range t.Zscaler.SubLocations {
-			var aup_acceptance_required basetypes.BoolValue
-			var aup_expire basetypes.Int64Value
-			var aup_ssl_proxy basetypes.BoolValue
+			var aup_acceptance_required basetypes.BoolValue = types.BoolValue(true)
+			var aup_expire basetypes.Int64Value = types.Int64Value(1)
+			var aup_ssl_proxy basetypes.BoolValue = types.BoolValue(false)
 			var download_mbps basetypes.Int64Value
 			var enable_aup basetypes.BoolValue
-			var enable_caution basetypes.BoolValue
-			var enforce_authentication basetypes.BoolValue
+			var enable_caution basetypes.BoolValue = types.BoolValue(false)
+			var enforce_authentication basetypes.BoolValue = types.BoolValue(false)
 			var subnets basetypes.ListValue = mist_transform.ListOfStringSdkToTerraform(ctx, v.Subnets)
 			var upload_mbps basetypes.Int64Value
 
@@ -101,13 +101,13 @@ func tunnelProviderZscalerSubLocationSdkToTerraform(ctx context.Context, diags *
 func tunnelProviderZscalerSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, t *models.TunnelProviderOptions) basetypes.ObjectValue {
 	tflog.Debug(ctx, "tunnelProviderZscalerSdkToTerraform")
 
-	var aup_acceptance_required basetypes.BoolValue
-	var aup_expire basetypes.Int64Value
-	var aup_ssl_proxy basetypes.BoolValue
+	var aup_acceptance_required basetypes.BoolValue = types.BoolValue(true)
+	var aup_expire basetypes.Int64Value = types.Int64Value(1)
+	var aup_ssl_proxy basetypes.BoolValue = types.BoolValue(false)
 	var download_mbps basetypes.Int64Value
-	var enable_aup basetypes.BoolValue
-	var enable_caution basetypes.BoolValue
-	var enforce_authentication basetypes.BoolValue
+	var enable_aup basetypes.BoolValue = types.BoolValue(false)
+	var enable_caution basetypes.BoolValue = types.BoolValue(false)
+	var enforce_authentication basetypes.BoolValue = types.BoolValue(false)
 	var name basetypes.StringValue
 	var sub_locations basetypes.ListValue = tunnelProviderZscalerSubLocationSdkToTerraform(ctx, diags, t)
 	var upload_mbps basetypes.Int64Value

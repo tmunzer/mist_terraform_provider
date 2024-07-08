@@ -18,9 +18,13 @@ func dhcpdConfigFixedBindingsTerraformToSdk(ctx context.Context, diags *diag.Dia
 		var v_interface interface{} = v
 		plan := v_interface.(FixedBindingsValue)
 
-		data := *&models.DhcpdConfigFixedBinding{}
-		data.Ip = models.ToPointer(plan.Ip.ValueString())
-		data.Name = models.ToPointer(plan.Name.ValueString())
+		data := models.DhcpdConfigFixedBinding{}
+		if plan.Ip.ValueStringPointer() != nil {
+			data.Ip = models.ToPointer(plan.Ip.ValueString())
+		}
+		if plan.Name.ValueStringPointer() != nil {
+			data.Name = models.ToPointer(plan.Name.ValueString())
+		}
 
 		data_map[k] = data
 	}
@@ -35,8 +39,12 @@ func dhcpdConfigOptionsTerraformToSdk(ctx context.Context, diags *diag.Diagnosti
 		plan := v_interface.(OptionsValue)
 
 		data := models.DhcpdConfigOption{}
-		data.Type = models.ToPointer(models.DhcpdConfigOptionTypeEnum(plan.OptionsType.ValueString()))
-		data.Value = models.ToPointer(plan.Value.ValueString())
+		if plan.OptionsType.ValueStringPointer() != nil {
+			data.Type = models.ToPointer(models.DhcpdConfigOptionTypeEnum(plan.OptionsType.ValueString()))
+		}
+		if plan.Value.ValueStringPointer() != nil {
+			data.Value = models.ToPointer(plan.Value.ValueString())
+		}
 
 		data_map[k] = data
 	}
@@ -51,8 +59,12 @@ func dhcpdConfigVendorOptionsTerraformToSdk(ctx context.Context, diags *diag.Dia
 		plan := v_interface.(VendorEncapulatedValue)
 
 		data := models.DhcpdConfigVendorOption{}
-		data.Type = models.ToPointer(models.DhcpdConfigVendorOptionTypeEnum(plan.VendorEncapulatedType.ValueString()))
-		data.Value = models.ToPointer(plan.Value.ValueString())
+		if plan.VendorEncapulatedType.ValueStringPointer() != nil {
+			data.Type = models.ToPointer(models.DhcpdConfigVendorOptionTypeEnum(plan.VendorEncapulatedType.ValueString()))
+		}
+		if plan.Value.ValueStringPointer() != nil {
+			data.Value = models.ToPointer(plan.Value.ValueString())
+		}
 
 		data_map[k] = data
 	}
@@ -71,22 +83,54 @@ func dhcpdConfigConfigsTerraformToSdk(ctx context.Context, diags *diag.Diagnosti
 		vendor_encapulated := dhcpdConfigVendorOptionsTerraformToSdk(ctx, diags, plan.VendorEncapulated)
 
 		data := models.DhcpdConfig{}
-		data.DnsServers = mist_transform.ListOfStringTerraformToSdk(ctx, plan.DnsServers)
-		data.DnsSuffix = mist_transform.ListOfStringTerraformToSdk(ctx, plan.DnsSuffix)
-		data.FixedBindings = fixed_bindings
-		data.Gateway = models.ToPointer(plan.Gateway.ValueString())
-		data.IpEnd = models.ToPointer(plan.IpEnd4.ValueString())
-		data.IpEnd6 = models.ToPointer(plan.IpEnd6.ValueString())
-		data.IpStart = models.ToPointer(plan.IpStart4.ValueString())
-		data.IpStart6 = models.ToPointer(plan.IpStart6.ValueString())
-		data.LeaseTime = models.ToPointer(int(plan.LeaseTime.ValueInt64()))
-		data.Options = options
-		data.ServerIdOverride = models.ToPointer(plan.ServerIdOverride.ValueBool())
-		data.Servers = mist_transform.ListOfStringTerraformToSdk(ctx, plan.Servers4)
-		data.Servers6 = mist_transform.ListOfStringTerraformToSdk(ctx, plan.Servers6)
-		data.Type = models.ToPointer(models.DhcpdConfigTypeEnum(plan.Type4.ValueString()))
-		data.Type6 = models.ToPointer(models.DhcpdConfigTypeEnum(plan.Type6.ValueString()))
-		data.VendorEncapulated = vendor_encapulated
+		if !plan.DnsServers.IsNull() && !plan.DnsServers.IsUnknown() {
+			data.DnsServers = mist_transform.ListOfStringTerraformToSdk(ctx, plan.DnsServers)
+		}
+		if !plan.DnsSuffix.IsNull() && !plan.DnsSuffix.IsUnknown() {
+			data.DnsSuffix = mist_transform.ListOfStringTerraformToSdk(ctx, plan.DnsSuffix)
+		}
+		if !plan.FixedBindings.IsNull() && !plan.FixedBindings.IsUnknown() {
+			data.FixedBindings = fixed_bindings
+		}
+		if plan.Gateway.ValueStringPointer() != nil {
+			data.Gateway = models.ToPointer(plan.Gateway.ValueString())
+		}
+		if plan.IpEnd4.ValueStringPointer() != nil {
+			data.IpEnd = models.ToPointer(plan.IpEnd4.ValueString())
+		}
+		if plan.IpEnd6.ValueStringPointer() != nil {
+			data.IpEnd6 = models.ToPointer(plan.IpEnd6.ValueString())
+		}
+		if plan.IpStart4.ValueStringPointer() != nil {
+			data.IpStart = models.ToPointer(plan.IpStart4.ValueString())
+		}
+		if plan.IpStart6.ValueStringPointer() != nil {
+			data.IpStart6 = models.ToPointer(plan.IpStart6.ValueString())
+		}
+		if plan.LeaseTime.ValueInt64Pointer() != nil {
+			data.LeaseTime = models.ToPointer(int(plan.LeaseTime.ValueInt64()))
+		}
+		if !plan.Options.IsNull() && !plan.Options.IsUnknown() {
+			data.Options = options
+		}
+		if plan.ServerIdOverride.ValueBoolPointer() != nil {
+			data.ServerIdOverride = models.ToPointer(plan.ServerIdOverride.ValueBool())
+		}
+		if !plan.Servers4.IsNull() && !plan.Servers4.IsUnknown() {
+			data.Servers = mist_transform.ListOfStringTerraformToSdk(ctx, plan.Servers4)
+		}
+		if !plan.Servers6.IsNull() && !plan.Servers6.IsUnknown() {
+			data.Servers6 = mist_transform.ListOfStringTerraformToSdk(ctx, plan.Servers6)
+		}
+		if plan.Type4.ValueStringPointer() != nil {
+			data.Type = models.ToPointer(models.DhcpdConfigTypeEnum(plan.Type4.ValueString()))
+		}
+		if plan.Type6.ValueStringPointer() != nil {
+			data.Type6 = models.ToPointer(models.DhcpdConfigTypeEnum(plan.Type6.ValueString()))
+		}
+		if !plan.VendorEncapulated.IsNull() && !plan.VendorEncapulated.IsUnknown() {
+			data.VendorEncapulated = vendor_encapulated
+		}
 
 		data_map[k] = data
 	}
@@ -98,8 +142,12 @@ func dhcpdConfigTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d D
 
 	data := models.DhcpdConfigs{}
 
-	data.Enabled = models.ToPointer(d.Enabled.ValueBool())
-	data.AdditionalProperties = dhcpdConfigConfigsTerraformToSdk(ctx, diags, d.Config)
+	if d.Enabled.ValueBoolPointer() != nil {
+		data.Enabled = models.ToPointer(d.Enabled.ValueBool())
+	}
+	if !d.Config.IsNull() && !d.Config.IsUnknown() {
+		data.AdditionalProperties = dhcpdConfigConfigsTerraformToSdk(ctx, diags, d.Config)
+	}
 
 	return data
 }

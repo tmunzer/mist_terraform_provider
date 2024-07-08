@@ -12,16 +12,16 @@ import (
 
 func dhcpSnoopingTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d DhcpSnoopingValue) *models.DhcpSnooping {
 	data := models.DhcpSnooping{}
-	if !d.AllNetworks.IsNull() && !d.AllNetworks.IsUnknown() {
+	if d.AllNetworks.ValueBoolPointer() != nil {
 		data.AllNetworks = models.ToPointer(d.AllNetworks.ValueBool())
 	}
-	if !d.EnableArpSpoofCheck.IsNull() && !d.EnableArpSpoofCheck.IsUnknown() {
+	if d.EnableArpSpoofCheck.ValueBoolPointer() != nil {
 		data.EnableArpSpoofCheck = models.ToPointer(d.EnableArpSpoofCheck.ValueBool())
 	}
-	if !d.EnableIpSourceGuard.IsNull() && !d.EnableIpSourceGuard.IsUnknown() {
+	if d.EnableIpSourceGuard.ValueBoolPointer() != nil {
 		data.EnableIpSourceGuard = models.ToPointer(d.EnableIpSourceGuard.ValueBool())
 	}
-	if !d.Enabled.IsNull() && !d.Enabled.IsUnknown() {
+	if d.Enabled.ValueBoolPointer() != nil {
 		data.Enabled = models.ToPointer(d.Enabled.ValueBool())
 	}
 	if !d.Networks.IsNull() && !d.Networks.IsUnknown() {

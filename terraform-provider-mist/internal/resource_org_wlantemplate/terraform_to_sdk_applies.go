@@ -13,7 +13,7 @@ import (
 func appliesTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, plan AppliesValue) *models.TemplateApplies {
 
 	data := models.TemplateApplies{}
-	if !plan.OrgId.IsNull() && !plan.OrgId.IsUnknown() {
+	if plan.OrgId.ValueStringPointer() != nil {
 		data.OrgId = models.ToPointer(uuid.MustParse(plan.OrgId.ValueString()))
 	}
 	if !plan.SiteIds.IsNull() && !plan.SiteIds.IsUnknown() {

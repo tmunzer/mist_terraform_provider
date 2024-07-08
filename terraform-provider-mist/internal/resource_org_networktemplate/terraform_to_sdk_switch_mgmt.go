@@ -18,10 +18,10 @@ func switchMgmtProtectReCustomTerraformToSdk(ctx context.Context, diags *diag.Di
 		item_obj := item_interface.(CustomValue)
 
 		data_item := models.ProtectReCustom{}
-		if !item_obj.PortRange.IsNull() && !item_obj.PortRange.IsUnknown() {
+		if item_obj.PortRange.ValueStringPointer() != nil {
 			data_item.PortRange = models.ToPointer(item_obj.PortRange.ValueString())
 		}
-		if !item_obj.Protocol.IsNull() && !item_obj.Protocol.IsUnknown() {
+		if item_obj.Protocol.ValueStringPointer() != nil {
 			data_item.Protocol = models.ToPointer(models.ProtectReCustomProtocolEnum(item_obj.Protocol.ValueString()))
 		}
 		if !item_obj.Subnet.IsNull() && !item_obj.Subnet.IsUnknown() {
@@ -48,7 +48,7 @@ func switchMgmtProtectReTerraformToSdk(ctx context.Context, diags *diag.Diagnost
 		if !item_obj.Custom.IsNull() && !item_obj.Custom.IsUnknown() {
 			data.Custom = switchMgmtProtectReCustomTerraformToSdk(ctx, diags, item_obj.Custom)
 		}
-		if !item_obj.Enabled.IsNull() && !item_obj.Enabled.IsUnknown() {
+		if item_obj.Enabled.ValueBoolPointer() != nil {
 			data.Enabled = models.ToPointer(item_obj.Enabled.ValueBool())
 		}
 		if !item_obj.TrustedHosts.IsNull() && !item_obj.TrustedHosts.IsUnknown() {
@@ -65,16 +65,16 @@ func TacacsAcctServersTerraformToSdk(ctx context.Context, diags *diag.Diagnostic
 		srv_plan := srv_plan_interface.(TacacctServersValue)
 
 		srv_data := models.TacacsAcctServer{}
-		if !srv_plan.Host.IsNull() && !srv_plan.Host.IsUnknown() {
+		if srv_plan.Host.ValueStringPointer() != nil {
 			srv_data.Host = srv_plan.Host.ValueStringPointer()
 		}
-		if !srv_plan.Port.IsNull() && !srv_plan.Port.IsUnknown() {
+		if srv_plan.Port.ValueStringPointer() != nil {
 			srv_data.Port = srv_plan.Port.ValueStringPointer()
 		}
-		if !srv_plan.Secret.IsNull() && !srv_plan.Secret.IsUnknown() {
+		if srv_plan.Secret.ValueStringPointer() != nil {
 			srv_data.Secret = srv_plan.Secret.ValueStringPointer()
 		}
-		if !srv_plan.Timeout.IsNull() && !srv_plan.Timeout.IsUnknown() {
+		if srv_plan.Timeout.ValueInt64Pointer() != nil {
 			srv_data.Timeout = models.ToPointer(int(srv_plan.Timeout.ValueInt64()))
 		}
 		data = append(data, srv_data)
@@ -89,16 +89,16 @@ func TacacsAuthServersTerraformToSdk(ctx context.Context, diags *diag.Diagnostic
 		srv_plan := srv_plan_interface.(TacplusServersValue)
 
 		srv_data := models.TacacsAuthServer{}
-		if !srv_plan.Host.IsNull() && !srv_plan.Host.IsUnknown() {
+		if srv_plan.Host.ValueStringPointer() != nil {
 			srv_data.Host = srv_plan.Host.ValueStringPointer()
 		}
-		if !srv_plan.Port.IsNull() && !srv_plan.Port.IsUnknown() {
+		if srv_plan.Port.ValueStringPointer() != nil {
 			srv_data.Port = srv_plan.Port.ValueStringPointer()
 		}
-		if !srv_plan.Secret.IsNull() && !srv_plan.Secret.IsUnknown() {
+		if srv_plan.Secret.ValueStringPointer() != nil {
 			srv_data.Secret = srv_plan.Secret.ValueStringPointer()
 		}
-		if !srv_plan.Timeout.IsNull() && !srv_plan.Timeout.IsUnknown() {
+		if srv_plan.Timeout.ValueInt64Pointer() != nil {
 			srv_data.Timeout = models.ToPointer(int(srv_plan.Timeout.ValueInt64()))
 		}
 		data = append(data, srv_data)
@@ -117,10 +117,10 @@ func switchMgmtTacacsTerraformToSdk(ctx context.Context, diags *diag.Diagnostics
 		var item_interface interface{} = item
 		item_obj := item_interface.(TacacsValue)
 
-		if !item_obj.Enabled.IsNull() && !item_obj.Enabled.IsUnknown() {
+		if item_obj.Enabled.ValueBoolPointer() != nil {
 			data.Enabled = models.ToPointer(item_obj.Enabled.ValueBool())
 		}
-		if !item_obj.Network.IsNull() && !item_obj.Network.IsUnknown() {
+		if item_obj.Network.ValueStringPointer() != nil {
 			data.Network = models.ToPointer(item_obj.Network.ValueString())
 		}
 		if !item_obj.TacacctServers.IsNull() && !item_obj.TacacctServers.IsUnknown() {
@@ -129,7 +129,7 @@ func switchMgmtTacacsTerraformToSdk(ctx context.Context, diags *diag.Diagnostics
 		if !item_obj.TacplusServers.IsNull() && !item_obj.TacplusServers.IsUnknown() {
 			data.TacplusServers = TacacsAuthServersTerraformToSdk(ctx, diags, item_obj.TacplusServers)
 		}
-		if !item_obj.DefaultRole.IsNull() && !item_obj.DefaultRole.IsUnknown() {
+		if item_obj.DefaultRole.ValueStringPointer() != nil {
 			data.DefaultRole = models.ToPointer(models.TacacsDefaultRoleEnum(item_obj.DefaultRole.ValueString()))
 		}
 
@@ -143,13 +143,13 @@ func switchMgmtTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d Sw
 		return &data
 	} else {
 
-		if !d.ConfigRevert.IsNull() && !d.ConfigRevert.IsUnknown() {
+		if d.ConfigRevert.ValueInt64Pointer() != nil {
 			data.ConfigRevert = models.ToPointer(int(d.ConfigRevert.ValueInt64()))
 		}
 		if !d.ProtectRe.IsNull() && !d.ProtectRe.IsUnknown() {
 			data.ProtectRe = switchMgmtProtectReTerraformToSdk(ctx, diags, d.ProtectRe)
 		}
-		if !d.RootPassword.IsNull() && !d.RootPassword.IsUnknown() {
+		if d.RootPassword.ValueStringPointer() != nil {
 			data.RootPassword = models.ToPointer(d.RootPassword.ValueString())
 		}
 		if !d.Tacacs.IsNull() && !d.Tacacs.IsUnknown() {

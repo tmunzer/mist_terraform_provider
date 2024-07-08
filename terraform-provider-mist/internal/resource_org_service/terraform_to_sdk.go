@@ -18,11 +18,11 @@ func actTagSpecsTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d b
 		v_state := v_interface.(SpecsValue)
 		v_data := models.ServiceSpec{}
 
-		if !v_state.PortRange.IsNull() && !v_state.PortRange.IsUnknown() {
+		if v_state.PortRange.ValueStringPointer() != nil {
 			v_data.PortRange = v_state.PortRange.ValueStringPointer()
 		}
 
-		if !v_state.Protocol.IsNull() && !v_state.Protocol.IsUnknown() {
+		if v_state.Protocol.ValueStringPointer() != nil {
 			v_data.Protocol = v_state.Protocol.ValueStringPointer()
 		}
 		data = append(data, v_data)
@@ -49,40 +49,40 @@ func TerraformToSdk(ctx context.Context, plan *OrgServiceModel) (models.Service,
 	if !plan.Apps.IsNull() && !plan.Apps.IsUnknown() {
 		data.Apps = mist_transform.ListOfStringTerraformToSdk(ctx, plan.Apps)
 	}
-	if !plan.Description.IsNull() && !plan.Description.IsUnknown() {
+	if plan.Description.ValueStringPointer() != nil {
 		data.Description = plan.Description.ValueStringPointer()
 	}
-	if !plan.Dscp.IsNull() && !plan.Dscp.IsUnknown() {
+	if plan.Dscp.ValueInt64Pointer() != nil {
 		data.Dscp = models.ToPointer(int(plan.Dscp.ValueInt64()))
 	}
-	if !plan.FailoverPolicy.IsNull() && !plan.FailoverPolicy.IsUnknown() {
+	if plan.FailoverPolicy.ValueStringPointer() != nil {
 		data.FailoverPolicy = models.ToPointer(models.ServiceFailoverPolicyEnum(plan.FailoverPolicy.ValueString()))
 	}
 	if !plan.Hostnames.IsNull() && !plan.Hostnames.IsUnknown() {
 		data.Hostnames = mist_transform.ListOfStringTerraformToSdk(ctx, plan.Hostnames)
 	}
-	if !plan.MaxJitter.IsNull() && !plan.MaxJitter.IsUnknown() {
+	if plan.MaxJitter.ValueInt64Pointer() != nil {
 		data.MaxJitter = models.ToPointer(int(plan.MaxJitter.ValueInt64()))
 	}
-	if !plan.MaxLatency.IsNull() && !plan.MaxLatency.IsUnknown() {
+	if plan.MaxLatency.ValueInt64Pointer() != nil {
 		data.MaxLatency = models.ToPointer(int(plan.MaxLatency.ValueInt64()))
 	}
-	if !plan.MaxLoss.IsNull() && !plan.MaxLoss.IsUnknown() {
+	if plan.MaxLoss.ValueInt64Pointer() != nil {
 		data.MaxLoss = models.ToPointer(int(plan.MaxLoss.ValueInt64()))
 	}
-	if !plan.SleEnabled.IsNull() && !plan.SleEnabled.IsUnknown() {
+	if plan.SleEnabled.ValueBoolPointer() != nil {
 		data.SleEnabled = plan.SleEnabled.ValueBoolPointer()
 	}
-	if !plan.SsrRelaxedTcpStateEnforcement.IsNull() && !plan.SsrRelaxedTcpStateEnforcement.IsUnknown() {
+	if plan.SsrRelaxedTcpStateEnforcement.ValueBoolPointer() != nil {
 		data.SsrRelaxedTcpStateEnforcement = plan.SsrRelaxedTcpStateEnforcement.ValueBoolPointer()
 	}
-	if !plan.TrafficClass.IsNull() && !plan.TrafficClass.IsUnknown() {
+	if plan.TrafficClass.ValueStringPointer() != nil {
 		data.TrafficClass = models.ToPointer(models.ServiceTrafficClassEnum(plan.TrafficClass.ValueString()))
 	}
-	if !plan.TrafficType.IsNull() && !plan.TrafficType.IsUnknown() {
+	if plan.TrafficType.ValueStringPointer() != nil {
 		data.TrafficType = plan.TrafficType.ValueStringPointer()
 	}
-	if !plan.Type.IsNull() && !plan.Type.IsUnknown() {
+	if plan.Type.ValueStringPointer() != nil {
 		data.Type = (*models.ServiceTypeEnum)(plan.Type.ValueStringPointer())
 	}
 	if !plan.Urls.IsNull() && !plan.Urls.IsUnknown() {

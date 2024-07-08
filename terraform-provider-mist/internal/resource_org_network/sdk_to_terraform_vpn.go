@@ -20,8 +20,8 @@ func VpnSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, m map[strin
 		var allow_ping basetypes.BoolValue
 		var destination_nat basetypes.MapValue = types.MapNull(DestinationNatValue{}.Type(ctx))
 		var nat_pool basetypes.StringValue
-		var no_readvertise_to_lan_bgp basetypes.BoolValue
-		var no_readvertise_to_lan_ospf basetypes.BoolValue
+		var no_readvertise_to_lan_bgp basetypes.BoolValue = types.BoolValue(false)
+		var no_readvertise_to_lan_ospf basetypes.BoolValue = types.BoolValue(false)
 		var no_readvertise_to_overlay basetypes.BoolValue
 		var other_vrfs basetypes.ListValue = mist_transform.ListOfStringSdkToTerraformEmpty(ctx)
 		var routed basetypes.BoolValue
@@ -37,7 +37,7 @@ func VpnSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, m map[strin
 		if d.AllowPing != nil {
 			allow_ping = types.BoolValue(*d.AllowPing)
 		}
-		if d.DestinationNat != nil {
+		if d.DestinationNat != nil && len(d.DestinationNat) > 0 {
 			destination_nat = destinationNatSdkToTerraform(ctx, diags, d.DestinationNat)
 		}
 		if d.NatPool != nil {
@@ -61,7 +61,7 @@ func VpnSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, m map[strin
 		if d.SourceNat != nil {
 			source_nat = sourceNatSdkToTerraform(ctx, diags, d.SourceNat)
 		}
-		if d.StaticNat != nil {
+		if d.StaticNat != nil && len(d.StaticNat) > 0 {
 			static_nat = staticNatSdkToTerraform(ctx, diags, d.StaticNat)
 		}
 		if d.SummarizedSubnet != nil {

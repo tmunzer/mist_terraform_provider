@@ -10,10 +10,10 @@ import (
 
 func mistNacTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d MistNacValue) *models.SwitchMistNac {
 	data := models.SwitchMistNac{}
-	if !d.Enabled.IsNull() && !d.Enabled.IsUnknown() {
+	if d.Enabled.ValueBoolPointer() != nil {
 		data.Enabled = models.ToPointer(d.Enabled.ValueBool())
 	}
-	if !d.Network.IsNull() && !d.Network.IsUnknown() {
+	if d.Network.ValueStringPointer() != nil {
 		data.Network = models.ToPointer(d.Network.ValueString())
 	}
 	return &data

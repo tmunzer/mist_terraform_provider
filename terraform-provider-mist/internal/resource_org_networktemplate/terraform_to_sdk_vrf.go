@@ -13,7 +13,7 @@ import (
 
 func vrfConfigTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d VrfConfigValue) *models.VrfConfig {
 	data := models.VrfConfig{}
-	if !d.Enabled.IsNull() && !d.Enabled.IsUnknown() {
+	if d.Enabled.ValueBoolPointer() != nil {
 		data.Enabled = models.ToPointer(d.Enabled.ValueBool())
 	}
 	return &data
@@ -26,7 +26,7 @@ func vrfInstanceExtraRouteTerraformToSdk(ctx context.Context, diags *diag.Diagno
 		item_obj := item_interface.(ExtraRoutesValue)
 
 		data_item := models.VrfExtraRoute{}
-		if !item_obj.Via.IsNull() && !item_obj.Via.IsUnknown() {
+		if item_obj.Via.ValueStringPointer() != nil {
 			data_item.Via = models.ToPointer(item_obj.Via.ValueString())
 		}
 		data[item_name] = data_item

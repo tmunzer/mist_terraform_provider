@@ -24,7 +24,7 @@ func SiteResourceSchema(ctx context.Context) schema.Schema {
 				MarkdownDescription: "full address of the site",
 			},
 			"alarmtemplate_id": schema.StringAttribute{
-				Computed:            true,
+				Optional:            true,
 				Description:         "Alarm Template ID, this takes precedence over the Org-level alarmtemplate_id",
 				MarkdownDescription: "Alarm Template ID, this takes precedence over the Org-level alarmtemplate_id",
 			},

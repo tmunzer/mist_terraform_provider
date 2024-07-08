@@ -18,10 +18,10 @@ func aclPolicyActionsTerraformToSdk(ctx context.Context, diags *diag.Diagnostics
 		var v_interface interface{} = v
 		v_plan := v_interface.(ActionsValue)
 		data_item := models.AclPolicyAction{}
-		if !v_plan.Action.IsNull() && !v_plan.Action.IsUnknown() {
+		if v_plan.Action.ValueStringPointer() != nil {
 			data_item.Action = models.ToPointer(models.AllowDenyEnum(v_plan.Action.ValueString()))
 		}
-		if !v_plan.DstTag.IsNull() && !v_plan.DstTag.IsUnknown() {
+		if v_plan.DstTag.ValueStringPointer() != nil {
 			data_item.DstTag = models.ToPointer(v_plan.DstTag.ValueString())
 		}
 		data = append(data, data_item)
@@ -36,7 +36,7 @@ func aclPoliciesTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d b
 		var v_interface interface{} = v
 		v_plan := v_interface.(AclPoliciesValue)
 		data_item := models.AclPolicy{}
-		if !v_plan.Name.IsNull() && !v_plan.Name.IsUnknown() {
+		if v_plan.Name.ValueStringPointer() != nil {
 			data_item.Name = models.ToPointer(v_plan.Name.ValueString())
 		}
 		if !v_plan.Actions.IsNull() && !v_plan.Actions.IsUnknown() {

@@ -17,7 +17,7 @@ func TerraformToSdk(ctx context.Context, plan *SiteSettingModel) (*models.SiteSe
 
 	// data.Analytic = analyticTerraformToSdk(ctx, &diags, plan.Analytic)
 
-	if !plan.ApUpdownThreshold.IsNull() && !plan.ApUpdownThreshold.IsUnknown() {
+	if plan.ApUpdownThreshold.ValueInt64Pointer() != nil {
 		data.ApUpdownThreshold = models.NewOptional(models.ToPointer(int(plan.ApUpdownThreshold.ValueInt64())))
 	} else {
 		unset["-ap_updown_threshold"] = ""
@@ -35,7 +35,7 @@ func TerraformToSdk(ctx context.Context, plan *SiteSettingModel) (*models.SiteSe
 		unset["-ble_config"] = ""
 	}
 
-	if !plan.ConfigAutoRevert.IsNull() && !plan.ConfigAutoRevert.IsUnknown() {
+	if plan.ConfigAutoRevert.ValueBoolPointer() != nil {
 		data.ConfigAutoRevert = plan.ConfigAutoRevert.ValueBoolPointer()
 	} else {
 		unset["-config_auto_revert"] = ""
@@ -53,7 +53,7 @@ func TerraformToSdk(ctx context.Context, plan *SiteSettingModel) (*models.SiteSe
 		unset["-critical_url_monitoring"] = ""
 	}
 
-	if !plan.DeviceUpdownThreshold.IsNull() && !plan.DeviceUpdownThreshold.IsUnknown() {
+	if plan.DeviceUpdownThreshold.ValueInt64Pointer() != nil {
 		data.DeviceUpdownThreshold = models.ToPointer(int(plan.DeviceUpdownThreshold.ValueInt64()))
 	} else {
 		unset["-device_updown_threshold"] = ""
@@ -71,7 +71,7 @@ func TerraformToSdk(ctx context.Context, plan *SiteSettingModel) (*models.SiteSe
 		unset["-engagement"] = ""
 	}
 
-	if !plan.GatewayUpdownThreshold.IsNull() && !plan.GatewayUpdownThreshold.IsUnknown() {
+	if plan.GatewayUpdownThreshold.ValueInt64Pointer() != nil {
 		data.GatewayUpdownThreshold = models.NewOptional(models.ToPointer(int(plan.GatewayUpdownThreshold.ValueInt64())))
 	} else {
 		unset["-gateway_updown_threshold"] = ""
@@ -90,7 +90,7 @@ func TerraformToSdk(ctx context.Context, plan *SiteSettingModel) (*models.SiteSe
 		unset["-occupancy"] = ""
 	}
 
-	if !plan.PersistConfigOnDevice.IsNull() && !plan.PersistConfigOnDevice.IsUnknown() {
+	if plan.PersistConfigOnDevice.ValueBoolPointer() != nil {
 		data.PersistConfigOnDevice = plan.PersistConfigOnDevice.ValueBoolPointer()
 	} else {
 		unset["-persist_config_on_device"] = ""
@@ -103,7 +103,7 @@ func TerraformToSdk(ctx context.Context, plan *SiteSettingModel) (*models.SiteSe
 
 	}
 
-	if !plan.ReportGatt.IsNull() && !plan.ReportGatt.IsUnknown() {
+	if plan.ReportGatt.ValueBoolPointer() != nil {
 		data.ReportGatt = plan.ReportGatt.ValueBoolPointer()
 	} else {
 		unset["-report_gatt"] = ""
@@ -145,7 +145,7 @@ func TerraformToSdk(ctx context.Context, plan *SiteSettingModel) (*models.SiteSe
 		unset["-ssr"] = ""
 	}
 
-	if !plan.SwitchUpdownThreshold.IsNull() && !plan.SwitchUpdownThreshold.IsUnknown() {
+	if plan.SwitchUpdownThreshold.ValueInt64Pointer() != nil {
 		data.SwitchUpdownThreshold = models.NewOptional(models.ToPointer(int(plan.SwitchUpdownThreshold.ValueInt64())))
 	} else {
 		unset["-switch_updown_threshold"] = ""
@@ -157,7 +157,7 @@ func TerraformToSdk(ctx context.Context, plan *SiteSettingModel) (*models.SiteSe
 		unset["-synthetic_test"] = ""
 	}
 
-	if !plan.TrackAnonymousDevices.IsNull() && !plan.TrackAnonymousDevices.IsUnknown() {
+	if plan.TrackAnonymousDevices.ValueBoolPointer() != nil {
 		data.TrackAnonymousDevices = plan.TrackAnonymousDevices.ValueBoolPointer()
 	} else {
 		unset["-track_anonymous_devices"] = ""

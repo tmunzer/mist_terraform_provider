@@ -19,9 +19,15 @@ func ipConfigsTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d bas
 		plan := v_interface.(IpConfigsValue)
 
 		data := models.GatewayTemplateIpConfig{}
-		data.Ip = models.ToPointer(plan.Ip.ValueString())
-		data.Netmask = models.ToPointer(plan.Netmask.ValueString())
-		data.SecondaryIps = mist_transform.ListOfStringTerraformToSdk(ctx, plan.SecondaryIps)
+		if plan.Ip.ValueStringPointer() != nil {
+			data.Ip = models.ToPointer(plan.Ip.ValueString())
+		}
+		if plan.Netmask.ValueStringPointer() != nil {
+			data.Netmask = models.ToPointer(plan.Netmask.ValueString())
+		}
+		if !plan.SecondaryIps.IsNull() && !plan.SecondaryIps.IsUnknown() {
+			data.SecondaryIps = mist_transform.ListOfStringTerraformToSdk(ctx, plan.SecondaryIps)
+		}
 
 		data_map[k] = data
 	}

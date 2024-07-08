@@ -18,8 +18,12 @@ func tunnelProviderOptionsJseTerraformToSdk(ctx context.Context, diags *diag.Dia
 		return data
 	} else {
 		plan := NewJseValueMust(d.AttributeTypes(ctx), d.Attributes())
-		data.Name = plan.Name.ValueStringPointer()
-		data.NumUsers = models.ToPointer(int(plan.NumUsers.ValueInt64()))
+		if plan.Name.ValueStringPointer() != nil {
+			data.Name = plan.Name.ValueStringPointer()
+		}
+		if plan.NumUsers.ValueInt64Pointer() != nil {
+			data.NumUsers = models.ToPointer(int(plan.NumUsers.ValueInt64()))
+		}
 		return data
 	}
 }
@@ -31,15 +35,33 @@ func tunnelProviderOptionsZscalerSubLocationTerraformToSdk(ctx context.Context, 
 		var v_interface interface{} = v
 		plan := v_interface.(SubLocationsValue)
 		data := models.TunnelProviderOptionsZscalerSubLocation{}
-		data.AupAcceptanceRequired = plan.AupAcceptanceRequired.ValueBoolPointer()
-		data.AupExpire = models.ToPointer(int(plan.AupExpire.ValueInt64()))
-		data.AupSslProxy = plan.AupSslProxy.ValueBoolPointer()
-		data.DownloadMbps = models.ToPointer(int(plan.DownloadMbps.ValueInt64()))
-		data.EnableAup = plan.EnableAup.ValueBoolPointer()
-		data.EnableCaution = plan.EnableCaution.ValueBoolPointer()
-		data.EnforceAuthentication = plan.EnforceAuthentication.ValueBoolPointer()
-		data.Subnets = mist_transform.ListOfStringTerraformToSdk(ctx, plan.Subnets)
-		data.UploadMbps = models.ToPointer(int(plan.UploadMbps.ValueInt64()))
+		if plan.AupAcceptanceRequired.ValueBoolPointer() != nil {
+			data.AupAcceptanceRequired = plan.AupAcceptanceRequired.ValueBoolPointer()
+		}
+		if plan.AupExpire.ValueInt64Pointer() != nil {
+			data.AupExpire = models.ToPointer(int(plan.AupExpire.ValueInt64()))
+		}
+		if plan.AupSslProxy.ValueBoolPointer() != nil {
+			data.AupSslProxy = plan.AupSslProxy.ValueBoolPointer()
+		}
+		if plan.DownloadMbps.ValueInt64Pointer() != nil {
+			data.DownloadMbps = models.ToPointer(int(plan.DownloadMbps.ValueInt64()))
+		}
+		if plan.EnableAup.ValueBoolPointer() != nil {
+			data.EnableAup = plan.EnableAup.ValueBoolPointer()
+		}
+		if plan.EnableCaution.ValueBoolPointer() != nil {
+			data.EnableCaution = plan.EnableCaution.ValueBoolPointer()
+		}
+		if plan.EnforceAuthentication.ValueBoolPointer() != nil {
+			data.EnforceAuthentication = plan.EnforceAuthentication.ValueBoolPointer()
+		}
+		if !plan.Subnets.IsNull() && !plan.Subnets.IsUnknown() {
+			data.Subnets = mist_transform.ListOfStringTerraformToSdk(ctx, plan.Subnets)
+		}
+		if plan.UploadMbps.ValueInt64Pointer() != nil {
+			data.UploadMbps = models.ToPointer(int(plan.UploadMbps.ValueInt64()))
+		}
 
 		data_list = append(data_list, data)
 	}
@@ -53,20 +75,42 @@ func tunnelProviderOptionsZscalerTerraformToSdk(ctx context.Context, diags *diag
 		return data
 	} else {
 		plan := NewZscalerValueMust(d.AttributeTypes(ctx), d.Attributes())
-		data.AupAcceptanceRequired = plan.AupAcceptanceRequired.ValueBoolPointer()
-		data.AupExpire = models.ToPointer(int(plan.AupExpire.ValueInt64()))
-		data.AupSslProxy = plan.AupSslProxy.ValueBoolPointer()
-		data.DownloadMbps = models.ToPointer(int(plan.DownloadMbps.ValueInt64()))
-		data.EnableAup = plan.EnableAup.ValueBoolPointer()
-		data.EnableCaution = plan.EnableCaution.ValueBoolPointer()
-		data.EnforceAuthentication = plan.EnforceAuthentication.ValueBoolPointer()
-		data.Name = plan.Name.ValueStringPointer()
+		if plan.AupAcceptanceRequired.ValueBoolPointer() != nil {
+			data.AupAcceptanceRequired = plan.AupAcceptanceRequired.ValueBoolPointer()
+		}
+		if plan.AupExpire.ValueInt64Pointer() != nil {
+			data.AupExpire = models.ToPointer(int(plan.AupExpire.ValueInt64()))
+		}
+		if plan.AupSslProxy.ValueBoolPointer() != nil {
+			data.AupSslProxy = plan.AupSslProxy.ValueBoolPointer()
+		}
+		if plan.DownloadMbps.ValueInt64Pointer() != nil {
+			data.DownloadMbps = models.ToPointer(int(plan.DownloadMbps.ValueInt64()))
+		}
+		if plan.EnableAup.ValueBoolPointer() != nil {
+			data.EnableAup = plan.EnableAup.ValueBoolPointer()
+		}
+		if plan.EnableCaution.ValueBoolPointer() != nil {
+			data.EnableCaution = plan.EnableCaution.ValueBoolPointer()
+		}
+		if plan.EnforceAuthentication.ValueBoolPointer() != nil {
+			data.EnforceAuthentication = plan.EnforceAuthentication.ValueBoolPointer()
+		}
+		if plan.Name.ValueStringPointer() != nil {
+			data.Name = plan.Name.ValueStringPointer()
+		}
 
 		sub_locations := tunnelProviderOptionsZscalerSubLocationTerraformToSdk(ctx, diags, plan.SubLocations)
-		data.SubLocations = sub_locations
+		if !plan.SubLocations.IsNull() && !plan.SubLocations.IsUnknown() {
+			data.SubLocations = sub_locations
+		}
 
-		data.UploadMbps = models.ToPointer(int(plan.UploadMbps.ValueInt64()))
-		data.UseXff = plan.UseXff.ValueBoolPointer()
+		if plan.UploadMbps.ValueInt64Pointer() != nil {
+			data.UploadMbps = models.ToPointer(int(plan.UploadMbps.ValueInt64()))
+		}
+		if plan.UseXff.ValueBoolPointer() != nil {
+			data.UseXff = plan.UseXff.ValueBoolPointer()
+		}
 
 		return data
 	}
@@ -78,10 +122,14 @@ func tunnelProviderOptionsTerraformToSdk(ctx context.Context, diags *diag.Diagno
 	data := models.TunnelProviderOptions{}
 
 	jse := tunnelProviderOptionsJseTerraformToSdk(ctx, diags, d.Jse)
-	data.Jse = &jse
+	if !d.Jse.IsNull() && !d.Jse.IsUnknown() {
+		data.Jse = &jse
+	}
 
 	zscaler := tunnelProviderOptionsZscalerTerraformToSdk(ctx, diags, d.Zscaler)
-	data.Zscaler = &zscaler
+	if !d.Zscaler.IsNull() && !d.Zscaler.IsUnknown() {
+		data.Zscaler = &zscaler
+	}
 
 	return data
 }

@@ -17,7 +17,7 @@ func SdkToTerraform(ctx context.Context, data *models.Wlan) (OrgWlanModel, diag.
 	if data.AcctImmediateUpdate != nil {
 		state.AcctImmediateUpdate = types.BoolValue(*data.AcctImmediateUpdate)
 	} else {
-		state.AcctImmediateUpdate = types.BoolNull()
+		state.AcctImmediateUpdate = types.BoolValue(false)
 	}
 
 	if data.AcctInterimInterval != nil {
@@ -37,13 +37,13 @@ func SdkToTerraform(ctx context.Context, data *models.Wlan) (OrgWlanModel, diag.
 	if data.AllowIpv6Ndp != nil {
 		state.AllowIpv6Ndp = types.BoolValue(*data.AllowIpv6Ndp)
 	} else {
-		state.AllowIpv6Ndp = types.BoolNull()
+		state.AllowIpv6Ndp = types.BoolValue(true)
 	}
 
 	if data.AllowMdns != nil {
 		state.AllowMdns = types.BoolValue(*data.AllowMdns)
 	} else {
-		state.AllowMdns = types.BoolNull()
+		state.AllowMdns = types.BoolValue(false)
 	}
 
 	if data.AllowSsdp != nil {

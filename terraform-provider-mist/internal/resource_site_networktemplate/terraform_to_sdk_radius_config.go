@@ -20,16 +20,16 @@ func radiusAcctServersTerraformToSdk(ctx context.Context, diags *diag.Diagnostic
 		srv_data.Host = srv_plan.Host.ValueString()
 		srv_data.Port = models.ToPointer(int(srv_plan.Port.ValueInt64()))
 		srv_data.Secret = srv_plan.Secret.ValueString()
-		if !srv_plan.KeywrapEnabled.IsNull() && !srv_plan.KeywrapEnabled.IsUnknown() {
+		if srv_plan.KeywrapEnabled.ValueBoolPointer() != nil {
 			srv_data.KeywrapEnabled = models.ToPointer(srv_plan.KeywrapEnabled.ValueBool())
 		}
-		if !srv_plan.KeywrapFormat.IsNull() && !srv_plan.KeywrapFormat.IsUnknown() {
+		if srv_plan.KeywrapFormat.ValueStringPointer() != nil {
 			srv_data.KeywrapFormat = models.ToPointer(models.RadiusKeywrapFormatEnum(srv_plan.KeywrapFormat.ValueString()))
 		}
-		if !srv_plan.KeywrapKek.IsNull() && !srv_plan.KeywrapKek.IsUnknown() {
+		if srv_plan.KeywrapKek.ValueStringPointer() != nil {
 			srv_data.KeywrapKek = models.ToPointer(srv_plan.KeywrapKek.ValueString())
 		}
-		if !srv_plan.KeywrapMack.IsNull() && !srv_plan.KeywrapMack.IsUnknown() {
+		if srv_plan.KeywrapMack.ValueStringPointer() != nil {
 			srv_data.KeywrapMack = models.ToPointer(srv_plan.KeywrapMack.ValueString())
 		}
 		data = append(data, srv_data)
@@ -48,16 +48,16 @@ func radiusAuthServersTerraformToSdk(ctx context.Context, diags *diag.Diagnostic
 		srv_data.Host = srv_plan.Host.ValueString()
 		srv_data.Port = models.ToPointer(int(srv_plan.Port.ValueInt64()))
 		srv_data.Secret = srv_plan.Secret.ValueString()
-		if !srv_plan.KeywrapEnabled.IsNull() && !srv_plan.KeywrapEnabled.IsUnknown() {
+		if srv_plan.KeywrapEnabled.ValueBoolPointer() != nil {
 			srv_data.KeywrapEnabled = models.ToPointer(srv_plan.KeywrapEnabled.ValueBool())
 		}
-		if !srv_plan.KeywrapFormat.IsNull() && !srv_plan.KeywrapFormat.IsUnknown() {
+		if srv_plan.KeywrapFormat.ValueStringPointer() != nil {
 			srv_data.KeywrapFormat = models.ToPointer(models.RadiusKeywrapFormatEnum(srv_plan.KeywrapFormat.ValueString()))
 		}
-		if !srv_plan.KeywrapKek.IsNull() && !srv_plan.KeywrapKek.IsUnknown() {
+		if srv_plan.KeywrapKek.ValueStringPointer() != nil {
 			srv_data.KeywrapKek = models.ToPointer(srv_plan.KeywrapKek.ValueString())
 		}
-		if !srv_plan.KeywrapMack.IsNull() && !srv_plan.KeywrapMack.IsUnknown() {
+		if srv_plan.KeywrapMack.ValueStringPointer() != nil {
 			srv_data.KeywrapMack = models.ToPointer(srv_plan.KeywrapMack.ValueString())
 		}
 		data = append(data, srv_data)
@@ -68,28 +68,28 @@ func radiusAuthServersTerraformToSdk(ctx context.Context, diags *diag.Diagnostic
 func radiusConfigTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d RadiusConfigValue) *models.RadiusConfig {
 
 	data := models.RadiusConfig{}
-	if !d.AcctInterimInterval.IsNull() && !d.AcctInterimInterval.IsUnknown() {
+	if d.AcctInterimInterval.ValueInt64Pointer() != nil {
 		data.AcctInterimInterval = models.ToPointer(int(d.AcctInterimInterval.ValueInt64()))
 	}
 	if !d.AcctServers.IsNull() && !d.AcctServers.IsUnknown() {
 		data.AcctServers = radiusAcctServersTerraformToSdk(ctx, diags, d.AcctServers)
 	}
-	if !d.AuthServersRetries.IsNull() && !d.AuthServersRetries.IsUnknown() {
+	if d.AuthServersRetries.ValueInt64Pointer() != nil {
 		data.AuthServersRetries = models.ToPointer(int(d.AuthServersRetries.ValueInt64()))
 	}
-	if !d.AuthServersTimeout.IsNull() && !d.AuthServersTimeout.IsUnknown() {
+	if d.AuthServersTimeout.ValueInt64Pointer() != nil {
 		data.AuthServersTimeout = models.ToPointer(int(d.AuthServersTimeout.ValueInt64()))
 	}
-	if !d.CoaEnabled.IsNull() && !d.CoaEnabled.IsUnknown() {
+	if d.CoaEnabled.ValueBoolPointer() != nil {
 		data.CoaEnabled = models.ToPointer(d.CoaEnabled.ValueBool())
 	}
-	if !d.CoaPort.IsNull() && !d.CoaPort.IsUnknown() {
+	if d.CoaPort.ValueInt64Pointer() != nil {
 		data.CoaPort = models.ToPointer(int(d.CoaPort.ValueInt64()))
 	}
-	if !d.Network.IsNull() && !d.Network.IsUnknown() {
+	if d.Network.ValueStringPointer() != nil {
 		data.Network = models.ToPointer(d.Network.ValueString())
 	}
-	if !d.SourceIp.IsNull() && !d.SourceIp.IsUnknown() {
+	if d.SourceIp.ValueStringPointer() != nil {
 		data.SourceIp = models.ToPointer(d.SourceIp.ValueString())
 	}
 	if !d.AuthServers.IsNull() && !d.AuthServers.IsUnknown() {

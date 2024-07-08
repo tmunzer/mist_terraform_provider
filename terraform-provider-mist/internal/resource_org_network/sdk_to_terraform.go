@@ -68,13 +68,13 @@ func SdkToTerraform(ctx context.Context, data models.Network) (OrgNetworkModel, 
 	if data.Subnet6 != nil {
 		subnet6 = types.StringValue(*data.Subnet6)
 	}
-	if data.Tenants != nil {
+	if data.Tenants != nil && len(data.Tenants) > 0 {
 		tenants = TenantSdkToTerraform(ctx, &diags, data.Tenants)
 	}
 	if data.VlanId != nil {
 		vlan_id = types.Int64Value(int64(*data.VlanId))
 	}
-	if data.VpnAccess != nil {
+	if data.VpnAccess != nil && len(data.VpnAccess) > 0 {
 		vpn_access = VpnSdkToTerraform(ctx, &diags, data.VpnAccess)
 	}
 

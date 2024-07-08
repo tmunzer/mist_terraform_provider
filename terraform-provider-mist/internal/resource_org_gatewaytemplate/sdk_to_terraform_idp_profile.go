@@ -61,7 +61,7 @@ func idpProfileOverwritesSdkToTerraform(ctx context.Context, diags *diag.Diagnos
 	var data_list = []OverwritesValue{}
 
 	for _, d := range l {
-		var action basetypes.StringValue
+		var action basetypes.StringValue = types.StringValue("alert")
 		var matching basetypes.ObjectValue = types.ObjectNull(IpdProfileOverwriteMatchingValue{}.AttributeTypes(ctx))
 
 		if d.Action != nil {

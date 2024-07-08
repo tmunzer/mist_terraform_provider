@@ -16,7 +16,7 @@ import (
 
 func servicePolicyAppQoESdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d *models.ServicePolicyAppqoe) basetypes.ObjectValue {
 	tflog.Debug(ctx, "servicePolicyAppQoESdkToTerraform")
-	var enabled basetypes.BoolValue
+	var enabled basetypes.BoolValue = types.BoolValue(false)
 
 	if d != nil && d.Enabled != nil {
 		enabled = types.BoolValue(*d.Enabled)
@@ -37,8 +37,8 @@ func servicePolicyEwfSdkToTerraform(ctx context.Context, diags *diag.Diagnostics
 	for _, v := range d {
 		var alert_only basetypes.BoolValue
 		var block_message basetypes.StringValue
-		var enabled basetypes.BoolValue
-		var profile basetypes.StringValue
+		var enabled basetypes.BoolValue = types.BoolValue(false)
+		var profile basetypes.StringValue = types.StringValue("strict")
 
 		if v.AlertOnly != nil {
 			alert_only = types.BoolValue(*v.AlertOnly)
@@ -73,9 +73,9 @@ func servicePolicyEwfSdkToTerraform(ctx context.Context, diags *diag.Diagnostics
 func servicePolicyIdpSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d *models.IdpConfig) basetypes.ObjectValue {
 	tflog.Debug(ctx, "servicePolicyIdpSdkToTerraform")
 	var alert_only basetypes.BoolValue
-	var enabled basetypes.BoolValue
+	var enabled basetypes.BoolValue = types.BoolValue(false)
 	var idpprofile_id basetypes.StringValue
-	var profile basetypes.StringValue
+	var profile basetypes.StringValue = types.StringValue("strict")
 
 	if d != nil && d.AlertOnly != nil {
 		alert_only = types.BoolValue(*d.AlertOnly)
@@ -108,11 +108,11 @@ func servicePoliciesSdkToTerraform(ctx context.Context, diags *diag.Diagnostics,
 
 	for _, v := range d {
 
-		var action basetypes.StringValue
-		var appqoe basetypes.ObjectValue = servicePolicyAppQoESdkToTerraform(ctx, diags, v.Appqoe)
-		var ewf basetypes.ListValue = servicePolicyEwfSdkToTerraform(ctx, diags, v.Ewf)
-		var idp basetypes.ObjectValue = servicePolicyIdpSdkToTerraform(ctx, diags, v.Idp)
-		var local_routing basetypes.BoolValue
+		var action basetypes.StringValue = types.StringValue("allow")
+		var appqoe basetypes.ObjectValue = types.ObjectNull(AppqoeValue{}.AttributeTypes(ctx))
+		var ewf basetypes.ListValue = types.ListNull(EwfValue{}.Type(ctx))
+		var idp basetypes.ObjectValue = types.ObjectNull(IdpProfilesValue{}.AttributeTypes(ctx))
+		var local_routing basetypes.BoolValue = types.BoolValue(false)
 		var name basetypes.StringValue
 		var path_preferences basetypes.StringValue
 		var servicepolicy_id basetypes.StringValue
@@ -121,6 +121,15 @@ func servicePoliciesSdkToTerraform(ctx context.Context, diags *diag.Diagnostics,
 
 		if v.Action != nil {
 			action = types.StringValue(string(*v.Action))
+		}
+		if v.Appqoe != nil {
+			appqoe = servicePolicyAppQoESdkToTerraform(ctx, diags, v.Appqoe)
+		}
+		if v.Ewf != nil {
+			ewf = servicePolicyEwfSdkToTerraform(ctx, diags, v.Ewf)
+		}
+		if v.Idp != nil {
+			idp = servicePolicyIdpSdkToTerraform(ctx, diags, v.Idp)
 		}
 		if v.LocalRouting != nil {
 			local_routing = types.BoolValue(*v.LocalRouting)

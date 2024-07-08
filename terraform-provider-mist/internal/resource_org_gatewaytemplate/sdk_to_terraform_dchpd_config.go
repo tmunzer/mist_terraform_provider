@@ -123,13 +123,13 @@ func dhcpdConfigConfigsSdkToTerraform(ctx context.Context, diags *diag.Diagnosti
 			var ip_end6 basetypes.StringValue
 			var ip_start basetypes.StringValue
 			var ip_start6 basetypes.StringValue
-			var lease_time basetypes.Int64Value
+			var lease_time basetypes.Int64Value = types.Int64Value(86400)
 			var options basetypes.MapValue = types.MapNull(OptionsValue{}.Type(ctx))
-			var server_id_override basetypes.BoolValue
+			var server_id_override basetypes.BoolValue = types.BoolValue(false)
 			var servers basetypes.ListValue = mist_transform.ListOfStringSdkToTerraformEmpty(ctx)
 			var servers6 basetypes.ListValue = mist_transform.ListOfStringSdkToTerraformEmpty(ctx)
-			var type4 basetypes.StringValue
-			var type6 basetypes.StringValue
+			var type4 basetypes.StringValue = types.StringValue("local")
+			var type6 basetypes.StringValue = types.StringValue("none")
 			var vendor_encapulated basetypes.MapValue = types.MapNull(VendorEncapulatedValue{}.Type(ctx))
 
 			if d.DnsServers != nil {
@@ -138,7 +138,7 @@ func dhcpdConfigConfigsSdkToTerraform(ctx context.Context, diags *diag.Diagnosti
 			if d.DnsSuffix != nil {
 				dns_suffix = mist_transform.ListOfStringSdkToTerraform(ctx, d.DnsSuffix)
 			}
-			if d.FixedBindings != nil {
+			if d.FixedBindings != nil && len(d.FixedBindings) > 0 {
 				fixed_bindings = dhcpdConfigFixedBindingsSdkToTerraform(ctx, diags, d.FixedBindings)
 			}
 			if d.Gateway != nil {
@@ -215,13 +215,13 @@ func dhcpdConfigConfigsSdkToTerraform(ctx context.Context, diags *diag.Diagnosti
 func dhcpdConfigSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d *models.DhcpdConfigs) DhcpdConfigValue {
 	tflog.Debug(ctx, "dhcpdConfigSdkToTerraform")
 
-	var config basetypes.MapValue = types.MapNull(DhcpdConfigValue{}.Type(ctx))
-	var enabled basetypes.BoolValue
+	var config basetypes.MapValue = types.MapNull(ConfigValue{}.Type(ctx))
+	var enabled basetypes.BoolValue = types.BoolValue(false)
 
-	if d != nil {
+	if len(d.AdditionalProperties) > 0 {
 		config = dhcpdConfigConfigsSdkToTerraform(ctx, diags, d.AdditionalProperties)
 	}
-	if d != nil {
+	if d.Enabled != nil {
 		enabled = types.BoolValue(*d.Enabled)
 	}
 

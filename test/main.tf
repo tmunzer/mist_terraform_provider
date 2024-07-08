@@ -41,25 +41,25 @@ resource "mist_site" "terraform_site" {
     lng = 2.214447
   }
   sitegroup_ids = [mist_org_sitegroup.test_group.id, mist_org_sitegroup.test_group2.id]
-  # networktemplate_id = mist_org_networktemplate.switch_template.id
-  # rftemplate_id      = mist_org_rftemplate.test_rf.id
-  # gatewaytemplate_id = mist_org_gatewaytemplate.stag.id
+  networktemplate_id = mist_org_networktemplate.switch_template.id
+  rftemplate_id      = mist_org_rftemplate.test_rf.id
+  gatewaytemplate_id = mist_org_gatewaytemplate.test-api.id
 }
 
 
-# resource "mist_site" "terraform_site2" {
-#   org_id       = mist_org.terraform_test.id
-#   name         = "terraform_site2"
-#   country_code = "FR"
-#   timezone     = "Europe/Paris"
-#   address      = "77 Terrasse de l'Universit\u00e9, 92000 Nanterre, France"
-#   notes        = "Created with Terraform, Updated with Terraform"
-#   latlng = {
-#     lat = 48.899268
-#     lng = 2.214447
-#   }
-#   sitegroup_ids = [mist_org_sitegroup.test_group.id, mist_org_sitegroup.test_group2.id]
-# }
+resource "mist_site" "terraform_site2" {
+  org_id       = mist_org.terraform_test.id
+  name         = "terraform_site2"
+  country_code = "FR"
+  timezone     = "Europe/Paris"
+  address      = "77 Terrasse de l'Universit\u00e9, 92000 Nanterre, France"
+  notes        = "Created with Terraform, Updated with Terraform"
+  latlng = {
+    lat = 48.899268
+    lng = 2.214447
+  }
+  sitegroup_ids = [mist_org_sitegroup.test_group.id, mist_org_sitegroup.test_group2.id]
+}
 
 resource "mist_org_sitegroup" "test_group" {
   org_id = mist_org.terraform_test.id
@@ -219,454 +219,454 @@ resource "mist_org_network" "dmz" {
 }
 
 
-# resource "mist_org_gatewaytemplate" "stag" {
+resource "mist_org_gatewaytemplate" "test-api" {
 
-#   type   = "spoke"
-#   name   = "test-api"
-#   org_id = mist_org.terraform_test.id
+  type   = "spoke"
+  name   = "test-api"
+  org_id = mist_org.terraform_test.id
 
-#   port_config = {
-#     "ge-0/0/3" = {
-#       name       = "FTTH"
-#       usage      = "wan"
-#       aggregated = false
-#       redundant  = false
-#       critical   = false
-#       wan_type   = "broadband"
-#       ip_config = {
-#         type    = "static"
-#         ip      = "192.168.1.8"
-#         netmask = "/24"
-#         gateway = "192.168.1.1"
-#       },
-#       disable_autoneg = false
-#       speed           = "auto"
-#       duplex          = "auto"
-#       wan_source_nat = {
-#         disabled = false
-#       },
-#       vpn_paths = {
-#         "SSR_HUB_DC-MPLS.OrgOverlay" = {
-#           key         = 0
-#           role        = "spoke"
-#           bfd_profile = "broadband"
-#         }
-#       }
-#     },
-#     "ge-0/0/4" = {
-#       name       = "LTE"
-#       usage      = "wan"
-#       aggregated = false
-#       redundant  = false
-#       critical   = false
-#       wan_type   = "broadband"
-#       ip_config = {
-#         type = "dhcp"
-#       },
-#       disable_autoneg = false
-#       speed           = "auto"
-#       duplex          = "auto"
-#       wan_source_nat = {
-#         disabled = false
-#       },
-#       vpn_paths = {
-#         "SSR_HUB_DC-MPLS.OrgOverlay" = {
-#           key         = 0
-#           role        = "spoke"
-#           bfd_profile = "broadband"
-#         }
-#       }
-#     },
-#     "ge-0/0/5" = {
-#       usage            = "lan"
-#       critical         = false
-#       aggregated       = true
-#       ae_disable_lacp  = false
-#       ae_lacp_force_up = true
-#       ae_idx           = 0
-#       redundant        = false
-#       networks = [
-#         "PRD-Core"
-#       ]
-#     },
-#     "ge-0/0/7" = {
-#       usage      = "lan"
-#       critical   = false
-#       aggregated = false
-#       redundant  = false
-#       networks = [
-#         "PRD-Mgmt"
-#       ]
-#     },
-#     "ge-0/0/6" = {
-#       usage      = "lan"
-#       critical   = false
-#       aggregated = false
-#       redundant  = false
-#       networks = [
-#         "PRD-Lab"
-#       ]
-#     }
-#   }
-# ip_configs = {
-#   "PRD-Core" = {
-#     type    = "static"
-#     ip      = "10.3.100.9"
-#     netmask = "/24"
-#   },
-#   "PRD-Mgmt" = {
-#     type    = "static"
-#     ip      = "10.3.172.1"
-#     netmask = "/24"
-#   },
-#   "PRD-Lab" = {
-#     type    = "static"
-#     ip      = "10.3.171.1"
-#     netmask = "/24"
-#   }
-# }
-# dhcpd_config = {
-#   enable = true
-# }
-# path_preferences = {
-#   "HUB" = {
-#     strategy = "ordered"
-#     paths = [
-#       {
-#         name = "SSR_HUB_DC-MPLS.OrgOverlay"
-#         type = "vpn"
-#       }
-#     ]
-#   },
-#   "HUB-ORDERED" = {
-#     strategy = "ordered"
-#     paths = [
-#       {
-#         name     = "SSR_HUB_DC-MPLS.OrgOverlay"
-#         wan_name = "FTTH",
-#         type     = "vpn"
-#       },
-#       {
-#         name     = "SSR_HUB_DC-MPLS.OrgOverlay"
-#         wan_name = "LTE"
-#         type     = "vpn"
-#       }
-#     ]
-#   },
-#   "HUB-ECMP" = {
-#     strategy = "weighted"
-#     paths = [
-#       {
-#         name     = "SSR_HUB_DC-MPLS.OrgOverlay"
-#         wan_name = "LTE"
-#         cost     = 30
-#         type     = "vpn"
-#       },
-#       {
-#         name     = "SSR_HUB_DC-MPLS.OrgOverlay"
-#         wan_name = "FTTH"
-#         cost     = 30
-#         type     = "vpn"
-#       }
-#     ]
-#   }
-# }
-# service_policies = [
-#   {
-#     name = "Policy-14"
-#     tenants = [
-#       "PRD-Core"
-#     ],
-#     services = [
-#       "any"
-#     ],
-#     action          = "allow"
-#     path_preference = "HUB"
-#     idp = {
-#       enabled    = true
-#       profile    = "critical"
-#       alert_only = false
-#     }
-#   },
-#   {
-#     name = "Policy-2"
-#     tenants = [
-#       "PRD-Mgmt"
-#     ],
-#     services = [
-#       "any"
-#     ],
-#     action          = "allow",
-#     path_preference = "HUB-ECMP"
-#     idp = {
-#       enabled    = true,
-#       profile    = "standard"
-#       alert_only = true
-#     }
-#   },
-#   {
-#     name = "Policy-3"
-#     tenants = [
-#       "PRD-Lab"
-#     ],
-#     services = [
-#       "any"
-#     ],
-#     action          = "allow"
-#     path_preference = "HUB-ORDERED"
-#     idp = {
-#       enabled = false
-#     }
-#   }
-# ]
-# }
+  port_config = {
+    "ge-0/0/3" = {
+      name       = "FTTH"
+      usage      = "wan"
+      aggregated = false
+      redundant  = false
+      critical   = false
+      wan_type   = "broadband"
+      ip_config = {
+        type    = "static"
+        ip      = "192.168.1.8"
+        netmask = "/24"
+        gateway = "192.168.1.1"
+      },
+      disable_autoneg = false
+      speed           = "auto"
+      duplex          = "auto"
+      wan_source_nat = {
+        disabled = false
+      },
+      vpn_paths = {
+        "SSR_HUB_DC-MPLS.OrgOverlay" = {
+          key         = 0
+          role        = "spoke"
+          bfd_profile = "broadband"
+        }
+      }
+    },
+    "ge-0/0/4" = {
+      name       = "LTE"
+      usage      = "wan"
+      aggregated = false
+      redundant  = false
+      critical   = false
+      wan_type   = "broadband"
+      ip_config = {
+        type = "dhcp"
+      },
+      disable_autoneg = false
+      speed           = "auto"
+      duplex          = "auto"
+      wan_source_nat = {
+        disabled = false
+      },
+      vpn_paths = {
+        "SSR_HUB_DC-MPLS.OrgOverlay" = {
+          key         = 0
+          role        = "spoke"
+          bfd_profile = "broadband"
+        }
+      }
+    },
+    "ge-0/0/5" = {
+      usage            = "lan"
+      critical         = false
+      aggregated       = true
+      ae_disable_lacp  = false
+      ae_lacp_force_up = true
+      ae_idx           = 0
+      redundant        = false
+      networks = [
+        "PRD-Core"
+      ]
+    },
+    "ge-0/0/7" = {
+      usage      = "lan"
+      critical   = false
+      aggregated = false
+      redundant  = false
+      networks = [
+        "PRD-Mgmt"
+      ]
+    },
+    "ge-0/0/6" = {
+      usage      = "lan"
+      critical   = false
+      aggregated = false
+      redundant  = false
+      networks = [
+        "PRD-Lab"
+      ]
+    }
+  }
+ip_configs = {
+  "PRD-Core" = {
+    type    = "static"
+    ip      = "10.3.100.9"
+    netmask = "/24"
+  },
+  "PRD-Mgmt" = {
+    type    = "static"
+    ip      = "10.3.172.1"
+    netmask = "/24"
+  },
+  "PRD-Lab" = {
+    type    = "static"
+    ip      = "10.3.171.1"
+    netmask = "/24"
+  }
+}
+dhcpd_config = {
+  enable = true
+}
+path_preferences = {
+  "HUB" = {
+    strategy = "ordered"
+    paths = [
+      {
+        name = "SSR_HUB_DC-MPLS.OrgOverlay"
+        type = "vpn"
+      }
+    ]
+  },
+  "HUB-ORDERED" = {
+    strategy = "ordered"
+    paths = [
+      {
+        name     = "SSR_HUB_DC-MPLS.OrgOverlay"
+        wan_name = "FTTH",
+        type     = "vpn"
+      },
+      {
+        name     = "SSR_HUB_DC-MPLS.OrgOverlay"
+        wan_name = "LTE"
+        type     = "vpn"
+      }
+    ]
+  },
+  "HUB-ECMP" = {
+    strategy = "weighted"
+    paths = [
+      {
+        name     = "SSR_HUB_DC-MPLS.OrgOverlay"
+        wan_name = "LTE"
+        cost     = 30
+        type     = "vpn"
+      },
+      {
+        name     = "SSR_HUB_DC-MPLS.OrgOverlay"
+        wan_name = "FTTH"
+        cost     = 30
+        type     = "vpn"
+      }
+    ]
+  }
+}
+service_policies = [
+  {
+    name = "Policy-14"
+    tenants = [
+      "PRD-Core"
+    ],
+    services = [
+      "any"
+    ],
+    action          = "allow"
+    path_preference = "HUB"
+    idp = {
+      enabled    = true
+      profile    = "critical"
+      alert_only = false
+    }
+  },
+  {
+    name = "Policy-2"
+    tenants = [
+      "PRD-Mgmt"
+    ],
+    services = [
+      "any"
+    ],
+    action          = "allow",
+    path_preference = "HUB-ECMP"
+    idp = {
+      enabled    = true,
+      profile    = "standard"
+      alert_only = true
+    }
+  },
+  {
+    name = "Policy-3"
+    tenants = [
+      "PRD-Lab"
+    ],
+    services = [
+      "any"
+    ],
+    action          = "allow"
+    path_preference = "HUB-ORDERED"
+    idp = {
+      enabled = false
+    }
+  }
+]
+}
 
-# # resource "mist_org_gatewaytemplate" "demo" {
-# #   ntp_override = true
-# #   service_policies = [
-# #     {
-# #       name = "inbound-hub-to-corp-net"
-# #       idp = {
-# #         enabled = false
-# #       },
-# #       path_preference = "to-corp-lan"
-# #       services = [
-# #         "spoke-corp-network"
-# #       ],
-# #       action = "allow"
-# #       tenants = [
-# #         "corp_datacenter1",
-# #         "corp_datacenter2",
-# #         "core_dc2_network",
-# #         "mgmt_datacenter1",
-# #         "mgmt_datacenter2"
-# #       ]
-# #     },
-# #     {
-# #       name = "inbound-remote-spoke-to-corp-net"
-# #       tenants = [
-# #         "corp_network",
-# #         "mgmt_network"
-# #       ],
-# #       services = [
-# #         "spoke-corp-network"
-# #       ],
-# #       action          = "allow"
-# #       path_preference = "to-corp-lan"
-# #       idp = {
-# #         enabled = false
-# #       }
-# #     },
-# #     {
-# #       name = "outbound-to-hub-workloads"
-# #       tenants = [
-# #         "corp_network"
-# #       ],
-# #       services = [
-# #         "datacenter1-mgmt-network",
-# #         "datacenter1-workloads",
-# #         "datacenter2-lan",
-# #         "datacenter2-mgmt-network",
-# #         "datacenter2-workloads"
-# #       ],
-# #       action          = "allow"
-# #       path_preference = "broadband-overlay"
-# #       idp = {
-# #         enabled = false
-# #       }
-# #     },
-# #     {
-# #       name = "outbound-corp-internet"
-# #       tenants = [
-# #         "corp_network"
-# #       ],
-# #       services = [
-# #         "corp-internet"
-# #       ],
-# #       action          = "allow",
-# #       path_preference = "internet-breakout"
-# #       idp = {
-# #         enabled = false
-# #       }
-# #     },
-# #     {
-# #       name = "application-test"
-# #       tenants = [
-# #         "corp_network"
-# #       ],
-# #       services = [
-# #         "youtube"
-# #       ],
-# #       action = "allow"
-# #       idp = {
-# #         enabled = false
-# #       },
-# #       path_preference = "internet-breakout"
-# #     },
-# #     {
-# #       name = "url-filtering"
-# #       tenants = [
-# #         "corp_network"
-# #       ],
-# #       services = [
-# #         "blocked-categories"
-# #       ],
-# #       action        = "deny"
-# #       local_routing = true
-# #       idp = {
-# #         enabled = false
-# #       }
-# #     }
-# #   ]
-# #   dns_servers = [
-# #     "8.8.8.8"
-# #   ]
-# #   port_config = {
-# #     "ge-0/0/1" : {
-# #       name       = "wan1-broadband"
-# #       usage      = "wan"
-# #       aggregated = false
-# #       redundant  = false
-# #       critical   = false
-# #       disabled   = false
-# #       wan_type   = "broadband"
-# #       ip_config = {
-# #         type    = "static"
-# #         ip      = "{{broadband_ip_var}}"
-# #         netmask = "/{{broadband_prefix_var}}"
-# #         gateway = "{{broadband_gw_var}}"
-# #       },
-# #       disable_autoneg = false
-# #       wan_source_nat = {
-# #         disabled = false
-# #       },
-# #       vpn_paths = {
-# #         "sdwan_newyork_hub-external1.OrgOverlay" : {
-# #           key         = 0
-# #           role        = "spoke"
-# #           bfd_profile = "broadband"
-# #         }
-# #       }
-# #     },
-# #     "ge-0/0/3" : {
-# #       networks = [
-# #         "corp_network"
-# #       ],
-# #       usage      = "lan"
-# #       aggregated = false
-# #       redundant  = false
-# #       critical   = false
-# #       disabled   = false
-# #     }
-# #   }
-# #   path_preferences = {
-# #     "broadband-overlay" : {
-# #       strategy = "ordered"
-# #       paths = [
-# #         {
-# #           name = "sdwan_newyork_hub-external1.OrgOverlay"
-# #           type = "vpn"
-# #         }
-# #       ]
-# #     },
-# #     "internet-breakout" : {
-# #       strategy = "ordered"
-# #       paths = [
-# #         {
-# #           name = "wan1-broadband"
-# #           type = "wan"
-# #         }
-# #       ]
-# #     },
-# #     "to-corp-lan" : {
-# #       strategy = "ordered"
-# #       paths = [
-# #         {
-# #           type = "local"
-# #           networks = [
-# #             "corp_network"
-# #           ]
-# #         }
-# #       ]
-# #     }
-# #   }
-# #   ntp_servers = [
-# #     "pool.ntp.org"
-# #   ]
-# #   routing_policies = {
-# #     "ibgp-hub-preference" : {
-# #       terms = [
-# #         {
-# #           matching = {
-# #             prefix = [
-# #               "172.76.128.0/24",
-# #               "172.36.128.0/24",
-# #               "192.168.94.0/24",
-# #               "192.168.93.0/24",
-# #               "192.168.92.0/24",
-# #               "192.168.95.0/24",
-# #               "192.168.91.0/24",
-# #               "172.46.128.0/24",
-# #               "172.66.128.0/24",
-# #               "172.56.128.0/24",
-# #               "24.0.0.0/29",
-# #               "192.168.90.0/24",
-# #               "192.168.97.0/24",
-# #               "192.168.98.0/24",
-# #               "192.168.94.0/24"
-# #             ],
-# #             protocol = [
-# #               "bgp"
-# #             ],
-# #             vpn_path = [
-# #               "NewYork-newyork-broadband1.OrgOverlay",
-# #               "NewYork-newyork-broadband1-lte.OrgOverlay",
-# #               "SanFrancisco-sanfran-broadband1.OrgOverlay"
-# #             ]
-# #           },
-# #           actions = {
-# #             accept = true
-# #           }
-# #         }
-# #       ]
-# #     }
-# #   }
-# #   ip_configs = {
-# #     corp_network = {
-# #       type    = "static"
-# #       ip      = "{{corp_ip}}"
-# #       netmask = "/{{corp_CIDR}}"
-# #     }
-# #   }
-# #   dns_override = true
-# #   dhcpd_config = {
-# #     enabled = true
-# #     config = {
-# #       corp_network = {
-# #         type     = "local"
-# #         ip_start = "{{corp_dhcp_start}}"
-# #         ip_end   = "{{corp_dhcp_end}}"
-# #         gateway  = "{{corp_ip}}"
-# #         dns_servers = [
-# #           "8.8.8.8",
-# #           "1.1.1.1"
-# #         ]
-# #         options = {}
-# #       }
-# #     }
-# #   }
-# #   bgp_config = {
-# #     "bgp-group1" : {
-# #       via           = "vpn"
-# #       vpn_name      = "OrgOverlay"
-# #       import_policy = "ibgp-hub-preference"
-# #     }
-# #   }
-# #   type   = "spoke"
-# #   name   = "sdwan-westford"
-# #   org_id = mist_org.terraform_test.id
+resource "mist_org_gatewaytemplate" "sdwan-westford" {
+  ntp_override = true
+  service_policies = [
+    {
+      name = "inbound-hub-to-corp-net"
+      idp = {
+        enabled = false
+      },
+      path_preference = "to-corp-lan"
+      services = [
+        "spoke-corp-network"
+      ],
+      action = "allow"
+      tenants = [
+        "corp_datacenter1",
+        "corp_datacenter2",
+        "core_dc2_network",
+        "mgmt_datacenter1",
+        "mgmt_datacenter2"
+      ]
+    },
+    {
+      name = "inbound-remote-spoke-to-corp-net"
+      tenants = [
+        "corp_network",
+        "mgmt_network"
+      ],
+      services = [
+        "spoke-corp-network"
+      ],
+      action          = "allow"
+      path_preference = "to-corp-lan"
+      idp = {
+        enabled = false
+      }
+    },
+    {
+      name = "outbound-to-hub-workloads"
+      tenants = [
+        "corp_network"
+      ],
+      services = [
+        "datacenter1-mgmt-network",
+        "datacenter1-workloads",
+        "datacenter2-lan",
+        "datacenter2-mgmt-network",
+        "datacenter2-workloads"
+      ],
+      action          = "allow"
+      path_preference = "broadband-overlay"
+      idp = {
+        enabled = false
+      }
+    },
+    {
+      name = "outbound-corp-internet"
+      tenants = [
+        "corp_network"
+      ],
+      services = [
+        "corp-internet"
+      ],
+      action          = "allow",
+      path_preference = "internet-breakout"
+      idp = {
+        enabled = false
+      }
+    },
+    {
+      name = "application-test"
+      tenants = [
+        "corp_network"
+      ],
+      services = [
+        "youtube"
+      ],
+      action = "allow"
+      idp = {
+        enabled = false
+      },
+      path_preference = "internet-breakout"
+    },
+    {
+      name = "url-filtering"
+      tenants = [
+        "corp_network"
+      ],
+      services = [
+        "blocked-categories"
+      ],
+      action        = "deny"
+      local_routing = true
+      idp = {
+        enabled = false
+      }
+    }
+  ]
+  dns_servers = [
+    "8.8.8.8"
+  ]
+  port_config = {
+    "ge-0/0/1" : {
+      name       = "wan1-broadband"
+      usage      = "wan"
+      aggregated = false
+      redundant  = false
+      critical   = false
+      disabled   = false
+      wan_type   = "broadband"
+      ip_config = {
+        type    = "static"
+        ip      = "{{broadband_ip_var}}"
+        netmask = "/{{broadband_prefix_var}}"
+        gateway = "{{broadband_gw_var}}"
+      },
+      disable_autoneg = false
+      wan_source_nat = {
+        disabled = false
+      },
+      vpn_paths = {
+        "sdwan_newyork_hub-external1.OrgOverlay" : {
+          key         = 0
+          role        = "spoke"
+          bfd_profile = "broadband"
+        }
+      }
+    },
+    "ge-0/0/3" : {
+      networks = [
+        "corp_network"
+      ],
+      usage      = "lan"
+      aggregated = false
+      redundant  = false
+      critical   = false
+      disabled   = false
+    }
+  }
+  path_preferences = {
+    "broadband-overlay" : {
+      strategy = "ordered"
+      paths = [
+        {
+          name = "sdwan_newyork_hub-external1.OrgOverlay"
+          type = "vpn"
+        }
+      ]
+    },
+    "internet-breakout" : {
+      strategy = "ordered"
+      paths = [
+        {
+          name = "wan1-broadband"
+          type = "wan"
+        }
+      ]
+    },
+    "to-corp-lan" : {
+      strategy = "ordered"
+      paths = [
+        {
+          type = "local"
+          networks = [
+            "corp_network"
+          ]
+        }
+      ]
+    }
+  }
+  ntp_servers = [
+    "pool.ntp.org"
+  ]
+  routing_policies = {
+    "ibgp-hub-preference" : {
+      terms = [
+        {
+          matching = {
+            prefix = [
+              "172.76.128.0/24",
+              "172.36.128.0/24",
+              "192.168.94.0/24",
+              "192.168.93.0/24",
+              "192.168.92.0/24",
+              "192.168.95.0/24",
+              "192.168.91.0/24",
+              "172.46.128.0/24",
+              "172.66.128.0/24",
+              "172.56.128.0/24",
+              "24.0.0.0/29",
+              "192.168.90.0/24",
+              "192.168.97.0/24",
+              "192.168.98.0/24",
+              "192.168.94.0/24"
+            ],
+            protocol = [
+              "bgp"
+            ],
+            vpn_path = [
+              "NewYork-newyork-broadband1.OrgOverlay",
+              "NewYork-newyork-broadband1-lte.OrgOverlay",
+              "SanFrancisco-sanfran-broadband1.OrgOverlay"
+            ]
+          },
+          actions = {
+            accept = true
+          }
+        }
+      ]
+    }
+  }
+  ip_configs = {
+    corp_network = {
+      type    = "static"
+      ip      = "{{corp_ip}}"
+      netmask = "/{{corp_CIDR}}"
+    }
+  }
+  dns_override = true
+  dhcpd_config = {
+    enabled = true
+    config = {
+      corp_network = {
+        type     = "local"
+        ip_start = "{{corp_dhcp_start}}"
+        ip_end   = "{{corp_dhcp_end}}"
+        gateway  = "{{corp_ip}}"
+        dns_servers = [
+          "8.8.8.8",
+          "1.1.1.1"
+        ]
+        options = {}
+      }
+    }
+  }
+  bgp_config = {
+    "bgp-group1" : {
+      via           = "vpn"
+      vpn_name      = "OrgOverlay"
+      import_policy = "ibgp-hub-preference"
+    }
+  }
+  type   = "spoke"
+  name   = "sdwan-westford"
+  org_id = mist_org.terraform_test.id
 
-# # }
+}
 
 
 resource "mist_org_rftemplate" "test_rf" {
@@ -1001,41 +1001,41 @@ resource "mist_site_networktemplate" "site_switch_template" {
   }
 }
 
-# resource "mist_site_wlan" "wlan_cwp2" {
-#   ssid              = "MlN.test"
-#   bands             = ["5"]
-#   vlan_id           = 143
-#   wlan_limit_up     = 10000
-#   wlan_limit_down   = 20000
-#   client_limit_up   = 512
-#   client_limit_down = 1000
-#   portal = {
-#     enabled                = true
-#     bypass_when_cloud_down = true
-#     auth                   = "sso"
-#     privacy                = false
-#     sso_issuer             = "https://sts.windows.net/f2532c2f-938c-4529-b6e4-aa26992b6b62/"
-#     sso_nameid_format      = "email"
-#     sso_idp_sign_algo      = "sha256"
-#     sso_idp_cert           = "-----BEGIN CERTIFICATE-----\nMIIC8DCCAdigAwIBAgIQE5pOI9W1DZFHbB9m2Q7ADzANBgkqhkiG9w0BAQsFADA0MTIwMAYDVQQD\nEylNaWNyb3NvZnQgQXp1cmUgRmVkZXJhdGVkIFNTTyBDZXJ0aWZpY2F0ZTAeFw0yMjAyMDIxNDEz\nMTNaFw0yNTAyMDIxNDEzMTNaMDQxMjAwBgNVBAMTKU1pY3Jvc29mdCBBenVyZSBGZWRlcmF0ZWQg\nU1NPIENlcnRpZmljYXRlMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA5gQTCccB3oE7\nelNYH2+11Q69Iq/2f3qf5KUZEQKwL++HyoBCOAM3wL3uLWwvRaih4+qpAeZvNsuShNIyB08SDcWN\nYsqVxaUsLYfzDD0c9VG9mwAx0Kh01S2JvtaLCaFveac7UXVfn/E/QbPXibS1EQvHUj0hwNXMrdS4\nh4TOk4D1Q70+OnCWyy7ykG1/RuO8UerIfqkQEy4C3QFb3Cyo4E7bEaYQo0NiCqD9IoM3B0wZib8Y\n3yRGJKdzXyDxuVJFb5rF7XMAHTWWAbxaN4KOLhZnjaJla7Pu/sFAj2Npm8Hm5pYEYBaUz4fc/8kg\nIwakFb3mnbnYw0xQwf+aJss1vQIDAQABMA0GCSqGSIb3DQEBCwUAA4IBAQCF+oKuLmnooDzALwaE\nbFVI7PVGhU7/UZzAnq6HHI9ngF0Af2+uIrvAz6rdUM1bsGhRbj3SV2oaj26pe/1TDrGescXWhTPw\nKcXOwBnVmFr8FlMkozwpHRNzCQyFYGiTAztgQcmtwF7pilVndOmEc+p3LvCdI5JZB+LtMM/o9V+1\n+Yhm4MEWO6wTSY+j7goc/vi5f76TDZPN6PkRv17+EkybEudJuTOuIoNiqsAbNB52bVNHtxFHGIwb\nH9iS45QJ4/RG1WUr91xe3Vzh/fp1BkiHZVL4iOywOIF0TYcW7h958JEf+q0HD5LUMO47NPEbc/Cd\n+fVCTXWzABXXy4D+S8gA\n-----END CERTIFICATE-----"
-#     sso_idp_sso_url        = "https://login.microsoftonline.com/f2532c2f-938c-4529-b6e4-aa26992b6b62/saml2"
-#     email_enabled          = true
-#   }
-#   portal_allowed_hostnames = [
-#     "login.microsoftonline.com",
-#     "portal.mist.com",
-#     "login.live.com",
-#     "aadcdn.msauth.net",
-#     "logincdn.msauth.net"
-#   ]
-#   auth = {
-#     type = "psk"
-#     psk  = "Juniper123"
-#   }
-#   apply_to  = "site"
-#   interface = "all"
-#   site_id   = mist_site.terraform_site2.id
-# }
+resource "mist_site_wlan" "wlan_cwp2" {
+  ssid              = "MlN.test"
+  bands             = ["5"]
+  vlan_id           = 143
+  wlan_limit_up     = 10000
+  wlan_limit_down   = 20000
+  client_limit_up   = 512
+  client_limit_down = 1000
+  portal = {
+    enabled                = true
+    bypass_when_cloud_down = true
+    auth                   = "sso"
+    privacy                = false
+    sso_issuer             = "https://sts.windows.net/f2532c2f-938c-4529-b6e4-aa26992b6b62/"
+    sso_nameid_format      = "email"
+    sso_idp_sign_algo      = "sha256"
+    sso_idp_cert           = "-----BEGIN CERTIFICATE-----\nMIIC8DCCAdigAwIBAgIQE5pOI9W1DZFHbB9m2Q7ADzANBgkqhkiG9w0BAQsFADA0MTIwMAYDVQQD\nEylNaWNyb3NvZnQgQXp1cmUgRmVkZXJhdGVkIFNTTyBDZXJ0aWZpY2F0ZTAeFw0yMjAyMDIxNDEz\nMTNaFw0yNTAyMDIxNDEzMTNaMDQxMjAwBgNVBAMTKU1pY3Jvc29mdCBBenVyZSBGZWRlcmF0ZWQg\nU1NPIENlcnRpZmljYXRlMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA5gQTCccB3oE7\nelNYH2+11Q69Iq/2f3qf5KUZEQKwL++HyoBCOAM3wL3uLWwvRaih4+qpAeZvNsuShNIyB08SDcWN\nYsqVxaUsLYfzDD0c9VG9mwAx0Kh01S2JvtaLCaFveac7UXVfn/E/QbPXibS1EQvHUj0hwNXMrdS4\nh4TOk4D1Q70+OnCWyy7ykG1/RuO8UerIfqkQEy4C3QFb3Cyo4E7bEaYQo0NiCqD9IoM3B0wZib8Y\n3yRGJKdzXyDxuVJFb5rF7XMAHTWWAbxaN4KOLhZnjaJla7Pu/sFAj2Npm8Hm5pYEYBaUz4fc/8kg\nIwakFb3mnbnYw0xQwf+aJss1vQIDAQABMA0GCSqGSIb3DQEBCwUAA4IBAQCF+oKuLmnooDzALwaE\nbFVI7PVGhU7/UZzAnq6HHI9ngF0Af2+uIrvAz6rdUM1bsGhRbj3SV2oaj26pe/1TDrGescXWhTPw\nKcXOwBnVmFr8FlMkozwpHRNzCQyFYGiTAztgQcmtwF7pilVndOmEc+p3LvCdI5JZB+LtMM/o9V+1\n+Yhm4MEWO6wTSY+j7goc/vi5f76TDZPN6PkRv17+EkybEudJuTOuIoNiqsAbNB52bVNHtxFHGIwb\nH9iS45QJ4/RG1WUr91xe3Vzh/fp1BkiHZVL4iOywOIF0TYcW7h958JEf+q0HD5LUMO47NPEbc/Cd\n+fVCTXWzABXXy4D+S8gA\n-----END CERTIFICATE-----"
+    sso_idp_sso_url        = "https://login.microsoftonline.com/f2532c2f-938c-4529-b6e4-aa26992b6b62/saml2"
+    email_enabled          = true
+  }
+  portal_allowed_hostnames = [
+    "login.microsoftonline.com",
+    "portal.mist.com",
+    "login.live.com",
+    "aadcdn.msauth.net",
+    "logincdn.msauth.net"
+  ]
+  auth = {
+    type = "psk"
+    psk  = "Juniper123"
+  }
+  apply_to  = "site"
+  interface = "all"
+  site_id   = mist_site.terraform_site2.id
+}
 
 # resource "mist_device_switch" "test_switch" {
 #     managed= true

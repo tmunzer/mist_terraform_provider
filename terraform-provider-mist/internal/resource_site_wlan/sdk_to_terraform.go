@@ -47,13 +47,13 @@ func SdkToTerraform(ctx context.Context, data *models.Wlan) (SiteWlanModel, diag
 	if data.AllowMdns != nil {
 		state.AllowMdns = types.BoolValue(*data.AllowMdns)
 	} else {
-		state.AllowMdns = types.BoolNull()
+		state.AllowMdns = types.BoolValue(false)
 	}
 
 	if data.AllowSsdp != nil {
 		state.AllowSsdp = types.BoolValue(*data.AllowSsdp)
 	} else {
-		state.AllowSsdp = types.BoolNull()
+		state.AllowSsdp = types.BoolValue(false)
 	}
 
 	if data.ApIds.IsValueSet() && data.ApIds.Value() != nil {

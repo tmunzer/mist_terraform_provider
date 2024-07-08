@@ -18,7 +18,7 @@ func SdkToTerraform(ctx context.Context, data *models.GatewayTemplate) (OrgGatew
 	var additional_config_cmds types.List = types.ListNull(types.StringType)
 	var bgp_config types.Map = types.MapNull(BgpConfigValue{}.Type(ctx))
 	var dhcpd_config DhcpdConfigValue = NewDhcpdConfigValueNull()
-	var dns_override types.Bool
+	var dns_override types.Bool = types.BoolValue(false)
 	var dns_servers types.List = types.ListNull(types.StringType)
 	var dns_suffix types.List = types.ListNull(types.StringType)
 	var extra_routes types.Map = types.MapNull(ExtraRoutesValue{}.Type(ctx))
@@ -27,7 +27,7 @@ func SdkToTerraform(ctx context.Context, data *models.GatewayTemplate) (OrgGatew
 	var ip_configs types.Map = types.MapNull(IpConfigValue{}.Type(ctx))
 	var name types.String = types.StringValue(data.Name)
 	var networks types.List = types.ListNull(NetworksValue{}.Type(ctx))
-	var ntp_override types.Bool
+	var ntp_override types.Bool = types.BoolValue(false)
 	var ntp_servers types.List = types.ListNull(types.StringType)
 	var oob_ip_config OobIpConfigValue = NewOobIpConfigValueNull()
 	var org_id types.String
@@ -38,7 +38,7 @@ func SdkToTerraform(ctx context.Context, data *models.GatewayTemplate) (OrgGatew
 	var service_policies types.List = types.ListNull(types.StringType)
 	var tunnel_configs types.Map = types.MapNull(TunnelConfigsValue{}.Type(ctx))
 	var tunnel_provider_options TunnelProviderOptionsValue = NewTunnelProviderOptionsValueNull()
-	var type_template types.String
+	var type_template types.String = types.StringValue("standalone")
 
 	if data.AdditionalConfigCmds != nil {
 		additional_config_cmds = mist_transform.ListOfStringSdkToTerraform(ctx, data.AdditionalConfigCmds)

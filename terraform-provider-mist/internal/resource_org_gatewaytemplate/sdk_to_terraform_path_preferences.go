@@ -22,7 +22,7 @@ func pathPreferencePathsSdkToTerraform(ctx context.Context, diags *diag.Diagnost
 		var cost basetypes.Int64Value
 		var disabled basetypes.BoolValue
 		var gateway_ip basetypes.StringValue
-		var internet_access basetypes.BoolValue
+		var internet_access basetypes.BoolValue = types.BoolValue(false)
 		var name basetypes.StringValue
 		var networks basetypes.ListValue = mist_transform.ListOfStringSdkToTerraformEmpty(ctx)
 		var target_ips basetypes.ListValue = mist_transform.ListOfStringSdkToTerraformEmpty(ctx)
@@ -85,7 +85,7 @@ func pathPreferencesSdkToTerraform(ctx context.Context, diags *diag.Diagnostics,
 	state_value_map := make(map[string]attr.Value)
 	for k, d := range m {
 		var paths basetypes.ListValue = types.ListNull(PathsValue{}.Type(ctx))
-		var strategy basetypes.StringValue
+		var strategy basetypes.StringValue = types.StringValue("ordered")
 
 		if d.Paths != nil {
 			paths = pathPreferencePathsSdkToTerraform(ctx, diags, d.Paths)

@@ -30,9 +30,15 @@ func idpProfileMatchingTerraformToSdk(ctx context.Context, diags *diag.Diagnosti
 		var d_interface interface{} = d
 		plan := d_interface.(IpdProfileOverwriteMatchingValue)
 
-		data.AttackName = mist_transform.ListOfStringTerraformToSdk(ctx, plan.AttackName)
-		data.DstSubnet = mist_transform.ListOfStringTerraformToSdk(ctx, plan.DstSubnet)
-		data.Severity = idpProfileMatchingSeverityTerraformToSdk(ctx, plan.Severity)
+		if !plan.AttackName.IsNull() && !plan.AttackName.IsUnknown() {
+			data.AttackName = mist_transform.ListOfStringTerraformToSdk(ctx, plan.AttackName)
+		}
+		if !plan.DstSubnet.IsNull() && !plan.DstSubnet.IsUnknown() {
+			data.DstSubnet = mist_transform.ListOfStringTerraformToSdk(ctx, plan.DstSubnet)
+		}
+		if !plan.Severity.IsNull() && !plan.Severity.IsUnknown() {
+			data.Severity = idpProfileMatchingSeverityTerraformToSdk(ctx, plan.Severity)
+		}
 
 		return &data
 	}
@@ -45,8 +51,13 @@ func idpProfileOverwritesTerraformToSdk(ctx context.Context, diags *diag.Diagnos
 		var v_interface interface{} = v
 		plan := v_interface.(OverwritesValue)
 		data := models.IdpProfileOverwrite{}
-		data.Action = models.ToPointer(models.IdpProfileActionEnum(plan.Action.ValueString()))
-		data.Matching = idpProfileMatchingTerraformToSdk(ctx, diags, plan.IpdProfileOverwriteMatching)
+
+		if plan.Action.ValueStringPointer() != nil {
+			data.Action = models.ToPointer(models.IdpProfileActionEnum(plan.Action.ValueString()))
+		}
+		if !plan.IpdProfileOverwriteMatching.IsNull() && !plan.IpdProfileOverwriteMatching.IsUnknown() {
+			data.Matching = idpProfileMatchingTerraformToSdk(ctx, diags, plan.IpdProfileOverwriteMatching)
+		}
 
 		data_list = append(data_list, data)
 	}
@@ -60,12 +71,16 @@ func idpProfileTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d ba
 		var v_interface interface{} = v
 		plan := v_interface.(IdpProfilesValue)
 
-		overwrites := idpProfileOverwritesTerraformToSdk(ctx, diags, plan.Overwrites)
-
 		data := models.IdpProfile{}
-		data.BaseProfile = models.ToPointer(models.IdpProfileBaseProfileEnum(plan.BaseProfile.ValueString()))
-		data.Name = plan.Name.ValueStringPointer()
-		data.Overwrites = overwrites
+		if plan.BaseProfile.ValueStringPointer() != nil {
+			data.BaseProfile = models.ToPointer(models.IdpProfileBaseProfileEnum(plan.BaseProfile.ValueString()))
+		}
+		if plan.Name.ValueStringPointer() != nil {
+			data.Name = plan.Name.ValueStringPointer()
+		}
+		if !plan.Overwrites.IsNull() && !plan.Overwrites.IsUnknown() {
+			data.Overwrites = idpProfileOverwritesTerraformToSdk(ctx, diags, plan.Overwrites)
+		}
 
 		data_map[k] = data
 	}

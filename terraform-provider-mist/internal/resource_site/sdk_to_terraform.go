@@ -57,27 +57,29 @@ func SdkToTerraform(ctx context.Context, data *models.Site) (SiteModel, diag.Dia
 	if data.Notes != nil {
 		notes = types.StringValue(*data.Notes)
 	}
-	if !data.AlarmtemplateId.IsValueSet() {
+
+	if data.AlarmtemplateId.Value() != nil && data.AlarmtemplateId.Value().String() != "00000000-0000-0000-0000-000000000000" {
 		alarmtemplate_id = types.StringValue(data.AlarmtemplateId.Value().String())
 	}
-	if !data.AptemplateId.IsValueSet() {
+	if data.AptemplateId.Value() != nil && data.AptemplateId.Value().String() != "00000000-0000-0000-0000-000000000000" {
 		aptemplate_id = types.StringValue(data.AptemplateId.Value().String())
 	}
-	if !data.GatewaytemplateId.IsValueSet() {
+	if data.GatewaytemplateId.Value() != nil && data.GatewaytemplateId.Value().String() != "00000000-0000-0000-0000-000000000000" {
 		gatewaytemplate_id = types.StringValue(data.GatewaytemplateId.Value().String())
 	}
-	if !data.NetworktemplateId.IsValueSet() {
+	if data.NetworktemplateId.Value() != nil && data.NetworktemplateId.Value().String() != "00000000-0000-0000-0000-000000000000" {
 		networktemplate_id = types.StringValue(data.NetworktemplateId.Value().String())
 	}
-	if !data.RftemplateId.IsValueSet() {
+	if data.RftemplateId.Value() != nil && data.RftemplateId.Value().String() != "00000000-0000-0000-0000-000000000000" {
 		rftemplate_id = types.StringValue(data.RftemplateId.Value().String())
 	}
-	if !data.SecpolicyId.IsValueSet() {
+	if data.SecpolicyId.Value() != nil && data.SecpolicyId.Value().String() != "00000000-0000-0000-0000-000000000000" {
 		secpolicy_id = types.StringValue(data.SecpolicyId.Value().String())
 	}
-	if !data.SitetemplateId.IsValueSet() {
+	if data.SitetemplateId.Value() != nil && data.SitetemplateId.Value().String() != "00000000-0000-0000-0000-000000000000" {
 		sitetemplate_id = types.StringValue(data.SitetemplateId.Value().String())
 	}
+
 	state.Address = address
 	state.Latlng = latlng
 	state.CountryCode = country_code

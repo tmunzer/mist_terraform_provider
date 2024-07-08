@@ -19,9 +19,9 @@ func bgpConfigNeighborsSdkToTerraform(ctx context.Context, diags *diag.Diagnosti
 
 	state_value_map_value := make(map[string]attr.Value)
 	for k, d := range m {
-		var disabled basetypes.BoolValue
+		var disabled basetypes.BoolValue = types.BoolValue(false)
 		var export_policy basetypes.StringValue
-		var hold_time basetypes.Int64Value
+		var hold_time basetypes.Int64Value = types.Int64Value(90)
 		var import_policy basetypes.StringValue
 		var multihop_ttl basetypes.Int64Value
 		var neighbor_as basetypes.Int64Value
@@ -106,24 +106,24 @@ func bgpConfigSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, m map
 	state_value_map := make(map[string]attr.Value)
 	for k, d := range m {
 		var auth_key basetypes.StringValue
-		var bfd_minimum_interval basetypes.Int64Value
-		var bfd_multiplier basetypes.Int64Value
+		var bfd_minimum_interval basetypes.Int64Value = types.Int64Value(350)
+		var bfd_multiplier basetypes.Int64Value = types.Int64Value(3)
 		var communities basetypes.ListValue = types.ListNull(CommunitiesValue{}.Type(ctx))
-		var disable_bfd basetypes.BoolValue
+		var disable_bfd basetypes.BoolValue = types.BoolValue(false)
 		var export basetypes.StringValue
 		var export_policy basetypes.StringValue
 		var extended_v4_nexthop basetypes.BoolValue
-		var graceful_restart_time basetypes.Int64Value
-		var hold_time basetypes.Int64Value
+		var graceful_restart_time basetypes.Int64Value = types.Int64Value(0)
+		var hold_time basetypes.Int64Value = types.Int64Value(90)
 		var import_bgp basetypes.StringValue
 		var import_policy basetypes.StringValue
 		var local_as basetypes.Int64Value
 		var neighbor_as basetypes.Int64Value
 		var neighbors basetypes.MapValue = types.MapNull(NeighborsValue{}.Type(ctx))
-		var networks basetypes.ListValue = types.ListNull(NetworksValue{}.Type(ctx))
-		var no_readvertise_to_overlay basetypes.BoolValue
+		var networks basetypes.ListValue = mist_transform.ListOfStringSdkToTerraformEmpty(ctx)
+		var no_readvertise_to_overlay basetypes.BoolValue = types.BoolValue(false)
 		var type_bgp basetypes.StringValue
-		var via basetypes.StringValue
+		var via basetypes.StringValue = types.StringValue("lan")
 		var vpn_name basetypes.StringValue
 		var wan_name basetypes.StringValue
 
@@ -169,7 +169,7 @@ func bgpConfigSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, m map
 		if d.NeighborAs != nil {
 			neighbor_as = types.Int64Value(int64(*d.NeighborAs))
 		}
-		if d.Neighbors != nil {
+		if d.Neighbors != nil && len(d.Neighbors) > 0 {
 			neighbors = bgpConfigNeighborsSdkToTerraform(ctx, diags, d.Neighbors)
 		}
 		if d.Networks != nil {

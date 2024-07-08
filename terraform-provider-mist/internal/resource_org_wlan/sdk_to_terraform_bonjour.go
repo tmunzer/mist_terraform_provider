@@ -58,7 +58,7 @@ func bonjourSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d *mode
 	if d != nil && d.Enabled != nil {
 		enabled = types.BoolValue(*d.Enabled)
 	}
-	if d != nil && d.Services != nil {
+	if d != nil && d.Services != nil && len(d.Services) > 0 {
 		services = bonjourServicesSdkToTerraform(ctx, diags, d.Services)
 	}
 

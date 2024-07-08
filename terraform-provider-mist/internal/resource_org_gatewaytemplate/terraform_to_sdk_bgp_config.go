@@ -19,9 +19,15 @@ func bgpConfigCommunitiesTerraformToSdk(ctx context.Context, diags *diag.Diagnos
 		var v_interface interface{} = v
 		plan := v_interface.(CommunitiesValue)
 		data := models.BgpConfigCommunity{}
-		data.Id = plan.Id.ValueStringPointer()
-		data.LocalPreference = models.ToPointer(int(plan.LocalPreference.ValueInt64()))
-		data.VpnName = plan.VpnName.ValueStringPointer()
+		if plan.Id.ValueStringPointer() != nil {
+			data.Id = plan.Id.ValueStringPointer()
+		}
+		if plan.LocalPreference.ValueInt64Pointer() != nil {
+			data.LocalPreference = models.ToPointer(int(plan.LocalPreference.ValueInt64()))
+		}
+		if plan.VpnName.ValueStringPointer() != nil {
+			data.VpnName = plan.VpnName.ValueStringPointer()
+		}
 
 		data_list = append(data_list, data)
 	}
@@ -36,12 +42,24 @@ func bgpConfigNeighborsTerraformToSdk(ctx context.Context, diags *diag.Diagnosti
 		plan := v_interface.(NeighborsValue)
 
 		data := models.BgpConfigNeighbors{}
-		data.Disabled = models.ToPointer(plan.Disabled.ValueBool())
-		data.ExportPolicy = models.ToPointer(plan.ExportPolicy.ValueString())
-		data.HoldTime = models.ToPointer(int(plan.HoldTime.ValueInt64()))
-		data.ImportPolicy = models.ToPointer(plan.ImportPolicy.ValueString())
-		data.MultihopTtl = models.ToPointer(int(plan.MultihopTtl.ValueInt64()))
-		data.NeighborAs = models.ToPointer(int(plan.NeighborAs.ValueInt64()))
+		if plan.Disabled.ValueBoolPointer() != nil {
+			data.Disabled = models.ToPointer(plan.Disabled.ValueBool())
+		}
+		if plan.ExportPolicy.ValueStringPointer() != nil {
+			data.ExportPolicy = models.ToPointer(plan.ExportPolicy.ValueString())
+		}
+		if plan.HoldTime.ValueInt64Pointer() != nil {
+			data.HoldTime = models.ToPointer(int(plan.HoldTime.ValueInt64()))
+		}
+		if plan.ImportPolicy.ValueStringPointer() != nil {
+			data.ImportPolicy = models.ToPointer(plan.ImportPolicy.ValueString())
+		}
+		if plan.MultihopTtl.ValueInt64Pointer() != nil {
+			data.MultihopTtl = models.ToPointer(int(plan.MultihopTtl.ValueInt64()))
+		}
+		if plan.NeighborAs.ValueInt64Pointer() != nil {
+			data.NeighborAs = models.ToPointer(int(plan.NeighborAs.ValueInt64()))
+		}
 
 		data_map[k] = data
 	}
@@ -55,30 +73,67 @@ func bgpConfigTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d bas
 		var v_interface interface{} = v
 		plan := v_interface.(BgpConfigValue)
 
-		communities := bgpConfigCommunitiesTerraformToSdk(ctx, diags, plan.Communities)
-		neighbors := bgpConfigNeighborsTerraformToSdk(ctx, diags, plan.Neighbors)
-
 		data := models.BgpConfig{}
-		data.AuthKey = models.ToPointer(plan.AuthKey.ValueString())
-		data.BfdMinimumInterval = models.NewOptional(models.ToPointer(int(plan.BfdMinimumInterval.ValueInt64())))
-		data.BfdMultiplier = models.NewOptional(models.ToPointer(int(plan.BfdMultiplier.ValueInt64())))
-		data.Communities = communities
-		data.DisableBfd = models.ToPointer(plan.DisableBfd.ValueBool())
-		data.Export = models.ToPointer(plan.Export.ValueString())
-		data.ExportPolicy = models.ToPointer(plan.ExportPolicy.ValueString())
-		data.ExtendedV4Nexthop = models.ToPointer(plan.ExtendedV4Nexthop.ValueBool())
-		data.GracefulRestartTime = models.ToPointer(int(plan.GracefulRestartTime.ValueInt64()))
-		data.HoldTime = models.ToPointer(int(plan.HoldTime.ValueInt64()))
-		data.Import = models.ToPointer(plan.Import.ValueString())
-		data.ImportPolicy = models.ToPointer(plan.ImportPolicy.ValueString())
-		data.NeighborAs = models.ToPointer(int(plan.NeighborAs.ValueInt64()))
-		data.Neighbors = neighbors
-		data.Networks = mist_transform.ListOfStringTerraformToSdk(ctx, plan.Networks)
-		data.NoReadvertiseToOverlay = models.ToPointer(plan.NoReadvertiseToOverlay.ValueBool())
-		data.Type = models.ToPointer(models.BgpConfigTypeEnum(plan.BgpConfigType.ValueString()))
-		data.Via = models.ToPointer(models.BgpConfigViaEnum(plan.Via.ValueString()))
-		data.VpnName = models.ToPointer(plan.VpnName.ValueString())
-		data.WanName = models.ToPointer(plan.WanName.ValueString())
+		if plan.AuthKey.ValueStringPointer() != nil {
+			data.AuthKey = models.ToPointer(plan.AuthKey.ValueString())
+		}
+		if plan.BfdMinimumInterval.ValueInt64Pointer() != nil {
+			data.BfdMinimumInterval = models.NewOptional(models.ToPointer(int(plan.BfdMinimumInterval.ValueInt64())))
+		}
+		if plan.BfdMultiplier.ValueInt64Pointer() != nil {
+			data.BfdMultiplier = models.NewOptional(models.ToPointer(int(plan.BfdMultiplier.ValueInt64())))
+		}
+		if !plan.Communities.IsNull() && !plan.Communities.IsUnknown() {
+			data.Communities = bgpConfigCommunitiesTerraformToSdk(ctx, diags, plan.Communities)
+		}
+		if plan.DisableBfd.ValueBoolPointer() != nil {
+			data.DisableBfd = models.ToPointer(plan.DisableBfd.ValueBool())
+		}
+		if plan.Export.ValueStringPointer() != nil {
+			data.Export = models.ToPointer(plan.Export.ValueString())
+		}
+		if plan.ExportPolicy.ValueStringPointer() != nil {
+			data.ExportPolicy = models.ToPointer(plan.ExportPolicy.ValueString())
+		}
+		if plan.ExtendedV4Nexthop.ValueBoolPointer() != nil {
+			data.ExtendedV4Nexthop = models.ToPointer(plan.ExtendedV4Nexthop.ValueBool())
+		}
+		if plan.GracefulRestartTime.ValueInt64Pointer() != nil {
+			data.GracefulRestartTime = models.ToPointer(int(plan.GracefulRestartTime.ValueInt64()))
+		}
+		if plan.HoldTime.ValueInt64Pointer() != nil {
+			data.HoldTime = models.ToPointer(int(plan.HoldTime.ValueInt64()))
+		}
+		if plan.Import.ValueStringPointer() != nil {
+			data.Import = models.ToPointer(plan.Import.ValueString())
+		}
+		if plan.ImportPolicy.ValueStringPointer() != nil {
+			data.ImportPolicy = models.ToPointer(plan.ImportPolicy.ValueString())
+		}
+		if plan.NeighborAs.ValueInt64Pointer() != nil {
+			data.NeighborAs = models.ToPointer(int(plan.NeighborAs.ValueInt64()))
+		}
+		if !plan.Neighbors.IsNull() && !plan.Neighbors.IsUnknown() {
+			data.Neighbors = bgpConfigNeighborsTerraformToSdk(ctx, diags, plan.Neighbors)
+		}
+		if !plan.Networks.IsNull() && !plan.Networks.IsUnknown() {
+			data.Networks = mist_transform.ListOfStringTerraformToSdk(ctx, plan.Networks)
+		}
+		if plan.NoReadvertiseToOverlay.ValueBoolPointer() != nil {
+			data.NoReadvertiseToOverlay = models.ToPointer(plan.NoReadvertiseToOverlay.ValueBool())
+		}
+		if plan.BgpConfigType.ValueStringPointer() != nil {
+			data.Type = models.ToPointer(models.BgpConfigTypeEnum(plan.BgpConfigType.ValueString()))
+		}
+		if plan.Via.ValueStringPointer() != nil {
+			data.Via = models.ToPointer(models.BgpConfigViaEnum(plan.Via.ValueString()))
+		}
+		if plan.VpnName.ValueStringPointer() != nil {
+			data.VpnName = models.ToPointer(plan.VpnName.ValueString())
+		}
+		if plan.WanName.ValueStringPointer() != nil {
+			data.WanName = models.ToPointer(plan.WanName.ValueString())
+		}
 
 		data_map[k] = data
 	}

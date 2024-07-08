@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
+	"github.com/hashicorp/terraform-plugin-log/tflog"
 
 	"mistapi/models"
 
@@ -12,6 +13,7 @@ import (
 
 func TerraformToSdk(ctx context.Context, plan *SiteModel) (*models.Site, diag.Diagnostics) {
 	var diags diag.Diagnostics
+	unset := make(map[string]interface{})
 
 	data := models.Site{}
 	data.Name = plan.Name.ValueString()
@@ -29,41 +31,55 @@ func TerraformToSdk(ctx context.Context, plan *SiteModel) (*models.Site, diag.Di
 
 	data.Notes = plan.Notes.ValueStringPointer()
 
-	var alarmtemplate_id uuid.UUID
-	var aptemplate_id uuid.UUID
-	var gatewaytemplate_id uuid.UUID
-	var networktemplate_id uuid.UUID
-	var rftemplate_id uuid.UUID
-	var secpolicy_id uuid.UUID
-	var sitetemplate_id uuid.UUID
-	if !plan.AlarmtemplateId.IsNull() && !plan.AlarmtemplateId.IsUnknown() {
-		alarmtemplate_id = uuid.MustParse(plan.AlarmtemplateId.ValueString())
+	alarmtemplate_id, e := uuid.Parse(plan.AlarmtemplateId.ValueString())
+	if e == nil {
+		data.AlarmtemplateId = models.NewOptional(&alarmtemplate_id)
+	} else {
+		unset["alarmtemplate_id"] = nil
 	}
-	if !plan.AptemplateId.IsNull() && !plan.AptemplateId.IsUnknown() {
-		aptemplate_id = uuid.MustParse(plan.AptemplateId.ValueString())
+
+	aptemplate_id, e := uuid.Parse(plan.AptemplateId.ValueString())
+	if e == nil {
+		data.AptemplateId = models.NewOptional(&aptemplate_id)
+	} else {
+		unset["-aptemplate_id"] = ""
 	}
-	if !plan.GatewaytemplateId.IsNull() && !plan.GatewaytemplateId.IsUnknown() {
-		gatewaytemplate_id = uuid.MustParse(plan.GatewaytemplateId.ValueString())
+
+	gatewaytemplate_id, e := uuid.Parse(plan.GatewaytemplateId.ValueString())
+	if e == nil {
+		data.GatewaytemplateId = models.NewOptional(&gatewaytemplate_id)
+	} else {
+		unset["gatewaytemplate_id"] = nil
 	}
-	if !plan.NetworktemplateId.IsNull() && !plan.NetworktemplateId.IsUnknown() {
-		networktemplate_id = uuid.MustParse(plan.NetworktemplateId.ValueString())
+
+	networktemplate_id, e := uuid.Parse(plan.NetworktemplateId.ValueString())
+	if e == nil {
+		data.NetworktemplateId = models.NewOptional(&networktemplate_id)
+	} else {
+		unset["networktemplate_id"] = nil
 	}
-	if !plan.RftemplateId.IsNull() && !plan.RftemplateId.IsUnknown() {
-		rftemplate_id = uuid.MustParse(plan.RftemplateId.ValueString())
+
+	rftemplate_id, e := uuid.Parse(plan.RftemplateId.ValueString())
+	if e == nil {
+		data.RftemplateId = models.NewOptional(&rftemplate_id)
+	} else {
+		unset["rftemplate_id"] = nil
 	}
-	if !plan.SecpolicyId.IsNull() && !plan.SecpolicyId.IsUnknown() {
-		secpolicy_id = uuid.MustParse(plan.SecpolicyId.ValueString())
+
+	secpolicy_id, e := uuid.Parse(plan.SecpolicyId.ValueString())
+	if e == nil {
+		data.SecpolicyId = models.NewOptional(&secpolicy_id)
+	} else {
+		unset["secpolicy_id"] = nil
 	}
-	if !plan.SitetemplateId.IsNull() && !plan.SitetemplateId.IsUnknown() {
-		sitetemplate_id = uuid.MustParse(plan.SitetemplateId.ValueString())
+
+	sitetemplate_id, e := uuid.Parse(plan.SitetemplateId.ValueString())
+	if e == nil {
+		data.SitetemplateId = models.NewOptional(&sitetemplate_id)
+	} else {
+		tflog.Error(ctx, e.Error())
+		unset["sitetemplate_id"] = nil
 	}
-	data.AlarmtemplateId = models.NewOptional(&alarmtemplate_id)
-	data.AptemplateId = models.NewOptional(&aptemplate_id)
-	data.GatewaytemplateId = models.NewOptional(&gatewaytemplate_id)
-	data.NetworktemplateId = models.NewOptional(&networktemplate_id)
-	data.RftemplateId = models.NewOptional(&rftemplate_id)
-	data.SecpolicyId = models.NewOptional(&secpolicy_id)
-	data.SitetemplateId = models.NewOptional(&sitetemplate_id)
 
 	var items []uuid.UUID
 	for _, item := range plan.SitegroupIds.Elements() {
@@ -71,5 +87,6 @@ func TerraformToSdk(ctx context.Context, plan *SiteModel) (*models.Site, diag.Di
 	}
 	data.SitegroupIds = items
 
+	data.AdditionalProperties = unset
 	return &data, diags
 }

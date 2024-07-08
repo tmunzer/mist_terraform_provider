@@ -41,13 +41,6 @@
             "computed_optional_required": "required"
         },
         {
-            "name": "alarmtemplate_id",
-            "get": [
-                "string"
-            ],
-            "computed_optional_required": "computed"
-        },
-        {
             "name": "allow_mist",
             "get": [
                 "bool"

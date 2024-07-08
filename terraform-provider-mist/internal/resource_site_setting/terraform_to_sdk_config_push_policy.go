@@ -32,12 +32,12 @@ func pushPolicyConfigTerraformToSdk(ctx context.Context, diags *diag.Diagnostics
 	tflog.Debug(ctx, "pushPolicyConfigTerraformToSdk")
 	data := models.SiteSettingConfigPushPolicy{}
 
-	if !d.IsNull() && !d.IsUnknown() {
+	if d.NoPush.ValueBoolPointer() != nil {
 		data.NoPush = d.NoPush.ValueBoolPointer()
 	}
-
-	push_window := pushPolicyPushWindowConfigTerraformToSdk(ctx, diags, d.PushWindow)
-	data.PushWindow = push_window
+	if !d.PushWindow.IsNull() && !d.PushWindow.IsUnknown() {
+		data.PushWindow = pushPolicyPushWindowConfigTerraformToSdk(ctx, diags, d.PushWindow)
+	}
 
 	return &data
 }

@@ -13,13 +13,20 @@ func occupancyTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d Occ
 	tflog.Debug(ctx, "occupancyTerraformToSdk")
 	data := models.SiteOccupancyAnalytics{}
 
-	if !d.IsNull() && !d.IsUnknown() {
+	if d.AssetsEnabled.ValueBoolPointer() != nil {
 		data.AssetsEnabled = d.AssetsEnabled.ValueBoolPointer()
+	}
+	if d.ClientsEnabled.ValueBoolPointer() != nil {
 		data.ClientsEnabled = d.ClientsEnabled.ValueBoolPointer()
+	}
+	if d.MinDuration.ValueInt64Pointer() != nil {
 		data.MinDuration = models.ToPointer(int(d.MinDuration.ValueInt64()))
+	}
+	if d.SdkclientsEnabled.ValueBoolPointer() != nil {
 		data.SdkclientsEnabled = d.SdkclientsEnabled.ValueBoolPointer()
+	}
+	if d.UnconnectedClientsEnabled.ValueBoolPointer() != nil {
 		data.UnconnectedClientsEnabled = d.UnconnectedClientsEnabled.ValueBoolPointer()
-
 	}
 
 	return &data

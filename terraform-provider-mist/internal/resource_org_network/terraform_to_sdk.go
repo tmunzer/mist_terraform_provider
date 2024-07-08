@@ -14,25 +14,25 @@ func TerraformToSdk(ctx context.Context, plan *OrgNetworkModel) (*models.Network
 	data := models.Network{}
 	unset := make(map[string]interface{})
 
-	if !plan.Name.IsNull() && !plan.Name.IsUnknown() {
+	if plan.Name.ValueStringPointer() != nil {
 		data.Name = plan.Name.ValueStringPointer()
 	} else {
 		unset["-ap_updown_threshold"] = ""
 	}
 
-	if !plan.DisallowMistServices.IsNull() && !plan.DisallowMistServices.IsUnknown() {
+	if plan.DisallowMistServices.ValueBoolPointer() != nil {
 		data.DisallowMistServices = plan.DisallowMistServices.ValueBoolPointer()
 	} else {
 		unset["-disallow_mist_services"] = ""
 	}
 
-	if !plan.Gateway.IsNull() && !plan.Gateway.IsUnknown() {
+	if plan.Gateway.ValueStringPointer() != nil {
 		data.Gateway = plan.Gateway.ValueStringPointer()
 	} else {
 		unset["-gateway"] = ""
 	}
 
-	if !plan.Gateway6.IsNull() && !plan.Gateway6.IsUnknown() {
+	if plan.Gateway6.ValueStringPointer() != nil {
 		data.Gateway6 = plan.Gateway6.ValueStringPointer()
 	} else {
 		unset["-gateway6"] = ""
@@ -52,7 +52,7 @@ func TerraformToSdk(ctx context.Context, plan *OrgNetworkModel) (*models.Network
 		unset["-internet_access"] = ""
 	}
 
-	if !plan.Isolation.IsNull() && !plan.Isolation.IsUnknown() {
+	if plan.Isolation.ValueBoolPointer() != nil {
 		data.Isolation = plan.Isolation.ValueBoolPointer()
 	} else {
 		unset["-isolation"] = ""
@@ -64,13 +64,13 @@ func TerraformToSdk(ctx context.Context, plan *OrgNetworkModel) (*models.Network
 		unset["-routed_for_networks"] = ""
 	}
 
-	if !plan.Subnet.IsNull() && !plan.Subnet.IsUnknown() {
+	if plan.Subnet.ValueStringPointer() != nil {
 		data.Subnet = plan.Subnet.ValueStringPointer()
 	} else {
 		unset["-subnet"] = ""
 	}
 
-	if !plan.Subnet6.IsNull() && !plan.Subnet6.IsUnknown() {
+	if plan.Subnet6.ValueStringPointer() != nil {
 		data.Subnet6 = plan.Subnet6.ValueStringPointer()
 	} else {
 		unset["-subnet6"] = ""
@@ -82,7 +82,7 @@ func TerraformToSdk(ctx context.Context, plan *OrgNetworkModel) (*models.Network
 		unset["-tenants"] = ""
 	}
 
-	if !plan.VlanId.IsNull() && !plan.VlanId.IsUnknown() {
+	if plan.VlanId.ValueInt64Pointer() != nil {
 		data.VlanId = models.ToPointer(int(plan.VlanId.ValueInt64()))
 	} else {
 		unset["-vlan_id"] = ""

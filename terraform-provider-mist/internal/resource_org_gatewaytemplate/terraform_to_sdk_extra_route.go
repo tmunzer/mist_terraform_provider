@@ -18,7 +18,9 @@ func extraRouteTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d ba
 		plan := v_interface.(ExtraRoutesValue)
 
 		data := models.GatewayExtraRoute{}
-		data.Via = plan.Via.ValueStringPointer()
+		if plan.Via.ValueStringPointer() != nil {
+			data.Via = plan.Via.ValueStringPointer()
+		}
 
 		data_map[k] = data
 	}

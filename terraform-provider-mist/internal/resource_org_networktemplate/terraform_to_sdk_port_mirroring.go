@@ -27,10 +27,10 @@ func portMirroringTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d
 		if !item_obj.InputPortIdsIngress.IsNull() && !item_obj.InputPortIdsIngress.IsUnknown() {
 			data_item.InputPortIdsIngress = mist_transform.ListOfStringTerraformToSdk(ctx, item_obj.InputPortIdsIngress)
 		}
-		if !item_obj.OutputNetwork.IsNull() && !item_obj.OutputNetwork.IsUnknown() {
+		if item_obj.OutputNetwork.ValueStringPointer() != nil {
 			data_item.OutputNetwork = models.ToPointer(item_obj.OutputNetwork.ValueString())
 		}
-		if !item_obj.OutputPortId.IsNull() && !item_obj.OutputPortId.IsUnknown() {
+		if item_obj.OutputPortId.ValueStringPointer() != nil {
 			data_item.OutputPortId = models.ToPointer(item_obj.OutputPortId.ValueString())
 		}
 		data[item_name] = data_item

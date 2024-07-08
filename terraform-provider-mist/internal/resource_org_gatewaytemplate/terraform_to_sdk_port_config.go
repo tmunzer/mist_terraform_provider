@@ -18,18 +18,19 @@ func gatewayPortVpnPathTerraformToSdk(ctx context.Context, diags *diag.Diagnosti
 		var v_interface interface{} = v
 		plan := v_interface.(VpnPathsValue)
 		data := models.GatewayPortVpnPath{}
-		if plan.BfdProfile.IsNull() && !plan.BfdProfile.IsUnknown() {
+		if plan.BfdProfile.ValueStringPointer() != nil {
 			data.BfdProfile = models.ToPointer(models.GatewayPortVpnPathBfdProfileEnum(plan.BfdProfile.ValueString()))
 		}
-		if plan.BfdUseTunnelMode.IsNull() && !plan.BfdUseTunnelMode.IsUnknown() {
+		if plan.BfdUseTunnelMode.ValueBoolPointer() != nil {
 			data.BfdUseTunnelMode = models.ToPointer(plan.BfdUseTunnelMode.ValueBool())
 		}
-		if plan.Role.IsNull() && !plan.Role.IsUnknown() {
+		if plan.Role.ValueStringPointer() != nil {
 			data.Role = models.ToPointer(models.GatewayPortVpnPathRoleEnum(plan.Role.ValueString()))
 		}
 
-		traffic_shaping := gatewayPortTrafficShapingTerraformToSdk(ctx, diags, plan.TrafficShaping)
-		data.TrafficShaping = traffic_shaping
+		if plan.TrafficShaping.IsNull() && !plan.TrafficShaping.IsUnknown() {
+			data.TrafficShaping = gatewayPortTrafficShapingTerraformToSdk(ctx, diags, plan.TrafficShaping)
+		}
 
 		data_map[k] = data
 	}
@@ -40,11 +41,13 @@ func gatewayPortTrafficShapingTerraformToSdk(ctx context.Context, diags *diag.Di
 	tflog.Debug(ctx, "gatewayPortTrafficShapingTerraformToSdk")
 	data := models.GatewayTrafficShaping{}
 	if d.IsNull() || d.IsUnknown() {
-		return &data
+		return nil
 	} else {
 		plan := NewTrafficShapingValueMust(d.AttributeTypes(ctx), d.Attributes())
-		data.ClassPercentages = mist_transform.ListOfIntTerraformToSdk(ctx, plan.ClassPercentages)
-		if plan.Enabled.IsNull() && !plan.Enabled.IsUnknown() {
+		if plan.ClassPercentages.IsNull() && !plan.ClassPercentages.IsUnknown() {
+			data.ClassPercentages = mist_transform.ListOfIntTerraformToSdk(ctx, plan.ClassPercentages)
+		}
+		if plan.Enabled.ValueBoolPointer() != nil {
 			data.Enabled = models.ToPointer(plan.Enabled.ValueBool())
 		}
 		return &data
@@ -55,33 +58,37 @@ func gatewayIpConfigTerraformToSdk(ctx context.Context, diags *diag.Diagnostics,
 	tflog.Debug(ctx, "gatewayIpConfigTerraformToSdk")
 	data := models.GatewayIpConfig{}
 	if d.IsNull() || d.IsUnknown() {
-		return &data
+		return nil
 	} else {
 		plan := NewIpConfigValueMust(d.AttributeTypes(ctx), d.Attributes())
-		data.Dns = mist_transform.ListOfStringTerraformToSdk(ctx, plan.Dns)
-		data.DnsSuffix = mist_transform.ListOfStringTerraformToSdk(ctx, plan.DnsSuffix)
-		if plan.Gateway.IsNull() && !plan.Gateway.IsUnknown() {
+		if plan.Dns.IsNull() && !plan.Dns.IsUnknown() {
+			data.Dns = mist_transform.ListOfStringTerraformToSdk(ctx, plan.Dns)
+		}
+		if plan.DnsSuffix.IsNull() && !plan.DnsSuffix.IsUnknown() {
+			data.DnsSuffix = mist_transform.ListOfStringTerraformToSdk(ctx, plan.DnsSuffix)
+		}
+		if plan.Gateway.ValueStringPointer() != nil {
 			data.Gateway = models.ToPointer(plan.Gateway.ValueString())
 		}
-		if plan.Ip.IsNull() && !plan.Ip.IsUnknown() {
+		if plan.Ip.ValueStringPointer() != nil {
 			data.Ip = models.ToPointer(plan.Ip.ValueString())
 		}
-		if plan.Netmask.IsNull() && !plan.Netmask.IsUnknown() {
+		if plan.Netmask.ValueStringPointer() != nil {
 			data.Netmask = models.ToPointer(plan.Netmask.ValueString())
 		}
-		if plan.Network.IsNull() && !plan.Network.IsUnknown() {
+		if plan.Network.ValueStringPointer() != nil {
 			data.Network = models.ToPointer(plan.Network.ValueString())
 		}
-		if plan.PoserPassword.IsNull() && !plan.PoserPassword.IsUnknown() {
+		if plan.PoserPassword.ValueStringPointer() != nil {
 			data.PoserPassword = models.ToPointer(plan.PoserPassword.ValueString())
 		}
-		if plan.PppoeUsername.IsNull() && !plan.PppoeUsername.IsUnknown() {
+		if plan.PppoeUsername.ValueStringPointer() != nil {
 			data.PppoeUsername = models.ToPointer(plan.PppoeUsername.ValueString())
 		}
-		if plan.PppoeAuth.IsNull() && !plan.PppoeAuth.IsUnknown() {
+		if plan.PppoeAuth.ValueStringPointer() != nil {
 			data.PppoeAuth = models.ToPointer(models.GatewayWanPpoeAuthEnum(plan.PppoeAuth.ValueString()))
 		}
-		if plan.IpConfigType.IsNull() && !plan.IpConfigType.IsUnknown() {
+		if plan.IpConfigType.ValueStringPointer() != nil {
 			data.Type = models.ToPointer(models.GatewayWanTypeEnum(plan.IpConfigType.ValueString()))
 		}
 		return &data
@@ -91,11 +98,15 @@ func gatewayIpConfigTerraformToSdk(ctx context.Context, diags *diag.Diagnostics,
 func portConfigWanSourceNatTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) *models.GatewayPortWanSourceNat {
 	data := models.GatewayPortWanSourceNat{}
 	if d.IsNull() || d.IsUnknown() {
-		return &data
+		return nil
 	} else {
 		plan := NewWanSourceNatValueMust(d.AttributeTypes(ctx), d.Attributes())
-		data.Disabled = plan.Disabled.ValueBoolPointer()
-		data.NatPool = plan.NatPool.ValueStringPointer()
+		if plan.Disabled.IsNull() && !plan.Disabled.IsUnknown() {
+			data.Disabled = plan.Disabled.ValueBoolPointer()
+		}
+		if plan.NatPool.ValueStringPointer() != nil {
+			data.NatPool = plan.NatPool.ValueStringPointer()
+		}
 		return &data
 	}
 }
@@ -107,106 +118,108 @@ func portConfigTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d ba
 		plan := v_interface.(PortConfigValue)
 		data := models.GatewayPortConfig{}
 
-		data.Usage = models.GatewayPortUsageEnum(plan.Usage.ValueString())
-		if plan.Description.IsNull() && !plan.Description.IsUnknown() {
+		if plan.Usage.ValueStringPointer() != nil {
+			data.Usage = models.GatewayPortUsageEnum(plan.Usage.ValueString())
+		}
+		if plan.Description.ValueStringPointer() != nil {
 			data.Description = models.ToPointer(plan.Description.ValueString())
 		}
-		if plan.DisableAutoneg.IsNull() && !plan.DisableAutoneg.IsUnknown() {
+		if plan.DisableAutoneg.ValueBoolPointer() != nil {
 			data.DisableAutoneg = models.ToPointer(plan.DisableAutoneg.ValueBool())
 		}
-		if plan.Disabled.IsNull() && !plan.Disabled.IsUnknown() {
+		if plan.Disabled.ValueBoolPointer() != nil {
 			data.Disabled = models.ToPointer(plan.Disabled.ValueBool())
 		}
-		if plan.DslType.IsNull() && !plan.DslType.IsUnknown() {
+		if plan.DslType.ValueStringPointer() != nil {
 			data.DslType = models.ToPointer(models.GatewayPortDslTypeEnum(plan.DslType.ValueString()))
 		}
-		if plan.DslVci.IsNull() && !plan.DslVci.IsUnknown() {
+		if plan.DslVci.ValueInt64Pointer() != nil {
 			data.DslVci = models.ToPointer(int(plan.DslVci.ValueInt64()))
 		}
-		if plan.DslVpi.IsNull() && !plan.DslVpi.IsUnknown() {
+		if plan.DslVpi.ValueInt64Pointer() != nil {
 			data.DslVpi = models.ToPointer(int(plan.DslVpi.ValueInt64()))
 		}
-		if plan.Duplex.IsNull() && !plan.Duplex.IsUnknown() {
+		if plan.Duplex.ValueStringPointer() != nil {
 			data.Duplex = models.ToPointer(models.GatewayPortDuplexEnum(plan.Duplex.ValueString()))
 		}
 
 		t, _ := plan.IpConfig.ToObjectValue(ctx)
-		ip_config := gatewayIpConfigTerraformToSdk(ctx, diags, t)
-		data.IpConfig = ip_config
+		data.IpConfig = gatewayIpConfigTerraformToSdk(ctx, diags, t)
 
-		if plan.LteApn.IsNull() && !plan.LteApn.IsUnknown() {
+		if plan.LteApn.ValueStringPointer() != nil {
 			data.LteApn = models.ToPointer(plan.LteApn.ValueString())
 		}
-		if plan.LteAuth.IsNull() && !plan.LteAuth.IsUnknown() {
+		if plan.LteAuth.ValueStringPointer() != nil {
 			data.LteAuth = models.ToPointer(models.GatewayPortLteAuthEnum(plan.LteAuth.ValueString()))
 		}
-		if plan.LteBackup.IsNull() && !plan.LteBackup.IsUnknown() {
+		if plan.LteBackup.ValueBoolPointer() != nil {
 			data.LteBackup = models.ToPointer(plan.LteBackup.ValueBool())
 		}
-		if plan.LtePassword.IsNull() && !plan.LtePassword.IsUnknown() {
+		if plan.LtePassword.ValueStringPointer() != nil {
 			data.LtePassword = models.ToPointer(plan.LtePassword.ValueString())
 		}
-		if plan.LteUsername.IsNull() && !plan.LteUsername.IsUnknown() {
+		if plan.LteUsername.ValueStringPointer() != nil {
 			data.LteUsername = models.ToPointer(plan.LteUsername.ValueString())
 		}
-		if plan.Mtu.IsNull() && !plan.Mtu.IsUnknown() {
+		if plan.Mtu.ValueInt64Pointer() != nil {
 			data.Mtu = models.ToPointer(int(plan.Mtu.ValueInt64()))
 		}
-		if plan.Name.IsNull() && !plan.Name.IsUnknown() {
+		if plan.Name.ValueStringPointer() != nil {
 			data.Name = models.ToPointer(plan.Name.ValueString())
 		}
-		data.Networks = mist_transform.ListOfStringTerraformToSdk(ctx, plan.Networks)
-		if plan.OuterVlanId.IsNull() && !plan.OuterVlanId.IsUnknown() && plan.OuterVlanId.ValueInt64() != 0 {
+		if plan.Name.IsNull() && !plan.Name.IsUnknown() {
+			data.Networks = mist_transform.ListOfStringTerraformToSdk(ctx, plan.Networks)
+		}
+		if plan.OuterVlanId.ValueInt64Pointer() != nil {
 			data.OuterVlanId = models.ToPointer(int(plan.OuterVlanId.ValueInt64()))
 		}
-		if plan.PoeDisabled.IsNull() && !plan.PoeDisabled.IsUnknown() {
+		if plan.PoeDisabled.ValueBoolPointer() != nil {
 			data.PoeDisabled = models.ToPointer(plan.PoeDisabled.ValueBool())
 		}
-		if plan.PortNetwork.IsNull() && !plan.PortNetwork.IsUnknown() {
+		if plan.PortNetwork.ValueStringPointer() != nil {
 			data.PortNetwork = models.ToPointer(plan.PortNetwork.ValueString())
 		}
-		if plan.PreserveDscp.IsNull() && !plan.PreserveDscp.IsUnknown() {
+		if plan.PreserveDscp.ValueBoolPointer() != nil {
 			data.PreserveDscp = models.ToPointer(plan.PreserveDscp.ValueBool())
 		}
-		if plan.Redundant.IsNull() && !plan.Redundant.IsUnknown() {
+		if plan.Redundant.ValueBoolPointer() != nil {
 			data.Redundant = models.ToPointer(plan.Redundant.ValueBool())
 		}
-		if plan.RethIdx.IsNull() && !plan.RethIdx.IsUnknown() {
+		if plan.RethIdx.ValueInt64Pointer() != nil {
 			data.RethIdx = models.ToPointer(int(plan.RethIdx.ValueInt64()))
 		}
-		if plan.RethNode.IsNull() && !plan.RethNode.IsUnknown() {
+		if plan.RethNode.ValueStringPointer() != nil {
 			data.RethNode = models.ToPointer(plan.RethNode.ValueString())
 		}
-		if plan.Speed.IsNull() && !plan.Speed.IsUnknown() {
+		if plan.Speed.ValueStringPointer() != nil {
 			data.Speed = models.ToPointer(plan.Speed.ValueString())
 		}
-		if plan.SsrNoVirtualMac.IsNull() && !plan.SsrNoVirtualMac.IsUnknown() {
+		if plan.SsrNoVirtualMac.ValueBoolPointer() != nil {
 			data.SsrNoVirtualMac = models.ToPointer(plan.SsrNoVirtualMac.ValueBool())
 		}
-		if plan.SvrPortRange.IsNull() && !plan.SvrPortRange.IsUnknown() {
+		if plan.SvrPortRange.ValueStringPointer() != nil {
 			data.SvrPortRange = models.ToPointer(plan.SvrPortRange.ValueString())
 		}
 
-		traffic_shaping := gatewayPortTrafficShapingTerraformToSdk(ctx, diags, plan.TrafficShaping)
-		data.TrafficShaping = traffic_shaping
+		data.TrafficShaping = gatewayPortTrafficShapingTerraformToSdk(ctx, diags, plan.TrafficShaping)
 
-		if plan.VlanId.IsNull() && !plan.VlanId.IsUnknown() {
+		if plan.VlanId.ValueInt64Pointer() != nil {
 			data.VlanId = models.ToPointer(int(plan.VlanId.ValueInt64()))
 		}
 
-		vpn_paths := gatewayPortVpnPathTerraformToSdk(ctx, diags, plan.VpnPaths)
-		data.VpnPaths = vpn_paths
+		data.VpnPaths = gatewayPortVpnPathTerraformToSdk(ctx, diags, plan.VpnPaths)
 
-		if plan.WanArpPolicer.IsNull() && !plan.WanArpPolicer.IsUnknown() {
-			data.WanArpPolicer = models.ToPointer(models.GatewayPortWanArpPolicerEnum(plan.WanArpPolicer.ValueString()))
-		}
-		if plan.WanExtIp.IsNull() && !plan.WanExtIp.IsUnknown() {
+		data.WanArpPolicer = models.ToPointer(models.GatewayPortWanArpPolicerEnum(plan.WanArpPolicer.ValueString()))
+
+		if plan.WanExtIp.ValueStringPointer() != nil {
 			data.WanExtIp = models.ToPointer(plan.WanExtIp.ValueString())
 		}
-		data.WanSourceNat = portConfigWanSourceNatTerraformToSdk(ctx, diags, plan.WanSourceNat)
-		data.WanType = models.ToPointer(models.GatewayPortWanTypeEnum(plan.WanType.ValueString()))
 
-		tflog.Error(ctx, "-------------------in", map[string]interface{}{"in": plan, "out": data})
+		data.WanSourceNat = portConfigWanSourceNatTerraformToSdk(ctx, diags, plan.WanSourceNat)
+
+		if plan.WanType.ValueStringPointer() != nil {
+			data.WanType = models.ToPointer(models.GatewayPortWanTypeEnum(plan.WanType.ValueString()))
+		}
 		data_map[k] = data
 	}
 	return data_map

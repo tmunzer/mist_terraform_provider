@@ -45,7 +45,7 @@ func TerraformToSdk(ctx context.Context, devices_plan basetypes.ListValue, devic
 		}
 		if !already_claimed {
 			claim = append(claim, dev_plan.Magic.ValueString())
-			if !dev_plan.SiteId.IsNull() && !dev_plan.SiteId.IsUnknown() {
+			if dev_plan.SiteId.ValueStringPointer() != nil {
 				assign_claim[dev_plan.Magic.ValueString()] = dev_plan.SiteId.ValueString()
 			}
 		}

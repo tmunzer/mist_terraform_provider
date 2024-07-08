@@ -18,13 +18,25 @@ func oobIpConfigNode1TerraformToSdk(ctx context.Context, diags *diag.Diagnostics
 	if !d.IsNull() && !d.IsUnknown() {
 
 		plan := NewNode1ValueMust(d.AttributeTypes(ctx), d.Attributes())
-		data.Ip = plan.Ip.ValueStringPointer()
-		data.Netmask = plan.Netmask.ValueStringPointer()
-		data.Network = plan.Network.ValueStringPointer()
+		if plan.Ip.ValueStringPointer() != nil {
+			data.Ip = plan.Ip.ValueStringPointer()
+		}
+		if plan.Netmask.ValueStringPointer() != nil {
+			data.Netmask = plan.Netmask.ValueStringPointer()
+		}
+		if plan.Network.ValueStringPointer() != nil {
+			data.Network = plan.Network.ValueStringPointer()
+		}
 
-		data.Type = (*models.IpConfigTypeEnum)(plan.Node1Type.ValueStringPointer())
-		data.UseMgmtVrf = plan.UseMgmtVrf.ValueBoolPointer()
-		data.UseMgmtVrfForHostOut = plan.UseMgmtVrfForHostOut.ValueBoolPointer()
+		if plan.Node1Type.ValueStringPointer() != nil {
+			data.Type = (*models.IpConfigTypeEnum)(plan.Node1Type.ValueStringPointer())
+		}
+		if plan.UseMgmtVrf.ValueBoolPointer() != nil {
+			data.UseMgmtVrf = plan.UseMgmtVrf.ValueBoolPointer()
+		}
+		if plan.UseMgmtVrfForHostOut.ValueBoolPointer() != nil {
+			data.UseMgmtVrfForHostOut = plan.UseMgmtVrfForHostOut.ValueBoolPointer()
+		}
 	}
 
 	return &data
@@ -34,13 +46,27 @@ func oobIpConfigTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d O
 
 	data := models.GatewayOobIpConfig{}
 
-	data.Ip = d.Ip.ValueStringPointer()
-	data.Netmask = d.Netmask.ValueStringPointer()
-	data.Network = d.Network.ValueStringPointer()
-	data.Node1 = oobIpConfigNode1TerraformToSdk(ctx, diags, d.Node1)
-	data.Type = (*models.IpConfigTypeEnum)(d.OobIpConfigType.ValueStringPointer())
-	data.UseMgmtVrf = d.UseMgmtVrf.ValueBoolPointer()
-	data.UseMgmtVrfForHostOut = d.UseMgmtVrfForHostOut.ValueBoolPointer()
+	if d.Ip.ValueStringPointer() != nil {
+		data.Ip = d.Ip.ValueStringPointer()
+	}
+	if d.Netmask.ValueStringPointer() != nil {
+		data.Netmask = d.Netmask.ValueStringPointer()
+	}
+	if d.Network.ValueStringPointer() != nil {
+		data.Network = d.Network.ValueStringPointer()
+	}
+	if !d.Node1.IsNull() && !d.Node1.IsUnknown() {
+		data.Node1 = oobIpConfigNode1TerraformToSdk(ctx, diags, d.Node1)
+	}
+	if d.OobIpConfigType.ValueStringPointer() != nil {
+		data.Type = (*models.IpConfigTypeEnum)(d.OobIpConfigType.ValueStringPointer())
+	}
+	if d.UseMgmtVrf.ValueBoolPointer() != nil {
+		data.UseMgmtVrf = d.UseMgmtVrf.ValueBoolPointer()
+	}
+	if d.UseMgmtVrfForHostOut.ValueBoolPointer() != nil {
+		data.UseMgmtVrfForHostOut = d.UseMgmtVrfForHostOut.ValueBoolPointer()
+	}
 
 	return &data
 }

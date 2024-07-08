@@ -36,6 +36,54 @@
                 {
                     "name": "rules",
                     "rename": "matching_rules"
+                },
+                {
+                    "name": "matching_rules",
+                    "get": [
+                        "list_nested",
+                        "nested_object",
+                        "attributes"
+                    ],
+                    "next": [
+                        {
+                            "name": "match_value",
+                            "get": [
+                                "string"
+                            ],
+                            "computed_optional_required": "optional"
+                        },
+                        {
+                            "name": "name",
+                            "get": [
+                                "string"
+                            ],
+                            "computed_optional_required": "optional"
+                        },
+                        {
+                            "name": "port_config",
+                            "get": [
+                                "map_nested",
+                                "nested_object",
+                                "attributes"
+                            ],
+                            "next": [
+                                {
+                                    "name": "description",
+                                    "get": [
+                                        "string"
+                                    ],
+                                    "computed_optional_required": "optional"
+                                },
+                                {
+                                    "name": "esilag",
+                                    "get": [
+                                        "bool"
+                                    ],
+                                    "computed_optional_required": "optional"
+                                }
+                            ]
+                        }
+                    ]
                 }
             ]
         },

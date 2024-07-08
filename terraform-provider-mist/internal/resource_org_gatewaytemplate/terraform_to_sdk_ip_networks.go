@@ -20,31 +20,55 @@ func networksTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d base
 		plan := v_interface.(NetworksValue)
 		data := models.Network{}
 
-		data.DisallowMistServices = models.ToPointer(plan.DisallowMistServices.ValueBool())
-		data.Gateway = models.ToPointer(plan.Gateway.ValueString())
-		data.Gateway6 = models.ToPointer(plan.Gateway6.ValueString())
+		if plan.DisallowMistServices.ValueBoolPointer() != nil {
+			data.DisallowMistServices = models.ToPointer(plan.DisallowMistServices.ValueBool())
+		}
+		if plan.Gateway.ValueStringPointer() != nil {
+			data.Gateway = models.ToPointer(plan.Gateway.ValueString())
+		}
+		if plan.Gateway6.ValueStringPointer() != nil {
+			data.Gateway6 = models.ToPointer(plan.Gateway6.ValueString())
+		}
 
-		var internal_access_interface interface{} = plan.InternalAccess
-		internal_access_tf := internal_access_interface.(resource_org_network.InternalAccessValue)
-		data.InternalAccess = resource_org_network.InternalAccessTerraformToSdk(ctx, diags, internal_access_tf)
+		if !plan.InternalAccess.IsNull() && !plan.InternalAccess.IsUnknown() {
+			var internal_access_interface interface{} = plan.InternalAccess
+			internal_access_tf := internal_access_interface.(resource_org_network.InternalAccessValue)
+			data.InternalAccess = resource_org_network.InternalAccessTerraformToSdk(ctx, diags, internal_access_tf)
+		}
 
-		var internet_access_interface interface{} = plan.InternetAccess
-		internet_access_tf := internet_access_interface.(resource_org_network.InternetAccessValue)
-		data.InternetAccess = resource_org_network.InternetAccessTerraformToSdk(ctx, diags, internet_access_tf)
+		if !plan.InternetAccess.IsNull() && !plan.InternetAccess.IsUnknown() {
+			var internet_access_interface interface{} = plan.InternetAccess
+			internet_access_tf := internet_access_interface.(resource_org_network.InternetAccessValue)
+			data.InternetAccess = resource_org_network.InternetAccessTerraformToSdk(ctx, diags, internet_access_tf)
+		}
 
-		data.Isolation = models.ToPointer(plan.Isolation.ValueBool())
-		data.Name = models.ToPointer(plan.Name.ValueString())
-		data.RoutedForNetworks = mist_transform.ListOfStringTerraformToSdk(ctx, plan.RoutedForNetworks)
-		data.Subnet = models.ToPointer(plan.Subnet.ValueString())
-		data.Subnet6 = models.ToPointer(plan.Subnet.ValueString())
+		if plan.Isolation.ValueBoolPointer() != nil {
+			data.Isolation = models.ToPointer(plan.Isolation.ValueBool())
+		}
+		if plan.Name.ValueStringPointer() != nil {
+			data.Name = models.ToPointer(plan.Name.ValueString())
+		}
+		if !plan.RoutedForNetworks.IsNull() && !plan.RoutedForNetworks.IsUnknown() {
+			data.RoutedForNetworks = mist_transform.ListOfStringTerraformToSdk(ctx, plan.RoutedForNetworks)
+		}
+		if plan.Subnet.ValueStringPointer() != nil {
+			data.Subnet = models.ToPointer(plan.Subnet.ValueString())
+		}
+		if plan.Subnet6.ValueStringPointer() != nil {
+			data.Subnet6 = models.ToPointer(plan.Subnet.ValueString())
+		}
 
-		tenants := resource_org_network.TenantTerraformToSdk(ctx, diags, plan.Tenants)
-		data.Tenants = tenants
+		if !plan.Tenants.IsNull() && !plan.Tenants.IsUnknown() {
+			data.Tenants = resource_org_network.TenantTerraformToSdk(ctx, diags, plan.Tenants)
+		}
 
-		data.VlanId = models.ToPointer(int(plan.VlanId.ValueInt64()))
+		if plan.VlanId.ValueInt64Pointer() != nil {
+			data.VlanId = models.ToPointer(int(plan.VlanId.ValueInt64()))
+		}
 
-		vpn_access := resource_org_network.VpnTerraformToSdk(ctx, diags, plan.VpnAccess)
-		data.VpnAccess = vpn_access
+		if !plan.VpnAccess.IsNull() && !plan.VpnAccess.IsUnknown() {
+			data.VpnAccess = resource_org_network.VpnTerraformToSdk(ctx, diags, plan.VpnAccess)
+		}
 
 		data_list = append(data_list, data)
 	}

@@ -20,7 +20,9 @@ func servicePolicyAppqoeTerraformToSdk(ctx context.Context, diags *diag.Diagnost
 		return &data
 	} else {
 		plan := NewAppqoeValueMust(d.AttributeTypes(ctx), d.Attributes())
-		data.Enabled = models.ToPointer(plan.Enabled.ValueBool())
+		if plan.Enabled.ValueBoolPointer() != nil {
+			data.Enabled = models.ToPointer(plan.Enabled.ValueBool())
+		}
 		return &data
 	}
 }
@@ -32,10 +34,18 @@ func servicePolicyEwfRuleTerraformToSdk(ctx context.Context, diags *diag.Diagnos
 		var v_interface interface{} = v
 		plan := v_interface.(EwfValue)
 		data := models.ServicePolicyEwfRule{}
-		data.AlertOnly = models.ToPointer(plan.AlertOnly.ValueBool())
-		data.BlockMessage = models.ToPointer(plan.BlockMessage.ValueString())
-		data.Enabled = models.ToPointer(plan.Enabled.ValueBool())
-		data.Profile = models.ToPointer(models.ServicePolicyEwfRuleProfileEnum(plan.Profile.ValueString()))
+		if plan.AlertOnly.ValueBoolPointer() != nil {
+			data.AlertOnly = models.ToPointer(plan.AlertOnly.ValueBool())
+		}
+		if plan.BlockMessage.ValueStringPointer() != nil {
+			data.BlockMessage = models.ToPointer(plan.BlockMessage.ValueString())
+		}
+		if plan.Enabled.ValueBoolPointer() != nil {
+			data.Enabled = models.ToPointer(plan.Enabled.ValueBool())
+		}
+		if plan.Profile.ValueStringPointer() != nil {
+			data.Profile = models.ToPointer(models.ServicePolicyEwfRuleProfileEnum(plan.Profile.ValueString()))
+		}
 
 		data_list = append(data_list, data)
 	}
@@ -50,7 +60,7 @@ func idpConfigTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d bas
 	} else {
 		plan := NewIdpValueMust(d.AttributeTypes(ctx), d.Attributes())
 
-		if len(plan.IdpprofileId.ValueString()) > 0 {
+		if plan.IdpprofileId.ValueStringPointer() != nil {
 			idp_profile_id, e := uuid.Parse(plan.IdpprofileId.ValueString())
 			if e != nil {
 				diags.AddError("Unable to convert IdpprofileId", e.Error())
@@ -59,9 +69,15 @@ func idpConfigTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d bas
 			}
 		}
 
-		data.AlertOnly = models.ToPointer(plan.AlertOnly.ValueBool())
-		data.Enabled = models.ToPointer(plan.Enabled.ValueBool())
-		data.Profile = models.ToPointer(plan.Profile.ValueString())
+		if plan.AlertOnly.ValueBoolPointer() != nil {
+			data.AlertOnly = models.ToPointer(plan.AlertOnly.ValueBool())
+		}
+		if plan.Enabled.ValueBoolPointer() != nil {
+			data.Enabled = models.ToPointer(plan.Enabled.ValueBool())
+		}
+		if plan.Profile.ValueStringPointer() != nil {
+			data.Profile = models.ToPointer(plan.Profile.ValueString())
+		}
 		return &data
 	}
 }
@@ -74,21 +90,32 @@ func servicePoliciesTerraformToSdk(ctx context.Context, diags *diag.Diagnostics,
 		plan := v_interface.(ServicePoliciesValue)
 		data := models.ServicePolicy{}
 
-		data.Action = models.ToPointer(models.AllowDenyEnum(plan.Action.ValueString()))
+		if plan.Action.ValueStringPointer() != nil {
+			data.Action = models.ToPointer(models.AllowDenyEnum(plan.Action.ValueString()))
+		}
 
-		appqoe := servicePolicyAppqoeTerraformToSdk(ctx, diags, plan.Appqoe)
-		data.Appqoe = appqoe
+		if !plan.Appqoe.IsNull() && !plan.Appqoe.IsUnknown() {
+			data.Appqoe = servicePolicyAppqoeTerraformToSdk(ctx, diags, plan.Appqoe)
+		}
 
-		ewf := servicePolicyEwfRuleTerraformToSdk(ctx, diags, plan.Ewf)
-		data.Ewf = ewf
+		if !plan.Ewf.IsNull() && !plan.Ewf.IsUnknown() {
+			data.Ewf = servicePolicyEwfRuleTerraformToSdk(ctx, diags, plan.Ewf)
+		}
 
-		idp := idpConfigTerraformToSdk(ctx, diags, plan.Idp)
-		data.Idp = idp
+		if !plan.Idp.IsNull() && !plan.Idp.IsUnknown() {
+			data.Idp = idpConfigTerraformToSdk(ctx, diags, plan.Idp)
+		}
 
-		data.LocalRouting = models.ToPointer(plan.LocalRouting.ValueBool())
-		data.Name = models.ToPointer(plan.Name.ValueString())
-		data.PathPreferences = models.ToPointer(plan.PathPreferences.ValueString())
-		if len(plan.ServicepolicyId.ValueString()) > 0 {
+		if plan.LocalRouting.ValueBoolPointer() != nil {
+			data.LocalRouting = models.ToPointer(plan.LocalRouting.ValueBool())
+		}
+		if plan.Name.ValueStringPointer() != nil {
+			data.Name = models.ToPointer(plan.Name.ValueString())
+		}
+		if plan.PathPreferences.ValueStringPointer() != nil {
+			data.PathPreferences = models.ToPointer(plan.PathPreferences.ValueString())
+		}
+		if plan.ServicepolicyId.ValueStringPointer() != nil {
 			service_policy_id, e := uuid.Parse(plan.ServicepolicyId.ValueString())
 			if e != nil {
 				diags.AddError("Unable to convert ServicepolicyId", e.Error())
@@ -97,8 +124,12 @@ func servicePoliciesTerraformToSdk(ctx context.Context, diags *diag.Diagnostics,
 			}
 		}
 
-		data.Services = mist_transform.ListOfStringTerraformToSdk(ctx, plan.Services)
-		data.Tenants = mist_transform.ListOfStringTerraformToSdk(ctx, plan.Tenants)
+		if !plan.Services.IsNull() && !plan.Services.IsUnknown() {
+			data.Services = mist_transform.ListOfStringTerraformToSdk(ctx, plan.Services)
+		}
+		if !plan.Tenants.IsNull() && !plan.Tenants.IsUnknown() {
+			data.Tenants = mist_transform.ListOfStringTerraformToSdk(ctx, plan.Tenants)
+		}
 
 		data_list = append(data_list, data)
 	}

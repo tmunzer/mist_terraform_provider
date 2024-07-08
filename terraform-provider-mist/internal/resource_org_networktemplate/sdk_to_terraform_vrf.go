@@ -62,7 +62,7 @@ func vrfInstancesSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, m 
 		var extra_routes basetypes.MapValue = types.MapNull(VrfExtraRoutesValue{}.Type(ctx))
 		var networks basetypes.ListValue = mist_transform.ListOfStringSdkToTerraformEmpty(ctx)
 
-		if d.ExtraRoutes != nil {
+		if d.ExtraRoutes != nil && len(d.ExtraRoutes) > 0 {
 			extra_routes = vrfInstanceExtraRouteSdkToTerraform(ctx, diags, d.ExtraRoutes)
 		}
 		if d.Networks != nil {

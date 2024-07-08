@@ -17,10 +17,10 @@ func actTagSpecsTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d b
 		var v_interface interface{} = v
 		v_state := v_interface.(SpecsValue)
 		v_data := models.AclTagSpec{}
-		if !v_state.PortRange.IsNull() && !v_state.PortRange.IsUnknown() {
+		if v_state.PortRange.ValueStringPointer() != nil {
 			v_data.PortRange = models.ToPointer(v_state.PortRange.ValueString())
 		}
-		if !v_state.Protocol.IsNull() && !v_state.Protocol.IsUnknown() {
+		if v_state.Protocol.ValueStringPointer() != nil {
 			v_data.Protocol = models.ToPointer(v_state.Protocol.ValueString())
 		}
 		data = append(data, v_data)
@@ -36,14 +36,14 @@ func actTagsTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d baset
 
 		data_item := models.AclTag{}
 		data_item.Type = models.AclTagTypeEnum(item_obj.AclTagsType.ValueString())
-		if !item_obj.GbpTag.IsNull() && !item_obj.GbpTag.IsUnknown() {
+		if item_obj.GbpTag.ValueInt64Pointer() != nil {
 			data_item.GbpTag = models.ToPointer(int(item_obj.GbpTag.ValueInt64()))
 		}
 		data_item.Macs = mist_transform.ListOfStringTerraformToSdk(ctx, item_obj.Macs)
-		if !item_obj.Network.IsNull() && !item_obj.Network.IsUnknown() {
+		if item_obj.Network.ValueStringPointer() != nil {
 			data_item.Network = models.ToPointer(item_obj.Network.ValueString())
 		}
-		if !item_obj.RadiusGroup.IsNull() && !item_obj.RadiusGroup.IsUnknown() {
+		if item_obj.RadiusGroup.ValueStringPointer() != nil {
 			data_item.RadiusGroup = models.ToPointer(item_obj.RadiusGroup.ValueString())
 		}
 		if !item_obj.Specs.IsNull() && !item_obj.Specs.IsUnknown() {

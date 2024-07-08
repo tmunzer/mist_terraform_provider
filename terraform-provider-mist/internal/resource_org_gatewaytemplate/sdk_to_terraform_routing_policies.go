@@ -17,7 +17,7 @@ import (
 func routingPolocyTermMatchingRouteExistsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d models.RoutingPolicyTermMatchingRouteExists) basetypes.ObjectValue {
 	tflog.Debug(ctx, "routingPolocyTermMatchingRouteExistsSdkToTerraform")
 	var route basetypes.StringValue
-	var vrf_name basetypes.StringValue
+	var vrf_name basetypes.StringValue = types.StringValue("default")
 
 	if d.Route != nil {
 		route = types.StringValue(*d.Route)
@@ -68,15 +68,15 @@ func routingPolocyTermMatchingVpnSlaSdkToTerraform(ctx context.Context, diags *d
 func routingPolocyTermMatchingSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d models.RoutingPolicyTermMatching) basetypes.ObjectValue {
 	tflog.Debug(ctx, "routingPolocyTermMatchingSdkToTerraform")
 
-	var as_path basetypes.ListValue = mist_transform.ListOfStringSdkToTerraformEmpty(ctx)
-	var community basetypes.ListValue = mist_transform.ListOfStringSdkToTerraformEmpty(ctx)
-	var network basetypes.ListValue = mist_transform.ListOfStringSdkToTerraformEmpty(ctx)
-	var prefix basetypes.ListValue = mist_transform.ListOfStringSdkToTerraformEmpty(ctx)
-	var protocol basetypes.ListValue = mist_transform.ListOfStringSdkToTerraformEmpty(ctx)
+	var as_path basetypes.ListValue = types.ListNull(types.StringType)
+	var community basetypes.ListValue = types.ListNull(types.StringType)
+	var network basetypes.ListValue = types.ListNull(types.StringType)
+	var prefix basetypes.ListValue = types.ListNull(types.StringType)
+	var protocol basetypes.ListValue = types.ListNull(types.StringType)
 	var route_exists basetypes.ObjectValue = types.ObjectNull(RouteExistsValue{}.AttributeTypes(ctx))
-	var vpn_neighbor_mac basetypes.ListValue = mist_transform.ListOfStringSdkToTerraformEmpty(ctx)
-	var vpn_path basetypes.ListValue = mist_transform.ListOfStringSdkToTerraformEmpty(ctx)
-	var vpn_path_sla basetypes.ObjectValue = types.ObjectNull(VpnPathsValue{}.AttributeTypes(ctx))
+	var vpn_neighbor_mac basetypes.ListValue = types.ListNull(types.StringType)
+	var vpn_path basetypes.ListValue = types.ListNull(types.StringType)
+	var vpn_path_sla basetypes.ObjectValue = types.ObjectNull(VpnPathSlaValue{}.AttributeTypes(ctx))
 
 	if d.AsPath != nil {
 		as_path = mist_transform.ListOfStringSdkToTerraform(ctx, d.AsPath)
@@ -127,14 +127,14 @@ func routingPolocyTermActionSdkToTerraform(ctx context.Context, diags *diag.Diag
 	tflog.Debug(ctx, "routingPolocyTermActionSdkToTerraform")
 
 	var accept basetypes.BoolValue
-	var add_community basetypes.ListValue = mist_transform.ListOfStringSdkToTerraformEmpty(ctx)
-	var add_target_vrfs basetypes.ListValue = mist_transform.ListOfStringSdkToTerraformEmpty(ctx)
-	var community basetypes.ListValue = mist_transform.ListOfStringSdkToTerraformEmpty(ctx)
-	var exclude_as_path basetypes.ListValue = mist_transform.ListOfStringSdkToTerraformEmpty(ctx)
-	var exclude_community basetypes.ListValue = mist_transform.ListOfStringSdkToTerraformEmpty(ctx)
-	var export_communitites basetypes.ListValue = mist_transform.ListOfStringSdkToTerraformEmpty(ctx)
+	var add_community basetypes.ListValue = types.ListNull(types.StringType)
+	var add_target_vrfs basetypes.ListValue = types.ListNull(types.StringType)
+	var community basetypes.ListValue = types.ListNull(types.StringType)
+	var exclude_as_path basetypes.ListValue = types.ListNull(types.StringType)
+	var exclude_community basetypes.ListValue = types.ListNull(types.StringType)
+	var export_communitites basetypes.ListValue = types.ListNull(types.StringType)
 	var local_preference basetypes.StringValue
-	var prepend_as_path basetypes.ListValue = mist_transform.ListOfStringSdkToTerraformEmpty(ctx)
+	var prepend_as_path basetypes.ListValue = types.ListNull(types.StringType)
 
 	if d.Accept != nil {
 		accept = types.BoolValue(*d.Accept)
@@ -188,7 +188,7 @@ func routingPolocyTermsSdkToTerraform(ctx context.Context, diags *diag.Diagnosti
 
 	for _, d := range l {
 		var action basetypes.ObjectValue = types.ObjectNull(ActionValue{}.AttributeTypes(ctx))
-		var matching basetypes.ObjectValue = types.ObjectNull(RoutingPolicyTermMatchingValue{}.AttributeTypes(ctx))
+		var matching basetypes.ObjectValue //= types.ObjectNull(RoutingPolicyTermMatchingValue{}.AttributeTypes(ctx))
 
 		if d.Action != nil {
 			action = routingPolocyTermActionSdkToTerraform(ctx, diags, *d.Action)

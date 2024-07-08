@@ -180,8 +180,10 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 						"networks": schema.ListAttribute{
 							ElementType:         types.StringType,
 							Optional:            true,
+							Computed:            true,
 							Description:         "if `type`!=`external`or `via`==`wan`networks where we expect BGP neighbor to connect to/from",
 							MarkdownDescription: "if `type`!=`external`or `via`==`wan`networks where we expect BGP neighbor to connect to/from",
+							Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 						},
 						"no_readvertise_to_overlay": schema.BoolAttribute{
 							Optional:            true,
@@ -247,8 +249,10 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 								"dns_suffix": schema.ListAttribute{
 									ElementType:         types.StringType,
 									Optional:            true,
+									Computed:            true,
 									Description:         "if `type`==`local` - optional, if not defined, system one will be used",
 									MarkdownDescription: "if `type`==`local` - optional, if not defined, system one will be used",
+									Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 								},
 								"fixed_bindings": schema.MapNestedAttribute{
 									NestedObject: schema.NestedAttributeObject{
@@ -348,14 +352,18 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 								"servers": schema.ListAttribute{
 									ElementType:         types.StringType,
 									Optional:            true,
+									Computed:            true,
 									Description:         "if `type`==`relay`",
 									MarkdownDescription: "if `type`==`relay`",
+									Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 								},
 								"servers6": schema.ListAttribute{
 									ElementType:         types.StringType,
 									Optional:            true,
+									Computed:            true,
 									Description:         "if `type6`==`relay`",
 									MarkdownDescription: "if `type6`==`relay`",
+									Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 								},
 								"type": schema.StringAttribute{
 									Optional:            true,

@@ -43,7 +43,7 @@ func tunnelConfigAutoProvSdkToTerraform(ctx context.Context, diags *diag.Diagnos
 	var secondary basetypes.ObjectValue = types.ObjectNull(SecondaryValue{}.AttributeTypes(ctx))
 	var enable basetypes.BoolValue
 	var latlng basetypes.ObjectValue = types.ObjectNull(LatlngValue{}.AttributeTypes(ctx))
-	var region basetypes.StringValue
+	var region basetypes.StringValue = types.StringValue("auto")
 
 	if d.Primary != nil {
 		primary = tunnelConfigAutoProvNodeSdkToTerraform(ctx, diags, *d.Primary, PrimaryValue{}.AttributeTypes(ctx))
@@ -92,8 +92,8 @@ func tunnelConfigIkeProposalSdkToTerraform(ctx context.Context, diags *diag.Diag
 	for _, d := range l {
 
 		var auth_algo basetypes.StringValue
-		var dh_group basetypes.StringValue
-		var enc_algo basetypes.StringValue
+		var dh_group basetypes.StringValue = types.StringValue("14")
+		var enc_algo basetypes.StringValue = types.StringValue("aes256")
 
 		if d.AuthAlgo != nil {
 			auth_algo = types.StringValue(string(*d.AuthAlgo))
@@ -127,8 +127,8 @@ func tunnelConfigIpsecProposalSdkToTerraform(ctx context.Context, diags *diag.Di
 	var data_list = []IpsecProposalsValue{}
 	for _, d := range l {
 		var auth_algo basetypes.StringValue
-		var dh_group basetypes.StringValue
-		var enc_algo basetypes.StringValue
+		var dh_group basetypes.StringValue = types.StringValue("14")
+		var enc_algo basetypes.StringValue = types.StringValue("aes256")
 
 		if d.AuthAlgo != nil {
 			auth_algo = types.StringValue(string(*d.AuthAlgo))
@@ -199,7 +199,7 @@ func tunnelConfigProbeSdkToTerraform(ctx context.Context, diags *diag.Diagnostic
 	var interval basetypes.Int64Value
 	var threshold basetypes.Int64Value
 	var timeout basetypes.Int64Value
-	var type_probe basetypes.StringValue
+	var type_probe basetypes.StringValue = types.StringValue("icmp")
 
 	if d.Interval != nil {
 		interval = types.Int64Value(int64(*d.Interval))
@@ -234,19 +234,19 @@ func tunnelConfigsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, m
 	for k, d := range m {
 		var auto_provision basetypes.ObjectValue = types.ObjectNull(AutoProvisionValue{}.AttributeTypes(ctx))
 		var ike_lifetime basetypes.Int64Value
-		var ike_mode basetypes.StringValue
+		var ike_mode basetypes.StringValue = types.StringValue("main")
 		var ike_proposals basetypes.ListValue = types.ListNull(IkeProposalsValue{}.Type(ctx))
 		var ipsec_lifetime basetypes.Int64Value
 		var ipsec_proposals basetypes.ListValue = types.ListNull(IpsecProposalsValue{}.Type(ctx))
 		var local_id basetypes.StringValue
-		var mode basetypes.StringValue
+		var mode basetypes.StringValue = types.StringValue("active-standby")
 		var primary basetypes.ObjectValue = types.ObjectNull(PrimaryValue{}.AttributeTypes(ctx))
 		var probe basetypes.ObjectValue = types.ObjectNull(ProbeValue{}.AttributeTypes(ctx))
 		var protocol basetypes.StringValue
 		var provider basetypes.StringValue
 		var psk basetypes.StringValue
 		var secondary basetypes.ObjectValue = types.ObjectNull(SecondaryValue{}.AttributeTypes(ctx))
-		var version basetypes.StringValue
+		var version basetypes.StringValue = types.StringValue("2")
 
 		if d.AutoProvision != nil {
 			auto_provision = tunnelConfigAutoProvSdkToTerraform(ctx, diags, *d.AutoProvision)

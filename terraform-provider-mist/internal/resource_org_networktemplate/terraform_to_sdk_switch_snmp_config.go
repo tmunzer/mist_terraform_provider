@@ -22,7 +22,7 @@ func snmpConfigClientListTerraformToSdk(ctx context.Context, diags *diag.Diagnos
 		if !plan.Clients.IsNull() && !plan.Clients.IsUnknown() {
 			data.Clients = mist_transform.ListOfStringTerraformToSdk(ctx, plan.Clients)
 		}
-		if !plan.ClientListName.IsNull() && !plan.ClientListName.IsUnknown() {
+		if plan.ClientListName.ValueStringPointer() != nil {
 			data.ClientListName = plan.ClientListName.ValueStringPointer()
 		}
 
@@ -43,13 +43,13 @@ func snmpConfigTrapGroupsTerraformToSdk(ctx context.Context, diags *diag.Diagnos
 		if !plan.Categories.IsNull() && !plan.Categories.IsUnknown() {
 			data.Categories = mist_transform.ListOfStringTerraformToSdk(ctx, plan.Categories)
 		}
-		if !plan.GroupName.IsNull() && !plan.GroupName.IsUnknown() {
+		if plan.GroupName.ValueStringPointer() != nil {
 			data.GroupName = plan.GroupName.ValueStringPointer()
 		}
 		if !plan.Targets.IsNull() && !plan.Targets.IsUnknown() {
 			data.Targets = mist_transform.ListOfStringTerraformToSdk(ctx, plan.Targets)
 		}
-		if !plan.Version.IsNull() && !plan.Version.IsUnknown() {
+		if plan.Version.ValueStringPointer() != nil {
 			data.Version = models.ToPointer(models.SnmpConfigTrapVerionEnum(plan.Version.ValueString()))
 		}
 
@@ -67,16 +67,16 @@ func snmpConfigV2cTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d
 		var v_interface interface{} = v
 		plan := v_interface.(V2cConfigValue)
 		data := models.SnmpConfigV2CConfig{}
-		if !plan.Authorization.IsNull() && !plan.Authorization.IsUnknown() {
+		if plan.Authorization.ValueStringPointer() != nil {
 			data.Authorization = plan.Authorization.ValueStringPointer()
 		}
-		if !plan.ClientListName.IsNull() && !plan.ClientListName.IsUnknown() {
+		if plan.ClientListName.ValueStringPointer() != nil {
 			data.ClientListName = plan.ClientListName.ValueStringPointer()
 		}
-		if !plan.CommunityName.IsNull() && !plan.CommunityName.IsUnknown() {
+		if plan.CommunityName.ValueStringPointer() != nil {
 			data.CommunityName = plan.CommunityName.ValueStringPointer()
 		}
-		if !plan.View.IsNull() && !plan.View.IsUnknown() {
+		if plan.View.ValueStringPointer() != nil {
 			data.View = plan.View.ValueStringPointer()
 		}
 
@@ -95,13 +95,13 @@ func snmpConfigV3NotifyTerraformToSdk(ctx context.Context, diags *diag.Diagnosti
 		var v_interface interface{} = v
 		plan := v_interface.(NotifyValue)
 		data := models.Snmpv3ConfigNotifyItems{}
-		if !plan.Name.IsNull() && !plan.Name.IsUnknown() {
+		if plan.Name.ValueStringPointer() != nil {
 			data.Name = plan.Name.ValueStringPointer()
 		}
-		if !plan.Tag.IsNull() && !plan.Tag.IsUnknown() {
+		if plan.Tag.ValueStringPointer() != nil {
 			data.Tag = plan.Tag.ValueStringPointer()
 		}
-		if !plan.Tag.IsNull() && !plan.Tag.IsUnknown() {
+		if plan.Tag.ValueStringPointer() != nil {
 			data.Type = models.ToPointer(models.Snmpv3ConfigNotifyTypeEnum(plan.Tag.ValueString()))
 		}
 
@@ -118,10 +118,10 @@ func snmpConfigV3NotifyFilterContentTerraformToSdk(ctx context.Context, diags *d
 		plan := v_interface.(Snmpv3ContentsValue)
 		data := models.Snmpv3ConfigNotifyFilterItemContent{}
 
-		if !plan.Include.IsNull() && !plan.Include.IsUnknown() {
+		if plan.Include.ValueBoolPointer() != nil {
 			data.Include = plan.Include.ValueBoolPointer()
 		}
-		if !plan.Oid.IsNull() && !plan.Oid.IsUnknown() {
+		if plan.Oid.ValueStringPointer() != nil {
 			data.Oid = plan.Oid.ValueStringPointer()
 		}
 
@@ -141,7 +141,7 @@ func snmpConfigV3NotifyFilterTerraformToSdk(ctx context.Context, diags *diag.Dia
 		if !plan.Snmpv3Contents.IsNull() && !plan.Snmpv3Contents.IsUnknown() {
 			data.Contents = snmpConfigV3NotifyFilterContentTerraformToSdk(ctx, diags, plan.Snmpv3Contents)
 		}
-		if !plan.ProfileName.IsNull() && !plan.ProfileName.IsUnknown() {
+		if plan.ProfileName.ValueStringPointer() != nil {
 			data.ProfileName = plan.ProfileName.ValueStringPointer()
 		}
 
@@ -159,22 +159,22 @@ func snmpConfigV3TargetAddressTerraformToSdk(ctx context.Context, diags *diag.Di
 		plan := v_interface.(TargetAddressValue)
 		data := models.Snmpv3ConfigTargetAddressItem{}
 
-		if !plan.Address.IsNull() && !plan.Address.IsUnknown() {
+		if plan.Address.ValueStringPointer() != nil {
 			data.Address = plan.Address.ValueStringPointer()
 		}
-		if !plan.AddressMask.IsNull() && !plan.AddressMask.IsUnknown() {
+		if plan.AddressMask.ValueStringPointer() != nil {
 			data.AddressMask = plan.AddressMask.ValueStringPointer()
 		}
-		if !plan.Port.IsNull() && !plan.Port.IsUnknown() {
+		if plan.Port.ValueInt64Pointer() != nil {
 			data.Port = models.ToPointer(int(plan.Port.ValueInt64()))
 		}
-		if !plan.TagList.IsNull() && !plan.TagList.IsUnknown() {
+		if plan.TagList.ValueStringPointer() != nil {
 			data.TagList = plan.TagList.ValueStringPointer()
 		}
-		if !plan.TargetAddressName.IsNull() && !plan.TargetAddressName.IsUnknown() {
+		if plan.TargetAddressName.ValueStringPointer() != nil {
 			data.TargetAddressName = plan.TargetAddressName.ValueStringPointer()
 		}
-		if !plan.TargetParameters.IsNull() && !plan.TargetParameters.IsUnknown() {
+		if plan.TargetParameters.ValueStringPointer() != nil {
 			data.TargetParameters = plan.TargetParameters.ValueStringPointer()
 		}
 
@@ -191,22 +191,22 @@ func snmpConfigV3TargetParametersTerraformToSdk(ctx context.Context, diags *diag
 		plan := v_interface.(TargetParametersValue)
 		data := models.Snmpv3ConfigTargetParam{}
 
-		if !plan.MessageProcessingModel.IsNull() && !plan.MessageProcessingModel.IsUnknown() {
+		if plan.MessageProcessingModel.ValueStringPointer() != nil {
 			data.MessageProcessingModel = models.ToPointer(models.Snmpv3ConfigTargetParamMessProcessModelEnum(plan.MessageProcessingModel.ValueString()))
 		}
-		if !plan.Name.IsNull() && !plan.Name.IsUnknown() {
+		if plan.Name.ValueStringPointer() != nil {
 			data.Name = plan.Name.ValueStringPointer()
 		}
-		if !plan.NotifyFilter.IsNull() && !plan.NotifyFilter.IsUnknown() {
+		if plan.NotifyFilter.ValueStringPointer() != nil {
 			data.NotifyFilter = plan.NotifyFilter.ValueStringPointer()
 		}
-		if !plan.SecurityLevel.IsNull() && !plan.SecurityLevel.IsUnknown() {
+		if plan.SecurityLevel.ValueStringPointer() != nil {
 			data.SecurityLevel = models.ToPointer(models.Snmpv3ConfigTargetParamSecurityLevelEnum(plan.SecurityLevel.ValueString()))
 		}
-		if !plan.SecurityModel.IsNull() && !plan.SecurityModel.IsUnknown() {
+		if plan.SecurityModel.ValueStringPointer() != nil {
 			data.SecurityModel = models.ToPointer(models.Snmpv3ConfigTargetParamSecurityModelEnum(plan.SecurityModel.ValueString()))
 		}
-		if !plan.SecurityName.IsNull() && !plan.SecurityName.IsUnknown() {
+		if plan.SecurityName.ValueStringPointer() != nil {
 			data.SecurityName = plan.SecurityName.ValueStringPointer()
 		}
 
@@ -224,19 +224,19 @@ func snmpConfigV3UsmUsersTerraformToSdk(ctx context.Context, diags *diag.Diagnos
 		plan := v_interface.(Snmpv3UsersValue)
 		data := models.SnmpUsmpUser{}
 
-		if !plan.AuthenticationPassword.IsNull() && !plan.AuthenticationPassword.IsUnknown() {
+		if plan.AuthenticationPassword.ValueStringPointer() != nil {
 			data.AuthenticationPassword = plan.AuthenticationPassword.ValueStringPointer()
 		}
-		if !plan.AuthenticationType.IsNull() && !plan.AuthenticationType.IsUnknown() {
+		if plan.AuthenticationType.ValueStringPointer() != nil {
 			data.AuthenticationType = models.ToPointer(models.SnmpUsmpUserAuthenticationTypeEnum(plan.AuthenticationType.ValueString()))
 		}
-		if !plan.EncryptionPassword.IsNull() && !plan.EncryptionPassword.IsUnknown() {
+		if plan.EncryptionPassword.ValueStringPointer() != nil {
 			data.EncryptionPassword = plan.EncryptionPassword.ValueStringPointer()
 		}
-		if !plan.EncryptionType.IsNull() && !plan.EncryptionType.IsUnknown() {
+		if plan.EncryptionType.ValueStringPointer() != nil {
 			data.EncryptionType = models.ToPointer(models.SnmpUsmpUserEncryptionTypeEnum(plan.EncryptionType.ValueString()))
 		}
-		if !plan.Name.IsNull() && !plan.Name.IsUnknown() {
+		if plan.Name.ValueStringPointer() != nil {
 			data.Name = plan.Name.ValueStringPointer()
 		}
 
@@ -253,10 +253,10 @@ func snmpConfigV3UsmTerraformToSdk(ctx context.Context, diags *diag.Diagnostics,
 		var d_interface interface{} = d
 		plan := d_interface.(UsmValue)
 
-		if !plan.EngineType.IsNull() && !plan.EngineType.IsUnknown() {
+		if plan.EngineType.ValueStringPointer() != nil {
 			data.EngineType = models.ToPointer(models.SnmpUsmEngineTypeEnum(plan.EngineType.ValueString()))
 		}
-		if !plan.Engineid.IsNull() && !plan.Engineid.IsUnknown() {
+		if plan.Engineid.ValueStringPointer() != nil {
 			data.EngineId = plan.Engineid.ValueStringPointer()
 		}
 		if !plan.Snmpv3Users.IsNull() && !plan.Snmpv3Users.IsUnknown() {
@@ -275,25 +275,25 @@ func snmpConfigV3VacmAccessPrefixTerraformToSdk(ctx context.Context, diags *diag
 		plan := v_interface.(PrefixListValue)
 		data := models.SnmpVacmAccessItemPrefixListItem{}
 
-		if !plan.ContextPrefix.IsNull() && !plan.ContextPrefix.IsUnknown() {
+		if plan.ContextPrefix.ValueStringPointer() != nil {
 			data.ContextPrefix = plan.ContextPrefix.ValueStringPointer()
 		}
-		if !plan.NotifyView.IsNull() && !plan.NotifyView.IsUnknown() {
+		if plan.NotifyView.ValueStringPointer() != nil {
 			data.NotifyView = plan.NotifyView.ValueStringPointer()
 		}
-		if !plan.ReadView.IsNull() && !plan.ReadView.IsUnknown() {
+		if plan.ReadView.ValueStringPointer() != nil {
 			data.ReadView = plan.ReadView.ValueStringPointer()
 		}
-		if !plan.SecurityLevel.IsNull() && !plan.SecurityLevel.IsUnknown() {
+		if plan.SecurityLevel.ValueStringPointer() != nil {
 			data.SecurityLevel = models.ToPointer(models.SnmpVacmAccessItemPrefixListItemLevelEnum(plan.SecurityLevel.ValueString()))
 		}
-		if !plan.SecurityModel.IsNull() && !plan.SecurityModel.IsUnknown() {
+		if plan.SecurityModel.ValueStringPointer() != nil {
 			data.SecurityModel = models.ToPointer(models.SnmpVacmAccessItemPrefixListItemModelEnum(plan.SecurityModel.ValueString()))
 		}
-		if !plan.ContextPrefix.IsNull() && !plan.ContextPrefix.IsUnknown() {
+		if plan.ContextPrefix.ValueStringPointer() != nil {
 			data.ContextPrefix = plan.PrefixListType.ValueStringPointer()
 		}
-		if !plan.WriteView.IsNull() && !plan.WriteView.IsUnknown() {
+		if plan.WriteView.ValueStringPointer() != nil {
 			data.WriteView = plan.WriteView.ValueStringPointer()
 		}
 
@@ -311,7 +311,7 @@ func snmpConfigV3VacmAccessTerraformToSdk(ctx context.Context, diags *diag.Diagn
 
 		prefix_list := snmpConfigV3VacmAccessPrefixTerraformToSdk(ctx, diags, plan.PrefixList)
 
-		if !plan.GroupName.IsNull() && !plan.GroupName.IsUnknown() {
+		if plan.GroupName.ValueStringPointer() != nil {
 			data.GroupName = plan.GroupName.ValueStringPointer()
 		}
 		if !plan.PrefixList.IsNull() && !plan.PrefixList.IsUnknown() {
@@ -332,10 +332,10 @@ func snmpConfigV3VacmSecurityToGroupContentTerraformToSdk(ctx context.Context, d
 		plan := v_interface.(Snmpv3VacmContentValue)
 		data := models.SnmpVacmSecurityToGroupContentItem{}
 
-		if !plan.Group.IsNull() && !plan.Group.IsUnknown() {
+		if plan.Group.ValueStringPointer() != nil {
 			data.Group = plan.Group.ValueStringPointer()
 		}
-		if !plan.SecurityName.IsNull() && !plan.SecurityName.IsUnknown() {
+		if plan.SecurityName.ValueStringPointer() != nil {
 			data.SecurityName = plan.SecurityName.ValueStringPointer()
 		}
 
@@ -352,7 +352,7 @@ func snmpConfigV3VacmSecurityToGroupTerraformToSdk(ctx context.Context, diags *d
 		var d_interface interface{} = d
 		plan := d_interface.(SecurityToGroupValue)
 
-		if !plan.SecurityModel.IsNull() && !plan.SecurityModel.IsUnknown() {
+		if plan.SecurityModel.ValueStringPointer() != nil {
 			data.SecurityModel = models.ToPointer(models.SnmpVacmSecurityModelEnum(plan.SecurityModel.ValueString()))
 		}
 		if !plan.Snmpv3VacmContent.IsNull() && !plan.Snmpv3VacmContent.IsUnknown() {
@@ -421,13 +421,13 @@ func snmpConfigViewsTerraformToSdk(ctx context.Context, diags *diag.Diagnostics,
 		plan := v_interface.(ViewsValue)
 		data := models.SnmpConfigView{}
 
-		if !plan.Include.IsNull() && !plan.Include.IsUnknown() {
+		if plan.Include.ValueBoolPointer() != nil {
 			data.Include = plan.Include.ValueBoolPointer()
 		}
-		if !plan.Oid.IsNull() && !plan.Oid.IsUnknown() {
+		if plan.Oid.ValueStringPointer() != nil {
 			data.Oid = plan.Oid.ValueStringPointer()
 		}
-		if !plan.ViewName.IsNull() && !plan.ViewName.IsUnknown() {
+		if plan.ViewName.ValueStringPointer() != nil {
 			data.ViewName = plan.ViewName.ValueStringPointer()
 		}
 
@@ -451,25 +451,25 @@ func snmpConfigTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d Sn
 	if !d.ClientList.IsNull() && !d.ClientList.IsUnknown() {
 		data.ClientList = client_list
 	}
-	if !d.Contact.IsNull() && !d.Contact.IsUnknown() {
+	if d.Contact.ValueStringPointer() != nil {
 		data.Contact = d.Contact.ValueStringPointer()
 	}
-	if !d.Description.IsNull() && !d.Description.IsUnknown() {
+	if d.Description.ValueStringPointer() != nil {
 		data.Description = d.Description.ValueStringPointer()
 	}
-	if !d.Enabled.IsNull() && !d.Enabled.IsUnknown() {
+	if d.Enabled.ValueBoolPointer() != nil {
 		data.Enabled = d.Enabled.ValueBoolPointer()
 	}
-	if !d.EngineId.IsNull() && !d.EngineId.IsUnknown() {
+	if d.EngineId.ValueStringPointer() != nil {
 		data.EngineId = models.ToPointer(models.SnmpConfigEngineIdEnum(d.EngineId.ValueString()))
 	}
-	if !d.Location.IsNull() && !d.Location.IsUnknown() {
+	if d.Location.ValueStringPointer() != nil {
 		data.Location = d.Location.ValueStringPointer()
 	}
-	if !d.Name.IsNull() && !d.Name.IsUnknown() {
+	if d.Name.ValueStringPointer() != nil {
 		data.Name = d.Name.ValueStringPointer()
 	}
-	if !d.Network.IsNull() && !d.Network.IsUnknown() {
+	if d.Network.ValueStringPointer() != nil {
 		data.Network = d.Network.ValueStringPointer()
 	}
 	if !d.TrapGroups.IsNull() && !d.TrapGroups.IsUnknown() {

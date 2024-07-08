@@ -18,15 +18,33 @@ func pathPreferencePathsTerraformToSdk(ctx context.Context, diags *diag.Diagnost
 		var v_interface interface{} = v
 		plan := v_interface.(PathsValue)
 		data := models.GatewayTemplatePathPreferencesPath{}
-		data.Cost = models.ToPointer(int(plan.Cost.ValueInt64()))
-		data.Disabled = models.ToPointer(plan.Disabled.ValueBool())
-		data.GatewayIp = models.ToPointer(plan.GatewayIp.ValueString())
-		data.InternetAccess = models.ToPointer(plan.InternetAccess.ValueBool())
-		data.Name = models.ToPointer(plan.Name.ValueString())
-		data.Networks = mist_transform.ListOfStringTerraformToSdk(ctx, plan.Networks)
-		data.TargetIps = mist_transform.ListOfStringTerraformToSdk(ctx, plan.TargetIps)
-		data.Type = models.ToPointer(models.GatewayPathTypeEnum(plan.PathsType.ValueString()))
-		data.WanName = models.ToPointer(plan.WanName.ValueString())
+		if plan.Cost.ValueInt64Pointer() != nil {
+			data.Cost = models.ToPointer(int(plan.Cost.ValueInt64()))
+		}
+		if plan.Disabled.ValueBoolPointer() != nil {
+			data.Disabled = models.ToPointer(plan.Disabled.ValueBool())
+		}
+		if plan.GatewayIp.ValueStringPointer() != nil {
+			data.GatewayIp = models.ToPointer(plan.GatewayIp.ValueString())
+		}
+		if plan.InternetAccess.ValueBoolPointer() != nil {
+			data.InternetAccess = models.ToPointer(plan.InternetAccess.ValueBool())
+		}
+		if plan.Name.ValueStringPointer() != nil {
+			data.Name = models.ToPointer(plan.Name.ValueString())
+		}
+		if !plan.Networks.IsNull() && !plan.Networks.IsUnknown() {
+			data.Networks = mist_transform.ListOfStringTerraformToSdk(ctx, plan.Networks)
+		}
+		if !plan.TargetIps.IsNull() && !plan.TargetIps.IsUnknown() {
+			data.TargetIps = mist_transform.ListOfStringTerraformToSdk(ctx, plan.TargetIps)
+		}
+		if plan.PathsType.ValueStringPointer() != nil {
+			data.Type = models.ToPointer(models.GatewayPathTypeEnum(plan.PathsType.ValueString()))
+		}
+		if plan.WanName.ValueStringPointer() != nil {
+			data.WanName = models.ToPointer(plan.WanName.ValueString())
+		}
 
 		data_list = append(data_list, data)
 	}
@@ -42,8 +60,12 @@ func pathPreferencesTerraformToSdk(ctx context.Context, diags *diag.Diagnostics,
 
 		data := models.GatewayTemplatePathPreferences{}
 		paths := pathPreferencePathsTerraformToSdk(ctx, diags, plan.Paths)
-		data.Paths = paths
-		data.Strategy = models.ToPointer(models.GatewayPathStrategyEnum(plan.Strategy.ValueString()))
+		if !plan.Paths.IsNull() && !plan.Paths.IsUnknown() {
+			data.Paths = paths
+		}
+		if plan.Strategy.ValueStringPointer() != nil {
+			data.Strategy = models.ToPointer(models.GatewayPathStrategyEnum(plan.Strategy.ValueString()))
+		}
 		data_map[k] = data
 	}
 	return data_map
