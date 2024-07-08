@@ -12,6 +12,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -586,8 +587,10 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 						"secondary_ips": schema.ListAttribute{
 							ElementType:         types.StringType,
 							Optional:            true,
+							Computed:            true,
 							Description:         "optional list of secondary IPs in CIDR format",
 							MarkdownDescription: "optional list of secondary IPs in CIDR format",
+							Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 						},
 					},
 					CustomType: IpConfigsType{
@@ -1063,14 +1066,18 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 									"networks": schema.ListAttribute{
 										ElementType:         types.StringType,
 										Optional:            true,
+										Computed:            true,
 										Description:         "if `type`==`local`",
 										MarkdownDescription: "if `type`==`local`",
+										Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 									},
 									"target_ips": schema.ListAttribute{
 										ElementType:         types.StringType,
 										Optional:            true,
+										Computed:            true,
 										Description:         "if `type`==`local`, if destination IP is to be replaced",
 										MarkdownDescription: "if `type`==`local`, if destination IP is to be replaced",
+										Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 									},
 									"type": schema.StringAttribute{
 										Optional: true,
@@ -1309,8 +1316,10 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 						"networks": schema.ListAttribute{
 							ElementType:         types.StringType,
 							Optional:            true,
+							Computed:            true,
 							Description:         "if `usage`==`lan`",
 							MarkdownDescription: "if `usage`==`lan`",
+							Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 						},
 						"outer_vlan_id": schema.Int64Attribute{
 							Optional:            true,
@@ -1352,8 +1361,10 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 						"reth_nodes": schema.ListAttribute{
 							ElementType:         types.StringType,
 							Optional:            true,
+							Computed:            true,
 							Description:         "SSR only - supporting vlan-based redundancy (matching the size of `networks`)",
 							MarkdownDescription: "SSR only - supporting vlan-based redundancy (matching the size of `networks`)",
+							Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 						},
 						"speed": schema.StringAttribute{
 							Optional: true,

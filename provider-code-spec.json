@@ -928,11 +928,27 @@
                                     {
                                         "name": "secondary_ips",
                                         "list": {
-                                            "computed_optional_required": "optional",
+                                            "computed_optional_required": "computed_optional",
                                             "element_type": {
                                                 "string": {}
                                             },
-                                            "description": "optional list of secondary IPs in CIDR format"
+                                            "description": "optional list of secondary IPs in CIDR format",
+                                            "default": {
+                                                "custom": {
+                                                    "imports": [
+                                                        {
+                                                            "path": "github.com/hashicorp/terraform-plugin-framework/attr"
+                                                        },
+                                                        {
+                                                            "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault"
+                                                        },
+                                                        {
+                                                            "path": "github.com/hashicorp/terraform-plugin-framework/types"
+                                                        }
+                                                    ],
+                                                    "schema_definition": "listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{}))"
+                                                }
+                                            }
                                         }
                                     }
                                 ]
@@ -1532,21 +1548,53 @@
                                                     {
                                                         "name": "networks",
                                                         "list": {
-                                                            "computed_optional_required": "optional",
+                                                            "computed_optional_required": "computed_optional",
                                                             "element_type": {
                                                                 "string": {}
                                                             },
-                                                            "description": "if `type`==`local`"
+                                                            "description": "if `type`==`local`",
+                                                            "default": {
+                                                                "custom": {
+                                                                    "imports": [
+                                                                        {
+                                                                            "path": "github.com/hashicorp/terraform-plugin-framework/attr"
+                                                                        },
+                                                                        {
+                                                                            "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault"
+                                                                        },
+                                                                        {
+                                                                            "path": "github.com/hashicorp/terraform-plugin-framework/types"
+                                                                        }
+                                                                    ],
+                                                                    "schema_definition": "listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{}))"
+                                                                }
+                                                            }
                                                         }
                                                     },
                                                     {
                                                         "name": "target_ips",
                                                         "list": {
-                                                            "computed_optional_required": "optional",
+                                                            "computed_optional_required": "computed_optional",
                                                             "element_type": {
                                                                 "string": {}
                                                             },
-                                                            "description": "if `type`==`local`, if destination IP is to be replaced"
+                                                            "description": "if `type`==`local`, if destination IP is to be replaced",
+                                                            "default": {
+                                                                "custom": {
+                                                                    "imports": [
+                                                                        {
+                                                                            "path": "github.com/hashicorp/terraform-plugin-framework/attr"
+                                                                        },
+                                                                        {
+                                                                            "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault"
+                                                                        },
+                                                                        {
+                                                                            "path": "github.com/hashicorp/terraform-plugin-framework/types"
+                                                                        }
+                                                                    ],
+                                                                    "schema_definition": "listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{}))"
+                                                                }
+                                                            }
                                                         }
                                                     },
                                                     {
@@ -1876,11 +1924,27 @@
                                     {
                                         "name": "networks",
                                         "list": {
-                                            "computed_optional_required": "optional",
+                                            "computed_optional_required": "computed_optional",
                                             "element_type": {
                                                 "string": {}
                                             },
-                                            "description": "if `usage`==`lan`"
+                                            "description": "if `usage`==`lan`",
+                                            "default": {
+                                                "custom": {
+                                                    "imports": [
+                                                        {
+                                                            "path": "github.com/hashicorp/terraform-plugin-framework/attr"
+                                                        },
+                                                        {
+                                                            "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault"
+                                                        },
+                                                        {
+                                                            "path": "github.com/hashicorp/terraform-plugin-framework/types"
+                                                        }
+                                                    ],
+                                                    "schema_definition": "listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{}))"
+                                                }
+                                            }
                                         }
                                     },
                                     {
@@ -1940,11 +2004,27 @@
                                     {
                                         "name": "reth_nodes",
                                         "list": {
-                                            "computed_optional_required": "optional",
+                                            "computed_optional_required": "computed_optional",
                                             "element_type": {
                                                 "string": {}
                                             },
-                                            "description": "SSR only - supporting vlan-based redundancy (matching the size of `networks`)"
+                                            "description": "SSR only - supporting vlan-based redundancy (matching the size of `networks`)",
+                                            "default": {
+                                                "custom": {
+                                                    "imports": [
+                                                        {
+                                                            "path": "github.com/hashicorp/terraform-plugin-framework/attr"
+                                                        },
+                                                        {
+                                                            "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault"
+                                                        },
+                                                        {
+                                                            "path": "github.com/hashicorp/terraform-plugin-framework/types"
+                                                        }
+                                                    ],
+                                                    "schema_definition": "listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{}))"
+                                                }
+                                            }
                                         }
                                     },
                                     {
@@ -7144,11 +7224,27 @@
                                             {
                                                 "name": "allowed_services",
                                                 "list": {
-                                                    "computed_optional_required": "optional",
+                                                    "computed_optional_required": "computed_optional",
                                                     "element_type": {
                                                         "string": {}
                                                     },
-                                                    "description": "optionally, services we'll allow"
+                                                    "description": "optionally, services we'll allow",
+                                                    "default": {
+                                                        "custom": {
+                                                            "imports": [
+                                                                {
+                                                                    "path": "github.com/hashicorp/terraform-plugin-framework/attr"
+                                                                },
+                                                                {
+                                                                    "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault"
+                                                                },
+                                                                {
+                                                                    "path": "github.com/hashicorp/terraform-plugin-framework/types"
+                                                                }
+                                                            ],
+                                                            "schema_definition": "listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{}))"
+                                                        }
+                                                    }
                                                 }
                                             },
                                             {
@@ -7214,11 +7310,27 @@
                                             {
                                                 "name": "trusted_hosts",
                                                 "list": {
-                                                    "computed_optional_required": "optional",
+                                                    "computed_optional_required": "computed_optional",
                                                     "element_type": {
                                                         "string": {}
                                                     },
-                                                    "description": "host/subnets we'll allow traffic to/from"
+                                                    "description": "host/subnets we'll allow traffic to/from",
+                                                    "default": {
+                                                        "custom": {
+                                                            "imports": [
+                                                                {
+                                                                    "path": "github.com/hashicorp/terraform-plugin-framework/attr"
+                                                                },
+                                                                {
+                                                                    "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault"
+                                                                },
+                                                                {
+                                                                    "path": "github.com/hashicorp/terraform-plugin-framework/types"
+                                                                }
+                                                            ],
+                                                            "schema_definition": "listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{}))"
+                                                        }
+                                                    }
                                                 }
                                             }
                                         ],

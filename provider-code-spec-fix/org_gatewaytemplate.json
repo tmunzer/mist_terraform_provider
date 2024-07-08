@@ -68,6 +68,86 @@
             ]
         },
         {
+            "name": "path_preferences",
+            "get": [
+                "map_nested",
+                "nested_object",
+                "attributes"
+            ],
+            "next": [
+                {
+                    "name": "paths",
+                    "get": [
+                        "list_nested",
+                        "nested_object",
+                        "attributes"
+                    ],
+                    "next": [
+                        {
+                            "name": "target_ips",
+                            "get": [
+                                "list"
+                            ],
+                            "computed_optional_required": "computed_optional",
+                            "default_type": "list_of_str"
+                        },
+                        {
+                            "name": "networks",
+                            "get": [
+                                "list"
+                            ],
+                            "computed_optional_required": "computed_optional",
+                            "default_type": "list_of_str"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "port_config",
+            "get": [
+                "map_nested",
+                "nested_object",
+                "attributes"
+            ],
+            "next": [
+                {
+                    "name": "reth_nodes",
+                    "get": [
+                        "list"
+                    ],
+                    "computed_optional_required": "computed_optional",
+                    "default_type": "list_of_str"
+                },
+                {
+                    "name": "networks",
+                    "get": [
+                        "list"
+                    ],
+                    "computed_optional_required": "computed_optional",
+                    "default_type": "list_of_str"
+                }
+            ]
+        },
+        {
+            "name": "ip_configs",
+            "get": [
+                "map_nested",
+                "nested_object",
+                "attributes"
+            ],
+            "next": [
+                {
+                    "name": "secondary_ips",
+                    "get": [
+                        "list"
+                    ],
+                    "computed_optional_required": "computed_optional",
+                    "default_type": "list_of_str"
+                }
+            ]
+        },
+        {
             "name": "tunnel_configs",
             "get": [
                 "map_nested",
@@ -93,6 +173,38 @@
                     ]
                 }
             ]
+        },
+        {
+            "name": "switch_mgmt",
+            "get": [
+                "single_nested",
+                "attributes"
+            ],
+            "next": [{
+                "name": "protect_re",
+                "get": [
+                    "single_nested",
+                    "attributes"
+                ],
+                "next": [
+                    {
+                        "name": "allowed_services",
+                        "get": [
+                            "list"
+                        ],
+                        "computed_optional_required": "computed_optional",
+                        "default_type": "list_of_str"
+                    },
+                    {
+                        "name": "trusted_hosts",
+                        "get": [
+                            "list"
+                        ],
+                        "computed_optional_required": "computed_optional",
+                        "default_type": "list_of_str"
+                    }
+                ]
+            }]
         },
         {
             "name": "dhcpd_config",

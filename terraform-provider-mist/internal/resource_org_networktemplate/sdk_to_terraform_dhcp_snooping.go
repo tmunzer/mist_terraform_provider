@@ -18,7 +18,7 @@ func dhcpSnoopingSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d 
 	var enable_arp_spoof_check basetypes.BoolValue
 	var enable_ip_source_guard basetypes.BoolValue
 	var enabled basetypes.BoolValue
-	var networks basetypes.ListValue = mist_transform.ListOfStringSdkToTerraformEmpty(ctx)
+	var networks basetypes.ListValue = types.ListNull(types.StringType)
 
 	if d != nil && d.AllNetworks != nil {
 		all_networks = types.BoolValue(*d.AllNetworks)

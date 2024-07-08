@@ -16,15 +16,15 @@ resource "mist_org" "terraform_test" {
   name = "Terraform Testing"
 }
 resource "mist_org_inventory" "inventory" {
-  org_id       = mist_org.terraform_test.id
+  org_id = mist_org.terraform_test.id
   devices = [
     {
       claim_code = "CPKL2EXN8JY98AC"
-     # site_id = mist_site.terraform_site.id
-    }, 
+      # site_id = mist_site.terraform_site.id
+    },
     {
       claim_code = "G87JHBFXZJSFNMX"
-     # site_id = mist_site.terraform_site.id
+      # site_id = mist_site.terraform_site.id
     }
   ]
 }
@@ -40,10 +40,10 @@ resource "mist_site" "terraform_site" {
     lat = 48.899268
     lng = 2.214447
   }
- sitegroup_ids      = [mist_org_sitegroup.test_group.id, mist_org_sitegroup.test_group2.id]
- # networktemplate_id = mist_org_networktemplate.switch_template.id
- # rftemplate_id      = mist_org_rftemplate.test_rf.id
- # gatewaytemplate_id = mist_org_gatewaytemplate.stag.id
+  sitegroup_ids = [mist_org_sitegroup.test_group.id, mist_org_sitegroup.test_group2.id]
+  # networktemplate_id = mist_org_networktemplate.switch_template.id
+  # rftemplate_id      = mist_org_rftemplate.test_rf.id
+  # gatewaytemplate_id = mist_org_gatewaytemplate.stag.id
 }
 
 
@@ -224,7 +224,7 @@ resource "mist_org_network" "dmz" {
 #   type   = "spoke"
 #   name   = "test-api"
 #   org_id = mist_org.terraform_test.id
-  
+
 #   port_config = {
 #     "ge-0/0/3" = {
 #       name       = "FTTH"
@@ -308,117 +308,117 @@ resource "mist_org_network" "dmz" {
 #       ]
 #     }
 #   }
-#   ip_configs = {
-#     "PRD-Core" = {
-#       type    = "static"
-#       ip      = "10.3.100.9"
-#       netmask = "/24"
-#     },
-#     "PRD-Mgmt" = {
-#       type    = "static"
-#       ip      = "10.3.172.1"
-#       netmask = "/24"
-#     },
-#     "PRD-Lab" = {
-#       type    = "static"
-#       ip      = "10.3.171.1"
-#       netmask = "/24"
+# ip_configs = {
+#   "PRD-Core" = {
+#     type    = "static"
+#     ip      = "10.3.100.9"
+#     netmask = "/24"
+#   },
+#   "PRD-Mgmt" = {
+#     type    = "static"
+#     ip      = "10.3.172.1"
+#     netmask = "/24"
+#   },
+#   "PRD-Lab" = {
+#     type    = "static"
+#     ip      = "10.3.171.1"
+#     netmask = "/24"
+#   }
+# }
+# dhcpd_config = {
+#   enable = true
+# }
+# path_preferences = {
+#   "HUB" = {
+#     strategy = "ordered"
+#     paths = [
+#       {
+#         name = "SSR_HUB_DC-MPLS.OrgOverlay"
+#         type = "vpn"
+#       }
+#     ]
+#   },
+#   "HUB-ORDERED" = {
+#     strategy = "ordered"
+#     paths = [
+#       {
+#         name     = "SSR_HUB_DC-MPLS.OrgOverlay"
+#         wan_name = "FTTH",
+#         type     = "vpn"
+#       },
+#       {
+#         name     = "SSR_HUB_DC-MPLS.OrgOverlay"
+#         wan_name = "LTE"
+#         type     = "vpn"
+#       }
+#     ]
+#   },
+#   "HUB-ECMP" = {
+#     strategy = "weighted"
+#     paths = [
+#       {
+#         name     = "SSR_HUB_DC-MPLS.OrgOverlay"
+#         wan_name = "LTE"
+#         cost     = 30
+#         type     = "vpn"
+#       },
+#       {
+#         name     = "SSR_HUB_DC-MPLS.OrgOverlay"
+#         wan_name = "FTTH"
+#         cost     = 30
+#         type     = "vpn"
+#       }
+#     ]
+#   }
+# }
+# service_policies = [
+#   {
+#     name = "Policy-14"
+#     tenants = [
+#       "PRD-Core"
+#     ],
+#     services = [
+#       "any"
+#     ],
+#     action          = "allow"
+#     path_preference = "HUB"
+#     idp = {
+#       enabled    = true
+#       profile    = "critical"
+#       alert_only = false
+#     }
+#   },
+#   {
+#     name = "Policy-2"
+#     tenants = [
+#       "PRD-Mgmt"
+#     ],
+#     services = [
+#       "any"
+#     ],
+#     action          = "allow",
+#     path_preference = "HUB-ECMP"
+#     idp = {
+#       enabled    = true,
+#       profile    = "standard"
+#       alert_only = true
+#     }
+#   },
+#   {
+#     name = "Policy-3"
+#     tenants = [
+#       "PRD-Lab"
+#     ],
+#     services = [
+#       "any"
+#     ],
+#     action          = "allow"
+#     path_preference = "HUB-ORDERED"
+#     idp = {
+#       enabled = false
 #     }
 #   }
-#   dhcpd_config = {
-#     enable = true
-#   }
-#   path_preferences = {
-#     "HUB" = {
-#       strategy = "ordered"
-#       paths = [
-#         {
-#           name = "SSR_HUB_DC-MPLS.OrgOverlay"
-#           type = "vpn"
-#         }
-#       ]
-#     },
-#     "HUB-ORDERED" = {
-#       strategy = "ordered"
-#       paths = [
-#         {
-#           name     = "SSR_HUB_DC-MPLS.OrgOverlay"
-#           wan_name = "FTTH",
-#           type     = "vpn"
-#         },
-#         {
-#           name     = "SSR_HUB_DC-MPLS.OrgOverlay"
-#           wan_name = "LTE"
-#           type     = "vpn"
-#         }
-#       ]
-#     },
-#     "HUB-ECMP" = {
-#       strategy = "weighted"
-#       paths = [
-#         {
-#           name     = "SSR_HUB_DC-MPLS.OrgOverlay"
-#           wan_name = "LTE"
-#           cost     = 30
-#           type     = "vpn"
-#         },
-#         {
-#           name     = "SSR_HUB_DC-MPLS.OrgOverlay"
-#           wan_name = "FTTH"
-#           cost     = 30
-#           type     = "vpn"
-#         }
-#       ]
-#     }
-#   }
-#   service_policies = [
-#     {
-#       name = "Policy-14"
-#       tenants = [
-#         "PRD-Core"
-#       ],
-#       services = [
-#         "any"
-#       ],
-#       action          = "allow"
-#       path_preference = "HUB"
-#       idp = {
-#         enabled    = true
-#         profile    = "critical"
-#         alert_only = false
-#       }
-#     },
-#     {
-#       name = "Policy-2"
-#       tenants = [
-#         "PRD-Mgmt"
-#       ],
-#       services = [
-#         "any"
-#       ],
-#       action          = "allow",
-#       path_preference = "HUB-ECMP"
-#       idp = {
-#         enabled    = true,
-#         profile    = "standard"
-#         alert_only = true
-#       }
-#     },
-#     {
-#       name = "Policy-3"
-#       tenants = [
-#         "PRD-Lab"
-#       ],
-#       services = [
-#         "any"
-#       ],
-#       action          = "allow"
-#       path_preference = "HUB-ORDERED"
-#       idp = {
-#         enabled = false
-#       }
-#     }
-#   ]
+# ]
 # }
 
 # # resource "mist_org_gatewaytemplate" "demo" {
@@ -782,109 +782,109 @@ resource "mist_org_wlan" "wlan_cwp" {
 # # ################### SITE LEVEL
 
 
-# resource "mist_org_networktemplate" "switch_template" {
-#   name                   = "test switch"
-#   org_id                 = mist_org.terraform_test.id
-#   dns_servers            = ["10.3.51.222"]
-#   dns_suffix             = ["stag.one"]
-#   ntp_servers            = ["10.3.51.222"]
-#   additional_config_cmds = ["set system hostnam test", "set system services ssh root-login allow"]
-#   networks = {
-#     test = {
-#       subnet  = "1.2.3.4"
-#       vlan_id = 10
-#     }
-#     test2 = {
-#       subnet  = "1.2.3.4"
-#       vlan_id = 11
+resource "mist_org_networktemplate" "switch_template" {
+  name                   = "test switch"
+  org_id                 = mist_org.terraform_test.id
+  dns_servers            = ["10.3.51.222"]
+  dns_suffix             = ["stag.one"]
+  ntp_servers            = ["10.3.51.222"]
+  additional_config_cmds = ["set system hostnam test", "set system services ssh root-login allow"]
+  networks = {
+    test = {
+      subnet  = "1.2.3.4"
+      vlan_id = 10
+    }
+    test2 = {
+      subnet  = "1.2.3.4"
+      vlan_id = 11
 
-#     }
-#   }
-#   radius_config = {
-#     acct_interim_interval = 60
-#     coa_enabled           = true
-#     network               = "test"
-#     acct_servers = [
-#       {
-#         host   = "1.2.3.4"
-#         secret = "secret"
-#       }
-#     ]
-#     auth_servers = [
-#       {
-#         host   = "1.2.3.4"
-#         secret = "secret"
-#       }
-#     ]
-#   }
-#   remote_syslog = {
-#     archive = {
-#       files = 2
-#       size  = "5m"
-#     }
-#     console = {
-#       contents = [
-#         {
-#           facility = "kernel"
-#           severity = "alert"
-#         }
-#       ]
-#     }
-#     enabled             = true
-#     network             = "test"
-#     send_to_all_servers = false
-#     servers = [
-#       {
-#         contents = [
-#           {
-#             facility = "any"
-#             severity = "any"
-#           }
-#         ]
-#         host = "1.2.3.4"
-#       }
-#     ]
-#     structured_data = true
-#   }
-#   switch_mgmt = {
-#     config_revert = 5
-#     protect_re = {
-#       enabled = true
-#     }
-#     root_password = "Juniper123"
-#   }
-#   switch_matching = {
-#     enable = true
-#     rules = [
-#       {
-#         match_type  = "match_name[0:3]"
-#         match_value = "abc"
-#         additional_config_cmds = [
-#           "set system name-server 8.8.8.8"
-#         ]
-#         match_role = "access"
-#         name       = "access"
-#         port_config = {
-#           "ge-0/0/0-10" = {
-#             usage = "trunk"
-#           }
-#         }
-#       },
-#       {
-#         additional_config_cmds = [
-#           "set system name-server 8.8.8.8"
-#         ]
-#         match_role = "core"
-#         name       = "core"
-#         port_config = {
-#           "ge-0/0/0-10" = {
-#             usage = "trunk"
-#           }
-#         }
-#       }
-#     ]
-#   }
-# }
+    }
+  }
+  radius_config = {
+    acct_interim_interval = 60
+    coa_enabled           = true
+    network               = "test"
+    acct_servers = [
+      {
+        host   = "1.2.3.4"
+        secret = "secret"
+      }
+    ]
+    auth_servers = [
+      {
+        host   = "1.2.3.4"
+        secret = "secret"
+      }
+    ]
+  }
+  remote_syslog = {
+    archive = {
+      files = 2
+      size  = "5m"
+    }
+    console = {
+      contents = [
+        {
+          facility = "kernel"
+          severity = "alert"
+        }
+      ]
+    }
+    enabled             = true
+    network             = "test"
+    send_to_all_servers = false
+    servers = [
+      {
+        contents = [
+          {
+            facility = "any"
+            severity = "any"
+          }
+        ]
+        host = "1.2.3.4"
+      }
+    ]
+    structured_data = true
+  }
+  switch_mgmt = {
+    config_revert = 5
+    protect_re = {
+      enabled = true
+    }
+    root_password = "Juniper123"
+  }
+  switch_matching = {
+    enable = true
+    rules = [
+      {
+        match_type  = "match_name[0:3]"
+        match_value = "abc"
+        additional_config_cmds = [
+          "set system name-server 8.8.8.8"
+        ]
+        match_role = "access"
+        name       = "access"
+        port_config = {
+          "ge-0/0/0-10" = {
+            usage = "trunk"
+          }
+        }
+      },
+      {
+        additional_config_cmds = [
+          "set system name-server 8.8.8.8"
+        ]
+        match_role = "core"
+        name       = "core"
+        port_config = {
+          "ge-0/0/0-10" = {
+            usage = "trunk"
+          }
+        }
+      }
+    ]
+  }
+}
 
 # ################### SITE LEVEL
 

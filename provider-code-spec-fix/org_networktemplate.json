@@ -58,6 +58,31 @@
                             "rename": "tacacct_servers"
                         }
                     ]
+                },
+                {
+                    "name": "protect_re",
+                    "get": [
+                        "single_nested",
+                        "attributes"
+                    ],
+                    "next": [
+                        {
+                            "name": "allowed_services",
+                            "get": [
+                                "list"
+                            ],
+                            "computed_optional_required": "computed_optional",
+                            "default_type": "list_of_str"
+                        },
+                        {
+                            "name": "trusted_hosts",
+                            "get": [
+                                "list"
+                            ],
+                            "computed_optional_required": "computed_optional",
+                            "default_type": "list_of_str"
+                        }
+                    ]
                 }
             ]
         },

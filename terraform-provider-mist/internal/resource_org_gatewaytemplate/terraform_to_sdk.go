@@ -72,6 +72,13 @@ func TerraformToSdk(ctx context.Context, plan *OrgGatewaytemplateModel) (*models
 
 	data.NtpServers = mist_transform.ListOfStringTerraformToSdk(ctx, plan.NtpServers)
 
+	if plan.OobIpConfig.IsNull() || plan.OobIpConfig.IsUnknown() {
+		unset["-oob_ip_config"] = ""
+	} else {
+		oob_ip_config := oobIpConfigTerraformToSdk(ctx, &diags, plan.OobIpConfig)
+		data.OobIpConfig = oob_ip_config
+	}
+
 	if plan.PathPreferences.IsNull() || plan.PathPreferences.IsUnknown() {
 		unset["-path_preferences"] = ""
 	} else {

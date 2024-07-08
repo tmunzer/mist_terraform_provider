@@ -12,6 +12,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -2177,8 +2178,10 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 							"allowed_services": schema.ListAttribute{
 								ElementType:         types.StringType,
 								Optional:            true,
+								Computed:            true,
 								Description:         "optionally, services we'll allow",
 								MarkdownDescription: "optionally, services we'll allow",
+								Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 							},
 							"custom": schema.ListNestedAttribute{
 								NestedObject: schema.NestedAttributeObject{
@@ -2227,8 +2230,10 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 							"trusted_hosts": schema.ListAttribute{
 								ElementType:         types.StringType,
 								Optional:            true,
+								Computed:            true,
 								Description:         "host/subnets we'll allow traffic to/from",
 								MarkdownDescription: "host/subnets we'll allow traffic to/from",
+								Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 							},
 						},
 						CustomType: ProtectReType{

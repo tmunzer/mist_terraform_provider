@@ -54,10 +54,10 @@ func switchMgmtProtecCustomtReSdkToTerraform(ctx context.Context, diags *diag.Di
 func switchMgmtProtectReSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d *models.ProtectRe) basetypes.ObjectValue {
 	tflog.Debug(ctx, "switchMgmtProtectReSdkToTerraform")
 
-	var allowed_services basetypes.ListValue = mist_transform.ListOfStringSdkToTerraformEmpty(ctx)
+	var allowed_services basetypes.ListValue = types.ListNull(types.StringType)
 	var custom basetypes.ListValue = types.ListNull(CustomValue{}.Type(ctx))
 	var enabled basetypes.BoolValue
-	var trusted_hosts basetypes.ListValue = mist_transform.ListOfStringSdkToTerraformEmpty(ctx)
+	var trusted_hosts basetypes.ListValue = types.ListNull(types.StringType)
 
 	if d.AllowedServices != nil {
 		allowed_services = mist_transform.ListOfStringSdkToTerraform(ctx, d.AllowedServices)
@@ -223,12 +223,15 @@ func switchMgmtSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d *m
 		if d.ConfigRevert != nil {
 			config_revert = types.Int64Value(int64(*d.ConfigRevert))
 		}
-		protect_re = switchMgmtProtectReSdkToTerraform(ctx, diags, d.ProtectRe)
+		if d.ProtectRe != nil {
+			protect_re = switchMgmtProtectReSdkToTerraform(ctx, diags, d.ProtectRe)
+		}
 		if d.RootPassword != nil {
 			root_password = types.StringValue(*d.RootPassword)
 		}
-		tacacs = switchMgmtTacacsSdkToTerraform(ctx, diags, d.Tacacs)
-
+		if d.Tacacs != nil {
+			tacacs = switchMgmtTacacsSdkToTerraform(ctx, diags, d.Tacacs)
+		}
 	}
 
 	data_map_attr_type := SwitchMgmtValue{}.AttributeTypes(ctx)

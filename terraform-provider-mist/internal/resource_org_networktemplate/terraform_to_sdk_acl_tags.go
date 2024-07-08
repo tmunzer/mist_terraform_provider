@@ -17,8 +17,12 @@ func actTagSpecsTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d b
 		var v_interface interface{} = v
 		v_state := v_interface.(SpecsValue)
 		v_data := models.AclTagSpec{}
-		v_data.PortRange = models.ToPointer(v_state.PortRange.ValueString())
-		v_data.Protocol = models.ToPointer(v_state.Protocol.ValueString())
+		if !v_state.PortRange.IsNull() && !v_state.PortRange.IsUnknown() {
+			v_data.PortRange = models.ToPointer(v_state.PortRange.ValueString())
+		}
+		if !v_state.Protocol.IsNull() && !v_state.Protocol.IsUnknown() {
+			v_data.Protocol = models.ToPointer(v_state.Protocol.ValueString())
+		}
 		data = append(data, v_data)
 	}
 	return data
@@ -32,12 +36,22 @@ func actTagsTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d baset
 
 		data_item := models.AclTag{}
 		data_item.Type = models.AclTagTypeEnum(item_obj.AclTagsType.ValueString())
-		data_item.GbpTag = models.ToPointer(int(item_obj.GbpTag.ValueInt64()))
+		if !item_obj.GbpTag.IsNull() && !item_obj.GbpTag.IsUnknown() {
+			data_item.GbpTag = models.ToPointer(int(item_obj.GbpTag.ValueInt64()))
+		}
 		data_item.Macs = mist_transform.ListOfStringTerraformToSdk(ctx, item_obj.Macs)
-		data_item.Network = models.ToPointer(item_obj.Network.ValueString())
-		data_item.RadiusGroup = models.ToPointer(item_obj.RadiusGroup.ValueString())
-		data_item.Specs = actTagSpecsTerraformToSdk(ctx, diags, item_obj.Specs)
-		data_item.Subnets = mist_transform.ListOfStringTerraformToSdk(ctx, item_obj.Subnets)
+		if !item_obj.Network.IsNull() && !item_obj.Network.IsUnknown() {
+			data_item.Network = models.ToPointer(item_obj.Network.ValueString())
+		}
+		if !item_obj.RadiusGroup.IsNull() && !item_obj.RadiusGroup.IsUnknown() {
+			data_item.RadiusGroup = models.ToPointer(item_obj.RadiusGroup.ValueString())
+		}
+		if !item_obj.Specs.IsNull() && !item_obj.Specs.IsUnknown() {
+			data_item.Specs = actTagSpecsTerraformToSdk(ctx, diags, item_obj.Specs)
+		}
+		if !item_obj.Subnets.IsNull() && !item_obj.Subnets.IsUnknown() {
+			data_item.Subnets = mist_transform.ListOfStringTerraformToSdk(ctx, item_obj.Subnets)
+		}
 		data[item_name] = data_item
 	}
 	return data

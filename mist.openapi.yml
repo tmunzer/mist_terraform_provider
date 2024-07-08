@@ -59353,6 +59353,7 @@ components:
       properties:
         description:
           type: string
+          nullable: true
         disable_autoneg:
           default: false
           type: boolean
@@ -59368,12 +59369,14 @@ components:
 
             16 bit int'
           type: integer
+          nullable: true
         dsl_vpi:
           default: 0
           description: 'if `wan_type`==`dsl`
 
             8 bit int'
           type: integer
+          nullable: true
         duplex:
           $ref: '#/components/schemas/gateway_port_duplex'
         ip_config:
@@ -59381,18 +59384,23 @@ components:
         lte_apn:
           description: if `wan_type`==`lte`
           type: string
+          nullable: true
         lte_auth:
           $ref: '#/components/schemas/gateway_port_lte_auth'
         lte_backup:
           type: boolean
+          nullable: true
         lte_password:
           description: if `wan_type`==`lte`
           type: string
+          nullable: true
         lte_username:
           description: if `wan_type`==`lte`
           type: string
+          nullable: true
         mtu:
           type: integer
+          nullable: true
         name:
           description: name that we'll use to derive config
           type: string
@@ -59401,31 +59409,38 @@ components:
         outer_vlan_id:
           description: for Q-in-Q
           type: integer
+          nullable: true
         poe_disabled:
           default: false
           type: boolean
+          nullable: true
         port_network:
           description: if `usage`==`lan`
           type: string
+          nullable: true
         preserve_dscp:
           default: true
           description: whether to preserve dscp when sending traffic over VPN (SSR-only)
           type: boolean
+          nullable: true
         redundant:
           description: if HA mode
           type: boolean
+          nullable: true
         reth_idx:
           description: if HA mode
           type: integer
         reth_node:
           description: if HA mode
           type: string
+          nullable: true
         reth_nodes:
           $ref: '#/components/schemas/gateway_port_reth_nodes'
         speed:
           default: auto
           example: 1g
           type: string
+          nullable: true
         ssr_no_virtual_mac:
           default: false
           description: when SSR is running as VM, this is required on certain hosting
@@ -59443,6 +59458,7 @@ components:
         vlan_id:
           description: if WAN interface is on a VLAN
           type: integer
+          nullable: true
         vpn_paths:
           $ref: '#/components/schemas/gateway_port_vpn_paths'
         wan_arp_policer:
