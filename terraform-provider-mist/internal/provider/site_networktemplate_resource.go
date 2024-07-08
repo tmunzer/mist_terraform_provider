@@ -6,6 +6,7 @@ import (
 	"mistapi"
 	"terraform-provider-mist/internal/resource_site_networktemplate"
 
+	"github.com/google/uuid"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
@@ -64,7 +65,8 @@ func (r *siteNetworkTemplateResource) Create(ctx context.Context, req resource.C
 		return
 	}
 
-	data, err := r.client.SitesSettingAPI.UpdateSiteSettings(ctx, plan.SiteId.ValueString()).SiteSetting(networktemplate
+	siteId := uuid.MustParse(plan.SiteId.ValueString())
+	data, err := r.client.SitesSetting().UpdateSiteSettings(ctx, siteId, networktemplate)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Error creating NetworkTemplate",
@@ -73,7 +75,7 @@ func (r *siteNetworkTemplateResource) Create(ctx context.Context, req resource.C
 		return
 	}
 
-	state, diags = resource_site_networktemplate.SdkToTerraform(ctx, data.Data)
+	state, diags = resource_site_networktemplate.SdkToTerraform(ctx, &data.Data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -97,7 +99,8 @@ func (r *siteNetworkTemplateResource) Read(ctx context.Context, req resource.Rea
 	}
 
 	tflog.Info(ctx, "Starting NetworkTemplate Read: networktemplate_id "+state.SiteId.ValueString())
-	data, err := r.client.SitesSettingAPI.GetSiteSetting(ctx, state.SiteId.ValueString()
+	siteId := uuid.MustParse(state.SiteId.ValueString())
+	data, err := r.client.SitesSetting().GetSiteSetting(ctx, siteId)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Error getting NetworkTemplate",
@@ -105,7 +108,7 @@ func (r *siteNetworkTemplateResource) Read(ctx context.Context, req resource.Rea
 		)
 		return
 	}
-	state, diags = resource_site_networktemplate.SdkToTerraform(ctx, data.Data)
+	state, diags = resource_site_networktemplate.SdkToTerraform(ctx, &data.Data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -140,10 +143,8 @@ func (r *siteNetworkTemplateResource) Update(ctx context.Context, req resource.U
 	}
 
 	tflog.Info(ctx, "Starting NetworkTemplate Update for Site "+state.SiteId.ValueString())
-	data, err := r.client.SitesSettingAPI.
-		UpdateSiteSettings(ctx, state.SiteId.ValueString()).
-		SiteSetting(networktemplate).
-		Execute()
+	siteId := uuid.MustParse(state.SiteId.ValueString())
+	data, err := r.client.SitesSetting().UpdateSiteSettings(ctx, siteId, networktemplate)
 
 	if err != nil {
 		resp.Diagnostics.AddError(
@@ -153,7 +154,7 @@ func (r *siteNetworkTemplateResource) Update(ctx context.Context, req resource.U
 		return
 	}
 
-	state, diags = resource_site_networktemplate.SdkToTerraform(ctx, data.Data)
+	state, diags = resource_site_networktemplate.SdkToTerraform(ctx, &data.Data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -179,7 +180,8 @@ func (r *siteNetworkTemplateResource) Delete(ctx context.Context, req resource.D
 	networktemplate, diags := resource_site_networktemplate.DeleteTerraformToSdk(ctx)
 	resp.Diagnostics.Append(diags...)
 
-	_, _, err := r.client.SitesSettingAPI.UpdateSiteSettings(ctx, state.SiteId.ValueString()).SiteSetting(networktemplate
+	siteId := uuid.MustParse(state.SiteId.ValueString())
+	_, err := r.client.SitesSetting().UpdateSiteSettings(ctx, siteId, networktemplate)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Error creating NetworkTemplate",

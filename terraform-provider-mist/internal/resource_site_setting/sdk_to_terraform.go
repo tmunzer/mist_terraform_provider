@@ -15,78 +15,78 @@ func SdkToTerraform(ctx context.Context, data *models.SiteSetting) (SiteSettingM
 	var state SiteSettingModel
 	var diags diag.Diagnostics
 
-	state.SiteId = types.StringValue(data.GetSiteId())
-	state.OrgId = types.StringValue(data.GetOrgId())
+	state.SiteId = types.StringValue(data.SiteId.String())
+	state.OrgId = types.StringValue(data.OrgId.String())
 
-	state.Analytic = analyticSdkToTerraform(ctx, &diags, data.GetAnalytic())
+	// state.Analytic = analyticSdkToTerraform(ctx, &diags, data.Analytic)
 
-	state.ApUpdownThreshold = types.Int64Value(int64(data.GetApUpdownThreshold()))
+	state.ApUpdownThreshold = types.Int64Value(int64(*data.ApUpdownThreshold.Value()))
 
-	state.AutoUpgrade = autoUpgradeSdkToTerraform(ctx, &diags, data.GetAutoUpgrade())
+	state.AutoUpgrade = autoUpgradeSdkToTerraform(ctx, &diags, *data.AutoUpgrade)
 
-	state.BleConfig = bleConfigsSdkToTerraform(ctx, &diags, data.GetBleConfig())
+	state.BleConfig = bleConfigsSdkToTerraform(ctx, &diags, data.BleConfig)
 
-	state.BlacklistUrl = types.StringValue(data.GetBlacklistUrl())
+	state.BlacklistUrl = types.StringValue(*data.BlacklistUrl)
 
-	state.ConfigAutoRevert = types.BoolValue(data.GetConfigAutoRevert())
+	state.ConfigAutoRevert = types.BoolValue(*data.ConfigAutoRevert)
 
-	state.ConfigPushPolicy = configPushPolicySdkToTerraform(ctx, &diags, data.GetConfigPushPolicy())
+	state.ConfigPushPolicy = configPushPolicySdkToTerraform(ctx, &diags, data.ConfigPushPolicy)
 
-	state.CriticalUrlMonitoring = criticalUrlMonitoringSdkToTerraform(ctx, &diags, data.GetCriticalUrlMonitoring())
+	state.CriticalUrlMonitoring = criticalUrlMonitoringSdkToTerraform(ctx, &diags, data.CriticalUrlMonitoring)
 
-	state.DeviceUpdownThreshold = types.Int64Value(int64(data.GetDeviceUpdownThreshold()))
+	state.DeviceUpdownThreshold = types.Int64Value(int64(*data.DeviceUpdownThreshold))
 
-	state.DisabledSystemDefinedPortUsages = mist_list.ListOfStringSdkToTerraform(ctx, data.GetDisabledSystemDefinedPortUsages())
+	state.DisabledSystemDefinedPortUsages = mist_list.ListOfStringSdkToTerraform(ctx, data.DisabledSystemDefinedPortUsages)
 
-	state.Engagement = engagementSdkToTerraform(ctx, &diags, data.GetEngagement())
+	state.Engagement = engagementSdkToTerraform(ctx, &diags, data.Engagement)
 
-	state.GatewayUpdownThreshold = types.Int64Value(int64(data.GetGatewayUpdownThreshold()))
+	state.GatewayUpdownThreshold = types.Int64Value(int64(*data.GatewayUpdownThreshold.Value()))
 
-	state.Led = ledSdkToTerraform(ctx, &diags, data.GetLed())
+	state.Led = ledSdkToTerraform(ctx, &diags, data.Led)
 
-	state.Occupancy = occupancySdkToTerraform(ctx, &diags, data.GetOccupancy())
+	state.Occupancy = occupancySdkToTerraform(ctx, &diags, data.Occupancy)
 
-	state.PersistConfigOnDevice = types.BoolValue(data.GetPersistConfigOnDevice())
+	state.PersistConfigOnDevice = types.BoolValue(*data.PersistConfigOnDevice)
 
-	state.Proxy = proxySdkToTerraform(ctx, &diags, data.GetProxy())
+	state.Proxy = proxySdkToTerraform(ctx, &diags, data.Proxy)
 
-	state.ReportGatt = types.BoolValue(data.GetReportGatt())
+	state.ReportGatt = types.BoolValue(*data.ReportGatt)
 
-	state.Rogue = rogueSdkToTerraform(ctx, &diags, data.GetRogue())
+	state.Rogue = rogueSdkToTerraform(ctx, &diags, data.Rogue)
 
-	state.SimpleAlert = simpleAlertSdkToTerraform(ctx, &diags, data.GetSimpleAlert())
+	state.SimpleAlert = simpleAlertSdkToTerraform(ctx, &diags, data.SimpleAlert)
 
-	state.Skyatp = skyAtpSdkToTerraform(ctx, &diags, data.GetSkyatp())
+	state.Skyatp = skyAtpSdkToTerraform(ctx, &diags, data.Skyatp)
 
-	state.SrxApp = srxAppSdkToTerraform(ctx, &diags, data.GetSrxApp())
+	// state.SrxApp = srxAppSdkToTerraform(ctx, &diags, data.SrxApp)
 
-	state.SshKeys = mist_list.ListOfStringSdkToTerraform(ctx, data.GetSshKeys())
+	state.SshKeys = mist_list.ListOfStringSdkToTerraform(ctx, data.SshKeys)
 
-	state.Ssr = ssrSdkToTerraform(ctx, &diags, data.GetSsr())
+	state.Ssr = ssrSdkToTerraform(ctx, &diags, data.Ssr)
 
-	state.SwitchUpdownThreshold = types.Int64Value(int64(data.GetSwitchUpdownThreshold()))
+	state.SwitchUpdownThreshold = types.Int64Value(int64(*data.SwitchUpdownThreshold.Value()))
 
-	state.SyntheticTest = synthteticTestSdkToTerraform(ctx, &diags, data.GetSyntheticTest())
+	state.SyntheticTest = synthteticTestSdkToTerraform(ctx, &diags, data.Synthetictest)
 
-	state.TrackAnonymousDevices = types.BoolValue(data.GetTrackAnonymousDevices())
+	state.TrackAnonymousDevices = types.BoolValue(*data.TrackAnonymousDevices)
 
-	state.Vars = varsSdkToTerraform(ctx, &diags, data.GetVars())
+	state.Vars = varsSdkToTerraform(ctx, &diags, data.Vars)
 
-	state.Vna = vnaSdkToTerraform(ctx, &diags, data.GetVna())
+	// state.Vna = vnaSdkToTerraform(ctx, &diags, data.Vna)
 
-	state.WanVna = wanVnaSdkToTerraform(ctx, &diags, data.GetWanVna())
+	// state.WanVna = wanVnaSdkToTerraform(ctx, &diags, data.WanVna)
 
-	state.WatchedStationUrl = types.StringValue(data.GetWatchedStationUrl())
+	state.WatchedStationUrl = types.StringValue(*data.WatchedStationUrl)
 
-	state.WhitelistUrl = types.StringValue(data.GetWhitelistUrl())
+	state.WhitelistUrl = types.StringValue(*data.WhitelistUrl)
 
-	state.Wids = widsSdkToTerraform(ctx, &diags, data.GetWids())
+	state.Wids = widsSdkToTerraform(ctx, &diags, data.Wids)
 
-	state.Wifi = wifiSdkToTerraform(ctx, &diags, data.GetWifi())
+	state.Wifi = wifiSdkToTerraform(ctx, &diags, data.Wifi)
 
-	state.WiredVna = wiredVnaSdkToTerraform(ctx, &diags, data.GetWiredVna())
+	// state.WiredVna = wiredVnaSdkToTerraform(ctx, &diags, data.WiredVna)
 
-	state.ZoneOccupancyAlert = zoneOccupancySdkToTerraform(ctx, &diags, data.GetZoneOccupancyAlert())
+	state.ZoneOccupancyAlert = zoneOccupancySdkToTerraform(ctx, &diags, *data.ZoneOccupancyAlert)
 
 	return state, diags
 }

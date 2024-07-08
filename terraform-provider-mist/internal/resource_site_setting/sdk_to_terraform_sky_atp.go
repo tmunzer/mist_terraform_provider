@@ -8,18 +8,30 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 
-func skyAtpSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d models.SiteSettingSkyatp) SkyatpValue {
+func skyAtpSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d *models.SiteSettingSkyatp) SkyatpValue {
 	tflog.Debug(ctx, "skyAtpSdkToTerraform")
 
-	r_attr_type := SkyatpValue{}.AttributeTypes(ctx)
-	r_attr_value := map[string]attr.Value{
-		"enabled":             types.BoolValue(d.GetEnabled()),
-		"send_ip_mac_mapping": types.BoolValue(d.GetSendIpMacMapping()),
+	var enabled basetypes.BoolValue
+	var send_ip_mac_mapping basetypes.BoolValue
+
+	if d != nil && d.Enabled != nil {
+		enabled = types.BoolValue(*d.Enabled)
 	}
-	r, e := NewSkyatpValue(r_attr_type, r_attr_value)
+	if d != nil && d.SendIpMacMapping != nil {
+		send_ip_mac_mapping = types.BoolValue(*d.SendIpMacMapping)
+	}
+
+	data_map_attr_type := SkyatpValue{}.AttributeTypes(ctx)
+	data_map_value := map[string]attr.Value{
+		"enabled":             enabled,
+		"send_ip_mac_mapping": send_ip_mac_mapping,
+	}
+	data, e := NewSkyatpValue(data_map_attr_type, data_map_value)
 	diags.Append(e...)
-	return r
+
+	return data
 }

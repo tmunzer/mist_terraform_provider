@@ -1,0 +1,136 @@
+{
+    "name": "site_networktemplate",
+    "get": [
+        "schema",
+        "attributes"
+    ],
+    "next": [
+        {
+            "name": "id",
+            "rename": "site_id"
+        },
+        {
+            "name": "site_id",
+            "get": [
+                "string"
+            ],
+            "computed_optional_required": "required"
+        },
+        {
+            "name": "switch_matching",
+            "get": [
+                "single_nested",
+                "attributes"
+            ],
+            "next": [
+                {
+                    "name": "rules",
+                    "rename": "matching_rules"
+                }
+            ]
+        },
+        {
+            "name": "vrf_instances",
+            "get": [
+                "map_nested",
+                "nested_object",
+                "attributes"
+            ],
+            "next": [
+                {
+                    "name": "extra_routes",
+                    "rename": "vrf_extra_routes"
+                }
+            ]
+        },
+        {
+            "name": "switch_mgmt",
+            "get": [
+                "single_nested",
+                "attributes"
+            ],
+            "next": [
+                {
+                    "name": "tacacs",
+                    "get": [
+                        "single_nested",
+                        "attributes"
+                    ],
+                    "next": [
+                        {
+                            "name": "acct_servers",
+                            "rename": "tacacct_servers"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "snmp_config",
+            "get": [
+                "single_nested",
+                "attributes"
+            ],
+            "next": [
+                {
+                    "name": "v3_config",
+                    "get": [
+                        "single_nested",
+                        "attributes"
+                    ],
+                    "next": [
+                        {
+                            "name": "notify_filter",
+                            "get": [
+                                "list_nested",
+                                "nested_object",
+                                "attributes"
+                            ],
+                            "next": [
+                                {
+                                    "name": "contents",
+                                    "rename": "snmpv3_contents"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "usm",
+                            "get": [
+                                "single_nested",
+                                "attributes"
+                            ],
+                            "next": [
+                                {
+                                    "name": "users",
+                                    "rename": "snmpv3_users"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "vacm",
+                            "get": [
+                                "single_nested",
+                                "attributes"
+                            ],
+                            "next": [
+                                {
+                                    "name": "security_to_group",
+                                    "get": [
+                                        "single_nested",
+                                        "attributes"
+                                    ],
+                                    "next": [
+                                        {
+                                            "name": "content",
+                                            "rename": "snmpv3_vacm_content"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

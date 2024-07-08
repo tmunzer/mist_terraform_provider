@@ -12,30 +12,30 @@ import (
 	"mistapi/models"
 )
 
-func syntheticTestVlansTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, l basetypes.ListValue) []models.SyntheticTestProperties {
+func syntheticTestVlansTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, l basetypes.ListValue) []models.SynthetictestProperties {
 	tflog.Debug(ctx, "syntheticTestVlansTerraformToSdk")
-	var data_list []models.SyntheticTestProperties
+	var data_list []models.SynthetictestProperties
 	for _, v := range l.Elements() {
 		var v_interface interface{} = v
 		plan := v_interface.(VlansValue)
-		data := models.NewSyntheticTestProperties()
-		data.SetCustomTestUrls(mist_transform.ListOfStringTerraformToSdk(ctx, plan.CustomTestUrls))
-		data.SetDisabled(plan.Disabled.ValueBool())
-		data.SetVlanIds(mist_transform.ListOfIntTerraformToSdk(ctx, plan.VlanIds))
+		data := models.SynthetictestProperties{}
+		data.CustomTestUrls = mist_transform.ListOfStringTerraformToSdk(ctx, plan.CustomTestUrls)
+		data.Disabled = plan.Disabled.ValueBoolPointer()
+		data.VlanIds = mist_transform.ListOfIntTerraformToSdk(ctx, plan.VlanIds)
 
-		data_list = append(data_list, *data)
+		data_list = append(data_list, data)
 	}
 	return data_list
 }
 
-func syntheticTestTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d SyntheticTestValue) models.SyntheticTestConfig {
+func syntheticTestTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d SyntheticTestValue) *models.SynthetictestConfig {
 	tflog.Debug(ctx, "syntheticTestTerraformToSdk")
-	data := models.NewSyntheticTestConfig()
+	data := models.SynthetictestConfig{}
 
-	data.SetDisabled(d.Disabled.ValueBool())
+	data.Disabled = d.Disabled.ValueBoolPointer()
 
 	vlans := syntheticTestVlansTerraformToSdk(ctx, diags, d.Vlans)
-	data.SetVlans(vlans)
+	data.Vlans = vlans
 
-	return *data
+	return &data
 }

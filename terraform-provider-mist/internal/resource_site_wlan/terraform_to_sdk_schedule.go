@@ -5,18 +5,17 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 
-	"terraform-provider-mist/internal/commons/hours"
+	mist_hours "terraform-provider-mist/internal/commons/hours"
 
 	"mistapi/models"
 )
 
-func scheduleTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d ScheduleValue) models.WlanSchedule {
-	data := models.NewWlanSchedule()
+func scheduleTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d ScheduleValue) *models.WlanSchedule {
+	data := models.WlanSchedule{}
 
-	data.SetEnabled(d.Enabled.ValueBool())
+	data.Enabled = d.Enabled.ValueBoolPointer()
 
-	hours := hours.HoursTerraformToSdk(ctx, diags, d.Hours)
-	data.SetHours(hours)
+	data.Hours = mist_hours.HoursTerraformToSdk(ctx, diags, d.Hours)
 
-	return *data
+	return &data
 }

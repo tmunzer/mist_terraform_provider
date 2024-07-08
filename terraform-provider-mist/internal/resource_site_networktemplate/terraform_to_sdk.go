@@ -10,12 +10,12 @@ import (
 	"mistapi/models"
 )
 
-func TerraformToSdk(ctx context.Context, plan *SiteNetworktemplateModel) (models.NetworkTemplate, diag.Diagnostics) {
+func TerraformToSdk(ctx context.Context, plan *SiteNetworktemplateModel) (*models.SiteSetting, diag.Diagnostics) {
 	var diags diag.Diagnostics
 
 	unset := make(map[string]interface{})
 
-	data := models.NetworkTemplate{}
+	data := models.SiteSetting{}
 
 	if plan.AclPolicies.IsNull() || plan.AclPolicies.IsUnknown() {
 		unset["-acl_policies"] = ""
@@ -88,13 +88,6 @@ func TerraformToSdk(ctx context.Context, plan *SiteNetworktemplateModel) (models
 		data.PortUsages = port_usages
 	}
 
-	if plan.PortMirroring.IsNull() || plan.PortMirroring.IsUnknown() {
-		unset["-port_mirroring"] = ""
-	} else {
-		port_mirroring := portMirroringTerraformToSdk(ctx, &diags, plan.PortMirroring)
-		data.PortMirroring = port_mirroring
-	}
-
 	if plan.RadiusConfig.IsNull() || plan.RadiusConfig.IsUnknown() {
 		unset["-radius_config"] = ""
 	} else {
@@ -103,10 +96,17 @@ func TerraformToSdk(ctx context.Context, plan *SiteNetworktemplateModel) (models
 	}
 
 	if plan.RemoteSyslog.IsNull() || plan.RemoteSyslog.IsUnknown() {
-		unset["-port_mirroring"] = ""
+		unset["-remote_syslog"] = ""
 	} else {
 		remote_syslog := remoteSyslogTerraformToSdk(ctx, &diags, plan.RemoteSyslog)
 		data.RemoteSyslog = remote_syslog
+	}
+
+	if plan.SnmpConfig.IsNull() || plan.SnmpConfig.IsUnknown() {
+		unset["-snmp_config"] = ""
+	} else {
+		snmp_config := snmpConfigTerraformToSdk(ctx, &diags, plan.SnmpConfig)
+		data.SnmpConfig = snmp_config
 	}
 
 	if plan.SwitchMatching.IsNull() || plan.SwitchMatching.IsUnknown() {
@@ -117,18 +117,18 @@ func TerraformToSdk(ctx context.Context, plan *SiteNetworktemplateModel) (models
 	}
 
 	if plan.SwitchMgmt.IsNull() || plan.SwitchMgmt.IsUnknown() {
-		unset["-port_mirroring"] = ""
+		unset["-switch_mgmt"] = ""
 	} else {
 		switch_mgmt := switchMgmtTerraformToSdk(ctx, &diags, plan.SwitchMgmt)
 		data.SwitchMgmt = switch_mgmt
 	}
 
-	if plan.VrfConfig.IsNull() || plan.VrfConfig.IsUnknown() {
-		unset["-vrf_config"] = ""
-	} else {
-		vrf_config := vrfConfigTerraformToSdk(ctx, &diags, plan.VrfConfig)
-		data.VrfConfig = vrf_config
-	}
+	// if plan.VrfConfig.IsNull() || plan.VrfConfig.IsUnknown() {
+	// 	unset["-vrf_config"] = ""
+	// } else {
+	// 	vrf_config := vrfConfigTerraformToSdk(ctx, &diags, plan.VrfConfig)
+	// 	data.VrfConfig = vrf_config
+	// }
 
 	if plan.VrfInstances.IsNull() || plan.VrfInstances.IsUnknown() {
 		unset["-vrf_instances"] = ""
@@ -139,5 +139,5 @@ func TerraformToSdk(ctx context.Context, plan *SiteNetworktemplateModel) (models
 
 	data.AdditionalProperties = unset
 
-	return data, diags
+	return &data, diags
 }

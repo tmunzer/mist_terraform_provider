@@ -1,0 +1,30 @@
+{
+    "name": "org_nactag",
+    "get": [
+        "schema",
+        "attributes"
+    ],
+    "next": [
+        {
+            "name": "name",
+            "get": [
+                "string"
+            ],
+            "computed_optional_required": "required"
+        },
+        {
+            "name": "org_id",
+            "get": [
+                "string"
+            ],
+            "computed_optional_required": "required"
+        },
+        {
+            "name": "id",
+            "get": [
+                "string"
+            ],
+            "computed_optional_required": "computed"
+        }
+    ]
+}

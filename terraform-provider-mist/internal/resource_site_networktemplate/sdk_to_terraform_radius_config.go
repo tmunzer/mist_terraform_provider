@@ -19,7 +19,7 @@ func radiusServersAcctSdkToTerraform(ctx context.Context, diags *diag.Diagnostic
 		var keywrap_format basetypes.StringValue
 		var keywrap_kek basetypes.StringValue
 		var keywrap_mack basetypes.StringValue
-		var port basetypes.Int64Value = types.Int64Value(int64(d.Port))
+		var port basetypes.Int64Value = types.Int64Value(int64(*d.Port))
 		var secret basetypes.StringValue = types.StringValue(d.Secret)
 
 		if d.KeywrapEnabled != nil {
@@ -66,7 +66,7 @@ func radiusServersAuthSdkToTerraform(ctx context.Context, diags *diag.Diagnostic
 		var keywrap_format basetypes.StringValue
 		var keywrap_kek basetypes.StringValue
 		var keywrap_mack basetypes.StringValue
-		var port basetypes.Int64Value = types.Int64Value(int64(d.Port))
+		var port basetypes.Int64Value = types.Int64Value(int64(*d.Port))
 		var secret basetypes.StringValue = types.StringValue(d.Secret)
 
 		if d.KeywrapEnabled != nil {
@@ -106,8 +106,8 @@ func radiusServersAuthSdkToTerraform(ctx context.Context, diags *diag.Diagnostic
 
 func radiusConfigSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d *models.RadiusConfig) RadiusConfigValue {
 	var acct_interim_interval basetypes.Int64Value
-	var acct_servers basetypes.ListValue
-	var auth_servers basetypes.ListValue
+	var acct_servers basetypes.ListValue = types.ListNull(AcctServersValue{}.Type(ctx))
+	var auth_servers basetypes.ListValue = types.ListNull(AuthServersValue{}.Type(ctx))
 	var auth_servers_retries basetypes.Int64Value
 	var auth_servers_timeout basetypes.Int64Value
 	var coa_enabled basetypes.BoolValue

@@ -9,12 +9,12 @@ import (
 	"mistapi/models"
 )
 
-func ledTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d LedValue) models.ApLed {
+func ledTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d LedValue) *models.ApLed {
 	tflog.Debug(ctx, "ledTerraformToSdk")
-	data := models.NewApLed()
-
-	data.SetBrightness(int32(d.Brightness.ValueInt64()))
-	data.SetEnabled(d.Enabled.ValueBool())
-
-	return *data
+	data := models.ApLed{}
+	if !d.IsNull() && !d.IsUnknown() {
+		data.Brightness = models.ToPointer(int(d.Brightness.ValueInt64()))
+		data.Enabled = d.Enabled.ValueBoolPointer()
+	}
+	return &data
 }

@@ -11,13 +11,13 @@ import (
 	"mistapi/models"
 )
 
-func zoneOccupancyTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d ZoneOccupancyAlertValue) models.SiteZoneOccupancyAlert {
+func zoneOccupancyTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d ZoneOccupancyAlertValue) *models.SiteZoneOccupancyAlert {
 	tflog.Debug(ctx, "zoneOccupancyTerraformToSdk")
-	data := models.NewSiteZoneOccupancyAlert()
+	data := models.SiteZoneOccupancyAlert{}
 
-	data.SetEmailNotifiers(mist_transform.ListOfStringTerraformToSdk(ctx, d.EmailNotifiers))
-	data.SetEnabled(d.Enabled.ValueBool())
-	data.SetThreshold(int32(d.Threshold.ValueInt64()))
+	data.EmailNotifiers = mist_transform.ListOfStringTerraformToSdk(ctx, d.EmailNotifiers)
+	data.Enabled = d.Enabled.ValueBoolPointer()
+	data.Threshold = models.ToPointer(int(d.Threshold.ValueInt64()))
 
-	return *data
+	return &data
 }

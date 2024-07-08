@@ -13,7 +13,7 @@ require (
 	mistapi v0.0.0
 )
 
-replace mistapi => /Users/tmunzer/Downloads/mist-api-go_generic_lib
+replace mistapi => /Users/tmunzer/4_dev/Mist/API/mistapi_portal/mistapigo
 
 require (
 	github.com/apimatic/go-core-runtime v0.0.22 // indirect

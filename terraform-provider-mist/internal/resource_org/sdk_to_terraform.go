@@ -33,7 +33,7 @@ func SdkToTerraform(data models.Org) (OrgModel, diag.Diagnostics) {
 		msp_name = types.StringPointerValue(data.MspName)
 	}
 	if data.SessionExpiry != nil {
-		session_expiry = types.Int64Value(*data.SessionExpiry)
+		session_expiry = types.Int64Value(int64(*data.SessionExpiry))
 	}
 
 	state.AlarmtemplateId = alarmtemplate_id

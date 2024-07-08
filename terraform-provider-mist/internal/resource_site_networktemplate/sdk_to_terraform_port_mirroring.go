@@ -15,9 +15,9 @@ import (
 func portMirroringSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, m map[string]models.SwitchPortMirroringProperty) basetypes.MapValue {
 	data_map_value := make(map[string]attr.Value)
 	for k, d := range m {
-		var input_networks_ingress basetypes.ListValue
-		var input_port_ids_egress basetypes.ListValue
-		var input_port_ids_ingress basetypes.ListValue
+		var input_networks_ingress basetypes.ListValue = mist_transform.ListOfStringSdkToTerraformEmpty(ctx)
+		var input_port_ids_egress basetypes.ListValue = mist_transform.ListOfStringSdkToTerraformEmpty(ctx)
+		var input_port_ids_ingress basetypes.ListValue = mist_transform.ListOfStringSdkToTerraformEmpty(ctx)
 		var output_network basetypes.StringValue
 		var output_port_id basetypes.StringValue
 

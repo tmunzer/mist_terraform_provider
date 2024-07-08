@@ -45,7 +45,7 @@ func extraRoutes6SdkToTerraform(ctx context.Context, diags *diag.Diagnostics, m 
 	for k, d := range m {
 		var discard basetypes.BoolValue
 		var metric basetypes.Int64Value
-		var next_qualified basetypes.MapValue
+		var next_qualified basetypes.MapValue = types.MapNull(NextQualifiedValue{}.Type(ctx))
 		var no_resolve basetypes.BoolValue
 		var preference basetypes.Int64Value
 		var via basetypes.StringValue

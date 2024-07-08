@@ -18,7 +18,7 @@ func TerraformToSdk(plan *OrgModel) (*models.Org, diag.Diagnostics) {
 		AlarmtemplateId: models.NewOptional(models.ToPointer(alarmtemplate_id)),
 		AllowMist:       models.ToPointer(plan.AllowMist.ValueBool()),
 		Name:            plan.Name.ValueString(),
-		SessionExpiry:   models.ToPointer(plan.SessionExpiry.ValueInt64()),
+		SessionExpiry:   models.ToPointer(int(plan.SessionExpiry.ValueInt64())),
 	}
 
 	return &data, diags

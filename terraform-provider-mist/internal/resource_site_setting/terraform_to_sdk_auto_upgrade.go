@@ -12,7 +12,7 @@ import (
 
 func siteSettingAutoUpgradeTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d AutoUpgradeValue) *models.SiteSettingAutoUpgrade {
 	tflog.Debug(ctx, "siteSettingAutoUpgradeTerraformToSdk")
-	data := models.NewSiteSettingAutoUpgrade()
+	data := models.SiteSettingAutoUpgrade{}
 
 	custom_versions := make(map[string]string)
 	for k, v := range d.CustomVersions.Elements() {
@@ -20,11 +20,11 @@ func siteSettingAutoUpgradeTerraformToSdk(ctx context.Context, diags *diag.Diagn
 		vd := vi.(basetypes.StringValue)
 		custom_versions[k] = vd.ValueString()
 	}
-	data.SetCustomVersions(custom_versions)
-	data.SetDayOfWeek(models.DayOfWeek(d.DayOfWeek.ValueString()))
-	data.SetEnabled(d.Enabled.ValueBool())
-	data.SetTimeOfDay(d.TimeOfDay.ValueString())
-	data.SetVersion(models.SiteAutoUpgradeVersion(d.Version.ValueString()))
+	data.CustomVersions = custom_versions
+	data.DayOfWeek = models.ToPointer(models.DayOfWeekEnum(d.DayOfWeek.ValueString()))
+	data.Enabled = d.Enabled.ValueBoolPointer()
+	data.TimeOfDay = d.TimeOfDay.ValueStringPointer()
+	data.Version = models.ToPointer(models.SiteAutoUpgradeVersionEnum(d.Version.ValueString()))
 
-	return data
+	return &data
 }

@@ -14,18 +14,33 @@ import (
 	mist_transform "terraform-provider-mist/internal/commons/utils"
 )
 
-func synthteticTestVlansSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []models.SyntheticTestProperties) basetypes.ListValue {
+func synthteticTestVlansSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, l []models.SynthetictestProperties) basetypes.ListValue {
 	tflog.Debug(ctx, "synthteticTestVlansSdkToTerraform")
 	var data_list = []VlansValue{}
-	for _, v := range d {
+	for _, d := range l {
+		var custom_test_urls basetypes.ListValue = mist_transform.ListOfStringSdkToTerraformEmpty(ctx)
+		var disabled basetypes.BoolValue
+		var vlan_ids basetypes.ListValue = mist_transform.ListOfIntSdkToTerraformEmpty(ctx)
+
+		if d.CustomTestUrls != nil {
+			custom_test_urls = mist_transform.ListOfStringSdkToTerraform(ctx, d.CustomTestUrls)
+		}
+		if d.Disabled != nil {
+			disabled = types.BoolValue(*d.Disabled)
+		}
+		if d.VlanIds != nil {
+			vlan_ids = mist_transform.ListOfIntSdkToTerraform(ctx, d.VlanIds)
+		}
+
 		data_map_attr_type := VlansValue{}.AttributeTypes(ctx)
 		data_map_value := map[string]attr.Value{
-			"custom_test_urls": mist_transform.ListOfStringSdkToTerraform(ctx, v.GetCustomTestUrls()),
-			"disabled":         types.BoolValue(v.GetDisabled()),
-			"vlan_ids":         mist_transform.ListOfIntSdkToTerraform(ctx, v.GetVlanIds()),
+			"custom_test_urls": custom_test_urls,
+			"disabled":         disabled,
+			"vlan_ids":         vlan_ids,
 		}
 		data, e := NewVlansValue(data_map_attr_type, data_map_value)
 		diags.Append(e...)
+
 		data_list = append(data_list, data)
 	}
 	data_list_type := VlansValue{}.Type(ctx)
@@ -34,15 +49,26 @@ func synthteticTestVlansSdkToTerraform(ctx context.Context, diags *diag.Diagnost
 	return r
 }
 
-func synthteticTestSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d models.SyntheticTestConfig) SyntheticTestValue {
+func synthteticTestSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d *models.SynthetictestConfig) SyntheticTestValue {
 	tflog.Debug(ctx, "synthteticTestSdkToTerraform")
 
-	r_attr_type := SyntheticTestValue{}.AttributeTypes(ctx)
-	r_attr_value := map[string]attr.Value{
-		"disabled": types.BoolValue(d.GetDisabled()),
-		"vlans":    synthteticTestVlansSdkToTerraform(ctx, diags, d.GetVlans()),
+	var disabled basetypes.BoolValue
+	var vlans basetypes.ListValue = types.ListNull(VlansValue{}.Type(ctx))
+
+	if d != nil && d.Disabled != nil {
+		disabled = types.BoolValue(*d.Disabled)
 	}
-	r, e := NewSyntheticTestValue(r_attr_type, r_attr_value)
+	if d.Vlans != nil {
+		vlans = synthteticTestVlansSdkToTerraform(ctx, diags, d.Vlans)
+	}
+
+	data_map_attr_type := SyntheticTestValue{}.AttributeTypes(ctx)
+	data_map_value := map[string]attr.Value{
+		"disabled": disabled,
+		"vlans":    vlans,
+	}
+	data, e := NewSyntheticTestValue(data_map_attr_type, data_map_value)
 	diags.Append(e...)
-	return r
+
+	return data
 }

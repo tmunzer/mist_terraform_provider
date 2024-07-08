@@ -11,15 +11,15 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 )
 
-func remoteSyslogArchiveSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d models.RemoteSyslogArchive) basetypes.ObjectValue {
+func remoteSyslogArchiveSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d *models.RemoteSyslogArchive) basetypes.ObjectValue {
 
 	var files basetypes.Int64Value
 	var size basetypes.StringValue
 
-	if d.Files != nil {
+	if d != nil && d.Files != nil {
 		files = types.Int64Value(int64(*d.Files))
 	}
-	if d.Size != nil {
+	if d != nil && d.Size != nil {
 		size = types.StringValue(*d.Size)
 	}
 
@@ -64,10 +64,10 @@ func remoteSyslogContentsSdkToTerraform(ctx context.Context, diags *diag.Diagnos
 	diags.Append(e...)
 	return r
 }
-func remoteSyslogConsoleSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d models.RemoteSyslogConsole) basetypes.ObjectValue {
+func remoteSyslogConsoleSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d *models.RemoteSyslogConsole) basetypes.ObjectValue {
 	var contents basetypes.ListValue
 
-	if d.Contents != nil {
+	if d != nil && d.Contents != nil {
 		contents = remoteSyslogContentsSdkToTerraform(ctx, diags, d.Contents)
 	}
 
@@ -87,14 +87,14 @@ func remoteSyslogFilesSdkToTerraform(ctx context.Context, diags *diag.Diagnostic
 
 	for _, d := range l {
 		var archive basetypes.ObjectValue
-		var contents basetypes.ListValue
+		var contents basetypes.ListValue = types.ListNull(ContentsValue{}.Type(ctx))
 		var explicit_priority basetypes.BoolValue
 		var file basetypes.StringValue
 		var match basetypes.StringValue
 		var structured_data basetypes.BoolValue
 
 		if d.Archive != nil {
-			archive = remoteSyslogArchiveSdkToTerraform(ctx, diags, *d.Archive)
+			archive = remoteSyslogArchiveSdkToTerraform(ctx, diags, d.Archive)
 		}
 		if d.Contents != nil {
 			contents = remoteSyslogContentsSdkToTerraform(ctx, diags, d.Contents)
@@ -136,7 +136,7 @@ func remoteSyslogServerSdkToTerraform(ctx context.Context, diags *diag.Diagnosti
 	var data_list = []ServersValue{}
 
 	for _, d := range l {
-		var contents basetypes.ListValue
+		var contents basetypes.ListValue = types.ListNull(ContentsValue{}.Type(ctx))
 		var explicit_priority basetypes.BoolValue
 		var facility basetypes.StringValue
 		var host basetypes.StringValue
@@ -216,7 +216,7 @@ func remoteSyslogUsersSdkToTerraform(ctx context.Context, diags *diag.Diagnostic
 
 	for _, d := range l {
 
-		var contents basetypes.ListValue
+		var contents basetypes.ListValue = types.ListNull(ContentsValue{}.Type(ctx))
 		var match basetypes.StringValue
 		var user basetypes.StringValue
 
@@ -247,10 +247,10 @@ func remoteSyslogUsersSdkToTerraform(ctx context.Context, diags *diag.Diagnostic
 	return r
 }
 
-func remoteSyslogSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d models.RemoteSyslog) RemoteSyslogValue {
+func remoteSyslogSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d *models.RemoteSyslog) RemoteSyslogValue {
 
-	var archive basetypes.ObjectValue = remoteSyslogArchiveSdkToTerraform(ctx, diags, *d.Archive)
-	var console basetypes.ObjectValue = remoteSyslogConsoleSdkToTerraform(ctx, diags, *d.Console)
+	var archive basetypes.ObjectValue = remoteSyslogArchiveSdkToTerraform(ctx, diags, d.Archive)
+	var console basetypes.ObjectValue = remoteSyslogConsoleSdkToTerraform(ctx, diags, d.Console)
 	var enabled basetypes.BoolValue
 	var files basetypes.ListValue = remoteSyslogFilesSdkToTerraform(ctx, diags, d.Files)
 	var network basetypes.StringValue
@@ -259,16 +259,16 @@ func remoteSyslogSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d 
 	var time_format basetypes.StringValue
 	var users basetypes.ListValue = remoteSyslogUsersSdkToTerraform(ctx, diags, d.Users)
 
-	if d.Enabled != nil {
+	if d != nil && d.Enabled != nil {
 		enabled = types.BoolValue(*d.Enabled)
 	}
-	if d.Network != nil {
+	if d != nil && d.Network != nil {
 		network = types.StringValue(*d.Network)
 	}
-	if d.SendToAllServers != nil {
+	if d != nil && d.SendToAllServers != nil {
 		send_to_all_servers = types.BoolValue(*d.SendToAllServers)
 	}
-	if d.TimeFormat != nil {
+	if d != nil && d.TimeFormat != nil {
 		time_format = types.StringValue(string(*d.TimeFormat))
 	}
 

@@ -11,12 +11,12 @@ import (
 	"mistapi/models"
 )
 
-func ssrTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d SsrValue) models.SiteSettingSsr {
+func ssrTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d SsrValue) *models.SiteSettingSsr {
 	tflog.Debug(ctx, "ssrTerraformToSdk")
-	data := models.NewSiteSettingSsr()
+	data := models.SiteSettingSsr{}
 
-	data.SetConductorHosts(mist_transform.ListOfStringTerraformToSdk(ctx, d.ConductorHosts))
-	data.SetDisableStats(d.DisableStats.ValueBool())
+	data.ConductorHosts = mist_transform.ListOfStringTerraformToSdk(ctx, d.ConductorHosts)
+	data.DisableStats = d.DisableStats.ValueBoolPointer()
 
-	return *data
+	return &data
 }

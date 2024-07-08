@@ -8,6 +8,7 @@ import (
 
 	"mistapi"
 
+	"github.com/google/uuid"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
@@ -66,7 +67,8 @@ func (r *siteSettingResource) Create(ctx context.Context, req resource.CreateReq
 		return
 	}
 	tflog.Info(ctx, "Starting SiteSetting Create for Site "+plan.SiteId.ValueString())
-	data, err := r.client.SitesSettingAPI.UpdateSiteSettings(ctx, plan.SiteId.ValueString()).SiteSetting(siteSetting
+	siteId := uuid.MustParse(plan.SiteId.ValueString())
+	data, err := r.client.SitesSetting().UpdateSiteSettings(ctx, siteId, siteSetting)
 
 	if err != nil {
 		resp.Diagnostics.AddError(
@@ -76,7 +78,7 @@ func (r *siteSettingResource) Create(ctx context.Context, req resource.CreateReq
 		return
 	}
 
-	state, diags = resource_site_setting.SdkToTerraform(ctx, data.Data)
+	state, diags = resource_site_setting.SdkToTerraform(ctx, &data.Data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -100,7 +102,8 @@ func (r *siteSettingResource) Read(ctx context.Context, req resource.ReadRequest
 	}
 
 	tflog.Info(ctx, "Starting SiteSetting Read: siteSetting_id "+state.SiteId.ValueString())
-	data, err := r.client.SitesSettingAPI.GetSiteSetting(ctx, state.SiteId.ValueString()
+	siteId := uuid.MustParse(state.SiteId.ValueString())
+	data, err := r.client.SitesSetting().GetSiteSetting(ctx, siteId)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Error getting siteSetting",
@@ -108,7 +111,7 @@ func (r *siteSettingResource) Read(ctx context.Context, req resource.ReadRequest
 		)
 		return
 	}
-	state, diags = resource_site_setting.SdkToTerraform(ctx, data.Data)
+	state, diags = resource_site_setting.SdkToTerraform(ctx, &data.Data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -143,7 +146,8 @@ func (r *siteSettingResource) Update(ctx context.Context, req resource.UpdateReq
 	}
 
 	tflog.Info(ctx, "Starting SiteSetting Update for SiteSetting "+state.SiteId.ValueString())
-	data, err := r.client.SitesSettingAPI.UpdateSiteSettings(ctx, state.SiteId.ValueString()).SiteSetting(siteSetting
+	siteId := uuid.MustParse(state.SiteId.ValueString())
+	data, err := r.client.SitesSetting().UpdateSiteSettings(ctx, siteId, siteSetting)
 
 	if err != nil {
 		resp.Diagnostics.AddError(
@@ -153,7 +157,7 @@ func (r *siteSettingResource) Update(ctx context.Context, req resource.UpdateReq
 		return
 	}
 
-	state, diags = resource_site_setting.SdkToTerraform(ctx, data.Data)
+	state, diags = resource_site_setting.SdkToTerraform(ctx, &data.Data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -177,8 +181,10 @@ func (r *siteSettingResource) Delete(ctx context.Context, req resource.DeleteReq
 	}
 
 	tflog.Info(ctx, "Starting SiteSetting Delete: siteSetting_id "+state.SiteId.ValueString())
-	data := *mistapigo.NewSiteSetting()
-	_, _, err := r.client.SitesSettingAPI.UpdateSiteSettings(ctx, state.SiteId.ValueString()).SiteSetting(data
+	siteSetting, e := resource_site_setting.DeleteTerraformToSdk(ctx)
+	diags.Append(e...)
+	siteId := uuid.MustParse(state.SiteId.ValueString())
+	_, err := r.client.SitesSetting().UpdateSiteSettings(ctx, siteId, siteSetting)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Error creating siteSetting",

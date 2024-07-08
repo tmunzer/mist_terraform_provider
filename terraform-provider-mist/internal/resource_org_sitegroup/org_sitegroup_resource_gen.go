@@ -13,7 +13,6 @@ func OrgSitegroupResourceSchema(ctx context.Context) schema.Schema {
 	return schema.Schema{
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
-				Optional: true,
 				Computed: true,
 			},
 			"name": schema.StringAttribute{

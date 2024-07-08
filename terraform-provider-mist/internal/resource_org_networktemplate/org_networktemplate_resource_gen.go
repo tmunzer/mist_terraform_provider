@@ -10,10 +10,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
@@ -34,7 +30,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 								Attributes: map[string]schema.Attribute{
 									"action": schema.StringAttribute{
 										Optional: true,
-										Computed: true,
 										Validators: []validator.String{
 											stringvalidator.OneOf(
 												"",
@@ -42,7 +37,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 												"deny",
 											),
 										},
-										Default: stringdefault.StaticString("allow"),
 									},
 									"dst_tag": schema.StringAttribute{
 										Optional: true,
@@ -56,7 +50,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 								},
 							},
 							Optional:            true,
-							Computed:            true,
 							Description:         "- for GBP-based policy, all src_tags and dst_tags have to be gbp-based\n- for ACL-based policy, `network` is required in either the source or destination so that we know where to attach the policy to",
 							MarkdownDescription: "- for GBP-based policy, all src_tags and dst_tags have to be gbp-based\n- for ACL-based policy, `network` is required in either the source or destination so that we know where to attach the policy to",
 						},
@@ -67,10 +60,8 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 						"src_tags": schema.ListAttribute{
 							ElementType:         types.StringType,
 							Optional:            true,
-							Computed:            true,
 							Description:         "- for GBP-based policy, all src_tags and dst_tags have to be gbp-based\n- for ACL-based policy, `network` is required in either the source or destination so that we know where to attach the policy to",
 							MarkdownDescription: "- for GBP-based policy, all src_tags and dst_tags have to be gbp-based\n- for ACL-based policy, `network` is required in either the source or destination so that we know where to attach the policy to",
-							Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 						},
 					},
 					CustomType: AclPoliciesType{
@@ -80,34 +71,28 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 					},
 				},
 				Optional: true,
-				Computed: true,
 			},
 			"acl_tags": schema.MapNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"gbp_tag": schema.Int64Attribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "required if\n- `type`==`dynamic_gbp` (gbp_tag received from RADIUS)\n- `type`==`static_gbp` (applying gbp tag against matching conditions)",
 							MarkdownDescription: "required if\n- `type`==`dynamic_gbp` (gbp_tag received from RADIUS)\n- `type`==`static_gbp` (applying gbp tag against matching conditions)",
 						},
 						"macs": schema.ListAttribute{
 							ElementType:         types.StringType,
 							Optional:            true,
-							Computed:            true,
 							Description:         "required if \n- `type`==`mac`\n- `type`==`static_gbp` if from matching mac",
 							MarkdownDescription: "required if \n- `type`==`mac`\n- `type`==`static_gbp` if from matching mac",
-							Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 						},
 						"network": schema.StringAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "if:\n- `type`==`mac` (optional. default is `any`)\n- `type`==`subnet` (optional. default is `any`)\n- `type`==`network`\n- `type`==`resource` (optional. default is `any`)\n- `type`==`static_gbp` if from matching network (vlan)",
 							MarkdownDescription: "if:\n- `type`==`mac` (optional. default is `any`)\n- `type`==`subnet` (optional. default is `any`)\n- `type`==`network`\n- `type`==`resource` (optional. default is `any`)\n- `type`==`static_gbp` if from matching network (vlan)",
 						},
 						"radius_group": schema.StringAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "required if \n- `type`==`radius_group` \n- `type`==`static_gbp` if from matching radius_group",
 							MarkdownDescription: "required if \n- `type`==`radius_group` \n- `type`==`static_gbp` if from matching radius_group",
 						},
@@ -116,17 +101,13 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 								Attributes: map[string]schema.Attribute{
 									"port_range": schema.StringAttribute{
 										Optional:            true,
-										Computed:            true,
 										Description:         "matched dst port, \"0\" means any",
 										MarkdownDescription: "matched dst port, \"0\" means any",
-										Default:             stringdefault.StaticString("80"),
 									},
 									"protocol": schema.StringAttribute{
 										Optional:            true,
-										Computed:            true,
 										Description:         "`tcp` / `udp` / `icmp` / `gre` / `any` / `:protocol_number`. `protocol_number` is between 1-254",
 										MarkdownDescription: "`tcp` / `udp` / `icmp` / `gre` / `any` / `:protocol_number`. `protocol_number` is between 1-254",
-										Default:             stringdefault.StaticString("any"),
 									},
 								},
 								CustomType: SpecsType{
@@ -136,17 +117,14 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 								},
 							},
 							Optional:            true,
-							Computed:            true,
 							Description:         "if `type`==`resource`\nempty means unrestricted, i.e. any",
 							MarkdownDescription: "if `type`==`resource`\nempty means unrestricted, i.e. any",
 						},
 						"subnets": schema.ListAttribute{
 							ElementType:         types.StringType,
 							Optional:            true,
-							Computed:            true,
 							Description:         "if \n- `type`==`subnet` \n- `type`==`resource` (optional. default is `any`)\n- `type`==`static_gbp` if from matching subnet",
 							MarkdownDescription: "if \n- `type`==`subnet` \n- `type`==`resource` (optional. default is `any`)\n- `type`==`static_gbp` if from matching subnet",
-							Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 						},
 						"type": schema.StringAttribute{
 							Required: true,
@@ -172,17 +150,14 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 					},
 				},
 				Optional:            true,
-				Computed:            true,
 				Description:         "ACL Tags to identify traffic source or destination. Key name is the tag name",
 				MarkdownDescription: "ACL Tags to identify traffic source or destination. Key name is the tag name",
 			},
 			"additional_config_cmds": schema.ListAttribute{
 				ElementType:         types.StringType,
 				Optional:            true,
-				Computed:            true,
 				Description:         "additional CLI commands to append to the generated Junos config\n\n**Note**: no check is done",
 				MarkdownDescription: "additional CLI commands to append to the generated Junos config\n\n**Note**: no check is done",
-				Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 			},
 			"dhcp_snooping": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
@@ -192,13 +167,11 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 					},
 					"enable_arp_spoof_check": schema.BoolAttribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "Enable for dynamic ARP inspection check",
 						MarkdownDescription: "Enable for dynamic ARP inspection check",
 					},
 					"enable_ip_source_guard": schema.BoolAttribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "Enable for check for forging source IP address",
 						MarkdownDescription: "Enable for check for forging source IP address",
 					},
@@ -209,10 +182,8 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 					"networks": schema.ListAttribute{
 						ElementType:         types.StringType,
 						Optional:            true,
-						Computed:            true,
 						Description:         "if `all_networks`==`false`, list of network with DHCP snooping enabled",
 						MarkdownDescription: "if `all_networks`==`false`, list of network with DHCP snooping enabled",
-						Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 					},
 				},
 				CustomType: DhcpSnoopingType{
@@ -221,37 +192,29 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 					},
 				},
 				Optional: true,
-				Computed: true,
 			},
 			"dns_servers": schema.ListAttribute{
 				ElementType:         types.StringType,
 				Optional:            true,
-				Computed:            true,
 				Description:         "Global dns settings. To keep compatibility, dns settings in `ip_config` and `oob_ip_config` will overwrite this setting",
 				MarkdownDescription: "Global dns settings. To keep compatibility, dns settings in `ip_config` and `oob_ip_config` will overwrite this setting",
-				Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 			},
 			"dns_suffix": schema.ListAttribute{
 				ElementType:         types.StringType,
 				Optional:            true,
-				Computed:            true,
 				Description:         "Global dns settings. To keep compatibility, dns settings in `ip_config` and `oob_ip_config` will overwrite this setting",
 				MarkdownDescription: "Global dns settings. To keep compatibility, dns settings in `ip_config` and `oob_ip_config` will overwrite this setting",
-				Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 			},
 			"extra_routes": schema.MapNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"discard": schema.BoolAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "this takes precedence",
 							MarkdownDescription: "this takes precedence",
-							Default:             booldefault.StaticBool(false),
 						},
 						"metric": schema.Int64Attribute{
 							Optional: true,
-							Computed: true,
 							Validators: []validator.Int64{
 								int64validator.Between(0, 4294967295),
 							},
@@ -275,23 +238,18 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 								},
 							},
 							Optional: true,
-							Computed: true,
 						},
 						"no_resolve": schema.BoolAttribute{
 							Optional: true,
-							Computed: true,
-							Default:  booldefault.StaticBool(false),
 						},
 						"preference": schema.Int64Attribute{
 							Optional: true,
-							Computed: true,
 							Validators: []validator.Int64{
 								int64validator.Between(0, 4294967295),
 							},
 						},
 						"via": schema.StringAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "next-hop IP Address",
 							MarkdownDescription: "next-hop IP Address",
 						},
@@ -303,21 +261,17 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 					},
 				},
 				Optional: true,
-				Computed: true,
 			},
 			"extra_routes6": schema.MapNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"discard": schema.BoolAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "this takes precedence",
 							MarkdownDescription: "this takes precedence",
-							Default:             booldefault.StaticBool(false),
 						},
 						"metric": schema.Int64Attribute{
 							Optional: true,
-							Computed: true,
 							Validators: []validator.Int64{
 								int64validator.Between(0, 4294967295),
 							},
@@ -341,23 +295,18 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 								},
 							},
 							Optional: true,
-							Computed: true,
 						},
 						"no_resolve": schema.BoolAttribute{
 							Optional: true,
-							Computed: true,
-							Default:  booldefault.StaticBool(false),
 						},
 						"preference": schema.Int64Attribute{
 							Optional: true,
-							Computed: true,
 							Validators: []validator.Int64{
 								int64validator.Between(0, 4294967295),
 							},
 						},
 						"via": schema.StringAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "next-hop IP Address",
 							MarkdownDescription: "next-hop IP Address",
 						},
@@ -369,12 +318,10 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 					},
 				},
 				Optional:            true,
-				Computed:            true,
 				Description:         "Property key is the destination CIDR (e.g. \"2a02:1234:420a:10c9::/64\")",
 				MarkdownDescription: "Property key is the destination CIDR (e.g. \"2a02:1234:420a:10c9::/64\")",
 			},
 			"id": schema.StringAttribute{
-				Optional: true,
 				Computed: true,
 			},
 			"mist_nac": schema.SingleNestedAttribute{
@@ -394,23 +341,19 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 					},
 				},
 				Optional:            true,
-				Computed:            true,
 				Description:         "enable mist_nac to use radsec",
 				MarkdownDescription: "enable mist_nac to use radsec",
 			},
 			"name": schema.StringAttribute{
-				Optional: true,
-				Computed: true,
+				Required: true,
 			},
 			"networks": schema.MapNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"isolation": schema.BoolAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "whether to stop clients to talk to each other, default is false (when enabled, a unique isolation_vlan_id is required)\nNOTE: this features requires uplink device to also a be Juniper device and `inter_switch_link` to be set",
 							MarkdownDescription: "whether to stop clients to talk to each other, default is false (when enabled, a unique isolation_vlan_id is required)\nNOTE: this features requires uplink device to also a be Juniper device and `inter_switch_link` to be set",
-							Default:             booldefault.StaticBool(false),
 						},
 						"isolation_vlan_id": schema.StringAttribute{
 							Optional: true,
@@ -418,7 +361,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 						},
 						"subnet": schema.StringAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "optional for pure switching, required when L3 / routing features are used",
 							MarkdownDescription: "optional for pure switching, required when L3 / routing features are used",
 						},
@@ -433,17 +375,14 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 					},
 				},
 				Optional:            true,
-				Computed:            true,
 				Description:         "Property key is network name",
 				MarkdownDescription: "Property key is network name",
 			},
 			"ntp_servers": schema.ListAttribute{
 				ElementType:         types.StringType,
 				Optional:            true,
-				Computed:            true,
 				Description:         "list of NTP servers specific to this device. By default, those in Site Settings will be used",
 				MarkdownDescription: "list of NTP servers specific to this device. By default, those in Site Settings will be used",
-				Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 			},
 			"org_id": schema.StringAttribute{
 				Required: true,
@@ -454,26 +393,20 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 						"input_networks_ingress": schema.ListAttribute{
 							ElementType:         types.StringType,
 							Optional:            true,
-							Computed:            true,
 							Description:         "at least one of the `ingress_port_ids`, `egress_port_ids` or `ingress_networks ` should be specified",
 							MarkdownDescription: "at least one of the `ingress_port_ids`, `egress_port_ids` or `ingress_networks ` should be specified",
-							Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 						},
 						"input_port_ids_egress": schema.ListAttribute{
 							ElementType:         types.StringType,
 							Optional:            true,
-							Computed:            true,
 							Description:         "at least one of the `ingress_port_ids`, `egress_port_ids` or `ingress_networks ` should be specified",
 							MarkdownDescription: "at least one of the `ingress_port_ids`, `egress_port_ids` or `ingress_networks ` should be specified",
-							Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 						},
 						"input_port_ids_ingress": schema.ListAttribute{
 							ElementType:         types.StringType,
 							Optional:            true,
-							Computed:            true,
 							Description:         "at least one of the `ingress_port_ids`, `egress_port_ids` or `ingress_networks ` should be specified",
 							MarkdownDescription: "at least one of the `ingress_port_ids`, `egress_port_ids` or `ingress_networks ` should be specified",
-							Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 						},
 						"output_network": schema.StringAttribute{
 							Optional: true,
@@ -481,7 +414,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 						},
 						"output_port_id": schema.StringAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "exaclty on of the `output_port_id` or `output_network` should be provided",
 							MarkdownDescription: "exaclty on of the `output_port_id` or `output_network` should be provided",
 						},
@@ -493,7 +425,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 					},
 				},
 				Optional:            true,
-				Computed:            true,
 				Description:         "Property key is the port mirroring instance name\nport_mirroring can be added under device/site settings. It takes interface and ports as input for ingress, interface as input for egress and can take interface and port as output.",
 				MarkdownDescription: "Property key is the port mirroring instance name\nport_mirroring can be added under device/site settings. It takes interface and ports as input for ingress, interface as input for egress and can take interface and port as output.",
 			},
@@ -502,61 +433,46 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 					Attributes: map[string]schema.Attribute{
 						"all_networks": schema.BoolAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "Only if `mode`==`trunk` whether to trunk all network/vlans",
 							MarkdownDescription: "Only if `mode`==`trunk` whether to trunk all network/vlans",
-							Default:             booldefault.StaticBool(false),
 						},
 						"allow_dhcpd": schema.BoolAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "Only if `mode`!=`dynamic` if DHCP snooping is enabled, whether DHCP server is allowed on the interfaces with. All the interfaces from port configs using this port usage are effected. Please notice that allow_dhcpd is a tri_state.\n\nWhen it is not defined, it means using the system’s default setting which depends on whether the port is a access or trunk port.",
 							MarkdownDescription: "Only if `mode`!=`dynamic` if DHCP snooping is enabled, whether DHCP server is allowed on the interfaces with. All the interfaces from port configs using this port usage are effected. Please notice that allow_dhcpd is a tri_state.\n\nWhen it is not defined, it means using the system’s default setting which depends on whether the port is a access or trunk port.",
 						},
 						"allow_multiple_supplicants": schema.BoolAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "Only if `mode`!=`dynamic`",
 							MarkdownDescription: "Only if `mode`!=`dynamic`",
-							Default:             booldefault.StaticBool(false),
 						},
 						"bypass_auth_when_server_down": schema.BoolAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "Only if `mode`!=`dynamic` and `port_auth`==`dot1x` bypass auth for known clients if set to true when RADIUS server is down",
 							MarkdownDescription: "Only if `mode`!=`dynamic` and `port_auth`==`dot1x` bypass auth for known clients if set to true when RADIUS server is down",
-							Default:             booldefault.StaticBool(false),
 						},
 						"bypass_auth_when_server_down_for_unkonwn_client": schema.BoolAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "Only if `mode`!=`dynamic` and `port_auth`=`dot1x` bypass auth for all (including unknown clients) if set to true when RADIUS server is down",
 							MarkdownDescription: "Only if `mode`!=`dynamic` and `port_auth`=`dot1x` bypass auth for all (including unknown clients) if set to true when RADIUS server is down",
-							Default:             booldefault.StaticBool(false),
 						},
 						"description": schema.StringAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "Only if `mode`!=`dynamic`",
 							MarkdownDescription: "Only if `mode`!=`dynamic`",
 						},
 						"disable_autoneg": schema.BoolAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "Only if `mode`!=`dynamic` if speed and duplex are specified, whether to disable autonegotiation",
 							MarkdownDescription: "Only if `mode`!=`dynamic` if speed and duplex are specified, whether to disable autonegotiation",
-							Default:             booldefault.StaticBool(false),
 						},
 						"disabled": schema.BoolAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "Only if `mode`!=`dynamic` whether the port is disabled",
 							MarkdownDescription: "Only if `mode`!=`dynamic` whether the port is disabled",
-							Default:             booldefault.StaticBool(false),
 						},
 						"duplex": schema.StringAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "Only if `mode`!=`dynamic` link connection mode",
 							MarkdownDescription: "Only if `mode`!=`dynamic` link connection mode",
 							Validators: []validator.String{
@@ -567,50 +483,38 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 									"auto",
 								),
 							},
-							Default: stringdefault.StaticString("auto"),
 						},
 						"dynamic_vlan_networks": schema.ListAttribute{
 							ElementType:         types.StringType,
 							Optional:            true,
-							Computed:            true,
 							Description:         "Only if `mode`!=`dynamic` if dynamic vlan is used, specify the possible networks/vlans RADIUS can return",
 							MarkdownDescription: "Only if `mode`!=`dynamic` if dynamic vlan is used, specify the possible networks/vlans RADIUS can return",
-							Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 						},
 						"enable_mac_auth": schema.BoolAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "Only if `mode`!=`dynamic` and `port_auth`==`dot1x` whether to enable MAC Auth",
 							MarkdownDescription: "Only if `mode`!=`dynamic` and `port_auth`==`dot1x` whether to enable MAC Auth",
-							Default:             booldefault.StaticBool(false),
 						},
 						"enable_qos": schema.BoolAttribute{
 							Optional: true,
-							Computed: true,
-							Default:  booldefault.StaticBool(false),
 						},
 						"guest_network": schema.StringAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "Only if `mode`!=`dynamic` and `port_auth`==`dot1x` which network to put the device into if the device cannot do dot1x. default is null (i.e. not allowed)",
 							MarkdownDescription: "Only if `mode`!=`dynamic` and `port_auth`==`dot1x` which network to put the device into if the device cannot do dot1x. default is null (i.e. not allowed)",
 						},
 						"inter_switch_link": schema.BoolAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "Only if `mode`!=`dynamic` inter_switch_link is used together with \"isolation\" under networks\nNOTE: inter_switch_link works only between Juniper device. This has to be applied to both ports connected together",
 							MarkdownDescription: "Only if `mode`!=`dynamic` inter_switch_link is used together with \"isolation\" under networks\nNOTE: inter_switch_link works only between Juniper device. This has to be applied to both ports connected together",
-							Default:             booldefault.StaticBool(false),
 						},
 						"mac_auth_only": schema.BoolAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "Only if `mode`!=`dynamic` and `enable_mac_auth`==`true`",
 							MarkdownDescription: "Only if `mode`!=`dynamic` and `enable_mac_auth`==`true`",
 						},
 						"mac_auth_protocol": schema.StringAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "if `enable_mac_auth` ==`true`. This type is ignored if mist_nac is enabled.",
 							MarkdownDescription: "if `enable_mac_auth` ==`true`. This type is ignored if mist_nac is enabled.",
 							Validators: []validator.String{
@@ -621,21 +525,17 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 									"eap-md5",
 								),
 							},
-							Default: stringdefault.StaticString("eap-md5"),
 						},
 						"mac_limit": schema.Int64Attribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "Only if `mode`!=`dynamic` max number of mac addresses, default is 0 for unlimited, otherwise range is 1 or higher, with upper bound constrained by platform",
 							MarkdownDescription: "Only if `mode`!=`dynamic` max number of mac addresses, default is 0 for unlimited, otherwise range is 1 or higher, with upper bound constrained by platform",
 							Validators: []validator.Int64{
 								int64validator.AtLeast(0),
 							},
-							Default: int64default.StaticInt64(0),
 						},
 						"mode": schema.StringAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "`mode`==`dynamic` must only be used with the port usage with the name `dynamic`",
 							MarkdownDescription: "`mode`==`dynamic` must only be used with the port usage with the name `dynamic`",
 							Validators: []validator.String{
@@ -650,63 +550,50 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 						},
 						"mtu": schema.Int64Attribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "Only if `mode`!=`dynamic` media maximum transmission unit (MTU) is the largest data unit that can be forwarded without fragmentation. The default value is 1514.",
 							MarkdownDescription: "Only if `mode`!=`dynamic` media maximum transmission unit (MTU) is the largest data unit that can be forwarded without fragmentation. The default value is 1514.",
 						},
 						"networks": schema.ListAttribute{
 							ElementType:         types.StringType,
 							Optional:            true,
-							Computed:            true,
 							Description:         "Only if `mode`==`trunk`, the list of network/vlans",
 							MarkdownDescription: "Only if `mode`==`trunk`, the list of network/vlans",
-							Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 						},
 						"persist_mac": schema.BoolAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "Only if `mode`!=`dynamic` and `mode`==`access` and `port_auth`!=`dot1x` whether the port should retain dynamically learned MAC addresses",
 							MarkdownDescription: "Only if `mode`!=`dynamic` and `mode`==`access` and `port_auth`!=`dot1x` whether the port should retain dynamically learned MAC addresses",
-							Default:             booldefault.StaticBool(false),
 						},
 						"poe_disabled": schema.BoolAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "Only if `mode`!=`dynamic` whether PoE capabilities are disabled for a port",
 							MarkdownDescription: "Only if `mode`!=`dynamic` whether PoE capabilities are disabled for a port",
-							Default:             booldefault.StaticBool(false),
 						},
 						"port_auth": schema.StringAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "Only if `mode`!=`dynamic` if dot1x is desired, set to dot1x",
 							MarkdownDescription: "Only if `mode`!=`dynamic` if dot1x is desired, set to dot1x",
 						},
 						"port_network": schema.StringAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "Only if `mode`!=`dynamic` native network/vlan for untagged traffic",
 							MarkdownDescription: "Only if `mode`!=`dynamic` native network/vlan for untagged traffic",
 						},
 						"reauth_interval": schema.Int64Attribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "Only if `mode`!=`dynamic` and `port_auth`=`dot1x` reauthentication interval range",
 							MarkdownDescription: "Only if `mode`!=`dynamic` and `port_auth`=`dot1x` reauthentication interval range",
 							Validators: []validator.Int64{
 								int64validator.Between(10, 65535),
 							},
-							Default: int64default.StaticInt64(3600),
 						},
 						"rejected_network": schema.StringAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "Only if `mode`!=`dynamic` and `port_auth`==`dot1x` when radius server reject / fails",
 							MarkdownDescription: "Only if `mode`!=`dynamic` and `port_auth`==`dot1x` when radius server reject / fails",
 						},
 						"reset_default_when": schema.StringAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "Only if `mode`==`dynamic` Control when the DPC port should be changed to the default port usage\nConfiguring to none will let the DPC port keep at the current port usage.",
 							MarkdownDescription: "Only if `mode`==`dynamic` Control when the DPC port should be changed to the default port usage\nConfiguring to none will let the DPC port keep at the current port usage.",
 							Validators: []validator.String{
@@ -716,7 +603,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 									"link_down",
 								),
 							},
-							Default: stringdefault.StaticString("link_down"),
 						},
 						"rules": schema.ListNestedAttribute{
 							NestedObject: schema.NestedAttributeObject{
@@ -728,14 +614,11 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 									"equals_any": schema.ListAttribute{
 										ElementType:         types.StringType,
 										Optional:            true,
-										Computed:            true,
 										Description:         "use `equals_any` to match any item in a list",
 										MarkdownDescription: "use `equals_any` to match any item in a list",
-										Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 									},
 									"expression": schema.StringAttribute{
 										Optional:            true,
-										Computed:            true,
 										Description:         "\"[0:3]\":\"abcdef\" -> \"abc\"\n\"split(.)[1]\": \"a.b.c\" -> \"b\"\n\"split(-)[1][0:3]: \"a1234-b5678-c90\" -> \"b56\"",
 										MarkdownDescription: "\"[0:3]\":\"abcdef\" -> \"abc\"\n\"split(.)[1]\": \"a.b.c\" -> \"b\"\n\"split(-)[1][0:3]: \"a1234-b5678-c90\" -> \"b56\"",
 									},
@@ -759,7 +642,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 									},
 									"usage": schema.StringAttribute{
 										Optional:            true,
-										Computed:            true,
 										Description:         "`port_usage` name",
 										MarkdownDescription: "`port_usage` name",
 									},
@@ -771,13 +653,11 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 								},
 							},
 							Optional:            true,
-							Computed:            true,
 							Description:         "Only if `mode`==`dynamic`",
 							MarkdownDescription: "Only if `mode`==`dynamic`",
 						},
 						"speed": schema.StringAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "Only if `mode`!=`dynamic` speed, default is auto to automatically negotiate speed",
 							MarkdownDescription: "Only if `mode`!=`dynamic` speed, default is auto to automatically negotiate speed",
 						},
@@ -785,41 +665,31 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 							Attributes: map[string]schema.Attribute{
 								"no_broadcast": schema.BoolAttribute{
 									Optional:            true,
-									Computed:            true,
 									Description:         "whether to disable storm control on broadcast traffic",
 									MarkdownDescription: "whether to disable storm control on broadcast traffic",
-									Default:             booldefault.StaticBool(false),
 								},
 								"no_multicast": schema.BoolAttribute{
 									Optional:            true,
-									Computed:            true,
 									Description:         "whether to disable storm control on multicast traffic",
 									MarkdownDescription: "whether to disable storm control on multicast traffic",
-									Default:             booldefault.StaticBool(false),
 								},
 								"no_registered_multicast": schema.BoolAttribute{
 									Optional:            true,
-									Computed:            true,
 									Description:         "whether to disable storm control on registered multicast traffic",
 									MarkdownDescription: "whether to disable storm control on registered multicast traffic",
-									Default:             booldefault.StaticBool(false),
 								},
 								"no_unknown_unicast": schema.BoolAttribute{
 									Optional:            true,
-									Computed:            true,
 									Description:         "whether to disable storm control on unknown unicast traffic",
 									MarkdownDescription: "whether to disable storm control on unknown unicast traffic",
-									Default:             booldefault.StaticBool(false),
 								},
 								"percentage": schema.Int64Attribute{
 									Optional:            true,
-									Computed:            true,
 									Description:         "bandwidth-percentage, configures the storm control level as a percentage of the available bandwidth",
 									MarkdownDescription: "bandwidth-percentage, configures the storm control level as a percentage of the available bandwidth",
 									Validators: []validator.Int64{
 										int64validator.Between(0, 100),
 									},
-									Default: int64default.StaticInt64(80),
 								},
 							},
 							CustomType: StormControlType{
@@ -828,20 +698,16 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 								},
 							},
 							Optional:            true,
-							Computed:            true,
 							Description:         "Switch storm control\nOnly if `mode`!=`dynamic`",
 							MarkdownDescription: "Switch storm control\nOnly if `mode`!=`dynamic`",
 						},
 						"stp_edge": schema.BoolAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "Only if `mode`!=`dynamic` when enabled, the port is not expected to receive BPDU frames",
 							MarkdownDescription: "Only if `mode`!=`dynamic` when enabled, the port is not expected to receive BPDU frames",
-							Default:             booldefault.StaticBool(false),
 						},
 						"voip_network": schema.StringAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "Only if `mode`!=`dynamic` network/vlan for voip traffic, must also set port_network. to authenticate device, set port_auth",
 							MarkdownDescription: "Only if `mode`!=`dynamic` network/vlan for voip traffic, must also set port_network. to authenticate device, set port_auth",
 						},
@@ -853,19 +719,16 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 					},
 				},
 				Optional: true,
-				Computed: true,
 			},
 			"radius_config": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
 					"acct_interim_interval": schema.Int64Attribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "how frequently should interim accounting be reported, 60-65535. default is 0 (use one specified in Access-Accept request from RADIUS Server). Very frequent messages can affect the performance of the radius server, 600 and up is recommended when enabled",
 						MarkdownDescription: "how frequently should interim accounting be reported, 60-65535. default is 0 (use one specified in Access-Accept request from RADIUS Server). Very frequent messages can affect the performance of the radius server, 600 and up is recommended when enabled",
 						Validators: []validator.Int64{
 							int64validator.Between(0, 65535),
 						},
-						Default: int64default.StaticInt64(0),
 					},
 					"acct_servers": schema.ListNestedAttribute{
 						NestedObject: schema.NestedAttributeObject{
@@ -881,7 +744,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 								},
 								"keywrap_format": schema.StringAttribute{
 									Optional: true,
-									Computed: true,
 									Validators: []validator.String{
 										stringvalidator.OneOf(
 											"",
@@ -900,10 +762,8 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 								},
 								"port": schema.Int64Attribute{
 									Optional:            true,
-									Computed:            true,
 									Description:         "Acct port of RADIUS server",
 									MarkdownDescription: "Acct port of RADIUS server",
-									Default:             int64default.StaticInt64(1813),
 								},
 								"secret": schema.StringAttribute{
 									Required:            true,
@@ -918,7 +778,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 							},
 						},
 						Optional: true,
-						Computed: true,
 						Validators: []validator.List{
 							listvalidator.UniqueValues(),
 						},
@@ -937,7 +796,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 								},
 								"keywrap_format": schema.StringAttribute{
 									Optional: true,
-									Computed: true,
 									Validators: []validator.String{
 										stringvalidator.OneOf(
 											"",
@@ -956,10 +814,8 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 								},
 								"port": schema.Int64Attribute{
 									Optional:            true,
-									Computed:            true,
 									Description:         "Auth port of RADIUS server",
 									MarkdownDescription: "Auth port of RADIUS server",
-									Default:             int64default.StaticInt64(1812),
 								},
 								"secret": schema.StringAttribute{
 									Required:            true,
@@ -974,7 +830,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 							},
 						},
 						Optional: true,
-						Computed: true,
 						Validators: []validator.List{
 							listvalidator.SizeAtLeast(1),
 							listvalidator.UniqueValues(),
@@ -982,37 +837,27 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 					},
 					"auth_servers_retries": schema.Int64Attribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "radius auth session retries",
 						MarkdownDescription: "radius auth session retries",
-						Default:             int64default.StaticInt64(3),
 					},
 					"auth_servers_timeout": schema.Int64Attribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "radius auth session timeout",
 						MarkdownDescription: "radius auth session timeout",
-						Default:             int64default.StaticInt64(5),
 					},
 					"coa_enabled": schema.BoolAttribute{
 						Optional: true,
-						Computed: true,
-						Default:  booldefault.StaticBool(false),
 					},
 					"coa_port": schema.Int64Attribute{
 						Optional: true,
-						Computed: true,
-						Default:  int64default.StaticInt64(3799),
 					},
 					"network": schema.StringAttribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "use `network`or `source_ip`\nwhich network the RADIUS server resides, if there's static IP for this network, we'd use it as source-ip",
 						MarkdownDescription: "use `network`or `source_ip`\nwhich network the RADIUS server resides, if there's static IP for this network, we'd use it as source-ip",
 					},
 					"source_ip": schema.StringAttribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "use `network`or `source_ip`",
 						MarkdownDescription: "use `network`or `source_ip`",
 					},
@@ -1023,7 +868,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 					},
 				},
 				Optional:            true,
-				Computed:            true,
 				Description:         "Junos Radius config",
 				MarkdownDescription: "Junos Radius config",
 			},
@@ -1046,7 +890,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 							},
 						},
 						Optional: true,
-						Computed: true,
 					},
 					"console": schema.SingleNestedAttribute{
 						Attributes: map[string]schema.Attribute{
@@ -1055,7 +898,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 									Attributes: map[string]schema.Attribute{
 										"facility": schema.StringAttribute{
 											Optional: true,
-											Computed: true,
 											Validators: []validator.String{
 												stringvalidator.OneOf(
 													"",
@@ -1077,11 +919,9 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 													"user",
 												),
 											},
-											Default: stringdefault.StaticString("any"),
 										},
 										"severity": schema.StringAttribute{
 											Optional: true,
-											Computed: true,
 											Validators: []validator.String{
 												stringvalidator.OneOf(
 													"",
@@ -1095,7 +935,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 													"error",
 												),
 											},
-											Default: stringdefault.StaticString("any"),
 										},
 									},
 									CustomType: ContentsType{
@@ -1105,7 +944,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 									},
 								},
 								Optional: true,
-								Computed: true,
 							},
 						},
 						CustomType: ConsoleType{
@@ -1114,12 +952,9 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 							},
 						},
 						Optional: true,
-						Computed: true,
 					},
 					"enabled": schema.BoolAttribute{
 						Optional: true,
-						Computed: true,
-						Default:  booldefault.StaticBool(false),
 					},
 					"files": schema.ListNestedAttribute{
 						NestedObject: schema.NestedAttributeObject{
@@ -1141,14 +976,12 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 										},
 									},
 									Optional: true,
-									Computed: true,
 								},
 								"contents": schema.ListNestedAttribute{
 									NestedObject: schema.NestedAttributeObject{
 										Attributes: map[string]schema.Attribute{
 											"facility": schema.StringAttribute{
 												Optional: true,
-												Computed: true,
 												Validators: []validator.String{
 													stringvalidator.OneOf(
 														"",
@@ -1170,11 +1003,9 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 														"user",
 													),
 												},
-												Default: stringdefault.StaticString("any"),
 											},
 											"severity": schema.StringAttribute{
 												Optional: true,
-												Computed: true,
 												Validators: []validator.String{
 													stringvalidator.OneOf(
 														"",
@@ -1188,7 +1019,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 														"error",
 													),
 												},
-												Default: stringdefault.StaticString("any"),
 											},
 										},
 										CustomType: ContentsType{
@@ -1198,7 +1028,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 										},
 									},
 									Optional: true,
-									Computed: true,
 								},
 								"explicit_priority": schema.BoolAttribute{
 									Optional: true,
@@ -1224,18 +1053,14 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 							},
 						},
 						Optional: true,
-						Computed: true,
 					},
 					"network": schema.StringAttribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "if source_address is configured, will use the vlan firstly otherwise use source_ip",
 						MarkdownDescription: "if source_address is configured, will use the vlan firstly otherwise use source_ip",
 					},
 					"send_to_all_servers": schema.BoolAttribute{
 						Optional: true,
-						Computed: true,
-						Default:  booldefault.StaticBool(false),
 					},
 					"servers": schema.ListNestedAttribute{
 						NestedObject: schema.NestedAttributeObject{
@@ -1245,7 +1070,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 										Attributes: map[string]schema.Attribute{
 											"facility": schema.StringAttribute{
 												Optional: true,
-												Computed: true,
 												Validators: []validator.String{
 													stringvalidator.OneOf(
 														"",
@@ -1267,11 +1091,9 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 														"user",
 													),
 												},
-												Default: stringdefault.StaticString("any"),
 											},
 											"severity": schema.StringAttribute{
 												Optional: true,
-												Computed: true,
 												Validators: []validator.String{
 													stringvalidator.OneOf(
 														"",
@@ -1285,7 +1107,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 														"error",
 													),
 												},
-												Default: stringdefault.StaticString("any"),
 											},
 										},
 										CustomType: ContentsType{
@@ -1295,7 +1116,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 										},
 									},
 									Optional: true,
-									Computed: true,
 								},
 								"explicit_priority": schema.BoolAttribute{
 									Optional: true,
@@ -1303,7 +1123,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 								},
 								"facility": schema.StringAttribute{
 									Optional: true,
-									Computed: true,
 									Validators: []validator.String{
 										stringvalidator.OneOf(
 											"",
@@ -1325,7 +1144,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 											"user",
 										),
 									},
-									Default: stringdefault.StaticString("any"),
 								},
 								"host": schema.StringAttribute{
 									Optional: true,
@@ -1337,12 +1155,9 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 								},
 								"port": schema.Int64Attribute{
 									Optional: true,
-									Computed: true,
-									Default:  int64default.StaticInt64(514),
 								},
 								"protocol": schema.StringAttribute{
 									Optional: true,
-									Computed: true,
 									Validators: []validator.String{
 										stringvalidator.OneOf(
 											"",
@@ -1350,7 +1165,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 											"tcp",
 										),
 									},
-									Default: stringdefault.StaticString("udp"),
 								},
 								"routing_instance": schema.StringAttribute{
 									Optional: true,
@@ -1358,7 +1172,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 								},
 								"severity": schema.StringAttribute{
 									Optional: true,
-									Computed: true,
 									Validators: []validator.String{
 										stringvalidator.OneOf(
 											"",
@@ -1372,11 +1185,9 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 											"error",
 										),
 									},
-									Default: stringdefault.StaticString("any"),
 								},
 								"source_address": schema.StringAttribute{
 									Optional:            true,
-									Computed:            true,
 									Description:         "if source_address is configured, will use the vlan firstly otherwise use source_ip",
 									MarkdownDescription: "if source_address is configured, will use the vlan firstly otherwise use source_ip",
 								},
@@ -1396,11 +1207,9 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 							},
 						},
 						Optional: true,
-						Computed: true,
 					},
 					"time_format": schema.StringAttribute{
 						Optional: true,
-						Computed: true,
 						Validators: []validator.String{
 							stringvalidator.OneOf(
 								"",
@@ -1418,7 +1227,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 										Attributes: map[string]schema.Attribute{
 											"facility": schema.StringAttribute{
 												Optional: true,
-												Computed: true,
 												Validators: []validator.String{
 													stringvalidator.OneOf(
 														"",
@@ -1440,11 +1248,9 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 														"user",
 													),
 												},
-												Default: stringdefault.StaticString("any"),
 											},
 											"severity": schema.StringAttribute{
 												Optional: true,
-												Computed: true,
 												Validators: []validator.String{
 													stringvalidator.OneOf(
 														"",
@@ -1458,7 +1264,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 														"error",
 													),
 												},
-												Default: stringdefault.StaticString("any"),
 											},
 										},
 										CustomType: ContentsType{
@@ -1468,7 +1273,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 										},
 									},
 									Optional: true,
-									Computed: true,
 								},
 								"match": schema.StringAttribute{
 									Optional: true,
@@ -1486,7 +1290,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 							},
 						},
 						Optional: true,
-						Computed: true,
 					},
 				},
 				CustomType: RemoteSyslogType{
@@ -1495,7 +1298,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 					},
 				},
 				Optional: true,
-				Computed: true,
 			},
 			"snmp_config": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
@@ -1509,8 +1311,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 								"clients": schema.ListAttribute{
 									ElementType: types.StringType,
 									Optional:    true,
-									Computed:    true,
-									Default:     listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 								},
 							},
 							CustomType: ClientListType{
@@ -1520,7 +1320,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 							},
 						},
 						Optional: true,
-						Computed: true,
 					},
 					"contact": schema.StringAttribute{
 						Optional: true,
@@ -1532,12 +1331,9 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 					},
 					"enabled": schema.BoolAttribute{
 						Optional: true,
-						Computed: true,
-						Default:  booldefault.StaticBool(true),
 					},
 					"engine_id": schema.StringAttribute{
 						Optional: true,
-						Computed: true,
 						Validators: []validator.String{
 							stringvalidator.OneOf(
 								"",
@@ -1558,8 +1354,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 					},
 					"network": schema.StringAttribute{
 						Optional: true,
-						Computed: true,
-						Default:  stringdefault.StaticString("default"),
 					},
 					"trap_groups": schema.ListNestedAttribute{
 						NestedObject: schema.NestedAttributeObject{
@@ -1567,24 +1361,18 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 								"categories": schema.ListAttribute{
 									ElementType: types.StringType,
 									Optional:    true,
-									Computed:    true,
-									Default:     listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 								},
 								"group_name": schema.StringAttribute{
 									Optional:            true,
-									Computed:            true,
 									Description:         "Categories list can refer to https://www.juniper.net/documentation/software/topics/task/configuration/snmp_trap-groups-configuring-junos-nm.html",
 									MarkdownDescription: "Categories list can refer to https://www.juniper.net/documentation/software/topics/task/configuration/snmp_trap-groups-configuring-junos-nm.html",
 								},
 								"targets": schema.ListAttribute{
 									ElementType: types.StringType,
 									Optional:    true,
-									Computed:    true,
-									Default:     listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 								},
 								"version": schema.StringAttribute{
 									Optional: true,
-									Computed: true,
 									Validators: []validator.String{
 										stringvalidator.OneOf(
 											"",
@@ -1593,7 +1381,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 											"all",
 										),
 									},
-									Default: stringdefault.StaticString("v2"),
 								},
 							},
 							CustomType: TrapGroupsType{
@@ -1603,7 +1390,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 							},
 						},
 						Optional: true,
-						Computed: true,
 					},
 					"v2c_config": schema.ListNestedAttribute{
 						NestedObject: schema.NestedAttributeObject{
@@ -1614,7 +1400,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 								},
 								"client_list_name": schema.StringAttribute{
 									Optional:            true,
-									Computed:            true,
 									Description:         "client_list_name here should refer to client_list above",
 									MarkdownDescription: "client_list_name here should refer to client_list above",
 								},
@@ -1624,7 +1409,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 								},
 								"view": schema.StringAttribute{
 									Optional:            true,
-									Computed:            true,
 									Description:         "view name here should be defined in views above",
 									MarkdownDescription: "view name here should be defined in views above",
 								},
@@ -1636,7 +1420,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 							},
 						},
 						Optional: true,
-						Computed: true,
 					},
 					"v3_config": schema.SingleNestedAttribute{
 						Attributes: map[string]schema.Attribute{
@@ -1653,7 +1436,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 										},
 										"type": schema.StringAttribute{
 											Optional: true,
-											Computed: true,
 											Validators: []validator.String{
 												stringvalidator.OneOf(
 													"",
@@ -1670,7 +1452,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 									},
 								},
 								Optional: true,
-								Computed: true,
 							},
 							"notify_filter": schema.ListNestedAttribute{
 								NestedObject: schema.NestedAttributeObject{
@@ -1698,7 +1479,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 												},
 											},
 											Optional: true,
-											Computed: true,
 										},
 									},
 									CustomType: NotifyFilterType{
@@ -1708,7 +1488,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 									},
 								},
 								Optional: true,
-								Computed: true,
 							},
 							"target_address": schema.ListNestedAttribute{
 								NestedObject: schema.NestedAttributeObject{
@@ -1723,12 +1502,9 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 										},
 										"port": schema.Int64Attribute{
 											Optional: true,
-											Computed: true,
-											Default:  int64default.StaticInt64(161),
 										},
 										"tag_list": schema.StringAttribute{
 											Optional:            true,
-											Computed:            true,
 											Description:         "<refer to notify tag, can be multiple with blank",
 											MarkdownDescription: "<refer to notify tag, can be multiple with blank",
 										},
@@ -1738,7 +1514,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 										},
 										"target_parameters": schema.StringAttribute{
 											Optional:            true,
-											Computed:            true,
 											Description:         "refer to notify target parameters name",
 											MarkdownDescription: "refer to notify target parameters name",
 										},
@@ -1750,14 +1525,12 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 									},
 								},
 								Optional: true,
-								Computed: true,
 							},
 							"target_parameters": schema.ListNestedAttribute{
 								NestedObject: schema.NestedAttributeObject{
 									Attributes: map[string]schema.Attribute{
 										"message_processing_model": schema.StringAttribute{
 											Optional: true,
-											Computed: true,
 											Validators: []validator.String{
 												stringvalidator.OneOf(
 													"",
@@ -1773,13 +1546,11 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 										},
 										"notify_filter": schema.StringAttribute{
 											Optional:            true,
-											Computed:            true,
 											Description:         "refer to profile-name in notify_filter",
 											MarkdownDescription: "refer to profile-name in notify_filter",
 										},
 										"security_level": schema.StringAttribute{
 											Optional: true,
-											Computed: true,
 											Validators: []validator.String{
 												stringvalidator.OneOf(
 													"",
@@ -1791,7 +1562,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 										},
 										"security_model": schema.StringAttribute{
 											Optional: true,
-											Computed: true,
 											Validators: []validator.String{
 												stringvalidator.OneOf(
 													"",
@@ -1803,7 +1573,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 										},
 										"security_name": schema.StringAttribute{
 											Optional:            true,
-											Computed:            true,
 											Description:         "refer to security_name in usm",
 											MarkdownDescription: "refer to security_name in usm",
 										},
@@ -1815,13 +1584,11 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 									},
 								},
 								Optional: true,
-								Computed: true,
 							},
 							"usm": schema.SingleNestedAttribute{
 								Attributes: map[string]schema.Attribute{
 									"engine_type": schema.StringAttribute{
 										Optional: true,
-										Computed: true,
 										Validators: []validator.String{
 											stringvalidator.OneOf(
 												"",
@@ -1832,7 +1599,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 									},
 									"engineid": schema.StringAttribute{
 										Optional:            true,
-										Computed:            true,
 										Description:         "required only if `engine_type`==`remote_engine`",
 										MarkdownDescription: "required only if `engine_type`==`remote_engine`",
 									},
@@ -1841,7 +1607,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 											Attributes: map[string]schema.Attribute{
 												"authentication_password": schema.StringAttribute{
 													Optional:            true,
-													Computed:            true,
 													Description:         "Not required if `authentication_type`==`authentication_none`\ninclude alphabetic, numeric, and special characters, but it cannot include control characters.",
 													MarkdownDescription: "Not required if `authentication_type`==`authentication_none`\ninclude alphabetic, numeric, and special characters, but it cannot include control characters.",
 													Validators: []validator.String{
@@ -1850,7 +1615,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 												},
 												"authentication_type": schema.StringAttribute{
 													Optional:            true,
-													Computed:            true,
 													Description:         "sha224, sha256, sha384, sha512 are supported in 21.1 and newer release",
 													MarkdownDescription: "sha224, sha256, sha384, sha512 are supported in 21.1 and newer release",
 													Validators: []validator.String{
@@ -1868,7 +1632,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 												},
 												"encryption_password": schema.StringAttribute{
 													Optional:            true,
-													Computed:            true,
 													Description:         "Not required if `encryption_type`==`privacy-none`\ninclude alphabetic, numeric, and special characters, but it cannot include control characters",
 													MarkdownDescription: "Not required if `encryption_type`==`privacy-none`\ninclude alphabetic, numeric, and special characters, but it cannot include control characters",
 													Validators: []validator.String{
@@ -1877,7 +1640,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 												},
 												"encryption_type": schema.StringAttribute{
 													Optional: true,
-													Computed: true,
 													Validators: []validator.String{
 														stringvalidator.OneOf(
 															"",
@@ -1900,7 +1662,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 											},
 										},
 										Optional: true,
-										Computed: true,
 									},
 								},
 								CustomType: UsmType{
@@ -1909,7 +1670,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 									},
 								},
 								Optional: true,
-								Computed: true,
 							},
 							"vacm": schema.SingleNestedAttribute{
 								Attributes: map[string]schema.Attribute{
@@ -1925,25 +1685,21 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 														Attributes: map[string]schema.Attribute{
 															"context_prefix": schema.StringAttribute{
 																Optional:            true,
-																Computed:            true,
 																Description:         "only required if `type`==`context_prefix`",
 																MarkdownDescription: "only required if `type`==`context_prefix`",
 															},
 															"notify_view": schema.StringAttribute{
 																Optional:            true,
-																Computed:            true,
 																Description:         "refer to view name",
 																MarkdownDescription: "refer to view name",
 															},
 															"read_view": schema.StringAttribute{
 																Optional:            true,
-																Computed:            true,
 																Description:         "refer to view name",
 																MarkdownDescription: "refer to view name",
 															},
 															"security_level": schema.StringAttribute{
 																Optional: true,
-																Computed: true,
 																Validators: []validator.String{
 																	stringvalidator.OneOf(
 																		"",
@@ -1955,7 +1711,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 															},
 															"security_model": schema.StringAttribute{
 																Optional: true,
-																Computed: true,
 																Validators: []validator.String{
 																	stringvalidator.OneOf(
 																		"",
@@ -1968,7 +1723,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 															},
 															"type": schema.StringAttribute{
 																Optional: true,
-																Computed: true,
 																Validators: []validator.String{
 																	stringvalidator.OneOf(
 																		"",
@@ -1978,7 +1732,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 															},
 															"write_view": schema.StringAttribute{
 																Optional:            true,
-																Computed:            true,
 																Description:         "refer to view name",
 																MarkdownDescription: "refer to view name",
 															},
@@ -1990,7 +1743,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 														},
 													},
 													Optional: true,
-													Computed: true,
 												},
 											},
 											CustomType: AccessType{
@@ -2000,13 +1752,11 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 											},
 										},
 										Optional: true,
-										Computed: true,
 									},
 									"security_to_group": schema.SingleNestedAttribute{
 										Attributes: map[string]schema.Attribute{
 											"security_model": schema.StringAttribute{
 												Optional: true,
-												Computed: true,
 												Validators: []validator.String{
 													stringvalidator.OneOf(
 														"",
@@ -2021,7 +1771,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 													Attributes: map[string]schema.Attribute{
 														"group": schema.StringAttribute{
 															Optional:            true,
-															Computed:            true,
 															Description:         "refer to group_name under access",
 															MarkdownDescription: "refer to group_name under access",
 														},
@@ -2037,7 +1786,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 													},
 												},
 												Optional: true,
-												Computed: true,
 											},
 										},
 										CustomType: SecurityToGroupType{
@@ -2046,7 +1794,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 											},
 										},
 										Optional: true,
-										Computed: true,
 									},
 								},
 								CustomType: VacmType{
@@ -2055,7 +1802,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 									},
 								},
 								Optional: true,
-								Computed: true,
 							},
 						},
 						CustomType: V3ConfigType{
@@ -2064,14 +1810,12 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 							},
 						},
 						Optional: true,
-						Computed: true,
 					},
 					"views": schema.ListNestedAttribute{
 						NestedObject: schema.NestedAttributeObject{
 							Attributes: map[string]schema.Attribute{
 								"include": schema.BoolAttribute{
 									Optional:            true,
-									Computed:            true,
 									Description:         "if the root oid configured is included",
 									MarkdownDescription: "if the root oid configured is included",
 								},
@@ -2091,7 +1835,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 							},
 						},
 						Optional: true,
-						Computed: true,
 					},
 				},
 				CustomType: SnmpConfigType{
@@ -2100,7 +1843,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 					},
 				},
 				Optional: true,
-				Computed: true,
 			},
 			"switch_matching": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
@@ -2114,20 +1856,16 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 								"additional_config_cmds": schema.ListAttribute{
 									ElementType:         types.StringType,
 									Optional:            true,
-									Computed:            true,
 									Description:         "additional CLI commands to append to the generated Junos config\n\n**Note**: no check is done",
 									MarkdownDescription: "additional CLI commands to append to the generated Junos config\n\n**Note**: no check is done",
-									Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 								},
 								"match_role": schema.StringAttribute{
 									Optional:            true,
-									Computed:            true,
 									Description:         "role to match",
 									MarkdownDescription: "role to match",
 								},
 								"match_type": schema.StringAttribute{
 									Optional:            true,
-									Computed:            true,
 									Description:         "'property key define the type of matching, value is the string to match. e.g: `match_name[0:3]`, `match_name[2:6]`, `match_model`,  `match_model[0-6]`",
 									MarkdownDescription: "'property key define the type of matching, value is the string to match. e.g: `match_name[0:3]`, `match_name[2:6]`, `match_model`,  `match_model[0-6]`",
 								},
@@ -2144,31 +1882,24 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 										Attributes: map[string]schema.Attribute{
 											"ae_disable_lacp": schema.BoolAttribute{
 												Optional:            true,
-												Computed:            true,
 												Description:         "To disable LACP support for the AE interface",
 												MarkdownDescription: "To disable LACP support for the AE interface",
 											},
 											"ae_idx": schema.Int64Attribute{
 												Optional:            true,
-												Computed:            true,
 												Description:         "Users could force to use the designated AE name",
 												MarkdownDescription: "Users could force to use the designated AE name",
 											},
 											"ae_lacp_slow": schema.BoolAttribute{
 												Optional:            true,
-												Computed:            true,
 												Description:         "to use fast timeout",
 												MarkdownDescription: "to use fast timeout",
-												Default:             booldefault.StaticBool(true),
 											},
 											"aggregated": schema.BoolAttribute{
 												Optional: true,
-												Computed: true,
-												Default:  booldefault.StaticBool(false),
 											},
 											"critical": schema.BoolAttribute{
 												Optional:            true,
-												Computed:            true,
 												Description:         "if want to generate port up/down alarm",
 												MarkdownDescription: "if want to generate port up/down alarm",
 											},
@@ -2178,14 +1909,11 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 											},
 											"disable_autoneg": schema.BoolAttribute{
 												Optional:            true,
-												Computed:            true,
 												Description:         "if `speed` and `duplex` are specified, whether to disable autonegotiation",
 												MarkdownDescription: "if `speed` and `duplex` are specified, whether to disable autonegotiation",
-												Default:             booldefault.StaticBool(false),
 											},
 											"duplex": schema.StringAttribute{
 												Optional: true,
-												Computed: true,
 												Validators: []validator.String{
 													stringvalidator.OneOf(
 														"",
@@ -2194,11 +1922,9 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 														"half",
 													),
 												},
-												Default: stringdefault.StaticString("auto"),
 											},
 											"dynamic_usage": schema.StringAttribute{
 												Optional:            true,
-												Computed:            true,
 												Description:         "Enable dynamic usage for this port. Set to `dynamic` to enable.",
 												MarkdownDescription: "Enable dynamic usage for this port. Set to `dynamic` to enable.",
 											},
@@ -2208,25 +1934,19 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 											},
 											"mtu": schema.Int64Attribute{
 												Optional:            true,
-												Computed:            true,
 												Description:         "media maximum transmission unit (MTU) is the largest data unit that can be forwarded without fragmentation",
 												MarkdownDescription: "media maximum transmission unit (MTU) is the largest data unit that can be forwarded without fragmentation",
-												Default:             int64default.StaticInt64(1514),
 											},
 											"no_local_overwrite": schema.BoolAttribute{
 												Optional:            true,
-												Computed:            true,
 												Description:         "prevent helpdesk to override the port config",
 												MarkdownDescription: "prevent helpdesk to override the port config",
 											},
 											"poe_disabled": schema.BoolAttribute{
 												Optional: true,
-												Computed: true,
-												Default:  booldefault.StaticBool(false),
 											},
 											"speed": schema.StringAttribute{
 												Optional: true,
-												Computed: true,
 												Validators: []validator.String{
 													stringvalidator.OneOf(
 														"",
@@ -2238,7 +1958,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 														"5g",
 													),
 												},
-												Default: stringdefault.StaticString("auto"),
 											},
 											"usage": schema.StringAttribute{
 												Required:            true,
@@ -2253,7 +1972,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 										},
 									},
 									Optional:            true,
-									Computed:            true,
 									Description:         "Propery key is the interface name or interface range",
 									MarkdownDescription: "Propery key is the interface name or interface range",
 								},
@@ -2263,26 +1981,20 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 											"input_networks_ingress": schema.ListAttribute{
 												ElementType:         types.StringType,
 												Optional:            true,
-												Computed:            true,
 												Description:         "at least one of the `ingress_port_ids`, `egress_port_ids` or `ingress_networks ` should be specified",
 												MarkdownDescription: "at least one of the `ingress_port_ids`, `egress_port_ids` or `ingress_networks ` should be specified",
-												Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 											},
 											"input_port_ids_egress": schema.ListAttribute{
 												ElementType:         types.StringType,
 												Optional:            true,
-												Computed:            true,
 												Description:         "at least one of the `ingress_port_ids`, `egress_port_ids` or `ingress_networks ` should be specified",
 												MarkdownDescription: "at least one of the `ingress_port_ids`, `egress_port_ids` or `ingress_networks ` should be specified",
-												Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 											},
 											"input_port_ids_ingress": schema.ListAttribute{
 												ElementType:         types.StringType,
 												Optional:            true,
-												Computed:            true,
 												Description:         "at least one of the `ingress_port_ids`, `egress_port_ids` or `ingress_networks ` should be specified",
 												MarkdownDescription: "at least one of the `ingress_port_ids`, `egress_port_ids` or `ingress_networks ` should be specified",
-												Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 											},
 											"output_network": schema.StringAttribute{
 												Optional: true,
@@ -2290,7 +2002,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 											},
 											"output_port_id": schema.StringAttribute{
 												Optional:            true,
-												Computed:            true,
 												Description:         "exaclty on of the `output_port_id` or `output_network` should be provided",
 												MarkdownDescription: "exaclty on of the `output_port_id` or `output_network` should be provided",
 											},
@@ -2302,7 +2013,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 										},
 									},
 									Optional:            true,
-									Computed:            true,
 									Description:         "Property key is the port mirroring instance name\nport_mirroring can be added under device/site settings. It takes interface and ports as input for ingress, interface as input for egress and can take interface and port as output.",
 									MarkdownDescription: "Property key is the port mirroring instance name\nport_mirroring can be added under device/site settings. It takes interface and ports as input for ingress, interface as input for egress and can take interface and port as output.",
 								},
@@ -2314,7 +2024,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 							},
 						},
 						Optional: true,
-						Computed: true,
 						Validators: []validator.List{
 							listvalidator.UniqueValues(),
 						},
@@ -2326,7 +2035,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 					},
 				},
 				Optional:            true,
-				Computed:            true,
 				Description:         "Switch template",
 				MarkdownDescription: "Switch template",
 			},
@@ -2334,32 +2042,25 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 				Attributes: map[string]schema.Attribute{
 					"config_revert": schema.Int64Attribute{
 						Optional: true,
-						Computed: true,
-						Default:  int64default.StaticInt64(10),
 					},
 					"protect_re": schema.SingleNestedAttribute{
 						Attributes: map[string]schema.Attribute{
 							"allowed_services": schema.ListAttribute{
 								ElementType:         types.StringType,
 								Optional:            true,
-								Computed:            true,
 								Description:         "optionally, services we'll allow",
 								MarkdownDescription: "optionally, services we'll allow",
-								Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 							},
 							"custom": schema.ListNestedAttribute{
 								NestedObject: schema.NestedAttributeObject{
 									Attributes: map[string]schema.Attribute{
 										"port_range": schema.StringAttribute{
 											Optional:            true,
-											Computed:            true,
 											Description:         "matched dst port, \"0\" means any",
 											MarkdownDescription: "matched dst port, \"0\" means any",
-											Default:             stringdefault.StaticString("0"),
 										},
 										"protocol": schema.StringAttribute{
 											Optional: true,
-											Computed: true,
 											Validators: []validator.String{
 												stringvalidator.OneOf(
 													"",
@@ -2369,13 +2070,10 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 													"any",
 												),
 											},
-											Default: stringdefault.StaticString("any"),
 										},
 										"subnet": schema.ListAttribute{
 											ElementType: types.StringType,
 											Optional:    true,
-											Computed:    true,
-											Default:     listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 										},
 									},
 									CustomType: CustomType{
@@ -2385,22 +2083,17 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 									},
 								},
 								Optional: true,
-								Computed: true,
 							},
 							"enabled": schema.BoolAttribute{
 								Optional:            true,
-								Computed:            true,
 								Description:         "when enabled, all traffic that is not essential to our operation will be dropped\ne.g. ntp / dns / traffic to mist will be allowed by default\n     if dhcpd is enabled, we'll make sure it works",
 								MarkdownDescription: "when enabled, all traffic that is not essential to our operation will be dropped\ne.g. ntp / dns / traffic to mist will be allowed by default\n     if dhcpd is enabled, we'll make sure it works",
-								Default:             booldefault.StaticBool(false),
 							},
 							"trusted_hosts": schema.ListAttribute{
 								ElementType:         types.StringType,
 								Optional:            true,
-								Computed:            true,
 								Description:         "host/subnets we'll allow traffic to/from",
 								MarkdownDescription: "host/subnets we'll allow traffic to/from",
-								Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 							},
 						},
 						CustomType: ProtectReType{
@@ -2409,7 +2102,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 							},
 						},
 						Optional:            true,
-						Computed:            true,
 						Description:         "restrict inbound-traffic to host\nwhen enabled, all traffic that is not essential to our operation will be dropped \ne.g. ntp / dns / traffic to mist will be allowed by default, if dhcpd is enabled, we'll make sure it works",
 						MarkdownDescription: "restrict inbound-traffic to host\nwhen enabled, all traffic that is not essential to our operation will be dropped \ne.g. ntp / dns / traffic to mist will be allowed by default, if dhcpd is enabled, we'll make sure it works",
 					},
@@ -2421,7 +2113,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 						Attributes: map[string]schema.Attribute{
 							"default_role": schema.StringAttribute{
 								Optional: true,
-								Computed: true,
 								Validators: []validator.String{
 									stringvalidator.OneOf(
 										"",
@@ -2431,7 +2122,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 										"helpdesk",
 									),
 								},
-								Default: stringdefault.StaticString("none"),
 							},
 							"enabled": schema.BoolAttribute{
 								Optional: true,
@@ -2439,7 +2129,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 							},
 							"network": schema.StringAttribute{
 								Optional:            true,
-								Computed:            true,
 								Description:         "which network the TACACS server resides",
 								MarkdownDescription: "which network the TACACS server resides",
 							},
@@ -2460,8 +2149,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 										},
 										"timeout": schema.Int64Attribute{
 											Optional: true,
-											Computed: true,
-											Default:  int64default.StaticInt64(10),
 										},
 									},
 									CustomType: TacacctServersType{
@@ -2471,7 +2158,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 									},
 								},
 								Optional: true,
-								Computed: true,
 							},
 							"tacplus_servers": schema.ListNestedAttribute{
 								NestedObject: schema.NestedAttributeObject{
@@ -2490,8 +2176,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 										},
 										"timeout": schema.Int64Attribute{
 											Optional: true,
-											Computed: true,
-											Default:  int64default.StaticInt64(10),
 										},
 									},
 									CustomType: TacplusServersType{
@@ -2501,7 +2185,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 									},
 								},
 								Optional: true,
-								Computed: true,
 							},
 						},
 						CustomType: TacacsType{
@@ -2510,7 +2193,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 							},
 						},
 						Optional: true,
-						Computed: true,
 					},
 				},
 				CustomType: SwitchMgmtType{
@@ -2519,13 +2201,11 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 					},
 				},
 				Optional: true,
-				Computed: true,
 			},
 			"vrf_config": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
 					"enabled": schema.BoolAttribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "whether to enable VRF (when supported on the device)",
 						MarkdownDescription: "whether to enable VRF (when supported on the device)",
 					},
@@ -2536,7 +2216,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 					},
 				},
 				Optional: true,
-				Computed: true,
 			},
 			"vrf_instances": schema.MapNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
@@ -2544,18 +2223,15 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 						"networks": schema.ListAttribute{
 							ElementType: types.StringType,
 							Optional:    true,
-							Computed:    true,
 							Validators: []validator.List{
 								listvalidator.UniqueValues(),
 							},
-							Default: listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 						},
 						"vrf_extra_routes": schema.MapNestedAttribute{
 							NestedObject: schema.NestedAttributeObject{
 								Attributes: map[string]schema.Attribute{
 									"via": schema.StringAttribute{
 										Optional:            true,
-										Computed:            true,
 										Description:         "Next-hop address",
 										MarkdownDescription: "Next-hop address",
 									},
@@ -2567,7 +2243,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 								},
 							},
 							Optional:            true,
-							Computed:            true,
 							Description:         "Property key is the destination CIDR (e.g. \"10.0.0.0/8\")",
 							MarkdownDescription: "Property key is the destination CIDR (e.g. \"10.0.0.0/8\")",
 						},
@@ -2579,7 +2254,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 					},
 				},
 				Optional:            true,
-				Computed:            true,
 				Description:         "Property key is the network name",
 				MarkdownDescription: "Property key is the network name",
 			},

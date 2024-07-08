@@ -8,24 +8,33 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 )
 
-func dnsServerRewriteSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, data models.WlanDnsServerRewrite) DnsServerRewriteValue {
+func dnsServerRewriteSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d *models.WlanDnsServerRewrite) DnsServerRewriteValue {
 
-	radius_groups_values := make(map[string]attr.Value)
-	for k, v := range data.GetRadiusGroups() {
-		radius_groups_values[k] = types.StringValue(v)
+	var enabled basetypes.BoolValue
+	var radius_groups basetypes.MapValue = types.MapNull(types.StringType)
+
+	if d != nil && d.Enabled != nil {
+		enabled = types.BoolValue(*d.Enabled)
 	}
-	radius_groups, e := types.MapValueFrom(ctx, types.StringType, radius_groups_values)
-	diags.Append(e...)
+	if d != nil && d.RadiusGroups != nil {
+		radius_groups_values := make(map[string]attr.Value)
+		for k, v := range d.RadiusGroups {
+			radius_groups_values[k] = types.StringValue(v)
+		}
+		radius_groups = types.MapValueMust(types.StringType, radius_groups_values)
 
-	plan_attr := map[string]attr.Value{
-		"enabled":       types.BoolValue(data.GetEnabled()),
+	}
+
+	data_map_attr_type := DnsServerRewriteValue{}.AttributeTypes(ctx)
+	data_map_value := map[string]attr.Value{
+		"enabled":       enabled,
 		"radius_groups": radius_groups,
 	}
-	r, e := NewDnsServerRewriteValue(DnsServerRewriteValue{}.AttributeTypes(ctx), plan_attr)
+	data, e := NewDnsServerRewriteValue(data_map_attr_type, data_map_value)
 	diags.Append(e...)
 
-	return r
-
+	return data
 }

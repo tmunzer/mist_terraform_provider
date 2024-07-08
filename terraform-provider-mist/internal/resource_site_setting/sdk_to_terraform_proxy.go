@@ -8,17 +8,25 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 
-func proxySdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d models.Proxy) ProxyValue {
+func proxySdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d *models.Proxy) ProxyValue {
 	tflog.Debug(ctx, "proxySdkToTerraform")
 
-	r_attr_type := ProxyValue{}.AttributeTypes(ctx)
-	r_attr_value := map[string]attr.Value{
-		"url": types.StringValue(d.GetUrl()),
+	var url basetypes.StringValue
+
+	if d != nil && d.Url != nil {
+		url = types.StringValue(*d.Url)
 	}
-	r, e := NewProxyValue(r_attr_type, r_attr_value)
+
+	data_map_attr_type := ProxyValue{}.AttributeTypes(ctx)
+	data_map_value := map[string]attr.Value{
+		"url": url,
+	}
+	data, e := NewProxyValue(data_map_attr_type, data_map_value)
 	diags.Append(e...)
-	return r
+
+	return data
 }

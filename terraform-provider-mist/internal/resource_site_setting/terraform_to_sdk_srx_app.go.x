@@ -9,11 +9,11 @@ import (
 	"mistapi/models"
 )
 
-func srxAppTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d SrxAppValue) models.SiteSettingSrxApp {
+func srxAppTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d SrxAppValue) *models.SiteSettingSrxApp {
 	tflog.Debug(ctx, "srxAppTerraformToSdk")
-	data := models.NewSiteSettingSrxApp()
+	data := models.SiteSettingSrxApp{}
 
-	data.SetEnabled(d.Enabled.ValueBool())
+	data.Enabled = d.Enabled.ValueBoolPointer()
 
-	return *data
+	return &data
 }

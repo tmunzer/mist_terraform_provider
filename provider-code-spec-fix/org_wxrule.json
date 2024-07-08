@@ -1,0 +1,23 @@
+{
+    "name": "org_wxrule",
+    "get": [
+        "schema",
+        "attributes"
+    ],
+    "next": [
+        {
+            "name": "org_id",
+            "get": [
+                "string"
+            ],
+            "computed_optional_required": "required"
+        },
+        {
+            "name": "id",
+            "get": [
+                "string"
+            ],
+            "computed_optional_required": "computed"
+        }
+    ]
+}

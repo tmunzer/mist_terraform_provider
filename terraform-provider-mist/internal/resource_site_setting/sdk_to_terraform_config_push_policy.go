@@ -2,6 +2,7 @@ package resource_site_setting
 
 import (
 	"context"
+	mist_hours "terraform-provider-mist/internal/commons/hours"
 
 	"mistapi/models"
 
@@ -10,32 +11,51 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
-
-	hours "terraform-provider-mist/internal/commons/hours"
 )
 
-func configPushPolicyWindowSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d models.SiteSettingConfigPushPolicyPushWindow) basetypes.ObjectValue {
+func configPushPolicyWindowSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d *models.WlanSchedule) basetypes.ObjectValue {
 	tflog.Debug(ctx, "configPushPolicyWindowSdkToTerraform")
+	var enabled basetypes.BoolValue
+	var hours basetypes.ObjectValue
 
-	r_attr_type := PushWindowValue{}.AttributeTypes(ctx)
-	r_attr_value := map[string]attr.Value{
-		"enabled": types.BoolValue(d.GetEnabled()),
-		"hours":   hours.HoursSdkToTerraform(ctx, diags, d.GetHours()),
+	if d != nil && d.Enabled != nil {
+		enabled = types.BoolValue(*d.Enabled)
 	}
-	r, e := basetypes.NewObjectValue(r_attr_type, r_attr_value)
+	if d != nil && d.Hours != nil {
+		hours = mist_hours.HoursSdkToTerraform(ctx, diags, d.Hours)
+	}
+
+	data_map_attr_type := PushWindowValue{}.AttributeTypes(ctx)
+	data_map_value := map[string]attr.Value{
+		"enabled": enabled,
+		"hours":   hours,
+	}
+	data, e := basetypes.NewObjectValue(data_map_attr_type, data_map_value)
 	diags.Append(e...)
-	return r
+
+	return data
 }
 
-func configPushPolicySdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d models.SiteSettingConfigPushPolicy) ConfigPushPolicyValue {
+func configPushPolicySdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d *models.SiteSettingConfigPushPolicy) ConfigPushPolicyValue {
 	tflog.Debug(ctx, "configPushPolicySdkToTerraform")
+	var no_push basetypes.BoolValue
+	var push_window basetypes.ObjectValue = types.ObjectNull(PushWindowValue{}.AttributeTypes(ctx))
 
-	r_attr_type := ConfigPushPolicyValue{}.AttributeTypes(ctx)
-	r_attr_value := map[string]attr.Value{
-		"no_push":     types.BoolValue(d.GetNoPush()),
-		"push_window": configPushPolicyWindowSdkToTerraform(ctx, diags, d.GetPushWindow()),
+	if d != nil && d.NoPush != nil {
+		no_push = types.BoolValue(*d.NoPush)
 	}
-	r, e := NewConfigPushPolicyValue(r_attr_type, r_attr_value)
+	if d != nil && d.PushWindow != nil {
+		push_window = configPushPolicyWindowSdkToTerraform(ctx, diags, d.PushWindow)
+	}
+
+	data_map_attr_type := ConfigPushPolicyValue{}.AttributeTypes(ctx)
+	data_map_value := map[string]attr.Value{
+		"no_push":     no_push,
+		"push_window": push_window,
+	}
+	data, e := NewConfigPushPolicyValue(data_map_attr_type, data_map_value)
 	diags.Append(e...)
-	return r
+
+	return data
+
 }

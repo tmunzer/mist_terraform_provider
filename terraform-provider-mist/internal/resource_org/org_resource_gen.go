@@ -4,10 +4,6 @@ package resource_org
 
 import (
 	"context"
-	"github.com/hashicorp/terraform-plugin-framework/attr"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -22,8 +18,6 @@ func OrgResourceSchema(ctx context.Context) schema.Schema {
 			},
 			"allow_mist": schema.BoolAttribute{
 				Optional: true,
-				Computed: true,
-				Default:  booldefault.StaticBool(true),
 			},
 			"id": schema.StringAttribute{
 				Optional: true,
@@ -35,13 +29,11 @@ func OrgResourceSchema(ctx context.Context) schema.Schema {
 			},
 			"msp_logo_url": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				Description:         "logo uploaded by the MSP with advanced tier, only present if provided",
 				MarkdownDescription: "logo uploaded by the MSP with advanced tier, only present if provided",
 			},
 			"msp_name": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				Description:         "name of the msp the org belongs to",
 				MarkdownDescription: "name of the msp the org belongs to",
 			},
@@ -51,13 +43,9 @@ func OrgResourceSchema(ctx context.Context) schema.Schema {
 			"orggroup_ids": schema.ListAttribute{
 				ElementType: types.StringType,
 				Optional:    true,
-				Computed:    true,
-				Default:     listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 			},
 			"session_expiry": schema.Int64Attribute{
 				Optional: true,
-				Computed: true,
-				Default:  int64default.StaticInt64(1440),
 			},
 		},
 	}

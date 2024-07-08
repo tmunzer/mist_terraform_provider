@@ -216,7 +216,6 @@ resources:
         - created_time
         - modified_time
         - for_site
-        - band_5_on_24_radio
       attributes:
         aliases:
           rftemplate_id: id
@@ -235,6 +234,13 @@ resources:
       method: PUT      
     schema:
       ignores:
+        # temp fix
+        - analytic
+        - srx_app
+        - vna
+        - wan_vna
+        - wired_van
+        ##
         - created_time
         - modified_time
         - id
@@ -326,6 +332,9 @@ resources:
       method: PUT      
     schema:
       ignores:
+      ## temp fix
+        - vrb_config
+      ##
         - switch_matching.rules.switch_mgmt
         ###
         - analytic

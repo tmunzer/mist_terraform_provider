@@ -9,11 +9,11 @@ import (
 	"mistapi/models"
 )
 
-func vnaTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d VnaValue) models.SiteSettingVna {
+func vnaTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d VnaValue) *models.SiteSettingVna {
 	tflog.Debug(ctx, "vnaTerraformToSdk")
-	data := models.NewSiteSettingVna()
+	data := models.SiteSettingVna{}
 
-	data.SetEnabled(d.Enabled.ValueBool())
+	data.Enabled = d.Enabled.ValueBool()
 
-	return *data
+	return &data
 }

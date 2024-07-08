@@ -48,11 +48,11 @@ func aclTagsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, m map[s
 	state_value_map_value := make(map[string]attr.Value)
 	for k, d := range m {
 		var gbp_tag basetypes.Int64Value
-		var macs basetypes.ListValue
+		var macs basetypes.ListValue = mist_transform.ListOfStringSdkToTerraformEmpty(ctx)
 		var network basetypes.StringValue
 		var radius_group basetypes.StringValue
-		var specs basetypes.ListValue
-		var subnets basetypes.ListValue
+		var specs basetypes.ListValue = types.ListNull(SpecsValue{}.Type(ctx))
+		var subnets basetypes.ListValue = mist_transform.ListOfStringSdkToTerraformEmpty(ctx)
 		var tag_type basetypes.StringValue = types.StringValue(string(d.Type))
 
 		if d.GbpTag != nil {

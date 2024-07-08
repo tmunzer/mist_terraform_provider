@@ -18,7 +18,7 @@ func radiusAcctServersTerraformToSdk(ctx context.Context, diags *diag.Diagnostic
 
 		srv_data := models.RadiusAcctServer{}
 		srv_data.Host = srv_plan.Host.ValueString()
-		srv_data.Port = int(srv_plan.Port.ValueInt64())
+		srv_data.Port = models.ToPointer(int(srv_plan.Port.ValueInt64()))
 		srv_data.Secret = srv_plan.Secret.ValueString()
 		srv_data.KeywrapEnabled = models.ToPointer(srv_plan.KeywrapEnabled.ValueBool())
 		srv_data.KeywrapFormat = models.ToPointer(models.RadiusKeywrapFormatEnum(srv_plan.KeywrapFormat.ValueString()))
@@ -38,7 +38,7 @@ func radiusAuthServersTerraformToSdk(ctx context.Context, diags *diag.Diagnostic
 
 		srv_data := models.RadiusAuthServer{}
 		srv_data.Host = srv_plan.Host.ValueString()
-		srv_data.Port = int(srv_plan.Port.ValueInt64())
+		srv_data.Port = models.ToPointer(int(srv_plan.Port.ValueInt64()))
 		srv_data.Secret = srv_plan.Secret.ValueString()
 		srv_data.KeywrapEnabled = models.ToPointer(srv_plan.KeywrapEnabled.ValueBool())
 		srv_data.KeywrapFormat = models.ToPointer(models.RadiusKeywrapFormatEnum(srv_plan.KeywrapFormat.ValueString()))

@@ -10,10 +10,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
@@ -29,10 +25,8 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 			"additional_config_cmds": schema.ListAttribute{
 				ElementType:         types.StringType,
 				Optional:            true,
-				Computed:            true,
 				Description:         "additional CLI commands to append to the generated Junos config\n\n**Note**: no check is done",
 				MarkdownDescription: "additional CLI commands to append to the generated Junos config\n\n**Note**: no check is done",
-				Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 			},
 			"bgp_config": schema.MapNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
@@ -43,23 +37,19 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 						},
 						"bfd_minimum_interval": schema.Int64Attribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "when bfd_multiplier is configured alone\ndefault:\n* 1000 if `type`==`external``\n* 350 `type`==`internal`",
 							MarkdownDescription: "when bfd_multiplier is configured alone\ndefault:\n* 1000 if `type`==`external``\n* 350 `type`==`internal`",
 							Validators: []validator.Int64{
 								int64validator.Between(1, 255000),
 							},
-							Default: int64default.StaticInt64(350),
 						},
 						"bfd_multiplier": schema.Int64Attribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "when bfd_minimum_interval_is_configured alone",
 							MarkdownDescription: "when bfd_minimum_interval_is_configured alone",
 							Validators: []validator.Int64{
 								int64validator.Between(1, 255),
 							},
-							Default: int64default.StaticInt64(3),
 						},
 						"communities": schema.ListNestedAttribute{
 							NestedObject: schema.NestedAttributeObject{
@@ -84,14 +74,11 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 								},
 							},
 							Optional: true,
-							Computed: true,
 						},
 						"disable_bfd": schema.BoolAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "BFD provides faster path failure detection and is enabled by default",
 							MarkdownDescription: "BFD provides faster path failure detection and is enabled by default",
-							Default:             booldefault.StaticBool(false),
 						},
 						"export": schema.StringAttribute{
 							Optional: true,
@@ -99,33 +86,27 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 						},
 						"export_policy": schema.StringAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "default export policies if no per-neighbor policies defined",
 							MarkdownDescription: "default export policies if no per-neighbor policies defined",
 						},
 						"extended_v4_nexthop": schema.BoolAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "by default, either inet/net6 unicast depending on neighbor IP family (v4 or v6)\nfor v6 neighbors, to exchange v4 nexthop, which allows dual-stack support, enable this",
 							MarkdownDescription: "by default, either inet/net6 unicast depending on neighbor IP family (v4 or v6)\nfor v6 neighbors, to exchange v4 nexthop, which allows dual-stack support, enable this",
 						},
 						"graceful_restart_time": schema.Int64Attribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "`0` means disable",
 							MarkdownDescription: "`0` means disable",
 							Validators: []validator.Int64{
 								int64validator.Between(0, 4095),
 							},
-							Default: int64default.StaticInt64(0),
 						},
 						"hold_time": schema.Int64Attribute{
 							Optional: true,
-							Computed: true,
 							Validators: []validator.Int64{
 								int64validator.Between(0, 65535),
 							},
-							Default: int64default.StaticInt64(90),
 						},
 						"import": schema.StringAttribute{
 							Optional: true,
@@ -133,7 +114,6 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 						},
 						"import_policy": schema.StringAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "default import policies if no per-neighbor policies defined",
 							MarkdownDescription: "default import policies if no per-neighbor policies defined",
 						},
@@ -150,10 +130,8 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 								Attributes: map[string]schema.Attribute{
 									"disabled": schema.BoolAttribute{
 										Optional:            true,
-										Computed:            true,
 										Description:         "If true, the BGP session to this neighbor will be administratively disabled/shutdown",
 										MarkdownDescription: "If true, the BGP session to this neighbor will be administratively disabled/shutdown",
-										Default:             booldefault.StaticBool(false),
 									},
 									"export_policy": schema.StringAttribute{
 										Optional: true,
@@ -161,11 +139,9 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 									},
 									"hold_time": schema.Int64Attribute{
 										Optional: true,
-										Computed: true,
 										Validators: []validator.Int64{
 											int64validator.Between(0, 65535),
 										},
-										Default: int64default.StaticInt64(90),
 									},
 									"import_policy": schema.StringAttribute{
 										Optional: true,
@@ -173,7 +149,6 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 									},
 									"multihop_ttl": schema.Int64Attribute{
 										Optional:            true,
-										Computed:            true,
 										Description:         "assuming BGP neighbor is directly connected",
 										MarkdownDescription: "assuming BGP neighbor is directly connected",
 										Validators: []validator.Int64{
@@ -192,28 +167,22 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 								},
 							},
 							Optional:            true,
-							Computed:            true,
 							Description:         "if per-neighbor as is desired. Property key is the neighbor address",
 							MarkdownDescription: "if per-neighbor as is desired. Property key is the neighbor address",
 						},
 						"networks": schema.ListAttribute{
 							ElementType:         types.StringType,
 							Optional:            true,
-							Computed:            true,
 							Description:         "if `type`!=`external`or `via`==`wan`networks where we expect BGP neighbor to connect to/from",
 							MarkdownDescription: "if `type`!=`external`or `via`==`wan`networks where we expect BGP neighbor to connect to/from",
-							Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 						},
 						"no_readvertise_to_overlay": schema.BoolAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "by default, we'll re-advertise all learned BGP routers toward overlay",
 							MarkdownDescription: "by default, we'll re-advertise all learned BGP routers toward overlay",
-							Default:             booldefault.StaticBool(false),
 						},
 						"type": schema.StringAttribute{
 							Optional: true,
-							Computed: true,
 							Validators: []validator.String{
 								stringvalidator.OneOf(
 									"",
@@ -225,7 +194,6 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 						},
 						"via": schema.StringAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "network name",
 							MarkdownDescription: "network name",
 							Validators: []validator.String{
@@ -236,7 +204,6 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 									"wan",
 								),
 							},
-							Default: stringdefault.StaticString("lan"),
 						},
 						"vpn_name": schema.StringAttribute{
 							Optional: true,
@@ -244,7 +211,6 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 						},
 						"wan_name": schema.StringAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "if `via`==`wan`",
 							MarkdownDescription: "if `via`==`wan`",
 						},
@@ -256,7 +222,6 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 					},
 				},
 				Optional: true,
-				Computed: true,
 			},
 			"dhcpd_config": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
@@ -266,18 +231,14 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 								"dns_servers": schema.ListAttribute{
 									ElementType:         types.StringType,
 									Optional:            true,
-									Computed:            true,
 									Description:         "if `type`==`local` - optional, if not defined, system one will be used",
 									MarkdownDescription: "if `type`==`local` - optional, if not defined, system one will be used",
-									Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 								},
 								"dns_suffix": schema.ListAttribute{
 									ElementType:         types.StringType,
 									Optional:            true,
-									Computed:            true,
 									Description:         "if `type`==`local` - optional, if not defined, system one will be used",
 									MarkdownDescription: "if `type`==`local` - optional, if not defined, system one will be used",
-									Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 								},
 								"fixed_bindings": schema.MapNestedAttribute{
 									NestedObject: schema.NestedAttributeObject{
@@ -298,56 +259,47 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 										},
 									},
 									Optional:            true,
-									Computed:            true,
 									Description:         "Property key is the MAC Address",
 									MarkdownDescription: "Property key is the MAC Address",
 								},
 								"gateway": schema.StringAttribute{
 									Optional:            true,
-									Computed:            true,
 									Description:         "if `type`==`local` - optional, `ip` will be used if not provided",
 									MarkdownDescription: "if `type`==`local` - optional, `ip` will be used if not provided",
 								},
 								"ip_end": schema.StringAttribute{
 									Optional:            true,
-									Computed:            true,
 									Description:         "if `type`==`local`",
 									MarkdownDescription: "if `type`==`local`",
 								},
 								"ip_end6": schema.StringAttribute{
 									Optional:            true,
-									Computed:            true,
 									Description:         "if `type6`==`local`",
 									MarkdownDescription: "if `type6`==`local`",
 								},
 								"ip_start": schema.StringAttribute{
 									Optional:            true,
-									Computed:            true,
 									Description:         "if `type`==`local`",
 									MarkdownDescription: "if `type`==`local`",
 								},
 								"ip_start6": schema.StringAttribute{
 									Optional:            true,
-									Computed:            true,
 									Description:         "if `type6`==`local`",
 									MarkdownDescription: "if `type6`==`local`",
 								},
 								"lease_time": schema.Int64Attribute{
 									Optional:            true,
-									Computed:            true,
 									Description:         "in seconds, lease time has to be between 3600 [1hr] - 604800 [1 week], default is 86400 [1 day]",
 									MarkdownDescription: "in seconds, lease time has to be between 3600 [1hr] - 604800 [1 week], default is 86400 [1 day]",
 									Validators: []validator.Int64{
 										int64validator.Between(3600, 604800),
 									},
-									Default: int64default.StaticInt64(86400),
 								},
 								"options": schema.MapNestedAttribute{
 									NestedObject: schema.NestedAttributeObject{
 										Attributes: map[string]schema.Attribute{
 											"type": schema.StringAttribute{
 												Optional: true,
-												Computed: true,
 												Validators: []validator.String{
 													stringvalidator.OneOf(
 														"",
@@ -374,36 +326,28 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 										},
 									},
 									Optional:            true,
-									Computed:            true,
 									Description:         "Property key is the DHCP option number",
 									MarkdownDescription: "Property key is the DHCP option number",
 								},
 								"server_id_override": schema.BoolAttribute{
 									Optional:            true,
-									Computed:            true,
 									Description:         "`server_id_override`==`true` means the device, when acts as DHCP relay and forwards DHCP responses from DHCP server to clients, \nshould overwrite the Sever Identifier option (i.e. DHCP option 54) in DHCP responses with its own IP address.",
 									MarkdownDescription: "`server_id_override`==`true` means the device, when acts as DHCP relay and forwards DHCP responses from DHCP server to clients, \nshould overwrite the Sever Identifier option (i.e. DHCP option 54) in DHCP responses with its own IP address.",
-									Default:             booldefault.StaticBool(false),
 								},
 								"servers": schema.ListAttribute{
 									ElementType:         types.StringType,
 									Optional:            true,
-									Computed:            true,
 									Description:         "if `type`==`relay`",
 									MarkdownDescription: "if `type`==`relay`",
-									Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 								},
 								"servers6": schema.ListAttribute{
 									ElementType:         types.StringType,
 									Optional:            true,
-									Computed:            true,
 									Description:         "if `type6`==`relay`",
 									MarkdownDescription: "if `type6`==`relay`",
-									Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 								},
 								"type": schema.StringAttribute{
 									Optional:            true,
-									Computed:            true,
 									Description:         "DHCP Server (local) or DHCP Relay (relay)",
 									MarkdownDescription: "DHCP Server (local) or DHCP Relay (relay)",
 									Validators: []validator.String{
@@ -414,11 +358,9 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 											"none",
 										),
 									},
-									Default: stringdefault.StaticString("local"),
 								},
 								"type6": schema.StringAttribute{
 									Optional:            true,
-									Computed:            true,
 									Description:         "DHCP Server (local) or DHCP Relay (relay)",
 									MarkdownDescription: "DHCP Server (local) or DHCP Relay (relay)",
 									Validators: []validator.String{
@@ -429,14 +371,12 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 											"none",
 										),
 									},
-									Default: stringdefault.StaticString("none"),
 								},
 								"vendor_encapulated": schema.MapNestedAttribute{
 									NestedObject: schema.NestedAttributeObject{
 										Attributes: map[string]schema.Attribute{
 											"type": schema.StringAttribute{
 												Optional: true,
-												Computed: true,
 												Validators: []validator.String{
 													stringvalidator.OneOf(
 														"",
@@ -463,7 +403,6 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 										},
 									},
 									Optional:            true,
-									Computed:            true,
 									Description:         "Property key is <enterprise number>:<sub option code>, with\n* enterprise number: 1-65535 (https://www.iana.org/assignments/enterprise-numbers/enterprise-numbers)\n* sub option code: 1-255, sub-option code",
 									MarkdownDescription: "Property key is <enterprise number>:<sub option code>, with\n* enterprise number: 1-65535 (https://www.iana.org/assignments/enterprise-numbers/enterprise-numbers)\n* sub option code: 1-255, sub-option code",
 								},
@@ -475,14 +414,11 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 							},
 						},
 						Optional: true,
-						Computed: true,
 					},
 					"enabled": schema.BoolAttribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "if set to `true`, disable the DHCP server",
 						MarkdownDescription: "if set to `true`, disable the DHCP server",
-						Default:             booldefault.StaticBool(false),
 					},
 				},
 				CustomType: DhcpdConfigType{
@@ -491,28 +427,21 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 					},
 				},
 				Optional: true,
-				Computed: true,
 			},
 			"dns_override": schema.BoolAttribute{
 				Optional: true,
-				Computed: true,
-				Default:  booldefault.StaticBool(false),
 			},
 			"dns_servers": schema.ListAttribute{
 				ElementType:         types.StringType,
 				Optional:            true,
-				Computed:            true,
 				Description:         "Global dns settings. To keep compatibility, dns settings in `ip_config` and `oob_ip_config` will overwrite this setting",
 				MarkdownDescription: "Global dns settings. To keep compatibility, dns settings in `ip_config` and `oob_ip_config` will overwrite this setting",
-				Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 			},
 			"dns_suffix": schema.ListAttribute{
 				ElementType:         types.StringType,
 				Optional:            true,
-				Computed:            true,
 				Description:         "Global dns settings. To keep compatibility, dns settings in `ip_config` and `oob_ip_config` will overwrite this setting",
 				MarkdownDescription: "Global dns settings. To keep compatibility, dns settings in `ip_config` and `oob_ip_config` will overwrite this setting",
-				Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 			},
 			"extra_routes": schema.MapNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
@@ -529,10 +458,8 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 					},
 				},
 				Optional: true,
-				Computed: true,
 			},
 			"id": schema.StringAttribute{
-				Optional: true,
 				Computed: true,
 			},
 			"idp_profiles": schema.MapNestedAttribute{
@@ -540,7 +467,6 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 					Attributes: map[string]schema.Attribute{
 						"base_profile": schema.StringAttribute{
 							Optional: true,
-							Computed: true,
 							Validators: []validator.String{
 								stringvalidator.OneOf(
 									"",
@@ -558,7 +484,6 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 								Attributes: map[string]schema.Attribute{
 									"action": schema.StringAttribute{
 										Optional:            true,
-										Computed:            true,
 										Description:         "- alert (default) \n- drop: siliently dropping packets\n- close: notify client/server to close connection",
 										MarkdownDescription: "- alert (default) \n- drop: siliently dropping packets\n- close: notify client/server to close connection",
 										Validators: []validator.String{
@@ -569,27 +494,20 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 												"close",
 											),
 										},
-										Default: stringdefault.StaticString("alert"),
 									},
 									"matching": schema.SingleNestedAttribute{
 										Attributes: map[string]schema.Attribute{
 											"attack_name": schema.ListAttribute{
 												ElementType: types.StringType,
 												Optional:    true,
-												Computed:    true,
-												Default:     listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 											},
 											"dst_subnet": schema.ListAttribute{
 												ElementType: types.StringType,
 												Optional:    true,
-												Computed:    true,
-												Default:     listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 											},
 											"severity": schema.ListAttribute{
 												ElementType: types.StringType,
 												Optional:    true,
-												Computed:    true,
-												Default:     listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 											},
 										},
 										CustomType: IpdProfileOverwriteMatchingType{
@@ -598,7 +516,6 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 											},
 										},
 										Optional: true,
-										Computed: true,
 									},
 								},
 								CustomType: OverwritesType{
@@ -608,7 +525,6 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 								},
 							},
 							Optional: true,
-							Computed: true,
 						},
 					},
 					CustomType: IdpProfilesType{
@@ -618,7 +534,6 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 					},
 				},
 				Optional:            true,
-				Computed:            true,
 				Description:         "Property key is the profile name",
 				MarkdownDescription: "Property key is the profile name",
 			},
@@ -636,10 +551,8 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 						"secondary_ips": schema.ListAttribute{
 							ElementType:         types.StringType,
 							Optional:            true,
-							Computed:            true,
 							Description:         "optional list of secondary IPs in CIDR format",
 							MarkdownDescription: "optional list of secondary IPs in CIDR format",
-							Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 						},
 					},
 					CustomType: IpConfigsType{
@@ -649,7 +562,6 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 					},
 				},
 				Optional:            true,
-				Computed:            true,
 				Description:         "Property key is the network name",
 				MarkdownDescription: "Property key is the network name",
 			},
@@ -661,10 +573,8 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 					Attributes: map[string]schema.Attribute{
 						"disallow_mist_services": schema.BoolAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "whether to disallow Mist Devices in the network",
 							MarkdownDescription: "whether to disallow Mist Devices in the network",
-							Default:             booldefault.StaticBool(false),
 						},
 						"gateway": schema.StringAttribute{
 							Optional: true,
@@ -687,14 +597,11 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 								},
 							},
 							Optional: true,
-							Computed: true,
 						},
 						"internet_access": schema.SingleNestedAttribute{
 							Attributes: map[string]schema.Attribute{
 								"create_simple_service_policy": schema.BoolAttribute{
 									Optional: true,
-									Computed: true,
-									Default:  booldefault.StaticBool(false),
 								},
 								"destination_nat": schema.MapNestedAttribute{
 									NestedObject: schema.NestedAttributeObject{
@@ -719,7 +626,6 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 										},
 									},
 									Optional:            true,
-									Computed:            true,
 									Description:         "Property key may be an IP/Port (i.e. \"63.16.0.3:443\"), or a port (i.e. \":2222\")",
 									MarkdownDescription: "Property key may be an IP/Port (i.e. \"63.16.0.3:443\"), or a port (i.e. \":2222\")",
 								},
@@ -729,10 +635,8 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 								},
 								"restricted": schema.BoolAttribute{
 									Optional:            true,
-									Computed:            true,
 									Description:         "by default, all access is allowed, to only allow certain traffic, make `restricted`=`true` and define service_policies",
 									MarkdownDescription: "by default, all access is allowed, to only allow certain traffic, make `restricted`=`true` and define service_policies",
-									Default:             booldefault.StaticBool(false),
 								},
 								"static_nat": schema.MapNestedAttribute{
 									NestedObject: schema.NestedAttributeObject{
@@ -747,7 +651,6 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 											},
 											"wan_name": schema.StringAttribute{
 												Optional:            true,
-												Computed:            true,
 												Description:         "If not set, we configure the nat policies against all WAN ports for simplicity",
 												MarkdownDescription: "If not set, we configure the nat policies against all WAN ports for simplicity",
 											},
@@ -759,7 +662,6 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 										},
 									},
 									Optional:            true,
-									Computed:            true,
 									Description:         "Property key may be an IP Address (i.e. \"172.16.0.1\"), and IP Address and Port (i.e. \"172.16.0.1:8443\") or a CIDR (i.e. \"172.16.0.12/20\")",
 									MarkdownDescription: "Property key may be an IP Address (i.e. \"172.16.0.1\"), and IP Address and Port (i.e. \"172.16.0.1:8443\") or a CIDR (i.e. \"172.16.0.12/20\")",
 								},
@@ -770,13 +672,11 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 								},
 							},
 							Optional:            true,
-							Computed:            true,
 							Description:         "whether this network has direct internet access",
 							MarkdownDescription: "whether this network has direct internet access",
 						},
 						"isolation": schema.BoolAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "whether to allow clients in the network to talk to each other",
 							MarkdownDescription: "whether to allow clients in the network to talk to each other",
 						},
@@ -787,10 +687,8 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 						"routed_for_networks": schema.ListAttribute{
 							ElementType:         types.StringType,
 							Optional:            true,
-							Computed:            true,
 							Description:         "for a Network (usually LAN), it can be routable to other networks (e.g. OSPF)",
 							MarkdownDescription: "for a Network (usually LAN), it can be routable to other networks (e.g. OSPF)",
-							Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 						},
 						"subnet": schema.StringAttribute{
 							Optional: true,
@@ -806,8 +704,6 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 									"addresses": schema.ListAttribute{
 										ElementType: types.StringType,
 										Optional:    true,
-										Computed:    true,
-										Default:     listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 									},
 								},
 								CustomType: TenantsType{
@@ -817,7 +713,6 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 								},
 							},
 							Optional: true,
-							Computed: true,
 						},
 						"vlan_id": schema.Int64Attribute{
 							Optional: true,
@@ -828,13 +723,11 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 								Attributes: map[string]schema.Attribute{
 									"advertised_subnet": schema.StringAttribute{
 										Optional:            true,
-										Computed:            true,
 										Description:         "if `routed`==`true`, whether to advertise an aggregated subnet toward HUB this is useful when there are multiple networks on SPOKE's side",
 										MarkdownDescription: "if `routed`==`true`, whether to advertise an aggregated subnet toward HUB this is useful when there are multiple networks on SPOKE's side",
 									},
 									"allow_ping": schema.BoolAttribute{
 										Optional:            true,
-										Computed:            true,
 										Description:         "whether to allow ping from vpn into this routed network",
 										MarkdownDescription: "whether to allow ping from vpn into this routed network",
 									},
@@ -861,47 +754,37 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 											},
 										},
 										Optional:            true,
-										Computed:            true,
 										Description:         "Property key may be an IP/Port (i.e. \"63.16.0.3:443\"), or a port (i.e. \":2222\")",
 										MarkdownDescription: "Property key may be an IP/Port (i.e. \"63.16.0.3:443\"), or a port (i.e. \":2222\")",
 									},
 									"nat_pool": schema.StringAttribute{
 										Optional:            true,
-										Computed:            true,
 										Description:         "if `routed`==`false` (usually at Spoke), but some hosts needs to be reachable from Hub, a subnet is required to create and advertise the route to Hub",
 										MarkdownDescription: "if `routed`==`false` (usually at Spoke), but some hosts needs to be reachable from Hub, a subnet is required to create and advertise the route to Hub",
 									},
 									"no_readvertise_to_lan_bgp": schema.BoolAttribute{
 										Optional:            true,
-										Computed:            true,
 										Description:         "toward LAN-side BGP peers",
 										MarkdownDescription: "toward LAN-side BGP peers",
-										Default:             booldefault.StaticBool(false),
 									},
 									"no_readvertise_to_lan_ospf": schema.BoolAttribute{
 										Optional:            true,
-										Computed:            true,
 										Description:         "toward LAN-side OSPF peers",
 										MarkdownDescription: "toward LAN-side OSPF peers",
-										Default:             booldefault.StaticBool(false),
 									},
 									"no_readvertise_to_overlay": schema.BoolAttribute{
 										Optional:            true,
-										Computed:            true,
 										Description:         "toward overlay\nhow HUB should deal with routes it received from Spokes",
 										MarkdownDescription: "toward overlay\nhow HUB should deal with routes it received from Spokes",
 									},
 									"other_vrfs": schema.ListAttribute{
 										ElementType:         types.StringType,
 										Optional:            true,
-										Computed:            true,
 										Description:         "by default, the routes are only readvertised toward the same vrf on spoke\nto allow it to be leaked to other vrfs",
 										MarkdownDescription: "by default, the routes are only readvertised toward the same vrf on spoke\nto allow it to be leaked to other vrfs",
-										Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 									},
 									"routed": schema.BoolAttribute{
 										Optional:            true,
-										Computed:            true,
 										Description:         "whether this network is routable",
 										MarkdownDescription: "whether this network is routable",
 									},
@@ -918,7 +801,6 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 											},
 										},
 										Optional:            true,
-										Computed:            true,
 										Description:         "if `routed`==`false` (usually at Spoke), but some hosts needs to be reachable from Hub",
 										MarkdownDescription: "if `routed`==`false` (usually at Spoke), but some hosts needs to be reachable from Hub",
 									},
@@ -935,7 +817,6 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 												},
 												"wan_name": schema.StringAttribute{
 													Optional:            true,
-													Computed:            true,
 													Description:         "If not set, we configure the nat policies against all WAN ports for simplicity",
 													MarkdownDescription: "If not set, we configure the nat policies against all WAN ports for simplicity",
 												},
@@ -947,25 +828,21 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 											},
 										},
 										Optional:            true,
-										Computed:            true,
 										Description:         "Property key may be an IP Address (i.e. \"172.16.0.1\"), and IP Address and Port (i.e. \"172.16.0.1:8443\") or a CIDR (i.e. \"172.16.0.12/20\")",
 										MarkdownDescription: "Property key may be an IP Address (i.e. \"172.16.0.1\"), and IP Address and Port (i.e. \"172.16.0.1:8443\") or a CIDR (i.e. \"172.16.0.12/20\")",
 									},
 									"summarized_subnet": schema.StringAttribute{
 										Optional:            true,
-										Computed:            true,
 										Description:         "toward overlay\nhow HUB should deal with routes it received from Spokes",
 										MarkdownDescription: "toward overlay\nhow HUB should deal with routes it received from Spokes",
 									},
 									"summarized_subnet_to_lan_bgp": schema.StringAttribute{
 										Optional:            true,
-										Computed:            true,
 										Description:         "toward LAN-side BGP peers",
 										MarkdownDescription: "toward LAN-side BGP peers",
 									},
 									"summarized_subnet_to_lan_ospf": schema.StringAttribute{
 										Optional:            true,
-										Computed:            true,
 										Description:         "toward LAN-side OSPF peers",
 										MarkdownDescription: "toward LAN-side OSPF peers",
 									},
@@ -977,7 +854,6 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 								},
 							},
 							Optional:            true,
-							Computed:            true,
 							Description:         "Property key is the VPN name. Whether this network can be accessed from vpn",
 							MarkdownDescription: "Property key is the VPN name. Whether this network can be accessed from vpn",
 						},
@@ -989,20 +865,15 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 					},
 				},
 				Optional: true,
-				Computed: true,
 			},
 			"ntp_override": schema.BoolAttribute{
 				Optional: true,
-				Computed: true,
-				Default:  booldefault.StaticBool(false),
 			},
 			"ntp_servers": schema.ListAttribute{
 				ElementType:         types.StringType,
 				Optional:            true,
-				Computed:            true,
 				Description:         "list of NTP servers specific to this device. By default, those in Site Settings will be used",
 				MarkdownDescription: "list of NTP servers specific to this device. By default, those in Site Settings will be used",
-				Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 			},
 			"oob_ip_config": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
@@ -1012,13 +883,11 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 					},
 					"netmask": schema.StringAttribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "used only if `subnet` is not specified in `networks`",
 						MarkdownDescription: "used only if `subnet` is not specified in `networks`",
 					},
 					"network": schema.StringAttribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "optional, the network to be used for mgmt",
 						MarkdownDescription: "optional, the network to be used for mgmt",
 					},
@@ -1030,19 +899,16 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 							},
 							"netmask": schema.StringAttribute{
 								Optional:            true,
-								Computed:            true,
 								Description:         "used only if `subnet` is not specified in `networks`",
 								MarkdownDescription: "used only if `subnet` is not specified in `networks`",
 							},
 							"network": schema.StringAttribute{
 								Optional:            true,
-								Computed:            true,
 								Description:         "optional, the network to be used for mgmt",
 								MarkdownDescription: "optional, the network to be used for mgmt",
 							},
 							"type": schema.StringAttribute{
 								Optional: true,
-								Computed: true,
 								Validators: []validator.String{
 									stringvalidator.OneOf(
 										"",
@@ -1050,21 +916,16 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 										"dynamic",
 									),
 								},
-								Default: stringdefault.StaticString("dynamic"),
 							},
 							"use_mgmt_vrf": schema.BoolAttribute{
 								Optional:            true,
-								Computed:            true,
 								Description:         "if supported on the platform. If enabled, DNS will be using this routing-instance, too",
 								MarkdownDescription: "if supported on the platform. If enabled, DNS will be using this routing-instance, too",
-								Default:             booldefault.StaticBool(false),
 							},
 							"use_mgmt_vrf_for_host_out": schema.BoolAttribute{
 								Optional:            true,
-								Computed:            true,
 								Description:         "whether to use `mgmt_junos` for host-out traffic (NTP/TACPLUS/RADIUS/SYSLOG/SNMP), if alternative source network/ip is desired",
 								MarkdownDescription: "whether to use `mgmt_junos` for host-out traffic (NTP/TACPLUS/RADIUS/SYSLOG/SNMP), if alternative source network/ip is desired",
-								Default:             booldefault.StaticBool(false),
 							},
 						},
 						CustomType: Node1Type{
@@ -1073,13 +934,11 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 							},
 						},
 						Optional:            true,
-						Computed:            true,
 						Description:         "for HA Cluster, node1 can have different IP Config",
 						MarkdownDescription: "for HA Cluster, node1 can have different IP Config",
 					},
 					"type": schema.StringAttribute{
 						Optional: true,
-						Computed: true,
 						Validators: []validator.String{
 							stringvalidator.OneOf(
 								"",
@@ -1087,21 +946,16 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 								"dynamic",
 							),
 						},
-						Default: stringdefault.StaticString("dynamic"),
 					},
 					"use_mgmt_vrf": schema.BoolAttribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "f supported on the platform. If enabled, DNS will be using this routing-instance, too",
 						MarkdownDescription: "f supported on the platform. If enabled, DNS will be using this routing-instance, too",
-						Default:             booldefault.StaticBool(false),
 					},
 					"use_mgmt_vrf_for_host_out": schema.BoolAttribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "for host-out traffic (NTP/TACPLUS/RADIUS/SYSLOG/SNMP), if alternative source network/ip is desired,",
 						MarkdownDescription: "for host-out traffic (NTP/TACPLUS/RADIUS/SYSLOG/SNMP), if alternative source network/ip is desired,",
-						Default:             booldefault.StaticBool(false),
 					},
 				},
 				CustomType: OobIpConfigType{
@@ -1110,7 +964,6 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 					},
 				},
 				Optional:            true,
-				Computed:            true,
 				Description:         "out-of-band (vme/em0/fxp0) IP config",
 				MarkdownDescription: "out-of-band (vme/em0/fxp0) IP config",
 			},
@@ -1129,22 +982,18 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 									},
 									"disabled": schema.BoolAttribute{
 										Optional:            true,
-										Computed:            true,
 										Description:         "For SSR Only. `true`` if this specific path is undesired",
 										MarkdownDescription: "For SSR Only. `true`` if this specific path is undesired",
 									},
 									"gateway_ip": schema.StringAttribute{
 										Optional:            true,
-										Computed:            true,
 										Description:         "if `type`==`local`, if a different gateway is desired",
 										MarkdownDescription: "if `type`==`local`, if a different gateway is desired",
 									},
 									"internet_access": schema.BoolAttribute{
 										Optional:            true,
-										Computed:            true,
 										Description:         "when `type`==`vpn`, if this vpn path can be used for internet",
 										MarkdownDescription: "when `type`==`vpn`, if this vpn path can be used for internet",
-										Default:             booldefault.StaticBool(false),
 									},
 									"name": schema.StringAttribute{
 										Optional: true,
@@ -1153,22 +1002,17 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 									"networks": schema.ListAttribute{
 										ElementType:         types.StringType,
 										Optional:            true,
-										Computed:            true,
 										Description:         "if `type`==`local`",
 										MarkdownDescription: "if `type`==`local`",
-										Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 									},
 									"target_ips": schema.ListAttribute{
 										ElementType:         types.StringType,
 										Optional:            true,
-										Computed:            true,
 										Description:         "if `type`==`local`, if destination IP is to be replaced",
 										MarkdownDescription: "if `type`==`local`, if destination IP is to be replaced",
-										Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 									},
 									"type": schema.StringAttribute{
 										Optional: true,
-										Computed: true,
 										Validators: []validator.String{
 											stringvalidator.OneOf(
 												"",
@@ -1181,7 +1025,6 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 									},
 									"wan_name": schema.StringAttribute{
 										Optional:            true,
-										Computed:            true,
 										Description:         "Spoke's outgoing wan",
 										MarkdownDescription: "Spoke's outgoing wan",
 									},
@@ -1193,11 +1036,9 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 								},
 							},
 							Optional: true,
-							Computed: true,
 						},
 						"strategy": schema.StringAttribute{
 							Optional: true,
-							Computed: true,
 							Validators: []validator.String{
 								stringvalidator.OneOf(
 									"",
@@ -1206,7 +1047,6 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 									"ecmp",
 								),
 							},
-							Default: stringdefault.StaticString("ordered"),
 						},
 					},
 					CustomType: PathPreferencesType{
@@ -1216,7 +1056,6 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 					},
 				},
 				Optional:            true,
-				Computed:            true,
 				Description:         "Property key is the path name",
 				MarkdownDescription: "Property key is the path name",
 			},
@@ -1229,19 +1068,14 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 						},
 						"disable_autoneg": schema.BoolAttribute{
 							Optional: true,
-							Computed: true,
-							Default:  booldefault.StaticBool(false),
 						},
 						"disabled": schema.BoolAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "port admin up (true) / down (false)",
 							MarkdownDescription: "port admin up (true) / down (false)",
-							Default:             booldefault.StaticBool(false),
 						},
 						"dsl_type": schema.StringAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "if `wan_type`==`lte`",
 							MarkdownDescription: "if `wan_type`==`lte`",
 							Validators: []validator.String{
@@ -1251,25 +1085,19 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 									"adsl",
 								),
 							},
-							Default: stringdefault.StaticString("vdsl"),
 						},
 						"dsl_vci": schema.Int64Attribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "if `wan_type`==`dsl`\n16 bit int",
 							MarkdownDescription: "if `wan_type`==`dsl`\n16 bit int",
-							Default:             int64default.StaticInt64(35),
 						},
 						"dsl_vpi": schema.Int64Attribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "if `wan_type`==`dsl`\n8 bit int",
 							MarkdownDescription: "if `wan_type`==`dsl`\n8 bit int",
-							Default:             int64default.StaticInt64(0),
 						},
 						"duplex": schema.StringAttribute{
 							Optional: true,
-							Computed: true,
 							Validators: []validator.String{
 								stringvalidator.OneOf(
 									"",
@@ -1278,29 +1106,23 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 									"auto",
 								),
 							},
-							Default: stringdefault.StaticString("auto"),
 						},
 						"ip_config": schema.SingleNestedAttribute{
 							Attributes: map[string]schema.Attribute{
 								"dns": schema.ListAttribute{
 									ElementType:         types.StringType,
 									Optional:            true,
-									Computed:            true,
 									Description:         "except for out-of_band interface (vme/em0/fxp0)",
 									MarkdownDescription: "except for out-of_band interface (vme/em0/fxp0)",
-									Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 								},
 								"dns_suffix": schema.ListAttribute{
 									ElementType:         types.StringType,
 									Optional:            true,
-									Computed:            true,
 									Description:         "except for out-of_band interface (vme/em0/fxp0)",
 									MarkdownDescription: "except for out-of_band interface (vme/em0/fxp0)",
-									Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 								},
 								"gateway": schema.StringAttribute{
 									Optional:            true,
-									Computed:            true,
 									Description:         "except for out-of_band interface (vme/em0/fxp0)",
 									MarkdownDescription: "except for out-of_band interface (vme/em0/fxp0)",
 								},
@@ -1310,25 +1132,21 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 								},
 								"netmask": schema.StringAttribute{
 									Optional:            true,
-									Computed:            true,
 									Description:         "used only if `subnet` is not specified in `networks`",
 									MarkdownDescription: "used only if `subnet` is not specified in `networks`",
 								},
 								"network": schema.StringAttribute{
 									Optional:            true,
-									Computed:            true,
 									Description:         "optional, the network to be used for mgmt",
 									MarkdownDescription: "optional, the network to be used for mgmt",
 								},
 								"poser_password": schema.StringAttribute{
 									Optional:            true,
-									Computed:            true,
 									Description:         "if `type`==`pppoe`",
 									MarkdownDescription: "if `type`==`pppoe`",
 								},
 								"pppoe_auth": schema.StringAttribute{
 									Optional:            true,
-									Computed:            true,
 									Description:         "if `type`==`pppoe`",
 									MarkdownDescription: "if `type`==`pppoe`",
 									Validators: []validator.String{
@@ -1339,17 +1157,14 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 											"pap",
 										),
 									},
-									Default: stringdefault.StaticString("none"),
 								},
 								"pppoe_username": schema.StringAttribute{
 									Optional:            true,
-									Computed:            true,
 									Description:         "if `type`==`pppoe`",
 									MarkdownDescription: "if `type`==`pppoe`",
 								},
 								"type": schema.StringAttribute{
 									Optional: true,
-									Computed: true,
 									Validators: []validator.String{
 										stringvalidator.OneOf(
 											"",
@@ -1358,7 +1173,6 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 											"pppoe",
 										),
 									},
-									Default: stringdefault.StaticString("dhcp"),
 								},
 							},
 							CustomType: IpConfigType{
@@ -1367,19 +1181,16 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 								},
 							},
 							Optional:            true,
-							Computed:            true,
 							Description:         "Junos IP Config",
 							MarkdownDescription: "Junos IP Config",
 						},
 						"lte_apn": schema.StringAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "if `wan_type`==`lte`",
 							MarkdownDescription: "if `wan_type`==`lte`",
 						},
 						"lte_auth": schema.StringAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "if `wan_type`==`lte`",
 							MarkdownDescription: "if `wan_type`==`lte`",
 							Validators: []validator.String{
@@ -1390,7 +1201,6 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 									"pap",
 								),
 							},
-							Default: stringdefault.StaticString("none"),
 						},
 						"lte_backup": schema.BoolAttribute{
 							Optional: true,
@@ -1398,13 +1208,11 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 						},
 						"lte_password": schema.StringAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "if `wan_type`==`lte`",
 							MarkdownDescription: "if `wan_type`==`lte`",
 						},
 						"lte_username": schema.StringAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "if `wan_type`==`lte`",
 							MarkdownDescription: "if `wan_type`==`lte`",
 						},
@@ -1414,101 +1222,77 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 						},
 						"name": schema.StringAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "name that we'll use to derive config",
 							MarkdownDescription: "name that we'll use to derive config",
 						},
 						"networks": schema.ListAttribute{
 							ElementType:         types.StringType,
 							Optional:            true,
-							Computed:            true,
 							Description:         "if `usage`==`lan`",
 							MarkdownDescription: "if `usage`==`lan`",
-							Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 						},
 						"outer_vlan_id": schema.Int64Attribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "for Q-in-Q",
 							MarkdownDescription: "for Q-in-Q",
 						},
 						"poe_disabled": schema.BoolAttribute{
 							Optional: true,
-							Computed: true,
-							Default:  booldefault.StaticBool(false),
 						},
 						"port_network": schema.StringAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "if `usage`==`lan`",
 							MarkdownDescription: "if `usage`==`lan`",
 						},
 						"preserve_dscp": schema.BoolAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "whether to preserve dscp when sending traffic over VPN (SSR-only)",
 							MarkdownDescription: "whether to preserve dscp when sending traffic over VPN (SSR-only)",
-							Default:             booldefault.StaticBool(true),
 						},
 						"redundant": schema.BoolAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "if HA mode",
 							MarkdownDescription: "if HA mode",
 						},
 						"reth_idx": schema.Int64Attribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "if HA mode",
 							MarkdownDescription: "if HA mode",
 						},
 						"reth_node": schema.StringAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "if HA mode",
 							MarkdownDescription: "if HA mode",
 						},
 						"reth_nodes": schema.ListAttribute{
 							ElementType:         types.StringType,
 							Optional:            true,
-							Computed:            true,
 							Description:         "SSR only - supporting vlan-based redundancy (matching the size of `networks`)",
 							MarkdownDescription: "SSR only - supporting vlan-based redundancy (matching the size of `networks`)",
-							Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 						},
 						"speed": schema.StringAttribute{
 							Optional: true,
-							Computed: true,
-							Default:  stringdefault.StaticString("auto"),
 						},
 						"ssr_no_virtual_mac": schema.BoolAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "when SSR is running as VM, this is required on certain hosting platforms",
 							MarkdownDescription: "when SSR is running as VM, this is required on certain hosting platforms",
-							Default:             booldefault.StaticBool(false),
 						},
 						"svr_port_range": schema.StringAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "for SSR only",
 							MarkdownDescription: "for SSR only",
-							Default:             stringdefault.StaticString("none"),
 						},
 						"traffic_shaping": schema.SingleNestedAttribute{
 							Attributes: map[string]schema.Attribute{
 								"class_percentages": schema.ListAttribute{
 									ElementType:         types.Int64Type,
 									Optional:            true,
-									Computed:            true,
 									Description:         "percentages for differet class of traffic: high / medium / low / best-effort\nsum must be equal to 100",
 									MarkdownDescription: "percentages for differet class of traffic: high / medium / low / best-effort\nsum must be equal to 100",
-									Default:             listdefault.StaticValue(types.ListValueMust(types.Int64Type, []attr.Value{})),
 								},
 								"enabled": schema.BoolAttribute{
 									Optional: true,
-									Computed: true,
-									Default:  booldefault.StaticBool(false),
 								},
 							},
 							CustomType: TrafficShapingType{
@@ -1517,7 +1301,6 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 								},
 							},
 							Optional: true,
-							Computed: true,
 						},
 						"usage": schema.StringAttribute{
 							Required:            true,
@@ -1535,7 +1318,6 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 						},
 						"vlan_id": schema.Int64Attribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "if WAN interface is on a VLAN",
 							MarkdownDescription: "if WAN interface is on a VLAN",
 						},
@@ -1544,7 +1326,6 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 								Attributes: map[string]schema.Attribute{
 									"bfd_profile": schema.StringAttribute{
 										Optional: true,
-										Computed: true,
 										Validators: []validator.String{
 											stringvalidator.OneOf(
 												"",
@@ -1552,24 +1333,19 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 												"broadband",
 											),
 										},
-										Default: stringdefault.StaticString("broadband"),
 									},
 									"bfd_use_tunnel_mode": schema.BoolAttribute{
 										Optional:            true,
-										Computed:            true,
 										Description:         "whether to use tunnel mode. SSR only",
 										MarkdownDescription: "whether to use tunnel mode. SSR only",
-										Default:             booldefault.StaticBool(false),
 									},
 									"preference": schema.Int64Attribute{
 										Optional:            true,
-										Computed:            true,
 										Description:         "for a given VPN, when `path_selection.strategy`==`simple`, the preference for a path (lower is preferred)",
 										MarkdownDescription: "for a given VPN, when `path_selection.strategy`==`simple`, the preference for a path (lower is preferred)",
 									},
 									"role": schema.StringAttribute{
 										Optional: true,
-										Computed: true,
 										Validators: []validator.String{
 											stringvalidator.OneOf(
 												"",
@@ -1577,22 +1353,17 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 												"hub",
 											),
 										},
-										Default: stringdefault.StaticString("spoke"),
 									},
 									"traffic_shaping": schema.SingleNestedAttribute{
 										Attributes: map[string]schema.Attribute{
 											"class_percentages": schema.ListAttribute{
 												ElementType:         types.Int64Type,
 												Optional:            true,
-												Computed:            true,
 												Description:         "percentages for differet class of traffic: high / medium / low / best-effort\nsum must be equal to 100",
 												MarkdownDescription: "percentages for differet class of traffic: high / medium / low / best-effort\nsum must be equal to 100",
-												Default:             listdefault.StaticValue(types.ListValueMust(types.Int64Type, []attr.Value{})),
 											},
 											"enabled": schema.BoolAttribute{
 												Optional: true,
-												Computed: true,
-												Default:  booldefault.StaticBool(false),
 											},
 										},
 										CustomType: TrafficShapingType{
@@ -1601,7 +1372,6 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 											},
 										},
 										Optional: true,
-										Computed: true,
 									},
 								},
 								CustomType: VpnPathsType{
@@ -1611,11 +1381,9 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 								},
 							},
 							Optional: true,
-							Computed: true,
 						},
 						"wan_arp_policer": schema.StringAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "when `wan_type`==`broadband`",
 							MarkdownDescription: "when `wan_type`==`broadband`",
 							Validators: []validator.String{
@@ -1626,11 +1394,9 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 									"max",
 								),
 							},
-							Default: stringdefault.StaticString("recommended"),
 						},
 						"wan_ext_ip": schema.StringAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "optional, if spoke should reach this port by a different IP",
 							MarkdownDescription: "optional, if spoke should reach this port by a different IP",
 						},
@@ -1638,14 +1404,11 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 							Attributes: map[string]schema.Attribute{
 								"disabled": schema.BoolAttribute{
 									Optional:            true,
-									Computed:            true,
 									Description:         "or to disable the source-nat",
 									MarkdownDescription: "or to disable the source-nat",
-									Default:             booldefault.StaticBool(false),
 								},
 								"nat_pool": schema.StringAttribute{
 									Optional:            true,
-									Computed:            true,
 									Description:         "if alternative nat_pool is desired",
 									MarkdownDescription: "if alternative nat_pool is desired",
 								},
@@ -1656,13 +1419,11 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 								},
 							},
 							Optional:            true,
-							Computed:            true,
 							Description:         "optional, by default, source-NAT is performed on all WAN Ports using the interface-ip",
 							MarkdownDescription: "optional, by default, source-NAT is performed on all WAN Ports using the interface-ip",
 						},
 						"wan_type": schema.StringAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "if `usage`==`wan`",
 							MarkdownDescription: "if `usage`==`wan`",
 							Validators: []validator.String{
@@ -1673,7 +1434,6 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 									"lte",
 								),
 							},
-							Default: stringdefault.StaticString("broadband"),
 						},
 					},
 					CustomType: PortConfigType{
@@ -1683,13 +1443,11 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 					},
 				},
 				Optional:            true,
-				Computed:            true,
 				Description:         "Property key is the port(s) name or range (e.g. \"ge-0/0/0-10\")",
 				MarkdownDescription: "Property key is the port(s) name or range (e.g. \"ge-0/0/0-10\")",
 			},
 			"router_id": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				Description:         "auto assigned if not set",
 				MarkdownDescription: "auto assigned if not set",
 			},
@@ -1708,60 +1466,45 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 											"add_community": schema.ListAttribute{
 												ElementType: types.StringType,
 												Optional:    true,
-												Computed:    true,
-												Default:     listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 											},
 											"add_target_vrfs": schema.ListAttribute{
 												ElementType:         types.StringType,
 												Optional:            true,
-												Computed:            true,
 												Description:         "for SSR, hub decides how VRF routes are leaked on spoke",
 												MarkdownDescription: "for SSR, hub decides how VRF routes are leaked on spoke",
-												Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 											},
 											"community": schema.ListAttribute{
 												ElementType:         types.StringType,
 												Optional:            true,
-												Computed:            true,
 												Description:         "when used as export policy, optional",
 												MarkdownDescription: "when used as export policy, optional",
-												Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 											},
 											"exclude_as_path": schema.ListAttribute{
 												ElementType:         types.StringType,
 												Optional:            true,
-												Computed:            true,
 												Description:         "when used as export policy, optional. To exclude certain AS",
 												MarkdownDescription: "when used as export policy, optional. To exclude certain AS",
-												Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 											},
 											"exclude_community": schema.ListAttribute{
 												ElementType: types.StringType,
 												Optional:    true,
-												Computed:    true,
-												Default:     listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 											},
 											"export_communitites": schema.ListAttribute{
 												ElementType:         types.StringType,
 												Optional:            true,
-												Computed:            true,
 												Description:         "when used as export policy, optional",
 												MarkdownDescription: "when used as export policy, optional",
-												Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 											},
 											"local_preference": schema.StringAttribute{
 												Optional:            true,
-												Computed:            true,
 												Description:         "optional, for an import policy, local_preference can be changed",
 												MarkdownDescription: "optional, for an import policy, local_preference can be changed",
 											},
 											"prepend_as_path": schema.ListAttribute{
 												ElementType:         types.StringType,
 												Optional:            true,
-												Computed:            true,
 												Description:         "when used as export policy, optional. By default, the local AS will be prepended, to change it",
 												MarkdownDescription: "when used as export policy, optional. By default, the local AS will be prepended, to change it",
-												Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 											},
 										},
 										CustomType: ActionType{
@@ -1770,7 +1513,6 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 											},
 										},
 										Optional:            true,
-										Computed:            true,
 										Description:         "when used as import policy",
 										MarkdownDescription: "when used as import policy",
 									},
@@ -1779,41 +1521,31 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 											"as_path": schema.ListAttribute{
 												ElementType:         types.StringType,
 												Optional:            true,
-												Computed:            true,
 												Description:         "takes regular expression",
 												MarkdownDescription: "takes regular expression",
-												Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 											},
 											"community": schema.ListAttribute{
 												ElementType: types.StringType,
 												Optional:    true,
-												Computed:    true,
-												Default:     listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 											},
 											"network": schema.ListAttribute{
 												ElementType: types.StringType,
 												Optional:    true,
-												Computed:    true,
 												Validators: []validator.List{
 													listvalidator.UniqueValues(),
 												},
-												Default: listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 											},
 											"prefix": schema.ListAttribute{
 												ElementType:         types.StringType,
 												Optional:            true,
-												Computed:            true,
 												Description:         "zero or more criteria/filter can be specified to match the term, all criteria have to be met",
 												MarkdownDescription: "zero or more criteria/filter can be specified to match the term, all criteria have to be met",
-												Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 											},
 											"protocol": schema.ListAttribute{
 												ElementType:         types.StringType,
 												Optional:            true,
-												Computed:            true,
 												Description:         "`direct`, `bgp`, `osp`, ...",
 												MarkdownDescription: "`direct`, `bgp`, `osp`, ...",
-												Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 											},
 											"route_exists": schema.SingleNestedAttribute{
 												Attributes: map[string]schema.Attribute{
@@ -1823,10 +1555,8 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 													},
 													"vrf_name": schema.StringAttribute{
 														Optional:            true,
-														Computed:            true,
 														Description:         "name of the vrf instance\nit can also be the name of the VPN or wan if they",
 														MarkdownDescription: "name of the vrf instance\nit can also be the name of the VPN or wan if they",
-														Default:             stringdefault.StaticString("default"),
 													},
 												},
 												CustomType: RouteExistsType{
@@ -1835,23 +1565,18 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 													},
 												},
 												Optional: true,
-												Computed: true,
 											},
 											"vpn_neighbor_mac": schema.ListAttribute{
 												ElementType:         types.StringType,
 												Optional:            true,
-												Computed:            true,
 												Description:         "overlay-facing criteria (used for bgp_config where via=vpn)",
 												MarkdownDescription: "overlay-facing criteria (used for bgp_config where via=vpn)",
-												Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 											},
 											"vpn_path": schema.ListAttribute{
 												ElementType:         types.StringType,
 												Optional:            true,
-												Computed:            true,
 												Description:         "overlay-facing criteria (used for bgp_config where via=vpn)\nordered-",
 												MarkdownDescription: "overlay-facing criteria (used for bgp_config where via=vpn)\nordered-",
-												Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 											},
 											"vpn_path_sla": schema.SingleNestedAttribute{
 												Attributes: map[string]schema.Attribute{
@@ -1874,7 +1599,6 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 													},
 												},
 												Optional: true,
-												Computed: true,
 											},
 										},
 										CustomType: RoutingPolicyTermMatchingType{
@@ -1883,7 +1607,6 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 											},
 										},
 										Optional:            true,
-										Computed:            true,
 										Description:         "zero or more criteria/filter can be specified to match the term, all criteria have to be met",
 										MarkdownDescription: "zero or more criteria/filter can be specified to match the term, all criteria have to be met",
 									},
@@ -1895,7 +1618,6 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 								},
 							},
 							Optional:            true,
-							Computed:            true,
 							Description:         "zero or more criteria/filter can be specified to match the term, all criteria have to be met",
 							MarkdownDescription: "zero or more criteria/filter can be specified to match the term, all criteria have to be met",
 							Validators: []validator.List{
@@ -1910,7 +1632,6 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 					},
 				},
 				Optional:            true,
-				Computed:            true,
 				Description:         "Property key is the routing policy name",
 				MarkdownDescription: "Property key is the routing policy name",
 			},
@@ -1919,7 +1640,6 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 					Attributes: map[string]schema.Attribute{
 						"action": schema.StringAttribute{
 							Optional: true,
-							Computed: true,
 							Validators: []validator.String{
 								stringvalidator.OneOf(
 									"",
@@ -1927,14 +1647,11 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 									"deny",
 								),
 							},
-							Default: stringdefault.StaticString("allow"),
 						},
 						"appqoe": schema.SingleNestedAttribute{
 							Attributes: map[string]schema.Attribute{
 								"enabled": schema.BoolAttribute{
 									Optional: true,
-									Computed: true,
-									Default:  booldefault.StaticBool(false),
 								},
 							},
 							CustomType: AppqoeType{
@@ -1943,7 +1660,6 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 								},
 							},
 							Optional:            true,
-							Computed:            true,
 							Description:         "For SRX Only",
 							MarkdownDescription: "For SRX Only",
 						},
@@ -1960,12 +1676,9 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 									},
 									"enabled": schema.BoolAttribute{
 										Optional: true,
-										Computed: true,
-										Default:  booldefault.StaticBool(false),
 									},
 									"profile": schema.StringAttribute{
 										Optional: true,
-										Computed: true,
 										Validators: []validator.String{
 											stringvalidator.OneOf(
 												"",
@@ -1973,7 +1686,6 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 												"standard",
 											),
 										},
-										Default: stringdefault.StaticString("strict"),
 									},
 								},
 								CustomType: EwfType{
@@ -1983,7 +1695,6 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 								},
 							},
 							Optional: true,
-							Computed: true,
 						},
 						"idp": schema.SingleNestedAttribute{
 							Attributes: map[string]schema.Attribute{
@@ -1993,21 +1704,16 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 								},
 								"enabled": schema.BoolAttribute{
 									Optional: true,
-									Computed: true,
-									Default:  booldefault.StaticBool(false),
 								},
 								"idpprofile_id": schema.StringAttribute{
 									Optional:            true,
-									Computed:            true,
 									Description:         "org_level IDP Profile can be used, this takes precedence over `profile`",
 									MarkdownDescription: "org_level IDP Profile can be used, this takes precedence over `profile`",
 								},
 								"profile": schema.StringAttribute{
 									Optional:            true,
-									Computed:            true,
 									Description:         "`strict` (default) / `standard` / or keys from from idp_profiles",
 									MarkdownDescription: "`strict` (default) / `standard` / or keys from from idp_profiles",
-									Default:             stringdefault.StaticString("strict"),
 								},
 							},
 							CustomType: IdpType{
@@ -2016,14 +1722,11 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 								},
 							},
 							Optional: true,
-							Computed: true,
 						},
 						"local_routing": schema.BoolAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "access within the same VRF",
 							MarkdownDescription: "access within the same VRF",
-							Default:             booldefault.StaticBool(false),
 						},
 						"name": schema.StringAttribute{
 							Optional: true,
@@ -2031,33 +1734,27 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 						},
 						"path_preferences": schema.StringAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "by default, we derive all paths available and use them\noptionally, you can customize by using `path_preference`",
 							MarkdownDescription: "by default, we derive all paths available and use them\noptionally, you can customize by using `path_preference`",
 						},
 						"servicepolicy_id": schema.StringAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "used to link servicepolicy defined at org level and overwrite some attributes",
 							MarkdownDescription: "used to link servicepolicy defined at org level and overwrite some attributes",
 						},
 						"services": schema.ListAttribute{
 							ElementType: types.StringType,
 							Optional:    true,
-							Computed:    true,
 							Validators: []validator.List{
 								listvalidator.UniqueValues(),
 							},
-							Default: listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 						},
 						"tenants": schema.ListAttribute{
 							ElementType: types.StringType,
 							Optional:    true,
-							Computed:    true,
 							Validators: []validator.List{
 								listvalidator.UniqueValues(),
 							},
-							Default: listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 						},
 					},
 					CustomType: ServicePoliciesType{
@@ -2067,7 +1764,6 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 					},
 				},
 				Optional: true,
-				Computed: true,
 			},
 			"tunnel_configs": schema.MapNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
@@ -2083,10 +1779,8 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 										"wan_names": schema.ListAttribute{
 											ElementType:         types.StringType,
 											Optional:            true,
-											Computed:            true,
 											Description:         "optional, only needed if `vars_only`==`false`",
 											MarkdownDescription: "optional, only needed if `vars_only`==`false`",
-											Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 										},
 									},
 									CustomType: AutoProvisionPrimaryType{
@@ -2095,7 +1789,6 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 										},
 									},
 									Optional: true,
-									Computed: true,
 								},
 								"secondary": schema.SingleNestedAttribute{
 									Attributes: map[string]schema.Attribute{
@@ -2106,10 +1799,8 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 										"wan_names": schema.ListAttribute{
 											ElementType:         types.StringType,
 											Optional:            true,
-											Computed:            true,
 											Description:         "optional, only needed if `vars_only`==`false`",
 											MarkdownDescription: "optional, only needed if `vars_only`==`false`",
-											Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 										},
 									},
 									CustomType: AutoProvisionSecondaryType{
@@ -2118,7 +1809,6 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 										},
 									},
 									Optional: true,
-									Computed: true,
 								},
 								"enable": schema.BoolAttribute{
 									Optional: true,
@@ -2139,11 +1829,9 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 										},
 									},
 									Optional: true,
-									Computed: true,
 								},
 								"region": schema.StringAttribute{
 									Optional: true,
-									Computed: true,
 									Validators: []validator.String{
 										stringvalidator.OneOf(
 											"",
@@ -2153,7 +1841,6 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 											"APAC",
 										),
 									},
-									Default: stringdefault.StaticString("auto"),
 								},
 							},
 							CustomType: AutoProvisionType{
@@ -2162,17 +1849,14 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 								},
 							},
 							Optional: true,
-							Computed: true,
 						},
 						"ike_lifetime": schema.Int64Attribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "Only if:\n* `provider`== `custom-ipsec`",
 							MarkdownDescription: "Only if:\n* `provider`== `custom-ipsec`",
 						},
 						"ike_mode": schema.StringAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "Only if:\n* `provider`== `custom-ipsec`",
 							MarkdownDescription: "Only if:\n* `provider`== `custom-ipsec`",
 							Validators: []validator.String{
@@ -2182,14 +1866,12 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 									"aggressive",
 								),
 							},
-							Default: stringdefault.StaticString("main"),
 						},
 						"ike_proposals": schema.ListNestedAttribute{
 							NestedObject: schema.NestedAttributeObject{
 								Attributes: map[string]schema.Attribute{
 									"auth_algo": schema.StringAttribute{
 										Optional: true,
-										Computed: true,
 										Validators: []validator.String{
 											stringvalidator.OneOf(
 												"",
@@ -2201,7 +1883,6 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 									},
 									"dh_group": schema.StringAttribute{
 										Optional:            true,
-										Computed:            true,
 										Description:         "* 1 \n* 2 (1024-bit) \n* 5\n* 14 (default, 2048-bit)\n* 15 (3072-bit) \n* 16 (4096-bit)\n* 19 (256-bit ECP)\n* 20 (384-bit ECP)\n* 21 (521-bit ECP) \n* 24 (2048-bit ECP)",
 										MarkdownDescription: "* 1 \n* 2 (1024-bit) \n* 5\n* 14 (default, 2048-bit)\n* 15 (3072-bit) \n* 16 (4096-bit)\n* 19 (256-bit ECP)\n* 20 (384-bit ECP)\n* 21 (521-bit ECP) \n* 24 (2048-bit ECP)",
 										Validators: []validator.String{
@@ -2219,11 +1900,9 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 												"24",
 											),
 										},
-										Default: stringdefault.StaticString("14"),
 									},
 									"enc_algo": schema.StringAttribute{
 										Optional: true,
-										Computed: true,
 										Validators: []validator.String{
 											stringvalidator.OneOf(
 												"",
@@ -2234,7 +1913,6 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 												"aes_gcm128",
 											),
 										},
-										Default: stringdefault.StaticString("aes256"),
 									},
 								},
 								CustomType: IkeProposalsType{
@@ -2244,13 +1922,11 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 								},
 							},
 							Optional:            true,
-							Computed:            true,
 							Description:         "if `provider`== `custom-ipsec`",
 							MarkdownDescription: "if `provider`== `custom-ipsec`",
 						},
 						"ipsec_lifetime": schema.Int64Attribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "if `provider`== `custom-ipsec`",
 							MarkdownDescription: "if `provider`== `custom-ipsec`",
 						},
@@ -2259,7 +1935,6 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 								Attributes: map[string]schema.Attribute{
 									"auth_algo": schema.StringAttribute{
 										Optional: true,
-										Computed: true,
 										Validators: []validator.String{
 											stringvalidator.OneOf(
 												"",
@@ -2271,7 +1946,6 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 									},
 									"dh_group": schema.StringAttribute{
 										Optional:            true,
-										Computed:            true,
 										Description:         "Only if:\n* `provider`== `custom-ipsec`\nValues:\n* 1 \n* 2 (1024-bit) \n* 5\n* 14 (default, 2048-bit) \n* 15 (3072-bit) \n* 16 (4096-bit)\n* 19 (256-bit ECP)\n* 20 (384-bit ECP)\n* 21 (521-bit ECP) \n* 24 (2048-bit ECP)",
 										MarkdownDescription: "Only if:\n* `provider`== `custom-ipsec`\nValues:\n* 1 \n* 2 (1024-bit) \n* 5\n* 14 (default, 2048-bit) \n* 15 (3072-bit) \n* 16 (4096-bit)\n* 19 (256-bit ECP)\n* 20 (384-bit ECP)\n* 21 (521-bit ECP) \n* 24 (2048-bit ECP)",
 										Validators: []validator.String{
@@ -2289,11 +1963,9 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 												"24",
 											),
 										},
-										Default: stringdefault.StaticString("14"),
 									},
 									"enc_algo": schema.StringAttribute{
 										Optional: true,
-										Computed: true,
 										Validators: []validator.String{
 											stringvalidator.OneOf(
 												"",
@@ -2304,7 +1976,6 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 												"aes_gcm128",
 											),
 										},
-										Default: stringdefault.StaticString("aes256"),
 									},
 								},
 								CustomType: IpsecProposalsType{
@@ -2314,19 +1985,16 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 								},
 							},
 							Optional:            true,
-							Computed:            true,
 							Description:         "Only if:\n* `provider`== `custom-ipsec`",
 							MarkdownDescription: "Only if:\n* `provider`== `custom-ipsec`",
 						},
 						"local_id": schema.StringAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "Only if:\n* `provider`== `zscaler-ipsec`\n* `provider`==`jse-ipsec`\n* `provider`== `custom-ipsec`",
 							MarkdownDescription: "Only if:\n* `provider`== `zscaler-ipsec`\n* `provider`==`jse-ipsec`\n* `provider`== `custom-ipsec`",
 						},
 						"mode": schema.StringAttribute{
 							Optional: true,
-							Computed: true,
 							Validators: []validator.String{
 								stringvalidator.OneOf(
 									"",
@@ -2334,46 +2002,35 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 									"active-active",
 								),
 							},
-							Default: stringdefault.StaticString("active-standby"),
 						},
 						"primary": schema.SingleNestedAttribute{
 							Attributes: map[string]schema.Attribute{
 								"hosts": schema.ListAttribute{
 									ElementType: types.StringType,
 									Optional:    true,
-									Computed:    true,
-									Default:     listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 								},
 								"internal_ips": schema.ListAttribute{
 									ElementType:         types.StringType,
 									Optional:            true,
-									Computed:            true,
 									Description:         "Only if:\n* `provider`== `zscaler-gre` \n* `provider`== `custom-gre`",
 									MarkdownDescription: "Only if:\n* `provider`== `zscaler-gre` \n* `provider`== `custom-gre`",
-									Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 								},
 								"probe_ips": schema.ListAttribute{
 									ElementType: types.StringType,
 									Optional:    true,
-									Computed:    true,
 									Validators: []validator.List{
 										listvalidator.UniqueValues(),
 									},
-									Default: listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 								},
 								"remote_ids": schema.ListAttribute{
 									ElementType:         types.StringType,
 									Optional:            true,
-									Computed:            true,
 									Description:         "Only if:\n* `provider`== `custom-ipsec`",
 									MarkdownDescription: "Only if:\n* `provider`== `custom-ipsec`",
-									Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 								},
 								"wan_names": schema.ListAttribute{
 									ElementType: types.StringType,
 									Optional:    true,
-									Computed:    true,
-									Default:     listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 								},
 							},
 							CustomType: PrimaryType{
@@ -2382,31 +2039,26 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 								},
 							},
 							Optional: true,
-							Computed: true,
 						},
 						"probe": schema.SingleNestedAttribute{
 							Attributes: map[string]schema.Attribute{
 								"interval": schema.Int64Attribute{
 									Optional:            true,
-									Computed:            true,
 									Description:         "how often to trigger the probe",
 									MarkdownDescription: "how often to trigger the probe",
 								},
 								"threshold": schema.Int64Attribute{
 									Optional:            true,
-									Computed:            true,
 									Description:         "number of consecutive misses before declaring the tunnel down",
 									MarkdownDescription: "number of consecutive misses before declaring the tunnel down",
 								},
 								"timeout": schema.Int64Attribute{
 									Optional:            true,
-									Computed:            true,
 									Description:         "time within which to complete the connectivity check",
 									MarkdownDescription: "time within which to complete the connectivity check",
 								},
 								"type": schema.StringAttribute{
 									Optional: true,
-									Computed: true,
 									Validators: []validator.String{
 										stringvalidator.OneOf(
 											"",
@@ -2414,7 +2066,6 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 											"http",
 										),
 									},
-									Default: stringdefault.StaticString("icmp"),
 								},
 							},
 							CustomType: ProbeType{
@@ -2423,13 +2074,11 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 								},
 							},
 							Optional:            true,
-							Computed:            true,
 							Description:         "Only if:\n* `provider`== `custom-ipsec`",
 							MarkdownDescription: "Only if:\n* `provider`== `custom-ipsec`",
 						},
 						"protocol": schema.StringAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "Only if:\n* `provider`== `custom-ipsec`",
 							MarkdownDescription: "Only if:\n* `provider`== `custom-ipsec`",
 							Validators: []validator.String{
@@ -2442,7 +2091,6 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 						},
 						"provider": schema.StringAttribute{
 							Optional: true,
-							Computed: true,
 							Validators: []validator.String{
 								stringvalidator.OneOf(
 									"",
@@ -2456,7 +2104,6 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 						},
 						"psk": schema.StringAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "Only if:\n* `provider`== `zscaler-ipsec`\n* `provider`==`jse-ipsec`\n* `provider`== `custom-ipsec`",
 							MarkdownDescription: "Only if:\n* `provider`== `zscaler-ipsec`\n* `provider`==`jse-ipsec`\n* `provider`== `custom-ipsec`",
 						},
@@ -2465,39 +2112,29 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 								"hosts": schema.ListAttribute{
 									ElementType: types.StringType,
 									Optional:    true,
-									Computed:    true,
-									Default:     listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 								},
 								"internal_ips": schema.ListAttribute{
 									ElementType:         types.StringType,
 									Optional:            true,
-									Computed:            true,
 									Description:         "Only if:\n* `provider`== `zscaler-gre` \n* `provider`== `custom-gre`",
 									MarkdownDescription: "Only if:\n* `provider`== `zscaler-gre` \n* `provider`== `custom-gre`",
-									Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 								},
 								"probe_ips": schema.ListAttribute{
 									ElementType: types.StringType,
 									Optional:    true,
-									Computed:    true,
 									Validators: []validator.List{
 										listvalidator.UniqueValues(),
 									},
-									Default: listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 								},
 								"remote_ids": schema.ListAttribute{
 									ElementType:         types.StringType,
 									Optional:            true,
-									Computed:            true,
 									Description:         "Only if:\n* `provider`== `custom-ipsec`",
 									MarkdownDescription: "Only if:\n* `provider`== `custom-ipsec`",
-									Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 								},
 								"wan_names": schema.ListAttribute{
 									ElementType: types.StringType,
 									Optional:    true,
-									Computed:    true,
-									Default:     listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 								},
 							},
 							CustomType: SecondaryType{
@@ -2506,11 +2143,9 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 								},
 							},
 							Optional: true,
-							Computed: true,
 						},
 						"version": schema.StringAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "Only if:\n* `provider`== `custom-gre` \n* `provider`== `custom-ipsec`",
 							MarkdownDescription: "Only if:\n* `provider`== `custom-gre` \n* `provider`== `custom-ipsec`",
 							Validators: []validator.String{
@@ -2520,7 +2155,6 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 									"2",
 								),
 							},
-							Default: stringdefault.StaticString("2"),
 						},
 					},
 					CustomType: TunnelConfigsType{
@@ -2530,7 +2164,6 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 					},
 				},
 				Optional:            true,
-				Computed:            true,
 				Description:         "Property key is the tunnel name",
 				MarkdownDescription: "Property key is the tunnel name",
 			},
@@ -2553,7 +2186,6 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 							},
 						},
 						Optional:            true,
-						Computed:            true,
 						Description:         "for jse-ipsec, this allow provisioning of adequate resource on JSE. Make sure adequate licenses are added",
 						MarkdownDescription: "for jse-ipsec, this allow provisioning of adequate resource on JSE. Make sure adequate licenses are added",
 					},
@@ -2561,47 +2193,34 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 						Attributes: map[string]schema.Attribute{
 							"aup_acceptance_required": schema.BoolAttribute{
 								Optional: true,
-								Computed: true,
-								Default:  booldefault.StaticBool(true),
 							},
 							"aup_expire": schema.Int64Attribute{
 								Optional:            true,
-								Computed:            true,
 								Description:         "days before AUP is requested again",
 								MarkdownDescription: "days before AUP is requested again",
-								Default:             int64default.StaticInt64(1),
 							},
 							"aup_ssl_proxy": schema.BoolAttribute{
 								Optional:            true,
-								Computed:            true,
 								Description:         "proxy HTTPs traffic, requiring Zscaler cert to be installed in browser",
 								MarkdownDescription: "proxy HTTPs traffic, requiring Zscaler cert to be installed in browser",
-								Default:             booldefault.StaticBool(false),
 							},
 							"download_mbps": schema.Int64Attribute{
 								Optional:            true,
-								Computed:            true,
 								Description:         "the download bandwidth cap of the link, in Mbps",
 								MarkdownDescription: "the download bandwidth cap of the link, in Mbps",
 							},
 							"enable_aup": schema.BoolAttribute{
 								Optional:            true,
-								Computed:            true,
 								Description:         "if `use_xff`==`true`, display Acceptable Use Policy (AUP)",
 								MarkdownDescription: "if `use_xff`==`true`, display Acceptable Use Policy (AUP)",
-								Default:             booldefault.StaticBool(false),
 							},
 							"enable_caution": schema.BoolAttribute{
 								Optional:            true,
-								Computed:            true,
 								Description:         "when `enforce_authentication`==`false`, display caution notification for non-authenticated users",
 								MarkdownDescription: "when `enforce_authentication`==`false`, display caution notification for non-authenticated users",
-								Default:             booldefault.StaticBool(false),
 							},
 							"enforce_authentication": schema.BoolAttribute{
 								Optional: true,
-								Computed: true,
-								Default:  booldefault.StaticBool(false),
 							},
 							"name": schema.StringAttribute{
 								Optional: true,
@@ -2612,56 +2231,41 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 									Attributes: map[string]schema.Attribute{
 										"aup_acceptance_required": schema.BoolAttribute{
 											Optional: true,
-											Computed: true,
-											Default:  booldefault.StaticBool(true),
 										},
 										"aup_expire": schema.Int64Attribute{
 											Optional:            true,
-											Computed:            true,
 											Description:         "days before AUP is requested again",
 											MarkdownDescription: "days before AUP is requested again",
-											Default:             int64default.StaticInt64(1),
 										},
 										"aup_ssl_proxy": schema.BoolAttribute{
 											Optional:            true,
-											Computed:            true,
 											Description:         "proxy HTTPs traffic, requiring Zscaler cert to be installed in browser",
 											MarkdownDescription: "proxy HTTPs traffic, requiring Zscaler cert to be installed in browser",
-											Default:             booldefault.StaticBool(false),
 										},
 										"download_mbps": schema.Int64Attribute{
 											Optional:            true,
-											Computed:            true,
 											Description:         "the download bandwidth cap of the link, in Mbps",
 											MarkdownDescription: "the download bandwidth cap of the link, in Mbps",
 										},
 										"enable_aup": schema.BoolAttribute{
 											Optional:            true,
-											Computed:            true,
 											Description:         "if `use_xff`==`true`, display Acceptable Use Policy (AUP)",
 											MarkdownDescription: "if `use_xff`==`true`, display Acceptable Use Policy (AUP)",
 										},
 										"enable_caution": schema.BoolAttribute{
 											Optional:            true,
-											Computed:            true,
 											Description:         "when `enforce_authentication`==`false`, display caution notification for non-authenticated users",
 											MarkdownDescription: "when `enforce_authentication`==`false`, display caution notification for non-authenticated users",
-											Default:             booldefault.StaticBool(false),
 										},
 										"enforce_authentication": schema.BoolAttribute{
 											Optional: true,
-											Computed: true,
-											Default:  booldefault.StaticBool(false),
 										},
 										"subnets": schema.ListAttribute{
 											ElementType: types.StringType,
 											Optional:    true,
-											Computed:    true,
-											Default:     listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 										},
 										"upload_mbps": schema.Int64Attribute{
 											Optional:            true,
-											Computed:            true,
 											Description:         "the download bandwidth cap of the link, in Mbps",
 											MarkdownDescription: "the download bandwidth cap of the link, in Mbps",
 										},
@@ -2673,19 +2277,16 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 									},
 								},
 								Optional:            true,
-								Computed:            true,
 								Description:         "if `use_xff`==`true`",
 								MarkdownDescription: "if `use_xff`==`true`",
 							},
 							"upload_mbps": schema.Int64Attribute{
 								Optional:            true,
-								Computed:            true,
 								Description:         "the download bandwidth cap of the link, in Mbps",
 								MarkdownDescription: "the download bandwidth cap of the link, in Mbps",
 							},
 							"use_xff": schema.BoolAttribute{
 								Optional:            true,
-								Computed:            true,
 								Description:         "location uses proxy chaining to forward traffic",
 								MarkdownDescription: "location uses proxy chaining to forward traffic",
 							},
@@ -2696,7 +2297,6 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 							},
 						},
 						Optional:            true,
-						Computed:            true,
 						Description:         "for zscaler-ipsec and zscaler-gre",
 						MarkdownDescription: "for zscaler-ipsec and zscaler-gre",
 					},
@@ -2707,11 +2307,9 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 					},
 				},
 				Optional: true,
-				Computed: true,
 			},
 			"type": schema.StringAttribute{
 				Optional: true,
-				Computed: true,
 				Validators: []validator.String{
 					stringvalidator.OneOf(
 						"",
@@ -2719,7 +2317,6 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 						"spoke",
 					),
 				},
-				Default: stringdefault.StaticString("standalone"),
 			},
 		},
 	}

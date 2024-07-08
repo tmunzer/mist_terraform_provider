@@ -15,7 +15,7 @@ import (
 	"mistapi/models"
 )
 
-func HoursSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d models.Hours) basetypes.ObjectValue {
+func HoursSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d *models.Hours) basetypes.ObjectValue {
 	tflog.Debug(ctx, "HoursSdkToTerraform")
 	r_attr_type := HoursValue{}.AttributeTypes(ctx)
 	r_attr_value := map[string]attr.Value{
@@ -32,10 +32,10 @@ func HoursSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d models.
 	return r
 }
 
-func HoursTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) models.Hours {
+func HoursTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) *models.Hours {
 	tflog.Debug(ctx, "HoursConfigTerraformToSdk")
 	if d.IsNull() || d.IsUnknown() {
-		return models.Hours{}
+		return &models.Hours{}
 	} else {
 		v := NewHoursValueMust(d.AttributeTypes(ctx), d.Attributes())
 		data := models.Hours{
@@ -48,7 +48,7 @@ func HoursTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetyp
 			Sun: v.Sun.ValueStringPointer(),
 		}
 
-		return data
+		return &data
 	}
 }
 

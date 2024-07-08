@@ -9,8 +9,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
@@ -24,17 +22,14 @@ func OrgWxtagResourceSchema(ctx context.Context) schema.Schema {
 	return schema.Schema{
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
-				Optional: true,
 				Computed: true,
 			},
 			"last_ips": schema.ListAttribute{
 				ElementType: types.StringType,
 				Optional:    true,
-				Computed:    true,
 				Validators: []validator.List{
 					listvalidator.UniqueValues(),
 				},
-				Default: listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 			},
 			"mac": schema.StringAttribute{
 				Optional: true,
@@ -42,7 +37,6 @@ func OrgWxtagResourceSchema(ctx context.Context) schema.Schema {
 			},
 			"match": schema.StringAttribute{
 				Optional: true,
-				Computed: true,
 				Validators: []validator.String{
 					stringvalidator.OneOf(
 						"",
@@ -69,7 +63,6 @@ func OrgWxtagResourceSchema(ctx context.Context) schema.Schema {
 			},
 			"op": schema.StringAttribute{
 				Optional: true,
-				Computed: true,
 				Validators: []validator.String{
 					stringvalidator.OneOf(
 						"",
@@ -77,7 +70,6 @@ func OrgWxtagResourceSchema(ctx context.Context) schema.Schema {
 						"not_in",
 					),
 				},
-				Default: stringdefault.StaticString("in"),
 			},
 			"org_id": schema.StringAttribute{
 				Required: true,
@@ -89,40 +81,31 @@ func OrgWxtagResourceSchema(ctx context.Context) schema.Schema {
 			"services": schema.ListAttribute{
 				ElementType: types.StringType,
 				Optional:    true,
-				Computed:    true,
 				Validators: []validator.List{
 					listvalidator.UniqueValues(),
 				},
-				Default: listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 			},
 			"site_id": schema.StringAttribute{
-				Optional: true,
-				Computed: true,
+				Required: true,
 			},
 			"specs": schema.ListNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"port_range": schema.StringAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "matched dst port, \"0\" means any",
 							MarkdownDescription: "matched dst port, \"0\" means any",
-							Default:             stringdefault.StaticString("0"),
 						},
 						"protocol": schema.StringAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "tcp / udp / icmp / gre / any / \":protocol_number\", `protocol_number` is between 1-254",
 							MarkdownDescription: "tcp / udp / icmp / gre / any / \":protocol_number\", `protocol_number` is between 1-254",
-							Default:             stringdefault.StaticString("any"),
 						},
 						"subnets": schema.ListAttribute{
 							ElementType:         types.StringType,
 							Optional:            true,
-							Computed:            true,
 							Description:         "matched dst subnet",
 							MarkdownDescription: "matched dst subnet",
-							Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 						},
 					},
 					CustomType: SpecsType{
@@ -132,7 +115,6 @@ func OrgWxtagResourceSchema(ctx context.Context) schema.Schema {
 					},
 				},
 				Optional:            true,
-				Computed:            true,
 				Description:         "if `type`==`specs`",
 				MarkdownDescription: "if `type`==`specs`",
 			},
@@ -157,14 +139,11 @@ func OrgWxtagResourceSchema(ctx context.Context) schema.Schema {
 			"values": schema.ListAttribute{
 				ElementType:         types.StringType,
 				Optional:            true,
-				Computed:            true,
 				Description:         "if `type`!=`vlan_id` and `type`!=`specs`, list of values to match",
 				MarkdownDescription: "if `type`!=`vlan_id` and `type`!=`specs`, list of values to match",
-				Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 			},
 			"vlan_id": schema.Int64Attribute{
 				Optional:            true,
-				Computed:            true,
 				Description:         "if `type`==`vlan_id`",
 				MarkdownDescription: "if `type`==`vlan_id`",
 			},

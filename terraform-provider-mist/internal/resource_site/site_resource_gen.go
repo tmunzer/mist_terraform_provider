@@ -7,7 +7,6 @@ import (
 	"fmt"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 	"github.com/hashicorp/terraform-plugin-go/tftypes"
@@ -21,31 +20,26 @@ func SiteResourceSchema(ctx context.Context) schema.Schema {
 		Attributes: map[string]schema.Attribute{
 			"address": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				Description:         "full address of the site",
 				MarkdownDescription: "full address of the site",
 			},
 			"alarmtemplate_id": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				Description:         "Alarm Template ID, this takes precedence over the Org-level alarmtemplate_id",
 				MarkdownDescription: "Alarm Template ID, this takes precedence over the Org-level alarmtemplate_id",
 			},
 			"aptemplate_id": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				Description:         "AP Template ID, used by APs",
 				MarkdownDescription: "AP Template ID, used by APs",
 			},
 			"country_code": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				Description:         "country code for the site (for AP config generation), in two-character",
 				MarkdownDescription: "country code for the site (for AP config generation), in two-character",
 			},
 			"gatewaytemplate_id": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				Description:         "Gateway Template ID, used by gateways",
 				MarkdownDescription: "Gateway Template ID, used by gateways",
 			},
@@ -68,20 +62,17 @@ func SiteResourceSchema(ctx context.Context) schema.Schema {
 					},
 				},
 				Optional: true,
-				Computed: true,
 			},
 			"name": schema.StringAttribute{
 				Required: true,
 			},
 			"networktemplate_id": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				Description:         "Network Template ID, this takes precedence over Site Settings",
 				MarkdownDescription: "Network Template ID, this takes precedence over Site Settings",
 			},
 			"notes": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				Description:         "optional, any notes about the site",
 				MarkdownDescription: "optional, any notes about the site",
 			},
@@ -91,33 +82,27 @@ func SiteResourceSchema(ctx context.Context) schema.Schema {
 			},
 			"rftemplate_id": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				Description:         "RF Template ID, this takes precedence over Site Settings",
 				MarkdownDescription: "RF Template ID, this takes precedence over Site Settings",
 			},
 			"secpolicy_id": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				Description:         "SecPolicy ID",
 				MarkdownDescription: "SecPolicy ID",
 			},
 			"sitegroup_ids": schema.ListAttribute{
 				ElementType:         types.StringType,
 				Optional:            true,
-				Computed:            true,
 				Description:         "sitegroups this site belongs to",
 				MarkdownDescription: "sitegroups this site belongs to",
-				Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 			},
 			"sitetemplate_id": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				Description:         "Site Template ID",
 				MarkdownDescription: "Site Template ID",
 			},
 			"timezone": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				Description:         "Timezone the site is at",
 				MarkdownDescription: "Timezone the site is at",
 			},

@@ -19,9 +19,9 @@ func switchMatchingRulesPortMirroringSdkToTerraform(ctx context.Context, diags *
 	map_item_value := make(map[string]attr.Value)
 	map_item_type := PortMirroringValue{}.Type(ctx)
 	for k, d := range m {
-		var input_networks_ingress basetypes.ListValue
-		var input_port_ids_egress basetypes.ListValue
-		var input_port_ids_ingress basetypes.ListValue
+		var input_networks_ingress basetypes.ListValue = mist_transform.ListOfStringSdkToTerraformEmpty(ctx)
+		var input_port_ids_egress basetypes.ListValue = mist_transform.ListOfStringSdkToTerraformEmpty(ctx)
+		var input_port_ids_ingress basetypes.ListValue = mist_transform.ListOfStringSdkToTerraformEmpty(ctx)
 		var output_network basetypes.StringValue
 		var output_port_id basetypes.StringValue
 
@@ -155,13 +155,13 @@ func switchMatchingRulesSdkToTerraform(ctx context.Context, diags *diag.Diagnost
 
 	for _, d := range l {
 
-		var additional_config_cmds basetypes.ListValue
+		var additional_config_cmds basetypes.ListValue = mist_transform.ListOfStringSdkToTerraformEmpty(ctx)
 		var match_role basetypes.StringValue
 		var match_type basetypes.StringValue
 		var match_value basetypes.StringValue
 		var name basetypes.StringValue
-		var port_config basetypes.MapValue
-		var port_mirroring basetypes.MapValue
+		var port_config basetypes.MapValue = types.MapNull(PortConfigValue{}.Type(ctx))
+		var port_mirroring basetypes.MapValue = types.MapNull(PortMirroringValue{}.Type(ctx))
 
 		for key, value := range d.AdditionalProperties {
 			if strings.HasPrefix(key, "match_") {
@@ -219,7 +219,7 @@ func switchMatchingSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, 
 	tflog.Debug(ctx, "switchMatchingSdkToTerraform")
 
 	var enable basetypes.BoolValue
-	var rules basetypes.ListValue
+	var rules basetypes.ListValue = types.ListNull(RulesValue{}.Type(ctx))
 
 	if d != nil && d.Enable != nil {
 		enable = types.BoolValue(*d.Enable)

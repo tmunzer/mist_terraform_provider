@@ -11,23 +11,47 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 )
 
-func radiusServersAcctSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []models.RadiusAcctServer) basetypes.ListValue {
+func radiusServersAcctSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, l []models.RadiusAcctServer) basetypes.ListValue {
 	var acct_value_list []attr.Value
-	acct_value_list_type := AcctServersValue{}.AttributeTypes(ctx)
-	for _, srv_data := range d {
-		rc_srv_state_value := map[string]attr.Value{
-			"host":            types.StringValue(srv_data.GetHost()),
-			"port":            types.Int64Value(int64(srv_data.GetPort())),
-			"secret":          types.StringValue(srv_data.GetSecret()),
-			"keywrap_enabled": types.BoolValue(srv_data.GetKeywrapEnabled()),
-			"keywrap_format":  types.StringValue(string(srv_data.GetKeywrapFormat())),
-			"keywrap_kek":     types.StringValue(srv_data.GetKeywrapKek()),
-			"keywrap_mack":    types.StringValue(srv_data.GetKeywrapMack()),
+	for _, d := range l {
+		var host basetypes.StringValue = types.StringValue(string(d.Host))
+		var keywrap_enabled basetypes.BoolValue
+		var keywrap_format basetypes.StringValue
+		var keywrap_kek basetypes.StringValue
+		var keywrap_mack basetypes.StringValue
+		var port basetypes.Int64Value
+		var secret basetypes.StringValue = types.StringValue(d.Secret)
+
+		if d.KeywrapEnabled != nil {
+			keywrap_enabled = types.BoolValue(*d.KeywrapEnabled)
 		}
-		acct_server, e := NewAcctServersValue(acct_value_list_type, rc_srv_state_value)
+		if d.KeywrapFormat != nil {
+			keywrap_format = types.StringValue(string(*d.KeywrapFormat))
+		}
+		if d.KeywrapKek != nil {
+			keywrap_kek = types.StringValue(*d.KeywrapKek)
+		}
+		if d.KeywrapMack != nil {
+			keywrap_mack = types.StringValue(*d.KeywrapMack)
+		}
+		if d.Port != nil {
+			port = types.Int64Value(int64(*d.Port))
+		}
+
+		data_map_attr_type := AcctServersValue{}.AttributeTypes(ctx)
+		data_map_value := map[string]attr.Value{
+			"host":            host,
+			"keywrap_enabled": keywrap_enabled,
+			"keywrap_format":  keywrap_format,
+			"keywrap_kek":     keywrap_kek,
+			"keywrap_mack":    keywrap_mack,
+			"port":            port,
+			"secret":          secret,
+		}
+		data, e := NewAcctServersValue(data_map_attr_type, data_map_value)
 		diags.Append(e...)
 
-		acct_value_list = append(acct_value_list, acct_server)
+		acct_value_list = append(acct_value_list, data)
 	}
 
 	acct_state_list_type := AcctServersValue{}.Type(ctx)
@@ -37,23 +61,47 @@ func radiusServersAcctSdkToTerraform(ctx context.Context, diags *diag.Diagnostic
 	return acct_state_list
 }
 
-func radiusServersAuthSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []models.RadiusAuthServer) basetypes.ListValue {
+func radiusServersAuthSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, l []models.RadiusAuthServer) basetypes.ListValue {
 	var auth_value_list []attr.Value
-	auth_value_list_type := AuthServersValue{}.AttributeTypes(ctx)
-	for _, srv_data := range d {
-		rc_srv_state_value := map[string]attr.Value{
-			"host":            types.StringValue(srv_data.GetHost()),
-			"port":            types.Int64Value(int64(srv_data.GetPort())),
-			"secret":          types.StringValue(srv_data.GetSecret()),
-			"keywrap_enabled": types.BoolValue(srv_data.GetKeywrapEnabled()),
-			"keywrap_format":  types.StringValue(string(srv_data.GetKeywrapFormat())),
-			"keywrap_kek":     types.StringValue(srv_data.GetKeywrapKek()),
-			"keywrap_mack":    types.StringValue(srv_data.GetKeywrapMack()),
+	for _, d := range l {
+		var host basetypes.StringValue = types.StringValue(d.Host)
+		var keywrap_enabled basetypes.BoolValue
+		var keywrap_format basetypes.StringValue
+		var keywrap_kek basetypes.StringValue
+		var keywrap_mack basetypes.StringValue
+		var port basetypes.Int64Value
+		var secret basetypes.StringValue = types.StringValue(d.Secret)
+
+		if d.KeywrapEnabled != nil {
+			keywrap_enabled = types.BoolValue(*d.KeywrapEnabled)
 		}
-		auth_server, e := NewAuthServersValue(auth_value_list_type, rc_srv_state_value)
+		if d.KeywrapFormat != nil {
+			keywrap_format = types.StringValue(string(*d.KeywrapFormat))
+		}
+		if d.KeywrapKek != nil {
+			keywrap_kek = types.StringValue(*d.KeywrapKek)
+		}
+		if d.KeywrapMack != nil {
+			keywrap_mack = types.StringValue(*d.KeywrapMack)
+		}
+		if d.Port != nil {
+			port = types.Int64Value(int64(*d.Port))
+		}
+
+		data_map_attr_type := AuthServersValue{}.AttributeTypes(ctx)
+		data_map_value := map[string]attr.Value{
+			"host":            host,
+			"keywrap_enabled": keywrap_enabled,
+			"keywrap_format":  keywrap_format,
+			"keywrap_kek":     keywrap_kek,
+			"keywrap_mack":    keywrap_mack,
+			"port":            port,
+			"secret":          secret,
+		}
+		data, e := NewAuthServersValue(data_map_attr_type, data_map_value)
 		diags.Append(e...)
 
-		auth_value_list = append(auth_value_list, auth_server)
+		auth_value_list = append(auth_value_list, data)
 	}
 
 	auth_state_list_type := AuthServersValue{}.Type(ctx)

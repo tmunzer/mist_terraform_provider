@@ -10,27 +10,27 @@ import (
 	"mistapi/models"
 )
 
-func widsAuthFailureTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, o basetypes.ObjectValue) models.SiteWidsRepeatedAuthFailures {
+func widsAuthFailureTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, o basetypes.ObjectValue) *models.SiteWidsRepeatedAuthFailures {
 	tflog.Debug(ctx, "widsAuthFailureTerraformToSdk")
-	data := models.NewSiteWidsRepeatedAuthFailures()
+	data := models.SiteWidsRepeatedAuthFailures{}
 	if o.IsNull() || o.IsUnknown() {
-		return *data
+		return &data
 	} else {
 		d := NewRepeatedAuthFailuresValueMust(o.AttributeTypes(ctx), o.Attributes())
-		data.SetDuration(int32(d.Duration.ValueInt64()))
-		data.SetThreshold(int32(d.Threshold.ValueInt64()))
-		return *data
+		data.Duration = models.ToPointer(int(d.Duration.ValueInt64()))
+		data.Threshold = models.ToPointer(int(d.Threshold.ValueInt64()))
+		return &data
 	}
 }
 
-func widsTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d WidsValue) models.SiteWids {
+func widsTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d WidsValue) *models.SiteWids {
 	tflog.Debug(ctx, "widsTerraformToSdk")
-	data := models.NewSiteWids()
+	data := models.SiteWids{}
 
 	if !d.IsNull() {
 		repeated_auth_failures := widsAuthFailureTerraformToSdk(ctx, diags, d.RepeatedAuthFailures)
-		data.SetRepeatedAuthFailures(repeated_auth_failures)
+		data.RepeatedAuthFailures = repeated_auth_failures
 	}
 
-	return *data
+	return &data
 }

@@ -11,19 +11,39 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 )
 
-func coaServersSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, data []models.CoaServer) basetypes.ListValue {
+func coaServersSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, l []models.CoaServer) basetypes.ListValue {
 
 	var data_list = []CoaServersValue{}
-	for _, v := range data {
-		data_map_value := map[string]attr.Value{
-			"disable_event_timestamp_check": types.BoolValue(v.GetDisableEventTimestampCheck()),
-			"enabled":                       types.BoolValue(v.GetEnabled()),
-			"ip":                            types.StringValue(v.GetIp()),
-			"port":                          types.Int64Value(int64(v.GetPort())),
-			"secret":                        types.StringValue(v.GetSecret()),
+	for _, d := range l {
+		var disable_event_timestamp_check basetypes.BoolValue
+		var enabled basetypes.BoolValue
+		var ip basetypes.StringValue
+		var port basetypes.Int64Value
+		var secret basetypes.StringValue
+
+		if d.DisableEventTimestampCheck != nil {
+			disable_event_timestamp_check = types.BoolValue(*d.DisableEventTimestampCheck)
 		}
-		data, e := NewCoaServersValue(CoaServersValue{}.AttributeTypes(ctx), data_map_value)
+		if d.Enabled != nil {
+			enabled = types.BoolValue(*d.Enabled)
+		}
+		ip = types.StringValue(string(d.Ip))
+		if d.Port != nil {
+			port = types.Int64Value(int64(*d.Port))
+		}
+		secret = types.StringValue(string(d.Secret))
+
+		data_map_attr_type := CoaServersValue{}.AttributeTypes(ctx)
+		data_map_value := map[string]attr.Value{
+			"disable_event_timestamp_check": disable_event_timestamp_check,
+			"enabled":                       enabled,
+			"ip":                            ip,
+			"port":                          port,
+			"secret":                        secret,
+		}
+		data, e := NewCoaServersValue(data_map_attr_type, data_map_value)
 		diags.Append(e...)
+
 		data_list = append(data_list, data)
 	}
 	r, e := types.ListValueFrom(ctx, CoaServersValue{}.Type(ctx), data_list)

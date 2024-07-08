@@ -7,58 +7,55 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
-	hours "terraform-provider-mist/internal/commons/hours"
-
 	"mistapi/models"
+
+	mist_hours "terraform-provider-mist/internal/commons/hours"
 )
 
-func engagementDwellTagNamesTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) models.SiteEngagementDwellTagNames {
+func engagementDwellTagNamesTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) *models.SiteEngagementDwellTagNames {
 	tflog.Debug(ctx, "engagementDwellTagNamesTerraformToSdk")
-	data := models.NewSiteEngagementDwellTagNames()
+	data := models.SiteEngagementDwellTagNames{}
 	if d.IsNull() || d.IsUnknown() {
-		return *data
+		return &data
 	} else {
 		v := NewDwellTagNamesValueMust(d.AttributeTypes(ctx), d.Attributes())
-		data.SetBounce(v.Bounce.ValueString())
-		data.SetEngaged(v.Engaged.ValueString())
-		data.SetPasserby(v.Passerby.ValueString())
-		data.SetStationed(v.Stationed.ValueString())
+		data.Bounce = v.Bounce.ValueStringPointer()
+		data.Engaged = v.Engaged.ValueStringPointer()
+		data.Passerby = v.Passerby.ValueStringPointer()
+		data.Stationed = v.Stationed.ValueStringPointer()
 
-		return *data
+		return &data
 	}
 }
 
-func engagementDwellTagsTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) models.SiteEngagementDwellTags {
+func engagementDwellTagsTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) *models.SiteEngagementDwellTags {
 	tflog.Debug(ctx, "engagementDwellTagsTerraformToSdk")
-	data := models.NewSiteEngagementDwellTags()
+	data := models.SiteEngagementDwellTags{}
 	if d.IsNull() || d.IsUnknown() {
-		return *data
+		return &data
 	} else {
 		v := NewDwellTagsValueMust(d.AttributeTypes(ctx), d.Attributes())
-		data.SetBounce(v.Bounce.ValueString())
-		data.SetEngaged(v.Engaged.ValueString())
-		data.SetPasserby(v.Passerby.ValueString())
-		data.SetStationed(v.Stationed.ValueString())
+		data.Bounce = models.NewOptional(v.Bounce.ValueStringPointer())
+		data.Engaged = models.NewOptional(v.Engaged.ValueStringPointer())
+		data.Passerby = models.NewOptional(v.Passerby.ValueStringPointer())
+		data.Stationed = models.NewOptional(v.Stationed.ValueStringPointer())
 
-		return *data
+		return &data
 	}
 }
 
 func engagementTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d EngagementValue) *models.SiteEngagement {
 	tflog.Debug(ctx, "engagementTerraformToSdk")
-	data := models.NewSiteEngagement()
+	data := models.SiteEngagement{}
 
-	dwell_tag_name := engagementDwellTagNamesTerraformToSdk(ctx, diags, d.DwellTagNames)
-	data.SetDwellTagNames(dwell_tag_name)
+	data.DwellTagNames = engagementDwellTagNamesTerraformToSdk(ctx, diags, d.DwellTagNames)
 
-	dwell_tags := engagementDwellTagsTerraformToSdk(ctx, diags, d.DwellTags)
-	data.SetDwellTags(dwell_tags)
+	data.DwellTags = engagementDwellTagsTerraformToSdk(ctx, diags, d.DwellTags)
 
-	hours := hours.HoursTerraformToSdk(ctx, diags, d.Hours)
-	data.SetHours(hours)
+	data.Hours = mist_hours.HoursTerraformToSdk(ctx, diags, d.Hours)
 
-	data.SetMaxDwell(int32(d.MaxDwell.ValueInt64()))
-	data.SetMinDwell(int32(d.MinDwell.ValueInt64()))
+	data.MaxDwell = models.ToPointer(int(d.MaxDwell.ValueInt64()))
+	data.MinDwell = models.ToPointer(int(d.MinDwell.ValueInt64()))
 
-	return data
+	return &data
 }

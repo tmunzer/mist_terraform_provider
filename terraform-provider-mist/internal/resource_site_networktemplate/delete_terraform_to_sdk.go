@@ -8,7 +8,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 )
 
-func DeleteTerraformToSdk(ctx context.Context) (models.SiteSetting, diag.Diagnostics) {
+func DeleteTerraformToSdk(ctx context.Context) (*models.SiteSetting, diag.Diagnostics) {
 	var diags diag.Diagnostics
 	//var data models.SiteSetting
 	data := models.SiteSetting{}
@@ -19,5 +19,5 @@ func DeleteTerraformToSdk(ctx context.Context) (models.SiteSetting, diag.Diagnos
 		unset["-"+k] = ""
 	}
 	data.AdditionalProperties = unset
-	return data, diags
+	return &data, diags
 }

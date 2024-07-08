@@ -12,27 +12,45 @@ import (
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 
-func widsAuthFailureSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d models.SiteWidsRepeatedAuthFailures) basetypes.ObjectValue {
+func widsAuthFailureSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d *models.SiteWidsRepeatedAuthFailures) basetypes.ObjectValue {
 	tflog.Debug(ctx, "widsAuthFailureSdkToTerraform")
 
-	r_attr_type := RepeatedAuthFailuresValue{}.AttributeTypes(ctx)
-	r_attr_value := map[string]attr.Value{
-		"duration":  types.Int64Value(int64(d.GetDuration())),
-		"threshold": types.Int64Value(int64(d.GetThreshold())),
+	var duration basetypes.Int64Value
+	var threshold basetypes.Int64Value
+
+	if d.Duration != nil {
+		duration = types.Int64Value(int64(*d.Duration))
 	}
-	r, e := basetypes.NewObjectValue(r_attr_type, r_attr_value)
+	if d.Threshold != nil {
+		threshold = types.Int64Value(int64(*d.Threshold))
+	}
+
+	data_map_attr_type := RepeatedAuthFailuresValue{}.AttributeTypes(ctx)
+	data_map_value := map[string]attr.Value{
+		"duration":  duration,
+		"threshold": threshold,
+	}
+	data, e := basetypes.NewObjectValue(data_map_attr_type, data_map_value)
 	diags.Append(e...)
-	return r
+
+	return data
 }
 
-func widsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d models.SiteWids) WidsValue {
+func widsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d *models.SiteWids) WidsValue {
 	tflog.Debug(ctx, "widsSdkToTerraform")
 
-	r_attr_type := WidsValue{}.AttributeTypes(ctx)
-	r_attr_value := map[string]attr.Value{
-		"repeated_auth_failures": widsAuthFailureSdkToTerraform(ctx, diags, d.GetRepeatedAuthFailures()),
+	var repeated_auth_failures basetypes.ObjectValue
+
+	if d != nil && d.RepeatedAuthFailures != nil {
+		repeated_auth_failures = widsAuthFailureSdkToTerraform(ctx, diags, d.RepeatedAuthFailures)
 	}
-	r, e := NewWidsValue(r_attr_type, r_attr_value)
+
+	data_map_attr_type := WidsValue{}.AttributeTypes(ctx)
+	data_map_value := map[string]attr.Value{
+		"repeated_auth_failures": repeated_auth_failures,
+	}
+	data, e := NewWidsValue(data_map_attr_type, data_map_value)
 	diags.Append(e...)
-	return r
+
+	return data
 }

@@ -11,16 +11,16 @@ import (
 	"mistapi/models"
 )
 
-func rogueTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d RogueValue) models.SiteRogue {
+func rogueTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d RogueValue) *models.SiteRogue {
 	tflog.Debug(ctx, "rogueTerraformToSdk")
-	data := models.NewSiteRogue()
+	data := models.SiteRogue{}
 
-	data.SetEnabled(d.Enabled.ValueBool())
-	data.SetHoneypotEnabled(d.HoneypotEnabled.ValueBool())
-	data.SetMinDuration(int32(d.MinDuration.ValueInt64()))
-	data.SetMinRssi(int32(d.MinRssi.ValueInt64()))
-	data.SetWhitelistedBssids(mist_transform.ListOfStringTerraformToSdk(ctx, d.WhitelistedBssids))
-	data.SetWhitelistedSsids(mist_transform.ListOfStringTerraformToSdk(ctx, d.WhitelistedSsids))
+	data.Enabled = d.Enabled.ValueBoolPointer()
+	data.HoneypotEnabled = d.HoneypotEnabled.ValueBoolPointer()
+	data.MinDuration = models.ToPointer(int(d.MinDuration.ValueInt64()))
+	data.MinRssi = models.ToPointer(int(d.MinRssi.ValueInt64()))
+	data.WhitelistedBssids = mist_transform.ListOfStringTerraformToSdk(ctx, d.WhitelistedBssids)
+	data.WhitelistedSsids = mist_transform.ListOfStringTerraformToSdk(ctx, d.WhitelistedSsids)
 
-	return *data
+	return &data
 }

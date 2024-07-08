@@ -10,7 +10,7 @@ import (
 	"mistapi/models"
 )
 
-func SdkToTerraform(ctx context.Context, data models.NetworkTemplate) (SiteNetworktemplateModel, diag.Diagnostics) {
+func SdkToTerraform(ctx context.Context, data *models.SiteSetting) (SiteNetworktemplateModel, diag.Diagnostics) {
 	var state SiteNetworktemplateModel
 	var diags diag.Diagnostics
 
@@ -40,15 +40,17 @@ func SdkToTerraform(ctx context.Context, data models.NetworkTemplate) (SiteNetwo
 
 	state.PortUsages = portUsagesSdkToTerraform(ctx, &diags, data.PortUsages)
 
-	state.RemoteSyslog = remoteSyslogSdkToTerraform(ctx, &diags, *data.RemoteSyslog)
+	state.RemoteSyslog = remoteSyslogSdkToTerraform(ctx, &diags, data.RemoteSyslog)
 
 	state.RadiusConfig = radiusConfigSdkToTerraform(ctx, &diags, data.RadiusConfig)
+
+	state.SnmpConfig = snmpConfigSdkToTerraform(ctx, &diags, data.SnmpConfig)
 
 	state.SwitchMatching = switchMatchingSdkToTerraform(ctx, &diags, data.SwitchMatching)
 
 	state.SwitchMgmt = switchMgmtSdkToTerraform(ctx, &diags, data.SwitchMgmt)
 
-	state.VrfConfig = vrfConfigSdkToTerraform(ctx, &diags, data.VrfConfig)
+	//state.VrfConfig = vrfConfigSdkToTerraform(ctx, &diags, data.VrfConfig)
 
 	state.VrfInstances = vrfInstancesSdkToTerraform(ctx, &diags, data.VrfInstances)
 	return state, diags

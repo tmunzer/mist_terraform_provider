@@ -700,31 +700,31 @@ resource "mist_org_rftemplate" "test_rf" {
   org_id       = mist_org.terraform_test.id
 }
 
-# # resource "mist_site_setting" "test" {
-# #   site_id = mist_site.terraform_site.id
-# #   analytic = {
-# #     enabled = true
-# #   }
-# #   ap_updown_threshold     = 5
-# #   device_updown_threshold = 5
-# #   auto_upgrade = {
-# #     enabled     = true
-# #     day_of_week = "tue"
-# #     time_of_day = "02:00"
-# #     version     = "beta"
-# #   }
-# #   config_auto_revert = true
+resource "mist_site_setting" "test" {
+  site_id = mist_site.terraform_site.id
+  # analytic = {
+  #   enabled = true
+  # }
+  ap_updown_threshold     = 5
+  device_updown_threshold = 5
+  auto_upgrade = {
+    enabled     = true
+    day_of_week = "tue"
+    time_of_day = "02:00"
+    version     = "beta"
+  }
+  config_auto_revert = true
 
-# #   persist_config_on_device = true
-# #   proxy = {
-# #     url = "http://myproxy:3128"
-# #   }
-# #   rogue = {
-# #     enabled          = true
-# #     honeypot_enabled = true
-# #     min_duration     = 5
-# #   }
-# # }
+  persist_config_on_device = true
+  proxy = {
+    url = "http://myproxy:3128"
+  }
+  rogue = {
+    enabled          = true
+    honeypot_enabled = true
+    min_duration     = 5
+  }
+}
 
 resource "mist_org_wlantemplate" "test101" {
   org_id = mist_org.terraform_test.id

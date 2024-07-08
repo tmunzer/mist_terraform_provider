@@ -9,12 +9,12 @@ import (
 	"mistapi/models"
 )
 
-func skyAtpTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d SkyatpValue) models.SiteSettingSkyatp {
+func skyAtpTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d SkyatpValue) *models.SiteSettingSkyatp {
 	tflog.Debug(ctx, "skyAtpTerraformToSdk")
-	data := models.NewSiteSettingSkyatp()
+	data := models.SiteSettingSkyatp{}
 
-	data.SetEnabled(d.Enabled.ValueBool())
-	data.SetSendIpMacMapping(d.SendIpMacMapping.ValueBool())
+	data.Enabled = d.Enabled.ValueBoolPointer()
+	data.SendIpMacMapping = d.SendIpMacMapping.ValueBoolPointer()
 
-	return *data
+	return &data
 }

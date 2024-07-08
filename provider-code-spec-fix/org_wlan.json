@@ -1,0 +1,58 @@
+{
+    "name": "org_wlan",
+    "get": [
+        "schema",
+        "attributes"
+    ],
+    "next": [
+        {
+            "name": "ssid",
+            "get": [
+                "string"
+            ],
+            "computed_optional_required": "required"
+        },
+        {
+            "name": "org_id",
+            "get": [
+                "string"
+            ],
+            "computed_optional_required": "required"
+        },
+        {
+            "name": "id",
+            "get": [
+                "string"
+            ],
+            "computed_optional_required": "computed"
+        },
+        {
+            "name": "msp_id",
+            "get": [
+                "string"
+            ],
+            "computed_optional_required": "computed"
+        },
+        {
+            "name": "portal_api_secret",
+            "get": [
+                "string"
+            ],
+            "computed_optional_required": "computed"
+        },
+        {
+            "name": "portal_image",
+            "get": [
+                "string"
+            ],
+            "computed_optional_required": "computed"
+        },
+        {
+            "name": "portal_sso_url",
+            "get": [
+                "string"
+            ],
+            "computed_optional_required": "computed"
+        }
+    ]
+}

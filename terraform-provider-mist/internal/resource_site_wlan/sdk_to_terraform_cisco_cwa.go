@@ -9,19 +9,38 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 )
 
-func ciscoCwaSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, data models.WlanCiscoCwa) CiscoCwaValue {
+func ciscoCwaSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d *models.WlanCiscoCwa) CiscoCwaValue {
+	var allowed_hostnames basetypes.ListValue = mist_transform.ListOfIntSdkToTerraformEmpty(ctx)
+	var allowed_subnets basetypes.ListValue = mist_transform.ListOfIntSdkToTerraformEmpty(ctx)
+	var blocked_subnets basetypes.ListValue = mist_transform.ListOfIntSdkToTerraformEmpty(ctx)
+	var enabled basetypes.BoolValue
 
-	plan_attr := map[string]attr.Value{
-		"allowed_hostnames": mist_transform.ListOfStringSdkToTerraform(ctx, data.GetAllowedHostnames()),
-		"allowed_subnets":   mist_transform.ListOfStringSdkToTerraform(ctx, data.GetAllowedSubnets()),
-		"blocked_subnets":   mist_transform.ListOfStringSdkToTerraform(ctx, data.GetBlockedSubnets()),
-		"enabled":           types.BoolValue(data.GetEnabled()),
+	if d != nil && d.AllowedHostnames != nil {
+		allowed_hostnames = mist_transform.ListOfStringSdkToTerraform(ctx, d.AllowedHostnames)
 	}
-	r, e := NewCiscoCwaValue(CiscoCwaValue{}.AttributeTypes(ctx), plan_attr)
+	if d != nil && d.AllowedSubnets != nil {
+		allowed_subnets = mist_transform.ListOfStringSdkToTerraform(ctx, d.AllowedSubnets)
+	}
+	if d != nil && d.BlockedSubnets != nil {
+		blocked_subnets = mist_transform.ListOfStringSdkToTerraform(ctx, d.BlockedSubnets)
+	}
+	if d != nil && d.Enabled != nil {
+		enabled = types.BoolValue(*d.Enabled)
+	}
+
+	data_map_attr_type := CiscoCwaValue{}.AttributeTypes(ctx)
+	data_map_value := map[string]attr.Value{
+		"allowed_hostnames": allowed_hostnames,
+		"allowed_subnets":   allowed_subnets,
+		"blocked_subnets":   blocked_subnets,
+		"enabled":           enabled,
+	}
+	data, e := NewCiscoCwaValue(data_map_attr_type, data_map_value)
 	diags.Append(e...)
 
-	return r
+	return data
 
 }

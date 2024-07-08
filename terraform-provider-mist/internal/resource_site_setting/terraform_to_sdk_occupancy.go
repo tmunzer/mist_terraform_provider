@@ -9,15 +9,18 @@ import (
 	"mistapi/models"
 )
 
-func occupancyTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d OccupancyValue) models.SiteOccupancyAnalytics {
+func occupancyTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d OccupancyValue) *models.SiteOccupancyAnalytics {
 	tflog.Debug(ctx, "occupancyTerraformToSdk")
-	data := models.NewSiteOccupancyAnalytics()
+	data := models.SiteOccupancyAnalytics{}
 
-	data.SetAssetsEnabled(d.AssetsEnabled.ValueBool())
-	data.SetClientsEnabled(d.ClientsEnabled.ValueBool())
-	data.SetMinDuration(int32(d.MinDuration.ValueInt64()))
-	data.SetSdkclientsEnabled(d.SdkclientsEnabled.ValueBool())
-	data.SetUnconnectedClientsEnabled(d.UnconnectedClientsEnabled.ValueBool())
+	if !d.IsNull() && !d.IsUnknown() {
+		data.AssetsEnabled = d.AssetsEnabled.ValueBoolPointer()
+		data.ClientsEnabled = d.ClientsEnabled.ValueBoolPointer()
+		data.MinDuration = models.ToPointer(int(d.MinDuration.ValueInt64()))
+		data.SdkclientsEnabled = d.SdkclientsEnabled.ValueBoolPointer()
+		data.UnconnectedClientsEnabled = d.UnconnectedClientsEnabled.ValueBoolPointer()
 
-	return *data
+	}
+
+	return &data
 }

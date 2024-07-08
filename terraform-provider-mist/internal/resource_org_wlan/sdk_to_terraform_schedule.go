@@ -20,7 +20,7 @@ func scheduleSkToTerraform(ctx context.Context, diags *diag.Diagnostics, d *mode
 		enabled = types.BoolValue(*d.Enabled)
 	}
 	if d != nil && d.Hours != nil {
-		hours = mist_hours.HoursSdkToTerraform(ctx, diags, *d.Hours)
+		hours = mist_hours.HoursSdkToTerraform(ctx, diags, d.Hours)
 	}
 
 	data_map_attr_type := ScheduleValue{}.AttributeTypes(ctx)

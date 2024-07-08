@@ -14,6 +14,8 @@ import (
 func TerraformToSdk(ctx context.Context, plan *OrgWlanModel) (*models.Wlan, diag.Diagnostics) {
 	var diags diag.Diagnostics
 	data := models.Wlan{}
+	unset := make(map[string]interface{})
+
 	data.Ssid = plan.Ssid.ValueString()
 	if len(plan.SiteId.ValueString()) > 0 {
 		data.SiteId = models.ToPointer(uuid.MustParse(plan.SiteId.ValueString()))
@@ -22,7 +24,6 @@ func TerraformToSdk(ctx context.Context, plan *OrgWlanModel) (*models.Wlan, diag
 		data.TemplateId = models.NewOptional(models.ToPointer(uuid.MustParse(plan.TemplateId.ValueString())))
 	}
 
-	unset := make(map[string]interface{})
 	if plan.AcctImmediateUpdate.IsNull() || plan.AcctImmediateUpdate.IsUnknown() {
 		unset["-acct_immediate_update"] = ""
 	} else {

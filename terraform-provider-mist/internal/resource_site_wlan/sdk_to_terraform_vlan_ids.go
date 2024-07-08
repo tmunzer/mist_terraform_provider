@@ -9,11 +9,11 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 )
 
-func vlanIdsSkToTerraform(ctx context.Context, diags *diag.Diagnostics, data []*int32) basetypes.ListValue {
+func vlanIdsSkToTerraform(ctx context.Context, diags *diag.Diagnostics, data []int) basetypes.ListValue {
 
 	var list []attr.Value
 	for _, v := range data {
-		list = append(list, types.Int64Value(int64(*v)))
+		list = append(list, types.Int64Value(int64(v)))
 	}
 	r, e := types.ListValue(basetypes.Int64Type{}, list)
 	diags.Append(e...)

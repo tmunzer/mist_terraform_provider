@@ -8,25 +8,25 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 )
 
-func appLimitTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, plan AppLimitValue) models.WlanAppLimit {
+func appLimitTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, plan AppLimitValue) *models.WlanAppLimit {
 
-	data := *models.NewWlanAppLimit()
+	data := models.WlanAppLimit{}
 
-	app_limit := make(map[string]int32)
+	app_limit := make(map[string]int)
 	for k, v := range plan.Apps.Elements() {
 		var v_interface interface{} = v
-		app_limit[k] = int32(v_interface.(int64))
+		app_limit[k] = int(v_interface.(int64))
 	}
 
-	wxtags_limit := make(map[string]int32)
+	wxtags_limit := make(map[string]int)
 	for k, v := range plan.WxtagIds.Elements() {
 		var v_interface interface{} = v
-		wxtags_limit[k] = int32(v_interface.(int64))
+		wxtags_limit[k] = int(v_interface.(int64))
 	}
 
-	data.SetApps(app_limit)
-	data.SetEnabled(plan.Enabled.ValueBool())
-	data.SetWxtagIds(wxtags_limit)
+	data.Apps = app_limit
+	data.Enabled = plan.Enabled.ValueBoolPointer()
+	data.WxtagIds = wxtags_limit
 
-	return data
+	return &data
 }

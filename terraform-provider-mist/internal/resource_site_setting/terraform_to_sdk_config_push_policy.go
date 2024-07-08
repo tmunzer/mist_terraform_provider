@@ -12,32 +12,32 @@ import (
 	"mistapi/models"
 )
 
-func pushPolicyPushWindowConfigTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) *models.SiteSettingConfigPushPolicyPushWindow {
+func pushPolicyPushWindowConfigTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) *models.WlanSchedule {
 	tflog.Debug(ctx, "pushPolicyPushWindowConfigTerraformToSdk")
-	data := models.NewSiteSettingConfigPushPolicyPushWindow()
+	data := models.WlanSchedule{}
 
-	if d.IsNull() || d.IsUnknown() {
-		return data
-	} else {
+	if !d.IsNull() && !d.IsUnknown() {
 		vd, e := NewPushWindowValue(PushWindowValue{}.AttributeTypes(ctx), d.Attributes())
 		diags.Append(e...)
-		data.SetEnabled(vd.Enabled.ValueBool())
+		data.Enabled = vd.Enabled.ValueBoolPointer()
 
 		hours := hours.HoursTerraformToSdk(ctx, diags, vd.Hours)
-		data.SetHours(hours)
+		data.Hours = hours
 
-		return data
 	}
+	return &data
 }
 
 func pushPolicyConfigTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d ConfigPushPolicyValue) *models.SiteSettingConfigPushPolicy {
 	tflog.Debug(ctx, "pushPolicyConfigTerraformToSdk")
-	data := models.NewSiteSettingConfigPushPolicy()
+	data := models.SiteSettingConfigPushPolicy{}
 
-	data.SetNoPush(d.NoPush.ValueBool())
+	if !d.IsNull() && !d.IsUnknown() {
+		data.NoPush = d.NoPush.ValueBoolPointer()
+	}
 
 	push_window := pushPolicyPushWindowConfigTerraformToSdk(ctx, diags, d.PushWindow)
-	data.SetPushWindow(*push_window)
+	data.PushWindow = push_window
 
-	return data
+	return &data
 }

@@ -10,66 +10,66 @@ import (
 	"mistapi/models"
 )
 
-func simpleAlertArpTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, o basetypes.ObjectValue) models.SimpleAlertArpFailure {
+func simpleAlertArpTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, o basetypes.ObjectValue) *models.SimpleAlertArpFailure {
 	tflog.Debug(ctx, "simpleAlertArpTerraformToSdk")
-	data := models.NewSimpleAlertArpFailure()
+	data := models.SimpleAlertArpFailure{}
 	if o.IsNull() || o.IsUnknown() {
-		return *data
+		return &data
 	} else {
 		d := NewArpFailureValueMust(o.AttributeTypes(ctx), o.Attributes())
 
-		data.SetClientCount(int32(d.ClientCount.ValueInt64()))
-		data.SetDuration(int32(d.Duration.ValueInt64()))
-		data.SetIncidentCount(int32(d.IncidentCount.ValueInt64()))
+		data.ClientCount = models.ToPointer(int(d.ClientCount.ValueInt64()))
+		data.Duration = models.ToPointer(int(d.Duration.ValueInt64()))
+		data.IncidentCount = models.ToPointer(int(d.IncidentCount.ValueInt64()))
 
-		return *data
+		return &data
 	}
 }
 
-func simpleAlertDhcpTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, o basetypes.ObjectValue) models.SimpleAlertDhcpFailure {
+func simpleAlertDhcpTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, o basetypes.ObjectValue) *models.SimpleAlertDhcpFailure {
 	tflog.Debug(ctx, "simpleAlertDhcpTerraformToSdk")
-	data := models.NewSimpleAlertDhcpFailure()
+	data := models.SimpleAlertDhcpFailure{}
 	if o.IsNull() || o.IsUnknown() {
-		return *data
+		return &data
 	} else {
 		d := NewDhcpFailureValueMust(o.AttributeTypes(ctx), o.Attributes())
 
-		data.SetClientCount(int32(d.ClientCount.ValueInt64()))
-		data.SetDuration(int32(d.Duration.ValueInt64()))
-		data.SetIncidentCount(int32(d.IncidentCount.ValueInt64()))
+		data.ClientCount = models.ToPointer(int(d.ClientCount.ValueInt64()))
+		data.Duration = models.ToPointer(int(d.Duration.ValueInt64()))
+		data.IncidentCount = models.ToPointer(int(d.IncidentCount.ValueInt64()))
 
-		return *data
+		return &data
 	}
 }
 
-func simpleAlertDnsTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, o basetypes.ObjectValue) models.SimpleAlertDnsFailure {
+func simpleAlertDnsTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, o basetypes.ObjectValue) *models.SimpleAlertDnsFailure {
 	tflog.Debug(ctx, "simpleAlertDnsTerraformToSdk")
-	data := models.NewSimpleAlertDnsFailure()
+	data := models.SimpleAlertDnsFailure{}
 	if o.IsNull() || o.IsUnknown() {
-		return *data
+		return &data
 	} else {
 		d := NewDnsFailureValueMust(o.AttributeTypes(ctx), o.Attributes())
 
-		data.SetClientCount(int32(d.ClientCount.ValueInt64()))
-		data.SetDuration(int32(d.Duration.ValueInt64()))
-		data.SetIncidentCount(int32(d.IncidentCount.ValueInt64()))
+		data.ClientCount = models.ToPointer(int(d.ClientCount.ValueInt64()))
+		data.Duration = models.ToPointer(int(d.Duration.ValueInt64()))
+		data.IncidentCount = models.ToPointer(int(d.IncidentCount.ValueInt64()))
 
-		return *data
+		return &data
 	}
 }
 
-func simpleAlertTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d SimpleAlertValue) models.SimpleAlert {
+func simpleAlertTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d SimpleAlertValue) *models.SimpleAlert {
 	tflog.Debug(ctx, "simpleAlertTerraformToSdk")
-	data := models.NewSimpleAlert()
+	data := models.SimpleAlert{}
 
 	arp := simpleAlertArpTerraformToSdk(ctx, diags, d.ArpFailure)
-	data.SetArpFailure(arp)
+	data.ArpFailure = arp
 
 	dhcp := simpleAlertDhcpTerraformToSdk(ctx, diags, d.DhcpFailure)
-	data.SetDhcpFailure(dhcp)
+	data.DhcpFailure = dhcp
 
 	dns := simpleAlertDnsTerraformToSdk(ctx, diags, d.DnsFailure)
-	data.SetDnsFailure(dns)
+	data.DnsFailure = dns
 
-	return *data
+	return &data
 }

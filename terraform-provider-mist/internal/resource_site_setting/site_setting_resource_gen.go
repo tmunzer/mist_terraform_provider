@@ -9,10 +9,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
@@ -25,27 +21,8 @@ import (
 func SiteSettingResourceSchema(ctx context.Context) schema.Schema {
 	return schema.Schema{
 		Attributes: map[string]schema.Attribute{
-			"analytic": schema.SingleNestedAttribute{
-				Attributes: map[string]schema.Attribute{
-					"enabled": schema.BoolAttribute{
-						Optional:            true,
-						Computed:            true,
-						Description:         "enable Advanced Analytic feature (using SUB-ANA license)",
-						MarkdownDescription: "enable Advanced Analytic feature (using SUB-ANA license)",
-						Default:             booldefault.StaticBool(false),
-					},
-				},
-				CustomType: AnalyticType{
-					ObjectType: types.ObjectType{
-						AttrTypes: AnalyticValue{}.AttributeTypes(ctx),
-					},
-				},
-				Optional: true,
-				Computed: true,
-			},
 			"ap_updown_threshold": schema.Int64Attribute{
 				Optional:            true,
-				Computed:            true,
 				Description:         "enable threshold-based device down delivery for AP devices only. When configured it takes effect for AP devices and `device_updown_threshold` is ignored.",
 				MarkdownDescription: "enable threshold-based device down delivery for AP devices only. When configured it takes effect for AP devices and `device_updown_threshold` is ignored.",
 			},
@@ -54,13 +31,11 @@ func SiteSettingResourceSchema(ctx context.Context) schema.Schema {
 					"custom_versions": schema.MapAttribute{
 						ElementType:         types.StringType,
 						Optional:            true,
-						Computed:            true,
 						Description:         "custom versions for different models. Property key is the model name (e.g. \"AP41\")",
 						MarkdownDescription: "custom versions for different models. Property key is the model name (e.g. \"AP41\")",
 					},
 					"day_of_week": schema.StringAttribute{
 						Optional: true,
-						Computed: true,
 						Validators: []validator.String{
 							stringvalidator.OneOf(
 								"",
@@ -77,20 +52,16 @@ func SiteSettingResourceSchema(ctx context.Context) schema.Schema {
 					},
 					"enabled": schema.BoolAttribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "whether auto upgrade should happen (Note that Mist may auto-upgrade if the version is not supported)",
 						MarkdownDescription: "whether auto upgrade should happen (Note that Mist may auto-upgrade if the version is not supported)",
-						Default:             booldefault.StaticBool(false),
 					},
 					"time_of_day": schema.StringAttribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "any / HH:MM (24-hour format), upgrade will happen within up to 1-hour from this time",
 						MarkdownDescription: "any / HH:MM (24-hour format), upgrade will happen within up to 1-hour from this time",
 					},
 					"version": schema.StringAttribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "desired version",
 						MarkdownDescription: "desired version",
 						Validators: []validator.String{
@@ -101,7 +72,6 @@ func SiteSettingResourceSchema(ctx context.Context) schema.Schema {
 								"custom",
 							),
 						},
-						Default: stringdefault.StaticString("stable"),
 					},
 				},
 				CustomType: AutoUpgradeType{
@@ -110,7 +80,6 @@ func SiteSettingResourceSchema(ctx context.Context) schema.Schema {
 					},
 				},
 				Optional:            true,
-				Computed:            true,
 				Description:         "Auto Upgrade Settings",
 				MarkdownDescription: "Auto Upgrade Settings",
 			},
@@ -122,21 +91,16 @@ func SiteSettingResourceSchema(ctx context.Context) schema.Schema {
 				Attributes: map[string]schema.Attribute{
 					"beacon_enabled": schema.BoolAttribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "whether Mist beacons is enabled",
 						MarkdownDescription: "whether Mist beacons is enabled",
-						Default:             booldefault.StaticBool(false),
 					},
 					"beacon_rate": schema.Int64Attribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "required if `beacon_rate_mode`==`custom`, 1-10, in number-beacons-per-second",
 						MarkdownDescription: "required if `beacon_rate_mode`==`custom`, 1-10, in number-beacons-per-second",
-						Default:             int64default.StaticInt64(0),
 					},
 					"beacon_rate_mode": schema.StringAttribute{
 						Optional: true,
-						Computed: true,
 						Validators: []validator.String{
 							stringvalidator.OneOf(
 								"",
@@ -144,188 +108,140 @@ func SiteSettingResourceSchema(ctx context.Context) schema.Schema {
 								"custom",
 							),
 						},
-						Default: stringdefault.StaticString("default"),
 					},
 					"beam_disabled": schema.ListAttribute{
 						ElementType:         types.Int64Type,
 						Optional:            true,
-						Computed:            true,
 						Description:         "list of AP BLE location beam numbers (1-8) which should be disabled at the AP and not transmit location information (where beam 1 is oriented at the top the AP, growing counter-clock-wise, with 9 being the omni BLE beam)",
 						MarkdownDescription: "list of AP BLE location beam numbers (1-8) which should be disabled at the AP and not transmit location information (where beam 1 is oriented at the top the AP, growing counter-clock-wise, with 9 being the omni BLE beam)",
-						Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 					},
 					"custom_ble_packet_enabled": schema.BoolAttribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "can be enabled if `beacon_enabled`==`true`, whether to send custom packet",
 						MarkdownDescription: "can be enabled if `beacon_enabled`==`true`, whether to send custom packet",
-						Default:             booldefault.StaticBool(false),
 					},
 					"custom_ble_packet_frame": schema.StringAttribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "The custom frame to be sent out in this beacon. The frame must be a hexstring",
 						MarkdownDescription: "The custom frame to be sent out in this beacon. The frame must be a hexstring",
-						Default:             stringdefault.StaticString(""),
 					},
 					"custom_ble_packet_freq_msec": schema.Int64Attribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "Frequency (msec) of data emitted by custom ble beacon",
 						MarkdownDescription: "Frequency (msec) of data emitted by custom ble beacon",
 						Validators: []validator.Int64{
 							int64validator.AtLeast(0),
 						},
-						Default: int64default.StaticInt64(0),
 					},
 					"eddystone_uid_adv_power": schema.Int64Attribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "advertised TX Power, -100 to 20 (dBm), omit this attribute to use default",
 						MarkdownDescription: "advertised TX Power, -100 to 20 (dBm), omit this attribute to use default",
 						Validators: []validator.Int64{
 							int64validator.Between(-100, 20),
 						},
-						Default: int64default.StaticInt64(0),
 					},
 					"eddystone_uid_beams": schema.StringAttribute{
 						Optional: true,
-						Computed: true,
-						Default:  stringdefault.StaticString(""),
 					},
 					"eddystone_uid_enabled": schema.BoolAttribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "only if `beacon_enabled`==`false`, Whether Eddystone-UID beacon is enabled",
 						MarkdownDescription: "only if `beacon_enabled`==`false`, Whether Eddystone-UID beacon is enabled",
-						Default:             booldefault.StaticBool(false),
 					},
 					"eddystone_uid_freq_msec": schema.Int64Attribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "Frequency (msec) of data emmit by Eddystone-UID beacon",
 						MarkdownDescription: "Frequency (msec) of data emmit by Eddystone-UID beacon",
-						Default:             int64default.StaticInt64(0),
 					},
 					"eddystone_uid_instance": schema.StringAttribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "Eddystone-UID instance for the device",
 						MarkdownDescription: "Eddystone-UID instance for the device",
-						Default:             stringdefault.StaticString(""),
 					},
 					"eddystone_uid_namespace": schema.StringAttribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "Eddystone-UID namespace",
 						MarkdownDescription: "Eddystone-UID namespace",
-						Default:             stringdefault.StaticString(""),
 					},
 					"eddystone_url_adv_power": schema.Int64Attribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "advertised TX Power, -100 to 20 (dBm), omit this attribute to use default",
 						MarkdownDescription: "advertised TX Power, -100 to 20 (dBm), omit this attribute to use default",
 						Validators: []validator.Int64{
 							int64validator.Between(-100, 20),
 						},
-						Default: int64default.StaticInt64(0),
 					},
 					"eddystone_url_beams": schema.StringAttribute{
 						Optional: true,
-						Computed: true,
-						Default:  stringdefault.StaticString(""),
 					},
 					"eddystone_url_enabled": schema.BoolAttribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "only if `beacon_enabled`==`false`, Whether Eddystone-URL beacon is enabled",
 						MarkdownDescription: "only if `beacon_enabled`==`false`, Whether Eddystone-URL beacon is enabled",
-						Default:             booldefault.StaticBool(false),
 					},
 					"eddystone_url_freq_msec": schema.Int64Attribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "Frequency (msec) of data emit by Eddystone-UID beacon",
 						MarkdownDescription: "Frequency (msec) of data emit by Eddystone-UID beacon",
-						Default:             int64default.StaticInt64(0),
 					},
 					"eddystone_url_url": schema.StringAttribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "URL pointed by Eddystone-URL beacon",
 						MarkdownDescription: "URL pointed by Eddystone-URL beacon",
-						Default:             stringdefault.StaticString(""),
 					},
 					"ibeacon_adv_power": schema.Int64Attribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "advertised TX Power, -100 to 20 (dBm), omit this attribute to use default",
 						MarkdownDescription: "advertised TX Power, -100 to 20 (dBm), omit this attribute to use default",
 						Validators: []validator.Int64{
 							int64validator.Between(-100, 20),
 						},
-						Default: int64default.StaticInt64(0),
 					},
 					"ibeacon_beams": schema.StringAttribute{
 						Optional: true,
-						Computed: true,
-						Default:  stringdefault.StaticString(""),
 					},
 					"ibeacon_enabled": schema.BoolAttribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "can be enabled if `beacon_enabled`==`true`, whether to send iBeacon",
 						MarkdownDescription: "can be enabled if `beacon_enabled`==`true`, whether to send iBeacon",
-						Default:             booldefault.StaticBool(false),
 					},
 					"ibeacon_freq_msec": schema.Int64Attribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "Frequency (msec) of data emmit for iBeacon",
 						MarkdownDescription: "Frequency (msec) of data emmit for iBeacon",
-						Default:             int64default.StaticInt64(0),
 					},
 					"ibeacon_major": schema.Int64Attribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "Major number for iBeacon",
 						MarkdownDescription: "Major number for iBeacon",
 						Validators: []validator.Int64{
 							int64validator.Between(1, 65535),
 						},
-						Default: int64default.StaticInt64(0),
 					},
 					"ibeacon_minor": schema.Int64Attribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "Minor number for iBeacon",
 						MarkdownDescription: "Minor number for iBeacon",
 						Validators: []validator.Int64{
 							int64validator.Between(1, 65535),
 						},
-						Default: int64default.StaticInt64(0),
 					},
 					"ibeacon_uuid": schema.StringAttribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "optional, if not specified, the same UUID as the beacon will be used",
 						MarkdownDescription: "optional, if not specified, the same UUID as the beacon will be used",
-						Default:             stringdefault.StaticString(""),
 					},
 					"power": schema.Int64Attribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "required if `power_mode`==`custom`",
 						MarkdownDescription: "required if `power_mode`==`custom`",
 						Validators: []validator.Int64{
 							int64validator.Between(1, 10),
 						},
-						Default: int64default.StaticInt64(9),
 					},
 					"power_mode": schema.StringAttribute{
 						Optional: true,
-						Computed: true,
 						Validators: []validator.String{
 							stringvalidator.OneOf(
 								"",
@@ -333,7 +249,6 @@ func SiteSettingResourceSchema(ctx context.Context) schema.Schema {
 								"custom",
 							),
 						},
-						Default: stringdefault.StaticString("default"),
 					},
 				},
 				CustomType: BleConfigType{
@@ -342,69 +257,48 @@ func SiteSettingResourceSchema(ctx context.Context) schema.Schema {
 					},
 				},
 				Optional:            true,
-				Computed:            true,
 				Description:         "BLE AP settings",
 				MarkdownDescription: "BLE AP settings",
 			},
 			"config_auto_revert": schema.BoolAttribute{
 				Optional:            true,
-				Computed:            true,
 				Description:         "whether to enable ap auto config revert",
 				MarkdownDescription: "whether to enable ap auto config revert",
-				Default:             booldefault.StaticBool(false),
 			},
 			"config_push_policy": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
 					"no_push": schema.BoolAttribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "stop any new config from being pushed to the device",
 						MarkdownDescription: "stop any new config from being pushed to the device",
-						Default:             booldefault.StaticBool(false),
 					},
 					"push_window": schema.SingleNestedAttribute{
 						Attributes: map[string]schema.Attribute{
 							"enabled": schema.BoolAttribute{
 								Optional: true,
-								Computed: true,
-								Default:  booldefault.StaticBool(false),
 							},
 							"hours": schema.SingleNestedAttribute{
 								Attributes: map[string]schema.Attribute{
 									"fri": schema.StringAttribute{
 										Optional: true,
-										Computed: true,
-										Default:  stringdefault.StaticString(""),
 									},
 									"mon": schema.StringAttribute{
 										Optional: true,
-										Computed: true,
-										Default:  stringdefault.StaticString(""),
 									},
 									"sat": schema.StringAttribute{
 										Optional: true,
-										Computed: true,
-										Default:  stringdefault.StaticString(""),
 									},
 									"sun": schema.StringAttribute{
 										Optional: true,
-										Computed: true,
-										Default:  stringdefault.StaticString(""),
 									},
 									"thu": schema.StringAttribute{
 										Optional: true,
-										Computed: true,
-										Default:  stringdefault.StaticString(""),
 									},
 									"tue": schema.StringAttribute{
 										Optional: true,
-										Computed: true,
-										Default:  stringdefault.StaticString(""),
 									},
 									"wed": schema.StringAttribute{
 										Optional: true,
-										Computed: true,
-										Default:  stringdefault.StaticString(""),
 									},
 								},
 								CustomType: HoursType{
@@ -413,7 +307,6 @@ func SiteSettingResourceSchema(ctx context.Context) schema.Schema {
 									},
 								},
 								Optional:            true,
-								Computed:            true,
 								Description:         "hours of operation filter, the available days (mon, tue, wed, thu, fri, sat, sun). \n\n**Note**: If the dow is not defined then it’s treated as 00:00-23:59.",
 								MarkdownDescription: "hours of operation filter, the available days (mon, tue, wed, thu, fri, sat, sun). \n\n**Note**: If the dow is not defined then it’s treated as 00:00-23:59.",
 							},
@@ -424,7 +317,6 @@ func SiteSettingResourceSchema(ctx context.Context) schema.Schema {
 							},
 						},
 						Optional:            true,
-						Computed:            true,
 						Description:         "if enabled, new config will only be pushed to device within the specified time window",
 						MarkdownDescription: "if enabled, new config will only be pushed to device within the specified time window",
 					},
@@ -435,7 +327,6 @@ func SiteSettingResourceSchema(ctx context.Context) schema.Schema {
 					},
 				},
 				Optional:            true,
-				Computed:            true,
 				Description:         "mist also uses some heuristic rules to prevent destructive configs from being pushed",
 				MarkdownDescription: "mist also uses some heuristic rules to prevent destructive configs from being pushed",
 			},
@@ -443,8 +334,6 @@ func SiteSettingResourceSchema(ctx context.Context) schema.Schema {
 				Attributes: map[string]schema.Attribute{
 					"enabled": schema.BoolAttribute{
 						Optional: true,
-						Computed: true,
-						Default:  booldefault.StaticBool(true),
 					},
 					"monitors": schema.ListNestedAttribute{
 						NestedObject: schema.NestedAttributeObject{
@@ -455,8 +344,6 @@ func SiteSettingResourceSchema(ctx context.Context) schema.Schema {
 								},
 								"vlan_id": schema.Int64Attribute{
 									Optional: true,
-									Computed: true,
-									Default:  int64default.StaticInt64(1),
 								},
 							},
 							CustomType: MonitorsType{
@@ -466,7 +353,6 @@ func SiteSettingResourceSchema(ctx context.Context) schema.Schema {
 							},
 						},
 						Optional: true,
-						Computed: true,
 					},
 				},
 				CustomType: CriticalUrlMonitoringType{
@@ -475,27 +361,22 @@ func SiteSettingResourceSchema(ctx context.Context) schema.Schema {
 					},
 				},
 				Optional:            true,
-				Computed:            true,
 				Description:         "you can define some URLs that's critical to site operaitons the latency will be captured and considered for site health",
 				MarkdownDescription: "you can define some URLs that's critical to site operaitons the latency will be captured and considered for site health",
 			},
 			"device_updown_threshold": schema.Int64Attribute{
 				Optional:            true,
-				Computed:            true,
 				Description:         "sending AP_DISCONNECTED event in device-updowns only if AP_CONNECTED is not seen within the threshold, in minutes",
 				MarkdownDescription: "sending AP_DISCONNECTED event in device-updowns only if AP_CONNECTED is not seen within the threshold, in minutes",
 				Validators: []validator.Int64{
 					int64validator.Between(0, 30),
 				},
-				Default: int64default.StaticInt64(0),
 			},
 			"disabled_system_defined_port_usages": schema.ListAttribute{
 				ElementType:         types.StringType,
 				Optional:            true,
-				Computed:            true,
 				Description:         "if some system-default port usages are not desired - namely, ap / iot / uplink",
 				MarkdownDescription: "if some system-default port usages are not desired - namely, ap / iot / uplink",
-				Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 			},
 			"engagement": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
@@ -524,7 +405,6 @@ func SiteSettingResourceSchema(ctx context.Context) schema.Schema {
 							},
 						},
 						Optional: true,
-						Computed: true,
 					},
 					"dwell_tags": schema.SingleNestedAttribute{
 						Attributes: map[string]schema.Attribute{
@@ -551,7 +431,6 @@ func SiteSettingResourceSchema(ctx context.Context) schema.Schema {
 							},
 						},
 						Optional:            true,
-						Computed:            true,
 						Description:         "add tags to visits within the duration (in seconds), available tags (passerby, bounce, engaged, stationed)",
 						MarkdownDescription: "add tags to visits within the duration (in seconds), available tags (passerby, bounce, engaged, stationed)",
 					},
@@ -559,38 +438,24 @@ func SiteSettingResourceSchema(ctx context.Context) schema.Schema {
 						Attributes: map[string]schema.Attribute{
 							"fri": schema.StringAttribute{
 								Optional: true,
-								Computed: true,
-								Default:  stringdefault.StaticString(""),
 							},
 							"mon": schema.StringAttribute{
 								Optional: true,
-								Computed: true,
-								Default:  stringdefault.StaticString(""),
 							},
 							"sat": schema.StringAttribute{
 								Optional: true,
-								Computed: true,
-								Default:  stringdefault.StaticString(""),
 							},
 							"sun": schema.StringAttribute{
 								Optional: true,
-								Computed: true,
-								Default:  stringdefault.StaticString(""),
 							},
 							"thu": schema.StringAttribute{
 								Optional: true,
-								Computed: true,
-								Default:  stringdefault.StaticString(""),
 							},
 							"tue": schema.StringAttribute{
 								Optional: true,
-								Computed: true,
-								Default:  stringdefault.StaticString(""),
 							},
 							"wed": schema.StringAttribute{
 								Optional: true,
-								Computed: true,
-								Default:  stringdefault.StaticString(""),
 							},
 						},
 						CustomType: HoursType{
@@ -599,23 +464,19 @@ func SiteSettingResourceSchema(ctx context.Context) schema.Schema {
 							},
 						},
 						Optional:            true,
-						Computed:            true,
 						Description:         "hours of operation filter, the available days (mon, tue, wed, thu, fri, sat, sun). \n\n**Note**: If the dow is not defined then it’s treated as 00:00-23:59.",
 						MarkdownDescription: "hours of operation filter, the available days (mon, tue, wed, thu, fri, sat, sun). \n\n**Note**: If the dow is not defined then it’s treated as 00:00-23:59.",
 					},
 					"max_dwell": schema.Int64Attribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "max time, default is 43200(12h), max is 68400 (18h)",
 						MarkdownDescription: "max time, default is 43200(12h), max is 68400 (18h)",
 						Validators: []validator.Int64{
 							int64validator.Between(1, 68400),
 						},
-						Default: int64default.StaticInt64(43200),
 					},
 					"min_dwell": schema.Int64Attribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "min time",
 						MarkdownDescription: "min time",
 						Validators: []validator.Int64{
@@ -629,13 +490,11 @@ func SiteSettingResourceSchema(ctx context.Context) schema.Schema {
 					},
 				},
 				Optional:            true,
-				Computed:            true,
 				Description:         "**Note**: if hours does not exist, it’s treated as everyday of the week, 00:00-23:59. Currently we don’t allow multiple ranges for the same day\n\n**Note**: default values for `dwell_tags`: passerby (1,300) bounce (301, 14400) engaged (14401, 28800) stationed (28801, 42000)\n\n**Note**: default values for `dwell_tag_names`: passerby = “Passerby”, bounce = “Visitor”, engaged = “Associates”, stationed = “Assets”",
 				MarkdownDescription: "**Note**: if hours does not exist, it’s treated as everyday of the week, 00:00-23:59. Currently we don’t allow multiple ranges for the same day\n\n**Note**: default values for `dwell_tags`: passerby (1,300) bounce (301, 14400) engaged (14401, 28800) stationed (28801, 42000)\n\n**Note**: default values for `dwell_tag_names`: passerby = “Passerby”, bounce = “Visitor”, engaged = “Associates”, stationed = “Assets”",
 			},
 			"gateway_updown_threshold": schema.Int64Attribute{
 				Optional:            true,
-				Computed:            true,
 				Description:         "enable threshold-based device down delivery for Gateway devices only. When configured it takes effect for GW devices and `device_updown_threshold` is ignored.",
 				MarkdownDescription: "enable threshold-based device down delivery for Gateway devices only. When configured it takes effect for GW devices and `device_updown_threshold` is ignored.",
 			},
@@ -643,13 +502,9 @@ func SiteSettingResourceSchema(ctx context.Context) schema.Schema {
 				Attributes: map[string]schema.Attribute{
 					"brightness": schema.Int64Attribute{
 						Optional: true,
-						Computed: true,
-						Default:  int64default.StaticInt64(255),
 					},
 					"enabled": schema.BoolAttribute{
 						Optional: true,
-						Computed: true,
-						Default:  booldefault.StaticBool(true),
 					},
 				},
 				CustomType: LedType{
@@ -658,7 +513,6 @@ func SiteSettingResourceSchema(ctx context.Context) schema.Schema {
 					},
 				},
 				Optional:            true,
-				Computed:            true,
 				Description:         "LED AP settings",
 				MarkdownDescription: "LED AP settings",
 			},
@@ -666,38 +520,28 @@ func SiteSettingResourceSchema(ctx context.Context) schema.Schema {
 				Attributes: map[string]schema.Attribute{
 					"assets_enabled": schema.BoolAttribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "indicate whether named BLE assets should be included in the zone occupancy calculation",
 						MarkdownDescription: "indicate whether named BLE assets should be included in the zone occupancy calculation",
-						Default:             booldefault.StaticBool(false),
 					},
 					"clients_enabled": schema.BoolAttribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "indicate whether connected WiFi clients should be included in the zone occupancy calculation",
 						MarkdownDescription: "indicate whether connected WiFi clients should be included in the zone occupancy calculation",
-						Default:             booldefault.StaticBool(true),
 					},
 					"min_duration": schema.Int64Attribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "minimum duration",
 						MarkdownDescription: "minimum duration",
-						Default:             int64default.StaticInt64(3000),
 					},
 					"sdkclients_enabled": schema.BoolAttribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "indicate whether SDK clients should be included in the zone occupancy calculation",
 						MarkdownDescription: "indicate whether SDK clients should be included in the zone occupancy calculation",
-						Default:             booldefault.StaticBool(false),
 					},
 					"unconnected_clients_enabled": schema.BoolAttribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "indicate whether unconnected WiFi clients should be included in the zone occupancy calculation",
 						MarkdownDescription: "indicate whether unconnected WiFi clients should be included in the zone occupancy calculation",
-						Default:             booldefault.StaticBool(false),
 					},
 				},
 				CustomType: OccupancyType{
@@ -706,7 +550,6 @@ func SiteSettingResourceSchema(ctx context.Context) schema.Schema {
 					},
 				},
 				Optional:            true,
-				Computed:            true,
 				Description:         "Occupancy Analytics settings",
 				MarkdownDescription: "Occupancy Analytics settings",
 			},
@@ -716,10 +559,49 @@ func SiteSettingResourceSchema(ctx context.Context) schema.Schema {
 			},
 			"persist_config_on_device": schema.BoolAttribute{
 				Optional:            true,
-				Computed:            true,
 				Description:         "whether to store the config on AP",
 				MarkdownDescription: "whether to store the config on AP",
-				Default:             booldefault.StaticBool(false),
+			},
+			"port_mirroring": schema.MapNestedAttribute{
+				NestedObject: schema.NestedAttributeObject{
+					Attributes: map[string]schema.Attribute{
+						"input_networks_ingress": schema.ListAttribute{
+							ElementType:         types.StringType,
+							Optional:            true,
+							Description:         "at least one of the `ingress_port_ids`, `egress_port_ids` or `ingress_networks ` should be specified",
+							MarkdownDescription: "at least one of the `ingress_port_ids`, `egress_port_ids` or `ingress_networks ` should be specified",
+						},
+						"input_port_ids_egress": schema.ListAttribute{
+							ElementType:         types.StringType,
+							Optional:            true,
+							Description:         "at least one of the `ingress_port_ids`, `egress_port_ids` or `ingress_networks ` should be specified",
+							MarkdownDescription: "at least one of the `ingress_port_ids`, `egress_port_ids` or `ingress_networks ` should be specified",
+						},
+						"input_port_ids_ingress": schema.ListAttribute{
+							ElementType:         types.StringType,
+							Optional:            true,
+							Description:         "at least one of the `ingress_port_ids`, `egress_port_ids` or `ingress_networks ` should be specified",
+							MarkdownDescription: "at least one of the `ingress_port_ids`, `egress_port_ids` or `ingress_networks ` should be specified",
+						},
+						"output_network": schema.StringAttribute{
+							Optional: true,
+							Computed: true,
+						},
+						"output_port_id": schema.StringAttribute{
+							Optional:            true,
+							Description:         "exaclty on of the `output_port_id` or `output_network` should be provided",
+							MarkdownDescription: "exaclty on of the `output_port_id` or `output_network` should be provided",
+						},
+					},
+					CustomType: PortMirroringType{
+						ObjectType: types.ObjectType{
+							AttrTypes: PortMirroringValue{}.AttributeTypes(ctx),
+						},
+					},
+				},
+				Optional:            true,
+				Description:         "Property key is the port mirroring instance name\nport_mirroring can be added under device/site settings. It takes interface and ports as input for ingress, interface as input for egress and can take interface and port as output.",
+				MarkdownDescription: "Property key is the port mirroring instance name\nport_mirroring can be added under device/site settings. It takes interface and ports as input for ingress, interface as input for egress and can take interface and port as output.",
 			},
 			"proxy": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
@@ -734,68 +616,53 @@ func SiteSettingResourceSchema(ctx context.Context) schema.Schema {
 					},
 				},
 				Optional:            true,
-				Computed:            true,
 				Description:         "Proxy Configuration to talk to Mist",
 				MarkdownDescription: "Proxy Configuration to talk to Mist",
 			},
 			"report_gatt": schema.BoolAttribute{
 				Optional:            true,
-				Computed:            true,
 				Description:         "whether AP should periodically connect to BLE devices and report GATT device info (device name, manufacturer name, serial number, battery %, temperature, humidity)",
 				MarkdownDescription: "whether AP should periodically connect to BLE devices and report GATT device info (device name, manufacturer name, serial number, battery %, temperature, humidity)",
-				Default:             booldefault.StaticBool(false),
 			},
 			"rogue": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
 					"enabled": schema.BoolAttribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "whether or not rogue detection is enabled",
 						MarkdownDescription: "whether or not rogue detection is enabled",
-						Default:             booldefault.StaticBool(false),
 					},
 					"honeypot_enabled": schema.BoolAttribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "whether or not honeypot detection is enabled",
 						MarkdownDescription: "whether or not honeypot detection is enabled",
-						Default:             booldefault.StaticBool(false),
 					},
 					"min_duration": schema.Int64Attribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "minimum duration for a bssid to be considered rogue",
 						MarkdownDescription: "minimum duration for a bssid to be considered rogue",
 						Validators: []validator.Int64{
 							int64validator.AtMost(59),
 						},
-						Default: int64default.StaticInt64(10),
 					},
 					"min_rssi": schema.Int64Attribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "minimum RSSI for an AP to be considered rogue (ignoring APs that’s far away)",
 						MarkdownDescription: "minimum RSSI for an AP to be considered rogue (ignoring APs that’s far away)",
 						Validators: []validator.Int64{
 							int64validator.AtLeast(-85),
 						},
-						Default: int64default.StaticInt64(-80),
 					},
 					"whitelisted_bssids": schema.ListAttribute{
 						ElementType:         types.StringType,
 						Optional:            true,
-						Computed:            true,
 						Description:         "list of BSSIDs to whitelist. Ex: \"cc-:8e-:6f-:d4-:bf-:16\", \"cc-8e-6f-d4-bf-16\", \"cc-73-*\", \"cc:82:*\"",
 						MarkdownDescription: "list of BSSIDs to whitelist. Ex: \"cc-:8e-:6f-:d4-:bf-:16\", \"cc-8e-6f-d4-bf-16\", \"cc-73-*\", \"cc:82:*\"",
-						Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 					},
 					"whitelisted_ssids": schema.ListAttribute{
 						ElementType:         types.StringType,
 						Optional:            true,
-						Computed:            true,
 						Description:         "list of SSIDs to whitelist",
 						MarkdownDescription: "list of SSIDs to whitelist",
-						Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 					},
 				},
 				CustomType: RogueType{
@@ -804,7 +671,6 @@ func SiteSettingResourceSchema(ctx context.Context) schema.Schema {
 					},
 				},
 				Optional:            true,
-				Computed:            true,
 				Description:         "Rogue site settings",
 				MarkdownDescription: "Rogue site settings",
 			},
@@ -814,23 +680,17 @@ func SiteSettingResourceSchema(ctx context.Context) schema.Schema {
 						Attributes: map[string]schema.Attribute{
 							"client_count": schema.Int64Attribute{
 								Optional: true,
-								Computed: true,
-								Default:  int64default.StaticInt64(10),
 							},
 							"duration": schema.Int64Attribute{
 								Optional:            true,
-								Computed:            true,
 								Description:         "failing within minutes",
 								MarkdownDescription: "failing within minutes",
 								Validators: []validator.Int64{
 									int64validator.Between(5, 60),
 								},
-								Default: int64default.StaticInt64(20),
 							},
 							"incident_count": schema.Int64Attribute{
 								Optional: true,
-								Computed: true,
-								Default:  int64default.StaticInt64(10),
 							},
 						},
 						CustomType: ArpFailureType{
@@ -839,29 +699,22 @@ func SiteSettingResourceSchema(ctx context.Context) schema.Schema {
 							},
 						},
 						Optional: true,
-						Computed: true,
 					},
 					"dhcp_failure": schema.SingleNestedAttribute{
 						Attributes: map[string]schema.Attribute{
 							"client_count": schema.Int64Attribute{
 								Optional: true,
-								Computed: true,
-								Default:  int64default.StaticInt64(10),
 							},
 							"duration": schema.Int64Attribute{
 								Optional:            true,
-								Computed:            true,
 								Description:         "failing within minutes",
 								MarkdownDescription: "failing within minutes",
 								Validators: []validator.Int64{
 									int64validator.Between(5, 60),
 								},
-								Default: int64default.StaticInt64(10),
 							},
 							"incident_count": schema.Int64Attribute{
 								Optional: true,
-								Computed: true,
-								Default:  int64default.StaticInt64(20),
 							},
 						},
 						CustomType: DhcpFailureType{
@@ -870,29 +723,22 @@ func SiteSettingResourceSchema(ctx context.Context) schema.Schema {
 							},
 						},
 						Optional: true,
-						Computed: true,
 					},
 					"dns_failure": schema.SingleNestedAttribute{
 						Attributes: map[string]schema.Attribute{
 							"client_count": schema.Int64Attribute{
 								Optional: true,
-								Computed: true,
-								Default:  int64default.StaticInt64(20),
 							},
 							"duration": schema.Int64Attribute{
 								Optional:            true,
-								Computed:            true,
 								Description:         "failing within minutes",
 								MarkdownDescription: "failing within minutes",
 								Validators: []validator.Int64{
 									int64validator.Between(5, 60),
 								},
-								Default: int64default.StaticInt64(10),
 							},
 							"incident_count": schema.Int64Attribute{
 								Optional: true,
-								Computed: true,
-								Default:  int64default.StaticInt64(30),
 							},
 						},
 						CustomType: DnsFailureType{
@@ -901,7 +747,6 @@ func SiteSettingResourceSchema(ctx context.Context) schema.Schema {
 							},
 						},
 						Optional: true,
-						Computed: true,
 					},
 				},
 				CustomType: SimpleAlertType{
@@ -910,7 +755,6 @@ func SiteSettingResourceSchema(ctx context.Context) schema.Schema {
 					},
 				},
 				Optional:            true,
-				Computed:            true,
 				Description:         "Set of heuristic rules will be enabled when marvis subscription is not available.\nIt triggers when, in a Z minute window, there are more than Y distinct client encountring over X failures",
 				MarkdownDescription: "Set of heuristic rules will be enabled when marvis subscription is not available.\nIt triggers when, in a Z minute window, there are more than Y distinct client encountring over X failures",
 			},
@@ -925,10 +769,8 @@ func SiteSettingResourceSchema(ctx context.Context) schema.Schema {
 					},
 					"send_ip_mac_mapping": schema.BoolAttribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "whether to send IP-MAC mapping to SkyATP",
 						MarkdownDescription: "whether to send IP-MAC mapping to SkyATP",
-						Default:             booldefault.StaticBool(false),
 					},
 				},
 				CustomType: SkyatpType{
@@ -937,39 +779,18 @@ func SiteSettingResourceSchema(ctx context.Context) schema.Schema {
 					},
 				},
 				Optional: true,
-				Computed: true,
-			},
-			"srx_app": schema.SingleNestedAttribute{
-				Attributes: map[string]schema.Attribute{
-					"enabled": schema.BoolAttribute{
-						Optional: true,
-						Computed: true,
-						Default:  booldefault.StaticBool(false),
-					},
-				},
-				CustomType: SrxAppType{
-					ObjectType: types.ObjectType{
-						AttrTypes: SrxAppValue{}.AttributeTypes(ctx),
-					},
-				},
-				Optional: true,
-				Computed: true,
 			},
 			"ssh_keys": schema.ListAttribute{
 				ElementType:         types.StringType,
 				Optional:            true,
-				Computed:            true,
 				Description:         "when limit_ssh_access = true in Org Setting, list of SSH public keys provided by Mist Support to install onto APs (see Org:Setting)",
 				MarkdownDescription: "when limit_ssh_access = true in Org Setting, list of SSH public keys provided by Mist Support to install onto APs (see Org:Setting)",
-				Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 			},
 			"ssr": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
 					"conductor_hosts": schema.ListAttribute{
 						ElementType: types.StringType,
 						Optional:    true,
-						Computed:    true,
-						Default:     listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 					},
 					"disable_stats": schema.BoolAttribute{
 						Optional: true,
@@ -982,11 +803,9 @@ func SiteSettingResourceSchema(ctx context.Context) schema.Schema {
 					},
 				},
 				Optional: true,
-				Computed: true,
 			},
 			"switch_updown_threshold": schema.Int64Attribute{
 				Optional:            true,
-				Computed:            true,
 				Description:         "enable threshold-based device down delivery for Switch devices only. When configured it takes effect for SW devices and `device_updown_threshold` is ignored.",
 				MarkdownDescription: "enable threshold-based device down delivery for Switch devices only. When configured it takes effect for SW devices and `device_updown_threshold` is ignored.",
 			},
@@ -994,8 +813,6 @@ func SiteSettingResourceSchema(ctx context.Context) schema.Schema {
 				Attributes: map[string]schema.Attribute{
 					"disabled": schema.BoolAttribute{
 						Optional: true,
-						Computed: true,
-						Default:  booldefault.StaticBool(false),
 					},
 					"vlans": schema.ListNestedAttribute{
 						NestedObject: schema.NestedAttributeObject{
@@ -1003,21 +820,15 @@ func SiteSettingResourceSchema(ctx context.Context) schema.Schema {
 								"custom_test_urls": schema.ListAttribute{
 									ElementType: types.StringType,
 									Optional:    true,
-									Computed:    true,
-									Default:     listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 								},
 								"disabled": schema.BoolAttribute{
 									Optional:            true,
-									Computed:            true,
 									Description:         "for some vlans where we don't want this to run",
 									MarkdownDescription: "for some vlans where we don't want this to run",
-									Default:             booldefault.StaticBool(false),
 								},
 								"vlan_ids": schema.ListAttribute{
 									ElementType: types.Int64Type,
 									Optional:    true,
-									Computed:    true,
-									Default:     listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 								},
 							},
 							CustomType: VlansType{
@@ -1027,7 +838,6 @@ func SiteSettingResourceSchema(ctx context.Context) schema.Schema {
 							},
 						},
 						Optional: true,
-						Computed: true,
 					},
 				},
 				CustomType: SyntheticTestType{
@@ -1036,47 +846,23 @@ func SiteSettingResourceSchema(ctx context.Context) schema.Schema {
 					},
 				},
 				Optional: true,
-				Computed: true,
 			},
 			"track_anonymous_devices": schema.BoolAttribute{
 				Optional:            true,
-				Computed:            true,
 				Description:         "whether to track anonymous BLE assets (requires ‘track_asset’ enabled)",
 				MarkdownDescription: "whether to track anonymous BLE assets (requires ‘track_asset’ enabled)",
-				Default:             booldefault.StaticBool(false),
 			},
 			"vars": schema.MapAttribute{
 				ElementType:         types.StringType,
 				Optional:            true,
-				Computed:            true,
 				Description:         "a dictionary of name->value, the vars can then be used in Wlans. This can overwrite those from Site Vars",
 				MarkdownDescription: "a dictionary of name->value, the vars can then be used in Wlans. This can overwrite those from Site Vars",
-			},
-			"vna": schema.SingleNestedAttribute{
-				Attributes: map[string]schema.Attribute{
-					"enabled": schema.BoolAttribute{
-						Optional:            true,
-						Computed:            true,
-						Description:         "enable Virtual Network Assistant (using SUB-VNA license). This applied to AP / Switch / Gateway",
-						MarkdownDescription: "enable Virtual Network Assistant (using SUB-VNA license). This applied to AP / Switch / Gateway",
-						Default:             booldefault.StaticBool(false),
-					},
-				},
-				CustomType: VnaType{
-					ObjectType: types.ObjectType{
-						AttrTypes: VnaValue{}.AttributeTypes(ctx),
-					},
-				},
-				Optional: true,
-				Computed: true,
 			},
 			"vs_instance": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
 					"networks": schema.ListAttribute{
 						ElementType: types.StringType,
 						Optional:    true,
-						Computed:    true,
-						Default:     listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 					},
 				},
 				CustomType: VsInstanceType{
@@ -1085,23 +871,6 @@ func SiteSettingResourceSchema(ctx context.Context) schema.Schema {
 					},
 				},
 				Optional: true,
-				Computed: true,
-			},
-			"wan_vna": schema.SingleNestedAttribute{
-				Attributes: map[string]schema.Attribute{
-					"enabled": schema.BoolAttribute{
-						Optional: true,
-						Computed: true,
-						Default:  booldefault.StaticBool(false),
-					},
-				},
-				CustomType: WanVnaType{
-					ObjectType: types.ObjectType{
-						AttrTypes: WanVnaValue{}.AttributeTypes(ctx),
-					},
-				},
-				Optional: true,
-				Computed: true,
 			},
 			"watched_station_url": schema.StringAttribute{
 				Optional: true,
@@ -1117,13 +886,11 @@ func SiteSettingResourceSchema(ctx context.Context) schema.Schema {
 						Attributes: map[string]schema.Attribute{
 							"duration": schema.Int64Attribute{
 								Optional:            true,
-								Computed:            true,
 								Description:         "window where a trigger will be detected and action to be taken (in seconds)",
 								MarkdownDescription: "window where a trigger will be detected and action to be taken (in seconds)",
 							},
 							"threshold": schema.Int64Attribute{
 								Optional:            true,
-								Computed:            true,
 								Description:         "count of events to trigger",
 								MarkdownDescription: "count of events to trigger",
 							},
@@ -1134,7 +901,6 @@ func SiteSettingResourceSchema(ctx context.Context) schema.Schema {
 							},
 						},
 						Optional: true,
-						Computed: true,
 					},
 				},
 				CustomType: WidsType{
@@ -1143,7 +909,6 @@ func SiteSettingResourceSchema(ctx context.Context) schema.Schema {
 					},
 				},
 				Optional:            true,
-				Computed:            true,
 				Description:         "WIDS site settings",
 				MarkdownDescription: "WIDS site settings",
 			},
@@ -1151,90 +916,65 @@ func SiteSettingResourceSchema(ctx context.Context) schema.Schema {
 				Attributes: map[string]schema.Attribute{
 					"cisco_enabled": schema.BoolAttribute{
 						Optional: true,
-						Computed: true,
-						Default:  booldefault.StaticBool(true),
 					},
 					"disable_11k": schema.BoolAttribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "whether to disable 11k",
 						MarkdownDescription: "whether to disable 11k",
-						Default:             booldefault.StaticBool(false),
 					},
 					"disable_radios_when_power_constrained": schema.BoolAttribute{
 						Optional: true,
-						Computed: true,
-						Default:  booldefault.StaticBool(false),
 					},
 					"enable_arp_spoof_check": schema.BoolAttribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "when proxy_arp is enabled, check for arp spoofing.",
 						MarkdownDescription: "when proxy_arp is enabled, check for arp spoofing.",
-						Default:             booldefault.StaticBool(false),
 					},
 					"enable_shared_radio_scanning": schema.BoolAttribute{
 						Optional: true,
-						Computed: true,
-						Default:  booldefault.StaticBool(true),
 					},
 					"enabled": schema.BoolAttribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "enable WIFI feature (using SUB-MAN license)",
 						MarkdownDescription: "enable WIFI feature (using SUB-MAN license)",
-						Default:             booldefault.StaticBool(true),
 					},
 					"locate_connected": schema.BoolAttribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "whether to locate connected clients",
 						MarkdownDescription: "whether to locate connected clients",
-						Default:             booldefault.StaticBool(true),
 					},
 					"locate_unconnected": schema.BoolAttribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "whether to locate unconnected clients",
 						MarkdownDescription: "whether to locate unconnected clients",
-						Default:             booldefault.StaticBool(false),
 					},
 					"mesh_allow_dfs": schema.BoolAttribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "whether to allow Mesh to use DFS channels. For DFS channels, Remote Mesh AP would have to do CAC when scanning for new Base AP, which is slow and will distrupt the connection. If roaming is desired, keep it disabled.",
 						MarkdownDescription: "whether to allow Mesh to use DFS channels. For DFS channels, Remote Mesh AP would have to do CAC when scanning for new Base AP, which is slow and will distrupt the connection. If roaming is desired, keep it disabled.",
-						Default:             booldefault.StaticBool(false),
 					},
 					"mesh_enable_crm": schema.BoolAttribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "used to enable/disable CRM",
 						MarkdownDescription: "used to enable/disable CRM",
-						Default:             booldefault.StaticBool(false),
 					},
 					"mesh_enabled": schema.BoolAttribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "whether to enable Mesh feature for the site",
 						MarkdownDescription: "whether to enable Mesh feature for the site",
-						Default:             booldefault.StaticBool(false),
 					},
 					"mesh_psk": schema.StringAttribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "optional passphrase of mesh networking, default is generated randomly",
 						MarkdownDescription: "optional passphrase of mesh networking, default is generated randomly",
 					},
 					"mesh_ssid": schema.StringAttribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "optional ssid of mesh networking, default is based on site_id",
 						MarkdownDescription: "optional ssid of mesh networking, default is based on site_id",
 					},
 					"proxy_arp": schema.StringAttribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "default / enabled / disabled",
 						MarkdownDescription: "default / enabled / disabled",
 						Validators: []validator.String{
@@ -1253,7 +993,6 @@ func SiteSettingResourceSchema(ctx context.Context) schema.Schema {
 					},
 				},
 				Optional:            true,
-				Computed:            true,
 				Description:         "Wi-Fi site settings",
 				MarkdownDescription: "Wi-Fi site settings",
 			},
@@ -1261,8 +1000,6 @@ func SiteSettingResourceSchema(ctx context.Context) schema.Schema {
 				Attributes: map[string]schema.Attribute{
 					"enabled": schema.BoolAttribute{
 						Optional: true,
-						Computed: true,
-						Default:  booldefault.StaticBool(false),
 					},
 				},
 				CustomType: WiredVnaType{
@@ -1271,34 +1008,27 @@ func SiteSettingResourceSchema(ctx context.Context) schema.Schema {
 					},
 				},
 				Optional: true,
-				Computed: true,
 			},
 			"zone_occupancy_alert": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
 					"email_notifiers": schema.ListAttribute{
 						ElementType:         types.StringType,
 						Optional:            true,
-						Computed:            true,
 						Description:         "list of email addresses to send email notifications when the alert threshold is reached",
 						MarkdownDescription: "list of email addresses to send email notifications when the alert threshold is reached",
-						Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 					},
 					"enabled": schema.BoolAttribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "indicate whether zone occupancy alert is enabled for the site",
 						MarkdownDescription: "indicate whether zone occupancy alert is enabled for the site",
-						Default:             booldefault.StaticBool(false),
 					},
 					"threshold": schema.Int64Attribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "sending zone-occupancy-alert webhook message only if a zone stays non-compliant (i.e. actual occupancy > occupancy_limit) for a minimum duration specified in the threshold, in minutes",
 						MarkdownDescription: "sending zone-occupancy-alert webhook message only if a zone stays non-compliant (i.e. actual occupancy > occupancy_limit) for a minimum duration specified in the threshold, in minutes",
 						Validators: []validator.Int64{
 							int64validator.Between(0, 30),
 						},
-						Default: int64default.StaticInt64(5),
 					},
 				},
 				CustomType: ZoneOccupancyAlertType{
@@ -1307,7 +1037,6 @@ func SiteSettingResourceSchema(ctx context.Context) schema.Schema {
 					},
 				},
 				Optional:            true,
-				Computed:            true,
 				Description:         "Zone Occupancy alert site settings",
 				MarkdownDescription: "Zone Occupancy alert site settings",
 			},
@@ -1316,7 +1045,6 @@ func SiteSettingResourceSchema(ctx context.Context) schema.Schema {
 }
 
 type SiteSettingModel struct {
-	Analytic                        AnalyticValue              `tfsdk:"analytic"`
 	ApUpdownThreshold               types.Int64                `tfsdk:"ap_updown_threshold"`
 	AutoUpgrade                     AutoUpgradeValue           `tfsdk:"auto_upgrade"`
 	BlacklistUrl                    types.String               `tfsdk:"blacklist_url"`
@@ -1332,352 +1060,26 @@ type SiteSettingModel struct {
 	Occupancy                       OccupancyValue             `tfsdk:"occupancy"`
 	OrgId                           types.String               `tfsdk:"org_id"`
 	PersistConfigOnDevice           types.Bool                 `tfsdk:"persist_config_on_device"`
+	PortMirroring                   types.Map                  `tfsdk:"port_mirroring"`
 	Proxy                           ProxyValue                 `tfsdk:"proxy"`
 	ReportGatt                      types.Bool                 `tfsdk:"report_gatt"`
 	Rogue                           RogueValue                 `tfsdk:"rogue"`
 	SimpleAlert                     SimpleAlertValue           `tfsdk:"simple_alert"`
 	SiteId                          types.String               `tfsdk:"site_id"`
 	Skyatp                          SkyatpValue                `tfsdk:"skyatp"`
-	SrxApp                          SrxAppValue                `tfsdk:"srx_app"`
 	SshKeys                         types.List                 `tfsdk:"ssh_keys"`
 	Ssr                             SsrValue                   `tfsdk:"ssr"`
 	SwitchUpdownThreshold           types.Int64                `tfsdk:"switch_updown_threshold"`
 	SyntheticTest                   SyntheticTestValue         `tfsdk:"synthetic_test"`
 	TrackAnonymousDevices           types.Bool                 `tfsdk:"track_anonymous_devices"`
 	Vars                            types.Map                  `tfsdk:"vars"`
-	Vna                             VnaValue                   `tfsdk:"vna"`
 	VsInstance                      VsInstanceValue            `tfsdk:"vs_instance"`
-	WanVna                          WanVnaValue                `tfsdk:"wan_vna"`
 	WatchedStationUrl               types.String               `tfsdk:"watched_station_url"`
 	WhitelistUrl                    types.String               `tfsdk:"whitelist_url"`
 	Wids                            WidsValue                  `tfsdk:"wids"`
 	Wifi                            WifiValue                  `tfsdk:"wifi"`
 	WiredVna                        WiredVnaValue              `tfsdk:"wired_vna"`
 	ZoneOccupancyAlert              ZoneOccupancyAlertValue    `tfsdk:"zone_occupancy_alert"`
-}
-
-var _ basetypes.ObjectTypable = AnalyticType{}
-
-type AnalyticType struct {
-	basetypes.ObjectType
-}
-
-func (t AnalyticType) Equal(o attr.Type) bool {
-	other, ok := o.(AnalyticType)
-
-	if !ok {
-		return false
-	}
-
-	return t.ObjectType.Equal(other.ObjectType)
-}
-
-func (t AnalyticType) String() string {
-	return "AnalyticType"
-}
-
-func (t AnalyticType) ValueFromObject(ctx context.Context, in basetypes.ObjectValue) (basetypes.ObjectValuable, diag.Diagnostics) {
-	var diags diag.Diagnostics
-
-	attributes := in.Attributes()
-
-	enabledAttribute, ok := attributes["enabled"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`enabled is missing from object`)
-
-		return nil, diags
-	}
-
-	enabledVal, ok := enabledAttribute.(basetypes.BoolValue)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`enabled expected to be basetypes.BoolValue, was: %T`, enabledAttribute))
-	}
-
-	if diags.HasError() {
-		return nil, diags
-	}
-
-	return AnalyticValue{
-		Enabled: enabledVal,
-		state:   attr.ValueStateKnown,
-	}, diags
-}
-
-func NewAnalyticValueNull() AnalyticValue {
-	return AnalyticValue{
-		state: attr.ValueStateNull,
-	}
-}
-
-func NewAnalyticValueUnknown() AnalyticValue {
-	return AnalyticValue{
-		state: attr.ValueStateUnknown,
-	}
-}
-
-func NewAnalyticValue(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) (AnalyticValue, diag.Diagnostics) {
-	var diags diag.Diagnostics
-
-	// Reference: https://github.com/hashicorp/terraform-plugin-framework/issues/521
-	ctx := context.Background()
-
-	for name, attributeType := range attributeTypes {
-		attribute, ok := attributes[name]
-
-		if !ok {
-			diags.AddError(
-				"Missing AnalyticValue Attribute Value",
-				"While creating a AnalyticValue value, a missing attribute value was detected. "+
-					"A AnalyticValue must contain values for all attributes, even if null or unknown. "+
-					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
-					fmt.Sprintf("AnalyticValue Attribute Name (%s) Expected Type: %s", name, attributeType.String()),
-			)
-
-			continue
-		}
-
-		if !attributeType.Equal(attribute.Type(ctx)) {
-			diags.AddError(
-				"Invalid AnalyticValue Attribute Type",
-				"While creating a AnalyticValue value, an invalid attribute value was detected. "+
-					"A AnalyticValue must use a matching attribute type for the value. "+
-					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
-					fmt.Sprintf("AnalyticValue Attribute Name (%s) Expected Type: %s\n", name, attributeType.String())+
-					fmt.Sprintf("AnalyticValue Attribute Name (%s) Given Type: %s", name, attribute.Type(ctx)),
-			)
-		}
-	}
-
-	for name := range attributes {
-		_, ok := attributeTypes[name]
-
-		if !ok {
-			diags.AddError(
-				"Extra AnalyticValue Attribute Value",
-				"While creating a AnalyticValue value, an extra attribute value was detected. "+
-					"A AnalyticValue must not contain values beyond the expected attribute types. "+
-					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
-					fmt.Sprintf("Extra AnalyticValue Attribute Name: %s", name),
-			)
-		}
-	}
-
-	if diags.HasError() {
-		return NewAnalyticValueUnknown(), diags
-	}
-
-	enabledAttribute, ok := attributes["enabled"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`enabled is missing from object`)
-
-		return NewAnalyticValueUnknown(), diags
-	}
-
-	enabledVal, ok := enabledAttribute.(basetypes.BoolValue)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`enabled expected to be basetypes.BoolValue, was: %T`, enabledAttribute))
-	}
-
-	if diags.HasError() {
-		return NewAnalyticValueUnknown(), diags
-	}
-
-	return AnalyticValue{
-		Enabled: enabledVal,
-		state:   attr.ValueStateKnown,
-	}, diags
-}
-
-func NewAnalyticValueMust(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) AnalyticValue {
-	object, diags := NewAnalyticValue(attributeTypes, attributes)
-
-	if diags.HasError() {
-		// This could potentially be added to the diag package.
-		diagsStrings := make([]string, 0, len(diags))
-
-		for _, diagnostic := range diags {
-			diagsStrings = append(diagsStrings, fmt.Sprintf(
-				"%s | %s | %s",
-				diagnostic.Severity(),
-				diagnostic.Summary(),
-				diagnostic.Detail()))
-		}
-
-		panic("NewAnalyticValueMust received error(s): " + strings.Join(diagsStrings, "\n"))
-	}
-
-	return object
-}
-
-func (t AnalyticType) ValueFromTerraform(ctx context.Context, in tftypes.Value) (attr.Value, error) {
-	if in.Type() == nil {
-		return NewAnalyticValueNull(), nil
-	}
-
-	if !in.Type().Equal(t.TerraformType(ctx)) {
-		return nil, fmt.Errorf("expected %s, got %s", t.TerraformType(ctx), in.Type())
-	}
-
-	if !in.IsKnown() {
-		return NewAnalyticValueUnknown(), nil
-	}
-
-	if in.IsNull() {
-		return NewAnalyticValueNull(), nil
-	}
-
-	attributes := map[string]attr.Value{}
-
-	val := map[string]tftypes.Value{}
-
-	err := in.As(&val)
-
-	if err != nil {
-		return nil, err
-	}
-
-	for k, v := range val {
-		a, err := t.AttrTypes[k].ValueFromTerraform(ctx, v)
-
-		if err != nil {
-			return nil, err
-		}
-
-		attributes[k] = a
-	}
-
-	return NewAnalyticValueMust(AnalyticValue{}.AttributeTypes(ctx), attributes), nil
-}
-
-func (t AnalyticType) ValueType(ctx context.Context) attr.Value {
-	return AnalyticValue{}
-}
-
-var _ basetypes.ObjectValuable = AnalyticValue{}
-
-type AnalyticValue struct {
-	Enabled basetypes.BoolValue `tfsdk:"enabled"`
-	state   attr.ValueState
-}
-
-func (v AnalyticValue) ToTerraformValue(ctx context.Context) (tftypes.Value, error) {
-	attrTypes := make(map[string]tftypes.Type, 1)
-
-	var val tftypes.Value
-	var err error
-
-	attrTypes["enabled"] = basetypes.BoolType{}.TerraformType(ctx)
-
-	objectType := tftypes.Object{AttributeTypes: attrTypes}
-
-	switch v.state {
-	case attr.ValueStateKnown:
-		vals := make(map[string]tftypes.Value, 1)
-
-		val, err = v.Enabled.ToTerraformValue(ctx)
-
-		if err != nil {
-			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
-		}
-
-		vals["enabled"] = val
-
-		if err := tftypes.ValidateValue(objectType, vals); err != nil {
-			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
-		}
-
-		return tftypes.NewValue(objectType, vals), nil
-	case attr.ValueStateNull:
-		return tftypes.NewValue(objectType, nil), nil
-	case attr.ValueStateUnknown:
-		return tftypes.NewValue(objectType, tftypes.UnknownValue), nil
-	default:
-		panic(fmt.Sprintf("unhandled Object state in ToTerraformValue: %s", v.state))
-	}
-}
-
-func (v AnalyticValue) IsNull() bool {
-	return v.state == attr.ValueStateNull
-}
-
-func (v AnalyticValue) IsUnknown() bool {
-	return v.state == attr.ValueStateUnknown
-}
-
-func (v AnalyticValue) String() string {
-	return "AnalyticValue"
-}
-
-func (v AnalyticValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, diag.Diagnostics) {
-	var diags diag.Diagnostics
-
-	attributeTypes := map[string]attr.Type{
-		"enabled": basetypes.BoolType{},
-	}
-
-	if v.IsNull() {
-		return types.ObjectNull(attributeTypes), diags
-	}
-
-	if v.IsUnknown() {
-		return types.ObjectUnknown(attributeTypes), diags
-	}
-
-	objVal, diags := types.ObjectValue(
-		attributeTypes,
-		map[string]attr.Value{
-			"enabled": v.Enabled,
-		})
-
-	return objVal, diags
-}
-
-func (v AnalyticValue) Equal(o attr.Value) bool {
-	other, ok := o.(AnalyticValue)
-
-	if !ok {
-		return false
-	}
-
-	if v.state != other.state {
-		return false
-	}
-
-	if v.state != attr.ValueStateKnown {
-		return true
-	}
-
-	if !v.Enabled.Equal(other.Enabled) {
-		return false
-	}
-
-	return true
-}
-
-func (v AnalyticValue) Type(ctx context.Context) attr.Type {
-	return AnalyticType{
-		basetypes.ObjectType{
-			AttrTypes: v.AttributeTypes(ctx),
-		},
-	}
-}
-
-func (v AnalyticValue) AttributeTypes(ctx context.Context) map[string]attr.Type {
-	return map[string]attr.Type{
-		"enabled": basetypes.BoolType{},
-	}
 }
 
 var _ basetypes.ObjectTypable = AutoUpgradeType{}
@@ -8850,6 +8252,628 @@ func (v OccupancyValue) AttributeTypes(ctx context.Context) map[string]attr.Type
 	}
 }
 
+var _ basetypes.ObjectTypable = PortMirroringType{}
+
+type PortMirroringType struct {
+	basetypes.ObjectType
+}
+
+func (t PortMirroringType) Equal(o attr.Type) bool {
+	other, ok := o.(PortMirroringType)
+
+	if !ok {
+		return false
+	}
+
+	return t.ObjectType.Equal(other.ObjectType)
+}
+
+func (t PortMirroringType) String() string {
+	return "PortMirroringType"
+}
+
+func (t PortMirroringType) ValueFromObject(ctx context.Context, in basetypes.ObjectValue) (basetypes.ObjectValuable, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	attributes := in.Attributes()
+
+	inputNetworksIngressAttribute, ok := attributes["input_networks_ingress"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`input_networks_ingress is missing from object`)
+
+		return nil, diags
+	}
+
+	inputNetworksIngressVal, ok := inputNetworksIngressAttribute.(basetypes.ListValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`input_networks_ingress expected to be basetypes.ListValue, was: %T`, inputNetworksIngressAttribute))
+	}
+
+	inputPortIdsEgressAttribute, ok := attributes["input_port_ids_egress"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`input_port_ids_egress is missing from object`)
+
+		return nil, diags
+	}
+
+	inputPortIdsEgressVal, ok := inputPortIdsEgressAttribute.(basetypes.ListValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`input_port_ids_egress expected to be basetypes.ListValue, was: %T`, inputPortIdsEgressAttribute))
+	}
+
+	inputPortIdsIngressAttribute, ok := attributes["input_port_ids_ingress"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`input_port_ids_ingress is missing from object`)
+
+		return nil, diags
+	}
+
+	inputPortIdsIngressVal, ok := inputPortIdsIngressAttribute.(basetypes.ListValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`input_port_ids_ingress expected to be basetypes.ListValue, was: %T`, inputPortIdsIngressAttribute))
+	}
+
+	outputNetworkAttribute, ok := attributes["output_network"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`output_network is missing from object`)
+
+		return nil, diags
+	}
+
+	outputNetworkVal, ok := outputNetworkAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`output_network expected to be basetypes.StringValue, was: %T`, outputNetworkAttribute))
+	}
+
+	outputPortIdAttribute, ok := attributes["output_port_id"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`output_port_id is missing from object`)
+
+		return nil, diags
+	}
+
+	outputPortIdVal, ok := outputPortIdAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`output_port_id expected to be basetypes.StringValue, was: %T`, outputPortIdAttribute))
+	}
+
+	if diags.HasError() {
+		return nil, diags
+	}
+
+	return PortMirroringValue{
+		InputNetworksIngress: inputNetworksIngressVal,
+		InputPortIdsEgress:   inputPortIdsEgressVal,
+		InputPortIdsIngress:  inputPortIdsIngressVal,
+		OutputNetwork:        outputNetworkVal,
+		OutputPortId:         outputPortIdVal,
+		state:                attr.ValueStateKnown,
+	}, diags
+}
+
+func NewPortMirroringValueNull() PortMirroringValue {
+	return PortMirroringValue{
+		state: attr.ValueStateNull,
+	}
+}
+
+func NewPortMirroringValueUnknown() PortMirroringValue {
+	return PortMirroringValue{
+		state: attr.ValueStateUnknown,
+	}
+}
+
+func NewPortMirroringValue(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) (PortMirroringValue, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	// Reference: https://github.com/hashicorp/terraform-plugin-framework/issues/521
+	ctx := context.Background()
+
+	for name, attributeType := range attributeTypes {
+		attribute, ok := attributes[name]
+
+		if !ok {
+			diags.AddError(
+				"Missing PortMirroringValue Attribute Value",
+				"While creating a PortMirroringValue value, a missing attribute value was detected. "+
+					"A PortMirroringValue must contain values for all attributes, even if null or unknown. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("PortMirroringValue Attribute Name (%s) Expected Type: %s", name, attributeType.String()),
+			)
+
+			continue
+		}
+
+		if !attributeType.Equal(attribute.Type(ctx)) {
+			diags.AddError(
+				"Invalid PortMirroringValue Attribute Type",
+				"While creating a PortMirroringValue value, an invalid attribute value was detected. "+
+					"A PortMirroringValue must use a matching attribute type for the value. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("PortMirroringValue Attribute Name (%s) Expected Type: %s\n", name, attributeType.String())+
+					fmt.Sprintf("PortMirroringValue Attribute Name (%s) Given Type: %s", name, attribute.Type(ctx)),
+			)
+		}
+	}
+
+	for name := range attributes {
+		_, ok := attributeTypes[name]
+
+		if !ok {
+			diags.AddError(
+				"Extra PortMirroringValue Attribute Value",
+				"While creating a PortMirroringValue value, an extra attribute value was detected. "+
+					"A PortMirroringValue must not contain values beyond the expected attribute types. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("Extra PortMirroringValue Attribute Name: %s", name),
+			)
+		}
+	}
+
+	if diags.HasError() {
+		return NewPortMirroringValueUnknown(), diags
+	}
+
+	inputNetworksIngressAttribute, ok := attributes["input_networks_ingress"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`input_networks_ingress is missing from object`)
+
+		return NewPortMirroringValueUnknown(), diags
+	}
+
+	inputNetworksIngressVal, ok := inputNetworksIngressAttribute.(basetypes.ListValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`input_networks_ingress expected to be basetypes.ListValue, was: %T`, inputNetworksIngressAttribute))
+	}
+
+	inputPortIdsEgressAttribute, ok := attributes["input_port_ids_egress"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`input_port_ids_egress is missing from object`)
+
+		return NewPortMirroringValueUnknown(), diags
+	}
+
+	inputPortIdsEgressVal, ok := inputPortIdsEgressAttribute.(basetypes.ListValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`input_port_ids_egress expected to be basetypes.ListValue, was: %T`, inputPortIdsEgressAttribute))
+	}
+
+	inputPortIdsIngressAttribute, ok := attributes["input_port_ids_ingress"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`input_port_ids_ingress is missing from object`)
+
+		return NewPortMirroringValueUnknown(), diags
+	}
+
+	inputPortIdsIngressVal, ok := inputPortIdsIngressAttribute.(basetypes.ListValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`input_port_ids_ingress expected to be basetypes.ListValue, was: %T`, inputPortIdsIngressAttribute))
+	}
+
+	outputNetworkAttribute, ok := attributes["output_network"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`output_network is missing from object`)
+
+		return NewPortMirroringValueUnknown(), diags
+	}
+
+	outputNetworkVal, ok := outputNetworkAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`output_network expected to be basetypes.StringValue, was: %T`, outputNetworkAttribute))
+	}
+
+	outputPortIdAttribute, ok := attributes["output_port_id"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`output_port_id is missing from object`)
+
+		return NewPortMirroringValueUnknown(), diags
+	}
+
+	outputPortIdVal, ok := outputPortIdAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`output_port_id expected to be basetypes.StringValue, was: %T`, outputPortIdAttribute))
+	}
+
+	if diags.HasError() {
+		return NewPortMirroringValueUnknown(), diags
+	}
+
+	return PortMirroringValue{
+		InputNetworksIngress: inputNetworksIngressVal,
+		InputPortIdsEgress:   inputPortIdsEgressVal,
+		InputPortIdsIngress:  inputPortIdsIngressVal,
+		OutputNetwork:        outputNetworkVal,
+		OutputPortId:         outputPortIdVal,
+		state:                attr.ValueStateKnown,
+	}, diags
+}
+
+func NewPortMirroringValueMust(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) PortMirroringValue {
+	object, diags := NewPortMirroringValue(attributeTypes, attributes)
+
+	if diags.HasError() {
+		// This could potentially be added to the diag package.
+		diagsStrings := make([]string, 0, len(diags))
+
+		for _, diagnostic := range diags {
+			diagsStrings = append(diagsStrings, fmt.Sprintf(
+				"%s | %s | %s",
+				diagnostic.Severity(),
+				diagnostic.Summary(),
+				diagnostic.Detail()))
+		}
+
+		panic("NewPortMirroringValueMust received error(s): " + strings.Join(diagsStrings, "\n"))
+	}
+
+	return object
+}
+
+func (t PortMirroringType) ValueFromTerraform(ctx context.Context, in tftypes.Value) (attr.Value, error) {
+	if in.Type() == nil {
+		return NewPortMirroringValueNull(), nil
+	}
+
+	if !in.Type().Equal(t.TerraformType(ctx)) {
+		return nil, fmt.Errorf("expected %s, got %s", t.TerraformType(ctx), in.Type())
+	}
+
+	if !in.IsKnown() {
+		return NewPortMirroringValueUnknown(), nil
+	}
+
+	if in.IsNull() {
+		return NewPortMirroringValueNull(), nil
+	}
+
+	attributes := map[string]attr.Value{}
+
+	val := map[string]tftypes.Value{}
+
+	err := in.As(&val)
+
+	if err != nil {
+		return nil, err
+	}
+
+	for k, v := range val {
+		a, err := t.AttrTypes[k].ValueFromTerraform(ctx, v)
+
+		if err != nil {
+			return nil, err
+		}
+
+		attributes[k] = a
+	}
+
+	return NewPortMirroringValueMust(PortMirroringValue{}.AttributeTypes(ctx), attributes), nil
+}
+
+func (t PortMirroringType) ValueType(ctx context.Context) attr.Value {
+	return PortMirroringValue{}
+}
+
+var _ basetypes.ObjectValuable = PortMirroringValue{}
+
+type PortMirroringValue struct {
+	InputNetworksIngress basetypes.ListValue   `tfsdk:"input_networks_ingress"`
+	InputPortIdsEgress   basetypes.ListValue   `tfsdk:"input_port_ids_egress"`
+	InputPortIdsIngress  basetypes.ListValue   `tfsdk:"input_port_ids_ingress"`
+	OutputNetwork        basetypes.StringValue `tfsdk:"output_network"`
+	OutputPortId         basetypes.StringValue `tfsdk:"output_port_id"`
+	state                attr.ValueState
+}
+
+func (v PortMirroringValue) ToTerraformValue(ctx context.Context) (tftypes.Value, error) {
+	attrTypes := make(map[string]tftypes.Type, 5)
+
+	var val tftypes.Value
+	var err error
+
+	attrTypes["input_networks_ingress"] = basetypes.ListType{
+		ElemType: types.StringType,
+	}.TerraformType(ctx)
+	attrTypes["input_port_ids_egress"] = basetypes.ListType{
+		ElemType: types.StringType,
+	}.TerraformType(ctx)
+	attrTypes["input_port_ids_ingress"] = basetypes.ListType{
+		ElemType: types.StringType,
+	}.TerraformType(ctx)
+	attrTypes["output_network"] = basetypes.StringType{}.TerraformType(ctx)
+	attrTypes["output_port_id"] = basetypes.StringType{}.TerraformType(ctx)
+
+	objectType := tftypes.Object{AttributeTypes: attrTypes}
+
+	switch v.state {
+	case attr.ValueStateKnown:
+		vals := make(map[string]tftypes.Value, 5)
+
+		val, err = v.InputNetworksIngress.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["input_networks_ingress"] = val
+
+		val, err = v.InputPortIdsEgress.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["input_port_ids_egress"] = val
+
+		val, err = v.InputPortIdsIngress.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["input_port_ids_ingress"] = val
+
+		val, err = v.OutputNetwork.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["output_network"] = val
+
+		val, err = v.OutputPortId.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["output_port_id"] = val
+
+		if err := tftypes.ValidateValue(objectType, vals); err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		return tftypes.NewValue(objectType, vals), nil
+	case attr.ValueStateNull:
+		return tftypes.NewValue(objectType, nil), nil
+	case attr.ValueStateUnknown:
+		return tftypes.NewValue(objectType, tftypes.UnknownValue), nil
+	default:
+		panic(fmt.Sprintf("unhandled Object state in ToTerraformValue: %s", v.state))
+	}
+}
+
+func (v PortMirroringValue) IsNull() bool {
+	return v.state == attr.ValueStateNull
+}
+
+func (v PortMirroringValue) IsUnknown() bool {
+	return v.state == attr.ValueStateUnknown
+}
+
+func (v PortMirroringValue) String() string {
+	return "PortMirroringValue"
+}
+
+func (v PortMirroringValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	inputNetworksIngressVal, d := types.ListValue(types.StringType, v.InputNetworksIngress.Elements())
+
+	diags.Append(d...)
+
+	if d.HasError() {
+		return types.ObjectUnknown(map[string]attr.Type{
+			"input_networks_ingress": basetypes.ListType{
+				ElemType: types.StringType,
+			},
+			"input_port_ids_egress": basetypes.ListType{
+				ElemType: types.StringType,
+			},
+			"input_port_ids_ingress": basetypes.ListType{
+				ElemType: types.StringType,
+			},
+			"output_network": basetypes.StringType{},
+			"output_port_id": basetypes.StringType{},
+		}), diags
+	}
+
+	inputPortIdsEgressVal, d := types.ListValue(types.StringType, v.InputPortIdsEgress.Elements())
+
+	diags.Append(d...)
+
+	if d.HasError() {
+		return types.ObjectUnknown(map[string]attr.Type{
+			"input_networks_ingress": basetypes.ListType{
+				ElemType: types.StringType,
+			},
+			"input_port_ids_egress": basetypes.ListType{
+				ElemType: types.StringType,
+			},
+			"input_port_ids_ingress": basetypes.ListType{
+				ElemType: types.StringType,
+			},
+			"output_network": basetypes.StringType{},
+			"output_port_id": basetypes.StringType{},
+		}), diags
+	}
+
+	inputPortIdsIngressVal, d := types.ListValue(types.StringType, v.InputPortIdsIngress.Elements())
+
+	diags.Append(d...)
+
+	if d.HasError() {
+		return types.ObjectUnknown(map[string]attr.Type{
+			"input_networks_ingress": basetypes.ListType{
+				ElemType: types.StringType,
+			},
+			"input_port_ids_egress": basetypes.ListType{
+				ElemType: types.StringType,
+			},
+			"input_port_ids_ingress": basetypes.ListType{
+				ElemType: types.StringType,
+			},
+			"output_network": basetypes.StringType{},
+			"output_port_id": basetypes.StringType{},
+		}), diags
+	}
+
+	attributeTypes := map[string]attr.Type{
+		"input_networks_ingress": basetypes.ListType{
+			ElemType: types.StringType,
+		},
+		"input_port_ids_egress": basetypes.ListType{
+			ElemType: types.StringType,
+		},
+		"input_port_ids_ingress": basetypes.ListType{
+			ElemType: types.StringType,
+		},
+		"output_network": basetypes.StringType{},
+		"output_port_id": basetypes.StringType{},
+	}
+
+	if v.IsNull() {
+		return types.ObjectNull(attributeTypes), diags
+	}
+
+	if v.IsUnknown() {
+		return types.ObjectUnknown(attributeTypes), diags
+	}
+
+	objVal, diags := types.ObjectValue(
+		attributeTypes,
+		map[string]attr.Value{
+			"input_networks_ingress": inputNetworksIngressVal,
+			"input_port_ids_egress":  inputPortIdsEgressVal,
+			"input_port_ids_ingress": inputPortIdsIngressVal,
+			"output_network":         v.OutputNetwork,
+			"output_port_id":         v.OutputPortId,
+		})
+
+	return objVal, diags
+}
+
+func (v PortMirroringValue) Equal(o attr.Value) bool {
+	other, ok := o.(PortMirroringValue)
+
+	if !ok {
+		return false
+	}
+
+	if v.state != other.state {
+		return false
+	}
+
+	if v.state != attr.ValueStateKnown {
+		return true
+	}
+
+	if !v.InputNetworksIngress.Equal(other.InputNetworksIngress) {
+		return false
+	}
+
+	if !v.InputPortIdsEgress.Equal(other.InputPortIdsEgress) {
+		return false
+	}
+
+	if !v.InputPortIdsIngress.Equal(other.InputPortIdsIngress) {
+		return false
+	}
+
+	if !v.OutputNetwork.Equal(other.OutputNetwork) {
+		return false
+	}
+
+	if !v.OutputPortId.Equal(other.OutputPortId) {
+		return false
+	}
+
+	return true
+}
+
+func (v PortMirroringValue) Type(ctx context.Context) attr.Type {
+	return PortMirroringType{
+		basetypes.ObjectType{
+			AttrTypes: v.AttributeTypes(ctx),
+		},
+	}
+}
+
+func (v PortMirroringValue) AttributeTypes(ctx context.Context) map[string]attr.Type {
+	return map[string]attr.Type{
+		"input_networks_ingress": basetypes.ListType{
+			ElemType: types.StringType,
+		},
+		"input_port_ids_egress": basetypes.ListType{
+			ElemType: types.StringType,
+		},
+		"input_port_ids_ingress": basetypes.ListType{
+			ElemType: types.StringType,
+		},
+		"output_network": basetypes.StringType{},
+		"output_port_id": basetypes.StringType{},
+	}
+}
+
 var _ basetypes.ObjectTypable = ProxyType{}
 
 type ProxyType struct {
@@ -12019,330 +12043,6 @@ func (v SkyatpValue) AttributeTypes(ctx context.Context) map[string]attr.Type {
 	}
 }
 
-var _ basetypes.ObjectTypable = SrxAppType{}
-
-type SrxAppType struct {
-	basetypes.ObjectType
-}
-
-func (t SrxAppType) Equal(o attr.Type) bool {
-	other, ok := o.(SrxAppType)
-
-	if !ok {
-		return false
-	}
-
-	return t.ObjectType.Equal(other.ObjectType)
-}
-
-func (t SrxAppType) String() string {
-	return "SrxAppType"
-}
-
-func (t SrxAppType) ValueFromObject(ctx context.Context, in basetypes.ObjectValue) (basetypes.ObjectValuable, diag.Diagnostics) {
-	var diags diag.Diagnostics
-
-	attributes := in.Attributes()
-
-	enabledAttribute, ok := attributes["enabled"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`enabled is missing from object`)
-
-		return nil, diags
-	}
-
-	enabledVal, ok := enabledAttribute.(basetypes.BoolValue)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`enabled expected to be basetypes.BoolValue, was: %T`, enabledAttribute))
-	}
-
-	if diags.HasError() {
-		return nil, diags
-	}
-
-	return SrxAppValue{
-		Enabled: enabledVal,
-		state:   attr.ValueStateKnown,
-	}, diags
-}
-
-func NewSrxAppValueNull() SrxAppValue {
-	return SrxAppValue{
-		state: attr.ValueStateNull,
-	}
-}
-
-func NewSrxAppValueUnknown() SrxAppValue {
-	return SrxAppValue{
-		state: attr.ValueStateUnknown,
-	}
-}
-
-func NewSrxAppValue(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) (SrxAppValue, diag.Diagnostics) {
-	var diags diag.Diagnostics
-
-	// Reference: https://github.com/hashicorp/terraform-plugin-framework/issues/521
-	ctx := context.Background()
-
-	for name, attributeType := range attributeTypes {
-		attribute, ok := attributes[name]
-
-		if !ok {
-			diags.AddError(
-				"Missing SrxAppValue Attribute Value",
-				"While creating a SrxAppValue value, a missing attribute value was detected. "+
-					"A SrxAppValue must contain values for all attributes, even if null or unknown. "+
-					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
-					fmt.Sprintf("SrxAppValue Attribute Name (%s) Expected Type: %s", name, attributeType.String()),
-			)
-
-			continue
-		}
-
-		if !attributeType.Equal(attribute.Type(ctx)) {
-			diags.AddError(
-				"Invalid SrxAppValue Attribute Type",
-				"While creating a SrxAppValue value, an invalid attribute value was detected. "+
-					"A SrxAppValue must use a matching attribute type for the value. "+
-					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
-					fmt.Sprintf("SrxAppValue Attribute Name (%s) Expected Type: %s\n", name, attributeType.String())+
-					fmt.Sprintf("SrxAppValue Attribute Name (%s) Given Type: %s", name, attribute.Type(ctx)),
-			)
-		}
-	}
-
-	for name := range attributes {
-		_, ok := attributeTypes[name]
-
-		if !ok {
-			diags.AddError(
-				"Extra SrxAppValue Attribute Value",
-				"While creating a SrxAppValue value, an extra attribute value was detected. "+
-					"A SrxAppValue must not contain values beyond the expected attribute types. "+
-					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
-					fmt.Sprintf("Extra SrxAppValue Attribute Name: %s", name),
-			)
-		}
-	}
-
-	if diags.HasError() {
-		return NewSrxAppValueUnknown(), diags
-	}
-
-	enabledAttribute, ok := attributes["enabled"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`enabled is missing from object`)
-
-		return NewSrxAppValueUnknown(), diags
-	}
-
-	enabledVal, ok := enabledAttribute.(basetypes.BoolValue)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`enabled expected to be basetypes.BoolValue, was: %T`, enabledAttribute))
-	}
-
-	if diags.HasError() {
-		return NewSrxAppValueUnknown(), diags
-	}
-
-	return SrxAppValue{
-		Enabled: enabledVal,
-		state:   attr.ValueStateKnown,
-	}, diags
-}
-
-func NewSrxAppValueMust(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) SrxAppValue {
-	object, diags := NewSrxAppValue(attributeTypes, attributes)
-
-	if diags.HasError() {
-		// This could potentially be added to the diag package.
-		diagsStrings := make([]string, 0, len(diags))
-
-		for _, diagnostic := range diags {
-			diagsStrings = append(diagsStrings, fmt.Sprintf(
-				"%s | %s | %s",
-				diagnostic.Severity(),
-				diagnostic.Summary(),
-				diagnostic.Detail()))
-		}
-
-		panic("NewSrxAppValueMust received error(s): " + strings.Join(diagsStrings, "\n"))
-	}
-
-	return object
-}
-
-func (t SrxAppType) ValueFromTerraform(ctx context.Context, in tftypes.Value) (attr.Value, error) {
-	if in.Type() == nil {
-		return NewSrxAppValueNull(), nil
-	}
-
-	if !in.Type().Equal(t.TerraformType(ctx)) {
-		return nil, fmt.Errorf("expected %s, got %s", t.TerraformType(ctx), in.Type())
-	}
-
-	if !in.IsKnown() {
-		return NewSrxAppValueUnknown(), nil
-	}
-
-	if in.IsNull() {
-		return NewSrxAppValueNull(), nil
-	}
-
-	attributes := map[string]attr.Value{}
-
-	val := map[string]tftypes.Value{}
-
-	err := in.As(&val)
-
-	if err != nil {
-		return nil, err
-	}
-
-	for k, v := range val {
-		a, err := t.AttrTypes[k].ValueFromTerraform(ctx, v)
-
-		if err != nil {
-			return nil, err
-		}
-
-		attributes[k] = a
-	}
-
-	return NewSrxAppValueMust(SrxAppValue{}.AttributeTypes(ctx), attributes), nil
-}
-
-func (t SrxAppType) ValueType(ctx context.Context) attr.Value {
-	return SrxAppValue{}
-}
-
-var _ basetypes.ObjectValuable = SrxAppValue{}
-
-type SrxAppValue struct {
-	Enabled basetypes.BoolValue `tfsdk:"enabled"`
-	state   attr.ValueState
-}
-
-func (v SrxAppValue) ToTerraformValue(ctx context.Context) (tftypes.Value, error) {
-	attrTypes := make(map[string]tftypes.Type, 1)
-
-	var val tftypes.Value
-	var err error
-
-	attrTypes["enabled"] = basetypes.BoolType{}.TerraformType(ctx)
-
-	objectType := tftypes.Object{AttributeTypes: attrTypes}
-
-	switch v.state {
-	case attr.ValueStateKnown:
-		vals := make(map[string]tftypes.Value, 1)
-
-		val, err = v.Enabled.ToTerraformValue(ctx)
-
-		if err != nil {
-			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
-		}
-
-		vals["enabled"] = val
-
-		if err := tftypes.ValidateValue(objectType, vals); err != nil {
-			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
-		}
-
-		return tftypes.NewValue(objectType, vals), nil
-	case attr.ValueStateNull:
-		return tftypes.NewValue(objectType, nil), nil
-	case attr.ValueStateUnknown:
-		return tftypes.NewValue(objectType, tftypes.UnknownValue), nil
-	default:
-		panic(fmt.Sprintf("unhandled Object state in ToTerraformValue: %s", v.state))
-	}
-}
-
-func (v SrxAppValue) IsNull() bool {
-	return v.state == attr.ValueStateNull
-}
-
-func (v SrxAppValue) IsUnknown() bool {
-	return v.state == attr.ValueStateUnknown
-}
-
-func (v SrxAppValue) String() string {
-	return "SrxAppValue"
-}
-
-func (v SrxAppValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, diag.Diagnostics) {
-	var diags diag.Diagnostics
-
-	attributeTypes := map[string]attr.Type{
-		"enabled": basetypes.BoolType{},
-	}
-
-	if v.IsNull() {
-		return types.ObjectNull(attributeTypes), diags
-	}
-
-	if v.IsUnknown() {
-		return types.ObjectUnknown(attributeTypes), diags
-	}
-
-	objVal, diags := types.ObjectValue(
-		attributeTypes,
-		map[string]attr.Value{
-			"enabled": v.Enabled,
-		})
-
-	return objVal, diags
-}
-
-func (v SrxAppValue) Equal(o attr.Value) bool {
-	other, ok := o.(SrxAppValue)
-
-	if !ok {
-		return false
-	}
-
-	if v.state != other.state {
-		return false
-	}
-
-	if v.state != attr.ValueStateKnown {
-		return true
-	}
-
-	if !v.Enabled.Equal(other.Enabled) {
-		return false
-	}
-
-	return true
-}
-
-func (v SrxAppValue) Type(ctx context.Context) attr.Type {
-	return SrxAppType{
-		basetypes.ObjectType{
-			AttrTypes: v.AttributeTypes(ctx),
-		},
-	}
-}
-
-func (v SrxAppValue) AttributeTypes(ctx context.Context) map[string]attr.Type {
-	return map[string]attr.Type{
-		"enabled": basetypes.BoolType{},
-	}
-}
-
 var _ basetypes.ObjectTypable = SsrType{}
 
 type SsrType struct {
@@ -13633,330 +13333,6 @@ func (v VlansValue) AttributeTypes(ctx context.Context) map[string]attr.Type {
 	}
 }
 
-var _ basetypes.ObjectTypable = VnaType{}
-
-type VnaType struct {
-	basetypes.ObjectType
-}
-
-func (t VnaType) Equal(o attr.Type) bool {
-	other, ok := o.(VnaType)
-
-	if !ok {
-		return false
-	}
-
-	return t.ObjectType.Equal(other.ObjectType)
-}
-
-func (t VnaType) String() string {
-	return "VnaType"
-}
-
-func (t VnaType) ValueFromObject(ctx context.Context, in basetypes.ObjectValue) (basetypes.ObjectValuable, diag.Diagnostics) {
-	var diags diag.Diagnostics
-
-	attributes := in.Attributes()
-
-	enabledAttribute, ok := attributes["enabled"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`enabled is missing from object`)
-
-		return nil, diags
-	}
-
-	enabledVal, ok := enabledAttribute.(basetypes.BoolValue)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`enabled expected to be basetypes.BoolValue, was: %T`, enabledAttribute))
-	}
-
-	if diags.HasError() {
-		return nil, diags
-	}
-
-	return VnaValue{
-		Enabled: enabledVal,
-		state:   attr.ValueStateKnown,
-	}, diags
-}
-
-func NewVnaValueNull() VnaValue {
-	return VnaValue{
-		state: attr.ValueStateNull,
-	}
-}
-
-func NewVnaValueUnknown() VnaValue {
-	return VnaValue{
-		state: attr.ValueStateUnknown,
-	}
-}
-
-func NewVnaValue(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) (VnaValue, diag.Diagnostics) {
-	var diags diag.Diagnostics
-
-	// Reference: https://github.com/hashicorp/terraform-plugin-framework/issues/521
-	ctx := context.Background()
-
-	for name, attributeType := range attributeTypes {
-		attribute, ok := attributes[name]
-
-		if !ok {
-			diags.AddError(
-				"Missing VnaValue Attribute Value",
-				"While creating a VnaValue value, a missing attribute value was detected. "+
-					"A VnaValue must contain values for all attributes, even if null or unknown. "+
-					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
-					fmt.Sprintf("VnaValue Attribute Name (%s) Expected Type: %s", name, attributeType.String()),
-			)
-
-			continue
-		}
-
-		if !attributeType.Equal(attribute.Type(ctx)) {
-			diags.AddError(
-				"Invalid VnaValue Attribute Type",
-				"While creating a VnaValue value, an invalid attribute value was detected. "+
-					"A VnaValue must use a matching attribute type for the value. "+
-					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
-					fmt.Sprintf("VnaValue Attribute Name (%s) Expected Type: %s\n", name, attributeType.String())+
-					fmt.Sprintf("VnaValue Attribute Name (%s) Given Type: %s", name, attribute.Type(ctx)),
-			)
-		}
-	}
-
-	for name := range attributes {
-		_, ok := attributeTypes[name]
-
-		if !ok {
-			diags.AddError(
-				"Extra VnaValue Attribute Value",
-				"While creating a VnaValue value, an extra attribute value was detected. "+
-					"A VnaValue must not contain values beyond the expected attribute types. "+
-					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
-					fmt.Sprintf("Extra VnaValue Attribute Name: %s", name),
-			)
-		}
-	}
-
-	if diags.HasError() {
-		return NewVnaValueUnknown(), diags
-	}
-
-	enabledAttribute, ok := attributes["enabled"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`enabled is missing from object`)
-
-		return NewVnaValueUnknown(), diags
-	}
-
-	enabledVal, ok := enabledAttribute.(basetypes.BoolValue)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`enabled expected to be basetypes.BoolValue, was: %T`, enabledAttribute))
-	}
-
-	if diags.HasError() {
-		return NewVnaValueUnknown(), diags
-	}
-
-	return VnaValue{
-		Enabled: enabledVal,
-		state:   attr.ValueStateKnown,
-	}, diags
-}
-
-func NewVnaValueMust(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) VnaValue {
-	object, diags := NewVnaValue(attributeTypes, attributes)
-
-	if diags.HasError() {
-		// This could potentially be added to the diag package.
-		diagsStrings := make([]string, 0, len(diags))
-
-		for _, diagnostic := range diags {
-			diagsStrings = append(diagsStrings, fmt.Sprintf(
-				"%s | %s | %s",
-				diagnostic.Severity(),
-				diagnostic.Summary(),
-				diagnostic.Detail()))
-		}
-
-		panic("NewVnaValueMust received error(s): " + strings.Join(diagsStrings, "\n"))
-	}
-
-	return object
-}
-
-func (t VnaType) ValueFromTerraform(ctx context.Context, in tftypes.Value) (attr.Value, error) {
-	if in.Type() == nil {
-		return NewVnaValueNull(), nil
-	}
-
-	if !in.Type().Equal(t.TerraformType(ctx)) {
-		return nil, fmt.Errorf("expected %s, got %s", t.TerraformType(ctx), in.Type())
-	}
-
-	if !in.IsKnown() {
-		return NewVnaValueUnknown(), nil
-	}
-
-	if in.IsNull() {
-		return NewVnaValueNull(), nil
-	}
-
-	attributes := map[string]attr.Value{}
-
-	val := map[string]tftypes.Value{}
-
-	err := in.As(&val)
-
-	if err != nil {
-		return nil, err
-	}
-
-	for k, v := range val {
-		a, err := t.AttrTypes[k].ValueFromTerraform(ctx, v)
-
-		if err != nil {
-			return nil, err
-		}
-
-		attributes[k] = a
-	}
-
-	return NewVnaValueMust(VnaValue{}.AttributeTypes(ctx), attributes), nil
-}
-
-func (t VnaType) ValueType(ctx context.Context) attr.Value {
-	return VnaValue{}
-}
-
-var _ basetypes.ObjectValuable = VnaValue{}
-
-type VnaValue struct {
-	Enabled basetypes.BoolValue `tfsdk:"enabled"`
-	state   attr.ValueState
-}
-
-func (v VnaValue) ToTerraformValue(ctx context.Context) (tftypes.Value, error) {
-	attrTypes := make(map[string]tftypes.Type, 1)
-
-	var val tftypes.Value
-	var err error
-
-	attrTypes["enabled"] = basetypes.BoolType{}.TerraformType(ctx)
-
-	objectType := tftypes.Object{AttributeTypes: attrTypes}
-
-	switch v.state {
-	case attr.ValueStateKnown:
-		vals := make(map[string]tftypes.Value, 1)
-
-		val, err = v.Enabled.ToTerraformValue(ctx)
-
-		if err != nil {
-			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
-		}
-
-		vals["enabled"] = val
-
-		if err := tftypes.ValidateValue(objectType, vals); err != nil {
-			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
-		}
-
-		return tftypes.NewValue(objectType, vals), nil
-	case attr.ValueStateNull:
-		return tftypes.NewValue(objectType, nil), nil
-	case attr.ValueStateUnknown:
-		return tftypes.NewValue(objectType, tftypes.UnknownValue), nil
-	default:
-		panic(fmt.Sprintf("unhandled Object state in ToTerraformValue: %s", v.state))
-	}
-}
-
-func (v VnaValue) IsNull() bool {
-	return v.state == attr.ValueStateNull
-}
-
-func (v VnaValue) IsUnknown() bool {
-	return v.state == attr.ValueStateUnknown
-}
-
-func (v VnaValue) String() string {
-	return "VnaValue"
-}
-
-func (v VnaValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, diag.Diagnostics) {
-	var diags diag.Diagnostics
-
-	attributeTypes := map[string]attr.Type{
-		"enabled": basetypes.BoolType{},
-	}
-
-	if v.IsNull() {
-		return types.ObjectNull(attributeTypes), diags
-	}
-
-	if v.IsUnknown() {
-		return types.ObjectUnknown(attributeTypes), diags
-	}
-
-	objVal, diags := types.ObjectValue(
-		attributeTypes,
-		map[string]attr.Value{
-			"enabled": v.Enabled,
-		})
-
-	return objVal, diags
-}
-
-func (v VnaValue) Equal(o attr.Value) bool {
-	other, ok := o.(VnaValue)
-
-	if !ok {
-		return false
-	}
-
-	if v.state != other.state {
-		return false
-	}
-
-	if v.state != attr.ValueStateKnown {
-		return true
-	}
-
-	if !v.Enabled.Equal(other.Enabled) {
-		return false
-	}
-
-	return true
-}
-
-func (v VnaValue) Type(ctx context.Context) attr.Type {
-	return VnaType{
-		basetypes.ObjectType{
-			AttrTypes: v.AttributeTypes(ctx),
-		},
-	}
-}
-
-func (v VnaValue) AttributeTypes(ctx context.Context) map[string]attr.Type {
-	return map[string]attr.Type{
-		"enabled": basetypes.BoolType{},
-	}
-}
-
 var _ basetypes.ObjectTypable = VsInstanceType{}
 
 type VsInstanceType struct {
@@ -14296,330 +13672,6 @@ func (v VsInstanceValue) AttributeTypes(ctx context.Context) map[string]attr.Typ
 		"networks": basetypes.ListType{
 			ElemType: types.StringType,
 		},
-	}
-}
-
-var _ basetypes.ObjectTypable = WanVnaType{}
-
-type WanVnaType struct {
-	basetypes.ObjectType
-}
-
-func (t WanVnaType) Equal(o attr.Type) bool {
-	other, ok := o.(WanVnaType)
-
-	if !ok {
-		return false
-	}
-
-	return t.ObjectType.Equal(other.ObjectType)
-}
-
-func (t WanVnaType) String() string {
-	return "WanVnaType"
-}
-
-func (t WanVnaType) ValueFromObject(ctx context.Context, in basetypes.ObjectValue) (basetypes.ObjectValuable, diag.Diagnostics) {
-	var diags diag.Diagnostics
-
-	attributes := in.Attributes()
-
-	enabledAttribute, ok := attributes["enabled"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`enabled is missing from object`)
-
-		return nil, diags
-	}
-
-	enabledVal, ok := enabledAttribute.(basetypes.BoolValue)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`enabled expected to be basetypes.BoolValue, was: %T`, enabledAttribute))
-	}
-
-	if diags.HasError() {
-		return nil, diags
-	}
-
-	return WanVnaValue{
-		Enabled: enabledVal,
-		state:   attr.ValueStateKnown,
-	}, diags
-}
-
-func NewWanVnaValueNull() WanVnaValue {
-	return WanVnaValue{
-		state: attr.ValueStateNull,
-	}
-}
-
-func NewWanVnaValueUnknown() WanVnaValue {
-	return WanVnaValue{
-		state: attr.ValueStateUnknown,
-	}
-}
-
-func NewWanVnaValue(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) (WanVnaValue, diag.Diagnostics) {
-	var diags diag.Diagnostics
-
-	// Reference: https://github.com/hashicorp/terraform-plugin-framework/issues/521
-	ctx := context.Background()
-
-	for name, attributeType := range attributeTypes {
-		attribute, ok := attributes[name]
-
-		if !ok {
-			diags.AddError(
-				"Missing WanVnaValue Attribute Value",
-				"While creating a WanVnaValue value, a missing attribute value was detected. "+
-					"A WanVnaValue must contain values for all attributes, even if null or unknown. "+
-					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
-					fmt.Sprintf("WanVnaValue Attribute Name (%s) Expected Type: %s", name, attributeType.String()),
-			)
-
-			continue
-		}
-
-		if !attributeType.Equal(attribute.Type(ctx)) {
-			diags.AddError(
-				"Invalid WanVnaValue Attribute Type",
-				"While creating a WanVnaValue value, an invalid attribute value was detected. "+
-					"A WanVnaValue must use a matching attribute type for the value. "+
-					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
-					fmt.Sprintf("WanVnaValue Attribute Name (%s) Expected Type: %s\n", name, attributeType.String())+
-					fmt.Sprintf("WanVnaValue Attribute Name (%s) Given Type: %s", name, attribute.Type(ctx)),
-			)
-		}
-	}
-
-	for name := range attributes {
-		_, ok := attributeTypes[name]
-
-		if !ok {
-			diags.AddError(
-				"Extra WanVnaValue Attribute Value",
-				"While creating a WanVnaValue value, an extra attribute value was detected. "+
-					"A WanVnaValue must not contain values beyond the expected attribute types. "+
-					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
-					fmt.Sprintf("Extra WanVnaValue Attribute Name: %s", name),
-			)
-		}
-	}
-
-	if diags.HasError() {
-		return NewWanVnaValueUnknown(), diags
-	}
-
-	enabledAttribute, ok := attributes["enabled"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`enabled is missing from object`)
-
-		return NewWanVnaValueUnknown(), diags
-	}
-
-	enabledVal, ok := enabledAttribute.(basetypes.BoolValue)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`enabled expected to be basetypes.BoolValue, was: %T`, enabledAttribute))
-	}
-
-	if diags.HasError() {
-		return NewWanVnaValueUnknown(), diags
-	}
-
-	return WanVnaValue{
-		Enabled: enabledVal,
-		state:   attr.ValueStateKnown,
-	}, diags
-}
-
-func NewWanVnaValueMust(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) WanVnaValue {
-	object, diags := NewWanVnaValue(attributeTypes, attributes)
-
-	if diags.HasError() {
-		// This could potentially be added to the diag package.
-		diagsStrings := make([]string, 0, len(diags))
-
-		for _, diagnostic := range diags {
-			diagsStrings = append(diagsStrings, fmt.Sprintf(
-				"%s | %s | %s",
-				diagnostic.Severity(),
-				diagnostic.Summary(),
-				diagnostic.Detail()))
-		}
-
-		panic("NewWanVnaValueMust received error(s): " + strings.Join(diagsStrings, "\n"))
-	}
-
-	return object
-}
-
-func (t WanVnaType) ValueFromTerraform(ctx context.Context, in tftypes.Value) (attr.Value, error) {
-	if in.Type() == nil {
-		return NewWanVnaValueNull(), nil
-	}
-
-	if !in.Type().Equal(t.TerraformType(ctx)) {
-		return nil, fmt.Errorf("expected %s, got %s", t.TerraformType(ctx), in.Type())
-	}
-
-	if !in.IsKnown() {
-		return NewWanVnaValueUnknown(), nil
-	}
-
-	if in.IsNull() {
-		return NewWanVnaValueNull(), nil
-	}
-
-	attributes := map[string]attr.Value{}
-
-	val := map[string]tftypes.Value{}
-
-	err := in.As(&val)
-
-	if err != nil {
-		return nil, err
-	}
-
-	for k, v := range val {
-		a, err := t.AttrTypes[k].ValueFromTerraform(ctx, v)
-
-		if err != nil {
-			return nil, err
-		}
-
-		attributes[k] = a
-	}
-
-	return NewWanVnaValueMust(WanVnaValue{}.AttributeTypes(ctx), attributes), nil
-}
-
-func (t WanVnaType) ValueType(ctx context.Context) attr.Value {
-	return WanVnaValue{}
-}
-
-var _ basetypes.ObjectValuable = WanVnaValue{}
-
-type WanVnaValue struct {
-	Enabled basetypes.BoolValue `tfsdk:"enabled"`
-	state   attr.ValueState
-}
-
-func (v WanVnaValue) ToTerraformValue(ctx context.Context) (tftypes.Value, error) {
-	attrTypes := make(map[string]tftypes.Type, 1)
-
-	var val tftypes.Value
-	var err error
-
-	attrTypes["enabled"] = basetypes.BoolType{}.TerraformType(ctx)
-
-	objectType := tftypes.Object{AttributeTypes: attrTypes}
-
-	switch v.state {
-	case attr.ValueStateKnown:
-		vals := make(map[string]tftypes.Value, 1)
-
-		val, err = v.Enabled.ToTerraformValue(ctx)
-
-		if err != nil {
-			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
-		}
-
-		vals["enabled"] = val
-
-		if err := tftypes.ValidateValue(objectType, vals); err != nil {
-			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
-		}
-
-		return tftypes.NewValue(objectType, vals), nil
-	case attr.ValueStateNull:
-		return tftypes.NewValue(objectType, nil), nil
-	case attr.ValueStateUnknown:
-		return tftypes.NewValue(objectType, tftypes.UnknownValue), nil
-	default:
-		panic(fmt.Sprintf("unhandled Object state in ToTerraformValue: %s", v.state))
-	}
-}
-
-func (v WanVnaValue) IsNull() bool {
-	return v.state == attr.ValueStateNull
-}
-
-func (v WanVnaValue) IsUnknown() bool {
-	return v.state == attr.ValueStateUnknown
-}
-
-func (v WanVnaValue) String() string {
-	return "WanVnaValue"
-}
-
-func (v WanVnaValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, diag.Diagnostics) {
-	var diags diag.Diagnostics
-
-	attributeTypes := map[string]attr.Type{
-		"enabled": basetypes.BoolType{},
-	}
-
-	if v.IsNull() {
-		return types.ObjectNull(attributeTypes), diags
-	}
-
-	if v.IsUnknown() {
-		return types.ObjectUnknown(attributeTypes), diags
-	}
-
-	objVal, diags := types.ObjectValue(
-		attributeTypes,
-		map[string]attr.Value{
-			"enabled": v.Enabled,
-		})
-
-	return objVal, diags
-}
-
-func (v WanVnaValue) Equal(o attr.Value) bool {
-	other, ok := o.(WanVnaValue)
-
-	if !ok {
-		return false
-	}
-
-	if v.state != other.state {
-		return false
-	}
-
-	if v.state != attr.ValueStateKnown {
-		return true
-	}
-
-	if !v.Enabled.Equal(other.Enabled) {
-		return false
-	}
-
-	return true
-}
-
-func (v WanVnaValue) Type(ctx context.Context) attr.Type {
-	return WanVnaType{
-		basetypes.ObjectType{
-			AttrTypes: v.AttributeTypes(ctx),
-		},
-	}
-}
-
-func (v WanVnaValue) AttributeTypes(ctx context.Context) map[string]attr.Type {
-	return map[string]attr.Type{
-		"enabled": basetypes.BoolType{},
 	}
 }
 

@@ -7,8 +7,6 @@ import (
 	"fmt"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 	"github.com/hashicorp/terraform-plugin-go/tftypes"
@@ -22,10 +20,8 @@ func OrgNetworkResourceSchema(ctx context.Context) schema.Schema {
 		Attributes: map[string]schema.Attribute{
 			"disallow_mist_services": schema.BoolAttribute{
 				Optional:            true,
-				Computed:            true,
 				Description:         "whether to disallow Mist Devices in the network",
 				MarkdownDescription: "whether to disallow Mist Devices in the network",
-				Default:             booldefault.StaticBool(false),
 			},
 			"gateway": schema.StringAttribute{
 				Optional: true,
@@ -36,7 +32,6 @@ func OrgNetworkResourceSchema(ctx context.Context) schema.Schema {
 				Computed: true,
 			},
 			"id": schema.StringAttribute{
-				Optional: true,
 				Computed: true,
 			},
 			"internal_access": schema.SingleNestedAttribute{
@@ -52,14 +47,11 @@ func OrgNetworkResourceSchema(ctx context.Context) schema.Schema {
 					},
 				},
 				Optional: true,
-				Computed: true,
 			},
 			"internet_access": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
 					"create_simple_service_policy": schema.BoolAttribute{
 						Optional: true,
-						Computed: true,
-						Default:  booldefault.StaticBool(false),
 					},
 					"destination_nat": schema.MapNestedAttribute{
 						NestedObject: schema.NestedAttributeObject{
@@ -84,7 +76,6 @@ func OrgNetworkResourceSchema(ctx context.Context) schema.Schema {
 							},
 						},
 						Optional:            true,
-						Computed:            true,
 						Description:         "Property key may be an IP/Port (i.e. \"63.16.0.3:443\"), or a port (i.e. \":2222\")",
 						MarkdownDescription: "Property key may be an IP/Port (i.e. \"63.16.0.3:443\"), or a port (i.e. \":2222\")",
 					},
@@ -94,10 +85,8 @@ func OrgNetworkResourceSchema(ctx context.Context) schema.Schema {
 					},
 					"restricted": schema.BoolAttribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "by default, all access is allowed, to only allow certain traffic, make `restricted`=`true` and define service_policies",
 						MarkdownDescription: "by default, all access is allowed, to only allow certain traffic, make `restricted`=`true` and define service_policies",
-						Default:             booldefault.StaticBool(false),
 					},
 					"static_nat": schema.MapNestedAttribute{
 						NestedObject: schema.NestedAttributeObject{
@@ -112,7 +101,6 @@ func OrgNetworkResourceSchema(ctx context.Context) schema.Schema {
 								},
 								"wan_name": schema.StringAttribute{
 									Optional:            true,
-									Computed:            true,
 									Description:         "If not set, we configure the nat policies against all WAN ports for simplicity",
 									MarkdownDescription: "If not set, we configure the nat policies against all WAN ports for simplicity",
 								},
@@ -124,7 +112,6 @@ func OrgNetworkResourceSchema(ctx context.Context) schema.Schema {
 							},
 						},
 						Optional:            true,
-						Computed:            true,
 						Description:         "Property key may be an IP Address (i.e. \"172.16.0.1\"), and IP Address and Port (i.e. \"172.16.0.1:8443\") or a CIDR (i.e. \"172.16.0.12/20\")",
 						MarkdownDescription: "Property key may be an IP Address (i.e. \"172.16.0.1\"), and IP Address and Port (i.e. \"172.16.0.1:8443\") or a CIDR (i.e. \"172.16.0.12/20\")",
 					},
@@ -135,13 +122,11 @@ func OrgNetworkResourceSchema(ctx context.Context) schema.Schema {
 					},
 				},
 				Optional:            true,
-				Computed:            true,
 				Description:         "whether this network has direct internet access",
 				MarkdownDescription: "whether this network has direct internet access",
 			},
 			"isolation": schema.BoolAttribute{
 				Optional:            true,
-				Computed:            true,
 				Description:         "whether to allow clients in the network to talk to each other",
 				MarkdownDescription: "whether to allow clients in the network to talk to each other",
 			},
@@ -154,10 +139,8 @@ func OrgNetworkResourceSchema(ctx context.Context) schema.Schema {
 			"routed_for_networks": schema.ListAttribute{
 				ElementType:         types.StringType,
 				Optional:            true,
-				Computed:            true,
 				Description:         "for a Network (usually LAN), it can be routable to other networks (e.g. OSPF)",
 				MarkdownDescription: "for a Network (usually LAN), it can be routable to other networks (e.g. OSPF)",
-				Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 			},
 			"subnet": schema.StringAttribute{
 				Optional: true,
@@ -173,8 +156,6 @@ func OrgNetworkResourceSchema(ctx context.Context) schema.Schema {
 						"addresses": schema.ListAttribute{
 							ElementType: types.StringType,
 							Optional:    true,
-							Computed:    true,
-							Default:     listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 						},
 					},
 					CustomType: TenantsType{
@@ -184,7 +165,6 @@ func OrgNetworkResourceSchema(ctx context.Context) schema.Schema {
 					},
 				},
 				Optional: true,
-				Computed: true,
 			},
 			"vlan_id": schema.Int64Attribute{
 				Optional: true,
@@ -195,13 +175,11 @@ func OrgNetworkResourceSchema(ctx context.Context) schema.Schema {
 					Attributes: map[string]schema.Attribute{
 						"advertised_subnet": schema.StringAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "if `routed`==`true`, whether to advertise an aggregated subnet toward HUB this is useful when there are multiple networks on SPOKE's side",
 							MarkdownDescription: "if `routed`==`true`, whether to advertise an aggregated subnet toward HUB this is useful when there are multiple networks on SPOKE's side",
 						},
 						"allow_ping": schema.BoolAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "whether to allow ping from vpn into this routed network",
 							MarkdownDescription: "whether to allow ping from vpn into this routed network",
 						},
@@ -228,47 +206,37 @@ func OrgNetworkResourceSchema(ctx context.Context) schema.Schema {
 								},
 							},
 							Optional:            true,
-							Computed:            true,
 							Description:         "Property key may be an IP/Port (i.e. \"63.16.0.3:443\"), or a port (i.e. \":2222\")",
 							MarkdownDescription: "Property key may be an IP/Port (i.e. \"63.16.0.3:443\"), or a port (i.e. \":2222\")",
 						},
 						"nat_pool": schema.StringAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "if `routed`==`false` (usually at Spoke), but some hosts needs to be reachable from Hub, a subnet is required to create and advertise the route to Hub",
 							MarkdownDescription: "if `routed`==`false` (usually at Spoke), but some hosts needs to be reachable from Hub, a subnet is required to create and advertise the route to Hub",
 						},
 						"no_readvertise_to_lan_bgp": schema.BoolAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "toward LAN-side BGP peers",
 							MarkdownDescription: "toward LAN-side BGP peers",
-							Default:             booldefault.StaticBool(false),
 						},
 						"no_readvertise_to_lan_ospf": schema.BoolAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "toward LAN-side OSPF peers",
 							MarkdownDescription: "toward LAN-side OSPF peers",
-							Default:             booldefault.StaticBool(false),
 						},
 						"no_readvertise_to_overlay": schema.BoolAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "toward overlay\nhow HUB should deal with routes it received from Spokes",
 							MarkdownDescription: "toward overlay\nhow HUB should deal with routes it received from Spokes",
 						},
 						"other_vrfs": schema.ListAttribute{
 							ElementType:         types.StringType,
 							Optional:            true,
-							Computed:            true,
 							Description:         "by default, the routes are only readvertised toward the same vrf on spoke\nto allow it to be leaked to other vrfs",
 							MarkdownDescription: "by default, the routes are only readvertised toward the same vrf on spoke\nto allow it to be leaked to other vrfs",
-							Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 						},
 						"routed": schema.BoolAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "whether this network is routable",
 							MarkdownDescription: "whether this network is routable",
 						},
@@ -285,7 +253,6 @@ func OrgNetworkResourceSchema(ctx context.Context) schema.Schema {
 								},
 							},
 							Optional:            true,
-							Computed:            true,
 							Description:         "if `routed`==`false` (usually at Spoke), but some hosts needs to be reachable from Hub",
 							MarkdownDescription: "if `routed`==`false` (usually at Spoke), but some hosts needs to be reachable from Hub",
 						},
@@ -302,7 +269,6 @@ func OrgNetworkResourceSchema(ctx context.Context) schema.Schema {
 									},
 									"wan_name": schema.StringAttribute{
 										Optional:            true,
-										Computed:            true,
 										Description:         "If not set, we configure the nat policies against all WAN ports for simplicity",
 										MarkdownDescription: "If not set, we configure the nat policies against all WAN ports for simplicity",
 									},
@@ -314,25 +280,21 @@ func OrgNetworkResourceSchema(ctx context.Context) schema.Schema {
 								},
 							},
 							Optional:            true,
-							Computed:            true,
 							Description:         "Property key may be an IP Address (i.e. \"172.16.0.1\"), and IP Address and Port (i.e. \"172.16.0.1:8443\") or a CIDR (i.e. \"172.16.0.12/20\")",
 							MarkdownDescription: "Property key may be an IP Address (i.e. \"172.16.0.1\"), and IP Address and Port (i.e. \"172.16.0.1:8443\") or a CIDR (i.e. \"172.16.0.12/20\")",
 						},
 						"summarized_subnet": schema.StringAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "toward overlay\nhow HUB should deal with routes it received from Spokes",
 							MarkdownDescription: "toward overlay\nhow HUB should deal with routes it received from Spokes",
 						},
 						"summarized_subnet_to_lan_bgp": schema.StringAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "toward LAN-side BGP peers",
 							MarkdownDescription: "toward LAN-side BGP peers",
 						},
 						"summarized_subnet_to_lan_ospf": schema.StringAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "toward LAN-side OSPF peers",
 							MarkdownDescription: "toward LAN-side OSPF peers",
 						},
@@ -344,7 +306,6 @@ func OrgNetworkResourceSchema(ctx context.Context) schema.Schema {
 					},
 				},
 				Optional:            true,
-				Computed:            true,
 				Description:         "Property key is the VPN name. Whether this network can be accessed from vpn",
 				MarkdownDescription: "Property key is the VPN name. Whether this network can be accessed from vpn",
 			},

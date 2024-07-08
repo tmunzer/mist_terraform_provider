@@ -9,11 +9,11 @@ import (
 	"mistapi/models"
 )
 
-func proxyTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d ProxyValue) models.Proxy {
+func proxyTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d ProxyValue) *models.Proxy {
 	tflog.Debug(ctx, "proxyTerraformToSdk")
-	data := models.NewProxy()
+	data := models.Proxy{}
 
-	data.SetUrl(d.Url.ValueString())
+	data.Url = d.Url.ValueStringPointer()
 
-	return *data
+	return &data
 }

@@ -9,10 +9,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
@@ -41,20 +37,15 @@ func OrgRftemplateResourceSchema(ctx context.Context) schema.Schema {
 				Attributes: map[string]schema.Attribute{
 					"allow_rrm_disable": schema.BoolAttribute{
 						Optional: true,
-						Computed: true,
-						Default:  booldefault.StaticBool(false),
 					},
 					"ant_gain": schema.Int64Attribute{
 						Optional: true,
-						Computed: true,
 						Validators: []validator.Int64{
 							int64validator.Between(0, 10),
 						},
-						Default: int64default.StaticInt64(0),
 					},
 					"antenna_mode": schema.StringAttribute{
 						Optional: true,
-						Computed: true,
 						Validators: []validator.String{
 							stringvalidator.OneOf(
 								"",
@@ -65,11 +56,9 @@ func OrgRftemplateResourceSchema(ctx context.Context) schema.Schema {
 								"4x4",
 							),
 						},
-						Default: stringdefault.StaticString("default"),
 					},
 					"bandwidth": schema.Int64Attribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "channel width for the 2.4GHz band",
 						MarkdownDescription: "channel width for the 2.4GHz band",
 						Validators: []validator.Int64{
@@ -78,56 +67,44 @@ func OrgRftemplateResourceSchema(ctx context.Context) schema.Schema {
 								40,
 							),
 						},
-						Default: int64default.StaticInt64(20),
 					},
 					"channels": schema.ListAttribute{
 						ElementType:         types.Int64Type,
 						Optional:            true,
-						Computed:            true,
 						Description:         "For RFTemplates. List of channels, null or empty array means auto",
 						MarkdownDescription: "For RFTemplates. List of channels, null or empty array means auto",
-						Default:             listdefault.StaticValue(types.ListValueMust(types.Int64Type, []attr.Value{})),
 					},
 					"disabled": schema.BoolAttribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "whether to disable the radio",
 						MarkdownDescription: "whether to disable the radio",
-						Default:             booldefault.StaticBool(false),
 					},
 					"power": schema.Int64Attribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "TX power of the radio. For Devices, 0 means auto. -1 / -2 / -3 / …: treated as 0 / -1 / -2 / …",
 						MarkdownDescription: "TX power of the radio. For Devices, 0 means auto. -1 / -2 / -3 / …: treated as 0 / -1 / -2 / …",
 						Validators: []validator.Int64{
 							int64validator.Between(3, 25),
 						},
-						Default: int64default.StaticInt64(0),
 					},
 					"power_max": schema.Int64Attribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "when power=0, max tx power to use, HW-specific values will be used if not set",
 						MarkdownDescription: "when power=0, max tx power to use, HW-specific values will be used if not set",
 						Validators: []validator.Int64{
 							int64validator.Between(3, 18),
 						},
-						Default: int64default.StaticInt64(17),
 					},
 					"power_min": schema.Int64Attribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "when power=0, min tx power to use, HW-specific values will be used if not set",
 						MarkdownDescription: "when power=0, min tx power to use, HW-specific values will be used if not set",
 						Validators: []validator.Int64{
 							int64validator.Between(3, 18),
 						},
-						Default: int64default.StaticInt64(8),
 					},
 					"preamble": schema.StringAttribute{
 						Optional: true,
-						Computed: true,
 						Validators: []validator.String{
 							stringvalidator.OneOf(
 								"",
@@ -136,7 +113,6 @@ func OrgRftemplateResourceSchema(ctx context.Context) schema.Schema {
 								"auto",
 							),
 						},
-						Default: stringdefault.StaticString("short"),
 					},
 				},
 				CustomType: Band24Type{
@@ -145,13 +121,11 @@ func OrgRftemplateResourceSchema(ctx context.Context) schema.Schema {
 					},
 				},
 				Optional:            true,
-				Computed:            true,
 				Description:         "Radio Band AP settings",
 				MarkdownDescription: "Radio Band AP settings",
 			},
 			"band_24_usage": schema.StringAttribute{
 				Optional: true,
-				Computed: true,
 				Validators: []validator.String{
 					stringvalidator.OneOf(
 						"",
@@ -166,20 +140,15 @@ func OrgRftemplateResourceSchema(ctx context.Context) schema.Schema {
 				Attributes: map[string]schema.Attribute{
 					"allow_rrm_disable": schema.BoolAttribute{
 						Optional: true,
-						Computed: true,
-						Default:  booldefault.StaticBool(false),
 					},
 					"ant_gain": schema.Int64Attribute{
 						Optional: true,
-						Computed: true,
 						Validators: []validator.Int64{
 							int64validator.Between(0, 10),
 						},
-						Default: int64default.StaticInt64(0),
 					},
 					"antenna_mode": schema.StringAttribute{
 						Optional: true,
-						Computed: true,
 						Validators: []validator.String{
 							stringvalidator.OneOf(
 								"",
@@ -190,11 +159,9 @@ func OrgRftemplateResourceSchema(ctx context.Context) schema.Schema {
 								"4x4",
 							),
 						},
-						Default: stringdefault.StaticString("default"),
 					},
 					"bandwidth": schema.Int64Attribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "channel width for the 5GHz band",
 						MarkdownDescription: "channel width for the 5GHz band",
 						Validators: []validator.Int64{
@@ -208,51 +175,40 @@ func OrgRftemplateResourceSchema(ctx context.Context) schema.Schema {
 					"channels": schema.ListAttribute{
 						ElementType:         types.Int64Type,
 						Optional:            true,
-						Computed:            true,
 						Description:         "For RFTemplates. List of channels, null or empty array means auto",
 						MarkdownDescription: "For RFTemplates. List of channels, null or empty array means auto",
-						Default:             listdefault.StaticValue(types.ListValueMust(types.Int64Type, []attr.Value{})),
 					},
 					"disabled": schema.BoolAttribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "whether to disable the radio",
 						MarkdownDescription: "whether to disable the radio",
-						Default:             booldefault.StaticBool(false),
 					},
 					"power": schema.Int64Attribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "TX power of the radio. For Devices, 0 means auto. -1 / -2 / -3 / …: treated as 0 / -1 / -2 / …",
 						MarkdownDescription: "TX power of the radio. For Devices, 0 means auto. -1 / -2 / -3 / …: treated as 0 / -1 / -2 / …",
 						Validators: []validator.Int64{
 							int64validator.Between(5, 25),
 						},
-						Default: int64default.StaticInt64(0),
 					},
 					"power_max": schema.Int64Attribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "when power=0, max tx power to use, HW-specific values will be used if not set",
 						MarkdownDescription: "when power=0, max tx power to use, HW-specific values will be used if not set",
 						Validators: []validator.Int64{
 							int64validator.Between(5, 17),
 						},
-						Default: int64default.StaticInt64(17),
 					},
 					"power_min": schema.Int64Attribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "when power=0, min tx power to use, HW-specific values will be used if not set",
 						MarkdownDescription: "when power=0, min tx power to use, HW-specific values will be used if not set",
 						Validators: []validator.Int64{
 							int64validator.Between(5, 17),
 						},
-						Default: int64default.StaticInt64(8),
 					},
 					"preamble": schema.StringAttribute{
 						Optional: true,
-						Computed: true,
 						Validators: []validator.String{
 							stringvalidator.OneOf(
 								"",
@@ -261,7 +217,6 @@ func OrgRftemplateResourceSchema(ctx context.Context) schema.Schema {
 								"auto",
 							),
 						},
-						Default: stringdefault.StaticString("short"),
 					},
 				},
 				CustomType: Band5Type{
@@ -270,28 +225,22 @@ func OrgRftemplateResourceSchema(ctx context.Context) schema.Schema {
 					},
 				},
 				Optional:            true,
-				Computed:            true,
 				Description:         "Radio Band AP settings",
 				MarkdownDescription: "Radio Band AP settings",
 			},
-			"band_6": schema.SingleNestedAttribute{
+			"band_5_on_24_radio": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
 					"allow_rrm_disable": schema.BoolAttribute{
 						Optional: true,
-						Computed: true,
-						Default:  booldefault.StaticBool(false),
 					},
 					"ant_gain": schema.Int64Attribute{
 						Optional: true,
-						Computed: true,
 						Validators: []validator.Int64{
 							int64validator.Between(0, 10),
 						},
-						Default: int64default.StaticInt64(0),
 					},
 					"antenna_mode": schema.StringAttribute{
 						Optional: true,
-						Computed: true,
 						Validators: []validator.String{
 							stringvalidator.OneOf(
 								"",
@@ -302,11 +251,101 @@ func OrgRftemplateResourceSchema(ctx context.Context) schema.Schema {
 								"4x4",
 							),
 						},
-						Default: stringdefault.StaticString("default"),
 					},
 					"bandwidth": schema.Int64Attribute{
 						Optional:            true,
-						Computed:            true,
+						Description:         "channel width for the 5GHz band",
+						MarkdownDescription: "channel width for the 5GHz band",
+						Validators: []validator.Int64{
+							int64validator.OneOf(
+								20,
+								40,
+								80,
+							),
+						},
+					},
+					"channels": schema.ListAttribute{
+						ElementType:         types.Int64Type,
+						Optional:            true,
+						Description:         "For RFTemplates. List of channels, null or empty array means auto",
+						MarkdownDescription: "For RFTemplates. List of channels, null or empty array means auto",
+					},
+					"disabled": schema.BoolAttribute{
+						Optional:            true,
+						Description:         "whether to disable the radio",
+						MarkdownDescription: "whether to disable the radio",
+					},
+					"power": schema.Int64Attribute{
+						Optional:            true,
+						Description:         "TX power of the radio. For Devices, 0 means auto. -1 / -2 / -3 / …: treated as 0 / -1 / -2 / …",
+						MarkdownDescription: "TX power of the radio. For Devices, 0 means auto. -1 / -2 / -3 / …: treated as 0 / -1 / -2 / …",
+						Validators: []validator.Int64{
+							int64validator.Between(5, 25),
+						},
+					},
+					"power_max": schema.Int64Attribute{
+						Optional:            true,
+						Description:         "when power=0, max tx power to use, HW-specific values will be used if not set",
+						MarkdownDescription: "when power=0, max tx power to use, HW-specific values will be used if not set",
+						Validators: []validator.Int64{
+							int64validator.Between(5, 17),
+						},
+					},
+					"power_min": schema.Int64Attribute{
+						Optional:            true,
+						Description:         "when power=0, min tx power to use, HW-specific values will be used if not set",
+						MarkdownDescription: "when power=0, min tx power to use, HW-specific values will be used if not set",
+						Validators: []validator.Int64{
+							int64validator.Between(5, 17),
+						},
+					},
+					"preamble": schema.StringAttribute{
+						Optional: true,
+						Validators: []validator.String{
+							stringvalidator.OneOf(
+								"",
+								"short",
+								"long",
+								"auto",
+							),
+						},
+					},
+				},
+				CustomType: Band5On24RadioType{
+					ObjectType: types.ObjectType{
+						AttrTypes: Band5On24RadioValue{}.AttributeTypes(ctx),
+					},
+				},
+				Optional:            true,
+				Description:         "Radio Band AP settings",
+				MarkdownDescription: "Radio Band AP settings",
+			},
+			"band_6": schema.SingleNestedAttribute{
+				Attributes: map[string]schema.Attribute{
+					"allow_rrm_disable": schema.BoolAttribute{
+						Optional: true,
+					},
+					"ant_gain": schema.Int64Attribute{
+						Optional: true,
+						Validators: []validator.Int64{
+							int64validator.Between(0, 10),
+						},
+					},
+					"antenna_mode": schema.StringAttribute{
+						Optional: true,
+						Validators: []validator.String{
+							stringvalidator.OneOf(
+								"",
+								"default",
+								"1x1",
+								"2x2",
+								"3x3",
+								"4x4",
+							),
+						},
+					},
+					"bandwidth": schema.Int64Attribute{
+						Optional:            true,
 						Description:         "channel width for the 6GHz band",
 						MarkdownDescription: "channel width for the 6GHz band",
 						Validators: []validator.Int64{
@@ -317,56 +356,44 @@ func OrgRftemplateResourceSchema(ctx context.Context) schema.Schema {
 								160,
 							),
 						},
-						Default: int64default.StaticInt64(80),
 					},
 					"channels": schema.ListAttribute{
 						ElementType:         types.Int64Type,
 						Optional:            true,
-						Computed:            true,
 						Description:         "For RFTemplates. List of channels, null or empty array means auto",
 						MarkdownDescription: "For RFTemplates. List of channels, null or empty array means auto",
-						Default:             listdefault.StaticValue(types.ListValueMust(types.Int64Type, []attr.Value{})),
 					},
 					"disabled": schema.BoolAttribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "whether to disable the radio",
 						MarkdownDescription: "whether to disable the radio",
-						Default:             booldefault.StaticBool(false),
 					},
 					"power": schema.Int64Attribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "TX power of the radio. For Devices, 0 means auto. -1 / -2 / -3 / …: treated as 0 / -1 / -2 / …",
 						MarkdownDescription: "TX power of the radio. For Devices, 0 means auto. -1 / -2 / -3 / …: treated as 0 / -1 / -2 / …",
 						Validators: []validator.Int64{
 							int64validator.Between(5, 25),
 						},
-						Default: int64default.StaticInt64(0),
 					},
 					"power_max": schema.Int64Attribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "when power=0, max tx power to use, HW-specific values will be used if not set",
 						MarkdownDescription: "when power=0, max tx power to use, HW-specific values will be used if not set",
 						Validators: []validator.Int64{
 							int64validator.Between(5, 18),
 						},
-						Default: int64default.StaticInt64(18),
 					},
 					"power_min": schema.Int64Attribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "when power=0, min tx power to use, HW-specific values will be used if not set",
 						MarkdownDescription: "when power=0, min tx power to use, HW-specific values will be used if not set",
 						Validators: []validator.Int64{
 							int64validator.Between(5, 18),
 						},
-						Default: int64default.StaticInt64(8),
 					},
 					"preamble": schema.StringAttribute{
 						Optional: true,
-						Computed: true,
 						Validators: []validator.String{
 							stringvalidator.OneOf(
 								"",
@@ -375,14 +402,11 @@ func OrgRftemplateResourceSchema(ctx context.Context) schema.Schema {
 								"auto",
 							),
 						},
-						Default: stringdefault.StaticString("short"),
 					},
 					"standard_power": schema.BoolAttribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "for 6GHz Only, standard-power operation, AFC (Automatic Frequency Coordination) will be performed and we'll fallback to Low Power Indoor if AFC failed",
 						MarkdownDescription: "for 6GHz Only, standard-power operation, AFC (Automatic Frequency Coordination) will be performed and we'll fallback to Low Power Indoor if AFC failed",
-						Default:             booldefault.StaticBool(false),
 					},
 				},
 				CustomType: Band6Type{
@@ -391,18 +415,15 @@ func OrgRftemplateResourceSchema(ctx context.Context) schema.Schema {
 					},
 				},
 				Optional:            true,
-				Computed:            true,
 				Description:         "Radio Band AP settings",
 				MarkdownDescription: "Radio Band AP settings",
 			},
 			"country_code": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				Description:         "optional, country code to use. If specified, this gets applied to all sites using the RF Template",
 				MarkdownDescription: "optional, country code to use. If specified, this gets applied to all sites using the RF Template",
 			},
 			"id": schema.StringAttribute{
-				Optional: true,
 				Computed: true,
 			},
 			"model_specific": schema.MapNestedAttribute{
@@ -424,20 +445,15 @@ func OrgRftemplateResourceSchema(ctx context.Context) schema.Schema {
 							Attributes: map[string]schema.Attribute{
 								"allow_rrm_disable": schema.BoolAttribute{
 									Optional: true,
-									Computed: true,
-									Default:  booldefault.StaticBool(false),
 								},
 								"ant_gain": schema.Int64Attribute{
 									Optional: true,
-									Computed: true,
 									Validators: []validator.Int64{
 										int64validator.Between(0, 10),
 									},
-									Default: int64default.StaticInt64(0),
 								},
 								"antenna_mode": schema.StringAttribute{
 									Optional: true,
-									Computed: true,
 									Validators: []validator.String{
 										stringvalidator.OneOf(
 											"",
@@ -448,11 +464,9 @@ func OrgRftemplateResourceSchema(ctx context.Context) schema.Schema {
 											"4x4",
 										),
 									},
-									Default: stringdefault.StaticString("default"),
 								},
 								"bandwidth": schema.Int64Attribute{
 									Optional:            true,
-									Computed:            true,
 									Description:         "channel width for the 2.4GHz band",
 									MarkdownDescription: "channel width for the 2.4GHz band",
 									Validators: []validator.Int64{
@@ -461,56 +475,44 @@ func OrgRftemplateResourceSchema(ctx context.Context) schema.Schema {
 											40,
 										),
 									},
-									Default: int64default.StaticInt64(20),
 								},
 								"channels": schema.ListAttribute{
 									ElementType:         types.Int64Type,
 									Optional:            true,
-									Computed:            true,
 									Description:         "For RFTemplates. List of channels, null or empty array means auto",
 									MarkdownDescription: "For RFTemplates. List of channels, null or empty array means auto",
-									Default:             listdefault.StaticValue(types.ListValueMust(types.Int64Type, []attr.Value{})),
 								},
 								"disabled": schema.BoolAttribute{
 									Optional:            true,
-									Computed:            true,
 									Description:         "whether to disable the radio",
 									MarkdownDescription: "whether to disable the radio",
-									Default:             booldefault.StaticBool(false),
 								},
 								"power": schema.Int64Attribute{
 									Optional:            true,
-									Computed:            true,
 									Description:         "TX power of the radio. For Devices, 0 means auto. -1 / -2 / -3 / …: treated as 0 / -1 / -2 / …",
 									MarkdownDescription: "TX power of the radio. For Devices, 0 means auto. -1 / -2 / -3 / …: treated as 0 / -1 / -2 / …",
 									Validators: []validator.Int64{
 										int64validator.Between(3, 25),
 									},
-									Default: int64default.StaticInt64(0),
 								},
 								"power_max": schema.Int64Attribute{
 									Optional:            true,
-									Computed:            true,
 									Description:         "when power=0, max tx power to use, HW-specific values will be used if not set",
 									MarkdownDescription: "when power=0, max tx power to use, HW-specific values will be used if not set",
 									Validators: []validator.Int64{
 										int64validator.Between(3, 18),
 									},
-									Default: int64default.StaticInt64(17),
 								},
 								"power_min": schema.Int64Attribute{
 									Optional:            true,
-									Computed:            true,
 									Description:         "when power=0, min tx power to use, HW-specific values will be used if not set",
 									MarkdownDescription: "when power=0, min tx power to use, HW-specific values will be used if not set",
 									Validators: []validator.Int64{
 										int64validator.Between(3, 18),
 									},
-									Default: int64default.StaticInt64(8),
 								},
 								"preamble": schema.StringAttribute{
 									Optional: true,
-									Computed: true,
 									Validators: []validator.String{
 										stringvalidator.OneOf(
 											"",
@@ -519,7 +521,6 @@ func OrgRftemplateResourceSchema(ctx context.Context) schema.Schema {
 											"auto",
 										),
 									},
-									Default: stringdefault.StaticString("short"),
 								},
 							},
 							CustomType: Band24Type{
@@ -528,13 +529,11 @@ func OrgRftemplateResourceSchema(ctx context.Context) schema.Schema {
 								},
 							},
 							Optional:            true,
-							Computed:            true,
 							Description:         "Radio Band AP settings",
 							MarkdownDescription: "Radio Band AP settings",
 						},
 						"band_24_usage": schema.StringAttribute{
 							Optional: true,
-							Computed: true,
 							Validators: []validator.String{
 								stringvalidator.OneOf(
 									"",
@@ -549,20 +548,15 @@ func OrgRftemplateResourceSchema(ctx context.Context) schema.Schema {
 							Attributes: map[string]schema.Attribute{
 								"allow_rrm_disable": schema.BoolAttribute{
 									Optional: true,
-									Computed: true,
-									Default:  booldefault.StaticBool(false),
 								},
 								"ant_gain": schema.Int64Attribute{
 									Optional: true,
-									Computed: true,
 									Validators: []validator.Int64{
 										int64validator.Between(0, 10),
 									},
-									Default: int64default.StaticInt64(0),
 								},
 								"antenna_mode": schema.StringAttribute{
 									Optional: true,
-									Computed: true,
 									Validators: []validator.String{
 										stringvalidator.OneOf(
 											"",
@@ -573,11 +567,9 @@ func OrgRftemplateResourceSchema(ctx context.Context) schema.Schema {
 											"4x4",
 										),
 									},
-									Default: stringdefault.StaticString("default"),
 								},
 								"bandwidth": schema.Int64Attribute{
 									Optional:            true,
-									Computed:            true,
 									Description:         "channel width for the 5GHz band",
 									MarkdownDescription: "channel width for the 5GHz band",
 									Validators: []validator.Int64{
@@ -591,51 +583,40 @@ func OrgRftemplateResourceSchema(ctx context.Context) schema.Schema {
 								"channels": schema.ListAttribute{
 									ElementType:         types.Int64Type,
 									Optional:            true,
-									Computed:            true,
 									Description:         "For RFTemplates. List of channels, null or empty array means auto",
 									MarkdownDescription: "For RFTemplates. List of channels, null or empty array means auto",
-									Default:             listdefault.StaticValue(types.ListValueMust(types.Int64Type, []attr.Value{})),
 								},
 								"disabled": schema.BoolAttribute{
 									Optional:            true,
-									Computed:            true,
 									Description:         "whether to disable the radio",
 									MarkdownDescription: "whether to disable the radio",
-									Default:             booldefault.StaticBool(false),
 								},
 								"power": schema.Int64Attribute{
 									Optional:            true,
-									Computed:            true,
 									Description:         "TX power of the radio. For Devices, 0 means auto. -1 / -2 / -3 / …: treated as 0 / -1 / -2 / …",
 									MarkdownDescription: "TX power of the radio. For Devices, 0 means auto. -1 / -2 / -3 / …: treated as 0 / -1 / -2 / …",
 									Validators: []validator.Int64{
 										int64validator.Between(5, 25),
 									},
-									Default: int64default.StaticInt64(0),
 								},
 								"power_max": schema.Int64Attribute{
 									Optional:            true,
-									Computed:            true,
 									Description:         "when power=0, max tx power to use, HW-specific values will be used if not set",
 									MarkdownDescription: "when power=0, max tx power to use, HW-specific values will be used if not set",
 									Validators: []validator.Int64{
 										int64validator.Between(5, 17),
 									},
-									Default: int64default.StaticInt64(17),
 								},
 								"power_min": schema.Int64Attribute{
 									Optional:            true,
-									Computed:            true,
 									Description:         "when power=0, min tx power to use, HW-specific values will be used if not set",
 									MarkdownDescription: "when power=0, min tx power to use, HW-specific values will be used if not set",
 									Validators: []validator.Int64{
 										int64validator.Between(5, 17),
 									},
-									Default: int64default.StaticInt64(8),
 								},
 								"preamble": schema.StringAttribute{
 									Optional: true,
-									Computed: true,
 									Validators: []validator.String{
 										stringvalidator.OneOf(
 											"",
@@ -644,7 +625,6 @@ func OrgRftemplateResourceSchema(ctx context.Context) schema.Schema {
 											"auto",
 										),
 									},
-									Default: stringdefault.StaticString("short"),
 								},
 							},
 							CustomType: Band5Type{
@@ -653,7 +633,6 @@ func OrgRftemplateResourceSchema(ctx context.Context) schema.Schema {
 								},
 							},
 							Optional:            true,
-							Computed:            true,
 							Description:         "Radio Band AP settings",
 							MarkdownDescription: "Radio Band AP settings",
 						},
@@ -661,20 +640,15 @@ func OrgRftemplateResourceSchema(ctx context.Context) schema.Schema {
 							Attributes: map[string]schema.Attribute{
 								"allow_rrm_disable": schema.BoolAttribute{
 									Optional: true,
-									Computed: true,
-									Default:  booldefault.StaticBool(false),
 								},
 								"ant_gain": schema.Int64Attribute{
 									Optional: true,
-									Computed: true,
 									Validators: []validator.Int64{
 										int64validator.Between(0, 10),
 									},
-									Default: int64default.StaticInt64(0),
 								},
 								"antenna_mode": schema.StringAttribute{
 									Optional: true,
-									Computed: true,
 									Validators: []validator.String{
 										stringvalidator.OneOf(
 											"",
@@ -685,11 +659,9 @@ func OrgRftemplateResourceSchema(ctx context.Context) schema.Schema {
 											"4x4",
 										),
 									},
-									Default: stringdefault.StaticString("default"),
 								},
 								"bandwidth": schema.Int64Attribute{
 									Optional:            true,
-									Computed:            true,
 									Description:         "channel width for the 5GHz band",
 									MarkdownDescription: "channel width for the 5GHz band",
 									Validators: []validator.Int64{
@@ -703,51 +675,40 @@ func OrgRftemplateResourceSchema(ctx context.Context) schema.Schema {
 								"channels": schema.ListAttribute{
 									ElementType:         types.Int64Type,
 									Optional:            true,
-									Computed:            true,
 									Description:         "For RFTemplates. List of channels, null or empty array means auto",
 									MarkdownDescription: "For RFTemplates. List of channels, null or empty array means auto",
-									Default:             listdefault.StaticValue(types.ListValueMust(types.Int64Type, []attr.Value{})),
 								},
 								"disabled": schema.BoolAttribute{
 									Optional:            true,
-									Computed:            true,
 									Description:         "whether to disable the radio",
 									MarkdownDescription: "whether to disable the radio",
-									Default:             booldefault.StaticBool(false),
 								},
 								"power": schema.Int64Attribute{
 									Optional:            true,
-									Computed:            true,
 									Description:         "TX power of the radio. For Devices, 0 means auto. -1 / -2 / -3 / …: treated as 0 / -1 / -2 / …",
 									MarkdownDescription: "TX power of the radio. For Devices, 0 means auto. -1 / -2 / -3 / …: treated as 0 / -1 / -2 / …",
 									Validators: []validator.Int64{
 										int64validator.Between(5, 25),
 									},
-									Default: int64default.StaticInt64(0),
 								},
 								"power_max": schema.Int64Attribute{
 									Optional:            true,
-									Computed:            true,
 									Description:         "when power=0, max tx power to use, HW-specific values will be used if not set",
 									MarkdownDescription: "when power=0, max tx power to use, HW-specific values will be used if not set",
 									Validators: []validator.Int64{
 										int64validator.Between(5, 17),
 									},
-									Default: int64default.StaticInt64(17),
 								},
 								"power_min": schema.Int64Attribute{
 									Optional:            true,
-									Computed:            true,
 									Description:         "when power=0, min tx power to use, HW-specific values will be used if not set",
 									MarkdownDescription: "when power=0, min tx power to use, HW-specific values will be used if not set",
 									Validators: []validator.Int64{
 										int64validator.Between(5, 17),
 									},
-									Default: int64default.StaticInt64(8),
 								},
 								"preamble": schema.StringAttribute{
 									Optional: true,
-									Computed: true,
 									Validators: []validator.String{
 										stringvalidator.OneOf(
 											"",
@@ -756,7 +717,6 @@ func OrgRftemplateResourceSchema(ctx context.Context) schema.Schema {
 											"auto",
 										),
 									},
-									Default: stringdefault.StaticString("short"),
 								},
 							},
 							CustomType: Band5On24RadioType{
@@ -765,7 +725,6 @@ func OrgRftemplateResourceSchema(ctx context.Context) schema.Schema {
 								},
 							},
 							Optional:            true,
-							Computed:            true,
 							Description:         "Radio Band AP settings",
 							MarkdownDescription: "Radio Band AP settings",
 						},
@@ -773,20 +732,15 @@ func OrgRftemplateResourceSchema(ctx context.Context) schema.Schema {
 							Attributes: map[string]schema.Attribute{
 								"allow_rrm_disable": schema.BoolAttribute{
 									Optional: true,
-									Computed: true,
-									Default:  booldefault.StaticBool(false),
 								},
 								"ant_gain": schema.Int64Attribute{
 									Optional: true,
-									Computed: true,
 									Validators: []validator.Int64{
 										int64validator.Between(0, 10),
 									},
-									Default: int64default.StaticInt64(0),
 								},
 								"antenna_mode": schema.StringAttribute{
 									Optional: true,
-									Computed: true,
 									Validators: []validator.String{
 										stringvalidator.OneOf(
 											"",
@@ -797,11 +751,9 @@ func OrgRftemplateResourceSchema(ctx context.Context) schema.Schema {
 											"4x4",
 										),
 									},
-									Default: stringdefault.StaticString("default"),
 								},
 								"bandwidth": schema.Int64Attribute{
 									Optional:            true,
-									Computed:            true,
 									Description:         "channel width for the 6GHz band",
 									MarkdownDescription: "channel width for the 6GHz band",
 									Validators: []validator.Int64{
@@ -812,56 +764,44 @@ func OrgRftemplateResourceSchema(ctx context.Context) schema.Schema {
 											160,
 										),
 									},
-									Default: int64default.StaticInt64(80),
 								},
 								"channels": schema.ListAttribute{
 									ElementType:         types.Int64Type,
 									Optional:            true,
-									Computed:            true,
 									Description:         "For RFTemplates. List of channels, null or empty array means auto",
 									MarkdownDescription: "For RFTemplates. List of channels, null or empty array means auto",
-									Default:             listdefault.StaticValue(types.ListValueMust(types.Int64Type, []attr.Value{})),
 								},
 								"disabled": schema.BoolAttribute{
 									Optional:            true,
-									Computed:            true,
 									Description:         "whether to disable the radio",
 									MarkdownDescription: "whether to disable the radio",
-									Default:             booldefault.StaticBool(false),
 								},
 								"power": schema.Int64Attribute{
 									Optional:            true,
-									Computed:            true,
 									Description:         "TX power of the radio. For Devices, 0 means auto. -1 / -2 / -3 / …: treated as 0 / -1 / -2 / …",
 									MarkdownDescription: "TX power of the radio. For Devices, 0 means auto. -1 / -2 / -3 / …: treated as 0 / -1 / -2 / …",
 									Validators: []validator.Int64{
 										int64validator.Between(5, 25),
 									},
-									Default: int64default.StaticInt64(0),
 								},
 								"power_max": schema.Int64Attribute{
 									Optional:            true,
-									Computed:            true,
 									Description:         "when power=0, max tx power to use, HW-specific values will be used if not set",
 									MarkdownDescription: "when power=0, max tx power to use, HW-specific values will be used if not set",
 									Validators: []validator.Int64{
 										int64validator.Between(5, 18),
 									},
-									Default: int64default.StaticInt64(18),
 								},
 								"power_min": schema.Int64Attribute{
 									Optional:            true,
-									Computed:            true,
 									Description:         "when power=0, min tx power to use, HW-specific values will be used if not set",
 									MarkdownDescription: "when power=0, min tx power to use, HW-specific values will be used if not set",
 									Validators: []validator.Int64{
 										int64validator.Between(5, 18),
 									},
-									Default: int64default.StaticInt64(8),
 								},
 								"preamble": schema.StringAttribute{
 									Optional: true,
-									Computed: true,
 									Validators: []validator.String{
 										stringvalidator.OneOf(
 											"",
@@ -870,14 +810,11 @@ func OrgRftemplateResourceSchema(ctx context.Context) schema.Schema {
 											"auto",
 										),
 									},
-									Default: stringdefault.StaticString("short"),
 								},
 								"standard_power": schema.BoolAttribute{
 									Optional:            true,
-									Computed:            true,
 									Description:         "for 6GHz Only, standard-power operation, AFC (Automatic Frequency Coordination) will be performed and we'll fallback to Low Power Indoor if AFC failed",
 									MarkdownDescription: "for 6GHz Only, standard-power operation, AFC (Automatic Frequency Coordination) will be performed and we'll fallback to Low Power Indoor if AFC failed",
-									Default:             booldefault.StaticBool(false),
 								},
 							},
 							CustomType: Band6Type{
@@ -886,7 +823,6 @@ func OrgRftemplateResourceSchema(ctx context.Context) schema.Schema {
 								},
 							},
 							Optional:            true,
-							Computed:            true,
 							Description:         "Radio Band AP settings",
 							MarkdownDescription: "Radio Band AP settings",
 						},
@@ -898,7 +834,6 @@ func OrgRftemplateResourceSchema(ctx context.Context) schema.Schema {
 					},
 				},
 				Optional:            true,
-				Computed:            true,
 				Description:         "overwrites for a specific model. If a band is specified, it will shadow the default. Property key is the model name (e.g. \"AP63\")",
 				MarkdownDescription: "overwrites for a specific model. If a band is specified, it will shadow the default. Property key is the model name (e.g. \"AP63\")",
 			},
@@ -912,7 +847,6 @@ func OrgRftemplateResourceSchema(ctx context.Context) schema.Schema {
 			},
 			"scanning_enabled": schema.BoolAttribute{
 				Optional:            true,
-				Computed:            true,
 				Description:         "whether scanning radio is enabled",
 				MarkdownDescription: "whether scanning radio is enabled",
 			},
@@ -921,19 +855,20 @@ func OrgRftemplateResourceSchema(ctx context.Context) schema.Schema {
 }
 
 type OrgRftemplateModel struct {
-	AntGain24       types.Int64  `tfsdk:"ant_gain_24"`
-	AntGain5        types.Int64  `tfsdk:"ant_gain_5"`
-	AntGain6        types.Int64  `tfsdk:"ant_gain_6"`
-	Band24          Band24Value  `tfsdk:"band_24"`
-	Band24Usage     types.String `tfsdk:"band_24_usage"`
-	Band5           Band5Value   `tfsdk:"band_5"`
-	Band6           Band6Value   `tfsdk:"band_6"`
-	CountryCode     types.String `tfsdk:"country_code"`
-	Id              types.String `tfsdk:"id"`
-	ModelSpecific   types.Map    `tfsdk:"model_specific"`
-	Name            types.String `tfsdk:"name"`
-	OrgId           types.String `tfsdk:"org_id"`
-	ScanningEnabled types.Bool   `tfsdk:"scanning_enabled"`
+	AntGain24       types.Int64         `tfsdk:"ant_gain_24"`
+	AntGain5        types.Int64         `tfsdk:"ant_gain_5"`
+	AntGain6        types.Int64         `tfsdk:"ant_gain_6"`
+	Band24          Band24Value         `tfsdk:"band_24"`
+	Band24Usage     types.String        `tfsdk:"band_24_usage"`
+	Band5           Band5Value          `tfsdk:"band_5"`
+	Band5On24Radio  Band5On24RadioValue `tfsdk:"band_5_on_24_radio"`
+	Band6           Band6Value          `tfsdk:"band_6"`
+	CountryCode     types.String        `tfsdk:"country_code"`
+	Id              types.String        `tfsdk:"id"`
+	ModelSpecific   types.Map           `tfsdk:"model_specific"`
+	Name            types.String        `tfsdk:"name"`
+	OrgId           types.String        `tfsdk:"org_id"`
+	ScanningEnabled types.Bool          `tfsdk:"scanning_enabled"`
 }
 
 var _ basetypes.ObjectTypable = Band24Type{}
@@ -2612,6 +2547,852 @@ func (v Band5Value) Type(ctx context.Context) attr.Type {
 }
 
 func (v Band5Value) AttributeTypes(ctx context.Context) map[string]attr.Type {
+	return map[string]attr.Type{
+		"allow_rrm_disable": basetypes.BoolType{},
+		"ant_gain":          basetypes.Int64Type{},
+		"antenna_mode":      basetypes.StringType{},
+		"bandwidth":         basetypes.Int64Type{},
+		"channels": basetypes.ListType{
+			ElemType: types.Int64Type,
+		},
+		"disabled":  basetypes.BoolType{},
+		"power":     basetypes.Int64Type{},
+		"power_max": basetypes.Int64Type{},
+		"power_min": basetypes.Int64Type{},
+		"preamble":  basetypes.StringType{},
+	}
+}
+
+var _ basetypes.ObjectTypable = Band5On24RadioType{}
+
+type Band5On24RadioType struct {
+	basetypes.ObjectType
+}
+
+func (t Band5On24RadioType) Equal(o attr.Type) bool {
+	other, ok := o.(Band5On24RadioType)
+
+	if !ok {
+		return false
+	}
+
+	return t.ObjectType.Equal(other.ObjectType)
+}
+
+func (t Band5On24RadioType) String() string {
+	return "Band5On24RadioType"
+}
+
+func (t Band5On24RadioType) ValueFromObject(ctx context.Context, in basetypes.ObjectValue) (basetypes.ObjectValuable, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	attributes := in.Attributes()
+
+	allowRrmDisableAttribute, ok := attributes["allow_rrm_disable"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`allow_rrm_disable is missing from object`)
+
+		return nil, diags
+	}
+
+	allowRrmDisableVal, ok := allowRrmDisableAttribute.(basetypes.BoolValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`allow_rrm_disable expected to be basetypes.BoolValue, was: %T`, allowRrmDisableAttribute))
+	}
+
+	antGainAttribute, ok := attributes["ant_gain"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`ant_gain is missing from object`)
+
+		return nil, diags
+	}
+
+	antGainVal, ok := antGainAttribute.(basetypes.Int64Value)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`ant_gain expected to be basetypes.Int64Value, was: %T`, antGainAttribute))
+	}
+
+	antennaModeAttribute, ok := attributes["antenna_mode"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`antenna_mode is missing from object`)
+
+		return nil, diags
+	}
+
+	antennaModeVal, ok := antennaModeAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`antenna_mode expected to be basetypes.StringValue, was: %T`, antennaModeAttribute))
+	}
+
+	bandwidthAttribute, ok := attributes["bandwidth"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`bandwidth is missing from object`)
+
+		return nil, diags
+	}
+
+	bandwidthVal, ok := bandwidthAttribute.(basetypes.Int64Value)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`bandwidth expected to be basetypes.Int64Value, was: %T`, bandwidthAttribute))
+	}
+
+	channelsAttribute, ok := attributes["channels"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`channels is missing from object`)
+
+		return nil, diags
+	}
+
+	channelsVal, ok := channelsAttribute.(basetypes.ListValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`channels expected to be basetypes.ListValue, was: %T`, channelsAttribute))
+	}
+
+	disabledAttribute, ok := attributes["disabled"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`disabled is missing from object`)
+
+		return nil, diags
+	}
+
+	disabledVal, ok := disabledAttribute.(basetypes.BoolValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`disabled expected to be basetypes.BoolValue, was: %T`, disabledAttribute))
+	}
+
+	powerAttribute, ok := attributes["power"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`power is missing from object`)
+
+		return nil, diags
+	}
+
+	powerVal, ok := powerAttribute.(basetypes.Int64Value)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`power expected to be basetypes.Int64Value, was: %T`, powerAttribute))
+	}
+
+	powerMaxAttribute, ok := attributes["power_max"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`power_max is missing from object`)
+
+		return nil, diags
+	}
+
+	powerMaxVal, ok := powerMaxAttribute.(basetypes.Int64Value)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`power_max expected to be basetypes.Int64Value, was: %T`, powerMaxAttribute))
+	}
+
+	powerMinAttribute, ok := attributes["power_min"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`power_min is missing from object`)
+
+		return nil, diags
+	}
+
+	powerMinVal, ok := powerMinAttribute.(basetypes.Int64Value)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`power_min expected to be basetypes.Int64Value, was: %T`, powerMinAttribute))
+	}
+
+	preambleAttribute, ok := attributes["preamble"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`preamble is missing from object`)
+
+		return nil, diags
+	}
+
+	preambleVal, ok := preambleAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`preamble expected to be basetypes.StringValue, was: %T`, preambleAttribute))
+	}
+
+	if diags.HasError() {
+		return nil, diags
+	}
+
+	return Band5On24RadioValue{
+		AllowRrmDisable: allowRrmDisableVal,
+		AntGain:         antGainVal,
+		AntennaMode:     antennaModeVal,
+		Bandwidth:       bandwidthVal,
+		Channels:        channelsVal,
+		Disabled:        disabledVal,
+		Power:           powerVal,
+		PowerMax:        powerMaxVal,
+		PowerMin:        powerMinVal,
+		Preamble:        preambleVal,
+		state:           attr.ValueStateKnown,
+	}, diags
+}
+
+func NewBand5On24RadioValueNull() Band5On24RadioValue {
+	return Band5On24RadioValue{
+		state: attr.ValueStateNull,
+	}
+}
+
+func NewBand5On24RadioValueUnknown() Band5On24RadioValue {
+	return Band5On24RadioValue{
+		state: attr.ValueStateUnknown,
+	}
+}
+
+func NewBand5On24RadioValue(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) (Band5On24RadioValue, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	// Reference: https://github.com/hashicorp/terraform-plugin-framework/issues/521
+	ctx := context.Background()
+
+	for name, attributeType := range attributeTypes {
+		attribute, ok := attributes[name]
+
+		if !ok {
+			diags.AddError(
+				"Missing Band5On24RadioValue Attribute Value",
+				"While creating a Band5On24RadioValue value, a missing attribute value was detected. "+
+					"A Band5On24RadioValue must contain values for all attributes, even if null or unknown. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("Band5On24RadioValue Attribute Name (%s) Expected Type: %s", name, attributeType.String()),
+			)
+
+			continue
+		}
+
+		if !attributeType.Equal(attribute.Type(ctx)) {
+			diags.AddError(
+				"Invalid Band5On24RadioValue Attribute Type",
+				"While creating a Band5On24RadioValue value, an invalid attribute value was detected. "+
+					"A Band5On24RadioValue must use a matching attribute type for the value. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("Band5On24RadioValue Attribute Name (%s) Expected Type: %s\n", name, attributeType.String())+
+					fmt.Sprintf("Band5On24RadioValue Attribute Name (%s) Given Type: %s", name, attribute.Type(ctx)),
+			)
+		}
+	}
+
+	for name := range attributes {
+		_, ok := attributeTypes[name]
+
+		if !ok {
+			diags.AddError(
+				"Extra Band5On24RadioValue Attribute Value",
+				"While creating a Band5On24RadioValue value, an extra attribute value was detected. "+
+					"A Band5On24RadioValue must not contain values beyond the expected attribute types. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("Extra Band5On24RadioValue Attribute Name: %s", name),
+			)
+		}
+	}
+
+	if diags.HasError() {
+		return NewBand5On24RadioValueUnknown(), diags
+	}
+
+	allowRrmDisableAttribute, ok := attributes["allow_rrm_disable"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`allow_rrm_disable is missing from object`)
+
+		return NewBand5On24RadioValueUnknown(), diags
+	}
+
+	allowRrmDisableVal, ok := allowRrmDisableAttribute.(basetypes.BoolValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`allow_rrm_disable expected to be basetypes.BoolValue, was: %T`, allowRrmDisableAttribute))
+	}
+
+	antGainAttribute, ok := attributes["ant_gain"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`ant_gain is missing from object`)
+
+		return NewBand5On24RadioValueUnknown(), diags
+	}
+
+	antGainVal, ok := antGainAttribute.(basetypes.Int64Value)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`ant_gain expected to be basetypes.Int64Value, was: %T`, antGainAttribute))
+	}
+
+	antennaModeAttribute, ok := attributes["antenna_mode"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`antenna_mode is missing from object`)
+
+		return NewBand5On24RadioValueUnknown(), diags
+	}
+
+	antennaModeVal, ok := antennaModeAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`antenna_mode expected to be basetypes.StringValue, was: %T`, antennaModeAttribute))
+	}
+
+	bandwidthAttribute, ok := attributes["bandwidth"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`bandwidth is missing from object`)
+
+		return NewBand5On24RadioValueUnknown(), diags
+	}
+
+	bandwidthVal, ok := bandwidthAttribute.(basetypes.Int64Value)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`bandwidth expected to be basetypes.Int64Value, was: %T`, bandwidthAttribute))
+	}
+
+	channelsAttribute, ok := attributes["channels"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`channels is missing from object`)
+
+		return NewBand5On24RadioValueUnknown(), diags
+	}
+
+	channelsVal, ok := channelsAttribute.(basetypes.ListValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`channels expected to be basetypes.ListValue, was: %T`, channelsAttribute))
+	}
+
+	disabledAttribute, ok := attributes["disabled"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`disabled is missing from object`)
+
+		return NewBand5On24RadioValueUnknown(), diags
+	}
+
+	disabledVal, ok := disabledAttribute.(basetypes.BoolValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`disabled expected to be basetypes.BoolValue, was: %T`, disabledAttribute))
+	}
+
+	powerAttribute, ok := attributes["power"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`power is missing from object`)
+
+		return NewBand5On24RadioValueUnknown(), diags
+	}
+
+	powerVal, ok := powerAttribute.(basetypes.Int64Value)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`power expected to be basetypes.Int64Value, was: %T`, powerAttribute))
+	}
+
+	powerMaxAttribute, ok := attributes["power_max"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`power_max is missing from object`)
+
+		return NewBand5On24RadioValueUnknown(), diags
+	}
+
+	powerMaxVal, ok := powerMaxAttribute.(basetypes.Int64Value)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`power_max expected to be basetypes.Int64Value, was: %T`, powerMaxAttribute))
+	}
+
+	powerMinAttribute, ok := attributes["power_min"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`power_min is missing from object`)
+
+		return NewBand5On24RadioValueUnknown(), diags
+	}
+
+	powerMinVal, ok := powerMinAttribute.(basetypes.Int64Value)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`power_min expected to be basetypes.Int64Value, was: %T`, powerMinAttribute))
+	}
+
+	preambleAttribute, ok := attributes["preamble"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`preamble is missing from object`)
+
+		return NewBand5On24RadioValueUnknown(), diags
+	}
+
+	preambleVal, ok := preambleAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`preamble expected to be basetypes.StringValue, was: %T`, preambleAttribute))
+	}
+
+	if diags.HasError() {
+		return NewBand5On24RadioValueUnknown(), diags
+	}
+
+	return Band5On24RadioValue{
+		AllowRrmDisable: allowRrmDisableVal,
+		AntGain:         antGainVal,
+		AntennaMode:     antennaModeVal,
+		Bandwidth:       bandwidthVal,
+		Channels:        channelsVal,
+		Disabled:        disabledVal,
+		Power:           powerVal,
+		PowerMax:        powerMaxVal,
+		PowerMin:        powerMinVal,
+		Preamble:        preambleVal,
+		state:           attr.ValueStateKnown,
+	}, diags
+}
+
+func NewBand5On24RadioValueMust(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) Band5On24RadioValue {
+	object, diags := NewBand5On24RadioValue(attributeTypes, attributes)
+
+	if diags.HasError() {
+		// This could potentially be added to the diag package.
+		diagsStrings := make([]string, 0, len(diags))
+
+		for _, diagnostic := range diags {
+			diagsStrings = append(diagsStrings, fmt.Sprintf(
+				"%s | %s | %s",
+				diagnostic.Severity(),
+				diagnostic.Summary(),
+				diagnostic.Detail()))
+		}
+
+		panic("NewBand5On24RadioValueMust received error(s): " + strings.Join(diagsStrings, "\n"))
+	}
+
+	return object
+}
+
+func (t Band5On24RadioType) ValueFromTerraform(ctx context.Context, in tftypes.Value) (attr.Value, error) {
+	if in.Type() == nil {
+		return NewBand5On24RadioValueNull(), nil
+	}
+
+	if !in.Type().Equal(t.TerraformType(ctx)) {
+		return nil, fmt.Errorf("expected %s, got %s", t.TerraformType(ctx), in.Type())
+	}
+
+	if !in.IsKnown() {
+		return NewBand5On24RadioValueUnknown(), nil
+	}
+
+	if in.IsNull() {
+		return NewBand5On24RadioValueNull(), nil
+	}
+
+	attributes := map[string]attr.Value{}
+
+	val := map[string]tftypes.Value{}
+
+	err := in.As(&val)
+
+	if err != nil {
+		return nil, err
+	}
+
+	for k, v := range val {
+		a, err := t.AttrTypes[k].ValueFromTerraform(ctx, v)
+
+		if err != nil {
+			return nil, err
+		}
+
+		attributes[k] = a
+	}
+
+	return NewBand5On24RadioValueMust(Band5On24RadioValue{}.AttributeTypes(ctx), attributes), nil
+}
+
+func (t Band5On24RadioType) ValueType(ctx context.Context) attr.Value {
+	return Band5On24RadioValue{}
+}
+
+var _ basetypes.ObjectValuable = Band5On24RadioValue{}
+
+type Band5On24RadioValue struct {
+	AllowRrmDisable basetypes.BoolValue   `tfsdk:"allow_rrm_disable"`
+	AntGain         basetypes.Int64Value  `tfsdk:"ant_gain"`
+	AntennaMode     basetypes.StringValue `tfsdk:"antenna_mode"`
+	Bandwidth       basetypes.Int64Value  `tfsdk:"bandwidth"`
+	Channels        basetypes.ListValue   `tfsdk:"channels"`
+	Disabled        basetypes.BoolValue   `tfsdk:"disabled"`
+	Power           basetypes.Int64Value  `tfsdk:"power"`
+	PowerMax        basetypes.Int64Value  `tfsdk:"power_max"`
+	PowerMin        basetypes.Int64Value  `tfsdk:"power_min"`
+	Preamble        basetypes.StringValue `tfsdk:"preamble"`
+	state           attr.ValueState
+}
+
+func (v Band5On24RadioValue) ToTerraformValue(ctx context.Context) (tftypes.Value, error) {
+	attrTypes := make(map[string]tftypes.Type, 10)
+
+	var val tftypes.Value
+	var err error
+
+	attrTypes["allow_rrm_disable"] = basetypes.BoolType{}.TerraformType(ctx)
+	attrTypes["ant_gain"] = basetypes.Int64Type{}.TerraformType(ctx)
+	attrTypes["antenna_mode"] = basetypes.StringType{}.TerraformType(ctx)
+	attrTypes["bandwidth"] = basetypes.Int64Type{}.TerraformType(ctx)
+	attrTypes["channels"] = basetypes.ListType{
+		ElemType: types.Int64Type,
+	}.TerraformType(ctx)
+	attrTypes["disabled"] = basetypes.BoolType{}.TerraformType(ctx)
+	attrTypes["power"] = basetypes.Int64Type{}.TerraformType(ctx)
+	attrTypes["power_max"] = basetypes.Int64Type{}.TerraformType(ctx)
+	attrTypes["power_min"] = basetypes.Int64Type{}.TerraformType(ctx)
+	attrTypes["preamble"] = basetypes.StringType{}.TerraformType(ctx)
+
+	objectType := tftypes.Object{AttributeTypes: attrTypes}
+
+	switch v.state {
+	case attr.ValueStateKnown:
+		vals := make(map[string]tftypes.Value, 10)
+
+		val, err = v.AllowRrmDisable.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["allow_rrm_disable"] = val
+
+		val, err = v.AntGain.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["ant_gain"] = val
+
+		val, err = v.AntennaMode.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["antenna_mode"] = val
+
+		val, err = v.Bandwidth.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["bandwidth"] = val
+
+		val, err = v.Channels.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["channels"] = val
+
+		val, err = v.Disabled.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["disabled"] = val
+
+		val, err = v.Power.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["power"] = val
+
+		val, err = v.PowerMax.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["power_max"] = val
+
+		val, err = v.PowerMin.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["power_min"] = val
+
+		val, err = v.Preamble.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["preamble"] = val
+
+		if err := tftypes.ValidateValue(objectType, vals); err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		return tftypes.NewValue(objectType, vals), nil
+	case attr.ValueStateNull:
+		return tftypes.NewValue(objectType, nil), nil
+	case attr.ValueStateUnknown:
+		return tftypes.NewValue(objectType, tftypes.UnknownValue), nil
+	default:
+		panic(fmt.Sprintf("unhandled Object state in ToTerraformValue: %s", v.state))
+	}
+}
+
+func (v Band5On24RadioValue) IsNull() bool {
+	return v.state == attr.ValueStateNull
+}
+
+func (v Band5On24RadioValue) IsUnknown() bool {
+	return v.state == attr.ValueStateUnknown
+}
+
+func (v Band5On24RadioValue) String() string {
+	return "Band5On24RadioValue"
+}
+
+func (v Band5On24RadioValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	channelsVal, d := types.ListValue(types.Int64Type, v.Channels.Elements())
+
+	diags.Append(d...)
+
+	if d.HasError() {
+		return types.ObjectUnknown(map[string]attr.Type{
+			"allow_rrm_disable": basetypes.BoolType{},
+			"ant_gain":          basetypes.Int64Type{},
+			"antenna_mode":      basetypes.StringType{},
+			"bandwidth":         basetypes.Int64Type{},
+			"channels": basetypes.ListType{
+				ElemType: types.Int64Type,
+			},
+			"disabled":  basetypes.BoolType{},
+			"power":     basetypes.Int64Type{},
+			"power_max": basetypes.Int64Type{},
+			"power_min": basetypes.Int64Type{},
+			"preamble":  basetypes.StringType{},
+		}), diags
+	}
+
+	attributeTypes := map[string]attr.Type{
+		"allow_rrm_disable": basetypes.BoolType{},
+		"ant_gain":          basetypes.Int64Type{},
+		"antenna_mode":      basetypes.StringType{},
+		"bandwidth":         basetypes.Int64Type{},
+		"channels": basetypes.ListType{
+			ElemType: types.Int64Type,
+		},
+		"disabled":  basetypes.BoolType{},
+		"power":     basetypes.Int64Type{},
+		"power_max": basetypes.Int64Type{},
+		"power_min": basetypes.Int64Type{},
+		"preamble":  basetypes.StringType{},
+	}
+
+	if v.IsNull() {
+		return types.ObjectNull(attributeTypes), diags
+	}
+
+	if v.IsUnknown() {
+		return types.ObjectUnknown(attributeTypes), diags
+	}
+
+	objVal, diags := types.ObjectValue(
+		attributeTypes,
+		map[string]attr.Value{
+			"allow_rrm_disable": v.AllowRrmDisable,
+			"ant_gain":          v.AntGain,
+			"antenna_mode":      v.AntennaMode,
+			"bandwidth":         v.Bandwidth,
+			"channels":          channelsVal,
+			"disabled":          v.Disabled,
+			"power":             v.Power,
+			"power_max":         v.PowerMax,
+			"power_min":         v.PowerMin,
+			"preamble":          v.Preamble,
+		})
+
+	return objVal, diags
+}
+
+func (v Band5On24RadioValue) Equal(o attr.Value) bool {
+	other, ok := o.(Band5On24RadioValue)
+
+	if !ok {
+		return false
+	}
+
+	if v.state != other.state {
+		return false
+	}
+
+	if v.state != attr.ValueStateKnown {
+		return true
+	}
+
+	if !v.AllowRrmDisable.Equal(other.AllowRrmDisable) {
+		return false
+	}
+
+	if !v.AntGain.Equal(other.AntGain) {
+		return false
+	}
+
+	if !v.AntennaMode.Equal(other.AntennaMode) {
+		return false
+	}
+
+	if !v.Bandwidth.Equal(other.Bandwidth) {
+		return false
+	}
+
+	if !v.Channels.Equal(other.Channels) {
+		return false
+	}
+
+	if !v.Disabled.Equal(other.Disabled) {
+		return false
+	}
+
+	if !v.Power.Equal(other.Power) {
+		return false
+	}
+
+	if !v.PowerMax.Equal(other.PowerMax) {
+		return false
+	}
+
+	if !v.PowerMin.Equal(other.PowerMin) {
+		return false
+	}
+
+	if !v.Preamble.Equal(other.Preamble) {
+		return false
+	}
+
+	return true
+}
+
+func (v Band5On24RadioValue) Type(ctx context.Context) attr.Type {
+	return Band5On24RadioType{
+		basetypes.ObjectType{
+			AttrTypes: v.AttributeTypes(ctx),
+		},
+	}
+}
+
+func (v Band5On24RadioValue) AttributeTypes(ctx context.Context) map[string]attr.Type {
 	return map[string]attr.Type{
 		"allow_rrm_disable": basetypes.BoolType{},
 		"ant_gain":          basetypes.Int64Type{},
@@ -4389,851 +5170,26 @@ func (v ModelSpecificValue) AttributeTypes(ctx context.Context) map[string]attr.
 
 
 
-var _ basetypes.ObjectTypable = Band5On24RadioType{}
 
-type Band5On24RadioType struct {
-	basetypes.ObjectType
-}
 
-func (t Band5On24RadioType) Equal(o attr.Type) bool {
-	other, ok := o.(Band5On24RadioType)
 
-	if !ok {
-		return false
-	}
 
-	return t.ObjectType.Equal(other.ObjectType)
-}
 
-func (t Band5On24RadioType) String() string {
-	return "Band5On24RadioType"
-}
 
-func (t Band5On24RadioType) ValueFromObject(ctx context.Context, in basetypes.ObjectValue) (basetypes.ObjectValuable, diag.Diagnostics) {
-	var diags diag.Diagnostics
 
-	attributes := in.Attributes()
 
-	allowRrmDisableAttribute, ok := attributes["allow_rrm_disable"]
 
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`allow_rrm_disable is missing from object`)
 
-		return nil, diags
-	}
 
-	allowRrmDisableVal, ok := allowRrmDisableAttribute.(basetypes.BoolValue)
 
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`allow_rrm_disable expected to be basetypes.BoolValue, was: %T`, allowRrmDisableAttribute))
-	}
 
-	antGainAttribute, ok := attributes["ant_gain"]
 
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`ant_gain is missing from object`)
 
-		return nil, diags
-	}
 
-	antGainVal, ok := antGainAttribute.(basetypes.Int64Value)
 
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`ant_gain expected to be basetypes.Int64Value, was: %T`, antGainAttribute))
-	}
 
-	antennaModeAttribute, ok := attributes["antenna_mode"]
 
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`antenna_mode is missing from object`)
 
-		return nil, diags
-	}
-
-	antennaModeVal, ok := antennaModeAttribute.(basetypes.StringValue)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`antenna_mode expected to be basetypes.StringValue, was: %T`, antennaModeAttribute))
-	}
-
-	bandwidthAttribute, ok := attributes["bandwidth"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`bandwidth is missing from object`)
-
-		return nil, diags
-	}
-
-	bandwidthVal, ok := bandwidthAttribute.(basetypes.Int64Value)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`bandwidth expected to be basetypes.Int64Value, was: %T`, bandwidthAttribute))
-	}
-
-	channelsAttribute, ok := attributes["channels"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`channels is missing from object`)
-
-		return nil, diags
-	}
-
-	channelsVal, ok := channelsAttribute.(basetypes.ListValue)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`channels expected to be basetypes.ListValue, was: %T`, channelsAttribute))
-	}
-
-	disabledAttribute, ok := attributes["disabled"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`disabled is missing from object`)
-
-		return nil, diags
-	}
-
-	disabledVal, ok := disabledAttribute.(basetypes.BoolValue)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`disabled expected to be basetypes.BoolValue, was: %T`, disabledAttribute))
-	}
-
-	powerAttribute, ok := attributes["power"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`power is missing from object`)
-
-		return nil, diags
-	}
-
-	powerVal, ok := powerAttribute.(basetypes.Int64Value)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`power expected to be basetypes.Int64Value, was: %T`, powerAttribute))
-	}
-
-	powerMaxAttribute, ok := attributes["power_max"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`power_max is missing from object`)
-
-		return nil, diags
-	}
-
-	powerMaxVal, ok := powerMaxAttribute.(basetypes.Int64Value)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`power_max expected to be basetypes.Int64Value, was: %T`, powerMaxAttribute))
-	}
-
-	powerMinAttribute, ok := attributes["power_min"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`power_min is missing from object`)
-
-		return nil, diags
-	}
-
-	powerMinVal, ok := powerMinAttribute.(basetypes.Int64Value)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`power_min expected to be basetypes.Int64Value, was: %T`, powerMinAttribute))
-	}
-
-	preambleAttribute, ok := attributes["preamble"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`preamble is missing from object`)
-
-		return nil, diags
-	}
-
-	preambleVal, ok := preambleAttribute.(basetypes.StringValue)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`preamble expected to be basetypes.StringValue, was: %T`, preambleAttribute))
-	}
-
-	if diags.HasError() {
-		return nil, diags
-	}
-
-	return Band5On24RadioValue{
-		AllowRrmDisable: allowRrmDisableVal,
-		AntGain:         antGainVal,
-		AntennaMode:     antennaModeVal,
-		Bandwidth:       bandwidthVal,
-		Channels:        channelsVal,
-		Disabled:        disabledVal,
-		Power:           powerVal,
-		PowerMax:        powerMaxVal,
-		PowerMin:        powerMinVal,
-		Preamble:        preambleVal,
-		state:           attr.ValueStateKnown,
-	}, diags
-}
-
-func NewBand5On24RadioValueNull() Band5On24RadioValue {
-	return Band5On24RadioValue{
-		state: attr.ValueStateNull,
-	}
-}
-
-func NewBand5On24RadioValueUnknown() Band5On24RadioValue {
-	return Band5On24RadioValue{
-		state: attr.ValueStateUnknown,
-	}
-}
-
-func NewBand5On24RadioValue(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) (Band5On24RadioValue, diag.Diagnostics) {
-	var diags diag.Diagnostics
-
-	// Reference: https://github.com/hashicorp/terraform-plugin-framework/issues/521
-	ctx := context.Background()
-
-	for name, attributeType := range attributeTypes {
-		attribute, ok := attributes[name]
-
-		if !ok {
-			diags.AddError(
-				"Missing Band5On24RadioValue Attribute Value",
-				"While creating a Band5On24RadioValue value, a missing attribute value was detected. "+
-					"A Band5On24RadioValue must contain values for all attributes, even if null or unknown. "+
-					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
-					fmt.Sprintf("Band5On24RadioValue Attribute Name (%s) Expected Type: %s", name, attributeType.String()),
-			)
-
-			continue
-		}
-
-		if !attributeType.Equal(attribute.Type(ctx)) {
-			diags.AddError(
-				"Invalid Band5On24RadioValue Attribute Type",
-				"While creating a Band5On24RadioValue value, an invalid attribute value was detected. "+
-					"A Band5On24RadioValue must use a matching attribute type for the value. "+
-					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
-					fmt.Sprintf("Band5On24RadioValue Attribute Name (%s) Expected Type: %s\n", name, attributeType.String())+
-					fmt.Sprintf("Band5On24RadioValue Attribute Name (%s) Given Type: %s", name, attribute.Type(ctx)),
-			)
-		}
-	}
-
-	for name := range attributes {
-		_, ok := attributeTypes[name]
-
-		if !ok {
-			diags.AddError(
-				"Extra Band5On24RadioValue Attribute Value",
-				"While creating a Band5On24RadioValue value, an extra attribute value was detected. "+
-					"A Band5On24RadioValue must not contain values beyond the expected attribute types. "+
-					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
-					fmt.Sprintf("Extra Band5On24RadioValue Attribute Name: %s", name),
-			)
-		}
-	}
-
-	if diags.HasError() {
-		return NewBand5On24RadioValueUnknown(), diags
-	}
-
-	allowRrmDisableAttribute, ok := attributes["allow_rrm_disable"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`allow_rrm_disable is missing from object`)
-
-		return NewBand5On24RadioValueUnknown(), diags
-	}
-
-	allowRrmDisableVal, ok := allowRrmDisableAttribute.(basetypes.BoolValue)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`allow_rrm_disable expected to be basetypes.BoolValue, was: %T`, allowRrmDisableAttribute))
-	}
-
-	antGainAttribute, ok := attributes["ant_gain"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`ant_gain is missing from object`)
-
-		return NewBand5On24RadioValueUnknown(), diags
-	}
-
-	antGainVal, ok := antGainAttribute.(basetypes.Int64Value)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`ant_gain expected to be basetypes.Int64Value, was: %T`, antGainAttribute))
-	}
-
-	antennaModeAttribute, ok := attributes["antenna_mode"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`antenna_mode is missing from object`)
-
-		return NewBand5On24RadioValueUnknown(), diags
-	}
-
-	antennaModeVal, ok := antennaModeAttribute.(basetypes.StringValue)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`antenna_mode expected to be basetypes.StringValue, was: %T`, antennaModeAttribute))
-	}
-
-	bandwidthAttribute, ok := attributes["bandwidth"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`bandwidth is missing from object`)
-
-		return NewBand5On24RadioValueUnknown(), diags
-	}
-
-	bandwidthVal, ok := bandwidthAttribute.(basetypes.Int64Value)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`bandwidth expected to be basetypes.Int64Value, was: %T`, bandwidthAttribute))
-	}
-
-	channelsAttribute, ok := attributes["channels"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`channels is missing from object`)
-
-		return NewBand5On24RadioValueUnknown(), diags
-	}
-
-	channelsVal, ok := channelsAttribute.(basetypes.ListValue)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`channels expected to be basetypes.ListValue, was: %T`, channelsAttribute))
-	}
-
-	disabledAttribute, ok := attributes["disabled"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`disabled is missing from object`)
-
-		return NewBand5On24RadioValueUnknown(), diags
-	}
-
-	disabledVal, ok := disabledAttribute.(basetypes.BoolValue)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`disabled expected to be basetypes.BoolValue, was: %T`, disabledAttribute))
-	}
-
-	powerAttribute, ok := attributes["power"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`power is missing from object`)
-
-		return NewBand5On24RadioValueUnknown(), diags
-	}
-
-	powerVal, ok := powerAttribute.(basetypes.Int64Value)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`power expected to be basetypes.Int64Value, was: %T`, powerAttribute))
-	}
-
-	powerMaxAttribute, ok := attributes["power_max"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`power_max is missing from object`)
-
-		return NewBand5On24RadioValueUnknown(), diags
-	}
-
-	powerMaxVal, ok := powerMaxAttribute.(basetypes.Int64Value)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`power_max expected to be basetypes.Int64Value, was: %T`, powerMaxAttribute))
-	}
-
-	powerMinAttribute, ok := attributes["power_min"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`power_min is missing from object`)
-
-		return NewBand5On24RadioValueUnknown(), diags
-	}
-
-	powerMinVal, ok := powerMinAttribute.(basetypes.Int64Value)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`power_min expected to be basetypes.Int64Value, was: %T`, powerMinAttribute))
-	}
-
-	preambleAttribute, ok := attributes["preamble"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`preamble is missing from object`)
-
-		return NewBand5On24RadioValueUnknown(), diags
-	}
-
-	preambleVal, ok := preambleAttribute.(basetypes.StringValue)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`preamble expected to be basetypes.StringValue, was: %T`, preambleAttribute))
-	}
-
-	if diags.HasError() {
-		return NewBand5On24RadioValueUnknown(), diags
-	}
-
-	return Band5On24RadioValue{
-		AllowRrmDisable: allowRrmDisableVal,
-		AntGain:         antGainVal,
-		AntennaMode:     antennaModeVal,
-		Bandwidth:       bandwidthVal,
-		Channels:        channelsVal,
-		Disabled:        disabledVal,
-		Power:           powerVal,
-		PowerMax:        powerMaxVal,
-		PowerMin:        powerMinVal,
-		Preamble:        preambleVal,
-		state:           attr.ValueStateKnown,
-	}, diags
-}
-
-func NewBand5On24RadioValueMust(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) Band5On24RadioValue {
-	object, diags := NewBand5On24RadioValue(attributeTypes, attributes)
-
-	if diags.HasError() {
-		// This could potentially be added to the diag package.
-		diagsStrings := make([]string, 0, len(diags))
-
-		for _, diagnostic := range diags {
-			diagsStrings = append(diagsStrings, fmt.Sprintf(
-				"%s | %s | %s",
-				diagnostic.Severity(),
-				diagnostic.Summary(),
-				diagnostic.Detail()))
-		}
-
-		panic("NewBand5On24RadioValueMust received error(s): " + strings.Join(diagsStrings, "\n"))
-	}
-
-	return object
-}
-
-func (t Band5On24RadioType) ValueFromTerraform(ctx context.Context, in tftypes.Value) (attr.Value, error) {
-	if in.Type() == nil {
-		return NewBand5On24RadioValueNull(), nil
-	}
-
-	if !in.Type().Equal(t.TerraformType(ctx)) {
-		return nil, fmt.Errorf("expected %s, got %s", t.TerraformType(ctx), in.Type())
-	}
-
-	if !in.IsKnown() {
-		return NewBand5On24RadioValueUnknown(), nil
-	}
-
-	if in.IsNull() {
-		return NewBand5On24RadioValueNull(), nil
-	}
-
-	attributes := map[string]attr.Value{}
-
-	val := map[string]tftypes.Value{}
-
-	err := in.As(&val)
-
-	if err != nil {
-		return nil, err
-	}
-
-	for k, v := range val {
-		a, err := t.AttrTypes[k].ValueFromTerraform(ctx, v)
-
-		if err != nil {
-			return nil, err
-		}
-
-		attributes[k] = a
-	}
-
-	return NewBand5On24RadioValueMust(Band5On24RadioValue{}.AttributeTypes(ctx), attributes), nil
-}
-
-func (t Band5On24RadioType) ValueType(ctx context.Context) attr.Value {
-	return Band5On24RadioValue{}
-}
-
-var _ basetypes.ObjectValuable = Band5On24RadioValue{}
-
-type Band5On24RadioValue struct {
-	AllowRrmDisable basetypes.BoolValue   `tfsdk:"allow_rrm_disable"`
-	AntGain         basetypes.Int64Value  `tfsdk:"ant_gain"`
-	AntennaMode     basetypes.StringValue `tfsdk:"antenna_mode"`
-	Bandwidth       basetypes.Int64Value  `tfsdk:"bandwidth"`
-	Channels        basetypes.ListValue   `tfsdk:"channels"`
-	Disabled        basetypes.BoolValue   `tfsdk:"disabled"`
-	Power           basetypes.Int64Value  `tfsdk:"power"`
-	PowerMax        basetypes.Int64Value  `tfsdk:"power_max"`
-	PowerMin        basetypes.Int64Value  `tfsdk:"power_min"`
-	Preamble        basetypes.StringValue `tfsdk:"preamble"`
-	state           attr.ValueState
-}
-
-func (v Band5On24RadioValue) ToTerraformValue(ctx context.Context) (tftypes.Value, error) {
-	attrTypes := make(map[string]tftypes.Type, 10)
-
-	var val tftypes.Value
-	var err error
-
-	attrTypes["allow_rrm_disable"] = basetypes.BoolType{}.TerraformType(ctx)
-	attrTypes["ant_gain"] = basetypes.Int64Type{}.TerraformType(ctx)
-	attrTypes["antenna_mode"] = basetypes.StringType{}.TerraformType(ctx)
-	attrTypes["bandwidth"] = basetypes.Int64Type{}.TerraformType(ctx)
-	attrTypes["channels"] = basetypes.ListType{
-		ElemType: types.Int64Type,
-	}.TerraformType(ctx)
-	attrTypes["disabled"] = basetypes.BoolType{}.TerraformType(ctx)
-	attrTypes["power"] = basetypes.Int64Type{}.TerraformType(ctx)
-	attrTypes["power_max"] = basetypes.Int64Type{}.TerraformType(ctx)
-	attrTypes["power_min"] = basetypes.Int64Type{}.TerraformType(ctx)
-	attrTypes["preamble"] = basetypes.StringType{}.TerraformType(ctx)
-
-	objectType := tftypes.Object{AttributeTypes: attrTypes}
-
-	switch v.state {
-	case attr.ValueStateKnown:
-		vals := make(map[string]tftypes.Value, 10)
-
-		val, err = v.AllowRrmDisable.ToTerraformValue(ctx)
-
-		if err != nil {
-			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
-		}
-
-		vals["allow_rrm_disable"] = val
-
-		val, err = v.AntGain.ToTerraformValue(ctx)
-
-		if err != nil {
-			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
-		}
-
-		vals["ant_gain"] = val
-
-		val, err = v.AntennaMode.ToTerraformValue(ctx)
-
-		if err != nil {
-			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
-		}
-
-		vals["antenna_mode"] = val
-
-		val, err = v.Bandwidth.ToTerraformValue(ctx)
-
-		if err != nil {
-			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
-		}
-
-		vals["bandwidth"] = val
-
-		val, err = v.Channels.ToTerraformValue(ctx)
-
-		if err != nil {
-			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
-		}
-
-		vals["channels"] = val
-
-		val, err = v.Disabled.ToTerraformValue(ctx)
-
-		if err != nil {
-			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
-		}
-
-		vals["disabled"] = val
-
-		val, err = v.Power.ToTerraformValue(ctx)
-
-		if err != nil {
-			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
-		}
-
-		vals["power"] = val
-
-		val, err = v.PowerMax.ToTerraformValue(ctx)
-
-		if err != nil {
-			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
-		}
-
-		vals["power_max"] = val
-
-		val, err = v.PowerMin.ToTerraformValue(ctx)
-
-		if err != nil {
-			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
-		}
-
-		vals["power_min"] = val
-
-		val, err = v.Preamble.ToTerraformValue(ctx)
-
-		if err != nil {
-			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
-		}
-
-		vals["preamble"] = val
-
-		if err := tftypes.ValidateValue(objectType, vals); err != nil {
-			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
-		}
-
-		return tftypes.NewValue(objectType, vals), nil
-	case attr.ValueStateNull:
-		return tftypes.NewValue(objectType, nil), nil
-	case attr.ValueStateUnknown:
-		return tftypes.NewValue(objectType, tftypes.UnknownValue), nil
-	default:
-		panic(fmt.Sprintf("unhandled Object state in ToTerraformValue: %s", v.state))
-	}
-}
-
-func (v Band5On24RadioValue) IsNull() bool {
-	return v.state == attr.ValueStateNull
-}
-
-func (v Band5On24RadioValue) IsUnknown() bool {
-	return v.state == attr.ValueStateUnknown
-}
-
-func (v Band5On24RadioValue) String() string {
-	return "Band5On24RadioValue"
-}
-
-func (v Band5On24RadioValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, diag.Diagnostics) {
-	var diags diag.Diagnostics
-
-	channelsVal, d := types.ListValue(types.Int64Type, v.Channels.Elements())
-
-	diags.Append(d...)
-
-	if d.HasError() {
-		return types.ObjectUnknown(map[string]attr.Type{
-			"allow_rrm_disable": basetypes.BoolType{},
-			"ant_gain":          basetypes.Int64Type{},
-			"antenna_mode":      basetypes.StringType{},
-			"bandwidth":         basetypes.Int64Type{},
-			"channels": basetypes.ListType{
-				ElemType: types.Int64Type,
-			},
-			"disabled":  basetypes.BoolType{},
-			"power":     basetypes.Int64Type{},
-			"power_max": basetypes.Int64Type{},
-			"power_min": basetypes.Int64Type{},
-			"preamble":  basetypes.StringType{},
-		}), diags
-	}
-
-	attributeTypes := map[string]attr.Type{
-		"allow_rrm_disable": basetypes.BoolType{},
-		"ant_gain":          basetypes.Int64Type{},
-		"antenna_mode":      basetypes.StringType{},
-		"bandwidth":         basetypes.Int64Type{},
-		"channels": basetypes.ListType{
-			ElemType: types.Int64Type,
-		},
-		"disabled":  basetypes.BoolType{},
-		"power":     basetypes.Int64Type{},
-		"power_max": basetypes.Int64Type{},
-		"power_min": basetypes.Int64Type{},
-		"preamble":  basetypes.StringType{},
-	}
-
-	if v.IsNull() {
-		return types.ObjectNull(attributeTypes), diags
-	}
-
-	if v.IsUnknown() {
-		return types.ObjectUnknown(attributeTypes), diags
-	}
-
-	objVal, diags := types.ObjectValue(
-		attributeTypes,
-		map[string]attr.Value{
-			"allow_rrm_disable": v.AllowRrmDisable,
-			"ant_gain":          v.AntGain,
-			"antenna_mode":      v.AntennaMode,
-			"bandwidth":         v.Bandwidth,
-			"channels":          channelsVal,
-			"disabled":          v.Disabled,
-			"power":             v.Power,
-			"power_max":         v.PowerMax,
-			"power_min":         v.PowerMin,
-			"preamble":          v.Preamble,
-		})
-
-	return objVal, diags
-}
-
-func (v Band5On24RadioValue) Equal(o attr.Value) bool {
-	other, ok := o.(Band5On24RadioValue)
-
-	if !ok {
-		return false
-	}
-
-	if v.state != other.state {
-		return false
-	}
-
-	if v.state != attr.ValueStateKnown {
-		return true
-	}
-
-	if !v.AllowRrmDisable.Equal(other.AllowRrmDisable) {
-		return false
-	}
-
-	if !v.AntGain.Equal(other.AntGain) {
-		return false
-	}
-
-	if !v.AntennaMode.Equal(other.AntennaMode) {
-		return false
-	}
-
-	if !v.Bandwidth.Equal(other.Bandwidth) {
-		return false
-	}
-
-	if !v.Channels.Equal(other.Channels) {
-		return false
-	}
-
-	if !v.Disabled.Equal(other.Disabled) {
-		return false
-	}
-
-	if !v.Power.Equal(other.Power) {
-		return false
-	}
-
-	if !v.PowerMax.Equal(other.PowerMax) {
-		return false
-	}
-
-	if !v.PowerMin.Equal(other.PowerMin) {
-		return false
-	}
-
-	if !v.Preamble.Equal(other.Preamble) {
-		return false
-	}
-
-	return true
-}
-
-func (v Band5On24RadioValue) Type(ctx context.Context) attr.Type {
-	return Band5On24RadioType{
-		basetypes.ObjectType{
-			AttrTypes: v.AttributeTypes(ctx),
-		},
-	}
-}
-
-func (v Band5On24RadioValue) AttributeTypes(ctx context.Context) map[string]attr.Type {
-	return map[string]attr.Type{
-		"allow_rrm_disable": basetypes.BoolType{},
-		"ant_gain":          basetypes.Int64Type{},
-		"antenna_mode":      basetypes.StringType{},
-		"bandwidth":         basetypes.Int64Type{},
-		"channels": basetypes.ListType{
-			ElemType: types.Int64Type,
-		},
-		"disabled":  basetypes.BoolType{},
-		"power":     basetypes.Int64Type{},
-		"power_max": basetypes.Int64Type{},
-		"power_min": basetypes.Int64Type{},
-		"preamble":  basetypes.StringType{},
-	}
-}
 
 
 

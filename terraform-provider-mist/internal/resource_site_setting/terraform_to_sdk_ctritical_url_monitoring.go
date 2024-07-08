@@ -16,23 +16,23 @@ func criticalUrlMonitoringMonitorsTerraformToSdk(ctx context.Context, diags *dia
 	for _, v := range d.Elements() {
 		var v_interface interface{} = v
 		plan := v_interface.(MonitorsValue)
-		data := models.NewSiteSettingCriticalUrlMonitoringMonitor()
-		data.SetUrl(plan.Url.ValueString())
-		data.SetVlanId(int32(plan.VlanId.ValueInt64()))
+		data := models.SiteSettingCriticalUrlMonitoringMonitor{}
+		data.Url = plan.Url.ValueStringPointer()
+		data.VlanId = models.ToPointer(int(plan.VlanId.ValueInt64()))
 
-		data_list = append(data_list, *data)
+		data_list = append(data_list, data)
 	}
 	return data_list
 }
 
-func criticalUrlMonitoringTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d CriticalUrlMonitoringValue) models.SiteSettingCriticalUrlMonitoring {
+func criticalUrlMonitoringTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d CriticalUrlMonitoringValue) *models.SiteSettingCriticalUrlMonitoring {
 	tflog.Debug(ctx, "criticalUrlMonitoringTerraformToSdk")
-	data := models.NewSiteSettingCriticalUrlMonitoring()
+	data := models.SiteSettingCriticalUrlMonitoring{}
 
-	data.SetEnabled(d.Enabled.ValueBool())
+	data.Enabled = d.Enabled.ValueBoolPointer()
 
 	monitors := criticalUrlMonitoringMonitorsTerraformToSdk(ctx, diags, d.Monitors)
-	data.SetMonitors(monitors)
+	data.Monitors = monitors
 
-	return *data
+	return &data
 }

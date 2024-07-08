@@ -12,40 +12,65 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 )
 
-func bonjourServicesSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, data map[string]models.WlanBonjourServiceProperties) basetypes.MapValue {
+func bonjourServicesSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, m map[string]models.WlanBonjourServiceProperties) basetypes.MapValue {
 
 	map_attr_values := make(map[string]attr.Value)
-	for k, v := range data {
-		var v_item = map[string]attr.Value{
-			"disable_local": types.BoolValue(v.GetDisableLocal()),
-			"radius_groups": mist_transform.ListOfStringSdkToTerraform(ctx, v.RadiusGroups),
-			"scope":         types.StringValue(string(v.GetScope())),
+	for k, d := range m {
+
+		var disable_local basetypes.BoolValue
+		var radius_groups basetypes.ListValue = mist_transform.ListOfStringSdkToTerraformEmpty(ctx)
+		var scope basetypes.StringValue
+
+		if d.DisableLocal != nil {
+			disable_local = types.BoolValue(*d.DisableLocal)
 		}
-		v_obj, e := NewServicesValue(ServicesValue{}.AttributeTypes(ctx), v_item)
+		if d.RadiusGroups != nil {
+			radius_groups = mist_transform.ListOfStringSdkToTerraform(ctx, d.RadiusGroups)
+		}
+		if d.Scope != nil {
+			scope = types.StringValue(string(*d.Scope))
+		}
+
+		data_map_attr_type := ServicesValue{}.AttributeTypes(ctx)
+		data_map_value := map[string]attr.Value{
+			"disable_local": disable_local,
+			"radius_groups": radius_groups,
+			"scope":         scope,
+		}
+		data, e := NewServicesValue(data_map_attr_type, data_map_value)
 		diags.Append(e...)
-		map_attr_values[k] = v_obj
+
+		map_attr_values[k] = data
 	}
 	r, e := types.MapValueFrom(ctx, ServicesValue{}.Type(ctx), map_attr_values)
 	diags.Append(e...)
 	return r
 }
 
-func bonjourSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, data models.WlanBonjour) BonjourValue {
-	var additional_vlan_ids_list []attr.Value
-	for _, v := range data.GetAdditionalVlanIds() {
-		additional_vlan_ids_list = append(additional_vlan_ids_list, types.Int64Value(int64(v)))
-	}
-	additional_vlan_ids, e := types.ListValue(basetypes.Int64Type{}, additional_vlan_ids_list)
-	diags.Append(e...)
+func bonjourSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d *models.WlanBonjour) BonjourValue {
+	var additional_vlan_ids basetypes.ListValue = types.ListNull(types.Int64Type)
+	var enabled basetypes.BoolValue
+	var services basetypes.MapValue = types.MapNull(ServicesValue{}.Type(ctx))
 
-	plan_attr := map[string]attr.Value{
+	if d != nil && d.AdditionalVlanIds != nil {
+		additional_vlan_ids = mist_transform.ListOfIntSdkToTerraform(ctx, d.AdditionalVlanIds)
+	}
+	if d != nil && d.Enabled != nil {
+		enabled = types.BoolValue(*d.Enabled)
+	}
+	if d != nil && d.Services != nil {
+		services = bonjourServicesSdkToTerraform(ctx, diags, d.Services)
+	}
+
+	data_map_attr_type := BonjourValue{}.AttributeTypes(ctx)
+	data_map_value := map[string]attr.Value{
 		"additional_vlan_ids": additional_vlan_ids,
-		"enabled":             types.BoolValue(data.GetEnabled()),
-		"services":            bonjourServicesSdkToTerraform(ctx, diags, data.GetServices()),
+		"enabled":             enabled,
+		"services":            services,
 	}
-	r, e := NewBonjourValue(BonjourValue{}.AttributeTypes(ctx), plan_attr)
+	data, e := NewBonjourValue(data_map_attr_type, data_map_value)
 	diags.Append(e...)
 
-	return r
+	return data
 
 }

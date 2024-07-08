@@ -12,57 +12,113 @@ import (
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 
-func simpleAlertArpSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d models.SimpleAlertArpFailure) basetypes.ObjectValue {
+func simpleAlertArpSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d *models.SimpleAlertArpFailure) basetypes.ObjectValue {
 	tflog.Debug(ctx, "simpleAlertArpSdkToTerraform")
+	var client_count basetypes.Int64Value
+	var duration basetypes.Int64Value
+	var incident_count basetypes.Int64Value
 
-	r_attr_type := ArpFailureValue{}.AttributeTypes(ctx)
-	r_attr_value := map[string]attr.Value{
-		"client_count":   types.Int64Value(int64(d.GetClientCount())),
-		"duration":       types.Int64Value(int64(d.GetDuration())),
-		"incident_count": types.Int64Value(int64(d.GetIncidentCount())),
+	if d != nil && d.ClientCount != nil {
+		client_count = types.Int64Value(int64(*d.ClientCount))
 	}
-	r, e := basetypes.NewObjectValue(r_attr_type, r_attr_value)
+	if d != nil && d.Duration != nil {
+		duration = types.Int64Value(int64(*d.Duration))
+	}
+	if d != nil && d.IncidentCount != nil {
+		incident_count = types.Int64Value(int64(*d.IncidentCount))
+	}
+
+	data_map_attr_type := ArpFailureValue{}.AttributeTypes(ctx)
+	data_map_value := map[string]attr.Value{
+		"client_count":   client_count,
+		"duration":       duration,
+		"incident_count": incident_count,
+	}
+	data, e := basetypes.NewObjectValue(data_map_attr_type, data_map_value)
 	diags.Append(e...)
-	return r
+
+	return data
 }
-func simpleAlertDnsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d models.SimpleAlertDnsFailure) basetypes.ObjectValue {
+func simpleAlertDnsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d *models.SimpleAlertDnsFailure) basetypes.ObjectValue {
 	tflog.Debug(ctx, "simpleAlertDnsSdkToTerraform")
+	var client_count basetypes.Int64Value
+	var duration basetypes.Int64Value
+	var incident_count basetypes.Int64Value
 
-	r_attr_type := DnsFailureValue{}.AttributeTypes(ctx)
-	r_attr_value := map[string]attr.Value{
-		"client_count":   types.Int64Value(int64(d.GetClientCount())),
-		"duration":       types.Int64Value(int64(d.GetDuration())),
-		"incident_count": types.Int64Value(int64(d.GetIncidentCount())),
+	if d != nil && d.ClientCount != nil {
+		client_count = types.Int64Value(int64(*d.ClientCount))
 	}
-	r, e := basetypes.NewObjectValue(r_attr_type, r_attr_value)
+	if d != nil && d.Duration != nil {
+		duration = types.Int64Value(int64(*d.Duration))
+	}
+	if d != nil && d.IncidentCount != nil {
+		incident_count = types.Int64Value(int64(*d.IncidentCount))
+	}
+
+	data_map_attr_type := DnsFailureValue{}.AttributeTypes(ctx)
+	data_map_value := map[string]attr.Value{
+		"client_count":   client_count,
+		"duration":       duration,
+		"incident_count": incident_count,
+	}
+	data, e := basetypes.NewObjectValue(data_map_attr_type, data_map_value)
 	diags.Append(e...)
-	return r
+
+	return data
 }
-func simpleAlertDhcpSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d models.SimpleAlertDhcpFailure) basetypes.ObjectValue {
+func simpleAlertDhcpSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d *models.SimpleAlertDhcpFailure) basetypes.ObjectValue {
 	tflog.Debug(ctx, "simpleAlertDhcpSdkToTerraform")
 
-	r_attr_type := DhcpFailureValue{}.AttributeTypes(ctx)
-	r_attr_value := map[string]attr.Value{
-		"client_count":   types.Int64Value(int64(d.GetClientCount())),
-		"duration":       types.Int64Value(int64(d.GetDuration())),
-		"incident_count": types.Int64Value(int64(d.GetIncidentCount())),
+	var client_count basetypes.Int64Value
+	var duration basetypes.Int64Value
+	var incident_count basetypes.Int64Value
+
+	if d != nil && d.ClientCount != nil {
+		client_count = types.Int64Value(int64(*d.ClientCount))
 	}
-	r, e := basetypes.NewObjectValue(r_attr_type, r_attr_value)
+	if d != nil && d.Duration != nil {
+		duration = types.Int64Value(int64(*d.Duration))
+	}
+	if d != nil && d.IncidentCount != nil {
+		incident_count = types.Int64Value(int64(*d.IncidentCount))
+	}
+
+	data_map_attr_type := DhcpFailureValue{}.AttributeTypes(ctx)
+	data_map_value := map[string]attr.Value{
+		"client_count":   client_count,
+		"duration":       duration,
+		"incident_count": incident_count,
+	}
+	data, e := basetypes.NewObjectValue(data_map_attr_type, data_map_value)
 	diags.Append(e...)
-	return r
+
+	return data
 }
 
-func simpleAlertSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d models.SimpleAlert) SimpleAlertValue {
+func simpleAlertSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d *models.SimpleAlert) SimpleAlertValue {
 	tflog.Debug(ctx, "simpleAlertSdkToTerraform")
+	var arp_failure basetypes.ObjectValue
+	var dhcp_failure basetypes.ObjectValue
+	var dns_failure basetypes.ObjectValue
 
-	r_attr_type := SimpleAlertValue{}.AttributeTypes(ctx)
-	r_attr_value := map[string]attr.Value{
-		"arp_failure":  simpleAlertArpSdkToTerraform(ctx, diags, d.GetArpFailure()),
-		"dhcp_failure": simpleAlertDhcpSdkToTerraform(ctx, diags, d.GetDhcpFailure()),
-		"dns_failure":  simpleAlertDnsSdkToTerraform(ctx, diags, d.GetDnsFailure()),
+	if d != nil && d.ArpFailure != nil {
+		arp_failure = simpleAlertArpSdkToTerraform(ctx, diags, d.ArpFailure)
+	}
+	if d != nil && d.DhcpFailure != nil {
+		dhcp_failure = simpleAlertDhcpSdkToTerraform(ctx, diags, d.DhcpFailure)
+	}
+	if d != nil && d.DnsFailure != nil {
+		dns_failure = simpleAlertDnsSdkToTerraform(ctx, diags, d.DnsFailure)
 	}
 
-	r, e := NewSimpleAlertValue(r_attr_type, r_attr_value)
+	data_map_attr_type := SimpleAlertValue{}.AttributeTypes(ctx)
+	data_map_value := map[string]attr.Value{
+		"arp_failure":  arp_failure,
+		"dhcp_failure": dhcp_failure,
+		"dns_failure":  dns_failure,
+	}
+	data, e := NewSimpleAlertValue(data_map_attr_type, data_map_value)
 	diags.Append(e...)
-	return r
+
+	return data
 }

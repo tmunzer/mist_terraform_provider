@@ -5,9 +5,6 @@ package resource_org_nactag
 import (
 	"context"
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
-	"github.com/hashicorp/terraform-plugin-framework/attr"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 
@@ -19,32 +16,25 @@ func OrgNactagResourceSchema(ctx context.Context) schema.Schema {
 		Attributes: map[string]schema.Attribute{
 			"allow_usermac_override": schema.BoolAttribute{
 				Optional:            true,
-				Computed:            true,
 				Description:         "can be set to true to allow the override by usermac result",
 				MarkdownDescription: "can be set to true to allow the override by usermac result",
-				Default:             booldefault.StaticBool(false),
 			},
 			"egress_vlan_names": schema.ListAttribute{
 				ElementType:         types.StringType,
 				Optional:            true,
-				Computed:            true,
 				Description:         "if `type`==`egress_vlan_names`, list of egress vlans to return",
 				MarkdownDescription: "if `type`==`egress_vlan_names`, list of egress vlans to return",
-				Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 			},
 			"gbp_tag": schema.Int64Attribute{
 				Optional:            true,
-				Computed:            true,
 				Description:         "if `type`==`gbp_tag`",
 				MarkdownDescription: "if `type`==`gbp_tag`",
 			},
 			"id": schema.StringAttribute{
-				Optional: true,
 				Computed: true,
 			},
 			"match": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				Description:         "if `type`==`match`",
 				MarkdownDescription: "if `type`==`match`",
 				Validators: []validator.String{
@@ -69,10 +59,8 @@ func OrgNactagResourceSchema(ctx context.Context) schema.Schema {
 			},
 			"match_all": schema.BoolAttribute{
 				Optional:            true,
-				Computed:            true,
 				Description:         "This field is applicable only when `type`==`match`\n* `false`: means it is sufficient to match any of the values (i.e., match-any behavior)\n* `true`: means all values should be matched (i.e., match-all behavior)\n\n\nCurrently it makes sense to set this field to `true` only if the `match`==`idp_role` or `match`==`usermac_label`",
 				MarkdownDescription: "This field is applicable only when `type`==`match`\n* `false`: means it is sufficient to match any of the values (i.e., match-any behavior)\n* `true`: means all values should be matched (i.e., match-all behavior)\n\n\nCurrently it makes sense to set this field to `true` only if the `match`==`idp_role` or `match`==`usermac_label`",
-				Default:             booldefault.StaticBool(false),
 			},
 			"name": schema.StringAttribute{
 				Required: true,
@@ -86,28 +74,22 @@ func OrgNactagResourceSchema(ctx context.Context) schema.Schema {
 			"radius_attrs": schema.ListAttribute{
 				ElementType:         types.StringType,
 				Optional:            true,
-				Computed:            true,
 				Description:         "if `type`==`radius_attrs`, user can specify a list of one or more standard attributes in the field \"radius_attrs\". \nIt is the responsibility of the user to provide a syntactically correct string, otherwise it may not work as expected.\nNote that it is allowed to have more than one radius_attrs in the result of a given rule.",
 				MarkdownDescription: "if `type`==`radius_attrs`, user can specify a list of one or more standard attributes in the field \"radius_attrs\". \nIt is the responsibility of the user to provide a syntactically correct string, otherwise it may not work as expected.\nNote that it is allowed to have more than one radius_attrs in the result of a given rule.",
-				Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 			},
 			"radius_group": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				Description:         "if `type`==`radius_group`",
 				MarkdownDescription: "if `type`==`radius_group`",
 			},
 			"radius_vendor_attrs": schema.ListAttribute{
 				ElementType:         types.StringType,
 				Optional:            true,
-				Computed:            true,
 				Description:         "if `type`==`radius_vendor_attrs`, user can specify a list of one or more vendor-specific attributes in the field \"radius_vendor_attrs\". \nIt is the responsibility of the user to provide a syntactically correct string, otherwise it may not work as expected.\nNote that it is allowed to have more than one radius_vendor_attrs in the result of a given rule.",
 				MarkdownDescription: "if `type`==`radius_vendor_attrs`, user can specify a list of one or more vendor-specific attributes in the field \"radius_vendor_attrs\". \nIt is the responsibility of the user to provide a syntactically correct string, otherwise it may not work as expected.\nNote that it is allowed to have more than one radius_vendor_attrs in the result of a given rule.",
-				Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 			},
 			"session_timeout": schema.Int64Attribute{
 				Optional:            true,
-				Computed:            true,
 				Description:         "if `type`==`session_timeout, in seconds",
 				MarkdownDescription: "if `type`==`session_timeout, in seconds",
 			},
@@ -131,14 +113,11 @@ func OrgNactagResourceSchema(ctx context.Context) schema.Schema {
 			"values": schema.ListAttribute{
 				ElementType:         types.StringType,
 				Optional:            true,
-				Computed:            true,
 				Description:         "if `type`==`match`",
 				MarkdownDescription: "if `type`==`match`",
-				Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 			},
 			"vlan": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				Description:         "if `type`==`vlan`",
 				MarkdownDescription: "if `type`==`vlan`",
 			},

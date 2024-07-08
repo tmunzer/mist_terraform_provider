@@ -56,6 +56,7 @@ FILES = {
             "Band24",
             "Band5",
             "Band6",
+            "Band5On24Radio"
         ]
     },
     "./terraform-provider-mist/internal/resource_site_setting/site_setting_resource_gen.go": {

@@ -10,153 +10,202 @@ import (
 	"mistapi/models"
 )
 
-func TerraformToSdk(ctx context.Context, plan *SiteSettingModel) (models.SiteSetting, diag.Diagnostics) {
-	data := *models.NewSiteSetting()
+func TerraformToSdk(ctx context.Context, plan *SiteSettingModel) (*models.SiteSetting, diag.Diagnostics) {
+	data := models.SiteSetting{}
 	var diags diag.Diagnostics
+	unset := make(map[string]interface{})
 
-	data.SetSiteId(plan.SiteId.ValueString())
+	// data.Analytic = analyticTerraformToSdk(ctx, &diags, plan.Analytic)
 
-	analytic := analyticTerraformToSdk(ctx, &diags, plan.Analytic)
-	data.SetAnalytic(*analytic)
-	data.SetApUpdownThreshold(int32(plan.ApUpdownThreshold.ValueInt64()))
-
-	if !plan.AutoUpgrade.IsNull() && !plan.AutoUpgrade.IsUnknown() {
-		auto_upgrade := siteSettingAutoUpgradeTerraformToSdk(ctx, &diags, plan.AutoUpgrade)
-		data.SetAutoUpgrade(*auto_upgrade)
+	if !plan.ApUpdownThreshold.IsNull() && !plan.ApUpdownThreshold.IsUnknown() {
+		data.ApUpdownThreshold = models.NewOptional(models.ToPointer(int(plan.ApUpdownThreshold.ValueInt64())))
 	} else {
-		data.SetAutoUpgrade(*models.NewSiteSettingAutoUpgradeWithDefaults())
+		unset["-ap_updown_threshold"] = ""
 	}
 
-	ble_config := siteSettingBleConfigTerraformToSdk(ctx, &diags, plan.BleConfig)
-	data.SetBleConfig(*ble_config)
+	if !plan.AutoUpgrade.IsNull() && !plan.AutoUpgrade.IsUnknown() {
+		data.AutoUpgrade = siteSettingAutoUpgradeTerraformToSdk(ctx, &diags, plan.AutoUpgrade)
+	} else {
+		unset["-auto_upgrade"] = ""
+	}
 
-	data.SetConfigAutoRevert(plan.ConfigAutoRevert.ValueBool())
+	if !plan.BleConfig.IsNull() && !plan.BleConfig.IsUnknown() {
+		data.BleConfig = siteSettingBleConfigTerraformToSdk(ctx, &diags, plan.BleConfig)
+	} else {
+		unset["-ble_config"] = ""
+	}
+
+	if !plan.ConfigAutoRevert.IsNull() && !plan.ConfigAutoRevert.IsUnknown() {
+		data.ConfigAutoRevert = plan.ConfigAutoRevert.ValueBoolPointer()
+	} else {
+		unset["-config_auto_revert"] = ""
+	}
 
 	if !plan.ConfigPushPolicy.IsNull() && !plan.ConfigPushPolicy.IsUnknown() {
-		push_policy := pushPolicyConfigTerraformToSdk(ctx, &diags, plan.ConfigPushPolicy)
-		data.SetConfigPushPolicy(*push_policy)
+		data.ConfigPushPolicy = pushPolicyConfigTerraformToSdk(ctx, &diags, plan.ConfigPushPolicy)
+	} else {
+		unset["-config_push_policy"] = ""
 	}
 
 	if !plan.CriticalUrlMonitoring.IsNull() && !plan.CriticalUrlMonitoring.IsUnknown() {
-		critical_url_monitoring := criticalUrlMonitoringTerraformToSdk(ctx, &diags, plan.CriticalUrlMonitoring)
-		data.SetCriticalUrlMonitoring(critical_url_monitoring)
+		data.CriticalUrlMonitoring = criticalUrlMonitoringTerraformToSdk(ctx, &diags, plan.CriticalUrlMonitoring)
+	} else {
+		unset["-critical_url_monitoring"] = ""
 	}
 
-	data.SetDeviceUpdownThreshold(int32(plan.DeviceUpdownThreshold.ValueInt64()))
-	data.SetDisabledSystemDefinedPortUsages(mist_transform.ListOfStringTerraformToSdk(ctx, plan.DisabledSystemDefinedPortUsages))
+	if !plan.DeviceUpdownThreshold.IsNull() && !plan.DeviceUpdownThreshold.IsUnknown() {
+		data.DeviceUpdownThreshold = models.ToPointer(int(plan.DeviceUpdownThreshold.ValueInt64()))
+	} else {
+		unset["-device_updown_threshold"] = ""
+	}
+
+	if !plan.DisabledSystemDefinedPortUsages.IsNull() && !plan.DisabledSystemDefinedPortUsages.IsUnknown() {
+		data.DisabledSystemDefinedPortUsages = mist_transform.ListOfStringTerraformToSdk(ctx, plan.DisabledSystemDefinedPortUsages)
+	} else {
+		unset["-disabled_system_defined_port_usages"] = ""
+	}
 
 	if !plan.Engagement.IsNull() && !plan.Engagement.IsUnknown() {
-		engagement := engagementTerraformToSdk(ctx, &diags, plan.Engagement)
-		data.SetEngagement(*engagement)
-
+		data.Engagement = engagementTerraformToSdk(ctx, &diags, plan.Engagement)
+	} else {
+		unset["-engagement"] = ""
 	}
 
 	if !plan.GatewayUpdownThreshold.IsNull() && !plan.GatewayUpdownThreshold.IsUnknown() {
-		data.SetGatewayUpdownThreshold(int32(plan.GatewayUpdownThreshold.ValueInt64()))
-
+		data.GatewayUpdownThreshold = models.NewOptional(models.ToPointer(int(plan.GatewayUpdownThreshold.ValueInt64())))
+	} else {
+		unset["-gateway_updown_threshold"] = ""
 	}
 
 	if !plan.Led.IsNull() && !plan.Led.IsUnknown() {
 		led := ledTerraformToSdk(ctx, &diags, plan.Led)
-		data.SetLed(led)
+		data.Led = led
 	} else {
-		data.SetLed(*models.NewApLedWithDefaults())
+		unset["-led"] = ""
 	}
 
 	if !plan.Occupancy.IsNull() && !plan.Occupancy.IsUnknown() {
-		occupancy := occupancyTerraformToSdk(ctx, &diags, plan.Occupancy)
-		data.SetOccupancy(occupancy)
+		data.Occupancy = occupancyTerraformToSdk(ctx, &diags, plan.Occupancy)
+	} else {
+		unset["-occupancy"] = ""
 	}
 
-	data.SetPersistConfigOnDevice(plan.PersistConfigOnDevice.ValueBool())
+	if !plan.PersistConfigOnDevice.IsNull() && !plan.PersistConfigOnDevice.IsUnknown() {
+		data.PersistConfigOnDevice = plan.PersistConfigOnDevice.ValueBoolPointer()
+	} else {
+		unset["-persist_config_on_device"] = ""
+	}
 
 	if !plan.Proxy.IsNull() && !plan.Proxy.IsUnknown() {
-		proxy := proxyTerraformToSdk(ctx, &diags, plan.Proxy)
-		data.SetProxy(proxy)
+		data.Proxy = proxyTerraformToSdk(ctx, &diags, plan.Proxy)
+	} else {
+		unset["-proxy"] = ""
 
 	}
 
-	data.SetReportGatt(plan.ReportGatt.ValueBool())
+	if !plan.ReportGatt.IsNull() && !plan.ReportGatt.IsUnknown() {
+		data.ReportGatt = plan.ReportGatt.ValueBoolPointer()
+	} else {
+		unset["-report_gatt"] = ""
+	}
 
 	if !plan.Rogue.IsNull() && !plan.Rogue.IsUnknown() {
-		rogue := rogueTerraformToSdk(ctx, &diags, plan.Rogue)
-		data.SetRogue(rogue)
-
+		data.Rogue = rogueTerraformToSdk(ctx, &diags, plan.Rogue)
+	} else {
+		unset["-rogue"] = ""
 	}
 
 	if !plan.SimpleAlert.IsNull() && !plan.SimpleAlert.IsUnknown() {
-		simple_alert := simpleAlertTerraformToSdk(ctx, &diags, plan.SimpleAlert)
-		data.SetSimpleAlert(simple_alert)
-
+		data.SimpleAlert = simpleAlertTerraformToSdk(ctx, &diags, plan.SimpleAlert)
+	} else {
+		unset["-simple_alert"] = ""
 	}
 
 	if !plan.Skyatp.IsNull() && !plan.Skyatp.IsUnknown() {
-		sky_atp := skyAtpTerraformToSdk(ctx, &diags, plan.Skyatp)
-		data.SetSkyatp(sky_atp)
-
+		data.Skyatp = skyAtpTerraformToSdk(ctx, &diags, plan.Skyatp)
+	} else {
+		unset["-skyatp"] = ""
 	}
 
-	if !plan.SrxApp.IsNull() && !plan.SrxApp.IsUnknown() {
-		srx_app := srxAppTerraformToSdk(ctx, &diags, plan.SrxApp)
-		data.SetSrxApp(srx_app)
+	// if !plan.SrxApp.IsNull() && !plan.SrxApp.IsUnknown() {
+	// 	data.SrxApp = srxAppTerraformToSdk(ctx, &diags, plan.SrxApp)
+	// } else {
+	// 	unset["-srx_app"] = ""
+	// }
 
+	if !plan.SshKeys.IsNull() && !plan.SshKeys.IsUnknown() {
+		data.SshKeys = mist_transform.ListOfStringTerraformToSdk(ctx, plan.SshKeys)
+	} else {
+		unset["-ssh_keys"] = ""
 	}
-
-	data.SetSshKeys(mist_transform.ListOfStringTerraformToSdk(ctx, plan.SshKeys))
 
 	if !plan.Ssr.IsNull() && !plan.Ssr.IsUnknown() {
-		ssr := ssrTerraformToSdk(ctx, &diags, plan.Ssr)
-		data.SetSsr(ssr)
-
+		data.Ssr = ssrTerraformToSdk(ctx, &diags, plan.Ssr)
+	} else {
+		unset["-ssr"] = ""
 	}
 
-	data.SetSwitchUpdownThreshold(int32(plan.SwitchUpdownThreshold.ValueInt64()))
+	if !plan.SwitchUpdownThreshold.IsNull() && !plan.SwitchUpdownThreshold.IsUnknown() {
+		data.SwitchUpdownThreshold = models.NewOptional(models.ToPointer(int(plan.SwitchUpdownThreshold.ValueInt64())))
+	} else {
+		unset["-switch_updown_threshold"] = ""
+	}
 
 	if !plan.SyntheticTest.IsNull() && !plan.SyntheticTest.IsUnknown() {
-		synthetic_test := syntheticTestTerraformToSdk(ctx, &diags, plan.SyntheticTest)
-		data.SetSyntheticTest(synthetic_test)
-
+		data.Synthetictest = syntheticTestTerraformToSdk(ctx, &diags, plan.SyntheticTest)
+	} else {
+		unset["-synthetic_test"] = ""
 	}
 
-	data.SetTrackAnonymousDevices(plan.TrackAnonymousDevices.ValueBool())
+	if !plan.TrackAnonymousDevices.IsNull() && !plan.TrackAnonymousDevices.IsUnknown() {
+		data.TrackAnonymousDevices = plan.TrackAnonymousDevices.ValueBoolPointer()
+	} else {
+		unset["-track_anonymous_devices"] = ""
+	}
 
 	if !plan.Vars.IsNull() && !plan.Vars.IsUnknown() {
-		vars := varsTerraformToSdk(ctx, &diags, plan.Vars)
-		data.SetVars(vars)
-
+		data.Vars = varsTerraformToSdk(ctx, &diags, plan.Vars)
+	} else {
+		unset["-var"] = ""
 	}
 
-	if !plan.Vna.IsNull() && !plan.Vna.IsUnknown() {
-		vna := vnaTerraformToSdk(ctx, &diags, plan.Vna)
-		data.SetVna(vna)
+	// if !plan.Vna.IsNull() && !plan.Vna.IsUnknown() {
+	// 	data.Vna = vnaTerraformToSdk(ctx, &diags, plan.Vna)
+	// } else {
+	// 	unset["-vna"] = ""
+	// }
 
-	}
-
-	if !plan.WanVna.IsNull() && !plan.WanVna.IsUnknown() {
-		wan_vna := wanVnaTerraformToSdk(ctx, &diags, plan.WanVna)
-		data.SetWanVna(wan_vna)
-	}
+	// if !plan.WanVna.IsNull() && !plan.WanVna.IsUnknown() {
+	// 	data.WanVna = wanVnaTerraformToSdk(ctx, &diags, plan.WanVna)
+	// } else {
+	// 	unset["-wan_vna"] = ""
+	// }
 
 	if !plan.Wids.IsNull() && !plan.Wids.IsUnknown() {
-		wids := widsTerraformToSdk(ctx, &diags, plan.Wids)
-		data.SetWids(wids)
+		data.Wids = widsTerraformToSdk(ctx, &diags, plan.Wids)
+	} else {
+		unset["-wids"] = ""
 	}
 
 	if !plan.Wifi.IsNull() && !plan.Wifi.IsUnknown() {
-		wifi := wifiTerraformToSdk(ctx, &diags, plan.Wifi)
-		data.SetWifi(wifi)
-
+		data.Wifi = wifiTerraformToSdk(ctx, &diags, plan.Wifi)
+	} else {
+		unset["-wifi"] = ""
 	}
 
-	if !plan.WiredVna.IsNull() && !plan.WiredVna.IsUnknown() {
-		wired_van := wiredVnaTerraformToSdk(ctx, &diags, plan.WiredVna)
-		data.SetWiredVna(wired_van)
-
-	}
+	// if !plan.WiredVna.IsNull() && !plan.WiredVna.IsUnknown() {
+	// 	data.WiredVna = wiredVnaTerraformToSdk(ctx, &diags, plan.WiredVna)
+	// } else {
+	// 	unset["-wired_vna"] = ""
+	// }
 
 	if !plan.ZoneOccupancyAlert.IsNull() && !plan.ZoneOccupancyAlert.IsUnknown() {
-		zone_occupancy_alert := zoneOccupancyTerraformToSdk(ctx, &diags, plan.ZoneOccupancyAlert)
-		data.SetZoneOccupancyAlert(zone_occupancy_alert)
+		data.ZoneOccupancyAlert = zoneOccupancyTerraformToSdk(ctx, &diags, plan.ZoneOccupancyAlert)
+	} else {
+		unset["-zone_occupancy_alert"] = ""
 	}
-	return data, diags
+
+	data.AdditionalProperties = unset
+
+	return &data, diags
 }

@@ -8,16 +8,22 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 )
 
-func mistNacdSkToTerraform(ctx context.Context, diags *diag.Diagnostics, data models.WlanMistNac) MistNacValue {
+func mistNacdSkToTerraform(ctx context.Context, diags *diag.Diagnostics, d *models.WlanMistNac) MistNacValue {
+	var enabled basetypes.BoolValue
 
-	plan_attr := map[string]attr.Value{
-		"enabled": types.BoolValue(data.GetEnabled()),
+	if d != nil && d.Enabled != nil {
+		enabled = types.BoolValue(*d.Enabled)
 	}
-	r, e := NewMistNacValue(MistNacValue{}.AttributeTypes(ctx), plan_attr)
+
+	data_map_attr_type := MistNacValue{}.AttributeTypes(ctx)
+	data_map_value := map[string]attr.Value{
+		"enabled": enabled,
+	}
+	data, e := NewMistNacValue(data_map_attr_type, data_map_value)
 	diags.Append(e...)
 
-	return r
-
+	return data
 }

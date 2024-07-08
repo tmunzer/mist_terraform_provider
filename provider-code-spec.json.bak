@@ -7818,6 +7818,192 @@
 						}
 					},
 					{
+						"name": "band_5_on_24_radio",
+						"single_nested": {
+							"computed_optional_required": "computed_optional",
+							"attributes": [
+								{
+									"name": "allow_rrm_disable",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										}
+									}
+								},
+								{
+									"name": "ant_gain",
+									"int64": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": 0
+										},
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+														}
+													],
+													"schema_definition": "int64validator.Between(0, 10)"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "antenna_mode",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": "default"
+										},
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+														}
+													],
+													"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"default\",\n\"1x1\",\n\"2x2\",\n\"3x3\",\n\"4x4\",\n)"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "bandwidth",
+									"int64": {
+										"computed_optional_required": "computed_optional",
+										"description": "channel width for the 5GHz band",
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+														}
+													],
+													"schema_definition": "int64validator.OneOf(\n20,\n40,\n80,\n)"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "channels",
+									"list": {
+										"computed_optional_required": "computed_optional",
+										"element_type": {
+											"int64": {}
+										},
+										"description": "For RFTemplates. List of channels, null or empty array means auto"
+									}
+								},
+								{
+									"name": "disabled",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										},
+										"description": "whether to disable the radio"
+									}
+								},
+								{
+									"name": "power",
+									"int64": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": 0
+										},
+										"description": "TX power of the radio. For Devices, 0 means auto. -1 / -2 / -3 / …: treated as 0 / -1 / -2 / …",
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+														}
+													],
+													"schema_definition": "int64validator.Between(5, 25)"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "power_max",
+									"int64": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": 17
+										},
+										"description": "when power=0, max tx power to use, HW-specific values will be used if not set",
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+														}
+													],
+													"schema_definition": "int64validator.Between(5, 17)"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "power_min",
+									"int64": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": 8
+										},
+										"description": "when power=0, min tx power to use, HW-specific values will be used if not set",
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+														}
+													],
+													"schema_definition": "int64validator.Between(5, 17)"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "preamble",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": "short"
+										},
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+														}
+													],
+													"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"short\",\n\"long\",\n\"auto\",\n)"
+												}
+											}
+										]
+									}
+								}
+							],
+							"description": "Radio Band AP settings"
+						}
+					},
+					{
 						"name": "band_6",
 						"single_nested": {
 							"computed_optional_required": "computed_optional",
@@ -11456,16 +11642,6 @@
 									}
 								},
 								{
-									"name": "thumbnail",
-									"string": {
-										"computed_optional_required": "computed_optional",
-										"default": {
-											"static": ""
-										},
-										"description": "Url of portal background image thumbnail"
-									}
-								},
-								{
 									"name": "twilio_auth_token",
 									"string": {
 										"computed_optional_required": "computed_optional",
@@ -13080,7 +13256,7 @@
 						}
 					},
 					{
-						"name": "port_mirrorings",
+						"name": "port_mirroring",
 						"map_nested": {
 							"computed_optional_required": "computed_optional",
 							"nested_object": {
@@ -15680,24 +15856,6 @@
 			"schema": {
 				"attributes": [
 					{
-						"name": "analytic",
-						"single_nested": {
-							"computed_optional_required": "computed_optional",
-							"attributes": [
-								{
-									"name": "enabled",
-									"bool": {
-										"computed_optional_required": "computed_optional",
-										"default": {
-											"static": false
-										},
-										"description": "enable Advanced Analytic feature (using SUB-ANA license)"
-									}
-								}
-							]
-						}
-					},
-					{
 						"name": "ap_updown_threshold",
 						"int64": {
 							"computed_optional_required": "computed_optional",
@@ -16659,6 +16817,60 @@
 						}
 					},
 					{
+						"name": "port_mirroring",
+						"map_nested": {
+							"computed_optional_required": "computed_optional",
+							"nested_object": {
+								"attributes": [
+									{
+										"name": "input_networks_ingress",
+										"list": {
+											"computed_optional_required": "computed_optional",
+											"element_type": {
+												"string": {}
+											},
+											"description": "at least one of the `ingress_port_ids`, `egress_port_ids` or `ingress_networks ` should be specified"
+										}
+									},
+									{
+										"name": "input_port_ids_egress",
+										"list": {
+											"computed_optional_required": "computed_optional",
+											"element_type": {
+												"string": {}
+											},
+											"description": "at least one of the `ingress_port_ids`, `egress_port_ids` or `ingress_networks ` should be specified"
+										}
+									},
+									{
+										"name": "input_port_ids_ingress",
+										"list": {
+											"computed_optional_required": "computed_optional",
+											"element_type": {
+												"string": {}
+											},
+											"description": "at least one of the `ingress_port_ids`, `egress_port_ids` or `ingress_networks ` should be specified"
+										}
+									},
+									{
+										"name": "output_network",
+										"string": {
+											"computed_optional_required": "computed_optional"
+										}
+									},
+									{
+										"name": "output_port_id",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"description": "exaclty on of the `output_port_id` or `output_network` should be provided"
+										}
+									}
+								]
+							},
+							"description": "Property key is the port mirroring instance name\nport_mirroring can be added under device/site settings. It takes interface and ports as input for ingress, interface as input for egress and can take interface and port as output."
+						}
+					},
+					{
 						"name": "proxy",
 						"single_nested": {
 							"computed_optional_required": "computed_optional",
@@ -16960,23 +17172,6 @@
 						}
 					},
 					{
-						"name": "srx_app",
-						"single_nested": {
-							"computed_optional_required": "computed_optional",
-							"attributes": [
-								{
-									"name": "enabled",
-									"bool": {
-										"computed_optional_required": "computed_optional",
-										"default": {
-											"static": false
-										}
-									}
-								}
-							]
-						}
-					},
-					{
 						"name": "ssh_keys",
 						"list": {
 							"computed_optional_required": "computed_optional",
@@ -17092,24 +17287,6 @@
 						}
 					},
 					{
-						"name": "vna",
-						"single_nested": {
-							"computed_optional_required": "computed_optional",
-							"attributes": [
-								{
-									"name": "enabled",
-									"bool": {
-										"computed_optional_required": "computed_optional",
-										"default": {
-											"static": false
-										},
-										"description": "enable Virtual Network Assistant (using SUB-VNA license). This applied to AP / Switch / Gateway"
-									}
-								}
-							]
-						}
-					},
-					{
 						"name": "vs_instance",
 						"single_nested": {
 							"computed_optional_required": "computed_optional",
@@ -17120,23 +17297,6 @@
 										"computed_optional_required": "computed_optional",
 										"element_type": {
 											"string": {}
-										}
-									}
-								}
-							]
-						}
-					},
-					{
-						"name": "wan_vna",
-						"single_nested": {
-							"computed_optional_required": "computed_optional",
-							"attributes": [
-								{
-									"name": "enabled",
-									"bool": {
-										"computed_optional_required": "computed_optional",
-										"default": {
-											"static": false
 										}
 									}
 								}
@@ -19737,16 +19897,6 @@
 											"static": ""
 										},
 										"description": "when `sms_provider`==`telstra`, Client secret provided by Telstra"
-									}
-								},
-								{
-									"name": "thumbnail",
-									"string": {
-										"computed_optional_required": "computed_optional",
-										"default": {
-											"static": ""
-										},
-										"description": "Url of portal background image thumbnail"
 									}
 								},
 								{

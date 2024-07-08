@@ -78,9 +78,9 @@ func aclPoliciesSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, l [
 	var data_list []attr.Value
 	for _, d := range l {
 
-		var actions basetypes.ListValue
+		var actions basetypes.ListValue = types.ListNull(ActionsValue{}.Type(ctx))
 		var name basetypes.StringValue
-		var src_tags basetypes.ListValue
+		var src_tags basetypes.ListValue = mist_transform.ListOfStringSdkToTerraformEmpty(ctx)
 
 		if d.Actions != nil {
 			actions = actionsSdkToTerraform(ctx, diags, d.Actions)
