@@ -65,6 +65,22 @@
             ],
             "default_type": "list_of_str",
             "computed_optional_required": "computed_optional"            
+        },
+        {
+            "name": "addresses",
+            "get": [
+                "list"
+            ],
+            "default_type": "list_of_str",
+            "computed_optional_required": "computed_optional"            
+        },
+        {
+            "name": "specs",
+            "get": [
+                "list"
+            ],
+            "default_type": "list_of_str",
+            "computed_optional_required": "computed_optional"            
         }
     ]
 }

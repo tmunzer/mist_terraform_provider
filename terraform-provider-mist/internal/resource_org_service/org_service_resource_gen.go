@@ -26,8 +26,10 @@ func OrgServiceResourceSchema(ctx context.Context) schema.Schema {
 			"addresses": schema.ListAttribute{
 				ElementType:         types.StringType,
 				Optional:            true,
+				Computed:            true,
 				Description:         "if `type`==`custom`, ip subnets",
 				MarkdownDescription: "if `type`==`custom`, ip subnets",
+				Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 			},
 			"app_categories": schema.ListAttribute{
 				ElementType:         types.StringType,
