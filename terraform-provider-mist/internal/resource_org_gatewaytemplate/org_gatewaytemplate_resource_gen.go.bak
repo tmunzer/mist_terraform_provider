@@ -37,7 +37,6 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 					Attributes: map[string]schema.Attribute{
 						"auth_key": schema.StringAttribute{
 							Optional: true,
-							Computed: true,
 						},
 						"bfd_minimum_interval": schema.Int64Attribute{
 							Optional:            true,
@@ -64,15 +63,12 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 								Attributes: map[string]schema.Attribute{
 									"id": schema.StringAttribute{
 										Optional: true,
-										Computed: true,
 									},
 									"local_preference": schema.Int64Attribute{
 										Optional: true,
-										Computed: true,
 									},
 									"vpn_name": schema.StringAttribute{
 										Optional: true,
-										Computed: true,
 									},
 								},
 								CustomType: CommunitiesType{
@@ -92,7 +88,6 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 						},
 						"export": schema.StringAttribute{
 							Optional: true,
-							Computed: true,
 						},
 						"export_policy": schema.StringAttribute{
 							Optional:            true,
@@ -124,7 +119,6 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 						},
 						"import": schema.StringAttribute{
 							Optional: true,
-							Computed: true,
 						},
 						"import_policy": schema.StringAttribute{
 							Optional:            true,
@@ -133,11 +127,9 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 						},
 						"local_as": schema.Int64Attribute{
 							Optional: true,
-							Computed: true,
 						},
 						"neighbor_as": schema.Int64Attribute{
 							Optional: true,
-							Computed: true,
 						},
 						"neighbors": schema.MapNestedAttribute{
 							NestedObject: schema.NestedAttributeObject{
@@ -151,7 +143,6 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 									},
 									"export_policy": schema.StringAttribute{
 										Optional: true,
-										Computed: true,
 									},
 									"hold_time": schema.Int64Attribute{
 										Optional: true,
@@ -163,7 +154,6 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 									},
 									"import_policy": schema.StringAttribute{
 										Optional: true,
-										Computed: true,
 									},
 									"multihop_ttl": schema.Int64Attribute{
 										Optional:            true,
@@ -175,7 +165,6 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 									},
 									"neighbor_as": schema.Int64Attribute{
 										Optional: true,
-										Computed: true,
 									},
 								},
 								CustomType: NeighborsType{
@@ -229,7 +218,6 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 						},
 						"vpn_name": schema.StringAttribute{
 							Optional: true,
-							Computed: true,
 						},
 						"wan_name": schema.StringAttribute{
 							Optional:            true,
@@ -267,11 +255,9 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 										Attributes: map[string]schema.Attribute{
 											"ip": schema.StringAttribute{
 												Optional: true,
-												Computed: true,
 											},
 											"name": schema.StringAttribute{
 												Optional: true,
-												Computed: true,
 											},
 										},
 										CustomType: FixedBindingsType{
@@ -340,7 +326,6 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 											},
 											"value": schema.StringAttribute{
 												Optional: true,
-												Computed: true,
 											},
 										},
 										CustomType: OptionsType{
@@ -423,7 +408,6 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 											},
 											"value": schema.StringAttribute{
 												Optional: true,
-												Computed: true,
 											},
 										},
 										CustomType: VendorEncapulatedType{
@@ -482,7 +466,6 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 					Attributes: map[string]schema.Attribute{
 						"via": schema.StringAttribute{
 							Optional: true,
-							Computed: true,
 						},
 					},
 					CustomType: ExtraRoutesType{
@@ -511,7 +494,6 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 						},
 						"name": schema.StringAttribute{
 							Optional: true,
-							Computed: true,
 						},
 						"overwrites": schema.ListNestedAttribute{
 							NestedObject: schema.NestedAttributeObject{
@@ -578,11 +560,9 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 					Attributes: map[string]schema.Attribute{
 						"ip": schema.StringAttribute{
 							Optional: true,
-							Computed: true,
 						},
 						"netmask": schema.StringAttribute{
 							Optional: true,
-							Computed: true,
 						},
 						"secondary_ips": schema.ListAttribute{
 							ElementType:         types.StringType,
@@ -618,17 +598,14 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 						},
 						"gateway": schema.StringAttribute{
 							Optional: true,
-							Computed: true,
 						},
 						"gateway6": schema.StringAttribute{
 							Optional: true,
-							Computed: true,
 						},
 						"internal_access": schema.SingleNestedAttribute{
 							Attributes: map[string]schema.Attribute{
 								"enabled": schema.BoolAttribute{
 									Optional: true,
-									Computed: true,
 								},
 							},
 							CustomType: InternalAccessType{
@@ -650,15 +627,12 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 										Attributes: map[string]schema.Attribute{
 											"internal_ip": schema.StringAttribute{
 												Optional: true,
-												Computed: true,
 											},
 											"name": schema.StringAttribute{
 												Optional: true,
-												Computed: true,
 											},
 											"port": schema.Int64Attribute{
 												Optional: true,
-												Computed: true,
 											},
 										},
 										CustomType: DestinationNatType{
@@ -673,7 +647,6 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 								},
 								"enabled": schema.BoolAttribute{
 									Optional: true,
-									Computed: true,
 								},
 								"restricted": schema.BoolAttribute{
 									Optional:            true,
@@ -687,11 +660,9 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 										Attributes: map[string]schema.Attribute{
 											"internal_ip": schema.StringAttribute{
 												Optional: true,
-												Computed: true,
 											},
 											"name": schema.StringAttribute{
 												Optional: true,
-												Computed: true,
 											},
 											"wan_name": schema.StringAttribute{
 												Optional:            true,
@@ -725,8 +696,7 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 							MarkdownDescription: "whether to allow clients in the network to talk to each other",
 						},
 						"name": schema.StringAttribute{
-							Optional: true,
-							Computed: true,
+							Required: true,
 						},
 						"routed_for_networks": schema.ListAttribute{
 							ElementType:         types.StringType,
@@ -736,11 +706,9 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 						},
 						"subnet": schema.StringAttribute{
 							Optional: true,
-							Computed: true,
 						},
 						"subnet6": schema.StringAttribute{
 							Optional: true,
-							Computed: true,
 						},
 						"tenants": schema.MapNestedAttribute{
 							NestedObject: schema.NestedAttributeObject{
@@ -760,7 +728,6 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 						},
 						"vlan_id": schema.Int64Attribute{
 							Optional: true,
-							Computed: true,
 						},
 						"vpn_access": schema.MapNestedAttribute{
 							NestedObject: schema.NestedAttributeObject{
@@ -780,15 +747,12 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 											Attributes: map[string]schema.Attribute{
 												"internal_ip": schema.StringAttribute{
 													Optional: true,
-													Computed: true,
 												},
 												"name": schema.StringAttribute{
 													Optional: true,
-													Computed: true,
 												},
 												"port": schema.Int64Attribute{
 													Optional: true,
-													Computed: true,
 												},
 											},
 											CustomType: DestinationNatType{
@@ -840,7 +804,6 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 										Attributes: map[string]schema.Attribute{
 											"exteral_ip": schema.StringAttribute{
 												Optional: true,
-												Computed: true,
 											},
 										},
 										CustomType: SourceNatType{
@@ -857,11 +820,9 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 											Attributes: map[string]schema.Attribute{
 												"internal_ip": schema.StringAttribute{
 													Optional: true,
-													Computed: true,
 												},
 												"name": schema.StringAttribute{
 													Optional: true,
-													Computed: true,
 												},
 												"wan_name": schema.StringAttribute{
 													Optional:            true,
@@ -929,7 +890,6 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 				Attributes: map[string]schema.Attribute{
 					"ip": schema.StringAttribute{
 						Optional: true,
-						Computed: true,
 					},
 					"netmask": schema.StringAttribute{
 						Optional:            true,
@@ -945,7 +905,6 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 						Attributes: map[string]schema.Attribute{
 							"ip": schema.StringAttribute{
 								Optional: true,
-								Computed: true,
 							},
 							"netmask": schema.StringAttribute{
 								Optional:            true,
@@ -1040,7 +999,6 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 								Attributes: map[string]schema.Attribute{
 									"cost": schema.Int64Attribute{
 										Optional: true,
-										Computed: true,
 									},
 									"disabled": schema.BoolAttribute{
 										Optional:            true,
@@ -1061,7 +1019,6 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 									},
 									"name": schema.StringAttribute{
 										Optional: true,
-										Computed: true,
 									},
 									"networks": schema.ListAttribute{
 										ElementType:         types.StringType,
@@ -1134,7 +1091,6 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 					Attributes: map[string]schema.Attribute{
 						"description": schema.StringAttribute{
 							Optional: true,
-							Computed: true,
 						},
 						"disable_autoneg": schema.BoolAttribute{
 							Optional: true,
@@ -1210,7 +1166,6 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 								},
 								"ip": schema.StringAttribute{
 									Optional: true,
-									Computed: true,
 								},
 								"netmask": schema.StringAttribute{
 									Optional:            true,
@@ -1292,7 +1247,6 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 						},
 						"lte_backup": schema.BoolAttribute{
 							Optional: true,
-							Computed: true,
 						},
 						"lte_password": schema.StringAttribute{
 							Optional:            true,
@@ -1306,7 +1260,6 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 						},
 						"mtu": schema.Int64Attribute{
 							Optional: true,
-							Computed: true,
 						},
 						"name": schema.StringAttribute{
 							Optional:            true,
@@ -1579,7 +1532,6 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 										Attributes: map[string]schema.Attribute{
 											"accept": schema.BoolAttribute{
 												Optional: true,
-												Computed: true,
 											},
 											"add_community": schema.ListAttribute{
 												ElementType: types.StringType,
@@ -1669,7 +1621,6 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 												Attributes: map[string]schema.Attribute{
 													"route": schema.StringAttribute{
 														Optional: true,
-														Computed: true,
 													},
 													"vrf_name": schema.StringAttribute{
 														Optional:            true,
@@ -1702,15 +1653,12 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 												Attributes: map[string]schema.Attribute{
 													"max_jitter": schema.Int64Attribute{
 														Optional: true,
-														Computed: true,
 													},
 													"max_latency": schema.Int64Attribute{
 														Optional: true,
-														Computed: true,
 													},
 													"max_loss": schema.Int64Attribute{
 														Optional: true,
-														Computed: true,
 													},
 												},
 												CustomType: VpnPathSlaType{
@@ -1792,11 +1740,9 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 								Attributes: map[string]schema.Attribute{
 									"alert_only": schema.BoolAttribute{
 										Optional: true,
-										Computed: true,
 									},
 									"block_message": schema.StringAttribute{
 										Optional: true,
-										Computed: true,
 									},
 									"enabled": schema.BoolAttribute{
 										Optional: true,
@@ -1828,7 +1774,6 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 							Attributes: map[string]schema.Attribute{
 								"alert_only": schema.BoolAttribute{
 									Optional: true,
-									Computed: true,
 								},
 								"enabled": schema.BoolAttribute{
 									Optional: true,
@@ -1864,7 +1809,6 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 						},
 						"name": schema.StringAttribute{
 							Optional: true,
-							Computed: true,
 						},
 						"path_preferences": schema.StringAttribute{
 							Optional:            true,
@@ -1908,7 +1852,6 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 									Attributes: map[string]schema.Attribute{
 										"num_hosts": schema.StringAttribute{
 											Optional: true,
-											Computed: true,
 										},
 										"wan_names": schema.ListAttribute{
 											ElementType:         types.StringType,
@@ -1928,7 +1871,6 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 									Attributes: map[string]schema.Attribute{
 										"num_hosts": schema.StringAttribute{
 											Optional: true,
-											Computed: true,
 										},
 										"wan_names": schema.ListAttribute{
 											ElementType:         types.StringType,
@@ -1946,7 +1888,6 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 								},
 								"enable": schema.BoolAttribute{
 									Optional: true,
-									Computed: true,
 								},
 								"latlng": schema.SingleNestedAttribute{
 									Attributes: map[string]schema.Attribute{
@@ -2325,11 +2266,9 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 						Attributes: map[string]schema.Attribute{
 							"name": schema.StringAttribute{
 								Optional: true,
-								Computed: true,
 							},
 							"num_users": schema.Int64Attribute{
 								Optional: true,
-								Computed: true,
 							},
 						},
 						CustomType: JseType{
@@ -2388,7 +2327,6 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 							},
 							"name": schema.StringAttribute{
 								Optional: true,
-								Computed: true,
 							},
 							"sub_locations": schema.ListNestedAttribute{
 								NestedObject: schema.NestedAttributeObject{

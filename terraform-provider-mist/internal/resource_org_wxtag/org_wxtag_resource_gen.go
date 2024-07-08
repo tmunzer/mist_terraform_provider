@@ -34,7 +34,6 @@ func OrgWxtagResourceSchema(ctx context.Context) schema.Schema {
 			},
 			"mac": schema.StringAttribute{
 				Optional: true,
-				Computed: true,
 			},
 			"match": schema.StringAttribute{
 				Optional: true,
@@ -79,7 +78,6 @@ func OrgWxtagResourceSchema(ctx context.Context) schema.Schema {
 			},
 			"resource_mac": schema.StringAttribute{
 				Optional: true,
-				Computed: true,
 			},
 			"services": schema.ListAttribute{
 				ElementType: types.StringType,
@@ -127,7 +125,6 @@ func OrgWxtagResourceSchema(ctx context.Context) schema.Schema {
 			},
 			"subnet": schema.StringAttribute{
 				Optional: true,
-				Computed: true,
 			},
 			"type": schema.StringAttribute{
 				Required: true,

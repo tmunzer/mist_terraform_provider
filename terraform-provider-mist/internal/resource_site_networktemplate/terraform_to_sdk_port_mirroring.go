@@ -18,11 +18,21 @@ func portMirroringTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d
 		item_obj := item_interface.(PortMirroringValue)
 
 		data_item := models.SwitchPortMirroringProperty{}
-		data_item.InputNetworksIngress = mist_transform.ListOfStringTerraformToSdk(ctx, item_obj.InputNetworksIngress)
-		data_item.InputPortIdsEgress = mist_transform.ListOfStringTerraformToSdk(ctx, item_obj.InputPortIdsEgress)
-		data_item.InputPortIdsIngress = mist_transform.ListOfStringTerraformToSdk(ctx, item_obj.InputPortIdsIngress)
-		data_item.OutputNetwork = models.ToPointer(item_obj.OutputNetwork.ValueString())
-		data_item.OutputPortId = models.ToPointer(item_obj.OutputPortId.ValueString())
+		if !item_obj.InputNetworksIngress.IsNull() && !item_obj.InputNetworksIngress.IsUnknown() {
+			data_item.InputNetworksIngress = mist_transform.ListOfStringTerraformToSdk(ctx, item_obj.InputNetworksIngress)
+		}
+		if !item_obj.InputPortIdsEgress.IsNull() && !item_obj.InputPortIdsEgress.IsUnknown() {
+			data_item.InputPortIdsEgress = mist_transform.ListOfStringTerraformToSdk(ctx, item_obj.InputPortIdsEgress)
+		}
+		if !item_obj.InputPortIdsIngress.IsNull() && !item_obj.InputPortIdsIngress.IsUnknown() {
+			data_item.InputPortIdsIngress = mist_transform.ListOfStringTerraformToSdk(ctx, item_obj.InputPortIdsIngress)
+		}
+		if !item_obj.OutputNetwork.IsNull() && !item_obj.OutputNetwork.IsUnknown() {
+			data_item.OutputNetwork = models.ToPointer(item_obj.OutputNetwork.ValueString())
+		}
+		if !item_obj.OutputPortId.IsNull() && !item_obj.OutputPortId.IsUnknown() {
+			data_item.OutputPortId = models.ToPointer(item_obj.OutputPortId.ValueString())
+		}
 		data[item_name] = data_item
 	}
 	return data

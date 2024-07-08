@@ -19,12 +19,12 @@ func SiteResourceSchema(ctx context.Context) schema.Schema {
 	return schema.Schema{
 		Attributes: map[string]schema.Attribute{
 			"address": schema.StringAttribute{
-				Optional:            true,
+				Required:            true,
 				Description:         "full address of the site",
 				MarkdownDescription: "full address of the site",
 			},
 			"alarmtemplate_id": schema.StringAttribute{
-				Optional:            true,
+				Computed:            true,
 				Description:         "Alarm Template ID, this takes precedence over the Org-level alarmtemplate_id",
 				MarkdownDescription: "Alarm Template ID, this takes precedence over the Org-level alarmtemplate_id",
 			},
@@ -44,7 +44,6 @@ func SiteResourceSchema(ctx context.Context) schema.Schema {
 				MarkdownDescription: "Gateway Template ID, used by gateways",
 			},
 			"id": schema.StringAttribute{
-				Optional: true,
 				Computed: true,
 			},
 			"latlng": schema.SingleNestedAttribute{
@@ -78,7 +77,6 @@ func SiteResourceSchema(ctx context.Context) schema.Schema {
 			},
 			"org_id": schema.StringAttribute{
 				Optional: true,
-				Computed: true,
 			},
 			"rftemplate_id": schema.StringAttribute{
 				Optional:            true,

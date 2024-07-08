@@ -421,7 +421,6 @@ func SiteSettingResourceSchema(ctx context.Context) schema.Schema {
 							Attributes: map[string]schema.Attribute{
 								"url": schema.StringAttribute{
 									Optional: true,
-									Computed: true,
 								},
 								"vlan_id": schema.Int64Attribute{
 									Optional: true,
@@ -469,19 +468,15 @@ func SiteSettingResourceSchema(ctx context.Context) schema.Schema {
 						Attributes: map[string]schema.Attribute{
 							"bounce": schema.StringAttribute{
 								Optional: true,
-								Computed: true,
 							},
 							"engaged": schema.StringAttribute{
 								Optional: true,
-								Computed: true,
 							},
 							"passerby": schema.StringAttribute{
 								Optional: true,
-								Computed: true,
 							},
 							"stationed": schema.StringAttribute{
 								Optional: true,
-								Computed: true,
 							},
 						},
 						CustomType: DwellTagNamesType{
@@ -495,19 +490,15 @@ func SiteSettingResourceSchema(ctx context.Context) schema.Schema {
 						Attributes: map[string]schema.Attribute{
 							"bounce": schema.StringAttribute{
 								Optional: true,
-								Computed: true,
 							},
 							"engaged": schema.StringAttribute{
 								Optional: true,
-								Computed: true,
 							},
 							"passerby": schema.StringAttribute{
 								Optional: true,
-								Computed: true,
 							},
 							"stationed": schema.StringAttribute{
 								Optional: true,
-								Computed: true,
 							},
 						},
 						CustomType: DwellTagsType{
@@ -669,7 +660,6 @@ func SiteSettingResourceSchema(ctx context.Context) schema.Schema {
 				MarkdownDescription: "Occupancy Analytics settings",
 			},
 			"org_id": schema.StringAttribute{
-				Optional: true,
 				Computed: true,
 			},
 			"persist_config_on_device": schema.BoolAttribute{
@@ -683,7 +673,6 @@ func SiteSettingResourceSchema(ctx context.Context) schema.Schema {
 				Attributes: map[string]schema.Attribute{
 					"url": schema.StringAttribute{
 						Optional: true,
-						Computed: true,
 					},
 				},
 				CustomType: ProxyType{
@@ -865,13 +854,13 @@ func SiteSettingResourceSchema(ctx context.Context) schema.Schema {
 				MarkdownDescription: "Set of heuristic rules will be enabled when marvis subscription is not available.\nIt triggers when, in a Z minute window, there are more than Y distinct client encountring over X failures",
 			},
 			"site_id": schema.StringAttribute{
-				Required: true,
+				Optional: true,
+				Computed: true,
 			},
 			"skyatp": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
 					"enabled": schema.BoolAttribute{
 						Optional: true,
-						Computed: true,
 					},
 					"send_ip_mac_mapping": schema.BoolAttribute{
 						Optional:            true,
@@ -902,7 +891,6 @@ func SiteSettingResourceSchema(ctx context.Context) schema.Schema {
 					},
 					"disable_stats": schema.BoolAttribute{
 						Optional: true,
-						Computed: true,
 					},
 				},
 				CustomType: SsrType{

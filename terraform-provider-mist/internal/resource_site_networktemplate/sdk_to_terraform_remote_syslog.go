@@ -249,18 +249,27 @@ func remoteSyslogUsersSdkToTerraform(ctx context.Context, diags *diag.Diagnostic
 
 func remoteSyslogSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d *models.RemoteSyslog) RemoteSyslogValue {
 
-	var archive basetypes.ObjectValue = remoteSyslogArchiveSdkToTerraform(ctx, diags, d.Archive)
-	var console basetypes.ObjectValue = remoteSyslogConsoleSdkToTerraform(ctx, diags, d.Console)
+	var archive basetypes.ObjectValue = types.ObjectNull(ArchiveValue{}.AttributeTypes(ctx))
+	var console basetypes.ObjectValue = types.ObjectNull(ConsoleValue{}.AttributeTypes(ctx))
 	var enabled basetypes.BoolValue
-	var files basetypes.ListValue = remoteSyslogFilesSdkToTerraform(ctx, diags, d.Files)
+	var files basetypes.ListValue = types.ListNull(FilesValue{}.Type(ctx))
 	var network basetypes.StringValue
 	var send_to_all_servers basetypes.BoolValue
-	var servers basetypes.ListValue = remoteSyslogServerSdkToTerraform(ctx, diags, d.Servers)
+	var servers basetypes.ListValue = types.ListNull(ServersValue{}.Type(ctx))
 	var time_format basetypes.StringValue
-	var users basetypes.ListValue = remoteSyslogUsersSdkToTerraform(ctx, diags, d.Users)
+	var users basetypes.ListValue = types.ListNull(UsersValue{}.Type(ctx))
 
+	if d != nil && d.Archive != nil {
+		archive = remoteSyslogArchiveSdkToTerraform(ctx, diags, d.Archive)
+	}
+	if d != nil && d.Console != nil {
+		console = remoteSyslogConsoleSdkToTerraform(ctx, diags, d.Console)
+	}
 	if d != nil && d.Enabled != nil {
 		enabled = types.BoolValue(*d.Enabled)
+	}
+	if d != nil && d.Files != nil {
+		files = remoteSyslogFilesSdkToTerraform(ctx, diags, d.Files)
 	}
 	if d != nil && d.Network != nil {
 		network = types.StringValue(*d.Network)
@@ -268,8 +277,14 @@ func remoteSyslogSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d 
 	if d != nil && d.SendToAllServers != nil {
 		send_to_all_servers = types.BoolValue(*d.SendToAllServers)
 	}
+	if d != nil && d.Servers != nil {
+		servers = remoteSyslogServerSdkToTerraform(ctx, diags, d.Servers)
+	}
 	if d != nil && d.TimeFormat != nil {
 		time_format = types.StringValue(string(*d.TimeFormat))
+	}
+	if d != nil && d.Users != nil {
+		users = remoteSyslogUsersSdkToTerraform(ctx, diags, d.Users)
 	}
 
 	data_map_attr_type := RemoteSyslogValue{}.AttributeTypes(ctx)

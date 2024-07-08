@@ -24,7 +24,6 @@ func OrgWlantemplateResourceSchema(ctx context.Context) schema.Schema {
 				Attributes: map[string]schema.Attribute{
 					"org_id": schema.StringAttribute{
 						Optional: true,
-						Computed: true,
 					},
 					"site_ids": schema.ListAttribute{
 						ElementType:         types.StringType,

@@ -26,15 +26,12 @@ func OrgRftemplateResourceSchema(ctx context.Context) schema.Schema {
 		Attributes: map[string]schema.Attribute{
 			"ant_gain_24": schema.Int64Attribute{
 				Optional: true,
-				Computed: true,
 			},
 			"ant_gain_5": schema.Int64Attribute{
 				Optional: true,
-				Computed: true,
 			},
 			"ant_gain_6": schema.Int64Attribute{
 				Optional: true,
-				Computed: true,
 			},
 			"band_24": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
@@ -507,15 +504,12 @@ func OrgRftemplateResourceSchema(ctx context.Context) schema.Schema {
 					Attributes: map[string]schema.Attribute{
 						"ant_gain_24": schema.Int64Attribute{
 							Optional: true,
-							Computed: true,
 						},
 						"ant_gain_5": schema.Int64Attribute{
 							Optional: true,
-							Computed: true,
 						},
 						"ant_gain_6": schema.Int64Attribute{
 							Optional: true,
-							Computed: true,
 						},
 						"band_24": schema.SingleNestedAttribute{
 							Attributes: map[string]schema.Attribute{

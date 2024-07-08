@@ -1,17 +1,10 @@
 {
-    "name": "org",
+    "name": "site",
     "get": [
         "schema",
         "attributes"
     ],
     "next": [
-        {
-            "name": "name",
-            "get": [
-                "string"
-            ],
-            "computed_optional_required": "required"
-        },
         {
             "name": "id",
             "get": [
@@ -27,16 +20,30 @@
             "computed_optional_required": "computed"
         },
         {
-            "name": "alarmtemplate_id",
+            "name": "org_id",
+            "get": [
+                "list"
+            ],
+            "computed_optional_required": "required"
+        },
+        {
+            "name": "name",
             "get": [
                 "string"
             ],
-            "computed_optional_required": "computed"
+            "computed_optional_required": "required"
         },
         {
-            "name": "orggroup_ids",
+            "name": "address",
             "get": [
-                "list"
+                "string"
+            ],
+            "computed_optional_required": "required"
+        },
+        {
+            "name": "alarmtemplate_id",
+            "get": [
+                "string"
             ],
             "computed_optional_required": "computed"
         },

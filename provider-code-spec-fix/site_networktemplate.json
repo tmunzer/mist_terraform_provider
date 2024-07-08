@@ -14,7 +14,7 @@
             "get": [
                 "string"
             ],
-            "computed_optional_required": "required"
+            "computed_optional_required": "computed_optional"
         },
         {
             "name": "switch_matching",
@@ -26,20 +26,54 @@
                 {
                     "name": "rules",
                     "rename": "matching_rules"
-                }
-            ]
-        },
-        {
-            "name": "vrf_instances",
-            "get": [
-                "map_nested",
-                "nested_object",
-                "attributes"
-            ],
-            "next": [
+                },
                 {
-                    "name": "extra_routes",
-                    "rename": "vrf_extra_routes"
+                    "name": "matching_rules",
+                    "get": [
+                        "list_nested",
+                        "nested_object",
+                        "attributes"
+                    ],
+                    "next": [
+                        {
+                            "name": "match_value",
+                            "get": [
+                                "string"
+                            ],
+                            "computed_optional_required": "optional"
+                        },
+                        {
+                            "name": "name",
+                            "get": [
+                                "string"
+                            ],
+                            "computed_optional_required": "optional"
+                        },
+                        {
+                            "name": "port_config",
+                            "get": [
+                                "map_nested",
+                                "nested_object",
+                                "attributes"
+                            ],
+                            "next": [
+                                {
+                                    "name": "description",
+                                    "get": [
+                                        "string"
+                                    ],
+                                    "computed_optional_required": "optional"
+                                },
+                                {
+                                    "name": "esilag",
+                                    "get": [
+                                        "bool"
+                                    ],
+                                    "computed_optional_required": "optional"
+                                }
+                            ]
+                        }
+                    ]
                 }
             ]
         },
@@ -62,6 +96,95 @@
                             "rename": "tacacct_servers"
                         }
                     ]
+                },
+                {
+                    "name": "protect_re",
+                    "get": [
+                        "single_nested",
+                        "attributes"
+                    ],
+                    "next": [
+                        {
+                            "name": "allowed_services",
+                            "get": [
+                                "list"
+                            ],
+                            "computed_optional_required": "computed_optional",
+                            "default_type": "list_of_str"
+                        },
+                        {
+                            "name": "trusted_hosts",
+                            "get": [
+                                "list"
+                            ],
+                            "computed_optional_required": "computed_optional",
+                            "default_type": "list_of_str"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "vrf_instances",
+            "get": [
+                "map_nested",
+                "nested_object",
+                "attributes"
+            ],
+            "next": [
+                {
+                    "name": "extra_routes",
+                    "rename": "vrf_extra_routes"
+                }
+            ]
+        },
+        {
+            "name": "port_usages",
+            "get": [
+                "map_nested",
+                "nested_object",
+                "attributes"
+            ],
+            "next": [
+                {
+                    "name": "networks",
+                    "get": [
+                        "list"
+                    ],
+                    "computed_optional_required": "computed_optional",
+                    "default_type": "list_of_str"
+                },
+                {
+                    "name": "dynamic_vlan_networks",
+                    "get": [
+                        "list"
+                    ],
+                    "computed_optional_required": "computed_optional",
+                    "default_type": "list_of_str"
+                }
+            ]
+        },
+        {
+            "name": "networks",
+            "get": [
+                "map_nested",
+                "nested_object",
+                "attributes"
+            ],
+            "next": [
+                {
+                    "name": "isolation_vlan_id",
+                    "get": [
+                        "string"
+                    ],
+                    "computed_optional_required": "optional"
+                },
+                {
+                    "name": "subnet",
+                    "get": [
+                        "string"
+                    ],
+                    "computed_optional_required": "optional"
                 }
             ]
         },

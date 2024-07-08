@@ -125,7 +125,7 @@ func portUsagesSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, m ma
 		var reset_default_when basetypes.StringValue
 		var rules basetypes.ListValue = types.ListNull(RulesValue{}.Type(ctx))
 		var speed basetypes.StringValue
-		var storm_control basetypes.ObjectValue
+		var storm_control basetypes.ObjectValue = types.ObjectNull(StormControlValue{}.AttributeTypes(ctx))
 		var stp_edge basetypes.BoolValue
 		var voip_network basetypes.StringValue
 

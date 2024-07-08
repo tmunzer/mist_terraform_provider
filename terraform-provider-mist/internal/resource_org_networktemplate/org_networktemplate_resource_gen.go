@@ -46,7 +46,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 									},
 									"dst_tag": schema.StringAttribute{
 										Optional: true,
-										Computed: true,
 									},
 								},
 								CustomType: ActionsType{
@@ -61,7 +60,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 						},
 						"name": schema.StringAttribute{
 							Optional: true,
-							Computed: true,
 						},
 						"src_tags": schema.ListAttribute{
 							ElementType:         types.StringType,
@@ -173,7 +171,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 				Attributes: map[string]schema.Attribute{
 					"all_networks": schema.BoolAttribute{
 						Optional: true,
-						Computed: true,
 					},
 					"enable_arp_spoof_check": schema.BoolAttribute{
 						Optional:            true,
@@ -187,7 +184,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 					},
 					"enabled": schema.BoolAttribute{
 						Optional: true,
-						Computed: true,
 					},
 					"networks": schema.ListAttribute{
 						ElementType:         types.StringType,
@@ -236,11 +232,9 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 								Attributes: map[string]schema.Attribute{
 									"metric": schema.Int64Attribute{
 										Optional: true,
-										Computed: true,
 									},
 									"preference": schema.Int64Attribute{
 										Optional: true,
-										Computed: true,
 									},
 								},
 								CustomType: NextQualifiedType{
@@ -297,11 +291,9 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 								Attributes: map[string]schema.Attribute{
 									"metric": schema.Int64Attribute{
 										Optional: true,
-										Computed: true,
 									},
 									"preference": schema.Int64Attribute{
 										Optional: true,
-										Computed: true,
 									},
 								},
 								CustomType: NextQualifiedType{
@@ -346,11 +338,9 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 				Attributes: map[string]schema.Attribute{
 					"enabled": schema.BoolAttribute{
 						Optional: true,
-						Computed: true,
 					},
 					"network": schema.StringAttribute{
 						Optional: true,
-						Computed: true,
 					},
 				},
 				CustomType: MistNacType{
@@ -377,7 +367,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 						},
 						"isolation_vlan_id": schema.StringAttribute{
 							Optional: true,
-							Computed: true,
 						},
 						"subnet": schema.StringAttribute{
 							Optional:            true,
@@ -430,7 +419,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 						},
 						"output_network": schema.StringAttribute{
 							Optional: true,
-							Computed: true,
 						},
 						"output_port_id": schema.StringAttribute{
 							Optional:            true,
@@ -521,8 +509,10 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 						"dynamic_vlan_networks": schema.ListAttribute{
 							ElementType:         types.StringType,
 							Optional:            true,
+							Computed:            true,
 							Description:         "Only if `mode`!=`dynamic` if dynamic vlan is used, specify the possible networks/vlans RADIUS can return",
 							MarkdownDescription: "Only if `mode`!=`dynamic` if dynamic vlan is used, specify the possible networks/vlans RADIUS can return",
+							Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 						},
 						"enable_mac_auth": schema.BoolAttribute{
 							Optional:            true,
@@ -600,8 +590,10 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 						"networks": schema.ListAttribute{
 							ElementType:         types.StringType,
 							Optional:            true,
+							Computed:            true,
 							Description:         "Only if `mode`==`trunk`, the list of network/vlans",
 							MarkdownDescription: "Only if `mode`==`trunk`, the list of network/vlans",
+							Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 						},
 						"persist_mac": schema.BoolAttribute{
 							Optional:            true,
@@ -661,7 +653,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 								Attributes: map[string]schema.Attribute{
 									"equals": schema.StringAttribute{
 										Optional: true,
-										Computed: true,
 									},
 									"equals_any": schema.ListAttribute{
 										ElementType:         types.StringType,
@@ -806,7 +797,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 								},
 								"keywrap_enabled": schema.BoolAttribute{
 									Optional: true,
-									Computed: true,
 								},
 								"keywrap_format": schema.StringAttribute{
 									Optional: true,
@@ -820,11 +810,9 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 								},
 								"keywrap_kek": schema.StringAttribute{
 									Optional: true,
-									Computed: true,
 								},
 								"keywrap_mack": schema.StringAttribute{
 									Optional: true,
-									Computed: true,
 								},
 								"port": schema.Int64Attribute{
 									Optional:            true,
@@ -860,7 +848,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 								},
 								"keywrap_enabled": schema.BoolAttribute{
 									Optional: true,
-									Computed: true,
 								},
 								"keywrap_format": schema.StringAttribute{
 									Optional: true,
@@ -874,11 +861,9 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 								},
 								"keywrap_kek": schema.StringAttribute{
 									Optional: true,
-									Computed: true,
 								},
 								"keywrap_mack": schema.StringAttribute{
 									Optional: true,
-									Computed: true,
 								},
 								"port": schema.Int64Attribute{
 									Optional:            true,
@@ -955,11 +940,9 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 						Attributes: map[string]schema.Attribute{
 							"files": schema.Int64Attribute{
 								Optional: true,
-								Computed: true,
 							},
 							"size": schema.StringAttribute{
 								Optional: true,
-								Computed: true,
 							},
 						},
 						CustomType: ArchiveType{
@@ -1047,11 +1030,9 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 									Attributes: map[string]schema.Attribute{
 										"files": schema.Int64Attribute{
 											Optional: true,
-											Computed: true,
 										},
 										"size": schema.StringAttribute{
 											Optional: true,
-											Computed: true,
 										},
 									},
 									CustomType: ArchiveType{
@@ -1119,19 +1100,15 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 								},
 								"explicit_priority": schema.BoolAttribute{
 									Optional: true,
-									Computed: true,
 								},
 								"file": schema.StringAttribute{
 									Optional: true,
-									Computed: true,
 								},
 								"match": schema.StringAttribute{
 									Optional: true,
-									Computed: true,
 								},
 								"structured_data": schema.BoolAttribute{
 									Optional: true,
-									Computed: true,
 								},
 							},
 							CustomType: FilesType{
@@ -1213,7 +1190,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 								},
 								"explicit_priority": schema.BoolAttribute{
 									Optional: true,
-									Computed: true,
 								},
 								"facility": schema.StringAttribute{
 									Optional: true,
@@ -1243,11 +1219,9 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 								},
 								"host": schema.StringAttribute{
 									Optional: true,
-									Computed: true,
 								},
 								"match": schema.StringAttribute{
 									Optional: true,
-									Computed: true,
 								},
 								"port": schema.Int64Attribute{
 									Optional: true,
@@ -1268,7 +1242,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 								},
 								"routing_instance": schema.StringAttribute{
 									Optional: true,
-									Computed: true,
 								},
 								"severity": schema.StringAttribute{
 									Optional: true,
@@ -1295,11 +1268,9 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 								},
 								"structured_data": schema.BoolAttribute{
 									Optional: true,
-									Computed: true,
 								},
 								"tag": schema.StringAttribute{
 									Optional: true,
-									Computed: true,
 								},
 							},
 							CustomType: ServersType{
@@ -1382,11 +1353,9 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 								},
 								"match": schema.StringAttribute{
 									Optional: true,
-									Computed: true,
 								},
 								"user": schema.StringAttribute{
 									Optional: true,
-									Computed: true,
 								},
 							},
 							CustomType: UsersType{
@@ -1412,7 +1381,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 							Attributes: map[string]schema.Attribute{
 								"client_list_name": schema.StringAttribute{
 									Optional: true,
-									Computed: true,
 								},
 								"clients": schema.ListAttribute{
 									ElementType: types.StringType,
@@ -1429,11 +1397,9 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 					},
 					"contact": schema.StringAttribute{
 						Optional: true,
-						Computed: true,
 					},
 					"description": schema.StringAttribute{
 						Optional: true,
-						Computed: true,
 					},
 					"enabled": schema.BoolAttribute{
 						Optional: true,
@@ -1454,11 +1420,9 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 					},
 					"location": schema.StringAttribute{
 						Optional: true,
-						Computed: true,
 					},
 					"name": schema.StringAttribute{
 						Optional: true,
-						Computed: true,
 					},
 					"network": schema.StringAttribute{
 						Optional: true,
@@ -1508,7 +1472,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 							Attributes: map[string]schema.Attribute{
 								"authorization": schema.StringAttribute{
 									Optional: true,
-									Computed: true,
 								},
 								"client_list_name": schema.StringAttribute{
 									Optional:            true,
@@ -1517,7 +1480,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 								},
 								"community_name": schema.StringAttribute{
 									Optional: true,
-									Computed: true,
 								},
 								"view": schema.StringAttribute{
 									Optional:            true,
@@ -1540,11 +1502,9 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 									Attributes: map[string]schema.Attribute{
 										"name": schema.StringAttribute{
 											Optional: true,
-											Computed: true,
 										},
 										"tag": schema.StringAttribute{
 											Optional: true,
-											Computed: true,
 										},
 										"type": schema.StringAttribute{
 											Optional: true,
@@ -1570,18 +1530,15 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 									Attributes: map[string]schema.Attribute{
 										"profile_name": schema.StringAttribute{
 											Optional: true,
-											Computed: true,
 										},
 										"contents": schema.ListNestedAttribute{
 											NestedObject: schema.NestedAttributeObject{
 												Attributes: map[string]schema.Attribute{
 													"include": schema.BoolAttribute{
 														Optional: true,
-														Computed: true,
 													},
 													"oid": schema.StringAttribute{
 														Optional: true,
-														Computed: true,
 													},
 												},
 												CustomType: Snmpv3ContentsType{
@@ -1606,11 +1563,9 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 									Attributes: map[string]schema.Attribute{
 										"address": schema.StringAttribute{
 											Optional: true,
-											Computed: true,
 										},
 										"address_mask": schema.StringAttribute{
 											Optional: true,
-											Computed: true,
 										},
 										"port": schema.Int64Attribute{
 											Optional: true,
@@ -1624,7 +1579,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 										},
 										"target_address_name": schema.StringAttribute{
 											Optional: true,
-											Computed: true,
 										},
 										"target_parameters": schema.StringAttribute{
 											Optional:            true,
@@ -1656,7 +1610,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 										},
 										"name": schema.StringAttribute{
 											Optional: true,
-											Computed: true,
 										},
 										"notify_filter": schema.StringAttribute{
 											Optional:            true,
@@ -1766,7 +1719,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 												},
 												"name": schema.StringAttribute{
 													Optional: true,
-													Computed: true,
 												},
 											},
 											CustomType: Snmpv3UsersType{
@@ -1792,7 +1744,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 											Attributes: map[string]schema.Attribute{
 												"group_name": schema.StringAttribute{
 													Optional: true,
-													Computed: true,
 												},
 												"prefix_list": schema.ListNestedAttribute{
 													NestedObject: schema.NestedAttributeObject{
@@ -1890,7 +1841,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 														},
 														"security_name": schema.StringAttribute{
 															Optional: true,
-															Computed: true,
 														},
 													},
 													CustomType: Snmpv3VacmContentType{
@@ -1935,11 +1885,9 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 								},
 								"oid": schema.StringAttribute{
 									Optional: true,
-									Computed: true,
 								},
 								"view_name": schema.StringAttribute{
 									Optional: true,
-									Computed: true,
 								},
 							},
 							CustomType: ViewsType{
@@ -1962,7 +1910,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 				Attributes: map[string]schema.Attribute{
 					"enable": schema.BoolAttribute{
 						Optional: true,
-						Computed: true,
 					},
 					"rules": schema.ListNestedAttribute{
 						NestedObject: schema.NestedAttributeObject{
@@ -1985,11 +1932,9 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 								},
 								"match_value": schema.StringAttribute{
 									Optional: true,
-									Computed: true,
 								},
 								"name": schema.StringAttribute{
 									Optional: true,
-									Computed: true,
 								},
 								"port_config": schema.MapNestedAttribute{
 									NestedObject: schema.NestedAttributeObject{
@@ -2023,7 +1968,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 											},
 											"description": schema.StringAttribute{
 												Optional: true,
-												Computed: true,
 											},
 											"disable_autoneg": schema.BoolAttribute{
 												Optional:            true,
@@ -2052,7 +1996,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 											},
 											"esilag": schema.BoolAttribute{
 												Optional: true,
-												Computed: true,
 											},
 											"mtu": schema.Int64Attribute{
 												Optional:            true,
@@ -2126,7 +2069,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 											},
 											"output_network": schema.StringAttribute{
 												Optional: true,
-												Computed: true,
 											},
 											"output_port_id": schema.StringAttribute{
 												Optional:            true,
@@ -2247,7 +2189,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 					},
 					"root_password": schema.StringAttribute{
 						Optional: true,
-						Computed: true,
 					},
 					"tacacs": schema.SingleNestedAttribute{
 						Attributes: map[string]schema.Attribute{
@@ -2267,7 +2208,6 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 							},
 							"enabled": schema.BoolAttribute{
 								Optional: true,
-								Computed: true,
 							},
 							"network": schema.StringAttribute{
 								Optional:            true,
@@ -2279,15 +2219,12 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 									Attributes: map[string]schema.Attribute{
 										"host": schema.StringAttribute{
 											Optional: true,
-											Computed: true,
 										},
 										"port": schema.StringAttribute{
 											Optional: true,
-											Computed: true,
 										},
 										"secret": schema.StringAttribute{
 											Optional: true,
-											Computed: true,
 										},
 										"timeout": schema.Int64Attribute{
 											Optional: true,
@@ -2308,15 +2245,12 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 									Attributes: map[string]schema.Attribute{
 										"host": schema.StringAttribute{
 											Optional: true,
-											Computed: true,
 										},
 										"port": schema.StringAttribute{
 											Optional: true,
-											Computed: true,
 										},
 										"secret": schema.StringAttribute{
 											Optional: true,
-											Computed: true,
 										},
 										"timeout": schema.Int64Attribute{
 											Optional: true,

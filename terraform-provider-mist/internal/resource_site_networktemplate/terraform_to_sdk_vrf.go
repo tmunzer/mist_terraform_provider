@@ -13,7 +13,9 @@ import (
 
 func vrfConfigTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d VrfConfigValue) *models.VrfConfig {
 	data := models.VrfConfig{}
-	data.Enabled = models.ToPointer(d.Enabled.ValueBool())
+	if !d.Enabled.IsNull() && !d.Enabled.IsUnknown() {
+		data.Enabled = models.ToPointer(d.Enabled.ValueBool())
+	}
 	return &data
 }
 
@@ -24,7 +26,9 @@ func vrfInstanceExtraRouteTerraformToSdk(ctx context.Context, diags *diag.Diagno
 		item_obj := item_interface.(ExtraRoutesValue)
 
 		data_item := models.VrfExtraRoute{}
-		data_item.Via = models.ToPointer(item_obj.Via.ValueString())
+		if !item_obj.Via.IsNull() && !item_obj.Via.IsUnknown() {
+			data_item.Via = models.ToPointer(item_obj.Via.ValueString())
+		}
 		data[item_name] = data_item
 	}
 	return data
@@ -37,8 +41,12 @@ func vrfInstancesTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d 
 		item_obj := item_interface.(VrfInstancesValue)
 
 		data_item := models.VrfInstance{}
-		data_item.Networks = mist_transform.ListOfStringTerraformToSdk(ctx, item_obj.Networks)
-		data_item.ExtraRoutes = vrfInstanceExtraRouteTerraformToSdk(ctx, diags, item_obj.VrfExtraRoutes)
+		if !item_obj.Networks.IsNull() && !item_obj.Networks.IsUnknown() {
+			data_item.Networks = mist_transform.ListOfStringTerraformToSdk(ctx, item_obj.Networks)
+		}
+		if !item_obj.VrfExtraRoutes.IsNull() && !item_obj.VrfExtraRoutes.IsUnknown() {
+			data_item.ExtraRoutes = vrfInstanceExtraRouteTerraformToSdk(ctx, diags, item_obj.VrfExtraRoutes)
+		}
 
 		data[item_name] = data_item
 	}

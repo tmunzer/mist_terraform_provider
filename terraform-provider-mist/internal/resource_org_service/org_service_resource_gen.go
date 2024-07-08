@@ -57,7 +57,6 @@ func OrgServiceResourceSchema(ctx context.Context) schema.Schema {
 			},
 			"description": schema.StringAttribute{
 				Optional: true,
-				Computed: true,
 			},
 			"dscp": schema.Int64Attribute{
 				Optional:            true,
@@ -121,7 +120,6 @@ func OrgServiceResourceSchema(ctx context.Context) schema.Schema {
 					Attributes: map[string]schema.Attribute{
 						"port_range": schema.StringAttribute{
 							Optional: true,
-							Computed: true,
 						},
 						"protocol": schema.StringAttribute{
 							Optional:            true,

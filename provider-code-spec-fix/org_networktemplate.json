@@ -101,6 +101,32 @@
             ]
         },
         {
+            "name": "port_usages",
+            "get": [
+                "map_nested",
+                "nested_object",
+                "attributes"
+            ],
+            "next": [
+                {
+                    "name": "networks",
+                    "get": [
+                        "list"
+                    ],
+                    "computed_optional_required": "computed_optional",
+                    "default_type": "list_of_str"
+                },
+                {
+                    "name": "dynamic_vlan_networks",
+                    "get": [
+                        "list"
+                    ],
+                    "computed_optional_required": "computed_optional",
+                    "default_type": "list_of_str"
+                }
+            ]
+        },
+        {
             "name": "snmp_config",
             "get": [
                 "single_nested",

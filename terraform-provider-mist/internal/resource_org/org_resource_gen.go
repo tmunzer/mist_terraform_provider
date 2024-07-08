@@ -15,7 +15,6 @@ func OrgResourceSchema(ctx context.Context) schema.Schema {
 	return schema.Schema{
 		Attributes: map[string]schema.Attribute{
 			"alarmtemplate_id": schema.StringAttribute{
-				Optional: true,
 				Computed: true,
 			},
 			"allow_mist": schema.BoolAttribute{
@@ -27,7 +26,6 @@ func OrgResourceSchema(ctx context.Context) schema.Schema {
 				Computed: true,
 			},
 			"msp_id": schema.StringAttribute{
-				Optional: true,
 				Computed: true,
 			},
 			"msp_logo_url": schema.StringAttribute{

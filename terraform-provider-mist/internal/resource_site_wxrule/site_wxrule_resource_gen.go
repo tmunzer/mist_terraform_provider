@@ -57,7 +57,6 @@ func SiteWxruleResourceSchema(ctx context.Context) schema.Schema {
 			},
 			"id": schema.StringAttribute{
 				Optional: true,
-				Computed: true,
 			},
 			"order": schema.Int64Attribute{
 				Required:            true,
@@ -69,11 +68,9 @@ func SiteWxruleResourceSchema(ctx context.Context) schema.Schema {
 			},
 			"org_id": schema.StringAttribute{
 				Optional: true,
-				Computed: true,
 			},
 			"site_id": schema.StringAttribute{
 				Optional: true,
-				Computed: true,
 			},
 			"src_wxtags": schema.ListAttribute{
 				ElementType:         types.StringType,

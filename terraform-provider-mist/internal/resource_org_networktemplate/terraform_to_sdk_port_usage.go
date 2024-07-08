@@ -132,7 +132,9 @@ func portUsageTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d bas
 		if !pu_attr_value.PoeDisabled.IsNull() && !pu_attr_value.PoeDisabled.IsUnknown() {
 			new_pu.PoeDisabled = models.ToPointer(pu_attr_value.PoeDisabled.ValueBool())
 		}
-		new_pu.PortAuth = models.ToPointer(pu_attr_value.PortAuth.ValueString())
+		if !pu_attr_value.PortAuth.IsNull() && !pu_attr_value.PortAuth.IsUnknown() {
+			new_pu.PortAuth = models.ToPointer(pu_attr_value.PortAuth.ValueString())
+		}
 		if !pu_attr_value.PortNetwork.IsNull() && !pu_attr_value.PortNetwork.IsUnknown() {
 			new_pu.PortNetwork = models.ToPointer(pu_attr_value.PortNetwork.ValueString())
 		}

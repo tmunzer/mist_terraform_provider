@@ -31,17 +31,51 @@ with open(SPEC_IN, "r") as f_in:
 with open(SPEC_IN, "w") as f_out:
     json.dump(JS, f_out)
 
-RE_COR = r"\"computed_optional_required\": \"computed_optional\","
+RE_COR = r"\"computed_optional\""
 RE_DEF = r", \"default\": {[^}]*}"
 with open(SPEC_IN, "r") as f:
     RAW = f.read()
 
-RAW = re.sub(RE_COR, '"computed_optional_required": "optional",', RAW)
+RAW = re.sub(RE_COR, '"optional"', RAW)
 ##RAW = re.sub(RE_DEF, '', RAW)
 with open(SPEC_IN, "w") as f:
     f.write(RAW)
 
 
+######################################################################
+######################################################################
+######################################################################
+######################################################################
+
+def process_nested(o: dict):
+    if o.get("default"):
+        o["computed_optional_required"] = "computed_optional"
+    for key, val in o.items():
+        if isinstance(val, dict):
+            process_nested(val)
+        if isinstance(val, list):
+            process_attributes(val)
+
+
+def process_attributes(l: list):
+    for attr in l:
+        if isinstance(attr, dict):
+            process_nested(attr)
+        if isinstance(attr, list):
+            process_attributes(attr)
+
+
+with open(SPEC_IN, "r") as f_in:
+    DATA = json.load(f_in)
+for resource in DATA["resources"]:
+    process_attributes(resource["schema"]["attributes"])
+with open(SPEC_IN, "w") as f_out:
+    json.dump(DATA, f_out, indent=4)
+
+######################################################################
+######################################################################
+######################################################################
+######################################################################
 def next_item(data: dict, entries: list, path: list):
     for entry in entries:
         name = entry.get("name")
@@ -89,42 +123,12 @@ with open(SPEC_IN, "r") as f_in:
 
 for file in FIX_FILES:
     fix_file_path = os.path.join(FIX_PATH, file)
-    print(fix_file_path)
+    print("")
+    print(f" {fix_file_path} ".ljust(80, "."))
     with open(fix_file_path, "r") as ffix:
         fix = json.load(ffix)
         next_item(DATA["resources"], [fix], [])
 
 
-with open(SPEC_IN, "w") as f_out:
-    json.dump(DATA, f_out, indent=4)
-
-######################################################################
-######################################################################
-######################################################################
-######################################################################
-
-
-def process_nested(o: dict):
-    if o.get("default"):
-        o["computed_optional_required"] = "computed_optional"
-    for key, val in o.items():
-        if isinstance(val, dict):
-            process_nested(val)
-        if isinstance(val, list):
-            process_attributes(val)
-
-
-def process_attributes(l: list):
-    for attr in l:
-        if isinstance(attr, dict):
-            process_nested(attr)
-        if isinstance(attr, list):
-            process_attributes(attr)
-
-
-with open(SPEC_IN, "r") as f_in:
-    DATA = json.load(f_in)
-for resource in DATA["resources"]:
-    process_attributes(resource["schema"]["attributes"])
 with open(SPEC_IN, "w") as f_out:
     json.dump(DATA, f_out, indent=4)

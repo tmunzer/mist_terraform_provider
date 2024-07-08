@@ -34,6 +34,13 @@
             "computed_optional_required": "computed"
         },
         {
+            "name": "site_id",
+            "get": [
+                "string"
+            ],
+            "computed_optional_required": "computed"
+        },
+        {
             "name": "portal_api_secret",
             "get": [
                 "string"

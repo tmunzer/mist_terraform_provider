@@ -54,7 +54,6 @@ func SiteWlanResourceSchema(ctx context.Context) schema.Schema {
 						},
 						"keywrap_enabled": schema.BoolAttribute{
 							Optional: true,
-							Computed: true,
 						},
 						"keywrap_format": schema.StringAttribute{
 							Optional: true,
@@ -68,11 +67,9 @@ func SiteWlanResourceSchema(ctx context.Context) schema.Schema {
 						},
 						"keywrap_kek": schema.StringAttribute{
 							Optional: true,
-							Computed: true,
 						},
 						"keywrap_mack": schema.StringAttribute{
 							Optional: true,
-							Computed: true,
 						},
 						"port": schema.Int64Attribute{
 							Optional:            true,
@@ -208,7 +205,6 @@ func SiteWlanResourceSchema(ctx context.Context) schema.Schema {
 							Attributes: map[string]schema.Attribute{
 								"dscp": schema.Int64Attribute{
 									Optional: true,
-									Computed: true,
 								},
 								"dst_subnet": schema.StringAttribute{
 									Optional:            true,
@@ -239,23 +235,18 @@ func SiteWlanResourceSchema(ctx context.Context) schema.Schema {
 							Attributes: map[string]schema.Attribute{
 								"dscp": schema.Int64Attribute{
 									Optional: true,
-									Computed: true,
 								},
 								"dst_subnet": schema.StringAttribute{
 									Optional: true,
-									Computed: true,
 								},
 								"port_ranges": schema.StringAttribute{
 									Optional: true,
-									Computed: true,
 								},
 								"protocol": schema.StringAttribute{
 									Optional: true,
-									Computed: true,
 								},
 								"src_subnet": schema.StringAttribute{
 									Optional: true,
-									Computed: true,
 								},
 							},
 							CustomType: OthersType{
@@ -445,7 +436,6 @@ func SiteWlanResourceSchema(ctx context.Context) schema.Schema {
 						},
 						"keywrap_enabled": schema.BoolAttribute{
 							Optional: true,
-							Computed: true,
 						},
 						"keywrap_format": schema.StringAttribute{
 							Optional: true,
@@ -459,11 +449,9 @@ func SiteWlanResourceSchema(ctx context.Context) schema.Schema {
 						},
 						"keywrap_kek": schema.StringAttribute{
 							Optional: true,
-							Computed: true,
 						},
 						"keywrap_mack": schema.StringAttribute{
 							Optional: true,
-							Computed: true,
 						},
 						"port": schema.Int64Attribute{
 							Optional:            true,
@@ -784,7 +772,6 @@ func SiteWlanResourceSchema(ctx context.Context) schema.Schema {
 					},
 					"default_vlan_id": schema.Int64Attribute{
 						Optional: true,
-						Computed: true,
 					},
 					"enabled": schema.BoolAttribute{
 						Optional: true,
@@ -978,7 +965,6 @@ func SiteWlanResourceSchema(ctx context.Context) schema.Schema {
 				Attributes: map[string]schema.Attribute{
 					"circuit_id": schema.StringAttribute{
 						Optional: true,
-						Computed: true,
 					},
 					"enabled": schema.BoolAttribute{
 						Optional:            true,
@@ -1078,7 +1064,6 @@ func SiteWlanResourceSchema(ctx context.Context) schema.Schema {
 				Optional: true,
 			},
 			"msp_id": schema.StringAttribute{
-				Optional: true,
 				Computed: true,
 				Default:  stringdefault.StaticString(""),
 			},
@@ -1685,7 +1670,6 @@ func SiteWlanResourceSchema(ctx context.Context) schema.Schema {
 				Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 			},
 			"portal_api_secret": schema.StringAttribute{
-				Optional:            true,
 				Computed:            true,
 				Description:         "api secret (auto-generated) that can be used to sign guest authorization requests",
 				MarkdownDescription: "api secret (auto-generated) that can be used to sign guest authorization requests",
@@ -1700,7 +1684,6 @@ func SiteWlanResourceSchema(ctx context.Context) schema.Schema {
 				Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 			},
 			"portal_image": schema.StringAttribute{
-				Optional:            true,
 				Computed:            true,
 				Description:         "Url of portal background image",
 				MarkdownDescription: "Url of portal background image",
@@ -1756,11 +1739,9 @@ func SiteWlanResourceSchema(ctx context.Context) schema.Schema {
 					},
 					"enabled": schema.BoolAttribute{
 						Optional: true,
-						Computed: true,
 					},
 					"idle_timeout": schema.Int64Attribute{
 						Optional: true,
-						Computed: true,
 					},
 					"mxcluster_ids": schema.ListAttribute{
 						ElementType:         types.StringType,
@@ -1784,11 +1765,9 @@ func SiteWlanResourceSchema(ctx context.Context) schema.Schema {
 							Attributes: map[string]schema.Attribute{
 								"host": schema.StringAttribute{
 									Optional: true,
-									Computed: true,
 								},
 								"port": schema.Int64Attribute{
 									Optional: true,
-									Computed: true,
 								},
 							},
 							CustomType: ServersType{

@@ -24,7 +24,6 @@ func SiteWxtagResourceSchema(ctx context.Context) schema.Schema {
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Optional: true,
-				Computed: true,
 			},
 			"last_ips": schema.ListAttribute{
 				ElementType: types.StringType,
@@ -35,7 +34,6 @@ func SiteWxtagResourceSchema(ctx context.Context) schema.Schema {
 			},
 			"mac": schema.StringAttribute{
 				Optional: true,
-				Computed: true,
 			},
 			"match": schema.StringAttribute{
 				Optional: true,
@@ -77,11 +75,9 @@ func SiteWxtagResourceSchema(ctx context.Context) schema.Schema {
 			},
 			"org_id": schema.StringAttribute{
 				Optional: true,
-				Computed: true,
 			},
 			"resource_mac": schema.StringAttribute{
 				Optional: true,
-				Computed: true,
 			},
 			"services": schema.ListAttribute{
 				ElementType: types.StringType,
@@ -92,7 +88,6 @@ func SiteWxtagResourceSchema(ctx context.Context) schema.Schema {
 			},
 			"site_id": schema.StringAttribute{
 				Optional: true,
-				Computed: true,
 			},
 			"specs": schema.ListNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
@@ -130,7 +125,6 @@ func SiteWxtagResourceSchema(ctx context.Context) schema.Schema {
 			},
 			"subnet": schema.StringAttribute{
 				Optional: true,
-				Computed: true,
 			},
 			"type": schema.StringAttribute{
 				Required: true,

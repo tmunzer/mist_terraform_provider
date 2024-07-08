@@ -29,11 +29,9 @@ func OrgNetworkResourceSchema(ctx context.Context) schema.Schema {
 			},
 			"gateway": schema.StringAttribute{
 				Optional: true,
-				Computed: true,
 			},
 			"gateway6": schema.StringAttribute{
 				Optional: true,
-				Computed: true,
 			},
 			"id": schema.StringAttribute{
 				Computed: true,
@@ -42,7 +40,6 @@ func OrgNetworkResourceSchema(ctx context.Context) schema.Schema {
 				Attributes: map[string]schema.Attribute{
 					"enabled": schema.BoolAttribute{
 						Optional: true,
-						Computed: true,
 					},
 				},
 				CustomType: InternalAccessType{
@@ -64,15 +61,12 @@ func OrgNetworkResourceSchema(ctx context.Context) schema.Schema {
 							Attributes: map[string]schema.Attribute{
 								"internal_ip": schema.StringAttribute{
 									Optional: true,
-									Computed: true,
 								},
 								"name": schema.StringAttribute{
 									Optional: true,
-									Computed: true,
 								},
 								"port": schema.Int64Attribute{
 									Optional: true,
-									Computed: true,
 								},
 							},
 							CustomType: DestinationNatType{
@@ -87,7 +81,6 @@ func OrgNetworkResourceSchema(ctx context.Context) schema.Schema {
 					},
 					"enabled": schema.BoolAttribute{
 						Optional: true,
-						Computed: true,
 					},
 					"restricted": schema.BoolAttribute{
 						Optional:            true,
@@ -101,11 +94,9 @@ func OrgNetworkResourceSchema(ctx context.Context) schema.Schema {
 							Attributes: map[string]schema.Attribute{
 								"internal_ip": schema.StringAttribute{
 									Optional: true,
-									Computed: true,
 								},
 								"name": schema.StringAttribute{
 									Optional: true,
-									Computed: true,
 								},
 								"wan_name": schema.StringAttribute{
 									Optional:            true,
@@ -152,11 +143,9 @@ func OrgNetworkResourceSchema(ctx context.Context) schema.Schema {
 			},
 			"subnet": schema.StringAttribute{
 				Optional: true,
-				Computed: true,
 			},
 			"subnet6": schema.StringAttribute{
 				Optional: true,
-				Computed: true,
 			},
 			"tenants": schema.MapNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
@@ -176,7 +165,6 @@ func OrgNetworkResourceSchema(ctx context.Context) schema.Schema {
 			},
 			"vlan_id": schema.Int64Attribute{
 				Optional: true,
-				Computed: true,
 			},
 			"vpn_access": schema.MapNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
@@ -196,15 +184,12 @@ func OrgNetworkResourceSchema(ctx context.Context) schema.Schema {
 								Attributes: map[string]schema.Attribute{
 									"internal_ip": schema.StringAttribute{
 										Optional: true,
-										Computed: true,
 									},
 									"name": schema.StringAttribute{
 										Optional: true,
-										Computed: true,
 									},
 									"port": schema.Int64Attribute{
 										Optional: true,
-										Computed: true,
 									},
 								},
 								CustomType: DestinationNatType{
@@ -276,11 +261,9 @@ func OrgNetworkResourceSchema(ctx context.Context) schema.Schema {
 								Attributes: map[string]schema.Attribute{
 									"internal_ip": schema.StringAttribute{
 										Optional: true,
-										Computed: true,
 									},
 									"name": schema.StringAttribute{
 										Optional: true,
-										Computed: true,
 									},
 									"wan_name": schema.StringAttribute{
 										Optional:            true,
