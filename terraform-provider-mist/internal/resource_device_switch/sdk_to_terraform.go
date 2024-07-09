@@ -5,7 +5,6 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
-	"github.com/hashicorp/terraform-plugin-log/tflog"
 
 	mist_transform "terraform-provider-mist/internal/commons/utils"
 
@@ -143,9 +142,7 @@ func SdkToTerraform(ctx context.Context, data *models.DeviceSwitch) (DeviceSwitc
 	if data.PortConfig != nil {
 		port_config = portConfigSdkToTerraform(ctx, &diags, data.PortConfig)
 	}
-	tflog.Error(ctx, "---------------- "+string(len(data.PortMirroring)))
 	if data.PortMirroring != nil {
-		tflog.Error(ctx, "+++++++++++ WE'RE IN ")
 		port_mirroring = portMirroringSdkToTerraform(ctx, &diags, data.PortMirroring)
 	}
 	if data.PortUsages != nil {
