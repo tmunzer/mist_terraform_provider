@@ -28,7 +28,7 @@ description: |-
 
 Required:
 
-- `magic` (String)
+- `claim_code` (String)
 
 Optional:
 
@@ -37,8 +37,8 @@ Optional:
 
 Read-Only:
 
-- `device_id` (String) Mist Device ID
 - `hostname` (String) Device Hostname
+- `id` (String) Mist Device ID
 - `mac` (String) MAC address
 - `model` (String) device model
 - `serial` (String) device serial

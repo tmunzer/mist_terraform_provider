@@ -19,6 +19,7 @@ description: |-
 
 - `name` (String) The name
 - `org_id` (String)
+- `site_id` (String)
 - `type` (String)
 
 ### Optional
@@ -29,7 +30,6 @@ description: |-
 - `op` (String)
 - `resource_mac` (String)
 - `services` (List of String)
-- `site_id` (String)
 - `specs` (Attributes List) if `type`==`specs` (see [below for nested schema](#nestedatt--specs))
 - `subnet` (String)
 - `values` (List of String) if `type`!=`vlan_id` and `type`!=`specs`, list of values to match

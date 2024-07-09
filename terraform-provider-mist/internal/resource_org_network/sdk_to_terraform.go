@@ -53,9 +53,7 @@ func SdkToTerraform(ctx context.Context, data models.Network) (OrgNetworkModel, 
 	if data.Isolation != nil {
 		isolation = types.BoolValue(*data.Isolation)
 	}
-	if data.Name != nil {
-		name = types.StringValue(*data.Name)
-	}
+	name = types.StringValue(data.Name)
 	if data.OrgId != nil {
 		org_id = types.StringValue(data.OrgId.String())
 	}

@@ -28,6 +28,7 @@ description: |-
 - `band_24` (Attributes) Radio Band AP settings (see [below for nested schema](#nestedatt--band_24))
 - `band_24_usage` (String)
 - `band_5` (Attributes) Radio Band AP settings (see [below for nested schema](#nestedatt--band_5))
+- `band_5_on_24_radio` (Attributes) Radio Band AP settings (see [below for nested schema](#nestedatt--band_5_on_24_radio))
 - `band_6` (Attributes) Radio Band AP settings (see [below for nested schema](#nestedatt--band_6))
 - `country_code` (String) optional, country code to use. If specified, this gets applied to all sites using the RF Template
 - `model_specific` (Attributes Map) overwrites for a specific model. If a band is specified, it will shadow the default. Property key is the model name (e.g. "AP63") (see [below for nested schema](#nestedatt--model_specific))
@@ -56,6 +57,23 @@ Optional:
 
 <a id="nestedatt--band_5"></a>
 ### Nested Schema for `band_5`
+
+Optional:
+
+- `allow_rrm_disable` (Boolean)
+- `ant_gain` (Number)
+- `antenna_mode` (String)
+- `bandwidth` (Number) channel width for the 5GHz band
+- `channels` (List of Number) For RFTemplates. List of channels, null or empty array means auto
+- `disabled` (Boolean) whether to disable the radio
+- `power` (Number) TX power of the radio. For Devices, 0 means auto. -1 / -2 / -3 / …: treated as 0 / -1 / -2 / …
+- `power_max` (Number) when power=0, max tx power to use, HW-specific values will be used if not set
+- `power_min` (Number) when power=0, min tx power to use, HW-specific values will be used if not set
+- `preamble` (String)
+
+
+<a id="nestedatt--band_5_on_24_radio"></a>
+### Nested Schema for `band_5_on_24_radio`
 
 Optional:
 

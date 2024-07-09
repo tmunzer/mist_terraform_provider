@@ -15,7 +15,7 @@ func TerraformToSdk(ctx context.Context, plan *OrgNetworkModel) (*models.Network
 	unset := make(map[string]interface{})
 
 	if plan.Name.ValueStringPointer() != nil {
-		data.Name = plan.Name.ValueStringPointer()
+		data.Name = plan.Name.ValueString()
 	} else {
 		unset["-ap_updown_threshold"] = ""
 	}

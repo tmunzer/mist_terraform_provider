@@ -136,6 +136,8 @@ func OrgServiceResourceSchema(ctx context.Context) schema.Schema {
 					},
 				},
 				Optional: true,
+				Computed: true,
+				Default:  listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 			},
 			"ssr_relaxed_tcp_state_enforcement": schema.BoolAttribute{
 				Optional: true,

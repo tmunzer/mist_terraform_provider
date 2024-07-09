@@ -152,7 +152,7 @@ func TerraformToSdk(ctx context.Context, plan *SiteSettingModel) (*models.SiteSe
 	}
 
 	if !plan.SyntheticTest.IsNull() && !plan.SyntheticTest.IsUnknown() {
-		data.Synthetictest = syntheticTestTerraformToSdk(ctx, &diags, plan.SyntheticTest)
+		data.SyntheticTest = syntheticTestTerraformToSdk(ctx, &diags, plan.SyntheticTest)
 	} else {
 		unset["-synthetic_test"] = ""
 	}

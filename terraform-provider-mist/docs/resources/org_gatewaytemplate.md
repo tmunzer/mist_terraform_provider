@@ -36,6 +36,7 @@ description: |-
 - `networks` (Attributes List) (see [below for nested schema](#nestedatt--networks))
 - `ntp_override` (Boolean)
 - `ntp_servers` (List of String) list of NTP servers specific to this device. By default, those in Site Settings will be used
+- `oob_ip_config` (Attributes) out-of-band (vme/em0/fxp0) IP config (see [below for nested schema](#nestedatt--oob_ip_config))
 - `path_preferences` (Attributes Map) Property key is the path name (see [below for nested schema](#nestedatt--path_preferences))
 - `port_config` (Attributes Map) Property key is the port(s) name or range (e.g. "ge-0/0/0-10") (see [below for nested schema](#nestedatt--port_config))
 - `router_id` (String) auto assigned if not set
@@ -218,6 +219,10 @@ Optional:
 <a id="nestedatt--networks"></a>
 ### Nested Schema for `networks`
 
+Required:
+
+- `name` (String)
+
 Optional:
 
 - `disallow_mist_services` (Boolean) whether to disallow Mist Devices in the network
@@ -226,7 +231,6 @@ Optional:
 - `internal_access` (Attributes) (see [below for nested schema](#nestedatt--networks--internal_access))
 - `internet_access` (Attributes) whether this network has direct internet access (see [below for nested schema](#nestedatt--networks--internet_access))
 - `isolation` (Boolean) whether to allow clients in the network to talk to each other
-- `name` (String)
 - `routed_for_networks` (List of String) for a Network (usually LAN), it can be routable to other networks (e.g. OSPF)
 - `subnet` (String)
 - `subnet6` (String)
@@ -332,6 +336,33 @@ Optional:
 - `name` (String)
 - `wan_name` (String) If not set, we configure the nat policies against all WAN ports for simplicity
 
+
+
+
+<a id="nestedatt--oob_ip_config"></a>
+### Nested Schema for `oob_ip_config`
+
+Optional:
+
+- `ip` (String)
+- `netmask` (String) used only if `subnet` is not specified in `networks`
+- `network` (String) optional, the network to be used for mgmt
+- `node1` (Attributes) for HA Cluster, node1 can have different IP Config (see [below for nested schema](#nestedatt--oob_ip_config--node1))
+- `type` (String)
+- `use_mgmt_vrf` (Boolean) f supported on the platform. If enabled, DNS will be using this routing-instance, too
+- `use_mgmt_vrf_for_host_out` (Boolean) for host-out traffic (NTP/TACPLUS/RADIUS/SYSLOG/SNMP), if alternative source network/ip is desired,
+
+<a id="nestedatt--oob_ip_config--node1"></a>
+### Nested Schema for `oob_ip_config.node1`
+
+Optional:
+
+- `ip` (String)
+- `netmask` (String) used only if `subnet` is not specified in `networks`
+- `network` (String) optional, the network to be used for mgmt
+- `type` (String)
+- `use_mgmt_vrf` (Boolean) if supported on the platform. If enabled, DNS will be using this routing-instance, too
+- `use_mgmt_vrf_for_host_out` (Boolean) whether to use `mgmt_junos` for host-out traffic (NTP/TACPLUS/RADIUS/SYSLOG/SNMP), if alternative source network/ip is desired
 
 
 

@@ -20,7 +20,7 @@ resource "mist_org_inventory" "inventory" {
   devices = [
     {
       claim_code = "CPKL2EXN8JY98AC"
-      # site_id = mist_site.terraform_site.id
+      site_id = mist_site.terraform_site.id
     },
     {
       claim_code = "G87JHBFXZJSFNMX"

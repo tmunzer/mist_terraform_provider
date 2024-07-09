@@ -77,7 +77,7 @@
         {
             "name": "specs",
             "get": [
-                "list"
+                "list_nested"
             ],
             "default_type": "list_of_str",
             "computed_optional_required": "computed_optional"            

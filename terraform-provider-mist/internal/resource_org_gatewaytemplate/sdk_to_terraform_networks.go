@@ -52,9 +52,7 @@ func NetworksSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, m []mo
 		if d.Isolation != nil {
 			isolation = types.BoolValue(*d.Isolation)
 		}
-		if d.Name != nil {
-			name = types.StringValue(*d.Name)
-		}
+		name = types.StringValue(d.Name)
 		if d.RoutedForNetworks != nil {
 			routed_for_networks = mist_transform.ListOfStringSdkToTerraform(ctx, d.RoutedForNetworks)
 		}

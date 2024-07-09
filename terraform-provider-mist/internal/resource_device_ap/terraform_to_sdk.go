@@ -4,132 +4,167 @@ import (
 	"context"
 	mist_transform "terraform-provider-mist/internal/commons/utils"
 
+	"mistapi/models"
+
+	"github.com/google/uuid"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 )
 
 func TerraformToSdk(ctx context.Context, plan *DeviceApModel) (models.MistDevice, diag.Diagnostics) {
-	data := models.NewDeviceAp()
+	data := models.DeviceAp{}
 	var diags diag.Diagnostics
 	unset := make(map[string]interface{})
 
-	data.SetDeviceprofileId(plan.DeviceprofileId.ValueString())
-	data.SetMapId(plan.MapId.ValueString())
-	data.SetName(plan.Name.ValueString())
-	data.SetNotes(plan.Notes.ValueString())
+	data.DeviceprofileId = models.NewOptional(models.ToPointer(uuid.MustParse(plan.DeviceprofileId.ValueString())))
+	data.MapId = models.ToPointer(uuid.MustParse(plan.MapId.ValueString()))
+	data.Name = plan.Name.ValueStringPointer()
+	data.Notes = plan.Notes.ValueStringPointer()
 
 	if !plan.Aeroscout.IsNull() && !plan.Aeroscout.IsUnknown() {
 		aeroscout := aeroscoutTerraformToSdk(ctx, &diags, plan.Aeroscout)
-		data.SetAeroscout(aeroscout)
+		data.Aeroscout = aeroscout
 	} else {
 		unset["-aeroscout"] = ""
 	}
 
 	if !plan.BleConfig.IsNull() && !plan.BleConfig.IsUnknown() {
-		ble_config := bleConfigTerraformToSdk(ctx, &diags, plan.BleConfig)
-		data.SetBleConfig(*ble_config)
+		data.BleConfig = bleConfigTerraformToSdk(ctx, &diags, plan.BleConfig)
 	} else {
 		unset["-ble_config"] = ""
 	}
 
-	if !plan.Centrak.IsNull() && !plan.Centrak.IsUnknown() {
-		centrak := centrakTerraformToSdk(ctx, &diags, plan.Centrak)
-		data.SetCentrak(centrak)
-	} else {
-		unset["-centrak"] = ""
-	}
+	// if !plan.Centrak.IsNull() && !plan.Centrak.IsUnknown() {
+	// 	data.Centrak = centrakTerraformToSdk(ctx, &diags, plan.Centrak)
+	// } else {
+	// 	unset["-centrak"] = ""
+	// }
 
 	if !plan.ClientBridge.IsNull() && !plan.ClientBridge.IsUnknown() {
-		client_bridge := clientBridgeTerraformToSdk(ctx, &diags, plan.ClientBridge)
-		data.SetClientBridge(client_bridge)
+		data.ClientBridge = clientBridgeTerraformToSdk(ctx, &diags, plan.ClientBridge)
 	} else {
 		unset["-client_bridge"] = ""
 	}
 
-	data.SetDisableEth1(plan.DisableEth1.ValueBool())
-	data.SetDisableEth2(plan.DisableEth2.ValueBool())
-	data.SetDisableEth3(plan.DisableEth3.ValueBool())
-	data.SetDisableModule(plan.DisableModule.ValueBool())
-
+	if !plan.DisableEth1.IsNull() && !plan.DisableEth1.IsUnknown() {
+		data.DisableEth1 = plan.DisableEth1.ValueBoolPointer()
+	} else {
+		unset["-disable_eth1"] = ""
+	}
+	if !plan.DisableEth2.IsNull() && !plan.DisableEth2.IsUnknown() {
+		data.DisableEth2 = plan.DisableEth2.ValueBoolPointer()
+	} else {
+		unset["-disable_eth2"] = ""
+	}
+	if !plan.DisableEth3.IsNull() && !plan.DisableEth3.IsUnknown() {
+		data.DisableEth3 = plan.DisableEth3.ValueBoolPointer()
+	} else {
+		unset["-disable_eth3"] = ""
+	}
+	if !plan.DisableModule.IsNull() && !plan.DisableModule.IsUnknown() {
+		data.DisableModule = plan.DisableModule.ValueBoolPointer()
+	} else {
+		unset["-disable_eth3"] = ""
+	}
 	if !plan.EslConfig.IsNull() && !plan.EslConfig.IsUnknown() {
-		esl_config := eslTerraformToSdk(ctx, &diags, plan.EslConfig)
-		data.SetEslConfig(esl_config)
+		data.EslConfig = eslTerraformToSdk(ctx, &diags, plan.EslConfig)
 	} else {
 		unset["-esl_config"] = ""
 	}
 
-	data.SetHeight(float32(plan.Height.ValueFloat64()))
+	if !plan.Height.IsNull() && !plan.Height.IsUnknown() {
+		data.Height = plan.Height.ValueFloat64Pointer()
+	} else {
+		unset["-height"] = ""
+	}
 
 	if !plan.IpConfig.IsNull() && !plan.IpConfig.IsUnknown() {
 		ip_config := ipConfigTerraformToSdk(ctx, &diags, plan.IpConfig)
-		data.SetIpConfig(ip_config)
+		data.IpConfig = ip_config
 	} else {
 		unset["-ip_config"] = ""
 	}
 
 	if !plan.Led.IsNull() && !plan.Led.IsUnknown() {
 		led := ledTerraformToSdk(ctx, &diags, plan.Led)
-		data.SetLed(led)
+		data.Led = led
 	} else {
 		unset["-led"] = ""
 	}
 
-	data.SetLocked(plan.Locked.ValueBool())
+	if !plan.Locked.IsNull() && !plan.Locked.IsUnknown() {
+		data.Locked = plan.Locked.ValueBoolPointer()
+	} else {
+		unset["-locked"] = ""
+	}
 
 	if !plan.Mesh.IsNull() && !plan.Mesh.IsUnknown() {
 		mesh := meshTerraformToSdk(ctx, &diags, plan.Mesh)
-		data.SetMesh(mesh)
+		data.Mesh = mesh
 	} else {
 		unset["-mesh"] = ""
 	}
 
-	data.SetNtpServers(mist_transform.ListOfStringTerraformToSdk(ctx, plan.NtpServers))
+	if !plan.NtpServers.IsNull() && !plan.NtpServers.IsUnknown() {
+		data.NtpServers = mist_transform.ListOfStringTerraformToSdk(ctx, plan.NtpServers)
+	} else {
+		unset["-ntp_servers"] = ""
+	}
 
-	data.SetOrientation(int32(plan.Orientation.ValueInt64()))
+	if !plan.Orientation.IsNull() && !plan.Orientation.IsUnknown() {
+		data.Orientation = models.ToPointer(int(plan.Orientation.ValueInt64()))
+	} else {
+		unset["-orientation"] = ""
+	}
 
-	data.SetPoePassthrough(plan.PoePassthrough.ValueBool())
+	if !plan.PoePassthrough.IsNull() && !plan.PoePassthrough.IsUnknown() {
+		data.PoePassthrough = plan.PoePassthrough.ValueBoolPointer()
+	} else {
+		unset["-poe_passthrough"] = ""
+	}
 
 	if !plan.PwrConfig.IsNull() && !plan.PwrConfig.IsUnknown() {
-		pwr_config := pwrConfigTerraformToSdk(ctx, &diags, plan.PwrConfig)
-		data.SetPwrConfig(pwr_config)
+		data.PwrConfig = pwrConfigTerraformToSdk(ctx, &diags, plan.PwrConfig)
 	} else {
 		unset["-pwr_config"] = ""
 	}
 
-	//if !plan.RadioConfig.IsNull() && !plan.RadioConfig.IsUnknown() {
-	radio_config := radioConfigTerraformToSdk(ctx, &diags, plan.RadioConfig)
-	data.SetRadioConfig(radio_config)
-	// } else {
-	// 	unset["-radio_config"] = ""
-	// }
+	if !plan.RadioConfig.IsNull() && !plan.RadioConfig.IsUnknown() {
+		data.RadioConfig = radioConfigTerraformToSdk(ctx, &diags, plan.RadioConfig)
+	} else {
+		unset["-radio_config"] = ""
+	}
 
 	if !plan.UplinkPortConfig.IsNull() && !plan.UplinkPortConfig.IsUnknown() {
-		uplink_port_config := uplinkPortConfigTerraformToSdk(ctx, &diags, plan.UplinkPortConfig)
-		data.SetUplinkPortConfig(uplink_port_config)
+		data.UplinkPortConfig = uplinkPortConfigTerraformToSdk(ctx, &diags, plan.UplinkPortConfig)
 	} else {
 		unset["-uplink_port_config"] = ""
 	}
 
 	if !plan.UsbConfig.IsNull() && !plan.UsbConfig.IsUnknown() {
-		usb_config := usbConfigTerraformToSdk(ctx, &diags, plan.UsbConfig)
-		data.SetUsbConfig(usb_config)
+		data.UsbConfig = usbConfigTerraformToSdk(ctx, &diags, plan.UsbConfig)
 	} else {
 		unset["-usb_config"] = ""
 	}
 
 	if !plan.Vars.IsNull() && !plan.Vars.IsUnknown() {
-		vars := varsTerraformToSdk(ctx, &diags, plan.Vars)
-		data.SetVars(vars)
+		data.Vars = varsTerraformToSdk(ctx, &diags, plan.Vars)
 	} else {
 		unset["-vars"] = ""
 	}
 
-	data.SetX(plan.X.ValueFloat64())
-	data.SetY(plan.Y.ValueFloat64())
+	if !plan.X.IsNull() && !plan.X.IsUnknown() {
+		data.X = plan.X.ValueFloat64Pointer()
+	} else {
+		unset["-x"] = ""
+	}
+	if !plan.Y.IsNull() && !plan.Y.IsUnknown() {
+		data.Y = plan.Y.ValueFloat64Pointer()
+	} else {
+		unset["-y"] = ""
+	}
 
 	data.AdditionalProperties = unset
 
-	var mist_device models.MistDevice
-	mist_device.DeviceAp = data
+	mist_device := models.MistDeviceContainer.FromDeviceAp(data)
 	return mist_device, diags
 }

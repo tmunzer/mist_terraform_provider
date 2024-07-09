@@ -17,6 +17,7 @@ description: |-
 
 ### Required
 
+- `name` (String)
 - `org_id` (String)
 
 ### Optional
@@ -30,12 +31,12 @@ description: |-
 - `dns_servers` (List of String) Global dns settings. To keep compatibility, dns settings in `ip_config` and `oob_ip_config` will overwrite this setting
 - `dns_suffix` (List of String) Global dns settings. To keep compatibility, dns settings in `ip_config` and `oob_ip_config` will overwrite this setting
 - `extra_routes` (Attributes Map) (see [below for nested schema](#nestedatt--extra_routes))
+- `extra_routes6` (Attributes Map) Property key is the destination CIDR (e.g. "2a02:1234:420a:10c9::/64") (see [below for nested schema](#nestedatt--extra_routes6))
 - `mist_nac` (Attributes) enable mist_nac to use radsec (see [below for nested schema](#nestedatt--mist_nac))
-- `name` (String)
 - `networks` (Attributes Map) Property key is network name (see [below for nested schema](#nestedatt--networks))
 - `ntp_servers` (List of String) list of NTP servers specific to this device. By default, those in Site Settings will be used
-- `port_mirrorings` (Attributes Map) Property key is the port mirroring instance name
-port_mirroring can be added under device/site settings. It takes interface and ports as input for ingress, interface as input for egress and can take interface and port as output. (see [below for nested schema](#nestedatt--port_mirrorings))
+- `port_mirroring` (Attributes Map) Property key is the port mirroring instance name
+port_mirroring can be added under device/site settings. It takes interface and ports as input for ingress, interface as input for egress and can take interface and port as output. (see [below for nested schema](#nestedatt--port_mirroring))
 - `port_usages` (Attributes Map) (see [below for nested schema](#nestedatt--port_usages))
 - `radius_config` (Attributes) Junos Radius config (see [below for nested schema](#nestedatt--radius_config))
 - `remote_syslog` (Attributes) (see [below for nested schema](#nestedatt--remote_syslog))
@@ -145,6 +146,28 @@ Optional:
 
 
 
+<a id="nestedatt--extra_routes6"></a>
+### Nested Schema for `extra_routes6`
+
+Optional:
+
+- `discard` (Boolean) this takes precedence
+- `metric` (Number)
+- `next_qualified` (Attributes Map) (see [below for nested schema](#nestedatt--extra_routes6--next_qualified))
+- `no_resolve` (Boolean)
+- `preference` (Number)
+- `via` (String) next-hop IP Address
+
+<a id="nestedatt--extra_routes6--next_qualified"></a>
+### Nested Schema for `extra_routes6.next_qualified`
+
+Optional:
+
+- `metric` (Number)
+- `preference` (Number)
+
+
+
 <a id="nestedatt--mist_nac"></a>
 ### Nested Schema for `mist_nac`
 
@@ -169,8 +192,8 @@ NOTE: this features requires uplink device to also a be Juniper device and `inte
 - `subnet` (String) optional for pure switching, required when L3 / routing features are used
 
 
-<a id="nestedatt--port_mirrorings"></a>
-### Nested Schema for `port_mirrorings`
+<a id="nestedatt--port_mirroring"></a>
+### Nested Schema for `port_mirroring`
 
 Optional:
 
@@ -774,11 +797,11 @@ Optional:
 
 Optional:
 
-- `extra_routes` (Attributes Map) Property key is the destination CIDR (e.g. "10.0.0.0/8") (see [below for nested schema](#nestedatt--vrf_instances--extra_routes))
 - `networks` (List of String)
+- `vrf_extra_routes` (Attributes Map) Property key is the destination CIDR (e.g. "10.0.0.0/8") (see [below for nested schema](#nestedatt--vrf_instances--vrf_extra_routes))
 
-<a id="nestedatt--vrf_instances--extra_routes"></a>
-### Nested Schema for `vrf_instances.extra_routes`
+<a id="nestedatt--vrf_instances--vrf_extra_routes"></a>
+### Nested Schema for `vrf_instances.vrf_extra_routes`
 
 Optional:
 

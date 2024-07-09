@@ -17,7 +17,7 @@ func servicePolicyAppqoeTerraformToSdk(ctx context.Context, diags *diag.Diagnost
 	tflog.Debug(ctx, "servicePolicyAppqoeTerraformToSdk")
 	data := models.ServicePolicyAppqoe{}
 	if d.IsNull() || d.IsUnknown() {
-		return &data
+		return nil
 	} else {
 		plan := NewAppqoeValueMust(d.AttributeTypes(ctx), d.Attributes())
 		if plan.Enabled.ValueBoolPointer() != nil {
@@ -56,7 +56,7 @@ func idpConfigTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d bas
 	tflog.Debug(ctx, "idpConfigTerraformToSdk")
 	data := models.IdpConfig{}
 	if d.IsNull() || d.IsUnknown() {
-		return &data
+		return nil
 	} else {
 		plan := NewIdpValueMust(d.AttributeTypes(ctx), d.Attributes())
 

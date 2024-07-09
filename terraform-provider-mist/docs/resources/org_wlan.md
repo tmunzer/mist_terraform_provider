@@ -88,7 +88,6 @@ dynamic_psk allows PSK to be selected at runtime depending on context (wlan/site
 - `limit_probe_response` (Boolean) limit probe response base on some heuristic rules
 - `max_idletime` (Number) max idle time in seconds
 - `mist_nac` (Attributes) (see [below for nested schema](#nestedatt--mist_nac))
-- `msp_id` (String)
 - `mxtunnel_ids` (List of String) when `interface`=`mxtunnel`, id of the Mist Tunnel
 - `mxtunnel_name` (List of String) when `interface`=`site_medge`, name of the mxtunnel that in mxtunnels under Site Setting
 - `no_static_dns` (Boolean) whether to only allow client to use DNS that we’ve learned from DHCP response
@@ -96,16 +95,12 @@ dynamic_psk allows PSK to be selected at runtime depending on context (wlan/site
 - `portal` (Attributes) portal wlan settings (see [below for nested schema](#nestedatt--portal))
 - `portal_allowed_hostnames` (List of String) list of hostnames without http(s):// (matched by substring)
 - `portal_allowed_subnets` (List of String) list of CIDRs
-- `portal_api_secret` (String) api secret (auto-generated) that can be used to sign guest authorization requests
 - `portal_denied_hostnames` (List of String) list of hostnames without http(s):// (matched by substring), this takes precedence over portal_allowed_hostnames
-- `portal_image` (String) Url of portal background image
-- `portal_sso_url` (String)
 - `portal_template_url` (String) N.B portal_template will be forked out of wlan objects soon. To fetch portal_template, please query portal_template_url. To update portal_template, use Wlan Portal Template.
 - `qos` (Attributes) (see [below for nested schema](#nestedatt--qos))
 - `radsec` (Attributes) Radsec settings (see [below for nested schema](#nestedatt--radsec))
 - `roam_mode` (String)
 - `schedule` (Attributes) WLAN operating schedule, default is disabled (see [below for nested schema](#nestedatt--schedule))
-- `site_id` (String)
 - `sle_excluded` (Boolean) whether to exclude this WLAN from SLE metrics
 - `template_id` (String)
 - `thumbnail` (String) Url of portal background image thumbnail
@@ -125,6 +120,11 @@ dynamic_psk allows PSK to be selected at runtime depending on context (wlan/site
 ### Read-Only
 
 - `id` (String) The ID of this resource.
+- `msp_id` (String)
+- `portal_api_secret` (String) api secret (auto-generated) that can be used to sign guest authorization requests
+- `portal_image` (String) Url of portal background image
+- `portal_sso_url` (String)
+- `site_id` (String)
 
 <a id="nestedatt--acct_servers"></a>
 ### Nested Schema for `acct_servers`
@@ -412,10 +412,7 @@ Facebook OAuth2 app secret. If facebook_client_id was provided, provide a corres
 - `passphrase_enabled` (Boolean) whether password is enabled
 - `passphrase_expire` (Number) interval for which guest remains authorized using passphrase auth (in minutes), if not provided, uses `expire`
 - `password` (String) passphrase
-- `portal_allowed_hostnames` (String) list of hostnames without http(s):// (matched by substring)
-- `portal_allowed_subnets` (String) list of CIDRs
 - `portal_api_secret` (String) api secret (auto-generated) that can be used to sign guest authorization requests
-- `portal_denied_hostnames` (String) list of hostnames without http(s):// (matched by substring), this takes precedence over portal_allowed_hostnames
 - `portal_image` (String) Url of portal background image
 - `portal_sso_url` (String) for SAML, this is used as the ACS URL
 - `predefined_sponsors_enabled` (Boolean) whether to show list of sponsor emails mentioned in `sponsors` object as a dropdown. If both `sponsor_notify_all` and `predefined_sponsors_enabled` are false, behaviour is acc to `sponsor_email_domains`
@@ -445,7 +442,6 @@ Property key is the sponsor email, Property value is the sponsor name
 - `sso_nameid_format` (String)
 - `telstra_client_id` (String) when `sms_provider`==`telstra`, Client ID provided by Telstra
 - `telstra_client_secret` (String) when `sms_provider`==`telstra`, Client secret provided by Telstra
-- `thumbnail` (String) Url of portal background image thumbnail
 - `twilio_auth_token` (String) when `sms_provider`==`twilio`, Auth token account with twilio account
 - `twilio_phone_number` (String) when `sms_provider`==`twilio`, Twilio phone number associated with the account. See example for accepted format.
 - `twilio_sid` (String) when `sms_provider`==`twilio`, Account SID provided by Twilio

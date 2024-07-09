@@ -19,6 +19,7 @@ description: |-
 
 - `order` (Number) the order how rules would be looked up, > 0 and bigger order got matched first, -1 means LAST, uniqueness not checked
 - `org_id` (String)
+- `site_id` (String)
 - `src_wxtags` (List of String) tag list to determine if this rule would match
 
 ### Optional
@@ -29,7 +30,6 @@ description: |-
 - `dst_allow_wxtags` (List of String) tag list to indicate these tags are allowed access
 - `dst_deny_wxtags` (List of String) tag list to indicate these tags are blocked access
 - `enabled` (Boolean)
-- `site_id` (String)
 - `template_id` (String) Only for Org Level WxRule
 
 ### Read-Only

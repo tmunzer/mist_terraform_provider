@@ -113,7 +113,7 @@ func dhcpdConfigConfigsSdkToTerraform(ctx context.Context, diags *diag.Diagnosti
 	for k, d_interface := range m {
 		if k != "enabled" {
 			d_bytes, _ := json.Marshal(d_interface)
-			d := models.DhcpdConfig{}
+			d := models.DhcpdConfigProperty{}
 			d.UnmarshalJSON(d_bytes)
 			var dns_servers basetypes.ListValue = mist_transform.ListOfStringSdkToTerraformEmpty(ctx)
 			var dns_suffix basetypes.ListValue = mist_transform.ListOfStringSdkToTerraformEmpty(ctx)
@@ -212,7 +212,7 @@ func dhcpdConfigConfigsSdkToTerraform(ctx context.Context, diags *diag.Diagnosti
 	return r
 }
 
-func dhcpdConfigSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d *models.DhcpdConfigs) DhcpdConfigValue {
+func dhcpdConfigSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d *models.DhcpdConfig) DhcpdConfigValue {
 	tflog.Debug(ctx, "dhcpdConfigSdkToTerraform")
 
 	var config basetypes.MapValue = types.MapNull(ConfigValue{}.Type(ctx))

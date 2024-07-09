@@ -82,7 +82,7 @@ func dhcpdConfigConfigsTerraformToSdk(ctx context.Context, diags *diag.Diagnosti
 		options := dhcpdConfigOptionsTerraformToSdk(ctx, diags, plan.Options)
 		vendor_encapulated := dhcpdConfigVendorOptionsTerraformToSdk(ctx, diags, plan.VendorEncapulated)
 
-		data := models.DhcpdConfig{}
+		data := models.DhcpdConfigProperty{}
 		if !plan.DnsServers.IsNull() && !plan.DnsServers.IsUnknown() {
 			data.DnsServers = mist_transform.ListOfStringTerraformToSdk(ctx, plan.DnsServers)
 		}
@@ -137,10 +137,10 @@ func dhcpdConfigConfigsTerraformToSdk(ctx context.Context, diags *diag.Diagnosti
 	return data_map
 }
 
-func dhcpdConfigTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d DhcpdConfigValue) models.DhcpdConfigs {
+func dhcpdConfigTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d DhcpdConfigValue) models.DhcpdConfig {
 	tflog.Debug(ctx, "dhcpdConfigTerraformToSdk")
 
-	data := models.DhcpdConfigs{}
+	data := models.DhcpdConfig{}
 
 	if d.Enabled.ValueBoolPointer() != nil {
 		data.Enabled = models.ToPointer(d.Enabled.ValueBool())

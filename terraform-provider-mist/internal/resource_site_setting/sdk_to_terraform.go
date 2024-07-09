@@ -113,8 +113,8 @@ func SdkToTerraform(ctx context.Context, data *models.SiteSetting) (SiteSettingM
 		state.SwitchUpdownThreshold = types.Int64Value(int64(*data.SwitchUpdownThreshold.Value()))
 	}
 
-	if data.Synthetictest != nil {
-		state.SyntheticTest = synthteticTestSdkToTerraform(ctx, &diags, data.Synthetictest)
+	if data.SyntheticTest != nil {
+		state.SyntheticTest = synthteticTestSdkToTerraform(ctx, &diags, data.SyntheticTest)
 	}
 
 	if data.TrackAnonymousDevices != nil {

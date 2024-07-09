@@ -15,24 +15,36 @@ func modelSpecificTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d
 	for k, v := range d.Elements() {
 		var v_interface interface{} = v
 		plan := v_interface.(ModelSpecificValue)
-		data := *&models.RfTemplateModelSpecificProperty{}
+		data := models.RfTemplateModelSpecificProperty{}
 
-		data.AntGain24 = models.ToPointer(int(plan.AntGain24.ValueInt64()))
-		data.AntGain5 = models.ToPointer(int(plan.AntGain5.ValueInt64()))
-		data.AntGain6 = models.ToPointer(int(plan.AntGain6.ValueInt64()))
+		if plan.AntGain24.ValueInt64Pointer() != nil {
+			data.AntGain24 = models.ToPointer(int(plan.AntGain24.ValueInt64()))
+		}
+		if plan.AntGain5.ValueInt64Pointer() != nil {
+			data.AntGain5 = models.ToPointer(int(plan.AntGain5.ValueInt64()))
+		}
+		if plan.AntGain6.ValueInt64Pointer() != nil {
+			data.AntGain6 = models.ToPointer(int(plan.AntGain6.ValueInt64()))
+		}
 
-		plan_band24, _ := NewBand24Value(plan.Band24.AttributeTypes(ctx), plan.Band24.Attributes())
-		data.Band24 = band24TerraformToSdk(ctx, diags, plan_band24)
+		if !plan.Band24.IsNull() && !plan.Band24.IsUnknown() {
+			plan_band24, _ := NewBand24Value(plan.Band24.AttributeTypes(ctx), plan.Band24.Attributes())
+			data.Band24 = band24TerraformToSdk(ctx, diags, plan_band24)
 
-		data.Band24Usage = models.ToPointer(models.RadioBand24UsageEnum(plan.Band24Usage.ValueString()))
+			data.Band24Usage = models.ToPointer(models.RadioBand24UsageEnum(plan.Band24Usage.ValueString()))
+		}
 
-		plan_band5, _ := NewBand5Value(plan.Band5.AttributeTypes(ctx), plan.Band5.Attributes())
-		data.Band5 = band5TerraformToSdk(ctx, diags, plan_band5)
+		if !plan.Band5.IsNull() && !plan.Band5.IsUnknown() {
+			plan_band5, _ := NewBand5Value(plan.Band5.AttributeTypes(ctx), plan.Band5.Attributes())
+			data.Band5 = band5TerraformToSdk(ctx, diags, plan_band5)
 
-		plan_band6, _ := NewBand6Value(plan.Band6.AttributeTypes(ctx), plan.Band6.Attributes())
-		data.Band6 = band6TerraformToSdk(ctx, diags, plan_band6)
+		}
+		if !plan.Band6.IsNull() && !plan.Band6.IsUnknown() {
+			plan_band6, _ := NewBand6Value(plan.Band6.AttributeTypes(ctx), plan.Band6.Attributes())
+			data.Band6 = band6TerraformToSdk(ctx, diags, plan_band6)
 
-		data_map[k] = data
+			data_map[k] = data
+		}
 	}
 	return data_map
 }

@@ -44,17 +44,17 @@ if (
 if (
     DATA.get("components", {})
     .get("schemas", {})
-    .get("dhcpd_configs", {})
+    .get("dhcpd_config", {})
     .get("additionalProperties")
 ):
-    del DATA["components"]["schemas"]["dhcpd_configs"]["additionalProperties"]
+    del DATA["components"]["schemas"]["dhcpd_config"]["additionalProperties"]
 
-    DATA["components"]["schemas"]["dhcpd_configs"]["properties"]["config"] = {
+    DATA["components"]["schemas"]["dhcpd_config"]["properties"]["config"] = {
         "$ref": "#/components/schemas/dhcpd_config_fix"
     }
     DATA["components"]["schemas"]["dhcpd_config_fix"] = {
         "type": "object",
-        "additionalProperties": {"$ref": "#/components/schemas/dhcpd_config"},
+        "additionalProperties": {"$ref": "#/components/schemas/dhcpd_config_property"},
     }
 
 

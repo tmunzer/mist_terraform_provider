@@ -46,7 +46,7 @@ func networksTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d base
 			data.Isolation = models.ToPointer(plan.Isolation.ValueBool())
 		}
 		if plan.Name.ValueStringPointer() != nil {
-			data.Name = models.ToPointer(plan.Name.ValueString())
+			data.Name = plan.Name.ValueString()
 		}
 		if !plan.RoutedForNetworks.IsNull() && !plan.RoutedForNetworks.IsUnknown() {
 			data.RoutedForNetworks = mist_transform.ListOfStringTerraformToSdk(ctx, plan.RoutedForNetworks)

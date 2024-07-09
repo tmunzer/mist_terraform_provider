@@ -76,7 +76,7 @@ func SiteResourceSchema(ctx context.Context) schema.Schema {
 				MarkdownDescription: "optional, any notes about the site",
 			},
 			"org_id": schema.StringAttribute{
-				Optional: true,
+				Required: true,
 			},
 			"rftemplate_id": schema.StringAttribute{
 				Optional:            true,
