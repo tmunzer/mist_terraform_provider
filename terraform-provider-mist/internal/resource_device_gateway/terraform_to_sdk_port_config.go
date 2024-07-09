@@ -1,4 +1,4 @@
-package resource_org_gatewaytemplate
+package resource_device_gateway
 
 import (
 	"context"
@@ -54,9 +54,9 @@ func gatewayPortTrafficShapingTerraformToSdk(ctx context.Context, diags *diag.Di
 	}
 }
 
-func gatewayIpConfigTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) *models.GatewayPortConfigIpConfig {
+func gatewayIpConfigTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) *models.GatewayIpConfig {
 	tflog.Debug(ctx, "gatewayIpConfigTerraformToSdk")
-	data := models.GatewayPortConfigIpConfig{}
+	data := models.GatewayIpConfig{}
 	if d.IsNull() || d.IsUnknown() {
 		return nil
 	} else {

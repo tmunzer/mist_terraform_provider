@@ -1,4 +1,4 @@
-package resource_org_gatewaytemplate
+package resource_device_gateway
 
 import (
 	"context"
@@ -14,7 +14,7 @@ import (
 	mist_transform "terraform-provider-mist/internal/commons/utils"
 )
 
-func pathPreferencePathsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, l []models.GatewayPathPreferencesPath) basetypes.ListValue {
+func pathPreferencePathsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, l []models.GatewayTemplatePathPreferencesPath) basetypes.ListValue {
 	tflog.Debug(ctx, "pathPreferencePathsSdkToTerraform")
 	var data_list = []PathsValue{}
 
@@ -80,7 +80,7 @@ func pathPreferencePathsSdkToTerraform(ctx context.Context, diags *diag.Diagnost
 	return r
 }
 
-func pathPreferencesSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, m map[string]models.GatewayPathPreferences) basetypes.MapValue {
+func pathPreferencesSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, m map[string]models.GatewayTemplatePathPreferences) basetypes.MapValue {
 	tflog.Debug(ctx, "pathPreferencesSdkToTerraform")
 	state_value_map := make(map[string]attr.Value)
 	for k, d := range m {

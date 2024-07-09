@@ -113,10 +113,8 @@ del DATA["paths"]["/webhook_example/_location_"]
 del DATA["components"]["schemas"]["webhook_location"]
 del DATA["components"]["schemas"]["webhook_location_events"]
 del DATA["components"]["schemas"]["webhook_location_event"]
-del DATA["components"]["schemas"]["webhook_location_event_wifi_beacon_extended_info"]
-del DATA["components"]["schemas"][
-    "webhook_location_event_wifi_beacon_extended_info_items"
-]
+del DATA["components"]["schemas"]["wifi_beacon_extended_info"]
+del DATA["components"]["schemas"]["wifi_beacon_extended_info_items"]
 
 del DATA["paths"]["/webhook_example/_location_asset_"]
 del DATA["components"]["schemas"]["webhook_location_asset"]
@@ -175,9 +173,7 @@ del DATA["components"]["schemas"]["webhook_sdkclient_scan_data_event"]
 del DATA["components"]["schemas"]["webhook_sdkclient_scan_data_topic"]
 del DATA["components"]["schemas"]["webhook_sdkclient_scan_data_event_scan_data"]
 del DATA["components"]["schemas"]["webhook_sdkclient_scan_data_event_scan_data_item"]
-del DATA["components"]["schemas"][
-    "webhook_sdkclient_scan_data_event_scan_data_item_band"
-]
+del DATA["components"]["schemas"]["scan_data_item_band"]
 
 del DATA["paths"]["/webhook_example/_site_sle_"]
 del DATA["components"]["schemas"]["webhook_site_sle"]

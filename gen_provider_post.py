@@ -12,6 +12,19 @@ FILES = {
         },
         "dedup": ["DestinationNat", "TrafficShaping", "StaticNat"],
     },
+    "./terraform-provider-mist/internal/resource_device_gateway/device_gateway_resource_gen.go": {
+        "rename": {
+            "ipd_profile_overwrite_matching": "matching",
+            "routing_policy_term_matching": "matching",
+            "auto_provision_primary": "primary",
+            "auto_provision_secondary": "secondary",
+            "ip_end4": "ip_end",
+            "ip_start4": "ip_start",
+            "servers4": "servers",
+            "type4": "type",
+        },
+        "dedup": ["DestinationNat", "TrafficShaping", "StaticNat"],
+    },
     "./terraform-provider-mist/internal/resource_org_networktemplate/org_networktemplate_resource_gen.go": {
         "rename": {
             "matching_rules": "rules",

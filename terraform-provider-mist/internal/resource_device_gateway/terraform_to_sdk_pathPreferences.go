@@ -1,4 +1,4 @@
-package resource_org_gatewaytemplate
+package resource_device_gateway
 
 import (
 	"context"
@@ -11,13 +11,13 @@ import (
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 
-func pathPreferencePathsTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ListValue) []models.GatewayPathPreferencesPath {
+func pathPreferencePathsTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ListValue) []models.GatewayTemplatePathPreferencesPath {
 	tflog.Debug(ctx, "pathPreferencePathsTerraformToSdk")
-	var data_list []models.GatewayPathPreferencesPath
+	var data_list []models.GatewayTemplatePathPreferencesPath
 	for _, v := range d.Elements() {
 		var v_interface interface{} = v
 		plan := v_interface.(PathsValue)
-		data := models.GatewayPathPreferencesPath{}
+		data := models.GatewayTemplatePathPreferencesPath{}
 		if plan.Cost.ValueInt64Pointer() != nil {
 			data.Cost = models.ToPointer(int(plan.Cost.ValueInt64()))
 		}
@@ -51,14 +51,14 @@ func pathPreferencePathsTerraformToSdk(ctx context.Context, diags *diag.Diagnost
 	return data_list
 }
 
-func pathPreferencesTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.MapValue) map[string]models.GatewayPathPreferences {
+func pathPreferencesTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.MapValue) map[string]models.GatewayTemplatePathPreferences {
 	tflog.Debug(ctx, "pathPreferencesTerraformToSdk")
-	data_map := make(map[string]models.GatewayPathPreferences)
+	data_map := make(map[string]models.GatewayTemplatePathPreferences)
 	for k, v := range d.Elements() {
 		var v_interface interface{} = v
 		plan := v_interface.(PathPreferencesValue)
 
-		data := models.GatewayPathPreferences{}
+		data := models.GatewayTemplatePathPreferences{}
 		paths := pathPreferencePathsTerraformToSdk(ctx, diags, plan.Paths)
 		if !plan.Paths.IsNull() && !plan.Paths.IsUnknown() {
 			data.Paths = paths

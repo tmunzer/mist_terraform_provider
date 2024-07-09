@@ -1,4 +1,4 @@
-package resource_org_gatewaytemplate
+package resource_device_gateway
 
 import (
 	"context"
@@ -14,7 +14,7 @@ import (
 	"mistapi/models"
 )
 
-func portConfigIpConfigSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, g *models.GatewayPortConfigIpConfig) basetypes.ObjectValue {
+func portConfigIpConfigSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, g *models.GatewayIpConfig) basetypes.ObjectValue {
 	tflog.Debug(ctx, "portConfigIpConfigSdkToTerraform")
 	var dns basetypes.ListValue = types.ListNull(types.StringType)
 	var dns_suffix basetypes.ListValue = types.ListNull(types.StringType)

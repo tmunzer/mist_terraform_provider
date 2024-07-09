@@ -580,6 +580,18 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 							MarkdownDescription: "optional list of secondary IPs in CIDR format",
 							Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 						},
+						"type": schema.StringAttribute{
+							Optional: true,
+							Computed: true,
+							Validators: []validator.String{
+								stringvalidator.OneOf(
+									"",
+									"static",
+									"dhcp",
+								),
+							},
+							Default: stringdefault.StaticString("dhcp"),
+						},
 					},
 					CustomType: IpConfigsType{
 						ObjectType: types.ObjectType{
@@ -9809,15 +9821,34 @@ func (t IpConfigsType) ValueFromObject(ctx context.Context, in basetypes.ObjectV
 			fmt.Sprintf(`secondary_ips expected to be basetypes.ListValue, was: %T`, secondaryIpsAttribute))
 	}
 
+	typeAttribute, ok := attributes["type"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`type is missing from object`)
+
+		return nil, diags
+	}
+
+	typeVal, ok := typeAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`type expected to be basetypes.StringValue, was: %T`, typeAttribute))
+	}
+
 	if diags.HasError() {
 		return nil, diags
 	}
 
 	return IpConfigsValue{
-		Ip:           ipVal,
-		Netmask:      netmaskVal,
-		SecondaryIps: secondaryIpsVal,
-		state:        attr.ValueStateKnown,
+		Ip:            ipVal,
+		Netmask:       netmaskVal,
+		SecondaryIps:  secondaryIpsVal,
+		IpConfigsType: typeVal,
+		state:         attr.ValueStateKnown,
 	}, diags
 }
 
@@ -9938,15 +9969,34 @@ func NewIpConfigsValue(attributeTypes map[string]attr.Type, attributes map[strin
 			fmt.Sprintf(`secondary_ips expected to be basetypes.ListValue, was: %T`, secondaryIpsAttribute))
 	}
 
+	typeAttribute, ok := attributes["type"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`type is missing from object`)
+
+		return NewIpConfigsValueUnknown(), diags
+	}
+
+	typeVal, ok := typeAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`type expected to be basetypes.StringValue, was: %T`, typeAttribute))
+	}
+
 	if diags.HasError() {
 		return NewIpConfigsValueUnknown(), diags
 	}
 
 	return IpConfigsValue{
-		Ip:           ipVal,
-		Netmask:      netmaskVal,
-		SecondaryIps: secondaryIpsVal,
-		state:        attr.ValueStateKnown,
+		Ip:            ipVal,
+		Netmask:       netmaskVal,
+		SecondaryIps:  secondaryIpsVal,
+		IpConfigsType: typeVal,
+		state:         attr.ValueStateKnown,
 	}, diags
 }
 
@@ -10018,14 +10068,15 @@ func (t IpConfigsType) ValueType(ctx context.Context) attr.Value {
 var _ basetypes.ObjectValuable = IpConfigsValue{}
 
 type IpConfigsValue struct {
-	Ip           basetypes.StringValue `tfsdk:"ip"`
-	Netmask      basetypes.StringValue `tfsdk:"netmask"`
-	SecondaryIps basetypes.ListValue   `tfsdk:"secondary_ips"`
-	state        attr.ValueState
+	Ip            basetypes.StringValue `tfsdk:"ip"`
+	Netmask       basetypes.StringValue `tfsdk:"netmask"`
+	SecondaryIps  basetypes.ListValue   `tfsdk:"secondary_ips"`
+	IpConfigsType basetypes.StringValue `tfsdk:"type"`
+	state         attr.ValueState
 }
 
 func (v IpConfigsValue) ToTerraformValue(ctx context.Context) (tftypes.Value, error) {
-	attrTypes := make(map[string]tftypes.Type, 3)
+	attrTypes := make(map[string]tftypes.Type, 4)
 
 	var val tftypes.Value
 	var err error
@@ -10035,12 +10086,13 @@ func (v IpConfigsValue) ToTerraformValue(ctx context.Context) (tftypes.Value, er
 	attrTypes["secondary_ips"] = basetypes.ListType{
 		ElemType: types.StringType,
 	}.TerraformType(ctx)
+	attrTypes["type"] = basetypes.StringType{}.TerraformType(ctx)
 
 	objectType := tftypes.Object{AttributeTypes: attrTypes}
 
 	switch v.state {
 	case attr.ValueStateKnown:
-		vals := make(map[string]tftypes.Value, 3)
+		vals := make(map[string]tftypes.Value, 4)
 
 		val, err = v.Ip.ToTerraformValue(ctx)
 
@@ -10065,6 +10117,14 @@ func (v IpConfigsValue) ToTerraformValue(ctx context.Context) (tftypes.Value, er
 		}
 
 		vals["secondary_ips"] = val
+
+		val, err = v.IpConfigsType.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["type"] = val
 
 		if err := tftypes.ValidateValue(objectType, vals); err != nil {
 			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
@@ -10106,6 +10166,7 @@ func (v IpConfigsValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValu
 			"secondary_ips": basetypes.ListType{
 				ElemType: types.StringType,
 			},
+			"type": basetypes.StringType{},
 		}), diags
 	}
 
@@ -10115,6 +10176,7 @@ func (v IpConfigsValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValu
 		"secondary_ips": basetypes.ListType{
 			ElemType: types.StringType,
 		},
+		"type": basetypes.StringType{},
 	}
 
 	if v.IsNull() {
@@ -10131,6 +10193,7 @@ func (v IpConfigsValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValu
 			"ip":            v.Ip,
 			"netmask":       v.Netmask,
 			"secondary_ips": secondaryIpsVal,
+			"type":          v.IpConfigsType,
 		})
 
 	return objVal, diags
@@ -10163,6 +10226,10 @@ func (v IpConfigsValue) Equal(o attr.Value) bool {
 		return false
 	}
 
+	if !v.IpConfigsType.Equal(other.IpConfigsType) {
+		return false
+	}
+
 	return true
 }
 
@@ -10181,6 +10248,7 @@ func (v IpConfigsValue) AttributeTypes(ctx context.Context) map[string]attr.Type
 		"secondary_ips": basetypes.ListType{
 			ElemType: types.StringType,
 		},
+		"type": basetypes.StringType{},
 	}
 }
 
