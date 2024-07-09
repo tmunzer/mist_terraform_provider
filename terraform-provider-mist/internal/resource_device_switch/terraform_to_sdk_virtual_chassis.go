@@ -15,25 +15,34 @@ func virtualChassisMemberTerraformToSdk(ctx context.Context, diags *diag.Diagnos
 	for _, v := range d.Elements() {
 		var v_interface interface{} = v
 		plan := v_interface.(MembersValue)
-		data := models.NewSwitchVirtualChassisMember()
-		data.SetMac(plan.Mac.ValueString())
-		data.SetMemberId(int32(plan.MemberId.ValueInt64()))
-		data.SetVcRole(models.SwitchVirtualChassisMemberVcRole(plan.VcRole.ValueString()))
+		data := models.SwitchVirtualChassisMember{}
 
-		data_list = append(data_list, *data)
+		if plan.Mac.ValueStringPointer() != nil {
+			data.Mac = plan.Mac.ValueStringPointer()
+		}
+		if plan.MemberId.ValueInt64Pointer() != nil {
+			data.MemberId = models.ToPointer(int(plan.MemberId.ValueInt64()))
+		}
+		if plan.VcRole.ValueStringPointer() != nil {
+			data.VcRole = models.ToPointer(models.SwitchVirtualChassisMemberVcRoleEnum(plan.VcRole.ValueString()))
+		}
+
+		data_list = append(data_list, data)
 	}
 	return data_list
 }
 
-func virtualChassisTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d VirtualChassisValue) models.SwitchVirtualChassis {
+func virtualChassisTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d VirtualChassisValue) *models.SwitchVirtualChassis {
 	tflog.Debug(ctx, "virtualChassisTerraformToSdk")
 
-	data := *models.NewSwitchVirtualChassis()
+	data := models.SwitchVirtualChassis{}
 
-	members := virtualChassisMemberTerraformToSdk(ctx, diags, d.Members)
+	if !d.Members.IsNull() && !d.Members.IsUnknown() {
+		data.Members = virtualChassisMemberTerraformToSdk(ctx, diags, d.Members)
+	}
+	if d.Preprovisioned.ValueBoolPointer() != nil {
+		data.Preprovisioned = d.Preprovisioned.ValueBoolPointer()
+	}
 
-	data.SetMembers(members)
-	data.SetPreprovisioned(d.Preprovisioned.ValueBool())
-
-	return data
+	return &data
 }

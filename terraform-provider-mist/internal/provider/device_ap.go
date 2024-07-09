@@ -69,8 +69,25 @@ func (r *device_apResource) Create(ctx context.Context, req resource.CreateReque
 	if resp.Diagnostics.HasError() {
 		return
 	}
-	siteId := uuid.MustParse(plan.SiteId.ValueString())
-	deviceId := uuid.MustParse(plan.DeviceId.ValueString())
+
+	siteId, err := uuid.Parse(plan.SiteId.ValueString())
+	if err != nil {
+		resp.Diagnostics.AddError(
+			"Error getting device_ap site_id from plan",
+			"Could not get device_ap site_id, unexpected error: "+err.Error(),
+		)
+		return
+	}
+
+	deviceId, err := uuid.Parse(plan.DeviceId.ValueString())
+	if err != nil {
+		resp.Diagnostics.AddError(
+			"Error getting device_ap device_id from plan",
+			"Could not get device_ap device_id, unexpected error: "+err.Error(),
+		)
+		return
+	}
+
 	tflog.Info(ctx, "Starting DeviceAp Create on Site "+plan.SiteId.ValueString()+" for device "+plan.DeviceId.ValueString())
 	data, err := r.client.SitesDevices().UpdateSiteDevice(ctx, siteId, deviceId, &device_ap)
 
@@ -85,7 +102,6 @@ func (r *device_apResource) Create(ctx context.Context, req resource.CreateReque
 	body, _ := io.ReadAll(data.Response.Body)
 	mist_ap := models.DeviceAp{}
 	json.Unmarshal(body, &mist_ap)
-	tflog.Error(ctx, "------------------ "+string(mist_ap.Id.String()))
 	state, diags = resource_device_ap.SdkToTerraform(ctx, &mist_ap)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
@@ -110,8 +126,25 @@ func (r *device_apResource) Read(ctx context.Context, req resource.ReadRequest, 
 	}
 
 	tflog.Info(ctx, "Starting DeviceAp Read: device_ap_id "+state.DeviceId.ValueString())
-	siteId := uuid.MustParse(state.SiteId.ValueString())
-	deviceId := uuid.MustParse(state.DeviceId.ValueString())
+
+	siteId, err := uuid.Parse(state.SiteId.ValueString())
+	if err != nil {
+		resp.Diagnostics.AddError(
+			"Error getting device_ap site_id from state",
+			"Could not get device_ap site_id, unexpected error: "+err.Error(),
+		)
+		return
+	}
+
+	deviceId, err := uuid.Parse(state.DeviceId.ValueString())
+	if err != nil {
+		resp.Diagnostics.AddError(
+			"Error getting device_ap device_id from state",
+			"Could not get device_ap device_id, unexpected error: "+err.Error(),
+		)
+		return
+	}
+
 	data, err := r.client.SitesDevices().GetSiteDevice(ctx, siteId, deviceId)
 	if data.Response.StatusCode != 200 && err != nil {
 		resp.Diagnostics.AddError(
@@ -159,8 +192,25 @@ func (r *device_apResource) Update(ctx context.Context, req resource.UpdateReque
 	}
 
 	tflog.Info(ctx, "Starting DeviceAp Update for DeviceAp "+state.DeviceId.ValueString())
-	siteId := uuid.MustParse(state.SiteId.ValueString())
-	deviceId := uuid.MustParse(state.DeviceId.ValueString())
+
+	siteId, err := uuid.Parse(state.SiteId.ValueString())
+	if err != nil {
+		resp.Diagnostics.AddError(
+			"Error getting device_ap site_id from state",
+			"Could not get device_ap site_id, unexpected error: "+err.Error(),
+		)
+		return
+	}
+
+	deviceId, err := uuid.Parse(state.DeviceId.ValueString())
+	if err != nil {
+		resp.Diagnostics.AddError(
+			"Error getting device_ap device_id from state",
+			"Could not get device_ap device_id, unexpected error: "+err.Error(),
+		)
+		return
+	}
+
 	data, err := r.client.SitesDevices().UpdateSiteDevice(ctx, siteId, deviceId, &device_ap)
 
 	if data.Response.StatusCode != 200 && err != nil {
@@ -204,8 +254,25 @@ func (r *device_apResource) Delete(ctx context.Context, req resource.DeleteReque
 	}
 
 	tflog.Info(ctx, "Starting DeviceAp Delete: device_ap_id "+state.DeviceId.ValueString())
-	siteId := uuid.MustParse(state.SiteId.ValueString())
-	deviceId := uuid.MustParse(state.DeviceId.ValueString())
+
+	siteId, err := uuid.Parse(state.SiteId.ValueString())
+	if err != nil {
+		resp.Diagnostics.AddError(
+			"Error getting device_ap site_id from state",
+			"Could not get device_ap site_id, unexpected error: "+err.Error(),
+		)
+		return
+	}
+
+	deviceId, err := uuid.Parse(state.DeviceId.ValueString())
+	if err != nil {
+		resp.Diagnostics.AddError(
+			"Error getting device_ap device_id from state",
+			"Could not get device_ap device_id, unexpected error: "+err.Error(),
+		)
+		return
+	}
+
 	data, err := r.client.SitesDevices().UpdateSiteDevice(ctx, siteId, deviceId, &device_ap)
 	if data.Response.StatusCode != 200 && err != nil {
 		resp.Diagnostics.AddError(

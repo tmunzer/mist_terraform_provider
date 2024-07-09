@@ -15,23 +15,28 @@ func ospfConfigAreasTerraformToSdk(ctx context.Context, diags *diag.Diagnostics,
 	for k, v := range d.Elements() {
 		var v_interface interface{} = v
 		plan := v_interface.(AreasValue)
-		data := *models.NewOspfConfigArea()
-		data.SetNoSummary(plan.NoSummary.ValueBool())
+		data := models.OspfConfigArea{}
+		if plan.NoSummary.ValueBoolPointer() != nil {
+			data.NoSummary = plan.NoSummary.ValueBoolPointer()
+		}
 		data_map[k] = data
 	}
 	return data_map
 }
 
-func ospfConfigTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d OspfConfigValue) models.OspfConfig {
+func ospfConfigTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d OspfConfigValue) *models.OspfConfig {
 	tflog.Debug(ctx, "ospfConfigTerraformToSdk")
 
-	data := *models.NewOspfConfig()
+	data := models.OspfConfig{}
 
-	areas := ospfConfigAreasTerraformToSdk(ctx, diags, d.Areas)
-
-	data.SetAreas(areas)
-	data.SetEnabled(d.Enabled.ValueBool())
-	data.SetReferenceBandwidth(d.ReferenceBandwidth.ValueString())
-
-	return data
+	if !d.Areas.IsNull() && !d.Areas.IsUnknown() {
+		data.Areas = ospfConfigAreasTerraformToSdk(ctx, diags, d.Areas)
+	}
+	if d.Enabled.ValueBoolPointer() != nil {
+		data.Enabled = d.Enabled.ValueBoolPointer()
+	}
+	if d.ReferenceBandwidth.ValueStringPointer() != nil {
+		data.ReferenceBandwidth = d.ReferenceBandwidth.ValueStringPointer()
+	}
+	return &data
 }

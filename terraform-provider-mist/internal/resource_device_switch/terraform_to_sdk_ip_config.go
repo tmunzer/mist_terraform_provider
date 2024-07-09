@@ -4,24 +4,37 @@ import (
 	"context"
 	mist_transform "terraform-provider-mist/internal/commons/utils"
 
-	"mistapi/models"
-
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+
+	"mistapi/models"
 )
 
-func ipConfigTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d IpConfigValue) models.JunosIpConfig {
-	tflog.Debug(ctx, "dhcpdConfigTerraformToSdk")
+func ipConfigTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d IpConfigValue) *models.JunosIpConfig {
+	tflog.Debug(ctx, "ipConfigTerraformToSdk")
+	data := models.JunosIpConfig{}
 
-	data := *models.NewJunosIpConfig()
+	if !d.Dns.IsNull() && !d.Dns.IsUnknown() {
+		data.Dns = mist_transform.ListOfStringTerraformToSdk(ctx, d.Dns)
+	}
+	if !d.DnsSuffix.IsNull() && !d.DnsSuffix.IsUnknown() {
+		data.DnsSuffix = mist_transform.ListOfStringTerraformToSdk(ctx, d.DnsSuffix)
+	}
+	if d.Gateway.ValueStringPointer() != nil {
+		data.Gateway = d.Gateway.ValueStringPointer()
+	}
+	if d.Ip.ValueStringPointer() != nil {
+		data.Ip = d.Ip.ValueStringPointer()
+	}
+	if d.Netmask.ValueStringPointer() != nil {
+		data.Netmask = d.Netmask.ValueStringPointer()
+	}
+	if d.Network.ValueStringPointer() != nil {
+		data.Network = d.Network.ValueStringPointer()
+	}
+	if d.IpConfigType.ValueStringPointer() != nil {
+		data.Type = models.ToPointer(models.IpConfigTypeEnum(d.IpConfigType.ValueString()))
+	}
 
-	data.SetDns(mist_transform.ListOfStringTerraformToSdk(ctx, d.Dns))
-	data.SetDnsSuffix(mist_transform.ListOfStringTerraformToSdk(ctx, d.DnsSuffix))
-	data.SetGateway(d.Gateway.ValueString())
-	data.SetIp(d.Ip.ValueString())
-	data.SetNetmask(d.Netmask.ValueString())
-	data.SetNetwork(d.Network.ValueString())
-	data.SetType(models.IpConfigType(d.IpConfigType.ValueString()))
-
-	return data
+	return &data
 }

@@ -9,12 +9,14 @@ import (
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 
-func stpConfigTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d StpConfigValue) models.SwitchStpConfig {
+func stpConfigTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d StpConfigValue) *models.SwitchStpConfig {
 	tflog.Debug(ctx, "stpConfigTerraformToSdk")
 
-	data := *models.NewSwitchStpConfig()
+	data := models.SwitchStpConfig{}
 
-	data.SetType(models.SwitchStpConfigType(d.StpConfigType.ValueString()))
+	if d.StpConfigType.ValueStringPointer() != nil {
+		data.Type = models.ToPointer(models.SwitchStpConfigTypeEnum(d.StpConfigType.ValueString()))
+	}
 
-	return data
+	return &data
 }

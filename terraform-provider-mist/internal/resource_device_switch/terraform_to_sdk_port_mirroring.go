@@ -3,12 +3,12 @@ package resource_device_switch
 import (
 	"context"
 
+	"mistapi/models"
+
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 
 	mist_transform "terraform-provider-mist/internal/commons/utils"
-
-	"mistapi/models"
 )
 
 func portMirroringTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.MapValue) map[string]models.SwitchPortMirroringProperty {
@@ -16,13 +16,24 @@ func portMirroringTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d
 	for item_name, item_value := range d.Elements() {
 		var item_interface interface{} = item_value
 		item_obj := item_interface.(PortMirroringValue)
-		data_item := models.NewSwitchPortMirroringProperty()
-		data_item.SetInputNetworksIngress(mist_transform.ListOfStringTerraformToSdk(ctx, item_obj.InputNetworksIngress))
-		data_item.SetInputPortIdsEgress(mist_transform.ListOfStringTerraformToSdk(ctx, item_obj.InputPortIdsEgress))
-		data_item.SetInputPortIdsIngress(mist_transform.ListOfStringTerraformToSdk(ctx, item_obj.InputPortIdsIngress))
-		data_item.SetOutputNetwork(item_obj.OutputNetwork.ValueString())
-		data_item.SetOutputPortId(item_obj.OutputPortId.ValueString())
-		data[item_name] = *data_item
+
+		data_item := models.SwitchPortMirroringProperty{}
+		if !item_obj.InputNetworksIngress.IsNull() && !item_obj.InputNetworksIngress.IsUnknown() {
+			data_item.InputNetworksIngress = mist_transform.ListOfStringTerraformToSdk(ctx, item_obj.InputNetworksIngress)
+		}
+		if !item_obj.InputPortIdsEgress.IsNull() && !item_obj.InputPortIdsEgress.IsUnknown() {
+			data_item.InputPortIdsEgress = mist_transform.ListOfStringTerraformToSdk(ctx, item_obj.InputPortIdsEgress)
+		}
+		if !item_obj.InputPortIdsIngress.IsNull() && !item_obj.InputPortIdsIngress.IsUnknown() {
+			data_item.InputPortIdsIngress = mist_transform.ListOfStringTerraformToSdk(ctx, item_obj.InputPortIdsIngress)
+		}
+		if item_obj.OutputNetwork.ValueStringPointer() != nil {
+			data_item.OutputNetwork = models.ToPointer(item_obj.OutputNetwork.ValueString())
+		}
+		if item_obj.OutputPortId.ValueStringPointer() != nil {
+			data_item.OutputPortId = models.ToPointer(item_obj.OutputPortId.ValueString())
+		}
+		data[item_name] = data_item
 	}
 	return data
 }

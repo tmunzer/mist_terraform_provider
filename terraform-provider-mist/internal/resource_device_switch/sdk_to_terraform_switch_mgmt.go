@@ -3,30 +3,46 @@ package resource_device_switch
 import (
 	"context"
 
+	"mistapi/models"
+
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 
 	mist_transform "terraform-provider-mist/internal/commons/utils"
 )
 
-func switchMgmtProtecCustomtReSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []models.ProtectReCustom) basetypes.ListValue {
+func switchMgmtProtecCustomtReSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, l []models.ProtectReCustom) basetypes.ListValue {
 	tflog.Debug(ctx, "switchMgmtProtecCustomtReSdkToTerraform")
 	var data_list = []CustomValue{}
 
-	for _, item := range d {
-		data_map_attr_type := CustomValue{}.AttributeTypes(ctx)
-		data_map_value := map[string]attr.Value{
-			"port_range": types.StringValue(item.GetPortRange()),
-			"protocol":   types.StringValue(string(*item.Protocol)),
-			"subnet":     mist_transform.ListOfStringSdkToTerraform(ctx, item.GetSubnet()),
+	for _, d := range l {
+
+		var port_range basetypes.StringValue
+		var protocol basetypes.StringValue
+		var subnet basetypes.ListValue = mist_transform.ListOfStringSdkToTerraformEmpty(ctx)
+
+		if d.PortRange != nil {
+			port_range = types.StringValue(*d.PortRange)
+		}
+		if d.Protocol != nil {
+			protocol = types.StringValue(string(*d.Protocol))
+		}
+		if d.Subnet != nil {
+			subnet = mist_transform.ListOfStringSdkToTerraform(ctx, d.Subnet)
 		}
 
+		data_map_attr_type := CustomValue{}.AttributeTypes(ctx)
+		data_map_value := map[string]attr.Value{
+			"port_range": port_range,
+			"protocol":   protocol,
+			"subnet":     subnet,
+		}
 		data, e := NewCustomValue(data_map_attr_type, data_map_value)
 		diags.Append(e...)
+
 		data_list = append(data_list, data)
 	}
 	data_list_type := CustomValue{}.Type(ctx)
@@ -35,43 +51,76 @@ func switchMgmtProtecCustomtReSdkToTerraform(ctx context.Context, diags *diag.Di
 
 	return r
 }
-func switchMgmtProtectReSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d models.ProtectRe) basetypes.ObjectValue {
+func switchMgmtProtectReSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d *models.ProtectRe) basetypes.ObjectValue {
 	tflog.Debug(ctx, "switchMgmtProtectReSdkToTerraform")
 
-	custom_re := switchMgmtProtecCustomtReSdkToTerraform(ctx, diags, d.GetCustom())
+	var allowed_services basetypes.ListValue = types.ListNull(types.StringType)
+	var custom basetypes.ListValue = types.ListNull(CustomValue{}.Type(ctx))
+	var enabled basetypes.BoolValue
+	var trusted_hosts basetypes.ListValue = types.ListNull(types.StringType)
+
+	if d.AllowedServices != nil {
+		allowed_services = mist_transform.ListOfStringSdkToTerraform(ctx, d.AllowedServices)
+	}
+	if d.Custom != nil {
+		custom = switchMgmtProtecCustomtReSdkToTerraform(ctx, diags, d.Custom)
+	}
+	if d.Enabled != nil {
+		enabled = types.BoolValue(*d.Enabled)
+	}
+	if d.TrustedHosts != nil {
+		trusted_hosts = mist_transform.ListOfStringSdkToTerraform(ctx, d.TrustedHosts)
+	}
 
 	data_map_attr_type := ProtectReValue{}.AttributeTypes(ctx)
 	data_map_value := map[string]attr.Value{
-		"allowed_services": mist_transform.ListOfStringSdkToTerraform(ctx, d.GetAllowedServices()),
-		"custom":           custom_re,
-		"enabled":          types.BoolValue(d.GetEnabled()),
-		"trusted_hosts":    mist_transform.ListOfStringSdkToTerraform(ctx, d.GetTrustedHosts()),
+		"allowed_services": allowed_services,
+		"custom":           custom,
+		"enabled":          enabled,
+		"trusted_hosts":    trusted_hosts,
 	}
-
-	r, e := NewProtectReValue(data_map_attr_type, data_map_value)
+	data, e := NewProtectReValue(data_map_attr_type, data_map_value)
 	diags.Append(e...)
 
-	o, e := r.ToObjectValue(ctx)
+	o, e := data.ToObjectValue(ctx)
 	diags.Append(e...)
 	return o
 }
 
-func switchMgmtTacacsAcctSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []models.TacacsAcctServer) basetypes.ListValue {
+func switchMgmtTacacsAcctSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, l []models.TacacsAcctServer) basetypes.ListValue {
 	tflog.Debug(ctx, "switchMgmtTacacsAcctSdkToTerraform")
 
 	var acct_value_list []attr.Value
-	acct_value_list_type := TacacctServersValue{}.AttributeTypes(ctx)
-	for _, srv_data := range d {
-		rc_srv_state_value := map[string]attr.Value{
-			"host":    types.StringValue(srv_data.GetHost()),
-			"port":    types.StringValue(srv_data.GetPort()),
-			"secret":  types.StringValue(srv_data.GetSecret()),
-			"timeout": types.StringValue(srv_data.GetSecret()),
+	for _, d := range l {
+		var host basetypes.StringValue
+		var port basetypes.StringValue
+		var secret basetypes.StringValue
+		var timeout basetypes.Int64Value
+
+		if d.Host != nil {
+			host = types.StringValue(*d.Host)
 		}
-		acct_server, e := NewTacacctServersValue(acct_value_list_type, rc_srv_state_value)
+		if d.Port != nil {
+			port = types.StringValue(*d.Port)
+		}
+		if d.Secret != nil {
+			secret = types.StringValue(*d.Secret)
+		}
+		if d.Timeout != nil {
+			timeout = types.Int64Value(int64(*d.Timeout))
+		}
+
+		data_map_attr_type := TacacctServersValue{}.AttributeTypes(ctx)
+		data_map_value := map[string]attr.Value{
+			"host":    host,
+			"port":    port,
+			"secret":  secret,
+			"timeout": timeout,
+		}
+		data, e := NewTacacctServersValue(data_map_attr_type, data_map_value)
 		diags.Append(e...)
 
-		acct_value_list = append(acct_value_list, acct_server)
+		acct_value_list = append(acct_value_list, data)
 	}
 
 	acct_state_list_type := TacacctServersValue{}.Type(ctx)
@@ -80,22 +129,41 @@ func switchMgmtTacacsAcctSdkToTerraform(ctx context.Context, diags *diag.Diagnos
 
 	return acct_state_list
 }
-func switchMgmtTacacsAuthSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d []models.TacacsAuthServer) basetypes.ListValue {
+func switchMgmtTacacsAuthSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, l []models.TacacsAuthServer) basetypes.ListValue {
 	tflog.Debug(ctx, "switchMgmtTacacsAuthSdkToTerraform")
 
 	var acct_value_list []attr.Value
-	acct_value_list_type := TacplusServersValue{}.AttributeTypes(ctx)
-	for _, srv_data := range d {
-		rc_srv_state_value := map[string]attr.Value{
-			"host":    types.StringValue(srv_data.GetHost()),
-			"port":    types.StringValue(srv_data.GetPort()),
-			"secret":  types.StringValue(srv_data.GetSecret()),
-			"timeout": types.StringValue(srv_data.GetSecret()),
+	for _, d := range l {
+
+		var host basetypes.StringValue
+		var port basetypes.StringValue
+		var secret basetypes.StringValue
+		var timeout basetypes.Int64Value
+
+		if d.Host != nil {
+			host = types.StringValue(*d.Host)
 		}
-		acct_server, e := NewTacplusServersValue(acct_value_list_type, rc_srv_state_value)
+		if d.Port != nil {
+			port = types.StringValue(*d.Port)
+		}
+		if d.Secret != nil {
+			secret = types.StringValue(*d.Secret)
+		}
+		if d.Timeout != nil {
+			timeout = types.Int64Value(int64(*d.Timeout))
+		}
+
+		data_map_attr_type := TacplusServersValue{}.AttributeTypes(ctx)
+		data_map_value := map[string]attr.Value{
+			"host":    host,
+			"port":    port,
+			"secret":  secret,
+			"timeout": timeout,
+		}
+		data, e := NewTacplusServersValue(data_map_attr_type, data_map_value)
 		diags.Append(e...)
 
-		acct_value_list = append(acct_value_list, acct_server)
+		acct_value_list = append(acct_value_list, data)
 	}
 
 	acct_state_list_type := TacplusServersValue{}.Type(ctx)
@@ -104,44 +172,77 @@ func switchMgmtTacacsAuthSdkToTerraform(ctx context.Context, diags *diag.Diagnos
 
 	return acct_state_list
 }
-func switchMgmtTacacsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d models.Tacacs) basetypes.ObjectValue {
+func switchMgmtTacacsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d *models.Tacacs) basetypes.ObjectValue {
 	tflog.Debug(ctx, "switchMgmtTacacsSdkToTerraform")
 
-	tacacs_acct_servers := switchMgmtTacacsAcctSdkToTerraform(ctx, diags, d.GetAcctServers())
-	tacacs_auth_servers := switchMgmtTacacsAuthSdkToTerraform(ctx, diags, d.GetTacplusServers())
+	var default_role basetypes.StringValue
+	var enabled basetypes.BoolValue
+	var network basetypes.StringValue
+	var acct_servers basetypes.ListValue = types.ListNull(TacacctServersValue{}.Type(ctx))
+	var tacplus_servers basetypes.ListValue = types.ListNull(TacplusServersValue{}.Type(ctx))
+
+	if d != nil {
+		if d.DefaultRole != nil {
+			default_role = types.StringValue(string(*d.DefaultRole))
+		}
+		if d.Enabled != nil {
+			enabled = types.BoolValue(*d.Enabled)
+		}
+		if d.Network != nil {
+			network = types.StringValue(*d.Network)
+		}
+		acct_servers = switchMgmtTacacsAcctSdkToTerraform(ctx, diags, d.AcctServers)
+		tacplus_servers = switchMgmtTacacsAuthSdkToTerraform(ctx, diags, d.TacplusServers)
+
+	}
 
 	data_map_attr_type := TacacsValue{}.AttributeTypes(ctx)
 	data_map_value := map[string]attr.Value{
-		"acct_servers":    tacacs_acct_servers,
-		"enabled":         types.BoolValue(d.GetEnabled()),
-		"network":         types.StringValue(d.GetNetwork()),
-		"tacplus_servers": tacacs_auth_servers,
-		"default_role":    types.StringValue(string(d.GetDefaultRole())),
+		"default_role":    default_role,
+		"enabled":         enabled,
+		"network":         network,
+		"acct_servers":    acct_servers,
+		"tacplus_servers": tacplus_servers,
 	}
-
-	r, e := NewTacacsValue(data_map_attr_type, data_map_value)
+	data, e := NewTacacsValue(data_map_attr_type, data_map_value)
 	diags.Append(e...)
 
-	o, e := r.ToObjectValue(ctx)
+	o, e := data.ToObjectValue(ctx)
 	diags.Append(e...)
 	return o
 }
-func switchMgmtSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d models.SwitchMgmt) SwitchMgmtValue {
+func switchMgmtSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d *models.SwitchMgmt) SwitchMgmtValue {
 	tflog.Debug(ctx, "switchMgmtSdkToTerraform")
 
-	switch_mgmt_protect_re := switchMgmtProtectReSdkToTerraform(ctx, diags, d.GetProtectRe())
-	switch_mgmt_tacacs := switchMgmtTacacsSdkToTerraform(ctx, diags, d.GetTacacs())
+	var config_revert basetypes.Int64Value
+	var protect_re basetypes.ObjectValue = types.ObjectNull(ProtectReValue{}.AttributeTypes(ctx))
+	var root_password basetypes.StringValue
+	var tacacs basetypes.ObjectValue = types.ObjectNull(TacacsValue{}.AttributeTypes(ctx))
+
+	if d != nil {
+		if d.ConfigRevert != nil {
+			config_revert = types.Int64Value(int64(*d.ConfigRevert))
+		}
+		if d.ProtectRe != nil {
+			protect_re = switchMgmtProtectReSdkToTerraform(ctx, diags, d.ProtectRe)
+		}
+		if d.RootPassword != nil {
+			root_password = types.StringValue(*d.RootPassword)
+		}
+		if d.Tacacs != nil {
+			tacacs = switchMgmtTacacsSdkToTerraform(ctx, diags, d.Tacacs)
+		}
+	}
 
 	data_map_attr_type := SwitchMgmtValue{}.AttributeTypes(ctx)
 	data_map_value := map[string]attr.Value{
-		"config_revert": types.Int64Value(int64(d.GetConfigRevert())),
-		"protect_re":    switch_mgmt_protect_re,
-		"root_password": types.StringValue(d.GetRootPassword()),
-		"tacacs":        switch_mgmt_tacacs,
+		"config_revert": config_revert,
+		"protect_re":    protect_re,
+		"root_password": root_password,
+		"tacacs":        tacacs,
 	}
-
-	state_result, e := NewSwitchMgmtValue(data_map_attr_type, data_map_value)
+	data, e := NewSwitchMgmtValue(data_map_attr_type, data_map_value)
 	diags.Append(e...)
 
-	return state_result
+	return data
 }

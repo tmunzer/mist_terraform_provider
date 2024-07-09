@@ -61221,7 +61221,7 @@ components:
       - qrcode
       type: string
     mist_device:
-      $ref: '#/components/schemas/device_ap'
+      $ref: '#/components/schemas/device_switch'
       # oneOf:
       # - $ref: '#/components/schemas/device_ap'
       # - $ref: '#/components/schemas/device_switch'

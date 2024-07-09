@@ -14,11 +14,20 @@ func NetworksTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d base
 	for vlan_name, vlan_data_attr := range d.Elements() {
 		var vlan_data_interface interface{} = vlan_data_attr
 		net_plan := vlan_data_interface.(NetworksValue)
-		var vlan_id int32 = int32(net_plan.VlanId.ValueInt64())
-		net_data := *models.NewSwitchNetwork(vlan_id)
-		net_data.SetSubnet(net_plan.Subnet.ValueString())
-		net_data.SetIsolation(net_plan.Isolation.ValueBool())
-		net_data.SetIsolationVlanId(net_plan.IsolationVlanId.ValueString())
+
+		net_data := models.SwitchNetwork{}
+		if net_plan.VlanId.ValueInt64Pointer() != nil {
+			net_data.VlanId = int(net_plan.VlanId.ValueInt64())
+		}
+		if net_plan.Subnet.ValueStringPointer() != nil {
+			net_data.Subnet = models.ToPointer(net_plan.Subnet.ValueString())
+		}
+		if net_plan.Isolation.ValueBoolPointer() != nil {
+			net_data.Isolation = models.ToPointer(net_plan.Isolation.ValueBool())
+		}
+		if net_plan.IsolationVlanId.ValueStringPointer() != nil {
+			net_data.IsolationVlanId = models.ToPointer(net_plan.IsolationVlanId.ValueString())
+		}
 		data[vlan_name] = net_data
 	}
 	return data

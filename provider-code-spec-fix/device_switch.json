@@ -13,7 +13,14 @@
             "computed_optional_required": "required"
         },
         {
-            "name": "id",
+            "name": "device_id",
+            "get": [
+                "string"
+            ],
+            "computed_optional_required": "required"
+        },
+        {
+            "name": "org_id",
             "get": [
                 "string"
             ],
@@ -38,28 +45,71 @@
                             "rename": "tacacct_servers"
                         }
                     ]
-                }
-            ]
-        },
-        {
-            "name": "switch_mgmt",
-            "get": [
-                "single_nested",
-                "attributes"
-            ],
-            "next": [
+                },
                 {
-                    "name": "tacacs",
+                    "name": "protect_re",
                     "get": [
                         "single_nested",
                         "attributes"
                     ],
                     "next": [
                         {
-                            "name": "acct_servers",
-                            "rename": "tacacct_servers"
+                            "name": "allowed_services",
+                            "get": [
+                                "list"
+                            ],
+                            "computed_optional_required": "computed_optional",
+                            "default_type": "list_of_str"
+                        },
+                        {
+                            "name": "trusted_hosts",
+                            "get": [
+                                "list"
+                            ],
+                            "computed_optional_required": "computed_optional",
+                            "default_type": "list_of_str"
                         }
                     ]
+                }
+            ]
+        },
+        {
+            "name": "vrf_instances",
+            "get": [
+                "map_nested",
+                "nested_object",
+                "attributes"
+            ],
+            "next": [
+                {
+                    "name": "extra_routes",
+                    "rename": "vrf_extra_routes"
+                }
+            ]
+        },
+        {
+            "name": "port_usages",
+            "get": [
+                "map_nested",
+                "nested_object",
+                "attributes"
+            ],
+            "next": [
+                {
+                    "name": "networks",
+                    "get": [
+                        "list"
+                    ],
+                    "computed_optional_required": "computed_optional",
+                    "default_type": "list_of_str"
+                },
+                {
+                    "name": "dynamic_vlan_networks",
+                    "get": [
+                        "list"
+                    ],
+                    "computed_optional_required": "computed_optional",
+                    "default_type": "list_of_str"
                 }
             ]
         },
@@ -129,13 +179,6 @@
                     ]
                 }
             ]
-        },
-        {
-            "name": "site_id",
-            "get": [
-                "string"
-            ],
-            "computed_optional_required": "required"
         }
     ]
 }

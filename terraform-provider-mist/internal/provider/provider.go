@@ -165,6 +165,6 @@ func (p *mistProvider) Resources(ctx context.Context) []func() resource.Resource
 		NewSiteWxRule,
 		NewSiteWxTag,
 		NewDeviceApResource,
-		//NewDeviceSwitchResource,
+		NewDeviceSwitchResource,
 	}
 }

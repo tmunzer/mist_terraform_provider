@@ -66,7 +66,9 @@ FILES = {
     },
     "./terraform-provider-mist/internal/resource_device_switch/device_switch_resource_gen.go": {
         "rename": {
+            "matching_rules": "rules",
             "tacacct_servers": "acct_servers",
+            "vrf_extra_routes": "vrf_extra_routes",
             "snmpv3_contents": "contents",
             "snmpv3_users": "users",
             "snmpv3_vacm_content": "content"
@@ -76,8 +78,8 @@ FILES = {
             "Archive",
             "Contents",
             "Users",
-            "NextQualified",
             "PortMirroring",
+            "NextQualified",
         ]
     },
         "./terraform-provider-mist/internal/resource_org_inventory/org_inventory_resource_gen.go": {

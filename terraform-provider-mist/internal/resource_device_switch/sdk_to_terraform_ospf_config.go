@@ -3,24 +3,31 @@ package resource_device_switch
 import (
 	"context"
 
+	"mistapi/models"
+
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
 )
 
-func ospfAreasConfigSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d map[string]models.OspfConfigArea) basetypes.MapValue {
-
-	state_value_map_attr_type := AreasValue{}.AttributeTypes(ctx)
+func ospfAreasConfigSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, m map[string]models.OspfConfigArea) basetypes.MapValue {
 	state_value_map_value := make(map[string]attr.Value)
-	for k, v := range d {
-		state_value_map_attr_value := map[string]attr.Value{
-			"no_summary": types.BoolValue(v.GetNoSummary()),
+	for k, d := range m {
+		var no_summary basetypes.BoolValue
+
+		if d.NoSummary != nil {
+			no_summary = types.BoolValue(*d.NoSummary)
 		}
-		n, e := NewAreasValue(state_value_map_attr_type, state_value_map_attr_value)
+
+		data_map_attr_type := AreasValue{}.AttributeTypes(ctx)
+		data_map_value := map[string]attr.Value{
+			"no_summary": no_summary,
+		}
+		data, e := NewAreasValue(data_map_attr_type, data_map_value)
 		diags.Append(e...)
-		state_value_map_value[k] = n
+
+		state_value_map_value[k] = data
 	}
 	state_result_map_type := AreasValue{}.Type(ctx)
 	state_result_map, e := types.MapValueFrom(ctx, state_result_map_type, state_value_map_value)
@@ -30,15 +37,28 @@ func ospfAreasConfigSdkToTerraform(ctx context.Context, diags *diag.Diagnostics,
 
 func ospfConfigSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d models.OspfConfig) OspfConfigValue {
 
-	state_value_map_attr_type := OspfConfigValue{}.AttributeTypes(ctx)
+	var areas basetypes.MapValue = types.MapNull(AreasValue{}.Type(ctx))
+	var enabled basetypes.BoolValue
+	var reference_bandwidth basetypes.StringValue
 
-	state_value_map_attr_value := map[string]attr.Value{
-		"areas":               ospfAreasConfigSdkToTerraform(ctx, diags, d.GetAreas()),
-		"enabled":             types.BoolValue(d.GetEnabled()),
-		"reference_bandwidth": types.StringValue(d.GetReferenceBandwidth()),
+	if d.Areas != nil {
+		areas = ospfAreasConfigSdkToTerraform(ctx, diags, d.Areas)
 	}
-	r, e := NewOspfConfigValue(state_value_map_attr_type, state_value_map_attr_value)
+	if d.Enabled != nil {
+		enabled = types.BoolValue(*d.Enabled)
+	}
+	if d.ReferenceBandwidth != nil {
+		reference_bandwidth = types.StringValue(*d.ReferenceBandwidth)
+	}
+
+	data_map_attr_type := OspfConfigValue{}.AttributeTypes(ctx)
+	data_map_value := map[string]attr.Value{
+		"areas":               areas,
+		"enabled":             enabled,
+		"reference_bandwidth": reference_bandwidth,
+	}
+	data, e := NewOspfConfigValue(data_map_attr_type, data_map_value)
 	diags.Append(e...)
 
-	return r
+	return data
 }

@@ -20,12 +20,12 @@ resource "mist_org_inventory" "inventory" {
   devices = [
     {
       claim_code = "CPKL2EXN8JY98AC"
-       site_id = mist_site.terraform_site.id
+      site_id    = mist_site.terraform_site.id
     },
-     {
-       claim_code = "G87JHBFXZJSFNMX"
-       # site_id = mist_site.terraform_site.id
-     }
+    {
+      claim_code = "G87JHBFXZJSFNMX"
+      site_id    = mist_site.terraform_site.id
+    }
   ]
 }
 ### SITES
@@ -40,7 +40,7 @@ resource "mist_site" "terraform_site" {
     lat = 48.899268
     lng = 2.214447
   }
-  sitegroup_ids = [mist_org_sitegroup.test_group.id, mist_org_sitegroup.test_group2.id]
+  sitegroup_ids      = [mist_org_sitegroup.test_group.id, mist_org_sitegroup.test_group2.id]
   networktemplate_id = mist_org_networktemplate.switch_template.id
   rftemplate_id      = mist_org_rftemplate.test_rf.id
   gatewaytemplate_id = mist_org_gatewaytemplate.test-api.id
@@ -48,8 +48,8 @@ resource "mist_site" "terraform_site" {
 
 resource "mist_device_ap" "test_ap" {
   device_id = mist_org_inventory.inventory.devices[0].id
-  site_id =  mist_org_inventory.inventory.devices[0].site_id
-  name = "test_ap"
+  site_id   = mist_org_inventory.inventory.devices[0].site_id
+  name      = "test_ap"
 }
 
 
@@ -314,117 +314,117 @@ resource "mist_org_gatewaytemplate" "test-api" {
       ]
     }
   }
-ip_configs = {
-  "PRD-Core" = {
-    type    = "static"
-    ip      = "10.3.100.9"
-    netmask = "/24"
-  },
-  "PRD-Mgmt" = {
-    type    = "static"
-    ip      = "10.3.172.1"
-    netmask = "/24"
-  },
-  "PRD-Lab" = {
-    type    = "static"
-    ip      = "10.3.171.1"
-    netmask = "/24"
-  }
-}
-dhcpd_config = {
-  enable = true
-}
-path_preferences = {
-  "HUB" = {
-    strategy = "ordered"
-    paths = [
-      {
-        name = "SSR_HUB_DC-MPLS.OrgOverlay"
-        type = "vpn"
-      }
-    ]
-  },
-  "HUB-ORDERED" = {
-    strategy = "ordered"
-    paths = [
-      {
-        name     = "SSR_HUB_DC-MPLS.OrgOverlay"
-        wan_name = "FTTH",
-        type     = "vpn"
-      },
-      {
-        name     = "SSR_HUB_DC-MPLS.OrgOverlay"
-        wan_name = "LTE"
-        type     = "vpn"
-      }
-    ]
-  },
-  "HUB-ECMP" = {
-    strategy = "weighted"
-    paths = [
-      {
-        name     = "SSR_HUB_DC-MPLS.OrgOverlay"
-        wan_name = "LTE"
-        cost     = 30
-        type     = "vpn"
-      },
-      {
-        name     = "SSR_HUB_DC-MPLS.OrgOverlay"
-        wan_name = "FTTH"
-        cost     = 30
-        type     = "vpn"
-      }
-    ]
-  }
-}
-service_policies = [
-  {
-    name = "Policy-14"
-    tenants = [
-      "PRD-Core"
-    ],
-    services = [
-      "any"
-    ],
-    action          = "allow"
-    path_preference = "HUB"
-    idp = {
-      enabled    = true
-      profile    = "critical"
-      alert_only = false
-    }
-  },
-  {
-    name = "Policy-2"
-    tenants = [
-      "PRD-Mgmt"
-    ],
-    services = [
-      "any"
-    ],
-    action          = "allow",
-    path_preference = "HUB-ECMP"
-    idp = {
-      enabled    = true,
-      profile    = "standard"
-      alert_only = true
-    }
-  },
-  {
-    name = "Policy-3"
-    tenants = [
-      "PRD-Lab"
-    ],
-    services = [
-      "any"
-    ],
-    action          = "allow"
-    path_preference = "HUB-ORDERED"
-    idp = {
-      enabled = false
+  ip_configs = {
+    "PRD-Core" = {
+      type    = "static"
+      ip      = "10.3.100.9"
+      netmask = "/24"
+    },
+    "PRD-Mgmt" = {
+      type    = "static"
+      ip      = "10.3.172.1"
+      netmask = "/24"
+    },
+    "PRD-Lab" = {
+      type    = "static"
+      ip      = "10.3.171.1"
+      netmask = "/24"
     }
   }
-]
+  dhcpd_config = {
+    enable = true
+  }
+  path_preferences = {
+    "HUB" = {
+      strategy = "ordered"
+      paths = [
+        {
+          name = "SSR_HUB_DC-MPLS.OrgOverlay"
+          type = "vpn"
+        }
+      ]
+    },
+    "HUB-ORDERED" = {
+      strategy = "ordered"
+      paths = [
+        {
+          name     = "SSR_HUB_DC-MPLS.OrgOverlay"
+          wan_name = "FTTH",
+          type     = "vpn"
+        },
+        {
+          name     = "SSR_HUB_DC-MPLS.OrgOverlay"
+          wan_name = "LTE"
+          type     = "vpn"
+        }
+      ]
+    },
+    "HUB-ECMP" = {
+      strategy = "weighted"
+      paths = [
+        {
+          name     = "SSR_HUB_DC-MPLS.OrgOverlay"
+          wan_name = "LTE"
+          cost     = 30
+          type     = "vpn"
+        },
+        {
+          name     = "SSR_HUB_DC-MPLS.OrgOverlay"
+          wan_name = "FTTH"
+          cost     = 30
+          type     = "vpn"
+        }
+      ]
+    }
+  }
+  service_policies = [
+    {
+      name = "Policy-14"
+      tenants = [
+        "PRD-Core"
+      ],
+      services = [
+        "any"
+      ],
+      action          = "allow"
+      path_preference = "HUB"
+      idp = {
+        enabled    = true
+        profile    = "critical"
+        alert_only = false
+      }
+    },
+    {
+      name = "Policy-2"
+      tenants = [
+        "PRD-Mgmt"
+      ],
+      services = [
+        "any"
+      ],
+      action          = "allow",
+      path_preference = "HUB-ECMP"
+      idp = {
+        enabled    = true,
+        profile    = "standard"
+        alert_only = true
+      }
+    },
+    {
+      name = "Policy-3"
+      tenants = [
+        "PRD-Lab"
+      ],
+      services = [
+        "any"
+      ],
+      action          = "allow"
+      path_preference = "HUB-ORDERED"
+      idp = {
+        enabled = false
+      }
+    }
+  ]
 }
 
 resource "mist_org_gatewaytemplate" "sdwan-westford" {
@@ -931,10 +931,10 @@ resource "mist_site_networktemplate" "site_switch_template" {
   }
   port_usages = {
     trunk = {
-      all_networks  = true
-      description   = "profile for trunk ports"
-      enable_qos    = true
-      mode          = "trunk"
+      all_networks = true
+      description  = "profile for trunk ports"
+      enable_qos   = true
+      mode         = "trunk"
       port_network = "test2"
     }
   }
@@ -1043,207 +1043,207 @@ resource "mist_site_wlan" "wlan_cwp2" {
   site_id   = mist_site.terraform_site2.id
 }
 
-# resource "mist_device_switch" "test_switch" {
-#     managed= true
-#     role= "test"
-#     networks= {
-#         "prx"= {
-#             vlan_id= "18"
-#         }
-#     }
-#     port_usages= {
-#         "prx"= {
-#             mode= "trunk"
-#             disabled= false
-#             port_network= "default"
-#             stp_edge= false
-#             all_networks= false
-#             networks= [
-#                 "default",
-#                 "prx"
-#             ],
-#             speed= "auto"
-#             duplex= "auto"
-#             mac_limit= 0
-#             persist_mac= false
-#             poe_disabled= false
-#             enable_qos= false
-#             storm_control= {}
-#             description= ""
-#         },
-#         "autogenerated_ge-0_0_10"= {
-#             mode= "trunk"
-#             all_networks= false
-#             networks= [
-#                 "default",
-#                 "prx"
-#             ],
-#             port_network= "prx"
-#             autoneg= true
-#             disabled= false
-#             poe_disabled= false
-#             duplex= "auto"
-#             speed= "auto"
-#         },
-#         "autogenerated_ge-0_0_11"= {
-#             mode= "trunk"
-#             all_networks= false
-#             networks= [
-#                 "default",
-#                 "prx"
-#             ],
-#             port_network= "prx"
-#             autoneg= true
-#             disabled= false
-#             poe_disabled= false
-#             duplex= "auto"
-#             speed= "auto"
-#         }
-#     }
-#     additional_config_cmds= [
-#         "set groups top system proxy password \"$9$VpsgajHmFnCq.pBIEeK4aZUDin6Ctu136eW\"",
-#         "",
-#         "annotate system \" -- custom-auth -- Template level --\"",
-#         "delete apply-groups custom-auth",
-#         "delete groups custom-auth",
-#         "set groups custom-auth",
-#         "set groups custom-auth  system login user tmunzer class super-user",
-#         "set groups custom-auth  system login user tmunzer authentication ssh-rsa \"ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCxk1CXmrc/wNlzuelQoBgEdnA3Mq8r05UhXgBUwqFdcbwkEmgYnciQWXYeFdA+UwR3SWX4VtyeenQi/S9pSOjvoZQ5OYBWNqak+AWjXXzX7sO8cf59TSDDN2lybdH6kWbvRKYzMbfpZvwluYwQX7ftN/D4/iS7288i5knaMVklhDJGdcuh6Xlve6PueZ5ov2twPzpplPVdWOCqgaCMhvVplG3oNTvBpeJ6BCXzhgJdkFNinFehPnvUR6MRwdjD/MvS1r+yrggHGQzJ57VEDsw2qH8wRaUUn0+Nd5hMYO4vamfintlm5hEAW9+my6HKNzBmd/TMeLctKUOg/q4Bc9TfYB51HEghHZ1i3ClJ6nE/1M6Ev9B+YwBJpeRaieWHbOHWrmMKM5rnYpX+uShPobvHKC8Z5HU5UkAtWvRyXVqbeeVv7xlGDTKnm0UQtzv9UDR/BN3VSnh8JKGLeiPDRZ0oDdgqK1ijxXBCFKb6FXAUiORUQLtI/7dmV4YxK4oS+ZRU/uxCCNDx6R90o08RFDFpWNBPY1yj332T/6JnA7nzlAYdQ1s1hzgzamZoEZuO/a+NObV9gQbJC13ZtZEWKXSLHPvEsORc5nb7hN76RNI7yKnAWNy5Zj2aaPlTGofbdr9M8+Tez4wldmYB/k86M4lENv5fZRx9A6VmfXFDoSI33w== tmunzer@stag.one\"",
-#         "set apply-groups custom-auth"
-#     ]
-#     ip_config= {
-#         type= "static"
-#         ip= "10.3.18.99"
-#         netmask= "255.255.255.0"
-#         network= "prx"
-#         "gateway"= "10.3.18.11"
-#     }
-#     # routing_policies= {
-#     #     "tyes"= {
-#     #         terms= [
-#     #             {
-#     #                 matching= {
-#     #                     prefix= [
-#     #                         "0.0.0.0/0"
-#     #                     ],
-#     #                     protocol= [
-#     #                         "ospf"
-#     #                     ]
-#     #                 },
-#     #                 actions= {
-#     #                     accept= true
-#     #                 },
-#     #                 name= "gfds"
-#     #             }
-#     #         ]
-#     #     }
-#     # }
-#     port_config= {
-#         "ge-0/0/0"= {
-#             usage= "prx"
-#             critical= false
-#             description= ""
-#             "no_local_overwrite"= true
-#         },
-#         "ge-0/0/10"= {
-#             usage= "autogenerated_ge-0_0_10"
-#             no_local_overwrite= false
-#             speed= "100m"
-#         },
-#         "ge-0/0/11"= {
-#             usage= "default"
-#             port_network= "prx"
-#             critical= false
-#             description= ""
-#             "no_local_overwrite"= false
-#         }
-#     }
-#     port_mirroring= {
-#         "test"= {
-#             output_port_id= "ge-0/0/10"
-#             input_port_ids_ingress= [
-#                 "ge-0/0/2"
-#             ],
-#             input_port_ids_egress= [
-#                 "ge-0/0/2"
-#             ],
-#             input_networks_ingress= [
-#                 "default"
-#             ]
-#         },
-#         "test2"= {
-#             output_network= "prx"
-#             input_port_ids_ingress= []
-#             input_port_ids_egress= [
-#                 "ge-0/0/6"
-#             ],
-#             input_networks_ingress= []
-#         }
-#     }
-#     mist_nac= {
-#         enabled= true
-#     }
-#     # vrf_instances= {
-#     #     "fds"= {
-#     #         networks= [
-#     #             "prx"
-#     #         ],
-#     #         extra_routes= {
-#     #             "1.2.0.0/24"= {
-#     #                 via= "1.2.3.4"
-#     #             }
-#     #         }
-#     #     }
-#     # }
-#     vrf_config= {
-#         enabled= true
-#     }
-#     dhcpd_config= {
-#         enabled= true
-#         "prx"= {
-#             type= "relay"
-#             servers= [
-#                 "1.2.3.4"
-#             ]
-#         }
-#     }
-#     # ospf_areas= {
-#     #     "0"= {
-#     #         type= "default"
-#     #         networks= {
-#     #             "prx"= {
-#     #                 passive= false
-#     #                 interface_type= "p2p"
-#     #                 hello_interval= 10
-#     #                 dead_interval= 40
-#     #                 auth_type= "password"
-#     #                 auth_password= "hpihpi"
-#     #                 metric= 1
-#     #                 bfd_minimum_interval= 1
-#     #             }
-#     #         },
-#     #         include_loopback= false
-#     #     }
-#     # }
-#     ospf_config= {
-#         enabled= true
-#         reference_bandwidth= "10M"
-#         areas= {
-#             "0"= {
-#                 no_summary= false
-#             }
-#         }
-#     }
-#     router_id= "1.2.3.4"
-#    oob_ip_config= {
-#         type= "static"
-#         ip= "2.2.2.2"
-#         netmask= "/24"
-#         use_mgmt_vrf= true
-#         use_mgmt_vrf_for_host_out= true
-#         gateway= "2.2.2.1"
-#     }
-#     id= mist_org_inventory.inventory.devices[1].device_id
-#     name= "demo-ex"
-#     site_id= mist_org_inventory.inventory.devices[1].site_id
-# }
+resource "mist_device_switch" "test_switch" {
+  managed = true
+  role    = "test"
+  networks = {
+    "prx" = {
+      vlan_id = "18"
+    }
+  }
+  port_usages = {
+    "prx" = {
+      mode         = "trunk"
+      disabled     = false
+      port_network = "default"
+      stp_edge     = false
+      all_networks = false
+      networks = [
+        "default",
+        "prx"
+      ],
+      speed         = "auto"
+      duplex        = "auto"
+      mac_limit     = 0
+      persist_mac   = false
+      poe_disabled  = false
+      enable_qos    = false
+      storm_control = {}
+      description   = ""
+    },
+    "autogenerated_ge-0_0_10" = {
+      mode         = "trunk"
+      all_networks = false
+      networks = [
+        "default",
+        "prx"
+      ],
+      port_network = "prx"
+      autoneg      = true
+      disabled     = false
+      poe_disabled = false
+      duplex       = "auto"
+      speed        = "auto"
+    },
+    "autogenerated_ge-0_0_11" = {
+      mode         = "trunk"
+      all_networks = false
+      networks = [
+        "default",
+        "prx"
+      ],
+      port_network = "prx"
+      autoneg      = true
+      disabled     = false
+      poe_disabled = false
+      duplex       = "auto"
+      speed        = "auto"
+    }
+  }
+  additional_config_cmds = [
+    "set groups top system proxy password \"$9$VpsgajHmFnCq.pBIEeK4aZUDin6Ctu136eW\"",
+    "",
+    "annotate system \" -- custom-auth -- Template level --\"",
+    "delete apply-groups custom-auth",
+    "delete groups custom-auth",
+    "set groups custom-auth",
+    "set groups custom-auth  system login user tmunzer class super-user",
+    "set groups custom-auth  system login user tmunzer authentication ssh-rsa \"ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCxk1CXmrc/wNlzuelQoBgEdnA3Mq8r05UhXgBUwqFdcbwkEmgYnciQWXYeFdA+UwR3SWX4VtyeenQi/S9pSOjvoZQ5OYBWNqak+AWjXXzX7sO8cf59TSDDN2lybdH6kWbvRKYzMbfpZvwluYwQX7ftN/D4/iS7288i5knaMVklhDJGdcuh6Xlve6PueZ5ov2twPzpplPVdWOCqgaCMhvVplG3oNTvBpeJ6BCXzhgJdkFNinFehPnvUR6MRwdjD/MvS1r+yrggHGQzJ57VEDsw2qH8wRaUUn0+Nd5hMYO4vamfintlm5hEAW9+my6HKNzBmd/TMeLctKUOg/q4Bc9TfYB51HEghHZ1i3ClJ6nE/1M6Ev9B+YwBJpeRaieWHbOHWrmMKM5rnYpX+uShPobvHKC8Z5HU5UkAtWvRyXVqbeeVv7xlGDTKnm0UQtzv9UDR/BN3VSnh8JKGLeiPDRZ0oDdgqK1ijxXBCFKb6FXAUiORUQLtI/7dmV4YxK4oS+ZRU/uxCCNDx6R90o08RFDFpWNBPY1yj332T/6JnA7nzlAYdQ1s1hzgzamZoEZuO/a+NObV9gQbJC13ZtZEWKXSLHPvEsORc5nb7hN76RNI7yKnAWNy5Zj2aaPlTGofbdr9M8+Tez4wldmYB/k86M4lENv5fZRx9A6VmfXFDoSI33w== tmunzer@stag.one\"",
+    "set apply-groups custom-auth"
+  ]
+  # ip_config = {
+  #   type    = "static"
+  #   ip      = "10.3.18.99"
+  #   netmask = "255.255.255.0"
+  #   network = "prx"
+  #   gateway = "10.3.18.11"
+  # }
+  # routing_policies= {
+  #     "tyes"= {
+  #         terms= [
+  #             {
+  #                 matching= {
+  #                     prefix= [
+  #                         "0.0.0.0/0"
+  #                     ],
+  #                     protocol= [
+  #                         "ospf"
+  #                     ]
+  #                 },
+  #                 actions= {
+  #                     accept= true
+  #                 },
+  #                 name= "gfds"
+  #             }
+  #         ]
+  #     }
+  # }
+  port_config = {
+    "ge-0/0/0" = {
+      usage                = "prx"
+      critical             = false
+      description          = ""
+      "no_local_overwrite" = true
+    },
+    "ge-0/0/10" = {
+      usage              = "autogenerated_ge-0_0_10"
+      no_local_overwrite = false
+      speed              = "100m"
+    },
+    "ge-0/0/11" = {
+      usage                = "default"
+      port_network         = "prx"
+      critical             = false
+      description          = ""
+      "no_local_overwrite" = false
+    }
+  }
+  port_mirroring = {
+    "test" = {
+      output_port_id = "ge-0/0/10"
+      input_port_ids_ingress = [
+        "ge-0/0/2"
+      ],
+      input_port_ids_egress = [
+        "ge-0/0/2"
+      ],
+      input_networks_ingress = [
+        "default"
+      ]
+    },
+    "test2" = {
+      output_network         = "prx"
+      input_port_ids_ingress = []
+      input_port_ids_egress = [
+        "ge-0/0/6"
+      ],
+      input_networks_ingress = []
+    }
+  }
+  mist_nac = {
+    enabled = true
+  }
+  # vrf_instances= {
+  #     "fds"= {
+  #         networks= [
+  #             "prx"
+  #         ],
+  #         extra_routes= {
+  #             "1.2.0.0/24"= {
+  #                 via= "1.2.3.4"
+  #             }
+  #         }
+  #     }
+  # }
+  vrf_config = {
+    enabled = true
+  }
+  dhcpd_config = {
+    enabled = true
+    "prx" = {
+      type = "relay"
+      servers = [
+        "1.2.3.4"
+      ]
+    }
+  }
+  # ospf_areas= {
+  #     "0"= {
+  #         type= "default"
+  #         networks= {
+  #             "prx"= {
+  #                 passive= false
+  #                 interface_type= "p2p"
+  #                 hello_interval= 10
+  #                 dead_interval= 40
+  #                 auth_type= "password"
+  #                 auth_password= "hpihpi"
+  #                 metric= 1
+  #                 bfd_minimum_interval= 1
+  #             }
+  #         },
+  #         include_loopback= false
+  #     }
+  # }
+  ospf_config = {
+    enabled             = true
+    reference_bandwidth = "10M"
+    areas = {
+      "0" = {
+        no_summary = false
+      }
+    }
+  }
+  router_id = "1.2.3.4"
+  oob_ip_config = {
+    type                      = "static"
+    ip                        = "2.2.2.2"
+    netmask                   = "/24"
+    use_mgmt_vrf              = true
+    use_mgmt_vrf_for_host_out = true
+    gateway                   = "2.2.2.1"
+  }
+  device_id = mist_org_inventory.inventory.devices[1].id
+  name      = "demo-ex"
+  site_id   = mist_org_inventory.inventory.devices[1].site_id
+}

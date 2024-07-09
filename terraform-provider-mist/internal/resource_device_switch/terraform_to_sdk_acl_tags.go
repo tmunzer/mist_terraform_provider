@@ -16,10 +16,14 @@ func actTagSpecsTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d b
 	for _, v := range d.Elements() {
 		var v_interface interface{} = v
 		v_state := v_interface.(SpecsValue)
-		v_data := models.NewAclTagSpec()
-		v_data.SetPortRange(v_state.PortRange.ValueString())
-		v_data.SetProtocol(v_state.Protocol.ValueString())
-		data = append(data, *v_data)
+		v_data := models.AclTagSpec{}
+		if v_state.PortRange.ValueStringPointer() != nil {
+			v_data.PortRange = models.ToPointer(v_state.PortRange.ValueString())
+		}
+		if v_state.Protocol.ValueStringPointer() != nil {
+			v_data.Protocol = models.ToPointer(v_state.Protocol.ValueString())
+		}
+		data = append(data, v_data)
 	}
 	return data
 }
@@ -29,16 +33,26 @@ func actTagsTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d baset
 	for item_name, item_value := range d.Elements() {
 		var item_interface interface{} = item_value
 		item_obj := item_interface.(AclTagsValue)
-		tag_type, _ := models.NewAclTagTypeFromValue(item_obj.AclTagsType.ValueString())
-		tag_specs := actTagSpecsTerraformToSdk(ctx, diags, item_obj.Specs)
-		data_item := models.NewAclTag(*tag_type)
-		data_item.SetGbpTag(int32(item_obj.GbpTag.ValueInt64()))
-		data_item.SetMacs(mist_transform.ListOfStringTerraformToSdk(ctx, item_obj.Macs))
-		data_item.SetNetwork(item_obj.Network.ValueString())
-		data_item.SetRadiusGroup(item_obj.RadiusGroup.ValueString())
-		data_item.SetSpecs(tag_specs)
-		data_item.SetSubnets(mist_transform.ListOfStringTerraformToSdk(ctx, item_obj.Subnets))
-		data[item_name] = *data_item
+
+		data_item := models.AclTag{}
+		data_item.Type = models.AclTagTypeEnum(item_obj.AclTagsType.ValueString())
+		if item_obj.GbpTag.ValueInt64Pointer() != nil {
+			data_item.GbpTag = models.ToPointer(int(item_obj.GbpTag.ValueInt64()))
+		}
+		data_item.Macs = mist_transform.ListOfStringTerraformToSdk(ctx, item_obj.Macs)
+		if item_obj.Network.ValueStringPointer() != nil {
+			data_item.Network = models.ToPointer(item_obj.Network.ValueString())
+		}
+		if item_obj.RadiusGroup.ValueStringPointer() != nil {
+			data_item.RadiusGroup = models.ToPointer(item_obj.RadiusGroup.ValueString())
+		}
+		if !item_obj.Specs.IsNull() && !item_obj.Specs.IsUnknown() {
+			data_item.Specs = actTagSpecsTerraformToSdk(ctx, diags, item_obj.Specs)
+		}
+		if !item_obj.Subnets.IsNull() && !item_obj.Subnets.IsUnknown() {
+			data_item.Subnets = mist_transform.ListOfStringTerraformToSdk(ctx, item_obj.Subnets)
+		}
+		data[item_name] = data_item
 	}
 	return data
 }

@@ -8,9 +8,13 @@ import (
 	"mistapi/models"
 )
 
-func mistNacTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d MistNacValue) models.SwitchMistNac {
-	data := models.NewSwitchMistNac()
-	data.SetEnabled(d.Enabled.ValueBool())
-	data.SetNetwork(d.Network.ValueString())
-	return *data
+func mistNacTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d MistNacValue) *models.SwitchMistNac {
+	data := models.SwitchMistNac{}
+	if d.Enabled.ValueBoolPointer() != nil {
+		data.Enabled = models.ToPointer(d.Enabled.ValueBool())
+	}
+	if d.Network.ValueStringPointer() != nil {
+		data.Network = models.ToPointer(d.Network.ValueString())
+	}
+	return &data
 }

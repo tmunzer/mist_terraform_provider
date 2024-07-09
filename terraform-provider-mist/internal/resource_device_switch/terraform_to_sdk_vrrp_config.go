@@ -15,23 +15,28 @@ func vrrpGroupsTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d ba
 	for k, v := range d.Elements() {
 		var v_interface interface{} = v
 		plan := v_interface.(GroupsValue)
-		data := models.NewVrrpConfigGroup()
-		data.SetPriority(int32(plan.Priority.ValueInt64()))
+		data := models.VrrpConfigGroup{}
 
-		data_map[k] = *data
+		if plan.Priority.ValueInt64Pointer() != nil {
+			data.Priority = models.ToPointer(int(plan.Priority.ValueInt64()))
+		}
+
+		data_map[k] = data
 	}
 	return data_map
 }
 
-func vrrpTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d VrrpConfigValue) models.VrrpConfig {
+func vrrpTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d VrrpConfigValue) *models.VrrpConfig {
 	tflog.Debug(ctx, "vrrpTerraformToSdk")
 
-	data := *models.NewVrrpConfig()
+	data := models.VrrpConfig{}
 
-	groups := vrrpGroupsTerraformToSdk(ctx, diags, d.Groups)
+	if d.Enabled.ValueBoolPointer() != nil {
+		data.Enabled = d.Enabled.ValueBoolPointer()
+	}
+	if !d.Groups.IsNull() && !d.Groups.IsUnknown() {
+		data.Groups = vrrpGroupsTerraformToSdk(ctx, diags, d.Groups)
+	}
 
-	data.SetEnabled(d.Enabled.ValueBool())
-	data.SetGroups(groups)
-
-	return data
+	return &data
 }

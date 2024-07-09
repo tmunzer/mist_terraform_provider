@@ -3,21 +3,28 @@ package resource_device_switch
 import (
 	"context"
 
+	"mistapi/models"
+
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
+	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 )
 
-// ////////////////// MIST NAC ///////////////////////
 func stpConfigSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d models.SwitchStpConfig) StpConfigValue {
-	mist_nac_attr_type := StpConfigValue{}.AttributeTypes(ctx)
-	mist_nac_attr_value := map[string]attr.Value{
-		"type": types.StringValue(string(d.GetType())),
+
+	var type_stp basetypes.StringValue
+
+	if d.Type != nil {
+		type_stp = types.StringValue(string(*d.Type))
 	}
 
-	r, e := NewStpConfigValue(mist_nac_attr_type, mist_nac_attr_value)
+	data_map_attr_type := StpConfigValue{}.AttributeTypes(ctx)
+	data_map_value := map[string]attr.Value{
+		"type": type_stp,
+	}
+	data, e := NewStpConfigValue(data_map_attr_type, data_map_value)
 	diags.Append(e...)
 
-	return r
+	return data
 }

@@ -10,12 +10,22 @@ import (
 	"mistapi/models"
 )
 
-func dhcpSnoopingTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d DhcpSnoopingValue) models.DhcpSnooping {
-	data := models.NewDhcpSnooping()
-	data.SetAllNetworks(d.AllNetworks.ValueBool())
-	data.SetEnableArpSpoofCheck(d.EnableArpSpoofCheck.ValueBool())
-	data.SetEnableIpSourceGuard(d.EnableIpSourceGuard.ValueBool())
-	data.SetEnabled(d.Enabled.ValueBool())
-	data.SetNetworks(mist_transform.ListOfStringTerraformToSdk(ctx, d.Networks))
-	return *data
+func dhcpSnoopingTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d DhcpSnoopingValue) *models.DhcpSnooping {
+	data := models.DhcpSnooping{}
+	if d.AllNetworks.ValueBoolPointer() != nil {
+		data.AllNetworks = models.ToPointer(d.AllNetworks.ValueBool())
+	}
+	if d.EnableArpSpoofCheck.ValueBoolPointer() != nil {
+		data.EnableArpSpoofCheck = models.ToPointer(d.EnableArpSpoofCheck.ValueBool())
+	}
+	if d.EnableIpSourceGuard.ValueBoolPointer() != nil {
+		data.EnableIpSourceGuard = models.ToPointer(d.EnableIpSourceGuard.ValueBool())
+	}
+	if d.Enabled.ValueBoolPointer() != nil {
+		data.Enabled = models.ToPointer(d.Enabled.ValueBool())
+	}
+	if !d.Networks.IsNull() && !d.Networks.IsUnknown() {
+		data.Networks = mist_transform.ListOfStringTerraformToSdk(ctx, d.Networks)
+	}
+	return &data
 }

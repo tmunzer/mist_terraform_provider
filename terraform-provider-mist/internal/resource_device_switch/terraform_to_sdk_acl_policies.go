@@ -17,10 +17,14 @@ func aclPolicyActionsTerraformToSdk(ctx context.Context, diags *diag.Diagnostics
 	for _, v := range d.Elements() {
 		var v_interface interface{} = v
 		v_plan := v_interface.(ActionsValue)
-		data_item := models.NewAclPolicyAction()
-		data_item.SetAction(models.AllowDeny(v_plan.Action.ValueString()))
-		data_item.SetDstTag(v_plan.DstTag.ValueString())
-		data = append(data, *data_item)
+		data_item := models.AclPolicyAction{}
+		if v_plan.Action.ValueStringPointer() != nil {
+			data_item.Action = models.ToPointer(models.AllowDenyEnum(v_plan.Action.ValueString()))
+		}
+		if v_plan.DstTag.ValueStringPointer() != nil {
+			data_item.DstTag = models.ToPointer(v_plan.DstTag.ValueString())
+		}
+		data = append(data, data_item)
 	}
 	return data
 }
@@ -31,13 +35,19 @@ func aclPoliciesTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d b
 	for _, v := range d.Elements() {
 		var v_interface interface{} = v
 		v_plan := v_interface.(AclPoliciesValue)
-		actions := aclPolicyActionsTerraformToSdk(ctx, diags, v_plan.Actions)
-		data_item := models.NewAclPolicy()
-		data_item.SetName(v_plan.Name.ValueString())
-		data_item.SetActions(actions)
-		data_item.SetSrcTags(mist_transform.ListOfStringTerraformToSdk(ctx, v_plan.SrcTags))
+		data_item := models.AclPolicy{}
+		if v_plan.Name.ValueStringPointer() != nil {
+			data_item.Name = models.ToPointer(v_plan.Name.ValueString())
+		}
+		if !v_plan.Actions.IsNull() && !v_plan.Actions.IsUnknown() {
+			actions := aclPolicyActionsTerraformToSdk(ctx, diags, v_plan.Actions)
+			data_item.Actions = actions
+		}
+		if !v_plan.SrcTags.IsNull() && !v_plan.SrcTags.IsUnknown() {
+			data_item.SrcTags = mist_transform.ListOfStringTerraformToSdk(ctx, v_plan.SrcTags)
+		}
 
-		data = append(data, *data_item)
+		data = append(data, data_item)
 	}
 	return data
 }

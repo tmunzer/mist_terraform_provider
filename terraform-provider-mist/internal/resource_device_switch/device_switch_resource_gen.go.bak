@@ -46,7 +46,6 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 									},
 									"dst_tag": schema.StringAttribute{
 										Optional: true,
-										Computed: true,
 									},
 								},
 								CustomType: ActionsType{
@@ -56,21 +55,17 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 								},
 							},
 							Optional:            true,
-							Computed:            true,
 							Description:         "- for GBP-based policy, all src_tags and dst_tags have to be gbp-based\n- for ACL-based policy, `network` is required in either the source or destination so that we know where to attach the policy to",
 							MarkdownDescription: "- for GBP-based policy, all src_tags and dst_tags have to be gbp-based\n- for ACL-based policy, `network` is required in either the source or destination so that we know where to attach the policy to",
 						},
 						"name": schema.StringAttribute{
 							Optional: true,
-							Computed: true,
 						},
 						"src_tags": schema.ListAttribute{
 							ElementType:         types.StringType,
 							Optional:            true,
-							Computed:            true,
 							Description:         "- for GBP-based policy, all src_tags and dst_tags have to be gbp-based\n- for ACL-based policy, `network` is required in either the source or destination so that we know where to attach the policy to",
 							MarkdownDescription: "- for GBP-based policy, all src_tags and dst_tags have to be gbp-based\n- for ACL-based policy, `network` is required in either the source or destination so that we know where to attach the policy to",
-							Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 						},
 					},
 					CustomType: AclPoliciesType{
@@ -80,34 +75,28 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 					},
 				},
 				Optional: true,
-				Computed: true,
 			},
 			"acl_tags": schema.MapNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"gbp_tag": schema.Int64Attribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "required if\n- `type`==`dynamic_gbp` (gbp_tag received from RADIUS)\n- `type`==`static_gbp` (applying gbp tag against matching conditions)",
 							MarkdownDescription: "required if\n- `type`==`dynamic_gbp` (gbp_tag received from RADIUS)\n- `type`==`static_gbp` (applying gbp tag against matching conditions)",
 						},
 						"macs": schema.ListAttribute{
 							ElementType:         types.StringType,
 							Optional:            true,
-							Computed:            true,
 							Description:         "required if \n- `type`==`mac`\n- `type`==`static_gbp` if from matching mac",
 							MarkdownDescription: "required if \n- `type`==`mac`\n- `type`==`static_gbp` if from matching mac",
-							Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 						},
 						"network": schema.StringAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "if:\n- `type`==`mac` (optional. default is `any`)\n- `type`==`subnet` (optional. default is `any`)\n- `type`==`network`\n- `type`==`resource` (optional. default is `any`)\n- `type`==`static_gbp` if from matching network (vlan)",
 							MarkdownDescription: "if:\n- `type`==`mac` (optional. default is `any`)\n- `type`==`subnet` (optional. default is `any`)\n- `type`==`network`\n- `type`==`resource` (optional. default is `any`)\n- `type`==`static_gbp` if from matching network (vlan)",
 						},
 						"radius_group": schema.StringAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "required if \n- `type`==`radius_group` \n- `type`==`static_gbp` if from matching radius_group",
 							MarkdownDescription: "required if \n- `type`==`radius_group` \n- `type`==`static_gbp` if from matching radius_group",
 						},
@@ -136,17 +125,14 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 								},
 							},
 							Optional:            true,
-							Computed:            true,
 							Description:         "if `type`==`resource`\nempty means unrestricted, i.e. any",
 							MarkdownDescription: "if `type`==`resource`\nempty means unrestricted, i.e. any",
 						},
 						"subnets": schema.ListAttribute{
 							ElementType:         types.StringType,
 							Optional:            true,
-							Computed:            true,
 							Description:         "if \n- `type`==`subnet` \n- `type`==`resource` (optional. default is `any`)\n- `type`==`static_gbp` if from matching subnet",
 							MarkdownDescription: "if \n- `type`==`subnet` \n- `type`==`resource` (optional. default is `any`)\n- `type`==`static_gbp` if from matching subnet",
-							Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 						},
 						"type": schema.StringAttribute{
 							Required: true,
@@ -172,51 +158,44 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 					},
 				},
 				Optional:            true,
-				Computed:            true,
 				Description:         "ACL Tags to identify traffic source or destination. Key name is the tag name",
 				MarkdownDescription: "ACL Tags to identify traffic source or destination. Key name is the tag name",
 			},
 			"additional_config_cmds": schema.ListAttribute{
 				ElementType:         types.StringType,
 				Optional:            true,
-				Computed:            true,
 				Description:         "additional CLI commands to append to the generated Junos config\n\n**Note**: no check is done",
 				MarkdownDescription: "additional CLI commands to append to the generated Junos config\n\n**Note**: no check is done",
-				Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
+			},
+			"device_id": schema.StringAttribute{
+				Required: true,
 			},
 			"deviceprofile_id": schema.StringAttribute{
 				Optional: true,
-				Computed: true,
 			},
 			"dhcp_snooping": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
 					"all_networks": schema.BoolAttribute{
 						Optional: true,
-						Computed: true,
 					},
 					"enable_arp_spoof_check": schema.BoolAttribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "Enable for dynamic ARP inspection check",
 						MarkdownDescription: "Enable for dynamic ARP inspection check",
 					},
 					"enable_ip_source_guard": schema.BoolAttribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "Enable for check for forging source IP address",
 						MarkdownDescription: "Enable for check for forging source IP address",
 					},
 					"enabled": schema.BoolAttribute{
 						Optional: true,
-						Computed: true,
 					},
 					"networks": schema.ListAttribute{
 						ElementType:         types.StringType,
 						Optional:            true,
-						Computed:            true,
 						Description:         "if `all_networks`==`false`, list of network with DHCP snooping enabled",
 						MarkdownDescription: "if `all_networks`==`false`, list of network with DHCP snooping enabled",
-						Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 					},
 				},
 				CustomType: DhcpSnoopingType{
@@ -225,7 +204,6 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 					},
 				},
 				Optional: true,
-				Computed: true,
 			},
 			"dhcpd_config": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
@@ -235,29 +213,23 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 								"dns_servers": schema.ListAttribute{
 									ElementType:         types.StringType,
 									Optional:            true,
-									Computed:            true,
 									Description:         "if `type`==`local` - optional, if not defined, system one will be used",
 									MarkdownDescription: "if `type`==`local` - optional, if not defined, system one will be used",
-									Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 								},
 								"dns_suffix": schema.ListAttribute{
 									ElementType:         types.StringType,
 									Optional:            true,
-									Computed:            true,
 									Description:         "if `type`==`local` - optional, if not defined, system one will be used",
 									MarkdownDescription: "if `type`==`local` - optional, if not defined, system one will be used",
-									Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 								},
 								"fixed_bindings": schema.MapNestedAttribute{
 									NestedObject: schema.NestedAttributeObject{
 										Attributes: map[string]schema.Attribute{
 											"ip": schema.StringAttribute{
 												Optional: true,
-												Computed: true,
 											},
 											"name": schema.StringAttribute{
 												Optional: true,
-												Computed: true,
 											},
 										},
 										CustomType: FixedBindingsType{
@@ -267,37 +239,31 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 										},
 									},
 									Optional:            true,
-									Computed:            true,
 									Description:         "Property key is the MAC Address",
 									MarkdownDescription: "Property key is the MAC Address",
 								},
 								"gateway": schema.StringAttribute{
 									Optional:            true,
-									Computed:            true,
 									Description:         "if `type`==`local` - optional, `ip` will be used if not provided",
 									MarkdownDescription: "if `type`==`local` - optional, `ip` will be used if not provided",
 								},
 								"ip_end": schema.StringAttribute{
 									Optional:            true,
-									Computed:            true,
 									Description:         "if `type`==`local`",
 									MarkdownDescription: "if `type`==`local`",
 								},
 								"ip_end6": schema.StringAttribute{
 									Optional:            true,
-									Computed:            true,
 									Description:         "if `type6`==`local`",
 									MarkdownDescription: "if `type6`==`local`",
 								},
 								"ip_start": schema.StringAttribute{
 									Optional:            true,
-									Computed:            true,
 									Description:         "if `type`==`local`",
 									MarkdownDescription: "if `type`==`local`",
 								},
 								"ip_start6": schema.StringAttribute{
 									Optional:            true,
-									Computed:            true,
 									Description:         "if `type6`==`local`",
 									MarkdownDescription: "if `type6`==`local`",
 								},
@@ -316,7 +282,6 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 										Attributes: map[string]schema.Attribute{
 											"type": schema.StringAttribute{
 												Optional: true,
-												Computed: true,
 												Validators: []validator.String{
 													stringvalidator.OneOf(
 														"",
@@ -333,7 +298,6 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 											},
 											"value": schema.StringAttribute{
 												Optional: true,
-												Computed: true,
 											},
 										},
 										CustomType: OptionsType{
@@ -343,7 +307,6 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 										},
 									},
 									Optional:            true,
-									Computed:            true,
 									Description:         "Property key is the DHCP option number",
 									MarkdownDescription: "Property key is the DHCP option number",
 								},
@@ -357,18 +320,14 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 								"servers": schema.ListAttribute{
 									ElementType:         types.StringType,
 									Optional:            true,
-									Computed:            true,
 									Description:         "if `type`==`relay`",
 									MarkdownDescription: "if `type`==`relay`",
-									Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 								},
 								"servers6": schema.ListAttribute{
 									ElementType:         types.StringType,
 									Optional:            true,
-									Computed:            true,
 									Description:         "if `type6`==`relay`",
 									MarkdownDescription: "if `type6`==`relay`",
-									Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 								},
 								"type": schema.StringAttribute{
 									Optional:            true,
@@ -405,7 +364,6 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 										Attributes: map[string]schema.Attribute{
 											"type": schema.StringAttribute{
 												Optional: true,
-												Computed: true,
 												Validators: []validator.String{
 													stringvalidator.OneOf(
 														"",
@@ -422,7 +380,6 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 											},
 											"value": schema.StringAttribute{
 												Optional: true,
-												Computed: true,
 											},
 										},
 										CustomType: VendorEncapulatedType{
@@ -432,7 +389,6 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 										},
 									},
 									Optional:            true,
-									Computed:            true,
 									Description:         "Property key is <enterprise number>:<sub option code>, with\n* enterprise number: 1-65535 (https://www.iana.org/assignments/enterprise-numbers/enterprise-numbers)\n* sub option code: 1-255, sub-option code",
 									MarkdownDescription: "Property key is <enterprise number>:<sub option code>, with\n* enterprise number: 1-65535 (https://www.iana.org/assignments/enterprise-numbers/enterprise-numbers)\n* sub option code: 1-255, sub-option code",
 								},
@@ -444,7 +400,6 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 							},
 						},
 						Optional: true,
-						Computed: true,
 					},
 					"enabled": schema.BoolAttribute{
 						Optional:            true,
@@ -460,7 +415,6 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 					},
 				},
 				Optional: true,
-				Computed: true,
 			},
 			"disable_auto_config": schema.BoolAttribute{
 				Optional:            true,
@@ -472,18 +426,14 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 			"dns_servers": schema.ListAttribute{
 				ElementType:         types.StringType,
 				Optional:            true,
-				Computed:            true,
 				Description:         "Global dns settings. To keep compatibility, dns settings in `ip_config` and `oob_ip_config` will overwrite this setting",
 				MarkdownDescription: "Global dns settings. To keep compatibility, dns settings in `ip_config` and `oob_ip_config` will overwrite this setting",
-				Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 			},
 			"dns_suffix": schema.ListAttribute{
 				ElementType:         types.StringType,
 				Optional:            true,
-				Computed:            true,
 				Description:         "Global dns settings. To keep compatibility, dns settings in `ip_config` and `oob_ip_config` will overwrite this setting",
 				MarkdownDescription: "Global dns settings. To keep compatibility, dns settings in `ip_config` and `oob_ip_config` will overwrite this setting",
-				Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 			},
 			"extra_routes": schema.MapNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
@@ -497,7 +447,6 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 						},
 						"metric": schema.Int64Attribute{
 							Optional: true,
-							Computed: true,
 							Validators: []validator.Int64{
 								int64validator.Between(0, 4294967295),
 							},
@@ -507,11 +456,9 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 								Attributes: map[string]schema.Attribute{
 									"metric": schema.Int64Attribute{
 										Optional: true,
-										Computed: true,
 									},
 									"preference": schema.Int64Attribute{
 										Optional: true,
-										Computed: true,
 									},
 								},
 								CustomType: NextQualifiedType{
@@ -521,7 +468,6 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 								},
 							},
 							Optional: true,
-							Computed: true,
 						},
 						"no_resolve": schema.BoolAttribute{
 							Optional: true,
@@ -530,14 +476,12 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 						},
 						"preference": schema.Int64Attribute{
 							Optional: true,
-							Computed: true,
 							Validators: []validator.Int64{
 								int64validator.Between(0, 4294967295),
 							},
 						},
 						"via": schema.StringAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "next-hop IP Address",
 							MarkdownDescription: "next-hop IP Address",
 						},
@@ -549,7 +493,6 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 					},
 				},
 				Optional: true,
-				Computed: true,
 			},
 			"extra_routes6": schema.MapNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
@@ -563,7 +506,6 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 						},
 						"metric": schema.Int64Attribute{
 							Optional: true,
-							Computed: true,
 							Validators: []validator.Int64{
 								int64validator.Between(0, 4294967295),
 							},
@@ -573,11 +515,9 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 								Attributes: map[string]schema.Attribute{
 									"metric": schema.Int64Attribute{
 										Optional: true,
-										Computed: true,
 									},
 									"preference": schema.Int64Attribute{
 										Optional: true,
-										Computed: true,
 									},
 								},
 								CustomType: NextQualifiedType{
@@ -587,7 +527,6 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 								},
 							},
 							Optional: true,
-							Computed: true,
 						},
 						"no_resolve": schema.BoolAttribute{
 							Optional: true,
@@ -596,14 +535,12 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 						},
 						"preference": schema.Int64Attribute{
 							Optional: true,
-							Computed: true,
 							Validators: []validator.Int64{
 								int64validator.Between(0, 4294967295),
 							},
 						},
 						"via": schema.StringAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "next-hop IP Address",
 							MarkdownDescription: "next-hop IP Address",
 						},
@@ -615,63 +552,47 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 					},
 				},
 				Optional:            true,
-				Computed:            true,
 				Description:         "Property key is the destination CIDR (e.g. \"2a02:1234:420a:10c9::/64\")",
 				MarkdownDescription: "Property key is the destination CIDR (e.g. \"2a02:1234:420a:10c9::/64\")",
 			},
-			"id": schema.StringAttribute{
-				Optional: true,
-				Computed: true,
-			},
 			"image1_url": schema.StringAttribute{
 				Optional: true,
-				Computed: true,
 			},
 			"image2_url": schema.StringAttribute{
 				Optional: true,
-				Computed: true,
 			},
 			"image3_url": schema.StringAttribute{
 				Optional: true,
-				Computed: true,
 			},
 			"ip_config": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
 					"dns": schema.ListAttribute{
 						ElementType: types.StringType,
 						Optional:    true,
-						Computed:    true,
 						Validators: []validator.List{
 							listvalidator.UniqueValues(),
 						},
-						Default: listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 					},
 					"dns_suffix": schema.ListAttribute{
 						ElementType: types.StringType,
 						Optional:    true,
-						Computed:    true,
 						Validators: []validator.List{
 							listvalidator.UniqueValues(),
 						},
-						Default: listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 					},
 					"gateway": schema.StringAttribute{
 						Optional: true,
-						Computed: true,
 					},
 					"ip": schema.StringAttribute{
 						Optional: true,
-						Computed: true,
 					},
 					"netmask": schema.StringAttribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "used only if `subnet` is not specified in `networks`",
 						MarkdownDescription: "used only if `subnet` is not specified in `networks`",
 					},
 					"network": schema.StringAttribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "the network where this mgmt IP reside, this will be used as default network for outbound-ssh, dns, ntp, dns, tacplus, radius, syslog, snmp",
 						MarkdownDescription: "the network where this mgmt IP reside, this will be used as default network for outbound-ssh, dns, ntp, dns, tacplus, radius, syslog, snmp",
 					},
@@ -694,7 +615,6 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 					},
 				},
 				Optional:            true,
-				Computed:            true,
 				Description:         "Junos IP Config",
 				MarkdownDescription: "Junos IP Config",
 			},
@@ -707,7 +627,6 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 			},
 			"map_id": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				Description:         "map where the device belongs to",
 				MarkdownDescription: "map where the device belongs to",
 			},
@@ -715,11 +634,9 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 				Attributes: map[string]schema.Attribute{
 					"enabled": schema.BoolAttribute{
 						Optional: true,
-						Computed: true,
 					},
 					"network": schema.StringAttribute{
 						Optional: true,
-						Computed: true,
 					},
 				},
 				CustomType: MistNacType{
@@ -728,13 +645,11 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 					},
 				},
 				Optional:            true,
-				Computed:            true,
 				Description:         "enable mist_nac to use radsec",
 				MarkdownDescription: "enable mist_nac to use radsec",
 			},
 			"name": schema.StringAttribute{
 				Optional: true,
-				Computed: true,
 			},
 			"networks": schema.MapNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
@@ -748,11 +663,9 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 						},
 						"isolation_vlan_id": schema.StringAttribute{
 							Optional: true,
-							Computed: true,
 						},
 						"subnet": schema.StringAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "optional for pure switching, required when L3 / routing features are used",
 							MarkdownDescription: "optional for pure switching, required when L3 / routing features are used",
 						},
@@ -767,37 +680,33 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 					},
 				},
 				Optional:            true,
-				Computed:            true,
 				Description:         "Property key is network name",
 				MarkdownDescription: "Property key is network name",
 			},
 			"notes": schema.StringAttribute{
 				Optional: true,
-				Computed: true,
 			},
 			"ntp_servers": schema.ListAttribute{
 				ElementType:         types.StringType,
 				Optional:            true,
-				Computed:            true,
 				Description:         "list of NTP servers specific to this device. By default, those in Site Settings will be used",
 				MarkdownDescription: "list of NTP servers specific to this device. By default, those in Site Settings will be used",
-				Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 			},
 			"oob_ip_config": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
+					"gateway": schema.StringAttribute{
+						Optional: true,
+					},
 					"ip": schema.StringAttribute{
 						Optional: true,
-						Computed: true,
 					},
 					"netmask": schema.StringAttribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "used only if `subnet` is not specified in `networks`",
 						MarkdownDescription: "used only if `subnet` is not specified in `networks`",
 					},
 					"network": schema.StringAttribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "optional, the network to be used for mgmt",
 						MarkdownDescription: "optional, the network to be used for mgmt",
 					},
@@ -834,12 +743,10 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 					},
 				},
 				Optional:            true,
-				Computed:            true,
 				Description:         "- If HA configuration: key parameter will be nodeX (eg: node1)\n- If there are 2 routing engines, re1 mgmt IP has to be set separately (if desired): key parameter = `re1`",
 				MarkdownDescription: "- If HA configuration: key parameter will be nodeX (eg: node1)\n- If there are 2 routing engines, re1 mgmt IP has to be set separately (if desired): key parameter = `re1`",
 			},
 			"org_id": schema.StringAttribute{
-				Optional: true,
 				Computed: true,
 			},
 			"ospf_config": schema.SingleNestedAttribute{
@@ -849,7 +756,6 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 							Attributes: map[string]schema.Attribute{
 								"no_summary": schema.BoolAttribute{
 									Optional:            true,
-									Computed:            true,
 									Description:         "for a stub/nssa area, where to avoid forwarding type-3 LSA to this area",
 									MarkdownDescription: "for a stub/nssa area, where to avoid forwarding type-3 LSA to this area",
 								},
@@ -861,13 +767,11 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 							},
 						},
 						Optional:            true,
-						Computed:            true,
 						Description:         "OSPF areas to run on this device and the corresponding per-area-specific configs. Property key is the area",
 						MarkdownDescription: "OSPF areas to run on this device and the corresponding per-area-specific configs. Property key is the area",
 					},
 					"enabled": schema.BoolAttribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "whether to rung OSPF on this device",
 						MarkdownDescription: "whether to rung OSPF on this device",
 					},
@@ -885,7 +789,6 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 					},
 				},
 				Optional:            true,
-				Computed:            true,
 				Description:         "Junos OSPF config",
 				MarkdownDescription: "Junos OSPF config",
 			},
@@ -901,25 +804,21 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 						},
 						"ip": schema.StringAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "required if `type`==`static`",
 							MarkdownDescription: "required if `type`==`static`",
 						},
 						"ip6": schema.StringAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "required if `type6`==`static`",
 							MarkdownDescription: "required if `type6`==`static`",
 						},
 						"netmask": schema.StringAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "optional, `subnet` from `network` definition will be used if defined",
 							MarkdownDescription: "optional, `subnet` from `network` definition will be used if defined",
 						},
 						"netmask6": schema.StringAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "optional, `subnet` from `network` definition will be used if defined",
 							MarkdownDescription: "optional, `subnet` from `network` definition will be used if defined",
 						},
@@ -957,7 +856,6 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 					},
 				},
 				Optional:            true,
-				Computed:            true,
 				Description:         "Property key is the network name",
 				MarkdownDescription: "Property key is the network name",
 			},
@@ -966,13 +864,11 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 					Attributes: map[string]schema.Attribute{
 						"ae_disable_lacp": schema.BoolAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "To disable LACP support for the AE interface",
 							MarkdownDescription: "To disable LACP support for the AE interface",
 						},
 						"ae_idx": schema.Int64Attribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "Users could force to use the designated AE name",
 							MarkdownDescription: "Users could force to use the designated AE name",
 						},
@@ -990,13 +886,11 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 						},
 						"critical": schema.BoolAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "if want to generate port up/down alarm",
 							MarkdownDescription: "if want to generate port up/down alarm",
 						},
 						"description": schema.StringAttribute{
 							Optional: true,
-							Computed: true,
 						},
 						"disable_autoneg": schema.BoolAttribute{
 							Optional:            true,
@@ -1020,13 +914,11 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 						},
 						"dynamic_usage": schema.StringAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "Enable dynamic usage for this port. Set to `dynamic` to enable.",
 							MarkdownDescription: "Enable dynamic usage for this port. Set to `dynamic` to enable.",
 						},
 						"esilag": schema.BoolAttribute{
 							Optional: true,
-							Computed: true,
 						},
 						"mtu": schema.Int64Attribute{
 							Optional:            true,
@@ -1037,7 +929,6 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 						},
 						"no_local_overwrite": schema.BoolAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "prevent helpdesk to override the port config",
 							MarkdownDescription: "prevent helpdesk to override the port config",
 						},
@@ -1075,7 +966,6 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 					},
 				},
 				Optional:            true,
-				Computed:            true,
 				Description:         "Property key is the port name or range (e.g. \"ge-0/0/0-10\")",
 				MarkdownDescription: "Property key is the port name or range (e.g. \"ge-0/0/0-10\")",
 			},
@@ -1085,34 +975,26 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 						"input_networks_ingress": schema.ListAttribute{
 							ElementType:         types.StringType,
 							Optional:            true,
-							Computed:            true,
 							Description:         "at least one of the `ingress_port_ids`, `egress_port_ids` or `ingress_networks ` should be specified",
 							MarkdownDescription: "at least one of the `ingress_port_ids`, `egress_port_ids` or `ingress_networks ` should be specified",
-							Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 						},
 						"input_port_ids_egress": schema.ListAttribute{
 							ElementType:         types.StringType,
 							Optional:            true,
-							Computed:            true,
 							Description:         "at least one of the `ingress_port_ids`, `egress_port_ids` or `ingress_networks ` should be specified",
 							MarkdownDescription: "at least one of the `ingress_port_ids`, `egress_port_ids` or `ingress_networks ` should be specified",
-							Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 						},
 						"input_port_ids_ingress": schema.ListAttribute{
 							ElementType:         types.StringType,
 							Optional:            true,
-							Computed:            true,
 							Description:         "at least one of the `ingress_port_ids`, `egress_port_ids` or `ingress_networks ` should be specified",
 							MarkdownDescription: "at least one of the `ingress_port_ids`, `egress_port_ids` or `ingress_networks ` should be specified",
-							Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 						},
 						"output_network": schema.StringAttribute{
 							Optional: true,
-							Computed: true,
 						},
 						"output_port_id": schema.StringAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "exaclty on of the `output_port_id` or `output_network` should be provided",
 							MarkdownDescription: "exaclty on of the `output_port_id` or `output_network` should be provided",
 						},
@@ -1124,7 +1006,6 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 					},
 				},
 				Optional:            true,
-				Computed:            true,
 				Description:         "Property key is the port mirroring instance name\nport_mirroring can be added under device/site settings. It takes interface and ports as input for ingress, interface as input for egress and can take interface and port as output.",
 				MarkdownDescription: "Property key is the port mirroring instance name\nport_mirroring can be added under device/site settings. It takes interface and ports as input for ingress, interface as input for egress and can take interface and port as output.",
 			},
@@ -1140,7 +1021,6 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 						},
 						"allow_dhcpd": schema.BoolAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "Only if `mode`!=`dynamic` if DHCP snooping is enabled, whether DHCP server is allowed on the interfaces with. All the interfaces from port configs using this port usage are effected. Please notice that allow_dhcpd is a tri_state.\n\nWhen it is not defined, it means using the system’s default setting which depends on whether the port is a access or trunk port.",
 							MarkdownDescription: "Only if `mode`!=`dynamic` if DHCP snooping is enabled, whether DHCP server is allowed on the interfaces with. All the interfaces from port configs using this port usage are effected. Please notice that allow_dhcpd is a tri_state.\n\nWhen it is not defined, it means using the system’s default setting which depends on whether the port is a access or trunk port.",
 						},
@@ -1167,7 +1047,6 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 						},
 						"description": schema.StringAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "Only if `mode`!=`dynamic`",
 							MarkdownDescription: "Only if `mode`!=`dynamic`",
 						},
@@ -1222,7 +1101,6 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 						},
 						"guest_network": schema.StringAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "Only if `mode`!=`dynamic` and `port_auth`==`dot1x` which network to put the device into if the device cannot do dot1x. default is null (i.e. not allowed)",
 							MarkdownDescription: "Only if `mode`!=`dynamic` and `port_auth`==`dot1x` which network to put the device into if the device cannot do dot1x. default is null (i.e. not allowed)",
 						},
@@ -1235,7 +1113,6 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 						},
 						"mac_auth_only": schema.BoolAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "Only if `mode`!=`dynamic` and `enable_mac_auth`==`true`",
 							MarkdownDescription: "Only if `mode`!=`dynamic` and `enable_mac_auth`==`true`",
 						},
@@ -1266,7 +1143,6 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 						},
 						"mode": schema.StringAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "`mode`==`dynamic` must only be used with the port usage with the name `dynamic`",
 							MarkdownDescription: "`mode`==`dynamic` must only be used with the port usage with the name `dynamic`",
 							Validators: []validator.String{
@@ -1281,7 +1157,6 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 						},
 						"mtu": schema.Int64Attribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "Only if `mode`!=`dynamic` media maximum transmission unit (MTU) is the largest data unit that can be forwarded without fragmentation. The default value is 1514.",
 							MarkdownDescription: "Only if `mode`!=`dynamic` media maximum transmission unit (MTU) is the largest data unit that can be forwarded without fragmentation. The default value is 1514.",
 						},
@@ -1309,13 +1184,11 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 						},
 						"port_auth": schema.StringAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "Only if `mode`!=`dynamic` if dot1x is desired, set to dot1x",
 							MarkdownDescription: "Only if `mode`!=`dynamic` if dot1x is desired, set to dot1x",
 						},
 						"port_network": schema.StringAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "Only if `mode`!=`dynamic` native network/vlan for untagged traffic",
 							MarkdownDescription: "Only if `mode`!=`dynamic` native network/vlan for untagged traffic",
 						},
@@ -1331,7 +1204,6 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 						},
 						"rejected_network": schema.StringAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "Only if `mode`!=`dynamic` and `port_auth`==`dot1x` when radius server reject / fails",
 							MarkdownDescription: "Only if `mode`!=`dynamic` and `port_auth`==`dot1x` when radius server reject / fails",
 						},
@@ -1354,19 +1226,15 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 								Attributes: map[string]schema.Attribute{
 									"equals": schema.StringAttribute{
 										Optional: true,
-										Computed: true,
 									},
 									"equals_any": schema.ListAttribute{
 										ElementType:         types.StringType,
 										Optional:            true,
-										Computed:            true,
 										Description:         "use `equals_any` to match any item in a list",
 										MarkdownDescription: "use `equals_any` to match any item in a list",
-										Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 									},
 									"expression": schema.StringAttribute{
 										Optional:            true,
-										Computed:            true,
 										Description:         "\"[0:3]\":\"abcdef\" -> \"abc\"\n\"split(.)[1]\": \"a.b.c\" -> \"b\"\n\"split(-)[1][0:3]: \"a1234-b5678-c90\" -> \"b56\"",
 										MarkdownDescription: "\"[0:3]\":\"abcdef\" -> \"abc\"\n\"split(.)[1]\": \"a.b.c\" -> \"b\"\n\"split(-)[1][0:3]: \"a1234-b5678-c90\" -> \"b56\"",
 									},
@@ -1390,7 +1258,6 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 									},
 									"usage": schema.StringAttribute{
 										Optional:            true,
-										Computed:            true,
 										Description:         "`port_usage` name",
 										MarkdownDescription: "`port_usage` name",
 									},
@@ -1402,13 +1269,11 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 								},
 							},
 							Optional:            true,
-							Computed:            true,
 							Description:         "Only if `mode`==`dynamic`",
 							MarkdownDescription: "Only if `mode`==`dynamic`",
 						},
 						"speed": schema.StringAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "Only if `mode`!=`dynamic` speed, default is auto to automatically negotiate speed",
 							MarkdownDescription: "Only if `mode`!=`dynamic` speed, default is auto to automatically negotiate speed",
 						},
@@ -1459,7 +1324,6 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 								},
 							},
 							Optional:            true,
-							Computed:            true,
 							Description:         "Switch storm control\nOnly if `mode`!=`dynamic`",
 							MarkdownDescription: "Switch storm control\nOnly if `mode`!=`dynamic`",
 						},
@@ -1472,7 +1336,6 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 						},
 						"voip_network": schema.StringAttribute{
 							Optional:            true,
-							Computed:            true,
 							Description:         "Only if `mode`!=`dynamic` network/vlan for voip traffic, must also set port_network. to authenticate device, set port_auth",
 							MarkdownDescription: "Only if `mode`!=`dynamic` network/vlan for voip traffic, must also set port_network. to authenticate device, set port_auth",
 						},
@@ -1484,7 +1347,6 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 					},
 				},
 				Optional: true,
-				Computed: true,
 			},
 			"radius_config": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
@@ -1508,11 +1370,9 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 								},
 								"keywrap_enabled": schema.BoolAttribute{
 									Optional: true,
-									Computed: true,
 								},
 								"keywrap_format": schema.StringAttribute{
 									Optional: true,
-									Computed: true,
 									Validators: []validator.String{
 										stringvalidator.OneOf(
 											"",
@@ -1523,11 +1383,9 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 								},
 								"keywrap_kek": schema.StringAttribute{
 									Optional: true,
-									Computed: true,
 								},
 								"keywrap_mack": schema.StringAttribute{
 									Optional: true,
-									Computed: true,
 								},
 								"port": schema.Int64Attribute{
 									Optional:            true,
@@ -1549,7 +1407,6 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 							},
 						},
 						Optional: true,
-						Computed: true,
 						Validators: []validator.List{
 							listvalidator.UniqueValues(),
 						},
@@ -1564,11 +1421,9 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 								},
 								"keywrap_enabled": schema.BoolAttribute{
 									Optional: true,
-									Computed: true,
 								},
 								"keywrap_format": schema.StringAttribute{
 									Optional: true,
-									Computed: true,
 									Validators: []validator.String{
 										stringvalidator.OneOf(
 											"",
@@ -1579,11 +1434,9 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 								},
 								"keywrap_kek": schema.StringAttribute{
 									Optional: true,
-									Computed: true,
 								},
 								"keywrap_mack": schema.StringAttribute{
 									Optional: true,
-									Computed: true,
 								},
 								"port": schema.Int64Attribute{
 									Optional:            true,
@@ -1605,7 +1458,6 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 							},
 						},
 						Optional: true,
-						Computed: true,
 						Validators: []validator.List{
 							listvalidator.SizeAtLeast(1),
 							listvalidator.UniqueValues(),
@@ -1637,13 +1489,11 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 					},
 					"network": schema.StringAttribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "use `network`or `source_ip`\nwhich network the RADIUS server resides, if there's static IP for this network, we'd use it as source-ip",
 						MarkdownDescription: "use `network`or `source_ip`\nwhich network the RADIUS server resides, if there's static IP for this network, we'd use it as source-ip",
 					},
 					"source_ip": schema.StringAttribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "use `network`or `source_ip`",
 						MarkdownDescription: "use `network`or `source_ip`",
 					},
@@ -1654,7 +1504,6 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 					},
 				},
 				Optional:            true,
-				Computed:            true,
 				Description:         "Junos Radius config",
 				MarkdownDescription: "Junos Radius config",
 			},
@@ -1664,11 +1513,9 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 						Attributes: map[string]schema.Attribute{
 							"files": schema.Int64Attribute{
 								Optional: true,
-								Computed: true,
 							},
 							"size": schema.StringAttribute{
 								Optional: true,
-								Computed: true,
 							},
 						},
 						CustomType: ArchiveType{
@@ -1677,7 +1524,6 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 							},
 						},
 						Optional: true,
-						Computed: true,
 					},
 					"console": schema.SingleNestedAttribute{
 						Attributes: map[string]schema.Attribute{
@@ -1736,7 +1582,6 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 									},
 								},
 								Optional: true,
-								Computed: true,
 							},
 						},
 						CustomType: ConsoleType{
@@ -1745,7 +1590,6 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 							},
 						},
 						Optional: true,
-						Computed: true,
 					},
 					"enabled": schema.BoolAttribute{
 						Optional: true,
@@ -1759,11 +1603,9 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 									Attributes: map[string]schema.Attribute{
 										"files": schema.Int64Attribute{
 											Optional: true,
-											Computed: true,
 										},
 										"size": schema.StringAttribute{
 											Optional: true,
-											Computed: true,
 										},
 									},
 									CustomType: ArchiveType{
@@ -1772,7 +1614,6 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 										},
 									},
 									Optional: true,
-									Computed: true,
 								},
 								"contents": schema.ListNestedAttribute{
 									NestedObject: schema.NestedAttributeObject{
@@ -1829,23 +1670,18 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 										},
 									},
 									Optional: true,
-									Computed: true,
 								},
 								"explicit_priority": schema.BoolAttribute{
 									Optional: true,
-									Computed: true,
 								},
 								"file": schema.StringAttribute{
 									Optional: true,
-									Computed: true,
 								},
 								"match": schema.StringAttribute{
 									Optional: true,
-									Computed: true,
 								},
 								"structured_data": schema.BoolAttribute{
 									Optional: true,
-									Computed: true,
 								},
 							},
 							CustomType: FilesType{
@@ -1855,11 +1691,9 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 							},
 						},
 						Optional: true,
-						Computed: true,
 					},
 					"network": schema.StringAttribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "if source_address is configured, will use the vlan firstly otherwise use source_ip",
 						MarkdownDescription: "if source_address is configured, will use the vlan firstly otherwise use source_ip",
 					},
@@ -1926,11 +1760,9 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 										},
 									},
 									Optional: true,
-									Computed: true,
 								},
 								"explicit_priority": schema.BoolAttribute{
 									Optional: true,
-									Computed: true,
 								},
 								"facility": schema.StringAttribute{
 									Optional: true,
@@ -1960,11 +1792,9 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 								},
 								"host": schema.StringAttribute{
 									Optional: true,
-									Computed: true,
 								},
 								"match": schema.StringAttribute{
 									Optional: true,
-									Computed: true,
 								},
 								"port": schema.Int64Attribute{
 									Optional: true,
@@ -1985,7 +1815,6 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 								},
 								"routing_instance": schema.StringAttribute{
 									Optional: true,
-									Computed: true,
 								},
 								"severity": schema.StringAttribute{
 									Optional: true,
@@ -2007,17 +1836,14 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 								},
 								"source_address": schema.StringAttribute{
 									Optional:            true,
-									Computed:            true,
 									Description:         "if source_address is configured, will use the vlan firstly otherwise use source_ip",
 									MarkdownDescription: "if source_address is configured, will use the vlan firstly otherwise use source_ip",
 								},
 								"structured_data": schema.BoolAttribute{
 									Optional: true,
-									Computed: true,
 								},
 								"tag": schema.StringAttribute{
 									Optional: true,
-									Computed: true,
 								},
 							},
 							CustomType: ServersType{
@@ -2027,11 +1853,9 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 							},
 						},
 						Optional: true,
-						Computed: true,
 					},
 					"time_format": schema.StringAttribute{
 						Optional: true,
-						Computed: true,
 						Validators: []validator.String{
 							stringvalidator.OneOf(
 								"",
@@ -2099,15 +1923,12 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 										},
 									},
 									Optional: true,
-									Computed: true,
 								},
 								"match": schema.StringAttribute{
 									Optional: true,
-									Computed: true,
 								},
 								"user": schema.StringAttribute{
 									Optional: true,
-									Computed: true,
 								},
 							},
 							CustomType: UsersType{
@@ -2117,7 +1938,6 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 							},
 						},
 						Optional: true,
-						Computed: true,
 					},
 				},
 				CustomType: RemoteSyslogType{
@@ -2126,15 +1946,12 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 					},
 				},
 				Optional: true,
-				Computed: true,
 			},
 			"role": schema.StringAttribute{
 				Optional: true,
-				Computed: true,
 			},
 			"router_id": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				Description:         "used for OSPF / BGP / EVPN",
 				MarkdownDescription: "used for OSPF / BGP / EVPN",
 			},
@@ -2148,13 +1965,10 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 							Attributes: map[string]schema.Attribute{
 								"client_list_name": schema.StringAttribute{
 									Optional: true,
-									Computed: true,
 								},
 								"clients": schema.ListAttribute{
 									ElementType: types.StringType,
 									Optional:    true,
-									Computed:    true,
-									Default:     listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 								},
 							},
 							CustomType: ClientListType{
@@ -2164,15 +1978,12 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 							},
 						},
 						Optional: true,
-						Computed: true,
 					},
 					"contact": schema.StringAttribute{
 						Optional: true,
-						Computed: true,
 					},
 					"description": schema.StringAttribute{
 						Optional: true,
-						Computed: true,
 					},
 					"enabled": schema.BoolAttribute{
 						Optional: true,
@@ -2181,7 +1992,6 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 					},
 					"engine_id": schema.StringAttribute{
 						Optional: true,
-						Computed: true,
 						Validators: []validator.String{
 							stringvalidator.OneOf(
 								"",
@@ -2194,11 +2004,9 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 					},
 					"location": schema.StringAttribute{
 						Optional: true,
-						Computed: true,
 					},
 					"name": schema.StringAttribute{
 						Optional: true,
-						Computed: true,
 					},
 					"network": schema.StringAttribute{
 						Optional: true,
@@ -2211,20 +2019,15 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 								"categories": schema.ListAttribute{
 									ElementType: types.StringType,
 									Optional:    true,
-									Computed:    true,
-									Default:     listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 								},
 								"group_name": schema.StringAttribute{
 									Optional:            true,
-									Computed:            true,
 									Description:         "Categories list can refer to https://www.juniper.net/documentation/software/topics/task/configuration/snmp_trap-groups-configuring-junos-nm.html",
 									MarkdownDescription: "Categories list can refer to https://www.juniper.net/documentation/software/topics/task/configuration/snmp_trap-groups-configuring-junos-nm.html",
 								},
 								"targets": schema.ListAttribute{
 									ElementType: types.StringType,
 									Optional:    true,
-									Computed:    true,
-									Default:     listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 								},
 								"version": schema.StringAttribute{
 									Optional: true,
@@ -2247,28 +2050,23 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 							},
 						},
 						Optional: true,
-						Computed: true,
 					},
 					"v2c_config": schema.ListNestedAttribute{
 						NestedObject: schema.NestedAttributeObject{
 							Attributes: map[string]schema.Attribute{
 								"authorization": schema.StringAttribute{
 									Optional: true,
-									Computed: true,
 								},
 								"client_list_name": schema.StringAttribute{
 									Optional:            true,
-									Computed:            true,
 									Description:         "client_list_name here should refer to client_list above",
 									MarkdownDescription: "client_list_name here should refer to client_list above",
 								},
 								"community_name": schema.StringAttribute{
 									Optional: true,
-									Computed: true,
 								},
 								"view": schema.StringAttribute{
 									Optional:            true,
-									Computed:            true,
 									Description:         "view name here should be defined in views above",
 									MarkdownDescription: "view name here should be defined in views above",
 								},
@@ -2280,7 +2078,6 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 							},
 						},
 						Optional: true,
-						Computed: true,
 					},
 					"v3_config": schema.SingleNestedAttribute{
 						Attributes: map[string]schema.Attribute{
@@ -2289,15 +2086,12 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 									Attributes: map[string]schema.Attribute{
 										"name": schema.StringAttribute{
 											Optional: true,
-											Computed: true,
 										},
 										"tag": schema.StringAttribute{
 											Optional: true,
-											Computed: true,
 										},
 										"type": schema.StringAttribute{
 											Optional: true,
-											Computed: true,
 											Validators: []validator.String{
 												stringvalidator.OneOf(
 													"",
@@ -2314,25 +2108,21 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 									},
 								},
 								Optional: true,
-								Computed: true,
 							},
 							"notify_filter": schema.ListNestedAttribute{
 								NestedObject: schema.NestedAttributeObject{
 									Attributes: map[string]schema.Attribute{
 										"profile_name": schema.StringAttribute{
 											Optional: true,
-											Computed: true,
 										},
-										"contents": schema.ListNestedAttribute{
+										"snmpv3_contents": schema.ListNestedAttribute{
 											NestedObject: schema.NestedAttributeObject{
 												Attributes: map[string]schema.Attribute{
 													"include": schema.BoolAttribute{
 														Optional: true,
-														Computed: true,
 													},
 													"oid": schema.StringAttribute{
 														Optional: true,
-														Computed: true,
 													},
 												},
 												CustomType: Snmpv3ContentsType{
@@ -2342,7 +2132,6 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 												},
 											},
 											Optional: true,
-											Computed: true,
 										},
 									},
 									CustomType: NotifyFilterType{
@@ -2352,18 +2141,15 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 									},
 								},
 								Optional: true,
-								Computed: true,
 							},
 							"target_address": schema.ListNestedAttribute{
 								NestedObject: schema.NestedAttributeObject{
 									Attributes: map[string]schema.Attribute{
 										"address": schema.StringAttribute{
 											Optional: true,
-											Computed: true,
 										},
 										"address_mask": schema.StringAttribute{
 											Optional: true,
-											Computed: true,
 										},
 										"port": schema.Int64Attribute{
 											Optional: true,
@@ -2372,17 +2158,14 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 										},
 										"tag_list": schema.StringAttribute{
 											Optional:            true,
-											Computed:            true,
 											Description:         "<refer to notify tag, can be multiple with blank",
 											MarkdownDescription: "<refer to notify tag, can be multiple with blank",
 										},
 										"target_address_name": schema.StringAttribute{
 											Optional: true,
-											Computed: true,
 										},
 										"target_parameters": schema.StringAttribute{
 											Optional:            true,
-											Computed:            true,
 											Description:         "refer to notify target parameters name",
 											MarkdownDescription: "refer to notify target parameters name",
 										},
@@ -2394,14 +2177,12 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 									},
 								},
 								Optional: true,
-								Computed: true,
 							},
 							"target_parameters": schema.ListNestedAttribute{
 								NestedObject: schema.NestedAttributeObject{
 									Attributes: map[string]schema.Attribute{
 										"message_processing_model": schema.StringAttribute{
 											Optional: true,
-											Computed: true,
 											Validators: []validator.String{
 												stringvalidator.OneOf(
 													"",
@@ -2413,17 +2194,14 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 										},
 										"name": schema.StringAttribute{
 											Optional: true,
-											Computed: true,
 										},
 										"notify_filter": schema.StringAttribute{
 											Optional:            true,
-											Computed:            true,
 											Description:         "refer to profile-name in notify_filter",
 											MarkdownDescription: "refer to profile-name in notify_filter",
 										},
 										"security_level": schema.StringAttribute{
 											Optional: true,
-											Computed: true,
 											Validators: []validator.String{
 												stringvalidator.OneOf(
 													"",
@@ -2435,7 +2213,6 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 										},
 										"security_model": schema.StringAttribute{
 											Optional: true,
-											Computed: true,
 											Validators: []validator.String{
 												stringvalidator.OneOf(
 													"",
@@ -2447,7 +2224,6 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 										},
 										"security_name": schema.StringAttribute{
 											Optional:            true,
-											Computed:            true,
 											Description:         "refer to security_name in usm",
 											MarkdownDescription: "refer to security_name in usm",
 										},
@@ -2459,13 +2235,11 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 									},
 								},
 								Optional: true,
-								Computed: true,
 							},
 							"usm": schema.SingleNestedAttribute{
 								Attributes: map[string]schema.Attribute{
 									"engine_type": schema.StringAttribute{
 										Optional: true,
-										Computed: true,
 										Validators: []validator.String{
 											stringvalidator.OneOf(
 												"",
@@ -2476,16 +2250,14 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 									},
 									"engineid": schema.StringAttribute{
 										Optional:            true,
-										Computed:            true,
 										Description:         "required only if `engine_type`==`remote_engine`",
 										MarkdownDescription: "required only if `engine_type`==`remote_engine`",
 									},
-									"users": schema.ListNestedAttribute{
+									"snmpv3_users": schema.ListNestedAttribute{
 										NestedObject: schema.NestedAttributeObject{
 											Attributes: map[string]schema.Attribute{
 												"authentication_password": schema.StringAttribute{
 													Optional:            true,
-													Computed:            true,
 													Description:         "Not required if `authentication_type`==`authentication_none`\ninclude alphabetic, numeric, and special characters, but it cannot include control characters.",
 													MarkdownDescription: "Not required if `authentication_type`==`authentication_none`\ninclude alphabetic, numeric, and special characters, but it cannot include control characters.",
 													Validators: []validator.String{
@@ -2494,7 +2266,6 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 												},
 												"authentication_type": schema.StringAttribute{
 													Optional:            true,
-													Computed:            true,
 													Description:         "sha224, sha256, sha384, sha512 are supported in 21.1 and newer release",
 													MarkdownDescription: "sha224, sha256, sha384, sha512 are supported in 21.1 and newer release",
 													Validators: []validator.String{
@@ -2512,7 +2283,6 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 												},
 												"encryption_password": schema.StringAttribute{
 													Optional:            true,
-													Computed:            true,
 													Description:         "Not required if `encryption_type`==`privacy-none`\ninclude alphabetic, numeric, and special characters, but it cannot include control characters",
 													MarkdownDescription: "Not required if `encryption_type`==`privacy-none`\ninclude alphabetic, numeric, and special characters, but it cannot include control characters",
 													Validators: []validator.String{
@@ -2521,7 +2291,6 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 												},
 												"encryption_type": schema.StringAttribute{
 													Optional: true,
-													Computed: true,
 													Validators: []validator.String{
 														stringvalidator.OneOf(
 															"",
@@ -2534,7 +2303,6 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 												},
 												"name": schema.StringAttribute{
 													Optional: true,
-													Computed: true,
 												},
 											},
 											CustomType: Snmpv3UsersType{
@@ -2544,7 +2312,6 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 											},
 										},
 										Optional: true,
-										Computed: true,
 									},
 								},
 								CustomType: UsmType{
@@ -2553,7 +2320,6 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 									},
 								},
 								Optional: true,
-								Computed: true,
 							},
 							"vacm": schema.SingleNestedAttribute{
 								Attributes: map[string]schema.Attribute{
@@ -2562,32 +2328,27 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 											Attributes: map[string]schema.Attribute{
 												"group_name": schema.StringAttribute{
 													Optional: true,
-													Computed: true,
 												},
 												"prefix_list": schema.ListNestedAttribute{
 													NestedObject: schema.NestedAttributeObject{
 														Attributes: map[string]schema.Attribute{
 															"context_prefix": schema.StringAttribute{
 																Optional:            true,
-																Computed:            true,
 																Description:         "only required if `type`==`context_prefix`",
 																MarkdownDescription: "only required if `type`==`context_prefix`",
 															},
 															"notify_view": schema.StringAttribute{
 																Optional:            true,
-																Computed:            true,
 																Description:         "refer to view name",
 																MarkdownDescription: "refer to view name",
 															},
 															"read_view": schema.StringAttribute{
 																Optional:            true,
-																Computed:            true,
 																Description:         "refer to view name",
 																MarkdownDescription: "refer to view name",
 															},
 															"security_level": schema.StringAttribute{
 																Optional: true,
-																Computed: true,
 																Validators: []validator.String{
 																	stringvalidator.OneOf(
 																		"",
@@ -2599,7 +2360,6 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 															},
 															"security_model": schema.StringAttribute{
 																Optional: true,
-																Computed: true,
 																Validators: []validator.String{
 																	stringvalidator.OneOf(
 																		"",
@@ -2612,7 +2372,6 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 															},
 															"type": schema.StringAttribute{
 																Optional: true,
-																Computed: true,
 																Validators: []validator.String{
 																	stringvalidator.OneOf(
 																		"",
@@ -2622,7 +2381,6 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 															},
 															"write_view": schema.StringAttribute{
 																Optional:            true,
-																Computed:            true,
 																Description:         "refer to view name",
 																MarkdownDescription: "refer to view name",
 															},
@@ -2634,7 +2392,6 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 														},
 													},
 													Optional: true,
-													Computed: true,
 												},
 											},
 											CustomType: AccessType{
@@ -2644,13 +2401,11 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 											},
 										},
 										Optional: true,
-										Computed: true,
 									},
 									"security_to_group": schema.SingleNestedAttribute{
 										Attributes: map[string]schema.Attribute{
 											"security_model": schema.StringAttribute{
 												Optional: true,
-												Computed: true,
 												Validators: []validator.String{
 													stringvalidator.OneOf(
 														"",
@@ -2660,18 +2415,16 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 													),
 												},
 											},
-											"content": schema.ListNestedAttribute{
+											"snmpv3_vacm_content": schema.ListNestedAttribute{
 												NestedObject: schema.NestedAttributeObject{
 													Attributes: map[string]schema.Attribute{
 														"group": schema.StringAttribute{
 															Optional:            true,
-															Computed:            true,
 															Description:         "refer to group_name under access",
 															MarkdownDescription: "refer to group_name under access",
 														},
 														"security_name": schema.StringAttribute{
 															Optional: true,
-															Computed: true,
 														},
 													},
 													CustomType: Snmpv3VacmContentType{
@@ -2681,7 +2434,6 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 													},
 												},
 												Optional: true,
-												Computed: true,
 											},
 										},
 										CustomType: SecurityToGroupType{
@@ -2690,7 +2442,6 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 											},
 										},
 										Optional: true,
-										Computed: true,
 									},
 								},
 								CustomType: VacmType{
@@ -2699,7 +2450,6 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 									},
 								},
 								Optional: true,
-								Computed: true,
 							},
 						},
 						CustomType: V3ConfigType{
@@ -2708,24 +2458,20 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 							},
 						},
 						Optional: true,
-						Computed: true,
 					},
 					"views": schema.ListNestedAttribute{
 						NestedObject: schema.NestedAttributeObject{
 							Attributes: map[string]schema.Attribute{
 								"include": schema.BoolAttribute{
 									Optional:            true,
-									Computed:            true,
 									Description:         "if the root oid configured is included",
 									MarkdownDescription: "if the root oid configured is included",
 								},
 								"oid": schema.StringAttribute{
 									Optional: true,
-									Computed: true,
 								},
 								"view_name": schema.StringAttribute{
 									Optional: true,
-									Computed: true,
 								},
 							},
 							CustomType: ViewsType{
@@ -2735,7 +2481,6 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 							},
 						},
 						Optional: true,
-						Computed: true,
 					},
 				},
 				CustomType: SnmpConfigType{
@@ -2744,7 +2489,6 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 					},
 				},
 				Optional: true,
-				Computed: true,
 			},
 			"stp_config": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
@@ -2767,7 +2511,6 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 					},
 				},
 				Optional: true,
-				Computed: true,
 			},
 			"switch_mgmt": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
@@ -2813,8 +2556,6 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 										"subnet": schema.ListAttribute{
 											ElementType: types.StringType,
 											Optional:    true,
-											Computed:    true,
-											Default:     listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 										},
 									},
 									CustomType: CustomType{
@@ -2824,7 +2565,6 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 									},
 								},
 								Optional: true,
-								Computed: true,
 							},
 							"enabled": schema.BoolAttribute{
 								Optional:            true,
@@ -2848,13 +2588,11 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 							},
 						},
 						Optional:            true,
-						Computed:            true,
 						Description:         "restrict inbound-traffic to host\nwhen enabled, all traffic that is not essential to our operation will be dropped \ne.g. ntp / dns / traffic to mist will be allowed by default, if dhcpd is enabled, we'll make sure it works",
 						MarkdownDescription: "restrict inbound-traffic to host\nwhen enabled, all traffic that is not essential to our operation will be dropped \ne.g. ntp / dns / traffic to mist will be allowed by default, if dhcpd is enabled, we'll make sure it works",
 					},
 					"root_password": schema.StringAttribute{
 						Optional: true,
-						Computed: true,
 					},
 					"tacacs": schema.SingleNestedAttribute{
 						Attributes: map[string]schema.Attribute{
@@ -2874,28 +2612,23 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 							},
 							"enabled": schema.BoolAttribute{
 								Optional: true,
-								Computed: true,
 							},
 							"network": schema.StringAttribute{
 								Optional:            true,
-								Computed:            true,
 								Description:         "which network the TACACS server resides",
 								MarkdownDescription: "which network the TACACS server resides",
 							},
-							"acct_servers": schema.ListNestedAttribute{
+							"tacacct_servers": schema.ListNestedAttribute{
 								NestedObject: schema.NestedAttributeObject{
 									Attributes: map[string]schema.Attribute{
 										"host": schema.StringAttribute{
 											Optional: true,
-											Computed: true,
 										},
 										"port": schema.StringAttribute{
 											Optional: true,
-											Computed: true,
 										},
 										"secret": schema.StringAttribute{
 											Optional: true,
-											Computed: true,
 										},
 										"timeout": schema.Int64Attribute{
 											Optional: true,
@@ -2910,22 +2643,18 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 									},
 								},
 								Optional: true,
-								Computed: true,
 							},
 							"tacplus_servers": schema.ListNestedAttribute{
 								NestedObject: schema.NestedAttributeObject{
 									Attributes: map[string]schema.Attribute{
 										"host": schema.StringAttribute{
 											Optional: true,
-											Computed: true,
 										},
 										"port": schema.StringAttribute{
 											Optional: true,
-											Computed: true,
 										},
 										"secret": schema.StringAttribute{
 											Optional: true,
-											Computed: true,
 										},
 										"timeout": schema.Int64Attribute{
 											Optional: true,
@@ -2940,7 +2669,6 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 									},
 								},
 								Optional: true,
-								Computed: true,
 							},
 						},
 						CustomType: TacacsType{
@@ -2949,7 +2677,6 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 							},
 						},
 						Optional: true,
-						Computed: true,
 					},
 				},
 				CustomType: SwitchMgmtType{
@@ -2958,7 +2685,6 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 					},
 				},
 				Optional: true,
-				Computed: true,
 			},
 			"use_router_id_as_source_ip": schema.BoolAttribute{
 				Optional:            true,
@@ -2970,7 +2696,6 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 			"vars": schema.MapAttribute{
 				ElementType:         types.StringType,
 				Optional:            true,
-				Computed:            true,
 				Description:         "a dictionary of name->value, the vars can then be used in Wlans. This can overwrite those from Site Vars",
 				MarkdownDescription: "a dictionary of name->value, the vars can then be used in Wlans. This can overwrite those from Site Vars",
 			},
@@ -2981,17 +2706,14 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 							Attributes: map[string]schema.Attribute{
 								"mac": schema.StringAttribute{
 									Optional:            true,
-									Computed:            true,
 									Description:         "fpc0, same as the mac of device_id",
 									MarkdownDescription: "fpc0, same as the mac of device_id",
 								},
 								"member_id": schema.Int64Attribute{
 									Optional: true,
-									Computed: true,
 								},
 								"vc_role": schema.StringAttribute{
 									Optional:            true,
-									Computed:            true,
 									Description:         "Both vc_role master and backup will be matched to routing-engine role in Junos preprovisioned VC config",
 									MarkdownDescription: "Both vc_role master and backup will be matched to routing-engine role in Junos preprovisioned VC config",
 									Validators: []validator.String{
@@ -3011,7 +2733,6 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 							},
 						},
 						Optional:            true,
-						Computed:            true,
 						Description:         "list of Virtual Chassis members",
 						MarkdownDescription: "list of Virtual Chassis members",
 					},
@@ -3029,7 +2750,6 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 					},
 				},
 				Optional:            true,
-				Computed:            true,
 				Description:         "required for preprovisioned Virtual Chassis",
 				MarkdownDescription: "required for preprovisioned Virtual Chassis",
 			},
@@ -3037,7 +2757,6 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 				Attributes: map[string]schema.Attribute{
 					"enabled": schema.BoolAttribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "whether to enable VRF (when supported on the device)",
 						MarkdownDescription: "whether to enable VRF (when supported on the device)",
 					},
@@ -3048,40 +2767,35 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 					},
 				},
 				Optional: true,
-				Computed: true,
 			},
 			"vrf_instances": schema.MapNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
-						"extra_routes": schema.MapNestedAttribute{
+						"networks": schema.ListAttribute{
+							ElementType: types.StringType,
+							Optional:    true,
+							Validators: []validator.List{
+								listvalidator.UniqueValues(),
+							},
+						},
+						"vrf_extra_routes": schema.MapNestedAttribute{
 							NestedObject: schema.NestedAttributeObject{
 								Attributes: map[string]schema.Attribute{
 									"via": schema.StringAttribute{
 										Optional:            true,
-										Computed:            true,
 										Description:         "Next-hop address",
 										MarkdownDescription: "Next-hop address",
 									},
 								},
-								CustomType: ExtraRoutesType{
+								CustomType: VrfExtraRoutesType{
 									ObjectType: types.ObjectType{
-										AttrTypes: ExtraRoutesValue{}.AttributeTypes(ctx),
+										AttrTypes: VrfExtraRoutesValue{}.AttributeTypes(ctx),
 									},
 								},
 							},
 							Optional:            true,
-							Computed:            true,
 							Description:         "Property key is the destination CIDR (e.g. \"10.0.0.0/8\")",
 							MarkdownDescription: "Property key is the destination CIDR (e.g. \"10.0.0.0/8\")",
-						},
-						"networks": schema.ListAttribute{
-							ElementType: types.StringType,
-							Optional:    true,
-							Computed:    true,
-							Validators: []validator.List{
-								listvalidator.UniqueValues(),
-							},
-							Default: listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 						},
 					},
 					CustomType: VrfInstancesType{
@@ -3091,7 +2805,6 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 					},
 				},
 				Optional:            true,
-				Computed:            true,
 				Description:         "Property key is the network name",
 				MarkdownDescription: "Property key is the network name",
 			},
@@ -3099,14 +2812,12 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 				Attributes: map[string]schema.Attribute{
 					"enabled": schema.BoolAttribute{
 						Optional: true,
-						Computed: true,
 					},
 					"groups": schema.MapNestedAttribute{
 						NestedObject: schema.NestedAttributeObject{
 							Attributes: map[string]schema.Attribute{
 								"priority": schema.Int64Attribute{
 									Optional: true,
-									Computed: true,
 								},
 							},
 							CustomType: GroupsType{
@@ -3116,7 +2827,6 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 							},
 						},
 						Optional:            true,
-						Computed:            true,
 						Description:         "Property key is the VRRP name",
 						MarkdownDescription: "Property key is the VRRP name",
 					},
@@ -3127,19 +2837,16 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 					},
 				},
 				Optional:            true,
-				Computed:            true,
 				Description:         "Junos VRRP config",
 				MarkdownDescription: "Junos VRRP config",
 			},
 			"x": schema.Float64Attribute{
 				Optional:            true,
-				Computed:            true,
 				Description:         "x in pixel",
 				MarkdownDescription: "x in pixel",
 			},
 			"y": schema.Float64Attribute{
 				Optional:            true,
-				Computed:            true,
 				Description:         "y in pixel",
 				MarkdownDescription: "y in pixel",
 			},
@@ -3151,6 +2858,7 @@ type DeviceSwitchModel struct {
 	AclPolicies           types.List          `tfsdk:"acl_policies"`
 	AclTags               types.Map           `tfsdk:"acl_tags"`
 	AdditionalConfigCmds  types.List          `tfsdk:"additional_config_cmds"`
+	DeviceId              types.String        `tfsdk:"device_id"`
 	DeviceprofileId       types.String        `tfsdk:"deviceprofile_id"`
 	DhcpSnooping          DhcpSnoopingValue   `tfsdk:"dhcp_snooping"`
 	DhcpdConfig           DhcpdConfigValue    `tfsdk:"dhcpd_config"`
@@ -3159,7 +2867,6 @@ type DeviceSwitchModel struct {
 	DnsSuffix             types.List          `tfsdk:"dns_suffix"`
 	ExtraRoutes           types.Map           `tfsdk:"extra_routes"`
 	ExtraRoutes6          types.Map           `tfsdk:"extra_routes6"`
-	Id                    types.String        `tfsdk:"id"`
 	Image1Url             types.String        `tfsdk:"image1_url"`
 	Image2Url             types.String        `tfsdk:"image2_url"`
 	Image3Url             types.String        `tfsdk:"image3_url"`
@@ -10388,26 +10095,384 @@ func (v ExtraRoutes6Value) AttributeTypes(ctx context.Context) map[string]attr.T
 	}
 }
 
+var _ basetypes.ObjectTypable = NextQualifiedType{}
 
+type NextQualifiedType struct {
+	basetypes.ObjectType
+}
 
+func (t NextQualifiedType) Equal(o attr.Type) bool {
+	other, ok := o.(NextQualifiedType)
 
+	if !ok {
+		return false
+	}
 
+	return t.ObjectType.Equal(other.ObjectType)
+}
 
+func (t NextQualifiedType) String() string {
+	return "NextQualifiedType"
+}
 
+func (t NextQualifiedType) ValueFromObject(ctx context.Context, in basetypes.ObjectValue) (basetypes.ObjectValuable, diag.Diagnostics) {
+	var diags diag.Diagnostics
 
+	attributes := in.Attributes()
 
+	metricAttribute, ok := attributes["metric"]
 
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`metric is missing from object`)
 
+		return nil, diags
+	}
 
+	metricVal, ok := metricAttribute.(basetypes.Int64Value)
 
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`metric expected to be basetypes.Int64Value, was: %T`, metricAttribute))
+	}
 
+	preferenceAttribute, ok := attributes["preference"]
 
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`preference is missing from object`)
 
+		return nil, diags
+	}
 
+	preferenceVal, ok := preferenceAttribute.(basetypes.Int64Value)
 
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`preference expected to be basetypes.Int64Value, was: %T`, preferenceAttribute))
+	}
 
+	if diags.HasError() {
+		return nil, diags
+	}
 
+	return NextQualifiedValue{
+		Metric:     metricVal,
+		Preference: preferenceVal,
+		state:      attr.ValueStateKnown,
+	}, diags
+}
 
+func NewNextQualifiedValueNull() NextQualifiedValue {
+	return NextQualifiedValue{
+		state: attr.ValueStateNull,
+	}
+}
+
+func NewNextQualifiedValueUnknown() NextQualifiedValue {
+	return NextQualifiedValue{
+		state: attr.ValueStateUnknown,
+	}
+}
+
+func NewNextQualifiedValue(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) (NextQualifiedValue, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	// Reference: https://github.com/hashicorp/terraform-plugin-framework/issues/521
+	ctx := context.Background()
+
+	for name, attributeType := range attributeTypes {
+		attribute, ok := attributes[name]
+
+		if !ok {
+			diags.AddError(
+				"Missing NextQualifiedValue Attribute Value",
+				"While creating a NextQualifiedValue value, a missing attribute value was detected. "+
+					"A NextQualifiedValue must contain values for all attributes, even if null or unknown. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("NextQualifiedValue Attribute Name (%s) Expected Type: %s", name, attributeType.String()),
+			)
+
+			continue
+		}
+
+		if !attributeType.Equal(attribute.Type(ctx)) {
+			diags.AddError(
+				"Invalid NextQualifiedValue Attribute Type",
+				"While creating a NextQualifiedValue value, an invalid attribute value was detected. "+
+					"A NextQualifiedValue must use a matching attribute type for the value. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("NextQualifiedValue Attribute Name (%s) Expected Type: %s\n", name, attributeType.String())+
+					fmt.Sprintf("NextQualifiedValue Attribute Name (%s) Given Type: %s", name, attribute.Type(ctx)),
+			)
+		}
+	}
+
+	for name := range attributes {
+		_, ok := attributeTypes[name]
+
+		if !ok {
+			diags.AddError(
+				"Extra NextQualifiedValue Attribute Value",
+				"While creating a NextQualifiedValue value, an extra attribute value was detected. "+
+					"A NextQualifiedValue must not contain values beyond the expected attribute types. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("Extra NextQualifiedValue Attribute Name: %s", name),
+			)
+		}
+	}
+
+	if diags.HasError() {
+		return NewNextQualifiedValueUnknown(), diags
+	}
+
+	metricAttribute, ok := attributes["metric"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`metric is missing from object`)
+
+		return NewNextQualifiedValueUnknown(), diags
+	}
+
+	metricVal, ok := metricAttribute.(basetypes.Int64Value)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`metric expected to be basetypes.Int64Value, was: %T`, metricAttribute))
+	}
+
+	preferenceAttribute, ok := attributes["preference"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`preference is missing from object`)
+
+		return NewNextQualifiedValueUnknown(), diags
+	}
+
+	preferenceVal, ok := preferenceAttribute.(basetypes.Int64Value)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`preference expected to be basetypes.Int64Value, was: %T`, preferenceAttribute))
+	}
+
+	if diags.HasError() {
+		return NewNextQualifiedValueUnknown(), diags
+	}
+
+	return NextQualifiedValue{
+		Metric:     metricVal,
+		Preference: preferenceVal,
+		state:      attr.ValueStateKnown,
+	}, diags
+}
+
+func NewNextQualifiedValueMust(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) NextQualifiedValue {
+	object, diags := NewNextQualifiedValue(attributeTypes, attributes)
+
+	if diags.HasError() {
+		// This could potentially be added to the diag package.
+		diagsStrings := make([]string, 0, len(diags))
+
+		for _, diagnostic := range diags {
+			diagsStrings = append(diagsStrings, fmt.Sprintf(
+				"%s | %s | %s",
+				diagnostic.Severity(),
+				diagnostic.Summary(),
+				diagnostic.Detail()))
+		}
+
+		panic("NewNextQualifiedValueMust received error(s): " + strings.Join(diagsStrings, "\n"))
+	}
+
+	return object
+}
+
+func (t NextQualifiedType) ValueFromTerraform(ctx context.Context, in tftypes.Value) (attr.Value, error) {
+	if in.Type() == nil {
+		return NewNextQualifiedValueNull(), nil
+	}
+
+	if !in.Type().Equal(t.TerraformType(ctx)) {
+		return nil, fmt.Errorf("expected %s, got %s", t.TerraformType(ctx), in.Type())
+	}
+
+	if !in.IsKnown() {
+		return NewNextQualifiedValueUnknown(), nil
+	}
+
+	if in.IsNull() {
+		return NewNextQualifiedValueNull(), nil
+	}
+
+	attributes := map[string]attr.Value{}
+
+	val := map[string]tftypes.Value{}
+
+	err := in.As(&val)
+
+	if err != nil {
+		return nil, err
+	}
+
+	for k, v := range val {
+		a, err := t.AttrTypes[k].ValueFromTerraform(ctx, v)
+
+		if err != nil {
+			return nil, err
+		}
+
+		attributes[k] = a
+	}
+
+	return NewNextQualifiedValueMust(NextQualifiedValue{}.AttributeTypes(ctx), attributes), nil
+}
+
+func (t NextQualifiedType) ValueType(ctx context.Context) attr.Value {
+	return NextQualifiedValue{}
+}
+
+var _ basetypes.ObjectValuable = NextQualifiedValue{}
+
+type NextQualifiedValue struct {
+	Metric     basetypes.Int64Value `tfsdk:"metric"`
+	Preference basetypes.Int64Value `tfsdk:"preference"`
+	state      attr.ValueState
+}
+
+func (v NextQualifiedValue) ToTerraformValue(ctx context.Context) (tftypes.Value, error) {
+	attrTypes := make(map[string]tftypes.Type, 2)
+
+	var val tftypes.Value
+	var err error
+
+	attrTypes["metric"] = basetypes.Int64Type{}.TerraformType(ctx)
+	attrTypes["preference"] = basetypes.Int64Type{}.TerraformType(ctx)
+
+	objectType := tftypes.Object{AttributeTypes: attrTypes}
+
+	switch v.state {
+	case attr.ValueStateKnown:
+		vals := make(map[string]tftypes.Value, 2)
+
+		val, err = v.Metric.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["metric"] = val
+
+		val, err = v.Preference.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["preference"] = val
+
+		if err := tftypes.ValidateValue(objectType, vals); err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		return tftypes.NewValue(objectType, vals), nil
+	case attr.ValueStateNull:
+		return tftypes.NewValue(objectType, nil), nil
+	case attr.ValueStateUnknown:
+		return tftypes.NewValue(objectType, tftypes.UnknownValue), nil
+	default:
+		panic(fmt.Sprintf("unhandled Object state in ToTerraformValue: %s", v.state))
+	}
+}
+
+func (v NextQualifiedValue) IsNull() bool {
+	return v.state == attr.ValueStateNull
+}
+
+func (v NextQualifiedValue) IsUnknown() bool {
+	return v.state == attr.ValueStateUnknown
+}
+
+func (v NextQualifiedValue) String() string {
+	return "NextQualifiedValue"
+}
+
+func (v NextQualifiedValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	attributeTypes := map[string]attr.Type{
+		"metric":     basetypes.Int64Type{},
+		"preference": basetypes.Int64Type{},
+	}
+
+	if v.IsNull() {
+		return types.ObjectNull(attributeTypes), diags
+	}
+
+	if v.IsUnknown() {
+		return types.ObjectUnknown(attributeTypes), diags
+	}
+
+	objVal, diags := types.ObjectValue(
+		attributeTypes,
+		map[string]attr.Value{
+			"metric":     v.Metric,
+			"preference": v.Preference,
+		})
+
+	return objVal, diags
+}
+
+func (v NextQualifiedValue) Equal(o attr.Value) bool {
+	other, ok := o.(NextQualifiedValue)
+
+	if !ok {
+		return false
+	}
+
+	if v.state != other.state {
+		return false
+	}
+
+	if v.state != attr.ValueStateKnown {
+		return true
+	}
+
+	if !v.Metric.Equal(other.Metric) {
+		return false
+	}
+
+	if !v.Preference.Equal(other.Preference) {
+		return false
+	}
+
+	return true
+}
+
+func (v NextQualifiedValue) Type(ctx context.Context) attr.Type {
+	return NextQualifiedType{
+		basetypes.ObjectType{
+			AttrTypes: v.AttributeTypes(ctx),
+		},
+	}
+}
+
+func (v NextQualifiedValue) AttributeTypes(ctx context.Context) map[string]attr.Type {
+	return map[string]attr.Type{
+		"metric":     basetypes.Int64Type{},
+		"preference": basetypes.Int64Type{},
+	}
+}
 
 var _ basetypes.ObjectTypable = IpConfigType{}
 
@@ -12008,6 +12073,24 @@ func (t OobIpConfigType) ValueFromObject(ctx context.Context, in basetypes.Objec
 
 	attributes := in.Attributes()
 
+	gatewayAttribute, ok := attributes["gateway"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`gateway is missing from object`)
+
+		return nil, diags
+	}
+
+	gatewayVal, ok := gatewayAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`gateway expected to be basetypes.StringValue, was: %T`, gatewayAttribute))
+	}
+
 	ipAttribute, ok := attributes["ip"]
 
 	if !ok {
@@ -12121,6 +12204,7 @@ func (t OobIpConfigType) ValueFromObject(ctx context.Context, in basetypes.Objec
 	}
 
 	return OobIpConfigValue{
+		Gateway:              gatewayVal,
 		Ip:                   ipVal,
 		Netmask:              netmaskVal,
 		Network:              networkVal,
@@ -12194,6 +12278,24 @@ func NewOobIpConfigValue(attributeTypes map[string]attr.Type, attributes map[str
 		return NewOobIpConfigValueUnknown(), diags
 	}
 
+	gatewayAttribute, ok := attributes["gateway"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`gateway is missing from object`)
+
+		return NewOobIpConfigValueUnknown(), diags
+	}
+
+	gatewayVal, ok := gatewayAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`gateway expected to be basetypes.StringValue, was: %T`, gatewayAttribute))
+	}
+
 	ipAttribute, ok := attributes["ip"]
 
 	if !ok {
@@ -12307,6 +12409,7 @@ func NewOobIpConfigValue(attributeTypes map[string]attr.Type, attributes map[str
 	}
 
 	return OobIpConfigValue{
+		Gateway:              gatewayVal,
 		Ip:                   ipVal,
 		Netmask:              netmaskVal,
 		Network:              networkVal,
@@ -12385,6 +12488,7 @@ func (t OobIpConfigType) ValueType(ctx context.Context) attr.Value {
 var _ basetypes.ObjectValuable = OobIpConfigValue{}
 
 type OobIpConfigValue struct {
+	Gateway              basetypes.StringValue `tfsdk:"gateway"`
 	Ip                   basetypes.StringValue `tfsdk:"ip"`
 	Netmask              basetypes.StringValue `tfsdk:"netmask"`
 	Network              basetypes.StringValue `tfsdk:"network"`
@@ -12395,11 +12499,12 @@ type OobIpConfigValue struct {
 }
 
 func (v OobIpConfigValue) ToTerraformValue(ctx context.Context) (tftypes.Value, error) {
-	attrTypes := make(map[string]tftypes.Type, 6)
+	attrTypes := make(map[string]tftypes.Type, 7)
 
 	var val tftypes.Value
 	var err error
 
+	attrTypes["gateway"] = basetypes.StringType{}.TerraformType(ctx)
 	attrTypes["ip"] = basetypes.StringType{}.TerraformType(ctx)
 	attrTypes["netmask"] = basetypes.StringType{}.TerraformType(ctx)
 	attrTypes["network"] = basetypes.StringType{}.TerraformType(ctx)
@@ -12411,7 +12516,15 @@ func (v OobIpConfigValue) ToTerraformValue(ctx context.Context) (tftypes.Value, 
 
 	switch v.state {
 	case attr.ValueStateKnown:
-		vals := make(map[string]tftypes.Value, 6)
+		vals := make(map[string]tftypes.Value, 7)
+
+		val, err = v.Gateway.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["gateway"] = val
 
 		val, err = v.Ip.ToTerraformValue(ctx)
 
@@ -12491,6 +12604,7 @@ func (v OobIpConfigValue) ToObjectValue(ctx context.Context) (basetypes.ObjectVa
 	var diags diag.Diagnostics
 
 	attributeTypes := map[string]attr.Type{
+		"gateway":                   basetypes.StringType{},
 		"ip":                        basetypes.StringType{},
 		"netmask":                   basetypes.StringType{},
 		"network":                   basetypes.StringType{},
@@ -12510,6 +12624,7 @@ func (v OobIpConfigValue) ToObjectValue(ctx context.Context) (basetypes.ObjectVa
 	objVal, diags := types.ObjectValue(
 		attributeTypes,
 		map[string]attr.Value{
+			"gateway":                   v.Gateway,
 			"ip":                        v.Ip,
 			"netmask":                   v.Netmask,
 			"network":                   v.Network,
@@ -12534,6 +12649,10 @@ func (v OobIpConfigValue) Equal(o attr.Value) bool {
 
 	if v.state != attr.ValueStateKnown {
 		return true
+	}
+
+	if !v.Gateway.Equal(other.Gateway) {
+		return false
 	}
 
 	if !v.Ip.Equal(other.Ip) {
@@ -12573,6 +12692,7 @@ func (v OobIpConfigValue) Type(ctx context.Context) attr.Type {
 
 func (v OobIpConfigValue) AttributeTypes(ctx context.Context) map[string]attr.Type {
 	return map[string]attr.Type{
+		"gateway":                   basetypes.StringType{},
 		"ip":                        basetypes.StringType{},
 		"netmask":                   basetypes.StringType{},
 		"network":                   basetypes.StringType{},
@@ -23899,47 +24019,763 @@ func (v FilesValue) AttributeTypes(ctx context.Context) map[string]attr.Type {
 	}
 }
 
+var _ basetypes.ObjectTypable = ArchiveType{}
 
+type ArchiveType struct {
+	basetypes.ObjectType
+}
 
+func (t ArchiveType) Equal(o attr.Type) bool {
+	other, ok := o.(ArchiveType)
 
+	if !ok {
+		return false
+	}
 
+	return t.ObjectType.Equal(other.ObjectType)
+}
 
+func (t ArchiveType) String() string {
+	return "ArchiveType"
+}
 
+func (t ArchiveType) ValueFromObject(ctx context.Context, in basetypes.ObjectValue) (basetypes.ObjectValuable, diag.Diagnostics) {
+	var diags diag.Diagnostics
 
+	attributes := in.Attributes()
 
+	filesAttribute, ok := attributes["files"]
 
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`files is missing from object`)
 
+		return nil, diags
+	}
 
+	filesVal, ok := filesAttribute.(basetypes.Int64Value)
 
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`files expected to be basetypes.Int64Value, was: %T`, filesAttribute))
+	}
 
+	sizeAttribute, ok := attributes["size"]
 
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`size is missing from object`)
 
+		return nil, diags
+	}
 
+	sizeVal, ok := sizeAttribute.(basetypes.StringValue)
 
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`size expected to be basetypes.StringValue, was: %T`, sizeAttribute))
+	}
 
+	if diags.HasError() {
+		return nil, diags
+	}
 
+	return ArchiveValue{
+		Files: filesVal,
+		Size:  sizeVal,
+		state: attr.ValueStateKnown,
+	}, diags
+}
 
+func NewArchiveValueNull() ArchiveValue {
+	return ArchiveValue{
+		state: attr.ValueStateNull,
+	}
+}
 
+func NewArchiveValueUnknown() ArchiveValue {
+	return ArchiveValue{
+		state: attr.ValueStateUnknown,
+	}
+}
 
+func NewArchiveValue(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) (ArchiveValue, diag.Diagnostics) {
+	var diags diag.Diagnostics
 
+	// Reference: https://github.com/hashicorp/terraform-plugin-framework/issues/521
+	ctx := context.Background()
 
+	for name, attributeType := range attributeTypes {
+		attribute, ok := attributes[name]
 
+		if !ok {
+			diags.AddError(
+				"Missing ArchiveValue Attribute Value",
+				"While creating a ArchiveValue value, a missing attribute value was detected. "+
+					"A ArchiveValue must contain values for all attributes, even if null or unknown. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("ArchiveValue Attribute Name (%s) Expected Type: %s", name, attributeType.String()),
+			)
 
+			continue
+		}
 
+		if !attributeType.Equal(attribute.Type(ctx)) {
+			diags.AddError(
+				"Invalid ArchiveValue Attribute Type",
+				"While creating a ArchiveValue value, an invalid attribute value was detected. "+
+					"A ArchiveValue must use a matching attribute type for the value. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("ArchiveValue Attribute Name (%s) Expected Type: %s\n", name, attributeType.String())+
+					fmt.Sprintf("ArchiveValue Attribute Name (%s) Given Type: %s", name, attribute.Type(ctx)),
+			)
+		}
+	}
 
+	for name := range attributes {
+		_, ok := attributeTypes[name]
 
+		if !ok {
+			diags.AddError(
+				"Extra ArchiveValue Attribute Value",
+				"While creating a ArchiveValue value, an extra attribute value was detected. "+
+					"A ArchiveValue must not contain values beyond the expected attribute types. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("Extra ArchiveValue Attribute Name: %s", name),
+			)
+		}
+	}
 
+	if diags.HasError() {
+		return NewArchiveValueUnknown(), diags
+	}
 
+	filesAttribute, ok := attributes["files"]
 
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`files is missing from object`)
 
+		return NewArchiveValueUnknown(), diags
+	}
 
+	filesVal, ok := filesAttribute.(basetypes.Int64Value)
 
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`files expected to be basetypes.Int64Value, was: %T`, filesAttribute))
+	}
 
+	sizeAttribute, ok := attributes["size"]
 
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`size is missing from object`)
 
+		return NewArchiveValueUnknown(), diags
+	}
 
+	sizeVal, ok := sizeAttribute.(basetypes.StringValue)
 
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`size expected to be basetypes.StringValue, was: %T`, sizeAttribute))
+	}
 
+	if diags.HasError() {
+		return NewArchiveValueUnknown(), diags
+	}
+
+	return ArchiveValue{
+		Files: filesVal,
+		Size:  sizeVal,
+		state: attr.ValueStateKnown,
+	}, diags
+}
+
+func NewArchiveValueMust(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) ArchiveValue {
+	object, diags := NewArchiveValue(attributeTypes, attributes)
+
+	if diags.HasError() {
+		// This could potentially be added to the diag package.
+		diagsStrings := make([]string, 0, len(diags))
+
+		for _, diagnostic := range diags {
+			diagsStrings = append(diagsStrings, fmt.Sprintf(
+				"%s | %s | %s",
+				diagnostic.Severity(),
+				diagnostic.Summary(),
+				diagnostic.Detail()))
+		}
+
+		panic("NewArchiveValueMust received error(s): " + strings.Join(diagsStrings, "\n"))
+	}
+
+	return object
+}
+
+func (t ArchiveType) ValueFromTerraform(ctx context.Context, in tftypes.Value) (attr.Value, error) {
+	if in.Type() == nil {
+		return NewArchiveValueNull(), nil
+	}
+
+	if !in.Type().Equal(t.TerraformType(ctx)) {
+		return nil, fmt.Errorf("expected %s, got %s", t.TerraformType(ctx), in.Type())
+	}
+
+	if !in.IsKnown() {
+		return NewArchiveValueUnknown(), nil
+	}
+
+	if in.IsNull() {
+		return NewArchiveValueNull(), nil
+	}
+
+	attributes := map[string]attr.Value{}
+
+	val := map[string]tftypes.Value{}
+
+	err := in.As(&val)
+
+	if err != nil {
+		return nil, err
+	}
+
+	for k, v := range val {
+		a, err := t.AttrTypes[k].ValueFromTerraform(ctx, v)
+
+		if err != nil {
+			return nil, err
+		}
+
+		attributes[k] = a
+	}
+
+	return NewArchiveValueMust(ArchiveValue{}.AttributeTypes(ctx), attributes), nil
+}
+
+func (t ArchiveType) ValueType(ctx context.Context) attr.Value {
+	return ArchiveValue{}
+}
+
+var _ basetypes.ObjectValuable = ArchiveValue{}
+
+type ArchiveValue struct {
+	Files basetypes.Int64Value  `tfsdk:"files"`
+	Size  basetypes.StringValue `tfsdk:"size"`
+	state attr.ValueState
+}
+
+func (v ArchiveValue) ToTerraformValue(ctx context.Context) (tftypes.Value, error) {
+	attrTypes := make(map[string]tftypes.Type, 2)
+
+	var val tftypes.Value
+	var err error
+
+	attrTypes["files"] = basetypes.Int64Type{}.TerraformType(ctx)
+	attrTypes["size"] = basetypes.StringType{}.TerraformType(ctx)
+
+	objectType := tftypes.Object{AttributeTypes: attrTypes}
+
+	switch v.state {
+	case attr.ValueStateKnown:
+		vals := make(map[string]tftypes.Value, 2)
+
+		val, err = v.Files.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["files"] = val
+
+		val, err = v.Size.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["size"] = val
+
+		if err := tftypes.ValidateValue(objectType, vals); err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		return tftypes.NewValue(objectType, vals), nil
+	case attr.ValueStateNull:
+		return tftypes.NewValue(objectType, nil), nil
+	case attr.ValueStateUnknown:
+		return tftypes.NewValue(objectType, tftypes.UnknownValue), nil
+	default:
+		panic(fmt.Sprintf("unhandled Object state in ToTerraformValue: %s", v.state))
+	}
+}
+
+func (v ArchiveValue) IsNull() bool {
+	return v.state == attr.ValueStateNull
+}
+
+func (v ArchiveValue) IsUnknown() bool {
+	return v.state == attr.ValueStateUnknown
+}
+
+func (v ArchiveValue) String() string {
+	return "ArchiveValue"
+}
+
+func (v ArchiveValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	attributeTypes := map[string]attr.Type{
+		"files": basetypes.Int64Type{},
+		"size":  basetypes.StringType{},
+	}
+
+	if v.IsNull() {
+		return types.ObjectNull(attributeTypes), diags
+	}
+
+	if v.IsUnknown() {
+		return types.ObjectUnknown(attributeTypes), diags
+	}
+
+	objVal, diags := types.ObjectValue(
+		attributeTypes,
+		map[string]attr.Value{
+			"files": v.Files,
+			"size":  v.Size,
+		})
+
+	return objVal, diags
+}
+
+func (v ArchiveValue) Equal(o attr.Value) bool {
+	other, ok := o.(ArchiveValue)
+
+	if !ok {
+		return false
+	}
+
+	if v.state != other.state {
+		return false
+	}
+
+	if v.state != attr.ValueStateKnown {
+		return true
+	}
+
+	if !v.Files.Equal(other.Files) {
+		return false
+	}
+
+	if !v.Size.Equal(other.Size) {
+		return false
+	}
+
+	return true
+}
+
+func (v ArchiveValue) Type(ctx context.Context) attr.Type {
+	return ArchiveType{
+		basetypes.ObjectType{
+			AttrTypes: v.AttributeTypes(ctx),
+		},
+	}
+}
+
+func (v ArchiveValue) AttributeTypes(ctx context.Context) map[string]attr.Type {
+	return map[string]attr.Type{
+		"files": basetypes.Int64Type{},
+		"size":  basetypes.StringType{},
+	}
+}
+
+var _ basetypes.ObjectTypable = ContentsType{}
+
+type ContentsType struct {
+	basetypes.ObjectType
+}
+
+func (t ContentsType) Equal(o attr.Type) bool {
+	other, ok := o.(ContentsType)
+
+	if !ok {
+		return false
+	}
+
+	return t.ObjectType.Equal(other.ObjectType)
+}
+
+func (t ContentsType) String() string {
+	return "ContentsType"
+}
+
+func (t ContentsType) ValueFromObject(ctx context.Context, in basetypes.ObjectValue) (basetypes.ObjectValuable, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	attributes := in.Attributes()
+
+	facilityAttribute, ok := attributes["facility"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`facility is missing from object`)
+
+		return nil, diags
+	}
+
+	facilityVal, ok := facilityAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`facility expected to be basetypes.StringValue, was: %T`, facilityAttribute))
+	}
+
+	severityAttribute, ok := attributes["severity"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`severity is missing from object`)
+
+		return nil, diags
+	}
+
+	severityVal, ok := severityAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`severity expected to be basetypes.StringValue, was: %T`, severityAttribute))
+	}
+
+	if diags.HasError() {
+		return nil, diags
+	}
+
+	return ContentsValue{
+		Facility: facilityVal,
+		Severity: severityVal,
+		state:    attr.ValueStateKnown,
+	}, diags
+}
+
+func NewContentsValueNull() ContentsValue {
+	return ContentsValue{
+		state: attr.ValueStateNull,
+	}
+}
+
+func NewContentsValueUnknown() ContentsValue {
+	return ContentsValue{
+		state: attr.ValueStateUnknown,
+	}
+}
+
+func NewContentsValue(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) (ContentsValue, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	// Reference: https://github.com/hashicorp/terraform-plugin-framework/issues/521
+	ctx := context.Background()
+
+	for name, attributeType := range attributeTypes {
+		attribute, ok := attributes[name]
+
+		if !ok {
+			diags.AddError(
+				"Missing ContentsValue Attribute Value",
+				"While creating a ContentsValue value, a missing attribute value was detected. "+
+					"A ContentsValue must contain values for all attributes, even if null or unknown. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("ContentsValue Attribute Name (%s) Expected Type: %s", name, attributeType.String()),
+			)
+
+			continue
+		}
+
+		if !attributeType.Equal(attribute.Type(ctx)) {
+			diags.AddError(
+				"Invalid ContentsValue Attribute Type",
+				"While creating a ContentsValue value, an invalid attribute value was detected. "+
+					"A ContentsValue must use a matching attribute type for the value. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("ContentsValue Attribute Name (%s) Expected Type: %s\n", name, attributeType.String())+
+					fmt.Sprintf("ContentsValue Attribute Name (%s) Given Type: %s", name, attribute.Type(ctx)),
+			)
+		}
+	}
+
+	for name := range attributes {
+		_, ok := attributeTypes[name]
+
+		if !ok {
+			diags.AddError(
+				"Extra ContentsValue Attribute Value",
+				"While creating a ContentsValue value, an extra attribute value was detected. "+
+					"A ContentsValue must not contain values beyond the expected attribute types. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("Extra ContentsValue Attribute Name: %s", name),
+			)
+		}
+	}
+
+	if diags.HasError() {
+		return NewContentsValueUnknown(), diags
+	}
+
+	facilityAttribute, ok := attributes["facility"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`facility is missing from object`)
+
+		return NewContentsValueUnknown(), diags
+	}
+
+	facilityVal, ok := facilityAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`facility expected to be basetypes.StringValue, was: %T`, facilityAttribute))
+	}
+
+	severityAttribute, ok := attributes["severity"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`severity is missing from object`)
+
+		return NewContentsValueUnknown(), diags
+	}
+
+	severityVal, ok := severityAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`severity expected to be basetypes.StringValue, was: %T`, severityAttribute))
+	}
+
+	if diags.HasError() {
+		return NewContentsValueUnknown(), diags
+	}
+
+	return ContentsValue{
+		Facility: facilityVal,
+		Severity: severityVal,
+		state:    attr.ValueStateKnown,
+	}, diags
+}
+
+func NewContentsValueMust(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) ContentsValue {
+	object, diags := NewContentsValue(attributeTypes, attributes)
+
+	if diags.HasError() {
+		// This could potentially be added to the diag package.
+		diagsStrings := make([]string, 0, len(diags))
+
+		for _, diagnostic := range diags {
+			diagsStrings = append(diagsStrings, fmt.Sprintf(
+				"%s | %s | %s",
+				diagnostic.Severity(),
+				diagnostic.Summary(),
+				diagnostic.Detail()))
+		}
+
+		panic("NewContentsValueMust received error(s): " + strings.Join(diagsStrings, "\n"))
+	}
+
+	return object
+}
+
+func (t ContentsType) ValueFromTerraform(ctx context.Context, in tftypes.Value) (attr.Value, error) {
+	if in.Type() == nil {
+		return NewContentsValueNull(), nil
+	}
+
+	if !in.Type().Equal(t.TerraformType(ctx)) {
+		return nil, fmt.Errorf("expected %s, got %s", t.TerraformType(ctx), in.Type())
+	}
+
+	if !in.IsKnown() {
+		return NewContentsValueUnknown(), nil
+	}
+
+	if in.IsNull() {
+		return NewContentsValueNull(), nil
+	}
+
+	attributes := map[string]attr.Value{}
+
+	val := map[string]tftypes.Value{}
+
+	err := in.As(&val)
+
+	if err != nil {
+		return nil, err
+	}
+
+	for k, v := range val {
+		a, err := t.AttrTypes[k].ValueFromTerraform(ctx, v)
+
+		if err != nil {
+			return nil, err
+		}
+
+		attributes[k] = a
+	}
+
+	return NewContentsValueMust(ContentsValue{}.AttributeTypes(ctx), attributes), nil
+}
+
+func (t ContentsType) ValueType(ctx context.Context) attr.Value {
+	return ContentsValue{}
+}
+
+var _ basetypes.ObjectValuable = ContentsValue{}
+
+type ContentsValue struct {
+	Facility basetypes.StringValue `tfsdk:"facility"`
+	Severity basetypes.StringValue `tfsdk:"severity"`
+	state    attr.ValueState
+}
+
+func (v ContentsValue) ToTerraformValue(ctx context.Context) (tftypes.Value, error) {
+	attrTypes := make(map[string]tftypes.Type, 2)
+
+	var val tftypes.Value
+	var err error
+
+	attrTypes["facility"] = basetypes.StringType{}.TerraformType(ctx)
+	attrTypes["severity"] = basetypes.StringType{}.TerraformType(ctx)
+
+	objectType := tftypes.Object{AttributeTypes: attrTypes}
+
+	switch v.state {
+	case attr.ValueStateKnown:
+		vals := make(map[string]tftypes.Value, 2)
+
+		val, err = v.Facility.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["facility"] = val
+
+		val, err = v.Severity.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["severity"] = val
+
+		if err := tftypes.ValidateValue(objectType, vals); err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		return tftypes.NewValue(objectType, vals), nil
+	case attr.ValueStateNull:
+		return tftypes.NewValue(objectType, nil), nil
+	case attr.ValueStateUnknown:
+		return tftypes.NewValue(objectType, tftypes.UnknownValue), nil
+	default:
+		panic(fmt.Sprintf("unhandled Object state in ToTerraformValue: %s", v.state))
+	}
+}
+
+func (v ContentsValue) IsNull() bool {
+	return v.state == attr.ValueStateNull
+}
+
+func (v ContentsValue) IsUnknown() bool {
+	return v.state == attr.ValueStateUnknown
+}
+
+func (v ContentsValue) String() string {
+	return "ContentsValue"
+}
+
+func (v ContentsValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	attributeTypes := map[string]attr.Type{
+		"facility": basetypes.StringType{},
+		"severity": basetypes.StringType{},
+	}
+
+	if v.IsNull() {
+		return types.ObjectNull(attributeTypes), diags
+	}
+
+	if v.IsUnknown() {
+		return types.ObjectUnknown(attributeTypes), diags
+	}
+
+	objVal, diags := types.ObjectValue(
+		attributeTypes,
+		map[string]attr.Value{
+			"facility": v.Facility,
+			"severity": v.Severity,
+		})
+
+	return objVal, diags
+}
+
+func (v ContentsValue) Equal(o attr.Value) bool {
+	other, ok := o.(ContentsValue)
+
+	if !ok {
+		return false
+	}
+
+	if v.state != other.state {
+		return false
+	}
+
+	if v.state != attr.ValueStateKnown {
+		return true
+	}
+
+	if !v.Facility.Equal(other.Facility) {
+		return false
+	}
+
+	if !v.Severity.Equal(other.Severity) {
+		return false
+	}
+
+	return true
+}
+
+func (v ContentsValue) Type(ctx context.Context) attr.Type {
+	return ContentsType{
+		basetypes.ObjectType{
+			AttrTypes: v.AttributeTypes(ctx),
+		},
+	}
+}
+
+func (v ContentsValue) AttributeTypes(ctx context.Context) map[string]attr.Type {
+	return map[string]attr.Type{
+		"facility": basetypes.StringType{},
+		"severity": basetypes.StringType{},
+	}
+}
 
 var _ basetypes.ObjectTypable = ServersType{}
 
@@ -24905,26 +25741,384 @@ func (v ServersValue) AttributeTypes(ctx context.Context) map[string]attr.Type {
 	}
 }
 
+var _ basetypes.ObjectTypable = ContentsType{}
 
+type ContentsType struct {
+	basetypes.ObjectType
+}
 
+func (t ContentsType) Equal(o attr.Type) bool {
+	other, ok := o.(ContentsType)
 
+	if !ok {
+		return false
+	}
 
+	return t.ObjectType.Equal(other.ObjectType)
+}
 
+func (t ContentsType) String() string {
+	return "ContentsType"
+}
 
+func (t ContentsType) ValueFromObject(ctx context.Context, in basetypes.ObjectValue) (basetypes.ObjectValuable, diag.Diagnostics) {
+	var diags diag.Diagnostics
 
+	attributes := in.Attributes()
 
+	facilityAttribute, ok := attributes["facility"]
 
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`facility is missing from object`)
 
+		return nil, diags
+	}
 
+	facilityVal, ok := facilityAttribute.(basetypes.StringValue)
 
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`facility expected to be basetypes.StringValue, was: %T`, facilityAttribute))
+	}
 
+	severityAttribute, ok := attributes["severity"]
 
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`severity is missing from object`)
 
+		return nil, diags
+	}
 
+	severityVal, ok := severityAttribute.(basetypes.StringValue)
 
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`severity expected to be basetypes.StringValue, was: %T`, severityAttribute))
+	}
 
+	if diags.HasError() {
+		return nil, diags
+	}
 
+	return ContentsValue{
+		Facility: facilityVal,
+		Severity: severityVal,
+		state:    attr.ValueStateKnown,
+	}, diags
+}
 
+func NewContentsValueNull() ContentsValue {
+	return ContentsValue{
+		state: attr.ValueStateNull,
+	}
+}
+
+func NewContentsValueUnknown() ContentsValue {
+	return ContentsValue{
+		state: attr.ValueStateUnknown,
+	}
+}
+
+func NewContentsValue(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) (ContentsValue, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	// Reference: https://github.com/hashicorp/terraform-plugin-framework/issues/521
+	ctx := context.Background()
+
+	for name, attributeType := range attributeTypes {
+		attribute, ok := attributes[name]
+
+		if !ok {
+			diags.AddError(
+				"Missing ContentsValue Attribute Value",
+				"While creating a ContentsValue value, a missing attribute value was detected. "+
+					"A ContentsValue must contain values for all attributes, even if null or unknown. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("ContentsValue Attribute Name (%s) Expected Type: %s", name, attributeType.String()),
+			)
+
+			continue
+		}
+
+		if !attributeType.Equal(attribute.Type(ctx)) {
+			diags.AddError(
+				"Invalid ContentsValue Attribute Type",
+				"While creating a ContentsValue value, an invalid attribute value was detected. "+
+					"A ContentsValue must use a matching attribute type for the value. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("ContentsValue Attribute Name (%s) Expected Type: %s\n", name, attributeType.String())+
+					fmt.Sprintf("ContentsValue Attribute Name (%s) Given Type: %s", name, attribute.Type(ctx)),
+			)
+		}
+	}
+
+	for name := range attributes {
+		_, ok := attributeTypes[name]
+
+		if !ok {
+			diags.AddError(
+				"Extra ContentsValue Attribute Value",
+				"While creating a ContentsValue value, an extra attribute value was detected. "+
+					"A ContentsValue must not contain values beyond the expected attribute types. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("Extra ContentsValue Attribute Name: %s", name),
+			)
+		}
+	}
+
+	if diags.HasError() {
+		return NewContentsValueUnknown(), diags
+	}
+
+	facilityAttribute, ok := attributes["facility"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`facility is missing from object`)
+
+		return NewContentsValueUnknown(), diags
+	}
+
+	facilityVal, ok := facilityAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`facility expected to be basetypes.StringValue, was: %T`, facilityAttribute))
+	}
+
+	severityAttribute, ok := attributes["severity"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`severity is missing from object`)
+
+		return NewContentsValueUnknown(), diags
+	}
+
+	severityVal, ok := severityAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`severity expected to be basetypes.StringValue, was: %T`, severityAttribute))
+	}
+
+	if diags.HasError() {
+		return NewContentsValueUnknown(), diags
+	}
+
+	return ContentsValue{
+		Facility: facilityVal,
+		Severity: severityVal,
+		state:    attr.ValueStateKnown,
+	}, diags
+}
+
+func NewContentsValueMust(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) ContentsValue {
+	object, diags := NewContentsValue(attributeTypes, attributes)
+
+	if diags.HasError() {
+		// This could potentially be added to the diag package.
+		diagsStrings := make([]string, 0, len(diags))
+
+		for _, diagnostic := range diags {
+			diagsStrings = append(diagsStrings, fmt.Sprintf(
+				"%s | %s | %s",
+				diagnostic.Severity(),
+				diagnostic.Summary(),
+				diagnostic.Detail()))
+		}
+
+		panic("NewContentsValueMust received error(s): " + strings.Join(diagsStrings, "\n"))
+	}
+
+	return object
+}
+
+func (t ContentsType) ValueFromTerraform(ctx context.Context, in tftypes.Value) (attr.Value, error) {
+	if in.Type() == nil {
+		return NewContentsValueNull(), nil
+	}
+
+	if !in.Type().Equal(t.TerraformType(ctx)) {
+		return nil, fmt.Errorf("expected %s, got %s", t.TerraformType(ctx), in.Type())
+	}
+
+	if !in.IsKnown() {
+		return NewContentsValueUnknown(), nil
+	}
+
+	if in.IsNull() {
+		return NewContentsValueNull(), nil
+	}
+
+	attributes := map[string]attr.Value{}
+
+	val := map[string]tftypes.Value{}
+
+	err := in.As(&val)
+
+	if err != nil {
+		return nil, err
+	}
+
+	for k, v := range val {
+		a, err := t.AttrTypes[k].ValueFromTerraform(ctx, v)
+
+		if err != nil {
+			return nil, err
+		}
+
+		attributes[k] = a
+	}
+
+	return NewContentsValueMust(ContentsValue{}.AttributeTypes(ctx), attributes), nil
+}
+
+func (t ContentsType) ValueType(ctx context.Context) attr.Value {
+	return ContentsValue{}
+}
+
+var _ basetypes.ObjectValuable = ContentsValue{}
+
+type ContentsValue struct {
+	Facility basetypes.StringValue `tfsdk:"facility"`
+	Severity basetypes.StringValue `tfsdk:"severity"`
+	state    attr.ValueState
+}
+
+func (v ContentsValue) ToTerraformValue(ctx context.Context) (tftypes.Value, error) {
+	attrTypes := make(map[string]tftypes.Type, 2)
+
+	var val tftypes.Value
+	var err error
+
+	attrTypes["facility"] = basetypes.StringType{}.TerraformType(ctx)
+	attrTypes["severity"] = basetypes.StringType{}.TerraformType(ctx)
+
+	objectType := tftypes.Object{AttributeTypes: attrTypes}
+
+	switch v.state {
+	case attr.ValueStateKnown:
+		vals := make(map[string]tftypes.Value, 2)
+
+		val, err = v.Facility.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["facility"] = val
+
+		val, err = v.Severity.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["severity"] = val
+
+		if err := tftypes.ValidateValue(objectType, vals); err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		return tftypes.NewValue(objectType, vals), nil
+	case attr.ValueStateNull:
+		return tftypes.NewValue(objectType, nil), nil
+	case attr.ValueStateUnknown:
+		return tftypes.NewValue(objectType, tftypes.UnknownValue), nil
+	default:
+		panic(fmt.Sprintf("unhandled Object state in ToTerraformValue: %s", v.state))
+	}
+}
+
+func (v ContentsValue) IsNull() bool {
+	return v.state == attr.ValueStateNull
+}
+
+func (v ContentsValue) IsUnknown() bool {
+	return v.state == attr.ValueStateUnknown
+}
+
+func (v ContentsValue) String() string {
+	return "ContentsValue"
+}
+
+func (v ContentsValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	attributeTypes := map[string]attr.Type{
+		"facility": basetypes.StringType{},
+		"severity": basetypes.StringType{},
+	}
+
+	if v.IsNull() {
+		return types.ObjectNull(attributeTypes), diags
+	}
+
+	if v.IsUnknown() {
+		return types.ObjectUnknown(attributeTypes), diags
+	}
+
+	objVal, diags := types.ObjectValue(
+		attributeTypes,
+		map[string]attr.Value{
+			"facility": v.Facility,
+			"severity": v.Severity,
+		})
+
+	return objVal, diags
+}
+
+func (v ContentsValue) Equal(o attr.Value) bool {
+	other, ok := o.(ContentsValue)
+
+	if !ok {
+		return false
+	}
+
+	if v.state != other.state {
+		return false
+	}
+
+	if v.state != attr.ValueStateKnown {
+		return true
+	}
+
+	if !v.Facility.Equal(other.Facility) {
+		return false
+	}
+
+	if !v.Severity.Equal(other.Severity) {
+		return false
+	}
+
+	return true
+}
+
+func (v ContentsValue) Type(ctx context.Context) attr.Type {
+	return ContentsType{
+		basetypes.ObjectType{
+			AttrTypes: v.AttributeTypes(ctx),
+		},
+	}
+}
+
+func (v ContentsValue) AttributeTypes(ctx context.Context) map[string]attr.Type {
+	return map[string]attr.Type{
+		"facility": basetypes.StringType{},
+		"severity": basetypes.StringType{},
+	}
+}
 
 var _ basetypes.ObjectTypable = UsersType{}
 
@@ -25395,26 +26589,384 @@ func (v UsersValue) AttributeTypes(ctx context.Context) map[string]attr.Type {
 	}
 }
 
+var _ basetypes.ObjectTypable = ContentsType{}
 
+type ContentsType struct {
+	basetypes.ObjectType
+}
 
+func (t ContentsType) Equal(o attr.Type) bool {
+	other, ok := o.(ContentsType)
 
+	if !ok {
+		return false
+	}
 
+	return t.ObjectType.Equal(other.ObjectType)
+}
 
+func (t ContentsType) String() string {
+	return "ContentsType"
+}
 
+func (t ContentsType) ValueFromObject(ctx context.Context, in basetypes.ObjectValue) (basetypes.ObjectValuable, diag.Diagnostics) {
+	var diags diag.Diagnostics
 
+	attributes := in.Attributes()
 
+	facilityAttribute, ok := attributes["facility"]
 
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`facility is missing from object`)
 
+		return nil, diags
+	}
 
+	facilityVal, ok := facilityAttribute.(basetypes.StringValue)
 
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`facility expected to be basetypes.StringValue, was: %T`, facilityAttribute))
+	}
 
+	severityAttribute, ok := attributes["severity"]
 
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`severity is missing from object`)
 
+		return nil, diags
+	}
 
+	severityVal, ok := severityAttribute.(basetypes.StringValue)
 
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`severity expected to be basetypes.StringValue, was: %T`, severityAttribute))
+	}
 
+	if diags.HasError() {
+		return nil, diags
+	}
 
+	return ContentsValue{
+		Facility: facilityVal,
+		Severity: severityVal,
+		state:    attr.ValueStateKnown,
+	}, diags
+}
 
+func NewContentsValueNull() ContentsValue {
+	return ContentsValue{
+		state: attr.ValueStateNull,
+	}
+}
+
+func NewContentsValueUnknown() ContentsValue {
+	return ContentsValue{
+		state: attr.ValueStateUnknown,
+	}
+}
+
+func NewContentsValue(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) (ContentsValue, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	// Reference: https://github.com/hashicorp/terraform-plugin-framework/issues/521
+	ctx := context.Background()
+
+	for name, attributeType := range attributeTypes {
+		attribute, ok := attributes[name]
+
+		if !ok {
+			diags.AddError(
+				"Missing ContentsValue Attribute Value",
+				"While creating a ContentsValue value, a missing attribute value was detected. "+
+					"A ContentsValue must contain values for all attributes, even if null or unknown. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("ContentsValue Attribute Name (%s) Expected Type: %s", name, attributeType.String()),
+			)
+
+			continue
+		}
+
+		if !attributeType.Equal(attribute.Type(ctx)) {
+			diags.AddError(
+				"Invalid ContentsValue Attribute Type",
+				"While creating a ContentsValue value, an invalid attribute value was detected. "+
+					"A ContentsValue must use a matching attribute type for the value. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("ContentsValue Attribute Name (%s) Expected Type: %s\n", name, attributeType.String())+
+					fmt.Sprintf("ContentsValue Attribute Name (%s) Given Type: %s", name, attribute.Type(ctx)),
+			)
+		}
+	}
+
+	for name := range attributes {
+		_, ok := attributeTypes[name]
+
+		if !ok {
+			diags.AddError(
+				"Extra ContentsValue Attribute Value",
+				"While creating a ContentsValue value, an extra attribute value was detected. "+
+					"A ContentsValue must not contain values beyond the expected attribute types. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("Extra ContentsValue Attribute Name: %s", name),
+			)
+		}
+	}
+
+	if diags.HasError() {
+		return NewContentsValueUnknown(), diags
+	}
+
+	facilityAttribute, ok := attributes["facility"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`facility is missing from object`)
+
+		return NewContentsValueUnknown(), diags
+	}
+
+	facilityVal, ok := facilityAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`facility expected to be basetypes.StringValue, was: %T`, facilityAttribute))
+	}
+
+	severityAttribute, ok := attributes["severity"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`severity is missing from object`)
+
+		return NewContentsValueUnknown(), diags
+	}
+
+	severityVal, ok := severityAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`severity expected to be basetypes.StringValue, was: %T`, severityAttribute))
+	}
+
+	if diags.HasError() {
+		return NewContentsValueUnknown(), diags
+	}
+
+	return ContentsValue{
+		Facility: facilityVal,
+		Severity: severityVal,
+		state:    attr.ValueStateKnown,
+	}, diags
+}
+
+func NewContentsValueMust(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) ContentsValue {
+	object, diags := NewContentsValue(attributeTypes, attributes)
+
+	if diags.HasError() {
+		// This could potentially be added to the diag package.
+		diagsStrings := make([]string, 0, len(diags))
+
+		for _, diagnostic := range diags {
+			diagsStrings = append(diagsStrings, fmt.Sprintf(
+				"%s | %s | %s",
+				diagnostic.Severity(),
+				diagnostic.Summary(),
+				diagnostic.Detail()))
+		}
+
+		panic("NewContentsValueMust received error(s): " + strings.Join(diagsStrings, "\n"))
+	}
+
+	return object
+}
+
+func (t ContentsType) ValueFromTerraform(ctx context.Context, in tftypes.Value) (attr.Value, error) {
+	if in.Type() == nil {
+		return NewContentsValueNull(), nil
+	}
+
+	if !in.Type().Equal(t.TerraformType(ctx)) {
+		return nil, fmt.Errorf("expected %s, got %s", t.TerraformType(ctx), in.Type())
+	}
+
+	if !in.IsKnown() {
+		return NewContentsValueUnknown(), nil
+	}
+
+	if in.IsNull() {
+		return NewContentsValueNull(), nil
+	}
+
+	attributes := map[string]attr.Value{}
+
+	val := map[string]tftypes.Value{}
+
+	err := in.As(&val)
+
+	if err != nil {
+		return nil, err
+	}
+
+	for k, v := range val {
+		a, err := t.AttrTypes[k].ValueFromTerraform(ctx, v)
+
+		if err != nil {
+			return nil, err
+		}
+
+		attributes[k] = a
+	}
+
+	return NewContentsValueMust(ContentsValue{}.AttributeTypes(ctx), attributes), nil
+}
+
+func (t ContentsType) ValueType(ctx context.Context) attr.Value {
+	return ContentsValue{}
+}
+
+var _ basetypes.ObjectValuable = ContentsValue{}
+
+type ContentsValue struct {
+	Facility basetypes.StringValue `tfsdk:"facility"`
+	Severity basetypes.StringValue `tfsdk:"severity"`
+	state    attr.ValueState
+}
+
+func (v ContentsValue) ToTerraformValue(ctx context.Context) (tftypes.Value, error) {
+	attrTypes := make(map[string]tftypes.Type, 2)
+
+	var val tftypes.Value
+	var err error
+
+	attrTypes["facility"] = basetypes.StringType{}.TerraformType(ctx)
+	attrTypes["severity"] = basetypes.StringType{}.TerraformType(ctx)
+
+	objectType := tftypes.Object{AttributeTypes: attrTypes}
+
+	switch v.state {
+	case attr.ValueStateKnown:
+		vals := make(map[string]tftypes.Value, 2)
+
+		val, err = v.Facility.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["facility"] = val
+
+		val, err = v.Severity.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["severity"] = val
+
+		if err := tftypes.ValidateValue(objectType, vals); err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		return tftypes.NewValue(objectType, vals), nil
+	case attr.ValueStateNull:
+		return tftypes.NewValue(objectType, nil), nil
+	case attr.ValueStateUnknown:
+		return tftypes.NewValue(objectType, tftypes.UnknownValue), nil
+	default:
+		panic(fmt.Sprintf("unhandled Object state in ToTerraformValue: %s", v.state))
+	}
+}
+
+func (v ContentsValue) IsNull() bool {
+	return v.state == attr.ValueStateNull
+}
+
+func (v ContentsValue) IsUnknown() bool {
+	return v.state == attr.ValueStateUnknown
+}
+
+func (v ContentsValue) String() string {
+	return "ContentsValue"
+}
+
+func (v ContentsValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	attributeTypes := map[string]attr.Type{
+		"facility": basetypes.StringType{},
+		"severity": basetypes.StringType{},
+	}
+
+	if v.IsNull() {
+		return types.ObjectNull(attributeTypes), diags
+	}
+
+	if v.IsUnknown() {
+		return types.ObjectUnknown(attributeTypes), diags
+	}
+
+	objVal, diags := types.ObjectValue(
+		attributeTypes,
+		map[string]attr.Value{
+			"facility": v.Facility,
+			"severity": v.Severity,
+		})
+
+	return objVal, diags
+}
+
+func (v ContentsValue) Equal(o attr.Value) bool {
+	other, ok := o.(ContentsValue)
+
+	if !ok {
+		return false
+	}
+
+	if v.state != other.state {
+		return false
+	}
+
+	if v.state != attr.ValueStateKnown {
+		return true
+	}
+
+	if !v.Facility.Equal(other.Facility) {
+		return false
+	}
+
+	if !v.Severity.Equal(other.Severity) {
+		return false
+	}
+
+	return true
+}
+
+func (v ContentsValue) Type(ctx context.Context) attr.Type {
+	return ContentsType{
+		basetypes.ObjectType{
+			AttrTypes: v.AttributeTypes(ctx),
+		},
+	}
+}
+
+func (v ContentsValue) AttributeTypes(ctx context.Context) map[string]attr.Type {
+	return map[string]attr.Type{
+		"facility": basetypes.StringType{},
+		"severity": basetypes.StringType{},
+	}
+}
 
 var _ basetypes.ObjectTypable = SnmpConfigType{}
 
@@ -29204,12 +30756,12 @@ func (t NotifyFilterType) ValueFromObject(ctx context.Context, in basetypes.Obje
 			fmt.Sprintf(`profile_name expected to be basetypes.StringValue, was: %T`, profileNameAttribute))
 	}
 
-	snmpv3ContentsAttribute, ok := attributes["contents"]
+	snmpv3ContentsAttribute, ok := attributes["snmpv3_contents"]
 
 	if !ok {
 		diags.AddError(
 			"Attribute Missing",
-			`contents is missing from object`)
+			`snmpv3_contents is missing from object`)
 
 		return nil, diags
 	}
@@ -29219,7 +30771,7 @@ func (t NotifyFilterType) ValueFromObject(ctx context.Context, in basetypes.Obje
 	if !ok {
 		diags.AddError(
 			"Attribute Wrong Type",
-			fmt.Sprintf(`contents expected to be basetypes.ListValue, was: %T`, snmpv3ContentsAttribute))
+			fmt.Sprintf(`snmpv3_contents expected to be basetypes.ListValue, was: %T`, snmpv3ContentsAttribute))
 	}
 
 	if diags.HasError() {
@@ -29314,12 +30866,12 @@ func NewNotifyFilterValue(attributeTypes map[string]attr.Type, attributes map[st
 			fmt.Sprintf(`profile_name expected to be basetypes.StringValue, was: %T`, profileNameAttribute))
 	}
 
-	snmpv3ContentsAttribute, ok := attributes["contents"]
+	snmpv3ContentsAttribute, ok := attributes["snmpv3_contents"]
 
 	if !ok {
 		diags.AddError(
 			"Attribute Missing",
-			`contents is missing from object`)
+			`snmpv3_contents is missing from object`)
 
 		return NewNotifyFilterValueUnknown(), diags
 	}
@@ -29329,7 +30881,7 @@ func NewNotifyFilterValue(attributeTypes map[string]attr.Type, attributes map[st
 	if !ok {
 		diags.AddError(
 			"Attribute Wrong Type",
-			fmt.Sprintf(`contents expected to be basetypes.ListValue, was: %T`, snmpv3ContentsAttribute))
+			fmt.Sprintf(`snmpv3_contents expected to be basetypes.ListValue, was: %T`, snmpv3ContentsAttribute))
 	}
 
 	if diags.HasError() {
@@ -29412,7 +30964,7 @@ var _ basetypes.ObjectValuable = NotifyFilterValue{}
 
 type NotifyFilterValue struct {
 	ProfileName    basetypes.StringValue `tfsdk:"profile_name"`
-	Snmpv3Contents basetypes.ListValue   `tfsdk:"contents"`
+	Snmpv3Contents basetypes.ListValue   `tfsdk:"snmpv3_contents"`
 	state          attr.ValueState
 }
 
@@ -29423,7 +30975,7 @@ func (v NotifyFilterValue) ToTerraformValue(ctx context.Context) (tftypes.Value,
 	var err error
 
 	attrTypes["profile_name"] = basetypes.StringType{}.TerraformType(ctx)
-	attrTypes["contents"] = basetypes.ListType{
+	attrTypes["snmpv3_contents"] = basetypes.ListType{
 		ElemType: Snmpv3ContentsValue{}.Type(ctx),
 	}.TerraformType(ctx)
 
@@ -29447,7 +30999,7 @@ func (v NotifyFilterValue) ToTerraformValue(ctx context.Context) (tftypes.Value,
 			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
 		}
 
-		vals["contents"] = val
+		vals["snmpv3_contents"] = val
 
 		if err := tftypes.ValidateValue(objectType, vals); err != nil {
 			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
@@ -29509,7 +31061,7 @@ func (v NotifyFilterValue) ToObjectValue(ctx context.Context) (basetypes.ObjectV
 
 	attributeTypes := map[string]attr.Type{
 		"profile_name": basetypes.StringType{},
-		"contents": basetypes.ListType{
+		"snmpv3_contents": basetypes.ListType{
 			ElemType: Snmpv3ContentsValue{}.Type(ctx),
 		},
 	}
@@ -29526,7 +31078,7 @@ func (v NotifyFilterValue) ToObjectValue(ctx context.Context) (basetypes.ObjectV
 		attributeTypes,
 		map[string]attr.Value{
 			"profile_name":    v.ProfileName,
-			"contents": snmpv3Contents,
+			"snmpv3_contents": snmpv3Contents,
 		})
 
 	return objVal, diags
@@ -29569,7 +31121,7 @@ func (v NotifyFilterValue) Type(ctx context.Context) attr.Type {
 func (v NotifyFilterValue) AttributeTypes(ctx context.Context) map[string]attr.Type {
 	return map[string]attr.Type{
 		"profile_name": basetypes.StringType{},
-		"contents": basetypes.ListType{
+		"snmpv3_contents": basetypes.ListType{
 			ElemType: Snmpv3ContentsValue{}.Type(ctx),
 		},
 	}
@@ -31213,12 +32765,12 @@ func (t UsmType) ValueFromObject(ctx context.Context, in basetypes.ObjectValue) 
 			fmt.Sprintf(`engineid expected to be basetypes.StringValue, was: %T`, engineidAttribute))
 	}
 
-	snmpv3UsersAttribute, ok := attributes["users"]
+	snmpv3UsersAttribute, ok := attributes["snmpv3_users"]
 
 	if !ok {
 		diags.AddError(
 			"Attribute Missing",
-			`users is missing from object`)
+			`snmpv3_users is missing from object`)
 
 		return nil, diags
 	}
@@ -31228,7 +32780,7 @@ func (t UsmType) ValueFromObject(ctx context.Context, in basetypes.ObjectValue) 
 	if !ok {
 		diags.AddError(
 			"Attribute Wrong Type",
-			fmt.Sprintf(`users expected to be basetypes.ListValue, was: %T`, snmpv3UsersAttribute))
+			fmt.Sprintf(`snmpv3_users expected to be basetypes.ListValue, was: %T`, snmpv3UsersAttribute))
 	}
 
 	if diags.HasError() {
@@ -31342,12 +32894,12 @@ func NewUsmValue(attributeTypes map[string]attr.Type, attributes map[string]attr
 			fmt.Sprintf(`engineid expected to be basetypes.StringValue, was: %T`, engineidAttribute))
 	}
 
-	snmpv3UsersAttribute, ok := attributes["users"]
+	snmpv3UsersAttribute, ok := attributes["snmpv3_users"]
 
 	if !ok {
 		diags.AddError(
 			"Attribute Missing",
-			`users is missing from object`)
+			`snmpv3_users is missing from object`)
 
 		return NewUsmValueUnknown(), diags
 	}
@@ -31357,7 +32909,7 @@ func NewUsmValue(attributeTypes map[string]attr.Type, attributes map[string]attr
 	if !ok {
 		diags.AddError(
 			"Attribute Wrong Type",
-			fmt.Sprintf(`users expected to be basetypes.ListValue, was: %T`, snmpv3UsersAttribute))
+			fmt.Sprintf(`snmpv3_users expected to be basetypes.ListValue, was: %T`, snmpv3UsersAttribute))
 	}
 
 	if diags.HasError() {
@@ -31442,7 +32994,7 @@ var _ basetypes.ObjectValuable = UsmValue{}
 type UsmValue struct {
 	EngineType  basetypes.StringValue `tfsdk:"engine_type"`
 	Engineid    basetypes.StringValue `tfsdk:"engineid"`
-	Snmpv3Users basetypes.ListValue   `tfsdk:"users"`
+	Snmpv3Users basetypes.ListValue   `tfsdk:"snmpv3_users"`
 	state       attr.ValueState
 }
 
@@ -31454,7 +33006,7 @@ func (v UsmValue) ToTerraformValue(ctx context.Context) (tftypes.Value, error) {
 
 	attrTypes["engine_type"] = basetypes.StringType{}.TerraformType(ctx)
 	attrTypes["engineid"] = basetypes.StringType{}.TerraformType(ctx)
-	attrTypes["users"] = basetypes.ListType{
+	attrTypes["snmpv3_users"] = basetypes.ListType{
 		ElemType: Snmpv3UsersValue{}.Type(ctx),
 	}.TerraformType(ctx)
 
@@ -31486,7 +33038,7 @@ func (v UsmValue) ToTerraformValue(ctx context.Context) (tftypes.Value, error) {
 			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
 		}
 
-		vals["users"] = val
+		vals["snmpv3_users"] = val
 
 		if err := tftypes.ValidateValue(objectType, vals); err != nil {
 			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
@@ -31549,7 +33101,7 @@ func (v UsmValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, dia
 	attributeTypes := map[string]attr.Type{
 		"engine_type": basetypes.StringType{},
 		"engineid":    basetypes.StringType{},
-		"users": basetypes.ListType{
+		"snmpv3_users": basetypes.ListType{
 			ElemType: Snmpv3UsersValue{}.Type(ctx),
 		},
 	}
@@ -31567,7 +33119,7 @@ func (v UsmValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, dia
 		map[string]attr.Value{
 			"engine_type":  v.EngineType,
 			"engineid":     v.Engineid,
-			"users": snmpv3Users,
+			"snmpv3_users": snmpv3Users,
 		})
 
 	return objVal, diags
@@ -31615,7 +33167,7 @@ func (v UsmValue) AttributeTypes(ctx context.Context) map[string]attr.Type {
 	return map[string]attr.Type{
 		"engine_type": basetypes.StringType{},
 		"engineid":    basetypes.StringType{},
-		"users": basetypes.ListType{
+		"snmpv3_users": basetypes.ListType{
 			ElemType: Snmpv3UsersValue{}.Type(ctx),
 		},
 	}
@@ -33717,12 +35269,12 @@ func (t SecurityToGroupType) ValueFromObject(ctx context.Context, in basetypes.O
 			fmt.Sprintf(`security_model expected to be basetypes.StringValue, was: %T`, securityModelAttribute))
 	}
 
-	snmpv3VacmContentAttribute, ok := attributes["content"]
+	snmpv3VacmContentAttribute, ok := attributes["snmpv3_vacm_content"]
 
 	if !ok {
 		diags.AddError(
 			"Attribute Missing",
-			`content is missing from object`)
+			`snmpv3_vacm_content is missing from object`)
 
 		return nil, diags
 	}
@@ -33732,7 +35284,7 @@ func (t SecurityToGroupType) ValueFromObject(ctx context.Context, in basetypes.O
 	if !ok {
 		diags.AddError(
 			"Attribute Wrong Type",
-			fmt.Sprintf(`content expected to be basetypes.ListValue, was: %T`, snmpv3VacmContentAttribute))
+			fmt.Sprintf(`snmpv3_vacm_content expected to be basetypes.ListValue, was: %T`, snmpv3VacmContentAttribute))
 	}
 
 	if diags.HasError() {
@@ -33827,12 +35379,12 @@ func NewSecurityToGroupValue(attributeTypes map[string]attr.Type, attributes map
 			fmt.Sprintf(`security_model expected to be basetypes.StringValue, was: %T`, securityModelAttribute))
 	}
 
-	snmpv3VacmContentAttribute, ok := attributes["content"]
+	snmpv3VacmContentAttribute, ok := attributes["snmpv3_vacm_content"]
 
 	if !ok {
 		diags.AddError(
 			"Attribute Missing",
-			`content is missing from object`)
+			`snmpv3_vacm_content is missing from object`)
 
 		return NewSecurityToGroupValueUnknown(), diags
 	}
@@ -33842,7 +35394,7 @@ func NewSecurityToGroupValue(attributeTypes map[string]attr.Type, attributes map
 	if !ok {
 		diags.AddError(
 			"Attribute Wrong Type",
-			fmt.Sprintf(`content expected to be basetypes.ListValue, was: %T`, snmpv3VacmContentAttribute))
+			fmt.Sprintf(`snmpv3_vacm_content expected to be basetypes.ListValue, was: %T`, snmpv3VacmContentAttribute))
 	}
 
 	if diags.HasError() {
@@ -33925,7 +35477,7 @@ var _ basetypes.ObjectValuable = SecurityToGroupValue{}
 
 type SecurityToGroupValue struct {
 	SecurityModel     basetypes.StringValue `tfsdk:"security_model"`
-	Snmpv3VacmContent basetypes.ListValue   `tfsdk:"content"`
+	Snmpv3VacmContent basetypes.ListValue   `tfsdk:"snmpv3_vacm_content"`
 	state             attr.ValueState
 }
 
@@ -33936,7 +35488,7 @@ func (v SecurityToGroupValue) ToTerraformValue(ctx context.Context) (tftypes.Val
 	var err error
 
 	attrTypes["security_model"] = basetypes.StringType{}.TerraformType(ctx)
-	attrTypes["content"] = basetypes.ListType{
+	attrTypes["snmpv3_vacm_content"] = basetypes.ListType{
 		ElemType: Snmpv3VacmContentValue{}.Type(ctx),
 	}.TerraformType(ctx)
 
@@ -33960,7 +35512,7 @@ func (v SecurityToGroupValue) ToTerraformValue(ctx context.Context) (tftypes.Val
 			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
 		}
 
-		vals["content"] = val
+		vals["snmpv3_vacm_content"] = val
 
 		if err := tftypes.ValidateValue(objectType, vals); err != nil {
 			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
@@ -34022,7 +35574,7 @@ func (v SecurityToGroupValue) ToObjectValue(ctx context.Context) (basetypes.Obje
 
 	attributeTypes := map[string]attr.Type{
 		"security_model": basetypes.StringType{},
-		"content": basetypes.ListType{
+		"snmpv3_vacm_content": basetypes.ListType{
 			ElemType: Snmpv3VacmContentValue{}.Type(ctx),
 		},
 	}
@@ -34039,7 +35591,7 @@ func (v SecurityToGroupValue) ToObjectValue(ctx context.Context) (basetypes.Obje
 		attributeTypes,
 		map[string]attr.Value{
 			"security_model":      v.SecurityModel,
-			"content": snmpv3VacmContent,
+			"snmpv3_vacm_content": snmpv3VacmContent,
 		})
 
 	return objVal, diags
@@ -34082,7 +35634,7 @@ func (v SecurityToGroupValue) Type(ctx context.Context) attr.Type {
 func (v SecurityToGroupValue) AttributeTypes(ctx context.Context) map[string]attr.Type {
 	return map[string]attr.Type{
 		"security_model": basetypes.StringType{},
-		"content": basetypes.ListType{
+		"snmpv3_vacm_content": basetypes.ListType{
 			ElemType: Snmpv3VacmContentValue{}.Type(ctx),
 		},
 	}
@@ -36875,12 +38427,12 @@ func (t TacacsType) ValueFromObject(ctx context.Context, in basetypes.ObjectValu
 			fmt.Sprintf(`network expected to be basetypes.StringValue, was: %T`, networkAttribute))
 	}
 
-	tacacctServersAttribute, ok := attributes["acct_servers"]
+	tacacctServersAttribute, ok := attributes["tacacct_servers"]
 
 	if !ok {
 		diags.AddError(
 			"Attribute Missing",
-			`acct_servers is missing from object`)
+			`tacacct_servers is missing from object`)
 
 		return nil, diags
 	}
@@ -36890,7 +38442,7 @@ func (t TacacsType) ValueFromObject(ctx context.Context, in basetypes.ObjectValu
 	if !ok {
 		diags.AddError(
 			"Attribute Wrong Type",
-			fmt.Sprintf(`acct_servers expected to be basetypes.ListValue, was: %T`, tacacctServersAttribute))
+			fmt.Sprintf(`tacacct_servers expected to be basetypes.ListValue, was: %T`, tacacctServersAttribute))
 	}
 
 	tacplusServersAttribute, ok := attributes["tacplus_servers"]
@@ -37042,12 +38594,12 @@ func NewTacacsValue(attributeTypes map[string]attr.Type, attributes map[string]a
 			fmt.Sprintf(`network expected to be basetypes.StringValue, was: %T`, networkAttribute))
 	}
 
-	tacacctServersAttribute, ok := attributes["acct_servers"]
+	tacacctServersAttribute, ok := attributes["tacacct_servers"]
 
 	if !ok {
 		diags.AddError(
 			"Attribute Missing",
-			`acct_servers is missing from object`)
+			`tacacct_servers is missing from object`)
 
 		return NewTacacsValueUnknown(), diags
 	}
@@ -37057,7 +38609,7 @@ func NewTacacsValue(attributeTypes map[string]attr.Type, attributes map[string]a
 	if !ok {
 		diags.AddError(
 			"Attribute Wrong Type",
-			fmt.Sprintf(`acct_servers expected to be basetypes.ListValue, was: %T`, tacacctServersAttribute))
+			fmt.Sprintf(`tacacct_servers expected to be basetypes.ListValue, was: %T`, tacacctServersAttribute))
 	}
 
 	tacplusServersAttribute, ok := attributes["tacplus_servers"]
@@ -37163,7 +38715,7 @@ type TacacsValue struct {
 	DefaultRole    basetypes.StringValue `tfsdk:"default_role"`
 	Enabled        basetypes.BoolValue   `tfsdk:"enabled"`
 	Network        basetypes.StringValue `tfsdk:"network"`
-	TacacctServers basetypes.ListValue   `tfsdk:"acct_servers"`
+	TacacctServers basetypes.ListValue   `tfsdk:"tacacct_servers"`
 	TacplusServers basetypes.ListValue   `tfsdk:"tacplus_servers"`
 	state          attr.ValueState
 }
@@ -37177,7 +38729,7 @@ func (v TacacsValue) ToTerraformValue(ctx context.Context) (tftypes.Value, error
 	attrTypes["default_role"] = basetypes.StringType{}.TerraformType(ctx)
 	attrTypes["enabled"] = basetypes.BoolType{}.TerraformType(ctx)
 	attrTypes["network"] = basetypes.StringType{}.TerraformType(ctx)
-	attrTypes["acct_servers"] = basetypes.ListType{
+	attrTypes["tacacct_servers"] = basetypes.ListType{
 		ElemType: TacacctServersValue{}.Type(ctx),
 	}.TerraformType(ctx)
 	attrTypes["tacplus_servers"] = basetypes.ListType{
@@ -37220,7 +38772,7 @@ func (v TacacsValue) ToTerraformValue(ctx context.Context) (tftypes.Value, error
 			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
 		}
 
-		vals["acct_servers"] = val
+		vals["tacacct_servers"] = val
 
 		val, err = v.TacplusServers.ToTerraformValue(ctx)
 
@@ -37321,7 +38873,7 @@ func (v TacacsValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, 
 		"default_role": basetypes.StringType{},
 		"enabled":      basetypes.BoolType{},
 		"network":      basetypes.StringType{},
-		"acct_servers": basetypes.ListType{
+		"tacacct_servers": basetypes.ListType{
 			ElemType: TacacctServersValue{}.Type(ctx),
 		},
 		"tacplus_servers": basetypes.ListType{
@@ -37343,7 +38895,7 @@ func (v TacacsValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, 
 			"default_role":    v.DefaultRole,
 			"enabled":         v.Enabled,
 			"network":         v.Network,
-			"acct_servers": tacacctServers,
+			"tacacct_servers": tacacctServers,
 			"tacplus_servers": tacplusServers,
 		})
 
@@ -37401,7 +38953,7 @@ func (v TacacsValue) AttributeTypes(ctx context.Context) map[string]attr.Type {
 		"default_role": basetypes.StringType{},
 		"enabled":      basetypes.BoolType{},
 		"network":      basetypes.StringType{},
-		"acct_servers": basetypes.ListType{
+		"tacacct_servers": basetypes.ListType{
 			ElemType: TacacctServersValue{}.Type(ctx),
 		},
 		"tacplus_servers": basetypes.ListType{
@@ -39585,24 +41137,6 @@ func (t VrfInstancesType) ValueFromObject(ctx context.Context, in basetypes.Obje
 
 	attributes := in.Attributes()
 
-	extraRoutesAttribute, ok := attributes["extra_routes"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`extra_routes is missing from object`)
-
-		return nil, diags
-	}
-
-	extraRoutesVal, ok := extraRoutesAttribute.(basetypes.MapValue)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`extra_routes expected to be basetypes.MapValue, was: %T`, extraRoutesAttribute))
-	}
-
 	networksAttribute, ok := attributes["networks"]
 
 	if !ok {
@@ -39621,14 +41155,32 @@ func (t VrfInstancesType) ValueFromObject(ctx context.Context, in basetypes.Obje
 			fmt.Sprintf(`networks expected to be basetypes.ListValue, was: %T`, networksAttribute))
 	}
 
+	vrfExtraRoutesAttribute, ok := attributes["vrf_extra_routes"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`vrf_extra_routes is missing from object`)
+
+		return nil, diags
+	}
+
+	vrfExtraRoutesVal, ok := vrfExtraRoutesAttribute.(basetypes.MapValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`vrf_extra_routes expected to be basetypes.MapValue, was: %T`, vrfExtraRoutesAttribute))
+	}
+
 	if diags.HasError() {
 		return nil, diags
 	}
 
 	return VrfInstancesValue{
-		ExtraRoutes: extraRoutesVal,
-		Networks:    networksVal,
-		state:       attr.ValueStateKnown,
+		Networks:       networksVal,
+		VrfExtraRoutes: vrfExtraRoutesVal,
+		state:          attr.ValueStateKnown,
 	}, diags
 }
 
@@ -39695,24 +41247,6 @@ func NewVrfInstancesValue(attributeTypes map[string]attr.Type, attributes map[st
 		return NewVrfInstancesValueUnknown(), diags
 	}
 
-	extraRoutesAttribute, ok := attributes["extra_routes"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`extra_routes is missing from object`)
-
-		return NewVrfInstancesValueUnknown(), diags
-	}
-
-	extraRoutesVal, ok := extraRoutesAttribute.(basetypes.MapValue)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`extra_routes expected to be basetypes.MapValue, was: %T`, extraRoutesAttribute))
-	}
-
 	networksAttribute, ok := attributes["networks"]
 
 	if !ok {
@@ -39731,14 +41265,32 @@ func NewVrfInstancesValue(attributeTypes map[string]attr.Type, attributes map[st
 			fmt.Sprintf(`networks expected to be basetypes.ListValue, was: %T`, networksAttribute))
 	}
 
+	vrfExtraRoutesAttribute, ok := attributes["vrf_extra_routes"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`vrf_extra_routes is missing from object`)
+
+		return NewVrfInstancesValueUnknown(), diags
+	}
+
+	vrfExtraRoutesVal, ok := vrfExtraRoutesAttribute.(basetypes.MapValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`vrf_extra_routes expected to be basetypes.MapValue, was: %T`, vrfExtraRoutesAttribute))
+	}
+
 	if diags.HasError() {
 		return NewVrfInstancesValueUnknown(), diags
 	}
 
 	return VrfInstancesValue{
-		ExtraRoutes: extraRoutesVal,
-		Networks:    networksVal,
-		state:       attr.ValueStateKnown,
+		Networks:       networksVal,
+		VrfExtraRoutes: vrfExtraRoutesVal,
+		state:          attr.ValueStateKnown,
 	}, diags
 }
 
@@ -39810,9 +41362,9 @@ func (t VrfInstancesType) ValueType(ctx context.Context) attr.Value {
 var _ basetypes.ObjectValuable = VrfInstancesValue{}
 
 type VrfInstancesValue struct {
-	ExtraRoutes basetypes.MapValue  `tfsdk:"extra_routes"`
-	Networks    basetypes.ListValue `tfsdk:"networks"`
-	state       attr.ValueState
+	Networks       basetypes.ListValue `tfsdk:"networks"`
+	VrfExtraRoutes basetypes.MapValue  `tfsdk:"vrf_extra_routes"`
+	state          attr.ValueState
 }
 
 func (v VrfInstancesValue) ToTerraformValue(ctx context.Context) (tftypes.Value, error) {
@@ -39821,11 +41373,11 @@ func (v VrfInstancesValue) ToTerraformValue(ctx context.Context) (tftypes.Value,
 	var val tftypes.Value
 	var err error
 
-	attrTypes["extra_routes"] = basetypes.MapType{
-		ElemType: ExtraRoutesValue{}.Type(ctx),
-	}.TerraformType(ctx)
 	attrTypes["networks"] = basetypes.ListType{
 		ElemType: types.StringType,
+	}.TerraformType(ctx)
+	attrTypes["vrf_extra_routes"] = basetypes.MapType{
+		ElemType: VrfExtraRoutesValue{}.Type(ctx),
 	}.TerraformType(ctx)
 
 	objectType := tftypes.Object{AttributeTypes: attrTypes}
@@ -39834,14 +41386,6 @@ func (v VrfInstancesValue) ToTerraformValue(ctx context.Context) (tftypes.Value,
 	case attr.ValueStateKnown:
 		vals := make(map[string]tftypes.Value, 2)
 
-		val, err = v.ExtraRoutes.ToTerraformValue(ctx)
-
-		if err != nil {
-			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
-		}
-
-		vals["extra_routes"] = val
-
 		val, err = v.Networks.ToTerraformValue(ctx)
 
 		if err != nil {
@@ -39849,6 +41393,14 @@ func (v VrfInstancesValue) ToTerraformValue(ctx context.Context) (tftypes.Value,
 		}
 
 		vals["networks"] = val
+
+		val, err = v.VrfExtraRoutes.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["vrf_extra_routes"] = val
 
 		if err := tftypes.ValidateValue(objectType, vals); err != nil {
 			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
@@ -39879,30 +41431,30 @@ func (v VrfInstancesValue) String() string {
 func (v VrfInstancesValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, diag.Diagnostics) {
 	var diags diag.Diagnostics
 
-	extraRoutes := types.MapValueMust(
-		ExtraRoutesType{
+	vrfExtraRoutes := types.MapValueMust(
+		VrfExtraRoutesType{
 			basetypes.ObjectType{
-				AttrTypes: ExtraRoutesValue{}.AttributeTypes(ctx),
+				AttrTypes: VrfExtraRoutesValue{}.AttributeTypes(ctx),
 			},
 		},
-		v.ExtraRoutes.Elements(),
+		v.VrfExtraRoutes.Elements(),
 	)
 
-	if v.ExtraRoutes.IsNull() {
-		extraRoutes = types.MapNull(
-			ExtraRoutesType{
+	if v.VrfExtraRoutes.IsNull() {
+		vrfExtraRoutes = types.MapNull(
+			VrfExtraRoutesType{
 				basetypes.ObjectType{
-					AttrTypes: ExtraRoutesValue{}.AttributeTypes(ctx),
+					AttrTypes: VrfExtraRoutesValue{}.AttributeTypes(ctx),
 				},
 			},
 		)
 	}
 
-	if v.ExtraRoutes.IsUnknown() {
-		extraRoutes = types.MapUnknown(
-			ExtraRoutesType{
+	if v.VrfExtraRoutes.IsUnknown() {
+		vrfExtraRoutes = types.MapUnknown(
+			VrfExtraRoutesType{
 				basetypes.ObjectType{
-					AttrTypes: ExtraRoutesValue{}.AttributeTypes(ctx),
+					AttrTypes: VrfExtraRoutesValue{}.AttributeTypes(ctx),
 				},
 			},
 		)
@@ -39914,21 +41466,21 @@ func (v VrfInstancesValue) ToObjectValue(ctx context.Context) (basetypes.ObjectV
 
 	if d.HasError() {
 		return types.ObjectUnknown(map[string]attr.Type{
-			"extra_routes": basetypes.MapType{
-				ElemType: ExtraRoutesValue{}.Type(ctx),
-			},
 			"networks": basetypes.ListType{
 				ElemType: types.StringType,
+			},
+			"vrf_extra_routes": basetypes.MapType{
+				ElemType: VrfExtraRoutesValue{}.Type(ctx),
 			},
 		}), diags
 	}
 
 	attributeTypes := map[string]attr.Type{
-		"extra_routes": basetypes.MapType{
-			ElemType: ExtraRoutesValue{}.Type(ctx),
-		},
 		"networks": basetypes.ListType{
 			ElemType: types.StringType,
+		},
+		"vrf_extra_routes": basetypes.MapType{
+			ElemType: VrfExtraRoutesValue{}.Type(ctx),
 		},
 	}
 
@@ -39943,8 +41495,8 @@ func (v VrfInstancesValue) ToObjectValue(ctx context.Context) (basetypes.ObjectV
 	objVal, diags := types.ObjectValue(
 		attributeTypes,
 		map[string]attr.Value{
-			"extra_routes": extraRoutes,
-			"networks":     networksVal,
+			"networks":         networksVal,
+			"vrf_extra_routes": vrfExtraRoutes,
 		})
 
 	return objVal, diags
@@ -39965,11 +41517,11 @@ func (v VrfInstancesValue) Equal(o attr.Value) bool {
 		return true
 	}
 
-	if !v.ExtraRoutes.Equal(other.ExtraRoutes) {
+	if !v.Networks.Equal(other.Networks) {
 		return false
 	}
 
-	if !v.Networks.Equal(other.Networks) {
+	if !v.VrfExtraRoutes.Equal(other.VrfExtraRoutes) {
 		return false
 	}
 
@@ -39986,35 +41538,338 @@ func (v VrfInstancesValue) Type(ctx context.Context) attr.Type {
 
 func (v VrfInstancesValue) AttributeTypes(ctx context.Context) map[string]attr.Type {
 	return map[string]attr.Type{
-		"extra_routes": basetypes.MapType{
-			ElemType: ExtraRoutesValue{}.Type(ctx),
-		},
 		"networks": basetypes.ListType{
 			ElemType: types.StringType,
+		},
+		"vrf_extra_routes": basetypes.MapType{
+			ElemType: VrfExtraRoutesValue{}.Type(ctx),
 		},
 	}
 }
 
+var _ basetypes.ObjectTypable = VrfExtraRoutesType{}
 
+type VrfExtraRoutesType struct {
+	basetypes.ObjectType
+}
 
+func (t VrfExtraRoutesType) Equal(o attr.Type) bool {
+	other, ok := o.(VrfExtraRoutesType)
 
+	if !ok {
+		return false
+	}
 
+	return t.ObjectType.Equal(other.ObjectType)
+}
 
+func (t VrfExtraRoutesType) String() string {
+	return "VrfExtraRoutesType"
+}
 
+func (t VrfExtraRoutesType) ValueFromObject(ctx context.Context, in basetypes.ObjectValue) (basetypes.ObjectValuable, diag.Diagnostics) {
+	var diags diag.Diagnostics
 
+	attributes := in.Attributes()
 
+	viaAttribute, ok := attributes["via"]
 
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`via is missing from object`)
 
+		return nil, diags
+	}
 
+	viaVal, ok := viaAttribute.(basetypes.StringValue)
 
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`via expected to be basetypes.StringValue, was: %T`, viaAttribute))
+	}
 
+	if diags.HasError() {
+		return nil, diags
+	}
 
+	return VrfExtraRoutesValue{
+		Via:   viaVal,
+		state: attr.ValueStateKnown,
+	}, diags
+}
 
+func NewVrfExtraRoutesValueNull() VrfExtraRoutesValue {
+	return VrfExtraRoutesValue{
+		state: attr.ValueStateNull,
+	}
+}
 
+func NewVrfExtraRoutesValueUnknown() VrfExtraRoutesValue {
+	return VrfExtraRoutesValue{
+		state: attr.ValueStateUnknown,
+	}
+}
 
+func NewVrfExtraRoutesValue(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) (VrfExtraRoutesValue, diag.Diagnostics) {
+	var diags diag.Diagnostics
 
+	// Reference: https://github.com/hashicorp/terraform-plugin-framework/issues/521
+	ctx := context.Background()
 
+	for name, attributeType := range attributeTypes {
+		attribute, ok := attributes[name]
 
+		if !ok {
+			diags.AddError(
+				"Missing VrfExtraRoutesValue Attribute Value",
+				"While creating a VrfExtraRoutesValue value, a missing attribute value was detected. "+
+					"A VrfExtraRoutesValue must contain values for all attributes, even if null or unknown. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("VrfExtraRoutesValue Attribute Name (%s) Expected Type: %s", name, attributeType.String()),
+			)
+
+			continue
+		}
+
+		if !attributeType.Equal(attribute.Type(ctx)) {
+			diags.AddError(
+				"Invalid VrfExtraRoutesValue Attribute Type",
+				"While creating a VrfExtraRoutesValue value, an invalid attribute value was detected. "+
+					"A VrfExtraRoutesValue must use a matching attribute type for the value. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("VrfExtraRoutesValue Attribute Name (%s) Expected Type: %s\n", name, attributeType.String())+
+					fmt.Sprintf("VrfExtraRoutesValue Attribute Name (%s) Given Type: %s", name, attribute.Type(ctx)),
+			)
+		}
+	}
+
+	for name := range attributes {
+		_, ok := attributeTypes[name]
+
+		if !ok {
+			diags.AddError(
+				"Extra VrfExtraRoutesValue Attribute Value",
+				"While creating a VrfExtraRoutesValue value, an extra attribute value was detected. "+
+					"A VrfExtraRoutesValue must not contain values beyond the expected attribute types. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("Extra VrfExtraRoutesValue Attribute Name: %s", name),
+			)
+		}
+	}
+
+	if diags.HasError() {
+		return NewVrfExtraRoutesValueUnknown(), diags
+	}
+
+	viaAttribute, ok := attributes["via"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`via is missing from object`)
+
+		return NewVrfExtraRoutesValueUnknown(), diags
+	}
+
+	viaVal, ok := viaAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`via expected to be basetypes.StringValue, was: %T`, viaAttribute))
+	}
+
+	if diags.HasError() {
+		return NewVrfExtraRoutesValueUnknown(), diags
+	}
+
+	return VrfExtraRoutesValue{
+		Via:   viaVal,
+		state: attr.ValueStateKnown,
+	}, diags
+}
+
+func NewVrfExtraRoutesValueMust(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) VrfExtraRoutesValue {
+	object, diags := NewVrfExtraRoutesValue(attributeTypes, attributes)
+
+	if diags.HasError() {
+		// This could potentially be added to the diag package.
+		diagsStrings := make([]string, 0, len(diags))
+
+		for _, diagnostic := range diags {
+			diagsStrings = append(diagsStrings, fmt.Sprintf(
+				"%s | %s | %s",
+				diagnostic.Severity(),
+				diagnostic.Summary(),
+				diagnostic.Detail()))
+		}
+
+		panic("NewVrfExtraRoutesValueMust received error(s): " + strings.Join(diagsStrings, "\n"))
+	}
+
+	return object
+}
+
+func (t VrfExtraRoutesType) ValueFromTerraform(ctx context.Context, in tftypes.Value) (attr.Value, error) {
+	if in.Type() == nil {
+		return NewVrfExtraRoutesValueNull(), nil
+	}
+
+	if !in.Type().Equal(t.TerraformType(ctx)) {
+		return nil, fmt.Errorf("expected %s, got %s", t.TerraformType(ctx), in.Type())
+	}
+
+	if !in.IsKnown() {
+		return NewVrfExtraRoutesValueUnknown(), nil
+	}
+
+	if in.IsNull() {
+		return NewVrfExtraRoutesValueNull(), nil
+	}
+
+	attributes := map[string]attr.Value{}
+
+	val := map[string]tftypes.Value{}
+
+	err := in.As(&val)
+
+	if err != nil {
+		return nil, err
+	}
+
+	for k, v := range val {
+		a, err := t.AttrTypes[k].ValueFromTerraform(ctx, v)
+
+		if err != nil {
+			return nil, err
+		}
+
+		attributes[k] = a
+	}
+
+	return NewVrfExtraRoutesValueMust(VrfExtraRoutesValue{}.AttributeTypes(ctx), attributes), nil
+}
+
+func (t VrfExtraRoutesType) ValueType(ctx context.Context) attr.Value {
+	return VrfExtraRoutesValue{}
+}
+
+var _ basetypes.ObjectValuable = VrfExtraRoutesValue{}
+
+type VrfExtraRoutesValue struct {
+	Via   basetypes.StringValue `tfsdk:"via"`
+	state attr.ValueState
+}
+
+func (v VrfExtraRoutesValue) ToTerraformValue(ctx context.Context) (tftypes.Value, error) {
+	attrTypes := make(map[string]tftypes.Type, 1)
+
+	var val tftypes.Value
+	var err error
+
+	attrTypes["via"] = basetypes.StringType{}.TerraformType(ctx)
+
+	objectType := tftypes.Object{AttributeTypes: attrTypes}
+
+	switch v.state {
+	case attr.ValueStateKnown:
+		vals := make(map[string]tftypes.Value, 1)
+
+		val, err = v.Via.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["via"] = val
+
+		if err := tftypes.ValidateValue(objectType, vals); err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		return tftypes.NewValue(objectType, vals), nil
+	case attr.ValueStateNull:
+		return tftypes.NewValue(objectType, nil), nil
+	case attr.ValueStateUnknown:
+		return tftypes.NewValue(objectType, tftypes.UnknownValue), nil
+	default:
+		panic(fmt.Sprintf("unhandled Object state in ToTerraformValue: %s", v.state))
+	}
+}
+
+func (v VrfExtraRoutesValue) IsNull() bool {
+	return v.state == attr.ValueStateNull
+}
+
+func (v VrfExtraRoutesValue) IsUnknown() bool {
+	return v.state == attr.ValueStateUnknown
+}
+
+func (v VrfExtraRoutesValue) String() string {
+	return "VrfExtraRoutesValue"
+}
+
+func (v VrfExtraRoutesValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	attributeTypes := map[string]attr.Type{
+		"via": basetypes.StringType{},
+	}
+
+	if v.IsNull() {
+		return types.ObjectNull(attributeTypes), diags
+	}
+
+	if v.IsUnknown() {
+		return types.ObjectUnknown(attributeTypes), diags
+	}
+
+	objVal, diags := types.ObjectValue(
+		attributeTypes,
+		map[string]attr.Value{
+			"via": v.Via,
+		})
+
+	return objVal, diags
+}
+
+func (v VrfExtraRoutesValue) Equal(o attr.Value) bool {
+	other, ok := o.(VrfExtraRoutesValue)
+
+	if !ok {
+		return false
+	}
+
+	if v.state != other.state {
+		return false
+	}
+
+	if v.state != attr.ValueStateKnown {
+		return true
+	}
+
+	if !v.Via.Equal(other.Via) {
+		return false
+	}
+
+	return true
+}
+
+func (v VrfExtraRoutesValue) Type(ctx context.Context) attr.Type {
+	return VrfExtraRoutesType{
+		basetypes.ObjectType{
+			AttrTypes: v.AttributeTypes(ctx),
+		},
+	}
+}
+
+func (v VrfExtraRoutesValue) AttributeTypes(ctx context.Context) map[string]attr.Type {
+	return map[string]attr.Type{
+		"via": basetypes.StringType{},
+	}
+}
 
 var _ basetypes.ObjectTypable = VrrpConfigType{}
 

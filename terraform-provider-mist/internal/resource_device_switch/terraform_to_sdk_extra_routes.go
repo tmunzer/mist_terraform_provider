@@ -14,9 +14,13 @@ func extraRouteNextQualifiedTerraformToSdk(ctx context.Context, diags *diag.Diag
 	for k, v := range d.Elements() {
 		var v_interface interface{} = v
 		v_plan := v_interface.(NextQualifiedValue)
-		v_data := *models.NewExtraRoutePropertiesNextQualifiedProperties()
-		v_data.SetMetric(int32(v_plan.Metric.ValueInt64()))
-		v_data.SetPreference(int32(v_plan.Preference.ValueInt64()))
+		v_data := models.ExtraRoutePropertiesNextQualifiedProperties{}
+		if v_plan.Metric.ValueInt64Pointer() != nil {
+			v_data.Metric = models.NewOptional(models.ToPointer(int(v_plan.Metric.ValueInt64())))
+		}
+		if v_plan.Preference.ValueInt64Pointer() != nil {
+			v_data.Preference = models.NewOptional(models.ToPointer(int(v_plan.Preference.ValueInt64())))
+		}
 		data[k] = v_data
 	}
 	return data
@@ -26,15 +30,24 @@ func extraRoutesTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d b
 	for k, v := range d.Elements() {
 		var v_interface interface{} = v
 		v_plan := v_interface.(ExtraRoutesValue)
-		next_qualified := extraRouteNextQualifiedTerraformToSdk(ctx, diags, v_plan.NextQualified)
 
-		v_data := *models.NewExtraRouteProperties()
-		v_data.SetDiscard(v_plan.Discard.ValueBool())
-		v_data.SetMetric(int32(v_plan.Metric.ValueInt64()))
-		v_data.SetNextQualified(next_qualified)
-		v_data.SetNoResolve(v_plan.NoResolve.ValueBool())
-		v_data.SetPreference(int32(v_plan.Preference.ValueInt64()))
-		v_data.SetVia(v_plan.Via.ValueString())
+		v_data := models.ExtraRouteProperties{}
+		if v_plan.Discard.ValueBoolPointer() != nil {
+			v_data.Discard = models.ToPointer(v_plan.Discard.ValueBool())
+		}
+		if v_plan.Metric.ValueInt64Pointer() != nil {
+			v_data.Metric = models.NewOptional(models.ToPointer(int(v_plan.Metric.ValueInt64())))
+		}
+		v_data.NextQualified = extraRouteNextQualifiedTerraformToSdk(ctx, diags, v_plan.NextQualified)
+		if v_plan.NoResolve.ValueBoolPointer() != nil {
+			v_data.NoResolve = models.ToPointer(v_plan.NoResolve.ValueBool())
+		}
+		if v_plan.Preference.ValueInt64Pointer() != nil {
+			v_data.Preference = models.NewOptional(models.ToPointer(int(v_plan.Preference.ValueInt64())))
+		}
+		if v_plan.Via.ValueStringPointer() != nil {
+			v_data.Via = models.ToPointer(v_plan.Via.ValueString())
+		}
 		data[k] = v_data
 	}
 	return data

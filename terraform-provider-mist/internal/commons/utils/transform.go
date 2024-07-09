@@ -22,8 +22,8 @@ func ListOfStringSdkToTerraform(ctx context.Context, data []string) basetypes.Li
 	var items []attr.Value
 	var items_type attr.Type = basetypes.StringType{}
 	for _, item := range data {
-		value := strings.ReplaceAll(item, "\"", "")
-		items = append(items, types.StringValue(value))
+		//value := strings.ReplaceAll(item, "\"", "")
+		items = append(items, types.StringValue(item))
 	}
 	list, _ := types.ListValue(items_type, items)
 	return list

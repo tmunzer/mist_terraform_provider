@@ -3,26 +3,59 @@ package resource_device_switch
 import (
 	"context"
 
+	"mistapi/models"
+
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
-	mistapigo "github.com/tmunzer/mistapi-go/sdk"
+	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
+	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 
-func oobIpConfigSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d models.SwitchOobIpConfig) OobIpConfigValue {
+func oobIpConfigsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d *models.SwitchOobIpConfig) OobIpConfigValue {
+	tflog.Debug(ctx, "oobIpConfigsSdkToTerraform")
+	var gateway basetypes.StringValue
+	var ip basetypes.StringValue
+	var netmask basetypes.StringValue
+	var network basetypes.StringValue
+	var type_oob basetypes.StringValue = types.StringValue("dynamic")
+	var use_mgmt_vrf basetypes.BoolValue = types.BoolValue(false)
+	var use_mgmt_vrf_for_host_out basetypes.BoolValue = types.BoolValue(false)
 
-	state_value_map_attr_type := OobIpConfigValue{}.AttributeTypes(ctx)
-
-	state_value_map_attr_value := map[string]attr.Value{
-		"ip":                        types.StringValue(d.GetIp()),
-		"netmask":                   types.StringValue(d.GetNetmask()),
-		"network":                   types.StringValue(d.GetNetwork()),
-		"type":                      types.StringValue(string(d.GetType())),
-		"use_mgmt_vrf":              types.BoolValue(d.GetUseMgmtVrf()),
-		"use_mgmt_vrf_for_host_out": types.BoolValue(d.GetUseMgmtVrfForHostOut()),
+	if d != nil && d.Gateway != nil {
+		gateway = types.StringValue(*d.Gateway)
 	}
-	r, e := NewOobIpConfigValue(state_value_map_attr_type, state_value_map_attr_value)
+	if d != nil && d.Ip != nil {
+		ip = types.StringValue(*d.Ip)
+	}
+	if d != nil && d.Netmask != nil {
+		netmask = types.StringValue(*d.Netmask)
+	}
+	if d != nil && d.Network != nil {
+		network = types.StringValue(*d.Network)
+	}
+	if d != nil && d.Type != nil {
+		type_oob = types.StringValue(string(*d.Type))
+	}
+	if d != nil && d.UseMgmtVrf != nil {
+		use_mgmt_vrf = types.BoolValue(*d.UseMgmtVrf)
+	}
+	if d != nil && d.UseMgmtVrfForHostOut != nil {
+		use_mgmt_vrf_for_host_out = types.BoolValue(*d.UseMgmtVrfForHostOut)
+	}
+
+	data_map_attr_type := OobIpConfigValue{}.AttributeTypes(ctx)
+	data_map_value := map[string]attr.Value{
+		"gateway":                   gateway,
+		"ip":                        ip,
+		"netmask":                   netmask,
+		"network":                   network,
+		"type":                      type_oob,
+		"use_mgmt_vrf":              use_mgmt_vrf,
+		"use_mgmt_vrf_for_host_out": use_mgmt_vrf_for_host_out,
+	}
+	data, e := NewOobIpConfigValue(data_map_attr_type, data_map_value)
 	diags.Append(e...)
 
-	return r
+	return data
 }
