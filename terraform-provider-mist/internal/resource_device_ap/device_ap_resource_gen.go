@@ -12,7 +12,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -37,7 +36,6 @@ func DeviceApResourceSchema(ctx context.Context) schema.Schema {
 					},
 					"host": schema.StringAttribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "required if enabled, aeroscout server host",
 						MarkdownDescription: "required if enabled, aeroscout server host",
 					},
@@ -55,7 +53,6 @@ func DeviceApResourceSchema(ctx context.Context) schema.Schema {
 					},
 				},
 				Optional:            true,
-				Computed:            true,
 				Description:         "Aeroscout AP settings",
 				MarkdownDescription: "Aeroscout AP settings",
 			},
@@ -90,10 +87,8 @@ func DeviceApResourceSchema(ctx context.Context) schema.Schema {
 					"beam_disabled": schema.ListAttribute{
 						ElementType:         types.Int64Type,
 						Optional:            true,
-						Computed:            true,
 						Description:         "list of AP BLE location beam numbers (1-8) which should be disabled at the AP and not transmit location information (where beam 1 is oriented at the top the AP, growing counter-clock-wise, with 9 being the omni BLE beam)",
 						MarkdownDescription: "list of AP BLE location beam numbers (1-8) which should be disabled at the AP and not transmit location information (where beam 1 is oriented at the top the AP, growing counter-clock-wise, with 9 being the omni BLE beam)",
-						Default:             listdefault.StaticValue(types.ListValueMust(types.Int64Type, []attr.Value{})),
 					},
 					"custom_ble_packet_enabled": schema.BoolAttribute{
 						Optional:            true,
@@ -283,7 +278,6 @@ func DeviceApResourceSchema(ctx context.Context) schema.Schema {
 					},
 				},
 				Optional:            true,
-				Computed:            true,
 				Description:         "BLE AP settings",
 				MarkdownDescription: "BLE AP settings",
 			},
@@ -301,7 +295,6 @@ func DeviceApResourceSchema(ctx context.Context) schema.Schema {
 					},
 				},
 				Optional: true,
-				Computed: true,
 			},
 			"client_bridge": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
@@ -309,7 +302,6 @@ func DeviceApResourceSchema(ctx context.Context) schema.Schema {
 						Attributes: map[string]schema.Attribute{
 							"psk": schema.StringAttribute{
 								Optional: true,
-								Computed: true,
 								Validators: []validator.String{
 									stringvalidator.LengthAtLeast(1),
 								},
@@ -336,7 +328,6 @@ func DeviceApResourceSchema(ctx context.Context) schema.Schema {
 							},
 						},
 						Optional: true,
-						Computed: true,
 					},
 					"enabled": schema.BoolAttribute{
 						Optional:            true,
@@ -347,7 +338,6 @@ func DeviceApResourceSchema(ctx context.Context) schema.Schema {
 					},
 					"ssid": schema.StringAttribute{
 						Optional: true,
-						Computed: true,
 						Validators: []validator.String{
 							stringvalidator.LengthAtLeast(1),
 						},
@@ -359,11 +349,12 @@ func DeviceApResourceSchema(ctx context.Context) schema.Schema {
 					},
 				},
 				Optional: true,
-				Computed: true,
+			},
+			"device_id": schema.StringAttribute{
+				Required: true,
 			},
 			"deviceprofile_id": schema.StringAttribute{
 				Optional: true,
-				Computed: true,
 			},
 			"disable_eth1": schema.BoolAttribute{
 				Optional:            true,
@@ -397,13 +388,11 @@ func DeviceApResourceSchema(ctx context.Context) schema.Schema {
 				Attributes: map[string]schema.Attribute{
 					"cacert": schema.StringAttribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "Only if `type`==`imagotag` or `type`==`native`",
 						MarkdownDescription: "Only if `type`==`imagotag` or `type`==`native`",
 					},
 					"channel": schema.Int64Attribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "Only if `type`==`imagotag` or `type`==`native`",
 						MarkdownDescription: "Only if `type`==`imagotag` or `type`==`native`",
 					},
@@ -416,19 +405,16 @@ func DeviceApResourceSchema(ctx context.Context) schema.Schema {
 					},
 					"host": schema.StringAttribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "Only if `type`==`imagotag` or `type`==`native`",
 						MarkdownDescription: "Only if `type`==`imagotag` or `type`==`native`",
 					},
 					"port": schema.Int64Attribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "Only if `type`==`imagotag` or `type`==`native`",
 						MarkdownDescription: "Only if `type`==`imagotag` or `type`==`native`",
 					},
 					"type": schema.StringAttribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "note: ble_config will be ingored if esl_config is enabled and with native mode.",
 						MarkdownDescription: "note: ble_config will be ingored if esl_config is enabled and with native mode.",
 						Validators: []validator.String{
@@ -443,7 +429,6 @@ func DeviceApResourceSchema(ctx context.Context) schema.Schema {
 					},
 					"verify_cert": schema.BoolAttribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "Only if `type`==`imagotag` or `type`==`native`",
 						MarkdownDescription: "Only if `type`==`imagotag` or `type`==`native`",
 					},
@@ -461,81 +446,61 @@ func DeviceApResourceSchema(ctx context.Context) schema.Schema {
 					},
 				},
 				Optional: true,
-				Computed: true,
 			},
 			"height": schema.Float64Attribute{
 				Optional:            true,
-				Computed:            true,
 				Description:         "height, in meters, optional",
 				MarkdownDescription: "height, in meters, optional",
 			},
-			"id": schema.StringAttribute{
-				Optional: true,
-				Computed: true,
-			},
 			"image1_url": schema.StringAttribute{
 				Optional: true,
-				Computed: true,
 			},
 			"image2_url": schema.StringAttribute{
 				Optional: true,
-				Computed: true,
 			},
 			"image3_url": schema.StringAttribute{
 				Optional: true,
-				Computed: true,
 			},
 			"ip_config": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
 					"dns": schema.ListAttribute{
 						ElementType:         types.StringType,
 						Optional:            true,
-						Computed:            true,
 						Description:         "if `type`==`static`",
 						MarkdownDescription: "if `type`==`static`",
-						Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 					},
 					"dns_suffix": schema.ListAttribute{
 						ElementType:         types.StringType,
 						Optional:            true,
-						Computed:            true,
 						Description:         "required if `type`==`static`",
 						MarkdownDescription: "required if `type`==`static`",
-						Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 					},
 					"gateway": schema.StringAttribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "required if `type`==`static`",
 						MarkdownDescription: "required if `type`==`static`",
 					},
 					"gateway6": schema.StringAttribute{
 						Optional: true,
-						Computed: true,
 					},
 					"ip": schema.StringAttribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "required if `type`==`static`",
 						MarkdownDescription: "required if `type`==`static`",
 					},
 					"ip6": schema.StringAttribute{
 						Optional: true,
-						Computed: true,
 					},
 					"mtu": schema.Int64Attribute{
 						Optional: true,
-						Computed: true,
 					},
 					"netmask": schema.StringAttribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "required if `type`==`static`",
 						MarkdownDescription: "required if `type`==`static`",
 					},
 					"netmask6": schema.StringAttribute{
 						Optional: true,
-						Computed: true,
 					},
 					"type": schema.StringAttribute{
 						Optional: true,
@@ -577,7 +542,6 @@ func DeviceApResourceSchema(ctx context.Context) schema.Schema {
 					},
 				},
 				Optional:            true,
-				Computed:            true,
 				Description:         "IP AP settings",
 				MarkdownDescription: "IP AP settings",
 			},
@@ -600,19 +564,16 @@ func DeviceApResourceSchema(ctx context.Context) schema.Schema {
 					},
 				},
 				Optional:            true,
-				Computed:            true,
 				Description:         "LED AP settings",
 				MarkdownDescription: "LED AP settings",
 			},
 			"locked": schema.BoolAttribute{
 				Optional:            true,
-				Computed:            true,
 				Description:         "whether this map is considered locked down",
 				MarkdownDescription: "whether this map is considered locked down",
 			},
 			"map_id": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				Description:         "map where the device belongs to",
 				MarkdownDescription: "map where the device belongs to",
 			},
@@ -627,7 +588,6 @@ func DeviceApResourceSchema(ctx context.Context) schema.Schema {
 					},
 					"group": schema.Int64Attribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "mesh group, base AP(s) will only allow remote AP(s) in the same mesh group to join, 1-9, optional",
 						MarkdownDescription: "mesh group, base AP(s) will only allow remote AP(s) in the same mesh group to join, 1-9, optional",
 						Validators: []validator.Int64{
@@ -636,7 +596,6 @@ func DeviceApResourceSchema(ctx context.Context) schema.Schema {
 					},
 					"role": schema.StringAttribute{
 						Optional: true,
-						Computed: true,
 						Validators: []validator.String{
 							stringvalidator.OneOf(
 								"",
@@ -652,36 +611,29 @@ func DeviceApResourceSchema(ctx context.Context) schema.Schema {
 					},
 				},
 				Optional:            true,
-				Computed:            true,
 				Description:         "Mesh AP settings",
 				MarkdownDescription: "Mesh AP settings",
 			},
 			"name": schema.StringAttribute{
 				Optional: true,
-				Computed: true,
 			},
 			"notes": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				Description:         "any notes about this AP",
 				MarkdownDescription: "any notes about this AP",
 			},
 			"ntp_servers": schema.ListAttribute{
 				ElementType: types.StringType,
 				Optional:    true,
-				Computed:    true,
 				Validators: []validator.List{
 					listvalidator.UniqueValues(),
 				},
-				Default: listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 			},
 			"org_id": schema.StringAttribute{
-				Optional: true,
 				Computed: true,
 			},
 			"orientation": schema.Int64Attribute{
 				Optional:            true,
-				Computed:            true,
 				Description:         "orientation, 0-359, in degrees, up is 0, right is 90.",
 				MarkdownDescription: "orientation, 0-359, in degrees, up is 0, right is 90.",
 			},
@@ -715,7 +667,6 @@ func DeviceApResourceSchema(ctx context.Context) schema.Schema {
 					},
 				},
 				Optional:            true,
-				Computed:            true,
 				Description:         "power related configs",
 				MarkdownDescription: "power related configs",
 			},
@@ -728,7 +679,6 @@ func DeviceApResourceSchema(ctx context.Context) schema.Schema {
 					},
 					"ant_gain_24": schema.Int64Attribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "antenna gain for 2.4G - for models with external antenna only",
 						MarkdownDescription: "antenna gain for 2.4G - for models with external antenna only",
 						Validators: []validator.Int64{
@@ -737,7 +687,6 @@ func DeviceApResourceSchema(ctx context.Context) schema.Schema {
 					},
 					"ant_gain_5": schema.Int64Attribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "antenna gain for 5G - for models with external antenna only",
 						MarkdownDescription: "antenna gain for 5G - for models with external antenna only",
 						Validators: []validator.Int64{
@@ -746,7 +695,6 @@ func DeviceApResourceSchema(ctx context.Context) schema.Schema {
 					},
 					"ant_gain_6": schema.Int64Attribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "antenna gain for 6G - for models with external antenna only",
 						MarkdownDescription: "antenna gain for 6G - for models with external antenna only",
 						Validators: []validator.Int64{
@@ -824,10 +772,8 @@ func DeviceApResourceSchema(ctx context.Context) schema.Schema {
 							"channels": schema.ListAttribute{
 								ElementType:         types.Int64Type,
 								Optional:            true,
-								Computed:            true,
 								Description:         "For RFTemplates. List of channels, null or empty array means auto",
 								MarkdownDescription: "For RFTemplates. List of channels, null or empty array means auto",
-								Default:             listdefault.StaticValue(types.ListValueMust(types.Int64Type, []attr.Value{})),
 							},
 							"disabled": schema.BoolAttribute{
 								Optional:            true,
@@ -886,13 +832,11 @@ func DeviceApResourceSchema(ctx context.Context) schema.Schema {
 							},
 						},
 						Optional:            true,
-						Computed:            true,
 						Description:         "Radio Band AP settings",
 						MarkdownDescription: "Radio Band AP settings",
 					},
 					"band_24_usage": schema.StringAttribute{
 						Optional: true,
-						Computed: true,
 						Validators: []validator.String{
 							stringvalidator.OneOf(
 								"",
@@ -935,7 +879,6 @@ func DeviceApResourceSchema(ctx context.Context) schema.Schema {
 							},
 							"bandwidth": schema.Int64Attribute{
 								Optional:            true,
-								Computed:            true,
 								Description:         "channel width for the 5GHz band",
 								MarkdownDescription: "channel width for the 5GHz band",
 								Validators: []validator.Int64{
@@ -956,10 +899,8 @@ func DeviceApResourceSchema(ctx context.Context) schema.Schema {
 							"channels": schema.ListAttribute{
 								ElementType:         types.Int64Type,
 								Optional:            true,
-								Computed:            true,
 								Description:         "For RFTemplates. List of channels, null or empty array means auto",
 								MarkdownDescription: "For RFTemplates. List of channels, null or empty array means auto",
-								Default:             listdefault.StaticValue(types.ListValueMust(types.Int64Type, []attr.Value{})),
 							},
 							"disabled": schema.BoolAttribute{
 								Optional:            true,
@@ -1018,7 +959,6 @@ func DeviceApResourceSchema(ctx context.Context) schema.Schema {
 							},
 						},
 						Optional:            true,
-						Computed:            true,
 						Description:         "Radio Band AP settings",
 						MarkdownDescription: "Radio Band AP settings",
 					},
@@ -1054,7 +994,6 @@ func DeviceApResourceSchema(ctx context.Context) schema.Schema {
 							},
 							"bandwidth": schema.Int64Attribute{
 								Optional:            true,
-								Computed:            true,
 								Description:         "channel width for the 5GHz band",
 								MarkdownDescription: "channel width for the 5GHz band",
 								Validators: []validator.Int64{
@@ -1075,10 +1014,8 @@ func DeviceApResourceSchema(ctx context.Context) schema.Schema {
 							"channels": schema.ListAttribute{
 								ElementType:         types.Int64Type,
 								Optional:            true,
-								Computed:            true,
 								Description:         "For RFTemplates. List of channels, null or empty array means auto",
 								MarkdownDescription: "For RFTemplates. List of channels, null or empty array means auto",
-								Default:             listdefault.StaticValue(types.ListValueMust(types.Int64Type, []attr.Value{})),
 							},
 							"disabled": schema.BoolAttribute{
 								Optional:            true,
@@ -1137,7 +1074,6 @@ func DeviceApResourceSchema(ctx context.Context) schema.Schema {
 							},
 						},
 						Optional:            true,
-						Computed:            true,
 						Description:         "Radio Band AP settings",
 						MarkdownDescription: "Radio Band AP settings",
 					},
@@ -1196,10 +1132,8 @@ func DeviceApResourceSchema(ctx context.Context) schema.Schema {
 							"channels": schema.ListAttribute{
 								ElementType:         types.Int64Type,
 								Optional:            true,
-								Computed:            true,
 								Description:         "For RFTemplates. List of channels, null or empty array means auto",
 								MarkdownDescription: "For RFTemplates. List of channels, null or empty array means auto",
-								Default:             listdefault.StaticValue(types.ListValueMust(types.Int64Type, []attr.Value{})),
 							},
 							"disabled": schema.BoolAttribute{
 								Optional:            true,
@@ -1265,7 +1199,6 @@ func DeviceApResourceSchema(ctx context.Context) schema.Schema {
 							},
 						},
 						Optional:            true,
-						Computed:            true,
 						Description:         "Radio Band AP settings",
 						MarkdownDescription: "Radio Band AP settings",
 					},
@@ -1278,7 +1211,6 @@ func DeviceApResourceSchema(ctx context.Context) schema.Schema {
 					},
 					"scanning_enabled": schema.BoolAttribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "whether scanning radio is enabled",
 						MarkdownDescription: "whether scanning radio is enabled",
 					},
@@ -1289,7 +1221,6 @@ func DeviceApResourceSchema(ctx context.Context) schema.Schema {
 					},
 				},
 				Optional:            true,
-				Computed:            true,
 				Description:         "Radio AP settings",
 				MarkdownDescription: "Radio AP settings",
 			},
@@ -1319,31 +1250,26 @@ func DeviceApResourceSchema(ctx context.Context) schema.Schema {
 					},
 				},
 				Optional: true,
-				Computed: true,
 			},
 			"usb_config": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
 					"cacert": schema.StringAttribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "only if `type`==`imagotag`",
 						MarkdownDescription: "only if `type`==`imagotag`",
 					},
 					"channel": schema.Int64Attribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "only if `type`==`imagotag`\nchannel selection, not needed by default, required for manual channel override only",
 						MarkdownDescription: "only if `type`==`imagotag`\nchannel selection, not needed by default, required for manual channel override only",
 					},
 					"enabled": schema.BoolAttribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "whether to enable any usb config",
 						MarkdownDescription: "whether to enable any usb config",
 					},
 					"host": schema.StringAttribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "only if `type`==`imagotag`",
 						MarkdownDescription: "only if `type`==`imagotag`",
 					},
@@ -1356,7 +1282,6 @@ func DeviceApResourceSchema(ctx context.Context) schema.Schema {
 					},
 					"type": schema.StringAttribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "usb config type",
 						MarkdownDescription: "usb config type",
 						Validators: []validator.String{
@@ -1370,7 +1295,6 @@ func DeviceApResourceSchema(ctx context.Context) schema.Schema {
 					},
 					"verify_cert": schema.BoolAttribute{
 						Optional:            true,
-						Computed:            true,
 						Description:         "only if `type`==`imagotag`, whether to turn on SSL verification",
 						MarkdownDescription: "only if `type`==`imagotag`, whether to turn on SSL verification",
 					},
@@ -1388,26 +1312,22 @@ func DeviceApResourceSchema(ctx context.Context) schema.Schema {
 					},
 				},
 				Optional:            true,
-				Computed:            true,
 				Description:         "USB AP settings\nNote: if native imagotag is enabled, BLE will be disabled automatically\nNote: legacy, new config moved to ESL Config.",
 				MarkdownDescription: "USB AP settings\nNote: if native imagotag is enabled, BLE will be disabled automatically\nNote: legacy, new config moved to ESL Config.",
 			},
 			"vars": schema.MapAttribute{
 				ElementType:         types.StringType,
 				Optional:            true,
-				Computed:            true,
 				Description:         "a dictionary of name->value, the vars can then be used in Wlans. This can overwrite those from Site Vars",
 				MarkdownDescription: "a dictionary of name->value, the vars can then be used in Wlans. This can overwrite those from Site Vars",
 			},
 			"x": schema.Float64Attribute{
 				Optional:            true,
-				Computed:            true,
 				Description:         "x in pixel",
 				MarkdownDescription: "x in pixel",
 			},
 			"y": schema.Float64Attribute{
 				Optional:            true,
-				Computed:            true,
 				Description:         "y in pixel",
 				MarkdownDescription: "y in pixel",
 			},
@@ -1420,14 +1340,14 @@ type DeviceApModel struct {
 	BleConfig        BleConfigValue        `tfsdk:"ble_config"`
 	Centrak          CentrakValue          `tfsdk:"centrak"`
 	ClientBridge     ClientBridgeValue     `tfsdk:"client_bridge"`
+	DeviceId         types.String          `tfsdk:"device_id"`
 	DeviceprofileId  types.String          `tfsdk:"deviceprofile_id"`
 	DisableEth1      types.Bool            `tfsdk:"disable_eth1"`
 	DisableEth2      types.Bool            `tfsdk:"disable_eth2"`
 	DisableEth3      types.Bool            `tfsdk:"disable_eth3"`
 	DisableModule    types.Bool            `tfsdk:"disable_module"`
 	EslConfig        EslConfigValue        `tfsdk:"esl_config"`
-	Height           types.Float64          `tfsdk:"height"`
-	Id               types.String          `tfsdk:"id"`
+	Height           types.Float64         `tfsdk:"height"`
 	Image1Url        types.String          `tfsdk:"image1_url"`
 	Image2Url        types.String          `tfsdk:"image2_url"`
 	Image3Url        types.String          `tfsdk:"image3_url"`

@@ -15,8 +15,19 @@ func TerraformToSdk(ctx context.Context, plan *DeviceApModel) (models.MistDevice
 	var diags diag.Diagnostics
 	unset := make(map[string]interface{})
 
-	data.DeviceprofileId = models.NewOptional(models.ToPointer(uuid.MustParse(plan.DeviceprofileId.ValueString())))
-	data.MapId = models.ToPointer(uuid.MustParse(plan.MapId.ValueString()))
+	deviceprofile_id, e := uuid.Parse(plan.DeviceprofileId.ValueString())
+	if e == nil {
+		data.DeviceprofileId = models.NewOptional(&deviceprofile_id)
+	} else {
+		unset["deviceprofile_id"] = nil
+	}
+	map_id, e := uuid.Parse(plan.MapId.ValueString())
+	if e == nil {
+		data.MapId = &map_id
+	} else {
+		unset["map_id"] = nil
+	}
+
 	data.Name = plan.Name.ValueStringPointer()
 	data.Notes = plan.Notes.ValueStringPointer()
 
@@ -33,11 +44,11 @@ func TerraformToSdk(ctx context.Context, plan *DeviceApModel) (models.MistDevice
 		unset["-ble_config"] = ""
 	}
 
-	// if !plan.Centrak.IsNull() && !plan.Centrak.IsUnknown() {
-	// 	data.Centrak = centrakTerraformToSdk(ctx, &diags, plan.Centrak)
-	// } else {
-	// 	unset["-centrak"] = ""
-	// }
+	if !plan.Centrak.IsNull() && !plan.Centrak.IsUnknown() {
+		data.Centrak = centrakTerraformToSdk(ctx, &diags, plan.Centrak)
+	} else {
+		unset["-centrak"] = ""
+	}
 
 	if !plan.ClientBridge.IsNull() && !plan.ClientBridge.IsUnknown() {
 		data.ClientBridge = clientBridgeTerraformToSdk(ctx, &diags, plan.ClientBridge)

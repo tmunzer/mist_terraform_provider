@@ -11,13 +11,14 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 )
 
-func SdkToTerraform(ctx context.Context, orgId string, data []models.Inventory) (OrgInventoryModel, diag.Diagnostics) {
+func SdkToTerraform(ctx context.Context, orgId string, data []models.Inventory, plan *OrgInventoryModel) (OrgInventoryModel, diag.Diagnostics) {
 	var state OrgInventoryModel
 	var diags diag.Diagnostics
+	var devices_out []attr.Value
+	devices_tmp := make(map[string]DevicesValue)
 
 	state.OrgId = types.StringValue(orgId)
 
-	var devices []attr.Value
 	for _, d := range data {
 		var claim_code basetypes.StringValue
 		var mac basetypes.StringValue
@@ -77,10 +78,22 @@ func SdkToTerraform(ctx context.Context, orgId string, data []models.Inventory) 
 		data, e := NewDevicesValue(data_map_attr_type, data_map_value)
 		diags.Append(e...)
 
-		devices = append(devices, data)
+		devices_tmp[data.Magic.ValueString()] = data
 	}
 
-	devices_list, e := basetypes.NewListValue(DevicesValue{}.Type(ctx), devices)
+	for _, dev_plan_attr := range plan.Devices.Elements() {
+		var dpi interface{} = dev_plan_attr
+		var device = dpi.(DevicesValue)
+		device_magic := device.Magic
+		dev_from_mist, ok := devices_tmp[device_magic.ValueString()]
+		if ok {
+			devices_out = append(devices_out, dev_from_mist)
+		} else {
+			devices_out = append(devices_out, device)
+		}
+	}
+
+	devices_list, e := basetypes.NewListValue(DevicesValue{}.Type(ctx), devices_out)
 	diags.Append(e...)
 	state.Devices = devices_list
 

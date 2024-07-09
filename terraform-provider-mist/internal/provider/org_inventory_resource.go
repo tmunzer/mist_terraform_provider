@@ -66,14 +66,14 @@ func (r *orgInventoryResource) Create(ctx context.Context, req resource.CreateRe
 
 	orgId := uuid.MustParse(plan.OrgId.ValueString())
 	/////////////////////// Update
-	diags = r.updateInventory(ctx, plan, state)
+	diags = r.updateInventory(ctx, &plan, &state)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
 	}
 
 	/////////////////////// Check
-	state, diags = r.refreshInventory(ctx, orgId)
+	state, diags = r.refreshInventory(ctx, orgId, &plan)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -97,7 +97,7 @@ func (r *orgInventoryResource) Read(ctx context.Context, req resource.ReadReques
 	}
 
 	orgId := uuid.MustParse(state.OrgId.ValueString())
-	state, diags = r.refreshInventory(ctx, orgId)
+	state, diags = r.refreshInventory(ctx, orgId, &state)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -127,13 +127,13 @@ func (r *orgInventoryResource) Update(ctx context.Context, req resource.UpdateRe
 
 	/////////////////////// Update
 	orgId := uuid.MustParse(plan.OrgId.ValueString())
-	diags = r.updateInventory(ctx, plan, state)
+	diags = r.updateInventory(ctx, &plan, &state)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
 	}
 	/////////////////////// Check
-	state, diags = r.refreshInventory(ctx, orgId)
+	state, diags = r.refreshInventory(ctx, orgId, &plan)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -183,11 +183,11 @@ func (r *orgInventoryResource) Delete(ctx context.Context, req resource.DeleteRe
 	})
 }
 
-func (r *orgInventoryResource) updateInventory(ctx context.Context, plan resource_org_inventory.OrgInventoryModel, state resource_org_inventory.OrgInventoryModel) diag.Diagnostics {
+func (r *orgInventoryResource) updateInventory(ctx context.Context, plan *resource_org_inventory.OrgInventoryModel, state *resource_org_inventory.OrgInventoryModel) diag.Diagnostics {
 	var diags diag.Diagnostics
 
 	orgId := uuid.MustParse(plan.OrgId.ValueString())
-	claim, unclaim, unassign, assign_claim, assign, e := resource_org_inventory.TerraformToSdk(ctx, plan.Devices, state.Devices)
+	claim, unclaim, unassign, assign_claim, assign, e := resource_org_inventory.TerraformToSdk(ctx, &plan.Devices, &state.Devices)
 	diags.Append(e...)
 	/////////////////////// CLAIM
 	if len(claim) > 0 {
@@ -257,6 +257,7 @@ func (r *orgInventoryResource) updateInventory(ctx context.Context, plan resourc
 			assign_body := models.InventoryUpdate{}
 			assign_body.Op = models.InventoryUpdateOperationEnum_ASSIGN
 			assign_body.Macs = assign[k]
+			tflog.Error(ctx, "devices "+strings.Join(assign[k], ", ")+" to "+k)
 			assign_body.SiteId = models.ToPointer(uuid.MustParse(k))
 
 			assign_response, err := r.client.OrgsInventory().UpdateOrgInventoryAssignment(ctx, orgId, &assign_body)
@@ -276,7 +277,7 @@ func (r *orgInventoryResource) updateInventory(ctx context.Context, plan resourc
 	return diags
 }
 
-func (r *orgInventoryResource) refreshInventory(ctx context.Context, orgId uuid.UUID) (resource_org_inventory.OrgInventoryModel, diag.Diagnostics) {
+func (r *orgInventoryResource) refreshInventory(ctx context.Context, orgId uuid.UUID, plan *resource_org_inventory.OrgInventoryModel) (resource_org_inventory.OrgInventoryModel, diag.Diagnostics) {
 	var diags diag.Diagnostics
 
 	tflog.Info(ctx, "Starting Inventory state refresh: org_id  "+orgId.String())
@@ -298,7 +299,7 @@ func (r *orgInventoryResource) refreshInventory(ctx context.Context, orgId uuid.
 			"Could not get Inventory, unexpected error: "+err.Error(),
 		)
 	}
-	state, e := resource_org_inventory.SdkToTerraform(ctx, orgId.String(), data.Data)
+	state, e := resource_org_inventory.SdkToTerraform(ctx, orgId.String(), data.Data, plan)
 	diags.Append(e...)
 
 	return state, diags

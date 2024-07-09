@@ -13,7 +13,14 @@
             "computed_optional_required": "required"
         },
         {
-            "name": "id",
+            "name": "device_id",
+            "get": [
+                "string"
+            ],
+            "computed_optional_required": "required"
+        },
+        {
+            "name": "org_id",
             "get": [
                 "string"
             ],

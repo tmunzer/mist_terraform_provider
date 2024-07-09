@@ -13,7 +13,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 
-func configPushPolicyWindowSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d *models.WlanSchedule) basetypes.ObjectValue {
+func configPushPolicyWindowSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d *models.PushPolicyPushWindow) basetypes.ObjectValue {
 	tflog.Debug(ctx, "configPushPolicyWindowSdkToTerraform")
 	var enabled basetypes.BoolValue
 	var hours basetypes.ObjectValue

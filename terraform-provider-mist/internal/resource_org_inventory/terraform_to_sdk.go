@@ -5,9 +5,10 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
+	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 
-func TerraformToSdk(ctx context.Context, devices_plan basetypes.ListValue, devices_state basetypes.ListValue) ([]string, []string, []string, map[string]string, map[string][]string, diag.Diagnostics) {
+func TerraformToSdk(ctx context.Context, devices_plan *basetypes.ListValue, devices_state *basetypes.ListValue) ([]string, []string, []string, map[string]string, map[string][]string, diag.Diagnostics) {
 	var diags diag.Diagnostics
 	var claim []string
 	var unclaim []string
@@ -27,17 +28,19 @@ func TerraformToSdk(ctx context.Context, devices_plan basetypes.ListValue, devic
 			if dev_plan.Magic == dev_state.Magic {
 				already_claimed = true
 				// Site ID not in state but planed > must be assigned
-				if (dev_state.SiteId.IsNull() || dev_state.SiteId.IsUnknown() || len(dev_state.SiteId.ValueString()) == 0) &&
-					!(dev_plan.SiteId.IsNull() || dev_plan.SiteId.IsUnknown() || len(dev_plan.SiteId.ValueString()) == 0) {
+				if dev_state.SiteId.ValueStringPointer() == nil && dev_state.SiteId.ValueString() == "" &&
+					dev_plan.SiteId.ValueStringPointer() != nil && dev_plan.SiteId.ValueString() != "" {
 					op = "assign"
 					device_mac = dev_state.Mac.ValueString()
 					// Site ID in state but not planed > must be unassigned
-				} else if !(dev_state.SiteId.IsNull() || dev_state.SiteId.IsUnknown() || len(dev_state.SiteId.ValueString()) == 0) &&
-					(dev_plan.SiteId.IsNull() || dev_plan.SiteId.IsUnknown() || len(dev_plan.SiteId.ValueString()) == 0) {
+				} else if dev_state.SiteId.ValueStringPointer() != nil && dev_state.SiteId.ValueString() != "" &&
+					dev_plan.SiteId.ValueStringPointer() == nil && dev_plan.SiteId.ValueString() == "" {
 					op = "unassign"
 					device_mac = dev_state.Mac.ValueString()
 					// State Site ID != Plan Site ID > must be reassigned
-				} else if !dev_state.SiteId.Equal(dev_plan.SiteId) {
+				} else if dev_state.SiteId.ValueStringPointer() != nil && dev_state.SiteId.ValueString() != "" &&
+					dev_plan.SiteId.ValueStringPointer() != nil && dev_plan.SiteId.ValueString() != "" &&
+					!dev_state.SiteId.Equal(dev_plan.SiteId) {
 					device_mac = dev_state.Mac.ValueString()
 					op = "reassign"
 				}
@@ -45,12 +48,13 @@ func TerraformToSdk(ctx context.Context, devices_plan basetypes.ListValue, devic
 		}
 		if !already_claimed {
 			claim = append(claim, dev_plan.Magic.ValueString())
-			if dev_plan.SiteId.ValueStringPointer() != nil {
+			if dev_plan.SiteId.ValueStringPointer() != nil && dev_plan.SiteId.ValueString() != "" {
 				assign_claim[dev_plan.Magic.ValueString()] = dev_plan.SiteId.ValueString()
 			}
 		}
 		switch op {
 		case "assign":
+			tflog.Error(ctx, "---------devices "+device_mac+" to "+dev_plan.SiteId.ValueString())
 			assign[dev_plan.SiteId.ValueString()] = append(assign[dev_plan.SiteId.ValueString()], device_mac)
 		case "reassign":
 			assign[dev_plan.SiteId.ValueString()] = append(assign[dev_plan.SiteId.ValueString()], device_mac)

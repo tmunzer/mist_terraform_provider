@@ -20,12 +20,12 @@ resource "mist_org_inventory" "inventory" {
   devices = [
     {
       claim_code = "CPKL2EXN8JY98AC"
-      site_id = mist_site.terraform_site.id
+       site_id = mist_site.terraform_site.id
     },
-    {
-      claim_code = "G87JHBFXZJSFNMX"
-      # site_id = mist_site.terraform_site.id
-    }
+     {
+       claim_code = "G87JHBFXZJSFNMX"
+       # site_id = mist_site.terraform_site.id
+     }
   ]
 }
 ### SITES
@@ -44,6 +44,12 @@ resource "mist_site" "terraform_site" {
   networktemplate_id = mist_org_networktemplate.switch_template.id
   rftemplate_id      = mist_org_rftemplate.test_rf.id
   gatewaytemplate_id = mist_org_gatewaytemplate.test-api.id
+}
+
+resource "mist_device_ap" "test_ap" {
+  device_id = mist_org_inventory.inventory.devices[0].id
+  site_id =  mist_org_inventory.inventory.devices[0].site_id
+  name = "test_ap"
 }
 
 

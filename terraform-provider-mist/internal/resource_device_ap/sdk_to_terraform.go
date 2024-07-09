@@ -16,7 +16,7 @@ func SdkToTerraform(ctx context.Context, data *models.DeviceAp) (DeviceApModel, 
 
 	var aeroscout AeroscoutValue = NewAeroscoutValueNull()
 	var ble_config BleConfigValue = NewBleConfigValueNull()
-	//	var centrak CentrakValue = NewCentrakValueNull()
+	var centrak CentrakValue = NewCentrakValueNull()
 	var client_bridge ClientBridgeValue = NewClientBridgeValueNull()
 	var deviceprofile_id types.String
 	var disable_eth1 types.Bool
@@ -25,7 +25,7 @@ func SdkToTerraform(ctx context.Context, data *models.DeviceAp) (DeviceApModel, 
 	var disable_module types.Bool
 	var esl_config EslConfigValue = NewEslConfigValueNull()
 	var height types.Float64
-	var id types.String
+	var deviceId types.String
 	var image1_url types.String
 	var image2_url types.String
 	var image3_url types.String
@@ -36,7 +36,7 @@ func SdkToTerraform(ctx context.Context, data *models.DeviceAp) (DeviceApModel, 
 	var mesh MeshValue = NewMeshValueNull()
 	var name types.String
 	var notes types.String
-	var ntp_servers types.List
+	var ntp_servers types.List = types.ListNull(types.StringType)
 	var org_id types.String
 	var orientation types.Int64
 	var poe_passthrough types.Bool
@@ -55,9 +55,9 @@ func SdkToTerraform(ctx context.Context, data *models.DeviceAp) (DeviceApModel, 
 	if data.BleConfig != nil {
 		ble_config = bleConfigsSdkToTerraform(ctx, &diags, data.BleConfig)
 	}
-	// if data.Centrak != nil {
-	// 	centrak = centrakSdkToTerraform(ctx, &diags, data.Centrak)
-	// }
+	if data.Centrak != nil {
+		centrak = centrakSdkToTerraform(ctx, &diags, data.Centrak)
+	}
 	if data.ClientBridge != nil {
 		client_bridge = clientBridgeSdkToTerraform(ctx, &diags, data.ClientBridge)
 	}
@@ -83,7 +83,7 @@ func SdkToTerraform(ctx context.Context, data *models.DeviceAp) (DeviceApModel, 
 		height = types.Float64Value(float64(*data.Height))
 	}
 	if data.Id != nil {
-		id = types.StringValue(data.Id.String())
+		deviceId = types.StringValue(data.Id.String())
 	}
 	if data.Image1Url.Value() != nil {
 		image1_url = types.StringValue(*data.Image1Url.Value())
@@ -154,7 +154,7 @@ func SdkToTerraform(ctx context.Context, data *models.DeviceAp) (DeviceApModel, 
 
 	state.Aeroscout = aeroscout
 	state.BleConfig = ble_config
-	//	state.Centrak = centrak
+	state.Centrak = centrak
 	state.ClientBridge = client_bridge
 	state.DisableEth1 = disable_eth1
 	state.DisableEth2 = disable_eth2
@@ -163,7 +163,7 @@ func SdkToTerraform(ctx context.Context, data *models.DeviceAp) (DeviceApModel, 
 	state.DeviceprofileId = deviceprofile_id
 	state.EslConfig = esl_config
 	state.Height = height
-	state.Id = id
+	state.DeviceId = deviceId
 	state.Image1Url = image1_url
 	state.Image2Url = image2_url
 	state.Image3Url = image3_url

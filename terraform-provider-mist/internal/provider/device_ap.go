@@ -2,11 +2,14 @@ package provider
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
+	"io"
 
 	"terraform-provider-mist/internal/resource_device_ap"
 
 	"mistapi"
+	"mistapi/models"
 
 	"github.com/google/uuid"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
@@ -67,19 +70,23 @@ func (r *device_apResource) Create(ctx context.Context, req resource.CreateReque
 		return
 	}
 	siteId := uuid.MustParse(plan.SiteId.ValueString())
-	deviceId := uuid.MustParse(plan.Id.ValueString())
-	tflog.Info(ctx, "Starting DeviceAp Create on Site "+plan.SiteId.ValueString()+" for device "+plan.Id.ValueString())
+	deviceId := uuid.MustParse(plan.DeviceId.ValueString())
+	tflog.Info(ctx, "Starting DeviceAp Create on Site "+plan.SiteId.ValueString()+" for device "+plan.DeviceId.ValueString())
 	data, err := r.client.SitesDevices().UpdateSiteDevice(ctx, siteId, deviceId, &device_ap)
 
-	if err != nil {
+	if data.Response.StatusCode != 200 && err != nil {
 		resp.Diagnostics.AddError(
 			"Error creating device_ap",
 			"Could not create device_ap, unexpected error: "+err.Error(),
 		)
 		return
 	}
-	mist_ap, _ := data.Data.AsDeviceAp()
-	state, diags = resource_device_ap.SdkToTerraform(ctx, mist_ap)
+
+	body, _ := io.ReadAll(data.Response.Body)
+	mist_ap := models.DeviceAp{}
+	json.Unmarshal(body, &mist_ap)
+	tflog.Error(ctx, "------------------ "+string(mist_ap.Id.String()))
+	state, diags = resource_device_ap.SdkToTerraform(ctx, &mist_ap)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -102,19 +109,22 @@ func (r *device_apResource) Read(ctx context.Context, req resource.ReadRequest, 
 		return
 	}
 
-	tflog.Info(ctx, "Starting DeviceAp Read: device_ap_id "+state.Id.ValueString())
+	tflog.Info(ctx, "Starting DeviceAp Read: device_ap_id "+state.DeviceId.ValueString())
 	siteId := uuid.MustParse(state.SiteId.ValueString())
-	deviceId := uuid.MustParse(state.Id.ValueString())
+	deviceId := uuid.MustParse(state.DeviceId.ValueString())
 	data, err := r.client.SitesDevices().GetSiteDevice(ctx, siteId, deviceId)
-	if err != nil {
+	if data.Response.StatusCode != 200 && err != nil {
 		resp.Diagnostics.AddError(
 			"Error getting device_ap",
 			"Could not get device_ap, unexpected error: "+err.Error(),
 		)
 		return
 	}
-	mist_ap, _ := data.Data.AsDeviceAp()
-	state, diags = resource_device_ap.SdkToTerraform(ctx, mist_ap)
+	body, _ := io.ReadAll(data.Response.Body)
+	mist_ap := models.DeviceAp{}
+	json.Unmarshal(body, &mist_ap)
+
+	state, diags = resource_device_ap.SdkToTerraform(ctx, &mist_ap)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -148,20 +158,23 @@ func (r *device_apResource) Update(ctx context.Context, req resource.UpdateReque
 		return
 	}
 
-	tflog.Info(ctx, "Starting DeviceAp Update for DeviceAp "+state.Id.ValueString())
+	tflog.Info(ctx, "Starting DeviceAp Update for DeviceAp "+state.DeviceId.ValueString())
 	siteId := uuid.MustParse(state.SiteId.ValueString())
-	deviceId := uuid.MustParse(state.Id.ValueString())
+	deviceId := uuid.MustParse(state.DeviceId.ValueString())
 	data, err := r.client.SitesDevices().UpdateSiteDevice(ctx, siteId, deviceId, &device_ap)
 
-	if err != nil {
+	if data.Response.StatusCode != 200 && err != nil {
 		resp.Diagnostics.AddError(
 			"Error updating device_ap",
 			"Could not update device_ap, unexpected error: "+err.Error(),
 		)
 		return
 	}
-	mist_ap, _ := data.Data.AsDeviceAp()
-	state, diags = resource_device_ap.SdkToTerraform(ctx, mist_ap)
+
+	body, _ := io.ReadAll(data.Response.Body)
+	mist_ap := models.DeviceAp{}
+	json.Unmarshal(body, &mist_ap)
+	state, diags = resource_device_ap.SdkToTerraform(ctx, &mist_ap)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -190,11 +203,11 @@ func (r *device_apResource) Delete(ctx context.Context, req resource.DeleteReque
 		return
 	}
 
-	tflog.Info(ctx, "Starting DeviceAp Delete: device_ap_id "+state.Id.ValueString())
+	tflog.Info(ctx, "Starting DeviceAp Delete: device_ap_id "+state.DeviceId.ValueString())
 	siteId := uuid.MustParse(state.SiteId.ValueString())
-	deviceId := uuid.MustParse(state.Id.ValueString())
-	_, err := r.client.SitesDevices().UpdateSiteDevice(ctx, siteId, deviceId, &device_ap)
-	if err != nil {
+	deviceId := uuid.MustParse(state.DeviceId.ValueString())
+	data, err := r.client.SitesDevices().UpdateSiteDevice(ctx, siteId, deviceId, &device_ap)
+	if data.Response.StatusCode != 200 && err != nil {
 		resp.Diagnostics.AddError(
 			"Error creating device_ap",
 			"Could not delete device_ap, unexpected error: "+err.Error(),

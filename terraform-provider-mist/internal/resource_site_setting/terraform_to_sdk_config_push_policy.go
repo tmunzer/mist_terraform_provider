@@ -12,9 +12,9 @@ import (
 	"mistapi/models"
 )
 
-func pushPolicyPushWindowConfigTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) *models.WlanSchedule {
+func pushPolicyPushWindowConfigTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) *models.PushPolicyPushWindow {
 	tflog.Debug(ctx, "pushPolicyPushWindowConfigTerraformToSdk")
-	data := models.WlanSchedule{}
+	data := models.PushPolicyPushWindow{}
 
 	if !d.IsNull() && !d.IsUnknown() {
 		vd, e := NewPushWindowValue(PushWindowValue{}.AttributeTypes(ctx), d.Attributes())

@@ -82,6 +82,7 @@ def next_item(data: dict, entries: list, path: list):
         get = entry.get("get")
         n = entry.get("next")
         rename = entry.get("rename")
+        remove = entry.get("remove")
         plan_modifiers = entry.get("plan_modifiers")
         computed_optional_required = entry.get("computed_optional_required")
         default = entry.get("default")
@@ -99,6 +100,8 @@ def next_item(data: dict, entries: list, path: list):
                         print(f"not able to get {'.'.join(curr_path)}")
             if rename:
                 sub_data["name"] = rename
+            if remove:
+                del sub_data
             if default_type:
                 if default_type == "list_of_str":
                     sub_data["default"] = json.loads(CUSTOM_DEFAULT_LIST_OF_STR)
