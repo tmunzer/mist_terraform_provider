@@ -54,13 +54,13 @@ func gatewayPortTrafficShapingTerraformToSdk(ctx context.Context, diags *diag.Di
 	}
 }
 
-func gatewayIpConfigTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) *models.GatewayIpConfig {
+func gatewayIpConfigTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.ObjectValue) *models.GatewayPortConfigIpConfig {
 	tflog.Debug(ctx, "gatewayIpConfigTerraformToSdk")
-	data := models.GatewayIpConfig{}
+	data := models.GatewayPortConfigIpConfig{}
 	if d.IsNull() || d.IsUnknown() {
 		return nil
 	} else {
-		plan := NewIpConfigValueMust(d.AttributeTypes(ctx), d.Attributes())
+		plan := NewPortIpConfigValueMust(d.AttributeTypes(ctx), d.Attributes())
 		if plan.Dns.IsNull() && !plan.Dns.IsUnknown() {
 			data.Dns = mist_transform.ListOfStringTerraformToSdk(ctx, plan.Dns)
 		}
@@ -88,8 +88,8 @@ func gatewayIpConfigTerraformToSdk(ctx context.Context, diags *diag.Diagnostics,
 		if plan.PppoeAuth.ValueStringPointer() != nil {
 			data.PppoeAuth = models.ToPointer(models.GatewayWanPpoeAuthEnum(plan.PppoeAuth.ValueString()))
 		}
-		if plan.IpConfigType.ValueStringPointer() != nil {
-			data.Type = models.ToPointer(models.GatewayWanTypeEnum(plan.IpConfigType.ValueString()))
+		if plan.PortIpConfigType.ValueStringPointer() != nil {
+			data.Type = models.ToPointer(models.GatewayWanTypeEnum(plan.PortIpConfigType.ValueString()))
 		}
 		return &data
 	}
@@ -143,7 +143,7 @@ func portConfigTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d ba
 			data.Duplex = models.ToPointer(models.GatewayPortDuplexEnum(plan.Duplex.ValueString()))
 		}
 
-		t, _ := plan.IpConfig.ToObjectValue(ctx)
+		t, _ := plan.PortIpConfig.ToObjectValue(ctx)
 		data.IpConfig = gatewayIpConfigTerraformToSdk(ctx, diags, t)
 
 		if plan.LteApn.ValueStringPointer() != nil {

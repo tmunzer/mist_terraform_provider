@@ -194,7 +194,7 @@ func (r *device_switchResource) Update(ctx context.Context, req resource.UpdateR
 
 	tflog.Info(ctx, "Starting DeviceSwitch Update for DeviceSwitch "+state.DeviceId.ValueString())
 
-	siteId, err := uuid.Parse(state.SiteId.ValueString())
+	siteId, err := uuid.Parse(plan.SiteId.ValueString())
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Error getting device_switch site_id from state",
@@ -203,7 +203,7 @@ func (r *device_switchResource) Update(ctx context.Context, req resource.UpdateR
 		return
 	}
 
-	deviceId, err := uuid.Parse(state.DeviceId.ValueString())
+	deviceId, err := uuid.Parse(plan.DeviceId.ValueString())
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Error getting device_switch device_id from state",

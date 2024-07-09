@@ -11,23 +11,27 @@ import (
 	mist_transform "terraform-provider-mist/internal/commons/utils"
 )
 
-func SdkToTerraform(ctx context.Context, data *models.GatewayTemplate) (OrgGatewaytemplateModel, diag.Diagnostics) {
-	var state OrgGatewaytemplateModel
+func SdkToTerraform(ctx context.Context, data *models.DeviceGateway) (DeviceGatewayModel, diag.Diagnostics) {
+	var state DeviceGatewayModel
 	var diags diag.Diagnostics
 
 	var additional_config_cmds types.List = types.ListNull(types.StringType)
 	var bgp_config types.Map = types.MapNull(BgpConfigValue{}.Type(ctx))
+	var deviceprofile_id types.String
 	var dhcpd_config DhcpdConfigValue = NewDhcpdConfigValueNull()
-	var dns_override types.Bool = types.BoolValue(false)
 	var dns_servers types.List = types.ListNull(types.StringType)
 	var dns_suffix types.List = types.ListNull(types.StringType)
 	var extra_routes types.Map = types.MapNull(ExtraRoutesValue{}.Type(ctx))
-	var id types.String
+	var deviceId types.String
 	var idp_profiles types.Map = types.MapNull(IdpProfilesValue{}.Type(ctx))
-	var ip_configs types.Map = types.MapNull(IpConfigValue{}.Type(ctx))
-	var name types.String = types.StringValue(data.Name)
+	var image1_url types.String
+	var image2_url types.String
+	var image3_url types.String
+	var ip_configs types.Map = types.MapNull(IpConfigsValue{}.Type(ctx))
+	var map_id types.String
+	var name types.String = types.StringValue(*data.Name)
 	var networks types.List = types.ListNull(NetworksValue{}.Type(ctx))
-	var ntp_override types.Bool = types.BoolValue(false)
+	var notes types.String
 	var ntp_servers types.List = types.ListNull(types.StringType)
 	var oob_ip_config OobIpConfigValue = NewOobIpConfigValueNull()
 	var org_id types.String
@@ -36,9 +40,12 @@ func SdkToTerraform(ctx context.Context, data *models.GatewayTemplate) (OrgGatew
 	var router_id types.String
 	var routing_policies types.Map = types.MapNull(RoutingPoliciesValue{}.Type(ctx))
 	var service_policies types.List = types.ListNull(types.StringType)
+	var site_id types.String
 	var tunnel_configs types.Map = types.MapNull(TunnelConfigsValue{}.Type(ctx))
 	var tunnel_provider_options TunnelProviderOptionsValue = NewTunnelProviderOptionsValueNull()
-	var type_template types.String = types.StringValue("standalone")
+	var vars types.Map = types.MapNull(types.StringType)
+	var x types.Float64
+	var y types.Float64
 
 	if data.AdditionalConfigCmds != nil {
 		additional_config_cmds = mist_transform.ListOfStringSdkToTerraform(ctx, data.AdditionalConfigCmds)
@@ -46,11 +53,11 @@ func SdkToTerraform(ctx context.Context, data *models.GatewayTemplate) (OrgGatew
 	if data.BgpConfig != nil {
 		bgp_config = bgpConfigSdkToTerraform(ctx, &diags, data.BgpConfig)
 	}
+	if data.DeviceprofileId != nil {
+		deviceprofile_id = types.StringValue(data.DeviceprofileId.String())
+	}
 	if data.DhcpdConfig != nil {
 		dhcpd_config = dhcpdConfigSdkToTerraform(ctx, &diags, data.DhcpdConfig)
-	}
-	if data.DnsOverride != nil {
-		dns_override = types.BoolValue(*data.DnsOverride)
 	}
 	if data.DnsServers != nil {
 		dns_servers = mist_transform.ListOfStringSdkToTerraform(ctx, data.DnsServers)
@@ -62,19 +69,31 @@ func SdkToTerraform(ctx context.Context, data *models.GatewayTemplate) (OrgGatew
 		extra_routes = extraRoutesSdkToTerraform(ctx, &diags, data.ExtraRoutes)
 	}
 	if data.Id != nil {
-		id = types.StringValue(data.Id.String())
+		deviceId = types.StringValue(data.Id.String())
 	}
 	if data.IdpProfiles != nil {
 		idp_profiles = idpProfileSdkToTerraform(ctx, &diags, data.IdpProfiles)
 	}
+	if data.Image1Url.Value() != nil {
+		image1_url = types.StringValue(*data.Image1Url.Value())
+	}
+	if data.Image2Url.Value() != nil {
+		image2_url = types.StringValue(*data.Image2Url.Value())
+	}
+	if data.Image3Url.Value() != nil {
+		image3_url = types.StringValue(*data.Image3Url.Value())
+	}
 	if data.IpConfigs != nil {
 		ip_configs = ipConfigsSdkToTerraform(ctx, &diags, data.IpConfigs)
+	}
+	if data.MapId != nil {
+		map_id = types.StringValue(data.MapId.String())
 	}
 	if data.Networks != nil {
 		networks = NetworksSdkToTerraform(ctx, &diags, data.Networks)
 	}
-	if data.NtpOverride != nil {
-		ntp_override = types.BoolValue(*data.NtpOverride)
+	if data.Notes != nil {
+		notes = types.StringValue(*data.Notes)
 	}
 	if data.NtpServers != nil {
 		ntp_servers = mist_transform.ListOfStringSdkToTerraform(ctx, data.NtpServers)
@@ -97,6 +116,9 @@ func SdkToTerraform(ctx context.Context, data *models.GatewayTemplate) (OrgGatew
 	if data.RoutingPolicies != nil {
 		routing_policies = routingPolociesSdkToTerraform(ctx, &diags, data.RoutingPolicies)
 	}
+	if data.SiteId != nil {
+		site_id = types.StringValue(data.SiteId.String())
+	}
 	if data.ServicePolicies != nil {
 		service_policies = servicePoliciesSdkToTerraform(ctx, &diags, data.ServicePolicies)
 	}
@@ -106,24 +128,34 @@ func SdkToTerraform(ctx context.Context, data *models.GatewayTemplate) (OrgGatew
 	if data.TunnelProviderOptions != nil {
 		tunnel_provider_options = tunnelProviderSdkToTerraform(ctx, &diags, data.TunnelProviderOptions)
 	}
-	if data.Type != nil {
-		type_template = types.StringValue(string(*data.Type))
+	if data.Vars != nil {
+		vars = varsSdkToTerraform(ctx, &diags, data.Vars)
+	}
+	if data.X != nil {
+		x = types.Float64Value(float64(*data.X))
+	}
+	if data.Y != nil {
+		y = types.Float64Value(float64(*data.Y))
 	}
 
 	state.AdditionalConfigCmds = additional_config_cmds
 	state.BgpConfig = bgp_config
+	state.DeviceprofileId = deviceprofile_id
 	state.DhcpdConfig = dhcpd_config
-	state.DnsOverride = dns_override
 	state.DnsServers = dns_servers
 	state.DnsSuffix = dns_suffix
 	state.ExtraRoutes = extra_routes
-	state.Id = id
+	state.DeviceId = deviceId
 	state.IdpProfiles = idp_profiles
+	state.Image1Url = image1_url
+	state.Image2Url = image2_url
+	state.Image3Url = image3_url
 	state.IpConfigs = ip_configs
+	state.MapId = map_id
 	state.Name = name
 	state.Networks = networks
-	state.NtpOverride = ntp_override
 	state.NtpServers = ntp_servers
+	state.Notes = notes
 	state.OobIpConfig = oob_ip_config
 	state.OrgId = org_id
 	state.PathPreferences = path_preferences
@@ -131,9 +163,12 @@ func SdkToTerraform(ctx context.Context, data *models.GatewayTemplate) (OrgGatew
 	state.RouterId = router_id
 	state.RoutingPolicies = routing_policies
 	state.ServicePolicies = service_policies
+	state.SiteId = site_id
 	state.TunnelConfigs = tunnel_configs
 	state.TunnelProviderOptions = tunnel_provider_options
-	state.Type = type_template
+	state.Vars = vars
+	state.X = x
+	state.Y = y
 
 	return state, diags
 }

@@ -25,6 +25,10 @@ resource "mist_org_inventory" "inventory" {
     {
       claim_code = "G87JHBFXZJSFNMX"
       site_id    = mist_site.terraform_site.id
+    },
+    {
+      claim_code = "CV4YAS8DQWYLL6M"
+      site_id    = mist_site.terraform_site.id
     }
   ]
 }
@@ -1111,13 +1115,13 @@ resource "mist_device_switch" "test_switch" {
     "set groups custom-auth  system login user tmunzer authentication ssh-rsa \"ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCxk1CXmrc/wNlzuelQoBgEdnA3Mq8r05UhXgBUwqFdcbwkEmgYnciQWXYeFdA+UwR3SWX4VtyeenQi/S9pSOjvoZQ5OYBWNqak+AWjXXzX7sO8cf59TSDDN2lybdH6kWbvRKYzMbfpZvwluYwQX7ftN/D4/iS7288i5knaMVklhDJGdcuh6Xlve6PueZ5ov2twPzpplPVdWOCqgaCMhvVplG3oNTvBpeJ6BCXzhgJdkFNinFehPnvUR6MRwdjD/MvS1r+yrggHGQzJ57VEDsw2qH8wRaUUn0+Nd5hMYO4vamfintlm5hEAW9+my6HKNzBmd/TMeLctKUOg/q4Bc9TfYB51HEghHZ1i3ClJ6nE/1M6Ev9B+YwBJpeRaieWHbOHWrmMKM5rnYpX+uShPobvHKC8Z5HU5UkAtWvRyXVqbeeVv7xlGDTKnm0UQtzv9UDR/BN3VSnh8JKGLeiPDRZ0oDdgqK1ijxXBCFKb6FXAUiORUQLtI/7dmV4YxK4oS+ZRU/uxCCNDx6R90o08RFDFpWNBPY1yj332T/6JnA7nzlAYdQ1s1hzgzamZoEZuO/a+NObV9gQbJC13ZtZEWKXSLHPvEsORc5nb7hN76RNI7yKnAWNy5Zj2aaPlTGofbdr9M8+Tez4wldmYB/k86M4lENv5fZRx9A6VmfXFDoSI33w== tmunzer@stag.one\"",
     "set apply-groups custom-auth"
   ]
-  # ip_config = {
-  #   type    = "static"
-  #   ip      = "10.3.18.99"
-  #   netmask = "255.255.255.0"
-  #   network = "prx"
-  #   gateway = "10.3.18.11"
-  # }
+  ip_config = {
+    type    = "static"
+    ip      = "10.3.18.99"
+    netmask = "255.255.255.0"
+    network = "prx"
+    gateway = "10.3.18.11"
+  }
   # routing_policies= {
   #     "tyes"= {
   #         terms= [
@@ -1183,18 +1187,18 @@ resource "mist_device_switch" "test_switch" {
   mist_nac = {
     enabled = true
   }
-  # vrf_instances= {
-  #     "fds"= {
-  #         networks= [
-  #             "prx"
-  #         ],
-  #         extra_routes= {
-  #             "1.2.0.0/24"= {
-  #                 via= "1.2.3.4"
-  #             }
-  #         }
-  #     }
-  # }
+  vrf_instances= {
+      "fds"= {
+          networks= [
+              "prx"
+          ],
+          extra_routes= {
+              "1.2.0.0/24"= {
+                  via= "1.2.3.4"
+              }
+          }
+      }
+  }
   vrf_config = {
     enabled = true
   }
@@ -1246,4 +1250,207 @@ resource "mist_device_switch" "test_switch" {
   device_id = mist_org_inventory.inventory.devices[1].id
   name      = "demo-ex"
   site_id   = mist_org_inventory.inventory.devices[1].site_id
+}
+
+
+resource "mist_device_gateway" "srx" {
+
+  name   = "srx"
+  device_id= mist_org_inventory.inventory.devices[2].id
+  site_id = mist_org_inventory.inventory.devices[2].site_id
+
+  port_config = {
+    "ge-0/0/3" = {
+      name       = "FTTH"
+      usage      = "wan"
+      aggregated = false
+      redundant  = false
+      critical   = false
+      wan_type   = "broadband"
+      ip_config = {
+        type    = "static"
+        ip      = "192.168.1.8"
+        netmask = "/24"
+        gateway = "192.168.1.1"
+      },
+      disable_autoneg = false
+      speed           = "auto"
+      duplex          = "auto"
+      wan_source_nat = {
+        disabled = false
+      },
+      vpn_paths = {
+        "SSR_HUB_DC-MPLS.OrgOverlay" = {
+          key         = 0
+          role        = "spoke"
+          bfd_profile = "broadband"
+        }
+      }
+    },
+    "ge-0/0/4" = {
+      name       = "LTE"
+      usage      = "wan"
+      aggregated = false
+      redundant  = false
+      critical   = false
+      wan_type   = "broadband"
+      ip_config = {
+        type = "dhcp"
+      },
+      disable_autoneg = false
+      speed           = "auto"
+      duplex          = "auto"
+      wan_source_nat = {
+        disabled = false
+      },
+      vpn_paths = {
+        "SSR_HUB_DC-MPLS.OrgOverlay" = {
+          key         = 0
+          role        = "spoke"
+          bfd_profile = "broadband"
+        }
+      }
+    },
+    "ge-0/0/5" = {
+      usage            = "lan"
+      critical         = false
+      aggregated       = true
+      ae_disable_lacp  = false
+      ae_lacp_force_up = true
+      ae_idx           = 0
+      redundant        = false
+      networks = [
+        "PRD-Core"
+      ]
+    },
+    "ge-0/0/7" = {
+      usage      = "lan"
+      critical   = false
+      aggregated = false
+      redundant  = false
+      networks = [
+        "PRD-Mgmt"
+      ]
+    },
+    "ge-0/0/6" = {
+      usage      = "lan"
+      critical   = false
+      aggregated = false
+      redundant  = false
+      networks = [
+        "PRD-Lab"
+      ]
+    }
+  }
+  ip_configs = {
+    "PRD-Core" = {
+      type    = "static"
+      ip      = "10.3.100.9"
+      netmask = "/24"
+    },
+    "PRD-Mgmt" = {
+      type    = "static"
+      ip      = "10.3.172.1"
+      netmask = "/24"
+    },
+    "PRD-Lab" = {
+      type    = "static"
+      ip      = "10.3.171.1"
+      netmask = "/24"
+    }
+  }
+  dhcpd_config = {
+    enable = true
+  }
+  path_preferences = {
+    "HUB" = {
+      strategy = "ordered"
+      paths = [
+        {
+          name = "SSR_HUB_DC-MPLS.OrgOverlay"
+          type = "vpn"
+        }
+      ]
+    },
+    "HUB-ORDERED" = {
+      strategy = "ordered"
+      paths = [
+        {
+          name     = "SSR_HUB_DC-MPLS.OrgOverlay"
+          wan_name = "FTTH",
+          type     = "vpn"
+        },
+        {
+          name     = "SSR_HUB_DC-MPLS.OrgOverlay"
+          wan_name = "LTE"
+          type     = "vpn"
+        }
+      ]
+    },
+    "HUB-ECMP" = {
+      strategy = "weighted"
+      paths = [
+        {
+          name     = "SSR_HUB_DC-MPLS.OrgOverlay"
+          wan_name = "LTE"
+          cost     = 30
+          type     = "vpn"
+        },
+        {
+          name     = "SSR_HUB_DC-MPLS.OrgOverlay"
+          wan_name = "FTTH"
+          cost     = 30
+          type     = "vpn"
+        }
+      ]
+    }
+  }
+  service_policies = [
+    {
+      name = "Policy-14"
+      tenants = [
+        "PRD-Core"
+      ],
+      services = [
+        "any"
+      ],
+      action          = "allow"
+      path_preference = "HUB"
+      idp = {
+        enabled    = true
+        profile    = "critical"
+        alert_only = false
+      }
+    },
+    {
+      name = "Policy-2"
+      tenants = [
+        "PRD-Mgmt"
+      ],
+      services = [
+        "any"
+      ],
+      action          = "allow",
+      path_preference = "HUB-ECMP"
+      idp = {
+        enabled    = true,
+        profile    = "standard"
+        alert_only = true
+      }
+    },
+    {
+      name = "Policy-3"
+      tenants = [
+        "PRD-Lab"
+      ],
+      services = [
+        "any"
+      ],
+      action          = "allow"
+      path_preference = "HUB-ORDERED"
+      idp = {
+        enabled = false
+      }
+    }
+  ]
 }

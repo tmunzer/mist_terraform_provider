@@ -14,7 +14,7 @@ import (
 	"mistapi/models"
 )
 
-func portConfigIpConfigSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, g *models.GatewayIpConfig) basetypes.ObjectValue {
+func portConfigIpConfigSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, g *models.GatewayPortConfigIpConfig) basetypes.ObjectValue {
 	tflog.Debug(ctx, "portConfigIpConfigSdkToTerraform")
 	var dns basetypes.ListValue = types.ListNull(types.StringType)
 	var dns_suffix basetypes.ListValue = types.ListNull(types.StringType)
@@ -58,7 +58,7 @@ func portConfigIpConfigSdkToTerraform(ctx context.Context, diags *diag.Diagnosti
 		ip_config_type = types.StringValue(string(*g.Type))
 	}
 
-	r_attr_type := IpConfigValue{}.AttributeTypes(ctx)
+	r_attr_type := PortIpConfigValue{}.AttributeTypes(ctx)
 	r_attr_value := map[string]attr.Value{
 		"dns":            dns,
 		"dns_suffix":     dns_suffix,
@@ -185,7 +185,7 @@ func portConfigSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d ma
 		var dsl_vci basetypes.Int64Value = types.Int64Value(35)
 		var dsl_vpi basetypes.Int64Value = types.Int64Value(0)
 		var duplex basetypes.StringValue = types.StringValue("auto")
-		var ip_config basetypes.ObjectValue = types.ObjectNull(IpConfigValue{}.AttributeTypes(ctx))
+		var ip_config basetypes.ObjectValue = types.ObjectNull(PortIpConfigValue{}.AttributeTypes(ctx))
 		var lte_apn basetypes.StringValue
 		var lte_auth basetypes.StringValue = types.StringValue("none")
 		var lte_backup basetypes.BoolValue

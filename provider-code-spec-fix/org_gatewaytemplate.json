@@ -126,6 +126,10 @@
                     ],
                     "computed_optional_required": "computed_optional",
                     "default_type": "list_of_str"
+                },
+                {
+                    "name": "ip_config",
+                    "rename": "port_ip_config"
                 }
             ]
         },

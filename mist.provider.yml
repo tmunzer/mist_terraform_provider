@@ -55645,13 +55645,16 @@ components:
         idp_profiles:
           $ref: '#/components/schemas/gateway_idp_profiles'
         image1_url:
+          nullable: true
           type: string
         image2_url:
+          nullable: true
           type: string
         image3_url:
+          nullable: true
           type: string
-        ip_config:
-          $ref: '#/components/schemas/gateway_ip_config'
+        ip_configs:
+          $ref: '#/components/schemas/gateway_ip_configs'
         mac:
           description: device MAC address
           readOnly: true
@@ -55678,6 +55681,8 @@ components:
           type: string
         networks:
           $ref: '#/components/schemas/networks'
+        notes:
+          type: string
         ntp_servers:
           $ref: '#/components/schemas/strings'
         oob_ip_config:
@@ -57526,11 +57531,6 @@ components:
         $ref: '#/components/schemas/idp_profile'
       description: Property key is the profile name
       type: object
-    gateway_ip_config:
-      additionalProperties:
-        $ref: '#/components/schemas/gateway_ip_config_property'
-      description: Property key is the network name
-      type: object
     gateway_ip_config_dns_servers:
       description: except for out-of_band interface (vme/em0/fxp0)
       items:
@@ -57562,6 +57562,11 @@ components:
       items:
         type: string
       type: array
+    gateway_ip_configs:
+      additionalProperties:
+        $ref: '#/components/schemas/gateway_ip_config_property'
+      description: Property key is the network name
+      type: object
     gateway_matching:
       description: Gateway matching
       properties:
@@ -58177,7 +58182,7 @@ components:
         idp_profiles:
           $ref: '#/components/schemas/gateway_idp_profiles'
         ip_configs:
-          $ref: '#/components/schemas/gateway_ip_config'
+          $ref: '#/components/schemas/gateway_ip_configs'
         modified_time:
           readOnly: true
           type: number
@@ -60126,10 +60131,11 @@ components:
       - qrcode
       type: string
     mist_device:
-      oneOf:
-      - $ref: '#/components/schemas/device_ap'
-      - $ref: '#/components/schemas/device_switch'
-      - $ref: '#/components/schemas/device_gateway'
+      $ref: '#/components/schemas/device_gateway'
+      # oneOf:
+      # - $ref: '#/components/schemas/device_ap'
+      # - $ref: '#/components/schemas/device_switch'
+      # - $ref: '#/components/schemas/device_gateway'
     ml_overwrite:
       additionalProperties:
         $ref: '#/components/schemas/ml_overwrite_additional_properties'

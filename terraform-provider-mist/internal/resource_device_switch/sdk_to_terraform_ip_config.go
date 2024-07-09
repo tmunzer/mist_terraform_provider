@@ -15,8 +15,8 @@ import (
 
 func ipConfigSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d *models.JunosIpConfig) IpConfigValue {
 	tflog.Debug(ctx, "ipConfigSdkToTerraform")
-	var dns basetypes.ListValue = types.ListNull(types.StringType)
-	var dns_suffix basetypes.ListValue = types.ListNull(types.StringType)
+	var dns basetypes.ListValue = mist_transform.ListOfStringSdkToTerraformEmpty(ctx)
+	var dns_suffix basetypes.ListValue = mist_transform.ListOfStringSdkToTerraformEmpty(ctx)
 	var gateway basetypes.StringValue
 	var ip basetypes.StringValue
 	var netmask basetypes.StringValue

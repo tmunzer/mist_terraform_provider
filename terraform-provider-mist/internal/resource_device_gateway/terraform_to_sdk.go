@@ -6,19 +6,36 @@ import (
 
 	mist_transform "terraform-provider-mist/internal/commons/utils"
 
+	"github.com/google/uuid"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 )
 
-func TerraformToSdk(ctx context.Context, plan *OrgGatewaytemplateModel) (*models.GatewayTemplate, diag.Diagnostics) {
+func TerraformToSdk(ctx context.Context, plan *DeviceGatewayModel) (models.MistDevice, diag.Diagnostics) {
+	data := models.DeviceGateway{}
 	var diags diag.Diagnostics
 	unset := make(map[string]interface{})
 
-	data := models.GatewayTemplate{}
+	deviceprofile_id, e := uuid.Parse(plan.DeviceprofileId.ValueString())
+	if e == nil {
+		data.DeviceprofileId = models.ToPointer(deviceprofile_id)
+	} else {
+		unset["deviceprofile_id"] = nil
+	}
+	map_id, e := uuid.Parse(plan.MapId.ValueString())
+	if e == nil {
+		data.MapId = &map_id
+	} else {
+		unset["map_id"] = nil
+	}
 
-	data.Name = plan.Name.ValueString()
+	data.Name = plan.Name.ValueStringPointer()
+	data.Notes = plan.Notes.ValueStringPointer()
 
-	additional_config_cmds := mist_transform.ListOfStringTerraformToSdk(ctx, plan.AdditionalConfigCmds)
-	data.AdditionalConfigCmds = additional_config_cmds
+	if plan.AdditionalConfigCmds.IsNull() || plan.AdditionalConfigCmds.IsUnknown() {
+		data.AdditionalConfigCmds = mist_transform.ListOfStringTerraformToSdk(ctx, plan.AdditionalConfigCmds)
+	} else {
+		unset["-additional_config_cmds"] = ""
+	}
 
 	if plan.BgpConfig.IsNull() || plan.BgpConfig.IsUnknown() {
 		unset["-bgp_config"] = ""
@@ -33,8 +50,6 @@ func TerraformToSdk(ctx context.Context, plan *OrgGatewaytemplateModel) (*models
 		dhcpd_config := dhcpdConfigTerraformToSdk(ctx, &diags, plan.DhcpdConfig)
 		data.DhcpdConfig = &dhcpd_config
 	}
-
-	data.DnsOverride = plan.DnsOverride.ValueBoolPointer()
 
 	data.DnsServers = mist_transform.ListOfStringTerraformToSdk(ctx, plan.DnsServers)
 
@@ -67,8 +82,6 @@ func TerraformToSdk(ctx context.Context, plan *OrgGatewaytemplateModel) (*models
 		networks := networksTerraformToSdk(ctx, &diags, plan.Networks)
 		data.Networks = networks
 	}
-
-	data.NtpOverride = plan.NtpOverride.ValueBoolPointer()
 
 	data.NtpServers = mist_transform.ListOfStringTerraformToSdk(ctx, plan.NtpServers)
 
@@ -123,9 +136,25 @@ func TerraformToSdk(ctx context.Context, plan *OrgGatewaytemplateModel) (*models
 		data.TunnelProviderOptions = &tunnel_provider_options
 	}
 
-	data.Type = models.ToPointer(models.GatewayTemplateTypeEnum(plan.Type.ValueString()))
+	if !plan.Vars.IsNull() && !plan.Vars.IsUnknown() {
+		data.Vars = varsTerraformToSdk(ctx, &diags, plan.Vars)
+	} else {
+		unset["-vars"] = ""
+	}
+
+	if !plan.X.IsNull() && !plan.X.IsUnknown() {
+		data.X = plan.X.ValueFloat64Pointer()
+	} else {
+		unset["-x"] = ""
+	}
+	if !plan.Y.IsNull() && !plan.Y.IsUnknown() {
+		data.Y = plan.Y.ValueFloat64Pointer()
+	} else {
+		unset["-y"] = ""
+	}
 
 	data.AdditionalProperties = unset
 
-	return &data, diags
+	mist_device := models.MistDeviceContainer.FromDeviceGateway(data)
+	return mist_device, diags
 }

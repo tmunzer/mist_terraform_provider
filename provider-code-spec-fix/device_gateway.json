@@ -24,7 +24,7 @@
             "get": [
                 "string"
             ],
-            "computed_optional_required": "computed"
+            "computed_optional_required": "required"
         },
         {
             "name": "idp_profiles",
@@ -133,6 +133,10 @@
                     ],
                     "computed_optional_required": "computed_optional",
                     "default_type": "list_of_str"
+                },
+                {
+                    "name": "ip_config",
+                    "rename": "port_ip_config"
                 }
             ]
         },

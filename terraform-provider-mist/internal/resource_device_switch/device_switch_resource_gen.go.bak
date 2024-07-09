@@ -569,6 +569,7 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 					"dns": schema.ListAttribute{
 						ElementType: types.StringType,
 						Optional:    true,
+						Computed:    true,
 						Validators: []validator.List{
 							listvalidator.UniqueValues(),
 						},
@@ -576,6 +577,7 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 					"dns_suffix": schema.ListAttribute{
 						ElementType: types.StringType,
 						Optional:    true,
+						Computed:    true,
 						Validators: []validator.List{
 							listvalidator.UniqueValues(),
 						},

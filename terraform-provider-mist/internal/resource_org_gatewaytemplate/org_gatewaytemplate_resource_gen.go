@@ -1165,6 +1165,65 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 							},
 							Default: stringdefault.StaticString("auto"),
 						},
+						"lte_apn": schema.StringAttribute{
+							Optional:            true,
+							Description:         "if `wan_type`==`lte`",
+							MarkdownDescription: "if `wan_type`==`lte`",
+						},
+						"lte_auth": schema.StringAttribute{
+							Optional:            true,
+							Computed:            true,
+							Description:         "if `wan_type`==`lte`",
+							MarkdownDescription: "if `wan_type`==`lte`",
+							Validators: []validator.String{
+								stringvalidator.OneOf(
+									"",
+									"none",
+									"chap",
+									"pap",
+								),
+							},
+							Default: stringdefault.StaticString("none"),
+						},
+						"lte_backup": schema.BoolAttribute{
+							Optional: true,
+						},
+						"lte_password": schema.StringAttribute{
+							Optional:            true,
+							Description:         "if `wan_type`==`lte`",
+							MarkdownDescription: "if `wan_type`==`lte`",
+						},
+						"lte_username": schema.StringAttribute{
+							Optional:            true,
+							Description:         "if `wan_type`==`lte`",
+							MarkdownDescription: "if `wan_type`==`lte`",
+						},
+						"mtu": schema.Int64Attribute{
+							Optional: true,
+						},
+						"name": schema.StringAttribute{
+							Optional:            true,
+							Description:         "name that we'll use to derive config",
+							MarkdownDescription: "name that we'll use to derive config",
+						},
+						"networks": schema.ListAttribute{
+							ElementType:         types.StringType,
+							Optional:            true,
+							Computed:            true,
+							Description:         "if `usage`==`lan`",
+							MarkdownDescription: "if `usage`==`lan`",
+							Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
+						},
+						"outer_vlan_id": schema.Int64Attribute{
+							Optional:            true,
+							Description:         "for Q-in-Q",
+							MarkdownDescription: "for Q-in-Q",
+						},
+						"poe_disabled": schema.BoolAttribute{
+							Optional: true,
+							Computed: true,
+							Default:  booldefault.StaticBool(false),
+						},
 						"ip_config": schema.SingleNestedAttribute{
 							Attributes: map[string]schema.Attribute{
 								"dns": schema.ListAttribute{
@@ -1236,73 +1295,14 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 									Default: stringdefault.StaticString("dhcp"),
 								},
 							},
-							CustomType: IpConfigType{
+							CustomType: PortIpConfigType{
 								ObjectType: types.ObjectType{
-									AttrTypes: IpConfigValue{}.AttributeTypes(ctx),
+									AttrTypes: PortIpConfigValue{}.AttributeTypes(ctx),
 								},
 							},
 							Optional:            true,
 							Description:         "Junos IP Config",
 							MarkdownDescription: "Junos IP Config",
-						},
-						"lte_apn": schema.StringAttribute{
-							Optional:            true,
-							Description:         "if `wan_type`==`lte`",
-							MarkdownDescription: "if `wan_type`==`lte`",
-						},
-						"lte_auth": schema.StringAttribute{
-							Optional:            true,
-							Computed:            true,
-							Description:         "if `wan_type`==`lte`",
-							MarkdownDescription: "if `wan_type`==`lte`",
-							Validators: []validator.String{
-								stringvalidator.OneOf(
-									"",
-									"none",
-									"chap",
-									"pap",
-								),
-							},
-							Default: stringdefault.StaticString("none"),
-						},
-						"lte_backup": schema.BoolAttribute{
-							Optional: true,
-						},
-						"lte_password": schema.StringAttribute{
-							Optional:            true,
-							Description:         "if `wan_type`==`lte`",
-							MarkdownDescription: "if `wan_type`==`lte`",
-						},
-						"lte_username": schema.StringAttribute{
-							Optional:            true,
-							Description:         "if `wan_type`==`lte`",
-							MarkdownDescription: "if `wan_type`==`lte`",
-						},
-						"mtu": schema.Int64Attribute{
-							Optional: true,
-						},
-						"name": schema.StringAttribute{
-							Optional:            true,
-							Description:         "name that we'll use to derive config",
-							MarkdownDescription: "name that we'll use to derive config",
-						},
-						"networks": schema.ListAttribute{
-							ElementType:         types.StringType,
-							Optional:            true,
-							Computed:            true,
-							Description:         "if `usage`==`lan`",
-							MarkdownDescription: "if `usage`==`lan`",
-							Default:             listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
-						},
-						"outer_vlan_id": schema.Int64Attribute{
-							Optional:            true,
-							Description:         "for Q-in-Q",
-							MarkdownDescription: "for Q-in-Q",
-						},
-						"poe_disabled": schema.BoolAttribute{
-							Optional: true,
-							Computed: true,
-							Default:  booldefault.StaticBool(false),
 						},
 						"port_network": schema.StringAttribute{
 							Optional:            true,
@@ -17750,24 +17750,6 @@ func (t PortConfigType) ValueFromObject(ctx context.Context, in basetypes.Object
 			fmt.Sprintf(`duplex expected to be basetypes.StringValue, was: %T`, duplexAttribute))
 	}
 
-	ipConfigAttribute, ok := attributes["ip_config"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`ip_config is missing from object`)
-
-		return nil, diags
-	}
-
-	ipConfigVal, ok := ipConfigAttribute.(basetypes.ObjectValue)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`ip_config expected to be basetypes.ObjectValue, was: %T`, ipConfigAttribute))
-	}
-
 	lteApnAttribute, ok := attributes["lte_apn"]
 
 	if !ok {
@@ -17946,6 +17928,24 @@ func (t PortConfigType) ValueFromObject(ctx context.Context, in basetypes.Object
 		diags.AddError(
 			"Attribute Wrong Type",
 			fmt.Sprintf(`poe_disabled expected to be basetypes.BoolValue, was: %T`, poeDisabledAttribute))
+	}
+
+	portIpConfigAttribute, ok := attributes["ip_config"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`ip_config is missing from object`)
+
+		return nil, diags
+	}
+
+	portIpConfigVal, ok := portIpConfigAttribute.(basetypes.ObjectValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`ip_config expected to be basetypes.ObjectValue, was: %T`, portIpConfigAttribute))
 	}
 
 	portNetworkAttribute, ok := attributes["port_network"]
@@ -18266,7 +18266,6 @@ func (t PortConfigType) ValueFromObject(ctx context.Context, in basetypes.Object
 		DslVci:          dslVciVal,
 		DslVpi:          dslVpiVal,
 		Duplex:          duplexVal,
-		IpConfig:        ipConfigVal,
 		LteApn:          lteApnVal,
 		LteAuth:         lteAuthVal,
 		LteBackup:       lteBackupVal,
@@ -18277,6 +18276,7 @@ func (t PortConfigType) ValueFromObject(ctx context.Context, in basetypes.Object
 		Networks:        networksVal,
 		OuterVlanId:     outerVlanIdVal,
 		PoeDisabled:     poeDisabledVal,
+		PortIpConfig:    portIpConfigVal,
 		PortNetwork:     portNetworkVal,
 		PreserveDscp:    preserveDscpVal,
 		Redundant:       redundantVal,
@@ -18487,24 +18487,6 @@ func NewPortConfigValue(attributeTypes map[string]attr.Type, attributes map[stri
 			fmt.Sprintf(`duplex expected to be basetypes.StringValue, was: %T`, duplexAttribute))
 	}
 
-	ipConfigAttribute, ok := attributes["ip_config"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`ip_config is missing from object`)
-
-		return NewPortConfigValueUnknown(), diags
-	}
-
-	ipConfigVal, ok := ipConfigAttribute.(basetypes.ObjectValue)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`ip_config expected to be basetypes.ObjectValue, was: %T`, ipConfigAttribute))
-	}
-
 	lteApnAttribute, ok := attributes["lte_apn"]
 
 	if !ok {
@@ -18683,6 +18665,24 @@ func NewPortConfigValue(attributeTypes map[string]attr.Type, attributes map[stri
 		diags.AddError(
 			"Attribute Wrong Type",
 			fmt.Sprintf(`poe_disabled expected to be basetypes.BoolValue, was: %T`, poeDisabledAttribute))
+	}
+
+	portIpConfigAttribute, ok := attributes["ip_config"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`ip_config is missing from object`)
+
+		return NewPortConfigValueUnknown(), diags
+	}
+
+	portIpConfigVal, ok := portIpConfigAttribute.(basetypes.ObjectValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`ip_config expected to be basetypes.ObjectValue, was: %T`, portIpConfigAttribute))
 	}
 
 	portNetworkAttribute, ok := attributes["port_network"]
@@ -19003,7 +19003,6 @@ func NewPortConfigValue(attributeTypes map[string]attr.Type, attributes map[stri
 		DslVci:          dslVciVal,
 		DslVpi:          dslVpiVal,
 		Duplex:          duplexVal,
-		IpConfig:        ipConfigVal,
 		LteApn:          lteApnVal,
 		LteAuth:         lteAuthVal,
 		LteBackup:       lteBackupVal,
@@ -19014,6 +19013,7 @@ func NewPortConfigValue(attributeTypes map[string]attr.Type, attributes map[stri
 		Networks:        networksVal,
 		OuterVlanId:     outerVlanIdVal,
 		PoeDisabled:     poeDisabledVal,
+		PortIpConfig:    portIpConfigVal,
 		PortNetwork:     portNetworkVal,
 		PreserveDscp:    preserveDscpVal,
 		Redundant:       redundantVal,
@@ -19110,7 +19110,6 @@ type PortConfigValue struct {
 	DslVci          basetypes.Int64Value  `tfsdk:"dsl_vci"`
 	DslVpi          basetypes.Int64Value  `tfsdk:"dsl_vpi"`
 	Duplex          basetypes.StringValue `tfsdk:"duplex"`
-	IpConfig        basetypes.ObjectValue `tfsdk:"ip_config"`
 	LteApn          basetypes.StringValue `tfsdk:"lte_apn"`
 	LteAuth         basetypes.StringValue `tfsdk:"lte_auth"`
 	LteBackup       basetypes.BoolValue   `tfsdk:"lte_backup"`
@@ -19121,6 +19120,7 @@ type PortConfigValue struct {
 	Networks        basetypes.ListValue   `tfsdk:"networks"`
 	OuterVlanId     basetypes.Int64Value  `tfsdk:"outer_vlan_id"`
 	PoeDisabled     basetypes.BoolValue   `tfsdk:"poe_disabled"`
+	PortIpConfig    basetypes.ObjectValue `tfsdk:"ip_config"`
 	PortNetwork     basetypes.StringValue `tfsdk:"port_network"`
 	PreserveDscp    basetypes.BoolValue   `tfsdk:"preserve_dscp"`
 	Redundant       basetypes.BoolValue   `tfsdk:"redundant"`
@@ -19154,9 +19154,6 @@ func (v PortConfigValue) ToTerraformValue(ctx context.Context) (tftypes.Value, e
 	attrTypes["dsl_vci"] = basetypes.Int64Type{}.TerraformType(ctx)
 	attrTypes["dsl_vpi"] = basetypes.Int64Type{}.TerraformType(ctx)
 	attrTypes["duplex"] = basetypes.StringType{}.TerraformType(ctx)
-	attrTypes["ip_config"] = basetypes.ObjectType{
-		AttrTypes: IpConfigValue{}.AttributeTypes(ctx),
-	}.TerraformType(ctx)
 	attrTypes["lte_apn"] = basetypes.StringType{}.TerraformType(ctx)
 	attrTypes["lte_auth"] = basetypes.StringType{}.TerraformType(ctx)
 	attrTypes["lte_backup"] = basetypes.BoolType{}.TerraformType(ctx)
@@ -19169,6 +19166,9 @@ func (v PortConfigValue) ToTerraformValue(ctx context.Context) (tftypes.Value, e
 	}.TerraformType(ctx)
 	attrTypes["outer_vlan_id"] = basetypes.Int64Type{}.TerraformType(ctx)
 	attrTypes["poe_disabled"] = basetypes.BoolType{}.TerraformType(ctx)
+	attrTypes["ip_config"] = basetypes.ObjectType{
+		AttrTypes: PortIpConfigValue{}.AttributeTypes(ctx),
+	}.TerraformType(ctx)
 	attrTypes["port_network"] = basetypes.StringType{}.TerraformType(ctx)
 	attrTypes["preserve_dscp"] = basetypes.BoolType{}.TerraformType(ctx)
 	attrTypes["redundant"] = basetypes.BoolType{}.TerraformType(ctx)
@@ -19257,14 +19257,6 @@ func (v PortConfigValue) ToTerraformValue(ctx context.Context) (tftypes.Value, e
 
 		vals["duplex"] = val
 
-		val, err = v.IpConfig.ToTerraformValue(ctx)
-
-		if err != nil {
-			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
-		}
-
-		vals["ip_config"] = val
-
 		val, err = v.LteApn.ToTerraformValue(ctx)
 
 		if err != nil {
@@ -19344,6 +19336,14 @@ func (v PortConfigValue) ToTerraformValue(ctx context.Context) (tftypes.Value, e
 		}
 
 		vals["poe_disabled"] = val
+
+		val, err = v.PortIpConfig.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["ip_config"] = val
 
 		val, err = v.PortNetwork.ToTerraformValue(ctx)
 
@@ -19510,24 +19510,24 @@ func (v PortConfigValue) String() string {
 func (v PortConfigValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, diag.Diagnostics) {
 	var diags diag.Diagnostics
 
-	var ipConfig basetypes.ObjectValue
+	var portIpConfig basetypes.ObjectValue
 
-	if v.IpConfig.IsNull() {
-		ipConfig = types.ObjectNull(
-			IpConfigValue{}.AttributeTypes(ctx),
+	if v.PortIpConfig.IsNull() {
+		portIpConfig = types.ObjectNull(
+			PortIpConfigValue{}.AttributeTypes(ctx),
 		)
 	}
 
-	if v.IpConfig.IsUnknown() {
-		ipConfig = types.ObjectUnknown(
-			IpConfigValue{}.AttributeTypes(ctx),
+	if v.PortIpConfig.IsUnknown() {
+		portIpConfig = types.ObjectUnknown(
+			PortIpConfigValue{}.AttributeTypes(ctx),
 		)
 	}
 
-	if !v.IpConfig.IsNull() && !v.IpConfig.IsUnknown() {
-		ipConfig = types.ObjectValueMust(
-			IpConfigValue{}.AttributeTypes(ctx),
-			v.IpConfig.Attributes(),
+	if !v.PortIpConfig.IsNull() && !v.PortIpConfig.IsUnknown() {
+		portIpConfig = types.ObjectValueMust(
+			PortIpConfigValue{}.AttributeTypes(ctx),
+			v.PortIpConfig.Attributes(),
 		)
 	}
 
@@ -19615,21 +19615,21 @@ func (v PortConfigValue) ToObjectValue(ctx context.Context) (basetypes.ObjectVal
 			"dsl_vci":         basetypes.Int64Type{},
 			"dsl_vpi":         basetypes.Int64Type{},
 			"duplex":          basetypes.StringType{},
-			"ip_config": basetypes.ObjectType{
-				AttrTypes: IpConfigValue{}.AttributeTypes(ctx),
-			},
-			"lte_apn":      basetypes.StringType{},
-			"lte_auth":     basetypes.StringType{},
-			"lte_backup":   basetypes.BoolType{},
-			"lte_password": basetypes.StringType{},
-			"lte_username": basetypes.StringType{},
-			"mtu":          basetypes.Int64Type{},
-			"name":         basetypes.StringType{},
+			"lte_apn":         basetypes.StringType{},
+			"lte_auth":        basetypes.StringType{},
+			"lte_backup":      basetypes.BoolType{},
+			"lte_password":    basetypes.StringType{},
+			"lte_username":    basetypes.StringType{},
+			"mtu":             basetypes.Int64Type{},
+			"name":            basetypes.StringType{},
 			"networks": basetypes.ListType{
 				ElemType: types.StringType,
 			},
 			"outer_vlan_id": basetypes.Int64Type{},
 			"poe_disabled":  basetypes.BoolType{},
+			"ip_config": basetypes.ObjectType{
+				AttrTypes: PortIpConfigValue{}.AttributeTypes(ctx),
+			},
 			"port_network":  basetypes.StringType{},
 			"preserve_dscp": basetypes.BoolType{},
 			"redundant":     basetypes.BoolType{},
@@ -19671,21 +19671,21 @@ func (v PortConfigValue) ToObjectValue(ctx context.Context) (basetypes.ObjectVal
 			"dsl_vci":         basetypes.Int64Type{},
 			"dsl_vpi":         basetypes.Int64Type{},
 			"duplex":          basetypes.StringType{},
-			"ip_config": basetypes.ObjectType{
-				AttrTypes: IpConfigValue{}.AttributeTypes(ctx),
-			},
-			"lte_apn":      basetypes.StringType{},
-			"lte_auth":     basetypes.StringType{},
-			"lte_backup":   basetypes.BoolType{},
-			"lte_password": basetypes.StringType{},
-			"lte_username": basetypes.StringType{},
-			"mtu":          basetypes.Int64Type{},
-			"name":         basetypes.StringType{},
+			"lte_apn":         basetypes.StringType{},
+			"lte_auth":        basetypes.StringType{},
+			"lte_backup":      basetypes.BoolType{},
+			"lte_password":    basetypes.StringType{},
+			"lte_username":    basetypes.StringType{},
+			"mtu":             basetypes.Int64Type{},
+			"name":            basetypes.StringType{},
 			"networks": basetypes.ListType{
 				ElemType: types.StringType,
 			},
 			"outer_vlan_id": basetypes.Int64Type{},
 			"poe_disabled":  basetypes.BoolType{},
+			"ip_config": basetypes.ObjectType{
+				AttrTypes: PortIpConfigValue{}.AttributeTypes(ctx),
+			},
 			"port_network":  basetypes.StringType{},
 			"preserve_dscp": basetypes.BoolType{},
 			"redundant":     basetypes.BoolType{},
@@ -19722,21 +19722,21 @@ func (v PortConfigValue) ToObjectValue(ctx context.Context) (basetypes.ObjectVal
 		"dsl_vci":         basetypes.Int64Type{},
 		"dsl_vpi":         basetypes.Int64Type{},
 		"duplex":          basetypes.StringType{},
-		"ip_config": basetypes.ObjectType{
-			AttrTypes: IpConfigValue{}.AttributeTypes(ctx),
-		},
-		"lte_apn":      basetypes.StringType{},
-		"lte_auth":     basetypes.StringType{},
-		"lte_backup":   basetypes.BoolType{},
-		"lte_password": basetypes.StringType{},
-		"lte_username": basetypes.StringType{},
-		"mtu":          basetypes.Int64Type{},
-		"name":         basetypes.StringType{},
+		"lte_apn":         basetypes.StringType{},
+		"lte_auth":        basetypes.StringType{},
+		"lte_backup":      basetypes.BoolType{},
+		"lte_password":    basetypes.StringType{},
+		"lte_username":    basetypes.StringType{},
+		"mtu":             basetypes.Int64Type{},
+		"name":            basetypes.StringType{},
 		"networks": basetypes.ListType{
 			ElemType: types.StringType,
 		},
 		"outer_vlan_id": basetypes.Int64Type{},
 		"poe_disabled":  basetypes.BoolType{},
+		"ip_config": basetypes.ObjectType{
+			AttrTypes: PortIpConfigValue{}.AttributeTypes(ctx),
+		},
 		"port_network":  basetypes.StringType{},
 		"preserve_dscp": basetypes.BoolType{},
 		"redundant":     basetypes.BoolType{},
@@ -19782,7 +19782,6 @@ func (v PortConfigValue) ToObjectValue(ctx context.Context) (basetypes.ObjectVal
 			"dsl_vci":            v.DslVci,
 			"dsl_vpi":            v.DslVpi,
 			"duplex":             v.Duplex,
-			"ip_config":          ipConfig,
 			"lte_apn":            v.LteApn,
 			"lte_auth":           v.LteAuth,
 			"lte_backup":         v.LteBackup,
@@ -19793,6 +19792,7 @@ func (v PortConfigValue) ToObjectValue(ctx context.Context) (basetypes.ObjectVal
 			"networks":           networksVal,
 			"outer_vlan_id":      v.OuterVlanId,
 			"poe_disabled":       v.PoeDisabled,
+			"ip_config":     portIpConfig,
 			"port_network":       v.PortNetwork,
 			"preserve_dscp":      v.PreserveDscp,
 			"redundant":          v.Redundant,
@@ -19858,10 +19858,6 @@ func (v PortConfigValue) Equal(o attr.Value) bool {
 		return false
 	}
 
-	if !v.IpConfig.Equal(other.IpConfig) {
-		return false
-	}
-
 	if !v.LteApn.Equal(other.LteApn) {
 		return false
 	}
@@ -19899,6 +19895,10 @@ func (v PortConfigValue) Equal(o attr.Value) bool {
 	}
 
 	if !v.PoeDisabled.Equal(other.PoeDisabled) {
+		return false
+	}
+
+	if !v.PortIpConfig.Equal(other.PortIpConfig) {
 		return false
 	}
 
@@ -19990,21 +19990,21 @@ func (v PortConfigValue) AttributeTypes(ctx context.Context) map[string]attr.Typ
 		"dsl_vci":         basetypes.Int64Type{},
 		"dsl_vpi":         basetypes.Int64Type{},
 		"duplex":          basetypes.StringType{},
-		"ip_config": basetypes.ObjectType{
-			AttrTypes: IpConfigValue{}.AttributeTypes(ctx),
-		},
-		"lte_apn":      basetypes.StringType{},
-		"lte_auth":     basetypes.StringType{},
-		"lte_backup":   basetypes.BoolType{},
-		"lte_password": basetypes.StringType{},
-		"lte_username": basetypes.StringType{},
-		"mtu":          basetypes.Int64Type{},
-		"name":         basetypes.StringType{},
+		"lte_apn":         basetypes.StringType{},
+		"lte_auth":        basetypes.StringType{},
+		"lte_backup":      basetypes.BoolType{},
+		"lte_password":    basetypes.StringType{},
+		"lte_username":    basetypes.StringType{},
+		"mtu":             basetypes.Int64Type{},
+		"name":            basetypes.StringType{},
 		"networks": basetypes.ListType{
 			ElemType: types.StringType,
 		},
 		"outer_vlan_id": basetypes.Int64Type{},
 		"poe_disabled":  basetypes.BoolType{},
+		"ip_config": basetypes.ObjectType{
+			AttrTypes: PortIpConfigValue{}.AttributeTypes(ctx),
+		},
 		"port_network":  basetypes.StringType{},
 		"preserve_dscp": basetypes.BoolType{},
 		"redundant":     basetypes.BoolType{},
@@ -20033,14 +20033,14 @@ func (v PortConfigValue) AttributeTypes(ctx context.Context) map[string]attr.Typ
 	}
 }
 
-var _ basetypes.ObjectTypable = IpConfigType{}
+var _ basetypes.ObjectTypable = PortIpConfigType{}
 
-type IpConfigType struct {
+type PortIpConfigType struct {
 	basetypes.ObjectType
 }
 
-func (t IpConfigType) Equal(o attr.Type) bool {
-	other, ok := o.(IpConfigType)
+func (t PortIpConfigType) Equal(o attr.Type) bool {
+	other, ok := o.(PortIpConfigType)
 
 	if !ok {
 		return false
@@ -20049,11 +20049,11 @@ func (t IpConfigType) Equal(o attr.Type) bool {
 	return t.ObjectType.Equal(other.ObjectType)
 }
 
-func (t IpConfigType) String() string {
-	return "IpConfigType"
+func (t PortIpConfigType) String() string {
+	return "PortIpConfigType"
 }
 
-func (t IpConfigType) ValueFromObject(ctx context.Context, in basetypes.ObjectValue) (basetypes.ObjectValuable, diag.Diagnostics) {
+func (t PortIpConfigType) ValueFromObject(ctx context.Context, in basetypes.ObjectValue) (basetypes.ObjectValuable, diag.Diagnostics) {
 	var diags diag.Diagnostics
 
 	attributes := in.Attributes()
@@ -20242,34 +20242,34 @@ func (t IpConfigType) ValueFromObject(ctx context.Context, in basetypes.ObjectVa
 		return nil, diags
 	}
 
-	return IpConfigValue{
-		Dns:           dnsVal,
-		DnsSuffix:     dnsSuffixVal,
-		Gateway:       gatewayVal,
-		Ip:            ipVal,
-		Netmask:       netmaskVal,
-		Network:       networkVal,
-		PoserPassword: poserPasswordVal,
-		PppoeAuth:     pppoeAuthVal,
-		PppoeUsername: pppoeUsernameVal,
-		IpConfigType:  typeVal,
-		state:         attr.ValueStateKnown,
+	return PortIpConfigValue{
+		Dns:              dnsVal,
+		DnsSuffix:        dnsSuffixVal,
+		Gateway:          gatewayVal,
+		Ip:               ipVal,
+		Netmask:          netmaskVal,
+		Network:          networkVal,
+		PoserPassword:    poserPasswordVal,
+		PppoeAuth:        pppoeAuthVal,
+		PppoeUsername:    pppoeUsernameVal,
+		PortIpConfigType: typeVal,
+		state:            attr.ValueStateKnown,
 	}, diags
 }
 
-func NewIpConfigValueNull() IpConfigValue {
-	return IpConfigValue{
+func NewPortIpConfigValueNull() PortIpConfigValue {
+	return PortIpConfigValue{
 		state: attr.ValueStateNull,
 	}
 }
 
-func NewIpConfigValueUnknown() IpConfigValue {
-	return IpConfigValue{
+func NewPortIpConfigValueUnknown() PortIpConfigValue {
+	return PortIpConfigValue{
 		state: attr.ValueStateUnknown,
 	}
 }
 
-func NewIpConfigValue(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) (IpConfigValue, diag.Diagnostics) {
+func NewPortIpConfigValue(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) (PortIpConfigValue, diag.Diagnostics) {
 	var diags diag.Diagnostics
 
 	// Reference: https://github.com/hashicorp/terraform-plugin-framework/issues/521
@@ -20280,11 +20280,11 @@ func NewIpConfigValue(attributeTypes map[string]attr.Type, attributes map[string
 
 		if !ok {
 			diags.AddError(
-				"Missing IpConfigValue Attribute Value",
-				"While creating a IpConfigValue value, a missing attribute value was detected. "+
-					"A IpConfigValue must contain values for all attributes, even if null or unknown. "+
+				"Missing PortIpConfigValue Attribute Value",
+				"While creating a PortIpConfigValue value, a missing attribute value was detected. "+
+					"A PortIpConfigValue must contain values for all attributes, even if null or unknown. "+
 					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
-					fmt.Sprintf("IpConfigValue Attribute Name (%s) Expected Type: %s", name, attributeType.String()),
+					fmt.Sprintf("PortIpConfigValue Attribute Name (%s) Expected Type: %s", name, attributeType.String()),
 			)
 
 			continue
@@ -20292,12 +20292,12 @@ func NewIpConfigValue(attributeTypes map[string]attr.Type, attributes map[string
 
 		if !attributeType.Equal(attribute.Type(ctx)) {
 			diags.AddError(
-				"Invalid IpConfigValue Attribute Type",
-				"While creating a IpConfigValue value, an invalid attribute value was detected. "+
-					"A IpConfigValue must use a matching attribute type for the value. "+
+				"Invalid PortIpConfigValue Attribute Type",
+				"While creating a PortIpConfigValue value, an invalid attribute value was detected. "+
+					"A PortIpConfigValue must use a matching attribute type for the value. "+
 					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
-					fmt.Sprintf("IpConfigValue Attribute Name (%s) Expected Type: %s\n", name, attributeType.String())+
-					fmt.Sprintf("IpConfigValue Attribute Name (%s) Given Type: %s", name, attribute.Type(ctx)),
+					fmt.Sprintf("PortIpConfigValue Attribute Name (%s) Expected Type: %s\n", name, attributeType.String())+
+					fmt.Sprintf("PortIpConfigValue Attribute Name (%s) Given Type: %s", name, attribute.Type(ctx)),
 			)
 		}
 	}
@@ -20307,17 +20307,17 @@ func NewIpConfigValue(attributeTypes map[string]attr.Type, attributes map[string
 
 		if !ok {
 			diags.AddError(
-				"Extra IpConfigValue Attribute Value",
-				"While creating a IpConfigValue value, an extra attribute value was detected. "+
-					"A IpConfigValue must not contain values beyond the expected attribute types. "+
+				"Extra PortIpConfigValue Attribute Value",
+				"While creating a PortIpConfigValue value, an extra attribute value was detected. "+
+					"A PortIpConfigValue must not contain values beyond the expected attribute types. "+
 					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
-					fmt.Sprintf("Extra IpConfigValue Attribute Name: %s", name),
+					fmt.Sprintf("Extra PortIpConfigValue Attribute Name: %s", name),
 			)
 		}
 	}
 
 	if diags.HasError() {
-		return NewIpConfigValueUnknown(), diags
+		return NewPortIpConfigValueUnknown(), diags
 	}
 
 	dnsAttribute, ok := attributes["dns"]
@@ -20327,7 +20327,7 @@ func NewIpConfigValue(attributeTypes map[string]attr.Type, attributes map[string
 			"Attribute Missing",
 			`dns is missing from object`)
 
-		return NewIpConfigValueUnknown(), diags
+		return NewPortIpConfigValueUnknown(), diags
 	}
 
 	dnsVal, ok := dnsAttribute.(basetypes.ListValue)
@@ -20345,7 +20345,7 @@ func NewIpConfigValue(attributeTypes map[string]attr.Type, attributes map[string
 			"Attribute Missing",
 			`dns_suffix is missing from object`)
 
-		return NewIpConfigValueUnknown(), diags
+		return NewPortIpConfigValueUnknown(), diags
 	}
 
 	dnsSuffixVal, ok := dnsSuffixAttribute.(basetypes.ListValue)
@@ -20363,7 +20363,7 @@ func NewIpConfigValue(attributeTypes map[string]attr.Type, attributes map[string
 			"Attribute Missing",
 			`gateway is missing from object`)
 
-		return NewIpConfigValueUnknown(), diags
+		return NewPortIpConfigValueUnknown(), diags
 	}
 
 	gatewayVal, ok := gatewayAttribute.(basetypes.StringValue)
@@ -20381,7 +20381,7 @@ func NewIpConfigValue(attributeTypes map[string]attr.Type, attributes map[string
 			"Attribute Missing",
 			`ip is missing from object`)
 
-		return NewIpConfigValueUnknown(), diags
+		return NewPortIpConfigValueUnknown(), diags
 	}
 
 	ipVal, ok := ipAttribute.(basetypes.StringValue)
@@ -20399,7 +20399,7 @@ func NewIpConfigValue(attributeTypes map[string]attr.Type, attributes map[string
 			"Attribute Missing",
 			`netmask is missing from object`)
 
-		return NewIpConfigValueUnknown(), diags
+		return NewPortIpConfigValueUnknown(), diags
 	}
 
 	netmaskVal, ok := netmaskAttribute.(basetypes.StringValue)
@@ -20417,7 +20417,7 @@ func NewIpConfigValue(attributeTypes map[string]attr.Type, attributes map[string
 			"Attribute Missing",
 			`network is missing from object`)
 
-		return NewIpConfigValueUnknown(), diags
+		return NewPortIpConfigValueUnknown(), diags
 	}
 
 	networkVal, ok := networkAttribute.(basetypes.StringValue)
@@ -20435,7 +20435,7 @@ func NewIpConfigValue(attributeTypes map[string]attr.Type, attributes map[string
 			"Attribute Missing",
 			`poser_password is missing from object`)
 
-		return NewIpConfigValueUnknown(), diags
+		return NewPortIpConfigValueUnknown(), diags
 	}
 
 	poserPasswordVal, ok := poserPasswordAttribute.(basetypes.StringValue)
@@ -20453,7 +20453,7 @@ func NewIpConfigValue(attributeTypes map[string]attr.Type, attributes map[string
 			"Attribute Missing",
 			`pppoe_auth is missing from object`)
 
-		return NewIpConfigValueUnknown(), diags
+		return NewPortIpConfigValueUnknown(), diags
 	}
 
 	pppoeAuthVal, ok := pppoeAuthAttribute.(basetypes.StringValue)
@@ -20471,7 +20471,7 @@ func NewIpConfigValue(attributeTypes map[string]attr.Type, attributes map[string
 			"Attribute Missing",
 			`pppoe_username is missing from object`)
 
-		return NewIpConfigValueUnknown(), diags
+		return NewPortIpConfigValueUnknown(), diags
 	}
 
 	pppoeUsernameVal, ok := pppoeUsernameAttribute.(basetypes.StringValue)
@@ -20489,7 +20489,7 @@ func NewIpConfigValue(attributeTypes map[string]attr.Type, attributes map[string
 			"Attribute Missing",
 			`type is missing from object`)
 
-		return NewIpConfigValueUnknown(), diags
+		return NewPortIpConfigValueUnknown(), diags
 	}
 
 	typeVal, ok := typeAttribute.(basetypes.StringValue)
@@ -20501,26 +20501,26 @@ func NewIpConfigValue(attributeTypes map[string]attr.Type, attributes map[string
 	}
 
 	if diags.HasError() {
-		return NewIpConfigValueUnknown(), diags
+		return NewPortIpConfigValueUnknown(), diags
 	}
 
-	return IpConfigValue{
-		Dns:           dnsVal,
-		DnsSuffix:     dnsSuffixVal,
-		Gateway:       gatewayVal,
-		Ip:            ipVal,
-		Netmask:       netmaskVal,
-		Network:       networkVal,
-		PoserPassword: poserPasswordVal,
-		PppoeAuth:     pppoeAuthVal,
-		PppoeUsername: pppoeUsernameVal,
-		IpConfigType:  typeVal,
-		state:         attr.ValueStateKnown,
+	return PortIpConfigValue{
+		Dns:              dnsVal,
+		DnsSuffix:        dnsSuffixVal,
+		Gateway:          gatewayVal,
+		Ip:               ipVal,
+		Netmask:          netmaskVal,
+		Network:          networkVal,
+		PoserPassword:    poserPasswordVal,
+		PppoeAuth:        pppoeAuthVal,
+		PppoeUsername:    pppoeUsernameVal,
+		PortIpConfigType: typeVal,
+		state:            attr.ValueStateKnown,
 	}, diags
 }
 
-func NewIpConfigValueMust(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) IpConfigValue {
-	object, diags := NewIpConfigValue(attributeTypes, attributes)
+func NewPortIpConfigValueMust(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) PortIpConfigValue {
+	object, diags := NewPortIpConfigValue(attributeTypes, attributes)
 
 	if diags.HasError() {
 		// This could potentially be added to the diag package.
@@ -20534,15 +20534,15 @@ func NewIpConfigValueMust(attributeTypes map[string]attr.Type, attributes map[st
 				diagnostic.Detail()))
 		}
 
-		panic("NewIpConfigValueMust received error(s): " + strings.Join(diagsStrings, "\n"))
+		panic("NewPortIpConfigValueMust received error(s): " + strings.Join(diagsStrings, "\n"))
 	}
 
 	return object
 }
 
-func (t IpConfigType) ValueFromTerraform(ctx context.Context, in tftypes.Value) (attr.Value, error) {
+func (t PortIpConfigType) ValueFromTerraform(ctx context.Context, in tftypes.Value) (attr.Value, error) {
 	if in.Type() == nil {
-		return NewIpConfigValueNull(), nil
+		return NewPortIpConfigValueNull(), nil
 	}
 
 	if !in.Type().Equal(t.TerraformType(ctx)) {
@@ -20550,11 +20550,11 @@ func (t IpConfigType) ValueFromTerraform(ctx context.Context, in tftypes.Value) 
 	}
 
 	if !in.IsKnown() {
-		return NewIpConfigValueUnknown(), nil
+		return NewPortIpConfigValueUnknown(), nil
 	}
 
 	if in.IsNull() {
-		return NewIpConfigValueNull(), nil
+		return NewPortIpConfigValueNull(), nil
 	}
 
 	attributes := map[string]attr.Value{}
@@ -20577,30 +20577,30 @@ func (t IpConfigType) ValueFromTerraform(ctx context.Context, in tftypes.Value) 
 		attributes[k] = a
 	}
 
-	return NewIpConfigValueMust(IpConfigValue{}.AttributeTypes(ctx), attributes), nil
+	return NewPortIpConfigValueMust(PortIpConfigValue{}.AttributeTypes(ctx), attributes), nil
 }
 
-func (t IpConfigType) ValueType(ctx context.Context) attr.Value {
-	return IpConfigValue{}
+func (t PortIpConfigType) ValueType(ctx context.Context) attr.Value {
+	return PortIpConfigValue{}
 }
 
-var _ basetypes.ObjectValuable = IpConfigValue{}
+var _ basetypes.ObjectValuable = PortIpConfigValue{}
 
-type IpConfigValue struct {
-	Dns           basetypes.ListValue   `tfsdk:"dns"`
-	DnsSuffix     basetypes.ListValue   `tfsdk:"dns_suffix"`
-	Gateway       basetypes.StringValue `tfsdk:"gateway"`
-	Ip            basetypes.StringValue `tfsdk:"ip"`
-	Netmask       basetypes.StringValue `tfsdk:"netmask"`
-	Network       basetypes.StringValue `tfsdk:"network"`
-	PoserPassword basetypes.StringValue `tfsdk:"poser_password"`
-	PppoeAuth     basetypes.StringValue `tfsdk:"pppoe_auth"`
-	PppoeUsername basetypes.StringValue `tfsdk:"pppoe_username"`
-	IpConfigType  basetypes.StringValue `tfsdk:"type"`
-	state         attr.ValueState
+type PortIpConfigValue struct {
+	Dns              basetypes.ListValue   `tfsdk:"dns"`
+	DnsSuffix        basetypes.ListValue   `tfsdk:"dns_suffix"`
+	Gateway          basetypes.StringValue `tfsdk:"gateway"`
+	Ip               basetypes.StringValue `tfsdk:"ip"`
+	Netmask          basetypes.StringValue `tfsdk:"netmask"`
+	Network          basetypes.StringValue `tfsdk:"network"`
+	PoserPassword    basetypes.StringValue `tfsdk:"poser_password"`
+	PppoeAuth        basetypes.StringValue `tfsdk:"pppoe_auth"`
+	PppoeUsername    basetypes.StringValue `tfsdk:"pppoe_username"`
+	PortIpConfigType basetypes.StringValue `tfsdk:"type"`
+	state            attr.ValueState
 }
 
-func (v IpConfigValue) ToTerraformValue(ctx context.Context) (tftypes.Value, error) {
+func (v PortIpConfigValue) ToTerraformValue(ctx context.Context) (tftypes.Value, error) {
 	attrTypes := make(map[string]tftypes.Type, 10)
 
 	var val tftypes.Value
@@ -20699,7 +20699,7 @@ func (v IpConfigValue) ToTerraformValue(ctx context.Context) (tftypes.Value, err
 
 		vals["pppoe_username"] = val
 
-		val, err = v.IpConfigType.ToTerraformValue(ctx)
+		val, err = v.PortIpConfigType.ToTerraformValue(ctx)
 
 		if err != nil {
 			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
@@ -20721,19 +20721,19 @@ func (v IpConfigValue) ToTerraformValue(ctx context.Context) (tftypes.Value, err
 	}
 }
 
-func (v IpConfigValue) IsNull() bool {
+func (v PortIpConfigValue) IsNull() bool {
 	return v.state == attr.ValueStateNull
 }
 
-func (v IpConfigValue) IsUnknown() bool {
+func (v PortIpConfigValue) IsUnknown() bool {
 	return v.state == attr.ValueStateUnknown
 }
 
-func (v IpConfigValue) String() string {
-	return "IpConfigValue"
+func (v PortIpConfigValue) String() string {
+	return "PortIpConfigValue"
 }
 
-func (v IpConfigValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, diag.Diagnostics) {
+func (v PortIpConfigValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, diag.Diagnostics) {
 	var diags diag.Diagnostics
 
 	dnsVal, d := types.ListValue(types.StringType, v.Dns.Elements())
@@ -20819,14 +20819,14 @@ func (v IpConfigValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue
 			"poser_password": v.PoserPassword,
 			"pppoe_auth":     v.PppoeAuth,
 			"pppoe_username": v.PppoeUsername,
-			"type":           v.IpConfigType,
+			"type":           v.PortIpConfigType,
 		})
 
 	return objVal, diags
 }
 
-func (v IpConfigValue) Equal(o attr.Value) bool {
-	other, ok := o.(IpConfigValue)
+func (v PortIpConfigValue) Equal(o attr.Value) bool {
+	other, ok := o.(PortIpConfigValue)
 
 	if !ok {
 		return false
@@ -20876,22 +20876,22 @@ func (v IpConfigValue) Equal(o attr.Value) bool {
 		return false
 	}
 
-	if !v.IpConfigType.Equal(other.IpConfigType) {
+	if !v.PortIpConfigType.Equal(other.PortIpConfigType) {
 		return false
 	}
 
 	return true
 }
 
-func (v IpConfigValue) Type(ctx context.Context) attr.Type {
-	return IpConfigType{
+func (v PortIpConfigValue) Type(ctx context.Context) attr.Type {
+	return PortIpConfigType{
 		basetypes.ObjectType{
 			AttrTypes: v.AttributeTypes(ctx),
 		},
 	}
 }
 
-func (v IpConfigValue) AttributeTypes(ctx context.Context) map[string]attr.Type {
+func (v PortIpConfigValue) AttributeTypes(ctx context.Context) map[string]attr.Type {
 	return map[string]attr.Type{
 		"dns": basetypes.ListType{
 			ElemType: types.StringType,

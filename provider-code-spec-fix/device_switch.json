@@ -27,6 +27,28 @@
             "computed_optional_required": "computed"
         },
         {
+            "name": "ip_config",
+            "get": [
+                "single_nested",
+                "attributes"
+            ],"next": [
+                        {
+                            "name": "dns",
+                            "get": [
+                                "list"
+                            ],
+                            "computed_optional_required": "computed_optional"
+                        },
+                        {
+                            "name": "dns_suffix",
+                            "get": [
+                                "list"
+                            ],
+                            "computed_optional_required": "computed_optional"
+                        }
+                    ]
+        },
+        {
             "name": "switch_mgmt",
             "get": [
                 "single_nested",

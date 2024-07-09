@@ -11,14 +11,14 @@ import (
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 
-func ipConfigsTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.MapValue) map[string]models.GatewayTemplateIpConfig {
+func ipConfigsTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d basetypes.MapValue) map[string]models.GatewayIpConfigProperty {
 	tflog.Debug(ctx, "ipConfigsTerraformToSdk")
-	data_map := make(map[string]models.GatewayTemplateIpConfig)
+	data_map := make(map[string]models.GatewayIpConfigProperty)
 	for k, v := range d.Elements() {
 		var v_interface interface{} = v
 		plan := v_interface.(IpConfigsValue)
 
-		data := models.GatewayTemplateIpConfig{}
+		data := models.GatewayIpConfigProperty{}
 		if plan.Ip.ValueStringPointer() != nil {
 			data.Ip = models.ToPointer(plan.Ip.ValueString())
 		}
@@ -28,7 +28,9 @@ func ipConfigsTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d bas
 		if !plan.SecondaryIps.IsNull() && !plan.SecondaryIps.IsUnknown() {
 			data.SecondaryIps = mist_transform.ListOfStringTerraformToSdk(ctx, plan.SecondaryIps)
 		}
-
+		if !plan.IpConfigsType.IsNull() && !plan.IpConfigsType.IsUnknown() {
+			data.Type = models.ToPointer(models.IpTypeEnum(plan.IpConfigsType.ValueString()))
+		}
 		data_map[k] = data
 	}
 	return data_map

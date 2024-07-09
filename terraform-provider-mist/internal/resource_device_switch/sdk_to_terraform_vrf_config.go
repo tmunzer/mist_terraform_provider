@@ -32,7 +32,7 @@ func vrfConfigSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d *mo
 }
 
 func vrfInstanceExtraRouteSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, m map[string]models.VrfExtraRoute) basetypes.MapValue {
-	data_map_value := make(map[string]attr.Value)
+	map_item_type := make(map[string]attr.Value)
 	for k, d := range m {
 		var via basetypes.StringValue
 
@@ -47,17 +47,17 @@ func vrfInstanceExtraRouteSdkToTerraform(ctx context.Context, diags *diag.Diagno
 		data, e := NewVrfExtraRoutesValue(data_map_attr_type, data_map_value)
 		diags.Append(e...)
 
-		data_map_value[k] = data
+		map_item_type[k] = data
 	}
 	state_type := ExtraRoutesValue{}.Type(ctx)
-	state_result, e := types.MapValueFrom(ctx, state_type, data_map_value)
+	state_result, e := types.MapValueFrom(ctx, state_type, map_item_type)
 	diags.Append(e...)
 	return state_result
 }
 
 func vrfInstancesSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, m map[string]models.VrfInstance) basetypes.MapValue {
 
-	data_map_value := make(map[string]attr.Value)
+	map_item_type := make(map[string]attr.Value)
 	for k, d := range m {
 		var extra_routes basetypes.MapValue = types.MapNull(VrfExtraRoutesValue{}.Type(ctx))
 		var networks basetypes.ListValue = mist_transform.ListOfStringSdkToTerraformEmpty(ctx)
@@ -71,16 +71,16 @@ func vrfInstancesSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, m 
 
 		data_map_attr_type := VrfInstancesValue{}.AttributeTypes(ctx)
 		data_map_value := map[string]attr.Value{
-			"extra_routes": extra_routes,
-			"networks":     networks,
+			"vrf_extra_routes": extra_routes,
+			"networks":         networks,
 		}
 		data, e := NewVrfInstancesValue(data_map_attr_type, data_map_value)
 		diags.Append(e...)
 
-		data_map_value[k] = data
+		map_item_type[k] = data
 	}
 	state_type := VrfInstancesValue{}.Type(ctx)
-	state_result, e := types.MapValueFrom(ctx, state_type, data_map_value)
+	state_result, e := types.MapValueFrom(ctx, state_type, map_item_type)
 	diags.Append(e...)
 	return state_result
 }

@@ -24,7 +24,7 @@ func SdkToTerraform(ctx context.Context, data *models.GatewayTemplate) (OrgGatew
 	var extra_routes types.Map = types.MapNull(ExtraRoutesValue{}.Type(ctx))
 	var id types.String
 	var idp_profiles types.Map = types.MapNull(IdpProfilesValue{}.Type(ctx))
-	var ip_configs types.Map = types.MapNull(IpConfigValue{}.Type(ctx))
+	var ip_configs types.Map = types.MapNull(IpConfigsValue{}.Type(ctx))
 	var name types.String = types.StringValue(data.Name)
 	var networks types.List = types.ListNull(NetworksValue{}.Type(ctx))
 	var ntp_override types.Bool = types.BoolValue(false)

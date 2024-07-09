@@ -49,6 +49,3560 @@
 	},
 	"resources": [
 		{
+			"name": "device_gateway",
+			"schema": {
+				"attributes": [
+					{
+						"name": "additional_config_cmds",
+						"list": {
+							"computed_optional_required": "computed_optional",
+							"element_type": {
+								"string": {}
+							},
+							"description": "additional CLI commands to append to the generated Junos config\n\n**Note**: no check is done"
+						}
+					},
+					{
+						"name": "bgp_config",
+						"map_nested": {
+							"computed_optional_required": "computed_optional",
+							"nested_object": {
+								"attributes": [
+									{
+										"name": "auth_key",
+										"string": {
+											"computed_optional_required": "computed_optional"
+										}
+									},
+									{
+										"name": "bfd_minimum_interval",
+										"int64": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": 350
+											},
+											"description": "when bfd_multiplier is configured alone\ndefault:\n* 1000 if `type`==`external``\n* 350 `type`==`internal`",
+											"validators": [
+												{
+													"custom": {
+														"imports": [
+															{
+																"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+															}
+														],
+														"schema_definition": "int64validator.Between(1, 255000)"
+													}
+												}
+											]
+										}
+									},
+									{
+										"name": "bfd_multiplier",
+										"int64": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": 3
+											},
+											"description": "when bfd_minimum_interval_is_configured alone",
+											"validators": [
+												{
+													"custom": {
+														"imports": [
+															{
+																"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+															}
+														],
+														"schema_definition": "int64validator.Between(1, 255)"
+													}
+												}
+											]
+										}
+									},
+									{
+										"name": "communities",
+										"list_nested": {
+											"computed_optional_required": "computed_optional",
+											"nested_object": {
+												"attributes": [
+													{
+														"name": "id",
+														"string": {
+															"computed_optional_required": "computed_optional"
+														}
+													},
+													{
+														"name": "local_preference",
+														"int64": {
+															"computed_optional_required": "computed_optional"
+														}
+													},
+													{
+														"name": "vpn_name",
+														"string": {
+															"computed_optional_required": "computed_optional"
+														}
+													}
+												]
+											}
+										}
+									},
+									{
+										"name": "disable_bfd",
+										"bool": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": false
+											},
+											"description": "BFD provides faster path failure detection and is enabled by default"
+										}
+									},
+									{
+										"name": "export",
+										"string": {
+											"computed_optional_required": "computed_optional"
+										}
+									},
+									{
+										"name": "export_policy",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"description": "default export policies if no per-neighbor policies defined"
+										}
+									},
+									{
+										"name": "extended_v4_nexthop",
+										"bool": {
+											"computed_optional_required": "computed_optional",
+											"description": "by default, either inet/net6 unicast depending on neighbor IP family (v4 or v6)\nfor v6 neighbors, to exchange v4 nexthop, which allows dual-stack support, enable this"
+										}
+									},
+									{
+										"name": "graceful_restart_time",
+										"int64": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": 0
+											},
+											"description": "`0` means disable",
+											"validators": [
+												{
+													"custom": {
+														"imports": [
+															{
+																"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+															}
+														],
+														"schema_definition": "int64validator.Between(0, 4095)"
+													}
+												}
+											]
+										}
+									},
+									{
+										"name": "hold_time",
+										"int64": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": 90
+											},
+											"validators": [
+												{
+													"custom": {
+														"imports": [
+															{
+																"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+															}
+														],
+														"schema_definition": "int64validator.Between(0, 65535)"
+													}
+												}
+											]
+										}
+									},
+									{
+										"name": "import",
+										"string": {
+											"computed_optional_required": "computed_optional"
+										}
+									},
+									{
+										"name": "import_policy",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"description": "default import policies if no per-neighbor policies defined"
+										}
+									},
+									{
+										"name": "local_as",
+										"int64": {
+											"computed_optional_required": "computed_optional"
+										}
+									},
+									{
+										"name": "neighbor_as",
+										"int64": {
+											"computed_optional_required": "computed_optional"
+										}
+									},
+									{
+										"name": "neighbors",
+										"map_nested": {
+											"computed_optional_required": "computed_optional",
+											"nested_object": {
+												"attributes": [
+													{
+														"name": "disabled",
+														"bool": {
+															"computed_optional_required": "computed_optional",
+															"default": {
+																"static": false
+															},
+															"description": "If true, the BGP session to this neighbor will be administratively disabled/shutdown"
+														}
+													},
+													{
+														"name": "export_policy",
+														"string": {
+															"computed_optional_required": "computed_optional"
+														}
+													},
+													{
+														"name": "hold_time",
+														"int64": {
+															"computed_optional_required": "computed_optional",
+															"default": {
+																"static": 90
+															},
+															"validators": [
+																{
+																	"custom": {
+																		"imports": [
+																			{
+																				"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+																			}
+																		],
+																		"schema_definition": "int64validator.Between(0, 65535)"
+																	}
+																}
+															]
+														}
+													},
+													{
+														"name": "import_policy",
+														"string": {
+															"computed_optional_required": "computed_optional"
+														}
+													},
+													{
+														"name": "multihop_ttl",
+														"int64": {
+															"computed_optional_required": "computed_optional",
+															"description": "assuming BGP neighbor is directly connected",
+															"validators": [
+																{
+																	"custom": {
+																		"imports": [
+																			{
+																				"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+																			}
+																		],
+																		"schema_definition": "int64validator.Between(0, 255)"
+																	}
+																}
+															]
+														}
+													},
+													{
+														"name": "neighbor_as",
+														"int64": {
+															"computed_optional_required": "computed_optional"
+														}
+													}
+												]
+											},
+											"description": "if per-neighbor as is desired. Property key is the neighbor address"
+										}
+									},
+									{
+										"name": "networks",
+										"list": {
+											"computed_optional_required": "computed_optional",
+											"element_type": {
+												"string": {}
+											},
+											"description": "if `type`!=`external`or `via`==`wan`networks where we expect BGP neighbor to connect to/from"
+										}
+									},
+									{
+										"name": "no_readvertise_to_overlay",
+										"bool": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": false
+											},
+											"description": "by default, we'll re-advertise all learned BGP routers toward overlay"
+										}
+									},
+									{
+										"name": "type",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"validators": [
+												{
+													"custom": {
+														"imports": [
+															{
+																"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+															}
+														],
+														"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"internal\",\n\"external\",\n)"
+													}
+												},
+												{
+													"custom": {
+														"imports": [
+															{
+																"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+															}
+														],
+														"schema_definition": "stringvalidator.LengthAtLeast(1)"
+													}
+												}
+											]
+										}
+									},
+									{
+										"name": "via",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": "lan"
+											},
+											"description": "network name",
+											"validators": [
+												{
+													"custom": {
+														"imports": [
+															{
+																"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+															}
+														],
+														"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"lan\",\n\"vpn\",\n\"wan\",\n)"
+													}
+												}
+											]
+										}
+									},
+									{
+										"name": "vpn_name",
+										"string": {
+											"computed_optional_required": "computed_optional"
+										}
+									},
+									{
+										"name": "wan_name",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"description": "if `via`==`wan`"
+										}
+									}
+								]
+							}
+						}
+					},
+					{
+						"name": "deviceprofile_id",
+						"string": {
+							"computed_optional_required": "computed_optional"
+						}
+					},
+					{
+						"name": "dhcpd_config",
+						"single_nested": {
+							"computed_optional_required": "computed_optional",
+							"attributes": [
+								{
+									"name": "config",
+									"map_nested": {
+										"computed_optional_required": "computed_optional",
+										"nested_object": {
+											"attributes": [
+												{
+													"name": "dns_servers",
+													"list": {
+														"computed_optional_required": "computed_optional",
+														"element_type": {
+															"string": {}
+														},
+														"description": "if `type`==`local` - optional, if not defined, system one will be used"
+													}
+												},
+												{
+													"name": "dns_suffix",
+													"list": {
+														"computed_optional_required": "computed_optional",
+														"element_type": {
+															"string": {}
+														},
+														"description": "if `type`==`local` - optional, if not defined, system one will be used"
+													}
+												},
+												{
+													"name": "fixed_bindings",
+													"map_nested": {
+														"computed_optional_required": "computed_optional",
+														"nested_object": {
+															"attributes": [
+																{
+																	"name": "ip",
+																	"string": {
+																		"computed_optional_required": "computed_optional"
+																	}
+																},
+																{
+																	"name": "name",
+																	"string": {
+																		"computed_optional_required": "computed_optional"
+																	}
+																}
+															]
+														},
+														"description": "Property key is the MAC Address"
+													}
+												},
+												{
+													"name": "gateway",
+													"string": {
+														"computed_optional_required": "computed_optional",
+														"description": "if `type`==`local` - optional, `ip` will be used if not provided"
+													}
+												},
+												{
+													"name": "ip_end",
+													"string": {
+														"computed_optional_required": "computed_optional",
+														"description": "if `type`==`local`"
+													}
+												},
+												{
+													"name": "ip_end6",
+													"string": {
+														"computed_optional_required": "computed_optional",
+														"description": "if `type6`==`local`"
+													}
+												},
+												{
+													"name": "ip_start",
+													"string": {
+														"computed_optional_required": "computed_optional",
+														"description": "if `type`==`local`"
+													}
+												},
+												{
+													"name": "ip_start6",
+													"string": {
+														"computed_optional_required": "computed_optional",
+														"description": "if `type6`==`local`"
+													}
+												},
+												{
+													"name": "lease_time",
+													"int64": {
+														"computed_optional_required": "computed_optional",
+														"default": {
+															"static": 86400
+														},
+														"description": "in seconds, lease time has to be between 3600 [1hr] - 604800 [1 week], default is 86400 [1 day]",
+														"validators": [
+															{
+																"custom": {
+																	"imports": [
+																		{
+																			"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+																		}
+																	],
+																	"schema_definition": "int64validator.Between(3600, 604800)"
+																}
+															}
+														]
+													}
+												},
+												{
+													"name": "options",
+													"map_nested": {
+														"computed_optional_required": "computed_optional",
+														"nested_object": {
+															"attributes": [
+																{
+																	"name": "type",
+																	"string": {
+																		"computed_optional_required": "computed_optional",
+																		"validators": [
+																			{
+																				"custom": {
+																					"imports": [
+																						{
+																							"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																						}
+																					],
+																					"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"string\",\n\"boolean\",\n\"ip\",\n\"hex\",\n\"int16\",\n\"int32\",\n\"uint16\",\n\"uint32\",\n)"
+																				}
+																			}
+																		]
+																	}
+																},
+																{
+																	"name": "value",
+																	"string": {
+																		"computed_optional_required": "computed_optional"
+																	}
+																}
+															]
+														},
+														"description": "Property key is the DHCP option number"
+													}
+												},
+												{
+													"name": "server_id_override",
+													"bool": {
+														"computed_optional_required": "computed_optional",
+														"default": {
+															"static": false
+														},
+														"description": "`server_id_override`==`true` means the device, when acts as DHCP relay and forwards DHCP responses from DHCP server to clients, \nshould overwrite the Sever Identifier option (i.e. DHCP option 54) in DHCP responses with its own IP address."
+													}
+												},
+												{
+													"name": "servers",
+													"list": {
+														"computed_optional_required": "computed_optional",
+														"element_type": {
+															"string": {}
+														},
+														"description": "if `type`==`relay`"
+													}
+												},
+												{
+													"name": "servers6",
+													"list": {
+														"computed_optional_required": "computed_optional",
+														"element_type": {
+															"string": {}
+														},
+														"description": "if `type6`==`relay`"
+													}
+												},
+												{
+													"name": "type",
+													"string": {
+														"computed_optional_required": "computed_optional",
+														"default": {
+															"static": "local"
+														},
+														"description": "DHCP Server (local) or DHCP Relay (relay)",
+														"validators": [
+															{
+																"custom": {
+																	"imports": [
+																		{
+																			"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																		}
+																	],
+																	"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"local\",\n\"relay\",\n\"none\",\n)"
+																}
+															}
+														]
+													}
+												},
+												{
+													"name": "type6",
+													"string": {
+														"computed_optional_required": "computed_optional",
+														"default": {
+															"static": "none"
+														},
+														"description": "DHCP Server (local) or DHCP Relay (relay)",
+														"validators": [
+															{
+																"custom": {
+																	"imports": [
+																		{
+																			"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																		}
+																	],
+																	"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"local\",\n\"relay\",\n\"none\",\n)"
+																}
+															}
+														]
+													}
+												},
+												{
+													"name": "vendor_encapulated",
+													"map_nested": {
+														"computed_optional_required": "computed_optional",
+														"nested_object": {
+															"attributes": [
+																{
+																	"name": "type",
+																	"string": {
+																		"computed_optional_required": "computed_optional",
+																		"validators": [
+																			{
+																				"custom": {
+																					"imports": [
+																						{
+																							"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																						}
+																					],
+																					"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"string\",\n\"boolean\",\n\"ip\",\n\"hex\",\n\"int16\",\n\"int32\",\n\"uint16\",\n\"uint32\",\n)"
+																				}
+																			}
+																		]
+																	}
+																},
+																{
+																	"name": "value",
+																	"string": {
+																		"computed_optional_required": "computed_optional"
+																	}
+																}
+															]
+														},
+														"description": "Property key is \u003centerprise number\u003e:\u003csub option code\u003e, with\n* enterprise number: 1-65535 (https://www.iana.org/assignments/enterprise-numbers/enterprise-numbers)\n* sub option code: 1-255, sub-option code"
+													}
+												}
+											]
+										}
+									}
+								},
+								{
+									"name": "enabled",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										},
+										"description": "if set to `true`, disable the DHCP server"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "dns_servers",
+						"list": {
+							"computed_optional_required": "computed_optional",
+							"element_type": {
+								"string": {}
+							},
+							"description": "Global dns settings. To keep compatibility, dns settings in `ip_config` and `oob_ip_config` will overwrite this setting"
+						}
+					},
+					{
+						"name": "dns_suffix",
+						"list": {
+							"computed_optional_required": "computed_optional",
+							"element_type": {
+								"string": {}
+							},
+							"description": "Global dns settings. To keep compatibility, dns settings in `ip_config` and `oob_ip_config` will overwrite this setting"
+						}
+					},
+					{
+						"name": "extra_routes",
+						"map_nested": {
+							"computed_optional_required": "computed_optional",
+							"nested_object": {
+								"attributes": [
+									{
+										"name": "via",
+										"string": {
+											"computed_optional_required": "computed_optional"
+										}
+									}
+								]
+							}
+						}
+					},
+					{
+						"name": "idp_profiles",
+						"map_nested": {
+							"computed_optional_required": "computed_optional",
+							"nested_object": {
+								"attributes": [
+									{
+										"name": "base_profile",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"validators": [
+												{
+													"custom": {
+														"imports": [
+															{
+																"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+															}
+														],
+														"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"strict\",\n\"standard\",\n)"
+													}
+												}
+											]
+										}
+									},
+									{
+										"name": "created_time",
+										"int64": {
+											"computed_optional_required": "computed_optional"
+										}
+									},
+									{
+										"name": "id",
+										"string": {
+											"computed_optional_required": "computed_optional"
+										}
+									},
+									{
+										"name": "modified_time",
+										"int64": {
+											"computed_optional_required": "computed_optional"
+										}
+									},
+									{
+										"name": "name",
+										"string": {
+											"computed_optional_required": "computed_optional"
+										}
+									},
+									{
+										"name": "overwrites",
+										"list_nested": {
+											"computed_optional_required": "computed_optional",
+											"nested_object": {
+												"attributes": [
+													{
+														"name": "action",
+														"string": {
+															"computed_optional_required": "computed_optional",
+															"default": {
+																"static": "alert"
+															},
+															"description": "- alert (default) \n- drop: siliently dropping packets\n- close: notify client/server to close connection",
+															"validators": [
+																{
+																	"custom": {
+																		"imports": [
+																			{
+																				"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																			}
+																		],
+																		"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"alert\",\n\"drop\",\n\"close\",\n)"
+																	}
+																}
+															]
+														}
+													},
+													{
+														"name": "matching",
+														"single_nested": {
+															"computed_optional_required": "computed_optional",
+															"attributes": [
+																{
+																	"name": "attack_name",
+																	"list": {
+																		"computed_optional_required": "computed_optional",
+																		"element_type": {
+																			"string": {}
+																		}
+																	}
+																},
+																{
+																	"name": "dst_subnet",
+																	"list": {
+																		"computed_optional_required": "computed_optional",
+																		"element_type": {
+																			"string": {}
+																		}
+																	}
+																},
+																{
+																	"name": "severity",
+																	"list": {
+																		"computed_optional_required": "computed_optional",
+																		"element_type": {
+																			"string": {}
+																		}
+																	}
+																}
+															]
+														}
+													}
+												]
+											}
+										}
+									}
+								]
+							},
+							"description": "Property key is the profile name"
+						}
+					},
+					{
+						"name": "image1_url",
+						"string": {
+							"computed_optional_required": "computed_optional"
+						}
+					},
+					{
+						"name": "image2_url",
+						"string": {
+							"computed_optional_required": "computed_optional"
+						}
+					},
+					{
+						"name": "image3_url",
+						"string": {
+							"computed_optional_required": "computed_optional"
+						}
+					},
+					{
+						"name": "ip_configs",
+						"map_nested": {
+							"computed_optional_required": "computed_optional",
+							"nested_object": {
+								"attributes": [
+									{
+										"name": "ip",
+										"string": {
+											"computed_optional_required": "computed_optional"
+										}
+									},
+									{
+										"name": "netmask",
+										"string": {
+											"computed_optional_required": "computed_optional"
+										}
+									},
+									{
+										"name": "secondary_ips",
+										"list": {
+											"computed_optional_required": "computed_optional",
+											"element_type": {
+												"string": {}
+											},
+											"description": "optional list of secondary IPs in CIDR format"
+										}
+									},
+									{
+										"name": "type",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": "dhcp"
+											},
+											"validators": [
+												{
+													"custom": {
+														"imports": [
+															{
+																"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+															}
+														],
+														"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"static\",\n\"dhcp\",\n)"
+													}
+												}
+											]
+										}
+									}
+								]
+							},
+							"description": "Property key is the network name"
+						}
+					},
+					{
+						"name": "managed",
+						"bool": {
+							"computed_optional_required": "computed_optional"
+						}
+					},
+					{
+						"name": "map_id",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"description": "map where the device belongs to"
+						}
+					},
+					{
+						"name": "msp_id",
+						"string": {
+							"computed_optional_required": "computed_optional"
+						}
+					},
+					{
+						"name": "name",
+						"string": {
+							"computed_optional_required": "computed_optional"
+						}
+					},
+					{
+						"name": "networks",
+						"list_nested": {
+							"computed_optional_required": "computed_optional",
+							"nested_object": {
+								"attributes": [
+									{
+										"name": "created_time",
+										"number": {
+											"computed_optional_required": "computed_optional"
+										}
+									},
+									{
+										"name": "disallow_mist_services",
+										"bool": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": false
+											},
+											"description": "whether to disallow Mist Devices in the network"
+										}
+									},
+									{
+										"name": "gateway",
+										"string": {
+											"computed_optional_required": "computed_optional"
+										}
+									},
+									{
+										"name": "gateway6",
+										"string": {
+											"computed_optional_required": "computed_optional"
+										}
+									},
+									{
+										"name": "id",
+										"string": {
+											"computed_optional_required": "computed_optional"
+										}
+									},
+									{
+										"name": "internal_access",
+										"single_nested": {
+											"computed_optional_required": "computed_optional",
+											"attributes": [
+												{
+													"name": "enabled",
+													"bool": {
+														"computed_optional_required": "computed_optional"
+													}
+												}
+											]
+										}
+									},
+									{
+										"name": "internet_access",
+										"single_nested": {
+											"computed_optional_required": "computed_optional",
+											"attributes": [
+												{
+													"name": "create_simple_service_policy",
+													"bool": {
+														"computed_optional_required": "computed_optional",
+														"default": {
+															"static": false
+														}
+													}
+												},
+												{
+													"name": "destination_nat",
+													"map_nested": {
+														"computed_optional_required": "computed_optional",
+														"nested_object": {
+															"attributes": [
+																{
+																	"name": "internal_ip",
+																	"string": {
+																		"computed_optional_required": "computed_optional"
+																	}
+																},
+																{
+																	"name": "name",
+																	"string": {
+																		"computed_optional_required": "computed_optional"
+																	}
+																},
+																{
+																	"name": "port",
+																	"int64": {
+																		"computed_optional_required": "computed_optional"
+																	}
+																}
+															]
+														},
+														"description": "Property key may be an IP/Port (i.e. \"63.16.0.3:443\"), or a port (i.e. \":2222\")"
+													}
+												},
+												{
+													"name": "enabled",
+													"bool": {
+														"computed_optional_required": "computed_optional"
+													}
+												},
+												{
+													"name": "restricted",
+													"bool": {
+														"computed_optional_required": "computed_optional",
+														"default": {
+															"static": false
+														},
+														"description": "by default, all access is allowed, to only allow certain traffic, make `restricted`=`true` and define service_policies"
+													}
+												},
+												{
+													"name": "static_nat",
+													"map_nested": {
+														"computed_optional_required": "computed_optional",
+														"nested_object": {
+															"attributes": [
+																{
+																	"name": "internal_ip",
+																	"string": {
+																		"computed_optional_required": "computed_optional"
+																	}
+																},
+																{
+																	"name": "name",
+																	"string": {
+																		"computed_optional_required": "computed_optional"
+																	}
+																},
+																{
+																	"name": "wan_name",
+																	"string": {
+																		"computed_optional_required": "computed_optional",
+																		"description": "If not set, we configure the nat policies against all WAN ports for simplicity"
+																	}
+																}
+															]
+														},
+														"description": "Property key may be an IP Address (i.e. \"172.16.0.1\"), and IP Address and Port (i.e. \"172.16.0.1:8443\") or a CIDR (i.e. \"172.16.0.12/20\")"
+													}
+												}
+											],
+											"description": "whether this network has direct internet access"
+										}
+									},
+									{
+										"name": "isolation",
+										"bool": {
+											"computed_optional_required": "computed_optional",
+											"description": "whether to allow clients in the network to talk to each other"
+										}
+									},
+									{
+										"name": "modified_time",
+										"number": {
+											"computed_optional_required": "computed_optional"
+										}
+									},
+									{
+										"name": "name",
+										"string": {
+											"computed_optional_required": "required"
+										}
+									},
+									{
+										"name": "org_id",
+										"string": {
+											"computed_optional_required": "computed_optional"
+										}
+									},
+									{
+										"name": "routed_for_networks",
+										"list": {
+											"computed_optional_required": "computed_optional",
+											"element_type": {
+												"string": {}
+											},
+											"description": "for a Network (usually LAN), it can be routable to other networks (e.g. OSPF)"
+										}
+									},
+									{
+										"name": "subnet",
+										"string": {
+											"computed_optional_required": "computed_optional"
+										}
+									},
+									{
+										"name": "subnet6",
+										"string": {
+											"computed_optional_required": "computed_optional"
+										}
+									},
+									{
+										"name": "tenants",
+										"map_nested": {
+											"computed_optional_required": "computed_optional",
+											"nested_object": {
+												"attributes": [
+													{
+														"name": "addresses",
+														"list": {
+															"computed_optional_required": "computed_optional",
+															"element_type": {
+																"string": {}
+															}
+														}
+													}
+												]
+											}
+										}
+									},
+									{
+										"name": "vlan_id",
+										"int64": {
+											"computed_optional_required": "computed_optional"
+										}
+									},
+									{
+										"name": "vpn_access",
+										"map_nested": {
+											"computed_optional_required": "computed_optional",
+											"nested_object": {
+												"attributes": [
+													{
+														"name": "advertised_subnet",
+														"string": {
+															"computed_optional_required": "computed_optional",
+															"description": "if `routed`==`true`, whether to advertise an aggregated subnet toward HUB this is useful when there are multiple networks on SPOKE's side"
+														}
+													},
+													{
+														"name": "allow_ping",
+														"bool": {
+															"computed_optional_required": "computed_optional",
+															"description": "whether to allow ping from vpn into this routed network"
+														}
+													},
+													{
+														"name": "destination_nat",
+														"map_nested": {
+															"computed_optional_required": "computed_optional",
+															"nested_object": {
+																"attributes": [
+																	{
+																		"name": "internal_ip",
+																		"string": {
+																			"computed_optional_required": "computed_optional"
+																		}
+																	},
+																	{
+																		"name": "name",
+																		"string": {
+																			"computed_optional_required": "computed_optional"
+																		}
+																	},
+																	{
+																		"name": "port",
+																		"int64": {
+																			"computed_optional_required": "computed_optional"
+																		}
+																	}
+																]
+															},
+															"description": "Property key may be an IP/Port (i.e. \"63.16.0.3:443\"), or a port (i.e. \":2222\")"
+														}
+													},
+													{
+														"name": "nat_pool",
+														"string": {
+															"computed_optional_required": "computed_optional",
+															"description": "if `routed`==`false` (usually at Spoke), but some hosts needs to be reachable from Hub, a subnet is required to create and advertise the route to Hub"
+														}
+													},
+													{
+														"name": "no_readvertise_to_lan_bgp",
+														"bool": {
+															"computed_optional_required": "computed_optional",
+															"default": {
+																"static": false
+															},
+															"description": "toward LAN-side BGP peers"
+														}
+													},
+													{
+														"name": "no_readvertise_to_lan_ospf",
+														"bool": {
+															"computed_optional_required": "computed_optional",
+															"default": {
+																"static": false
+															},
+															"description": "toward LAN-side OSPF peers"
+														}
+													},
+													{
+														"name": "no_readvertise_to_overlay",
+														"bool": {
+															"computed_optional_required": "computed_optional",
+															"description": "toward overlay\nhow HUB should deal with routes it received from Spokes"
+														}
+													},
+													{
+														"name": "other_vrfs",
+														"list": {
+															"computed_optional_required": "computed_optional",
+															"element_type": {
+																"string": {}
+															},
+															"description": "by default, the routes are only readvertised toward the same vrf on spoke\nto allow it to be leaked to other vrfs"
+														}
+													},
+													{
+														"name": "routed",
+														"bool": {
+															"computed_optional_required": "computed_optional",
+															"description": "whether this network is routable"
+														}
+													},
+													{
+														"name": "source_nat",
+														"single_nested": {
+															"computed_optional_required": "computed_optional",
+															"attributes": [
+																{
+																	"name": "exteral_ip",
+																	"string": {
+																		"computed_optional_required": "computed_optional"
+																	}
+																}
+															],
+															"description": "if `routed`==`false` (usually at Spoke), but some hosts needs to be reachable from Hub"
+														}
+													},
+													{
+														"name": "static_nat",
+														"map_nested": {
+															"computed_optional_required": "computed_optional",
+															"nested_object": {
+																"attributes": [
+																	{
+																		"name": "internal_ip",
+																		"string": {
+																			"computed_optional_required": "computed_optional"
+																		}
+																	},
+																	{
+																		"name": "name",
+																		"string": {
+																			"computed_optional_required": "computed_optional"
+																		}
+																	},
+																	{
+																		"name": "wan_name",
+																		"string": {
+																			"computed_optional_required": "computed_optional",
+																			"description": "If not set, we configure the nat policies against all WAN ports for simplicity"
+																		}
+																	}
+																]
+															},
+															"description": "Property key may be an IP Address (i.e. \"172.16.0.1\"), and IP Address and Port (i.e. \"172.16.0.1:8443\") or a CIDR (i.e. \"172.16.0.12/20\")"
+														}
+													},
+													{
+														"name": "summarized_subnet",
+														"string": {
+															"computed_optional_required": "computed_optional",
+															"description": "toward overlay\nhow HUB should deal with routes it received from Spokes"
+														}
+													},
+													{
+														"name": "summarized_subnet_to_lan_bgp",
+														"string": {
+															"computed_optional_required": "computed_optional",
+															"description": "toward LAN-side BGP peers"
+														}
+													},
+													{
+														"name": "summarized_subnet_to_lan_ospf",
+														"string": {
+															"computed_optional_required": "computed_optional",
+															"description": "toward LAN-side OSPF peers"
+														}
+													}
+												]
+											},
+											"description": "Property key is the VPN name. Whether this network can be accessed from vpn"
+										}
+									}
+								]
+							}
+						}
+					},
+					{
+						"name": "notes",
+						"string": {
+							"computed_optional_required": "computed_optional"
+						}
+					},
+					{
+						"name": "ntp_servers",
+						"list": {
+							"computed_optional_required": "computed_optional",
+							"element_type": {
+								"string": {}
+							},
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
+											}
+										],
+										"schema_definition": "listvalidator.UniqueValues()"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "oob_ip_config",
+						"single_nested": {
+							"computed_optional_required": "computed_optional",
+							"attributes": [
+								{
+									"name": "ip",
+									"string": {
+										"computed_optional_required": "computed_optional"
+									}
+								},
+								{
+									"name": "netmask",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"description": "used only if `subnet` is not specified in `networks`"
+									}
+								},
+								{
+									"name": "network",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"description": "optional, the network to be used for mgmt"
+									}
+								},
+								{
+									"name": "node1",
+									"single_nested": {
+										"computed_optional_required": "computed_optional",
+										"attributes": [
+											{
+												"name": "ip",
+												"string": {
+													"computed_optional_required": "computed_optional"
+												}
+											},
+											{
+												"name": "netmask",
+												"string": {
+													"computed_optional_required": "computed_optional",
+													"description": "used only if `subnet` is not specified in `networks`"
+												}
+											},
+											{
+												"name": "network",
+												"string": {
+													"computed_optional_required": "computed_optional",
+													"description": "optional, the network to be used for mgmt"
+												}
+											},
+											{
+												"name": "type",
+												"string": {
+													"computed_optional_required": "computed_optional",
+													"default": {
+														"static": "dynamic"
+													},
+													"validators": [
+														{
+															"custom": {
+																"imports": [
+																	{
+																		"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																	}
+																],
+																"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"static\",\n\"dynamic\",\n)"
+															}
+														}
+													]
+												}
+											},
+											{
+												"name": "use_mgmt_vrf",
+												"bool": {
+													"computed_optional_required": "computed_optional",
+													"default": {
+														"static": false
+													},
+													"description": "if supported on the platform. If enabled, DNS will be using this routing-instance, too"
+												}
+											},
+											{
+												"name": "use_mgmt_vrf_for_host_out",
+												"bool": {
+													"computed_optional_required": "computed_optional",
+													"default": {
+														"static": false
+													},
+													"description": "whether to use `mgmt_junos` for host-out traffic (NTP/TACPLUS/RADIUS/SYSLOG/SNMP), if alternative source network/ip is desired"
+												}
+											}
+										],
+										"description": "for HA Cluster, node1 can have different IP Config"
+									}
+								},
+								{
+									"name": "type",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": "dynamic"
+										},
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+														}
+													],
+													"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"static\",\n\"dynamic\",\n)"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "use_mgmt_vrf",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										},
+										"description": "f supported on the platform. If enabled, DNS will be using this routing-instance, too"
+									}
+								},
+								{
+									"name": "use_mgmt_vrf_for_host_out",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										},
+										"description": "for host-out traffic (NTP/TACPLUS/RADIUS/SYSLOG/SNMP), if alternative source network/ip is desired,"
+									}
+								}
+							],
+							"description": "out-of-band (vme/em0/fxp0) IP config"
+						}
+					},
+					{
+						"name": "org_id",
+						"string": {
+							"computed_optional_required": "computed_optional"
+						}
+					},
+					{
+						"name": "path_preferences",
+						"map_nested": {
+							"computed_optional_required": "computed_optional",
+							"nested_object": {
+								"attributes": [
+									{
+										"name": "paths",
+										"list_nested": {
+											"computed_optional_required": "computed_optional",
+											"nested_object": {
+												"attributes": [
+													{
+														"name": "cost",
+														"int64": {
+															"computed_optional_required": "computed_optional"
+														}
+													},
+													{
+														"name": "disabled",
+														"bool": {
+															"computed_optional_required": "computed_optional",
+															"description": "For SSR Only. `true`` if this specific path is undesired"
+														}
+													},
+													{
+														"name": "gateway_ip",
+														"string": {
+															"computed_optional_required": "computed_optional",
+															"description": "if `type`==`local`, if a different gateway is desired"
+														}
+													},
+													{
+														"name": "internet_access",
+														"bool": {
+															"computed_optional_required": "computed_optional",
+															"default": {
+																"static": false
+															},
+															"description": "when `type`==`vpn`, if this vpn path can be used for internet"
+														}
+													},
+													{
+														"name": "name",
+														"string": {
+															"computed_optional_required": "computed_optional"
+														}
+													},
+													{
+														"name": "networks",
+														"list": {
+															"computed_optional_required": "computed_optional",
+															"element_type": {
+																"string": {}
+															},
+															"description": "if `type`==`local`"
+														}
+													},
+													{
+														"name": "target_ips",
+														"list": {
+															"computed_optional_required": "computed_optional",
+															"element_type": {
+																"string": {}
+															},
+															"description": "if `type`==`local`, if destination IP is to be replaced"
+														}
+													},
+													{
+														"name": "type",
+														"string": {
+															"computed_optional_required": "computed_optional",
+															"validators": [
+																{
+																	"custom": {
+																		"imports": [
+																			{
+																				"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																			}
+																		],
+																		"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"local\",\n\"wan\",\n\"vpn\",\n\"tunnel\",\n)"
+																	}
+																}
+															]
+														}
+													},
+													{
+														"name": "wan_name",
+														"string": {
+															"computed_optional_required": "computed_optional",
+															"description": "Spoke's outgoing wan"
+														}
+													}
+												]
+											}
+										}
+									},
+									{
+										"name": "strategy",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": "ordered"
+											},
+											"validators": [
+												{
+													"custom": {
+														"imports": [
+															{
+																"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+															}
+														],
+														"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"ordered\",\n\"weighted\",\n\"ecmp\",\n)"
+													}
+												}
+											]
+										}
+									}
+								]
+							},
+							"description": "Property key is the path name"
+						}
+					},
+					{
+						"name": "port_config",
+						"map_nested": {
+							"computed_optional_required": "computed_optional",
+							"nested_object": {
+								"attributes": [
+									{
+										"name": "description",
+										"string": {
+											"computed_optional_required": "computed_optional"
+										}
+									},
+									{
+										"name": "disable_autoneg",
+										"bool": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": false
+											}
+										}
+									},
+									{
+										"name": "disabled",
+										"bool": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": false
+											},
+											"description": "port admin up (true) / down (false)"
+										}
+									},
+									{
+										"name": "dsl_type",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": "vdsl"
+											},
+											"description": "if `wan_type`==`lte`",
+											"validators": [
+												{
+													"custom": {
+														"imports": [
+															{
+																"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+															}
+														],
+														"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"vdsl\",\n\"adsl\",\n)"
+													}
+												}
+											]
+										}
+									},
+									{
+										"name": "dsl_vci",
+										"int64": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": 35
+											},
+											"description": "if `wan_type`==`dsl`\n16 bit int"
+										}
+									},
+									{
+										"name": "dsl_vpi",
+										"int64": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": 0
+											},
+											"description": "if `wan_type`==`dsl`\n8 bit int"
+										}
+									},
+									{
+										"name": "duplex",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": "auto"
+											},
+											"validators": [
+												{
+													"custom": {
+														"imports": [
+															{
+																"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+															}
+														],
+														"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"half\",\n\"full\",\n\"auto\",\n)"
+													}
+												}
+											]
+										}
+									},
+									{
+										"name": "ip_config",
+										"single_nested": {
+											"computed_optional_required": "computed_optional",
+											"attributes": [
+												{
+													"name": "dns",
+													"list": {
+														"computed_optional_required": "computed_optional",
+														"element_type": {
+															"string": {}
+														},
+														"description": "except for out-of_band interface (vme/em0/fxp0)"
+													}
+												},
+												{
+													"name": "dns_suffix",
+													"list": {
+														"computed_optional_required": "computed_optional",
+														"element_type": {
+															"string": {}
+														},
+														"description": "except for out-of_band interface (vme/em0/fxp0)"
+													}
+												},
+												{
+													"name": "gateway",
+													"string": {
+														"computed_optional_required": "computed_optional",
+														"description": "except for out-of_band interface (vme/em0/fxp0)"
+													}
+												},
+												{
+													"name": "ip",
+													"string": {
+														"computed_optional_required": "computed_optional"
+													}
+												},
+												{
+													"name": "netmask",
+													"string": {
+														"computed_optional_required": "computed_optional",
+														"description": "used only if `subnet` is not specified in `networks`"
+													}
+												},
+												{
+													"name": "network",
+													"string": {
+														"computed_optional_required": "computed_optional",
+														"description": "optional, the network to be used for mgmt"
+													}
+												},
+												{
+													"name": "poser_password",
+													"string": {
+														"computed_optional_required": "computed_optional",
+														"description": "if `type`==`pppoe`"
+													}
+												},
+												{
+													"name": "pppoe_auth",
+													"string": {
+														"computed_optional_required": "computed_optional",
+														"default": {
+															"static": "none"
+														},
+														"description": "if `type`==`pppoe`",
+														"validators": [
+															{
+																"custom": {
+																	"imports": [
+																		{
+																			"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																		}
+																	],
+																	"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"none\",\n\"chap\",\n\"pap\",\n)"
+																}
+															}
+														]
+													}
+												},
+												{
+													"name": "pppoe_username",
+													"string": {
+														"computed_optional_required": "computed_optional",
+														"description": "if `type`==`pppoe`"
+													}
+												},
+												{
+													"name": "type",
+													"string": {
+														"computed_optional_required": "computed_optional",
+														"default": {
+															"static": "dhcp"
+														},
+														"validators": [
+															{
+																"custom": {
+																	"imports": [
+																		{
+																			"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																		}
+																	],
+																	"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"dhcp\",\n\"static\",\n\"pppoe\",\n)"
+																}
+															}
+														]
+													}
+												}
+											],
+											"description": "Junos IP Config"
+										}
+									},
+									{
+										"name": "lte_apn",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"description": "if `wan_type`==`lte`"
+										}
+									},
+									{
+										"name": "lte_auth",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": "none"
+											},
+											"description": "if `wan_type`==`lte`",
+											"validators": [
+												{
+													"custom": {
+														"imports": [
+															{
+																"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+															}
+														],
+														"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"none\",\n\"chap\",\n\"pap\",\n)"
+													}
+												}
+											]
+										}
+									},
+									{
+										"name": "lte_backup",
+										"bool": {
+											"computed_optional_required": "computed_optional"
+										}
+									},
+									{
+										"name": "lte_password",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"description": "if `wan_type`==`lte`"
+										}
+									},
+									{
+										"name": "lte_username",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"description": "if `wan_type`==`lte`"
+										}
+									},
+									{
+										"name": "mtu",
+										"int64": {
+											"computed_optional_required": "computed_optional"
+										}
+									},
+									{
+										"name": "name",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"description": "name that we'll use to derive config"
+										}
+									},
+									{
+										"name": "networks",
+										"list": {
+											"computed_optional_required": "computed_optional",
+											"element_type": {
+												"string": {}
+											},
+											"description": "if `usage`==`lan`"
+										}
+									},
+									{
+										"name": "outer_vlan_id",
+										"int64": {
+											"computed_optional_required": "computed_optional",
+											"description": "for Q-in-Q"
+										}
+									},
+									{
+										"name": "poe_disabled",
+										"bool": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": false
+											}
+										}
+									},
+									{
+										"name": "port_network",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"description": "if `usage`==`lan`"
+										}
+									},
+									{
+										"name": "preserve_dscp",
+										"bool": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": true
+											},
+											"description": "whether to preserve dscp when sending traffic over VPN (SSR-only)"
+										}
+									},
+									{
+										"name": "redundant",
+										"bool": {
+											"computed_optional_required": "computed_optional",
+											"description": "if HA mode"
+										}
+									},
+									{
+										"name": "reth_idx",
+										"int64": {
+											"computed_optional_required": "computed_optional",
+											"description": "if HA mode"
+										}
+									},
+									{
+										"name": "reth_node",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"description": "if HA mode"
+										}
+									},
+									{
+										"name": "reth_nodes",
+										"list": {
+											"computed_optional_required": "computed_optional",
+											"element_type": {
+												"string": {}
+											},
+											"description": "SSR only - supporting vlan-based redundancy (matching the size of `networks`)"
+										}
+									},
+									{
+										"name": "speed",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": "auto"
+											}
+										}
+									},
+									{
+										"name": "ssr_no_virtual_mac",
+										"bool": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": false
+											},
+											"description": "when SSR is running as VM, this is required on certain hosting platforms"
+										}
+									},
+									{
+										"name": "svr_port_range",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": "none"
+											},
+											"description": "for SSR only"
+										}
+									},
+									{
+										"name": "traffic_shaping",
+										"single_nested": {
+											"computed_optional_required": "computed_optional",
+											"attributes": [
+												{
+													"name": "class_percentages",
+													"list": {
+														"computed_optional_required": "computed_optional",
+														"element_type": {
+															"int64": {}
+														},
+														"description": "percentages for differet class of traffic: high / medium / low / best-effort\nsum must be equal to 100"
+													}
+												},
+												{
+													"name": "enabled",
+													"bool": {
+														"computed_optional_required": "computed_optional",
+														"default": {
+															"static": false
+														}
+													}
+												}
+											]
+										}
+									},
+									{
+										"name": "usage",
+										"string": {
+											"computed_optional_required": "required",
+											"description": "port usage name",
+											"validators": [
+												{
+													"custom": {
+														"imports": [
+															{
+																"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+															}
+														],
+														"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"lan\",\n\"wan\",\n\"ha_data\",\n\"ha_control\",\n)"
+													}
+												}
+											]
+										}
+									},
+									{
+										"name": "vlan_id",
+										"int64": {
+											"computed_optional_required": "computed_optional",
+											"description": "if WAN interface is on a VLAN"
+										}
+									},
+									{
+										"name": "vpn_paths",
+										"map_nested": {
+											"computed_optional_required": "computed_optional",
+											"nested_object": {
+												"attributes": [
+													{
+														"name": "bfd_profile",
+														"string": {
+															"computed_optional_required": "computed_optional",
+															"default": {
+																"static": "broadband"
+															},
+															"validators": [
+																{
+																	"custom": {
+																		"imports": [
+																			{
+																				"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																			}
+																		],
+																		"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"lte\",\n\"broadband\",\n)"
+																	}
+																}
+															]
+														}
+													},
+													{
+														"name": "bfd_use_tunnel_mode",
+														"bool": {
+															"computed_optional_required": "computed_optional",
+															"default": {
+																"static": false
+															},
+															"description": "whether to use tunnel mode. SSR only"
+														}
+													},
+													{
+														"name": "preference",
+														"int64": {
+															"computed_optional_required": "computed_optional",
+															"description": "for a given VPN, when `path_selection.strategy`==`simple`, the preference for a path (lower is preferred)"
+														}
+													},
+													{
+														"name": "role",
+														"string": {
+															"computed_optional_required": "computed_optional",
+															"default": {
+																"static": "spoke"
+															},
+															"validators": [
+																{
+																	"custom": {
+																		"imports": [
+																			{
+																				"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																			}
+																		],
+																		"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"spoke\",\n\"hub\",\n)"
+																	}
+																}
+															]
+														}
+													},
+													{
+														"name": "traffic_shaping",
+														"single_nested": {
+															"computed_optional_required": "computed_optional",
+															"attributes": [
+																{
+																	"name": "class_percentages",
+																	"list": {
+																		"computed_optional_required": "computed_optional",
+																		"element_type": {
+																			"int64": {}
+																		},
+																		"description": "percentages for differet class of traffic: high / medium / low / best-effort\nsum must be equal to 100"
+																	}
+																},
+																{
+																	"name": "enabled",
+																	"bool": {
+																		"computed_optional_required": "computed_optional",
+																		"default": {
+																			"static": false
+																		}
+																	}
+																}
+															]
+														}
+													}
+												]
+											}
+										}
+									},
+									{
+										"name": "wan_arp_policer",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": "recommended"
+											},
+											"description": "when `wan_type`==`broadband`",
+											"validators": [
+												{
+													"custom": {
+														"imports": [
+															{
+																"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+															}
+														],
+														"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"recommended\",\n\"default\",\n\"max\",\n)"
+													}
+												}
+											]
+										}
+									},
+									{
+										"name": "wan_ext_ip",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"description": "optional, if spoke should reach this port by a different IP"
+										}
+									},
+									{
+										"name": "wan_source_nat",
+										"single_nested": {
+											"computed_optional_required": "computed_optional",
+											"attributes": [
+												{
+													"name": "disabled",
+													"bool": {
+														"computed_optional_required": "computed_optional",
+														"default": {
+															"static": false
+														},
+														"description": "or to disable the source-nat"
+													}
+												},
+												{
+													"name": "nat_pool",
+													"string": {
+														"computed_optional_required": "computed_optional",
+														"description": "if alternative nat_pool is desired"
+													}
+												}
+											],
+											"description": "optional, by default, source-NAT is performed on all WAN Ports using the interface-ip"
+										}
+									},
+									{
+										"name": "wan_type",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": "broadband"
+											},
+											"description": "if `usage`==`wan`",
+											"validators": [
+												{
+													"custom": {
+														"imports": [
+															{
+																"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+															}
+														],
+														"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"broadband\",\n\"dsl\",\n\"lte\",\n)"
+													}
+												}
+											]
+										}
+									}
+								]
+							},
+							"description": "Property key is the port name or range (e.g. \"ge-0/0/0-10\")"
+						}
+					},
+					{
+						"name": "port_mirroring",
+						"single_nested": {
+							"computed_optional_required": "computed_optional",
+							"attributes": [
+								{
+									"name": "port_mirror",
+									"single_nested": {
+										"computed_optional_required": "computed_optional",
+										"attributes": [
+											{
+												"name": "family_type",
+												"string": {
+													"computed_optional_required": "computed_optional"
+												}
+											},
+											{
+												"name": "ingress_port_ids",
+												"list": {
+													"computed_optional_required": "computed_optional",
+													"element_type": {
+														"string": {}
+													}
+												}
+											},
+											{
+												"name": "output_port_id",
+												"string": {
+													"computed_optional_required": "computed_optional"
+												}
+											},
+											{
+												"name": "rate",
+												"int64": {
+													"computed_optional_required": "computed_optional"
+												}
+											},
+											{
+												"name": "run_length",
+												"int64": {
+													"computed_optional_required": "computed_optional",
+													"validators": [
+														{
+															"custom": {
+																"imports": [
+																	{
+																		"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+																	}
+																],
+																"schema_definition": "int64validator.AtLeast(0)"
+															}
+														}
+													]
+												}
+											}
+										]
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "router_id",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"description": "auto assigned if not set"
+						}
+					},
+					{
+						"name": "routing_policies",
+						"map_nested": {
+							"computed_optional_required": "computed_optional",
+							"nested_object": {
+								"attributes": [
+									{
+										"name": "terms",
+										"list_nested": {
+											"computed_optional_required": "computed_optional",
+											"nested_object": {
+												"attributes": [
+													{
+														"name": "action",
+														"single_nested": {
+															"computed_optional_required": "computed_optional",
+															"attributes": [
+																{
+																	"name": "accept",
+																	"bool": {
+																		"computed_optional_required": "computed_optional"
+																	}
+																},
+																{
+																	"name": "add_community",
+																	"list": {
+																		"computed_optional_required": "computed_optional",
+																		"element_type": {
+																			"string": {}
+																		}
+																	}
+																},
+																{
+																	"name": "add_target_vrfs",
+																	"list": {
+																		"computed_optional_required": "computed_optional",
+																		"element_type": {
+																			"string": {}
+																		},
+																		"description": "for SSR, hub decides how VRF routes are leaked on spoke"
+																	}
+																},
+																{
+																	"name": "community",
+																	"list": {
+																		"computed_optional_required": "computed_optional",
+																		"element_type": {
+																			"string": {}
+																		},
+																		"description": "when used as export policy, optional"
+																	}
+																},
+																{
+																	"name": "exclude_as_path",
+																	"list": {
+																		"computed_optional_required": "computed_optional",
+																		"element_type": {
+																			"string": {}
+																		},
+																		"description": "when used as export policy, optional. To exclude certain AS"
+																	}
+																},
+																{
+																	"name": "exclude_community",
+																	"list": {
+																		"computed_optional_required": "computed_optional",
+																		"element_type": {
+																			"string": {}
+																		}
+																	}
+																},
+																{
+																	"name": "export_communitites",
+																	"list": {
+																		"computed_optional_required": "computed_optional",
+																		"element_type": {
+																			"string": {}
+																		},
+																		"description": "when used as export policy, optional"
+																	}
+																},
+																{
+																	"name": "local_preference",
+																	"string": {
+																		"computed_optional_required": "computed_optional",
+																		"description": "optional, for an import policy, local_preference can be changed"
+																	}
+																},
+																{
+																	"name": "prepend_as_path",
+																	"list": {
+																		"computed_optional_required": "computed_optional",
+																		"element_type": {
+																			"string": {}
+																		},
+																		"description": "when used as export policy, optional. By default, the local AS will be prepended, to change it"
+																	}
+																}
+															],
+															"description": "when used as import policy"
+														}
+													},
+													{
+														"name": "matching",
+														"single_nested": {
+															"computed_optional_required": "computed_optional",
+															"attributes": [
+																{
+																	"name": "as_path",
+																	"list": {
+																		"computed_optional_required": "computed_optional",
+																		"element_type": {
+																			"string": {}
+																		},
+																		"description": "takes regular expression"
+																	}
+																},
+																{
+																	"name": "community",
+																	"list": {
+																		"computed_optional_required": "computed_optional",
+																		"element_type": {
+																			"string": {}
+																		}
+																	}
+																},
+																{
+																	"name": "network",
+																	"list": {
+																		"computed_optional_required": "computed_optional",
+																		"element_type": {
+																			"string": {}
+																		},
+																		"validators": [
+																			{
+																				"custom": {
+																					"imports": [
+																						{
+																							"path": "github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
+																						}
+																					],
+																					"schema_definition": "listvalidator.UniqueValues()"
+																				}
+																			}
+																		]
+																	}
+																},
+																{
+																	"name": "prefix",
+																	"list": {
+																		"computed_optional_required": "computed_optional",
+																		"element_type": {
+																			"string": {}
+																		},
+																		"description": "zero or more criteria/filter can be specified to match the term, all criteria have to be met"
+																	}
+																},
+																{
+																	"name": "protocol",
+																	"list": {
+																		"computed_optional_required": "computed_optional",
+																		"element_type": {
+																			"string": {}
+																		},
+																		"description": "`direct`, `bgp`, `osp`, ..."
+																	}
+																},
+																{
+																	"name": "route_exists",
+																	"single_nested": {
+																		"computed_optional_required": "computed_optional",
+																		"attributes": [
+																			{
+																				"name": "route",
+																				"string": {
+																					"computed_optional_required": "computed_optional"
+																				}
+																			},
+																			{
+																				"name": "vrf_name",
+																				"string": {
+																					"computed_optional_required": "computed_optional",
+																					"default": {
+																						"static": "default"
+																					},
+																					"description": "name of the vrf instance\nit can also be the name of the VPN or wan if they"
+																				}
+																			}
+																		]
+																	}
+																},
+																{
+																	"name": "vpn_neighbor_mac",
+																	"list": {
+																		"computed_optional_required": "computed_optional",
+																		"element_type": {
+																			"string": {}
+																		},
+																		"description": "overlay-facing criteria (used for bgp_config where via=vpn)"
+																	}
+																},
+																{
+																	"name": "vpn_path",
+																	"list": {
+																		"computed_optional_required": "computed_optional",
+																		"element_type": {
+																			"string": {}
+																		},
+																		"description": "overlay-facing criteria (used for bgp_config where via=vpn)\nordered-"
+																	}
+																},
+																{
+																	"name": "vpn_path_sla",
+																	"single_nested": {
+																		"computed_optional_required": "computed_optional",
+																		"attributes": [
+																			{
+																				"name": "max_jitter",
+																				"int64": {
+																					"computed_optional_required": "computed_optional"
+																				}
+																			},
+																			{
+																				"name": "max_latency",
+																				"int64": {
+																					"computed_optional_required": "computed_optional"
+																				}
+																			},
+																			{
+																				"name": "max_loss",
+																				"int64": {
+																					"computed_optional_required": "computed_optional"
+																				}
+																			}
+																		]
+																	}
+																}
+															],
+															"description": "zero or more criteria/filter can be specified to match the term, all criteria have to be met"
+														}
+													}
+												]
+											},
+											"description": "zero or more criteria/filter can be specified to match the term, all criteria have to be met",
+											"validators": [
+												{
+													"custom": {
+														"imports": [
+															{
+																"path": "github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
+															}
+														],
+														"schema_definition": "listvalidator.UniqueValues()"
+													}
+												}
+											]
+										}
+									}
+								]
+							},
+							"description": "Property key is the routing policy name"
+						}
+					},
+					{
+						"name": "service_policies",
+						"list_nested": {
+							"computed_optional_required": "computed_optional",
+							"nested_object": {
+								"attributes": [
+									{
+										"name": "action",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": "allow"
+											},
+											"validators": [
+												{
+													"custom": {
+														"imports": [
+															{
+																"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+															}
+														],
+														"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"allow\",\n\"deny\",\n)"
+													}
+												}
+											]
+										}
+									},
+									{
+										"name": "appqoe",
+										"single_nested": {
+											"computed_optional_required": "computed_optional",
+											"attributes": [
+												{
+													"name": "enabled",
+													"bool": {
+														"computed_optional_required": "computed_optional",
+														"default": {
+															"static": false
+														}
+													}
+												}
+											],
+											"description": "For SRX Only"
+										}
+									},
+									{
+										"name": "ewf",
+										"list_nested": {
+											"computed_optional_required": "computed_optional",
+											"nested_object": {
+												"attributes": [
+													{
+														"name": "alert_only",
+														"bool": {
+															"computed_optional_required": "computed_optional"
+														}
+													},
+													{
+														"name": "block_message",
+														"string": {
+															"computed_optional_required": "computed_optional"
+														}
+													},
+													{
+														"name": "enabled",
+														"bool": {
+															"computed_optional_required": "computed_optional",
+															"default": {
+																"static": false
+															}
+														}
+													},
+													{
+														"name": "profile",
+														"string": {
+															"computed_optional_required": "computed_optional",
+															"default": {
+																"static": "strict"
+															},
+															"validators": [
+																{
+																	"custom": {
+																		"imports": [
+																			{
+																				"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																			}
+																		],
+																		"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"strict\",\n\"standard\",\n)"
+																	}
+																}
+															]
+														}
+													}
+												]
+											}
+										}
+									},
+									{
+										"name": "idp",
+										"single_nested": {
+											"computed_optional_required": "computed_optional",
+											"attributes": [
+												{
+													"name": "alert_only",
+													"bool": {
+														"computed_optional_required": "computed_optional"
+													}
+												},
+												{
+													"name": "enabled",
+													"bool": {
+														"computed_optional_required": "computed_optional",
+														"default": {
+															"static": false
+														}
+													}
+												},
+												{
+													"name": "idpprofile_id",
+													"string": {
+														"computed_optional_required": "computed_optional",
+														"description": "org_level IDP Profile can be used, this takes precedence over `profile`"
+													}
+												},
+												{
+													"name": "profile",
+													"string": {
+														"computed_optional_required": "computed_optional",
+														"default": {
+															"static": "strict"
+														},
+														"description": "`strict` (default) / `standard` / or keys from from idp_profiles"
+													}
+												}
+											]
+										}
+									},
+									{
+										"name": "local_routing",
+										"bool": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": false
+											},
+											"description": "access within the same VRF"
+										}
+									},
+									{
+										"name": "name",
+										"string": {
+											"computed_optional_required": "computed_optional"
+										}
+									},
+									{
+										"name": "path_preferences",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"description": "by default, we derive all paths available and use them\noptionally, you can customize by using `path_preference`"
+										}
+									},
+									{
+										"name": "servicepolicy_id",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"description": "used to link servicepolicy defined at org level and overwrite some attributes"
+										}
+									},
+									{
+										"name": "services",
+										"list": {
+											"computed_optional_required": "computed_optional",
+											"element_type": {
+												"string": {}
+											},
+											"validators": [
+												{
+													"custom": {
+														"imports": [
+															{
+																"path": "github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
+															}
+														],
+														"schema_definition": "listvalidator.UniqueValues()"
+													}
+												}
+											]
+										}
+									},
+									{
+										"name": "tenants",
+										"list": {
+											"computed_optional_required": "computed_optional",
+											"element_type": {
+												"string": {}
+											},
+											"validators": [
+												{
+													"custom": {
+														"imports": [
+															{
+																"path": "github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
+															}
+														],
+														"schema_definition": "listvalidator.UniqueValues()"
+													}
+												}
+											]
+										}
+									}
+								]
+							}
+						}
+					},
+					{
+						"name": "site_id",
+						"string": {
+							"computed_optional_required": "computed_optional"
+						}
+					},
+					{
+						"name": "tunnel_configs",
+						"map_nested": {
+							"computed_optional_required": "computed_optional",
+							"nested_object": {
+								"attributes": [
+									{
+										"name": "auto_provision",
+										"single_nested": {
+											"computed_optional_required": "computed_optional",
+											"attributes": [
+												{
+													"name": "enable",
+													"bool": {
+														"computed_optional_required": "computed_optional"
+													}
+												},
+												{
+													"name": "latlng",
+													"single_nested": {
+														"computed_optional_required": "computed_optional",
+														"attributes": [
+															{
+																"name": "lat",
+																"float64": {
+																	"computed_optional_required": "required"
+																}
+															},
+															{
+																"name": "lng",
+																"float64": {
+																	"computed_optional_required": "required"
+																}
+															}
+														]
+													}
+												},
+												{
+													"name": "primary",
+													"single_nested": {
+														"computed_optional_required": "computed_optional",
+														"attributes": [
+															{
+																"name": "num_hosts",
+																"string": {
+																	"computed_optional_required": "computed_optional"
+																}
+															},
+															{
+																"name": "wan_names",
+																"list": {
+																	"computed_optional_required": "computed_optional",
+																	"element_type": {
+																		"string": {}
+																	},
+																	"description": "optional, only needed if `vars_only`==`false`"
+																}
+															}
+														]
+													}
+												},
+												{
+													"name": "region",
+													"string": {
+														"computed_optional_required": "computed_optional",
+														"default": {
+															"static": "auto"
+														},
+														"validators": [
+															{
+																"custom": {
+																	"imports": [
+																		{
+																			"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																		}
+																	],
+																	"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"auto\",\n\"EMEA\",\n\"Americas\",\n\"APAC\",\n)"
+																}
+															}
+														]
+													}
+												},
+												{
+													"name": "secondary",
+													"single_nested": {
+														"computed_optional_required": "computed_optional",
+														"attributes": [
+															{
+																"name": "num_hosts",
+																"string": {
+																	"computed_optional_required": "computed_optional"
+																}
+															},
+															{
+																"name": "wan_names",
+																"list": {
+																	"computed_optional_required": "computed_optional",
+																	"element_type": {
+																		"string": {}
+																	},
+																	"description": "optional, only needed if `vars_only`==`false`"
+																}
+															}
+														]
+													}
+												}
+											]
+										}
+									},
+									{
+										"name": "ike_lifetime",
+										"int64": {
+											"computed_optional_required": "computed_optional",
+											"description": "Only if:\n* `provider`== `custom-ipsec`"
+										}
+									},
+									{
+										"name": "ike_mode",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": "main"
+											},
+											"description": "Only if:\n* `provider`== `custom-ipsec`",
+											"validators": [
+												{
+													"custom": {
+														"imports": [
+															{
+																"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+															}
+														],
+														"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"main\",\n\"aggressive\",\n)"
+													}
+												}
+											]
+										}
+									},
+									{
+										"name": "ike_proposals",
+										"list_nested": {
+											"computed_optional_required": "computed_optional",
+											"nested_object": {
+												"attributes": [
+													{
+														"name": "auth_algo",
+														"string": {
+															"computed_optional_required": "computed_optional",
+															"validators": [
+																{
+																	"custom": {
+																		"imports": [
+																			{
+																				"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																			}
+																		],
+																		"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"sha1\",\n\"sha2\",\n\"md5\",\n)"
+																	}
+																}
+															]
+														}
+													},
+													{
+														"name": "dh_group",
+														"string": {
+															"computed_optional_required": "computed_optional",
+															"default": {
+																"static": "14"
+															},
+															"description": "* 1 \n* 2 (1024-bit) \n* 5\n* 14 (default, 2048-bit)\n* 15 (3072-bit) \n* 16 (4096-bit)\n* 19 (256-bit ECP)\n* 20 (384-bit ECP)\n* 21 (521-bit ECP) \n* 24 (2048-bit ECP)",
+															"validators": [
+																{
+																	"custom": {
+																		"imports": [
+																			{
+																				"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																			}
+																		],
+																		"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"1\",\n\"2\",\n\"5\",\n\"14\",\n\"15\",\n\"16\",\n\"19\",\n\"20\",\n\"21\",\n\"24\",\n)"
+																	}
+																}
+															]
+														}
+													},
+													{
+														"name": "enc_algo",
+														"string": {
+															"computed_optional_required": "computed_optional",
+															"default": {
+																"static": "aes256"
+															},
+															"validators": [
+																{
+																	"custom": {
+																		"imports": [
+																			{
+																				"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																			}
+																		],
+																		"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"aes256\",\n\"3des\",\n\"aes128\",\n\"aes_gcm256\",\n\"aes_gcm128\",\n)"
+																	}
+																}
+															]
+														}
+													}
+												]
+											},
+											"description": "if `provider`== `custom-ipsec`"
+										}
+									},
+									{
+										"name": "ipsec_lifetime",
+										"int64": {
+											"computed_optional_required": "computed_optional",
+											"description": "if `provider`== `custom-ipsec`"
+										}
+									},
+									{
+										"name": "ipsec_proposals",
+										"list_nested": {
+											"computed_optional_required": "computed_optional",
+											"nested_object": {
+												"attributes": [
+													{
+														"name": "auth_algo",
+														"string": {
+															"computed_optional_required": "computed_optional",
+															"validators": [
+																{
+																	"custom": {
+																		"imports": [
+																			{
+																				"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																			}
+																		],
+																		"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"sha1\",\n\"sha2\",\n\"md5\",\n)"
+																	}
+																}
+															]
+														}
+													},
+													{
+														"name": "dh_group",
+														"string": {
+															"computed_optional_required": "computed_optional",
+															"default": {
+																"static": "14"
+															},
+															"description": "Only if:\n* `provider`== `custom-ipsec`\nValues:\n* 1 \n* 2 (1024-bit) \n* 5\n* 14 (default, 2048-bit) \n* 15 (3072-bit) \n* 16 (4096-bit)\n* 19 (256-bit ECP)\n* 20 (384-bit ECP)\n* 21 (521-bit ECP) \n* 24 (2048-bit ECP)",
+															"validators": [
+																{
+																	"custom": {
+																		"imports": [
+																			{
+																				"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																			}
+																		],
+																		"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"1\",\n\"2\",\n\"5\",\n\"14\",\n\"15\",\n\"16\",\n\"19\",\n\"20\",\n\"21\",\n\"24\",\n)"
+																	}
+																}
+															]
+														}
+													},
+													{
+														"name": "enc_algo",
+														"string": {
+															"computed_optional_required": "computed_optional",
+															"default": {
+																"static": "aes256"
+															},
+															"validators": [
+																{
+																	"custom": {
+																		"imports": [
+																			{
+																				"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																			}
+																		],
+																		"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"aes256\",\n\"3des\",\n\"aes128\",\n\"aes_gcm256\",\n\"aes_gcm128\",\n)"
+																	}
+																}
+															]
+														}
+													}
+												]
+											},
+											"description": "Only if:\n* `provider`== `custom-ipsec`"
+										}
+									},
+									{
+										"name": "local_id",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"description": "Only if:\n* `provider`== `zscaler-ipsec`\n* `provider`==`jse-ipsec`\n* `provider`== `custom-ipsec`"
+										}
+									},
+									{
+										"name": "mode",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": "active-standby"
+											},
+											"validators": [
+												{
+													"custom": {
+														"imports": [
+															{
+																"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+															}
+														],
+														"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"active-standby\",\n\"active-active\",\n)"
+													}
+												}
+											]
+										}
+									},
+									{
+										"name": "primary",
+										"single_nested": {
+											"computed_optional_required": "computed_optional",
+											"attributes": [
+												{
+													"name": "hosts",
+													"list": {
+														"computed_optional_required": "computed_optional",
+														"element_type": {
+															"string": {}
+														}
+													}
+												},
+												{
+													"name": "internal_ips",
+													"list": {
+														"computed_optional_required": "computed_optional",
+														"element_type": {
+															"string": {}
+														},
+														"description": "Only if:\n* `provider`== `zscaler-gre` \n* `provider`== `custom-gre`"
+													}
+												},
+												{
+													"name": "probe_ips",
+													"list": {
+														"computed_optional_required": "computed_optional",
+														"element_type": {
+															"string": {}
+														},
+														"validators": [
+															{
+																"custom": {
+																	"imports": [
+																		{
+																			"path": "github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
+																		}
+																	],
+																	"schema_definition": "listvalidator.UniqueValues()"
+																}
+															}
+														]
+													}
+												},
+												{
+													"name": "remote_ids",
+													"list": {
+														"computed_optional_required": "computed_optional",
+														"element_type": {
+															"string": {}
+														},
+														"description": "Only if:\n* `provider`== `custom-ipsec`"
+													}
+												},
+												{
+													"name": "wan_names",
+													"list": {
+														"computed_optional_required": "computed_optional",
+														"element_type": {
+															"string": {}
+														}
+													}
+												}
+											]
+										}
+									},
+									{
+										"name": "probe",
+										"single_nested": {
+											"computed_optional_required": "computed_optional",
+											"attributes": [
+												{
+													"name": "interval",
+													"int64": {
+														"computed_optional_required": "computed_optional",
+														"description": "how often to trigger the probe"
+													}
+												},
+												{
+													"name": "threshold",
+													"int64": {
+														"computed_optional_required": "computed_optional",
+														"description": "number of consecutive misses before declaring the tunnel down"
+													}
+												},
+												{
+													"name": "timeout",
+													"int64": {
+														"computed_optional_required": "computed_optional",
+														"description": "time within which to complete the connectivity check"
+													}
+												},
+												{
+													"name": "type",
+													"string": {
+														"computed_optional_required": "computed_optional",
+														"default": {
+															"static": "icmp"
+														},
+														"validators": [
+															{
+																"custom": {
+																	"imports": [
+																		{
+																			"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																		}
+																	],
+																	"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"icmp\",\n\"http\",\n)"
+																}
+															}
+														]
+													}
+												}
+											],
+											"description": "Only if:\n* `provider`== `custom-ipsec`"
+										}
+									},
+									{
+										"name": "protocol",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"description": "Only if:\n* `provider`== `custom-ipsec`",
+											"validators": [
+												{
+													"custom": {
+														"imports": [
+															{
+																"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+															}
+														],
+														"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"ipsec\",\n\"gre\",\n)"
+													}
+												}
+											]
+										}
+									},
+									{
+										"name": "provider",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"validators": [
+												{
+													"custom": {
+														"imports": [
+															{
+																"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+															}
+														],
+														"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"zscaler-ipsec\",\n\"zscaler-gre\",\n\"customer-gre\",\n\"jse-ipsec\",\n\"custom-ipsec\",\n)"
+													}
+												}
+											]
+										}
+									},
+									{
+										"name": "psk",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"description": "Only if:\n* `provider`== `zscaler-ipsec`\n* `provider`==`jse-ipsec`\n* `provider`== `custom-ipsec`"
+										}
+									},
+									{
+										"name": "secondary",
+										"single_nested": {
+											"computed_optional_required": "computed_optional",
+											"attributes": [
+												{
+													"name": "hosts",
+													"list": {
+														"computed_optional_required": "computed_optional",
+														"element_type": {
+															"string": {}
+														}
+													}
+												},
+												{
+													"name": "internal_ips",
+													"list": {
+														"computed_optional_required": "computed_optional",
+														"element_type": {
+															"string": {}
+														},
+														"description": "Only if:\n* `provider`== `zscaler-gre` \n* `provider`== `custom-gre`"
+													}
+												},
+												{
+													"name": "probe_ips",
+													"list": {
+														"computed_optional_required": "computed_optional",
+														"element_type": {
+															"string": {}
+														},
+														"validators": [
+															{
+																"custom": {
+																	"imports": [
+																		{
+																			"path": "github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
+																		}
+																	],
+																	"schema_definition": "listvalidator.UniqueValues()"
+																}
+															}
+														]
+													}
+												},
+												{
+													"name": "remote_ids",
+													"list": {
+														"computed_optional_required": "computed_optional",
+														"element_type": {
+															"string": {}
+														},
+														"description": "Only if:\n* `provider`== `custom-ipsec`"
+													}
+												},
+												{
+													"name": "wan_names",
+													"list": {
+														"computed_optional_required": "computed_optional",
+														"element_type": {
+															"string": {}
+														}
+													}
+												}
+											]
+										}
+									},
+									{
+										"name": "version",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": "2"
+											},
+											"description": "Only if:\n* `provider`== `custom-gre` \n* `provider`== `custom-ipsec`",
+											"validators": [
+												{
+													"custom": {
+														"imports": [
+															{
+																"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+															}
+														],
+														"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"1\",\n\"2\",\n)"
+													}
+												}
+											]
+										}
+									}
+								]
+							},
+							"description": "Property key is the tunnel name"
+						}
+					},
+					{
+						"name": "tunnel_provider_options",
+						"single_nested": {
+							"computed_optional_required": "computed_optional",
+							"attributes": [
+								{
+									"name": "jse",
+									"single_nested": {
+										"computed_optional_required": "computed_optional",
+										"attributes": [
+											{
+												"name": "name",
+												"string": {
+													"computed_optional_required": "computed_optional"
+												}
+											},
+											{
+												"name": "num_users",
+												"int64": {
+													"computed_optional_required": "computed_optional"
+												}
+											}
+										],
+										"description": "for jse-ipsec, this allow provisioning of adequate resource on JSE. Make sure adequate licenses are added"
+									}
+								},
+								{
+									"name": "zscaler",
+									"single_nested": {
+										"computed_optional_required": "computed_optional",
+										"attributes": [
+											{
+												"name": "aup_acceptance_required",
+												"bool": {
+													"computed_optional_required": "computed_optional",
+													"default": {
+														"static": true
+													}
+												}
+											},
+											{
+												"name": "aup_expire",
+												"int64": {
+													"computed_optional_required": "computed_optional",
+													"default": {
+														"static": 1
+													},
+													"description": "days before AUP is requested again"
+												}
+											},
+											{
+												"name": "aup_ssl_proxy",
+												"bool": {
+													"computed_optional_required": "computed_optional",
+													"default": {
+														"static": false
+													},
+													"description": "proxy HTTPs traffic, requiring Zscaler cert to be installed in browser"
+												}
+											},
+											{
+												"name": "download_mbps",
+												"int64": {
+													"computed_optional_required": "computed_optional",
+													"description": "the download bandwidth cap of the link, in Mbps"
+												}
+											},
+											{
+												"name": "enable_aup",
+												"bool": {
+													"computed_optional_required": "computed_optional",
+													"default": {
+														"static": false
+													},
+													"description": "if `use_xff`==`true`, display Acceptable Use Policy (AUP)"
+												}
+											},
+											{
+												"name": "enable_caution",
+												"bool": {
+													"computed_optional_required": "computed_optional",
+													"default": {
+														"static": false
+													},
+													"description": "when `enforce_authentication`==`false`, display caution notification for non-authenticated users"
+												}
+											},
+											{
+												"name": "enforce_authentication",
+												"bool": {
+													"computed_optional_required": "computed_optional",
+													"default": {
+														"static": false
+													}
+												}
+											},
+											{
+												"name": "name",
+												"string": {
+													"computed_optional_required": "computed_optional"
+												}
+											},
+											{
+												"name": "sub_locations",
+												"list_nested": {
+													"computed_optional_required": "computed_optional",
+													"nested_object": {
+														"attributes": [
+															{
+																"name": "aup_acceptance_required",
+																"bool": {
+																	"computed_optional_required": "computed_optional",
+																	"default": {
+																		"static": true
+																	}
+																}
+															},
+															{
+																"name": "aup_expire",
+																"int64": {
+																	"computed_optional_required": "computed_optional",
+																	"default": {
+																		"static": 1
+																	},
+																	"description": "days before AUP is requested again"
+																}
+															},
+															{
+																"name": "aup_ssl_proxy",
+																"bool": {
+																	"computed_optional_required": "computed_optional",
+																	"default": {
+																		"static": false
+																	},
+																	"description": "proxy HTTPs traffic, requiring Zscaler cert to be installed in browser"
+																}
+															},
+															{
+																"name": "download_mbps",
+																"int64": {
+																	"computed_optional_required": "computed_optional",
+																	"description": "the download bandwidth cap of the link, in Mbps"
+																}
+															},
+															{
+																"name": "enable_aup",
+																"bool": {
+																	"computed_optional_required": "computed_optional",
+																	"description": "if `use_xff`==`true`, display Acceptable Use Policy (AUP)"
+																}
+															},
+															{
+																"name": "enable_caution",
+																"bool": {
+																	"computed_optional_required": "computed_optional",
+																	"default": {
+																		"static": false
+																	},
+																	"description": "when `enforce_authentication`==`false`, display caution notification for non-authenticated users"
+																}
+															},
+															{
+																"name": "enforce_authentication",
+																"bool": {
+																	"computed_optional_required": "computed_optional",
+																	"default": {
+																		"static": false
+																	}
+																}
+															},
+															{
+																"name": "subnets",
+																"list": {
+																	"computed_optional_required": "computed_optional",
+																	"element_type": {
+																		"string": {}
+																	}
+																}
+															},
+															{
+																"name": "upload_mbps",
+																"int64": {
+																	"computed_optional_required": "computed_optional",
+																	"description": "the download bandwidth cap of the link, in Mbps"
+																}
+															}
+														]
+													},
+													"description": "if `use_xff`==`true`"
+												}
+											},
+											{
+												"name": "upload_mbps",
+												"int64": {
+													"computed_optional_required": "computed_optional",
+													"description": "the download bandwidth cap of the link, in Mbps"
+												}
+											},
+											{
+												"name": "use_xff",
+												"bool": {
+													"computed_optional_required": "computed_optional",
+													"description": "location uses proxy chaining to forward traffic"
+												}
+											}
+										],
+										"description": "for zscaler-ipsec and zscaler-gre"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "vars",
+						"map": {
+							"computed_optional_required": "computed_optional",
+							"element_type": {
+								"string": {}
+							},
+							"description": "a dictionary of name-\u003evalue, the vars can then be used in Wlans. This can overwrite those from Site Vars"
+						}
+					},
+					{
+						"name": "x",
+						"float64": {
+							"computed_optional_required": "computed_optional",
+							"description": "x in pixel"
+						}
+					},
+					{
+						"name": "y",
+						"float64": {
+							"computed_optional_required": "computed_optional",
+							"description": "y in pixel"
+						}
+					},
+					{
+						"name": "device_id",
+						"string": {
+							"computed_optional_required": "computed_optional"
+						}
+					}
+				]
+			}
+		},
+		{
 			"name": "org",
 			"schema": {
 				"attributes": [

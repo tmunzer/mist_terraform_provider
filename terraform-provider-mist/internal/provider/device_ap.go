@@ -193,7 +193,7 @@ func (r *device_apResource) Update(ctx context.Context, req resource.UpdateReque
 
 	tflog.Info(ctx, "Starting DeviceAp Update for DeviceAp "+state.DeviceId.ValueString())
 
-	siteId, err := uuid.Parse(state.SiteId.ValueString())
+	siteId, err := uuid.Parse(plan.SiteId.ValueString())
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Error getting device_ap site_id from state",
@@ -202,7 +202,7 @@ func (r *device_apResource) Update(ctx context.Context, req resource.UpdateReque
 		return
 	}
 
-	deviceId, err := uuid.Parse(state.DeviceId.ValueString())
+	deviceId, err := uuid.Parse(plan.DeviceId.ValueString())
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Error getting device_ap device_id from state",
