@@ -13,7 +13,9 @@ import (
 func ListOfStringTerraformToSdk(ctx context.Context, list basetypes.ListValue) []string {
 	var items []string
 	for _, item := range list.Elements() {
-		items = append(items, strings.ReplaceAll(item.String(), "\"", ""))
+		var s_interface interface{} = item
+		s := s_interface.(basetypes.StringValue)
+		items = append(items, s.ValueString())
 	}
 	return items
 }
@@ -22,7 +24,6 @@ func ListOfStringSdkToTerraform(ctx context.Context, data []string) basetypes.Li
 	var items []attr.Value
 	var items_type attr.Type = basetypes.StringType{}
 	for _, item := range data {
-		//value := strings.ReplaceAll(item, "\"", "")
 		items = append(items, types.StringValue(item))
 	}
 	list, _ := types.ListValue(items_type, items)
