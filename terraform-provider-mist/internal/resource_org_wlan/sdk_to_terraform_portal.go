@@ -89,10 +89,10 @@ func portalSkToTerraform(ctx context.Context, diags *diag.Diagnostics, d *models
 	var twilio_phone_number basetypes.StringValue
 	var twilio_sid basetypes.StringValue
 
-	if d != nil && d.AmazonClientId.IsValueSet() {
+	if d != nil && d.AmazonClientId.Value() != nil {
 		amazon_client_id = types.StringValue(*d.AmazonClientId.Value())
 	}
-	if d != nil && d.AmazonClientSecret.IsValueSet() {
+	if d != nil && d.AmazonClientSecret.Value() != nil {
 		amazon_client_secret = types.StringValue(*d.AmazonClientSecret.Value())
 	}
 	if d != nil && d.AmazonEmailDomains != nil {
@@ -101,25 +101,25 @@ func portalSkToTerraform(ctx context.Context, diags *diag.Diagnostics, d *models
 	if d != nil && d.AmazonEnabled != nil {
 		amazon_enabled = types.BoolValue(*d.AmazonEnabled)
 	}
-	if d != nil && d.AmazonExpire.IsValueSet() {
+	if d != nil && d.AmazonExpire.Value() != nil {
 		amazon_expire = types.Float64Value(*d.AmazonExpire.Value())
 	}
 	if d != nil && d.Auth != nil {
 		auth = types.StringValue(string(*d.Auth))
 	}
-	if d != nil && d.AzureClientId.IsValueSet() {
+	if d != nil && d.AzureClientId.Value() != nil {
 		azure_client_id = types.StringValue(*d.AzureClientId.Value())
 	}
-	if d != nil && d.AzureClientSecret.IsValueSet() {
+	if d != nil && d.AzureClientSecret.Value() != nil {
 		azure_client_secret = types.StringValue(*d.AzureClientSecret.Value())
 	}
 	if d != nil && d.AzureEnabled != nil {
 		azure_enabled = types.BoolValue(*d.AzureEnabled)
 	}
-	if d != nil && d.AzureExpire.IsValueSet() {
+	if d != nil && d.AzureExpire.Value() != nil {
 		azure_expire = types.Float64Value(*d.AzureExpire.Value())
 	}
-	if d != nil && d.AzureTenantId.IsValueSet() {
+	if d != nil && d.AzureTenantId.Value() != nil {
 		azure_tenant_id = types.StringValue(*d.AzureTenantId.Value())
 	}
 	if d != nil && d.BroadnetPassword != nil {
@@ -152,10 +152,10 @@ func portalSkToTerraform(ctx context.Context, diags *diag.Diagnostics, d *models
 	if d != nil && d.ExternalPortalUrl != nil {
 		external_portal_url = types.StringValue(*d.ExternalPortalUrl)
 	}
-	if d != nil && d.FacebookClientId.IsValueSet() {
+	if d != nil && d.FacebookClientId.Value() != nil {
 		facebook_client_id = types.StringValue(*d.FacebookClientId.Value())
 	}
-	if d != nil && d.FacebookClientSecret.IsValueSet() {
+	if d != nil && d.FacebookClientSecret.Value() != nil {
 		facebook_client_secret = types.StringValue(*d.FacebookClientSecret.Value())
 	}
 	if d != nil && d.FacebookEmailDomains != nil {
@@ -164,19 +164,19 @@ func portalSkToTerraform(ctx context.Context, diags *diag.Diagnostics, d *models
 	if d != nil && d.FacebookEnabled != nil {
 		facebook_enabled = types.BoolValue(*d.FacebookEnabled)
 	}
-	if d != nil && d.FacebookExpire.IsValueSet() {
+	if d != nil && d.FacebookExpire.Value() != nil {
 		facebook_expire = types.Float64Value(*d.FacebookExpire.Value())
 	}
 	if d != nil && d.Forward != nil {
 		forward = types.BoolValue(*d.Forward)
 	}
-	if d != nil && d.ForwardUrl.IsValueSet() {
+	if d != nil && d.ForwardUrl.Value() != nil {
 		forward_url = types.StringValue(*d.ForwardUrl.Value())
 	}
-	if d != nil && d.GoogleClientId.IsValueSet() {
+	if d != nil && d.GoogleClientId.Value() != nil {
 		google_client_id = types.StringValue(*d.GoogleClientId.Value())
 	}
-	if d != nil && d.GoogleClientSecret.IsValueSet() {
+	if d != nil && d.GoogleClientSecret.Value() != nil {
 		google_client_secret = types.StringValue(*d.GoogleClientSecret.Value())
 	}
 	if d != nil && d.GoogleEmailDomains != nil {
@@ -185,7 +185,7 @@ func portalSkToTerraform(ctx context.Context, diags *diag.Diagnostics, d *models
 	if d != nil && d.GoogleEnabled != nil {
 		google_enabled = types.BoolValue(*d.GoogleEnabled)
 	}
-	if d != nil && d.GoogleExpire.IsValueSet() {
+	if d != nil && d.GoogleExpire.Value() != nil {
 		google_expire = types.Float64Value(*d.GoogleExpire.Value())
 	}
 	if d != nil && d.GupshupPassword != nil {
@@ -194,10 +194,10 @@ func portalSkToTerraform(ctx context.Context, diags *diag.Diagnostics, d *models
 	if d != nil && d.GupshupUserid != nil {
 		gupshup_userid = types.StringValue(*d.GupshupUserid)
 	}
-	if d != nil && d.MicrosoftClientId.IsValueSet() {
+	if d != nil && d.MicrosoftClientId.Value() != nil {
 		microsoft_client_id = types.StringValue(*d.MicrosoftClientId.Value())
 	}
-	if d != nil && d.MicrosoftClientSecret.IsValueSet() {
+	if d != nil && d.MicrosoftClientSecret.Value() != nil {
 		microsoft_client_secret = types.StringValue(*d.MicrosoftClientSecret.Value())
 	}
 	if d != nil && d.MicrosoftEmailDomains != nil {
@@ -206,16 +206,16 @@ func portalSkToTerraform(ctx context.Context, diags *diag.Diagnostics, d *models
 	if d != nil && d.MicrosoftEnabled != nil {
 		microsoft_enabled = types.BoolValue(*d.MicrosoftEnabled)
 	}
-	if d != nil && d.MicrosoftExpire.IsValueSet() {
+	if d != nil && d.MicrosoftExpire.Value() != nil {
 		microsoft_expire = types.Float64Value(*d.MicrosoftExpire.Value())
 	}
 	if d != nil && d.PassphraseEnabled != nil {
 		passphrase_enabled = types.BoolValue(*d.PassphraseEnabled)
 	}
-	if d != nil && d.PassphraseExpire.IsValueSet() {
+	if d != nil && d.PassphraseExpire.Value() != nil {
 		passphrase_expire = types.Float64Value(*d.PassphraseExpire.Value())
 	}
-	if d != nil && d.Password.IsValueSet() {
+	if d != nil && d.Password.Value() != nil {
 		password = types.StringValue(*d.Password.Value())
 	}
 	if d != nil && d.PortalApiSecret != nil {
@@ -245,7 +245,7 @@ func portalSkToTerraform(ctx context.Context, diags *diag.Diagnostics, d *models
 	if d != nil && d.SmsEnabled != nil {
 		sms_enabled = types.BoolValue(*d.SmsEnabled)
 	}
-	if d != nil && d.SmsExpire.IsValueSet() {
+	if d != nil && d.SmsExpire.Value() != nil {
 		sms_expire = types.Float64Value(*d.SmsExpire.Value())
 	}
 	if d != nil && d.SmsMessageFormat != nil {
@@ -263,7 +263,7 @@ func portalSkToTerraform(ctx context.Context, diags *diag.Diagnostics, d *models
 	if d != nil && d.SponsorEnabled != nil {
 		sponsor_enabled = types.BoolValue(*d.SponsorEnabled)
 	}
-	if d != nil && d.SponsorExpire.IsValueSet() {
+	if d != nil && d.SponsorExpire.Value() != nil {
 		sponsor_expire = types.Float64Value(*d.SponsorExpire.Value())
 	}
 	if d != nil && d.SponsorLinkValidityDuration != nil {
@@ -310,13 +310,13 @@ func portalSkToTerraform(ctx context.Context, diags *diag.Diagnostics, d *models
 	if d != nil && d.TelstraClientSecret != nil {
 		telstra_client_secret = types.StringValue(*d.TelstraClientSecret)
 	}
-	if d != nil && d.TwilioAuthToken.IsValueSet() {
+	if d != nil && d.TwilioAuthToken.Value() != nil {
 		twilio_auth_token = types.StringValue(*d.TwilioAuthToken.Value())
 	}
-	if d != nil && d.TwilioPhoneNumber.IsValueSet() {
+	if d != nil && d.TwilioPhoneNumber.Value() != nil {
 		twilio_phone_number = types.StringValue(*d.TwilioPhoneNumber.Value())
 	}
-	if d != nil && d.TwilioSid.IsValueSet() {
+	if d != nil && d.TwilioSid.Value() != nil {
 		twilio_sid = types.StringValue(*d.TwilioSid.Value())
 	}
 

@@ -22,7 +22,7 @@ func dynamicPskSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d *m
 	if d != nil && d.DefaultPsk != nil {
 		default_psk = types.StringValue(*d.DefaultPsk)
 	}
-	if d != nil && d.DefaultVlanId.IsValueSet() {
+	if d != nil && d.DefaultVlanId.Value() != nil {
 		default_vlan_id = types.Int64Value(int64(*d.DefaultVlanId.Value()))
 	}
 	if d != nil && d.Enabled != nil {
