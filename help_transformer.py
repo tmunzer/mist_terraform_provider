@@ -3,8 +3,9 @@ import re
 import sys
 
 
-PATH = "/Users/tmunzer/4_dev/sdk/terraform/terraform-provider-mist/internal"
-
+PATH = "/Users/tmunzer/4_dev/Mist/mist_terraform_provider/terraform-provider-mist/internal"
+DATA_TYPE="datasource"
+FILE_SUFFIX="data_source"
 print ('argument list', sys.argv)
 resource = sys.argv[1]
 model = sys.argv[2]
@@ -12,7 +13,7 @@ model = sys.argv[2]
 def find_gen_file(path: str) -> str:
     files_in_path = os.listdir(path)
     for file_name in files_in_path:
-        if file_name.endswith("resource_gen.go"):
+        if file_name.endswith(f"{FILE_SUFFIX}_gen.go"):
             return os.path.join(path, file_name)
 
 
@@ -82,7 +83,10 @@ def gen_code_mod(model: str, gen_file_path: str):
     return gen_code_model(model, mod_meta)
 
 
-gen_file_path = find_gen_file(os.path.join(PATH, f"resource_{resource}"))
+
+print(os.path.join(PATH, f"{DATA_TYPE}_{resource}"))
+
+gen_file_path = find_gen_file(os.path.join(PATH, f"{DATA_TYPE}_{resource}"))
 model, code_var, code_if, code_map = gen_code_mod(model, gen_file_path)
 print("")
 print("-----------------------")
