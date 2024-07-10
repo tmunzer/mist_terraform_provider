@@ -8,9 +8,9 @@ terraform {
 
 provider "mist" {
   host     = local.envs["HOST"]
-  //apitoken = local.envs["APITOKEN"]
-  username = local.envs["USERNAME"]
-  password = local.envs["PASSWORD"]
+  apitoken = local.envs["APITOKEN"]
+  # username = local.envs["USERNAME"]
+  # password = local.envs["PASSWORD"]
 }
 
 ### ORG

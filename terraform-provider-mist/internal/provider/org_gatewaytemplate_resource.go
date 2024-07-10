@@ -61,7 +61,14 @@ func (r *orgGatewaytemplateResource) Create(ctx context.Context, req resource.Cr
 		return
 	}
 
-	orgId := uuid.MustParse(plan.OrgId.ValueString())
+	orgId, err := uuid.Parse(plan.OrgId.ValueString())
+	if err != nil {
+		resp.Diagnostics.AddError(
+			"Error getting mist_gatewaytemplate org_id from plan",
+			"Could not get mist_gatewaytemplate org_id, unexpected error: "+err.Error(),
+		)
+		return
+	}
 	gatewaytemplate, diags := resource_org_gatewaytemplate.TerraformToSdk(ctx, &plan)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
@@ -101,8 +108,23 @@ func (r *orgGatewaytemplateResource) Read(ctx context.Context, req resource.Read
 		return
 	}
 
-	orgId := uuid.MustParse(state.OrgId.ValueString())
-	templateId := uuid.MustParse(state.Id.ValueString())
+	orgId, err := uuid.Parse(state.OrgId.ValueString())
+	if err != nil {
+		resp.Diagnostics.AddError(
+			"Error getting mist_gatewaytemplate org_id from state",
+			"Could not get mist_gatewaytemplate org_id, unexpected error: "+err.Error(),
+		)
+		return
+	}
+
+	templateId, err := uuid.Parse(state.Id.ValueString())
+	if err != nil {
+		resp.Diagnostics.AddError(
+			"Error getting mist_gatewaytemplate gatewaytemplate_id from state",
+			"Could not get mist_gatewaytemplate gatewaytemplate_id, unexpected error: "+err.Error(),
+		)
+		return
+	}
 	tflog.Info(ctx, "Starting GatewayTemplate Read: gatewaytemplate_id "+state.Id.ValueString())
 	data, err := r.client.OrgsGatewayTemplates().GetOrgGatewayTemplate(ctx, orgId, templateId)
 	if err != nil {
@@ -140,8 +162,22 @@ func (r *orgGatewaytemplateResource) Update(ctx context.Context, req resource.Up
 		return
 	}
 
-	orgId := uuid.MustParse(state.OrgId.ValueString())
-	templateId := uuid.MustParse(state.Id.ValueString())
+	orgId, err := uuid.Parse(state.OrgId.ValueString())
+	if err != nil {
+		resp.Diagnostics.AddError(
+			"Error getting mist_gatewaytemplate org_id from state",
+			"Could not get mist_gatewaytemplate org_id, unexpected error: "+err.Error(),
+		)
+		return
+	}
+	templateId, err := uuid.Parse(state.Id.ValueString())
+	if err != nil {
+		resp.Diagnostics.AddError(
+			"Error getting mist_gatewaytemplate gatewaytemplate_id from state",
+			"Could not get mist_gatewaytemplate gatewaytemplate_id, unexpected error: "+err.Error(),
+		)
+		return
+	}
 	gatewaytemplate, diags := resource_org_gatewaytemplate.TerraformToSdk(ctx, &plan)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
@@ -183,10 +219,24 @@ func (r *orgGatewaytemplateResource) Delete(ctx context.Context, req resource.De
 		return
 	}
 
-	orgId := uuid.MustParse(state.OrgId.ValueString())
-	templateId := uuid.MustParse(state.Id.ValueString())
+	orgId, err := uuid.Parse(state.OrgId.ValueString())
+	if err != nil {
+		resp.Diagnostics.AddError(
+			"Error getting mist_gatewaytemplate org_id from state",
+			"Could not get mist_gatewaytemplate org_id, unexpected error: "+err.Error(),
+		)
+		return
+	}
+	templateId, err := uuid.Parse(state.Id.ValueString())
+	if err != nil {
+		resp.Diagnostics.AddError(
+			"Error getting mist_gatewaytemplate gatewaytemplate_id from state",
+			"Could not get mist_gatewaytemplate gatewaytemplate_id, unexpected error: "+err.Error(),
+		)
+		return
+	}
 	tflog.Info(ctx, "Starting GatewayTemplate Delete: gatewaytemplate_id "+state.Id.ValueString())
-	_, err := r.client.OrgsGatewayTemplates().DeleteOrgGatewayTemplate(ctx, orgId, templateId)
+	_, err = r.client.OrgsGatewayTemplates().DeleteOrgGatewayTemplate(ctx, orgId, templateId)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Error creating GatewayTemplate",

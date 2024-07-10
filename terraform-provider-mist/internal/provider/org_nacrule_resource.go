@@ -66,7 +66,14 @@ func (r *orgNacRuleResource) Create(ctx context.Context, req resource.CreateRequ
 		return
 	}
 
-	orgId := uuid.MustParse(plan.OrgId.ValueString())
+	orgId, err := uuid.Parse(plan.OrgId.ValueString())
+	if err != nil {
+		resp.Diagnostics.AddError(
+			"Error getting org_nacrule org_id from plan",
+			"Could not get org_nacrule org_id, unexpected error: "+err.Error(),
+		)
+		return
+	}
 	data, err := r.client.OrgsNACRules().CreateOrgNacRule(ctx, orgId, &nacrule)
 	if err != nil {
 		//url, _ := httpr.Location()
@@ -100,8 +107,22 @@ func (r *orgNacRuleResource) Read(ctx context.Context, req resource.ReadRequest,
 		return
 	}
 
-	orgId := uuid.MustParse(state.OrgId.ValueString())
-	nacruleId := uuid.MustParse(state.Id.ValueString())
+	orgId, err := uuid.Parse(state.OrgId.ValueString())
+	if err != nil {
+		resp.Diagnostics.AddError(
+			"Error getting org_nacrule org_id from state",
+			"Could not get org_nacrule org_id, unexpected error: "+err.Error(),
+		)
+		return
+	}
+	nacruleId, err := uuid.Parse(state.Id.ValueString())
+	if err != nil {
+		resp.Diagnostics.AddError(
+			"Error getting org_nacrule nacrule_id from state",
+			"Could not get org_nacrule nacrule_id, unexpected error: "+err.Error(),
+		)
+		return
+	}
 	tflog.Info(ctx, "Starting NacRule Read: nacrule_id "+state.Id.ValueString())
 	data, err := r.client.OrgsNACRules().GetOrgNacRule(ctx, orgId, nacruleId)
 	if err != nil {
@@ -145,8 +166,22 @@ func (r *orgNacRuleResource) Update(ctx context.Context, req resource.UpdateRequ
 		return
 	}
 
-	orgId := uuid.MustParse(state.OrgId.ValueString())
-	nacruleId := uuid.MustParse(state.Id.ValueString())
+	orgId, err := uuid.Parse(state.OrgId.ValueString())
+	if err != nil {
+		resp.Diagnostics.AddError(
+			"Error getting org_nacrule org_id from state",
+			"Could not get org_nacrule org_id, unexpected error: "+err.Error(),
+		)
+		return
+	}
+	nacruleId, err := uuid.Parse(state.Id.ValueString())
+	if err != nil {
+		resp.Diagnostics.AddError(
+			"Error getting org_nacrule nacrule_id from state",
+			"Could not get org_nacrule nacrule_id, unexpected error: "+err.Error(),
+		)
+		return
+	}
 	tflog.Info(ctx, "Starting NacRule Update for NacRule "+state.Id.ValueString())
 	data, err := r.client.OrgsNACRules().
 		UpdateOrgNacRule(ctx, orgId, nacruleId, &nacrule)
@@ -182,10 +217,24 @@ func (r *orgNacRuleResource) Delete(ctx context.Context, req resource.DeleteRequ
 		return
 	}
 
-	orgId := uuid.MustParse(state.OrgId.ValueString())
-	nacruleId := uuid.MustParse(state.Id.ValueString())
+	orgId, err := uuid.Parse(state.OrgId.ValueString())
+	if err != nil {
+		resp.Diagnostics.AddError(
+			"Error getting org_nacrule org_id from state",
+			"Could not get org_nacrule org_id, unexpected error: "+err.Error(),
+		)
+		return
+	}
+	nacruleId, err := uuid.Parse(state.Id.ValueString())
+	if err != nil {
+		resp.Diagnostics.AddError(
+			"Error getting org_nacrule nacrule_id from state",
+			"Could not get org_nacrule nacrule_id, unexpected error: "+err.Error(),
+		)
+		return
+	}
 	tflog.Info(ctx, "Starting NacRule Delete: nacrule_id "+state.Id.ValueString())
-	_, err := r.client.OrgsNACRules().DeleteOrgNacRule(ctx, orgId, nacruleId)
+	_, err = r.client.OrgsNACRules().DeleteOrgNacRule(ctx, orgId, nacruleId)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Error creating NacRule",
