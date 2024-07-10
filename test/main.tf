@@ -99,7 +99,6 @@ resource "mist_org_service" "lab" {
   ]
 }
 
-
 resource "mist_org_network" "corp" {
   org_id                 = mist_org.terraform_test.id
   disallow_mist_services = false

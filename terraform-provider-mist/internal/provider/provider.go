@@ -2,6 +2,8 @@ package provider
 
 import (
 	"context"
+	"mistapi/models"
+	"strings"
 
 	"mistapi"
 	"os"
@@ -18,7 +20,6 @@ const (
 	envHost     = "MIST_HOST"
 	envApitoken = "MIST_API_TOKEN"
 	envUsername = "MIST_USERNAME"
-	// file deepcode ignore HardcodedPassword: <please specify a reason of ignoring this>
 	envPassword = "MIST_PASSWORD"
 )
 
@@ -199,17 +200,20 @@ func (p *mistProvider) Configure(ctx context.Context, req provider.ConfigureRequ
 	}
 
 	var client mistapi.ClientInterface
+	var client_config mistapi.Configuration
+
+	// configure the client for API Token Auth
 	if apitoken != "" {
-		client = mistapi.NewClient(
-			mistapi.CreateConfiguration(
-				mistapi.WithEnvironment(mist_cloud),
-				mistapi.WithApiTokenCredentials(
-					mistapi.NewApiTokenCredentials("Token "+apitoken),
-				),
+		client_config = mistapi.CreateConfiguration(
+			mistapi.WithEnvironment(mist_cloud),
+			mistapi.WithApiTokenCredentials(
+				mistapi.NewApiTokenCredentials("Token "+apitoken),
 			),
 		)
+		// configure the client for Basic Auth + CSRF
 	} else {
-		client = mistapi.NewClient(
+		// Initiate the login API Call
+		tmp_client := mistapi.NewClient(
 			mistapi.CreateConfiguration(
 				mistapi.WithEnvironment(mist_cloud),
 				mistapi.WithBasicAuthCredentials(
@@ -217,8 +221,50 @@ func (p *mistProvider) Configure(ctx context.Context, req provider.ConfigureRequ
 				),
 			),
 		)
+		body := models.Login{}
+		body.Email = username
+		body.Password = password
+		apiResponse, err := tmp_client.AdminsLogin().Login(ctx, &body)
+		if err != nil {
+			resp.Diagnostics.AddError("Authentication Error", err.Error())
+			if resp.Diagnostics.HasError() {
+				return
+			}
+			// Process the Response Headers to extract the CSRF Token
+		} else {
+			csrfTokenSet := false
+			for hNAme, hVal := range apiResponse.Response.Header {
+				if hNAme == "Set-Cookie" {
+					for _, cooky := range hVal {
+						for _, cVal := range strings.Split(cooky, ";") {
+							if strings.HasPrefix(cVal, "csrftoken") {
+								csrfToken_string := strings.Split(cVal, "=")[1]
+								test := mistapi.NewCsrfTokenCredentials(string(csrfToken_string))
+								client_config = mistapi.CreateConfiguration(
+									mistapi.WithEnvironment(mist_cloud),
+									mistapi.WithBasicAuthCredentials(
+										mistapi.NewBasicAuthCredentials(username, password),
+									),
+									mistapi.WithCsrfTokenCredentials(test),
+								)
+								csrfTokenSet = true
+							}
+						}
+					}
+				}
+			}
+			// IF CSRF Token not set, raise an error and exit
+			if !csrfTokenSet {
+				resp.Diagnostics.AddError("Authentication Error", "Unable to extract the CSRF Token from the Authentication response")
+				if resp.Diagnostics.HasError() {
+					return
+				}
+			}
+		}
 	}
 
+	// Use the  configuration to create the client and test the credentials
+	client = mistapi.NewClient(client_config)
 	_, err := client.SelfAccount().GetSelf(ctx)
 	if err != nil {
 		resp.Diagnostics.AddError("Authentication Error", err.Error())
