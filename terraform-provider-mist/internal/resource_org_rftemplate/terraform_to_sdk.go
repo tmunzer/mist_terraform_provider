@@ -6,7 +6,6 @@ import (
 	"mistapi/models"
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
-	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 
 func TerraformToSdk(ctx context.Context, plan *OrgRftemplateModel) (*models.RfTemplate, diag.Diagnostics) {
@@ -54,8 +53,5 @@ func TerraformToSdk(ctx context.Context, plan *OrgRftemplateModel) (*models.RfTe
 
 	data.AdditionalProperties = unset
 
-	tflog.Error(ctx, "-------", map[string]interface{}{
-		"tet": data,
-	})
 	return &data, diags
 }

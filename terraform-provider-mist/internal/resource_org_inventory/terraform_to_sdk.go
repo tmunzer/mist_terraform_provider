@@ -5,7 +5,6 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
-	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 
 func TerraformToSdk(ctx context.Context, devices_plan *basetypes.ListValue, devices_state *basetypes.ListValue) ([]string, []string, []string, map[string]string, map[string][]string, diag.Diagnostics) {
@@ -54,7 +53,6 @@ func TerraformToSdk(ctx context.Context, devices_plan *basetypes.ListValue, devi
 		}
 		switch op {
 		case "assign":
-			tflog.Error(ctx, "---------devices "+device_mac+" to "+dev_plan.SiteId.ValueString())
 			assign[dev_plan.SiteId.ValueString()] = append(assign[dev_plan.SiteId.ValueString()], device_mac)
 		case "reassign":
 			assign[dev_plan.SiteId.ValueString()] = append(assign[dev_plan.SiteId.ValueString()], device_mac)
