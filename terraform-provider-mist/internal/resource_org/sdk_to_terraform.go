@@ -23,7 +23,7 @@ func SdkToTerraform(ctx context.Context, data models.Org) (OrgModel, diag.Diagno
 	var session_expiry basetypes.Int64Value
 	state.Id = types.StringValue(data.Id.String())
 
-	if data.AlarmtemplateId.IsValueSet() {
+	if data.AlarmtemplateId.Value() != nil {
 		alarmtemplate_id = types.StringValue(data.AlarmtemplateId.Value().String())
 	}
 	if data.AllowMist != nil {
