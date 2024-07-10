@@ -17,6 +17,8 @@ The Mist Provider allows Terraform to manage Juniper Mist.
 
 ### Optional
 
-- `apitoken` (String) The Mist API Token
+- `apitoken` (String) For Api Token authentication, the Mist API Token
 - `host` (String) URL of the Mist Cloud, e.g. `api.mist.com`
 .The preferred approach is to pass the credentials as environment variables `
+- `password` (String) For username/password authentication, the Mist Account password
+- `username` (String) For username/password authentication, the Mist Account username

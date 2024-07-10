@@ -34,7 +34,7 @@ FILES = {
             "vrf_extra_routes": "vrf_extra_routes",
             "snmpv3_contents": "contents",
             "snmpv3_users": "users",
-            "snmpv3_vacm_content": "content"
+            "snmpv3_vacm_content": "content",
         },
         "dedup": [
             "ExtraRoutes",
@@ -52,7 +52,7 @@ FILES = {
             "vrf_extra_routes": "vrf_extra_routes",
             "snmpv3_contents": "contents",
             "snmpv3_users": "users",
-            "snmpv3_vacm_content": "content"
+            "snmpv3_vacm_content": "content",
         },
         "dedup": [
             "ExtraRoutes",
@@ -67,12 +67,7 @@ FILES = {
         "dedup": ["DestinationNat", "StaticNat"]
     },
     "./terraform-provider-mist/internal/resource_org_rftemplate/org_rftemplate_resource_gen.go": {
-        "dedup": [
-            "Band24",
-            "Band5",
-            "Band6",
-            "Band5On24Radio"
-        ]
+        "dedup": ["Band24", "Band5", "Band6", "Band5On24Radio"]
     },
     "./terraform-provider-mist/internal/resource_site_setting/site_setting_resource_gen.go": {
         "dedup": [
@@ -86,7 +81,7 @@ FILES = {
             "vrf_extra_routes": "vrf_extra_routes",
             "snmpv3_contents": "contents",
             "snmpv3_users": "users",
-            "snmpv3_vacm_content": "content"
+            "snmpv3_vacm_content": "content",
         },
         "dedup": [
             "ExtraRoutes",
@@ -95,13 +90,26 @@ FILES = {
             "Users",
             "PortMirroring",
             "NextQualified",
-        ]
+        ],
     },
-        "./terraform-provider-mist/internal/resource_org_inventory/org_inventory_resource_gen.go": {
+    "./terraform-provider-mist/internal/resource_org_inventory/org_inventory_resource_gen.go": {
         "rename": {
             "magic": "claim_code",
         },
-        }
+    },
+    "./terraform-provider-mist/internal/datasource_device_gateway_stats/device_gateway_stats_data_source_gen.go": {
+        "dedup": [
+            "ServpInfo",
+            "Errors",
+            "Fans",
+            "Pics",
+            "PortGroups",
+            "Poe",
+            "Psus",
+            "Temperatures",
+            "VcLinks",
+        ],
+    },
 }
 
 
@@ -124,7 +132,10 @@ for file, actions in FILES.items():
                     UNSKIP_NEXT = True
                 if line.startswith("type") or line.startswith("func"):
                     for dedup_string in dedup:
-                        if f"{dedup_string}Type" in line or f"{dedup_string}Value" in line:
+                        if (
+                            f"{dedup_string}Type" in line
+                            or f"{dedup_string}Value" in line
+                        ):
                             if not line in DONE:
                                 DONE.append(line)
                             else:

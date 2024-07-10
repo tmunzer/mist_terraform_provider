@@ -17,6 +17,9 @@ import (
 const (
 	envHost     = "MIST_HOST"
 	envApitoken = "MIST_API_TOKEN"
+	envUsername = "MIST_USERNAME"
+	// file deepcode ignore HardcodedPassword: <please specify a reason of ignoring this>
+	envPassword = "MIST_PASSWORD"
 )
 
 var _ provider.Provider = (*mistProvider)(nil)
@@ -33,9 +36,12 @@ type mistProvider struct {
 type mistProviderData struct {
 	client mistapi.ClientInterface
 }
+
 type mistProviderModel struct {
 	Host     types.String `tfsdk:"host"`
 	Apitoken types.String `tfsdk:"apitoken"`
+	Username types.String `tfsdk:"username"`
+	Password types.String `tfsdk:"password"`
 }
 
 func (p *mistProvider) Schema(ctx context.Context, req provider.SchemaRequest, resp *provider.SchemaResponse) {
@@ -49,7 +55,15 @@ func (p *mistProvider) Schema(ctx context.Context, req provider.SchemaRequest, r
 				Optional: true,
 			},
 			"apitoken": schema.StringAttribute{
-				MarkdownDescription: "The Mist API Token",
+				MarkdownDescription: "For Api Token authentication, the Mist API Token",
+				Optional:            true,
+			},
+			"username": schema.StringAttribute{
+				MarkdownDescription: "For username/password authentication, the Mist Account username",
+				Optional:            true,
+			},
+			"password": schema.StringAttribute{
+				MarkdownDescription: "For username/password authentication, the Mist Account password",
 				Optional:            true,
 			},
 		},
@@ -69,15 +83,28 @@ func (p *mistProvider) Configure(ctx context.Context, req provider.ConfigureRequ
 			path.Root("host"),
 			"Unknown Mist API Host",
 			"The provider cannot create the Mist API client as there is an unknown configuration value for the Mist API host. "+
-				"Either target apply the source of the value first, set the value statically in the configuration, or use the MIST_HOST environment variable.",
+				"Either target apply the source of the value first, set the value statically in the configuration, or use the HOST environment variable.",
 		)
 	}
-	if config.Apitoken.IsUnknown() {
+	if config.Apitoken.IsUnknown() && (config.Username.IsUnknown() && config.Password.IsUnknown()) {
+		resp.Diagnostics.AddError(
+			"Unknown Mist API Authentication",
+			"The provider cannot create the Mist API client as there is an unknown authentication configuration. "+
+				"Either the API Token or the Username/Password must be statically set in the configuration or as environment variables.",
+		)
+	} else if config.Apitoken.IsUnknown() && (!config.Username.IsUnknown() && config.Password.IsUnknown()) {
 		resp.Diagnostics.AddAttributeError(
-			path.Root("apitoken"),
-			"Unknown Mist API API Token",
-			"The provider cannot create the Mist API client as there is an unknown configuration value for the Mist API Token. "+
-				"Either target apply the source of the value first, set the value statically in the configuration, or use the MIST_APITOKEN environment variable.",
+			path.Root("password"),
+			"Unknown Mist API Password",
+			"The provider cannot create the Mist API client as there is an unknown configuration value for the Mist Username whereas the MIST Username is configured. "+
+				"Either target apply the source of the value first, set the value statically in the configuration, or use the MIST_USERNAME environment variable.",
+		)
+	} else if config.Apitoken.IsUnknown() && (config.Username.IsUnknown() && !config.Password.IsUnknown()) {
+		resp.Diagnostics.AddAttributeError(
+			path.Root("password"),
+			"Unknown Mist API Password",
+			"The provider cannot create the Mist API client as there is an unknown configuration value for the Mist Password whereas the MIST Username is configured. "+
+				"Either target apply the source of the value first, set the value statically in the configuration, or use the MIST_PASSWORD environment variable.",
 		)
 	}
 	if resp.Diagnostics.HasError() {
@@ -85,49 +112,120 @@ func (p *mistProvider) Configure(ctx context.Context, req provider.ConfigureRequ
 	}
 
 	host := os.Getenv("MIST_HOST")
-	apitoken := os.Getenv("MIST_APITOKEN")
-
 	if !config.Host.IsNull() {
 		host = config.Host.ValueString()
 	}
+
+	apitoken := os.Getenv("MIST_APITOKEN")
 	if !config.Apitoken.IsNull() {
 		apitoken = config.Apitoken.ValueString()
+	}
+
+	username := os.Getenv("MIST_USERNAME")
+	if !config.Username.IsNull() {
+		username = config.Username.ValueString()
+	}
+
+	password := os.Getenv("MIST_PASSWORD")
+	if !config.Password.IsNull() {
+		password = config.Password.ValueString()
 	}
 
 	if host == "" {
 		resp.Diagnostics.AddAttributeError(
 			path.Root("host"),
-			"Missing Mist API Host",
-			"The provider cannot create the Mist API client as there is a missing or empty value for the Mist API host. "+
+			"Missing MIST API Host",
+			"The provider cannot create the MIST API client as there is a missing or empty value for the MIST API host. "+
 				"Set the host value in the configuration or use the MIST_HOST environment variable. "+
 				"If either is already set, ensure the value is not empty.",
 		)
 	}
-	if apitoken == "" {
+	if apitoken == "" && (username == "" && password == "") {
+		resp.Diagnostics.AddError(
+			"Missing MIST API Authentication",
+			"The provider cannot create the MIST API client as there the authentication configuration is missing. "+
+				"Set the Authentication values in the configuration or in the environment variables: "+
+				" * apitoken (environment variable \"APITOKEN\")"+
+				" * username and password (environment variables \"USERNAME\" and \"PASSWORD\")"+
+				"If either is already set, ensure the value is not empty.",
+		)
+	} else if apitoken == "" && (username != "" && password == "") {
 		resp.Diagnostics.AddAttributeError(
-			path.Root("apitoken"),
-			"Missing Mist API Token",
-			"The provider cannot create the Mist API client as there is a missing or empty value for the Mist API Token. "+
-				"Set the host value in the configuration or use the MIST_APITOKEN environment variable. "+
+			path.Root("username"),
+			"Missing MIST API Password",
+			"The provider cannot create the MIST API client as there is a  a missing or empty value for the MIST Username whereas the MIST Password is configured. "+
+				"Set the host value in the configuration or use the MIST_USERNAME environment variable. "+
+				"If either is already set, ensure the value is not empty.",
+		)
+	} else if apitoken == "" && (username == "" && password != "") {
+		resp.Diagnostics.AddAttributeError(
+			path.Root("password"),
+			"Missing MIST API Password",
+			"The provider cannot create the MIST API client as there is a  a missing or empty value for the MIST Password whereas the MIST Username is configured. "+
+				"Set the host value in the configuration or use the MIST_PASSWORD environment variable. "+
 				"If either is already set, ensure the value is not empty.",
 		)
 	}
+
 	if resp.Diagnostics.HasError() {
 		return
 	}
 
-	client := mistapi.NewClient(
-		mistapi.CreateConfiguration(
-			mistapi.WithEnvironment(mistapi.MIST_GLOBAL_01),
-			mistapi.WithApiTokenCredentials(
-				mistapi.NewApiTokenCredentials("Token "+apitoken),
+	var mist_cloud mistapi.Environment
+	switch host {
+	case "api.mist.com":
+		mist_cloud = mistapi.MIST_GLOBAL_01
+	case "api.gc1.mist.com":
+		mist_cloud = mistapi.MIST_GLOBAL_02
+	case "api.ac2.mist.com":
+		mist_cloud = mistapi.MIST_GLOBAL_03
+	case "api.gc2.mist.com":
+		mist_cloud = mistapi.MIST_GLOBAL_04
+	case "api.eu.mist.com":
+		mist_cloud = mistapi.MIST_EMEA_01
+	case "api.gc3.mist.com":
+		mist_cloud = mistapi.MIST_EMEA_02
+	case "api.ac6.mist.com":
+		mist_cloud = mistapi.MIST_EMEA_03
+	case "api.ac5.mist.com":
+		mist_cloud = mistapi.MIST_APAC_01
+	default:
+		resp.Diagnostics.AddAttributeError(
+			path.Root("host"),
+			"Wrong Mist Host",
+			"The configured host \""+host+"\" is not a valid Mist Host. Please refer to the documentation to get the possible values",
+		)
+		return
+	}
+
+	var client mistapi.ClientInterface
+	if apitoken != "" {
+		client = mistapi.NewClient(
+			mistapi.CreateConfiguration(
+				mistapi.WithEnvironment(mist_cloud),
+				mistapi.WithApiTokenCredentials(
+					mistapi.NewApiTokenCredentials("Token "+apitoken),
+				),
 			),
-		),
-	)
-	// configuration := models.NewConfiguration()
-	// configuration.Host = host
-	// configuration.AddDefaultHeader("Authorization", "Token "+apitoken)
-	// client := models.NewAPIClient(configuration)
+		)
+	} else {
+		client = mistapi.NewClient(
+			mistapi.CreateConfiguration(
+				mistapi.WithEnvironment(mist_cloud),
+				mistapi.WithBasicAuthCredentials(
+					mistapi.NewBasicAuthCredentials(username, password),
+				),
+			),
+		)
+	}
+
+	_, err := client.SelfAccount().GetSelf(ctx)
+	if err != nil {
+		resp.Diagnostics.AddError("Authentication Error", err.Error())
+		if resp.Diagnostics.HasError() {
+			return
+		}
+	}
 
 	resp.DataSourceData = client
 	resp.ResourceData = client
