@@ -5,13 +5,16 @@ package resource_org_network
 import (
 	"context"
 	"fmt"
+	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault"
+	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 	"github.com/hashicorp/terraform-plugin-go/tftypes"
+	"regexp"
 	"strings"
 
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -142,7 +145,10 @@ func OrgNetworkResourceSchema(ctx context.Context) schema.Schema {
 				MarkdownDescription: "for a Network (usually LAN), it can be routable to other networks (e.g. OSPF)",
 			},
 			"subnet": schema.StringAttribute{
-				Optional: true,
+				Required: true,
+				Validators: []validator.String{
+					stringvalidator.RegexMatches(regexp.MustCompile(`([\d{1,3}\.]+)/(\d{2})`), "subnet must be a CIDR (e.g. 192.168.1.0/24)"),
+				},
 			},
 			"subnet6": schema.StringAttribute{
 				Optional: true,

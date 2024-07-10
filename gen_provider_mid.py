@@ -84,6 +84,7 @@ def next_item(data: dict, entries: list, path: list):
         rename = entry.get("rename")
         remove = entry.get("remove")
         plan_modifiers = entry.get("plan_modifiers")
+        validators = entry.get("validators")
         computed_optional_required = entry.get("computed_optional_required")
         default = entry.get("default")
         default_type = entry.get("default_type")
@@ -113,6 +114,8 @@ def next_item(data: dict, entries: list, path: list):
             #     del sub_data["default"]
             if plan_modifiers:
                 sub_data["plan_modifiers"] = plan_modifiers
+            if validators:
+                sub_data["validators"] = validators
             if computed_optional_required:
                 sub_data["computed_optional_required"] = computed_optional_required
             if n:
