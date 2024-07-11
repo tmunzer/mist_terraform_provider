@@ -17,19 +17,19 @@ import (
 )
 
 var (
-	_ resource.Resource              = &device_apResource{}
-	_ resource.ResourceWithConfigure = &device_apResource{}
+	_ resource.Resource              = &deviceApResource{}
+	_ resource.ResourceWithConfigure = &deviceApResource{}
 )
 
 func NewDeviceApResource() resource.Resource {
-	return &device_apResource{}
+	return &deviceApResource{}
 }
 
-type device_apResource struct {
+type deviceApResource struct {
 	client mistapi.ClientInterface
 }
 
-func (r *device_apResource) Configure(ctx context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
+func (r *deviceApResource) Configure(ctx context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
 	tflog.Info(ctx, "Configuring Mist DeviceAp client")
 	if req.ProviderData == nil {
 		return
@@ -46,15 +46,15 @@ func (r *device_apResource) Configure(ctx context.Context, req resource.Configur
 
 	r.client = client
 }
-func (r *device_apResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
+func (r *deviceApResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
 	resp.TypeName = req.ProviderTypeName + "_device_ap"
 }
 
-func (r *device_apResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
+func (r *deviceApResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = resource_device_ap.DeviceApResourceSchema(ctx)
 }
 
-func (r *device_apResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
+func (r *deviceApResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
 	tflog.Info(ctx, "Starting DeviceAp Create")
 	var plan, state resource_device_ap.DeviceApModel
 
@@ -116,7 +116,7 @@ func (r *device_apResource) Create(ctx context.Context, req resource.CreateReque
 
 }
 
-func (r *device_apResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
+func (r *deviceApResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
 	var state resource_device_ap.DeviceApModel
 
 	diags := resp.State.Get(ctx, &state)
@@ -170,7 +170,7 @@ func (r *device_apResource) Read(ctx context.Context, req resource.ReadRequest, 
 	}
 }
 
-func (r *device_apResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
+func (r *deviceApResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
 	var state, plan resource_device_ap.DeviceApModel
 	tflog.Info(ctx, "Starting DeviceAp Update")
 
@@ -238,7 +238,7 @@ func (r *device_apResource) Update(ctx context.Context, req resource.UpdateReque
 
 }
 
-func (r *device_apResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
+func (r *deviceApResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
 	var state resource_device_ap.DeviceApModel
 
 	diags := resp.State.Get(ctx, &state)

@@ -17,19 +17,19 @@ import (
 )
 
 var (
-	_ resource.Resource              = &device_switchResource{}
-	_ resource.ResourceWithConfigure = &device_switchResource{}
+	_ resource.Resource              = &deviceSwitchResource{}
+	_ resource.ResourceWithConfigure = &deviceSwitchResource{}
 )
 
 func NewDeviceSwitchResource() resource.Resource {
-	return &device_switchResource{}
+	return &deviceSwitchResource{}
 }
 
-type device_switchResource struct {
+type deviceSwitchResource struct {
 	client mistapi.ClientInterface
 }
 
-func (r *device_switchResource) Configure(ctx context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
+func (r *deviceSwitchResource) Configure(ctx context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
 	tflog.Info(ctx, "Configuring Mist DeviceSwitch client")
 	if req.ProviderData == nil {
 		return
@@ -46,15 +46,15 @@ func (r *device_switchResource) Configure(ctx context.Context, req resource.Conf
 
 	r.client = client
 }
-func (r *device_switchResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
+func (r *deviceSwitchResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
 	resp.TypeName = req.ProviderTypeName + "_device_switch"
 }
 
-func (r *device_switchResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
+func (r *deviceSwitchResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = resource_device_switch.DeviceSwitchResourceSchema(ctx)
 }
 
-func (r *device_switchResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
+func (r *deviceSwitchResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
 	tflog.Info(ctx, "Starting DeviceSwitch Create")
 	var plan, state resource_device_switch.DeviceSwitchModel
 
@@ -116,7 +116,7 @@ func (r *device_switchResource) Create(ctx context.Context, req resource.CreateR
 
 }
 
-func (r *device_switchResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
+func (r *deviceSwitchResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
 	var state resource_device_switch.DeviceSwitchModel
 
 	diags := resp.State.Get(ctx, &state)
@@ -170,7 +170,7 @@ func (r *device_switchResource) Read(ctx context.Context, req resource.ReadReque
 	}
 }
 
-func (r *device_switchResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
+func (r *deviceSwitchResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
 	var state, plan resource_device_switch.DeviceSwitchModel
 	tflog.Info(ctx, "Starting DeviceSwitch Update")
 
@@ -239,7 +239,7 @@ func (r *device_switchResource) Update(ctx context.Context, req resource.UpdateR
 
 }
 
-func (r *device_switchResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
+func (r *deviceSwitchResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
 	var state resource_device_switch.DeviceSwitchModel
 
 	diags := resp.State.Get(ctx, &state)

@@ -17,19 +17,19 @@ import (
 )
 
 var (
-	_ resource.Resource              = &device_gatewayResource{}
-	_ resource.ResourceWithConfigure = &device_gatewayResource{}
+	_ resource.Resource              = &deviceGatewayResource{}
+	_ resource.ResourceWithConfigure = &deviceGatewayResource{}
 )
 
 func NewDeviceGatewayResource() resource.Resource {
-	return &device_gatewayResource{}
+	return &deviceGatewayResource{}
 }
 
-type device_gatewayResource struct {
+type deviceGatewayResource struct {
 	client mistapi.ClientInterface
 }
 
-func (r *device_gatewayResource) Configure(ctx context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
+func (r *deviceGatewayResource) Configure(ctx context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
 	tflog.Info(ctx, "Configuring Mist DeviceGateway client")
 	if req.ProviderData == nil {
 		return
@@ -46,15 +46,15 @@ func (r *device_gatewayResource) Configure(ctx context.Context, req resource.Con
 
 	r.client = client
 }
-func (r *device_gatewayResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
+func (r *deviceGatewayResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
 	resp.TypeName = req.ProviderTypeName + "_device_gateway"
 }
 
-func (r *device_gatewayResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
+func (r *deviceGatewayResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = resource_device_gateway.DeviceGatewayResourceSchema(ctx)
 }
 
-func (r *device_gatewayResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
+func (r *deviceGatewayResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
 	tflog.Info(ctx, "Starting DeviceGateway Create")
 	var plan, state resource_device_gateway.DeviceGatewayModel
 
@@ -116,7 +116,7 @@ func (r *device_gatewayResource) Create(ctx context.Context, req resource.Create
 
 }
 
-func (r *device_gatewayResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
+func (r *deviceGatewayResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
 	var state resource_device_gateway.DeviceGatewayModel
 
 	diags := resp.State.Get(ctx, &state)
@@ -170,7 +170,7 @@ func (r *device_gatewayResource) Read(ctx context.Context, req resource.ReadRequ
 	}
 }
 
-func (r *device_gatewayResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
+func (r *deviceGatewayResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
 	var state, plan resource_device_gateway.DeviceGatewayModel
 	tflog.Info(ctx, "Starting DeviceGateway Update")
 
@@ -239,7 +239,7 @@ func (r *device_gatewayResource) Update(ctx context.Context, req resource.Update
 
 }
 
-func (r *device_gatewayResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
+func (r *deviceGatewayResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
 	var state resource_device_gateway.DeviceGatewayModel
 
 	diags := resp.State.Get(ctx, &state)
