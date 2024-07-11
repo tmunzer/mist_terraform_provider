@@ -615,7 +615,7 @@ func DeviceApResourceSchema(ctx context.Context) schema.Schema {
 				MarkdownDescription: "Mesh AP settings",
 			},
 			"name": schema.StringAttribute{
-				Optional: true,
+				Required: true,
 			},
 			"notes": schema.StringAttribute{
 				Optional:            true,

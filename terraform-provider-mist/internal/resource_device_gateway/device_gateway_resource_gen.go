@@ -631,7 +631,7 @@ func DeviceGatewayResourceSchema(ctx context.Context) schema.Schema {
 				Optional: true,
 			},
 			"name": schema.StringAttribute{
-				Optional: true,
+				Required: true,
 			},
 			"networks": schema.ListNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{

@@ -651,7 +651,7 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 				MarkdownDescription: "enable mist_nac to use radsec",
 			},
 			"name": schema.StringAttribute{
-				Optional: true,
+				Required: true,
 			},
 			"networks": schema.MapNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
