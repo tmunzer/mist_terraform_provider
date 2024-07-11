@@ -137,7 +137,7 @@ func dhcpdConfigConfigsTerraformToSdk(ctx context.Context, diags *diag.Diagnosti
 	return data_map
 }
 
-func dhcpdConfigTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d DhcpdConfigValue) models.DhcpdConfig {
+func dhcpdConfigTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d DhcpdConfigValue) *models.DhcpdConfig {
 	tflog.Debug(ctx, "dhcpdConfigTerraformToSdk")
 
 	data := models.DhcpdConfig{}
@@ -149,5 +149,5 @@ func dhcpdConfigTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d D
 		data.AdditionalProperties = dhcpdConfigConfigsTerraformToSdk(ctx, diags, d.Config)
 	}
 
-	return data
+	return &data
 }

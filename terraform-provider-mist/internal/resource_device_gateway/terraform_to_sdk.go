@@ -32,9 +32,9 @@ func TerraformToSdk(ctx context.Context, plan *DeviceGatewayModel) (models.MistD
 	data.Notes = plan.Notes.ValueStringPointer()
 
 	if plan.AdditionalConfigCmds.IsNull() || plan.AdditionalConfigCmds.IsUnknown() {
-		data.AdditionalConfigCmds = mist_transform.ListOfStringTerraformToSdk(ctx, plan.AdditionalConfigCmds)
-	} else {
 		unset["-additional_config_cmds"] = ""
+	} else {
+		data.AdditionalConfigCmds = mist_transform.ListOfStringTerraformToSdk(ctx, plan.AdditionalConfigCmds)
 	}
 
 	if plan.BgpConfig.IsNull() || plan.BgpConfig.IsUnknown() {

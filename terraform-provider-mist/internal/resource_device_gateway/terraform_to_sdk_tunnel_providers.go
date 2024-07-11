@@ -116,7 +116,7 @@ func tunnelProviderOptionsZscalerTerraformToSdk(ctx context.Context, diags *diag
 	}
 }
 
-func tunnelProviderOptionsTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d TunnelProviderOptionsValue) models.TunnelProviderOptions {
+func tunnelProviderOptionsTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d TunnelProviderOptionsValue) *models.TunnelProviderOptions {
 	tflog.Debug(ctx, "tunnelProviderOptionsTerraformToSdk")
 
 	data := models.TunnelProviderOptions{}
@@ -131,5 +131,5 @@ func tunnelProviderOptionsTerraformToSdk(ctx context.Context, diags *diag.Diagno
 		data.Zscaler = &zscaler
 	}
 
-	return data
+	return &data
 }
