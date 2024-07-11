@@ -40,7 +40,7 @@ func oobIpConfigsNode1SdkToTerraform(ctx context.Context, diags *diag.Diagnostic
 		use_mgmt_vrf_for_host_out = types.BoolValue(*d.UseMgmtVrfForHostOut)
 	}
 
-	data_map_attr_type := OobIpConfigValue{}.AttributeTypes(ctx)
+	data_map_attr_type := Node1Value{}.AttributeTypes(ctx)
 	data_map_value := map[string]attr.Value{
 		"ip":                        ip,
 		"netmask":                   netmask,
@@ -49,7 +49,7 @@ func oobIpConfigsNode1SdkToTerraform(ctx context.Context, diags *diag.Diagnostic
 		"use_mgmt_vrf":              use_mgmt_vrf,
 		"use_mgmt_vrf_for_host_out": use_mgmt_vrf_for_host_out,
 	}
-	data, e := basetypes.NewObjectValueFrom(ctx, data_map_attr_type, data_map_value)
+	data, e := basetypes.NewObjectValue(data_map_attr_type, data_map_value)
 	diags.Append(e...)
 
 	return data

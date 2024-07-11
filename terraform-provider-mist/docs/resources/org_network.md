@@ -19,6 +19,7 @@ description: |-
 
 - `name` (String)
 - `org_id` (String)
+- `subnet` (String)
 
 ### Optional
 
@@ -29,7 +30,6 @@ description: |-
 - `internet_access` (Attributes) whether this network has direct internet access (see [below for nested schema](#nestedatt--internet_access))
 - `isolation` (Boolean) whether to allow clients in the network to talk to each other
 - `routed_for_networks` (List of String) for a Network (usually LAN), it can be routable to other networks (e.g. OSPF)
-- `subnet` (String)
 - `subnet6` (String)
 - `tenants` (Attributes Map) (see [below for nested schema](#nestedatt--tenants))
 - `vlan_id` (Number)

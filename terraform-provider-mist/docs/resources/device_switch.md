@@ -18,6 +18,7 @@ description: |-
 ### Required
 
 - `device_id` (String)
+- `name` (String)
 - `site_id` (String)
 
 ### Optional
@@ -42,7 +43,6 @@ description: |-
 - `managed` (Boolean) for an adopted switch, we don’t overwrite their existing configs automatically
 - `map_id` (String) map where the device belongs to
 - `mist_nac` (Attributes) enable mist_nac to use radsec (see [below for nested schema](#nestedatt--mist_nac))
-- `name` (String)
 - `networks` (Attributes Map) Property key is network name (see [below for nested schema](#nestedatt--networks))
 - `notes` (String)
 - `ntp_servers` (List of String) list of NTP servers specific to this device. By default, those in Site Settings will be used
@@ -72,7 +72,11 @@ port_mirroring can be added under device/site settings. It takes interface and p
 
 ### Read-Only
 
+- `mac` (String) device MAC address
+- `model` (String) device Model
 - `org_id` (String)
+- `serial` (String) device Serial
+- `type` (String) Device Type
 
 <a id="nestedatt--acl_policies"></a>
 ### Nested Schema for `acl_policies`

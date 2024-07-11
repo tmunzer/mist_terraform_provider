@@ -17,6 +17,7 @@ provider "mist" {
 resource "mist_org" "terraform_test" {
   name = "Terraform Testing"
 }
+
 resource "mist_org_inventory" "inventory" {
   org_id = mist_org.terraform_test.id
   devices = [
@@ -33,6 +34,22 @@ resource "mist_org_inventory" "inventory" {
       site_id    = mist_site.terraform_site.id
     }
   ]
+}
+resource "mist_device_gateway_cluster" "cluster_one" {
+  site_id = mist_site.terraform_site2.id
+  device_id = "00000000-0000-0000-1000-4c96144d8c00"
+  nodes = [
+    {mac = "4c96144d8c00"},
+    {mac = "4c961429c100"}
+  ]
+}
+resource "mist_device_gateway" "cluster_one" {
+  device_id = mist_device_gateway_cluster.cluster_one.device_id
+  site_id = mist_device_gateway_cluster.cluster_one.site_id
+  oob_ip_config = {
+    type = "dhcp"
+  }
+  name = "cluster_one"
 }
 ### SITES
 resource "mist_site" "terraform_site" {
@@ -103,7 +120,7 @@ resource "mist_org_network" "corp" {
   org_id                 = mist_org.terraform_test.id
   disallow_mist_services = false
   name                   = "prd_corp"
-  subnet                 = "10.3.0.0"
+  subnet                 = "10.4.0.0/24"
 }
 
 resource "mist_org_network" "mgmt" {

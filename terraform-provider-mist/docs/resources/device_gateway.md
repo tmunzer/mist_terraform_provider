@@ -18,6 +18,7 @@ description: |-
 ### Required
 
 - `device_id` (String)
+- `name` (String)
 - `site_id` (String)
 
 ### Optional
@@ -39,7 +40,6 @@ description: |-
 - `managed` (Boolean)
 - `map_id` (String) map where the device belongs to
 - `msp_id` (String)
-- `name` (String)
 - `networks` (Attributes List) (see [below for nested schema](#nestedatt--networks))
 - `notes` (String)
 - `ntp_servers` (List of String)
@@ -58,7 +58,11 @@ description: |-
 
 ### Read-Only
 
+- `mac` (String) device MAC address
+- `model` (String) device Model
 - `org_id` (String)
+- `serial` (String) device Serial
+- `type` (String) Device Type
 
 <a id="nestedatt--bgp_config"></a>
 ### Nested Schema for `bgp_config`

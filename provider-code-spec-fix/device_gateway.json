@@ -13,6 +13,34 @@
             "computed_optional_required": "computed"
         },
         {
+            "name": "type",
+            "get": [
+                "string"
+            ],
+            "computed_optional_required": "computed"
+        },
+        {
+            "name": "serial",
+            "get": [
+                "string"
+            ],
+            "computed_optional_required": "computed"
+        },
+        {
+            "name": "mac",
+            "get": [
+                "string"
+            ],
+            "computed_optional_required": "computed"
+        },
+        {
+            "name": "model",
+            "get": [
+                "string"
+            ],
+            "computed_optional_required": "computed"
+        },
+        {
             "name": "site_id",
             "get": [
                 "string"
@@ -21,6 +49,13 @@
         },
         {
             "name": "device_id",
+            "get": [
+                "string"
+            ],
+            "computed_optional_required": "required"
+        },
+        {
+            "name": "name",
             "get": [
                 "string"
             ],

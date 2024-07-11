@@ -313,5 +313,6 @@ func (p *mistProvider) Resources(ctx context.Context) []func() resource.Resource
 		NewDeviceApResource,
 		NewDeviceSwitchResource,
 		NewDeviceGatewayResource,
+		NewDeviceGatewayClusterResource,
 	}
 }

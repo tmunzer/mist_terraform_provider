@@ -22,14 +22,14 @@ data_sources:
   #     ignores:
   #       - created_time
   #       - modified_time
-  device_gateway_stats:
-    read: 
-      path: /api/v1/orgs/{org_id}/stats/devices
-      method: GET
-    schema:
-      ignores:
-        - created_time
-        - modified_time
+  # device_gateway_stats:
+  #   read: 
+  #     path: /api/v1/orgs/{org_id}/stats/devices
+  #     method: GET
+  #   schema:
+  #     ignores:
+  #       - created_time
+  #       - modified_time
 resources:
   org:
     create:
@@ -599,10 +599,6 @@ resources:
   #       - iot_config
   #       - port_config
   #       - id
-  #       - type
-  #       - serial
-  #       - mac
-  #       - model
   # device_switch:
   #   create:
   #     path: /api/v1/sites/{site_id}/devices/{device_id}
@@ -623,10 +619,6 @@ resources:
   #       - for_site
   #       - evpn_config
   #       - id
-  #       - type
-  #       - serial
-  #       - mac
-  #       - model  
   # device_gateway:
   #   create:
   #     path: /api/v1/sites/{site_id}/devices/{device_id}
@@ -663,3 +655,16 @@ resources:
   #   update:
   #     path: /api/v1/orgs/{org_id}/inventory
   #     method: PUT        
+  # device_gateway_cluster:
+  #   create:
+  #     path: /api/v1/sites/{site_id}/devices/{device_id}/ha
+  #     method: POST
+  #   read:
+  #     path: /api/v1/sites/{site_id}/devices/{device_id}/ha
+  #     method: GET
+  #   delete:
+  #     path: /api/v1/sites/{site_id}/devices/{device_id}/ha
+  #     method: DELETE
+  #   update:
+  #     path: /api/v1/sites/{site_id}/devices/{device_id}/ha
+  #     method: PUT

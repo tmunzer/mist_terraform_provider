@@ -60,10 +60,11 @@ func SdkToTerraform(ctx context.Context, data *models.DeviceSwitch) (DeviceSwitc
 	var vrrp_config VrrpConfigValue = NewVrrpConfigValueNull()
 	var x types.Float64
 	var y types.Float64
-	var device_type types.String = types.StringValue(string(*data.Type))
-	var serial types.String = types.StringValue(*data.Serial)
-	var mac types.String = types.StringValue(*data.Mac)
-	var model types.String = types.StringValue(*data.Model)
+
+	var device_type types.String
+	var serial types.String
+	var mac types.String
+	var model types.String
 
 	if data.AclPolicies != nil {
 		acl_policies = aclPoliciesSdkToTerraform(ctx, &diags, data.AclPolicies)
@@ -199,6 +200,22 @@ func SdkToTerraform(ctx context.Context, data *models.DeviceSwitch) (DeviceSwitc
 	}
 	if data.Y != nil {
 		y = types.Float64Value(float64(*data.Y))
+	}
+
+	if data.Type != nil {
+		device_type = types.StringValue(string(*data.Type))
+	}
+
+	if data.Serial != nil {
+		serial = types.StringValue(*data.Serial)
+	}
+
+	if data.Mac != nil {
+		mac = types.StringValue(*data.Mac)
+	}
+
+	if data.Model != nil {
+		model = types.StringValue(*data.Model)
 	}
 
 	state.Name = name

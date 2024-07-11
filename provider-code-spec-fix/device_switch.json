@@ -27,6 +27,41 @@
             "computed_optional_required": "computed"
         },
         {
+            "name": "type",
+            "get": [
+                "string"
+            ],
+            "computed_optional_required": "computed"
+        },
+        {
+            "name": "serial",
+            "get": [
+                "string"
+            ],
+            "computed_optional_required": "computed"
+        },
+        {
+            "name": "mac",
+            "get": [
+                "string"
+            ],
+            "computed_optional_required": "computed"
+        },
+        {
+            "name": "model",
+            "get": [
+                "string"
+            ],
+            "computed_optional_required": "computed"
+        },
+        {
+            "name": "name",
+            "get": [
+                "string"
+            ],
+            "computed_optional_required": "required"
+        },
+        {
             "name": "ip_config",
             "get": [
                 "single_nested",

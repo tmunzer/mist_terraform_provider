@@ -18,6 +18,7 @@ description: |-
 ### Required
 
 - `device_id` (String)
+- `name` (String)
 - `site_id` (String)
 
 ### Optional
@@ -41,7 +42,6 @@ description: |-
 - `locked` (Boolean) whether this map is considered locked down
 - `map_id` (String) map where the device belongs to
 - `mesh` (Attributes) Mesh AP settings (see [below for nested schema](#nestedatt--mesh))
-- `name` (String)
 - `notes` (String) any notes about this AP
 - `ntp_servers` (List of String)
 - `orientation` (Number) orientation, 0-359, in degrees, up is 0, right is 90.
@@ -58,7 +58,11 @@ Note: legacy, new config moved to ESL Config. (see [below for nested schema](#ne
 
 ### Read-Only
 
+- `mac` (String) device MAC address
+- `model` (String) device Model
 - `org_id` (String)
+- `serial` (String) device Serial
+- `type` (String) Device Type
 
 <a id="nestedatt--aeroscout"></a>
 ### Nested Schema for `aeroscout`
