@@ -943,10 +943,10 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 									stringvalidator.OneOf(
 										"",
 										"static",
-										"dynamic",
+										"dhcp",
 									),
 								},
-								Default: stringdefault.StaticString("dynamic"),
+								Default: stringdefault.StaticString("dhcp"),
 							},
 							"use_mgmt_vrf": schema.BoolAttribute{
 								Optional:            true,
@@ -979,10 +979,10 @@ func OrgGatewaytemplateResourceSchema(ctx context.Context) schema.Schema {
 							stringvalidator.OneOf(
 								"",
 								"static",
-								"dynamic",
+								"dhcp",
 							),
 						},
-						Default: stringdefault.StaticString("dynamic"),
+						Default: stringdefault.StaticString("dhcp"),
 					},
 					"use_mgmt_vrf": schema.BoolAttribute{
 						Optional:            true,
