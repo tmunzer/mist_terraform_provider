@@ -619,6 +619,11 @@ func DeviceGatewayResourceSchema(ctx context.Context) schema.Schema {
 				Description:         "Property key is the network name",
 				MarkdownDescription: "Property key is the network name",
 			},
+			"mac": schema.StringAttribute{
+				Computed:            true,
+				Description:         "device MAC address",
+				MarkdownDescription: "device MAC address",
+			},
 			"managed": schema.BoolAttribute{
 				Optional: true,
 			},
@@ -626,6 +631,11 @@ func DeviceGatewayResourceSchema(ctx context.Context) schema.Schema {
 				Optional:            true,
 				Description:         "map where the device belongs to",
 				MarkdownDescription: "map where the device belongs to",
+			},
+			"model": schema.StringAttribute{
+				Computed:            true,
+				Description:         "device Model",
+				MarkdownDescription: "device Model",
 			},
 			"msp_id": schema.StringAttribute{
 				Optional: true,
@@ -1800,6 +1810,11 @@ func DeviceGatewayResourceSchema(ctx context.Context) schema.Schema {
 				Description:         "Property key is the routing policy name",
 				MarkdownDescription: "Property key is the routing policy name",
 			},
+			"serial": schema.StringAttribute{
+				Computed:            true,
+				Description:         "device Serial",
+				MarkdownDescription: "device Serial",
+			},
 			"service_policies": schema.ListNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
@@ -2520,6 +2535,17 @@ func DeviceGatewayResourceSchema(ctx context.Context) schema.Schema {
 				},
 				Optional: true,
 			},
+			"type": schema.StringAttribute{
+				Computed:            true,
+				Description:         "Device Type",
+				MarkdownDescription: "Device Type",
+				Validators: []validator.String{
+					stringvalidator.OneOf(
+						"",
+						"gateway",
+					),
+				},
+			},
 			"vars": schema.MapAttribute{
 				ElementType:         types.StringType,
 				Optional:            true,
@@ -2554,8 +2580,10 @@ type DeviceGatewayModel struct {
 	Image2Url             types.String               `tfsdk:"image2_url"`
 	Image3Url             types.String               `tfsdk:"image3_url"`
 	IpConfigs             types.Map                  `tfsdk:"ip_configs"`
+	Mac                   types.String               `tfsdk:"mac"`
 	Managed               types.Bool                 `tfsdk:"managed"`
 	MapId                 types.String               `tfsdk:"map_id"`
+	Model                 types.String               `tfsdk:"model"`
 	MspId                 types.String               `tfsdk:"msp_id"`
 	Name                  types.String               `tfsdk:"name"`
 	Networks              types.List                 `tfsdk:"networks"`
@@ -2568,10 +2596,12 @@ type DeviceGatewayModel struct {
 	PortMirroring         PortMirroringValue         `tfsdk:"port_mirroring"`
 	RouterId              types.String               `tfsdk:"router_id"`
 	RoutingPolicies       types.Map                  `tfsdk:"routing_policies"`
+	Serial                types.String               `tfsdk:"serial"`
 	ServicePolicies       types.List                 `tfsdk:"service_policies"`
 	SiteId                types.String               `tfsdk:"site_id"`
 	TunnelConfigs         types.Map                  `tfsdk:"tunnel_configs"`
 	TunnelProviderOptions TunnelProviderOptionsValue `tfsdk:"tunnel_provider_options"`
+	Type                  types.String               `tfsdk:"type"`
 	Vars                  types.Map                  `tfsdk:"vars"`
 	X                     types.Float64              `tfsdk:"x"`
 	Y                     types.Float64              `tfsdk:"y"`

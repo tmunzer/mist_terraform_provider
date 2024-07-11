@@ -46,6 +46,10 @@ func SdkToTerraform(ctx context.Context, data *models.DeviceGateway) (DeviceGate
 	var vars types.Map = types.MapNull(types.StringType)
 	var x types.Float64
 	var y types.Float64
+	var device_type types.String = types.StringValue(string(*data.Type))
+	var serial types.String = types.StringValue(*data.Serial)
+	var mac types.String = types.StringValue(*data.Mac)
+	var model types.String = types.StringValue(*data.Model)
 
 	if data.AdditionalConfigCmds != nil {
 		additional_config_cmds = mist_transform.ListOfStringSdkToTerraform(ctx, data.AdditionalConfigCmds)
@@ -172,6 +176,10 @@ func SdkToTerraform(ctx context.Context, data *models.DeviceGateway) (DeviceGate
 	state.Vars = vars
 	state.X = x
 	state.Y = y
+	state.Type = device_type
+	state.Serial = serial
+	state.Mac = mac
+	state.Model = model
 
 	return state, diags
 }

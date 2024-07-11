@@ -29,7 +29,7 @@ func oobIpConfigNode1TerraformToSdk(ctx context.Context, diags *diag.Diagnostics
 		}
 
 		if plan.Node1Type.ValueStringPointer() != nil {
-			data.Type = (*models.IpConfigTypeEnum)(plan.Node1Type.ValueStringPointer())
+			data.Type = (*models.IpTypeEnum)(plan.Node1Type.ValueStringPointer())
 		}
 		if plan.UseMgmtVrf.ValueBoolPointer() != nil {
 			data.UseMgmtVrf = plan.UseMgmtVrf.ValueBoolPointer()
@@ -59,7 +59,7 @@ func oobIpConfigTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d O
 		data.Node1 = oobIpConfigNode1TerraformToSdk(ctx, diags, d.Node1)
 	}
 	if d.OobIpConfigType.ValueStringPointer() != nil {
-		data.Type = (*models.IpConfigTypeEnum)(d.OobIpConfigType.ValueStringPointer())
+		data.Type = (*models.IpTypeEnum)(d.OobIpConfigType.ValueStringPointer())
 	}
 	if d.UseMgmtVrf.ValueBoolPointer() != nil {
 		data.UseMgmtVrf = d.UseMgmtVrf.ValueBoolPointer()

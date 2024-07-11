@@ -27,7 +27,7 @@ func oobIpConfigTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d O
 		data.Network = d.Network.ValueStringPointer()
 	}
 	if d.OobIpConfigType.ValueStringPointer() != nil {
-		data.Type = (*models.IpConfigTypeEnum)(d.OobIpConfigType.ValueStringPointer())
+		data.Type = (*models.IpTypeEnum)(d.OobIpConfigType.ValueStringPointer())
 	}
 	if d.UseMgmtVrf.ValueBoolPointer() != nil {
 		data.UseMgmtVrf = d.UseMgmtVrf.ValueBoolPointer()

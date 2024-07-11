@@ -572,6 +572,11 @@ func DeviceApResourceSchema(ctx context.Context) schema.Schema {
 				Description:         "whether this map is considered locked down",
 				MarkdownDescription: "whether this map is considered locked down",
 			},
+			"mac": schema.StringAttribute{
+				Computed:            true,
+				Description:         "device MAC address",
+				MarkdownDescription: "device MAC address",
+			},
 			"map_id": schema.StringAttribute{
 				Optional:            true,
 				Description:         "map where the device belongs to",
@@ -613,6 +618,11 @@ func DeviceApResourceSchema(ctx context.Context) schema.Schema {
 				Optional:            true,
 				Description:         "Mesh AP settings",
 				MarkdownDescription: "Mesh AP settings",
+			},
+			"model": schema.StringAttribute{
+				Computed:            true,
+				Description:         "device Model",
+				MarkdownDescription: "device Model",
 			},
 			"name": schema.StringAttribute{
 				Required: true,
@@ -1224,8 +1234,24 @@ func DeviceApResourceSchema(ctx context.Context) schema.Schema {
 				Description:         "Radio AP settings",
 				MarkdownDescription: "Radio AP settings",
 			},
+			"serial": schema.StringAttribute{
+				Computed:            true,
+				Description:         "device Serial",
+				MarkdownDescription: "device Serial",
+			},
 			"site_id": schema.StringAttribute{
 				Required: true,
+			},
+			"type": schema.StringAttribute{
+				Computed:            true,
+				Description:         "Device Type",
+				MarkdownDescription: "Device Type",
+				Validators: []validator.String{
+					stringvalidator.OneOf(
+						"",
+						"ap",
+					),
+				},
 			},
 			"uplink_port_config": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
@@ -1354,8 +1380,10 @@ type DeviceApModel struct {
 	IpConfig         IpConfigValue         `tfsdk:"ip_config"`
 	Led              LedValue              `tfsdk:"led"`
 	Locked           types.Bool            `tfsdk:"locked"`
+	Mac              types.String          `tfsdk:"mac"`
 	MapId            types.String          `tfsdk:"map_id"`
 	Mesh             MeshValue             `tfsdk:"mesh"`
+	Model            types.String          `tfsdk:"model"`
 	Name             types.String          `tfsdk:"name"`
 	Notes            types.String          `tfsdk:"notes"`
 	NtpServers       types.List            `tfsdk:"ntp_servers"`
@@ -1364,7 +1392,9 @@ type DeviceApModel struct {
 	PoePassthrough   types.Bool            `tfsdk:"poe_passthrough"`
 	PwrConfig        PwrConfigValue        `tfsdk:"pwr_config"`
 	RadioConfig      RadioConfigValue      `tfsdk:"radio_config"`
+	Serial           types.String          `tfsdk:"serial"`
 	SiteId           types.String          `tfsdk:"site_id"`
+	Type             types.String          `tfsdk:"type"`
 	UplinkPortConfig UplinkPortConfigValue `tfsdk:"uplink_port_config"`
 	UsbConfig        UsbConfigValue        `tfsdk:"usb_config"`
 	Vars             types.Map             `tfsdk:"vars"`

@@ -605,10 +605,10 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 							stringvalidator.OneOf(
 								"",
 								"static",
-								"dynamic",
+								"dhcp",
 							),
 						},
-						Default: stringdefault.StaticString("dynamic"),
+						Default: stringdefault.StaticString("dhcp"),
 					},
 				},
 				CustomType: IpConfigType{
@@ -619,6 +619,11 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 				Optional:            true,
 				Description:         "Junos IP Config",
 				MarkdownDescription: "Junos IP Config",
+			},
+			"mac": schema.StringAttribute{
+				Computed:            true,
+				Description:         "device MAC address",
+				MarkdownDescription: "device MAC address",
 			},
 			"managed": schema.BoolAttribute{
 				Optional:            true,
@@ -649,6 +654,11 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 				Optional:            true,
 				Description:         "enable mist_nac to use radsec",
 				MarkdownDescription: "enable mist_nac to use radsec",
+			},
+			"model": schema.StringAttribute{
+				Computed: true,
+				Description:         "device Model",
+				MarkdownDescription: "device Model",
 			},
 			"name": schema.StringAttribute{
 				Required: true,
@@ -1957,6 +1967,11 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 				Description:         "used for OSPF / BGP / EVPN",
 				MarkdownDescription: "used for OSPF / BGP / EVPN",
 			},
+			"serial": schema.StringAttribute{
+				Computed:            true,
+				Description:         "device Serial",
+				MarkdownDescription: "device Serial",
+			},
 			"site_id": schema.StringAttribute{
 				Required: true,
 			},
@@ -2688,6 +2703,16 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 				},
 				Optional: true,
 			},
+			"type": schema.StringAttribute{
+				Computed:            true,
+				Description:         "Device Type",
+				MarkdownDescription: "Device Type",
+				Validators: []validator.String{
+					stringvalidator.OneOf(
+						"switch",
+					),
+				},
+			},
 			"use_router_id_as_source_ip": schema.BoolAttribute{
 				Optional:            true,
 				Computed:            true,
@@ -2873,9 +2898,11 @@ type DeviceSwitchModel struct {
 	Image2Url             types.String        `tfsdk:"image2_url"`
 	Image3Url             types.String        `tfsdk:"image3_url"`
 	IpConfig              IpConfigValue       `tfsdk:"ip_config"`
+	Mac                   types.String        `tfsdk:"mac"`
 	Managed               types.Bool          `tfsdk:"managed"`
 	MapId                 types.String        `tfsdk:"map_id"`
 	MistNac               MistNacValue        `tfsdk:"mist_nac"`
+	Model                 types.String        `tfsdk:"model"`
 	Name                  types.String        `tfsdk:"name"`
 	Networks              types.Map           `tfsdk:"networks"`
 	Notes                 types.String        `tfsdk:"notes"`
@@ -2891,10 +2918,12 @@ type DeviceSwitchModel struct {
 	RemoteSyslog          RemoteSyslogValue   `tfsdk:"remote_syslog"`
 	Role                  types.String        `tfsdk:"role"`
 	RouterId              types.String        `tfsdk:"router_id"`
+	Serial                types.String        `tfsdk:"serial"`
 	SiteId                types.String        `tfsdk:"site_id"`
 	SnmpConfig            SnmpConfigValue     `tfsdk:"snmp_config"`
 	StpConfig             StpConfigValue      `tfsdk:"stp_config"`
 	SwitchMgmt            SwitchMgmtValue     `tfsdk:"switch_mgmt"`
+	Type                  types.String        `tfsdk:"type"`
 	UseRouterIdAsSourceIp types.Bool          `tfsdk:"use_router_id_as_source_ip"`
 	Vars                  types.Map           `tfsdk:"vars"`
 	VirtualChassis        VirtualChassisValue `tfsdk:"virtual_chassis"`

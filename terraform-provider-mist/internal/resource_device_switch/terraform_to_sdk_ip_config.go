@@ -33,7 +33,7 @@ func ipConfigTerraformToSdk(ctx context.Context, diags *diag.Diagnostics, d IpCo
 		data.Network = d.Network.ValueStringPointer()
 	}
 	if d.IpConfigType.ValueStringPointer() != nil {
-		data.Type = models.ToPointer(models.IpConfigTypeEnum(d.IpConfigType.ValueString()))
+		data.Type = models.ToPointer(models.IpTypeEnum(d.IpConfigType.ValueString()))
 	}
 
 	return &data

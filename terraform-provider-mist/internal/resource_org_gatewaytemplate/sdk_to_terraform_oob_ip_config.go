@@ -17,7 +17,7 @@ func oobIpConfigsNode1SdkToTerraform(ctx context.Context, diags *diag.Diagnostic
 	var ip basetypes.StringValue
 	var netmask basetypes.StringValue
 	var network basetypes.StringValue
-	var type_oob basetypes.StringValue = types.StringValue("dynamic")
+	var type_oob basetypes.StringValue = types.StringValue("dhcp")
 	var use_mgmt_vrf basetypes.BoolValue = types.BoolValue(false)
 	var use_mgmt_vrf_for_host_out basetypes.BoolValue = types.BoolValue(false)
 
@@ -61,7 +61,7 @@ func oobIpConfigsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d 
 	var netmask basetypes.StringValue
 	var network basetypes.StringValue
 	var node1 basetypes.ObjectValue = types.ObjectNull(Node1Value{}.AttributeTypes(ctx))
-	var type_oob basetypes.StringValue = types.StringValue("dynamic")
+	var type_oob basetypes.StringValue = types.StringValue("dhcp")
 	var use_mgmt_vrf basetypes.BoolValue = types.BoolValue(false)
 	var use_mgmt_vrf_for_host_out basetypes.BoolValue = types.BoolValue(false)
 
