@@ -2188,7 +2188,8 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 						MarkdownDescription: "restrict inbound-traffic to host\nwhen enabled, all traffic that is not essential to our operation will be dropped \ne.g. ntp / dns / traffic to mist will be allowed by default, if dhcpd is enabled, we'll make sure it works",
 					},
 					"root_password": schema.StringAttribute{
-						Optional: true,
+						Optional:  true,
+						Sensitive: true,
 					},
 					"tacacs": schema.SingleNestedAttribute{
 						Attributes: map[string]schema.Attribute{
@@ -2224,7 +2225,8 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 											Optional: true,
 										},
 										"secret": schema.StringAttribute{
-											Optional: true,
+											Optional:  true,
+											Sensitive: true,
 										},
 										"timeout": schema.Int64Attribute{
 											Optional: true,
@@ -2250,7 +2252,8 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 											Optional: true,
 										},
 										"secret": schema.StringAttribute{
-											Optional: true,
+											Optional:  true,
+											Sensitive: true,
 										},
 										"timeout": schema.Int64Attribute{
 											Optional: true,

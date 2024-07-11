@@ -2610,6 +2610,7 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 					},
 					"root_password": schema.StringAttribute{
 						Optional: true,
+						Sensitive: true,
 					},
 					"tacacs": schema.SingleNestedAttribute{
 						Attributes: map[string]schema.Attribute{

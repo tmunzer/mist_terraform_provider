@@ -88,6 +88,7 @@ def next_item(data: dict, entries: list, path: list):
         computed_optional_required = entry.get("computed_optional_required")
         default = entry.get("default")
         default_type = entry.get("default_type")
+        sensitive = entry.get("sensitive")
         # no_default = entry.get("no_default")
         curr_path = path.copy()
         curr_path.append(name)
@@ -112,6 +113,8 @@ def next_item(data: dict, entries: list, path: list):
                 sub_data["default"] = default
             # if no_default and sub_data.get("default"):
             #     del sub_data["default"]
+            if sensitive:
+                sub_data["sensitive"]=True
             if plan_modifiers:
                 sub_data["plan_modifiers"] = plan_modifiers
             if validators:

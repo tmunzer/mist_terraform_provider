@@ -49,7 +49,8 @@ resource "mist_device_gateway" "cluster_one" {
   oob_ip_config = {
     type = "dhcp"
   }
-  name = "cluster_one"
+  dns_servers = ["8.8.8.8"]
+  name        = "cluster_one"
   additional_config_cmds = [
     "annotate system \" -- custom-main -- Template level --\"",
     "delete apply-groups custom-main",
@@ -887,7 +888,7 @@ resource "mist_org_networktemplate" "switch_template" {
     protect_re = {
       enabled = true
     }
-    root_password = "Juniper123"
+    root_password = "Juniper123!"
   }
   switch_matching = {
     enable = true
