@@ -87,7 +87,7 @@ func (r *deviceGatewayClusterResource) Create(ctx context.Context, req resource.
 	tflog.Info(ctx, "Starting DeviceGatewayCluster Create on Site "+plan.SiteId.ValueString()+" for device "+plan.DeviceId.ValueString())
 	data, err := r.client.SitesDevicesWANCluster().CreateSiteDeviceHaCluster(ctx, siteId, deviceId, device_gateway_cluster)
 
-	if data.Response.StatusCode != 200 && err != nil {
+	if err != nil {
 		resp.Diagnostics.AddError(
 			"Error creating device_gateway_cluster",
 			"Could not create device_gateway_cluster, unexpected error: "+err.Error(),
@@ -138,7 +138,7 @@ func (r *deviceGatewayClusterResource) Read(ctx context.Context, req resource.Re
 	}
 
 	data, err := r.client.SitesDevicesWANCluster().GetSiteDeviceHaClusterNode(ctx, siteId, deviceId)
-	if data.Response.StatusCode != 200 && err != nil {
+	if err != nil {
 		resp.Diagnostics.AddError(
 			"Error getting device_gateway_cluster",
 			"Could not get device_gateway_cluster, unexpected error: "+err.Error(),
@@ -160,67 +160,92 @@ func (r *deviceGatewayClusterResource) Read(ctx context.Context, req resource.Re
 }
 
 func (r *deviceGatewayClusterResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
-	var state resource_device_gateway_cluster.DeviceGatewayClusterModel
-	// 	tflog.Info(ctx, "Starting DeviceGatewayCluster Update")
+	var state, plan resource_device_gateway_cluster.DeviceGatewayClusterModel
+	tflog.Info(ctx, "Starting DeviceGatewayCluster Update")
 
-	// 	diags := resp.State.Get(ctx, &state)
-	// 	resp.Diagnostics.Append(diags...)
-	// 	if resp.Diagnostics.HasError() {
-	// 		return
-	// 	}
+	diags := resp.State.Get(ctx, &state)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
 
-	// 	diags = req.Plan.Get(ctx, &plan)
-	// 	resp.Diagnostics.Append(diags...)
-	// 	if resp.Diagnostics.HasError() {
-	// 		return
-	// 	}
+	diags = req.Plan.Get(ctx, &plan)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
 
-	// 	device_gateway_cluster, diags := resource_device_gateway_cluster.TerraformToSdk(ctx, &plan)
-	// 	resp.Diagnostics.Append(diags...)
-	// 	if resp.Diagnostics.HasError() {
-	// 		return
-	// 	}
+	device_gateway_cluster, diags := resource_device_gateway_cluster.TerraformToSdk(ctx, &plan)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
 
-	// 	tflog.Info(ctx, "Starting DeviceGatewayCluster Update for DeviceGatewayCluster "+state.DeviceId.ValueString())
+	tflog.Info(ctx, "Starting DeviceGatewayCluster Update for DeviceGatewayCluster "+state.DeviceId.ValueString())
 
-	// 	siteId, err := uuid.Parse(plan.SiteId.ValueString())
-	// 	if err != nil {
-	// 		resp.Diagnostics.AddError(
-	// 			"Error getting device_gateway_cluster site_id from state",
-	// 			"Could not get device_gateway_cluster site_id, unexpected error: "+err.Error(),
-	// 		)
-	// 		return
-	// 	}
+	siteIdState, err := uuid.Parse(state.SiteId.ValueString())
+	if err != nil {
+		resp.Diagnostics.AddError(
+			"Error getting device_gateway_cluster site_id from state",
+			"Could not get device_gateway_cluster site_id, unexpected error: "+err.Error(),
+		)
+		return
+	}
 
-	// 	deviceId, err := uuid.Parse(plan.DeviceId.ValueString())
-	// 	if err != nil {
-	// 		resp.Diagnostics.AddError(
-	// 			"Error getting device_gateway_cluster device_id from state",
-	// 			"Could not get device_gateway_cluster device_id, unexpected error: "+err.Error(),
-	// 		)
-	// 		return
-	// 	}
+	deviceIdState, err := uuid.Parse(state.DeviceId.ValueString())
+	if err != nil {
+		resp.Diagnostics.AddError(
+			"Error getting device_gateway_cluster device_id from state",
+			"Could not get device_gateway_cluster device_id, unexpected error: "+err.Error(),
+		)
+		return
+	}
+	// if the device Id or the Nodes changed, delete the cluster then recreate it
+	// otherwise it means it's only the site id that changed, and there is no need to recreate the cluster
+	if !plan.DeviceId.Equal(state.DeviceId) || !plan.Nodes.Equal(state.Nodes) {
+		_, err = r.client.SitesDevicesWANCluster().DeleteSiteDeviceHaCluster(ctx, siteIdState, deviceIdState)
+	}
+	if err != nil {
+		resp.Diagnostics.AddError(
+			"Error deleting device_gateway_cluster to apply the cluster changes",
+			"Could not delete device_gateway_cluster, unexpected error: "+err.Error(),
+		)
+		return
+	}
 
-	// 	data, err := r.client.SitesDevices().UpdateSiteDevice(ctx, siteId, deviceId, &device_gateway_cluster)
+	siteIdPlan, err := uuid.Parse(plan.SiteId.ValueString())
+	if err != nil {
+		resp.Diagnostics.AddError(
+			"Error getting device_gateway_cluster site_id from state",
+			"Could not get device_gateway_cluster site_id, unexpected error: "+err.Error(),
+		)
+		return
+	}
 
-	// 	if data.Response.StatusCode != 200 && err != nil {
-	// 		resp.Diagnostics.AddError(
-	// 			"Error updating device_gateway_cluster",
-	// 			"Could not update device_gateway_cluster, unexpected error: "+err.Error(),
-	// 		)
-	// 		return
-	// 	}
+	deviceIdPlan, err := uuid.Parse(plan.DeviceId.ValueString())
+	if err != nil {
+		resp.Diagnostics.AddError(
+			"Error getting device_gateway_cluster device_id from state",
+			"Could not get device_gateway_cluster device_id, unexpected error: "+err.Error(),
+		)
+		return
+	}
+	data, err := r.client.SitesDevicesWANCluster().CreateSiteDeviceHaCluster(ctx, siteIdPlan, deviceIdPlan, device_gateway_cluster)
+	if err != nil {
+		resp.Diagnostics.AddError(
+			"Error updating device_gateway_cluster",
+			"Could not update device_gateway_cluster, unexpected error: "+err.Error(),
+		)
+		return
+	}
 
-	// 	body, _ := io.ReadAll(data.Response.Body)
-	// 	mist_gateway := models.DeviceGatewayCluster{}
-	// 	json.Unmarshal(body, &mist_gateway)
-	// 	state, diags = resource_device_gateway_cluster.SdkToTerraform(ctx, &mist_gateway)
-	// 	resp.Diagnostics.Append(diags...)
-	// 	if resp.Diagnostics.HasError() {
-	// 		return
-	// 	}
+	state, diags = resource_device_gateway_cluster.SdkToTerraform(ctx, siteIdPlan, deviceIdPlan, &data.Data)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
 
-	diags := resp.State.Set(ctx, state)
+	diags = resp.State.Set(ctx, state)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return

@@ -36,20 +36,28 @@ resource "mist_org_inventory" "inventory" {
   ]
 }
 resource "mist_device_gateway_cluster" "cluster_one" {
-  site_id = mist_site.terraform_site2.id
-  device_id = "00000000-0000-0000-1000-4c96144d8c00"
+  site_id   = mist_site.terraform_site2.id
+  device_id = "00000000-0000-0000-1000-4c96143de700"
   nodes = [
-    {mac = "4c96144d8c00"},
-    {mac = "4c961429c100"}
+    { mac = "4c96143de700" },
+    { mac = "4c9614aae100" }
   ]
 }
 resource "mist_device_gateway" "cluster_one" {
   device_id = mist_device_gateway_cluster.cluster_one.device_id
-  site_id = mist_device_gateway_cluster.cluster_one.site_id
+  site_id   = mist_device_gateway_cluster.cluster_one.site_id
   oob_ip_config = {
     type = "dhcp"
   }
   name = "cluster_one"
+  additional_config_cmds = [
+    "annotate system \" -- custom-main -- Template level --\"",
+    "delete apply-groups custom-main",
+    "delete groups custom-main",
+    "set groups custom-main",
+    "set groups custom-main system services ssh root-login allow",
+    "set apply-groups custom-main",
+  ]
 }
 ### SITES
 resource "mist_site" "terraform_site" {
@@ -1205,17 +1213,17 @@ resource "mist_device_switch" "test_switch" {
   mist_nac = {
     enabled = true
   }
-  vrf_instances= {
-      "fds"= {
-          networks= [
-              "prx"
-          ],
-          extra_routes= {
-              "1.2.0.0/24"= {
-                  via= "1.2.3.4"
-              }
-          }
+  vrf_instances = {
+    "fds" = {
+      networks = [
+        "prx"
+      ],
+      extra_routes = {
+        "1.2.0.0/24" = {
+          via = "1.2.3.4"
+        }
       }
+    }
   }
   vrf_config = {
     enabled = true
@@ -1273,9 +1281,9 @@ resource "mist_device_switch" "test_switch" {
 
 resource "mist_device_gateway" "srx" {
 
-  name   = "srx"
-  device_id= mist_org_inventory.inventory.devices[2].id
-  site_id = mist_org_inventory.inventory.devices[2].site_id
+  name      = "srx"
+  device_id = mist_org_inventory.inventory.devices[2].id
+  site_id   = mist_org_inventory.inventory.devices[2].site_id
 
   port_config = {
     "ge-0/0/3" = {

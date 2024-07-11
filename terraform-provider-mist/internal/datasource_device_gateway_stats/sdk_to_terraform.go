@@ -1,4 +1,4 @@
-package datasource_device_switch_stats
+package datasource_device_gateway_stats
 
 import (
 	"context"
