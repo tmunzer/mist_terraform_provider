@@ -29,7 +29,7 @@ func SdkToTerraform(ctx context.Context, data *models.DeviceGateway) (DeviceGate
 	var image3_url types.String
 	var ip_configs types.Map = types.MapNull(IpConfigsValue{}.Type(ctx))
 	var map_id types.String
-	var name types.String = types.StringValue(*data.Name)
+	var name types.String
 	var networks types.List = types.ListNull(NetworksValue{}.Type(ctx))
 	var notes types.String
 	var ntp_servers types.List = types.ListNull(types.StringType)
@@ -39,7 +39,7 @@ func SdkToTerraform(ctx context.Context, data *models.DeviceGateway) (DeviceGate
 	var port_config types.Map = types.MapNull(PortConfigValue{}.Type(ctx))
 	var router_id types.String
 	var routing_policies types.Map = types.MapNull(RoutingPoliciesValue{}.Type(ctx))
-	var service_policies types.List = types.ListNull(types.StringType)
+	var service_policies types.List = types.ListNull(ServicePoliciesValue{}.Type(ctx))
 	var site_id types.String
 	var tunnel_configs types.Map = types.MapNull(TunnelConfigsValue{}.Type(ctx))
 	var tunnel_provider_options TunnelProviderOptionsValue = NewTunnelProviderOptionsValueNull()
@@ -88,6 +88,9 @@ func SdkToTerraform(ctx context.Context, data *models.DeviceGateway) (DeviceGate
 	}
 	if data.MapId != nil {
 		map_id = types.StringValue(data.MapId.String())
+	}
+	if data.Name != nil {
+		name = types.StringValue(*data.Name)
 	}
 	if data.Networks != nil {
 		networks = NetworksSdkToTerraform(ctx, &diags, data.Networks)
