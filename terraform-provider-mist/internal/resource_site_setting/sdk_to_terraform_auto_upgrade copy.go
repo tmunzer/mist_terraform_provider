@@ -15,7 +15,7 @@ import (
 func autoUpgradeSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d models.SiteSettingAutoUpgrade) AutoUpgradeValue {
 	tflog.Debug(ctx, "autoUpgradeSdkToTerraform")
 
-	var custom_versions basetypes.MapValue
+	var custom_versions basetypes.MapValue = types.MapNull(types.StringType)
 	var day_of_week basetypes.StringValue
 	var enabled basetypes.BoolValue
 	var time_of_day basetypes.StringValue

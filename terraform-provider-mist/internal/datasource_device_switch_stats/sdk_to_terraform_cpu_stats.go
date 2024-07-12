@@ -9,9 +9,11 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
+	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 
 func cpuStatsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d *models.CpuStat) basetypes.ObjectValue {
+	tflog.Debug(ctx, "cpuStatsSdkToTerraform")
 
 	var idle basetypes.NumberValue
 	var interrupt basetypes.NumberValue

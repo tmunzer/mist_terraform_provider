@@ -11,25 +11,35 @@ data_sources:
   #     method: GET
   #   schema:
   #     ignores:
-  #       - created_time
-  #       - modified_time
+  #       - evpn_unused
+  #       - evpntopo_id
   #       - radio_config
+  #       - fields
+  #       - limit
+  #       - page
+  #       - type
   # device_switch_stats:
   #   read: 
   #     path: /api/v1/orgs/{org_id}/stats/devices
   #     method: GET
   #   schema:
   #     ignores:
-  #       - created_time
-  #       - modified_time
+  #     - fields
+  #     - limit
+  #     - page
+  #     - type
   # device_gateway_stats:
   #   read: 
   #     path: /api/v1/orgs/{org_id}/stats/devices
   #     method: GET
   #   schema:
   #     ignores:
-  #       - created_time
-  #       - modified_time
+  #       - evpn_unused
+  #       - evpntopo_id
+  #       - fields
+  #       - limit
+  #       - page
+  #       - type
 resources:
   org:
     create:

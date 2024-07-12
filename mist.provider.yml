@@ -68102,10 +68102,11 @@ components:
       type: array
       uniqueItems: true
     response_device_search_results_items:
-      anyOf:
-      - $ref: '#/components/schemas/ap_search'
-      - $ref: '#/components/schemas/switch_search'
-      - $ref: '#/components/schemas/gateway_search'
+      $ref: '#/components/schemas/switch_search'
+      # anyOf:
+      # - $ref: '#/components/schemas/ap_search'
+      # - $ref: '#/components/schemas/switch_search'
+      # - $ref: '#/components/schemas/gateway_search'
     response_device_snapshot:
       properties:
         status_id:
@@ -70144,10 +70145,11 @@ components:
           type: integer
       type: object
     response_stats_device:
-      anyOf:
-      - $ref: '#/components/schemas/ap_stats'
-      - $ref: '#/components/schemas/switch_stats'
-      - $ref: '#/components/schemas/gateway_stats'
+      $ref: '#/components/schemas/ap_stats'
+      # anyOf:
+      # - $ref: '#/components/schemas/ap_stats'
+      # - $ref: '#/components/schemas/switch_stats'
+      # - $ref: '#/components/schemas/gateway_stats'
     response_stats_devices:
       items:
         $ref: '#/components/schemas/response_stats_device'
@@ -75601,10 +75603,11 @@ components:
         $ref: '#/components/schemas/client_stats'
       type: array
     stats_device:
-      anyOf:
-      - $ref: '#/components/schemas/ap_stats'
-      - $ref: '#/components/schemas/switch_stats'
-      - $ref: '#/components/schemas/gateway_stats'
+      $ref: '#/components/schemas/ap_stats'
+      # anyOf:
+      # - $ref: '#/components/schemas/ap_stats'
+      # - $ref: '#/components/schemas/switch_stats'
+      # - $ref: '#/components/schemas/gateway_stats'
     stats_devices:
       items:
         $ref: '#/components/schemas/stats_device'

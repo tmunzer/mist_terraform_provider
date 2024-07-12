@@ -5,7 +5,6 @@ package datasource_device_ap_stats
 import (
 	"context"
 	"fmt"
-	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
@@ -232,6 +231,9 @@ func DeviceApStatsDataSourceSchema(ctx context.Context) schema.Schema {
 						"cpu_util": schema.Int64Attribute{
 							Computed: true,
 						},
+						"created_time": schema.Int64Attribute{
+							Computed: true,
+						},
 						"deviceprofile_id": schema.StringAttribute{
 							Computed: true,
 						},
@@ -303,9 +305,6 @@ func DeviceApStatsDataSourceSchema(ctx context.Context) schema.Schema {
 									AttrTypes: EslStatValue{}.AttributeTypes(ctx),
 								},
 							},
-							Computed: true,
-						},
-						"evpntopo_id": schema.StringAttribute{
 							Computed: true,
 						},
 						"ext_ip": schema.StringAttribute{
@@ -797,6 +796,9 @@ func DeviceApStatsDataSourceSchema(ctx context.Context) schema.Schema {
 							Description:         "device model",
 							MarkdownDescription: "device model",
 						},
+						"modified_time": schema.Int64Attribute{
+							Computed: true,
+						},
 						"mount": schema.StringAttribute{
 							Computed: true,
 						},
@@ -958,9 +960,9 @@ func DeviceApStatsDataSourceSchema(ctx context.Context) schema.Schema {
 											MarkdownDescription: "reception of “No Category” utilization in percentage, all 802.11 frames that are corrupted at the receiver",
 										},
 									},
-									CustomType: Band24Type{
+									CustomType: BandType{
 										ObjectType: types.ObjectType{
-											AttrTypes: Band24Value{}.AttributeTypes(ctx),
+											AttrTypes: BandValue{}.AttributeTypes(ctx),
 										},
 									},
 									Computed:            true,
@@ -1051,9 +1053,9 @@ func DeviceApStatsDataSourceSchema(ctx context.Context) schema.Schema {
 											MarkdownDescription: "reception of “No Category” utilization in percentage, all 802.11 frames that are corrupted at the receiver",
 										},
 									},
-									CustomType: Band5Type{
+									CustomType: BandType{
 										ObjectType: types.ObjectType{
-											AttrTypes: Band5Value{}.AttributeTypes(ctx),
+											AttrTypes: BandValue{}.AttributeTypes(ctx),
 										},
 									},
 									Computed:            true,
@@ -1144,9 +1146,9 @@ func DeviceApStatsDataSourceSchema(ctx context.Context) schema.Schema {
 											MarkdownDescription: "reception of “No Category” utilization in percentage, all 802.11 frames that are corrupted at the receiver",
 										},
 									},
-									CustomType: Band6Type{
+									CustomType: BandType{
 										ObjectType: types.ObjectType{
-											AttrTypes: Band6Value{}.AttributeTypes(ctx),
+											AttrTypes: BandValue{}.AttributeTypes(ctx),
 										},
 									},
 									Computed:            true,
@@ -1202,11 +1204,6 @@ func DeviceApStatsDataSourceSchema(ctx context.Context) schema.Schema {
 						},
 						"tx_pkts": schema.NumberAttribute{
 							Computed: true,
-						},
-						"type": schema.StringAttribute{
-							Computed:            true,
-							Description:         "device type, ap / ble /switch / gateway",
-							MarkdownDescription: "device type, ap / ble /switch / gateway",
 						},
 						"uptime": schema.NumberAttribute{
 							Computed:            true,
@@ -1266,38 +1263,11 @@ func DeviceApStatsDataSourceSchema(ctx context.Context) schema.Schema {
 				Description:         "end datetime, can be epoch or relative time like -1d, -2h; now if not specified",
 				MarkdownDescription: "end datetime, can be epoch or relative time like -1d, -2h; now if not specified",
 			},
-			"evpn_unused": schema.StringAttribute{
-				Optional:            true,
-				Description:         "if `evpn_unused`==`true`, find EVPN eligible switches which don’t belong to any EVPN Topology yet",
-				MarkdownDescription: "if `evpn_unused`==`true`, find EVPN eligible switches which don’t belong to any EVPN Topology yet",
-			},
-			"evpntopo_id": schema.StringAttribute{
-				Optional:            true,
-				Description:         "EVPN Topology ID",
-				MarkdownDescription: "EVPN Topology ID",
-			},
-			"fields": schema.StringAttribute{
-				Optional:            true,
-				Description:         "list of additional fields requests, comma separeted, or `fields=*` for all of them",
-				MarkdownDescription: "list of additional fields requests, comma separeted, or `fields=*` for all of them",
-			},
-			"limit": schema.Int64Attribute{
-				Optional: true,
-				Validators: []validator.Int64{
-					int64validator.AtLeast(0),
-				},
-			},
 			"mac": schema.StringAttribute{
 				Optional: true,
 			},
 			"org_id": schema.StringAttribute{
 				Required: true,
-			},
-			"page": schema.Int64Attribute{
-				Optional: true,
-				Validators: []validator.Int64{
-					int64validator.AtLeast(1),
-				},
 			},
 			"site_id": schema.StringAttribute{
 				Optional: true,
@@ -1318,18 +1288,6 @@ func DeviceApStatsDataSourceSchema(ctx context.Context) schema.Schema {
 					),
 				},
 			},
-			"type": schema.StringAttribute{
-				Optional: true,
-				Validators: []validator.String{
-					stringvalidator.OneOf(
-						"",
-						"ap",
-						"switch",
-						"gateway",
-						"all",
-					),
-				},
-			},
 		},
 	}
 }
@@ -1338,17 +1296,11 @@ type DeviceApStatsModel struct {
 	DeviceApStats types.Set    `tfsdk:"device_ap_stats"`
 	Duration      types.String `tfsdk:"duration"`
 	End           types.Int64  `tfsdk:"end"`
-	EvpnUnused    types.String `tfsdk:"evpn_unused"`
-	EvpntopoId    types.String `tfsdk:"evpntopo_id"`
-	Fields        types.String `tfsdk:"fields"`
-	Limit         types.Int64  `tfsdk:"limit"`
 	Mac           types.String `tfsdk:"mac"`
 	OrgId         types.String `tfsdk:"org_id"`
-	Page          types.Int64  `tfsdk:"page"`
 	SiteId        types.String `tfsdk:"site_id"`
 	Start         types.Int64  `tfsdk:"start"`
 	Status        types.String `tfsdk:"status"`
-	Type          types.String `tfsdk:"type"`
 }
 
 var _ basetypes.ObjectTypable = DeviceApStatsType{}
@@ -1502,6 +1454,24 @@ func (t DeviceApStatsType) ValueFromObject(ctx context.Context, in basetypes.Obj
 			fmt.Sprintf(`cpu_util expected to be basetypes.Int64Value, was: %T`, cpuUtilAttribute))
 	}
 
+	createdTimeAttribute, ok := attributes["created_time"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`created_time is missing from object`)
+
+		return nil, diags
+	}
+
+	createdTimeVal, ok := createdTimeAttribute.(basetypes.Int64Value)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`created_time expected to be basetypes.Int64Value, was: %T`, createdTimeAttribute))
+	}
+
 	deviceprofileIdAttribute, ok := attributes["deviceprofile_id"]
 
 	if !ok {
@@ -1554,24 +1524,6 @@ func (t DeviceApStatsType) ValueFromObject(ctx context.Context, in basetypes.Obj
 		diags.AddError(
 			"Attribute Wrong Type",
 			fmt.Sprintf(`esl_stat expected to be basetypes.ObjectValue, was: %T`, eslStatAttribute))
-	}
-
-	evpntopoIdAttribute, ok := attributes["evpntopo_id"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`evpntopo_id is missing from object`)
-
-		return nil, diags
-	}
-
-	evpntopoIdVal, ok := evpntopoIdAttribute.(basetypes.StringValue)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`evpntopo_id expected to be basetypes.StringValue, was: %T`, evpntopoIdAttribute))
 	}
 
 	extIpAttribute, ok := attributes["ext_ip"]
@@ -1970,6 +1922,24 @@ func (t DeviceApStatsType) ValueFromObject(ctx context.Context, in basetypes.Obj
 			fmt.Sprintf(`model expected to be basetypes.StringValue, was: %T`, modelAttribute))
 	}
 
+	modifiedTimeAttribute, ok := attributes["modified_time"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`modified_time is missing from object`)
+
+		return nil, diags
+	}
+
+	modifiedTimeVal, ok := modifiedTimeAttribute.(basetypes.Int64Value)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`modified_time expected to be basetypes.Int64Value, was: %T`, modifiedTimeAttribute))
+	}
+
 	mountAttribute, ok := attributes["mount"]
 
 	if !ok {
@@ -2348,24 +2318,6 @@ func (t DeviceApStatsType) ValueFromObject(ctx context.Context, in basetypes.Obj
 			fmt.Sprintf(`tx_pkts expected to be basetypes.NumberValue, was: %T`, txPktsAttribute))
 	}
 
-	typeAttribute, ok := attributes["type"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`type is missing from object`)
-
-		return nil, diags
-	}
-
-	typeVal, ok := typeAttribute.(basetypes.StringValue)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`type expected to be basetypes.StringValue, was: %T`, typeAttribute))
-	}
-
 	uptimeAttribute, ok := attributes["uptime"]
 
 	if !ok {
@@ -2468,10 +2420,10 @@ func (t DeviceApStatsType) ValueFromObject(ctx context.Context, in basetypes.Obj
 		ConfigReverted:     configRevertedVal,
 		CpuSystem:          cpuSystemVal,
 		CpuUtil:            cpuUtilVal,
+		CreatedTime:        createdTimeVal,
 		DeviceprofileId:    deviceprofileIdVal,
 		EnvStat:            envStatVal,
 		EslStat:            eslStatVal,
-		EvpntopoId:         evpntopoIdVal,
 		ExtIp:              extIpVal,
 		Fwupdate:           fwupdateVal,
 		HwRev:              hwRevVal,
@@ -2494,6 +2446,7 @@ func (t DeviceApStatsType) ValueFromObject(ctx context.Context, in basetypes.Obj
 		MeshDownlinks:      meshDownlinksVal,
 		MeshUplink:         meshUplinkVal,
 		Model:              modelVal,
+		ModifiedTime:       modifiedTimeVal,
 		Mount:              mountVal,
 		Name:               nameVal,
 		Notes:              notesVal,
@@ -2515,7 +2468,6 @@ func (t DeviceApStatsType) ValueFromObject(ctx context.Context, in basetypes.Obj
 		TxBps:              txBpsVal,
 		TxBytes:            txBytesVal,
 		TxPkts:             txPktsVal,
-		DeviceApStatsType:  typeVal,
 		Uptime:             uptimeVal,
 		UsbStat:            usbStatVal,
 		Version:            versionVal,
@@ -2714,6 +2666,24 @@ func NewDeviceApStatsValue(attributeTypes map[string]attr.Type, attributes map[s
 			fmt.Sprintf(`cpu_util expected to be basetypes.Int64Value, was: %T`, cpuUtilAttribute))
 	}
 
+	createdTimeAttribute, ok := attributes["created_time"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`created_time is missing from object`)
+
+		return NewDeviceApStatsValueUnknown(), diags
+	}
+
+	createdTimeVal, ok := createdTimeAttribute.(basetypes.Int64Value)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`created_time expected to be basetypes.Int64Value, was: %T`, createdTimeAttribute))
+	}
+
 	deviceprofileIdAttribute, ok := attributes["deviceprofile_id"]
 
 	if !ok {
@@ -2766,24 +2736,6 @@ func NewDeviceApStatsValue(attributeTypes map[string]attr.Type, attributes map[s
 		diags.AddError(
 			"Attribute Wrong Type",
 			fmt.Sprintf(`esl_stat expected to be basetypes.ObjectValue, was: %T`, eslStatAttribute))
-	}
-
-	evpntopoIdAttribute, ok := attributes["evpntopo_id"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`evpntopo_id is missing from object`)
-
-		return NewDeviceApStatsValueUnknown(), diags
-	}
-
-	evpntopoIdVal, ok := evpntopoIdAttribute.(basetypes.StringValue)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`evpntopo_id expected to be basetypes.StringValue, was: %T`, evpntopoIdAttribute))
 	}
 
 	extIpAttribute, ok := attributes["ext_ip"]
@@ -3182,6 +3134,24 @@ func NewDeviceApStatsValue(attributeTypes map[string]attr.Type, attributes map[s
 			fmt.Sprintf(`model expected to be basetypes.StringValue, was: %T`, modelAttribute))
 	}
 
+	modifiedTimeAttribute, ok := attributes["modified_time"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`modified_time is missing from object`)
+
+		return NewDeviceApStatsValueUnknown(), diags
+	}
+
+	modifiedTimeVal, ok := modifiedTimeAttribute.(basetypes.Int64Value)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`modified_time expected to be basetypes.Int64Value, was: %T`, modifiedTimeAttribute))
+	}
+
 	mountAttribute, ok := attributes["mount"]
 
 	if !ok {
@@ -3560,24 +3530,6 @@ func NewDeviceApStatsValue(attributeTypes map[string]attr.Type, attributes map[s
 			fmt.Sprintf(`tx_pkts expected to be basetypes.NumberValue, was: %T`, txPktsAttribute))
 	}
 
-	typeAttribute, ok := attributes["type"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`type is missing from object`)
-
-		return NewDeviceApStatsValueUnknown(), diags
-	}
-
-	typeVal, ok := typeAttribute.(basetypes.StringValue)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`type expected to be basetypes.StringValue, was: %T`, typeAttribute))
-	}
-
 	uptimeAttribute, ok := attributes["uptime"]
 
 	if !ok {
@@ -3680,10 +3632,10 @@ func NewDeviceApStatsValue(attributeTypes map[string]attr.Type, attributes map[s
 		ConfigReverted:     configRevertedVal,
 		CpuSystem:          cpuSystemVal,
 		CpuUtil:            cpuUtilVal,
+		CreatedTime:        createdTimeVal,
 		DeviceprofileId:    deviceprofileIdVal,
 		EnvStat:            envStatVal,
 		EslStat:            eslStatVal,
-		EvpntopoId:         evpntopoIdVal,
 		ExtIp:              extIpVal,
 		Fwupdate:           fwupdateVal,
 		HwRev:              hwRevVal,
@@ -3706,6 +3658,7 @@ func NewDeviceApStatsValue(attributeTypes map[string]attr.Type, attributes map[s
 		MeshDownlinks:      meshDownlinksVal,
 		MeshUplink:         meshUplinkVal,
 		Model:              modelVal,
+		ModifiedTime:       modifiedTimeVal,
 		Mount:              mountVal,
 		Name:               nameVal,
 		Notes:              notesVal,
@@ -3727,7 +3680,6 @@ func NewDeviceApStatsValue(attributeTypes map[string]attr.Type, attributes map[s
 		TxBps:              txBpsVal,
 		TxBytes:            txBytesVal,
 		TxPkts:             txPktsVal,
-		DeviceApStatsType:  typeVal,
 		Uptime:             uptimeVal,
 		UsbStat:            usbStatVal,
 		Version:            versionVal,
@@ -3812,10 +3764,10 @@ type DeviceApStatsValue struct {
 	ConfigReverted     basetypes.BoolValue    `tfsdk:"config_reverted"`
 	CpuSystem          basetypes.Int64Value   `tfsdk:"cpu_system"`
 	CpuUtil            basetypes.Int64Value   `tfsdk:"cpu_util"`
+	CreatedTime        basetypes.Int64Value   `tfsdk:"created_time"`
 	DeviceprofileId    basetypes.StringValue  `tfsdk:"deviceprofile_id"`
 	EnvStat            basetypes.ObjectValue  `tfsdk:"env_stat"`
 	EslStat            basetypes.ObjectValue  `tfsdk:"esl_stat"`
-	EvpntopoId         basetypes.StringValue  `tfsdk:"evpntopo_id"`
 	ExtIp              basetypes.StringValue  `tfsdk:"ext_ip"`
 	Fwupdate           basetypes.ObjectValue  `tfsdk:"fwupdate"`
 	HwRev              basetypes.StringValue  `tfsdk:"hw_rev"`
@@ -3838,6 +3790,7 @@ type DeviceApStatsValue struct {
 	MeshDownlinks      basetypes.MapValue     `tfsdk:"mesh_downlinks"`
 	MeshUplink         basetypes.ObjectValue  `tfsdk:"mesh_uplink"`
 	Model              basetypes.StringValue  `tfsdk:"model"`
+	ModifiedTime       basetypes.Int64Value   `tfsdk:"modified_time"`
 	Mount              basetypes.StringValue  `tfsdk:"mount"`
 	Name               basetypes.StringValue  `tfsdk:"name"`
 	Notes              basetypes.StringValue  `tfsdk:"notes"`
@@ -3859,7 +3812,6 @@ type DeviceApStatsValue struct {
 	TxBps              basetypes.NumberValue  `tfsdk:"tx_bps"`
 	TxBytes            basetypes.NumberValue  `tfsdk:"tx_bytes"`
 	TxPkts             basetypes.NumberValue  `tfsdk:"tx_pkts"`
-	DeviceApStatsType  basetypes.StringValue  `tfsdk:"type"`
 	Uptime             basetypes.NumberValue  `tfsdk:"uptime"`
 	UsbStat            basetypes.ObjectValue  `tfsdk:"usb_stat"`
 	Version            basetypes.StringValue  `tfsdk:"version"`
@@ -3887,6 +3839,7 @@ func (v DeviceApStatsValue) ToTerraformValue(ctx context.Context) (tftypes.Value
 	attrTypes["config_reverted"] = basetypes.BoolType{}.TerraformType(ctx)
 	attrTypes["cpu_system"] = basetypes.Int64Type{}.TerraformType(ctx)
 	attrTypes["cpu_util"] = basetypes.Int64Type{}.TerraformType(ctx)
+	attrTypes["created_time"] = basetypes.Int64Type{}.TerraformType(ctx)
 	attrTypes["deviceprofile_id"] = basetypes.StringType{}.TerraformType(ctx)
 	attrTypes["env_stat"] = basetypes.ObjectType{
 		AttrTypes: EnvStatValue{}.AttributeTypes(ctx),
@@ -3894,7 +3847,6 @@ func (v DeviceApStatsValue) ToTerraformValue(ctx context.Context) (tftypes.Value
 	attrTypes["esl_stat"] = basetypes.ObjectType{
 		AttrTypes: EslStatValue{}.AttributeTypes(ctx),
 	}.TerraformType(ctx)
-	attrTypes["evpntopo_id"] = basetypes.StringType{}.TerraformType(ctx)
 	attrTypes["ext_ip"] = basetypes.StringType{}.TerraformType(ctx)
 	attrTypes["fwupdate"] = basetypes.ObjectType{
 		AttrTypes: FwupdateValue{}.AttributeTypes(ctx),
@@ -3939,6 +3891,7 @@ func (v DeviceApStatsValue) ToTerraformValue(ctx context.Context) (tftypes.Value
 		AttrTypes: MeshUplinkValue{}.AttributeTypes(ctx),
 	}.TerraformType(ctx)
 	attrTypes["model"] = basetypes.StringType{}.TerraformType(ctx)
+	attrTypes["modified_time"] = basetypes.Int64Type{}.TerraformType(ctx)
 	attrTypes["mount"] = basetypes.StringType{}.TerraformType(ctx)
 	attrTypes["name"] = basetypes.StringType{}.TerraformType(ctx)
 	attrTypes["notes"] = basetypes.StringType{}.TerraformType(ctx)
@@ -3966,7 +3919,6 @@ func (v DeviceApStatsValue) ToTerraformValue(ctx context.Context) (tftypes.Value
 	attrTypes["tx_bps"] = basetypes.NumberType{}.TerraformType(ctx)
 	attrTypes["tx_bytes"] = basetypes.NumberType{}.TerraformType(ctx)
 	attrTypes["tx_pkts"] = basetypes.NumberType{}.TerraformType(ctx)
-	attrTypes["type"] = basetypes.StringType{}.TerraformType(ctx)
 	attrTypes["uptime"] = basetypes.NumberType{}.TerraformType(ctx)
 	attrTypes["usb_stat"] = basetypes.ObjectType{
 		AttrTypes: UsbStatValue{}.AttributeTypes(ctx),
@@ -4037,6 +3989,14 @@ func (v DeviceApStatsValue) ToTerraformValue(ctx context.Context) (tftypes.Value
 
 		vals["cpu_util"] = val
 
+		val, err = v.CreatedTime.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["created_time"] = val
+
 		val, err = v.DeviceprofileId.ToTerraformValue(ctx)
 
 		if err != nil {
@@ -4060,14 +4020,6 @@ func (v DeviceApStatsValue) ToTerraformValue(ctx context.Context) (tftypes.Value
 		}
 
 		vals["esl_stat"] = val
-
-		val, err = v.EvpntopoId.ToTerraformValue(ctx)
-
-		if err != nil {
-			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
-		}
-
-		vals["evpntopo_id"] = val
 
 		val, err = v.ExtIp.ToTerraformValue(ctx)
 
@@ -4245,6 +4197,14 @@ func (v DeviceApStatsValue) ToTerraformValue(ctx context.Context) (tftypes.Value
 
 		vals["model"] = val
 
+		val, err = v.ModifiedTime.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["modified_time"] = val
+
 		val, err = v.Mount.ToTerraformValue(ctx)
 
 		if err != nil {
@@ -4412,14 +4372,6 @@ func (v DeviceApStatsValue) ToTerraformValue(ctx context.Context) (tftypes.Value
 		}
 
 		vals["tx_pkts"] = val
-
-		val, err = v.DeviceApStatsType.ToTerraformValue(ctx)
-
-		if err != nil {
-			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
-		}
-
-		vals["type"] = val
 
 		val, err = v.Uptime.ToTerraformValue(ctx)
 
@@ -4940,6 +4892,7 @@ func (v DeviceApStatsValue) ToObjectValue(ctx context.Context) (basetypes.Object
 			"config_reverted":  basetypes.BoolType{},
 			"cpu_system":       basetypes.Int64Type{},
 			"cpu_util":         basetypes.Int64Type{},
+			"created_time":     basetypes.Int64Type{},
 			"deviceprofile_id": basetypes.StringType{},
 			"env_stat": basetypes.ObjectType{
 				AttrTypes: EnvStatValue{}.AttributeTypes(ctx),
@@ -4947,8 +4900,7 @@ func (v DeviceApStatsValue) ToObjectValue(ctx context.Context) (basetypes.Object
 			"esl_stat": basetypes.ObjectType{
 				AttrTypes: EslStatValue{}.AttributeTypes(ctx),
 			},
-			"evpntopo_id": basetypes.StringType{},
-			"ext_ip":      basetypes.StringType{},
+			"ext_ip": basetypes.StringType{},
 			"fwupdate": basetypes.ObjectType{
 				AttrTypes: FwupdateValue{}.AttributeTypes(ctx),
 			},
@@ -4991,12 +4943,13 @@ func (v DeviceApStatsValue) ToObjectValue(ctx context.Context) (basetypes.Object
 			"mesh_uplink": basetypes.ObjectType{
 				AttrTypes: MeshUplinkValue{}.AttributeTypes(ctx),
 			},
-			"model":       basetypes.StringType{},
-			"mount":       basetypes.StringType{},
-			"name":        basetypes.StringType{},
-			"notes":       basetypes.StringType{},
-			"num_clients": basetypes.Int64Type{},
-			"org_id":      basetypes.StringType{},
+			"model":         basetypes.StringType{},
+			"modified_time": basetypes.Int64Type{},
+			"mount":         basetypes.StringType{},
+			"name":          basetypes.StringType{},
+			"notes":         basetypes.StringType{},
+			"num_clients":   basetypes.Int64Type{},
+			"org_id":        basetypes.StringType{},
 			"port_stat": basetypes.MapType{
 				ElemType: PortStatValue{}.Type(ctx),
 			},
@@ -5019,7 +4972,6 @@ func (v DeviceApStatsValue) ToObjectValue(ctx context.Context) (basetypes.Object
 			"tx_bps":   basetypes.NumberType{},
 			"tx_bytes": basetypes.NumberType{},
 			"tx_pkts":  basetypes.NumberType{},
-			"type":     basetypes.StringType{},
 			"uptime":   basetypes.NumberType{},
 			"usb_stat": basetypes.ObjectType{
 				AttrTypes: UsbStatValue{}.AttributeTypes(ctx),
@@ -5044,6 +4996,7 @@ func (v DeviceApStatsValue) ToObjectValue(ctx context.Context) (basetypes.Object
 		"config_reverted":  basetypes.BoolType{},
 		"cpu_system":       basetypes.Int64Type{},
 		"cpu_util":         basetypes.Int64Type{},
+		"created_time":     basetypes.Int64Type{},
 		"deviceprofile_id": basetypes.StringType{},
 		"env_stat": basetypes.ObjectType{
 			AttrTypes: EnvStatValue{}.AttributeTypes(ctx),
@@ -5051,8 +5004,7 @@ func (v DeviceApStatsValue) ToObjectValue(ctx context.Context) (basetypes.Object
 		"esl_stat": basetypes.ObjectType{
 			AttrTypes: EslStatValue{}.AttributeTypes(ctx),
 		},
-		"evpntopo_id": basetypes.StringType{},
-		"ext_ip":      basetypes.StringType{},
+		"ext_ip": basetypes.StringType{},
 		"fwupdate": basetypes.ObjectType{
 			AttrTypes: FwupdateValue{}.AttributeTypes(ctx),
 		},
@@ -5095,12 +5047,13 @@ func (v DeviceApStatsValue) ToObjectValue(ctx context.Context) (basetypes.Object
 		"mesh_uplink": basetypes.ObjectType{
 			AttrTypes: MeshUplinkValue{}.AttributeTypes(ctx),
 		},
-		"model":       basetypes.StringType{},
-		"mount":       basetypes.StringType{},
-		"name":        basetypes.StringType{},
-		"notes":       basetypes.StringType{},
-		"num_clients": basetypes.Int64Type{},
-		"org_id":      basetypes.StringType{},
+		"model":         basetypes.StringType{},
+		"modified_time": basetypes.Int64Type{},
+		"mount":         basetypes.StringType{},
+		"name":          basetypes.StringType{},
+		"notes":         basetypes.StringType{},
+		"num_clients":   basetypes.Int64Type{},
+		"org_id":        basetypes.StringType{},
 		"port_stat": basetypes.MapType{
 			ElemType: PortStatValue{}.Type(ctx),
 		},
@@ -5123,7 +5076,6 @@ func (v DeviceApStatsValue) ToObjectValue(ctx context.Context) (basetypes.Object
 		"tx_bps":   basetypes.NumberType{},
 		"tx_bytes": basetypes.NumberType{},
 		"tx_pkts":  basetypes.NumberType{},
-		"type":     basetypes.StringType{},
 		"uptime":   basetypes.NumberType{},
 		"usb_stat": basetypes.ObjectType{
 			AttrTypes: UsbStatValue{}.AttributeTypes(ctx),
@@ -5151,10 +5103,10 @@ func (v DeviceApStatsValue) ToObjectValue(ctx context.Context) (basetypes.Object
 			"config_reverted":      v.ConfigReverted,
 			"cpu_system":           v.CpuSystem,
 			"cpu_util":             v.CpuUtil,
+			"created_time":         v.CreatedTime,
 			"deviceprofile_id":     v.DeviceprofileId,
 			"env_stat":             envStat,
 			"esl_stat":             eslStat,
-			"evpntopo_id":          v.EvpntopoId,
 			"ext_ip":               v.ExtIp,
 			"fwupdate":             fwupdate,
 			"hw_rev":               v.HwRev,
@@ -5177,6 +5129,7 @@ func (v DeviceApStatsValue) ToObjectValue(ctx context.Context) (basetypes.Object
 			"mesh_downlinks":       meshDownlinks,
 			"mesh_uplink":          meshUplink,
 			"model":                v.Model,
+			"modified_time":        v.ModifiedTime,
 			"mount":                v.Mount,
 			"name":                 v.Name,
 			"notes":                v.Notes,
@@ -5198,7 +5151,6 @@ func (v DeviceApStatsValue) ToObjectValue(ctx context.Context) (basetypes.Object
 			"tx_bps":               v.TxBps,
 			"tx_bytes":             v.TxBytes,
 			"tx_pkts":              v.TxPkts,
-			"type":                 v.DeviceApStatsType,
 			"uptime":               v.Uptime,
 			"usb_stat":             usbStat,
 			"version":              v.Version,
@@ -5252,6 +5204,10 @@ func (v DeviceApStatsValue) Equal(o attr.Value) bool {
 		return false
 	}
 
+	if !v.CreatedTime.Equal(other.CreatedTime) {
+		return false
+	}
+
 	if !v.DeviceprofileId.Equal(other.DeviceprofileId) {
 		return false
 	}
@@ -5261,10 +5217,6 @@ func (v DeviceApStatsValue) Equal(o attr.Value) bool {
 	}
 
 	if !v.EslStat.Equal(other.EslStat) {
-		return false
-	}
-
-	if !v.EvpntopoId.Equal(other.EvpntopoId) {
 		return false
 	}
 
@@ -5356,6 +5308,10 @@ func (v DeviceApStatsValue) Equal(o attr.Value) bool {
 		return false
 	}
 
+	if !v.ModifiedTime.Equal(other.ModifiedTime) {
+		return false
+	}
+
 	if !v.Mount.Equal(other.Mount) {
 		return false
 	}
@@ -5440,10 +5396,6 @@ func (v DeviceApStatsValue) Equal(o attr.Value) bool {
 		return false
 	}
 
-	if !v.DeviceApStatsType.Equal(other.DeviceApStatsType) {
-		return false
-	}
-
 	if !v.Uptime.Equal(other.Uptime) {
 		return false
 	}
@@ -5490,6 +5442,7 @@ func (v DeviceApStatsValue) AttributeTypes(ctx context.Context) map[string]attr.
 		"config_reverted":  basetypes.BoolType{},
 		"cpu_system":       basetypes.Int64Type{},
 		"cpu_util":         basetypes.Int64Type{},
+		"created_time":     basetypes.Int64Type{},
 		"deviceprofile_id": basetypes.StringType{},
 		"env_stat": basetypes.ObjectType{
 			AttrTypes: EnvStatValue{}.AttributeTypes(ctx),
@@ -5497,8 +5450,7 @@ func (v DeviceApStatsValue) AttributeTypes(ctx context.Context) map[string]attr.
 		"esl_stat": basetypes.ObjectType{
 			AttrTypes: EslStatValue{}.AttributeTypes(ctx),
 		},
-		"evpntopo_id": basetypes.StringType{},
-		"ext_ip":      basetypes.StringType{},
+		"ext_ip": basetypes.StringType{},
 		"fwupdate": basetypes.ObjectType{
 			AttrTypes: FwupdateValue{}.AttributeTypes(ctx),
 		},
@@ -5541,12 +5493,13 @@ func (v DeviceApStatsValue) AttributeTypes(ctx context.Context) map[string]attr.
 		"mesh_uplink": basetypes.ObjectType{
 			AttrTypes: MeshUplinkValue{}.AttributeTypes(ctx),
 		},
-		"model":       basetypes.StringType{},
-		"mount":       basetypes.StringType{},
-		"name":        basetypes.StringType{},
-		"notes":       basetypes.StringType{},
-		"num_clients": basetypes.Int64Type{},
-		"org_id":      basetypes.StringType{},
+		"model":         basetypes.StringType{},
+		"modified_time": basetypes.Int64Type{},
+		"mount":         basetypes.StringType{},
+		"name":          basetypes.StringType{},
+		"notes":         basetypes.StringType{},
+		"num_clients":   basetypes.Int64Type{},
+		"org_id":        basetypes.StringType{},
 		"port_stat": basetypes.MapType{
 			ElemType: PortStatValue{}.Type(ctx),
 		},
@@ -5569,7 +5522,6 @@ func (v DeviceApStatsValue) AttributeTypes(ctx context.Context) map[string]attr.
 		"tx_bps":   basetypes.NumberType{},
 		"tx_bytes": basetypes.NumberType{},
 		"tx_pkts":  basetypes.NumberType{},
-		"type":     basetypes.StringType{},
 		"uptime":   basetypes.NumberType{},
 		"usb_stat": basetypes.ObjectType{
 			AttrTypes: UsbStatValue{}.AttributeTypes(ctx),
@@ -19665,13 +19617,13 @@ func (v RadioStatValue) ToTerraformValue(ctx context.Context) (tftypes.Value, er
 	var err error
 
 	attrTypes["band_24"] = basetypes.ObjectType{
-		AttrTypes: Band24Value{}.AttributeTypes(ctx),
+		AttrTypes: BandValue{}.AttributeTypes(ctx),
 	}.TerraformType(ctx)
 	attrTypes["band_5"] = basetypes.ObjectType{
-		AttrTypes: Band5Value{}.AttributeTypes(ctx),
+		AttrTypes: BandValue{}.AttributeTypes(ctx),
 	}.TerraformType(ctx)
 	attrTypes["band_6"] = basetypes.ObjectType{
-		AttrTypes: Band6Value{}.AttributeTypes(ctx),
+		AttrTypes: BandValue{}.AttributeTypes(ctx),
 	}.TerraformType(ctx)
 
 	objectType := tftypes.Object{AttributeTypes: attrTypes}
@@ -19737,19 +19689,19 @@ func (v RadioStatValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValu
 
 	if v.Band24.IsNull() {
 		band24 = types.ObjectNull(
-			Band24Value{}.AttributeTypes(ctx),
+			BandValue{}.AttributeTypes(ctx),
 		)
 	}
 
 	if v.Band24.IsUnknown() {
 		band24 = types.ObjectUnknown(
-			Band24Value{}.AttributeTypes(ctx),
+			BandValue{}.AttributeTypes(ctx),
 		)
 	}
 
 	if !v.Band24.IsNull() && !v.Band24.IsUnknown() {
 		band24 = types.ObjectValueMust(
-			Band24Value{}.AttributeTypes(ctx),
+			BandValue{}.AttributeTypes(ctx),
 			v.Band24.Attributes(),
 		)
 	}
@@ -19758,19 +19710,19 @@ func (v RadioStatValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValu
 
 	if v.Band5.IsNull() {
 		band5 = types.ObjectNull(
-			Band5Value{}.AttributeTypes(ctx),
+			BandValue{}.AttributeTypes(ctx),
 		)
 	}
 
 	if v.Band5.IsUnknown() {
 		band5 = types.ObjectUnknown(
-			Band5Value{}.AttributeTypes(ctx),
+			BandValue{}.AttributeTypes(ctx),
 		)
 	}
 
 	if !v.Band5.IsNull() && !v.Band5.IsUnknown() {
 		band5 = types.ObjectValueMust(
-			Band5Value{}.AttributeTypes(ctx),
+			BandValue{}.AttributeTypes(ctx),
 			v.Band5.Attributes(),
 		)
 	}
@@ -19779,32 +19731,32 @@ func (v RadioStatValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValu
 
 	if v.Band6.IsNull() {
 		band6 = types.ObjectNull(
-			Band6Value{}.AttributeTypes(ctx),
+			BandValue{}.AttributeTypes(ctx),
 		)
 	}
 
 	if v.Band6.IsUnknown() {
 		band6 = types.ObjectUnknown(
-			Band6Value{}.AttributeTypes(ctx),
+			BandValue{}.AttributeTypes(ctx),
 		)
 	}
 
 	if !v.Band6.IsNull() && !v.Band6.IsUnknown() {
 		band6 = types.ObjectValueMust(
-			Band6Value{}.AttributeTypes(ctx),
+			BandValue{}.AttributeTypes(ctx),
 			v.Band6.Attributes(),
 		)
 	}
 
 	attributeTypes := map[string]attr.Type{
 		"band_24": basetypes.ObjectType{
-			AttrTypes: Band24Value{}.AttributeTypes(ctx),
+			AttrTypes: BandValue{}.AttributeTypes(ctx),
 		},
 		"band_5": basetypes.ObjectType{
-			AttrTypes: Band5Value{}.AttributeTypes(ctx),
+			AttrTypes: BandValue{}.AttributeTypes(ctx),
 		},
 		"band_6": basetypes.ObjectType{
-			AttrTypes: Band6Value{}.AttributeTypes(ctx),
+			AttrTypes: BandValue{}.AttributeTypes(ctx),
 		},
 	}
 
@@ -19868,25 +19820,25 @@ func (v RadioStatValue) Type(ctx context.Context) attr.Type {
 func (v RadioStatValue) AttributeTypes(ctx context.Context) map[string]attr.Type {
 	return map[string]attr.Type{
 		"band_24": basetypes.ObjectType{
-			AttrTypes: Band24Value{}.AttributeTypes(ctx),
+			AttrTypes: BandValue{}.AttributeTypes(ctx),
 		},
 		"band_5": basetypes.ObjectType{
-			AttrTypes: Band5Value{}.AttributeTypes(ctx),
+			AttrTypes: BandValue{}.AttributeTypes(ctx),
 		},
 		"band_6": basetypes.ObjectType{
-			AttrTypes: Band6Value{}.AttributeTypes(ctx),
+			AttrTypes: BandValue{}.AttributeTypes(ctx),
 		},
 	}
 }
 
-var _ basetypes.ObjectTypable = Band24Type{}
+var _ basetypes.ObjectTypable = BandType{}
 
-type Band24Type struct {
+type BandType struct {
 	basetypes.ObjectType
 }
 
-func (t Band24Type) Equal(o attr.Type) bool {
-	other, ok := o.(Band24Type)
+func (t BandType) Equal(o attr.Type) bool {
+	other, ok := o.(BandType)
 
 	if !ok {
 		return false
@@ -19895,11 +19847,11 @@ func (t Band24Type) Equal(o attr.Type) bool {
 	return t.ObjectType.Equal(other.ObjectType)
 }
 
-func (t Band24Type) String() string {
-	return "Band24Type"
+func (t BandType) String() string {
+	return "BandType"
 }
 
-func (t Band24Type) ValueFromObject(ctx context.Context, in basetypes.ObjectValue) (basetypes.ObjectValuable, diag.Diagnostics) {
+func (t BandType) ValueFromObject(ctx context.Context, in basetypes.ObjectValue) (basetypes.ObjectValuable, diag.Diagnostics) {
 	var diags diag.Diagnostics
 
 	attributes := in.Attributes()
@@ -20250,7 +20202,7 @@ func (t Band24Type) ValueFromObject(ctx context.Context, in basetypes.ObjectValu
 		return nil, diags
 	}
 
-	return Band24Value{
+	return BandValue{
 		Bandwidth:              bandwidthVal,
 		Channel:                channelVal,
 		DynamicChainingEnalbed: dynamicChainingEnalbedVal,
@@ -20274,19 +20226,19 @@ func (t Band24Type) ValueFromObject(ctx context.Context, in basetypes.ObjectValu
 	}, diags
 }
 
-func NewBand24ValueNull() Band24Value {
-	return Band24Value{
+func NewBandValueNull() BandValue {
+	return BandValue{
 		state: attr.ValueStateNull,
 	}
 }
 
-func NewBand24ValueUnknown() Band24Value {
-	return Band24Value{
+func NewBandValueUnknown() BandValue {
+	return BandValue{
 		state: attr.ValueStateUnknown,
 	}
 }
 
-func NewBand24Value(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) (Band24Value, diag.Diagnostics) {
+func NewBandValue(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) (BandValue, diag.Diagnostics) {
 	var diags diag.Diagnostics
 
 	// Reference: https://github.com/hashicorp/terraform-plugin-framework/issues/521
@@ -20297,11 +20249,11 @@ func NewBand24Value(attributeTypes map[string]attr.Type, attributes map[string]a
 
 		if !ok {
 			diags.AddError(
-				"Missing Band24Value Attribute Value",
-				"While creating a Band24Value value, a missing attribute value was detected. "+
-					"A Band24Value must contain values for all attributes, even if null or unknown. "+
+				"Missing BandValue Attribute Value",
+				"While creating a BandValue value, a missing attribute value was detected. "+
+					"A BandValue must contain values for all attributes, even if null or unknown. "+
 					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
-					fmt.Sprintf("Band24Value Attribute Name (%s) Expected Type: %s", name, attributeType.String()),
+					fmt.Sprintf("BandValue Attribute Name (%s) Expected Type: %s", name, attributeType.String()),
 			)
 
 			continue
@@ -20309,12 +20261,12 @@ func NewBand24Value(attributeTypes map[string]attr.Type, attributes map[string]a
 
 		if !attributeType.Equal(attribute.Type(ctx)) {
 			diags.AddError(
-				"Invalid Band24Value Attribute Type",
-				"While creating a Band24Value value, an invalid attribute value was detected. "+
-					"A Band24Value must use a matching attribute type for the value. "+
+				"Invalid BandValue Attribute Type",
+				"While creating a BandValue value, an invalid attribute value was detected. "+
+					"A BandValue must use a matching attribute type for the value. "+
 					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
-					fmt.Sprintf("Band24Value Attribute Name (%s) Expected Type: %s\n", name, attributeType.String())+
-					fmt.Sprintf("Band24Value Attribute Name (%s) Given Type: %s", name, attribute.Type(ctx)),
+					fmt.Sprintf("BandValue Attribute Name (%s) Expected Type: %s\n", name, attributeType.String())+
+					fmt.Sprintf("BandValue Attribute Name (%s) Given Type: %s", name, attribute.Type(ctx)),
 			)
 		}
 	}
@@ -20324,17 +20276,17 @@ func NewBand24Value(attributeTypes map[string]attr.Type, attributes map[string]a
 
 		if !ok {
 			diags.AddError(
-				"Extra Band24Value Attribute Value",
-				"While creating a Band24Value value, an extra attribute value was detected. "+
-					"A Band24Value must not contain values beyond the expected attribute types. "+
+				"Extra BandValue Attribute Value",
+				"While creating a BandValue value, an extra attribute value was detected. "+
+					"A BandValue must not contain values beyond the expected attribute types. "+
 					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
-					fmt.Sprintf("Extra Band24Value Attribute Name: %s", name),
+					fmt.Sprintf("Extra BandValue Attribute Name: %s", name),
 			)
 		}
 	}
 
 	if diags.HasError() {
-		return NewBand24ValueUnknown(), diags
+		return NewBandValueUnknown(), diags
 	}
 
 	bandwidthAttribute, ok := attributes["bandwidth"]
@@ -20344,7 +20296,7 @@ func NewBand24Value(attributeTypes map[string]attr.Type, attributes map[string]a
 			"Attribute Missing",
 			`bandwidth is missing from object`)
 
-		return NewBand24ValueUnknown(), diags
+		return NewBandValueUnknown(), diags
 	}
 
 	bandwidthVal, ok := bandwidthAttribute.(basetypes.Int64Value)
@@ -20362,7 +20314,7 @@ func NewBand24Value(attributeTypes map[string]attr.Type, attributes map[string]a
 			"Attribute Missing",
 			`channel is missing from object`)
 
-		return NewBand24ValueUnknown(), diags
+		return NewBandValueUnknown(), diags
 	}
 
 	channelVal, ok := channelAttribute.(basetypes.Int64Value)
@@ -20380,7 +20332,7 @@ func NewBand24Value(attributeTypes map[string]attr.Type, attributes map[string]a
 			"Attribute Missing",
 			`dynamic_chaining_enalbed is missing from object`)
 
-		return NewBand24ValueUnknown(), diags
+		return NewBandValueUnknown(), diags
 	}
 
 	dynamicChainingEnalbedVal, ok := dynamicChainingEnalbedAttribute.(basetypes.BoolValue)
@@ -20398,7 +20350,7 @@ func NewBand24Value(attributeTypes map[string]attr.Type, attributes map[string]a
 			"Attribute Missing",
 			`mac is missing from object`)
 
-		return NewBand24ValueUnknown(), diags
+		return NewBandValueUnknown(), diags
 	}
 
 	macVal, ok := macAttribute.(basetypes.StringValue)
@@ -20416,7 +20368,7 @@ func NewBand24Value(attributeTypes map[string]attr.Type, attributes map[string]a
 			"Attribute Missing",
 			`noise_floor is missing from object`)
 
-		return NewBand24ValueUnknown(), diags
+		return NewBandValueUnknown(), diags
 	}
 
 	noiseFloorVal, ok := noiseFloorAttribute.(basetypes.Int64Value)
@@ -20434,7 +20386,7 @@ func NewBand24Value(attributeTypes map[string]attr.Type, attributes map[string]a
 			"Attribute Missing",
 			`num_clients is missing from object`)
 
-		return NewBand24ValueUnknown(), diags
+		return NewBandValueUnknown(), diags
 	}
 
 	numClientsVal, ok := numClientsAttribute.(basetypes.Int64Value)
@@ -20452,7 +20404,7 @@ func NewBand24Value(attributeTypes map[string]attr.Type, attributes map[string]a
 			"Attribute Missing",
 			`power is missing from object`)
 
-		return NewBand24ValueUnknown(), diags
+		return NewBandValueUnknown(), diags
 	}
 
 	powerVal, ok := powerAttribute.(basetypes.Int64Value)
@@ -20470,7 +20422,7 @@ func NewBand24Value(attributeTypes map[string]attr.Type, attributes map[string]a
 			"Attribute Missing",
 			`rx_bytes is missing from object`)
 
-		return NewBand24ValueUnknown(), diags
+		return NewBandValueUnknown(), diags
 	}
 
 	rxBytesVal, ok := rxBytesAttribute.(basetypes.Int64Value)
@@ -20488,7 +20440,7 @@ func NewBand24Value(attributeTypes map[string]attr.Type, attributes map[string]a
 			"Attribute Missing",
 			`rx_pkts is missing from object`)
 
-		return NewBand24ValueUnknown(), diags
+		return NewBandValueUnknown(), diags
 	}
 
 	rxPktsVal, ok := rxPktsAttribute.(basetypes.Int64Value)
@@ -20506,7 +20458,7 @@ func NewBand24Value(attributeTypes map[string]attr.Type, attributes map[string]a
 			"Attribute Missing",
 			`tx_bytes is missing from object`)
 
-		return NewBand24ValueUnknown(), diags
+		return NewBandValueUnknown(), diags
 	}
 
 	txBytesVal, ok := txBytesAttribute.(basetypes.Int64Value)
@@ -20524,7 +20476,7 @@ func NewBand24Value(attributeTypes map[string]attr.Type, attributes map[string]a
 			"Attribute Missing",
 			`tx_pkts is missing from object`)
 
-		return NewBand24ValueUnknown(), diags
+		return NewBandValueUnknown(), diags
 	}
 
 	txPktsVal, ok := txPktsAttribute.(basetypes.Int64Value)
@@ -20542,7 +20494,7 @@ func NewBand24Value(attributeTypes map[string]attr.Type, attributes map[string]a
 			"Attribute Missing",
 			`usage is missing from object`)
 
-		return NewBand24ValueUnknown(), diags
+		return NewBandValueUnknown(), diags
 	}
 
 	usageVal, ok := usageAttribute.(basetypes.StringValue)
@@ -20560,7 +20512,7 @@ func NewBand24Value(attributeTypes map[string]attr.Type, attributes map[string]a
 			"Attribute Missing",
 			`util_all is missing from object`)
 
-		return NewBand24ValueUnknown(), diags
+		return NewBandValueUnknown(), diags
 	}
 
 	utilAllVal, ok := utilAllAttribute.(basetypes.Int64Value)
@@ -20578,7 +20530,7 @@ func NewBand24Value(attributeTypes map[string]attr.Type, attributes map[string]a
 			"Attribute Missing",
 			`util_non_wifi is missing from object`)
 
-		return NewBand24ValueUnknown(), diags
+		return NewBandValueUnknown(), diags
 	}
 
 	utilNonWifiVal, ok := utilNonWifiAttribute.(basetypes.Int64Value)
@@ -20596,7 +20548,7 @@ func NewBand24Value(attributeTypes map[string]attr.Type, attributes map[string]a
 			"Attribute Missing",
 			`util_rx_in_bss is missing from object`)
 
-		return NewBand24ValueUnknown(), diags
+		return NewBandValueUnknown(), diags
 	}
 
 	utilRxInBssVal, ok := utilRxInBssAttribute.(basetypes.Int64Value)
@@ -20614,7 +20566,7 @@ func NewBand24Value(attributeTypes map[string]attr.Type, attributes map[string]a
 			"Attribute Missing",
 			`util_rx_other_bss is missing from object`)
 
-		return NewBand24ValueUnknown(), diags
+		return NewBandValueUnknown(), diags
 	}
 
 	utilRxOtherBssVal, ok := utilRxOtherBssAttribute.(basetypes.Int64Value)
@@ -20632,7 +20584,7 @@ func NewBand24Value(attributeTypes map[string]attr.Type, attributes map[string]a
 			"Attribute Missing",
 			`util_tx is missing from object`)
 
-		return NewBand24ValueUnknown(), diags
+		return NewBandValueUnknown(), diags
 	}
 
 	utilTxVal, ok := utilTxAttribute.(basetypes.Int64Value)
@@ -20650,7 +20602,7 @@ func NewBand24Value(attributeTypes map[string]attr.Type, attributes map[string]a
 			"Attribute Missing",
 			`util_undecodable_wifi is missing from object`)
 
-		return NewBand24ValueUnknown(), diags
+		return NewBandValueUnknown(), diags
 	}
 
 	utilUndecodableWifiVal, ok := utilUndecodableWifiAttribute.(basetypes.Int64Value)
@@ -20668,7 +20620,7 @@ func NewBand24Value(attributeTypes map[string]attr.Type, attributes map[string]a
 			"Attribute Missing",
 			`util_unknown_wifi is missing from object`)
 
-		return NewBand24ValueUnknown(), diags
+		return NewBandValueUnknown(), diags
 	}
 
 	utilUnknownWifiVal, ok := utilUnknownWifiAttribute.(basetypes.Int64Value)
@@ -20680,10 +20632,10 @@ func NewBand24Value(attributeTypes map[string]attr.Type, attributes map[string]a
 	}
 
 	if diags.HasError() {
-		return NewBand24ValueUnknown(), diags
+		return NewBandValueUnknown(), diags
 	}
 
-	return Band24Value{
+	return BandValue{
 		Bandwidth:              bandwidthVal,
 		Channel:                channelVal,
 		DynamicChainingEnalbed: dynamicChainingEnalbedVal,
@@ -20707,8 +20659,8 @@ func NewBand24Value(attributeTypes map[string]attr.Type, attributes map[string]a
 	}, diags
 }
 
-func NewBand24ValueMust(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) Band24Value {
-	object, diags := NewBand24Value(attributeTypes, attributes)
+func NewBandValueMust(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) BandValue {
+	object, diags := NewBandValue(attributeTypes, attributes)
 
 	if diags.HasError() {
 		// This could potentially be added to the diag package.
@@ -20722,15 +20674,15 @@ func NewBand24ValueMust(attributeTypes map[string]attr.Type, attributes map[stri
 				diagnostic.Detail()))
 		}
 
-		panic("NewBand24ValueMust received error(s): " + strings.Join(diagsStrings, "\n"))
+		panic("NewBandValueMust received error(s): " + strings.Join(diagsStrings, "\n"))
 	}
 
 	return object
 }
 
-func (t Band24Type) ValueFromTerraform(ctx context.Context, in tftypes.Value) (attr.Value, error) {
+func (t BandType) ValueFromTerraform(ctx context.Context, in tftypes.Value) (attr.Value, error) {
 	if in.Type() == nil {
-		return NewBand24ValueNull(), nil
+		return NewBandValueNull(), nil
 	}
 
 	if !in.Type().Equal(t.TerraformType(ctx)) {
@@ -20738,11 +20690,11 @@ func (t Band24Type) ValueFromTerraform(ctx context.Context, in tftypes.Value) (a
 	}
 
 	if !in.IsKnown() {
-		return NewBand24ValueUnknown(), nil
+		return NewBandValueUnknown(), nil
 	}
 
 	if in.IsNull() {
-		return NewBand24ValueNull(), nil
+		return NewBandValueNull(), nil
 	}
 
 	attributes := map[string]attr.Value{}
@@ -20765,16 +20717,16 @@ func (t Band24Type) ValueFromTerraform(ctx context.Context, in tftypes.Value) (a
 		attributes[k] = a
 	}
 
-	return NewBand24ValueMust(Band24Value{}.AttributeTypes(ctx), attributes), nil
+	return NewBandValueMust(BandValue{}.AttributeTypes(ctx), attributes), nil
 }
 
-func (t Band24Type) ValueType(ctx context.Context) attr.Value {
-	return Band24Value{}
+func (t BandType) ValueType(ctx context.Context) attr.Value {
+	return BandValue{}
 }
 
-var _ basetypes.ObjectValuable = Band24Value{}
+var _ basetypes.ObjectValuable = BandValue{}
 
-type Band24Value struct {
+type BandValue struct {
 	Bandwidth              basetypes.Int64Value  `tfsdk:"bandwidth"`
 	Channel                basetypes.Int64Value  `tfsdk:"channel"`
 	DynamicChainingEnalbed basetypes.BoolValue   `tfsdk:"dynamic_chaining_enalbed"`
@@ -20797,7 +20749,7 @@ type Band24Value struct {
 	state                  attr.ValueState
 }
 
-func (v Band24Value) ToTerraformValue(ctx context.Context) (tftypes.Value, error) {
+func (v BandValue) ToTerraformValue(ctx context.Context) (tftypes.Value, error) {
 	attrTypes := make(map[string]tftypes.Type, 19)
 
 	var val tftypes.Value
@@ -20995,19 +20947,19 @@ func (v Band24Value) ToTerraformValue(ctx context.Context) (tftypes.Value, error
 	}
 }
 
-func (v Band24Value) IsNull() bool {
+func (v BandValue) IsNull() bool {
 	return v.state == attr.ValueStateNull
 }
 
-func (v Band24Value) IsUnknown() bool {
+func (v BandValue) IsUnknown() bool {
 	return v.state == attr.ValueStateUnknown
 }
 
-func (v Band24Value) String() string {
-	return "Band24Value"
+func (v BandValue) String() string {
+	return "BandValue"
 }
 
-func (v Band24Value) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, diag.Diagnostics) {
+func (v BandValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, diag.Diagnostics) {
 	var diags diag.Diagnostics
 
 	attributeTypes := map[string]attr.Type{
@@ -21067,8 +21019,8 @@ func (v Band24Value) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, 
 	return objVal, diags
 }
 
-func (v Band24Value) Equal(o attr.Value) bool {
-	other, ok := o.(Band24Value)
+func (v BandValue) Equal(o attr.Value) bool {
+	other, ok := o.(BandValue)
 
 	if !ok {
 		return false
@@ -21161,15 +21113,15 @@ func (v Band24Value) Equal(o attr.Value) bool {
 	return true
 }
 
-func (v Band24Value) Type(ctx context.Context) attr.Type {
-	return Band24Type{
+func (v BandValue) Type(ctx context.Context) attr.Type {
+	return BandType{
 		basetypes.ObjectType{
 			AttrTypes: v.AttributeTypes(ctx),
 		},
 	}
 }
 
-func (v Band24Value) AttributeTypes(ctx context.Context) map[string]attr.Type {
+func (v BandValue) AttributeTypes(ctx context.Context) map[string]attr.Type {
 	return map[string]attr.Type{
 		"bandwidth":                basetypes.Int64Type{},
 		"channel":                  basetypes.Int64Type{},
@@ -21193,2633 +21145,47 @@ func (v Band24Value) AttributeTypes(ctx context.Context) map[string]attr.Type {
 	}
 }
 
-var _ basetypes.ObjectTypable = Band5Type{}
 
-type Band5Type struct {
-	basetypes.ObjectType
-}
 
-func (t Band5Type) Equal(o attr.Type) bool {
-	other, ok := o.(Band5Type)
 
-	if !ok {
-		return false
-	}
 
-	return t.ObjectType.Equal(other.ObjectType)
-}
 
-func (t Band5Type) String() string {
-	return "Band5Type"
-}
 
-func (t Band5Type) ValueFromObject(ctx context.Context, in basetypes.ObjectValue) (basetypes.ObjectValuable, diag.Diagnostics) {
-	var diags diag.Diagnostics
 
-	attributes := in.Attributes()
 
-	bandwidthAttribute, ok := attributes["bandwidth"]
 
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`bandwidth is missing from object`)
 
-		return nil, diags
-	}
 
-	bandwidthVal, ok := bandwidthAttribute.(basetypes.Int64Value)
 
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`bandwidth expected to be basetypes.Int64Value, was: %T`, bandwidthAttribute))
-	}
 
-	channelAttribute, ok := attributes["channel"]
 
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`channel is missing from object`)
 
-		return nil, diags
-	}
 
-	channelVal, ok := channelAttribute.(basetypes.Int64Value)
 
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`channel expected to be basetypes.Int64Value, was: %T`, channelAttribute))
-	}
 
-	dynamicChainingEnalbedAttribute, ok := attributes["dynamic_chaining_enalbed"]
 
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`dynamic_chaining_enalbed is missing from object`)
 
-		return nil, diags
-	}
 
-	dynamicChainingEnalbedVal, ok := dynamicChainingEnalbedAttribute.(basetypes.BoolValue)
 
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`dynamic_chaining_enalbed expected to be basetypes.BoolValue, was: %T`, dynamicChainingEnalbedAttribute))
-	}
 
-	macAttribute, ok := attributes["mac"]
 
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`mac is missing from object`)
 
-		return nil, diags
-	}
 
-	macVal, ok := macAttribute.(basetypes.StringValue)
 
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`mac expected to be basetypes.StringValue, was: %T`, macAttribute))
-	}
 
-	noiseFloorAttribute, ok := attributes["noise_floor"]
 
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`noise_floor is missing from object`)
 
-		return nil, diags
-	}
 
-	noiseFloorVal, ok := noiseFloorAttribute.(basetypes.Int64Value)
 
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`noise_floor expected to be basetypes.Int64Value, was: %T`, noiseFloorAttribute))
-	}
 
-	numClientsAttribute, ok := attributes["num_clients"]
 
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`num_clients is missing from object`)
 
-		return nil, diags
-	}
 
-	numClientsVal, ok := numClientsAttribute.(basetypes.Int64Value)
 
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`num_clients expected to be basetypes.Int64Value, was: %T`, numClientsAttribute))
-	}
 
-	powerAttribute, ok := attributes["power"]
 
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`power is missing from object`)
 
-		return nil, diags
-	}
 
-	powerVal, ok := powerAttribute.(basetypes.Int64Value)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`power expected to be basetypes.Int64Value, was: %T`, powerAttribute))
-	}
-
-	rxBytesAttribute, ok := attributes["rx_bytes"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`rx_bytes is missing from object`)
-
-		return nil, diags
-	}
-
-	rxBytesVal, ok := rxBytesAttribute.(basetypes.Int64Value)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`rx_bytes expected to be basetypes.Int64Value, was: %T`, rxBytesAttribute))
-	}
-
-	rxPktsAttribute, ok := attributes["rx_pkts"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`rx_pkts is missing from object`)
-
-		return nil, diags
-	}
-
-	rxPktsVal, ok := rxPktsAttribute.(basetypes.Int64Value)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`rx_pkts expected to be basetypes.Int64Value, was: %T`, rxPktsAttribute))
-	}
-
-	txBytesAttribute, ok := attributes["tx_bytes"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`tx_bytes is missing from object`)
-
-		return nil, diags
-	}
-
-	txBytesVal, ok := txBytesAttribute.(basetypes.Int64Value)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`tx_bytes expected to be basetypes.Int64Value, was: %T`, txBytesAttribute))
-	}
-
-	txPktsAttribute, ok := attributes["tx_pkts"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`tx_pkts is missing from object`)
-
-		return nil, diags
-	}
-
-	txPktsVal, ok := txPktsAttribute.(basetypes.Int64Value)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`tx_pkts expected to be basetypes.Int64Value, was: %T`, txPktsAttribute))
-	}
-
-	usageAttribute, ok := attributes["usage"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`usage is missing from object`)
-
-		return nil, diags
-	}
-
-	usageVal, ok := usageAttribute.(basetypes.StringValue)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`usage expected to be basetypes.StringValue, was: %T`, usageAttribute))
-	}
-
-	utilAllAttribute, ok := attributes["util_all"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`util_all is missing from object`)
-
-		return nil, diags
-	}
-
-	utilAllVal, ok := utilAllAttribute.(basetypes.Int64Value)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`util_all expected to be basetypes.Int64Value, was: %T`, utilAllAttribute))
-	}
-
-	utilNonWifiAttribute, ok := attributes["util_non_wifi"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`util_non_wifi is missing from object`)
-
-		return nil, diags
-	}
-
-	utilNonWifiVal, ok := utilNonWifiAttribute.(basetypes.Int64Value)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`util_non_wifi expected to be basetypes.Int64Value, was: %T`, utilNonWifiAttribute))
-	}
-
-	utilRxInBssAttribute, ok := attributes["util_rx_in_bss"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`util_rx_in_bss is missing from object`)
-
-		return nil, diags
-	}
-
-	utilRxInBssVal, ok := utilRxInBssAttribute.(basetypes.Int64Value)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`util_rx_in_bss expected to be basetypes.Int64Value, was: %T`, utilRxInBssAttribute))
-	}
-
-	utilRxOtherBssAttribute, ok := attributes["util_rx_other_bss"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`util_rx_other_bss is missing from object`)
-
-		return nil, diags
-	}
-
-	utilRxOtherBssVal, ok := utilRxOtherBssAttribute.(basetypes.Int64Value)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`util_rx_other_bss expected to be basetypes.Int64Value, was: %T`, utilRxOtherBssAttribute))
-	}
-
-	utilTxAttribute, ok := attributes["util_tx"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`util_tx is missing from object`)
-
-		return nil, diags
-	}
-
-	utilTxVal, ok := utilTxAttribute.(basetypes.Int64Value)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`util_tx expected to be basetypes.Int64Value, was: %T`, utilTxAttribute))
-	}
-
-	utilUndecodableWifiAttribute, ok := attributes["util_undecodable_wifi"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`util_undecodable_wifi is missing from object`)
-
-		return nil, diags
-	}
-
-	utilUndecodableWifiVal, ok := utilUndecodableWifiAttribute.(basetypes.Int64Value)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`util_undecodable_wifi expected to be basetypes.Int64Value, was: %T`, utilUndecodableWifiAttribute))
-	}
-
-	utilUnknownWifiAttribute, ok := attributes["util_unknown_wifi"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`util_unknown_wifi is missing from object`)
-
-		return nil, diags
-	}
-
-	utilUnknownWifiVal, ok := utilUnknownWifiAttribute.(basetypes.Int64Value)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`util_unknown_wifi expected to be basetypes.Int64Value, was: %T`, utilUnknownWifiAttribute))
-	}
-
-	if diags.HasError() {
-		return nil, diags
-	}
-
-	return Band5Value{
-		Bandwidth:              bandwidthVal,
-		Channel:                channelVal,
-		DynamicChainingEnalbed: dynamicChainingEnalbedVal,
-		Mac:                    macVal,
-		NoiseFloor:             noiseFloorVal,
-		NumClients:             numClientsVal,
-		Power:                  powerVal,
-		RxBytes:                rxBytesVal,
-		RxPkts:                 rxPktsVal,
-		TxBytes:                txBytesVal,
-		TxPkts:                 txPktsVal,
-		Usage:                  usageVal,
-		UtilAll:                utilAllVal,
-		UtilNonWifi:            utilNonWifiVal,
-		UtilRxInBss:            utilRxInBssVal,
-		UtilRxOtherBss:         utilRxOtherBssVal,
-		UtilTx:                 utilTxVal,
-		UtilUndecodableWifi:    utilUndecodableWifiVal,
-		UtilUnknownWifi:        utilUnknownWifiVal,
-		state:                  attr.ValueStateKnown,
-	}, diags
-}
-
-func NewBand5ValueNull() Band5Value {
-	return Band5Value{
-		state: attr.ValueStateNull,
-	}
-}
-
-func NewBand5ValueUnknown() Band5Value {
-	return Band5Value{
-		state: attr.ValueStateUnknown,
-	}
-}
-
-func NewBand5Value(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) (Band5Value, diag.Diagnostics) {
-	var diags diag.Diagnostics
-
-	// Reference: https://github.com/hashicorp/terraform-plugin-framework/issues/521
-	ctx := context.Background()
-
-	for name, attributeType := range attributeTypes {
-		attribute, ok := attributes[name]
-
-		if !ok {
-			diags.AddError(
-				"Missing Band5Value Attribute Value",
-				"While creating a Band5Value value, a missing attribute value was detected. "+
-					"A Band5Value must contain values for all attributes, even if null or unknown. "+
-					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
-					fmt.Sprintf("Band5Value Attribute Name (%s) Expected Type: %s", name, attributeType.String()),
-			)
-
-			continue
-		}
-
-		if !attributeType.Equal(attribute.Type(ctx)) {
-			diags.AddError(
-				"Invalid Band5Value Attribute Type",
-				"While creating a Band5Value value, an invalid attribute value was detected. "+
-					"A Band5Value must use a matching attribute type for the value. "+
-					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
-					fmt.Sprintf("Band5Value Attribute Name (%s) Expected Type: %s\n", name, attributeType.String())+
-					fmt.Sprintf("Band5Value Attribute Name (%s) Given Type: %s", name, attribute.Type(ctx)),
-			)
-		}
-	}
-
-	for name := range attributes {
-		_, ok := attributeTypes[name]
-
-		if !ok {
-			diags.AddError(
-				"Extra Band5Value Attribute Value",
-				"While creating a Band5Value value, an extra attribute value was detected. "+
-					"A Band5Value must not contain values beyond the expected attribute types. "+
-					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
-					fmt.Sprintf("Extra Band5Value Attribute Name: %s", name),
-			)
-		}
-	}
-
-	if diags.HasError() {
-		return NewBand5ValueUnknown(), diags
-	}
-
-	bandwidthAttribute, ok := attributes["bandwidth"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`bandwidth is missing from object`)
-
-		return NewBand5ValueUnknown(), diags
-	}
-
-	bandwidthVal, ok := bandwidthAttribute.(basetypes.Int64Value)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`bandwidth expected to be basetypes.Int64Value, was: %T`, bandwidthAttribute))
-	}
-
-	channelAttribute, ok := attributes["channel"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`channel is missing from object`)
-
-		return NewBand5ValueUnknown(), diags
-	}
-
-	channelVal, ok := channelAttribute.(basetypes.Int64Value)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`channel expected to be basetypes.Int64Value, was: %T`, channelAttribute))
-	}
-
-	dynamicChainingEnalbedAttribute, ok := attributes["dynamic_chaining_enalbed"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`dynamic_chaining_enalbed is missing from object`)
-
-		return NewBand5ValueUnknown(), diags
-	}
-
-	dynamicChainingEnalbedVal, ok := dynamicChainingEnalbedAttribute.(basetypes.BoolValue)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`dynamic_chaining_enalbed expected to be basetypes.BoolValue, was: %T`, dynamicChainingEnalbedAttribute))
-	}
-
-	macAttribute, ok := attributes["mac"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`mac is missing from object`)
-
-		return NewBand5ValueUnknown(), diags
-	}
-
-	macVal, ok := macAttribute.(basetypes.StringValue)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`mac expected to be basetypes.StringValue, was: %T`, macAttribute))
-	}
-
-	noiseFloorAttribute, ok := attributes["noise_floor"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`noise_floor is missing from object`)
-
-		return NewBand5ValueUnknown(), diags
-	}
-
-	noiseFloorVal, ok := noiseFloorAttribute.(basetypes.Int64Value)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`noise_floor expected to be basetypes.Int64Value, was: %T`, noiseFloorAttribute))
-	}
-
-	numClientsAttribute, ok := attributes["num_clients"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`num_clients is missing from object`)
-
-		return NewBand5ValueUnknown(), diags
-	}
-
-	numClientsVal, ok := numClientsAttribute.(basetypes.Int64Value)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`num_clients expected to be basetypes.Int64Value, was: %T`, numClientsAttribute))
-	}
-
-	powerAttribute, ok := attributes["power"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`power is missing from object`)
-
-		return NewBand5ValueUnknown(), diags
-	}
-
-	powerVal, ok := powerAttribute.(basetypes.Int64Value)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`power expected to be basetypes.Int64Value, was: %T`, powerAttribute))
-	}
-
-	rxBytesAttribute, ok := attributes["rx_bytes"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`rx_bytes is missing from object`)
-
-		return NewBand5ValueUnknown(), diags
-	}
-
-	rxBytesVal, ok := rxBytesAttribute.(basetypes.Int64Value)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`rx_bytes expected to be basetypes.Int64Value, was: %T`, rxBytesAttribute))
-	}
-
-	rxPktsAttribute, ok := attributes["rx_pkts"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`rx_pkts is missing from object`)
-
-		return NewBand5ValueUnknown(), diags
-	}
-
-	rxPktsVal, ok := rxPktsAttribute.(basetypes.Int64Value)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`rx_pkts expected to be basetypes.Int64Value, was: %T`, rxPktsAttribute))
-	}
-
-	txBytesAttribute, ok := attributes["tx_bytes"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`tx_bytes is missing from object`)
-
-		return NewBand5ValueUnknown(), diags
-	}
-
-	txBytesVal, ok := txBytesAttribute.(basetypes.Int64Value)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`tx_bytes expected to be basetypes.Int64Value, was: %T`, txBytesAttribute))
-	}
-
-	txPktsAttribute, ok := attributes["tx_pkts"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`tx_pkts is missing from object`)
-
-		return NewBand5ValueUnknown(), diags
-	}
-
-	txPktsVal, ok := txPktsAttribute.(basetypes.Int64Value)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`tx_pkts expected to be basetypes.Int64Value, was: %T`, txPktsAttribute))
-	}
-
-	usageAttribute, ok := attributes["usage"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`usage is missing from object`)
-
-		return NewBand5ValueUnknown(), diags
-	}
-
-	usageVal, ok := usageAttribute.(basetypes.StringValue)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`usage expected to be basetypes.StringValue, was: %T`, usageAttribute))
-	}
-
-	utilAllAttribute, ok := attributes["util_all"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`util_all is missing from object`)
-
-		return NewBand5ValueUnknown(), diags
-	}
-
-	utilAllVal, ok := utilAllAttribute.(basetypes.Int64Value)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`util_all expected to be basetypes.Int64Value, was: %T`, utilAllAttribute))
-	}
-
-	utilNonWifiAttribute, ok := attributes["util_non_wifi"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`util_non_wifi is missing from object`)
-
-		return NewBand5ValueUnknown(), diags
-	}
-
-	utilNonWifiVal, ok := utilNonWifiAttribute.(basetypes.Int64Value)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`util_non_wifi expected to be basetypes.Int64Value, was: %T`, utilNonWifiAttribute))
-	}
-
-	utilRxInBssAttribute, ok := attributes["util_rx_in_bss"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`util_rx_in_bss is missing from object`)
-
-		return NewBand5ValueUnknown(), diags
-	}
-
-	utilRxInBssVal, ok := utilRxInBssAttribute.(basetypes.Int64Value)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`util_rx_in_bss expected to be basetypes.Int64Value, was: %T`, utilRxInBssAttribute))
-	}
-
-	utilRxOtherBssAttribute, ok := attributes["util_rx_other_bss"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`util_rx_other_bss is missing from object`)
-
-		return NewBand5ValueUnknown(), diags
-	}
-
-	utilRxOtherBssVal, ok := utilRxOtherBssAttribute.(basetypes.Int64Value)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`util_rx_other_bss expected to be basetypes.Int64Value, was: %T`, utilRxOtherBssAttribute))
-	}
-
-	utilTxAttribute, ok := attributes["util_tx"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`util_tx is missing from object`)
-
-		return NewBand5ValueUnknown(), diags
-	}
-
-	utilTxVal, ok := utilTxAttribute.(basetypes.Int64Value)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`util_tx expected to be basetypes.Int64Value, was: %T`, utilTxAttribute))
-	}
-
-	utilUndecodableWifiAttribute, ok := attributes["util_undecodable_wifi"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`util_undecodable_wifi is missing from object`)
-
-		return NewBand5ValueUnknown(), diags
-	}
-
-	utilUndecodableWifiVal, ok := utilUndecodableWifiAttribute.(basetypes.Int64Value)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`util_undecodable_wifi expected to be basetypes.Int64Value, was: %T`, utilUndecodableWifiAttribute))
-	}
-
-	utilUnknownWifiAttribute, ok := attributes["util_unknown_wifi"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`util_unknown_wifi is missing from object`)
-
-		return NewBand5ValueUnknown(), diags
-	}
-
-	utilUnknownWifiVal, ok := utilUnknownWifiAttribute.(basetypes.Int64Value)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`util_unknown_wifi expected to be basetypes.Int64Value, was: %T`, utilUnknownWifiAttribute))
-	}
-
-	if diags.HasError() {
-		return NewBand5ValueUnknown(), diags
-	}
-
-	return Band5Value{
-		Bandwidth:              bandwidthVal,
-		Channel:                channelVal,
-		DynamicChainingEnalbed: dynamicChainingEnalbedVal,
-		Mac:                    macVal,
-		NoiseFloor:             noiseFloorVal,
-		NumClients:             numClientsVal,
-		Power:                  powerVal,
-		RxBytes:                rxBytesVal,
-		RxPkts:                 rxPktsVal,
-		TxBytes:                txBytesVal,
-		TxPkts:                 txPktsVal,
-		Usage:                  usageVal,
-		UtilAll:                utilAllVal,
-		UtilNonWifi:            utilNonWifiVal,
-		UtilRxInBss:            utilRxInBssVal,
-		UtilRxOtherBss:         utilRxOtherBssVal,
-		UtilTx:                 utilTxVal,
-		UtilUndecodableWifi:    utilUndecodableWifiVal,
-		UtilUnknownWifi:        utilUnknownWifiVal,
-		state:                  attr.ValueStateKnown,
-	}, diags
-}
-
-func NewBand5ValueMust(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) Band5Value {
-	object, diags := NewBand5Value(attributeTypes, attributes)
-
-	if diags.HasError() {
-		// This could potentially be added to the diag package.
-		diagsStrings := make([]string, 0, len(diags))
-
-		for _, diagnostic := range diags {
-			diagsStrings = append(diagsStrings, fmt.Sprintf(
-				"%s | %s | %s",
-				diagnostic.Severity(),
-				diagnostic.Summary(),
-				diagnostic.Detail()))
-		}
-
-		panic("NewBand5ValueMust received error(s): " + strings.Join(diagsStrings, "\n"))
-	}
-
-	return object
-}
-
-func (t Band5Type) ValueFromTerraform(ctx context.Context, in tftypes.Value) (attr.Value, error) {
-	if in.Type() == nil {
-		return NewBand5ValueNull(), nil
-	}
-
-	if !in.Type().Equal(t.TerraformType(ctx)) {
-		return nil, fmt.Errorf("expected %s, got %s", t.TerraformType(ctx), in.Type())
-	}
-
-	if !in.IsKnown() {
-		return NewBand5ValueUnknown(), nil
-	}
-
-	if in.IsNull() {
-		return NewBand5ValueNull(), nil
-	}
-
-	attributes := map[string]attr.Value{}
-
-	val := map[string]tftypes.Value{}
-
-	err := in.As(&val)
-
-	if err != nil {
-		return nil, err
-	}
-
-	for k, v := range val {
-		a, err := t.AttrTypes[k].ValueFromTerraform(ctx, v)
-
-		if err != nil {
-			return nil, err
-		}
-
-		attributes[k] = a
-	}
-
-	return NewBand5ValueMust(Band5Value{}.AttributeTypes(ctx), attributes), nil
-}
-
-func (t Band5Type) ValueType(ctx context.Context) attr.Value {
-	return Band5Value{}
-}
-
-var _ basetypes.ObjectValuable = Band5Value{}
-
-type Band5Value struct {
-	Bandwidth              basetypes.Int64Value  `tfsdk:"bandwidth"`
-	Channel                basetypes.Int64Value  `tfsdk:"channel"`
-	DynamicChainingEnalbed basetypes.BoolValue   `tfsdk:"dynamic_chaining_enalbed"`
-	Mac                    basetypes.StringValue `tfsdk:"mac"`
-	NoiseFloor             basetypes.Int64Value  `tfsdk:"noise_floor"`
-	NumClients             basetypes.Int64Value  `tfsdk:"num_clients"`
-	Power                  basetypes.Int64Value  `tfsdk:"power"`
-	RxBytes                basetypes.Int64Value  `tfsdk:"rx_bytes"`
-	RxPkts                 basetypes.Int64Value  `tfsdk:"rx_pkts"`
-	TxBytes                basetypes.Int64Value  `tfsdk:"tx_bytes"`
-	TxPkts                 basetypes.Int64Value  `tfsdk:"tx_pkts"`
-	Usage                  basetypes.StringValue `tfsdk:"usage"`
-	UtilAll                basetypes.Int64Value  `tfsdk:"util_all"`
-	UtilNonWifi            basetypes.Int64Value  `tfsdk:"util_non_wifi"`
-	UtilRxInBss            basetypes.Int64Value  `tfsdk:"util_rx_in_bss"`
-	UtilRxOtherBss         basetypes.Int64Value  `tfsdk:"util_rx_other_bss"`
-	UtilTx                 basetypes.Int64Value  `tfsdk:"util_tx"`
-	UtilUndecodableWifi    basetypes.Int64Value  `tfsdk:"util_undecodable_wifi"`
-	UtilUnknownWifi        basetypes.Int64Value  `tfsdk:"util_unknown_wifi"`
-	state                  attr.ValueState
-}
-
-func (v Band5Value) ToTerraformValue(ctx context.Context) (tftypes.Value, error) {
-	attrTypes := make(map[string]tftypes.Type, 19)
-
-	var val tftypes.Value
-	var err error
-
-	attrTypes["bandwidth"] = basetypes.Int64Type{}.TerraformType(ctx)
-	attrTypes["channel"] = basetypes.Int64Type{}.TerraformType(ctx)
-	attrTypes["dynamic_chaining_enalbed"] = basetypes.BoolType{}.TerraformType(ctx)
-	attrTypes["mac"] = basetypes.StringType{}.TerraformType(ctx)
-	attrTypes["noise_floor"] = basetypes.Int64Type{}.TerraformType(ctx)
-	attrTypes["num_clients"] = basetypes.Int64Type{}.TerraformType(ctx)
-	attrTypes["power"] = basetypes.Int64Type{}.TerraformType(ctx)
-	attrTypes["rx_bytes"] = basetypes.Int64Type{}.TerraformType(ctx)
-	attrTypes["rx_pkts"] = basetypes.Int64Type{}.TerraformType(ctx)
-	attrTypes["tx_bytes"] = basetypes.Int64Type{}.TerraformType(ctx)
-	attrTypes["tx_pkts"] = basetypes.Int64Type{}.TerraformType(ctx)
-	attrTypes["usage"] = basetypes.StringType{}.TerraformType(ctx)
-	attrTypes["util_all"] = basetypes.Int64Type{}.TerraformType(ctx)
-	attrTypes["util_non_wifi"] = basetypes.Int64Type{}.TerraformType(ctx)
-	attrTypes["util_rx_in_bss"] = basetypes.Int64Type{}.TerraformType(ctx)
-	attrTypes["util_rx_other_bss"] = basetypes.Int64Type{}.TerraformType(ctx)
-	attrTypes["util_tx"] = basetypes.Int64Type{}.TerraformType(ctx)
-	attrTypes["util_undecodable_wifi"] = basetypes.Int64Type{}.TerraformType(ctx)
-	attrTypes["util_unknown_wifi"] = basetypes.Int64Type{}.TerraformType(ctx)
-
-	objectType := tftypes.Object{AttributeTypes: attrTypes}
-
-	switch v.state {
-	case attr.ValueStateKnown:
-		vals := make(map[string]tftypes.Value, 19)
-
-		val, err = v.Bandwidth.ToTerraformValue(ctx)
-
-		if err != nil {
-			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
-		}
-
-		vals["bandwidth"] = val
-
-		val, err = v.Channel.ToTerraformValue(ctx)
-
-		if err != nil {
-			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
-		}
-
-		vals["channel"] = val
-
-		val, err = v.DynamicChainingEnalbed.ToTerraformValue(ctx)
-
-		if err != nil {
-			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
-		}
-
-		vals["dynamic_chaining_enalbed"] = val
-
-		val, err = v.Mac.ToTerraformValue(ctx)
-
-		if err != nil {
-			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
-		}
-
-		vals["mac"] = val
-
-		val, err = v.NoiseFloor.ToTerraformValue(ctx)
-
-		if err != nil {
-			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
-		}
-
-		vals["noise_floor"] = val
-
-		val, err = v.NumClients.ToTerraformValue(ctx)
-
-		if err != nil {
-			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
-		}
-
-		vals["num_clients"] = val
-
-		val, err = v.Power.ToTerraformValue(ctx)
-
-		if err != nil {
-			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
-		}
-
-		vals["power"] = val
-
-		val, err = v.RxBytes.ToTerraformValue(ctx)
-
-		if err != nil {
-			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
-		}
-
-		vals["rx_bytes"] = val
-
-		val, err = v.RxPkts.ToTerraformValue(ctx)
-
-		if err != nil {
-			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
-		}
-
-		vals["rx_pkts"] = val
-
-		val, err = v.TxBytes.ToTerraformValue(ctx)
-
-		if err != nil {
-			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
-		}
-
-		vals["tx_bytes"] = val
-
-		val, err = v.TxPkts.ToTerraformValue(ctx)
-
-		if err != nil {
-			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
-		}
-
-		vals["tx_pkts"] = val
-
-		val, err = v.Usage.ToTerraformValue(ctx)
-
-		if err != nil {
-			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
-		}
-
-		vals["usage"] = val
-
-		val, err = v.UtilAll.ToTerraformValue(ctx)
-
-		if err != nil {
-			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
-		}
-
-		vals["util_all"] = val
-
-		val, err = v.UtilNonWifi.ToTerraformValue(ctx)
-
-		if err != nil {
-			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
-		}
-
-		vals["util_non_wifi"] = val
-
-		val, err = v.UtilRxInBss.ToTerraformValue(ctx)
-
-		if err != nil {
-			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
-		}
-
-		vals["util_rx_in_bss"] = val
-
-		val, err = v.UtilRxOtherBss.ToTerraformValue(ctx)
-
-		if err != nil {
-			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
-		}
-
-		vals["util_rx_other_bss"] = val
-
-		val, err = v.UtilTx.ToTerraformValue(ctx)
-
-		if err != nil {
-			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
-		}
-
-		vals["util_tx"] = val
-
-		val, err = v.UtilUndecodableWifi.ToTerraformValue(ctx)
-
-		if err != nil {
-			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
-		}
-
-		vals["util_undecodable_wifi"] = val
-
-		val, err = v.UtilUnknownWifi.ToTerraformValue(ctx)
-
-		if err != nil {
-			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
-		}
-
-		vals["util_unknown_wifi"] = val
-
-		if err := tftypes.ValidateValue(objectType, vals); err != nil {
-			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
-		}
-
-		return tftypes.NewValue(objectType, vals), nil
-	case attr.ValueStateNull:
-		return tftypes.NewValue(objectType, nil), nil
-	case attr.ValueStateUnknown:
-		return tftypes.NewValue(objectType, tftypes.UnknownValue), nil
-	default:
-		panic(fmt.Sprintf("unhandled Object state in ToTerraformValue: %s", v.state))
-	}
-}
-
-func (v Band5Value) IsNull() bool {
-	return v.state == attr.ValueStateNull
-}
-
-func (v Band5Value) IsUnknown() bool {
-	return v.state == attr.ValueStateUnknown
-}
-
-func (v Band5Value) String() string {
-	return "Band5Value"
-}
-
-func (v Band5Value) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, diag.Diagnostics) {
-	var diags diag.Diagnostics
-
-	attributeTypes := map[string]attr.Type{
-		"bandwidth":                basetypes.Int64Type{},
-		"channel":                  basetypes.Int64Type{},
-		"dynamic_chaining_enalbed": basetypes.BoolType{},
-		"mac":                      basetypes.StringType{},
-		"noise_floor":              basetypes.Int64Type{},
-		"num_clients":              basetypes.Int64Type{},
-		"power":                    basetypes.Int64Type{},
-		"rx_bytes":                 basetypes.Int64Type{},
-		"rx_pkts":                  basetypes.Int64Type{},
-		"tx_bytes":                 basetypes.Int64Type{},
-		"tx_pkts":                  basetypes.Int64Type{},
-		"usage":                    basetypes.StringType{},
-		"util_all":                 basetypes.Int64Type{},
-		"util_non_wifi":            basetypes.Int64Type{},
-		"util_rx_in_bss":           basetypes.Int64Type{},
-		"util_rx_other_bss":        basetypes.Int64Type{},
-		"util_tx":                  basetypes.Int64Type{},
-		"util_undecodable_wifi":    basetypes.Int64Type{},
-		"util_unknown_wifi":        basetypes.Int64Type{},
-	}
-
-	if v.IsNull() {
-		return types.ObjectNull(attributeTypes), diags
-	}
-
-	if v.IsUnknown() {
-		return types.ObjectUnknown(attributeTypes), diags
-	}
-
-	objVal, diags := types.ObjectValue(
-		attributeTypes,
-		map[string]attr.Value{
-			"bandwidth":                v.Bandwidth,
-			"channel":                  v.Channel,
-			"dynamic_chaining_enalbed": v.DynamicChainingEnalbed,
-			"mac":                      v.Mac,
-			"noise_floor":              v.NoiseFloor,
-			"num_clients":              v.NumClients,
-			"power":                    v.Power,
-			"rx_bytes":                 v.RxBytes,
-			"rx_pkts":                  v.RxPkts,
-			"tx_bytes":                 v.TxBytes,
-			"tx_pkts":                  v.TxPkts,
-			"usage":                    v.Usage,
-			"util_all":                 v.UtilAll,
-			"util_non_wifi":            v.UtilNonWifi,
-			"util_rx_in_bss":           v.UtilRxInBss,
-			"util_rx_other_bss":        v.UtilRxOtherBss,
-			"util_tx":                  v.UtilTx,
-			"util_undecodable_wifi":    v.UtilUndecodableWifi,
-			"util_unknown_wifi":        v.UtilUnknownWifi,
-		})
-
-	return objVal, diags
-}
-
-func (v Band5Value) Equal(o attr.Value) bool {
-	other, ok := o.(Band5Value)
-
-	if !ok {
-		return false
-	}
-
-	if v.state != other.state {
-		return false
-	}
-
-	if v.state != attr.ValueStateKnown {
-		return true
-	}
-
-	if !v.Bandwidth.Equal(other.Bandwidth) {
-		return false
-	}
-
-	if !v.Channel.Equal(other.Channel) {
-		return false
-	}
-
-	if !v.DynamicChainingEnalbed.Equal(other.DynamicChainingEnalbed) {
-		return false
-	}
-
-	if !v.Mac.Equal(other.Mac) {
-		return false
-	}
-
-	if !v.NoiseFloor.Equal(other.NoiseFloor) {
-		return false
-	}
-
-	if !v.NumClients.Equal(other.NumClients) {
-		return false
-	}
-
-	if !v.Power.Equal(other.Power) {
-		return false
-	}
-
-	if !v.RxBytes.Equal(other.RxBytes) {
-		return false
-	}
-
-	if !v.RxPkts.Equal(other.RxPkts) {
-		return false
-	}
-
-	if !v.TxBytes.Equal(other.TxBytes) {
-		return false
-	}
-
-	if !v.TxPkts.Equal(other.TxPkts) {
-		return false
-	}
-
-	if !v.Usage.Equal(other.Usage) {
-		return false
-	}
-
-	if !v.UtilAll.Equal(other.UtilAll) {
-		return false
-	}
-
-	if !v.UtilNonWifi.Equal(other.UtilNonWifi) {
-		return false
-	}
-
-	if !v.UtilRxInBss.Equal(other.UtilRxInBss) {
-		return false
-	}
-
-	if !v.UtilRxOtherBss.Equal(other.UtilRxOtherBss) {
-		return false
-	}
-
-	if !v.UtilTx.Equal(other.UtilTx) {
-		return false
-	}
-
-	if !v.UtilUndecodableWifi.Equal(other.UtilUndecodableWifi) {
-		return false
-	}
-
-	if !v.UtilUnknownWifi.Equal(other.UtilUnknownWifi) {
-		return false
-	}
-
-	return true
-}
-
-func (v Band5Value) Type(ctx context.Context) attr.Type {
-	return Band5Type{
-		basetypes.ObjectType{
-			AttrTypes: v.AttributeTypes(ctx),
-		},
-	}
-}
-
-func (v Band5Value) AttributeTypes(ctx context.Context) map[string]attr.Type {
-	return map[string]attr.Type{
-		"bandwidth":                basetypes.Int64Type{},
-		"channel":                  basetypes.Int64Type{},
-		"dynamic_chaining_enalbed": basetypes.BoolType{},
-		"mac":                      basetypes.StringType{},
-		"noise_floor":              basetypes.Int64Type{},
-		"num_clients":              basetypes.Int64Type{},
-		"power":                    basetypes.Int64Type{},
-		"rx_bytes":                 basetypes.Int64Type{},
-		"rx_pkts":                  basetypes.Int64Type{},
-		"tx_bytes":                 basetypes.Int64Type{},
-		"tx_pkts":                  basetypes.Int64Type{},
-		"usage":                    basetypes.StringType{},
-		"util_all":                 basetypes.Int64Type{},
-		"util_non_wifi":            basetypes.Int64Type{},
-		"util_rx_in_bss":           basetypes.Int64Type{},
-		"util_rx_other_bss":        basetypes.Int64Type{},
-		"util_tx":                  basetypes.Int64Type{},
-		"util_undecodable_wifi":    basetypes.Int64Type{},
-		"util_unknown_wifi":        basetypes.Int64Type{},
-	}
-}
-
-var _ basetypes.ObjectTypable = Band6Type{}
-
-type Band6Type struct {
-	basetypes.ObjectType
-}
-
-func (t Band6Type) Equal(o attr.Type) bool {
-	other, ok := o.(Band6Type)
-
-	if !ok {
-		return false
-	}
-
-	return t.ObjectType.Equal(other.ObjectType)
-}
-
-func (t Band6Type) String() string {
-	return "Band6Type"
-}
-
-func (t Band6Type) ValueFromObject(ctx context.Context, in basetypes.ObjectValue) (basetypes.ObjectValuable, diag.Diagnostics) {
-	var diags diag.Diagnostics
-
-	attributes := in.Attributes()
-
-	bandwidthAttribute, ok := attributes["bandwidth"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`bandwidth is missing from object`)
-
-		return nil, diags
-	}
-
-	bandwidthVal, ok := bandwidthAttribute.(basetypes.Int64Value)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`bandwidth expected to be basetypes.Int64Value, was: %T`, bandwidthAttribute))
-	}
-
-	channelAttribute, ok := attributes["channel"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`channel is missing from object`)
-
-		return nil, diags
-	}
-
-	channelVal, ok := channelAttribute.(basetypes.Int64Value)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`channel expected to be basetypes.Int64Value, was: %T`, channelAttribute))
-	}
-
-	dynamicChainingEnalbedAttribute, ok := attributes["dynamic_chaining_enalbed"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`dynamic_chaining_enalbed is missing from object`)
-
-		return nil, diags
-	}
-
-	dynamicChainingEnalbedVal, ok := dynamicChainingEnalbedAttribute.(basetypes.BoolValue)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`dynamic_chaining_enalbed expected to be basetypes.BoolValue, was: %T`, dynamicChainingEnalbedAttribute))
-	}
-
-	macAttribute, ok := attributes["mac"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`mac is missing from object`)
-
-		return nil, diags
-	}
-
-	macVal, ok := macAttribute.(basetypes.StringValue)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`mac expected to be basetypes.StringValue, was: %T`, macAttribute))
-	}
-
-	noiseFloorAttribute, ok := attributes["noise_floor"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`noise_floor is missing from object`)
-
-		return nil, diags
-	}
-
-	noiseFloorVal, ok := noiseFloorAttribute.(basetypes.Int64Value)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`noise_floor expected to be basetypes.Int64Value, was: %T`, noiseFloorAttribute))
-	}
-
-	numClientsAttribute, ok := attributes["num_clients"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`num_clients is missing from object`)
-
-		return nil, diags
-	}
-
-	numClientsVal, ok := numClientsAttribute.(basetypes.Int64Value)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`num_clients expected to be basetypes.Int64Value, was: %T`, numClientsAttribute))
-	}
-
-	powerAttribute, ok := attributes["power"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`power is missing from object`)
-
-		return nil, diags
-	}
-
-	powerVal, ok := powerAttribute.(basetypes.Int64Value)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`power expected to be basetypes.Int64Value, was: %T`, powerAttribute))
-	}
-
-	rxBytesAttribute, ok := attributes["rx_bytes"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`rx_bytes is missing from object`)
-
-		return nil, diags
-	}
-
-	rxBytesVal, ok := rxBytesAttribute.(basetypes.Int64Value)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`rx_bytes expected to be basetypes.Int64Value, was: %T`, rxBytesAttribute))
-	}
-
-	rxPktsAttribute, ok := attributes["rx_pkts"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`rx_pkts is missing from object`)
-
-		return nil, diags
-	}
-
-	rxPktsVal, ok := rxPktsAttribute.(basetypes.Int64Value)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`rx_pkts expected to be basetypes.Int64Value, was: %T`, rxPktsAttribute))
-	}
-
-	txBytesAttribute, ok := attributes["tx_bytes"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`tx_bytes is missing from object`)
-
-		return nil, diags
-	}
-
-	txBytesVal, ok := txBytesAttribute.(basetypes.Int64Value)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`tx_bytes expected to be basetypes.Int64Value, was: %T`, txBytesAttribute))
-	}
-
-	txPktsAttribute, ok := attributes["tx_pkts"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`tx_pkts is missing from object`)
-
-		return nil, diags
-	}
-
-	txPktsVal, ok := txPktsAttribute.(basetypes.Int64Value)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`tx_pkts expected to be basetypes.Int64Value, was: %T`, txPktsAttribute))
-	}
-
-	usageAttribute, ok := attributes["usage"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`usage is missing from object`)
-
-		return nil, diags
-	}
-
-	usageVal, ok := usageAttribute.(basetypes.StringValue)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`usage expected to be basetypes.StringValue, was: %T`, usageAttribute))
-	}
-
-	utilAllAttribute, ok := attributes["util_all"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`util_all is missing from object`)
-
-		return nil, diags
-	}
-
-	utilAllVal, ok := utilAllAttribute.(basetypes.Int64Value)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`util_all expected to be basetypes.Int64Value, was: %T`, utilAllAttribute))
-	}
-
-	utilNonWifiAttribute, ok := attributes["util_non_wifi"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`util_non_wifi is missing from object`)
-
-		return nil, diags
-	}
-
-	utilNonWifiVal, ok := utilNonWifiAttribute.(basetypes.Int64Value)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`util_non_wifi expected to be basetypes.Int64Value, was: %T`, utilNonWifiAttribute))
-	}
-
-	utilRxInBssAttribute, ok := attributes["util_rx_in_bss"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`util_rx_in_bss is missing from object`)
-
-		return nil, diags
-	}
-
-	utilRxInBssVal, ok := utilRxInBssAttribute.(basetypes.Int64Value)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`util_rx_in_bss expected to be basetypes.Int64Value, was: %T`, utilRxInBssAttribute))
-	}
-
-	utilRxOtherBssAttribute, ok := attributes["util_rx_other_bss"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`util_rx_other_bss is missing from object`)
-
-		return nil, diags
-	}
-
-	utilRxOtherBssVal, ok := utilRxOtherBssAttribute.(basetypes.Int64Value)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`util_rx_other_bss expected to be basetypes.Int64Value, was: %T`, utilRxOtherBssAttribute))
-	}
-
-	utilTxAttribute, ok := attributes["util_tx"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`util_tx is missing from object`)
-
-		return nil, diags
-	}
-
-	utilTxVal, ok := utilTxAttribute.(basetypes.Int64Value)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`util_tx expected to be basetypes.Int64Value, was: %T`, utilTxAttribute))
-	}
-
-	utilUndecodableWifiAttribute, ok := attributes["util_undecodable_wifi"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`util_undecodable_wifi is missing from object`)
-
-		return nil, diags
-	}
-
-	utilUndecodableWifiVal, ok := utilUndecodableWifiAttribute.(basetypes.Int64Value)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`util_undecodable_wifi expected to be basetypes.Int64Value, was: %T`, utilUndecodableWifiAttribute))
-	}
-
-	utilUnknownWifiAttribute, ok := attributes["util_unknown_wifi"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`util_unknown_wifi is missing from object`)
-
-		return nil, diags
-	}
-
-	utilUnknownWifiVal, ok := utilUnknownWifiAttribute.(basetypes.Int64Value)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`util_unknown_wifi expected to be basetypes.Int64Value, was: %T`, utilUnknownWifiAttribute))
-	}
-
-	if diags.HasError() {
-		return nil, diags
-	}
-
-	return Band6Value{
-		Bandwidth:              bandwidthVal,
-		Channel:                channelVal,
-		DynamicChainingEnalbed: dynamicChainingEnalbedVal,
-		Mac:                    macVal,
-		NoiseFloor:             noiseFloorVal,
-		NumClients:             numClientsVal,
-		Power:                  powerVal,
-		RxBytes:                rxBytesVal,
-		RxPkts:                 rxPktsVal,
-		TxBytes:                txBytesVal,
-		TxPkts:                 txPktsVal,
-		Usage:                  usageVal,
-		UtilAll:                utilAllVal,
-		UtilNonWifi:            utilNonWifiVal,
-		UtilRxInBss:            utilRxInBssVal,
-		UtilRxOtherBss:         utilRxOtherBssVal,
-		UtilTx:                 utilTxVal,
-		UtilUndecodableWifi:    utilUndecodableWifiVal,
-		UtilUnknownWifi:        utilUnknownWifiVal,
-		state:                  attr.ValueStateKnown,
-	}, diags
-}
-
-func NewBand6ValueNull() Band6Value {
-	return Band6Value{
-		state: attr.ValueStateNull,
-	}
-}
-
-func NewBand6ValueUnknown() Band6Value {
-	return Band6Value{
-		state: attr.ValueStateUnknown,
-	}
-}
-
-func NewBand6Value(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) (Band6Value, diag.Diagnostics) {
-	var diags diag.Diagnostics
-
-	// Reference: https://github.com/hashicorp/terraform-plugin-framework/issues/521
-	ctx := context.Background()
-
-	for name, attributeType := range attributeTypes {
-		attribute, ok := attributes[name]
-
-		if !ok {
-			diags.AddError(
-				"Missing Band6Value Attribute Value",
-				"While creating a Band6Value value, a missing attribute value was detected. "+
-					"A Band6Value must contain values for all attributes, even if null or unknown. "+
-					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
-					fmt.Sprintf("Band6Value Attribute Name (%s) Expected Type: %s", name, attributeType.String()),
-			)
-
-			continue
-		}
-
-		if !attributeType.Equal(attribute.Type(ctx)) {
-			diags.AddError(
-				"Invalid Band6Value Attribute Type",
-				"While creating a Band6Value value, an invalid attribute value was detected. "+
-					"A Band6Value must use a matching attribute type for the value. "+
-					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
-					fmt.Sprintf("Band6Value Attribute Name (%s) Expected Type: %s\n", name, attributeType.String())+
-					fmt.Sprintf("Band6Value Attribute Name (%s) Given Type: %s", name, attribute.Type(ctx)),
-			)
-		}
-	}
-
-	for name := range attributes {
-		_, ok := attributeTypes[name]
-
-		if !ok {
-			diags.AddError(
-				"Extra Band6Value Attribute Value",
-				"While creating a Band6Value value, an extra attribute value was detected. "+
-					"A Band6Value must not contain values beyond the expected attribute types. "+
-					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
-					fmt.Sprintf("Extra Band6Value Attribute Name: %s", name),
-			)
-		}
-	}
-
-	if diags.HasError() {
-		return NewBand6ValueUnknown(), diags
-	}
-
-	bandwidthAttribute, ok := attributes["bandwidth"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`bandwidth is missing from object`)
-
-		return NewBand6ValueUnknown(), diags
-	}
-
-	bandwidthVal, ok := bandwidthAttribute.(basetypes.Int64Value)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`bandwidth expected to be basetypes.Int64Value, was: %T`, bandwidthAttribute))
-	}
-
-	channelAttribute, ok := attributes["channel"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`channel is missing from object`)
-
-		return NewBand6ValueUnknown(), diags
-	}
-
-	channelVal, ok := channelAttribute.(basetypes.Int64Value)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`channel expected to be basetypes.Int64Value, was: %T`, channelAttribute))
-	}
-
-	dynamicChainingEnalbedAttribute, ok := attributes["dynamic_chaining_enalbed"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`dynamic_chaining_enalbed is missing from object`)
-
-		return NewBand6ValueUnknown(), diags
-	}
-
-	dynamicChainingEnalbedVal, ok := dynamicChainingEnalbedAttribute.(basetypes.BoolValue)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`dynamic_chaining_enalbed expected to be basetypes.BoolValue, was: %T`, dynamicChainingEnalbedAttribute))
-	}
-
-	macAttribute, ok := attributes["mac"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`mac is missing from object`)
-
-		return NewBand6ValueUnknown(), diags
-	}
-
-	macVal, ok := macAttribute.(basetypes.StringValue)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`mac expected to be basetypes.StringValue, was: %T`, macAttribute))
-	}
-
-	noiseFloorAttribute, ok := attributes["noise_floor"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`noise_floor is missing from object`)
-
-		return NewBand6ValueUnknown(), diags
-	}
-
-	noiseFloorVal, ok := noiseFloorAttribute.(basetypes.Int64Value)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`noise_floor expected to be basetypes.Int64Value, was: %T`, noiseFloorAttribute))
-	}
-
-	numClientsAttribute, ok := attributes["num_clients"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`num_clients is missing from object`)
-
-		return NewBand6ValueUnknown(), diags
-	}
-
-	numClientsVal, ok := numClientsAttribute.(basetypes.Int64Value)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`num_clients expected to be basetypes.Int64Value, was: %T`, numClientsAttribute))
-	}
-
-	powerAttribute, ok := attributes["power"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`power is missing from object`)
-
-		return NewBand6ValueUnknown(), diags
-	}
-
-	powerVal, ok := powerAttribute.(basetypes.Int64Value)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`power expected to be basetypes.Int64Value, was: %T`, powerAttribute))
-	}
-
-	rxBytesAttribute, ok := attributes["rx_bytes"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`rx_bytes is missing from object`)
-
-		return NewBand6ValueUnknown(), diags
-	}
-
-	rxBytesVal, ok := rxBytesAttribute.(basetypes.Int64Value)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`rx_bytes expected to be basetypes.Int64Value, was: %T`, rxBytesAttribute))
-	}
-
-	rxPktsAttribute, ok := attributes["rx_pkts"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`rx_pkts is missing from object`)
-
-		return NewBand6ValueUnknown(), diags
-	}
-
-	rxPktsVal, ok := rxPktsAttribute.(basetypes.Int64Value)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`rx_pkts expected to be basetypes.Int64Value, was: %T`, rxPktsAttribute))
-	}
-
-	txBytesAttribute, ok := attributes["tx_bytes"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`tx_bytes is missing from object`)
-
-		return NewBand6ValueUnknown(), diags
-	}
-
-	txBytesVal, ok := txBytesAttribute.(basetypes.Int64Value)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`tx_bytes expected to be basetypes.Int64Value, was: %T`, txBytesAttribute))
-	}
-
-	txPktsAttribute, ok := attributes["tx_pkts"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`tx_pkts is missing from object`)
-
-		return NewBand6ValueUnknown(), diags
-	}
-
-	txPktsVal, ok := txPktsAttribute.(basetypes.Int64Value)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`tx_pkts expected to be basetypes.Int64Value, was: %T`, txPktsAttribute))
-	}
-
-	usageAttribute, ok := attributes["usage"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`usage is missing from object`)
-
-		return NewBand6ValueUnknown(), diags
-	}
-
-	usageVal, ok := usageAttribute.(basetypes.StringValue)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`usage expected to be basetypes.StringValue, was: %T`, usageAttribute))
-	}
-
-	utilAllAttribute, ok := attributes["util_all"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`util_all is missing from object`)
-
-		return NewBand6ValueUnknown(), diags
-	}
-
-	utilAllVal, ok := utilAllAttribute.(basetypes.Int64Value)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`util_all expected to be basetypes.Int64Value, was: %T`, utilAllAttribute))
-	}
-
-	utilNonWifiAttribute, ok := attributes["util_non_wifi"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`util_non_wifi is missing from object`)
-
-		return NewBand6ValueUnknown(), diags
-	}
-
-	utilNonWifiVal, ok := utilNonWifiAttribute.(basetypes.Int64Value)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`util_non_wifi expected to be basetypes.Int64Value, was: %T`, utilNonWifiAttribute))
-	}
-
-	utilRxInBssAttribute, ok := attributes["util_rx_in_bss"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`util_rx_in_bss is missing from object`)
-
-		return NewBand6ValueUnknown(), diags
-	}
-
-	utilRxInBssVal, ok := utilRxInBssAttribute.(basetypes.Int64Value)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`util_rx_in_bss expected to be basetypes.Int64Value, was: %T`, utilRxInBssAttribute))
-	}
-
-	utilRxOtherBssAttribute, ok := attributes["util_rx_other_bss"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`util_rx_other_bss is missing from object`)
-
-		return NewBand6ValueUnknown(), diags
-	}
-
-	utilRxOtherBssVal, ok := utilRxOtherBssAttribute.(basetypes.Int64Value)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`util_rx_other_bss expected to be basetypes.Int64Value, was: %T`, utilRxOtherBssAttribute))
-	}
-
-	utilTxAttribute, ok := attributes["util_tx"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`util_tx is missing from object`)
-
-		return NewBand6ValueUnknown(), diags
-	}
-
-	utilTxVal, ok := utilTxAttribute.(basetypes.Int64Value)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`util_tx expected to be basetypes.Int64Value, was: %T`, utilTxAttribute))
-	}
-
-	utilUndecodableWifiAttribute, ok := attributes["util_undecodable_wifi"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`util_undecodable_wifi is missing from object`)
-
-		return NewBand6ValueUnknown(), diags
-	}
-
-	utilUndecodableWifiVal, ok := utilUndecodableWifiAttribute.(basetypes.Int64Value)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`util_undecodable_wifi expected to be basetypes.Int64Value, was: %T`, utilUndecodableWifiAttribute))
-	}
-
-	utilUnknownWifiAttribute, ok := attributes["util_unknown_wifi"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`util_unknown_wifi is missing from object`)
-
-		return NewBand6ValueUnknown(), diags
-	}
-
-	utilUnknownWifiVal, ok := utilUnknownWifiAttribute.(basetypes.Int64Value)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`util_unknown_wifi expected to be basetypes.Int64Value, was: %T`, utilUnknownWifiAttribute))
-	}
-
-	if diags.HasError() {
-		return NewBand6ValueUnknown(), diags
-	}
-
-	return Band6Value{
-		Bandwidth:              bandwidthVal,
-		Channel:                channelVal,
-		DynamicChainingEnalbed: dynamicChainingEnalbedVal,
-		Mac:                    macVal,
-		NoiseFloor:             noiseFloorVal,
-		NumClients:             numClientsVal,
-		Power:                  powerVal,
-		RxBytes:                rxBytesVal,
-		RxPkts:                 rxPktsVal,
-		TxBytes:                txBytesVal,
-		TxPkts:                 txPktsVal,
-		Usage:                  usageVal,
-		UtilAll:                utilAllVal,
-		UtilNonWifi:            utilNonWifiVal,
-		UtilRxInBss:            utilRxInBssVal,
-		UtilRxOtherBss:         utilRxOtherBssVal,
-		UtilTx:                 utilTxVal,
-		UtilUndecodableWifi:    utilUndecodableWifiVal,
-		UtilUnknownWifi:        utilUnknownWifiVal,
-		state:                  attr.ValueStateKnown,
-	}, diags
-}
-
-func NewBand6ValueMust(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) Band6Value {
-	object, diags := NewBand6Value(attributeTypes, attributes)
-
-	if diags.HasError() {
-		// This could potentially be added to the diag package.
-		diagsStrings := make([]string, 0, len(diags))
-
-		for _, diagnostic := range diags {
-			diagsStrings = append(diagsStrings, fmt.Sprintf(
-				"%s | %s | %s",
-				diagnostic.Severity(),
-				diagnostic.Summary(),
-				diagnostic.Detail()))
-		}
-
-		panic("NewBand6ValueMust received error(s): " + strings.Join(diagsStrings, "\n"))
-	}
-
-	return object
-}
-
-func (t Band6Type) ValueFromTerraform(ctx context.Context, in tftypes.Value) (attr.Value, error) {
-	if in.Type() == nil {
-		return NewBand6ValueNull(), nil
-	}
-
-	if !in.Type().Equal(t.TerraformType(ctx)) {
-		return nil, fmt.Errorf("expected %s, got %s", t.TerraformType(ctx), in.Type())
-	}
-
-	if !in.IsKnown() {
-		return NewBand6ValueUnknown(), nil
-	}
-
-	if in.IsNull() {
-		return NewBand6ValueNull(), nil
-	}
-
-	attributes := map[string]attr.Value{}
-
-	val := map[string]tftypes.Value{}
-
-	err := in.As(&val)
-
-	if err != nil {
-		return nil, err
-	}
-
-	for k, v := range val {
-		a, err := t.AttrTypes[k].ValueFromTerraform(ctx, v)
-
-		if err != nil {
-			return nil, err
-		}
-
-		attributes[k] = a
-	}
-
-	return NewBand6ValueMust(Band6Value{}.AttributeTypes(ctx), attributes), nil
-}
-
-func (t Band6Type) ValueType(ctx context.Context) attr.Value {
-	return Band6Value{}
-}
-
-var _ basetypes.ObjectValuable = Band6Value{}
-
-type Band6Value struct {
-	Bandwidth              basetypes.Int64Value  `tfsdk:"bandwidth"`
-	Channel                basetypes.Int64Value  `tfsdk:"channel"`
-	DynamicChainingEnalbed basetypes.BoolValue   `tfsdk:"dynamic_chaining_enalbed"`
-	Mac                    basetypes.StringValue `tfsdk:"mac"`
-	NoiseFloor             basetypes.Int64Value  `tfsdk:"noise_floor"`
-	NumClients             basetypes.Int64Value  `tfsdk:"num_clients"`
-	Power                  basetypes.Int64Value  `tfsdk:"power"`
-	RxBytes                basetypes.Int64Value  `tfsdk:"rx_bytes"`
-	RxPkts                 basetypes.Int64Value  `tfsdk:"rx_pkts"`
-	TxBytes                basetypes.Int64Value  `tfsdk:"tx_bytes"`
-	TxPkts                 basetypes.Int64Value  `tfsdk:"tx_pkts"`
-	Usage                  basetypes.StringValue `tfsdk:"usage"`
-	UtilAll                basetypes.Int64Value  `tfsdk:"util_all"`
-	UtilNonWifi            basetypes.Int64Value  `tfsdk:"util_non_wifi"`
-	UtilRxInBss            basetypes.Int64Value  `tfsdk:"util_rx_in_bss"`
-	UtilRxOtherBss         basetypes.Int64Value  `tfsdk:"util_rx_other_bss"`
-	UtilTx                 basetypes.Int64Value  `tfsdk:"util_tx"`
-	UtilUndecodableWifi    basetypes.Int64Value  `tfsdk:"util_undecodable_wifi"`
-	UtilUnknownWifi        basetypes.Int64Value  `tfsdk:"util_unknown_wifi"`
-	state                  attr.ValueState
-}
-
-func (v Band6Value) ToTerraformValue(ctx context.Context) (tftypes.Value, error) {
-	attrTypes := make(map[string]tftypes.Type, 19)
-
-	var val tftypes.Value
-	var err error
-
-	attrTypes["bandwidth"] = basetypes.Int64Type{}.TerraformType(ctx)
-	attrTypes["channel"] = basetypes.Int64Type{}.TerraformType(ctx)
-	attrTypes["dynamic_chaining_enalbed"] = basetypes.BoolType{}.TerraformType(ctx)
-	attrTypes["mac"] = basetypes.StringType{}.TerraformType(ctx)
-	attrTypes["noise_floor"] = basetypes.Int64Type{}.TerraformType(ctx)
-	attrTypes["num_clients"] = basetypes.Int64Type{}.TerraformType(ctx)
-	attrTypes["power"] = basetypes.Int64Type{}.TerraformType(ctx)
-	attrTypes["rx_bytes"] = basetypes.Int64Type{}.TerraformType(ctx)
-	attrTypes["rx_pkts"] = basetypes.Int64Type{}.TerraformType(ctx)
-	attrTypes["tx_bytes"] = basetypes.Int64Type{}.TerraformType(ctx)
-	attrTypes["tx_pkts"] = basetypes.Int64Type{}.TerraformType(ctx)
-	attrTypes["usage"] = basetypes.StringType{}.TerraformType(ctx)
-	attrTypes["util_all"] = basetypes.Int64Type{}.TerraformType(ctx)
-	attrTypes["util_non_wifi"] = basetypes.Int64Type{}.TerraformType(ctx)
-	attrTypes["util_rx_in_bss"] = basetypes.Int64Type{}.TerraformType(ctx)
-	attrTypes["util_rx_other_bss"] = basetypes.Int64Type{}.TerraformType(ctx)
-	attrTypes["util_tx"] = basetypes.Int64Type{}.TerraformType(ctx)
-	attrTypes["util_undecodable_wifi"] = basetypes.Int64Type{}.TerraformType(ctx)
-	attrTypes["util_unknown_wifi"] = basetypes.Int64Type{}.TerraformType(ctx)
-
-	objectType := tftypes.Object{AttributeTypes: attrTypes}
-
-	switch v.state {
-	case attr.ValueStateKnown:
-		vals := make(map[string]tftypes.Value, 19)
-
-		val, err = v.Bandwidth.ToTerraformValue(ctx)
-
-		if err != nil {
-			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
-		}
-
-		vals["bandwidth"] = val
-
-		val, err = v.Channel.ToTerraformValue(ctx)
-
-		if err != nil {
-			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
-		}
-
-		vals["channel"] = val
-
-		val, err = v.DynamicChainingEnalbed.ToTerraformValue(ctx)
-
-		if err != nil {
-			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
-		}
-
-		vals["dynamic_chaining_enalbed"] = val
-
-		val, err = v.Mac.ToTerraformValue(ctx)
-
-		if err != nil {
-			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
-		}
-
-		vals["mac"] = val
-
-		val, err = v.NoiseFloor.ToTerraformValue(ctx)
-
-		if err != nil {
-			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
-		}
-
-		vals["noise_floor"] = val
-
-		val, err = v.NumClients.ToTerraformValue(ctx)
-
-		if err != nil {
-			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
-		}
-
-		vals["num_clients"] = val
-
-		val, err = v.Power.ToTerraformValue(ctx)
-
-		if err != nil {
-			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
-		}
-
-		vals["power"] = val
-
-		val, err = v.RxBytes.ToTerraformValue(ctx)
-
-		if err != nil {
-			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
-		}
-
-		vals["rx_bytes"] = val
-
-		val, err = v.RxPkts.ToTerraformValue(ctx)
-
-		if err != nil {
-			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
-		}
-
-		vals["rx_pkts"] = val
-
-		val, err = v.TxBytes.ToTerraformValue(ctx)
-
-		if err != nil {
-			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
-		}
-
-		vals["tx_bytes"] = val
-
-		val, err = v.TxPkts.ToTerraformValue(ctx)
-
-		if err != nil {
-			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
-		}
-
-		vals["tx_pkts"] = val
-
-		val, err = v.Usage.ToTerraformValue(ctx)
-
-		if err != nil {
-			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
-		}
-
-		vals["usage"] = val
-
-		val, err = v.UtilAll.ToTerraformValue(ctx)
-
-		if err != nil {
-			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
-		}
-
-		vals["util_all"] = val
-
-		val, err = v.UtilNonWifi.ToTerraformValue(ctx)
-
-		if err != nil {
-			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
-		}
-
-		vals["util_non_wifi"] = val
-
-		val, err = v.UtilRxInBss.ToTerraformValue(ctx)
-
-		if err != nil {
-			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
-		}
-
-		vals["util_rx_in_bss"] = val
-
-		val, err = v.UtilRxOtherBss.ToTerraformValue(ctx)
-
-		if err != nil {
-			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
-		}
-
-		vals["util_rx_other_bss"] = val
-
-		val, err = v.UtilTx.ToTerraformValue(ctx)
-
-		if err != nil {
-			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
-		}
-
-		vals["util_tx"] = val
-
-		val, err = v.UtilUndecodableWifi.ToTerraformValue(ctx)
-
-		if err != nil {
-			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
-		}
-
-		vals["util_undecodable_wifi"] = val
-
-		val, err = v.UtilUnknownWifi.ToTerraformValue(ctx)
-
-		if err != nil {
-			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
-		}
-
-		vals["util_unknown_wifi"] = val
-
-		if err := tftypes.ValidateValue(objectType, vals); err != nil {
-			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
-		}
-
-		return tftypes.NewValue(objectType, vals), nil
-	case attr.ValueStateNull:
-		return tftypes.NewValue(objectType, nil), nil
-	case attr.ValueStateUnknown:
-		return tftypes.NewValue(objectType, tftypes.UnknownValue), nil
-	default:
-		panic(fmt.Sprintf("unhandled Object state in ToTerraformValue: %s", v.state))
-	}
-}
-
-func (v Band6Value) IsNull() bool {
-	return v.state == attr.ValueStateNull
-}
-
-func (v Band6Value) IsUnknown() bool {
-	return v.state == attr.ValueStateUnknown
-}
-
-func (v Band6Value) String() string {
-	return "Band6Value"
-}
-
-func (v Band6Value) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, diag.Diagnostics) {
-	var diags diag.Diagnostics
-
-	attributeTypes := map[string]attr.Type{
-		"bandwidth":                basetypes.Int64Type{},
-		"channel":                  basetypes.Int64Type{},
-		"dynamic_chaining_enalbed": basetypes.BoolType{},
-		"mac":                      basetypes.StringType{},
-		"noise_floor":              basetypes.Int64Type{},
-		"num_clients":              basetypes.Int64Type{},
-		"power":                    basetypes.Int64Type{},
-		"rx_bytes":                 basetypes.Int64Type{},
-		"rx_pkts":                  basetypes.Int64Type{},
-		"tx_bytes":                 basetypes.Int64Type{},
-		"tx_pkts":                  basetypes.Int64Type{},
-		"usage":                    basetypes.StringType{},
-		"util_all":                 basetypes.Int64Type{},
-		"util_non_wifi":            basetypes.Int64Type{},
-		"util_rx_in_bss":           basetypes.Int64Type{},
-		"util_rx_other_bss":        basetypes.Int64Type{},
-		"util_tx":                  basetypes.Int64Type{},
-		"util_undecodable_wifi":    basetypes.Int64Type{},
-		"util_unknown_wifi":        basetypes.Int64Type{},
-	}
-
-	if v.IsNull() {
-		return types.ObjectNull(attributeTypes), diags
-	}
-
-	if v.IsUnknown() {
-		return types.ObjectUnknown(attributeTypes), diags
-	}
-
-	objVal, diags := types.ObjectValue(
-		attributeTypes,
-		map[string]attr.Value{
-			"bandwidth":                v.Bandwidth,
-			"channel":                  v.Channel,
-			"dynamic_chaining_enalbed": v.DynamicChainingEnalbed,
-			"mac":                      v.Mac,
-			"noise_floor":              v.NoiseFloor,
-			"num_clients":              v.NumClients,
-			"power":                    v.Power,
-			"rx_bytes":                 v.RxBytes,
-			"rx_pkts":                  v.RxPkts,
-			"tx_bytes":                 v.TxBytes,
-			"tx_pkts":                  v.TxPkts,
-			"usage":                    v.Usage,
-			"util_all":                 v.UtilAll,
-			"util_non_wifi":            v.UtilNonWifi,
-			"util_rx_in_bss":           v.UtilRxInBss,
-			"util_rx_other_bss":        v.UtilRxOtherBss,
-			"util_tx":                  v.UtilTx,
-			"util_undecodable_wifi":    v.UtilUndecodableWifi,
-			"util_unknown_wifi":        v.UtilUnknownWifi,
-		})
-
-	return objVal, diags
-}
-
-func (v Band6Value) Equal(o attr.Value) bool {
-	other, ok := o.(Band6Value)
-
-	if !ok {
-		return false
-	}
-
-	if v.state != other.state {
-		return false
-	}
-
-	if v.state != attr.ValueStateKnown {
-		return true
-	}
-
-	if !v.Bandwidth.Equal(other.Bandwidth) {
-		return false
-	}
-
-	if !v.Channel.Equal(other.Channel) {
-		return false
-	}
-
-	if !v.DynamicChainingEnalbed.Equal(other.DynamicChainingEnalbed) {
-		return false
-	}
-
-	if !v.Mac.Equal(other.Mac) {
-		return false
-	}
-
-	if !v.NoiseFloor.Equal(other.NoiseFloor) {
-		return false
-	}
-
-	if !v.NumClients.Equal(other.NumClients) {
-		return false
-	}
-
-	if !v.Power.Equal(other.Power) {
-		return false
-	}
-
-	if !v.RxBytes.Equal(other.RxBytes) {
-		return false
-	}
-
-	if !v.RxPkts.Equal(other.RxPkts) {
-		return false
-	}
-
-	if !v.TxBytes.Equal(other.TxBytes) {
-		return false
-	}
-
-	if !v.TxPkts.Equal(other.TxPkts) {
-		return false
-	}
-
-	if !v.Usage.Equal(other.Usage) {
-		return false
-	}
-
-	if !v.UtilAll.Equal(other.UtilAll) {
-		return false
-	}
-
-	if !v.UtilNonWifi.Equal(other.UtilNonWifi) {
-		return false
-	}
-
-	if !v.UtilRxInBss.Equal(other.UtilRxInBss) {
-		return false
-	}
-
-	if !v.UtilRxOtherBss.Equal(other.UtilRxOtherBss) {
-		return false
-	}
-
-	if !v.UtilTx.Equal(other.UtilTx) {
-		return false
-	}
-
-	if !v.UtilUndecodableWifi.Equal(other.UtilUndecodableWifi) {
-		return false
-	}
-
-	if !v.UtilUnknownWifi.Equal(other.UtilUnknownWifi) {
-		return false
-	}
-
-	return true
-}
-
-func (v Band6Value) Type(ctx context.Context) attr.Type {
-	return Band6Type{
-		basetypes.ObjectType{
-			AttrTypes: v.AttributeTypes(ctx),
-		},
-	}
-}
-
-func (v Band6Value) AttributeTypes(ctx context.Context) map[string]attr.Type {
-	return map[string]attr.Type{
-		"bandwidth":                basetypes.Int64Type{},
-		"channel":                  basetypes.Int64Type{},
-		"dynamic_chaining_enalbed": basetypes.BoolType{},
-		"mac":                      basetypes.StringType{},
-		"noise_floor":              basetypes.Int64Type{},
-		"num_clients":              basetypes.Int64Type{},
-		"power":                    basetypes.Int64Type{},
-		"rx_bytes":                 basetypes.Int64Type{},
-		"rx_pkts":                  basetypes.Int64Type{},
-		"tx_bytes":                 basetypes.Int64Type{},
-		"tx_pkts":                  basetypes.Int64Type{},
-		"usage":                    basetypes.StringType{},
-		"util_all":                 basetypes.Int64Type{},
-		"util_non_wifi":            basetypes.Int64Type{},
-		"util_rx_in_bss":           basetypes.Int64Type{},
-		"util_rx_other_bss":        basetypes.Int64Type{},
-		"util_tx":                  basetypes.Int64Type{},
-		"util_undecodable_wifi":    basetypes.Int64Type{},
-		"util_unknown_wifi":        basetypes.Int64Type{},
-	}
-}
 
 var _ basetypes.ObjectTypable = SwitchRedundancyType{}
 

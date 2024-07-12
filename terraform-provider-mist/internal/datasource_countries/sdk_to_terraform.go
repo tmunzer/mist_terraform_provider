@@ -1,36 +1,42 @@
-package resource_nactag
+package datasource_countries
 
 import (
 	"context"
+	"math/big"
+	"mistapi/models"
 
+	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
-
-	mist_transform "terraform-provider-mist/internal/commons/utils"
-
-	"mistapi/models"
+	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 )
 
-func SdkToTerraform(ctx context.Context, data *models.NacTag) (NactagModel, diag.Diagnostics) {
-	var state NactagModel
+func SdkToTerraform(ctx context.Context, l []models.ConstCountry) (basetypes.SetValue, diag.Diagnostics) {
 	var diags diag.Diagnostics
 
-	state.Id = types.StringValue(data.GetId())
-	state.OrgId = types.StringValue(data.GetOrgId())
-	state.Name = types.StringValue(data.GetName())
+	var elements []attr.Value
+	for _, d := range l {
+		elem := countrySdkToTerraform(ctx, &diags, d)
+		elements = append(elements, elem)
+	}
 
-	state.AllowUsermacOverride = types.BoolValue(data.GetAllowUsermacOverride())
-	state.EgressVlanNames = mist_transform.ListOfStringSdkToTerraform(ctx, data.GetEgressVlanNames())
-	state.GbpTag = types.Int64Value(int64(data.GetGbpTag()))
-	state.Match = types.StringValue(string(data.GetMatch()))
-	state.MatchAll = types.BoolValue(data.GetMatchAll())
-	state.RadiusAttrs = mist_transform.ListOfStringSdkToTerraform(ctx, data.GetRadiusAttrs())
-	state.RadiusGroup = types.StringValue(data.GetRadiusGroup())
-	state.RadiusVendorAttrs = mist_transform.ListOfStringSdkToTerraform(ctx, data.RadiusVendorAttrs)
-	state.SessionTimeout = types.Int64Value(int64(*data.SessionTimeout))
-	state.Type = types.StringValue(string(data.GetType()))
-	state.Values = mist_transform.ListOfStringSdkToTerraform(ctx, data.GetValues())
-	state.Vlan = types.StringValue(data.GetVlan())
+	dataSet, err := types.SetValue(CountriesValue{}.Type(ctx), elements)
+	if err != nil {
+		diags.Append(err...)
+	}
 
-	return state, diags
+	return dataSet, diags
+}
+
+func countrySdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d models.ConstCountry) CountriesValue {
+	o, _ := NewCountriesValue(
+		CountriesValue{}.AttributeTypes(ctx),
+		map[string]attr.Value{
+			"alpha2":    types.StringValue(d.Alpha2),
+			"certified": types.BoolValue(d.Certified),
+			"name":      types.StringValue(d.Name),
+			"numeric":   types.NumberValue(big.NewFloat(d.Numeric)),
+		},
+	)
+	return o
 }

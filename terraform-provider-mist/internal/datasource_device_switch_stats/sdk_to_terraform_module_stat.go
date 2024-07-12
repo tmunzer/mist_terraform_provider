@@ -9,9 +9,11 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
+	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 
 func moduleStatErrorSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, l []models.ModuleStatItemErrorsItems) basetypes.ListValue {
+	tflog.Debug(ctx, "moduleStatErrorSdkToTerraform")
 
 	var data_list = []ErrorsValue{}
 	for _, d := range l {
@@ -50,12 +52,13 @@ func moduleStatErrorSdkToTerraform(ctx context.Context, diags *diag.Diagnostics,
 
 		data_list = append(data_list, data)
 	}
-	r, e := types.ListValueFrom(ctx, ModuleStatValue{}.Type(ctx), data_list)
+	r, e := types.ListValueFrom(ctx, ErrorsValue{}.Type(ctx), data_list)
 	diags.Append(e...)
 
 	return r
 }
 func moduleStatFanSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, l []models.ModuleStatItemFansItems) basetypes.ListValue {
+	tflog.Debug(ctx, "moduleStatFanSdkToTerraform")
 
 	var data_list = []FansValue{}
 	for _, d := range l {
@@ -84,12 +87,13 @@ func moduleStatFanSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, l
 
 		data_list = append(data_list, data)
 	}
-	r, e := types.ListValueFrom(ctx, ModuleStatValue{}.Type(ctx), data_list)
+	r, e := types.ListValueFrom(ctx, FansValue{}.Type(ctx), data_list)
 	diags.Append(e...)
 
 	return r
 }
 func moduleStatPicPortGroupSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, l []models.ModuleStatItemPicsItemPortGroupsItem) basetypes.ListValue {
+	tflog.Debug(ctx, "moduleStatPicPortGroupSdkToTerraform")
 
 	var data_list = []PortGroupsValue{}
 	for _, d := range l {
@@ -113,18 +117,19 @@ func moduleStatPicPortGroupSdkToTerraform(ctx context.Context, diags *diag.Diagn
 
 		data_list = append(data_list, data)
 	}
-	r, e := types.ListValueFrom(ctx, ModuleStatValue{}.Type(ctx), data_list)
+	r, e := types.ListValueFrom(ctx, PortGroupsValue{}.Type(ctx), data_list)
 	diags.Append(e...)
 
 	return r
 }
 func moduleStatPicSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, l []models.ModuleStatItemPicsItem) basetypes.ListValue {
+	tflog.Debug(ctx, "moduleStatPicSdkToTerraform")
 
 	var data_list = []PicsValue{}
 	for _, d := range l {
 		var index basetypes.Int64Value
 		var model_number basetypes.StringValue
-		var port_groups basetypes.ListValue
+		var port_groups basetypes.ListValue = types.ListNull(PortGroupsValue{}.Type(ctx))
 
 		if d.Index != nil {
 			index = types.Int64Value(int64(*d.Index))
@@ -147,13 +152,14 @@ func moduleStatPicSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, l
 
 		data_list = append(data_list, data)
 	}
-	r, e := types.ListValueFrom(ctx, ModuleStatValue{}.Type(ctx), data_list)
+	r, e := types.ListValueFrom(ctx, PicsValue{}.Type(ctx), data_list)
 	diags.Append(e...)
 
 	return r
 }
 
 func moduleStatPoeSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d *models.ModuleStatItemPoe) basetypes.ObjectValue {
+	tflog.Debug(ctx, "moduleStatPoeSdkToTerraform")
 
 	var max_power basetypes.NumberValue
 	var power_draw basetypes.NumberValue
@@ -176,6 +182,7 @@ func moduleStatPoeSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d
 	return data
 }
 func moduleStatPsusSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, l []models.ModuleStatItemPsusItem) basetypes.ListValue {
+	tflog.Debug(ctx, "moduleStatPsusSdkToTerraform")
 
 	var data_list = []PsusValue{}
 	for _, d := range l {
@@ -199,12 +206,13 @@ func moduleStatPsusSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, 
 
 		data_list = append(data_list, data)
 	}
-	r, e := types.ListValueFrom(ctx, ModuleStatValue{}.Type(ctx), data_list)
+	r, e := types.ListValueFrom(ctx, PsusValue{}.Type(ctx), data_list)
 	diags.Append(e...)
 
 	return r
 }
 func moduleStatTemperatureSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, l []models.ModuleStatItemTemperaturesItem) basetypes.ListValue {
+	tflog.Debug(ctx, "moduleStatTemperatureSdkToTerraform")
 
 	var data_list = []TemperaturesValue{}
 	for _, d := range l {
@@ -233,12 +241,13 @@ func moduleStatTemperatureSdkToTerraform(ctx context.Context, diags *diag.Diagno
 
 		data_list = append(data_list, data)
 	}
-	r, e := types.ListValueFrom(ctx, ModuleStatValue{}.Type(ctx), data_list)
+	r, e := types.ListValueFrom(ctx, TemperaturesValue{}.Type(ctx), data_list)
 	diags.Append(e...)
 
 	return r
 }
 func moduleStatVcLinksSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, l []models.ModuleStatItemVcLinksItem) basetypes.ListValue {
+	tflog.Debug(ctx, "moduleStatVcLinksSdkToTerraform")
 
 	var data_list = []VcLinksValue{}
 	for _, d := range l {
@@ -266,12 +275,13 @@ func moduleStatVcLinksSdkToTerraform(ctx context.Context, diags *diag.Diagnostic
 		diags.Append(e...)
 		data_list = append(data_list, data)
 	}
-	r, e := types.ListValueFrom(ctx, ModuleStatValue{}.Type(ctx), data_list)
+	r, e := types.ListValueFrom(ctx, VcLinksValue{}.Type(ctx), data_list)
 	diags.Append(e...)
 
 	return r
 }
 func moduleStatSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, l []models.ModuleStatItem) basetypes.ListValue {
+	tflog.Debug(ctx, "moduleStatSdkToTerraform")
 
 	var data_list = []ModuleStatValue{}
 	for _, d := range l {

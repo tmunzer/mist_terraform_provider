@@ -17,7 +17,7 @@ func authSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d *models.
 	var eap_reauth basetypes.BoolValue
 	var enable_mac_auth basetypes.BoolValue
 	var key_idx basetypes.Int64Value
-	var keys basetypes.ListValue
+	var keys basetypes.ListValue = types.ListNull(types.StringType)
 	var multi_psk_only basetypes.BoolValue
 	var owe basetypes.StringValue
 	var pairwise basetypes.ListValue = types.ListNull(types.StringType)

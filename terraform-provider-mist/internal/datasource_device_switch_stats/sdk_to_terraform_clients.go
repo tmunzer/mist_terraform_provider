@@ -8,9 +8,11 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
+	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 
 func clientsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, l []models.SwitchStatsClientItem) basetypes.ListValue {
+	tflog.Debug(ctx, "clientsSdkToTerraform")
 
 	var data_list = []ClientsValue{}
 

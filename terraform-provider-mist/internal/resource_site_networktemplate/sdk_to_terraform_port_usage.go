@@ -54,7 +54,7 @@ func portUsageRulesSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, 
 	var value_list []attr.Value
 	for _, d := range l {
 		var equals basetypes.StringValue
-		var equals_any basetypes.ListValue
+		var equals_any basetypes.ListValue = types.ListNull(types.StringType)
 		var expression basetypes.StringValue
 		var src basetypes.StringValue = types.StringValue(string(d.Src))
 		var usage basetypes.StringValue

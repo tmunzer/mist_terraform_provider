@@ -5,7 +5,6 @@ package datasource_device_switch_stats
 import (
 	"context"
 	"fmt"
-	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
@@ -167,6 +166,9 @@ func DeviceSwitchStatsDataSourceSchema(ctx context.Context) schema.Schema {
 									AttrTypes: CpuStatValue{}.AttributeTypes(ctx),
 								},
 							},
+							Computed: true,
+						},
+						"created_time": schema.Int64Attribute{
 							Computed: true,
 						},
 						"deviceprofile_id": schema.StringAttribute{
@@ -402,20 +404,8 @@ func DeviceSwitchStatsDataSourceSchema(ctx context.Context) schema.Schema {
 							Description:         "last trouble code of switch",
 							MarkdownDescription: "last trouble code of switch",
 						},
-						"mac": schema.SingleNestedAttribute{
-							Attributes: map[string]schema.Attribute{
-								"usage": schema.NumberAttribute{
-									Computed: true,
-								},
-							},
-							CustomType: MacType{
-								ObjectType: types.ObjectType{
-									AttrTypes: MacValue{}.AttributeTypes(ctx),
-								},
-							},
-							Computed:            true,
-							Description:         "memory usage stat (for virtual chassis, memory usage of master RE)",
-							MarkdownDescription: "memory usage stat (for virtual chassis, memory usage of master RE)",
+						"mac": schema.StringAttribute{
+							Computed: true,
 						},
 						"mac_table_stats": schema.SingleNestedAttribute{
 							Attributes: map[string]schema.Attribute{
@@ -452,6 +442,9 @@ func DeviceSwitchStatsDataSourceSchema(ctx context.Context) schema.Schema {
 							MarkdownDescription: "memory usage stat (for virtual chassis, memory usage of master RE)",
 						},
 						"model": schema.StringAttribute{
+							Computed: true,
+						},
+						"modified_time": schema.Int64Attribute{
 							Computed: true,
 						},
 						"module_stat": schema.ListNestedAttribute{
@@ -768,9 +761,6 @@ func DeviceSwitchStatsDataSourceSchema(ctx context.Context) schema.Schema {
 						"status": schema.StringAttribute{
 							Computed: true,
 						},
-						"type": schema.StringAttribute{
-							Computed: true,
-						},
 						"uptime": schema.NumberAttribute{
 							Computed: true,
 						},
@@ -825,28 +815,11 @@ func DeviceSwitchStatsDataSourceSchema(ctx context.Context) schema.Schema {
 				Description:         "EVPN Topology ID",
 				MarkdownDescription: "EVPN Topology ID",
 			},
-			"fields": schema.StringAttribute{
-				Optional:            true,
-				Description:         "list of additional fields requests, comma separeted, or `fields=*` for all of them",
-				MarkdownDescription: "list of additional fields requests, comma separeted, or `fields=*` for all of them",
-			},
-			"limit": schema.Int64Attribute{
-				Optional: true,
-				Validators: []validator.Int64{
-					int64validator.AtLeast(0),
-				},
-			},
 			"mac": schema.StringAttribute{
 				Optional: true,
 			},
 			"org_id": schema.StringAttribute{
 				Required: true,
-			},
-			"page": schema.Int64Attribute{
-				Optional: true,
-				Validators: []validator.Int64{
-					int64validator.AtLeast(1),
-				},
 			},
 			"site_id": schema.StringAttribute{
 				Optional: true,
@@ -867,18 +840,6 @@ func DeviceSwitchStatsDataSourceSchema(ctx context.Context) schema.Schema {
 					),
 				},
 			},
-			"type": schema.StringAttribute{
-				Optional: true,
-				Validators: []validator.String{
-					stringvalidator.OneOf(
-						"",
-						"ap",
-						"switch",
-						"gateway",
-						"all",
-					),
-				},
-			},
 		},
 	}
 }
@@ -889,15 +850,11 @@ type DeviceSwitchStatsModel struct {
 	End               types.Int64  `tfsdk:"end"`
 	EvpnUnused        types.String `tfsdk:"evpn_unused"`
 	EvpntopoId        types.String `tfsdk:"evpntopo_id"`
-	Fields            types.String `tfsdk:"fields"`
-	Limit             types.Int64  `tfsdk:"limit"`
 	Mac               types.String `tfsdk:"mac"`
 	OrgId             types.String `tfsdk:"org_id"`
-	Page              types.Int64  `tfsdk:"page"`
 	SiteId            types.String `tfsdk:"site_id"`
 	Start             types.Int64  `tfsdk:"start"`
 	Status            types.String `tfsdk:"status"`
-	Type              types.String `tfsdk:"type"`
 }
 
 var _ basetypes.ObjectTypable = DeviceSwitchStatsType{}
@@ -1049,6 +1006,24 @@ func (t DeviceSwitchStatsType) ValueFromObject(ctx context.Context, in basetypes
 		diags.AddError(
 			"Attribute Wrong Type",
 			fmt.Sprintf(`cpu_stat expected to be basetypes.ObjectValue, was: %T`, cpuStatAttribute))
+	}
+
+	createdTimeAttribute, ok := attributes["created_time"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`created_time is missing from object`)
+
+		return nil, diags
+	}
+
+	createdTimeVal, ok := createdTimeAttribute.(basetypes.Int64Value)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`created_time expected to be basetypes.Int64Value, was: %T`, createdTimeAttribute))
 	}
 
 	deviceprofileIdAttribute, ok := attributes["deviceprofile_id"]
@@ -1313,12 +1288,12 @@ func (t DeviceSwitchStatsType) ValueFromObject(ctx context.Context, in basetypes
 		return nil, diags
 	}
 
-	macVal, ok := macAttribute.(basetypes.ObjectValue)
+	macVal, ok := macAttribute.(basetypes.StringValue)
 
 	if !ok {
 		diags.AddError(
 			"Attribute Wrong Type",
-			fmt.Sprintf(`mac expected to be basetypes.ObjectValue, was: %T`, macAttribute))
+			fmt.Sprintf(`mac expected to be basetypes.StringValue, was: %T`, macAttribute))
 	}
 
 	macTableStatsAttribute, ok := attributes["mac_table_stats"]
@@ -1391,6 +1366,24 @@ func (t DeviceSwitchStatsType) ValueFromObject(ctx context.Context, in basetypes
 		diags.AddError(
 			"Attribute Wrong Type",
 			fmt.Sprintf(`model expected to be basetypes.StringValue, was: %T`, modelAttribute))
+	}
+
+	modifiedTimeAttribute, ok := attributes["modified_time"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`modified_time is missing from object`)
+
+		return nil, diags
+	}
+
+	modifiedTimeVal, ok := modifiedTimeAttribute.(basetypes.Int64Value)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`modified_time expected to be basetypes.Int64Value, was: %T`, modifiedTimeAttribute))
 	}
 
 	moduleStatAttribute, ok := attributes["module_stat"]
@@ -1537,24 +1530,6 @@ func (t DeviceSwitchStatsType) ValueFromObject(ctx context.Context, in basetypes
 			fmt.Sprintf(`status expected to be basetypes.StringValue, was: %T`, statusAttribute))
 	}
 
-	typeAttribute, ok := attributes["type"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`type is missing from object`)
-
-		return nil, diags
-	}
-
-	typeVal, ok := typeAttribute.(basetypes.StringValue)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`type expected to be basetypes.StringValue, was: %T`, typeAttribute))
-	}
-
 	uptimeAttribute, ok := attributes["uptime"]
 
 	if !ok {
@@ -1632,46 +1607,47 @@ func (t DeviceSwitchStatsType) ValueFromObject(ctx context.Context, in basetypes
 	}
 
 	return DeviceSwitchStatsValue{
-		ApRedundancy:          apRedundancyVal,
-		ArpTableStats:         arpTableStatsVal,
-		CertExpiry:            certExpiryVal,
-		Clients:               clientsVal,
-		ClientsStats:          clientsStatsVal,
-		ConfigStatus:          configStatusVal,
-		CpuStat:               cpuStatVal,
-		DeviceprofileId:       deviceprofileIdVal,
-		DhcpdStat:             dhcpdStatVal,
-		EvpntopoId:            evpntopoIdVal,
-		FwVersionsOutofsync:   fwVersionsOutofsyncVal,
-		Fwupdate:              fwupdateVal,
-		HasPcap:               hasPcapVal,
-		Hostname:              hostnameVal,
-		HwRev:                 hwRevVal,
-		Id:                    idVal,
-		IfStat:                ifStatVal,
-		Ip:                    ipVal,
-		IpStat:                ipStatVal,
-		LastSeen:              lastSeenVal,
-		LastTrouble:           lastTroubleVal,
-		Mac:                   macVal,
-		MacTableStats:         macTableStatsVal,
-		MapId:                 mapIdVal,
-		MemoryStat:            memoryStatVal,
-		Model:                 modelVal,
-		ModuleStat:            moduleStatVal,
-		Name:                  nameVal,
-		OrgId:                 orgIdVal,
-		RouteSummaryStats:     routeSummaryStatsVal,
-		Serial:                serialVal,
-		ServiceStat:           serviceStatVal,
-		SiteId:                siteIdVal,
-		Status:                statusVal,
-		DeviceSwitchStatsType: typeVal,
-		Uptime:                uptimeVal,
-		VcMac:                 vcMacVal,
-		VcSetupInfo:           vcSetupInfoVal,
-		Version:               versionVal,
-		state:                 attr.ValueStateKnown,
+		ApRedundancy:        apRedundancyVal,
+		ArpTableStats:       arpTableStatsVal,
+		CertExpiry:          certExpiryVal,
+		Clients:             clientsVal,
+		ClientsStats:        clientsStatsVal,
+		ConfigStatus:        configStatusVal,
+		CpuStat:             cpuStatVal,
+		CreatedTime:         createdTimeVal,
+		DeviceprofileId:     deviceprofileIdVal,
+		DhcpdStat:           dhcpdStatVal,
+		EvpntopoId:          evpntopoIdVal,
+		FwVersionsOutofsync: fwVersionsOutofsyncVal,
+		Fwupdate:            fwupdateVal,
+		HasPcap:             hasPcapVal,
+		Hostname:            hostnameVal,
+		HwRev:               hwRevVal,
+		Id:                  idVal,
+		IfStat:              ifStatVal,
+		Ip:                  ipVal,
+		IpStat:              ipStatVal,
+		LastSeen:            lastSeenVal,
+		LastTrouble:         lastTroubleVal,
+		Mac:                 macVal,
+		MacTableStats:       macTableStatsVal,
+		MapId:               mapIdVal,
+		MemoryStat:          memoryStatVal,
+		Model:               modelVal,
+		ModifiedTime:        modifiedTimeVal,
+		ModuleStat:          moduleStatVal,
+		Name:                nameVal,
+		OrgId:               orgIdVal,
+		RouteSummaryStats:   routeSummaryStatsVal,
+		Serial:              serialVal,
+		ServiceStat:         serviceStatVal,
+		SiteId:              siteIdVal,
+		Status:              statusVal,
+		Uptime:              uptimeVal,
+		VcMac:               vcMacVal,
+		VcSetupInfo:         vcSetupInfoVal,
+		Version:             versionVal,
+		state:               attr.ValueStateKnown,
 	}, diags
 }
 
@@ -1864,6 +1840,24 @@ func NewDeviceSwitchStatsValue(attributeTypes map[string]attr.Type, attributes m
 			fmt.Sprintf(`cpu_stat expected to be basetypes.ObjectValue, was: %T`, cpuStatAttribute))
 	}
 
+	createdTimeAttribute, ok := attributes["created_time"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`created_time is missing from object`)
+
+		return NewDeviceSwitchStatsValueUnknown(), diags
+	}
+
+	createdTimeVal, ok := createdTimeAttribute.(basetypes.Int64Value)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`created_time expected to be basetypes.Int64Value, was: %T`, createdTimeAttribute))
+	}
+
 	deviceprofileIdAttribute, ok := attributes["deviceprofile_id"]
 
 	if !ok {
@@ -2126,12 +2120,12 @@ func NewDeviceSwitchStatsValue(attributeTypes map[string]attr.Type, attributes m
 		return NewDeviceSwitchStatsValueUnknown(), diags
 	}
 
-	macVal, ok := macAttribute.(basetypes.ObjectValue)
+	macVal, ok := macAttribute.(basetypes.StringValue)
 
 	if !ok {
 		diags.AddError(
 			"Attribute Wrong Type",
-			fmt.Sprintf(`mac expected to be basetypes.ObjectValue, was: %T`, macAttribute))
+			fmt.Sprintf(`mac expected to be basetypes.StringValue, was: %T`, macAttribute))
 	}
 
 	macTableStatsAttribute, ok := attributes["mac_table_stats"]
@@ -2204,6 +2198,24 @@ func NewDeviceSwitchStatsValue(attributeTypes map[string]attr.Type, attributes m
 		diags.AddError(
 			"Attribute Wrong Type",
 			fmt.Sprintf(`model expected to be basetypes.StringValue, was: %T`, modelAttribute))
+	}
+
+	modifiedTimeAttribute, ok := attributes["modified_time"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`modified_time is missing from object`)
+
+		return NewDeviceSwitchStatsValueUnknown(), diags
+	}
+
+	modifiedTimeVal, ok := modifiedTimeAttribute.(basetypes.Int64Value)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`modified_time expected to be basetypes.Int64Value, was: %T`, modifiedTimeAttribute))
 	}
 
 	moduleStatAttribute, ok := attributes["module_stat"]
@@ -2350,24 +2362,6 @@ func NewDeviceSwitchStatsValue(attributeTypes map[string]attr.Type, attributes m
 			fmt.Sprintf(`status expected to be basetypes.StringValue, was: %T`, statusAttribute))
 	}
 
-	typeAttribute, ok := attributes["type"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`type is missing from object`)
-
-		return NewDeviceSwitchStatsValueUnknown(), diags
-	}
-
-	typeVal, ok := typeAttribute.(basetypes.StringValue)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`type expected to be basetypes.StringValue, was: %T`, typeAttribute))
-	}
-
 	uptimeAttribute, ok := attributes["uptime"]
 
 	if !ok {
@@ -2445,46 +2439,47 @@ func NewDeviceSwitchStatsValue(attributeTypes map[string]attr.Type, attributes m
 	}
 
 	return DeviceSwitchStatsValue{
-		ApRedundancy:          apRedundancyVal,
-		ArpTableStats:         arpTableStatsVal,
-		CertExpiry:            certExpiryVal,
-		Clients:               clientsVal,
-		ClientsStats:          clientsStatsVal,
-		ConfigStatus:          configStatusVal,
-		CpuStat:               cpuStatVal,
-		DeviceprofileId:       deviceprofileIdVal,
-		DhcpdStat:             dhcpdStatVal,
-		EvpntopoId:            evpntopoIdVal,
-		FwVersionsOutofsync:   fwVersionsOutofsyncVal,
-		Fwupdate:              fwupdateVal,
-		HasPcap:               hasPcapVal,
-		Hostname:              hostnameVal,
-		HwRev:                 hwRevVal,
-		Id:                    idVal,
-		IfStat:                ifStatVal,
-		Ip:                    ipVal,
-		IpStat:                ipStatVal,
-		LastSeen:              lastSeenVal,
-		LastTrouble:           lastTroubleVal,
-		Mac:                   macVal,
-		MacTableStats:         macTableStatsVal,
-		MapId:                 mapIdVal,
-		MemoryStat:            memoryStatVal,
-		Model:                 modelVal,
-		ModuleStat:            moduleStatVal,
-		Name:                  nameVal,
-		OrgId:                 orgIdVal,
-		RouteSummaryStats:     routeSummaryStatsVal,
-		Serial:                serialVal,
-		ServiceStat:           serviceStatVal,
-		SiteId:                siteIdVal,
-		Status:                statusVal,
-		DeviceSwitchStatsType: typeVal,
-		Uptime:                uptimeVal,
-		VcMac:                 vcMacVal,
-		VcSetupInfo:           vcSetupInfoVal,
-		Version:               versionVal,
-		state:                 attr.ValueStateKnown,
+		ApRedundancy:        apRedundancyVal,
+		ArpTableStats:       arpTableStatsVal,
+		CertExpiry:          certExpiryVal,
+		Clients:             clientsVal,
+		ClientsStats:        clientsStatsVal,
+		ConfigStatus:        configStatusVal,
+		CpuStat:             cpuStatVal,
+		CreatedTime:         createdTimeVal,
+		DeviceprofileId:     deviceprofileIdVal,
+		DhcpdStat:           dhcpdStatVal,
+		EvpntopoId:          evpntopoIdVal,
+		FwVersionsOutofsync: fwVersionsOutofsyncVal,
+		Fwupdate:            fwupdateVal,
+		HasPcap:             hasPcapVal,
+		Hostname:            hostnameVal,
+		HwRev:               hwRevVal,
+		Id:                  idVal,
+		IfStat:              ifStatVal,
+		Ip:                  ipVal,
+		IpStat:              ipStatVal,
+		LastSeen:            lastSeenVal,
+		LastTrouble:         lastTroubleVal,
+		Mac:                 macVal,
+		MacTableStats:       macTableStatsVal,
+		MapId:               mapIdVal,
+		MemoryStat:          memoryStatVal,
+		Model:               modelVal,
+		ModifiedTime:        modifiedTimeVal,
+		ModuleStat:          moduleStatVal,
+		Name:                nameVal,
+		OrgId:               orgIdVal,
+		RouteSummaryStats:   routeSummaryStatsVal,
+		Serial:              serialVal,
+		ServiceStat:         serviceStatVal,
+		SiteId:              siteIdVal,
+		Status:              statusVal,
+		Uptime:              uptimeVal,
+		VcMac:               vcMacVal,
+		VcSetupInfo:         vcSetupInfoVal,
+		Version:             versionVal,
+		state:               attr.ValueStateKnown,
 	}, diags
 }
 
@@ -2556,50 +2551,51 @@ func (t DeviceSwitchStatsType) ValueType(ctx context.Context) attr.Value {
 var _ basetypes.ObjectValuable = DeviceSwitchStatsValue{}
 
 type DeviceSwitchStatsValue struct {
-	ApRedundancy          basetypes.ObjectValue `tfsdk:"ap_redundancy"`
-	ArpTableStats         basetypes.ObjectValue `tfsdk:"arp_table_stats"`
-	CertExpiry            basetypes.Int64Value  `tfsdk:"cert_expiry"`
-	Clients               basetypes.ListValue   `tfsdk:"clients"`
-	ClientsStats          basetypes.ObjectValue `tfsdk:"clients_stats"`
-	ConfigStatus          basetypes.StringValue `tfsdk:"config_status"`
-	CpuStat               basetypes.ObjectValue `tfsdk:"cpu_stat"`
-	DeviceprofileId       basetypes.StringValue `tfsdk:"deviceprofile_id"`
-	DhcpdStat             basetypes.MapValue    `tfsdk:"dhcpd_stat"`
-	EvpntopoId            basetypes.StringValue `tfsdk:"evpntopo_id"`
-	FwVersionsOutofsync   basetypes.BoolValue   `tfsdk:"fw_versions_outofsync"`
-	Fwupdate              basetypes.ObjectValue `tfsdk:"fwupdate"`
-	HasPcap               basetypes.BoolValue   `tfsdk:"has_pcap"`
-	Hostname              basetypes.StringValue `tfsdk:"hostname"`
-	HwRev                 basetypes.StringValue `tfsdk:"hw_rev"`
-	Id                    basetypes.StringValue `tfsdk:"id"`
-	IfStat                basetypes.MapValue    `tfsdk:"if_stat"`
-	Ip                    basetypes.StringValue `tfsdk:"ip"`
-	IpStat                basetypes.ObjectValue `tfsdk:"ip_stat"`
-	LastSeen              basetypes.Int64Value  `tfsdk:"last_seen"`
-	LastTrouble           basetypes.ObjectValue `tfsdk:"last_trouble"`
-	Mac                   basetypes.ObjectValue `tfsdk:"mac"`
-	MacTableStats         basetypes.ObjectValue `tfsdk:"mac_table_stats"`
-	MapId                 basetypes.StringValue `tfsdk:"map_id"`
-	MemoryStat            basetypes.ObjectValue `tfsdk:"memory_stat"`
-	Model                 basetypes.StringValue `tfsdk:"model"`
-	ModuleStat            basetypes.ListValue   `tfsdk:"module_stat"`
-	Name                  basetypes.StringValue `tfsdk:"name"`
-	OrgId                 basetypes.StringValue `tfsdk:"org_id"`
-	RouteSummaryStats     basetypes.ObjectValue `tfsdk:"route_summary_stats"`
-	Serial                basetypes.StringValue `tfsdk:"serial"`
-	ServiceStat           basetypes.MapValue    `tfsdk:"service_stat"`
-	SiteId                basetypes.StringValue `tfsdk:"site_id"`
-	Status                basetypes.StringValue `tfsdk:"status"`
-	DeviceSwitchStatsType basetypes.StringValue `tfsdk:"type"`
-	Uptime                basetypes.NumberValue `tfsdk:"uptime"`
-	VcMac                 basetypes.StringValue `tfsdk:"vc_mac"`
-	VcSetupInfo           basetypes.ObjectValue `tfsdk:"vc_setup_info"`
-	Version               basetypes.StringValue `tfsdk:"version"`
-	state                 attr.ValueState
+	ApRedundancy        basetypes.ObjectValue `tfsdk:"ap_redundancy"`
+	ArpTableStats       basetypes.ObjectValue `tfsdk:"arp_table_stats"`
+	CertExpiry          basetypes.Int64Value  `tfsdk:"cert_expiry"`
+	Clients             basetypes.ListValue   `tfsdk:"clients"`
+	ClientsStats        basetypes.ObjectValue `tfsdk:"clients_stats"`
+	ConfigStatus        basetypes.StringValue `tfsdk:"config_status"`
+	CpuStat             basetypes.ObjectValue `tfsdk:"cpu_stat"`
+	CreatedTime         basetypes.Int64Value  `tfsdk:"created_time"`
+	DeviceprofileId     basetypes.StringValue `tfsdk:"deviceprofile_id"`
+	DhcpdStat           basetypes.MapValue    `tfsdk:"dhcpd_stat"`
+	EvpntopoId          basetypes.StringValue `tfsdk:"evpntopo_id"`
+	FwVersionsOutofsync basetypes.BoolValue   `tfsdk:"fw_versions_outofsync"`
+	Fwupdate            basetypes.ObjectValue `tfsdk:"fwupdate"`
+	HasPcap             basetypes.BoolValue   `tfsdk:"has_pcap"`
+	Hostname            basetypes.StringValue `tfsdk:"hostname"`
+	HwRev               basetypes.StringValue `tfsdk:"hw_rev"`
+	Id                  basetypes.StringValue `tfsdk:"id"`
+	IfStat              basetypes.MapValue    `tfsdk:"if_stat"`
+	Ip                  basetypes.StringValue `tfsdk:"ip"`
+	IpStat              basetypes.ObjectValue `tfsdk:"ip_stat"`
+	LastSeen            basetypes.Int64Value  `tfsdk:"last_seen"`
+	LastTrouble         basetypes.ObjectValue `tfsdk:"last_trouble"`
+	Mac                 basetypes.StringValue `tfsdk:"mac"`
+	MacTableStats       basetypes.ObjectValue `tfsdk:"mac_table_stats"`
+	MapId               basetypes.StringValue `tfsdk:"map_id"`
+	MemoryStat          basetypes.ObjectValue `tfsdk:"memory_stat"`
+	Model               basetypes.StringValue `tfsdk:"model"`
+	ModifiedTime        basetypes.Int64Value  `tfsdk:"modified_time"`
+	ModuleStat          basetypes.ListValue   `tfsdk:"module_stat"`
+	Name                basetypes.StringValue `tfsdk:"name"`
+	OrgId               basetypes.StringValue `tfsdk:"org_id"`
+	RouteSummaryStats   basetypes.ObjectValue `tfsdk:"route_summary_stats"`
+	Serial              basetypes.StringValue `tfsdk:"serial"`
+	ServiceStat         basetypes.MapValue    `tfsdk:"service_stat"`
+	SiteId              basetypes.StringValue `tfsdk:"site_id"`
+	Status              basetypes.StringValue `tfsdk:"status"`
+	Uptime              basetypes.NumberValue `tfsdk:"uptime"`
+	VcMac               basetypes.StringValue `tfsdk:"vc_mac"`
+	VcSetupInfo         basetypes.ObjectValue `tfsdk:"vc_setup_info"`
+	Version             basetypes.StringValue `tfsdk:"version"`
+	state               attr.ValueState
 }
 
 func (v DeviceSwitchStatsValue) ToTerraformValue(ctx context.Context) (tftypes.Value, error) {
-	attrTypes := make(map[string]tftypes.Type, 39)
+	attrTypes := make(map[string]tftypes.Type, 40)
 
 	var val tftypes.Value
 	var err error
@@ -2621,6 +2617,7 @@ func (v DeviceSwitchStatsValue) ToTerraformValue(ctx context.Context) (tftypes.V
 	attrTypes["cpu_stat"] = basetypes.ObjectType{
 		AttrTypes: CpuStatValue{}.AttributeTypes(ctx),
 	}.TerraformType(ctx)
+	attrTypes["created_time"] = basetypes.Int64Type{}.TerraformType(ctx)
 	attrTypes["deviceprofile_id"] = basetypes.StringType{}.TerraformType(ctx)
 	attrTypes["dhcpd_stat"] = basetypes.MapType{
 		ElemType: DhcpdStatValue{}.Type(ctx),
@@ -2645,9 +2642,7 @@ func (v DeviceSwitchStatsValue) ToTerraformValue(ctx context.Context) (tftypes.V
 	attrTypes["last_trouble"] = basetypes.ObjectType{
 		AttrTypes: LastTroubleValue{}.AttributeTypes(ctx),
 	}.TerraformType(ctx)
-	attrTypes["mac"] = basetypes.ObjectType{
-		AttrTypes: MacValue{}.AttributeTypes(ctx),
-	}.TerraformType(ctx)
+	attrTypes["mac"] = basetypes.StringType{}.TerraformType(ctx)
 	attrTypes["mac_table_stats"] = basetypes.ObjectType{
 		AttrTypes: MacTableStatsValue{}.AttributeTypes(ctx),
 	}.TerraformType(ctx)
@@ -2656,6 +2651,7 @@ func (v DeviceSwitchStatsValue) ToTerraformValue(ctx context.Context) (tftypes.V
 		AttrTypes: MemoryStatValue{}.AttributeTypes(ctx),
 	}.TerraformType(ctx)
 	attrTypes["model"] = basetypes.StringType{}.TerraformType(ctx)
+	attrTypes["modified_time"] = basetypes.Int64Type{}.TerraformType(ctx)
 	attrTypes["module_stat"] = basetypes.ListType{
 		ElemType: ModuleStatValue{}.Type(ctx),
 	}.TerraformType(ctx)
@@ -2670,7 +2666,6 @@ func (v DeviceSwitchStatsValue) ToTerraformValue(ctx context.Context) (tftypes.V
 	}.TerraformType(ctx)
 	attrTypes["site_id"] = basetypes.StringType{}.TerraformType(ctx)
 	attrTypes["status"] = basetypes.StringType{}.TerraformType(ctx)
-	attrTypes["type"] = basetypes.StringType{}.TerraformType(ctx)
 	attrTypes["uptime"] = basetypes.NumberType{}.TerraformType(ctx)
 	attrTypes["vc_mac"] = basetypes.StringType{}.TerraformType(ctx)
 	attrTypes["vc_setup_info"] = basetypes.ObjectType{
@@ -2682,7 +2677,7 @@ func (v DeviceSwitchStatsValue) ToTerraformValue(ctx context.Context) (tftypes.V
 
 	switch v.state {
 	case attr.ValueStateKnown:
-		vals := make(map[string]tftypes.Value, 39)
+		vals := make(map[string]tftypes.Value, 40)
 
 		val, err = v.ApRedundancy.ToTerraformValue(ctx)
 
@@ -2739,6 +2734,14 @@ func (v DeviceSwitchStatsValue) ToTerraformValue(ctx context.Context) (tftypes.V
 		}
 
 		vals["cpu_stat"] = val
+
+		val, err = v.CreatedTime.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["created_time"] = val
 
 		val, err = v.DeviceprofileId.ToTerraformValue(ctx)
 
@@ -2892,6 +2895,14 @@ func (v DeviceSwitchStatsValue) ToTerraformValue(ctx context.Context) (tftypes.V
 
 		vals["model"] = val
 
+		val, err = v.ModifiedTime.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["modified_time"] = val
+
 		val, err = v.ModuleStat.ToTerraformValue(ctx)
 
 		if err != nil {
@@ -2955,14 +2966,6 @@ func (v DeviceSwitchStatsValue) ToTerraformValue(ctx context.Context) (tftypes.V
 		}
 
 		vals["status"] = val
-
-		val, err = v.DeviceSwitchStatsType.ToTerraformValue(ctx)
-
-		if err != nil {
-			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
-		}
-
-		vals["type"] = val
 
 		val, err = v.Uptime.ToTerraformValue(ctx)
 
@@ -3259,27 +3262,6 @@ func (v DeviceSwitchStatsValue) ToObjectValue(ctx context.Context) (basetypes.Ob
 		)
 	}
 
-	var mac basetypes.ObjectValue
-
-	if v.Mac.IsNull() {
-		mac = types.ObjectNull(
-			MacValue{}.AttributeTypes(ctx),
-		)
-	}
-
-	if v.Mac.IsUnknown() {
-		mac = types.ObjectUnknown(
-			MacValue{}.AttributeTypes(ctx),
-		)
-	}
-
-	if !v.Mac.IsNull() && !v.Mac.IsUnknown() {
-		mac = types.ObjectValueMust(
-			MacValue{}.AttributeTypes(ctx),
-			v.Mac.Attributes(),
-		)
-	}
-
 	var macTableStats basetypes.ObjectValue
 
 	if v.MacTableStats.IsNull() {
@@ -3440,6 +3422,7 @@ func (v DeviceSwitchStatsValue) ToObjectValue(ctx context.Context) (basetypes.Ob
 		"cpu_stat": basetypes.ObjectType{
 			AttrTypes: CpuStatValue{}.AttributeTypes(ctx),
 		},
+		"created_time":     basetypes.Int64Type{},
 		"deviceprofile_id": basetypes.StringType{},
 		"dhcpd_stat": basetypes.MapType{
 			ElemType: DhcpdStatValue{}.Type(ctx),
@@ -3464,9 +3447,7 @@ func (v DeviceSwitchStatsValue) ToObjectValue(ctx context.Context) (basetypes.Ob
 		"last_trouble": basetypes.ObjectType{
 			AttrTypes: LastTroubleValue{}.AttributeTypes(ctx),
 		},
-		"mac": basetypes.ObjectType{
-			AttrTypes: MacValue{}.AttributeTypes(ctx),
-		},
+		"mac": basetypes.StringType{},
 		"mac_table_stats": basetypes.ObjectType{
 			AttrTypes: MacTableStatsValue{}.AttributeTypes(ctx),
 		},
@@ -3474,7 +3455,8 @@ func (v DeviceSwitchStatsValue) ToObjectValue(ctx context.Context) (basetypes.Ob
 		"memory_stat": basetypes.ObjectType{
 			AttrTypes: MemoryStatValue{}.AttributeTypes(ctx),
 		},
-		"model": basetypes.StringType{},
+		"model":         basetypes.StringType{},
+		"modified_time": basetypes.Int64Type{},
 		"module_stat": basetypes.ListType{
 			ElemType: ModuleStatValue{}.Type(ctx),
 		},
@@ -3489,7 +3471,6 @@ func (v DeviceSwitchStatsValue) ToObjectValue(ctx context.Context) (basetypes.Ob
 		},
 		"site_id": basetypes.StringType{},
 		"status":  basetypes.StringType{},
-		"type":    basetypes.StringType{},
 		"uptime":  basetypes.NumberType{},
 		"vc_mac":  basetypes.StringType{},
 		"vc_setup_info": basetypes.ObjectType{
@@ -3516,6 +3497,7 @@ func (v DeviceSwitchStatsValue) ToObjectValue(ctx context.Context) (basetypes.Ob
 			"clients_stats":         clientsStats,
 			"config_status":         v.ConfigStatus,
 			"cpu_stat":              cpuStat,
+			"created_time":          v.CreatedTime,
 			"deviceprofile_id":      v.DeviceprofileId,
 			"dhcpd_stat":            dhcpdStat,
 			"evpntopo_id":           v.EvpntopoId,
@@ -3530,11 +3512,12 @@ func (v DeviceSwitchStatsValue) ToObjectValue(ctx context.Context) (basetypes.Ob
 			"ip_stat":               ipStat,
 			"last_seen":             v.LastSeen,
 			"last_trouble":          lastTrouble,
-			"mac":                   mac,
+			"mac":                   v.Mac,
 			"mac_table_stats":       macTableStats,
 			"map_id":                v.MapId,
 			"memory_stat":           memoryStat,
 			"model":                 v.Model,
+			"modified_time":         v.ModifiedTime,
 			"module_stat":           moduleStat,
 			"name":                  v.Name,
 			"org_id":                v.OrgId,
@@ -3543,7 +3526,6 @@ func (v DeviceSwitchStatsValue) ToObjectValue(ctx context.Context) (basetypes.Ob
 			"service_stat":          serviceStat,
 			"site_id":               v.SiteId,
 			"status":                v.Status,
-			"type":                  v.DeviceSwitchStatsType,
 			"uptime":                v.Uptime,
 			"vc_mac":                v.VcMac,
 			"vc_setup_info":         vcSetupInfo,
@@ -3593,6 +3575,10 @@ func (v DeviceSwitchStatsValue) Equal(o attr.Value) bool {
 	}
 
 	if !v.CpuStat.Equal(other.CpuStat) {
+		return false
+	}
+
+	if !v.CreatedTime.Equal(other.CreatedTime) {
 		return false
 	}
 
@@ -3672,6 +3658,10 @@ func (v DeviceSwitchStatsValue) Equal(o attr.Value) bool {
 		return false
 	}
 
+	if !v.ModifiedTime.Equal(other.ModifiedTime) {
+		return false
+	}
+
 	if !v.ModuleStat.Equal(other.ModuleStat) {
 		return false
 	}
@@ -3701,10 +3691,6 @@ func (v DeviceSwitchStatsValue) Equal(o attr.Value) bool {
 	}
 
 	if !v.Status.Equal(other.Status) {
-		return false
-	}
-
-	if !v.DeviceSwitchStatsType.Equal(other.DeviceSwitchStatsType) {
 		return false
 	}
 
@@ -3754,6 +3740,7 @@ func (v DeviceSwitchStatsValue) AttributeTypes(ctx context.Context) map[string]a
 		"cpu_stat": basetypes.ObjectType{
 			AttrTypes: CpuStatValue{}.AttributeTypes(ctx),
 		},
+		"created_time":     basetypes.Int64Type{},
 		"deviceprofile_id": basetypes.StringType{},
 		"dhcpd_stat": basetypes.MapType{
 			ElemType: DhcpdStatValue{}.Type(ctx),
@@ -3778,9 +3765,7 @@ func (v DeviceSwitchStatsValue) AttributeTypes(ctx context.Context) map[string]a
 		"last_trouble": basetypes.ObjectType{
 			AttrTypes: LastTroubleValue{}.AttributeTypes(ctx),
 		},
-		"mac": basetypes.ObjectType{
-			AttrTypes: MacValue{}.AttributeTypes(ctx),
-		},
+		"mac": basetypes.StringType{},
 		"mac_table_stats": basetypes.ObjectType{
 			AttrTypes: MacTableStatsValue{}.AttributeTypes(ctx),
 		},
@@ -3788,7 +3773,8 @@ func (v DeviceSwitchStatsValue) AttributeTypes(ctx context.Context) map[string]a
 		"memory_stat": basetypes.ObjectType{
 			AttrTypes: MemoryStatValue{}.AttributeTypes(ctx),
 		},
-		"model": basetypes.StringType{},
+		"model":         basetypes.StringType{},
+		"modified_time": basetypes.Int64Type{},
 		"module_stat": basetypes.ListType{
 			ElemType: ModuleStatValue{}.Type(ctx),
 		},
@@ -3803,7 +3789,6 @@ func (v DeviceSwitchStatsValue) AttributeTypes(ctx context.Context) map[string]a
 		},
 		"site_id": basetypes.StringType{},
 		"status":  basetypes.StringType{},
-		"type":    basetypes.StringType{},
 		"uptime":  basetypes.NumberType{},
 		"vc_mac":  basetypes.StringType{},
 		"vc_setup_info": basetypes.ObjectType{
@@ -10959,330 +10944,6 @@ func (v LastTroubleValue) AttributeTypes(ctx context.Context) map[string]attr.Ty
 	return map[string]attr.Type{
 		"code":      basetypes.StringType{},
 		"timestamp": basetypes.Int64Type{},
-	}
-}
-
-var _ basetypes.ObjectTypable = MacType{}
-
-type MacType struct {
-	basetypes.ObjectType
-}
-
-func (t MacType) Equal(o attr.Type) bool {
-	other, ok := o.(MacType)
-
-	if !ok {
-		return false
-	}
-
-	return t.ObjectType.Equal(other.ObjectType)
-}
-
-func (t MacType) String() string {
-	return "MacType"
-}
-
-func (t MacType) ValueFromObject(ctx context.Context, in basetypes.ObjectValue) (basetypes.ObjectValuable, diag.Diagnostics) {
-	var diags diag.Diagnostics
-
-	attributes := in.Attributes()
-
-	usageAttribute, ok := attributes["usage"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`usage is missing from object`)
-
-		return nil, diags
-	}
-
-	usageVal, ok := usageAttribute.(basetypes.NumberValue)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`usage expected to be basetypes.NumberValue, was: %T`, usageAttribute))
-	}
-
-	if diags.HasError() {
-		return nil, diags
-	}
-
-	return MacValue{
-		Usage: usageVal,
-		state: attr.ValueStateKnown,
-	}, diags
-}
-
-func NewMacValueNull() MacValue {
-	return MacValue{
-		state: attr.ValueStateNull,
-	}
-}
-
-func NewMacValueUnknown() MacValue {
-	return MacValue{
-		state: attr.ValueStateUnknown,
-	}
-}
-
-func NewMacValue(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) (MacValue, diag.Diagnostics) {
-	var diags diag.Diagnostics
-
-	// Reference: https://github.com/hashicorp/terraform-plugin-framework/issues/521
-	ctx := context.Background()
-
-	for name, attributeType := range attributeTypes {
-		attribute, ok := attributes[name]
-
-		if !ok {
-			diags.AddError(
-				"Missing MacValue Attribute Value",
-				"While creating a MacValue value, a missing attribute value was detected. "+
-					"A MacValue must contain values for all attributes, even if null or unknown. "+
-					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
-					fmt.Sprintf("MacValue Attribute Name (%s) Expected Type: %s", name, attributeType.String()),
-			)
-
-			continue
-		}
-
-		if !attributeType.Equal(attribute.Type(ctx)) {
-			diags.AddError(
-				"Invalid MacValue Attribute Type",
-				"While creating a MacValue value, an invalid attribute value was detected. "+
-					"A MacValue must use a matching attribute type for the value. "+
-					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
-					fmt.Sprintf("MacValue Attribute Name (%s) Expected Type: %s\n", name, attributeType.String())+
-					fmt.Sprintf("MacValue Attribute Name (%s) Given Type: %s", name, attribute.Type(ctx)),
-			)
-		}
-	}
-
-	for name := range attributes {
-		_, ok := attributeTypes[name]
-
-		if !ok {
-			diags.AddError(
-				"Extra MacValue Attribute Value",
-				"While creating a MacValue value, an extra attribute value was detected. "+
-					"A MacValue must not contain values beyond the expected attribute types. "+
-					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
-					fmt.Sprintf("Extra MacValue Attribute Name: %s", name),
-			)
-		}
-	}
-
-	if diags.HasError() {
-		return NewMacValueUnknown(), diags
-	}
-
-	usageAttribute, ok := attributes["usage"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`usage is missing from object`)
-
-		return NewMacValueUnknown(), diags
-	}
-
-	usageVal, ok := usageAttribute.(basetypes.NumberValue)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`usage expected to be basetypes.NumberValue, was: %T`, usageAttribute))
-	}
-
-	if diags.HasError() {
-		return NewMacValueUnknown(), diags
-	}
-
-	return MacValue{
-		Usage: usageVal,
-		state: attr.ValueStateKnown,
-	}, diags
-}
-
-func NewMacValueMust(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) MacValue {
-	object, diags := NewMacValue(attributeTypes, attributes)
-
-	if diags.HasError() {
-		// This could potentially be added to the diag package.
-		diagsStrings := make([]string, 0, len(diags))
-
-		for _, diagnostic := range diags {
-			diagsStrings = append(diagsStrings, fmt.Sprintf(
-				"%s | %s | %s",
-				diagnostic.Severity(),
-				diagnostic.Summary(),
-				diagnostic.Detail()))
-		}
-
-		panic("NewMacValueMust received error(s): " + strings.Join(diagsStrings, "\n"))
-	}
-
-	return object
-}
-
-func (t MacType) ValueFromTerraform(ctx context.Context, in tftypes.Value) (attr.Value, error) {
-	if in.Type() == nil {
-		return NewMacValueNull(), nil
-	}
-
-	if !in.Type().Equal(t.TerraformType(ctx)) {
-		return nil, fmt.Errorf("expected %s, got %s", t.TerraformType(ctx), in.Type())
-	}
-
-	if !in.IsKnown() {
-		return NewMacValueUnknown(), nil
-	}
-
-	if in.IsNull() {
-		return NewMacValueNull(), nil
-	}
-
-	attributes := map[string]attr.Value{}
-
-	val := map[string]tftypes.Value{}
-
-	err := in.As(&val)
-
-	if err != nil {
-		return nil, err
-	}
-
-	for k, v := range val {
-		a, err := t.AttrTypes[k].ValueFromTerraform(ctx, v)
-
-		if err != nil {
-			return nil, err
-		}
-
-		attributes[k] = a
-	}
-
-	return NewMacValueMust(MacValue{}.AttributeTypes(ctx), attributes), nil
-}
-
-func (t MacType) ValueType(ctx context.Context) attr.Value {
-	return MacValue{}
-}
-
-var _ basetypes.ObjectValuable = MacValue{}
-
-type MacValue struct {
-	Usage basetypes.NumberValue `tfsdk:"usage"`
-	state attr.ValueState
-}
-
-func (v MacValue) ToTerraformValue(ctx context.Context) (tftypes.Value, error) {
-	attrTypes := make(map[string]tftypes.Type, 1)
-
-	var val tftypes.Value
-	var err error
-
-	attrTypes["usage"] = basetypes.NumberType{}.TerraformType(ctx)
-
-	objectType := tftypes.Object{AttributeTypes: attrTypes}
-
-	switch v.state {
-	case attr.ValueStateKnown:
-		vals := make(map[string]tftypes.Value, 1)
-
-		val, err = v.Usage.ToTerraformValue(ctx)
-
-		if err != nil {
-			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
-		}
-
-		vals["usage"] = val
-
-		if err := tftypes.ValidateValue(objectType, vals); err != nil {
-			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
-		}
-
-		return tftypes.NewValue(objectType, vals), nil
-	case attr.ValueStateNull:
-		return tftypes.NewValue(objectType, nil), nil
-	case attr.ValueStateUnknown:
-		return tftypes.NewValue(objectType, tftypes.UnknownValue), nil
-	default:
-		panic(fmt.Sprintf("unhandled Object state in ToTerraformValue: %s", v.state))
-	}
-}
-
-func (v MacValue) IsNull() bool {
-	return v.state == attr.ValueStateNull
-}
-
-func (v MacValue) IsUnknown() bool {
-	return v.state == attr.ValueStateUnknown
-}
-
-func (v MacValue) String() string {
-	return "MacValue"
-}
-
-func (v MacValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, diag.Diagnostics) {
-	var diags diag.Diagnostics
-
-	attributeTypes := map[string]attr.Type{
-		"usage": basetypes.NumberType{},
-	}
-
-	if v.IsNull() {
-		return types.ObjectNull(attributeTypes), diags
-	}
-
-	if v.IsUnknown() {
-		return types.ObjectUnknown(attributeTypes), diags
-	}
-
-	objVal, diags := types.ObjectValue(
-		attributeTypes,
-		map[string]attr.Value{
-			"usage": v.Usage,
-		})
-
-	return objVal, diags
-}
-
-func (v MacValue) Equal(o attr.Value) bool {
-	other, ok := o.(MacValue)
-
-	if !ok {
-		return false
-	}
-
-	if v.state != other.state {
-		return false
-	}
-
-	if v.state != attr.ValueStateKnown {
-		return true
-	}
-
-	if !v.Usage.Equal(other.Usage) {
-		return false
-	}
-
-	return true
-}
-
-func (v MacValue) Type(ctx context.Context) attr.Type {
-	return MacType{
-		basetypes.ObjectType{
-			AttrTypes: v.AttributeTypes(ctx),
-		},
-	}
-}
-
-func (v MacValue) AttributeTypes(ctx context.Context) map[string]attr.Type {
-	return map[string]attr.Type{
-		"usage": basetypes.NumberType{},
 	}
 }
 

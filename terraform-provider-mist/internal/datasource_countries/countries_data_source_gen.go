@@ -22,17 +22,21 @@ func CountriesDataSourceSchema(ctx context.Context) schema.Schema {
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"alpha2": schema.StringAttribute{
+							Optional:            true,
 							Computed:            true,
 							Description:         "country code, in two-character",
 							MarkdownDescription: "country code, in two-character",
 						},
 						"certified": schema.BoolAttribute{
+							Optional: true,
 							Computed: true,
 						},
 						"name": schema.StringAttribute{
+							Optional: true,
 							Computed: true,
 						},
 						"numeric": schema.NumberAttribute{
+							Optional:            true,
 							Computed:            true,
 							Description:         "country code, ISO 3166-1 numeric",
 							MarkdownDescription: "country code, ISO 3166-1 numeric",

@@ -15,9 +15,9 @@ func dynamicVlanSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d *
 
 	var default_vlan_id basetypes.Int64Value
 	var enabled basetypes.BoolValue
-	var local_vlan_ids basetypes.ListValue
+	var local_vlan_ids basetypes.ListValue = types.ListNull(types.Int64Type)
 	var type_dynamic_vlan basetypes.StringValue
-	var vlans basetypes.MapValue
+	var vlans basetypes.MapValue = types.MapNull(types.StringType)
 
 	if d != nil && d.DefaultVlanId.Value() != nil {
 		default_vlan_id = types.Int64Value(int64(*d.DefaultVlanId.Value()))

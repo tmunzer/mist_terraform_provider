@@ -35,6 +35,7 @@ resource "mist_org_inventory" "inventory" {
     }
   ]
 }
+
 resource "mist_device_gateway_cluster" "cluster_one" {
   site_id   = mist_site.terraform_site2.id
   device_id = "00000000-0000-0000-1000-4c96143de700"
@@ -1480,4 +1481,13 @@ resource "mist_device_gateway" "srx" {
       }
     }
   ]
+}
+
+data "mist_device_ap_stats" "example" {
+
+org_id =  mist_org.terraform_test.id
+}
+
+output "mist_device_ap_stats" {
+  value = data.mist_device_ap_stats.example.device_ap_stats
 }

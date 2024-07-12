@@ -65,7 +65,7 @@ func remoteSyslogContentsSdkToTerraform(ctx context.Context, diags *diag.Diagnos
 	return r
 }
 func remoteSyslogConsoleSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d *models.RemoteSyslogConsole) basetypes.ObjectValue {
-	var contents basetypes.ListValue
+	var contents basetypes.ListValue = types.ListNull(ContentsValue{}.Type(ctx))
 
 	if d != nil && d.Contents != nil {
 		contents = remoteSyslogContentsSdkToTerraform(ctx, diags, d.Contents)
@@ -86,7 +86,7 @@ func remoteSyslogFilesSdkToTerraform(ctx context.Context, diags *diag.Diagnostic
 	var data_list = []FilesValue{}
 
 	for _, d := range l {
-		var archive basetypes.ObjectValue
+		var archive basetypes.ObjectValue = types.ObjectNull(ArchiveValue{}.AttributeTypes(ctx))
 		var contents basetypes.ListValue = types.ListNull(ContentsValue{}.Type(ctx))
 		var explicit_priority basetypes.BoolValue
 		var file basetypes.StringValue

@@ -16,7 +16,7 @@ import (
 func configPushPolicyWindowSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d *models.PushPolicyPushWindow) basetypes.ObjectValue {
 	tflog.Debug(ctx, "configPushPolicyWindowSdkToTerraform")
 	var enabled basetypes.BoolValue
-	var hours basetypes.ObjectValue
+	var hours basetypes.ObjectValue = types.ObjectNull(HoursValue{}.AttributeTypes(ctx))
 
 	if d != nil && d.Enabled != nil {
 		enabled = types.BoolValue(*d.Enabled)

@@ -7,7 +7,7 @@ import sys
 SPEC_IN = "./provider-code-spec.json"
 
 FIX_PATH = "./provider-code-spec-fix"
-FIX_FILES = os.listdir(FIX_PATH)
+FIX_FOLDERS = ["datasources", "resources"]
 
 CUSTOM_DEFAULT_LIST_OF_STR = """
                   {"custom": {"imports": [
@@ -148,13 +148,17 @@ def next_item(data: dict, entries: list, path: list):
 with open(SPEC_IN, "r") as f_in:
     DATA = json.load(f_in)
 
-for file in FIX_FILES:
-    fix_file_path = os.path.join(FIX_PATH, file)
-    print("")
-    print(f" {fix_file_path} ".ljust(80, "."))
-    with open(fix_file_path, "r") as ffix:
-        fix = json.load(ffix)
-        next_item(DATA["resources"], [fix], [])
+
+for folder in FIX_FOLDERS:
+    FOLDER_PATH = os.path.join(FIX_PATH, folder)
+    FIX_FILES = os.listdir(FOLDER_PATH)
+    for file in FIX_FILES:
+        fix_file_path = os.path.join(FOLDER_PATH, file)
+        print("")
+        print(f" {fix_file_path} ".ljust(80, "."))
+        with open(fix_file_path, "r") as ffix:
+            fix = json.load(ffix)
+            next_item(DATA[folder], [fix], [])
 
 
 with open(SPEC_IN, "w") as f_out:

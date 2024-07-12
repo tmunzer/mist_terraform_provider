@@ -98,6 +98,24 @@ FILES = {
         },
     },
     "./terraform-provider-mist/internal/datasource_device_gateway_stats/device_gateway_stats_data_source_gen.go": {
+        "rename": {
+            "Cpu2StatValue": "CpuStatValue",
+            "Cpu2StatType": "CpuStatType",
+            "Dhcpd2StatValue": "DhcpdStatValue",
+            "Dhcpd2StatType": "DhcpdStatType",
+            "If2StatValue": "IfStatValue",
+            "If2StatType": "IfStatType",
+            "Ip2StatValue": "IpStatValue",
+            "Ip2StatType": "IpStatType",
+            "Memory2StatValue": "MemoryStatValue",
+            "Memory2StatType": "MemoryStatType",
+            "Module2StatValue": "ModuleStatValue",
+            "Module2StatType": "ModuleStatType",
+            "Service2StatValue": "ServiceStatValue",
+            "Service2StatType": "ServiceStatType",
+            "Spu2StatValue": "SpuStatValue",
+            "Spu2StatType": "SpuStatType",
+        },
         "dedup": [
             "ServpInfo",
             "Errors",
@@ -108,6 +126,27 @@ FILES = {
             "Psus",
             "Temperatures",
             "VcLinks",
+            "CpuStat",
+            "DhcpdStat",
+            "IfStat",
+            "IpStat",
+            "MemoryStat",
+            "ModuleStat",
+            "ServiceStat",
+            "SpuStat",
+        ],
+    },
+    "./terraform-provider-mist/internal/datasource_device_ap_stats/device_ap_stats_data_source_gen.go": {
+        "rename": {
+            "Band24Value": "BandValue",
+            "Band24Type": "BandType",
+            "Band5Value": "BandValue",
+            "Band5Type": "BandType",
+            "Band6Value": "BandValue",
+            "Band6Type": "BandType",
+        },
+        "dedup": [
+            "Band",
         ],
     },
 }
@@ -125,6 +164,8 @@ for file, actions in FILES.items():
             UNSKIP_NEXT = False
             DONE = []
             for line in f_in.readlines():
+                for src_string, dst_string in rename.items():
+                    line = line.replace(src_string, dst_string)
                 if UNSKIP_NEXT:
                     UNSKIP_NEXT = False
                     SKIP = False
@@ -148,6 +189,4 @@ for file, actions in FILES.items():
                         SKIP = True
                         UNSKIP_NEXT = True
                 if not SKIP:
-                    for src_string, dst_string in rename.items():
-                        line = line.replace(src_string, dst_string)
                     f_out.write(f"{line}")

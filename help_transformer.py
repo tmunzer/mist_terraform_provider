@@ -4,10 +4,10 @@ import sys
 
 
 PATH = "/Users/tmunzer/4_dev/Mist/mist_terraform_provider/terraform-provider-mist/internal"
-#DATA_TYPE="datasource"
-#FILE_SUFFIX="data_source"
-DATA_TYPE="resource"
-FILE_SUFFIX="resource"
+DATA_TYPE="datasource"
+FILE_SUFFIX="data_source"
+# DATA_TYPE="resource"
+# FILE_SUFFIX="resource"
 print ('argument list', sys.argv)
 resource = sys.argv[1]
 model = sys.argv[2]

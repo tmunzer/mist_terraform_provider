@@ -28,11 +28,11 @@ func matchingPortTypesSdkToTerraform(ctx context.Context, diags *diag.Diagnostic
 func matchingSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d *models.NacRuleMatching) MatchingValue {
 
 	var auth_type basetypes.StringValue
-	var nactags basetypes.ListValue
-	var port_types basetypes.ListValue
-	var site_ids basetypes.ListValue
-	var sitegroup_ids basetypes.ListValue
-	var vendor basetypes.ListValue
+	var nactags basetypes.ListValue = types.ListNull(types.StringType)
+	var port_types basetypes.ListValue = types.ListNull(types.StringType)
+	var site_ids basetypes.ListValue = types.ListNull(types.StringType)
+	var sitegroup_ids basetypes.ListValue = types.ListNull(types.StringType)
+	var vendor basetypes.ListValue = types.ListNull(types.StringType)
 
 	if d.AuthType != nil {
 		auth_type = types.StringValue(string(*d.AuthType))
@@ -71,11 +71,11 @@ func matchingSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d *mod
 func notMatchingSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d *models.NacRuleMatching) NotMatchingValue {
 
 	var auth_type basetypes.StringValue
-	var nactags basetypes.ListValue
-	var port_types basetypes.ListValue
-	var site_ids basetypes.ListValue
-	var sitegroup_ids basetypes.ListValue
-	var vendor basetypes.ListValue
+	var nactags basetypes.ListValue = types.ListNull(types.StringType)
+	var port_types basetypes.ListValue = types.ListNull(types.StringType)
+	var site_ids basetypes.ListValue = types.ListNull(types.StringType)
+	var sitegroup_ids basetypes.ListValue = types.ListNull(types.StringType)
+	var vendor basetypes.ListValue = types.ListNull(types.StringType)
 
 	if d.AuthType != nil {
 		auth_type = types.StringValue(string(*d.AuthType))

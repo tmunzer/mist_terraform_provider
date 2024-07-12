@@ -1,0 +1,47 @@
+{
+    "name": "countries",
+    "get": [
+        "schema",
+        "attributes"
+    ],
+    "next": [
+        {
+            "name": "countries",
+            "get": [
+                "set_nested",
+                "nested_object",
+                "attributes"
+            ],
+            "next": [{
+                "name": "alpha2",
+                "get": [
+                    "string"
+                ],
+                "computed_optional_required": "computed_optional"
+            },
+            {
+                "name": "certified",
+                "get": [
+                    "bool"
+                ],
+                "computed_optional_required": "computed_optional"
+            },
+            {
+                "name": "name",
+                "get": [
+                    "string"
+                ],
+                "computed_optional_required": "computed_optional"
+            },
+            {
+                "name": "numeric",
+                "get": [
+                    "number"
+                ],
+                "computed_optional_required": "computed_optional"
+            }
+
+            ]
+        }
+    ]
+}

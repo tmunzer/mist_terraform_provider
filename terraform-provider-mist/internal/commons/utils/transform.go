@@ -2,6 +2,7 @@ package mist_transform
 
 import (
 	"context"
+	"math/big"
 	"strings"
 
 	"github.com/google/uuid"
@@ -45,6 +46,26 @@ func ListOfIntTerraformToSdk(ctx context.Context, list basetypes.ListValue) []in
 		items = append(items, int(i))
 	}
 	return items
+}
+
+func ListOfFloat64SdkToTerraform(ctx context.Context, data []float64) basetypes.ListValue {
+	var items []attr.Value
+	var items_type attr.Type = basetypes.Float64Type{}
+	for _, item := range data {
+		items = append(items, types.Float64Value(float64(item)))
+	}
+	list, _ := types.ListValue(items_type, items)
+	return list
+}
+
+func ListOfNumberSdkToTerraform(ctx context.Context, data []float64) basetypes.ListValue {
+	var items []attr.Value
+	var items_type attr.Type = basetypes.NumberType{}
+	for _, item := range data {
+		items = append(items, types.NumberValue(big.NewFloat(item)))
+	}
+	list, _ := types.ListValue(items_type, items)
+	return list
 }
 
 func ListOfIntSdkToTerraform(ctx context.Context, data []int) basetypes.ListValue {

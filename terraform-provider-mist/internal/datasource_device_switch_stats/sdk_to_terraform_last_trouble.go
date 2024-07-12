@@ -8,9 +8,11 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
+	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 
 func lastTroubleSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d *models.LastTrouble) basetypes.ObjectValue {
+	tflog.Debug(ctx, "lastTroubleSdkToTerraform")
 
 	var code basetypes.StringValue
 	var timestamp basetypes.Int64Value

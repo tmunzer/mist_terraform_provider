@@ -18,7 +18,7 @@ func tunnelConfigAutoProvNodeSdkToTerraform(ctx context.Context, diags *diag.Dia
 	tflog.Debug(ctx, "tunnelConfigAutoProvNodeSdkToTerraform")
 
 	var num_hosts basetypes.StringValue
-	var wan_names basetypes.ListValue
+	var wan_names basetypes.ListValue = types.ListNull(types.StringType)
 
 	if d.NumHosts != nil {
 		num_hosts = types.StringValue(*d.NumHosts)

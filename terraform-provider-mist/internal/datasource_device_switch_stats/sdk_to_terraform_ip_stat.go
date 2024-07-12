@@ -9,13 +9,15 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
+	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 
 func ipStatsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d *models.IpStat) basetypes.ObjectValue {
+	tflog.Debug(ctx, "ipStatsSdkToTerraform")
 
 	var dhcp_server basetypes.StringValue
-	var dns basetypes.ListValue
-	var dns_suffix basetypes.ListValue
+	var dns basetypes.ListValue = types.ListNull(types.StringType)
+	var dns_suffix basetypes.ListValue = types.ListNull(types.StringType)
 	var gateway basetypes.StringValue
 	var gateway6 basetypes.StringValue
 	var ip basetypes.StringValue

@@ -285,7 +285,12 @@ func (p *mistProvider) Metadata(ctx context.Context, req provider.MetadataReques
 }
 
 func (p *mistProvider) DataSources(ctx context.Context) []func() datasource.DataSource {
-	return []func() datasource.DataSource{}
+	return []func() datasource.DataSource{
+		NewCountriesDataSource,
+		NewDeviceApStatsDataSource,
+		NewDeviceSwitchStatsDataSource,
+		NewDeviceGatewayStatsDataSource,
+	}
 }
 
 func (p *mistProvider) Resources(ctx context.Context) []func() resource.Resource {
