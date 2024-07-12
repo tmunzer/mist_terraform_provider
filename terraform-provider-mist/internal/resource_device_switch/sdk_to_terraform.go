@@ -25,6 +25,7 @@ func SdkToTerraform(ctx context.Context, data *models.DeviceSwitch) (DeviceSwitc
 	var disable_auto_config types.Bool
 	var dns_servers types.List = types.ListNull(types.StringType)
 	var dns_suffix types.List = types.ListNull(types.StringType)
+	var evpn_config EvpnConfigValue = NewEvpnConfigValueNull()
 	var extra_routes types.Map = types.MapNull(ExtraRoutesValue{}.Type(ctx))
 	var extra_routes6 types.Map = types.MapNull(ExtraRoutes6Value{}.Type(ctx))
 	var image1_url types.String
@@ -89,6 +90,9 @@ func SdkToTerraform(ctx context.Context, data *models.DeviceSwitch) (DeviceSwitc
 	}
 	if data.DnsSuffix != nil {
 		dns_suffix = mist_transform.ListOfStringSdkToTerraform(ctx, data.DnsSuffix)
+	}
+	if data.EvpnConfig != nil {
+		evpn_config = evpnConfigSdkToTerraform(ctx, &diags, data.EvpnConfig)
 	}
 	if data.ExtraRoutes != nil {
 		extra_routes = extraRoutesSdkToTerraform(ctx, &diags, data.ExtraRoutes)
@@ -229,6 +233,7 @@ func SdkToTerraform(ctx context.Context, data *models.DeviceSwitch) (DeviceSwitc
 	state.DisableAutoConfig = disable_auto_config
 	state.DnsServers = dns_servers
 	state.DnsSuffix = dns_suffix
+	state.EvpnConfig = evpn_config
 	state.ExtraRoutes = extra_routes
 	state.ExtraRoutes6 = extra_routes6
 	state.Image1Url = image1_url

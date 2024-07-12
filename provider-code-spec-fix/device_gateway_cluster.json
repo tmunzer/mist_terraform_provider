@@ -18,13 +18,6 @@
                 "string"
             ],
             "computed_optional_required": "required"
-        },
-        {
-            "name": "name",
-            "get": [
-                "string"
-            ],
-            "computed_optional_required": "required"
         }
     ]
 }

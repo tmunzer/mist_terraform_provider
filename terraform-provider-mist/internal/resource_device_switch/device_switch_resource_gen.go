@@ -435,6 +435,32 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 				Description:         "Global dns settings. To keep compatibility, dns settings in `ip_config` and `oob_ip_config` will overwrite this setting",
 				MarkdownDescription: "Global dns settings. To keep compatibility, dns settings in `ip_config` and `oob_ip_config` will overwrite this setting",
 			},
+			"evpn_config": schema.SingleNestedAttribute{
+				Attributes: map[string]schema.Attribute{
+					"enabled": schema.BoolAttribute{
+						Optional: true,
+					},
+					"role": schema.StringAttribute{
+						Optional: true,
+						Validators: []validator.String{
+							stringvalidator.OneOf(
+								"",
+								"core",
+								"distribution",
+								"access",
+							),
+						},
+					},
+				},
+				CustomType: EvpnConfigType{
+					ObjectType: types.ObjectType{
+						AttrTypes: EvpnConfigValue{}.AttributeTypes(ctx),
+					},
+				},
+				Optional:            true,
+				Description:         "EVPN Junos settings",
+				MarkdownDescription: "EVPN Junos settings",
+			},
 			"extra_routes": schema.MapNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
@@ -656,7 +682,7 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 				MarkdownDescription: "enable mist_nac to use radsec",
 			},
 			"model": schema.StringAttribute{
-				Computed: true,
+				Computed:            true,
 				Description:         "device Model",
 				MarkdownDescription: "device Model",
 			},
@@ -1408,6 +1434,7 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 								},
 								"secret": schema.StringAttribute{
 									Required:            true,
+									Sensitive:           true,
 									Description:         "secret of RADIUS server",
 									MarkdownDescription: "secret of RADIUS server",
 								},
@@ -1459,6 +1486,7 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 								},
 								"secret": schema.StringAttribute{
 									Required:            true,
+									Sensitive:           true,
 									Description:         "secret of RADIUS server",
 									MarkdownDescription: "secret of RADIUS server",
 								},
@@ -2275,6 +2303,7 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 											Attributes: map[string]schema.Attribute{
 												"authentication_password": schema.StringAttribute{
 													Optional:            true,
+													Sensitive:           true,
 													Description:         "Not required if `authentication_type`==`authentication_none`\ninclude alphabetic, numeric, and special characters, but it cannot include control characters.",
 													MarkdownDescription: "Not required if `authentication_type`==`authentication_none`\ninclude alphabetic, numeric, and special characters, but it cannot include control characters.",
 													Validators: []validator.String{
@@ -2300,6 +2329,7 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 												},
 												"encryption_password": schema.StringAttribute{
 													Optional:            true,
+													Sensitive:           true,
 													Description:         "Not required if `encryption_type`==`privacy-none`\ninclude alphabetic, numeric, and special characters, but it cannot include control characters",
 													MarkdownDescription: "Not required if `encryption_type`==`privacy-none`\ninclude alphabetic, numeric, and special characters, but it cannot include control characters",
 													Validators: []validator.String{
@@ -2609,7 +2639,7 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 						MarkdownDescription: "restrict inbound-traffic to host\nwhen enabled, all traffic that is not essential to our operation will be dropped \ne.g. ntp / dns / traffic to mist will be allowed by default, if dhcpd is enabled, we'll make sure it works",
 					},
 					"root_password": schema.StringAttribute{
-						Optional: true,
+						Optional:  true,
 						Sensitive: true,
 					},
 					"tacacs": schema.SingleNestedAttribute{
@@ -2646,7 +2676,8 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 											Optional: true,
 										},
 										"secret": schema.StringAttribute{
-											Optional: true,
+											Optional:  true,
+											Sensitive: true,
 										},
 										"timeout": schema.Int64Attribute{
 											Optional: true,
@@ -2672,7 +2703,8 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 											Optional: true,
 										},
 										"secret": schema.StringAttribute{
-											Optional: true,
+											Optional:  true,
+											Sensitive: true,
 										},
 										"timeout": schema.Int64Attribute{
 											Optional: true,
@@ -2710,6 +2742,7 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 				MarkdownDescription: "Device Type",
 				Validators: []validator.String{
 					stringvalidator.OneOf(
+						"",
 						"switch",
 					),
 				},
@@ -2893,6 +2926,7 @@ type DeviceSwitchModel struct {
 	DisableAutoConfig     types.Bool          `tfsdk:"disable_auto_config"`
 	DnsServers            types.List          `tfsdk:"dns_servers"`
 	DnsSuffix             types.List          `tfsdk:"dns_suffix"`
+	EvpnConfig            EvpnConfigValue     `tfsdk:"evpn_config"`
 	ExtraRoutes           types.Map           `tfsdk:"extra_routes"`
 	ExtraRoutes6          types.Map           `tfsdk:"extra_routes6"`
 	Image1Url             types.String        `tfsdk:"image1_url"`
@@ -8477,6 +8511,385 @@ func (v VendorEncapulatedValue) AttributeTypes(ctx context.Context) map[string]a
 	return map[string]attr.Type{
 		"type":  basetypes.StringType{},
 		"value": basetypes.StringType{},
+	}
+}
+
+var _ basetypes.ObjectTypable = EvpnConfigType{}
+
+type EvpnConfigType struct {
+	basetypes.ObjectType
+}
+
+func (t EvpnConfigType) Equal(o attr.Type) bool {
+	other, ok := o.(EvpnConfigType)
+
+	if !ok {
+		return false
+	}
+
+	return t.ObjectType.Equal(other.ObjectType)
+}
+
+func (t EvpnConfigType) String() string {
+	return "EvpnConfigType"
+}
+
+func (t EvpnConfigType) ValueFromObject(ctx context.Context, in basetypes.ObjectValue) (basetypes.ObjectValuable, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	attributes := in.Attributes()
+
+	enabledAttribute, ok := attributes["enabled"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`enabled is missing from object`)
+
+		return nil, diags
+	}
+
+	enabledVal, ok := enabledAttribute.(basetypes.BoolValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`enabled expected to be basetypes.BoolValue, was: %T`, enabledAttribute))
+	}
+
+	roleAttribute, ok := attributes["role"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`role is missing from object`)
+
+		return nil, diags
+	}
+
+	roleVal, ok := roleAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`role expected to be basetypes.StringValue, was: %T`, roleAttribute))
+	}
+
+	if diags.HasError() {
+		return nil, diags
+	}
+
+	return EvpnConfigValue{
+		Enabled: enabledVal,
+		Role:    roleVal,
+		state:   attr.ValueStateKnown,
+	}, diags
+}
+
+func NewEvpnConfigValueNull() EvpnConfigValue {
+	return EvpnConfigValue{
+		state: attr.ValueStateNull,
+	}
+}
+
+func NewEvpnConfigValueUnknown() EvpnConfigValue {
+	return EvpnConfigValue{
+		state: attr.ValueStateUnknown,
+	}
+}
+
+func NewEvpnConfigValue(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) (EvpnConfigValue, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	// Reference: https://github.com/hashicorp/terraform-plugin-framework/issues/521
+	ctx := context.Background()
+
+	for name, attributeType := range attributeTypes {
+		attribute, ok := attributes[name]
+
+		if !ok {
+			diags.AddError(
+				"Missing EvpnConfigValue Attribute Value",
+				"While creating a EvpnConfigValue value, a missing attribute value was detected. "+
+					"A EvpnConfigValue must contain values for all attributes, even if null or unknown. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("EvpnConfigValue Attribute Name (%s) Expected Type: %s", name, attributeType.String()),
+			)
+
+			continue
+		}
+
+		if !attributeType.Equal(attribute.Type(ctx)) {
+			diags.AddError(
+				"Invalid EvpnConfigValue Attribute Type",
+				"While creating a EvpnConfigValue value, an invalid attribute value was detected. "+
+					"A EvpnConfigValue must use a matching attribute type for the value. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("EvpnConfigValue Attribute Name (%s) Expected Type: %s\n", name, attributeType.String())+
+					fmt.Sprintf("EvpnConfigValue Attribute Name (%s) Given Type: %s", name, attribute.Type(ctx)),
+			)
+		}
+	}
+
+	for name := range attributes {
+		_, ok := attributeTypes[name]
+
+		if !ok {
+			diags.AddError(
+				"Extra EvpnConfigValue Attribute Value",
+				"While creating a EvpnConfigValue value, an extra attribute value was detected. "+
+					"A EvpnConfigValue must not contain values beyond the expected attribute types. "+
+					"This is always an issue with the provider and should be reported to the provider developers.\n\n"+
+					fmt.Sprintf("Extra EvpnConfigValue Attribute Name: %s", name),
+			)
+		}
+	}
+
+	if diags.HasError() {
+		return NewEvpnConfigValueUnknown(), diags
+	}
+
+	enabledAttribute, ok := attributes["enabled"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`enabled is missing from object`)
+
+		return NewEvpnConfigValueUnknown(), diags
+	}
+
+	enabledVal, ok := enabledAttribute.(basetypes.BoolValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`enabled expected to be basetypes.BoolValue, was: %T`, enabledAttribute))
+	}
+
+	roleAttribute, ok := attributes["role"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`role is missing from object`)
+
+		return NewEvpnConfigValueUnknown(), diags
+	}
+
+	roleVal, ok := roleAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`role expected to be basetypes.StringValue, was: %T`, roleAttribute))
+	}
+
+	if diags.HasError() {
+		return NewEvpnConfigValueUnknown(), diags
+	}
+
+	return EvpnConfigValue{
+		Enabled: enabledVal,
+		Role:    roleVal,
+		state:   attr.ValueStateKnown,
+	}, diags
+}
+
+func NewEvpnConfigValueMust(attributeTypes map[string]attr.Type, attributes map[string]attr.Value) EvpnConfigValue {
+	object, diags := NewEvpnConfigValue(attributeTypes, attributes)
+
+	if diags.HasError() {
+		// This could potentially be added to the diag package.
+		diagsStrings := make([]string, 0, len(diags))
+
+		for _, diagnostic := range diags {
+			diagsStrings = append(diagsStrings, fmt.Sprintf(
+				"%s | %s | %s",
+				diagnostic.Severity(),
+				diagnostic.Summary(),
+				diagnostic.Detail()))
+		}
+
+		panic("NewEvpnConfigValueMust received error(s): " + strings.Join(diagsStrings, "\n"))
+	}
+
+	return object
+}
+
+func (t EvpnConfigType) ValueFromTerraform(ctx context.Context, in tftypes.Value) (attr.Value, error) {
+	if in.Type() == nil {
+		return NewEvpnConfigValueNull(), nil
+	}
+
+	if !in.Type().Equal(t.TerraformType(ctx)) {
+		return nil, fmt.Errorf("expected %s, got %s", t.TerraformType(ctx), in.Type())
+	}
+
+	if !in.IsKnown() {
+		return NewEvpnConfigValueUnknown(), nil
+	}
+
+	if in.IsNull() {
+		return NewEvpnConfigValueNull(), nil
+	}
+
+	attributes := map[string]attr.Value{}
+
+	val := map[string]tftypes.Value{}
+
+	err := in.As(&val)
+
+	if err != nil {
+		return nil, err
+	}
+
+	for k, v := range val {
+		a, err := t.AttrTypes[k].ValueFromTerraform(ctx, v)
+
+		if err != nil {
+			return nil, err
+		}
+
+		attributes[k] = a
+	}
+
+	return NewEvpnConfigValueMust(EvpnConfigValue{}.AttributeTypes(ctx), attributes), nil
+}
+
+func (t EvpnConfigType) ValueType(ctx context.Context) attr.Value {
+	return EvpnConfigValue{}
+}
+
+var _ basetypes.ObjectValuable = EvpnConfigValue{}
+
+type EvpnConfigValue struct {
+	Enabled basetypes.BoolValue   `tfsdk:"enabled"`
+	Role    basetypes.StringValue `tfsdk:"role"`
+	state   attr.ValueState
+}
+
+func (v EvpnConfigValue) ToTerraformValue(ctx context.Context) (tftypes.Value, error) {
+	attrTypes := make(map[string]tftypes.Type, 2)
+
+	var val tftypes.Value
+	var err error
+
+	attrTypes["enabled"] = basetypes.BoolType{}.TerraformType(ctx)
+	attrTypes["role"] = basetypes.StringType{}.TerraformType(ctx)
+
+	objectType := tftypes.Object{AttributeTypes: attrTypes}
+
+	switch v.state {
+	case attr.ValueStateKnown:
+		vals := make(map[string]tftypes.Value, 2)
+
+		val, err = v.Enabled.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["enabled"] = val
+
+		val, err = v.Role.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["role"] = val
+
+		if err := tftypes.ValidateValue(objectType, vals); err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		return tftypes.NewValue(objectType, vals), nil
+	case attr.ValueStateNull:
+		return tftypes.NewValue(objectType, nil), nil
+	case attr.ValueStateUnknown:
+		return tftypes.NewValue(objectType, tftypes.UnknownValue), nil
+	default:
+		panic(fmt.Sprintf("unhandled Object state in ToTerraformValue: %s", v.state))
+	}
+}
+
+func (v EvpnConfigValue) IsNull() bool {
+	return v.state == attr.ValueStateNull
+}
+
+func (v EvpnConfigValue) IsUnknown() bool {
+	return v.state == attr.ValueStateUnknown
+}
+
+func (v EvpnConfigValue) String() string {
+	return "EvpnConfigValue"
+}
+
+func (v EvpnConfigValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	attributeTypes := map[string]attr.Type{
+		"enabled": basetypes.BoolType{},
+		"role":    basetypes.StringType{},
+	}
+
+	if v.IsNull() {
+		return types.ObjectNull(attributeTypes), diags
+	}
+
+	if v.IsUnknown() {
+		return types.ObjectUnknown(attributeTypes), diags
+	}
+
+	objVal, diags := types.ObjectValue(
+		attributeTypes,
+		map[string]attr.Value{
+			"enabled": v.Enabled,
+			"role":    v.Role,
+		})
+
+	return objVal, diags
+}
+
+func (v EvpnConfigValue) Equal(o attr.Value) bool {
+	other, ok := o.(EvpnConfigValue)
+
+	if !ok {
+		return false
+	}
+
+	if v.state != other.state {
+		return false
+	}
+
+	if v.state != attr.ValueStateKnown {
+		return true
+	}
+
+	if !v.Enabled.Equal(other.Enabled) {
+		return false
+	}
+
+	if !v.Role.Equal(other.Role) {
+		return false
+	}
+
+	return true
+}
+
+func (v EvpnConfigValue) Type(ctx context.Context) attr.Type {
+	return EvpnConfigType{
+		basetypes.ObjectType{
+			AttrTypes: v.AttributeTypes(ctx),
+		},
+	}
+}
+
+func (v EvpnConfigValue) AttributeTypes(ctx context.Context) map[string]attr.Type {
+	return map[string]attr.Type{
+		"enabled": basetypes.BoolType{},
+		"role":    basetypes.StringType{},
 	}
 }
 

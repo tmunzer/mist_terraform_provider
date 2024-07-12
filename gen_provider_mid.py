@@ -131,8 +131,8 @@ def next_item(data: dict, entries: list, path: list):
                 sub_data["default"] = default
             # if no_default and sub_data.get("default"):
             #     del sub_data["default"]
-            if isinstance(bool, sensitive):
-                sub_data["sensitive"]=sensitive
+            # if isinstance(bool, sensitive):
+            #     sub_data["sensitive"]=sensitive
             if plan_modifiers:
                 sub_data["plan_modifiers"] = plan_modifiers
             if validators:

@@ -49,7 +49,7 @@ tfplugingen-openapi generate \
     --output ./provider-code-spec.json \
     ./mist.provider.yml 
 
-
+sleep 2
 echo "fix provider specs..."
 cp ./provider-code-spec.json ./provider-code-spec.json.bak
 python3 ./gen_provider_mid.py

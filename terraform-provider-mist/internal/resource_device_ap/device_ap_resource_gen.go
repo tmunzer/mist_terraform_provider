@@ -301,7 +301,8 @@ func DeviceApResourceSchema(ctx context.Context) schema.Schema {
 					"auth": schema.SingleNestedAttribute{
 						Attributes: map[string]schema.Attribute{
 							"psk": schema.StringAttribute{
-								Optional: true,
+								Optional:  true,
+								Sensitive: true,
 								Validators: []validator.String{
 									stringvalidator.LengthAtLeast(1),
 								},

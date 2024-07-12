@@ -1238,6 +1238,7 @@ func DeviceGatewayResourceSchema(ctx context.Context) schema.Schema {
 						},
 						"lte_password": schema.StringAttribute{
 							Optional:            true,
+							Sensitive:           true,
 							Description:         "if `wan_type`==`lte`",
 							MarkdownDescription: "if `wan_type`==`lte`",
 						},
@@ -1306,6 +1307,7 @@ func DeviceGatewayResourceSchema(ctx context.Context) schema.Schema {
 								},
 								"poser_password": schema.StringAttribute{
 									Optional:            true,
+									Sensitive:           true,
 									Description:         "if `type`==`pppoe`",
 									MarkdownDescription: "if `type`==`pppoe`",
 								},
@@ -2310,6 +2312,7 @@ func DeviceGatewayResourceSchema(ctx context.Context) schema.Schema {
 						},
 						"psk": schema.StringAttribute{
 							Optional:            true,
+							Sensitive:           true,
 							Description:         "Only if:\n* `provider`== `zscaler-ipsec`\n* `provider`==`jse-ipsec`\n* `provider`== `custom-ipsec`",
 							MarkdownDescription: "Only if:\n* `provider`== `zscaler-ipsec`\n* `provider`==`jse-ipsec`\n* `provider`== `custom-ipsec`",
 						},

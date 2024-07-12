@@ -596,9 +596,9 @@ resources:
   #       - created_time
   #       - modified_time
   #       - for_site
+  #       - id
   #       - iot_config
   #       - port_config
-  #       - id
   # device_switch:
   #   create:
   #     path: /api/v1/sites/{site_id}/devices/{device_id}
@@ -617,7 +617,6 @@ resources:
   #       - created_time
   #       - modified_time
   #       - for_site
-  #       - evpn_config
   #       - id
   # device_gateway:
   #   create:
@@ -638,10 +637,6 @@ resources:
   #       - modified_time
   #       - for_site
   #       - id
-  #       - type
-  #       - serial
-  #       - mac
-  #       - model 
   # org_inventory:
   #   create:
   #     path: /api/v1/orgs/{org_id}/inventory
