@@ -80,6 +80,7 @@ func OrgWlanResourceSchema(ctx context.Context) schema.Schema {
 						},
 						"secret": schema.StringAttribute{
 							Required:            true,
+							Sensitive:           true,
 							Description:         "secret of RADIUS server",
 							MarkdownDescription: "secret of RADIUS server",
 						},
@@ -118,6 +119,7 @@ func OrgWlanResourceSchema(ctx context.Context) schema.Schema {
 					"password": schema.StringAttribute{
 						Optional:            true,
 						Computed:            true,
+						Sensitive:           true,
 						Description:         "password",
 						MarkdownDescription: "password",
 						Default:             stringdefault.StaticString(""),
@@ -371,6 +373,7 @@ func OrgWlanResourceSchema(ctx context.Context) schema.Schema {
 					"psk": schema.StringAttribute{
 						Optional:            true,
 						Computed:            true,
+						Sensitive:           true,
 						Description:         "when type=psk, 8-64 characters, or 64 hex characters",
 						MarkdownDescription: "when type=psk, 8-64 characters, or 64 hex characters",
 						Validators: []validator.String{
@@ -462,6 +465,7 @@ func OrgWlanResourceSchema(ctx context.Context) schema.Schema {
 						},
 						"secret": schema.StringAttribute{
 							Required:            true,
+							Sensitive:           true,
 							Description:         "secret of RADIUS server",
 							MarkdownDescription: "secret of RADIUS server",
 						},
@@ -677,7 +681,8 @@ func OrgWlanResourceSchema(ctx context.Context) schema.Schema {
 							Default:  int64default.StaticInt64(3799),
 						},
 						"secret": schema.StringAttribute{
-							Required: true,
+							Required:  true,
+							Sensitive: true,
 						},
 					},
 					CustomType: CoaServersType{
@@ -764,6 +769,7 @@ func OrgWlanResourceSchema(ctx context.Context) schema.Schema {
 				Attributes: map[string]schema.Attribute{
 					"default_psk": schema.StringAttribute{
 						Optional:            true,
+						Sensitive:           true,
 						Description:         "default PSK to use if cloud WLC is not available, 8-63 characters",
 						MarkdownDescription: "default PSK to use if cloud WLC is not available, 8-63 characters",
 						Validators: []validator.String{
@@ -1191,6 +1197,7 @@ func OrgWlanResourceSchema(ctx context.Context) schema.Schema {
 					"broadnet_password": schema.StringAttribute{
 						Optional:            true,
 						Computed:            true,
+						Sensitive:           true,
 						Description:         "when `sms_provider`==`broadnet`",
 						MarkdownDescription: "when `sms_provider`==`broadnet`",
 						Default:             stringdefault.StaticString(""),
@@ -1345,6 +1352,7 @@ func OrgWlanResourceSchema(ctx context.Context) schema.Schema {
 					"gupshup_password": schema.StringAttribute{
 						Optional:            true,
 						Computed:            true,
+						Sensitive:           true,
 						Description:         "when `sms_provider`==`gupshup`",
 						MarkdownDescription: "when `sms_provider`==`gupshup`",
 						Default:             stringdefault.StaticString(""),
@@ -1409,6 +1417,7 @@ func OrgWlanResourceSchema(ctx context.Context) schema.Schema {
 					"password": schema.StringAttribute{
 						Optional:            true,
 						Computed:            true,
+						Sensitive:           true,
 						Description:         "passphrase",
 						MarkdownDescription: "passphrase",
 						Default:             stringdefault.StaticString(""),
@@ -1447,6 +1456,7 @@ func OrgWlanResourceSchema(ctx context.Context) schema.Schema {
 					"puzzel_password": schema.StringAttribute{
 						Optional:            true,
 						Computed:            true,
+						Sensitive:           true,
 						Description:         "when `sms_provider`==`puzzel`",
 						MarkdownDescription: "when `sms_provider`==`puzzel`",
 						Default:             stringdefault.StaticString(""),

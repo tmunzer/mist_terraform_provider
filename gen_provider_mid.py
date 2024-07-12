@@ -47,13 +47,30 @@ with open(SPEC_IN, "w") as f:
 ######################################################################
 ######################################################################
 
+
 def process_nested(o: dict):
     if o.get("default"):
         o["computed_optional_required"] = "computed_optional"
+    if o.get("name") in [
+        "secret",
+        "mesh_psk",
+        "psk",
+        "default_psk",
+        "broadnet_password",
+        "gupshup_password",
+        "lte_password",
+        "password",
+        "poser_password",
+        "puzzel_password",
+        "authentication_password",
+        "encryption_password",
+        "root_password"
+    ] and o.get("string"):
+        o["string"]["sensitive"] = True
     for key, val in o.items():
         if isinstance(val, dict):
             process_nested(val)
-        if isinstance(val, list):
+        elif isinstance(val, list):
             process_attributes(val)
 
 
@@ -71,6 +88,7 @@ for resource in DATA["resources"]:
     process_attributes(resource["schema"]["attributes"])
 with open(SPEC_IN, "w") as f_out:
     json.dump(DATA, f_out, indent=4)
+
 
 ######################################################################
 ######################################################################
@@ -113,8 +131,8 @@ def next_item(data: dict, entries: list, path: list):
                 sub_data["default"] = default
             # if no_default and sub_data.get("default"):
             #     del sub_data["default"]
-            if sensitive:
-                sub_data["sensitive"]=True
+            if isinstance(bool, sensitive):
+                sub_data["sensitive"]=sensitive
             if plan_modifiers:
                 sub_data["plan_modifiers"] = plan_modifiers
             if validators:

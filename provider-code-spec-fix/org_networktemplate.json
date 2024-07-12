@@ -105,9 +105,7 @@
                         {
                             "name": "acct_servers",
                             "rename": "tacacct_servers"
-                        },
-                        { "name":"tacacct_servers" , "get": ["list_nested", "nested_object", "attributes"], "next": [{"name": "secret", "get": ["string"], "sensitive": true}]},
-                        { "name":"tacplus_servers" , "get": ["list_nested", "nested_object", "attributes"], "next": [{"name": "secret", "get": ["string"], "sensitive": true}]}
+                        }
                     ]
                 },
                 {

@@ -1087,6 +1087,7 @@ func SiteSettingResourceSchema(ctx context.Context) schema.Schema {
 					},
 					"mesh_psk": schema.StringAttribute{
 						Optional:            true,
+						Sensitive:           true,
 						Description:         "optional passphrase of mesh networking, default is generated randomly",
 						MarkdownDescription: "optional passphrase of mesh networking, default is generated randomly",
 					},

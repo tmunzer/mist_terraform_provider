@@ -823,6 +823,7 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 								},
 								"secret": schema.StringAttribute{
 									Required:            true,
+									Sensitive:           true,
 									Description:         "secret of RADIUS server",
 									MarkdownDescription: "secret of RADIUS server",
 								},
@@ -874,6 +875,7 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 								},
 								"secret": schema.StringAttribute{
 									Required:            true,
+									Sensitive:           true,
 									Description:         "secret of RADIUS server",
 									MarkdownDescription: "secret of RADIUS server",
 								},
@@ -1674,6 +1676,7 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 											Attributes: map[string]schema.Attribute{
 												"authentication_password": schema.StringAttribute{
 													Optional:            true,
+													Sensitive:           true,
 													Description:         "Not required if `authentication_type`==`authentication_none`\ninclude alphabetic, numeric, and special characters, but it cannot include control characters.",
 													MarkdownDescription: "Not required if `authentication_type`==`authentication_none`\ninclude alphabetic, numeric, and special characters, but it cannot include control characters.",
 													Validators: []validator.String{
@@ -1699,6 +1702,7 @@ func OrgNetworktemplateResourceSchema(ctx context.Context) schema.Schema {
 												},
 												"encryption_password": schema.StringAttribute{
 													Optional:            true,
+													Sensitive:           true,
 													Description:         "Not required if `encryption_type`==`privacy-none`\ninclude alphabetic, numeric, and special characters, but it cannot include control characters",
 													MarkdownDescription: "Not required if `encryption_type`==`privacy-none`\ninclude alphabetic, numeric, and special characters, but it cannot include control characters",
 													Validators: []validator.String{

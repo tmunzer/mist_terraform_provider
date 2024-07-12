@@ -1887,7 +1887,8 @@
                                                     "name": "poser_password",
                                                     "string": {
                                                         "computed_optional_required": "optional",
-                                                        "description": "if `type`==`pppoe`"
+                                                        "description": "if `type`==`pppoe`",
+                                                        "sensitive": true
                                                     }
                                                 },
                                                 {
@@ -1983,7 +1984,8 @@
                                         "name": "lte_password",
                                         "string": {
                                             "computed_optional_required": "optional",
-                                            "description": "if `wan_type`==`lte`"
+                                            "description": "if `wan_type`==`lte`",
+                                            "sensitive": true
                                         }
                                     },
                                     {
@@ -3331,7 +3333,8 @@
                                         "name": "psk",
                                         "string": {
                                             "computed_optional_required": "optional",
-                                            "description": "Only if:\n* `provider`== `zscaler-ipsec`\n* `provider`==`jse-ipsec`\n* `provider`== `custom-ipsec`"
+                                            "description": "Only if:\n* `provider`== `zscaler-ipsec`\n* `provider`==`jse-ipsec`\n* `provider`== `custom-ipsec`",
+                                            "sensitive": true
                                         }
                                     },
                                     {
@@ -5676,7 +5679,8 @@
                                                     "name": "secret",
                                                     "string": {
                                                         "computed_optional_required": "required",
-                                                        "description": "secret of RADIUS server"
+                                                        "description": "secret of RADIUS server",
+                                                        "sensitive": true
                                                     }
                                                 }
                                             ]
@@ -5758,7 +5762,8 @@
                                                     "name": "secret",
                                                     "string": {
                                                         "computed_optional_required": "required",
-                                                        "description": "secret of RADIUS server"
+                                                        "description": "secret of RADIUS server",
+                                                        "sensitive": true
                                                     }
                                                 }
                                             ]
@@ -6783,7 +6788,8 @@
                                                                                             "schema_definition": "stringvalidator.LengthAtLeast(7)"
                                                                                         }
                                                                                     }
-                                                                                ]
+                                                                                ],
+                                                                                "sensitive": true
                                                                             }
                                                                         },
                                                                         {
@@ -6821,7 +6827,8 @@
                                                                                             "schema_definition": "stringvalidator.LengthAtLeast(8)"
                                                                                         }
                                                                                     }
-                                                                                ]
+                                                                                ],
+                                                                                "sensitive": true
                                                                             }
                                                                         },
                                                                         {
@@ -9785,7 +9792,8 @@
                                         "name": "secret",
                                         "string": {
                                             "computed_optional_required": "required",
-                                            "description": "secret of RADIUS server"
+                                            "description": "secret of RADIUS server",
+                                            "sensitive": true
                                         }
                                     }
                                 ]
@@ -9834,7 +9842,8 @@
                                         "default": {
                                             "static": ""
                                         },
-                                        "description": "password"
+                                        "description": "password",
+                                        "sensitive": true
                                     }
                                 },
                                 {
@@ -10233,7 +10242,8 @@
                                                     "schema_definition": "stringvalidator.LengthBetween(8, 64)"
                                                 }
                                             }
-                                        ]
+                                        ],
+                                        "sensitive": true
                                     }
                                 },
                                 {
@@ -10356,7 +10366,8 @@
                                         "name": "secret",
                                         "string": {
                                             "computed_optional_required": "required",
-                                            "description": "secret of RADIUS server"
+                                            "description": "secret of RADIUS server",
+                                            "sensitive": true
                                         }
                                     }
                                 ]
@@ -10645,7 +10656,8 @@
                                     {
                                         "name": "secret",
                                         "string": {
-                                            "computed_optional_required": "required"
+                                            "computed_optional_required": "required",
+                                            "sensitive": true
                                         }
                                     }
                                 ]
@@ -10771,7 +10783,8 @@
                                                     "schema_definition": "stringvalidator.LengthBetween(8, 63)"
                                                 }
                                             }
-                                        ]
+                                        ],
+                                        "sensitive": true
                                     }
                                 },
                                 {
@@ -11437,7 +11450,8 @@
                                         "default": {
                                             "static": ""
                                         },
-                                        "description": "when `sms_provider`==`broadnet`"
+                                        "description": "when `sms_provider`==`broadnet`",
+                                        "sensitive": true
                                     }
                                 },
                                 {
@@ -11686,7 +11700,8 @@
                                         "default": {
                                             "static": ""
                                         },
-                                        "description": "when `sms_provider`==`gupshup`"
+                                        "description": "when `sms_provider`==`gupshup`",
+                                        "sensitive": true
                                     }
                                 },
                                 {
@@ -11792,7 +11807,8 @@
                                         "default": {
                                             "static": ""
                                         },
-                                        "description": "passphrase"
+                                        "description": "passphrase",
+                                        "sensitive": true
                                     }
                                 },
                                 {
@@ -11848,7 +11864,8 @@
                                         "default": {
                                             "static": ""
                                         },
-                                        "description": "when `sms_provider`==`puzzel`"
+                                        "description": "when `sms_provider`==`puzzel`",
+                                        "sensitive": true
                                     }
                                 },
                                 {
@@ -14468,7 +14485,8 @@
                                                     "name": "secret",
                                                     "string": {
                                                         "computed_optional_required": "required",
-                                                        "description": "secret of RADIUS server"
+                                                        "description": "secret of RADIUS server",
+                                                        "sensitive": true
                                                     }
                                                 }
                                             ]
@@ -14550,7 +14568,8 @@
                                                     "name": "secret",
                                                     "string": {
                                                         "computed_optional_required": "required",
-                                                        "description": "secret of RADIUS server"
+                                                        "description": "secret of RADIUS server",
+                                                        "sensitive": true
                                                     }
                                                 }
                                             ]
@@ -15575,7 +15594,8 @@
                                                                                             "schema_definition": "stringvalidator.LengthAtLeast(7)"
                                                                                         }
                                                                                     }
-                                                                                ]
+                                                                                ],
+                                                                                "sensitive": true
                                                                             }
                                                                         },
                                                                         {
@@ -15613,7 +15633,8 @@
                                                                                             "schema_definition": "stringvalidator.LengthAtLeast(8)"
                                                                                         }
                                                                                     }
-                                                                                ]
+                                                                                ],
+                                                                                "sensitive": true
                                                                             }
                                                                         },
                                                                         {
@@ -18034,7 +18055,8 @@
                                     "name": "mesh_psk",
                                     "string": {
                                         "computed_optional_required": "optional",
-                                        "description": "optional passphrase of mesh networking, default is generated randomly"
+                                        "description": "optional passphrase of mesh networking, default is generated randomly",
+                                        "sensitive": true
                                     }
                                 },
                                 {
@@ -18237,7 +18259,8 @@
                                         "name": "secret",
                                         "string": {
                                             "computed_optional_required": "required",
-                                            "description": "secret of RADIUS server"
+                                            "description": "secret of RADIUS server",
+                                            "sensitive": true
                                         }
                                     }
                                 ]
@@ -18286,7 +18309,8 @@
                                         "default": {
                                             "static": ""
                                         },
-                                        "description": "password"
+                                        "description": "password",
+                                        "sensitive": true
                                     }
                                 },
                                 {
@@ -18685,7 +18709,8 @@
                                                     "schema_definition": "stringvalidator.LengthBetween(8, 64)"
                                                 }
                                             }
-                                        ]
+                                        ],
+                                        "sensitive": true
                                     }
                                 },
                                 {
@@ -18808,7 +18833,8 @@
                                         "name": "secret",
                                         "string": {
                                             "computed_optional_required": "required",
-                                            "description": "secret of RADIUS server"
+                                            "description": "secret of RADIUS server",
+                                            "sensitive": true
                                         }
                                     }
                                 ]
@@ -19097,7 +19123,8 @@
                                     {
                                         "name": "secret",
                                         "string": {
-                                            "computed_optional_required": "required"
+                                            "computed_optional_required": "required",
+                                            "sensitive": true
                                         }
                                     }
                                 ]
@@ -19223,7 +19250,8 @@
                                                     "schema_definition": "stringvalidator.LengthBetween(8, 63)"
                                                 }
                                             }
-                                        ]
+                                        ],
+                                        "sensitive": true
                                     }
                                 },
                                 {
@@ -19889,7 +19917,8 @@
                                         "default": {
                                             "static": ""
                                         },
-                                        "description": "when `sms_provider`==`broadnet`"
+                                        "description": "when `sms_provider`==`broadnet`",
+                                        "sensitive": true
                                     }
                                 },
                                 {
@@ -20138,7 +20167,8 @@
                                         "default": {
                                             "static": ""
                                         },
-                                        "description": "when `sms_provider`==`gupshup`"
+                                        "description": "when `sms_provider`==`gupshup`",
+                                        "sensitive": true
                                     }
                                 },
                                 {
@@ -20244,7 +20274,8 @@
                                         "default": {
                                             "static": ""
                                         },
-                                        "description": "passphrase"
+                                        "description": "passphrase",
+                                        "sensitive": true
                                     }
                                 },
                                 {
@@ -20300,7 +20331,8 @@
                                         "default": {
                                             "static": ""
                                         },
-                                        "description": "when `sms_provider`==`puzzel`"
+                                        "description": "when `sms_provider`==`puzzel`",
+                                        "sensitive": true
                                     }
                                 },
                                 {
