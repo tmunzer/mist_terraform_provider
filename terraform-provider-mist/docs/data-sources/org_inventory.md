@@ -40,6 +40,7 @@ Read-Only:
 
 - `adopted` (Boolean) only if `type`==`switch` or `type`==`gateway`
 whether the switch/gateway is adopted
+- `claim_code` (String) device claim code
 - `connected` (Boolean) whether the device is connected
 - `created_time` (Number) inventory created time, in epoch
 - `deviceprofile_id` (String) deviceprofile id if assigned, null if not assigned
@@ -48,7 +49,6 @@ whether the switch/gateway is adopted
 - `id` (String) device id
 - `jsi` (Boolean)
 - `mac` (String) device MAC address
-- `magic` (String) device claim code
 - `model` (String) device model
 - `modified_time` (Number) inventory last modified time, in epoch
 - `name` (String) device name if configured
