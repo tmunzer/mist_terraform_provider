@@ -1,50 +1,7 @@
 {
 	"datasources": [
 		{
-			"name": "countries",
-			"schema": {
-				"attributes": [
-					{
-						"name": "countries",
-						"set_nested": {
-							"computed_optional_required": "computed",
-							"nested_object": {
-								"attributes": [
-									{
-										"name": "alpha2",
-										"string": {
-											"computed_optional_required": "computed",
-											"description": "country code, in two-character"
-										}
-									},
-									{
-										"name": "certified",
-										"bool": {
-											"computed_optional_required": "computed"
-										}
-									},
-									{
-										"name": "name",
-										"string": {
-											"computed_optional_required": "computed"
-										}
-									},
-									{
-										"name": "numeric",
-										"number": {
-											"computed_optional_required": "computed",
-											"description": "country code, ISO 3166-1 numeric"
-										}
-									}
-								]
-							}
-						}
-					}
-				]
-			}
-		},
-		{
-			"name": "device_ap_stats",
+			"name": "org_inventory",
 			"schema": {
 				"attributes": [
 					{
@@ -54,1233 +11,127 @@
 						}
 					},
 					{
-						"name": "status",
+						"name": "serial",
 						"string": {
 							"computed_optional_required": "computed_optional",
-							"validators": [
-								{
-									"custom": {
-										"imports": [
-											{
-												"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
-											}
-										],
-										"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"all\",\n\"connected\",\n\"disconnected\",\n)"
-									}
-								}
-							]
+							"description": "device serial"
 						}
 					},
 					{
-						"name": "site_id",
+						"name": "model",
 						"string": {
-							"computed_optional_required": "computed_optional"
+							"computed_optional_required": "computed_optional",
+							"description": "device model"
 						}
 					},
 					{
 						"name": "mac",
 						"string": {
-							"computed_optional_required": "computed_optional"
-						}
-					},
-					{
-						"name": "start",
-						"int64": {
 							"computed_optional_required": "computed_optional",
-							"description": "start datetime, can be epoch or relative time like -1d, -1w; -1d if not specified"
+							"description": "MAC address"
 						}
 					},
 					{
-						"name": "end",
-						"int64": {
-							"computed_optional_required": "computed_optional",
-							"description": "end datetime, can be epoch or relative time like -1d, -2h; now if not specified"
-						}
-					},
-					{
-						"name": "duration",
+						"name": "site_id",
 						"string": {
 							"computed_optional_required": "computed_optional",
-							"description": "duration like 7d, 2w"
+							"description": "site id if assigned, null if not assigned"
 						}
 					},
 					{
-						"name": "device_ap_stats",
+						"name": "vc_mac",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"description": "Virtual Chassis MAC Address"
+						}
+					},
+					{
+						"name": "vc",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"description": "To display Virtual Chassis members"
+						}
+					},
+					{
+						"name": "unassigned",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"description": "to display Unassigned devices"
+						}
+					},
+					{
+						"name": "org_inventory",
 						"set_nested": {
 							"computed_optional_required": "computed",
 							"nested_object": {
 								"attributes": [
 									{
-										"name": "auto_placement",
-										"single_nested": {
-											"computed_optional_required": "computed",
-											"attributes": [
-												{
-													"name": "info",
-													"single_nested": {
-														"computed_optional_required": "computed",
-														"attributes": [
-															{
-																"name": "cluster_number",
-																"int64": {
-																	"computed_optional_required": "computed",
-																	"description": "All APs sharing a given cluster number can be placed relative to each other"
-																}
-															},
-															{
-																"name": "orientation_stats",
-																"int64": {
-																	"computed_optional_required": "computed",
-																	"description": "The orientation of an AP"
-																}
-															},
-															{
-																"name": "probability_surface",
-																"single_nested": {
-																	"computed_optional_required": "computed",
-																	"attributes": [
-																		{
-																			"name": "radius",
-																			"number": {
-																				"computed_optional_required": "computed",
-																				"description": "The radius representing placement uncertainty, measured in pixels"
-																			}
-																		},
-																		{
-																			"name": "radius_m",
-																			"number": {
-																				"computed_optional_required": "computed",
-																				"description": "The radius representing placement uncertainty, measured in meters"
-																			}
-																		},
-																		{
-																			"name": "x",
-																			"float64": {
-																				"computed_optional_required": "computed",
-																				"description": "Y-coordinate of the potential placement’s center, measured in pixels"
-																			}
-																		}
-																	],
-																	"description": "Coordinates representing a circle where the AP is most likely exists in the event of an inaccurate placement result"
-																}
-															}
-														],
-														"description": "Additional information about auto placements AP data"
-													}
-												},
-												{
-													"name": "recommended_anchor",
-													"bool": {
-														"computed_optional_required": "computed",
-														"description": "Flag to represent if AP is recommended as an anchor by auto placement service"
-													}
-												},
-												{
-													"name": "status",
-													"string": {
-														"computed_optional_required": "computed",
-														"description": "Basic Placement Status"
-													}
-												},
-												{
-													"name": "status_detail",
-													"string": {
-														"computed_optional_required": "computed",
-														"description": "Additional info about placement status"
-													}
-												},
-												{
-													"name": "use_auto_placement",
-													"bool": {
-														"computed_optional_required": "computed",
-														"description": "Flag to represent if auto_placement values are currently utilized"
-													}
-												},
-												{
-													"name": "x",
-													"float64": {
-														"computed_optional_required": "computed",
-														"description": "X Autoplaced Position in pixels"
-													}
-												},
-												{
-													"name": "x_m",
-													"float64": {
-														"computed_optional_required": "computed",
-														"description": "X Autoplaced Position in meters"
-													}
-												},
-												{
-													"name": "y",
-													"float64": {
-														"computed_optional_required": "computed",
-														"description": "Y Autoplaced Position in pixels"
-													}
-												},
-												{
-													"name": "y_m",
-													"float64": {
-														"computed_optional_required": "computed",
-														"description": "X Autoplaced Position in meters"
-													}
-												}
-											]
-										}
-									},
-									{
-										"name": "auto_upgrade_stat",
-										"single_nested": {
-											"computed_optional_required": "computed",
-											"attributes": [
-												{
-													"name": "lastcheck",
-													"int64": {
-														"computed_optional_required": "computed"
-													}
-												}
-											]
-										}
-									},
-									{
-										"name": "ble_stat",
-										"single_nested": {
-											"computed_optional_required": "computed",
-											"attributes": [
-												{
-													"name": "beacon_enabled",
-													"bool": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "beacon_rate",
-													"int64": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "eddystone_uid_enabled",
-													"bool": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "eddystone_uid_freq_msec",
-													"int64": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "eddystone_uid_instance",
-													"string": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "eddystone_uid_namespace",
-													"string": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "eddystone_url_enabled",
-													"bool": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "eddystone_url_freq_msec",
-													"int64": {
-														"computed_optional_required": "computed",
-														"description": "Frequency (msec) of data emmit by Eddystone-UID beacon"
-													}
-												},
-												{
-													"name": "eddystone_url_url",
-													"string": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "ibeacon_enabled",
-													"bool": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "ibeacon_freq_msec",
-													"int64": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "ibeacon_major",
-													"int64": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "ibeacon_minor",
-													"int64": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "ibeacon_uuid",
-													"string": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "major",
-													"int64": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "minors",
-													"list": {
-														"computed_optional_required": "computed",
-														"element_type": {
-															"int64": {}
-														}
-													}
-												},
-												{
-													"name": "power",
-													"int64": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "rx_bytes",
-													"int64": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "rx_pkts",
-													"int64": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "tx_bytes",
-													"int64": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "tx_pkts",
-													"int64": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "tx_resets",
-													"int64": {
-														"computed_optional_required": "computed",
-														"description": "resets due to tx hung"
-													}
-												},
-												{
-													"name": "uuid",
-													"string": {
-														"computed_optional_required": "computed"
-													}
-												}
-											]
-										}
-									},
-									{
-										"name": "cert_expiry",
-										"number": {
-											"computed_optional_required": "computed"
-										}
-									},
-									{
-										"name": "config_reverted",
+										"name": "adopted",
 										"bool": {
-											"computed_optional_required": "computed"
+											"computed_optional_required": "computed",
+											"description": "only if `type`==`switch` or `type`==`gateway`\nwhether the switch/gateway is adopted"
 										}
 									},
 									{
-										"name": "cpu_system",
-										"int64": {
-											"computed_optional_required": "computed"
-										}
-									},
-									{
-										"name": "cpu_util",
-										"int64": {
-											"computed_optional_required": "computed"
+										"name": "connected",
+										"bool": {
+											"computed_optional_required": "computed",
+											"description": "whether the device is connected"
 										}
 									},
 									{
 										"name": "created_time",
 										"int64": {
-											"computed_optional_required": "computed"
+											"computed_optional_required": "computed",
+											"description": "inventory created time, in epoch"
 										}
 									},
 									{
 										"name": "deviceprofile_id",
 										"string": {
-											"computed_optional_required": "computed"
-										}
-									},
-									{
-										"name": "env_stat",
-										"single_nested": {
 											"computed_optional_required": "computed",
-											"attributes": [
-												{
-													"name": "accel_x",
-													"float64": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "accel_y",
-													"float64": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "accel_z",
-													"float64": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "ambient_temp",
-													"int64": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "attitude",
-													"int64": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "cpu_temp",
-													"int64": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "humidity",
-													"int64": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "magne_x",
-													"float64": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "magne_y",
-													"float64": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "magne_z",
-													"float64": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "pressure",
-													"float64": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "vcore_voltage",
-													"int64": {
-														"computed_optional_required": "computed"
-													}
-												}
-											],
-											"description": "device environment, including CPU temperature, Ambient temperature, Humidity, Attitude, Pressure, Accelerometers, Magnetometers and vCore Voltage"
+											"description": "deviceprofile id if assigned, null if not assigned"
 										}
 									},
 									{
-										"name": "esl_stat",
-										"single_nested": {
-											"computed_optional_required": "computed",
-											"attributes": [
-												{
-													"name": "channel",
-													"int64": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "connected",
-													"bool": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "type",
-													"string": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "up",
-													"bool": {
-														"computed_optional_required": "computed"
-													}
-												}
-											]
-										}
-									},
-									{
-										"name": "ext_ip",
+										"name": "hostname",
 										"string": {
-											"computed_optional_required": "computed"
-										}
-									},
-									{
-										"name": "fwupdate",
-										"single_nested": {
 											"computed_optional_required": "computed",
-											"attributes": [
-												{
-													"name": "progress",
-													"int64": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "status",
-													"string": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "status_id",
-													"int64": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "timestamp",
-													"float64": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "will_retry",
-													"bool": {
-														"computed_optional_required": "computed"
-													}
-												}
-											]
+											"description": "hostname reported by the device"
 										}
 									},
 									{
 										"name": "hw_rev",
 										"string": {
-											"computed_optional_required": "computed"
+											"computed_optional_required": "computed",
+											"description": "device hardware revision number"
 										}
 									},
 									{
 										"name": "id",
 										"string": {
-											"computed_optional_required": "computed"
-										}
-									},
-									{
-										"name": "inactive_wired_vlans",
-										"list": {
 											"computed_optional_required": "computed",
-											"element_type": {
-												"int64": {}
-											}
+											"description": "device id"
 										}
 									},
 									{
-										"name": "iot_stat",
-										"map_nested": {
-											"computed_optional_required": "computed",
-											"nested_object": {
-												"attributes": [
-													{
-														"name": "value",
-														"int64": {
-															"computed_optional_required": "computed"
-														}
-													}
-												]
-											}
-										}
-									},
-									{
-										"name": "ip",
-										"string": {
-											"computed_optional_required": "computed"
-										}
-									},
-									{
-										"name": "ip_config",
-										"single_nested": {
-											"computed_optional_required": "computed",
-											"attributes": [
-												{
-													"name": "dns",
-													"list": {
-														"computed_optional_required": "computed",
-														"element_type": {
-															"string": {}
-														},
-														"description": "if `type`==`static`"
-													}
-												},
-												{
-													"name": "dns_suffix",
-													"list": {
-														"computed_optional_required": "computed",
-														"element_type": {
-															"string": {}
-														},
-														"description": "required if `type`==`static`"
-													}
-												},
-												{
-													"name": "gateway",
-													"string": {
-														"computed_optional_required": "computed",
-														"description": "required if `type`==`static`"
-													}
-												},
-												{
-													"name": "gateway6",
-													"string": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "ip",
-													"string": {
-														"computed_optional_required": "computed",
-														"description": "required if `type`==`static`"
-													}
-												},
-												{
-													"name": "ip6",
-													"string": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "mtu",
-													"int64": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "netmask",
-													"string": {
-														"computed_optional_required": "computed",
-														"description": "required if `type`==`static`"
-													}
-												},
-												{
-													"name": "netmask6",
-													"string": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "type",
-													"string": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "type6",
-													"string": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "vlan_id",
-													"int64": {
-														"computed_optional_required": "computed",
-														"description": "management vlan id, default is 1 (untagged)"
-													}
-												}
-											],
-											"description": "IP AP settings"
-										}
-									},
-									{
-										"name": "ip_stat",
-										"single_nested": {
-											"computed_optional_required": "computed",
-											"attributes": [
-												{
-													"name": "dhcp_server",
-													"string": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "dns",
-													"list": {
-														"computed_optional_required": "computed",
-														"element_type": {
-															"string": {}
-														}
-													}
-												},
-												{
-													"name": "dns_suffix",
-													"list": {
-														"computed_optional_required": "computed",
-														"element_type": {
-															"string": {}
-														}
-													}
-												},
-												{
-													"name": "gateway",
-													"string": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "gateway6",
-													"string": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "ip",
-													"string": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "ip6",
-													"string": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "ips",
-													"map": {
-														"computed_optional_required": "computed",
-														"element_type": {
-															"string": {}
-														}
-													}
-												},
-												{
-													"name": "netmask",
-													"string": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "netmask6",
-													"string": {
-														"computed_optional_required": "computed"
-													}
-												}
-											]
-										}
-									},
-									{
-										"name": "l2tp_stat",
-										"map_nested": {
-											"computed_optional_required": "computed",
-											"nested_object": {
-												"attributes": [
-													{
-														"name": "sessions",
-														"list_nested": {
-															"computed_optional_required": "computed",
-															"nested_object": {
-																"attributes": [
-																	{
-																		"name": "local_sid",
-																		"int64": {
-																			"computed_optional_required": "computed",
-																			"description": "remote sessions id (dynamically unless Tunnel is said to be static)"
-																		}
-																	},
-																	{
-																		"name": "remote_id",
-																		"string": {
-																			"computed_optional_required": "computed",
-																			"description": "WxlanTunnel Remote ID (user-configured)"
-																		}
-																	},
-																	{
-																		"name": "remote_sid",
-																		"int64": {
-																			"computed_optional_required": "computed",
-																			"description": "remote sessions id (dynamically unless Tunnel is said to be static)"
-																		}
-																	},
-																	{
-																		"name": "state",
-																		"string": {
-																			"computed_optional_required": "computed"
-																		}
-																	}
-																]
-															},
-															"description": "list of sessions"
-														}
-													},
-													{
-														"name": "state",
-														"string": {
-															"computed_optional_required": "computed"
-														}
-													},
-													{
-														"name": "uptime",
-														"int64": {
-															"computed_optional_required": "computed",
-															"description": "uptime"
-														}
-													},
-													{
-														"name": "wxtunnel_id",
-														"string": {
-															"computed_optional_required": "computed",
-															"description": "WxlanTunnel ID"
-														}
-													}
-												]
-											},
-											"description": "l2tp tunnel status (key is the wxtunnel_id)"
-										}
-									},
-									{
-										"name": "last_seen",
-										"number": {
-											"computed_optional_required": "computed",
-											"description": "last seen timestamp"
-										}
-									},
-									{
-										"name": "last_trouble",
-										"single_nested": {
-											"computed_optional_required": "computed",
-											"attributes": [
-												{
-													"name": "code",
-													"string": {
-														"computed_optional_required": "computed",
-														"description": "Code definitions list at /api/v1/consts/ap_led_status"
-													}
-												},
-												{
-													"name": "timestamp",
-													"int64": {
-														"computed_optional_required": "computed"
-													}
-												}
-											],
-											"description": "last trouble code of switch"
-										}
-									},
-									{
-										"name": "led",
-										"single_nested": {
-											"computed_optional_required": "computed",
-											"attributes": [
-												{
-													"name": "brightness",
-													"int64": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "enabled",
-													"bool": {
-														"computed_optional_required": "computed"
-													}
-												}
-											],
-											"description": "LED AP settings"
-										}
-									},
-									{
-										"name": "lldp_stat",
-										"single_nested": {
-											"computed_optional_required": "computed",
-											"attributes": [
-												{
-													"name": "chassis_id",
-													"string": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "lldp_med_supported",
-													"bool": {
-														"computed_optional_required": "computed",
-														"description": "whether it support LLDP-MED"
-													}
-												},
-												{
-													"name": "mgmt_addr",
-													"string": {
-														"computed_optional_required": "computed",
-														"description": "switch’s management address (if advertised), can be IPv4, IPv6, or MAC"
-													}
-												},
-												{
-													"name": "mgmt_addrs",
-													"list": {
-														"computed_optional_required": "computed",
-														"element_type": {
-															"string": {}
-														}
-													}
-												},
-												{
-													"name": "port_desc",
-													"string": {
-														"computed_optional_required": "computed",
-														"description": "ge-0/0/4"
-													}
-												},
-												{
-													"name": "port_id",
-													"string": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "power_allocated",
-													"number": {
-														"computed_optional_required": "computed",
-														"description": "in mW, provided/allocated by PSE"
-													}
-												},
-												{
-													"name": "power_draw",
-													"number": {
-														"computed_optional_required": "computed",
-														"description": "in mW, total power needed by PD"
-													}
-												},
-												{
-													"name": "power_request_count",
-													"int64": {
-														"computed_optional_required": "computed",
-														"description": "number of negotiations, if it keeps increasing, we don’t have a stable power"
-													}
-												},
-												{
-													"name": "power_requested",
-													"number": {
-														"computed_optional_required": "computed",
-														"description": "in mW, the current power requested by PD"
-													}
-												},
-												{
-													"name": "system_desc",
-													"string": {
-														"computed_optional_required": "computed",
-														"description": "description provided by switch"
-													}
-												},
-												{
-													"name": "system_name",
-													"string": {
-														"computed_optional_required": "computed",
-														"description": "name of the switch"
-													}
-												}
-											],
-											"description": "LLDP Stat (neighbor information, power negotiations)"
-										}
-									},
-									{
-										"name": "locating",
+										"name": "jsi",
 										"bool": {
 											"computed_optional_required": "computed"
-										}
-									},
-									{
-										"name": "locked",
-										"bool": {
-											"computed_optional_required": "computed",
-											"description": "whether this AP is considered locked (placement / orientation has been vetted)"
 										}
 									},
 									{
 										"name": "mac",
 										"string": {
 											"computed_optional_required": "computed",
-											"description": "device mac"
+											"description": "device MAC address"
 										}
 									},
 									{
-										"name": "map_id",
+										"name": "magic",
 										"string": {
-											"computed_optional_required": "computed"
-										}
-									},
-									{
-										"name": "mem_used_kb",
-										"int64": {
-											"computed_optional_required": "computed"
-										}
-									},
-									{
-										"name": "mesh_downlinks",
-										"map_nested": {
 											"computed_optional_required": "computed",
-											"nested_object": {
-												"attributes": [
-													{
-														"name": "band",
-														"string": {
-															"computed_optional_required": "computed"
-														}
-													},
-													{
-														"name": "channel",
-														"int64": {
-															"computed_optional_required": "computed"
-														}
-													},
-													{
-														"name": "idle_time",
-														"int64": {
-															"computed_optional_required": "computed"
-														}
-													},
-													{
-														"name": "last_seen",
-														"number": {
-															"computed_optional_required": "computed"
-														}
-													},
-													{
-														"name": "proto",
-														"string": {
-															"computed_optional_required": "computed"
-														}
-													},
-													{
-														"name": "rssi",
-														"int64": {
-															"computed_optional_required": "computed"
-														}
-													},
-													{
-														"name": "rx_bps",
-														"int64": {
-															"computed_optional_required": "computed"
-														}
-													},
-													{
-														"name": "rx_bytes",
-														"int64": {
-															"computed_optional_required": "computed"
-														}
-													},
-													{
-														"name": "rx_packets",
-														"int64": {
-															"computed_optional_required": "computed"
-														}
-													},
-													{
-														"name": "rx_rate",
-														"int64": {
-															"computed_optional_required": "computed"
-														}
-													},
-													{
-														"name": "rx_retries",
-														"int64": {
-															"computed_optional_required": "computed"
-														}
-													},
-													{
-														"name": "site_id",
-														"string": {
-															"computed_optional_required": "computed"
-														}
-													},
-													{
-														"name": "snr",
-														"int64": {
-															"computed_optional_required": "computed"
-														}
-													},
-													{
-														"name": "tx_bps",
-														"int64": {
-															"computed_optional_required": "computed"
-														}
-													},
-													{
-														"name": "tx_bytes",
-														"int64": {
-															"computed_optional_required": "computed"
-														}
-													},
-													{
-														"name": "tx_packets",
-														"int64": {
-															"computed_optional_required": "computed"
-														}
-													},
-													{
-														"name": "tx_rate",
-														"int64": {
-															"computed_optional_required": "computed"
-														}
-													},
-													{
-														"name": "tx_retries",
-														"int64": {
-															"computed_optional_required": "computed"
-														}
-													}
-												]
-											},
-											"description": "Property key is the mesh downlink id (e.g `00000000-0000-0000-1000-5c5b35000010`)"
-										}
-									},
-									{
-										"name": "mesh_uplink",
-										"single_nested": {
-											"computed_optional_required": "computed",
-											"attributes": [
-												{
-													"name": "band",
-													"string": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "channel",
-													"int64": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "idle_time",
-													"int64": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "last_seen",
-													"number": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "proto",
-													"string": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "rssi",
-													"int64": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "rx_bps",
-													"int64": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "rx_bytes",
-													"int64": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "rx_packets",
-													"int64": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "rx_rate",
-													"int64": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "rx_retries",
-													"int64": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "site_id",
-													"string": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "snr",
-													"int64": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "tx_bps",
-													"int64": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "tx_bytes",
-													"int64": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "tx_packets",
-													"int64": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "tx_rate",
-													"int64": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "tx_retries",
-													"int64": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "uplink_ap_id",
-													"string": {
-														"computed_optional_required": "computed"
-													}
-												}
-											]
+											"description": "device claim code"
 										}
 									},
 									{
@@ -1293,12 +144,124 @@
 									{
 										"name": "modified_time",
 										"int64": {
+											"computed_optional_required": "computed",
+											"description": "inventory last modified time, in epoch"
+										}
+									},
+									{
+										"name": "name",
+										"string": {
+											"computed_optional_required": "computed",
+											"description": "device name if configured"
+										}
+									},
+									{
+										"name": "org_id",
+										"string": {
 											"computed_optional_required": "computed"
 										}
 									},
 									{
-										"name": "mount",
+										"name": "serial",
 										"string": {
+											"computed_optional_required": "computed",
+											"description": "device serial"
+										}
+									},
+									{
+										"name": "site_id",
+										"string": {
+											"computed_optional_required": "computed"
+										}
+									},
+									{
+										"name": "sku",
+										"string": {
+											"computed_optional_required": "computed",
+											"description": "device stock keeping unit"
+										}
+									},
+									{
+										"name": "vc_mac",
+										"string": {
+											"computed_optional_required": "computed",
+											"description": "only if `type`==`switch`, MAC Address of the Virtual Chassis"
+										}
+									}
+								]
+							}
+						}
+					}
+				]
+			}
+		},
+		{
+			"name": "org_sitegroup",
+			"schema": {
+				"attributes": [
+					{
+						"name": "org_id",
+						"string": {
+							"computed_optional_required": "required"
+						}
+					},
+					{
+						"name": "page",
+						"int64": {
+							"computed_optional_required": "computed_optional",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+											}
+										],
+										"schema_definition": "int64validator.AtLeast(1)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "limit",
+						"int64": {
+							"computed_optional_required": "computed_optional",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+											}
+										],
+										"schema_definition": "int64validator.AtLeast(0)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "org_sitegroup",
+						"set_nested": {
+							"computed_optional_required": "computed",
+							"nested_object": {
+								"attributes": [
+									{
+										"name": "created_time",
+										"number": {
+											"computed_optional_required": "computed"
+										}
+									},
+									{
+										"name": "id",
+										"string": {
+											"computed_optional_required": "computed"
+										}
+									},
+									{
+										"name": "modified_time",
+										"number": {
 											"computed_optional_required": "computed"
 										}
 									},
@@ -1309,16 +272,170 @@
 										}
 									},
 									{
-										"name": "notes",
+										"name": "org_id",
 										"string": {
 											"computed_optional_required": "computed"
 										}
 									},
 									{
-										"name": "num_clients",
-										"int64": {
+										"name": "site_ids",
+										"list": {
 											"computed_optional_required": "computed",
-											"description": "how many wireless clients are currently connected"
+											"element_type": {
+												"string": {}
+											}
+										}
+									}
+								]
+							}
+						}
+					}
+				]
+			}
+		},
+		{
+			"name": "site",
+			"schema": {
+				"attributes": [
+					{
+						"name": "org_id",
+						"string": {
+							"computed_optional_required": "required"
+						}
+					},
+					{
+						"name": "limit",
+						"int64": {
+							"computed_optional_required": "computed_optional",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+											}
+										],
+										"schema_definition": "int64validator.AtLeast(0)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "page",
+						"int64": {
+							"computed_optional_required": "computed_optional",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+											}
+										],
+										"schema_definition": "int64validator.AtLeast(1)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "site",
+						"set_nested": {
+							"computed_optional_required": "computed",
+							"nested_object": {
+								"attributes": [
+									{
+										"name": "address",
+										"string": {
+											"computed_optional_required": "computed",
+											"description": "full address of the site"
+										}
+									},
+									{
+										"name": "alarmtemplate_id",
+										"string": {
+											"computed_optional_required": "computed",
+											"description": "Alarm Template ID, this takes precedence over the Org-level alarmtemplate_id"
+										}
+									},
+									{
+										"name": "aptemplate_id",
+										"string": {
+											"computed_optional_required": "computed",
+											"description": "AP Template ID, used by APs"
+										}
+									},
+									{
+										"name": "country_code",
+										"string": {
+											"computed_optional_required": "computed",
+											"description": "country code for the site (for AP config generation), in two-character"
+										}
+									},
+									{
+										"name": "created_time",
+										"number": {
+											"computed_optional_required": "computed"
+										}
+									},
+									{
+										"name": "gatewaytemplate_id",
+										"string": {
+											"computed_optional_required": "computed",
+											"description": "Gateway Template ID, used by gateways"
+										}
+									},
+									{
+										"name": "id",
+										"string": {
+											"computed_optional_required": "computed"
+										}
+									},
+									{
+										"name": "latlng",
+										"single_nested": {
+											"computed_optional_required": "computed",
+											"attributes": [
+												{
+													"name": "lat",
+													"float64": {
+														"computed_optional_required": "computed"
+													}
+												},
+												{
+													"name": "lng",
+													"float64": {
+														"computed_optional_required": "computed"
+													}
+												}
+											]
+										}
+									},
+									{
+										"name": "modified_time",
+										"number": {
+											"computed_optional_required": "computed"
+										}
+									},
+									{
+										"name": "name",
+										"string": {
+											"computed_optional_required": "computed"
+										}
+									},
+									{
+										"name": "networktemplate_id",
+										"string": {
+											"computed_optional_required": "computed",
+											"description": "Network Template ID, this takes precedence over Site Settings"
+										}
+									},
+									{
+										"name": "notes",
+										"string": {
+											"computed_optional_required": "computed",
+											"description": "optional, any notes about the site"
 										}
 									},
 									{
@@ -1328,635 +445,41 @@
 										}
 									},
 									{
-										"name": "port_stat",
-										"map_nested": {
+										"name": "rftemplate_id",
+										"string": {
 											"computed_optional_required": "computed",
-											"nested_object": {
-												"attributes": [
-													{
-														"name": "full_duplex",
-														"bool": {
-															"computed_optional_required": "computed"
-														}
-													},
-													{
-														"name": "rx_bytes",
-														"number": {
-															"computed_optional_required": "computed"
-														}
-													},
-													{
-														"name": "rx_errors",
-														"number": {
-															"computed_optional_required": "computed"
-														}
-													},
-													{
-														"name": "rx_pkts",
-														"number": {
-															"computed_optional_required": "computed"
-														}
-													},
-													{
-														"name": "speed",
-														"int64": {
-															"computed_optional_required": "computed"
-														}
-													},
-													{
-														"name": "tx_bytes",
-														"number": {
-															"computed_optional_required": "computed"
-														}
-													},
-													{
-														"name": "tx_pkts",
-														"number": {
-															"computed_optional_required": "computed"
-														}
-													},
-													{
-														"name": "up",
-														"bool": {
-															"computed_optional_required": "computed"
-														}
-													}
-												]
+											"description": "RF Template ID, this takes precedence over Site Settings"
+										}
+									},
+									{
+										"name": "secpolicy_id",
+										"string": {
+											"computed_optional_required": "computed",
+											"description": "SecPolicy ID"
+										}
+									},
+									{
+										"name": "sitegroup_ids",
+										"list": {
+											"computed_optional_required": "computed",
+											"element_type": {
+												"string": {}
 											},
-											"description": "Property key is the port name (e.g. `eth0`)"
+											"description": "sitegroups this site belongs to"
 										}
 									},
 									{
-										"name": "power_budget",
-										"int64": {
-											"computed_optional_required": "computed",
-											"description": "in mW, surplus if positive or deficit if negative"
-										}
-									},
-									{
-										"name": "power_constrained",
-										"bool": {
-											"computed_optional_required": "computed",
-											"description": "whether insufficient power"
-										}
-									},
-									{
-										"name": "power_opmode",
+										"name": "sitetemplate_id",
 										"string": {
 											"computed_optional_required": "computed",
-											"description": "constrained mode"
+											"description": "Site Template ID"
 										}
 									},
 									{
-										"name": "power_src",
+										"name": "timezone",
 										"string": {
 											"computed_optional_required": "computed",
-											"description": "DC Input / PoE 802.3at / PoE 802.3af / LLDP / ? (unknown)"
-										}
-									},
-									{
-										"name": "radio_stat",
-										"single_nested": {
-											"computed_optional_required": "computed",
-											"attributes": [
-												{
-													"name": "band_24",
-													"single_nested": {
-														"computed_optional_required": "computed",
-														"attributes": [
-															{
-																"name": "bandwidth",
-																"int64": {
-																	"computed_optional_required": "computed",
-																	"description": "channel width for the band * `80` is only applicable for band_5 and band_6 * `160` is only for band_6"
-																}
-															},
-															{
-																"name": "channel",
-																"int64": {
-																	"computed_optional_required": "computed",
-																	"description": "current channel the radio is running on"
-																}
-															},
-															{
-																"name": "dynamic_chaining_enalbed",
-																"bool": {
-																	"computed_optional_required": "computed",
-																	"description": "Use dynamic chaining for downlink"
-																}
-															},
-															{
-																"name": "mac",
-																"string": {
-																	"computed_optional_required": "computed",
-																	"description": "radio (base) mac, it can have 16 bssids (e.g. 5c5b350001a0-5c5b350001af)"
-																}
-															},
-															{
-																"name": "noise_floor",
-																"int64": {
-																	"computed_optional_required": "computed"
-																}
-															},
-															{
-																"name": "num_clients",
-																"int64": {
-																	"computed_optional_required": "computed"
-																}
-															},
-															{
-																"name": "power",
-																"int64": {
-																	"computed_optional_required": "computed",
-																	"description": "transmit power (in dBm)"
-																}
-															},
-															{
-																"name": "rx_bytes",
-																"int64": {
-																	"computed_optional_required": "computed"
-																}
-															},
-															{
-																"name": "rx_pkts",
-																"int64": {
-																	"computed_optional_required": "computed"
-																}
-															},
-															{
-																"name": "tx_bytes",
-																"int64": {
-																	"computed_optional_required": "computed"
-																}
-															},
-															{
-																"name": "tx_pkts",
-																"int64": {
-																	"computed_optional_required": "computed"
-																}
-															},
-															{
-																"name": "usage",
-																"string": {
-																	"computed_optional_required": "computed"
-																}
-															},
-															{
-																"name": "util_all",
-																"int64": {
-																	"computed_optional_required": "computed",
-																	"description": "all utilization in percentage"
-																}
-															},
-															{
-																"name": "util_non_wifi",
-																"int64": {
-																	"computed_optional_required": "computed",
-																	"description": "reception of “No Packets” utilization in percentage, received frames with invalid PLCPs and CRS glitches as noise"
-																}
-															},
-															{
-																"name": "util_rx_in_bss",
-																"int64": {
-																	"computed_optional_required": "computed",
-																	"description": "reception of “In BSS” utilization in percentage, only frames that are received from AP/STAs within the BSS"
-																}
-															},
-															{
-																"name": "util_rx_other_bss",
-																"int64": {
-																	"computed_optional_required": "computed",
-																	"description": "reception of “Other BSS” utilization in percentage, all frames received from AP/STAs that are outside the BSS"
-																}
-															},
-															{
-																"name": "util_tx",
-																"int64": {
-																	"computed_optional_required": "computed",
-																	"description": "transmission utilization in percentage"
-																}
-															},
-															{
-																"name": "util_undecodable_wifi",
-																"int64": {
-																	"computed_optional_required": "computed",
-																	"description": "reception of “UnDecodable Wifi“ utilization in percentage, only Preamble, PLCP header is decoded, Rest is undecodable in this radio"
-																}
-															},
-															{
-																"name": "util_unknown_wifi",
-																"int64": {
-																	"computed_optional_required": "computed",
-																	"description": "reception of “No Category” utilization in percentage, all 802.11 frames that are corrupted at the receiver"
-																}
-															}
-														],
-														"description": "radio stat"
-													}
-												},
-												{
-													"name": "band_5",
-													"single_nested": {
-														"computed_optional_required": "computed",
-														"attributes": [
-															{
-																"name": "bandwidth",
-																"int64": {
-																	"computed_optional_required": "computed",
-																	"description": "channel width for the band * `80` is only applicable for band_5 and band_6 * `160` is only for band_6"
-																}
-															},
-															{
-																"name": "channel",
-																"int64": {
-																	"computed_optional_required": "computed",
-																	"description": "current channel the radio is running on"
-																}
-															},
-															{
-																"name": "dynamic_chaining_enalbed",
-																"bool": {
-																	"computed_optional_required": "computed",
-																	"description": "Use dynamic chaining for downlink"
-																}
-															},
-															{
-																"name": "mac",
-																"string": {
-																	"computed_optional_required": "computed",
-																	"description": "radio (base) mac, it can have 16 bssids (e.g. 5c5b350001a0-5c5b350001af)"
-																}
-															},
-															{
-																"name": "noise_floor",
-																"int64": {
-																	"computed_optional_required": "computed"
-																}
-															},
-															{
-																"name": "num_clients",
-																"int64": {
-																	"computed_optional_required": "computed"
-																}
-															},
-															{
-																"name": "power",
-																"int64": {
-																	"computed_optional_required": "computed",
-																	"description": "transmit power (in dBm)"
-																}
-															},
-															{
-																"name": "rx_bytes",
-																"int64": {
-																	"computed_optional_required": "computed"
-																}
-															},
-															{
-																"name": "rx_pkts",
-																"int64": {
-																	"computed_optional_required": "computed"
-																}
-															},
-															{
-																"name": "tx_bytes",
-																"int64": {
-																	"computed_optional_required": "computed"
-																}
-															},
-															{
-																"name": "tx_pkts",
-																"int64": {
-																	"computed_optional_required": "computed"
-																}
-															},
-															{
-																"name": "usage",
-																"string": {
-																	"computed_optional_required": "computed"
-																}
-															},
-															{
-																"name": "util_all",
-																"int64": {
-																	"computed_optional_required": "computed",
-																	"description": "all utilization in percentage"
-																}
-															},
-															{
-																"name": "util_non_wifi",
-																"int64": {
-																	"computed_optional_required": "computed",
-																	"description": "reception of “No Packets” utilization in percentage, received frames with invalid PLCPs and CRS glitches as noise"
-																}
-															},
-															{
-																"name": "util_rx_in_bss",
-																"int64": {
-																	"computed_optional_required": "computed",
-																	"description": "reception of “In BSS” utilization in percentage, only frames that are received from AP/STAs within the BSS"
-																}
-															},
-															{
-																"name": "util_rx_other_bss",
-																"int64": {
-																	"computed_optional_required": "computed",
-																	"description": "reception of “Other BSS” utilization in percentage, all frames received from AP/STAs that are outside the BSS"
-																}
-															},
-															{
-																"name": "util_tx",
-																"int64": {
-																	"computed_optional_required": "computed",
-																	"description": "transmission utilization in percentage"
-																}
-															},
-															{
-																"name": "util_undecodable_wifi",
-																"int64": {
-																	"computed_optional_required": "computed",
-																	"description": "reception of “UnDecodable Wifi“ utilization in percentage, only Preamble, PLCP header is decoded, Rest is undecodable in this radio"
-																}
-															},
-															{
-																"name": "util_unknown_wifi",
-																"int64": {
-																	"computed_optional_required": "computed",
-																	"description": "reception of “No Category” utilization in percentage, all 802.11 frames that are corrupted at the receiver"
-																}
-															}
-														],
-														"description": "radio stat"
-													}
-												},
-												{
-													"name": "band_6",
-													"single_nested": {
-														"computed_optional_required": "computed",
-														"attributes": [
-															{
-																"name": "bandwidth",
-																"int64": {
-																	"computed_optional_required": "computed",
-																	"description": "channel width for the band * `80` is only applicable for band_5 and band_6 * `160` is only for band_6"
-																}
-															},
-															{
-																"name": "channel",
-																"int64": {
-																	"computed_optional_required": "computed",
-																	"description": "current channel the radio is running on"
-																}
-															},
-															{
-																"name": "dynamic_chaining_enalbed",
-																"bool": {
-																	"computed_optional_required": "computed",
-																	"description": "Use dynamic chaining for downlink"
-																}
-															},
-															{
-																"name": "mac",
-																"string": {
-																	"computed_optional_required": "computed",
-																	"description": "radio (base) mac, it can have 16 bssids (e.g. 5c5b350001a0-5c5b350001af)"
-																}
-															},
-															{
-																"name": "noise_floor",
-																"int64": {
-																	"computed_optional_required": "computed"
-																}
-															},
-															{
-																"name": "num_clients",
-																"int64": {
-																	"computed_optional_required": "computed"
-																}
-															},
-															{
-																"name": "power",
-																"int64": {
-																	"computed_optional_required": "computed",
-																	"description": "transmit power (in dBm)"
-																}
-															},
-															{
-																"name": "rx_bytes",
-																"int64": {
-																	"computed_optional_required": "computed"
-																}
-															},
-															{
-																"name": "rx_pkts",
-																"int64": {
-																	"computed_optional_required": "computed"
-																}
-															},
-															{
-																"name": "tx_bytes",
-																"int64": {
-																	"computed_optional_required": "computed"
-																}
-															},
-															{
-																"name": "tx_pkts",
-																"int64": {
-																	"computed_optional_required": "computed"
-																}
-															},
-															{
-																"name": "usage",
-																"string": {
-																	"computed_optional_required": "computed"
-																}
-															},
-															{
-																"name": "util_all",
-																"int64": {
-																	"computed_optional_required": "computed",
-																	"description": "all utilization in percentage"
-																}
-															},
-															{
-																"name": "util_non_wifi",
-																"int64": {
-																	"computed_optional_required": "computed",
-																	"description": "reception of “No Packets” utilization in percentage, received frames with invalid PLCPs and CRS glitches as noise"
-																}
-															},
-															{
-																"name": "util_rx_in_bss",
-																"int64": {
-																	"computed_optional_required": "computed",
-																	"description": "reception of “In BSS” utilization in percentage, only frames that are received from AP/STAs within the BSS"
-																}
-															},
-															{
-																"name": "util_rx_other_bss",
-																"int64": {
-																	"computed_optional_required": "computed",
-																	"description": "reception of “Other BSS” utilization in percentage, all frames received from AP/STAs that are outside the BSS"
-																}
-															},
-															{
-																"name": "util_tx",
-																"int64": {
-																	"computed_optional_required": "computed",
-																	"description": "transmission utilization in percentage"
-																}
-															},
-															{
-																"name": "util_undecodable_wifi",
-																"int64": {
-																	"computed_optional_required": "computed",
-																	"description": "reception of “UnDecodable Wifi“ utilization in percentage, only Preamble, PLCP header is decoded, Rest is undecodable in this radio"
-																}
-															},
-															{
-																"name": "util_unknown_wifi",
-																"int64": {
-																	"computed_optional_required": "computed",
-																	"description": "reception of “No Category” utilization in percentage, all 802.11 frames that are corrupted at the receiver"
-																}
-															}
-														],
-														"description": "radio stat"
-													}
-												}
-											]
-										}
-									},
-									{
-										"name": "rx_bps",
-										"number": {
-											"computed_optional_required": "computed"
-										}
-									},
-									{
-										"name": "rx_bytes",
-										"int64": {
-											"computed_optional_required": "computed"
-										}
-									},
-									{
-										"name": "rx_pkts",
-										"int64": {
-											"computed_optional_required": "computed"
-										}
-									},
-									{
-										"name": "serial",
-										"string": {
-											"computed_optional_required": "computed",
-											"description": "serial"
-										}
-									},
-									{
-										"name": "site_id",
-										"string": {
-											"computed_optional_required": "computed"
-										}
-									},
-									{
-										"name": "status",
-										"string": {
-											"computed_optional_required": "computed"
-										}
-									},
-									{
-										"name": "switch_redundancy",
-										"single_nested": {
-											"computed_optional_required": "computed",
-											"attributes": [
-												{
-													"name": "num_redundant_aps",
-													"int64": {
-														"computed_optional_required": "computed"
-													}
-												}
-											]
-										}
-									},
-									{
-										"name": "tx_bps",
-										"number": {
-											"computed_optional_required": "computed"
-										}
-									},
-									{
-										"name": "tx_bytes",
-										"number": {
-											"computed_optional_required": "computed"
-										}
-									},
-									{
-										"name": "tx_pkts",
-										"number": {
-											"computed_optional_required": "computed"
-										}
-									},
-									{
-										"name": "uptime",
-										"number": {
-											"computed_optional_required": "computed",
-											"description": "how long, in seconds, has the device been up (or rebooted)"
-										}
-									},
-									{
-										"name": "usb_stat",
-										"single_nested": {
-											"computed_optional_required": "computed",
-											"attributes": [
-												{
-													"name": "channel",
-													"int64": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "connected",
-													"bool": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "last_activity",
-													"int64": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "type",
-													"string": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "up",
-													"bool": {
-														"computed_optional_required": "computed"
-													}
-												}
-											]
-										}
-									},
-									{
-										"name": "version",
-										"string": {
-											"computed_optional_required": "computed"
-										}
-									},
-									{
-										"name": "x",
-										"float64": {
-											"computed_optional_required": "computed"
-										}
-									},
-									{
-										"name": "y",
-										"float64": {
-											"computed_optional_required": "computed"
+											"description": "Timezone the site is at"
 										}
 									}
 								]

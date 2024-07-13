@@ -23,10 +23,10 @@ resource "mist_org" "terraform_test" {
 #   org_id  = "9777c1a0-6ef6-11e6-8bbf-02e208b2d34f"
 # }
 
-data "mist_device_switch_stats" "example2" {
-  #org_id = mist_org.terraform_test.id
-  org_id  = "9777c1a0-6ef6-11e6-8bbf-02e208b2d34f"
-}
+# data "mist_device_switch_stats" "example2" {
+#   #org_id = mist_org.terraform_test.id
+#   org_id  = "9777c1a0-6ef6-11e6-8bbf-02e208b2d34f"
+# }
 # data "mist_device_gateway_stats" "example3" {
 #   org_id  = "9777c1a0-6ef6-11e6-8bbf-02e208b2d34f"
 # }
@@ -38,3 +38,7 @@ data "mist_device_switch_stats" "example2" {
 # output "mist_countries" {
 #   value = 
 # }
+
+data "mist_org_inventory" "test" {
+   org_id  = "9777c1a0-6ef6-11e6-8bbf-02e208b2d34f"
+}
