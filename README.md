@@ -17,7 +17,9 @@ provider_installation {
 }
 ```
 3. Clone the repository
-4. From the `terraform-provider-mist` folder, do `go install .` to install the provider
+4. From the `terraform-provider-mist` folder, do 
+  * `go mod tidy` to install the depencies
+  * `go install .` to install the provider
 5. Create a configuration file (you can use the one from the `test` folder)
 
 **note**
@@ -30,4 +32,4 @@ APITOKEN=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 
 
-Documentation is currently available as Markdown in the `terraform-provider-mist/doc` folder
+Documentation is currently available as Markdown in the `terraform-provider-mist/docs` folder
