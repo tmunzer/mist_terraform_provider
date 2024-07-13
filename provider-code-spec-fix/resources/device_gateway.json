@@ -296,6 +296,27 @@
                     ]
                 }
             ]
+        },
+        {
+            "name": "image1_url",
+            "get": [
+                "string"
+            ],
+            "computed_optional_required": "computed"
+        },
+        {
+            "name": "image2_url",
+            "get": [
+                "string"
+            ],
+            "computed_optional_required": "computed"
+        },
+        {
+            "name": "image3_url",
+            "get": [
+                "string"
+            ],
+            "computed_optional_required": "computed"
         }
     ]
 }
