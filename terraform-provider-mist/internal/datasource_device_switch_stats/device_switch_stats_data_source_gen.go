@@ -381,7 +381,7 @@ func DeviceSwitchStatsDataSourceSchema(ctx context.Context) schema.Schema {
 							},
 							Computed: true,
 						},
-						"last_seen": schema.Int64Attribute{
+						"last_seen": schema.NumberAttribute{
 							Computed: true,
 						},
 						"last_trouble": schema.SingleNestedAttribute{
@@ -515,7 +515,7 @@ func DeviceSwitchStatsDataSourceSchema(ctx context.Context) schema.Schema {
 									"fpga_version": schema.StringAttribute{
 										Computed: true,
 									},
-									"last_seen": schema.Int64Attribute{
+									"last_seen": schema.NumberAttribute{
 										Computed: true,
 									},
 									"model": schema.StringAttribute{
@@ -1255,12 +1255,12 @@ func (t DeviceSwitchStatsType) ValueFromObject(ctx context.Context, in basetypes
 		return nil, diags
 	}
 
-	lastSeenVal, ok := lastSeenAttribute.(basetypes.Int64Value)
+	lastSeenVal, ok := lastSeenAttribute.(basetypes.NumberValue)
 
 	if !ok {
 		diags.AddError(
 			"Attribute Wrong Type",
-			fmt.Sprintf(`last_seen expected to be basetypes.Int64Value, was: %T`, lastSeenAttribute))
+			fmt.Sprintf(`last_seen expected to be basetypes.NumberValue, was: %T`, lastSeenAttribute))
 	}
 
 	lastTroubleAttribute, ok := attributes["last_trouble"]
@@ -2087,12 +2087,12 @@ func NewDeviceSwitchStatsValue(attributeTypes map[string]attr.Type, attributes m
 		return NewDeviceSwitchStatsValueUnknown(), diags
 	}
 
-	lastSeenVal, ok := lastSeenAttribute.(basetypes.Int64Value)
+	lastSeenVal, ok := lastSeenAttribute.(basetypes.NumberValue)
 
 	if !ok {
 		diags.AddError(
 			"Attribute Wrong Type",
-			fmt.Sprintf(`last_seen expected to be basetypes.Int64Value, was: %T`, lastSeenAttribute))
+			fmt.Sprintf(`last_seen expected to be basetypes.NumberValue, was: %T`, lastSeenAttribute))
 	}
 
 	lastTroubleAttribute, ok := attributes["last_trouble"]
@@ -2574,7 +2574,7 @@ type DeviceSwitchStatsValue struct {
 	IfStat              basetypes.MapValue    `tfsdk:"if_stat"`
 	Ip                  basetypes.StringValue `tfsdk:"ip"`
 	IpStat              basetypes.ObjectValue `tfsdk:"ip_stat"`
-	LastSeen            basetypes.Int64Value  `tfsdk:"last_seen"`
+	LastSeen            basetypes.NumberValue `tfsdk:"last_seen"`
 	LastTrouble         basetypes.ObjectValue `tfsdk:"last_trouble"`
 	Mac                 basetypes.StringValue `tfsdk:"mac"`
 	MacTableStats       basetypes.ObjectValue `tfsdk:"mac_table_stats"`
@@ -2641,7 +2641,7 @@ func (v DeviceSwitchStatsValue) ToTerraformValue(ctx context.Context) (tftypes.V
 	attrTypes["ip_stat"] = basetypes.ObjectType{
 		AttrTypes: IpStatValue{}.AttributeTypes(ctx),
 	}.TerraformType(ctx)
-	attrTypes["last_seen"] = basetypes.Int64Type{}.TerraformType(ctx)
+	attrTypes["last_seen"] = basetypes.NumberType{}.TerraformType(ctx)
 	attrTypes["last_trouble"] = basetypes.ObjectType{
 		AttrTypes: LastTroubleValue{}.AttributeTypes(ctx),
 	}.TerraformType(ctx)
@@ -3446,7 +3446,7 @@ func (v DeviceSwitchStatsValue) ToObjectValue(ctx context.Context) (basetypes.Ob
 		"ip_stat": basetypes.ObjectType{
 			AttrTypes: IpStatValue{}.AttributeTypes(ctx),
 		},
-		"last_seen": basetypes.Int64Type{},
+		"last_seen": basetypes.NumberType{},
 		"last_trouble": basetypes.ObjectType{
 			AttrTypes: LastTroubleValue{}.AttributeTypes(ctx),
 		},
@@ -3764,7 +3764,7 @@ func (v DeviceSwitchStatsValue) AttributeTypes(ctx context.Context) map[string]a
 		"ip_stat": basetypes.ObjectType{
 			AttrTypes: IpStatValue{}.AttributeTypes(ctx),
 		},
-		"last_seen": basetypes.Int64Type{},
+		"last_seen": basetypes.NumberType{},
 		"last_trouble": basetypes.ObjectType{
 			AttrTypes: LastTroubleValue{}.AttributeTypes(ctx),
 		},
@@ -11814,12 +11814,12 @@ func (t ModuleStatType) ValueFromObject(ctx context.Context, in basetypes.Object
 		return nil, diags
 	}
 
-	lastSeenVal, ok := lastSeenAttribute.(basetypes.Int64Value)
+	lastSeenVal, ok := lastSeenAttribute.(basetypes.NumberValue)
 
 	if !ok {
 		diags.AddError(
 			"Attribute Wrong Type",
-			fmt.Sprintf(`last_seen expected to be basetypes.Int64Value, was: %T`, lastSeenAttribute))
+			fmt.Sprintf(`last_seen expected to be basetypes.NumberValue, was: %T`, lastSeenAttribute))
 	}
 
 	modelAttribute, ok := attributes["model"]
@@ -12437,12 +12437,12 @@ func NewModuleStatValue(attributeTypes map[string]attr.Type, attributes map[stri
 		return NewModuleStatValueUnknown(), diags
 	}
 
-	lastSeenVal, ok := lastSeenAttribute.(basetypes.Int64Value)
+	lastSeenVal, ok := lastSeenAttribute.(basetypes.NumberValue)
 
 	if !ok {
 		diags.AddError(
 			"Attribute Wrong Type",
-			fmt.Sprintf(`last_seen expected to be basetypes.Int64Value, was: %T`, lastSeenAttribute))
+			fmt.Sprintf(`last_seen expected to be basetypes.NumberValue, was: %T`, lastSeenAttribute))
 	}
 
 	modelAttribute, ok := attributes["model"]
@@ -12936,7 +12936,7 @@ type ModuleStatValue struct {
 	Fans              basetypes.ListValue   `tfsdk:"fans"`
 	FpcIdx            basetypes.Int64Value  `tfsdk:"fpc_idx"`
 	FpgaVersion       basetypes.StringValue `tfsdk:"fpga_version"`
-	LastSeen          basetypes.Int64Value  `tfsdk:"last_seen"`
+	LastSeen          basetypes.NumberValue `tfsdk:"last_seen"`
 	Model             basetypes.StringValue `tfsdk:"model"`
 	OpticsCpldVersion basetypes.StringValue `tfsdk:"optics_cpld_version"`
 	PendingVersion    basetypes.StringValue `tfsdk:"pending_version"`
@@ -12978,7 +12978,7 @@ func (v ModuleStatValue) ToTerraformValue(ctx context.Context) (tftypes.Value, e
 	}.TerraformType(ctx)
 	attrTypes["fpc_idx"] = basetypes.Int64Type{}.TerraformType(ctx)
 	attrTypes["fpga_version"] = basetypes.StringType{}.TerraformType(ctx)
-	attrTypes["last_seen"] = basetypes.Int64Type{}.TerraformType(ctx)
+	attrTypes["last_seen"] = basetypes.NumberType{}.TerraformType(ctx)
 	attrTypes["model"] = basetypes.StringType{}.TerraformType(ctx)
 	attrTypes["optics_cpld_version"] = basetypes.StringType{}.TerraformType(ctx)
 	attrTypes["pending_version"] = basetypes.StringType{}.TerraformType(ctx)
@@ -13485,7 +13485,7 @@ func (v ModuleStatValue) ToObjectValue(ctx context.Context) (basetypes.ObjectVal
 		},
 		"fpc_idx":             basetypes.Int64Type{},
 		"fpga_version":        basetypes.StringType{},
-		"last_seen":           basetypes.Int64Type{},
+		"last_seen":           basetypes.NumberType{},
 		"model":               basetypes.StringType{},
 		"optics_cpld_version": basetypes.StringType{},
 		"pending_version":     basetypes.StringType{},
@@ -13719,7 +13719,7 @@ func (v ModuleStatValue) AttributeTypes(ctx context.Context) map[string]attr.Typ
 		},
 		"fpc_idx":             basetypes.Int64Type{},
 		"fpga_version":        basetypes.StringType{},
-		"last_seen":           basetypes.Int64Type{},
+		"last_seen":           basetypes.NumberType{},
 		"model":               basetypes.StringType{},
 		"optics_cpld_version": basetypes.StringType{},
 		"pending_version":     basetypes.StringType{},
