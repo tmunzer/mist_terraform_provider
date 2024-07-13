@@ -368,7 +368,7 @@ Optional:
 - `mesh_allow_dfs` (Boolean) whether to allow Mesh to use DFS channels. For DFS channels, Remote Mesh AP would have to do CAC when scanning for new Base AP, which is slow and will distrupt the connection. If roaming is desired, keep it disabled.
 - `mesh_enable_crm` (Boolean) used to enable/disable CRM
 - `mesh_enabled` (Boolean) whether to enable Mesh feature for the site
-- `mesh_psk` (String) optional passphrase of mesh networking, default is generated randomly
+- `mesh_psk` (String, Sensitive) optional passphrase of mesh networking, default is generated randomly
 - `mesh_ssid` (String) optional ssid of mesh networking, default is based on site_id
 - `proxy_arp` (String) default / enabled / disabled
 

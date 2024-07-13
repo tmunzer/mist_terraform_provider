@@ -29,9 +29,12 @@ func cpuStatsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d *mod
 		var items []attr.Value
 		var items_type attr.Type = basetypes.NumberType{}
 		for _, item := range d.LoadAvg {
-			items = append(items, types.Int64Value(int64(item)))
+			items = append(items, types.NumberValue(big.NewFloat(item)))
 		}
-		list, _ := types.ListValue(items_type, items)
+		list, e := types.ListValue(items_type, items)
+		if e != nil {
+			diags.Append(e...)
+		}
 
 		load_avg = list
 	}

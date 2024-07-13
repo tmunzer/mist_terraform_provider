@@ -292,7 +292,7 @@ which network the RADIUS server resides, if there's static IP for this network, 
 Required:
 
 - `host` (String) ip / hostname of RADIUS server
-- `secret` (String) secret of RADIUS server
+- `secret` (String, Sensitive) secret of RADIUS server
 
 Optional:
 
@@ -309,7 +309,7 @@ Optional:
 Required:
 
 - `host` (String) ip / hostname of RADIUS server
-- `secret` (String) secret of RADIUS server
+- `secret` (String, Sensitive) secret of RADIUS server
 
 Optional:
 
@@ -570,10 +570,10 @@ Optional:
 
 Optional:
 
-- `authentication_password` (String) Not required if `authentication_type`==`authentication_none`
+- `authentication_password` (String, Sensitive) Not required if `authentication_type`==`authentication_none`
 include alphabetic, numeric, and special characters, but it cannot include control characters.
 - `authentication_type` (String) sha224, sha256, sha384, sha512 are supported in 21.1 and newer release
-- `encryption_password` (String) Not required if `encryption_type`==`privacy-none`
+- `encryption_password` (String, Sensitive) Not required if `encryption_type`==`privacy-none`
 include alphabetic, numeric, and special characters, but it cannot include control characters
 - `encryption_type` (String)
 - `name` (String)
@@ -716,7 +716,7 @@ Optional:
 - `protect_re` (Attributes) restrict inbound-traffic to host
 when enabled, all traffic that is not essential to our operation will be dropped 
 e.g. ntp / dns / traffic to mist will be allowed by default, if dhcpd is enabled, we'll make sure it works (see [below for nested schema](#nestedatt--switch_mgmt--protect_re))
-- `root_password` (String)
+- `root_password` (String, Sensitive)
 - `tacacs` (Attributes) (see [below for nested schema](#nestedatt--switch_mgmt--tacacs))
 
 <a id="nestedatt--switch_mgmt--protect_re"></a>
@@ -760,7 +760,7 @@ Optional:
 
 - `host` (String)
 - `port` (String)
-- `secret` (String)
+- `secret` (String, Sensitive)
 - `timeout` (Number)
 
 
@@ -771,7 +771,7 @@ Optional:
 
 - `host` (String)
 - `port` (String)
-- `secret` (String)
+- `secret` (String, Sensitive)
 - `timeout` (Number)
 
 

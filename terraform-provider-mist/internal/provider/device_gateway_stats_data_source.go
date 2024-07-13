@@ -24,7 +24,7 @@ type deviceGatewayStatsDataSource struct {
 	client mistapi.ClientInterface
 }
 
-func (r *deviceGatewayStatsDataSource) Configure(ctx context.Context, req datasource.ConfigureRequest, resp *datasource.ConfigureResponse) {
+func (d *deviceGatewayStatsDataSource) Configure(ctx context.Context, req datasource.ConfigureRequest, resp *datasource.ConfigureResponse) {
 	tflog.Info(ctx, "Configuring Mist AP Stats")
 	if req.ProviderData == nil {
 		return
@@ -39,7 +39,7 @@ func (r *deviceGatewayStatsDataSource) Configure(ctx context.Context, req dataso
 		return
 	}
 
-	r.client = client
+	d.client = client
 }
 func (d *deviceGatewayStatsDataSource) Metadata(ctx context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
 	resp.TypeName = req.ProviderTypeName + "_device_gateway_stats"

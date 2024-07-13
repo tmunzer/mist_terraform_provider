@@ -132,7 +132,7 @@ Optional:
 
 Optional:
 
-- `psk` (String)
+- `psk` (String, Sensitive)
 - `type` (String) wpa2-AES/CCMPp is assumed when `type`==`psk`
 
 

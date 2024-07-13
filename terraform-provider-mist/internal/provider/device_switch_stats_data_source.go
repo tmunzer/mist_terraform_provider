@@ -71,7 +71,7 @@ func (d *deviceSwitchStatsDataSource) Read(ctx context.Context, req datasource.R
 	var evpnUnused *string
 	var evpnTopoId *string
 	var fields *string = models.ToPointer(string("*"))
-	var limit *int = models.ToPointer(2)
+	var limit *int = models.ToPointer(1000)
 	var mac *string
 	var page *int
 	var siteId *string

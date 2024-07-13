@@ -131,7 +131,7 @@ dynamic_psk allows PSK to be selected at runtime depending on context (wlan/site
 Required:
 
 - `host` (String) ip / hostname of RADIUS server
-- `secret` (String) secret of RADIUS server
+- `secret` (String, Sensitive) secret of RADIUS server
 
 Optional:
 
@@ -150,7 +150,7 @@ Optional:
 - `api_key` (String) API Key
 - `console_url` (String) console URL
 - `enabled` (Boolean)
-- `password` (String) password
+- `password` (String, Sensitive) password
 - `username` (String) username
 
 
@@ -212,7 +212,7 @@ Optional:
 - `owe` (String) `enabled` means transition mode
 - `pairwise` (List of String) when type=psk / eap, one or more of wpa2-ccmp / wpa1-tkip / wpa1-ccmp / wpa2-tkip
 - `private_wlan` (Boolean) whether private wlan is enabled. only applicable to multi_psk mode
-- `psk` (String) when type=psk, 8-64 characters, or 64 hex characters
+- `psk` (String, Sensitive) when type=psk, 8-64 characters, or 64 hex characters
 - `type` (String)
 - `wep_as_secondary_auth` (Boolean) enable WEP as secondary auth
 
@@ -223,7 +223,7 @@ Optional:
 Required:
 
 - `host` (String) ip / hostname of RADIUS server
-- `secret` (String) secret of RADIUS server
+- `secret` (String, Sensitive) secret of RADIUS server
 
 Optional:
 
@@ -275,7 +275,7 @@ Optional:
 Required:
 
 - `ip` (String)
-- `secret` (String)
+- `secret` (String, Sensitive)
 
 Optional:
 
@@ -299,7 +299,7 @@ Property key is the RADIUS group, property value is the desired DNS Server
 
 Optional:
 
-- `default_psk` (String) default PSK to use if cloud WLC is not available, 8-63 characters
+- `default_psk` (String, Sensitive) default PSK to use if cloud WLC is not available, 8-63 characters
 - `default_vlan_id` (Number)
 - `enabled` (Boolean)
 - `force_lookup` (Boolean) when 11r is enabled, we'll try to use the cached PMK, this can be disabled
@@ -377,7 +377,7 @@ Azure active directory app client secret
 - `azure_expire` (Number) interval for which guest remains authorized using azure auth (in minutes), if not provided, uses expire`
 - `azure_tenant_id` (String) Required if `azure_enabled`==`true`.
 Azure active directory tenant id.
-- `broadnet_password` (String) when `sms_provider`==`broadnet`
+- `broadnet_password` (String, Sensitive) when `sms_provider`==`broadnet`
 - `broadnet_sid` (String) when `sms_provider`==`broadnet`
 - `broadnet_user_id` (String) when `sms_provider`==`broadnet`
 - `bypass_when_cloud_down` (Boolean) whether to bypass the guest portal when cloud not reachable (and apply the default policies)
@@ -401,7 +401,7 @@ Facebook OAuth2 app secret. If facebook_client_id was provided, provide a corres
 - `google_email_domains` (List of String) Matches authenticated user email against provided domains. If null or [], all authenticated emails will be allowed.
 - `google_enabled` (Boolean) whether google is enabled as login method
 - `google_expire` (Number) interval for which guest remains authorized using google auth (in minutes), if not provided, uses expire`
-- `gupshup_password` (String) when `sms_provider`==`gupshup`
+- `gupshup_password` (String, Sensitive) when `sms_provider`==`gupshup`
 - `gupshup_userid` (String) when `sms_provider`==`gupshup`
 - `microsoft_client_id` (String) microsoft 365 OAuth2 client id. This is optional. If not provided, it will use a default one.
 - `microsoft_client_secret` (String) microsoft 365 OAuth2 client secret. If microsoft_client_id was provided, provide a correspoinding value. Else leave blank.
@@ -410,13 +410,13 @@ Facebook OAuth2 app secret. If facebook_client_id was provided, provide a corres
 - `microsoft_expire` (Number) interval for which guest remains authorized using microsoft auth (in minutes), if not provided, uses expire`
 - `passphrase_enabled` (Boolean) whether password is enabled
 - `passphrase_expire` (Number) interval for which guest remains authorized using passphrase auth (in minutes), if not provided, uses `expire`
-- `password` (String) passphrase
+- `password` (String, Sensitive) passphrase
 - `portal_api_secret` (String) api secret (auto-generated) that can be used to sign guest authorization requests
 - `portal_image` (String) Url of portal background image
 - `portal_sso_url` (String) for SAML, this is used as the ACS URL
 - `predefined_sponsors_enabled` (Boolean) whether to show list of sponsor emails mentioned in `sponsors` object as a dropdown. If both `sponsor_notify_all` and `predefined_sponsors_enabled` are false, behaviour is acc to `sponsor_email_domains`
 - `privacy` (Boolean)
-- `puzzel_password` (String) when `sms_provider`==`puzzel`
+- `puzzel_password` (String, Sensitive) when `sms_provider`==`puzzel`
 - `puzzel_service_id` (String) when `sms_provider`==`puzzel`
 - `puzzel_username` (String) when `sms_provider`==`puzzel`
 - `sms_enabled` (Boolean) whether sms is enabled as a login method
