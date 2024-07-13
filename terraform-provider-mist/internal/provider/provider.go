@@ -211,17 +211,6 @@ func (p *mistProvider) Configure(ctx context.Context, req provider.ConfigureRequ
 			mistapi.WithApiTokenCredentials(
 				mistapi.NewApiTokenCredentials("Token "+apitoken),
 			),
-			mistapi.WithLoggerConfiguration(
-				mistapi.WithLevel("info"),
-				mistapi.WithMaskSensitiveHeaders(false),
-				mistapi.WithRequestConfiguration(
-					mistapi.WithRequestHeaders(true),
-					mistapi.WithIncludeQueryInPath(true),
-				),
-				mistapi.WithResponseConfiguration(
-					mistapi.WithResponseHeaders(true),
-				),
-			),
 		)
 		// configure the client for Basic Auth + CSRF
 	} else {
