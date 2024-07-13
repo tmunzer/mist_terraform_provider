@@ -602,7 +602,7 @@
 										"list": {
 											"computed_optional_required": "computed",
 											"element_type": {
-												"string": {}
+												"int64": {}
 											}
 										}
 									},

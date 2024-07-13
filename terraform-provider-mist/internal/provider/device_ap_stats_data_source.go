@@ -69,7 +69,6 @@ func (d *deviceApStatsDataSource) Read(ctx context.Context, req datasource.ReadR
 	var status *models.DeviceStatusEnum
 	var siteId *string
 	var mac *string
-	var evpnUnused *string
 	var fields *string = models.ToPointer(string("*"))
 	var page *int
 	var limit *int = models.ToPointer(1000)
@@ -95,7 +94,7 @@ func (d *deviceApStatsDataSource) Read(ctx context.Context, req datasource.ReadR
 		duration = ds.Duration.ValueStringPointer()
 	}
 
-	data, err := d.client.OrgsDevicesStats().ListOrgDevicesStats(ctx, orgId, mType, status, siteId, mac, nil, evpnUnused, fields, page, limit, start, end, duration)
+	data, err := d.client.OrgsDevicesStats().ListOrgDevicesStats(ctx, orgId, mType, status, siteId, mac, nil, nil, fields, page, limit, start, end, duration)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Error getting AP Stats",

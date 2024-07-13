@@ -21,12 +21,25 @@ func SdkToTerraform(ctx context.Context, l []models.ListOrgDevicesStatsResponse)
 	for _, d := range l {
 		ap_js, e := d.MarshalJSON()
 		if e != nil {
-			diags.AddError("Unable to unMarshal Gateway Stats", e.Error())
+			diags.AddError("Unable to Marshal AP Stats", e.Error())
+		} else {
+			ap := models.ApStats{}
+			e := json.Unmarshal(ap_js, &ap)
+			if e != nil {
+				diags.AddError("Unable to unMarshal AP Stats", e.Error())
+			}
+			elem := deviceApStatSdkToTerraform(ctx, &diags, &ap)
+			// for _, p := range elements {
+
+			// 	if elem.Equal(p) {
+			// 		tflog.Info(ctx, "Found duplicated element "+elem.String())
+			// 		continue
+			// 	}
+
+			//changedPaths.Append(p)
+			elements = append(elements, elem)
+			//}
 		}
-		ap := models.ApStats{}
-		json.Unmarshal(ap_js, &ap)
-		elem := deviceApStatSdkToTerraform(ctx, &diags, &ap)
-		elements = append(elements, elem)
 	}
 
 	dataSet, err := types.SetValue(DeviceApStatsValue{}.Type(ctx), elements)
@@ -54,7 +67,7 @@ func deviceApStatSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d 
 	var fwupdate basetypes.ObjectValue = types.ObjectNull(FwupdateValue{}.AttributeTypes(ctx))
 	var hw_rev basetypes.StringValue
 	var id basetypes.StringValue
-	var inactive_wired_vlans basetypes.ListValue = types.ListNull(types.StringType)
+	var inactive_wired_vlans basetypes.ListValue = types.ListNull(types.Int64Type)
 	var iot_stat basetypes.MapValue = types.MapNull(IotStatValue{}.Type(ctx))
 	var ip basetypes.StringValue
 	var ip_config basetypes.ObjectValue = types.ObjectNull(IpConfigValue{}.AttributeTypes(ctx))
@@ -146,7 +159,7 @@ func deviceApStatSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d 
 		id = types.StringValue(d.Id.String())
 	}
 	if d.InactiveWiredVlans != nil {
-		inactive_wired_vlans = mist_transform.ListOfStringSdkToTerraform(ctx, d.InactiveWiredVlans)
+		inactive_wired_vlans = mist_transform.ListOfIntSdkToTerraform(ctx, d.InactiveWiredVlans)
 	}
 	if d.IotStat != nil {
 		iot_stat = iotStatsSdkToTerraform(ctx, diags, d.IotStat)

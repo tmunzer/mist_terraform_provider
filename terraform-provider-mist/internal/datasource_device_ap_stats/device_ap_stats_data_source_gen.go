@@ -342,7 +342,7 @@ func DeviceApStatsDataSourceSchema(ctx context.Context) schema.Schema {
 							Computed: true,
 						},
 						"inactive_wired_vlans": schema.ListAttribute{
-							ElementType: types.StringType,
+							ElementType: types.Int64Type,
 							Computed:    true,
 						},
 						"iot_stat": schema.MapNestedAttribute{
@@ -3854,7 +3854,7 @@ func (v DeviceApStatsValue) ToTerraformValue(ctx context.Context) (tftypes.Value
 	attrTypes["hw_rev"] = basetypes.StringType{}.TerraformType(ctx)
 	attrTypes["id"] = basetypes.StringType{}.TerraformType(ctx)
 	attrTypes["inactive_wired_vlans"] = basetypes.ListType{
-		ElemType: types.StringType,
+		ElemType: types.Int64Type,
 	}.TerraformType(ctx)
 	attrTypes["iot_stat"] = basetypes.MapType{
 		ElemType: IotStatValue{}.Type(ctx),
@@ -4873,7 +4873,7 @@ func (v DeviceApStatsValue) ToObjectValue(ctx context.Context) (basetypes.Object
 		)
 	}
 
-	inactiveWiredVlansVal, d := types.ListValue(types.StringType, v.InactiveWiredVlans.Elements())
+	inactiveWiredVlansVal, d := types.ListValue(types.Int64Type, v.InactiveWiredVlans.Elements())
 
 	diags.Append(d...)
 
@@ -4907,7 +4907,7 @@ func (v DeviceApStatsValue) ToObjectValue(ctx context.Context) (basetypes.Object
 			"hw_rev": basetypes.StringType{},
 			"id":     basetypes.StringType{},
 			"inactive_wired_vlans": basetypes.ListType{
-				ElemType: types.StringType,
+				ElemType: types.Int64Type,
 			},
 			"iot_stat": basetypes.MapType{
 				ElemType: IotStatValue{}.Type(ctx),
@@ -5011,7 +5011,7 @@ func (v DeviceApStatsValue) ToObjectValue(ctx context.Context) (basetypes.Object
 		"hw_rev": basetypes.StringType{},
 		"id":     basetypes.StringType{},
 		"inactive_wired_vlans": basetypes.ListType{
-			ElemType: types.StringType,
+			ElemType: types.Int64Type,
 		},
 		"iot_stat": basetypes.MapType{
 			ElemType: IotStatValue{}.Type(ctx),
@@ -5457,7 +5457,7 @@ func (v DeviceApStatsValue) AttributeTypes(ctx context.Context) map[string]attr.
 		"hw_rev": basetypes.StringType{},
 		"id":     basetypes.StringType{},
 		"inactive_wired_vlans": basetypes.ListType{
-			ElemType: types.StringType,
+			ElemType: types.Int64Type,
 		},
 		"iot_stat": basetypes.MapType{
 			ElemType: IotStatValue{}.Type(ctx),
