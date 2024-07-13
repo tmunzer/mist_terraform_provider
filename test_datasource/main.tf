@@ -39,6 +39,6 @@ resource "mist_org" "terraform_test" {
 #   value = 
 # }
 
-data "mist_org_inventory" "test" {
+data "mist_sites" "test" {
    org_id  = "9777c1a0-6ef6-11e6-8bbf-02e208b2d34f"
 }

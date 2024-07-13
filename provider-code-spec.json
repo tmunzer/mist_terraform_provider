@@ -196,7 +196,7 @@
             }
         },
         {
-            "name": "org_sitegroup",
+            "name": "org_sitegroups",
             "schema": {
                 "attributes": [
                     {
@@ -206,43 +206,7 @@
                         }
                     },
                     {
-                        "name": "page",
-                        "int64": {
-                            "computed_optional_required": "optional",
-                            "validators": [
-                                {
-                                    "custom": {
-                                        "imports": [
-                                            {
-                                                "path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
-                                            }
-                                        ],
-                                        "schema_definition": "int64validator.AtLeast(1)"
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    {
-                        "name": "limit",
-                        "int64": {
-                            "computed_optional_required": "optional",
-                            "validators": [
-                                {
-                                    "custom": {
-                                        "imports": [
-                                            {
-                                                "path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
-                                            }
-                                        ],
-                                        "schema_definition": "int64validator.AtLeast(0)"
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    {
-                        "name": "org_sitegroup",
+                        "name": "org_sitegroups",
                         "set_nested": {
                             "computed_optional_required": "computed",
                             "nested_object": {
@@ -294,7 +258,7 @@
             }
         },
         {
-            "name": "site",
+            "name": "sites",
             "schema": {
                 "attributes": [
                     {
@@ -304,43 +268,7 @@
                         }
                     },
                     {
-                        "name": "limit",
-                        "int64": {
-                            "computed_optional_required": "optional",
-                            "validators": [
-                                {
-                                    "custom": {
-                                        "imports": [
-                                            {
-                                                "path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
-                                            }
-                                        ],
-                                        "schema_definition": "int64validator.AtLeast(0)"
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    {
-                        "name": "page",
-                        "int64": {
-                            "computed_optional_required": "optional",
-                            "validators": [
-                                {
-                                    "custom": {
-                                        "imports": [
-                                            {
-                                                "path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
-                                            }
-                                        ],
-                                        "schema_definition": "int64validator.AtLeast(1)"
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    {
-                        "name": "site",
+                        "name": "sites",
                         "set_nested": {
                             "computed_optional_required": "computed",
                             "nested_object": {

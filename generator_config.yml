@@ -42,14 +42,24 @@ data_sources:
   #       - type
   #       - module_stat.fpc_idx
   #       - module2_stat.fpc_idx
-  site:
+  sites:
     read:
       path: /api/v1/orgs/{org_id}/sites
       method: GET
-  org_sitegroup:
+    schema:
+      ignores:
+      - limit
+      - page
+      - type
+  org_sitegroups:
     read:
       path: /api/v1/orgs/{org_id}/sitegroups
       method: GET
+    schema:
+      ignores:
+      - limit
+      - page
+      - type
   org_inventory:
     read:
       path: /api/v1/orgs/{org_id}/inventory
