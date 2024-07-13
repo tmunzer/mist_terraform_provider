@@ -53,9 +53,6 @@ resource "mist_device_gateway" "gateway_one" {
 - `dns_suffix` (List of String) Global dns settings. To keep compatibility, dns settings in `ip_config` and `oob_ip_config` will overwrite this setting
 - `extra_routes` (Attributes Map) (see [below for nested schema](#nestedatt--extra_routes))
 - `idp_profiles` (Attributes Map) Property key is the profile name (see [below for nested schema](#nestedatt--idp_profiles))
-- `image1_url` (String)
-- `image2_url` (String)
-- `image3_url` (String)
 - `ip_configs` (Attributes Map) Property key is the network name (see [below for nested schema](#nestedatt--ip_configs))
 - `managed` (Boolean)
 - `map_id` (String) map where the device belongs to
@@ -78,6 +75,9 @@ resource "mist_device_gateway" "gateway_one" {
 
 ### Read-Only
 
+- `image1_url` (String)
+- `image2_url` (String)
+- `image3_url` (String)
 - `mac` (String) device MAC address
 - `model` (String) device Model
 - `org_id` (String)

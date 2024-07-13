@@ -118,9 +118,6 @@ resource "mist_device_switch" "switch_one" {
 - `evpn_config` (Attributes) EVPN Junos settings (see [below for nested schema](#nestedatt--evpn_config))
 - `extra_routes` (Attributes Map) (see [below for nested schema](#nestedatt--extra_routes))
 - `extra_routes6` (Attributes Map) Property key is the destination CIDR (e.g. "2a02:1234:420a:10c9::/64") (see [below for nested schema](#nestedatt--extra_routes6))
-- `image1_url` (String)
-- `image2_url` (String)
-- `image3_url` (String)
 - `ip_config` (Attributes) Junos IP Config (see [below for nested schema](#nestedatt--ip_config))
 - `managed` (Boolean) for an adopted switch, we don’t overwrite their existing configs automatically
 - `map_id` (String) map where the device belongs to
@@ -154,6 +151,9 @@ port_mirroring can be added under device/site settings. It takes interface and p
 
 ### Read-Only
 
+- `image1_url` (String)
+- `image2_url` (String)
+- `image3_url` (String)
 - `mac` (String) device MAC address
 - `model` (String) device Model
 - `org_id` (String)
