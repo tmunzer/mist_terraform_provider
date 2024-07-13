@@ -75584,7 +75584,7 @@ components:
         $ref: '#/components/schemas/client_stats'
       type: array
     stats_device:
-      $ref: '#/components/schemas/switch_stats'
+      $ref: '#/components/schemas/ap_stats'
       # anyOf:
       # - $ref: '#/components/schemas/ap_stats'
       # - $ref: '#/components/schemas/switch_stats'
