@@ -29,6 +29,7 @@ func SdkToTerraform(ctx context.Context, l []models.Inventory) (basetypes.SetVal
 
 func countrySdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d models.Inventory) OrgInventoryValue {
 	var adopted basetypes.BoolValue
+	var claim_code basetypes.StringValue
 	var connected basetypes.BoolValue
 	var created_time basetypes.Int64Value
 	var deviceprofile_id basetypes.StringValue
@@ -37,7 +38,6 @@ func countrySdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d model
 	var id basetypes.StringValue
 	var jsi basetypes.BoolValue
 	var mac basetypes.StringValue
-	var magic basetypes.StringValue
 	var model basetypes.StringValue
 	var modified_time basetypes.Int64Value
 	var name basetypes.StringValue
@@ -75,7 +75,7 @@ func countrySdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d model
 		mac = types.StringValue(*d.Mac)
 	}
 	if d.Magic != nil {
-		magic = types.StringValue(*d.Magic)
+		claim_code = types.StringValue(*d.Magic)
 	}
 	if d.Model != nil {
 		model = types.StringValue(*d.Model)
@@ -105,6 +105,7 @@ func countrySdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d model
 	data_map_attr_type := OrgInventoryValue{}.AttributeTypes(ctx)
 	data_map_value := map[string]attr.Value{
 		"adopted":          adopted,
+		"claim_code":       claim_code,
 		"connected":        connected,
 		"created_time":     created_time,
 		"deviceprofile_id": deviceprofile_id,
@@ -113,7 +114,6 @@ func countrySdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d model
 		"id":               id,
 		"jsi":              jsi,
 		"mac":              mac,
-		"magic":            magic,
 		"model":            model,
 		"modified_time":    modified_time,
 		"name":             name,

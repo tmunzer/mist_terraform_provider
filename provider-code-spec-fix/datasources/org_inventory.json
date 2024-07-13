@@ -1,0 +1,23 @@
+{
+    "name": "org_inventory",
+    "get": [
+        "schema",
+        "attributes"
+    ],
+    "next": [
+        {
+            "name": "org_inventory",
+            "get": [
+                "set_nested",
+                "nested_object",
+                "attributes"
+            ],
+            "next": [
+                {
+                    "name": "magic",
+                    "rename": "claim_code"
+                }
+            ]
+        }
+    ]
+}

@@ -39,6 +39,11 @@ func OrgInventoryDataSourceSchema(ctx context.Context) schema.Schema {
 							Description:         "only if `type`==`switch` or `type`==`gateway`\nwhether the switch/gateway is adopted",
 							MarkdownDescription: "only if `type`==`switch` or `type`==`gateway`\nwhether the switch/gateway is adopted",
 						},
+						"claim_code": schema.StringAttribute{
+							Computed:            true,
+							Description:         "device claim code",
+							MarkdownDescription: "device claim code",
+						},
 						"connected": schema.BoolAttribute{
 							Computed:            true,
 							Description:         "whether the device is connected",
@@ -76,11 +81,6 @@ func OrgInventoryDataSourceSchema(ctx context.Context) schema.Schema {
 							Computed:            true,
 							Description:         "device MAC address",
 							MarkdownDescription: "device MAC address",
-						},
-						"magic": schema.StringAttribute{
-							Computed:            true,
-							Description:         "device claim code",
-							MarkdownDescription: "device claim code",
 						},
 						"model": schema.StringAttribute{
 							Computed:            true,
@@ -211,6 +211,24 @@ func (t OrgInventoryType) ValueFromObject(ctx context.Context, in basetypes.Obje
 			fmt.Sprintf(`adopted expected to be basetypes.BoolValue, was: %T`, adoptedAttribute))
 	}
 
+	claimCodeAttribute, ok := attributes["claim_code"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`claim_code is missing from object`)
+
+		return nil, diags
+	}
+
+	claimCodeVal, ok := claimCodeAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`claim_code expected to be basetypes.StringValue, was: %T`, claimCodeAttribute))
+	}
+
 	connectedAttribute, ok := attributes["connected"]
 
 	if !ok {
@@ -353,24 +371,6 @@ func (t OrgInventoryType) ValueFromObject(ctx context.Context, in basetypes.Obje
 		diags.AddError(
 			"Attribute Wrong Type",
 			fmt.Sprintf(`mac expected to be basetypes.StringValue, was: %T`, macAttribute))
-	}
-
-	magicAttribute, ok := attributes["magic"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`magic is missing from object`)
-
-		return nil, diags
-	}
-
-	magicVal, ok := magicAttribute.(basetypes.StringValue)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`magic expected to be basetypes.StringValue, was: %T`, magicAttribute))
 	}
 
 	modelAttribute, ok := attributes["model"]
@@ -523,6 +523,7 @@ func (t OrgInventoryType) ValueFromObject(ctx context.Context, in basetypes.Obje
 
 	return OrgInventoryValue{
 		Adopted:         adoptedVal,
+		ClaimCode:       claimCodeVal,
 		Connected:       connectedVal,
 		CreatedTime:     createdTimeVal,
 		DeviceprofileId: deviceprofileIdVal,
@@ -531,7 +532,6 @@ func (t OrgInventoryType) ValueFromObject(ctx context.Context, in basetypes.Obje
 		Id:              idVal,
 		Jsi:             jsiVal,
 		Mac:             macVal,
-		Magic:           magicVal,
 		Model:           modelVal,
 		ModifiedTime:    modifiedTimeVal,
 		Name:            nameVal,
@@ -625,6 +625,24 @@ func NewOrgInventoryValue(attributeTypes map[string]attr.Type, attributes map[st
 			fmt.Sprintf(`adopted expected to be basetypes.BoolValue, was: %T`, adoptedAttribute))
 	}
 
+	claimCodeAttribute, ok := attributes["claim_code"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`claim_code is missing from object`)
+
+		return NewOrgInventoryValueUnknown(), diags
+	}
+
+	claimCodeVal, ok := claimCodeAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`claim_code expected to be basetypes.StringValue, was: %T`, claimCodeAttribute))
+	}
+
 	connectedAttribute, ok := attributes["connected"]
 
 	if !ok {
@@ -767,24 +785,6 @@ func NewOrgInventoryValue(attributeTypes map[string]attr.Type, attributes map[st
 		diags.AddError(
 			"Attribute Wrong Type",
 			fmt.Sprintf(`mac expected to be basetypes.StringValue, was: %T`, macAttribute))
-	}
-
-	magicAttribute, ok := attributes["magic"]
-
-	if !ok {
-		diags.AddError(
-			"Attribute Missing",
-			`magic is missing from object`)
-
-		return NewOrgInventoryValueUnknown(), diags
-	}
-
-	magicVal, ok := magicAttribute.(basetypes.StringValue)
-
-	if !ok {
-		diags.AddError(
-			"Attribute Wrong Type",
-			fmt.Sprintf(`magic expected to be basetypes.StringValue, was: %T`, magicAttribute))
 	}
 
 	modelAttribute, ok := attributes["model"]
@@ -937,6 +937,7 @@ func NewOrgInventoryValue(attributeTypes map[string]attr.Type, attributes map[st
 
 	return OrgInventoryValue{
 		Adopted:         adoptedVal,
+		ClaimCode:       claimCodeVal,
 		Connected:       connectedVal,
 		CreatedTime:     createdTimeVal,
 		DeviceprofileId: deviceprofileIdVal,
@@ -945,7 +946,6 @@ func NewOrgInventoryValue(attributeTypes map[string]attr.Type, attributes map[st
 		Id:              idVal,
 		Jsi:             jsiVal,
 		Mac:             macVal,
-		Magic:           magicVal,
 		Model:           modelVal,
 		ModifiedTime:    modifiedTimeVal,
 		Name:            nameVal,
@@ -1027,6 +1027,7 @@ var _ basetypes.ObjectValuable = OrgInventoryValue{}
 
 type OrgInventoryValue struct {
 	Adopted         basetypes.BoolValue   `tfsdk:"adopted"`
+	ClaimCode       basetypes.StringValue `tfsdk:"claim_code"`
 	Connected       basetypes.BoolValue   `tfsdk:"connected"`
 	CreatedTime     basetypes.Int64Value  `tfsdk:"created_time"`
 	DeviceprofileId basetypes.StringValue `tfsdk:"deviceprofile_id"`
@@ -1035,7 +1036,6 @@ type OrgInventoryValue struct {
 	Id              basetypes.StringValue `tfsdk:"id"`
 	Jsi             basetypes.BoolValue   `tfsdk:"jsi"`
 	Mac             basetypes.StringValue `tfsdk:"mac"`
-	Magic           basetypes.StringValue `tfsdk:"magic"`
 	Model           basetypes.StringValue `tfsdk:"model"`
 	ModifiedTime    basetypes.Int64Value  `tfsdk:"modified_time"`
 	Name            basetypes.StringValue `tfsdk:"name"`
@@ -1054,6 +1054,7 @@ func (v OrgInventoryValue) ToTerraformValue(ctx context.Context) (tftypes.Value,
 	var err error
 
 	attrTypes["adopted"] = basetypes.BoolType{}.TerraformType(ctx)
+	attrTypes["claim_code"] = basetypes.StringType{}.TerraformType(ctx)
 	attrTypes["connected"] = basetypes.BoolType{}.TerraformType(ctx)
 	attrTypes["created_time"] = basetypes.Int64Type{}.TerraformType(ctx)
 	attrTypes["deviceprofile_id"] = basetypes.StringType{}.TerraformType(ctx)
@@ -1062,7 +1063,6 @@ func (v OrgInventoryValue) ToTerraformValue(ctx context.Context) (tftypes.Value,
 	attrTypes["id"] = basetypes.StringType{}.TerraformType(ctx)
 	attrTypes["jsi"] = basetypes.BoolType{}.TerraformType(ctx)
 	attrTypes["mac"] = basetypes.StringType{}.TerraformType(ctx)
-	attrTypes["magic"] = basetypes.StringType{}.TerraformType(ctx)
 	attrTypes["model"] = basetypes.StringType{}.TerraformType(ctx)
 	attrTypes["modified_time"] = basetypes.Int64Type{}.TerraformType(ctx)
 	attrTypes["name"] = basetypes.StringType{}.TerraformType(ctx)
@@ -1085,6 +1085,14 @@ func (v OrgInventoryValue) ToTerraformValue(ctx context.Context) (tftypes.Value,
 		}
 
 		vals["adopted"] = val
+
+		val, err = v.ClaimCode.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["claim_code"] = val
 
 		val, err = v.Connected.ToTerraformValue(ctx)
 
@@ -1149,14 +1157,6 @@ func (v OrgInventoryValue) ToTerraformValue(ctx context.Context) (tftypes.Value,
 		}
 
 		vals["mac"] = val
-
-		val, err = v.Magic.ToTerraformValue(ctx)
-
-		if err != nil {
-			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
-		}
-
-		vals["magic"] = val
 
 		val, err = v.Model.ToTerraformValue(ctx)
 
@@ -1253,6 +1253,7 @@ func (v OrgInventoryValue) ToObjectValue(ctx context.Context) (basetypes.ObjectV
 
 	attributeTypes := map[string]attr.Type{
 		"adopted":          basetypes.BoolType{},
+		"claim_code":       basetypes.StringType{},
 		"connected":        basetypes.BoolType{},
 		"created_time":     basetypes.Int64Type{},
 		"deviceprofile_id": basetypes.StringType{},
@@ -1261,7 +1262,6 @@ func (v OrgInventoryValue) ToObjectValue(ctx context.Context) (basetypes.ObjectV
 		"id":               basetypes.StringType{},
 		"jsi":              basetypes.BoolType{},
 		"mac":              basetypes.StringType{},
-		"magic":            basetypes.StringType{},
 		"model":            basetypes.StringType{},
 		"modified_time":    basetypes.Int64Type{},
 		"name":             basetypes.StringType{},
@@ -1284,6 +1284,7 @@ func (v OrgInventoryValue) ToObjectValue(ctx context.Context) (basetypes.ObjectV
 		attributeTypes,
 		map[string]attr.Value{
 			"adopted":          v.Adopted,
+			"claim_code":       v.ClaimCode,
 			"connected":        v.Connected,
 			"created_time":     v.CreatedTime,
 			"deviceprofile_id": v.DeviceprofileId,
@@ -1292,7 +1293,6 @@ func (v OrgInventoryValue) ToObjectValue(ctx context.Context) (basetypes.ObjectV
 			"id":               v.Id,
 			"jsi":              v.Jsi,
 			"mac":              v.Mac,
-			"magic":            v.Magic,
 			"model":            v.Model,
 			"modified_time":    v.ModifiedTime,
 			"name":             v.Name,
@@ -1325,6 +1325,10 @@ func (v OrgInventoryValue) Equal(o attr.Value) bool {
 		return false
 	}
 
+	if !v.ClaimCode.Equal(other.ClaimCode) {
+		return false
+	}
+
 	if !v.Connected.Equal(other.Connected) {
 		return false
 	}
@@ -1354,10 +1358,6 @@ func (v OrgInventoryValue) Equal(o attr.Value) bool {
 	}
 
 	if !v.Mac.Equal(other.Mac) {
-		return false
-	}
-
-	if !v.Magic.Equal(other.Magic) {
 		return false
 	}
 
@@ -1407,6 +1407,7 @@ func (v OrgInventoryValue) Type(ctx context.Context) attr.Type {
 func (v OrgInventoryValue) AttributeTypes(ctx context.Context) map[string]attr.Type {
 	return map[string]attr.Type{
 		"adopted":          basetypes.BoolType{},
+		"claim_code":       basetypes.StringType{},
 		"connected":        basetypes.BoolType{},
 		"created_time":     basetypes.Int64Type{},
 		"deviceprofile_id": basetypes.StringType{},
@@ -1415,7 +1416,6 @@ func (v OrgInventoryValue) AttributeTypes(ctx context.Context) map[string]attr.T
 		"id":               basetypes.StringType{},
 		"jsi":              basetypes.BoolType{},
 		"mac":              basetypes.StringType{},
-		"magic":            basetypes.StringType{},
 		"model":            basetypes.StringType{},
 		"modified_time":    basetypes.Int64Type{},
 		"name":             basetypes.StringType{},
