@@ -582,13 +582,13 @@ func DeviceSwitchResourceSchema(ctx context.Context) schema.Schema {
 				MarkdownDescription: "Property key is the destination CIDR (e.g. \"2a02:1234:420a:10c9::/64\")",
 			},
 			"image1_url": schema.StringAttribute{
-				Optional: true,
+				Computed: true,
 			},
 			"image2_url": schema.StringAttribute{
-				Optional: true,
+				Computed: true,
 			},
 			"image3_url": schema.StringAttribute{
-				Optional: true,
+				Computed: true,
 			},
 			"ip_config": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{

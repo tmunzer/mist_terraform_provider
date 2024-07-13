@@ -42,9 +42,6 @@ resource "mist_device_ap" "ap_one" {
 - `disable_module` (Boolean) whether to disable module port
 - `esl_config` (Attributes) (see [below for nested schema](#nestedatt--esl_config))
 - `height` (Number) height, in meters, optional
-- `image1_url` (String)
-- `image2_url` (String)
-- `image3_url` (String)
 - `ip_config` (Attributes) IP AP settings (see [below for nested schema](#nestedatt--ip_config))
 - `led` (Attributes) LED AP settings (see [below for nested schema](#nestedatt--led))
 - `locked` (Boolean) whether this map is considered locked down
@@ -66,6 +63,9 @@ Note: legacy, new config moved to ESL Config. (see [below for nested schema](#ne
 
 ### Read-Only
 
+- `image1_url` (String)
+- `image2_url` (String)
+- `image3_url` (String)
 - `mac` (String) device MAC address
 - `model` (String) device Model
 - `org_id` (String)

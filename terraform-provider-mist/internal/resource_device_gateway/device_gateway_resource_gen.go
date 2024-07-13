@@ -571,13 +571,13 @@ func DeviceGatewayResourceSchema(ctx context.Context) schema.Schema {
 				MarkdownDescription: "Property key is the profile name",
 			},
 			"image1_url": schema.StringAttribute{
-				Optional: true,
+				Computed: true,
 			},
 			"image2_url": schema.StringAttribute{
-				Optional: true,
+				Computed: true,
 			},
 			"image3_url": schema.StringAttribute{
-				Optional: true,
+				Computed: true,
 			},
 			"ip_configs": schema.MapNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{

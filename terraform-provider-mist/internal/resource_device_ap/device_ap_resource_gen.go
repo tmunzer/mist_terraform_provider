@@ -454,13 +454,13 @@ func DeviceApResourceSchema(ctx context.Context) schema.Schema {
 				MarkdownDescription: "height, in meters, optional",
 			},
 			"image1_url": schema.StringAttribute{
-				Optional: true,
+				Computed: true,
 			},
 			"image2_url": schema.StringAttribute{
-				Optional: true,
+				Computed: true,
 			},
 			"image3_url": schema.StringAttribute{
-				Optional: true,
+				Computed: true,
 			},
 			"ip_config": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
