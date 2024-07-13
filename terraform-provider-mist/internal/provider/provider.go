@@ -301,9 +301,18 @@ func (p *mistProvider) DataSources(ctx context.Context) []func() datasource.Data
 		NewDeviceApStatsDataSource,
 		NewDeviceSwitchStatsDataSource,
 		NewDeviceGatewayStatsDataSource,
+		NewOrgGatewaytemplatesDataSource,
 		NewOrgInventoryDataSource,
-		NewSitesDataSource,
+		NewOrgNacrulesDataSource,
+		NewOrgNactagsDataSource,
+		NewOrgNetworksDataSource,
+		NewOrgNetworktemplatesDataSource,
+		NewOrgRftemplatesDataSource,
+		NewOrgServicesDataSource,
 		NewOrgSitegroupsDataSource,
+		NewOrgWlantemplatesDataSource,
+		NewOrgWxtagsDataSource,
+		NewSitesDataSource,
 	}
 }
 
