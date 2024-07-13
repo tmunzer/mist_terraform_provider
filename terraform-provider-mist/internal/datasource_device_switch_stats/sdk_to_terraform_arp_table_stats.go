@@ -8,11 +8,9 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
-	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 
 func arpTableStatsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d *models.ArpTableStats) basetypes.ObjectValue {
-	tflog.Debug(ctx, "arpTableStatsSdkToTerraform")
 
 	var arp_table_count basetypes.Int64Value
 	var max_entries_supported basetypes.Int64Value

@@ -24,7 +24,7 @@ type deviceApStatsDataSource struct {
 	client mistapi.ClientInterface
 }
 
-func (r *deviceApStatsDataSource) Configure(ctx context.Context, req datasource.ConfigureRequest, resp *datasource.ConfigureResponse) {
+func (d *deviceApStatsDataSource) Configure(ctx context.Context, req datasource.ConfigureRequest, resp *datasource.ConfigureResponse) {
 	tflog.Info(ctx, "Configuring Mist AP Stats")
 	if req.ProviderData == nil {
 		return
@@ -39,7 +39,7 @@ func (r *deviceApStatsDataSource) Configure(ctx context.Context, req datasource.
 		return
 	}
 
-	r.client = client
+	d.client = client
 }
 func (d *deviceApStatsDataSource) Metadata(ctx context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
 	resp.TypeName = req.ProviderTypeName + "_device_ap_stats"
@@ -65,33 +65,37 @@ func (d *deviceApStatsDataSource) Read(ctx context.Context, req datasource.ReadR
 		)
 		return
 	}
-	var mType *models.DeviceTypeWithAllEnum = models.ToPointer(models.DeviceTypeWithAllEnum(models.DeviceTypeWithAllEnum_AP))
-	var status *models.DeviceStatusEnum
-	var siteId *string
-	var mac *string
-	var fields *string = models.ToPointer(string("*"))
-	var page *int
-	var limit *int = models.ToPointer(1000)
-	var start *int
-	var end *int
-	var duration *string
 
-	if !ds.SiteId.IsNull() && !ds.SiteId.IsUnknown() {
-		siteId = ds.SiteId.ValueStringPointer()
-	}
-	if !ds.Mac.IsNull() && !ds.Mac.IsUnknown() {
-		mac = ds.Mac.ValueStringPointer()
-	}
-	if !ds.Start.IsNull() && !ds.Start.IsUnknown() {
-		start_int := int(ds.Start.ValueInt64())
-		start = &start_int
+	var duration *string
+	var end *int
+	var fields *string = models.ToPointer(string("*"))
+	var limit *int = models.ToPointer(1000)
+	var mac *string
+	var page *int
+	var siteId *string
+	var status *models.DeviceStatusEnum
+	var start *int
+	var mType *models.DeviceTypeWithAllEnum = models.ToPointer(models.DeviceTypeWithAllEnum(models.DeviceTypeWithAllEnum_AP))
+
+	if !ds.Duration.IsNull() && !ds.Duration.IsUnknown() {
+		duration = ds.Duration.ValueStringPointer()
 	}
 	if !ds.End.IsNull() && !ds.End.IsUnknown() {
 		end_int := int(ds.End.ValueInt64())
 		end = &end_int
 	}
-	if !ds.Duration.IsNull() && !ds.Duration.IsUnknown() {
-		duration = ds.Duration.ValueStringPointer()
+	if !ds.Mac.IsNull() && !ds.Mac.IsUnknown() {
+		mac = ds.Mac.ValueStringPointer()
+	}
+	if !ds.SiteId.IsNull() && !ds.SiteId.IsUnknown() {
+		siteId = ds.SiteId.ValueStringPointer()
+	}
+	if !ds.Status.IsNull() && !ds.Status.IsUnknown() {
+		status = (*models.DeviceStatusEnum)(ds.Status.ValueStringPointer())
+	}
+	if !ds.Start.IsNull() && !ds.Start.IsUnknown() {
+		start_int := int(ds.Start.ValueInt64())
+		start = &start_int
 	}
 
 	data, err := d.client.OrgsDevicesStats().ListOrgDevicesStats(ctx, orgId, mType, status, siteId, mac, nil, nil, fields, page, limit, start, end, duration)

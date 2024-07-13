@@ -8,11 +8,9 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
-	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 
 func macTableStatSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d *models.MacTableStats) basetypes.ObjectValue {
-	tflog.Debug(ctx, "macTableStatSdkToTerraform")
 
 	var mac_table_count basetypes.Int64Value
 	var max_mac_entries_supported basetypes.Int64Value

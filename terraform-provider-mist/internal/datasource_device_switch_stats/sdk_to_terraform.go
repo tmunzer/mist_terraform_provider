@@ -9,7 +9,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
-	"github.com/hashicorp/terraform-plugin-log/tflog"
 
 	"mistapi/models"
 )
@@ -19,15 +18,18 @@ func SdkToTerraform(ctx context.Context, l []models.ListOrgDevicesStatsResponse)
 
 	var elements []attr.Value
 	for _, d := range l {
-		//sw, _ := d.AsSwitchStats()
 		sw_js, e := d.MarshalJSON()
 		if e != nil {
-			diags.AddError("Unable to unMarshal Switch Stats", e.Error())
+			diags.AddError("Unable to Marshal Switch Stats", e.Error())
+		} else {
+			sw := models.SwitchStats{}
+			e := json.Unmarshal(sw_js, &sw)
+			if e != nil {
+				diags.AddError("Unable to unMarshal Switch Stats", e.Error())
+			}
+			elem := deviceSwitchStatSdkToTerraform(ctx, &diags, &sw)
+			elements = append(elements, elem)
 		}
-		sw := models.SwitchStats{}
-		json.Unmarshal(sw_js, &sw)
-		elem := deviceSwitchStatSdkToTerraform(ctx, &diags, &sw)
-		elements = append(elements, elem)
 	}
 
 	dataSet, err := types.SetValue(DeviceSwitchStatsValue{}.Type(ctx), elements)
@@ -39,7 +41,6 @@ func SdkToTerraform(ctx context.Context, l []models.ListOrgDevicesStatsResponse)
 }
 
 func deviceSwitchStatSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d *models.SwitchStats) DeviceSwitchStatsValue {
-	tflog.Debug(ctx, "deviceSwitchStatSdkToTerraform")
 
 	var ap_redundancy basetypes.ObjectValue = types.ObjectNull(ApRedundancyValue{}.AttributeTypes(ctx))
 	var arp_table_stats basetypes.ObjectValue = types.ObjectNull(ArpTableStatsValue{}.AttributeTypes(ctx))
@@ -61,7 +62,7 @@ func deviceSwitchStatSdkToTerraform(ctx context.Context, diags *diag.Diagnostics
 	var if_stat basetypes.MapValue = types.MapNull(IfStatValue{}.Type(ctx))
 	var ip basetypes.StringValue
 	var ip_stat basetypes.ObjectValue = types.ObjectNull(IpStatValue{}.AttributeTypes(ctx))
-	var last_seen basetypes.Int64Value
+	var last_seen basetypes.NumberValue
 	var last_trouble basetypes.ObjectValue = types.ObjectNull(LastTroubleValue{}.AttributeTypes(ctx))
 	var mac basetypes.StringValue
 	var mac_table_stats basetypes.ObjectValue = types.ObjectNull(MacTableStatsValue{}.AttributeTypes(ctx))
@@ -143,7 +144,7 @@ func deviceSwitchStatSdkToTerraform(ctx context.Context, diags *diag.Diagnostics
 		ip_stat = ipStatsSdkToTerraform(ctx, diags, d.IpStat)
 	}
 	if d.LastSeen != nil {
-		last_seen = types.Int64Value(int64(*d.LastSeen))
+		last_seen = types.NumberValue(big.NewFloat(*d.LastSeen))
 	}
 	if d.LastTrouble != nil {
 		last_trouble = lastTroubleSdkToTerraform(ctx, diags, d.LastTrouble)

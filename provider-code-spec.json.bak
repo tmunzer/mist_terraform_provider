@@ -44,7 +44,7 @@
 			}
 		},
 		{
-			"name": "device_ap_stats",
+			"name": "device_gateway_stats",
 			"schema": {
 				"attributes": [
 					{
@@ -105,135 +105,47 @@
 						}
 					},
 					{
-						"name": "device_ap_stats",
+						"name": "device_gateway_stats",
 						"set_nested": {
 							"computed_optional_required": "computed",
 							"nested_object": {
 								"attributes": [
 									{
-										"name": "auto_placement",
+										"name": "ap_redundancy",
 										"single_nested": {
 											"computed_optional_required": "computed",
 											"attributes": [
 												{
-													"name": "info",
-													"single_nested": {
+													"name": "modules",
+													"map_nested": {
 														"computed_optional_required": "computed",
-														"attributes": [
-															{
-																"name": "cluster_number",
-																"int64": {
-																	"computed_optional_required": "computed",
-																	"description": "All APs sharing a given cluster number can be placed relative to each other"
+														"nested_object": {
+															"attributes": [
+																{
+																	"name": "num_aps",
+																	"int64": {
+																		"computed_optional_required": "computed"
+																	}
+																},
+																{
+																	"name": "num_aps_with_switch_redundancy",
+																	"int64": {
+																		"computed_optional_required": "computed"
+																	}
 																}
-															},
-															{
-																"name": "orientation_stats",
-																"int64": {
-																	"computed_optional_required": "computed",
-																	"description": "The orientation of an AP"
-																}
-															},
-															{
-																"name": "probability_surface",
-																"single_nested": {
-																	"computed_optional_required": "computed",
-																	"attributes": [
-																		{
-																			"name": "radius",
-																			"number": {
-																				"computed_optional_required": "computed",
-																				"description": "The radius representing placement uncertainty, measured in pixels"
-																			}
-																		},
-																		{
-																			"name": "radius_m",
-																			"number": {
-																				"computed_optional_required": "computed",
-																				"description": "The radius representing placement uncertainty, measured in meters"
-																			}
-																		},
-																		{
-																			"name": "x",
-																			"float64": {
-																				"computed_optional_required": "computed",
-																				"description": "Y-coordinate of the potential placement’s center, measured in pixels"
-																			}
-																		}
-																	],
-																	"description": "Coordinates representing a circle where the AP is most likely exists in the event of an inaccurate placement result"
-																}
-															}
-														],
-														"description": "Additional information about auto placements AP data"
+															]
+														},
+														"description": "Property key is the node id"
 													}
 												},
 												{
-													"name": "recommended_anchor",
-													"bool": {
-														"computed_optional_required": "computed",
-														"description": "Flag to represent if AP is recommended as an anchor by auto placement service"
+													"name": "num_aps",
+													"int64": {
+														"computed_optional_required": "computed"
 													}
 												},
 												{
-													"name": "status",
-													"string": {
-														"computed_optional_required": "computed",
-														"description": "Basic Placement Status"
-													}
-												},
-												{
-													"name": "status_detail",
-													"string": {
-														"computed_optional_required": "computed",
-														"description": "Additional info about placement status"
-													}
-												},
-												{
-													"name": "use_auto_placement",
-													"bool": {
-														"computed_optional_required": "computed",
-														"description": "Flag to represent if auto_placement values are currently utilized"
-													}
-												},
-												{
-													"name": "x",
-													"float64": {
-														"computed_optional_required": "computed",
-														"description": "X Autoplaced Position in pixels"
-													}
-												},
-												{
-													"name": "x_m",
-													"float64": {
-														"computed_optional_required": "computed",
-														"description": "X Autoplaced Position in meters"
-													}
-												},
-												{
-													"name": "y",
-													"float64": {
-														"computed_optional_required": "computed",
-														"description": "Y Autoplaced Position in pixels"
-													}
-												},
-												{
-													"name": "y_m",
-													"float64": {
-														"computed_optional_required": "computed",
-														"description": "X Autoplaced Position in meters"
-													}
-												}
-											]
-										}
-									},
-									{
-										"name": "auto_upgrade_stat",
-										"single_nested": {
-											"computed_optional_required": "computed",
-											"attributes": [
-												{
-													"name": "lastcheck",
+													"name": "num_aps_with_switch_redundancy",
 													"int64": {
 														"computed_optional_required": "computed"
 													}
@@ -242,150 +154,19 @@
 										}
 									},
 									{
-										"name": "ble_stat",
+										"name": "arp_table_stats",
 										"single_nested": {
 											"computed_optional_required": "computed",
 											"attributes": [
 												{
-													"name": "beacon_enabled",
-													"bool": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "beacon_rate",
+													"name": "arp_table_count",
 													"int64": {
 														"computed_optional_required": "computed"
 													}
 												},
 												{
-													"name": "eddystone_uid_enabled",
-													"bool": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "eddystone_uid_freq_msec",
+													"name": "max_entries_supported",
 													"int64": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "eddystone_uid_instance",
-													"string": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "eddystone_uid_namespace",
-													"string": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "eddystone_url_enabled",
-													"bool": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "eddystone_url_freq_msec",
-													"int64": {
-														"computed_optional_required": "computed",
-														"description": "Frequency (msec) of data emmit by Eddystone-UID beacon"
-													}
-												},
-												{
-													"name": "eddystone_url_url",
-													"string": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "ibeacon_enabled",
-													"bool": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "ibeacon_freq_msec",
-													"int64": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "ibeacon_major",
-													"int64": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "ibeacon_minor",
-													"int64": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "ibeacon_uuid",
-													"string": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "major",
-													"int64": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "minors",
-													"list": {
-														"computed_optional_required": "computed",
-														"element_type": {
-															"int64": {}
-														}
-													}
-												},
-												{
-													"name": "power",
-													"int64": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "rx_bytes",
-													"int64": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "rx_pkts",
-													"int64": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "tx_bytes",
-													"int64": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "tx_pkts",
-													"int64": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "tx_resets",
-													"int64": {
-														"computed_optional_required": "computed",
-														"description": "resets due to tx hung"
-													}
-												},
-												{
-													"name": "uuid",
-													"string": {
 														"computed_optional_required": "computed"
 													}
 												}
@@ -394,26 +175,281 @@
 									},
 									{
 										"name": "cert_expiry",
-										"number": {
-											"computed_optional_required": "computed"
-										}
-									},
-									{
-										"name": "config_reverted",
-										"bool": {
-											"computed_optional_required": "computed"
-										}
-									},
-									{
-										"name": "cpu_system",
 										"int64": {
 											"computed_optional_required": "computed"
 										}
 									},
 									{
-										"name": "cpu_util",
-										"int64": {
+										"name": "cluster_config",
+										"single_nested": {
+											"computed_optional_required": "computed",
+											"attributes": [
+												{
+													"name": "configuration",
+													"string": {
+														"computed_optional_required": "computed"
+													}
+												},
+												{
+													"name": "control_link_info",
+													"single_nested": {
+														"computed_optional_required": "computed",
+														"attributes": [
+															{
+																"name": "name",
+																"string": {
+																	"computed_optional_required": "computed"
+																}
+															},
+															{
+																"name": "status",
+																"string": {
+																	"computed_optional_required": "computed"
+																}
+															}
+														]
+													}
+												},
+												{
+													"name": "ethernet_connection",
+													"list_nested": {
+														"computed_optional_required": "computed",
+														"nested_object": {
+															"attributes": [
+																{
+																	"name": "name",
+																	"string": {
+																		"computed_optional_required": "computed"
+																	}
+																},
+																{
+																	"name": "status",
+																	"string": {
+																		"computed_optional_required": "computed"
+																	}
+																}
+															]
+														}
+													}
+												},
+												{
+													"name": "fabric_link_info",
+													"single_nested": {
+														"computed_optional_required": "computed",
+														"attributes": [
+															{
+																"name": "data_plane_notified_status",
+																"string": {
+																	"computed_optional_required": "computed"
+																}
+															},
+															{
+																"name": "interface",
+																"list": {
+																	"computed_optional_required": "computed",
+																	"element_type": {
+																		"string": {}
+																	}
+																}
+															},
+															{
+																"name": "internal_status",
+																"string": {
+																	"computed_optional_required": "computed"
+																}
+															},
+															{
+																"name": "state",
+																"string": {
+																	"computed_optional_required": "computed"
+																}
+															},
+															{
+																"name": "status",
+																"string": {
+																	"computed_optional_required": "computed"
+																}
+															}
+														]
+													}
+												},
+												{
+													"name": "last_status_change_reason",
+													"string": {
+														"computed_optional_required": "computed"
+													}
+												},
+												{
+													"name": "operational",
+													"string": {
+														"computed_optional_required": "computed"
+													}
+												},
+												{
+													"name": "primary_node_health",
+													"string": {
+														"computed_optional_required": "computed"
+													}
+												},
+												{
+													"name": "redundancy_group_information",
+													"list_nested": {
+														"computed_optional_required": "computed",
+														"nested_object": {
+															"attributes": [
+																{
+																	"name": "id",
+																	"int64": {
+																		"computed_optional_required": "computed"
+																	}
+																},
+																{
+																	"name": "monitoring_failure",
+																	"string": {
+																		"computed_optional_required": "computed"
+																	}
+																},
+																{
+																	"name": "threshold",
+																	"int64": {
+																		"computed_optional_required": "computed"
+																	}
+																}
+															]
+														}
+													}
+												},
+												{
+													"name": "secondary_node_health",
+													"string": {
+														"computed_optional_required": "computed"
+													}
+												},
+												{
+													"name": "status",
+													"string": {
+														"computed_optional_required": "computed"
+													}
+												}
+											]
+										}
+									},
+									{
+										"name": "cluster_stat",
+										"single_nested": {
+											"computed_optional_required": "computed",
+											"attributes": [
+												{
+													"name": "state",
+													"string": {
+														"computed_optional_required": "computed"
+													}
+												}
+											]
+										}
+									},
+									{
+										"name": "conductor_name",
+										"string": {
 											"computed_optional_required": "computed"
+										}
+									},
+									{
+										"name": "config_status",
+										"string": {
+											"computed_optional_required": "computed"
+										}
+									},
+									{
+										"name": "cpu2_stat",
+										"single_nested": {
+											"computed_optional_required": "computed",
+											"attributes": [
+												{
+													"name": "idle",
+													"number": {
+														"computed_optional_required": "computed",
+														"description": "Percentage of CPU time that is idle"
+													}
+												},
+												{
+													"name": "interrupt",
+													"number": {
+														"computed_optional_required": "computed",
+														"description": "Percentage of CPU time being used by interrupts"
+													}
+												},
+												{
+													"name": "load_avg",
+													"list": {
+														"computed_optional_required": "computed",
+														"element_type": {
+															"number": {}
+														},
+														"description": "Load averages for the last 1, 5, and 15 minutes"
+													}
+												},
+												{
+													"name": "system",
+													"number": {
+														"computed_optional_required": "computed",
+														"description": "Percentage of CPU time being used by system processes"
+													}
+												},
+												{
+													"name": "user",
+													"number": {
+														"computed_optional_required": "computed",
+														"description": "Percentage of CPU time being used by user processe"
+													}
+												}
+											]
+										}
+									},
+									{
+										"name": "cpu_stat",
+										"single_nested": {
+											"computed_optional_required": "computed",
+											"attributes": [
+												{
+													"name": "idle",
+													"number": {
+														"computed_optional_required": "computed",
+														"description": "Percentage of CPU time that is idle"
+													}
+												},
+												{
+													"name": "interrupt",
+													"number": {
+														"computed_optional_required": "computed",
+														"description": "Percentage of CPU time being used by interrupts"
+													}
+												},
+												{
+													"name": "load_avg",
+													"list": {
+														"computed_optional_required": "computed",
+														"element_type": {
+															"number": {}
+														},
+														"description": "Load averages for the last 1, 5, and 15 minutes"
+													}
+												},
+												{
+													"name": "system",
+													"number": {
+														"computed_optional_required": "computed",
+														"description": "Percentage of CPU time being used by system processes"
+													}
+												},
+												{
+													"name": "user",
+													"number": {
+														"computed_optional_required": "computed",
+														"description": "Percentage of CPU time being used by user processe"
+													}
+												}
+											]
 										}
 									},
 									{
@@ -429,122 +465,56 @@
 										}
 									},
 									{
-										"name": "env_stat",
-										"single_nested": {
+										"name": "dhcpd2_stat",
+										"map_nested": {
 											"computed_optional_required": "computed",
-											"attributes": [
-												{
-													"name": "accel_x",
-													"float64": {
-														"computed_optional_required": "computed"
+											"nested_object": {
+												"attributes": [
+													{
+														"name": "num_ips",
+														"int64": {
+															"computed_optional_required": "computed"
+														}
+													},
+													{
+														"name": "num_leased",
+														"int64": {
+															"computed_optional_required": "computed"
+														}
 													}
-												},
-												{
-													"name": "accel_y",
-													"float64": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "accel_z",
-													"float64": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "ambient_temp",
-													"int64": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "attitude",
-													"int64": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "cpu_temp",
-													"int64": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "humidity",
-													"int64": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "magne_x",
-													"float64": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "magne_y",
-													"float64": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "magne_z",
-													"float64": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "pressure",
-													"float64": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "vcore_voltage",
-													"int64": {
-														"computed_optional_required": "computed"
-													}
-												}
-											],
-											"description": "device environment, including CPU temperature, Ambient temperature, Humidity, Attitude, Pressure, Accelerometers, Magnetometers and vCore Voltage"
+												]
+											},
+											"description": "Property key is the network name"
 										}
 									},
 									{
-										"name": "esl_stat",
-										"single_nested": {
+										"name": "dhcpd_stat",
+										"map_nested": {
 											"computed_optional_required": "computed",
-											"attributes": [
-												{
-													"name": "channel",
-													"int64": {
-														"computed_optional_required": "computed"
+											"nested_object": {
+												"attributes": [
+													{
+														"name": "num_ips",
+														"int64": {
+															"computed_optional_required": "computed"
+														}
+													},
+													{
+														"name": "num_leased",
+														"int64": {
+															"computed_optional_required": "computed"
+														}
 													}
-												},
-												{
-													"name": "connected",
-													"bool": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "type",
-													"string": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "up",
-													"bool": {
-														"computed_optional_required": "computed"
-													}
-												}
-											]
+												]
+											},
+											"description": "Property key is the network name"
 										}
 									},
 									{
 										"name": "ext_ip",
 										"string": {
-											"computed_optional_required": "computed"
+											"computed_optional_required": "computed",
+											"description": "IP address"
 										}
 									},
 									{
@@ -586,61 +556,364 @@
 										}
 									},
 									{
-										"name": "hw_rev",
-										"string": {
+										"name": "has_pcap",
+										"bool": {
 											"computed_optional_required": "computed"
+										}
+									},
+									{
+										"name": "hostname",
+										"string": {
+											"computed_optional_required": "computed",
+											"description": "hostname reported by the device"
 										}
 									},
 									{
 										"name": "id",
 										"string": {
-											"computed_optional_required": "computed"
-										}
-									},
-									{
-										"name": "inactive_wired_vlans",
-										"list": {
 											"computed_optional_required": "computed",
-											"element_type": {
-												"int64": {}
-											}
+											"description": "serial"
 										}
 									},
 									{
-										"name": "iot_stat",
+										"name": "if2_stat",
 										"map_nested": {
 											"computed_optional_required": "computed",
 											"nested_object": {
 												"attributes": [
 													{
-														"name": "value",
+														"name": "address_mode",
+														"string": {
+															"computed_optional_required": "computed"
+														}
+													},
+													{
+														"name": "ips",
+														"list": {
+															"computed_optional_required": "computed",
+															"element_type": {
+																"string": {}
+															}
+														}
+													},
+													{
+														"name": "nat_addresses",
+														"list": {
+															"computed_optional_required": "computed",
+															"element_type": {
+																"string": {}
+															}
+														}
+													},
+													{
+														"name": "network_name",
+														"string": {
+															"computed_optional_required": "computed"
+														}
+													},
+													{
+														"name": "port_id",
+														"string": {
+															"computed_optional_required": "computed"
+														}
+													},
+													{
+														"name": "port_usage",
+														"string": {
+															"computed_optional_required": "computed"
+														}
+													},
+													{
+														"name": "redundancy_state",
+														"string": {
+															"computed_optional_required": "computed"
+														}
+													},
+													{
+														"name": "rx_bytes",
 														"int64": {
+															"computed_optional_required": "computed"
+														}
+													},
+													{
+														"name": "rx_pkts",
+														"int64": {
+															"computed_optional_required": "computed"
+														}
+													},
+													{
+														"name": "servp_info",
+														"single_nested": {
+															"computed_optional_required": "computed",
+															"attributes": [
+																{
+																	"name": "asn",
+																	"string": {
+																		"computed_optional_required": "computed"
+																	}
+																},
+																{
+																	"name": "city",
+																	"string": {
+																		"computed_optional_required": "computed"
+																	}
+																},
+																{
+																	"name": "country_code",
+																	"string": {
+																		"computed_optional_required": "computed"
+																	}
+																},
+																{
+																	"name": "latitude",
+																	"number": {
+																		"computed_optional_required": "computed"
+																	}
+																},
+																{
+																	"name": "longitude",
+																	"number": {
+																		"computed_optional_required": "computed"
+																	}
+																},
+																{
+																	"name": "org",
+																	"string": {
+																		"computed_optional_required": "computed"
+																	}
+																},
+																{
+																	"name": "region_code",
+																	"string": {
+																		"computed_optional_required": "computed"
+																	}
+																}
+															]
+														}
+													},
+													{
+														"name": "tx_bytes",
+														"int64": {
+															"computed_optional_required": "computed"
+														}
+													},
+													{
+														"name": "tx_pkts",
+														"int64": {
+															"computed_optional_required": "computed"
+														}
+													},
+													{
+														"name": "up",
+														"bool": {
+															"computed_optional_required": "computed"
+														}
+													},
+													{
+														"name": "vlan",
+														"int64": {
+															"computed_optional_required": "computed"
+														}
+													},
+													{
+														"name": "wan_name",
+														"string": {
+															"computed_optional_required": "computed"
+														}
+													},
+													{
+														"name": "wan_type",
+														"string": {
 															"computed_optional_required": "computed"
 														}
 													}
 												]
-											}
+											},
+											"description": "Property key is the interface name"
+										}
+									},
+									{
+										"name": "if_stat",
+										"map_nested": {
+											"computed_optional_required": "computed",
+											"nested_object": {
+												"attributes": [
+													{
+														"name": "address_mode",
+														"string": {
+															"computed_optional_required": "computed"
+														}
+													},
+													{
+														"name": "ips",
+														"list": {
+															"computed_optional_required": "computed",
+															"element_type": {
+																"string": {}
+															}
+														}
+													},
+													{
+														"name": "nat_addresses",
+														"list": {
+															"computed_optional_required": "computed",
+															"element_type": {
+																"string": {}
+															}
+														}
+													},
+													{
+														"name": "network_name",
+														"string": {
+															"computed_optional_required": "computed"
+														}
+													},
+													{
+														"name": "port_id",
+														"string": {
+															"computed_optional_required": "computed"
+														}
+													},
+													{
+														"name": "port_usage",
+														"string": {
+															"computed_optional_required": "computed"
+														}
+													},
+													{
+														"name": "redundancy_state",
+														"string": {
+															"computed_optional_required": "computed"
+														}
+													},
+													{
+														"name": "rx_bytes",
+														"int64": {
+															"computed_optional_required": "computed"
+														}
+													},
+													{
+														"name": "rx_pkts",
+														"int64": {
+															"computed_optional_required": "computed"
+														}
+													},
+													{
+														"name": "servp_info",
+														"single_nested": {
+															"computed_optional_required": "computed",
+															"attributes": [
+																{
+																	"name": "asn",
+																	"string": {
+																		"computed_optional_required": "computed"
+																	}
+																},
+																{
+																	"name": "city",
+																	"string": {
+																		"computed_optional_required": "computed"
+																	}
+																},
+																{
+																	"name": "country_code",
+																	"string": {
+																		"computed_optional_required": "computed"
+																	}
+																},
+																{
+																	"name": "latitude",
+																	"number": {
+																		"computed_optional_required": "computed"
+																	}
+																},
+																{
+																	"name": "longitude",
+																	"number": {
+																		"computed_optional_required": "computed"
+																	}
+																},
+																{
+																	"name": "org",
+																	"string": {
+																		"computed_optional_required": "computed"
+																	}
+																},
+																{
+																	"name": "region_code",
+																	"string": {
+																		"computed_optional_required": "computed"
+																	}
+																}
+															]
+														}
+													},
+													{
+														"name": "tx_bytes",
+														"int64": {
+															"computed_optional_required": "computed"
+														}
+													},
+													{
+														"name": "tx_pkts",
+														"int64": {
+															"computed_optional_required": "computed"
+														}
+													},
+													{
+														"name": "up",
+														"bool": {
+															"computed_optional_required": "computed"
+														}
+													},
+													{
+														"name": "vlan",
+														"int64": {
+															"computed_optional_required": "computed"
+														}
+													},
+													{
+														"name": "wan_name",
+														"string": {
+															"computed_optional_required": "computed"
+														}
+													},
+													{
+														"name": "wan_type",
+														"string": {
+															"computed_optional_required": "computed"
+														}
+													}
+												]
+											},
+											"description": "Property key is the interface name"
 										}
 									},
 									{
 										"name": "ip",
 										"string": {
-											"computed_optional_required": "computed"
+											"computed_optional_required": "computed",
+											"description": "IP address"
 										}
 									},
 									{
-										"name": "ip_config",
+										"name": "ip2_stat",
 										"single_nested": {
 											"computed_optional_required": "computed",
 											"attributes": [
+												{
+													"name": "dhcp_server",
+													"string": {
+														"computed_optional_required": "computed"
+													}
+												},
 												{
 													"name": "dns",
 													"list": {
 														"computed_optional_required": "computed",
 														"element_type": {
 															"string": {}
-														},
-														"description": "if `type`==`static`"
+														}
 													}
 												},
 												{
@@ -649,15 +922,13 @@
 														"computed_optional_required": "computed",
 														"element_type": {
 															"string": {}
-														},
-														"description": "required if `type`==`static`"
+														}
 													}
 												},
 												{
 													"name": "gateway",
 													"string": {
-														"computed_optional_required": "computed",
-														"description": "required if `type`==`static`"
+														"computed_optional_required": "computed"
 													}
 												},
 												{
@@ -669,8 +940,7 @@
 												{
 													"name": "ip",
 													"string": {
-														"computed_optional_required": "computed",
-														"description": "required if `type`==`static`"
+														"computed_optional_required": "computed"
 													}
 												},
 												{
@@ -680,16 +950,18 @@
 													}
 												},
 												{
-													"name": "mtu",
-													"int64": {
-														"computed_optional_required": "computed"
+													"name": "ips",
+													"map": {
+														"computed_optional_required": "computed",
+														"element_type": {
+															"string": {}
+														}
 													}
 												},
 												{
 													"name": "netmask",
 													"string": {
-														"computed_optional_required": "computed",
-														"description": "required if `type`==`static`"
+														"computed_optional_required": "computed"
 													}
 												},
 												{
@@ -697,28 +969,8 @@
 													"string": {
 														"computed_optional_required": "computed"
 													}
-												},
-												{
-													"name": "type",
-													"string": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "type6",
-													"string": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "vlan_id",
-													"int64": {
-														"computed_optional_required": "computed",
-														"description": "management vlan id, default is 1 (untagged)"
-													}
 												}
-											],
-											"description": "IP AP settings"
+											]
 										}
 									},
 									{
@@ -799,72 +1051,9 @@
 										}
 									},
 									{
-										"name": "l2tp_stat",
-										"map_nested": {
-											"computed_optional_required": "computed",
-											"nested_object": {
-												"attributes": [
-													{
-														"name": "sessions",
-														"list_nested": {
-															"computed_optional_required": "computed",
-															"nested_object": {
-																"attributes": [
-																	{
-																		"name": "local_sid",
-																		"int64": {
-																			"computed_optional_required": "computed",
-																			"description": "remote sessions id (dynamically unless Tunnel is said to be static)"
-																		}
-																	},
-																	{
-																		"name": "remote_id",
-																		"string": {
-																			"computed_optional_required": "computed",
-																			"description": "WxlanTunnel Remote ID (user-configured)"
-																		}
-																	},
-																	{
-																		"name": "remote_sid",
-																		"int64": {
-																			"computed_optional_required": "computed",
-																			"description": "remote sessions id (dynamically unless Tunnel is said to be static)"
-																		}
-																	},
-																	{
-																		"name": "state",
-																		"string": {
-																			"computed_optional_required": "computed"
-																		}
-																	}
-																]
-															},
-															"description": "list of sessions"
-														}
-													},
-													{
-														"name": "state",
-														"string": {
-															"computed_optional_required": "computed"
-														}
-													},
-													{
-														"name": "uptime",
-														"int64": {
-															"computed_optional_required": "computed",
-															"description": "uptime"
-														}
-													},
-													{
-														"name": "wxtunnel_id",
-														"string": {
-															"computed_optional_required": "computed",
-															"description": "WxlanTunnel ID"
-														}
-													}
-												]
-											},
-											"description": "l2tp tunnel status (key is the wxtunnel_id)"
+										"name": "is_ha",
+										"bool": {
+											"computed_optional_required": "computed"
 										}
 									},
 									{
@@ -872,155 +1061,6 @@
 										"number": {
 											"computed_optional_required": "computed",
 											"description": "last seen timestamp"
-										}
-									},
-									{
-										"name": "last_trouble",
-										"single_nested": {
-											"computed_optional_required": "computed",
-											"attributes": [
-												{
-													"name": "code",
-													"string": {
-														"computed_optional_required": "computed",
-														"description": "Code definitions list at /api/v1/consts/ap_led_status"
-													}
-												},
-												{
-													"name": "timestamp",
-													"int64": {
-														"computed_optional_required": "computed"
-													}
-												}
-											],
-											"description": "last trouble code of switch"
-										}
-									},
-									{
-										"name": "led",
-										"single_nested": {
-											"computed_optional_required": "computed",
-											"attributes": [
-												{
-													"name": "brightness",
-													"int64": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "enabled",
-													"bool": {
-														"computed_optional_required": "computed"
-													}
-												}
-											],
-											"description": "LED AP settings"
-										}
-									},
-									{
-										"name": "lldp_stat",
-										"single_nested": {
-											"computed_optional_required": "computed",
-											"attributes": [
-												{
-													"name": "chassis_id",
-													"string": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "lldp_med_supported",
-													"bool": {
-														"computed_optional_required": "computed",
-														"description": "whether it support LLDP-MED"
-													}
-												},
-												{
-													"name": "mgmt_addr",
-													"string": {
-														"computed_optional_required": "computed",
-														"description": "switch’s management address (if advertised), can be IPv4, IPv6, or MAC"
-													}
-												},
-												{
-													"name": "mgmt_addrs",
-													"list": {
-														"computed_optional_required": "computed",
-														"element_type": {
-															"string": {}
-														}
-													}
-												},
-												{
-													"name": "port_desc",
-													"string": {
-														"computed_optional_required": "computed",
-														"description": "ge-0/0/4"
-													}
-												},
-												{
-													"name": "port_id",
-													"string": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "power_allocated",
-													"number": {
-														"computed_optional_required": "computed",
-														"description": "in mW, provided/allocated by PSE"
-													}
-												},
-												{
-													"name": "power_draw",
-													"number": {
-														"computed_optional_required": "computed",
-														"description": "in mW, total power needed by PD"
-													}
-												},
-												{
-													"name": "power_request_count",
-													"int64": {
-														"computed_optional_required": "computed",
-														"description": "number of negotiations, if it keeps increasing, we don’t have a stable power"
-													}
-												},
-												{
-													"name": "power_requested",
-													"number": {
-														"computed_optional_required": "computed",
-														"description": "in mW, the current power requested by PD"
-													}
-												},
-												{
-													"name": "system_desc",
-													"string": {
-														"computed_optional_required": "computed",
-														"description": "description provided by switch"
-													}
-												},
-												{
-													"name": "system_name",
-													"string": {
-														"computed_optional_required": "computed",
-														"description": "name of the switch"
-													}
-												}
-											],
-											"description": "LLDP Stat (neighbor information, power negotiations)"
-										}
-									},
-									{
-										"name": "locating",
-										"bool": {
-											"computed_optional_required": "computed"
-										}
-									},
-									{
-										"name": "locked",
-										"bool": {
-											"computed_optional_required": "computed",
-											"description": "whether this AP is considered locked (placement / orientation has been vetted)"
 										}
 									},
 									{
@@ -1033,254 +1073,38 @@
 									{
 										"name": "map_id",
 										"string": {
-											"computed_optional_required": "computed"
-										}
-									},
-									{
-										"name": "mem_used_kb",
-										"int64": {
-											"computed_optional_required": "computed"
-										}
-									},
-									{
-										"name": "mesh_downlinks",
-										"map_nested": {
 											"computed_optional_required": "computed",
-											"nested_object": {
-												"attributes": [
-													{
-														"name": "band",
-														"string": {
-															"computed_optional_required": "computed"
-														}
-													},
-													{
-														"name": "channel",
-														"int64": {
-															"computed_optional_required": "computed"
-														}
-													},
-													{
-														"name": "idle_time",
-														"int64": {
-															"computed_optional_required": "computed"
-														}
-													},
-													{
-														"name": "last_seen",
-														"int64": {
-															"computed_optional_required": "computed"
-														}
-													},
-													{
-														"name": "proto",
-														"string": {
-															"computed_optional_required": "computed"
-														}
-													},
-													{
-														"name": "rssi",
-														"int64": {
-															"computed_optional_required": "computed"
-														}
-													},
-													{
-														"name": "rx_bps",
-														"int64": {
-															"computed_optional_required": "computed"
-														}
-													},
-													{
-														"name": "rx_bytes",
-														"int64": {
-															"computed_optional_required": "computed"
-														}
-													},
-													{
-														"name": "rx_packets",
-														"int64": {
-															"computed_optional_required": "computed"
-														}
-													},
-													{
-														"name": "rx_rate",
-														"int64": {
-															"computed_optional_required": "computed"
-														}
-													},
-													{
-														"name": "rx_retries",
-														"int64": {
-															"computed_optional_required": "computed"
-														}
-													},
-													{
-														"name": "site_id",
-														"string": {
-															"computed_optional_required": "computed"
-														}
-													},
-													{
-														"name": "snr",
-														"int64": {
-															"computed_optional_required": "computed"
-														}
-													},
-													{
-														"name": "tx_bps",
-														"int64": {
-															"computed_optional_required": "computed"
-														}
-													},
-													{
-														"name": "tx_bytes",
-														"int64": {
-															"computed_optional_required": "computed"
-														}
-													},
-													{
-														"name": "tx_packets",
-														"int64": {
-															"computed_optional_required": "computed"
-														}
-													},
-													{
-														"name": "tx_rate",
-														"int64": {
-															"computed_optional_required": "computed"
-														}
-													},
-													{
-														"name": "tx_retries",
-														"int64": {
-															"computed_optional_required": "computed"
-														}
-													}
-												]
-											},
-											"description": "Property key is the mesh downlink id (e.g `00000000-0000-0000-1000-5c5b35000010`)"
+											"description": "serial"
 										}
 									},
 									{
-										"name": "mesh_uplink",
+										"name": "memory2_stat",
 										"single_nested": {
 											"computed_optional_required": "computed",
 											"attributes": [
 												{
-													"name": "band",
-													"string": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "channel",
-													"int64": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "idle_time",
-													"int64": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "last_seen",
-													"int64": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "proto",
-													"string": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "rssi",
-													"int64": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "rx_bps",
-													"int64": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "rx_bytes",
-													"int64": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "rx_packets",
-													"int64": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "rx_rate",
-													"int64": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "rx_retries",
-													"int64": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "site_id",
-													"string": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "snr",
-													"int64": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "tx_bps",
-													"int64": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "tx_bytes",
-													"int64": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "tx_packets",
-													"int64": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "tx_rate",
-													"int64": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "tx_retries",
-													"int64": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "uplink_ap_id",
-													"string": {
+													"name": "usage",
+													"number": {
 														"computed_optional_required": "computed"
 													}
 												}
-											]
+											],
+											"description": "memory usage stat (for virtual chassis, memory usage of master RE)"
+										}
+									},
+									{
+										"name": "memory_stat",
+										"single_nested": {
+											"computed_optional_required": "computed",
+											"attributes": [
+												{
+													"name": "usage",
+													"number": {
+														"computed_optional_required": "computed"
+													}
+												}
+											],
+											"description": "memory usage stat (for virtual chassis, memory usage of master RE)"
 										}
 									},
 									{
@@ -1297,552 +1121,758 @@
 										}
 									},
 									{
-										"name": "mount",
-										"string": {
-											"computed_optional_required": "computed"
-										}
-									},
-									{
-										"name": "name",
-										"string": {
-											"computed_optional_required": "computed"
-										}
-									},
-									{
-										"name": "notes",
-										"string": {
-											"computed_optional_required": "computed"
-										}
-									},
-									{
-										"name": "num_clients",
-										"int64": {
-											"computed_optional_required": "computed",
-											"description": "how many wireless clients are currently connected"
-										}
-									},
-									{
-										"name": "org_id",
-										"string": {
-											"computed_optional_required": "computed"
-										}
-									},
-									{
-										"name": "port_stat",
-										"map_nested": {
+										"name": "module2_stat",
+										"list_nested": {
 											"computed_optional_required": "computed",
 											"nested_object": {
 												"attributes": [
 													{
-														"name": "full_duplex",
-														"bool": {
+														"name": "backup_version",
+														"string": {
 															"computed_optional_required": "computed"
 														}
 													},
 													{
-														"name": "rx_bytes",
+														"name": "bios_version",
+														"string": {
+															"computed_optional_required": "computed"
+														}
+													},
+													{
+														"name": "cpld_version",
+														"string": {
+															"computed_optional_required": "computed"
+														}
+													},
+													{
+														"name": "errors",
+														"list_nested": {
+															"computed_optional_required": "computed",
+															"nested_object": {
+																"attributes": [
+																	{
+																		"name": "feature",
+																		"string": {
+																			"computed_optional_required": "computed"
+																		}
+																	},
+																	{
+																		"name": "minimum_version",
+																		"string": {
+																			"computed_optional_required": "computed"
+																		}
+																	},
+																	{
+																		"name": "reason",
+																		"string": {
+																			"computed_optional_required": "computed"
+																		}
+																	},
+																	{
+																		"name": "since",
+																		"int64": {
+																			"computed_optional_required": "computed"
+																		}
+																	},
+																	{
+																		"name": "type",
+																		"string": {
+																			"computed_optional_required": "computed"
+																		}
+																	}
+																]
+															},
+															"description": "used to report all error states the device node is running into.\nAn error should always have `type` and `since` fields, and could have some other fields specific to that type."
+														}
+													},
+													{
+														"name": "fans",
+														"list_nested": {
+															"computed_optional_required": "computed",
+															"nested_object": {
+																"attributes": [
+																	{
+																		"name": "airflow",
+																		"string": {
+																			"computed_optional_required": "computed"
+																		}
+																	},
+																	{
+																		"name": "name",
+																		"string": {
+																			"computed_optional_required": "computed"
+																		}
+																	},
+																	{
+																		"name": "status",
+																		"string": {
+																			"computed_optional_required": "computed"
+																		}
+																	}
+																]
+															}
+														}
+													},
+													{
+														"name": "fpga_version",
+														"string": {
+															"computed_optional_required": "computed"
+														}
+													},
+													{
+														"name": "last_seen",
 														"number": {
 															"computed_optional_required": "computed"
 														}
 													},
 													{
-														"name": "rx_errors",
-														"number": {
+														"name": "model",
+														"string": {
 															"computed_optional_required": "computed"
 														}
 													},
 													{
-														"name": "rx_pkts",
-														"number": {
+														"name": "optics_cpld_version",
+														"string": {
 															"computed_optional_required": "computed"
 														}
 													},
 													{
-														"name": "speed",
+														"name": "pending_version",
+														"string": {
+															"computed_optional_required": "computed"
+														}
+													},
+													{
+														"name": "pics",
+														"list_nested": {
+															"computed_optional_required": "computed",
+															"nested_object": {
+																"attributes": [
+																	{
+																		"name": "index",
+																		"int64": {
+																			"computed_optional_required": "computed"
+																		}
+																	},
+																	{
+																		"name": "model_number",
+																		"string": {
+																			"computed_optional_required": "computed"
+																		}
+																	},
+																	{
+																		"name": "port_groups",
+																		"list_nested": {
+																			"computed_optional_required": "computed",
+																			"nested_object": {
+																				"attributes": [
+																					{
+																						"name": "count",
+																						"int64": {
+																							"computed_optional_required": "computed"
+																						}
+																					},
+																					{
+																						"name": "type",
+																						"string": {
+																							"computed_optional_required": "computed"
+																						}
+																					}
+																				]
+																			}
+																		}
+																	}
+																]
+															}
+														}
+													},
+													{
+														"name": "poe",
+														"single_nested": {
+															"computed_optional_required": "computed",
+															"attributes": [
+																{
+																	"name": "max_power",
+																	"number": {
+																		"computed_optional_required": "computed"
+																	}
+																},
+																{
+																	"name": "power_draw",
+																	"number": {
+																		"computed_optional_required": "computed"
+																	}
+																}
+															]
+														}
+													},
+													{
+														"name": "poe_version",
+														"string": {
+															"computed_optional_required": "computed"
+														}
+													},
+													{
+														"name": "power_cpld_version",
+														"string": {
+															"computed_optional_required": "computed"
+														}
+													},
+													{
+														"name": "psus",
+														"list_nested": {
+															"computed_optional_required": "computed",
+															"nested_object": {
+																"attributes": [
+																	{
+																		"name": "name",
+																		"string": {
+																			"computed_optional_required": "computed"
+																		}
+																	},
+																	{
+																		"name": "status",
+																		"string": {
+																			"computed_optional_required": "computed"
+																		}
+																	}
+																]
+															}
+														}
+													},
+													{
+														"name": "re_fpga_version",
+														"string": {
+															"computed_optional_required": "computed"
+														}
+													},
+													{
+														"name": "recovery_version",
+														"string": {
+															"computed_optional_required": "computed"
+														}
+													},
+													{
+														"name": "serial",
+														"string": {
+															"computed_optional_required": "computed"
+														}
+													},
+													{
+														"name": "status",
+														"string": {
+															"computed_optional_required": "computed"
+														}
+													},
+													{
+														"name": "temperatures",
+														"list_nested": {
+															"computed_optional_required": "computed",
+															"nested_object": {
+																"attributes": [
+																	{
+																		"name": "celsius",
+																		"number": {
+																			"computed_optional_required": "computed"
+																		}
+																	},
+																	{
+																		"name": "name",
+																		"string": {
+																			"computed_optional_required": "computed"
+																		}
+																	},
+																	{
+																		"name": "status",
+																		"string": {
+																			"computed_optional_required": "computed"
+																		}
+																	}
+																]
+															}
+														}
+													},
+													{
+														"name": "tmc_fpga_version",
+														"string": {
+															"computed_optional_required": "computed"
+														}
+													},
+													{
+														"name": "uboot_version",
+														"string": {
+															"computed_optional_required": "computed"
+														}
+													},
+													{
+														"name": "uptime",
 														"int64": {
 															"computed_optional_required": "computed"
 														}
 													},
 													{
-														"name": "tx_bytes",
-														"number": {
+														"name": "vc_links",
+														"list_nested": {
+															"computed_optional_required": "computed",
+															"nested_object": {
+																"attributes": [
+																	{
+																		"name": "neighbor_module_idx",
+																		"int64": {
+																			"computed_optional_required": "computed"
+																		}
+																	},
+																	{
+																		"name": "neighbor_port_id",
+																		"string": {
+																			"computed_optional_required": "computed"
+																		}
+																	},
+																	{
+																		"name": "port_id",
+																		"string": {
+																			"computed_optional_required": "computed"
+																		}
+																	}
+																]
+															}
+														}
+													},
+													{
+														"name": "vc_mode",
+														"string": {
 															"computed_optional_required": "computed"
 														}
 													},
 													{
-														"name": "tx_pkts",
-														"number": {
+														"name": "vc_role",
+														"string": {
+															"computed_optional_required": "computed",
+															"description": "master / backup / linecard"
+														}
+													},
+													{
+														"name": "vc_state",
+														"string": {
 															"computed_optional_required": "computed"
 														}
 													},
 													{
-														"name": "up",
-														"bool": {
+														"name": "version",
+														"string": {
 															"computed_optional_required": "computed"
 														}
 													}
 												]
-											},
-											"description": "Property key is the port name (e.g. `eth0`)"
+											}
 										}
 									},
 									{
-										"name": "power_budget",
-										"int64": {
+										"name": "module_stat",
+										"list_nested": {
 											"computed_optional_required": "computed",
-											"description": "in mW, surplus if positive or deficit if negative"
+											"nested_object": {
+												"attributes": [
+													{
+														"name": "backup_version",
+														"string": {
+															"computed_optional_required": "computed"
+														}
+													},
+													{
+														"name": "bios_version",
+														"string": {
+															"computed_optional_required": "computed"
+														}
+													},
+													{
+														"name": "cpld_version",
+														"string": {
+															"computed_optional_required": "computed"
+														}
+													},
+													{
+														"name": "errors",
+														"list_nested": {
+															"computed_optional_required": "computed",
+															"nested_object": {
+																"attributes": [
+																	{
+																		"name": "feature",
+																		"string": {
+																			"computed_optional_required": "computed"
+																		}
+																	},
+																	{
+																		"name": "minimum_version",
+																		"string": {
+																			"computed_optional_required": "computed"
+																		}
+																	},
+																	{
+																		"name": "reason",
+																		"string": {
+																			"computed_optional_required": "computed"
+																		}
+																	},
+																	{
+																		"name": "since",
+																		"int64": {
+																			"computed_optional_required": "computed"
+																		}
+																	},
+																	{
+																		"name": "type",
+																		"string": {
+																			"computed_optional_required": "computed"
+																		}
+																	}
+																]
+															},
+															"description": "used to report all error states the device node is running into.\nAn error should always have `type` and `since` fields, and could have some other fields specific to that type."
+														}
+													},
+													{
+														"name": "fans",
+														"list_nested": {
+															"computed_optional_required": "computed",
+															"nested_object": {
+																"attributes": [
+																	{
+																		"name": "airflow",
+																		"string": {
+																			"computed_optional_required": "computed"
+																		}
+																	},
+																	{
+																		"name": "name",
+																		"string": {
+																			"computed_optional_required": "computed"
+																		}
+																	},
+																	{
+																		"name": "status",
+																		"string": {
+																			"computed_optional_required": "computed"
+																		}
+																	}
+																]
+															}
+														}
+													},
+													{
+														"name": "fpga_version",
+														"string": {
+															"computed_optional_required": "computed"
+														}
+													},
+													{
+														"name": "last_seen",
+														"number": {
+															"computed_optional_required": "computed"
+														}
+													},
+													{
+														"name": "model",
+														"string": {
+															"computed_optional_required": "computed"
+														}
+													},
+													{
+														"name": "optics_cpld_version",
+														"string": {
+															"computed_optional_required": "computed"
+														}
+													},
+													{
+														"name": "pending_version",
+														"string": {
+															"computed_optional_required": "computed"
+														}
+													},
+													{
+														"name": "pics",
+														"list_nested": {
+															"computed_optional_required": "computed",
+															"nested_object": {
+																"attributes": [
+																	{
+																		"name": "index",
+																		"int64": {
+																			"computed_optional_required": "computed"
+																		}
+																	},
+																	{
+																		"name": "model_number",
+																		"string": {
+																			"computed_optional_required": "computed"
+																		}
+																	},
+																	{
+																		"name": "port_groups",
+																		"list_nested": {
+																			"computed_optional_required": "computed",
+																			"nested_object": {
+																				"attributes": [
+																					{
+																						"name": "count",
+																						"int64": {
+																							"computed_optional_required": "computed"
+																						}
+																					},
+																					{
+																						"name": "type",
+																						"string": {
+																							"computed_optional_required": "computed"
+																						}
+																					}
+																				]
+																			}
+																		}
+																	}
+																]
+															}
+														}
+													},
+													{
+														"name": "poe",
+														"single_nested": {
+															"computed_optional_required": "computed",
+															"attributes": [
+																{
+																	"name": "max_power",
+																	"number": {
+																		"computed_optional_required": "computed"
+																	}
+																},
+																{
+																	"name": "power_draw",
+																	"number": {
+																		"computed_optional_required": "computed"
+																	}
+																}
+															]
+														}
+													},
+													{
+														"name": "poe_version",
+														"string": {
+															"computed_optional_required": "computed"
+														}
+													},
+													{
+														"name": "power_cpld_version",
+														"string": {
+															"computed_optional_required": "computed"
+														}
+													},
+													{
+														"name": "psus",
+														"list_nested": {
+															"computed_optional_required": "computed",
+															"nested_object": {
+																"attributes": [
+																	{
+																		"name": "name",
+																		"string": {
+																			"computed_optional_required": "computed"
+																		}
+																	},
+																	{
+																		"name": "status",
+																		"string": {
+																			"computed_optional_required": "computed"
+																		}
+																	}
+																]
+															}
+														}
+													},
+													{
+														"name": "re_fpga_version",
+														"string": {
+															"computed_optional_required": "computed"
+														}
+													},
+													{
+														"name": "recovery_version",
+														"string": {
+															"computed_optional_required": "computed"
+														}
+													},
+													{
+														"name": "serial",
+														"string": {
+															"computed_optional_required": "computed"
+														}
+													},
+													{
+														"name": "status",
+														"string": {
+															"computed_optional_required": "computed"
+														}
+													},
+													{
+														"name": "temperatures",
+														"list_nested": {
+															"computed_optional_required": "computed",
+															"nested_object": {
+																"attributes": [
+																	{
+																		"name": "celsius",
+																		"number": {
+																			"computed_optional_required": "computed"
+																		}
+																	},
+																	{
+																		"name": "name",
+																		"string": {
+																			"computed_optional_required": "computed"
+																		}
+																	},
+																	{
+																		"name": "status",
+																		"string": {
+																			"computed_optional_required": "computed"
+																		}
+																	}
+																]
+															}
+														}
+													},
+													{
+														"name": "tmc_fpga_version",
+														"string": {
+															"computed_optional_required": "computed"
+														}
+													},
+													{
+														"name": "uboot_version",
+														"string": {
+															"computed_optional_required": "computed"
+														}
+													},
+													{
+														"name": "uptime",
+														"int64": {
+															"computed_optional_required": "computed"
+														}
+													},
+													{
+														"name": "vc_links",
+														"list_nested": {
+															"computed_optional_required": "computed",
+															"nested_object": {
+																"attributes": [
+																	{
+																		"name": "neighbor_module_idx",
+																		"int64": {
+																			"computed_optional_required": "computed"
+																		}
+																	},
+																	{
+																		"name": "neighbor_port_id",
+																		"string": {
+																			"computed_optional_required": "computed"
+																		}
+																	},
+																	{
+																		"name": "port_id",
+																		"string": {
+																			"computed_optional_required": "computed"
+																		}
+																	}
+																]
+															}
+														}
+													},
+													{
+														"name": "vc_mode",
+														"string": {
+															"computed_optional_required": "computed"
+														}
+													},
+													{
+														"name": "vc_role",
+														"string": {
+															"computed_optional_required": "computed",
+															"description": "master / backup / linecard"
+														}
+													},
+													{
+														"name": "vc_state",
+														"string": {
+															"computed_optional_required": "computed"
+														}
+													},
+													{
+														"name": "version",
+														"string": {
+															"computed_optional_required": "computed"
+														}
+													}
+												]
+											}
 										}
 									},
 									{
-										"name": "power_constrained",
-										"bool": {
-											"computed_optional_required": "computed",
-											"description": "whether insufficient power"
-										}
-									},
-									{
-										"name": "power_opmode",
+										"name": "name",
 										"string": {
 											"computed_optional_required": "computed",
-											"description": "constrained mode"
+											"description": "device name if configured"
 										}
 									},
 									{
-										"name": "power_src",
+										"name": "node_name",
+										"string": {
+											"computed_optional_required": "computed"
+										}
+									},
+									{
+										"name": "org_id",
 										"string": {
 											"computed_optional_required": "computed",
-											"description": "DC Input / PoE 802.3at / PoE 802.3af / LLDP / ? (unknown)"
+											"description": "serial"
 										}
 									},
 									{
-										"name": "radio_stat",
+										"name": "route_summary_stats",
 										"single_nested": {
 											"computed_optional_required": "computed",
 											"attributes": [
 												{
-													"name": "band_24",
-													"single_nested": {
-														"computed_optional_required": "computed",
-														"attributes": [
-															{
-																"name": "bandwidth",
-																"int64": {
-																	"computed_optional_required": "computed",
-																	"description": "channel width for the band * `80` is only applicable for band_5 and band_6 * `160` is only for band_6"
-																}
-															},
-															{
-																"name": "channel",
-																"int64": {
-																	"computed_optional_required": "computed",
-																	"description": "current channel the radio is running on"
-																}
-															},
-															{
-																"name": "dynamic_chaining_enalbed",
-																"bool": {
-																	"computed_optional_required": "computed",
-																	"description": "Use dynamic chaining for downlink"
-																}
-															},
-															{
-																"name": "mac",
-																"string": {
-																	"computed_optional_required": "computed",
-																	"description": "radio (base) mac, it can have 16 bssids (e.g. 5c5b350001a0-5c5b350001af)"
-																}
-															},
-															{
-																"name": "noise_floor",
-																"int64": {
-																	"computed_optional_required": "computed"
-																}
-															},
-															{
-																"name": "num_clients",
-																"int64": {
-																	"computed_optional_required": "computed"
-																}
-															},
-															{
-																"name": "power",
-																"int64": {
-																	"computed_optional_required": "computed",
-																	"description": "transmit power (in dBm)"
-																}
-															},
-															{
-																"name": "rx_bytes",
-																"int64": {
-																	"computed_optional_required": "computed"
-																}
-															},
-															{
-																"name": "rx_pkts",
-																"int64": {
-																	"computed_optional_required": "computed"
-																}
-															},
-															{
-																"name": "tx_bytes",
-																"int64": {
-																	"computed_optional_required": "computed"
-																}
-															},
-															{
-																"name": "tx_pkts",
-																"int64": {
-																	"computed_optional_required": "computed"
-																}
-															},
-															{
-																"name": "usage",
-																"string": {
-																	"computed_optional_required": "computed"
-																}
-															},
-															{
-																"name": "util_all",
-																"int64": {
-																	"computed_optional_required": "computed",
-																	"description": "all utilization in percentage"
-																}
-															},
-															{
-																"name": "util_non_wifi",
-																"int64": {
-																	"computed_optional_required": "computed",
-																	"description": "reception of “No Packets” utilization in percentage, received frames with invalid PLCPs and CRS glitches as noise"
-																}
-															},
-															{
-																"name": "util_rx_in_bss",
-																"int64": {
-																	"computed_optional_required": "computed",
-																	"description": "reception of “In BSS” utilization in percentage, only frames that are received from AP/STAs within the BSS"
-																}
-															},
-															{
-																"name": "util_rx_other_bss",
-																"int64": {
-																	"computed_optional_required": "computed",
-																	"description": "reception of “Other BSS” utilization in percentage, all frames received from AP/STAs that are outside the BSS"
-																}
-															},
-															{
-																"name": "util_tx",
-																"int64": {
-																	"computed_optional_required": "computed",
-																	"description": "transmission utilization in percentage"
-																}
-															},
-															{
-																"name": "util_undecodable_wifi",
-																"int64": {
-																	"computed_optional_required": "computed",
-																	"description": "reception of “UnDecodable Wifi“ utilization in percentage, only Preamble, PLCP header is decoded, Rest is undecodable in this radio"
-																}
-															},
-															{
-																"name": "util_unknown_wifi",
-																"int64": {
-																	"computed_optional_required": "computed",
-																	"description": "reception of “No Category” utilization in percentage, all 802.11 frames that are corrupted at the receiver"
-																}
-															}
-														],
-														"description": "radio stat"
+													"name": "fib_routes",
+													"int64": {
+														"computed_optional_required": "computed"
 													}
 												},
 												{
-													"name": "band_5",
-													"single_nested": {
-														"computed_optional_required": "computed",
-														"attributes": [
-															{
-																"name": "bandwidth",
-																"int64": {
-																	"computed_optional_required": "computed",
-																	"description": "channel width for the band * `80` is only applicable for band_5 and band_6 * `160` is only for band_6"
-																}
-															},
-															{
-																"name": "channel",
-																"int64": {
-																	"computed_optional_required": "computed",
-																	"description": "current channel the radio is running on"
-																}
-															},
-															{
-																"name": "dynamic_chaining_enalbed",
-																"bool": {
-																	"computed_optional_required": "computed",
-																	"description": "Use dynamic chaining for downlink"
-																}
-															},
-															{
-																"name": "mac",
-																"string": {
-																	"computed_optional_required": "computed",
-																	"description": "radio (base) mac, it can have 16 bssids (e.g. 5c5b350001a0-5c5b350001af)"
-																}
-															},
-															{
-																"name": "noise_floor",
-																"int64": {
-																	"computed_optional_required": "computed"
-																}
-															},
-															{
-																"name": "num_clients",
-																"int64": {
-																	"computed_optional_required": "computed"
-																}
-															},
-															{
-																"name": "power",
-																"int64": {
-																	"computed_optional_required": "computed",
-																	"description": "transmit power (in dBm)"
-																}
-															},
-															{
-																"name": "rx_bytes",
-																"int64": {
-																	"computed_optional_required": "computed"
-																}
-															},
-															{
-																"name": "rx_pkts",
-																"int64": {
-																	"computed_optional_required": "computed"
-																}
-															},
-															{
-																"name": "tx_bytes",
-																"int64": {
-																	"computed_optional_required": "computed"
-																}
-															},
-															{
-																"name": "tx_pkts",
-																"int64": {
-																	"computed_optional_required": "computed"
-																}
-															},
-															{
-																"name": "usage",
-																"string": {
-																	"computed_optional_required": "computed"
-																}
-															},
-															{
-																"name": "util_all",
-																"int64": {
-																	"computed_optional_required": "computed",
-																	"description": "all utilization in percentage"
-																}
-															},
-															{
-																"name": "util_non_wifi",
-																"int64": {
-																	"computed_optional_required": "computed",
-																	"description": "reception of “No Packets” utilization in percentage, received frames with invalid PLCPs and CRS glitches as noise"
-																}
-															},
-															{
-																"name": "util_rx_in_bss",
-																"int64": {
-																	"computed_optional_required": "computed",
-																	"description": "reception of “In BSS” utilization in percentage, only frames that are received from AP/STAs within the BSS"
-																}
-															},
-															{
-																"name": "util_rx_other_bss",
-																"int64": {
-																	"computed_optional_required": "computed",
-																	"description": "reception of “Other BSS” utilization in percentage, all frames received from AP/STAs that are outside the BSS"
-																}
-															},
-															{
-																"name": "util_tx",
-																"int64": {
-																	"computed_optional_required": "computed",
-																	"description": "transmission utilization in percentage"
-																}
-															},
-															{
-																"name": "util_undecodable_wifi",
-																"int64": {
-																	"computed_optional_required": "computed",
-																	"description": "reception of “UnDecodable Wifi“ utilization in percentage, only Preamble, PLCP header is decoded, Rest is undecodable in this radio"
-																}
-															},
-															{
-																"name": "util_unknown_wifi",
-																"int64": {
-																	"computed_optional_required": "computed",
-																	"description": "reception of “No Category” utilization in percentage, all 802.11 frames that are corrupted at the receiver"
-																}
-															}
-														],
-														"description": "radio stat"
+													"name": "max_unicast_routes_supported",
+													"int64": {
+														"computed_optional_required": "computed"
 													}
 												},
 												{
-													"name": "band_6",
-													"single_nested": {
-														"computed_optional_required": "computed",
-														"attributes": [
-															{
-																"name": "bandwidth",
-																"int64": {
-																	"computed_optional_required": "computed",
-																	"description": "channel width for the band * `80` is only applicable for band_5 and band_6 * `160` is only for band_6"
-																}
-															},
-															{
-																"name": "channel",
-																"int64": {
-																	"computed_optional_required": "computed",
-																	"description": "current channel the radio is running on"
-																}
-															},
-															{
-																"name": "dynamic_chaining_enalbed",
-																"bool": {
-																	"computed_optional_required": "computed",
-																	"description": "Use dynamic chaining for downlink"
-																}
-															},
-															{
-																"name": "mac",
-																"string": {
-																	"computed_optional_required": "computed",
-																	"description": "radio (base) mac, it can have 16 bssids (e.g. 5c5b350001a0-5c5b350001af)"
-																}
-															},
-															{
-																"name": "noise_floor",
-																"int64": {
-																	"computed_optional_required": "computed"
-																}
-															},
-															{
-																"name": "num_clients",
-																"int64": {
-																	"computed_optional_required": "computed"
-																}
-															},
-															{
-																"name": "power",
-																"int64": {
-																	"computed_optional_required": "computed",
-																	"description": "transmit power (in dBm)"
-																}
-															},
-															{
-																"name": "rx_bytes",
-																"int64": {
-																	"computed_optional_required": "computed"
-																}
-															},
-															{
-																"name": "rx_pkts",
-																"int64": {
-																	"computed_optional_required": "computed"
-																}
-															},
-															{
-																"name": "tx_bytes",
-																"int64": {
-																	"computed_optional_required": "computed"
-																}
-															},
-															{
-																"name": "tx_pkts",
-																"int64": {
-																	"computed_optional_required": "computed"
-																}
-															},
-															{
-																"name": "usage",
-																"string": {
-																	"computed_optional_required": "computed"
-																}
-															},
-															{
-																"name": "util_all",
-																"int64": {
-																	"computed_optional_required": "computed",
-																	"description": "all utilization in percentage"
-																}
-															},
-															{
-																"name": "util_non_wifi",
-																"int64": {
-																	"computed_optional_required": "computed",
-																	"description": "reception of “No Packets” utilization in percentage, received frames with invalid PLCPs and CRS glitches as noise"
-																}
-															},
-															{
-																"name": "util_rx_in_bss",
-																"int64": {
-																	"computed_optional_required": "computed",
-																	"description": "reception of “In BSS” utilization in percentage, only frames that are received from AP/STAs within the BSS"
-																}
-															},
-															{
-																"name": "util_rx_other_bss",
-																"int64": {
-																	"computed_optional_required": "computed",
-																	"description": "reception of “Other BSS” utilization in percentage, all frames received from AP/STAs that are outside the BSS"
-																}
-															},
-															{
-																"name": "util_tx",
-																"int64": {
-																	"computed_optional_required": "computed",
-																	"description": "transmission utilization in percentage"
-																}
-															},
-															{
-																"name": "util_undecodable_wifi",
-																"int64": {
-																	"computed_optional_required": "computed",
-																	"description": "reception of “UnDecodable Wifi“ utilization in percentage, only Preamble, PLCP header is decoded, Rest is undecodable in this radio"
-																}
-															},
-															{
-																"name": "util_unknown_wifi",
-																"int64": {
-																	"computed_optional_required": "computed",
-																	"description": "reception of “No Category” utilization in percentage, all 802.11 frames that are corrupted at the receiver"
-																}
-															}
-														],
-														"description": "radio stat"
+													"name": "rib_routes",
+													"int64": {
+														"computed_optional_required": "computed"
+													}
+												},
+												{
+													"name": "total_routes",
+													"int64": {
+														"computed_optional_required": "computed"
 													}
 												}
 											]
 										}
 									},
 									{
-										"name": "rx_bps",
-										"number": {
-											"computed_optional_required": "computed"
-										}
-									},
-									{
-										"name": "rx_bytes",
-										"int64": {
-											"computed_optional_required": "computed"
-										}
-									},
-									{
-										"name": "rx_pkts",
-										"int64": {
-											"computed_optional_required": "computed"
+										"name": "router_name",
+										"string": {
+											"computed_optional_required": "computed",
+											"description": "device name if configured"
 										}
 									},
 									{
@@ -1853,9 +1883,286 @@
 										}
 									},
 									{
+										"name": "service2_stat",
+										"map_nested": {
+											"computed_optional_required": "computed",
+											"nested_object": {
+												"attributes": [
+													{
+														"name": "ash_version",
+														"string": {
+															"computed_optional_required": "computed"
+														}
+													},
+													{
+														"name": "cia_version",
+														"string": {
+															"computed_optional_required": "computed"
+														}
+													},
+													{
+														"name": "ember_version",
+														"string": {
+															"computed_optional_required": "computed"
+														}
+													},
+													{
+														"name": "ipsec_client_version",
+														"string": {
+															"computed_optional_required": "computed"
+														}
+													},
+													{
+														"name": "mist_agent_version",
+														"string": {
+															"computed_optional_required": "computed"
+														}
+													},
+													{
+														"name": "package_version",
+														"string": {
+															"computed_optional_required": "computed"
+														}
+													},
+													{
+														"name": "testing_tools_version",
+														"string": {
+															"computed_optional_required": "computed"
+														}
+													},
+													{
+														"name": "wheeljack_version",
+														"string": {
+															"computed_optional_required": "computed"
+														}
+													}
+												]
+											}
+										}
+									},
+									{
+										"name": "service_stat",
+										"map_nested": {
+											"computed_optional_required": "computed",
+											"nested_object": {
+												"attributes": [
+													{
+														"name": "ash_version",
+														"string": {
+															"computed_optional_required": "computed"
+														}
+													},
+													{
+														"name": "cia_version",
+														"string": {
+															"computed_optional_required": "computed"
+														}
+													},
+													{
+														"name": "ember_version",
+														"string": {
+															"computed_optional_required": "computed"
+														}
+													},
+													{
+														"name": "ipsec_client_version",
+														"string": {
+															"computed_optional_required": "computed"
+														}
+													},
+													{
+														"name": "mist_agent_version",
+														"string": {
+															"computed_optional_required": "computed"
+														}
+													},
+													{
+														"name": "package_version",
+														"string": {
+															"computed_optional_required": "computed"
+														}
+													},
+													{
+														"name": "testing_tools_version",
+														"string": {
+															"computed_optional_required": "computed"
+														}
+													},
+													{
+														"name": "wheeljack_version",
+														"string": {
+															"computed_optional_required": "computed"
+														}
+													}
+												]
+											}
+										}
+									},
+									{
+										"name": "service_status",
+										"single_nested": {
+											"computed_optional_required": "computed",
+											"attributes": [
+												{
+													"name": "appid_install_result",
+													"string": {
+														"computed_optional_required": "computed"
+													}
+												},
+												{
+													"name": "appid_install_timestamp",
+													"string": {
+														"computed_optional_required": "computed"
+													}
+												},
+												{
+													"name": "appid_status",
+													"string": {
+														"computed_optional_required": "computed"
+													}
+												},
+												{
+													"name": "appid_version",
+													"int64": {
+														"computed_optional_required": "computed"
+													}
+												},
+												{
+													"name": "ewf_status",
+													"string": {
+														"computed_optional_required": "computed"
+													}
+												},
+												{
+													"name": "idp_install_result",
+													"string": {
+														"computed_optional_required": "computed"
+													}
+												},
+												{
+													"name": "idp_install_timestamp",
+													"string": {
+														"computed_optional_required": "computed"
+													}
+												},
+												{
+													"name": "idp_policy",
+													"string": {
+														"computed_optional_required": "computed"
+													}
+												},
+												{
+													"name": "idp_status",
+													"string": {
+														"computed_optional_required": "computed"
+													}
+												},
+												{
+													"name": "idp_update_timestamp",
+													"string": {
+														"computed_optional_required": "computed"
+													}
+												}
+											]
+										}
+									},
+									{
 										"name": "site_id",
 										"string": {
-											"computed_optional_required": "computed"
+											"computed_optional_required": "computed",
+											"description": "serial"
+										}
+									},
+									{
+										"name": "spu2_stat",
+										"list_nested": {
+											"computed_optional_required": "computed",
+											"nested_object": {
+												"attributes": [
+													{
+														"name": "spu_cpu",
+														"int64": {
+															"computed_optional_required": "computed"
+														}
+													},
+													{
+														"name": "spu_current_session",
+														"int64": {
+															"computed_optional_required": "computed"
+														}
+													},
+													{
+														"name": "spu_max_session",
+														"int64": {
+															"computed_optional_required": "computed"
+														}
+													},
+													{
+														"name": "spu_memory",
+														"int64": {
+															"computed_optional_required": "computed"
+														}
+													},
+													{
+														"name": "spu_pending_session",
+														"int64": {
+															"computed_optional_required": "computed"
+														}
+													},
+													{
+														"name": "spu_valid_session",
+														"int64": {
+															"computed_optional_required": "computed"
+														}
+													}
+												]
+											}
+										}
+									},
+									{
+										"name": "spu_stat",
+										"list_nested": {
+											"computed_optional_required": "computed",
+											"nested_object": {
+												"attributes": [
+													{
+														"name": "spu_cpu",
+														"int64": {
+															"computed_optional_required": "computed"
+														}
+													},
+													{
+														"name": "spu_current_session",
+														"int64": {
+															"computed_optional_required": "computed"
+														}
+													},
+													{
+														"name": "spu_max_session",
+														"int64": {
+															"computed_optional_required": "computed"
+														}
+													},
+													{
+														"name": "spu_memory",
+														"int64": {
+															"computed_optional_required": "computed"
+														}
+													},
+													{
+														"name": "spu_pending_session",
+														"int64": {
+															"computed_optional_required": "computed"
+														}
+													},
+													{
+														"name": "spu_valid_session",
+														"int64": {
+															"computed_optional_required": "computed"
+														}
+													}
+												]
+											}
 										}
 									},
 									{
@@ -1865,97 +2172,14 @@
 										}
 									},
 									{
-										"name": "switch_redundancy",
-										"single_nested": {
-											"computed_optional_required": "computed",
-											"attributes": [
-												{
-													"name": "num_redundant_aps",
-													"int64": {
-														"computed_optional_required": "computed"
-													}
-												}
-											]
-										}
-									},
-									{
-										"name": "tx_bps",
-										"number": {
-											"computed_optional_required": "computed"
-										}
-									},
-									{
-										"name": "tx_bytes",
-										"number": {
-											"computed_optional_required": "computed"
-										}
-									},
-									{
-										"name": "tx_pkts",
-										"number": {
-											"computed_optional_required": "computed"
-										}
-									},
-									{
 										"name": "uptime",
 										"number": {
-											"computed_optional_required": "computed",
-											"description": "how long, in seconds, has the device been up (or rebooted)"
-										}
-									},
-									{
-										"name": "usb_stat",
-										"single_nested": {
-											"computed_optional_required": "computed",
-											"attributes": [
-												{
-													"name": "channel",
-													"int64": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "connected",
-													"bool": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "last_activity",
-													"int64": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "type",
-													"string": {
-														"computed_optional_required": "computed"
-													}
-												},
-												{
-													"name": "up",
-													"bool": {
-														"computed_optional_required": "computed"
-													}
-												}
-											]
+											"computed_optional_required": "computed"
 										}
 									},
 									{
 										"name": "version",
 										"string": {
-											"computed_optional_required": "computed"
-										}
-									},
-									{
-										"name": "x",
-										"float64": {
-											"computed_optional_required": "computed"
-										}
-									},
-									{
-										"name": "y",
-										"float64": {
 											"computed_optional_required": "computed"
 										}
 									}

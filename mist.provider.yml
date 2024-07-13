@@ -41225,7 +41225,7 @@ components:
                 uptime: 13500
                 version: 18.4R1.8
           schema:
-            $ref: '#/components/schemas/response_stats_devices'
+            $ref: '#/components/schemas/stats_devices'
       description: OK
     DevicesSearch:
       content:
@@ -50160,7 +50160,7 @@ components:
           description: Epoch (seconds) of the last incident/alarm within an alarm
             window
           example: 1711031774
-          type: integer
+          type: number
         note:
           description: Text describing the alarm
           type: string
@@ -51725,7 +51725,7 @@ components:
           type: integer
         last_seen:
           example: 1470417522
-          type: integer
+          type: number
         proto:
           example: n
           type: string
@@ -51781,7 +51781,7 @@ components:
           type: integer
         last_seen:
           example: 1470417522
-          type: integer
+          type: number
         proto:
           example: n
           type: string
@@ -59566,25 +59566,29 @@ components:
           type: string
       type: object
     gateway_stats_spu:
+      items:
+        $ref: '#/components/schemas/gateway_stats_spu_item'
+      type: array
+    gateway_stats_spu_item:
       properties:
         spu_cpu:
           example: 3670632
           type: integer
         spu_current_session:
           example: 215
-          type: number
+          type: integer
         spu_max_session:
           example: 131072
-          type: number
+          type: integer
         spu_memory:
           example: 46
           type: integer
         spu_pending_session:
           example: 0
-          type: number
+          type: integer
         spu_valid_session:
           example: 0
-          type: number
+          type: integer
       type: object
     gateway_template:
       description: Gateway Template is applied to a site for gateway(s) in a site.
@@ -60630,7 +60634,7 @@ components:
           description: when available
           type: string
         last_seen:
-          type: integer
+          type: number
         mac:
           type: string
         model:
@@ -61684,6 +61688,9 @@ components:
           $ref: '#/components/schemas/module_stat_item_errors'
         fans:
           $ref: '#/components/schemas/module_stat_item_fans'
+        fpc_idx:
+          readOnly: true
+          type: integer
         fpga_version:
           nullable: true
           readOnly: true
@@ -61691,7 +61698,7 @@ components:
         last_seen:
           nullable: true
           readOnly: true
-          type: integer
+          type: number
         model:
           example: EX4300-48P
           nullable: true
@@ -62865,7 +62872,7 @@ components:
           description: timestamp when the last stats is seen (cloud unix time, in
             second). valid only for service having its own stats or whole system (last
             among last_seen of all services)
-          type: integer
+          type: number
         package_state:
           description: package/service installation state.
           type: string
@@ -63414,7 +63421,7 @@ components:
           type: boolean
         last_seen:
           readOnly: true
-          type: integer
+          type: number
         mxcluster_id:
           format: uuid
           readOnly: true
@@ -70128,15 +70135,6 @@ components:
         total:
           type: integer
       type: object
-    response_stats_device:
-      anyOf:
-      - $ref: '#/components/schemas/ap_stats'
-      - $ref: '#/components/schemas/switch_stats'
-      - $ref: '#/components/schemas/gateway_stats'
-    response_stats_devices:
-      items:
-        $ref: '#/components/schemas/response_stats_device'
-      type: array
     response_switch_metrics:
       properties:
         active_ports_summary:
@@ -75586,7 +75584,7 @@ components:
         $ref: '#/components/schemas/client_stats'
       type: array
     stats_device:
-      $ref: '#/components/schemas/ap_stats'
+      $ref: '#/components/schemas/gateway_stats'
       # anyOf:
       # - $ref: '#/components/schemas/ap_stats'
       # - $ref: '#/components/schemas/switch_stats'
@@ -76627,7 +76625,7 @@ components:
         last_seen:
           example: 1553203563
           readOnly: true
-          type: integer
+          type: number
         last_trouble:
           $ref: '#/components/schemas/last_trouble'
         mac:

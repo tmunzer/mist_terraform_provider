@@ -24,7 +24,7 @@ type deviceSwitchStatsDataSource struct {
 	client mistapi.ClientInterface
 }
 
-func (r *deviceSwitchStatsDataSource) Configure(ctx context.Context, req datasource.ConfigureRequest, resp *datasource.ConfigureResponse) {
+func (d *deviceSwitchStatsDataSource) Configure(ctx context.Context, req datasource.ConfigureRequest, resp *datasource.ConfigureResponse) {
 	tflog.Info(ctx, "Configuring Mist AP Stats")
 	if req.ProviderData == nil {
 		return
@@ -39,7 +39,7 @@ func (r *deviceSwitchStatsDataSource) Configure(ctx context.Context, req datasou
 		return
 	}
 
-	r.client = client
+	d.client = client
 }
 func (d *deviceSwitchStatsDataSource) Metadata(ctx context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
 	resp.TypeName = req.ProviderTypeName + "_device_switch_stats"
@@ -71,7 +71,7 @@ func (d *deviceSwitchStatsDataSource) Read(ctx context.Context, req datasource.R
 	var evpnUnused *string
 	var evpnTopoId *string
 	var fields *string = models.ToPointer(string("*"))
-	var limit *int = models.ToPointer(1000)
+	var limit *int = models.ToPointer(2)
 	var mac *string
 	var page *int
 	var siteId *string
@@ -99,7 +99,7 @@ func (d *deviceSwitchStatsDataSource) Read(ctx context.Context, req datasource.R
 		siteId = ds.SiteId.ValueStringPointer()
 	}
 	if !ds.Status.IsNull() && !ds.Status.IsUnknown() {
-		status = (*models.DeviceStatusEnum)(ds.SiteId.ValueStringPointer())
+		status = (*models.DeviceStatusEnum)(ds.Status.ValueStringPointer())
 	}
 	if !ds.Start.IsNull() && !ds.Start.IsUnknown() {
 		start_int := int(ds.Start.ValueInt64())

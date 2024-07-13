@@ -8,11 +8,9 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
-	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 
 func serviceStatsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, m map[string]models.ServiceStatProperty) basetypes.MapValue {
-	tflog.Debug(ctx, "serviceStatsSdkToTerraform")
 
 	map_attr_values := make(map[string]attr.Value)
 	for k, d := range m {

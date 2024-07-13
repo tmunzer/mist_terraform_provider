@@ -8,11 +8,9 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
-	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 
 func dhcpStatsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, m map[string]models.DhcpdStatLan) basetypes.MapValue {
-	tflog.Debug(ctx, "dhcpStatsSdkToTerraform")
 
 	map_attr_values := make(map[string]attr.Value)
 	for k, d := range m {

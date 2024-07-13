@@ -509,6 +509,9 @@ func DeviceSwitchStatsDataSourceSchema(ctx context.Context) schema.Schema {
 										},
 										Computed: true,
 									},
+									"fpc_idx": schema.Int64Attribute{
+										Computed: true,
+									},
 									"fpga_version": schema.StringAttribute{
 										Computed: true,
 									},
@@ -11765,6 +11768,24 @@ func (t ModuleStatType) ValueFromObject(ctx context.Context, in basetypes.Object
 			fmt.Sprintf(`fans expected to be basetypes.ListValue, was: %T`, fansAttribute))
 	}
 
+	fpcIdxAttribute, ok := attributes["fpc_idx"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`fpc_idx is missing from object`)
+
+		return nil, diags
+	}
+
+	fpcIdxVal, ok := fpcIdxAttribute.(basetypes.Int64Value)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`fpc_idx expected to be basetypes.Int64Value, was: %T`, fpcIdxAttribute))
+	}
+
 	fpgaVersionAttribute, ok := attributes["fpga_version"]
 
 	if !ok {
@@ -12189,6 +12210,7 @@ func (t ModuleStatType) ValueFromObject(ctx context.Context, in basetypes.Object
 		CpldVersion:       cpldVersionVal,
 		Errors:            errorsVal,
 		Fans:              fansVal,
+		FpcIdx:            fpcIdxVal,
 		FpgaVersion:       fpgaVersionVal,
 		LastSeen:          lastSeenVal,
 		Model:             modelVal,
@@ -12369,6 +12391,24 @@ func NewModuleStatValue(attributeTypes map[string]attr.Type, attributes map[stri
 			fmt.Sprintf(`fans expected to be basetypes.ListValue, was: %T`, fansAttribute))
 	}
 
+	fpcIdxAttribute, ok := attributes["fpc_idx"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`fpc_idx is missing from object`)
+
+		return NewModuleStatValueUnknown(), diags
+	}
+
+	fpcIdxVal, ok := fpcIdxAttribute.(basetypes.Int64Value)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`fpc_idx expected to be basetypes.Int64Value, was: %T`, fpcIdxAttribute))
+	}
+
 	fpgaVersionAttribute, ok := attributes["fpga_version"]
 
 	if !ok {
@@ -12793,6 +12833,7 @@ func NewModuleStatValue(attributeTypes map[string]attr.Type, attributes map[stri
 		CpldVersion:       cpldVersionVal,
 		Errors:            errorsVal,
 		Fans:              fansVal,
+		FpcIdx:            fpcIdxVal,
 		FpgaVersion:       fpgaVersionVal,
 		LastSeen:          lastSeenVal,
 		Model:             modelVal,
@@ -12893,6 +12934,7 @@ type ModuleStatValue struct {
 	CpldVersion       basetypes.StringValue `tfsdk:"cpld_version"`
 	Errors            basetypes.ListValue   `tfsdk:"errors"`
 	Fans              basetypes.ListValue   `tfsdk:"fans"`
+	FpcIdx            basetypes.Int64Value  `tfsdk:"fpc_idx"`
 	FpgaVersion       basetypes.StringValue `tfsdk:"fpga_version"`
 	LastSeen          basetypes.Int64Value  `tfsdk:"last_seen"`
 	Model             basetypes.StringValue `tfsdk:"model"`
@@ -12920,7 +12962,7 @@ type ModuleStatValue struct {
 }
 
 func (v ModuleStatValue) ToTerraformValue(ctx context.Context) (tftypes.Value, error) {
-	attrTypes := make(map[string]tftypes.Type, 28)
+	attrTypes := make(map[string]tftypes.Type, 29)
 
 	var val tftypes.Value
 	var err error
@@ -12934,6 +12976,7 @@ func (v ModuleStatValue) ToTerraformValue(ctx context.Context) (tftypes.Value, e
 	attrTypes["fans"] = basetypes.ListType{
 		ElemType: FansValue{}.Type(ctx),
 	}.TerraformType(ctx)
+	attrTypes["fpc_idx"] = basetypes.Int64Type{}.TerraformType(ctx)
 	attrTypes["fpga_version"] = basetypes.StringType{}.TerraformType(ctx)
 	attrTypes["last_seen"] = basetypes.Int64Type{}.TerraformType(ctx)
 	attrTypes["model"] = basetypes.StringType{}.TerraformType(ctx)
@@ -12972,7 +13015,7 @@ func (v ModuleStatValue) ToTerraformValue(ctx context.Context) (tftypes.Value, e
 
 	switch v.state {
 	case attr.ValueStateKnown:
-		vals := make(map[string]tftypes.Value, 28)
+		vals := make(map[string]tftypes.Value, 29)
 
 		val, err = v.BackupVersion.ToTerraformValue(ctx)
 
@@ -13013,6 +13056,14 @@ func (v ModuleStatValue) ToTerraformValue(ctx context.Context) (tftypes.Value, e
 		}
 
 		vals["fans"] = val
+
+		val, err = v.FpcIdx.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["fpc_idx"] = val
 
 		val, err = v.FpgaVersion.ToTerraformValue(ctx)
 
@@ -13432,6 +13483,7 @@ func (v ModuleStatValue) ToObjectValue(ctx context.Context) (basetypes.ObjectVal
 		"fans": basetypes.ListType{
 			ElemType: FansValue{}.Type(ctx),
 		},
+		"fpc_idx":             basetypes.Int64Type{},
 		"fpga_version":        basetypes.StringType{},
 		"last_seen":           basetypes.Int64Type{},
 		"model":               basetypes.StringType{},
@@ -13483,6 +13535,7 @@ func (v ModuleStatValue) ToObjectValue(ctx context.Context) (basetypes.ObjectVal
 			"cpld_version":        v.CpldVersion,
 			"errors":              errors,
 			"fans":                fans,
+			"fpc_idx":             v.FpcIdx,
 			"fpga_version":        v.FpgaVersion,
 			"last_seen":           v.LastSeen,
 			"model":               v.Model,
@@ -13543,6 +13596,10 @@ func (v ModuleStatValue) Equal(o attr.Value) bool {
 	}
 
 	if !v.Fans.Equal(other.Fans) {
+		return false
+	}
+
+	if !v.FpcIdx.Equal(other.FpcIdx) {
 		return false
 	}
 
@@ -13660,6 +13717,7 @@ func (v ModuleStatValue) AttributeTypes(ctx context.Context) map[string]attr.Typ
 		"fans": basetypes.ListType{
 			ElemType: FansValue{}.Type(ctx),
 		},
+		"fpc_idx":             basetypes.Int64Type{},
 		"fpga_version":        basetypes.StringType{},
 		"last_seen":           basetypes.Int64Type{},
 		"model":               basetypes.StringType{},

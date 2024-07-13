@@ -763,7 +763,7 @@ func DeviceGatewayStatsDataSourceSchema(ctx context.Context) schema.Schema {
 									"fpga_version": schema.StringAttribute{
 										Computed: true,
 									},
-									"last_seen": schema.Int64Attribute{
+									"last_seen": schema.NumberAttribute{
 										Computed: true,
 									},
 									"model": schema.StringAttribute{
@@ -1002,7 +1002,7 @@ func DeviceGatewayStatsDataSourceSchema(ctx context.Context) schema.Schema {
 									"fpga_version": schema.StringAttribute{
 										Computed: true,
 									},
-									"last_seen": schema.Int64Attribute{
+									"last_seen": schema.NumberAttribute{
 										Computed: true,
 									},
 									"model": schema.StringAttribute{
@@ -1338,58 +1338,62 @@ func DeviceGatewayStatsDataSourceSchema(ctx context.Context) schema.Schema {
 							Description:         "serial",
 							MarkdownDescription: "serial",
 						},
-						"spu2_stat": schema.SingleNestedAttribute{
-							Attributes: map[string]schema.Attribute{
-								"spu_cpu": schema.Int64Attribute{
-									Computed: true,
+						"spu2_stat": schema.ListNestedAttribute{
+							NestedObject: schema.NestedAttributeObject{
+								Attributes: map[string]schema.Attribute{
+									"spu_cpu": schema.Int64Attribute{
+										Computed: true,
+									},
+									"spu_current_session": schema.Int64Attribute{
+										Computed: true,
+									},
+									"spu_max_session": schema.Int64Attribute{
+										Computed: true,
+									},
+									"spu_memory": schema.Int64Attribute{
+										Computed: true,
+									},
+									"spu_pending_session": schema.Int64Attribute{
+										Computed: true,
+									},
+									"spu_valid_session": schema.Int64Attribute{
+										Computed: true,
+									},
 								},
-								"spu_current_session": schema.NumberAttribute{
-									Computed: true,
-								},
-								"spu_max_session": schema.NumberAttribute{
-									Computed: true,
-								},
-								"spu_memory": schema.Int64Attribute{
-									Computed: true,
-								},
-								"spu_pending_session": schema.NumberAttribute{
-									Computed: true,
-								},
-								"spu_valid_session": schema.NumberAttribute{
-									Computed: true,
-								},
-							},
-							CustomType: SpuStatType{
-								ObjectType: types.ObjectType{
-									AttrTypes: SpuStatValue{}.AttributeTypes(ctx),
+								CustomType: SpuStatType{
+									ObjectType: types.ObjectType{
+										AttrTypes: SpuStatValue{}.AttributeTypes(ctx),
+									},
 								},
 							},
 							Computed: true,
 						},
-						"spu_stat": schema.SingleNestedAttribute{
-							Attributes: map[string]schema.Attribute{
-								"spu_cpu": schema.Int64Attribute{
-									Computed: true,
+						"spu_stat": schema.ListNestedAttribute{
+							NestedObject: schema.NestedAttributeObject{
+								Attributes: map[string]schema.Attribute{
+									"spu_cpu": schema.Int64Attribute{
+										Computed: true,
+									},
+									"spu_current_session": schema.Int64Attribute{
+										Computed: true,
+									},
+									"spu_max_session": schema.Int64Attribute{
+										Computed: true,
+									},
+									"spu_memory": schema.Int64Attribute{
+										Computed: true,
+									},
+									"spu_pending_session": schema.Int64Attribute{
+										Computed: true,
+									},
+									"spu_valid_session": schema.Int64Attribute{
+										Computed: true,
+									},
 								},
-								"spu_current_session": schema.NumberAttribute{
-									Computed: true,
-								},
-								"spu_max_session": schema.NumberAttribute{
-									Computed: true,
-								},
-								"spu_memory": schema.Int64Attribute{
-									Computed: true,
-								},
-								"spu_pending_session": schema.NumberAttribute{
-									Computed: true,
-								},
-								"spu_valid_session": schema.NumberAttribute{
-									Computed: true,
-								},
-							},
-							CustomType: SpuStatType{
-								ObjectType: types.ObjectType{
-									AttrTypes: SpuStatValue{}.AttributeTypes(ctx),
+								CustomType: SpuStatType{
+									ObjectType: types.ObjectType{
+										AttrTypes: SpuStatValue{}.AttributeTypes(ctx),
+									},
 								},
 							},
 							Computed: true,
@@ -2271,12 +2275,12 @@ func (t DeviceGatewayStatsType) ValueFromObject(ctx context.Context, in basetype
 		return nil, diags
 	}
 
-	spu2StatVal, ok := spu2StatAttribute.(basetypes.ObjectValue)
+	spu2StatVal, ok := spu2StatAttribute.(basetypes.ListValue)
 
 	if !ok {
 		diags.AddError(
 			"Attribute Wrong Type",
-			fmt.Sprintf(`spu2_stat expected to be basetypes.ObjectValue, was: %T`, spu2StatAttribute))
+			fmt.Sprintf(`spu2_stat expected to be basetypes.ListValue, was: %T`, spu2StatAttribute))
 	}
 
 	spuStatAttribute, ok := attributes["spu_stat"]
@@ -2289,12 +2293,12 @@ func (t DeviceGatewayStatsType) ValueFromObject(ctx context.Context, in basetype
 		return nil, diags
 	}
 
-	spuStatVal, ok := spuStatAttribute.(basetypes.ObjectValue)
+	spuStatVal, ok := spuStatAttribute.(basetypes.ListValue)
 
 	if !ok {
 		diags.AddError(
 			"Attribute Wrong Type",
-			fmt.Sprintf(`spu_stat expected to be basetypes.ObjectValue, was: %T`, spuStatAttribute))
+			fmt.Sprintf(`spu_stat expected to be basetypes.ListValue, was: %T`, spuStatAttribute))
 	}
 
 	statusAttribute, ok := attributes["status"]
@@ -3255,12 +3259,12 @@ func NewDeviceGatewayStatsValue(attributeTypes map[string]attr.Type, attributes 
 		return NewDeviceGatewayStatsValueUnknown(), diags
 	}
 
-	spu2StatVal, ok := spu2StatAttribute.(basetypes.ObjectValue)
+	spu2StatVal, ok := spu2StatAttribute.(basetypes.ListValue)
 
 	if !ok {
 		diags.AddError(
 			"Attribute Wrong Type",
-			fmt.Sprintf(`spu2_stat expected to be basetypes.ObjectValue, was: %T`, spu2StatAttribute))
+			fmt.Sprintf(`spu2_stat expected to be basetypes.ListValue, was: %T`, spu2StatAttribute))
 	}
 
 	spuStatAttribute, ok := attributes["spu_stat"]
@@ -3273,12 +3277,12 @@ func NewDeviceGatewayStatsValue(attributeTypes map[string]attr.Type, attributes 
 		return NewDeviceGatewayStatsValueUnknown(), diags
 	}
 
-	spuStatVal, ok := spuStatAttribute.(basetypes.ObjectValue)
+	spuStatVal, ok := spuStatAttribute.(basetypes.ListValue)
 
 	if !ok {
 		diags.AddError(
 			"Attribute Wrong Type",
-			fmt.Sprintf(`spu_stat expected to be basetypes.ObjectValue, was: %T`, spuStatAttribute))
+			fmt.Sprintf(`spu_stat expected to be basetypes.ListValue, was: %T`, spuStatAttribute))
 	}
 
 	statusAttribute, ok := attributes["status"]
@@ -3503,8 +3507,8 @@ type DeviceGatewayStatsValue struct {
 	ServiceStat       basetypes.MapValue    `tfsdk:"service_stat"`
 	ServiceStatus     basetypes.ObjectValue `tfsdk:"service_status"`
 	SiteId            basetypes.StringValue `tfsdk:"site_id"`
-	Spu2Stat          basetypes.ObjectValue `tfsdk:"spu2_stat"`
-	SpuStat           basetypes.ObjectValue `tfsdk:"spu_stat"`
+	Spu2Stat          basetypes.ListValue   `tfsdk:"spu2_stat"`
+	SpuStat           basetypes.ListValue   `tfsdk:"spu_stat"`
 	Status            basetypes.StringValue `tfsdk:"status"`
 	Uptime            basetypes.NumberValue `tfsdk:"uptime"`
 	Version           basetypes.StringValue `tfsdk:"version"`
@@ -3602,11 +3606,11 @@ func (v DeviceGatewayStatsValue) ToTerraformValue(ctx context.Context) (tftypes.
 		AttrTypes: ServiceStatusValue{}.AttributeTypes(ctx),
 	}.TerraformType(ctx)
 	attrTypes["site_id"] = basetypes.StringType{}.TerraformType(ctx)
-	attrTypes["spu2_stat"] = basetypes.ObjectType{
-		AttrTypes: SpuStatValue{}.AttributeTypes(ctx),
+	attrTypes["spu2_stat"] = basetypes.ListType{
+		ElemType: SpuStatValue{}.Type(ctx),
 	}.TerraformType(ctx)
-	attrTypes["spu_stat"] = basetypes.ObjectType{
-		AttrTypes: SpuStatValue{}.AttributeTypes(ctx),
+	attrTypes["spu_stat"] = basetypes.ListType{
+		ElemType: SpuStatValue{}.Type(ctx),
 	}.TerraformType(ctx)
 	attrTypes["status"] = basetypes.StringType{}.TerraformType(ctx)
 	attrTypes["uptime"] = basetypes.NumberType{}.TerraformType(ctx)
@@ -4536,45 +4540,61 @@ func (v DeviceGatewayStatsValue) ToObjectValue(ctx context.Context) (basetypes.O
 		)
 	}
 
-	var spu2Stat basetypes.ObjectValue
+	spu2Stat := types.ListValueMust(
+		SpuStatType{
+			basetypes.ObjectType{
+				AttrTypes: SpuStatValue{}.AttributeTypes(ctx),
+			},
+		},
+		v.Spu2Stat.Elements(),
+	)
 
 	if v.Spu2Stat.IsNull() {
-		spu2Stat = types.ObjectNull(
-			SpuStatValue{}.AttributeTypes(ctx),
+		spu2Stat = types.ListNull(
+			SpuStatType{
+				basetypes.ObjectType{
+					AttrTypes: SpuStatValue{}.AttributeTypes(ctx),
+				},
+			},
 		)
 	}
 
 	if v.Spu2Stat.IsUnknown() {
-		spu2Stat = types.ObjectUnknown(
-			SpuStatValue{}.AttributeTypes(ctx),
+		spu2Stat = types.ListUnknown(
+			SpuStatType{
+				basetypes.ObjectType{
+					AttrTypes: SpuStatValue{}.AttributeTypes(ctx),
+				},
+			},
 		)
 	}
 
-	if !v.Spu2Stat.IsNull() && !v.Spu2Stat.IsUnknown() {
-		spu2Stat = types.ObjectValueMust(
-			SpuStatValue{}.AttributeTypes(ctx),
-			v.Spu2Stat.Attributes(),
-		)
-	}
-
-	var spuStat basetypes.ObjectValue
+	spuStat := types.ListValueMust(
+		SpuStatType{
+			basetypes.ObjectType{
+				AttrTypes: SpuStatValue{}.AttributeTypes(ctx),
+			},
+		},
+		v.SpuStat.Elements(),
+	)
 
 	if v.SpuStat.IsNull() {
-		spuStat = types.ObjectNull(
-			SpuStatValue{}.AttributeTypes(ctx),
+		spuStat = types.ListNull(
+			SpuStatType{
+				basetypes.ObjectType{
+					AttrTypes: SpuStatValue{}.AttributeTypes(ctx),
+				},
+			},
 		)
 	}
 
 	if v.SpuStat.IsUnknown() {
-		spuStat = types.ObjectUnknown(
-			SpuStatValue{}.AttributeTypes(ctx),
-		)
-	}
-
-	if !v.SpuStat.IsNull() && !v.SpuStat.IsUnknown() {
-		spuStat = types.ObjectValueMust(
-			SpuStatValue{}.AttributeTypes(ctx),
-			v.SpuStat.Attributes(),
+		spuStat = types.ListUnknown(
+			SpuStatType{
+				basetypes.ObjectType{
+					AttrTypes: SpuStatValue{}.AttributeTypes(ctx),
+				},
+			},
 		)
 	}
 
@@ -4664,11 +4684,11 @@ func (v DeviceGatewayStatsValue) ToObjectValue(ctx context.Context) (basetypes.O
 			AttrTypes: ServiceStatusValue{}.AttributeTypes(ctx),
 		},
 		"site_id": basetypes.StringType{},
-		"spu2_stat": basetypes.ObjectType{
-			AttrTypes: SpuStatValue{}.AttributeTypes(ctx),
+		"spu2_stat": basetypes.ListType{
+			ElemType: SpuStatValue{}.Type(ctx),
 		},
-		"spu_stat": basetypes.ObjectType{
-			AttrTypes: SpuStatValue{}.AttributeTypes(ctx),
+		"spu_stat": basetypes.ListType{
+			ElemType: SpuStatValue{}.Type(ctx),
 		},
 		"status":  basetypes.StringType{},
 		"uptime":  basetypes.NumberType{},
@@ -5044,11 +5064,11 @@ func (v DeviceGatewayStatsValue) AttributeTypes(ctx context.Context) map[string]
 			AttrTypes: ServiceStatusValue{}.AttributeTypes(ctx),
 		},
 		"site_id": basetypes.StringType{},
-		"spu2_stat": basetypes.ObjectType{
-			AttrTypes: SpuStatValue{}.AttributeTypes(ctx),
+		"spu2_stat": basetypes.ListType{
+			ElemType: SpuStatValue{}.Type(ctx),
 		},
-		"spu_stat": basetypes.ObjectType{
-			AttrTypes: SpuStatValue{}.AttributeTypes(ctx),
+		"spu_stat": basetypes.ListType{
+			ElemType: SpuStatValue{}.Type(ctx),
 		},
 		"status":  basetypes.StringType{},
 		"uptime":  basetypes.NumberType{},
@@ -14206,12 +14226,12 @@ func (t ModuleStatType) ValueFromObject(ctx context.Context, in basetypes.Object
 		return nil, diags
 	}
 
-	lastSeenVal, ok := lastSeenAttribute.(basetypes.Int64Value)
+	lastSeenVal, ok := lastSeenAttribute.(basetypes.NumberValue)
 
 	if !ok {
 		diags.AddError(
 			"Attribute Wrong Type",
-			fmt.Sprintf(`last_seen expected to be basetypes.Int64Value, was: %T`, lastSeenAttribute))
+			fmt.Sprintf(`last_seen expected to be basetypes.NumberValue, was: %T`, lastSeenAttribute))
 	}
 
 	modelAttribute, ok := attributes["model"]
@@ -14810,12 +14830,12 @@ func NewModuleStatValue(attributeTypes map[string]attr.Type, attributes map[stri
 		return NewModuleStatValueUnknown(), diags
 	}
 
-	lastSeenVal, ok := lastSeenAttribute.(basetypes.Int64Value)
+	lastSeenVal, ok := lastSeenAttribute.(basetypes.NumberValue)
 
 	if !ok {
 		diags.AddError(
 			"Attribute Wrong Type",
-			fmt.Sprintf(`last_seen expected to be basetypes.Int64Value, was: %T`, lastSeenAttribute))
+			fmt.Sprintf(`last_seen expected to be basetypes.NumberValue, was: %T`, lastSeenAttribute))
 	}
 
 	modelAttribute, ok := attributes["model"]
@@ -15307,7 +15327,7 @@ type ModuleStatValue struct {
 	Errors            basetypes.ListValue   `tfsdk:"errors"`
 	Fans              basetypes.ListValue   `tfsdk:"fans"`
 	FpgaVersion       basetypes.StringValue `tfsdk:"fpga_version"`
-	LastSeen          basetypes.Int64Value  `tfsdk:"last_seen"`
+	LastSeen          basetypes.NumberValue `tfsdk:"last_seen"`
 	Model             basetypes.StringValue `tfsdk:"model"`
 	OpticsCpldVersion basetypes.StringValue `tfsdk:"optics_cpld_version"`
 	PendingVersion    basetypes.StringValue `tfsdk:"pending_version"`
@@ -15348,7 +15368,7 @@ func (v ModuleStatValue) ToTerraformValue(ctx context.Context) (tftypes.Value, e
 		ElemType: FansValue{}.Type(ctx),
 	}.TerraformType(ctx)
 	attrTypes["fpga_version"] = basetypes.StringType{}.TerraformType(ctx)
-	attrTypes["last_seen"] = basetypes.Int64Type{}.TerraformType(ctx)
+	attrTypes["last_seen"] = basetypes.NumberType{}.TerraformType(ctx)
 	attrTypes["model"] = basetypes.StringType{}.TerraformType(ctx)
 	attrTypes["optics_cpld_version"] = basetypes.StringType{}.TerraformType(ctx)
 	attrTypes["pending_version"] = basetypes.StringType{}.TerraformType(ctx)
@@ -15846,7 +15866,7 @@ func (v ModuleStatValue) ToObjectValue(ctx context.Context) (basetypes.ObjectVal
 			ElemType: FansValue{}.Type(ctx),
 		},
 		"fpga_version":        basetypes.StringType{},
-		"last_seen":           basetypes.Int64Type{},
+		"last_seen":           basetypes.NumberType{},
 		"model":               basetypes.StringType{},
 		"optics_cpld_version": basetypes.StringType{},
 		"pending_version":     basetypes.StringType{},
@@ -16074,7 +16094,7 @@ func (v ModuleStatValue) AttributeTypes(ctx context.Context) map[string]attr.Typ
 			ElemType: FansValue{}.Type(ctx),
 		},
 		"fpga_version":        basetypes.StringType{},
-		"last_seen":           basetypes.Int64Type{},
+		"last_seen":           basetypes.NumberType{},
 		"model":               basetypes.StringType{},
 		"optics_cpld_version": basetypes.StringType{},
 		"pending_version":     basetypes.StringType{},
@@ -21841,12 +21861,12 @@ func (t SpuStatType) ValueFromObject(ctx context.Context, in basetypes.ObjectVal
 		return nil, diags
 	}
 
-	spuCurrentSessionVal, ok := spuCurrentSessionAttribute.(basetypes.NumberValue)
+	spuCurrentSessionVal, ok := spuCurrentSessionAttribute.(basetypes.Int64Value)
 
 	if !ok {
 		diags.AddError(
 			"Attribute Wrong Type",
-			fmt.Sprintf(`spu_current_session expected to be basetypes.NumberValue, was: %T`, spuCurrentSessionAttribute))
+			fmt.Sprintf(`spu_current_session expected to be basetypes.Int64Value, was: %T`, spuCurrentSessionAttribute))
 	}
 
 	spuMaxSessionAttribute, ok := attributes["spu_max_session"]
@@ -21859,12 +21879,12 @@ func (t SpuStatType) ValueFromObject(ctx context.Context, in basetypes.ObjectVal
 		return nil, diags
 	}
 
-	spuMaxSessionVal, ok := spuMaxSessionAttribute.(basetypes.NumberValue)
+	spuMaxSessionVal, ok := spuMaxSessionAttribute.(basetypes.Int64Value)
 
 	if !ok {
 		diags.AddError(
 			"Attribute Wrong Type",
-			fmt.Sprintf(`spu_max_session expected to be basetypes.NumberValue, was: %T`, spuMaxSessionAttribute))
+			fmt.Sprintf(`spu_max_session expected to be basetypes.Int64Value, was: %T`, spuMaxSessionAttribute))
 	}
 
 	spuMemoryAttribute, ok := attributes["spu_memory"]
@@ -21895,12 +21915,12 @@ func (t SpuStatType) ValueFromObject(ctx context.Context, in basetypes.ObjectVal
 		return nil, diags
 	}
 
-	spuPendingSessionVal, ok := spuPendingSessionAttribute.(basetypes.NumberValue)
+	spuPendingSessionVal, ok := spuPendingSessionAttribute.(basetypes.Int64Value)
 
 	if !ok {
 		diags.AddError(
 			"Attribute Wrong Type",
-			fmt.Sprintf(`spu_pending_session expected to be basetypes.NumberValue, was: %T`, spuPendingSessionAttribute))
+			fmt.Sprintf(`spu_pending_session expected to be basetypes.Int64Value, was: %T`, spuPendingSessionAttribute))
 	}
 
 	spuValidSessionAttribute, ok := attributes["spu_valid_session"]
@@ -21913,12 +21933,12 @@ func (t SpuStatType) ValueFromObject(ctx context.Context, in basetypes.ObjectVal
 		return nil, diags
 	}
 
-	spuValidSessionVal, ok := spuValidSessionAttribute.(basetypes.NumberValue)
+	spuValidSessionVal, ok := spuValidSessionAttribute.(basetypes.Int64Value)
 
 	if !ok {
 		diags.AddError(
 			"Attribute Wrong Type",
-			fmt.Sprintf(`spu_valid_session expected to be basetypes.NumberValue, was: %T`, spuValidSessionAttribute))
+			fmt.Sprintf(`spu_valid_session expected to be basetypes.Int64Value, was: %T`, spuValidSessionAttribute))
 	}
 
 	if diags.HasError() {
@@ -22027,12 +22047,12 @@ func NewSpuStatValue(attributeTypes map[string]attr.Type, attributes map[string]
 		return NewSpuStatValueUnknown(), diags
 	}
 
-	spuCurrentSessionVal, ok := spuCurrentSessionAttribute.(basetypes.NumberValue)
+	spuCurrentSessionVal, ok := spuCurrentSessionAttribute.(basetypes.Int64Value)
 
 	if !ok {
 		diags.AddError(
 			"Attribute Wrong Type",
-			fmt.Sprintf(`spu_current_session expected to be basetypes.NumberValue, was: %T`, spuCurrentSessionAttribute))
+			fmt.Sprintf(`spu_current_session expected to be basetypes.Int64Value, was: %T`, spuCurrentSessionAttribute))
 	}
 
 	spuMaxSessionAttribute, ok := attributes["spu_max_session"]
@@ -22045,12 +22065,12 @@ func NewSpuStatValue(attributeTypes map[string]attr.Type, attributes map[string]
 		return NewSpuStatValueUnknown(), diags
 	}
 
-	spuMaxSessionVal, ok := spuMaxSessionAttribute.(basetypes.NumberValue)
+	spuMaxSessionVal, ok := spuMaxSessionAttribute.(basetypes.Int64Value)
 
 	if !ok {
 		diags.AddError(
 			"Attribute Wrong Type",
-			fmt.Sprintf(`spu_max_session expected to be basetypes.NumberValue, was: %T`, spuMaxSessionAttribute))
+			fmt.Sprintf(`spu_max_session expected to be basetypes.Int64Value, was: %T`, spuMaxSessionAttribute))
 	}
 
 	spuMemoryAttribute, ok := attributes["spu_memory"]
@@ -22081,12 +22101,12 @@ func NewSpuStatValue(attributeTypes map[string]attr.Type, attributes map[string]
 		return NewSpuStatValueUnknown(), diags
 	}
 
-	spuPendingSessionVal, ok := spuPendingSessionAttribute.(basetypes.NumberValue)
+	spuPendingSessionVal, ok := spuPendingSessionAttribute.(basetypes.Int64Value)
 
 	if !ok {
 		diags.AddError(
 			"Attribute Wrong Type",
-			fmt.Sprintf(`spu_pending_session expected to be basetypes.NumberValue, was: %T`, spuPendingSessionAttribute))
+			fmt.Sprintf(`spu_pending_session expected to be basetypes.Int64Value, was: %T`, spuPendingSessionAttribute))
 	}
 
 	spuValidSessionAttribute, ok := attributes["spu_valid_session"]
@@ -22099,12 +22119,12 @@ func NewSpuStatValue(attributeTypes map[string]attr.Type, attributes map[string]
 		return NewSpuStatValueUnknown(), diags
 	}
 
-	spuValidSessionVal, ok := spuValidSessionAttribute.(basetypes.NumberValue)
+	spuValidSessionVal, ok := spuValidSessionAttribute.(basetypes.Int64Value)
 
 	if !ok {
 		diags.AddError(
 			"Attribute Wrong Type",
-			fmt.Sprintf(`spu_valid_session expected to be basetypes.NumberValue, was: %T`, spuValidSessionAttribute))
+			fmt.Sprintf(`spu_valid_session expected to be basetypes.Int64Value, was: %T`, spuValidSessionAttribute))
 	}
 
 	if diags.HasError() {
@@ -22190,12 +22210,12 @@ func (t SpuStatType) ValueType(ctx context.Context) attr.Value {
 var _ basetypes.ObjectValuable = SpuStatValue{}
 
 type SpuStatValue struct {
-	SpuCpu            basetypes.Int64Value  `tfsdk:"spu_cpu"`
-	SpuCurrentSession basetypes.NumberValue `tfsdk:"spu_current_session"`
-	SpuMaxSession     basetypes.NumberValue `tfsdk:"spu_max_session"`
-	SpuMemory         basetypes.Int64Value  `tfsdk:"spu_memory"`
-	SpuPendingSession basetypes.NumberValue `tfsdk:"spu_pending_session"`
-	SpuValidSession   basetypes.NumberValue `tfsdk:"spu_valid_session"`
+	SpuCpu            basetypes.Int64Value `tfsdk:"spu_cpu"`
+	SpuCurrentSession basetypes.Int64Value `tfsdk:"spu_current_session"`
+	SpuMaxSession     basetypes.Int64Value `tfsdk:"spu_max_session"`
+	SpuMemory         basetypes.Int64Value `tfsdk:"spu_memory"`
+	SpuPendingSession basetypes.Int64Value `tfsdk:"spu_pending_session"`
+	SpuValidSession   basetypes.Int64Value `tfsdk:"spu_valid_session"`
 	state             attr.ValueState
 }
 
@@ -22206,11 +22226,11 @@ func (v SpuStatValue) ToTerraformValue(ctx context.Context) (tftypes.Value, erro
 	var err error
 
 	attrTypes["spu_cpu"] = basetypes.Int64Type{}.TerraformType(ctx)
-	attrTypes["spu_current_session"] = basetypes.NumberType{}.TerraformType(ctx)
-	attrTypes["spu_max_session"] = basetypes.NumberType{}.TerraformType(ctx)
+	attrTypes["spu_current_session"] = basetypes.Int64Type{}.TerraformType(ctx)
+	attrTypes["spu_max_session"] = basetypes.Int64Type{}.TerraformType(ctx)
 	attrTypes["spu_memory"] = basetypes.Int64Type{}.TerraformType(ctx)
-	attrTypes["spu_pending_session"] = basetypes.NumberType{}.TerraformType(ctx)
-	attrTypes["spu_valid_session"] = basetypes.NumberType{}.TerraformType(ctx)
+	attrTypes["spu_pending_session"] = basetypes.Int64Type{}.TerraformType(ctx)
+	attrTypes["spu_valid_session"] = basetypes.Int64Type{}.TerraformType(ctx)
 
 	objectType := tftypes.Object{AttributeTypes: attrTypes}
 
@@ -22297,11 +22317,11 @@ func (v SpuStatValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue,
 
 	attributeTypes := map[string]attr.Type{
 		"spu_cpu":             basetypes.Int64Type{},
-		"spu_current_session": basetypes.NumberType{},
-		"spu_max_session":     basetypes.NumberType{},
+		"spu_current_session": basetypes.Int64Type{},
+		"spu_max_session":     basetypes.Int64Type{},
 		"spu_memory":          basetypes.Int64Type{},
-		"spu_pending_session": basetypes.NumberType{},
-		"spu_valid_session":   basetypes.NumberType{},
+		"spu_pending_session": basetypes.Int64Type{},
+		"spu_valid_session":   basetypes.Int64Type{},
 	}
 
 	if v.IsNull() {
@@ -22379,11 +22399,11 @@ func (v SpuStatValue) Type(ctx context.Context) attr.Type {
 func (v SpuStatValue) AttributeTypes(ctx context.Context) map[string]attr.Type {
 	return map[string]attr.Type{
 		"spu_cpu":             basetypes.Int64Type{},
-		"spu_current_session": basetypes.NumberType{},
-		"spu_max_session":     basetypes.NumberType{},
+		"spu_current_session": basetypes.Int64Type{},
+		"spu_max_session":     basetypes.Int64Type{},
 		"spu_memory":          basetypes.Int64Type{},
-		"spu_pending_session": basetypes.NumberType{},
-		"spu_valid_session":   basetypes.NumberType{},
+		"spu_pending_session": basetypes.Int64Type{},
+		"spu_valid_session":   basetypes.Int64Type{},
 	}
 }
 

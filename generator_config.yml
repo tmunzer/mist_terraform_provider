@@ -5,19 +5,19 @@ data_sources:
     read:
       path: /api/v1/const/countries
       method: GET
-  device_ap_stats:
-    read: 
-      path: /api/v1/orgs/{org_id}/stats/devices
-      method: GET
-    schema:
-      ignores:
-        - evpn_unused
-        - evpntopo_id
-        - radio_config
-        - fields
-        - limit
-        - page
-        - type
+  # device_ap_stats:
+  #   read: 
+  #     path: /api/v1/orgs/{org_id}/stats/devices
+  #     method: GET
+  #   schema:
+  #     ignores:
+  #       - evpn_unused
+  #       - evpntopo_id
+  #       - radio_config
+  #       - fields
+  #       - limit
+  #       - page
+  #       - type
   # device_switch_stats:
   #   read: 
   #     path: /api/v1/orgs/{org_id}/stats/devices
@@ -28,18 +28,20 @@ data_sources:
   #     - limit
   #     - page
   #     - type
-  # device_gateway_stats:
-  #   read: 
-  #     path: /api/v1/orgs/{org_id}/stats/devices
-  #     method: GET
-  #   schema:
-  #     ignores:
-  #       - evpn_unused
-  #       - evpntopo_id
-  #       - fields
-  #       - limit
-  #       - page
-  #       - type
+  device_gateway_stats:
+    read: 
+      path: /api/v1/orgs/{org_id}/stats/devices
+      method: GET
+    schema:
+      ignores:
+        - evpn_unused
+        - evpntopo_id
+        - fields
+        - limit
+        - page
+        - type
+        - module_stat.fpc_idx
+        - module2_stat.fpc_idx
 resources:
   org:
     create:

@@ -29,16 +29,7 @@ func SdkToTerraform(ctx context.Context, l []models.ListOrgDevicesStatsResponse)
 				diags.AddError("Unable to unMarshal AP Stats", e.Error())
 			}
 			elem := deviceApStatSdkToTerraform(ctx, &diags, &ap)
-			// for _, p := range elements {
-
-			// 	if elem.Equal(p) {
-			// 		tflog.Info(ctx, "Found duplicated element "+elem.String())
-			// 		continue
-			// 	}
-
-			//changedPaths.Append(p)
 			elements = append(elements, elem)
-			//}
 		}
 	}
 

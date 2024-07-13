@@ -8,11 +8,9 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
-	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 
 func routeSummaryStatsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d *models.RouteSummaryStats) basetypes.ObjectValue {
-	tflog.Debug(ctx, "routeSummaryStatsSdkToTerraform")
 
 	var fib_routes basetypes.Int64Value
 	var max_unicast_routes_supported basetypes.Int64Value

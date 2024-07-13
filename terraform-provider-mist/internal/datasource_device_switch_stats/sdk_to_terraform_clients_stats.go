@@ -9,11 +9,9 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
-	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 
 func clientsStatsTotalSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d *models.SwitchStatsClientsStatsTotal) basetypes.ObjectValue {
-	tflog.Debug(ctx, "clientsStatsTotalSdkToTerraform")
 
 	var num_aps basetypes.ListValue = types.ListNull(types.Int64Type)
 	var num_wired_clients basetypes.Int64Value
@@ -37,7 +35,6 @@ func clientsStatsTotalSdkToTerraform(ctx context.Context, diags *diag.Diagnostic
 }
 
 func clientsStatsSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d *models.SwitchStatsClientsStats) basetypes.ObjectValue {
-	tflog.Debug(ctx, "clientsStatsSdkToTerraform")
 
 	var total basetypes.ObjectValue = types.ObjectNull(TotalValue{}.AttributeTypes(ctx))
 

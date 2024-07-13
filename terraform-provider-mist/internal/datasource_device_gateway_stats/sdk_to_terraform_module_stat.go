@@ -281,7 +281,7 @@ func moduleStatSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, l []
 		var errors basetypes.ListValue = types.ListNull(ErrorsValue{}.Type(ctx))
 		var fans basetypes.ListValue = types.ListNull(FansValue{}.Type(ctx))
 		var fpga_version basetypes.StringValue
-		var last_seen basetypes.Int64Value
+		var last_seen basetypes.NumberValue
 		var model basetypes.StringValue
 		var optics_cpld_version basetypes.StringValue
 		var pending_version basetypes.StringValue
@@ -323,7 +323,7 @@ func moduleStatSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, l []
 			fpga_version = types.StringValue(*d.FpgaVersion.Value())
 		}
 		if d.LastSeen.Value() != nil {
-			last_seen = types.Int64Value(int64(*d.LastSeen.Value()))
+			last_seen = types.NumberValue(big.NewFloat(*d.LastSeen.Value()))
 		}
 		if d.Model.Value() != nil {
 			model = types.StringValue(*d.Model.Value())

@@ -8,11 +8,9 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
-	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 
 func fwupdateSdkToTerraform(ctx context.Context, diags *diag.Diagnostics, d *models.FwupdateStat) basetypes.ObjectValue {
-	tflog.Debug(ctx, "fwupdateSdkToTerraform")
 
 	var progress basetypes.Int64Value
 	var status basetypes.StringValue

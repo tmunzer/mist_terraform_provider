@@ -21,11 +21,15 @@ func SdkToTerraform(ctx context.Context, l []models.ListOrgDevicesStatsResponse)
 		gw_js, e := d.MarshalJSON()
 		if e != nil {
 			diags.AddError("Unable to unMarshal Gateway Stats", e.Error())
+		} else {
+			gw := models.GatewayStats{}
+			e := json.Unmarshal(gw_js, &gw)
+			if e != nil {
+				diags.AddError("Unable to unMarshal Switch Stats", e.Error())
+			}
+			elem := deviceGatewayStatSdkToTerraform(ctx, &diags, &gw)
+			elements = append(elements, elem)
 		}
-		gw := models.GatewayStats{}
-		json.Unmarshal(gw_js, &gw)
-		elem := deviceGatewayStatSdkToTerraform(ctx, &diags, &gw)
-		elements = append(elements, elem)
 	}
 
 	dataSet, err := types.SetValue(DeviceGatewayStatsValue{}.Type(ctx), elements)
@@ -81,8 +85,8 @@ func deviceGatewayStatSdkToTerraform(ctx context.Context, diags *diag.Diagnostic
 	var service_stat basetypes.MapValue = types.MapNull(ServiceStatValue{}.Type(ctx))
 	var service_status basetypes.ObjectValue = types.ObjectNull(ServiceStatusValue{}.AttributeTypes(ctx))
 	var site_id basetypes.StringValue
-	var spu2_stat basetypes.ObjectValue = types.ObjectNull(SpuStatValue{}.AttributeTypes(ctx))
-	var spu_stat basetypes.ObjectValue = types.ObjectNull(SpuStatValue{}.AttributeTypes(ctx))
+	var spu2_stat basetypes.ListValue = types.ListNull(SpuStatValue{}.Type(ctx))
+	var spu_stat basetypes.ListValue = types.ListNull(SpuStatValue{}.Type(ctx))
 	var status basetypes.StringValue
 	var uptime basetypes.NumberValue
 	var version basetypes.StringValue
