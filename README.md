@@ -1,7 +1,6 @@
-# /!\ WORK IN PROGRESS /!\
+This is a dev repo. Please go to [terraform-provider-mist](https://github.com/tmunzer/terraform-provider-mist) to get the provider
 
 # Terraform Provider for Juniper Mist
-This is a dev repo. Please go to [terraform-provider-mist](https://github.com/tmunzer/terraform-provider-mist) to get the provider
 
 
 ### How to use the pre-version
