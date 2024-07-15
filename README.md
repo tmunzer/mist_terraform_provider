@@ -1,4 +1,5 @@
-This is a dev repo. Please go to [terraform-provider-mist](https://github.com/tmunzer/terraform-provider-mist) to get the provider
+**This is a dev repo. Please go to [terraform-provider-mist](https://github.com/juniper/terraform-provider-mist) to get the provider**
+
 
 # Terraform Provider for Juniper Mist
 
