@@ -33,6 +33,12 @@ resource "mist_org" "terraform_test" {
 # output "mist_device_ap_stats" {
 #   value = data.mist_device_ap_stats.example
 # }
+data "mist_org_deviceprofiles_ap" "dpa"{
+  org_id  = "9777c1a0-6ef6-11e6-8bbf-02e208b2d34f"
+}
+data "mist_org_deviceprofiles_gateway" "dpg"{
+  org_id  = "9777c1a0-6ef6-11e6-8bbf-02e208b2d34f"
+}
 
 # data "mist_countries" "test" {}
 # output "mist_countries" {

@@ -55,6 +55,13 @@
             "computed_optional_required": "computed"
         },
         {
+            "name": "deviceprofile_id",
+            "get": [
+                "string"
+            ],
+            "computed_optional_required": "computed"
+        },
+        {
             "name": "name",
             "get": [
                 "string"

@@ -1,10 +1,13 @@
 provider:
   name: mistapi
 data_sources:
-  # countries:
-  #   read:
-  #     path: /api/v1/const/countries
-  #     method: GET
+  countries:
+    read:
+      path: /api/v1/const/countries
+      method: GET
+################################################################################
+################################################################################
+################################################################################
   # device_ap_stats:
   #   read: 
   #     path: /api/v1/orgs/{org_id}/stats/devices
@@ -42,6 +45,9 @@ data_sources:
   #       - type
   #       - module_stat.fpc_idx
   #       - module2_stat.fpc_idx
+################################################################################
+################################################################################
+################################################################################
   sites:
     read:
       path: /api/v1/orgs/{org_id}/sites
@@ -69,105 +75,108 @@ data_sources:
       - limit
       - page
       - type
-  # org_networktemplate:
-  #   read:
-  #     path: /api/v1/orgs/{org_id}/networktemplates
-  #     method: GET
-  #   schema:
-  #     ignores:
-  #       - import_org_networks
-  #       - switch_matching.rules.switch_mgmt
-  # org_service:
-  #   read:
-  #     path: /api/v1/orgs/{org_id}/services
-  #     method: GET
-  # org_network:
-  #   read:
-  #     path: /api/v1/orgs/{org_id}/networks
-  #     method: GET
-  # org_gatewaytemplate:
-  #   read:
-  #     path: /api/v1/orgs/{org_id}/gatewaytemplates
-  #     method: GET
-  #   schema:
-  #     ignores:
-  #       - gateway_matching
-  #       - idp_profiles.created_time
-  #       - idp_profiles.modified_time
-  #       - idp_profiles.id
-  #       - networks.created_time
-  #       - networks.modified_time
-  #       - networks.id
-  #       - networks.org_id
-  # org_nactag:
-  #   read:
-  #     path: /api/v1/orgs/{org_id}/nactags
-  #     method: GET
-  # org_nacrule:
-  #   read:
-  #     path: /api/v1/orgs/{org_id}/nacrules
-  #     method: GET
-  # org_rftemplate:
-  #   read:
-  #     path: /api/v1/orgs/{org_id}/rftemplates
-  #     method: GET
-  #   schema:
-  #     ignores:
-  #       - created_time
-  #       - modified_time
-  # org_wlantemplate:
-  #   read:
-  #     path: /api/v1/orgs/{org_id}/templates
-  #     method: GET  
-  # org_wlan:
-  #   read:
-  #     path: /api/v1/orgs/{org_id}/wlans
-  #     method: GET
-  #   schema:
-  #     ignores:
-  #       - for_site
-  #       - mxtunnel_id
-  #       - rateset
-  #       - band
-  # site_wlan:
-  #   read:
-  #     path: /api/v1/sites/{site_id}/wlans
-  #     method: GET 
-  #   schema:
-  #     ignores:
-  #       - for_site
-  #       - template_id
-  #       - mxtunnel_id
-  #       - rateset
-  #       - band    
-  # org_wxrule:
-  #   read:
-  #     path: /api/v1/orgs/{org_id}/wxrules
-  #     method: GET
-  #   schema:
-  #     ignores:
-  #       - for_site
-  # org_wxtag:
-  #   read:
-  #     path: /api/v1/orgs/{org_id}/wxtags
-  #     method: GET 
-  #   schema:
-  #     ignores:
-  #       - for_site
-  # site_wxrule:
-  #   read:
-  #     path: /api/v1/sites/{site_id}/wxrules
-  #     method: GET   
-  #   schema:
-  #     ignores:
-  #       - for_site    
-  # site_wxtag:
-  #   read:
-  #     path: /api/v1/sites/{site_id}/wxtags
-  #     method: GET  
-  #   schema:
-  #     ignores:
-  #       - for_site   
+  org_networktemplate:
+    read:
+      path: /api/v1/orgs/{org_id}/networktemplates
+      method: GET
+    schema:
+      ignores:
+        - import_org_networks
+        - switch_matching.rules.switch_mgmt
+  org_service:
+    read:
+      path: /api/v1/orgs/{org_id}/services
+      method: GET
+  org_network:
+    read:
+      path: /api/v1/orgs/{org_id}/networks
+      method: GET
+  org_gatewaytemplate:
+    read:
+      path: /api/v1/orgs/{org_id}/gatewaytemplates
+      method: GET
+    schema:
+      ignores:
+        - gateway_matching
+        - idp_profiles.created_time
+        - idp_profiles.modified_time
+        - idp_profiles.id
+        - networks.created_time
+        - networks.modified_time
+        - networks.id
+        - networks.org_id
+  org_nactag:
+    read:
+      path: /api/v1/orgs/{org_id}/nactags
+      method: GET
+  org_nacrule:
+    read:
+      path: /api/v1/orgs/{org_id}/nacrules
+      method: GET
+  org_rftemplate:
+    read:
+      path: /api/v1/orgs/{org_id}/rftemplates
+      method: GET
+    schema:
+      ignores:
+        - created_time
+        - modified_time
+  org_wlantemplate:
+    read:
+      path: /api/v1/orgs/{org_id}/templates
+      method: GET  
+  org_wlan:
+    read:
+      path: /api/v1/orgs/{org_id}/wlans
+      method: GET
+    schema:
+      ignores:
+        - for_site
+        - mxtunnel_id
+        - rateset
+        - band
+  site_wlan:
+    read:
+      path: /api/v1/sites/{site_id}/wlans
+      method: GET 
+    schema:
+      ignores:
+        - for_site
+        - template_id
+        - mxtunnel_id
+        - rateset
+        - band    
+  org_wxrule:
+    read:
+      path: /api/v1/orgs/{org_id}/wxrules
+      method: GET
+    schema:
+      ignores:
+        - for_site
+  org_wxtag:
+    read:
+      path: /api/v1/orgs/{org_id}/wxtags
+      method: GET 
+    schema:
+      ignores:
+        - for_site
+  site_wxrule:
+    read:
+      path: /api/v1/sites/{site_id}/wxrules
+      method: GET   
+    schema:
+      ignores:
+        - for_site    
+  site_wxtag:
+    read:
+      path: /api/v1/sites/{site_id}/wxtags
+      method: GET  
+    schema:
+      ignores:
+        - for_site   
+################################################################################
+################################################################################
+################################################################################
 resources:
   org:
     create:
@@ -716,6 +725,77 @@ resources:
       attributes:
         aliases:
           wxtag_id: id     
+################################################################################
+################################################################################
+################################################################################
+  # org_deviceprofile_ap:
+  #   create:
+  #     path: /api/v1/orgs/{org_id}/deviceprofiles
+  #     method: POST
+  #   read:
+  #     path: /api/v1/orgs/{org_id}/deviceprofiles/{deviceprofile_id}
+  #     method: GET
+  #   delete:
+  #     path: /api/v1/orgs/{org_id}/deviceprofiles/{deviceprofile_id}
+  #     method: DELETE
+  #   update:
+  #     path: /api/v1/orgs/{org_id}/deviceprofiles/{deviceprofile_id}
+  #     method: PUT      
+  #   schema:
+  #     ignores:
+  #     - created_time
+  #     - modified_time
+  #     - for_site
+  #     - iot_config
+  #     - port_config
+  #     attributes:
+  #       aliases:
+  #         deviceprofile_id: id   
+  # org_deviceprofile_gateway:
+  #   create:
+  #     path: /api/v1/orgs/{org_id}/deviceprofiles
+  #     method: POST
+  #   read:
+  #     path: /api/v1/orgs/{org_id}/deviceprofiles/{deviceprofile_id}
+  #     method: GET
+  #   delete:
+  #     path: /api/v1/orgs/{org_id}/deviceprofiles/{deviceprofile_id}
+  #     method: DELETE
+  #   update:
+  #     path: /api/v1/orgs/{org_id}/deviceprofiles/{deviceprofile_id}
+  #     method: PUT      
+  #   schema:
+  #     ignores:
+  #       - gateway_matching
+  #       - idp_profiles.created_time
+  #       - idp_profiles.modified_time
+  #       - idp_profiles.id
+  #       - networks.created_time
+  #       - networks.modified_time
+  #       - networks.id
+  #       - networks.org_id
+  #     attributes:
+  #       aliases:
+  #         deviceprofile_id: id   
+  # org_deviceprofile_assign:
+  #   create:
+  #     path: /api/v1/orgs/{org_id}/deviceprofiles/{deviceprofile_id}/assign
+  #     method: POST
+  #   read:
+  #     path: /api/v1/orgs/{org_id}/deviceprofiles/{deviceprofile_id}/assign
+  #     method: GET
+  #   delete:
+  #     path: /api/v1/orgs/{org_id}/deviceprofiles/{deviceprofile_id}/unassign
+  #     method: DELETE
+  #   update:
+  #     path: /api/v1/orgs/{org_id}/deviceprofiles/{deviceprofile_id}/assign
+  #     method: PUT      
+  #   schema:
+  #       ignores:
+  #       - success
+################################################################################
+################################################################################
+################################################################################
   # device_ap:
   #   create:
   #     path: /api/v1/sites/{site_id}/devices/{device_id}
@@ -775,6 +855,9 @@ resources:
   #       - modified_time
   #       - for_site
   #       - id
+################################################################################
+################################################################################
+################################################################################
   # org_inventory:
   #   create:
   #     path: /api/v1/orgs/{org_id}/inventory

@@ -1,0 +1,37 @@
+{
+    "name": "org_deviceprofile_ap",
+    "get": [
+        "schema",
+        "attributes"
+    ],
+    "next": [
+        {
+            "name": "org_id",
+            "get": [
+                "string"
+            ],
+            "computed_optional_required": "required"
+        },
+        {
+            "name": "type",
+            "get": [
+                "string"
+            ],
+            "computed_optional_required": "computed"
+        },
+        {
+            "name": "id",
+            "get": [
+                "string"
+            ],
+            "computed_optional_required": "computed"
+        },
+        {
+            "name": "name",
+            "get": [
+                "string"
+            ],
+            "computed_optional_required": "required"
+        }
+    ]
+}

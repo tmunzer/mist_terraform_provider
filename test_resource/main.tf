@@ -1483,11 +1483,217 @@ resource "mist_device_gateway" "srx" {
   ]
 }
 
-data "mist_device_ap_stats" "example" {
-
-org_id =  mist_org.terraform_test.id
+resource "mist_org_deviceprofile_ap" "app_one" {
+  name = "app_one"
+  org_id = mist_org.terraform_test.id
+  disable_eth1 = true
 }
 
-output "mist_device_ap_stats" {
-  value = data.mist_device_ap_stats.example.device_ap_stats
+resource "mist_org_deviceprofile_gateway" "hubp_one" {
+  name = "hubp_one2"
+  org_id = mist_org.terraform_test.id
+
+  port_config = {
+    "ge-0/0/3" = {
+      name       = "FTTH"
+      usage      = "wan"
+      aggregated = false
+      redundant  = false
+      critical   = false
+      wan_type   = "broadband"
+      ip_config = {
+        type    = "static"
+        ip      = "192.168.1.8"
+        netmask = "/24"
+        gateway = "192.168.1.1"
+      },
+      disable_autoneg = false
+      speed           = "auto"
+      duplex          = "auto"
+      wan_source_nat = {
+        disabled = false
+      },
+      vpn_paths = {
+        "SSR_HUB_DC-MPLS.OrgOverlay" = {
+          key         = 0
+          role        = "spoke"
+          bfd_profile = "broadband"
+        }
+      }
+    },
+    "ge-0/0/4" = {
+      name       = "LTE"
+      usage      = "wan"
+      aggregated = false
+      redundant  = false
+      critical   = false
+      wan_type   = "broadband"
+      ip_config = {
+        type = "dhcp"
+      },
+      disable_autoneg = false
+      speed           = "auto"
+      duplex          = "auto"
+      wan_source_nat = {
+        disabled = false
+      },
+      vpn_paths = {
+        "SSR_HUB_DC-MPLS.OrgOverlay" = {
+          key         = 0
+          role        = "spoke"
+          bfd_profile = "broadband"
+        }
+      }
+    },
+    "ge-0/0/5" = {
+      usage            = "lan"
+      critical         = false
+      aggregated       = true
+      ae_disable_lacp  = false
+      ae_lacp_force_up = true
+      ae_idx           = 0
+      redundant        = false
+      networks = [
+        "PRD-Core"
+      ]
+    },
+    "ge-0/0/7" = {
+      usage      = "lan"
+      critical   = false
+      aggregated = false
+      redundant  = false
+      networks = [
+        "PRD-Mgmt"
+      ]
+    },
+    "ge-0/0/6" = {
+      usage      = "lan"
+      critical   = false
+      aggregated = false
+      redundant  = false
+      networks = [
+        "PRD-Lab"
+      ]
+    }
+  }
+  ip_configs = {
+    "PRD-Core" = {
+      type    = "static"
+      ip      = "10.3.100.9"
+      netmask = "/24"
+    },
+    "PRD-Mgmt" = {
+      type    = "static"
+      ip      = "10.3.172.1"
+      netmask = "/24"
+    },
+    "PRD-Lab" = {
+      type    = "static"
+      ip      = "10.3.171.1"
+      netmask = "/24"
+    }
+  }
+  dhcpd_config = {
+    enable = true
+  }
+  path_preferences = {
+    "HUB" = {
+      strategy = "ordered"
+      paths = [
+        {
+          name = "SSR_HUB_DC-MPLS.OrgOverlay"
+          type = "vpn"
+        }
+      ]
+    },
+    "HUB-ORDERED" = {
+      strategy = "ordered"
+      paths = [
+        {
+          name     = "SSR_HUB_DC-MPLS.OrgOverlay"
+          wan_name = "FTTH",
+          type     = "vpn"
+        },
+        {
+          name     = "SSR_HUB_DC-MPLS.OrgOverlay"
+          wan_name = "LTE"
+          type     = "vpn"
+        }
+      ]
+    },
+    "HUB-ECMP" = {
+      strategy = "weighted"
+      paths = [
+        {
+          name     = "SSR_HUB_DC-MPLS.OrgOverlay"
+          wan_name = "LTE"
+          cost     = 30
+          type     = "vpn"
+        },
+        {
+          name     = "SSR_HUB_DC-MPLS.OrgOverlay"
+          wan_name = "FTTH"
+          cost     = 30
+          type     = "vpn"
+        }
+      ]
+    }
+  }
+  service_policies = [
+    {
+      name = "Policy-14"
+      tenants = [
+        "PRD-Core"
+      ],
+      services = [
+        "any"
+      ],
+      action          = "allow"
+      path_preference = "HUB"
+      idp = {
+        enabled    = true
+        profile    = "critical"
+        alert_only = false
+      }
+    },
+    {
+      name = "Policy-2"
+      tenants = [
+        "PRD-Mgmt"
+      ],
+      services = [
+        "any"
+      ],
+      action          = "allow",
+      path_preference = "HUB-ECMP"
+      idp = {
+        enabled    = true,
+        profile    = "standard"
+        alert_only = true
+      }
+    },
+    {
+      name = "Policy-3"
+      tenants = [
+        "PRD-Lab"
+      ],
+      services = [
+        "any"
+      ],
+      action          = "allow"
+      path_preference = "HUB-ORDERED"
+      idp = {
+        enabled = false
+      }
+    }
+  ]
+}
+
+resource "mist_org_deviceprofile_assign" "hub" {
+  org_id = mist_org.terraform_test.id
+  deviceprofile_id = mist_org_deviceprofile_gateway.hubp_one.id
+  macs = [
+    "4c96143de700",
+    "e8a24550e732"
+  ]
 }

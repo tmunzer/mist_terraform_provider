@@ -1,5 +1,5 @@
 {
-    "name": "org_gatewaytemplate",
+    "name": "org_deviceprofile_gateway",
     "get": [
         "schema",
         "attributes"
@@ -21,6 +21,13 @@
         },
         {
             "name": "id",
+            "get": [
+                "string"
+            ],
+            "computed_optional_required": "computed"
+        },
+        {
+            "name": "type",
             "get": [
                 "string"
             ],
