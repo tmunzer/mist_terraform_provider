@@ -8,3 +8,7 @@ terraform-provider-mistapi/terraform.tfstate.backup
 test/terraform.tfstate
 test/terraform.tfstate.backup
 test/.env
+test_datasource/terraform.tfstate
+test_resource/terraform.tfstate
+test_datasource/terraform.tfstate.backup
+test_resource/terraform.tfstate.backup
