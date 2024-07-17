@@ -1,5 +1,5 @@
 {
-    "name": "org_wxrule",
+    "name": "site_wxrule",
     "get": [
         "schema",
         "attributes"

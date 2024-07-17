@@ -1,10 +1,17 @@
 {
-    "name": "site_wxtag",
+    "name": "org_servicepolicy",
     "get": [
         "schema",
         "attributes"
     ],
     "next": [
+        {
+            "name": "action",
+            "get": [
+                "string"
+            ],
+            "computed_optional_required": "computed_optional"
+        },
         {
             "name": "name",
             "get": [
@@ -13,7 +20,7 @@
             "computed_optional_required": "required"
         },
         {
-            "name": "site_id",
+            "name": "org_id",
             "get": [
                 "string"
             ],

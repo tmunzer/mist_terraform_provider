@@ -27,6 +27,36 @@
             "computed_optional_required": "computed"
         },
         {
+            "name": "ant_gain_24",
+            "get": [
+                "int64"
+            ],
+            "computed_optional_required": "computed_optional",
+            "default": {
+                "static": 0
+            }
+        },
+        {
+            "name": "ant_gain_5",
+            "get": [
+                "int64"
+            ],
+            "computed_optional_required": "computed_optional",
+            "default": {
+                "static": 0
+            }
+        },
+        {
+            "name": "ant_gain_6",
+            "get": [
+                "int64"
+            ],
+            "computed_optional_required": "computed_optional",
+            "default": {
+                "static": 0
+            }
+        },
+        {
             "name": "band_24",
             "get": [
                 "single_nested",

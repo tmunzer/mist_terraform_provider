@@ -1,19 +1,19 @@
 {
-    "name": "site_wxtag",
+    "name": "org_vpn",
     "get": [
         "schema",
         "attributes"
     ],
     "next": [
         {
-            "name": "name",
+            "name": "org_id",
             "get": [
                 "string"
             ],
             "computed_optional_required": "required"
         },
         {
-            "name": "site_id",
+            "name": "name",
             "get": [
                 "string"
             ],
@@ -25,6 +25,6 @@
                 "string"
             ],
             "computed_optional_required": "computed"
-        }
+        }       
     ]
 }

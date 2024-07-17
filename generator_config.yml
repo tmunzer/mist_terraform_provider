@@ -48,132 +48,127 @@ data_sources:
 ################################################################################
 ################################################################################
 ################################################################################
-  sites:
+  # sites:
+  #   read:
+  #     path: /api/v1/orgs/{org_id}/sites
+  #     method: GET
+  #   schema:
+  #     ignores:
+  #     - limit
+  #     - page
+  #     - type
+  # org_sitegroups:
+  #   read:
+  #     path: /api/v1/orgs/{org_id}/sitegroups
+  #     method: GET
+  #   schema:
+  #     ignores:
+  #     - limit
+  #     - page
+  #     - type
+  # org_inventory:
+  #   read:
+  #     path: /api/v1/orgs/{org_id}/inventory
+  #     method: GET
+  #   schema:
+  #     ignores:
+  #     - limit
+  #     - page
+  #     - type
+  # org_networktemplate:
+  #   read:
+  #     path: /api/v1/orgs/{org_id}/networktemplates
+  #     method: GET
+  #   schema:
+  #     ignores:
+  #       - import_org_networks
+  #       - switch_matching.rules.switch_mgmt
+  # org_service:
+  #   read:
+  #     path: /api/v1/orgs/{org_id}/services
+  #     method: GET
+  # org_network:
+  #   read:
+  #     path: /api/v1/orgs/{org_id}/networks
+  #     method: GET
+  # org_gatewaytemplates:
+  #   read:
+  #     path: /api/v1/orgs/{org_id}/gatewaytemplates
+  #     method: GET
+  #   schema:
+  #     ignores:
+  #       - gateway_matching
+  #       - idp_profiles.created_time
+  #       - idp_profiles.modified_time
+  #       - idp_profiles.id
+  #       - networks.created_time
+  #       - networks.modified_time
+  #       - networks.id
+  #       - networks.org_id
+  # org_nactags:
+  #   read:
+  #     path: /api/v1/orgs/{org_id}/nactags
+  #     method: GET
+  # org_nacrules:
+  #   read:
+  #     path: /api/v1/orgs/{org_id}/nacrules
+  #     method: GET
+  # org_rftemplates:
+  #   read:
+  #     path: /api/v1/orgs/{org_id}/rftemplates
+  #     method: GET
+  #   schema:
+  #     ignores:
+  #       - created_time
+  #       - modified_time
+  # org_wlantemplates:
+  #   read:
+  #     path: /api/v1/orgs/{org_id}/templates
+  #     method: GET  
+  # org_wxrules:
+  #   read:
+  #     path: /api/v1/orgs/{org_id}/wxrules
+  #     method: GET
+  #   schema:
+  #     ignores:
+  #       - for_site
+  # org_wxtags:
+  #   read:
+  #     path: /api/v1/orgs/{org_id}/wxtags
+  #     method: GET 
+  #   schema:
+  #     ignores:
+  #       - for_site
+  org_vpns:
     read:
-      path: /api/v1/orgs/{org_id}/sites
-      method: GET
-    schema:
-      ignores:
-      - limit
-      - page
-      - type
-  org_sitegroups:
-    read:
-      path: /api/v1/orgs/{org_id}/sitegroups
-      method: GET
-    schema:
-      ignores:
-      - limit
-      - page
-      - type
-  org_inventory:
-    read:
-      path: /api/v1/orgs/{org_id}/inventory
-      method: GET
-    schema:
-      ignores:
-      - limit
-      - page
-      - type
-  org_networktemplate:
-    read:
-      path: /api/v1/orgs/{org_id}/networktemplates
-      method: GET
-    schema:
-      ignores:
-        - import_org_networks
-        - switch_matching.rules.switch_mgmt
-  org_service:
-    read:
-      path: /api/v1/orgs/{org_id}/services
-      method: GET
-  org_network:
-    read:
-      path: /api/v1/orgs/{org_id}/networks
-      method: GET
-  org_gatewaytemplate:
-    read:
-      path: /api/v1/orgs/{org_id}/gatewaytemplates
-      method: GET
-    schema:
-      ignores:
-        - gateway_matching
-        - idp_profiles.created_time
-        - idp_profiles.modified_time
-        - idp_profiles.id
-        - networks.created_time
-        - networks.modified_time
-        - networks.id
-        - networks.org_id
-  org_nactag:
-    read:
-      path: /api/v1/orgs/{org_id}/nactags
-      method: GET
-  org_nacrule:
-    read:
-      path: /api/v1/orgs/{org_id}/nacrules
-      method: GET
-  org_rftemplate:
-    read:
-      path: /api/v1/orgs/{org_id}/rftemplates
-      method: GET
-    schema:
-      ignores:
-        - created_time
-        - modified_time
-  org_wlantemplate:
-    read:
-      path: /api/v1/orgs/{org_id}/templates
-      method: GET  
-  org_wlan:
-    read:
-      path: /api/v1/orgs/{org_id}/wlans
-      method: GET
-    schema:
-      ignores:
-        - for_site
-        - mxtunnel_id
-        - rateset
-        - band
-  site_wlan:
-    read:
-      path: /api/v1/sites/{site_id}/wlans
+      path: /api/v1/orgs/{org_id}/vpns
       method: GET 
     schema:
       ignores:
-        - for_site
-        - template_id
-        - mxtunnel_id
-        - rateset
-        - band    
-  org_wxrule:
+      - for_site
+      - limit
+      - page
+      - type
+  org_servicepolicies:
     read:
-      path: /api/v1/orgs/{org_id}/wxrules
-      method: GET
-    schema:
-      ignores:
-        - for_site
-  org_wxtag:
-    read:
-      path: /api/v1/orgs/{org_id}/wxtags
+      path: /api/v1/orgs/{org_id}/servicepolicies
       method: GET 
     schema:
       ignores:
-        - for_site
-  site_wxrule:
+      - for_site
+      - limit
+      - page
+      - type
+  org_idpprofiles:
     read:
-      path: /api/v1/sites/{site_id}/wxrules
-      method: GET   
+      path: /api/v1/orgs/{org_id}/idpprofiles
+      method: GET 
     schema:
       ignores:
-        - for_site    
-  site_wxtag:
-    read:
-      path: /api/v1/sites/{site_id}/wxtags
-      method: GET  
-    schema:
-      ignores:
-        - for_site   
+      - for_site
+      - limit
+      - page
+      - type
 ################################################################################
 ################################################################################
 ################################################################################
@@ -281,6 +276,46 @@ resources:
       attributes:
         aliases:
           service_id: id
+  org_servicepolicy:
+    create:
+      path: /api/v1/orgs/{org_id}/servicepolicies
+      method: POST
+    read:
+      path: /api/v1/orgs/{org_id}/servicepolicies/{servicepolicy_id}
+      method: GET
+    delete:
+      path: /api/v1/orgs/{org_id}/servicepolicies/{servicepolicy_id}
+      method: DELETE
+    update:
+      path: /api/v1/orgs/{org_id}/servicepolicies/{servicepolicy_id}
+      method: PUT
+    schema:
+      ignores:
+        - created_time
+        - modified_time
+      attributes:
+        aliases:
+          servicepolicy_id: id
+  org_idpprofile:
+    create:
+      path: /api/v1/orgs/{org_id}/idpprofiles
+      method: POST
+    read:
+      path: /api/v1/orgs/{org_id}/idpprofiles/{idpprofile_id}
+      method: GET
+    delete:
+      path: /api/v1/orgs/{org_id}/idpprofiles/{idpprofile_id}
+      method: DELETE
+    update:
+      path: /api/v1/orgs/{org_id}/idpprofiles/{idpprofile_id}
+      method: PUT
+    schema:
+      ignores:
+        - created_time
+        - modified_time
+      attributes:
+        aliases:
+          idpprofile_id: id
   org_network:
     create:
       path: /api/v1/orgs/{org_id}/networks
@@ -571,7 +606,127 @@ resources:
         - zone_occupancy_alert
       attributes:
         aliases:
-          site_id: id
+          site_id: id  
+  org_vpn:
+    create:
+      path: /api/v1/orgs/{org_id}/vpns
+      method: POST
+    read:
+      path: /api/v1/orgs/{org_id}/vpns/{vpn_id}
+      method: GET
+    delete:
+      path: /api/v1/orgs/{org_id}/vpns/{vpn_id}
+      method: DELETE
+    update:
+      path: /api/v1/orgs/{org_id}/vpns/{vpn_id}
+      method: PUT      
+    schema:
+      ignores:
+        - created_time
+        - modified_time
+        - for_site
+      attributes:
+        aliases:
+          vpn_id: id     
+  org_setting:
+    create:
+      path: /api/v1/orgs/{org_id}/setting
+      method: PUT
+    read:
+      path: /api/v1/orgs/{org_id}/setting
+      method: GET
+    delete:
+      path: /api/v1/orgs/{org_id}/setting
+      method: PUT
+    update:
+      path: /api/v1/orgs/{org_id}/setting
+      method: PUT      
+    schema:
+      ignores:
+        - created_time
+        - modified_time
+        - for_site
+        - id
+        - auto_device_naming
+        - auto_deviceprofile_assignment
+        - auto_site_assignment
+        - gateway_mgmt
+        - simple_alert
+        - tags
+        - wan_pma
+        - wired_pma
+        - wireless_pma
+        - blacklist_url
+        - msp_id
+        - pcap_bucket_verified
+      attributes:
+        aliases:
+          org_id: id   
+  org_mx_edge:
+    create:
+      path: /api/v1/orgs/{org_id}/mxedges
+      method: POST
+    read:
+      path: /api/v1/orgs/{org_id}/mxedges/{mxedge_id}
+      method: GET
+    delete:
+      path: /api/v1/orgs/{org_id}/mxedges/{mxedge_id}
+      method: DELETE
+    update:
+      path: /api/v1/orgs/{org_id}/mxedges/{mxedge_id}
+      method: PUT      
+    schema:
+      ignores:
+        - created_time
+        - modified_time
+        - for_site
+        - version
+      attributes:
+        aliases:
+          mxedge_id: id     
+  # org_mx_cluster:
+  #   create:
+  #     path: /api/v1/orgs/{org_id}/mxclusters
+  #     method: POST
+  #   read:
+  #     path: /api/v1/orgs/{org_id}/mxclusters/{mxcluster_id}
+  #     method: GET
+  #   delete:
+  #     path: /api/v1/orgs/{org_id}/mxclusters/{mxcluster_id}
+  #     method: DELETE
+  #   update:
+  #     path: /api/v1/orgs/{org_id}/mxclusters/{mxcluster_id}
+  #     method: PUT      
+  #   schema:
+  #     ignores:
+  #       - created_time
+  #       - modified_time
+  #       - for_site
+  #     attributes:
+  #       aliases:
+  #         mxcluster_id: id     
+  # org_mx_tunnel:
+  #   create:
+  #     path: /api/v1/orgs/{org_id}/mxtunnels
+  #     method: POST
+  #   read:
+  #     path: /api/v1/orgs/{org_id}/mxtunnels/{mxtunnel_id}
+  #     method: GET
+  #   delete:
+  #     path: /api/v1/orgs/{org_id}/mxtunnels/{mxtunnel_id}
+  #     method: DELETE
+  #   update:
+  #     path: /api/v1/orgs/{org_id}/mxtunnels/{mxtunnel_id}
+  #     method: PUT      
+  #   schema:
+  #     ignores:
+  #       - created_time
+  #       - modified_time
+  #       - for_site
+  #       - site_id
+  #     attributes:
+  #       aliases:
+  #         mxtunnel_id: id     
   org_wlantemplate:
     create:
       path: /api/v1/orgs/{org_id}/templates
@@ -659,6 +814,7 @@ resources:
         - created_time
         - modified_time
         - for_site
+        - site_id
       attributes:
         aliases:
           wxrule_id: id      
@@ -680,6 +836,7 @@ resources:
         - created_time
         - modified_time
         - for_site
+        - site_id
       attributes:
         aliases:
           wxtag_id: id     
@@ -724,7 +881,7 @@ resources:
         - for_site
       attributes:
         aliases:
-          wxtag_id: id     
+          wxtag_id: id   
 ################################################################################
 ################################################################################
 ################################################################################

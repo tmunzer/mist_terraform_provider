@@ -4,10 +4,10 @@ import sys
 
 
 PATH = "/Users/tmunzer/4_dev/Mist/mist_terraform_provider/terraform-provider-mist/internal"
-DATA_TYPE="datasource"
-FILE_SUFFIX="data_source"
-# DATA_TYPE="resource"
-# FILE_SUFFIX="resource"
+# DATA_TYPE="datasource"
+# FILE_SUFFIX="data_source"
+DATA_TYPE="resource"
+FILE_SUFFIX="resource"
 print ('argument list', sys.argv)
 resource = sys.argv[1]
 model = sys.argv[2]
@@ -80,36 +80,46 @@ def gen_code_mod(model: str, gen_file_path: str):
     print(model)
     mod_def = find_in_gen_file(gen_file_path, model)
     print(mod_def)
-    mod_meta = gen_vars_meta(mod_def)
-    print(mod_meta)
-    return gen_code_model(model, mod_meta)
+    return  gen_vars_meta(mod_def)
 
 
 
 print(os.path.join(PATH, f"{DATA_TYPE}_{resource}"))
 
 gen_file_path = find_gen_file(os.path.join(PATH, f"{DATA_TYPE}_{resource}"))
-model, code_var, code_if, code_map = gen_code_mod(model, gen_file_path)
+vars = gen_code_mod(model, gen_file_path)
 print("")
 print("-----------------------")
 print("")
-for code in code_var:
-    print(f"	{code}")
-print("")
-for code in code_if:
-    print(f"	{code}")
-print("")
-print("")
-print(
-    f"	data_map_attr_type := {model}" + "{}.AttributeTypes(ctx)"
-)
-print("	data_map_value := map[string]attr.Value{")
-for code in code_map:
-    print(f"	{code},")
-print("}")
-print(
-    f"	data, e := New{model}(data_map_attr_type, data_map_value)"
-)
-print("	diags.Append(e...)")
-print("")
-print("	return data")
+if model.endswith("Model"):
+    for v in vars:
+        if v.get("etype", "").startswith("types") or v.get("etype", "").startswith("basetypes"):
+            print(f"""
+            if d.{v.get('evar')} != nil  {{
+                data.{v.get('evar')} = d.{v.get('evar')}
+            }} else {{
+                unset[\"-{v.get('ejson')}\"]=\"\"
+            }}
+            """)
+        else:
+            print(f"""
+            if !d.{v.get('evar')}.IsNull() && !d.{v.get('evar')}.IsUnknown()  {{
+                data.{v.get('evar')} = {v.get('etype')}(d.{v.get('evar')})
+            }} else {{
+                unset[\"-{v.get('ejson')}\"]=\"\"
+            }}
+            """)
+else:            
+    for v in vars:
+        if v.get("etype", "").startswith("types") or v.get("etype", "").startswith("basetypes"):
+            print(f"""
+            if d.{v.get('evar')} != nil  {{
+                data.{v.get('evar')} = d.{v.get('evar')}
+            }}
+            """)
+        else:
+            print(f"""
+            if !d.{v.get('evar')}.IsNull() && !d.{v.get('evar')}.IsUnknown()  {{
+                data.{v.get('evar')} = {v.get('etype')}(d.{v.get('evar')})
+            }}
+            """)

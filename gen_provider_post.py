@@ -88,6 +88,11 @@ FILES = {
             "Hours",
         ]
     },
+    "./terraform-provider-mist/internal/resource_org_setting/org_setting_resource_gen.go": {
+        "rename": {
+            "synthetictest": "synthetic_test",
+        }
+    },
     "./terraform-provider-mist/internal/resource_device_switch/device_switch_resource_gen.go": {
         "rename": {
             "matching_rules": "rules",

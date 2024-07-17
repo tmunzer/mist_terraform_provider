@@ -1,0 +1,48 @@
+{
+    "name": "org_mx_edge",
+    "get": [
+        "schema",
+        "attributes"
+    ],
+    "next": [
+        {
+            "name": "org_id",
+            "get": [
+                "string"
+            ],
+            "computed_optional_required": "required"
+        },
+        {
+            "name": "name",
+            "get": [
+                "string"
+            ],
+            "computed_optional_required": "required"
+        },
+        {
+            "name": "id",
+            "get": [
+                "string"
+            ],
+            "computed_optional_required": "computed"
+        },
+        {
+            "name": "mxagent_registered",
+            "get": [
+                "bool"
+            ],
+            "computed_optional_required": "computed"
+        },
+        {
+            "name": "tunterm_registered",
+            "get": [
+                "bool"
+            ],
+            "computed_optional_required": "computed"
+        },
+        {
+            "name": "magic",
+            "rename": "claim_code"
+        }
+    ]
+}

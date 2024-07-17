@@ -64,7 +64,12 @@ def process_nested(o: dict):
         "puzzel_password",
         "authentication_password",
         "encryption_password",
-        "root_password"
+        "root_password",
+        "mist_password",
+        "apitoken",
+        "cp_api_key",
+        "ecm_api_key",
+        "key"
     ] and o.get("string"):
         o["string"]["sensitive"] = True
     for key, val in o.items():
@@ -107,7 +112,7 @@ def next_item(data: dict, entries: list, path: list):
         default = entry.get("default")
         default_type = entry.get("default_type")
         sensitive = entry.get("sensitive")
-        # no_default = entry.get("no_default")
+        no_default = entry.get("no_default")
         curr_path = path.copy()
         curr_path.append(name)
         try:
@@ -129,8 +134,8 @@ def next_item(data: dict, entries: list, path: list):
                     sub_data["default"] = json.loads(CUSTOM_DEFAULT_LIST_OF_INT)
             elif default:
                 sub_data["default"] = default
-            # if no_default and sub_data.get("default"):
-            #     del sub_data["default"]
+            if no_default and sub_data.get("default"):
+                del sub_data["default"]
             # if isinstance(bool, sensitive):
             #     sub_data["sensitive"]=sensitive
             if plan_modifiers:
