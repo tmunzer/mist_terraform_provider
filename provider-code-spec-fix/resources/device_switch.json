@@ -265,6 +265,37 @@
                 "string"
             ],
             "computed_optional_required": "computed"
+        },
+        {
+            "name": "networks",
+            "get": [
+                "map_nested",
+                "nested_object",
+                "attributes"
+            ],
+            "next": [
+                {
+                    "name": "vlan_id",
+                    "get": [
+                        "string"
+                    ],
+                    "validators":  [
+                        {
+                            "custom": {
+                                "imports": [
+                                    {
+                                        "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                    },
+                                    {
+                                        "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                    }
+                                ],
+                                "schema_definition": "stringvalidator.Any(mistvalidator.ParseVlanId(),mistvalidator.ParseVar(),)"
+                            }
+                        }
+                    ] 
+                }
+            ]
         }
     ]
 }

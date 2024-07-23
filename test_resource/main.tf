@@ -113,7 +113,7 @@ resource "mist_org_service" "service143" {
 }
 
 resource "mist_org_idpprofile" "test1" {
-  org_id      = mist_org.terraform_test.id
+  org_id       = mist_org.terraform_test.id
   base_profile = "standard"
   overwrites = [
     {
@@ -141,7 +141,7 @@ resource "mist_org_idpprofile" "test1" {
   name = "custom-standard"
 }
 resource "mist_org_idpprofile" "test2" {
-  org_id      = mist_org.terraform_test.id
+  org_id       = mist_org.terraform_test.id
   base_profile = "standard"
   overwrites = [
     {
@@ -161,7 +161,7 @@ resource "mist_org_idpprofile" "test2" {
   name = "UDP-ZERO-DATA"
 }
 resource "mist_org_idpprofile" "test3" {
-  org_id      = mist_org.terraform_test.id
+  org_id       = mist_org.terraform_test.id
   base_profile = "critical"
   overwrites = [
     {
@@ -188,12 +188,12 @@ resource "mist_org_idpprofile" "test3" {
   name = "aide-demo-dmz-bypass"
 }
 resource "mist_org_idpprofile" "test4" {
-  org_id      = mist_org.terraform_test.id
+  org_id       = mist_org.terraform_test.id
   base_profile = "critical"
   name         = "nn-test"
 }
 resource "mist_org_idpprofile" "test5" {
-  org_id      = mist_org.terraform_test.id
+  org_id       = mist_org.terraform_test.id
   base_profile = "standard"
   overwrites = [
     {
@@ -214,7 +214,7 @@ resource "mist_org_idpprofile" "test5" {
   name = "zero-data"
 }
 resource "mist_org_idpprofile" "test6" {
-  org_id      = mist_org.terraform_test.id
+  org_id       = mist_org.terraform_test.id
   base_profile = "standard"
   overwrites = [
     {
@@ -809,12 +809,12 @@ resource "mist_org_network" "corp" {
   org_id                 = mist_org.terraform_test.id
   disallow_mist_services = false
   name                   = "prd_corp"
-  subnet                 = "10.4.0.0/24"
+  subnet                 = "10.4.30.0/{{test}}"
 }
 
 resource "mist_org_network" "mgmt" {
   org_id  = mist_org.terraform_test.id
-  vlan_id = 172
+  vlan_id = "{{test}}"
   subnet  = "10.3.172.0/24"
   gateway = "10.3.172.9"
   vpn_access = {
@@ -831,7 +831,7 @@ resource "mist_org_network" "mgmt" {
 resource "mist_org_network" "reg" {
   org_id                 = mist_org.terraform_test.id
   isolation              = true
-  vlan_id                = 12
+  vlan_id                = "12"
   subnet                 = "10.3.12.0/24"
   disallow_mist_services = false
   name                   = "SRX-REG"
@@ -840,7 +840,7 @@ resource "mist_org_network" "ssr" {
   org_id                 = mist_org.terraform_test.id
   isolation              = true
   vlan_id                = 128
-  subnet                 = "10.128.100.0/16"
+  subnet                 = "10.128.0.0/16"
   disallow_mist_services = false
   name                   = "SRX-Core-128T"
 }
@@ -858,7 +858,6 @@ resource "mist_org_network" "mxe" {
     }
   }
   internet_access = {
-    static_nat = {}
     destination_nat = {
       "192.168.1.9:500" : {
         name        = "ike"
@@ -923,7 +922,6 @@ resource "mist_org_network" "dmz" {
     }
   }
   internet_access = {
-    static_nat = {}
     destination_nat = {
       "192.168.1.9:5431" : {
         name        = "aws-wg"
@@ -1368,7 +1366,6 @@ resource "mist_org_gatewaytemplate" "sdwan-westford" {
           "8.8.8.8",
           "1.1.1.1"
         ]
-        options = {}
       }
     }
   }
@@ -1422,6 +1419,8 @@ resource "mist_site_setting" "test" {
   # analytic = {
   #   enabled = true
   # }
+  vars = {
+  }
   ap_updown_threshold     = 5
   device_updown_threshold = 5
   auto_upgrade = {
@@ -1456,7 +1455,7 @@ resource "mist_org_wlantemplate" "test101" {
 resource "mist_org_wlan" "wlan_cwp" {
   ssid              = "MlN.test"
   bands             = ["5"]
-  vlan_id           = 143
+  vlan_id           = "141"
   wlan_limit_up     = 10000
   wlan_limit_down   = 20000
   client_limit_up   = 512
@@ -1497,21 +1496,26 @@ resource "mist_org_wlan" "wlan_cwp" {
 
 
 resource "mist_org_networktemplate" "switch_template" {
-  name                   = "test switch"
+  name                   = "test_switch"
   org_id                 = mist_org.terraform_test.id
   dns_servers            = ["10.3.51.222"]
   dns_suffix             = ["stag.one"]
   ntp_servers            = ["10.3.51.222"]
   additional_config_cmds = ["set system hostnam test", "set system services ssh root-login allow"]
+
+  extra_routes = {
+    "1.2.0.0/24" = {
+      via = "1.2.3.4"
+    }
+  }
   networks = {
     test = {
-      subnet  = "1.2.3.4"
+      subnet  = "1.2.3.0/24"
       vlan_id = 10
     }
     test2 = {
-      subnet  = "1.2.3.4"
+      subnet  = "1.2.3.0/24"
       vlan_id = 11
-
     }
   }
   radius_config = {
@@ -1530,6 +1534,13 @@ resource "mist_org_networktemplate" "switch_template" {
         secret = "secret"
       }
     ]
+  }
+  port_usages = {
+    disabled_port = {
+      mode         = "access"
+      disable      = true
+      port_network = "default"
+    }
   }
   remote_syslog = {
     archive = {
@@ -1611,11 +1622,11 @@ resource "mist_site_networktemplate" "site_switch_template" {
   additional_config_cmds = ["set system hostnam test", "set system services ssh root-login allow"]
   networks = {
     test = {
-      subnet  = "1.2.3.4"
+      subnet  = "1.2.3.0/24"
       vlan_id = 10
     }
     test2 = {
-      subnet  = "1.2.3.4"
+      subnet  = "1.2.3.0/24"
       vlan_id = 11
 
     }
@@ -1644,6 +1655,12 @@ resource "mist_site_networktemplate" "site_switch_template" {
       enable_qos   = true
       mode         = "trunk"
       port_network = "test2"
+    }
+    disabled_port = {
+      mode         = "access"
+      disabled     = true
+      port_network = "default"
+      networks     = []
     }
   }
   remote_syslog = {

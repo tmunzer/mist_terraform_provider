@@ -3,11 +3,11 @@ info:
   contact:
     email: tmunzer@juniper.net
     name: Thomas Munzer
-  description: '> Version: **2406.1.30**
+  description: '> Version: **2406.1.31**
 
     >
 
-    > Date: **July 17, 2024**
+    > Date: **July 22, 2024**
 
 
     ---
@@ -43,7 +43,7 @@ info:
     name: MIT
     url: https://raw.githubusercontent.com/tmunzer/Mist-OAS3.0/main/LICENSE
   title: Mist API
-  version: 2406.1.30
+  version: 2406.1.31
 servers:
 - description: Mist Global 01
   url: https://api.mist.com
@@ -2458,7 +2458,7 @@ paths:
   /api/v1/msps/{msp_id}/logs:
     get:
       description: Get list of change logs for the current MSP
-      operationId: listMspLogs
+      operationId: listMspAuditLogs
       parameters:
       - description: site id
         in: query
@@ -2498,7 +2498,7 @@ paths:
           $ref: '#/components/responses/HTTP404'
         '429':
           $ref: '#/components/responses/HTTP429'
-      summary: listMspLogs
+      summary: listMspAuditLogs
       tags:
       - MSPs Logs
     parameters:
@@ -2506,7 +2506,7 @@ paths:
   /api/v1/msps/{msp_id}/logs/count:
     get:
       description: Count by Distinct Attributes of Audit Logs
-      operationId: countMspLogs
+      operationId: countMspAuditLogs
       parameters:
       - in: query
         name: distinct
@@ -2525,7 +2525,7 @@ paths:
           $ref: '#/components/responses/HTTP404'
         '429':
           $ref: '#/components/responses/HTTP429'
-      summary: countMspLogs
+      summary: countMspAuditLogs
       tags:
       - MSPs Logs
     parameters:
@@ -8890,7 +8890,7 @@ paths:
   /api/v1/orgs/{org_id}/logs:
     get:
       description: Get List of change logs for the current Org
-      operationId: listOrgLogs
+      operationId: listOrgAuditLogs
       parameters:
       - description: site id
         in: query
@@ -8930,7 +8930,7 @@ paths:
           $ref: '#/components/responses/HTTP404'
         '429':
           $ref: '#/components/responses/HTTP429'
-      summary: listOrgLogs
+      summary: listOrgAuditLogs
       tags:
       - Orgs Logs
     parameters:
@@ -8938,7 +8938,7 @@ paths:
   /api/v1/orgs/{org_id}/logs/count:
     get:
       description: Count by Distinct Attributes of Audit Logs
-      operationId: countOrgLogs
+      operationId: countOrgAuditLogs
       parameters:
       - in: query
         name: distinct
@@ -8978,7 +8978,7 @@ paths:
           $ref: '#/components/responses/HTTP404'
         '429':
           $ref: '#/components/responses/HTTP429'
-      summary: countOrgLogs
+      summary: countOrgAuditLogs
       tags:
       - Orgs Logs
     parameters:
@@ -11243,7 +11243,7 @@ paths:
                       nat_pool: 172.16.0.0/26
                       routed: true
                       source_nat:
-                        exteral_ip: 172.16.0.8/30
+                        external_ip: 172.16.0.8/30
                       static_nat:
                         property1:
                           internal_ip: 192.168.70.3
@@ -11266,7 +11266,7 @@ paths:
                       nat_pool: 172.16.0.0/26
                       routed: true
                       source_nat:
-                        exteral_ip: 172.16.0.8/30
+                        external_ip: 172.16.0.8/30
                       static_nat:
                         property1:
                           internal_ip: 192.168.70.3
@@ -11401,7 +11401,7 @@ paths:
                       nat_pool: 172.16.0.0/26
                       routed: true
                       source_nat:
-                        exteral_ip: 172.16.0.8/30
+                        external_ip: 172.16.0.8/30
                       static_nat:
                         property1:
                           internal_ip: 192.168.70.3
@@ -11424,7 +11424,7 @@ paths:
                       nat_pool: 172.16.0.0/26
                       routed: true
                       source_nat:
-                        exteral_ip: 172.16.0.8/30
+                        external_ip: 172.16.0.8/30
                       static_nat:
                         property1:
                           internal_ip: 192.168.70.3
@@ -26251,7 +26251,7 @@ paths:
   /api/v1/sites/{site_id}/nac_clients/events/search:
     get:
       description: Search NAC Client Events
-      operationId: searcsearcSiteNacClientEventsacClientEvents
+      operationId: searchSiteNacClientEvents
       parameters:
       - $ref: '#/components/parameters/nac_event_type'
       - description: NAC Policy Rule ID, if matched
@@ -26380,7 +26380,7 @@ paths:
           $ref: '#/components/responses/HTTP404'
         '429':
           $ref: '#/components/responses/HTTP429'
-      summary: searcsearcSiteNacClientEventsacClientEvents
+      summary: searchSiteNacClientEvents
       tags:
       - Sites Clients - NAC
     parameters:
@@ -43659,7 +43659,7 @@ components:
                     nat_pool: 172.16.0.0/26
                     routed: true
                     source_nat:
-                      exteral_ip: 172.16.0.8/30
+                      external_ip: 172.16.0.8/30
                     static_nat:
                       property1:
                         internal_ip: 192.168.70.3
@@ -43682,7 +43682,7 @@ components:
                     nat_pool: 172.16.0.0/26
                     routed: true
                     source_nat:
-                      exteral_ip: 172.16.0.8/30
+                      external_ip: 172.16.0.8/30
                     static_nat:
                       property1:
                         internal_ip: 192.168.70.3
@@ -43761,7 +43761,7 @@ components:
                     nat_pool: 172.16.0.0/26
                     routed: true
                     source_nat:
-                      exteral_ip: 172.16.0.8/30
+                      external_ip: 172.16.0.8/30
                     static_nat:
                       property1:
                         internal_ip: 192.168.70.3
@@ -43784,7 +43784,7 @@ components:
                     nat_pool: 172.16.0.0/26
                     routed: true
                     source_nat:
-                      exteral_ip: 172.16.0.8/30
+                      external_ip: 172.16.0.8/30
                     static_nat:
                       property1:
                         internal_ip: 192.168.70.3
@@ -50761,7 +50761,7 @@ components:
           type: boolean
         vlan_id:
           default: 1
-          description: Only if `type`==`solum` or `type`==`hansho`
+          description: Only if `type`==`solum` or `type`==`hanshow`
           type: integer
       type: object
     ap_esl_type:
@@ -52564,9 +52564,9 @@ components:
       type: array
     ap_switch_setting_port_vlan_id:
       description: native VLAN id, optional
-      oneOf:
-      - type: integer
-      - type: string
+      maximum: 4094
+      minimum: 1
+      type: integer
     ap_switch_setting_vlan_ids:
       description: list of VLAN ids this
       items:
@@ -57287,9 +57287,10 @@ components:
       - version
       type: object
     deviceprofile:
-      anyOf:
-      - $ref: '#/components/schemas/deviceprofile_ap'
-      - $ref: '#/components/schemas/deviceprofile_gateway'
+      $ref: '#/components/schemas/deviceprofile_gateway'
+      # anyOf:
+      # - $ref: '#/components/schemas/deviceprofile_gateway'
+      # - $ref: '#/components/schemas/deviceprofile_ap'
     deviceprofile_ap:
       description: Device Profile
       minItems: 1
@@ -63900,7 +63901,7 @@ components:
         tenants:
           $ref: '#/components/schemas/network_tenants'
         vlan_id:
-          type: integer
+          $ref: '#/components/schemas/vlan_id_with_variable'
         vpn_access:
           $ref: '#/components/schemas/network_vpn_access'
       required:
@@ -63958,7 +63959,7 @@ components:
       description: if `routed`==`false` (usually at Spoke), but some hosts needs to
         be reachable from Hub
       properties:
-        exteral_ip:
+        external_ip:
           example: 172.16.0.8/30
           type: string
       type: object
@@ -66678,8 +66679,7 @@ components:
         usage:
           $ref: '#/components/schemas/psk_usage'
         vlan_id:
-          description: VLAN for this PSK key
-          type: integer
+          $ref: '#/components/schemas/psk_vlan_id'
       required:
       - name
       - passphrase
@@ -66783,7 +66783,7 @@ components:
         type:
           $ref: '#/components/schemas/psk_portal_type'
         vlan_id:
-          type: integer
+          $ref: '#/components/schemas/vlan_id_with_variable'
       required:
       - name
       - ssid
@@ -66932,6 +66932,13 @@ components:
       - single
       - macs
       type: string
+    psk_vlan_id:
+      description: VLAN for this PSK key
+      oneOf:
+      - type: string
+      - maximum: 4094
+        minimum: 1
+        type: integer
     psks:
       items:
         $ref: '#/components/schemas/psk'
@@ -72928,6 +72935,8 @@ components:
           type: boolean
         tunterm_multicast_config:
           $ref: '#/components/schemas/site_setting_tunterm_multicast_config'
+        uplink_port_config:
+          $ref: '#/components/schemas/ap_uplink_port_config'
         vars:
           $ref: '#/components/schemas/vars'
         vna:
@@ -73087,8 +73096,7 @@ components:
           example: http://50.1.3.5:8080
           type: string
         vlan_id:
-          default: 1
-          type: integer
+          $ref: '#/components/schemas/vlan_id_with_variable'
       type: object
     site_setting_critical_url_monitoring_monitors:
       items:
@@ -73122,7 +73130,7 @@ components:
           description: he rollback timer for commit confirmed
           maximum: 30
           minimum: 1
-          type: number
+          type: integer
         probe_hosts:
           $ref: '#/components/schemas/site_setting_gateway_mgmt_probe_hosts'
         root_password:
@@ -75946,7 +75954,7 @@ components:
             are used
           type: string
         vlan_id:
-          type: integer
+          $ref: '#/components/schemas/vlan_id_with_variable'
       required:
       - vlan_id
       type: object
@@ -76860,11 +76868,17 @@ components:
           description: if `type`==`radius`
           type: string
         vlan_id:
-          description: required for AP
-          type: integer
+          $ref: '#/components/schemas/synthetictest_device_vlan_id'
       required:
       - type
       type: object
+    synthetictest_device_vlan_id:
+      description: required for AP
+      oneOf:
+      - type: string
+      - maximum: 4094
+        minimum: 1
+        type: integer
     synthetictest_info:
       properties:
         by:
@@ -79121,6 +79135,12 @@ components:
       - zone
       - rssizone
       type: string
+    vlan_id_with_variable:
+      oneOf:
+      - type: string
+      - maximum: 4094
+        minimum: 1
+        type: integer
     vpn:
       properties:
         created_time:
@@ -80255,10 +80275,7 @@ components:
           description: if vlan tagging is enabled
           type: boolean
         vlan_id:
-          maximum: 4094
-          minimum: 1
-          nullable: true
-          type: integer
+          $ref: '#/components/schemas/vlan_id_with_variable'
         vlan_ids:
           $ref: '#/components/schemas/wlan_vlan_ids'
         vlan_pooling:
@@ -80571,7 +80588,6 @@ components:
         services:
           additionalProperties:
             $ref: '#/components/schemas/wlan_bonjour_service_properties'
-          default: {}
           description: "what services are allowed. \nProperty key is the service name"
           example:
             airplay:
@@ -80588,7 +80604,7 @@ components:
       description: additional VLAN IDs (on the LAN side or from other WLANs) should
         we be forwarding bonjour queries/responses
       items:
-        type: integer
+        $ref: '#/components/schemas/vlan_id_with_variable'
       type: array
     wlan_bonjour_service_properties:
       properties:
@@ -80777,9 +80793,7 @@ components:
           minLength: 8
           type: string
         default_vlan_id:
-          example: 999
-          nullable: true
-          type: integer
+          $ref: '#/components/schemas/vlan_id_with_variable'
         enabled:
           default: false
           type: boolean
@@ -80797,23 +80811,14 @@ components:
       type: object
     wlan_dynamic_psk_vlan_ids:
       items:
-        maximum: 4094
-        minimum: 1
-        nullable: true
-        type: integer
+        $ref: '#/components/schemas/vlan_id_with_variable'
       type: array
     wlan_dynamic_vlan:
       description: for 802.1x
       nullable: true
       properties:
         default_vlan_id:
-          default: 999
-          description: "vlan_id to use when there\u2019s no match from RADIUS"
-          example: 999
-          maximum: 4094
-          minimum: 1
-          nullable: true
-          type: integer
+          $ref: '#/components/schemas/wlan_dynamic_vlan_default_vlan_id'
         enabled:
           default: false
           description: whether to enable dynamic vlan
@@ -80835,13 +80840,20 @@ components:
             '322': fast,video
           type: object
       type: object
+    wlan_dynamic_vlan_default_vlan_id:
+      default: 999
+      description: "vlan_id to use when there\u2019s no match from RADIUS"
+      example: 999
+      maximum: 4094
+      minimum: 1
+      nullable: true
+      oneOf:
+      - type: string
+      - type: integer
     wlan_dynamic_vlan_local_vlan_ids:
       description: vlan_ids to be locally bridged
       items:
-        maximum: 4094
-        minimum: 1
-        nullable: true
-        type: integer
+        $ref: '#/components/schemas/vlan_id_with_variable'
       type: array
     wlan_dynamic_vlan_type:
       default: standard
@@ -81876,11 +81888,7 @@ components:
       - 4
       - 5
       items:
-        default: 999
-        maximum: 4094
-        minimum: 1
-        nullable: true
-        type: integer
+        $ref: '#/components/schemas/vlan_id_with_variable'
       type: array
     wlan_wxtag_ids:
       description: list of wxtag_ids
@@ -82051,9 +82059,7 @@ components:
         values:
           $ref: '#/components/schemas/wxlan_tag_values'
         vlan_id:
-          description: if `type`==`vlan_id`
-          example: 1055
-          type: integer
+          $ref: '#/components/schemas/wxlan_tag_vlan_id'
       required:
       - type
       - name
@@ -82123,6 +82129,12 @@ components:
       items:
         type: string
       type: array
+    wxlan_tag_vlan_id:
+      description: if `type`==`vlan_id`
+      example: 1055
+      oneOf:
+      - type: string
+      - type: integer
     wxlan_tags:
       items:
         $ref: '#/components/schemas/wxlan_tag'

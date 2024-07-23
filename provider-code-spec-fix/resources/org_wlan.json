@@ -201,7 +201,7 @@
             "get": [
                 "list"
             ],
-            "default_type": "list_of_int",
+            "default_type": "list_of_str",
             "computed_optional_required": "computed_optional"
         },
         {
@@ -223,9 +223,46 @@
         {
             "name": "vlan_id",
             "get": [
-                "int64"
+                "string"
             ],
-            "computed_optional_required": "computed_optional"
+            "validators":  [
+                {
+                    "custom": {
+                        "imports": [
+                            {
+                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"                            }
+                        ],
+                        "schema_definition": "stringvalidator.Any(mistvalidator.ParseVlanId(),mistvalidator.ParseVar(),)"
+                    }
+                }
+            ] 
+        },
+        {
+            "name": "dynamic_vlan",
+            "get": [
+                "single_nested",
+                "attributes"
+            ],
+            "next": [
+                {
+                    "name": "default_vlan_id",
+                    "get": [
+                        "string"
+                    ],
+                    "validators":  [
+                        {
+                            "custom": {
+                                "imports": [
+                                    {
+                                        "path": "github.com/Juniper/terraform-provider-mist/internal/validators"                                    }
+                                ],
+                                "schema_definition": "stringvalidator.Any(mistvalidator.ParseVlanId(),mistvalidator.ParseVar(),)"
+                            }
+                        }
+                    ] 
+                }
+            ]
+           
         }
     ]
 }

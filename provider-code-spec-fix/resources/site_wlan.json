@@ -85,6 +85,21 @@
             ]
         },
         {
+            "name": "bonjour",
+            "get": [
+                "single_nested",
+                "attributes"
+            ],
+            "next": [
+                {
+                    "name": "additional_vlan_ids",
+                    "get": [
+                        "list"
+                    ]
+                }
+            ]
+        },
+        {
             "name": "portal",
             "get": [
                 "single_nested",
@@ -146,7 +161,7 @@
                 "list"
             ],
             "default_type": "list_of_str",
-            "computed_optional_required": "computed_optional"            
+            "computed_optional_required": "computed_optional"
         },
         {
             "name": "portal_denied_hostnames",
@@ -154,7 +169,7 @@
                 "list"
             ],
             "default_type": "list_of_str",
-            "computed_optional_required": "computed_optional"                    
+            "computed_optional_required": "computed_optional"
         },
         {
             "name": "portal_allowed_subnets",
@@ -201,7 +216,7 @@
             "get": [
                 "list"
             ],
-            "default_type": "list_of_int",
+            "default_type": "list_of_str",
             "computed_optional_required": "computed_optional"
         },
         {
@@ -223,9 +238,23 @@
         {
             "name": "vlan_id",
             "get": [
-                "int64"
+                "string"
             ],
-            "computed_optional_required": "computed_optional"
+            "validators": [
+                {
+                    "custom": {
+                        "imports": [
+                            {
+                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                            },
+                            {
+                                "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                            }
+                        ],
+                        "schema_definition": "stringvalidator.Any(mistvalidator.ParseVlanId(),mistvalidator.ParseVar(),)"
+                    }
+                }
+            ]
         }
     ]
 }

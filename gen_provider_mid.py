@@ -25,6 +25,21 @@ CUSTOM_DEFAULT_LIST_OF_INT = """
                   ],
                   "schema_definition": "listdefault.StaticValue(types.ListValueMust(types.Int64Type, []attr.Value{}))"}}
 """
+CUSTOM_MAP_VALIDATOR = """
+"map_nested": {
+    "validators": [
+        {
+            "custom": {
+                "imports": [
+                    {
+                        "path": "github.com/hashicorp/terraform-plugin-framework-validators/mapvalidator"
+                    }
+                ],
+                "schema_definition": "mapvalidator.SizeAtLeast(1)"
+            }
+        }
+    ],
+"""
 
 with open(SPEC_IN, "r") as f_in:
     JS = json.load(f_in)
@@ -33,10 +48,12 @@ with open(SPEC_IN, "w") as f_out:
 
 RE_COR = r"\"computed_optional\""
 RE_DEF = r", \"default\": {[^}]*}"
+RE_MAP = r"\"map_nested\": {"
 with open(SPEC_IN, "r") as f:
     RAW = f.read()
 
 RAW = re.sub(RE_COR, '"optional"', RAW)
+RAW = re.sub(RE_MAP,CUSTOM_MAP_VALIDATOR, RAW)
 ##RAW = re.sub(RE_DEF, '', RAW)
 with open(SPEC_IN, "w") as f:
     f.write(RAW)

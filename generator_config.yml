@@ -440,12 +440,6 @@ resources:
       method: PUT      
     schema:
       ignores:
-        # temp fix
-        - analytic
-        - srx_app
-        - vna
-        - wan_vna
-        - wired_van
         ##
         - created_time
         - modified_time
@@ -453,7 +447,6 @@ resources:
         - for_site
         - flags
         - status_portal
-        - rtsa
         ## AP
         - ap_matching
         - ap_port_config
@@ -470,7 +463,7 @@ resources:
         - evpn_options
         - gateway
         - gateway_matching
-        - gateway_mgmt
+        - gateway_mgmt.protect_re
         - ospf_areas
         - paloalto_networks
         - switch
@@ -908,32 +901,32 @@ resources:
   #     attributes:
   #       aliases:
   #         deviceprofile_id: id   
-  # org_deviceprofile_gateway:
-  #   create:
-  #     path: /api/v1/orgs/{org_id}/deviceprofiles
-  #     method: POST
-  #   read:
-  #     path: /api/v1/orgs/{org_id}/deviceprofiles/{deviceprofile_id}
-  #     method: GET
-  #   delete:
-  #     path: /api/v1/orgs/{org_id}/deviceprofiles/{deviceprofile_id}
-  #     method: DELETE
-  #   update:
-  #     path: /api/v1/orgs/{org_id}/deviceprofiles/{deviceprofile_id}
-  #     method: PUT      
-  #   schema:
-  #     ignores:
-  #       - gateway_matching
-  #       - idp_profiles.created_time
-  #       - idp_profiles.modified_time
-  #       - idp_profiles.id
-  #       - networks.created_time
-  #       - networks.modified_time
-  #       - networks.id
-  #       - networks.org_id
-  #     attributes:
-  #       aliases:
-  #         deviceprofile_id: id   
+  org_deviceprofile_gateway:
+    create:
+      path: /api/v1/orgs/{org_id}/deviceprofiles
+      method: POST
+    read:
+      path: /api/v1/orgs/{org_id}/deviceprofiles/{deviceprofile_id}
+      method: GET
+    delete:
+      path: /api/v1/orgs/{org_id}/deviceprofiles/{deviceprofile_id}
+      method: DELETE
+    update:
+      path: /api/v1/orgs/{org_id}/deviceprofiles/{deviceprofile_id}
+      method: PUT      
+    schema:
+      ignores:
+        - gateway_matching
+        - idp_profiles.created_time
+        - idp_profiles.modified_time
+        - idp_profiles.id
+        - networks.created_time
+        - networks.modified_time
+        - networks.id
+        - networks.org_id
+      attributes:
+        aliases:
+          deviceprofile_id: id   
   # org_deviceprofile_assign:
   #   create:
   #     path: /api/v1/orgs/{org_id}/deviceprofiles/{deviceprofile_id}/assign

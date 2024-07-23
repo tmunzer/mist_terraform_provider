@@ -61848,10 +61848,11 @@ components:
       - qrcode
       type: string
     mist_device:
-      oneOf:
-      - $ref: '#/components/schemas/ap'
-      - $ref: '#/components/schemas/switch'
-      - $ref: '#/components/schemas/gateway'
+      $ref: '#/components/schemas/gateway'
+      # oneOf:
+      # - $ref: '#/components/schemas/ap'
+      # - $ref: '#/components/schemas/switch'
+      # - $ref: '#/components/schemas/gateway'
     ml_overwrite:
       additionalProperties:
         $ref: '#/components/schemas/ml_overwrite_additional_properties'
