@@ -99,7 +99,7 @@
                             "get": [
                                 "string"
                             ],
-                            "validators":  [
+                            "validators": [
                                 {
                                     "custom": {
                                         "imports": [
@@ -110,14 +110,39 @@
                                                 "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
                                             }
                                         ],
-                                        "schema_definition": "stringvalidator.Any(mistvalidator.ParseVlanId(),mistvalidator.ParseVar(),)"
+                                        "schema_definition": "stringvalidator.Any(mistvalidator.ParseInt(1, 4094),mistvalidator.ParseVar(),)"
                                     }
                                 }
-                            ] 
+                            ]
                         }
                     ]
                 }
             ]
-        }  
+        },
+        {
+            "name": "gateway_mgmt",
+            "get": [
+                "single_nested",
+                "attributes"
+            ],
+            "next": [
+                {
+                    "name": "admin_sshkeys",
+                    "get": [
+                        "list"
+                    ],
+                    "computed_optional_required": "computed_optional",
+                    "default_type": "list_of_str"
+                },
+                {
+                    "name": "probe_hosts",
+                    "get": [
+                        "list"
+                    ],
+                    "computed_optional_required": "computed_optional",
+                    "default_type": "list_of_str"
+                }
+            ]
+        }
     ]
 }

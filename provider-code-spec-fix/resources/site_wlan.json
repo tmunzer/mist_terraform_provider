@@ -20,6 +20,13 @@
             "computed_optional_required": "computed"
         },
         {
+            "name": "thumbnail",
+            "get": [
+                "string"
+            ],
+            "computed_optional_required": "computed"
+        },
+        {
             "name": "site_id",
             "get": [
                 "string"
@@ -81,21 +88,6 @@
                         "list"
                     ],
                     "computed_optional_required": "computed_optional"
-                }
-            ]
-        },
-        {
-            "name": "bonjour",
-            "get": [
-                "single_nested",
-                "attributes"
-            ],
-            "next": [
-                {
-                    "name": "additional_vlan_ids",
-                    "get": [
-                        "list"
-                    ]
                 }
             ]
         },
@@ -251,7 +243,162 @@
                                 "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
                             }
                         ],
-                        "schema_definition": "stringvalidator.Any(mistvalidator.ParseVlanId(),mistvalidator.ParseVar(),)"
+                        "schema_definition": "stringvalidator.Any(mistvalidator.ParseInt(1, 4094),mistvalidator.ParseVar(),)"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "bonjour",
+            "get": [
+                "single_nested",
+                "attributes"
+            ],
+            "next": [
+                {
+                    "name": "additional_vlan_ids",
+                    "get": [
+                        "list"
+                    ],
+                    "validators": [
+                        {
+                            "custom": {
+                                "imports": [
+                                    {
+                                        "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                    },
+                                    {
+                                        "path": "github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
+                                    }
+                                ],
+                                "schema_definition": "listvalidator.ValueStringsAre(stringvalidator.Any(mistvalidator.ParseInt(1, 4094), mistvalidator.ParseVar()))"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "coa_servers",
+            "get": [
+                "list_nested",
+                "nested_object",
+                "attributes"
+            ],
+            "next": [
+                {
+                    "name": "ip",
+                    "get": [
+                        "string"
+                    ],
+                    "computed_optional_required": "required",
+                    "validators": [
+                        {
+                            "custom": {
+                                "imports": [
+                                    {
+                                        "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                    },
+                                    {
+                                        "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                    }
+                                ],
+                                "schema_definition": "stringvalidator.Any(mistvalidator.ParseIp(true, false), mistvalidator.ParseVar())"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "dynamic_psk",
+            "get": [
+                "single_nested",
+                "attributes"
+            ],
+            "next": [
+                {
+                    "name": "default_vlan_id",
+                    "get": [
+                        "string"
+                    ],
+                    "validators": [
+                        {
+                            "custom": {
+                                "imports": [
+                                    {
+                                        "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                    },
+                                    {
+                                        "path": "github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
+                                    }
+                                ],
+                                "schema_definition": "stringvalidator.Any(mistvalidator.ParseInt(1, 4094), mistvalidator.ParseVar())"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "vlan_ids",
+                    "get": [
+                        "list"
+                    ],
+                    "validators": [
+                        {
+                            "custom": {
+                                "imports": [
+                                    {
+                                        "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                    },
+                                    {
+                                        "path": "github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
+                                    }
+                                ],
+                                "schema_definition": "listvalidator.ValueStringsAre(stringvalidator.Any(mistvalidator.ParseInt(1, 4094), mistvalidator.ParseVar()))"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "portal_allowed_subnets",
+            "get": [
+                "list"
+            ],
+            "validators": [
+                {
+                    "custom": {
+                        "imports": [
+                            {
+                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                            },
+                            {
+                                "path": "github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
+                            }
+                        ],
+                        "schema_definition": "listvalidator.ValueStringsAre(mistvalidator.ParseCidr(true, false))"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "vlan_ids",
+            "get": [
+                "list"
+            ],
+            "validators": [
+                {
+                    "custom": {
+                        "imports": [
+                            {
+                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                            },
+                            {
+                                "path": "github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
+                            }
+                        ],
+                        "schema_definition": "listvalidator.ValueStringsAre(stringvalidator.Any(mistvalidator.ParseInt(1, 4094), mistvalidator.ParseVar()))"
                     }
                 }
             ]

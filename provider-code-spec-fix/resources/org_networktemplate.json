@@ -447,7 +447,7 @@
                                         "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
                                     }
                                 ],
-                                "schema_definition": "stringvalidator.Any(mistvalidator.ParseVlanId(),mistvalidator.ParseVar(),)"
+                                "schema_definition": "stringvalidator.Any(mistvalidator.ParseInt(1, 4094),mistvalidator.ParseVar(),)"
                             }
                         }
                     ]

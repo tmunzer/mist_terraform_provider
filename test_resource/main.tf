@@ -804,7 +804,50 @@ resource "mist_org_service" "lab" {
     }
   ]
 }
-
+resource "mist_org_network" "networks14" {
+    org_id = mist_org.terraform_test.id
+    isolation = true
+    subnet = "0.0.0.0/0"
+    internet_access = {
+    }
+    vpn_access = {
+    OrgOverlay = {
+    routed = true
+    }
+    }
+    disallow_mist_services = true
+    name = "any"
+}
+resource "mist_org_network" "networks17" {
+    org_id = mist_org.terraform_test.id
+    isolation = true
+    subnet = "{{VLAN494}}.0/24"
+    internet_access = {
+    }
+    vpn_access = {
+    OrgOverlay = {
+    routed = true
+    }
+    }
+    vlan_id = "{{VLAN494}}"
+    disallow_mist_services = true
+    name = "VLAN494_Network"
+}
+resource "mist_org_network" "networks1" {
+    org_id = mist_org.terraform_test.id
+    isolation = true
+    subnet = "{{cnf_peer_subnet}}/{{cnf_peer_prefix}}"
+    tenants = {
+    ANY = {
+        addresses = [
+                "0.0.0.0/0"
+        ]
+    }
+    }
+    internet_access = {
+    }
+    name = "CNF-Peer"
+}
 resource "mist_org_network" "corp" {
   org_id                 = mist_org.terraform_test.id
   disallow_mist_services = false
@@ -1419,6 +1462,14 @@ resource "mist_site_setting" "test" {
   # analytic = {
   #   enabled = true
   # }
+  gateway_mgmt = {
+    root_password = "pwd123"
+    app_usage = true
+    auto_signature_update = {
+    enable = true
+    time_of_day = "02:00"
+    }
+  }
   vars = {
   }
   ap_updown_threshold     = 5

@@ -47,7 +47,7 @@
                 "list"
             ],
             "default_type": "list_of_str",
-            "computed_optional_required": "computed_optional"            
+            "computed_optional_required": "computed_optional"
         },
         {
             "name": "urls",
@@ -55,7 +55,7 @@
                 "list"
             ],
             "default_type": "list_of_str",
-            "computed_optional_required": "computed_optional"            
+            "computed_optional_required": "computed_optional"
         },
         {
             "name": "app_categories",
@@ -63,7 +63,7 @@
                 "list"
             ],
             "default_type": "list_of_str",
-            "computed_optional_required": "computed_optional"            
+            "computed_optional_required": "computed_optional"
         },
         {
             "name": "app_subcategories",
@@ -71,7 +71,7 @@
                 "list"
             ],
             "default_type": "list_of_str",
-            "computed_optional_required": "computed_optional"            
+            "computed_optional_required": "computed_optional"
         },
         {
             "name": "apps",
@@ -79,7 +79,7 @@
                 "list"
             ],
             "default_type": "list_of_str",
-            "computed_optional_required": "computed_optional"            
+            "computed_optional_required": "computed_optional"
         },
         {
             "name": "addresses",
@@ -87,7 +87,54 @@
                 "list"
             ],
             "default_type": "list_of_str",
-            "computed_optional_required": "computed_optional"            
+            "computed_optional_required": "computed_optional",
+            "validators": [
+                {
+                    "custom": {
+                        "imports": [
+                            {
+                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                            },
+                            {
+                                "path": "github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
+                            }
+                        ],
+                        "schema_definition": "listvalidator.ValueStringsAre(stringvalidator.Any(mistvalidator.ParseCidr(true, false), mistvalidator.ParseVar()))"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "specs",
+            "get": [
+                "list_nested",
+                "nested_object",
+                "attributes"
+            ],
+            "next": [
+                {
+                    "name": "protocol",
+                    "get": [
+                        "string"
+                    ],
+                    "computed_optional_required": "computed_optional",
+                    "validators": [
+                        {
+                            "custom": {
+                                "imports": [
+                                    {
+                                        "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                    },
+                                    {
+                                        "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                    }
+                                ],
+                                "schema_definition": "stringvalidator.Any(stringvalidator.OneOf(\"https\",\"tcp\",\"udp\",\"icmp\",\"gre\",\"any\"),mistvalidator.ParseInt(1, 254))"
+                            }
+                        }
+                    ]
+                }
+            ]
         }
     ]
 }

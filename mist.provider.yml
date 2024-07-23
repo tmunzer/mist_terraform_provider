@@ -61599,10 +61599,11 @@ components:
       - qrcode
       type: string
     mist_device:
-      oneOf:
-      - $ref: '#/components/schemas/device_ap'
-      - $ref: '#/components/schemas/device_switch'
-      - $ref: '#/components/schemas/device_gateway'
+      $ref: '#/components/schemas/device_switch'
+      # oneOf:
+      # - $ref: '#/components/schemas/device_gateway'
+      # - $ref: '#/components/schemas/device_ap'
+      # - $ref: '#/components/schemas/device_switch'
     ml_overwrite:
       additionalProperties:
         $ref: '#/components/schemas/ml_overwrite_additional_properties'

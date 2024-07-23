@@ -69,26 +69,48 @@
             "computed_optional_required": "required"
         },
         {
+            "name": "dns_servers",
+            "get": [
+                "list"
+            ],
+            "validators": [
+                {
+                    "custom": {
+                        "imports": [
+                            {
+                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                            },
+                            {
+                                "path": "github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
+                            }
+                        ],
+                        "schema_definition": "listvalidator.ValueStringsAre(stringvalidator.Any(mistvalidator.ParseIp(true, false), mistvalidator.ParseVar()))"
+                    }
+                }
+            ]
+        },
+        {
             "name": "ip_config",
             "get": [
                 "single_nested",
                 "attributes"
-            ],"next": [
-                        {
-                            "name": "dns",
-                            "get": [
-                                "list"
-                            ],
-                            "computed_optional_required": "computed_optional"
-                        },
-                        {
-                            "name": "dns_suffix",
-                            "get": [
-                                "list"
-                            ],
-                            "computed_optional_required": "computed_optional"
-                        }
-                    ]
+            ],
+            "next": [
+                {
+                    "name": "dns",
+                    "get": [
+                        "list"
+                    ],
+                    "computed_optional_required": "computed_optional"
+                },
+                {
+                    "name": "dns_suffix",
+                    "get": [
+                        "list"
+                    ],
+                    "computed_optional_required": "computed_optional"
+                }
+            ]
         },
         {
             "name": "switch_mgmt",
@@ -97,7 +119,13 @@
                 "attributes"
             ],
             "next": [
-                { "name": "root_password", "get": ["string"],"sensitive": true },
+                {
+                    "name": "root_password",
+                    "get": [
+                        "string"
+                    ],
+                    "sensitive": true
+                },
                 {
                     "name": "tacacs",
                     "get": [
@@ -133,6 +161,196 @@
                             ],
                             "computed_optional_required": "computed_optional",
                             "default_type": "list_of_str"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "extra_routes",
+            "get": [
+                "map_nested"
+            ],
+            "validators": [
+                {
+                    "custom": {
+                        "imports": [
+                            {
+                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                            },
+                            {
+                                "path": "github.com/hashicorp/terraform-plugin-framework-validators/mapvalidator"
+                            }
+                        ],
+                        "schema_definition": "mapvalidator.SizeAtLeast(1),mapvalidator.KeysAre(stringvalidator.Any(mistvalidator.ParseCidr(true, false), mistvalidator.ParseVar()))"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "extra_routes",
+            "get": [
+                "map_nested",
+                "nested_object",
+                "attributes"
+            ],
+            "next": [
+                {
+                    "name": "via",
+                    "get": [
+                        "string"
+                    ],
+                    "computed_optional_required": "required",
+                    "validators": [
+                        {
+                            "custom": {
+                                "imports": [
+                                    {
+                                        "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                    },
+                                    {
+                                        "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                    }
+                                ],
+                                "schema_definition": "stringvalidator.Any(mistvalidator.ParseIp(true, false), mistvalidator.ParseVar())"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "extra_routes6",
+            "get": [
+                "map_nested"
+            ],
+            "validators": [
+                {
+                    "custom": {
+                        "imports": [
+                            {
+                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                            },
+                            {
+                                "path": "github.com/hashicorp/terraform-plugin-framework-validators/mapvalidator"
+                            }
+                        ],
+                        "schema_definition": "mapvalidator.SizeAtLeast(1),mapvalidator.KeysAre(stringvalidator.Any(mistvalidator.ParseCidr(false, true), mistvalidator.ParseVar()))"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "extra_routes6",
+            "get": [
+                "map_nested",
+                "nested_object",
+                "attributes"
+            ],
+            "next": [
+                {
+                    "name": "via",
+                    "get": [
+                        "string"
+                    ],
+                    "computed_optional_required": "required",
+                    "validators": [
+                        {
+                            "custom": {
+                                "imports": [
+                                    {
+                                        "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                    },
+                                    {
+                                        "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                    }
+                                ],
+                                "schema_definition": "stringvalidator.Any(mistvalidator.ParseIp(false, true), mistvalidator.ParseVar())"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "vrf_instances",
+            "get": [
+                "map_nested"
+            ],
+            "validators": [
+                {
+                    "custom": {
+                        "imports": [
+                            {
+                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                            },
+                            {
+                                "path": "github.com/hashicorp/terraform-plugin-framework-validators/mapvalidator"
+                            }
+                        ],
+                        "schema_definition": "mapvalidator.SizeAtLeast(1),mapvalidator.KeysAre(mistvalidator.ParseName())"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "vrf_instances",
+            "get": [
+                "map_nested",
+                "nested_object",
+                "attributes"
+            ],
+            "next": [
+                {
+                    "name": "extra_routes",
+                    "get": [
+                        "map_nested"
+                    ],
+                    "validators": [
+                        {
+                            "custom": {
+                                "imports": [
+                                    {
+                                        "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                    },
+                                    {
+                                        "path": "github.com/hashicorp/terraform-plugin-framework-validators/mapvalidator"
+                                    }
+                                ],
+                                "schema_definition": "mapvalidator.SizeAtLeast(1),mapvalidator.KeysAre(stringvalidator.Any(mistvalidator.ParseCidr(false, true), mistvalidator.ParseVar()))"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "extra_routes",
+                    "get": [
+                        "map_nested",
+                        "nested_object",
+                        "attributes"
+                    ],
+                    "next": [
+                        {
+                            "name": "via",
+                            "get": [
+                                "string"
+                            ],
+                            "computed_optional_required": "required",
+                            "validators": [
+                                {
+                                    "custom": {
+                                        "imports": [
+                                            {
+                                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                            },
+                                            {
+                                                "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                            }
+                                        ],
+                                        "schema_definition": "stringvalidator.Any(mistvalidator.ParseIp(false, true), mistvalidator.ParseVar())"
+                                    }
+                                }
+                            ]
                         }
                     ]
                 }
@@ -175,6 +393,79 @@
                     ],
                     "computed_optional_required": "computed_optional",
                     "default_type": "list_of_str"
+                }
+            ]
+        },
+        {
+            "name": "networks",
+            "get": [
+                "map_nested"
+            ],
+            "validators": [
+                {
+                    "custom": {
+                        "imports": [
+                            {
+                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                            },
+                            {
+                                "path": "github.com/hashicorp/terraform-plugin-framework-validators/mapvalidator"
+                            }
+                        ],
+                        "schema_definition": "mapvalidator.SizeAtLeast(1),mapvalidator.KeysAre(stringvalidator.All(stringvalidator.LengthBetween(2, 32),mistvalidator.ParseName(),))"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "networks",
+            "get": [
+                "map_nested",
+                "nested_object",
+                "attributes"
+            ],
+            "next": [
+                {
+                    "name": "vlan_id",
+                    "get": [
+                        "string"
+                    ],
+                    "validators": [
+                        {
+                            "custom": {
+                                "imports": [
+                                    {
+                                        "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                    },
+                                    {
+                                        "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                    }
+                                ],
+                                "schema_definition": "stringvalidator.Any(mistvalidator.ParseInt(1, 4094),mistvalidator.ParseVar(),)"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "subnet",
+                    "get": [
+                        "string"
+                    ],
+                    "validators": [
+                        {
+                            "custom": {
+                                "imports": [
+                                    {
+                                        "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                    },
+                                    {
+                                        "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                    }
+                                ],
+                                "schema_definition": "stringvalidator.Any(mistvalidator.ParseCidr(false, true), mistvalidator.ParseVar())"
+                            }
+                        }
+                    ]
                 }
             ]
         },
@@ -279,7 +570,7 @@
                     "get": [
                         "string"
                     ],
-                    "validators":  [
+                    "validators": [
                         {
                             "custom": {
                                 "imports": [
@@ -290,10 +581,10 @@
                                         "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
                                     }
                                 ],
-                                "schema_definition": "stringvalidator.Any(mistvalidator.ParseVlanId(),mistvalidator.ParseVar(),)"
+                                "schema_definition": "stringvalidator.Any(mistvalidator.ParseInt(1, 4094),mistvalidator.ParseVar(),)"
                             }
                         }
-                    ] 
+                    ]
                 }
             ]
         }
