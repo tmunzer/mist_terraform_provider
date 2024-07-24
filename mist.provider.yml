@@ -3,11 +3,11 @@ info:
   contact:
     email: tmunzer@juniper.net
     name: Thomas Munzer
-  description: '> Version: **2406.1.31**
+  description: '> Version: **2406.1.32**
 
     >
 
-    > Date: **July 22, 2024**
+    > Date: **July 23, 2024**
 
 
     ---
@@ -43,7 +43,7 @@ info:
     name: MIT
     url: https://raw.githubusercontent.com/tmunzer/Mist-OAS3.0/main/LICENSE
   title: Mist API
-  version: 2406.1.31
+  version: 2406.1.32
 servers:
 - description: Mist Global 01
   url: https://api.mist.com
@@ -67,11 +67,28 @@ security:
 - basicAuth: []
   csrfToken: []
 tags:
-- name: Admins
-- name: Admins Login
-- name: Admins Logout
-- name: Admins Recover Password
-- name: Admins Lookup
+- description: 'Admin API calls can be used to create, manage or authenticate Mist
+    administrators.
+
+    To register administrators into an existing MSP account or Organization, please
+    check * [Invite Msp Admin]($e/MSPs%20Admins/inviteMspAdmin) * [Invite Org Admin]($e/Orgs%20Admins/inviteOrgAdmin)'
+  name: Admins
+- description: 'Login Enpoints when using Login/Password authentication, with or without
+    2FA.
+
+    If the Login/Password authentication is succesful, Mist will add a `csrftoken`
+    cooky that must be added into the later API Requests (please see [csrfToken (Customer
+    Header Signature)]($h/__auth_CsrfToken))'
+  name: Admins Login
+- description: Logout Enpoints when using Login/Password authentication, with or without
+    2FA.
+  name: Admins Logout
+- description: Enpoints used to trigger a password recovery and validate the token
+    sent by email.
+  name: Admins Recover Password
+- description: Admin Lookup API Call is mainly used by Web UIs to know if a user must
+    be redirected to an SSO URL for login.
+  name: Admins Lookup
 - description: "A Mist account can be linked to OAuth2 providers:\n1. First, login\
     \ with your Mist account\n2. Obtain the Authorization URL for Linking with [Get\
     \ Oauth 2 Authorization Url for Login]($e/Admins%20Login%20-%20OAuth2/getOauth2AuthorizationUrlForLogin).\n\
@@ -104,24 +121,164 @@ tags:
   name: Installer
 - description: MSP (Managed Service Provider) contains multiple Organizations.
   name: MSPs
-- name: MSPs Admins
-- name: MSPs Inventory
-- name: MSPs Logo
-- description: Audit logs records all administrative activities in a MSP
+- description: An MSP Admin refers to a user who has access to the Juniper Mist managed
+    service provider (MSP) portal and is responsible for managing and administering
+    the network operations of multiple customer organizations and sites.
+  name: MSPs Admins
+- description: API Calls to locate a device accross all the Organizations attached
+    to the MSP account.
+  name: MSPs Inventory
+- description: Manage the Mist portal logo at the MSP level. This logo will be diplayed
+    instead of the Juniper Mist Logo for all the Organizations attached to this MSP
+    account.
+  name: MSPs Logo
+- description: 'Audit Logs are records of activities initiated by users, providing
+    a history of actions such as accessing, creating, updating, or deleting resources
+    or components at the MSP level.
+
+
+    These logs allow superusers and network administrators to track and maintain a
+    record of user actions, including who performed specific actions and when.
+
+
+    Audit logs are useful for monitoring user activity, investigating security breaches,
+    ensuring compliance with regulations, and tracing configuration changes in a network.
+
+
+    They can be filtered and analyzed to view specific information and granular-level
+    details of each event.'
   name: MSPs Logs
-- name: MSPs Licenses
-- name: MSPs Marvis
-- name: MSPs Org Groups
-- name: MSPs Orgs
-- name: MSPs SLEs
-- name: MSPs SSO Roles
-- name: MSPs SSO
-- name: MSPs Tickets
+- description: 'Licenses are a type of service or access that customers can purchase
+    for various features or services offered by a company.
+
+
+    Subscriptions can have different statuses, such as active, expired, exceeded,
+    or trial, depending on their validity and usage. The status of a subscription
+    determines whether it is currently active and valid, has expired, has exceeded
+    the allowed usage limit, or is in a trial period.
+
+
+    Licenses can be activated using an activation code, and the activation process
+    confirms the inputted code and activates the subscription.
+
+
+    Licenses can be managed at the MSP level for organization attached to an MSP account,
+    or directly at the [Organization level]($h/Orgs%20Licenses/_overview)'
+  name: MSPs Licenses
+- description: 'Marvis is an AI-driven, interactive virtual network assistant that
+    streamlines network operations, simplifies troubleshooting, and provides an enhanced
+    user experience.
+
+    It offers real-time network visibility, comprehensive insights, and automation
+    customized for your network.
+
+    Marvis can proactively identify issues, interpret their impact, determine root
+    causes, and recommend fixes.
+
+    It consists of components such as Marvis Actions, Marvis Minis, Conversational
+    Assistant, Marvis Client, and Marvis Query Language.
+
+
+    Marvis API Calls at the MSP level can be used to quickly detect network issues
+    on all the Organizations attached to the MSP account.'
+  name: MSPs Marvis
+- description: 'Org Groups a way to group Organizations together based on certain
+    criteria.
+
+
+    They can be used for easier management and organization of multiple organizations
+    within the MSP portal.'
+  name: MSPs Org Groups
+- description: 'An organization usually represents a customer - which has inventories,
+    licenses.
+
+
+    An Organization can contain multiple sites. A site usually represents a deployment
+    at the same location (a campus, an office).'
+  name: MSPs Orgs
+- description: 'SLEs, or Service-Level Expectations, are metrics used to monitor and
+    report on the user experience of a Wireless, Wired or Wan network.
+
+
+    They are generated through data science and machine learning algorithms and provide
+    insights into various aspects of the network, such as coverage, capacity, connectivity,
+    and performance.
+
+
+    Mist SLEs help identify when users do not have sufficient network quality, when
+    they face issues with connecting or roaming between access points, and when there
+    are problems on the wired network.
+
+
+    SLEs API Calls at the MSP level can be used to retrieve the SLEs summary for each
+    Organization attached to the MSP account.'
+  name: MSPs SLEs
+- description: 'MSP SSO roles refer to the different functions assigned to users within
+    a Single Sign-On (SSO) system.
+
+
+    These roles determine the tasks and actions that users can perform within the
+    SSO system. There are typically predefined roles and custom roles in an SSO system.
+
+
+    Roles in SSO provide a well-defined separation of responsibility and visibility,
+    allowing for granular-level access control on SSO objects.'
+  name: MSPs SSO Roles
+- description: 'MSP SSO, or Single Sign-On, is a method of authentication that allows
+    users to securely log in to multiple applications and websites with a single set
+    of login credentials.
+
+
+    It involves integrating the MSP portal with an Identity Provider (IdP) using the
+    Security Assertion Markup Language (SAML) framework.
+
+
+    This enables users to authenticate themselves through their corporate IdP, eliminating
+    the need to remember separate passwords or enter credentials each time they access
+    the MSP portal.'
+  name: MSPs SSO
+- description: 'Support tickets are a means for users to seek assistance and resolve
+    issues they encounter with a product or service.
+
+    They allow users to communicate their problems or questions to the Juniper Mist
+    support team, who can then provide guidance, troubleshooting, or solutions.
+
+    Support tickets typically include information such as the type of issue, relevant
+    details, and any necessary attachments.
+
+
+    Support Tickets API Calls at the MSP level can be used to retrieve the tickets
+    for each Organization attached to the MSP account.'
+  name: MSPs Tickets
 - description: An organization usually represents a customer - which has inventories,
     licenses. An Organization can contain multiple sites. A site usually represents
     a deployment at the same location (a campus, an office).
   name: Orgs
-- name: Orgs Admins
+- description: "An org admin, or organization administrator, is a user with administrative\
+    \ privileges within a specific organization. They have the authority to manage\
+    \ and oversee the operations and settings of that organization's portal.\n\n The\
+    \ different types of access levels for an org admin include:\n * Super User: This\
+    \ role has full access to the MSP portal and all tenant organizations. A super\
+    \ user can manage other administrators and has the highest level of privileges.\n\
+    \ * Network Admin: A network admin has limited access to the MSP portal. They\
+    \ can be granted access to all organizations or specific organizations, with access\
+    \ to limited features in the organizations' portals. They are responsible for\
+    \ monitoring, verifying, and troubleshooting the network within their assigned\
+    \ organizations.\n * Observer: An observer has view-only access to limited features\
+    \ in the MSP portal. They can be granted access to all organizations or specific\
+    \ organizations, with view-only access to limited features in the organizations'\
+    \ portals. Observers monitor events in the network and bring any issues to the\
+    \ attention of the network administrator for resolution.\n * Installer: An installer\
+    \ can be granted access to all organizations or specific organizations, with only\
+    \ the ability to install access points for these organizations. They are responsible\
+    \ for setting up and installing access points in the network.\n * Helpdesk: A\
+    \ helpdesk user can be granted access to all organizations or specific organizations,\
+    \ with only helpdesk monitoring and workflow capabilities for these organizations.\
+    \ They assist with monitoring and resolving issues reported by users within the\
+    \ organization.\n\n These different access levels allow org admins to perform\
+    \ their specific roles and responsibilities within the MSP portal while ensuring\
+    \ appropriate access and security measures are in place."
+  name: Orgs Admins
 - description: Alarms are triggered based on certain events. Alarms could be configured
     using an Alarm Template.
   name: Orgs Alarms
@@ -129,23 +286,100 @@ tags:
     one or more sites (while each site can only pick one Alarm Template), or to the
     whole org.
   name: Orgs Alarm Templates
-- name: Orgs AP Templates
-- description: API tokens can be generated for a specific Org/Site with the required
-    privileges
+- description: 'AP Templates are defining Wi-Fi and AP settings that can be assigned
+    to Access Points based on different types of rules.
+
+
+    AP Templates must be assigned to one or multiple sites to be used.'
+  name: Orgs AP Templates
+- description: 'Org API token is a unique identifier used by an application to authenticate
+    and access a service''s API.
+
+    These tokens are used to authenticate requests made to the API server and ensure
+    secure access to the API.
+
+
+    They are not bound to any specific user and provide access to the organization
+    as a whole.
+
+
+    Organization tokens support different privileges and can only be used for the
+    specific organization they are generated for.
+
+
+    Rate limiting is done on an individual token basis, so if one token reaches its
+    rate limit, it does not impact other tokens.'
   name: Orgs API Tokens
-- name: Orgs Assets
-- name: Orgs Asset Filters
-- name: Orgs Cert
-- description: SDK Invites can be generated for (and belongs to) an Org. They can
-    be generated by an Admin of an Org and can be revoked at anytime.
+- description: 'An Asset refers to any equipment or item that is being tracked and
+    monitored using Bluetooth Low Energy (BLE) beacon tags.
+
+
+    This requires the Asset Visibility subscription.'
+  name: Orgs Assets
+- description: 'An Asset Filter is a feature that allows users to define specific
+    criteria or conditions to filter and display only certain assets based on their
+    attributes or properties.
+
+
+    This requires the Asset Visibility subscription.'
+  name: Orgs Asset Filters
+- description: 'API Calls to manage Organization Certificates.
+
+
+    The certificates can be used bu Access Assurance, during the SSO/SAML Authentication,
+    ...'
+  name: Orgs Cert
+- description: 'Marvis Clients are devices that have the Marvis Android Client installed
+    on them and are connected to a Juniper Mist AP.
+
+
+    They provide detailed data and telemetry about the client''s wireless connection,
+    including information about roaming behavior, connection type, and wireless properties.'
   name: Orgs Clients - Marvis
-- name: Orgs Clients - NAC
-- name: Orgs Clients - Wan
-- name: Orgs Clients - Wired
-- name: Orgs Clients - Wireless
-- name: Orgs Clients - SDK
-- name: Orgs Cradlepoint
-- name: Orgs CRL
+- description: NAC Clients are devices connected to the network and authenticated
+    by Juniper Mist Access Assurance.
+  name: Orgs Clients - NAC
+- description: WAN Clients are devices connected to a Juniper SRX or SSX gateay monitor
+    or managed by Mist
+  name: Orgs Clients - Wan
+- description: Wired Clients are Wired devices connected to a Juniper switch monitored
+    or managed by Mist.
+  name: Orgs Clients - Wired
+- description: Wireless Clients are Wi-Fi devices connected to a Juniper Mist Access
+    Point.
+  name: Orgs Clients - Wireless
+- description: 'SDK Clients are devices that have installed an application using the
+    Mist Software Development Kit (SDK).
+
+
+    These clients can provide specific data and information that is not available
+    without the installation of the SDK application.'
+  name: Orgs Clients - SDK
+- description: 'The integration between Mist and Cradlepoint allows users to utilize
+    Cradlepoint 5G cellular adapters with Juniper''s wired, wireless, and SD-WAN solutions
+    driven by Mist AI.
+
+
+    With this integration, users can manage Cradlepoint devices from the Mist portal,
+    including onboarding, assigning devices to a site, and viewing device inventory
+    details. It also provides visibility into the health, SLE, and insights of Cradlepoint
+    devices.
+
+
+    Additionally, the integration enables users to leverage Marvis, Juniper''s virtual
+    network assistant, to receive proactive recommendations and self-driving network
+    actions. This integration enhances the client-to-cloud user experience by providing
+    insights into branch WAN adapters, helping network admins reduce Mean Time to
+    Identify (MTTI).'
+  name: Orgs Cradlepoint
+- description: 'CRLs, or Certificate Revocation Lists, are time-stamped lists that
+    identify digital certificates that have been invalidated before their expiration
+    date. They include information about the reasons for revocation and the entities
+    that issued the certificates.
+
+
+    CRLs are used to prevent the usage of compromised digital certificates and signatures.'
+  name: Orgs CRL
 - description: 'While Templates / RF Templates / Network Templates / Gateway Templates
     provides powerful ways to control how a Device\''s configuration is derived for
     a Site. There are cases where you\''d like another level of control at the Org
@@ -154,9 +388,12 @@ tags:
     A Device Profile contains a subset of Device\''s configurations you\''d like a
     device to have. It will be merged at runtime when we\''re provisioning an AP.'
   name: Orgs Device Profiles
-- name: Orgs Devices
-- name: Orgs Devices - SSR
-- name: Orgs Devices - WAN Cluster
+- description: Devices are any Network device managed or monitored by Juniper Mist.
+    It can be * Wireless Access Points * Juniper Switch (EX, QFX) * Juniper WAN Gateway
+    (SRX, SSR) * Mist Edges * Other or 3rd party devices, like Cradelpoint Devices
+  name: Orgs Devices
+- description: API Calls specific to SSR devices
+  name: Orgs Devices - SSR
 - description: 'EVPN allows an alternative but more efficient LAN architecture utilizing
     VxLAN / MP-BGP - separating control plane (MAC / IP Learning) from forwarding
     plane.
@@ -165,7 +402,6 @@ tags:
   name: Orgs EVPN Topologies
 - description: API Call for 3rd party devices
   name: Orgs Devices - Others
-- name: Orgs Devices Stats
 - description: 'In Zscaler UI:
 
     1. add Partner Integration at https://admin.zscalerbeta.net/#administration/partner-integration
@@ -177,7 +413,7 @@ tags:
     - Login ID: john - email: john@abc.com
 
     4. Find the cloud name for ZIA https://help.zscaler.com/zia/what-my-cloud-name-zia'
-  name: Orgs Devices Zscaler
+  name: Orgs Setting Zscaler
 - description: 'Gateway Template is applied to a site for gateway(s) in a site.
 
 
@@ -185,26 +421,111 @@ tags:
     and they can differ to set device_type specific configs, use this whatever is
     defined under `gateway` will overwrite/shadow the one at root-level'
   name: Orgs Gateway Templates
-- name: Orgs Guests
-- name: Orgs IDP Profiles
-- name: Orgs Inventory
-- name: Orgs JSE
+- description: Guests are users who are accessing the wi-fi network as a temporary
+    or non-permanent visitor.
+  name: Orgs Guests
+- description: 'An IDP profile is a set of predefined rules and actions that determine
+    how the Intrusion Detection and Prevention (IDP) system handles network traffic.
+
+
+    It allows you to selectively enforce attack detection and prevention techniques
+    on your network. The profile includes a set of IDP signatures and rules recommended
+    by Juniper Networks, and each attack type and severity has a specific action associated
+    with it, such as closing the TCP connection, dropping the packet, or sending an
+    alert.
+
+
+    The IDP profile can be applied to an application policy to monitor and analyze
+    network events for signs of incidents, violations, or threats to security policies.'
+  name: Orgs IDP Profiles
+- description: The Org Inventory allows administrators to view and manage all devices
+    registered (claimed) to the Organization.
+  name: Orgs Inventory
+- description: 'JSE stands for Juniper Secure Edge and it is a feature within the
+    Mist UI that allows customers to configure Secure Cloud Connectors.
+
+
+    With JSE, users can establish a tunnel via IPSEC protocol and use application
+    policy and traffic steering to send traffic from a WAN edge device to JSE. Mist
+    also provides insights and telemetry for the secure edge connection, which is
+    helpful for troubleshooting and monitoring data.'
+  name: Orgs JSE
 - description: "Juniper Support Insight is a free service provided to all Mist customers.\n\
     You can adopt your devices via a few lines CLI comands. Allowing you to \n* get\
     \ some basic information about the adopted devices \n* web shell into device (write\
     \ privilege required) \\n* upgrade (write privilege required)"
   name: Orgs JSI
-- name: Orgs Licenses
+- description: 'Licenses are a type of service or access that customers can purchase
+    for various features or services offered by a company.
+
+
+    Subscriptions can have different statuses, such as active, expired, exceeded,
+    or trial, depending on their validity and usage. The status of a subscription
+    determines whether it is currently active and valid, has expired, has exceeded
+    the allowed usage limit, or is in a trial period.
+
+
+    Licenses can be activated using an activation code, and the activation process
+    confirms the inputted code and activates the subscription.'
+  name: Orgs Licenses
 - name: Orgs Linked Applications
-- description: Audit logs records all administrative activities in an Org
+- description: 'Audit Logs are records of activities initiated by users, providing
+    a history of actions such as accessing, creating, updating, or deleting resources
+    or components at the Org level.
+
+
+    These logs allow superusers and network administrators to track and maintain a
+    record of user actions, including who performed specific actions and when.
+
+
+    Audit logs are useful for monitoring user activity, investigating security breaches,
+    ensuring compliance with regulations, and tracing configuration changes in a network.
+
+
+    They can be filtered and analyzed to view specific information and granular-level
+    details of each event.'
   name: Orgs Logs
-- name: Orgs Marvis
+- description: 'Marvis is an AI-driven, interactive virtual network assistant that
+    streamlines network operations, simplifies troubleshooting, and provides an enhanced
+    user experience.
+
+    It offers real-time network visibility, comprehensive insights, and automation
+    customized for your network.
+
+    Marvis can proactively identify issues, interpret their impact, determine root
+    causes, and recommend fixes.
+
+    It consists of components such as Marvis Actions, Marvis Minis, Conversational
+    Assistant, Marvis Client, and Marvis Query Language.'
+  name: Orgs Marvis
 - name: Orgs Maps
-- name: Orgs MxClusters
-- name: Orgs MxEdges
-- name: Orgs MxTunnels
-- name: Orgs NAC IDP
-- description: "nactags are the building blocks to compose nacrules.\nThey can either\
+- description: A Mist Edge Cluster (MxCluster) is a group of Juniper Mist Edge devices
+    that are configured to work together in order to provide high availability and
+    load balancing for the tunneling of traffic from access points (APs). The cluster
+    can consist of a single edge device or multiple edge devices.
+  name: Orgs MxClusters
+- description: A Mist Edge (MxEdge) is a physical or virtual appliance that is deployed
+    in a network to provide centralized datapath for user traffic or as a RADIUS Proxy,
+    which was traditionally performed by legacy wireless controllers. It keeps all
+    the control and management functions in the Mist Cloud, offering a microservices
+    architecture to the campus.
+  name: Orgs MxEdges
+- description: 'A Mist Tunnel (MxTunnel) is a configuration object that allows for
+    the tunneling of user VLANs from the Access Points (APs) to a central point on
+    the network.
+
+
+    It specifies the VLAN IDs that need to be tunneled and assigns the tunnel to a
+    primary or secondary mist edge cluster. The mist tunnel also includes settings
+    for tunnel failover, auto-preemption, and other parameters related to tunnel termination
+    services.'
+  name: Orgs MxTunnels
+- description: The NAC IDP allows users to integrate with various Identity Providers
+    (Idps) to enhance authentication and access control. Admins can configure identity
+    providers such as microsoft entra id, okta workforce identity cloud, and google
+    workspace idp.
+  name: Orgs NAC IDP
+- description: "NAC Tags are the building blocks to compose nacrules.\nThey can either\
     \ appear in the \u201Cmatching\u201D / \u201Cnot_matching\u201D sections of a\
     \ nacrule, in which case they play the role of classifiers, or they could appear\
     \ in the \u201Capply_tags\u201D section of the of a nacrule, in which case they\
@@ -239,24 +560,88 @@ tags:
     \ URL)\n that will get installed and used to provision certificates."
   name: Orgs NAC Portals
 - name: Orgs NAC CRL
-- name: Orgs NAC Rules
-- description: 'Network template is intended to be applied to a Site. It works like
-    a blueprint of the network of the site.
+- description: API Calls to retrieve statistics about the Mist Org and related items
+  name: Orgs Stats
+- description: API Calls to retrieve statistics about the Assets at the Org level
+  name: Orgs Stats - Assets
+- description: API Calls to retrieve statistics about the BGP Peers (WAN Assurance)
+  name: Orgs Stats - BGP Peers
+- description: API Calls to retrieve statistics about the Mist Managed and Monitored
+    Devices at the Org level
+  name: Orgs Stats - Devices
+- description: API Calls to retrieve statistics about the Mist Edges at the Org level
+  name: Orgs Stats - MxEdges
+- description: API Calls to retrieve statistics about the Other/3rd party desvices
+    at the Org level
+  name: Orgs Stats - Other Devices
+- description: API Calls to retrieve statistics about the Wired Ports at the Org level
+  name: Orgs Stats - Ports
+- description: API Calls to retrieve statistics about the Mist Tunnels at the Org
+    level
+  name: Orgs Stats - Tunnels
+- description: API Calls to retrieve statistics about the VPN Peers (WAN Assurance)
+  name: Orgs Stats - VPN Peers
+- description: 'The NAC Rules (or Auth Policies) are a set of rules that devices and
+    users must fulfill in order to gain access to the network and use network resources.
 
 
-    All Site Settings can go into Network Templates. See Site:Site Setting for schema
+    Juniper Mist Access Assurance evaluates authentication requests based on the specified
+    policy conditions. If a user or device satisfies the conditions, Mist Access Assurance
+    applies actions that either allow or deny access to the user or device.
 
 
-    Moreover, this can further be overwriten by individual Site Setting
+    These actions can also apply attributes such as VLAN and role to the allowed users.
+    Mist Access Assurance uses "NAC Tags" (or Auth Policy Labels) as the policy matching
+    criteria and as a policy action for allowed users. NAC Tags can be managed with
+    the [Orgs NAC Tags API Calls]($h/Orgs%20NAC%20Tags/_overview)'
+  name: Orgs NAC Rules
+- description: 'A Network Template is a configuration template that allows for the
+    consistent and standardized configuration of switches across an organization''s
+    network infrastructure.
 
 
-    WantAssertionsSignedhen Templates are not used, Site Setting holds settings for
-    multiple device types and they can differ to set device_type specific configs,
-    use this whatever is defined under `switch` will overwrite/shadow the one at root-level'
+    It includes settings such as radius and ntp servers, shared elements like iot
+    or corporate networks, and port profiles for specific devices.
+
+
+    Switch templates can be applied at the site level, and they make the initial setup
+    of switches easy and adaptable to specific site or switch settings.'
   name: Orgs Network Templates
-- name: Orgs Networks
-- name: Orgs Premium Analytics
-- name: Orgs Psks
+- description: A Network refers to a group or segment of users that are defined for
+    use across the entire organization.
+  name: Orgs Networks
+- description: 'Premium Analytics is an advanced, cloud-based analytics service offered
+    by Juniper Mist. It provides end-to-end network observability and allows users
+    to gain unique insights into networking and location based on Juniper Mist data
+    sets and optional third-party data sets.
+
+
+    Premium Analytics stores data for up to 13 months, extending the observability
+    of historical data beyond the 30 days available with the standard Juniper Mist
+    analytics service. It supports features such as network, engagement, and occupancy
+    analytics, and offers the ability to customize reports and filter data based on
+    various parameters.'
+  name: Orgs Premium Analytics
+- description: 'A multi PSK (Pre-Shared Key) is a feature that allows the use of multiple
+    PSKs for securing network connections.
+
+
+    It provides a simple and comprehensive way to onboard client devices without relying
+    on client mac addresses.
+
+
+    Each psk has its own key name, which can be used for user-level accountability,
+    key rotation, and visibility in the management platform. It supports the creation,
+    rotation, and auto-expiration of psks, and allows vlan assignment and role assignment
+    for dynamic per-user policies.
+
+
+    Multi PSKs create virtual broadcast domains and can be used for end-user onboarding
+    via authenticated sso login.
+
+
+    Mist supports three methods of Org PSKs lookup: * local * radius * cloud'
+  name: Orgs Psks
 - description: 'PSK Self-Service Portals are for
 
     1. **WIFI users** who want to connect to a WLAN with personal PSK, they''re told
@@ -269,7 +654,21 @@ tags:
 
     When a PSK portal is created, an unique URL will be generated (e.g. https://psk.mist.com/xxxxxx)'
   name: Orgs Psk Portals
-- name: Orgs RF Templates
+- description: 'Rf Templates are a feature in Juniper Mist wireless assurance that
+    allow for uniform radio configurations to be applied across all sites in an organization.
+
+
+    These templates can be customized to include model-specific exceptions and settings
+    for different use cases.
+
+
+    RF Templates enable the management of radio bands, channel width, transmission
+    power, and ap antenna gain.
+
+
+    They provide a centralized way to configure and apply these settings to all access
+    points within an organization.'
+  name: Orgs RF Templates
 - description: SDK Invites can be generated for (and belongs to) an Org. They can
     be generated by an Admin of an Org and can be revoked at anytime.
   name: Orgs SDK Invites
@@ -282,109 +681,544 @@ tags:
     \ will be flagged in [Device Config History]($e/Sites%20Devices/searchSiteDeviceConfigHistory)\
     \ where you can search for the when and where the violation occurs."
   name: Orgs SecPolicies
-- name: Orgs Services
-- name: Orgs Service Policies
+- description: 'A Service refers to the applications that network users will connect
+    to. These applications represent traffic destinations and are essential for defining
+    network policies and security configurations.
+
+
+    Applications can be defined manually in the Juniper Mist cloud portal. They can
+    be categorized as: * Custom Applications: Defined using IP prefixes, protocols,
+    and port ranges. * Predefined Applications: Selected from a list of common applications
+    (e.g., Social Media, Microsoft Teams). * URL Categories: Used to define applications
+    based on specific URLs.'
+  name: Orgs Services
+- description: 'Services Policies are a security policy that defines who can access
+    applications, they are used to control access to applications and ensure proper
+    traffic management within a network.
+
+
+    It determines the source network or users that are allowed or denied access to
+    specific applications or destinations.
+
+
+    The policy also includes options such as traffic steering profiles, which define
+    the paths that the traffic should follow.
+
+
+    Service policies can be defined at the organization level or within a wan edge
+    template or hub profile.'
+  name: Orgs Service Policies
 - name: Orgs Setting
 - description: Site groups are a group of sites under the same Org. It's many-to-many
     mapping to sites
   name: Orgs Sitegroups
 - name: Orgs Sites
-- description: Site template is intended to be applied to a Site. The items in site
-    setting which should be shared for all device types.
+- description: 'Site templates are pre-configured sets of attributes and settings
+    that can be applied to one or more sites in a Mist Organization.
+
+
+    These templates allow for quick and consistent configuration of sites by grouping
+    common attributes together.
+
+
+    They can include settings such as Auto-Upgrade features, wan edge configurations,
+    switch configurations and other network parameters.
+
+
+    By applying a site template, the same configuration can be easily replicated across
+    multiple sites, simplifying network management and ensuring consistency.'
   name: Orgs Site Templates
-- name: Orgs SLEs
-- name: Orgs SSO Roles
-- name: Orgs SSO
+- description: 'Org SLEs, or Service-Level Expectations, are metrics used to monitor
+    and report on the user experience of a Wireless, Wired or Wan network.
+
+
+    They are generated through data science and machine learning algorithms and provide
+    insights into various aspects of the network, such as coverage, capacity, connectivity,
+    and performance.
+
+
+    Mist SLEs help identify when users do not have sufficient network quality, when
+    they face issues with connecting or roaming between access points, and when there
+    are problems on the wired network.'
+  name: Orgs SLEs
+- description: 'SSO roles refer to the different functions assigned to users within
+    a Single Sign-On (SSO) system.
+
+
+    These roles determine the tasks and actions that users can perform within the
+    SSO system. There are typically predefined roles and custom roles in an SSO system.
+
+
+    Roles in SSO provide a well-defined separation of responsibility and visibility,
+    allowing for granular-level access control on SSO objects.'
+  name: Orgs SSO Roles
+- description: 'Org SSO, or Single Sign-On, is a method of authentication that allows
+    users to securely log in to multiple applications and websites with a single set
+    of login credentials.
+
+
+    It involves integrating the Org portal with an Identity Provider (IdP) using the
+    Security Assertion Markup Language (SAML) framework.
+
+
+    This enables users to authenticate themselves through their corporate IdP, eliminating
+    the need to remember separate passwords or enter credentials each time they access
+    the Org portal.'
+  name: Orgs SSO
 - name: Orgs Subscriptions
 - name: Orgs WLAN Templates
-- name: Orgs Tickets
-- name: Orgs Tunnels
+- description: 'Support tickets are a means for users to seek assistance and resolve
+    issues they encounter with a product or service.
+
+    They allow users to communicate their problems or questions to the Juniper Mist
+    support team, who can then provide guidance, troubleshooting, or solutions.
+
+    Support tickets typically include information such as the type of issue, relevant
+    details, and any necessary attachments.'
+  name: Orgs Tickets
 - name: Orgs User MACs
 - name: Orgs Vars
 - name: Orgs VPNs
-- name: Orgs Webhooks
-- name: Orgs Wlans
-- name: Orgs WxRules
-- name: Orgs WxTags
-- name: Orgs WxTunnels
+- description: 'An Org Webhook is a configuration that allows real-time events and
+    data from the Org to be pushed to a provided url.
+
+
+    It enables the collection of information about various topics such as device events,
+    alarms, and audits updates at the org level.
+
+
+    The Webhook can be set up and customized using the Mist API, allowing users to
+    receive and analyze specific data from a particular site.'
+  name: Orgs Webhooks
+- description: 'An Org Wlan is a wireless local area network that is configured at
+    the Org level and applied to a WLAN template.
+
+
+    It allows for the creation and management of wireless network settings, such as
+    ssids (service set identifiers), authentication settings, VLAN configurations,
+    etc...
+
+
+    Org Wlans are created and managed at the org level and can only be referenced
+    and used within the WLAN Templates.'
+  name: Orgs Wlans
+- description: 'ORg WxRules are a set of rules, restrictions, and settings that can
+    be applied to WLANs within a specific WLAN Template.
+
+
+    These policies determine how the devices and traffic are treated by the network
+    and can be used to control access, define VLANs, and apply labels to users and
+    resources.'
+  name: Orgs WxRules
+- description: 'Wxtags are tags or groups that can be created and used within the
+    Org.
+
+
+    They are used to classify users and resources and can be applied to Access Points,
+    WLAN configurations or WxRules within that site.
+
+
+    Org WxTags are created and managed at the org level and can only be referenced
+    and used within the org level configuration.'
+  name: Orgs WxTags
+- description: 'A WxLan Tunnel (WxTunnel) are used  to create a secure connection
+    between Juniper Mist Access Points and third-party VPN concentrators using protocols
+    such as l2tpv3 or dmvpn.
+
+
+    These tunnels allow for the aggregation of ethernet interfaces on access points,
+    support dynamic or static tunnels, and provide options for IPSec encryption.'
+  name: Orgs WxTunnels
 - description: A site represents a project, a deployment. For MSP, it can be as small
     as a coffee shop or a five-star 600-room hotel. A site contains a set of Maps,
     Wlans, Policies, Zones.
   name: Sites
-- name: Sites Alarms
-- name: Sites AP Templates
+- description: Alarms are triggered based on certain events. Alarms could be configured
+    using an [Org Alarm Template]($h/Orgs%20Alarm%20Templates/_overview).
+  name: Sites Alarms
+- description: 'AP Templates are defining Wi-Fi and AP settings that can be assigned
+    to Access Points based on different types of rules.
+
+
+    Site AP Templates are created and managed at the site level and can only be referenced
+    and used within that particular site.'
+  name: Sites AP Templates
 - description: Applications contains a list of applications users are interested in
     monitoring / routing / policying
   name: Sites Applications
 - name: Sites Anomaly
-- name: Sites Asset Filters
-- name: Sites Assets
+- description: 'An Asset Filter is a feature that allows users to define specific
+    criteria or conditions to filter and display only certain assets based on their
+    attributes or properties.
+
+
+    Site Asset Filters are created and managed at the site level and can only be referenced
+    and used within that particular site.
+
+
+    This requires the Asset Visibility subscription.'
+  name: Sites Asset Filters
+- description: 'An Asset refers to any equipment or item that is being tracked and
+    monitored using Bluetooth Low Energy (BLE) beacon tags.
+
+
+    This requires the Asset Visibility subscription.'
+  name: Sites Assets
 - name: Sites Beacons
-- name: Sites Calls
-- name: Sites Clients - NAC
-- name: Sites Clients - Wan
-- name: Sites Clients - SDK
-- name: Sites Clients - Wired
-- name: Sites Clients - Wireless
+- description: NAC Clients are devices connected to the network and authenticated
+    by Juniper Mist Access Assurance.
+  name: Sites Clients - NAC
+- description: WAN Clients are devices connected to a Juniper SRX or SSX gateay monitor
+    or managed by Mist
+  name: Sites Clients - Wan
+- description: Wired Clients are Wired devices connected to a Juniper switch monitored
+    or managed by Mist.
+  name: Sites Clients - Wired
+- description: Wireless Clients are Wi-Fi devices connected to a Juniper Mist Access
+    Point.
+  name: Sites Clients - Wireless
 - description: 'Mist provides many ways (device_type specific template, site template,
     device profile, per-device) to configure devices for different kind of scenarios.
 
+
     The precedence goes from most specific to least specific
+
 
     Device > Device Profile > RFTemplate (for AP only) > DeviceType-specific Template
     > Site Template > Site Setting'
   name: Sites Devices
-- name: Sites Devices - Discovered Switches
 - name: Sites Devices - Wireless
 - description: API Call for 3rd party devices
   name: Sites Devices - Others
 - name: Sites Devices - Wired
 - name: Sites Devices - Wired - Virtual Chassis
 - name: Sites Devices - WAN Cluster
-- name: Sites Devices Stats
-- name: Sites Device Profiles
-- name: Sites Events
+- description: The API Endpoints for the Device Profiles at the site level can be
+    used to get the site derived networks, meaning the merge between the site level
+    configuration and the org level configuration.
+  name: Sites Device Profiles
+- description: 'Site events are issues or incidents that affect site-assigned access
+    points (aps) and radius, dhcp, and dns servers.
+
+
+    They can be investigated and monitored using the insights dashboard in the juniper
+    mist portal. the dashboard provides a summary of site events, including information
+    about the impacted devices and contributing events.
+
+
+    Site events can be categorized as resolved or acknowledged, and additional details
+    can be accessed by clicking on the event.'
+  name: Sites Events
 - description: 'EVPN allows an alternative but more efficient LAN architecture utilizing
     VxLAN / MP-BGP - separating control plane (MAC / IP Learning) from forwarding
     plane.
 
+
     In our implementation, following the steps to deploy EVPN topologies in a Site'
   name: Sites EVPN Topologies
-- name: Sites Gateway Templates
-- name: Sites Guests
-- name: Sites Insights
-- name: Sites JSE
-- name: Sites Licenses
-- name: Sites Location
-- name: Sites Maps
-- name: Sites Maps - Auto-orientation
-- name: Sites Maps - Auto-placement
-- name: Sites MxEdges
-- name: Sites Network Templates
-- name: Sites Networks
-- name: Sites Psks
-- name: Sites RF Templates
-- name: Sites Rfdiags
-- name: Sites Rogues
-- name: Sites RRM
-- name: Sites RSSI Zones
-- name: Sites Services
-- name: Sites Service Policies
-- name: Sites Setting
-- name: Sites Site Templates
-- name: Sites Skyatp
-- name: Sites SLEs
+- description: The API Endpoints for the Gateway Templates at the site level can be
+    used to get the site derived networks, meaning the merge between the site level
+    configuration and the org level configuration.
+  name: Sites Gateway Templates
+- description: Guests are users who are accessing the wi-fi network as a temporary
+    or non-permanent visitor.
+  name: Sites Guests
+- description: 'Insights is a feature that provides an overview of network experience
+    across the entire site, access points, or clients.
+
+
+    It offers useful information about current conditions, such as telemetry data
+    from wired switches, edge devices, wireless clients, access points, network applications,
+    and bluetooth low energy (ble) tags.
+
+
+    These insights can be used to correct issues, make changes, and ensure a good
+    network experience for users.'
+  name: Sites Insights
+- description: 'JSE stands for Juniper Secure Edge and it is a feature within the
+    Mist UI that allows customers to configure Secure Cloud Connectors.
+
+
+    With JSE, users can establish a tunnel via IPSEC protocol and use application
+    policy and traffic steering to send traffic from a WAN edge device to JSE. Mist
+    also provides insights and telemetry for the secure edge connection, which is
+    helpful for troubleshooting and monitoring data.'
+  name: Sites JSE
+- description: The API Endpoints for the Licenses at the site level can be used to
+    get license usages for a specific site.
+  name: Sites Licenses
+- description: The Location Diagnostics allows users to retrieve and analyze coverage
+    and performance data for mist access points (aps) and devices.
+  name: Sites Location
+- description: 'A Site Map is a visual representation of the layout and structure
+    of a location, such as a building or campus.
+
+
+    It includes accurate information about the placement, positions, heights, and
+    orientations of Juniper Mist Access Points (APs) and other devices in the deployment.
+
+
+    The floorplan is an essential component of location services as it enables the
+    location engine to generate accurate location estimates for client devices, assets,
+    and users at the site.'
+  name: Sites Maps
+- description: "### AP Auto-Placement\nAP Auto-Placement is a feature in Juniper Mist\
+    \ wireless assurance that automatically determines and sets the positions of Access\
+    \ Points (APs) on a floorplan.\n\nIt saves time and simplifies the deployment\
+    \ process by eliminating the need for manual placement. \n\nThe autoplacement\
+    \ algorithm calculates the most probable location for each AP based on factors\
+    \ such as signal strength and coverage requirements. \n\nThe confidence level\
+    \ of the autoplacement is indicated by colors, with green representing high certainty,\
+    \ orange indicating medium certainty, and red suggesting low certainty. \nIn cases\
+    \ where aps are isolated or cannot communicate with nearby aps, they cannot be\
+    \ placed automatically and must be [manually positioned on the floorplan]($e/Sites%20Devices/updateSiteDevice).\
+    \ \n\nAfter the autoplacement process is complete, the results can be evaluated\
+    \ and accepted of rejected with the API Call [Confirm Site AP Localization Data]($e/Sites%20Maps%20-%20Auto-placement/confirmSiteApLocalizationData)\n\
+    \n\n### AP Auto-Orientation\nAp Auto-Orientation is a feature in juniper mist\
+    \ wireless assurance that allows users to check and correct the orientation of\
+    \ Access Points (APs) on a floorplan. \n\nThis feature is supported by specific\
+    \ ap models and requires a firmware dependency of version 0.14.28310 or higher\
+    \ and does not require a maintenance window and can be used after performing autoplacement.\
+    \ \n\nTo use auto-orientation, physically install the APs, claim or adopt them\
+    \ into the Juniper Mist organization, place them on the floorplan, and perform\
+    \ auto-placement, then trigger the [Start Site Ap Auto Orientation API call]($e/Sites%20Maps%20-%20Auto-placement/startSiteApAutoOrientation)\n\
+    \nAfter 24 hours, the rotation in degrees of the AP(s) will be updated. users\
+    \ can accept or deny the changes made by the auto-orientation feature with the\
+    \ API Call [Confirm Site AP Localization Data]($e/Sites%20Maps%20-%20Auto-placement/confirmSiteApLocalizationData)."
+  name: Sites Maps - Auto-placement
+- description: 'MxEdges (Mist Edges) at the site level are deployed to tunnel traffic
+    at each site due to network constraints or security concerns.
+
+
+    They can be assigned to a specific site and configured to provide tunneling and
+    radius proxy services for the access points (APs) in that site.
+
+
+    These Mist Edges allow for the extension of user vlans from the corporate network
+    to the aps, and they support features such as auto preemption for failover, dual
+    tunneling to different mist edge clusters, and anchor tunnels for traffic routing
+    to dmz areas.'
+  name: Sites MxEdges
+- description: The API Endpoints for the Network Templates at the site level can be
+    used to get the site derived networks, meaning the merge between the site level
+    configuration and the org level configuration.
+  name: Sites Network Templates
+- description: The API Endpoints for the Networks at the site level can be used to
+    get the site derived networks, meaning the merge between the site level configuration
+    and the org level configuration.
+  name: Sites Networks
+- description: 'A multi PSK (Pre-Shared Key) is a feature that allows the use of multiple
+    PSKs for securing network connections.
+
+
+    It provides a simple and comprehensive way to onboard client devices without relying
+    on client mac addresses.
+
+
+    Each psk has its own key name, which can be used for user-level accountability,
+    key rotation, and visibility in the management platform. It supports the creation,
+    rotation, and auto-expiration of psks, and allows vlan assignment and role assignment
+    for dynamic per-user policies.
+
+
+    Multi PSKs create virtual broadcast domains and can be used for end-user onboarding
+    via authenticated sso login.
+
+
+    Mist supports two methods of Site PSKs lookup: * local * radius'
+  name: Sites Psks
+- description: The API Endpoints for the RF Templates at the site level can be used
+    to get the site derived configuration, meaning the merge between the site level
+    configuration and the org level configuration.
+  name: Sites RF Templates
+- description: 'Rf Diags is a feature in Juniper Mist location services that allows
+    users to replay recorded sessions of the RF (radio frequency) environment.
+
+
+    It enables users to gain an understanding of current issues, troubleshoot problems,
+    and review recordings for further analysis or to share with customer support.'
+  name: Sites Rfdiags
+- description: 'Rogues are unauthorized wireless access points that are installed
+    on a network without authorization.
+
+
+    They can be connected to the LAN via an ethernet cable, similar to a pc, and are
+    typically set up by individuals with malicious intent or by employees trying to
+    cover a deadspot with their own wi-fi hotspot.'
+  name: Sites Rogues
+- description: 'RRM, or Radio Resource Management, is a tool used by large multi-site
+    organizations to efficiently manage their RF spectrum.
+
+
+    It involves making decisions on channel and power settings for access points (APs)
+    based on factors such as user experience, client count, client usage, and interference.
+
+
+    Mist RRM uses a reinforcement learning-based feedback model to monitor the impact
+    of changes in channel and power settings on the capacity and performance of the
+    wireless network. It adapts dynamically to changing conditions throughout the
+    day and aims to optimize wireless coverage and capacity across a site.'
+  name: Sites RRM
+- description: RSSI Zones are zones based on the RSSI (Received Signal Strength Indicator,
+    i.e. the power of the signal received by the Access Points from the Wireless Clients).
+  name: Sites RSSI Zones
+- description: 'A Service represents an a traffic destination or an application that
+    network users connect to. They are associated with users and networks and are
+    used in application policies to permit or deny access.
+
+
+    Services are defined at the [Org level]($e/Orgs%20Services/createOrgService).
+
+
+    The Site level endpoints can be used to get the site services statistics or the
+    derived services, meaning the merge between the site level configuration and the
+    org level configuration.'
+  name: Sites Services
+- description: The API Endpoints for the Service Policies at the site level can be
+    used to get the site derived configuration, meaning the merge between the site
+    level configuration and the org level configuration.
+  name: Sites Service Policies
+- description: 'Site settings refer to the configuration and management of of site
+    within a Mist Organization.
+
+
+    These settings include access point settings, firmware upgrade schedules, and
+    various features such as location services, occupancy analytics, and engagement
+    analytics.'
+  name: Sites Setting
+- description: The API Endpoints for the Site Templates at the site level can be used
+    to get the site derived configuration, meaning the merge between the site level
+    configuration and the org level configuration.
+  name: Sites Site Templates
+- description: 'SkyATP is a cloud-based solution that provides advanced threat protection
+    for network security.
+
+
+    It allows security analysts to update their defense against new attack techniques
+    in real-time and distribute threat intelligence quickly.
+
+
+    SkyATP inspects network traffic and blocks devices that have downloaded malware
+    or accessed command and control servers. It also offers configuration and troubleshooting
+    capabilities for administrators.'
+  name: Sites Skyatp
+- description: 'Site SLEs, or Service-Level Expectations, are metrics used to monitor
+    and report on the user experience of a Wireless, Wired or Wan network.
+
+
+    They are generated through data science and machine learning algorithms and provide
+    insights into various aspects of the network, such as coverage, capacity, connectivity,
+    and performance.
+
+
+    Mist SLEs help identify when users do not have sufficient network quality, when
+    they face issues with connecting or roaming between access points, and when there
+    are problems on the wired network.'
+  name: Sites SLEs
 - name: Sites Synthetic Tests
 - name: Sites UI Settings
-- name: Sites vBeacons
+- description: 'A vBeacon is a virtual beacon that is created and configured on a
+    floorplan and are configured with a name and message
+
+
+    It is a Mist patented technology that provides proximity-related notifications
+    to users on a mobile app using the Mist SDK.
+
+
+    vBeacons allow users to receive notifications when their device is within the
+    proximity of the beacon, based on the power transmitted. When a user goes near
+    the location of a vbeacon, a notification is sent to the application with the
+    configured message.'
+  name: Sites vBeacons
 - name: Sites VPNs
 - name: Sites WAN Usages
-- name: Sites Webhooks
-- name: Sites Wlans
-- name: Sites WxRules
-- name: Sites WxTags
-- name: Sites WxTunnels
-- name: Sites Zones
+- description: 'A Site Webhook is a configuration that allows real-time events and
+    data from a specific site to be pushed to a provided url.
+
+
+    It enables the collection of information about various topics such as device events,
+    alarms, audits, client sessions and location updates at the site level.
+
+
+    The Webhook can be set up and customized using the Mist API, allowing users to
+    receive and analyze specific data from a particular site.'
+  name: Sites Webhooks
+- description: 'A Site Wlan is a wireless local area network that is configured and
+    applied to a specific site within an organization.
+
+
+    It allows for the creation and management of wireless network settings, such as
+    ssids (service set identifiers), authentication settings, VLAN configurations,
+    etc... for a particular site.
+
+
+    Site Wlans are created and managed at the site level and can only be referenced
+    and used within that particular site.'
+  name: Sites Wlans
+- description: 'Site WxRules are a set of rules, restrictions, and settings that can
+    be applied to WLANs within a specific site.
+
+
+    These policies determine how the devices and traffic are treated by the network
+    and can be used to control access, define VLANs, and apply labels to users and
+    resources.
+
+
+    Site WxRules are created and managed at the site level and are applied after the
+    site-level WxRules.'
+  name: Sites WxRules
+- description: 'Wxtags are tags or groups that can be created and used within a specific
+    site.
+
+
+    They are used to classify users and resources and can be applied to Access Points,
+    WLAN configurations or WxRules within that site.
+
+
+    Site WxTags are created and managed at the site level and can only be referenced
+    and used within that particular site.'
+  name: Sites WxTags
+- description: 'A WxLan Tunnel (WxTunnel) are used  to create a secure connection
+    between Juniper Mist Access Points and third-party VPN concentrators using protocols
+    such as l2tpv3 or dmvpn.
+
+
+    These tunnels allow for the aggregation of ethernet interfaces on access points,
+    support dynamic or static tunnels, and provide options for IPSec encryption.'
+  name: Sites WxTunnels
+- description: 'A Zone is a custom area defined by a user on a floor plan.
+
+
+    Zones can be used for capturing entry and exit events of clients, assets, and
+    sdk clients, providing insights such as wait time and the number of devices in
+    a particular zone.
+
+
+    Zone notifications can be accessed using sdk notification callbacks.
+
+
+    Zones are useful for data collection specific to areas on the floor plan.'
+  name: Sites Zones
+- name: Sites Stats
+- name: Sites Stats - Apps
+- name: Sites Stats - Assets
+- name: Sites Stats - Beacons
+- name: Sites Stats - BGP Peers
+- name: Sites Stats - Calls
+- name: Sites Stats - Clients Wireless
+- description: 'SDK Clients are devices that have installed an application using the
+    Mist Software Development Kit (SDK).
+
+
+    These clients can provide specific data and information that is not available
+    without the installation of the SDK application.'
+  name: Sites Stats - Clients SDK
+- name: Sites Stats - Devices
+- name: Sites Stats - MxEdges
+- name: Sites Stats - Ports
+- name: Sites Stats - WxRules
+- name: Sites Stats - Zones
+- name: Sites Stats - Discovered Switches
 - name: Constants Definitions
 - name: Constants Events
 - name: Constants Models
@@ -410,20 +1244,21 @@ tags:
 - name: Utilities PCAPs
 - name: Utilities Location
 - name: Utilities MxEdge
-- name: Utilities Upgrade
+- description: API Calls used to manage device upgrades for a single device, at the
+    site level or at the organization level.
+  name: Utilities Upgrade
 paths:
   /api/v1/const/alarm_defs:
     get:
       description: 'Get List of brief definitions of all the supported alarm types.
-        The
 
-        example field contains an example payload as you would recieve in the
 
+        The example field contains an example payload as you would recieve in the
         alarm webhook output.
 
 
 
-        HA cluster node names will be specified in the `node` field, if applicable.'
+        HA cluster node names will be specified in the `node` field, if applicable.'''
       operationId: listAlarmDefinitions
       responses:
         '200':
@@ -1141,7 +1976,7 @@ paths:
       operationId: addInstallerDeviceImage
       requestBody:
         content:
-          multipart/form_data:
+          multipart/form-data:
             schema:
               $ref: '#/components/schemas/map_site_import_file'
         description: Request Body
@@ -1521,7 +2356,7 @@ paths:
       operationId: importInstallerMap
       requestBody:
         content:
-          multipart/form_data:
+          multipart/form-data:
             schema:
               $ref: '#/components/schemas/map_site_import_file'
       responses:
@@ -5075,7 +5910,7 @@ paths:
                   name: Cheap Instrument
             schema:
               $ref: '#/components/schemas/assets_import_json'
-          multipart/form_data:
+          multipart/form-data:
             schema:
               $ref: '#/components/schemas/assets_import_file'
       responses:
@@ -8426,7 +9261,7 @@ paths:
           $ref: '#/components/responses/HTTP429'
       summary: createOrgGatewayHaCluster
       tags:
-      - Orgs Devices - WAN Cluster
+      - Orgs Inventory
   /api/v1/orgs/{org_id}/inventory/delete_ha_cluster:
     parameters:
     - $ref: '#/components/parameters/org_id'
@@ -8456,7 +9291,7 @@ paths:
           $ref: '#/components/responses/HTTP429'
       summary: deleteOrgGatewayHaCluster
       tags:
-      - Orgs Devices - WAN Cluster
+      - Orgs Inventory
   /api/v1/orgs/{org_id}/inventory/reevaluate_auto_assignment:
     parameters:
     - $ref: '#/components/parameters/org_id'
@@ -9004,7 +9839,7 @@ paths:
       operationId: importOrgMaps
       requestBody:
         content:
-          multipart/form_data:
+          multipart/form-data:
             schema:
               $ref: '#/components/schemas/map_org_import_file'
       responses:
@@ -12777,7 +13612,7 @@ paths:
       operationId: uploadOrgPskPortalImage
       requestBody:
         content:
-          multipart/form_data:
+          multipart/form-data:
             schema:
               $ref: '#/components/schemas/psk_portal_image'
       responses:
@@ -12981,7 +13816,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/psks'
-          multipart/form_data:
+          multipart/form-data:
             schema:
               $ref: '#/components/schemas/psks_import_file'
       responses:
@@ -13807,7 +14642,6 @@ paths:
                       password: let me in
                       portal_api_secret: string
                       portal_image: https://url/to/image.png
-                      portal_sso_url: string
                       predefined_sponsors_enabled: true
                       privacy: true
                       puzzel_password: string
@@ -13849,7 +14683,6 @@ paths:
                     portal_denied_hostnames:
                     - msg.snapchat.com
                     portal_image: http://example.com
-                    portal_sso_url: string
                     portal_template_url: string
                     qos:
                       class: best_effort
@@ -14769,7 +15602,7 @@ paths:
       operationId: importOrgNacCrl
       requestBody:
         content:
-          multipart/form_data:
+          multipart/form-data:
             schema:
               $ref: '#/components/schemas/org_crl_import_file'
         description: ''
@@ -14901,7 +15734,7 @@ paths:
           $ref: '#/components/responses/HTTP429'
       summary: deleteOrgZscalerCredential
       tags:
-      - Orgs Devices Zscaler
+      - Orgs Setting Zscaler
     get:
       description: To get Zscaler credential
       operationId: getOrgZscalerCredential
@@ -14920,7 +15753,7 @@ paths:
           $ref: '#/components/responses/HTTP429'
       summary: getOrgZscalerCredential
       tags:
-      - Orgs Devices Zscaler
+      - Orgs Setting Zscaler
     parameters:
     - $ref: '#/components/parameters/org_id'
     post:
@@ -14954,7 +15787,7 @@ paths:
           $ref: '#/components/responses/HTTP429'
       summary: setupOrgZscalerCredential
       tags:
-      - Orgs Devices Zscaler
+      - Orgs Setting Zscaler
   /api/v1/orgs/{org_id}/setting/{app_name}/link_accounts:
     get:
       description: Get Org Level OAuth Application Linked Status
@@ -15434,7 +16267,7 @@ paths:
       operationId: importOrgMapToSite
       requestBody:
         content:
-          multipart/form_data:
+          multipart/form-data:
             schema:
               $ref: '#/components/schemas/map_site_import_file'
         description: 'a JSON string, site id required, vendor option: ekahau, ibwave,
@@ -16079,7 +16912,7 @@ paths:
           $ref: '#/components/responses/HTTP429'
       summary: getOrgStats
       tags:
-      - Orgs
+      - Orgs Stats
     parameters:
     - $ref: '#/components/parameters/org_id'
   /api/v1/orgs/{org_id}/stats/assets:
@@ -16107,7 +16940,7 @@ paths:
           $ref: '#/components/responses/HTTP429'
       summary: listOrgAssetsStats
       tags:
-      - Orgs Assets
+      - Orgs Stats - Assets
     parameters:
     - $ref: '#/components/parameters/org_id'
   /api/v1/orgs/{org_id}/stats/assets/count:
@@ -16134,7 +16967,7 @@ paths:
           $ref: '#/components/responses/HTTP429'
       summary: countOrgAssetsByDistanceField
       tags:
-      - Orgs Assets
+      - Orgs Stats - Assets
     parameters:
     - $ref: '#/components/parameters/org_id'
   /api/v1/orgs/{org_id}/stats/assets/search:
@@ -16217,7 +17050,7 @@ paths:
           $ref: '#/components/responses/HTTP429'
       summary: searchOrgAssets
       tags:
-      - Orgs Assets
+      - Orgs Stats - Assets
     parameters:
     - $ref: '#/components/parameters/org_id'
   /api/v1/orgs/{org_id}/stats/bgp_peers/count:
@@ -16239,7 +17072,7 @@ paths:
           $ref: '#/components/responses/HTTP429'
       summary: countOrgBgpStats
       tags:
-      - Orgs Devices Stats
+      - Orgs Stats - BGP Peers
     parameters:
     - $ref: '#/components/parameters/org_id'
   /api/v1/orgs/{org_id}/stats/bgp_peers/search:
@@ -16261,7 +17094,7 @@ paths:
           $ref: '#/components/responses/HTTP429'
       summary: searchOrgBgpStats
       tags:
-      - Orgs Devices Stats
+      - Orgs Stats - BGP Peers
     parameters:
     - $ref: '#/components/parameters/org_id'
   /api/v1/orgs/{org_id}/stats/devices:
@@ -16320,7 +17153,7 @@ paths:
           $ref: '#/components/responses/HTTP429'
       summary: listOrgDevicesStats
       tags:
-      - Orgs Devices Stats
+      - Orgs Stats - Devices
     parameters:
     - $ref: '#/components/parameters/org_id'
   /api/v1/orgs/{org_id}/stats/mxedges:
@@ -16354,7 +17187,7 @@ paths:
           $ref: '#/components/responses/HTTP429'
       summary: listOrgMxEdgesStats
       tags:
-      - Orgs MxEdges
+      - Orgs Stats - MxEdges
     parameters:
     - $ref: '#/components/parameters/org_id'
   /api/v1/orgs/{org_id}/stats/mxedges/{mxedge_id}:
@@ -16376,7 +17209,7 @@ paths:
           $ref: '#/components/responses/HTTP429'
       summary: getOrgMxEdgeStats
       tags:
-      - Orgs MxEdges
+      - Orgs Stats - MxEdges
     parameters:
     - $ref: '#/components/parameters/org_id'
     - $ref: '#/components/parameters/mxedge_id'
@@ -16399,7 +17232,7 @@ paths:
           $ref: '#/components/responses/HTTP429'
       summary: getOrgOtherDeviceStats
       tags:
-      - Orgs Devices - Others
+      - Orgs Stats - Other Devices
     parameters:
     - $ref: '#/components/parameters/org_id'
     - $ref: '#/components/parameters/device_mac'
@@ -16575,7 +17408,7 @@ paths:
           $ref: '#/components/responses/HTTP429'
       summary: searchOrgSwOrGwPorts
       tags:
-      - Orgs Devices Stats
+      - Orgs Stats - Ports
     parameters:
     - $ref: '#/components/parameters/org_id'
   /api/v1/orgs/{org_id}/stats/switch_ports/count:
@@ -16735,7 +17568,7 @@ paths:
           $ref: '#/components/responses/HTTP429'
       summary: countOrgSwitchPorts
       tags:
-      - Orgs Devices Stats
+      - Orgs Stats - Ports
     parameters:
     - $ref: '#/components/parameters/org_id'
   /api/v1/orgs/{org_id}/stats/tunnels/count:
@@ -16771,7 +17604,7 @@ paths:
           $ref: '#/components/responses/HTTP429'
       summary: countOrgTunnelsStats
       tags:
-      - Orgs Tunnels
+      - Orgs Stats - Tunnels
     parameters:
     - $ref: '#/components/parameters/org_id'
   /api/v1/orgs/{org_id}/stats/tunnels/search:
@@ -16876,7 +17709,7 @@ paths:
           $ref: '#/components/responses/HTTP429'
       summary: searchOrgTunnelsStats
       tags:
-      - Orgs Tunnels
+      - Orgs Stats - Tunnels
     parameters:
     - $ref: '#/components/parameters/org_id'
   /api/v1/orgs/{org_id}/stats/vpn_peers/count:
@@ -16908,7 +17741,7 @@ paths:
           $ref: '#/components/responses/HTTP429'
       summary: countOrgPeerPathStats
       tags:
-      - Orgs VPNs
+      - Orgs Stats - VPN Peers
     parameters:
     - $ref: '#/components/parameters/org_id'
   /api/v1/orgs/{org_id}/stats/vpn_peers/search:
@@ -16935,7 +17768,7 @@ paths:
           $ref: '#/components/responses/HTTP429'
       summary: searchOrgPeerPathStats
       tags:
-      - Orgs VPNs
+      - Orgs Stats - VPN Peers
     parameters:
     - $ref: '#/components/parameters/org_id'
   /api/v1/orgs/{org_id}/subscriptions:
@@ -17284,7 +18117,7 @@ paths:
       operationId: UploadrgTicketAttachment
       requestBody:
         content:
-          multipart/form_data:
+          multipart/form-data:
             schema:
               $ref: '#/components/schemas/ticket_upload_attachments_file'
         description: Request Body
@@ -17344,7 +18177,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/ticket_comment'
-          multipart/form_data:
+          multipart/form-data:
             schema:
               $ref: '#/components/schemas/ticket_comment_import_file'
         description: Request Body
@@ -18533,7 +19366,7 @@ paths:
       operationId: uploadOrgWlanPortalImage
       requestBody:
         content:
-          multipart/form_data:
+          multipart/form-data:
             schema:
               $ref: '#/components/schemas/image_import'
         description: Request Body
@@ -20456,7 +21289,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/assets_import_json'
-          multipart/form_data:
+          multipart/form-data:
             schema:
               $ref: '#/components/schemas/assets_import_file'
       responses:
@@ -22666,26 +23499,6 @@ paths:
       summary: deleteSiteDeviceHaCluster
       tags:
       - Sites Devices - WAN Cluster
-    get:
-      deprecated: true
-      description: Get HA Cluster
-      operationId: getSiteDeviceHaClusterNode
-      responses:
-        '200':
-          $ref: '#/components/responses/GatewayCluster'
-        '400':
-          $ref: '#/components/responses/HTTP400'
-        '401':
-          $ref: '#/components/responses/HTTP401'
-        '403':
-          $ref: '#/components/responses/HTTP403'
-        '404':
-          $ref: '#/components/responses/HTTP404'
-        '429':
-          $ref: '#/components/responses/HTTP429'
-      summary: getSiteDeviceHaClusterNode
-      tags:
-      - Sites Devices - WAN Cluster
     parameters:
     - $ref: '#/components/parameters/site_id'
     - $ref: '#/components/parameters/device_id'
@@ -22798,31 +23611,6 @@ paths:
       summary: createSiteDeviceHaCluster
       tags:
       - Sites Devices - WAN Cluster
-    put:
-      deprecated: true
-      description: Swap nodes on the HA Cluster
-      operationId: swapSiteDeviceHaClusterNode
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/gateway_cluster_swap'
-      responses:
-        '200':
-          $ref: '#/components/responses/GatewayCluster'
-        '400':
-          $ref: '#/components/responses/HTTP400'
-        '401':
-          $ref: '#/components/responses/HTTP401'
-        '403':
-          $ref: '#/components/responses/HTTP403'
-        '404':
-          $ref: '#/components/responses/HTTP404'
-        '429':
-          $ref: '#/components/responses/HTTP429'
-      summary: swapSiteDeviceHaClusterNode
-      tags:
-      - Sites Devices - WAN Cluster
   /api/v1/sites/{site_id}/devices/{device_id}/image{image_number}:
     delete:
       description: Delete image from a device
@@ -22856,7 +23644,7 @@ paths:
       operationId: addSiteDeviceImage
       requestBody:
         content:
-          multipart/form_data:
+          multipart/form-data:
             schema:
               $ref: '#/components/schemas/image_import'
         description: Request Body
@@ -25302,7 +26090,7 @@ paths:
       operationId: importSiteMaps
       requestBody:
         content:
-          multipart/form_data:
+          multipart/form-data:
             schema:
               $ref: '#/components/schemas/map_site_import_file'
       responses:
@@ -25463,7 +26251,7 @@ paths:
           $ref: '#/components/responses/HTTP429'
       summary: deleteSiteApAutoOrientation
       tags:
-      - Sites Maps - Auto-orientation
+      - Sites Maps - Auto-placement
     parameters:
     - $ref: '#/components/parameters/map_id'
     - $ref: '#/components/parameters/site_id'
@@ -25499,7 +26287,7 @@ paths:
           $ref: '#/components/responses/HTTP429'
       summary: startSiteApAutoOrientation
       tags:
-      - Sites Maps - Auto-orientation
+      - Sites Maps - Auto-placement
   /api/v1/sites/{site_id}/maps/{map_id}/auto_placement:
     delete:
       description: This API is called to force stop auto placement for a given map
@@ -25633,7 +26421,7 @@ paths:
           $ref: '#/components/responses/HTTP429'
       summary: clearSiteApAutoOrient
       tags:
-      - Sites Maps - Auto-orientation
+      - Sites Maps - Auto-placement
   /api/v1/sites/{site_id}/maps/{map_id}/clear_autoplacement:
     parameters:
     - $ref: '#/components/parameters/site_id'
@@ -25692,7 +26480,7 @@ paths:
       operationId: addSiteMapImage
       requestBody:
         content:
-          multipart/form_data:
+          multipart/form-data:
             schema:
               $ref: '#/components/schemas/image_import'
         description: Request Body
@@ -25727,7 +26515,7 @@ paths:
       operationId: replaceSiteMapImage
       requestBody:
         content:
-          multipart/form_data:
+          multipart/form-data:
             schema:
               $ref: '#/components/schemas/map_site_replace_file'
       responses:
@@ -27077,7 +27865,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/psks'
-          multipart/form_data:
+          multipart/form-data:
             schema:
               $ref: '#/components/schemas/psks_import_file'
       responses:
@@ -29575,7 +30363,7 @@ paths:
       - Utilities Upgrade
   /api/v1/sites/{site_id}/stats:
     get:
-      description: Get Site Stats
+      description: Get Sites Stats
       operationId: getSiteStats
       responses:
         '200':
@@ -29628,7 +30416,7 @@ paths:
           $ref: '#/components/responses/HTTP429'
       summary: getSiteStats
       tags:
-      - Sites
+      - Sites Stats
     parameters:
     - $ref: '#/components/parameters/site_id'
   /api/v1/sites/{site_id}/stats/apps/count:
@@ -29672,7 +30460,7 @@ paths:
           $ref: '#/components/responses/HTTP429'
       summary: countSiteApps
       tags:
-      - Sites Applications
+      - Sites Stats - Apps
     parameters:
     - $ref: '#/components/parameters/site_id'
   /api/v1/sites/{site_id}/stats/assets:
@@ -29700,7 +30488,7 @@ paths:
           $ref: '#/components/responses/HTTP429'
       summary: listSiteAssetsStats
       tags:
-      - Sites Assets
+      - Sites Stats - Assets
     parameters:
     - $ref: '#/components/parameters/site_id'
   /api/v1/sites/{site_id}/stats/assets/asset_id:
@@ -29726,7 +30514,7 @@ paths:
           $ref: '#/components/responses/HTTP429'
       summary: getSiteAssetStats
       tags:
-      - Sites Assets
+      - Sites Stats - Assets
     parameters:
     - $ref: '#/components/parameters/site_id'
   /api/v1/sites/{site_id}/stats/assets/count:
@@ -29753,7 +30541,7 @@ paths:
           $ref: '#/components/responses/HTTP429'
       summary: countSiteAssets
       tags:
-      - Sites Assets
+      - Sites Stats - Assets
     parameters:
     - $ref: '#/components/parameters/site_id'
   /api/v1/sites/{site_id}/stats/assets/search:
@@ -29836,7 +30624,7 @@ paths:
           $ref: '#/components/responses/HTTP429'
       summary: searchSiteAssets
       tags:
-      - Sites Assets
+      - Sites Stats - Assets
     parameters:
     - $ref: '#/components/parameters/site_id'
   /api/v1/sites/{site_id}/stats/beacons:
@@ -29868,7 +30656,7 @@ paths:
           $ref: '#/components/responses/HTTP429'
       summary: listSiteBeaconsStats
       tags:
-      - Sites Beacons
+      - Sites Stats - Beacons
     parameters:
     - $ref: '#/components/parameters/site_id'
   /api/v1/sites/{site_id}/stats/bgp_peers/count:
@@ -29899,7 +30687,7 @@ paths:
           $ref: '#/components/responses/HTTP429'
       summary: countSiteBgpStats
       tags:
-      - Sites Devices Stats
+      - Sites Stats - BGP Peers
     parameters:
     - $ref: '#/components/parameters/site_id'
   /api/v1/sites/{site_id}/stats/bgp_peers/search:
@@ -29921,7 +30709,7 @@ paths:
           $ref: '#/components/responses/HTTP429'
       summary: searchSiteBgpStats
       tags:
-      - Sites Devices Stats
+      - Sites Stats - BGP Peers
     parameters:
     - $ref: '#/components/parameters/site_id'
   /api/v1/sites/{site_id}/stats/calls/client/{client_mac}/troubleshoot:
@@ -29966,7 +30754,7 @@ paths:
           $ref: '#/components/responses/HTTP429'
       summary: troubleshootSiteCall
       tags:
-      - Sites Calls
+      - Sites Stats - Calls
     parameters:
     - $ref: '#/components/parameters/site_id'
     - $ref: '#/components/parameters/client_mac'
@@ -30013,7 +30801,7 @@ paths:
           $ref: '#/components/responses/HTTP429'
       summary: countSiteCalls
       tags:
-      - Sites Calls
+      - Sites Stats - Calls
     parameters:
     - $ref: '#/components/parameters/site_id'
   /api/v1/sites/{site_id}/stats/calls/search:
@@ -30051,7 +30839,7 @@ paths:
           $ref: '#/components/responses/HTTP429'
       summary: searchSiteCalls
       tags:
-      - Sites Calls
+      - Sites Stats - Calls
     parameters:
     - $ref: '#/components/parameters/site_id'
   /api/v1/sites/{site_id}/stats/calls/troubleshoot:
@@ -30100,7 +30888,7 @@ paths:
           $ref: '#/components/responses/HTTP429'
       summary: listSiteTroubleshootCalls
       tags:
-      - Sites Calls
+      - Sites Stats - Calls
     parameters:
     - $ref: '#/components/parameters/site_id'
     - $ref: '#/components/parameters/client_mac'
@@ -30137,7 +30925,7 @@ paths:
           $ref: '#/components/responses/HTTP429'
       summary: listSiteWirelessClientsStats
       tags:
-      - Sites Clients - Wireless
+      - Sites Stats - Clients Wireless
     parameters:
     - $ref: '#/components/parameters/site_id'
   /api/v1/sites/{site_id}/stats/clients/{client_mac}:
@@ -30169,7 +30957,7 @@ paths:
           $ref: '#/components/responses/HTTP429'
       summary: getSiteWirelessClientStats
       tags:
-      - Sites Clients - Wireless
+      - Sites Stats - Clients Wireless
     parameters:
     - $ref: '#/components/parameters/site_id'
     - $ref: '#/components/parameters/client_mac'
@@ -30203,7 +30991,7 @@ paths:
           $ref: '#/components/responses/HTTP429'
       summary: listSiteDevicesStats
       tags:
-      - Sites Devices Stats
+      - Sites Stats - Devices
     parameters:
     - $ref: '#/components/parameters/site_id'
   /api/v1/sites/{site_id}/stats/devices/{device_id}:
@@ -30225,7 +31013,7 @@ paths:
           $ref: '#/components/responses/HTTP429'
       summary: getSiteDeviceStats
       tags:
-      - Sites Devices Stats
+      - Sites Stats - Devices
     parameters:
     - $ref: '#/components/parameters/site_id'
     - $ref: '#/components/parameters/device_id'
@@ -30252,7 +31040,7 @@ paths:
           $ref: '#/components/responses/HTTP429'
       summary: getSiteAllClientsStatsByDevice
       tags:
-      - Sites Devices Stats
+      - Sites Stats - Devices
     parameters:
     - $ref: '#/components/parameters/site_id'
     - $ref: '#/components/parameters/device_id'
@@ -30286,7 +31074,7 @@ paths:
           $ref: '#/components/responses/HTTP429'
       summary: listSiteDiscoveredAssets
       tags:
-      - Sites Assets
+      - Sites Stats - Assets
     parameters:
     - $ref: '#/components/parameters/site_id'
   /api/v1/sites/{site_id}/stats/discovered_switch_metrics/search:
@@ -30323,7 +31111,7 @@ paths:
           $ref: '#/components/responses/HTTP429'
       summary: searchSiteDiscoveredSwitchesMetrics
       tags:
-      - Sites Devices - Discovered Switches
+      - Sites Stats - Discovered Switches
     parameters:
     - $ref: '#/components/parameters/site_id'
   /api/v1/sites/{site_id}/stats/discovered_switches/count:
@@ -30355,7 +31143,7 @@ paths:
           $ref: '#/components/responses/HTTP429'
       summary: countSiteDiscoveredSwitches
       tags:
-      - Sites Devices - Discovered Switches
+      - Sites Stats - Discovered Switches
     parameters:
     - $ref: '#/components/parameters/site_id'
   /api/v1/sites/{site_id}/stats/discovered_switches/metrics:
@@ -30389,7 +31177,7 @@ paths:
           $ref: '#/components/responses/HTTP429'
       summary: getSiteDiscoveredSwitchesMetrics
       tags:
-      - Sites Devices - Discovered Switches
+      - Sites Stats - Discovered Switches
     parameters:
     - $ref: '#/components/parameters/site_id'
   /api/v1/sites/{site_id}/stats/discovered_switches/search:
@@ -30440,7 +31228,7 @@ paths:
           $ref: '#/components/responses/HTTP429'
       summary: searchSiteDiscoveredSwitches
       tags:
-      - Sites Devices - Discovered Switches
+      - Sites Stats - Discovered Switches
     parameters:
     - $ref: '#/components/parameters/site_id'
   /api/v1/sites/{site_id}/stats/filtered_assets:
@@ -30468,7 +31256,7 @@ paths:
           $ref: '#/components/responses/HTTP429'
       summary: getSiteAssetsOfInterest
       tags:
-      - Sites Assets
+      - Sites Stats - Assets
     parameters:
     - $ref: '#/components/parameters/site_id'
   /api/v1/sites/{site_id}/stats/gateways/metrics:
@@ -30490,7 +31278,7 @@ paths:
           $ref: '#/components/responses/HTTP429'
       summary: getSiteGatewayMetrics
       tags:
-      - Sites Devices Stats
+      - Sites Stats - Devices
     parameters:
     - $ref: '#/components/parameters/site_id'
   /api/v1/sites/{site_id}/stats/maps/{map_id}/clients:
@@ -30522,7 +31310,7 @@ paths:
           $ref: '#/components/responses/HTTP429'
       summary: getSiteWirelessClientsStatsByMap
       tags:
-      - Sites Clients - Wireless
+      - Sites Stats - Clients Wireless
     parameters:
     - $ref: '#/components/parameters/site_id'
     - $ref: '#/components/parameters/map_id'
@@ -30550,7 +31338,7 @@ paths:
           $ref: '#/components/responses/HTTP429'
       summary: getSiteDiscoveredAssetByMap
       tags:
-      - Sites Assets
+      - Sites Stats - Assets
     parameters:
     - $ref: '#/components/parameters/site_id'
     - $ref: '#/components/parameters/map_id'
@@ -30577,7 +31365,7 @@ paths:
           $ref: '#/components/responses/HTTP429'
       summary: getSiteSdkStatsByMap
       tags:
-      - Sites Clients - SDK
+      - Sites Stats - Clients SDK
     parameters:
     - $ref: '#/components/parameters/site_id'
     - $ref: '#/components/parameters/map_id'
@@ -30614,7 +31402,7 @@ paths:
           $ref: '#/components/responses/HTTP429'
       summary: listSiteUnconnectedClientStats
       tags:
-      - Sites Clients - Wireless
+      - Sites Stats - Clients Wireless
     parameters:
     - $ref: '#/components/parameters/site_id'
     - $ref: '#/components/parameters/map_id'
@@ -30643,7 +31431,7 @@ paths:
           $ref: '#/components/responses/HTTP429'
       summary: listSiteMxEdgesStats
       tags:
-      - Sites Devices Stats
+      - Sites Stats - MxEdges
     parameters:
     - $ref: '#/components/parameters/site_id'
   /api/v1/sites/{site_id}/stats/mxedges/{mxedge_id}:
@@ -30669,7 +31457,7 @@ paths:
           $ref: '#/components/responses/HTTP429'
       summary: getSiteMxEdgeStats
       tags:
-      - Sites Devices Stats
+      - Sites Stats - MxEdges
     parameters:
     - $ref: '#/components/parameters/site_id'
     - $ref: '#/components/parameters/mxedge_id'
@@ -30830,7 +31618,7 @@ paths:
           $ref: '#/components/responses/HTTP429'
       summary: countSiteSwOrGwPorts
       tags:
-      - Sites Devices Stats
+      - Sites Stats - Ports
     parameters:
     - $ref: '#/components/parameters/site_id'
   /api/v1/sites/{site_id}/stats/ports/search:
@@ -31050,7 +31838,7 @@ paths:
           $ref: '#/components/responses/HTTP429'
       summary: searchSiteSwOrGwPorts
       tags:
-      - Sites Devices Stats
+      - Sites Stats - Ports
     parameters:
     - $ref: '#/components/parameters/site_id'
   /api/v1/sites/{site_id}/stats/sdkclients/{sdkclient_id}:
@@ -31096,7 +31884,7 @@ paths:
           $ref: '#/components/responses/HTTP429'
       summary: getSiteSdkStats
       tags:
-      - Sites Clients - SDK
+      - Sites Stats - Clients SDK
     parameters:
     - $ref: '#/components/parameters/site_id'
     - $ref: '#/components/parameters/sdkclient_id'
@@ -31257,7 +32045,7 @@ paths:
           $ref: '#/components/responses/HTTP429'
       summary: countSiteSwitchPorts
       tags:
-      - Sites Devices Stats
+      - Sites Stats - Ports
     parameters:
     - $ref: '#/components/parameters/site_id'
   /api/v1/sites/{site_id}/stats/switch_ports/search:
@@ -31412,7 +32200,7 @@ paths:
           $ref: '#/components/responses/HTTP429'
       summary: searchSiteSwitchPorts
       tags:
-      - Sites Devices Stats
+      - Sites Stats - Ports
     parameters:
     - $ref: '#/components/parameters/site_id'
   /api/v1/sites/{site_id}/stats/switches/metrics:
@@ -31448,7 +32236,7 @@ paths:
           $ref: '#/components/responses/HTTP429'
       summary: getSiteSwitchesMetrics
       tags:
-      - Sites Devices - Wired
+      - Sites Stats - Devices
     parameters:
     - $ref: '#/components/parameters/site_id'
   /api/v1/sites/{site_id}/stats/wxrules:
@@ -31470,7 +32258,7 @@ paths:
           $ref: '#/components/responses/HTTP429'
       summary: getSiteWxRulesUsage
       tags:
-      - Sites WxRules
+      - Sites Stats - WxRules
     parameters:
     - $ref: '#/components/parameters/site_id'
   /api/v1/sites/{site_id}/stats/zones:
@@ -31498,7 +32286,7 @@ paths:
           $ref: '#/components/responses/HTTP429'
       summary: listSiteZonesStats
       tags:
-      - Sites Zones
+      - Sites Stats - Zones
     parameters:
     - $ref: '#/components/parameters/site_id'
   /api/v1/sites/{site_id}/stats/{zone_type}/{zone_id}:
@@ -31520,7 +32308,7 @@ paths:
           $ref: '#/components/responses/HTTP429'
       summary: getSiteZoneStats
       tags:
-      - Sites Zones
+      - Sites Stats - Zones
     parameters:
     - $ref: '#/components/parameters/site_id'
     - $ref: '#/components/parameters/zone_type'
@@ -33293,7 +34081,7 @@ paths:
       operationId: uploadSiteWlanPortalImage
       requestBody:
         content:
-          multipart/form_data:
+          multipart/form-data:
             schema:
               $ref: '#/components/schemas/image_import'
         description: Request Body
@@ -57287,10 +58075,9 @@ components:
       - version
       type: object
     deviceprofile:
-      $ref: '#/components/schemas/deviceprofile_gateway'
-      # anyOf:
-      # - $ref: '#/components/schemas/deviceprofile_gateway'
-      # - $ref: '#/components/schemas/deviceprofile_ap'
+      anyOf:
+      - $ref: '#/components/schemas/deviceprofile_ap'
+      - $ref: '#/components/schemas/deviceprofile_gateway'
     deviceprofile_ap:
       description: Device Profile
       minItems: 1
@@ -58746,25 +59533,6 @@ components:
       minItems: 1
       type: array
       uniqueItems: true
-    gateway_cluster_swap:
-      properties:
-        mac:
-          description: "when `op`\_==`replacement_nodeX`, new node1\n's MAC, the device\
-            \ has to be standalone and assigned to the same site"
-          type: string
-        op:
-          $ref: '#/components/schemas/gateway_cluster_swap_op'
-      required:
-      - op
-      type: object
-    gateway_cluster_swap_op:
-      default: swap
-      enum:
-      - ''
-      - swap
-      - replace_node1
-      minLength: 1
-      type: string
     gateway_compliance_major_version:
       additionalProperties:
         $ref: '#/components/schemas/gateway_compliance_major_version_properties'
@@ -61599,11 +62367,10 @@ components:
       - qrcode
       type: string
     mist_device:
-      $ref: '#/components/schemas/device_switch'
-      # oneOf:
-      # - $ref: '#/components/schemas/device_gateway'
-      # - $ref: '#/components/schemas/device_ap'
-      # - $ref: '#/components/schemas/device_switch'
+      oneOf:
+      - $ref: '#/components/schemas/device_ap'
+      - $ref: '#/components/schemas/device_switch'
+      - $ref: '#/components/schemas/device_gateway'
     ml_overwrite:
       additionalProperties:
         $ref: '#/components/schemas/ml_overwrite_additional_properties'
@@ -72001,6 +72768,7 @@ components:
       default: strict
       enum:
       - ''
+      - critical
       - strict
       - standard
       type: string
@@ -80218,6 +80986,7 @@ components:
         portal_image:
           default: ''
           description: Url of portal background image
+          example: https://url/to/image.png
           format: uri
           nullable: true
           readOnly: true
@@ -81206,20 +81975,6 @@ components:
           description: passphrase
           example: let me in
           nullable: true
-          type: string
-        portal_api_secret:
-          default: ''
-          description: api secret (auto-generated) that can be used to sign guest
-            authorization requests
-          type: string
-        portal_image:
-          default: ''
-          description: Url of portal background image
-          example: https://url/to/image.png
-          type: string
-        portal_sso_url:
-          description: for SAML, this is used as the ACS URL
-          readOnly: true
           type: string
         predefined_sponsors_enabled:
           default: true

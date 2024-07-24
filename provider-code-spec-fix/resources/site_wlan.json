@@ -24,7 +24,8 @@
             "get": [
                 "string"
             ],
-            "computed_optional_required": "computed"
+            "computed_optional_required": "computed",
+            "no_default": true
         },
         {
             "name": "site_id",
@@ -52,21 +53,32 @@
             "get": [
                 "string"
             ],
-            "computed_optional_required": "computed"
+            "computed_optional_required": "computed",
+            "no_default": true
         },
         {
             "name": "portal_image",
             "get": [
                 "string"
             ],
-            "computed_optional_required": "computed"
+            "computed_optional_required": "computed",
+            "no_default": true
         },
         {
             "name": "portal_sso_url",
             "get": [
                 "string"
             ],
-            "computed_optional_required": "computed"
+            "computed_optional_required": "computed",
+            "no_default": true
+        },
+        {
+            "name": "portal_template_url",
+            "get": [
+                "string"
+            ],
+            "computed_optional_required": "computed",
+            "no_default": true
         },
         {
             "name": "auth",
@@ -245,6 +257,77 @@
                         ],
                         "schema_definition": "stringvalidator.Any(mistvalidator.ParseInt(1, 4094),mistvalidator.ParseVar(),)"
                     }
+                }
+            ]
+        },
+        {
+            "name": "dynamic_vlan",
+            "get": [
+                "single_nested",
+                "attributes"
+            ],
+            "next": [
+                {
+                    "name": "default_vlan_id",
+                    "get": [
+                        "string"
+                    ],
+                    "computed_optional_required": "required",
+                    "validators": [
+                        {
+                            "custom": {
+                                "imports": [
+                                    {
+                                        "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                    }
+                                ],
+                                "schema_definition": "stringvalidator.Any(mistvalidator.ParseInt(1, 4094),mistvalidator.ParseVar(),)"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "local_vlan_ids",
+                    "get": [
+                        "list"
+                    ],
+                    "computed_optional_required": "computed_optional",
+                    "validators": [
+                        {
+                            "custom": {
+                                "imports": [
+                                    {
+                                        "path": "github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
+                                    },
+                                    {
+                                        "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                    }
+                                ],
+                                "schema_definition": "listvalidator.ValueStringsAre(stringvalidator.Any(mistvalidator.ParseInt(1, 4094), mistvalidator.ParseVar()))"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "vlans",
+                    "get": [
+                        "map"
+                    ],
+                    "validators": [
+                        {
+                            "custom": {
+                                "imports": [
+                                    {
+                                        "path":"github.com/hashicorp/terraform-plugin-framework-validators/mapvalidator"
+                                    },
+                                    {
+                                        "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                    }
+                                ],
+                                "schema_definition": "mapvalidator.SizeAtLeast(1),mapvalidator.KeysAre(stringvalidator.Any(mistvalidator.ParseInt(1, 4094), mistvalidator.ParseVar()))"
+                            }
+                        }
+                    ]
                 }
             ]
         },

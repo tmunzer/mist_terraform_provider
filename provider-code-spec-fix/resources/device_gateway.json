@@ -963,7 +963,7 @@
                             "get": [
                                 "string"
                             ],
-                            "computed_optional_required": "required",
+                            "computed_optional_required": "optional",
                             "validators": [
                                 {
                                     "custom": {
@@ -985,7 +985,7 @@
                             "get": [
                                 "string"
                             ],
-                            "computed_optional_required": "required",
+                            "computed_optional_required": "optional",
                             "validators": [
                                 {
                                     "custom": {
