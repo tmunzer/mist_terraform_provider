@@ -1,0 +1,13 @@
+get:
+- schema
+- attributes
+name: device_gateway_cluster
+next:
+- computed_optional_required: required
+  get:
+  - string
+  name: site_id
+- computed_optional_required: required
+  get:
+  - string
+  name: device_id

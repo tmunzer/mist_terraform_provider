@@ -1,0 +1,26 @@
+get:
+- schema
+- attributes
+name: org_wxtag
+next:
+- computed_optional_required: required
+  get:
+  - string
+  name: name
+- computed_optional_required: required
+  get:
+  - string
+  name: org_id
+- computed_optional_required: computed
+  get:
+  - string
+  name: id
+- get:
+  - string
+  name: vlan_id
+  validators:
+  - custom:
+      imports:
+      - path: github.com/Juniper/terraform-provider-mist/internal/validators
+      - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+      schema_definition: stringvalidator.Any(mistvalidator.ParseInt(1, 4094),mistvalidator.ParseVar(),)

@@ -1,0 +1,82 @@
+get:
+- schema
+- attributes
+name: site_setting
+next:
+- computed_optional_required: computed_optional
+  get:
+  - string
+  name: site_id
+- computed_optional_required: computed
+  get:
+  - string
+  name: org_id
+- computed_optional_required: computed
+  get:
+  - string
+  name: blacklist_url
+- computed_optional_required: computed
+  get:
+  - string
+  name: watched_station_url
+- computed_optional_required: computed
+  get:
+  - string
+  name: whitelist_url
+- get:
+  - single_nested
+  - attributes
+  name: rogue
+  next:
+  - computed_optional_required: computed_optional
+    get:
+    - list
+    name: whitelisted_bssids
+  - computed_optional_required: computed_optional
+    get:
+    - list
+    name: whitelisted_ssids
+- get:
+  - single_nested
+  - attributes
+  name: auto_upgrade
+  next:
+  - computed_optional_required: computed_optional
+    get:
+    - map
+    name: custom_versions
+- get:
+  - single_nested
+  - attributes
+  name: critical_url_monitoring
+  next:
+  - get:
+    - list_nested
+    - nested_object
+    - attributes
+    name: monitors
+    next:
+    - get:
+      - string
+      name: vlan_id
+      validators:
+      - custom:
+          imports:
+          - path: github.com/Juniper/terraform-provider-mist/internal/validators
+          - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+          schema_definition: stringvalidator.Any(mistvalidator.ParseInt(1, 4094),mistvalidator.ParseVar(),)
+- get:
+  - single_nested
+  - attributes
+  name: gateway_mgmt
+  next:
+  - computed_optional_required: computed_optional
+    default_type: list_of_str
+    get:
+    - list
+    name: admin_sshkeys
+  - computed_optional_required: computed_optional
+    default_type: list_of_str
+    get:
+    - list
+    name: probe_hosts

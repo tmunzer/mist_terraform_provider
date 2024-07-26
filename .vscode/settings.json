@@ -13,5 +13,12 @@
     "now.instance.OAuth.client.secret": "",
     "files.watcherInclude": [
         "/Users/tmunzer/4_dev/Mist/API/mistapi_portal/mistapigo"
-    ]
+    ],
+    "yaml.schemas": {
+        "https://json.schemastore.org/yamllint.json": [
+            "file:///Users/tmunzer/4_dev/Mist/mist_terraform_provider/provider-code-spec-fix/resources/device_gateway.yaml",
+            "file:///Users/tmunzer/4_dev/Mist/mist_terraform_provider/provider-code-spec-fix/resources/org_deviceprofile_gateway.yaml",
+            "file:///Users/tmunzer/4_dev/Mist/mist_terraform_provider/provider-code-spec-fix/resources/site.yaml"
+        ]
+    }
 }

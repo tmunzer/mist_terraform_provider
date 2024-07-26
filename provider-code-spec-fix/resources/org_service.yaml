@@ -1,0 +1,77 @@
+get:
+- schema
+- attributes
+name: org_service
+next:
+- computed_optional_required: required
+  get:
+  - string
+  name: name
+  validators:
+  - custom:
+      imports:
+      - path: github.com/Juniper/terraform-provider-mist/internal/validators
+      - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+      schema_definition: stringvalidator.All(stringvalidator.LengthBetween(2, 32),mistvalidator.ParseName(),)
+- computed_optional_required: required
+  get:
+  - string
+  name: org_id
+- computed_optional_required: computed
+  get:
+  - string
+  name: id
+- computed_optional_required: computed_optional
+  default_type: list_of_str
+  get:
+  - list
+  name: hostnames
+- computed_optional_required: computed_optional
+  default_type: list_of_str
+  get:
+  - list
+  name: urls
+- computed_optional_required: computed_optional
+  default_type: list_of_str
+  get:
+  - list
+  name: app_categories
+- computed_optional_required: computed_optional
+  default_type: list_of_str
+  get:
+  - list
+  name: app_subcategories
+- computed_optional_required: computed_optional
+  default_type: list_of_str
+  get:
+  - list
+  name: apps
+- computed_optional_required: computed_optional
+  default_type: list_of_str
+  get:
+  - list
+  name: addresses
+  validators:
+  - custom:
+      imports:
+      - path: github.com/Juniper/terraform-provider-mist/internal/validators
+      - path: github.com/hashicorp/terraform-plugin-framework-validators/listvalidator
+      schema_definition: listvalidator.ValueStringsAre(stringvalidator.Any(mistvalidator.ParseCidr(true,
+        false), mistvalidator.ParseVar()))
+- get:
+  - list_nested
+  - nested_object
+  - attributes
+  name: specs
+  next:
+  - computed_optional_required: computed_optional
+    get:
+    - string
+    name: protocol
+    validators:
+    - custom:
+        imports:
+        - path: github.com/Juniper/terraform-provider-mist/internal/validators
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+        schema_definition: stringvalidator.Any(stringvalidator.OneOf("https","tcp","udp","icmp","gre","any"),mistvalidator.ParseInt(1,
+          254))

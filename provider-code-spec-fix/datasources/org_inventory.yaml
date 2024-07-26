@@ -1,0 +1,13 @@
+get:
+- schema
+- attributes
+name: org_inventory
+next:
+- get:
+  - set_nested
+  - nested_object
+  - attributes
+  name: org_inventory
+  next:
+  - name: magic
+    rename: claim_code

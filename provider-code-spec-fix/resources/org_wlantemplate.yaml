@@ -1,0 +1,62 @@
+get:
+- schema
+- attributes
+name: org_wlantemplate
+next:
+- computed_optional_required: required
+  get:
+  - string
+  name: name
+- computed_optional_required: required
+  get:
+  - string
+  name: org_id
+- computed_optional_required: computed
+  get:
+  - string
+  name: id
+- computed_optional_required: computed_optional
+  default:
+    static: false
+  get:
+  - bool
+  name: filter_by_deviceprofile
+- computed_optional_required: computed_optional
+  default_type: list_of_str
+  get:
+  - list
+  name: deviceprofile_ids
+- computed_optional_required: computed_optional
+  get:
+  - single_nested
+  name: applies
+- get:
+  - single_nested
+  - attributes
+  name: applies
+  next:
+  - computed_optional_required: computed_optional
+    get:
+    - list
+    name: site_ids
+  - computed_optional_required: computed_optional
+    get:
+    - list
+    name: sitegroup_ids
+- computed_optional_required: computed_optional
+  get:
+  - single_nested
+  name: exceptions
+- get:
+  - single_nested
+  - attributes
+  name: exceptions
+  next:
+  - computed_optional_required: computed_optional
+    get:
+    - list
+    name: site_ids
+  - computed_optional_required: computed_optional
+    get:
+    - list
+    name: sitegroup_ids

@@ -1,0 +1,13 @@
+get:
+- schema
+- attributes
+name: org_wxrule
+next:
+- computed_optional_required: required
+  get:
+  - string
+  name: org_id
+- computed_optional_required: computed
+  get:
+  - string
+  name: id

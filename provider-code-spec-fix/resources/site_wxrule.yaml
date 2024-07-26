@@ -1,0 +1,9 @@
+get:
+- schema
+- attributes
+name: site_wxrule
+next:
+- computed_optional_required: required
+  get:
+  - string
+  name: site_id

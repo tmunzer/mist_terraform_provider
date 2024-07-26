@@ -1,0 +1,1313 @@
+get:
+- schema
+- attributes
+name: org_deviceprofile_gateway
+next:
+- computed_optional_required: required
+  get:
+  - string
+  name: org_id
+- computed_optional_required: required
+  get:
+  - string
+  name: name
+  validators:
+  - custom:
+      imports:
+      - path: github.com/Juniper/terraform-provider-mist/internal/validators
+      - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+      schema_definition: stringvalidator.All(stringvalidator.LengthBetween(2, 32),mistvalidator.ParseName(),)
+- computed_optional_required: computed
+  get:
+  - string
+  name: id
+- computed_optional_required: computed
+  get:
+  - string
+  name: type
+- get:
+  - map_nested
+  - nested_object
+  - attributes
+  name: idp_profiles
+  next:
+  - get:
+    - list_nested
+    - nested_object
+    - attributes
+    name: overwrites
+    next:
+    - name: matching
+      rename: ipd_profile_overwrite_matching
+- get:
+  - map_nested
+  - nested_object
+  - attributes
+  name: routing_policies
+  next:
+  - get:
+    - list_nested
+    - nested_object
+    - attributes
+    name: terms
+    next:
+    - name: matching
+      rename: routing_policy_term_matching
+- get:
+  - list_nested
+  - nested_object
+  - attributes
+  name: service_policies
+  next:
+  - computed_optional_required: computed_optional
+    get:
+    - list
+    name: services
+  - computed_optional_required: computed_optional
+    get:
+    - list
+    name: tenants
+- get:
+  - map_nested
+  - nested_object
+  - attributes
+  name: path_preferences
+  next:
+  - get:
+    - list_nested
+    - nested_object
+    - attributes
+    name: paths
+    next:
+    - get:
+      - string
+      name: gateway_ip
+      validators:
+      - custom:
+          imports:
+          - path: github.com/Juniper/terraform-provider-mist/internal/validators
+          - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+          schema_definition: 'stringvalidator.Any(mistvalidator.ParseIp(true, true),
+            mistvalidator.ParseVar()),
+
+            mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("type"),
+            types.StringValue("local"))'
+    - get:
+      - bool
+      name: internet_access
+      no_default: true
+      validators:
+      - custom:
+          imports:
+          - path: github.com/Juniper/terraform-provider-mist/internal/validators
+          schema_definition: mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("type"),
+            types.StringValue("vpn"))
+    - get:
+      - string
+      name: name
+      validators:
+      - custom:
+          imports:
+          - path: github.com/Juniper/terraform-provider-mist/internal/validators
+          - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+          schema_definition: 'mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName("type"),
+            types.StringValue("vpn")),
+
+            mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName("type"),
+            types.StringValue("wan"))'
+    - computed_optional_required: computed_optional
+      default_type: list_of_str
+      get:
+      - list
+      name: networks
+      validators:
+      - custom:
+          imports:
+          - path: github.com/Juniper/terraform-provider-mist/internal/validators
+          - path: github.com/hashicorp/terraform-plugin-framework-validators/listvalidator
+          - path: github.com/hashicorp/terraform-plugin-framework/path
+          schema_definition: mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("type"),
+            types.StringValue("local"))
+    - computed_optional_required: computed_optional
+      default_type: list_of_str
+      get:
+      - list
+      name: target_ips
+      validators:
+      - custom:
+          imports:
+          - path: github.com/Juniper/terraform-provider-mist/internal/validators
+          - path: github.com/hashicorp/terraform-plugin-framework/path
+          schema_definition: mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("type"),
+            types.StringValue("local"))
+    - get:
+      - string
+      name: wan_name
+      validators:
+      - custom:
+          imports:
+          - path: github.com/Juniper/terraform-provider-mist/internal/validators
+          - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+          schema_definition: 'mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName("type"),
+            types.StringValue("tunnel")),
+
+            mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("type"),
+            types.StringValue("vpn"))'
+- get:
+  - map_nested
+  - nested_object
+  - attributes
+  name: port_config
+  next:
+  - computed_optional_required: computed_optional
+    default_type: list_of_str
+    get:
+    - list
+    name: reth_nodes
+  - computed_optional_required: computed_optional
+    default_type: list_of_str
+    get:
+    - list
+    name: networks
+  - get:
+    - string
+    name: dsl_type
+    validators:
+    - custom:
+        imports:
+        - path: github.com/Juniper/terraform-provider-mist/internal/validators
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+        schema_definition: 'stringvalidator.OneOf(
+
+          "",
+
+          "vdsl",
+
+          "adsl",
+
+          ),
+
+          mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("wan_type"),
+          types.StringValue("broadband")),
+
+          mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("wan_type"),
+          types.StringValue("dsl"),
+
+          )'
+  - get:
+    - int64
+    name: dsl_vci
+    validators:
+    - custom:
+        imports:
+        - path: github.com/Juniper/terraform-provider-mist/internal/validators
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/int64validator
+        - path: github.com/hashicorp/terraform-plugin-framework/path
+        schema_definition: 'mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("wan_type"),
+          types.StringValue("broadband")),
+
+          mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("wan_type"),
+          types.StringValue("lte"),
+
+          )'
+  - get:
+    - int64
+    name: dsl_vpi
+    validators:
+    - custom:
+        imports:
+        - path: github.com/Juniper/terraform-provider-mist/internal/validators
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/int64validator
+        - path: github.com/hashicorp/terraform-plugin-framework/path
+        schema_definition: 'mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("wan_type"),
+          types.StringValue("broadband")),
+
+          mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("wan_type"),
+          types.StringValue("lte"),
+
+          )'
+  - get:
+    - string
+    name: lte_apn
+    validators:
+    - custom:
+        imports:
+        - path: github.com/Juniper/terraform-provider-mist/internal/validators
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+        - path: github.com/hashicorp/terraform-plugin-framework/path
+        schema_definition: 'mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("wan_type"),
+          types.StringValue("broadband")),
+
+          mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("wan_type"),
+          types.StringValue("dsl"),
+
+          )'
+  - get:
+    - string
+    name: lte_auth
+    validators:
+    - custom:
+        imports:
+        - path: github.com/Juniper/terraform-provider-mist/internal/validators
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+        - path: github.com/hashicorp/terraform-plugin-framework/path
+        schema_definition: 'stringvalidator.OneOf(
+
+          "",
+
+          "none",
+
+          "chap",
+
+          "pap",
+
+          ),
+
+          mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("wan_type"),
+          types.StringValue("broadband")),
+
+          mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("wan_type"),
+          types.StringValue("dsl"),
+
+          )'
+  - get:
+    - string
+    name: lte_password
+    validators:
+    - custom:
+        imports:
+        - path: github.com/Juniper/terraform-provider-mist/internal/validators
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+        - path: github.com/hashicorp/terraform-plugin-framework/path
+        schema_definition: 'mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("wan_type"),
+          types.StringValue("broadband")),
+
+          mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("wan_type"),
+          types.StringValue("dsl"),
+
+          )'
+  - get:
+    - string
+    name: lte_username
+    validators:
+    - custom:
+        imports:
+        - path: github.com/Juniper/terraform-provider-mist/internal/validators
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+        - path: github.com/hashicorp/terraform-plugin-framework/path
+        schema_definition: 'mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("wan_type"),
+          types.StringValue("broadband")),
+
+          mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("wan_type"),
+          types.StringValue("dsl"),
+
+          )'
+  - get:
+    - string
+    name: name
+    validators:
+    - custom:
+        imports:
+        - path: github.com/Juniper/terraform-provider-mist/internal/validators
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+        - path: github.com/hashicorp/terraform-plugin-framework/path
+        schema_definition: 'mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName("usage"),
+          types.StringValue("wan")),
+
+          mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("usage"),
+          types.StringValue("lan")),
+
+          mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("usage"),
+          types.StringValue("ha_data")),
+
+          mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("usage"),
+          types.StringValue("ha_control"),
+
+          )'
+  - get:
+    - list
+    name: networks
+    validators:
+    - custom:
+        imports:
+        - path: github.com/Juniper/terraform-provider-mist/internal/validators
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/listvalidator
+        - path: github.com/hashicorp/terraform-plugin-framework/path
+        schema_definition: 'mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName("usage"),
+          types.StringValue("lan")),
+
+          mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("usage"),
+          types.StringValue("wan")),
+
+          mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("usage"),
+          types.StringValue("ha_data")),
+
+          mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("usage"),
+          types.StringValue("ha_control"),
+
+          )'
+  - get:
+    - single_nested
+    - attributes
+    name: ip_config
+    next:
+    - get:
+      - string
+      name: ip
+      validators:
+      - custom:
+          imports:
+          - path: github.com/Juniper/terraform-provider-mist/internal/validators
+          - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+          schema_definition: 'stringvalidator.Any(mistvalidator.ParseIp(true, true),
+            mistvalidator.ParseVar()),
+
+            mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName("type"),
+            types.StringValue("static"),
+
+            )'
+    - get:
+      - string
+      name: netmask
+      validators:
+      - custom:
+          imports:
+          - path: github.com/Juniper/terraform-provider-mist/internal/validators
+          - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+          schema_definition: 'stringvalidator.Any(mistvalidator.ParseNetmask(true,
+            true), mistvalidator.ParseVar()),
+
+            mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName("type"),
+            types.StringValue("static"),
+
+            )'
+    - get:
+      - string
+      name: poser_password
+      validators:
+      - custom:
+          imports:
+          - path: github.com/Juniper/terraform-provider-mist/internal/validators
+          - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+          schema_definition: 'mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName("type"),
+            types.StringValue("pppoe"),
+
+            )'
+    - get:
+      - string
+      name: pppoe_auth
+      validators:
+      - custom:
+          imports:
+          - path: github.com/Juniper/terraform-provider-mist/internal/validators
+          - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+          schema_definition: 'stringvalidator.OneOf(
+
+            "",
+
+            "none",
+
+            "chap",
+
+            "pap",
+
+            ),
+
+            mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName("type"),
+            types.StringValue("pppoe"),
+
+            )'
+    - get:
+      - string
+      name: pppoe_username
+      validators:
+      - custom:
+          imports:
+          - path: github.com/Juniper/terraform-provider-mist/internal/validators
+          - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+          schema_definition: 'mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName("type"),
+            types.StringValue("pppoe"),
+
+            )'
+  - get:
+    - string
+    name: port_network
+    validators:
+    - custom:
+        imports:
+        - path: github.com/Juniper/terraform-provider-mist/internal/validators
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+        - path: github.com/hashicorp/terraform-plugin-framework/path
+        schema_definition: 'mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("usage"),
+          types.StringValue("wan")),
+
+          mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("usage"),
+          types.StringValue("ha_data")),
+
+          mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("usage"),
+          types.StringValue("ha_control"),
+
+          )'
+  - get:
+    - string
+    name: wan_arp_policer
+    validators:
+    - custom:
+        imports:
+        - path: github.com/Juniper/terraform-provider-mist/internal/validators
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+        - path: github.com/hashicorp/terraform-plugin-framework/path
+        schema_definition: 'stringvalidator.OneOf(
+
+          "",
+
+          "recommended",
+
+          "default",
+
+          "max",
+
+          ),
+
+          mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("wan_type"),
+          types.StringValue("lte")),
+
+          mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("wan_type"),
+          types.StringValue("dsl"),
+
+          )'
+  - get:
+    - string
+    name: wan_type
+    validators:
+    - custom:
+        imports:
+        - path: github.com/Juniper/terraform-provider-mist/internal/validators
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+        - path: github.com/hashicorp/terraform-plugin-framework/path
+        schema_definition: 'stringvalidator.OneOf(
+
+          "",
+
+          "broadband",
+
+          "dsl",
+
+          "lte",
+
+          ),
+
+          mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("usage"),
+          types.StringValue("lan")),
+
+          mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("usage"),
+          types.StringValue("ha_data")),
+
+          mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("usage"),
+          types.StringValue("ha_control"),
+
+          )'
+  - name: ip_config
+    rename: port_ip_config
+- get:
+  - map_nested
+  - nested_object
+  - attributes
+  name: ip_configs
+  next:
+  - computed_optional_required: computed_optional
+    default_type: list_of_str
+    get:
+    - list
+    name: secondary_ips
+- get:
+  - map_nested
+  - nested_object
+  - attributes
+  name: bgp_config
+  next:
+  - computed_optional_required: computed_optional
+    default_type: list_of_str
+    get:
+    - list
+    name: networks
+    validators:
+    - custom:
+        imports:
+        - path: github.com/Juniper/terraform-provider-mist/internal/validators
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/listvalidator
+        - path: github.com/hashicorp/terraform-plugin-framework/path
+        schema_definition: 'listvalidator.Any(
+
+          mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtMapKey("type"),
+          types.StringValue("external")),
+
+          mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtMapKey("via"),
+          types.StringValue("wan")),
+
+          )'
+  - get:
+    - string
+    name: wan_name
+    validators:
+    - custom:
+        imports:
+        - path: github.com/Juniper/terraform-provider-mist/internal/validators
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/listvalidator
+        - path: github.com/hashicorp/terraform-plugin-framework/path
+        schema_definition: 'mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName("via"),
+          types.StringValue("wan")),
+
+          mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("via"),
+          types.StringValue("lan")),
+
+          mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("via"),
+          types.StringValue("wan"),
+
+          )'
+- get:
+  - map_nested
+  - nested_object
+  - attributes
+  name: tunnel_configs
+  next:
+  - get:
+    - single_nested
+    - attributes
+    name: auto_provision
+    next:
+    - name: primary
+      rename: auto_provision_primary
+    - name: secondary
+      rename: auto_provision_secondary
+  - get:
+    - int64
+    name: ike_lifetime
+    validators:
+    - custom:
+        imports:
+        - path: github.com/Juniper/terraform-provider-mist/internal/validators
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/int64validator
+        - path: github.com/hashicorp/terraform-plugin-framework/path
+        schema_definition: 'mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("provider"),
+          types.StringValue("zscaler-ipsec")),
+
+          mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("provider"),
+          types.StringValue("zscaler-gre")),
+
+          mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("provider"),
+          types.StringValue("jse-ipsec")),
+
+          mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("provider"),
+          types.StringValue("customer-gre"),
+
+          )'
+  - get:
+    - string
+    name: ike_mode
+    validators:
+    - custom:
+        imports:
+        - path: github.com/Juniper/terraform-provider-mist/internal/validators
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+        - path: github.com/hashicorp/terraform-plugin-framework/path
+        schema_definition: 'stringvalidator.OneOf(
+
+          "",
+
+          "main",
+
+          "aggressive",
+
+          ),
+
+          mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("provider"),
+          types.StringValue("zscaler-ipsec")),
+
+          mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("provider"),
+          types.StringValue("zscaler-gre")),
+
+          mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("provider"),
+          types.StringValue("jse-ipsec")),
+
+          mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("provider"),
+          types.StringValue("customer-gre"),
+
+          )'
+  - get:
+    - list_nested
+    name: ike_proposals
+    validators:
+    - custom:
+        imports:
+        - path: github.com/Juniper/terraform-provider-mist/internal/validators
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/listvalidator
+        - path: github.com/hashicorp/terraform-plugin-framework/path
+        schema_definition: 'mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("provider"),
+          types.StringValue("zscaler-ipsec")),
+
+          mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("provider"),
+          types.StringValue("zscaler-gre")),
+
+          mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("provider"),
+          types.StringValue("jse-ipsec")),
+
+          mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("provider"),
+          types.StringValue("customer-gre"),
+
+          )'
+  - get:
+    - int64
+    name: ipsec_lifetime
+    validators:
+    - custom:
+        imports:
+        - path: github.com/Juniper/terraform-provider-mist/internal/validators
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/int64validator
+        - path: github.com/hashicorp/terraform-plugin-framework/path
+        schema_definition: 'mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("provider"),
+          types.StringValue("zscaler-ipsec")),
+
+          mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("provider"),
+          types.StringValue("zscaler-gre")),
+
+          mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("provider"),
+          types.StringValue("jse-ipsec")),
+
+          mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("provider"),
+          types.StringValue("customer-gre"),
+
+          )'
+  - get:
+    - list_nested
+    name: ipsec_proposals
+    validators:
+    - custom:
+        imports:
+        - path: github.com/Juniper/terraform-provider-mist/internal/validators
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/listvalidator
+        - path: github.com/hashicorp/terraform-plugin-framework/path
+        schema_definition: 'mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("provider"),
+          types.StringValue("zscaler-ipsec")),
+
+          mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("provider"),
+          types.StringValue("zscaler-gre")),
+
+          mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("provider"),
+          types.StringValue("jse-ipsec")),
+
+          mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("provider"),
+          types.StringValue("customer-gre"),
+
+          )'
+  - get:
+    - string
+    name: local_id
+    validators:
+    - custom:
+        imports:
+        - path: github.com/Juniper/terraform-provider-mist/internal/validators
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+        - path: github.com/hashicorp/terraform-plugin-framework/path
+        schema_definition: 'mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("provider"),
+          types.StringValue("zscaler-gre")),
+
+          mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("provider"),
+          types.StringValue("customer-gre"),
+
+          )'
+- get:
+  - single_nested
+  - attributes
+  name: dhcpd_config
+  next:
+  - get:
+    - map_nested
+    - nested_object
+    - attributes
+    name: config
+    next:
+    - get:
+      - list
+      name: dns_servers
+      validators:
+      - custom:
+          imports:
+          - path: github.com/Juniper/terraform-provider-mist/internal/validators
+          - path: github.com/hashicorp/terraform-plugin-framework-validators/listvalidator
+          - path: github.com/hashicorp/terraform-plugin-framework/path
+          schema_definition: 'listvalidator.ValueStringsAre(stringvalidator.Any(mistvalidator.ParseIp(true,
+            false), mistvalidator.ParseVar())),
+
+            mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("type"),
+            types.StringValue("relay"),
+
+            )'
+    - get:
+      - list
+      name: dns_suffix
+      validators:
+      - custom:
+          imports:
+          - path: github.com/Juniper/terraform-provider-mist/internal/validators
+          - path: github.com/hashicorp/terraform-plugin-framework-validators/listvalidator
+          - path: github.com/hashicorp/terraform-plugin-framework/path
+          schema_definition: 'mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("type"),
+            types.StringValue("relay"),
+
+            )'
+    - get:
+      - map_nested
+      name: fixed_bindings
+      validators:
+      - custom:
+          imports:
+          - path: github.com/Juniper/terraform-provider-mist/internal/validators
+          - path: github.com/hashicorp/terraform-plugin-framework-validators/mapvalidator
+          - path: github.com/hashicorp/terraform-plugin-framework/path
+          schema_definition: 'mapvalidator.SizeAtLeast(1),
+
+            mapvalidator.KeysAre(mistvalidator.ParseMac()),
+
+            mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("type"),
+            types.StringValue("relay"),
+
+            )'
+    - get:
+      - map_nested
+      - nested_object
+      - attributes
+      name: fixed_bindings
+      next:
+      - computed_optional_required: required
+        get:
+        - string
+        name: ip
+        validators:
+        - custom:
+            imports:
+            - path: github.com/Juniper/terraform-provider-mist/internal/validators
+            - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+            - path: github.com/hashicorp/terraform-plugin-framework/path
+            schema_definition: mistvalidator.ParseIp(true, false)
+    - get:
+      - string
+      name: gateway
+      validators:
+      - custom:
+          imports:
+          - path: github.com/Juniper/terraform-provider-mist/internal/validators
+          - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+          - path: github.com/hashicorp/terraform-plugin-framework/path
+          schema_definition: 'stringvalidator.Any(mistvalidator.ParseIp(true, false),
+            mistvalidator.ParseVar()),
+
+            mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("type"),
+            types.StringValue("relay"),
+
+            )'
+    - get:
+      - string
+      name: ip_end
+      validators:
+      - custom:
+          imports:
+          - path: github.com/Juniper/terraform-provider-mist/internal/validators
+          - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+          - path: github.com/hashicorp/terraform-plugin-framework/path
+          schema_definition: 'stringvalidator.Any(mistvalidator.ParseIp(true, false),
+            mistvalidator.ParseVar()),
+
+            mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName("type"),
+            types.StringValue("local")),
+
+            mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("type"),
+            types.StringValue("relay"),
+
+            )'
+    - get:
+      - string
+      name: ip_start
+      validators:
+      - custom:
+          imports:
+          - path: github.com/Juniper/terraform-provider-mist/internal/validators
+          - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+          - path: github.com/hashicorp/terraform-plugin-framework/path
+          schema_definition: 'stringvalidator.Any(mistvalidator.ParseIp(true, false),
+            mistvalidator.ParseVar()),
+
+            mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName("type"),
+            types.StringValue("local")),
+
+            mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("type"),
+            types.StringValue("relay"),
+
+            )'
+    - get:
+      - string
+      name: ip_end6
+      validators:
+      - custom:
+          imports:
+          - path: github.com/Juniper/terraform-provider-mist/internal/validators
+          - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+          - path: github.com/hashicorp/terraform-plugin-framework/path
+          schema_definition: 'stringvalidator.Any(mistvalidator.ParseIp(false, true),
+            mistvalidator.ParseVar()),
+
+            mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName("type6"),
+            types.StringValue("local")),
+
+            mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("type6"),
+            types.StringValue("relay"),
+
+            )'
+    - get:
+      - string
+      name: ip_start6
+      validators:
+      - custom:
+          imports:
+          - path: github.com/Juniper/terraform-provider-mist/internal/validators
+          - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+          - path: github.com/hashicorp/terraform-plugin-framework/path
+          schema_definition: 'stringvalidator.Any(mistvalidator.ParseIp(false, true),
+            mistvalidator.ParseVar()),
+
+            mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName("type6"),
+            types.StringValue("local")),
+
+            mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("type6"),
+            types.StringValue("relay"),
+
+            )'
+    - get:
+      - list
+      name: servers
+      validators:
+      - custom:
+          imports:
+          - path: github.com/Juniper/terraform-provider-mist/internal/validators
+          - path: github.com/hashicorp/terraform-plugin-framework-validators/listvalidator
+          - path: github.com/hashicorp/terraform-plugin-framework/path
+          schema_definition: 'listvalidator.ValueStringsAre(stringvalidator.Any(mistvalidator.ParseIp(true,
+            false), mistvalidator.ParseVar())),
+
+            mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName("type"),
+            types.StringValue("relay")),
+
+            mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("type"),
+            types.StringValue("local"),
+
+            )'
+    - get:
+      - list
+      name: servers6
+      validators:
+      - custom:
+          imports:
+          - path: github.com/Juniper/terraform-provider-mist/internal/validators
+          - path: github.com/hashicorp/terraform-plugin-framework-validators/listvalidator
+          - path: github.com/hashicorp/terraform-plugin-framework/path
+          schema_definition: 'listvalidator.ValueStringsAre(stringvalidator.Any(mistvalidator.ParseIp(false,
+            true), mistvalidator.ParseVar())),
+
+            mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName("type6"),
+            types.StringValue("relay")),
+
+            mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("type6"),
+            types.StringValue("local"),
+
+            )'
+    - name: ip_end
+      rename: ip_end4
+    - name: ip_start
+      rename: ip_start4
+    - name: servers
+      rename: servers4
+    - name: type
+      rename: type4
+    - computed_optional_required: computed_optional
+      default_type: list_of_str
+      get:
+      - list
+      name: servers4
+    - computed_optional_required: computed_optional
+      default_type: list_of_str
+      get:
+      - list
+      name: servers6
+    - computed_optional_required: computed_optional
+      default_type: list_of_str
+      get:
+      - list
+      name: dns_suffix
+- get:
+  - map_nested
+  name: extra_routes
+  validators:
+  - custom:
+      imports:
+      - path: github.com/Juniper/terraform-provider-mist/internal/validators
+      - path: github.com/hashicorp/terraform-plugin-framework-validators/mapvalidator
+      schema_definition: 'mapvalidator.SizeAtLeast(1),mapvalidator.KeysAre(stringvalidator.Any(mistvalidator.ParseCidr(true,
+        false), mistvalidator.ParseVar()),
+
+        )'
+- get:
+  - map_nested
+  - nested_object
+  - attributes
+  name: extra_routes
+  next:
+  - computed_optional_required: required
+    get:
+    - string
+    name: via
+    validators:
+    - custom:
+        imports:
+        - path: github.com/Juniper/terraform-provider-mist/internal/validators
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+        schema_definition: 'stringvalidator.Any(mistvalidator.ParseIp(true, false),
+          mistvalidator.ParseVar(),
+
+          )'
+- get:
+  - map_nested
+  name: extra_routes6
+  validators:
+  - custom:
+      imports:
+      - path: github.com/Juniper/terraform-provider-mist/internal/validators
+      - path: github.com/hashicorp/terraform-plugin-framework-validators/mapvalidator
+      schema_definition: 'mapvalidator.SizeAtLeast(1),mapvalidator.KeysAre(stringvalidator.Any(mistvalidator.ParseCidr(false,
+        true), mistvalidator.ParseVar()),
+
+        )'
+- get:
+  - map_nested
+  - nested_object
+  - attributes
+  name: extra_routes6
+  next:
+  - computed_optional_required: required
+    get:
+    - string
+    name: via
+    validators:
+    - custom:
+        imports:
+        - path: github.com/Juniper/terraform-provider-mist/internal/validators
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+        schema_definition: 'stringvalidator.Any(mistvalidator.ParseIp(false, true),
+          mistvalidator.ParseVar(),
+
+          )'
+- get:
+  - map_nested
+  - nested_object
+  - attributes
+  name: ip_configs
+  next:
+  - computed_optional_required: required
+    get:
+    - string
+    name: ip
+    validators:
+    - custom:
+        imports:
+        - path: github.com/Juniper/terraform-provider-mist/internal/validators
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+        - path: github.com/hashicorp/terraform-plugin-framework/path
+        schema_definition: 'stringvalidator.Any(mistvalidator.ParseIp(true, false),
+          mistvalidator.ParseVar()),
+
+          mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName("type"),
+          types.StringValue("static")),
+
+          mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("type"),
+          types.StringValue("dhcp"),
+
+          )'
+  - computed_optional_required: required
+    get:
+    - string
+    name: netmask
+    validators:
+    - custom:
+        imports:
+        - path: github.com/Juniper/terraform-provider-mist/internal/validators
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+        - path: github.com/hashicorp/terraform-plugin-framework/path
+        schema_definition: 'stringvalidator.Any(mistvalidator.ParseNetmask(true, true),
+          mistvalidator.ParseVar()),
+
+          mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName("type"),
+          types.StringValue("static")),
+
+          mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("type"),
+          types.StringValue("dhcp"),
+
+          )'
+- get:
+  - list_nested
+  - nested_object
+  - attributes
+  name: networks
+  next:
+  - computed_optional_required: required
+    get:
+    - string
+    name: name
+    validators:
+    - custom:
+        imports:
+        - path: github.com/Juniper/terraform-provider-mist/internal/validators
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+        schema_definition: stringvalidator.All(stringvalidator.LengthBetween(2, 32),mistvalidator.ParseName(),)
+  - get:
+    - string
+    name: gateway
+    validators:
+    - custom:
+        imports:
+        - path: github.com/Juniper/terraform-provider-mist/internal/validators
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+        schema_definition: 'stringvalidator.Any(mistvalidator.ParseIp(true, false),
+          mistvalidator.ParseVar(),
+
+          )'
+  - get:
+    - string
+    name: gateway6
+    validators:
+    - custom:
+        imports:
+        - path: github.com/Juniper/terraform-provider-mist/internal/validators
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+        schema_definition: 'stringvalidator.Any(mistvalidator.ParseIp(false, true),
+          mistvalidator.ParseVar(),
+
+          )'
+  - computed_optional_required: required
+    get:
+    - string
+    name: subnet
+    validators:
+    - custom:
+        imports:
+        - path: github.com/Juniper/terraform-provider-mist/internal/validators
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+        schema_definition: 'stringvalidator.Any(mistvalidator.ParseCidr(true, false),
+          mistvalidator.ParseVar(),
+
+          )'
+  - computed_optional_required: optional
+    get:
+    - string
+    name: subnet6
+    validators:
+    - custom:
+        imports:
+        - path: github.com/Juniper/terraform-provider-mist/internal/validators
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+        schema_definition: 'stringvalidator.Any(mistvalidator.ParseCidr(false, true),
+          mistvalidator.ParseVar(),
+
+          )'
+  - get:
+    - string
+    name: vlan_id
+    validators:
+    - custom:
+        imports:
+        - path: github.com/Juniper/terraform-provider-mist/internal/validators
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+        schema_definition: stringvalidator.Any(mistvalidator.ParseInt(1, 4094),mistvalidator.ParseVar(),)
+  - get:
+    - map_nested
+    - nested_object
+    - attributes
+    name: vpn_access
+    next:
+    - computed_optional_required: computed_optional
+      default_type: list_of_str
+      get:
+      - list
+      name: other_vrfs
+    - computed_optional_required: computed_optional
+      get:
+      - map_nested
+      name: destination_nat
+    - computed_optional_required: computed_optional
+      get:
+      - single_nested
+      name: source_nat
+    - computed_optional_required: computed_optional
+      get:
+      - map_nested
+      name: static_nat
+    - get:
+      - single_nested
+      - attributes
+      name: source_nat
+      next:
+      - computed_optional_required: optional
+        get:
+        - string
+        name: external_ip
+- get:
+  - single_nested
+  - attributes
+  name: oob_ip_config
+  next:
+  - computed_optional_required: optional
+    get:
+    - string
+    name: ip
+    validators:
+    - custom:
+        imports:
+        - path: github.com/Juniper/terraform-provider-mist/internal/validators
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+        - path: github.com/hashicorp/terraform-plugin-framework/path
+        schema_definition: 'mistvalidator.ParseIp(true, false),
+
+          mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName("type"),
+          types.StringValue("static")),
+
+          mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("type"),
+          types.StringValue("dhcp"),
+
+          )'
+  - computed_optional_required: optional
+    get:
+    - string
+    name: gateway
+    validators:
+    - custom:
+        imports:
+        - path: github.com/Juniper/terraform-provider-mist/internal/validators
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+        - path: github.com/hashicorp/terraform-plugin-framework/path
+        schema_definition: 'mistvalidator.ParseIp(true, false),
+
+          mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName("type"),
+          types.StringValue("static")),
+
+          mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("type"),
+          types.StringValue("dhcp"),
+
+          )'
+  - computed_optional_required: optional
+    get:
+    - string
+    name: netmask
+    validators:
+    - custom:
+        imports:
+        - path: github.com/Juniper/terraform-provider-mist/internal/validators
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+        - path: github.com/hashicorp/terraform-plugin-framework/path
+        schema_definition: 'stringvalidator.Any(mistvalidator.ParseNetmask(true, true),
+          mistvalidator.ParseVar()),
+
+          mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName("type"),
+          types.StringValue("static")),
+
+          mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("type"),
+          types.StringValue("dhcp"),
+
+          )'
+  - computed_optional_required: optional
+    get:
+    - string
+    name: vlan_id
+    validators:
+    - custom:
+        imports:
+        - path: github.com/Juniper/terraform-provider-mist/internal/validators
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+        - path: github.com/hashicorp/terraform-plugin-framework/path
+        schema_definition: 'stringvalidator.Any(mistvalidator.ParseInt(1, 4094), mistvalidator.ParseVar(),
+
+          )'
+  - get:
+    - single_nested
+    - attributes
+    name: node1
+    next:
+    - computed_optional_required: optional
+      get:
+      - string
+      name: ip
+      validators:
+      - custom:
+          imports:
+          - path: github.com/Juniper/terraform-provider-mist/internal/validators
+          - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+          - path: github.com/hashicorp/terraform-plugin-framework/path
+          schema_definition: 'mistvalidator.ParseIp(true, false),
+
+            mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName("type"),
+            types.StringValue("static")),
+
+            mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("type"),
+            types.StringValue("dhcp"),
+
+            )'
+    - computed_optional_required: optional
+      get:
+      - string
+      name: gateway
+      validators:
+      - custom:
+          imports:
+          - path: github.com/Juniper/terraform-provider-mist/internal/validators
+          - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+          - path: github.com/hashicorp/terraform-plugin-framework/path
+          schema_definition: 'mistvalidator.ParseIp(true, false),
+
+            mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName("type"),
+            types.StringValue("static")),
+
+            mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("type"),
+            types.StringValue("dhcp"),
+
+            )'
+    - computed_optional_required: optional
+      get:
+      - string
+      name: netmask
+      validators:
+      - custom:
+          imports:
+          - path: github.com/Juniper/terraform-provider-mist/internal/validators
+          - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+          - path: github.com/hashicorp/terraform-plugin-framework/path
+          schema_definition: 'stringvalidator.Any(mistvalidator.ParseNetmask(true,
+            true), mistvalidator.ParseVar()),
+
+            mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName("type"),
+            types.StringValue("static")),
+
+            mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("type"),
+            types.StringValue("dhcp"),
+
+            )'
+    - computed_optional_required: optional
+      get:
+      - string
+      name: vlan_id
+      validators:
+      - custom:
+          imports:
+          - path: github.com/Juniper/terraform-provider-mist/internal/validators
+          - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+          - path: github.com/hashicorp/terraform-plugin-framework/path
+          schema_definition: 'stringvalidator.Any(mistvalidator.ParseInt(1, 4094),
+            mistvalidator.ParseVar(),
+
+            )'

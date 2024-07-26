@@ -1,0 +1,30 @@
+get:
+- schema
+- attributes
+name: org_setting
+next:
+- computed_optional_required: required
+  get:
+  - string
+  name: org_id
+- computed_optional_required: computed
+  get:
+  - string
+  name: blacklist_url
+- computed_optional_required: computed
+  get:
+  - string
+  name: msp_id
+- computed_optional_required: computed
+  get:
+  - bool
+  name: pcap_bucket_verified
+- get:
+  - single_nested
+  - attributes
+  name: installer
+  next:
+  - computed_optional_required: computed_optional
+    get:
+    - list
+    name: extra_site_ids

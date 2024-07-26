@@ -1,0 +1,27 @@
+get:
+- schema
+- attributes
+name: org_mx_edge
+next:
+- computed_optional_required: required
+  get:
+  - string
+  name: org_id
+- computed_optional_required: required
+  get:
+  - string
+  name: name
+- computed_optional_required: computed
+  get:
+  - string
+  name: id
+- computed_optional_required: computed
+  get:
+  - bool
+  name: mxagent_registered
+- computed_optional_required: computed
+  get:
+  - bool
+  name: tunterm_registered
+- name: magic
+  rename: claim_code

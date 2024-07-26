@@ -1,0 +1,27 @@
+get:
+- schema
+- attributes
+name: countries
+next:
+- get:
+  - set_nested
+  - nested_object
+  - attributes
+  name: countries
+  next:
+  - computed_optional_required: computed_optional
+    get:
+    - string
+    name: alpha2
+  - computed_optional_required: computed_optional
+    get:
+    - bool
+    name: certified
+  - computed_optional_required: computed_optional
+    get:
+    - string
+    name: name
+  - computed_optional_required: computed_optional
+    get:
+    - number
+    name: numeric

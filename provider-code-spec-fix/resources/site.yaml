@@ -1,0 +1,21 @@
+get:
+- schema
+- attributes
+name: site
+next:
+- computed_optional_required: computed
+  get:
+  - string
+  name: id
+- computed_optional_required: required
+  get:
+  - string
+  name: org_id
+- computed_optional_required: required
+  get:
+  - string
+  name: name
+- computed_optional_required: required
+  get:
+  - string
+  name: address

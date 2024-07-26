@@ -1,0 +1,37 @@
+get:
+- schema
+- attributes
+name: org
+next:
+- computed_optional_required: required
+  get:
+  - string
+  name: name
+- computed_optional_required: computed
+  get:
+  - string
+  name: id
+- computed_optional_required: computed
+  get:
+  - string
+  name: msp_id
+- computed_optional_required: computed
+  get:
+  - string
+  name: alarmtemplate_id
+- computed_optional_required: computed
+  get:
+  - list
+  name: orggroup_ids
+- computed_optional_required: computed_optional
+  default:
+    static: true
+  get:
+  - bool
+  name: allow_mist
+- computed_optional_required: computed_optional
+  default:
+    static: 1440
+  get:
+  - int64
+  name: session_expiry

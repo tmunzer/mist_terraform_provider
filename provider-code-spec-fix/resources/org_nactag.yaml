@@ -1,0 +1,23 @@
+get:
+- schema
+- attributes
+name: org_nactag
+next:
+- computed_optional_required: required
+  get:
+  - string
+  name: name
+  validators:
+  - custom:
+      imports:
+      - path: github.com/Juniper/terraform-provider-mist/internal/validators
+      - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+      schema_definition: stringvalidator.All(stringvalidator.LengthBetween(2, 32),mistvalidator.ParseName(),)
+- computed_optional_required: required
+  get:
+  - string
+  name: org_id
+- computed_optional_required: computed
+  get:
+  - string
+  name: id

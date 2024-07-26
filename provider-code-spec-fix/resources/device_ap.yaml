@@ -1,0 +1,53 @@
+get:
+- schema
+- attributes
+name: device_ap
+next:
+- computed_optional_required: required
+  get:
+  - string
+  name: site_id
+- computed_optional_required: required
+  get:
+  - string
+  name: device_id
+- computed_optional_required: computed
+  get:
+  - string
+  name: org_id
+- computed_optional_required: computed
+  get:
+  - string
+  name: deviceprofile_id
+- computed_optional_required: computed
+  get:
+  - string
+  name: type
+- computed_optional_required: computed
+  get:
+  - string
+  name: serial
+- computed_optional_required: computed
+  get:
+  - string
+  name: mac
+- computed_optional_required: computed
+  get:
+  - string
+  name: model
+- computed_optional_required: required
+  get:
+  - string
+  name: name
+- computed_optional_required: computed
+  get:
+  - string
+  name: image1_url
+- computed_optional_required: computed
+  get:
+  - string
+  name: image2_url
+- computed_optional_required: computed
+  get:
+  - string
+  name: image3_url

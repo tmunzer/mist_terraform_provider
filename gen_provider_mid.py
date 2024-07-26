@@ -1,4 +1,5 @@
 import json
+import yaml
 import re
 import os
 import shutil
@@ -175,12 +176,13 @@ for folder in FIX_FOLDERS:
     FOLDER_PATH = os.path.join(FIX_PATH, folder)
     FIX_FILES = os.listdir(FOLDER_PATH)
     for file in FIX_FILES:
-        fix_file_path = os.path.join(FOLDER_PATH, file)
-        print("")
-        print(f" {fix_file_path} ".ljust(80, "."))
-        with open(fix_file_path, "r") as ffix:
-            fix = json.load(ffix)
-            next_item(DATA[folder], [fix], [])
+        if file.endswith(".yaml"):
+            fix_file_path = os.path.join(FOLDER_PATH, file)
+            print("")
+            print(f" {fix_file_path} ".ljust(80, "."))
+            with open(fix_file_path, "r") as ffix:
+                fix = yaml.load(ffix,  Loader=yaml.loader.SafeLoader)
+                next_item(DATA[folder], [fix], [])
 
 
 with open(SPEC_IN, "w") as f_out:
