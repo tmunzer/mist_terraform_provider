@@ -982,7 +982,42 @@ resource "mist_org_gatewaytemplate" "test-api" {
   type   = "spoke"
   name   = "test-api"
   org_id = mist_org.terraform_test.id
-
+tunnel_configs = {
+        Prisma-Tunnel = {
+        provider = "custom-ipsec"
+        protocol = "ipsec"
+        local_id = "{{sc_local_id}}"
+        psk = "psktest"
+        primary = {
+        hosts = [
+                "{{service_ip_1}}"
+        ]
+        remote_ids = [
+                "{{sc_remote_id}}"
+        ]
+        wan_names = [
+                "WAN_0"
+        ]
+        }
+        ike_proposals = [
+                    {
+        auth_algo = "sha2"
+        enc_algo = "aes256"
+        dh_group = "19"
+                    }
+            ]
+        ike_lifetime = 28800
+            ipsec_proposals = [
+                    {
+        auth_algo = "sha2"
+        enc_algo = "aes256"
+        dh_group = "19"
+                    }
+            ]
+        ipsec_lifetime = 3600
+        version = "2"
+      }
+}
   port_config = {
     "ge-0/0/3" = {
       name       = "FTTH"
@@ -1130,6 +1165,10 @@ resource "mist_org_gatewaytemplate" "test-api" {
     }
   }
   service_policies = [
+    {
+        servicepolicy_id = mist_org_servicepolicy.test1.id
+        path_preference = "TO-INTERNET"
+                    },
     {
       name = "Policy-14"
       tenants = [
@@ -2467,12 +2506,96 @@ resource "mist_org_deviceprofile_assign" "hub" {
   ]
 }
 
+resource "mist_org_network" "CORE_VLAN410" {
+    org_id = mist_org.terraform_test.id
+    isolation = true
+    subnet = "0.0.0.0/0"
+    internet_access = {
+    }
+    vpn_access = {
+    OrgOverlay = {
+    routed = true
+    }
+    }
+    disallow_mist_services = true
+    name = "CORE_VLAN410"
+}
+resource "mist_org_network" "RESTRICTED_VLAN420" {
+    org_id = mist_org.terraform_test.id
+    isolation = true
+    subnet = "0.0.0.0/0"
+    internet_access = {
+    }
+    vpn_access = {
+    OrgOverlay = {
+    routed = true
+    }
+    }
+    disallow_mist_services = true
+    name = "RESTRICTED_VLAN420"
+}
+resource "mist_org_network" "AUTOMATION_VLAN460" {
+    org_id = mist_org.terraform_test.id
+    isolation = true
+    subnet = "0.0.0.0/0"
+    internet_access = {
+    }
+    vpn_access = {
+    OrgOverlay = {
+    routed = true
+    }
+    }
+    disallow_mist_services = true
+    name = "AUTOMATION_VLAN460"
+}
+resource "mist_org_network" "UNTRUSTED_VLAN490" {
+    org_id = mist_org.terraform_test.id
+    isolation = true
+    subnet = "0.0.0.0/0"
+    internet_access = {
+    }
+    vpn_access = {
+    OrgOverlay = {
+    routed = true
+    }
+    }
+    disallow_mist_services = true
+    name = "UNTRUSTED_VLAN490"
+}
+resource "mist_org_network" "MANAGEMENT_VLAN430" {
+    org_id = mist_org.terraform_test.id
+    isolation = true
+    subnet = "0.0.0.0/0"
+    internet_access = {
+    }
+    vpn_access = {
+    OrgOverlay = {
+    routed = true
+    }
+    }
+    disallow_mist_services = true
+    name = "MANAGEMENT_VLAN430"
+}
 
 resource "mist_org_gatewaytemplate" "gatewaytemplate_one" {
   type   = "spoke"
   name   = "gatewaytemplate_one"
   org_id = mist_org.terraform_test.id
   port_config = {
+    "ge-0/0/7,ge-5/0/7" = {
+    usage = "lan"
+    redundant = true
+        networks = [
+                "CORE_VLAN410",
+                "RESTRICTED_VLAN420",
+                "AUTOMATION_VLAN460",
+                "UNTRUSTED_VLAN490",
+                "MANAGEMENT_VLAN430",
+        ]
+    port_network = "MGMT"
+    reth_idx = "3"
+    reth_node = "node0"
+    }
     "ge-0/0/3" = {
       name       = "FTTH"
       usage      = "wan"
@@ -2529,6 +2652,31 @@ resource "mist_org_gatewaytemplate" "gatewaytemplate_one" {
     "PRD-Lab" = {
       type    = "static"
       ip      = "10.3.171.1"
+      netmask = "/24"
+    }
+    "CORE_VLAN410" = {
+      type    = "static"
+      ip      = "10.4.171.1"
+      netmask = "/24"
+    }
+    "RESTRICTED_VLAN420" = {
+      type    = "static"
+      ip      = "10.5.171.1"
+      netmask = "/24"
+    }
+    "AUTOMATION_VLAN460" = {
+      type    = "static"
+      ip      = "10.6.171.1"
+      netmask = "/24"
+    }
+    "UNTRUSTED_VLAN490" = {
+      type    = "static"
+      ip      = "10.7.171.1"
+      netmask = "/24"
+    }
+    "MANAGEMENT_VLAN430" = {
+      type    = "static"
+      ip      = "10.8.171.1"
       netmask = "/24"
     }
   }
