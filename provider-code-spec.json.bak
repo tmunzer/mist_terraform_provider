@@ -1055,7 +1055,7 @@
 										"default": {
 											"static": false
 										},
-										"description": "if set to `true`, disable the DHCP server"
+										"description": "if set to `true`, enable the DHCP server"
 									}
 								}
 							]
@@ -1803,13 +1803,6 @@
 									"string": {
 										"computed_optional_required": "computed_optional",
 										"description": "if `type`==`static`"
-									}
-								},
-								{
-									"name": "network",
-									"string": {
-										"computed_optional_required": "computed_optional",
-										"description": "optional, the network to be used for mgmt"
 									}
 								},
 								{
@@ -4778,7 +4771,7 @@
 										"default": {
 											"static": false
 										},
-										"description": "if set to `true`, disable the DHCP server"
+										"description": "if set to `true`, enable the DHCP server"
 									}
 								}
 							]
@@ -5446,13 +5439,6 @@
 									"string": {
 										"computed_optional_required": "computed_optional",
 										"description": "if `type`==`static`"
-									}
-								},
-								{
-									"name": "network",
-									"string": {
-										"computed_optional_required": "computed_optional",
-										"description": "optional, the network to be used for mgmt"
 									}
 								},
 								{
@@ -8239,7 +8225,7 @@
 										"default": {
 											"static": false
 										},
-										"description": "if set to `true`, disable the DHCP server"
+										"description": "if set to `true`, enable the DHCP server"
 									}
 								}
 							]
@@ -8901,13 +8887,6 @@
 									"string": {
 										"computed_optional_required": "computed_optional",
 										"description": "if `type`==`static`"
-									}
-								},
-								{
-									"name": "network",
-									"string": {
-										"computed_optional_required": "computed_optional",
-										"description": "optional, the network to be used for mgmt"
 									}
 								},
 								{
@@ -13248,7 +13227,7 @@
 											"element_type": {
 												"string": {}
 											},
-											"description": "at least one of the `ingress_port_ids`, `egress_port_ids` or `ingress_networks ` should be specified"
+											"description": "at least one of the `input_port_ids_ingress`, `input_port_ids_egress` or `input_networks_ingress ` should be specified"
 										}
 									},
 									{
@@ -13258,7 +13237,7 @@
 											"element_type": {
 												"string": {}
 											},
-											"description": "at least one of the `ingress_port_ids`, `egress_port_ids` or `ingress_networks ` should be specified"
+											"description": "at least one of the `input_port_ids_ingress`, `input_port_ids_egress` or `input_networks_ingress ` should be specified"
 										}
 									},
 									{
@@ -13268,20 +13247,21 @@
 											"element_type": {
 												"string": {}
 											},
-											"description": "at least one of the `ingress_port_ids`, `egress_port_ids` or `ingress_networks ` should be specified"
+											"description": "at least one of the `input_port_ids_ingress`, `input_port_ids_egress` or `input_networks_ingress ` should be specified"
 										}
 									},
 									{
 										"name": "output_network",
 										"string": {
-											"computed_optional_required": "computed_optional"
+											"computed_optional_required": "computed_optional",
+											"description": "exaclty one of the `output_port_id` or `output_network` should be provided"
 										}
 									},
 									{
 										"name": "output_port_id",
 										"string": {
 											"computed_optional_required": "computed_optional",
-											"description": "exaclty on of the `output_port_id` or `output_network` should be provided"
+											"description": "exaclty one of the `output_port_id` or `output_network` should be provided"
 										}
 									}
 								]
@@ -13398,7 +13378,7 @@
 											"element_type": {
 												"string": {}
 											},
-											"description": "Only if `mode`!=`dynamic` if dynamic vlan is used, specify the possible networks/vlans RADIUS can return"
+											"description": "Only if `mode`!=`dynamic` and `port_auth`==`dot1x`, if dynamic vlan is used, specify the possible networks/vlans RADIUS can return"
 										}
 									},
 									{
@@ -13417,7 +13397,8 @@
 											"computed_optional_required": "computed_optional",
 											"default": {
 												"static": false
-											}
+											},
+											"description": "Only if `mode`!=`dynamic`"
 										}
 									},
 									{
@@ -13451,7 +13432,7 @@
 											"default": {
 												"static": "eap-md5"
 											},
-											"description": "if `enable_mac_auth` ==`true`. This type is ignored if mist_nac is enabled.",
+											"description": "Only if `mode`!=`dynamic` and `enable_mac_auth` ==`true`. This type is ignored if mist_nac is enabled.",
 											"validators": [
 												{
 													"custom": {
@@ -13531,7 +13512,7 @@
 											"default": {
 												"static": false
 											},
-											"description": "Only if `mode`!=`dynamic` and `mode`==`access` and `port_auth`!=`dot1x` whether the port should retain dynamically learned MAC addresses"
+											"description": "Only if `mode`==`access` and `port_auth`!=`dot1x` whether the port should retain dynamically learned MAC addresses"
 										}
 									},
 									{
@@ -13548,7 +13529,19 @@
 										"name": "port_auth",
 										"string": {
 											"computed_optional_required": "computed_optional",
-											"description": "Only if `mode`!=`dynamic` if dot1x is desired, set to dot1x"
+											"description": "Only if `mode`!=`dynamic` if dot1x is desired, set to dot1x",
+											"validators": [
+												{
+													"custom": {
+														"imports": [
+															{
+																"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+															}
+														],
+														"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"dot1x\",\n)"
+													}
+												}
+											]
 										}
 									},
 									{
@@ -13850,7 +13843,19 @@
 														"default": {
 															"static": 1813
 														},
-														"description": "Acct port of RADIUS server"
+														"description": "Acct port of RADIUS server",
+														"validators": [
+															{
+																"custom": {
+																	"imports": [
+																		{
+																			"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+																		}
+																	],
+																	"schema_definition": "int64validator.Between(1, 65535)"
+																}
+															}
+														]
 													}
 												},
 												{
@@ -13932,7 +13937,19 @@
 														"default": {
 															"static": 1812
 														},
-														"description": "Auth port of RADIUS server"
+														"description": "Auth port of RADIUS server",
+														"validators": [
+															{
+																"custom": {
+																	"imports": [
+																		{
+																			"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+																		}
+																	],
+																	"schema_definition": "int64validator.Between(1, 65535)"
+																}
+															}
+														]
 													}
 												},
 												{
@@ -14003,7 +14020,19 @@
 										"computed_optional_required": "computed_optional",
 										"default": {
 											"static": 3799
-										}
+										},
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+														}
+													],
+													"schema_definition": "int64validator.Between(1, 65535)"
+												}
+											}
+										]
 									}
 								},
 								{
@@ -15128,7 +15157,7 @@
 																													"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 																												}
 																											],
-																											"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"default_context_prefix\",\n)"
+																											"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"context_prefix\",\n\"default_context_prefix\",\n)"
 																										}
 																									}
 																								]
@@ -15457,7 +15486,7 @@
 																		"element_type": {
 																			"string": {}
 																		},
-																		"description": "at least one of the `ingress_port_ids`, `egress_port_ids` or `ingress_networks ` should be specified"
+																		"description": "at least one of the `input_port_ids_ingress`, `input_port_ids_egress` or `input_networks_ingress ` should be specified"
 																	}
 																},
 																{
@@ -15467,7 +15496,7 @@
 																		"element_type": {
 																			"string": {}
 																		},
-																		"description": "at least one of the `ingress_port_ids`, `egress_port_ids` or `ingress_networks ` should be specified"
+																		"description": "at least one of the `input_port_ids_ingress`, `input_port_ids_egress` or `input_networks_ingress ` should be specified"
 																	}
 																},
 																{
@@ -15477,20 +15506,21 @@
 																		"element_type": {
 																			"string": {}
 																		},
-																		"description": "at least one of the `ingress_port_ids`, `egress_port_ids` or `ingress_networks ` should be specified"
+																		"description": "at least one of the `input_port_ids_ingress`, `input_port_ids_egress` or `input_networks_ingress ` should be specified"
 																	}
 																},
 																{
 																	"name": "output_network",
 																	"string": {
-																		"computed_optional_required": "computed_optional"
+																		"computed_optional_required": "computed_optional",
+																		"description": "exaclty one of the `output_port_id` or `output_network` should be provided"
 																	}
 																},
 																{
 																	"name": "output_port_id",
 																	"string": {
 																		"computed_optional_required": "computed_optional",
-																		"description": "exaclty on of the `output_port_id` or `output_network` should be provided"
+																		"description": "exaclty one of the `output_port_id` or `output_network` should be provided"
 																	}
 																}
 															]
@@ -18966,7 +18996,19 @@
 											"default": {
 												"static": 1813
 											},
-											"description": "Acct port of RADIUS server"
+											"description": "Acct port of RADIUS server",
+											"validators": [
+												{
+													"custom": {
+														"imports": [
+															{
+																"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+															}
+														],
+														"schema_definition": "int64validator.Between(1, 65535)"
+													}
+												}
+											]
 										}
 									},
 									{
@@ -19521,7 +19563,19 @@
 											"default": {
 												"static": 1812
 											},
-											"description": "Auth port of RADIUS server"
+											"description": "Auth port of RADIUS server",
+											"validators": [
+												{
+													"custom": {
+														"imports": [
+															{
+																"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+															}
+														],
+														"schema_definition": "int64validator.Between(1, 65535)"
+													}
+												}
+											]
 										}
 									},
 									{
@@ -22730,7 +22784,7 @@
 											"element_type": {
 												"string": {}
 											},
-											"description": "at least one of the `ingress_port_ids`, `egress_port_ids` or `ingress_networks ` should be specified"
+											"description": "at least one of the `input_port_ids_ingress`, `input_port_ids_egress` or `input_networks_ingress ` should be specified"
 										}
 									},
 									{
@@ -22740,7 +22794,7 @@
 											"element_type": {
 												"string": {}
 											},
-											"description": "at least one of the `ingress_port_ids`, `egress_port_ids` or `ingress_networks ` should be specified"
+											"description": "at least one of the `input_port_ids_ingress`, `input_port_ids_egress` or `input_networks_ingress ` should be specified"
 										}
 									},
 									{
@@ -22750,20 +22804,21 @@
 											"element_type": {
 												"string": {}
 											},
-											"description": "at least one of the `ingress_port_ids`, `egress_port_ids` or `ingress_networks ` should be specified"
+											"description": "at least one of the `input_port_ids_ingress`, `input_port_ids_egress` or `input_networks_ingress ` should be specified"
 										}
 									},
 									{
 										"name": "output_network",
 										"string": {
-											"computed_optional_required": "computed_optional"
+											"computed_optional_required": "computed_optional",
+											"description": "exaclty one of the `output_port_id` or `output_network` should be provided"
 										}
 									},
 									{
 										"name": "output_port_id",
 										"string": {
 											"computed_optional_required": "computed_optional",
-											"description": "exaclty on of the `output_port_id` or `output_network` should be provided"
+											"description": "exaclty one of the `output_port_id` or `output_network` should be provided"
 										}
 									}
 								]
@@ -22880,7 +22935,7 @@
 											"element_type": {
 												"string": {}
 											},
-											"description": "Only if `mode`!=`dynamic` if dynamic vlan is used, specify the possible networks/vlans RADIUS can return"
+											"description": "Only if `mode`!=`dynamic` and `port_auth`==`dot1x`, if dynamic vlan is used, specify the possible networks/vlans RADIUS can return"
 										}
 									},
 									{
@@ -22899,7 +22954,8 @@
 											"computed_optional_required": "computed_optional",
 											"default": {
 												"static": false
-											}
+											},
+											"description": "Only if `mode`!=`dynamic`"
 										}
 									},
 									{
@@ -22933,7 +22989,7 @@
 											"default": {
 												"static": "eap-md5"
 											},
-											"description": "if `enable_mac_auth` ==`true`. This type is ignored if mist_nac is enabled.",
+											"description": "Only if `mode`!=`dynamic` and `enable_mac_auth` ==`true`. This type is ignored if mist_nac is enabled.",
 											"validators": [
 												{
 													"custom": {
@@ -23013,7 +23069,7 @@
 											"default": {
 												"static": false
 											},
-											"description": "Only if `mode`!=`dynamic` and `mode`==`access` and `port_auth`!=`dot1x` whether the port should retain dynamically learned MAC addresses"
+											"description": "Only if `mode`==`access` and `port_auth`!=`dot1x` whether the port should retain dynamically learned MAC addresses"
 										}
 									},
 									{
@@ -23030,7 +23086,19 @@
 										"name": "port_auth",
 										"string": {
 											"computed_optional_required": "computed_optional",
-											"description": "Only if `mode`!=`dynamic` if dot1x is desired, set to dot1x"
+											"description": "Only if `mode`!=`dynamic` if dot1x is desired, set to dot1x",
+											"validators": [
+												{
+													"custom": {
+														"imports": [
+															{
+																"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+															}
+														],
+														"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"dot1x\",\n)"
+													}
+												}
+											]
 										}
 									},
 									{
@@ -23332,7 +23400,19 @@
 														"default": {
 															"static": 1813
 														},
-														"description": "Acct port of RADIUS server"
+														"description": "Acct port of RADIUS server",
+														"validators": [
+															{
+																"custom": {
+																	"imports": [
+																		{
+																			"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+																		}
+																	],
+																	"schema_definition": "int64validator.Between(1, 65535)"
+																}
+															}
+														]
 													}
 												},
 												{
@@ -23414,7 +23494,19 @@
 														"default": {
 															"static": 1812
 														},
-														"description": "Auth port of RADIUS server"
+														"description": "Auth port of RADIUS server",
+														"validators": [
+															{
+																"custom": {
+																	"imports": [
+																		{
+																			"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+																		}
+																	],
+																	"schema_definition": "int64validator.Between(1, 65535)"
+																}
+															}
+														]
 													}
 												},
 												{
@@ -23485,7 +23577,19 @@
 										"computed_optional_required": "computed_optional",
 										"default": {
 											"static": 3799
-										}
+										},
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+														}
+													],
+													"schema_definition": "int64validator.Between(1, 65535)"
+												}
+											}
+										]
 									}
 								},
 								{
@@ -24610,7 +24714,7 @@
 																													"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 																												}
 																											],
-																											"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"default_context_prefix\",\n)"
+																											"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"context_prefix\",\n\"default_context_prefix\",\n)"
 																										}
 																									}
 																								]
@@ -24939,7 +25043,7 @@
 																		"element_type": {
 																			"string": {}
 																		},
-																		"description": "at least one of the `ingress_port_ids`, `egress_port_ids` or `ingress_networks ` should be specified"
+																		"description": "at least one of the `input_port_ids_ingress`, `input_port_ids_egress` or `input_networks_ingress ` should be specified"
 																	}
 																},
 																{
@@ -24949,7 +25053,7 @@
 																		"element_type": {
 																			"string": {}
 																		},
-																		"description": "at least one of the `ingress_port_ids`, `egress_port_ids` or `ingress_networks ` should be specified"
+																		"description": "at least one of the `input_port_ids_ingress`, `input_port_ids_egress` or `input_networks_ingress ` should be specified"
 																	}
 																},
 																{
@@ -24959,20 +25063,21 @@
 																		"element_type": {
 																			"string": {}
 																		},
-																		"description": "at least one of the `ingress_port_ids`, `egress_port_ids` or `ingress_networks ` should be specified"
+																		"description": "at least one of the `input_port_ids_ingress`, `input_port_ids_egress` or `input_networks_ingress ` should be specified"
 																	}
 																},
 																{
 																	"name": "output_network",
 																	"string": {
-																		"computed_optional_required": "computed_optional"
+																		"computed_optional_required": "computed_optional",
+																		"description": "exaclty one of the `output_port_id` or `output_network` should be provided"
 																	}
 																},
 																{
 																	"name": "output_port_id",
 																	"string": {
 																		"computed_optional_required": "computed_optional",
-																		"description": "exaclty on of the `output_port_id` or `output_network` should be provided"
+																		"description": "exaclty one of the `output_port_id` or `output_network` should be provided"
 																	}
 																}
 															]
@@ -27482,7 +27587,19 @@
 											"default": {
 												"static": 1813
 											},
-											"description": "Acct port of RADIUS server"
+											"description": "Acct port of RADIUS server",
+											"validators": [
+												{
+													"custom": {
+														"imports": [
+															{
+																"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+															}
+														],
+														"schema_definition": "int64validator.Between(1, 65535)"
+													}
+												}
+											]
 										}
 									},
 									{
@@ -28037,7 +28154,19 @@
 											"default": {
 												"static": 1812
 											},
-											"description": "Auth port of RADIUS server"
+											"description": "Auth port of RADIUS server",
+											"validators": [
+												{
+													"custom": {
+														"imports": [
+															{
+																"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+															}
+														],
+														"schema_definition": "int64validator.Between(1, 65535)"
+													}
+												}
+											]
 										}
 									},
 									{

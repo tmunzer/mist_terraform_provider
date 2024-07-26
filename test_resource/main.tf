@@ -1750,7 +1750,6 @@ resource "mist_site_networktemplate" "site_switch_template" {
       mode         = "access"
       disabled     = true
       port_network = "default"
-      networks     = []
     }
   }
   remote_syslog = {
@@ -1905,7 +1904,6 @@ resource "mist_device_switch" "test_switch" {
       speed         = "auto"
       duplex        = "auto"
       mac_limit     = 0
-      persist_mac   = false
       poe_disabled  = false
       enable_qos    = false
       storm_control = {}
@@ -2013,11 +2011,9 @@ resource "mist_device_switch" "test_switch" {
     },
     "test2" = {
       output_network         = "prx"
-      input_port_ids_ingress = []
-      input_port_ids_egress = [
-        "ge-0/0/6"
-      ],
-      input_networks_ingress = []
+      input_networks_ingress = [
+        "default"
+      ]
     }
   }
   mist_nac = {

@@ -17,6 +17,309 @@
             "computed_optional_required": "computed_optional"
         },
         {
+            "name": "acl_tags",
+            "get": [
+                "map_nested",
+                "nested_object",
+                "attributes"
+            ],
+            "next": [
+                {
+                    "name": "gbp_tag",
+                    "get": [
+                        "int64"
+                    ],
+                    "validators": [
+                        {
+                            "custom": {
+                                "imports": [
+                                    {
+                                        "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                    },
+                                    {
+                                        "path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+                                    },
+                                    {
+                                        "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                    }
+                                ],
+                                "schema_definition": "mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"dynamic_gbp\")),\nmistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"static_gbp\"))"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "macs",
+                    "get": [
+                        "list"
+                    ],
+                    "validators": [
+                        {
+                            "custom": {
+                                "imports": [
+                                    {
+                                        "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                    },
+                                    {
+                                        "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                    },
+                                    {
+                                        "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                    }
+                                ],
+                                "schema_definition": "mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"mac\"))"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "network",
+                    "get": [
+                        "string"
+                    ],
+                    "validators": [
+                        {
+                            "custom": {
+                                "imports": [
+                                    {
+                                        "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                    },
+                                    {
+                                        "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                    },
+                                    {
+                                        "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                    }
+                                ],
+                                "schema_definition": "mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"network\"))"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "radius_group",
+                    "get": [
+                        "string"
+                    ],
+                    "validators": [
+                        {
+                            "custom": {
+                                "imports": [
+                                    {
+                                        "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                    },
+                                    {
+                                        "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                    },
+                                    {
+                                        "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                    }
+                                ],
+                                "schema_definition": "mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"radius_group\"))"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "specs",
+                    "get": [
+                        "list_nested",
+                        "nested_object",
+                        "attributes"
+                    ],
+                    "next": [
+                        {
+                            "name": "protocol",
+                            "get": [
+                                "string"
+                            ],
+                            "validators": [
+                                {
+                                    "custom": {
+                                        "imports": [
+                                            {
+                                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                            },
+                                            {
+                                                "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                            },
+                                            {
+                                                "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                            }
+                                        ],
+                                        "schema_definition": "stringvalidator.Any(stringvalidator.OneOf(\"https\", \"tcp\", \"udp\", \"icmp\", \"gre\", \"any\"), mistvalidator.ParseInt(1, 254))"
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "subnets",
+                    "get": [
+                        "list"
+                    ],
+                    "validators": [
+                        {
+                            "custom": {
+                                "imports": [
+                                    {
+                                        "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                    },
+                                    {
+                                        "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                    },
+                                    {
+                                        "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                    }
+                                ],
+                                "schema_definition": "mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"subnet\"))"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "extra_routes",
+            "get": [
+                "map_nested"
+            ],
+            "validators": [
+                {
+                    "custom": {
+                        "imports": [
+                            {
+                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                            },
+                            {
+                                "path": "github.com/hashicorp/terraform-plugin-framework-validators/mapvalidator"
+                            }
+                        ],
+                        "schema_definition": "mapvalidator.SizeAtLeast(1),mapvalidator.KeysAre(stringvalidator.Any(mistvalidator.ParseCidr(true, false), mistvalidator.ParseVar()))"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "extra_routes",
+            "get": [
+                "map_nested",
+                "nested_object",
+                "attributes"
+            ],
+            "next": [
+                {
+                    "name": "via",
+                    "get": [
+                        "string"
+                    ],
+                    "computed_optional_required": "required",
+                    "validators": [
+                        {
+                            "custom": {
+                                "imports": [
+                                    {
+                                        "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                    },
+                                    {
+                                        "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                    }
+                                ],
+                                "schema_definition": "stringvalidator.Any(mistvalidator.ParseIp(true, false), mistvalidator.ParseVar())"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "extra_routes6",
+            "get": [
+                "map_nested"
+            ],
+            "validators": [
+                {
+                    "custom": {
+                        "imports": [
+                            {
+                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                            },
+                            {
+                                "path": "github.com/hashicorp/terraform-plugin-framework-validators/mapvalidator"
+                            }
+                        ],
+                        "schema_definition": "mapvalidator.SizeAtLeast(1),mapvalidator.KeysAre(stringvalidator.Any(mistvalidator.ParseCidr(false, true), mistvalidator.ParseVar()))"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "extra_routes6",
+            "get": [
+                "map_nested",
+                "nested_object",
+                "attributes"
+            ],
+            "next": [
+                {
+                    "name": "via",
+                    "get": [
+                        "string"
+                    ],
+                    "computed_optional_required": "required",
+                    "validators": [
+                        {
+                            "custom": {
+                                "imports": [
+                                    {
+                                        "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                    },
+                                    {
+                                        "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                    }
+                                ],
+                                "schema_definition": "stringvalidator.Any(mistvalidator.ParseIp(false, true), mistvalidator.ParseVar())"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "dhcp_snooping",
+            "get": [
+                "single_nested",
+                "attributes"
+            ],
+            "next": [
+                {
+                    "name": "networks",
+                    "get": [
+                        "list"
+                    ],
+                    "validators": [
+                        {
+                            "custom": {
+                                "imports": [
+                                    {
+                                        "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                    },
+                                    {
+                                        "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                    },
+                                    {
+                                        "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                    }
+                                ],
+                                "schema_definition": "mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"all_networks\"), types.BoolValue(true))"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
             "name": "dns_servers",
             "get": [
                 "list"
@@ -34,6 +337,840 @@
                         ],
                         "schema_definition": "listvalidator.ValueStringsAre(stringvalidator.Any(mistvalidator.ParseIp(true, false), mistvalidator.ParseVar()))"
                     }
+                }
+            ]
+        },
+        {
+            "name": "port_mirroring",
+            "get": [
+                "map_nested",
+                "nested_object"
+            ],
+            "validators": [
+                {
+                    "custom": {
+                        "imports": [
+                            {
+                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                            },
+                            {
+                                "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                            }
+                        ],
+                        "schema_definition": "mistvalidator.AtLeastNOf(\n1,\npath.MatchRelative().AtName(\"input_networks_ingress\"),\npath.MatchRelative().AtName(\"input_port_ids_egress\"),\npath.MatchRelative().AtName(\"input_port_ids_ingress\"),\n),\nmistvalidator.AtMostNOf(\n1,\npath.MatchRelative().AtName(\"output_network\"),\npath.MatchRelative().AtName(\"output_port_id\"),\n)"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "port_mirroring",
+            "get": [
+                "map_nested",
+                "nested_object",
+                "attributes"
+            ],
+            "next": [
+                {
+                    "name": "input_networks_ingress",
+                    "get": [
+                        "list"
+                    ],
+                    "computed_optional_required": "computed_optional",
+                    "validators": [
+                        {
+                            "custom": {
+                                "imports": [
+                                    {
+                                        "path": "github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
+                                    }
+                                ],
+                                "schema_definition": "listvalidator.SizeAtLeast(1)"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "input_port_ids_egress",
+                    "get": [
+                        "list"
+                    ],
+                    "computed_optional_required": "computed_optional",
+                    "validators": [
+                        {
+                            "custom": {
+                                "imports": [
+                                    {
+                                        "path": "github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
+                                    }
+                                ],
+                                "schema_definition": "listvalidator.SizeAtLeast(1)"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "input_port_ids_ingress",
+                    "get": [
+                        "list"
+                    ],
+                    "computed_optional_required": "computed_optional",
+                    "validators": [
+                        {
+                            "custom": {
+                                "imports": [
+                                    {
+                                        "path": "github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
+                                    }
+                                ],
+                                "schema_definition": "listvalidator.SizeAtLeast(1)"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "output_network",
+                    "get": [
+                        "string"
+                    ],
+                    "validators": [
+                        {
+                            "custom": {
+                                "imports": [
+                                    {
+                                        "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                    }
+                                ],
+                                "schema_definition": "stringvalidator.LengthAtLeast(2)"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "output_port_id",
+                    "get": [
+                        "string"
+                    ],
+                    "validators": [
+                        {
+                            "custom": {
+                                "imports": [
+                                    {
+                                        "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                    }
+                                ],
+                                "schema_definition": "stringvalidator.LengthAtLeast(2)"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "port_usages",
+            "get": [
+                "map_nested",
+                "nested_object",
+                "attributes"
+            ],
+            "next": [
+                {
+                    "name": "all_networks",
+                    "get": [
+                        "bool"
+                    ],
+                    "validators": [
+                        {
+                            "custom": {
+                                "imports": [
+                                    {
+                                        "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                    },
+                                    {
+                                        "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                    }
+                                ],
+                                "schema_definition": "mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"trunk\"))"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "allow_dhcpd",
+                    "get": [
+                        "bool"
+                    ],
+                    "validators": [
+                        {
+                            "custom": {
+                                "imports": [
+                                    {
+                                        "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                    },
+                                    {
+                                        "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                    }
+                                ],
+                                "schema_definition": "mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"dynamic\"))"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "allow_multiple_supplicants",
+                    "get": [
+                        "bool"
+                    ],
+                    "validators": [
+                        {
+                            "custom": {
+                                "imports": [
+                                    {
+                                        "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                    },
+                                    {
+                                        "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                    }
+                                ],
+                                "schema_definition": "mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"dynamic\"))"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "bypass_auth_when_server_down",
+                    "get": [
+                        "bool"
+                    ],
+                    "validators": [
+                        {
+                            "custom": {
+                                "imports": [
+                                    {
+                                        "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                    },
+                                    {
+                                        "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                    }
+                                ],
+                                "schema_definition": "mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"dynamic\")),\nmistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName(\"port_auth\"), types.StringValue(\"dot1x\"))"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "bypass_auth_when_server_down_for_unkonwn_client",
+                    "get": [
+                        "bool"
+                    ],
+                    "validators": [
+                        {
+                            "custom": {
+                                "imports": [
+                                    {
+                                        "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                    },
+                                    {
+                                        "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                    }
+                                ],
+                                "schema_definition": "mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"dynamic\")),\nmistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName(\"port_auth\"), types.StringValue(\"dot1x\"))"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "description",
+                    "get": [
+                        "string"
+                    ],
+                    "validators": [
+                        {
+                            "custom": {
+                                "imports": [
+                                    {
+                                        "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                    },
+                                    {
+                                        "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                    },
+                                    {
+                                        "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                    }
+                                ],
+                                "schema_definition": "mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"dynamic\"))"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "disable_autoneg",
+                    "get": [
+                        "bool"
+                    ],
+                    "validators": [
+                        {
+                            "custom": {
+                                "imports": [
+                                    {
+                                        "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                    },
+                                    {
+                                        "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                    }
+                                ],
+                                "schema_definition": "mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"dynamic\"))"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "disabled",
+                    "get": [
+                        "bool"
+                    ],
+                    "validators": [
+                        {
+                            "custom": {
+                                "imports": [
+                                    {
+                                        "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                    },
+                                    {
+                                        "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                    }
+                                ],
+                                "schema_definition": "mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"dynamic\"))"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "duplex",
+                    "get": [
+                        "string"
+                    ],
+                    "validators": [
+                        {
+                            "custom": {
+                                "imports": [
+                                    {
+                                        "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                    },
+                                    {
+                                        "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                    },
+                                    {
+                                        "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                    }
+                                ],
+                                "schema_definition": "stringvalidator.OneOf(\n\"\",\n\"half\",\n\"full\",\n\"auto\",\n),\nmistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"dynamic\"))"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "dynamic_vlan_networks",
+                    "get": [
+                        "list"
+                    ],
+                    "validators": [
+                        {
+                            "custom": {
+                                "imports": [
+                                    {
+                                        "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                    },
+                                    {
+                                        "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                    },
+                                    {
+                                        "path": "github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
+                                    }
+                                ],
+                                "schema_definition": "mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"dynamic\")),\nmistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName(\"port_auth\"), types.StringValue(\"dot1x\"))"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "enable_mac_auth",
+                    "get": [
+                        "bool"
+                    ],
+                    "validators": [
+                        {
+                            "custom": {
+                                "imports": [
+                                    {
+                                        "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                    },
+                                    {
+                                        "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                    }
+                                ],
+                                "schema_definition": "mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"dynamic\")),\nmistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName(\"port_auth\"), types.StringValue(\"dot1x\"))"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "enable_qos",
+                    "get": [
+                        "bool"
+                    ],
+                    "validators": [
+                        {
+                            "custom": {
+                                "imports": [
+                                    {
+                                        "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                    },
+                                    {
+                                        "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                    }
+                                ],
+                                "schema_definition": "mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"dynamic\"))"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "guest_network",
+                    "get": [
+                        "string"
+                    ],
+                    "validators": [
+                        {
+                            "custom": {
+                                "imports": [
+                                    {
+                                        "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                    },
+                                    {
+                                        "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                    },
+                                    {
+                                        "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                    }
+                                ],
+                                "schema_definition": "mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"dynamic\")),\nmistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName(\"port_auth\"), types.StringValue(\"dot1x\"))"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "inter_switch_link",
+                    "get": [
+                        "bool"
+                    ],
+                    "validators": [
+                        {
+                            "custom": {
+                                "imports": [
+                                    {
+                                        "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                    },
+                                    {
+                                        "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                    }
+                                ],
+                                "schema_definition": "mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"dynamic\")),\nmistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName(\"port_auth\"), types.StringValue(\"dot1x\"))"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "mac_auth_only",
+                    "get": [
+                        "bool"
+                    ],
+                    "validators": [
+                        {
+                            "custom": {
+                                "imports": [
+                                    {
+                                        "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                    },
+                                    {
+                                        "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                    }
+                                ],
+                                "schema_definition": "mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"dynamic\")),\nmistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName(\"enable_mac_auth\"), types.BoolValue(true))"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "mac_auth_protocol",
+                    "get": [
+                        "string"
+                    ],
+                    "validators": [
+                        {
+                            "custom": {
+                                "imports": [
+                                    {
+                                        "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                    },
+                                    {
+                                        "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                    },
+                                    {
+                                        "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                    }
+                                ],
+                                "schema_definition": "stringvalidator.OneOf(\n\"\",\n\"pap\",\n\"eap-peap\",\n\"eap-md5\",\n),\nmistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"dynamic\")),\nmistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName(\"enable_mac_auth\"), types.BoolValue(true))"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "mac_limit",
+                    "get": [
+                        "int64"
+                    ],
+                    "validators": [
+                        {
+                            "custom": {
+                                "imports": [
+                                    {
+                                        "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                    },
+                                    {
+                                        "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                    },
+                                    {
+                                        "path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+                                    }
+                                ],
+                                "schema_definition": "int64validator.AtLeast(0),\nmistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"dynamic\"))"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "mtu",
+                    "get": [
+                        "int64"
+                    ],
+                    "validators": [
+                        {
+                            "custom": {
+                                "imports": [
+                                    {
+                                        "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                    },
+                                    {
+                                        "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                    },
+                                    {
+                                        "path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+                                    }
+                                ],
+                                "schema_definition": "int64validator.AtLeast(0),\nmistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"dynamic\"))"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "networks",
+                    "get": [
+                        "list"
+                    ],
+                    "validators": [
+                        {
+                            "custom": {
+                                "imports": [
+                                    {
+                                        "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                    },
+                                    {
+                                        "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                    },
+                                    {
+                                        "path": "github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
+                                    }
+                                ],
+                                "schema_definition": "mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"trunk\"))"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "persist_mac",
+                    "get": [
+                        "bool"
+                    ],
+                    "validators": [
+                        {
+                            "custom": {
+                                "imports": [
+                                    {
+                                        "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                    },
+                                    {
+                                        "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                    }
+                                ],
+                                "schema_definition": "mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"access\")),\nmistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName(\"port_auth\"), types.StringValue(\"dot1x\"))"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "poe_disabled",
+                    "get": [
+                        "bool"
+                    ],
+                    "validators": [
+                        {
+                            "custom": {
+                                "imports": [
+                                    {
+                                        "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                    },
+                                    {
+                                        "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                    }
+                                ],
+                                "schema_definition": "mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"dynamic\"))"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "port_auth",
+                    "get": [
+                        "string"
+                    ],
+                    "validators": [
+                        {
+                            "custom": {
+                                "imports": [
+                                    {
+                                        "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                    },
+                                    {
+                                        "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                    },
+                                    {
+                                        "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                    }
+                                ],
+                                "schema_definition": "stringvalidator.OneOf(\n\"\",\n\"dot1x\",\n\"none\",\n),\nmistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"dynamic\"))"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "port_network",
+                    "get": [
+                        "string"
+                    ],
+                    "validators": [
+                        {
+                            "custom": {
+                                "imports": [
+                                    {
+                                        "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                    },
+                                    {
+                                        "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                    },
+                                    {
+                                        "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                    }
+                                ],
+                                "schema_definition": "mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"dynamic\"))"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "reauth_interval",
+                    "get": [
+                        "int64"
+                    ],
+                    "validators": [
+                        {
+                            "custom": {
+                                "imports": [
+                                    {
+                                        "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                    },
+                                    {
+                                        "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                    },
+                                    {
+                                        "path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+                                    }
+                                ],
+                                "schema_definition": "int64validator.Between(10, 65535),\nmistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"dynamic\")),\nmistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName(\"port_auth\"), types.StringValue(\"dot1x\"))"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "rejected_network",
+                    "get": [
+                        "string"
+                    ],
+                    "validators": [
+                        {
+                            "custom": {
+                                "imports": [
+                                    {
+                                        "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                    },
+                                    {
+                                        "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                    },
+                                    {
+                                        "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                    }
+                                ],
+                                "schema_definition": "mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"dynamic\")),\nmistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName(\"port_auth\"), types.StringValue(\"dot1x\"))"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "reset_default_when",
+                    "get": [
+                        "string"
+                    ],
+                    "validators": [
+                        {
+                            "custom": {
+                                "imports": [
+                                    {
+                                        "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                    },
+                                    {
+                                        "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                    },
+                                    {
+                                        "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                    }
+                                ],
+                                "schema_definition": "stringvalidator.OneOf(\n\"\",\n\"none\",\n\"link_down\",\n),\nmistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"dynamic\"))"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "rules",
+                    "get": [
+                        "list_nested"
+                    ],
+                    "validators": [
+                        {
+                            "custom": {
+                                "imports": [
+                                    {
+                                        "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                    },
+                                    {
+                                        "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                    },
+                                    {
+                                        "path": "github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
+                                    }
+                                ],
+                                "schema_definition": "mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"dynamic\"))"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "speed",
+                    "get": [
+                        "string"
+                    ],
+                    "validators": [
+                        {
+                            "custom": {
+                                "imports": [
+                                    {
+                                        "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                    },
+                                    {
+                                        "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                    },
+                                    {
+                                        "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                    }
+                                ],
+                                "schema_definition": "mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"dynamic\"))"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "storm_control",
+                    "get": [
+                        "single_nested"
+                    ],
+                    "validators": [
+                        {
+                            "custom": {
+                                "imports": [
+                                    {
+                                        "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                    },
+                                    {
+                                        "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                    }
+                                ],
+                                "schema_definition": "mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"dynamic\"))"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "stp_edge",
+                    "get": [
+                        "bool"
+                    ],
+                    "validators": [
+                        {
+                            "custom": {
+                                "imports": [
+                                    {
+                                        "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                    },
+                                    {
+                                        "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                    }
+                                ],
+                                "schema_definition": "mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"dynamic\"))"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "voip_network",
+                    "get": [
+                        "string"
+                    ],
+                    "validators": [
+                        {
+                            "custom": {
+                                "imports": [
+                                    {
+                                        "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                    },
+                                    {
+                                        "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                    },
+                                    {
+                                        "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                    }
+                                ],
+                                "schema_definition": "mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"dynamic\"))"
+                            }
+                        }
+                    ]
                 }
             ]
         },
@@ -105,7 +1242,13 @@
                 "attributes"
             ],
             "next": [
-                { "name": "root_password", "get": ["string"],"sensitive": true },
+                {
+                    "name": "root_password",
+                    "get": [
+                        "string"
+                    ],
+                    "sensitive": true
+                },
                 {
                     "name": "tacacs",
                     "get": [
@@ -147,62 +1290,11 @@
             ]
         },
         {
-            "name": "extra_routes",
+            "name": "vrf_instances",
             "get": [
                 "map_nested"
             ],
-            "validators" : [
-                {
-                    "custom": {
-                        "imports": [
-                            {
-                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
-                            },
-                            {
-                                "path": "github.com/hashicorp/terraform-plugin-framework-validators/mapvalidator"
-                            }
-                        ],
-                        "schema_definition": "mapvalidator.SizeAtLeast(1),mapvalidator.KeysAre(stringvalidator.Any(mistvalidator.ParseCidr(true, false), mistvalidator.ParseVar()))"
-                    }
-                }
-            ]
-        },
-        {
-            "name": "extra_routes",
-            "get": [
-                "map_nested",
-                "nested_object",
-                "attributes"
-            ],
-            "next": [{
-                "name": "via",
-                "get": [
-                    "string"
-                ],
-                "computed_optional_required": "required",
-                "validators": [
-                    {
-                        "custom": {
-                            "imports": [
-                                {
-                                    "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
-                                },
-                                {
-                                    "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
-                                }
-                            ],
-                            "schema_definition": "stringvalidator.Any(mistvalidator.ParseIp(true, false), mistvalidator.ParseVar())"
-                        }
-                    }
-                ]
-            }]
-        },
-        {
-            "name": "extra_routes6",
-            "get": [
-                "map_nested"
-            ],
-            "validators" : [
+            "validators": [
                 {
                     "custom": {
                         "imports": [
@@ -214,58 +1306,6 @@
                             }
                         ],
                         "schema_definition": "mapvalidator.SizeAtLeast(1),mapvalidator.KeysAre(stringvalidator.Any(mistvalidator.ParseCidr(false, true), mistvalidator.ParseVar()))"
-                    }
-                }
-            ]
-        },
-        {
-            "name": "extra_routes6",
-            "get": [
-                "map_nested",
-                "nested_object",
-                "attributes"
-            ],
-            "next": [{
-                "name": "via",
-                "get": [
-                    "string"
-                ],
-                "computed_optional_required": "required",
-                "validators": [
-                    {
-                        "custom": {
-                            "imports": [
-                                {
-                                    "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
-                                },
-                                {
-                                    "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
-                                }
-                            ],
-                            "schema_definition": "stringvalidator.Any(mistvalidator.ParseIp(false, true), mistvalidator.ParseVar())"
-                        }
-                    }
-                ]
-            }]
-        },
-
-        {
-            "name": "vrf_instances",
-            "get": [
-                "map_nested"
-            ],
-            "validators" : [
-                {
-                    "custom": {
-                        "imports": [
-                            {
-                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
-                            },
-                            {
-                                "path": "github.com/hashicorp/terraform-plugin-framework-validators/mapvalidator"
-                            }
-                        ],
-                        "schema_definition": "mapvalidator.SizeAtLeast(1),mapvalidator.KeysAre(mistvalidator.ParseName())"
                     }
                 }
             ]
@@ -283,7 +1323,7 @@
                     "get": [
                         "map_nested"
                     ],
-                    "validators" : [
+                    "validators": [
                         {
                             "custom": {
                                 "imports": [
@@ -306,28 +1346,246 @@
                         "nested_object",
                         "attributes"
                     ],
-                    "next": [{
-                        "name": "via",
-                        "get": [
-                            "string"
-                        ],
-                        "computed_optional_required": "required",
-                        "validators": [
-                            {
-                                "custom": {
-                                    "imports": [
+                    "next": [
+                        {
+                            "name": "via",
+                            "get": [
+                                "string"
+                            ],
+                            "computed_optional_required": "required",
+                            "validators": [
+                                {
+                                    "custom": {
+                                        "imports": [
+                                            {
+                                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                            },
+                                            {
+                                                "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                            }
+                                        ],
+                                        "schema_definition": "stringvalidator.Any(mistvalidator.ParseIp(false, true), mistvalidator.ParseVar())"
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "snmp_config",
+            "get": [
+                "single_nested",
+                "attributes"
+            ],
+            "next": [
+                {
+                    "name": "v3_config",
+                    "get": [
+                        "single_nested",
+                        "attributes"
+                    ],
+                    "next": [
+                        {
+                            "name": "usm",
+                            "get": [
+                                "single_nested",
+                                "attributes"
+                            ],
+                            "next": [
+                                {
+                                    "name": "engineid",
+                                    "get": [
+                                        "string"
+                                    ],
+                                    "validators": [
                                         {
-                                            "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                            "custom": {
+                                                "imports": [
+                                                    {
+                                                        "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                                    },
+                                                    {
+                                                        "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                                    }
+                                                ],
+                                                "schema_definition": "mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtMapKey(\"engine_type\"), types.StringValue(\"remote_engine\"))"
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "users",
+                                    "get": [
+                                        "list_nested",
+                                        "nested_object",
+                                        "attributes"
+                                    ],
+                                    "next": [
+                                        {
+                                            "name": "authentication_password",
+                                            "get": [
+                                                "string"
+                                            ],
+                                            "validators": [
+                                                {
+                                                    "custom": {
+                                                        "imports": [
+                                                            {
+                                                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                                            },
+                                                            {
+                                                                "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                                            }
+                                                        ],
+                                                        "schema_definition": "stringvalidator.LengthAtLeast(7),\nmistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtMapKey(\"authentication_type\"), types.StringValue(\"authentication_md5\")),\nmistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtMapKey(\"authentication_type\"), types.StringValue(\"authentication_sha\")),\nmistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtMapKey(\"authentication_type\"), types.StringValue(\"authentication_sha224\")),\nmistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtMapKey(\"authentication_type\"), types.StringValue(\"authentication_sha256\")),\nmistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtMapKey(\"authentication_type\"), types.StringValue(\"authentication_sha384\")),\nmistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtMapKey(\"authentication_type\"), types.StringValue(\"authentication_sha512\"))"
+                                                    }
+                                                }
+                                            ]
                                         },
                                         {
-                                            "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                            "name": "encryption_password",
+                                            "get": [
+                                                "string"
+                                            ],
+                                            "validators": [
+                                                {
+                                                    "custom": {
+                                                        "imports": [
+                                                            {
+                                                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                                            },
+                                                            {
+                                                                "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                                            }
+                                                        ],
+                                                        "schema_definition": "stringvalidator.LengthAtLeast(8),\nmistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtMapKey(\"encryption_type\"), types.StringValue(\"privacy-aes128\")),\nmistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtMapKey(\"encryption_type\"), types.StringValue(\"privacy-des\")),\nmistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtMapKey(\"encryption_type\"), types.StringValue(\"privacy-3des\"))"
+                                                    }
+                                                }
+                                            ]
                                         }
-                                    ],
-                                    "schema_definition": "stringvalidator.Any(mistvalidator.ParseIp(false, true), mistvalidator.ParseVar())"
+                                    ]
                                 }
-                            }
-                        ]
-                    }]
+                            ]
+                        },
+                        {
+                            "name": "vacm",
+                            "get": [
+                                "single_nested",
+                                "attributes"
+                            ],
+                            "next": [
+                                {
+                                    "name": "access",
+                                    "get": [
+                                        "list_nested",
+                                        "nested_object",
+                                        "attributes"
+                                    ],
+                                    "next": [
+                                        {
+                                            "name": "prefix_list",
+                                            "get": [
+                                                "list_nested",
+                                                "nested_object",
+                                                "attributes"
+                                            ],
+                                            "next": [
+                                                {
+                                                    "name": "context_prefix",
+                                                    "get": [
+                                                        "string"
+                                                    ],
+                                                    "validators": [
+                                                        {
+                                                            "custom": {
+                                                                "imports": [
+                                                                    {
+                                                                        "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                                                    },
+                                                                    {
+                                                                        "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                                                    }
+                                                                ],
+                                                                "schema_definition": "stringvalidator.LengthAtLeast(7),\nmistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtMapKey(\"type\"), types.StringValue(\"context_prefix\"))"
+                                                            }
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },{
+            "name": "snmp_config",
+            "get": [
+                "single_nested",
+                "attributes"
+            ],
+            "next": [
+                {
+                    "name": "v3_config",
+                    "get": [
+                        "single_nested",
+                        "attributes"
+                    ],
+                    "next": [
+                        {
+                            "name": "notify_filter",
+                            "get": [
+                                "list_nested",
+                                "nested_object",
+                                "attributes"
+                            ],
+                            "next": [
+                                {
+                                    "name": "contents",
+                                    "rename": "snmpv3_contents"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "usm",
+                            "get": [
+                                "single_nested",
+                                "attributes"
+                            ],
+                            "next": [
+                                {
+                                    "name": "users",
+                                    "rename": "snmpv3_users"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "vacm",
+                            "get": [
+                                "single_nested",
+                                "attributes"
+                            ],
+                            "next": [
+                                {
+                                    "name": "security_to_group",
+                                    "get": [
+                                        "single_nested",
+                                        "attributes"
+                                    ],
+                                    "next": [
+                                        {
+                                            "name": "content",
+                                            "rename": "snmpv3_vacm_content"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
                 }
             ]
         },
@@ -374,40 +1632,9 @@
         {
             "name": "networks",
             "get": [
-                "map_nested",
-                "nested_object",
-                "attributes"
-            ],
-            "next": [
-                {
-                    "name": "vlan_id",
-                    "get": [
-                        "string"
-                    ],
-                    "validators":  [
-                        {
-                            "custom": {
-                                "imports": [
-                                    {
-                                        "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
-                                    },
-                                    {
-                                        "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
-                                    }
-                                ],
-                                "schema_definition": "stringvalidator.Any(mistvalidator.ParseInt(1, 4094),mistvalidator.ParseVar(),)"
-                            }
-                        }
-                    ] 
-                }
-            ]
-        },
-        {
-            "name": "networks",
-            "get": [
                 "map_nested"
             ],
-            "validators" : [
+            "validators": [
                 {
                     "custom": {
                         "imports": [
@@ -470,73 +1697,6 @@
                                 ],
                                 "schema_definition": "stringvalidator.Any(mistvalidator.ParseCidr(false, true), mistvalidator.ParseVar())"
                             }
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            "name": "snmp_config",
-            "get": [
-                "single_nested",
-                "attributes"
-            ],
-            "next": [
-                {
-                    "name": "v3_config",
-                    "get": [
-                        "single_nested",
-                        "attributes"
-                    ],
-                    "next": [
-                        {
-                            "name": "notify_filter",
-                            "get": [
-                                "list_nested",
-                                "nested_object",
-                                "attributes"
-                            ],
-                            "next": [
-                                {
-                                    "name": "contents",
-                                    "rename": "snmpv3_contents"
-                                }
-                            ]
-                        },
-                        {
-                            "name": "usm",
-                            "get": [
-                                "single_nested",
-                                "attributes"
-                            ],
-                            "next": [
-                                {
-                                    "name": "users",
-                                    "rename": "snmpv3_users"
-                                }
-                            ]
-                        },
-                        {
-                            "name": "vacm",
-                            "get": [
-                                "single_nested",
-                                "attributes"
-                            ],
-                            "next": [
-                                {
-                                    "name": "security_to_group",
-                                    "get": [
-                                        "single_nested",
-                                        "attributes"
-                                    ],
-                                    "next": [
-                                        {
-                                            "name": "content",
-                                            "rename": "snmpv3_vacm_content"
-                                        }
-                                    ]
-                                }
-                            ]
                         }
                     ]
                 }

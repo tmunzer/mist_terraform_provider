@@ -1676,31 +1676,6 @@
                     ]
                 },
                 {
-                    "name": "network",
-                    "get": [
-                        "string"
-                    ],
-                    "computed_optional_required": "optional",
-                    "validators": [
-                        {
-                            "custom": {
-                                "imports": [
-                                    {
-                                        "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
-                                    },
-                                    {
-                                        "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
-                                    },
-                                    {
-                                        "path": "github.com/hashicorp/terraform-plugin-framework/path"
-                                    }
-                                ],
-                                "schema_definition": "mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"static\")),\nmistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"dhcp\"),\n)"
-                            }
-                        }
-                    ]
-                },
-                {
                     "name": "vlan_id",
                     "get": [
                         "string"
@@ -1803,31 +1778,6 @@
                                             }
                                         ],
                                         "schema_definition": "stringvalidator.Any(mistvalidator.ParseNetmask(true, true), mistvalidator.ParseVar()),\nmistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"static\")),\nmistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"dhcp\"),\n)"
-                                    }
-                                }
-                            ]
-                        },
-                        {
-                            "name": "network",
-                            "get": [
-                                "string"
-                            ],
-                            "computed_optional_required": "optional",
-                            "validators": [
-                                {
-                                    "custom": {
-                                        "imports": [
-                                            {
-                                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
-                                            },
-                                            {
-                                                "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
-                                            },
-                                            {
-                                                "path": "github.com/hashicorp/terraform-plugin-framework/path"
-                                            }
-                                        ],
-                                        "schema_definition": "mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"static\")),\nmistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"dhcp\"),\n)"
                                     }
                                 }
                             ]

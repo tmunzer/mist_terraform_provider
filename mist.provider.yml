@@ -3,11 +3,11 @@ info:
   contact:
     email: tmunzer@juniper.net
     name: Thomas Munzer
-  description: '> Version: **2406.1.33**
+  description: '> Version: **2406.1.36**
 
     >
 
-    > Date: **July 25, 2024**
+    > Date: **July 26, 2024**
 
 
     ---
@@ -43,7 +43,7 @@ info:
     name: MIT
     url: https://raw.githubusercontent.com/tmunzer/Mist-OAS3.0/main/LICENSE
   title: Mist API
-  version: 2406.1.33
+  version: 2406.1.34
 servers:
 - description: Mist Global 01
   url: https://api.mist.com
@@ -23499,6 +23499,25 @@ paths:
       summary: deleteSiteDeviceHaCluster
       tags:
       - Sites Devices - WAN Cluster
+    get:
+      description: Delete HA Cluster
+      operationId: GetSiteDeviceHaClusterNode
+      responses:
+        '200':
+          $ref: '#/components/responses/Gateway_Cluster'
+        '400':
+          $ref: '#/components/responses/HTTP400'
+        '401':
+          $ref: '#/components/responses/HTTP401'
+        '403':
+          $ref: '#/components/responses/HTTP403'
+        '404':
+          $ref: '#/components/responses/HTTP404'
+        '429':
+          $ref: '#/components/responses/HTTP429'
+      summary: GetSiteDeviceHaClusterNode
+      tags:
+      - Sites Devices - WAN Cluster
     parameters:
     - $ref: '#/components/parameters/site_id'
     - $ref: '#/components/parameters/device_id'
@@ -29023,20 +29042,20 @@ paths:
                   persist_config_on_device: false
                   port_mirroring:
                     property1:
-                      egress_port_ids:
-                      - ge-0/0/3
-                      ingress_networks:
+                      input_networks_ingress:
                       - corp
-                      ingress_port_ids:
+                      input_port_ids_egress:
+                      - ge-0/0/3
+                      input_port_ids_ingress:
                       - ge-0/0/3
                       output_network: analyze
                       output_port_id: ge-0/0/5
                     property2:
-                      egress_port_ids:
-                      - ge-0/0/3
-                      ingress_networks:
+                      input_networks_ingress:
                       - corp
-                      ingress_port_ids:
+                      input_port_ids_egress:
+                      - ge-0/0/3
+                      input_port_ids_ingress:
                       - ge-0/0/3
                       output_network: analyze
                       output_port_id: ge-0/0/5
@@ -42221,6 +42240,18 @@ components:
           schema:
             $ref: '#/components/schemas/gateway_metrics'
       description: OK
+    Gateway_Cluster:
+      content:
+        application/json:
+          examples:
+            example-1:
+              value:
+                nodes:
+                - mac: aff827549235
+                - mac: 8396cd006c8c
+          schema:
+            $ref: '#/components/schemas/gateway_cluster'
+      description: OK
     Gatewaytemplate:
       content:
         application/json:
@@ -46945,20 +46976,20 @@ components:
                 persist_config_on_device: false
                 port_mirroring:
                   property1:
-                    egress_port_ids:
-                    - ge-0/0/3
-                    ingress_networks:
+                    input_networks_ingress:
                     - corp
-                    ingress_port_ids:
+                    input_port_ids_egress:
+                    - ge-0/0/3
+                    input_port_ids_ingress:
                     - ge-0/0/3
                     output_network: analyze
                     output_port_id: ge-0/0/5
                   property2:
-                    egress_port_ids:
-                    - ge-0/0/3
-                    ingress_networks:
+                    input_networks_ingress:
                     - corp
-                    ingress_port_ids:
+                    input_port_ids_egress:
+                    - ge-0/0/3
+                    input_port_ids_ingress:
                     - ge-0/0/3
                     output_network: analyze
                     output_port_id: ge-0/0/5
@@ -56169,11 +56200,10 @@ components:
       - code
       type: object
     config_device:
-      $ref: '#/components/schemas/device_gateway'
-      # anyOf:
-      # - $ref: '#/components/schemas/device_ap'
-      # - $ref: '#/components/schemas/device_switch'
-      # - $ref: '#/components/schemas/device_gateway'
+      anyOf:
+      - $ref: '#/components/schemas/device_ap'
+      - $ref: '#/components/schemas/device_switch'
+      - $ref: '#/components/schemas/device_gateway'
     config_devices:
       items:
         $ref: '#/components/schemas/config_device'
@@ -58280,7 +58310,7 @@ components:
           $ref: '#/components/schemas/dhcpd_config_fix'
         enabled:
           default: false
-          description: if set to `true`, disable the DHCP server
+          description: if set to `true`, enable the DHCP server
           type: boolean
       type: object
     dhcpd_config_dns_servers:
@@ -59576,10 +59606,10 @@ components:
           type: string
       type: object
     gateway_extra_routes:
-      type: object
       additionalProperties:
         $ref: '#/components/schemas/gateway_extra_route'
       description: Property key is the destination CIDR (e.g. "10.0.0.0/8")
+      type: object
     gateway_extra_routes6:
       additionalProperties:
         $ref: '#/components/schemas/gateway_extra_route6'
@@ -59678,9 +59708,6 @@ components:
           type: string
         netmask:
           description: if `type`==`static`
-          type: string
-        network:
-          description: optional, the network to be used for mgmt
           type: string
         node1:
           $ref: '#/components/schemas/gateway_oob_ip_config_node1'
@@ -62400,7 +62427,6 @@ components:
       $ref: '#/components/schemas/device_gateway'
       # oneOf:
       # - $ref: '#/components/schemas/device_ap'
-      # - $ref: '#/components/schemas/device_switch'
       # - $ref: '#/components/schemas/device_gateway'
     ml_overwrite:
       additionalProperties:
@@ -67813,6 +67839,8 @@ components:
           default: 1813
           description: Acct port of RADIUS server
           example: 1813
+          maximum: 65535
+          minimum: 1
           type: integer
         secret:
           description: secret of RADIUS server
@@ -67848,6 +67876,8 @@ components:
           default: 1812
           description: Auth port of RADIUS server
           example: 1812
+          maximum: 65535
+          minimum: 1
           type: integer
         secret:
           description: secret of RADIUS server
@@ -67892,6 +67922,8 @@ components:
           type: boolean
         coa_port:
           default: 3799
+          maximum: 65535
+          minimum: 1
           type: integer
         network:
           description: 'use `network`or `source_ip`
@@ -75629,6 +75661,7 @@ components:
     snmp_vacm_access_item_type:
       enum:
       - ''
+      - context_prefix
       - default_context_prefix
       type: string
     snmp_vacm_security_model:
@@ -76399,11 +76432,10 @@ components:
         $ref: '#/components/schemas/client_stats'
       type: array
     stats_device:
-      $ref: '#/components/schemas/gateway_stats'
-      # anyOf:
-      # - $ref: '#/components/schemas/ap_stats'
-      # - $ref: '#/components/schemas/switch_stats'
-      # - $ref: '#/components/schemas/gateway_stats'
+      anyOf:
+      - $ref: '#/components/schemas/ap_stats'
+      - $ref: '#/components/schemas/switch_stats'
+      - $ref: '#/components/schemas/gateway_stats'
     stats_devices:
       items:
         $ref: '#/components/schemas/stats_device'
@@ -76803,22 +76835,22 @@ components:
         interface and port as output.'
       type: object
     switch_port_mirroring_egress_port_ids:
-      description: at least one of the `ingress_port_ids`, `egress_port_ids` or `ingress_networks
-        ` should be specified
+      description: at least one of the `input_port_ids_ingress`, `input_port_ids_egress`
+        or `input_networks_ingress ` should be specified
       items:
         example: ge-0/0/3
         type: string
       type: array
     switch_port_mirroring_ingress_networks:
-      description: at least one of the `ingress_port_ids`, `egress_port_ids` or `ingress_networks
-        ` should be specified
+      description: at least one of the `input_port_ids_ingress`, `input_port_ids_egress`
+        or `input_networks_ingress ` should be specified
       items:
         example: corp
         type: string
       type: array
     switch_port_mirroring_ingress_port_ids:
-      description: at least one of the `ingress_port_ids`, `egress_port_ids` or `ingress_networks
-        ` should be specified
+      description: at least one of the `input_port_ids_ingress`, `input_port_ids_egress`
+        or `input_networks_ingress ` should be specified
       items:
         example: ge-0/0/3
         type: string
@@ -76832,10 +76864,12 @@ components:
         input_port_ids_ingress:
           $ref: '#/components/schemas/switch_port_mirroring_ingress_port_ids'
         output_network:
+          description: exaclty one of the `output_port_id` or `output_network` should
+            be provided
           example: analyze
           type: string
         output_port_id:
-          description: exaclty on of the `output_port_id` or `output_network` should
+          description: exaclty one of the `output_port_id` or `output_network` should
             be provided
           example: ge-0/0/5
           type: string
@@ -77128,6 +77162,7 @@ components:
           type: boolean
         enable_qos:
           default: false
+          description: Only if `mode`!=`dynamic`
           type: boolean
         guest_network:
           description: Only if `mode`!=`dynamic` and `port_auth`==`dot1x` which network
@@ -77166,8 +77201,8 @@ components:
           $ref: '#/components/schemas/switch_port_usage_networks'
         persist_mac:
           default: false
-          description: Only if `mode`!=`dynamic` and `mode`==`access` and `port_auth`!=`dot1x`
-            whether the port should retain dynamically learned MAC addresses
+          description: Only if `mode`==`access` and `port_auth`!=`dot1x` whether the
+            port should retain dynamically learned MAC addresses
           type: boolean
         poe_disabled:
           default: false
@@ -77175,8 +77210,7 @@ components:
             for a port
           type: boolean
         port_auth:
-          description: Only if `mode`!=`dynamic` if dot1x is desired, set to dot1x
-          type: string
+          $ref: '#/components/schemas/switch_port_usage_dot1x'
         port_network:
           description: Only if `mode`!=`dynamic` native network/vlan for untagged
             traffic
@@ -77213,6 +77247,13 @@ components:
             also set port_network. to authenticate device, set port_auth
           type: string
       type: object
+    switch_port_usage_dot1x:
+      description: Only if `mode`!=`dynamic` if dot1x is desired, set to dot1x
+      enum:
+      - ''
+      - dot1x
+      nullable: true
+      type: string
     switch_port_usage_duplex:
       default: auto
       description: Only if `mode`!=`dynamic` link connection mode
@@ -77280,8 +77321,8 @@ components:
         $ref: '#/components/schemas/switch_port_usage_dynamic_rule'
       type: array
     switch_port_usage_dynamic_vlan_networks:
-      description: Only if `mode`!=`dynamic` if dynamic vlan is used, specify the
-        possible networks/vlans RADIUS can return
+      description: Only if `mode`!=`dynamic` and `port_auth`==`dot1x`, if dynamic
+        vlan is used, specify the possible networks/vlans RADIUS can return
       example:
       - corp
       - user
@@ -77290,8 +77331,8 @@ components:
       type: array
     switch_port_usage_mac_auth_protocol:
       default: eap-md5
-      description: if `enable_mac_auth` ==`true`. This type is ignored if mist_nac
-        is enabled.
+      description: Only if `mode`!=`dynamic` and `enable_mac_auth` ==`true`. This
+        type is ignored if mist_nac is enabled.
       enum:
       - ''
       - pap
