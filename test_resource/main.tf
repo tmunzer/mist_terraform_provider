@@ -140,6 +140,12 @@ resource "mist_org_idpprofile" "test1" {
   ]
   name = "custom-standard"
 }
+resource "mist_org_nactag" "nactag_VLAN_Crew451" {
+    org_id = mist_org.terraform_test.id
+    vlan = "451"
+    name = "VLAN-Crew451"
+    type = "vlan"
+}
 resource "mist_org_idpprofile" "test2" {
   org_id       = mist_org.terraform_test.id
   base_profile = "standard"

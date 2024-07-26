@@ -1,23 +1,153 @@
 get:
-- schema
-- attributes
+  - schema
+  - attributes
 name: org_nactag
 next:
-- computed_optional_required: required
-  get:
-  - string
-  name: name
-  validators:
-  - custom:
-      imports:
-      - path: github.com/Juniper/terraform-provider-mist/internal/validators
-      - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
-      schema_definition: stringvalidator.All(stringvalidator.LengthBetween(2, 32),mistvalidator.ParseName(),)
-- computed_optional_required: required
-  get:
-  - string
-  name: org_id
-- computed_optional_required: computed
-  get:
-  - string
-  name: id
+  - name: egress_vlan_names
+    get:
+      - string
+    validators:
+      - custom:
+          imports:
+            - path: github.com/Juniper/terraform-provider-mist/internal/validators
+            - path: github.com/hashicorp/terraform-plugin-framework/path
+          schema_definition:
+            mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("type"),
+            types.StringValue("egress_vlan_names"))
+  - name: gbp_tag
+    get:
+      - string
+    validators:
+      - custom:
+          imports:
+            - path: github.com/Juniper/terraform-provider-mist/internal/validators
+            - path: github.com/hashicorp/terraform-plugin-framework/path
+          schema_definition:
+            mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("type"),
+            types.StringValue("gbp_tag"))
+  - name: match
+    get:
+      - string
+    validators:
+      - custom:
+          imports:
+            - path: github.com/Juniper/terraform-provider-mist/internal/validators
+            - path: github.com/hashicorp/terraform-plugin-framework/path
+          schema_definition:
+            stringvalidator.OneOf(
+
+              "",
+            
+              "cert_cn",
+            
+              "cert_issuer",
+            
+              "cert_san",
+            
+              "cert_serial",
+            
+              "cert_sub",
+            
+              "client_mac",
+            
+              "idp_role",
+            
+              "mdm_status",
+            
+              "radius_group",
+            
+              "realm",
+            
+              "ssid",
+            
+              "user_name",
+            
+              "usermac_label",
+            
+            ),
+            
+            mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("type"),
+            types.StringValue("match"))
+  - computed_optional_required: required
+    get:
+      - string
+    name: name
+    validators:
+      - custom:
+          imports:
+            - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+          schema_definition: stringvalidator.LengthBetween(1, 32)
+  - name: radius_attrs
+    get:
+      - list
+    validators:
+      - custom:
+          imports:
+            - path: github.com/Juniper/terraform-provider-mist/internal/validators
+            - path: github.com/hashicorp/terraform-plugin-framework/path
+          schema_definition:
+            mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("type"),
+            types.StringValue("radius_attrs"))
+  - name: radius_group
+    get:
+      - string
+    validators:
+      - custom:
+          imports:
+            - path: github.com/Juniper/terraform-provider-mist/internal/validators
+            - path: github.com/hashicorp/terraform-plugin-framework/path
+          schema_definition:
+            mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("type"),
+            types.StringValue("radius_group"))
+  - name: radius_vendor_attrs
+    get:
+      - list
+    validators:
+      - custom:
+          imports:
+            - path: github.com/Juniper/terraform-provider-mist/internal/validators
+            - path: github.com/hashicorp/terraform-plugin-framework/path
+          schema_definition:
+            mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("type"),
+            types.StringValue("radius_vendor_attrs"))
+  - name: session_timeout
+    get:
+      - int64
+    validators:
+      - custom:
+          imports:
+            - path: github.com/Juniper/terraform-provider-mist/internal/validators
+            - path: github.com/hashicorp/terraform-plugin-framework/path
+          schema_definition:
+            mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("type"),
+            types.StringValue("session_timeout"))
+  - name: values
+    get:
+      - list
+    validators:
+      - custom:
+          imports:
+            - path: github.com/Juniper/terraform-provider-mist/internal/validators
+            - path: github.com/hashicorp/terraform-plugin-framework/path
+          schema_definition:
+            mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("type"),
+            types.StringValue("match"))
+  - name: vlan
+    get:
+      - string
+    validators:
+      - custom:
+          imports:
+            - path: github.com/Juniper/terraform-provider-mist/internal/validators
+            - path: github.com/hashicorp/terraform-plugin-framework/path
+          schema_definition:
+            mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("type"),
+            types.StringValue("vlan"))
+  - computed_optional_required: required
+    get:
+      - string
+    name: org_id
+  - computed_optional_required: computed
+    get:
+      - string
+    name: id
