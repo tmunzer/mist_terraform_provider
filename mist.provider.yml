@@ -57695,6 +57695,10 @@ components:
           $ref: '#/components/schemas/device_type_gateway'
         vars:
           $ref: '#/components/schemas/vars'
+        vrf_config:
+          $ref: '#/components/schemas/vrf_config'
+        vrf_instances:
+          $ref: '#/components/schemas/gateway_vrf_instances'
         x:
           description: x in pixel
           example: 53.5
@@ -57971,7 +57975,7 @@ components:
         vrf_config:
           $ref: '#/components/schemas/vrf_config'
         vrf_instances:
-          $ref: '#/components/schemas/vrf_instances'
+          $ref: '#/components/schemas/switch_vrf_instances'
         vrrp_config:
           $ref: '#/components/schemas/vrrp_config'
         x:
@@ -58276,6 +58280,10 @@ components:
           $ref: '#/components/schemas/tunnel_provider_options'
         type:
           $ref: '#/components/schemas/device_type_gateway'
+        vrf_config:
+          $ref: '#/components/schemas/vrf_config'
+        vrf_instances:
+          $ref: '#/components/schemas/gateway_vrf_instances'
       required:
       - name
       type: object
@@ -60430,6 +60438,10 @@ components:
           $ref: '#/components/schemas/tunnel_provider_options'
         type:
           $ref: '#/components/schemas/gateway_template_type'
+        vrf_config:
+          $ref: '#/components/schemas/vrf_config'
+        vrf_instances:
+          $ref: '#/components/schemas/gateway_vrf_instances'
       required:
       - name
       type: object
@@ -60589,6 +60601,25 @@ components:
       items:
         type: integer
       type: array
+    gateway_vrf_instance:
+      example:
+        networks:
+        - CORP_NET
+        - MGMT_NET
+      properties:
+        networks:
+          $ref: '#/components/schemas/strings'
+      type: object
+    gateway_vrf_instances:
+      additionalProperties:
+        $ref: '#/components/schemas/gateway_vrf_instance'
+      description: Property key is the network name
+      example:
+        CORP_VRF:
+          networks:
+          - CORP_NET
+          - MGMT_NET
+      type: object
     gateway_wan_ppoe_auth:
       default: none
       description: if `type`==`pppoe`
@@ -62422,7 +62453,7 @@ components:
       - qrcode
       type: string
     mist_device:
-      $ref: '#/components/schemas/device_gateway'
+      $ref: '#/components/schemas/device_switch'
       # oneOf:
       # - $ref: '#/components/schemas/device_ap'
       # - $ref: '#/components/schemas/device_gateway'
@@ -64864,7 +64895,7 @@ components:
         vrf_config:
           $ref: '#/components/schemas/vrf_config'
         vrf_instances:
-          $ref: '#/components/schemas/vrf_instances'
+          $ref: '#/components/schemas/switch_vrf_instances'
       type: object
     network_template_import_org_networks:
       description: Org Networks that we'd like to import
@@ -73774,7 +73805,7 @@ components:
         vrf_config:
           $ref: '#/components/schemas/vrf_config'
         vrf_instances:
-          $ref: '#/components/schemas/vrf_instances'
+          $ref: '#/components/schemas/switch_vrf_instances'
         vrrp_groups:
           $ref: '#/components/schemas/site_setting_vrrp_groups'
         vs_instance:
@@ -77658,6 +77689,31 @@ components:
       items:
         $ref: '#/components/schemas/switch_virtual_chassis_member'
       type: array
+    switch_vrf_instance:
+      example:
+        extra_routes:
+          0.0.0.0/0:
+            via: 192.168.31.1
+        networks:
+        - guest
+      properties:
+        extra_routes:
+          $ref: '#/components/schemas/vrf_extra_routes'
+        networks:
+          $ref: '#/components/schemas/strings'
+      type: object
+    switch_vrf_instances:
+      additionalProperties:
+        $ref: '#/components/schemas/switch_vrf_instance'
+      description: Property key is the network name
+      example:
+        guest:
+          extra_routes:
+            0.0.0.0/0:
+              via: 192.168.31.1
+          networks:
+          - guest
+      type: object
     synthetictest:
       properties:
         email:
@@ -80128,31 +80184,6 @@ components:
       example:
         0.0.0.0/0:
           via: 192.168.1.10
-      type: object
-    vrf_instance:
-      example:
-        extra_routes:
-          0.0.0.0/0:
-            via: 192.168.31.1
-        networks:
-        - guest
-      properties:
-        extra_routes:
-          $ref: '#/components/schemas/vrf_extra_routes'
-        networks:
-          $ref: '#/components/schemas/strings'
-      type: object
-    vrf_instances:
-      additionalProperties:
-        $ref: '#/components/schemas/vrf_instance'
-      description: Property key is the network name
-      example:
-        guest:
-          extra_routes:
-            0.0.0.0/0:
-              via: 192.168.31.1
-          networks:
-          - guest
       type: object
     vrrp_config:
       description: Junos VRRP config

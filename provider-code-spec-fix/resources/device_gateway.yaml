@@ -1337,3 +1337,12 @@ next:
             mistvalidator.ParseVar(),
 
             )'
+- get:
+  - map_nested
+  name: vrf_instances
+  validators:
+  - custom:
+      imports:
+      - path: github.com/Juniper/terraform-provider-mist/internal/validators
+      - path: github.com/hashicorp/terraform-plugin-framework-validators/mapvalidator
+      schema_definition: mapvalidator.SizeAtLeast(1),mapvalidator.KeysAre(mistvalidator.ParseName())

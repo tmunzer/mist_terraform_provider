@@ -750,8 +750,7 @@ next:
       imports:
       - path: github.com/Juniper/terraform-provider-mist/internal/validators
       - path: github.com/hashicorp/terraform-plugin-framework-validators/mapvalidator
-      schema_definition: mapvalidator.SizeAtLeast(1),mapvalidator.KeysAre(stringvalidator.Any(mistvalidator.ParseCidr(false,
-        true), mistvalidator.ParseVar()))
+      schema_definition: mapvalidator.SizeAtLeast(1),mapvalidator.KeysAre(mistvalidator.ParseName())
 - get:
   - map_nested
   - nested_object

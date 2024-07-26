@@ -141,10 +141,10 @@ resource "mist_org_idpprofile" "test1" {
   name = "custom-standard"
 }
 resource "mist_org_nactag" "nactag_VLAN_Crew451" {
-    org_id = mist_org.terraform_test.id
-    vlan = "451"
-    name = "VLAN-Crew451"
-    type = "vlan"
+  org_id = mist_org.terraform_test.id
+  vlan   = "451"
+  name   = "VLAN-Crew451"
+  type   = "vlan"
 }
 resource "mist_org_idpprofile" "test2" {
   org_id       = mist_org.terraform_test.id
@@ -2583,6 +2583,17 @@ resource "mist_org_gatewaytemplate" "gatewaytemplate_one" {
   type   = "spoke"
   name   = "gatewaytemplate_one"
   org_id = mist_org.terraform_test.id
+  vrf_instances = {
+    VRF_ONE = {
+      networks = [
+        "PRD-CORE_VLAN410",
+        "RESTRICTED_VLAN420"
+      ]
+    }
+  }
+  vrf_config = {
+    enabled = true
+  }
   port_config = {
     "ge-0/0/7,ge-5/0/7" = {
       usage     = "lan"
@@ -2671,7 +2682,7 @@ resource "mist_org_gatewaytemplate" "gatewaytemplate_one" {
     {
       name             = "lan"
       servicepolicy_id = mist_org_servicepolicy.test5.id
-      path_preference = "HUB"
+      path_preference  = "HUB"
     }
   ]
 }

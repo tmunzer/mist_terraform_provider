@@ -5,7 +5,7 @@ name: org_nactag
 next:
   - name: egress_vlan_names
     get:
-      - string
+      - list
     validators:
       - custom:
           imports:
@@ -16,7 +16,7 @@ next:
             types.StringValue("egress_vlan_names"))
   - name: gbp_tag
     get:
-      - string
+      - int64
     validators:
       - custom:
           imports:
