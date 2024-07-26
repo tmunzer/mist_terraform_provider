@@ -172,7 +172,7 @@
                                                 "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
                                             }
                                         ],
-                                        "schema_definition": "stringvalidator.Any(mistvalidator.ParseIp(true, true), mistvalidator.ParseVar()),\nmistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"wan\")),\nmistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"vpn\")),\nmistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"tunnel\"),\n)"
+                                        "schema_definition": "stringvalidator.Any(mistvalidator.ParseIp(true, true), mistvalidator.ParseVar()),\nmistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"local\"))"
                                     }
                                 }
                             ]
@@ -182,6 +182,7 @@
                             "get": [
                                 "bool"
                             ],
+                            "no_default": true,
                             "validators": [
                                 {
                                     "custom": {
@@ -190,7 +191,28 @@
                                                 "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
                                             }
                                         ],
-                                        "schema_definition": "mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"wan\")),\nmistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"local\")),\nmistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"tunnel\"),\n)"
+                                        "schema_definition": "mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"vpn\"))"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "name": "name",
+                            "get": [
+                                "string"
+                            ],
+                            "validators": [
+                                {
+                                    "custom": {
+                                        "imports": [
+                                            {
+                                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                            },
+                                            {
+                                                "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                            }
+                                        ],
+                                        "schema_definition": "mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"vpn\")),\nmistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"wan\"))"
                                     }
                                 }
                             ]
@@ -216,7 +238,7 @@
                                                 "path": "github.com/hashicorp/terraform-plugin-framework/path"
                                             }
                                         ],
-                                        "schema_definition": "mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"local\")),\nmistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"wan\")),\nmistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"vpn\")),\nmistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"tunnel\"),\n)"
+                                        "schema_definition": "mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"local\"))"
                                     }
                                 }
                             ]
@@ -239,7 +261,28 @@
                                                 "path": "github.com/hashicorp/terraform-plugin-framework/path"
                                             }
                                         ],
-                                        "schema_definition": "mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"wan\")),\nmistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"vpn\")),\nmistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"tunnel\"),\n)"
+                                        "schema_definition": "mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"local\"))"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "name": "wan_name",
+                            "get": [
+                                "string"
+                            ],
+                            "validators": [
+                                {
+                                    "custom": {
+                                        "imports": [
+                                            {
+                                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                            },
+                                            {
+                                                "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                            }
+                                        ],
+                                        "schema_definition": "mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"tunnel\")),\nmistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"vpn\"))"
                                     }
                                 }
                             ]

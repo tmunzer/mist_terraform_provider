@@ -303,7 +303,7 @@
 										}
 									},
 									{
-										"name": "path_preferences",
+										"name": "path_preference",
 										"string": {
 											"computed_optional_required": "computed",
 											"description": "by default, we derive all paths available and use them\noptionally, you can customize by using `path_preference`"
@@ -1831,13 +1831,6 @@
 												}
 											},
 											{
-												"name": "network",
-												"string": {
-													"computed_optional_required": "computed_optional",
-													"description": "optional, the network to be used for mgmt"
-												}
-											},
-											{
 												"name": "type",
 												"string": {
 													"computed_optional_required": "computed_optional",
@@ -1967,30 +1960,28 @@
 														"name": "disabled",
 														"bool": {
 															"computed_optional_required": "computed_optional",
-															"description": "For SSR Only. `true`` if this specific path is undesired"
+															"description": "For SSR Only. `true`, if this specific path is undesired"
 														}
 													},
 													{
 														"name": "gateway_ip",
 														"string": {
 															"computed_optional_required": "computed_optional",
-															"description": "if `type`==`local`, if a different gateway is desired"
+															"description": "only if `type`==`local`, if a different gateway is desired"
 														}
 													},
 													{
 														"name": "internet_access",
 														"bool": {
 															"computed_optional_required": "computed_optional",
-															"default": {
-																"static": false
-															},
-															"description": "when `type`==`vpn`, if this vpn path can be used for internet"
+															"description": "only if `type`==`vpn`, if this vpn path can be used for internet"
 														}
 													},
 													{
 														"name": "name",
 														"string": {
-															"computed_optional_required": "computed_optional"
+															"computed_optional_required": "computed_optional",
+															"description": "required when * `type`==`vpn`: the name of the VPN Path to use * `type`==`wan`: the name of the WAN interface to use"
 														}
 													},
 													{
@@ -2000,7 +1991,7 @@
 															"element_type": {
 																"string": {}
 															},
-															"description": "if `type`==`local`"
+															"description": "required when `type`==`local`"
 														}
 													},
 													{
@@ -2035,7 +2026,7 @@
 														"name": "wan_name",
 														"string": {
 															"computed_optional_required": "computed_optional",
-															"description": "Spoke's outgoing wan"
+															"description": "required when`type`==`tunnel`, optional if `type`==`vpn` wan"
 														}
 													}
 												]
@@ -3163,7 +3154,7 @@
 										}
 									},
 									{
-										"name": "path_preferences",
+										"name": "path_preference",
 										"string": {
 											"computed_optional_required": "computed_optional",
 											"description": "by default, we derive all paths available and use them\noptionally, you can customize by using `path_preference`"
@@ -5467,13 +5458,6 @@
 												}
 											},
 											{
-												"name": "network",
-												"string": {
-													"computed_optional_required": "computed_optional",
-													"description": "optional, the network to be used for mgmt"
-												}
-											},
-											{
 												"name": "type",
 												"string": {
 													"computed_optional_required": "computed_optional",
@@ -5603,30 +5587,28 @@
 														"name": "disabled",
 														"bool": {
 															"computed_optional_required": "computed_optional",
-															"description": "For SSR Only. `true`` if this specific path is undesired"
+															"description": "For SSR Only. `true`, if this specific path is undesired"
 														}
 													},
 													{
 														"name": "gateway_ip",
 														"string": {
 															"computed_optional_required": "computed_optional",
-															"description": "if `type`==`local`, if a different gateway is desired"
+															"description": "only if `type`==`local`, if a different gateway is desired"
 														}
 													},
 													{
 														"name": "internet_access",
 														"bool": {
 															"computed_optional_required": "computed_optional",
-															"default": {
-																"static": false
-															},
-															"description": "when `type`==`vpn`, if this vpn path can be used for internet"
+															"description": "only if `type`==`vpn`, if this vpn path can be used for internet"
 														}
 													},
 													{
 														"name": "name",
 														"string": {
-															"computed_optional_required": "computed_optional"
+															"computed_optional_required": "computed_optional",
+															"description": "required when * `type`==`vpn`: the name of the VPN Path to use * `type`==`wan`: the name of the WAN interface to use"
 														}
 													},
 													{
@@ -5636,7 +5618,7 @@
 															"element_type": {
 																"string": {}
 															},
-															"description": "if `type`==`local`"
+															"description": "required when `type`==`local`"
 														}
 													},
 													{
@@ -5671,7 +5653,7 @@
 														"name": "wan_name",
 														"string": {
 															"computed_optional_required": "computed_optional",
-															"description": "Spoke's outgoing wan"
+															"description": "required when`type`==`tunnel`, optional if `type`==`vpn` wan"
 														}
 													}
 												]
@@ -6731,7 +6713,7 @@
 										}
 									},
 									{
-										"name": "path_preferences",
+										"name": "path_preference",
 										"string": {
 											"computed_optional_required": "computed_optional",
 											"description": "by default, we derive all paths available and use them\noptionally, you can customize by using `path_preference`"
@@ -8915,13 +8897,6 @@
 												}
 											},
 											{
-												"name": "network",
-												"string": {
-													"computed_optional_required": "computed_optional",
-													"description": "optional, the network to be used for mgmt"
-												}
-											},
-											{
 												"name": "type",
 												"string": {
 													"computed_optional_required": "computed_optional",
@@ -9051,30 +9026,28 @@
 														"name": "disabled",
 														"bool": {
 															"computed_optional_required": "computed_optional",
-															"description": "For SSR Only. `true`` if this specific path is undesired"
+															"description": "For SSR Only. `true`, if this specific path is undesired"
 														}
 													},
 													{
 														"name": "gateway_ip",
 														"string": {
 															"computed_optional_required": "computed_optional",
-															"description": "if `type`==`local`, if a different gateway is desired"
+															"description": "only if `type`==`local`, if a different gateway is desired"
 														}
 													},
 													{
 														"name": "internet_access",
 														"bool": {
 															"computed_optional_required": "computed_optional",
-															"default": {
-																"static": false
-															},
-															"description": "when `type`==`vpn`, if this vpn path can be used for internet"
+															"description": "only if `type`==`vpn`, if this vpn path can be used for internet"
 														}
 													},
 													{
 														"name": "name",
 														"string": {
-															"computed_optional_required": "computed_optional"
+															"computed_optional_required": "computed_optional",
+															"description": "required when * `type`==`vpn`: the name of the VPN Path to use * `type`==`wan`: the name of the WAN interface to use"
 														}
 													},
 													{
@@ -9084,7 +9057,7 @@
 															"element_type": {
 																"string": {}
 															},
-															"description": "if `type`==`local`"
+															"description": "required when `type`==`local`"
 														}
 													},
 													{
@@ -9119,7 +9092,7 @@
 														"name": "wan_name",
 														"string": {
 															"computed_optional_required": "computed_optional",
-															"description": "Spoke's outgoing wan"
+															"description": "required when`type`==`tunnel`, optional if `type`==`vpn` wan"
 														}
 													}
 												]
@@ -10179,7 +10152,7 @@
 										}
 									},
 									{
-										"name": "path_preferences",
+										"name": "path_preference",
 										"string": {
 											"computed_optional_required": "computed_optional",
 											"description": "by default, we derive all paths available and use them\noptionally, you can customize by using `path_preference`"
@@ -17889,7 +17862,7 @@
 						}
 					},
 					{
-						"name": "path_preferences",
+						"name": "path_preference",
 						"string": {
 							"computed_optional_required": "computed_optional",
 							"description": "by default, we derive all paths available and use them\noptionally, you can customize by using `path_preference`"

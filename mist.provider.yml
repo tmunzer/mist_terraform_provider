@@ -59737,9 +59737,6 @@ components:
         netmask:
           description: used only if `subnet` is not specified in `networks`
           type: string
-        network:
-          description: optional, the network to be used for mgmt
-          type: string
         type:
           $ref: '#/components/schemas/ip_type'
         use_mgmt_vrf:
@@ -59767,16 +59764,17 @@ components:
         cost:
           type: integer
         disabled:
-          description: For SSR Only. `true`` if this specific path is undesired
+          description: For SSR Only. `true`, if this specific path is undesired
           type: boolean
         gateway_ip:
-          description: if `type`==`local`, if a different gateway is desired
+          description: only if `type`==`local`, if a different gateway is desired
           type: string
         internet_access:
-          default: false
-          description: when `type`==`vpn`, if this vpn path can be used for internet
+          description: only if `type`==`vpn`, if this vpn path can be used for internet
           type: boolean
         name:
+          description: 'required when * `type`==`vpn`: the name of the VPN Path to
+            use * `type`==`wan`: the name of the WAN interface to use'
           type: string
         networks:
           $ref: '#/components/schemas/gateway_path_preferences_path_networks'
@@ -59785,12 +59783,12 @@ components:
         type:
           $ref: '#/components/schemas/gateway_path_type'
         wan_name:
-          description: Spoke's outgoing wan
+          description: required when`type`==`tunnel`, optional if `type`==`vpn` wan
           example: wan0
           type: string
       type: object
     gateway_path_preferences_path_networks:
-      description: if `type`==`local`
+      description: required when `type`==`local`
       items:
         type: string
       type: array
@@ -65467,7 +65465,7 @@ components:
           type: string
         org_id:
           $ref: '#/components/schemas/org_id'
-        path_preferences:
+        path_preference:
           description: 'by default, we derive all paths available and use them
 
             optionally, you can customize by using `path_preference`'
@@ -72788,7 +72786,7 @@ components:
           type: boolean
         name:
           type: string
-        path_preferences:
+        path_preference:
           description: 'by default, we derive all paths available and use them
 
             optionally, you can customize by using `path_preference`'
@@ -76919,6 +76917,7 @@ components:
           type: integer
         mac_limit:
           description: Limit on number of dynamically learned macs
+          minimum: 0
           type: integer
         neighbor_mac:
           description: chassis identifier of the chassis type listed

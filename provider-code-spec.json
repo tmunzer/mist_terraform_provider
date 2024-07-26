@@ -303,7 +303,7 @@
                                         }
                                     },
                                     {
-                                        "name": "path_preferences",
+                                        "name": "path_preference",
                                         "string": {
                                             "computed_optional_required": "computed",
                                             "description": "by default, we derive all paths available and use them\noptionally, you can customize by using `path_preference`"
@@ -2623,13 +2623,6 @@
                                                 }
                                             },
                                             {
-                                                "name": "network",
-                                                "string": {
-                                                    "computed_optional_required": "optional",
-                                                    "description": "optional, the network to be used for mgmt"
-                                                }
-                                            },
-                                            {
                                                 "name": "type",
                                                 "string": {
                                                     "computed_optional_required": "computed_optional",
@@ -2807,14 +2800,14 @@
                                                         "name": "disabled",
                                                         "bool": {
                                                             "computed_optional_required": "optional",
-                                                            "description": "For SSR Only. `true`` if this specific path is undesired"
+                                                            "description": "For SSR Only. `true`, if this specific path is undesired"
                                                         }
                                                     },
                                                     {
                                                         "name": "gateway_ip",
                                                         "string": {
                                                             "computed_optional_required": "optional",
-                                                            "description": "if `type`==`local`, if a different gateway is desired",
+                                                            "description": "only if `type`==`local`, if a different gateway is desired",
                                                             "validators": [
                                                                 {
                                                                     "custom": {
@@ -2826,7 +2819,7 @@
                                                                                 "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
                                                                             }
                                                                         ],
-                                                                        "schema_definition": "stringvalidator.Any(mistvalidator.ParseIp(true, true), mistvalidator.ParseVar()),\nmistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"wan\")),\nmistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"vpn\")),\nmistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"tunnel\"),\n)"
+                                                                        "schema_definition": "stringvalidator.Any(mistvalidator.ParseIp(true, true), mistvalidator.ParseVar()),\nmistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"local\"))"
                                                                     }
                                                                 }
                                                             ]
@@ -2835,11 +2828,8 @@
                                                     {
                                                         "name": "internet_access",
                                                         "bool": {
-                                                            "computed_optional_required": "computed_optional",
-                                                            "default": {
-                                                                "static": false
-                                                            },
-                                                            "description": "when `type`==`vpn`, if this vpn path can be used for internet",
+                                                            "computed_optional_required": "optional",
+                                                            "description": "only if `type`==`vpn`, if this vpn path can be used for internet",
                                                             "validators": [
                                                                 {
                                                                     "custom": {
@@ -2848,7 +2838,7 @@
                                                                                 "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
                                                                             }
                                                                         ],
-                                                                        "schema_definition": "mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"wan\")),\nmistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"local\")),\nmistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"tunnel\"),\n)"
+                                                                        "schema_definition": "mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"vpn\"))"
                                                                     }
                                                                 }
                                                             ]
@@ -2857,7 +2847,23 @@
                                                     {
                                                         "name": "name",
                                                         "string": {
-                                                            "computed_optional_required": "optional"
+                                                            "computed_optional_required": "optional",
+                                                            "description": "required when * `type`==`vpn`: the name of the VPN Path to use * `type`==`wan`: the name of the WAN interface to use",
+                                                            "validators": [
+                                                                {
+                                                                    "custom": {
+                                                                        "imports": [
+                                                                            {
+                                                                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                                                            },
+                                                                            {
+                                                                                "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                                                            }
+                                                                        ],
+                                                                        "schema_definition": "mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"vpn\")),\nmistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"wan\"))"
+                                                                    }
+                                                                }
+                                                            ]
                                                         }
                                                     },
                                                     {
@@ -2867,7 +2873,7 @@
                                                             "element_type": {
                                                                 "string": {}
                                                             },
-                                                            "description": "if `type`==`local`",
+                                                            "description": "required when `type`==`local`",
                                                             "default": {
                                                                 "custom": {
                                                                     "imports": [
@@ -2898,7 +2904,7 @@
                                                                                 "path": "github.com/hashicorp/terraform-plugin-framework/path"
                                                                             }
                                                                         ],
-                                                                        "schema_definition": "mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"local\")),\nmistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"wan\")),\nmistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"vpn\")),\nmistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"tunnel\"),\n)"
+                                                                        "schema_definition": "mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"local\"))"
                                                                     }
                                                                 }
                                                             ]
@@ -2939,7 +2945,7 @@
                                                                                 "path": "github.com/hashicorp/terraform-plugin-framework/path"
                                                                             }
                                                                         ],
-                                                                        "schema_definition": "mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"wan\")),\nmistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"vpn\")),\nmistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"tunnel\"),\n)"
+                                                                        "schema_definition": "mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"local\"))"
                                                                     }
                                                                 }
                                                             ]
@@ -2967,7 +2973,22 @@
                                                         "name": "wan_name",
                                                         "string": {
                                                             "computed_optional_required": "optional",
-                                                            "description": "Spoke's outgoing wan"
+                                                            "description": "required when`type`==`tunnel`, optional if `type`==`vpn` wan",
+                                                            "validators": [
+                                                                {
+                                                                    "custom": {
+                                                                        "imports": [
+                                                                            {
+                                                                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                                                            },
+                                                                            {
+                                                                                "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                                                            }
+                                                                        ],
+                                                                        "schema_definition": "mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"tunnel\")),\nmistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"vpn\"))"
+                                                                    }
+                                                                }
+                                                            ]
                                                         }
                                                     }
                                                 ]
@@ -4393,7 +4414,7 @@
                                         }
                                     },
                                     {
-                                        "name": "path_preferences",
+                                        "name": "path_preference",
                                         "string": {
                                             "computed_optional_required": "optional",
                                             "description": "by default, we derive all paths available and use them\noptionally, you can customize by using `path_preference`"
@@ -7601,13 +7622,6 @@
                                                 }
                                             },
                                             {
-                                                "name": "network",
-                                                "string": {
-                                                    "computed_optional_required": "optional",
-                                                    "description": "optional, the network to be used for mgmt"
-                                                }
-                                            },
-                                            {
                                                 "name": "type",
                                                 "string": {
                                                     "computed_optional_required": "computed_optional",
@@ -7785,14 +7799,14 @@
                                                         "name": "disabled",
                                                         "bool": {
                                                             "computed_optional_required": "optional",
-                                                            "description": "For SSR Only. `true`` if this specific path is undesired"
+                                                            "description": "For SSR Only. `true`, if this specific path is undesired"
                                                         }
                                                     },
                                                     {
                                                         "name": "gateway_ip",
                                                         "string": {
                                                             "computed_optional_required": "optional",
-                                                            "description": "if `type`==`local`, if a different gateway is desired",
+                                                            "description": "only if `type`==`local`, if a different gateway is desired",
                                                             "validators": [
                                                                 {
                                                                     "custom": {
@@ -7804,7 +7818,7 @@
                                                                                 "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
                                                                             }
                                                                         ],
-                                                                        "schema_definition": "stringvalidator.Any(mistvalidator.ParseIp(true, true), mistvalidator.ParseVar()),\nmistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"wan\")),\nmistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"vpn\")),\nmistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"tunnel\"),\n)"
+                                                                        "schema_definition": "stringvalidator.Any(mistvalidator.ParseIp(true, true), mistvalidator.ParseVar()),\nmistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"local\"))"
                                                                     }
                                                                 }
                                                             ]
@@ -7813,11 +7827,8 @@
                                                     {
                                                         "name": "internet_access",
                                                         "bool": {
-                                                            "computed_optional_required": "computed_optional",
-                                                            "default": {
-                                                                "static": false
-                                                            },
-                                                            "description": "when `type`==`vpn`, if this vpn path can be used for internet",
+                                                            "computed_optional_required": "optional",
+                                                            "description": "only if `type`==`vpn`, if this vpn path can be used for internet",
                                                             "validators": [
                                                                 {
                                                                     "custom": {
@@ -7826,7 +7837,7 @@
                                                                                 "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
                                                                             }
                                                                         ],
-                                                                        "schema_definition": "mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"wan\")),\nmistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"local\")),\nmistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"tunnel\"),\n)"
+                                                                        "schema_definition": "mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"vpn\"))"
                                                                     }
                                                                 }
                                                             ]
@@ -7835,7 +7846,23 @@
                                                     {
                                                         "name": "name",
                                                         "string": {
-                                                            "computed_optional_required": "optional"
+                                                            "computed_optional_required": "optional",
+                                                            "description": "required when * `type`==`vpn`: the name of the VPN Path to use * `type`==`wan`: the name of the WAN interface to use",
+                                                            "validators": [
+                                                                {
+                                                                    "custom": {
+                                                                        "imports": [
+                                                                            {
+                                                                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                                                            },
+                                                                            {
+                                                                                "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                                                            }
+                                                                        ],
+                                                                        "schema_definition": "mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"vpn\")),\nmistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"wan\"))"
+                                                                    }
+                                                                }
+                                                            ]
                                                         }
                                                     },
                                                     {
@@ -7845,7 +7872,7 @@
                                                             "element_type": {
                                                                 "string": {}
                                                             },
-                                                            "description": "if `type`==`local`",
+                                                            "description": "required when `type`==`local`",
                                                             "default": {
                                                                 "custom": {
                                                                     "imports": [
@@ -7876,7 +7903,7 @@
                                                                                 "path": "github.com/hashicorp/terraform-plugin-framework/path"
                                                                             }
                                                                         ],
-                                                                        "schema_definition": "mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"local\")),\nmistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"wan\")),\nmistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"vpn\")),\nmistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"tunnel\"),\n)"
+                                                                        "schema_definition": "mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"local\"))"
                                                                     }
                                                                 }
                                                             ]
@@ -7917,7 +7944,7 @@
                                                                                 "path": "github.com/hashicorp/terraform-plugin-framework/path"
                                                                             }
                                                                         ],
-                                                                        "schema_definition": "mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"wan\")),\nmistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"vpn\")),\nmistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"tunnel\"),\n)"
+                                                                        "schema_definition": "mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"local\"))"
                                                                     }
                                                                 }
                                                             ]
@@ -7945,7 +7972,22 @@
                                                         "name": "wan_name",
                                                         "string": {
                                                             "computed_optional_required": "optional",
-                                                            "description": "Spoke's outgoing wan"
+                                                            "description": "required when`type`==`tunnel`, optional if `type`==`vpn` wan",
+                                                            "validators": [
+                                                                {
+                                                                    "custom": {
+                                                                        "imports": [
+                                                                            {
+                                                                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                                                            },
+                                                                            {
+                                                                                "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                                                            }
+                                                                        ],
+                                                                        "schema_definition": "mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"tunnel\")),\nmistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"vpn\"))"
+                                                                    }
+                                                                }
+                                                            ]
                                                         }
                                                     }
                                                 ]
@@ -9303,7 +9345,7 @@
                                         }
                                     },
                                     {
-                                        "name": "path_preferences",
+                                        "name": "path_preference",
                                         "string": {
                                             "computed_optional_required": "optional",
                                             "description": "by default, we derive all paths available and use them\noptionally, you can customize by using `path_preference`"
@@ -12391,13 +12433,6 @@
                                                 }
                                             },
                                             {
-                                                "name": "network",
-                                                "string": {
-                                                    "computed_optional_required": "optional",
-                                                    "description": "optional, the network to be used for mgmt"
-                                                }
-                                            },
-                                            {
                                                 "name": "type",
                                                 "string": {
                                                     "computed_optional_required": "computed_optional",
@@ -12575,14 +12610,14 @@
                                                         "name": "disabled",
                                                         "bool": {
                                                             "computed_optional_required": "optional",
-                                                            "description": "For SSR Only. `true`` if this specific path is undesired"
+                                                            "description": "For SSR Only. `true`, if this specific path is undesired"
                                                         }
                                                     },
                                                     {
                                                         "name": "gateway_ip",
                                                         "string": {
                                                             "computed_optional_required": "optional",
-                                                            "description": "if `type`==`local`, if a different gateway is desired",
+                                                            "description": "only if `type`==`local`, if a different gateway is desired",
                                                             "validators": [
                                                                 {
                                                                     "custom": {
@@ -12594,7 +12629,7 @@
                                                                                 "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
                                                                             }
                                                                         ],
-                                                                        "schema_definition": "stringvalidator.Any(mistvalidator.ParseIp(true, true), mistvalidator.ParseVar()),\nmistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"wan\")),\nmistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"vpn\")),\nmistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"tunnel\"),\n)"
+                                                                        "schema_definition": "stringvalidator.Any(mistvalidator.ParseIp(true, true), mistvalidator.ParseVar()),\nmistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"local\"))"
                                                                     }
                                                                 }
                                                             ]
@@ -12603,11 +12638,8 @@
                                                     {
                                                         "name": "internet_access",
                                                         "bool": {
-                                                            "computed_optional_required": "computed_optional",
-                                                            "default": {
-                                                                "static": false
-                                                            },
-                                                            "description": "when `type`==`vpn`, if this vpn path can be used for internet",
+                                                            "computed_optional_required": "optional",
+                                                            "description": "only if `type`==`vpn`, if this vpn path can be used for internet",
                                                             "validators": [
                                                                 {
                                                                     "custom": {
@@ -12616,7 +12648,7 @@
                                                                                 "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
                                                                             }
                                                                         ],
-                                                                        "schema_definition": "mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"wan\")),\nmistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"local\")),\nmistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"tunnel\"),\n)"
+                                                                        "schema_definition": "mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"vpn\"))"
                                                                     }
                                                                 }
                                                             ]
@@ -12625,7 +12657,23 @@
                                                     {
                                                         "name": "name",
                                                         "string": {
-                                                            "computed_optional_required": "optional"
+                                                            "computed_optional_required": "optional",
+                                                            "description": "required when * `type`==`vpn`: the name of the VPN Path to use * `type`==`wan`: the name of the WAN interface to use",
+                                                            "validators": [
+                                                                {
+                                                                    "custom": {
+                                                                        "imports": [
+                                                                            {
+                                                                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                                                            },
+                                                                            {
+                                                                                "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                                                            }
+                                                                        ],
+                                                                        "schema_definition": "mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"vpn\")),\nmistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"wan\"))"
+                                                                    }
+                                                                }
+                                                            ]
                                                         }
                                                     },
                                                     {
@@ -12635,7 +12683,7 @@
                                                             "element_type": {
                                                                 "string": {}
                                                             },
-                                                            "description": "if `type`==`local`",
+                                                            "description": "required when `type`==`local`",
                                                             "default": {
                                                                 "custom": {
                                                                     "imports": [
@@ -12666,7 +12714,7 @@
                                                                                 "path": "github.com/hashicorp/terraform-plugin-framework/path"
                                                                             }
                                                                         ],
-                                                                        "schema_definition": "mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"local\")),\nmistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"wan\")),\nmistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"vpn\")),\nmistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"tunnel\"),\n)"
+                                                                        "schema_definition": "mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"local\"))"
                                                                     }
                                                                 }
                                                             ]
@@ -12707,7 +12755,7 @@
                                                                                 "path": "github.com/hashicorp/terraform-plugin-framework/path"
                                                                             }
                                                                         ],
-                                                                        "schema_definition": "mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"wan\")),\nmistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"vpn\")),\nmistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"tunnel\"),\n)"
+                                                                        "schema_definition": "mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"local\"))"
                                                                     }
                                                                 }
                                                             ]
@@ -12735,7 +12783,22 @@
                                                         "name": "wan_name",
                                                         "string": {
                                                             "computed_optional_required": "optional",
-                                                            "description": "Spoke's outgoing wan"
+                                                            "description": "required when`type`==`tunnel`, optional if `type`==`vpn` wan",
+                                                            "validators": [
+                                                                {
+                                                                    "custom": {
+                                                                        "imports": [
+                                                                            {
+                                                                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                                                            },
+                                                                            {
+                                                                                "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                                                            }
+                                                                        ],
+                                                                        "schema_definition": "mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"tunnel\")),\nmistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"vpn\"))"
+                                                                    }
+                                                                }
+                                                            ]
                                                         }
                                                     }
                                                 ]
@@ -14093,7 +14156,7 @@
                                         }
                                     },
                                     {
-                                        "name": "path_preferences",
+                                        "name": "path_preference",
                                         "string": {
                                             "computed_optional_required": "optional",
                                             "description": "by default, we derive all paths available and use them\noptionally, you can customize by using `path_preference`"
@@ -23393,7 +23456,7 @@
                         }
                     },
                     {
-                        "name": "path_preferences",
+                        "name": "path_preference",
                         "string": {
                             "computed_optional_required": "optional",
                             "description": "by default, we derive all paths available and use them\noptionally, you can customize by using `path_preference`"

@@ -805,48 +805,48 @@ resource "mist_org_service" "lab" {
   ]
 }
 resource "mist_org_network" "networks14" {
-    org_id = mist_org.terraform_test.id
-    isolation = true
-    subnet = "0.0.0.0/0"
-    internet_access = {
-    }
-    vpn_access = {
+  org_id    = mist_org.terraform_test.id
+  isolation = true
+  subnet    = "0.0.0.0/0"
+  internet_access = {
+  }
+  vpn_access = {
     OrgOverlay = {
-    routed = true
+      routed = true
     }
-    }
-    disallow_mist_services = true
-    name = "any"
+  }
+  disallow_mist_services = true
+  name                   = "any"
 }
 resource "mist_org_network" "networks17" {
-    org_id = mist_org.terraform_test.id
-    isolation = true
-    subnet = "{{VLAN494}}.0/24"
-    internet_access = {
-    }
-    vpn_access = {
+  org_id    = mist_org.terraform_test.id
+  isolation = true
+  subnet    = "{{VLAN494}}.0/24"
+  internet_access = {
+  }
+  vpn_access = {
     OrgOverlay = {
-    routed = true
+      routed = true
     }
-    }
-    vlan_id = "{{VLAN494}}"
-    disallow_mist_services = true
-    name = "VLAN494_Network"
+  }
+  vlan_id                = "{{VLAN494}}"
+  disallow_mist_services = true
+  name                   = "VLAN494_Network"
 }
 resource "mist_org_network" "networks1" {
-    org_id = mist_org.terraform_test.id
-    isolation = true
-    subnet = "{{cnf_peer_subnet}}/{{cnf_peer_prefix}}"
-    tenants = {
+  org_id    = mist_org.terraform_test.id
+  isolation = true
+  subnet    = "{{cnf_peer_subnet}}/{{cnf_peer_prefix}}"
+  tenants = {
     ANY = {
-        addresses = [
-                "0.0.0.0/0"
-        ]
+      addresses = [
+        "0.0.0.0/0"
+      ]
     }
-    }
-    internet_access = {
-    }
-    name = "CNF-Peer"
+  }
+  internet_access = {
+  }
+  name = "CNF-Peer"
 }
 resource "mist_org_network" "corp" {
   org_id                 = mist_org.terraform_test.id
@@ -982,42 +982,42 @@ resource "mist_org_gatewaytemplate" "test-api" {
   type   = "spoke"
   name   = "test-api"
   org_id = mist_org.terraform_test.id
-tunnel_configs = {
-        Prisma-Tunnel = {
-        provider = "custom-ipsec"
-        protocol = "ipsec"
-        local_id = "{{sc_local_id}}"
-        psk = "psktest"
-        primary = {
+  tunnel_configs = {
+    Prisma-Tunnel = {
+      provider = "custom-ipsec"
+      protocol = "ipsec"
+      local_id = "{{sc_local_id}}"
+      psk      = "psktest"
+      primary = {
         hosts = [
-                "{{service_ip_1}}"
+          "{{service_ip_1}}"
         ]
         remote_ids = [
-                "{{sc_remote_id}}"
+          "{{sc_remote_id}}"
         ]
         wan_names = [
-                "WAN_0"
+          "WAN_0"
         ]
-        }
-        ike_proposals = [
-                    {
-        auth_algo = "sha2"
-        enc_algo = "aes256"
-        dh_group = "19"
-                    }
-            ]
-        ike_lifetime = 28800
-            ipsec_proposals = [
-                    {
-        auth_algo = "sha2"
-        enc_algo = "aes256"
-        dh_group = "19"
-                    }
-            ]
-        ipsec_lifetime = 3600
-        version = "2"
       }
-}
+      ike_proposals = [
+        {
+          auth_algo = "sha2"
+          enc_algo  = "aes256"
+          dh_group  = "19"
+        }
+      ]
+      ike_lifetime = 28800
+      ipsec_proposals = [
+        {
+          auth_algo = "sha2"
+          enc_algo  = "aes256"
+          dh_group  = "19"
+        }
+      ]
+      ipsec_lifetime = 3600
+      version        = "2"
+    }
+  }
   port_config = {
     "ge-0/0/3" = {
       name       = "FTTH"
@@ -1166,9 +1166,9 @@ tunnel_configs = {
   }
   service_policies = [
     {
-        servicepolicy_id = mist_org_servicepolicy.test1.id
-        path_preference = "TO-INTERNET"
-                    },
+      servicepolicy_id = mist_org_servicepolicy.test1.id
+      path_preference  = "TO-INTERNET"
+    },
     {
       name = "Policy-14"
       tenants = [
@@ -1503,10 +1503,10 @@ resource "mist_site_setting" "test" {
   # }
   gateway_mgmt = {
     root_password = "pwd123"
-    app_usage = true
+    app_usage     = true
     auto_signature_update = {
-    enable = true
-    time_of_day = "02:00"
+      enable      = true
+      time_of_day = "02:00"
     }
   }
   vars = {
@@ -1822,8 +1822,8 @@ resource "mist_site_networktemplate" "site_switch_template" {
 }
 resource "mist_org_wlan" "wlan_one" {
   ssid              = "wlan_one"
-  org_id      = mist_org.terraform_test.id
-  template_id = mist_org_wlantemplate.test101.id
+  org_id            = mist_org.terraform_test.id
+  template_id       = mist_org_wlantemplate.test101.id
   bands             = ["5", "6"]
   vlan_id           = 143
   wlan_limit_up     = 10000
@@ -1834,17 +1834,17 @@ resource "mist_org_wlan" "wlan_one" {
     type = "psk"
     psk  = "secretpsk"
   }
-  interface   = "all"
+  interface = "all"
   dynamic_vlan = {
     enabled = true
-    type = "standard"
+    type    = "standard"
     vlans = {
-        460 = ""
-        492 = ""
-        494 = ""
-        }
-    default_vlan_id = "494"
+      460 = ""
+      492 = ""
+      494 = ""
     }
+    default_vlan_id = "494"
+  }
 }
 resource "mist_site_wlan" "wlan_cwp2" {
   ssid              = "MlN.test"
@@ -2010,7 +2010,7 @@ resource "mist_device_switch" "test_switch" {
       ]
     },
     "test2" = {
-      output_network         = "prx"
+      output_network = "prx"
       input_networks_ingress = [
         "default"
       ]
@@ -2209,7 +2209,7 @@ resource "mist_device_gateway" "srx" {
       paths = [
         {
           name     = "SSR_HUB_DC-MPLS.OrgOverlay"
-          wan_name = "FTTH",
+          wan_name = "FTTH"
           type     = "vpn"
         },
         {
@@ -2503,74 +2503,74 @@ resource "mist_org_deviceprofile_assign" "hub" {
 }
 
 resource "mist_org_network" "CORE_VLAN410" {
-    org_id = mist_org.terraform_test.id
-    isolation = true
-    subnet = "0.0.0.0/0"
-    internet_access = {
-    }
-    vpn_access = {
+  org_id    = mist_org.terraform_test.id
+  isolation = true
+  subnet    = "0.0.0.0/0"
+  internet_access = {
+  }
+  vpn_access = {
     OrgOverlay = {
-    routed = true
+      routed = true
     }
-    }
-    disallow_mist_services = true
-    name = "CORE_VLAN410"
+  }
+  disallow_mist_services = true
+  name                   = "CORE_VLAN410"
 }
 resource "mist_org_network" "RESTRICTED_VLAN420" {
-    org_id = mist_org.terraform_test.id
-    isolation = true
-    subnet = "0.0.0.0/0"
-    internet_access = {
-    }
-    vpn_access = {
+  org_id    = mist_org.terraform_test.id
+  isolation = true
+  subnet    = "0.0.0.0/0"
+  internet_access = {
+  }
+  vpn_access = {
     OrgOverlay = {
-    routed = true
+      routed = true
     }
-    }
-    disallow_mist_services = true
-    name = "RESTRICTED_VLAN420"
+  }
+  disallow_mist_services = true
+  name                   = "RESTRICTED_VLAN420"
 }
 resource "mist_org_network" "AUTOMATION_VLAN460" {
-    org_id = mist_org.terraform_test.id
-    isolation = true
-    subnet = "0.0.0.0/0"
-    internet_access = {
-    }
-    vpn_access = {
+  org_id    = mist_org.terraform_test.id
+  isolation = true
+  subnet    = "0.0.0.0/0"
+  internet_access = {
+  }
+  vpn_access = {
     OrgOverlay = {
-    routed = true
+      routed = true
     }
-    }
-    disallow_mist_services = true
-    name = "AUTOMATION_VLAN460"
+  }
+  disallow_mist_services = true
+  name                   = "AUTOMATION_VLAN460"
 }
 resource "mist_org_network" "UNTRUSTED_VLAN490" {
-    org_id = mist_org.terraform_test.id
-    isolation = true
-    subnet = "0.0.0.0/0"
-    internet_access = {
-    }
-    vpn_access = {
+  org_id    = mist_org.terraform_test.id
+  isolation = true
+  subnet    = "0.0.0.0/0"
+  internet_access = {
+  }
+  vpn_access = {
     OrgOverlay = {
-    routed = true
+      routed = true
     }
-    }
-    disallow_mist_services = true
-    name = "UNTRUSTED_VLAN490"
+  }
+  disallow_mist_services = true
+  name                   = "UNTRUSTED_VLAN490"
 }
 resource "mist_org_network" "MANAGEMENT_VLAN430" {
-    org_id = mist_org.terraform_test.id
-    isolation = true
-    subnet = "0.0.0.0/0"
-    internet_access = {
-    }
-    vpn_access = {
+  org_id    = mist_org.terraform_test.id
+  isolation = true
+  subnet    = "0.0.0.0/0"
+  internet_access = {
+  }
+  vpn_access = {
     OrgOverlay = {
-    routed = true
+      routed = true
     }
-    }
-    disallow_mist_services = true
-    name = "MANAGEMENT_VLAN430"
+  }
+  disallow_mist_services = true
+  name                   = "MANAGEMENT_VLAN430"
 }
 
 resource "mist_org_gatewaytemplate" "gatewaytemplate_one" {
@@ -2579,18 +2579,17 @@ resource "mist_org_gatewaytemplate" "gatewaytemplate_one" {
   org_id = mist_org.terraform_test.id
   port_config = {
     "ge-0/0/7,ge-5/0/7" = {
-    usage = "lan"
-    redundant = true
-        networks = [
-                "CORE_VLAN410",
-                "RESTRICTED_VLAN420",
-                "AUTOMATION_VLAN460",
-                "UNTRUSTED_VLAN490",
-                "MANAGEMENT_VLAN430",
-        ]
-    port_network = "MGMT"
-    reth_idx = "3"
-    reth_node = "node0"
+      usage     = "lan"
+      redundant = true
+      networks = [
+        "CORE_VLAN410",
+        "RESTRICTED_VLAN420",
+        "AUTOMATION_VLAN460",
+        "UNTRUSTED_VLAN490",
+        "MANAGEMENT_VLAN430",
+      ]
+      reth_idx  = "3"
+      reth_node = "node0"
     }
     "ge-0/0/3" = {
       name       = "FTTH"
@@ -2611,45 +2610,9 @@ resource "mist_org_gatewaytemplate" "gatewaytemplate_one" {
       wan_source_nat = {
         disabled = false
       }
-      vpn_paths = {
-        "SSR_HUB_DC-MPLS.OrgOverlay" = {
-          key         = 0
-          role        = "spoke"
-          bfd_profile = "broadband"
-        }
-      }
-    }
-    "ge-0/0/5" = {
-      usage            = "lan"
-      critical         = false
-      aggregated       = true
-      ae_disable_lacp  = false
-      ae_lacp_force_up = true
-      ae_idx           = 0
-      redundant        = false
-      networks = [
-        "PRD-Core",
-        "PRD-Mgmt",
-        "PRD-Lab"
-      ]
     }
   }
   ip_configs = {
-    "PRD-Core" = {
-      type    = "static"
-      ip      = "10.3.100.9"
-      netmask = "/24"
-    }
-    "PRD-Mgmt" = {
-      type    = "static"
-      ip      = "10.3.172.1"
-      netmask = "/24"
-    }
-    "PRD-Lab" = {
-      type    = "static"
-      ip      = "10.3.171.1"
-      netmask = "/24"
-    }
     "CORE_VLAN410" = {
       type    = "static"
       ip      = "10.4.171.1"
@@ -2676,10 +2639,20 @@ resource "mist_org_gatewaytemplate" "gatewaytemplate_one" {
       netmask = "/24"
     }
   }
+  path_preferences = {
+    HUB = {
+      paths = [
+        {
+          type = "wan"
+          name = "FTTH"
+        }
+      ]
+    }
+  }
   service_policies = [
     {
       name            = "Policy-14"
-      tenants         = ["PRD-Core"]
+      tenants         = ["MANAGEMENT_VLAN430"]
       services        = ["any"]
       action          = "allow"
       path_preference = "HUB"
@@ -2688,6 +2661,11 @@ resource "mist_org_gatewaytemplate" "gatewaytemplate_one" {
         profile    = "critical"
         alert_only = false
       }
+    },
+    {
+      name             = "lan"
+      servicepolicy_id = mist_org_servicepolicy.test5.id
+      path_preference = "HUB"
     }
   ]
 }
