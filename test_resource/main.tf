@@ -416,6 +416,15 @@ resource "mist_org_wxtag" "test_8" {
   org_id = mist_org.terraform_test.id
   type   = "spec"
 }
+resource "mist_org_wxtag" "test_81" {
+  specs = [
+    {
+    }
+  ]
+  name   = "test_81"
+  org_id = mist_org.terraform_test.id
+  type   = "spec"
+}
 resource "mist_org_wxtag" "test_9" {
   op = "in"
   values = [
@@ -458,6 +467,9 @@ resource "mist_org_wxtag" "test_14" {
   org_id = mist_org.terraform_test.id
   type   = "match"
   match  = "ap_id"
+  values = [
+    "0000000"
+  ]
 }
 resource "mist_org_wxtag" "test_15" {
   op = "in"
@@ -474,6 +486,7 @@ resource "mist_org_wxtag" "test_16" {
     "test"
   ]
   name   = "VIP"
+  op     = "in"
   org_id = mist_org.terraform_test.id
   type   = "match"
   match  = "psk_role"
@@ -558,22 +571,13 @@ resource "mist_org_wxtag" "test_21" {
   type   = "spec"
 }
 resource "mist_org_wxtag" "test_22" {
-  op = "in"
   values = [
     "53"
   ]
-  specs = [
-    {
-      subnets = [
-        "0.0.0.0/0"
-      ]
-      protocol   = "any"
-      port_range = "53"
-    }
-  ]
+  op     = "in"
   name   = "DNS_all"
   org_id = mist_org.terraform_test.id
-  type   = "spec"
+  type   = "match"
   match  = "port"
 }
 resource "mist_org_wxtag" "test_23" {
@@ -629,18 +633,6 @@ resource "mist_org_wxtag" "test_27" {
     ".teamviewer.com:5938",
     ".teamviewer.com:443"
   ]
-  specs = [
-    {
-      subnets    = []
-      protocol   = "tcp"
-      port_range = "5938"
-    },
-    {
-      subnets    = []
-      protocol   = "udp"
-      port_range = "5938"
-    }
-  ]
   name   = "teamviewer"
   org_id = mist_org.terraform_test.id
   type   = "match"
@@ -651,6 +643,7 @@ resource "mist_org_wxtag" "test_29" {
   name   = "my ssid"
   org_id = mist_org.terraform_test.id
   type   = "match"
+  values = ["test"]
   match  = "wlan_id"
 }
 resource "mist_org_wxtag" "test_30" {
@@ -669,6 +662,7 @@ resource "mist_org_wxtag" "test_32" {
   org_id = mist_org.terraform_test.id
   type   = "match"
   match  = "wlan_id"
+  values = ["test"]
 }
 
 resource "mist_org_vpn" "vpn_one" {

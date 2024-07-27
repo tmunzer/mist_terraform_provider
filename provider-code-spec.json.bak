@@ -18785,36 +18785,17 @@
 						}
 					},
 					{
-						"name": "last_ips",
-						"list": {
-							"computed_optional_required": "computed_optional",
-							"element_type": {
-								"string": {}
-							},
-							"validators": [
-								{
-									"custom": {
-										"imports": [
-											{
-												"path": "github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
-											}
-										],
-										"schema_definition": "listvalidator.UniqueValues()"
-									}
-								}
-							]
-						}
-					},
-					{
 						"name": "mac",
 						"string": {
-							"computed_optional_required": "computed_optional"
+							"computed_optional_required": "computed_optional",
+							"description": "if `type`==`client`, Client MAC Address"
 						}
 					},
 					{
 						"name": "match",
 						"string": {
 							"computed_optional_required": "computed_optional",
+							"description": "required if `type`==`match`",
 							"validators": [
 								{
 									"custom": {
@@ -18823,7 +18804,7 @@
 												"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 											}
 										],
-										"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"ap_id\",\n\"app\",\n\"asset_mac\",\n\"client_mac\",\n\"hostname\",\n\"ip_range_subnet\",\n\"port\",\n\"radius_attr\",\n\"radius_group\",\n\"radius_username\",\n\"wlan_id\",\n\"psk_name\",\n\"psk_role\",\n)"
+										"schema_definition": "stringvalidator.OneOf(\n\"ap_id\",\n\"app\",\n\"asset_mac\",\n\"client_mac\",\n\"hostname\",\n\"ip_range_subnet\",\n\"port\",\n\"psk_name\",\n\"psk_role\",\n\"radius_attr\",\n\"radius_class\",\n\"radius_group\",\n\"radius_username\",\n\"sdkclient_uuid\",\n\"wlan_id\",\n)"
 									}
 								}
 							]
@@ -18843,6 +18824,7 @@
 							"default": {
 								"static": "in"
 							},
+							"description": "required if `type`==`match`, type of tag (inclusive/exclusive)",
 							"validators": [
 								{
 									"custom": {
@@ -18851,7 +18833,7 @@
 												"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 											}
 										],
-										"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"in\",\n\"not_in\",\n)"
+										"schema_definition": "stringvalidator.OneOf(\n\"in\",\n\"not_in\",\n)"
 									}
 								}
 							]
@@ -18861,33 +18843,6 @@
 						"name": "org_id",
 						"string": {
 							"computed_optional_required": "computed_optional"
-						}
-					},
-					{
-						"name": "resource_mac",
-						"string": {
-							"computed_optional_required": "computed_optional"
-						}
-					},
-					{
-						"name": "services",
-						"list": {
-							"computed_optional_required": "computed_optional",
-							"element_type": {
-								"string": {}
-							},
-							"validators": [
-								{
-									"custom": {
-										"imports": [
-											{
-												"path": "github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
-											}
-										],
-										"schema_definition": "listvalidator.UniqueValues()"
-									}
-								}
-							]
 						}
 					},
 					{
@@ -18903,7 +18858,7 @@
 											"default": {
 												"static": "0"
 											},
-											"description": "matched dst port, \"0\" means any"
+											"description": "matched destination port, \"0\" means any"
 										}
 									},
 									{
@@ -18923,18 +18878,12 @@
 											"element_type": {
 												"string": {}
 											},
-											"description": "matched dst subnet"
+											"description": "matched destination subnets and/or IP Addresses"
 										}
 									}
 								]
 							},
-							"description": "if `type`==`specs`"
-						}
-					},
-					{
-						"name": "subnet",
-						"string": {
-							"computed_optional_required": "computed_optional"
+							"description": "if `type`==`spec`"
 						}
 					},
 					{
@@ -18949,7 +18898,7 @@
 												"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 											}
 										],
-										"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"match\",\n\"client\",\n\"resource\",\n\"subnet\",\n\"spec\",\n\"vlan\",\n)"
+										"schema_definition": "stringvalidator.OneOf(\n\"match\",\n\"client\",\n\"resource\",\n\"subnet\",\n\"spec\",\n\"vlan\",\n)"
 									}
 								}
 							]
@@ -18962,13 +18911,14 @@
 							"element_type": {
 								"string": {}
 							},
-							"description": "if `type`!=`vlan_id` and `type`!=`specs`, list of values to match"
+							"description": "required if `type`==`match` and\n* `match`==`ap_id`: list of AP IDs\n* `match`==`app`: list of Application Names\n* `match`==`asset_mac`: list of Asset MAC Addresses\n* `match`==`client_mac`: list of Client MAC Addresses\n* `match`==`hostname`: list of Resources Hostnames\n* `match`==`ip_range_subnet`: list of IP Addresses and/or CIDRs\n* `match`==`psk_name`: list of PSK Names\n* `match`==`psk_role`: list of PSK Roles\n* `match`==`port`: list of Ports or Port Ranges\n* `match`==`radius_attr`: list of RADIUS Attributes. The values are [ “6=1”, “26=10.2.3.4” ], this support other RADIUS attributes where we know the type\n* `match`==`radius_class`: list of RADIUS Classes. This matches the ATTR-Class(25)\n* `match`==`radius_group`: list of RADIUS Groups. This is a smart tag that matches RADIUS-Filter-ID, Airespace-ACL-Name (VendorID=14179, VendorType=6) / Aruba-User-Role (VendorID=14823, VendorType=1)\n* `match`==`radius_username`: list of RADIUS Usernames. This matches the ATTR-User-Name(1)\n* `match`==`sdkclient_uuid`: list of SDK UUIDs\n* `match`==`wlan_id`: list of WLAN IDs\n\n**Notes**:\nVariables are not allowed"
 						}
 					},
 					{
 						"name": "vlan_id",
 						"string": {
-							"computed_optional_required": "computed_optional"
+							"computed_optional_required": "computed_optional",
+							"description": "if `type`==`vlan_id`, VLAN ID or variable"
 						}
 					}
 				]
@@ -27273,36 +27223,17 @@
 						}
 					},
 					{
-						"name": "last_ips",
-						"list": {
-							"computed_optional_required": "computed_optional",
-							"element_type": {
-								"string": {}
-							},
-							"validators": [
-								{
-									"custom": {
-										"imports": [
-											{
-												"path": "github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
-											}
-										],
-										"schema_definition": "listvalidator.UniqueValues()"
-									}
-								}
-							]
-						}
-					},
-					{
 						"name": "mac",
 						"string": {
-							"computed_optional_required": "computed_optional"
+							"computed_optional_required": "computed_optional",
+							"description": "if `type`==`client`, Client MAC Address"
 						}
 					},
 					{
 						"name": "match",
 						"string": {
 							"computed_optional_required": "computed_optional",
+							"description": "required if `type`==`match`",
 							"validators": [
 								{
 									"custom": {
@@ -27311,7 +27242,7 @@
 												"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 											}
 										],
-										"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"ap_id\",\n\"app\",\n\"asset_mac\",\n\"client_mac\",\n\"hostname\",\n\"ip_range_subnet\",\n\"port\",\n\"radius_attr\",\n\"radius_group\",\n\"radius_username\",\n\"wlan_id\",\n\"psk_name\",\n\"psk_role\",\n)"
+										"schema_definition": "stringvalidator.OneOf(\n\"ap_id\",\n\"app\",\n\"asset_mac\",\n\"client_mac\",\n\"hostname\",\n\"ip_range_subnet\",\n\"port\",\n\"psk_name\",\n\"psk_role\",\n\"radius_attr\",\n\"radius_class\",\n\"radius_group\",\n\"radius_username\",\n\"sdkclient_uuid\",\n\"wlan_id\",\n)"
 									}
 								}
 							]
@@ -27331,6 +27262,7 @@
 							"default": {
 								"static": "in"
 							},
+							"description": "required if `type`==`match`, type of tag (inclusive/exclusive)",
 							"validators": [
 								{
 									"custom": {
@@ -27339,7 +27271,7 @@
 												"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 											}
 										],
-										"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"in\",\n\"not_in\",\n)"
+										"schema_definition": "stringvalidator.OneOf(\n\"in\",\n\"not_in\",\n)"
 									}
 								}
 							]
@@ -27349,33 +27281,6 @@
 						"name": "org_id",
 						"string": {
 							"computed_optional_required": "computed_optional"
-						}
-					},
-					{
-						"name": "resource_mac",
-						"string": {
-							"computed_optional_required": "computed_optional"
-						}
-					},
-					{
-						"name": "services",
-						"list": {
-							"computed_optional_required": "computed_optional",
-							"element_type": {
-								"string": {}
-							},
-							"validators": [
-								{
-									"custom": {
-										"imports": [
-											{
-												"path": "github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
-											}
-										],
-										"schema_definition": "listvalidator.UniqueValues()"
-									}
-								}
-							]
 						}
 					},
 					{
@@ -27397,7 +27302,7 @@
 											"default": {
 												"static": "0"
 											},
-											"description": "matched dst port, \"0\" means any"
+											"description": "matched destination port, \"0\" means any"
 										}
 									},
 									{
@@ -27417,18 +27322,12 @@
 											"element_type": {
 												"string": {}
 											},
-											"description": "matched dst subnet"
+											"description": "matched destination subnets and/or IP Addresses"
 										}
 									}
 								]
 							},
-							"description": "if `type`==`specs`"
-						}
-					},
-					{
-						"name": "subnet",
-						"string": {
-							"computed_optional_required": "computed_optional"
+							"description": "if `type`==`spec`"
 						}
 					},
 					{
@@ -27443,7 +27342,7 @@
 												"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 											}
 										],
-										"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"match\",\n\"client\",\n\"resource\",\n\"subnet\",\n\"spec\",\n\"vlan\",\n)"
+										"schema_definition": "stringvalidator.OneOf(\n\"match\",\n\"client\",\n\"resource\",\n\"subnet\",\n\"spec\",\n\"vlan\",\n)"
 									}
 								}
 							]
@@ -27456,13 +27355,14 @@
 							"element_type": {
 								"string": {}
 							},
-							"description": "if `type`!=`vlan_id` and `type`!=`specs`, list of values to match"
+							"description": "required if `type`==`match` and\n* `match`==`ap_id`: list of AP IDs\n* `match`==`app`: list of Application Names\n* `match`==`asset_mac`: list of Asset MAC Addresses\n* `match`==`client_mac`: list of Client MAC Addresses\n* `match`==`hostname`: list of Resources Hostnames\n* `match`==`ip_range_subnet`: list of IP Addresses and/or CIDRs\n* `match`==`psk_name`: list of PSK Names\n* `match`==`psk_role`: list of PSK Roles\n* `match`==`port`: list of Ports or Port Ranges\n* `match`==`radius_attr`: list of RADIUS Attributes. The values are [ “6=1”, “26=10.2.3.4” ], this support other RADIUS attributes where we know the type\n* `match`==`radius_class`: list of RADIUS Classes. This matches the ATTR-Class(25)\n* `match`==`radius_group`: list of RADIUS Groups. This is a smart tag that matches RADIUS-Filter-ID, Airespace-ACL-Name (VendorID=14179, VendorType=6) / Aruba-User-Role (VendorID=14823, VendorType=1)\n* `match`==`radius_username`: list of RADIUS Usernames. This matches the ATTR-User-Name(1)\n* `match`==`sdkclient_uuid`: list of SDK UUIDs\n* `match`==`wlan_id`: list of WLAN IDs\n\n**Notes**:\nVariables are not allowed"
 						}
 					},
 					{
 						"name": "vlan_id",
 						"string": {
-							"computed_optional_required": "computed_optional"
+							"computed_optional_required": "computed_optional",
+							"description": "if `type`==`vlan_id`, VLAN ID or variable"
 						}
 					}
 				]

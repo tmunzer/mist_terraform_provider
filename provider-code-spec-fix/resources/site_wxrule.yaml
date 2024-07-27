@@ -7,3 +7,11 @@ next:
   get:
   - string
   name: site_id
+- computed_optional_required: computed
+  get:
+  - string
+  name: org_id
+- computed_optional_required: computed
+  get:
+  - string
+  name: id

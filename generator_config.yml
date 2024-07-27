@@ -817,6 +817,10 @@ resources:
         - modified_time
         - for_site
         - site_id
+        - last_ips
+        - resource_mac
+        - services
+        - subnet
       attributes:
         aliases:
           wxtag_id: id     
@@ -859,6 +863,10 @@ resources:
         - created_time
         - modified_time
         - for_site
+        - last_ips
+        - resource_mac
+        - services
+        - subnet
       attributes:
         aliases:
           wxtag_id: id   

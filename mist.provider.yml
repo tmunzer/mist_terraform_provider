@@ -82886,8 +82886,9 @@ components:
           readOnly: true
           type: string
         last_ips:
-          $ref: '#/components/schemas/strings'
+          $ref: '#/components/schemas/wxlan_tag_last_ips'
         mac:
+          description: if `type`==`client`, Client MAC Address
           nullable: true
           type: string
         match:
@@ -82925,7 +82926,6 @@ components:
       type: object
     wxlan_tag_match:
       enum:
-      - ''
       - ap_id
       - app
       - asset_mac
@@ -82933,17 +82933,25 @@ components:
       - hostname
       - ip_range_subnet
       - port
-      - radius_attr
-      - radius_group
-      - radius_username
-      - wlan_id
       - psk_name
       - psk_role
+      - radius_attr
+      - radius_class
+      - radius_group
+      - radius_username
+      - sdkclient_uuid
+      - wlan_id
       type: string
+      description: "required if `type`==`match`"
+    wxlan_tag_last_ips:
+      type: array
+      items:
+        type: string
+      readOnly: true
     wxlan_tag_operation:
       default: in
+      description: "required if `type`==`match`, type of tag (inclusive/exclusive)"
       enum:
-      - ''
       - in
       - not_in
       type: string
@@ -82951,7 +82959,7 @@ components:
       properties:
         port_range:
           default: '0'
-          description: matched dst port, "0" means any
+          description: matched destination port, "0" means any
           type: string
         protocol:
           default: any
@@ -82964,18 +82972,17 @@ components:
     wxlan_tag_spec_subnets:
       default:
       - 0.0.0.0/0
-      description: matched dst subnet
+      description: matched destination subnets and/or IP Addresses
       items:
         type: string
       type: array
     wxlan_tag_specs:
-      description: if `type`==`specs`
+      description: if `type`==`spec`
       items:
         $ref: '#/components/schemas/wxlan_tag_spec'
       type: array
     wxlan_tag_type:
       enum:
-      - ''
       - match
       - client
       - resource
@@ -82984,16 +82991,33 @@ components:
       - vlan
       type: string
     wxlan_tag_values:
-      description: if `type`!=`vlan_id` and `type`!=`specs`, list of values to match
+      description: |-
+        required if `type`==`match` and
+        * `match`==`ap_id`: list of AP IDs
+        * `match`==`app`: list of Application Names
+        * `match`==`asset_mac`: list of Asset MAC Addresses
+        * `match`==`client_mac`: list of Client MAC Addresses
+        * `match`==`hostname`: list of Resources Hostnames
+        * `match`==`ip_range_subnet`: list of IP Addresses and/or CIDRs
+        * `match`==`psk_name`: list of PSK Names
+        * `match`==`psk_role`: list of PSK Roles
+        * `match`==`port`: list of Ports or Port Ranges
+        * `match`==`radius_attr`: list of RADIUS Attributes. The values are [ “6=1”, “26=10.2.3.4” ], this support other RADIUS attributes where we know the type
+        * `match`==`radius_class`: list of RADIUS Classes. This matches the ATTR-Class(25)
+        * `match`==`radius_group`: list of RADIUS Groups. This is a smart tag that matches RADIUS-Filter-ID, Airespace-ACL-Name (VendorID=14179, VendorType=6) / Aruba-User-Role (VendorID=14823, VendorType=1)
+        * `match`==`radius_username`: list of RADIUS Usernames. This matches the ATTR-User-Name(1)
+        * `match`==`sdkclient_uuid`: list of SDK UUIDs
+        * `match`==`wlan_id`: list of WLAN IDs
+        
+        **Notes**:
+        Variables are not allowed
       items:
         type: string
       type: array
     wxlan_tag_vlan_id:
-      description: if `type`==`vlan_id`
-      example: 1055
-      oneOf:
-      - type: string
-      - type: integer
+      description: if `type`==`vlan_id`, VLAN ID or variable
+      example: "1055"
+      type: string
     wxlan_tags:
       items:
         $ref: '#/components/schemas/wxlan_tag'
