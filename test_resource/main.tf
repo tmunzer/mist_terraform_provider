@@ -419,6 +419,8 @@ resource "mist_org_wxtag" "test_8" {
 resource "mist_org_wxtag" "test_81" {
   specs = [
     {
+      protocol = "udp"
+      subnets = ["0.0.0.0/0"]
     }
   ]
   name   = "test_81"
@@ -664,7 +666,13 @@ resource "mist_org_wxtag" "test_32" {
   match  = "wlan_id"
   values = ["test"]
 }
-
+# resource "mist_org_wxrule" "test_01" {
+#   org_id = mist_org.terraform_test.id
+#   template_id = mist_org_wlantemplate.test101.id
+#   action = "allow"
+#   src_wxtags = []
+#   order = 1
+# }
 resource "mist_org_vpn" "vpn_one" {
   org_id = mist_org.terraform_test.id
   name   = "VpnOrgOverlay"
@@ -701,31 +709,31 @@ resource "mist_org_wxtag" "wxtag_one" {
   vlan_id = 10
 }
 
-resource "mist_device_gateway_cluster" "cluster_one" {
-  site_id   = mist_site.terraform_site2.id
-  device_id = "00000000-0000-0000-1000-4c96143de700"
-  nodes = [
-    { mac = "4c96143de700" },
-    { mac = "4c9614aae100" }
-  ]
-}
-resource "mist_device_gateway" "cluster_one" {
-  device_id = mist_device_gateway_cluster.cluster_one.device_id
-  site_id   = mist_device_gateway_cluster.cluster_one.site_id
-  oob_ip_config = {
-    type = "dhcp"
-  }
-  dns_servers = ["8.8.8.8"]
-  name        = "cluster_one"
-  additional_config_cmds = [
-    "annotate system \" -- custom-main -- Template level --\"",
-    "delete apply-groups custom-main",
-    "delete groups custom-main",
-    "set groups custom-main",
-    "set groups custom-main system services ssh root-login allow",
-    "set apply-groups custom-main",
-  ]
-}
+# resource "mist_device_gateway_cluster" "cluster_one" {
+#   site_id   = mist_site.terraform_site2.id
+#   device_id = "00000000-0000-0000-1000-4c96143de700"
+#   nodes = [
+#     { mac = "4c96143de700" },
+#     { mac = "4c9614aae100" }
+#   ]
+# }
+# resource "mist_device_gateway" "cluster_one" {
+#   device_id = mist_device_gateway_cluster.cluster_one.device_id
+#   site_id   = mist_device_gateway_cluster.cluster_one.site_id
+#   oob_ip_config = {
+#     type = "dhcp"
+#   }
+#   dns_servers = ["8.8.8.8"]
+#   name        = "cluster_one"
+#   additional_config_cmds = [
+#     "annotate system \" -- custom-main -- Template level --\"",
+#     "delete apply-groups custom-main",
+#     "delete groups custom-main",
+#     "set groups custom-main",
+#     "set groups custom-main system services ssh root-login allow",
+#     "set apply-groups custom-main",
+#   ]
+# }
 ### SITES
 resource "mist_site" "terraform_site" {
   org_id       = mist_org.terraform_test.id
@@ -2493,14 +2501,14 @@ resource "mist_org_deviceprofile_gateway" "hubp_one" {
   ]
 }
 
-resource "mist_org_deviceprofile_assign" "hub" {
-  org_id           = mist_org.terraform_test.id
-  deviceprofile_id = mist_org_deviceprofile_gateway.hubp_one.id
-  macs = [
-    "4c96143de700",
-    "e8a24550e732"
-  ]
-}
+# resource "mist_org_deviceprofile_assign" "hub" {
+#   org_id           = mist_org.terraform_test.id
+#   deviceprofile_id = mist_org_deviceprofile_gateway.hubp_one.id
+#   macs = [
+#     "4c96143de700",
+#     "e8a24550e732"
+#   ]
+# }
 
 resource "mist_org_network" "CORE_VLAN410" {
   org_id    = mist_org.terraform_test.id

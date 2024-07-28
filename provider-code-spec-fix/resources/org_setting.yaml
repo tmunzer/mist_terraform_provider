@@ -15,10 +15,71 @@ next:
   get:
   - string
   name: msp_id
-- computed_optional_required: computed
+- name: cacerts
+  computed_optional_required: computed_optional
   get:
-  - bool
-  name: pcap_bucket_verified
+  - list
+  validators:
+  - custom:
+      imports:
+      - path: github.com/hashicorp/terraform-plugin-framework-validators/listvalidator
+      schema_definition: listvalidator.SizeAtLeast(1)
+- name: celona
+  get:
+  - single_nested
+  - attributes
+  next:
+  - name: api_key
+    get:
+    - string
+    computed_optional_required: required
+  - name: api_prefix
+    get:
+    - string
+    computed_optional_required: required
+- name: cloudshark
+  get:
+  - single_nested
+  - attributes
+  next:
+  - name: apitoken
+    get:
+    - string
+    computed_optional_required: required
+- name: cradlepoint
+  get:
+  - single_nested
+  - attributes
+  next:
+  - name: cp_api_id
+    get:
+    - string
+    computed_optional_required: required
+  - name: cp_api_key
+    get:
+    - string
+    computed_optional_required: required
+  - name: ecm_api_id
+    get:
+    - string
+    computed_optional_required: required
+  - name: ecm_api_key
+    get:
+    - string
+    computed_optional_required: required
+- name: device_cert
+  get:
+  - single_nested
+  - attributes
+  next:
+  - name: cert
+    get:
+    - string
+    computed_optional_required: required
+  - name: key
+    get:
+    - string
+    computed_optional_required: required
 - get:
   - single_nested
   - attributes
@@ -28,3 +89,156 @@ next:
     get:
     - list
     name: extra_site_ids
+    validators:
+    - custom:
+        imports:
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/listvalidator
+        schema_definition: listvalidator.SizeAtLeast(1)
+- name: jcloud
+  get:
+  - single_nested
+  - attributes
+  next:
+  - name: org_apitoken
+    get:
+    - string
+    computed_optional_required: required
+  - name: org_apitoken_name
+    get:
+    - string
+    computed_optional_required: required
+  - name: org_id
+    get:
+    - string
+    computed_optional_required: required
+- name: juniper
+  get:
+  - single_nested
+  computed_optional_required: computed
+- name: juniper
+  get:
+  - single_nested
+  - attributes
+  next:
+  - name: accounts
+    get:
+    - list_nested
+    computed_optional_required: computed
+- name: juniper
+  get:
+  - single_nested
+  - attributes
+  next:
+  - name: accounts
+    get:
+    - list_nested
+    - nested_object
+    - attributes
+    next: 
+    - name: linked_by
+      get:
+      - string
+      computed_optional_required: computed
+    - name: name
+      get:
+      - string
+      computed_optional_required: computed
+- name: mgmt
+  get:
+  - single_nested
+  - attributes
+  next:
+  - name: mxtunnel_ids
+    computed_optional_required: computed_optional
+    get:
+    - list
+    validators:
+    - custom:
+        imports:
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/listvalidator
+        schema_definition: listvalidator.SizeAtLeast(1)
+- name: mist_nac
+  get:
+  - single_nested
+  - attributes
+  next:
+  - name: cacerts
+    computed_optional_required: computed_optional
+    get:
+    - list
+    validators:
+    - custom:
+        imports:
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/listvalidator
+        schema_definition: listvalidator.SizeAtLeast(1)
+  - name: idps
+    computed_optional_required: computed_optional
+    get:
+    - list_nested
+    validators:
+    - custom:
+        imports:
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/listvalidator
+        schema_definition: listvalidator.SizeAtLeast(1)
+  - name: idps
+    get:
+    - list_nested
+    - nested_object
+    - attributes
+    next:
+    - name: exclude_realms
+      get: 
+      - list 
+      computed_optional_required: computed_optional
+      validators:
+      - custom:
+          imports:
+          - path: github.com/hashicorp/terraform-plugin-framework-validators/listvalidator
+          schema_definition: listvalidator.SizeAtLeast(1)
+    - name: user_realms
+      get: 
+      - list 
+      computed_optional_required: computed_optional
+      validators:
+      - custom:
+          imports:
+          - path: github.com/hashicorp/terraform-plugin-framework-validators/listvalidator
+          schema_definition: listvalidator.SizeAtLeast(1)
+# - computed_optional_required: computed
+#   get:
+#   - bool
+#   name: pcap_bucket_verified
+- get:
+  - single_nested
+  - attributes
+  name: synthetic_test
+  next:
+  - name: vlans
+    get:
+    - list_nested
+    - nested_object
+    - attributes
+    next:
+    - name: custom_test_urls
+      computed_optional_required: computed_optional
+      get:
+      - list
+      validators:
+      - custom:
+          imports:
+          - path: github.com/hashicorp/terraform-plugin-framework-validators/listvalidator
+          schema_definition: listvalidator.SizeAtLeast(1)
+    - name: vlan_ids
+      computed_optional_required: computed_optional
+      get:
+      - list
+      validators:
+      - custom:
+          imports:
+          - path: github.com/hashicorp/terraform-plugin-framework-validators/listvalidator
+          - path: github.com/hashicorp/terraform-plugin-framework-validators/int64validator
+          schema_definition: |-          
+            listvalidator.SizeAtLeast(1),
+            listvalidator.ValueInt64sAre(
+              int64validator.Between(1, 4094),
+            )

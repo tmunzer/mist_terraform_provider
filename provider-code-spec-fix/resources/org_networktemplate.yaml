@@ -611,18 +611,13 @@ next:
         - path: github.com/Juniper/terraform-provider-mist/internal/validators
         - path: github.com/hashicorp/terraform-plugin-framework/path
         - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
-        schema_definition: 'stringvalidator.OneOf(
-
-          "",
-
-          "none",
-
-          "link_down",
-
+        schema_definition: |-
+          stringvalidator.OneOf(
+            "",
+            "none",
+            "link_down",
           ),
-
-          mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("mode"),
-          types.StringValue("dynamic"))'
+          mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("mode"), types.StringValue("dynamic"))
   - get:
     - list_nested
     name: rules

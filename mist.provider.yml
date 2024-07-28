@@ -3,7 +3,7 @@ info:
   contact:
     email: tmunzer@juniper.net
     name: Thomas Munzer
-  description: '> Version: **2406.1.36**
+  description: '> Version: **2406.1.37**
 
     >
 
@@ -43,7 +43,7 @@ info:
     name: MIT
     url: https://raw.githubusercontent.com/tmunzer/Mist-OAS3.0/main/LICENSE
   title: Mist API
-  version: 2406.1.34
+  version: 2406.1.37
 servers:
 - description: Mist Global 01
   url: https://api.mist.com
@@ -108,7 +108,7 @@ tags:
     \ to do the initial provisioning so they cannot read sensible information (e.g.\
     \ PSK of a WLAN), or change configs of running APs.\nAt a high level, Installer\
     \ APs try to achieve the following:\n1. identifying a device by MAC (that\\u2019\\\
-    \ns what they see)\n2. they can only touch configurations of the devices they\\\
+    \ \ns what they see)\n2. they can only touch configurations of the devices they\\\
     u2019\\\nre installing\n3. allow the following configurations: \n  * name * site\
     \ assignment \n  * device profile assignment \n  * map and location (x/y) assignment\
     \ \n  * claim (if not already in the inventory) \n  * replace existing device\
@@ -2104,7 +2104,7 @@ paths:
       - Installer
     put:
       description: "The VC creation and adding member switch API will update the device\u2019\
-        s virtual chassis config which is applied after VC is formed to create JUNOS\
+        \ s virtual chassis config which is applied after VC is formed to create JUNOS\
         \ pre-provisioned virtual chassis configuration.\n\n## Change to use preprovisioned\
         \ VC\nTo switch the VC to use preprovisioned VC, enable preprovisioned in\
         \ virtual_chassis config. Both vc_role master and backup will be matched to\
@@ -2133,7 +2133,7 @@ paths:
         \ When this situation is happened, please re-plug in the cable, wait for both\
         \ switches becoming present (show virtual-chassis) and then removing the cable\
         \ again.\n\n## Renumber a member switch\nWhen a member switch doesn\u2019\
-        t work properly and needed to be replaced, the renumber API could be used.\
+        \ t work properly and needed to be replaced, the renumber API could be used.\
         \ The following two types of renumber are supported:\n\n1. Replace a non-fpc0\
         \ member switch\n2. Replace fpc0. When fpc0 is relaced, PAPI device config\
         \ and JUNOS config will be both updated.\n\nFor renumber to work, the following\
@@ -23243,7 +23243,7 @@ paths:
       description: "Ping test from the AP to confirm \u2018reachability\u2019 of the\
         \ Radius server. Utilize Juniper EX switch(to which an AP is connected to)\
         \ radius test capabilities to get details on the Radius Server \u2018availability\u2019\
-        ."
+        \ ."
       operationId: startSiteSwitchRadiusSyntheticTest
       requestBody:
         content:
@@ -24925,7 +24925,7 @@ paths:
       - Sites Devices - Wired - Virtual Chassis
     put:
       description: "The VC creation and adding member switch API will update the device\u2019\
-        s virtual chassis config which is applied after VC is formed to create JUNOS\
+        \ s virtual chassis config which is applied after VC is formed to create JUNOS\
         \ pre-provisioned virtual chassis configuration.\n\n## Change to use preprovisioned\
         \ VC\nTo switch the VC to use preprovisioned VC, enable preprovisioned in\
         \ virtual_chassis config. Both vc_role master and backup will be matched to\
@@ -24954,7 +24954,7 @@ paths:
         \ When this situation is happened, please re-plug in the cable, wait for both\
         \ switches becoming present (show virtual-chassis) and then removing the cable\
         \ again.\n\n## Renumber a member switch\nWhen a member switch doesn\u2019\
-        t work properly and needed to be replaced, the renumber API could be used.\
+        \ t work properly and needed to be replaced, the renumber API could be used.\
         \ The following two types of renumber are supported:\n\n1. Replace a non-fpc0\
         \ member switch\n2. Replace fpc0. When fpc0 is relaced, PAPI device config\
         \ and JUNOS config will be both updated.\n\nFor renumber to work, the following\
@@ -31336,7 +31336,7 @@ paths:
   /api/v1/sites/{site_id}/stats/maps/{map_id}/discovered_assets:
     get:
       description: "Get a list of BLE beacons that we discovered (whether they\u2019\
-        re defined as assets or not)"
+        \ re defined as assets or not)"
       operationId: getSiteDiscoveredAssetByMap
       responses:
         '200':
@@ -42398,7 +42398,7 @@ components:
           schema:
             $ref: '#/components/schemas/response_http404'
       description: "Not found. The API endpoint doesn\u2019t exist or resource doesn\u2019\
-        t exist"
+        \ t exist"
     HTTP429:
       content:
         application/json:
@@ -50524,21 +50524,14 @@ components:
         macs:
           $ref: '#/components/schemas/acl_tag_macs'
         network:
-          description: 'if:
-
-            - `type`==`mac` (optional. default is `any`)
-
-            - `type`==`subnet` (optional. default is `any`)
-
-            - `type`==`network`
-
-            - `type`==`resource` (optional. default is `any`)
-
-            - `type`==`static_gbp` if from matching network (vlan)'
+          description: "if:\n  * `type`==`mac` (optional. default is `any`)\n  * `type`==`subnet`\
+            \ (optional. default is `any`)\n  * `type`==`network`\n  * `type`==`resource`\
+            \ (optional. default is `any`)\n  * `type`==`static_gbp` if from matching\
+            \ network (vlan)'"
           type: string
         radius_group:
-          description: "required if \n- `type`==`radius_group` \n- `type`==`static_gbp`\
-            \ if from matching radius_group"
+          description: "required if:\n  * `type`==`radius_group`\n  * `type`==`static_gbp`\n\
+            if from matching radius_group"
           type: string
         specs:
           $ref: '#/components/schemas/acl_tag_specs'
@@ -50653,6 +50646,8 @@ components:
         session_expiry:
           example: 1440
           format: int64
+          maximum: 20160
+          minimum: 10
           readOnly: true
           type: integer
         tags:
@@ -51522,11 +51517,8 @@ components:
           $ref: '#/components/schemas/ap_client_bridge_auth'
         enabled:
           default: false
-          description: 'when acted as client bridge:
-
-            * only 5G radio can be used
-
-            * will not serve as AP on any radios'
+          description: "when acted as client bridge:\n  * only 5G radio can be used\n\
+            \  * will not serve as AP on any radios"
           type: boolean
         ssid:
           example: Uplink-SSID
@@ -51805,14 +51797,11 @@ components:
         radsec:
           $ref: '#/components/schemas/radsec'
         vlan_id:
-          description: 'optional to specify the vlan id for a tunnel if forwarding
-            is for `wxtunnel`, `mxtunnel` or `site_mxedge`.
-
-            * if vlan_id is not specified then it will use first one in vlan_ids[]
-            of the mxtunnel.
-
-            * if forwarding == site_mxedge, vlan_ids comes from site_mxedge (`mxtunnels`
-            under site setting)'
+          description: "optional to specify the vlan id for a tunnel if forwarding\
+            \ is for `wxtunnel`, `mxtunnel` or `site_mxedge`.\n  * if vlan_id is not\
+            \ specified then it will use first one in vlan_ids[] of the mxtunnel.\n\
+            \  * if forwarding == site_mxedge, vlan_ids comes from site_mxedge (`mxtunnels`\
+            \ under site setting)"
           example: 9
           maximum: 4094
           minimum: 1
@@ -53168,7 +53157,7 @@ components:
           type: number
         power_request_count:
           description: "number of negotiations, if it keeps increasing, we don\u2019\
-            t have a stable power"
+            \ t have a stable power"
           nullable: true
           readOnly: true
           type: integer
@@ -54060,13 +54049,8 @@ components:
           type: string
         bfd_minimum_interval:
           default: 350
-          description: 'when bfd_multiplier is configured alone
-
-            default:
-
-            * 1000 if `type`==`external``
-
-            * 350 `type`==`internal`'
+          description: "when bfd_multiplier is configured alone. Default:\n  * 1000\
+            \ if `type`==`external`\n  * 350 `type`==`internal`"
           maximum: 255000
           minimum: 1
           nullable: true
@@ -58112,10 +58096,9 @@ components:
       - version
       type: object
     deviceprofile:
-      $ref: '#/components/schemas/deviceprofile_gateway'
-      # anyOf:
-      # - $ref: '#/components/schemas/deviceprofile_ap'
-      # - $ref: '#/components/schemas/deviceprofile_gateway'
+      anyOf:
+      - $ref: '#/components/schemas/deviceprofile_ap'
+      - $ref: '#/components/schemas/deviceprofile_gateway'
     deviceprofile_ap:
       description: Device Profile
       minItems: 1
@@ -58492,11 +58475,9 @@ components:
     dhcpd_config_vendor_options:
       additionalProperties:
         $ref: '#/components/schemas/dhcpd_config_vendor_option'
-      description: 'Property key is <enterprise number>:<sub option code>, with
-
-        * enterprise number: 1-65535 (https://www.iana.org/assignments/enterprise-numbers/enterprise-numbers)
-
-        * sub option code: 1-255, sub-option code'
+      description: "Property key is <enterprise number>:<sub option code>, with\n\
+        \  * enterprise number: 1-65535 (https://www.iana.org/assignments/enterprise-numbers/enterprise-numbers)\n\
+        \  * sub option code: 1-255, sub-option code'"
       type: object
     dhcpd_stat:
       additionalProperties:
@@ -58670,8 +58651,8 @@ components:
       - '6'
       type: string
     dot11_bandwidth:
-      description: channel width for the band * `80` is only applicable for band_5
-        and band_6 * `160` is only for band_6
+      description: "channel width for the band \n  * `80` is only applicable for band_5\
+        \ and band_6 \n  * `160` is only for band_6"
       enum:
       - ''
       - 20
@@ -59330,8 +59311,8 @@ components:
         pod:
           default: 1
           description: "optionally, for distribution / access / esilag-access, they\
-            \ can be placed into different pods.\ne.g. \n* for CLOS, to group dist\
-            \ / access switches into pods\n* for ERB/CRB, to group dist / esilag-access\
+            \ can be placed into different pods. e.g. \n  * for CLOS, to group dist\
+            \ / access switches into pods\n  * for ERB/CRB, to group dist / esilag-access\
             \ into pods"
           maximum: 255
           minimum: 1
@@ -59781,8 +59762,8 @@ components:
           description: only if `type`==`vpn`, if this vpn path can be used for internet
           type: boolean
         name:
-          description: 'required when * `type`==`vpn`: the name of the VPN Path to
-            use * `type`==`wan`: the name of the WAN interface to use'
+          description: "required when \n  * `type`==`vpn`: the name of the VPN Path\
+            \ to use \n  * `type`==`wan`: the name of the WAN interface to use'"
           type: string
         networks:
           $ref: '#/components/schemas/gateway_path_preferences_path_networks'
@@ -60454,9 +60435,9 @@ components:
       type: string
     gateway_template_tunnel_ike_dh_group:
       default: '14'
-      description: "* 1 \n* 2 (1024-bit) \n* 5\n* 14 (default, 2048-bit)\n* 15 (3072-bit)\
-        \ \n* 16 (4096-bit)\n* 19 (256-bit ECP)\n* 20 (384-bit ECP)\n* 21 (521-bit\
-        \ ECP) \n* 24 (2048-bit ECP)"
+      description: "possible values: \n  * 1\n  * 2 (1024-bit)\n  * 5\n  * 14 (default,\
+        \ 2048-bit)\n  * 15 (3072-bit)\n  * 16 (4096-bit)\n  * 19 (256-bit ECP)\n\
+        \  * 20 (384-bit ECP)\n  * 21 (521-bit ECP)\n  * 24 (2048-bit ECP)"
       enum:
       - ''
       - '1'
@@ -60472,9 +60453,7 @@ components:
       type: string
     gateway_template_tunnel_ike_mode:
       default: main
-      description: 'Only if:
-
-        * `provider`== `custom-ipsec`'
+      description: Only if `provider`== `custom-ipsec`
       enum:
       - ''
       - main
@@ -60524,14 +60503,12 @@ components:
         type: string
       type: array
     gateway_template_tunnel_node_internal_ips:
-      description: "Only if:\n* `provider`== `zscaler-gre` \n* `provider`== `custom-gre`"
+      description: "Only if:\n  * `provider`== `zscaler-gre`\n  * `provider`== `custom-gre`"
       items:
         type: string
       type: array
     gateway_template_tunnel_node_remote_ids:
-      description: 'Only if:
-
-        * `provider`== `custom-ipsec`'
+      description: Only if `provider`== `custom-ipsec`
       items:
         type: string
       type: array
@@ -60540,9 +60517,7 @@ components:
         type: string
       type: array
     gateway_template_tunnel_probe:
-      description: 'Only if:
-
-        * `provider`== `custom-ipsec`'
+      description: Only if `provider`== `custom-ipsec`
       properties:
         interval:
           description: how often to trigger the probe
@@ -60557,9 +60532,7 @@ components:
           $ref: '#/components/schemas/gateway_template_probe_type'
       type: object
     gateway_template_tunnel_protocol:
-      description: 'Only if:
-
-        * `provider`== `custom-ipsec`'
+      description: Only if `provider`== `custom-ipsec`
       enum:
       - ''
       - ipsec
@@ -60567,7 +60540,7 @@ components:
       type: string
     gateway_template_tunnel_version:
       default: '2'
-      description: "Only if:\n* `provider`== `custom-gre` \n* `provider`== `custom-ipsec`"
+      description: "Only if:\n  * `provider`== `custom-gre`\n  * `provider`== `custom-ipsec`"
       enum:
       - ''
       - '1'
@@ -60749,8 +60722,8 @@ components:
       type: string
     hours:
       description: "hours of operation filter, the available days (mon, tue, wed,\
-        \ thu, fri, sat, sun). \n\n**Note**: If the dow is not defined then it\u2019\
-        s treated as 00:00-23:59."
+        \ thu, fri, sat, sun). \n\n**Note**: If the dow is not defined then it\\u2019\\\
+        \ s treated as 00:00-23:59."
       properties:
         fri:
           default: ''
@@ -60825,8 +60798,8 @@ components:
       type: object
     idp_profile_action:
       default: alert
-      description: "- alert (default) \n- drop: siliently dropping packets\n- close:\
-        \ notify client/server to close connection"
+      description: "Possible values:\n  * alert (default) \n  * drop: siliently dropping\
+        \ packets\n  * close: notify client/server to close connection"
       enum:
       - ''
       - alert
@@ -61336,14 +61309,18 @@ components:
     inventory_update_operation:
       description: '* if `op`== `upgrade_to_mist`: Upgrade to mist-managed
 
+
         * if `op`== `downgrade_to_jsi`: Downgrade to basic monitoring. When downgrading
         a VC member to jsi, we will move the cloud connection of the VC to jsi-terminator
         and keep all VC device/inventories intact for pain-free upgrading back to
         mist.
 
+
         * if `op`== `assign`: Assign inventory to a site
 
+
         * if `op`== `unassign`: Unassign inventory from a site
+
 
         * if `op`== `delete`: Delete multiple inventory from org. If the device is
         already assigned to a site, it will be unassigned.'
@@ -62453,10 +62430,10 @@ components:
       - qrcode
       type: string
     mist_device:
-      $ref: '#/components/schemas/device_switch'
-      # oneOf:
-      # - $ref: '#/components/schemas/device_ap'
-      # - $ref: '#/components/schemas/device_gateway'
+      oneOf:
+      - $ref: '#/components/schemas/device_ap'
+      - $ref: '#/components/schemas/device_switch'
+      - $ref: '#/components/schemas/device_gateway'
     ml_overwrite:
       additionalProperties:
         $ref: '#/components/schemas/ml_overwrite_additional_properties'
@@ -63096,12 +63073,12 @@ components:
       type: array
     mxcluster_tunterm_hosts_selection:
       default: shuffle
-      description: "Ordering of tunterm_hosts for mxedge within the same mxcluster.\
-        \ \n* When `shuffle`, the ordering of tunterm_hosts is randomized by the device\u2019\
-        s MAC. \n* When `shuffle-by-site`, we shuffle by site_id+tunnel_id (so when\
-        \ client connects to a specific Tunnel, it will go to the same (order of)\
-        \ mxedge, and we load-balancing between tunnels). \n* When `ordered`, the\
-        \ order is decided by tunterm_hosts_order"
+      description: "Ordering of tunterm_hosts for mxedge within the same mxcluster.\n\
+        \  * When `shuffle`, the ordering of tunterm_hosts is randomized by the device\\\
+        u2019\\s MAC.\n  * When `shuffle-by-site`, we shuffle by site_id+tunnel_id\
+        \ (so when client connects to a specific Tunnel, it will go to the same (order\
+        \ of) mxedge, and we load-balancing between tunnels).\n  * When `ordered`,\
+        \ the order is decided by tunterm_hosts_order"
       enum:
       - ''
       - shuffle
@@ -64585,17 +64562,11 @@ components:
           $ref: '#/components/schemas/nac_tag_match'
         match_all:
           default: false
-          description: 'This field is applicable only when `type`==`match`
-
-            * `false`: means it is sufficient to match any of the values (i.e., match-any
-            behavior)
-
-            * `true`: means all values should be matched (i.e., match-all behavior)
-
-
-
-            Currently it makes sense to set this field to `true` only if the `match`==`idp_role`
-            or `match`==`usermac_label`'
+          description: "This field is applicable only when `type`==`match`\n  * `false`:\
+            \ means it is sufficient to match any of the values (i.e., match-any behavior)\n\
+            \  * `true`: means all values should be matched (i.e., match-all behavior)\n\
+            \n\nCurrently it makes sense to set this field to `true` only if the `match`==`idp_role`\
+            \ or `match`==`usermac_label`'"
           type: boolean
         modified_time:
           readOnly: true
@@ -65077,6 +65048,8 @@ components:
         session_expiry:
           default: 1440
           format: int32
+          maximum: 20160
+          minimum: 10
           type: integer
       required:
       - name
@@ -65513,6 +65486,9 @@ components:
           description: enable threshold-based device down delivery for AP devices
             only. When configured it takes effect for AP devices and `device_updown_threshold`
             is ignored.
+          default: 0
+          maximum: 240
+          minimum: 0
           example: null
           nullable: true
           type: integer
@@ -65542,13 +65518,15 @@ components:
         device_cert:
           $ref: '#/components/schemas/org_setting_device_cert'
         device_updown_threshold:
+          description: "enable threshold-based device down delivery via\n  * device-updowns\
+            \ webhooks topic, \n  * Mist Alert Framework; e.g. send AP/SW/GW down\
+            \ event only if AP/SW/GW Up is not seen within the threshold in minutes;\
+            \ 0 - 240, default is 0 (trigger immediate)"
           default: 0
-          description: "enable threshold-based device down delivery via \n1) device-updowns\
-            \ webhooks topic, \n2) Mist Alert Framework; e.g. send AP/SW/GW down event\
-            \ only if AP/SW/GW Up is not seen within the threshold in minutes; 0 -\
-            \ 240, default is 0 (trigger immediate)"
-          maximum: 30
+          maximum: 240
           minimum: 0
+          example: null
+          nullable: true
           type: integer
         disable_pcap:
           default: false
@@ -65568,7 +65546,10 @@ components:
           description: enable threshold-based device down delivery for Gateway devices
             only. When configured it takes effect for GW devices and `device_updown_threshold`
             is ignored.
-          example: 10
+          default: 0
+          maximum: 240
+          minimum: 0
+          example: null
           nullable: true
           type: integer
         id:
@@ -65616,7 +65597,10 @@ components:
           description: enable threshold-based device down delivery for Switch devices
             only. When configured it takes effect for SW devices and `device_updown_threshold`
             is ignored.
-          example: 0
+          default: 0
+          maximum: 240
+          minimum: 0
+          example: null
           nullable: true
           type: integer
         synthetic_test:
@@ -65644,12 +65628,9 @@ components:
       properties:
         no_reveal:
           default: false
-          description: 'by default, API hides password/secrets when the user doesn''t
-            have write access
-
-            * `true`: API will hide passwords/secrets for all users
-
-            * `false`: API will hide passwords/secrets for read-only users'
+          description: "by default, API hides password/secrets when the user doesn't\
+            \ have write access\n  * `true`: API will hide passwords/secrets for all\
+            \ users\n  * `false`: API will hide passwords/secrets for read-only users"
           type: boolean
       type: object
     org_setting_auto_device_naming:
@@ -65903,13 +65884,8 @@ components:
         type: string
       type: array
     org_setting_mist_nac_idp_user_realms:
-      description: 'which realm should trigger this IDP.
-
-        we extract user realm from
-
-        1. Username-AVP (`mist.com` from john@mist.com)
-
-        2. Cert CN'
+      description: "which realm should trigger this IDP. User Realm is extracted from:\n\
+        \  * Username-AVP (`mist.com` from john@mist.com)\n  * Cert CN"
       items:
         example: abc
         type: string
@@ -66736,7 +66712,7 @@ components:
         emailAccessDomainError:
           default: Access is restricted by email domain
           description: "error message when a user has valid social login but doesn\u2019\
-            t match specified email domains."
+            \ t match specified email domains."
           type: string
         emailCancel:
           default: Cancel
@@ -72648,8 +72624,12 @@ components:
         description:
           type: string
         dscp:
-          description: when `traffic_type`==`custom`
-          type: integer
+          description: for SSR only, when `traffic_type`==`custom`. 0-63 or variable
+          oneOf:
+          - type: string
+          - maximum: 63
+            minimum: 0
+            type: integer
         failover_policy:
           $ref: '#/components/schemas/service_failover_policy'
         hostnames:
@@ -72659,14 +72639,29 @@ components:
           readOnly: true
           type: string
         max_jitter:
-          description: when `traffic_type`==`custom`, for uplink selection
-          type: integer
+          description: for SSR only, when `traffic_type`==`custom`, for uplink selection.
+            0-4294967295 or variable
+          oneOf:
+          - type: string
+          - maximum: 4294967295
+            minimum: 0
+            type: integer
         max_latency:
-          description: when `traffic_type`==`custom`, for uplink selection
-          type: integer
+          description: for SSR only, when `traffic_type`==`custom`, for uplink selection.
+            0-4294967295 or variable
+          oneOf:
+          - type: string
+          - maximum: 4294967295
+            minimum: 0
+            type: integer
         max_loss:
-          description: when `traffic_type`==`custom`, for uplink selection
-          type: integer
+          description: for SSR only, when `traffic_type`==`custom`, for uplink selection.
+            0-100 or variable
+          oneOf:
+          - type: string
+          - maximum: 100
+            minimum: 0
+            type: integer
         modified_time:
           readOnly: true
           type: number
@@ -72687,12 +72682,9 @@ components:
           $ref: '#/components/schemas/service_traffic_class'
         traffic_type:
           default: data_best_effort
-          description: 'values from `/api/v1/consts/traffic_types`
-
-            * when `type`==`apps`, we''ll choose traffic_type automatically
-
-            * when `type`==`addresses` or `type`==`hostnames`, you can provide your
-            own settings (optional)'
+          description: "values from `/api/v1/consts/traffic_types`\n  * when `type`==`apps`,\
+            \ we''ll choose traffic_type automatically\n  * when `type`==`addresses`\
+            \ or `type`==`hostnames`, you can provide your own settings (optional)"
           type: string
         type:
           $ref: '#/components/schemas/service_type'
@@ -72700,32 +72692,30 @@ components:
           $ref: '#/components/schemas/service_urls'
       type: object
     service_addresses:
-      description: if `type`==`custom`, ip subnets
+      description: if `type`==`custom`, ip subnets (e.g. 10.0.0.0/8)
       items:
         type: string
       type: array
     service_app_categories:
-      description: 'when `type`==`app_categories`
-
-        list of application categories are available through /api/v1/const/app_categories'
+      description: when `type`==`app_categories`, list of application categories are
+        available through /api/v1/const/app_categories
       example:
       - Sports
       items:
         type: string
       type: array
     service_app_subcategories:
-      description: 'when `type`==`app_categories`
-
-        list of application categories are available through /api/v1/const/app_subcategories'
+      description: when `type`==`app_categories`, list of application categories are
+        available through /api/v1/const/app_subcategories
       example:
       - Shopping
       items:
         type: string
       type: array
     service_apps:
-      description: "when `type`==`apps`\nlist of applications are available through:\n\
-        \  - /api/v1/const/applications,\n  - /api/v1/const/gateway_applications\n\
-        \  - /insight/top_app_by-bytes?wired=true"
+      description: "when `type`==`apps`, list of applications are available through:\n\
+        \  * /api/v1/const/applications\n  * /api/v1/const/gateway_applications\n\
+        \  * /insight/top_app_by-bytes?wired=true"
       example:
       - office365
       - okta
@@ -72867,6 +72857,7 @@ components:
     service_spec:
       properties:
         port_range:
+          description: port number, port range, or variable
           example: 8080,8443
           type: string
         protocol:
@@ -72878,6 +72869,8 @@ components:
           type: string
       type: object
     service_specs:
+      description: when `type`==`custom`, optional, if it doesn't exist, http and
+        https is assumed
       items:
         $ref: '#/components/schemas/service_spec'
       type: array
@@ -72924,9 +72917,8 @@ components:
       - urls
       type: string
     service_urls:
-      description: 'when `type`==`urls
-
-        no need for spec as URL can encode the ports being used`'
+      description: when `type`==`urls`, no need for spec as URL can encode the ports
+        being used
       items:
         type: string
       type: array
@@ -73629,10 +73621,13 @@ components:
         ap_port_config:
           $ref: '#/components/schemas/site_setting_ap_port_config'
         ap_updown_threshold:
+          default: 0
           description: enable threshold-based device down delivery for AP devices
             only. When configured it takes effect for AP devices and `device_updown_threshold`
             is ignored.
           example: null
+          maximum: 240
+          minimum: 0
           nullable: true
           type: integer
         auto_placement:
@@ -73661,8 +73656,9 @@ components:
           description: sending AP_DISCONNECTED event in device-updowns only if AP_CONNECTED
             is not seen within the threshold, in minutes
           example: 0
-          maximum: 30
+          maximum: 240
           minimum: 0
+          nullable: true
           type: integer
         dhcp_snooping:
           $ref: '#/components/schemas/dhcp_snooping'
@@ -73692,10 +73688,13 @@ components:
         gateway_mgmt:
           $ref: '#/components/schemas/site_setting_gateway_mgmt'
         gateway_updown_threshold:
+          default: 0
           description: enable threshold-based device down delivery for Gateway devices
             only. When configured it takes effect for GW devices and `device_updown_threshold`
             is ignored.
           example: 10
+          maximum: 240
+          minimum: 0
           nullable: true
           type: integer
         id:
@@ -73776,10 +73775,13 @@ components:
         switch_mgmt:
           $ref: '#/components/schemas/switch_mgmt'
         switch_updown_threshold:
+          default: 0
           description: enable threshold-based device down delivery for Switch devices
             only. When configured it takes effect for SW devices and `device_updown_threshold`
             is ignored.
-          example: 0
+          example: 10
+          maximum: 240
+          minimum: 0
           nullable: true
           type: integer
         synthetic_test:
@@ -73787,7 +73789,7 @@ components:
         track_anonymous_devices:
           default: false
           description: "whether to track anonymous BLE assets (requires \u2018track_asset\u2019\
-            \ enabled)"
+            \  enabled)"
           type: boolean
         tunterm_monitoring:
           $ref: '#/components/schemas/tunterm_monitoring'
@@ -76333,7 +76335,7 @@ components:
       default: big_bang
       description: '* `big_bang`: upgrade all at once
 
-        * `serial`: one at a time'
+        * `serial`: one at a time'''
       enum:
       - ''
       - big_bang
@@ -78169,11 +78171,11 @@ components:
       readOnly: true
       type: array
     ticket_status:
-      description: "Status open: ticket is open, Mist is working on it \n* pending:\
+      description: "Status open: ticket is open, Mist is working on it\n  * pending:\
         \ ticket is open and Requester attention is needed (e.g. Mist is asking for\
-        \ some more information) \n* solved: ticket is marked as solved / considered\
-        \ by Mist (requester can update it, causing it to re-open; or rate it) \n\
-        * closed: ticket is archived and cannot be changed"
+        \ some more information)\n  * solved: ticket is marked as solved / considered\
+        \ by Mist (requester can update it, causing it to re-open; or rate it)\n \
+        \ * closed: ticket is archived and cannot be changed"
       enum:
       - ''
       - open
@@ -78223,9 +78225,7 @@ components:
         auto_provision:
           $ref: '#/components/schemas/tunnel_configs_auto_provision'
         ike_lifetime:
-          description: 'Only if:
-
-            * `provider`== `custom-ipsec`'
+          description: Only if `provider`== `custom-ipsec`
           type: integer
         ike_mode:
           $ref: '#/components/schemas/gateway_template_tunnel_ike_mode'
@@ -78237,13 +78237,8 @@ components:
         ipsec_proposals:
           $ref: '#/components/schemas/tunnel_configs_ipsec_proposals'
         local_id:
-          description: 'Only if:
-
-            * `provider`== `zscaler-ipsec`
-
-            * `provider`==`jse-ipsec`
-
-            * `provider`== `custom-ipsec`'
+          description: "Only if:\n  * `provider`== `zscaler-ipsec`\n  * `provider`==`jse-ipsec`\n\
+            \  * `provider`== `custom-ipsec`"
           type: string
         mode:
           $ref: '#/components/schemas/gateway_template_tunnel_mode'
@@ -78256,13 +78251,8 @@ components:
         provider:
           $ref: '#/components/schemas/tunnel_provider_options_name'
         psk:
-          description: 'Only if:
-
-            * `provider`== `zscaler-ipsec`
-
-            * `provider`==`jse-ipsec`
-
-            * `provider`== `custom-ipsec`'
+          description: "Only if:\n  * `provider`== `zscaler-ipsec`\n  * `provider`==`jse-ipsec`\n\
+            \  * `provider`== `custom-ipsec`"
           type: string
         secondary:
           $ref: '#/components/schemas/gateway_template_tunnel_node'
@@ -78312,9 +78302,10 @@ components:
       type: string
     tunnel_configs_dh_group:
       default: '14'
-      description: "Only if:\n* `provider`== `custom-ipsec`\nValues:\n* 1 \n* 2 (1024-bit)\
-        \ \n* 5\n* 14 (default, 2048-bit) \n* 15 (3072-bit) \n* 16 (4096-bit)\n* 19\
-        \ (256-bit ECP)\n* 20 (384-bit ECP)\n* 21 (521-bit ECP) \n* 24 (2048-bit ECP)"
+      description: "Only if `provider`== `custom-ipsec`. Possible values:\n  * 1 \n\
+        \  * 2 (1024-bit)\n  * 5\n  * 14 (default, 2048-bit)\n  * 15 (3072-bit)\n\
+        \  * 16 (4096-bit)\n  * 19 (256-bit ECP)\n  * 20 (384-bit ECP)\n  * 21 (521-bit\
+        \ ECP)\n  * 24 (2048-bit ECP)"
       enum:
       - ''
       - '1'
@@ -78345,9 +78336,7 @@ components:
         $ref: '#/components/schemas/gateway_template_tunnel_ike_proposal'
       type: array
     tunnel_configs_ipsec_proposals:
-      description: 'Only if:
-
-        * `provider`== `custom-ipsec`'
+      description: Only if  `provider`== `custom-ipsec`
       items:
         $ref: '#/components/schemas/gateway_template_tunnel_ipsec_proposal'
       type: array
@@ -79712,13 +79701,10 @@ components:
         protocol:
           $ref: '#/components/schemas/utils_show_route_protocol'
         route:
-          description: 'if specified, dump bot received and advertised, if not specified,
-            both will be shown
-
-            * for SSR, show bgp neighbors 10.250.18.202 received-routes/advertised-routes
-
-            * for SRX and Switches, show route receive_protocol/advertise_protocol
-            bgp 192.168.255.12'
+          description: "if specified, dump bot received and advertised, if not specified,\
+            \ both will be shown\n  * for SSR, show bgp neighbors 10.250.18.202 received-routes/advertised-routes\n\
+            \  * for SRX and Switches, show route receive_protocol/advertise_protocol\
+            \ bgp 192.168.255.12'"
           example: advertised
           type: string
         vrf:
@@ -80425,8 +80411,8 @@ components:
         org_id:
           $ref: '#/components/schemas/org_id'
         secret:
-          description: "only if `type`=`http-post`\nwhen `secret` is provided, two\
-            \ HTTP headers will be added:\n  * X-Mist-Signature-v2: HMAC_SHA256(secret,\
+          description: "only if `type`=`http-post` \n\nwhen `secret` is provided,\
+            \ two  HTTP headers will be added: \n  * X-Mist-Signature-v2: HMAC_SHA256(secret,\
             \ body)\n  * X-Mist-Signature: HMAC_SHA1(secret, body)"
           nullable: true
           type: string
@@ -80871,16 +80857,16 @@ components:
           default: 2
           description: "radius auth session retries. Following fast timers are set\
             \ if \u201Cfast_dot1x_timers\u201D knob is enabled. \u2018retries\u2019\
-            \ are set to value of auth_servers_retries. \u2018max-requests\u2019 is\
-            \ also set when setting auth_servers_retries and is set to default value\
-            \ to 3."
+            \  are set to value of auth_servers_retries. \u2018max-requests\u2019\
+            \ is also set when setting auth_servers_retries and is set to default\
+            \ value to 3."
           example: 5
           type: integer
         auth_servers_timeout:
           default: 5
           description: "radius auth session timeout. Following fast timers are set\
             \ if \u201Cfast_dot1x_timers\u201D knob is enabled. \u2018quite-period\u2019\
-            \ and \u2018transmit-period\u2019 are set to half the value of auth_servers_timeout.\
+            \  and \u2018transmit-period\u2019 are set to half the value of auth_servers_timeout.\
             \ \u2018supplicant-timeout\u2019 is also set when setting auth_servers_timeout\
             \ and is set to default value of 10."
           type: integer
@@ -80985,7 +80971,7 @@ components:
           default: false
           description: "if set to true, sets default fast-timers with values calculated\
             \ from \u2018auth_servers_timeout\u2019 and \u2018auth_server_retries\u2019\
-            ."
+            \ ."
           type: boolean
         for_site:
           readOnly: true
@@ -81278,6 +81264,8 @@ components:
     wlan_app_qos_apps_properties:
       properties:
         dscp:
+          maximum: 63
+          minimum: 0
           type: integer
         dst_subnet:
           description: subnet filter is not required but helps AP to only inspect
@@ -81298,6 +81286,8 @@ components:
       properties:
         dscp:
           example: 32
+          maximum: 63
+          minimum: 0
           type: integer
         dst_subnet:
           example: 10.2.0.0/16
@@ -81556,10 +81546,16 @@ components:
           example: -70
           type: integer
         template:
-          description: "* `no-legacy`: no 11b\n* `compatible`: all, like before, default\
-            \ setting that Broadcom/Atheros used\n* `legacy-only`: disable 802.11n\
-            \ and 802.11ac \n* `high-density`: no 11b, no low rates\n* `custom`: user\
-            \ defined"
+          description: '* `no-legacy`: no 11b
+
+            * `compatible`: all, like before, default setting that Broadcom/Atheros
+            used
+
+            * `legacy-only`: disable 802.11n and 802.11ac
+
+            * `high-density`: no 11b, no low rates
+
+            * `custom`: user defined'
           nullable: true
           type: string
         vht:
@@ -81636,27 +81632,15 @@ components:
           type: object
       type: object
     wlan_dynamic_psk:
-      description: 'for dynamic PSK where we get per_user PSK from Radius
-
-        dynamic_psk allows PSK to be selected at runtime depending on context (wlan/site/user/...)
-        thus following configurations are assumed (currently)
-
-        - PSK will come from RADIUS server
-
-        - AP sends client MAC as username ans password (i.e. `enable_mac_auth` is
-        assumed)
-
-        - AP sends BSSID:SSID as Caller-Station-ID
-
-        - `auth_servers` is required
-
-        - PSK will come from cloud WLC if source is cloud_psks
-
-        - default_psk will be used if cloud WLC is not available
-
-        - `multi_psk_only` and `psk` is ignored
-
-        - `pairwise` can only be wpa2-ccmp (for now, wpa3 support on the roadmap)'
+      description: "for dynamic PSK where we get per_user PSK from Radius. dynamic_psk\
+        \ allows PSK to be selected at runtime depending on context (wlan/site/user/...)\
+        \ thus following configurations are assumed (currently)\n  * PSK will come\
+        \ from RADIUS server\n  * AP sends client MAC as username ans password (i.e.\
+        \ `enable_mac_auth` is assumed)\n  * AP sends BSSID:SSID as Caller-Station-ID\n\
+        \  * `auth_servers` is required\n  * PSK will come from cloud WLC if source\
+        \ is cloud_psks\n  * default_psk will be used if cloud WLC is not available\n\
+        \  * `multi_psk_only` and `psk` is ignored\n  * `pairwise` can only be wpa2-ccmp\
+        \ (for now, wpa3 support on the roadmap)"
       nullable: true
       properties:
         default_psk:
@@ -81705,7 +81689,7 @@ components:
             type: string
           description: "map between vlan_id (as string) to airespace interface names\
             \ (comma-separated) or null for stndard mapping\n  * if `dynamic_vlan.type`==`standard`,\
-            \ property key is the Vlan ID and property value is \"\"\n  * if `dynamic_vlan.type`==`airespace-interface-name`,\
+            \ property key is the Vlan ID and property value is \\\"\\\"\n  * if `dynamic_vlan.type`==`airespace-interface-name`,\
             \ property key is the Vlan ID and property value is the Airespace Interface\
             \ Name"
           example:
@@ -81824,19 +81808,9 @@ components:
       properties:
         enabled:
           default: false
-          description: 'when enabled:
-
-            * `auth_servers` is ignored
-
-            * `acct_servers` is ignored
-
-            * `auth_servers_*` are ignored
-
-            * `coa_servers` is ignored
-
-            * `radsec` is ignored
-
-            * `coa_enabled` is assumed'
+          description: "when enabled:\n  * `auth_servers` is ignored\n  * `acct_servers`\
+            \ is ignored\n  * `auth_servers_*` are ignored\n  * `coa_servers` is ignored\n\
+            \  * `radsec` is ignored\n  * `coa_enabled` is assumed'"
           type: boolean
       type: object
     wlan_mxtunnel_ids:
@@ -82388,7 +82362,7 @@ components:
           type: boolean
         emailAccessDomainError:
           description: "error message when a user has valid social login but doesn\u2019\
-            t match specified email domains."
+            \ t match specified email domains."
           type: string
         emailCancel:
           description: Label for cancel confirmation code submission using email auth
@@ -82616,18 +82590,18 @@ components:
           description: "\u201CPlease provide valid sponsor email\u201D"
           type: string
         sponsorEmailTemplate:
-          description: "html template to replace/override default sponsor email template\n\
-            \nSponsor Email Template supports following template variables: \n * `approve_url`:\
-            \ Renders URL to approve the request; optionally &minutes=N query param\
-            \ can be appended to change the Authorization period of the guest, where\
-            \ N is a valid integer denoting number of minutes a guest remains authorized\n\
-            \ * `deny_url`: Renders URL to reject the request\n * `guest_email`: Renders\
-            \ Email ID of the guest\n * `guest_name`: Renders Name of the guest\n\
-            \ * `field1`: Renders value of the Custom Field 1\n * `field2`: Renders\
-            \ value of the Custom Field 2\n * `sponsor_link_validity_duration`: Renders\
-            \ validity time of the request (i.e. Approve/Deny URL)\n * `auth_expire_minutes`:\
+          description: "html template to replace/override default sponsor email template\
+            \ \nSponsor Email Template supports following template variables:\n  *\
+            \ `approve_url`: Renders URL to approve the request; optionally &minutes=N\
+            \ query param can be appended to change the Authorization period of the\
+            \ guest, where N is a valid integer denoting number of minutes a guest\
+            \ remains authorized\n  * `deny_url`: Renders URL to reject the request\n\
+            \  * `guest_email`: Renders Email ID of the guest\n  * `guest_name`: Renders\
+            \ Name of the guest\n  * `field1`: Renders value of the Custom Field 1\n\
+            \  * `field2`: Renders value of the Custom Field 2\n  * `sponsor_link_validity_duration`:\
+            \ Renders validity time of the request (i.e. Approve/Deny URL)\n  * `auth_expire_minutes`:\
             \ Renders Wlan-level configured Guest Authorization Expiration time period\
-            \ (in minutes), If not configured then default (1 day in minutes)\n"
+            \ (in minutes), If not configured then default (1 day in minutes)"
           type: string
         sponsorInfoApproved:
           description: "\u201CYour request was approved by\u201D"
@@ -82861,19 +82835,20 @@ components:
         $ref: '#/components/schemas/wxlan_rule'
       type: array
     wxlan_tag:
-      description: "WxLAN Tag\n* type:\n** client: created manually (e.g. on wireless\
-        \ client table, when they spot a device of interest, they can create a wxlan\
-        \ tag for it\n** resource: created automatically when we discover a network\
-        \ resource\n** subnet: create automatically when a subnet is discovered\n\n\
-        * match:\n** wlan_id, ap_id: values are a list of Wlan / Device ids\n** client_mac:\
-        \ values are a list of MAC addresses\n\n* radius_group: this is a smart tag\
-        \ that matches RADIUS-Filter-ID, Airespace-ACL-Name (VendorID=14179, VendorType=6)\
-        \ / Aruba-User-Role (VendorID=14823, VendorType=1)\n* radius_username: this\
-        \ matches the ATTR-User-Name(1)\n* radius_class: thie matches the ATTR-Class(25)\n\
-        * radius_attr: the values are [ \u201C6=1\u201D, \u201C26=10.2.3.4\u201D ],\
-        \ this support other RADIUS attributes where we know the type\n* radius_vendor:\
-        \ the values are [ \u201C14179.10=1\u201D, \u201C14178.16=1.2.3.4\u201D ],\
-        \ this matches vendor attributes and will be dynamically evaluated"
+      description: "WxLAN Tag\n  * type:\n    * client: created manually (e.g. on\
+        \ wireless client table, when they spot a device of interest, they can create\
+        \ a wxlan tag for it\n    * resource: created automatically when we discover\
+        \ a network resource\n    * subnet: create automatically when a subnet is\
+        \ discovered\n  * match:\n    * wlan_id, ap_id: values are a list of Wlan\
+        \ / Device ids\n    * client_mac: values are a list of MAC addresses\n  *\
+        \ radius_group: this is a smart tag that matches RADIUS-Filter-ID, Airespace-ACL-Name\
+        \ (VendorID=14179, VendorType=6) / Aruba-User-Role (VendorID=14823, VendorType=1)\n\
+        \  * radius_username: this matches the ATTR-User-Name(1)\n  * radius_class:\
+        \ thie matches the ATTR-Class(25)\n  * radius_attr: the values are [ \\u201C6=1\\\
+        u201D, \\u201C26=10.2.3.4\\u201D ], this support other RADIUS attributes where\
+        \ we know the type\n  * radius_vendor: the values are [ \\u201C14179.10=1\\\
+        u201D, \\u201C14178.16=1.2.3.4\\u201D ], this matches vendor attributes and\
+        \ will be dynamically evaluated"
       properties:
         created_time:
           readOnly: true
@@ -82924,8 +82899,15 @@ components:
       - type
       - name
       type: object
+    wxlan_tag_last_ips:
+      items:
+        type: string
+      readOnly: true
+      type: array
     wxlan_tag_match:
+      description: required if `type`==`match`
       enum:
+      - ''
       - ap_id
       - app
       - asset_mac
@@ -82942,16 +82924,11 @@ components:
       - sdkclient_uuid
       - wlan_id
       type: string
-      description: "required if `type`==`match`"
-    wxlan_tag_last_ips:
-      type: array
-      items:
-        type: string
-      readOnly: true
     wxlan_tag_operation:
       default: in
-      description: "required if `type`==`match`, type of tag (inclusive/exclusive)"
+      description: required if `type`==`match`, type of tag (inclusive/exclusive)
       enum:
+      - ''
       - in
       - not_in
       type: string
@@ -82970,9 +82947,10 @@ components:
           $ref: '#/components/schemas/wxlan_tag_spec_subnets'
       type: object
     wxlan_tag_spec_subnets:
-      default:
-      - 0.0.0.0/0
+      default: []
       description: matched destination subnets and/or IP Addresses
+      example:
+      - 0.0.0.0/0
       items:
         type: string
       type: array
@@ -82983,6 +82961,7 @@ components:
       type: array
     wxlan_tag_type:
       enum:
+      - ''
       - match
       - client
       - resource
@@ -82991,33 +82970,33 @@ components:
       - vlan
       type: string
     wxlan_tag_values:
-      description: |-
-        required if `type`==`match` and
-        * `match`==`ap_id`: list of AP IDs
-        * `match`==`app`: list of Application Names
-        * `match`==`asset_mac`: list of Asset MAC Addresses
-        * `match`==`client_mac`: list of Client MAC Addresses
-        * `match`==`hostname`: list of Resources Hostnames
-        * `match`==`ip_range_subnet`: list of IP Addresses and/or CIDRs
-        * `match`==`psk_name`: list of PSK Names
-        * `match`==`psk_role`: list of PSK Roles
-        * `match`==`port`: list of Ports or Port Ranges
-        * `match`==`radius_attr`: list of RADIUS Attributes. The values are [ “6=1”, “26=10.2.3.4” ], this support other RADIUS attributes where we know the type
-        * `match`==`radius_class`: list of RADIUS Classes. This matches the ATTR-Class(25)
-        * `match`==`radius_group`: list of RADIUS Groups. This is a smart tag that matches RADIUS-Filter-ID, Airespace-ACL-Name (VendorID=14179, VendorType=6) / Aruba-User-Role (VendorID=14823, VendorType=1)
-        * `match`==`radius_username`: list of RADIUS Usernames. This matches the ATTR-User-Name(1)
-        * `match`==`sdkclient_uuid`: list of SDK UUIDs
-        * `match`==`wlan_id`: list of WLAN IDs
-        
-        **Notes**:
-        Variables are not allowed
+      description: "required if `type`==`match` and\n  * `match`==`ap_id`: list of\
+        \ AP IDs\n  * `match`==`app`: list of Application Names\n  * `match`==`asset_mac`:\
+        \ list of Asset MAC Addresses\n  * `match`==`client_mac`: list of Client MAC\
+        \ Addresses\n  * `match`==`hostname`: list of Resources Hostnames\n  * `match`==`ip_range_subnet`:\
+        \ list of IP Addresses and/or CIDRs\n  * `match`==`psk_name`: list of PSK\
+        \ Names\n  * `match`==`psk_role`: list of PSK Roles\n  * `match`==`port`:\
+        \ list of Ports or Port Ranges\n  * `match`==`radius_attr`: list of RADIUS\
+        \ Attributes. The values are [ \u201C6=1\u201D, \u201C26=10.2.3.4\u201D ],\
+        \ this support other RADIUS attributes where we know the type\n  * `match`==`radius_class`:\
+        \ list of RADIUS Classes. This matches the ATTR-Class(25)\n  * `match`==`radius_group`:\
+        \ list of RADIUS Groups. This is a smart tag that matches RADIUS-Filter-ID,\
+        \ Airespace-ACL-Name (VendorID=14179, VendorType=6) / Aruba-User-Role (VendorID=14823,\
+        \ VendorType=1)\n  * `match`==`radius_username`: list of RADIUS Usernames.\
+        \ This matches the ATTR-User-Name(1)\n  * `match`==`sdkclient_uuid`: list\
+        \ of SDK UUIDs\n  * `match`==`wlan_id`: list of WLAN IDs\n\n**Notes**:\nVariables\
+        \ are not allowed"
       items:
         type: string
       type: array
     wxlan_tag_vlan_id:
       description: if `type`==`vlan_id`, VLAN ID or variable
-      example: "1055"
-      type: string
+      example: '1055'
+      oneOf:
+      - type: string
+      - maximum: 4094
+        minimum: 1
+        type: integer
     wxlan_tags:
       items:
         $ref: '#/components/schemas/wxlan_tag'
@@ -83052,10 +83031,10 @@ components:
           type: integer
         hostname:
           description: "optional, overwrite the hostname in SCCRQ control message,\
-            \ default is \u201C\u201D or null, %H and %M can be used, which will be\
-            \ replace with corresponding values:\n* %H: name of the ap if provided\
+            \ default is \\u201C\\u201D or null, %H and %M can be used, which will\
+            \ be replace with corresponding values:\n  * %H: name of the ap if provided\
             \ (and will be stripped so it can be used for hostname) and fallbacks\
-            \ to MAC\n* %M: MAC (e.g. 5c5b350e0060)"
+            \ to MAC\n  * %M: MAC (e.g. 5c5b350e0060)"
           type: string
         id:
           format: uuid
@@ -83115,7 +83094,7 @@ components:
           type: boolean
         holding_time:
           description: "optional; the holding time for NHRP \u2018registration requests\u2019\
-            \ and \u2018resolution replies\u2019 sent from the Mist AP (in seconds);\
+            \  and \u2018resolution replies\u2019 sent from the Mist AP (in seconds);\
             \ default 600"
           type: integer
         host_routes:

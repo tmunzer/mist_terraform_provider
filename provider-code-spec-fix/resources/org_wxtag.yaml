@@ -141,6 +141,7 @@ next:
   - get:
     - list
     name: subnets
+    computed_optional_required: required
     validators:
     - custom:
         imports:

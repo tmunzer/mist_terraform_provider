@@ -87,7 +87,8 @@ def process_nested(o: dict):
         "apitoken",
         "cp_api_key",
         "ecm_api_key",
-        "key"
+        "key",
+        "fips_zeroize_password"
     ] and o.get("string"):
         o["string"]["sensitive"] = True
     for key, val in o.items():

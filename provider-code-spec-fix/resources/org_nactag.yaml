@@ -33,41 +33,24 @@ next:
           imports:
             - path: github.com/Juniper/terraform-provider-mist/internal/validators
             - path: github.com/hashicorp/terraform-plugin-framework/path
-          schema_definition:
+          schema_definition: |-
             stringvalidator.OneOf(
-
               "",
-            
               "cert_cn",
-            
               "cert_issuer",
-            
               "cert_san",
-            
               "cert_serial",
-            
               "cert_sub",
-            
               "client_mac",
-            
               "idp_role",
-            
               "mdm_status",
-            
               "radius_group",
-            
               "realm",
-            
               "ssid",
-            
               "user_name",
-            
               "usermac_label",
-            
-            ),
-            
-            mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("type"),
-            types.StringValue("match"))
+            ),          
+            mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("type"), types.StringValue("match"))
   - computed_optional_required: required
     get:
       - string

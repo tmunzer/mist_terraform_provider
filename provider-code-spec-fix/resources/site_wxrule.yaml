@@ -15,3 +15,7 @@ next:
   get:
   - string
   name: id
+- computed_optional_required: required
+  get:
+  - string
+  name: action

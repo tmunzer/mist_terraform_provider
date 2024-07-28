@@ -17,10 +17,6 @@ next:
   name: msp_id
 - computed_optional_required: computed
   get:
-  - string
-  name: alarmtemplate_id
-- computed_optional_required: computed
-  get:
   - list
   name: orggroup_ids
 - computed_optional_required: computed_optional
