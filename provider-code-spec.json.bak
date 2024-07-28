@@ -5910,7 +5910,7 @@
 																"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
 															}
 														],
-														"schema_definition": "int64validator.Between(0, 4294967295)"
+														"schema_definition": "int64validator.Between(0, 2147483647)"
 													}
 												}
 											]
@@ -5959,7 +5959,7 @@
 																"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
 															}
 														],
-														"schema_definition": "int64validator.Between(0, 4294967295)"
+														"schema_definition": "int64validator.Between(0, 2147483647)"
 													}
 												}
 											]
@@ -6004,7 +6004,7 @@
 																"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
 															}
 														],
-														"schema_definition": "int64validator.Between(0, 4294967295)"
+														"schema_definition": "int64validator.Between(0, 2147483647)"
 													}
 												}
 											]
@@ -6053,7 +6053,7 @@
 																"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
 															}
 														],
-														"schema_definition": "int64validator.Between(0, 4294967295)"
+														"schema_definition": "int64validator.Between(0, 2147483647)"
 													}
 												}
 											]
@@ -11750,7 +11750,7 @@
 															"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
 														}
 													],
-													"schema_definition": "int64validator.Between(1, 4294967295)"
+													"schema_definition": "int64validator.Between(1, 2147483647)"
 												}
 											}
 										]
@@ -15519,7 +15519,7 @@
 																"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
 															}
 														],
-														"schema_definition": "int64validator.Between(0, 4294967295)"
+														"schema_definition": "int64validator.Between(0, 2147483647)"
 													}
 												}
 											]
@@ -15568,7 +15568,7 @@
 																"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
 															}
 														],
-														"schema_definition": "int64validator.Between(0, 4294967295)"
+														"schema_definition": "int64validator.Between(0, 2147483647)"
 													}
 												}
 											]
@@ -15613,7 +15613,7 @@
 																"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
 															}
 														],
-														"schema_definition": "int64validator.Between(0, 4294967295)"
+														"schema_definition": "int64validator.Between(0, 2147483647)"
 													}
 												}
 											]
@@ -15662,7 +15662,7 @@
 																"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
 															}
 														],
-														"schema_definition": "int64validator.Between(0, 4294967295)"
+														"schema_definition": "int64validator.Between(0, 2147483647)"
 													}
 												}
 											]

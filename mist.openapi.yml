@@ -59012,7 +59012,7 @@ components:
           type: boolean
         metric:
           example: null
-          maximum: 4294967295
+          maximum: 2147483647
           minimum: 0
           nullable: true
           type: integer
@@ -59029,7 +59029,7 @@ components:
           type: boolean
         preference:
           example: 30
-          maximum: 4294967295
+          maximum: 2147483647
           minimum: 0
           nullable: true
           type: integer
@@ -59055,7 +59055,7 @@ components:
           type: boolean
         metric:
           example: null
-          maximum: 4294967295
+          maximum: 2147483647
           minimum: 0
           nullable: true
           type: integer
@@ -59072,7 +59072,7 @@ components:
           type: boolean
         preference:
           example: 30
-          maximum: 4294967295
+          maximum: 2147483647
           minimum: 0
           nullable: true
           type: integer
@@ -65225,7 +65225,7 @@ components:
     org_setting_vpn_options:
       properties:
         as_base:
-          maximum: 4294967295
+          maximum: 2147483647
           minimum: 1
           type: integer
         st_subnet:
@@ -83516,8 +83516,8 @@ components:
         ethertype:
           $ref: '#/components/schemas/wxlan_tunnel_session_ethertype'
         local_session_id:
-          description: 1-4294967295
-          maximum: 4294967295
+          description: 1-2147483647
+          maximum: 2147483647
           minimum: 1
           type: integer
         pseudo_802.1ad_enabled:
@@ -83530,8 +83530,8 @@ components:
           description: remote-id of the session, has to be unique in the same tunnel
           type: string
         remote_session_id:
-          description: 1-4294967295
-          maximum: 4294967295
+          description: 1-2147483647
+          maximum: 2147483647
           minimum: 1
           type: integer
         use_ap_as_session_ids:
