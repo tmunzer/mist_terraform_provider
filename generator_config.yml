@@ -576,6 +576,7 @@ resources:
         - vars
         - vna
         - vrrp_groups
+        - vs_instance
         - wan_vna
         - watched_station_url
         - whitelist_url
@@ -893,6 +894,7 @@ resources:
   #     - for_site
   #     - iot_config
   #     - port_config
+  #     - switch_config
   #     attributes:
   #       aliases:
   #         deviceprofile_id: id   

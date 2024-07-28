@@ -11676,7 +11676,7 @@
 													"list": {
 														"computed_optional_required": "computed_optional",
 														"element_type": {
-															"int64": {}
+															"string": {}
 														}
 													}
 												}
@@ -12878,7 +12878,19 @@
 											"computed_optional_required": "computed_optional",
 											"default": {
 												"static": 3799
-											}
+											},
+											"validators": [
+												{
+													"custom": {
+														"imports": [
+															{
+																"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+															}
+														],
+														"schema_definition": "int64validator.Between(1, 65535)"
+													}
+												}
+											]
 										}
 									},
 									{
@@ -14408,7 +14420,19 @@
 												{
 													"name": "port",
 													"int64": {
-														"computed_optional_required": "computed_optional"
+														"computed_optional_required": "computed_optional",
+														"validators": [
+															{
+																"custom": {
+																	"imports": [
+																		{
+																			"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+																		}
+																	],
+																	"schema_definition": "int64validator.Between(1, 65535)"
+																}
+															}
+														]
 													}
 												}
 											]
@@ -18387,23 +18411,6 @@
 							},
 							"description": "Property key is the network name"
 						}
-					},
-					{
-						"name": "vs_instance",
-						"single_nested": {
-							"computed_optional_required": "computed_optional",
-							"attributes": [
-								{
-									"name": "networks",
-									"list": {
-										"computed_optional_required": "computed_optional",
-										"element_type": {
-											"string": {}
-										}
-									}
-								}
-							]
-						}
 					}
 				]
 			}
@@ -19547,7 +19554,19 @@
 										"computed_optional_required": "computed_optional",
 										"default": {
 											"static": 255
-										}
+										},
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+														}
+													],
+													"schema_definition": "int64validator.Between(0, 255)"
+												}
+											}
+										]
 									}
 								},
 								{
@@ -20104,7 +20123,7 @@
 													"list": {
 														"computed_optional_required": "computed_optional",
 														"element_type": {
-															"int64": {}
+															"string": {}
 														}
 													}
 												}
@@ -20207,19 +20226,22 @@
 					},
 					{
 						"name": "vs_instance",
-						"single_nested": {
+						"map_nested": {
 							"computed_optional_required": "computed_optional",
-							"attributes": [
-								{
-									"name": "networks",
-									"list": {
-										"computed_optional_required": "computed_optional",
-										"element_type": {
-											"string": {}
+							"nested_object": {
+								"attributes": [
+									{
+										"name": "networks",
+										"list": {
+											"computed_optional_required": "computed_optional",
+											"element_type": {
+												"string": {}
+											}
 										}
 									}
-								}
-							]
+								]
+							},
+							"description": "optional, for EX9200 only to seggregate virtual-switches. Property key is the instance name"
 						}
 					},
 					{
@@ -21487,7 +21509,19 @@
 											"computed_optional_required": "computed_optional",
 											"default": {
 												"static": 3799
-											}
+											},
+											"validators": [
+												{
+													"custom": {
+														"imports": [
+															{
+																"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+															}
+														],
+														"schema_definition": "int64validator.Between(1, 65535)"
+													}
+												}
+											]
 										}
 									},
 									{
@@ -23017,7 +23051,19 @@
 												{
 													"name": "port",
 													"int64": {
-														"computed_optional_required": "computed_optional"
+														"computed_optional_required": "computed_optional",
+														"validators": [
+															{
+																"custom": {
+																	"imports": [
+																		{
+																			"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+																		}
+																	],
+																	"schema_definition": "int64validator.Between(1, 65535)"
+																}
+															}
+														]
 													}
 												}
 											]

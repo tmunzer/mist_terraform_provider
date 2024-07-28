@@ -216,6 +216,14 @@ next:
   - name: vlans
     get:
     - list_nested
+    validators:
+    - custom:
+        imports:
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/listvalidator
+        schema_definition: listvalidator.SizeAtLeast(1)
+  - name: vlans
+    get:
+    - list_nested
     - nested_object
     - attributes
     next:
@@ -235,10 +243,14 @@ next:
       validators:
       - custom:
           imports:
+          - path: github.com/Juniper/terraform-provider-mist/internal/validators
           - path: github.com/hashicorp/terraform-plugin-framework-validators/listvalidator
-          - path: github.com/hashicorp/terraform-plugin-framework-validators/int64validator
+          - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
           schema_definition: |-          
             listvalidator.SizeAtLeast(1),
-            listvalidator.ValueInt64sAre(
-              int64validator.Between(1, 4094),
+            listvalidator.ValueStringsAre(
+              stringvalidator.Any(
+                mistvalidator.ParseInt(1, 4094),
+                mistvalidator.ParseVar(),
+              ),
             )

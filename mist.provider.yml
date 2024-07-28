@@ -51529,7 +51529,8 @@ components:
       properties:
         psk:
           example: foryoureyesonly
-          minLength: 1
+          minLength: 8
+          maxLength: 63
           type: string
         type:
           $ref: '#/components/schemas/ap_client_bridge_auth_type'
@@ -51728,6 +51729,8 @@ components:
           default: 255
           example: 255
           type: integer
+          minimum: 0
+          maximum: 255
         enabled:
           default: true
           type: boolean
@@ -53499,9 +53502,7 @@ components:
           nullable: true
           type: string
         channel:
-          description: 'only if `type`==`imagotag`
-
-            channel selection, not needed by default, required for manual channel
+          description: 'only if `type`==`imagotag`, channel selection, not needed by default, required for manual channel
             override only'
           example: 3
           type: integer
@@ -56163,6 +56164,8 @@ components:
           default: 3799
           example: 3799
           type: integer
+          minimum: 1
+          maximum: 65535
         secret:
           example: testing456
           type: string
@@ -57518,6 +57521,8 @@ components:
         orientation:
           description: orientation, 0-359, in degrees, up is 0, right is 90.
           example: 45
+          minimum: 0
+          maximum: 359
           type: integer
         poe_passthrough:
           default: false
@@ -58096,9 +58101,10 @@ components:
       - version
       type: object
     deviceprofile:
-      anyOf:
-      - $ref: '#/components/schemas/deviceprofile_ap'
-      - $ref: '#/components/schemas/deviceprofile_gateway'
+      $ref: '#/components/schemas/deviceprofile_ap'
+      # anyOf:
+      # - $ref: '#/components/schemas/deviceprofile_ap'
+      # - $ref: '#/components/schemas/deviceprofile_gateway'
     deviceprofile_ap:
       description: Device Profile
       minItems: 1
@@ -62430,10 +62436,11 @@ components:
       - qrcode
       type: string
     mist_device:
-      oneOf:
-      - $ref: '#/components/schemas/device_ap'
-      - $ref: '#/components/schemas/device_switch'
-      - $ref: '#/components/schemas/device_gateway'
+      $ref: '#/components/schemas/device_ap'
+      # oneOf:
+      # - $ref: '#/components/schemas/device_ap'
+      # - $ref: '#/components/schemas/device_switch'
+      # - $ref: '#/components/schemas/device_gateway'
     ml_overwrite:
       additionalProperties:
         $ref: '#/components/schemas/ml_overwrite_additional_properties'
@@ -68004,6 +68011,8 @@ components:
         port:
           example: 1812
           type: integer
+          minimum: 1
+          maximum: 65535
       type: object
     radsec_servers:
       description: List of Radsec Servers. Only if not Mist Edge.
@@ -77848,8 +77857,9 @@ components:
       example:
       - 10
       - 20
+      - '{{vlan}}'
       items:
-        type: integer
+        $ref: '#/components/schemas/vlan_id_with_variable'
       type: array
     synthetictest_radius_server:
       properties:
@@ -80231,12 +80241,17 @@ components:
         wap:
           ip: 10.182.102.1
       type: object
+    vs_instance_property:
+        type: object
+        properties:
+          networks:
+            $ref: '#/components/schemas/vs_instance_property_networks'
     vs_instance:
-      properties:
-        networks:
-          $ref: '#/components/schemas/vs_instance_networks'
+      description: optional, for EX9200 only to seggregate virtual-switches. Property key is the instance name
+      additionalProperties:
+        $ref: '#/components/schemas/vs_instance_property'
       type: object
-    vs_instance_networks:
+    vs_instance_property_networks:
       items:
         example: guest
         type: string

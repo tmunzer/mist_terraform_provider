@@ -1554,10 +1554,6 @@ resource "mist_org_wlan" "wlan_cwp" {
   ssid              = "MlN.test"
   bands             = ["5"]
   vlan_id           = "141"
-  wlan_limit_up     = 10000
-  wlan_limit_down   = 20000
-  client_limit_up   = 512
-  client_limit_down = 1000
   portal = {
     enabled                = true
     bypass_when_cloud_down = true
@@ -1834,10 +1830,6 @@ resource "mist_org_wlan" "wlan_one" {
   template_id       = mist_org_wlantemplate.test101.id
   bands             = ["5", "6"]
   vlan_id           = 143
-  wlan_limit_up     = 10000
-  wlan_limit_down   = 20000
-  client_limit_up   = 512
-  client_limit_down = 1000
   auth = {
     type = "psk"
     psk  = "secretpsk"
@@ -1858,10 +1850,6 @@ resource "mist_site_wlan" "wlan_cwp2" {
   ssid              = "MlN.test"
   bands             = ["5"]
   vlan_id           = 143
-  wlan_limit_up     = 10000
-  wlan_limit_down   = 20000
-  client_limit_up   = 512
-  client_limit_down = 1000
   portal = {
     enabled                = true
     bypass_when_cloud_down = true
