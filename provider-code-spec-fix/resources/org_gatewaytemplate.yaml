@@ -144,11 +144,8 @@ next:
           imports:
           - path: github.com/Juniper/terraform-provider-mist/internal/validators
           - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
-          schema_definition: 'mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName("type"),
-            types.StringValue("tunnel")),
-
-            mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("type"),
-            types.StringValue("vpn"))'
+          schema_definition: mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("type"),
+            types.StringValue("vpn"))
 - get:
   - map_nested
   - nested_object

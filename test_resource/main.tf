@@ -1591,6 +1591,16 @@ resource "mist_org_wlan" "wlan_cwp" {
   org_id      = mist_org.terraform_test.id
   template_id = mist_org_wlantemplate.test101.id
   interface   = "all"
+  dynamic_vlan = {
+    enabled = true
+    type = "standard"
+    vlans = {
+        460 = ""
+        492 = ""
+        494 = ""
+        }
+    default_vlan_ids = ["1-10", "{{dddd}}", "123"]
+    }
 }
 
 
@@ -1853,7 +1863,7 @@ resource "mist_org_wlan" "wlan_one" {
       492 = ""
       494 = ""
     }
-    default_vlan_id = "494"
+    default_vlan_ids = ["494"]
   }
 }
 resource "mist_site_wlan" "wlan_cwp2" {
@@ -2685,4 +2695,34 @@ resource "mist_org_gatewaytemplate" "gatewaytemplate_one" {
       path_preference  = "HUB"
     }
   ]
+}
+
+resource "mist_org_nactag" "test222"     {
+        values= [
+            "MlN.1X"
+        ]
+        name= "ssid.MlN.1X"
+    org_id = mist_org.terraform_test.id
+        type= "match"
+        match= "ssid"
+    }
+
+resource "mist_org_nacrule" "nacrule_Wireless_EAP_TLS_McD_IoT" {
+    org_id = mist_org.terraform_test.id
+    enabled = true
+    matching = {
+    auth_type = "eap-tls"
+        nactags = [
+                mist_org_nactag.test222.id
+        ]
+        port_types = [
+                "wireless"
+        ]
+    }
+        apply_tags = [
+                mist_org_nactag.nactag_VLAN_Crew451.id
+        ]
+    action = "allow"
+    name = "Wireless-EAP-TLS-McD-IoT"
+    order = 15
 }

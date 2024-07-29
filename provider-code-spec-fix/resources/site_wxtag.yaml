@@ -105,17 +105,13 @@ next:
       imports:
       - path: github.com/Juniper/terraform-provider-mist/internal/validators
       - path: github.com/hashicorp/terraform-plugin-framework/path
-      schema_definition: 'mistvalidator.AtLeastNOf(
-          
+      schema_definition: |-
+        mistvalidator.AtLeastNOf(
           1,
-          
           path.MatchRelative().AtName("port_range"),
-          
           path.MatchRelative().AtName("protocol"),
-          
           path.MatchRelative().AtName("subnets"),
-          
-        )'            
+        )
 - get:
   - list_nested
   - nested_object
@@ -131,7 +127,11 @@ next:
         - path: github.com/Juniper/terraform-provider-mist/internal/validators
         - path: github.com/hashicorp/terraform-plugin-framework/path
         - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
-        schema_definition: mistvalidator.ParseInt(0, 65535)
+        schema_definition: |-
+          stringvalidator.Any(
+            mistvalidator.ParseInt(0, 65535),
+            mistvalidator.ParseRangeOfInt(0, 65535),
+          )
   - get:
     - string
     name: protocol

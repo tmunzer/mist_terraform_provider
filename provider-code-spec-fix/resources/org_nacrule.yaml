@@ -24,3 +24,112 @@ next:
   get:
   - string
   name: id
+- get:
+  - list
+  name: apply_tags
+  computed_optional_required: computed_optional
+  validators:
+  - custom:
+      imports:
+      - path: github.com/hashicorp/terraform-plugin-framework-validators/listvalidator
+      schema_definition: listvalidator.SizeAtLeast(1)
+- get:
+  - single_nested
+  - attributes
+  name: matching
+  next:
+  - get:
+    - list
+    name: nactags
+    computed_optional_required: computed_optional
+    validators:
+    - custom:
+        imports:
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/listvalidator
+        schema_definition: listvalidator.SizeAtLeast(1)
+  - get:
+    - list
+    name: port_types
+    computed_optional_required: computed_optional
+    validators:
+    - custom:
+        imports:
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/listvalidator
+        schema_definition: listvalidator.SizeAtLeast(1)
+  - get:
+    - list
+    name: site_ids
+    computed_optional_required: computed_optional
+    validators:
+    - custom:
+        imports:
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/listvalidator
+        schema_definition: listvalidator.SizeAtLeast(1)
+  - get:
+    - list
+    name: sitegroup_ids
+    computed_optional_required: computed_optional
+    validators:
+    - custom:
+        imports:
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/listvalidator
+        schema_definition: listvalidator.SizeAtLeast(1)
+  - get:
+    - list
+    name: vendor
+    computed_optional_required: computed_optional
+    validators:
+    - custom:
+        imports:
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/listvalidator
+        schema_definition: listvalidator.SizeAtLeast(1)
+- get:
+  - single_nested
+  - attributes
+  name: not_matching
+  next:
+  - get:
+    - list
+    name: nactags
+    computed_optional_required: computed_optional
+    validators:
+    - custom:
+        imports:
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/listvalidator
+        schema_definition: listvalidator.SizeAtLeast(1)
+  - get:
+    - list
+    name: port_types
+    computed_optional_required: computed_optional
+    validators:
+    - custom:
+        imports:
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/listvalidator
+        schema_definition: listvalidator.SizeAtLeast(1)
+  - get:
+    - list
+    name: site_ids
+    computed_optional_required: computed_optional
+    validators:
+    - custom:
+        imports:
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/listvalidator
+        schema_definition: listvalidator.SizeAtLeast(1)
+  - get:
+    - list
+    name: sitegroup_ids
+    computed_optional_required: computed_optional
+    validators:
+    - custom:
+        imports:
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/listvalidator
+        schema_definition: listvalidator.SizeAtLeast(1)
+  - get:
+    - list
+    name: vendor
+    computed_optional_required: computed_optional
+    validators:
+    - custom:
+        imports:
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/listvalidator
+        schema_definition: listvalidator.SizeAtLeast(1)

@@ -100,6 +100,29 @@ next:
     next:
     - get:
       - string
+      name: port_range
+      validators:
+      - custom:
+          imports:
+          - path: github.com/Juniper/terraform-provider-mist/internal/validators
+          - path: github.com/hashicorp/terraform-plugin-framework/path
+          - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+          schema_definition: |-
+            mistvalidator.AllowedWhenValueIsIn(
+              path.MatchRelative().AtParent().AtName("protocol"),
+              []attr.Value{
+                types.StringValue("tcp"),
+                types.StringValue("udp"),
+              },
+            ),
+            mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName("protocol"), types.StringValue("tcp")),
+            mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName("protocol"), types.StringValue("udp")),
+            stringvalidator.Any(
+              mistvalidator.ParseInt(0, 65535),
+              mistvalidator.ParseRangeOfInt(0, 65535),
+            )
+    - get:
+      - string
       name: protocol
       validators:
       - custom:

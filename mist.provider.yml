@@ -59836,7 +59836,7 @@ components:
         type:
           $ref: '#/components/schemas/gateway_path_type'
         wan_name:
-          description: required when`type`==`tunnel`, optional if `type`==`vpn` wan
+          description: required when`type`==`tunnel`
           example: wan0
           type: string
       type: object
@@ -82025,12 +82025,19 @@ components:
       items:
         $ref: '#/components/schemas/vlan_id_with_variable'
       type: array
+    wlan_dynamic_vlan_default_vlan_ids:
+          description: Default VLAN ID(s) can be a number, a range of VLAN IDs, a variable or multiple numbers, ranges or variables as a VLAN pool. Default VLAN as a pool of VLANS requires 0.14.x or newer firmware
+          type: array
+          items: 
+            $ref: '#/components/schemas/wlan_dynamic_vlan_default_vlan_id'
     wlan_dynamic_vlan:
       description: for 802.1x
       nullable: true
       properties:
         default_vlan_id:
-          $ref: '#/components/schemas/wlan_dynamic_vlan_default_vlan_id'
+          $ref: '#/components/schemas/wlan_dynamic_vlan_default_vlan_id_deprecated'
+        default_vlan_ids:
+          $ref: '#/components/schemas/wlan_dynamic_vlan_default_vlan_ids'
         enabled:
           default: false
           description: whether to enable dynamic vlan
@@ -82053,6 +82060,15 @@ components:
           type: object
       type: object
     wlan_dynamic_vlan_default_vlan_id:
+      deprecated: true
+      default: 999
+      description: "VLAN ID, VLAN range or variable to use when there\u2019s no match from RADIUS"
+      oneOf:
+      - type: string
+      - maximum: 4094
+        minimum: 1
+        type: integer
+    wlan_dynamic_vlan_default_vlan_id_deprecated:
       default: 999
       description: "vlan_id to use when there\u2019s no match from RADIUS"
       oneOf:

@@ -418,13 +418,22 @@ next:
   next:
   - computed_optional_required: required
     get:
-    - string
-    name: default_vlan_id
+    - list
+    name: default_vlan_ids
     validators:
     - custom:
         imports:
         - path: github.com/Juniper/terraform-provider-mist/internal/validators
-        schema_definition: stringvalidator.Any(mistvalidator.ParseInt(1, 4094),mistvalidator.ParseVar(),)
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/listvalidator
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+        schema_definition: |-
+          listvalidator.ValueStringsAre(
+            stringvalidator.Any(
+              mistvalidator.ParseInt(1, 4094),
+              mistvalidator.ParseRangeOfInt(1, 4094),	
+              mistvalidator.ParseVar(),							
+            ),
+          )
   - computed_optional_required: computed_optional
     get:
     - list
