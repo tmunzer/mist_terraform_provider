@@ -341,7 +341,7 @@ next:
               mistvalidator.ParseVar(),
             ),
           )
-- name: client_limit_down_enabled
+- name: client_limit_down
   get:
   - int64
   validators:
@@ -349,9 +349,9 @@ next:
       imports:
       - path: github.com/Juniper/terraform-provider-mist/internal/validators
       - path: github.com/hashicorp/terraform-plugin-framework/path
-      schema_definition: mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("client_limit_down"),
+      schema_definition: mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("client_limit_down_enabled"),
         types.BoolValue(true))
-- name: client_limit_up_enabled
+- name: client_limit_up
   get:
   - int64
   validators:
@@ -359,7 +359,7 @@ next:
       imports:
       - path: github.com/Juniper/terraform-provider-mist/internal/validators
       - path: github.com/hashicorp/terraform-plugin-framework/path
-      schema_definition: mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("client_limit_up"),
+      schema_definition: mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("client_limit_up_enabled"),
         types.BoolValue(true))
 - name: coa_servers
   get: 

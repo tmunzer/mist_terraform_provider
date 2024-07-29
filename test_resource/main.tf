@@ -32,6 +32,16 @@ resource "mist_org_servicepolicy" "test1" {
   }
   name = "Policy-1"
 }
+resource "mist_org_service" "service11" {
+    org_id = mist_org.terraform_test.id
+    traffic_type = "default"
+    app_categories = [
+        "Advertisement",
+        "FileSharing"
+    ]
+    name = "public_url_block"
+    type = "app_categories"
+}
 resource "mist_org_servicepolicy" "test2" {
   org_id = mist_org.terraform_test.id
   tenants = [

@@ -46,10 +46,11 @@ data "mist_org_idpprofiles" "idpprofiles" {
    org_id  = "992bf4b9-c900-4850-9992-107b2f9df928"
 }
 
-# data "mist_countries" "test" {}
-# output "mist_countries" {
-#   value = 
-# }
+data "mist_const_countries" "test" {}
+data "mist_const_app_categories" "test" {}
+data "mist_const_app_sub_categories" "test" {}
+data "mist_const_gateway_applications" "test" {}
+data "mist_const_traffic_types" "test" {}
 
 # output "mist_device_ap_stats" {
 #   value = data.mist_device_ap_stats.example

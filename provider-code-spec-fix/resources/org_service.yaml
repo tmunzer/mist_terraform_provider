@@ -217,23 +217,6 @@ next:
           "low",
         )
 - get:
-  - string
-  name: traffic_type
-  validators:
-  - custom:
-      imports:
-      - path: github.com/Juniper/terraform-provider-mist/internal/validators
-      - path: github.com/hashicorp/terraform-plugin-framework/path
-      schema_definition: |-
-        mistvalidator.AllowedWhenValueIsIn(
-          path.MatchRelative().AtParent().AtName("type"),
-          []attr.Value{
-            types.StringValue("custom"),
-            types.StringValue("hostnames"),
-            types.StringValue("apps"),
-          },
-        )
-- get:
   - list
   name: urls
   validators:
