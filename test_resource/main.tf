@@ -9,8 +9,9 @@ terraform {
 provider "mist" {
   host     = local.envs["HOST"]
   apitoken = local.envs["APITOKEN"]
-  # username = local.envs["USERNAME"]
-  # password = local.envs["PASSWORD"]
+  //proxy = "test_proxy:Jun1per!Mist@10.3.18.11:3128"
+   //username = local.envs["USERNAME"]
+  // password = local.envs["PASSWORD"]
 }
 
 ### ORG
@@ -419,7 +420,7 @@ resource "mist_org_wxtag" "test_8" {
         "10.3.20.105"
       ]
       protocol   = "tcp"
-      port_range = "443"
+      port_range = "443-443"
     }
   ]
   name   = "IP traefik.stag.one:443"
@@ -1769,6 +1770,9 @@ resource "mist_site_networktemplate" "site_switch_template" {
       enable_qos   = true
       mode         = "trunk"
       port_network = "test2"
+      storm_control = {
+        percentage = 15
+      }
     }
     disabled_port = {
       mode         = "access"

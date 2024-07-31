@@ -53610,6 +53610,7 @@ components:
           type: boolean
       type: object
     app_probing_apps:
+      description: app-keys from /api/v1/const/applications
       example:
       - facebook
       items:
@@ -65870,13 +65871,8 @@ components:
     org_setting_gateway_mgmt_app_probing:
       properties:
         apps:
-          $ref: '#/components/schemas/org_setting_gateway_mgmt_app_probing_apps'
+          $ref: '#/components/schemas/app_probing_apps'
       type: object
-    org_setting_gateway_mgmt_app_probing_apps:
-      description: app-keys from /api/v1/const/applications
-      items:
-        type: string
-      type: array
     org_setting_gateway_mgmt_host_out_policies:
       description: 'optional, for some of the host-out traffic, the path preference
         can be specified by default, ECMP will be used from all available route/path

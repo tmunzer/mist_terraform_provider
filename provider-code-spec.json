@@ -106,6 +106,77 @@
             }
         },
         {
+            "name": "const_applications",
+            "schema": {
+                "attributes": [
+                    {
+                        "name": "const_applications",
+                        "set_nested": {
+                            "computed_optional_required": "computed",
+                            "nested_object": {
+                                "attributes": [
+                                    {
+                                        "name": "app_id",
+                                        "bool": {
+                                            "computed_optional_required": "computed"
+                                        }
+                                    },
+                                    {
+                                        "name": "app_image_url",
+                                        "string": {
+                                            "computed_optional_required": "computed"
+                                        }
+                                    },
+                                    {
+                                        "name": "app_probe",
+                                        "bool": {
+                                            "computed_optional_required": "computed"
+                                        }
+                                    },
+                                    {
+                                        "name": "category",
+                                        "string": {
+                                            "computed_optional_required": "computed"
+                                        }
+                                    },
+                                    {
+                                        "name": "group",
+                                        "string": {
+                                            "computed_optional_required": "computed"
+                                        }
+                                    },
+                                    {
+                                        "name": "key",
+                                        "string": {
+                                            "computed_optional_required": "computed"
+                                        }
+                                    },
+                                    {
+                                        "name": "name",
+                                        "string": {
+                                            "computed_optional_required": "computed"
+                                        }
+                                    },
+                                    {
+                                        "name": "signature_based",
+                                        "bool": {
+                                            "computed_optional_required": "computed"
+                                        }
+                                    },
+                                    {
+                                        "name": "ssr_app_id",
+                                        "bool": {
+                                            "computed_optional_required": "computed"
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        {
             "name": "const_countries",
             "schema": {
                 "attributes": [
@@ -825,7 +896,7 @@
                                                                                 "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
                                                                             }
                                                                         ],
-                                                                        "schema_definition": "mistvalidator.AllowedWhenValueIsIn(\n  path.MatchRelative().AtParent().AtName(\"protocol\"),\n  []attr.Value{\n    types.StringValue(\"tcp\"),\n    types.StringValue(\"udp\"),\n  },\n),\nmistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName(\"protocol\"), types.StringValue(\"tcp\")),\nmistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName(\"protocol\"), types.StringValue(\"udp\")),\nstringvalidator.Any(\n  mistvalidator.ParseInt(0, 65535),\n  mistvalidator.ParseRangeOfInt(0, 65535),\n)"
+                                                                        "schema_definition": "mistvalidator.AllowedWhenValueIsIn(\n  path.MatchRelative().AtParent().AtName(\"protocol\"),\n  []attr.Value{\n    types.StringValue(\"tcp\"),\n    types.StringValue(\"udp\"),\n  },\n),\nmistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName(\"protocol\"), types.StringValue(\"tcp\")),\nmistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName(\"protocol\"), types.StringValue(\"udp\")),\nstringvalidator.Any(\n  mistvalidator.ParseInt(0, 65535),\n  mistvalidator.ParseRangeOfInt(0, 65535, true),\n)"
                                                                     }
                                                                 }
                                                             ]
@@ -18274,7 +18345,7 @@
                                                                                 "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
                                                                             }
                                                                         ],
-                                                                        "schema_definition": "mistvalidator.AllowedWhenValueIsIn(\n  path.MatchRelative().AtParent().AtName(\"protocol\"),\n  []attr.Value{\n    types.StringValue(\"tcp\"),\n    types.StringValue(\"udp\"),\n  },\n),\nmistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName(\"protocol\"), types.StringValue(\"tcp\")),\nmistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName(\"protocol\"), types.StringValue(\"udp\")),\nstringvalidator.Any(\n  mistvalidator.ParseInt(0, 65535),\n  mistvalidator.ParseRangeOfInt(0, 65535),\n)"
+                                                                        "schema_definition": "mistvalidator.AllowedWhenValueIsIn(\n  path.MatchRelative().AtParent().AtName(\"protocol\"),\n  []attr.Value{\n    types.StringValue(\"tcp\"),\n    types.StringValue(\"udp\"),\n  },\n),\nmistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName(\"protocol\"), types.StringValue(\"tcp\")),\nmistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName(\"protocol\"), types.StringValue(\"udp\")),\nstringvalidator.Any(\n  mistvalidator.ParseInt(0, 65535),\n  mistvalidator.ParseRangeOfInt(0, 65535, true),\n)"
                                                                     }
                                                                 }
                                                             ]
@@ -24369,7 +24440,7 @@
                                                                 "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
                                                             }
                                                         ],
-                                                        "schema_definition": "mistvalidator.AllowedWhenValueIsIn(\n  path.MatchRelative().AtParent().AtName(\"protocol\"),\n  []attr.Value{\n    types.StringValue(\"tcp\"),\n    types.StringValue(\"udp\"),\n  },\n),\nmistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName(\"protocol\"), types.StringValue(\"tcp\")),\nmistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName(\"protocol\"), types.StringValue(\"udp\")),\nstringvalidator.Any(\n  mistvalidator.ParseInt(0, 65535),\n  mistvalidator.ParseRangeOfInt(0, 65535),\n)"
+                                                        "schema_definition": "mistvalidator.AllowedWhenValueIsIn(\n  path.MatchRelative().AtParent().AtName(\"protocol\"),\n  []attr.Value{\n    types.StringValue(\"tcp\"),\n    types.StringValue(\"udp\"),\n  },\n),\nmistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName(\"protocol\"), types.StringValue(\"tcp\")),\nmistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName(\"protocol\"), types.StringValue(\"udp\")),\nstringvalidator.Any(\n  mistvalidator.ParseInt(0, 65535),\n  mistvalidator.ParseRangeOfInt(0, 65535, true),\n)"
                                                     }
                                                 }
                                             ]
@@ -27523,7 +27594,7 @@
                                                             "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
                                                         }
                                                     ],
-                                                    "schema_definition": "listvalidator.ValueStringsAre(\n  stringvalidator.Any(\n    mistvalidator.ParseInt(1, 4094),\n    mistvalidator.ParseRangeOfInt(1, 4094),\t\n    mistvalidator.ParseVar(),\t\t\t\t\t\t\t\n  ),\n)"
+                                                    "schema_definition": "listvalidator.ValueStringsAre(\n  stringvalidator.Any(\n    mistvalidator.ParseInt(1, 4094),\n    mistvalidator.ParseRangeOfInt(1, 4094, false),\t\n    mistvalidator.ParseVar(),\t\t\t\t\t\t\t\n  ),\n)"
                                                 }
                                             }
                                         ]
@@ -29928,7 +29999,7 @@
                                                                 "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
                                                             }
                                                         ],
-                                                        "schema_definition": "stringvalidator.Any(\n  mistvalidator.ParseInt(0, 65535),\n  mistvalidator.ParseRangeOfInt(0, 65535),\n)"
+                                                        "schema_definition": "stringvalidator.Any(\n  mistvalidator.ParseInt(0, 65535),\n  mistvalidator.ParseRangeOfInt(0, 65535, true),\n)"
                                                     }
                                                 }
                                             ]
@@ -30443,7 +30514,7 @@
                                                                                 "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
                                                                             }
                                                                         ],
-                                                                        "schema_definition": "mistvalidator.AllowedWhenValueIsIn(\n  path.MatchRelative().AtParent().AtName(\"protocol\"),\n  []attr.Value{\n    types.StringValue(\"tcp\"),\n    types.StringValue(\"udp\"),\n  },\n),\nmistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName(\"protocol\"), types.StringValue(\"tcp\")),\nmistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName(\"protocol\"), types.StringValue(\"udp\")),\nstringvalidator.Any(\n  mistvalidator.ParseInt(0, 65535),\n  mistvalidator.ParseRangeOfInt(0, 65535),\n)"
+                                                                        "schema_definition": "mistvalidator.AllowedWhenValueIsIn(\n  path.MatchRelative().AtParent().AtName(\"protocol\"),\n  []attr.Value{\n    types.StringValue(\"tcp\"),\n    types.StringValue(\"udp\"),\n  },\n),\nmistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName(\"protocol\"), types.StringValue(\"tcp\")),\nmistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName(\"protocol\"), types.StringValue(\"udp\")),\nstringvalidator.Any(\n  mistvalidator.ParseInt(0, 65535),\n  mistvalidator.ParseRangeOfInt(0, 65535, true),\n)"
                                                                     }
                                                                 }
                                                             ]
@@ -35735,7 +35806,8 @@
                                                     "computed_optional_required": "optional",
                                                     "element_type": {
                                                         "string": {}
-                                                    }
+                                                    },
+                                                    "description": "app-keys from /api/v1/const/applications"
                                                 }
                                             },
                                             {
@@ -38731,7 +38803,7 @@
                                                             "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
                                                         }
                                                     ],
-                                                    "schema_definition": "listvalidator.ValueStringsAre(\n  stringvalidator.Any(\n    mistvalidator.ParseInt(1, 4094),\n    mistvalidator.ParseRangeOfInt(1, 4094),\t\n    mistvalidator.ParseVar(),\t\t\t\t\t\t\t\n  ),\n)"
+                                                    "schema_definition": "listvalidator.ValueStringsAre(\n  stringvalidator.Any(\n    mistvalidator.ParseInt(1, 4094),\n    mistvalidator.ParseRangeOfInt(1, 4094, false),\t\n    mistvalidator.ParseVar(),\t\t\t\t\t\t\t\n  ),\n)"
                                                 }
                                             }
                                         ]
@@ -41023,7 +41095,7 @@
                                                                 "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
                                                             }
                                                         ],
-                                                        "schema_definition": "stringvalidator.Any(\n  mistvalidator.ParseInt(0, 65535),\n  mistvalidator.ParseRangeOfInt(0, 65535),\n)"
+                                                        "schema_definition": "stringvalidator.Any(\n  mistvalidator.ParseInt(0, 65535),\n  mistvalidator.ParseRangeOfInt(0, 65535, true),\n)"
                                                     }
                                                 }
                                             ]

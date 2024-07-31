@@ -130,7 +130,7 @@ next:
         schema_definition: |-
           stringvalidator.Any(
             mistvalidator.ParseInt(0, 65535),
-            mistvalidator.ParseRangeOfInt(0, 65535),
+            mistvalidator.ParseRangeOfInt(0, 65535, true),
           )
   - get:
     - string

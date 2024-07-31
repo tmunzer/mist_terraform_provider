@@ -106,6 +106,77 @@
 			}
 		},
 		{
+			"name": "const_applications",
+			"schema": {
+				"attributes": [
+					{
+						"name": "const_applications",
+						"set_nested": {
+							"computed_optional_required": "computed",
+							"nested_object": {
+								"attributes": [
+									{
+										"name": "app_id",
+										"bool": {
+											"computed_optional_required": "computed"
+										}
+									},
+									{
+										"name": "app_image_url",
+										"string": {
+											"computed_optional_required": "computed"
+										}
+									},
+									{
+										"name": "app_probe",
+										"bool": {
+											"computed_optional_required": "computed"
+										}
+									},
+									{
+										"name": "category",
+										"string": {
+											"computed_optional_required": "computed"
+										}
+									},
+									{
+										"name": "group",
+										"string": {
+											"computed_optional_required": "computed"
+										}
+									},
+									{
+										"name": "key",
+										"string": {
+											"computed_optional_required": "computed"
+										}
+									},
+									{
+										"name": "name",
+										"string": {
+											"computed_optional_required": "computed"
+										}
+									},
+									{
+										"name": "signature_based",
+										"bool": {
+											"computed_optional_required": "computed"
+										}
+									},
+									{
+										"name": "ssr_app_id",
+										"bool": {
+											"computed_optional_required": "computed"
+										}
+									}
+								]
+							}
+						}
+					}
+				]
+			}
+		},
+		{
 			"name": "const_countries",
 			"schema": {
 				"attributes": [
@@ -27103,7 +27174,8 @@
 													"computed_optional_required": "computed_optional",
 													"element_type": {
 														"string": {}
-													}
+													},
+													"description": "app-keys from /api/v1/const/applications"
 												}
 											},
 											{

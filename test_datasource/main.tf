@@ -49,8 +49,9 @@ data "mist_org_idpprofiles" "idpprofiles" {
 data "mist_const_countries" "test" {}
 data "mist_const_app_categories" "test" {}
 data "mist_const_app_sub_categories" "test" {}
-data "mist_const_gateway_applications" "test" {}
+//data "mist_const_gateway_applications" "test" {}
 data "mist_const_traffic_types" "test" {}
+data "mist_const_applications" "test" {}
 
 # output "mist_device_ap_stats" {
 #   value = data.mist_device_ap_stats.example
