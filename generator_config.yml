@@ -1,31 +1,31 @@
 provider:
   name: mistapi
 data_sources:
-  const_countries:
-    read:
-      path: /api/v1/const/countries
-      method: GET
-  const_app_categories:
-    read:
-      path: /api/v1/const/app_categories
-      method: GET 
-  const_app_sub_categories:
-    read:
-      path: /api/v1/const/app_subcategories
-      method: GET 
+  # const_countries:
+  #   read:
+  #     path: /api/v1/const/countries
+  #     method: GET
+  # const_app_categories:
+  #   read:
+  #     path: /api/v1/const/app_categories
+  #     method: GET 
+  # const_app_sub_categories:
+  #   read:
+  #     path: /api/v1/const/app_subcategories
+  #     method: GET 
   #### WARNING, this one is not suitable for TF (10min to preocess the API response)
   # const_gateway_applications:
   #   read:
   #     path: /api/v1/const/gateway_applications
   #     method: GET 
-  const_traffic_types:
-    read:
-      path: /api/v1/const/traffic_types
-      method: GET 
-  const_applications:
-    read:
-      path: /api/v1/const/applications
-      method: GET 
+  # const_traffic_types:
+  #   read:
+  #     path: /api/v1/const/traffic_types
+  #     method: GET 
+  # const_applications:
+  #   read:
+  #     path: /api/v1/const/applications
+  #     method: GET 
 ################################################################################
 ################################################################################
 ################################################################################
@@ -69,6 +69,10 @@ data_sources:
 ################################################################################
 ################################################################################
 ################################################################################
+  # org_usermacs:
+  #   read:
+  #     path: /api/v1/orgs/{org_id}/usermacs/search
+  #     method: GET 
   # sites:
   #   read:
   #     path: /api/v1/orgs/{org_id}/sites
@@ -146,545 +150,562 @@ data_sources:
   #   schema:
   #     ignores:
   #       - for_site
-  org_vpns:
-    read:
-      path: /api/v1/orgs/{org_id}/vpns
-      method: GET 
-    schema:
-      ignores:
-      - for_site
-      - limit
-      - page
-      - type
-  org_servicepolicies:
-    read:
-      path: /api/v1/orgs/{org_id}/servicepolicies
-      method: GET 
-    schema:
-      ignores:
-      - for_site
-      - limit
-      - page
-      - type
-  org_idpprofiles:
-    read:
-      path: /api/v1/orgs/{org_id}/idpprofiles
-      method: GET 
-    schema:
-      ignores:
-      - for_site
-      - limit
-      - page
-      - type
+  # org_vpns:
+  #   read:
+  #     path: /api/v1/orgs/{org_id}/vpns
+  #     method: GET 
+  #   schema:
+  #     ignores:
+  #     - for_site
+  #     - limit
+  #     - page
+  #     - type
+  # org_servicepolicies:
+  #   read:
+  #     path: /api/v1/orgs/{org_id}/servicepolicies
+  #     method: GET 
+  #   schema:
+  #     ignores:
+  #     - for_site
+  #     - limit
+  #     - page
+  #     - type
+  # org_idpprofiles:
+  #   read:
+  #     path: /api/v1/orgs/{org_id}/idpprofiles
+  #     method: GET 
+  #   schema:
+  #     ignores:
+  #     - for_site
+  #     - limit
+  #     - page
+  #     - type
 ################################################################################
 ################################################################################
 ################################################################################
 resources:
-  org:
-    create:
-      path: /api/v1/orgs
-      method: POST
-    read:
-      path: /api/v1/orgs/{org_id}
-      method: GET
-    delete:
-      path: /api/v1/orgs/{org_id}
-      method: DELETE
-    update:
-      path: /api/v1/orgs/{org_id}
-      method: PUT      
-    schema:
-      ignores:
-        - created_time
-        - modified_time
-      attributes:
-        aliases:
-          org_id: id
-  site:
-    create:
-      path: /api/v1/orgs/{org_id}/sites
-      method: POST
-    read:
-      path: /api/v1/sites/{site_id}
-      method: GET
-    delete:
-      path: /api/v1/sites/{site_id}
-      method: DELETE
-    update:
-      path: /api/v1/sites/{site_id}
-      method: PUT      
-    schema:
-      attributes:
-        aliases:
-          site_id: id
-      ignores:
-        - created_time
-        - modified_time
-  org_sitegroup:
-    create:
-      path: /api/v1/orgs/{org_id}/sitegroups
-      method: POST
-    read:
-      path: /api/v1/orgs/{org_id}/sitegroups/{sitegroup_id}
-      method: GET
-    delete:
-      path: /api/v1/orgs/{org_id}/sitegroups/{sitegroup_id}
-      method: DELETE
-    update:
-      path: /api/v1/orgs/{org_id}/sitegroups/{sitegroup_id}
-      method: PUT      
-    schema:
-      ignores:
-        - created_time
-        - modified_time
-        - site_ids
-      attributes:
-        aliases:
-          sitegroup_id: id
-  org_networktemplate:
-    create:
-      path: /api/v1/orgs/{org_id}/networktemplates
-      method: POST
-    read:
-      path: /api/v1/orgs/{org_id}/networktemplates/{networktemplate_id}
-      method: GET
-    delete:
-      path: /api/v1/orgs/{org_id}/networktemplates/{networktemplate_id}
-      method: DELETE
-    update:
-      path: /api/v1/orgs/{org_id}/networktemplates/{networktemplate_id}
-      method: PUT      
-    schema:
-      ignores:
-        - created_time
-        - modified_time
-        - import_org_networks
-        - switch_matching.rules.switch_mgmt
-      attributes:
-        aliases:
-          networktemplate_id: id
-  org_service:
-    create:
-      path: /api/v1/orgs/{org_id}/services
-      method: POST
-    read:
-      path: /api/v1/orgs/{org_id}/services/{service_id}
-      method: GET
-    delete:
-      path: /api/v1/orgs/{org_id}/services/{service_id}
-      method: DELETE
-    update:
-      path: /api/v1/orgs/{org_id}/services/{service_id}
-      method: PUT
-    schema:
-      ignores:
-        - created_time
-        - modified_time
-      attributes:
-        aliases:
-          service_id: id
-  org_servicepolicy:
-    create:
-      path: /api/v1/orgs/{org_id}/servicepolicies
-      method: POST
-    read:
-      path: /api/v1/orgs/{org_id}/servicepolicies/{servicepolicy_id}
-      method: GET
-    delete:
-      path: /api/v1/orgs/{org_id}/servicepolicies/{servicepolicy_id}
-      method: DELETE
-    update:
-      path: /api/v1/orgs/{org_id}/servicepolicies/{servicepolicy_id}
-      method: PUT
-    schema:
-      ignores:
-        - created_time
-        - modified_time
-      attributes:
-        aliases:
-          servicepolicy_id: id
-  org_idpprofile:
-    create:
-      path: /api/v1/orgs/{org_id}/idpprofiles
-      method: POST
-    read:
-      path: /api/v1/orgs/{org_id}/idpprofiles/{idpprofile_id}
-      method: GET
-    delete:
-      path: /api/v1/orgs/{org_id}/idpprofiles/{idpprofile_id}
-      method: DELETE
-    update:
-      path: /api/v1/orgs/{org_id}/idpprofiles/{idpprofile_id}
-      method: PUT
-    schema:
-      ignores:
-        - created_time
-        - modified_time
-      attributes:
-        aliases:
-          idpprofile_id: id
-  org_network:
-    create:
-      path: /api/v1/orgs/{org_id}/networks
-      method: POST
-    read:
-      path: /api/v1/orgs/{org_id}/networks/{network_id}
-      method: GET
-    delete:
-      path: /api/v1/orgs/{org_id}/networks/{network_id}
-      method: DELETE
-    update:
-      path: /api/v1/orgs/{org_id}/networks/{network_id}
-      method: PUT
-    schema:
-      ignores:
-        - created_time
-        - modified_time
-      attributes:
-        aliases:
-          network_id: id
-  org_gatewaytemplate:
-    create:
-      path: /api/v1/orgs/{org_id}/gatewaytemplates
-      method: POST
-    read:
-      path: /api/v1/orgs/{org_id}/gatewaytemplates/{gatewaytemplate_id}
-      method: GET
-    delete:
-      path: /api/v1/orgs/{org_id}/gatewaytemplates/{gatewaytemplate_id}
-      method: DELETE
-    update:
-      path: /api/v1/orgs/{org_id}/gatewaytemplates/{gatewaytemplate_id}
-      method: PUT
-    schema:
-      ignores:
-        - created_time
-        - modified_time
-        - gateway_matching
-        - idp_profiles.created_time
-        - idp_profiles.modified_time
-        - idp_profiles.id
-        - networks.created_time
-        - networks.modified_time
-        - networks.id
-        - networks.org_id
-      attributes:
-        aliases:
-          gatewaytemplate_id: id
-  org_nactag:
-    create:
-      path: /api/v1/orgs/{org_id}/nactags
-      method: POST
-    read:
-      path: /api/v1/orgs/{org_id}/nactags/{nactag_id}
-      method: GET
-    delete:
-      path: /api/v1/orgs/{org_id}/nactags/{nactag_id}
-      method: DELETE
-    update:
-      path: /api/v1/orgs/{org_id}/nactags/{nactag_id}
-      method: PUT      
-    schema:
-      attributes:
-        aliases:
-          nactag_id: id
-      ignores:
-        - created_time
-        - modified_time
-  org_nacrule:
-    create:
-      path: /api/v1/orgs/{org_id}/nacrules
-      method: POST
-    read:
-      path: /api/v1/orgs/{org_id}/nacrules/{nacrule_id}
-      method: GET
-    delete:
-      path: /api/v1/orgs/{org_id}/nacrules/{nacrule_id}
-      method: DELETE
-    update:
-      path: /api/v1/orgs/{org_id}/nacrules/{nacrule_id}
-      method: PUT      
-    schema:
-      attributes:
-        aliases:
-          nacrule_id: id
-      ignores:
-        - created_time
-        - modified_time
-  org_rftemplate:
-    create:
-      path: /api/v1/orgs/{org_id}/rftemplates
-      method: POST
-    read:
-      path: /api/v1/orgs/{org_id}/rftemplates/{rftemplate_id}
-      method: GET
-    delete:
-      path: /api/v1/orgs/{org_id}/rftemplates/{rftemplate_id}
-      method: DELETE
-    update:
-      path: /api/v1/orgs/{org_id}/rftemplates/{rftemplate_id}
-      method: PUT      
-    schema:
-      ignores:
-        - created_time
-        - modified_time
-        - for_site
-      attributes:
-        aliases:
-          rftemplate_id: id
-  site_setting:
-    create:
-      path: /api/v1/sites/{site_id}/setting
-      method: PUT
-    read:
-      path: /api/v1/sites/{site_id}/setting
-      method: GET
-    update:
-      path: /api/v1/sites/{site_id}/setting
-      method: PUT      
-    delete:
-      path: /api/v1/sites/{site_id}/setting
-      method: PUT      
-    schema:
-      ignores:
-        ##
-        - created_time
-        - modified_time
-        - id
-        - for_site
-        - flags
-        - status_portal
-        ## AP
-        - ap_matching
-        - ap_port_config
-        - auto_placement
-        - radio_config
-        ## MX EDGE
-        - mxedge
-        - mxedge_mgmt
-        - mxtunnels
-        - tunterm_monitoring
-        - tunterm_monitoring_disabled
-        - tunterm_multicast_config
-        # OTHERS
-        - evpn_options
-        - gateway
-        - gateway_matching
-        - gateway_mgmt.protect_re
-        - ospf_areas
-        - paloalto_networks
-        - switch
-        - vrrp_groups
-        ### SWITCH TPL
-        - acl_policies
-        - acl_tags
-        - additional_config_cmds
-        - dhcp_snooping
-        - dns_servers
-        - dns_suffix
-        - extra_routes
-        - extra_routes6
-        - id
-        - mist_nac
-        - name
-        - networks
-        - ntp_servers
-        - port_mirroring
-        - port_usages
-        - radius_config
-        - remote_syslog
-        - snmp_config
-        - switch_matching
-        - switch_mgmt
-        - vrf_config
-        - vrf_instances    
-        ## GATEWAY TPL
-        - gateway_additional_config_cmds
-        - bgp_config
-        - dhcpd_config
-        - dns_override
-        - dns_servers
-        - dns_suffix
-        - id
-        - idp_profiles
-        - ip_configs
-        - name
-        - networks
-        - ntp_override
-        - ntp_servers
-        - path_preferences
-        - port_config
-        - router_id
-        - routing_policies
-        - service_policies
-        - tunnel_configs
-        - tunnel_provider_options
-        - type         
-      attributes:
-        aliases:
-          site_id: id
-  site_networktemplate:
-    create:
-      path: /api/v1/sites/{site_id}/setting
-      method: PUT
-    read:
-      path: /api/v1/sites/{site_id}/setting
-      method: GET
-    update:
-      path: /api/v1/sites/{site_id}/setting
-      method: PUT      
-    delete:
-      path: /api/v1/sites/{site_id}/setting
-      method: PUT      
-    schema:
-      ignores:
-      ## temp fix
-        - vrb_config
-      ##
-        - switch_matching.rules.switch_mgmt
-        ###
-        - analytic
-        - ap_matching
-        - ap_port_config
-        - ap_updown_threshold
-        - auto_placement
-        - auto_upgrade
-        - blacklist_url
-        - ble_config
-        - config_auto_revert
-        - config_push_policy
-        - created_time
-        - critical_url_monitoring
-        - device_updown_threshold
-        - disabled_system_defined_port_usages
-        - engagement
-        - evpn_options
-        - flags
-        - for_site
-        - gateway
-        - gateway_additional_config_cmds
-        - gateway_mgmt
-        - gateway_updown_threshold
-        - led
-        - modified_time
-        - mxedge
-        - mxedge_mgmt
-        - mxtunnels
-        - occupancy
-        - org_id
-        - ospf_areas
-        - paloalto_networks
-        - persist_config_on_device
-        - proxy
-        - radio_config
-        - report_gatt
-        - rogue
-        - rtsa
-        - simple_alert
-        - site_id
-        - skyatp
-        - srx_app
-        - ssh_keys
-        - ssr
-        - status_portal
-        - switch
-        - switch_updown_threshold
-        - synthetic_test
-        - track_anonymous_devices
-        - tunterm_monitoring
-        - tunterm_monitoring_disabled
-        - tunterm_multicast_config
-        - vars
-        - vna
-        - vrrp_groups
-        - vs_instance
-        - wan_vna
-        - watched_station_url
-        - whitelist_url
-        - wids
-        - wifi
-        - wired_vna
-        - zone_occupancy_alert
-      attributes:
-        aliases:
-          site_id: id  
-  org_vpn:
-    create:
-      path: /api/v1/orgs/{org_id}/vpns
-      method: POST
-    read:
-      path: /api/v1/orgs/{org_id}/vpns/{vpn_id}
-      method: GET
-    delete:
-      path: /api/v1/orgs/{org_id}/vpns/{vpn_id}
-      method: DELETE
-    update:
-      path: /api/v1/orgs/{org_id}/vpns/{vpn_id}
-      method: PUT      
-    schema:
-      ignores:
-        - created_time
-        - modified_time
-        - for_site
-      attributes:
-        aliases:
-          vpn_id: id     
-  org_setting:
-    create:
-      path: /api/v1/orgs/{org_id}/setting
-      method: PUT
-    read:
-      path: /api/v1/orgs/{org_id}/setting
-      method: GET
-    delete:
-      path: /api/v1/orgs/{org_id}/setting
-      method: PUT
-    update:
-      path: /api/v1/orgs/{org_id}/setting
-      method: PUT      
-    schema:
-      ignores:
-        - created_time
-        - modified_time
-        - for_site
-        - id
-        - auto_device_naming
-        - auto_deviceprofile_assignment
-        - auto_site_assignment
-        - gateway_mgmt
-        - simple_alert
-        - tags
-        - wan_pma
-        - wired_pma
-        - wireless_pma
-        - blacklist_url
-        - msp_id
-        - pcap_bucket_verified
-      attributes:
-        aliases:
-          org_id: id   
-  org_mx_edge:
-    create:
-      path: /api/v1/orgs/{org_id}/mxedges
-      method: POST
-    read:
-      path: /api/v1/orgs/{org_id}/mxedges/{mxedge_id}
-      method: GET
-    delete:
-      path: /api/v1/orgs/{org_id}/mxedges/{mxedge_id}
-      method: DELETE
-    update:
-      path: /api/v1/orgs/{org_id}/mxedges/{mxedge_id}
-      method: PUT      
-    schema:
-      ignores:
-        - created_time
-        - modified_time
-        - for_site
-        - version
-      attributes:
-        aliases:
-          mxedge_id: id     
+  # org:
+  #   create:
+  #     path: /api/v1/orgs
+  #     method: POST
+  #   read:
+  #     path: /api/v1/orgs/{org_id}
+  #     method: GET
+  #   delete:
+  #     path: /api/v1/orgs/{org_id}
+  #     method: DELETE
+  #   update:
+  #     path: /api/v1/orgs/{org_id}
+  #     method: PUT      
+  #   schema:
+  #     ignores:
+  #       - created_time
+  #       - modified_time
+  #     attributes:
+  #       aliases:
+  #         org_id: id
+  # site:
+  #   create:
+  #     path: /api/v1/orgs/{org_id}/sites
+  #     method: POST
+  #   read:
+  #     path: /api/v1/sites/{site_id}
+  #     method: GET
+  #   delete:
+  #     path: /api/v1/sites/{site_id}
+  #     method: DELETE
+  #   update:
+  #     path: /api/v1/sites/{site_id}
+  #     method: PUT      
+  #   schema:
+  #     attributes:
+  #       aliases:
+  #         site_id: id
+  #     ignores:
+  #       - created_time
+  #       - modified_time
+  # org_sitegroup:
+  #   create:
+  #     path: /api/v1/orgs/{org_id}/sitegroups
+  #     method: POST
+  #   read:
+  #     path: /api/v1/orgs/{org_id}/sitegroups/{sitegroup_id}
+  #     method: GET
+  #   delete:
+  #     path: /api/v1/orgs/{org_id}/sitegroups/{sitegroup_id}
+  #     method: DELETE
+  #   update:
+  #     path: /api/v1/orgs/{org_id}/sitegroups/{sitegroup_id}
+  #     method: PUT      
+  #   schema:
+  #     ignores:
+  #       - created_time
+  #       - modified_time
+  #       - site_ids
+  #     attributes:
+  #       aliases:
+  #         sitegroup_id: id
+  # org_networktemplate:
+  #   create:
+  #     path: /api/v1/orgs/{org_id}/networktemplates
+  #     method: POST
+  #   read:
+  #     path: /api/v1/orgs/{org_id}/networktemplates/{networktemplate_id}
+  #     method: GET
+  #   delete:
+  #     path: /api/v1/orgs/{org_id}/networktemplates/{networktemplate_id}
+  #     method: DELETE
+  #   update:
+  #     path: /api/v1/orgs/{org_id}/networktemplates/{networktemplate_id}
+  #     method: PUT      
+  #   schema:
+  #     ignores:
+  #       - created_time
+  #       - modified_time
+  #       - import_org_networks
+  #       - switch_matching.rules.switch_mgmt
+  #     attributes:
+  #       aliases:
+  #         networktemplate_id: id
+  # org_service:
+  #   create:
+  #     path: /api/v1/orgs/{org_id}/services
+  #     method: POST
+  #   read:
+  #     path: /api/v1/orgs/{org_id}/services/{service_id}
+  #     method: GET
+  #   delete:
+  #     path: /api/v1/orgs/{org_id}/services/{service_id}
+  #     method: DELETE
+  #   update:
+  #     path: /api/v1/orgs/{org_id}/services/{service_id}
+  #     method: PUT
+  #   schema:
+  #     ignores:
+  #       - created_time
+  #       - modified_time
+  #     attributes:
+  #       aliases:
+  #         service_id: id
+  # org_servicepolicy:
+  #   create:
+  #     path: /api/v1/orgs/{org_id}/servicepolicies
+  #     method: POST
+  #   read:
+  #     path: /api/v1/orgs/{org_id}/servicepolicies/{servicepolicy_id}
+  #     method: GET
+  #   delete:
+  #     path: /api/v1/orgs/{org_id}/servicepolicies/{servicepolicy_id}
+  #     method: DELETE
+  #   update:
+  #     path: /api/v1/orgs/{org_id}/servicepolicies/{servicepolicy_id}
+  #     method: PUT
+  #   schema:
+  #     ignores:
+  #       - created_time
+  #       - modified_time
+  #     attributes:
+  #       aliases:
+  #         servicepolicy_id: id
+  # org_idpprofile:
+  #   create:
+  #     path: /api/v1/orgs/{org_id}/idpprofiles
+  #     method: POST
+  #   read:
+  #     path: /api/v1/orgs/{org_id}/idpprofiles/{idpprofile_id}
+  #     method: GET
+  #   delete:
+  #     path: /api/v1/orgs/{org_id}/idpprofiles/{idpprofile_id}
+  #     method: DELETE
+  #   update:
+  #     path: /api/v1/orgs/{org_id}/idpprofiles/{idpprofile_id}
+  #     method: PUT
+  #   schema:
+  #     ignores:
+  #       - created_time
+  #       - modified_time
+  #     attributes:
+  #       aliases:
+  #         idpprofile_id: id
+  # org_network:
+  #   create:
+  #     path: /api/v1/orgs/{org_id}/networks
+  #     method: POST
+  #   read:
+  #     path: /api/v1/orgs/{org_id}/networks/{network_id}
+  #     method: GET
+  #   delete:
+  #     path: /api/v1/orgs/{org_id}/networks/{network_id}
+  #     method: DELETE
+  #   update:
+  #     path: /api/v1/orgs/{org_id}/networks/{network_id}
+  #     method: PUT
+  #   schema:
+  #     ignores:
+  #       - created_time
+  #       - modified_time
+  #     attributes:
+  #       aliases:
+  #         network_id: id
+  # org_gatewaytemplate:
+  #   create:
+  #     path: /api/v1/orgs/{org_id}/gatewaytemplates
+  #     method: POST
+  #   read:
+  #     path: /api/v1/orgs/{org_id}/gatewaytemplates/{gatewaytemplate_id}
+  #     method: GET
+  #   delete:
+  #     path: /api/v1/orgs/{org_id}/gatewaytemplates/{gatewaytemplate_id}
+  #     method: DELETE
+  #   update:
+  #     path: /api/v1/orgs/{org_id}/gatewaytemplates/{gatewaytemplate_id}
+  #     method: PUT
+  #   schema:
+  #     ignores:
+  #       - created_time
+  #       - modified_time
+  #       - gateway_matching
+  #       - idp_profiles.created_time
+  #       - idp_profiles.modified_time
+  #       - idp_profiles.id
+  #       - networks.created_time
+  #       - networks.modified_time
+  #       - networks.id
+  #       - networks.org_id
+  #     attributes:
+  #       aliases:
+  #         gatewaytemplate_id: id
+  # org_nactag:
+  #   create:
+  #     path: /api/v1/orgs/{org_id}/nactags
+  #     method: POST
+  #   read:
+  #     path: /api/v1/orgs/{org_id}/nactags/{nactag_id}
+  #     method: GET
+  #   delete:
+  #     path: /api/v1/orgs/{org_id}/nactags/{nactag_id}
+  #     method: DELETE
+  #   update:
+  #     path: /api/v1/orgs/{org_id}/nactags/{nactag_id}
+  #     method: PUT      
+  #   schema:
+  #     attributes:
+  #       aliases:
+  #         nactag_id: id
+  #     ignores:
+  #       - created_time
+  #       - modified_time
+  # org_usermac:
+  #   create:
+  #     path: /api/v1/orgs/{org_id}/usermacs
+  #     method: POST
+  #   read:
+  #     path: /api/v1/orgs/{org_id}/usermacs/{usermac_id}
+  #     method: GET
+  #   delete:
+  #     path: /api/v1/orgs/{org_id}/usermacs/{usermac_id}
+  #     method: DELETE
+  #   update:
+  #     path: /api/v1/orgs/{org_id}/usermacs/{usermac_id}
+  #     method: PUT      
+  #   schema:
+  #     attributes:
+  #       aliases:
+  #         usermac_id: id
+  # org_nacrule:
+  #   create:
+  #     path: /api/v1/orgs/{org_id}/nacrules
+  #     method: POST
+  #   read:
+  #     path: /api/v1/orgs/{org_id}/nacrules/{nacrule_id}
+  #     method: GET
+  #   delete:
+  #     path: /api/v1/orgs/{org_id}/nacrules/{nacrule_id}
+  #     method: DELETE
+  #   update:
+  #     path: /api/v1/orgs/{org_id}/nacrules/{nacrule_id}
+  #     method: PUT      
+  #   schema:
+  #     attributes:
+  #       aliases:
+  #         nacrule_id: id
+  #     ignores:
+  #       - created_time
+  #       - modified_time
+  # org_rftemplate:
+  #   create:
+  #     path: /api/v1/orgs/{org_id}/rftemplates
+  #     method: POST
+  #   read:
+  #     path: /api/v1/orgs/{org_id}/rftemplates/{rftemplate_id}
+  #     method: GET
+  #   delete:
+  #     path: /api/v1/orgs/{org_id}/rftemplates/{rftemplate_id}
+  #     method: DELETE
+  #   update:
+  #     path: /api/v1/orgs/{org_id}/rftemplates/{rftemplate_id}
+  #     method: PUT      
+  #   schema:
+  #     ignores:
+  #       - created_time
+  #       - modified_time
+  #       - for_site
+  #     attributes:
+  #       aliases:
+  #         rftemplate_id: id
+  # site_setting:
+  #   create:
+  #     path: /api/v1/sites/{site_id}/setting
+  #     method: PUT
+  #   read:
+  #     path: /api/v1/sites/{site_id}/setting
+  #     method: GET
+  #   update:
+  #     path: /api/v1/sites/{site_id}/setting
+  #     method: PUT      
+  #   delete:
+  #     path: /api/v1/sites/{site_id}/setting
+  #     method: PUT      
+  #   schema:
+  #     ignores:
+  #       ##
+  #       - created_time
+  #       - modified_time
+  #       - id
+  #       - for_site
+  #       - flags
+  #       - status_portal
+  #       ## AP
+  #       - ap_matching
+  #       - ap_port_config
+  #       - auto_placement
+  #       - radio_config
+  #       ## MX EDGE
+  #       - mxedge
+  #       - mxedge_mgmt
+  #       - mxtunnels
+  #       - tunterm_monitoring
+  #       - tunterm_monitoring_disabled
+  #       - tunterm_multicast_config
+  #       # OTHERS
+  #       - evpn_options
+  #       - gateway
+  #       - gateway_matching
+  #       - gateway_mgmt.protect_re
+  #       - ospf_areas
+  #       - paloalto_networks
+  #       - switch
+  #       - vrrp_groups
+  #       ### SWITCH TPL
+  #       - acl_policies
+  #       - acl_tags
+  #       - additional_config_cmds
+  #       - dhcp_snooping
+  #       - dns_servers
+  #       - dns_suffix
+  #       - extra_routes
+  #       - extra_routes6
+  #       - id
+  #       - mist_nac
+  #       - name
+  #       - networks
+  #       - ntp_servers
+  #       - port_mirroring
+  #       - port_usages
+  #       - radius_config
+  #       - remote_syslog
+  #       - snmp_config
+  #       - switch_matching
+  #       - switch_mgmt
+  #       - vrf_config
+  #       - vrf_instances    
+  #       ## GATEWAY TPL
+  #       - gateway_additional_config_cmds
+  #       - bgp_config
+  #       - dhcpd_config
+  #       - dns_override
+  #       - dns_servers
+  #       - dns_suffix
+  #       - id
+  #       - idp_profiles
+  #       - ip_configs
+  #       - name
+  #       - networks
+  #       - ntp_override
+  #       - ntp_servers
+  #       - path_preferences
+  #       - port_config
+  #       - router_id
+  #       - routing_policies
+  #       - service_policies
+  #       - tunnel_configs
+  #       - tunnel_provider_options
+  #       - type         
+  #     attributes:
+  #       aliases:
+  #         site_id: id
+  # site_networktemplate:
+  #   create:
+  #     path: /api/v1/sites/{site_id}/setting
+  #     method: PUT
+  #   read:
+  #     path: /api/v1/sites/{site_id}/setting
+  #     method: GET
+  #   update:
+  #     path: /api/v1/sites/{site_id}/setting
+  #     method: PUT      
+  #   delete:
+  #     path: /api/v1/sites/{site_id}/setting
+  #     method: PUT      
+  #   schema:
+  #     ignores:
+  #     ## temp fix
+  #       - vrb_config
+  #     ##
+  #       - switch_matching.rules.switch_mgmt
+  #       ###
+  #       - analytic
+  #       - ap_matching
+  #       - ap_port_config
+  #       - ap_updown_threshold
+  #       - auto_placement
+  #       - auto_upgrade
+  #       - blacklist_url
+  #       - ble_config
+  #       - config_auto_revert
+  #       - config_push_policy
+  #       - created_time
+  #       - critical_url_monitoring
+  #       - device_updown_threshold
+  #       - disabled_system_defined_port_usages
+  #       - engagement
+  #       - evpn_options
+  #       - flags
+  #       - for_site
+  #       - gateway
+  #       - gateway_additional_config_cmds
+  #       - gateway_mgmt
+  #       - gateway_updown_threshold
+  #       - led
+  #       - modified_time
+  #       - mxedge
+  #       - mxedge_mgmt
+  #       - mxtunnels
+  #       - occupancy
+  #       - org_id
+  #       - ospf_areas
+  #       - paloalto_networks
+  #       - persist_config_on_device
+  #       - proxy
+  #       - radio_config
+  #       - report_gatt
+  #       - rogue
+  #       - rtsa
+  #       - simple_alert
+  #       - site_id
+  #       - skyatp
+  #       - srx_app
+  #       - ssh_keys
+  #       - ssr
+  #       - status_portal
+  #       - switch
+  #       - switch_updown_threshold
+  #       - synthetic_test
+  #       - track_anonymous_devices
+  #       - tunterm_monitoring
+  #       - tunterm_monitoring_disabled
+  #       - tunterm_multicast_config
+  #       - vars
+  #       - vna
+  #       - vrrp_groups
+  #       - vs_instance
+  #       - wan_vna
+  #       - watched_station_url
+  #       - whitelist_url
+  #       - wids
+  #       - wifi
+  #       - wired_vna
+  #       - zone_occupancy_alert
+  #     attributes:
+  #       aliases:
+  #         site_id: id  
+  # org_vpn:
+  #   create:
+  #     path: /api/v1/orgs/{org_id}/vpns
+  #     method: POST
+  #   read:
+  #     path: /api/v1/orgs/{org_id}/vpns/{vpn_id}
+  #     method: GET
+  #   delete:
+  #     path: /api/v1/orgs/{org_id}/vpns/{vpn_id}
+  #     method: DELETE
+  #   update:
+  #     path: /api/v1/orgs/{org_id}/vpns/{vpn_id}
+  #     method: PUT      
+  #   schema:
+  #     ignores:
+  #       - created_time
+  #       - modified_time
+  #       - for_site
+  #     attributes:
+  #       aliases:
+  #         vpn_id: id     
+  # org_setting:
+  #   create:
+  #     path: /api/v1/orgs/{org_id}/setting
+  #     method: PUT
+  #   read:
+  #     path: /api/v1/orgs/{org_id}/setting
+  #     method: GET
+  #   delete:
+  #     path: /api/v1/orgs/{org_id}/setting
+  #     method: PUT
+  #   update:
+  #     path: /api/v1/orgs/{org_id}/setting
+  #     method: PUT      
+  #   schema:
+  #     ignores:
+  #       - created_time
+  #       - modified_time
+  #       - for_site
+  #       - id
+  #       - auto_device_naming
+  #       - auto_deviceprofile_assignment
+  #       - auto_site_assignment
+  #       - gateway_mgmt
+  #       - simple_alert
+  #       - tags
+  #       - wan_pma
+  #       - wired_pma
+  #       - wireless_pma
+  #       - blacklist_url
+  #       - msp_id
+  #       - pcap_bucket_verified
+  #     attributes:
+  #       aliases:
+  #         org_id: id   
+  # org_mx_edge:
+  #   create:
+  #     path: /api/v1/orgs/{org_id}/mxedges
+  #     method: POST
+  #   read:
+  #     path: /api/v1/orgs/{org_id}/mxedges/{mxedge_id}
+  #     method: GET
+  #   delete:
+  #     path: /api/v1/orgs/{org_id}/mxedges/{mxedge_id}
+  #     method: DELETE
+  #   update:
+  #     path: /api/v1/orgs/{org_id}/mxedges/{mxedge_id}
+  #     method: PUT      
+  #   schema:
+  #     ignores:
+  #       - created_time
+  #       - modified_time
+  #       - for_site
+  #       - version
+  #     attributes:
+  #       aliases:
+  #         mxedge_id: id     
   # org_mx_cluster:
   #   create:
   #     path: /api/v1/orgs/{org_id}/mxclusters
@@ -728,172 +749,172 @@ resources:
   #     attributes:
   #       aliases:
   #         mxtunnel_id: id     
-  org_wlantemplate:
-    create:
-      path: /api/v1/orgs/{org_id}/templates
-      method: POST
-    read:
-      path: /api/v1/orgs/{org_id}/templates/{template_id}
-      method: GET
-    delete:
-      path: /api/v1/orgs/{org_id}/templates/{template_id}
-      method: DELETE
-    update:
-      path: /api/v1/orgs/{org_id}/templates/{template_id}
-      method: PUT      
-    schema:
-      ignores:
-        - created_time
-        - modified_time
-      attributes:
-        aliases:
-          template_id: id      
-  org_wlan:
-    create:
-      path: /api/v1/orgs/{org_id}/wlans
-      method: POST
-    read:
-      path: /api/v1/orgs/{org_id}/wlans/{wlan_id}
-      method: GET
-    delete:
-      path: /api/v1/orgs/{org_id}/wlans/{wlan_id}
-      method: DELETE
-    update:
-      path: /api/v1/orgs/{org_id}/wlans/{wlan_id}
-      method: PUT      
-    schema:
-      ignores:
-        - created_time
-        - modified_time
-        - for_site
-        - site_id
-        - mxtunnel_id
-        - rateset
-        - band
-        - dynamic_vlan.default_vlan_id
-      attributes:
-        aliases:
-          wlan_id: id      
-  site_wlan:
-    create:
-      path: /api/v1/sites/{site_id}/wlans
-      method: POST
-    read:
-      path: /api/v1/sites/{site_id}/wlans/{wlan_id}
-      method: GET
-    delete:
-      path: /api/v1/sites/{site_id}/wlans/{wlan_id}
-      method: DELETE
-    update:
-      path: /api/v1/sites/{site_id}/wlans/{wlan_id}
-      method: PUT      
-    schema:
-      ignores:
-        - created_time
-        - modified_time
-        - for_site
-        - template_id
-        - mxtunnel_id
-        - rateset
-        - band
-        - dynamic_vlan.default_vlan_id
-      attributes:
-        aliases:
-          wlan_id: id      
-  org_wxrule:
-    create:
-      path: /api/v1/orgs/{org_id}/wxrules
-      method: POST
-    read:
-      path: /api/v1/orgs/{org_id}/wxrules/{wxrule_id}
-      method: GET
-    delete:
-      path: /api/v1/orgs/{org_id}/wxrules/{wxrule_id}
-      method: DELETE
-    update:
-      path: /api/v1/orgs/{org_id}/wxrules/{wxrule_id}
-      method: PUT      
-    schema:
-      ignores:
-        - created_time
-        - modified_time
-        - for_site
-        - site_id
-      attributes:
-        aliases:
-          wxrule_id: id      
-  org_wxtag:
-    create:
-      path: /api/v1/orgs/{org_id}/wxtags
-      method: POST
-    read:
-      path: /api/v1/orgs/{org_id}/wxtags/{wxtag_id}
-      method: GET
-    delete:
-      path: /api/v1/orgs/{org_id}/wxtags/{wxtag_id}
-      method: DELETE
-    update:
-      path: /api/v1/orgs/{org_id}/wxtags/{wxtag_id}
-      method: PUT      
-    schema:
-      ignores:
-        - created_time
-        - modified_time
-        - for_site
-        - site_id
-        - last_ips
-        - resource_mac
-        - services
-        - subnet
-      attributes:
-        aliases:
-          wxtag_id: id     
-  site_wxrule:
-    create:
-      path: /api/v1/sites/{site_id}/wxrules
-      method: POST
-    read:
-      path: /api/v1/sites/{site_id}/wxrules/{wxrule_id}
-      method: GET
-    delete:
-      path: /api/v1/sites/{site_id}/wxrules/{wxrule_id}
-      method: DELETE
-    update:
-      path: /api/v1/sites/{site_id}/wxrules/{wxrule_id}
-      method: PUT      
-    schema:
-      ignores:
-        - created_time
-        - modified_time
-        - for_site
-      attributes:
-        aliases:
-          wxrule_id: id      
-  site_wxtag:
-    create:
-      path: /api/v1/sites/{site_id}/wxtags
-      method: POST
-    read:
-      path: /api/v1/sites/{site_id}/wxtags/{wxtag_id}
-      method: GET
-    delete:
-      path: /api/v1/sites/{site_id}/wxtags/{wxtag_id}
-      method: DELETE
-    update:
-      path: /api/v1/sites/{site_id}/wxtags/{wxtag_id}
-      method: PUT      
-    schema:
-      ignores:
-        - created_time
-        - modified_time
-        - for_site
-        - last_ips
-        - resource_mac
-        - services
-        - subnet
-      attributes:
-        aliases:
-          wxtag_id: id   
+  # org_wlantemplate:
+  #   create:
+  #     path: /api/v1/orgs/{org_id}/templates
+  #     method: POST
+  #   read:
+  #     path: /api/v1/orgs/{org_id}/templates/{template_id}
+  #     method: GET
+  #   delete:
+  #     path: /api/v1/orgs/{org_id}/templates/{template_id}
+  #     method: DELETE
+  #   update:
+  #     path: /api/v1/orgs/{org_id}/templates/{template_id}
+  #     method: PUT      
+  #   schema:
+  #     ignores:
+  #       - created_time
+  #       - modified_time
+  #     attributes:
+  #       aliases:
+  #         template_id: id      
+  # org_wlan:
+  #   create:
+  #     path: /api/v1/orgs/{org_id}/wlans
+  #     method: POST
+  #   read:
+  #     path: /api/v1/orgs/{org_id}/wlans/{wlan_id}
+  #     method: GET
+  #   delete:
+  #     path: /api/v1/orgs/{org_id}/wlans/{wlan_id}
+  #     method: DELETE
+  #   update:
+  #     path: /api/v1/orgs/{org_id}/wlans/{wlan_id}
+  #     method: PUT      
+  #   schema:
+  #     ignores:
+  #       - created_time
+  #       - modified_time
+  #       - for_site
+  #       - site_id
+  #       - mxtunnel_id
+  #       - rateset
+  #       - band
+  #       - dynamic_vlan.default_vlan_id
+  #     attributes:
+  #       aliases:
+  #         wlan_id: id      
+  # site_wlan:
+  #   create:
+  #     path: /api/v1/sites/{site_id}/wlans
+  #     method: POST
+  #   read:
+  #     path: /api/v1/sites/{site_id}/wlans/{wlan_id}
+  #     method: GET
+  #   delete:
+  #     path: /api/v1/sites/{site_id}/wlans/{wlan_id}
+  #     method: DELETE
+  #   update:
+  #     path: /api/v1/sites/{site_id}/wlans/{wlan_id}
+  #     method: PUT      
+  #   schema:
+  #     ignores:
+  #       - created_time
+  #       - modified_time
+  #       - for_site
+  #       - template_id
+  #       - mxtunnel_id
+  #       - rateset
+  #       - band
+  #       - dynamic_vlan.default_vlan_id
+  #     attributes:
+  #       aliases:
+  #         wlan_id: id      
+  # org_wxrule:
+  #   create:
+  #     path: /api/v1/orgs/{org_id}/wxrules
+  #     method: POST
+  #   read:
+  #     path: /api/v1/orgs/{org_id}/wxrules/{wxrule_id}
+  #     method: GET
+  #   delete:
+  #     path: /api/v1/orgs/{org_id}/wxrules/{wxrule_id}
+  #     method: DELETE
+  #   update:
+  #     path: /api/v1/orgs/{org_id}/wxrules/{wxrule_id}
+  #     method: PUT      
+  #   schema:
+  #     ignores:
+  #       - created_time
+  #       - modified_time
+  #       - for_site
+  #       - site_id
+  #     attributes:
+  #       aliases:
+  #         wxrule_id: id      
+  # org_wxtag:
+  #   create:
+  #     path: /api/v1/orgs/{org_id}/wxtags
+  #     method: POST
+  #   read:
+  #     path: /api/v1/orgs/{org_id}/wxtags/{wxtag_id}
+  #     method: GET
+  #   delete:
+  #     path: /api/v1/orgs/{org_id}/wxtags/{wxtag_id}
+  #     method: DELETE
+  #   update:
+  #     path: /api/v1/orgs/{org_id}/wxtags/{wxtag_id}
+  #     method: PUT      
+  #   schema:
+  #     ignores:
+  #       - created_time
+  #       - modified_time
+  #       - for_site
+  #       - site_id
+  #       - last_ips
+  #       - resource_mac
+  #       - services
+  #       - subnet
+  #     attributes:
+  #       aliases:
+  #         wxtag_id: id     
+  # site_wxrule:
+  #   create:
+  #     path: /api/v1/sites/{site_id}/wxrules
+  #     method: POST
+  #   read:
+  #     path: /api/v1/sites/{site_id}/wxrules/{wxrule_id}
+  #     method: GET
+  #   delete:
+  #     path: /api/v1/sites/{site_id}/wxrules/{wxrule_id}
+  #     method: DELETE
+  #   update:
+  #     path: /api/v1/sites/{site_id}/wxrules/{wxrule_id}
+  #     method: PUT      
+  #   schema:
+  #     ignores:
+  #       - created_time
+  #       - modified_time
+  #       - for_site
+  #     attributes:
+  #       aliases:
+  #         wxrule_id: id      
+  # site_wxtag:
+  #   create:
+  #     path: /api/v1/sites/{site_id}/wxtags
+  #     method: POST
+  #   read:
+  #     path: /api/v1/sites/{site_id}/wxtags/{wxtag_id}
+  #     method: GET
+  #   delete:
+  #     path: /api/v1/sites/{site_id}/wxtags/{wxtag_id}
+  #     method: DELETE
+  #   update:
+  #     path: /api/v1/sites/{site_id}/wxtags/{wxtag_id}
+  #     method: PUT      
+  #   schema:
+  #     ignores:
+  #       - created_time
+  #       - modified_time
+  #       - for_site
+  #       - last_ips
+  #       - resource_mac
+  #       - services
+  #       - subnet
+  #     attributes:
+  #       aliases:
+  #         wxtag_id: id   
 ################################################################################
 ################################################################################
 ################################################################################
@@ -921,32 +942,32 @@ resources:
   #     attributes:
   #       aliases:
   #         deviceprofile_id: id   
-  org_deviceprofile_gateway:
-    create:
-      path: /api/v1/orgs/{org_id}/deviceprofiles
-      method: POST
-    read:
-      path: /api/v1/orgs/{org_id}/deviceprofiles/{deviceprofile_id}
-      method: GET
-    delete:
-      path: /api/v1/orgs/{org_id}/deviceprofiles/{deviceprofile_id}
-      method: DELETE
-    update:
-      path: /api/v1/orgs/{org_id}/deviceprofiles/{deviceprofile_id}
-      method: PUT      
-    schema:
-      ignores:
-        - gateway_matching
-        - idp_profiles.created_time
-        - idp_profiles.modified_time
-        - idp_profiles.id
-        - networks.created_time
-        - networks.modified_time
-        - networks.id
-        - networks.org_id
-      attributes:
-        aliases:
-          deviceprofile_id: id   
+  # org_deviceprofile_gateway:
+  #   create:
+  #     path: /api/v1/orgs/{org_id}/deviceprofiles
+  #     method: POST
+  #   read:
+  #     path: /api/v1/orgs/{org_id}/deviceprofiles/{deviceprofile_id}
+  #     method: GET
+  #   delete:
+  #     path: /api/v1/orgs/{org_id}/deviceprofiles/{deviceprofile_id}
+  #     method: DELETE
+  #   update:
+  #     path: /api/v1/orgs/{org_id}/deviceprofiles/{deviceprofile_id}
+  #     method: PUT      
+  #   schema:
+  #     ignores:
+  #       - gateway_matching
+  #       - idp_profiles.created_time
+  #       - idp_profiles.modified_time
+  #       - idp_profiles.id
+  #       - networks.created_time
+  #       - networks.modified_time
+  #       - networks.id
+  #       - networks.org_id
+  #     attributes:
+  #       aliases:
+  #         deviceprofile_id: id   
   # org_deviceprofile_assign:
   #   create:
   #     path: /api/v1/orgs/{org_id}/deviceprofiles/{deviceprofile_id}/assign
@@ -988,25 +1009,25 @@ resources:
   #       - iot_config
   #       - port_config
   #       - switch_config
-  device_switch:
-    create:
-      path: /api/v1/sites/{site_id}/devices/{device_id}
-      method: PUT
-    read:
-      path: /api/v1/sites/{site_id}/devices/{device_id}
-      method: GET
-    delete:
-      path: /api/v1/sites/{site_id}/devices/{device_id}
-      method: PUT
-    update:
-      path: /api/v1/sites/{site_id}/devices/{device_id}
-      method: PUT      
-    schema:
-      ignores:
-        - created_time
-        - modified_time
-        - for_site
-        - id
+  # device_switch:
+  #   create:
+  #     path: /api/v1/sites/{site_id}/devices/{device_id}
+  #     method: PUT
+  #   read:
+  #     path: /api/v1/sites/{site_id}/devices/{device_id}
+  #     method: GET
+  #   delete:
+  #     path: /api/v1/sites/{site_id}/devices/{device_id}
+  #     method: PUT
+  #   update:
+  #     path: /api/v1/sites/{site_id}/devices/{device_id}
+  #     method: PUT      
+  #   schema:
+  #     ignores:
+  #       - created_time
+  #       - modified_time
+  #       - for_site
+  #       - id
   # device_gateway:
   #   create:
   #     path: /api/v1/sites/{site_id}/devices/{device_id}

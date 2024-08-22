@@ -1,0 +1,30 @@
+get:
+- schema
+- attributes
+name: org_usermac
+next:
+- computed_optional_required: required
+  get:
+  - string
+  name: org_id
+- computed_optional_required: computed
+  get:
+  - string
+  name: id
+- get:
+  - list
+  name: labels
+  computed_optional_required: computed_optional
+  validators:
+  - custom:
+      imports:
+      - path: github.com/hashicorp/terraform-plugin-framework-validators/listvalidator
+      schema_definition: listvalidator.SizeAtLeast(1)
+- get:
+  - string
+  name: vlan
+  validators:
+  - custom:
+      imports:
+      - path: github.com/Juniper/terraform-provider-mist/internal/validators
+      schema_definition: mistvalidator.ParseInt(1, 4094)

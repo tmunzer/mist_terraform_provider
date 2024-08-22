@@ -19,16 +19,14 @@ provider "mist" {
 # }
 
 import {
-  to = mist_org_gatewaytemplate.test-api
-  id = "53c820b5-77cb-4b36-b884-7f89a38f4ec1"
+  to = mist_org.terraform_test
+  id = "992bf4b9-c900-4850-9992-107b2f9df928"
 }
 
-resource "mist_org_gatewaytemplate" "test-api" {
-  name = "test-api"
-  org_id = "992bf4b9-c900-4850-9992-107b2f9df928"
+import {
+  to = mist_org_inventory.inventory
+  id = "992bf4b9-c900-4850-9992-107b2f9df928"
 }
-
-# resource "mist_org_inventory" "inventory" {
 #   org_id = mist_org.terraform_test.id
 #   devices = [
 #     {
@@ -72,7 +70,10 @@ resource "mist_org_gatewaytemplate" "test-api" {
 #   ]
 # }
 # ### SITES
-# resource "mist_site" "terraform_site" {
+import { 
+  to = mist_site.terraform_site
+  id = "be11a751-4b5e-46f6-a867-023763df369c"
+}
 #   org_id       = mist_org.terraform_test.id
 #   name         = "terraform_site"
 #   country_code = "FR"
@@ -95,7 +96,10 @@ resource "mist_org_gatewaytemplate" "test-api" {
 #   name      = "test_ap"
 # }
 
-
+import { 
+  to = mist_site.terraform_site2
+  id = "fb87a65e-3e4a-460d-9158-acf544ccbc49"
+}
 # resource "mist_site" "terraform_site2" {
 #   org_id       = mist_org.terraform_test.id
 #   name         = "terraform_site2"
@@ -109,11 +113,18 @@ resource "mist_org_gatewaytemplate" "test-api" {
 #   }
 #   sitegroup_ids = [mist_org_sitegroup.test_group.id, mist_org_sitegroup.test_group2.id]
 # }
-
+import { 
+  to = mist_org_sitegroup.test_group
+  id = "f53ec5f4-5115-4e5b-a3f1-2a3ffd5bab53"
+}
 # resource "mist_org_sitegroup" "test_group" {
 #   org_id = mist_org.terraform_test.id
 #   name   = "test group"
 # }
+import { 
+  to = mist_org_sitegroup.test_group2
+  id = "0e6350fc-c35a-4c02-939f-bb87fa453d55"
+}
 # resource "mist_org_sitegroup" "test_group2" {
 #   org_id = mist_org.terraform_test.id
 #   name   = "test group2b"
@@ -265,10 +276,15 @@ resource "mist_org_gatewaytemplate" "test-api" {
 #   }
 #   name = "SRX-DMZ"
 # }
+import {
+  to = mist_org_gatewaytemplate.test-api
+  id = "cb545f33-254f-4a86-9d73-c067faba58a2"
+}
 
-
-# resource "mist_org_gatewaytemplate" "test-api" {
-
+resource "mist_org_gatewaytemplate" "test-api" {
+org_id = "992bf4b9-c900-4850-9992-107b2f9df928"
+name = "test"
+}
 #   type   = "spoke"
 #   name   = "test-api"
 #   org_id = mist_org.terraform_test.id

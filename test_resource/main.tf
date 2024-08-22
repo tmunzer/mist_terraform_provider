@@ -7,11 +7,11 @@ terraform {
 }
 
 provider "mist" {
-  host     = local.envs["HOST"]
-  apitoken = local.envs["APITOKEN"]
+  host = local.envs["HOST"]
+  //apitoken = local.envs["APITOKEN"]
   //proxy = "test_proxy:Jun1per!Mist@10.3.18.11:3128"
-   //username = local.envs["USERNAME"]
-  // password = local.envs["PASSWORD"]
+  username = local.envs["USERNAME"]
+  password = local.envs["PASSWORD"]
 }
 
 ### ORG
@@ -34,14 +34,14 @@ resource "mist_org_servicepolicy" "test1" {
   name = "Policy-1"
 }
 resource "mist_org_service" "service11" {
-    org_id = mist_org.terraform_test.id
-    traffic_type = "default"
-    app_categories = [
-        "Advertisement",
-        "FileSharing"
-    ]
-    name = "public_url_block"
-    type = "app_categories"
+  org_id       = mist_org.terraform_test.id
+  traffic_type = "default"
+  app_categories = [
+    "Advertisement",
+    "FileSharing"
+  ]
+  name = "public_url_block"
+  type = "app_categories"
 }
 resource "mist_org_servicepolicy" "test2" {
   org_id = mist_org.terraform_test.id
@@ -431,7 +431,7 @@ resource "mist_org_wxtag" "test_81" {
   specs = [
     {
       protocol = "udp"
-      subnets = ["0.0.0.0/0"]
+      subnets  = ["0.0.0.0/0"]
     }
   ]
   name   = "test_81"
@@ -1562,9 +1562,9 @@ resource "mist_org_wlantemplate" "test101" {
 }
 
 resource "mist_org_wlan" "wlan_cwp" {
-  ssid              = "MlN.test"
-  bands             = ["5"]
-  vlan_id           = "141"
+  ssid    = "MlN.test"
+  bands   = ["5"]
+  vlan_id = "141"
   portal = {
     enabled                = true
     bypass_when_cloud_down = true
@@ -1594,14 +1594,14 @@ resource "mist_org_wlan" "wlan_cwp" {
   interface   = "all"
   dynamic_vlan = {
     enabled = true
-    type = "standard"
+    type    = "standard"
     vlans = {
-        460 = ""
-        492 = ""
-        494 = ""
-        }
-    default_vlan_ids = ["1-10", "{{dddd}}", "123"]
+      460 = ""
+      492 = ""
+      494 = ""
     }
+    default_vlan_ids = ["1-10", "{{dddd}}", "123"]
+  }
 }
 
 
@@ -1849,11 +1849,11 @@ resource "mist_site_networktemplate" "site_switch_template" {
   }
 }
 resource "mist_org_wlan" "wlan_one" {
-  ssid              = "wlan_one"
-  org_id            = mist_org.terraform_test.id
-  template_id       = mist_org_wlantemplate.test101.id
-  bands             = ["5", "6"]
-  vlan_id           = 143
+  ssid        = "wlan_one"
+  org_id      = mist_org.terraform_test.id
+  template_id = mist_org_wlantemplate.test101.id
+  bands       = ["5", "6"]
+  vlan_id     = 143
   auth = {
     type = "psk"
     psk  = "secretpsk"
@@ -1871,9 +1871,9 @@ resource "mist_org_wlan" "wlan_one" {
   }
 }
 resource "mist_site_wlan" "wlan_cwp2" {
-  ssid              = "MlN.test"
-  bands             = ["5"]
-  vlan_id           = 143
+  ssid    = "MlN.test"
+  bands   = ["5"]
+  vlan_id = 143
   portal = {
     enabled                = true
     bypass_when_cloud_down = true
@@ -2701,32 +2701,32 @@ resource "mist_org_gatewaytemplate" "gatewaytemplate_one" {
   ]
 }
 
-resource "mist_org_nactag" "test222"     {
-        values= [
-            "MlN.1X"
-        ]
-        name= "ssid.MlN.1X"
-    org_id = mist_org.terraform_test.id
-        type= "match"
-        match= "ssid"
-    }
+resource "mist_org_nactag" "test222" {
+  values = [
+    "MlN.1X"
+  ]
+  name   = "ssid.MlN.1X"
+  org_id = mist_org.terraform_test.id
+  type   = "match"
+  match  = "ssid"
+}
 
 resource "mist_org_nacrule" "nacrule_Wireless_EAP_TLS_McD_IoT" {
-    org_id = mist_org.terraform_test.id
-    enabled = true
-    matching = {
+  org_id  = mist_org.terraform_test.id
+  enabled = true
+  matching = {
     auth_type = "eap-tls"
-        nactags = [
-                mist_org_nactag.test222.id
-        ]
-        port_types = [
-                "wireless"
-        ]
-    }
-        apply_tags = [
-                mist_org_nactag.nactag_VLAN_Crew451.id
-        ]
-    action = "allow"
-    name = "Wireless-EAP-TLS-McD-IoT"
-    order = 15
+    nactags = [
+      mist_org_nactag.test222.id
+    ]
+    port_types = [
+      "wireless"
+    ]
+  }
+  apply_tags = [
+    mist_org_nactag.nactag_VLAN_Crew451.id
+  ]
+  action = "allow"
+  name   = "Wireless-EAP-TLS-McD-IoT"
+  order  = 15
 }
