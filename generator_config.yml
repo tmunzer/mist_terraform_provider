@@ -1,10 +1,10 @@
 provider:
   name: mistapi
 data_sources:
-  # const_countries:
-  #   read:
-  #     path: /api/v1/const/countries
-  #     method: GET
+  const_countries:
+    read:
+      path: /api/v1/const/countries
+      method: GET
   # const_app_categories:
   #   read:
   #     path: /api/v1/const/app_categories
@@ -69,6 +69,35 @@ data_sources:
 ################################################################################
 ################################################################################
 ################################################################################
+  org_psks:
+    read:
+      path: /api/v1/orgs/{org_id}/psks
+      method: GET
+    schema:
+      ignores:  
+      - site_id   
+  site_psks:
+    read:
+      path: /api/v1/sites/{site_id}/psks
+      method: GET
+    schema:
+      ignores:  
+      - max_usage
+      - macs
+  # org_webhooks:
+  #   read:
+  #     path: /api/v1/orgs/{org_id}/webhooks
+  #     method: GET
+  #   schema:
+  #     ignores:  
+  #     - for_site
+  # site_webhooks:
+  #   read:
+  #     path: /api/v1/sites/{site_id}/webhooks
+  #     method: GET
+  #   schema:
+  #     ignores:  
+  #     - for_site
   # org_usermacs:
   #   read:
   #     path: /api/v1/orgs/{org_id}/usermacs/search
@@ -184,6 +213,94 @@ data_sources:
 ################################################################################
 ################################################################################
 resources:
+  org_psk:
+    create:
+      path: /api/v1/orgs/{org_id}/psks
+      method: POST
+    read:
+      path: /api/v1/orgs/{org_id}/psks/{psk_id}
+      method: GET
+    delete:
+      path: /api/v1/orgs/{org_id}/psks/{psk_id}
+      method: DELETE
+    update:
+      path: /api/v1/orgs/{org_id}/psks/{psk_id}
+      method: PUT      
+    schema:
+      ignores:
+        - created_time
+        - modified_time
+        - admin_sso_id
+        - site_id
+      attributes:
+        aliases:
+          psk_id: id
+  site_psk:
+    create:
+      path: /api/v1/sites/{site_id}/psks
+      method: POST
+    read:
+      path: /api/v1/sites/{site_id}/psks/{psk_id}
+      method: GET
+    delete:
+      path: /api/v1/sites/{site_id}/psks/{psk_id}
+      method: DELETE
+    update:
+      path: /api/v1/sites/{site_id}/psks/{psk_id}
+      method: PUT      
+    schema:
+      ignores:
+        - created_time
+        - modified_time
+        - admin_sso_id
+        - max_usage
+        - macs
+      attributes:
+        aliases:
+          psk_id: id
+  # org_webhook:
+  #   create:
+  #     path: /api/v1/orgs/{org_id}/webhooks
+  #     method: POST
+  #   read:
+  #     path: /api/v1/orgs/{org_id}/webhooks/{webhook_id}
+  #     method: GET
+  #   delete:
+  #     path: /api/v1/orgs/{org_id}/webhooks/{webhook_id}
+  #     method: DELETE
+  #   update:
+  #     path: /api/v1/orgs/{org_id}/webhooks/{webhook_id}
+  #     method: PUT      
+  #   schema:
+  #     ignores:
+  #       - created_time
+  #       - modified_time
+  #       - for_site
+  #       - site_id
+  #     attributes:
+  #       aliases:
+  #         webhook_id: id
+  # site_webhook:
+  #   create:
+  #     path: /api/v1/sites/{site_id}/webhooks
+  #     method: POST
+  #   read:
+  #     path: /api/v1/sites/{site_id}/webhooks/{webhook_id}
+  #     method: GET
+  #   delete:
+  #     path: /api/v1/sites/{site_id}/webhooks/{webhook_id}
+  #     method: DELETE
+  #   update:
+  #     path: /api/v1/sites/{site_id}/webhooks/{webhook_id}
+  #     method: PUT      
+  #   schema:
+  #     ignores:
+  #       - created_time
+  #       - modified_time
+  #       - for_site
+  #     attributes:
+  #       aliases:
+  #         webhook_id: id          
   # org:
   #   create:
   #     path: /api/v1/orgs
@@ -1049,20 +1166,20 @@ resources:
   #       - id
 ################################################################################
 ################################################################################
-################################################################################
-  # org_inventory:
-  #   create:
-  #     path: /api/v1/orgs/{org_id}/inventory
-  #     method: POST
-  #   read:
-  #     path: /api/v1/orgs/{org_id}/inventory
-  #     method: GET
-  #   delete:
-  #     path: /api/v1/orgs/{org_id}/inventory
-  #     method: PUT
-  #   update:
-  #     path: /api/v1/orgs/{org_id}/inventory
-  #     method: PUT        
+# ################################################################################
+#   org_inventory:
+#     create:
+#       path: /api/v1/orgs/{org_id}/inventory
+#       method: POST
+#     read:
+#       path: /api/v1/orgs/{org_id}/inventory
+#       method: GET
+#     delete:
+#       path: /api/v1/orgs/{org_id}/inventory
+#       method: POST
+#     update:
+#       path: /api/v1/orgs/{org_id}/inventory
+#       method: POST        
   # device_gateway_cluster:
   #   create:
   #     path: /api/v1/sites/{site_id}/devices/{device_id}/ha

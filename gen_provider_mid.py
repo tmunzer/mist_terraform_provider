@@ -88,7 +88,12 @@ def process_nested(o: dict):
         "cp_api_key",
         "ecm_api_key",
         "key",
-        "fips_zeroize_password"
+        "fips_zeroize_password",
+        "passphrase",
+        "old_passphrase",
+        "oauth2_client_secret",
+        "oauth2_password",
+        "splunk_token"
     ] and o.get("string"):
         o["string"]["sensitive"] = True
     for key, val in o.items():
@@ -132,6 +137,7 @@ def next_item(data: dict, entries: list, path: list):
         default_type = entry.get("default_type")
         sensitive = entry.get("sensitive")
         no_default = entry.get("no_default")
+        description = entry.get("description")
         curr_path = path.copy()
         curr_path.append(name)
         try:
@@ -146,6 +152,8 @@ def next_item(data: dict, entries: list, path: list):
                 sub_data["name"] = rename
             if remove:
                 del sub_data
+            if description:
+                sub_data["description"] = description
             if default_type:
                 if default_type == "list_of_str":
                     sub_data["default"] = json.loads(CUSTOM_DEFAULT_LIST_OF_STR)

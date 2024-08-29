@@ -1,0 +1,190 @@
+get:
+- schema
+- attributes
+name: site_webhook
+next:
+- computed_optional_required: computed
+  get:
+  - string
+  name: org_id
+- computed_optional_required: required
+  get:
+  - string
+  name: site_id
+- computed_optional_required: computed
+  get:
+  - string
+  name: id
+- computed_optional_required: required
+  get:
+  - string
+  name: name
+- name: headers
+  get: 
+  - map
+  validators:
+  - custom:
+      imports:
+      - path: github.com/Juniper/terraform-provider-mist/internal/validators
+      - path: github.com/hashicorp/terraform-plugin-framework/path
+      schema_definition: |-
+        mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("type"),types.StringValue("http-post")),
+        mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("type"),types.StringValue("oauth2"))
+- name: oauth2_client_id
+  get: 
+  - string
+  validators:
+  - custom:
+      imports:
+      - path: github.com/Juniper/terraform-provider-mist/internal/validators
+      - path: github.com/hashicorp/terraform-plugin-framework/path
+      - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+      schema_definition: |-
+        mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName("oauth2_grant_type"),types.StringValue("client_credentials"))
+- name: oauth2_client_secret
+  get: 
+  - string
+  validators:
+  - custom:
+      imports:
+      - path: github.com/Juniper/terraform-provider-mist/internal/validators
+      - path: github.com/hashicorp/terraform-plugin-framework/path
+      - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+      schema_definition: |-
+        mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName("oauth2_grant_type"),types.StringValue("client_credentials"))
+- name: oauth2_grant_type
+  get: 
+  - string
+  validators:
+  - custom:
+      imports:
+      - path: github.com/Juniper/terraform-provider-mist/internal/validators
+      - path: github.com/hashicorp/terraform-plugin-framework/path
+      - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+      schema_definition: |-
+        stringvalidator.OneOf(
+              "client_credentials",
+              "password",
+            ),
+        mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName("type"),types.StringValue("oauth2"))
+- name: oauth2_password
+  get: 
+  - string
+  validators:
+  - custom:
+      imports:
+      - path: github.com/Juniper/terraform-provider-mist/internal/validators
+      - path: github.com/hashicorp/terraform-plugin-framework/path
+      - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+      schema_definition: |-
+        mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName("oauth2_grant_type"),types.StringValue("password"))
+- name: oauth2_scopes
+  get: 
+  - string
+  validators:
+  - custom:
+      imports:
+      - path: github.com/Juniper/terraform-provider-mist/internal/validators
+      - path: github.com/hashicorp/terraform-plugin-framework/path
+      - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+      schema_definition: |-
+        mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("type"),types.StringValue("oauth2"))
+- name: oauth2_token_url
+  get: 
+  - string
+  validators:
+  - custom:
+      imports:
+      - path: github.com/Juniper/terraform-provider-mist/internal/validators
+      - path: github.com/hashicorp/terraform-plugin-framework/path
+      - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+      schema_definition: |-
+        mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("type"),types.StringValue("oauth2"))
+- name: oauth2_username
+  get: 
+  - string
+  validators:
+  - custom:
+      imports:
+      - path: github.com/Juniper/terraform-provider-mist/internal/validators
+      - path: github.com/hashicorp/terraform-plugin-framework/path
+      - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+      schema_definition: |-
+        mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName("oauth2_grant_type"),types.StringValue("password"))
+- name: secret
+  get: 
+  - string
+  validators:
+  - custom:
+      imports:
+      - path: github.com/Juniper/terraform-provider-mist/internal/validators
+      - path: github.com/hashicorp/terraform-plugin-framework/path
+      - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+      schema_definition: |-
+        mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("type"),types.StringValue("http-post"))
+- name: splunk_token
+  get: 
+  - string
+  validators:
+  - custom:
+      imports:
+      - path: github.com/Juniper/terraform-provider-mist/internal/validators
+      - path: github.com/hashicorp/terraform-plugin-framework/path
+      - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+      schema_definition: |-
+        mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName("type"),types.StringValue("splunk"))
+- name: topics
+  get: 
+  - list
+  computed_optional_required: required
+  description: 'enum: `alarms`, `asset-raw`, `asset-raw-rssi`, `audits`, `client-info`,
+        `client-join`, `client-latency`, `client-sessions`, `device-updowns`, `device-events`,
+        `discovered-raw-rssi`, `location`, `location_asset`, `location_centrak`, `location_client`,
+        `location_sdk`, `location_unclient`, `mxedge-events`, `nac-accounting`, `nac_events`,
+        `occupancy-alerts`, `rssizone`, `sdkclient_scan_data`, `site_sle`, `vbeacon`,
+        `wifi-conn-raw`, `wifi-unconn-raw`, `zone`'
+  validators:
+  - custom:
+      imports:
+      - path: github.com/Juniper/terraform-provider-mist/internal/validators
+      - path: github.com/hashicorp/terraform-plugin-framework/path
+      - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+      - path: github.com/hashicorp/terraform-plugin-framework-validators/listvalidator
+      schema_definition: |-
+        listvalidator.SizeAtLeast(1),
+        listvalidator.ValueStringsAre(
+          stringvalidator.OneOf(
+            "alarms",
+            "asset-raw",
+            "asset-raw-rssi",
+            "audits",
+            "client-info",
+            "client-join",
+            "client-latency",
+            "client-sessions",
+            "device-updowns",
+            "device-events",
+            "discovered-raw-rssi",
+            "location",
+            "location_asset",
+            "location_centrak",
+            "location_client",
+            "location_sdk",
+            "location_unclient",
+            "mxedge-events",
+            "nac-accounting",
+            "nac_events",
+            "occupancy-alerts",
+            "rssizone",
+            "sdkclient_scan_data",
+            "site_sle",
+            "vbeacon",
+            "wifi-conn-raw",
+            "wifi-unconn-raw",
+            "zone",
+            ),
+          )
+- computed_optional_required: required
+  get:
+  - string
+  name: url

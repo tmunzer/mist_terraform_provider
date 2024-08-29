@@ -1,0 +1,65 @@
+get:
+- schema
+- attributes
+name: site_psk
+next:
+- computed_optional_required: computed
+  get:
+  - string
+  name: org_id
+- computed_optional_required: required
+  get:
+  - string
+  name: site_id
+- computed_optional_required: computed
+  get:
+  - string
+  name: id
+- get:
+  - string
+  name: mac
+  validators:
+  - custom:
+      imports:
+      - path: github.com/Juniper/terraform-provider-mist/internal/validators
+      - path: github.com/hashicorp/terraform-plugin-framework/path
+      - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+      schema_definition: mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("usage"),
+        types.StringValue("single")),
+        mistvalidator.ParseMac()
+- get:
+  - list
+  name: macs
+  validators:
+  - custom:
+      imports:
+      - path: github.com/Juniper/terraform-provider-mist/internal/validators
+      - path: github.com/hashicorp/terraform-plugin-framework/path
+      - path: github.com/hashicorp/terraform-plugin-framework-validators/listvalidator
+      schema_definition: |-
+        listvalidator.SizeAtMost(5000),
+        mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("usage"),
+        types.StringValue("macs"))
+- get:
+  - string
+  name: usage
+  description: "enum: `multi`, `single`"
+  validators:
+  - custom:
+      imports:
+      - path: github.com/Juniper/terraform-provider-mist/internal/validators
+      - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+      schema_definition: |-
+        stringvalidator.OneOf(
+          "multi",
+          "single",
+        )
+- get:
+  - string
+  name: vlan_id
+  validators:
+  - custom:
+      imports:
+      - path: github.com/Juniper/terraform-provider-mist/internal/validators
+      - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+      schema_definition: stringvalidator.Any(mistvalidator.ParseInt(1, 4094),mistvalidator.ParseVar(),)

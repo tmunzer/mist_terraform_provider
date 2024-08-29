@@ -1,11 +1,17 @@
 # __generated__ by Terraform
 # Please review these resources and move them into your main configuration files.
 
-# __generated__ by Terraform from "992bf4b9-c900-4850-9992-107b2f9df928"
-resource "mist_org_inventory" "inventory" {
-  devices = [
-  ]
-  org_id = "992bf4b9-c900-4850-9992-107b2f9df928"
+# __generated__ by Terraform from "992bf4b9-c900-4850-9992-107b2f9df928.e24ff180-2646-4e0c-84f0-2e594ef2f17c"
+resource "mist_org_wxtag" "aaa" {
+  mac     = null
+  match   = "radius_username"
+  name    = "AAA Attribute"
+  op      = "in"
+  org_id  = "992bf4b9-c900-4850-9992-107b2f9df928"
+  specs   = null
+  type    = "match"
+  values  = ["test_val"]
+  vlan_id = null
 }
 
 # __generated__ by Terraform from "992bf4b9-c900-4850-9992-107b2f9df928"
@@ -18,24 +24,77 @@ resource "mist_org" "terraform_test" {
   session_expiry   = 1440
 }
 
-# __generated__ by Terraform from "be11a751-4b5e-46f6-a867-023763df369c"
-resource "mist_site" "terraform_site" {
-  address            = "77 Terrasse de l'Université, 92000 Nanterre, France"
-  alarmtemplate_id   = null
-  aptemplate_id      = null
-  country_code       = "FR"
-  gatewaytemplate_id = "cb545f33-254f-4a86-9d73-c067faba58a2"
-  latlng = {
-    lat = 48.899268
-    lng = 2.214447
+# __generated__ by Terraform from "992bf4b9-c900-4850-9992-107b2f9df928"
+resource "mist_org_inventory" "inventory" {
+  devices = [
+    {
+      claim_code = "CPKL2EXN8JY98AC"
+      mac        = "003e7316ff9e"
+      site_id    = null
+    },
+    {
+      claim_code = "G87JHBFXZJSFNMX"
+      mac        = "2c21311c37b0"
+      site_id    = null
+    },
+  ]
+  org_id = "992bf4b9-c900-4850-9992-107b2f9df928"
+}
+
+# __generated__ by Terraform from "992bf4b9-c900-4850-9992-107b2f9df928.97ae31f9-6f50-413f-ae4d-80a92d068c58"
+resource "mist_org_rftemplate" "test" {
+  ant_gain_24 = 0
+  ant_gain_5  = 0
+  ant_gain_6  = 0
+  band_24 = {
+    allow_rrm_disable = false
+    ant_gain          = 0
+    antenna_mode      = null
+    bandwidth         = 20
+    channels          = []
+    disabled          = false
+    power             = null
+    power_max         = 18
+    power_min         = 8
+    preamble          = "short"
   }
-  name               = "terraform_site"
-  networktemplate_id = "ee8095cd-4eb2-4a25-a37d-22f601dbbb71"
-  notes              = "Created with Terraform, Updated with Terraform"
-  org_id             = "992bf4b9-c900-4850-9992-107b2f9df928"
-  rftemplate_id      = "7bdfd85e-5a87-4d84-bb08-f5fa79ab603d"
-  secpolicy_id       = null
-  sitegroup_ids      = ["f53ec5f4-5115-4e5b-a3f1-2a3ffd5bab53", "0e6350fc-c35a-4c02-939f-bb87fa453d55"]
-  sitetemplate_id    = null
-  timezone           = "Europe/Paris"
+  band_24_usage = jsonencode(24)
+  band_5 = {
+    allow_rrm_disable = false
+    ant_gain          = 0
+    antenna_mode      = null
+    bandwidth         = 40
+    channels          = []
+    disabled          = false
+    power             = null
+    power_max         = 17
+    power_min         = 8
+    preamble          = "short"
+  }
+  band_5_on_24_radio = null
+  band_6 = {
+    allow_rrm_disable = false
+    ant_gain          = 0
+    antenna_mode      = null
+    bandwidth         = 80
+    channels          = []
+    disabled          = false
+    power             = null
+    power_max         = 17
+    power_min         = 8
+    preamble          = "short"
+    standard_power    = null
+  }
+  country_code     = null
+  model_specific   = null
+  name             = "test"
+  org_id           = "992bf4b9-c900-4850-9992-107b2f9df928"
+  scanning_enabled = null
+}
+
+# __generated__ by Terraform
+resource "mist_org_deviceprofile_assign" "test" {
+  deviceprofile_id = "d53575f0-253e-42cd-9674-5c0523fff3ca"
+  macs             = null
+  org_id           = "992bf4b9-c900-4850-9992-107b2f9df928"
 }

@@ -13,10 +13,6 @@ provider "mist" {
   # password = local.envs["PASSWORD"]
 }
 
-### ORG
-# resource "mist_org" "terraform_test" {
-#   name = "Terraform Testing"
-# }
 
 import {
   to = mist_org.terraform_test
@@ -27,23 +23,18 @@ import {
   to = mist_org_inventory.inventory
   id = "992bf4b9-c900-4850-9992-107b2f9df928"
 }
-#   org_id = mist_org.terraform_test.id
-#   devices = [
-#     {
-#       claim_code = "CPKL2EXN8JY98AC"
-#       site_id    = mist_site.terraform_site.id
-#     },
-#     {
-#       claim_code = "G87JHBFXZJSFNMX"
-#       site_id    = mist_site.terraform_site.id
-#     },
-#     {
-#       claim_code = "CV4YAS8DQWYLL6M"
-#       site_id    = mist_site.terraform_site.id
-#     }
-#   ]
-# # }
-
+import {
+  to = mist_org_wxtag.aaa
+  id = "992bf4b9-c900-4850-9992-107b2f9df928.e24ff180-2646-4e0c-84f0-2e594ef2f17c"
+}
+import {
+  to = mist_org_deviceprofile_assign.test
+  id = "992bf4b9-c900-4850-9992-107b2f9df928.d53575f0-253e-42cd-9674-5c0523fff3ca"
+}
+import {
+  to = mist_org_rftemplate.test
+  id = "992bf4b9-c900-4850-9992-107b2f9df928.97ae31f9-6f50-413f-ae4d-80a92d068c58"
+}
 # resource "mist_device_gateway_cluster" "cluster_one" {
 #   site_id   = mist_site.terraform_site2.id
 #   device_id = "00000000-0000-0000-1000-4c96143de700"
@@ -70,10 +61,10 @@ import {
 #   ]
 # }
 # ### SITES
-import { 
-  to = mist_site.terraform_site
-  id = "be11a751-4b5e-46f6-a867-023763df369c"
-}
+# import { 
+#   to = mist_site.terraform_site
+#   id = "be11a751-4b5e-46f6-a867-023763df369c"
+# }
 #   org_id       = mist_org.terraform_test.id
 #   name         = "terraform_site"
 #   country_code = "FR"
@@ -96,10 +87,10 @@ import {
 #   name      = "test_ap"
 # }
 
-import { 
-  to = mist_site.terraform_site2
-  id = "fb87a65e-3e4a-460d-9158-acf544ccbc49"
-}
+# import { 
+#   to = mist_site.terraform_site2
+#   id = "fb87a65e-3e4a-460d-9158-acf544ccbc49"
+# }
 # resource "mist_site" "terraform_site2" {
 #   org_id       = mist_org.terraform_test.id
 #   name         = "terraform_site2"
@@ -113,18 +104,18 @@ import {
 #   }
 #   sitegroup_ids = [mist_org_sitegroup.test_group.id, mist_org_sitegroup.test_group2.id]
 # }
-import { 
-  to = mist_org_sitegroup.test_group
-  id = "f53ec5f4-5115-4e5b-a3f1-2a3ffd5bab53"
-}
+# import { 
+#   to = mist_org_sitegroup.test_group
+#   id = "f53ec5f4-5115-4e5b-a3f1-2a3ffd5bab53"
+# }
 # resource "mist_org_sitegroup" "test_group" {
 #   org_id = mist_org.terraform_test.id
 #   name   = "test group"
 # }
-import { 
-  to = mist_org_sitegroup.test_group2
-  id = "0e6350fc-c35a-4c02-939f-bb87fa453d55"
-}
+# import { 
+#   to = mist_org_sitegroup.test_group2
+#   id = "0e6350fc-c35a-4c02-939f-bb87fa453d55"
+# }
 # resource "mist_org_sitegroup" "test_group2" {
 #   org_id = mist_org.terraform_test.id
 #   name   = "test group2b"
@@ -276,15 +267,16 @@ import {
 #   }
 #   name = "SRX-DMZ"
 # }
-import {
-  to = mist_org_gatewaytemplate.test-api
-  id = "cb545f33-254f-4a86-9d73-c067faba58a2"
-}
 
-resource "mist_org_gatewaytemplate" "test-api" {
-org_id = "992bf4b9-c900-4850-9992-107b2f9df928"
-name = "test"
-}
+# import {
+#   to = mist_org_gatewaytemplate.test-api
+#   id = "cb545f33-254f-4a86-9d73-c067faba58a2"
+# }
+
+# resource "mist_org_gatewaytemplate" "test-api" {
+# org_id = "992bf4b9-c900-4850-9992-107b2f9df928"
+# name = "test"
+# }
 #   type   = "spoke"
 #   name   = "test-api"
 #   org_id = mist_org.terraform_test.id

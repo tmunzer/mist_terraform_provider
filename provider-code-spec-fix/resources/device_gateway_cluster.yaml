@@ -7,7 +7,21 @@ next:
   get:
   - string
   name: site_id
-- computed_optional_required: required
+- computed_optional_required: computed
   get:
   - string
   name: device_id
+- name: nodes
+  get: 
+  - list_nested
+  - nested_object
+  - attributes
+  next:
+  - name: mac
+    get: 
+    - string
+    validators:
+    - custom:
+        imports:
+        - path: github.com/Juniper/terraform-provider-mist/internal/validators
+        schema_definition: 'mistvalidator.ParseMac()'
