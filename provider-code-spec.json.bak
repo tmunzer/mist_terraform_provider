@@ -42,433 +42,6 @@
 					}
 				]
 			}
-		},
-		{
-			"name": "org_psks",
-			"schema": {
-				"attributes": [
-					{
-						"name": "org_id",
-						"string": {
-							"computed_optional_required": "required"
-						}
-					},
-					{
-						"name": "name",
-						"string": {
-							"computed_optional_required": "computed_optional"
-						}
-					},
-					{
-						"name": "ssid",
-						"string": {
-							"computed_optional_required": "computed_optional"
-						}
-					},
-					{
-						"name": "role",
-						"string": {
-							"computed_optional_required": "computed_optional"
-						}
-					},
-					{
-						"name": "page",
-						"int64": {
-							"computed_optional_required": "computed_optional",
-							"validators": [
-								{
-									"custom": {
-										"imports": [
-											{
-												"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
-											}
-										],
-										"schema_definition": "int64validator.AtLeast(1)"
-									}
-								}
-							]
-						}
-					},
-					{
-						"name": "limit",
-						"int64": {
-							"computed_optional_required": "computed_optional",
-							"validators": [
-								{
-									"custom": {
-										"imports": [
-											{
-												"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
-											}
-										],
-										"schema_definition": "int64validator.AtLeast(0)"
-									}
-								}
-							]
-						}
-					},
-					{
-						"name": "org_psks",
-						"set_nested": {
-							"computed_optional_required": "computed",
-							"nested_object": {
-								"attributes": [
-									{
-										"name": "admin_sso_id",
-										"string": {
-											"computed_optional_required": "computed",
-											"description": "sso id for psk created from psk portal"
-										}
-									},
-									{
-										"name": "created_time",
-										"number": {
-											"computed_optional_required": "computed"
-										}
-									},
-									{
-										"name": "email",
-										"string": {
-											"computed_optional_required": "computed",
-											"description": "email to send psk expiring notifications to"
-										}
-									},
-									{
-										"name": "expire_time",
-										"int64": {
-											"computed_optional_required": "computed",
-											"description": "Expire time for this PSK key (epoch time in seconds). Default `null` (as no expiration)"
-										}
-									},
-									{
-										"name": "expiry_notification_time",
-										"int64": {
-											"computed_optional_required": "computed",
-											"description": "Number of days before psk is expired. Used as to when to start sending reminder notification when the psk is about to expire"
-										}
-									},
-									{
-										"name": "id",
-										"string": {
-											"computed_optional_required": "computed"
-										}
-									},
-									{
-										"name": "mac",
-										"string": {
-											"computed_optional_required": "computed",
-											"description": "if `usage`==`single`, the mac that this PSK ties to, empty if `auto-binding`"
-										}
-									},
-									{
-										"name": "macs",
-										"list": {
-											"computed_optional_required": "computed",
-											"element_type": {
-												"string": {}
-											},
-											"description": "if `usage`==`macs`, this list contains N number of client mac addresses or mac patterns(11:22:*) or both. This list is capped at 5000"
-										}
-									},
-									{
-										"name": "max_usage",
-										"int64": {
-											"computed_optional_required": "computed",
-											"description": "For Org PSK Only. Max concurrent users for this PSK key. Default is 0 (unlimited)"
-										}
-									},
-									{
-										"name": "modified_time",
-										"number": {
-											"computed_optional_required": "computed"
-										}
-									},
-									{
-										"name": "name",
-										"string": {
-											"computed_optional_required": "computed"
-										}
-									},
-									{
-										"name": "note",
-										"string": {
-											"computed_optional_required": "computed"
-										}
-									},
-									{
-										"name": "notify_expiry",
-										"bool": {
-											"computed_optional_required": "computed",
-											"description": "If set to true, reminder notification will be sent when psk is about to expire"
-										}
-									},
-									{
-										"name": "notify_on_create_or_edit",
-										"bool": {
-											"computed_optional_required": "computed",
-											"description": "If set to true, notification will be sent when psk is created or edited"
-										}
-									},
-									{
-										"name": "old_passphrase",
-										"string": {
-											"computed_optional_required": "computed",
-											"description": "previous passphrase of the PSK if it has been rotated"
-										}
-									},
-									{
-										"name": "org_id",
-										"string": {
-											"computed_optional_required": "computed"
-										}
-									},
-									{
-										"name": "passphrase",
-										"string": {
-											"computed_optional_required": "computed",
-											"description": "passphrase of the PSK (8-63 character or 64 in hex)"
-										}
-									},
-									{
-										"name": "role",
-										"string": {
-											"computed_optional_required": "computed"
-										}
-									},
-									{
-										"name": "ssid",
-										"string": {
-											"computed_optional_required": "computed",
-											"description": "SSID this PSK should be applicable to"
-										}
-									},
-									{
-										"name": "usage",
-										"string": {
-											"computed_optional_required": "computed",
-											"description": "enum: `macs`, `multi`, `single`"
-										}
-									},
-									{
-										"name": "vlan_id",
-										"string": {
-											"computed_optional_required": "computed"
-										}
-									}
-								]
-							}
-						}
-					}
-				]
-			}
-		},
-		{
-			"name": "site_psks",
-			"schema": {
-				"attributes": [
-					{
-						"name": "site_id",
-						"string": {
-							"computed_optional_required": "required"
-						}
-					},
-					{
-						"name": "ssid",
-						"string": {
-							"computed_optional_required": "computed_optional"
-						}
-					},
-					{
-						"name": "role",
-						"string": {
-							"computed_optional_required": "computed_optional"
-						}
-					},
-					{
-						"name": "name",
-						"string": {
-							"computed_optional_required": "computed_optional"
-						}
-					},
-					{
-						"name": "page",
-						"int64": {
-							"computed_optional_required": "computed_optional",
-							"validators": [
-								{
-									"custom": {
-										"imports": [
-											{
-												"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
-											}
-										],
-										"schema_definition": "int64validator.AtLeast(1)"
-									}
-								}
-							]
-						}
-					},
-					{
-						"name": "limit",
-						"int64": {
-							"computed_optional_required": "computed_optional",
-							"validators": [
-								{
-									"custom": {
-										"imports": [
-											{
-												"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
-											}
-										],
-										"schema_definition": "int64validator.AtLeast(0)"
-									}
-								}
-							]
-						}
-					},
-					{
-						"name": "site_psks",
-						"set_nested": {
-							"computed_optional_required": "computed",
-							"nested_object": {
-								"attributes": [
-									{
-										"name": "admin_sso_id",
-										"string": {
-											"computed_optional_required": "computed",
-											"description": "sso id for psk created from psk portal"
-										}
-									},
-									{
-										"name": "created_time",
-										"number": {
-											"computed_optional_required": "computed"
-										}
-									},
-									{
-										"name": "email",
-										"string": {
-											"computed_optional_required": "computed",
-											"description": "email to send psk expiring notifications to"
-										}
-									},
-									{
-										"name": "expire_time",
-										"int64": {
-											"computed_optional_required": "computed",
-											"description": "Expire time for this PSK key (epoch time in seconds). Default `null` (as no expiration)"
-										}
-									},
-									{
-										"name": "expiry_notification_time",
-										"int64": {
-											"computed_optional_required": "computed",
-											"description": "Number of days before psk is expired. Used as to when to start sending reminder notification when the psk is about to expire"
-										}
-									},
-									{
-										"name": "id",
-										"string": {
-											"computed_optional_required": "computed"
-										}
-									},
-									{
-										"name": "mac",
-										"string": {
-											"computed_optional_required": "computed",
-											"description": "if `usage`==`single`, the mac that this PSK ties to, empty if `auto-binding`"
-										}
-									},
-									{
-										"name": "modified_time",
-										"number": {
-											"computed_optional_required": "computed"
-										}
-									},
-									{
-										"name": "name",
-										"string": {
-											"computed_optional_required": "computed"
-										}
-									},
-									{
-										"name": "note",
-										"string": {
-											"computed_optional_required": "computed"
-										}
-									},
-									{
-										"name": "notify_expiry",
-										"bool": {
-											"computed_optional_required": "computed",
-											"description": "If set to true, reminder notification will be sent when psk is about to expire"
-										}
-									},
-									{
-										"name": "notify_on_create_or_edit",
-										"bool": {
-											"computed_optional_required": "computed",
-											"description": "If set to true, notification will be sent when psk is created or edited"
-										}
-									},
-									{
-										"name": "old_passphrase",
-										"string": {
-											"computed_optional_required": "computed",
-											"description": "previous passphrase of the PSK if it has been rotated"
-										}
-									},
-									{
-										"name": "org_id",
-										"string": {
-											"computed_optional_required": "computed"
-										}
-									},
-									{
-										"name": "passphrase",
-										"string": {
-											"computed_optional_required": "computed",
-											"description": "passphrase of the PSK (8-63 character or 64 in hex)"
-										}
-									},
-									{
-										"name": "role",
-										"string": {
-											"computed_optional_required": "computed"
-										}
-									},
-									{
-										"name": "site_id",
-										"string": {
-											"computed_optional_required": "computed"
-										}
-									},
-									{
-										"name": "ssid",
-										"string": {
-											"computed_optional_required": "computed",
-											"description": "SSID this PSK should be applicable to"
-										}
-									},
-									{
-										"name": "usage",
-										"string": {
-											"computed_optional_required": "computed",
-											"description": "enum: `macs`, `multi`, `single`"
-										}
-									},
-									{
-										"name": "vlan_id",
-										"string": {
-											"computed_optional_required": "computed"
-										}
-									}
-								]
-							}
-						}
-					}
-				]
-			}
 		}
 	],
 	"provider": {
@@ -476,113 +49,1603 @@
 	},
 	"resources": [
 		{
-			"name": "org_psk",
+			"name": "org_wlan",
 			"schema": {
 				"attributes": [
 					{
-						"name": "email",
-						"string": {
+						"name": "acct_immediate_update",
+						"bool": {
 							"computed_optional_required": "computed_optional",
-							"description": "email to send psk expiring notifications to"
+							"default": {
+								"static": false
+							},
+							"description": "enable coa-immediate-update and address-change-immediate-update on the access profile."
 						}
 					},
 					{
-						"name": "expire_time",
+						"name": "acct_interim_interval",
 						"int64": {
 							"computed_optional_required": "computed_optional",
 							"default": {
 								"static": 0
 							},
-							"description": "Expire time for this PSK key (epoch time in seconds). Default `null` (as no expiration)"
-						}
-					},
-					{
-						"name": "expiry_notification_time",
-						"int64": {
-							"computed_optional_required": "computed_optional",
-							"description": "Number of days before psk is expired. Used as to when to start sending reminder notification when the psk is about to expire"
-						}
-					},
-					{
-						"name": "id",
-						"string": {
-							"computed_optional_required": "computed_optional",
-							"description": "PSK ID"
-						}
-					},
-					{
-						"name": "mac",
-						"string": {
-							"computed_optional_required": "computed_optional",
-							"description": "if `usage`==`single`, the mac that this PSK ties to, empty if `auto-binding`"
-						}
-					},
-					{
-						"name": "macs",
-						"list": {
-							"computed_optional_required": "computed_optional",
-							"element_type": {
-								"string": {}
-							},
-							"description": "if `usage`==`macs`, this list contains N number of client mac addresses or mac patterns(11:22:*) or both. This list is capped at 5000",
+							"description": "how frequently should interim accounting be reported, 60-65535. default is 0 (use one specified in Access-Accept request from RADIUS Server). Very frequent messages can affect the performance of the radius server, 600 and up is recommended when enabled",
 							"validators": [
 								{
 									"custom": {
 										"imports": [
 											{
-												"path": "github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
 											}
 										],
-										"schema_definition": "listvalidator.SizeAtMost(5000)"
+										"schema_definition": "int64validator.Between(0, 65535)"
 									}
 								}
 							]
 						}
 					},
 					{
-						"name": "max_usage",
-						"int64": {
+						"name": "acct_servers",
+						"list_nested": {
+							"computed_optional_required": "computed_optional",
+							"nested_object": {
+								"attributes": [
+									{
+										"name": "host",
+										"string": {
+											"computed_optional_required": "required",
+											"description": "ip / hostname of RADIUS server"
+										}
+									},
+									{
+										"name": "keywrap_enabled",
+										"bool": {
+											"computed_optional_required": "computed_optional"
+										}
+									},
+									{
+										"name": "keywrap_format",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"description": "enum: `ascii`, `hex`",
+											"validators": [
+												{
+													"custom": {
+														"imports": [
+															{
+																"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+															}
+														],
+														"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"ascii\",\n\"hex\",\n)"
+													}
+												}
+											]
+										}
+									},
+									{
+										"name": "keywrap_kek",
+										"string": {
+											"computed_optional_required": "computed_optional"
+										}
+									},
+									{
+										"name": "keywrap_mack",
+										"string": {
+											"computed_optional_required": "computed_optional"
+										}
+									},
+									{
+										"name": "port",
+										"int64": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": 1813
+											},
+											"description": "Acct port of RADIUS server",
+											"validators": [
+												{
+													"custom": {
+														"imports": [
+															{
+																"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+															}
+														],
+														"schema_definition": "int64validator.Between(1, 65535)"
+													}
+												}
+											]
+										}
+									},
+									{
+										"name": "secret",
+										"string": {
+											"computed_optional_required": "required",
+											"description": "secret of RADIUS server"
+										}
+									}
+								]
+							},
+							"description": "list of RADIUS accounting servers, optional, order matters where the first one is treated as primary"
+						}
+					},
+					{
+						"name": "airwatch",
+						"single_nested": {
+							"computed_optional_required": "computed_optional",
+							"attributes": [
+								{
+									"name": "api_key",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
+										"description": "API Key"
+									}
+								},
+								{
+									"name": "console_url",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
+										"description": "console URL"
+									}
+								},
+								{
+									"name": "enabled",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										}
+									}
+								},
+								{
+									"name": "password",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
+										"description": "password"
+									}
+								},
+								{
+									"name": "username",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
+										"description": "username"
+									}
+								}
+							],
+							"description": "airwatch wlan settings"
+						}
+					},
+					{
+						"name": "allow_ipv6_ndp",
+						"bool": {
 							"computed_optional_required": "computed_optional",
 							"default": {
-								"static": 0
+								"static": true
 							},
-							"description": "For Org PSK Only. Max concurrent users for this PSK key. Default is 0 (unlimited)"
+							"description": "only applicable when limit_bcast==true, which allows or disallows ipv6 Neighbor Discovery packets to go through"
 						}
 					},
 					{
-						"name": "name",
-						"string": {
-							"computed_optional_required": "required"
-						}
-					},
-					{
-						"name": "note",
-						"string": {
-							"computed_optional_required": "computed_optional"
-						}
-					},
-					{
-						"name": "notify_expiry",
+						"name": "allow_mdns",
 						"bool": {
 							"computed_optional_required": "computed_optional",
 							"default": {
 								"static": false
 							},
-							"description": "If set to true, reminder notification will be sent when psk is about to expire"
+							"description": "only applicable when limit_bcast==true, which allows mDNS / Bonjour packets to go through"
 						}
 					},
 					{
-						"name": "notify_on_create_or_edit",
+						"name": "allow_ssdp",
 						"bool": {
 							"computed_optional_required": "computed_optional",
-							"description": "If set to true, notification will be sent when psk is created or edited"
+							"default": {
+								"static": false
+							},
+							"description": "only applicable when `limit_bcast`==`tru`e, which allows SSDP"
 						}
 					},
 					{
-						"name": "old_passphrase",
+						"name": "ap_ids",
+						"list": {
+							"computed_optional_required": "computed_optional",
+							"element_type": {
+								"string": {}
+							},
+							"description": "list of device ids"
+						}
+					},
+					{
+						"name": "app_limit",
+						"single_nested": {
+							"computed_optional_required": "computed_optional",
+							"attributes": [
+								{
+									"name": "apps",
+									"map": {
+										"computed_optional_required": "computed_optional",
+										"element_type": {
+											"int64": {}
+										},
+										"description": "Map from app key to bandwidth in kbps. \nProperty key is the app key, defined in Get Application List"
+									}
+								},
+								{
+									"name": "enabled",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										}
+									}
+								},
+								{
+									"name": "wxtag_ids",
+									"map": {
+										"computed_optional_required": "computed_optional",
+										"element_type": {
+											"int64": {}
+										},
+										"description": "Map from wxtag_id of Hostname Wxlan Tags to bandwidth in kbps\nProperty key is the wxtag id"
+									}
+								}
+							],
+							"description": "bandwidth limiting for apps (applies to up/down)"
+						}
+					},
+					{
+						"name": "app_qos",
+						"single_nested": {
+							"computed_optional_required": "computed_optional",
+							"attributes": [
+								{
+									"name": "apps",
+									"map_nested": {
+										"computed_optional_required": "computed_optional",
+										"nested_object": {
+											"attributes": [
+												{
+													"name": "dscp",
+													"int64": {
+														"computed_optional_required": "computed_optional",
+														"validators": [
+															{
+																"custom": {
+																	"imports": [
+																		{
+																			"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+																		}
+																	],
+																	"schema_definition": "int64validator.Between(0, 63)"
+																}
+															}
+														]
+													}
+												},
+												{
+													"name": "dst_subnet",
+													"string": {
+														"computed_optional_required": "computed_optional",
+														"description": "subnet filter is not required but helps AP to only inspect certain traffic (thus reducing AP load)"
+													}
+												},
+												{
+													"name": "src_subnet",
+													"string": {
+														"computed_optional_required": "computed_optional",
+														"description": "subnet filter is not required but helps AP to only inspect certain traffic (thus reducing AP load)"
+													}
+												}
+											]
+										}
+									}
+								},
+								{
+									"name": "enabled",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										}
+									}
+								},
+								{
+									"name": "others",
+									"list_nested": {
+										"computed_optional_required": "computed_optional",
+										"nested_object": {
+											"attributes": [
+												{
+													"name": "dscp",
+													"int64": {
+														"computed_optional_required": "computed_optional",
+														"validators": [
+															{
+																"custom": {
+																	"imports": [
+																		{
+																			"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+																		}
+																	],
+																	"schema_definition": "int64validator.Between(0, 63)"
+																}
+															}
+														]
+													}
+												},
+												{
+													"name": "dst_subnet",
+													"string": {
+														"computed_optional_required": "computed_optional"
+													}
+												},
+												{
+													"name": "port_ranges",
+													"string": {
+														"computed_optional_required": "computed_optional"
+													}
+												},
+												{
+													"name": "protocol",
+													"string": {
+														"computed_optional_required": "computed_optional"
+													}
+												},
+												{
+													"name": "src_subnet",
+													"string": {
+														"computed_optional_required": "computed_optional"
+													}
+												}
+											]
+										},
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
+														}
+													],
+													"schema_definition": "listvalidator.SizeAtLeast(1)"
+												}
+											},
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
+														}
+													],
+													"schema_definition": "listvalidator.UniqueValues()"
+												}
+											}
+										]
+									}
+								}
+							],
+							"description": "app qos wlan settings"
+						}
+					},
+					{
+						"name": "apply_to",
 						"string": {
 							"computed_optional_required": "computed_optional",
-							"description": "previous passphrase of the PSK if it has been rotated"
+							"description": "enum: `aps`, `site`, `wxtags`",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+											}
+										],
+										"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"aps\",\n\"site\",\n\"wxtags\",\n)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "arp_filter",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": false
+							},
+							"description": "whether to enable smart arp filter"
+						}
+					},
+					{
+						"name": "auth",
+						"single_nested": {
+							"computed_optional_required": "computed_optional",
+							"attributes": [
+								{
+									"name": "anticlog_threshold",
+									"int64": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": 16
+										},
+										"description": "SAE anti-clogging token threshold",
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+														}
+													],
+													"schema_definition": "int64validator.Between(16, 32)"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "eap_reauth",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										},
+										"description": "whether to trigger EAP reauth when the session ends"
+									}
+								},
+								{
+									"name": "enable_mac_auth",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										},
+										"description": "whether to enable MAC Auth, uses the same auth_servers"
+									}
+								},
+								{
+									"name": "key_idx",
+									"int64": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": 1
+										},
+										"description": "when `type`==`wep`",
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+														}
+													],
+													"schema_definition": "int64validator.Between(1, 4)"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "keys",
+									"list": {
+										"computed_optional_required": "computed_optional",
+										"element_type": {
+											"string": {}
+										},
+										"description": "when type=wep, four 10-character or 26-character hex string, null can be used. All keys, if provided, have to be in the same length"
+									}
+								},
+								{
+									"name": "multi_psk_only",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										},
+										"description": "when `type`==`psk`, whether to only use multi_psk"
+									}
+								},
+								{
+									"name": "owe",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": "disabled"
+										},
+										"description": "if `type`==`open`. enum: `disabled`, `enabled` (means transition mode), `required`",
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+														}
+													],
+													"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"disabled\",\n\"enabled\",\n\"required\",\n)"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "pairwise",
+									"list": {
+										"computed_optional_required": "computed_optional",
+										"element_type": {
+											"string": {}
+										},
+										"description": "when `type`=`psk` or `type`=`eap`, one or more of `wpa1-ccmp`, `wpa1-tkip`, `wpa2-ccmp`, `wpa2-tkip`, `wpa3`"
+									}
+								},
+								{
+									"name": "private_wlan",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										},
+										"description": "when `multi_psk_only`==`true`, whether private wlan is enabled"
+									}
+								},
+								{
+									"name": "psk",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
+										"description": "when `type`==`psk`, 8-64 characters, or 64 hex characters",
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+														}
+													],
+													"schema_definition": "stringvalidator.LengthBetween(8, 64)"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "type",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": "open"
+										},
+										"description": "enum: `eap`, `eap192`, `open`, `psk`, `psk-tkip`, `psk-wpa2-tkip`, `wep`",
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+														}
+													],
+													"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"eap\",\n\"eap192\",\n\"open\",\n\"psk\",\n\"psk-tkip\",\n\"psk-wpa2-tkip\",\n\"wep\",\n)"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "wep_as_secondary_auth",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										},
+										"description": "enable WEP as secondary auth"
+									}
+								}
+							],
+							"description": "authentication wlan settings"
+						}
+					},
+					{
+						"name": "auth_server_selection",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": "ordered"
+							},
+							"description": "When ordered, AP will prefer and go back to the first server if possible. enum: `ordered`, `unordered`",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+											}
+										],
+										"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"ordered\",\n\"unordered\",\n)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "auth_servers",
+						"list_nested": {
+							"computed_optional_required": "computed_optional",
+							"nested_object": {
+								"attributes": [
+									{
+										"name": "host",
+										"string": {
+											"computed_optional_required": "required",
+											"description": "ip / hostname of RADIUS server"
+										}
+									},
+									{
+										"name": "keywrap_enabled",
+										"bool": {
+											"computed_optional_required": "computed_optional"
+										}
+									},
+									{
+										"name": "keywrap_format",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"description": "enum: `ascii`, `hex`",
+											"validators": [
+												{
+													"custom": {
+														"imports": [
+															{
+																"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+															}
+														],
+														"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"ascii\",\n\"hex\",\n)"
+													}
+												}
+											]
+										}
+									},
+									{
+										"name": "keywrap_kek",
+										"string": {
+											"computed_optional_required": "computed_optional"
+										}
+									},
+									{
+										"name": "keywrap_mack",
+										"string": {
+											"computed_optional_required": "computed_optional"
+										}
+									},
+									{
+										"name": "port",
+										"int64": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": 1812
+											},
+											"description": "Auth port of RADIUS server",
+											"validators": [
+												{
+													"custom": {
+														"imports": [
+															{
+																"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+															}
+														],
+														"schema_definition": "int64validator.Between(1, 65535)"
+													}
+												}
+											]
+										}
+									},
+									{
+										"name": "secret",
+										"string": {
+											"computed_optional_required": "required",
+											"description": "secret of RADIUS server"
+										}
+									}
+								]
+							},
+							"description": "list of RADIUS authentication servers, at least one is needed if `auth type`==`eap`, order matters where the first one is treated as primary"
+						}
+					},
+					{
+						"name": "auth_servers_nas_id",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"description": "optional, up to 48 bytes, will be dynamically generated if not provided. used only for authentication servers"
+						}
+					},
+					{
+						"name": "auth_servers_nas_ip",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"description": "optional, NAS-IP-ADDRESS to use"
+						}
+					},
+					{
+						"name": "auth_servers_retries",
+						"int64": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": 2
+							},
+							"description": "radius auth session retries. Following fast timers are set if “fast_dot1x_timers” knob is enabled. ‘retries’  are set to value of auth_servers_retries. ‘max-requests’ is also set when setting auth_servers_retries and is set to default value to 3."
+						}
+					},
+					{
+						"name": "auth_servers_timeout",
+						"int64": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": 5
+							},
+							"description": "radius auth session timeout. Following fast timers are set if “fast_dot1x_timers” knob is enabled. ‘quite-period’  and ‘transmit-period’ are set to half the value of auth_servers_timeout. ‘supplicant-timeout’ is also set when setting auth_servers_timeout and is set to default value of 10."
+						}
+					},
+					{
+						"name": "band_steer",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": false
+							},
+							"description": "whether to enable band_steering, this works only when band==both"
+						}
+					},
+					{
+						"name": "band_steer_force_band5",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": false
+							},
+							"description": "force dual_band capable client to connect to 5G"
+						}
+					},
+					{
+						"name": "bands",
+						"list": {
+							"computed_optional_required": "computed_optional",
+							"element_type": {
+								"string": {}
+							},
+							"description": "list of radios that the wlan should apply to"
+						}
+					},
+					{
+						"name": "block_blacklist_clients",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": false
+							},
+							"description": "whether to block the clients in the blacklist (up to first 256 macs)"
+						}
+					},
+					{
+						"name": "bonjour",
+						"single_nested": {
+							"computed_optional_required": "computed_optional",
+							"attributes": [
+								{
+									"name": "additional_vlan_ids",
+									"list": {
+										"computed_optional_required": "required",
+										"element_type": {
+											"string": {}
+										},
+										"description": "additional VLAN IDs (on the LAN side or from other WLANs) should we be forwarding bonjour queries/responses"
+									}
+								},
+								{
+									"name": "enabled",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										},
+										"description": "whether to enable bonjour for this WLAN. Once enabled, limit_bcast is assumed true, allow_mdns is assumed false"
+									}
+								},
+								{
+									"name": "services",
+									"map_nested": {
+										"computed_optional_required": "required",
+										"nested_object": {
+											"attributes": [
+												{
+													"name": "disable_local",
+													"bool": {
+														"computed_optional_required": "computed_optional",
+														"default": {
+															"static": false
+														},
+														"description": "whether to prevent wireless clients to discover bonjour devices on the same WLAN"
+													}
+												},
+												{
+													"name": "radius_groups",
+													"list": {
+														"computed_optional_required": "computed_optional",
+														"element_type": {
+															"string": {}
+														},
+														"description": "optional, if the service is further restricted for certain RADIUS groups"
+													}
+												},
+												{
+													"name": "scope",
+													"string": {
+														"computed_optional_required": "computed_optional",
+														"default": {
+															"static": "same_site"
+														},
+														"description": "how bonjour services should be discovered for the same WLAN. enum: `same_ap`, `same_map`, `same_site`",
+														"validators": [
+															{
+																"custom": {
+																	"imports": [
+																		{
+																			"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																		}
+																	],
+																	"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"same_ap\",\n\"same_map\",\n\"same_site\",\n)"
+																}
+															}
+														]
+													}
+												}
+											]
+										},
+										"description": "what services are allowed. \nProperty key is the service name"
+									}
+								}
+							],
+							"description": "bonjour gateway wlan settings"
+						}
+					},
+					{
+						"name": "cisco_cwa",
+						"single_nested": {
+							"computed_optional_required": "computed_optional",
+							"attributes": [
+								{
+									"name": "allowed_hostnames",
+									"list": {
+										"computed_optional_required": "computed_optional",
+										"element_type": {
+											"string": {}
+										},
+										"description": "list of hostnames without http(s):// (matched by substring)"
+									}
+								},
+								{
+									"name": "allowed_subnets",
+									"list": {
+										"computed_optional_required": "computed_optional",
+										"element_type": {
+											"string": {}
+										},
+										"description": "list of CIDRs"
+									}
+								},
+								{
+									"name": "blocked_subnets",
+									"list": {
+										"computed_optional_required": "computed_optional",
+										"element_type": {
+											"string": {}
+										},
+										"description": "list of blocked CIDRs"
+									}
+								},
+								{
+									"name": "enabled",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										}
+									}
+								}
+							],
+							"description": "Cisco CWA (central web authentication) required RADIUS with COA in order to work. See CWA: https://www.cisco.com/c/en/us/support/docs/security/identity-services-engine/115732-central-web-auth-00.html"
+						}
+					},
+					{
+						"name": "client_limit_down",
+						"int64": {
+							"computed_optional_required": "computed_optional",
+							"description": "kbps"
+						}
+					},
+					{
+						"name": "client_limit_down_enabled",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": false
+							},
+							"description": "if downlink limiting per-client is enabled"
+						}
+					},
+					{
+						"name": "client_limit_up",
+						"int64": {
+							"computed_optional_required": "computed_optional",
+							"description": "kbps"
+						}
+					},
+					{
+						"name": "client_limit_up_enabled",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": false
+							},
+							"description": "if uplink limiting per-client is enabled"
+						}
+					},
+					{
+						"name": "coa_servers",
+						"list_nested": {
+							"computed_optional_required": "computed_optional",
+							"nested_object": {
+								"attributes": [
+									{
+										"name": "disable_event_timestamp_check",
+										"bool": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": false
+											},
+											"description": "whether to disable Event-Timestamp Check"
+										}
+									},
+									{
+										"name": "enabled",
+										"bool": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": false
+											}
+										}
+									},
+									{
+										"name": "ip",
+										"string": {
+											"computed_optional_required": "required"
+										}
+									},
+									{
+										"name": "port",
+										"int64": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": 3799
+											},
+											"validators": [
+												{
+													"custom": {
+														"imports": [
+															{
+																"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+															}
+														],
+														"schema_definition": "int64validator.Between(1, 65535)"
+													}
+												}
+											]
+										}
+									},
+									{
+										"name": "secret",
+										"string": {
+											"computed_optional_required": "required"
+										}
+									}
+								]
+							},
+							"description": "list of COA (change of authorization) servers, optional"
+						}
+					},
+					{
+						"name": "disable_11ax",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": false
+							},
+							"description": "some old WLAN drivers may not be compatible"
+						}
+					},
+					{
+						"name": "disable_ht_vht_rates",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": false
+							},
+							"description": "to disable ht or vht rates"
+						}
+					},
+					{
+						"name": "disable_uapsd",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": false
+							},
+							"description": "whether to disable U-APSD"
+						}
+					},
+					{
+						"name": "disable_v1_roam_notify",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": false
+							},
+							"description": "disable sending v2 roam notification messages"
+						}
+					},
+					{
+						"name": "disable_v2_roam_notify",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": false
+							},
+							"description": "disable sending v2 roam notification messages"
+						}
+					},
+					{
+						"name": "disable_wmm",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": false
+							},
+							"description": "whether to disable WMM"
+						}
+					},
+					{
+						"name": "dns_server_rewrite",
+						"single_nested": {
+							"computed_optional_required": "computed_optional",
+							"attributes": [
+								{
+									"name": "enabled",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										}
+									}
+								},
+								{
+									"name": "radius_groups",
+									"map": {
+										"computed_optional_required": "computed_optional",
+										"element_type": {
+											"string": {}
+										},
+										"description": "map between radius_group and the desired DNS server (IPv4 only)\nProperty key is the RADIUS group, property value is the desired DNS Server"
+									}
+								}
+							],
+							"description": "for radius_group-based DNS server (rewrite DNS request depending on the Group RADIUS server returns)"
+						}
+					},
+					{
+						"name": "dtim",
+						"int64": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": 2
+							}
+						}
+					},
+					{
+						"name": "dynamic_psk",
+						"single_nested": {
+							"computed_optional_required": "computed_optional",
+							"attributes": [
+								{
+									"name": "default_psk",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"description": "default PSK to use if cloud WLC is not available, 8-63 characters",
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+														}
+													],
+													"schema_definition": "stringvalidator.LengthBetween(8, 63)"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "default_vlan_id",
+									"string": {
+										"computed_optional_required": "computed_optional"
+									}
+								},
+								{
+									"name": "enabled",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										}
+									}
+								},
+								{
+									"name": "force_lookup",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										},
+										"description": "when 11r is enabled, we'll try to use the cached PMK, this can be disabled\n`false` means auto"
+									}
+								},
+								{
+									"name": "source",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": "radius"
+										},
+										"description": "enum: `cloud_psks`, `radius`",
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+														}
+													],
+													"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"cloud_psks\",\n\"radius\",\n)"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "vlan_ids",
+									"list": {
+										"computed_optional_required": "computed_optional",
+										"element_type": {
+											"string": {}
+										}
+									}
+								}
+							],
+							"description": "for dynamic PSK where we get per_user PSK from Radius. dynamic_psk allows PSK to be selected at runtime depending on context (wlan/site/user/...) thus following configurations are assumed (currently)\n  * PSK will come from RADIUS server\n  * AP sends client MAC as username ans password (i.e. `enable_mac_auth` is assumed)\n  * AP sends BSSID:SSID as Caller-Station-ID\n  * `auth_servers` is required\n  * PSK will come from cloud WLC if source is cloud_psks\n  * default_psk will be used if cloud WLC is not available\n  * `multi_psk_only` and `psk` is ignored\n  * `pairwise` can only be wpa2-ccmp (for now, wpa3 support on the roadmap)"
+						}
+					},
+					{
+						"name": "dynamic_vlan",
+						"single_nested": {
+							"computed_optional_required": "computed_optional",
+							"attributes": [
+								{
+									"name": "default_vlan_ids",
+									"list": {
+										"computed_optional_required": "computed_optional",
+										"element_type": {
+											"string": {}
+										},
+										"description": "Default VLAN ID(s) can be a number, a range of VLAN IDs, a variable or multiple numbers, ranges or variables as a VLAN pool. Default VLAN as a pool of VLANS requires 0.14.x or newer firmware"
+									}
+								},
+								{
+									"name": "enabled",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										},
+										"description": "whether to enable dynamic vlan"
+									}
+								},
+								{
+									"name": "local_vlan_ids",
+									"list": {
+										"computed_optional_required": "computed_optional",
+										"element_type": {
+											"string": {}
+										},
+										"description": "vlan_ids to be locally bridged"
+									}
+								},
+								{
+									"name": "type",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": "standard"
+										},
+										"description": "standard (using Tunnel-Private-Group-ID, widely supported), airespace-interface-name (Airespace/Cisco). enum: `airespace-interface-name`, `standard`",
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+														}
+													],
+													"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"airespace-interface-name\",\n\"standard\",\n)"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "vlans",
+									"map": {
+										"computed_optional_required": "computed_optional",
+										"element_type": {
+											"string": {}
+										},
+										"description": "map between vlan_id (as string) to airespace interface names (comma-separated) or null for stndard mapping\n  * if `dynamic_vlan.type`==`standard`, property key is the Vlan ID and property value is \\\"\\\"\n  * if `dynamic_vlan.type`==`airespace-interface-name`, property key is the Vlan ID and property value is the Airespace Interface Name"
+									}
+								}
+							],
+							"description": "for 802.1x"
+						}
+					},
+					{
+						"name": "enable_local_keycaching",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": false
+							},
+							"description": "enable AP-AP keycaching via multicast"
+						}
+					},
+					{
+						"name": "enable_wireless_bridging",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": false
+							},
+							"description": "by default, we'd inspect all DHCP packets and drop those unrelated to the wireless client itself in the case where client is a wireless bridge (DHCP packets for other MACs will need to be orwarded), wireless_bridging can be enabled"
+						}
+					},
+					{
+						"name": "enable_wireless_bridging_dhcp_tracking",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": false
+							},
+							"description": "if the client bridge is doing DHCP on behalf of other devices (L2-NAT), enable dhcp_tracking will cut down DHCP response packets to be forwarded to wireless"
+						}
+					},
+					{
+						"name": "enabled",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": true
+							},
+							"description": "if this wlan is enabled"
+						}
+					},
+					{
+						"name": "fast_dot1x_timers",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": false
+							},
+							"description": "if set to true, sets default fast-timers with values calculated from ‘auth_servers_timeout’ and ‘auth_server_retries’ ."
+						}
+					},
+					{
+						"name": "hide_ssid",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": false
+							},
+							"description": "whether to hide SSID in beacon"
+						}
+					},
+					{
+						"name": "hostname_ie",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": false
+							},
+							"description": "include hostname inside IE in AP beacons / probe responses"
+						}
+					},
+					{
+						"name": "hotspot20",
+						"single_nested": {
+							"computed_optional_required": "computed_optional",
+							"attributes": [
+								{
+									"name": "domain_name",
+									"list": {
+										"computed_optional_required": "computed_optional",
+										"element_type": {
+											"string": {}
+										}
+									}
+								},
+								{
+									"name": "enabled",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"description": "whether to enable hotspot 2.0 config"
+									}
+								},
+								{
+									"name": "nai_realms",
+									"list": {
+										"computed_optional_required": "computed_optional",
+										"element_type": {
+											"string": {}
+										},
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
+														}
+													],
+													"schema_definition": "listvalidator.UniqueValues()"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "operators",
+									"list": {
+										"computed_optional_required": "computed_optional",
+										"element_type": {
+											"string": {}
+										},
+										"description": "list of operators to support"
+									}
+								},
+								{
+									"name": "rcoi",
+									"list": {
+										"computed_optional_required": "computed_optional",
+										"element_type": {
+											"string": {}
+										}
+									}
+								},
+								{
+									"name": "venue_name",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"description": "venue name, default is site name"
+									}
+								}
+							],
+							"description": "hostspot 2.0 wlan settings"
+						}
+					},
+					{
+						"name": "id",
+						"string": {
+							"computed_optional_required": "computed_optional"
+						}
+					},
+					{
+						"name": "inject_dhcp_option_82",
+						"single_nested": {
+							"computed_optional_required": "computed_optional",
+							"attributes": [
+								{
+									"name": "circuit_id",
+									"string": {
+										"computed_optional_required": "computed_optional"
+									}
+								},
+								{
+									"name": "enabled",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										},
+										"description": "whether to inject option 82 when forwarding DHCP packets"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "interface",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": "all"
+							},
+							"description": "where this WLAN will be connected to. enum: `all`, `eth0`, `eth1`, `eth2`, `eth3`, `mxtunnel`, `site_mxedge`, `wxtunnel`",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+											}
+										],
+										"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"all\",\n\"eth0\",\n\"eth1\",\n\"eth2\",\n\"eth3\",\n\"mxtunnel\",\n\"site_mxedge\",\n\"wxtunnel\",\n)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "isolation",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": false
+							},
+							"description": "whether to stop clients to talk to each other"
+						}
+					},
+					{
+						"name": "l2_isolation",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": false
+							},
+							"description": "if isolation is enabled, whether to deny clients to talk to L2 on the LAN"
+						}
+					},
+					{
+						"name": "legacy_overds",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": false
+							},
+							"description": "legacy devices requires the Over-DS (for Fast BSS Transition) bit set (while our chip doesn’t support it). Warning! Enabling this will cause problem for iOS devices."
+						}
+					},
+					{
+						"name": "limit_bcast",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": false
+							},
+							"description": "whether to limit broadcast packets going to wireless (i.e. only allow certain bcast packets to go through)"
+						}
+					},
+					{
+						"name": "limit_probe_response",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": false
+							},
+							"description": "limit probe response base on some heuristic rules"
+						}
+					},
+					{
+						"name": "max_idletime",
+						"int64": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": 1800
+							},
+							"description": "max idle time in seconds",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+											}
+										],
+										"schema_definition": "int64validator.Between(60, 86400)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "mist_nac",
+						"single_nested": {
+							"computed_optional_required": "computed_optional",
+							"attributes": [
+								{
+									"name": "enabled",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										},
+										"description": "when enabled:\n  * `auth_servers` is ignored\n  * `acct_servers` is ignored\n  * `auth_servers_*` are ignored\n  * `coa_servers` is ignored\n  * `radsec` is ignored\n  * `coa_enabled` is assumed'"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "msp_id",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": ""
+							}
+						}
+					},
+					{
+						"name": "mxtunnel_ids",
+						"list": {
+							"computed_optional_required": "computed_optional",
+							"element_type": {
+								"string": {}
+							},
+							"description": "when `interface`=`mxtunnel`, id of the Mist Tunnel"
+						}
+					},
+					{
+						"name": "mxtunnel_name",
+						"list": {
+							"computed_optional_required": "computed_optional",
+							"element_type": {
+								"string": {}
+							},
+							"description": "when `interface`=`site_medge`, name of the mxtunnel that in mxtunnels under Site Setting"
+						}
+					},
+					{
+						"name": "no_static_dns",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": false
+							},
+							"description": "whether to only allow client to use DNS that we’ve learned from DHCP response"
+						}
+					},
+					{
+						"name": "no_static_ip",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": false
+							},
+							"description": "whether to only allow client that we’ve learned from DHCP exchange to talk"
 						}
 					},
 					{
@@ -592,28 +1655,1012 @@
 						}
 					},
 					{
-						"name": "passphrase",
-						"string": {
-							"computed_optional_required": "required",
-							"description": "passphrase of the PSK (8-63 character or 64 in hex)",
-							"validators": [
+						"name": "portal",
+						"single_nested": {
+							"computed_optional_required": "computed_optional",
+							"attributes": [
 								{
-									"custom": {
-										"imports": [
+									"name": "amazon_client_id",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
+										"description": "amazon OAuth2 client id. This is optional. If not provided, it will use a default one."
+									}
+								},
+								{
+									"name": "amazon_client_secret",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
+										"description": "amazon OAuth2 client secret. If amazon_client_id was provided, provide a correspoinding value. Else leave blank."
+									}
+								},
+								{
+									"name": "amazon_email_domains",
+									"list": {
+										"computed_optional_required": "computed_optional",
+										"element_type": {
+											"string": {}
+										},
+										"description": "Matches authenticated user email against provided domains. If null or [], all authenticated emails will be allowed."
+									}
+								},
+								{
+									"name": "amazon_enabled",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										},
+										"description": "whether amazon is enabled as a login method"
+									}
+								},
+								{
+									"name": "amazon_expire",
+									"float64": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": 0
+										},
+										"description": "interval for which guest remains authorized using amazon auth (in minutes), if not provided, uses expire`"
+									}
+								},
+								{
+									"name": "auth",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": "none"
+										},
+										"description": "authentication scheme. enum: `external`, `none`, `sso`",
+										"validators": [
 											{
-												"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+														}
+													],
+													"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"external\",\n\"none\",\n\"sso\",\n)"
+												}
 											}
-										],
-										"schema_definition": "stringvalidator.LengthBetween(8, 64)"
+										]
+									}
+								},
+								{
+									"name": "azure_client_id",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
+										"description": "Required if `azure_enabled`==`true`.\nAzure active directory app client id"
+									}
+								},
+								{
+									"name": "azure_client_secret",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
+										"description": "Required if `azure_enabled`==`true`.\nAzure active directory app client secret"
+									}
+								},
+								{
+									"name": "azure_enabled",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										},
+										"description": "whether Azure Active Directory is enabled as a login method"
+									}
+								},
+								{
+									"name": "azure_expire",
+									"float64": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": 0
+										},
+										"description": "interval for which guest remains authorized using azure auth (in minutes), if not provided, uses expire`"
+									}
+								},
+								{
+									"name": "azure_tenant_id",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
+										"description": "Required if `azure_enabled`==`true`.\nAzure active directory tenant id."
+									}
+								},
+								{
+									"name": "broadnet_password",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
+										"description": "when `sms_provider`==`broadnet`"
+									}
+								},
+								{
+									"name": "broadnet_sid",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": "MIST"
+										},
+										"description": "when `sms_provider`==`broadnet`"
+									}
+								},
+								{
+									"name": "broadnet_user_id",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
+										"description": "when `sms_provider`==`broadnet`"
+									}
+								},
+								{
+									"name": "bypass_when_cloud_down",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										},
+										"description": "whether to bypass the guest portal when cloud not reachable (and apply the default policies)"
+									}
+								},
+								{
+									"name": "clickatell_api_key",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
+										"description": "when `sms_provider`==`clickatell`"
+									}
+								},
+								{
+									"name": "cross_site",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										},
+										"description": "whether to allow guest to roam between WLANs (with same `WLAN.ssid`, regardless of variables) of different sites of same org without reauthentication (disable random_mac for seamless roaming)"
+									}
+								},
+								{
+									"name": "email_enabled",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										},
+										"description": "whether email (access code verification) is enabled as a login method"
+									}
+								},
+								{
+									"name": "enabled",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										},
+										"description": "whether guest portal is enabled"
+									}
+								},
+								{
+									"name": "expire",
+									"float64": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": 1440
+										},
+										"description": "how long to remain authorized, in minutes"
+									}
+								},
+								{
+									"name": "external_portal_url",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
+										"description": "external portal URL (e.g. https://host/url) where we can append our query parameters to"
+									}
+								},
+								{
+									"name": "facebook_client_id",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
+										"description": "Required if `facebook_enabled`==`true`.\nFacebook OAuth2 app id. This is optional. If not provided, it will use a default one."
+									}
+								},
+								{
+									"name": "facebook_client_secret",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
+										"description": "Required if `facebook_enabled`==`true`.\nFacebook OAuth2 app secret. If facebook_client_id was provided, provide a correspoinding value. Else leave blank."
+									}
+								},
+								{
+									"name": "facebook_email_domains",
+									"list": {
+										"computed_optional_required": "computed_optional",
+										"element_type": {
+											"string": {}
+										},
+										"description": "Matches authenticated user email against provided domains. If null or [], all authenticated emails will be allowed."
+									}
+								},
+								{
+									"name": "facebook_enabled",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										},
+										"description": "whether facebook is enabled as a login method"
+									}
+								},
+								{
+									"name": "facebook_expire",
+									"float64": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": 0
+										},
+										"description": "interval for which guest remains authorized using facebook auth (in minutes), if not provided, uses expire`"
+									}
+								},
+								{
+									"name": "forward",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										},
+										"description": "whether to forward the user to another URL after authorized"
+									}
+								},
+								{
+									"name": "forward_url",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
+										"description": "the URL to forward the user to"
+									}
+								},
+								{
+									"name": "google_client_id",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
+										"description": "Google OAuth2 app id. This is optional. If not provided, it will use a default one."
+									}
+								},
+								{
+									"name": "google_client_secret",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
+										"description": "Google OAuth2 app secret. If google_client_id was provided, provide a correspoinding value. Else leave blank."
+									}
+								},
+								{
+									"name": "google_email_domains",
+									"list": {
+										"computed_optional_required": "computed_optional",
+										"element_type": {
+											"string": {}
+										},
+										"description": "Matches authenticated user email against provided domains. If null or [], all authenticated emails will be allowed."
+									}
+								},
+								{
+									"name": "google_enabled",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										},
+										"description": "whether google is enabled as login method"
+									}
+								},
+								{
+									"name": "google_expire",
+									"float64": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": 0
+										},
+										"description": "interval for which guest remains authorized using google auth (in minutes), if not provided, uses expire`"
+									}
+								},
+								{
+									"name": "gupshup_password",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
+										"description": "when `sms_provider`==`gupshup`"
+									}
+								},
+								{
+									"name": "gupshup_userid",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
+										"description": "when `sms_provider`==`gupshup`"
+									}
+								},
+								{
+									"name": "microsoft_client_id",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
+										"description": "microsoft 365 OAuth2 client id. This is optional. If not provided, it will use a default one."
+									}
+								},
+								{
+									"name": "microsoft_client_secret",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
+										"description": "microsoft 365 OAuth2 client secret. If microsoft_client_id was provided, provide a correspoinding value. Else leave blank."
+									}
+								},
+								{
+									"name": "microsoft_email_domains",
+									"list": {
+										"computed_optional_required": "computed_optional",
+										"element_type": {
+											"string": {}
+										},
+										"description": "Matches authenticated user email against provided domains. If null or [], all authenticated emails will be allowed."
+									}
+								},
+								{
+									"name": "microsoft_enabled",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										},
+										"description": "whether microsoft 365 is enabled as a login method"
+									}
+								},
+								{
+									"name": "microsoft_expire",
+									"float64": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": 0
+										},
+										"description": "interval for which guest remains authorized using microsoft auth (in minutes), if not provided, uses expire`"
+									}
+								},
+								{
+									"name": "passphrase_enabled",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										},
+										"description": "whether password is enabled"
+									}
+								},
+								{
+									"name": "passphrase_expire",
+									"float64": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": 0
+										},
+										"description": "interval for which guest remains authorized using passphrase auth (in minutes), if not provided, uses `expire`"
+									}
+								},
+								{
+									"name": "password",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
+										"description": "passphrase"
+									}
+								},
+								{
+									"name": "predefined_sponsors_enabled",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": true
+										},
+										"description": "whether to show list of sponsor emails mentioned in `sponsors` object as a dropdown. If both `sponsor_notify_all` and `predefined_sponsors_enabled` are false, behaviour is acc to `sponsor_email_domains`"
+									}
+								},
+								{
+									"name": "predefined_sponsors_hide_email",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										},
+										"description": "whether to hide sponsor’s email from list of sponsors"
+									}
+								},
+								{
+									"name": "privacy",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										}
+									}
+								},
+								{
+									"name": "puzzel_password",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
+										"description": "when `sms_provider`==`puzzel`"
+									}
+								},
+								{
+									"name": "puzzel_service_id",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
+										"description": "when `sms_provider`==`puzzel`"
+									}
+								},
+								{
+									"name": "puzzel_username",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
+										"description": "when `sms_provider`==`puzzel`"
+									}
+								},
+								{
+									"name": "sms_message_format",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": "Code {{code}} expires in {{duration}} minutes."
+										}
+									}
+								},
+								{
+									"name": "sms_enabled",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										},
+										"description": "whether sms is enabled as a login method"
+									}
+								},
+								{
+									"name": "sms_expire",
+									"float64": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": 0
+										},
+										"description": "interval for which guest remains authorized using sms auth (in minutes), if not provided, uses expire`"
+									}
+								},
+								{
+									"name": "sms_provider",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": "manual"
+										},
+										"description": "enum: `broadnet`, `clickatell`, `gupshup`, `manual`, `puzzel`, `telstra`, `twilio`",
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+														}
+													],
+													"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"broadnet\",\n\"clickatell\",\n\"gupshup\",\n\"manual\",\n\"puzzel\",\n\"telstra\",\n\"twilio\",\n)"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "sponsor_auto_approve",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										},
+										"description": "whether to automatically approve guest and allow sponsor to revoke guest access, needs predefined_sponsors_enabled enabled and sponsor_notify_all disabled"
+									}
+								},
+								{
+									"name": "sponsor_email_domains",
+									"list": {
+										"computed_optional_required": "computed_optional",
+										"element_type": {
+											"string": {}
+										},
+										"description": "list of domain allowed for sponsor email. Required if `sponsor_enabled` is `true` and `sponsors` is empty."
+									}
+								},
+								{
+									"name": "sponsor_enabled",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										},
+										"description": "whether sponsor is enabled"
+									}
+								},
+								{
+									"name": "sponsor_expire",
+									"float64": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": 0
+										},
+										"description": "interval for which guest remains authorized using sponsor auth (in minutes), if not provided, uses expire`"
+									}
+								},
+								{
+									"name": "sponsor_link_validity_duration",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": "60"
+										},
+										"description": "how long to remain valid sponsored guest request approve/deny link received in email, in minutes."
+									}
+								},
+								{
+									"name": "sponsor_notify_all",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										},
+										"description": "whether to notify all sponsors that are mentioned in `sponsors` object. Both `sponsor_notify_all` and `predefined_sponsors_enabled` should be true in order to notify sponsors. If true, email sent to 10 sponsors in no particular order."
+									}
+								},
+								{
+									"name": "sponsor_status_notify",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										},
+										"description": "if enabled, guest will get email about sponsor's action (approve/deny)"
+									}
+								},
+								{
+									"name": "sponsors",
+									"map": {
+										"computed_optional_required": "computed_optional",
+										"element_type": {
+											"string": {}
+										},
+										"description": "object of allowed sponsors email with name. Required if `sponsor_enabled` is `true` and `sponsor_email_domains` is empty.\nProperty key is the sponsor email, Property value is the sponsor name"
+									}
+								},
+								{
+									"name": "sso_default_role",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
+										"description": "default role to assign if there’s no match. By default, an assertion is treated as invalid when there’s no role matched"
+									}
+								},
+								{
+									"name": "sso_forced_role",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										}
+									}
+								},
+								{
+									"name": "sso_idp_cert",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
+										"description": "IDP Cert (used to verify the signed response)"
+									}
+								},
+								{
+									"name": "sso_idp_sign_algo",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": "sha1"
+										},
+										"description": "signing algorithm for SAML Assertion"
+									}
+								},
+								{
+									"name": "sso_idp_sso_url",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
+										"description": "IDP Single-Sign-On URL"
+									}
+								},
+								{
+									"name": "sso_issuer",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
+										"description": "IDP issuer URL"
+									}
+								},
+								{
+									"name": "sso_nameid_format",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": "email"
+										},
+										"description": "enum: `email`, `unspecified`",
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+														}
+													],
+													"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"email\",\n\"unspecified\",\n)"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "telstra_client_id",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
+										"description": "when `sms_provider`==`telstra`, Client ID provided by Telstra"
+									}
+								},
+								{
+									"name": "telstra_client_secret",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
+										"description": "when `sms_provider`==`telstra`, Client secret provided by Telstra"
+									}
+								},
+								{
+									"name": "twilio_auth_token",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
+										"description": "when `sms_provider`==`twilio`, Auth token account with twilio account"
+									}
+								},
+								{
+									"name": "twilio_phone_number",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
+										"description": "when `sms_provider`==`twilio`, Twilio phone number associated with the account. See example for accepted format."
+									}
+								},
+								{
+									"name": "twilio_sid",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
+										"description": "when `sms_provider`==`twilio`, Account SID provided by Twilio"
+									}
+								}
+							],
+							"description": "portal wlan settings"
+						}
+					},
+					{
+						"name": "portal_allowed_hostnames",
+						"list": {
+							"computed_optional_required": "computed_optional",
+							"element_type": {
+								"string": {}
+							},
+							"description": "list of hostnames without http(s):// (matched by substring)"
+						}
+					},
+					{
+						"name": "portal_allowed_subnets",
+						"list": {
+							"computed_optional_required": "computed_optional",
+							"element_type": {
+								"string": {}
+							},
+							"description": "list of CIDRs"
+						}
+					},
+					{
+						"name": "portal_api_secret",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": ""
+							},
+							"description": "api secret (auto-generated) that can be used to sign guest authorization requests"
+						}
+					},
+					{
+						"name": "portal_denied_hostnames",
+						"list": {
+							"computed_optional_required": "computed_optional",
+							"element_type": {
+								"string": {}
+							},
+							"description": "list of hostnames without http(s):// (matched by substring), this takes precedence over portal_allowed_hostnames"
+						}
+					},
+					{
+						"name": "portal_image",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": ""
+							},
+							"description": "Url of portal background image"
+						}
+					},
+					{
+						"name": "portal_sso_url",
+						"string": {
+							"computed_optional_required": "computed_optional"
+						}
+					},
+					{
+						"name": "portal_template_url",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": ""
+							},
+							"description": "N.B portal_template will be forked out of wlan objects soon. To fetch portal_template, please query portal_template_url. To update portal_template, use Wlan Portal Template."
+						}
+					},
+					{
+						"name": "qos",
+						"single_nested": {
+							"computed_optional_required": "computed_optional",
+							"attributes": [
+								{
+									"name": "class",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": "best_effort"
+										},
+										"description": "enum: `background`, `best_effort`, `video`, `voice`",
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+														}
+													],
+													"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"background\",\n\"best_effort\",\n\"video\",\n\"voice\",\n)"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "overwrite",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										},
+										"description": "whether to overwrite QoS"
 									}
 								}
 							]
 						}
 					},
 					{
-						"name": "role",
+						"name": "radsec",
+						"single_nested": {
+							"computed_optional_required": "computed_optional",
+							"attributes": [
+								{
+									"name": "coa_enabled",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										}
+									}
+								},
+								{
+									"name": "enabled",
+									"bool": {
+										"computed_optional_required": "computed_optional"
+									}
+								},
+								{
+									"name": "idle_timeout",
+									"int64": {
+										"computed_optional_required": "computed_optional"
+									}
+								},
+								{
+									"name": "mxcluster_ids",
+									"list": {
+										"computed_optional_required": "computed_optional",
+										"element_type": {
+											"string": {}
+										},
+										"description": "To use Org mxedges when this WLAN does not use mxtunnel, specify their mxcluster_ids.\nOrg mxedge(s) identified by mxcluster_ids"
+									}
+								},
+								{
+									"name": "proxy_hosts",
+									"list": {
+										"computed_optional_required": "computed_optional",
+										"element_type": {
+											"string": {}
+										},
+										"description": "default is site.mxedge.radsec.proxy_hosts which must be a superset of all wlans[*].radsec.proxy_hosts\nwhen radsec.proxy_hosts are not used, tunnel peers (org or site mxedges) are used irrespective of use_site_mxedge"
+									}
+								},
+								{
+									"name": "server_name",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"description": "name of the server to verify (against the cacerts in Org Setting). Only if not Mist Edge."
+									}
+								},
+								{
+									"name": "servers",
+									"list_nested": {
+										"computed_optional_required": "computed_optional",
+										"nested_object": {
+											"attributes": [
+												{
+													"name": "host",
+													"string": {
+														"computed_optional_required": "computed_optional"
+													}
+												},
+												{
+													"name": "port",
+													"int64": {
+														"computed_optional_required": "computed_optional",
+														"validators": [
+															{
+																"custom": {
+																	"imports": [
+																		{
+																			"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+																		}
+																	],
+																	"schema_definition": "int64validator.Between(1, 65535)"
+																}
+															}
+														]
+													}
+												}
+											]
+										},
+										"description": "List of Radsec Servers. Only if not Mist Edge.",
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
+														}
+													],
+													"schema_definition": "listvalidator.UniqueValues()"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "use_mxedge",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"description": "use mxedge(s) as radsecproxy"
+									}
+								},
+								{
+									"name": "use_site_mxedge",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										},
+										"description": "To use Site mxedges when this WLAN does not use mxtunnel"
+									}
+								}
+							],
+							"description": "Radsec settings"
+						}
+					},
+					{
+						"name": "roam_mode",
 						"string": {
 							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": "none"
+							},
+							"description": "enum: `11r`, `OKC`, `none`",
 							"validators": [
 								{
 									"custom": {
@@ -622,39 +2669,156 @@
 												"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 											}
 										],
-										"schema_definition": "stringvalidator.LengthBetween(0, 32)"
+										"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"11r\",\n\"OKC\",\n\"none\",\n)"
 									}
 								}
 							]
+						}
+					},
+					{
+						"name": "schedule",
+						"single_nested": {
+							"computed_optional_required": "computed_optional",
+							"attributes": [
+								{
+									"name": "enabled",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										}
+									}
+								},
+								{
+									"name": "hours",
+									"single_nested": {
+										"computed_optional_required": "computed_optional",
+										"attributes": [
+											{
+												"name": "fri",
+												"string": {
+													"computed_optional_required": "computed_optional",
+													"default": {
+														"static": ""
+													}
+												}
+											},
+											{
+												"name": "mon",
+												"string": {
+													"computed_optional_required": "computed_optional",
+													"default": {
+														"static": ""
+													}
+												}
+											},
+											{
+												"name": "sat",
+												"string": {
+													"computed_optional_required": "computed_optional",
+													"default": {
+														"static": ""
+													}
+												}
+											},
+											{
+												"name": "sun",
+												"string": {
+													"computed_optional_required": "computed_optional",
+													"default": {
+														"static": ""
+													}
+												}
+											},
+											{
+												"name": "thu",
+												"string": {
+													"computed_optional_required": "computed_optional",
+													"default": {
+														"static": ""
+													}
+												}
+											},
+											{
+												"name": "tue",
+												"string": {
+													"computed_optional_required": "computed_optional",
+													"default": {
+														"static": ""
+													}
+												}
+											},
+											{
+												"name": "wed",
+												"string": {
+													"computed_optional_required": "computed_optional",
+													"default": {
+														"static": ""
+													}
+												}
+											}
+										],
+										"description": "hours of operation filter, the available days (mon, tue, wed, thu, fri, sat, sun). \n\n**Note**: If the dow is not defined then it\\u2019\\ s treated as 00:00-23:59."
+									}
+								}
+							],
+							"description": "WLAN operating schedule, default is disabled"
+						}
+					},
+					{
+						"name": "sle_excluded",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": false
+							},
+							"description": "whether to exclude this WLAN from SLE metrics"
 						}
 					},
 					{
 						"name": "ssid",
 						"string": {
 							"computed_optional_required": "required",
-							"description": "SSID this PSK should be applicable to"
+							"description": "the name of the SSID"
 						}
 					},
 					{
-						"name": "usage",
+						"name": "template_id",
 						"string": {
 							"computed_optional_required": "computed_optional",
 							"default": {
-								"static": "multi"
+								"static": ""
+							}
+						}
+					},
+					{
+						"name": "thumbnail",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": ""
 							},
-							"description": "enum: `macs`, `multi`, `single`",
-							"validators": [
-								{
-									"custom": {
-										"imports": [
-											{
-												"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
-											}
-										],
-										"schema_definition": "stringvalidator.OneOf(\n\"macs\",\n\"multi\",\n\"single\",\n)"
-									}
-								}
-							]
+							"description": "Url of portal background image thumbnail"
+						}
+					},
+					{
+						"name": "use_eapol_v1",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": false
+							},
+							"description": "if `auth.type`==’eap’ or ‘psk’, should only be set for legacy client, such as pre-2004, 802.11b devices"
+						}
+					},
+					{
+						"name": "vlan_enabled",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": false
+							},
+							"description": "if vlan tagging is enabled"
 						}
 					},
 					{
@@ -662,86 +2826,1698 @@
 						"string": {
 							"computed_optional_required": "computed_optional"
 						}
-					}
-				]
-			}
-		},
-		{
-			"name": "site_psk",
-			"schema": {
-				"attributes": [
-					{
-						"name": "email",
-						"string": {
-							"computed_optional_required": "computed_optional",
-							"description": "email to send psk expiring notifications to"
-						}
 					},
 					{
-						"name": "expire_time",
-						"int64": {
+						"name": "vlan_ids",
+						"list": {
 							"computed_optional_required": "computed_optional",
-							"default": {
-								"static": 0
+							"element_type": {
+								"string": {}
 							},
-							"description": "Expire time for this PSK key (epoch time in seconds). Default `null` (as no expiration)"
+							"description": "vlan_ids to use when there’s no match from RA"
 						}
 					},
 					{
-						"name": "expiry_notification_time",
-						"int64": {
-							"computed_optional_required": "computed_optional",
-							"description": "Number of days before psk is expired. Used as to when to start sending reminder notification when the psk is about to expire"
-						}
-					},
-					{
-						"name": "id",
-						"string": {
-							"computed_optional_required": "computed_optional",
-							"description": "PSK ID"
-						}
-					},
-					{
-						"name": "mac",
-						"string": {
-							"computed_optional_required": "computed_optional",
-							"description": "if `usage`==`single`, the mac that this PSK ties to, empty if `auto-binding`"
-						}
-					},
-					{
-						"name": "name",
-						"string": {
-							"computed_optional_required": "required"
-						}
-					},
-					{
-						"name": "note",
-						"string": {
-							"computed_optional_required": "computed_optional"
-						}
-					},
-					{
-						"name": "notify_expiry",
+						"name": "vlan_pooling",
 						"bool": {
 							"computed_optional_required": "computed_optional",
 							"default": {
 								"static": false
 							},
-							"description": "If set to true, reminder notification will be sent when psk is about to expire"
+							"description": "vlan pooling allows AP to place client on different VLAN using a deterministic algorithm"
 						}
 					},
 					{
-						"name": "notify_on_create_or_edit",
+						"name": "wlan_limit_down",
+						"int64": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": 0
+							},
+							"description": "kbps"
+						}
+					},
+					{
+						"name": "wlan_limit_down_enabled",
 						"bool": {
 							"computed_optional_required": "computed_optional",
-							"description": "If set to true, notification will be sent when psk is created or edited"
+							"default": {
+								"static": false
+							},
+							"description": "if downlink limiting for whole wlan is enabled"
 						}
 					},
 					{
-						"name": "old_passphrase",
+						"name": "wlan_limit_up",
+						"int64": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": 0
+							},
+							"description": "kbps"
+						}
+					},
+					{
+						"name": "wlan_limit_up_enabled",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": false
+							},
+							"description": "if uplink limiting for whole wlan is enabled"
+						}
+					},
+					{
+						"name": "wxtag_ids",
+						"list": {
+							"computed_optional_required": "computed_optional",
+							"element_type": {
+								"string": {}
+							},
+							"description": "list of wxtag_ids"
+						}
+					},
+					{
+						"name": "wxtunnel_id",
 						"string": {
 							"computed_optional_required": "computed_optional",
-							"description": "previous passphrase of the PSK if it has been rotated"
+							"default": {
+								"static": ""
+							},
+							"description": "when `interface`=`wxtunnel`, id of the WXLAN Tunnel"
+						}
+					},
+					{
+						"name": "wxtunnel_remote_id",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": ""
+							},
+							"description": "when `interface`=`wxtunnel`, remote tunnel identifier"
+						}
+					}
+				]
+			}
+		},
+		{
+			"name": "site_wlan",
+			"schema": {
+				"attributes": [
+					{
+						"name": "acct_immediate_update",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": false
+							},
+							"description": "enable coa-immediate-update and address-change-immediate-update on the access profile."
+						}
+					},
+					{
+						"name": "acct_interim_interval",
+						"int64": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": 0
+							},
+							"description": "how frequently should interim accounting be reported, 60-65535. default is 0 (use one specified in Access-Accept request from RADIUS Server). Very frequent messages can affect the performance of the radius server, 600 and up is recommended when enabled",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+											}
+										],
+										"schema_definition": "int64validator.Between(0, 65535)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "acct_servers",
+						"list_nested": {
+							"computed_optional_required": "computed_optional",
+							"nested_object": {
+								"attributes": [
+									{
+										"name": "host",
+										"string": {
+											"computed_optional_required": "required",
+											"description": "ip / hostname of RADIUS server"
+										}
+									},
+									{
+										"name": "keywrap_enabled",
+										"bool": {
+											"computed_optional_required": "computed_optional"
+										}
+									},
+									{
+										"name": "keywrap_format",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"description": "enum: `ascii`, `hex`",
+											"validators": [
+												{
+													"custom": {
+														"imports": [
+															{
+																"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+															}
+														],
+														"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"ascii\",\n\"hex\",\n)"
+													}
+												}
+											]
+										}
+									},
+									{
+										"name": "keywrap_kek",
+										"string": {
+											"computed_optional_required": "computed_optional"
+										}
+									},
+									{
+										"name": "keywrap_mack",
+										"string": {
+											"computed_optional_required": "computed_optional"
+										}
+									},
+									{
+										"name": "port",
+										"int64": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": 1813
+											},
+											"description": "Acct port of RADIUS server",
+											"validators": [
+												{
+													"custom": {
+														"imports": [
+															{
+																"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+															}
+														],
+														"schema_definition": "int64validator.Between(1, 65535)"
+													}
+												}
+											]
+										}
+									},
+									{
+										"name": "secret",
+										"string": {
+											"computed_optional_required": "required",
+											"description": "secret of RADIUS server"
+										}
+									}
+								]
+							},
+							"description": "list of RADIUS accounting servers, optional, order matters where the first one is treated as primary"
+						}
+					},
+					{
+						"name": "airwatch",
+						"single_nested": {
+							"computed_optional_required": "computed_optional",
+							"attributes": [
+								{
+									"name": "api_key",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
+										"description": "API Key"
+									}
+								},
+								{
+									"name": "console_url",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
+										"description": "console URL"
+									}
+								},
+								{
+									"name": "enabled",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										}
+									}
+								},
+								{
+									"name": "password",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
+										"description": "password"
+									}
+								},
+								{
+									"name": "username",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
+										"description": "username"
+									}
+								}
+							],
+							"description": "airwatch wlan settings"
+						}
+					},
+					{
+						"name": "allow_ipv6_ndp",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": true
+							},
+							"description": "only applicable when limit_bcast==true, which allows or disallows ipv6 Neighbor Discovery packets to go through"
+						}
+					},
+					{
+						"name": "allow_mdns",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": false
+							},
+							"description": "only applicable when limit_bcast==true, which allows mDNS / Bonjour packets to go through"
+						}
+					},
+					{
+						"name": "allow_ssdp",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": false
+							},
+							"description": "only applicable when `limit_bcast`==`tru`e, which allows SSDP"
+						}
+					},
+					{
+						"name": "ap_ids",
+						"list": {
+							"computed_optional_required": "computed_optional",
+							"element_type": {
+								"string": {}
+							},
+							"description": "list of device ids"
+						}
+					},
+					{
+						"name": "app_limit",
+						"single_nested": {
+							"computed_optional_required": "computed_optional",
+							"attributes": [
+								{
+									"name": "apps",
+									"map": {
+										"computed_optional_required": "computed_optional",
+										"element_type": {
+											"int64": {}
+										},
+										"description": "Map from app key to bandwidth in kbps. \nProperty key is the app key, defined in Get Application List"
+									}
+								},
+								{
+									"name": "enabled",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										}
+									}
+								},
+								{
+									"name": "wxtag_ids",
+									"map": {
+										"computed_optional_required": "computed_optional",
+										"element_type": {
+											"int64": {}
+										},
+										"description": "Map from wxtag_id of Hostname Wxlan Tags to bandwidth in kbps\nProperty key is the wxtag id"
+									}
+								}
+							],
+							"description": "bandwidth limiting for apps (applies to up/down)"
+						}
+					},
+					{
+						"name": "app_qos",
+						"single_nested": {
+							"computed_optional_required": "computed_optional",
+							"attributes": [
+								{
+									"name": "apps",
+									"map_nested": {
+										"computed_optional_required": "computed_optional",
+										"nested_object": {
+											"attributes": [
+												{
+													"name": "dscp",
+													"int64": {
+														"computed_optional_required": "computed_optional",
+														"validators": [
+															{
+																"custom": {
+																	"imports": [
+																		{
+																			"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+																		}
+																	],
+																	"schema_definition": "int64validator.Between(0, 63)"
+																}
+															}
+														]
+													}
+												},
+												{
+													"name": "dst_subnet",
+													"string": {
+														"computed_optional_required": "computed_optional",
+														"description": "subnet filter is not required but helps AP to only inspect certain traffic (thus reducing AP load)"
+													}
+												},
+												{
+													"name": "src_subnet",
+													"string": {
+														"computed_optional_required": "computed_optional",
+														"description": "subnet filter is not required but helps AP to only inspect certain traffic (thus reducing AP load)"
+													}
+												}
+											]
+										}
+									}
+								},
+								{
+									"name": "enabled",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										}
+									}
+								},
+								{
+									"name": "others",
+									"list_nested": {
+										"computed_optional_required": "computed_optional",
+										"nested_object": {
+											"attributes": [
+												{
+													"name": "dscp",
+													"int64": {
+														"computed_optional_required": "computed_optional",
+														"validators": [
+															{
+																"custom": {
+																	"imports": [
+																		{
+																			"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+																		}
+																	],
+																	"schema_definition": "int64validator.Between(0, 63)"
+																}
+															}
+														]
+													}
+												},
+												{
+													"name": "dst_subnet",
+													"string": {
+														"computed_optional_required": "computed_optional"
+													}
+												},
+												{
+													"name": "port_ranges",
+													"string": {
+														"computed_optional_required": "computed_optional"
+													}
+												},
+												{
+													"name": "protocol",
+													"string": {
+														"computed_optional_required": "computed_optional"
+													}
+												},
+												{
+													"name": "src_subnet",
+													"string": {
+														"computed_optional_required": "computed_optional"
+													}
+												}
+											]
+										},
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
+														}
+													],
+													"schema_definition": "listvalidator.SizeAtLeast(1)"
+												}
+											},
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
+														}
+													],
+													"schema_definition": "listvalidator.UniqueValues()"
+												}
+											}
+										]
+									}
+								}
+							],
+							"description": "app qos wlan settings"
+						}
+					},
+					{
+						"name": "apply_to",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"description": "enum: `aps`, `site`, `wxtags`",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+											}
+										],
+										"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"aps\",\n\"site\",\n\"wxtags\",\n)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "arp_filter",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": false
+							},
+							"description": "whether to enable smart arp filter"
+						}
+					},
+					{
+						"name": "auth",
+						"single_nested": {
+							"computed_optional_required": "computed_optional",
+							"attributes": [
+								{
+									"name": "anticlog_threshold",
+									"int64": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": 16
+										},
+										"description": "SAE anti-clogging token threshold",
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+														}
+													],
+													"schema_definition": "int64validator.Between(16, 32)"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "eap_reauth",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										},
+										"description": "whether to trigger EAP reauth when the session ends"
+									}
+								},
+								{
+									"name": "enable_mac_auth",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										},
+										"description": "whether to enable MAC Auth, uses the same auth_servers"
+									}
+								},
+								{
+									"name": "key_idx",
+									"int64": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": 1
+										},
+										"description": "when `type`==`wep`",
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+														}
+													],
+													"schema_definition": "int64validator.Between(1, 4)"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "keys",
+									"list": {
+										"computed_optional_required": "computed_optional",
+										"element_type": {
+											"string": {}
+										},
+										"description": "when type=wep, four 10-character or 26-character hex string, null can be used. All keys, if provided, have to be in the same length"
+									}
+								},
+								{
+									"name": "multi_psk_only",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										},
+										"description": "when `type`==`psk`, whether to only use multi_psk"
+									}
+								},
+								{
+									"name": "owe",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": "disabled"
+										},
+										"description": "if `type`==`open`. enum: `disabled`, `enabled` (means transition mode), `required`",
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+														}
+													],
+													"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"disabled\",\n\"enabled\",\n\"required\",\n)"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "pairwise",
+									"list": {
+										"computed_optional_required": "computed_optional",
+										"element_type": {
+											"string": {}
+										},
+										"description": "when `type`=`psk` or `type`=`eap`, one or more of `wpa1-ccmp`, `wpa1-tkip`, `wpa2-ccmp`, `wpa2-tkip`, `wpa3`"
+									}
+								},
+								{
+									"name": "private_wlan",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										},
+										"description": "when `multi_psk_only`==`true`, whether private wlan is enabled"
+									}
+								},
+								{
+									"name": "psk",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
+										"description": "when `type`==`psk`, 8-64 characters, or 64 hex characters",
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+														}
+													],
+													"schema_definition": "stringvalidator.LengthBetween(8, 64)"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "type",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": "open"
+										},
+										"description": "enum: `eap`, `eap192`, `open`, `psk`, `psk-tkip`, `psk-wpa2-tkip`, `wep`",
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+														}
+													],
+													"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"eap\",\n\"eap192\",\n\"open\",\n\"psk\",\n\"psk-tkip\",\n\"psk-wpa2-tkip\",\n\"wep\",\n)"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "wep_as_secondary_auth",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										},
+										"description": "enable WEP as secondary auth"
+									}
+								}
+							],
+							"description": "authentication wlan settings"
+						}
+					},
+					{
+						"name": "auth_server_selection",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": "ordered"
+							},
+							"description": "When ordered, AP will prefer and go back to the first server if possible. enum: `ordered`, `unordered`",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+											}
+										],
+										"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"ordered\",\n\"unordered\",\n)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "auth_servers",
+						"list_nested": {
+							"computed_optional_required": "computed_optional",
+							"nested_object": {
+								"attributes": [
+									{
+										"name": "host",
+										"string": {
+											"computed_optional_required": "required",
+											"description": "ip / hostname of RADIUS server"
+										}
+									},
+									{
+										"name": "keywrap_enabled",
+										"bool": {
+											"computed_optional_required": "computed_optional"
+										}
+									},
+									{
+										"name": "keywrap_format",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"description": "enum: `ascii`, `hex`",
+											"validators": [
+												{
+													"custom": {
+														"imports": [
+															{
+																"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+															}
+														],
+														"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"ascii\",\n\"hex\",\n)"
+													}
+												}
+											]
+										}
+									},
+									{
+										"name": "keywrap_kek",
+										"string": {
+											"computed_optional_required": "computed_optional"
+										}
+									},
+									{
+										"name": "keywrap_mack",
+										"string": {
+											"computed_optional_required": "computed_optional"
+										}
+									},
+									{
+										"name": "port",
+										"int64": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": 1812
+											},
+											"description": "Auth port of RADIUS server",
+											"validators": [
+												{
+													"custom": {
+														"imports": [
+															{
+																"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+															}
+														],
+														"schema_definition": "int64validator.Between(1, 65535)"
+													}
+												}
+											]
+										}
+									},
+									{
+										"name": "secret",
+										"string": {
+											"computed_optional_required": "required",
+											"description": "secret of RADIUS server"
+										}
+									}
+								]
+							},
+							"description": "list of RADIUS authentication servers, at least one is needed if `auth type`==`eap`, order matters where the first one is treated as primary"
+						}
+					},
+					{
+						"name": "auth_servers_nas_id",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"description": "optional, up to 48 bytes, will be dynamically generated if not provided. used only for authentication servers"
+						}
+					},
+					{
+						"name": "auth_servers_nas_ip",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"description": "optional, NAS-IP-ADDRESS to use"
+						}
+					},
+					{
+						"name": "auth_servers_retries",
+						"int64": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": 2
+							},
+							"description": "radius auth session retries. Following fast timers are set if “fast_dot1x_timers” knob is enabled. ‘retries’  are set to value of auth_servers_retries. ‘max-requests’ is also set when setting auth_servers_retries and is set to default value to 3."
+						}
+					},
+					{
+						"name": "auth_servers_timeout",
+						"int64": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": 5
+							},
+							"description": "radius auth session timeout. Following fast timers are set if “fast_dot1x_timers” knob is enabled. ‘quite-period’  and ‘transmit-period’ are set to half the value of auth_servers_timeout. ‘supplicant-timeout’ is also set when setting auth_servers_timeout and is set to default value of 10."
+						}
+					},
+					{
+						"name": "band_steer",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": false
+							},
+							"description": "whether to enable band_steering, this works only when band==both"
+						}
+					},
+					{
+						"name": "band_steer_force_band5",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": false
+							},
+							"description": "force dual_band capable client to connect to 5G"
+						}
+					},
+					{
+						"name": "bands",
+						"list": {
+							"computed_optional_required": "computed_optional",
+							"element_type": {
+								"string": {}
+							},
+							"description": "list of radios that the wlan should apply to"
+						}
+					},
+					{
+						"name": "block_blacklist_clients",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": false
+							},
+							"description": "whether to block the clients in the blacklist (up to first 256 macs)"
+						}
+					},
+					{
+						"name": "bonjour",
+						"single_nested": {
+							"computed_optional_required": "computed_optional",
+							"attributes": [
+								{
+									"name": "additional_vlan_ids",
+									"list": {
+										"computed_optional_required": "required",
+										"element_type": {
+											"string": {}
+										},
+										"description": "additional VLAN IDs (on the LAN side or from other WLANs) should we be forwarding bonjour queries/responses"
+									}
+								},
+								{
+									"name": "enabled",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										},
+										"description": "whether to enable bonjour for this WLAN. Once enabled, limit_bcast is assumed true, allow_mdns is assumed false"
+									}
+								},
+								{
+									"name": "services",
+									"map_nested": {
+										"computed_optional_required": "required",
+										"nested_object": {
+											"attributes": [
+												{
+													"name": "disable_local",
+													"bool": {
+														"computed_optional_required": "computed_optional",
+														"default": {
+															"static": false
+														},
+														"description": "whether to prevent wireless clients to discover bonjour devices on the same WLAN"
+													}
+												},
+												{
+													"name": "radius_groups",
+													"list": {
+														"computed_optional_required": "computed_optional",
+														"element_type": {
+															"string": {}
+														},
+														"description": "optional, if the service is further restricted for certain RADIUS groups"
+													}
+												},
+												{
+													"name": "scope",
+													"string": {
+														"computed_optional_required": "computed_optional",
+														"default": {
+															"static": "same_site"
+														},
+														"description": "how bonjour services should be discovered for the same WLAN. enum: `same_ap`, `same_map`, `same_site`",
+														"validators": [
+															{
+																"custom": {
+																	"imports": [
+																		{
+																			"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																		}
+																	],
+																	"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"same_ap\",\n\"same_map\",\n\"same_site\",\n)"
+																}
+															}
+														]
+													}
+												}
+											]
+										},
+										"description": "what services are allowed. \nProperty key is the service name"
+									}
+								}
+							],
+							"description": "bonjour gateway wlan settings"
+						}
+					},
+					{
+						"name": "cisco_cwa",
+						"single_nested": {
+							"computed_optional_required": "computed_optional",
+							"attributes": [
+								{
+									"name": "allowed_hostnames",
+									"list": {
+										"computed_optional_required": "computed_optional",
+										"element_type": {
+											"string": {}
+										},
+										"description": "list of hostnames without http(s):// (matched by substring)"
+									}
+								},
+								{
+									"name": "allowed_subnets",
+									"list": {
+										"computed_optional_required": "computed_optional",
+										"element_type": {
+											"string": {}
+										},
+										"description": "list of CIDRs"
+									}
+								},
+								{
+									"name": "blocked_subnets",
+									"list": {
+										"computed_optional_required": "computed_optional",
+										"element_type": {
+											"string": {}
+										},
+										"description": "list of blocked CIDRs"
+									}
+								},
+								{
+									"name": "enabled",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										}
+									}
+								}
+							],
+							"description": "Cisco CWA (central web authentication) required RADIUS with COA in order to work. See CWA: https://www.cisco.com/c/en/us/support/docs/security/identity-services-engine/115732-central-web-auth-00.html"
+						}
+					},
+					{
+						"name": "client_limit_down",
+						"int64": {
+							"computed_optional_required": "computed_optional",
+							"description": "kbps"
+						}
+					},
+					{
+						"name": "client_limit_down_enabled",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": false
+							},
+							"description": "if downlink limiting per-client is enabled"
+						}
+					},
+					{
+						"name": "client_limit_up",
+						"int64": {
+							"computed_optional_required": "computed_optional",
+							"description": "kbps"
+						}
+					},
+					{
+						"name": "client_limit_up_enabled",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": false
+							},
+							"description": "if uplink limiting per-client is enabled"
+						}
+					},
+					{
+						"name": "coa_servers",
+						"list_nested": {
+							"computed_optional_required": "computed_optional",
+							"nested_object": {
+								"attributes": [
+									{
+										"name": "disable_event_timestamp_check",
+										"bool": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": false
+											},
+											"description": "whether to disable Event-Timestamp Check"
+										}
+									},
+									{
+										"name": "enabled",
+										"bool": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": false
+											}
+										}
+									},
+									{
+										"name": "ip",
+										"string": {
+											"computed_optional_required": "required"
+										}
+									},
+									{
+										"name": "port",
+										"int64": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": 3799
+											},
+											"validators": [
+												{
+													"custom": {
+														"imports": [
+															{
+																"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+															}
+														],
+														"schema_definition": "int64validator.Between(1, 65535)"
+													}
+												}
+											]
+										}
+									},
+									{
+										"name": "secret",
+										"string": {
+											"computed_optional_required": "required"
+										}
+									}
+								]
+							},
+							"description": "list of COA (change of authorization) servers, optional"
+						}
+					},
+					{
+						"name": "disable_11ax",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": false
+							},
+							"description": "some old WLAN drivers may not be compatible"
+						}
+					},
+					{
+						"name": "disable_ht_vht_rates",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": false
+							},
+							"description": "to disable ht or vht rates"
+						}
+					},
+					{
+						"name": "disable_uapsd",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": false
+							},
+							"description": "whether to disable U-APSD"
+						}
+					},
+					{
+						"name": "disable_v1_roam_notify",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": false
+							},
+							"description": "disable sending v2 roam notification messages"
+						}
+					},
+					{
+						"name": "disable_v2_roam_notify",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": false
+							},
+							"description": "disable sending v2 roam notification messages"
+						}
+					},
+					{
+						"name": "disable_wmm",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": false
+							},
+							"description": "whether to disable WMM"
+						}
+					},
+					{
+						"name": "dns_server_rewrite",
+						"single_nested": {
+							"computed_optional_required": "computed_optional",
+							"attributes": [
+								{
+									"name": "enabled",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										}
+									}
+								},
+								{
+									"name": "radius_groups",
+									"map": {
+										"computed_optional_required": "computed_optional",
+										"element_type": {
+											"string": {}
+										},
+										"description": "map between radius_group and the desired DNS server (IPv4 only)\nProperty key is the RADIUS group, property value is the desired DNS Server"
+									}
+								}
+							],
+							"description": "for radius_group-based DNS server (rewrite DNS request depending on the Group RADIUS server returns)"
+						}
+					},
+					{
+						"name": "dtim",
+						"int64": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": 2
+							}
+						}
+					},
+					{
+						"name": "dynamic_psk",
+						"single_nested": {
+							"computed_optional_required": "computed_optional",
+							"attributes": [
+								{
+									"name": "default_psk",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"description": "default PSK to use if cloud WLC is not available, 8-63 characters",
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+														}
+													],
+													"schema_definition": "stringvalidator.LengthBetween(8, 63)"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "default_vlan_id",
+									"string": {
+										"computed_optional_required": "computed_optional"
+									}
+								},
+								{
+									"name": "enabled",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										}
+									}
+								},
+								{
+									"name": "force_lookup",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										},
+										"description": "when 11r is enabled, we'll try to use the cached PMK, this can be disabled\n`false` means auto"
+									}
+								},
+								{
+									"name": "source",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": "radius"
+										},
+										"description": "enum: `cloud_psks`, `radius`",
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+														}
+													],
+													"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"cloud_psks\",\n\"radius\",\n)"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "vlan_ids",
+									"list": {
+										"computed_optional_required": "computed_optional",
+										"element_type": {
+											"string": {}
+										}
+									}
+								}
+							],
+							"description": "for dynamic PSK where we get per_user PSK from Radius. dynamic_psk allows PSK to be selected at runtime depending on context (wlan/site/user/...) thus following configurations are assumed (currently)\n  * PSK will come from RADIUS server\n  * AP sends client MAC as username ans password (i.e. `enable_mac_auth` is assumed)\n  * AP sends BSSID:SSID as Caller-Station-ID\n  * `auth_servers` is required\n  * PSK will come from cloud WLC if source is cloud_psks\n  * default_psk will be used if cloud WLC is not available\n  * `multi_psk_only` and `psk` is ignored\n  * `pairwise` can only be wpa2-ccmp (for now, wpa3 support on the roadmap)"
+						}
+					},
+					{
+						"name": "dynamic_vlan",
+						"single_nested": {
+							"computed_optional_required": "computed_optional",
+							"attributes": [
+								{
+									"name": "default_vlan_ids",
+									"list": {
+										"computed_optional_required": "computed_optional",
+										"element_type": {
+											"string": {}
+										},
+										"description": "Default VLAN ID(s) can be a number, a range of VLAN IDs, a variable or multiple numbers, ranges or variables as a VLAN pool. Default VLAN as a pool of VLANS requires 0.14.x or newer firmware"
+									}
+								},
+								{
+									"name": "enabled",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										},
+										"description": "whether to enable dynamic vlan"
+									}
+								},
+								{
+									"name": "local_vlan_ids",
+									"list": {
+										"computed_optional_required": "computed_optional",
+										"element_type": {
+											"string": {}
+										},
+										"description": "vlan_ids to be locally bridged"
+									}
+								},
+								{
+									"name": "type",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": "standard"
+										},
+										"description": "standard (using Tunnel-Private-Group-ID, widely supported), airespace-interface-name (Airespace/Cisco). enum: `airespace-interface-name`, `standard`",
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+														}
+													],
+													"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"airespace-interface-name\",\n\"standard\",\n)"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "vlans",
+									"map": {
+										"computed_optional_required": "computed_optional",
+										"element_type": {
+											"string": {}
+										},
+										"description": "map between vlan_id (as string) to airespace interface names (comma-separated) or null for stndard mapping\n  * if `dynamic_vlan.type`==`standard`, property key is the Vlan ID and property value is \\\"\\\"\n  * if `dynamic_vlan.type`==`airespace-interface-name`, property key is the Vlan ID and property value is the Airespace Interface Name"
+									}
+								}
+							],
+							"description": "for 802.1x"
+						}
+					},
+					{
+						"name": "enable_local_keycaching",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": false
+							},
+							"description": "enable AP-AP keycaching via multicast"
+						}
+					},
+					{
+						"name": "enable_wireless_bridging",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": false
+							},
+							"description": "by default, we'd inspect all DHCP packets and drop those unrelated to the wireless client itself in the case where client is a wireless bridge (DHCP packets for other MACs will need to be orwarded), wireless_bridging can be enabled"
+						}
+					},
+					{
+						"name": "enable_wireless_bridging_dhcp_tracking",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": false
+							},
+							"description": "if the client bridge is doing DHCP on behalf of other devices (L2-NAT), enable dhcp_tracking will cut down DHCP response packets to be forwarded to wireless"
+						}
+					},
+					{
+						"name": "enabled",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": true
+							},
+							"description": "if this wlan is enabled"
+						}
+					},
+					{
+						"name": "fast_dot1x_timers",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": false
+							},
+							"description": "if set to true, sets default fast-timers with values calculated from ‘auth_servers_timeout’ and ‘auth_server_retries’ ."
+						}
+					},
+					{
+						"name": "hide_ssid",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": false
+							},
+							"description": "whether to hide SSID in beacon"
+						}
+					},
+					{
+						"name": "hostname_ie",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": false
+							},
+							"description": "include hostname inside IE in AP beacons / probe responses"
+						}
+					},
+					{
+						"name": "hotspot20",
+						"single_nested": {
+							"computed_optional_required": "computed_optional",
+							"attributes": [
+								{
+									"name": "domain_name",
+									"list": {
+										"computed_optional_required": "computed_optional",
+										"element_type": {
+											"string": {}
+										}
+									}
+								},
+								{
+									"name": "enabled",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"description": "whether to enable hotspot 2.0 config"
+									}
+								},
+								{
+									"name": "nai_realms",
+									"list": {
+										"computed_optional_required": "computed_optional",
+										"element_type": {
+											"string": {}
+										},
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
+														}
+													],
+													"schema_definition": "listvalidator.UniqueValues()"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "operators",
+									"list": {
+										"computed_optional_required": "computed_optional",
+										"element_type": {
+											"string": {}
+										},
+										"description": "list of operators to support"
+									}
+								},
+								{
+									"name": "rcoi",
+									"list": {
+										"computed_optional_required": "computed_optional",
+										"element_type": {
+											"string": {}
+										}
+									}
+								},
+								{
+									"name": "venue_name",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"description": "venue name, default is site name"
+									}
+								}
+							],
+							"description": "hostspot 2.0 wlan settings"
+						}
+					},
+					{
+						"name": "id",
+						"string": {
+							"computed_optional_required": "computed_optional"
+						}
+					},
+					{
+						"name": "inject_dhcp_option_82",
+						"single_nested": {
+							"computed_optional_required": "computed_optional",
+							"attributes": [
+								{
+									"name": "circuit_id",
+									"string": {
+										"computed_optional_required": "computed_optional"
+									}
+								},
+								{
+									"name": "enabled",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										},
+										"description": "whether to inject option 82 when forwarding DHCP packets"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "interface",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": "all"
+							},
+							"description": "where this WLAN will be connected to. enum: `all`, `eth0`, `eth1`, `eth2`, `eth3`, `mxtunnel`, `site_mxedge`, `wxtunnel`",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+											}
+										],
+										"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"all\",\n\"eth0\",\n\"eth1\",\n\"eth2\",\n\"eth3\",\n\"mxtunnel\",\n\"site_mxedge\",\n\"wxtunnel\",\n)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "isolation",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": false
+							},
+							"description": "whether to stop clients to talk to each other"
+						}
+					},
+					{
+						"name": "l2_isolation",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": false
+							},
+							"description": "if isolation is enabled, whether to deny clients to talk to L2 on the LAN"
+						}
+					},
+					{
+						"name": "legacy_overds",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": false
+							},
+							"description": "legacy devices requires the Over-DS (for Fast BSS Transition) bit set (while our chip doesn’t support it). Warning! Enabling this will cause problem for iOS devices."
+						}
+					},
+					{
+						"name": "limit_bcast",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": false
+							},
+							"description": "whether to limit broadcast packets going to wireless (i.e. only allow certain bcast packets to go through)"
+						}
+					},
+					{
+						"name": "limit_probe_response",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": false
+							},
+							"description": "limit probe response base on some heuristic rules"
+						}
+					},
+					{
+						"name": "max_idletime",
+						"int64": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": 1800
+							},
+							"description": "max idle time in seconds",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+											}
+										],
+										"schema_definition": "int64validator.Between(60, 86400)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "mist_nac",
+						"single_nested": {
+							"computed_optional_required": "computed_optional",
+							"attributes": [
+								{
+									"name": "enabled",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										},
+										"description": "when enabled:\n  * `auth_servers` is ignored\n  * `acct_servers` is ignored\n  * `auth_servers_*` are ignored\n  * `coa_servers` is ignored\n  * `radsec` is ignored\n  * `coa_enabled` is assumed'"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "msp_id",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": ""
+							}
+						}
+					},
+					{
+						"name": "mxtunnel_ids",
+						"list": {
+							"computed_optional_required": "computed_optional",
+							"element_type": {
+								"string": {}
+							},
+							"description": "when `interface`=`mxtunnel`, id of the Mist Tunnel"
+						}
+					},
+					{
+						"name": "mxtunnel_name",
+						"list": {
+							"computed_optional_required": "computed_optional",
+							"element_type": {
+								"string": {}
+							},
+							"description": "when `interface`=`site_medge`, name of the mxtunnel that in mxtunnels under Site Setting"
+						}
+					},
+					{
+						"name": "no_static_dns",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": false
+							},
+							"description": "whether to only allow client to use DNS that we’ve learned from DHCP response"
+						}
+					},
+					{
+						"name": "no_static_ip",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": false
+							},
+							"description": "whether to only allow client that we’ve learned from DHCP exchange to talk"
 						}
 					},
 					{
@@ -751,28 +4527,1012 @@
 						}
 					},
 					{
-						"name": "passphrase",
-						"string": {
-							"computed_optional_required": "required",
-							"description": "passphrase of the PSK (8-63 character or 64 in hex)",
-							"validators": [
+						"name": "portal",
+						"single_nested": {
+							"computed_optional_required": "computed_optional",
+							"attributes": [
 								{
-									"custom": {
-										"imports": [
+									"name": "amazon_client_id",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
+										"description": "amazon OAuth2 client id. This is optional. If not provided, it will use a default one."
+									}
+								},
+								{
+									"name": "amazon_client_secret",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
+										"description": "amazon OAuth2 client secret. If amazon_client_id was provided, provide a correspoinding value. Else leave blank."
+									}
+								},
+								{
+									"name": "amazon_email_domains",
+									"list": {
+										"computed_optional_required": "computed_optional",
+										"element_type": {
+											"string": {}
+										},
+										"description": "Matches authenticated user email against provided domains. If null or [], all authenticated emails will be allowed."
+									}
+								},
+								{
+									"name": "amazon_enabled",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										},
+										"description": "whether amazon is enabled as a login method"
+									}
+								},
+								{
+									"name": "amazon_expire",
+									"float64": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": 0
+										},
+										"description": "interval for which guest remains authorized using amazon auth (in minutes), if not provided, uses expire`"
+									}
+								},
+								{
+									"name": "auth",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": "none"
+										},
+										"description": "authentication scheme. enum: `external`, `none`, `sso`",
+										"validators": [
 											{
-												"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+														}
+													],
+													"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"external\",\n\"none\",\n\"sso\",\n)"
+												}
 											}
-										],
-										"schema_definition": "stringvalidator.LengthBetween(8, 64)"
+										]
+									}
+								},
+								{
+									"name": "azure_client_id",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
+										"description": "Required if `azure_enabled`==`true`.\nAzure active directory app client id"
+									}
+								},
+								{
+									"name": "azure_client_secret",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
+										"description": "Required if `azure_enabled`==`true`.\nAzure active directory app client secret"
+									}
+								},
+								{
+									"name": "azure_enabled",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										},
+										"description": "whether Azure Active Directory is enabled as a login method"
+									}
+								},
+								{
+									"name": "azure_expire",
+									"float64": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": 0
+										},
+										"description": "interval for which guest remains authorized using azure auth (in minutes), if not provided, uses expire`"
+									}
+								},
+								{
+									"name": "azure_tenant_id",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
+										"description": "Required if `azure_enabled`==`true`.\nAzure active directory tenant id."
+									}
+								},
+								{
+									"name": "broadnet_password",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
+										"description": "when `sms_provider`==`broadnet`"
+									}
+								},
+								{
+									"name": "broadnet_sid",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": "MIST"
+										},
+										"description": "when `sms_provider`==`broadnet`"
+									}
+								},
+								{
+									"name": "broadnet_user_id",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
+										"description": "when `sms_provider`==`broadnet`"
+									}
+								},
+								{
+									"name": "bypass_when_cloud_down",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										},
+										"description": "whether to bypass the guest portal when cloud not reachable (and apply the default policies)"
+									}
+								},
+								{
+									"name": "clickatell_api_key",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
+										"description": "when `sms_provider`==`clickatell`"
+									}
+								},
+								{
+									"name": "cross_site",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										},
+										"description": "whether to allow guest to roam between WLANs (with same `WLAN.ssid`, regardless of variables) of different sites of same org without reauthentication (disable random_mac for seamless roaming)"
+									}
+								},
+								{
+									"name": "email_enabled",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										},
+										"description": "whether email (access code verification) is enabled as a login method"
+									}
+								},
+								{
+									"name": "enabled",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										},
+										"description": "whether guest portal is enabled"
+									}
+								},
+								{
+									"name": "expire",
+									"float64": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": 1440
+										},
+										"description": "how long to remain authorized, in minutes"
+									}
+								},
+								{
+									"name": "external_portal_url",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
+										"description": "external portal URL (e.g. https://host/url) where we can append our query parameters to"
+									}
+								},
+								{
+									"name": "facebook_client_id",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
+										"description": "Required if `facebook_enabled`==`true`.\nFacebook OAuth2 app id. This is optional. If not provided, it will use a default one."
+									}
+								},
+								{
+									"name": "facebook_client_secret",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
+										"description": "Required if `facebook_enabled`==`true`.\nFacebook OAuth2 app secret. If facebook_client_id was provided, provide a correspoinding value. Else leave blank."
+									}
+								},
+								{
+									"name": "facebook_email_domains",
+									"list": {
+										"computed_optional_required": "computed_optional",
+										"element_type": {
+											"string": {}
+										},
+										"description": "Matches authenticated user email against provided domains. If null or [], all authenticated emails will be allowed."
+									}
+								},
+								{
+									"name": "facebook_enabled",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										},
+										"description": "whether facebook is enabled as a login method"
+									}
+								},
+								{
+									"name": "facebook_expire",
+									"float64": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": 0
+										},
+										"description": "interval for which guest remains authorized using facebook auth (in minutes), if not provided, uses expire`"
+									}
+								},
+								{
+									"name": "forward",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										},
+										"description": "whether to forward the user to another URL after authorized"
+									}
+								},
+								{
+									"name": "forward_url",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
+										"description": "the URL to forward the user to"
+									}
+								},
+								{
+									"name": "google_client_id",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
+										"description": "Google OAuth2 app id. This is optional. If not provided, it will use a default one."
+									}
+								},
+								{
+									"name": "google_client_secret",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
+										"description": "Google OAuth2 app secret. If google_client_id was provided, provide a correspoinding value. Else leave blank."
+									}
+								},
+								{
+									"name": "google_email_domains",
+									"list": {
+										"computed_optional_required": "computed_optional",
+										"element_type": {
+											"string": {}
+										},
+										"description": "Matches authenticated user email against provided domains. If null or [], all authenticated emails will be allowed."
+									}
+								},
+								{
+									"name": "google_enabled",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										},
+										"description": "whether google is enabled as login method"
+									}
+								},
+								{
+									"name": "google_expire",
+									"float64": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": 0
+										},
+										"description": "interval for which guest remains authorized using google auth (in minutes), if not provided, uses expire`"
+									}
+								},
+								{
+									"name": "gupshup_password",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
+										"description": "when `sms_provider`==`gupshup`"
+									}
+								},
+								{
+									"name": "gupshup_userid",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
+										"description": "when `sms_provider`==`gupshup`"
+									}
+								},
+								{
+									"name": "microsoft_client_id",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
+										"description": "microsoft 365 OAuth2 client id. This is optional. If not provided, it will use a default one."
+									}
+								},
+								{
+									"name": "microsoft_client_secret",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
+										"description": "microsoft 365 OAuth2 client secret. If microsoft_client_id was provided, provide a correspoinding value. Else leave blank."
+									}
+								},
+								{
+									"name": "microsoft_email_domains",
+									"list": {
+										"computed_optional_required": "computed_optional",
+										"element_type": {
+											"string": {}
+										},
+										"description": "Matches authenticated user email against provided domains. If null or [], all authenticated emails will be allowed."
+									}
+								},
+								{
+									"name": "microsoft_enabled",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										},
+										"description": "whether microsoft 365 is enabled as a login method"
+									}
+								},
+								{
+									"name": "microsoft_expire",
+									"float64": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": 0
+										},
+										"description": "interval for which guest remains authorized using microsoft auth (in minutes), if not provided, uses expire`"
+									}
+								},
+								{
+									"name": "passphrase_enabled",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										},
+										"description": "whether password is enabled"
+									}
+								},
+								{
+									"name": "passphrase_expire",
+									"float64": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": 0
+										},
+										"description": "interval for which guest remains authorized using passphrase auth (in minutes), if not provided, uses `expire`"
+									}
+								},
+								{
+									"name": "password",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
+										"description": "passphrase"
+									}
+								},
+								{
+									"name": "predefined_sponsors_enabled",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": true
+										},
+										"description": "whether to show list of sponsor emails mentioned in `sponsors` object as a dropdown. If both `sponsor_notify_all` and `predefined_sponsors_enabled` are false, behaviour is acc to `sponsor_email_domains`"
+									}
+								},
+								{
+									"name": "predefined_sponsors_hide_email",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										},
+										"description": "whether to hide sponsor’s email from list of sponsors"
+									}
+								},
+								{
+									"name": "privacy",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										}
+									}
+								},
+								{
+									"name": "puzzel_password",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
+										"description": "when `sms_provider`==`puzzel`"
+									}
+								},
+								{
+									"name": "puzzel_service_id",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
+										"description": "when `sms_provider`==`puzzel`"
+									}
+								},
+								{
+									"name": "puzzel_username",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
+										"description": "when `sms_provider`==`puzzel`"
+									}
+								},
+								{
+									"name": "sms_message_format",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": "Code {{code}} expires in {{duration}} minutes."
+										}
+									}
+								},
+								{
+									"name": "sms_enabled",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										},
+										"description": "whether sms is enabled as a login method"
+									}
+								},
+								{
+									"name": "sms_expire",
+									"float64": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": 0
+										},
+										"description": "interval for which guest remains authorized using sms auth (in minutes), if not provided, uses expire`"
+									}
+								},
+								{
+									"name": "sms_provider",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": "manual"
+										},
+										"description": "enum: `broadnet`, `clickatell`, `gupshup`, `manual`, `puzzel`, `telstra`, `twilio`",
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+														}
+													],
+													"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"broadnet\",\n\"clickatell\",\n\"gupshup\",\n\"manual\",\n\"puzzel\",\n\"telstra\",\n\"twilio\",\n)"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "sponsor_auto_approve",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										},
+										"description": "whether to automatically approve guest and allow sponsor to revoke guest access, needs predefined_sponsors_enabled enabled and sponsor_notify_all disabled"
+									}
+								},
+								{
+									"name": "sponsor_email_domains",
+									"list": {
+										"computed_optional_required": "computed_optional",
+										"element_type": {
+											"string": {}
+										},
+										"description": "list of domain allowed for sponsor email. Required if `sponsor_enabled` is `true` and `sponsors` is empty."
+									}
+								},
+								{
+									"name": "sponsor_enabled",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										},
+										"description": "whether sponsor is enabled"
+									}
+								},
+								{
+									"name": "sponsor_expire",
+									"float64": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": 0
+										},
+										"description": "interval for which guest remains authorized using sponsor auth (in minutes), if not provided, uses expire`"
+									}
+								},
+								{
+									"name": "sponsor_link_validity_duration",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": "60"
+										},
+										"description": "how long to remain valid sponsored guest request approve/deny link received in email, in minutes."
+									}
+								},
+								{
+									"name": "sponsor_notify_all",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										},
+										"description": "whether to notify all sponsors that are mentioned in `sponsors` object. Both `sponsor_notify_all` and `predefined_sponsors_enabled` should be true in order to notify sponsors. If true, email sent to 10 sponsors in no particular order."
+									}
+								},
+								{
+									"name": "sponsor_status_notify",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										},
+										"description": "if enabled, guest will get email about sponsor's action (approve/deny)"
+									}
+								},
+								{
+									"name": "sponsors",
+									"map": {
+										"computed_optional_required": "computed_optional",
+										"element_type": {
+											"string": {}
+										},
+										"description": "object of allowed sponsors email with name. Required if `sponsor_enabled` is `true` and `sponsor_email_domains` is empty.\nProperty key is the sponsor email, Property value is the sponsor name"
+									}
+								},
+								{
+									"name": "sso_default_role",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
+										"description": "default role to assign if there’s no match. By default, an assertion is treated as invalid when there’s no role matched"
+									}
+								},
+								{
+									"name": "sso_forced_role",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										}
+									}
+								},
+								{
+									"name": "sso_idp_cert",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
+										"description": "IDP Cert (used to verify the signed response)"
+									}
+								},
+								{
+									"name": "sso_idp_sign_algo",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": "sha1"
+										},
+										"description": "signing algorithm for SAML Assertion"
+									}
+								},
+								{
+									"name": "sso_idp_sso_url",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
+										"description": "IDP Single-Sign-On URL"
+									}
+								},
+								{
+									"name": "sso_issuer",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
+										"description": "IDP issuer URL"
+									}
+								},
+								{
+									"name": "sso_nameid_format",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": "email"
+										},
+										"description": "enum: `email`, `unspecified`",
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+														}
+													],
+													"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"email\",\n\"unspecified\",\n)"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "telstra_client_id",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
+										"description": "when `sms_provider`==`telstra`, Client ID provided by Telstra"
+									}
+								},
+								{
+									"name": "telstra_client_secret",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
+										"description": "when `sms_provider`==`telstra`, Client secret provided by Telstra"
+									}
+								},
+								{
+									"name": "twilio_auth_token",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
+										"description": "when `sms_provider`==`twilio`, Auth token account with twilio account"
+									}
+								},
+								{
+									"name": "twilio_phone_number",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
+										"description": "when `sms_provider`==`twilio`, Twilio phone number associated with the account. See example for accepted format."
+									}
+								},
+								{
+									"name": "twilio_sid",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": ""
+										},
+										"description": "when `sms_provider`==`twilio`, Account SID provided by Twilio"
+									}
+								}
+							],
+							"description": "portal wlan settings"
+						}
+					},
+					{
+						"name": "portal_allowed_hostnames",
+						"list": {
+							"computed_optional_required": "computed_optional",
+							"element_type": {
+								"string": {}
+							},
+							"description": "list of hostnames without http(s):// (matched by substring)"
+						}
+					},
+					{
+						"name": "portal_allowed_subnets",
+						"list": {
+							"computed_optional_required": "computed_optional",
+							"element_type": {
+								"string": {}
+							},
+							"description": "list of CIDRs"
+						}
+					},
+					{
+						"name": "portal_api_secret",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": ""
+							},
+							"description": "api secret (auto-generated) that can be used to sign guest authorization requests"
+						}
+					},
+					{
+						"name": "portal_denied_hostnames",
+						"list": {
+							"computed_optional_required": "computed_optional",
+							"element_type": {
+								"string": {}
+							},
+							"description": "list of hostnames without http(s):// (matched by substring), this takes precedence over portal_allowed_hostnames"
+						}
+					},
+					{
+						"name": "portal_image",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": ""
+							},
+							"description": "Url of portal background image"
+						}
+					},
+					{
+						"name": "portal_sso_url",
+						"string": {
+							"computed_optional_required": "computed_optional"
+						}
+					},
+					{
+						"name": "portal_template_url",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": ""
+							},
+							"description": "N.B portal_template will be forked out of wlan objects soon. To fetch portal_template, please query portal_template_url. To update portal_template, use Wlan Portal Template."
+						}
+					},
+					{
+						"name": "qos",
+						"single_nested": {
+							"computed_optional_required": "computed_optional",
+							"attributes": [
+								{
+									"name": "class",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": "best_effort"
+										},
+										"description": "enum: `background`, `best_effort`, `video`, `voice`",
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+														}
+													],
+													"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"background\",\n\"best_effort\",\n\"video\",\n\"voice\",\n)"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "overwrite",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										},
+										"description": "whether to overwrite QoS"
 									}
 								}
 							]
 						}
 					},
 					{
-						"name": "role",
+						"name": "radsec",
+						"single_nested": {
+							"computed_optional_required": "computed_optional",
+							"attributes": [
+								{
+									"name": "coa_enabled",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										}
+									}
+								},
+								{
+									"name": "enabled",
+									"bool": {
+										"computed_optional_required": "computed_optional"
+									}
+								},
+								{
+									"name": "idle_timeout",
+									"int64": {
+										"computed_optional_required": "computed_optional"
+									}
+								},
+								{
+									"name": "mxcluster_ids",
+									"list": {
+										"computed_optional_required": "computed_optional",
+										"element_type": {
+											"string": {}
+										},
+										"description": "To use Org mxedges when this WLAN does not use mxtunnel, specify their mxcluster_ids.\nOrg mxedge(s) identified by mxcluster_ids"
+									}
+								},
+								{
+									"name": "proxy_hosts",
+									"list": {
+										"computed_optional_required": "computed_optional",
+										"element_type": {
+											"string": {}
+										},
+										"description": "default is site.mxedge.radsec.proxy_hosts which must be a superset of all wlans[*].radsec.proxy_hosts\nwhen radsec.proxy_hosts are not used, tunnel peers (org or site mxedges) are used irrespective of use_site_mxedge"
+									}
+								},
+								{
+									"name": "server_name",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"description": "name of the server to verify (against the cacerts in Org Setting). Only if not Mist Edge."
+									}
+								},
+								{
+									"name": "servers",
+									"list_nested": {
+										"computed_optional_required": "computed_optional",
+										"nested_object": {
+											"attributes": [
+												{
+													"name": "host",
+													"string": {
+														"computed_optional_required": "computed_optional"
+													}
+												},
+												{
+													"name": "port",
+													"int64": {
+														"computed_optional_required": "computed_optional",
+														"validators": [
+															{
+																"custom": {
+																	"imports": [
+																		{
+																			"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+																		}
+																	],
+																	"schema_definition": "int64validator.Between(1, 65535)"
+																}
+															}
+														]
+													}
+												}
+											]
+										},
+										"description": "List of Radsec Servers. Only if not Mist Edge.",
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
+														}
+													],
+													"schema_definition": "listvalidator.UniqueValues()"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "use_mxedge",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"description": "use mxedge(s) as radsecproxy"
+									}
+								},
+								{
+									"name": "use_site_mxedge",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										},
+										"description": "To use Site mxedges when this WLAN does not use mxtunnel"
+									}
+								}
+							],
+							"description": "Radsec settings"
+						}
+					},
+					{
+						"name": "roam_mode",
 						"string": {
 							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": "none"
+							},
+							"description": "enum: `11r`, `OKC`, `none`",
 							"validators": [
 								{
 									"custom": {
@@ -781,10 +5541,100 @@
 												"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 											}
 										],
-										"schema_definition": "stringvalidator.LengthBetween(0, 32)"
+										"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"11r\",\n\"OKC\",\n\"none\",\n)"
 									}
 								}
 							]
+						}
+					},
+					{
+						"name": "schedule",
+						"single_nested": {
+							"computed_optional_required": "computed_optional",
+							"attributes": [
+								{
+									"name": "enabled",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										}
+									}
+								},
+								{
+									"name": "hours",
+									"single_nested": {
+										"computed_optional_required": "computed_optional",
+										"attributes": [
+											{
+												"name": "fri",
+												"string": {
+													"computed_optional_required": "computed_optional",
+													"default": {
+														"static": ""
+													}
+												}
+											},
+											{
+												"name": "mon",
+												"string": {
+													"computed_optional_required": "computed_optional",
+													"default": {
+														"static": ""
+													}
+												}
+											},
+											{
+												"name": "sat",
+												"string": {
+													"computed_optional_required": "computed_optional",
+													"default": {
+														"static": ""
+													}
+												}
+											},
+											{
+												"name": "sun",
+												"string": {
+													"computed_optional_required": "computed_optional",
+													"default": {
+														"static": ""
+													}
+												}
+											},
+											{
+												"name": "thu",
+												"string": {
+													"computed_optional_required": "computed_optional",
+													"default": {
+														"static": ""
+													}
+												}
+											},
+											{
+												"name": "tue",
+												"string": {
+													"computed_optional_required": "computed_optional",
+													"default": {
+														"static": ""
+													}
+												}
+											},
+											{
+												"name": "wed",
+												"string": {
+													"computed_optional_required": "computed_optional",
+													"default": {
+														"static": ""
+													}
+												}
+											}
+										],
+										"description": "hours of operation filter, the available days (mon, tue, wed, thu, fri, sat, sun). \n\n**Note**: If the dow is not defined then it\\u2019\\ s treated as 00:00-23:59."
+									}
+								}
+							],
+							"description": "WLAN operating schedule, default is disabled"
 						}
 					},
 					{
@@ -794,38 +5644,146 @@
 						}
 					},
 					{
-						"name": "ssid",
-						"string": {
-							"computed_optional_required": "required",
-							"description": "SSID this PSK should be applicable to"
+						"name": "sle_excluded",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": false
+							},
+							"description": "whether to exclude this WLAN from SLE metrics"
 						}
 					},
 					{
-						"name": "usage",
+						"name": "ssid",
+						"string": {
+							"computed_optional_required": "required",
+							"description": "the name of the SSID"
+						}
+					},
+					{
+						"name": "thumbnail",
 						"string": {
 							"computed_optional_required": "computed_optional",
 							"default": {
-								"static": "multi"
+								"static": ""
 							},
-							"description": "enum: `macs`, `multi`, `single`",
-							"validators": [
-								{
-									"custom": {
-										"imports": [
-											{
-												"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
-											}
-										],
-										"schema_definition": "stringvalidator.OneOf(\n\"macs\",\n\"multi\",\n\"single\",\n)"
-									}
-								}
-							]
+							"description": "Url of portal background image thumbnail"
+						}
+					},
+					{
+						"name": "use_eapol_v1",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": false
+							},
+							"description": "if `auth.type`==’eap’ or ‘psk’, should only be set for legacy client, such as pre-2004, 802.11b devices"
+						}
+					},
+					{
+						"name": "vlan_enabled",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": false
+							},
+							"description": "if vlan tagging is enabled"
 						}
 					},
 					{
 						"name": "vlan_id",
 						"string": {
 							"computed_optional_required": "computed_optional"
+						}
+					},
+					{
+						"name": "vlan_ids",
+						"list": {
+							"computed_optional_required": "computed_optional",
+							"element_type": {
+								"string": {}
+							},
+							"description": "vlan_ids to use when there’s no match from RA"
+						}
+					},
+					{
+						"name": "vlan_pooling",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": false
+							},
+							"description": "vlan pooling allows AP to place client on different VLAN using a deterministic algorithm"
+						}
+					},
+					{
+						"name": "wlan_limit_down",
+						"int64": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": 0
+							},
+							"description": "kbps"
+						}
+					},
+					{
+						"name": "wlan_limit_down_enabled",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": false
+							},
+							"description": "if downlink limiting for whole wlan is enabled"
+						}
+					},
+					{
+						"name": "wlan_limit_up",
+						"int64": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": 0
+							},
+							"description": "kbps"
+						}
+					},
+					{
+						"name": "wlan_limit_up_enabled",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": false
+							},
+							"description": "if uplink limiting for whole wlan is enabled"
+						}
+					},
+					{
+						"name": "wxtag_ids",
+						"list": {
+							"computed_optional_required": "computed_optional",
+							"element_type": {
+								"string": {}
+							},
+							"description": "list of wxtag_ids"
+						}
+					},
+					{
+						"name": "wxtunnel_id",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": ""
+							},
+							"description": "when `interface`=`wxtunnel`, id of the WXLAN Tunnel"
+						}
+					},
+					{
+						"name": "wxtunnel_remote_id",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": ""
+							},
+							"description": "when `interface`=`wxtunnel`, remote tunnel identifier"
 						}
 					}
 				]

@@ -3,11 +3,11 @@ info:
   contact:
     email: tmunzer@juniper.net
     name: Thomas Munzer
-  description: '> Version: **2408.1.4**
+  description: '> Version: **2408.1.6**
 
     >
 
-    > Date: **August 19, 2024**
+    > Date: **August 30, 2024**
 
 
     ---
@@ -43,7 +43,7 @@ info:
     name: MIT
     url: https://raw.githubusercontent.com/tmunzer/Mist-OAS3.0/main/LICENSE
   title: Mist API
-  version: 2408.1.4
+  version: 2408.1.6
 servers:
 - description: Mist Global 01
   url: https://api.mist.com
@@ -35870,894 +35870,6 @@ paths:
       summary: testSiteWlanTwilioSetup
       tags:
       - Utilities Wi-Fi
-  /webhook_example/_alarm_:
-    post:
-      description: 'Webhook sample for `alarm` topic
-
-
-        **Note**: The server host will be your own server FQDN where the Mist Cloud
-        is sending the webhook messages'
-      operationId: alarms
-      requestBody:
-        content:
-          application/json:
-            examples:
-              example-1:
-                value:
-                  events:
-                  - aps:
-                    - string
-                    bssids:
-                    - string
-                    count: 0
-                    event_id: a7a26ff2-e851-45b6-9634-d595f45458b7
-                    for_site: true
-                    id: 489f6eca-6276-4993-bfeb-c3cbbbba1f08
-                    last_seen: 0
-                    org_id: a40f5d1f-d889-42e9-94ea-b9b33585fc6b
-                    site_id: 72771e6a-6f5e-4de4-a5b9-1266c4197811
-                    ssids:
-                    - string
-                    timestamp: 0
-                    type: string
-                    update: true
-                  topic: alarms
-            schema:
-              $ref: '#/components/schemas/webhook_alarms'
-        description: "**N.B.**: Fields like `aps`, `bssids`, `ssids` are event specific.\
-          \ They are relevant to this event type ( rogue-ap-detected). For a different\
-          \ event type, different fields may be sent. These don\u2019t contain all\
-          \ affected entities and are representative samples of entities (capped at\
-          \ 10). For marvis action related events, we expose `details` to include\
-          \ more event specific details.\n\nEvents specific fields for other alarm\
-          \ event type can be found with API https://api.mist.com/api/v1/const/alarm_defs,\
-          \ under \u201Cfields\u201D array of /alarm_defs response object."
-      responses:
-        '200':
-          $ref: '#/components/responses/OK'
-      summary: alarms
-      tags:
-      - Samples Webhooks
-  /webhook_example/_asset_raw_:
-    post:
-      description: 'Webhook sample for `asset_raw` topic
-
-
-        **Note**: The server host will be your own server FQDN where the Mist Cloud
-        is sending the webhook messages
-
-
-        **will be deprecated after 06/30/2024**'
-      operationId: assetRaw
-      requestBody:
-        content:
-          application/json:
-            examples:
-              example-1:
-                value:
-                  events:
-                  - asset_id: b4695157-0d1d-4da0-8f9e-5c53149389e4
-                    beam: 0
-                    device_id: 3bafab7b-4400-4bcf-8e6e-09f954699940
-                    ibeacon_major: 0
-                    ibeacon_minor: 0
-                    ibeacon_uuid: 1f89bc00-d0af-481b-82fe-a6629259a39f
-                    mac: string
-                    map_id: 09d2b626-2e4e-45ef-a3c4-e6aeb6c83db1
-                    mfg_company_id: 0
-                    mfg_data: string
-                    rssi: 0
-                    site_id: 72771e6a-6f5e-4de4-a5b9-1266c4197811
-                    timestamp: 0
-                  topic: asset-raw
-            schema:
-              $ref: '#/components/schemas/webhook_asset_raw'
-      responses:
-        '200':
-          $ref: '#/components/responses/OK'
-      summary: assetRaw
-      tags:
-      - Samples Webhooks
-  /webhook_example/_audit_:
-    post:
-      description: 'Webhook sample for `audit` topic
-
-
-        **Note**: The server host will be your own server FQDN where the Mist Cloud
-        is sending the webhook messages'
-      operationId: audits
-      requestBody:
-        content:
-          application/json:
-            examples:
-              Example:
-                value:
-                  events:
-                  - admin_name: admin_name8
-                    device_id: 00000380-0000-0000-0000-000000000000
-                    id: 0000122a-0000-0000-0000-000000000000
-                    message: message0
-                    org_id: 00001302-0000-0000-0000-000000000000
-                    site_id: 00000290-0000-0000-0000-000000000000
-                    src_ip: src_ip6
-                    timestamp: 157.68
-                  topic: audits
-            schema:
-              $ref: '#/components/schemas/webhook_audits'
-        description: ''
-      responses:
-        '200':
-          $ref: '#/components/responses/OK'
-      summary: audits
-      tags:
-      - Samples Webhooks
-  /webhook_example/_client_info_:
-    post:
-      description: 'Webhook sample for `client_info` topic
-
-
-        **Note**: The server host will be your own server FQDN where the Mist Cloud
-        is sending the webhook messages'
-      operationId: clientInfo
-      requestBody:
-        content:
-          application/json:
-            examples:
-              example-1:
-                value:
-                  events:
-                  - ap: string
-                    ap_name: string
-                    band: string
-                    bssid: string
-                    connect: 0
-                    connect_float: 0
-                    mac: string
-                    org_id: a40f5d1f-d889-42e9-94ea-b9b33585fc6b
-                    rssi: 0
-                    site_id: 72771e6a-6f5e-4de4-a5b9-1266c4197811
-                    site_name: string
-                    ssid: string
-                    timestamp: 0
-                    version: 0
-                    wlan_id: 5028e92b-fc59-4056-91d1-ea4b4ca1617a
-                  topic: client-info
-            schema:
-              $ref: '#/components/schemas/webhook_client_info'
-      responses:
-        '200':
-          $ref: '#/components/responses/OK'
-      summary: clientJoin
-      tags:
-      - Samples Webhooks
-  /webhook_example/_client_join_:
-    post:
-      description: 'Webhook sample for `client_join` topic
-
-
-        **Note**: The server host will be your own server FQDN where the Mist Cloud
-        is sending the webhook messages'
-      operationId: clientJoin
-      requestBody:
-        content:
-          application/json:
-            examples:
-              example-1:
-                value:
-                  events:
-                  - ap: string
-                    ap_name: string
-                    band: string
-                    bssid: string
-                    connect: 0
-                    connect_float: 0
-                    mac: string
-                    org_id: a40f5d1f-d889-42e9-94ea-b9b33585fc6b
-                    rssi: 0
-                    site_id: 72771e6a-6f5e-4de4-a5b9-1266c4197811
-                    site_name: string
-                    ssid: string
-                    timestamp: 0
-                    version: 0
-                    wlan_id: 5028e92b-fc59-4056-91d1-ea4b4ca1617a
-                  topic: client-join
-            schema:
-              $ref: '#/components/schemas/webhook_client_join'
-      responses:
-        '200':
-          $ref: '#/components/responses/OK'
-      summary: clientJoin
-      tags:
-      - Samples Webhooks
-  /webhook_example/_client_latency_:
-    post:
-      description: 'Webhook sample for `client-latency` topic
-
-
-        **Note**: The server host will be your own server FQDN where the Mist Cloud
-        is sending the webhook messages'
-      operationId: client_latency
-      requestBody:
-        content:
-          application/json:
-            examples:
-              Example:
-                value:
-                  events:
-                  - avg_auth: 0.17170219
-                    avg_dhcp: 0.017828934
-                    avg_dns: 0.024532124
-                    max_auth: 0.18170219
-                    max_dhcp: 0.027828934
-                    max_dns: 0.029532124
-                    min_auth: 0.16050219
-                    min_dhcp: 0.015828934
-                    min_dns: 0.022532124
-                    org_id: 2818e386-8dec-2562-9ede-5b8a0fbbdc71
-                    site_id: 4ac1dcf4-9d8b-7211-65c4-057819f0862b
-                    timestamp: 1696401600
-                  topic: client-latency
-            schema:
-              $ref: '#/components/schemas/webhook_client_latency'
-        description: ''
-      responses:
-        '200':
-          $ref: '#/components/responses/OK'
-      summary: alarms
-      tags:
-      - Samples Webhooks
-  /webhook_example/_client_sessions_:
-    post:
-      description: 'Webhook sample for `client_sessions` topic
-
-
-        **Note**: The server host will be your own server FQDN where the Mist Cloud
-        is sending the webhook messages'
-      operationId: clientSessions
-      requestBody:
-        content:
-          application/json:
-            examples:
-              example-1:
-                value:
-                  events:
-                  - ap: string
-                    ap_name: string
-                    band: string
-                    bssid: string
-                    client_family: string
-                    client_manufacture: string
-                    client_model: string
-                    client_os: string
-                    connect: 0
-                    connect_float: 0
-                    disconnect: 0
-                    disconnect_float: 0
-                    duration: 0
-                    mac: string
-                    next_ap: string
-                    org_id: a40f5d1f-d889-42e9-94ea-b9b33585fc6b
-                    rssi: 0
-                    site_id: 72771e6a-6f5e-4de4-a5b9-1266c4197811
-                    site_name: string
-                    ssid: string
-                    termination_reason: 0
-                    timestamp: 0
-                    version: 0
-                    wlan_id: 5028e92b-fc59-4056-91d1-ea4b4ca1617a
-                  topic: client-sessions
-            schema:
-              $ref: '#/components/schemas/webhook_client_sessions'
-      responses:
-        '200':
-          $ref: '#/components/responses/OK'
-        '400':
-          $ref: '#/components/responses/HTTP400'
-      summary: clientSessions
-      tags:
-      - Samples Webhooks
-  /webhook_example/_device_events_:
-    post:
-      description: 'Webhook sample for `device_events` topic
-
-
-        **Note**: The server host will be your own server FQDN where the Mist Cloud
-        is sending the webhook messages'
-      operationId: deviceEvents
-      requestBody:
-        content:
-          application/json:
-            examples:
-              example-1:
-                value:
-                  events:
-                  - ap: string
-                    ap_name: string
-                    audit_id: 78c04fa6-cfb4-46a0-9aa5-3681ba4f3897
-                    device_name: string
-                    device_type: ap
-                    ev_type: notice
-                    mac: string
-                    org_id: a40f5d1f-d889-42e9-94ea-b9b33585fc6b
-                    reason: string
-                    site_id: 72771e6a-6f5e-4de4-a5b9-1266c4197811
-                    site_name: string
-                    text: string
-                    timestamp: 0
-                    type: string
-                  topic: device_events
-            schema:
-              $ref: '#/components/schemas/webhook_device_events'
-      responses:
-        '200':
-          $ref: '#/components/responses/OK'
-      summary: deviceEvents
-      tags:
-      - Samples Webhooks
-  /webhook_example/_device_updowns_:
-    post:
-      description: 'Webhook sample for `device_updowns` topic
-
-
-        **Note**: The server host will be your own server FQDN where the Mist Cloud
-        is sending the webhook messages'
-      operationId: deviceUpDown
-      requestBody:
-        content:
-          application/json:
-            examples:
-              example-1:
-                value:
-                  events:
-                  - ap: string
-                    ap_name: string
-                    for_site: true
-                    org_id: a40f5d1f-d889-42e9-94ea-b9b33585fc6b
-                    site_id: 72771e6a-6f5e-4de4-a5b9-1266c4197811
-                    site_name: string
-                    timestamp: 0
-                    type: string
-                  topic: device-updowns
-            schema:
-              $ref: '#/components/schemas/webhook_device_updowns'
-      responses:
-        '200':
-          $ref: '#/components/responses/OK'
-      summary: deviceUpDown
-      tags:
-      - Samples Webhooks
-  /webhook_example/_discovered_raw_rssi_:
-    post:
-      description: 'Webhook sample for `discovered-raw-rssi` topic
-
-
-        **Note**: The server host will be your own server FQDN where the Mist Cloud
-        is sending the webhook messages'
-      operationId: discovered-raw-rssi
-      requestBody:
-        content:
-          application/json:
-            examples:
-              Example:
-                value:
-                  events:
-                  - ap_loc:
-                    - 0
-                    beam: 0
-                    device_id: 3bafab7b-4400-4bcf-8e6e-09f954699940
-                    ibeacon_major: 0
-                    ibeacon_minor: 0
-                    ibeacon_uuid: 1f89bc00-d0af-481b-82fe-a6629259a39f
-                    is_asset: true
-                    mac: string
-                    map_id: 09d2b626-2e4e-45ef-a3c4-e6aeb6c83db1
-                    mfg_company_id: string
-                    mfg_data: string
-                    org_id: a40f5d1f-d889-42e9-94ea-b9b33585fc6b
-                    rssi: 0
-                    service_packets:
-                    - service_data: string
-                      service_uuid: 7138cc00-c611-4dec-a05e-5c4b1cae13c0
-                    site_id: 72771e6a-6f5e-4de4-a5b9-1266c4197811
-                    timestamp: 0
-                  topic: string
-            schema:
-              $ref: '#/components/schemas/webhook_discovered_raw_rssi'
-      responses:
-        '200':
-          $ref: '#/components/responses/OK'
-      summary: discovered-raw-rssi
-      tags:
-      - Samples Webhooks
-  /webhook_example/_location_:
-    post:
-      description: 'Webhook sample for `location` topic
-
-
-        **Note**: The server host will be your own server FQDN where the Mist Cloud
-        is sending the webhook messages'
-      operationId: location
-      requestBody:
-        content:
-          application/json:
-            examples:
-              example-1:
-                value:
-                  events:
-                  - battery_voltage: 0
-                    eddystone_uid_instance: string
-                    eddystone_uid_namespace: string
-                    eddystone_url_url: string
-                    ibeacon_major: 0
-                    ibeacon_minor: 0
-                    ibeacon_uuid: 1f89bc00-d0af-481b-82fe-a6629259a39f
-                    id: 487f6eca-6276-4993-bfeb-e3cbbbba3f08
-                    mac: string
-                    map_id: 09d2b626-2e4e-45ef-a3c4-e6aeb6c83db1
-                    mfg_company_id: 0
-                    mfg_data: string
-                    name: string
-                    site_id: 72771e6a-6f5e-4de4-a5b9-1266c4197811
-                    timestamp: 0
-                    type: string
-                    x: 0
-                    y: 0
-                  topic: location
-            schema:
-              $ref: '#/components/schemas/webhook_location'
-      responses:
-        '200':
-          $ref: '#/components/responses/OK'
-      summary: location
-      tags:
-      - Samples Webhooks
-  /webhook_example/_location_asset_:
-    post:
-      description: 'Webhook sample for `location_asset` topic
-
-
-        **Note**: The server host will be your own server FQDN where the Mist Cloud
-        is sending the webhook messages'
-      operationId: location_asset
-      requestBody:
-        content:
-          application/json:
-            examples:
-              example-1:
-                value:
-                  events:
-                  - battery_voltage: 3370
-                    eddystone_uid_instance: 5c5b35000001
-                    eddystone_uid_namespace: 2818e3868dec25629ede
-                    eddystone_url_url: https://www.abc.com
-                    ibeacon_major: 13
-                    ibeacon_minor: 138
-                    ibeacon_uuid: f3f17139-704a-f03a-2786-0400279e37c3
-                    mac: 7fc2936fd243
-                    map_id: 845a23bf-bed9-e43c-4c86-6fa474be7ae5
-                    mfg_company_id: 935
-                    mfg_data: 648520a1020000
-                    site_id: 4ac1dcf4-9d8b-7211-65c4-057819f0862b
-                    timestamp: 1461220784
-                    type: asset
-                    x: 13.5
-                    y: 3.2
-                  topic: location_asset
-            schema:
-              $ref: '#/components/schemas/webhook_location_asset'
-      responses:
-        '200':
-          $ref: '#/components/responses/OK'
-      summary: location
-      tags:
-      - Samples Webhooks
-  /webhook_example/_location_centrak_:
-    post:
-      description: 'Webhook sample for `location_centrak` topic
-
-
-        **Note**: The server host will be your own server FQDN where the Mist Cloud
-        is sending the webhook messages'
-      operationId: location_centrak
-      requestBody:
-        content:
-          application/json:
-            examples:
-              example-1:
-                value:
-                  events:
-                  - mac: 5684dae9ac8b
-                    map_id: 845a23bf-bed9-e43c-4c86-6fa474be7ae5
-                    site_id: 4ac1dcf4-9d8b-7211-65c4-057819f0862b
-                    timestamp: 1461220784
-                    type: wifi
-                    wifi_beacon_extended_info:
-                    - frame_ctrl: 776
-                      payload: '............'
-                      seq_ctrl: 772
-                    x: 13.5
-                    y: 3.2
-                  topic: location_centrak
-            schema:
-              $ref: '#/components/schemas/webhook_location_centrak'
-        description: "**N.B.**: Fields like `aps`, `bssids`, `ssids` are event specific.\
-          \ They are relevant to this event type ( rogue-ap-detected). For a different\
-          \ event type, different fields may be sent. These don\u2019t contain all\
-          \ affected entities and are representative samples of entities (capped at\
-          \ 10). For marvis action related events, we expose `details` to include\
-          \ more event specific details.\n\nEvents specific fields for other alarm\
-          \ event type can be found with API https://api.mist.com/api/v1/const/alarm_defs,\
-          \ under \u201Cfields\u201D array of /alarm_defs response object."
-      responses:
-        '200':
-          $ref: '#/components/responses/OK'
-      summary: alarms
-      tags:
-      - Samples Webhooks
-  /webhook_example/_location_client_:
-    post:
-      description: 'Webhook sample for `location_client` topic
-
-
-        **Note**: The server host will be your own server FQDN where the Mist Cloud
-        is sending the webhook messages'
-      operationId: location_client
-      requestBody:
-        content:
-          application/json:
-            examples:
-              example-1:
-                value:
-                  events:
-                  - mac: 5684dae9ac8b
-                    map_id: 845a23bf-bed9-e43c-4c86-6fa474be7ae5
-                    site_id: 4ac1dcf4-9d8b-7211-65c4-057819f0862b
-                    timestamp: 1461220784
-                    type: wifi
-                    wifi_beacon_extended_info:
-                    - frame_ctrl: 776
-                      payload: '............'
-                      seq_ctrl: 772
-                    x: 13.5
-                    y: 3.2
-                  topic: location_client
-            schema:
-              $ref: '#/components/schemas/webhook_location_client'
-      responses:
-        '200':
-          $ref: '#/components/responses/OK'
-      summary: location
-      tags:
-      - Samples Webhooks
-  /webhook_example/_location_sdk_:
-    post:
-      description: 'Webhook sample for `location_sdk` topic
-
-
-        **Note**: The server host will be your own server FQDN where the Mist Cloud
-        is sending the webhook messages'
-      operationId: location_sdk
-      requestBody:
-        content:
-          application/json:
-            examples:
-              example-1:
-                value:
-                  events:
-                  - id: de87bf9d-183f-e383-cc68-6ba43947d403
-                    map_id: 845a23bf-bed9-e43c-4c86-6fa474be7ae5
-                    name: optional
-                    site_id: 4ac1dcf4-9d8b-7211-65c4-057819f0862b
-                    timestamp: 1461220784
-                    type: sdk
-                    x: 13.5
-                    y: 3.2
-                  topic: location_sdk
-            schema:
-              $ref: '#/components/schemas/webhook_location_sdk'
-      responses:
-        '200':
-          $ref: '#/components/responses/OK'
-      summary: location
-      tags:
-      - Samples Webhooks
-  /webhook_example/_location_unclient_:
-    post:
-      description: 'Webhook sample for `location_unclient` topic
-
-
-        **Note**: The server host will be your own server FQDN where the Mist Cloud
-        is sending the webhook messages'
-      operationId: location_unclient
-      requestBody:
-        content:
-          application/json:
-            examples:
-              example-1:
-                value:
-                  events:
-                  - mac: 5684dae9ac8b
-                    map_id: 845a23bf-bed9-e43c-4c86-6fa474be7ae5
-                    site_id: 4ac1dcf4-9d8b-7211-65c4-057819f0862b
-                    timestamp: 1461220784
-                    type: wifi
-                    wifi_beacon_extended_info:
-                    - frame_ctrl: 776
-                      payload: '............'
-                      seq_ctrl: 772
-                    x: 13.5
-                    y: 3.2
-                  topic: location_unclient
-            schema:
-              $ref: '#/components/schemas/webhook_location_unclient'
-      responses:
-        '200':
-          $ref: '#/components/responses/OK'
-      summary: location
-      tags:
-      - Samples Webhooks
-  /webhook_example/_nac_accounting_:
-    post:
-      description: 'Webhook sample for `nac-accounting` topic
-
-
-        **Note**: The server host will be your own server FQDN where the Mist Cloud
-        is sending the webhook messages'
-      operationId: nacAccounting
-      requestBody:
-        content:
-          application/json:
-            examples:
-              Example:
-                value:
-                  events:
-                  - ap: 5c5b355005be
-                    auth_type: eap-tls
-                    bssid: 5c5b35546bb4
-                    client_ip: 172.16.87.4
-                    client_type: wireless
-                    mac: 6e795836d5f9
-                    nas_vendor: juniper-mist
-                    org_id: 625aba64-fe72-4b14-8985-cbf31ec3d78a
-                    rx_pkts: 9523
-                    site_id: ec9d1e85-af24-43f9-8d65-d620580e8631
-                    ssid: Test-CMR SSID
-                    timestamp: 1547235620.89
-                    tx_pkts: 5233
-                    type: NAC_ACCOUNTING_STOP
-                    username: hi
-                  topic: nac-accounting
-            schema:
-              $ref: '#/components/schemas/webhook_nac_accounting'
-      responses:
-        '200':
-          $ref: '#/components/responses/OK'
-      summary: nacAccounting
-      tags:
-      - Samples Webhooks
-  /webhook_example/_nac_events_:
-    post:
-      description: Example Delivery of nac_events
-      operationId: nac_events
-      requestBody:
-        content:
-          application/json:
-            examples:
-              Example:
-                value:
-                  events:
-                  - ap: 5c5b35513227
-                    auth_type: 802.1X
-                    bssid: 5c5b355fafcc
-                    dryrun_nacrule_id: 32f27e7d-ff26-4a9b-b3d1-ff9bcb264012
-                    dryrun_nacrule_matched: true
-                    idp_id: 912ef72e-2239-4996-b81e-469e87a27cd6
-                    idp_role:
-                    - itsuperusers
-                    - vip
-                    mac: ac3eb179e535
-                    nacrule_id: 32f27e7d-ff26-4a9b-b3d1-ff9bcb264c62
-                    nacrule_matched: true
-                    nas_vendor: juniper-mist
-                    org_id: 27547ac2-d114-4e04-beb1-f3f1e6e81ec6
-                    random_mac: true
-                    resp_attrs:
-                    - Tunnel-Type=VLAN
-                    - Tunnel-Medium-Type=IEEE-802
-                    - Tunnel-Private-Group-Id=750
-                    - User-Name=anonymous
-                    site_id: 441a1214-6928-442a-8e92-e1d34b8ec6a6
-                    ssid: '##mist_nac'
-                    timestamp: 1691512031.358188
-                    type: NAC_CLIENT_PERMIT
-                    username: user@deaflyz.net
-                    vlan: '750'
-                  topic: string
-            schema:
-              $ref: '#/components/schemas/webhook_nac_events'
-      responses:
-        '200':
-          $ref: '#/components/responses/OK'
-      summary: nac_events
-      tags:
-      - Samples Webhooks
-  /webhook_example/_occupancy_alerts_:
-    post:
-      description: 'Webhook sample for `occupancy_alerts` topic
-
-
-        **Note**: The server host will be your own server FQDN where the Mist Cloud
-        is sending the webhook messages'
-      operationId: occupancyAlerts
-      requestBody:
-        content:
-          application/json:
-            examples:
-              example-1:
-                value:
-                  events:
-                  - alert_events:
-                    - current_occupancy: 0
-                      map_id: 09d2b626-2e4e-45ef-a3c4-e6aeb6c83db1
-                      occupancy_limit: 0
-                      org_id: a40f5d1f-d889-42e9-94ea-b9b33585fc6b
-                      timestamp: 0
-                      type: COMPLIANCE-VIOLATION
-                      zone_id: 4495020a-236f-46e0-9453-e3f9cc6476f4
-                      zone_name: string
-                    for_site: true
-                    site_id: 72771e6a-6f5e-4de4-a5b9-1266c4197811
-                    site_name: string
-                  topic: occupancy-alerts
-            schema:
-              $ref: '#/components/schemas/webhook_occupancy_alerts'
-      responses:
-        '200':
-          $ref: '#/components/responses/OK'
-      summary: occupancyAlerts
-      tags:
-      - Samples Webhooks
-  /webhook_example/_ping_:
-    post:
-      description: 'Webhook sample for `ping` topic
-
-
-        **Note**: The server host will be your own server FQDN where the Mist Cloud
-        is sending the webhook messages'
-      operationId: ping
-      requestBody:
-        content:
-          application/json:
-            examples:
-              example-1:
-                value:
-                  events:
-                  - id: 487f6eca-6276-4993-bfeb-f3cbbbba4f08
-                    name: string
-                    site_id: 72771e6a-6f5e-4de4-a5b9-1266c4197811
-                    timestamp: 0
-                  topic: ping
-            schema:
-              $ref: '#/components/schemas/webhook_ping'
-      responses:
-        '200':
-          $ref: '#/components/responses/OK'
-      summary: ping
-      tags:
-      - Samples Webhooks
-  /webhook_example/_sdkclient_scan_data:
-    post:
-      description: 'Webhook sample for `sdkclient_scan_data` topic
-
-
-        **Note**: The server host will be your own server FQDN where the Mist Cloud
-        is sending the webhook messages'
-      operationId: sdkclientScanData
-      requestBody:
-        content:
-          application/json:
-            examples:
-              example-1:
-                value:
-                  events:
-                  - connection_ap: 5c5b352f587e
-                    connection_band: '2.4'
-                    connection_bssid: 5c5b352b51b4
-                    connection_channel: 11
-                    connection_rssi: -87
-                    last_seen: 1592333828
-                    mac: 70ef0071535f
-                    scan_data:
-                    - ap: 5c5b352f587e
-                      band: '2.4'
-                      bssid: 5c5b352b51b4
-                      channel: 11
-                      rssi: -87
-                      ssid: mist-wifi
-                      timestamp: 1592333828
-                    - ap: 5c5b352f587e
-                      band: '5'
-                      bssid: 5c5b352b51b8
-                      channel: 36
-                      rssi: -75
-                      ssid: mist-wifi
-                      timestamp: 1592333828
-                    site_id: 93986f10-773b-42be-9438-8d3e6d127f1a
-                  topic: sdkclient_scan_data
-            schema:
-              $ref: '#/components/schemas/webhook_sdkclient_scan_data'
-      responses:
-        '200':
-          $ref: '#/components/responses/OK'
-      summary: sdkclientScanData
-      tags:
-      - Samples Webhooks
-  /webhook_example/_site_sle_:
-    post:
-      description: 'Webhook sample for `site_sle` topic
-
-
-        **Note**: The server host will be your own server FQDN where the Mist Cloud
-        is sending the webhook messages'
-      operationId: site_sle
-      requestBody:
-        content:
-          application/json:
-            examples:
-              Example:
-                value:
-                  events:
-                  - org_id: 2818e386-8dec-2562-9ede-5b8a0fbbdc71
-                    site_id: 4ac1dcf4-9d8b-7211-65c4-057819f0862b
-                    sle:
-                      ap-availability: 0.6
-                      successful-connect: 0.7
-                      time-to-connect: 0.9
-                    timestamp: 1694620800
-                  topic: site_sle
-            schema:
-              $ref: '#/components/schemas/webhook_site_sle'
-        description: ''
-      responses:
-        '200':
-          $ref: '#/components/responses/OK'
-      summary: site_sle
-      tags:
-      - Samples Webhooks
-  /webhook_example/_zone_:
-    post:
-      description: 'Webhook sample for `zone` topic
-
-
-        **Note**: The server host will be your own server FQDN where the Mist Cloud
-        is sending the webhook messages'
-      operationId: zone
-      requestBody:
-        content:
-          application/json:
-            examples:
-              example-1:
-                value:
-                  events:
-                  - asset_id: b4695157-0d1d-4da0-8f9e-5c53149389e4
-                    id: 485f6eca-6276-4993-bfeb-54cbbbba5f08
-                    mac: string
-                    map_id: 09d2b626-2e4e-45ef-a3c4-e6aeb6c83db1
-                    name: string
-                    site_id: 72771e6a-6f5e-4de4-a5b9-1266c4197811
-                    timestamp: 0
-                    trigger: enter
-                    type: string
-                    zone_id: 4495020a-236f-46e0-9453-e3f9cc6476f4
-                  topic: zone
-            schema:
-              $ref: '#/components/schemas/webhook_zone'
-      responses:
-        '200':
-          $ref: '#/components/responses/OK'
-      summary: zone
-      tags:
-      - Samples Webhooks
 components:
   parameters:
     account_id:
@@ -52283,6 +51395,7 @@ components:
       description: 'enum: `any`, `dynamic_gbp`, `mac`, `network`, `radius_group`,
         `resource`, `static_gbp`, `subnet`'
       enum:
+      - ''
       - any
       - dynamic_gbp
       - mac
@@ -52397,6 +51510,7 @@ components:
     admin_compliance_status:
       description: 'trade compliance status. enum: `blocked`, `restricted`'
       enum:
+      - ''
       - blocked
       - restricted
       type: string
@@ -52612,6 +51726,7 @@ components:
       default: type
       description: 'enum: `acked`, `group`, `severity`, `type`'
       enum:
+      - ''
       - acked
       - group
       - severity
@@ -52760,6 +51875,7 @@ components:
       default: allow
       description: 'enum: `allow`, `deny`'
       enum:
+      - ''
       - allow
       - deny
       type: string
@@ -53266,6 +52382,7 @@ components:
       default: psk
       description: 'wpa2-AES/CCMPp is assumed when `type`==`psk`. enum: `open`, `psk`'
       enum:
+      - ''
       - open
       - psk
       example: psk
@@ -53306,6 +52423,7 @@ components:
       description: 'note: ble_config will be ingored if esl_config is enabled and
         with native mode. enum: `hanshow`, `imagotag`, `native`, `solum`'
       enum:
+      - ''
       - hanshow
       - imagotag
       - native
@@ -53373,6 +52491,7 @@ components:
       description: 'the type of pull-up the pin uses. enum: `external`, `internal`,
         `none`'
       enum:
+      - ''
       - external
       - internal
       - none
@@ -53472,6 +52591,7 @@ components:
     ap_mesh_role:
       description: 'enum: `base`, `remote`'
       enum:
+      - ''
       - base
       - remote
       example: base
@@ -53566,6 +52686,7 @@ components:
       default: all
       description: 'enum: `all`, `limited`, `mxtunnel`, `site_mxedge`, `wxtunnel`'
       enum:
+      - ''
       - all
       - limited
       - mxtunnel
@@ -53578,6 +52699,7 @@ components:
       description: 'if `enable_mac_auth`==`true`, allows user to select an authentication
         protocol. enum: `eap-md5`, `eap-peap`, `pap`'
       enum:
+      - ''
       - eap-md5
       - eap-peap
       - pap
@@ -53586,6 +52708,7 @@ components:
       default: none
       description: 'When doing port auth. enum: `dot1x`, `none`'
       enum:
+      - ''
       - dot1x
       - none
       example: none
@@ -53664,6 +52787,7 @@ components:
       default: default
       description: 'enum: `1x1`, `2x2`, `3x3`, `4x4`, `default`'
       enum:
+      - ''
       - 1x1
       - 2x2
       - 3x3
@@ -54379,6 +53503,7 @@ components:
     ap_usb_type:
       description: 'usb config type. enum: `hanshow`, `imagotag`, `solum`'
       enum:
+      - ''
       - hanshow
       - imagotag
       - solum
@@ -54437,6 +53562,7 @@ components:
       default: http
       description: 'enum: `http`, `udp`'
       enum:
+      - ''
       - http
       - udp
       type: string
@@ -54731,6 +53857,7 @@ components:
       description: 'The state of auto orient for a given map derived from an Enum.
         enum: `Enqueued`, `Not Started`, `Oriented`'
       enum:
+      - ''
       - Enqueued
       - Not Started
       - Oriented
@@ -54750,6 +53877,7 @@ components:
       description: 'the status of autoplacement for a given map. enum: `done`, `error`,
         `inprogress`, `pending`'
       enum:
+      - ''
       - done
       - error
       - inprogress
@@ -54809,6 +53937,7 @@ components:
       type: object
     avprofile_fallback_action_enum:
       enum:
+      - ''
       - permit
       - block
       type: string
@@ -54818,6 +53947,7 @@ components:
       type: array
     avprofile_protocols_enum:
       enum:
+      - ''
       - ftp
       - http
       - imap
@@ -54899,6 +54029,7 @@ components:
       default: eddystone-uid
       description: 'enum: `eddystone-uid`, `eddystone-url`, `ibeacon`'
       enum:
+      - ''
       - eddystone-uid
       - eddystone-url
       - ibeacon
@@ -55036,6 +54167,7 @@ components:
     bgp_config_type:
       description: 'enum: `external`, `internal`'
       enum:
+      - ''
       - external
       - internal
       minLength: 1
@@ -55044,6 +54176,7 @@ components:
       default: lan
       description: 'network name. enum: `lan`, `vpn`, `wan`'
       enum:
+      - ''
       - lan
       - vpn
       - wan
@@ -55113,6 +54246,7 @@ components:
       description: 'enum: `active`, `connect`, `established`, `idle`, `open_config`,
         `open_sent`'
       enum:
+      - ''
       - active
       - connect
       - established
@@ -55278,6 +54412,7 @@ components:
       default: default
       description: 'enum: `custom`, `default`'
       enum:
+      - ''
       - custom
       - default
       example: custom
@@ -55297,6 +54432,7 @@ components:
       default: default
       description: 'enum: `custom`, `default`'
       enum:
+      - ''
       - custom
       - default
       example: custom
@@ -55567,6 +54703,7 @@ components:
     capture_client_type:
       description: 'enum: `client`'
       enum:
+      - ''
       - client
       example: client
       type: string
@@ -55611,6 +54748,7 @@ components:
       default: stream
       description: 'enum: `stream`'
       enum:
+      - ''
       - stream
       example: stream
       type: string
@@ -55636,6 +54774,7 @@ components:
     capture_gateway_type:
       description: 'enum: `gateway`'
       enum:
+      - ''
       - gateway
       example: gateway
       type: string
@@ -55675,6 +54814,7 @@ components:
       default: stream
       description: 'pcap format. enum: `stream`'
       enum:
+      - ''
       - stream
       type: string
     capture_mxedge_mxedges:
@@ -55696,6 +54836,7 @@ components:
     capture_mxedge_type:
       description: 'enum: `mxedge`'
       enum:
+      - ''
       - mxedge
       example: mxedge
       type: string
@@ -55740,6 +54881,7 @@ components:
     capture_new_assoc_type:
       description: 'enum: `new_assoc`'
       enum:
+      - ''
       - new_assoc
       example: new_assoc
       type: string
@@ -55798,6 +54940,7 @@ components:
       default: '24'
       description: 'enum: `24`, `24,5,6`, `5`, `6`'
       enum:
+      - ''
       - '24'
       - 24,5,6
       - '5'
@@ -55808,6 +54951,7 @@ components:
       default: pcap
       description: 'enum: `pcap`, `stream`'
       enum:
+      - ''
       - pcap
       - stream
       example: stream
@@ -55815,6 +54959,7 @@ components:
     capture_radiotap_type:
       description: 'enum: `radiotap`'
       enum:
+      - ''
       - radiotap
       example: radiotap
       type: string
@@ -55883,6 +55028,7 @@ components:
       default: '24'
       description: 'only used for radiotap. enum: `24`, `24,5,6`, `5`, `6`'
       enum:
+      - ''
       - '24'
       - 24,5,6
       - '5'
@@ -55893,6 +55039,7 @@ components:
       default: pcap
       description: 'enum: `pcap`, `stream`'
       enum:
+      - ''
       - pcap
       - stream
       example: stream
@@ -55900,6 +55047,7 @@ components:
     capture_radiotapwired_type:
       description: 'enum: `radiotap,wired`'
       enum:
+      - ''
       - radiotap,wired
       example: radiotap,wired
       type: string
@@ -55991,6 +55139,7 @@ components:
       default: '24'
       description: 'Only Single value allowed. enum: `24`, `5`, `6`'
       enum:
+      - ''
       - '24'
       - '5'
       - '6'
@@ -56000,6 +55149,7 @@ components:
       description: 'Only Single value allowed, default value gets applied when user
         provides wrong values. enum: `24`, `5`, `6`'
       enum:
+      - ''
       - '24'
       - '5'
       - '6'
@@ -56010,6 +55160,7 @@ components:
       default: pcap
       description: 'enum: `pcap`, `stream`'
       enum:
+      - ''
       - pcap
       - stream
       example: stream
@@ -56017,6 +55168,7 @@ components:
     capture_scan_type:
       description: 'enum: `scan`'
       enum:
+      - ''
       - scan
       example: scan
       type: string
@@ -56077,6 +55229,7 @@ components:
       default: stream
       description: 'enum: `stream`'
       enum:
+      - ''
       - stream
       type: string
     capture_switch_ports:
@@ -56107,6 +55260,7 @@ components:
     capture_switch_type:
       description: 'enum: `switch`'
       enum:
+      - ''
       - switch
       example: switch
       type: string
@@ -56150,12 +55304,14 @@ components:
       default: pcap
       description: 'pcap format. enum: `pcap`, `stream`'
       enum:
+      - ''
       - pcap
       - stream
       type: string
     capture_wired_type:
       description: 'enum: `wired`'
       enum:
+      - ''
       - wired
       example: wired
       type: string
@@ -56202,6 +55358,7 @@ components:
       default: '24'
       description: 'enum: `24`, `24,5,6`, `5`, `6`'
       enum:
+      - ''
       - '24'
       - 24,5,6
       - '5'
@@ -56212,12 +55369,14 @@ components:
       default: pcap
       description: 'pcap format. enum: `pcap`, `stream`'
       enum:
+      - ''
       - pcap
       - stream
       type: string
     capture_wireless_type:
       description: 'enum: `wireless`'
       enum:
+      - ''
       - wireless
       example: wireless
       type: string
@@ -56248,6 +55407,7 @@ components:
       default: all
       description: 'what to claim. enum: `all`, `inventory`, `license`'
       enum:
+      - ''
       - all
       - inventory
       - license
@@ -56652,6 +55812,7 @@ components:
       default: none
       description: 'enum: `admin`, `helpdesk`, `none`, `read`'
       enum:
+      - ''
       - admin
       - helpdesk
       - none
@@ -57086,6 +56247,7 @@ components:
     const_device_ap_extios_default_dir:
       description: 'enum: `IN`, `OUT`'
       enum:
+      - ''
       - IN
       - OUT
       type: string
@@ -57434,6 +56596,7 @@ components:
     const_insight_metrics_property_scope:
       description: 'enum: `ap`, `client`, `device`, `mxedge`, `site`, `switch`'
       enum:
+      - ''
       - ap
       - client
       - device
@@ -57637,12 +56800,14 @@ components:
     count_org_devices_mxtunnel_status:
       description: 'enum: `down`, `up`'
       enum:
+      - ''
       - down
       - up
       type: string
     count_ports_auth_state:
       description: 'enum: `authenticated`, `authenticating`, `held`, `init`'
       enum:
+      - ''
       - authenticated
       - authenticating
       - held
@@ -57651,6 +56816,7 @@ components:
     count_ports_stp_role:
       description: 'enum: `alternate`, `backup`, `designated`, `root`, `root-prevented`'
       enum:
+      - ''
       - alternate
       - backup
       - designated
@@ -57660,6 +56826,7 @@ components:
     count_ports_stp_state:
       description: 'enum: `blocking`, `disabled`, `forwarding`, `learning`, `listening`'
       enum:
+      - ''
       - blocking
       - disabled
       - forwarding
@@ -57685,6 +56852,7 @@ components:
       default: mac
       description: 'enum: `mac`'
       enum:
+      - ''
       - mac
       type: string
     cpu_stat:
@@ -57720,6 +56888,7 @@ components:
     day_of_week:
       description: 'enum: `any`, `fri`, `mon`, `sat`, `sun`, `thu`, `tue`, `wed`'
       enum:
+      - ''
       - any
       - fri
       - mon
@@ -58083,6 +57252,7 @@ components:
       default: all
       description: 'enum: `all`, `connected`, `disconnected`'
       enum:
+      - ''
       - all
       - connected
       - disconnected
@@ -58246,6 +57416,7 @@ components:
       default: ap
       description: 'enum: `ap`, `gateway`, `switch`'
       enum:
+      - ''
       - ap
       - gateway
       - switch
@@ -58253,22 +57424,26 @@ components:
     device_type_ap:
       description: 'Device Type. enum: `ap`'
       enum:
+      - ''
       - ap
       type: string
     device_type_gateway:
       description: 'Device Type. enum: `gateway`'
       enum:
+      - ''
       - gateway
       type: string
     device_type_switch:
       description: 'Device Type. enum: `switch`'
       enum:
+      - ''
       - switch
       type: string
     device_type_with_all:
       default: ap
       description: 'enum: `all`, `ap`, `gateway`, `switch`'
       enum:
+      - ''
       - all
       - ap
       - gateway
@@ -58304,6 +57479,7 @@ components:
       description: "Whether to upgrade mesh AP\u2019s parallelly or sequentially at\
         \ the end of the upgrade. enum: `parallel`, `sequential`"
       enum:
+      - ''
       - parallel
       - sequential
       type: string
@@ -58312,6 +57488,7 @@ components:
       description: "Used in rrm to determine whether to start upgrade from fringe\
         \ or center AP\u2019s. enum: `center_to_fringe`, `fringe_to_center`"
       enum:
+      - ''
       - center_to_fringe
       - fringe_to_center
       type: string
@@ -58319,6 +57496,7 @@ components:
       description: 'status upgrade is in. enum: `cancelled`, `completed`, `created`,
         `downloaded`, `downloading`, `failed`, `upgrading`'
       enum:
+      - ''
       - cancelled
       - completed
       - created
@@ -58332,6 +57510,7 @@ components:
       description: 'enum: `big_bang` (upgrade all at once), `canary`, `rrm`, `serial`
         (one at a time)'
       enum:
+      - ''
       - big_bang
       - canary
       - rrm
@@ -58559,9 +57738,9 @@ components:
         type: string
       type: array
     dhcpd_config:
-      additionalProperties:
-        $ref: '#/components/schemas/dhcpd_config_property'
       properties:
+        config:
+          $ref: '#/components/schemas/dhcpd_config_fix'
         enabled:
           default: false
           description: if set to `true`, enable the DHCP server
@@ -58585,6 +57764,10 @@ components:
       items:
         type: string
       type: array
+    dhcpd_config_fix:
+      additionalProperties:
+        $ref: '#/components/schemas/dhcpd_config_property'
+      type: object
     dhcpd_config_fixed_binding:
       properties:
         ip:
@@ -58595,7 +57778,8 @@ components:
     dhcpd_config_fixed_bindings:
       additionalProperties:
         $ref: '#/components/schemas/dhcpd_config_fixed_binding'
-      description: Property key is the MAC Address. Format is `[0-9a-f]{12}` (e.g "5684dae9ac8b")
+      description: Property key is the MAC Address. Format is `[0-9a-f]{12}` (e.g
+        "5684dae9ac8b")
       example:
         5684dae9ac8b:
           ip: 192.168.70.35
@@ -58612,6 +57796,7 @@ components:
       description: 'enum: `boolean`, `hex`, `int16`, `int32`, `ip`, `string`, `uint16`,
         `uint32`'
       enum:
+      - ''
       - boolean
       - hex
       - int16
@@ -58699,6 +57884,7 @@ components:
       default: local
       description: 'enum: `local` (DHCP Server), `none`, `relay` (DHCP Relay)'
       enum:
+      - ''
       - local
       - none
       - relay
@@ -58707,6 +57893,7 @@ components:
       default: none
       description: 'enum: `local` (DHCP Server), `none`, `relay` (DHCP Relay)'
       enum:
+      - ''
       - local
       - none
       - relay
@@ -58722,6 +57909,7 @@ components:
       description: 'enum: `boolean`, `hex`, `int16`, `int32`, `ip`, `string`, `uint16`,
         `uint32`'
       enum:
+      - ''
       - boolean
       - hex
       - int16
@@ -58879,6 +58067,7 @@ components:
       description: 'enum: `inactive_wired_vlans`, `poe_compliance`, `switch_ap_affinity`,
         `version_compliance`'
       enum:
+      - ''
       - inactive_wired_vlans
       - poe_compliance
       - switch_ap_affinity
@@ -58888,6 +58077,7 @@ components:
       default: site
       description: 'enum: `site`, `switch`'
       enum:
+      - ''
       - site
       - switch
       type: string
@@ -58906,6 +58096,7 @@ components:
     dot11_band:
       description: 'enum: `24`, `5`, `6`'
       enum:
+      - ''
       - '24'
       - '5'
       - '6'
@@ -58914,6 +58105,7 @@ components:
       description: 'channel width for the band.enum: `20`, `40`, `80` (only applicable
         for band_5 and band_6), `160` (only for band_6)'
       enum:
+      - ''
       - 20
       - 40
       - 80
@@ -58924,6 +58116,7 @@ components:
       default: 20
       description: 'channel width for the 2.4GHz band. enum: `20`, `40`'
       enum:
+      - ''
       - 20
       - 40
       example: 20
@@ -58931,6 +58124,7 @@ components:
     dot11_bandwidth5:
       description: 'channel width for the 5GHz band. enum: `20`, `40`, `80`'
       enum:
+      - ''
       - 20
       - 40
       - 80
@@ -58940,6 +58134,7 @@ components:
       default: 80
       description: 'channel width for the 6GHz band. enum: `20`, `40`, `80`, `160`'
       enum:
+      - ''
       - 20
       - 40
       - 80
@@ -58949,6 +58144,7 @@ components:
     dot11_proto:
       description: 'enum: `a`, `ac`, `ax`, `b`, `g`, `n`'
       enum:
+      - ''
       - a
       - ac
       - ax
@@ -59048,6 +58244,7 @@ components:
       default: radius
       description: 'enum: `cloud_psks`, `radius`'
       enum:
+      - ''
       - cloud_psks
       - radius
       example: cloud_psks
@@ -59103,6 +58300,7 @@ components:
     event_fastroam_type:
       description: 'enum: `fail`, `none`, `pingpong`, `poor`, `slow`, `success`'
       enum:
+      - ''
       - fail
       - none
       - pingpong
@@ -59410,6 +58608,7 @@ components:
     evpn_config_role:
       description: 'enum: `access`, `core`, `distribution`'
       enum:
+      - ''
       - access
       - core
       - distribution
@@ -59473,6 +58672,7 @@ components:
       description: 'optional, where virtual-gateway should reside. enum: `core`, `distribution`,
         `edge`'
       enum:
+      - ''
       - core
       - distribution
       - edge
@@ -59611,6 +58811,7 @@ components:
       description: 'use `role`==`none` to remove a switch from the topology. enum:
         `access`, `collapsed-core`, `core`, `distribution`, `esilag-access`, `none`'
       enum:
+      - ''
       - access
       - collapsed-core
       - core
@@ -59757,6 +58958,7 @@ components:
     fast_roam_result:
       description: 'enum: `fail`, `none`, `success`'
       enum:
+      - ''
       - fail
       - none
       - success
@@ -59806,14 +59008,14 @@ components:
       - mac
       type: object
     gateway_cluster_nodes:
+      description: when replacing a node, either mac has to remain the same as existing
+        cluster
       items:
         $ref: '#/components/schemas/gateway_cluster_node'
       maxItems: 2
       minItems: 1
       type: array
       uniqueItems: true
-      description: when replacing a node, either mac has to remain the same as
-        existing cluster
     gateway_compliance_major_version:
       additionalProperties:
         $ref: '#/components/schemas/gateway_compliance_major_version_properties'
@@ -60050,6 +59252,7 @@ components:
       default: ordered
       description: 'enum: `ecmp`, `ordered`, `weighted`'
       enum:
+      - ''
       - ecmp
       - ordered
       - weighted
@@ -60057,6 +59260,7 @@ components:
     gateway_path_type:
       description: 'enum: `local`, `tunnel`, `vpn`, `wan`'
       enum:
+      - ''
       - local
       - tunnel
       - vpn
@@ -60204,6 +59408,7 @@ components:
       default: vdsl
       description: 'if `wan_type`==`dsl`. enum: `adsl`, `vdsl`'
       enum:
+      - ''
       - adsl
       - vdsl
       type: string
@@ -60211,6 +59416,7 @@ components:
       default: auto
       description: 'enum: `auto`, `full`, `half`'
       enum:
+      - ''
       - auto
       - full
       - half
@@ -60220,6 +59426,7 @@ components:
       default: none
       description: 'if `wan_type`==`lte`. enum: `chap`, `none`, `pap`'
       enum:
+      - ''
       - chap
       - none
       - pap
@@ -60266,6 +59473,7 @@ components:
     gateway_port_usage:
       description: 'port usage name. enum: `ha_control`, `ha_data`, `lan`, `wan`'
       enum:
+      - ''
       - ha_control
       - ha_data
       - lan
@@ -60292,6 +59500,7 @@ components:
       default: broadband
       description: 'enum: `broadband`, `lte`'
       enum:
+      - ''
       - broadband
       - lte
       type: string
@@ -60299,6 +59508,7 @@ components:
       default: spoke
       description: 'enum: `hub`, `spoke`'
       enum:
+      - ''
       - hub
       - spoke
       type: string
@@ -60310,6 +59520,7 @@ components:
       default: recommended
       description: 'when `wan_type`==`broadband`. enum: `default`, `max`, `recommended`'
       enum:
+      - ''
       - default
       - max
       - recommended
@@ -60331,6 +59542,7 @@ components:
       default: broadband
       description: 'if `usage`==`wan`. enum: `broadband`, `dsl`, `lte`'
       enum:
+      - ''
       - broadband
       - dsl
       - lte
@@ -60457,6 +59669,7 @@ components:
       default: icmp
       description: 'enum: `http`, `icmp`'
       enum:
+      - ''
       - http
       - icmp
       type: string
@@ -60466,6 +59679,7 @@ components:
         \  * 15 (3072-bit)\n  * 16 (4096-bit)\n  * 19 (256-bit ECP)\n  * 20 (384-bit\
         \ ECP)\n  * 21 (521-bit ECP)\n  * 24 (2048-bit ECP)"
       enum:
+      - ''
       - '1'
       - '14'
       - '15'
@@ -60481,6 +59695,7 @@ components:
       default: main
       description: 'Only if `provider`== `custom-ipsec`. enum: `aggressive`, `main`'
       enum:
+      - ''
       - aggressive
       - main
       type: string
@@ -60506,6 +59721,7 @@ components:
       default: active-standby
       description: 'enum: `active-active`, `active-standby`'
       enum:
+      - ''
       - active-active
       - active-standby
       type: string
@@ -60559,6 +59775,7 @@ components:
     gateway_template_tunnel_protocol:
       description: 'Only if `provider`== `custom-ipsec`. enum: `gre`, `ipsec`'
       enum:
+      - ''
       - gre
       - ipsec
       type: string
@@ -60567,6 +59784,7 @@ components:
       description: 'Only if `provider`== `custom-gre` or `provider`== `custom-ipsec`.
         enum: `1`, `2`'
       enum:
+      - ''
       - '1'
       - '2'
       type: string
@@ -60574,6 +59792,7 @@ components:
       default: standalone
       description: 'enum: `spoke`, `standalone`'
       enum:
+      - ''
       - spoke
       - standalone
       example: standalone
@@ -60621,6 +59840,7 @@ components:
       default: none
       description: 'if `type`==`pppoe`. enum: `chap`, `none`, `pap`'
       enum:
+      - ''
       - chap
       - none
       - pap
@@ -60629,6 +59849,7 @@ components:
       default: dhcp
       description: 'enum: `dhcp`, `pppoe`, `static`'
       enum:
+      - ''
       - dhcp
       - pppoe
       - static
@@ -60637,6 +59858,7 @@ components:
       default: stable
       description: 'enum: `alpha`, `beta`, `stable`'
       enum:
+      - ''
       - alpha
       - beta
       - stable
@@ -60741,6 +59963,7 @@ components:
     ha_cluster_node_enum:
       description: 'only for HA. enum: `node0`, `node1`'
       enum:
+      - ''
       - node0
       - node1
       type: string
@@ -60801,6 +60024,7 @@ components:
       description: allow customer to choose the EAP-TLS client certificate's field
         to use for IDP Machine Groups lookup
       enum:
+      - ''
       - automatic
       - email
       - upn
@@ -60835,6 +60059,7 @@ components:
       description: "enum:\n  * alert (default)\n  * drop: siliently dropping packets\n\
         \  * close: notify client/server to close connection"
       enum:
+      - ''
       - alert
       - close
       - drop
@@ -60843,6 +60068,7 @@ components:
     idp_profile_base_profile:
       description: 'enum: `critical`, `standard`, `strict`'
       enum:
+      - ''
       - critical
       - standard
       - strict
@@ -60874,6 +60100,7 @@ components:
     idp_profile_matching_severity_value:
       description: 'enum: `critical`, `info`, `major`, `minor`'
       enum:
+      - ''
       - critical
       - info
       - major
@@ -60902,6 +60129,7 @@ components:
       description: allow customer to choose the EAP-TLS client certificate's field
         to use for IDP User Groups lookup
       enum:
+      - ''
       - automatic
       - email
       - upn
@@ -60980,6 +60208,7 @@ components:
       default: 'False'
       description: 'enum: `False`, `True`'
       enum:
+      - ''
       - 'False'
       - 'True'
       type: string
@@ -61358,6 +60587,7 @@ components:
         \ Delete multiple inventory from org. If the device is already assigned to\
         \ a site, it will be unassigned"
       enum:
+      - ''
       - assign
       - delete
       - downgrade_to_jsi
@@ -61423,6 +60653,7 @@ components:
       default: dhcp
       description: 'enum: `dhcp`, `static`'
       enum:
+      - ''
       - dhcp
       - static
       example: static
@@ -61431,6 +60662,7 @@ components:
       default: disabled
       description: 'enum: `autoconf`, `dhcp`, `disabled`, `static`'
       enum:
+      - ''
       - autoconf
       - dhcp
       - disabled
@@ -61546,6 +60778,7 @@ components:
     jse_inventory_item_type:
       description: 'enum: `ap`, `gateway`, `switch`'
       enum:
+      - ''
       - ap
       - gateway
       - switch
@@ -61674,6 +60907,7 @@ components:
       default: auto
       description: 'enum: `auto`, `full`, `half`'
       enum:
+      - ''
       - auto
       - full
       - half
@@ -61682,6 +60916,7 @@ components:
       default: auto
       description: 'enum: `100m`, `10m`, `1g`, `2.5g`, `5g`, `auto`'
       enum:
+      - ''
       - 100m
       - 10m
       - 1g
@@ -61693,6 +60928,7 @@ components:
       description: 'enum: `established`, `established_with_session`, `idle`, `wait-ctrl-conn`,
         `wait-ctrl-reply`'
       enum:
+      - ''
       - established
       - established_with_session
       - idle
@@ -61838,6 +61074,7 @@ components:
         `SUB-EX48`, `SUB-MAN`, `SUB-ME`, `SUB-PMA`, `SUB-SRX1`, `SUB-SRX2`, `SUB-SVNA`,
         `SUB-VNA`, `SUB-WAN1`, `SUB-WAN2`, `SUB-WVNA1`, `SUB-WVNA2`'
       enum:
+      - ''
       - SUB-AST
       - SUB-DATA
       - SUB-ENG
@@ -61943,6 +61180,7 @@ components:
     list_msp_logs_sort:
       description: 'enum: `-timestamp`, `admin_id`, `site_id`, `timestamp`'
       enum:
+      - ''
       - -timestamp
       - admin_id
       - site_id
@@ -61951,6 +61189,7 @@ components:
     list_org_logs_sort:
       description: 'enum: `-timestamp`, `admin_id`, `site_id`, `timestamp`'
       enum:
+      - ''
       - -timestamp
       - admin_id
       - site_id
@@ -62132,6 +61371,7 @@ components:
     map_import_json_vendor_name:
       description: 'enum: `ekahau`, `ibwave`'
       enum:
+      - ''
       - ekahau
       - ibwave
       example: ekahau
@@ -62189,6 +61429,7 @@ components:
       default: jibestream
       description: "the vendor \u2018jibestream\u2019. enum: `jibestream`"
       enum:
+      - ''
       - jibestream
       type: string
     map_micello:
@@ -62218,6 +61459,7 @@ components:
       default: micello
       description: "the vendor \u2018micello\u2019. enum: `micello`"
       enum:
+      - ''
       - micello
       type: string
     map_node:
@@ -62289,6 +61531,7 @@ components:
     map_org_import_file_json_vendor_name:
       description: 'enum: `ekahau`, `ibwave`'
       enum:
+      - ''
       - ekahau
       - ibwave
       example: ekahau
@@ -62385,6 +61628,7 @@ components:
       default: image
       description: 'enum: `google`, `image`'
       enum:
+      - ''
       - google
       - image
       example: image
@@ -62392,6 +61636,7 @@ components:
     map_view:
       description: 'if `type`==`google`. enum: `hybrid`, `roadmap`, `satellite`, `terrain`'
       enum:
+      - ''
       - hybrid
       - roadmap
       - satellite
@@ -62488,6 +61733,7 @@ components:
       default: qrcode
       description: 'enum: `qrcode`'
       enum:
+      - ''
       - qrcode
       type: string
     mist_device:
@@ -62802,6 +62048,7 @@ components:
     msp_license_action_operation:
       description: 'enum: `amend`, `annotate`, `delete`, `unamend`'
       enum:
+      - ''
       - amend
       - annotate
       - delete
@@ -62817,6 +62064,7 @@ components:
       default: admin_name
       description: 'enum: `admin_id`, `admin_name`, `message`, `org_id`'
       enum:
+      - ''
       - admin_id
       - admin_name
       - message
@@ -62826,6 +62074,7 @@ components:
       default: org_id
       description: 'enum: `org_id`, `status`'
       enum:
+      - ''
       - org_id
       - status
       type: string
@@ -62842,6 +62091,7 @@ components:
     msp_org_change_operation:
       description: 'enum: `assign`, `unassign`'
       enum:
+      - ''
       - assign
       - unassign
       type: string
@@ -62853,12 +62103,14 @@ components:
     msp_search_type:
       description: 'enum: `orgs`'
       enum:
+      - ''
       - orgs
       type: string
     msp_tickets_count_distinct:
       default: status
       description: 'enum: `org_id`, `status`, `type`'
       enum:
+      - ''
       - org_id
       - status
       - type
@@ -62867,6 +62119,7 @@ components:
       default: base
       description: 'enum: `advanced`, `base`'
       enum:
+      - ''
       - advanced
       - base
       type: string
@@ -62970,6 +62223,7 @@ components:
         enum: `aruba`, `cisco-aironet`, `cisco-ios`, `cisco-meraki`, `generic`, `juniper`,
         `paloalto`'
       enum:
+      - ''
       - aruba
       - cisco-aironet
       - cisco-ios
@@ -62983,6 +62237,7 @@ components:
       default: ascii
       description: 'if used for Mist APs. enum: `ascii`, `hex`'
       enum:
+      - ''
       - ascii
       - hex
       nullable: true
@@ -63088,6 +62343,7 @@ components:
       description: 'When ordered, Mist Edge will prefer and go back to the first radius
         server if possible. enum: `ordered`, `unordered`'
       enum:
+      - ''
       - ordered
       - unordered
       type: string
@@ -63096,6 +62352,7 @@ components:
       description: 'Specify source address to use when connecting to RADIUS servers.
         enum: `any`, `oob`, `oob6`, `tunnel`, `tunnel6`'
       enum:
+      - ''
       - any
       - oob
       - oob6
@@ -63142,6 +62399,7 @@ components:
         \ mxedge, and we load-balancing between tunnels)\n  * `ordered`: order decided\
         \ by tunterm_hosts_order"
       enum:
+      - ''
       - ordered
       - shuffle
       - shuffle-by-site
@@ -63297,6 +62555,7 @@ components:
       default: any
       description: 'enum: `any`, `false`, `true`'
       enum:
+      - ''
       - any
       - 'false'
       - 'true'
@@ -63321,6 +62580,7 @@ components:
       default: dhcp
       description: 'enum: `dhcp`, `disabled`, `static`'
       enum:
+      - ''
       - dhcp
       - disabled
       - static
@@ -63329,6 +62589,7 @@ components:
       default: autoconf
       description: 'enum: `autoconf`, `dhcp`, `disabled`, `static`'
       enum:
+      - ''
       - autoconf
       - dhcp
       - disabled
@@ -63391,6 +62652,7 @@ components:
     mxedge_service_action:
       description: 'enum: `restart`, `start`, `stop`'
       enum:
+      - ''
       - restart
       - start
       - stop
@@ -63398,6 +62660,7 @@ components:
     mxedge_service_name:
       description: 'enum: `mxagent`, `mxdas`, `mxocproxy`, `radsecproxy`, `tunterm`'
       enum:
+      - ''
       - mxagent
       - mxdas
       - mxocproxy
@@ -63442,12 +62705,14 @@ components:
       default: relay
       description: 'enum: `relay`'
       enum:
+      - ''
       - relay
       type: string
     mxedge_tunterm_dhcpd_type:
       default: relay
       description: 'enum: `relay`'
       enum:
+      - ''
       - relay
       type: string
     mxedge_tunterm_extra_route:
@@ -63600,6 +62865,7 @@ components:
       default: stable
       description: 'upgrade channel to follow. enum: `alpha`, `beta`, `stable`'
       enum:
+      - ''
       - alpha
       - beta
       - stable
@@ -63689,6 +62955,7 @@ components:
       description: "enum:\n  * `big_bang`: upgrade all at once\n  * `serial`: one\
         \ at a time. enum: `big_bang`, `serial`'"
       enum:
+      - ''
       - big_bang
       - serial
       type: string
@@ -63863,6 +63130,7 @@ components:
       default: udp
       description: 'enum: `ip`, `udp`'
       enum:
+      - ''
       - ip
       - udp
       type: string
@@ -63950,6 +63218,7 @@ components:
       default: wireless
       description: 'if `type`==`marvis_client`. enum: `wireless`, `wireless+wired`'
       enum:
+      - ''
       - wireless
       - wireless+wired
       type: string
@@ -64010,6 +63279,7 @@ components:
       type: object
     nac_portal_type_enum:
       enum:
+      - ''
       - marvis_client
       - guest
       type: string
@@ -64058,6 +63328,7 @@ components:
     nac_rule_action:
       description: 'enum: `allow`, `block`'
       enum:
+      - ''
       - allow
       - block
       example: allow
@@ -64088,6 +63359,7 @@ components:
       description: 'enum: `cert`, `device-auth`, `eap-teap`, `eap-tls`, `eap-ttls`,
         `idp`, `mab`, `peap-tls`, `psk`'
       enum:
+      - ''
       - cert
       - device-auth
       - eap-teap
@@ -64108,6 +63380,7 @@ components:
     nac_rule_matching_port_type:
       description: 'enum: `wired`, `wireless`'
       enum:
+      - ''
       - wired
       - wireless
       type: string
@@ -64219,6 +63492,7 @@ components:
         `cert_serial`, `cert_sub`, `client_mac`, `idp_role`, `mdm_status`, `radius_group`,
         `realm`, `ssid`, `user_name`, `usermac_label`'
       enum:
+      - ''
       - cert_cn
       - cert_issuer
       - cert_san
@@ -64263,6 +63537,7 @@ components:
         `radius_group`, `radius_vendor_attrs`, `session_timeout`, `username_attr`,
         `vlan`'
       enum:
+      - ''
       - egress_vlan_names
       - gbp_tag
       - match
@@ -64276,6 +63551,7 @@ components:
       type: string
     nac_tag_username_attr_enum:
       enum:
+      - ''
       - automatic
       - cn
       - upn
@@ -64476,6 +63752,11 @@ components:
           $ref: '#/components/schemas/radius_config'
         remote_syslog:
           $ref: '#/components/schemas/remote_syslog'
+        remove_existing_configs:
+          default: false
+          description: by default, when we configure a device, we only clean up config
+            we generates. Remove existing configs if enabled
+          type: boolean
         snmp_config:
           $ref: '#/components/schemas/snmp_config'
         switch_matching:
@@ -64615,6 +63896,7 @@ components:
     oauth_app_name:
       description: 'enum: `intune`, `jamf`, `mobicontrol`, `teams`, `vmware`, `zoom`'
       enum:
+      - ''
       - intune
       - jamf
       - mobicontrol
@@ -64741,6 +64023,7 @@ components:
       description: 'enum: `ibeacon_major`, `ibeacon_minor`, `ibeacon_uuid`, `mac`,
         `map_id`, `site_id`'
       enum:
+      - ''
       - ibeacon_major
       - ibeacon_minor
       - ibeacon_uuid
@@ -64788,6 +64071,7 @@ components:
       default: ap
       description: 'optional/additional filter. enum: `ap`, `gateway`, `other`, `switch`'
       enum:
+      - ''
       - ap
       - gateway
       - other
@@ -64797,6 +64081,7 @@ components:
       description: 'enum: `dns_suffix`, `lldp_port_desc`, `lldp_system_name`, `model`,
         `name`, `subnet`'
       enum:
+      - ''
       - dns_suffix
       - lldp_port_desc
       - lldp_system_name
@@ -64809,6 +64094,7 @@ components:
       description: 'enum: `ap`, `device`, `hostname`, `ip`, `model`, `os`, `ssid`,
         `vlan`'
       enum:
+      - ''
       - ap
       - device
       - hostname
@@ -64823,6 +64109,7 @@ components:
       description: 'enum: `ap`, `device`, `hostname`, `ip`, `mac`, `model`, `os`,
         `ssid`, `vlan`'
       enum:
+      - ''
       - ap
       - device
       - hostname
@@ -64886,6 +64173,7 @@ components:
         `lldp_system_name`, `mac`, `model`, `mxedge_id`, `mxtunnel_status`, `site_id`,
         `version`'
       enum:
+      - ''
       - hostname
       - ip
       - lldp_mgmt_addr
@@ -64904,6 +64192,7 @@ components:
       description: 'enum: `ap`, `apfw`, `model`, `org_id`, `site_id`, `text`, `timestamp`,
         `type`'
       enum:
+      - ''
       - ap
       - apfw
       - model
@@ -64916,6 +64205,7 @@ components:
     org_devices_last_configs_count_distinct:
       description: 'enum: `mac`, `name`, `site_id`, `version`'
       enum:
+      - ''
       - mac
       - name
       - site_id
@@ -64939,6 +64229,7 @@ components:
       default: auth_method
       description: 'enum: `auth_method`, `company`, `ssid`'
       enum:
+      - ''
       - auth_method
       - company
       - ssid
@@ -64977,6 +64268,7 @@ components:
       description: 'to move a license, use the `amend` operation. enum: `amend`, `annotate`,
         `delete`, `unamend`'
       enum:
+      - ''
       - amend
       - annotate
       - delete
@@ -64990,6 +64282,7 @@ components:
       default: admin_name
       description: 'enum: `admin_id`, `admin_name`, `message`, `site_id`'
       enum:
+      - ''
       - admin_id
       - admin_name
       - message
@@ -64999,6 +64292,7 @@ components:
       default: model
       description: 'enum: `distro`, `model`, `mxcluster_id`, `site_id`, `tunterm_version`'
       enum:
+      - ''
       - distro
       - model
       - mxcluster_id
@@ -65009,6 +64303,7 @@ components:
       default: mxedge_id
       description: 'enum: `mxcluster_id`, `mxedge_id`, `package`, `type`'
       enum:
+      - ''
       - mxcluster_id
       - mxedge_id
       - package
@@ -65018,6 +64313,7 @@ components:
       description: 'enum: `ap`, `auth_type`, `dryrun_nacrule_id`, `mac`, `nacrule_id`,
         `nas_vendor`, `ssid`, `type`, `username`, `vlan`'
       enum:
+      - ''
       - ap
       - auth_type
       - dryrun_nacrule_id
@@ -65035,6 +64331,7 @@ components:
         `last_ssid`, `last_status`, `last_username`, `last_vlan`, `mac`, `mdm_compliance`,
         `mdm_provider`, `type`'
       enum:
+      - ''
       - auth_type
       - last_ap
       - last_nacrule_id
@@ -65052,6 +64349,7 @@ components:
       default: mac
       description: 'enum: `mac`, `site_id`, `type`, `vendor`'
       enum:
+      - ''
       - mac
       - site_id
       - type
@@ -65062,6 +64360,7 @@ components:
       description: 'enum: `admin_id`, `admin_name`, `psk_id`, `psk_name`, `pskportal_id`,
         `user_id`'
       enum:
+      - ''
       - admin_id
       - admin_name
       - psk_id
@@ -65561,6 +64860,7 @@ components:
       description: 'by default NAS devices(switches/aps) and proxies(mxedge) are configured
         to reach mist-nac via IPv4. enum: `v4`, `v6`'
       enum:
+      - ''
       - v4
       - v6
       type: string
@@ -65681,6 +64981,7 @@ components:
     org_site_sle_type:
       description: 'enum: `wan`, `wifi`, `wired`'
       enum:
+      - ''
       - wan
       - wifi
       - wired
@@ -65846,6 +65147,7 @@ components:
         `mesh_enabled`, `name`, `remote_syslog_enabled`, `rogue_enabled`, `rtsa_enabled`,
         `vna_enabled`, `wifi_enabled`'
       enum:
+      - ''
       - analytic_enabled
       - app_waking
       - asset_enabled
@@ -65876,6 +65178,7 @@ components:
         `neighbor_system_name`, `poe_disabled`, `poe_mode`, `poe_on`, `port_id`, `port_mac`,
         `speed`, `up`'
       enum:
+      - ''
       - full_duplex
       - mac
       - neighbor_mac
@@ -65893,6 +65196,7 @@ components:
       default: status
       description: 'enum: `status`, `type`'
       enum:
+      - ''
       - status
       - type
       type: string
@@ -65903,6 +65207,7 @@ components:
         `peer_mxedge_id`, `protocol`, `remote_ip`, `remote_port`, `site_id`, `state`,
         `tunnel_name`, `up`, `wxtunnel_id`'
       enum:
+      - ''
       - ap
       - auth_algo
       - encrypt_algo
@@ -65929,6 +65234,7 @@ components:
       default: wxtunnel
       description: 'enum: `wan`, `wxtunnel`'
       enum:
+      - ''
       - wan
       - wxtunnel
       type: string
@@ -65936,6 +65242,7 @@ components:
       default: mac
       description: 'enum: `hostname`, `ip`, `mac`, `mfg`, `network`'
       enum:
+      - ''
       - hostname
       - ip
       - mac
@@ -65946,6 +65253,7 @@ components:
       default: type
       description: 'enum: `hostname`, `ip`, `mac`, `mfg`, `type`'
       enum:
+      - ''
       - hostname
       - ip
       - mac
@@ -65956,6 +65264,7 @@ components:
       default: mac
       description: 'enum: `device_mac`, `mac`, `port_id`, `site_id`, `type`, `vlan`'
       enum:
+      - ''
       - device_mac
       - mac
       - port_id
@@ -66089,6 +65398,7 @@ components:
       default: none
       description: 'auth type. enum: `md5`, `none`, `password`'
       enum:
+      - ''
       - md5
       - none
       - password
@@ -66099,6 +65409,7 @@ components:
       description: 'interface type (nbma = non-broadcast multi-access). enum: `broadcast`,
         `nbma`, `p2mp`, `p2p`'
       enum:
+      - ''
       - broadcast
       - nbma
       - p2mp
@@ -66108,6 +65419,7 @@ components:
       default: default
       description: 'OSPF type. enum: `default`, `nssa`, `stub`'
       enum:
+      - ''
       - default
       - nssa
       - stub
@@ -66166,6 +65478,7 @@ components:
     other_device_update_operation:
       description: 'The operation being performed. enum: `assign`, `unassign`'
       enum:
+      - ''
       - assign
       - unassign
       type: string
@@ -66193,6 +65506,7 @@ components:
       description: 'enum: `client`, `gateway`, `new_assoc`, `radiotap`, `radiotap,wired`,
         `wired`, `wireless`'
       enum:
+      - ''
       - client
       - gateway
       - new_assoc
@@ -66654,6 +65968,7 @@ components:
       default: center
       description: 'defines alignment on portal. enum: `center`, `left`, `right`'
       enum:
+      - ''
       - center
       - left
       - right
@@ -66686,6 +66001,7 @@ components:
       description: 'access permissions. enum: `admin`, `helpdesk`, `installer`, `read`,
         `write`'
       enum:
+      - ''
       - admin
       - helpdesk
       - installer
@@ -66695,6 +66011,7 @@ components:
     privilege_msp_scope:
       description: 'enum: `msp`, `org`, `orggroup`'
       enum:
+      - ''
       - msp
       - org
       - orggroup
@@ -66739,6 +66056,7 @@ components:
 
         | `lobby_admin` | full access to Org and Site Pre-shared keys |'
       enum:
+      - ''
       - lobby_admin
       - location
       - marketing
@@ -66772,6 +66090,7 @@ components:
       description: 'access permissions. enum: `admin`, `helpdesk`, `installer`, `read`,
         `write`'
       enum:
+      - ''
       - admin
       - helpdesk
       - installer
@@ -66781,6 +66100,7 @@ components:
     privilege_org_scope:
       description: 'enum: `org`, `site`, `sitegroup`'
       enum:
+      - ''
       - org
       - site
       - sitegroup
@@ -66825,6 +66145,7 @@ components:
 
         | `lobby_admin` | full access to Org and Site Pre-shared keys |'
       enum:
+      - ''
       - lobby_admin
       - location
       - marketing
@@ -66890,6 +66211,7 @@ components:
       description: 'access permissions. enum: `admin`, `helpdesk`, `installer`, `read`,
         `write`'
       enum:
+      - ''
       - admin
       - helpdesk
       - installer
@@ -66899,6 +66221,7 @@ components:
     privilege_self_scope:
       description: 'enum: `msp`, `org`, `orggroup`, `site`, `sitegroup`'
       enum:
+      - ''
       - msp
       - org
       - orggroup
@@ -66949,6 +66272,7 @@ components:
 
         | `lobby_admin` | full access to Org and Site Pre-shared keys |'
       enum:
+      - ''
       - lobby_admin
       - location
       - marketing
@@ -67001,6 +66325,7 @@ components:
       default: any
       description: 'enum: `any`, `icmp`, `tcp`, `udp`'
       enum:
+      - ''
       - any
       - icmp
       - tcp
@@ -67138,7 +66463,6 @@ components:
       items:
         type: string
       type: array
-      maxItems: 5000
     psk_portal:
       properties:
         auth:
@@ -67219,6 +66543,7 @@ components:
       default: sso
       description: 'enum: `sponsor`, `sso`'
       enum:
+      - ''
       - sponsor
       - sso
       type: string
@@ -67338,6 +66663,7 @@ components:
     psk_portal_type:
       description: 'for personal psk portal. enum: `admin`, `byod`'
       enum:
+      - ''
       - admin
       - byod
       type: string
@@ -67345,6 +66671,7 @@ components:
       default: multi
       description: 'enum: `macs`, `multi`, `single`'
       enum:
+      - ''
       - macs
       - multi
       - single
@@ -67380,6 +66707,7 @@ components:
     radio_band_24_usage:
       description: 'enum: `24`, `5`, `6`, `auto`'
       enum:
+      - ''
       - '24'
       - '5'
       - '6'
@@ -67389,6 +66717,7 @@ components:
       default: default
       description: 'enum: `1x1`, `2x2`, `3x3`, `4x4`, `default`'
       enum:
+      - ''
       - 1x1
       - 2x2
       - 3x3
@@ -67407,6 +66736,7 @@ components:
       default: short
       description: 'enum: `auto`, `long`, `short`'
       enum:
+      - ''
       - auto
       - long
       - short
@@ -67530,6 +66860,7 @@ components:
     radius_keywrap_format:
       description: 'enum: `ascii`, `hex`'
       enum:
+      - ''
       - ascii
       - hex
       type: string
@@ -67613,6 +66944,7 @@ components:
       default: google
       description: 'flavor of the captcha. enum: `google`, `hcaptcha`'
       enum:
+      - ''
       - google
       - hcaptcha
       example: hcaptcha
@@ -67688,6 +67020,7 @@ components:
         `daemon`, `dfc`, `external`, `firewall`, `ftp`, `interactive-commands`, `kernel`,
         `ntp`, `pfe`, `security`, `user`'
       enum:
+      - ''
       - any
       - authorization
       - change-log
@@ -67764,6 +67097,7 @@ components:
       default: udp
       description: 'enum: `tcp`, `udp`'
       enum:
+      - ''
       - tcp
       - udp
       type: string
@@ -67783,6 +67117,7 @@ components:
       description: 'enum: `alert`, `any`, `critical`, `emergency`, `error`, `info`,
         `notice`, `warning`'
       enum:
+      - ''
       - alert
       - any
       - critical
@@ -67795,6 +67130,7 @@ components:
     remote_syslog_time_format:
       description: 'enum: `millisecond`, `year`, `year millisecond`'
       enum:
+      - ''
       - millisecond
       - year
       - year millisecond
@@ -67913,6 +67249,7 @@ components:
       default: default
       description: 'enum: `default`, `fine`'
       enum:
+      - ''
       - default
       - fine
       type: string
@@ -68538,6 +67875,7 @@ components:
     response_device_snapshot_status:
       description: 'enum: `error`, `inprogress`, `scheduled`, `starting`, `success`'
       enum:
+      - ''
       - error
       - inprogress
       - scheduled
@@ -69367,6 +68705,7 @@ components:
       description: 'enum: `assigned-named-placed`, `assigned-placed`, `ignored`, `named-placed`,
         `placed`'
       enum:
+      - ''
       - assigned-named-placed
       - assigned-placed
       - ignored
@@ -69605,6 +68944,7 @@ components:
     response_org_inventory_change_op:
       description: 'enum: `assign`, `delete`, `downgrade_to_jsi`, `unassign`, `upgrade_to_mist`'
       enum:
+      - ''
       - assign
       - delete
       - downgrade_to_jsi
@@ -70840,6 +70180,7 @@ components:
     rf_client_type:
       description: 'enum: `asset`, `client`, `sdkclient`'
       enum:
+      - ''
       - asset
       - client
       - sdkclient
@@ -71201,6 +70542,7 @@ components:
     rogue_type:
       description: 'enum: `honeypot`, `lan`, `others`, `spoof`'
       enum:
+      - ''
       - honeypot
       - lan
       - others
@@ -71585,6 +70927,7 @@ components:
       description: '(previously) channel width for the band , 0 means no previously
         available. enum: `0`, `20`, `40`, `80`, `160`'
       enum:
+      - ''
       - 0
       - 20
       - 40
@@ -71596,6 +70939,7 @@ components:
         `neighbor-ap-down`, `neighbor-ap-recovered`, `radar-detected`, `rrm-radar`,
         `scheduled-site_rrm`, `triggered-site_rrm`'
       enum:
+      - ''
       - interference-ap-co-channel
       - interference-ap-non-wifi
       - neighbor-ap-down
@@ -71629,6 +70973,7 @@ components:
     rrm_status:
       description: 'enum: `ready`, `unknown`, `updating`'
       enum:
+      - ''
       - ready
       - unknown
       - updating
@@ -71688,14 +71033,6 @@ components:
       items:
         $ref: '#/components/schemas/rssi_zone'
       type: array
-    scan_data_item_band:
-      description: '5GHz or 2.4GHz band, associated with the BSSID scanned. enum:
-        `2.4`, `5`'
-      enum:
-      - '2.4'
-      - '5'
-      minLength: 1
-      type: string
     sdk_invite_sms:
       properties:
         number:
@@ -71883,12 +71220,14 @@ components:
     search_org_devices_mxtunnel_status:
       description: 'enum: `down`, `up`'
       enum:
+      - ''
       - down
       - up
       type: string
     search_org_sw_or_gw_ports_auth_state:
       description: 'enum: `authenticated`, `authenticating`, `held`, `init`'
       enum:
+      - ''
       - authenticated
       - authenticating
       - held
@@ -71897,6 +71236,7 @@ components:
     search_org_sw_or_gw_ports_stp_role:
       description: 'enum: `alternate`, `backup`, `designated`, `root`, `root-prevented`'
       enum:
+      - ''
       - alternate
       - backup
       - designated
@@ -71906,6 +71246,7 @@ components:
     search_org_sw_or_gw_ports_stp_state:
       description: 'enum: `blocking`, `disabled`, `forwarding`, `learning`, `listening`'
       enum:
+      - ''
       - blocking
       - disabled
       - forwarding
@@ -71919,6 +71260,7 @@ components:
     search_site_devices_desc_sort:
       description: 'enum: `mac`, `model`, `sku`, `timestamp`'
       enum:
+      - ''
       - mac
       - model
       - sku
@@ -71927,6 +71269,7 @@ components:
     search_site_devices_mxtunnel_status:
       description: 'enum: `down`, `up`'
       enum:
+      - ''
       - down
       - up
       type: string
@@ -71934,6 +71277,7 @@ components:
       default: timestamp
       description: 'enum: `mac`, `model`, `sku`, `timestamp`'
       enum:
+      - ''
       - mac
       - model
       - sku
@@ -71942,6 +71286,7 @@ components:
     search_site_sw_or_gw_ports_auth_state:
       description: 'enum: `authenticated`, `authenticating`, `held`, `init`'
       enum:
+      - ''
       - authenticated
       - authenticating
       - held
@@ -71950,6 +71295,7 @@ components:
     search_site_sw_or_gw_ports_device_type:
       description: 'enum: `ap`, `ble`, `gateway`, `mxedge`, `nac`, `switch`'
       enum:
+      - ''
       - ap
       - ble
       - gateway
@@ -71960,6 +71306,7 @@ components:
     search_site_sw_or_gw_ports_stp_role:
       description: 'enum: `alternate`, `backup`, `designated`, `root`, `root-prevented`'
       enum:
+      - ''
       - alternate
       - backup
       - designated
@@ -71969,6 +71316,7 @@ components:
     search_site_sw_or_gw_ports_stp_state:
       description: 'enum: `blocking`, `disabled`, `forwarding`, `learning`, `listening`'
       enum:
+      - ''
       - blocking
       - disabled
       - forwarding
@@ -71978,6 +71326,7 @@ components:
     search_site_switch_ports_auth_state:
       description: 'enum: `authenticated`, `authenticating`, `held`, `init`'
       enum:
+      - ''
       - authenticated
       - authenticating
       - held
@@ -71986,6 +71335,7 @@ components:
     search_site_switch_ports_stp_role:
       description: 'enum: `alternate`, `backup`, `designated`, `root`, `root-prevented`'
       enum:
+      - ''
       - alternate
       - backup
       - designated
@@ -71995,6 +71345,7 @@ components:
     search_site_switch_ports_stp_state:
       description: 'enum: `blocking`, `disabled`, `forwarding`, `learning`, `listening`'
       enum:
+      - ''
       - blocking
       - disabled
       - forwarding
@@ -72283,6 +71634,7 @@ components:
       default: revertable
       description: 'enum: `non_revertable`, `none`, `revertable`'
       enum:
+      - ''
       - non_revertable
       - none
       - revertable
@@ -72431,6 +71783,7 @@ components:
       default: strict
       description: 'enum: `critical`, `standard`, `strict`'
       enum:
+      - ''
       - critical
       - standard
       - strict
@@ -72483,6 +71836,7 @@ components:
       description: 'when `traffic_type`==`custom`. enum: `best_effort`, `high`, `low`,
         `medium`'
       enum:
+      - ''
       - best_effort
       - high
       - low
@@ -72492,6 +71846,7 @@ components:
       default: custom
       description: 'enum: `app_categories`, `apps`, `custom`, `urls`'
       enum:
+      - ''
       - app_categories
       - apps
       - custom
@@ -72673,6 +72028,7 @@ components:
       description: 'enum: `ap`, `app`, `category`, `device_mac`, `port_id`, `service`,
         `src_ip`, `ssid`, `wcid`, `wlan_id app`'
       enum:
+      - ''
       - ap
       - app
       - category
@@ -72690,6 +72046,7 @@ components:
         `eddystone_url`, `ibeacon_major`, `ibeacon_minor`, `ibeacon_uuid`, `mac`,
         `map_id`, `name`'
       enum:
+      - ''
       - by
       - device_name
       - eddystone_uid_instance
@@ -72706,6 +72063,7 @@ components:
       default: stable
       description: 'desired version. enum: `beta`, `custom`, `stable`'
       enum:
+      - ''
       - beta
       - custom
       - stable
@@ -72714,6 +72072,7 @@ components:
     site_client_events_count_distinct:
       description: 'enum: `band`, `channel`, `proto`, `ssid`, `type`, `wlan_id`'
       enum:
+      - ''
       - band
       - channel
       - proto
@@ -72726,6 +72085,7 @@ components:
       description: 'enum: `ap`, `client_family`, `client_manufacture`, `client_model`,
         `client_os`, `mac`, `ssid`, `wlan_id`'
       enum:
+      - ''
       - ap
       - client_family
       - client_manufacture
@@ -72740,6 +72100,7 @@ components:
       description: 'enum: `ap`, `device`, `hostname`, `ip`, `model`, `os`, `ssid`,
         `vlan`'
       enum:
+      - ''
       - ap
       - device
       - hostname
@@ -72753,6 +72114,7 @@ components:
       default: model
       description: 'enum: `mac`, `model`, `type`, `type_code`'
       enum:
+      - ''
       - mac
       - model
       - type
@@ -72762,6 +72124,7 @@ components:
       default: mac
       description: 'enum: `mac`, `name`, `site_id`, `version`'
       enum:
+      - ''
       - mac
       - name
       - site_id
@@ -72772,6 +72135,7 @@ components:
       description: 'enum: `hostname`, `lldp_mgmt_addr`, `lldp_port_id`, `lldp_system_desc`,
         `lldp_system_name`, `map_id`, `model`, `mxedge_id`, `mxtunnel_status`, `version`'
       enum:
+      - ''
       - hostname
       - lldp_mgmt_addr
       - lldp_port_id
@@ -72787,6 +72151,7 @@ components:
       default: system_name
       description: 'enum: `mgmt_addr`, `model`, `system_name`, `version`'
       enum:
+      - ''
       - mgmt_addr
       - model
       - system_name
@@ -72859,6 +72224,7 @@ components:
       default: auth_method
       description: 'enum: `auth_method`, `company`, `ssid`'
       enum:
+      - ''
       - auth_method
       - company
       - ssid
@@ -72872,6 +72238,7 @@ components:
       default: mxedge_id
       description: 'enum: `mxcluster_id`, `mxedge_id`, `package`, `type`'
       enum:
+      - ''
       - mxcluster_id
       - mxedge_id
       - package
@@ -73012,6 +72379,7 @@ components:
     site_mxtunnel_protocol:
       description: 'enum: `ip`, `udp`'
       enum:
+      - ''
       - ip
       - udp
       example: udp
@@ -73040,6 +72408,7 @@ components:
       description: 'enum: `ap`, `auth_type`, `dryrun_nacrule_id`, `mac`, `nacrule_id`,
         `nas_vendor`, `ssid`, `type`, `username`, `vlan`'
       enum:
+      - ''
       - ap
       - auth_type
       - dryrun_nacrule_id
@@ -73057,6 +72426,7 @@ components:
         `last_ssid`, `last_status`, `last_username`, `last_vlan`, `mac`, `mdm_compliance`,
         `mdm_provider`, `type`'
       enum:
+      - ''
       - auth_type
       - last_ap
       - last_nacrule_id
@@ -73103,6 +72473,7 @@ components:
       default: mac
       description: 'enum: `mac`, `site_id`, `type`, `vendor`'
       enum:
+      - ''
       - mac
       - site_id
       - type
@@ -73114,6 +72485,7 @@ components:
         `neighbor_system_name`, `poe_disabled`, `poe_mode`, `poe_on`, `port_id`, `port_mac`,
         `speed`, `up`'
       enum:
+      - ''
       - full_duplex
       - mac
       - neighbor_mac
@@ -73160,6 +72532,7 @@ components:
       default: bssid
       description: 'enum: `ap`, `bssid`, `ssid`, `type`'
       enum:
+      - ''
       - ap
       - bssid
       - ssid
@@ -73188,6 +72561,7 @@ components:
       description: 'enum: `mac`, `model`, `policy`, `port_id`, `site_id`, `type`,
         `vpn_name`, `vpn_path`'
       enum:
+      - ''
       - mac
       - model
       - policy
@@ -73806,6 +73180,7 @@ components:
       default: type
       description: 'enum: `device_mac`, `mac`, `threat_level`, `type`'
       enum:
+      - ''
       - device_mac
       - mac
       - threat_level
@@ -73814,6 +73189,7 @@ components:
     site_sle_histogram_scope_parameters:
       description: 'enum: `ap`, `client`, `gateway`, `site`, `switch`'
       enum:
+      - ''
       - ap
       - client
       - gateway
@@ -73825,6 +73201,7 @@ components:
         `gateway`, `gateway_zones`, `interface`, `mxedge`, `peer_path`, `server`,
         `switch`, `vlan`, `wlan`'
       enum:
+      - ''
       - ap
       - band
       - chassis
@@ -73844,6 +73221,7 @@ components:
     site_sle_impact_summary_scope_parameters:
       description: 'enum: `ap`, `client`, `gateway`, `site`, `switch`'
       enum:
+      - ''
       - ap
       - client
       - gateway
@@ -73853,11 +73231,13 @@ components:
     site_sle_impacted_aps_scope_parameters:
       description: 'enum: `site`'
       enum:
+      - ''
       - site
       type: string
     site_sle_impacted_chassis_scope_parameters:
       description: 'enum: `gateway`, `site`, `switch`'
       enum:
+      - ''
       - gateway
       - site
       - switch
@@ -73865,6 +73245,7 @@ components:
     site_sle_impacted_clients_scope_parameters:
       description: 'enum: `gateway`, `site`, `switch`'
       enum:
+      - ''
       - gateway
       - site
       - switch
@@ -73872,11 +73253,13 @@ components:
     site_sle_impacted_gateways_scope_parameters:
       description: 'enum: `site`'
       enum:
+      - ''
       - site
       type: string
     site_sle_impacted_interfaces_scope_parameters:
       description: 'enum: `gateway`, `site`, `switch`'
       enum:
+      - ''
       - gateway
       - site
       - switch
@@ -73884,17 +73267,20 @@ components:
     site_sle_impacted_switches_scope_parameters:
       description: 'enum: `site`'
       enum:
+      - ''
       - site
       type: string
     site_sle_impacted_users_scope_parameter:
       description: 'enum: `ap`, `site`'
       enum:
+      - ''
       - ap
       - site
       type: string
     site_sle_metric_classifiers_scope_parameters:
       description: 'enum: `ap`, `client`, `gateway`, `site`, `switch`'
       enum:
+      - ''
       - ap
       - client
       - gateway
@@ -73904,6 +73290,7 @@ components:
     site_sle_metric_summary_scope_parameters:
       description: 'enum: `ap`, `client`, `gateway`, `site`, `switch`'
       enum:
+      - ''
       - ap
       - client
       - gateway
@@ -73923,6 +73310,7 @@ components:
     site_sle_metrics_scope_parameters:
       description: 'enum: `ap`, `client`, `gateway`, `site`, `switch`'
       enum:
+      - ''
       - ap
       - client
       - gateway
@@ -73932,6 +73320,7 @@ components:
     site_sle_scope:
       description: 'enum: `gateway`, `site`, `switch`'
       enum:
+      - ''
       - gateway
       - site
       - switch
@@ -73939,6 +73328,7 @@ components:
     site_sle_threshold_scope_parameter:
       description: 'enum: `ap`, `client`, `gateway`, `site`, `switch`'
       enum:
+      - ''
       - ap
       - client
       - gateway
@@ -73956,6 +73346,7 @@ components:
         `neighbor_system_name`, `poe_disabled`, `poe_mode`, `poe_on`, `port_id`, `port_mac`,
         `speed`, `up`'
       enum:
+      - ''
       - full_duplex
       - mac
       - neighbor_mac
@@ -73973,6 +73364,7 @@ components:
       default: type
       description: 'enum: `type`'
       enum:
+      - ''
       - type
       type: string
     site_template:
@@ -74003,6 +73395,7 @@ components:
       default: type
       description: 'enum: `hostname`, `ip`, `mac`, `mfg`, `type`'
       enum:
+      - ''
       - hostname
       - ip
       - mac
@@ -74013,6 +73406,7 @@ components:
       default: mac
       description: 'enum: `hostname`, `ip`, `mac`, `mfg`'
       enum:
+      - ''
       - hostname
       - ip
       - mac
@@ -74097,6 +73491,7 @@ components:
     site_wifi_proxy_arp:
       description: 'enum: `default`, `disabled`, `enabled`'
       enum:
+      - ''
       - default
       - disabled
       - enabled
@@ -74106,6 +73501,7 @@ components:
       default: mac
       description: 'enum: `mac`, `port_id`, `vlan`'
       enum:
+      - ''
       - mac
       - port_id
       - vlan
@@ -74114,6 +73510,7 @@ components:
       default: scope_id
       description: 'enum: `scope`, `scope_id`, `user`, `user_type`'
       enum:
+      - ''
       - scope
       - scope_id
       - user
@@ -74962,6 +74359,7 @@ components:
     sle_summary_scope:
       description: 'enum: `ap`, `client`, `gateway`, `site`, `switch`'
       enum:
+      - ''
       - ap
       - client
       - gateway
@@ -75094,6 +74492,7 @@ components:
     snmp_config_engine_id:
       description: 'enum: `engine-id-suffix`, `local`, `use-default-ip-address`, `use_mac-address`'
       enum:
+      - ''
       - engine-id-suffix
       - local
       - use-default-ip-address
@@ -75130,6 +74529,7 @@ components:
       default: v2
       description: 'enum: `all`, `v1`, `v2`'
       enum:
+      - ''
       - all
       - v1
       - v2
@@ -75185,6 +74585,7 @@ components:
     snmp_usm_engine_type:
       description: 'enum: `local_engine`, `remote_engine`'
       enum:
+      - ''
       - local_engine
       - remote_engine
       type: string
@@ -75221,6 +74622,7 @@ components:
         `authentication_sha224`, `authentication_sha256`, `authentication_sha384`,
         `authentication_sha512`'
       enum:
+      - ''
       - authentication_md5
       - authentication_none
       - authentication_sha
@@ -75232,6 +74634,7 @@ components:
     snmp_usmp_user_encryption_type:
       description: 'enum: `privacy-3des`, `privacy-aes128`, `privacy-des`, `privacy-none`'
       enum:
+      - ''
       - privacy-3des
       - privacy-aes128
       - privacy-des
@@ -75287,6 +74690,7 @@ components:
     snmp_vacm_access_item_prefix_list_item_level:
       description: 'enum: `authentication`, `none`, `privacy`'
       enum:
+      - ''
       - authentication
       - none
       - privacy
@@ -75294,6 +74698,7 @@ components:
     snmp_vacm_access_item_prefix_list_item_model:
       description: 'enum: `any`, `usm`, `v1`, `v2c`'
       enum:
+      - ''
       - any
       - usm
       - v1
@@ -75302,12 +74707,14 @@ components:
     snmp_vacm_access_item_type:
       description: 'enum: `context_prefix`, `default_context_prefix`'
       enum:
+      - ''
       - context_prefix
       - default_context_prefix
       type: string
     snmp_vacm_security_model:
       description: 'enum: `usm`, `v1`, `v2c`'
       enum:
+      - ''
       - usm
       - v1
       - v2c
@@ -75385,6 +74792,7 @@ components:
     snmpv3_config_notify_type:
       description: 'enum: `inform`, `trap`'
       enum:
+      - ''
       - inform
       - trap
       type: string
@@ -75434,6 +74842,7 @@ components:
     snmpv3_config_target_param_mess_process_model:
       description: 'enum: `v1`, `v2c`, `v3`'
       enum:
+      - ''
       - v1
       - v2c
       - v3
@@ -75441,6 +74850,7 @@ components:
     snmpv3_config_target_param_security_level:
       description: 'enum: `authentication`, `none`, `privacy`'
       enum:
+      - ''
       - authentication
       - none
       - privacy
@@ -75448,6 +74858,7 @@ components:
     snmpv3_config_target_param_security_model:
       description: 'enum: `usm`, `v1`, `v2c`'
       enum:
+      - ''
       - usm
       - v1
       - v2c
@@ -75459,6 +74870,7 @@ components:
     ssl_proxy_ciphers_catagory_enum:
       default: strong
       enum:
+      - ''
       - strong
       - medium
       - weak
@@ -75485,6 +74897,7 @@ components:
           readOnly: true
           type: string
         idp_cert:
+          default: null
           description: if `idp_type`==`saml`. IDP Cert (used to verify the signed
             response)
           type: string
@@ -75617,6 +75030,7 @@ components:
       default: saml
       description: 'enum: `ldap`, `mxedge_proxy`, `oauth`, `saml`'
       enum:
+      - ''
       - ldap
       - mxedge_proxy
       - oauth
@@ -75637,6 +75051,7 @@ components:
       description: 'if `idp_type`==`ldap`. enum: `azure`, `custom`, `google`, `okta`,
         `ping_identity`'
       enum:
+      - ''
       - azure
       - custom
       - google
@@ -75715,6 +75130,7 @@ components:
       default: email
       description: 'if `idp_type`==`saml`. enum: `email`, `unspecified`'
       enum:
+      - ''
       - email
       - unspecified
       type: string
@@ -75722,6 +75138,7 @@ components:
       default: azure
       description: 'enum: `azure`, `azure-gov`, `okta`, `ping_identity`'
       enum:
+      - ''
       - azure
       - azure-gov
       - okta
@@ -75868,6 +75285,7 @@ components:
       default: stable
       description: 'upgrade channel to follow. enum: `alpha`, `beta`, `stable`'
       enum:
+      - ''
       - alpha
       - beta
       - stable
@@ -75953,6 +75371,7 @@ components:
       description: "enum:\n  * `big_bang`: upgrade all at once\n  * `serial`: one\
         \ at a time"
       enum:
+      - ''
       - big_bang
       - serial
       type: string
@@ -75979,6 +75398,7 @@ components:
       default: all
       description: 'enum: `all`, `connected`, `disconnected`'
       enum:
+      - ''
       - all
       - connected
       - disconnected
@@ -78031,6 +77451,7 @@ components:
       description: 'enum: `established`, `established_with_session`, `idle`, `wait-ctrl-conn`,
         `wait-ctrl-reply`'
       enum:
+      - ''
       - established
       - established_with_session
       - idle
@@ -78656,6 +78077,7 @@ components:
       description: 'if `up`==`true` and has Authenticator role. enum: `authenticated`,
         `authenticating`, `held`, `init`'
       enum:
+      - ''
       - authenticated
       - authenticating
       - held
@@ -78664,6 +78086,7 @@ components:
     stats_switch_port_poe_mode:
       description: 'enum: `802.3af`, `802.3at`, `802.3bt`'
       enum:
+      - ''
       - 802.3af
       - 802.3at
       - 802.3bt
@@ -78671,12 +78094,14 @@ components:
     stats_switch_port_port_usage:
       description: 'gateway port usage. enum: `lan`'
       enum:
+      - ''
       - lan
       type: string
     stats_switch_port_stp_role:
       description: 'if `up`==`true`. enum: `alternate`, `backup`, `designated`, `root`,
         `root-prevented`'
       enum:
+      - ''
       - alternate
       - backup
       - designated
@@ -78687,6 +78112,7 @@ components:
       description: 'if `up`==`true`. enum: `blocking`, `disabled`, `forwarding`, `learning`,
         `listening`'
       enum:
+      - ''
       - blocking
       - disabled
       - forwarding
@@ -78696,6 +78122,7 @@ components:
     stats_switch_port_type:
       description: 'device type. enum: `ap`, `ble`, `gateway`, `mxedge`, `nac`, `switch`'
       enum:
+      - ''
       - ap
       - ble
       - gateway
@@ -78869,6 +78296,7 @@ components:
     stats_wan_tunnel_priority:
       description: 'enum: `primary`, `secondary`'
       enum:
+      - ''
       - primary
       - secondary
       type: string
@@ -79267,6 +78695,7 @@ components:
     stats_wrule_action:
       description: 'enum: `allow`, `block`'
       enum:
+      - ''
       - allow
       - block
       example: allow
@@ -79583,6 +79012,7 @@ components:
       default: site
       description: 'level of scope. enum: `org`, `site`'
       enum:
+      - ''
       - org
       - site
       type: string
@@ -79595,8 +79025,6 @@ components:
           $ref: '#/components/schemas/switch_matching_rules'
       type: object
     switch_matching_rule:
-      additionalProperties:
-        type: string
       description: 'property key define the type of matching, value is the string
         to match. e.g: `match_name[0:3]`, `match_name[2:6]`, `match_model`,  `match_model[0-6]`'
       example:
@@ -79608,6 +79036,13 @@ components:
         match_role:
           description: role to match
           example: access
+          type: string
+        match_type:
+          description: '''property key define the type of matching, value is the string
+            to match. e.g: `match_name[0:3]`, `match_name[2:6]`, `match_model`,  `match_model[0-6]`'
+          example: match_name[0:3]
+          type: string
+        match_value:
           type: string
         name:
           example: access_ex4300
@@ -79643,12 +79078,14 @@ components:
     switch_metric_scope:
       description: 'enum: `site`, `switch`'
       enum:
+      - ''
       - site
       - switch
       type: string
     switch_metric_type:
       description: 'enum: `active_ports_summary`'
       enum:
+      - ''
       - active_ports_summary
       type: string
     switch_metrics_active_ports_summary_details:
@@ -79708,6 +79145,8 @@ components:
           type: string
         mxedge_proxy_port:
           default: 2222
+          maximum: 65535
+          minimum: 1
           type: integer
         protect_re:
           $ref: '#/components/schemas/protect_re'
@@ -79987,6 +79426,7 @@ components:
       description: 'Only if `mode`!=`dynamic` if dot1x is desired, set to dot1x. enum:
         `dot1x`'
       enum:
+      - ''
       - dot1x
       nullable: true
       type: string
@@ -79995,6 +79435,7 @@ components:
       description: 'Only if `mode`!=`dynamic` link connection mode. enum: `auto`,
         `full`, `half`'
       enum:
+      - ''
       - auto
       - full
       - half
@@ -80005,6 +79446,7 @@ components:
         changed to the default port usage. enum: `link_down`, `none` (let the DPC
         port keep at the current port usage)'
       enum:
+      - ''
       - link_down
       - none
       example: link_down
@@ -80040,6 +79482,7 @@ components:
         `lldp_manufacturer_name`, `lldp_oui`, `lldp_serial_number`, `lldp_system_name`,
         `radius_dynamicfilter`, `radius_usermac`, `radius_username`'
       enum:
+      - ''
       - link_peermac
       - lldp_chassis_id
       - lldp_hardware_revision
@@ -80070,6 +79513,7 @@ components:
       description: 'Only if `mode`!=`dynamic` and `enable_mac_auth` ==`true`. This
         type is ignored if mist_nac is enabled. enum: `eap-md5`, `eap-peap`, `pap`'
       enum:
+      - ''
       - eap-md5
       - eap-peap
       - pap
@@ -80078,6 +79522,7 @@ components:
       description: '`mode`==`dynamic` must only be used with the port usage with the
         name `dynamic`. enum: `access`, `dynamic`, `inet`, `trunk`'
       enum:
+      - ''
       - access
       - dynamic
       - inet
@@ -80159,6 +79604,7 @@ components:
       default: rstp
       description: 'enum: `rstp`, `vstp`'
       enum:
+      - ''
       - rstp
       - vstp
       type: string
@@ -80187,6 +79633,7 @@ components:
       description: 'Both vc_role master and backup will be matched to routing-engine
         role in Junos preprovisioned VC config. enum: `backup`, `linecard`, `master`'
       enum:
+      - ''
       - backup
       - linecard
       - master
@@ -80327,6 +79774,7 @@ components:
     synthetictest_info_device_type:
       description: 'enum: `ap`, `gateway`, `switch`'
       enum:
+      - ''
       - ap
       - gateway
       - switch
@@ -80376,6 +79824,7 @@ components:
     synthetictest_type:
       description: 'enum: `arp`, `curl`, `dhcp`, `dhcp6`, `dns`, `radius`, `speedtest`'
       enum:
+      - ''
       - arp
       - curl
       - dhcp
@@ -80434,6 +79883,7 @@ components:
       default: none
       description: 'enum: `admin`, `helpdesk`, `none`, `read`'
       enum:
+      - ''
       - admin
       - helpdesk
       - none
@@ -80687,6 +80137,7 @@ components:
         \ as solved / considered by Mist (requester can update it, causing it to re-open;\
         \ or rate it)\n  * closed: ticket is archived and cannot be changed."
       enum:
+      - ''
       - closed
       - open
       - pending
@@ -80725,6 +80176,7 @@ components:
     troubleshoot_type:
       description: 'enum: `wan`, `wired`, `wireless`'
       enum:
+      - ''
       - wan
       - wired
       - wireless
@@ -80773,6 +80225,7 @@ components:
     tunnel_configs_auth_algo:
       description: 'enum: `md5`, `sha1`, `sha2`'
       enum:
+      - ''
       - md5
       - sha1
       - sha2
@@ -80806,6 +80259,7 @@ components:
       default: auto
       description: 'enum: `APAC`, `Americas`, `EMEA`, `auto`'
       enum:
+      - ''
       - APAC
       - Americas
       - EMEA
@@ -80818,6 +80272,7 @@ components:
         \  * 19 (256-bit ECP)\n  * 20 (384-bit ECP)\n  * 21 (521-bit ECP)\n  * 24\
         \ (2048-bit ECP)"
       enum:
+      - ''
       - '1'
       - '2'
       - '5'
@@ -80833,6 +80288,7 @@ components:
       default: aes256
       description: 'enum: `3des`, `aes128`, `aes256`, `aes_gcm128`, `aes_gcm256`'
       enum:
+      - ''
       - 3des
       - aes128
       - aes256
@@ -80877,6 +80333,7 @@ components:
       description: 'enum: `custom-ipsec`, `customer-gre`, `jse-ipsec`, `zscaler-gre`,
         `zscaler-ipsec`'
       enum:
+      - ''
       - custom-ipsec
       - customer-gre
       - jse-ipsec
@@ -80967,6 +80424,7 @@ components:
       default: wxtunnel
       description: 'enum: `wan`, `wxtunnel`'
       enum:
+      - ''
       - wan
       - wxtunnel
       type: string
@@ -80998,6 +80456,7 @@ components:
       default: relay
       description: 'enum: `relay`'
       enum:
+      - ''
       - relay
       type: string
     tunterm_monitoring:
@@ -81059,6 +80518,7 @@ components:
     tuntern_monitoring_protocol:
       description: 'enum: `arp`, `ping`, `tcp`'
       enum:
+      - ''
       - arp
       - ping
       - tcp
@@ -81342,6 +80802,7 @@ components:
     upgrade_info_status:
       description: 'enum: `error`, `inprogress`, `scheduled`, `starting`, `success`'
       enum:
+      - ''
       - error
       - inprogress
       - scheduled
@@ -81638,6 +81099,7 @@ components:
       description: "Used in rrm to determine whether to start upgrade from fringe\
         \ or center AP\u2019s. enum: `center_to_fringe`, `fringe_to_center`"
       enum:
+      - ''
       - center_to_fringe
       - fringe_to_center
       type: string
@@ -81663,6 +81125,7 @@ components:
       description: 'The selector to choose auto placement or auto orientation. enum:
         `orientation`, `placement`'
       enum:
+      - ''
       - orientation
       - placement
       type: string
@@ -81724,7 +81187,7 @@ components:
           example: VIP
           type: string
         vlan:
-          example: "30"
+          example: '30'
           type: string
       required:
       - mac
@@ -81852,6 +81315,7 @@ components:
       default: hard
       description: 'enum: `hard`, `in`, `out`, `soft`'
       enum:
+      - ''
       - hard
       - in
       - out
@@ -82098,6 +81562,7 @@ components:
       description: 'enum: `code-dumps`, `full`, `jma-logs`, `messages`, `outbound-ssh`,
         `process`, `var-logs`'
       enum:
+      - ''
       - code-dumps
       - full
       - jma-logs
@@ -82269,6 +81734,7 @@ components:
       default: bgp
       description: 'enum: `any`, `bgp`, `direct`, `evpn`, `ospf`, `static`'
       enum:
+      - ''
       - any
       - bgp
       - direct
@@ -82325,6 +81791,7 @@ components:
       default: udp
       description: 'enum: `udp`'
       enum:
+      - ''
       - udp
       type: string
     utils_tunterm_bounce_port:
@@ -82353,6 +81820,7 @@ components:
     var_source:
       description: 'enum: `deviceprofile`, `site`'
       enum:
+      - ''
       - deviceprofile
       - site
       type: string
@@ -82481,6 +81949,7 @@ components:
     virtual_chassis_config_member_vc_role:
       description: 'enum: `backup`, `linecard`, `master`'
       enum:
+      - ''
       - backup
       - linecard
       - master
@@ -82512,6 +81981,7 @@ components:
       description: 'Required if `op`==`add` or `op`==`preprovision`. enum: `backup`,
         `linecard`, `master`'
       enum:
+      - ''
       - backup
       - linecard
       - master
@@ -82535,6 +82005,7 @@ components:
     virtual_chassis_port_operation:
       description: 'enum: `delete`, `set`'
       enum:
+      - ''
       - delete
       - set
       minLength: 1
@@ -82560,6 +82031,7 @@ components:
     virtual_chassis_update_op:
       description: 'enum: `add`, `preprovision`, `remove`, `renumber`'
       enum:
+      - ''
       - add
       - preprovision
       - remove
@@ -82569,6 +82041,7 @@ components:
       default: site
       description: 'enum: `map`, `rssizone`, `site`, `zone`'
       enum:
+      - ''
       - map
       - rssizone
       - site
@@ -82623,6 +82096,7 @@ components:
       default: broadband
       description: 'enum: `broadband`, `lte`'
       enum:
+      - ''
       - broadband
       - lte
       type: string
@@ -82764,6 +82238,7 @@ components:
       default: md5
       description: 'enum: `md5`, `simple`'
       enum:
+      - ''
       - md5
       - simple
       example: md5
@@ -82806,6 +82281,7 @@ components:
     wan_tunnel_protocol:
       description: 'enum: `gre`, `ipsec`'
       enum:
+      - ''
       - gre
       - ipsec
       type: string
@@ -82841,6 +82317,7 @@ components:
       description: 'enum: `mac`, `path_type`, `peer_mac`, `peer_port_id`, `policy`,
         `port_id`, `tenant`'
       enum:
+      - ''
       - mac
       - path_type
       - peer_mac
@@ -82935,60 +82412,6 @@ components:
           description: when url uses HTTPS, whether to verify the certificate
           type: boolean
       type: object
-    webhook_alarm_event:
-      properties:
-        aps:
-          $ref: '#/components/schemas/webhook_alarm_event_aps'
-        bssids:
-          $ref: '#/components/schemas/webhook_alarm_event_bssids'
-        count:
-          description: If present, represents number of events of given type occurred
-            in current interval, default=1
-          readOnly: true
-          type: integer
-        event_id:
-          description: event id
-          format: uuid
-          readOnly: true
-          type: string
-        for_site:
-          readOnly: true
-          type: boolean
-        id:
-          format: uuid
-          readOnly: true
-          type: string
-        last_seen:
-          readOnly: true
-          type: number
-        node:
-          $ref: '#/components/schemas/ha_cluster_node_enum'
-        org_id:
-          $ref: '#/components/schemas/org_id'
-        site_id:
-          $ref: '#/components/schemas/site_id'
-        ssids:
-          $ref: '#/components/schemas/webhook_alarm_event_ssids'
-        timestamp:
-          readOnly: true
-          type: integer
-        type:
-          description: event type
-          readOnly: true
-          type: string
-        update:
-          description: If presents, represents that this is an update to event with
-            given id sent earlier. default=false
-          readOnly: true
-          type: boolean
-      required:
-      - id
-      - last_seen
-      - org_id
-      - site_id
-      - timestamp
-      - type
-      type: object
     webhook_alarm_event_aps:
       items:
         type: string
@@ -83004,452 +82427,12 @@ components:
         type: string
       readOnly: true
       type: array
-    webhook_alarms:
-      description: "**N.B.**: Fields like `aps`, `bssids`, `ssids` are event specific.\
-        \ They are relevant to this event type ( rogue-ap-detected). For a different\
-        \ event type, different fields may be sent. These don\u2019t contain all affected\
-        \ entities and are representative samples of entities (capped at 10). For\
-        \ marvis action related events, we expose `details` to include more event\
-        \ specific details.\n\nEvents specific fields for other alarm event type can\
-        \ be found with API https://api.mist.com/api/v1/const/alarm_defs, under \u201C\
-        fields\u201D array of /alarm_defs response object."
-      properties:
-        events:
-          $ref: '#/components/schemas/webhook_alarms_events'
-        topic:
-          default: alarms
-          description: topic subscribed to
-          type: string
-      required:
-      - events
-      - topic
-      type: object
-    webhook_alarms_events:
-      description: list of events
-      items:
-        $ref: '#/components/schemas/webhook_alarm_event'
-      minItems: 1
-      type: array
-      uniqueItems: true
-    webhook_asset_raw:
-      description: asset raw webhook sample
-      properties:
-        events:
-          $ref: '#/components/schemas/webhook_asset_raw_events'
-        topic:
-          default: asset-raw
-          description: topic subscribed to
-          type: string
-      required:
-      - events
-      - topic
-      type: object
-    webhook_asset_raw_event:
-      properties:
-        asset_id:
-          description: asset id
-          format: uuid
-          type: string
-        beam:
-          description: antenna index, from 1-8, clock-wise starting from the LED
-          type: integer
-        device_id:
-          description: device where the asset reading is from
-          format: uuid
-          type: string
-        ibeacon_major:
-          description: iBeacon major
-          type: integer
-        ibeacon_minor:
-          description: iBeacon minor
-          type: integer
-        ibeacon_uuid:
-          description: iBeacon UUID
-          format: uuid
-          type: string
-        mac:
-          description: MAC of the beacon
-          type: string
-        map_id:
-          description: map id
-          format: uuid
-          type: string
-        mfg_company_id:
-          description: optional, BLE manufacturing company ID
-          type: number
-        mfg_data:
-          description: "optional, BLE manufacturing data in hex byte-string format\
-            \ (ie: \u201C112233AABBCC\u201D)"
-          type: string
-        rssi:
-          description: signal strength
-          type: number
-        service_data_data:
-          description: optional, data from service data
-          type: string
-        service_data_last_rx_time:
-          description: optional, last data transmit time from service data
-          type: integer
-        service_data_rx_cnt:
-          description: optional, data transmit count from service data
-          type: integer
-        service_data_uuid:
-          description: optional, UUID from service data
-          format: uuid
-          type: string
-        service_packets:
-          $ref: '#/components/schemas/service_packets'
-        site_id:
-          $ref: '#/components/schemas/site_id'
-        timestamp:
-          type: number
-      required:
-      - asset_id
-      - beam
-      - device_id
-      - mac
-      - map_id
-      - mfg_company_id
-      - mfg_data
-      - rssi
-      - site_id
-      - timestamp
-      type: object
-    webhook_asset_raw_events:
-      description: list of events
-      items:
-        $ref: '#/components/schemas/webhook_asset_raw_event'
-      minItems: 1
-      type: array
-      uniqueItems: true
-    webhook_audit_event:
-      properties:
-        admin_name:
-          type: string
-        device_id:
-          format: uuid
-          type: string
-        id:
-          format: uuid
-          type: string
-        message:
-          type: string
-        org_id:
-          $ref: '#/components/schemas/org_id'
-        site_id:
-          $ref: '#/components/schemas/site_id'
-        src_ip:
-          type: string
-        timestamp:
-          type: number
-      required:
-      - admin_name
-      - device_id
-      - id
-      - message
-      - org_id
-      - site_id
-      - src_ip
-      - timestamp
-      type: object
-    webhook_audits:
-      description: audit webhook sample
-      properties:
-        events:
-          $ref: '#/components/schemas/webhook_audits_events'
-        topic:
-          default: audits
-          type: string
-      required:
-      - events
-      - topic
-      type: object
-    webhook_audits_events:
-      items:
-        $ref: '#/components/schemas/webhook_audit_event'
-      minItems: 1
-      type: array
-      uniqueItems: true
-    webhook_client_info:
-      properties:
-        events:
-          $ref: '#/components/schemas/webhook_client_info_events'
-        topic:
-          $ref: '#/components/schemas/webhook_client_info_topic'
-      type: object
-    webhook_client_info_event:
-      properties:
-        hostname:
-          description: Hostname of client
-          example: ervice.company.net
-          type: string
-        ip:
-          description: IP address of client
-          type: string
-        mac:
-          description: "the client\u2019s mac"
-          type: string
-        org_id:
-          $ref: '#/components/schemas/org_id'
-        site_id:
-          $ref: '#/components/schemas/site_id'
-        timestamp:
-          description: time at which IP address was assigned E.g. 1703003956
-          type: number
-      type: object
-    webhook_client_info_events:
-      items:
-        $ref: '#/components/schemas/webhook_client_info_event'
-      type: array
     webhook_client_info_topic:
       description: 'enum: `client-info`'
       enum:
+      - ''
       - client-info
       type: string
-    webhook_client_join:
-      description: client join webhook sample
-      properties:
-        events:
-          $ref: '#/components/schemas/webhook_client_join_events'
-        topic:
-          default: client-join
-          type: string
-      required:
-      - events
-      - topic
-      type: object
-    webhook_client_join_event:
-      properties:
-        ap:
-          description: mac address of the AP the client connected to
-          type: string
-        ap_name:
-          description: user-friendly name of the AP the client connected to.
-          type: string
-        band:
-          description: 5GHz or 2.4GHz band
-          type: string
-        bssid:
-          type: string
-        connect:
-          description: time when the user connects
-          type: integer
-        connect_float:
-          description: floating point connect timestamp with millisecond precision
-          type: number
-        mac:
-          description: "the client\u2019s mac"
-          type: string
-        org_id:
-          $ref: '#/components/schemas/org_id'
-        rssi:
-          description: RSSI when the client associated
-          type: number
-        site_id:
-          $ref: '#/components/schemas/site_id'
-        site_name:
-          type: string
-        ssid:
-          description: ESSID
-          type: string
-        timestamp:
-          type: number
-        version:
-          description: schema version of this message
-          type: number
-        wlan_id:
-          format: uuid
-          type: string
-      required:
-      - ap
-      - ap_name
-      - band
-      - bssid
-      - connect
-      - connect_float
-      - mac
-      - org_id
-      - rssi
-      - site_id
-      - site_name
-      - ssid
-      - timestamp
-      - version
-      - wlan_id
-      type: object
-    webhook_client_join_events:
-      items:
-        $ref: '#/components/schemas/webhook_client_join_event'
-      minItems: 1
-      type: array
-      uniqueItems: true
-    webhook_client_latency:
-      properties:
-        events:
-          $ref: '#/components/schemas/webhook_client_latency_events'
-        topic:
-          example: client-latency
-          type: string
-      type: object
-    webhook_client_latency_event:
-      properties:
-        avg_auth:
-          example: 0.17170219
-          type: number
-        avg_dhcp:
-          example: 0.017828934
-          type: number
-        avg_dns:
-          example: 0.024532124
-          type: number
-        max_auth:
-          example: 0.18170219
-          type: number
-        max_dhcp:
-          example: 0.027828934
-          type: number
-        max_dns:
-          example: 0.022532124
-          type: number
-        min_auth:
-          example: 0.16050219
-          type: number
-        min_dhcp:
-          example: 0.015828934
-          type: number
-        min_dns:
-          example: 0.029532124
-          type: number
-        org_id:
-          $ref: '#/components/schemas/org_id'
-        site_id:
-          $ref: '#/components/schemas/site_id'
-        timestamp:
-          example: 1696401600
-          type: integer
-      type: object
-    webhook_client_latency_events:
-      items:
-        $ref: '#/components/schemas/webhook_client_latency_event'
-      type: array
-    webhook_client_sessions:
-      description: client session webhook sample
-      properties:
-        events:
-          $ref: '#/components/schemas/webhook_client_sessions_events'
-        topic:
-          default: client-sessions
-          type: string
-      required:
-      - events
-      - topic
-      type: object
-    webhook_client_sessions_event:
-      properties:
-        ap:
-          description: mac address of the AP the client roamed or disconnected from
-          type: string
-        ap_name:
-          description: user-friendly name of the AP the client roamed or disconnected
-            from.
-          type: string
-        band:
-          description: 5GHz or 2.4GHz band
-          type: string
-        bssid:
-          type: string
-        client_family:
-          description: "device family E.g. \u201CMac\u201D, \u201CiPhone\u201D, \u201C\
-            Apple watch\u201D"
-          type: string
-        client_manufacture:
-          description: "device manufacturer E.g. \u201CApple\u201D"
-          type: string
-        client_model:
-          description: "device model E.g. \u201C8+\u201D, \u201CXS\u201D"
-          type: string
-        client_os:
-          description: "device operating system E.g. \u201CMojave\u201D, \u201CWindows\
-            \ 10\u201D, \u201CLinux\u201D"
-          type: string
-        connect:
-          description: time when the user connects
-          type: integer
-        connect_float:
-          description: floating point connect timestamp with millisecond precision
-          type: number
-        disconnect:
-          description: time when the user disconnects
-          type: integer
-        disconnect_float:
-          description: floating point disconnect timestamp with millisecond precision
-          type: number
-        duration:
-          description: the duration of the roamed or complete session indicated by
-            termination_reason field.
-          type: integer
-        mac:
-          description: "the client\u2019s mac"
-          type: string
-        next_ap:
-          description: the AP the client has roamed to.
-          type: string
-        org_id:
-          $ref: '#/components/schemas/org_id'
-        rssi:
-          description: latest average RSSI before the user disconnects
-          type: number
-        site_id:
-          $ref: '#/components/schemas/site_id'
-        site_name:
-          type: string
-        ssid:
-          type: string
-        termination_reason:
-          description: 1 disassociate - when the client disassociates. 2 inactive
-            - when the client is timeout. 3 roamed - when the client is roamed between
-            APs
-          type: integer
-        timestamp:
-          type: number
-        version:
-          description: schema version of this message
-          type: number
-        wlan_id:
-          format: uuid
-          type: string
-      required:
-      - ap
-      - ap_name
-      - band
-      - bssid
-      - client_family
-      - client_manufacture
-      - client_model
-      - client_os
-      - connect
-      - connect_float
-      - disconnect
-      - disconnect_float
-      - duration
-      - mac
-      - next_ap
-      - org_id
-      - rssi
-      - site_id
-      - site_name
-      - ssid
-      - termination_reason
-      - timestamp
-      - version
-      - wlan_id
-      type: object
-    webhook_client_sessions_events:
-      items:
-        $ref: '#/components/schemas/webhook_client_sessions_event'
-      minItems: 1
-      type: array
-      uniqueItems: true
     webhook_delivery:
       properties:
         error:
@@ -83511,6 +82494,7 @@ components:
     webhook_delivery_distinct:
       description: 'webhook topic. enum: `status`, `status_code`, `topic`, `webhook_id`'
       enum:
+      - ''
       - status
       - status_code
       - topic
@@ -83520,6 +82504,7 @@ components:
     webhook_delivery_status:
       description: 'webhook delivery status. enum: `failure`, `success`'
       enum:
+      - ''
       - failure
       - success
       example: failure
@@ -83528,6 +82513,7 @@ components:
       description: 'webhook topic. enum: `alarms`, `audits`, `device-updowns`, `occupancy-alerts`,
         `ping`'
       enum:
+      - ''
       - alarms
       - audits
       - device-updowns
@@ -83535,73 +82521,10 @@ components:
       - ping
       example: audits
       type: string
-    webhook_device_events:
-      description: device event webhook sample
-      properties:
-        events:
-          $ref: '#/components/schemas/webhook_device_events_events'
-        topic:
-          default: device_events
-          description: topic subscribed to
-          type: string
-      required:
-      - events
-      - topic
-      type: object
-    webhook_device_events_event:
-      properties:
-        ap:
-          description: (will be deprecated soon; please use mac instead) ap mac
-          type: string
-        ap_name:
-          description: (will be deprecated soon; please use device_name instead) ap
-            name
-          type: string
-        audit_id:
-          description: (optional) audit id
-          format: uuid
-          type: string
-        device_name:
-          description: device name
-          type: string
-        device_type:
-          $ref: '#/components/schemas/webhook_device_events_event_device_type'
-        ev_type:
-          $ref: '#/components/schemas/webhook_device_events_event_ev_type'
-        mac:
-          description: device mac
-          type: string
-        org_id:
-          $ref: '#/components/schemas/org_id'
-        reason:
-          description: (optional) event reason
-          type: string
-        site_id:
-          $ref: '#/components/schemas/site_id'
-        site_name:
-          description: site name
-          type: string
-        text:
-          description: (optional) event description
-          type: string
-        timestamp:
-          description: time the event occurred e.g. 1565987313
-          type: integer
-        type:
-          description: event type
-          type: string
-      required:
-      - device_name
-      - device_type
-      - ev_type
-      - mac
-      - org_id
-      - timestamp
-      - type
-      type: object
     webhook_device_events_event_device_type:
       description: 'enum: `ap`, `gateway`, `switch`'
       enum:
+      - ''
       - ap
       - gateway
       - switch
@@ -83609,685 +82532,14 @@ components:
     webhook_device_events_event_ev_type:
       description: '(optional) event advisory. enum: `notice`, `warn`'
       enum:
+      - ''
       - notice
       - warn
       type: string
-    webhook_device_events_events:
-      description: list of events
-      items:
-        $ref: '#/components/schemas/webhook_device_events_event'
-      minItems: 1
-      type: array
-      uniqueItems: true
-    webhook_device_updowns:
-      description: device up/down webhook sample
-      properties:
-        events:
-          $ref: '#/components/schemas/webhook_device_updowns_events'
-        topic:
-          default: device-updowns
-          type: string
-      required:
-      - events
-      - topic
-      type: object
-    webhook_device_updowns_event:
-      properties:
-        ap:
-          readOnly: true
-          type: string
-        ap_name:
-          readOnly: true
-          type: string
-        for_site:
-          readOnly: true
-          type: boolean
-        org_id:
-          $ref: '#/components/schemas/org_id'
-        site_id:
-          $ref: '#/components/schemas/site_id'
-        site_name:
-          readOnly: true
-          type: string
-        timestamp:
-          type: number
-        type:
-          readOnly: true
-          type: string
-      required:
-      - ap
-      - ap_name
-      - org_id
-      - site_id
-      - site_name
-      - timestamp
-      - type
-      type: object
-    webhook_device_updowns_events:
-      items:
-        $ref: '#/components/schemas/webhook_device_updowns_event'
-      minItems: 1
-      type: array
-      uniqueItems: true
-    webhook_discovered_raw_rssi:
-      properties:
-        events:
-          $ref: '#/components/schemas/webhook_discovered_raw_rssi_events'
-        topic:
-          type: string
-      required:
-      - topic
-      type: object
-    webhook_discovered_raw_rssi_event:
-      properties:
-        ap_loc:
-          $ref: '#/components/schemas/webhook_discovered_raw_rssi_event_ap_loc'
-        beam:
-          description: antenna index, from 1-8, clock-wise starting from the LED
-          type: integer
-        device_id:
-          description: device id of the reporting AP
-          format: uuid
-          type: string
-        ibeacon_major:
-          type: integer
-        ibeacon_minor:
-          type: integer
-        ibeacon_uuid:
-          format: uuid
-          type: string
-        is_asset:
-          type: boolean
-        mac:
-          description: MAC of the asset/ beacon
-          type: string
-        map_id:
-          format: uuid
-          type: string
-        mfg_company_id:
-          description: BLE manufacturing company ID
-          type: string
-        mfg_data:
-          description: "BLE manufacturing data in hex byte-string format (ie: \u201C\
-            112233AABBCC\u201D)"
-          type: string
-        org_id:
-          $ref: '#/components/schemas/org_id'
-        rssi:
-          description: signal strength
-          type: number
-        service_packets:
-          $ref: '#/components/schemas/service_packets'
-        site_id:
-          $ref: '#/components/schemas/site_id'
-        timestamp:
-          type: integer
-      required:
-      - beam
-      - device_id
-      - mac
-      - map_id
-      - org_id
-      - rssi
-      - site_id
-      type: object
-    webhook_discovered_raw_rssi_event_ap_loc:
-      description: coordinates (if any) of reporting AP (updated once in 60s per client)
-      items:
-        type: number
-      type: array
-    webhook_discovered_raw_rssi_events:
-      items:
-        $ref: '#/components/schemas/webhook_discovered_raw_rssi_event'
-      type: array
-    webhook_location:
-      description: location webhook sample
-      properties:
-        events:
-          $ref: '#/components/schemas/webhook_location_events'
-        topic:
-          default: location
-          description: topic subscribed to
-          type: string
-      required:
-      - events
-      - topic
-      type: object
-    webhook_location_asset:
-      description: Location Asset sample
-      properties:
-        events:
-          $ref: '#/components/schemas/webhook_location_asset_events'
-        topic:
-          default: location_asset
-          description: topic subscribed to
-          type: string
-      required:
-      - events
-      - topic
-      type: object
-    webhook_location_asset_event:
-      properties:
-        battery_voltage:
-          example: 3370
-          type: integer
-        eddystone_uid_instance:
-          example: 5c5b35000001
-          type: string
-        eddystone_uid_namespace:
-          example: 2818e3868dec25629ede
-          type: string
-        eddystone_url_url:
-          example: https://www.abc.com
-          type: string
-        ibeacon_major:
-          example: 13
-          type: integer
-        ibeacon_minor:
-          example: 138
-          type: integer
-        ibeacon_uuid:
-          example: f3f17139-704a-f03a-2786-0400279e37c3
-          format: uuid
-          type: string
-        mac:
-          example: 7fc2936fd243
-          type: string
-        map_id:
-          example: 845a23bf-bed9-e43c-4c86-6fa474be7ae5
-          format: uuid
-          type: string
-        mfg_company_id:
-          description: optional, BLE manufacturing company ID
-          example: 935
-          type: integer
-        mfg_data:
-          description: "optional, BLE manufacturing data in hex byte-string format\
-            \ (ie: \u201C112233AABBCC\u201D)"
-          example: 648520a1020000
-          type: string
-        site_id:
-          example: 4ac1dcf4-9d8b-7211-65c4-057819f0862b
-          format: uuid
-          type: string
-        timestamp:
-          example: 1461220784
-          type: integer
-        type:
-          default: asset
-          type: string
-        x:
-          description: x, in meter
-          example: 13.5
-          format: double
-          type: number
-        y:
-          description: y, in meter
-          example: 3.2
-          format: double
-          type: number
-      type: object
-    webhook_location_asset_events:
-      description: list of events
-      items:
-        $ref: '#/components/schemas/webhook_location_asset_event'
-      type: array
-    webhook_location_centrak:
-      description: location webhook sample
-      properties:
-        events:
-          $ref: '#/components/schemas/webhook_location_centrak_events'
-        topic:
-          default: location
-          description: topic subscribed to
-          type: string
-      required:
-      - events
-      - topic
-      type: object
-    webhook_location_centrak_event:
-      properties:
-        map_id:
-          description: map id
-          type: string
-        mfg_company_id:
-          description: optional, BLE manufacturing company ID
-          type: integer
-        mfg_data:
-          description: "optional, BLE manufacturing data in hex byte-string format\
-            \ (i.e. \u201C112233AABBCC\u201D)"
-          type: string
-        timestamp:
-          description: timestamp of the event, epoch
-          type: integer
-        wifi_beacon_extended_info:
-          $ref: '#/components/schemas/wifi_beacon_extended_info'
-        x:
-          description: x, in meter
-          format: double
-          type: number
-        y:
-          description: y, in meter
-          format: double
-          type: number
-      type: object
-    webhook_location_centrak_events:
-      description: list of events
-      items:
-        $ref: '#/components/schemas/webhook_location_centrak_event'
-      minItems: 1
-      type: array
-      uniqueItems: true
-    webhook_location_client:
-      description: Location Client sample
-      properties:
-        events:
-          $ref: '#/components/schemas/webhook_location_client_events'
-        topic:
-          default: location_client
-          description: topic subscribed to
-          type: string
-      required:
-      - events
-      - topic
-      type: object
-    webhook_location_client_event:
-      properties:
-        mac:
-          example: 5684dae9ac8b
-          type: string
-        map_id:
-          example: 845a23bf-bed9-e43c-4c86-6fa474be7ae5
-          format: uuid
-          type: string
-        site_id:
-          example: 4ac1dcf4-9d8b-7211-65c4-057819f0862b
-          format: uuid
-          type: string
-        timestamp:
-          example: 1461220784
-          type: integer
-        type:
-          default: wifi
-          type: string
-        wifi_beacon_extended_info:
-          $ref: '#/components/schemas/wifi_beacon_extended_info'
-        x:
-          description: x, in meter
-          example: 13.5
-          format: double
-          type: number
-        y:
-          description: y, in meter
-          example: 3.2
-          format: double
-          type: number
-      type: object
-    webhook_location_client_events:
-      description: list of events
-      items:
-        $ref: '#/components/schemas/webhook_location_client_event'
-      type: array
-    webhook_location_event:
-      properties:
-        battery_voltage:
-          type: integer
-        eddystone_uid_instance:
-          type: string
-        eddystone_uid_namespace:
-          type: string
-        eddystone_url_url:
-          type: string
-        ibeacon_major:
-          type: integer
-        ibeacon_minor:
-          type: integer
-        ibeacon_uuid:
-          format: uuid
-          type: string
-        id:
-          description: unique id of the client (a client would have different id for
-            different org)
-          format: uuid
-          type: string
-        mac:
-          type: string
-        map_id:
-          description: map id
-          format: uuid
-          type: string
-        mfg_company_id:
-          description: optional, BLE manufacturing company ID
-          type: integer
-        mfg_data:
-          description: optional, BLE manufacturing data in hex byte-string format
-            (ie "112233AABBCC")
-          type: string
-        name:
-          description: name of the client, may be empty
-          type: string
-        site_id:
-          $ref: '#/components/schemas/site_id'
-        timestamp:
-          description: timestamp of the event, epoch
-          type: integer
-        type:
-          type: string
-        wifi_beacon_extended_info:
-          $ref: '#/components/schemas/wifi_beacon_extended_info'
-        x:
-          description: x, in meter
-          format: double
-          type: number
-        y:
-          description: y, in meter
-          format: double
-          type: number
-      required:
-      - id
-      - map_id
-      - site_id
-      - timestamp
-      - type
-      - x
-      - y
-      type: object
-    webhook_location_events:
-      description: list of events
-      items:
-        $ref: '#/components/schemas/webhook_location_event'
-      minItems: 1
-      type: array
-      uniqueItems: true
-    webhook_location_sdk:
-      description: Location SDK sample
-      properties:
-        events:
-          $ref: '#/components/schemas/webhook_location_sdk_events'
-        topic:
-          default: location_sdk
-          description: topic subscribed to
-          type: string
-      required:
-      - events
-      - topic
-      type: object
-    webhook_location_sdk_event:
-      properties:
-        id:
-          example: de87bf9d-183f-e383-cc68-6ba43947d403
-          format: uuid
-          type: string
-        map_id:
-          example: 845a23bf-bed9-e43c-4c86-6fa474be7ae5
-          format: uuid
-          type: string
-        name:
-          example: optional
-          type: string
-        site_id:
-          example: 4ac1dcf4-9d8b-7211-65c4-057819f0862b
-          format: uuid
-          type: string
-        timestamp:
-          example: 1461220784
-          type: integer
-        type:
-          default: sdk
-          type: string
-        x:
-          description: x, in meter
-          example: 13.5
-          format: double
-          type: number
-        y:
-          description: y, in meter
-          example: 3.2
-          format: double
-          type: number
-      type: object
-    webhook_location_sdk_events:
-      description: list of events
-      items:
-        $ref: '#/components/schemas/webhook_location_sdk_event'
-      type: array
-    webhook_location_unclient:
-      description: Location Unconnected Client sample
-      properties:
-        events:
-          $ref: '#/components/schemas/webhook_location_unclient_events'
-        topic:
-          default: location_unclient
-          description: topic subscribed to
-          type: string
-      required:
-      - events
-      - topic
-      type: object
-    webhook_location_unclient_event:
-      properties:
-        mac:
-          example: 5684dae9ac8b
-          type: string
-        map_id:
-          example: 845a23bf-bed9-e43c-4c86-6fa474be7ae5
-          format: uuid
-          type: string
-        site_id:
-          example: 4ac1dcf4-9d8b-7211-65c4-057819f0862b
-          format: uuid
-          type: string
-        timestamp:
-          example: 1461220784
-          type: integer
-        type:
-          default: wifi
-          type: string
-        wifi_beacon_extended_info:
-          $ref: '#/components/schemas/wifi_beacon_extended_info'
-        x:
-          description: x, in meter
-          example: 13.5
-          format: double
-          type: number
-        y:
-          description: y, in meter
-          example: 3.2
-          format: double
-          type: number
-      type: object
-    webhook_location_unclient_events:
-      description: list of events
-      items:
-        $ref: '#/components/schemas/webhook_location_unclient_event'
-      type: array
-    webhook_nac_accounting:
-      description: nac-accounting webhook sample
-      properties:
-        events:
-          $ref: '#/components/schemas/webhook_nac_accounting_events'
-        topic:
-          default: nac-accounting
-          type: string
-      type: object
-    webhook_nac_accounting_event:
-      properties:
-        ap:
-          description: mac address of the AP the client roamed or disconnected from
-          example: 5c5b355005be
-          type: string
-        auth_type:
-          description: radius authentication type
-          example: eap-tls
-          type: string
-        bssid:
-          description: "it\u2019s the MAC physical address of the access point"
-          example: 5c5b35546bb4
-          type: string
-        client_ip:
-          description: IP Address of client
-          example: 172.16.87.4
-          type: string
-        client_type:
-          description: "client type E.g. \u201Cwired\u201D, \u201Cwireless\u201D,\
-            \ \u201Cvty\u201D"
-          example: wireless
-          type: string
-        mac:
-          description: "the client\u2019s mac"
-          example: 6e795836d5f9
-          type: string
-        nas_vendor:
-          description: "NAS Device vendor name E.g. \u201CJuniper\u201D, \u201CCisco\u201D"
-          example: juniper-mist
-          type: string
-        org_id:
-          $ref: '#/components/schemas/org_id'
-        rx_pkts:
-          description: number of packets received
-          example: 9523
-          type: integer
-        site_id:
-          $ref: '#/components/schemas/site_id'
-        ssid:
-          description: ESSID
-          example: Test-CMR SSID
-          type: string
-        timestamp:
-          description: sampling time (in epoch)
-          example: 1547235620.89
-          type: number
-        tx_pkts:
-          description: number of packets sent
-          example: 5233
-          type: integer
-        type:
-          description: "type of event. E.g. \u201CACCOUNTING_START\u201D, \u201CACCOUNTING_UPDATE\u201D\
-            , \u201CACCOUNTING_STOP\u201D"
-          example: NAC_ACCOUNTING_STOP
-          type: string
-        username:
-          description: username authenticated with
-          example: hi
-          type: string
-      type: object
-    webhook_nac_accounting_events:
-      items:
-        $ref: '#/components/schemas/webhook_nac_accounting_event'
-      type: array
-    webhook_nac_events:
-      properties:
-        events:
-          $ref: '#/components/schemas/webhook_nac_events_events'
-        topic:
-          default: nac_events
-          type: string
-      type: object
-    webhook_nac_events_event:
-      properties:
-        ap:
-          description: random mac
-          example: 5c5b35513227
-          type: string
-        auth_type:
-          description: authentication type, e.g. "eap-tls", "peap-tls", "eap-ttls",
-            "eap-teap", "mab", "psk", "device-auth"
-          example: 802.1X
-          type: string
-        bssid:
-          description: BSSID
-          example: 5c5b355fafcc
-          type: string
-        dryrun_nacrule_id:
-          description: NAC Policy Dry Run Rule ID, if present and matched
-          example: 32f27e7d-ff26-4a9b-b3d1-ff9bcb264012
-          format: uuid
-          type: string
-        dryrun_nacrule_matched:
-          description: True - if dryrun rule present and matched with priority, False
-            - if not matched or not present
-          type: boolean
-        idp_id:
-          description: SSO ID, if present and used
-          example: 912ef72e-2239-4996-b81e-469e87a27cd6
-          format: uuid
-          type: string
-        idp_role:
-          $ref: '#/components/schemas/webhook_nac_events_event_idp_role'
-        mac:
-          description: MAC address
-          example: ac3eb179e535
-          type: string
-        nacrule_id:
-          description: NAC Policy Rule ID, if matched
-          example: 32f27e7d-ff26-4a9b-b3d1-ff9bcb264c62
-          format: uuid
-          type: string
-        nacrule_matched:
-          description: NAC Policy Rule Matched
-          type: boolean
-        nas_vendor:
-          description: vendor of NAS device
-          example: juniper-mist
-          type: string
-        org_id:
-          $ref: '#/components/schemas/org_id'
-        random_mac:
-          description: AP MAC
-          type: boolean
-        resp_attrs:
-          $ref: '#/components/schemas/webhook_nac_events_event_resp_attrs'
-        site_id:
-          description: site id if assigned, null if not assigned
-          example: 441a1214-6928-442a-8e92-e1d34b8ec6a6
-          format: uuid
-          type: string
-        ssid:
-          description: SSID
-          example: '##mist_nac'
-          type: string
-        timestamp:
-          description: start time, in epoch
-          example: 1691512031.358188
-          type: number
-        type:
-          description: event type, e.g. NAC_CLIENT_PERMIT
-          example: NAC_CLIENT_PERMIT
-          type: string
-        username:
-          description: Username presented by the client
-          example: user@deaflyz.net
-          type: string
-        vlan:
-          description: Vlan ID
-          example: '750'
-          type: string
-      type: object
-    webhook_nac_events_event_idp_role:
-      description: IDP returned roles/groups for the user
-      example:
-      - itsuperusers
-      - vip
-      items:
-        type: string
-      type: array
-    webhook_nac_events_event_resp_attrs:
-      description: Radius attributes returned by NAC to NAS Devive
-      example:
-      - Tunnel-Type=VLAN
-      - Tunnel-Medium-Type=IEEE-802
-      - Tunnel-Private-Group-Id=750
-      - User-Name=anonymous
-      items:
-        type: string
-      type: array
-    webhook_nac_events_events:
-      items:
-        $ref: '#/components/schemas/webhook_nac_events_event'
-      type: array
     webhook_oauth2_grant_type:
       description: 'required when `type`==`oauth2`. enum: `client_credentials`, `password`'
       enum:
+      - ''
       - client_credentials
       - password
       type: string
@@ -84297,270 +82549,15 @@ components:
       items:
         type: string
       type: array
-    webhook_occupancy_alert_type:
-      description: 'enum: `COMPLIANCE-OK`, `COMPLIANCE-VIOLATION`'
-      enum:
-      - COMPLIANCE-OK
-      - COMPLIANCE-VIOLATION
-      type: string
-    webhook_occupancy_alerts:
-      description: occupancy alert webhook sample
-      properties:
-        events:
-          $ref: '#/components/schemas/webhook_occupancy_alerts_events'
-        topic:
-          default: occupancy-alerts
-          type: string
-      required:
-      - events
-      - topic
-      type: object
-    webhook_occupancy_alerts_event:
-      properties:
-        alert_events:
-          $ref: '#/components/schemas/webhook_occupancy_alerts_event_alert_events'
-        for_site:
-          readOnly: true
-          type: boolean
-        site_id:
-          $ref: '#/components/schemas/site_id'
-        site_name:
-          readOnly: true
-          type: string
-      required:
-      - site_id
-      - site_name
-      type: object
-    webhook_occupancy_alerts_event_alert_events:
-      description: list of occupancy alerts for non-compliance zones within the site
-        detected around the same time
-      items:
-        $ref: '#/components/schemas/webhook_occupancy_alerts_event_alert_events_items'
-      minItems: 1
-      readOnly: true
-      type: array
-      uniqueItems: true
-    webhook_occupancy_alerts_event_alert_events_items:
-      properties:
-        current_occupancy:
-          type: integer
-        map_id:
-          format: uuid
-          type: string
-        occupancy_limit:
-          type: integer
-        org_id:
-          example: 52b50564-8821-4c3e-97be-5061c7760002
-          format: uuid
-          type: string
-        timestamp:
-          type: number
-        type:
-          $ref: '#/components/schemas/webhook_occupancy_alert_type'
-        zone_id:
-          format: uuid
-          type: string
-        zone_name:
-          type: string
-      required:
-      - current_occupancy
-      - map_id
-      - occupancy_limit
-      - org_id
-      - timestamp
-      - type
-      - zone_id
-      - zone_name
-      type: object
-    webhook_occupancy_alerts_events:
-      items:
-        $ref: '#/components/schemas/webhook_occupancy_alerts_event'
-      minItems: 1
-      type: array
-      uniqueItems: true
-    webhook_ping:
-      description: ping webhook
-      properties:
-        events:
-          $ref: '#/components/schemas/webhook_ping_events'
-        topic:
-          default: ping
-          type: string
-      required:
-      - events
-      - topic
-      type: object
-    webhook_ping_event:
-      properties:
-        id:
-          format: uuid
-          type: string
-        name:
-          type: string
-        site_id:
-          example: 43e9c864-a7e4-4310-8031-d9817d2c5a43
-          format: uuid
-          type: string
-        timestamp:
-          type: number
-      required:
-      - id
-      - name
-      - site_id
-      - timestamp
-      type: object
-    webhook_ping_events:
-      items:
-        $ref: '#/components/schemas/webhook_ping_event'
-      minItems: 1
-      type: array
-      uniqueItems: true
-    webhook_sdkclient_scan_data:
-      properties:
-        events:
-          $ref: '#/components/schemas/webhook_sdkclient_scan_data_events'
-        topic:
-          $ref: '#/components/schemas/webhook_sdkclient_scan_data_topic'
-      required:
-      - topic
-      - events
-      type: object
-    webhook_sdkclient_scan_data_event:
-      properties:
-        connection_ap:
-          description: mac address of the AP the client is connected to
-          type: string
-        connection_band:
-          description: 5GHz or 2.4GHz band, of the BSSID the client is connected to
-          type: string
-        connection_bssid:
-          description: BSSID of the AP the client is connected to
-          type: string
-        connection_channel:
-          description: channel of the band the client is connected to
-          type: integer
-        connection_rssi:
-          description: "RSSI of the client\u2019s connection to the AP/BSSID"
-          type: number
-        last_seen:
-          description: time client last seen with scan data
-          type: number
-        mac:
-          description: "the client\u2019s mac"
-          type: string
-        scan_data:
-          $ref: '#/components/schemas/webhook_sdkclient_scan_data_event_scan_data'
-        site_id:
-          example: 3e9c864-a7e4-4310-8031-d9817d2c5a43
-          format: uuid
-          type: string
-      required:
-      - connection_ap
-      - connection_band
-      - connection_channel
-      - connection_bssid
-      - mac
-      - connection_rssi
-      - site_id
-      - last_seen
-      type: object
-    webhook_sdkclient_scan_data_event_scan_data:
-      items:
-        $ref: '#/components/schemas/webhook_sdkclient_scan_data_event_scan_data_item'
-      minItems: 1
-      type: array
-      uniqueItems: true
-    webhook_sdkclient_scan_data_event_scan_data_item:
-      properties:
-        ap:
-          description: mac address of the AP associated with the BSSID scanned
-          type: string
-        band:
-          $ref: '#/components/schemas/scan_data_item_band'
-        bssid:
-          description: "BSSID found during client\u2019s background scan for wifi"
-          type: string
-        channel:
-          description: channel of the band found in the scan
-          type: integer
-        rssi:
-          description: "client\u2019s RSSI relative to the BSSID scanned"
-          type: number
-        ssid:
-          description: ESSID containing the BSSID scanned
-          type: string
-        timestamp:
-          description: time the scan of the particular BSSID occurred
-          type: number
-      required:
-      - ap
-      - bssid
-      - band
-      - channel
-      - rssi
-      - ssid
-      - timestamp
-      type: object
-    webhook_sdkclient_scan_data_events:
-      items:
-        $ref: '#/components/schemas/webhook_sdkclient_scan_data_event'
-      minItems: 1
-      type: array
-      uniqueItems: true
-    webhook_sdkclient_scan_data_topic:
-      default: sdkclient_scan_data
-      description: 'enum: `sdkclient_scan_data`'
-      enum:
-      - sdkclient_scan_data
-      type: string
-    webhook_site_sle:
-      properties:
-        events:
-          $ref: '#/components/schemas/webhook_site_sle_events'
-        topic:
-          example: site_sle
-          type: string
-      type: object
-    webhook_site_sle_event:
-      properties:
-        org_id:
-          example: 52b50564-8821-4c3e-97be-5061c7760002
-          format: uuid
-          type: string
-        site_id:
-          example: 3e9c864-a7e4-4310-8031-d9817d2c5a43
-          format: uuid
-          type: string
-        sle:
-          $ref: '#/components/schemas/webhook_site_sle_event_sle'
-        timestamp:
-          example: 1694620800
-          type: integer
-      type: object
-    webhook_site_sle_event_sle:
-      properties:
-        ap-availability:
-          example: 0.6
-          type: number
-        successful-connect:
-          example: 0.7
-          type: number
-        time-to-connect:
-          example: 0.9
-          type: number
-      type: object
-    webhook_site_sle_events:
-      items:
-        $ref: '#/components/schemas/webhook_site_sle_event'
-      type: array
     webhook_topic:
       description: 'enum: `alarms`, `asset-raw`, `asset-raw-rssi`, `audits`, `client-info`,
-        `client-join`, `client-latency`, `client-sessions`, `device-updowns`, `device_events`,
+        `client-join`, `client-latency`, `client-sessions`, `device-updowns`, `device-events`,
         `discovered-raw-rssi`, `location`, `location_asset`, `location_centrak`, `location_client`,
-        `location_sdk`, `location_unclient`, `mxedge_events`, `nac-accounting`, `nac_events`,
+        `location_sdk`, `location_unclient`, `mxedge-events`, `nac-accounting`, `nac_events`,
         `occupancy-alerts`, `rssizone`, `sdkclient_scan_data`, `site_sle`, `vbeacon`,
         `wifi-conn-raw`, `wifi-unconn-raw`, `zone`'
       enum:
+      - ''
       - alarms
       - asset-raw
       - asset-raw-rssi
@@ -84570,7 +82567,7 @@ components:
       - client-latency
       - client-sessions
       - device-updowns
-      - device_events
+      - device-events
       - discovered-raw-rssi
       - location
       - location_asset
@@ -84578,7 +82575,7 @@ components:
       - location_client
       - location_sdk
       - location_unclient
-      - mxedge_events
+      - mxedge-events
       - nac-accounting
       - nac_events
       - occupancy-alerts
@@ -84591,7 +82588,7 @@ components:
       - zone
       type: string
     webhook_topics:
-      description: N.B. For org webhooks, only device_events/alarms/audits/client-join/client-sessions/nac-sessions/nac_events
+      description: N.B. For org webhooks, only alarms/audits/client-info/client-join/client-sessions/device-events/device-updowns/mxedge-events/nac-sessions/nac_events
         topics are supported.
       items:
         $ref: '#/components/schemas/webhook_topic'
@@ -84600,82 +82597,13 @@ components:
       default: http-post
       description: 'enum: `aws-sns`, `google-pubsub`, `http-post`, `oauth2`, `splunk`'
       enum:
+      - ''
       - aws-sns
       - google-pubsub
       - http-post
       - oauth2
       - splunk
       type: string
-    webhook_zone:
-      description: zone webhook sample
-      properties:
-        events:
-          $ref: '#/components/schemas/webhook_zone_events'
-        topic:
-          default: zone
-          description: topic subscribed to
-          type: string
-      required:
-      - events
-      - topic
-      type: object
-    webhook_zone_event:
-      properties:
-        asset_id:
-          description: uuid of named asset
-          format: uuid
-          type: string
-        id:
-          description: uuid of SDK-client
-          format: uuid
-          type: string
-        mac:
-          description: mac address of wifi client or asset
-          type: string
-        map_id:
-          description: map id
-          format: uuid
-          type: string
-        name:
-          description: name of the client, may be empty
-          type: string
-        site_id:
-          example: 3e9c864-a7e4-4310-8031-d9817d2c5a43
-          format: uuid
-          type: string
-        timestamp:
-          description: timestamp of the event, epoch
-          type: integer
-        trigger:
-          $ref: '#/components/schemas/webhook_zone_event_trigger'
-        type:
-          type: string
-        zone_id:
-          description: zone id
-          format: uuid
-          type: string
-      required:
-      - id
-      - map_id
-      - site_id
-      - timestamp
-      - trigger
-      - type
-      - zone_id
-      type: object
-    webhook_zone_event_trigger:
-      description: 'enum: `enter`, `exit`'
-      enum:
-      - enter
-      - exit
-      type: string
-    webhook_zone_events:
-      description: list of events
-      items:
-        $ref: '#/components/schemas/webhook_zone_event'
-      minItems: 1
-      type: array
-      uniqueItems: true
     webhooks:
       items:
         $ref: '#/components/schemas/webhook'
@@ -84699,24 +82627,6 @@ components:
       required:
       - session
       - url
-      type: object
-    wifi_beacon_extended_info:
-      description: optional, list of extended beacon info packets heard from the client,
-        frame and sequence control included with the payload
-      items:
-        $ref: '#/components/schemas/wifi_beacon_extended_info_items'
-      type: array
-    wifi_beacon_extended_info_items:
-      properties:
-        frame_ctrl:
-          description: frame control field of 802.11 header
-          type: integer
-        payload:
-          description: Extended Info Payload associated with frame
-          type: string
-        seq_ctrl:
-          description: sequence control field of 802.11 header
-          type: integer
       type: object
     wired_client.response:
       properties:
@@ -85380,6 +83290,7 @@ components:
     wlan_apply_to:
       description: 'enum: `aps`, `site`, `wxtags`'
       enum:
+      - ''
       - aps
       - site
       - wxtags
@@ -85452,6 +83363,7 @@ components:
       description: 'if `type`==`open`. enum: `disabled`, `enabled` (means transition
         mode), `required`'
       enum:
+      - ''
       - disabled
       - enabled
       - required
@@ -85467,6 +83379,7 @@ components:
     wlan_auth_pairwise_item:
       description: 'enum: `wpa1-ccmp`, `wpa1-tkip`, `wpa2-ccmp`, `wpa2-tkip`, `wpa3`'
       enum:
+      - ''
       - wpa1-ccmp
       - wpa1-tkip
       - wpa2-ccmp
@@ -85480,6 +83393,7 @@ components:
       description: 'When ordered, AP will prefer and go back to the first server if
         possible. enum: `ordered`, `unordered`'
       enum:
+      - ''
       - ordered
       - unordered
       example: ordered
@@ -85495,6 +83409,7 @@ components:
       description: 'enum: `eap`, `eap192`, `open`, `psk`, `psk-tkip`, `psk-wpa2-tkip`,
         `wep`'
       enum:
+      - ''
       - eap
       - eap192
       - open
@@ -85566,6 +83481,7 @@ components:
       description: 'how bonjour services should be discovered for the same WLAN. enum:
         `same_ap`, `same_map`, `same_site`'
       enum:
+      - ''
       - same_ap
       - same_map
       - same_site
@@ -85662,6 +83578,7 @@ components:
         `24b`, `2b`, `36`, `36b`, `48`, `48b`, `5.5`, `5.5b`, `54`, `54b`, `6`, `6b`,
         `9`, `9b`'
       enum:
+      - ''
       - '1'
       - '11'
       - 11b
@@ -85810,6 +83727,7 @@ components:
       description: 'standard (using Tunnel-Private-Group-ID, widely supported), airespace-interface-name
         (Airespace/Cisco). enum: `airespace-interface-name`, `standard`'
       enum:
+      - ''
       - airespace-interface-name
       - standard
       example: airespace-interface-name
@@ -85833,6 +83751,7 @@ components:
         `google`, `hughes_systique`, `openroaming_legacy`, `openroaming_settled`,
         `openroaming_settlement_free`, `single_digits`, `tmobile`, `verizon`'
       enum:
+      - ''
       - ameriband
       - att
       - boingo
@@ -85888,6 +83807,7 @@ components:
       description: 'where this WLAN will be connected to. enum: `all`, `eth0`, `eth1`,
         `eth2`, `eth3`, `mxtunnel`, `site_mxedge`, `wxtunnel`'
       enum:
+      - ''
       - all
       - eth0
       - eth1
@@ -86015,6 +83935,7 @@ components:
             (disable random_mac for seamless roaming)
           type: boolean
         email_enabled:
+          default: false
           description: whether email (access code verification) is enabled as a login
             method
           type: boolean
@@ -86158,7 +84079,7 @@ components:
           description: "whether to hide sponsor\u2019s email from list of sponsors"
           type: boolean
         privacy:
-          default: true
+          default: false
           type: boolean
         puzzel_password:
           default: ''
@@ -86173,7 +84094,7 @@ components:
           description: when `sms_provider`==`puzzel`
           type: string
         smsMessageFormat:
-          default: ''
+          default: Code {{code}} expires in {{duration}} minutes.
           type: string
         sms_enabled:
           default: false
@@ -86212,7 +84133,7 @@ components:
           description: how long to remain valid sponsored guest request approve/deny
             link received in email, in minutes.
           example: 30
-          type: integer
+          type: string
         sponsor_notify_all:
           default: false
           description: whether to notify all sponsors that are mentioned in `sponsors`
@@ -86249,7 +84170,7 @@ components:
           description: IDP Cert (used to verify the signed response)
           type: string
         sso_idp_sign_algo:
-          default: ''
+          default: sha1
           description: signing algorithm for SAML Assertion
           type: string
         sso_idp_sso_url:
@@ -86319,6 +84240,7 @@ components:
       default: none
       description: 'authentication scheme. enum: `external`, `none`, `sso`'
       enum:
+      - ''
       - external
       - none
       - sso
@@ -86362,6 +84284,7 @@ components:
       description: 'enum: `broadnet`, `clickatell`, `gupshup`, `manual`, `puzzel`,
         `telstra`, `twilio`'
       enum:
+      - ''
       - broadnet
       - clickatell
       - gupshup
@@ -86372,7 +84295,6 @@ components:
       example: twilio
       type: string
     wlan_portal_sponsor_email_domains:
-      default: []
       description: list of domain allowed for sponsor email. Required if `sponsor_enabled`
         is `true` and `sponsors` is empty.
       example:
@@ -86385,6 +84307,7 @@ components:
       default: email
       description: 'enum: `email`, `unspecified`'
       enum:
+      - ''
       - email
       - unspecified
       type: string
@@ -86781,6 +84704,7 @@ components:
       default: best_effort
       description: 'enum: `background`, `best_effort`, `video`, `voice`'
       enum:
+      - ''
       - background
       - best_effort
       - video
@@ -86798,6 +84722,7 @@ components:
       default: none
       description: 'enum: `11r`, `OKC`, `none`'
       enum:
+      - ''
       - 11r
       - OKC
       - none
@@ -86885,6 +84810,7 @@ components:
     wxlan_rule_action:
       description: 'type of action, allow / block. enum: `allow`, `block`'
       enum:
+      - ''
       - allow
       - block
       example: allow
@@ -87007,6 +84933,7 @@ components:
         `radius_attr`, `radius_class`, `radius_group`, `radius_username`, `sdkclient_uuid`,
         `wlan_id`'
       enum:
+      - ''
       - ap_id
       - app
       - asset_mac
@@ -87028,6 +84955,7 @@ components:
       description: 'required if `type`==`match`, type of tag (inclusive/exclusive).
         enum: `in`, `not_in`'
       enum:
+      - ''
       - in
       - not_in
       type: string
@@ -87061,6 +84989,7 @@ components:
     wxlan_tag_type:
       description: 'enum: `client`, `match`, `resource`, `spec`, `subnet`, `vlan`'
       enum:
+      - ''
       - client
       - match
       - resource
@@ -87264,6 +85193,7 @@ components:
     wxlan_tunnel_session_ethertype:
       description: 'enum: `ethernet`, `vlan`'
       enum:
+      - ''
       - ethernet
       - vlan
       type: string
@@ -87348,6 +85278,7 @@ components:
       default: site
       description: 'enum: `map`, `rssizone`, `site`, `zone`'
       enum:
+      - ''
       - map
       - rssizone
       - site
@@ -87356,6 +85287,7 @@ components:
     zone_type:
       description: 'enum: `rssizones`, `zones`'
       enum:
+      - ''
       - rssizones
       - zones
       type: string

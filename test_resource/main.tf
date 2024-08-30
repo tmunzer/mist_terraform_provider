@@ -57,6 +57,11 @@ resource "mist_site" "terraform_site" {
   # rftemplate_id      = mist_org_rftemplate.test_rf.id
   # gatewaytemplate_id = mist_org_gatewaytemplate.test-api.id
 }
+resource "mist_org_rftemplate" "example" {
+  org_id       = mist_org.terraform_test.id
+  name         = "Integration_Template_Test"
+  country_code = "US"
+}
 resource "mist_site_wlan" "wlan_one" {
   ssid    = "wlan_one"
   site_id = mist_site.terraform_site.id
@@ -1682,249 +1687,333 @@ resource "mist_org_rftemplate" "test_rf" {
 # }
 
 
+resource "mist_site_wlan" "test_open" {
+  ssid         = "demo"
+  site_id    = mist_site.terraform_site.id
+  bands = ["5", "6"]
+  vlan_enabled = true
+  vlan_id      = 160
+  auth = {
+    type = "open"
+  }
+  auth_servers = [
+    {
+      host            = "REDACTED"
+      port            = 1111
+      secret          = "REDACTED"
+      keywrap_enabled = false
+      keywrap_format  = ""
+    }
+  ]
+  acct_interim_interval = 600
+  acct_servers = [
+    {
+      host            = "REDACTED"
+      port            = 1112
+      secret          = "REDACTED"
+      keywrap_enabled = false
+      keywrap_format  = ""
+    }
+  ]
+
+  apply_to = "site"
+  interface = "all"
+}
+resource "mist_org_wlantemplate" "wlantemplate_one" {
+  name   = "wlantemplate"
+  org_id                 = mist_org.terraform_test.id
+}
 
 
+resource "mist_org_wlan" "test_open" {
+  ssid         = "test"
+  org_id                 = mist_org.terraform_test.id
+  template_id  = mist_org_wlantemplate.wlantemplate_one.id
+  bands = ["5", "6"]
+  vlan_enabled = true
+  vlan_id      = 160
+  auth = {
+    type = "open"
+  }
+  auth_servers = [
+    {
+      host            = "REDACTED"
+      port            = 1111
+      secret          = "REDACTED"
+      keywrap_enabled = false
+      keywrap_format  = ""
+    }
+  ]
+  acct_interim_interval = 600
+  acct_servers = [
+    {
+      host            = "REDACTED"
+      port            = 1112
+      secret          = "REDACTED"
+      keywrap_enabled = false
+      keywrap_format  = ""
+    }
+  ]
+
+  apply_to = "site"
+  interface = "all"
+}
 # # # ################### SITE LEVEL
 
 
-# resource "mist_org_networktemplate" "switch_template" {
-#   name                   = "test_switch"
-#   org_id                 = mist_org.terraform_test.id
-#   dns_servers            = ["10.3.51.222"]
-#   dns_suffix             = ["stag.one"]
-#   ntp_servers            = ["10.3.51.222"]
-#   additional_config_cmds = ["set system hostnam test", "set system services ssh root-login allow"]
+resource "mist_org_networktemplate" "switch_template" {
+  name                   = "test_switch"
+  org_id                 = mist_org.terraform_test.id
+  dns_servers            = ["10.3.51.222"]
+  dns_suffix             = ["stag.one"]
+  ntp_servers            = ["10.3.51.222"]
+  additional_config_cmds = ["set system hostnam test", "set system services ssh root-login allow"]
 
-#   extra_routes = {
-#     "1.2.0.0/24" = {
-#       via = "1.2.3.4"
-#     }
-#   }
-#   networks = {
-#     test = {
-#       subnet  = "1.2.3.0/24"
-#       vlan_id = 10
-#     }
-#     test2 = {
-#       subnet  = "1.2.3.0/24"
-#       vlan_id = 11
-#     }
-#   }
-#   radius_config = {
-#     acct_interim_interval = 60
-#     coa_enabled           = true
-#     network               = "test"
-#     acct_servers = [
-#       {
-#         host   = "1.2.3.4"
-#         secret = "secret"
-#       }
-#     ]
-#     auth_servers = [
-#       {
-#         host   = "1.2.3.4"
-#         secret = "secret"
-#       }
-#     ]
-#   }
-#   port_usages = {
-#     disabled_port = {
-#       mode         = "access"
-#       disable      = true
-#       port_network = "default"
-#     }
-#   }
-#   remote_syslog = {
-#     archive = {
-#       files = 2
-#       size  = "5m"
-#     }
-#     console = {
-#       contents = [
-#         {
-#           facility = "kernel"
-#           severity = "alert"
-#         }
-#       ]
-#     }
-#     enabled             = true
-#     network             = "test"
-#     send_to_all_servers = false
-#     servers = [
-#       {
-#         contents = [
-#           {
-#             facility = "any"
-#             severity = "any"
-#           }
-#         ]
-#         host = "1.2.3.4"
-#       }
-#     ]
-#     structured_data = true
-#   }
-#   switch_mgmt = {
-#     config_revert = 5
-#     protect_re = {
-#       enabled = true
-#     }
-#     root_password = "Juniper123!"
-#   }
-#   switch_matching = {
-#     enable = true
-#     rules = [
-#       {
-#         match_type  = "match_name[0:3]"
-#         match_value = "abc"
-#         additional_config_cmds = [
-#           "set system name-server 8.8.8.8"
-#         ]
-#         match_role = "access"
-#         name       = "access"
-#         port_config = {
-#           "ge-0/0/0-10" = {
-#             usage = "trunk"
-#           }
-#         }
-#       },
-#       {
-#         additional_config_cmds = [
-#           "set system name-server 8.8.8.8"
-#         ]
-#         match_role = "core"
-#         name       = "core"
-#         port_config = {
-#           "ge-0/0/0-10" = {
-#             usage = "trunk"
-#           }
-#         }
-#       }
-#     ]
-#   }
-# }
+  extra_routes = {
+    "1.2.0.0/24" = {
+      via = "1.2.3.4"
+    }
+  }
+  networks = {
+    test = {
+      subnet  = "1.2.3.0/24"
+      vlan_id = 10
+    }
+    test2 = {
+      subnet  = "1.2.3.0/24"
+      vlan_id = 11
+    }
+  }
+  radius_config = {
+    acct_interim_interval = 60
+    coa_enabled           = true
+    network               = "test"
+    acct_servers = [
+      {
+        host   = "1.2.3.4"
+        secret = "secret"
+      }
+    ]
+    auth_servers = [
+      {
+        host   = "1.2.3.4"
+        secret = "secret"
+      }
+    ]
+  }
+  port_usages = {
+    disabled_port = {
+      mode         = "access"
+      disable      = true
+      port_network = "default"
+    }
+  }
+  remote_syslog = {
+    archive = {
+      files = 2
+      size  = "5m"
+    }
+    console = {
+      contents = [
+        {
+          facility = "kernel"
+          severity = "alert"
+        }
+      ]
+    }
+    enabled             = true
+    network             = "test"
+    send_to_all_servers = false
+    servers = [
+      {
+        contents = [
+          {
+            facility = "any"
+            severity = "any"
+          }
+        ]
+        host = "1.2.3.4"
+      }
+    ]
+    structured_data = true
+  }
+  switch_mgmt = {
+    config_revert = 5
+    protect_re = {
+      enabled = true
+    }
+    root_password = "Juniper123!"
+  }
+  switch_matching = {
+    enable = true
+    rules = [
+      {
+        match_type  = "match_name[0:3]"
+        match_value = "abc"
+        additional_config_cmds = [
+          "set system name-server 8.8.8.8"
+        ]
+        match_role = "access"
+        name       = "access"
+        port_config = {
+          "ge-0/0/0-10" = {
+            usage = "trunk"
+          }
+        }
+      },
+      {
+        additional_config_cmds = [
+          "set system name-server 8.8.8.8"
+        ]
+        match_role = "core"
+        name       = "core"
+        port_config = {
+          "ge-0/0/0-10" = {
+            usage = "trunk"
+          }
+        }
+      }
+    ]
+  }
+}
 
 # # ################### SITE LEVEL
 
 
-# resource "mist_site_networktemplate" "site_switch_template" {
-#   site_id                = mist_site.terraform_site.id
-#   dns_servers            = ["10.3.51.222"]
-#   dns_suffix             = ["stag.one"]
-#   ntp_servers            = ["10.3.51.222"]
-#   additional_config_cmds = ["set system hostnam test", "set system services ssh root-login allow"]
-#   networks = {
-#     test = {
-#       subnet  = "1.2.3.0/24"
-#       vlan_id = 10
-#     }
-#     test2 = {
-#       subnet  = "1.2.3.0/24"
-#       vlan_id = 11
+resource "mist_site_networktemplate" "site_switch_template" {
+  site_id                = mist_site.terraform_site.id
+  dns_servers            = ["10.3.51.222"]
+  dns_suffix             = ["stag.one"]
+  ntp_servers            = ["10.3.51.222"]
+  additional_config_cmds = ["set system hostnam test", "set system services ssh root-login allow"]
+  networks = {
+    test = {
+      subnet  = "1.2.3.0/24"
+      vlan_id = 10
+    }
+    test2 = {
+      subnet  = "1.2.3.0/24"
+      vlan_id = 11
 
-#     }
-#   }
-#   radius_config = {
-#     acct_interim_interval = 60
-#     coa_enabled           = true
-#     network               = "test"
-#     acct_servers = [
-#       {
-#         host   = "1.2.3.4"
-#         secret = "secret"
-#       }
-#     ]
-#     auth_servers = [
-#       {
-#         host   = "1.2.3.4"
-#         secret = "secret"
-#       }
-#     ]
-#   }
-#   port_usages = {
-#     trunk = {
-#       all_networks = true
-#       description  = "profile for trunk ports"
-#       enable_qos   = true
-#       mode         = "trunk"
-#       port_network = "test2"
-#       storm_control = {
-#         percentage = 15
-#       }
-#     }
-#     disabled_port = {
-#       mode         = "access"
-#       disabled     = true
-#       port_network = "default"
-#     }
-#   }
-#   remote_syslog = {
-#     archive = {
-#       files = 2
-#       size  = "5m"
-#     }
-#     console = {
-#       contents = [
-#         {
-#           facility = "kernel"
-#           severity = "alert"
-#         }
-#       ]
-#     }
-#     enabled             = true
-#     network             = "test"
-#     send_to_all_servers = false
-#     servers = [
-#       {
-#         contents = [
-#           {
-#             facility = "any"
-#             severity = "any"
-#           }
-#         ]
-#         host = "1.2.3.4"
-#       }
-#     ]
-#     structured_data = true
-#   }
-#   switch_mgmt = {
-#     config_revert = 5
-#     protect_re = {
-#       enabled = true
-#     }
-#     root_password = "Juniper123"
-#   }
-#   switch_matching = {
-#     enable = true
-#     rules = [
-#       {
-#         match_type  = "match_name[0:3]"
-#         match_value = "abc"
-#         additional_config_cmds = [
-#           "set system name-server 8.8.8.8"
-#         ]
-#         match_role = "access"
-#         name       = "access"
-#         port_config = {
-#           "ge-0/0/0-10" = {
-#             usage = "trunk"
-#           }
-#         }
-#       },
-#       {
-#         additional_config_cmds = [
-#           "set system name-server 8.8.8.8"
-#         ]
-#         match_role = "core"
-#         name       = "core"
-#         port_config = {
-#           "ge-0/0/0-10" = {
-#             usage = "trunk"
-#           }
-#         }
-#       }
-#     ]
-#   }
-# }
+    }
+  }
+  radius_config = {
+    acct_interim_interval = 60
+    coa_enabled           = true
+    network               = "test"
+    acct_servers = [
+      {
+        host   = "1.2.3.4"
+        secret = "secret"
+      }
+    ]
+    auth_servers = [
+      {
+        host   = "1.2.3.4"
+        secret = "secret"
+      }
+    ]
+  }
+  port_usages = {
+    trunk = {
+      all_networks = true
+      description  = "profile for trunk ports"
+      enable_qos   = true
+      mode         = "trunk"
+      port_network = "test2"
+      storm_control = {
+        percentage = 15
+      }
+    }
+    disabled_port = {
+      mode         = "access"
+      disabled     = true
+      port_network = "default"
+    }
+  }
+  remote_syslog = {
+    archive = {
+      files = 2
+      size  = "5m"
+    }
+    console = {
+      contents = [
+        {
+          facility = "kernel"
+          severity = "alert"
+        }
+      ]
+    }
+    enabled             = true
+    network             = "test"
+    send_to_all_servers = false
+    servers = [
+      {
+        contents = [
+          {
+            facility = "any"
+            severity = "any"
+          }
+        ]
+        host = "1.2.3.4"
+      }
+    ]
+    structured_data = true
+  }
+  switch_mgmt = {
+    config_revert = 5
+    protect_re = {
+      enabled = true
+    }
+    root_password = "Juniper123"
+  }
+  switch_matching = {
+    enable = true
+    rules = [
+      {
+        match_type  = "match_name[0:3]"
+        match_value = "abc"
+        additional_config_cmds = [
+          "set system name-server 8.8.8.8"
+        ]
+        match_role = "access"
+        name       = "access"
+        port_config = {
+          "ge-0/0/0-10" = {
+            usage = "trunk"
+          }
+        }
+      },
+      {
+        additional_config_cmds = [
+          "set system name-server 8.8.8.8"
+        ]
+        match_role = "core"
+        name       = "core"
+        port_config = {
+          "ge-0/0/0-10" = {
+            usage = "trunk"
+          }
+        }
+      }
+    ]
+  }
+    vrf_instances = {
+    "fds" = {
+      networks = [
+        "prx"
+      ],
+      extra_routes = {
+        "1.2.0.0/24" = {
+          via = "1.2.3.4"
+        }
+      }
+    }
+  }
+  vrf_config = {
+    enabled = true
+  }
+}
 # resource "mist_org_wlan" "wlan_one" {
 #   ssid        = "wlan_one"
 #   org_id      = mist_org.terraform_test.id

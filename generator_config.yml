@@ -69,21 +69,21 @@ data_sources:
 ################################################################################
 ################################################################################
 ################################################################################
-  org_psks:
-    read:
-      path: /api/v1/orgs/{org_id}/psks
-      method: GET
-    schema:
-      ignores:  
-      - site_id   
-  site_psks:
-    read:
-      path: /api/v1/sites/{site_id}/psks
-      method: GET
-    schema:
-      ignores:  
-      - max_usage
-      - macs
+  # org_psks:
+  #   read:
+  #     path: /api/v1/orgs/{org_id}/psks
+  #     method: GET
+  #   schema:
+  #     ignores:  
+  #     - site_id   
+  # site_psks:
+  #   read:
+  #     path: /api/v1/sites/{site_id}/psks
+  #     method: GET
+  #   schema:
+  #     ignores:  
+  #     - max_usage
+  #     - macs
   # org_webhooks:
   #   read:
   #     path: /api/v1/orgs/{org_id}/webhooks
@@ -129,7 +129,7 @@ data_sources:
   #     - limit
   #     - page
   #     - type
-  # org_networktemplate:
+  # org_networktemplates:
   #   read:
   #     path: /api/v1/orgs/{org_id}/networktemplates
   #     method: GET
@@ -213,51 +213,51 @@ data_sources:
 ################################################################################
 ################################################################################
 resources:
-  org_psk:
-    create:
-      path: /api/v1/orgs/{org_id}/psks
-      method: POST
-    read:
-      path: /api/v1/orgs/{org_id}/psks/{psk_id}
-      method: GET
-    delete:
-      path: /api/v1/orgs/{org_id}/psks/{psk_id}
-      method: DELETE
-    update:
-      path: /api/v1/orgs/{org_id}/psks/{psk_id}
-      method: PUT      
-    schema:
-      ignores:
-        - created_time
-        - modified_time
-        - admin_sso_id
-        - site_id
-      attributes:
-        aliases:
-          psk_id: id
-  site_psk:
-    create:
-      path: /api/v1/sites/{site_id}/psks
-      method: POST
-    read:
-      path: /api/v1/sites/{site_id}/psks/{psk_id}
-      method: GET
-    delete:
-      path: /api/v1/sites/{site_id}/psks/{psk_id}
-      method: DELETE
-    update:
-      path: /api/v1/sites/{site_id}/psks/{psk_id}
-      method: PUT      
-    schema:
-      ignores:
-        - created_time
-        - modified_time
-        - admin_sso_id
-        - max_usage
-        - macs
-      attributes:
-        aliases:
-          psk_id: id
+  # org_psk:
+  #   create:
+  #     path: /api/v1/orgs/{org_id}/psks
+  #     method: POST
+  #   read:
+  #     path: /api/v1/orgs/{org_id}/psks/{psk_id}
+  #     method: GET
+  #   delete:
+  #     path: /api/v1/orgs/{org_id}/psks/{psk_id}
+  #     method: DELETE
+  #   update:
+  #     path: /api/v1/orgs/{org_id}/psks/{psk_id}
+  #     method: PUT      
+  #   schema:
+  #     ignores:
+  #       - created_time
+  #       - modified_time
+  #       - admin_sso_id
+  #       - site_id
+  #     attributes:
+  #       aliases:
+  #         psk_id: id
+  # site_psk:
+  #   create:
+  #     path: /api/v1/sites/{site_id}/psks
+  #     method: POST
+  #   read:
+  #     path: /api/v1/sites/{site_id}/psks/{psk_id}
+  #     method: GET
+  #   delete:
+  #     path: /api/v1/sites/{site_id}/psks/{psk_id}
+  #     method: DELETE
+  #   update:
+  #     path: /api/v1/sites/{site_id}/psks/{psk_id}
+  #     method: PUT      
+  #   schema:
+  #     ignores:
+  #       - created_time
+  #       - modified_time
+  #       - admin_sso_id
+  #       - max_usage
+  #       - macs
+  #     attributes:
+  #       aliases:
+  #         psk_id: id
   # org_webhook:
   #   create:
   #     path: /api/v1/orgs/{org_id}/webhooks
@@ -381,6 +381,7 @@ resources:
   #       - modified_time
   #       - import_org_networks
   #       - switch_matching.rules.switch_mgmt
+  #       - switch_mgmt.radius
   #     attributes:
   #       aliases:
   #         networktemplate_id: id
@@ -680,6 +681,7 @@ resources:
   #       - vrb_config
   #     ##
   #       - switch_matching.rules.switch_mgmt
+  #       - switch_mgmt.radius
   #       ###
   #       - analytic
   #       - ap_matching
@@ -886,58 +888,58 @@ resources:
   #     attributes:
   #       aliases:
   #         template_id: id      
-  # org_wlan:
-  #   create:
-  #     path: /api/v1/orgs/{org_id}/wlans
-  #     method: POST
-  #   read:
-  #     path: /api/v1/orgs/{org_id}/wlans/{wlan_id}
-  #     method: GET
-  #   delete:
-  #     path: /api/v1/orgs/{org_id}/wlans/{wlan_id}
-  #     method: DELETE
-  #   update:
-  #     path: /api/v1/orgs/{org_id}/wlans/{wlan_id}
-  #     method: PUT      
-  #   schema:
-  #     ignores:
-  #       - created_time
-  #       - modified_time
-  #       - for_site
-  #       - site_id
-  #       - mxtunnel_id
-  #       - rateset
-  #       - band
-  #       - dynamic_vlan.default_vlan_id
-  #     attributes:
-  #       aliases:
-  #         wlan_id: id      
-  # site_wlan:
-  #   create:
-  #     path: /api/v1/sites/{site_id}/wlans
-  #     method: POST
-  #   read:
-  #     path: /api/v1/sites/{site_id}/wlans/{wlan_id}
-  #     method: GET
-  #   delete:
-  #     path: /api/v1/sites/{site_id}/wlans/{wlan_id}
-  #     method: DELETE
-  #   update:
-  #     path: /api/v1/sites/{site_id}/wlans/{wlan_id}
-  #     method: PUT      
-  #   schema:
-  #     ignores:
-  #       - created_time
-  #       - modified_time
-  #       - for_site
-  #       - template_id
-  #       - mxtunnel_id
-  #       - rateset
-  #       - band
-  #       - dynamic_vlan.default_vlan_id
-  #     attributes:
-  #       aliases:
-  #         wlan_id: id      
+  org_wlan:
+    create:
+      path: /api/v1/orgs/{org_id}/wlans
+      method: POST
+    read:
+      path: /api/v1/orgs/{org_id}/wlans/{wlan_id}
+      method: GET
+    delete:
+      path: /api/v1/orgs/{org_id}/wlans/{wlan_id}
+      method: DELETE
+    update:
+      path: /api/v1/orgs/{org_id}/wlans/{wlan_id}
+      method: PUT      
+    schema:
+      ignores:
+        - created_time
+        - modified_time
+        - for_site
+        - site_id
+        - mxtunnel_id
+        - rateset
+        - band
+        - dynamic_vlan.default_vlan_id
+      attributes:
+        aliases:
+          wlan_id: id      
+  site_wlan:
+    create:
+      path: /api/v1/sites/{site_id}/wlans
+      method: POST
+    read:
+      path: /api/v1/sites/{site_id}/wlans/{wlan_id}
+      method: GET
+    delete:
+      path: /api/v1/sites/{site_id}/wlans/{wlan_id}
+      method: DELETE
+    update:
+      path: /api/v1/sites/{site_id}/wlans/{wlan_id}
+      method: PUT      
+    schema:
+      ignores:
+        - created_time
+        - modified_time
+        - for_site
+        - template_id
+        - mxtunnel_id
+        - rateset
+        - band
+        - dynamic_vlan.default_vlan_id
+      attributes:
+        aliases:
+          wlan_id: id      
   # org_wxrule:
   #   create:
   #     path: /api/v1/orgs/{org_id}/wxrules

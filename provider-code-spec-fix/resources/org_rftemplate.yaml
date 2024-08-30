@@ -10,9 +10,8 @@ next:
   validators:
   - custom:
       imports:
-      - path: github.com/Juniper/terraform-provider-mist/internal/validators
       - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
-      schema_definition: stringvalidator.All(stringvalidator.LengthBetween(2, 32),mistvalidator.ParseName(),)
+      schema_definition: stringvalidator.LengthBetween(2, 32)
 - computed_optional_required: required
   get:
   - string
