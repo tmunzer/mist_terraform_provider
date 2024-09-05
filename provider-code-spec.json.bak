@@ -2288,7 +2288,7 @@
 										"element_type": {
 											"string": {}
 										},
-										"description": "object of allowed sponsors email with name. Required if `sponsor_enabled` is `true` and `sponsor_email_domains` is empty.\nProperty key is the sponsor email, Property value is the sponsor name"
+										"description": "object of allowed sponsors email with name. Required if `sponsor_enabled`\n            is `true` and `sponsor_email_domains` is empty.\n\n            Property key is the sponsor email, Property value is the sponsor name"
 									}
 								},
 								{
@@ -2660,7 +2660,7 @@
 							"default": {
 								"static": "none"
 							},
-							"description": "enum: `11r`, `OKC`, `none`",
+							"description": "enum: `11r`, `OKC`, `NONE`",
 							"validators": [
 								{
 									"custom": {
@@ -2669,7 +2669,7 @@
 												"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 											}
 										],
-										"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"11r\",\n\"OKC\",\n\"none\",\n)"
+										"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"11r\",\n\"OKC\",\n\"NONE\",\n)"
 									}
 								}
 							]
@@ -5160,7 +5160,7 @@
 										"element_type": {
 											"string": {}
 										},
-										"description": "object of allowed sponsors email with name. Required if `sponsor_enabled` is `true` and `sponsor_email_domains` is empty.\nProperty key is the sponsor email, Property value is the sponsor name"
+										"description": "object of allowed sponsors email with name. Required if `sponsor_enabled`\n            is `true` and `sponsor_email_domains` is empty.\n\n            Property key is the sponsor email, Property value is the sponsor name"
 									}
 								},
 								{
@@ -5532,7 +5532,7 @@
 							"default": {
 								"static": "none"
 							},
-							"description": "enum: `11r`, `OKC`, `none`",
+							"description": "enum: `11r`, `OKC`, `NONE`",
 							"validators": [
 								{
 									"custom": {
@@ -5541,7 +5541,7 @@
 												"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 											}
 										],
-										"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"11r\",\n\"OKC\",\n\"none\",\n)"
+										"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"11r\",\n\"OKC\",\n\"NONE\",\n)"
 									}
 								}
 							]

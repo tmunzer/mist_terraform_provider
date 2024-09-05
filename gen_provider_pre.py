@@ -57,6 +57,55 @@ if (
         "additionalProperties": {"$ref": "#/components/schemas/dhcpd_config_property"},
     }
 
+## wlan.portal.sponsors
+## remove anyOf to remove support of the backward compatibility 
+## (only support object, remove array)
+if (
+    DATA.get("components", {})
+    .get("schemas", {})
+    .get("wlan_portal", {})
+    .get("properties", {})
+    .get("sponsors", {})
+):
+    del DATA["components"]["schemas"]["wlan_portal"]["properties"]["sponsors"]
+    DATA["components"]["schemas"]["wlan_portal"]["properties"]["sponsors"] = {
+        "additionalProperties": {
+            "type": "string"
+        },
+          "default": {},
+          "description": '''object of allowed sponsors email with name. Required if `sponsor_enabled`
+            is `true` and `sponsor_email_domains` is empty.
+
+            Property key is the sponsor email, Property value is the sponsor name''',
+          "example": {   
+            "sponsor1@company.com": "FirstName1 LastName1",
+            "sponsor2@company.com": "FirstName2 LastName2"
+          },
+          "type": "object"
+    }
+
+## wlan_bonjour.additional_vlan_ids
+## replace string of VLANS with array of VLANS
+if (
+    DATA.get("components", {})
+    .get("schemas", {})
+    .get("wlan_bonjour", {})
+    .get("properties", {})
+    .get("additional_vlan_ids", {})
+):
+    del DATA["components"]["schemas"]["wlan_bonjour"]["properties"]["additional_vlan_ids"]
+    DATA["components"]["schemas"]["wlan_bonjour"]["properties"]["additional_vlan_ids"] = {
+        "$ref": '#/components/schemas/wlan_bonjour_additional_vlan_ids'
+    }
+    DATA["components"]["schemas"]["wlan_bonjour_additional_vlan_ids"]={
+        "default": [],
+        "description": "additional VLAN IDs (on the LAN side or from other WLANs) should we be forwarding bonjour queries/responses",
+        "items": {
+        "$ref": "#/components/schemas/vlan_id_with_variable"
+        },
+        "type": "array"
+    }
+
 
 del DATA["paths"]["/webhook_example/_alarm_"]
 del DATA["components"]["schemas"]["webhook_alarms"]

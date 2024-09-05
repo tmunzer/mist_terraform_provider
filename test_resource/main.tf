@@ -83,6 +83,8 @@ resource "mist_site_wlan" "wlan_one" {
     default_vlan_ids = ["494"]
   }
 }
+
+
 # resource "mist_org_servicepolicy" "test1" {
 #   org_id = mist_org.terraform_test.id
 #   tenants = [
@@ -1690,40 +1692,17 @@ resource "mist_org_rftemplate" "test_rf" {
 resource "mist_site_wlan" "test_open" {
   ssid         = "demo"
   site_id    = mist_site.terraform_site.id
-  bands = ["5", "6"]
-  vlan_enabled = true
-  vlan_id      = 160
-  auth = {
-    type = "open"
+  limit_bcast = true
+  allow_ssdp = true
+  portal = {
+    enabled = false
   }
-  auth_servers = [
-    {
-      host            = "REDACTED"
-      port            = 1111
-      secret          = "REDACTED"
-      keywrap_enabled = false
-      keywrap_format  = ""
-    }
-  ]
-  acct_interim_interval = 600
-  acct_servers = [
-    {
-      host            = "REDACTED"
-      port            = 1112
-      secret          = "REDACTED"
-      keywrap_enabled = false
-      keywrap_format  = ""
-    }
-  ]
-
-  apply_to = "site"
-  interface = "all"
+  roam_mode = "NONE"
 }
 resource "mist_org_wlantemplate" "wlantemplate_one" {
   name   = "wlantemplate"
   org_id                 = mist_org.terraform_test.id
 }
-
 
 resource "mist_org_wlan" "test_open" {
   ssid         = "test"
@@ -1733,12 +1712,14 @@ resource "mist_org_wlan" "test_open" {
   vlan_enabled = true
   vlan_id      = 160
   auth = {
-    type = "open"
+    type = "eap"
+    anticlog_threshold = 16
+    pairwise = ["wpa3"]
   }
   auth_servers = [
     {
-      host            = "REDACTED"
-      port            = 1111
+      host            = "1.2.3.4"
+      port            = 1812
       secret          = "REDACTED"
       keywrap_enabled = false
       keywrap_format  = ""
@@ -1747,8 +1728,8 @@ resource "mist_org_wlan" "test_open" {
   acct_interim_interval = 600
   acct_servers = [
     {
-      host            = "REDACTED"
-      port            = 1112
+      host            = "1.2.3.4"
+      port            = 1813
       secret          = "REDACTED"
       keywrap_enabled = false
       keywrap_format  = ""
