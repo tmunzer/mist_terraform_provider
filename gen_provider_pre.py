@@ -26,9 +26,7 @@ if (
     .get("switch_matching_rule", {})
     .get("additionalProperties")
 ):
-    del DATA["components"]["schemas"]["switch_matching_rule"][
-        "additionalProperties"
-    ]
+    del DATA["components"]["schemas"]["switch_matching_rule"]["additionalProperties"]
     DATA["components"]["schemas"]["switch_matching_rule"]["properties"][
         "match_type"
     ] = {
@@ -58,7 +56,7 @@ if (
     }
 
 ## wlan.portal.sponsors
-## remove anyOf to remove support of the backward compatibility 
+## remove anyOf to remove support of the backward compatibility
 ## (only support object, remove array)
 if (
     DATA.get("components", {})
@@ -69,19 +67,17 @@ if (
 ):
     del DATA["components"]["schemas"]["wlan_portal"]["properties"]["sponsors"]
     DATA["components"]["schemas"]["wlan_portal"]["properties"]["sponsors"] = {
-        "additionalProperties": {
-            "type": "string"
-        },
-          "default": {},
-          "description": '''object of allowed sponsors email with name. Required if `sponsor_enabled`
+        "additionalProperties": {"type": "string"},
+        "default": {},
+        "description": """object of allowed sponsors email with name. Required if `sponsor_enabled`
             is `true` and `sponsor_email_domains` is empty.
 
-            Property key is the sponsor email, Property value is the sponsor name''',
-          "example": {   
+            Property key is the sponsor email, Property value is the sponsor name""",
+        "example": {
             "sponsor1@company.com": "FirstName1 LastName1",
-            "sponsor2@company.com": "FirstName2 LastName2"
-          },
-          "type": "object"
+            "sponsor2@company.com": "FirstName2 LastName2",
+        },
+        "type": "object",
     }
 
 ## wlan_bonjour.additional_vlan_ids
@@ -93,17 +89,17 @@ if (
     .get("properties", {})
     .get("additional_vlan_ids", {})
 ):
-    del DATA["components"]["schemas"]["wlan_bonjour"]["properties"]["additional_vlan_ids"]
-    DATA["components"]["schemas"]["wlan_bonjour"]["properties"]["additional_vlan_ids"] = {
-        "$ref": '#/components/schemas/wlan_bonjour_additional_vlan_ids'
-    }
-    DATA["components"]["schemas"]["wlan_bonjour_additional_vlan_ids"]={
+    del DATA["components"]["schemas"]["wlan_bonjour"]["properties"][
+        "additional_vlan_ids"
+    ]
+    DATA["components"]["schemas"]["wlan_bonjour"]["properties"][
+        "additional_vlan_ids"
+    ] = {"$ref": "#/components/schemas/wlan_bonjour_additional_vlan_ids"}
+    DATA["components"]["schemas"]["wlan_bonjour_additional_vlan_ids"] = {
         "default": [],
         "description": "additional VLAN IDs (on the LAN side or from other WLANs) should we be forwarding bonjour queries/responses",
-        "items": {
-        "$ref": "#/components/schemas/vlan_id_with_variable"
-        },
-        "type": "array"
+        "items": {"$ref": "#/components/schemas/vlan_id_with_variable"},
+        "type": "array",
     }
 
 

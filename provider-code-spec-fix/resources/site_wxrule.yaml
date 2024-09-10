@@ -19,3 +19,48 @@ next:
   get:
   - string
   name: action
+- computed_optional_required: optional
+  get:
+  - list
+  name: apply_tags
+  validators:
+  - custom:
+      imports:
+      - path: github.com/hashicorp/terraform-plugin-framework-validators/listvalidator
+      schema_definition: listvalidator.SizeAtLeast(1)
+- computed_optional_required: optional
+  get:
+  - list
+  name: blocked_apps
+  validators:
+  - custom:
+      imports:
+      - path: github.com/hashicorp/terraform-plugin-framework-validators/listvalidator
+      schema_definition: listvalidator.SizeAtLeast(1)
+- computed_optional_required: optional
+  get:
+  - list
+  name: dst_allow_wxtags
+  validators:
+  - custom:
+      imports:
+      - path: github.com/hashicorp/terraform-plugin-framework-validators/listvalidator
+      schema_definition: listvalidator.SizeAtLeast(1)
+- computed_optional_required: optional
+  get:
+  - list
+  name: dst_deny_wxtags
+  validators:
+  - custom:
+      imports:
+      - path: github.com/hashicorp/terraform-plugin-framework-validators/listvalidator
+      schema_definition: listvalidator.SizeAtLeast(1)
+- computed_optional_required: optional
+  get:
+  - list
+  name: src_wxtags
+  validators:
+  - custom:
+      imports:
+      - path: github.com/hashicorp/terraform-plugin-framework-validators/listvalidator
+      schema_definition: listvalidator.SizeAtLeast(1)

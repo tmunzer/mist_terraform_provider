@@ -214,27 +214,18 @@ next:
       imports:
       - path: github.com/Juniper/terraform-provider-mist/internal/validators
       - path: github.com/hashicorp/terraform-plugin-framework/path
-      schema_definition: 'mistvalidator.AtLeastNOf(
-
+      schema_definition: |-
+        mistvalidator.AtLeastNOf(
         1,
-
         path.MatchRelative().AtName("input_networks_ingress"),
-
         path.MatchRelative().AtName("input_port_ids_egress"),
-
         path.MatchRelative().AtName("input_port_ids_ingress"),
-
         ),
-
         mistvalidator.AtMostNOf(
-
         1,
-
         path.MatchRelative().AtName("output_network"),
-
         path.MatchRelative().AtName("output_port_id"),
-
-        )'
+        )
 - get:
   - map_nested
   - nested_object
@@ -245,45 +236,14 @@ next:
     get:
     - list
     name: input_networks_ingress
-    validators:
-    - custom:
-        imports:
-        - path: github.com/hashicorp/terraform-plugin-framework-validators/listvalidator
-        schema_definition: listvalidator.SizeAtLeast(1)
   - computed_optional_required: computed_optional
     get:
     - list
     name: input_port_ids_egress
-    validators:
-    - custom:
-        imports:
-        - path: github.com/hashicorp/terraform-plugin-framework-validators/listvalidator
-        schema_definition: listvalidator.SizeAtLeast(1)
   - computed_optional_required: computed_optional
     get:
     - list
     name: input_port_ids_ingress
-    validators:
-    - custom:
-        imports:
-        - path: github.com/hashicorp/terraform-plugin-framework-validators/listvalidator
-        schema_definition: listvalidator.SizeAtLeast(1)
-  - get:
-    - string
-    name: output_network
-    validators:
-    - custom:
-        imports:
-        - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
-        schema_definition: stringvalidator.LengthAtLeast(2)
-  - get:
-    - string
-    name: output_port_id
-    validators:
-    - custom:
-        imports:
-        - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
-        schema_definition: stringvalidator.LengthAtLeast(2)
 - get:
   - map_nested
   - nested_object
@@ -729,6 +689,45 @@ next:
         get:
         - bool
         name: esilag
+    - get:
+      - map_nested
+      - nested_object
+      name: port_mirroring
+      validators:
+      - custom:
+          imports:
+          - path: github.com/Juniper/terraform-provider-mist/internal/validators
+          - path: github.com/hashicorp/terraform-plugin-framework/path
+          schema_definition: |-
+            mistvalidator.AtLeastNOf(
+            1,
+            path.MatchRelative().AtName("input_networks_ingress"),
+            path.MatchRelative().AtName("input_port_ids_egress"),
+            path.MatchRelative().AtName("input_port_ids_ingress"),
+            ),
+            mistvalidator.AtMostNOf(
+            1,
+            path.MatchRelative().AtName("output_network"),
+            path.MatchRelative().AtName("output_port_id"),
+            )
+    - get:
+      - map_nested
+      - nested_object
+      - attributes
+      name: port_mirroring
+      next:
+      - computed_optional_required: computed_optional
+        get:
+        - list
+        name: input_networks_ingress
+      - computed_optional_required: computed_optional
+        get:
+        - list
+        name: input_port_ids_egress
+      - computed_optional_required: computed_optional
+        get:
+        - list
+        name: input_port_ids_ingress
 - get:
   - single_nested
   - attributes

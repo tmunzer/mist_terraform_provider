@@ -407,8 +407,8 @@ resource "mist_site_wlan" "wlan_one" {
 #   api_policy = {
 #     no_reveal = false
 #   }
-
 # }
+
 # resource "mist_org_wxtag" "test_1" {
 #   values = [
 #     "10.3.0.0/16"
@@ -743,13 +743,12 @@ resource "mist_site_wlan" "wlan_one" {
 #   match  = "wlan_id"
 #   values = ["test"]
 # }
-# # resource "mist_org_wxrule" "test_01" {
-# #   org_id = mist_org.terraform_test.id
-# #   template_id = mist_org_wlantemplate.test101.id
-# #   action = "allow"
-# #   src_wxtags = []
-# #   order = 1
-# # }
+# resource "mist_org_wxrule" "test_01" {
+#   org_id = mist_org.terraform_test.id
+#   template_id = mist_org_wlantemplate.test101.id
+#   action = "allow"
+#   order = 1
+# }
 # resource "mist_org_vpn" "vpn_one" {
 #   org_id = mist_org.terraform_test.id
 #   name   = "VpnOrgOverlay"
@@ -764,6 +763,10 @@ resource "mist_site_wlan" "wlan_one" {
 resource "mist_org_inventory" "inventory" {
   org_id = mist_org.terraform_test.id
   devices = [
+    # {
+    #   claim_code = "C9QQFW2B9NKCS33"
+    #   //site_id    = mist_site.terraform_site.id
+    # },
     {
       claim_code = "CPKL2EXN8JY98AC"
       //site_id    = mist_site.terraform_site.id
@@ -787,13 +790,13 @@ resource "mist_org_inventory" "inventory" {
   ]
 }
 
-resource "mist_device_gateway_cluster" "cluster_one" {
-  site_id = mist_site.terraform_site.id
-  nodes = [
-    { mac = mist_org_inventory.inventory.devices[3].mac },
-    { mac = mist_org_inventory.inventory.devices[4].mac }
-  ]
-}
+# resource "mist_device_gateway_cluster" "cluster_one" {
+#   site_id = mist_site.terraform_site.id
+#   nodes = [
+#     { mac = mist_org_inventory.inventory.devices[3].mac },
+#     { mac = mist_org_inventory.inventory.devices[4].mac }
+#   ]
+# }
 # resource "mist_device_gateway" "cluster_one"{
 #   site_id = mist_site.terraform_site.id
 #   device_id = mist_device_gateway_cluster.cluster_one.id
@@ -1599,101 +1602,109 @@ resource "mist_org_rftemplate" "test_rf" {
   org_id       = mist_org.terraform_test.id
 }
 
-# resource "mist_site_setting" "test" {
-#   site_id = mist_site.terraform_site.id
-#   # analytic = {
-#   #   enabled = true
-#   # }
-#   gateway_mgmt = {
-#     root_password = "pwd123"
-#     app_usage     = true
-#     auto_signature_update = {
-#       enable      = true
-#       time_of_day = "02:00"
-#     }
-#   }
-#   vars = {
-#   }
-#   ap_updown_threshold     = 5
-#   device_updown_threshold = 5
-#   auto_upgrade = {
-#     enabled     = true
-#     day_of_week = "tue"
-#     time_of_day = "02:00"
-#     version     = "beta"
-#   }
-#   config_auto_revert = true
+resource "mist_site_setting" "test" {
+  site_id = mist_site.terraform_site.id
+  # analytic = {
+  #   enabled = true
+  # }
+  gateway_mgmt = {
+    root_password = "pwd123"
+    app_usage     = true
+    auto_signature_update = {
+      enable      = true
+      time_of_day = "02:00"
+    }
+    app_probing = {
+      custom_apps = [
+        {
+        url      = "example.com"
+        protocol = "http"
+      }
+      ]
+    }
+  }
+  vars = {
+  }
+  ap_updown_threshold     = 5
+  device_updown_threshold = 5
+  auto_upgrade = {
+    enabled     = true
+    day_of_week = "tue"
+    time_of_day = "02:00"
+    version     = "beta"
+  }
+  config_auto_revert = true
 
-#   persist_config_on_device = true
-#   proxy = {
-#     url = "http://myproxy:3128"
-#   }
-#   rogue = {
-#     enabled          = true
-#     honeypot_enabled = true
-#     min_duration     = 5
-#   }
-# }
+  persist_config_on_device = true
+  proxy = {
+    url = "http://myproxy:3128"
+  }
+  rogue = {
+    enabled          = true
+    honeypot_enabled = true
+    min_duration     = 5
+  }
+}
 
-# resource "mist_org_wlantemplate" "test101" {
-#   org_id = mist_org.terraform_test.id
-#   name   = "test101"
-#   applies = {
-#     site_ids = [
-#       mist_site.terraform_site.id
-#     ]
-#   }
-# }
+resource "mist_org_wlantemplate" "test101" {
+  org_id = mist_org.terraform_test.id
+  name   = "test101"
+  applies = {
+    site_ids = [
+      mist_site.terraform_site.id
+    ]
+  }
+}
 
-# resource "mist_org_wlan" "wlan_cwp" {
-#   ssid    = "MlN.test"
-#   bands   = ["5"]
-#   vlan_id = "141"
-#   portal = {
-#     enabled                = true
-#     bypass_when_cloud_down = true
-#     auth                   = "sso"
-#     privacy                = false
-#     sso_issuer             = "https://sts.windows.net/f2532c2f-938c-4529-b6e4-aa26992b6b62/"
-#     sso_nameid_format      = "email"
-#     sso_idp_sign_algo      = "sha256"
-#     sso_idp_cert           = "-----BEGIN CERTIFICATE-----\nMIIC8DCCAdigAwIBAgIQE5pOI9W1DZFHbB9m2Q7ADzANBgkqhkiG9w0BAQsFADA0MTIwMAYDVQQD\nEylNaWNyb3NvZnQgQXp1cmUgRmVkZXJhdGVkIFNTTyBDZXJ0aWZpY2F0ZTAeFw0yMjAyMDIxNDEz\nMTNaFw0yNTAyMDIxNDEzMTNaMDQxMjAwBgNVBAMTKU1pY3Jvc29mdCBBenVyZSBGZWRlcmF0ZWQg\nU1NPIENlcnRpZmljYXRlMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA5gQTCccB3oE7\nelNYH2+11Q69Iq/2f3qf5KUZEQKwL++HyoBCOAM3wL3uLWwvRaih4+qpAeZvNsuShNIyB08SDcWN\nYsqVxaUsLYfzDD0c9VG9mwAx0Kh01S2JvtaLCaFveac7UXVfn/E/QbPXibS1EQvHUj0hwNXMrdS4\nh4TOk4D1Q70+OnCWyy7ykG1/RuO8UerIfqkQEy4C3QFb3Cyo4E7bEaYQo0NiCqD9IoM3B0wZib8Y\n3yRGJKdzXyDxuVJFb5rF7XMAHTWWAbxaN4KOLhZnjaJla7Pu/sFAj2Npm8Hm5pYEYBaUz4fc/8kg\nIwakFb3mnbnYw0xQwf+aJss1vQIDAQABMA0GCSqGSIb3DQEBCwUAA4IBAQCF+oKuLmnooDzALwaE\nbFVI7PVGhU7/UZzAnq6HHI9ngF0Af2+uIrvAz6rdUM1bsGhRbj3SV2oaj26pe/1TDrGescXWhTPw\nKcXOwBnVmFr8FlMkozwpHRNzCQyFYGiTAztgQcmtwF7pilVndOmEc+p3LvCdI5JZB+LtMM/o9V+1\n+Yhm4MEWO6wTSY+j7goc/vi5f76TDZPN6PkRv17+EkybEudJuTOuIoNiqsAbNB52bVNHtxFHGIwb\nH9iS45QJ4/RG1WUr91xe3Vzh/fp1BkiHZVL4iOywOIF0TYcW7h958JEf+q0HD5LUMO47NPEbc/Cd\n+fVCTXWzABXXy4D+S8gA\n-----END CERTIFICATE-----"
-#     sso_idp_sso_url        = "https://login.microsoftonline.com/f2532c2f-938c-4529-b6e4-aa26992b6b62/saml2"
-#     email_enabled          = true
-#   }
-#   portal_allowed_hostnames = [
-#     "login.microsoftonline.com",
-#     "portal.mist.com",
-#     "login.live.com",
-#     "aadcdn.msauth.net",
-#     "logincdn.msauth.net"
-#   ]
-#   auth = {
-#     type = "psk"
-#     psk  = "Juniper123"
-#   }
-#   apply_to    = "site"
-#   org_id      = mist_org.terraform_test.id
-#   template_id = mist_org_wlantemplate.test101.id
-#   interface   = "all"
-#   dynamic_vlan = {
-#     enabled = true
-#     type    = "standard"
-#     vlans = {
-#       460 = ""
-#       492 = ""
-#       494 = ""
-#     }
-#     default_vlan_ids = ["1-10", "{{dddd}}", "123"]
-#   }
-# }
+resource "mist_org_wlan" "wlan_cwp" {
+  ssid    = "MlN.test"
+  bands   = ["5"]
+  vlan_id = "141"
+  portal = {
+    enabled                = true
+    bypass_when_cloud_down = true
+    auth                   = "sso"
+    privacy                = false
+    sso_issuer             = "https://sts.windows.net/f2532c2f-938c-4529-b6e4-aa26992b6b62/"
+    sso_nameid_format      = "email"
+    sso_idp_sign_algo      = "sha256"
+    sso_idp_cert           = "-----BEGIN CERTIFICATE-----\nMIIC8DCCAdigAwIBAgIQE5pOI9W1DZFHbB9m2Q7ADzANBgkqhkiG9w0BAQsFADA0MTIwMAYDVQQD\nEylNaWNyb3NvZnQgQXp1cmUgRmVkZXJhdGVkIFNTTyBDZXJ0aWZpY2F0ZTAeFw0yMjAyMDIxNDEz\nMTNaFw0yNTAyMDIxNDEzMTNaMDQxMjAwBgNVBAMTKU1pY3Jvc29mdCBBenVyZSBGZWRlcmF0ZWQg\nU1NPIENlcnRpZmljYXRlMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA5gQTCccB3oE7\nelNYH2+11Q69Iq/2f3qf5KUZEQKwL++HyoBCOAM3wL3uLWwvRaih4+qpAeZvNsuShNIyB08SDcWN\nYsqVxaUsLYfzDD0c9VG9mwAx0Kh01S2JvtaLCaFveac7UXVfn/E/QbPXibS1EQvHUj0hwNXMrdS4\nh4TOk4D1Q70+OnCWyy7ykG1/RuO8UerIfqkQEy4C3QFb3Cyo4E7bEaYQo0NiCqD9IoM3B0wZib8Y\n3yRGJKdzXyDxuVJFb5rF7XMAHTWWAbxaN4KOLhZnjaJla7Pu/sFAj2Npm8Hm5pYEYBaUz4fc/8kg\nIwakFb3mnbnYw0xQwf+aJss1vQIDAQABMA0GCSqGSIb3DQEBCwUAA4IBAQCF+oKuLmnooDzALwaE\nbFVI7PVGhU7/UZzAnq6HHI9ngF0Af2+uIrvAz6rdUM1bsGhRbj3SV2oaj26pe/1TDrGescXWhTPw\nKcXOwBnVmFr8FlMkozwpHRNzCQyFYGiTAztgQcmtwF7pilVndOmEc+p3LvCdI5JZB+LtMM/o9V+1\n+Yhm4MEWO6wTSY+j7goc/vi5f76TDZPN6PkRv17+EkybEudJuTOuIoNiqsAbNB52bVNHtxFHGIwb\nH9iS45QJ4/RG1WUr91xe3Vzh/fp1BkiHZVL4iOywOIF0TYcW7h958JEf+q0HD5LUMO47NPEbc/Cd\n+fVCTXWzABXXy4D+S8gA\n-----END CERTIFICATE-----"
+    sso_idp_sso_url        = "https://login.microsoftonline.com/f2532c2f-938c-4529-b6e4-aa26992b6b62/saml2"
+    email_enabled          = true
+  }
+  portal_allowed_hostnames = [
+    "login.microsoftonline.com",
+    "portal.mist.com",
+    "login.live.com",
+    "aadcdn.msauth.net",
+    "logincdn.msauth.net"
+  ]
+  auth = {
+    type = "psk"
+    psk  = "Juniper123"
+  }
+  apply_to    = "site"
+  org_id      = mist_org.terraform_test.id
+  template_id = mist_org_wlantemplate.wlantemplate_one.id
+  interface   = "all"
+  dynamic_vlan = {
+    enabled = true
+    type    = "standard"
+    vlans = {
+      460 = ""
+      492 = ""
+      494 = ""
+    }
+    default_vlan_ids = ["1-10", "{{dddd}}", "123"]
+  }
+}
 
 
 resource "mist_site_wlan" "test_open" {
-  ssid         = "demo"
-  site_id    = mist_site.terraform_site.id
+  ssid        = "demo"
+  site_id     = mist_site.terraform_site.id
   limit_bcast = true
-  allow_ssdp = true
+  allow_ssdp  = true
   portal = {
     enabled = false
   }
@@ -1701,44 +1712,33 @@ resource "mist_site_wlan" "test_open" {
 }
 resource "mist_org_wlantemplate" "wlantemplate_one" {
   name   = "wlantemplate"
-  org_id                 = mist_org.terraform_test.id
+  org_id = mist_org.terraform_test.id
 }
 
 resource "mist_org_wlan" "test_open" {
   ssid         = "test"
-  org_id                 = mist_org.terraform_test.id
+  org_id       = mist_org.terraform_test.id
   template_id  = mist_org_wlantemplate.wlantemplate_one.id
-  bands = ["5", "6"]
+  bands        = ["5", "6"]
   vlan_enabled = true
   vlan_id      = 160
   auth = {
-    type = "eap"
-    anticlog_threshold = 16
-    pairwise = ["wpa3"]
+    type = "open"
   }
-  auth_servers = [
-    {
-      host            = "1.2.3.4"
-      port            = 1812
-      secret          = "REDACTED"
-      keywrap_enabled = false
-      keywrap_format  = ""
-    }
-  ]
-  acct_interim_interval = 600
-  acct_servers = [
-    {
-      host            = "1.2.3.4"
-      port            = 1813
-      secret          = "REDACTED"
-      keywrap_enabled = false
-      keywrap_format  = ""
-    }
-  ]
+  portal = {
+    email_enabled = true
+    enabled       = true
+    expire        = 60
+  }
 
-  apply_to = "site"
+  apply_to  = "site"
   interface = "all"
 }
+# resource "mist_org_wlan_portal_image" "image1" {
+#   org_id  = mist_org.terraform_test.id
+#   wlan_id = mist_org_wlan.test_open.id
+#   file    = "/Users/tmunzer/OneDrive/data/demo/IMG_0049.jpg"
+# }
 # # # ################### SITE LEVEL
 
 
@@ -1855,6 +1855,14 @@ resource "mist_org_networktemplate" "switch_template" {
         }
       }
     ]
+  }
+  port_mirroring = {
+    "test" = {
+      output_network = "prx"
+      input_networks_ingress = [
+        "default"
+      ]
+    }
   }
 }
 
@@ -1979,7 +1987,7 @@ resource "mist_site_networktemplate" "site_switch_template" {
       }
     ]
   }
-    vrf_instances = {
+  vrf_instances = {
     "fds" = {
       networks = [
         "prx"
@@ -2018,37 +2026,38 @@ resource "mist_site_networktemplate" "site_switch_template" {
 #   }
 # }
 
-# resource "mist_site_wlan" "wlan_cwp2" {
-#   ssid    = "MlN.test"
-#   bands   = ["5"]
-#   vlan_id = 143
-#   portal = {
-#     enabled                = true
-#     bypass_when_cloud_down = true
-#     auth                   = "sso"
-#     privacy                = false
-#     sso_issuer             = "https://sts.windows.net/f2532c2f-938c-4529-b6e4-aa26992b6b62/"
-#     sso_nameid_format      = "email"
-#     sso_idp_sign_algo      = "sha256"
-#     sso_idp_cert           = "-----BEGIN CERTIFICATE-----\nMIIC8DCCAdigAwIBAgIQE5pOI9W1DZFHbB9m2Q7ADzANBgkqhkiG9w0BAQsFADA0MTIwMAYDVQQD\nEylNaWNyb3NvZnQgQXp1cmUgRmVkZXJhdGVkIFNTTyBDZXJ0aWZpY2F0ZTAeFw0yMjAyMDIxNDEz\nMTNaFw0yNTAyMDIxNDEzMTNaMDQxMjAwBgNVBAMTKU1pY3Jvc29mdCBBenVyZSBGZWRlcmF0ZWQg\nU1NPIENlcnRpZmljYXRlMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA5gQTCccB3oE7\nelNYH2+11Q69Iq/2f3qf5KUZEQKwL++HyoBCOAM3wL3uLWwvRaih4+qpAeZvNsuShNIyB08SDcWN\nYsqVxaUsLYfzDD0c9VG9mwAx0Kh01S2JvtaLCaFveac7UXVfn/E/QbPXibS1EQvHUj0hwNXMrdS4\nh4TOk4D1Q70+OnCWyy7ykG1/RuO8UerIfqkQEy4C3QFb3Cyo4E7bEaYQo0NiCqD9IoM3B0wZib8Y\n3yRGJKdzXyDxuVJFb5rF7XMAHTWWAbxaN4KOLhZnjaJla7Pu/sFAj2Npm8Hm5pYEYBaUz4fc/8kg\nIwakFb3mnbnYw0xQwf+aJss1vQIDAQABMA0GCSqGSIb3DQEBCwUAA4IBAQCF+oKuLmnooDzALwaE\nbFVI7PVGhU7/UZzAnq6HHI9ngF0Af2+uIrvAz6rdUM1bsGhRbj3SV2oaj26pe/1TDrGescXWhTPw\nKcXOwBnVmFr8FlMkozwpHRNzCQyFYGiTAztgQcmtwF7pilVndOmEc+p3LvCdI5JZB+LtMM/o9V+1\n+Yhm4MEWO6wTSY+j7goc/vi5f76TDZPN6PkRv17+EkybEudJuTOuIoNiqsAbNB52bVNHtxFHGIwb\nH9iS45QJ4/RG1WUr91xe3Vzh/fp1BkiHZVL4iOywOIF0TYcW7h958JEf+q0HD5LUMO47NPEbc/Cd\n+fVCTXWzABXXy4D+S8gA\n-----END CERTIFICATE-----"
-#     sso_idp_sso_url        = "https://login.microsoftonline.com/f2532c2f-938c-4529-b6e4-aa26992b6b62/saml2"
-#     email_enabled          = true
-#   }
-#   portal_allowed_hostnames = [
-#     "login.microsoftonline.com",
-#     "portal.mist.com",
-#     "login.live.com",
-#     "aadcdn.msauth.net",
-#     "logincdn.msauth.net"
-#   ]
-#   auth = {
-#     type = "psk"
-#     psk  = "Juniper123"
-#   }
-#   apply_to  = "site"
-#   interface = "all"
-#   site_id   = mist_site.terraform_site2.id
-# }
+resource "mist_site_wlan" "wlan_cwp2" {
+  ssid    = "MlN.test"
+  bands   = ["5"]
+  vlan_id = 143
+  portal = {
+    enabled                = true
+    bypass_when_cloud_down = true
+    auth                   = "sso"
+    privacy                = false
+    sso_issuer             = "https://sts.windows.net/f2532c2f-938c-4529-b6e4-aa26992b6b62/"
+    sso_nameid_format      = "email"
+    sso_idp_sign_algo      = "sha256"
+    sso_idp_cert           = "-----BEGIN CERTIFICATE-----\nMIIC8DCCAdigAwIBAgIQE5pOI9W1DZFHbB9m2Q7ADzANBgkqhkiG9w0BAQsFADA0MTIwMAYDVQQD\nEylNaWNyb3NvZnQgQXp1cmUgRmVkZXJhdGVkIFNTTyBDZXJ0aWZpY2F0ZTAeFw0yMjAyMDIxNDEz\nMTNaFw0yNTAyMDIxNDEzMTNaMDQxMjAwBgNVBAMTKU1pY3Jvc29mdCBBenVyZSBGZWRlcmF0ZWQg\nU1NPIENlcnRpZmljYXRlMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA5gQTCccB3oE7\nelNYH2+11Q69Iq/2f3qf5KUZEQKwL++HyoBCOAM3wL3uLWwvRaih4+qpAeZvNsuShNIyB08SDcWN\nYsqVxaUsLYfzDD0c9VG9mwAx0Kh01S2JvtaLCaFveac7UXVfn/E/QbPXibS1EQvHUj0hwNXMrdS4\nh4TOk4D1Q70+OnCWyy7ykG1/RuO8UerIfqkQEy4C3QFb3Cyo4E7bEaYQo0NiCqD9IoM3B0wZib8Y\n3yRGJKdzXyDxuVJFb5rF7XMAHTWWAbxaN4KOLhZnjaJla7Pu/sFAj2Npm8Hm5pYEYBaUz4fc/8kg\nIwakFb3mnbnYw0xQwf+aJss1vQIDAQABMA0GCSqGSIb3DQEBCwUAA4IBAQCF+oKuLmnooDzALwaE\nbFVI7PVGhU7/UZzAnq6HHI9ngF0Af2+uIrvAz6rdUM1bsGhRbj3SV2oaj26pe/1TDrGescXWhTPw\nKcXOwBnVmFr8FlMkozwpHRNzCQyFYGiTAztgQcmtwF7pilVndOmEc+p3LvCdI5JZB+LtMM/o9V+1\n+Yhm4MEWO6wTSY+j7goc/vi5f76TDZPN6PkRv17+EkybEudJuTOuIoNiqsAbNB52bVNHtxFHGIwb\nH9iS45QJ4/RG1WUr91xe3Vzh/fp1BkiHZVL4iOywOIF0TYcW7h958JEf+q0HD5LUMO47NPEbc/Cd\n+fVCTXWzABXXy4D+S8gA\n-----END CERTIFICATE-----"
+    sso_idp_sso_url        = "https://login.microsoftonline.com/f2532c2f-938c-4529-b6e4-aa26992b6b62/saml2"
+    email_enabled          = true
+  }
+  portal_allowed_hostnames = [
+    "login.microsoftonline.com",
+    "portal.mist.com",
+    "login.live.com",
+    "aadcdn.msauth.net",
+    "logincdn.msauth.net"
+  ]
+  auth = {
+    type = "psk"
+    psk  = "Juniper123"
+  }
+  roam_mode = "11r"
+  apply_to  = "site"
+  interface = "all"
+  site_id   = mist_site.terraform_site.id
+}
 
 # resource "mist_device_switch" "test_switch" {
 #   managed = true
@@ -2871,3 +2880,260 @@ resource "mist_org_deviceprofile_gateway" "hubp_one" {
 #   name   = "Wireless-EAP-TLS-McD-IoT"
 #   order  = 15
 # }
+
+resource "mist_org_wlan_portal_template" "wlan_one" {
+  org_id  = mist_org.terraform_test.id
+  wlan_id = mist_org_wlan.wlan_cwp.id
+  portal_template = {
+    sms_message_format    = "Code {{code}} expires in {{duration}} minutes."
+    sms_validity_duration = "10"
+    page_title            = "Welcome To My Demo Portal"
+    locales = {
+      "fr-FR" = {
+        page_title = "Bienvenue sur mon portail de démo"
+      }
+    }
+  }
+}
+
+resource "mist_org_wlan_portal_template" "test" {
+  org_id  = mist_org.terraform_test.id
+  wlan_id = mist_org_wlan.test_open.id
+  portal_template = {
+    sms_message_format = "Code {{code}} expires in {{duration}} minutes."
+    // return null
+    sms_validity_duration = "10"
+    smsIsTwilio           = false
+    hidePoweredBy         = true
+    optout                = true
+    optOutDefault         = false
+    responsiveLayout      = true
+    alignment             = "right"
+    privacy               = false
+    color                 = "#1074bc"
+    logo                  = null
+    cross_site            = false
+    tos                   = true
+    tosText               = "<< provide your Terms of Service here >>"
+    privacyPolicyText     = "<< provide your Privacy Terms here >>"
+    email                 = true
+    name                  = true
+    company               = false
+    field1                = false
+    // return null
+    field1required = false
+    field2         = false
+    // return null
+    field2required = false
+    field3         = false
+    // return null
+    field3required = false
+    field4         = false
+    // return null
+    field4Required           = false
+    poweredBy                = false
+    pageTitle                = "Welcome To My Portal"
+    tosAcceptLabel           = "I accept the Terms of Service"
+    tosLink                  = "Terms of Service"
+    privacyPolicyAcceptLabel = "I accept the Privacy Terms"
+    privacyPolicyLink        = "Privacy Terms"
+    optoutLabel              = "Do Not Store My Personal Information"
+    // return null
+    back_link                = "Back to Sign In"
+    tos_error                = "Please review and accept the Terms of Service"
+    privacy_policy_error     = "Please review and accept the Privacy Terms"
+    required_field_label     = "required"
+    nameLabel                = "Name"
+    nameError                = "Please provide your name"
+    emailLabel               = "Email"
+    emailError               = "Please provide valid email"
+    companyLabel             = "Company"
+    companyError             = "Please provide your company name"
+    field1Label              = "Custom Field 1"
+    field1Error              = "Please provide Custom Field 1"
+    field2Label              = "Custom Field 2"
+    field2Error              = "Please provide Custom Field 2"
+    field3Label              = "Custom Field 3"
+    field3Error              = "Please provide Custom Field 3"
+    field4Label              = "Custom Field 4"
+    field4Error              = "Please provide Custom Field 4"
+    signInLabel              = "Sign In"
+    message                  = "Sign in to get online"
+    authLabel                = "Connect to WiFi with"
+    authButtonPassphrase     = "Sign in with Passphrase"
+    passphraseTitle          = "Sign in with Passphrase"
+    passphraseMessage        = "Enter the secret passphrase to access the WiFi network."
+    passphraseLabel          = "Passphrase"
+    passphraseError          = "Invalid Passphrase"
+    passphraseSubmit         = "Sign In"
+    passphraseCancel         = "Cancel"
+    authButtonGoogle         = "Sign in with Google"
+    authButtonFacebook       = "Sign in with Facebook"
+    authButtonAmazon         = "Sign in with Amazon"
+    authButtonMicrosoft      = "Sign in with Microsoft"
+    authButtonAzure          = "Sign in with Azure"
+    authButtonSms            = "Sign in with Text Message"
+    authButtonEmail          = "Sign in with Email"
+    authButtonSponsor        = "Sign in as Guest"
+    emailTitle               = "Sign in with Email"
+    emailMessage             = "We will email you an authentication code which you can use to connect to the WiFi network."
+    accessCodeAlternateEmail = "Use alternate email address"
+    emailFieldLabel          = "Enter your email address"
+    emailSubmit              = "Send Access Code"
+    emailCancel              = "Cancel"
+    emailCodeCancel          = "I did not receive the code"
+    emailCodeError           = "Please provide valid alternate email"
+    emailCodeFieldLabel      = "Access Code"
+    emailCodeMessage         = "Enter the access number that was sent to your Email address."
+    emailCodeSubmit          = "Sign In"
+    emailCodeTitle           = "Access Code"
+    smsNumberTitle           = "Sign in with Text Message"
+    smsNumberMessage         = "We will send an access code to your mobile number which you can use to connect to the WiFi network. Message and data rates may apply."
+    smsNumberFieldLabel      = "Mobile Number"
+    smsCarrierFieldLabel     = "Mobile Carrier"
+    smsNumberSubmit          = "Send Access Code"
+    smsNumberCancel          = "Cancel"
+    smsNumberFormat          = "2125551212 (digits only)"
+    smsUsernameFormat        = "username"
+    smsNumberError           = "Invalid Mobile Number"
+    smsCountryFormat         = "+1"
+    smsCountryFieldLabel     = "Country Code"
+    smsCodeTitle             = "Access Code"
+    smsCodeMessage           = "Enter the access number that was sent to your mobile number."
+    smsCodeFieldLabel        = "Access Code"
+    smsCodeSubmit            = "Sign In"
+    smsCodeCancel            = "I did not receive the code"
+    smsCodeError             = "Invalid Access Code"
+    smsCarrierDefault        = "Please Select"
+    sms_have_access_code     = "I have an access code"
+    smsCarrierError          = "Please select a mobile carrier"
+    emailAccessDomainError   = "Email Access Domain Error"
+    sponsorName              = "Sponsor Name"
+    sponsorEmail             = "Sponsor Email TEST"
+    sponsorSubmit            = "Request WiFi Access"
+    sponsorRequestAccess     = "Request WiFi Access"
+    sponsorCancel            = "Cancel"
+    sponsorsFieldLabel       = "Sponsors"
+    sponsorNameError         = "Please provide sponsor name"
+    sponsorEmailError        = "Please provide valid sponsor email TEST"
+    sponsorStatusPending     = "Notification Sent"
+    sponsor_status_approved  = "Your request was approved"
+    sponsorStatusDenied      = "Your request was denied"
+    sponsorInfoPending       = "Your notification has been sent to"
+    sponsorInfoApproved      = "Your request was approved by"
+    sponsorInfoDenied        = "Your request was denied by"
+    sponsorNotePending       = "Please wait for them to acknowledge."
+    sponsorBackLink          = "Go back and edit request form"
+    sponsorsError            = "Please select a sponsor"
+    sponsorEmailTemplate     = ""
+    multiAuth                = false
+    locales = {
+      "fr-FR" = {
+        sponsor_status_approved = "test portal 2"
+      },
+      "ar" = {
+        sms_have_access_code = "a"
+      },
+      "ca-ES" = {
+        sms_have_access_code = "a"
+      },
+      "cs-CZ" = {
+        sms_have_access_code = "a"
+      },
+      "da-DK" = {
+        sms_have_access_code = "a"
+      },
+      "de-DE" = {
+        sms_have_access_code = "a"
+      },
+      "el-GR" = {
+        sms_have_access_code = "a"
+      },
+      "en-GB" = {
+        sms_have_access_code = "a"
+      },
+      "en-US" = {
+        sms_have_access_code = "a"
+      },
+      "es-ES" = {
+        sms_have_access_code = "a"
+      },
+      "fi-FI" = {
+        sms_have_access_code = "a"
+      },
+      "he-IL" = {
+        sms_have_access_code = "a"
+      },
+      "zh-Hant" = {
+        sms_have_access_code = "a"
+      },
+      "zh-Hans" = {
+        sms_have_access_code = "a"
+      },
+      "vi-VN" = {
+        sms_have_access_code = "a"
+      },
+      "uk-UA" = {
+        sms_have_access_code = "a"
+      },
+      "tr-TR" = {
+        sms_have_access_code = "a"
+      },
+      "th-TH" = {
+        sms_have_access_code = "a"
+      },
+      "sv-SE" = {
+        sms_have_access_code = "a"
+      },
+      "sk-SK" = {
+        sms_have_access_code = "a"
+      },
+      "ru-RU" = {
+        sms_have_access_code = "a"
+      },
+      "ro-RO" = {
+        sms_have_access_code = "a"
+      },
+      "pt-PT" = {
+        sms_have_access_code = "a"
+      },
+      "pt-BR" = {
+        sms_have_access_code = "a"
+      },
+      "pl-PL" = {
+        sms_have_access_code = "a"
+      },
+      "nl-NL" = {
+        sms_have_access_code = "a"
+      },
+      "nb-NO" = {
+        sms_have_access_code = "a"
+      },
+      "ms-MY" = {
+        sms_have_access_code = "a"
+      },
+      "ko-KR" = {
+        sms_have_access_code = "a"
+      },
+      "ja-JP" = {
+        sms_have_access_code = "a"
+      },
+      "it-IT" = {
+        sms_have_access_code = "a"
+      },
+      "hi-IN" = {
+        sms_have_access_code = "a"
+      },
+      "hr-HR" = {
+        sms_have_access_code = "a"
+      },
+      "hu-HU" = {
+        sms_have_access_code = "a"
+      },
+      "id-ID" = {
+        sms_have_access_code = "a"
+      }
+    }
+  }
+}
+

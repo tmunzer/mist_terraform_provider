@@ -571,97 +571,97 @@ resources:
   #     attributes:
   #       aliases:
   #         rftemplate_id: id
-  # site_setting:
-  #   create:
-  #     path: /api/v1/sites/{site_id}/setting
-  #     method: PUT
-  #   read:
-  #     path: /api/v1/sites/{site_id}/setting
-  #     method: GET
-  #   update:
-  #     path: /api/v1/sites/{site_id}/setting
-  #     method: PUT      
-  #   delete:
-  #     path: /api/v1/sites/{site_id}/setting
-  #     method: PUT      
-  #   schema:
-  #     ignores:
-  #       ##
-  #       - created_time
-  #       - modified_time
-  #       - id
-  #       - for_site
-  #       - flags
-  #       - status_portal
-  #       ## AP
-  #       - ap_matching
-  #       - ap_port_config
-  #       - auto_placement
-  #       - radio_config
-  #       ## MX EDGE
-  #       - mxedge
-  #       - mxedge_mgmt
-  #       - mxtunnels
-  #       - tunterm_monitoring
-  #       - tunterm_monitoring_disabled
-  #       - tunterm_multicast_config
-  #       # OTHERS
-  #       - evpn_options
-  #       - gateway
-  #       - gateway_matching
-  #       - gateway_mgmt.protect_re
-  #       - ospf_areas
-  #       - paloalto_networks
-  #       - switch
-  #       - vrrp_groups
-  #       ### SWITCH TPL
-  #       - acl_policies
-  #       - acl_tags
-  #       - additional_config_cmds
-  #       - dhcp_snooping
-  #       - dns_servers
-  #       - dns_suffix
-  #       - extra_routes
-  #       - extra_routes6
-  #       - id
-  #       - mist_nac
-  #       - name
-  #       - networks
-  #       - ntp_servers
-  #       - port_mirroring
-  #       - port_usages
-  #       - radius_config
-  #       - remote_syslog
-  #       - snmp_config
-  #       - switch_matching
-  #       - switch_mgmt
-  #       - vrf_config
-  #       - vrf_instances    
-  #       ## GATEWAY TPL
-  #       - gateway_additional_config_cmds
-  #       - bgp_config
-  #       - dhcpd_config
-  #       - dns_override
-  #       - dns_servers
-  #       - dns_suffix
-  #       - id
-  #       - idp_profiles
-  #       - ip_configs
-  #       - name
-  #       - networks
-  #       - ntp_override
-  #       - ntp_servers
-  #       - path_preferences
-  #       - port_config
-  #       - router_id
-  #       - routing_policies
-  #       - service_policies
-  #       - tunnel_configs
-  #       - tunnel_provider_options
-  #       - type         
-  #     attributes:
-  #       aliases:
-  #         site_id: id
+  site_setting:
+    create:
+      path: /api/v1/sites/{site_id}/setting
+      method: PUT
+    read:
+      path: /api/v1/sites/{site_id}/setting
+      method: GET
+    update:
+      path: /api/v1/sites/{site_id}/setting
+      method: PUT      
+    delete:
+      path: /api/v1/sites/{site_id}/setting
+      method: PUT      
+    schema:
+      ignores:
+        ##
+        - created_time
+        - modified_time
+        - id
+        - for_site
+        - flags
+        - status_portal
+        ## AP
+        - ap_matching
+        - ap_port_config
+        - auto_placement
+        - radio_config
+        ## MX EDGE
+        - mxedge
+        - mxedge_mgmt
+        - mxtunnels
+        - tunterm_monitoring
+        - tunterm_monitoring_disabled
+        - tunterm_multicast_config
+        # OTHERS
+        - evpn_options
+        - gateway
+        - gateway_matching
+        - gateway_mgmt.protect_re
+        - ospf_areas
+        - paloalto_networks
+        - switch
+        - vrrp_groups
+        ### SWITCH TPL
+        - acl_policies
+        - acl_tags
+        - additional_config_cmds
+        - dhcp_snooping
+        - dns_servers
+        - dns_suffix
+        - extra_routes
+        - extra_routes6
+        - id
+        - mist_nac
+        - name
+        - networks
+        - ntp_servers
+        - port_mirroring
+        - port_usages
+        - radius_config
+        - remote_syslog
+        - snmp_config
+        - switch_matching
+        - switch_mgmt
+        - vrf_config
+        - vrf_instances    
+        ## GATEWAY TPL
+        - gateway_additional_config_cmds
+        - bgp_config
+        - dhcpd_config
+        - dns_override
+        - dns_servers
+        - dns_suffix
+        - id
+        - idp_profiles
+        - ip_configs
+        - name
+        - networks
+        - ntp_override
+        - ntp_servers
+        - path_preferences
+        - port_config
+        - router_id
+        - routing_policies
+        - service_policies
+        - tunnel_configs
+        - tunnel_provider_options
+        - type         
+      attributes:
+        aliases:
+          site_id: id
   # site_networktemplate:
   #   create:
   #     path: /api/v1/sites/{site_id}/setting
@@ -887,59 +887,127 @@ resources:
   #       - modified_time
   #     attributes:
   #       aliases:
-  #         template_id: id      
-  org_wlan:
-    create:
-      path: /api/v1/orgs/{org_id}/wlans
-      method: POST
-    read:
-      path: /api/v1/orgs/{org_id}/wlans/{wlan_id}
-      method: GET
-    delete:
-      path: /api/v1/orgs/{org_id}/wlans/{wlan_id}
-      method: DELETE
-    update:
-      path: /api/v1/orgs/{org_id}/wlans/{wlan_id}
-      method: PUT      
-    schema:
-      ignores:
-        - created_time
-        - modified_time
-        - for_site
-        - site_id
-        - mxtunnel_id
-        - rateset
-        - band
-        - dynamic_vlan.default_vlan_id
-      attributes:
-        aliases:
-          wlan_id: id      
-  site_wlan:
-    create:
-      path: /api/v1/sites/{site_id}/wlans
-      method: POST
-    read:
-      path: /api/v1/sites/{site_id}/wlans/{wlan_id}
-      method: GET
-    delete:
-      path: /api/v1/sites/{site_id}/wlans/{wlan_id}
-      method: DELETE
-    update:
-      path: /api/v1/sites/{site_id}/wlans/{wlan_id}
-      method: PUT      
-    schema:
-      ignores:
-        - created_time
-        - modified_time
-        - for_site
-        - template_id
-        - mxtunnel_id
-        - rateset
-        - band
-        - dynamic_vlan.default_vlan_id
-      attributes:
-        aliases:
-          wlan_id: id      
+  #         template_id: id   
+  # org_wlan_portal_image:   
+  #   create:
+  #     path: /api/v1/orgs/{org_id}/wlans/{wlan_id}/portal_image
+  #     method: POST
+  #   read:
+  #     path: /api/v1/orgs/{org_id}/wlans/{wlan_id}/portal_image
+  #     method: POST
+  #   delete:
+  #     path: /api/v1/orgs/{org_id}/wlans/{wlan_id}/portal_image
+  #     method: DELETE
+  #   update:
+  #     path: /api/v1/orgs/{org_id}/wlans/{wlan_id}/portal_image
+  #     method: POST     
+  #   schema:
+  #     ignores:
+  #       - json
+  # site_wlan_portal_image:
+  #   create:
+  #     path: /api/v1/sites/{site_id}/wlans/{wlan_id}/portal_image
+  #     method: POST
+  #   read:
+  #     path: /api/v1/sites/{site_id}/wlans/{wlan_id}/portal_image
+  #     method: POST
+  #   delete:
+  #     path: /api/v1/sites/{site_id}/wlans/{wlan_id}/portal_image
+  #     method: DELETE
+  #   update:
+  #     path: /api/v1/sites/{site_id}/wlans/{wlan_id}/portal_image
+  #     method: POST
+  #   schema:
+  #     ignores:
+  #       - json
+  # org_wlan_portal_template:
+  #   create:
+  #     path: /api/v1/orgs/{org_id}/wlans/{wlan_id}/portal_template
+  #     method: PUT
+  #   read:
+  #     path: /api/v1/orgs/{org_id}/wlans/{wlan_id}/portal_template
+  #     method: GET
+  #   delete:
+  #     path: /api/v1/orgs/{org_id}/wlans/{wlan_id}/portal_template
+  #     method: PUT
+  #   update:
+  #     path: /api/v1/orgs/{org_id}/wlans/{wlan_id}/portal_template
+  #     method: PUT     
+  #   schema:
+  #     ignores:
+  #     - for_site
+  #     - site_id
+  #     - created_time
+  # site_wlan_portal_template:
+  #   create:
+  #     path: /api/v1/sites/{site_id}/wlans/{wlan_id}/portal_template
+  #     method: PUT
+  #   read:
+  #     path: /api/v1/sites/{site_id}/wlans/{wlan_id}/portal_template
+  #     method: GET
+  #   delete:
+  #     path: /api/v1/sites/{site_id}/wlans/{wlan_id}/portal_template
+  #     method: PUT
+  #   update:
+  #     path: /api/v1/sites/{site_id}/wlans/{wlan_id}/portal_template
+  #     method: PUT
+  #   schema:
+  #     ignores:
+  #     - for_site
+  #     - org_id
+  #     - modified_time
+  # org_wlan:
+  #   create:
+  #     path: /api/v1/orgs/{org_id}/wlans
+  #     method: POST
+  #   read:
+  #     path: /api/v1/orgs/{org_id}/wlans/{wlan_id}
+  #     method: GET
+  #   delete:
+  #     path: /api/v1/orgs/{org_id}/wlans/{wlan_id}
+  #     method: DELETE
+  #   update:
+  #     path: /api/v1/orgs/{org_id}/wlans/{wlan_id}
+  #     method: PUT      
+  #   schema:
+  #     ignores:
+  #       - created_time
+  #       - modified_time
+  #       - for_site
+  #       - site_id
+  #       - mxtunnel_id
+  #       - rateset
+  #       - band
+  #       - dynamic_vlan.default_vlan_id
+  #     attributes:
+  #       aliases:
+  #         wlan_id: id      
+  # site_wlan:
+  #   create:
+  #     path: /api/v1/sites/{site_id}/wlans
+  #     method: POST
+  #   read:
+  #     path: /api/v1/sites/{site_id}/wlans/{wlan_id}
+  #     method: GET
+  #   delete:
+  #     path: /api/v1/sites/{site_id}/wlans/{wlan_id}
+  #     method: DELETE
+  #   update:
+  #     path: /api/v1/sites/{site_id}/wlans/{wlan_id}
+  #     method: PUT      
+  #   schema:
+  #     ignores:
+  #       - created_time
+  #       - modified_time
+  #       - for_site
+  #       - template_id
+  #       - mxtunnel_id
+  #       - rateset
+  #       - band
+  #       - dynamic_vlan.default_vlan_id
+  #     attributes:
+  #       aliases:
+  #         wlan_id: id      
   # org_wxrule:
   #   create:
   #     path: /api/v1/orgs/{org_id}/wxrules
@@ -1147,6 +1215,7 @@ resources:
   #       - modified_time
   #       - for_site
   #       - id
+        # - switch_mgmt.radius
   # device_gateway:
   #   create:
   #     path: /api/v1/sites/{site_id}/devices/{device_id}

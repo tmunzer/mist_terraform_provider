@@ -1,0 +1,45 @@
+get:
+- schema
+- attributes
+name: site_wlan_portal_template
+next:
+- computed_optional_required: required
+  get:
+  - string
+  name: site_id
+- computed_optional_required: required
+  get:
+  - string
+  name: wlan_id
+  description: Site WLAN ID
+- name: portal_template
+  computed_optional_required: required
+  get:
+  - single_nested
+- name: portal_template
+  get:
+  - single_nested 
+  - attributes
+  next:
+  - name: locales
+    get:
+    - map_nested
+    description: |-
+      Can be used to localize the portal based on the User Agent. Allowed property key values are:
+        `ar`, `ca-ES`, `cs-CZ`, `da-DK`, `de-DE`, `el-GR`, `en-GB`, `en-US`, `es-ES`, `fi-FI`, `fr-FR`, 
+        `he-IL`, `hi-IN`, `hr-HR`, `hu-HU`, `id-ID`, `it-IT`, `ja-J^`, `ko-KT`, `ms-MY`, `nb-NO`, `nl-NL`, 
+        `pl-PL`, `pt-BR`, `pt-PT`, `ro-RO`, `ru-RU`, `sk-SK`, `sv-SE`, `th-TH`, `tr-TR`, `uk-UA`, `vi-VN`, 
+        `zh-Hans`, `zh-Hant`
+    validators:
+    - custom:
+        imports:
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/mapvalidator
+        schema_definition: |-
+          mapvalidator.SizeAtLeast(1),
+          mapvalidator.KeysAre(stringvalidator.OneOf(
+            "ar", "ca-ES", "cs-CZ", "da-DK", "de-DE", "el-GR", "en-GB", "en-US", "es-ES", 
+            "fi-FI", "fr-FR", "he-IL", "hi-IN", "hr-HR", "hu-HU", "id-ID", "it-IT", "ja-JP", 
+            "ko-KR", "ms-MY", "nb-NO", "nl-NL", "pl-PL", "pt-BR", "pt-PT", "ro-RO", "ru-RU", 
+            "sk-SK", "sv-SE", "th-TH", "tr-TR", "uk-UA", "vi-VN", "zh-Hans", "zh-Hant",
+          ))

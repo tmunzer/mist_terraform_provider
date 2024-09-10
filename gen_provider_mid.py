@@ -16,7 +16,7 @@ CUSTOM_DEFAULT_LIST_OF_STR = """
                     {"path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault"},
                     {"path": "github.com/hashicorp/terraform-plugin-framework/types"}
                   ],
-                  "schema_definition": "listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{}))"}}
+                  "schema_definition": "listdefault.StaticValue(types.ListNull(types.StringType))"}}
 """
 CUSTOM_DEFAULT_LIST_OF_INT = """
                    {"custom": {"imports": [
