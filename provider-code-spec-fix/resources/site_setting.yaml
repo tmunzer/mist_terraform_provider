@@ -15,10 +15,20 @@ next:
   get:
   - string
   name: watched_station_url
+  default: 
+    custom: 
+      imports:            
+      - path: "github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
+      schema_definition: stringdefault.StaticString("")
 - computed_optional_required: computed
   get:
   - string
   name: whitelist_url
+  default: 
+    custom: 
+      imports:            
+      - path: "github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
+      schema_definition: stringdefault.StaticString("")
 - get:
   - single_nested
   - attributes
@@ -39,6 +49,11 @@ next:
   get:
   - string
   name: blacklist_url
+  default: 
+    custom: 
+      imports:            
+      - path: "github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
+      schema_definition: stringdefault.StaticString("")
 - name: ble_config
   get: 
   - single_nested
@@ -322,6 +337,11 @@ next:
         computed_optional_required: computed_optional
         get:
         - string
+        default: 
+          custom: 
+            imports:            
+            - path: "github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
+            schema_definition: stringdefault.StaticString("")
         validators:
         - custom:
             imports:
@@ -394,6 +414,13 @@ next:
       imports:
       - path: github.com/hashicorp/terraform-plugin-framework-validators/listvalidator
       schema_definition: listvalidator.SizeAtLeast(1)
+  default: 
+    custom: 
+      imports:            
+      - path: "github.com/hashicorp/terraform-plugin-framework/attr"
+      - path: "github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault"
+      - path: "github.com/hashicorp/terraform-plugin-framework/types"
+      schema_definition: listdefault.StaticValue(types.ListNull(types.StringType))
 - get:
   - single_nested
   - attributes

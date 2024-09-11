@@ -586,6 +586,7 @@ resources:
       method: PUT      
     schema:
       ignores:
+        - org_id
         ##
         - created_time
         - modified_time
