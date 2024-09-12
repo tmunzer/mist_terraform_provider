@@ -37,9 +37,26 @@ next:
         - path: github.com/hashicorp/terraform-plugin-framework-validators/mapvalidator
         schema_definition: |-
           mapvalidator.SizeAtLeast(1),
-          mapvalidator.KeysAre(stringvalidator.OneOf(
-            "ar", "ca-ES", "cs-CZ", "da-DK", "de-DE", "el-GR", "en-GB", "en-US", "es-ES", 
-            "fi-FI", "fr-FR", "he-IL", "hi-IN", "hr-HR", "hu-HU", "id-ID", "it-IT", "ja-JP", 
-            "ko-KR", "ms-MY", "nb-NO", "nl-NL", "pl-PL", "pt-BR", "pt-PT", "ro-RO", "ru-RU", 
-            "sk-SK", "sv-SE", "th-TH", "tr-TR", "uk-UA", "vi-VN", "zh-Hans", "zh-Hant",
-          ))
+          mapvalidator.KeysAre(
+            stringvalidator.OneOf(
+              "ar", "ca-ES", "cs-CZ", "da-DK", "de-DE", "el-GR", "en-GB", "en-US", "es-ES", 
+              "fi-FI", "fr-FR", "he-IL", "hi-IN", "hr-HR", "hu-HU", "id-ID", "it-IT", "ja-JP", 
+              "ko-KR", "ms-MY", "nb-NO", "nl-NL", "pl-PL", "pt-BR", "pt-PT", "ro-RO", "ru-RU", 
+              "sk-SK", "sv-SE", "th-TH", "tr-TR", "uk-UA", "vi-VN", "zh-Hans", "zh-Hant",
+            ),
+          )
+  - name: logo
+    get:
+    - string
+    description: path to the background image file. File must be a `png` image`
+    validators:
+    - custom:
+        imports:
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+        - path: github.com/Juniper/terraform-provider-mist/internal/validators
+        schema_definition: |-
+          stringvalidator.All(
+            mistvalidator.ParseImageType( true, false),
+            mistvalidator.ParseImageSize(100000),
+            mistvalidator.ParseImageDimension(500, 200),
+          )

@@ -3,11 +3,11 @@ info:
   contact:
     email: tmunzer@juniper.net
     name: Thomas Munzer
-  description: '> Version: **2408.1.8**
+  description: '> Version: **2408.1.12**
 
     >
 
-    > Date: **September 5, 2024**
+    > Date: **September 12, 2024**
 
 
     ---
@@ -43,7 +43,7 @@ info:
     name: MIT
     url: https://raw.githubusercontent.com/tmunzer/Mist-OAS3.0/main/LICENSE
   title: Mist API
-  version: 2408.1.9
+  version: 2408.1.12
 servers:
 - description: Mist Global 01
   url: https://api.mist.com
@@ -1941,7 +1941,7 @@ paths:
         '200':
           $ref: '#/components/responses/OrgInventoryAdd'
         '400':
-          description: Bad Request if none of the entries are valid
+          $ref: '#/components/responses/OrgInventoryAdd'
         '401':
           $ref: '#/components/responses/HTTP401'
         '403':
@@ -6886,7 +6886,7 @@ paths:
                       ip: 10.3.171.9
                       netmask: /24
                       type: static
-                  name: ITParis
+                  name: Demo
                   ntpOverride: true
                   ntp_servers:
                   - 10.3.51.222
@@ -6924,13 +6924,11 @@ paths:
                         type: static
                       name: wan
                       redundant: false
-                      traffic_shaping:
-                        enabled: false
                       usage: wan
                       wan_type: broadband
                     ge-0/0/6-7:
                       ae_disable_lacp: false
-                      ae_idx: '0'
+                      ae_idx: 0
                       ae_lacp_force_up: true
                       aggregated: true
                       networks:
@@ -6949,136 +6947,6 @@ paths:
                     - drive
                     tenants:
                     - ITParis
-                  - action: allow
-                    idp:
-                      enabled: false
-                    name: ITParis-internet
-                    path_preference: untrust
-                    services:
-                    - internet_any
-                    tenants:
-                    - ITParis
-                  - action: allow
-                    idp:
-                      alert_only: true
-                      enabled: true
-                      profile: standard
-                    name: mgmt-to-core
-                    path_preference: core
-                    services:
-                    - internal_dns
-                    - internal_ntp
-                    tenants:
-                    - Corp-Mgmt
-                  - action: allow
-                    idp:
-                      alert_only: true
-                      enabled: true
-                      profile: standard
-                    name: mgmt-to-mxe-tt-in
-                    path_preference: mxe-in
-                    services:
-                    - internal_any
-                    tenants:
-                    - Corp-Mgmt
-                  - action: allow
-                    idp:
-                      alert_only: true
-                      enabled: true
-                      profile: standard
-                    name: mgmt-to-untrust0
-                    path_preference: untrust
-                    services:
-                    - mxedge-updates
-                    - radsec
-                    - icmp
-                    - internet_dns
-                    - internet_ntp
-                    tenants:
-                    - Corp-Mgmt
-                  - action: allow
-                    idp:
-                      alert_only: true
-                      enabled: true
-                      profile: standard
-                    name: mxe-data-0-to-untrust
-                    path_preference: untrust
-                    services:
-                    - internet_any
-                    tenants:
-                    - ITParis
-                  - action: allow
-                    idp:
-                      alert_only: true
-                      enabled: true
-                      profile: standard
-                    name: core-to-mgt
-                    path_preference: mgmt
-                    services:
-                    - mgmt
-                    tenants:
-                    - domain.Corp-Core
-                    - lan.Corp-Core
-                    - servers.Corp-Core
-                    - Corp-Core
-                  - action: allow
-                    idp:
-                      alert_only: true
-                      enabled: true
-                      profile: standard
-                    name: core-to-edge-in
-                    path_preference: mxe-in
-                    services:
-                    - internal_any
-                    tenants:
-                    - lan.Corp-Core
-                    - Corp-Core
-                  - action: allow
-                    idp:
-                      alert_only: true
-                      enabled: true
-                      profile: standard
-                    name: core-to-iot
-                    path_preference: iot
-                    services:
-                    - iot
-                    tenants:
-                    - lan.Corp-Core
-                    - servers-hassio.Corp-Core
-                    - servers-kubes.Corp-Core
-                  - action: allow
-                    idp:
-                      enabled: false
-                    name: tanker-to-cctv
-                    path_preference: iot
-                    services:
-                    - rtsp
-                    tenants:
-                    - servers-tanker.Corp-Core
-                  - action: allow
-                    idp:
-                      enabled: false
-                    name: core-to-untrust
-                    path_preference: untrust
-                    services:
-                    - internet_any
-                    tenants:
-                    - lan.Corp-Core
-                    - domain.Corp-Core
-                    - servers.Corp-Core
-                  - action: deny
-                    idp:
-                      alert_only: true
-                      enabled: true
-                      profile: standard
-                    name: iot-upgrade-cctv
-                    path_preference: untrust
-                    services:
-                    - motioneye
-                    - nodejs
-                    - raspbian
-                    tenants:
-                    - printer
                   type: gateway
             schema:
               $ref: '#/components/schemas/deviceprofile'
@@ -7153,49 +7021,8 @@ paths:
                   aeroscout:
                     enabled: true
                     host: string
-                  ble_config:
-                    beacon_enabled: true
-                    beacon_rate: 0
-                    beacon_rate_mode: default
-                    beam_disabled:
-                    - 0
-                    eddystone_uid_adv_power: -100
-                    eddystone_uid_beams: string
-                    eddystone_uid_enabled: true
-                    eddystone_uid_freq_msec: 0
-                    eddystone_uid_instance: string
-                    eddystone_uid_namespace: string
-                    eddystone_url_adv_power: 0
-                    eddystone_url_beams: string
-                    eddystone_url_enabled: true
-                    eddystone_url_freq_msec: 0
-                    eddystone_url_url: string
-                    ibeacon_adv_power: -100
-                    ibeacon_beams: string
-                    ibeacon_enabled: true
-                    ibeacon_freq_msec: 0
-                    ibeacon_major: 0
-                    ibeacon_minor: 0
-                    ibeacon_uuid: b069b358-4c97-5319-1f8c-7c5ca64d6ab1
-                    power: 1
-                    power_mode: string
                   disable_eth1: true
                   disable_module: true
-                  ip_config:
-                    dns:
-                    - string
-                    dns_suffix:
-                    - string
-                    gateway: 192.168.0.1
-                    gateway6: 2001:0db8:85a3:0000:0000:8a2e:0370:7334
-                    ip: 192.168.0.1
-                    ip6: 2001:0db8:85a3:0000:0000:8a2e:0370:7334
-                    mtu: 0
-                    netmask: 192.168.0.1
-                    netmask6: 2001:0db8:85a3:0000:0000:8a2e:0370:7334
-                    type: static
-                    type6: static
-                    vlan_id: 1
                   mesh:
                     enabled: true
                     group: 0
@@ -7240,41 +7067,7 @@ paths:
                       preamble: auto
                       usage: '24'
                     scanning_enabled: true
-                  site_id: b069b358-4c97-5319-1f8c-7c5ca64d6ab1
-                  switch_config:
-                    enabled: true
-                    eth0:
-                      port_vlan_id: 1
-                      vlan_ids:
-                      - 0
-                    eth1:
-                      port_vlan_id: 1
-                      vlan_ids:
-                      - 0
-                    eth2:
-                      port_vlan_id: 1
-                      vlan_ids:
-                      - 0
-                    eth3:
-                      port_vlan_id: 1
-                      vlan_ids:
-                      - 0
-                    module:
-                      port_vlan_id: 1
-                      vlan_ids:
-                      - 0
-                    wds:
-                      port_vlan_id: 1
-                      vlan_ids:
-                      - 0
-                  usb_config:
-                    cacert: string
-                    channel: 0
-                    enabled: true
-                    host: string
-                    port: 0
-                    type: imagotag
-                    verify_cert: true
+                  type: ap
               deviceprofile_hub:
                 value:
                   dhcpd_config:
@@ -9413,16 +9206,7 @@ paths:
         '200':
           $ref: '#/components/responses/OrgInventoryAdd'
         '400':
-          content:
-            application/json:
-              examples:
-                example-1:
-                  value:
-                  - 6JG8E-PTFV2-A9Z2N
-                  - DVH4V-SNMSZ-PDXBR
-              schema:
-                $ref: '#/components/schemas/strings'
-          description: if none of the entries are valid
+          $ref: '#/components/responses/OrgInventoryAdd'
         '401':
           $ref: '#/components/responses/HTTP401'
         '403':
@@ -19892,22 +19676,6 @@ paths:
     parameters:
     - $ref: '#/components/parameters/org_id'
     - $ref: '#/components/parameters/wlan_id'
-    get:
-      operationId: getOrgWlanPortalTemplate
-      responses:
-        '200':
-          $ref: '#/components/responses/Portaltemplate'
-        '400':
-          $ref: '#/components/responses/HTTP400'
-        '401':
-          $ref: '#/components/responses/HTTP401'
-        '403':
-          $ref: '#/components/responses/HTTP403'
-        '404':
-          $ref: '#/components/responses/HTTP404'
-        '429':
-          $ref: '#/components/responses/HTTP429'
-      summary: getOrgWlanPortalTemplate
     put:
       description: 'Update a Portal Template
 
@@ -34767,6 +34535,25 @@ paths:
       tags:
       - Sites Wlans
   /api/v1/sites/{site_id}/wlans/{wlan_id}/portal_image:
+    delete:
+      description: Delete Site WLAN Portal Image
+      operationId: deleteSiteWlanPortalImage
+      responses:
+        '200':
+          $ref: '#/components/responses/OK'
+        '400':
+          $ref: '#/components/responses/HTTP400'
+        '401':
+          $ref: '#/components/responses/HTTP401'
+        '403':
+          $ref: '#/components/responses/HTTP403'
+        '404':
+          $ref: '#/components/responses/HTTP404'
+        '429':
+          $ref: '#/components/responses/HTTP429'
+      summary: deleteSiteWlanPortalImage
+      tags:
+      - Sites Wlans
     parameters:
     - $ref: '#/components/parameters/site_id'
     - $ref: '#/components/parameters/wlan_id'
@@ -34799,22 +34586,6 @@ paths:
     parameters:
     - $ref: '#/components/parameters/site_id'
     - $ref: '#/components/parameters/wlan_id'
-    get:
-      operationId: getSiteWlanPortalTemplate
-      responses:
-        '200':
-          $ref: '#/components/responses/Portaltemplate'
-        '400':
-          $ref: '#/components/responses/HTTP400'
-        '401':
-          $ref: '#/components/responses/HTTP401'
-        '403':
-          $ref: '#/components/responses/HTTP403'
-        '404':
-          $ref: '#/components/responses/HTTP404'
-        '429':
-          $ref: '#/components/responses/HTTP429'
-      summary: getSiteWlanPortalTemplate
     put:
       description: 'Update a Portal Template
 
@@ -38676,7 +38447,7 @@ components:
       content:
         application/json:
           examples:
-            Example:
+            AP:
               value:
               - ap_type: jewel
                 band24:
@@ -38709,15 +38480,6 @@ components:
                     property2:
                     - 0
                 display: AP45
-                extio:
-                  property1:
-                    default_dir: IN
-                    input: true
-                    output: true
-                  property2:
-                    default_dir: IN
-                    input: true
-                    output: true
                 fcc_dfs_ok: true
                 has_11ax: true
                 has_compass: false
@@ -38737,7 +38499,7 @@ components:
                 max_wlans: 0
                 model: AP45
                 other_dfs_ok: true
-                outdoor: true
+                outdoor: false
                 radios:
                   r0: '6'
                   r1: '5'
@@ -38749,27 +38511,8 @@ components:
                   beacon_rate: 4
                   beams: 9
                   power: 8
-              - alias: EX4100-48P-CHAS
-                defaults:
-                  _ports: ge-0/0/0-47, et-0/1/0-3, xe-0/2/0-3, ge-0/2/0-3
-                description: Juniper EX4100 Series
-                display: EX4100-48P
-                evpn_ri_type: mac-vrf
-                fans_pluggable: true
-                has_bgp: true
-                has_evpn: true
-                has_irb: true
-                has_poe_out: true
-                model: EX4100-48P
-                number_fans: 2
-                oc_device: true
-                oob_interface: re0:mgmt-0, re1:mgmt-0
-                pic:
-                  '0': ge*48
-                  '1': qsfp+*4
-                  '2': sfp+*4 (uplink)
-                sub_required: string
-                type: switch
+            Gateway:
+              value:
               - defaults:
                   ha_control_port: ge-0/0/1
                   ha_data_ports: ge-0/0/2,ge-3/0/2
@@ -38781,10 +38524,16 @@ components:
                   wan_ports: ge-0/0/0,ge-0/0/7
                 description: Juniper SRX320 Series
                 fans_pluggable: false
+                ha_node0_fpc: 3
                 ha_node1_fpc: 3
                 has_bgp: true
                 has_fxp0: false
+                has_ha_control: false
+                has_ha_data: false
                 has_irb: true
+                has_port_out: true
+                has_snapshot: true
+                irb_disabled_by_default: false
                 model: SRX320
                 number_fans: 1
                 oc_device: true
@@ -38792,6 +38541,32 @@ components:
                   '0': ge*6, sfp*2
                 sub_required: wan1
                 type: gateway
+            Switch:
+              value:
+              - alias: EX4100-48P-CHAS
+                defaults:
+                  _ports: ge-0/0/0-47, et-0/1/0-3, xe-0/2/0-3, ge-0/2/0-3
+                description: Juniper EX4100 Series
+                display: EX4100-48P
+                evolved_os: false
+                evpn_ri_type: mac-vrf
+                fans_pluggable: true
+                has_bgp: true
+                has_ets: true
+                has_evpn: true
+                has_irb: true
+                has_poe_out: true
+                model: EX4100-48P
+                modular: true
+                number_fans: 2
+                oc_device: true
+                oob_interface: re0:mgmt-0, re1:mgmt-0
+                pic:
+                  '0': ge*48
+                  '1': qsfp+*4
+                  '2': sfp+*4 (uplink)
+                sub_required: string
+                type: switch
           schema:
             $ref: '#/components/schemas/const_device_models'
       description: List of supported device models
@@ -46017,6 +45792,9 @@ components:
                   model: AP41
                   serial: FXLH2015150027
                   type: ap
+                reason:
+                - belongs to another org ('e2f543f7-d6e1-409f-a565-e77a1f098d3b' (other)
+                  != '0de5d6fc-219a-414d-a840-67d6b919ad8f' (you))
           schema:
             $ref: '#/components/schemas/response_inventory'
       description: "OK - if any of entries are valid or there\u2019s no errors"
@@ -46589,7 +46367,7 @@ components:
               value:
                 portal_template:
                   accessCodeAlternateEmail: string
-                  alignment: string
+                  alignment: left
                   authButtonAmazon: string
                   authButtonAzure: string
                   authButtonEmail: string
@@ -46607,7 +46385,6 @@ components:
                   company: true
                   companyError: string
                   companyLabel: string
-                  created_time: 0
                   email: true
                   emailAccessDomainError: string
                   emailCancel: string
@@ -46634,15 +46411,12 @@ components:
                   field4Error: string
                   field4Label: string
                   field4Required: true
-                  id: b069b358-4c97-5319-1f8c-7c5ca64d6ab1
                   message: string
-                  modified_time: 0
                   name: true
                   nameError: string
                   nameLabel: string
                   optout: true
                   optoutLabel: string
-                  org_id: b069b358-4c97-5319-1f8c-7c5ca64d6ab1
                   pageTitle: string
                   passphraseCancel: string
                   passphraseError: string
@@ -46653,7 +46427,6 @@ components:
                   poweredBy: true
                   requiredFieldLabel: string
                   signInLabel: string
-                  site_id: b069b358-4c97-5319-1f8c-7c5ca64d6ab1
                   smsCarrierDefault: string
                   smsCarrierError: string
                   smsCarrierFieldLabel: string
@@ -46675,7 +46448,7 @@ components:
                   smsNumberSubmit: string
                   smsNumberTitle: string
                   smsUsernameFormat: string
-                  smsValidityDuration: 0
+                  smsValidityDuration: 5
                   sponsorBackLink: string
                   sponsorCancel: string
                   sponsorEmail: string
@@ -50098,7 +49871,7 @@ components:
                 - bld4
                 mac: 921b638445cd
                 notes: mac address refers to Canon printers
-                vlan: 30
+                vlan: '30'
           schema:
             $ref: '#/components/schemas/user_mac'
       description: OK
@@ -50114,7 +49887,7 @@ components:
                 - bld4
                 mac: 921b638445cd
                 notes: mac address refers to Canon printers
-                vlan: 30
+                vlan: '30'
           schema:
             $ref: '#/components/schemas/user_macs'
       description: OK
@@ -50150,7 +49923,7 @@ components:
                   - bld4
                   mac: 921b638445cd
                   notes: mac address refers to Canon printers
-                  vlan: 30
+                  vlan: '30'
           schema:
             $ref: '#/components/schemas/user_macs_search'
       description: OK
@@ -51439,6 +51212,8 @@ components:
         dst_tag:
           example: corp
           type: string
+      required:
+      - dst_tag
       type: object
     acl_policy_actions:
       description: '- for GBP-based policy, all src_tags and dst_tags have to be gbp-based
@@ -53687,11 +53462,11 @@ components:
       type: array
     app_probing_custom_app_protocol:
       default: http
-      description: 'enum: `http`, `udp`'
+      description: 'enum: `http`, `icmp`'
       enum:
       - ''
       - http
-      - udp
+      - icmp
       type: string
     app_probing_custom_apps:
       items:
@@ -56312,12 +56087,13 @@ components:
         shared_scanning_radio:
           type: boolean
         type:
-          default: ap
-          type: string
+          $ref: '#/components/schemas/const_device_type_ap'
         unmanaged:
           type: boolean
         vble:
           $ref: '#/components/schemas/const_device_ap_vble'
+      required:
+      - type
       type: object
     const_device_ap_band24:
       properties:
@@ -56456,8 +56232,9 @@ components:
           default: false
           type: boolean
         type:
-          default: gateway
-          type: string
+          $ref: '#/components/schemas/const_device_type_gateway'
+      required:
+      - type
       type: object
     const_device_gateway_ports:
       description: Object Key is the interface name (e.g. "ge-0/0/1", ...)
@@ -56566,8 +56343,9 @@ components:
         sub_required:
           type: string
         type:
-          default: switch
-          type: string
+          $ref: '#/components/schemas/const_device_type_switch'
+      required:
+      - type
       type: object
     const_device_switch_default:
       properties:
@@ -56575,6 +56353,27 @@ components:
           example: ge-0/0/0-47, et-0/1/0-3, xe-0/2/0-3, ge-0/2/0-3
           type: string
       type: object
+    const_device_type_ap:
+      description: 'Device Type. enum: `ap`'
+      enum:
+      - ''
+      - ap
+      readOnly: true
+      type: string
+    const_device_type_gateway:
+      description: 'Device Type. enum: `gateway`'
+      enum:
+      - ''
+      - gateway
+      readOnly: true
+      type: string
+    const_device_type_switch:
+      description: 'Device Type. enum: `switch`'
+      enum:
+      - ''
+      - switch
+      readOnly: true
+      type: string
     const_device_unknown:
       properties:
         ap_type:
@@ -57182,7 +56981,7 @@ components:
         site_id:
           $ref: '#/components/schemas/site_id'
         type:
-          $ref: '#/components/schemas/device_type_ap'
+          $ref: '#/components/schemas/const_device_type_ap'
         uplink_port_config:
           $ref: '#/components/schemas/ap_uplink_port_config'
         usb_config:
@@ -57199,6 +56998,8 @@ components:
           example: 173.1
           format: double
           type: number
+      required:
+      - type
       type: object
     device_gateway:
       description: device gateway
@@ -57317,7 +57118,7 @@ components:
         tunnel_provider_options:
           $ref: '#/components/schemas/tunnel_provider_options'
         type:
-          $ref: '#/components/schemas/device_type_gateway'
+          $ref: '#/components/schemas/const_device_type_gateway'
         vars:
           $ref: '#/components/schemas/vars'
         vrf_config:
@@ -57334,6 +57135,8 @@ components:
           example: 173.1
           format: double
           type: number
+      required:
+      - type
       type: object
     device_id_string:
       properties:
@@ -57469,7 +57272,7 @@ components:
         notes:
           type: string
         ntp_servers:
-          $ref: '#/components/schemas/ntp__servers'
+          $ref: '#/components/schemas/ntp_servers'
         oob_ip_config:
           $ref: '#/components/schemas/switch_oob_ip_config'
         org_id:
@@ -57513,7 +57316,7 @@ components:
         switch_mgmt:
           $ref: '#/components/schemas/switch_mgmt'
         type:
-          $ref: '#/components/schemas/device_type_switch'
+          $ref: '#/components/schemas/const_device_type_switch'
         use_router_id_as_source_ip:
           default: false
           description: whether to use it for snmp / syslog / tacplus / radius
@@ -57538,6 +57341,8 @@ components:
           example: 173.1
           format: double
           type: number
+      required:
+      - type
       type: object
     device_type:
       default: ap
@@ -57665,12 +57470,12 @@ components:
       - version
       type: object
     deviceprofile:
-      oneOf:
-      - $ref: '#/components/schemas/deviceprofile_ap'
-      - $ref: '#/components/schemas/deviceprofile_gateway'
+      $ref: '#/components/schemas/deviceprofile_gateway'
+      # oneOf:
+      # - $ref: '#/components/schemas/deviceprofile_ap'
+      # - $ref: '#/components/schemas/deviceprofile_gateway'
     deviceprofile_ap:
       description: Device Profile
-      minItems: 1
       properties:
         aeroscout:
           $ref: '#/components/schemas/ap_aeroscout'
@@ -57748,8 +57553,10 @@ components:
           $ref: '#/components/schemas/ap_usb'
         vars:
           $ref: '#/components/schemas/vars'
+      required:
+      - name
+      - type
       type: object
-      uniqueItems: true
     deviceprofile_gateway:
       description: Gateway Template is applied to a site for gateway(s) in a site.
       properties:
@@ -57797,7 +57604,7 @@ components:
           default: false
           type: boolean
         ntp_servers:
-          $ref: '#/components/schemas/ntp__servers'
+          $ref: '#/components/schemas/ntp_servers'
         oob_ip_config:
           $ref: '#/components/schemas/gateway_oob_ip_config'
         org_id:
@@ -57838,6 +57645,7 @@ components:
           $ref: '#/components/schemas/gateway_vrf_instances'
       required:
       - name
+      - type
       type: object
     deviceprofiles:
       items:
@@ -57894,6 +57702,7 @@ components:
     dhcpd_config_fix:
       additionalProperties:
         $ref: '#/components/schemas/dhcpd_config_property'
+      description: Property key is the network name
       type: object
     dhcpd_config_fixed_binding:
       properties:
@@ -58000,6 +57809,7 @@ components:
       items:
         type: string
       type: array
+      default: []
     dhcpd_config_servers6:
       description: if `type6`==`relay`
       example:
@@ -58007,6 +57817,7 @@ components:
       items:
         type: string
       type: array
+      default: []
     dhcpd_config_type:
       default: local
       description: 'enum: `local` (DHCP Server), `none`, `relay` (DHCP Relay)'
@@ -59295,7 +59106,7 @@ components:
         use_mgmt_vrf_for_host_out:
           default: false
           description: for host-out traffic (NTP/TACPLUS/RADIUS/SYSLOG/SNMP), if alternative
-            source network/ip is desired,
+            source network/ip is desired
           type: boolean
         vlan_id:
           type: string
@@ -59357,7 +59168,7 @@ components:
         type:
           $ref: '#/components/schemas/gateway_path_type'
         wan_name:
-          description: required when`type`==`tunnel`, optional if `type`==`vpn` wan
+          description: optional if `type`==`vpn`
           example: wan0
           type: string
       type: object
@@ -59396,6 +59207,34 @@ components:
     gateway_port_config:
       description: Gateway port config
       properties:
+        ae_disable_lacp:
+          default: false
+          description: if `aggregated`==`true`. To disable LCP support for the AE
+            interface
+          type: boolean
+        ae_idx:
+          description: if `aggregated`==`true`. Users could force to use the designated
+            AE name (must be an integer between 0 and 127)
+          nullable: true
+          type: string
+        ae_lacp_force_up:
+          default: false
+          description: 'For SRX Only, if `aggregated`==`true`.Sets the state of the
+            interface as UP when the peer has limited LACP capability.\n
+
+            Use case: When a device connected to this AE port is ZTPing for the first
+            time, it will not have LACP configured on the other end\n
+
+            Note: Turning this on will enable force-up on one of the interfaces in
+            the bundle only'
+          type: boolean
+        aggregated:
+          default: false
+          type: boolean
+        critical:
+          default: false
+          description: if want to generate port up/down alarm, set it to true
+          type: boolean
         description:
           type: string
         disable_autoneg:
@@ -59750,7 +59589,7 @@ components:
           default: false
           type: boolean
         ntp_servers:
-          $ref: '#/components/schemas/ntp__servers'
+          $ref: '#/components/schemas/ntp_servers'
         oob_ip_config:
           $ref: '#/components/schemas/gateway_oob_ip_config'
         org_id:
@@ -60326,7 +60165,6 @@ components:
           format: binary
           type: string
         json:
-          description: JSON string describing your upload
           type: string
       required:
       - file
@@ -61864,9 +61702,10 @@ components:
       - qrcode
       type: string
     mist_device:
-      $ref: '#/components/schemas/device_switch'
+      $ref: '#/components/schemas/device_gateway'
       # oneOf:
       # - $ref: '#/components/schemas/device_ap'
+      # - $ref: '#/components/schemas/device_switch'
       # - $ref: '#/components/schemas/device_gateway'
     ml_overwrite:
       additionalProperties:
@@ -63868,7 +63707,7 @@ components:
         networks:
           $ref: '#/components/schemas/switch_networks'
         ntp_servers:
-          $ref: '#/components/schemas/ntp__servers'
+          $ref: '#/components/schemas/ntp_servers'
         org_id:
           $ref: '#/components/schemas/org_id'
         port_mirroring:
@@ -64006,7 +63845,7 @@ components:
           example: wired pcap test
           type: string
       type: object
-    ntp__servers:
+    ntp_servers:
       description: list of NTP servers specific to this device. By default, those
         in Site Settings will be used
       items:
@@ -68114,6 +67953,8 @@ components:
           $ref: '#/components/schemas/response_inventory_inventory_added'
         inventory_duplicated:
           $ref: '#/components/schemas/response_inventory_inventory_duplicated'
+        reason:
+          $ref: '#/components/schemas/strings'
       type: object
     response_inventory_added:
       items:
@@ -75343,11 +75184,7 @@ components:
           readOnly: true
           type: number
         type:
-          description: device type, ap / ble /switch / gateway
-          example: ap
-          nullable: true
-          readOnly: true
-          type: string
+          $ref: '#/components/schemas/const_device_type_ap'
         uptime:
           description: how long, in seconds, has the device been up (or rebooted)
           example: 13500
@@ -75376,6 +75213,7 @@ components:
       required:
       - mac
       - model
+      - type
       title: stats_ap
       type: object
     stats_ap_auto_placement:
@@ -76601,9 +76439,7 @@ components:
           readOnly: true
           type: string
         type:
-          example: gateway
-          readOnly: true
-          type: string
+          $ref: '#/components/schemas/const_device_type_gateway'
         uptime:
           example: 3671219
           readOnly: true
@@ -76614,6 +76450,7 @@ components:
           type: string
       required:
       - mac
+      - type
       type: object
     stats_gateway_cluster:
       properties:
@@ -77521,9 +77358,7 @@ components:
           readOnly: true
           type: string
         type:
-          example: switch
-          readOnly: true
-          type: string
+          $ref: '#/components/schemas/device_type_switch'
         uptime:
           example: 13501
           readOnly: true
@@ -77538,6 +77373,8 @@ components:
           example: 18.4R1.8
           readOnly: true
           type: string
+      required:
+      - type
       type: object
     stats_switch_ap_redundancy:
       properties:
@@ -78731,6 +78568,8 @@ components:
       properties:
         additional_config_cmds:
           $ref: '#/components/schemas/additional_config_cmds'
+        ip_config:
+          $ref: '#/components/schemas/switch_matching_rule_ip_config'
         match_role:
           description: role to match
           example: access
@@ -78745,12 +78584,39 @@ components:
         name:
           example: access_ex4300
           type: string
+        oob_ip_config:
+          $ref: '#/components/schemas/switch_matching_rule_oob_ip_config'
         port_config:
           $ref: '#/components/schemas/switch_matching_rule_port_config'
         port_mirroring:
           $ref: '#/components/schemas/switch_port_mirroring'
         switch_mgmt:
           $ref: '#/components/schemas/switch_mgmt'
+      type: object
+    switch_matching_rule_ip_config:
+      description: In-Band Management interface configuration
+      properties:
+        network:
+          description: VLAN Name for the management interface
+          type: string
+        type:
+          $ref: '#/components/schemas/ip_type'
+      type: object
+    switch_matching_rule_oob_ip_config:
+      description: Out-of-Band Management interface configuration
+      properties:
+        type:
+          $ref: '#/components/schemas/ip_type'
+        use_mgmt_vrf:
+          default: false
+          description: f supported on the platform. If enabled, DNS will be using
+            this routing-instance, too
+          type: boolean
+        use_mgmt_vrf_for_host_out:
+          default: false
+          description: for host-out traffic (NTP/TACPLUS/RADIUS/SYSLOG/SNMP), if alternative
+            source network/ip is desired
+          type: boolean
       type: object
     switch_matching_rule_port_config:
       additionalProperties:
@@ -78924,7 +78790,7 @@ components:
         use_mgmt_vrf_for_host_out:
           default: false
           description: for host-out traffic (NTP/TACPLUS/RADIUS/SYSLOG/SNMP), if alternative
-            source network/ip is desired,
+            source network/ip is desired
           type: boolean
       type: object
     switch_port_mirroring:
@@ -82505,7 +82371,7 @@ components:
           type: boolean
         allow_ssdp:
           default: false
-          description: only applicable when `limit_bcast`==`tru`e, which allows SSDP
+          description: only applicable when `limit_bcast`==`true`, which allows SSDP
           type: boolean
         ap_ids:
           $ref: '#/components/schemas/wlan_ap_ids'
@@ -83121,7 +82987,8 @@ components:
       default:
       - '24'
       - '5'
-      description: list of radios that the wlan should apply to
+      - '6'
+      description: list of radios that the wlan should apply to.
       items:
         $ref: '#/components/schemas/dot11_band'
       type: array
@@ -84043,8 +83910,6 @@ components:
           type: string
         alignment:
           $ref: '#/components/schemas/portal_template_alignment'
-        locales:
-          $ref: '#/components/schemas/wlan_portal_template_setting_locales'
         authButtonAmazon:
           default: Sign in with Amazon
           description: label for Amazon auth button
@@ -84223,6 +84088,30 @@ components:
         field4Required:
           description: whether field4 is required field
           type: boolean
+        locales:
+          additionalProperties:
+            $ref: '#/components/schemas/wlan_portal_template_setting_locale'
+          type: object
+        logo:
+          default: null
+          description: custom logo with `data:image/png;base64,` format, default null,
+            uses Juniper Mist Logo. File size must be less than 100kB and image dimensions
+            must be less than 500px x 200px (width x height).
+          example: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAZg\u2026"
+          nullable: true
+          type: string
+        logoHeight:
+          description: height of the logo, in px
+          example: 123
+          maximum: 200
+          minimum: 0
+          type: integer
+        logoWidth:
+          description: width of the logo, in px
+          example: 408
+          maximum: 500
+          minimum: 0
+          type: integer
         message:
           default: Sign in to get online
           type: string
@@ -84349,7 +84238,7 @@ components:
           default: Country Code
           type: string
         smsCountryFormat:
-          default: 1
+          default: '+1'
           type: string
         smsHaveAccessCode:
           default: I have an access code
@@ -84492,10 +84381,6 @@ components:
       required:
       - pageTitle
       type: object
-    wlan_portal_template_setting_locales:
-      type: object
-      additionalProperties:
-          $ref: '#/components/schemas/wlan_portal_template_setting_locale'
     wlan_portal_template_setting_locale:
       properties:
         authButtonAmazon:
@@ -84749,9 +84634,6 @@ components:
           type: string
         tosText:
           description: text of the Terms of Service
-          type: string
-        uthButtonAmazon:
-          description: label for Amazon auth button
           type: string
       type: object
     wlan_qos:

@@ -39,6 +39,15 @@ next:
   get:
   - string
   name: name
+- name: additional_config_cmds
+  get: 
+  - list
+  validators:
+  - custom:
+      imports:
+      - path: github.com/Juniper/terraform-provider-mist/internal/validators
+      - path: github.com/hashicorp/terraform-plugin-framework-validators/listvalidator
+      schema_definition: listvalidator.SizeAtLeast(1)
 - get:
   - map_nested
   - nested_object
@@ -188,23 +197,14 @@ next:
         imports:
         - path: github.com/Juniper/terraform-provider-mist/internal/validators
         - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
-        schema_definition: 'stringvalidator.OneOf(
-
-          "",
-
-          "vdsl",
-
-          "adsl",
-
+        schema_definition: |-
+          stringvalidator.OneOf(
+            "",
+            "vdsl",
+            "adsl",
           ),
-
-          mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("wan_type"),
-          types.StringValue("broadband")),
-
-          mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("wan_type"),
-          types.StringValue("dsl"),
-
-          )'
+          mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("wan_type"), types.StringValue("broadband")),
+          mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("wan_type"), types.StringValue("lte"))
   - get:
     - int64
     name: dsl_vci
@@ -214,13 +214,9 @@ next:
         - path: github.com/Juniper/terraform-provider-mist/internal/validators
         - path: github.com/hashicorp/terraform-plugin-framework-validators/int64validator
         - path: github.com/hashicorp/terraform-plugin-framework/path
-        schema_definition: 'mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("wan_type"),
-          types.StringValue("broadband")),
-
-          mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("wan_type"),
-          types.StringValue("lte"),
-
-          )'
+        schema_definition: |-
+          mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("wan_type"), types.StringValue("broadband")),
+          mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("wan_type"), types.StringValue("lte"))
   - get:
     - int64
     name: dsl_vpi
@@ -230,13 +226,9 @@ next:
         - path: github.com/Juniper/terraform-provider-mist/internal/validators
         - path: github.com/hashicorp/terraform-plugin-framework-validators/int64validator
         - path: github.com/hashicorp/terraform-plugin-framework/path
-        schema_definition: 'mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("wan_type"),
-          types.StringValue("broadband")),
-
-          mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("wan_type"),
-          types.StringValue("lte"),
-
-          )'
+        schema_definition: |-
+          mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("wan_type"), types.StringValue("broadband")),
+          mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("wan_type"), types.StringValue("lte"))
   - get:
     - string
     name: lte_apn
@@ -246,13 +238,9 @@ next:
         - path: github.com/Juniper/terraform-provider-mist/internal/validators
         - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
         - path: github.com/hashicorp/terraform-plugin-framework/path
-        schema_definition: 'mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("wan_type"),
-          types.StringValue("broadband")),
-
-          mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("wan_type"),
-          types.StringValue("dsl"),
-
-          )'
+        schema_definition: |-
+          mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("wan_type"), types.StringValue("broadband")),
+          mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("wan_type"), types.StringValue("dsl"))
   - get:
     - string
     name: lte_auth
@@ -262,25 +250,15 @@ next:
         - path: github.com/Juniper/terraform-provider-mist/internal/validators
         - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
         - path: github.com/hashicorp/terraform-plugin-framework/path
-        schema_definition: 'stringvalidator.OneOf(
-
-          "",
-
-          "none",
-
-          "chap",
-
-          "pap",
-
+        schema_definition: |-
+          stringvalidator.OneOf(
+            "",
+            "none",
+            "chap",
+            "pap",
           ),
-
-          mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("wan_type"),
-          types.StringValue("broadband")),
-
-          mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("wan_type"),
-          types.StringValue("dsl"),
-
-          )'
+          mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("wan_type"), types.StringValue("broadband")),
+          mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("wan_type"), types.StringValue("dsl"))
   - get:
     - string
     name: lte_password
@@ -741,6 +719,7 @@ next:
     - get:
       - list
       name: dns_servers
+      computed_optional_required: computed_optional
       validators:
       - custom:
           imports:
@@ -757,6 +736,7 @@ next:
     - get:
       - list
       name: dns_suffix
+      computed_optional_required: computed_optional
       validators:
       - custom:
           imports:

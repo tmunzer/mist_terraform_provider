@@ -289,6 +289,26 @@ next:
       - path: github.com/hashicorp/terraform-plugin-framework-validators/listvalidator
       schema_definition: listvalidator.SizeAtLeast(1)
 - get:
+  - list
+  name: bands
+  description: "list of radios that the wlan should apply to. enum: `24`, `5`, `6`"
+  validators:
+  - custom:
+      imports:
+      - path: github.com/hashicorp/terraform-plugin-framework-validators/listvalidator
+      - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+      - path: github.com/Juniper/terraform-provider-mist/internal/validators
+      schema_definition: |-
+        listvalidator.SizeAtLeast(1),
+        listvalidator.UniqueValues(),
+        listvalidator.ValueStringsAre(
+          stringvalidator.OneOf(
+            "24",
+            "5",
+            "6",
+          ),
+        )
+- get:
   - single_nested
   - attributes
   name: bonjour

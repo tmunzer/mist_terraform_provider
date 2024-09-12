@@ -52,6 +52,7 @@ if (
     }
     DATA["components"]["schemas"]["dhcpd_config_fix"] = {
         "type": "object",
+        "description": "Property key is the network name",
         "additionalProperties": {"$ref": "#/components/schemas/dhcpd_config_property"},
     }
 
@@ -102,7 +103,34 @@ if (
         "type": "array",
     }
 
+## portal templates
+locales = [            "ar", "ca-ES", "cs-CZ", "da-DK", "de-DE", "el-GR", "en-GB", "en-US", "es-ES", 
+            "fi-FI", "fr-FR", "he-IL", "hi-IN", "hr-HR", "hu-HU", "id-ID", "it-IT", "ja-JP", 
+            "ko-KR", "ms-MY", "nb-NO", "nl-NL", "pl-PL", "pt-BR", "pt-PT", "ro-RO", "ru-RU", 
+            "sk-SK", "sv-SE", "th-TH", "tr-TR", "uk-UA", "vi-VN", "zh-Hans", "zh-Hant"]
+if (
+    DATA.get("components", {})
+    .get("schemas", {})
+    .get("wlan_portal_template_setting", {})
+    .get("properties")
+):
+    for locale in locales:
+        if (
+            DATA.get("components", {})
+            .get("schemas", {})
+            .get("wlan_portal_template_setting", {})
+            .get("properties", {})
+            .get(locale)
+        ):
+            del DATA["components"]["schemas"]["wlan_portal_template_setting"]["properties"][locale]
+    DATA["components"]["schemas"]["wlan_portal_template_setting"]["properties"]["locales"] = {
+        "type": "object",
+        "additionalProperties": {
+            "$ref": '#/components/schemas/wlan_portal_template_setting_locale'
+        }
+    }
 
+## remove webhooks samples
 del DATA["paths"]["/webhook_example/_alarm_"]
 del DATA["components"]["schemas"]["webhook_alarms"]
 del DATA["components"]["schemas"]["webhook_alarms_events"]

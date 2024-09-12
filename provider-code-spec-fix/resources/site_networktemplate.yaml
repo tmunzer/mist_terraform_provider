@@ -5,7 +5,7 @@ name: site_networktemplate
 next:
 - name: id
   rename: site_id
-- computed_optional_required: computed_optional
+- computed_optional_required: required
   get:
   - string
   name: site_id
@@ -113,6 +113,7 @@ next:
   - get:
     - list
     name: subnets
+    computed_optional_required: computed_optional
     validators:
     - custom:
         imports:
@@ -121,6 +122,15 @@ next:
         - path: github.com/hashicorp/terraform-plugin-framework/path
         schema_definition: mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName("type"),
           types.StringValue("subnet"))
+- name: additional_config_cmds
+  get: 
+  - list
+  validators:
+  - custom:
+      imports:
+      - path: github.com/Juniper/terraform-provider-mist/internal/validators
+      - path: github.com/hashicorp/terraform-plugin-framework-validators/listvalidator
+      schema_definition: listvalidator.SizeAtLeast(1)
 - get:
   - map_nested
   name: extra_routes
@@ -725,6 +735,21 @@ next:
       get:
       - list
       name: trusted_hosts
+    - name: custom
+      get:
+      - list_nested
+      - nested_object
+      - attributes
+      next:
+      - name: subnet
+        get:
+        - list
+        computed_optional_required: computed_optional        
+        default: 
+          custom: 
+            imports:            
+            - path: "github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault"
+            schema_definition: listdefault.StaticValue(types.ListNull(types.StringType))
 - get:
   - map_nested
   name: vrf_instances

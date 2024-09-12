@@ -24,7 +24,7 @@ CUSTOM_DEFAULT_LIST_OF_INT = """
                     {"path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault"},
                     {"path": "github.com/hashicorp/terraform-plugin-framework/types"}
                   ],
-                  "schema_definition": "listdefault.StaticValue(types.ListValueMust(types.Int64Type, []attr.Value{}))"}}
+                  "schema_definition": "listdefault.StaticValue(types.ListNull(types.Int64Type))"}}
 """
 CUSTOM_MAP_VALIDATOR = """
 "map_nested": {

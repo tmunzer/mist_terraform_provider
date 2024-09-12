@@ -130,11 +130,22 @@ next:
           - path: github.com/Juniper/terraform-provider-mist/internal/validators
           - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
           - path: github.com/hashicorp/terraform-plugin-framework/path
-          schema_definition: stringvalidator.Any(stringvalidator.OneOf("https", "tcp",
-            "udp", "icmp", "gre", "any"), mistvalidator.ParseInt(1, 254))
+          schema_definition: |-
+            stringvalidator.Any(
+              stringvalidator.OneOf(
+                "https",
+                "tcp",
+                "udp",
+                "icmp",
+                "gre",
+                "any",
+              ), 
+              mistvalidator.ParseInt(1, 254),
+            )
   - get:
     - list
     name: subnets
+    computed_optional_required: computed_optional
     validators:
     - custom:
         imports:
@@ -143,6 +154,15 @@ next:
         - path: github.com/hashicorp/terraform-plugin-framework/path
         schema_definition: mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName("type"),
           types.StringValue("subnet"))
+- name: additional_config_cmds
+  get: 
+  - list
+  validators:
+  - custom:
+      imports:
+      - path: github.com/Juniper/terraform-provider-mist/internal/validators
+      - path: github.com/hashicorp/terraform-plugin-framework-validators/listvalidator
+      schema_definition: listvalidator.SizeAtLeast(1)
 - get:
   - map_nested
   name: extra_routes
@@ -227,6 +247,7 @@ next:
     - get:
       - list
       name: dns_servers
+      computed_optional_required: computed_optional
       validators:
       - custom:
           imports:
@@ -241,6 +262,7 @@ next:
     - get:
       - list
       name: dns_suffix
+      computed_optional_required: computed_optional
       validators:
       - custom:
           imports:

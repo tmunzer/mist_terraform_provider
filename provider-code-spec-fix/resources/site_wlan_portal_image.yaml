@@ -1,0 +1,28 @@
+get:
+- schema
+- attributes
+name: site_wlan_portal_image
+next:
+- computed_optional_required: required
+  get:
+  - string
+  name: site_id
+- computed_optional_required: required
+  get:
+  - string
+  name: wlan_id
+  description: Site WLAN ID
+- name: file
+  computed_optional_required: required
+  get:
+  - string
+  description: path to the background image file. File must be a `jpeg`, `jpg` or `png` image`
+  validators:
+  - custom:
+      imports:
+      - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+      - path: github.com/Juniper/terraform-provider-mist/internal/validators
+      schema_definition: |-
+        stringvalidator.Any(
+          mistvalidator.ParseImageType(true, true),
+        )
