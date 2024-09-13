@@ -136,6 +136,7 @@ def next_item(data: dict, entries: list, path: list):
         default = entry.get("default")
         default_type = entry.get("default_type")
         sensitive = entry.get("sensitive")
+        no_sensitive = entry.get("no_sensitive")
         no_default = entry.get("no_default")
         description = entry.get("description")
         curr_path = path.copy()
@@ -161,6 +162,8 @@ def next_item(data: dict, entries: list, path: list):
                     sub_data["default"] = json.loads(CUSTOM_DEFAULT_LIST_OF_INT)
             elif default:
                 sub_data["default"] = default
+            if no_sensitive and sub_data.get("sensitive"):
+                del sub_data["sensitive"]
             if no_default and sub_data.get("default"):
                 del sub_data["default"]
             # if isinstance(bool, sensitive):

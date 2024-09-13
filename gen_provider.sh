@@ -66,8 +66,9 @@ tfplugingen-framework generate data-sources \
 echo "fix provider..."
 python3 ./gen_provider_post.py
 
-
-
+cd terraform-provider-mist
+make fmt
+cd ..
 # tfplugingen-framework scaffold resource \
 #     --name services \
 #     --output-dir ./terraform-provider-mist/internal/provider

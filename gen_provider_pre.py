@@ -55,6 +55,23 @@ if (
         "description": "Property key is the network name",
         "additionalProperties": {"$ref": "#/components/schemas/dhcpd_config_property"},
     }
+## port_channelization
+if (
+    DATA.get("components", {})
+    .get("schemas", {})
+    .get("port_channelization", {})
+    .get("additionalProperties")
+):
+    del DATA["components"]["schemas"]["port_channelization"]["additionalProperties"]
+
+    DATA["components"]["schemas"]["port_channelization"]["properties"]["config"] = {
+        "$ref": "#/components/schemas/port_channelization_fix"
+    }
+    DATA["components"]["schemas"]["port_channelization_fix"] = {
+        "type": "object",
+        "description": "Property key is the interface name or range (e.g. `et-0/0/47`, `et-0/0/48-49`), Property value is the interface speed (e.g. `25g`, `50g`)",
+        "additionalProperties": {"$ref": "#/components/schemas/port_channelization_port"},
+    }
 
 ## wlan.portal.sponsors
 ## remove anyOf to remove support of the backward compatibility

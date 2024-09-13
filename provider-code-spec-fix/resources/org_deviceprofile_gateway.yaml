@@ -7,6 +7,12 @@ next:
   get:
   - string
   name: org_id
+  plan_modifiers:
+  - custom:
+      imports:
+      - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier
+      - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier
+      schema_definition: stringplanmodifier.UseStateForUnknown()
 - computed_optional_required: required
   get:
   - string
@@ -21,6 +27,12 @@ next:
   get:
   - string
   name: id
+  plan_modifiers:
+  - custom:
+      imports:
+      - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier
+      - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier
+      schema_definition: stringplanmodifier.UseStateForUnknown()
 - computed_optional_required: computed
   get:
   - string
@@ -708,6 +720,10 @@ next:
           types.StringValue("customer-gre"),
 
           )'
+  - get:
+    - list
+    name: networks
+    computed_optional_required: computed_optional
 - get:
   - single_nested
   - attributes

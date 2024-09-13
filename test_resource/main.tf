@@ -25,6 +25,40 @@ resource "mist_org" "terraform_test" {
 #   ssid       = mist_site_wlan.wlan_one.ssid
 #   usage      = "multi"
 # }
+resource "mist_org_inventory" "inventory" {
+  org_id = mist_org.terraform_test.id
+  devices = [
+    # {
+    #   claim_code = "C9QQFW2B9NKCS33"
+    #   //site_id    = mist_site.terraform_site.id
+    # },
+    {
+      claim_code = "CPKL2EXN8JY98AC"
+      site_id    = mist_site.terraform_site.id
+    },
+    # {
+    #   claim_code = "G87JHBFXZJSFNMX"
+    #   //site_id    = mist_site.terraform_site.id
+    # },
+    {
+      mac     = "2c21311c37b0"
+      site_id = mist_site.terraform_site.id
+    },
+    {
+      claim_code = "CV4YAS8DQWYLL6M"
+      site_id    = mist_site.terraform_site.id
+    }
+    # {
+    #   mac     = "4c9614fc1300"
+    #   site_id = mist_site.terraform_site.id
+    # },
+    # {
+    #   mac     = "4c961496f700"
+    #   site_id = mist_site.terraform_site.id
+    # }
+  ]
+}
+
 resource "mist_org_webhook" "webhook_one" {
   org_id  = mist_org.terraform_test.id
   name    = "test"
@@ -759,40 +793,6 @@ resource "mist_org_idpprofile" "test6" {
 #     "AWS_Hub_Profile1-WAN2" : {},
 #   }
 # }
-
-resource "mist_org_inventory" "inventory" {
-  org_id = mist_org.terraform_test.id
-  devices = [
-    # {
-    #   claim_code = "C9QQFW2B9NKCS33"
-    #   //site_id    = mist_site.terraform_site.id
-    # },
-    {
-      claim_code = "CPKL2EXN8JY98AC"
-      site_id    = mist_site.terraform_site.id
-    },
-    # {
-    #   claim_code = "G87JHBFXZJSFNMX"
-    #   //site_id    = mist_site.terraform_site.id
-    # },
-    {
-      mac     = "2c21311c37b0"
-      site_id = mist_site.terraform_site.id
-    },
-    {
-      claim_code = "CV4YAS8DQWYLL6M"
-      site_id    = mist_site.terraform_site.id
-    }
-    # {
-    #   mac     = "4c9614fc1300"
-    #   site_id = mist_site.terraform_site.id
-    # },
-    # {
-    #   mac     = "4c961496f700"
-    #   site_id = mist_site.terraform_site.id
-    # }
-  ]
-}
 
 # resource "mist_device_gateway_cluster" "cluster_one" {
 #   site_id = mist_site.terraform_site.id
@@ -1606,53 +1606,65 @@ resource "mist_org_inventory" "inventory" {
 #   org_id       = mist_org.terraform_test.id
 # }
 
-# resource "mist_site_setting" "test" {
-#   site_id = mist_site.terraform_site.id
-#   # analytic = {
-#   #   enabled = true
-#   # }
-#   gateway_mgmt = {
-#     root_password = "pwd123"
-#     app_usage     = true
-#     auto_signature_update = {
-#       enable      = true
-#       time_of_day = "02:00"
-#     }
-#     app_probing = {
-#       custom_apps = [
-#         {
-#           address  = "test.com"
-#           protocol = "icmp"
-#         },
-#         {
-#           url      = "example.com"
-#           protocol = "http"
-#         }
-#       ]
-#     }
-#   }
-#   vars = {
-#   }
-#   ap_updown_threshold     = 5
-#   device_updown_threshold = 5
-#   auto_upgrade = {
-#     enabled     = true
-#     day_of_week = "tue"
-#     time_of_day = "02:00"
-#     version     = "beta"
-#   }
-#   config_auto_revert = true
-
-#   persist_config_on_device = true
-#   proxy = {
-#     url = "http://myproxy:3128"
-#   }
-#   rogue = {
-#     enabled          = true
-#     honeypot_enabled = true
-#     min_duration     = 5
-#   }
-# }
+resource "mist_site_setting" "test" {
+  site_id = mist_site.terraform_site.id
+  # analytic = {
+  #   enabled = true
+  # }
+  gateway_mgmt = {
+    root_password = "pwd123"
+    app_usage     = true
+    auto_signature_update = {
+      enable      = true
+      time_of_day = "02:00"
+    }
+    app_probing = {
+      enabled = true
+      custom_apps = [
+        {
+          name = "test1"
+          hostnames  = ["1.2.3.4"]
+          protocol = "icmp"
+        },
+        {
+          name = "test2"
+          hostnames  = ["test.com"]
+          protocol = "icmp"
+        },
+        {
+          name = "test3"
+          hostnames      = ["http://example.com"]
+          protocol = "http"
+        },
+        {
+          name = "test4"
+          hostnames      =[ "https://example.com"]
+          protocol = "http"
+        }
+      ]
+    }
+  }
+  vars = {
+  }
+  ap_updown_threshold     = 5
+  device_updown_threshold = 5
+  auto_upgrade = {
+    enabled     = true
+    day_of_week = "tue"
+    time_of_day = "02:00"
+    version     = "beta"
+  }
+  config_auto_revert = true
+  persist_config_on_device = true
+  proxy = {
+    url = "http://myproxy:3128"
+  }
+  rogue = {
+    enabled          = true
+    honeypot_enabled = true
+    min_duration     = 5
+  }
+}
 
 # resource "mist_org_wlantemplate" "test101" {
 #   org_id = mist_org.terraform_test.id
@@ -2992,6 +3004,25 @@ resource "mist_org_gatewaytemplate" "gatewaytemplate_one" {
       path_preference  = "HUB"
     }
   ]
+  tunnel_configs = {
+    "default" = {
+      ike_lifetime = 28800
+      ike_mode = "main"
+      ike_proposals = [{
+        auth_algo = "sha1"
+        dh_group = "14"
+        enc_algo = "3des"        
+      }]
+      ipsec_lifetime =28800
+      ipsec_proposals =[ {
+        auth_algo = "sha1"
+        dh_group = "14"
+        enc_algo = "3des"        
+      }]
+      mode = "active-active"
+      provider = "custom-ipsec"
+    }
+  }
 }
 
 # resource "mist_org_nactag" "test222" {
@@ -3054,7 +3085,6 @@ resource "mist_org_wlan_portal_template" "test" {
     alignment             = "right"
     privacy               = false
     color                 = "#1074bc"
-    logo                  = null
     cross_site            = false
     tos                   = true
     tosText               = "<< provide your Terms of Service here >>"
@@ -3167,10 +3197,10 @@ resource "mist_org_wlan_portal_template" "test" {
     sponsorInfoDenied        = "Your request was denied by"
     sponsorNotePending       = "Please wait for them to acknowledge."
     sponsorBackLink          = "Go back and edit request form"
-    sponsorsError            = "Please select a sponsor"
+    sponsors_error            = "Please select a sponsor"
     sponsorEmailTemplate     = ""
     multiAuth                = false
-    logo                     = "/Users/SynologyDrive/logos/juniper_mist.png"
+    //logo                     = "/Users/SynologyDrive/logos/Mist/Juniper_en_Mist-00.png"
     locales = {
       "fr-FR" = {
         sponsor_status_approved = "test portal 2!"

@@ -11,10 +11,22 @@ next:
   get:
   - string
   name: device_id
+  plan_modifiers:
+  - custom:
+      imports:
+      - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier
+      - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier
+      schema_definition: stringplanmodifier.UseStateForUnknown()
 - computed_optional_required: computed
   get:
   - string
   name: org_id
+  plan_modifiers:
+  - custom:
+      imports:
+      - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier
+      - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier
+      schema_definition: stringplanmodifier.UseStateForUnknown()
 - computed_optional_required: computed
   get:
   - string
@@ -983,18 +995,28 @@ next:
           types.StringValue("dot1x"))'
   - get:
     - string
-    name: rejected_network
+    name: server_reject_network
     validators:
     - custom:
         imports:
         - path: github.com/Juniper/terraform-provider-mist/internal/validators
         - path: github.com/hashicorp/terraform-plugin-framework/path
         - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
-        schema_definition: 'mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("mode"),
-          types.StringValue("dynamic")),
-
-          mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("port_auth"),
-          types.StringValue("dot1x"))'
+        schema_definition: |-
+          mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("mode"), types.StringValue("dynamic")),
+          mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("port_auth"), types.StringValue("dot1x"))
+  - get:
+    - string
+    name: server_fail_network
+    validators:
+    - custom:
+        imports:
+        - path: github.com/Juniper/terraform-provider-mist/internal/validators
+        - path: github.com/hashicorp/terraform-plugin-framework/path
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+        schema_definition: |-
+          mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("mode"), types.StringValue("dynamic")),
+          mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("port_auth"), types.StringValue("dot1x"))
   - get:
     - string
     name: reset_default_when
