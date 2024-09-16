@@ -38,7 +38,7 @@ if (
         "match_value"
     ] = {"type": "string"}
 
-## dhcpd_config
+## dhcpd_config (GATEWAY)
 if (
     DATA.get("components", {})
     .get("schemas", {})
@@ -54,6 +54,23 @@ if (
         "type": "object",
         "description": "Property key is the network name",
         "additionalProperties": {"$ref": "#/components/schemas/dhcpd_config_property"},
+    }
+## dhcpd_config (SWITCH)
+if (
+    DATA.get("components", {})
+    .get("schemas", {})
+    .get("switch_dhcpd_config", {})
+    .get("additionalProperties")
+):
+    del DATA["components"]["schemas"]["switch_dhcpd_config"]["additionalProperties"]
+
+    DATA["components"]["schemas"]["switch_dhcpd_config"]["properties"]["config"] = {
+        "$ref": "#/components/schemas/switch_dhcpd_config_fix"
+    }
+    DATA["components"]["schemas"]["switch_dhcpd_config_fix"] = {
+        "type": "object",
+        "description": "Property key is the network name",
+        "additionalProperties": {"$ref": "#/components/schemas/switch_dhcpd_config_property"},
     }
 ## port_channelization
 if (

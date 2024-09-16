@@ -17,18 +17,47 @@ next:
   get:
   - string
   name: type
+  default: 
+    custom: 
+      imports:            
+      - path: "github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
+      schema_definition: stringdefault.StaticString("gateway")
+  plan_modifiers:
+  - custom:
+      imports:
+      - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier
+      - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier
+      schema_definition: stringplanmodifier.UseStateForUnknown()
 - computed_optional_required: computed
   get:
   - string
   name: serial
+  plan_modifiers:
+  - custom:
+      imports:
+      - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier
+      - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier
+      schema_definition: stringplanmodifier.UseStateForUnknown()
 - computed_optional_required: computed
   get:
   - string
   name: mac
+  plan_modifiers:
+  - custom:
+      imports:
+      - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier
+      - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier
+      schema_definition: stringplanmodifier.UseStateForUnknown()
 - computed_optional_required: computed
   get:
   - string
   name: model
+  plan_modifiers:
+  - custom:
+      imports:
+      - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier
+      - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier
+      schema_definition: stringplanmodifier.UseStateForUnknown()
 - computed_optional_required: required
   get:
   - string
@@ -43,10 +72,6 @@ next:
       - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier
       - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier
       schema_definition: stringplanmodifier.UseStateForUnknown()
-- computed_optional_required: computed
-  get:
-  - string
-  name: deviceprofile_id
 - computed_optional_required: required
   get:
   - string
@@ -94,14 +119,60 @@ next:
   - attributes
   name: service_policies
   next:
+  - name: action
+    get:
+    - string
+    computed_optional_required: optional
+    description: "Required when `servicepolicy_id` is not defined, optional otherwise (override the servicepolicy action). enum: `allow`, `deny`"
+    validators:
+    - custom:
+        imports:
+        - path: github.com/Juniper/terraform-provider-mist/internal/validators
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+        schema_definition: |-
+          stringvalidator.OneOf(
+            "",
+            "allow",
+            "deny",
+          ),
+          mistvalidator.RequiredWhenValueIsNull(path.MatchRelative().AtParent().AtName("servicepolicy_id"))
+  - name: name
+    get:
+    - string
+    computed_optional_required: optional
+    description: "Required when `servicepolicy_id` is not defined, optional otherwise (override the servicepolicy name)"
+    validators:
+    - custom:
+        imports:
+        - path: github.com/Juniper/terraform-provider-mist/internal/validators
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+        schema_definition: mistvalidator.RequiredWhenValueIsNull(path.MatchRelative().AtParent().AtName("servicepolicy_id"))
   - computed_optional_required: computed_optional
     get:
     - list
     name: services
+    description: "Required when `servicepolicy_id` is not defined. List of Applications / Desctinations"
+    validators:
+    - custom:
+        imports:
+        - path: github.com/Juniper/terraform-provider-mist/internal/validators
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+        schema_definition: |-
+          listvalidator.UniqueValues(),
+          mistvalidator.RequiredWhenValueIsNull(path.MatchRelative().AtParent().AtName("servicepolicy_id"))
   - computed_optional_required: computed_optional
     get:
     - list
     name: tenants
+    description: "Required when `servicepolicy_id` is not defined. List of Networks / Users"
+    validators:
+    - custom:
+        imports:
+        - path: github.com/Juniper/terraform-provider-mist/internal/validators
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+        schema_definition: |-
+          listvalidator.UniqueValues(),
+          mistvalidator.RequiredWhenValueIsNull(path.MatchRelative().AtParent().AtName("servicepolicy_id"))
 - get:
   - map_nested
   - nested_object
@@ -954,14 +1025,32 @@ next:
   get:
   - string
   name: image1_url
+  plan_modifiers:
+  - custom:
+      imports:
+      - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier
+      - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier
+      schema_definition: stringplanmodifier.UseStateForUnknown()
 - computed_optional_required: computed
   get:
   - string
   name: image2_url
+  plan_modifiers:
+  - custom:
+      imports:
+      - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier
+      - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier
+      schema_definition: stringplanmodifier.UseStateForUnknown()
 - computed_optional_required: computed
   get:
   - string
   name: image3_url
+  plan_modifiers:
+  - custom:
+      imports:
+      - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier
+      - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier
+      schema_definition: stringplanmodifier.UseStateForUnknown()
 - get:
   - map_nested
   name: extra_routes

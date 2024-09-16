@@ -344,11 +344,23 @@ next:
         - string
         computed_optional_required: computed
         description: " "
+        plan_modifiers:
+        - custom:
+            imports:
+            - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier
+            - path: github.com/Juniper/terraform-provider-mist/internal/planmodifiers
+            schema_definition: mistplanmodifiers.OnlyRefreshIfValueHasChanged(path.MatchRelative().AtParent().AtName("hostnames"))
       - name: url
         get:
         - string
         computed_optional_required: computed
         description: " "
+        plan_modifiers:
+        - custom:
+            imports:
+            - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier
+            - path: github.com/Juniper/terraform-provider-mist/internal/planmodifiers
+            schema_definition: mistplanmodifiers.OnlyRefreshIfValueHasChanged(path.MatchRelative().AtParent().AtName("hostnames"))
       - name: hostnames
         get:
         - list
@@ -369,6 +381,12 @@ next:
         - string
         computed_optional_required: computed
         no_sensitive: true
+        plan_modifiers:
+        - custom:
+            imports:
+            - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier
+            - path: github.com/Juniper/terraform-provider-mist/internal/planmodifiers
+            schema_definition: mistplanmodifiers.OnlyRefreshIfValueHasChanged(path.MatchRelative().AtParent().AtName("hostnames"))
       - name: name
         get:
         - string

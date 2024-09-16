@@ -76,14 +76,60 @@ next:
   - attributes
   name: service_policies
   next:
+  - name: action
+    get:
+    - string
+    computed_optional_required: optional
+    description: "Required when `servicepolicy_id` is not defined, optional otherwise (override the servicepolicy action). enum: `allow`, `deny`"
+    validators:
+    - custom:
+        imports:
+        - path: github.com/Juniper/terraform-provider-mist/internal/validators
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+        schema_definition: |-
+          stringvalidator.OneOf(
+            "",
+            "allow",
+            "deny",
+          ),
+          mistvalidator.RequiredWhenValueIsNull(path.MatchRelative().AtParent().AtName("servicepolicy_id"))
+  - name: name
+    get:
+    - string
+    computed_optional_required: optional
+    description: "Required when `servicepolicy_id` is not defined, optional otherwise (override the servicepolicy name)"
+    validators:
+    - custom:
+        imports:
+        - path: github.com/Juniper/terraform-provider-mist/internal/validators
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+        schema_definition: mistvalidator.RequiredWhenValueIsNull(path.MatchRelative().AtParent().AtName("servicepolicy_id"))
   - computed_optional_required: computed_optional
     get:
     - list
     name: services
+    description: "Required when `servicepolicy_id` is not defined. List of Applications / Desctinations"
+    validators:
+    - custom:
+        imports:
+        - path: github.com/Juniper/terraform-provider-mist/internal/validators
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+        schema_definition: |-
+          listvalidator.UniqueValues(),
+          mistvalidator.RequiredWhenValueIsNull(path.MatchRelative().AtParent().AtName("servicepolicy_id"))
   - computed_optional_required: computed_optional
     get:
     - list
     name: tenants
+    description: "Required when `servicepolicy_id` is not defined. List of Networks / Users"
+    validators:
+    - custom:
+        imports:
+        - path: github.com/Juniper/terraform-provider-mist/internal/validators
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+        schema_definition: |-
+          listvalidator.UniqueValues(),
+          mistvalidator.RequiredWhenValueIsNull(path.MatchRelative().AtParent().AtName("servicepolicy_id"))
 - get:
   - map_nested
   - nested_object

@@ -49,6 +49,7 @@ FILES = {
             "snmpv3_contents": "contents",
             "snmpv3_users": "users",
             "snmpv3_vacm_content": "content",
+            "ospf_networks": "networks",
         },
         "dedup": [
             "ExtraRoutes",
@@ -70,6 +71,7 @@ FILES = {
             "snmpv3_contents": "contents",
             "snmpv3_users": "users",
             "snmpv3_vacm_content": "content",
+            "ospf_networks": "networks",
         },
         "dedup": [
             "ExtraRoutes",
@@ -128,6 +130,7 @@ FILES = {
             "snmpv3_contents": "contents",
             "snmpv3_users": "users",
             "snmpv3_vacm_content": "content",
+            "ospf_networks": "networks",
         },
         "dedup": [
             "ExtraRoutes",

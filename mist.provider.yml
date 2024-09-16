@@ -3,11 +3,11 @@ info:
   contact:
     email: tmunzer@juniper.net
     name: Thomas Munzer
-  description: '> Version: **2409.1.1**
+  description: '> Version: **2409.1.3**
 
     >
 
-    > Date: **September 13, 2024**
+    > Date: **September 16, 2024**
 
 
     ---
@@ -43,7 +43,7 @@ info:
     name: MIT
     url: https://raw.githubusercontent.com/tmunzer/Mist-OAS3.0/main/LICENSE
   title: Mist API
-  version: 2409.1.1
+  version: 2409.1.3
 servers:
 - description: Mist Global 01
   url: https://api.mist.com
@@ -52438,7 +52438,6 @@ components:
       - alarm_ids
       type: object
     allow_deny:
-      default: allow
       description: 'enum: `allow`, `deny`'
       enum:
       - ''
@@ -54102,7 +54101,7 @@ components:
     app_probing_custom_app:
       properties:
         address:
-          description: if `protocol`==`icmp`
+          description: required if `protocol`==`icmp`
           example: 192.168.1.1
           type: string
         app_type:
@@ -54117,6 +54116,11 @@ components:
         network:
           example: lan
           type: string
+        packetSize:
+          description: if `protocol`==`icmp`
+          maximum: 65400
+          minimum: 0
+          type: integer
         protocol:
           $ref: '#/components/schemas/app_probing_custom_app_protocol'
         url:
@@ -57919,7 +57923,7 @@ components:
         dhcp_snooping:
           $ref: '#/components/schemas/dhcp_snooping'
         dhcpd_config:
-          $ref: '#/components/schemas/dhcpd_config'
+          $ref: '#/components/schemas/switch_dhcpd_config'
         disable_auto_config:
           default: false
           description: for a claimed switch, we control the configs by default. This
@@ -57985,8 +57989,8 @@ components:
           $ref: '#/components/schemas/switch_oob_ip_config'
         org_id:
           $ref: '#/components/schemas/org_id'
-        ospf_config:
-          $ref: '#/components/schemas/ospf_config'
+        ospf_areas:
+          $ref: '#/components/schemas/ospf_areas'
         other_ip_configs:
           additionalProperties:
             $ref: '#/components/schemas/junos_other_ip_config'
@@ -62416,10 +62420,11 @@ components:
       - qrcode
       type: string
     mist_device:
-      oneOf:
-      - $ref: '#/components/schemas/device_ap'
-      - $ref: '#/components/schemas/device_switch'
-      - $ref: '#/components/schemas/device_gateway'
+      $ref: '#/components/schemas/device_switch'
+      # oneOf:
+      # - $ref: '#/components/schemas/device_ap'
+      # - $ref: '#/components/schemas/device_switch'
+      # - $ref: '#/components/schemas/device_gateway'
     mist_nacedge:
       properties:
         auth_ttl:
@@ -64490,6 +64495,8 @@ components:
           $ref: '#/components/schemas/ntp_servers'
         org_id:
           $ref: '#/components/schemas/org_id'
+        ospf_areas:
+          $ref: '#/components/schemas/ospf_areas'
         port_mirroring:
           $ref: '#/components/schemas/switch_port_mirroring'
         port_usages:
@@ -65519,7 +65526,6 @@ components:
         idp:
           $ref: '#/components/schemas/idp_config'
         local_routing:
-          default: false
           description: access within the same VRF
           type: boolean
         modified_time:
@@ -66445,8 +66451,9 @@ components:
         format: uuid
         type: string
       type: array
-    ospf_areas:
-      description: Junos OSPF areas
+    ospf_area:
+      description: Property key is the OSPF Area (Area should be a number (0-255)
+        / IP address)
       properties:
         include_loopback:
           default: false
@@ -66454,8 +66461,6 @@ components:
         networks:
           additionalProperties:
             $ref: '#/components/schemas/ospf_areas_network'
-          description: "Networks to participate in an OSPF area. \nProperty key is\
-            \ the network name"
           example:
             corp:
               auth_keys:
@@ -66470,23 +66475,62 @@ components:
               passive: true
           type: object
         type:
-          $ref: '#/components/schemas/ospf_areas_type'
+          $ref: '#/components/schemas/ospf_area_type'
+      type: object
+    ospf_area_network_auth_type:
+      default: none
+      description: 'auth type. enum: `md5`, `none`, `password`'
+      enum:
+      - ''
+      - md5
+      - none
+      - password
+      example: md5
+      type: string
+    ospf_area_network_interface_type:
+      default: broadcast
+      description: 'interface type (nbma = non-broadcast multi-access). enum: `broadcast`,
+        `nbma`, `p2mp`, `p2p`'
+      enum:
+      - ''
+      - broadcast
+      - nbma
+      - p2mp
+      - p2p
+      type: string
+    ospf_area_type:
+      default: default
+      description: 'OSPF type. enum: `default`, `nssa`, `stub`'
+      enum:
+      - ''
+      - default
+      - nssa
+      - stub
+      example: default
+      type: string
+    ospf_areas:
+      additionalProperties:
+        $ref: '#/components/schemas/ospf_area'
+      description: Junos OSPF areas
       type: object
     ospf_areas_network:
+      description: Property key is the network name. Networks to participate in an
+        OSPF area
       properties:
         auth_keys:
           additionalProperties:
             type: string
-          description: if `auth_type`==`md5`. Property key is the key number
+          description: Required if `auth_type`==`md5`. Property key is the key number
           example:
             '1': auth-key-1
           type: object
         auth_password:
-          description: if `auth_type`==`password`, the password, max length is 8
+          description: Required if `auth_type`==`password`, the password, max length
+            is 8
           example: simple
           type: string
         auth_type:
-          $ref: '#/components/schemas/ospf_areas_network_auth_type'
+          $ref: '#/components/schemas/ospf_area_network_auth_type'
         bfd_minimum_interval:
           example: 500
           maximum: 255000
@@ -66508,7 +66552,7 @@ components:
           example: import_policy
           type: string
         interface_type:
-          $ref: '#/components/schemas/ospf_areas_network_interface_type'
+          $ref: '#/components/schemas/ospf_area_network_interface_type'
         metric:
           example: 10000
           maximum: 65535
@@ -66525,37 +66569,6 @@ components:
           description: whether to send OSPF-Hello
           type: boolean
       type: object
-    ospf_areas_network_auth_type:
-      default: none
-      description: 'auth type. enum: `md5`, `none`, `password`'
-      enum:
-      - ''
-      - md5
-      - none
-      - password
-      example: md5
-      type: string
-    ospf_areas_network_interface_type:
-      default: broadcast
-      description: 'interface type (nbma = non-broadcast multi-access). enum: `broadcast`,
-        `nbma`, `p2mp`, `p2p`'
-      enum:
-      - ''
-      - broadcast
-      - nbma
-      - p2mp
-      - p2p
-      type: string
-    ospf_areas_type:
-      default: default
-      description: 'OSPF type. enum: `default`, `nssa`, `stub`'
-      enum:
-      - ''
-      - default
-      - nssa
-      - stub
-      example: default
-      type: string
     ospf_config:
       description: Junos OSPF config
       properties:
@@ -72521,7 +72534,6 @@ components:
         idp:
           $ref: '#/components/schemas/idp_config'
         local_routing:
-          default: false
           description: access within the same VRF
           type: boolean
         name:
@@ -73476,7 +73488,7 @@ components:
         org_id:
           $ref: '#/components/schemas/org_id'
         ospf_areas:
-          $ref: '#/components/schemas/site_setting_ospf_areas'
+          $ref: '#/components/schemas/ospf_areas'
         paloalto_networks:
           $ref: '#/components/schemas/site_setting_paloalto_networks'
         persist_config_on_device:
@@ -73815,12 +73827,6 @@ components:
       items:
         type: string
       type: array
-    site_setting_ospf_areas:
-      additionalProperties:
-        $ref: '#/components/schemas/ospf_areas'
-      description: OSPF Areas can be configured both in Site Level (Switch/Gateway
-        Template) or Device (Switch/Gateway) Level
-      type: object
     site_setting_paloalto_network_gateway:
       properties:
         api_key:
@@ -79673,6 +79679,92 @@ components:
       - ''
       - org
       - site
+      type: string
+    switch_dhcpd_config:
+      properties:
+        config:
+          $ref: '#/components/schemas/switch_dhcpd_config_fix'
+        enabled:
+          default: false
+          description: if set to `true`, enable the DHCP server
+          type: boolean
+      type: object
+    switch_dhcpd_config_fix:
+      additionalProperties:
+        $ref: '#/components/schemas/switch_dhcpd_config_property'
+      description: Property key is the network name
+      type: object
+    switch_dhcpd_config_property:
+      properties:
+        dns_servers:
+          $ref: '#/components/schemas/dhcpd_config_dns_servers'
+        dns_suffix:
+          $ref: '#/components/schemas/dhcpd_config_dns_suffix'
+        fixed_bindings:
+          $ref: '#/components/schemas/dhcpd_config_fixed_bindings'
+        gateway:
+          description: if `type`==`local` - optional, `ip` will be used if not provided
+          example: 192.168.70.1
+          type: string
+        ip_end:
+          description: if `type`==`local`
+          example: 192.168.70.200
+          type: string
+        ip_end6:
+          description: if `type6`==`local`
+          example: 2607:f8b0:4005:808::ff
+          type: string
+        ip_start:
+          description: if `type`==`local`
+          example: 192.168.70.100
+          type: string
+        ip_start6:
+          description: if `type6`==`local`
+          example: 2607:f8b0:4005:808::2
+          type: string
+        lease_time:
+          default: 86400
+          description: in seconds, lease time has to be between 3600 [1hr] - 604800
+            [1 week], default is 86400 [1 day]
+          maximum: 604800
+          minimum: 3600
+          type: integer
+        options:
+          $ref: '#/components/schemas/dhcpd_config_options'
+        server_id_override:
+          default: false
+          description: "`server_id_override`==`true` means the device, when acts as\
+            \ DHCP relay and forwards DHCP responses from DHCP server to clients,\
+            \ \nshould overwrite the Sever Identifier option (i.e. DHCP option 54)\
+            \ in DHCP responses with its own IP address."
+          type: boolean
+        servers:
+          $ref: '#/components/schemas/dhcpd_config_servers'
+        servers6:
+          $ref: '#/components/schemas/dhcpd_config_servers6'
+        type:
+          $ref: '#/components/schemas/switch_dhcpd_config_type'
+        type6:
+          $ref: '#/components/schemas/switch_dhcpd_config_type6'
+        vendor_encapulated:
+          $ref: '#/components/schemas/dhcpd_config_vendor_options'
+      type: object
+    switch_dhcpd_config_type:
+      description: 'enum: `none`, `relay` (DHCP Relay), `server` (DHCP Server)'
+      enum:
+      - ''
+      - none
+      - relay
+      - server
+      type: string
+    switch_dhcpd_config_type6:
+      default: none
+      description: 'enum: `none`, `relay` (DHCP Relay), `server` (DHCP Server)'
+      enum:
+      - ''
+      - none
+      - relay
+      - server
       type: string
     switch_matching:
       description: Switch template

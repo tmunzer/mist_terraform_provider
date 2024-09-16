@@ -237,6 +237,49 @@ next:
       - path: github.com/hashicorp/terraform-plugin-framework-validators/listvalidator
       schema_definition: listvalidator.ValueStringsAre(stringvalidator.Any(mistvalidator.ParseIp(true,
         false), mistvalidator.ParseVar()))
+- name: ospf_areas
+  get:
+  - map_nested
+  - nested_object
+  - attributes
+  next:
+  - name: networks
+    rename: ospf_networks
+  - name: ospf_networks
+    get:
+    - map_nested
+    computed_optional_required: required
+  - name: ospf_networks
+    get:
+    - map_nested
+    - nested_object
+    - attributes
+    next:
+    - name: auth_keys
+      computed_optional_required: computed_optional
+      get:
+      - map
+      validators:
+      - custom:
+          imports:
+          - path: github.com/Juniper/terraform-provider-mist/internal/validators
+          - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+          - path: github.com/hashicorp/terraform-plugin-framework/path
+          schema_definition: |-
+            mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName("auth_type"), types.StringValue("md5"))
+    - name: auth_password
+      get:
+      - string
+      validators:
+      - custom:
+          imports:
+          - path: github.com/Juniper/terraform-provider-mist/internal/validators
+          - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+          - path: github.com/hashicorp/terraform-plugin-framework/path
+          schema_definition: |-
+            mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName("auth_type"), types.StringValue("password")),
+            stringvalidator.LengthAtLeast(1),
+            stringvalidator.LengthAtMost(8)
 - get:
   - map_nested
   - nested_object
