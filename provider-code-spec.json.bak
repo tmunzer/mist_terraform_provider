@@ -1628,7 +1628,7 @@
 									}
 								]
 							},
-							"description": "Property key is the port mirroring instance name\nport_mirroring can be added under device/site settings. It takes interface and ports as input for ingress, interface as input for egress and can take interface and port as output."
+							"description": "Property key is the port mirroring instance name (Maximum: 4)\nport_mirroring can be added under device/site settings. It takes interface and ports as input for ingress, interface as input for egress and can take interface and port as output."
 						}
 					},
 					{
@@ -3897,7 +3897,7 @@
 													"element_type": {
 														"string": {}
 													},
-													"description": "optionally, services we'll allow"
+													"description": "optionally, services we'll allow. enum: `icmp`, `ssh`"
 												}
 											},
 											{
@@ -3939,7 +3939,7 @@
 																}
 															},
 															{
-																"name": "subnet",
+																"name": "subnets",
 																"list": {
 																	"computed_optional_required": "computed_optional",
 																	"element_type": {
@@ -5119,7 +5119,7 @@
 									}
 								]
 							},
-							"description": "Property key is the port mirroring instance name\nport_mirroring can be added under device/site settings. It takes interface and ports as input for ingress, interface as input for egress and can take interface and port as output."
+							"description": "Property key is the port mirroring instance name (Maximum: 4)\nport_mirroring can be added under device/site settings. It takes interface and ports as input for ingress, interface as input for egress and can take interface and port as output."
 						}
 					},
 					{
@@ -7548,7 +7548,7 @@
 																}
 															]
 														},
-														"description": "Property key is the port mirroring instance name\nport_mirroring can be added under device/site settings. It takes interface and ports as input for ingress, interface as input for egress and can take interface and port as output."
+														"description": "Property key is the port mirroring instance name (Maximum: 4)\nport_mirroring can be added under device/site settings. It takes interface and ports as input for ingress, interface as input for egress and can take interface and port as output."
 													}
 												}
 											]
@@ -7728,7 +7728,7 @@
 													"element_type": {
 														"string": {}
 													},
-													"description": "optionally, services we'll allow"
+													"description": "optionally, services we'll allow. enum: `icmp`, `ssh`"
 												}
 											},
 											{
@@ -7770,7 +7770,7 @@
 																}
 															},
 															{
-																"name": "subnet",
+																"name": "subnets",
 																"list": {
 																	"computed_optional_required": "computed_optional",
 																	"element_type": {
@@ -8785,7 +8785,7 @@
 									}
 								]
 							},
-							"description": "Property key is the port mirroring instance name\nport_mirroring can be added under device/site settings. It takes interface and ports as input for ingress, interface as input for egress and can take interface and port as output."
+							"description": "Property key is the port mirroring instance name (Maximum: 4)\nport_mirroring can be added under device/site settings. It takes interface and ports as input for ingress, interface as input for egress and can take interface and port as output."
 						}
 					},
 					{
@@ -11214,7 +11214,7 @@
 																}
 															]
 														},
-														"description": "Property key is the port mirroring instance name\nport_mirroring can be added under device/site settings. It takes interface and ports as input for ingress, interface as input for egress and can take interface and port as output."
+														"description": "Property key is the port mirroring instance name (Maximum: 4)\nport_mirroring can be added under device/site settings. It takes interface and ports as input for ingress, interface as input for egress and can take interface and port as output."
 													}
 												}
 											]
@@ -11394,7 +11394,7 @@
 													"element_type": {
 														"string": {}
 													},
-													"description": "optionally, services we'll allow"
+													"description": "optionally, services we'll allow. enum: `icmp`, `ssh`"
 												}
 											},
 											{
@@ -11436,7 +11436,7 @@
 																}
 															},
 															{
-																"name": "subnet",
+																"name": "subnets",
 																"list": {
 																	"computed_optional_required": "computed_optional",
 																	"element_type": {

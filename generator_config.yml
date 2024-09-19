@@ -883,6 +883,9 @@ resources:
   #     attributes:
   #       aliases:
   #         wlan_id: id      
+################################################################################
+#######################                 WXRULES
+################################################################################
   # org_wxrule:
   #   create:
   #     path: /api/v1/orgs/{org_id}/wxrules
@@ -905,6 +908,31 @@ resources:
   #     attributes:
   #       aliases:
   #         wxrule_id: id      
+  # site_wxrule:
+  #   create:
+  #     path: /api/v1/sites/{site_id}/wxrules
+  #     method: POST
+  #   read:
+  #     path: /api/v1/sites/{site_id}/wxrules/{wxrule_id}
+  #     method: GET
+  #   delete:
+  #     path: /api/v1/sites/{site_id}/wxrules/{wxrule_id}
+  #     method: DELETE
+  #   update:
+  #     path: /api/v1/sites/{site_id}/wxrules/{wxrule_id}
+  #     method: PUT      
+  #   schema:
+  #     ignores:
+  #       - created_time
+  #       - modified_time
+  #       - for_site
+  #       - org_id
+  #     attributes:
+  #       aliases:
+  #         wxrule_id: id  
+################################################################################
+#######################                 WXTAGS
+################################################################################
   # org_wxtag:
   #   create:
   #     path: /api/v1/orgs/{org_id}/wxtags
@@ -930,28 +958,7 @@ resources:
   #       - subnet
   #     attributes:
   #       aliases:
-  #         wxtag_id: id     
-  # site_wxrule:
-  #   create:
-  #     path: /api/v1/sites/{site_id}/wxrules
-  #     method: POST
-  #   read:
-  #     path: /api/v1/sites/{site_id}/wxrules/{wxrule_id}
-  #     method: GET
-  #   delete:
-  #     path: /api/v1/sites/{site_id}/wxrules/{wxrule_id}
-  #     method: DELETE
-  #   update:
-  #     path: /api/v1/sites/{site_id}/wxrules/{wxrule_id}
-  #     method: PUT      
-  #   schema:
-  #     ignores:
-  #       - created_time
-  #       - modified_time
-  #       - for_site
-  #     attributes:
-  #       aliases:
-  #         wxrule_id: id      
+  #         wxtag_id: id         
   # site_wxtag:
   #   create:
   #     path: /api/v1/sites/{site_id}/wxtags
@@ -974,6 +981,7 @@ resources:
   #       - resource_mac
   #       - services
   #       - subnet
+  #       - org_id
   #     attributes:
   #       aliases:
   #         wxtag_id: id   

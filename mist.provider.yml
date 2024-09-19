@@ -67035,13 +67035,19 @@ components:
           $ref: '#/components/schemas/protect_re_trusted_hosts'
       type: object
     protect_re_allowed_services:
-      description: optionally, services we'll allow
+      description: "optionally, services we'll allow. enum: `icmp`, `ssh`"
       example:
       - icmp
       - ssh
       items:
-        type: string
+          $ref: '#/components/schemas/protect_re_allowed_service'
       type: array
+    protect_re_allowed_service:
+      type: string
+      enum:
+      - icmp
+      - ssh
+      description: "enum: `icmp`, `ssh`"
     protect_re_custom:
       description: custom acls
       properties:
@@ -67052,7 +67058,7 @@ components:
           type: string
         protocol:
           $ref: '#/components/schemas/protect_re_custom_protocol'
-        subnet:
+        subnets:
           $ref: '#/components/schemas/protect_re_custom_subnet'
       type: object
     protect_re_custom_protocol:
@@ -80013,7 +80019,7 @@ components:
     switch_port_mirroring:
       additionalProperties:
         $ref: '#/components/schemas/switch_port_mirroring_property'
-      description: 'Property key is the port mirroring instance name
+      description: 'Property key is the port mirroring instance name (Maximum: 4)
 
         port_mirroring can be added under device/site settings. It takes interface
         and ports as input for ingress, interface as input for egress and can take

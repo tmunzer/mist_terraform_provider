@@ -802,11 +802,188 @@ resource "mist_org_idpprofile" "test6" {
 #     { mac = mist_org_inventory.inventory.devices[4].mac }
 #   ]
 # }
-# resource "mist_device_gateway" "cluster_one"{
-#   site_id = mist_site.terraform_site.id
-#   device_id = mist_device_gateway_cluster.cluster_one.id
-#   name = "cluster_one"
-# }
+resource "mist_device_gateway" "cluster_one" {
+  site_id                = mist_org_inventory.inventory.devices[4].site_id
+  device_id              = mist_org_inventory.inventory.devices[4].id
+  name                   = "cluster_one"
+  managed                = true
+  additional_config_cmds = ["hello world"]
+  bgp_config = {
+    "test" = {
+      auth_key             = "secret"
+      bfd_minimum_interval = 4
+      bfd_multiplier       = 3
+      communities = [
+        {
+          id               = "1234"
+          local_preference = 23
+        }
+      ]
+    }
+  }
+  dhcpd_config = {
+    config = {
+      "test" = {}
+      "CORE_VLAN410" = {
+        dns_servers = ["8.8.8.8"]
+        dns_suffix  = ["mycorp.local"]
+        fixed_bindings = {
+          "deadbeefdead" = {
+            ip   = "10.4.171.11"
+            name = "c0ffee"
+          }
+        }
+        gateway    = "10.4.171.1"
+        ip_end     = "10.4.171.100"
+        ip_start   = "10.4.171.10"
+        lease_time = "5463"
+        options = {
+          "42" = {
+            type  = "string"
+            value = "2.2.2.2"
+          }
+        }
+        type = "local"
+      }
+      "RESTRICTED_VLAN420" = {
+        type    = "relay"
+        servers = ["1.2.3.4"]
+      }
+    }
+    enabled = true
+  }
+  vrf_instances = {
+    VRF_ONE = {
+      networks = [
+        "CORE_VLAN410",
+        "RESTRICTED_VLAN420"
+      ]
+    }
+  }
+  vrf_config = {
+    enabled = true
+  }
+  port_config = {
+    "ge-0/0/7,ge-5/0/7" = {
+      usage     = "lan"
+      redundant = true
+      networks = [
+        "CORE_VLAN410",
+        "RESTRICTED_VLAN420",
+        "AUTOMATION_VLAN460",
+        "UNTRUSTED_VLAN490",
+        "MANAGEMENT_VLAN430",
+      ]
+      reth_idx  = "3"
+      reth_node = "node0"
+    }
+    "ge-0/0/3" = {
+      name       = "FTTH"
+      usage      = "wan"
+      aggregated = false
+      redundant  = false
+      critical   = false
+      wan_type   = "broadband"
+      ip_config = {
+        type    = "static"
+        ip      = "192.168.1.8"
+        netmask = "/24"
+        gateway = "192.168.1.1"
+      }
+      disable_autoneg = false
+      speed           = "auto"
+      duplex          = "auto"
+      wan_source_nat = {
+        disabled = false
+      }
+    }
+  }
+  ip_configs = {
+    "CORE_VLAN410" = {
+      type    = "static"
+      ip      = "10.4.171.1"
+      netmask = "/24"
+    }
+    "RESTRICTED_VLAN420" = {
+      type    = "static"
+      ip      = "10.5.171.1"
+      netmask = "/24"
+    }
+    "AUTOMATION_VLAN460" = {
+      type    = "static"
+      ip      = "10.6.171.1"
+      netmask = "/24"
+    }
+    "UNTRUSTED_VLAN490" = {
+      type    = "static"
+      ip      = "10.7.171.1"
+      netmask = "/24"
+    }
+    "MANAGEMENT_VLAN430" = {
+      type    = "static"
+      ip      = "10.8.171.1"
+      netmask = "/24"
+    }
+  }
+  path_preferences = {
+    HUB = {
+      paths = [
+        {
+          type = "wan"
+          name = "FTTH"
+        }
+      ]
+    }
+  }
+  service_policies = [
+    {
+      name            = "Policy-14"
+      tenants         = ["MANAGEMENT_VLAN430"]
+      services        = ["any"]
+      action          = "allow"
+      path_preference = "HUB"
+      idp = {
+        enabled    = true
+        profile    = "critical"
+        alert_only = false
+      }
+    },
+    {
+      name            = "Policy-15"
+      tenants         = ["MANAGEMENT_VLAN430"]
+      services        = ["any"]
+      action          = "allow"
+      path_preference = "HUB"
+      idp = {
+        idpprofile_id = mist_org_idpprofile.test1.id
+      }
+    },
+    {
+      name             = "lan2"
+      servicepolicy_id = mist_org_servicepolicy.test1.id
+      path_preference  = "HUB"
+    }
+  ]
+  tunnel_configs = {
+    "default" = {
+      ike_lifetime = 28800
+      ike_mode     = "main"
+      ike_proposals = [{
+        auth_algo = "sha1"
+        dh_group  = "14"
+        enc_algo  = "3des"
+      }]
+      ipsec_lifetime = 28800
+      ipsec_proposals = [{
+        auth_algo = "sha1"
+        dh_group  = "14"
+        enc_algo  = "3des"
+      }]
+      mode     = "active-active"
+      provider = "custom-ipsec"
+    }
+  }
+}
 
 
 
@@ -1606,7 +1783,6 @@ resource "mist_device_ap" "test_ap" {
 #   name         = "tf"
 #   org_id       = mist_org.terraform_test.id
 # }
-
 resource "mist_site_setting" "test" {
   site_id = mist_site.terraform_site.id
   # analytic = {
@@ -1623,24 +1799,24 @@ resource "mist_site_setting" "test" {
       enabled = true
       custom_apps = [
         {
-          name = "test1"
-          hostnames  = ["1.2.3.5"]
-          protocol = "icmp"
+          name      = "test1"
+          hostnames = ["1.2.3.5"]
+          protocol  = "icmp"
         },
         {
-          name = "test2"
-          hostnames  = ["test.com"]
-          protocol = "icmp"
+          name      = "test2"
+          hostnames = ["test.com"]
+          protocol  = "icmp"
         },
         {
-          name = "test3"
-          hostnames      = ["http://example.com"]
-          protocol = "http"
+          name      = "test3"
+          hostnames = ["http://example.com"]
+          protocol  = "http"
         },
         {
-          name = "test4"
-          hostnames      =[ "https://example.com"]
-          protocol = "http"
+          name      = "test4"
+          hostnames = ["https://example.com"]
+          protocol  = "http"
         }
       ]
     }
@@ -1655,7 +1831,7 @@ resource "mist_site_setting" "test" {
     time_of_day = "02:00"
     version     = "beta"
   }
-  config_auto_revert = true
+  config_auto_revert       = true
   persist_config_on_device = true
   proxy = {
     url = "http://myproxy:3128"
@@ -1719,7 +1895,38 @@ resource "mist_site_setting" "test" {
 #     default_vlan_ids = ["1-10", "{{dddd}}", "123"]
 #   }
 # }
-
+resource "mist_site_wxtag" "test_2" {
+  values = [
+    "53"
+  ]
+  op      = "in"
+  name    = "DNS"
+  site_id = mist_site.terraform_site.id
+  type    = "match"
+  match   = "port"
+}
+resource "mist_site_wxtag" "test_6" {
+  op = "in"
+  values = [
+    "test1"
+  ]
+  name    = "test1"
+  site_id = mist_site.terraform_site.id
+  type    = "match"
+  match   = "radius_group"
+}
+resource "mist_site_wxrule" "test_1" {
+  action = "allow"
+  dst_deny_wxtags = [
+    mist_site_wxtag.test_2.id
+  ]
+  enabled = true
+  src_wxtags = [
+    mist_site_wxtag.test_6.id
+  ]
+  site_id = mist_site.terraform_site.id
+  order   = 2
+}
 
 resource "mist_org_wlantemplate" "wlantemplate_one" {
   name   = "wlantemplate"
@@ -1764,7 +1971,7 @@ resource "mist_org_wlan_portal_image" "image1" {
 
 
 resource "mist_org_networktemplate" "switch_template" {
-  name   = "test_switch"
+  name   = "switch_template"
   org_id = mist_org.terraform_test.id
   acl_policies = [{
     actions = [{
@@ -1778,6 +1985,9 @@ resource "mist_org_networktemplate" "switch_template" {
     "test" = {
       type = "mac"
       macs = ["deadbeefc0ffee"]
+    },
+    "test2" = {
+      type = "resource"
     }
   }
   //additional_config_cmds = []
@@ -1806,10 +2016,30 @@ resource "mist_org_networktemplate" "switch_template" {
     }
   }
   ntp_servers = ["10.3.51.222"]
-
   port_mirroring = {
+    "mcd-sw1-span" : {
+      input_networks_ingress : [
+        "CORE"
+      ]
+      output_port_id : "ge-0/0/42"
+    },
     "test" = {
+      output_port_id = "ge-0/0/10"
+      input_port_ids_ingress = [
+        "ge-0/0/3"
+      ]
+      input_port_ids_egress = [
+        "ge-0/0/3"
+      ]
+    },
+    "test2" = {
       output_network = "prx"
+      input_networks_ingress = [
+        "default"
+      ]
+    }
+    "test3" = {
+      output_port_id = "ge-0/0/10"
       input_networks_ingress = [
         "default"
       ]
@@ -1821,11 +2051,16 @@ resource "mist_org_networktemplate" "switch_template" {
       disabled     = true
       port_network = "default"
     },
+    test0 = {
+      mode     = "trunk"
+      networks = []
+    }
     test = {
       allow_dhcpd                                     = false
       allow_multiple_supplicants                      = true
       bypass_auth_when_server_down                    = true
       bypass_auth_when_server_down_for_unkonwn_client = false
+      dynamic_vlan_networks                           = []
       description : "test"
       disable_autoneg   = false
       disabled          = false
@@ -1905,6 +2140,29 @@ resource "mist_org_networktemplate" "switch_template" {
     enable = true
     rules = [
       {
+        port_mirroring = {
+          "test" = {
+            output_port_id = "ge-0/0/10"
+            input_port_ids_ingress = [
+              "ge-0/0/3"
+            ]
+            input_port_ids_egress = [
+              "ge-0/0/3"
+            ]
+          },
+          "test2" = {
+            output_network = "prx"
+            input_networks_ingress = [
+              "default"
+            ]
+          }
+          "test3" = {
+            output_port_id = "ge-0/0/10"
+            input_networks_ingress = [
+              "default"
+            ]
+          }
+        }
         ip_config = {
           network = "test"
           type    = "static"
@@ -1941,23 +2199,25 @@ resource "mist_org_networktemplate" "switch_template" {
       }
     ]
   }
-  # switch_mgmt = {
-  #   ap_affinity_threshold = 12
-  #   cli_banner = "Weclome!"
-  #   cli_idle_timeout = 10
-  #   config_revert = 5
-  #   protect_re = {
-  #     enabled = true
-  #     custom = [{
-  #       protocol = "any"
-  #       port_range = "4000"
-  #     }]
-  #     trusted_host = [
-  #       "1.2.3.4"
-  #     ]
-  #   }
-  #   root_password = "Juniper123!"
-  # }
+  switch_mgmt = {
+    ap_affinity_threshold = 12
+    cli_banner            = "Weclome!"
+    cli_idle_timeout      = 10
+    config_revert_timer   = 5
+    protect_re = {
+      enabled          = true
+      allowed_services = ["icmp", "ssh"]
+      custom = [{
+        protocol = "icmp"
+        // port_range = "4000"
+        subnets = ["1.2.3.4"]
+      }]
+      trusted_hosts = [
+        "1.2.3.4", "10.0.0.1/24"
+      ]
+    }
+    root_password = "Juniper123!"
+  }
   vrf_config = {
     enabled = true
   }
@@ -1977,162 +2237,216 @@ resource "mist_org_networktemplate" "switch_template" {
 # # # ################### SITE LEVEL
 
 
-# resource "mist_site_networktemplate" "site_switch_template" {
-#   site_id                = mist_site.terraform_site.id
-#   dns_servers            = ["10.3.51.222"]
-#   dns_suffix             = ["stag.one"]
-#   ntp_servers            = ["10.3.51.222"]
-#   additional_config_cmds = ["set system hostnam test", "set system services ssh root-login allow"]
-#   networks = {
-#     test = {
-#       subnet  = "1.2.3.0/24"
-#       vlan_id = 10
-#     }
-#     test2 = {
-#       subnet  = "1.2.3.0/24"
-#       vlan_id = 11
+resource "mist_site_networktemplate" "site_switch_template" {
+  site_id                = mist_site.terraform_site.id
+  dns_servers            = ["10.3.51.222"]
+  dns_suffix             = ["stag.one"]
+  ntp_servers            = ["10.3.51.222"]
+  additional_config_cmds = ["set system hostnam test", "set system services ssh root-login allow"]
+  networks = {
+    test = {
+      subnet  = "1.2.3.0/24"
+      vlan_id = 10
+    }
+    test2 = {
+      subnet  = "1.2.3.0/24"
+      vlan_id = 11
 
-#     }
+    }
+  }
+  radius_config = {
+    acct_interim_interval = 60
+    coa_enabled           = true
+    network               = "test"
+    acct_servers = [
+      {
+        host   = "1.2.3.4"
+        secret = "secret"
+      }
+    ]
+    auth_servers = [
+      {
+        host   = "1.2.3.4"
+        secret = "secret"
+      }
+    ]
+  }
+  port_usages = {
+    trunk = {
+      all_networks = true
+      description  = "profile for trunk ports"
+      enable_qos   = true
+      mode         = "trunk"
+      port_network = "test2"
+      storm_control = {
+        percentage = 15
+      }
+    }
+    disabled_port = {
+      mode         = "access"
+      disabled     = true
+      port_network = "default"
+    }
+  }
+  port_mirroring = {
+    "mcd-sw1-span" : {
+      input_networks_ingress : [
+        "CORE"
+      ]
+      output_port_id : "ge-0/0/42"
+    },
+    "test" = {
+      output_port_id = "ge-0/0/10"
+      input_port_ids_ingress = [
+        "ge-0/0/3"
+      ]
+      input_port_ids_egress = [
+        "ge-0/0/3"
+      ]
+    },
+    "test2" = {
+      output_network = "prx"
+      input_networks_ingress = [
+        "default"
+      ]
+    }
+    "test3" = {
+      output_port_id = "ge-0/0/10"
+      input_networks_ingress = [
+        "default"
+      ]
+    }
+  }
+  remote_syslog = {
+    archive = {
+      files = 2
+      size  = "5m"
+    }
+    console = {
+      contents = [
+        {
+          facility = "kernel"
+          severity = "alert"
+        }
+      ]
+    }
+    enabled             = true
+    network             = "test"
+    send_to_all_servers = false
+    servers = [
+      {
+        contents = [
+          {
+            facility = "any"
+            severity = "any"
+          }
+        ]
+        host = "1.2.3.4"
+      }
+    ]
+    structured_data = true
+  }
+  switch_mgmt = {
+    config_revert = 5
+    protect_re = {
+      enabled = true
+    }
+    root_password = "Juniper123"
+  }
+  switch_matching = {
+    enable = true
+    rules = [
+      {
+        port_mirroring = {
+          "test" = {
+            output_port_id = "ge-0/0/10"
+            input_port_ids_ingress = [
+              "ge-0/0/3"
+            ]
+            input_port_ids_egress = [
+              "ge-0/0/3"
+            ]
+          },
+          "test2" = {
+            output_network = "prx"
+            input_networks_ingress = [
+              "default"
+            ]
+          }
+          "test3" = {
+            output_port_id = "ge-0/0/10"
+            input_networks_ingress = [
+              "default"
+            ]
+          }
+        }
+        match_type  = "match_name[0:3]"
+        match_value = "abc"
+        additional_config_cmds = [
+          "set system name-server 8.8.8.8"
+        ]
+        match_role = "access"
+        name       = "access"
+        port_config = {
+          "ge-0/0/0-10" = {
+            usage = "trunk"
+          }
+        }
+      },
+      {
+        additional_config_cmds = [
+          "set system name-server 8.8.8.8"
+        ]
+        match_role = "core"
+        name       = "core"
+        port_config = {
+          "ge-0/0/0-10" = {
+            usage = "trunk"
+          }
+        }
+      }
+    ]
+  }
+  vrf_instances = {
+    "fds" = {
+      networks = [
+        "test"
+      ],
+      extra_routes = {
+        "1.2.0.0/24" = {
+          via = "1.2.3.4"
+        }
+      }
+    }
+  }
+  vrf_config = {
+    enabled = true
+  }
+}
+
+
+# resource "mist_org_wlan" "wlan_one" {
+#   ssid        = "wlan_one"
+#   org_id      = mist_org.terraform_test.id
+#   template_id = mist_org_wlantemplate.test101.id
+#   bands       = ["5", "6"]
+#   vlan_id     = 143
+#   auth = {
+#     type = "psk"
+#     psk  = "secretpsk"
 #   }
-#   radius_config = {
-#     acct_interim_interval = 60
-#     coa_enabled           = true
-#     network               = "test"
-#     acct_servers = [
-#       {
-#         host   = "1.2.3.4"
-#         secret = "secret"
-#       }
-#     ]
-#     auth_servers = [
-#       {
-#         host   = "1.2.3.4"
-#         secret = "secret"
-#       }
-#     ]
-#   }
-#   port_usages = {
-#     trunk = {
-#       all_networks = true
-#       description  = "profile for trunk ports"
-#       enable_qos   = true
-#       mode         = "trunk"
-#       port_network = "test2"
-#       storm_control = {
-#         percentage = 15
-#       }
-#     }
-#     disabled_port = {
-#       mode         = "access"
-#       disabled     = true
-#       port_network = "default"
-#     }
-#   }
-#   remote_syslog = {
-#     archive = {
-#       files = 2
-#       size  = "5m"
-#     }
-#     console = {
-#       contents = [
-#         {
-#           facility = "kernel"
-#           severity = "alert"
-#         }
-#       ]
-#     }
-#     enabled             = true
-#     network             = "test"
-#     send_to_all_servers = false
-#     servers = [
-#       {
-#         contents = [
-#           {
-#             facility = "any"
-#             severity = "any"
-#           }
-#         ]
-#         host = "1.2.3.4"
-#       }
-#     ]
-#     structured_data = true
-#   }
-#   switch_mgmt = {
-#     config_revert = 5
-#     protect_re = {
-#       enabled = true
-#     }
-#     root_password = "Juniper123"
-#   }
-#   switch_matching = {
-#     enable = true
-#     rules = [
-#       {
-#         match_type  = "match_name[0:3]"
-#         match_value = "abc"
-#         additional_config_cmds = [
-#           "set system name-server 8.8.8.8"
-#         ]
-#         match_role = "access"
-#         name       = "access"
-#         port_config = {
-#           "ge-0/0/0-10" = {
-#             usage = "trunk"
-#           }
-#         }
-#       },
-#       {
-#         additional_config_cmds = [
-#           "set system name-server 8.8.8.8"
-#         ]
-#         match_role = "core"
-#         name       = "core"
-#         port_config = {
-#           "ge-0/0/0-10" = {
-#             usage = "trunk"
-#           }
-#         }
-#       }
-#     ]
-#   }
-#   vrf_instances = {
-#     "fds" = {
-#       networks = [
-#         "prx"
-#       ],
-#       extra_routes = {
-#         "1.2.0.0/24" = {
-#           via = "1.2.3.4"
-#         }
-#       }
-#     }
-#   }
-#   vrf_config = {
+#   interface = "all"
+#   dynamic_vlan = {
 #     enabled = true
+#     type    = "standard"
+#     vlans = {
+#       460 = ""
+#       492 = ""
+#       494 = ""
+#     }
+#     default_vlan_ids = ["494"]
 #   }
 # }
-# # resource "mist_org_wlan" "wlan_one" {
-# #   ssid        = "wlan_one"
-# #   org_id      = mist_org.terraform_test.id
-# #   template_id = mist_org_wlantemplate.test101.id
-# #   bands       = ["5", "6"]
-# #   vlan_id     = 143
-# #   auth = {
-# #     type = "psk"
-# #     psk  = "secretpsk"
-# #   }
-# #   interface = "all"
-# #   dynamic_vlan = {
-# #     enabled = true
-# #     type    = "standard"
-# #     vlans = {
-# #       460 = ""
-# #       492 = ""
-# #       494 = ""
-# #     }
-# #     default_vlan_ids = ["494"]
-# #   }
-# # }
 
 # resource "mist_site_wlan" "wlan_cwp2" {
 #   ssid    = "MlN.test"
@@ -2171,8 +2485,8 @@ resource "mist_device_switch" "test_switch" {
   device_id = mist_org_inventory.inventory.devices[1].id
   site_id   = mist_org_inventory.inventory.devices[1].site_id
   name      = "demo-ex"
-  managed = true
-  role    = "test"
+  managed   = true
+  role      = "test"
   networks = {
     "prx" = {
       vlan_id = "18"
@@ -2240,7 +2554,7 @@ resource "mist_device_switch" "test_switch" {
   ip_config = {
     type    = "static"
     ip      = "10.3.18.99"
-    dns = [ "1.2.3.4"]
+    dns     = ["1.2.3.4"]
     netmask = "255.255.255.0"
     network = "prx"
     gateway = "10.3.18.11"
@@ -2289,17 +2603,20 @@ resource "mist_device_switch" "test_switch" {
     "test" = {
       output_port_id = "ge-0/0/10"
       input_port_ids_ingress = [
-        "ge-0/0/2"
-      ],
+        "ge-0/0/3"
+      ]
       input_port_ids_egress = [
-        "ge-0/0/2"
-      ],
-      input_networks_ingress = [
-        "default"
+        "ge-0/0/3"
       ]
     },
     "test2" = {
       output_network = "prx"
+      input_networks_ingress = [
+        "default"
+      ]
+    }
+    "test3" = {
+      output_port_id = "ge-0/0/10"
       input_networks_ingress = [
         "default"
       ]
@@ -2327,32 +2644,32 @@ resource "mist_device_switch" "test_switch" {
     enabled = true
     config = {
       "prx" = {
-        type = "server"
-        ip_start = "10.3.18.10"
-        ip_end = "10.3.18.20"
-        gateway = "10.3.18.1"
+        type        = "server"
+        ip_start    = "10.3.18.10"
+        ip_end      = "10.3.18.20"
+        gateway     = "10.3.18.1"
         dns_servers = ["1.2.3.4"]
-        
+
       }
     }
   }
-  ospf_areas= {
-      "0"= {
-          type= "default"
-          networks= {
-              "prx"= {
-                  passive= false
-                  interface_type= "p2p"
-                  hello_interval= 10
-                  dead_interval= 40
-                  auth_type= "password"
-                  auth_password= "hpihpi"
-                  metric= 1
-                  bfd_minimum_interval= 1
-              }
-          },
-          include_loopback= false
-      }
+  ospf_areas = {
+    "0" = {
+      type = "default"
+      networks = {
+        "prx" = {
+          passive              = false
+          interface_type       = "p2p"
+          hello_interval       = 10
+          dead_interval        = 40
+          auth_type            = "password"
+          auth_password        = "hpihpi"
+          metric               = 1
+          bfd_minimum_interval = 1
+        }
+      },
+      include_loopback = false
+    }
   }
 
   router_id = "1.2.3.4"
@@ -2572,18 +2889,18 @@ resource "mist_device_switch" "test_switch" {
 #   deviceprofile_id = mist_org_deviceprofile_gateway.hub_one.id
 #   org_id = mist_org.terraform_test.id
 #   macs = [mist_org_inventory.inventory.devices[4].mac]
-  
+
 # }
 resource "mist_device_gateway" "hub_one" {
-  site_id = mist_org_inventory.inventory.devices[4].site_id
-  device_id = mist_org_inventory.inventory.devices[4].id
-  name = "hub_one"
-   oob_ip_config = {
+  site_id   = mist_org_inventory.inventory.devices[3].site_id
+  device_id = mist_org_inventory.inventory.devices[3].id
+  name      = "hub_one"
+  oob_ip_config = {
     type = "dhcp"
   }
   additional_config_cmds = ["#", "###"]
   dns_servers            = ["8.8.8.8"]
-  managed                = false
+  managed                = true
   dhcpd_config = {
     enabled = true,
     config = { # This code block seems to be the cause, if I remove it, I stop seeing the constant diff
@@ -2596,28 +2913,28 @@ resource "mist_device_gateway" "hub_one" {
       ike_proposals = [
         {
           auth_algo = "sha2",
-          dh_group = "19",
-          enc_algo = "aes256",
+          dh_group  = "19",
+          enc_algo  = "aes256",
         },
       ],
       ipsec_lifetime = 3600,
       ipsec_proposals = [
         {
           auth_algo = "sha2",
-          dh_group = "19",
-          enc_algo = "aes256",
+          dh_group  = "19",
+          enc_algo  = "aes256",
         },
       ],
       local_id = "test-local-id",
       primary = {
-        hosts = ["192.0.2.1"],
+        hosts      = ["192.0.2.1"],
         remote_ids = ["192.0.2.2"],
-        wan_names = ["WAN_0"],
+        wan_names  = ["WAN_0"],
       },
       protocol = "ipsec",
       provider = "custom-ipsec",
-      psk = "my-secret",
-      version = "2",
+      psk      = "my-secret",
+      version  = "2",
     },
   }
 }
@@ -2915,7 +3232,7 @@ resource "mist_org_gatewaytemplate" "gatewaytemplate_one" {
           id               = "1234"
           local_preference = 23
         }
-      ]      
+      ]
     }
   }
   dhcpd_config = {
@@ -2943,7 +3260,7 @@ resource "mist_org_gatewaytemplate" "gatewaytemplate_one" {
         type = "local"
       }
       "RESTRICTED_VLAN420" = {
-        type   = "relay"
+        type    = "relay"
         servers = ["1.2.3.4"]
       }
     }
@@ -3046,6 +3363,16 @@ resource "mist_org_gatewaytemplate" "gatewaytemplate_one" {
       }
     },
     {
+      name            = "Policy-15"
+      tenants         = ["MANAGEMENT_VLAN430"]
+      services        = ["any"]
+      action          = "allow"
+      path_preference = "HUB"
+      idp = {
+        idpprofile_id = mist_org_idpprofile.test1.id
+      }
+    },
+    {
       name             = "lan2"
       servicepolicy_id = mist_org_servicepolicy.test1.id
       path_preference  = "HUB"
@@ -3054,19 +3381,19 @@ resource "mist_org_gatewaytemplate" "gatewaytemplate_one" {
   tunnel_configs = {
     "default" = {
       ike_lifetime = 28800
-      ike_mode = "main"
+      ike_mode     = "main"
       ike_proposals = [{
         auth_algo = "sha1"
-        dh_group = "14"
-        enc_algo = "3des"        
+        dh_group  = "14"
+        enc_algo  = "3des"
       }]
-      ipsec_lifetime =28800
-      ipsec_proposals =[ {
+      ipsec_lifetime = 28800
+      ipsec_proposals = [{
         auth_algo = "sha1"
-        dh_group = "14"
-        enc_algo = "3des"        
+        dh_group  = "14"
+        enc_algo  = "3des"
       }]
-      mode = "active-active"
+      mode     = "active-active"
       provider = "custom-ipsec"
     }
   }
@@ -3244,7 +3571,7 @@ resource "mist_org_wlan_portal_template" "test" {
     sponsorInfoDenied        = "Your request was denied by"
     sponsorNotePending       = "Please wait for them to acknowledge."
     sponsorBackLink          = "Go back and edit request form"
-    sponsors_error            = "Please select a sponsor"
+    sponsors_error           = "Please select a sponsor"
     sponsorEmailTemplate     = ""
     multiAuth                = false
     //logo                     = "/Users/SynologyDrive/logos/Mist/Juniper_en_Mist-00.png"
@@ -3358,3 +3685,38 @@ resource "mist_org_wlan_portal_template" "test" {
   }
 }
 
+
+resource "mist_site" "site_two" {
+  org_id       = mist_org.terraform_test.id
+  name         = "terraform_site2"
+  country_code = "FR"
+  timezone     = "Europe/Paris"
+  address      = "77 Terrasse de l'Universit\u00e9, 92000 Nanterre, France"
+  notes        = "Created with Terraform, Updated with Terraform"
+  latlng = {
+    lat = 48.899268
+    lng = 2.214447
+  }
+  # sitegroup_ids = [mist_org_sitegroup.test_group.id, mist_org_sitegroup.test_group2.id]
+  # networktemplate_id = mist_org_networktemplate.switch_template.id
+  # rftemplate_id      = mist_org_rftemplate.test_rf.id
+  # gatewaytemplate_id = mist_org_gatewaytemplate.test-api.id
+}
+
+
+resource "mist_site_setting" "site_two" {
+  site_id                 = mist_site.site_two.id
+  ap_updown_threshold     = 5
+  device_updown_threshold = 5
+  gateway_mgmt = {
+    app_probing = {
+      custom_apps = [{
+        hostnames = [
+          "example.com"
+        ]
+        protocol = "http"
+        name     = "value"
+      }]
+    }
+  }
+}
