@@ -1795,6 +1795,18 @@ resource "mist_site_setting" "test" {
       enable      = true
       time_of_day = "02:00"
     }
+    protect_re = {
+      enabled          = true
+      allowed_services = ["icmp", "ssh"]
+      custom = [{
+        protocol = "icmp"
+        // port_range = "4000"
+        subnets = ["1.2.3.4"]
+      }]
+      trusted_hosts = [
+        "1.2.3.4", "10.0.0.1/24"
+      ]
+    }
     app_probing = {
       enabled = true
       custom_apps = [
@@ -1915,6 +1927,13 @@ resource "mist_site_wxtag" "test_6" {
   type    = "match"
   match   = "radius_group"
 }
+
+resource "mist_site_wxrule" "test_01" {
+  site_id = mist_site.terraform_site.id
+  order   = 2
+  action = "allow"
+  enabled = false
+}
 resource "mist_site_wxrule" "test_1" {
   action = "allow"
   dst_deny_wxtags = [
@@ -1925,7 +1944,7 @@ resource "mist_site_wxrule" "test_1" {
     mist_site_wxtag.test_6.id
   ]
   site_id = mist_site.terraform_site.id
-  order   = 2
+  order   = 1
 }
 
 resource "mist_org_wlantemplate" "wlantemplate_one" {
@@ -2142,7 +2161,7 @@ resource "mist_org_networktemplate" "switch_template" {
       {
         port_mirroring = {
           "test" = {
-            output_port_id = "ge-0/0/10"
+            output_port_id = "ge-0/0/11"
             input_port_ids_ingress = [
               "ge-0/0/3"
             ]
@@ -2157,7 +2176,7 @@ resource "mist_org_networktemplate" "switch_template" {
             ]
           }
           "test3" = {
-            output_port_id = "ge-0/0/10"
+            output_port_id = "ge-0/0/1"
             input_networks_ingress = [
               "default"
             ]
@@ -2359,7 +2378,7 @@ resource "mist_site_networktemplate" "site_switch_template" {
       {
         port_mirroring = {
           "test" = {
-            output_port_id = "ge-0/0/10"
+            output_port_id = "ge-0/0/11"
             input_port_ids_ingress = [
               "ge-0/0/3"
             ]
@@ -2677,8 +2696,6 @@ resource "mist_device_switch" "test_switch" {
     type                      = "static"
     ip                        = "2.2.2.2"
     netmask                   = "/24"
-    use_mgmt_vrf              = true
-    use_mgmt_vrf_for_host_out = true
     gateway                   = "2.2.2.1"
   }
 }
@@ -3717,6 +3734,19 @@ resource "mist_site_setting" "site_two" {
         protocol = "http"
         name     = "value"
       }]
+    }
+
+    protect_re = {
+      enabled          = true
+      allowed_services = ["icmp", "ssh"]
+      custom = [{
+        protocol = "icmp"
+        // port_range = "4000"
+        subnets = ["1.2.3.4"]
+      }]
+      trusted_hosts = [
+        "1.2.3.4", "10.0.10.1/24"
+      ]
     }
   }
 }

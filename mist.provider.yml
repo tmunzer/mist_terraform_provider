@@ -60201,7 +60201,7 @@ components:
         $ref: '#/components/schemas/gateway_port_vpn_path'
       type: object
     gateway_port_wan_arp_policer:
-      default: recommended
+      default: default
       description: 'when `wan_type`==`broadband`. enum: `default`, `max`, `recommended`'
       enum:
       - ''
@@ -73783,6 +73783,8 @@ components:
         root_password:
           description: for SRX only
           type: string
+        protect_re:
+          $ref: '#/components/schemas/protect_re'
         security_log_source_address:
           example: 192.168.1.1
           format: ipv4
@@ -86089,6 +86091,8 @@ components:
           $ref: '#/components/schemas/wxlan_rule_dst_allow_wxtags'
         dst_deny_wxtags:
           $ref: '#/components/schemas/wxlan_rule_dst_deny_wxtags'
+        dst_wxtags:
+          $ref: '#/components/schemas/wxlan_rule_dst_wxtags'
         enabled:
           default: true
           type: boolean
@@ -86145,7 +86149,7 @@ components:
         type: string
       type: array
     wxlan_rule_dst_allow_wxtags:
-      description: tag list to indicate these tags are allowed access
+      description: List of WxTag UUID to indicate these tags are allowed access
       example:
       - fff34466-eec0-3756-6765-381c728a6037
       - eee2c7b0-d1d0-5a30-f349-e35fa43dc3b3
@@ -86153,7 +86157,15 @@ components:
         type: string
       type: array
     wxlan_rule_dst_deny_wxtags:
-      description: tag list to indicate these tags are blocked access
+      description: List of WxTag UUID to indicate these tags are blocked access
+      example:
+      - aaa34466-eec0-3756-6765-381c728a6037
+      - bbb2c7b0-d1d0-5a30-f349-e35fa43dc3b3
+      items:
+        type: string
+      type: array
+    wxlan_rule_dst_wxtags:
+      description: List of WxTag UUID
       example:
       - aaa34466-eec0-3756-6765-381c728a6037
       - bbb2c7b0-d1d0-5a30-f349-e35fa43dc3b3
@@ -86161,7 +86173,7 @@ components:
         type: string
       type: array
     wxlan_rule_src_wxtags:
-      description: tag list to determine if this rule would match
+      description: List of WxTag UUID to determine if this rule would match
       example:
       - 8bfc2490-d726-3587-038d-cb2e71bd2330
       - 3aa8e73f-9f46-d827-8d6a-567bb7e67fc9
