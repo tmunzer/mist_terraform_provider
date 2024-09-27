@@ -1236,11 +1236,31 @@ resource "mist_org_wxtag" "test_32" {
   match  = "wlan_id"
   values = ["test"]
 }
+resource "mist_org_wxrule" "test_02" {
+  org_id      = mist_org.terraform_test.id
+  template_id = mist_org_wlantemplate.test101.id
+  order   = 2
+  action  = "allow"
+  enabled = false
+}
 resource "mist_org_wxrule" "test_01" {
   org_id      = mist_org.terraform_test.id
   template_id = mist_org_wlantemplate.test101.id
-  action      = "allow"
-  order       = 1
+  action = "allow"
+  dst_deny_wxtags = [
+    mist_org_wxtag.test_30.id
+  ]
+  enabled = true
+  src_wxtags = [
+    mist_org_wxtag.test_32.id
+  ]
+  order   = 1
+}
+resource "mist_org_wxrule" "test_00" {
+  org_id      = mist_org.terraform_test.id
+  template_id = mist_org_wlantemplate.test101.id
+  action      = "block"
+  order       = -1
 }
 # resource "mist_org_vpn" "vpn_one" {
 #   org_id = mist_org.terraform_test.id
