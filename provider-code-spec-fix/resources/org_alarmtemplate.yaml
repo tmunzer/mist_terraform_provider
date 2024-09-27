@@ -1,0 +1,54 @@
+get:
+- schema
+- attributes
+name: org_alarmtemplate
+next:
+- name: delivery
+  get:
+  - single_nested
+  - attributes
+  next:
+  - name: additional_emails
+    computed_optional_required: computed_optional
+    get:
+    - list
+    validators:
+    - custom:
+        imports:
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/listvalidator
+        schema_definition: listvalidator.SizeAtLeast(1)
+- computed_optional_required: computed
+  get:
+  - string
+  name: id
+- computed_optional_required: required
+  get:
+  - string
+  name: name
+- computed_optional_required: required
+  get:
+  - string
+  name: org_id
+- name: rules
+  get:
+  - map_nested
+  description: Alarm Rules object to configure the individual alarm keys/types. Property key is the alarm name (list available with the `mist_const_alarms` data source).
+- name: rules
+  get:
+  - map_nested
+  - nested_object
+  - attributes
+  next:
+  - name: delivery
+    get:
+    - single_nested
+    - attributes
+    next:
+    - name: additional_emails
+      get:
+      - list
+      validators:
+      - custom:
+          imports:
+          - path: github.com/hashicorp/terraform-plugin-framework-validators/listvalidator
+          schema_definition: listvalidator.SizeAtLeast(1)

@@ -1,0 +1,311 @@
+get:
+- schema
+- attributes
+name: org_nacidp
+next:
+- computed_optional_required: computed
+  get:
+  - string
+  name: domain
+- computed_optional_required: computed
+  get:
+  - string
+  name: id
+- computed_optional_required: required
+  get:
+  - string
+  name: idp_type
+  description: 'enum: `ldap`, `mxedge_proxy`, `oauth`'
+  no_default: true
+  validators:
+  - custom:
+      imports:
+      - path: github.com/Juniper/terraform-provider-mist/internal/validators
+      - path: github.com/hashicorp/terraform-plugin-framework/path
+      schema_definition: |-
+        stringvalidator.OneOf(
+          "ldap",
+          "mxedge_proxy",
+          "oauth",
+        )
+- computed_optional_required: optional
+  get:
+  - string
+  name: ldap_base_dn
+  validators:
+  - custom:
+      imports:
+      - path: github.com/Juniper/terraform-provider-mist/internal/validators
+      - path: github.com/hashicorp/terraform-plugin-framework/path
+      schema_definition: |-
+        mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName("idp_type"), types.StringValue("ldap"))
+- computed_optional_required: optional
+  get:
+  - string
+  name: ldap_bind_dn
+  validators:
+  - custom:
+      imports:
+      - path: github.com/Juniper/terraform-provider-mist/internal/validators
+      - path: github.com/hashicorp/terraform-plugin-framework/path
+      schema_definition: |-
+        mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName("idp_type"), types.StringValue("ldap"))
+- computed_optional_required: optional
+  get:
+  - string
+  name: ldap_bind_password
+  validators:
+  - custom:
+      imports:
+      - path: github.com/Juniper/terraform-provider-mist/internal/validators
+      - path: github.com/hashicorp/terraform-plugin-framework/path
+      schema_definition: |-
+        mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName("idp_type"), types.StringValue("ldap"))
+- computed_optional_required: optional
+  get:
+  - list
+  name: ldap_certs
+  validators:
+  - custom:
+      imports:
+      - path: github.com/Juniper/terraform-provider-mist/internal/validators
+      - path: github.com/hashicorp/terraform-plugin-framework/path
+      schema_definition: |-
+        mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("idp_type"), types.StringValue("ldap"))
+- computed_optional_required: optional
+  get:
+  - string
+  name: ldap_client_cert
+  validators:
+  - custom:
+      imports:
+      - path: github.com/Juniper/terraform-provider-mist/internal/validators
+      - path: github.com/hashicorp/terraform-plugin-framework/path
+      schema_definition: |-
+        mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("idp_type"), types.StringValue("ldap"))
+- computed_optional_required: optional
+  get:
+  - string
+  name: ldap_client_key
+  validators:
+  - custom:
+      imports:
+      - path: github.com/Juniper/terraform-provider-mist/internal/validators
+      - path: github.com/hashicorp/terraform-plugin-framework/path
+      schema_definition: |-
+        mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("idp_type"), types.StringValue("ldap"))
+- computed_optional_required: optional
+  get:
+  - string
+  name: ldap_group_attr
+  no_default: true
+  validators:
+  - custom:
+      imports:
+      - path: github.com/Juniper/terraform-provider-mist/internal/validators
+      - path: github.com/hashicorp/terraform-plugin-framework/path
+      schema_definition: |-
+        mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("ldap_type"), types.StringValue("custom"))
+- computed_optional_required: optional
+  get:
+  - string
+  name: ldap_group_dn
+  no_default: true
+  validators:
+  - custom:
+      imports:
+      - path: github.com/Juniper/terraform-provider-mist/internal/validators
+      - path: github.com/hashicorp/terraform-plugin-framework/path
+      schema_definition: |-
+        mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("ldap_type"), types.StringValue("custom"))
+- computed_optional_required: optional
+  get:
+  - string
+  name: group_filter
+  validators:
+  - custom:
+      imports:
+      - path: github.com/Juniper/terraform-provider-mist/internal/validators
+      - path: github.com/hashicorp/terraform-plugin-framework/path
+      schema_definition: |-
+        mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName("ldap_type"), types.StringValue("custom"))
+- computed_optional_required: optional
+  get:
+  - string
+  name: member_filter
+  validators:
+  - custom:
+      imports:
+      - path: github.com/Juniper/terraform-provider-mist/internal/validators
+      - path: github.com/hashicorp/terraform-plugin-framework/path
+      schema_definition: |-
+        mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName("ldap_type"), types.StringValue("custom"))
+- computed_optional_required: computed_optional
+  get:
+  - bool
+  name: ldap_resolve_groups
+  no_default: true
+  validators:
+  - custom:
+      imports:
+      - path: github.com/Juniper/terraform-provider-mist/internal/validators
+      - path: github.com/hashicorp/terraform-plugin-framework/path
+      schema_definition: |-
+        mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("idp_type"), types.StringValue("ldap"))
+- computed_optional_required: optional
+  get:
+  - list
+  name: ldap_server_hosts
+  validators:
+  - custom:
+      imports:
+      - path: github.com/Juniper/terraform-provider-mist/internal/validators
+      - path: github.com/hashicorp/terraform-plugin-framework/path
+      schema_definition: |-
+        mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName("idp_type"), types.StringValue("ldap"))
+- computed_optional_required: optional
+  get:
+  - string
+  name: ldap_type
+  no_default: true
+  validators:
+  - custom:
+      imports:
+      - path: github.com/Juniper/terraform-provider-mist/internal/validators
+      - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+      - path: github.com/hashicorp/terraform-plugin-framework/path
+      schema_definition: |-
+        stringvalidator.OneOf(
+          "azure",
+          "custom",
+          "google",
+          "okta",
+          "ping_identity",
+        ),
+        mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName("idp_type"), types.StringValue("ldap"))
+- computed_optional_required: optional
+  get:
+  - string
+  name: ldap_user_filter
+  validators:
+  - custom:
+      imports:
+      - path: github.com/Juniper/terraform-provider-mist/internal/validators
+      - path: github.com/hashicorp/terraform-plugin-framework/path
+      schema_definition: |-
+        mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName("ldap_type"), types.StringValue("custom"))
+- computed_optional_required: optional
+  get:
+  - string
+  name: oauth_cc_client_id
+  validators:
+  - custom:
+      imports:
+      - path: github.com/Juniper/terraform-provider-mist/internal/validators
+      - path: github.com/hashicorp/terraform-plugin-framework/path
+      schema_definition: |-
+        mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName("idp_type"), types.StringValue("oauth"))
+- computed_optional_required: optional
+  get:
+  - string
+  name: oauth_cc_client_secret
+  validators:
+  - custom:
+      imports:
+      - path: github.com/Juniper/terraform-provider-mist/internal/validators
+      - path: github.com/hashicorp/terraform-plugin-framework/path
+      schema_definition: |-
+        mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName("idp_type"), types.StringValue("oauth"))
+- computed_optional_required: optional
+  get:
+  - string
+  name: oauth_discovery_url
+  validators:
+  - custom:
+      imports:
+      - path: github.com/Juniper/terraform-provider-mist/internal/validators
+      - path: github.com/hashicorp/terraform-plugin-framework/path
+      schema_definition: |-
+        mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("idp_type"), types.StringValue("oauth"))
+- computed_optional_required: optional
+  get:
+  - string
+  name: oauth_ropc_client_id
+  validators:
+  - custom:
+      imports:
+      - path: github.com/Juniper/terraform-provider-mist/internal/validators
+      - path: github.com/hashicorp/terraform-plugin-framework/path
+      schema_definition: |-
+        mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("idp_type"), types.StringValue("oauth"))
+- computed_optional_required: optional
+  get:
+  - string
+  name: oauth_ropc_client_secret
+  validators:
+  - custom:
+      imports:
+      - path: github.com/Juniper/terraform-provider-mist/internal/validators
+      - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+      - path: github.com/hashicorp/terraform-plugin-framework/path
+      schema_definition: |-
+        stringvalidator.Any(
+          mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("oauth_type"), types.StringValue("azure")),
+          mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("oauth_type"), types.StringValue("azure-gov")),
+        )
+- computed_optional_required: optional
+  get:
+  - string
+  name: oauth_tenant_id
+  validators:
+  - custom:
+      imports:
+      - path: github.com/Juniper/terraform-provider-mist/internal/validators
+      - path: github.com/hashicorp/terraform-plugin-framework/path
+      schema_definition: |-
+        mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName("idp_type"), types.StringValue("oauth"))
+- computed_optional_required: computed_optional
+  get:
+  - string
+  name: oauth_type
+  no_default: true
+  validators:
+  - custom:
+      imports:
+      - path: github.com/Juniper/terraform-provider-mist/internal/validators
+      - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+      - path: github.com/hashicorp/terraform-plugin-framework/path
+      schema_definition: |-
+        stringvalidator.OneOf(
+          "azure",
+          "azure-gov",
+          "okta",
+          "ping_identity",
+        ),
+        mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName("idp_type"), types.StringValue("oauth"))
+- computed_optional_required: required
+  get:
+  - string
+  name: org_id
+- computed_optional_required: computed_optional
+  get:
+  - bool
+  name: scim_enabled
+  validators:
+  - custom:
+      imports:
+      - path: github.com/Juniper/terraform-provider-mist/internal/validators
+      - path: github.com/hashicorp/terraform-plugin-framework/path
+      schema_definition: |-
+        mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("idp_type"), types.StringValue("oauth"))
+- computed_optional_required: optional
+  get:
+  - string
+  name: scim_secret_token
+  validators:
+  - custom:
+      imports:
+      - path: github.com/Juniper/terraform-provider-mist/internal/validators
+      - path: github.com/hashicorp/terraform-plugin-framework/path
+      schema_definition: |-
+        mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("idp_type"), types.StringValue("oauth"))

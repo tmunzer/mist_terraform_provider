@@ -18,6 +18,464 @@ provider "mist" {
 resource "mist_org" "terraform_test" {
   name = "Terraform Testing"
 }
+
+resource "mist_org_setting" "terraform_test" {
+  org_id              = mist_org.terraform_test.id
+  ap_updown_threshold = 10
+  cradlepoint = {
+    cp_api_id   = "cp_api_id_test"
+    cp_api_key  = "secret"
+    ecm_api_id  = "ecm_api_id_test"
+    ecm_api_key = "secret"
+  }
+  device_updown_threshold  = 10
+  disable_pcap             = false
+  disable_remote_shell     = true
+  gateway_updown_threshold = 10
+  mxedge_mgmt = {
+    mist_password = "mist_secret_passowrd"
+    root_password = "root_secret_password"
+    oob_ip_type   = "dhcp"
+    oob_ip_type6  = "disabled"
+  }
+  mist_nac = {
+    default_idp_id = mist_org_nacidp.idp_azure.id
+    idps = [{
+      id          = mist_org_nacidp.idp_azure.id
+      user_realms = ["nacidpazure.com"]
+    }]
+  }
+  # password_policy = {
+  #   enabled                  = true
+  #   freshness                = 180
+  #   min_length               = 12
+  #   requires_special_char    = true
+  #   requires_two_factor_auth = false
+  # }
+  security = {
+    disable_local_ssh = true
+  }
+  switch_updown_threshold = 10
+  synthetic_test = {
+    disabled = false
+    vlans = [{
+      vlan_ids         = ["10", "30"]
+      custom_test_urls = ["http://www.abc.com/", "https://10.3.5.1:8080/about"]
+      }, {
+      vlan_ids = ["20"]
+      disabled = true
+    }]
+  }
+  ui_idle_timeout = 120
+}
+
+resource "mist_org_alarmtemplate" "alarmtemplate_one" {
+  org_id = mist_org.terraform_test.id
+  name   = "alarmtemplate_one"
+  delivery = {
+    enabled           = true
+    to_org_admins     = true
+    additional_emails = ["tmunzer@juniper.net"]
+  }
+  rules = {
+    health_check_failed : {
+      enabled : true
+    },
+    insufficient_capacity : {
+      enabled : true
+    },
+    insufficient_coverage : {
+      enabled : true
+    },
+    infra_arp_failure : {
+      enabled : true
+    },
+    arp_failure : {
+      enabled : true
+    },
+    authentication_failure : {
+      enabled : true
+    },
+    bad_wan_uplink : {
+      enabled : true
+    },
+    bad_cable : {
+      enabled : true
+    },
+    gw_bad_cable : {
+      enabled : true
+    },
+    ap_bad_cable : {
+      enabled : true
+    },
+    rogue_client : {
+      enabled : true
+    },
+    infra_dhcp_failure : {
+      enabled : true
+    },
+    dhcp_failure : {
+      enabled : true
+    },
+    infra_dns_failure : {
+      enabled : true
+    },
+    dns_failure : {
+      enabled : true
+    },
+    wan_device_problem : {
+      enabled : true
+    },
+    missing_vlan : {
+      enabled : true
+    },
+    mist_edge_cpu_usage_high : {
+      enabled : true
+    },
+    mist_edge_disconnected : {
+      enabled : true
+    },
+    mist_edge_disk_usage_high : {
+      enabled : true
+    },
+    mist_edge_memory_usage_high : {
+      enabled : true
+    },
+    mist_edge_powerinput_disconnected : {
+      enabled : true
+    },
+    mist_edge_service_failed : {
+      enabled : true
+    },
+    mist_edge_psu_unplugged : {
+      enabled : true
+    },
+    negotiation_mismatch : {
+      enabled : true
+    },
+    gw_negotiation_mismatch : {
+      enabled : true
+    },
+    non_compliant : {
+      enabled : true
+    },
+    ap_offline : {
+      enabled : true
+    },
+    port_stuck : {
+      enabled : true
+    },
+    rogue_ap : {
+      enabled : true
+    },
+    switch_stp_loop : {
+      enabled : true
+    },
+    vpn_path_down : {
+      enabled : true
+    },
+    vc_backup_failed : {
+      enabled : true
+    },
+    vc_master_changed : {
+      enabled : true
+    },
+    vc_member_deleted : {
+      enabled : true
+    },
+    sw_vc_port_down : {
+      enabled : true
+    },
+    infra_arp_success : {
+      enabled : true
+    },
+    air_magnet_scan : {
+      enabled : true
+    },
+    sw_bgp_neighbor_state_changed : {
+      enabled : true
+    },
+    sw_bgp_neighbor_up : {
+      enabled : true
+    },
+    cellular_edge_connected_to_ncm : {
+      enabled : true
+    },
+    cellular_edge_disconnected_from_ncm : {
+      enabled : true
+    },
+    cellular_edge_firmware_upgraded : {
+      enabled : true
+    },
+    cellular_edge_login_failed : {
+      enabled : true
+    },
+    cellular_edge_login_succeeded : {
+      enabled : true
+    },
+    cellular_edge_rebooted : {
+      enabled : true
+    },
+    cellular_edge_sim_door_closed : {
+      enabled : true
+    },
+    cellular_edge_sim_door_opened : {
+      enabled : true
+    },
+    cellular_edge_modem_wan_connected : {
+      enabled : true
+    },
+    cellular_edge_wan_service_type_changed : {
+      enabled : true
+    },
+    cellular_edge_ethernet_wan_connected : {
+      enabled : true
+    },
+    cellular_edge_ethernet_wan_plugged : {
+      enabled : true
+    },
+    sw_critical_port_up : {
+      enabled : true
+    },
+    gw_critical_port_up : {
+      enabled : true
+    },
+    infra_dhcp_success : {
+      enabled : true
+    },
+    infra_dns_success : {
+      enabled : true
+    },
+    device_reconnected : {
+      enabled : true
+    },
+    device_restarted : {
+      enabled : true
+    },
+    eap_handshake_flood : {
+      enabled : true
+    },
+    ha_control_link_up : {
+      enabled : true
+    },
+    tt_inactive_vlans : {
+      enabled : true
+    },
+    mist_edge_connected : {
+      enabled : true
+    },
+    mist_edge_cpu_usage_normal : {
+      enabled : true
+    },
+    mist_edge_disk_usage_normal : {
+      enabled : true
+    },
+    mist_edge_memory_usage_normal : {
+      enabled : true
+    },
+    mist_edge_psu_plugged : {
+      enabled : true
+    },
+    mist_edge_powerinput_connected : {
+      enabled : true
+    },
+    tt_tunnels_up : {
+      enabled : true
+    },
+    switch_reconnected : {
+      enabled : true
+    },
+    switch_restarted : {
+      enabled : true
+    },
+    vpn_peer_up : {
+      enabled : true
+    },
+    vc_member_added : {
+      enabled : true
+    },
+    sw_vc_port_up : {
+      enabled : true
+    },
+    gw_bgp_neighbor_up : {
+      enabled : true
+    },
+    gateway_reconnected : {
+      enabled : true
+    },
+    watched_station : {
+      enabled : true
+    },
+    adhoc_network : {
+      enabled : true
+    },
+    tt_ports_all_dropped_from_lacp : {
+      enabled : true
+    },
+    tt_tunnels_lost : {
+      enabled : true
+    },
+    sw_bgp_neighbor_down : {
+      enabled : true
+    },
+    bssid_spoofing : {
+      enabled : true
+    },
+    cellular_edge_modem_wan_disconnected : {
+      enabled : true
+    },
+    cellular_edge_ethernet_wan_disconnected : {
+      enabled : true
+    },
+    cellular_edge_ethernet_wan_unplugged : {
+      enabled : true
+    },
+    sw_critical_port_down : {
+      enabled : true
+    },
+    gw_critical_port_down : {
+      enabled : true
+    },
+    device_down : {
+      enabled : true
+    },
+    disassociation_flood : {
+      enabled : true
+    },
+    eap_dictionary_attack : {
+      enabled : true
+    },
+    eap_failure_injection : {
+      enabled : true
+    },
+    eap_spoofed_success : {
+      enabled : true
+    },
+    eapol_logoff_attack : {
+      enabled : true
+    },
+    esl_hung : {
+      enabled : true
+    },
+    esl_recovered : {
+      enabled : true
+    },
+    essid_jack : {
+      enabled : true
+    },
+    sw_evpn_duplicate_mac : {
+      enabled : true
+    },
+    excessive_client : {
+      enabled : true
+    },
+    excessive_eapol_start : {
+      enabled : true
+    },
+    beacon_flood : {
+      enabled : true
+    },
+    ha_control_link_down : {
+      enabled : true
+    },
+    honeypot_ssid : {
+      enabled : true
+    },
+    idp_attack_detected : {
+      enabled : true
+    },
+    tt_port_last_dropped_from_lacp : {
+      enabled : true
+    },
+    loop_detected_by_ap : {
+      enabled : true
+    },
+    mist_edge_service_crashed : {
+      enabled : true
+    },
+    monkey_jack : {
+      enabled : true
+    },
+    out_of_sequence : {
+      enabled : true
+    },
+    port_flap : {
+      enabled : true
+    },
+    repeated_auth_failures : {
+      enabled : true
+    },
+    krack_attack : {
+      enabled : true
+    },
+    ssid_injection : {
+      enabled : true
+    },
+    secpolicy_violation : {
+      enabled : true
+    },
+    sw_bpdu_error : {
+      enabled : true
+    },
+    sw_bad_optics : {
+      enabled : true
+    },
+    sw_dhcp_pool_exhausted : {
+      enabled : true
+    },
+    sw_alarm_chassis_hot : {
+      enabled : true
+    },
+    sw_alarm_chassis_pem : {
+      enabled : true
+    },
+    sw_alarm_chassis_poe : {
+      enabled : true
+    },
+    sw_alarm_chassis_psu : {
+      enabled : true
+    },
+    sw_alarm_chassis_partition : {
+      enabled : true
+    },
+    switch_down : {
+      enabled : true
+    },
+    tkip_icv_attack : {
+      enabled : true
+    },
+    tunnel_down : {
+      enabled : true
+    },
+    url_blocked : {
+      enabled : true
+    },
+    vpn_peer_down : {
+      enabled : true
+    },
+    vendor_ie_missing : {
+      enabled : true
+    },
+    vc_member_restarted : {
+      enabled : true
+    },
+    gw_bgp_neighbor_down : {
+      enabled : true
+    },
+    gw_dhcp_pool_exhausted : {
+      enabled : true
+    },
+    gw_src_nat_pool_threshold_exceeded : {
+      enabled : true
+    },
+    gateway_down : {
+      enabled : true
+    },
+    zero_ssid_association : {
+      enabled : true
+    }
+  }
+}
 # resource "mist_site_psk" "psk_one" {
 #   site_id    = mist_site.terraform_site.id
 #   name       = "JNP-FR-PAR"
@@ -444,346 +902,346 @@ resource "mist_org_idpprofile" "test6" {
 #   }
 # }
 
-# resource "mist_org_wxtag" "test_1" {
-#   values = [
-#     "10.3.0.0/16"
-#   ]
-#   op     = "in"
-#   name   = "Internal Network"
-#   org_id = mist_org.terraform_test.id
-#   type   = "match"
-#   match  = "ip_range_subnet"
-# }
-# resource "mist_org_wxtag" "test_2" {
-#   values = [
-#     "53"
-#   ]
-#   op     = "in"
-#   name   = "DNS"
-#   org_id = mist_org.terraform_test.id
-#   type   = "match"
-#   match  = "port"
-# }
-# resource "mist_org_wxtag" "test_3" {
-#   values = [
-#     "443"
-#   ]
-#   op     = "in"
-#   name   = "HTTPS"
-#   org_id = mist_org.terraform_test.id
-#   type   = "match"
-#   match  = "port"
-# }
-# resource "mist_org_wxtag" "test_4" {
-#   values = [
-#     "80"
-#   ]
-#   op     = "in"
-#   name   = "HTTP"
-#   org_id = mist_org.terraform_test.id
-#   type   = "match"
-#   match  = "port"
-# }
-# resource "mist_org_wxtag" "test_5" {
-#   op = "in"
-#   values = [
-#     "www.myapp.com:443"
-#   ]
-#   name   = "my app"
-#   org_id = mist_org.terraform_test.id
-#   type   = "match"
-#   match  = "hostname"
-# }
-# resource "mist_org_wxtag" "test_6" {
-#   op = "in"
-#   values = [
-#     "test1"
-#   ]
-#   name   = "test1"
-#   org_id = mist_org.terraform_test.id
-#   type   = "match"
-#   match  = "radius_group"
-# }
-# resource "mist_org_wxtag" "test_7" {
-#   op = "in"
-#   values = [
-#     "10.3.20.0/24"
-#   ]
-#   name   = "Subnet SRV"
-#   org_id = mist_org.terraform_test.id
-#   type   = "match"
-#   match  = "ip_range_subnet"
-# }
-# resource "mist_org_wxtag" "test_8" {
-#   specs = [
-#     {
-#       subnets = [
-#         "10.3.20.105"
-#       ]
-#       protocol   = "tcp"
-#       port_range = "443-443"
-#     }
-#   ]
-#   name   = "IP traefik.stag.one:443"
-#   org_id = mist_org.terraform_test.id
-#   type   = "spec"
-# }
-# resource "mist_org_wxtag" "test_81" {
-#   specs = [
-#     {
-#       protocol = "udp"
-#       subnets  = ["0.0.0.0/0"]
-#     }
-#   ]
-#   name   = "test_81"
-#   org_id = mist_org.terraform_test.id
-#   type   = "spec"
-# }
-# resource "mist_org_wxtag" "test_9" {
-#   op = "in"
-#   values = [
-#     "10.3.20.105"
-#   ]
-#   name   = "IP traefik.stag.one"
-#   org_id = mist_org.terraform_test.id
-#   type   = "match"
-#   match  = "ip_range_subnet"
-# }
-# resource "mist_org_wxtag" "test_10" {
-#   name   = "ma station"
-#   org_id = mist_org.terraform_test.id
-#   type   = "client"
-#   mac    = "9a4fccaa8f82"
-# }
-# resource "mist_org_wxtag" "test_12" {
-#   op = "in"
-#   values = [
-#     "iot"
-#   ]
-#   name   = "iot_label"
-#   org_id = mist_org.terraform_test.id
-#   type   = "match"
-#   match  = "radius_group"
-# }
-# resource "mist_org_wxtag" "test_13" {
-#   op = "in"
-#   values = [
-#     "station"
-#   ]
-#   name   = "station"
-#   org_id = mist_org.terraform_test.id
-#   type   = "match"
-#   match  = "radius_group"
-# }
-# resource "mist_org_wxtag" "test_14" {
-#   op     = "not_in"
-#   name   = "AP_test"
-#   org_id = mist_org.terraform_test.id
-#   type   = "match"
-#   match  = "ap_id"
-#   values = [
-#     "0000000"
-#   ]
-# }
-# resource "mist_org_wxtag" "test_15" {
-#   op = "in"
-#   values = [
-#     "test"
-#   ]
-#   name   = "test"
-#   org_id = mist_org.terraform_test.id
-#   type   = "match"
-#   match  = "radius_group"
-# }
-# resource "mist_org_wxtag" "test_16" {
-#   values = [
-#     "test"
-#   ]
-#   name   = "VIP"
-#   op     = "in"
-#   org_id = mist_org.terraform_test.id
-#   type   = "match"
-#   match  = "psk_role"
-# }
-# resource "mist_org_wxtag" "test_16_1" {
-#   op = "in"
-#   values = [
-#     "10.3.20.164"
-#   ]
-#   name   = "vcsa.stag.one_ip"
-#   org_id = mist_org.terraform_test.id
-#   type   = "match"
-#   match  = "ip_range_subnet"
-# }
-# resource "mist_org_wxtag" "test_17" {
-#   op = "not_in"
-#   values = [
-#     "ringcentral",
-#     "gcp",
-#     "gsuite",
-#     "teamviewer",
-#     "ms-teams"
-#   ]
-#   name   = "Allowed Applications"
-#   org_id = mist_org.terraform_test.id
-#   type   = "match"
-#   match  = "app"
-# }
-# resource "mist_org_wxtag" "test_18" {
-#   op = "in"
-#   values = [
-#     "0.0.0.0/0"
-#   ]
-#   name   = "any"
-#   org_id = mist_org.terraform_test.id
-#   type   = "match"
-#   match  = "ip_range_subnet"
-# }
-# resource "mist_org_wxtag" "test_19" {
-#   op = "in"
-#   values = [
-#     "manage.mist.com",
-#     "api.mist.com"
-#   ]
-#   name   = "manage.mist.com"
-#   org_id = mist_org.terraform_test.id
-#   type   = "match"
-#   match  = "hostname"
-# }
-# resource "mist_org_wxtag" "test_19_1" {
-#   op = "in"
-#   values = [
-#     "demopsk"
-#   ]
-#   name   = "demopsk"
-#   org_id = mist_org.terraform_test.id
-#   type   = "match"
-#   match  = "radius_group"
-# }
-# resource "mist_org_wxtag" "test_20" {
-#   op = "in"
-#   values = [
-#     "manage.mist.com:443"
-#   ]
-#   name   = "resource_mist:443"
-#   org_id = mist_org.terraform_test.id
-#   type   = "match"
-#   match  = "hostname"
-# }
-# resource "mist_org_wxtag" "test_21" {
-#   specs = [
-#     {
-#       subnets = [
-#         "0.0.0.0/0"
-#       ]
-#       protocol   = "tcp"
-#       port_range = "443"
-#     }
-#   ]
-#   name   = "internet:443"
-#   org_id = mist_org.terraform_test.id
-#   type   = "spec"
-# }
-# resource "mist_org_wxtag" "test_22" {
-#   values = [
-#     "53"
-#   ]
-#   op     = "in"
-#   name   = "DNS_all"
-#   org_id = mist_org.terraform_test.id
-#   type   = "match"
-#   match  = "port"
-# }
-# resource "mist_org_wxtag" "test_23" {
-#   specs = [
-#     {
-#       subnets = [
-#         "10.3.20.201",
-#         "10.3.51.222"
-#       ]
-#       protocol   = "any"
-#       port_range = "53"
-#     }
-#   ]
-#   name   = "DNS_internal"
-#   org_id = mist_org.terraform_test.id
-#   type   = "spec"
-# }
-# resource "mist_org_wxtag" "test_24" {
-#   op = "in"
-#   values = [
-#     "netflix.com"
-#   ]
-#   name   = "netflix"
-#   org_id = mist_org.terraform_test.id
-#   type   = "match"
-#   match  = "hostname"
-# }
-# resource "mist_org_wxtag" "test_25" {
-#   op = "in"
-#   values = [
-#     "10.0.0.0/8",
-#     "172.16.0.0/22",
-#     "192.168.0.0/16"
-#   ]
-#   name   = "RFC1918"
-#   org_id = mist_org.terraform_test.id
-#   type   = "match"
-#   match  = "ip_range_subnet"
-# }
-# resource "mist_org_wxtag" "test_26" {
-#   op = "in"
-#   values = [
-#     "10.3.8.0/24"
-#   ]
-#   name   = "iot_subnet"
-#   org_id = mist_org.terraform_test.id
-#   type   = "match"
-#   match  = "ip_range_subnet"
-# }
-# resource "mist_org_wxtag" "test_27" {
-#   op = "in"
-#   values = [
-#     ".teamviewer.com:5938",
-#     ".teamviewer.com:443"
-#   ]
-#   name   = "teamviewer"
-#   org_id = mist_org.terraform_test.id
-#   type   = "match"
-#   match  = "hostname"
-# }
-# resource "mist_org_wxtag" "test_29" {
-#   op     = "in"
-#   name   = "my ssid"
-#   org_id = mist_org.terraform_test.id
-#   type   = "match"
-#   values = ["test"]
-#   match  = "wlan_id"
-# }
-# resource "mist_org_wxtag" "test_30" {
-#   op = "in"
-#   values = [
-#     "cdn.segment.com"
-#   ]
-#   name   = "cdn.segment.com"
-#   org_id = mist_org.terraform_test.id
-#   type   = "match"
-#   match  = "hostname"
-# }
-# resource "mist_org_wxtag" "test_32" {
-#   op     = "in"
-#   name   = "MlN.1X"
-#   org_id = mist_org.terraform_test.id
-#   type   = "match"
-#   match  = "wlan_id"
-#   values = ["test"]
-# }
-# resource "mist_org_wxrule" "test_01" {
-#   org_id      = mist_org.terraform_test.id
-#   template_id = mist_org_wlantemplate.test101.id
-#   action      = "allow"
-#   order       = 1
-# }
+resource "mist_org_wxtag" "test_1" {
+  values = [
+    "10.3.0.0/16"
+  ]
+  op     = "in"
+  name   = "Internal Network"
+  org_id = mist_org.terraform_test.id
+  type   = "match"
+  match  = "ip_range_subnet"
+}
+resource "mist_org_wxtag" "test_2" {
+  values = [
+    "53"
+  ]
+  op     = "in"
+  name   = "DNS"
+  org_id = mist_org.terraform_test.id
+  type   = "match"
+  match  = "port"
+}
+resource "mist_org_wxtag" "test_3" {
+  values = [
+    "443"
+  ]
+  op     = "in"
+  name   = "HTTPS"
+  org_id = mist_org.terraform_test.id
+  type   = "match"
+  match  = "port"
+}
+resource "mist_org_wxtag" "test_4" {
+  values = [
+    "80"
+  ]
+  op     = "in"
+  name   = "HTTP"
+  org_id = mist_org.terraform_test.id
+  type   = "match"
+  match  = "port"
+}
+resource "mist_org_wxtag" "test_5" {
+  op = "in"
+  values = [
+    "www.myapp.com:443"
+  ]
+  name   = "my app"
+  org_id = mist_org.terraform_test.id
+  type   = "match"
+  match  = "hostname"
+}
+resource "mist_org_wxtag" "test_6" {
+  op = "in"
+  values = [
+    "test1"
+  ]
+  name   = "test1"
+  org_id = mist_org.terraform_test.id
+  type   = "match"
+  match  = "radius_group"
+}
+resource "mist_org_wxtag" "test_7" {
+  op = "in"
+  values = [
+    "10.3.20.0/24"
+  ]
+  name   = "Subnet SRV"
+  org_id = mist_org.terraform_test.id
+  type   = "match"
+  match  = "ip_range_subnet"
+}
+resource "mist_org_wxtag" "test_8" {
+  specs = [
+    {
+      subnets = [
+        "10.3.20.105"
+      ]
+      protocol   = "tcp"
+      port_range = "443-443"
+    }
+  ]
+  name   = "IP traefik.stag.one:443"
+  org_id = mist_org.terraform_test.id
+  type   = "spec"
+}
+resource "mist_org_wxtag" "test_81" {
+  specs = [
+    {
+      protocol = "udp"
+      subnets  = ["0.0.0.0/0"]
+    }
+  ]
+  name   = "test_81"
+  org_id = mist_org.terraform_test.id
+  type   = "spec"
+}
+resource "mist_org_wxtag" "test_9" {
+  op = "in"
+  values = [
+    "10.3.20.105"
+  ]
+  name   = "IP traefik.stag.one"
+  org_id = mist_org.terraform_test.id
+  type   = "match"
+  match  = "ip_range_subnet"
+}
+resource "mist_org_wxtag" "test_10" {
+  name   = "ma station"
+  org_id = mist_org.terraform_test.id
+  type   = "client"
+  mac    = "9a4fccaa8f82"
+}
+resource "mist_org_wxtag" "test_12" {
+  op = "in"
+  values = [
+    "iot"
+  ]
+  name   = "iot_label"
+  org_id = mist_org.terraform_test.id
+  type   = "match"
+  match  = "radius_group"
+}
+resource "mist_org_wxtag" "test_13" {
+  op = "in"
+  values = [
+    "station"
+  ]
+  name   = "station"
+  org_id = mist_org.terraform_test.id
+  type   = "match"
+  match  = "radius_group"
+}
+resource "mist_org_wxtag" "test_14" {
+  op     = "not_in"
+  name   = "AP_test"
+  org_id = mist_org.terraform_test.id
+  type   = "match"
+  match  = "ap_id"
+  values = [
+    "0000000"
+  ]
+}
+resource "mist_org_wxtag" "test_15" {
+  op = "in"
+  values = [
+    "test"
+  ]
+  name   = "test"
+  org_id = mist_org.terraform_test.id
+  type   = "match"
+  match  = "radius_group"
+}
+resource "mist_org_wxtag" "test_16" {
+  values = [
+    "test"
+  ]
+  name   = "VIP"
+  op     = "in"
+  org_id = mist_org.terraform_test.id
+  type   = "match"
+  match  = "psk_role"
+}
+resource "mist_org_wxtag" "test_16_1" {
+  op = "in"
+  values = [
+    "10.3.20.164"
+  ]
+  name   = "vcsa.stag.one_ip"
+  org_id = mist_org.terraform_test.id
+  type   = "match"
+  match  = "ip_range_subnet"
+}
+resource "mist_org_wxtag" "test_17" {
+  op = "not_in"
+  values = [
+    "ringcentral",
+    "gcp",
+    "gsuite",
+    "teamviewer",
+    "ms-teams"
+  ]
+  name   = "Allowed Applications"
+  org_id = mist_org.terraform_test.id
+  type   = "match"
+  match  = "app"
+}
+resource "mist_org_wxtag" "test_18" {
+  op = "in"
+  values = [
+    "0.0.0.0/0"
+  ]
+  name   = "any"
+  org_id = mist_org.terraform_test.id
+  type   = "match"
+  match  = "ip_range_subnet"
+}
+resource "mist_org_wxtag" "test_19" {
+  op = "in"
+  values = [
+    "manage.mist.com",
+    "api.mist.com"
+  ]
+  name   = "manage.mist.com"
+  org_id = mist_org.terraform_test.id
+  type   = "match"
+  match  = "hostname"
+}
+resource "mist_org_wxtag" "test_19_1" {
+  op = "in"
+  values = [
+    "demopsk"
+  ]
+  name   = "demopsk"
+  org_id = mist_org.terraform_test.id
+  type   = "match"
+  match  = "radius_group"
+}
+resource "mist_org_wxtag" "test_20" {
+  op = "in"
+  values = [
+    "manage.mist.com:443"
+  ]
+  name   = "resource_mist:443"
+  org_id = mist_org.terraform_test.id
+  type   = "match"
+  match  = "hostname"
+}
+resource "mist_org_wxtag" "test_21" {
+  specs = [
+    {
+      subnets = [
+        "0.0.0.0/0"
+      ]
+      protocol   = "tcp"
+      port_range = "443"
+    }
+  ]
+  name   = "internet:443"
+  org_id = mist_org.terraform_test.id
+  type   = "spec"
+}
+resource "mist_org_wxtag" "test_22" {
+  values = [
+    "53"
+  ]
+  op     = "in"
+  name   = "DNS_all"
+  org_id = mist_org.terraform_test.id
+  type   = "match"
+  match  = "port"
+}
+resource "mist_org_wxtag" "test_23" {
+  specs = [
+    {
+      subnets = [
+        "10.3.20.201",
+        "10.3.51.222"
+      ]
+      protocol   = "any"
+      port_range = "53"
+    }
+  ]
+  name   = "DNS_internal"
+  org_id = mist_org.terraform_test.id
+  type   = "spec"
+}
+resource "mist_org_wxtag" "test_24" {
+  op = "in"
+  values = [
+    "netflix.com"
+  ]
+  name   = "netflix"
+  org_id = mist_org.terraform_test.id
+  type   = "match"
+  match  = "hostname"
+}
+resource "mist_org_wxtag" "test_25" {
+  op = "in"
+  values = [
+    "10.0.0.0/8",
+    "172.16.0.0/22",
+    "192.168.0.0/16"
+  ]
+  name   = "RFC1918"
+  org_id = mist_org.terraform_test.id
+  type   = "match"
+  match  = "ip_range_subnet"
+}
+resource "mist_org_wxtag" "test_26" {
+  op = "in"
+  values = [
+    "10.3.8.0/24"
+  ]
+  name   = "iot_subnet"
+  org_id = mist_org.terraform_test.id
+  type   = "match"
+  match  = "ip_range_subnet"
+}
+resource "mist_org_wxtag" "test_27" {
+  op = "in"
+  values = [
+    ".teamviewer.com:5938",
+    ".teamviewer.com:443"
+  ]
+  name   = "teamviewer"
+  org_id = mist_org.terraform_test.id
+  type   = "match"
+  match  = "hostname"
+}
+resource "mist_org_wxtag" "test_29" {
+  op     = "in"
+  name   = "my ssid"
+  org_id = mist_org.terraform_test.id
+  type   = "match"
+  values = ["test"]
+  match  = "wlan_id"
+}
+resource "mist_org_wxtag" "test_30" {
+  op = "in"
+  values = [
+    "cdn.segment.com"
+  ]
+  name   = "cdn.segment.com"
+  org_id = mist_org.terraform_test.id
+  type   = "match"
+  match  = "hostname"
+}
+resource "mist_org_wxtag" "test_32" {
+  op     = "in"
+  name   = "MlN.1X"
+  org_id = mist_org.terraform_test.id
+  type   = "match"
+  match  = "wlan_id"
+  values = ["test"]
+}
+resource "mist_org_wxrule" "test_01" {
+  org_id      = mist_org.terraform_test.id
+  template_id = mist_org_wlantemplate.test101.id
+  action      = "allow"
+  order       = 1
+}
 # resource "mist_org_vpn" "vpn_one" {
 #   org_id = mist_org.terraform_test.id
 #   name   = "VpnOrgOverlay"
@@ -1855,15 +2313,15 @@ resource "mist_site_setting" "test" {
   }
 }
 
-# resource "mist_org_wlantemplate" "test101" {
-#   org_id = mist_org.terraform_test.id
-#   name   = "test101"
-#   applies = {
-#     site_ids = [
-#       mist_site.terraform_site.id
-#     ]
-#   }
-# }
+resource "mist_org_wlantemplate" "test101" {
+  org_id = mist_org.terraform_test.id
+  name   = "test101"
+  applies = {
+    site_ids = [
+      mist_site.terraform_site.id
+    ]
+  }
+}
 
 # resource "mist_org_wlan" "wlan_cwp" {
 #   ssid    = "MlN.test"
@@ -1931,7 +2389,7 @@ resource "mist_site_wxtag" "test_6" {
 resource "mist_site_wxrule" "test_01" {
   site_id = mist_site.terraform_site.id
   order   = 2
-  action = "allow"
+  action  = "allow"
   enabled = false
 }
 resource "mist_site_wxrule" "test_1" {
@@ -2500,6 +2958,13 @@ resource "mist_site_networktemplate" "site_switch_template" {
 #   site_id   = mist_site.terraform_site.id
 # }
 
+resource "mist_device_image" "switch_image_one" {
+  device_id    = mist_org_inventory.inventory.devices[1].id
+  site_id      = mist_org_inventory.inventory.devices[1].site_id
+  file         = "/Users/tmunzer/OneDrive/data/demo/IMG_0049.jpg"
+  image_number = 1
+}
+
 resource "mist_device_switch" "test_switch" {
   device_id = mist_org_inventory.inventory.devices[1].id
   site_id   = mist_org_inventory.inventory.devices[1].site_id
@@ -2693,10 +3158,10 @@ resource "mist_device_switch" "test_switch" {
 
   router_id = "1.2.3.4"
   oob_ip_config = {
-    type                      = "static"
-    ip                        = "2.2.2.2"
-    netmask                   = "/24"
-    gateway                   = "2.2.2.1"
+    type    = "static"
+    ip      = "2.2.2.2"
+    netmask = "/24"
+    gateway = "2.2.2.1"
   }
 }
 
@@ -3702,7 +4167,22 @@ resource "mist_org_wlan_portal_template" "test" {
   }
 }
 
-
+resource "mist_org_apitoken" "test_one" {
+  org_id = mist_org.terraform_test.id
+  name   = "test_one_reest_and_updated"
+  privileges = [
+    {
+      scope   = "site"
+      role    = "admin"
+      site_id = "d7c8364e-f2f4-48ca-907e-37eff0475b03"
+    },
+    {
+      scope   = "site"
+      role    = "read"
+      site_id = "08f8851b-a898-4603-8f9f-9ebb5aa62de4"
+    },
+  ]
+}
 resource "mist_site" "site_two" {
   org_id       = mist_org.terraform_test.id
   name         = "terraform_site2"
@@ -3749,4 +4229,83 @@ resource "mist_site_setting" "site_two" {
       ]
     }
   }
+}
+
+
+resource "mist_org_sso" "admin_sso" {
+  org_id            = mist_org.terraform_test.id
+  name              = "admin_sso"
+  custom_logout_url = "https://idp.com/logout"
+  idp_cert          = "-----BEGIN CERTIFICATE-----MIIF0jCCA7qgAwIBAgIBATANBgkqhkiG9w0BAQsFADBbMQswCQYDVQQGEwJVUzENMAsGA1UECgwETWlzdDEOMAwGA1UECwwFT3JnQ0ExLTArBgNVBAMMJDk5MmJmNGI5LWM5MDAtNDg1MC05OTkyLTEwN2IyZjlkZjkyODAeFw0yNDA3MTExMjIxNTBaFw0zNDA3MDkxMjIxNTBaMFsxCzAJBgNVBAYTAlVTMQ0wCwYDVQQKDARNaXN0MQ4wDAYDVQQLDAVPcmdDQTEtMCsGA1UEAwwkOTkyYmY0YjktYzkwMC00ODUwLTk5OTItMTA3YjJmOWRmOTI4MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEApfdNlmu78olZo5BqJw7KSXhhTDnN0XvYrUQJphRIBrC26/zNPj4/+mH9koM/nprV8KFRxbg4Elu0n32K8iCKtegeLrPMzkbkqtjdR22C8x38X+JnQgxoZfASGros+PkHhFiLumbKYaMlnu4zs5BXiXBqobpKLC2MSelsJxYu3GJwJDOnxKb757b4bdcueC+609wfz15cxRCsKvvmO/ZcPidPZsZU4so3G5PPYBDFCzvFv7b3i43g8zHREZ8knMZsgM78yNTEPDoVBe9Nvvaxqv4g4zZ7NA7fJ5mCbK7CBsuHhnAt8lkDJlRVTBjDE9Z4RW7ChLKMvq17HMaxr4AizOclD3jhlOYMlRskd4gh2VEYKZRUbZrwulC3AWrIDG+60FPY6WCPyFC7uP8k4pq2pgTsmOctWvS/fJmCz8Yi62D36HhMtzb8ddOq4wpOTnL7WuhxKUblsXNuzjEbQwB9EYvHVmyxr2s1Uu+RGOaE/YHu0PsNNESIMgeUmzkDjM17qfHVEoR8VKzYxol9nlKG6f9YjFGa637dPpd+SPxv0fH9SUuUCPJcMB8AT22ufC0n3CEAp/6QOm5NjOvrMM51FRgfWU13KINmv3EHiDo6EMJrYwRrxCDLoS+8gB/j3ErcHLm1FJ3oIkOfkeUqETA9mdvIBMBtPcgW/JFpe+MQdIsCAwEAAaOBoDCBnTAvBgNVHREEKDAmgiQ5OTJiZjRiOS1jOTAwLTQ4NTAtOTk5Mi0xMDdiMmY5ZGY5MjgwDwYDVR0TAQH/BAUwAwEB/zBZBgNVHR8EUjBQME6gTKBKhkhodHRwOi8vYXBpLm1pc3QuY29tL2FwaS92MS9vcmdzLzk5MmJmNGI5LWM5MDAtNDg1MC05OTkyLTEwN2IyZjlkZjkyOC9jcmwwDQYJKoZIhvcNAQELBQADggIBAAzhXvOWj+sOqCFddBBsezW19nY1KgEgO3MFZHVuwrNpcfHVsXaY4YMmp93OawYKJKOBYpyZXRtajb/3kuGdPHHxX5+aOG0X+HNeCPzxI9xOTG3wjZ/Zr5xDKV7VsxuMyLQf0QdciLMk5q1TbZftzxSKvd0JlRO/cQNw1zocP0bcnp9t1loNcLlw7joh3qibdTj9bpHm958DgCk5WaRdsVHABLHPaPIHx07kDFedY6pGo2QILe1/6sPidxJek1yszOdWcwXeSJ+UEl4UsWNftM5E2QBib4iVr2fhKUuiOHeVnpWPCVAKG1SObfK/2uWTYItjl9ZjgIydo2rz5V0Oa6p1ftx8h9GEkAHUAJjMcHzL7u1vv+t3J029z3W1GN3Ndhox9XzEWxoQf2WdKWmAZErgZFwfDURwW0tyP1A+jAH6UK0dQJweVAo5a0HdY21x/fQz8MoLwa2oG8Y1CcrOJywZG48ll+6As0HkIrLZ1ciwJJS5s4gBu8q4/2y/XSdxaK+LmM1WdsJgYM+7PBuW5Xkf9j+n4tIMRj851cwgMk4CU3PNQP2BqOcFHKaf+v2JystzYdM2k1H9zcQMmNIMpo2VMaq+nJJYF0f4myVCEyO5T3kQLEAQWPnVJua1mXUhOSQqRBO4A6Uk8TWKyshvo0tERubwpP6iTTJWV/fSCGx7-----END CERTIFICATE-----"
+  idp_sign_algo     = "sha512"
+  idp_sso_url       = "https://idp.com/login"
+  issuer            = "idp_issuer"
+  nameid_format     = "email"
+}
+
+resource "mist_org_sso_role" "sso_role_one" {
+  org_id = mist_org.terraform_test.id
+  name   = "admin_sso"
+  privileges = [
+    {
+      scope   = "site"
+      role    = "read"
+      site_id = mist_site.terraform_site.id
+    }
+  ]
+}
+
+resource "mist_org_sso_role" "sso_role_two" {
+  org_id = mist_org.terraform_test.id
+  name   = "admin_sso_two"
+  privileges = [
+    {
+      scope   = "site"
+      role    = "read"
+      site_id = mist_site.terraform_site.id
+    },
+    {
+      scope   = "site"
+      role    = "write"
+      site_id = mist_site.site_two.id
+    }
+  ]
+}
+
+resource "mist_org_nacidp" "idp_azure" {
+  org_id                   = mist_org.terraform_test.id
+  name                     = "idp_azure"
+  idp_type                 = "oauth"
+  oauth_cc_client_id       = "client_id"
+  oauth_cc_client_secret   = "-----BEGIN RSA PRIVATE KEY-----MIIF0jCCA7qgAwIBAgIBATANBgkqhkiG9w0BAQsFADBbMQswCQYDVQQGEwJVUzENMAsGA1UECgwETWlzdDEOMAwGA1UECwwFT3JnQ0ExLTArBgNVBAMMJDk5MmJmNGI5LWM5MDAtNDg1MC05OTkyLTEwN2IyZjlkZjkyODAeFw0yNDA3MTExMjIxNTBaFw0zNDA3MDkxMjIxNTBaMFsxCzAJBgNVBAYTAlVTMQ0wCwYDVQQKDARNaXN0MQ4wDAYDVQQLDAVPcmdDQTEtMCsGA1UEAwwkOTkyYmY0YjktYzkwMC00ODUwLTk5OTItMTA3YjJmOWRmOTI4MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEApfdNlmu78olZo5BqJw7KSXhhTDnN0XvYrUQJphRIBrC26/zNPj4/+mH9koM/nprV8KFRxbg4Elu0n32K8iCKtegeLrPMzkbkqtjdR22C8x38X+JnQgxoZfASGros+PkHhFiLumbKYaMlnu4zs5BXiXBqobpKLC2MSelsJxYu3GJwJDOnxKb757b4bdcueC+609wfz15cxRCsKvvmO/ZcPidPZsZU4so3G5PPYBDFCzvFv7b3i43g8zHREZ8knMZsgM78yNTEPDoVBe9Nvvaxqv4g4zZ7NA7fJ5mCbK7CBsuHhnAt8lkDJlRVTBjDE9Z4RW7ChLKMvq17HMaxr4AizOclD3jhlOYMlRskd4gh2VEYKZRUbZrwulC3AWrIDG+60FPY6WCPyFC7uP8k4pq2pgTsmOctWvS/fJmCz8Yi62D36HhMtzb8ddOq4wpOTnL7WuhxKUblsXNuzjEbQwB9EYvHVmyxr2s1Uu+RGOaE/YHu0PsNNESIMgeUmzkDjM17qfHVEoR8VKzYxol9nlKG6f9YjFGa637dPpd+SPxv0fH9SUuUCPJcMB8AT22ufC0n3CEAp/6QOm5NjOvrMM51FRgfWU13KINmv3EHiDo6EMJrYwRrxCDLoS+8gB/j3ErcHLm1FJ3oIkOfkeUqETA9mdvIBMBtPcgW/JFpe+MQdIsCAwEAAaOBoDCBnTAvBgNVHREEKDAmgiQ5OTJiZjRiOS1jOTAwLTQ4NTAtOTk5Mi0xMDdiMmY5ZGY5MjgwDwYDVR0TAQH/BAUwAwEB/zBZBgNVHR8EUjBQME6gTKBKhkhodHRwOi8vYXBpLm1pc3QuY29tL2FwaS92MS9vcmdzLzk5MmJmNGI5LWM5MDAtNDg1MC05OTkyLTEwN2IyZjlkZjkyOC9jcmwwDQYJKoZIhvcNAQELBQADggIBAAzhXvOWj+sOqCFddBBsezW19nY1KgEgO3MFZHVuwrNpcfHVsXaY4YMmp93OawYKJKOBYpyZXRtajb/3kuGdPHHxX5+aOG0X+HNeCPzxI9xOTG3wjZ/Zr5xDKV7VsxuMyLQf0QdciLMk5q1TbZftzxSKvd0JlRO/cQNw1zocP0bcnp9t1loNcLlw7joh3qibdTj9bpHm958DgCk5WaRdsVHABLHPaPIHx07kDFedY6pGo2QILe1/6sPidxJek1yszOdWcwXeSJ+UEl4UsWNftM5E2QBib4iVr2fhKUuiOHeVnpWPCVAKG1SObfK/2uWTYItjl9ZjgIydo2rz5V0Oa6p1ftx8h9GEkAHUAJjMcHzL7u1vv+t3J029z3W1GN3Ndhox9XzEWxoQf2WdKWmAZErgZFwfDURwW0tyP1A+jAH6UK0dQJweVAo5a0HdY21x/fQz8MoLwa2oG8Y1CcrOJywZG48ll+6As0HkIrLZ1ciwJJS5s4gBu8q4/2y/XSdxaK+LmM1WdsJgYM+7PBuW5Xkf9j+n4tIMRj851cwgMk4CU3PNQP2BqOcFHKaf+v2JystzYdM2k1H9zcQMmNIMpo2VMaq+nJJYF0f4myVCEyO5T3kQLEAQWPnVJua1mXUhOSQqRBO4A6Uk8TWKyshvo0tERubwpP6iTTJWV/fSCGx7-----END RSA PRIVATE KEY-----"
+  oauth_ropc_client_id     = "ropc_client_id"
+  oauth_ropc_client_secret = "ropc_client_secret"
+  oauth_tenant_id          = "tenant_id"
+  oauth_type               = "azure"
+}
+
+data "mist_org_nacidp_metadata" "idp_azure" {
+  org_id    = mist_org.terraform_test.id
+  nacidp_id = mist_org_nacidp.idp_azure.id
+
+}
+
+resource "mist_org_nacidp" "idp_ldap" {
+  org_id             = mist_org.terraform_test.id
+  name               = "idp_ldap"
+  idp_type           = "ldap"
+  ldap_type          = "custom"
+  group_filter       = "memberOf"
+  member_filter      = "memberOf"
+  ldap_user_filter   = "(mail=%s)"
+  ldap_server_hosts  = ["ldap.mycorp.com", "1.2.3.4"]
+  ldap_base_dn       = "DC=abc,DC=com"
+  ldap_bind_dn       = "CN=admin,CN=users,DC=abc,DC=com"
+  ldap_bind_password = "secret!password"
+  ldap_cacerts = [
+    "-----BEGIN CERTIFICATE-----\nMIIFZjCCA06gAwIBAgIIP61/1qm/uDowDQYJKoZIhvcNAQELBQE\n-----END CERTIFICATE-----",
+    "-----BEGIN CERTIFICATE-----\nBhMCRVMxFDASBgNVBAoMC1N0YXJ0Q29tIENBMSwwKgYDVn-----END CERTIFICATE-----"
+  ]
+  ldap_client_cert = "-----BEGIN CERTIFICATE-----\nMIIFZjCCA06gAwIBAgIIP61/1qm/uDowDQYJKoZIhvcNAQELBQE\n-----END CERTIFICATE-----"
+  ldap_client_key  = "-----BEGIN PRI..."
 }

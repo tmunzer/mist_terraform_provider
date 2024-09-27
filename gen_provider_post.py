@@ -146,6 +146,11 @@ FILES = {
             "magic": "claim_code",
         },
     },
+    "./terraform-provider-mist/internal/resource_org_alarmtemplate/org_alarmtemplate_resource_gen.go": {
+        "dedup": [
+            "Delivery",
+        ]
+    },
     "./terraform-provider-mist/internal/datasource_device_gateway_stats/device_gateway_stats_data_source_gen.go": {
         "rename": {
             "Cpu2StatValue": "CpuStatValue",

@@ -195,10 +195,15 @@ next:
           imports:
           - path: github.com/hashicorp/terraform-plugin-framework-validators/listvalidator
           schema_definition: listvalidator.SizeAtLeast(1)
+    - name: id
+      get:
+      - string
+      computed_optional_required: required
+      description: ID of the `mist_nacidp`
     - name: user_realms
       get: 
       - list 
-      computed_optional_required: computed_optional
+      computed_optional_required: required
       validators:
       - custom:
           imports:
