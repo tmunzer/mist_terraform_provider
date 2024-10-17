@@ -17,6 +17,14 @@ next:
   name: msp_id
 - computed_optional_required: computed
   get:
+  - string
+  name: msp_logo_url
+- computed_optional_required: computed
+  get:
+  - string
+  name: msp_name
+- computed_optional_required: computed
+  get:
   - list
   name: orggroup_ids
 - computed_optional_required: computed_optional

@@ -45,13 +45,13 @@ resource "mist_org_setting" "terraform_test" {
       user_realms = ["nacidpazure.com"]
     }]
   }
-  # password_policy = {
-  #   enabled                  = true
-  #   freshness                = 180
-  #   min_length               = 12
-  #   requires_special_char    = true
-  #   requires_two_factor_auth = false
-  # }
+  password_policy = {
+    enabled                  = false
+    freshness                = 180
+    min_length               = 12
+    requires_special_char    = true
+    requires_two_factor_auth = false
+  }
   security = {
     disable_local_ssh = true
   }
@@ -484,39 +484,52 @@ resource "mist_org_alarmtemplate" "alarmtemplate_one" {
 #   usage      = "multi"
 # }
 resource "mist_org_inventory" "inventory" {
+  # {
+  #   claim_code = "C9QQFW2B9NKCS33"
+  #   //site_id    = mist_site.terraform_site.id
+  # },site_id    = mist_site.terraform_site.id
+  # {
+  #   mac     = "2c21311c37b0"
+  #   site_id = mist_site.terraform_site.id
+  # },
   org_id = mist_org.terraform_test.id
-  devices = [
-    # {
-    #   claim_code = "C9QQFW2B9NKCS33"
-    #   //site_id    = mist_site.terraform_site.id
-    # },
-    {
-      claim_code = "CPKL2EXN8JY98AC"
-      site_id    = mist_site.terraform_site.id
-    },
-    {
-      claim_code = "G87JHBFXZJSFNMX"
-      site_id    = mist_site.terraform_site.id
-      //site_id    = mist_site.terraform_site.id
-    },
-    # {
-    #   mac     = "2c21311c37b0"
-    #   site_id = mist_site.terraform_site.id
-    # },
-    {
-      claim_code = "CV4YAS8DQWYLL6M"
-      site_id    = mist_site.terraform_site.id
-    },
-    {
-      mac     = "4c9614e54f00"
-      site_id = mist_site.terraform_site.id
-    },
-    {
-      mac     = "4c9614025500"
+  devices = {
+    "CPKL2EXN8JY98AC" = {
       site_id = mist_site.terraform_site.id
     }
-  ]
+    "G87JHBFXZJSFNMX" = {
+      site_id = mist_site.terraform_site.id
+      unclaim_when_destroyed = true
+    }
+    "CV4YAS8DQWYLL6M" = {
+      site_id = mist_site.terraform_site.id
+    }
+    (local.node0) = {
+      site_id                = mist_site.terraform_site.id
+      unclaim_when_destroyed = false
+    }
+    (local.node1) = {
+      site_id                = mist_site.terraform_site.id
+      unclaim_when_destroyed = false
+    }
+    "4c9614026d00" = {
+      site_id                = mist_site.terraform_site.id
+
+    }
+  }
+  # {
+  #   mac     = "4c9614c85b00"
+  #   site_id = mist_site.terraform_site.id
+  #   unclaim_when_destroyed = false
+  # },
+  # {
+  #   mac     = "4c9614683e00"
+  #   site_id = mist_site.terraform_site.id
+  #   unclaim_when_destroyed = false
+  # }
 }
+
+
 
 resource "mist_org_webhook" "webhook_one" {
   org_id  = mist_org.terraform_test.id
@@ -1239,14 +1252,14 @@ resource "mist_org_wxtag" "test_32" {
 resource "mist_org_wxrule" "test_02" {
   org_id      = mist_org.terraform_test.id
   template_id = mist_org_wlantemplate.test101.id
-  order   = 2
-  action  = "allow"
-  enabled = false
+  order       = 2
+  action      = "allow"
+  enabled     = false
 }
 resource "mist_org_wxrule" "test_01" {
   org_id      = mist_org.terraform_test.id
   template_id = mist_org_wlantemplate.test101.id
-  action = "allow"
+  action      = "allow"
   dst_deny_wxtags = [
     mist_org_wxtag.test_30.id
   ]
@@ -1254,7 +1267,7 @@ resource "mist_org_wxrule" "test_01" {
   src_wxtags = [
     mist_org_wxtag.test_32.id
   ]
-  order   = 1
+  order = 1
 }
 resource "mist_org_wxrule" "test_00" {
   org_id      = mist_org.terraform_test.id
@@ -1273,16 +1286,16 @@ resource "mist_org_wxrule" "test_00" {
 #   }
 # }
 
-# resource "mist_device_gateway_cluster" "cluster_one" {
-#   site_id = mist_site.terraform_site.id
-#   nodes = [
-#     { mac = mist_org_inventory.inventory.devices[3].mac },
-#     { mac = mist_org_inventory.inventory.devices[4].mac }
-#   ]
-# }
+resource "mist_device_gateway_cluster" "cluster_one" {
+  site_id = provider::mist::search_inventory_by_mac(resource.mist_org_inventory.inventory.devices, local.node0).site_id
+  nodes = [
+    { mac = provider::mist::search_inventory_by_mac(resource.mist_org_inventory.inventory.devices, local.node0).mac },
+    { mac = provider::mist::search_inventory_by_mac(resource.mist_org_inventory.inventory.devices, local.node1).mac },
+  ]
+}
 resource "mist_device_gateway" "cluster_one" {
-  site_id                = mist_org_inventory.inventory.devices[4].site_id
-  device_id              = mist_org_inventory.inventory.devices[4].id
+  device_id              = resource.mist_device_gateway_cluster.cluster_one.id
+  site_id                = provider::mist::search_inventory_by_mac(resource.mist_org_inventory.inventory.devices, local.node0).site_id
   name                   = "cluster_one"
   managed                = true
   additional_config_cmds = ["hello world"]
@@ -1511,8 +1524,9 @@ resource "mist_device_gateway" "cluster_one" {
 
 
 resource "mist_device_ap" "test_ap" {
-  device_id = mist_org_inventory.inventory.devices[0].id
-  site_id   = mist_org_inventory.inventory.devices[0].site_id
+
+  device_id = provider::mist::search_inventory_by_claimcode(resource.mist_org_inventory.inventory.devices, "CPKL2EXN8JY98AC").id
+  site_id   = provider::mist::search_inventory_by_claimcode(resource.mist_org_inventory.inventory.devices, "CPKL2EXN8JY98AC").site_id
   name      = "test_ap"
 }
 
@@ -2978,212 +2992,220 @@ resource "mist_site_networktemplate" "site_switch_template" {
 #   site_id   = mist_site.terraform_site.id
 # }
 
-resource "mist_device_image" "switch_image_one" {
-  device_id    = mist_org_inventory.inventory.devices[1].id
-  site_id      = mist_org_inventory.inventory.devices[1].site_id
-  file         = "/Users/tmunzer/OneDrive/data/demo/IMG_0049.jpg"
-  image_number = 1
-}
+# resource "mist_device_image" "switch_image_one" {
+#   # for_each = { 
+#   #   for  device in resource.mist_org_inventory.inventory.devices : device.mac => device if device.mac == "2c21311c37b0" 
+#   #   }
+#   # device_id =each.value.id
+#   # site_id = each.value.site_id
+#   device_id = provider::mist::search_inventory_rs(resource.mist_org_inventory.inventory.devices, "2c21311c37b0").id
+#   site_id =  provider::mist::search_inventory_rs(resource.mist_org_inventory.inventory.devices, "2c21311c37b0").site_id
+#   file         = "/Users/tmunzer/OneDrive/data/demo/IMG_0049.jpg"
+#   image_number = 1
+# }
 
-resource "mist_device_switch" "test_switch" {
-  device_id = mist_org_inventory.inventory.devices[1].id
-  site_id   = mist_org_inventory.inventory.devices[1].site_id
-  name      = "demo-ex"
-  managed   = true
-  role      = "test"
-  networks = {
-    "prx" = {
-      vlan_id = "18"
-    }
-  }
-  port_usages = {
-    "prx" = {
-      mode         = "trunk"
-      disabled     = false
-      port_network = "default"
-      stp_edge     = false
-      all_networks = false
-      networks = [
-        "default",
-        "prx"
-      ],
-      speed         = "auto"
-      duplex        = "auto"
-      mac_limit     = 0
-      poe_disabled  = false
-      enable_qos    = false
-      storm_control = {}
-      description   = ""
-    },
-    "autogenerated_ge-0_0_10" = {
-      mode         = "trunk"
-      all_networks = false
-      networks = [
-        "default",
-        "prx"
-      ],
-      port_network = "prx"
-      autoneg      = true
-      disabled     = false
-      poe_disabled = false
-      duplex       = "auto"
-      speed        = "auto"
-    },
-    "autogenerated_ge-0_0_11" = {
-      mode         = "trunk"
-      all_networks = false
-      networks = [
-        "default",
-        "prx"
-      ],
-      port_network = "prx"
-      autoneg      = true
-      disabled     = false
-      poe_disabled = false
-      duplex       = "auto"
-      speed        = "auto"
-    }
-  }
-  additional_config_cmds = [
-    "set groups top system proxy password \"$9$VpsgajHmFnCq.pBIEeK4aZUDin6Ctu136eW\"",
-    "",
-    "annotate system \" -- custom-auth -- Template level --\"",
-    "delete apply-groups custom-auth",
-    "delete groups custom-auth",
-    "set groups custom-auth",
-    "set groups custom-auth  system login user tmunzer class super-user",
-    "set groups custom-auth  system login user tmunzer authentication ssh-rsa \"ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCxk1CXmrc/wNlzuelQoBgEdnA3Mq8r05UhXgBUwqFdcbwkEmgYnciQWXYeFdA+UwR3SWX4VtyeenQi/S9pSOjvoZQ5OYBWNqak+AWjXXzX7sO8cf59TSDDN2lybdH6kWbvRKYzMbfpZvwluYwQX7ftN/D4/iS7288i5knaMVklhDJGdcuh6Xlve6PueZ5ov2twPzpplPVdWOCqgaCMhvVplG3oNTvBpeJ6BCXzhgJdkFNinFehPnvUR6MRwdjD/MvS1r+yrggHGQzJ57VEDsw2qH8wRaUUn0+Nd5hMYO4vamfintlm5hEAW9+my6HKNzBmd/TMeLctKUOg/q4Bc9TfYB51HEghHZ1i3ClJ6nE/1M6Ev9B+YwBJpeRaieWHbOHWrmMKM5rnYpX+uShPobvHKC8Z5HU5UkAtWvRyXVqbeeVv7xlGDTKnm0UQtzv9UDR/BN3VSnh8JKGLeiPDRZ0oDdgqK1ijxXBCFKb6FXAUiORUQLtI/7dmV4YxK4oS+ZRU/uxCCNDx6R90o08RFDFpWNBPY1yj332T/6JnA7nzlAYdQ1s1hzgzamZoEZuO/a+NObV9gQbJC13ZtZEWKXSLHPvEsORc5nb7hN76RNI7yKnAWNy5Zj2aaPlTGofbdr9M8+Tez4wldmYB/k86M4lENv5fZRx9A6VmfXFDoSI33w== tmunzer@stag.one\"",
-    "set apply-groups custom-auth"
-  ]
-  ip_config = {
-    type    = "static"
-    ip      = "10.3.18.99"
-    dns     = ["1.2.3.4"]
-    netmask = "255.255.255.0"
-    network = "prx"
-    gateway = "10.3.18.11"
-  }
-  # routing_policies= {
-  #     "tyes"= {
-  #         terms= [
-  #             {
-  #                 matching= {
-  #                     prefix= [
-  #                         "0.0.0.0/0"
-  #                     ],
-  #                     protocol= [
-  #                         "ospf"
-  #                     ]
-  #                 },
-  #                 actions= {
-  #                     accept= true
-  #                 },
-  #                 name= "gfds"
-  #             }
-  #         ]
-  #     }
-  # }
-  port_config = {
-    "ge-0/0/0" = {
-      usage                = "prx"
-      critical             = false
-      description          = ""
-      "no_local_overwrite" = true
-    },
-    "ge-0/0/10" = {
-      usage              = "autogenerated_ge-0_0_10"
-      no_local_overwrite = false
-      speed              = "100m"
-    },
-    "ge-0/0/11" = {
-      usage                = "default"
-      port_network         = "prx"
-      critical             = false
-      description          = ""
-      "no_local_overwrite" = false
-    }
-  }
-  port_mirroring = {
-    "test" = {
-      output_port_id = "ge-0/0/10"
-      input_port_ids_ingress = [
-        "ge-0/0/3"
-      ]
-      input_port_ids_egress = [
-        "ge-0/0/3"
-      ]
-    },
-    "test2" = {
-      output_network = "prx"
-      input_networks_ingress = [
-        "default"
-      ]
-    }
-    "test3" = {
-      output_port_id = "ge-0/0/10"
-      input_networks_ingress = [
-        "default"
-      ]
-    }
-  }
-  mist_nac = {
-    enabled = true
-  }
-  vrf_instances = {
-    "fds" = {
-      networks = [
-        "prx"
-      ],
-      extra_routes = {
-        "1.2.0.0/24" = {
-          via = "1.2.3.4"
-        }
-      }
-    }
-  }
-  vrf_config = {
-    enabled = true
-  }
-  dhcpd_config = {
-    enabled = true
-    config = {
-      "prx" = {
-        type        = "server"
-        ip_start    = "10.3.18.10"
-        ip_end      = "10.3.18.20"
-        gateway     = "10.3.18.1"
-        dns_servers = ["1.2.3.4"]
+# resource "mist_device_switch" "test_switch" {
+#   for_each = { 
+#     for  device in resource.mist_org_inventory.inventory.devices : device.mac => device if device.mac == "2c21311c37b0" 
+#     }
+#   device_id =each.value.id
+#   site_id = each.value.site_id
+#   name      = "demo-ex"
+#   managed   = true
+#   role      = "test"
+#   networks = {
+#     "prx" = {
+#       vlan_id = "18"
+#     }
+#   }
+#   port_usages = {
+#     "prx" = {
+#       mode         = "trunk"
+#       disabled     = false
+#       port_network = "default"
+#       stp_edge     = false
+#       all_networks = false
+#       networks = [
+#         "default",
+#         "prx"
+#       ],
+#       speed         = "auto"
+#       duplex        = "auto"
+#       mac_limit     = 0
+#       poe_disabled  = false
+#       enable_qos    = false
+#       storm_control = {}
+#       description   = ""
+#     },
+#     "autogenerated_ge-0_0_10" = {
+#       mode         = "trunk"
+#       all_networks = false
+#       networks = [
+#         "default",
+#         "prx"
+#       ],
+#       port_network = "prx"
+#       autoneg      = true
+#       disabled     = false
+#       poe_disabled = false
+#       duplex       = "auto"
+#       speed        = "auto"
+#     },
+#     "autogenerated_ge-0_0_11" = {
+#       mode         = "trunk"
+#       all_networks = false
+#       networks = [
+#         "default",
+#         "prx"
+#       ],
+#       port_network = "prx"
+#       autoneg      = true
+#       disabled     = false
+#       poe_disabled = false
+#       duplex       = "auto"
+#       speed        = "auto"
+#     }
+#   }
+#   additional_config_cmds = [
+#     "set groups top system proxy password \"$9$VpsgajHmFnCq.pBIEeK4aZUDin6Ctu136eW\"",
+#     "",
+#     "annotate system \" -- custom-auth -- Template level --\"",
+#     "delete apply-groups custom-auth",
+#     "delete groups custom-auth",
+#     "set groups custom-auth",
+#     "set groups custom-auth  system login user tmunzer class super-user",
+#     "set groups custom-auth  system login user tmunzer authentication ssh-rsa \"ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCxk1CXmrc/wNlzuelQoBgEdnA3Mq8r05UhXgBUwqFdcbwkEmgYnciQWXYeFdA+UwR3SWX4VtyeenQi/S9pSOjvoZQ5OYBWNqak+AWjXXzX7sO8cf59TSDDN2lybdH6kWbvRKYzMbfpZvwluYwQX7ftN/D4/iS7288i5knaMVklhDJGdcuh6Xlve6PueZ5ov2twPzpplPVdWOCqgaCMhvVplG3oNTvBpeJ6BCXzhgJdkFNinFehPnvUR6MRwdjD/MvS1r+yrggHGQzJ57VEDsw2qH8wRaUUn0+Nd5hMYO4vamfintlm5hEAW9+my6HKNzBmd/TMeLctKUOg/q4Bc9TfYB51HEghHZ1i3ClJ6nE/1M6Ev9B+YwBJpeRaieWHbOHWrmMKM5rnYpX+uShPobvHKC8Z5HU5UkAtWvRyXVqbeeVv7xlGDTKnm0UQtzv9UDR/BN3VSnh8JKGLeiPDRZ0oDdgqK1ijxXBCFKb6FXAUiORUQLtI/7dmV4YxK4oS+ZRU/uxCCNDx6R90o08RFDFpWNBPY1yj332T/6JnA7nzlAYdQ1s1hzgzamZoEZuO/a+NObV9gQbJC13ZtZEWKXSLHPvEsORc5nb7hN76RNI7yKnAWNy5Zj2aaPlTGofbdr9M8+Tez4wldmYB/k86M4lENv5fZRx9A6VmfXFDoSI33w== tmunzer@stag.one\"",
+#     "set apply-groups custom-auth"
+#   ]
+#   ip_config = {
+#     type    = "static"
+#     ip      = "10.3.18.99"
+#     dns     = ["1.2.3.4"]
+#     netmask = "255.255.255.0"
+#     network = "prx"
+#     gateway = "10.3.18.11"
+#   }
+#   # routing_policies= {
+#   #     "tyes"= {
+#   #         terms= [
+#   #             {
+#   #                 matching= {
+#   #                     prefix= [
+#   #                         "0.0.0.0/0"
+#   #                     ],
+#   #                     protocol= [
+#   #                         "ospf"
+#   #                     ]
+#   #                 },
+#   #                 actions= {
+#   #                     accept= true
+#   #                 },
+#   #                 name= "gfds"
+#   #             }
+#   #         ]
+#   #     }
+#   # }
+#   port_config = {
+#     "ge-0/0/0" = {
+#       usage                = "prx"
+#       critical             = false
+#       description          = ""
+#       "no_local_overwrite" = true
+#     },
+#     "ge-0/0/10" = {
+#       usage              = "autogenerated_ge-0_0_10"
+#       no_local_overwrite = false
+#       speed              = "100m"
+#     },
+#     "ge-0/0/11" = {
+#       usage                = "default"
+#       port_network         = "prx"
+#       critical             = false
+#       description          = ""
+#       "no_local_overwrite" = false
+#     }
+#   }
+#   port_mirroring = {
+#     "test" = {
+#       output_port_id = "ge-0/0/10"
+#       input_port_ids_ingress = [
+#         "ge-0/0/3"
+#       ]
+#       input_port_ids_egress = [
+#         "ge-0/0/3"
+#       ]
+#     },
+#     "test2" = {
+#       output_network = "prx"
+#       input_networks_ingress = [
+#         "default"
+#       ]
+#     }
+#     "test3" = {
+#       output_port_id = "ge-0/0/10"
+#       input_networks_ingress = [
+#         "default"
+#       ]
+#     }
+#   }
+#   mist_nac = {
+#     enabled = true
+#   }
+#   vrf_instances = {
+#     "fds" = {
+#       networks = [
+#         "prx"
+#       ],
+#       extra_routes = {
+#         "1.2.0.0/24" = {
+#           via = "1.2.3.4"
+#         }
+#       }
+#     }
+#   }
+#   vrf_config = {
+#     enabled = true
+#   }
+#   dhcpd_config = {
+#     enabled = true
+#     config = {
+#       "prx" = {
+#         type        = "server"
+#         ip_start    = "10.3.18.10"
+#         ip_end      = "10.3.18.20"
+#         gateway     = "10.3.18.1"
+#         dns_servers = ["1.2.3.4"]
 
-      }
-    }
-  }
-  ospf_areas = {
-    "0" = {
-      type = "default"
-      networks = {
-        "prx" = {
-          passive              = false
-          interface_type       = "p2p"
-          hello_interval       = 10
-          dead_interval        = 40
-          auth_type            = "password"
-          auth_password        = "hpihpi"
-          metric               = 1
-          bfd_minimum_interval = 1
-        }
-      },
-      include_loopback = false
-    }
-  }
+#       }
+#     }
+#   }
+#   ospf_areas = {
+#     "0" = {
+#       type = "default"
+#       networks = {
+#         "prx" = {
+#           passive              = false
+#           interface_type       = "p2p"
+#           hello_interval       = 10
+#           dead_interval        = 40
+#           auth_type            = "password"
+#           auth_password        = "hpihpi"
+#           metric               = 1
+#           bfd_minimum_interval = 1
+#         }
+#       },
+#       include_loopback = false
+#     }
+#   }
 
-  router_id = "1.2.3.4"
-  oob_ip_config = {
-    type    = "static"
-    ip      = "2.2.2.2"
-    netmask = "/24"
-    gateway = "2.2.2.1"
-  }
-}
+#   router_id = "1.2.3.4"
+#   oob_ip_config = {
+#     type    = "static"
+#     ip      = "2.2.2.2"
+#     netmask = "/24"
+#     gateway = "2.2.2.1"
+#   }
+# }
 
 
 # # resource "mist_device_gateway" "srx" {
@@ -3394,8 +3416,8 @@ resource "mist_device_switch" "test_switch" {
 
 # }
 resource "mist_device_gateway" "hub_one" {
-  site_id   = mist_org_inventory.inventory.devices[3].site_id
-  device_id = mist_org_inventory.inventory.devices[3].id
+  device_id = provider::mist::search_inventory_by_claimcode(resource.mist_org_inventory.inventory.devices, "CV4YAS8DQWYLL6M").id
+  site_id   = provider::mist::search_inventory_by_claimcode(resource.mist_org_inventory.inventory.devices, "CV4YAS8DQWYLL6M").site_id
   name      = "hub_one"
   oob_ip_config = {
     type = "dhcp"

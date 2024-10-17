@@ -1,0 +1,130 @@
+get:
+- schema
+- attributes
+name: org_inventory
+next:
+- name: org_id
+  get:
+  - string
+  computed_optional_required: required
+
+- name: devices
+  get:
+  - map_nested
+  computed_optional_required: computed_optional
+  validators:
+  - custom:
+      imports:
+      - path: github.com/hashicorp/terraform-plugin-framework-validators/mapvalidator
+      - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+      - path: github.com/Juniper/terraform-provider-mist/internal/validators
+      schema_definition: |-
+        mapvalidator.KeysAre(
+          stringvalidator.Any(
+            mistvalidator.ParseMagic(),
+            mistvalidator.ParseMac(),
+          ),
+        )
+- name: devices
+  get:
+  - map_nested
+  - nested_object
+  - attributes
+  next:
+  - name: deviceprofile_id
+    get:
+    - string
+    plan_modifiers:
+    - custom:
+        imports:
+        - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier
+        - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier
+        schema_definition: stringplanmodifier.UseStateForUnknown()
+  - name: hostname
+    get:
+    - string
+    plan_modifiers:
+    - custom:
+        imports:
+        - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier
+        - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier
+        schema_definition: stringplanmodifier.UseStateForUnknown()
+  - name: id
+    get:
+    - string
+    plan_modifiers:
+    - custom:
+        imports:
+        - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier
+        - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier
+        schema_definition: stringplanmodifier.UseStateForUnknown()
+  - name: mac
+    get:
+    - string
+    plan_modifiers:
+    - custom:
+        imports:
+        - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier
+        - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier
+        schema_definition: stringplanmodifier.UseStateForUnknown()
+  - name: claim_code
+    get:
+    - string
+    plan_modifiers:
+    - custom:
+        imports:
+        - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier
+        - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier
+        schema_definition: stringplanmodifier.UseStateForUnknown()
+  - name: model
+    get:
+    - string
+    plan_modifiers:
+    - custom:
+        imports:
+        - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier
+        - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier
+        schema_definition: stringplanmodifier.UseStateForUnknown()
+  - name: org_id
+    get:
+    - string
+    plan_modifiers:
+    - custom:
+        imports:
+        - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier
+        - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier
+        schema_definition: stringplanmodifier.UseStateForUnknown()
+  - name: serial
+    get:
+    - string
+    plan_modifiers:
+    - custom:
+        imports:
+        - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier
+        - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier
+        schema_definition: stringplanmodifier.UseStateForUnknown()
+  - name: site_id
+    get:
+    - string
+    computed_optional_required: computed_optional
+  - name: type
+    get:
+    - string
+    no_default: true
+    computed_optional_required: computed
+    plan_modifiers:
+    - custom:
+        imports:
+        - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier
+        - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier
+        schema_definition: stringplanmodifier.UseStateForUnknown()
+  - name: vc_mac
+    get:
+    - string
+    computed_optional_required: computed
+    plan_modifiers:
+    - custom:
+        imports:
+        - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier
+        - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier
+        schema_definition: stringplanmodifier.UseStateForUnknown()

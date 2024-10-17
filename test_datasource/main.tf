@@ -14,6 +14,19 @@ provider "mist" {
 }
 
 ### ORG
+data "mist_org_inventory" "inventory" {
+  org_id  = "992bf4b9-c900-4850-9992-107b2f9df928"
+
+}
+# resource "mist_device_ap" "ap_one" {
+#   for_each = { 
+#     for  device in data.mist_org_inventory.inventory.org_inventory : device.serial => device if device.serial == "A192923060671" 
+#     }
+#   device_id =each.value.id
+#   site_id = each.value.site_id
+#   name = "test"
+  
+# }
 data "mist_sites" "sites" {
   org_id  = "992bf4b9-c900-4850-9992-107b2f9df928"
 }

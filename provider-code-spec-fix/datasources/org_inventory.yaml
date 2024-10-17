@@ -3,11 +3,14 @@ get:
 - attributes
 name: org_inventory
 next:
+- name: devices
+  old_type: list_nested
+  new_type: set_nested
 - get:
   - set_nested
   - nested_object
   - attributes
-  name: org_inventory
+  name: devices
   next:
   - name: magic
     rename: claim_code

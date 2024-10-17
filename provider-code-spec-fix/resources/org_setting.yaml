@@ -183,6 +183,19 @@ next:
   - name: idps
     get:
     - list_nested
+    validators:
+    - custom:
+        imports:
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/listvalidator
+        - path: github.com/hashicorp/terraform-plugin-framework/path
+        - path: github.com/Juniper/terraform-provider-mist/internal/validators
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/listvalidator
+        schema_definition: |-
+          listvalidator.SizeAtLeast(1),
+          mistvalidator.RequiredWhenValueIsNotNull(path.MatchRelative().AtParent().AtName("default_idp_id"))
+  - name: idps
+    get:
+    - list_nested
     - nested_object
     - attributes
     next:

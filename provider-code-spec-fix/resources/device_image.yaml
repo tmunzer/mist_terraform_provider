@@ -11,6 +11,7 @@ next:
   get:
   - int64
   name: image_number
+  description: number of the image, between 1 and 3
   validators:
   - custom:
       imports:

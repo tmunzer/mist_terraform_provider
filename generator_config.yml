@@ -29,30 +29,30 @@ data_sources:
   #   read:
   #     path: /api/v1/const/applications
   #     method: GET 
-  const_alarms:
-    read:
-      path: /api/v1/const/alarm_defs
-      method: GET 
-    schema:
-      ignores:
-      - example
-      - fields
-      - marvis_suggestion_category
+  # const_alarms:
+  #   read:
+  #     path: /api/v1/const/alarm_defs
+  #     method: GET 
+  #   schema:
+  #     ignores:
+  #     - example
+  #     - fields
+  #     - marvis_suggestion_category
 ################################################################################
 ################################################################################
 ################################################################################
-  org_nacidp_metadata:
-    read:
-      path: /api/v1/orgs/{org_id}/ssos/{sso_id}/metadata
-      method: GET
-    schema:
-      attributes:
-        aliases:
-          sso_id: nacidp_id
-  org_sso_metadata:
-    read:
-      path: /api/v1/orgs/{org_id}/ssos/{sso_id}/metadata
-      method: GET
+  # org_nacidp_metadata:
+  #   read:
+  #     path: /api/v1/orgs/{org_id}/ssos/{sso_id}/metadata
+  #     method: GET
+  #   schema:
+  #     attributes:
+  #       aliases:
+  #         sso_id: nacidp_id
+  # org_sso_metadata:
+  #   read:
+  #     path: /api/v1/orgs/{org_id}/ssos/{sso_id}/metadata
+  #     method: GET
   # device_ap_stats:
   #   read: 
   #     path: /api/v1/orgs/{org_id}/stats/devices
@@ -153,6 +153,7 @@ data_sources:
   #     - limit
   #     - page
   #     - type
+  #     - devices.unclaim_when_destroyed
   # org_networktemplates:
   #   read:
   #     path: /api/v1/orgs/{org_id}/networktemplates
@@ -937,51 +938,51 @@ resources:
 ################################################################################
 #######################                 WXRULES
 ################################################################################
-  org_wxrule:
-    create:
-      path: /api/v1/orgs/{org_id}/wxrules
-      method: POST
-    read:
-      path: /api/v1/orgs/{org_id}/wxrules/{wxrule_id}
-      method: GET
-    delete:
-      path: /api/v1/orgs/{org_id}/wxrules/{wxrule_id}
-      method: DELETE
-    update:
-      path: /api/v1/orgs/{org_id}/wxrules/{wxrule_id}
-      method: PUT      
-    schema:
-      ignores:
-        - created_time
-        - modified_time
-        - for_site
-        - site_id
-      attributes:
-        aliases:
-          wxrule_id: id      
-  site_wxrule:
-    create:
-      path: /api/v1/sites/{site_id}/wxrules
-      method: POST
-    read:
-      path: /api/v1/sites/{site_id}/wxrules/{wxrule_id}
-      method: GET
-    delete:
-      path: /api/v1/sites/{site_id}/wxrules/{wxrule_id}
-      method: DELETE
-    update:
-      path: /api/v1/sites/{site_id}/wxrules/{wxrule_id}
-      method: PUT      
-    schema:
-      ignores:
-        - created_time
-        - modified_time
-        - for_site
-        - org_id
-        - template_id
-      attributes:
-        aliases:
-          wxrule_id: id  
+  # org_wxrule:
+  #   create:
+  #     path: /api/v1/orgs/{org_id}/wxrules
+  #     method: POST
+  #   read:
+  #     path: /api/v1/orgs/{org_id}/wxrules/{wxrule_id}
+  #     method: GET
+  #   delete:
+  #     path: /api/v1/orgs/{org_id}/wxrules/{wxrule_id}
+  #     method: DELETE
+  #   update:
+  #     path: /api/v1/orgs/{org_id}/wxrules/{wxrule_id}
+  #     method: PUT      
+  #   schema:
+  #     ignores:
+  #       - created_time
+  #       - modified_time
+  #       - for_site
+  #       - site_id
+  #     attributes:
+  #       aliases:
+  #         wxrule_id: id      
+  # site_wxrule:
+  #   create:
+  #     path: /api/v1/sites/{site_id}/wxrules
+  #     method: POST
+  #   read:
+  #     path: /api/v1/sites/{site_id}/wxrules/{wxrule_id}
+  #     method: GET
+  #   delete:
+  #     path: /api/v1/sites/{site_id}/wxrules/{wxrule_id}
+  #     method: DELETE
+  #   update:
+  #     path: /api/v1/sites/{site_id}/wxrules/{wxrule_id}
+  #     method: PUT      
+  #   schema:
+  #     ignores:
+  #       - created_time
+  #       - modified_time
+  #       - for_site
+  #       - org_id
+  #       - template_id
+  #     attributes:
+  #       aliases:
+  #         wxrule_id: id  
 ################################################################################
 #######################                 WXTAGS
 ################################################################################
@@ -1475,19 +1476,45 @@ resources:
 ################################################################################
 ################################################################################
 # ################################################################################
-#   org_inventory:
-#     create:
-#       path: /api/v1/orgs/{org_id}/inventory
-#       method: POST
-#     read:
-#       path: /api/v1/orgs/{org_id}/inventory
-#       method: GET
-#     delete:
-#       path: /api/v1/orgs/{org_id}/inventory
-#       method: POST
-#     update:
-#       path: /api/v1/orgs/{org_id}/inventory
-#       method: POST        
+  org_inventory:
+    create:
+      path: /api/v1/orgs/{org_id}/inventory
+      method: POST
+    read:
+      path: /api/v1/orgs/{org_id}/inventory
+      method: GET
+    delete:
+      path: /api/v1/orgs/{org_id}/inventory
+      method: POST
+    update:
+      path: /api/v1/orgs/{org_id}/inventory
+      method: POST        
+    schema:
+        ignores:
+        - added
+        - duplicated
+        - error 
+        - inventory_duplicated
+        - inventory_added
+        - limit
+        - mac
+        - model
+        - page
+        - reason
+        - serial
+        - site_id
+        - type
+        - unassigned
+        - vc
+        - vc_mac
+        - devices.adopted
+        - devices.connected
+        - devices.created_time
+        - devices.name
+        - devices.hw_rev
+        - devices.jsi
+        - devices.modified_time
+        - devices.sku
   # device_gateway_cluster:
   #   create:
   #     path: /api/v1/sites/{site_id}/devices/{device_id}/ha

@@ -9,8 +9,8 @@
             "type": "go",
             "request": "launch",
             "mode": "debug",
-            "program": "${workspaceFolder}/terraform-provider-mistapi",
-            "internalConsoleOptions": "openOnSessionStart", 
+            "program": "${workspaceFolder}/terraform-provider-mist",
+            //"internalConsoleOptions": "openOnSessionStart", 
             "env": {},
             "args": [
                 "-debug",

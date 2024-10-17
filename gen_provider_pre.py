@@ -19,6 +19,104 @@ with open(SPEC_IN, "r") as f_in:
 with open(SPEC_OUT, "r") as f:
     DATA = yaml.load(f, Loader=yaml.loader.SafeLoader)
 
+## Inventory
+DATA["components"]["schemas"]["inventory_device_settings"] = {
+    "type": "object",
+    "properties": {
+        "site_id": {
+            "description": "Site ID. Used to assign device to a Site",
+            "type": "string",
+        },
+        "unclaim_when_destroyed": {
+            "default": False,
+            "description": "Unclaim the device from the Mist Organization when removed from the provider inventory. Default is `false`",
+            "type": "boolean",
+        },
+        "adopted": {
+            "description": "only if `type`==`switch` or `type`==`gateway`\nwhether the switch/gateway is adopted",
+            "type": "boolean",
+            "readOnly": True,
+        },
+        "connected": {
+            "description": "whether the device is connected",
+            "type": "boolean",
+            "readOnly": True,
+        },
+        "deviceprofile_id": {
+            "description": "deviceprofile id if assigned, null if not assigned",
+            "nullable": True,
+            "type": "string",
+            "readOnly": True,
+        },
+        "hostname": {
+            "description": "hostname reported by the device",
+            "type": "string",
+            "readOnly": True,
+        },
+        "hw_rev": {
+            "description": "device hardware revision number",
+            "type": "string",
+            "readOnly": True,
+        },
+        "id": {"description": "device id", "type": "string", "readOnly": True},
+        "jsi": {"type": "boolean", "readOnly": True},
+        "mac": {
+            "description": "device MAC address",
+            "type": "string",
+            "readOnly": True,
+        },
+        "magic": {
+            "description": "device claim code",
+            "type": "string",
+            "readOnly": True,
+        },
+        "model": {
+            "description": "device model",
+            "type": "string",
+            "readOnly": True,
+        },
+        "name": {
+            "description": "device name if configured",
+            "type": "string",
+            "readOnly": True,
+        },
+        "org_id": {"$ref": "#/components/schemas/org_id"},
+        "serial": {
+            "description": "device serial",
+            "type": "string",
+            "readOnly": True,
+        },
+        "sku": {
+            "description": "device stock keeping unit",
+            "type": "string",
+            "readOnly": True,
+        },
+        "type": {"$ref": "#/components/schemas/device_type"},
+        "vc_mac": {
+            "description": "if `type`==`switch` and device part of a Virtual Chassis, MAC Address of the Virtual Chassis. if `type`==`gateway` and device part of a Clust, MAC Address of the Cluster",
+            "type": "string",
+            "readOnly": True,
+        },
+    },
+}
+DATA["components"]["schemas"]["inventory_devices"] = {
+    "additionalProperties": {"$ref": "#/components/schemas/inventory_device_settings"},
+    "description": "Can be the device Claim Code or the device MAC Address:\n  * Claim Code: used to claim the device to the Mist Organization and manage it. Format is `[0-9A-Z]{15}` (e.g `01234ABCDE56789`)\n  * MAC Address: used to managed a device already in the Mist Organization (claimed or adopted devices). Format is `[0-9a-f]{12}` (e.g `5684dae9ac8b`)\nRemoving a device from the list will NOT release it unless `unclaim_when_destroyed` is set to `true`",
+    "type": "object",
+}
+
+DATA["components"]["schemas"]["inventory_list"] = {
+    "type": "object",
+    "properties": {
+        "devices": {"$ref": "#/components/schemas/inventory_devices"},
+    },
+}
+# DATA["components"]["schemas"]["inventory"]["properties"]["unclaim_when_destroyed"]= {
+#     "type": "boolean",
+#     "default": True,
+#     "description": "Unclaim the device from the Mist Organization when removed from the provider inventory"
+# }
+
 ## switch_matching_rule
 if (
     DATA.get("components", {})
@@ -70,7 +168,9 @@ if (
     DATA["components"]["schemas"]["switch_dhcpd_config_fix"] = {
         "type": "object",
         "description": "Property key is the network name",
-        "additionalProperties": {"$ref": "#/components/schemas/switch_dhcpd_config_property"},
+        "additionalProperties": {
+            "$ref": "#/components/schemas/switch_dhcpd_config_property"
+        },
     }
 ## port_channelization
 if (
@@ -87,7 +187,9 @@ if (
     DATA["components"]["schemas"]["port_channelization_fix"] = {
         "type": "object",
         "description": "Property key is the interface name or range (e.g. `et-0/0/47`, `et-0/0/48-49`), Property value is the interface speed (e.g. `25g`, `50g`)",
-        "additionalProperties": {"$ref": "#/components/schemas/port_channelization_port"},
+        "additionalProperties": {
+            "$ref": "#/components/schemas/port_channelization_port"
+        },
     }
 
 ## wlan.portal.sponsors
@@ -138,10 +240,43 @@ if (
     }
 
 ## portal templates
-locales = [            "ar", "ca-ES", "cs-CZ", "da-DK", "de-DE", "el-GR", "en-GB", "en-US", "es-ES", 
-            "fi-FI", "fr-FR", "he-IL", "hi-IN", "hr-HR", "hu-HU", "id-ID", "it-IT", "ja-JP", 
-            "ko-KR", "ms-MY", "nb-NO", "nl-NL", "pl-PL", "pt-BR", "pt-PT", "ro-RO", "ru-RU", 
-            "sk-SK", "sv-SE", "th-TH", "tr-TR", "uk-UA", "vi-VN", "zh-Hans", "zh-Hant"]
+locales = [
+    "ar",
+    "ca-ES",
+    "cs-CZ",
+    "da-DK",
+    "de-DE",
+    "el-GR",
+    "en-GB",
+    "en-US",
+    "es-ES",
+    "fi-FI",
+    "fr-FR",
+    "he-IL",
+    "hi-IN",
+    "hr-HR",
+    "hu-HU",
+    "id-ID",
+    "it-IT",
+    "ja-JP",
+    "ko-KR",
+    "ms-MY",
+    "nb-NO",
+    "nl-NL",
+    "pl-PL",
+    "pt-BR",
+    "pt-PT",
+    "ro-RO",
+    "ru-RU",
+    "sk-SK",
+    "sv-SE",
+    "th-TH",
+    "tr-TR",
+    "uk-UA",
+    "vi-VN",
+    "zh-Hans",
+    "zh-Hant",
+]
 if (
     DATA.get("components", {})
     .get("schemas", {})
@@ -156,12 +291,16 @@ if (
             .get("properties", {})
             .get(locale)
         ):
-            del DATA["components"]["schemas"]["wlan_portal_template_setting"]["properties"][locale]
-    DATA["components"]["schemas"]["wlan_portal_template_setting"]["properties"]["locales"] = {
+            del DATA["components"]["schemas"]["wlan_portal_template_setting"][
+                "properties"
+            ][locale]
+    DATA["components"]["schemas"]["wlan_portal_template_setting"]["properties"][
+        "locales"
+    ] = {
         "type": "object",
         "additionalProperties": {
-            "$ref": '#/components/schemas/wlan_portal_template_setting_locale'
-        }
+            "$ref": "#/components/schemas/wlan_portal_template_setting_locale"
+        },
     }
 
 ## remove webhooks samples

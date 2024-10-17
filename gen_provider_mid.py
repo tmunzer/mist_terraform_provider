@@ -11,20 +11,20 @@ FIX_PATH = "./provider-code-spec-fix"
 FIX_FOLDERS = ["datasources", "resources"]
 
 CUSTOM_DEFAULT_LIST_OF_STR = """
-                  {"custom": {"imports": [
+                {"custom": {"imports": [
                     {"path": "github.com/hashicorp/terraform-plugin-framework/attr"},
                     {"path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault"},
                     {"path": "github.com/hashicorp/terraform-plugin-framework/types"}
-                  ],
-                  "schema_definition": "listdefault.StaticValue(types.ListNull(types.StringType))"}}
+                ],
+                "schema_definition": "listdefault.StaticValue(types.ListNull(types.StringType))"}}
 """
 CUSTOM_DEFAULT_LIST_OF_INT = """
-                   {"custom": {"imports": [
+                {"custom": {"imports": [
                     {"path": "github.com/hashicorp/terraform-plugin-framework/attr"},
                     {"path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault"},
                     {"path": "github.com/hashicorp/terraform-plugin-framework/types"}
-                  ],
-                  "schema_definition": "listdefault.StaticValue(types.ListNull(types.Int64Type))"}}
+                ],
+                "schema_definition": "listdefault.StaticValue(types.ListNull(types.Int64Type))"}}
 """
 CUSTOM_MAP_VALIDATOR = """
 "map_nested": {
@@ -54,7 +54,7 @@ with open(SPEC_IN, "r") as f:
     RAW = f.read()
 
 RAW = re.sub(RE_COR, '"optional"', RAW)
-RAW = re.sub(RE_MAP,CUSTOM_MAP_VALIDATOR, RAW)
+RAW = re.sub(RE_MAP, CUSTOM_MAP_VALIDATOR, RAW)
 ##RAW = re.sub(RE_DEF, '', RAW)
 with open(SPEC_IN, "w") as f:
     f.write(RAW)
@@ -93,7 +93,7 @@ def process_nested(o: dict):
         "old_passphrase",
         "oauth2_client_secret",
         "oauth2_password",
-        "splunk_token"
+        "splunk_token",
     ] and o.get("string"):
         o["string"]["sensitive"] = True
     for key, val in o.items():
@@ -139,6 +139,8 @@ def next_item(data: dict, entries: list, path: list):
         no_sensitive = entry.get("no_sensitive")
         no_default = entry.get("no_default")
         description = entry.get("description")
+        old_type = entry.get("old_type")
+        new_type = entry.get("new_type")
         curr_path = path.copy()
         curr_path.append(name)
         try:
@@ -149,6 +151,9 @@ def next_item(data: dict, entries: list, path: list):
                     curr_path.append(g)
                     if not sub_data:
                         print(f"not able to get {'.'.join(curr_path)}")
+            if new_type and old_type:
+                sub_data[new_type] = sub_data[old_type]
+                del sub_data[old_type]
             if rename:
                 sub_data["name"] = rename
             if remove:
@@ -193,7 +198,7 @@ for folder in FIX_FOLDERS:
             print("")
             print(f" {fix_file_path} ".ljust(80, "."))
             with open(fix_file_path, "r") as ffix:
-                fix = yaml.load(ffix,  Loader=yaml.loader.SafeLoader)
+                fix = yaml.load(ffix, Loader=yaml.loader.SafeLoader)
                 next_item(DATA[folder], [fix], [])
 
 
