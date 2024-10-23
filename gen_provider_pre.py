@@ -101,14 +101,15 @@ DATA["components"]["schemas"]["inventory_device_settings"] = {
 }
 DATA["components"]["schemas"]["inventory_devices"] = {
     "additionalProperties": {"$ref": "#/components/schemas/inventory_device_settings"},
-    "description": "Can be the device Claim Code or the device MAC Address:\n  * Claim Code: used to claim the device to the Mist Organization and manage it. Format is `[0-9A-Z]{15}` (e.g `01234ABCDE56789`)\n  * MAC Address: used to managed a device already in the Mist Organization (claimed or adopted devices). Format is `[0-9a-f]{12}` (e.g `5684dae9ac8b`)\nRemoving a device from the list will NOT release it unless `unclaim_when_destroyed` is set to `true`",
+    "description": "Property key can be the device Claim Code or the device MAC Address:\n  * Claim Code: used to claim the device to the Mist Organization and manage it. Format is `[0-9A-Z]{15}` (e.g `01234ABCDE56789`)\n  * MAC Address: used to managed a device already in the Mist Organization (claimed or adopted devices). Format is `[0-9a-f]{12}` (e.g `5684dae9ac8b`)\n\n    >",
     "type": "object",
 }
 
 DATA["components"]["schemas"]["inventory_list"] = {
     "type": "object",
     "properties": {
-        "devices": {"$ref": "#/components/schemas/inventory_devices"},
+        "inventory": {"$ref": "#/components/schemas/inventory_devices"},
+        "devices": { "type":"array", "items": {"$ref": "#/components/schemas/inventory_device_settings"}, "description": "List of devices"},
     },
 }
 # DATA["components"]["schemas"]["inventory"]["properties"]["unclaim_when_destroyed"]= {

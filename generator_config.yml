@@ -1515,6 +1515,14 @@ resources:
         - devices.jsi
         - devices.modified_time
         - devices.sku
+        - inventory.adopted
+        - inventory.connected
+        - inventory.created_time
+        - inventory.name
+        - inventory.hw_rev
+        - inventory.jsi
+        - inventory.modified_time
+        - inventory.sku
   # device_gateway_cluster:
   #   create:
   #     path: /api/v1/sites/{site_id}/devices/{device_id}/ha

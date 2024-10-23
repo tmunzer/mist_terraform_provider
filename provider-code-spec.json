@@ -54,25 +54,7 @@
                 "attributes": [
                     {
                         "name": "devices",
-                        "map_nested": {
-                            "validators": [
-                                {
-                                    "custom": {
-                                        "imports": [
-                                            {
-                                                "path": "github.com/hashicorp/terraform-plugin-framework-validators/mapvalidator"
-                                            },
-                                            {
-                                                "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
-                                            },
-                                            {
-                                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
-                                            }
-                                        ],
-                                        "schema_definition": "mapvalidator.KeysAre(\n  stringvalidator.Any(\n    mistvalidator.ParseMagic(),\n    mistvalidator.ParseMac(),\n  ),\n)"
-                                    }
-                                }
-                            ],
+                        "list_nested": {
                             "computed_optional_required": "computed_optional",
                             "nested_object": {
                                 "attributes": [
@@ -80,55 +62,211 @@
                                         "name": "deviceprofile_id",
                                         "string": {
                                             "computed_optional_required": "computed",
-                                            "description": "deviceprofile id if assigned, null if not assigned"
+                                            "description": "deviceprofile id if assigned, null if not assigned",
+                                            "plan_modifiers": [
+                                                {
+                                                    "custom": {
+                                                        "imports": [
+                                                            {
+                                                                "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
+                                                            },
+                                                            {
+                                                                "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+                                                            }
+                                                        ],
+                                                        "schema_definition": "stringplanmodifier.UseStateForUnknown()"
+                                                    }
+                                                }
+                                            ]
                                         }
                                     },
                                     {
                                         "name": "hostname",
                                         "string": {
                                             "computed_optional_required": "computed",
-                                            "description": "hostname reported by the device"
+                                            "description": "hostname reported by the device",
+                                            "plan_modifiers": [
+                                                {
+                                                    "custom": {
+                                                        "imports": [
+                                                            {
+                                                                "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
+                                                            },
+                                                            {
+                                                                "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+                                                            }
+                                                        ],
+                                                        "schema_definition": "stringplanmodifier.UseStateForUnknown()"
+                                                    }
+                                                }
+                                            ]
                                         }
                                     },
                                     {
                                         "name": "id",
                                         "string": {
                                             "computed_optional_required": "computed",
-                                            "description": "device id"
+                                            "description": "device id",
+                                            "plan_modifiers": [
+                                                {
+                                                    "custom": {
+                                                        "imports": [
+                                                            {
+                                                                "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
+                                                            },
+                                                            {
+                                                                "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+                                                            }
+                                                        ],
+                                                        "schema_definition": "stringplanmodifier.UseStateForUnknown()"
+                                                    }
+                                                }
+                                            ]
                                         }
                                     },
                                     {
                                         "name": "mac",
                                         "string": {
-                                            "computed_optional_required": "computed",
-                                            "description": "device MAC address"
+                                            "computed_optional_required": "computed_optional",
+                                            "description": "used to managed a device already in the Mist Organization (claimed or adopted devices). Format is `[0-9a-f]{12}` (e.g `5684dae9ac8b`)",
+                                            "plan_modifiers": [
+                                                {
+                                                    "custom": {
+                                                        "imports": [
+                                                            {
+                                                                "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
+                                                            },
+                                                            {
+                                                                "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+                                                            },
+                                                            {
+                                                                "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                                            }
+                                                        ],
+                                                        "schema_definition": "stringplanmodifier.UseStateForUnknown()"
+                                                    }
+                                                }
+                                            ],
+                                            "validators": [
+                                                {
+                                                    "custom": {
+                                                        "imports": [
+                                                            {
+                                                                "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                                            },
+                                                            {
+                                                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                                            }
+                                                        ],
+                                                        "schema_definition": "mistvalidator.ParseMacValidator{},\nmistvalidator.AllowedWhenValueIsNull(path.MatchRelative().AtParent().AtName(\"magic\"))"
+                                                    }
+                                                }
+                                            ]
                                         }
                                     },
                                     {
                                         "name": "magic",
                                         "string": {
-                                            "computed_optional_required": "computed",
-                                            "description": "device claim code"
+                                            "computed_optional_required": "computed_optional",
+                                            "description": "used to claim the device to the Mist Organization and manage it. Format is `[0-9A-Z]{15}` (e.g `01234ABCDE56789`)",
+                                            "plan_modifiers": [
+                                                {
+                                                    "custom": {
+                                                        "imports": [
+                                                            {
+                                                                "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
+                                                            },
+                                                            {
+                                                                "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+                                                            }
+                                                        ],
+                                                        "schema_definition": "stringplanmodifier.UseStateForUnknown()"
+                                                    }
+                                                }
+                                            ],
+                                            "validators": [
+                                                {
+                                                    "custom": {
+                                                        "imports": [
+                                                            {
+                                                                "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                                            },
+                                                            {
+                                                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                                            },
+                                                            {
+                                                                "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                                            }
+                                                        ],
+                                                        "schema_definition": "mistvalidator.ParseMagicValidator{},\nmistvalidator.AllowedWhenValueIsNull(path.MatchRelative().AtParent().AtName(\"mac\"))"
+                                                    }
+                                                }
+                                            ]
                                         }
                                     },
                                     {
                                         "name": "model",
                                         "string": {
                                             "computed_optional_required": "computed",
-                                            "description": "device model"
+                                            "description": "device model",
+                                            "plan_modifiers": [
+                                                {
+                                                    "custom": {
+                                                        "imports": [
+                                                            {
+                                                                "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
+                                                            },
+                                                            {
+                                                                "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+                                                            }
+                                                        ],
+                                                        "schema_definition": "stringplanmodifier.UseStateForUnknown()"
+                                                    }
+                                                }
+                                            ]
                                         }
                                     },
                                     {
                                         "name": "org_id",
                                         "string": {
-                                            "computed_optional_required": "computed"
+                                            "computed_optional_required": "computed",
+                                            "plan_modifiers": [
+                                                {
+                                                    "custom": {
+                                                        "imports": [
+                                                            {
+                                                                "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
+                                                            },
+                                                            {
+                                                                "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+                                                            }
+                                                        ],
+                                                        "schema_definition": "stringplanmodifier.UseStateForUnknown()"
+                                                    }
+                                                }
+                                            ]
                                         }
                                     },
                                     {
                                         "name": "serial",
                                         "string": {
                                             "computed_optional_required": "computed",
-                                            "description": "device serial"
+                                            "description": "device serial",
+                                            "plan_modifiers": [
+                                                {
+                                                    "custom": {
+                                                        "imports": [
+                                                            {
+                                                                "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
+                                                            },
+                                                            {
+                                                                "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+                                                            }
+                                                        ],
+                                                        "schema_definition": "stringplanmodifier.UseStateForUnknown()"
+                                                    }
+                                                }
+                                            ]
                                         }
                                     },
                                     {
@@ -142,7 +280,22 @@
                                         "name": "type",
                                         "string": {
                                             "computed_optional_required": "computed",
-                                            "description": "enum: `ap`, `gateway`, `switch`"
+                                            "description": "enum: `ap`, `gateway`, `switch`",
+                                            "plan_modifiers": [
+                                                {
+                                                    "custom": {
+                                                        "imports": [
+                                                            {
+                                                                "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
+                                                            },
+                                                            {
+                                                                "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+                                                            }
+                                                        ],
+                                                        "schema_definition": "stringplanmodifier.UseStateForUnknown()"
+                                                    }
+                                                }
+                                            ]
                                         }
                                     },
                                     {
@@ -152,19 +305,320 @@
                                             "default": {
                                                 "static": false
                                             },
-                                            "description": "Unclaim the device from the Mist Organization when removed from the provider inventory"
+                                            "description": "Unclaim the device from the Mist Organization when removed from the provider inventory. Default is `false`"
                                         }
                                     },
                                     {
                                         "name": "vc_mac",
                                         "string": {
                                             "computed_optional_required": "computed",
-                                            "description": "only if `type`==`switch`, MAC Address of the Virtual Chassis"
+                                            "description": "if `type`==`switch` and device part of a Virtual Chassis, MAC Address of the Virtual Chassis. if `type`==`gateway` and device part of a Clust, MAC Address of the Cluster",
+                                            "plan_modifiers": [
+                                                {
+                                                    "custom": {
+                                                        "imports": [
+                                                            {
+                                                                "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
+                                                            },
+                                                            {
+                                                                "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+                                                            }
+                                                        ],
+                                                        "schema_definition": "stringplanmodifier.UseStateForUnknown()"
+                                                    }
+                                                }
+                                            ]
                                         }
                                     }
                                 ]
                             },
-                            "description": "Can be the device Claim Code or the device MAC Address:\n  * Claim Code: used to claim the device to the Mist Organization and manage it. Format is `[0-9A-Z]{15}` (e.g `01234ABCDE56789`)\n  * MAC Address: used to managed a device already in the Mist Organization (claimed or adopted devices). Format is `[0-9a-f]{12}` (e.g `5684dae9ac8b`)\nRemoving a device from the list will NOT release it unless `unclaim_when_destroyed` is set to `true`"
+                            "description": "**DEPRECATED** List of devices to manage. Exactly one of `claim_code` or `mac` field must be set",
+                            "validators": [
+                                {
+                                    "custom": {
+                                        "imports": [
+                                            {
+                                                "path": "github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
+                                            },
+                                            {
+                                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                            },
+                                            {
+                                                "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                            }
+                                        ],
+                                        "schema_definition": "mistvalidator.AllowedWhenValueIsNull(path.MatchRelative().AtParent().AtName(\"inventory\")),\nlistvalidator.SizeAtLeast(1)"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "name": "inventory",
+                        "map_nested": {
+                            "validators": [
+                                {
+                                    "custom": {
+                                        "imports": [
+                                            {
+                                                "path": "github.com/hashicorp/terraform-plugin-framework-validators/mapvalidator"
+                                            },
+                                            {
+                                                "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                            },
+                                            {
+                                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                            },
+                                            {
+                                                "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                            }
+                                        ],
+                                        "schema_definition": "mistvalidator.AllowedWhenValueIsNull(path.MatchRelative().AtParent().AtName(\"devices\")),\nmapvalidator.KeysAre(\n  stringvalidator.Any(\n    mistvalidator.ParseMagic(),\n    mistvalidator.ParseMac(),\n  ),\n)"
+                                    }
+                                }
+                            ],
+                            "computed_optional_required": "computed_optional",
+                            "nested_object": {
+                                "attributes": [
+                                    {
+                                        "name": "deviceprofile_id",
+                                        "string": {
+                                            "computed_optional_required": "computed",
+                                            "description": "deviceprofile id if assigned, null if not assigned",
+                                            "plan_modifiers": [
+                                                {
+                                                    "custom": {
+                                                        "imports": [
+                                                            {
+                                                                "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
+                                                            },
+                                                            {
+                                                                "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+                                                            }
+                                                        ],
+                                                        "schema_definition": "stringplanmodifier.UseStateForUnknown()"
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "hostname",
+                                        "string": {
+                                            "computed_optional_required": "computed",
+                                            "description": "hostname reported by the device",
+                                            "plan_modifiers": [
+                                                {
+                                                    "custom": {
+                                                        "imports": [
+                                                            {
+                                                                "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
+                                                            },
+                                                            {
+                                                                "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+                                                            }
+                                                        ],
+                                                        "schema_definition": "stringplanmodifier.UseStateForUnknown()"
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "id",
+                                        "string": {
+                                            "computed_optional_required": "computed",
+                                            "description": "device id",
+                                            "plan_modifiers": [
+                                                {
+                                                    "custom": {
+                                                        "imports": [
+                                                            {
+                                                                "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
+                                                            },
+                                                            {
+                                                                "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+                                                            }
+                                                        ],
+                                                        "schema_definition": "stringplanmodifier.UseStateForUnknown()"
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "mac",
+                                        "string": {
+                                            "computed_optional_required": "computed",
+                                            "description": "device MAC address",
+                                            "plan_modifiers": [
+                                                {
+                                                    "custom": {
+                                                        "imports": [
+                                                            {
+                                                                "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
+                                                            },
+                                                            {
+                                                                "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+                                                            }
+                                                        ],
+                                                        "schema_definition": "stringplanmodifier.UseStateForUnknown()"
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "magic",
+                                        "string": {
+                                            "computed_optional_required": "computed",
+                                            "description": "device claim code",
+                                            "plan_modifiers": [
+                                                {
+                                                    "custom": {
+                                                        "imports": [
+                                                            {
+                                                                "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
+                                                            },
+                                                            {
+                                                                "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+                                                            }
+                                                        ],
+                                                        "schema_definition": "stringplanmodifier.UseStateForUnknown()"
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "model",
+                                        "string": {
+                                            "computed_optional_required": "computed",
+                                            "description": "device model",
+                                            "plan_modifiers": [
+                                                {
+                                                    "custom": {
+                                                        "imports": [
+                                                            {
+                                                                "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
+                                                            },
+                                                            {
+                                                                "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+                                                            }
+                                                        ],
+                                                        "schema_definition": "stringplanmodifier.UseStateForUnknown()"
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "org_id",
+                                        "string": {
+                                            "computed_optional_required": "computed",
+                                            "plan_modifiers": [
+                                                {
+                                                    "custom": {
+                                                        "imports": [
+                                                            {
+                                                                "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
+                                                            },
+                                                            {
+                                                                "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+                                                            }
+                                                        ],
+                                                        "schema_definition": "stringplanmodifier.UseStateForUnknown()"
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "serial",
+                                        "string": {
+                                            "computed_optional_required": "computed",
+                                            "description": "device serial",
+                                            "plan_modifiers": [
+                                                {
+                                                    "custom": {
+                                                        "imports": [
+                                                            {
+                                                                "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
+                                                            },
+                                                            {
+                                                                "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+                                                            }
+                                                        ],
+                                                        "schema_definition": "stringplanmodifier.UseStateForUnknown()"
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "site_id",
+                                        "string": {
+                                            "computed_optional_required": "computed_optional",
+                                            "description": "Site ID. Used to assign device to a Site"
+                                        }
+                                    },
+                                    {
+                                        "name": "type",
+                                        "string": {
+                                            "computed_optional_required": "computed",
+                                            "description": "enum: `ap`, `gateway`, `switch`",
+                                            "plan_modifiers": [
+                                                {
+                                                    "custom": {
+                                                        "imports": [
+                                                            {
+                                                                "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
+                                                            },
+                                                            {
+                                                                "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+                                                            }
+                                                        ],
+                                                        "schema_definition": "stringplanmodifier.UseStateForUnknown()"
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "unclaim_when_destroyed",
+                                        "bool": {
+                                            "computed_optional_required": "computed_optional",
+                                            "default": {
+                                                "static": false
+                                            },
+                                            "description": "Unclaim the device from the Mist Organization when removed from the provider inventory. Default is `false`"
+                                        }
+                                    },
+                                    {
+                                        "name": "vc_mac",
+                                        "string": {
+                                            "computed_optional_required": "computed",
+                                            "description": "if `type`==`switch` and device part of a Virtual Chassis, MAC Address of the Virtual Chassis. if `type`==`gateway` and device part of a Clust, MAC Address of the Cluster",
+                                            "plan_modifiers": [
+                                                {
+                                                    "custom": {
+                                                        "imports": [
+                                                            {
+                                                                "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
+                                                            },
+                                                            {
+                                                                "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+                                                            }
+                                                        ],
+                                                        "schema_definition": "stringplanmodifier.UseStateForUnknown()"
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    }
+                                ]
+                            },
+                            "description": "Property key can be the device Claim Code or the device MAC Address:\n  * Claim Code: used to claim the device to the Mist Organization and manage it. Format is `[0-9A-Z]{15}` (e.g `01234ABCDE56789`)\n  * MAC Address: used to managed a device already in the Mist Organization (claimed or adopted devices). Format is `[0-9a-f]{12}` (e.g `5684dae9ac8b`)\n\n    >"
                         }
                     },
                     {

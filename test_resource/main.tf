@@ -53,7 +53,7 @@ resource "mist_org_setting" "terraform_test" {
     requires_two_factor_auth = false
   }
   security = {
-    disable_local_ssh = true
+    disable_local_ssh = false
   }
   switch_updown_threshold = 10
   synthetic_test = {
@@ -493,30 +493,62 @@ resource "mist_org_inventory" "inventory" {
   #   site_id = mist_site.terraform_site.id
   # },
   org_id = mist_org.terraform_test.id
-  devices = {
-    "CPKL2EXN8JY98AC" = {
+  devices = [
+    {
+      claim_code = "CPKL2EXN8JY98AC"
       site_id = mist_site.terraform_site.id
-    }
-    "G87JHBFXZJSFNMX" = {
+    },
+    {
+      claim_code = "G87JHBFXZJSFNMX" 
       site_id = mist_site.terraform_site.id
       unclaim_when_destroyed = true
-    }
-    "CV4YAS8DQWYLL6M" = {
+    },
+   {
+    claim_code = "CV4YAS8DQWYLL6M" 
       site_id = mist_site.terraform_site.id
-    }
-    (local.node0) = {
+    },
+    {
+      mac = (local.node0)
       site_id                = mist_site.terraform_site.id
       unclaim_when_destroyed = false
-    }
-    (local.node1) = {
+    },
+    {
+      mac = (local.node1) 
       site_id                = mist_site.terraform_site.id
       unclaim_when_destroyed = false
-    }
-    "4c9614026d00" = {
+    },
+    {
+      mac = "4c9614026d00" 
       site_id                = mist_site.terraform_site.id
-
+    },
+    {
+      mac = "4c961418c000" 
+      site_id                = mist_site.terraform_site.id
     }
-  }
+  ]
+  # inventory = {
+  #   "CPKL2EXN8JY98AC" = {
+  #     site_id = mist_site.terraform_site.id
+  #   }
+  #   "G87JHBFXZJSFNMX" = {
+  #     site_id = mist_site.terraform_site.id
+  #     unclaim_when_destroyed = true
+  #   }
+  #   "CV4YAS8DQWYLL6M" = {
+  #     site_id = mist_site.terraform_site.id
+  #   }
+  #   (local.node0) = {
+  #     site_id                = mist_site.terraform_site.id
+  #     unclaim_when_destroyed = false
+  #   }
+  #   (local.node1) = {
+  #     site_id                = mist_site.terraform_site.id
+  #     unclaim_when_destroyed = false
+  #   }
+  #   "4c9614026d00" = {
+  #     site_id                = mist_site.terraform_site.id
+  #   }
+  # }
   # {
   #   mac     = "4c9614c85b00"
   #   site_id = mist_site.terraform_site.id
@@ -1287,15 +1319,15 @@ resource "mist_org_wxrule" "test_00" {
 # }
 
 resource "mist_device_gateway_cluster" "cluster_one" {
-  site_id = provider::mist::search_inventory_by_mac(resource.mist_org_inventory.inventory.devices, local.node0).site_id
+  site_id = provider::mist::search_inventory_by_mac(resource.mist_org_inventory.inventory, local.node0).site_id
   nodes = [
-    { mac = provider::mist::search_inventory_by_mac(resource.mist_org_inventory.inventory.devices, local.node0).mac },
-    { mac = provider::mist::search_inventory_by_mac(resource.mist_org_inventory.inventory.devices, local.node1).mac },
-  ]
+    { mac = provider::mist::search_inventory_by_mac(resource.mist_org_inventory.inventory, local.node0).mac },
+    { mac = provider::mist::search_inventory_by_mac(resource.mist_org_inventory.inventory, local.node1).mac },
+ ]
 }
 resource "mist_device_gateway" "cluster_one" {
   device_id              = resource.mist_device_gateway_cluster.cluster_one.id
-  site_id                = provider::mist::search_inventory_by_mac(resource.mist_org_inventory.inventory.devices, local.node0).site_id
+  site_id                = provider::mist::search_inventory_by_mac(resource.mist_org_inventory.inventory, local.node0).site_id
   name                   = "cluster_one"
   managed                = true
   additional_config_cmds = ["hello world"]
@@ -1524,9 +1556,8 @@ resource "mist_device_gateway" "cluster_one" {
 
 
 resource "mist_device_ap" "test_ap" {
-
-  device_id = provider::mist::search_inventory_by_claimcode(resource.mist_org_inventory.inventory.devices, "CPKL2EXN8JY98AC").id
-  site_id   = provider::mist::search_inventory_by_claimcode(resource.mist_org_inventory.inventory.devices, "CPKL2EXN8JY98AC").site_id
+  device_id = provider::mist::search_inventory_by_claimcode(resource.mist_org_inventory.inventory,"CPKL2EXN8JY98AC").id
+  site_id   = provider::mist::search_inventory_by_claimcode(resource.mist_org_inventory.inventory, "CPKL2EXN8JY98AC").site_id
   name      = "test_ap"
 }
 
@@ -2994,19 +3025,19 @@ resource "mist_site_networktemplate" "site_switch_template" {
 
 # resource "mist_device_image" "switch_image_one" {
 #   # for_each = { 
-#   #   for  device in resource.mist_org_inventory.inventory.devices : device.mac => device if device.mac == "2c21311c37b0" 
+#   #   for  device in resource.mist_org_inventory.inventory.inventory : device.mac => device if device.mac == "2c21311c37b0" 
 #   #   }
 #   # device_id =each.value.id
 #   # site_id = each.value.site_id
-#   device_id = provider::mist::search_inventory_rs(resource.mist_org_inventory.inventory.devices, "2c21311c37b0").id
-#   site_id =  provider::mist::search_inventory_rs(resource.mist_org_inventory.inventory.devices, "2c21311c37b0").site_id
+#   device_id = provider::mist::search_inventory_rs(resource.mist_org_inventory.inventory.inventory, "2c21311c37b0").id
+#   site_id =  provider::mist::search_inventory_rs(resource.mist_org_inventory.inventory.inventory, "2c21311c37b0").site_id
 #   file         = "/Users/tmunzer/OneDrive/data/demo/IMG_0049.jpg"
 #   image_number = 1
 # }
 
 # resource "mist_device_switch" "test_switch" {
 #   for_each = { 
-#     for  device in resource.mist_org_inventory.inventory.devices : device.mac => device if device.mac == "2c21311c37b0" 
+#     for  device in resource.mist_org_inventory.inventory.inventory : device.mac => device if device.mac == "2c21311c37b0" 
 #     }
 #   device_id =each.value.id
 #   site_id = each.value.site_id
@@ -3416,8 +3447,8 @@ resource "mist_site_networktemplate" "site_switch_template" {
 
 # }
 resource "mist_device_gateway" "hub_one" {
-  device_id = provider::mist::search_inventory_by_claimcode(resource.mist_org_inventory.inventory.devices, "CV4YAS8DQWYLL6M").id
-  site_id   = provider::mist::search_inventory_by_claimcode(resource.mist_org_inventory.inventory.devices, "CV4YAS8DQWYLL6M").site_id
+  device_id = provider::mist::search_inventory_by_claimcode(resource.mist_org_inventory.inventory, "CV4YAS8DQWYLL6M").id
+  site_id   = provider::mist::search_inventory_by_claimcode(resource.mist_org_inventory.inventory, "CV4YAS8DQWYLL6M").site_id
   name      = "hub_one"
   oob_ip_config = {
     type = "dhcp"

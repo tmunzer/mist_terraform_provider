@@ -8,7 +8,7 @@ next:
   - string
   computed_optional_required: required
 
-- name: devices
+- name: inventory
   get:
   - map_nested
   computed_optional_required: computed_optional
@@ -18,14 +18,16 @@ next:
       - path: github.com/hashicorp/terraform-plugin-framework-validators/mapvalidator
       - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
       - path: github.com/Juniper/terraform-provider-mist/internal/validators
+      - path: github.com/hashicorp/terraform-plugin-framework/path
       schema_definition: |-
+        mistvalidator.AllowedWhenValueIsNull(path.MatchRelative().AtParent().AtName("devices")),
         mapvalidator.KeysAre(
           stringvalidator.Any(
             mistvalidator.ParseMagic(),
             mistvalidator.ParseMac(),
           ),
         )
-- name: devices
+- name: inventory
   get:
   - map_nested
   - nested_object
@@ -67,7 +69,7 @@ next:
         - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier
         - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier
         schema_definition: stringplanmodifier.UseStateForUnknown()
-  - name: claim_code
+  - name: magic
     get:
     - string
     plan_modifiers:
@@ -76,6 +78,151 @@ next:
         - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier
         - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier
         schema_definition: stringplanmodifier.UseStateForUnknown()
+  - name: model
+    get:
+    - string
+    plan_modifiers:
+    - custom:
+        imports:
+        - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier
+        - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier
+        schema_definition: stringplanmodifier.UseStateForUnknown()
+  - name: org_id
+    get:
+    - string
+    plan_modifiers:
+    - custom:
+        imports:
+        - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier
+        - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier
+        schema_definition: stringplanmodifier.UseStateForUnknown()
+  - name: serial
+    get:
+    - string
+    plan_modifiers:
+    - custom:
+        imports:
+        - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier
+        - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier
+        schema_definition: stringplanmodifier.UseStateForUnknown()
+  - name: site_id
+    get:
+    - string
+    computed_optional_required: computed_optional
+  - name: type
+    get:
+    - string
+    no_default: true
+    computed_optional_required: computed
+    plan_modifiers:
+    - custom:
+        imports:
+        - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier
+        - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier
+        schema_definition: stringplanmodifier.UseStateForUnknown()
+  - name: vc_mac
+    get:
+    - string
+    computed_optional_required: computed
+    plan_modifiers:
+    - custom:
+        imports:
+        - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier
+        - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier
+        schema_definition: stringplanmodifier.UseStateForUnknown()
+
+
+
+# - name: devices
+#   old_type: list_nested
+#   new_type: set_nested
+- name: devices
+  get:
+  - list_nested
+  computed_optional_required: computed_optional
+  description: "**DEPRECATED** List of devices to manage. Exactly one of `claim_code` or `mac` field must be set"
+  validators:
+  - custom:
+      imports:
+      - path: github.com/hashicorp/terraform-plugin-framework-validators/listvalidator
+      - path: github.com/Juniper/terraform-provider-mist/internal/validators
+      - path: github.com/hashicorp/terraform-plugin-framework/path
+      schema_definition: |-
+        mistvalidator.AllowedWhenValueIsNull(path.MatchRelative().AtParent().AtName("inventory")),
+        listvalidator.SizeAtLeast(1)
+- name: devices
+  get:
+  - list_nested
+  - nested_object
+  - attributes
+  next:
+  - name: deviceprofile_id
+    get:
+    - string
+    plan_modifiers:
+    - custom:
+        imports:
+        - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier
+        - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier
+        schema_definition: stringplanmodifier.UseStateForUnknown()
+  - name: hostname
+    get:
+    - string
+    plan_modifiers:
+    - custom:
+        imports:
+        - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier
+        - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier
+        schema_definition: stringplanmodifier.UseStateForUnknown()
+  - name: id
+    get:
+    - string
+    plan_modifiers:
+    - custom:
+        imports:
+        - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier
+        - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier
+        schema_definition: stringplanmodifier.UseStateForUnknown()
+  - name: mac
+    get:
+    - string
+    computed_optional_required: computed_optional
+    description: used to managed a device already in the Mist Organization (claimed or adopted devices). Format is `[0-9a-f]{12}` (e.g `5684dae9ac8b`)
+    plan_modifiers:
+    - custom:
+        imports:
+        - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier
+        - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier
+        - path: github.com/hashicorp/terraform-plugin-framework/path
+        schema_definition: stringplanmodifier.UseStateForUnknown()
+    validators:
+    - custom:
+        imports:
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+        - path: github.com/Juniper/terraform-provider-mist/internal/validators
+        schema_definition: |-
+          mistvalidator.ParseMacValidator{},
+          mistvalidator.AllowedWhenValueIsNull(path.MatchRelative().AtParent().AtName("magic"))
+  - name: magic
+    get:
+    - string
+    computed_optional_required: computed_optional
+    description: used to claim the device to the Mist Organization and manage it. Format is `[0-9A-Z]{15}` (e.g `01234ABCDE56789`)
+    plan_modifiers:
+    - custom:
+        imports:
+        - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier
+        - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier
+        schema_definition: stringplanmodifier.UseStateForUnknown()
+    validators:
+    - custom:
+        imports:
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+        - path: github.com/Juniper/terraform-provider-mist/internal/validators
+        - path: github.com/hashicorp/terraform-plugin-framework/path
+        schema_definition: |-
+          mistvalidator.ParseMagicValidator{},
+          mistvalidator.AllowedWhenValueIsNull(path.MatchRelative().AtParent().AtName("mac"))
   - name: model
     get:
     - string

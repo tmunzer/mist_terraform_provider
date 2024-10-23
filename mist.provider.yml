@@ -3,11 +3,11 @@ info:
   contact:
     email: tmunzer@juniper.net
     name: Thomas Munzer
-  description: '> Version: **2409.1.9**
+  description: '> Version: **2409.1.12**
 
     >
 
-    > Date: **September 27, 2024**
+    > Date: **October 21, 2024**
 
 
     ---
@@ -19,7 +19,7 @@ info:
 
     * [Mist Location SDK](https://www.juniper.net/documentation/us/en/software/mist/location_services/topics/concept/mist-how-get-mist-sdk.html)
 
-    * [Mist Product Updates](https://www.mist.com/documentation/category/product-updates/)
+    * [Mist Product Updates](https://www.juniper.net/documentation/us/en/software/mist/product-updates/)
 
 
     ---
@@ -43,7 +43,7 @@ info:
     name: MIT
     url: https://raw.githubusercontent.com/tmunzer/Mist-OAS3.0/main/LICENSE
   title: Mist API
-  version: 2409.1.9
+  version: 2409.1.12
 servers:
 - description: Mist Global 01
   url: https://api.mist.com
@@ -611,6 +611,8 @@ tags:
   name: Orgs Stats - Other Devices
 - description: API Calls to retrieve statistics about the Wired Ports at the Org level
   name: Orgs Stats - Ports
+- description: API Calls to retrieve statistics about the Organization Sites
+  name: Orgs Stats - Sites
 - description: API Calls to retrieve statistics about the Mist Tunnels at the Org
     level
   name: Orgs Stats - Tunnels
@@ -2575,7 +2577,6 @@ paths:
             examples:
               example-1:
                 value:
-                  flags: {}
                   height: 0
                   latlng_br:
                     lat: string
@@ -6521,17 +6522,24 @@ paths:
         name: hostname
         schema:
           type: string
+      - description: 'Radio band. enum: `24`, `5`, `6`'
+        in: query
+        name: band
+        schema:
+          type: string
       - description: device type, e.g. Mac, Nvidia, iPhone
         in: query
         name: device
         schema:
           type: string
-      - description: os, e.g. Sierra, Yosemite, Windows 10
+      - description: only available for clients running the Marvis Client app, os,
+          e.g. Sierra, Yosemite, Windows 10
         in: query
         name: os
         schema:
           type: string
-      - description: "model, e.g. \u201CMBP 15 late 2013\u201D, 6, 6s, \u201C8+ GSM\u201D"
+      - description: "only available for clients running the Marvis Client app, model,\
+          \ e.g. \u201CMBP 15 late 2013\u201D, 6, 6s, \u201C8+ GSM\u201D"
         in: query
         name: model
         schema:
@@ -6542,9 +6550,16 @@ paths:
         schema:
           type: string
       - $ref: '#/components/parameters/psk_id_query'
-      - description: PSK Name
+      - description: only available for clients using PPSK authentication, the Name
+          of the PSK
         in: query
         name: psk_name
+        schema:
+          type: string
+      - description: only available for clients using 802.1X authentication, partial
+          / full username
+        in: query
+        name: username
         schema:
           type: string
       - description: vlan
@@ -8958,7 +8973,6 @@ paths:
             examples:
               Example:
                 value:
-                  authorized: true
                   company: string
                   email: user@example.com
                   field1: string
@@ -8966,10 +8980,10 @@ paths:
                   field3: string
                   field4: string
                   mac: string
-                  minutes: 0
+                  minutes: 1440
                   name: string
             schema:
-              $ref: '#/components/schemas/guest'
+              $ref: '#/components/schemas/guest_org'
       responses:
         '200':
           $ref: '#/components/responses/Guest'
@@ -13463,7 +13477,7 @@ paths:
         \ websocket. As there can be multiple command issued against the same AP at\
         \ the same time and the output all goes through the same websocket stream,\
         \ session is introduced for demux.\n\n#### Subscribe to Device Command outputs\n\
-        `WS /api-ws/v1/stream`\n\n```json\n{\n    subscribe: \"/sites/{site_id}/pcaps\"\
+        `WS /api-ws/v1/stream`\n\n```json\n{\n    \"subscribe\": \"/sites/{site_id}/pcaps\"\
         \n}\n```\n#### Response (Wireless/RadioTap)\n```json\n{\n  \"event\": \"data\"\
         \n  \"channel\": \"/orgs/67970e46-4e12-11e6-9188-0242ac110007/pcaps\"\n  \"\
         data\": {\n      \"capture_id\": \"f039b1b4-a23e-48b2-906a-0da40524de73\"\
@@ -17948,6 +17962,34 @@ paths:
       - Orgs Stats - Ports
     parameters:
     - $ref: '#/components/parameters/org_id'
+  /api/v1/orgs/{org_id}/stats/sites:
+    get:
+      description: Get List of Org Site Stats
+      operationId: listOrgSiteStats
+      parameters:
+      - $ref: '#/components/parameters/start'
+      - $ref: '#/components/parameters/end'
+      - $ref: '#/components/parameters/duration'
+      - $ref: '#/components/parameters/limit'
+      - $ref: '#/components/parameters/page'
+      responses:
+        '200':
+          $ref: '#/components/responses/SitesArrayStats'
+        '400':
+          $ref: '#/components/responses/HTTP400'
+        '401':
+          $ref: '#/components/responses/HTTP401'
+        '403':
+          $ref: '#/components/responses/HTTP403'
+        '404':
+          $ref: '#/components/responses/HTTP404'
+        '429':
+          $ref: '#/components/responses/HTTP429'
+      summary: listOrgSiteStats
+      tags:
+      - Orgs Stats - Sites
+    parameters:
+    - $ref: '#/components/parameters/org_id'
   /api/v1/orgs/{org_id}/stats/switch_ports/count:
     get:
       description: Count by Distinct Attributes of Switch/Gateway Ports
@@ -19642,17 +19684,17 @@ paths:
         name: site_id
         schema:
           type: string
-      - description: device mac
+      - description: device mac (Gateway/Switch) where the client has connected to
         in: query
         name: device_mac
         schema:
           type: string
-      - description: client mac
+      - description: partial / full MAC address
         in: query
         name: mac
         schema:
           type: string
-      - description: port id
+      - description: port id where the client has connected to
         in: query
         name: port_id
         schema:
@@ -19662,17 +19704,13 @@ paths:
         name: vlan
         schema:
           type: integer
-      - description: ip
-        in: query
-        name: ip
-        schema:
-          type: string
+      - $ref: '#/components/parameters/ip'
       - description: client manufacturer
         in: query
         name: manufacture
         schema:
           type: string
-      - description: single entry of hostname/mac
+      - description: partial / full MAC address, hostname or username
         in: query
         name: text
         schema:
@@ -24372,7 +24410,9 @@ paths:
       - Sites Devices - Wireless
   /api/v1/sites/{site_id}/devices/{device_id}/local_port_config:
     delete:
-      description: Sometimes HelpDesk Admin needs to change port configs
+      description: "API Calls delete all the existing port config local overrides,\
+        \ and reapply the configured planed at the device level \n(with site / template\
+        \ heritance)."
       operationId: deleteSiteLocalSwitchPortConfig
       responses:
         '200':
@@ -24394,7 +24434,16 @@ paths:
     - $ref: '#/components/parameters/site_id'
     - $ref: '#/components/parameters/device_id'
     put:
-      description: Sometimes HelpDesk Admin needs to change port configs
+      description: "API Calls to add port config local overrides. This can be used\
+        \ by Switch Port Operators or Helpdesk administrators\nto change a Switch\
+        \ Port configuration without having to change the switch configuration.\n\n\
+        \nThe local overrides configured for the switchports with `no_local_overwrite`==`true`\
+        \ won't be applied to the switch configuration. \n\n\n> NOTE:\n>\n> When using\
+        \ the API Call, it is required to put send all overrides in the PUT request\
+        \ Payload, even the existing once. \n>\n> The current overrides can be retrieved\
+        \ with the API Call [Get Site Device]($e/Sites%20Devices/getSiteDevice). The\
+        \ local overrides will show up separately from the `port_config` in the `local_port_config`\
+        \ so it can be easily identified (and cleared)"
       operationId: updateSiteLocalSwitchPortConfig
       requestBody:
         content:
@@ -24414,7 +24463,7 @@ paths:
                   speed: auto
                   usage: string
             schema:
-              $ref: '#/components/schemas/junos_port_config'
+              $ref: '#/components/schemas/local_port_config'
       responses:
         '200':
           $ref: '#/components/responses/OK'
@@ -24598,7 +24647,19 @@ paths:
     - $ref: '#/components/parameters/site_id'
     - $ref: '#/components/parameters/device_id'
     post:
-      description: Releases an active DHCP lease.
+      description: "Releases an active DHCP lease.\n\nThe output will be available\
+        \ through websocket. As there can be multiple command issued  against the\
+        \ same Device at the same time and the output all goes through the same websocket\
+        \ stream, session is introduced for demux.\n\n\n#### Subscribe to Device Command\
+        \ outputs\n`WS /api-ws/v1/stream`\n\n```json\n{\n    \"subscribe\": \"/sites/{site_id}/devices/{device_id}/cmd\"\
+        \n}```\n\n\n\n#### Example output from ws stream\n\n```json\n{  \n  \"channel\"\
+        : \"/sites/d6fb4f96-xxxx-xxxx-xxxx-xxxxxxxxxxxx/devices/00000000-0000-0000-1000-xxxxxxxxxxxx/cmd\"\
+        ,\n  \"event\": \"data\",\n  \"data\": {\n    \"session\": \"9106e908-74dc-4a4f-9050-9c2adcaf44a5\"\
+        ,\n    \"raw\": \"Running traceroute...\\ntraceroute to 8.8.8.8, 64 hops max\\\
+        n 0  192.168.1.1 1 ms  192.168.1.1 1 ms  192.168.1.1 1 ms\\n 1  80.10.236.81\
+        \ 2 ms  80.10.236.81 4 ms  80.10.236.81 2 ms\\n 2  193.253.80.250 3 ms  193.253.80.250\
+        \ 2 ms  193.253.80.250 2 ms\\n 3  193.252.159.41 2 ms  193.252.159.41 1 ms\
+        \  193.252.159.41 3 ms\\n\"\n  }\n}\n```\n\""
       operationId: releaseSiteSsrDhcpLease
       requestBody:
         content:
@@ -24611,7 +24672,7 @@ paths:
               $ref: '#/components/schemas/utils_release_dhcp'
       responses:
         '200':
-          $ref: '#/components/responses/OK'
+          $ref: '#/components/responses/WebsocketSession'
         '400':
           description: Parameter `port ` absent
         '401':
@@ -24881,7 +24942,7 @@ paths:
         \ stream, `session` is introduced for demux.\n\n#### Subscribe to Device Command\
         \ outputs\n`WS /api-ws/v1/stream`\n\n```json\n{\n    \"subscribe\": \"/sites/{site_id}/devices/{device_id}/cmd\"\
         \n}\n```\n"
-      operationId: getSiteDeviceArpTable
+      operationId: showSiteDeviceArpTable
       requestBody:
         content:
           application/json:
@@ -24901,7 +24962,7 @@ paths:
           $ref: '#/components/responses/HTTP404'
         '429':
           $ref: '#/components/responses/HTTP429'
-      summary: getSiteDeviceArpTable
+      summary: showSiteDeviceArpTable
       tags:
       - Utilities Common
   /api/v1/sites/{site_id}/devices/{device_id}/show_bgp_rummary:
@@ -24913,10 +24974,10 @@ paths:
         \ be available through websocket. As there can be multiple command issued\
         \ against the same device at the same time and the output all goes through\
         \ the same websocket stream, `session` is introduced for demux.\n\n#### Subscribe\
-        \ to Device Command outputs\n`WS /api-ws/v1/stream`\n\n```json\n{\n    \\\"\
-        subscribe\\\": \\\"/sites/{site_id}/devices/{device_id}/cmd\\\"\\\n\n}\n```\n\
-        \n##### Example output from ws stream\n```\nTue 2024-04-23 16:36:06 UTC\n\
-        Retrieving bgp entries...\nBGP table version is 354, local router ID is 10.224.8.16,\
+        \ to Device Command outputs\n`WS /api-ws/v1/stream`\n\n```json\n{\n    \"\
+        subscribe\": \"/sites/{site_id}/devices/{device_id}/cmd\"\n\n}\n```\n\n#####\
+        \ Example output from ws stream\n```\nTue 2024-04-23 16:36:06 UTC\nRetrieving\
+        \ bgp entries...\nBGP table version is 354, local router ID is 10.224.8.16,\
         \ vrf id 0\nDefault local pref 100, local AS 65000\nStatus codes:  s suppressed,\
         \ d damped, h history, * valid, > best, = multipath,\n              i internal,\
         \ r RIB_failure, S Stale, R Removed\nNexthop codes: @NNN nexthop's vrf id,\
@@ -24924,7 +24985,7 @@ paths:
         \ validation codes: V valid, I invalid, N Not found\n\n  Network         \
         \                             Next Hop                                  Metric\
         \ LocPrf Weight Path\n*> 161.161.161.0/24\n```\""
-      operationId: getSiteDeviceBgpSummary
+      operationId: showSiteDeviceBgpSummary
       requestBody:
         content:
           application/json:
@@ -24944,7 +25005,7 @@ paths:
           $ref: '#/components/responses/HTTP404'
         '429':
           $ref: '#/components/responses/HTTP429'
-      summary: getSiteDeviceBgpSummary
+      summary: showSiteDeviceBgpSummary
       tags:
       - Utilities Common
   /api/v1/sites/{site_id}/devices/{device_id}/show_dhcp_leases:
@@ -24961,7 +25022,7 @@ paths:
               $ref: '#/components/schemas/utils_show_dhcp_leases'
       responses:
         '200':
-          $ref: '#/components/responses/WebsocketSessionWithUrl'
+          $ref: '#/components/responses/WebsocketSession'
         '400':
           $ref: '#/components/responses/HTTP400'
         '401':
@@ -24982,7 +25043,7 @@ paths:
     post:
       description: Get EVPN Database from the Device. The output will be available
         through websocket.
-      operationId: getSiteDeviceEvpnDatabase
+      operationId: showSiteDeviceEvpnDatabase
       requestBody:
         content:
           application/json:
@@ -25002,7 +25063,7 @@ paths:
           $ref: '#/components/responses/HTTP404'
         '429':
           $ref: '#/components/responses/HTTP429'
-      summary: getSiteDeviceEvpnDatabase
+      summary: showSiteDeviceEvpnDatabase
       tags:
       - Utilities Common
   /api/v1/sites/{site_id}/devices/{device_id}/show_forwarding_table:
@@ -25031,7 +25092,7 @@ paths:
         \         10 branch1-Kiosk      -     internet-wan_and_lte   1-2.0       broadband\
         \      1 1-4.0       lte           10 branch1-MGT        -     internet-wan_and_lte\
         \   1-2.0       broadband      1 1-4.0       lte           10\n\n```\n"
-      operationId: getSiteDeviceForwardingTable
+      operationId: showSiteDeviceForwardingTable
       requestBody:
         content:
           application/json:
@@ -25051,7 +25112,7 @@ paths:
           $ref: '#/components/responses/HTTP404'
         '429':
           $ref: '#/components/responses/HTTP429'
-      summary: getSiteDeviceForwardingTable
+      summary: showSiteDeviceForwardingTable
       tags:
       - Utilities Common
   /api/v1/sites/{site_id}/devices/{device_id}/show_mac_table:
@@ -25065,7 +25126,7 @@ paths:
         \ stream, `session` is introduced for demux.\n\n#### Subscribe to Device Command\
         \ outputs\n`WS /api-ws/v1/stream`\n\n```json\n{\n    \"subscribe\": \"/sites/{site_id}/devices/{device_id}/cmd\"\
         \n}\n```\n"
-      operationId: getSiteDeviceMacTable
+      operationId: showSiteDeviceMacTable
       requestBody:
         content:
           application/json:
@@ -25085,7 +25146,7 @@ paths:
           $ref: '#/components/responses/HTTP404'
         '429':
           $ref: '#/components/responses/HTTP429'
-      summary: getSiteDeviceMacTable
+      summary: showSiteDeviceMacTable
       tags:
       - Utilities Common
   /api/v1/sites/{site_id}/devices/{device_id}/show_ospf_database:
@@ -25109,7 +25170,7 @@ paths:
         \      1   Full       852               38   172.16.4.2          Backup\n\
         \      1.0.0.4                     1   Full       811               34   172.16.4.2\
         \          DROther\n```"
-      operationId: getSiteSsrOspfDatabase
+      operationId: showSiteSsrOspfDatabase
       requestBody:
         content:
           application/json:
@@ -25129,7 +25190,7 @@ paths:
           $ref: '#/components/responses/HTTP404'
         '429':
           $ref: '#/components/responses/HTTP429'
-      summary: getSiteSsrOspfDatabase
+      summary: showSiteSsrOspfDatabase
       tags:
       - Utilities WAN
   /api/v1/sites/{site_id}/devices/{device_id}/show_ospf_interfaces:
@@ -25152,7 +25213,7 @@ paths:
         \  g3                          True   172.16.3.2/24   Broadcast   0.0.0.0\
         \   default\n      net4               g4                          True   172.16.4.2/24\
         \   Broadcast   0.0.0.4   default\n```"
-      operationId: getSiteSsrOspfInterface
+      operationId: showSiteSsrOspfInterfaces
       requestBody:
         content:
           application/json:
@@ -25172,7 +25233,7 @@ paths:
           $ref: '#/components/responses/HTTP404'
         '429':
           $ref: '#/components/responses/HTTP429'
-      summary: getSiteSsrOspfInterface
+      summary: showSiteSsrOspfInterfaces
       tags:
       - Utilities WAN
   /api/v1/sites/{site_id}/devices/{device_id}/show_ospf_neighbors:
@@ -25196,7 +25257,7 @@ paths:
         \      1   Full       852               38   172.16.4.2          Backup\n\
         \      1.0.0.4                     1   Full       811               34   172.16.4.2\
         \          DROther\n```"
-      operationId: getSiteSsrOspfNeighbors
+      operationId: showSiteSsrOspfNeighbors
       requestBody:
         content:
           application/json:
@@ -25216,7 +25277,7 @@ paths:
           $ref: '#/components/responses/HTTP404'
         '429':
           $ref: '#/components/responses/HTTP429'
-      summary: getSiteSsrOspfNeighbors
+      summary: showSiteSsrOspfNeighbors
       tags:
       - Utilities WAN
   /api/v1/sites/{site_id}/devices/{device_id}/show_ospf_summary:
@@ -25238,7 +25299,7 @@ paths:
         \      1.0.0.2     cisco            False                    0   0.0.0.0\n\
         \      1.0.0.2     cisco            False                    0   0.0.0.4 \
         \  default\n```"
-      operationId: getSiteSsrOspfSummary
+      operationId: showSiteSsrOspfSummary
       requestBody:
         content:
           application/json:
@@ -25258,7 +25319,7 @@ paths:
           $ref: '#/components/responses/HTTP404'
         '429':
           $ref: '#/components/responses/HTTP429'
-      summary: getSiteSsrOspfSummary
+      summary: showSiteSsrOspfSummary
       tags:
       - Utilities WAN
   /api/v1/sites/{site_id}/devices/{device_id}/show_route:
@@ -25281,7 +25342,7 @@ paths:
         \    Address family IPv4 Unicast: advertised and received\n    Graceful Restart\
         \ Capabilty: advertised and received\n      Remote Restart timer is 120 seconds\n\
         \      Address families by peer:\n        none\n        ...\n```"
-      operationId: getSiteSsrAndSrxRoutes
+      operationId: showSiteSsrAndSrxRoutes
       requestBody:
         content:
           application/json:
@@ -25301,7 +25362,7 @@ paths:
           $ref: '#/components/responses/HTTP404'
         '429':
           $ref: '#/components/responses/HTTP429'
-      summary: getSiteDeviceRoutes
+      summary: showSiteSsrAndSrxRoutes
       tags:
       - Utilities WAN
   /api/v1/sites/{site_id}/devices/{device_id}/show_service_path:
@@ -25309,27 +25370,29 @@ paths:
     - $ref: '#/components/parameters/site_id'
     - $ref: '#/components/parameters/device_id'
     post:
-      description: "Get service path information of the Device.\n\nThe output will\
-        \ be available through websocket. As there can be multiple command issued\
-        \ against the same device at the same time and the output all goes through\
-        \ the same websocket stream, session is introduced for demux.\n\n\n#### Subscribe\
-        \ to Device Command outputs\n`WS /api-ws/v1/stream`\n\n```json\n{\n    \"\
-        subscribe\": \"/sites/{site_id}/devices/{device_id}/cmd\"\n}\n```\n##### Example\
-        \ output from ws stream\n```\nshow service_path\n\nService    Service-route\
-        \     Type              Destination  Next-Hop  Interface  Vector  Cost  Rate\
-        \  Capacity        State\n\nWeb        web-route1        service_agent   \
-        \  4.4.4.4      1.1.1.2     lan        red     10    1    200/3000       Up*\n\
-        Web        web-route1        service_agent     4.4.4.4      1.1.1.3     lan\
-        \        red     10    1    200/3000       Up\nWeb        web-route2     \
-        \   service_agent     5.5.5.5      2.2.2.2     lan       blue     20    2\
-        \    50/unlimited   Down\nLogin      <None>            BgpOverSVR        10.1.1.1\
-        \     1.2.3.4     wan        red     10    3        -          Up\nLogin \
-        \     <None>            BgpOverSVR        11.1.1.1     1.2.3.4     wan   \
-        \     red     10    1        -          Up\nApp1       <None>            Routed\
-        \                -           -         -          -      -     -        -\
-        \          -\nApp1       learned-routed    Routed                -       \
-        \    -         -          -      -     -        -          -\n```"
-      operationId: getSiteSsrServicePath
+      description: 'Get service path information of the Device.
+
+
+        The output will be available through websocket. As there can be multiple command
+        issued against the same device at the same time and the output all goes through
+        the same websocket stream, session is introduced for demux.
+
+
+
+        #### Subscribe to Device Command outputs
+
+        `WS /api-ws/v1/stream`
+
+
+        ```json { "subscribe": "/sites/{site_id}/devices/{device_id}/cmd" } ```
+
+        #### Example output from ws stream
+
+        ```json { "channel": "/sites/d6fb4f96-xxxx-xxxx-xxxx-xxxxxxxxxxxx/devices/00000000-0000-0000-1000-xxxxxxxxxxxx/cmd",
+        "event": "data", "data": { "session":"5cb8a6db-d11a-42cd-bed7-19e9f29e637",
+        "raw":"{\"status\":\"SUCCESS\",\"finished\":true,\"rows\":[{\"service\":\"management\",\"type\":\"service-agent\",\"network_interface\":\"ge-0/0/0\",\"destination\":\"\",\"gateway_ip\":\"192.168.1.1\",\"vector\":\"\",\"cost\":0,\"rate\":0,\"state\":\"Up\",\"capacity\":\"0/unlimited\",\"meetsSLA\":\"Yes\"},{\"service\":\"management\",\"type\":\"service-agent\",\"network_interface\":\"ge-0/0/1\",\"destination\":\"\",\"gateway_ip\":\"192.168.0.1\",\"vector\":\"\",\"cost\":0,\"rate\":0,\"state\":\"Up\",\"capacity\":\"0/unlimited\",\"meetsSLA\":\"Yes\"}]}"
+        } } ```'
+      operationId: showSiteSsrServicePath
       requestBody:
         content:
           application/json:
@@ -25353,7 +25416,7 @@ paths:
           $ref: '#/components/responses/HTTP404'
         '429':
           $ref: '#/components/responses/HTTP429'
-      summary: getSiteSsrServicePath
+      summary: showSiteSsrServicePath
       tags:
       - Utilities WAN
   /api/v1/sites/{site_id}/devices/{device_id}/show_session:
@@ -25361,47 +25424,30 @@ paths:
     - $ref: '#/components/parameters/site_id'
     - $ref: '#/components/parameters/device_id'
     post:
-      description: "Get active sessions passing through the Device.\n\nThe output\
-        \ will be available through websocket. As there can be multiple command issued\
-        \ against the same device at the same time and the output all goes through\
-        \ the same websocket stream, session is introduced for demux.\n\n\n#### Subscribe\
-        \ to Device Command outputs\n`WS /api-ws/v1/stream`\n\n```json\n{\n    \"\
-        subscribe\": \"/sites/{site_id}/devices/{device_id}/cmd\"\n  }\n```\n\n#####\
-        \ Example output from ws stream\n\n```console\nadmin@ssr.node# show sessions\n\
-        Fri 2020-04-17 16:55:34 UTC\n\nNode: node1\n\n======================================\
-        \ ===== ============= =========== ========== ====== ======= =================\
-        \ ========== ================= =========== ================= ========== ===================\
-        \ ========= =================\nSession Id                             Dir\
-        \   Service       Tenant      Dev Name   VLAN   Proto   Src IP           \
-        \ Src Port   Dest IP           Dest Port   NAT IP            NAT Port   Payload\
-        \ Encrypted   Timeout   Uptime\n====================================== =====\
-        \ ============= =========== ========== ====== ======= ================= ==========\
-        \ ================= =========== ================= ========== ===================\
-        \ ========= =================\n01187fb8-765a-45e5-ae90-37d77f15e292   fwd\
-        \   Internet      lanSubnet   lan           0   udp     192.168.0.28     \
-        \    44674   35.166.173.18          9930   96.230.191.130       19569   false\
-        \                   154   0 days  0:00:28\n01187fb8-765a-45e5-ae90-37d77f15e292\
-        \   rev   Internet      lanSubnet   wan           0   udp     35.166.173.18\
-        \         9930   96.230.191.130        19569   0.0.0.0                  0\
-        \   false                   154   0 days  0:00:28\n0859a4ae-bcff-4aa6-b812-79a5236a6c13\
-        \   fwd   Internet      lanSubnet   lan           0   tcp     192.168.0.41\
-        \         60843   17.249.171.246          443   96.230.191.130       51941\
-        \   false                     2   0 days  0:00:10\n\n\nadmin@node0.90ec7732e327#\
-        \ show sessions by-id 262900cd-bca8-443a-8aab-e5c93d147ab5\nWed 2024-06-26\
-        \ 20:37:48 UTC\nRetrieving session information...\n\n=======================================================================================================================================================================================\n\
-        90ec7732e327.node0    Session ID: 262900cd-bca8-443a-8aab-e5c93d147ab5\n=======================================================================================================================================================================================\n\
-        Service Name:                      Internet\nService Route Name:         \
-        \       Internet-sr-local-breakout-1-node0\nSession Source:              \
-        \      SourceType: PUBLIC\nSession Type:                      HTTPS\nService\
-        \ Class:                     service-class-0-low\nSource Tenant:         \
-        \            LAN\nPeer Name:                         N/A\nInter Node:    \
-        \                    N/A\nInter Router:                      N/A\nIngress\
-        \ Source Nat:                N/A\nPayload Security Policy:           internal\n\
-        Payload Encrypted:                 True\nCommon Name Info:               \
-        \   N/A\nTcp Time To Establish:             76\nTls Time To Establish:   \
-        \          76\nDomain Name:                       N/A\nUri:              \
-        \                 N/A\nCategory:                          N/A\n```\""
-      operationId: getSiteSsrAndSrxSessions
+      description: 'Get active sessions passing through the Device.
+
+
+        The output will be available through websocket. As there can be multiple command
+        issued against the same device at the same time and the output all goes through
+        the same websocket stream, session is introduced for demux.
+
+
+
+        #### Subscribe to Device Command outputs
+
+        `WS /api-ws/v1/stream`
+
+
+        ```json { "subscribe": "/sites/{site_id}/devices/{device_id}/cmd" }```
+
+
+        #### Example output from ws stream
+
+        ```json { "channel": "/sites/d6fb4f96-xxxx-xxxx-xxxx-xxxxxxxxxxxx/devices/00000000-0000-0000-1000-xxxxxxxxxxxx/cmd",
+        "event": "data", "data": { "session": "f517bf29-1141-41ae-a084-17cacb0ccb57",
+        "raw": "{\"status\":\"SUCCESS\",\"finished\":true,\"rows\":[{\"session_id\":\"a04b1cc7-dcc1-40a6-a010-0fe46ca38551\",\"direction\":\"forward\",\"service\":\"internet\",\"tenant\":\"SRV.PRD-Core\",\"device_interface\":\"ge-0/0/3\",\"network_interface\":\"ge-0/0/3.100\",\"protocol\":\"TCP\",\"source_ip\":\"10.3.20.101\",\"source_port\":45733,\"destination_ip\":\"13.38.46.35\",\"destination_port\":443,\"nat_ip\":\"192.168.1.115\",\"nat_port\":45256,\"payload_encrypted\":false,\"timeout\":1581,\"uptime\":319},{\"session_id\":\"a04b1cc7-dcc1-40a6-a010-0fe46ca38551\",\"direction\":\"reverse\",\"service\":\"internet\",\"tenant\":\"SRV.PRD-Core\",\"device_interface\":\"ge-0/0/0\",\"network_interface\":\"ge-0/0/0\",\"protocol\":\"TCP\",\"source_ip\":\"13.38.46.35\",\"source_port\":443,\"destination_ip\":\"192.168.1.115\",\"destination_port\":45256,\"nat_ip\":\"0.0.0.0\",\"nat_port\":0,\"payload_encrypted\":false,\"timeout\":1581,\"uptime\":319}]}\n"
+        } } ```'
+      operationId: showSiteSsrAndSrxSessions
       requestBody:
         content:
           application/json:
@@ -25425,7 +25471,7 @@ paths:
           $ref: '#/components/responses/HTTP404'
         '429':
           $ref: '#/components/responses/HTTP429'
-      summary: getSiteSsrAndSrxSessions
+      summary: showSiteSsrAndSrxSessions
       tags:
       - Utilities WAN
   /api/v1/sites/{site_id}/devices/{device_id}/snapshot:
@@ -25466,17 +25512,37 @@ paths:
     - $ref: '#/components/parameters/site_id'
     - $ref: '#/components/parameters/device_id'
     post:
-      description: "Support / Upload device support files\n\n#### Info Param\n**Parameter**|**Description**\
-        \ \n :-------------: |:-------------: |:-------------: \nprocess|Upload 1\
-        \ file with output of show system processes extensive\noutbound-ssh|Upload\
-        \ 1 file that concatenates all /var/log/outbound-ssh.log* files\nmessages|Upload\
-        \ 1 to 10 /var/log/messages* files\ncore-dumps|Upload all core dump files,\
-        \ if any\nfull|string|Upload 1 file with output of request support information,\
-        \ 1 file that concatenates all /var/log/outbound-ssh.log files, all core dump\
-        \ files, the 3 most recent /var/log/messages files, and Mist agent logs (for\
-        \ Junos devices running the Mist agent)\nvar-logs|Upload all non-empty files\
-        \ in the /var/log/ directory\njma-logs|Upload Mist agent logs (for Junos devices\
-        \ running the Mist agent only)"
+      description: 'Support / Upload device support files
+
+
+        #### Info Param
+
+        | Name | Type | Description |
+
+        | --- | --- | --- |
+
+        | process | string | Upload 1 file with output of show system processes extensive
+        |
+
+        | outbound-ssh | string | Upload 1 file that concatenates all /var/log/outbound-ssh.log*
+        files |
+
+        | messages | string | Upload 1 to 10 /var/log/messages* files |
+
+        | core-dumps | string | Upload all core dump files, if any |
+
+        | full | string | Upload 1 file with output of request support information,
+        1 file that concatenates all /var/log/outbound-ssh.log files, all core dump
+        files, the 3 most recent /var/log/messages files, and Mist agent logs (for
+        Junos devices running the Mist agent) |
+
+        | var-logs | string | Upload all non-empty files in the /var/log/ directory
+        |
+
+        | jma-logs | string | Upload Mist agent logs (for Junos devices running the
+        Mist agent only) |
+
+        "'
       operationId: uploadSiteDeviceSupportFile
       requestBody:
         content:
@@ -25574,10 +25640,17 @@ paths:
     post:
       description: "Traceroute can be performed from the Device.\n\nThe output will\
         \ be available through websocket. As there can be multiple command issued\
-        \ against the same AP at the same time and the output all goes through the\
-        \ same websocket stream, session is introduced for demux.\n\n#### Subscribe\
+        \ against the same Device at the same time and the output all goes through\
+        \ the same websocket stream, session is introduced for demux.\n\n\n#### Subscribe\
         \ to Device Command outputs\n`WS /api-ws/v1/stream`\n\n```json\n{\n    \"\
-        subscribe\": \"/sites/{site_id}/devices/{device_id}/cmd\"\n}\n```"
+        subscribe\": \"/sites/{site_id}/devices/{device_id}/cmd\"\n}```\n\n\n\n####\
+        \ Example output from ws stream\n\n```json\n{  \n  \"channel\": \"/sites/d6fb4f96-xxxx-xxxx-xxxx-xxxxxxxxxxxx/devices/00000000-0000-0000-1000-xxxxxxxxxxxx/cmd\"\
+        ,\n  \"event\": \"data\",\n  \"data\": {\n    \"session\": \"9106e908-74dc-4a4f-9050-9c2adcaf44a5\"\
+        ,\n    \"raw\": \"Running traceroute...\\ntraceroute to 8.8.8.8, 64 hops max\\\
+        n 0  192.168.1.1 1 ms  192.168.1.1 1 ms  192.168.1.1 1 ms\\n 1  80.10.236.81\
+        \ 2 ms  80.10.236.81 4 ms  80.10.236.81 2 ms\\n 2  193.253.80.250 3 ms  193.253.80.250\
+        \ 2 ms  193.253.80.250 2 ms\\n 3  193.252.159.41 2 ms  193.252.159.41 1 ms\
+        \  193.252.159.41 3 ms\\n\"\n  }\n}\n```\n\""
       operationId: tracerouteFromDevice
       requestBody:
         content:
@@ -26927,7 +27000,6 @@ paths:
             examples:
               example-1:
                 value:
-                  flags: {}
                   height: 0
                   height_m: 0
                   latlng_br:
@@ -27099,7 +27171,6 @@ paths:
             examples:
               example-1:
                 value:
-                  flags: {}
                   height: 0
                   height_m: 0
                   latlng_br:
@@ -28512,7 +28583,7 @@ paths:
         \ through websocket. As there can be multiple command issued against the same\
         \ AP at the same time and the output all goes through the same websocket stream,\
         \ session is introduced for demux.\n\n#### Subscribe to Device Command outputs\n\
-        `WS /api-ws/v1/stream`\n\n```json\n{\n    subscribe: \"/sites/{site_id}/pcaps\"\
+        `WS /api-ws/v1/stream`\n\n```json\n{\n    \"subscribe\": \"/sites/{site_id}/pcaps\"\
         \n}\n```\n#### Response (MxEdge)\n```json\n{\n    \"event\": \"data\"\n  \
         \  \"channel\": \"/sites/:site_id/pcaps\"\n    \"data\": {\n         \"capture_id\"\
         : \"6b1be4fb-b239-44d9-9d3b-cb1ff3af1721\",\n     \"lost_messages\": 0\n \
@@ -28529,9 +28600,9 @@ paths:
         \ MHz 11g -75dBm signal -82dBm noise antenna 0 Probe Response (ATTKmsWiVS)\
         \ [1.0* 2.0* 5.5* 11.0* 18.0 24.0 36.0 54.0 Mbit] CH: 2, PRIVACY\\\\n\",\n\
         \         }, \n        \"pcap_raw\": \"1MOyoQIABAAAAAAAAAAAAP//AAABAAAAEEh7Yh5VBwCgAQAAoAEAAAAAKwBvCADAAQAAAIw7reCS2VNkAAAAABACbAmABLWuAAEAEBgAAwACAABQADoBeL28ygsKGLgfTJHAGLgfTJHAcIZ2WDlBJQAAAGQAERUACkFUVEttc1dpVlMBCIKEi5YkMEhsAwECBwZVUyABCx4gAQAjAhkAKgEEMgQMEhhgMBQBAAAPrAQBAAAPrAQBAAAPrAIMAAsFAQAbAABGBTIIAQAALRqtCR////8AAAAAAAAAAAAAAAAAAAAAAAAAAD0WAggVAAAAAAAAAAAAAAAAAAAAAAAAAH8IBAAIAAAAAEDdkwBQ8gQQSgABEBBEAAECEDsAAQMQRwAQn2481frn3KT+uGod2ERx+RAhAAtBcnJpcywgSW5jLhAjAApCR1cyMTAtNzAwECQACkJHVzIxMC03MDAQQgAKQkdXMjEwLTcwMBBUAAgABgBQ8gQAARARAA5BcnJpcyBXaXJlbGVzcxAIAAIgCBA8AAEBEEkABgA3KgABIN0JABAYAgEQHAAA3RgAUPICAQGEAAOkAAAnpAAAQkNeAGIyLwAzjakr\"\
-        \n}\n```\n\n#### vResponse (Wired)\n```json\n{\n    \"event\": \"data\"\n\
-        \    \"channel\": \"/sites/67970e46-4e12-11e6-9188-0242ac110007/pcaps\"\n\
-        \    \"data\": {\n        \"capture_id\": \"f039b1b4-a23e-48b2-906a-0da40524de73\"\
+        \n}\n```\n\n#### Response (Wired)\n```json\n{\n    \"event\": \"data\"\n \
+        \   \"channel\": \"/sites/67970e46-4e12-11e6-9188-0242ac110007/pcaps\"\n \
+        \   \"data\": {\n        \"capture_id\": \"f039b1b4-a23e-48b2-906a-0da40524de73\"\
         , \n        \"pcap_dict\": {\n             \"dst_mac\": \"68:ec:c5:09:2e:87\"\
         ,\n             \"src_mac\": \"8c:3b:ad:e0:47:40\", \n             \"vlan\"\
         : 1, \n             \"src_ip\": \"34.224.147.117\", \n             \"dst_ip\"\
@@ -31894,7 +31965,6 @@ paths:
       - Sites Stats - Calls
     parameters:
     - $ref: '#/components/parameters/site_id'
-    - $ref: '#/components/parameters/client_mac'
   /api/v1/sites/{site_id}/stats/clients:
     get:
       description: Get List of Site All Clients Stats Details
@@ -38336,7 +38406,7 @@ components:
                   - 10.5.23.43
                   - 192.168.0.2
                   last_ap: a83a79a947ee
-                  last_devuce: Mac
+                  last_device: Mac
                   last_firmware: 'wl0: Jan 20 2024 04:08:41 version 20.103.12.0.8.7.171
                     FWID 01-e09d2675'
                   last_hostname: hostname-a
@@ -48718,6 +48788,53 @@ components:
           schema:
             $ref: '#/components/schemas/sites'
       description: OK
+    SitesArrayStats:
+      content:
+        application/json:
+          examples:
+            example-1:
+              value:
+              - address: 1601 S De Anza Blvd, Cupertino, CA 95014, USA
+                alarmtemplate_id: null
+                analyticEnabled: true
+                aptemplate_id: null
+                country_code: US
+                created_time: 1472591606
+                engagementEnabled: true
+                gatewaytemplate_id: e571f2a2-d748-4ad4-bd6c-895467957c21
+                id: 83bc290a-b76d-47fa-a294-d34e47f30f7f
+                lat: 37.295553
+                latlng:
+                  lat: 37.295553
+                  lng: -122.033007
+                lng: -122.033007
+                modified_time: 1728057857
+                msp_id: a9af4951-a1de-4520-b398-c95a58947349
+                name: Live-Demo
+                networktemplate_id: 964cb213-deb2-469d-8c1e-a5f8661c6886
+                notes: This site is used for demonstration purposes.
+                num_ap: 17
+                num_ap_connected: 14
+                num_clients: 14
+                num_devices: 26
+                num_devices_connected: 22
+                num_gateway: 1
+                num_gateway_connected: 1
+                num_switch: 8
+                num_switch_connected: 7
+                org_id: b9814b40-ac4b-4424-86a8-b787eb68b86a
+                rftemplate_id: 2c134c07-3c57-46b3-a53b-8aea92ed7234
+                secpolicy_id: null
+                sitegroup_ids:
+                - 5644a432-eea9-4a2f-a30a-ddaf4dbc79cf
+                - 5fc0f305-f626-49db-8869-10b87f201bba
+                - 882796ef-190b-405e-98ef-cb487140cf64
+                sitetemplate_id: null
+                timezone: America/Los_Angeles
+                tzoffset: 960
+          schema:
+            $ref: '#/components/schemas/stats_sites'
+      description: OK
     SitesSearch:
       content:
         application/json:
@@ -51975,12 +52092,14 @@ components:
 
         **Note**: no check is done'
       items:
+        description: JUNOS "set" command to add to the generated configuration
         example: set snmp community public
         type: string
       type: array
     admin:
       properties:
         admin_id:
+          description: ID of the administrator
           example: 456b7016-a916-a4b1-78dd-72b947c152b7
           format: uuid
           readOnly: true
@@ -52504,9 +52623,7 @@ components:
       description: Alarm Template
       properties:
         created_time:
-          example: 1711001253
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/created_time'
         delivery:
           $ref: '#/components/schemas/delivery'
         id:
@@ -52515,9 +52632,7 @@ components:
           readOnly: true
           type: string
         modified_time:
-          example: 1711038102
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/modified_time'
         name:
           description: Some string to name the alarm template
           example: default
@@ -54068,8 +54183,7 @@ components:
         ap_matching:
           $ref: '#/components/schemas/ap_template_matching'
         created_time:
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/created_time'
         for_site:
           readOnly: true
           type: boolean
@@ -54078,8 +54192,7 @@ components:
           readOnly: true
           type: string
         modified_time:
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/modified_time'
         org_id:
           format: uuid
           readOnly: true
@@ -54296,8 +54409,7 @@ components:
       description: Asset
       properties:
         created_time:
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/created_time'
         for_site:
           readOnly: true
           type: boolean
@@ -54312,8 +54424,7 @@ components:
           format: uuid
           type: string
         modified_time:
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/modified_time'
         name:
           description: name / label of the device
           type: string
@@ -54336,8 +54447,7 @@ components:
         beam:
           type: integer
         created_time:
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/created_time'
         disabled:
           default: false
           type: boolean
@@ -54609,8 +54719,7 @@ components:
     avprofile:
       properties:
         created_time:
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/created_time'
         fallback_action:
           $ref: '#/components/schemas/avprofile_fallback_action_enum'
         id:
@@ -54669,8 +54778,7 @@ components:
       description: Beacon
       properties:
         created_time:
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/created_time'
         eddystone_instance:
           description: Eddystone-UID instance (6 bytes) in hexstring format
           type: string
@@ -56240,7 +56348,7 @@ components:
           description: latest AP where the client is/was connected to
           example: a83a79a947ee
           type: string
-        last_devuce:
+        last_device:
           description: "latest type of device we identified (e.g. iPhone, Mac, \u2026\
             )"
           example: Mac
@@ -56251,15 +56359,15 @@ components:
           example: 'wl0: Jan 20 2024 04:08:41 version 20.103.12.0.8.7.171 FWID 01-e09d2675'
           type: string
         last_hostname:
-          description: lastest hostname we detected for the the client
+          description: latest hostname we detected for the client
           example: hostname-a
           type: string
         last_ip:
-          description: lastest ip address we detected for the client
+          description: latest ip address we detected for the client
           example: 10.5.23.43
           type: string
         last_model:
-          description: only when client has the Marvis Client app running. lastest
+          description: only when client has the Marvis Client app running. latest
             client hardware model we detected for the client
           example: MBP 16\" M1 2021
           type: string
@@ -56284,12 +56392,12 @@ components:
           example: iot
           type: string
         last_ssid:
-          description: only for PPSK authentication. Latest PPSK Name used by the
-            client
+          description: Name of the latest SSID (WLAN) the client is/was connected
+            to client
           example: IoT SSID
           type: string
         last_username:
-          description: only for 802.1X authentifcation. Latest username used by the
+          description: only for 802.1X authentication. Latest username used by the
             client
           example: user@corp.com
           type: string
@@ -56325,7 +56433,7 @@ components:
         os_version:
           $ref: '#/components/schemas/client_wireless_os_version'
         protocol:
-          description: 802.11 amendmant
+          description: 802.11 amendment
           example: ax
           type: string
         psk_id:
@@ -56452,8 +56560,7 @@ components:
         type: string
       type: array
     client_wireless_username:
-      description: only for 802.1X authentifcation. List of usernames used by the
-        client
+      description: only for 802.1X authentication. List of usernames used by the client
       example:
       - user@corp.com
       items:
@@ -57650,6 +57757,11 @@ components:
       items:
         type: number
       type: array
+    created_time:
+      description: when the object has been created, in epoch
+      example: 1508823803
+      readOnly: true
+      type: number
     day_of_week:
       description: 'enum: `any`, `fri`, `mon`, `sat`, `sun`, `thu`, `tue`, `wed`'
       enum:
@@ -57708,8 +57820,7 @@ components:
         client_bridge:
           $ref: '#/components/schemas/ap_client_bridge'
         created_time:
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/created_time'
         deviceprofile_id:
           example: 6f4bf402-45f9-2a56-6c8b-7f83d3bc98e9
           format: uuid
@@ -57850,8 +57961,7 @@ components:
             $ref: '#/components/schemas/bgp_config'
           type: object
         created_time:
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/created_time'
         deviceprofile_id:
           format: uuid
           readOnly: true
@@ -57988,8 +58098,7 @@ components:
     device_other:
       properties:
         created_time:
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/created_time'
         device_mac:
           type: string
         id:
@@ -58041,8 +58150,7 @@ components:
         additional_config_cmds:
           $ref: '#/components/schemas/additional_config_cmds'
         created_time:
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/created_time'
         deviceprofile_id:
           format: uuid
           readOnly: true
@@ -58081,6 +58189,8 @@ components:
           type: string
         ip_config:
           $ref: '#/components/schemas/junos_ip_config'
+        local_port_config:
+          $ref: '#/components/schemas/local_port_config'
         mac:
           description: device MAC address
           readOnly: true
@@ -58320,8 +58430,7 @@ components:
         ble_config:
           $ref: '#/components/schemas/ble_config'
         created_time:
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/created_time'
         disable_eth1:
           default: false
           description: whether to disable eth1 port
@@ -58405,8 +58514,7 @@ components:
             $ref: '#/components/schemas/bgp_config'
           type: object
         created_time:
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/created_time'
         dhcpd_config:
           $ref: '#/components/schemas/dhcpd_config'
         dnsOverride:
@@ -60398,8 +60506,7 @@ components:
             $ref: '#/components/schemas/bgp_config'
           type: object
         created_time:
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/created_time'
         dhcpd_config:
           $ref: '#/components/schemas/dhcpd_config'
         dnsOverride:
@@ -60678,7 +60785,22 @@ components:
     guest:
       description: Guest
       properties:
+        access_code_email:
+          description: if `auth_method`==`email`, the email address where the authorization
+            code has been sent to
+          readOnly: true
+          type: string
+        ap_mac:
+          description: the MAC Address of the AP the guest was connected to during
+            the registration process
+          readOnly: true
+          type: string
+        auth_method:
+          description: type of guest authorization
+          readOnly: true
+          type: string
         authorized:
+          default: true
           description: whether the guest is current authorized
           type: boolean
         authorized_expiring_time:
@@ -60711,23 +60833,131 @@ components:
           type: string
         mac:
           description: mac
+          readOnly: true
           type: string
         minutes:
-          description: minutes, the maximum is 259200 (180 days)
+          default: 1440
+          description: Authorization duration, in minutes. Default is 1440 minutes
+            (1 day), maximum is 259200 (180 days)
+          maximum: 259200
+          minimum: 0
           type: integer
         name:
           description: optional, the info provided by user
           example: John Smith
+          readOnly: true
           type: string
+        random_mac:
+          description: if the client is using a randomized MAC Address to connect
+            the SSID
+          readOnly: true
+          type: boolean
         ssid:
+          description: name of the SSID
           example: Guest-SSID
           readOnly: true
           type: string
         wlan_id:
+          description: ID of the SSID
           example: 6748cfa6-4e12-11e6-9188-0242ac110007
           format: uuid
           readOnly: true
           type: string
+      type: object
+    guest_org:
+      description: Guest
+      properties:
+        access_code_email:
+          description: if `auth_method`==`email`, the email address where the authorization
+            code has been sent to
+          readOnly: true
+          type: string
+        allow_wlan_id_roam:
+          description: based on the WLAN portal configuration (field `allow_wlan_id_roam`),
+            if the user is also authorized on other Guest WLANs of the same Org without
+            reauthentication
+          readOnly: true
+          type: boolean
+        ap_mac:
+          description: the MAC Address of the AP the guest was connected to during
+            the registration process
+          readOnly: true
+          type: string
+        auth_method:
+          description: type of guest authorization
+          readOnly: true
+          type: string
+        authorized:
+          default: true
+          description: whether the guest is current authorized
+          type: boolean
+        authorized_expiring_time:
+          description: when the authorization would expire
+          example: 1480704955
+          readOnly: true
+          type: number
+        authorized_time:
+          description: when the guest was authorized
+          example: 1480704355
+          readOnly: true
+          type: number
+        company:
+          description: optional, the info provided by user
+          example: abc
+          type: string
+        cross_site:
+          description: based on the WLAN portal configuration (field `cross_site`),
+            if the user is also authorized on other sites (same `wlan.ssid`) of the
+            same Org without reauthentication
+          readOnly: true
+          type: boolean
+        email:
+          description: optional, the info provided by user
+          example: john@abc.com
+          format: email
+          type: string
+        field1:
+          description: optional, the info provided by user
+          type: string
+        field2:
+          type: string
+        field3:
+          type: string
+        field4:
+          type: string
+        mac:
+          description: mac
+          readOnly: true
+          type: string
+        minutes:
+          default: 1440
+          description: Authorization duration, in minutes. Default is 1440 minutes
+            (1 day), maximum is 259200 (180 days)
+          maximum: 259200
+          minimum: 0
+          type: integer
+        name:
+          description: optional, the info provided by user
+          example: John Smith
+          readOnly: true
+          type: string
+        random_mac:
+          description: if the client is using a randomized MAC Address to connect
+            the SSID
+          readOnly: true
+          type: boolean
+        ssid:
+          description: name of the SSID
+          example: Guest-SSID
+          readOnly: true
+          type: string
+        wlan_id:
+          description: ID of the WLAN
+          example: 6748cfa6-4e12-11e6-9188-0242ac110007
+          format: uuid
+          type: string
+      required:
+      - wlan_id
       type: object
     guests:
       items:
@@ -60847,9 +61077,7 @@ components:
         base_profile:
           $ref: '#/components/schemas/idp_profile_base_profile'
         created_time:
-          example: 1508823803
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/created_time'
         id:
           example: 874ca978-d736-4d4b-bc90-a49a29eec133
           format: uuid
@@ -61301,9 +61529,7 @@ components:
           description: whether the device is connected
           type: boolean
         created_time:
-          description: inventory created time, in epoch
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/created_time'
         deviceprofile_id:
           description: deviceprofile id if assigned, null if not assigned
           nullable: true
@@ -61348,7 +61574,9 @@ components:
         type:
           $ref: '#/components/schemas/device_type'
         vc_mac:
-          description: only if `type`==`switch`, MAC Address of the Virtual Chassis
+          description: if `type`==`switch` and device part of a Virtual Chassis, MAC
+            Address of the Virtual Chassis. if `type`==`gateway` and device part of
+            a Clust, MAC Address of the Cluster
           type: string
       type: object
     inventory_device_settings:
@@ -61420,23 +61648,29 @@ components:
             from the provider inventory. Default is `false`
           type: boolean
         vc_mac:
-          description: only if `type`==`switch`, MAC Address of the Virtual Chassis
+          description: if `type`==`switch` and device part of a Virtual Chassis, MAC
+            Address of the Virtual Chassis. if `type`==`gateway` and device part of
+            a Clust, MAC Address of the Cluster
           readOnly: true
           type: string
       type: object
     inventory_devices:
       additionalProperties:
         $ref: '#/components/schemas/inventory_device_settings'
-      description: "Can be the device Claim Code or the device MAC Address:\n  * Claim\
-        \ Code: used to claim the device to the Mist Organization and manage it. Format\
-        \ is `[0-9A-Z]{15}` (e.g `01234ABCDE56789`)\n  * MAC Address: used to managed\
-        \ a device already in the Mist Organization (claimed or adopted devices).\
-        \ Format is `[0-9a-f]{12}` (e.g `5684dae9ac8b`)\nRemoving a device from the\
-        \ list will NOT release it unless `unclaim_when_destroyed` is set to `true`"
+      description: "Property key can be the device Claim Code or the device MAC Address:\n\
+        \  * Claim Code: used to claim the device to the Mist Organization and manage\
+        \ it. Format is `[0-9A-Z]{15}` (e.g `01234ABCDE56789`)\n  * MAC Address: used\
+        \ to managed a device already in the Mist Organization (claimed or adopted\
+        \ devices). Format is `[0-9a-f]{12}` (e.g `5684dae9ac8b`)\n\n    >"
       type: object
     inventory_list:
       properties:
         devices:
+          description: List of devices
+          items:
+            $ref: '#/components/schemas/inventory_device_settings'
+          type: array
+        inventory:
           $ref: '#/components/schemas/inventory_devices'
       type: object
     inventory_update:
@@ -61568,8 +61802,7 @@ components:
     issued_client_certificate:
       properties:
         created_time:
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/created_time'
         device_id:
           example: b069b358-4c97-5319-1f8c-7c5ca64d6ab1
           type: string
@@ -61715,6 +61948,56 @@ components:
           type: string
         type:
           $ref: '#/components/schemas/ip_type'
+      type: object
+    junos_local_port_config:
+      description: Switch port config
+      properties:
+        ae_disable_lacp:
+          description: To disable LACP support for the AE interface
+          type: boolean
+        ae_idx:
+          description: Users could force to use the designated AE name
+          type: integer
+        ae_lacp_slow:
+          default: true
+          description: to use fast timeout
+          type: boolean
+        aggregated:
+          default: false
+          type: boolean
+        critical:
+          description: if want to generate port up/down alarm
+          type: boolean
+        description:
+          type: string
+        disable_autoneg:
+          default: false
+          description: if `speed` and `duplex` are specified, whether to disable autonegotiation
+          type: boolean
+        duplex:
+          $ref: '#/components/schemas/junos_port_config_duplex'
+        dynamic_usage:
+          description: Enable dynamic usage for this port. Set to `dynamic` to enable.
+          nullable: true
+          type: string
+        esilag:
+          type: boolean
+        mtu:
+          default: 1514
+          description: media maximum transmission unit (MTU) is the largest data unit
+            that can be forwarded without fragmentation
+          type: integer
+        poe_disabled:
+          default: false
+          type: boolean
+        speed:
+          $ref: '#/components/schemas/junos_port_config_speed'
+        usage:
+          description: "port usage name. \n\nIf EVPN is used, use `evpn_uplink`or\
+            \ `evpn_downlink`"
+          type: string
+      required:
+      - usage
       type: object
     junos_other_ip_config:
       description: optional, if it's required to have switch's L3 presense on a network/vlan
@@ -61893,7 +62176,7 @@ components:
     license_amendment:
       properties:
         created_time:
-          type: number
+          $ref: '#/components/schemas/created_time'
         end_time:
           readOnly: true
           type: integer
@@ -61924,7 +62207,7 @@ components:
     license_sub:
       properties:
         created_time:
-          type: number
+          $ref: '#/components/schemas/created_time'
         end_time:
           description: end date of the license term
           readOnly: true
@@ -62091,6 +62374,12 @@ components:
       - site_id
       - timestamp
       type: string
+    local_port_config:
+      additionalProperties:
+        $ref: '#/components/schemas/junos_local_port_config'
+      description: Local port override, overriding the port configuration from `port_config`.
+        Property key is the port name or range (e.g. "ge-0/0/0-10")
+      type: object
     locate_switch:
       properties:
         duration:
@@ -62145,8 +62434,7 @@ components:
       description: Map
       properties:
         created_time:
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/created_time'
         flags:
           additionalProperties:
             type: integer
@@ -62154,6 +62442,7 @@ components:
           example:
             assetHoldTime: 5
             storeTime: 10
+          readOnly: true
           type: object
         for_site:
           readOnly: true
@@ -62676,6 +62965,11 @@ components:
         ple:
           type: integer
       type: object
+    modified_time:
+      description: when the object has been modified for the last time, in epoch
+      example: 1698099079
+      readOnly: true
+      type: number
     module_stat:
       items:
         $ref: '#/components/schemas/module_stat_item'
@@ -62925,8 +63219,7 @@ components:
         allow_mist:
           type: boolean
         created_time:
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/created_time'
         id:
           format: uuid
           readOnly: true
@@ -63051,8 +63344,7 @@ components:
       description: mxCluster
       properties:
         created_time:
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/created_time'
         for_site:
           readOnly: true
           type: boolean
@@ -63358,8 +63650,7 @@ components:
       description: MxEdge
       properties:
         created_time:
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/created_time'
         for_site:
           readOnly: true
           type: boolean
@@ -63984,8 +64275,7 @@ components:
         auto_preemption:
           $ref: '#/components/schemas/auto_preemption'
         created_time:
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/created_time'
         for_site:
           readOnly: true
           type: boolean
@@ -64097,20 +64387,14 @@ components:
     nac_crl_file:
       properties:
         created_time:
-          description: Time at which the file was first uploaded, in epoch
-          example: 1698099079
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/created_time'
         id:
           description: ID for file upload, used to identify file even for deletion
           example: a1ca26f3-44dd-4833-9a7b-97bbb2ab5230
           readOnly: true
           type: string
         modified_time:
-          description: Time at which the file was last updated, in epoch
-          example: 1698099079
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/modified_time'
         name:
           description: Name for the .crl file issuer if set
           example: SampleCertificateSigner
@@ -64266,8 +64550,7 @@ components:
         apply_tags:
           $ref: '#/components/schemas/nac_rule_apply_tags'
         created_time:
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/created_time'
         enabled:
           default: true
           description: enabled or not
@@ -64280,8 +64563,7 @@ components:
         matching:
           $ref: '#/components/schemas/nac_rule_matching'
         modified_time:
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/modified_time'
         name:
           type: string
         not_matching:
@@ -64397,8 +64679,7 @@ components:
           description: can be set to true to allow the override by usermac result
           type: boolean
         created_time:
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/created_time'
         egress_vlan_names:
           $ref: '#/components/schemas/nac_tag_egress_vlan_names'
         gbp_tag:
@@ -64419,8 +64700,7 @@ components:
             \ or `match`==`usermac_label`"
           type: boolean
         modified_time:
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/modified_time'
         name:
           minLength: 1
           type: string
@@ -64553,8 +64833,7 @@ components:
         For gateways, they can be used to define Service Routes.
       properties:
         created_time:
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/created_time'
         disallow_mist_services:
           default: false
           description: whether to disallow Mist Devices in the network
@@ -64579,8 +64858,7 @@ components:
           description: whether to allow clients in the network to talk to each other
           type: boolean
         modified_time:
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/modified_time'
         name:
           type: string
         org_id:
@@ -64688,8 +64966,7 @@ components:
         additional_config_cmds:
           $ref: '#/components/schemas/additional_config_cmds'
         created_time:
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/created_time'
         dhcp_snooping:
           $ref: '#/components/schemas/dhcp_snooping'
         dns_servers:
@@ -64709,8 +64986,7 @@ components:
         mist_nac:
           $ref: '#/components/schemas/switch_mist_nac'
         modified_time:
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/modified_time'
         name:
           type: string
         networks:
@@ -65241,18 +65517,14 @@ components:
           default: true
           type: boolean
         created_time:
-          example: 1652905706
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/created_time'
         id:
           example: 2818e386-8dec-2562-9ede-5b8a0fbbdc71
           format: uuid
           readOnly: true
           type: string
         modified_time:
-          example: 1652905706
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/modified_time'
         msp_id:
           example: b9d42c2e-88ee-41f8-b798-f009ce7fe909
           format: uuid
@@ -65295,9 +65567,7 @@ components:
           readOnly: true
           type: string
         created_time:
-          example: 1626875902
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/created_time'
         id:
           example: 497f6eca-6276-4993-bfeb-53ecbbba6f08
           format: uuid
@@ -65744,8 +66014,7 @@ components:
         appqoe:
           $ref: '#/components/schemas/service_policy_appqoe'
         created_time:
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/created_time'
         ewf:
           $ref: '#/components/schemas/service_policy_ewf'
         id:
@@ -65758,8 +66027,7 @@ components:
           description: access within the same VRF
           type: boolean
         modified_time:
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/modified_time'
         name:
           type: string
         org_id:
@@ -65836,8 +66104,7 @@ components:
         cradlepoint:
           $ref: '#/components/schemas/org_setting_cradlepoint'
         created_time:
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/created_time'
         device_cert:
           $ref: '#/components/schemas/org_setting_device_cert'
         device_updown_threshold:
@@ -65889,8 +66156,7 @@ components:
         mist_nac:
           $ref: '#/components/schemas/org_setting_mist_nac'
         modified_time:
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/modified_time'
         msp_id:
           format: uuid
           readOnly: true
@@ -66642,15 +66908,13 @@ components:
       description: Organizations Group
       properties:
         created_time:
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/created_time'
         id:
           format: uuid
           readOnly: true
           type: string
         modified_time:
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/modified_time'
         msp_id:
           format: uuid
           readOnly: true
@@ -67085,8 +67349,7 @@ components:
           readOnly: true
           type: string
         created_time:
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/created_time'
         email:
           description: email to send psk expiring notifications to
           type: string
@@ -67117,8 +67380,7 @@ components:
             is 0 (unlimited)
           type: integer
         modified_time:
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/modified_time'
         name:
           type: string
         note:
@@ -67198,8 +67460,7 @@ components:
           description: used to cleanup exited psk when portal delete or ssid changed
           type: boolean
         created_time:
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/created_time'
         expire_time:
           description: unit min
           type: integer
@@ -67219,8 +67480,7 @@ components:
           description: '`max_usage`==`0` means unlimited'
           type: integer
         modified_time:
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/modified_time'
         name:
           type: string
         notification_renew_url:
@@ -70303,9 +70563,9 @@ components:
     response_search_var_item:
       properties:
         created_time:
-          type: number
+          $ref: '#/components/schemas/created_time'
         modified_time:
-          type: number
+          $ref: '#/components/schemas/modified_time'
         org_id:
           $ref: '#/components/schemas/org_id'
         site_id:
@@ -71081,8 +71341,7 @@ components:
             to all sites using the RF Template
           type: string
         created_time:
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/created_time'
         for_site:
           readOnly: true
           type: boolean
@@ -71097,8 +71356,7 @@ components:
             will shadow the default. Property key is the model name (e.g. "AP63")
           type: object
         modified_time:
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/modified_time'
         name:
           description: The name of the RF template
           type: string
@@ -71742,8 +72000,7 @@ components:
       description: RSSI Zone
       properties:
         created_time:
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/created_time'
         devices:
           $ref: '#/components/schemas/rssi_zone_devices'
         for_site:
@@ -71755,8 +72012,7 @@ components:
           readOnly: true
           type: string
         modified_time:
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/modified_time'
         name:
           description: The name of the zone
           example: zone name
@@ -71804,8 +72060,7 @@ components:
       description: SDK invite
       properties:
         created_time:
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/created_time'
         enabled:
           default: true
           type: boolean
@@ -71816,8 +72071,7 @@ components:
           readOnly: true
           type: string
         modified_time:
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/modified_time'
         name:
           description: name, will show up in mobile
           type: string
@@ -71928,8 +72182,7 @@ components:
         btn_flr_bgcolor:
           type: string
         created_time:
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/created_time'
         default:
           description: whether this is the default template when there are multiple
             templates
@@ -71944,8 +72197,7 @@ components:
           readOnly: true
           type: string
         modified_time:
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/modified_time'
         name:
           description: name for identification purpose
           type: string
@@ -72277,15 +72529,13 @@ components:
         \ History where you can search for the when and where the violation occurs."
       properties:
         created_time:
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/created_time'
         id:
           format: uuid
           readOnly: true
           type: string
         modified_time:
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/modified_time'
         name:
           type: string
         org_id:
@@ -72331,8 +72581,7 @@ components:
           minimum: 0
           type: integer
         created_time:
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/created_time'
         description:
           type: string
         dscp:
@@ -72352,8 +72601,7 @@ components:
         max_loss:
           $ref: '#/components/schemas/service_max_loss'
         modified_time:
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/modified_time'
         name:
           type: string
         org_id:
@@ -72745,8 +72993,7 @@ components:
           example: US
           type: string
         created_time:
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/created_time'
         gatewaytemplate_id:
           description: Gateway Template ID, used by gateways
           example: 6f9b2e75-9b2f-b5ae-81e3-e14c76f1a90f
@@ -72760,8 +73007,7 @@ components:
         latlng:
           $ref: '#/components/schemas/lat_lng'
         modified_time:
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/modified_time'
         name:
           example: Mist Office
           type: string
@@ -73055,8 +73301,7 @@ components:
         clusters:
           $ref: '#/components/schemas/site_mxtunnel_clusters'
         created_time:
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/created_time'
         enabled:
           type: boolean
         for_site:
@@ -73083,8 +73328,7 @@ components:
           readOnly: true
           type: string
         modified_time:
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/modified_time'
         mtu:
           default: 0
           description: 0 to enable PMTU, 552-1500 to start PMTU with a lower MTU
@@ -73412,8 +73656,7 @@ components:
         config_push_policy:
           $ref: '#/components/schemas/site_setting_config_push_policy'
         created_time:
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/created_time'
         critical_url_monitoring:
           $ref: '#/components/schemas/site_setting_critical_url_monitoring'
         device_updown_threshold:
@@ -73472,8 +73715,7 @@ components:
         mist_nac:
           $ref: '#/components/schemas/switch_mist_nac'
         modified_time:
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/modified_time'
         mxedge:
           $ref: '#/components/schemas/site_setting_mxedge'
         mxedge_mgmt:
@@ -74347,15 +74589,13 @@ components:
       description: Sites Group
       properties:
         created_time:
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/created_time'
         id:
           format: uuid
           readOnly: true
           type: string
         modified_time:
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/modified_time'
         name:
           type: string
         org_id:
@@ -75679,8 +75919,7 @@ components:
       description: SSO
       properties:
         created_time:
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/created_time'
         custom_logout_url:
           description: if `idp_type`==`saml`, a URL we will redirect the user after
             user logout from Mist (for some IdP which supports a custom logout URL
@@ -75780,8 +76019,7 @@ components:
           example: (CN=%s)
           type: string
         modified_time:
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/modified_time'
         msp_id:
           format: uuid
           readOnly: true
@@ -76000,8 +76238,7 @@ components:
       description: SSO Role response
       properties:
         created_time:
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/created_time'
         for_site:
           readOnly: true
           type: boolean
@@ -76010,8 +76247,7 @@ components:
           readOnly: true
           type: string
         modified_time:
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/modified_time'
         msp_id:
           format: uuid
           readOnly: true
@@ -76038,8 +76274,7 @@ components:
       description: SSO Role response
       properties:
         created_time:
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/created_time'
         for_site:
           readOnly: true
           type: boolean
@@ -76048,8 +76283,7 @@ components:
           readOnly: true
           type: string
         modified_time:
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/modified_time'
         msp_id:
           format: uuid
           readOnly: true
@@ -76284,8 +76518,7 @@ components:
           readOnly: true
           type: integer
         created_time:
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/created_time'
         deviceprofile_id:
           format: uuid
           nullable: true
@@ -76388,8 +76621,7 @@ components:
           readOnly: true
           type: string
         modified_time:
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/modified_time'
         mount:
           example: faceup
           nullable: true
@@ -77455,8 +77687,7 @@ components:
         cpu_stat:
           $ref: '#/components/schemas/cpu_stat'
         created_time:
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/created_time'
         deviceprofile_id:
           format: uuid
           nullable: true
@@ -77533,8 +77764,7 @@ components:
           example: SRX320
           type: string
         modified_time:
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/modified_time'
         module2_stat:
           $ref: '#/components/schemas/module_stat'
         module_stat:
@@ -77664,9 +77894,7 @@ components:
         cpu_stat:
           $ref: '#/components/schemas/stats_mxedge_cpu_stat'
         created_time:
-          example: 1632684398
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/created_time'
         fips_enabled:
           description: alue indicating fips configuration on the device
           type: boolean
@@ -77693,9 +77921,7 @@ components:
           example: ME-VM
           type: string
         modified_time:
-          example: 1633643629
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/modified_time'
         mxagent_registered:
           example: true
           type: boolean
@@ -78181,12 +78407,12 @@ components:
         allow_mist:
           type: boolean
         created_time:
-          type: number
+          $ref: '#/components/schemas/created_time'
         id:
           format: uuid
           type: string
         modified_time:
-          type: number
+          $ref: '#/components/schemas/modified_time'
         msp_id:
           format: uuid
           type: string
@@ -78334,12 +78560,12 @@ components:
           type: string
         alarmtemplate_id:
           format: uuid
+          nullable: true
           type: string
         country_code:
           type: string
         created_time:
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/created_time'
         id:
           format: uuid
           type: string
@@ -78350,14 +78576,16 @@ components:
         lng:
           type: number
         modified_time:
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/modified_time'
         msp_id:
+          format: uuid
+          nullable: true
           type: string
         name:
           type: string
         networktemplate_id:
           format: uuid
+          nullable: true
           type: string
         num_ap:
           type: integer
@@ -78381,8 +78609,12 @@ components:
           $ref: '#/components/schemas/org_id'
         rftemplate_id:
           format: uuid
+          nullable: true
           type: string
-        secpolicy_id: {}
+        secpolicy_id:
+          format: uuid
+          nullable: true
+          type: string
         sitegroup_ids:
           $ref: '#/components/schemas/site_stats_sitegroup_ids'
         timezone:
@@ -78417,6 +78649,10 @@ components:
       - timezone
       - tzoffset
       type: object
+    stats_sites:
+      items:
+        $ref: '#/components/schemas/stats_site'
+      type: array
     stats_switch:
       description: Switch statistics
       properties:
@@ -78437,8 +78673,7 @@ components:
         cpu_stat:
           $ref: '#/components/schemas/cpu_stat'
         created_time:
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/created_time'
         deviceprofile_id:
           format: uuid
           nullable: true
@@ -78504,8 +78739,7 @@ components:
           readOnly: true
           type: string
         modified_time:
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/modified_time'
         module_stat:
           $ref: '#/components/schemas/module_stat'
         name:
@@ -79469,9 +79703,7 @@ components:
         clients_waits:
           $ref: '#/components/schemas/stats_zone_clients_waits'
         created_time:
-          example: 1616625211
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/created_time'
         id:
           description: id of the zone
           example: 123470c7-5d9d-424a-8475-8b344c621234
@@ -79483,9 +79715,7 @@ components:
           format: uuid
           type: string
         modified_time:
-          example: 1616625211
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/modified_time'
         name:
           description: name of the zone
           example: Zone A
@@ -80827,8 +81057,7 @@ components:
         applies:
           $ref: '#/components/schemas/template_applies'
         created_time:
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/created_time'
         deviceprofile_ids:
           $ref: '#/components/schemas/template_deviceprofile_ids'
         exceptions:
@@ -80841,8 +81070,7 @@ components:
           readOnly: true
           type: string
         modified_time:
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/modified_time'
         name:
           type: string
         org_id:
@@ -81465,9 +81693,7 @@ components:
       description: UI Settings
       properties:
         created_time:
-          example: 1508823803
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/created_time'
         defaultScopeId:
           example: 67970e46-4e12-11e6-9188-0242ad112847
           type: string
@@ -81495,9 +81721,7 @@ components:
         isTimeRangeLinked:
           type: boolean
         modified_time:
-          example: 1508823803
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/modified_time'
         name:
           example: New Databoard
           type: string
@@ -82059,9 +82283,7 @@ components:
       description: User API Token
       properties:
         created_time:
-          example: 1626875902
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/created_time'
         id:
           example: 864f351a-1377-4ad9-83f8-72f3fe6199ba
           format: uuid
@@ -82568,6 +82790,8 @@ components:
           type: string
         node:
           $ref: '#/components/schemas/ha_cluster_node_enum'
+      required:
+      - network
       type: object
     utils_show_evpn_database:
       properties:
@@ -82829,8 +83053,7 @@ components:
       description: vBeacon
       properties:
         created_time:
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/created_time'
         for_site:
           readOnly: true
           type: boolean
@@ -82857,8 +83080,7 @@ components:
           example: 21
           type: integer
         modified_time:
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/modified_time'
         name:
           description: name / label of the device
           example: conference room
@@ -83048,15 +83270,13 @@ components:
     vpn:
       properties:
         created_time:
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/created_time'
         id:
           format: uuid
           readOnly: true
           type: string
         modified_time:
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/modified_time'
         name:
           minLength: 1
           type: string
@@ -83325,8 +83545,7 @@ components:
     webhook:
       properties:
         created_time:
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/created_time'
         enabled:
           default: true
           description: whether webhook is enabled
@@ -83351,8 +83570,7 @@ components:
           readOnly: true
           type: string
         modified_time:
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/modified_time'
         name:
           description: name of the webhook
           nullable: true
@@ -83909,8 +84127,7 @@ components:
         coa_servers:
           $ref: '#/components/schemas/coa_servers'
         created_time:
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/created_time'
         disable_11ax:
           default: false
           description: some old WLAN drivers may not be compatible
@@ -84032,8 +84249,7 @@ components:
         mist_nac:
           $ref: '#/components/schemas/wlan_mist_nac'
         modified_time:
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/modified_time'
         msp_id:
           default: ''
           format: uuid
@@ -84865,6 +85081,12 @@ components:
     wlan_portal:
       description: portal wlan settings
       properties:
+        allow_wlan_id_roam:
+          default: false
+          description: whether to allow guest to connect to other Guest WLANs (with
+            different `WLAN.ssid`) of same org without reauthentication (disable random_mac
+            for seamless roaming)
+          type: boolean
         amazon_client_id:
           default: ''
           description: amazon OAuth2 client id. This is optional. If not provided,
@@ -86179,8 +86401,7 @@ components:
         blocked_apps:
           $ref: '#/components/schemas/wxlan_rule_blocked_apps'
         created_time:
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/created_time'
         dst_allow_wxtags:
           $ref: '#/components/schemas/wxlan_rule_dst_allow_wxtags'
         dst_deny_wxtags:
@@ -86198,8 +86419,7 @@ components:
           readOnly: true
           type: string
         modified_time:
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/modified_time'
         order:
           description: the order how rules would be looked up, > 0 and bigger order
             got matched first, -1 means LAST, uniqueness not checked
@@ -86298,8 +86518,7 @@ components:
         \ will be dynamically evaluated"
       properties:
         created_time:
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/created_time'
         for_site:
           readOnly: true
           type: boolean
@@ -86316,8 +86535,7 @@ components:
         match:
           $ref: '#/components/schemas/wxlan_tag_match'
         modified_time:
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/modified_time'
         name:
           description: The name
           type: string
@@ -86457,8 +86675,7 @@ components:
       description: WxLAn Tunnel
       properties:
         created_time:
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/created_time'
         dmvpn:
           $ref: '#/components/schemas/wxlan_tunnel_dmvpn'
         for_mgmt:
@@ -86500,8 +86717,7 @@ components:
             \ As the session configurations are not compatible, cannot be toggled."
           type: boolean
         modified_time:
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/modified_time'
         mtu:
           default: 0
           description: 0 to enable PMTU, 552-1500 to start PMTU with a lower MTU
@@ -86671,8 +86887,7 @@ components:
       description: Zone
       properties:
         created_time:
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/created_time'
         for_site:
           readOnly: true
           type: boolean
@@ -86686,8 +86901,7 @@ components:
           readOnly: true
           type: string
         modified_time:
-          readOnly: true
-          type: number
+          $ref: '#/components/schemas/modified_time'
         name:
           description: The name of the zone
           type: string
