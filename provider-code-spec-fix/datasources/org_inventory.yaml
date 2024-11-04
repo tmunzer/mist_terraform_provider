@@ -4,13 +4,19 @@ get:
 name: org_inventory
 next:
 - name: devices
+  rename: org_inventory
+- name: org_inventory
   old_type: list_nested
   new_type: set_nested
 - get:
   - set_nested
   - nested_object
   - attributes
-  name: devices
+  name: org_inventory
   next:
   - name: magic
     rename: claim_code
+  - name: site_id
+    get:
+    - string
+    description: Site ID where the device is assigned to

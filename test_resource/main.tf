@@ -493,62 +493,62 @@ resource "mist_org_inventory" "inventory" {
   #   site_id = mist_site.terraform_site.id
   # },
   org_id = mist_org.terraform_test.id
-  devices = [
-    {
-      claim_code = "CPKL2EXN8JY98AC"
-      site_id = mist_site.terraform_site.id
-    },
-    {
-      claim_code = "G87JHBFXZJSFNMX" 
-      site_id = mist_site.terraform_site.id
-      unclaim_when_destroyed = true
-    },
-   {
-    claim_code = "CV4YAS8DQWYLL6M" 
-      site_id = mist_site.terraform_site.id
-    },
-    {
-      mac = (local.node0)
-      site_id                = mist_site.terraform_site.id
-      unclaim_when_destroyed = false
-    },
-    {
-      mac = (local.node1) 
-      site_id                = mist_site.terraform_site.id
-      unclaim_when_destroyed = false
-    },
-    {
-      mac = "4c9614026d00" 
-      site_id                = mist_site.terraform_site.id
-    },
-    {
-      mac = "4c961418c000" 
-      site_id                = mist_site.terraform_site.id
-    }
-  ]
-  # inventory = {
-  #   "CPKL2EXN8JY98AC" = {
+  # devices = [
+  #   {
+  #     claim_code = "CPKL2EXN8JY98AC"
   #     site_id = mist_site.terraform_site.id
-  #   }
-  #   "G87JHBFXZJSFNMX" = {
+  #   },
+  #   {
+  #     claim_code = "G87JHBFXZJSFNMX" 
   #     site_id = mist_site.terraform_site.id
   #     unclaim_when_destroyed = true
-  #   }
-  #   "CV4YAS8DQWYLL6M" = {
+  #   },
+  #  {
+  #   claim_code = "CV4YAS8DQWYLL6M" 
   #     site_id = mist_site.terraform_site.id
-  #   }
-  #   (local.node0) = {
+  #   },
+  #   {
+  #     mac = (local.node0)
   #     site_id                = mist_site.terraform_site.id
   #     unclaim_when_destroyed = false
-  #   }
-  #   (local.node1) = {
+  #   },
+  #   {
+  #     mac = (local.node1) 
   #     site_id                = mist_site.terraform_site.id
   #     unclaim_when_destroyed = false
-  #   }
-  #   "4c9614026d00" = {
+  #   },
+  #   {
+  #     mac = "4c9614026d00" 
+  #     site_id                = mist_site.terraform_site.id
+  #   },
+  #   {
+  #     mac = "4c961418c000" 
   #     site_id                = mist_site.terraform_site.id
   #   }
-  # }
+  # ]
+  inventory = {
+    "CPKL2EXN8JY98AC" = {
+      site_id = mist_site.terraform_site.id
+    }
+    "G87JHBFXZJSFNMX" = {
+      site_id = mist_site.terraform_site.id
+      unclaim_when_destroyed = true
+    }
+    "CV4YAS8DQWYLL6M" = {
+      site_id = mist_site.terraform_site.id
+    }
+    (local.node0) = {
+      site_id                = mist_site.terraform_site.id
+      unclaim_when_destroyed = false
+    }
+    (local.node1) = {
+      site_id                = mist_site.terraform_site.id
+      unclaim_when_destroyed = false
+    }
+    "4c9614026d00" = {
+      site_id                = mist_site.terraform_site.id
+    }
+  }
   # {
   #   mac     = "4c9614c85b00"
   #   site_id = mist_site.terraform_site.id
@@ -871,81 +871,6 @@ resource "mist_org_idpprofile" "test6" {
   name = "CVE"
 }
 
-
-
-# resource "mist_org_setting" "terraform_test" {
-#   org_id = mist_org.terraform_test.id
-#   password_policy = {
-#     enabled                  = true
-#     min_length               = 8
-#     requires_special_char    = false
-#     requires_two_factor_auth = false
-#   }
-#   disable_pcap    = false
-#   ui_idle_timeout = 0
-#   cacerts = [
-#     "-----BEGIN CERTIFICATE-----\nMIIFnTCCA4WgAwIBAgIHBfyZT9pPxzANBgkqhkiG9w0BAQsFADBmMQswCQYDVQQG\nEwJVUzEUMBIGA1UECgwLRm94cGFzcyBJbmMxGTAXBgNVBAsMEEN1c3RvbWVyIEVB\nUC1UTFMxJjAkBgNVBAMMHXN0YWdvbmUucmFkaXVzLmZveHBhc3MuY29tIENBMB4X\nDTIxMDQyNzA1MTUxNloXDTMxMDQyNTA1MTUxNlowZjELMAkGA1UEBhMCVVMxFDAS\nBgNVBAoMC0ZveHBhc3MgSW5jMRkwFwYDVQQLDBBDdXN0b21lciBFQVAtVExTMSYw\nJAYDVQQDDB1zdGFnb25lLnJhZGl1cy5mb3hwYXNzLmNvbSBDQTCCAiIwDQYJKoZI\nhvcNAQEBBQADggIPADCCAgoCggIBALdhq+AcZhsem5QGxGgXDMKUJxR+OPn3unvw\nyx+Hif/QVlZqHzpmw2biTz5qPkNS6+F0fu932vEnGUL5SfbagW+XKHtCM5NbfFeP\nlYlkZzifmljjaFG1BlnfdV4Zk79HBFWsI4CyLLer2bIJgjvWdLiaVnu/yOeiMCWU\nIPtQN5GbQf2TdlJv24AoFIZ2s6I7e30wrc1Yy4RH2i/LARfi0FWWxeuE9lD/Gk1n\nXCHiBZDRCoAmszmB466senLYPOdYg6WrlTFo7+C/ddrI4JDjHMJuK0SVM76uWrVd\nv2oOQVcCB8RqAz18424NURCbvJpd4rdX9n5wne/m33GNknNkHKz82SRDeUJPYQV0\n7D/eTIAtD9LRhizS/UD2DQkfYrWr/YVNU0KkS8FGeByjAAYiDKhuRHpqB6au8HPM\nj1+KLOPDlan5hl1SSu/lCtBSYKZgfA7S4fcWz27+NfAZR8fjy1kfWIPn8QGAc5uD\nOhiER73I5bPQBr6RLpQ1PxDHvO//JOt/ejd7aEi+DpK5GuwFxD0FmLWEQcyKkjUD\nhZijNtJRie08q/yhKySTlkr4fxeCR56p1DlB1S15myPILCUZMiHMm0ll9UAzYatT\nBTY/hyNkZUePtllOZXLvU1YUJIzlzpU+Kr45+hO5a0gLwoDHoidNxTK5TOx4KkYe\nrx9RtFprAgMBAAGjUDBOMB0GA1UdDgQWBBTaOaPuXmtLDTJVv++VYBiQr9gHCTAf\nBgNVHSMEGDAWgBTaOaPuXmtLDTJVv++VYBiQr9gHCTAMBgNVHRMEBTADAQH/MA0G\nCSqGSIb3DQEBCwUAA4ICAQAYt2Sg3fkXYo2/hke+gNA92nXHXZXh+xupOg4I5f0Y\nh07Y/I5uZKU5uUV33ls7BrLBQm9J47kncB5XiRLJR0fWAHEAA8FaoEw44mnyIn0N\nNxbfDayIFbUzShMD7GqIBNMd+R9WqhXrBwFscWHB0idHRnbY93sxuIRY+NnYNhDK\n20J0wU2cPkzCT/rDWbcE2gCS5OTasUCvndrSQBSKobKU6JIia0hxRu6gekbIr36u\nXIaxiRKv+N7xLgEXfImITcxF/YS7TWa98ZiaHWTvRArUxmBjitPerTXXMNvWxF0K\nw7+K3piKkD2tvEpTAYNcVAexE6ElTHYvKIvYaYlZ4qyoLSVxzkiXBrsPyiAGsELQ\nWazQlfdxk0vtulAcyv3bmXsGqjxTxBQ5fPZ7wYMJQfa1jW55Fz6osmphWbRuj6Ht\nCenlr8+3KqkwmR5fCHmcaY2CuJzx1/ClhH4dGplztI4MhCVnAplSwCxOjV0xcFj9\nWu1nheb8M9mTWX3/4vkopWBnxs8rYelZZ8XsVjW+L7vtSLSpiHjI8wMv+441g+Qp\nFJ+I/xoOXn3LT9+dfTZw+QnAHF4Yz3hhphZYS0XR9BgRZLsufuKU3pHmIbmnDNed\n+B814wVglGU6pVfjx7m+l3NcuLq0LszWHGcSRbpTduch7u24yQ8Y+VWg/RgNZHzM\nZw==\n-----END CERTIFICATE-----"
-#   ]
-#   mgmt = {
-#     use_wxtunnel = false
-#     use_mxtunnel = false
-#   }
-#   security = {
-#     limit_ssh_access = false
-#   }
-#   device_updown_threshold = 2
-#   installer = {
-#     grace_period      = 365
-#     allow_all_devices = false
-#     allow_all_sites   = false
-#   }
-#   mist_nac = {
-#     cacerts = [
-#       "-----BEGIN CERTIFICATE-----\nMIIIojCCBoqgAwIBAgITaQAAAA4ZVhqPIAs/ywAAAAAADjANBgkqhkiG9w0BAQ0F\nADBiMQswCQYDVQQGEwJVUzEdMBsGA1UEChMUSnVuaXBlciBOZXR3b3JrcyBJbmMx\nNDAyBgNVBAMTK0p1bmlwZXIgTmV0d29ya3MgUm9vdCBDZXJ0aWZpY2F0ZSBBdXRo\nb3JpdHkwHhcNMjEwOTAyMjA0NjU3WhcNMjYwOTAyMjA1NjU3WjBWMRMwEQYKCZIm\niZPyLGQBGRYDbmV0MRQwEgYKCZImiZPyLGQBGRYEam5wcjEpMCcGA1UEAxMgSnVu\naXBlciBOZXR3b3JrcyBJc3N1aW5nIEFXUzEgQ0EwggIiMA0GCSqGSIb3DQEBAQUA\nA4ICDwAwggIKAoICAQC8aPpLWDuPrNm0pPULwgzhCQYTReZNUZGIOK0fD6YAmwpy\nrY9AhFaGs0FJudBinT/LWg084OPQAWU8O2U8g6oMJvDyFRrE1O5nD9zJ0fs84A0u\n5q507j1i+Emvqj5aaPKZnggvPd3dNey9qn1WU3ElJK5jM6CfwSfu8cBHCRwpBUkb\nnvK31YZb8w6dQhQ9Gr292s6wzCjWryHO/EMa6wwxk7mtCKi0EfUascaaqLl35qun\nsSjQDYuNWPhVQ2Qhlse58+2Eb65q94V5S2wIfP/gmJ/kWCYeacWaS0MUy7FOCpDM\n4MHWJZPWMe72Om6XhMAebfJohejs4yHCbromjK9r1eeqyRnmUXkJmmF2ZfZ9RhLn\nBm86Q7uWpb3boupNNH4azsqeQBXfVUldZAATR9q1J2BBZd7Ox1DoroDZ6VVZUq9j\n4cR6DMnSxZc8+4TfDxQpfVnz56JEyDYOUEzjDTyRGIqx0CI5fhBMg11ey5LkO11C\n12sxgLLmCp+J5S6gziInAF+g45vBMWvn/N7oDgt1ubd6ZN/sIhjPeHT+AqErlfdQ\nurqpToQpM4WdKCFbi58boFVmVHVAN3pxDxoiqiI2qJO/Vm1ozyncEDDIvg6cTMLz\nhu3tQ3qg/tlee9ftjr3F49M9H5t6Cvona74GLPRwkwBvroUQYcpEh9ajzDll1QID\nAQABo4IDWzCCA1cwEAYJKwYBBAGCNxUBBAMCAQEwIwYJKwYBBAGCNxUCBBYEFBTa\ne+zk8uL7fhg+C4ubfYLIkeBnMB0GA1UdDgQWBBQfQbpi/2hX99sRJIirVNh7Lagi\nuDAZBgkrBgEEAYI3FAIEDB4KAFMAdQBiAEMAQTALBgNVHQ8EBAMCAYYwEgYDVR0T\nAQH/BAgwBgEB/wIBATAfBgNVHSMEGDAWgBT8FKc0zZCXqoGVmvg0uqkFY8Us4jCC\nAVEGA1UdHwSCAUgwggFEMIIBQKCCATygggE4hllodHRwOi8vY2RwYWlhLmpucHIu\nbmV0L0NlcnRFbnJvbGwvSnVuaXBlciUyME5ldHdvcmtzJTIwUm9vdCUyMENlcnRp\nZmljYXRlJTIwQXV0aG9yaXR5LmNybIaB2mxkYXA6Ly8vQ049SnVuaXBlciUyME5l\ndHdvcmtzJTIwUm9vdCUyMENlcnRpZmljYXRlJTIwQXV0aG9yaXR5LENOPUNBSk5Q\nUlJPT1QsQ049Q0RQLENOPVB1YmxpYyUyMEtleSUyMFNlcnZpY2VzLENOPVNlcnZp\nY2VzLENOPUNvbmZpZ3VyYXRpb24sREM9am5wcixEQz1uZXQ/Y2VydGlmaWNhdGVS\nZXZvY2F0aW9uTGlzdD9iYXNlP29iamVjdENsYXNzPWNSTERpc3RyaWJ1dGlvblBv\naW50MIIBSwYIKwYBBQUHAQEEggE9MIIBOTBlBggrBgEFBQcwAoZZaHR0cDovL2Nk\ncGFpYS5qbnByLm5ldC9DZXJ0RW5yb2xsL0p1bmlwZXIlMjBOZXR3b3JrcyUyMFJv\nb3QlMjBDZXJ0aWZpY2F0ZSUyMEF1dGhvcml0eS5jcnQwgc8GCCsGAQUFBzAChoHC\nbGRhcDovLy9DTj1KdW5pcGVyJTIwTmV0d29ya3MlMjBSb290JTIwQ2VydGlmaWNh\ndGUlMjBBdXRob3JpdHksQ049QUlBLENOPVB1YmxpYyUyMEtleSUyMFNlcnZpY2Vz\nLENOPVNlcnZpY2VzLENOPUNvbmZpZ3VyYXRpb24sREM9am5wcixEQz1uZXQ/Y0FD\nZXJ0aWZpY2F0ZT9iYXNlP29iamVjdENsYXNzPWNlcnRpZmljYXRpb25BdXRob3Jp\ndHkwDQYJKoZIhvcNAQENBQADggIBAGxmZ/rZicA8OVK+6qg1ikQGnMQp7iMEKVg5\n+tKiltwoAPrngFYYS/3bOtP0EjUfxUZkdkJncoSUUgjhs9E+SdUTNg7o0LtCL4lQ\n+CTcKPBJyKl5q40D2Zsmnegh4TADSy/t16yxJQtVHqjzuImr4f821UL0JaEwukXg\nO2MWQrsSbb481KSVE6hvv1aGqFZKH8XXEX0rxOc3tdVCclDZwmIbZysxQn2tERu7\nBg3fAnI1xUNFUhv1+7MHA5KIazBYxMVJWgtXJ5g81jBHN7meqvqYhT8scHyPsux6\nbiG/pctnEFwd3e1VotPxL4WzwYp2qfqX48+oeN9Qeeij+7vrtFATPnWsD5vDSCC0\nCKDqnvpVLmnbqKAK9UC6DpaPg7uf2C7rQl6SqzOjcyfORKqkZr5QtAbbX8eNc0iB\njqkX6m8+dOwEqcjuGV95PzEOk6jIqkO9O4lP2yx0EEHG08/itQ+UNc5RH6hCtaQT\nAwO0jTzJKdl1dHMNcvNFphHJqixO8pW1uwUExteExCx2gvKBa0n5pddXNBnmS5wv\nZMy2iYqjAR8r14hvI5TSjHlEMTITf4GS0DYWL+pkyVVi7Im5xjpNJ3rEfRSKQGhx\nKfdsZ5G6dAFisxgiZnqIkkCbB+ZJY3Fl6RaReqvKJHBFcJlnRtWrfsd1Up2A5RYd\nFZuetE3D\n-----END CERTIFICATE-----\n",
-#       "-----BEGIN CERTIFICATE-----\nMIIFojCCA4qgAwIBAgIQSkpzWeMzg55AjLh7Mx11ajANBgkqhkiG9w0BAQ0FADBi\nMQswCQYDVQQGEwJVUzEdMBsGA1UEChMUSnVuaXBlciBOZXR3b3JrcyBJbmMxNDAy\nBgNVBAMTK0p1bmlwZXIgTmV0d29ya3MgUm9vdCBDZXJ0aWZpY2F0ZSBBdXRob3Jp\ndHkwHhcNMTYxMDI4MDE0ODQ5WhcNMjYxMDI4MDE1ODQ4WjBiMQswCQYDVQQGEwJV\nUzEdMBsGA1UEChMUSnVuaXBlciBOZXR3b3JrcyBJbmMxNDAyBgNVBAMTK0p1bmlw\nZXIgTmV0d29ya3MgUm9vdCBDZXJ0aWZpY2F0ZSBBdXRob3JpdHkwggIiMA0GCSqG\nSIb3DQEBAQUAA4ICDwAwggIKAoICAQDTWXp1qN5eglLo58vjRw4jwz7OdESkxw5U\nNL2SBlE5TMPXarFVtfRnms9OYOwhNZvTd9Jh4lnZ1h7RMEFLw/9C1RysVKINxbXa\nhC1WSZeS8gnwcXnzhxRPdjZqnjl0DrYhMMuNhA+EzzIOArti+lJAvD29JnX3ItIC\nD+vwLptct0ZX8Z4gDv/INggLDUl1gXf0bfB3rAIZsDI+4ArWywt9xDZPRIL0refs\nowBL5pQ8OdMpRAwFSHhekSA+M3auFBdPsPdoU8kSQvbVvtZqPrRaSw601rRNIgdP\ncywVDA5OnlKQ4qxaAsREe0v1QN5NElEV97wXW2A6ujIq65dSCgFIODX6/wdxMXOd\n9vuKwuB5FiTPHFX1E/kb/p38KEYg672Ma6hjOWCOPDQKXsoMje8Ms3MDQPncllIZ\nkgirLBWfHnFpQbTNBZg2Vvnhzs0jrUz0WdSvmYHS1no2dK41erJmFzE8niL8xWE7\nrmFfX9ODzfg2wkQIcDmuQ2kaQUx+Kj7aGBLrY12Wy6QipOv1w6EI5I/7P6I1X5ku\ntCsVeGKNt/pNFXKEKqmQx0sjrewZqUOxYnMl3CgGfMT1m7M0hnw9uErO0J/DxcSP\nAb1rXvKVI65B0XUxIxiX6cuO2TKA0xgkoPfe/3QWP8vxkU/tFPsC3DFY+bJ2bV47\nSriO3YOEkQIDAQABo1QwUjALBgNVHQ8EBAMCAYYwEgYDVR0TAQH/BAgwBgEB/wIB\nAjAdBgNVHQ4EFgQU/BSnNM2Ql6qBlZr4NLqpBWPFLOIwEAYJKwYBBAGCNxUBBAMC\nAQAwDQYJKoZIhvcNAQENBQADggIBAHqQ+fMN2O2zZaj5Oj7AGQz8sOO/s2itxjdM\nNAJM3smFH1uXg6mre/qUaJKOLHcCJ6wa8Z+CYLz+3L1XLPPpcm78qVp6DtMBkQgu\nLdDOahXet4mfKIe96z1AouwSyJKhMStFiCzVeA229quuxoXDKELSpJLbhtaR3Kde\nLbM1RjMbFbVbg3xLm2k8oOGtmGFSbSZhy7sT4WLMHYALct1GgEoForkLSbveVfiX\nIgaIa6NXhOqYn7lcYxorVP5Z8AZzbdwMZ1UfoEV/sZkfJHUfsgh/ctP/EB0qXK6k\nOIWagncZpu8WHDYk8S/sT0ufbcISMaBjWuEuRz9GRcoN47EKHiTpDtBKbm5yZRMd\nz0pXLfQUvkityW80LCIJo+fRPduuKfI6o2OUie3ObZ8tbGuXIMZTzwRju9wOBk4H\nSoFV6QIebM808EEpUn1sUPKBbYyqvFMaBDxwzp1wIcPY2oOLf+K9MSZyaU48DJux\nFD4T/ZIjAQ9sR0uzJWM46sgjTc1Ctj+iAcI6DaFXNQGdwqKeA+KJJbEmoP70TIMp\nsqIlOKETn1IGunweyZ5dcl5Fj13ieiE0JpldD0R2uHcuwvjgqGrFBj29LhIDFkvI\nvIrpVyMmoOAhmQgNDgtB/L2LPNqnJPTZTxgFQeK+YnVwWOe2SMxuEzeijf/tH3TB\n6qsgP6NI\n-----END CERTIFICATE-----",
-#       "-----BEGIN CERTIFICATE-----\nMIIFWzCCA0OgAwIBAgIQP9LU9jzqnLlJDLkiViyp4zANBgkqhkiG9w0BAQsFADBA\nMRMwEQYKCZImiZPyLGQBGRYDb25lMRQwEgYKCZImiZPyLGQBGRYEc3RhZzETMBEG\nA1UEAxMKc3RhZy1EQy1DQTAeFw0xOTA5MjUxMjAxMjBaFw0yNDA5MjUxMjExMTla\nMEAxEzARBgoJkiaJk/IsZAEZFgNvbmUxFDASBgoJkiaJk/IsZAEZFgRzdGFnMRMw\nEQYDVQQDEwpzdGFnLURDLUNBMIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKC\nAgEA1LBkXVV7A2rOhqm4X1L9ImC/0ofpF1RVHlGlDwfhIem7cqOLKpth/E34jyy+\n3azPwjv4uDWnYB6ZpUezvlHVt6W9h76C5zASP1xSnoAsNW2daJo8XmX9ajovz3R0\nUzG8Ds0ewDqkCRYIF/lyBo01ycbHV1Y5BNTzgqzX9jvQ7ZievURhwqjeikibXpA9\n5R8fyqsWz+Zj3oOuL02Ovcjs8k1+8jdzRPI9dI+jr/1LJtB0pXkQFAekuGLWo08z\nbecU4emmW0/sk1GMaLxGbUoNtnv7OYbsAefYOb6Evu4sqSI2UHADxYQiMWBII7wX\nGg5vzMfhWffp57ZxXkGGdNo9E7ozC7cKFVIDBbHrmqdAFWQ++TRTkv30ROU6w18w\nM6+3hGduqOdfaKdGXy8PBnZl/P54pUW9bPy57e3eEFWBKXh5+SMN3mQCGn03zojt\nZvS4VuowXBZIAG0zHQxByiARvF9RTcu+07h5Fz+rOmUxou1VsyINLY8w35Xr+MGl\nVbDiRVqD/VCaf0h/fyc2O5WVCQGjoZ9KgVWKC8JA58XwkodRlRcBtKcUV6cWrBKF\nu30ytBK45MTHO6jTS7jcHDtevJUK5JcecgcN3Sg/+vad4dw3eUdZC2mjQdk/Scv0\nb4LsrUhGS0EqTcr2NjKgdMjT3zxIgMwX4CbMxIG7MwuozvkCAwEAAaNRME8wCwYD\nVR0PBAQDAgGGMA8GA1UdEwEB/wQFMAMBAf8wHQYDVR0OBBYEFHUMeFVdvceaasAc\ngfeHRh/VvcMbMBAGCSsGAQQBgjcVAQQDAgEAMA0GCSqGSIb3DQEBCwUAA4ICAQAk\nF8gh7eH25xaDTeAoRUHTmVrWKfkdZcVm2mx+XG9NWNbw18fp0yn6mUfmYEUpcHez\ncXr9/ZyxKK12arnvamv53iX/ltYsOO335kDvvQFsT9hZc2oAvnUAuPFL8ncVsJw9\nIWcCduI1/71s7YQgUWfnIKPzNhhe0IW4HxQPyhyar5hoK0KDzdCf+RMGkyesskge\n2i6B/7kYK6F50B99bb05jRROLlhaBUOVaNARSKvSUOPjCFxbI7PIB5lSkKGR++RU\n9rSe9e/qTnFhNr+L55zCh/JEKUTMIjY4EKyc2Y0kHny9iVXRXVsoosvoeocz+WtR\nlXV96XHrNSkouobcVeWb7WDY4eXwb5sB2dPNeCVPhq95yBR8Ic0OqsQvJztI8F/1\nWhulfW9emwZk+bVBlsoFqhfLQtHfyXwhp4zKNYzYv09yzXQd8uXP6n4vrhXP6K4b\n1NNHWRntF9Cmuxz+HyqBsjHLEcmBy5njvLCYjYf4V2Fh48Xd9cieS5AxWdEJSW7k\noTN4bRa7qMtygGwMsZZw2FGbVaX+drNWw0njUlAPFpBckepWEmk6IwrwWCcbb+PB\nTo9iU9gjWwe2b0JGd2Meed9IcF80+oGMhxdEiFu6ZBo+E9MlegOQtluKypzlKSf5\ndSpW/jfrsM2iR+fp1ixqqZKBmcABUCryN2BGmDH93A==\n-----END CERTIFICATE-----",
-#       "-----BEGIN CERTIFICATE-----\nMIIF1TCCA72gAwIBAgIBATANBgkqhkiG9w0BAQsFADBbMQswCQYDVQQGEwJVUzEN\nMAsGA1UECgwETWlzdDEOMAwGA1UECwwFT3JnQ0ExLTArBgNVBAMMJDM5Y2UyMDg4\nLTFkYmUtNDM0Ni05ODdhLTFhNWE4OGJhYjVlZTAeFw0yMzA3MjAxODE5NTJaFw0z\nMzA3MTcxODE5NTJaMFsxCzAJBgNVBAYTAlVTMQ0wCwYDVQQKDARNaXN0MQ4wDAYD\nVQQLDAVPcmdDQTEtMCsGA1UEAwwkMzljZTIwODgtMWRiZS00MzQ2LTk4N2EtMWE1\nYTg4YmFiNWVlMIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEArreBVg9a\nRjLCJIxuQqgTBvmVRoE2WOWIayfsZGJsJTnPhLeb1BuLXcwrsFZGY1nn/hgqeXvL\ni5ZJVyPCjH9YyXGodsQiVAhAxt4IBXKhItjxoTRok6g2WhJx6S2NC3J9iVNZsSAR\nC5gM5kxOnZ3QgWKAV6ecZkAtzzDMWiwLqhtRKDBi+pzqt+A5j9OLYiyKdj8aMAcI\nHYXdEYCdn0YibDMQNLnc9ADM2a3wAq4DIWqtXDH7DEGU5CMAo4RACPP9VZLLUVMm\nN6HyLVX1ff07Nc2AxXsYZo8L8oDeWnPCdY4FBCMtIyZ8TY2ZnpiDVx4vTDXhwp8Z\nRWj5V4ij7b0L7v3Ej8zIGZj+gsOYQEXkVArzNu20XERiPqX2H4O+ayCrzN874WfM\n5KVGpsyrZeUbeb3aBtBpm37JrArp6zZpfxTI+IJag/OYA9XK1xi0BRclDf+CENho\n462rWBB98t3yvXuog8z3iHIUtWcPon/+A+tWwGUGCa2/QabOjPfb7DREgIKdZpXz\nMAke70ILjEH+iFO5mh1xhCTbkhzIHaXH9QHPVd/caQd16OEK7GdMPjnYnVZPiav2\nPHs4zgAKareKdhVP+KrWJT5mmSTMvyA0i9a1cBtBvmX29DZyq+ZAQ611D6WzPlzV\n5YAPULcD8tA/J/o6V7ejSJ4ekTWTZOc/K/kCAwEAAaOBozCBoDAvBgNVHREEKDAm\ngiQzOWNlMjA4OC0xZGJlLTQzNDYtOTg3YS0xYTVhODhiYWI1ZWUwDwYDVR0TAQH/\nBAUwAwEB/zBcBgNVHR8EVTBTMFGgT6BNhktodHRwOi8vYXBpLmV1Lm1pc3QuY29t\nL2FwaS92MS9vcmdzLzM5Y2UyMDg4LTFkYmUtNDM0Ni05ODdhLTFhNWE4OGJhYjVl\nZS9jcmwwDQYJKoZIhvcNAQELBQADggIBAKXeTdOJ95kGImhkhokFstGNfTSL2mEr\nXTfqpri6yLmKOwn4U+ly1eZD58TxiyFmA/x7Q3r6UvpRL0tX2kntJ+7j8QLbxhnw\n4Mtwz5D6B2fBW9DDyq7VktpWgxIOaQrLnfJRvtwVdUCyEI6759CQOo3uNmBkqLaP\nALPos+Zq6VGNAbWdXEob9NSq+PrPtetQYuKH1u/fi/u36aZXSGEOHrreixY6RW/h\nxJPeTtn+wyYuK2JDXgANXJbsKUsKZtSGIqbS2SD2o+ePbwKkTtXVgEnqAXe0X0t4\nADcQ8f0FVDcRBs2RRNEMk1ty4hF0k6GrLxU3KRFvXvgeCS2a93wEWDMlUvaXm63q\nMNcR7KZZeAgiwlM5EDPnxftO0wFsgUZvFeqoPS+GpsR1p5g6s852WwQmkguW5Gqe\ntfObJOBx55XuwfmXR4wDwJKf9DvwCEn3a0fkKmslcRxBMaJydEDvUAxU025Ax5Gn\n1mRxjo8Y2CyBS9p/l+/chYeXr9ieMy+QBmEALCvQ2o+1OlABzXyn9QMsqYd+sWzs\nlnCilZL4DzabYqH3i/J7ryHQbhtDoeELK46EjS2sINohWRoJodcQCAjRkGBIwv0C\n279A891PzgljfdrGcuQ0WCtBJ1KZvUAqxvRR2wcSrS+5rmAyyc6zBUI/LvjtDExp\nbo5YxN39uE+y\n-----END CERTIFICATE-----\n",
-#       "-----BEGIN CERTIFICATE-----\nMIIF0jCCA7qgAwIBAgIBATANBgkqhkiG9w0BAQsFADBbMQswCQYDVQQGEwJVUzEN\nMAsGA1UECgwETWlzdDEOMAwGA1UECwwFT3JnQ0ExLTArBgNVBAMMJDIwM2QzZDAy\nLWRiYzAtNGMxYi05ZjQxLTc2ODk2YTMzMzBmNDAeFw0yMzExMjMwODU1MTRaFw0z\nMzExMjAwODU1MTRaMFsxCzAJBgNVBAYTAlVTMQ0wCwYDVQQKDARNaXN0MQ4wDAYD\nVQQLDAVPcmdDQTEtMCsGA1UEAwwkMjAzZDNkMDItZGJjMC00YzFiLTlmNDEtNzY4\nOTZhMzMzMGY0MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEA0CLyOHkQ\nIeO9IkU0Mjb4XMkn9rHnOFM1orDQHss7nrH74FiQnPAb+oZhMOspGLd4r1Z4QFw1\nB1BMuRd7YzwuDl5evlEoNNFPaAslFHPyFPdqLHTNPyBSnmQM/7cCoqBT3JgMolQk\nM/XgNVHvWCW8dbtNmrWMdtcH9xZ3q4P/Z3+PHeMMZqgi0e79yRFUE/B77wCbubZ0\nEtApXK0HstK0a5dZVV2nph376UW8l5oCzHlUoMI1d3QogFtPsYUxCcqojabLU3h2\nVoRLpRjzPX7norDzSNFqYgM2355uih6PFsjy9Zl0U73E2Rzxu7hITosJbuuTEolZ\nAJ41vHB9vulx1fhNU0aA91BJ4t3e2BCHu1V8LwVtuBYrVeSRJwj19APmzEndzwv1\nWVyWdR9AzMNChz5jAzIJZShVMG3KiB0gBCoZuhbvopVerZCpMAdE8THhtWrRUpv4\niIPe4jjfJEjazWSYNaqhsnonMr9el5x4BPlpoQSO+LkdJW7hjlbanrDyu1EVsIwg\nTGPDttXjjU5IrMiPjAZy5bBnzwfjB0fJ7aGrAmxK7jDnuBjggQ6apNf68YkoVXNJ\nomV4vFawVQ/qykyXxoxom3MfBn/lcLod5+ALX3ukjdkfjYR8M7F1rERekklwC34z\nfhzaDtYSRyVn9+HOATjBKWMzGXGC6zicyvsCAwEAAaOBoDCBnTAvBgNVHREEKDAm\ngiQyMDNkM2QwMi1kYmMwLTRjMWItOWY0MS03Njg5NmEzMzMwZjQwDwYDVR0TAQH/\nBAUwAwEB/zBZBgNVHR8EUjBQME6gTKBKhkhodHRwOi8vYXBpLm1pc3QuY29tL2Fw\naS92MS9vcmdzLzIwM2QzZDAyLWRiYzAtNGMxYi05ZjQxLTc2ODk2YTMzMzBmNC9j\ncmwwDQYJKoZIhvcNAQELBQADggIBAKnfUNKE2U09i4RfEltOJc8cGK85yS4GhRTh\nPCtSKxY0iYiIs+m+2d6vkWbZXEeGjaZPdjQh8ixoZMAu1L6rtWqp2qzpmSxXn++w\nZkuMTHGn8vFXUSbb6CTFdB3SHzGsp17JJVfFhvshoZbpRP+d4cSACJvp0cy67JFN\n9QGvsPTyIZSClhUWYX7iYe4VW11s2gS982FMGwQdr5OR1DHmvNHGBuP/uHhW95D7\nTGqe43c/0AdVjQn1VYnavVScqKERCYh/uIZ+hSbpY7INR0t/nj4n+XBjpjIiQPVJ\nkeumCKVHaE0GHhV2Q1DbngU+uuk/K023xQima9kNn0TbgtFjVuH4Ip0Y8QSH5WVR\naV43oc+keqnirXcJqjwF1z5hVpQZKG8P9ZcEoJkA1JHo04J64lJ2auBUHFQlWJ1g\nEmoS+VT6/wR2Eiflc65ZONZ688ckbLRyioak3tDxUV/nJQfFMuaQASJGjaOod4iJ\nCN0b2g6tEKuA6nMLiKVpQpfo3bHHipZ2dtj9VFA48KPHftSpjJTsmWJvCdMYTr3f\nYaN6uRgV45iqUfO0fcxiGcS9W2EfIlR9Jsv2uoBYSqbXPFc8t1hOsezyOvjNqcR7\nV02f1S5kOfmTdbnp2e4aFpUFy73tZQ+MXMFe+HdabgVlRoVmGSKjE8Wu0/nXOhKA\n90aXHpbz\n-----END CERTIFICATE-----\n"
-#     ]
-#     server_cert = {
-#       cert = "-----BEGIN CERTIFICATE-----\nMIIGXDCCBESgAwIBAgITbgAAAPhdWS1GxAK1qQABAAAA+DANBgkqhkiG9w0BAQsF\nADBAMRMwEQYKCZImiZPyLGQBGRYDb25lMRQwEgYKCZImiZPyLGQBGRYEc3RhZzET\nMBEGA1UEAxMKc3RhZy1EQy1DQTAeFw0yMzAyMDYwODE3NTBaFw0yNTAyMDUwODE3\nNTBaMF0xCzAJBgNVBAYTAkZSMQwwCgYDVQQIEwNJREYxETAPBgNVBAcTCE5hbnRl\ncnJlMREwDwYDVQQKEwhzdGFnLm9uZTEaMBgGA1UEAxMRbWlzdC1uYWMuc3RhZy5v\nbmUwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCvi1GzzI0FjjqHQinL\n/cFXSVH8a2IQoGF7zdmPkDWlEil7Sbhz7DkPyZhNe6jSpr/fMPjstMs/eyt9CCFW\nqvtByR2iBTkN7I3LeURM213Q1HotFK5Cr6P0xMfdGOQXQwjQ+6X3twiJo3+e2uJ/\n+hv4zjvUX3rFrFQwjE6Os4SH8B1AgJaQ+jq65Q6u0bGyznZozjRE2O1V7lQM1K3q\nEbWBOQb66CPB/1xXK3NDbdHtPbP8pihvaU7aSmDsuOPVQggRWvP7Y87eUf6m9+Dn\nIwww9huZabHsy2+tHtQCpIfY6bMqlstpVfik0vVfh+qE8O6nfzvySrMrWIlozMSu\npWPlAgMBAAGjggIwMIICLDAOBgNVHQ8BAf8EBAMCBaAwHAYDVR0RBBUwE4IRbWlz\ndC1uYWMuc3RhZy5vbmUwHQYDVR0OBBYEFPR07EguUUKQx6Fzb6c53q7HUJ1wMB8G\nA1UdIwQYMBaAFHUMeFVdvceaasAcgfeHRh/VvcMbMIHHBgNVHR8Egb8wgbwwgbmg\ngbaggbOGgbBsZGFwOi8vL0NOPXN0YWctREMtQ0EsQ049V1MyMDIyLURDLENOPUNE\nUCxDTj1QdWJsaWMlMjBLZXklMjBTZXJ2aWNlcyxDTj1TZXJ2aWNlcyxDTj1Db25m\naWd1cmF0aW9uLERDPXN0YWcsREM9b25lP2NlcnRpZmljYXRlUmV2b2NhdGlvbkxp\nc3Q/YmFzZT9vYmplY3RDbGFzcz1jUkxEaXN0cmlidXRpb25Qb2ludDCBuQYIKwYB\nBQUHAQEEgawwgakwgaYGCCsGAQUFBzAChoGZbGRhcDovLy9DTj1zdGFnLURDLUNB\nLENOPUFJQSxDTj1QdWJsaWMlMjBLZXklMjBTZXJ2aWNlcyxDTj1TZXJ2aWNlcyxD\nTj1Db25maWd1cmF0aW9uLERDPXN0YWcsREM9b25lP2NBQ2VydGlmaWNhdGU/YmFz\nZT9vYmplY3RDbGFzcz1jZXJ0aWZpY2F0aW9uQXV0aG9yaXR5MCEGCSsGAQQBgjcU\nAgQUHhIAVwBlAGIAUwBlAHIAdgBlAHIwEwYDVR0lBAwwCgYIKwYBBQUHAwEwDQYJ\nKoZIhvcNAQELBQADggIBAEArEXJUjR7dXH53DAP3d42gc5fiHewn+XAHWFZJQNyy\nmOqGaDEleoK6indtgF17jl8rRZ+54GxaMoc1/snXiKsKfRNxdHohbEEMVje+M0OQ\nvQvDirP7gcHcUzvjMXLD6ElMGcAzOkzeJAntp0XZKFhk1rhEQMtxxEpqtx869ivK\nEVewgt7uLPskBJD+PUUpxPniA4AsD1q9R2ntBDbwcp/d/sI5rmmmJHVcogU3kPN/\n9OAvEgsr5xNaxn/Cler+4dblf6UbLVP1AbU3glr/v26H6sCwRL2ZAY+u+M94j9Y+\nxwewmo/tqxyldd0ot42BA9zEWycz694B6rbhhPMeuZ3+O1N4RiX98s8U+xV6NpDf\nTJ8yByf8C4V5kUnFFN6EUWvdnfNw/6k11nqGrp8ZQgBf5vzURGGNc5RM72zWp2qc\nkURgmvtCepGeDYB/tXzA1FgFMQw1wm7ZgICeZ7QJFJiywQMECO9c5AfEickvfGth\ntxBSGPZLJnZ9VBsoML6z53uxG3N/ysclvoNgfmRBlyGc6jbafsMhCP7mQcZx2u1x\nbx+D/ZPMFtc0VJVlrZN/ghla7GAtZ8WI2W+CuFh9q5DY3jqOZIoiFecq92FFNsVF\nRZZ3q+c22tC5m22j6QIDX3ZlJKkwt+YPHiN3hkSk/8yguPAUbpVEvk4+6F79nUb/\n-----END CERTIFICATE-----"
-#       key  = "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCvi1GzzI0FjjqH\nQinL/cFXSVH8a2IQoGF7zdmPkDWlEil7Sbhz7DkPyZhNe6jSpr/fMPjstMs/eyt9\nCCFWqvtByR2iBTkN7I3LeURM213Q1HotFK5Cr6P0xMfdGOQXQwjQ+6X3twiJo3+e\n2uJ/+hv4zjvUX3rFrFQwjE6Os4SH8B1AgJaQ+jq65Q6u0bGyznZozjRE2O1V7lQM\n1K3qEbWBOQb66CPB/1xXK3NDbdHtPbP8pihvaU7aSmDsuOPVQggRWvP7Y87eUf6m\n9+DnIwww9huZabHsy2+tHtQCpIfY6bMqlstpVfik0vVfh+qE8O6nfzvySrMrWIlo\nzMSupWPlAgMBAAECggEAXMY4q9mTPjho3kstY838fHEXj1wBO+BHJPMp5CHG+DKd\nEbdocHuLvLhCcdDE7G+MQBzVsePq9uXVmgLN+8vpdl8f9hzkhmNanQq9+hCFiHSD\nDYg8gKnq8NV++27IPTMEWc5lbIGjVXq/W+k6g4BfgCMeo6LCc+4boHzGl8xwYpa3\n7QTzsEvwJxm8A6SWEMjxkIXF0sTeYHmHcnGvPro848PTFwYI7nX+2jlaR1+U5Hxl\nH6BUVUkAyWz1jVIt+C3TG+jCtFex/3JORWWil44XmF2Zbbc+xnsDbpUzGlc7CJFO\nRT0JdGpPpuXRt/rtJu4Vj64IxjZauSWlNpB8vYFHAQKBgQDbFRbxphFeeI2c+ffI\n2uxlh9fvRCvVL0C7NQKDVewO0WYR+I46sYTTRxHso0/x7WRVDCmy7PiazFHDSkA5\njCbwGuR5J8rxsUDLNGOLPgvu3fH/UARAkTE7usjtsWcGHGJbI+U6vUgaNH5YDNeC\nxg1wE6xlb9xjR9vL2cTZYNahkQKBgQDNIA2p2H5dhdLaeSfjbD7hpzopgOhVVwRX\nF2+GuoLP4pTKiIlkOhWA3zLFNVhaEjqRQhpz3x2NZUrIi63T3ZSyuH8QU5+tFKyU\nc4a0lWy9bZX4EzqZnLC/IAIZ4aVqjyyPO+pACeTcvqLlp4FUfEFyePPMku809X1I\n5StucBZzFQKBgQDJhNWtA9+4MVW5zijBRbbrEZBr0x4qo6N8UB92pYNUggLMhwB1\nNrMCEL6JGBPCamW+4Ug+AEIRSd3vsA3xoVxzwZjlZNgFh9Ec2ZyzCSi62Mbv3S98\nINHTqlWGZodolJVYVmVVqaR4Dk8lOPLHpNvZew854zIq1H92PGMYvT3QMQKBgB6h\nHKkx9JyOcQ/Ca5xf+3vCdsLfxtGHbtR6YWLi0smr8b/UZ3+Z1MArk+8yqgC5HBm4\nny6SMF1+tI4BnXE3cw7E0eRkOEGmBqccIQ8yCMy4Yl5qsKNjbFj9tJKcyRCCVIsG\nzVHGqG/132kffAZbj4JCYVU405M63PxXjAavogqJAoGBANS7ojTfeJfCepAYAQNL\ndr6RaXoJ/u/re7ZIuuY14DAcFdYFsX9g/JEHJhbrOPpy2Ez6eo7hJ6ZU5OK6wl7f\naw1YujZMkzyJD8qpH7b7dozhNvki54b5TBhujBWFMkgRGh4H3h+OSkoCBibmJpI1\n9bYtllCav7gHDyGRk3k50pay\n-----END PRIVATE KEY-----"
-#     }
-#     eu_only = true
-#   }
-#   synthetic_test = {
-#     disabled = false
-#     vlans = [
-#       {
-#         vlan_ids = [
-#           "8",
-#           "999"
-#         ],
-#         disabled = true
-#       }
-#     ]
-
-#   }
-#   device_cert = null
-#   mxedge_mgmt = {
-#     fips_enabled = false
-#   }
-#   switch_mgmt = {
-#     use_mxedge_proxy = false
-#   }
-#   cradlepoint = {
-#     ecm_api_id            = "2e0c3b2e-d56b-4db1-8842-549e8146fb03"
-#     ecm_api_key           = "9b4824dc007b07f299f5a08708cd0d6d1c030337"
-#     cp_api_id             = "4bab0b43"
-#     cp_api_key            = "e5db30aa5bdd392153771edfdd54fc88"
-#     shared_secret         = "R99CCyvvD0ANxJufHuaR5h49ZPb93hWuCsNmeV8tZMxKPzpwhbWbpI39rQhVwxUh"
-#     destination_config_id = "d79a7abe-12ba-11ef-8c0a-fe633ad12f0e"
-#     alert_config_id       = "d8ec73c0-12ba-11ef-99ca-7678474402dd"
-#   }
-#   api_policy = {
-#     no_reveal = false
-#   }
-# }
 
 resource "mist_org_wxtag" "test_1" {
   values = [
@@ -1373,7 +1298,7 @@ resource "mist_device_gateway" "cluster_one" {
         servers = ["1.2.3.4"]
       }
     }
-    enabled = true
+   # enabled = true
   }
   vrf_instances = {
     VRF_ONE = {
@@ -1510,50 +1435,6 @@ resource "mist_device_gateway" "cluster_one" {
 
 
 
-# resource "mist_site_psk" "psk_two" {
-#   site_id    = mist_site.terraform_site.id
-#   name       = "psk_two"
-#   ssid       = "test"
-#   usage      = "single"
-#   mac        = "deadbeefdeaf"
-#   passphrase = "juniper123"
-# }
-# resource "mist_org_psk" "psk_three" {
-#   org_id = mist_org.terraform_test.id
-#   name   = "psk_three"
-#   ssid   = "test"
-#   usage  = "macs"
-#   macs = [
-#     "deadbeefdeaf"
-#   ]
-#   passphrase = "juniper123"
-# }
-# resource "mist_org_wxtag" "wxtag_one" {
-#   org_id  = mist_org.terraform_test.id
-#   name    = "wxtag_one"
-#   type    = "vlan"
-#   vlan_id = 10
-# }
-
-# resource "mist_device_gateway" "cluster_one" {
-#   device_id = mist_device_gateway_cluster.cluster_one.device_id
-#   site_id   = mist_device_gateway_cluster.cluster_one.site_id
-#   oob_ip_config = {
-#     type = "dhcp"
-#   }
-#   dns_servers = ["8.8.8.8"]
-#   name        = "cluster_one"
-#   additional_config_cmds = [
-#     "annotate system \" -- custom-main -- Template level --\"",
-#     "delete apply-groups custom-main",
-#     "delete groups custom-main",
-#     "set groups custom-main",
-#     "set groups custom-main system services ssh root-login allow",
-#     "set apply-groups custom-main",
-#   ]
-# }
-### SITES
-
 
 resource "mist_device_ap" "test_ap" {
   device_id = provider::mist::search_inventory_by_claimcode(resource.mist_org_inventory.inventory,"CPKL2EXN8JY98AC").id
@@ -1562,42 +1443,28 @@ resource "mist_device_ap" "test_ap" {
 }
 
 
-# resource "mist_site" "terraform_site2" {
-#   org_id       = mist_org.terraform_test.id
-#   name         = "terraform_site2"
-#   country_code = "FR"
-#   timezone     = "Europe/Paris"
-#   address      = "77 Terrasse de l'Universit\u00e9, 92000 Nanterre, France"
-#   notes        = "Created with Terraform, Updated with Terraform"
-#   latlng = {
-#     lat = 48.899268
-#     lng = 2.214447
-#   }
-#   sitegroup_ids = [mist_org_sitegroup.test_group.id, mist_org_sitegroup.test_group2.id]
-# }
+resource "mist_site" "terraform_site2" {
+  org_id       = mist_org.terraform_test.id
+  name         = "terraform_site2"
+  country_code = "FR"
+  timezone     = "Europe/Paris"
+  address      = "77 Terrasse de l'Universit\u00e9, 92000 Nanterre, France"
+  notes        = "Created with Terraform, Updated with Terraform"
+  latlng = {
+    lat = 48.899268
+    lng = 2.214447
+  }
+  sitegroup_ids = [mist_org_sitegroup.test_group.id, mist_org_sitegroup.test_group2.id]
+}
 
-# resource "mist_org_sitegroup" "test_group" {
-#   org_id = mist_org.terraform_test.id
-#   name   = "test group"
-# }
-# resource "mist_org_sitegroup" "test_group2" {
-#   org_id = mist_org.terraform_test.id
-#   name   = "test group2b"
-# }
-# resource "mist_org_rftemplate" "rft1" {
-#   org_id        = mist_org.terraform_test.id
-#   band_24_usage = "24"
-#   country_code  = "US"
-#   band_24 = {
-#     power_min = 8
-#     power_max = 18
-#     preamble  = "short"
-#     bandwidth = 20
-#     power     = 8
-#     ant_gain  = 1
-#   }
-#   name = "rft_test"
-# }
+resource "mist_org_sitegroup" "test_group" {
+  org_id = mist_org.terraform_test.id
+  name   = "test group"
+}
+resource "mist_org_sitegroup" "test_group2" {
+  org_id = mist_org.terraform_test.id
+  name   = "test group2b"
+}
 
 # # # ### ORG LEVEL
 # resource "mist_org_service" "lab" {
@@ -4247,18 +4114,18 @@ resource "mist_org_apitoken" "test_one" {
     {
       scope   = "site"
       role    = "admin"
-      site_id = "d7c8364e-f2f4-48ca-907e-37eff0475b03"
+      site_id = mist_site.terraform_site.id
     },
     {
       scope   = "site"
       role    = "read"
-      site_id = "08f8851b-a898-4603-8f9f-9ebb5aa62de4"
+      site_id = mist_site.site_two.id
     },
   ]
 }
 resource "mist_site" "site_two" {
   org_id       = mist_org.terraform_test.id
-  name         = "terraform_site2"
+  name         = "terraform_site_two"
   country_code = "FR"
   timezone     = "Europe/Paris"
   address      = "77 Terrasse de l'Universit\u00e9, 92000 Nanterre, France"

@@ -771,20 +771,11 @@ next:
           - path: github.com/hashicorp/terraform-plugin-framework-validators/listvalidator
           - path: github.com/hashicorp/terraform-plugin-framework/path
           schema_definition: |-
-            listvalidator.ValueStringsAre(stringvalidator.Any(mistvalidator.ParseIp(true, false), mistvalidator.ParseVar())),
-            mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("type"), types.StringValue("relay"))
+            listvalidator.ValueStringsAre(stringvalidator.Any(mistvalidator.ParseIp(true, false), mistvalidator.ParseVar()))
     - get:
       - list
       name: dns_suffix
       computed_optional_required: computed_optional
-      validators:
-      - custom:
-          imports:
-          - path: github.com/Juniper/terraform-provider-mist/internal/validators
-          - path: github.com/hashicorp/terraform-plugin-framework-validators/listvalidator
-          - path: github.com/hashicorp/terraform-plugin-framework/path
-          schema_definition: |- 
-            mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("type"), types.StringValue("relay"))
     - get:
       - map_nested
       name: fixed_bindings
@@ -796,8 +787,7 @@ next:
           - path: github.com/hashicorp/terraform-plugin-framework/path
           schema_definition: |- 
             mapvalidator.SizeAtLeast(1),
-            mapvalidator.KeysAre(mistvalidator.ParseMac()),
-            mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("type"),types.StringValue("relay"))
+            mapvalidator.KeysAre(mistvalidator.ParseMac())
     - get:
       - map_nested
       - nested_object
@@ -825,8 +815,7 @@ next:
           - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
           - path: github.com/hashicorp/terraform-plugin-framework/path
           schema_definition: |- 
-            stringvalidator.Any(mistvalidator.ParseIp(true, false), mistvalidator.ParseVar()),
-            mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("type"), types.StringValue("relay"))
+            stringvalidator.Any(mistvalidator.ParseIp(true, false), mistvalidator.ParseVar())
     - get:
       - string
       name: ip_end
@@ -838,8 +827,7 @@ next:
           - path: github.com/hashicorp/terraform-plugin-framework/path
           schema_definition: |- 
             stringvalidator.Any(mistvalidator.ParseIp(true, false), mistvalidator.ParseVar()),
-            mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName("type"), types.StringValue("local")),
-            mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("type"), types.StringValue("relay"))
+            mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName("type"), types.StringValue("local"))
     - get:
       - string
       name: ip_start
@@ -851,8 +839,7 @@ next:
           - path: github.com/hashicorp/terraform-plugin-framework/path
           schema_definition: |- 
             stringvalidator.Any(mistvalidator.ParseIp(true, false), mistvalidator.ParseVar()),
-            mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName("type"), types.StringValue("local")),
-            mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("type"), types.StringValue("relay"))
+            mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName("type"), types.StringValue("local"))
     - get:
       - string
       name: ip_end6
@@ -864,8 +851,7 @@ next:
           - path: github.com/hashicorp/terraform-plugin-framework/path
           schema_definition: |- 
             stringvalidator.Any(mistvalidator.ParseIp(false, true), mistvalidator.ParseVar()),
-            mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName("type6"), types.StringValue("local")),
-            mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("type6"), types.StringValue("relay"))
+            mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName("type6"), types.StringValue("local"))
     - get:
       - string
       name: ip_start6
@@ -877,8 +863,7 @@ next:
           - path: github.com/hashicorp/terraform-plugin-framework/path
           schema_definition: |- 
             stringvalidator.Any(mistvalidator.ParseIp(false, true), mistvalidator.ParseVar()),
-            mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName("type6"), types.StringValue("local")),
-            mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("type6"), types.StringValue("relay"))
+            mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName("type6"), types.StringValue("local"))
     - get:
       - list
       name: servers
@@ -890,8 +875,7 @@ next:
           - path: github.com/hashicorp/terraform-plugin-framework/path
           schema_definition: |-
             listvalidator.ValueStringsAre(stringvalidator.Any(mistvalidator.ParseIp(true, true), mistvalidator.ParseVar())),
-            mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName("type"), types.StringValue("relay")),
-            mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("type"), types.StringValue("local"))
+            mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName("type"), types.StringValue("relay"))
     - get:
       - list
       name: servers6
@@ -903,8 +887,7 @@ next:
           - path: github.com/hashicorp/terraform-plugin-framework/path
           schema_definition: |-
             listvalidator.ValueStringsAre(stringvalidator.Any(mistvalidator.ParseIp(true, true), mistvalidator.ParseVar())),
-            mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName("type6"), types.StringValue("relay")),
-            mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("type6"), types.StringValue("local"))
+            mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName("type6"), types.StringValue("relay"))
     - name: ip_end
       rename: ip_end4
     - name: ip_start
