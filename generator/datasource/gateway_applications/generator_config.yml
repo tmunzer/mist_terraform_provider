@@ -1,0 +1,9 @@
+provider:
+  name: mistapi
+data_sources:
+  #### WARNING, this one is not suitable for TF (10min to preocess the API response)
+  const_gateway_applications:
+    read:
+      path: /api/v1/const/gateway_applications
+      method: GET 
+  

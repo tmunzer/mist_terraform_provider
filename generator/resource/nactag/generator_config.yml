@@ -1,0 +1,23 @@
+provider:
+  name: mistapi
+resources:
+  org_nactag:
+    create:
+      path: /api/v1/orgs/{org_id}/nactags
+      method: POST
+    read:
+      path: /api/v1/orgs/{org_id}/nactags/{nactag_id}
+      method: GET
+    delete:
+      path: /api/v1/orgs/{org_id}/nactags/{nactag_id}
+      method: DELETE
+    update:
+      path: /api/v1/orgs/{org_id}/nactags/{nactag_id}
+      method: PUT      
+    schema:
+      attributes:
+        aliases:
+          nactag_id: id
+      ignores:
+        - created_time
+        - modified_time

@@ -1,0 +1,13 @@
+provider:
+  name: mistapi
+data_sources:
+  org_servicepolicies:
+    read:
+      path: /api/v1/orgs/{org_id}/servicepolicies
+      method: GET 
+    schema:
+      ignores:
+      - for_site
+      - limit
+      - page
+      - type

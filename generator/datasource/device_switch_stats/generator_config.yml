@@ -1,0 +1,13 @@
+provider:
+  name: mistapi
+data_sources:
+  device_switch_stats:
+    read: 
+      path: /api/v1/orgs/{org_id}/stats/devices
+      method: GET
+    schema:
+      ignores:
+      - fields
+      - limit
+      - page
+      - type

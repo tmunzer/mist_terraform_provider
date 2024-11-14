@@ -1,0 +1,12 @@
+provider:
+  name: mistapi
+data_sources:
+  org_nacidp_metadata:
+    read:
+      path: /api/v1/orgs/{org_id}/ssos/{sso_id}/metadata
+      method: GET
+    schema:
+      attributes:
+        aliases:
+          sso_id: nacidp_id
+ 

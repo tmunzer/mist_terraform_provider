@@ -1,0 +1,10 @@
+./terraform-provider-mist/internal/datasource_device_ap_stats/device_ap_stats_data_source_gen.go:
+  rename:
+    Band24Value: BandValue
+    Band24Type: BandType
+    Band5Value: BandValue
+    Band5Type: BandType
+    Band6Value: BandValue
+    Band6Type: BandType
+  dedup:
+    - Band

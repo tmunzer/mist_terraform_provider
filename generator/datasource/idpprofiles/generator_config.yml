@@ -1,0 +1,13 @@
+provider:
+  name: mistapi
+data_sources:
+  org_idpprofiles:
+    read:
+      path: /api/v1/orgs/{org_id}/idpprofiles
+      method: GET 
+    schema:
+      ignores:
+      - for_site
+      - limit
+      - page
+      - type

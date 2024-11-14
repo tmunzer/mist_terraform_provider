@@ -1,0 +1,111 @@
+provider:
+  name: mistapi
+resources:
+  org_networktemplate:
+    create:
+      path: /api/v1/orgs/{org_id}/networktemplates
+      method: POST
+    read:
+      path: /api/v1/orgs/{org_id}/networktemplates/{networktemplate_id}
+      method: GET
+    delete:
+      path: /api/v1/orgs/{org_id}/networktemplates/{networktemplate_id}
+      method: DELETE
+    update:
+      path: /api/v1/orgs/{org_id}/networktemplates/{networktemplate_id}
+      method: PUT      
+    schema:
+      ignores:
+        - created_time
+        - modified_time
+        - import_org_networks
+        - switch_matching.rules.switch_mgmt
+        - switch_mgmt.radius
+      attributes:
+        aliases:
+          networktemplate_id: id
+  site_networktemplate:
+    create:
+      path: /api/v1/sites/{site_id}/setting
+      method: PUT
+    read:
+      path: /api/v1/sites/{site_id}/setting
+      method: GET
+    update:
+      path: /api/v1/sites/{site_id}/setting
+      method: PUT      
+    delete:
+      path: /api/v1/sites/{site_id}/setting
+      method: PUT      
+    schema:
+      ignores:
+      ## temp fix
+        - vrb_config
+      ##
+        - switch_matching.rules.switch_mgmt
+        - switch_mgmt.radius
+        ###
+        - analytic
+        - ap_matching
+        - ap_port_config
+        - ap_updown_threshold
+        - auto_placement
+        - auto_upgrade
+        - blacklist_url
+        - ble_config
+        - config_auto_revert
+        - config_push_policy
+        - created_time
+        - critical_url_monitoring
+        - device_updown_threshold
+        - disabled_system_defined_port_usages
+        - engagement
+        - evpn_options
+        - flags
+        - for_site
+        - gateway
+        - gateway_additional_config_cmds
+        - gateway_mgmt
+        - gateway_updown_threshold
+        - led
+        - modified_time
+        - mxedge
+        - mxedge_mgmt
+        - mxtunnels
+        - occupancy
+        - org_id
+        - paloalto_networks
+        - persist_config_on_device
+        - proxy
+        - radio_config
+        - report_gatt
+        - rogue
+        - rtsa
+        - simple_alert
+        - site_id
+        - skyatp
+        - srx_app
+        - ssh_keys
+        - ssr
+        - status_portal
+        - switch
+        - switch_updown_threshold
+        - synthetic_test
+        - track_anonymous_devices
+        - tunterm_monitoring
+        - tunterm_monitoring_disabled
+        - tunterm_multicast_config
+        - vars
+        - vna
+        - vrrp_groups
+        - vs_instance
+        - wan_vna
+        - watched_station_url
+        - whitelist_url
+        - wids
+        - wifi
+        - wired_vna
+        - zone_occupancy_alert
+      attributes:
+        aliases:
+          site_id: id  

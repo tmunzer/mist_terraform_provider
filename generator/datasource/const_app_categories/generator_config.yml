@@ -1,0 +1,8 @@
+provider:
+  name: mistapi
+data_sources:
+  const_app_categories:
+    read:
+      path: /api/v1/const/app_categories
+      method: GET 
+  

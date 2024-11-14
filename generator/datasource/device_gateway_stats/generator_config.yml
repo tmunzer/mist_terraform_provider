@@ -1,0 +1,17 @@
+provider:
+  name: mistapi
+data_sources:
+  device_gateway_stats:
+    read: 
+      path: /api/v1/orgs/{org_id}/stats/devices
+      method: GET
+    schema:
+      ignores:
+        - evpn_unused
+        - evpntopo_id
+        - fields
+        - limit
+        - page
+        - type
+        - module_stat.fpc_idx
+        - module2_stat.fpc_idx

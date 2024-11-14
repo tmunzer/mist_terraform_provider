@@ -1,0 +1,31 @@
+provider:
+  name: mistapi
+resources:
+  org_deviceprofile_gateway:
+    create:
+      path: /api/v1/orgs/{org_id}/deviceprofiles
+      method: POST
+    read:
+      path: /api/v1/orgs/{org_id}/deviceprofiles/{deviceprofile_id}
+      method: GET
+    delete:
+      path: /api/v1/orgs/{org_id}/deviceprofiles/{deviceprofile_id}
+      method: DELETE
+    update:
+      path: /api/v1/orgs/{org_id}/deviceprofiles/{deviceprofile_id}
+      method: PUT      
+    schema:
+      ignores:
+        - created_time
+        - modified_time
+        - gateway_matching
+        - idp_profiles.created_time
+        - idp_profiles.modified_time
+        - idp_profiles.id
+        - networks.created_time
+        - networks.modified_time
+        - networks.id
+        - networks.org_id
+      attributes:
+        aliases:
+          deviceprofile_id: id   

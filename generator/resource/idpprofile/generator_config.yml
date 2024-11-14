@@ -1,0 +1,23 @@
+provider:
+  name: mistapi
+resources:
+  org_idpprofile:
+    create:
+      path: /api/v1/orgs/{org_id}/idpprofiles
+      method: POST
+    read:
+      path: /api/v1/orgs/{org_id}/idpprofiles/{idpprofile_id}
+      method: GET
+    delete:
+      path: /api/v1/orgs/{org_id}/idpprofiles/{idpprofile_id}
+      method: DELETE
+    update:
+      path: /api/v1/orgs/{org_id}/idpprofiles/{idpprofile_id}
+      method: PUT
+    schema:
+      ignores:
+        - created_time
+        - modified_time
+      attributes:
+        aliases:
+          idpprofile_id: id

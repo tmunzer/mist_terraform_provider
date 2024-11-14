@@ -1,0 +1,46 @@
+provider:
+  name: mistapi
+resources:
+  org_webhook:
+    create:
+      path: /api/v1/orgs/{org_id}/webhooks
+      method: POST
+    read:
+      path: /api/v1/orgs/{org_id}/webhooks/{webhook_id}
+      method: GET
+    delete:
+      path: /api/v1/orgs/{org_id}/webhooks/{webhook_id}
+      method: DELETE
+    update:
+      path: /api/v1/orgs/{org_id}/webhooks/{webhook_id}
+      method: PUT      
+    schema:
+      ignores:
+        - created_time
+        - modified_time
+        - for_site
+        - site_id
+      attributes:
+        aliases:
+          webhook_id: id
+  site_webhook:
+    create:
+      path: /api/v1/sites/{site_id}/webhooks
+      method: POST
+    read:
+      path: /api/v1/sites/{site_id}/webhooks/{webhook_id}
+      method: GET
+    delete:
+      path: /api/v1/sites/{site_id}/webhooks/{webhook_id}
+      method: DELETE
+    update:
+      path: /api/v1/sites/{site_id}/webhooks/{webhook_id}
+      method: PUT      
+    schema:
+      ignores:
+        - created_time
+        - modified_time
+        - for_site
+      attributes:
+        aliases:
+          webhook_id: id      

@@ -1,0 +1,24 @@
+provider:
+  name: mistapi
+resources:
+  org_rftemplate:
+    create:
+      path: /api/v1/orgs/{org_id}/rftemplates
+      method: POST
+    read:
+      path: /api/v1/orgs/{org_id}/rftemplates/{rftemplate_id}
+      method: GET
+    delete:
+      path: /api/v1/orgs/{org_id}/rftemplates/{rftemplate_id}
+      method: DELETE
+    update:
+      path: /api/v1/orgs/{org_id}/rftemplates/{rftemplate_id}
+      method: PUT      
+    schema:
+      ignores:
+        - created_time
+        - modified_time
+        - for_site
+      attributes:
+        aliases:
+          rftemplate_id: id

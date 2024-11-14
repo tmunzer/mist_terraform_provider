@@ -1,0 +1,7 @@
+provider:
+  name: mistapi
+data_sources:
+  const_applications:
+    read:
+      path: /api/v1/const/applications
+      method: GET 

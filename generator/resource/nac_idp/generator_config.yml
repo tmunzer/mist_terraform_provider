@@ -1,0 +1,39 @@
+provider:
+  name: mistapi
+resources:
+  org_nacidp:
+    create:
+      path: /api/v1/orgs/{org_id}/ssos
+      method: POST
+    read:
+      path: /api/v1/orgs/{org_id}/ssos/{sso_id}
+      method: GET
+    delete:
+      path: /api/v1/orgs/{org_id}/ssos/{sso_id}
+      method: DELETE
+    update:
+      path: /api/v1/orgs/{org_id}/ssos/{sso_id}
+      method: PUT      
+    schema:
+      ignores:
+        - created_time
+        - modified_time
+        - msp_id
+        - site_id
+        - mxedge_proxy
+        - custom_logout_url
+        - default_role
+        - domain
+        - idp_cert
+        - idp_sign_algo
+        - idp_sso_url
+        - ignore_unmatched_roles
+        - issuer
+        - nameid_format
+        - role_attr_extraction
+        - role_attr_from
+        - scim_enabled
+        - scim_secret_token
+      attributes:
+        aliases:
+          sso_id: id

@@ -1,0 +1,48 @@
+provider:
+  name: mistapi
+resources:
+  org_psk:
+    create:
+      path: /api/v1/orgs/{org_id}/psks
+      method: POST
+    read:
+      path: /api/v1/orgs/{org_id}/psks/{psk_id}
+      method: GET
+    delete:
+      path: /api/v1/orgs/{org_id}/psks/{psk_id}
+      method: DELETE
+    update:
+      path: /api/v1/orgs/{org_id}/psks/{psk_id}
+      method: PUT      
+    schema:
+      ignores:
+        - created_time
+        - modified_time
+        - admin_sso_id
+        - site_id
+      attributes:
+        aliases:
+          psk_id: id
+  site_psk:
+    create:
+      path: /api/v1/sites/{site_id}/psks
+      method: POST
+    read:
+      path: /api/v1/sites/{site_id}/psks/{psk_id}
+      method: GET
+    delete:
+      path: /api/v1/sites/{site_id}/psks/{psk_id}
+      method: DELETE
+    update:
+      path: /api/v1/sites/{site_id}/psks/{psk_id}
+      method: PUT      
+    schema:
+      ignores:
+        - created_time
+        - modified_time
+        - admin_sso_id
+        - max_usage
+        - macs
+      attributes:
+        aliases:
+          psk_id: id

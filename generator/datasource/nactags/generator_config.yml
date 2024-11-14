@@ -1,0 +1,7 @@
+provider:
+  name: mistapi
+data_sources:
+  org_nactags:
+    read:
+      path: /api/v1/orgs/{org_id}/nactags
+      method: GET

@@ -1,0 +1,38 @@
+
+./terraform-provider-mist/internal/resource_org_networktemplate/org_networktemplate_resource_gen.go:
+  rename:
+    matching_rules: rules
+    tacacct_servers: acct_servers
+    vrf_extra_routes: extra_routes
+    snmpv3_contents: contents
+    snmpv3_users: users
+    snmpv3_vacm_content: content
+    ospf_networks: networks
+  dedup:
+    - ExtraRoutes
+    - Archive
+    - Contents
+    - Users
+    - PortMirroring
+    - NextQualified
+    - RadiusConfig
+    - AcctServers
+    - AuthServers
+./terraform-provider-mist/internal/resource_site_networktemplate/site_networktemplate_resource_gen.go:
+  rename:
+    matching_rules: rules
+    tacacct_servers: acct_servers
+    vrf_extra_routes: extra_routes
+    snmpv3_contents: contents
+    snmpv3_users: users
+    snmpv3_vacm_content: content
+  dedup:
+    - ExtraRoutes
+    - Archive
+    - Contents
+    - Users
+    - PortMirroring
+    - NextQualified
+    - RadiusConfig
+    - AcctServers
+    - AuthServers

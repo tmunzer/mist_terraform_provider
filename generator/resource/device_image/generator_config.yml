@@ -1,0 +1,19 @@
+provider:
+  name: mistapi
+resources:
+  device_image:   
+    create:
+      path: /api/v1/sites/{site_id}/devices/{device_id}/image{image_number}
+      method: POST
+    read:
+      path: /api/v1/sites/{site_id}/devices/{device_id}/image{image_number}
+      method: POST
+    delete:
+      path: /api/v1/sites/{site_id}/devices/{device_id}/image{image_number}
+      method: DELETE
+    update:
+      path: /api/v1/sites/{site_id}/devices/{device_id}/image{image_number}
+      method: POST     
+    schema:
+      ignores:
+        - json

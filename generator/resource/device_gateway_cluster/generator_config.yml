@@ -1,0 +1,16 @@
+provider:
+  name: mistapi
+resources:
+  device_gateway_cluster:
+    create:
+      path: /api/v1/sites/{site_id}/devices/{device_id}/ha
+      method: POST
+    read:
+      path: /api/v1/sites/{site_id}/devices/{device_id}/ha
+      method: GET
+    delete:
+      path: /api/v1/sites/{site_id}/devices/{device_id}/ha
+      method: DELETE
+    update:
+      path: /api/v1/sites/{site_id}/devices/{device_id}/ha
+      method: PUT

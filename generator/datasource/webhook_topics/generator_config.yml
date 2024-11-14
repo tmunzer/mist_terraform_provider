@@ -1,0 +1,7 @@
+provider:
+  name: mistapi
+data_sources:
+  const_webhooks:
+    read:
+      path: /api/v1/const/webhook_topics
+      method: GET 

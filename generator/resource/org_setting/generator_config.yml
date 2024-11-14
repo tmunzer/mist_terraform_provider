@@ -1,0 +1,40 @@
+provider:
+  name: mistapi
+resources:
+  org_setting:
+    create:
+      path: /api/v1/orgs/{org_id}/setting
+      method: PUT
+    read:
+      path: /api/v1/orgs/{org_id}/setting
+      method: GET
+    delete:
+      path: /api/v1/orgs/{org_id}/setting
+      method: PUT
+    update:
+      path: /api/v1/orgs/{org_id}/setting
+      method: PUT      
+    schema:
+      ignores:
+        - created_time
+        - modified_time
+        - for_site
+        - id
+        - auto_device_naming
+        - auto_deviceprofile_assignment
+        - auto_site_assignment
+        - gateway_mgmt
+        - simple_alert
+        - tags
+        - blacklist_url
+        - msp_id
+        - pcap_bucket_verified
+        - idp_profiles.created_time
+        - idp_profiles.modified_time
+        - networks.created_time
+        - networks.modified_time
+        - networks.id
+        - networks.org_id
+      attributes:
+        aliases:
+          org_id: id   

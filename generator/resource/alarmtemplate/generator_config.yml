@@ -1,0 +1,25 @@
+provider:
+  name: mistapi
+resources:
+  org_alarmtemplate:
+    create:
+      path: /api/v1/orgs/{org_id}/alarmtemplates
+      method: POST
+    read:
+      path: /api/v1/orgs/{org_id}/alarmtemplates/{alarmtemplate_id}
+      method: GET
+    delete:
+      path: /api/v1/orgs/{org_id}/alarmtemplates/{alarmtemplate_id}
+      method: DELETE
+    update:
+      path: /api/v1/orgs/{org_id}/alarmtemplates/{alarmtemplate_id}
+      method: PUT      
+    schema:
+      ignores:
+        - created_time
+        - modified_time
+        - for_site
+        - site_id
+      attributes:
+        aliases:
+          alarmtemplate_id: id  

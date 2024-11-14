@@ -1,0 +1,48 @@
+provider:
+  name: mistapi
+resources:
+  org_wxrule:
+    create:
+      path: /api/v1/orgs/{org_id}/wxrules
+      method: POST
+    read:
+      path: /api/v1/orgs/{org_id}/wxrules/{wxrule_id}
+      method: GET
+    delete:
+      path: /api/v1/orgs/{org_id}/wxrules/{wxrule_id}
+      method: DELETE
+    update:
+      path: /api/v1/orgs/{org_id}/wxrules/{wxrule_id}
+      method: PUT      
+    schema:
+      ignores:
+        - created_time
+        - modified_time
+        - for_site
+        - site_id
+      attributes:
+        aliases:
+          wxrule_id: id      
+  site_wxrule:
+    create:
+      path: /api/v1/sites/{site_id}/wxrules
+      method: POST
+    read:
+      path: /api/v1/sites/{site_id}/wxrules/{wxrule_id}
+      method: GET
+    delete:
+      path: /api/v1/sites/{site_id}/wxrules/{wxrule_id}
+      method: DELETE
+    update:
+      path: /api/v1/sites/{site_id}/wxrules/{wxrule_id}
+      method: PUT      
+    schema:
+      ignores:
+        - created_time
+        - modified_time
+        - for_site
+        - org_id
+        - template_id
+      attributes:
+        aliases:
+          wxrule_id: id  

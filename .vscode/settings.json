@@ -18,7 +18,9 @@
         "https://json.schemastore.org/yamllint.json": [
             "file:///Users/tmunzer/4_dev/Mist/mist_terraform_provider/provider-code-spec-fix/resources/device_gateway.yaml",
             "file:///Users/tmunzer/4_dev/Mist/mist_terraform_provider/provider-code-spec-fix/resources/org_deviceprofile_gateway.yaml",
-            "file:///Users/tmunzer/4_dev/Mist/mist_terraform_provider/provider-code-spec-fix/resources/site.yaml"
+            "file:///Users/tmunzer/4_dev/Mist/mist_terraform_provider/provider-code-spec-fix/resources/site.yaml",
+            "file:///Users/tmunzer/4_dev/Mist/mist_terraform_provider/generator/resources/deviceprofile_assign/fix/org_deviceprofile_gateway.yaml",
+            "file:///Users/tmunzer/4_dev/Mist/mist_terraform_provider/generator/resources/device_gateway/fix/device_gateway.yaml"
         ],
         "https://raw.githubusercontent.com/OAI/OpenAPI-Specification/main/schemas/v3.1/schema.json": "file:///Users/tmunzer/4_dev/Mist/mist_terraform_provider/mist.provider.yml"
     }

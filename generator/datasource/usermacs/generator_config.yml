@@ -1,0 +1,7 @@
+provider:
+  name: mistapi
+data_sources:
+  org_usermacs:
+    read:
+      path: /api/v1/orgs/{org_id}/usermacs/search
+      method: GET 

@@ -1,0 +1,11 @@
+provider:
+  name: mistapi
+data_sources:
+  org_rftemplates:
+    read:
+      path: /api/v1/orgs/{org_id}/rftemplates
+      method: GET
+    schema:
+      ignores:
+        - created_time
+        - modified_time

@@ -1,0 +1,19 @@
+provider:
+  name: mistapi
+resources:
+  org_deviceprofile_assign:
+    create:
+      path: /api/v1/orgs/{org_id}/deviceprofiles/{deviceprofile_id}/assign
+      method: POST
+    read:
+      path: /api/v1/orgs/{org_id}/deviceprofiles/{deviceprofile_id}/assign
+      method: GET
+    delete:
+      path: /api/v1/orgs/{org_id}/deviceprofiles/{deviceprofile_id}/unassign
+      method: DELETE
+    update:
+      path: /api/v1/orgs/{org_id}/deviceprofiles/{deviceprofile_id}/assign
+      method: PUT      
+    schema:
+        ignores:
+        - success

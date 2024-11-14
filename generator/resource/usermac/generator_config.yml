@@ -1,0 +1,20 @@
+provider:
+  name: mistapi
+resources:
+  org_usermac:
+    create:
+      path: /api/v1/orgs/{org_id}/usermacs
+      method: POST
+    read:
+      path: /api/v1/orgs/{org_id}/usermacs/{usermac_id}
+      method: GET
+    delete:
+      path: /api/v1/orgs/{org_id}/usermacs/{usermac_id}
+      method: DELETE
+    update:
+      path: /api/v1/orgs/{org_id}/usermacs/{usermac_id}
+      method: PUT      
+    schema:
+      attributes:
+        aliases:
+          usermac_id: id

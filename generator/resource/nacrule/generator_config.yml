@@ -1,0 +1,23 @@
+provider:
+  name: mistapi
+resources:
+  org_nacrule:
+    create:
+      path: /api/v1/orgs/{org_id}/nacrules
+      method: POST
+    read:
+      path: /api/v1/orgs/{org_id}/nacrules/{nacrule_id}
+      method: GET
+    delete:
+      path: /api/v1/orgs/{org_id}/nacrules/{nacrule_id}
+      method: DELETE
+    update:
+      path: /api/v1/orgs/{org_id}/nacrules/{nacrule_id}
+      method: PUT      
+    schema:
+      attributes:
+        aliases:
+          nacrule_id: id
+      ignores:
+        - created_time
+        - modified_time

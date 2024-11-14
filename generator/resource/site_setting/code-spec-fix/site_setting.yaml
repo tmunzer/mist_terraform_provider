@@ -1,0 +1,612 @@
+get:
+- schema
+- attributes
+name: site_setting
+next:
+- computed_optional_required: required
+  get:
+  - string
+  name: site_id
+- computed_optional_required: computed
+  get:
+  - string
+  name: org_id
+  plan_modifiers:
+  - custom:
+      imports:
+      - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier
+      - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier
+      schema_definition: stringplanmodifier.UseStateForUnknown()
+- computed_optional_required: computed
+  get:
+  - string
+  name: watched_station_url
+  default: 
+    custom: 
+      imports:            
+      - path: "github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
+      schema_definition: stringdefault.StaticString("")
+- computed_optional_required: computed
+  get:
+  - string
+  name: whitelist_url
+  default: 
+    custom: 
+      imports:            
+      - path: "github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
+      schema_definition: stringdefault.StaticString("")
+- get:
+  - single_nested
+  - attributes
+  name: auto_upgrade
+  next:
+  - computed_optional_required: computed_optional
+    get:
+    - map
+    name: custom_versions
+    validators:
+    - custom:
+        imports:
+        - path: github.com/Juniper/terraform-provider-mist/internal/validators
+        - path: github.com/hashicorp/terraform-plugin-framework/path
+        schema_definition: mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("version"),
+          types.StringValue("custom"))
+- computed_optional_required: computed
+  get:
+  - string
+  name: blacklist_url
+  default: 
+    custom: 
+      imports:            
+      - path: "github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
+      schema_definition: stringdefault.StaticString("")
+- name: ble_config
+  get: 
+  - single_nested
+  - attributes
+  next: 
+  - name: beacon_rate
+    get: 
+    - int64
+    validators:
+    - custom:
+        imports:
+        - path: github.com/Juniper/terraform-provider-mist/internal/validators
+        - path: github.com/hashicorp/terraform-plugin-framework/path
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/int64validator
+        schema_definition: mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("beacon_rate_mode"),
+          types.StringValue("custom"))
+  - name: beam_disabled
+    get: 
+    - list
+    validators:
+    - custom:
+        imports:
+        - path: github.com/Juniper/terraform-provider-mist/internal/validators
+        - path: github.com/hashicorp/terraform-plugin-framework/path
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/listvalidator
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/int64validator
+        schema_definition: |-
+          listvalidator.SizeAtLeast(1),
+          listvalidator.ValueInt64sAre(int64validator.Between(1, 8))
+  - name: custom_ble_packet_enabled
+    get: 
+    - bool
+    validators:
+    - custom:
+        imports:
+        - path: github.com/Juniper/terraform-provider-mist/internal/validators
+        - path: github.com/hashicorp/terraform-plugin-framework/path
+        schema_definition: mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("beacon_enabled"),
+          types.BoolValue(true))
+  - name: custom_ble_packet_frame
+    get: 
+    - string
+    validators:
+    - custom:
+        imports:
+        - path: github.com/Juniper/terraform-provider-mist/internal/validators
+        - path: github.com/hashicorp/terraform-plugin-framework/path
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+        schema_definition: mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("custom_ble_packet_enabled"),
+          types.BoolValue(true))
+  - name: custom_ble_packet_freq_msec
+    get: 
+    - int64
+    validators:
+    - custom:
+        imports:
+        - path: github.com/Juniper/terraform-provider-mist/internal/validators
+        - path: github.com/hashicorp/terraform-plugin-framework/path
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/int64validator
+        schema_definition: mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("custom_ble_packet_enabled"),
+          types.BoolValue(true))
+  - name: eddystone_uid_enabled
+    get: 
+    - bool
+    validators:
+    - custom:
+        imports:
+        - path: github.com/Juniper/terraform-provider-mist/internal/validators
+        - path: github.com/hashicorp/terraform-plugin-framework/path
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+        schema_definition: mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("beacon_enabled"),
+          types.BoolValue(false))
+  - name: eddystone_uid_freq_msec
+    get: 
+    - int64
+    validators:
+    - custom:
+        imports:
+        - path: github.com/Juniper/terraform-provider-mist/internal/validators
+        - path: github.com/hashicorp/terraform-plugin-framework/path
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/int64validator
+        schema_definition: mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("eddystone_uid_enabled"),
+          types.BoolValue(true))
+  - name: eddystone_uid_instance
+    get: 
+    - string
+    validators:
+    - custom:
+        imports:
+        - path: github.com/Juniper/terraform-provider-mist/internal/validators
+        - path: github.com/hashicorp/terraform-plugin-framework/path
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+        schema_definition: mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("eddystone_uid_enabled"),
+          types.BoolValue(true))
+  - name: eddystone_uid_namespace
+    get: 
+    - string
+    validators:
+    - custom:
+        imports:
+        - path: github.com/Juniper/terraform-provider-mist/internal/validators
+        - path: github.com/hashicorp/terraform-plugin-framework/path
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+        schema_definition: mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("eddystone_uid_enabled"),
+          types.BoolValue(true))
+  - name: eddystone_url_beams
+    get: 
+    - string
+    validators:
+    - custom:
+        imports:
+        - path: github.com/Juniper/terraform-provider-mist/internal/validators
+        - path: github.com/hashicorp/terraform-plugin-framework/path
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+        schema_definition: mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("eddystone_url_enabled"),
+          types.BoolValue(true))
+  - name: eddystone_url_enabled
+    get: 
+    - bool
+    validators:
+    - custom:
+        imports:
+        - path: github.com/Juniper/terraform-provider-mist/internal/validators
+        - path: github.com/hashicorp/terraform-plugin-framework/path
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+        schema_definition: mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("beacon_enabled"),
+          types.BoolValue(false))
+  - name: eddystone_url_freq_msec
+    get: 
+    - int64
+    validators:
+    - custom:
+        imports:
+        - path: github.com/Juniper/terraform-provider-mist/internal/validators
+        - path: github.com/hashicorp/terraform-plugin-framework/path
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/int64validator
+        schema_definition: mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("eddystone_url_enabled"),
+          types.BoolValue(true))
+  - name: eddystone_url_url
+    get: 
+    - string
+    validators:
+    - custom:
+        imports:
+        - path: github.com/Juniper/terraform-provider-mist/internal/validators
+        - path: github.com/hashicorp/terraform-plugin-framework/path
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+        schema_definition: mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("eddystone_url_enabled"),
+          types.BoolValue(true))
+  - name: ibeacon_beams
+    get: 
+    - string
+    validators:
+    - custom:
+        imports:
+        - path: github.com/Juniper/terraform-provider-mist/internal/validators
+        - path: github.com/hashicorp/terraform-plugin-framework/path
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+        schema_definition: mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("ibeacon_enabled"),
+          types.BoolValue(true))
+  - name: ibeacon_enabled
+    get: 
+    - bool
+    validators:
+    - custom:
+        imports:
+        - path: github.com/Juniper/terraform-provider-mist/internal/validators
+        - path: github.com/hashicorp/terraform-plugin-framework/path
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+        schema_definition: mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("beacon_enabled"),
+          types.BoolValue(true))
+  - name: ibeacon_freq_msec
+    get: 
+    - int64
+    validators:
+    - custom:
+        imports:
+        - path: github.com/Juniper/terraform-provider-mist/internal/validators
+        - path: github.com/hashicorp/terraform-plugin-framework/path
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/int64validator
+        schema_definition: mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("ibeacon_enabled"),
+          types.BoolValue(true))
+  - name: ibeacon_major
+    get: 
+    - int64
+    validators:
+    - custom:
+        imports:
+        - path: github.com/Juniper/terraform-provider-mist/internal/validators
+        - path: github.com/hashicorp/terraform-plugin-framework/path
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/int64validator
+        schema_definition: mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("ibeacon_enabled"),
+          types.BoolValue(true))
+  - name: ibeacon_minor
+    get: 
+    - int64
+    validators:
+    - custom:
+        imports:
+        - path: github.com/Juniper/terraform-provider-mist/internal/validators
+        - path: github.com/hashicorp/terraform-plugin-framework/path
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/int64validator
+        schema_definition: mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("ibeacon_enabled"),
+          types.BoolValue(true))
+  - name: ibeacon_uuid
+    get: 
+    - string
+    validators:
+    - custom:
+        imports:
+        - path: github.com/Juniper/terraform-provider-mist/internal/validators
+        - path: github.com/hashicorp/terraform-plugin-framework/path
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+        schema_definition: mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("ibeacon_enabled"),
+          types.BoolValue(true))
+- name: critical_url_monitoring
+  get:
+  - single_nested
+  - attributes
+  next:
+  - name: monitors
+    computed_optional_required: computed_optional
+    get:
+    - list_nested
+    validators:
+    - custom:
+        imports:
+        - path: github.com/hashicorp/terraform-plugin-framework/path
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/listvalidator
+        schema_definition: listvalidator.SizeAtLeast(1)
+  - get:
+    - list_nested
+    - nested_object
+    - attributes
+    name: monitors
+    next:
+    - get:
+      - string
+      name: vlan_id
+      validators:
+      - custom:
+          imports:
+          - path: github.com/Juniper/terraform-provider-mist/internal/validators
+          - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+          schema_definition: stringvalidator.Any(mistvalidator.ParseInt(1, 4094),mistvalidator.ParseVar(),)
+- get:
+  - single_nested
+  - attributes
+  name: gateway_mgmt
+  next:
+  - computed_optional_required: computed_optional
+    default: |-
+      {"custom": {"imports": [
+        {"path": "github.com/hashicorp/terraform-plugin-framework/attr"},
+        {"path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault"},
+        {"path": "github.com/hashicorp/terraform-plugin-framework/types"}
+      ],
+      "schema_definition": "listdefault.StaticValue(types.ListNull(types.StringType))"}}
+    get:
+    - list
+    name: admin_sshkeys
+    validators:
+    - custom:
+        imports:
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/listvalidator
+        schema_definition: listvalidator.SizeAtLeast(1)
+  - name: app_probing
+    get:
+    - single_nested
+    - attributes
+    next:
+    - name: custom_apps
+      get: 
+      - list_nested
+      validators:
+      - custom:
+          imports:
+          - path: github.com/hashicorp/terraform-plugin-framework-validators/listvalidator
+          schema_definition: listvalidator.SizeAtLeast(1)
+    - name: custom_apps
+      get: 
+      - list_nested
+      - nested_object
+      - attributes
+      next:
+      - name: address
+        get:
+        - string
+        computed_optional_required: computed
+        description: " "
+        plan_modifiers:
+        - custom:
+            imports:
+            - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier
+            - path: github.com/Juniper/terraform-provider-mist/internal/planmodifiers
+            schema_definition: mistplanmodifiers.OnlyRefreshIfValueHasChanged(path.MatchRelative().AtParent().AtName("hostnames"))
+      - name: url
+        get:
+        - string
+        computed_optional_required: computed
+        description: " "
+        plan_modifiers:
+        - custom:
+            imports:
+            - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier
+            - path: github.com/Juniper/terraform-provider-mist/internal/planmodifiers
+            schema_definition: mistplanmodifiers.OnlyRefreshIfValueHasChanged(path.MatchRelative().AtParent().AtName("hostnames"))
+      - name: hostnames
+        get:
+        - list
+        computed_optional_required: required
+        description: |-
+          Only 1 entry is allowed:
+              * if `protocol`==`http`: URL (e.g. `http://test.com` or `https://test.com`)
+              * if `protocol`==`icmp`: IP Address (e.g. `1.2.3.4`)
+        validators:
+        - custom:
+            imports:
+            - path: github.com/hashicorp/terraform-plugin-framework-validators/listvalidator
+            schema_definition: |-
+              listvalidator.SizeAtLeast(1),
+              listvalidator.SizeAtMost(1)
+      - name: key
+        get:
+        - string
+        computed_optional_required: computed
+        no_sensitive: true
+        plan_modifiers:
+        - custom:
+            imports:
+            - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier
+            - path: github.com/Juniper/terraform-provider-mist/internal/planmodifiers
+            schema_definition: mistplanmodifiers.OnlyRefreshIfValueHasChanged(path.MatchRelative().AtParent().AtName("hostnames"))
+      - name: name
+        get:
+        - string
+        computed_optional_required: required
+      - name: protocol
+        get:
+        - string
+        computed_optional_required: required
+        no_default: true
+  - computed_optional_required: computed_optional
+    default: |-
+      {"custom": {"imports": [
+        {"path": "github.com/hashicorp/terraform-plugin-framework/attr"},
+        {"path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault"},
+        {"path": "github.com/hashicorp/terraform-plugin-framework/types"}
+      ],
+      "schema_definition": "listdefault.StaticValue(types.ListNull(types.StringType))"}}
+    get:
+    - list
+    name: probe_hosts
+  - get:
+    - single_nested
+    - attributes
+    name: protect_re
+    next:
+    - computed_optional_required: computed_optional
+      get:
+      - list
+      name: allowed_services
+      description: "optionally, services we'll allow. enum: `icmp`, `ssh`"
+      default: 
+        custom: 
+          imports:            
+          - path: "github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault"
+          schema_definition: listdefault.StaticValue(basetypes.NewListValueMust(basetypes.StringType{}, []attr.Value{}))
+      validators:
+      - custom:
+          imports:
+          - path: github.com/Juniper/terraform-provider-mist/internal/validators
+          - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+          - path: github.com/hashicorp/terraform-plugin-framework-validators/listvalidator
+          schema_definition: |-
+            listvalidator.ValueStringsAre(
+              stringvalidator.OneOf(
+                "icmp",
+                "ssh",
+              ),
+            )
+    - computed_optional_required: computed_optional
+      get:
+      - list
+      name: trusted_hosts
+      default: 
+        custom: 
+          imports:            
+          - path: "github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault"
+          schema_definition: listdefault.StaticValue(basetypes.NewListValueMust(basetypes.StringType{}, []attr.Value{}))
+    - name: custom
+      computed_optional_required: computed_optional
+      get:
+      - list_nested
+      default: 
+        custom: 
+          imports:            
+          - path: "github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault"
+          schema_definition: listdefault.StaticValue(basetypes.NewListValueMust(CustomValue{}.Type(ctx), []attr.Value{}))
+    - name: custom
+      get:
+      - list_nested
+      - nested_object
+      - attributes
+      next:
+      - name: subnets
+        get:
+        - list
+        computed_optional_required: required
+        validators:
+        - custom:
+            imports:
+            - path: github.com/Juniper/terraform-provider-mist/internal/validators
+            - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+            - path: github.com/hashicorp/terraform-plugin-framework-validators/listvalidator
+            schema_definition: |-
+              listvalidator.SizeAtLeast(1),
+              listvalidator.ValueStringsAre(
+                stringvalidator.Any(
+                mistvalidator.ParseCidr(true, true),
+                mistvalidator.ParseIp(true, true),
+                ),
+              )
+      - name: port_range
+        get:
+        - string    
+        description: "matched dst port, \"0\" means any. Note: For `protocol`==`any` and  `port_range`==`any`, configure `trusted_hosts` instead"
+        validators:
+        - custom:
+            imports:
+            - path: github.com/Juniper/terraform-provider-mist/internal/validators
+            - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+            schema_definition:
+              stringvalidator.Any(
+                mistvalidator.ParseRangeOfInt(0, 65535, true),
+                mistvalidator.ParseInt(0, 65535),
+              )
+      - name: protocol
+        get:
+        - string
+        description:  "enum: `any`, `icmp`, `tcp`, `udp`. Note: For `protocol`==`any` and  `port_range`==`any`, configure `trusted_hosts` instead"
+- get:
+  - single_nested
+  - attributes
+  name: rogue
+  next:
+  - computed_optional_required: computed_optional
+    get:
+    - list
+    name: whitelisted_bssids
+    validators:
+    - custom:
+        imports:
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/listvalidator
+        schema_definition: listvalidator.SizeAtLeast(1)
+  - computed_optional_required: computed_optional
+    get:
+    - list
+    name: whitelisted_ssids
+    validators:
+    - custom:
+        imports:
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/listvalidator
+        schema_definition: listvalidator.SizeAtLeast(1)
+- computed_optional_required: computed_optional
+  get:
+  - list
+  name: ssh_keys
+  validators:
+  - custom:
+      imports:
+      - path: github.com/hashicorp/terraform-plugin-framework-validators/listvalidator
+      schema_definition: listvalidator.SizeAtLeast(1)
+  default: 
+    custom: 
+      imports:            
+      - path: "github.com/hashicorp/terraform-plugin-framework/attr"
+      - path: "github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault"
+      - path: "github.com/hashicorp/terraform-plugin-framework/types"
+      schema_definition: listdefault.StaticValue(types.ListNull(types.StringType))
+- get:
+  - single_nested
+  - attributes
+  name: synthetic_test
+  next:
+  - name: vlans
+    get:
+    - list_nested
+    validators:
+    - custom:
+        imports:
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/listvalidator
+        schema_definition: listvalidator.SizeAtLeast(1)
+  - name: vlans
+    get:
+    - list_nested
+    - nested_object
+    - attributes
+    next:
+    - name: custom_test_urls
+      computed_optional_required: computed_optional
+      get:
+      - list
+      validators:
+      - custom:
+          imports:
+          - path: github.com/hashicorp/terraform-plugin-framework-validators/listvalidator
+          schema_definition: listvalidator.SizeAtLeast(1)
+    - name: vlan_ids
+      computed_optional_required: computed_optional
+      get:
+      - list
+      validators:
+      - custom:
+          imports:
+          - path: github.com/hashicorp/terraform-plugin-framework-validators/listvalidator
+          - path: github.com/hashicorp/terraform-plugin-framework-validators/int64validator
+          schema_definition: |-          
+            listvalidator.SizeAtLeast(1),
+            listvalidator.ValueInt64sAre(
+              int64validator.Between(1, 4094),
+            )
+- name: vs_instance
+  get:
+  - map_nested
+  - nested_object
+  - attributes
+  next:
+  - name: networks
+    computed_optional_required: computed_optional
+    get:
+    - list
+    validators:
+    - custom:
+        imports:
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/listvalidator
+        schema_definition: listvalidator.SizeAtLeast(1)
+- name: zone_occupancy_alert
+  get:
+  - single_nested
+  - attributes
+  next: 
+  - name: email_notifiers
+    get: 
+    - list 
+    validators:
+    - custom:
+        imports:
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/listvalidator
+        schema_definition: listvalidator.SizeAtLeast(1)

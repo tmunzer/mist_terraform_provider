@@ -1,0 +1,17 @@
+provider:
+  name: mistapi
+data_sources:
+  org_webhooks:
+    read:
+      path: /api/v1/orgs/{org_id}/webhooks
+      method: GET
+    schema:
+      ignores:  
+      - for_site
+  site_webhooks:
+    read:
+      path: /api/v1/sites/{site_id}/webhooks
+      method: GET
+    schema:
+      ignores:  
+      - for_site

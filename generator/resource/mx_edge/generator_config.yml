@@ -1,0 +1,25 @@
+provider:
+  name: mistapi
+resources:
+  org_mx_edge:
+    create:
+      path: /api/v1/orgs/{org_id}/mxedges
+      method: POST
+    read:
+      path: /api/v1/orgs/{org_id}/mxedges/{mxedge_id}
+      method: GET
+    delete:
+      path: /api/v1/orgs/{org_id}/mxedges/{mxedge_id}
+      method: DELETE
+    update:
+      path: /api/v1/orgs/{org_id}/mxedges/{mxedge_id}
+      method: PUT      
+    schema:
+      ignores:
+        - created_time
+        - modified_time
+        - for_site
+        - version
+      attributes:
+        aliases:
+          mxedge_id: id     

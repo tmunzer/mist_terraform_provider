@@ -1,0 +1,27 @@
+provider:
+  name: mistapi
+resources:
+  org_apitoken:
+    create:
+      path: /api/v1/orgs/{org_id}/apitokens
+      method: POST
+    read:
+      path: /api/v1/orgs/{org_id}/apitokens/{apitoken_id}
+      method: GET
+    delete:
+      path: /api/v1/orgs/{org_id}/apitokens/{apitoken_id}
+      method: DELETE
+    update:
+      path: /api/v1/orgs/{org_id}/apitokens/{apitoken_id}
+      method: PUT      
+    schema:
+      ignores:
+        - created_time
+        - modified_time
+        - for_site
+        - site_id
+        - last_used
+        - privileges.org_id
+      attributes:
+        aliases:
+          apitoken_id: id

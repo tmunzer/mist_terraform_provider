@@ -1,0 +1,7 @@
+provider:
+  name: mistapi
+data_sources:
+  org_wlantemplates:
+    read:
+      path: /api/v1/orgs/{org_id}/templates
+      method: GET  

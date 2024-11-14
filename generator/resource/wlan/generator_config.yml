@@ -1,0 +1,127 @@
+provider:
+  name: mistapi
+resources:
+  org_wlan_portal_image:   
+    create:
+      path: /api/v1/orgs/{org_id}/wlans/{wlan_id}/portal_image
+      method: POST
+    read:
+      path: /api/v1/orgs/{org_id}/wlans/{wlan_id}/portal_image
+      method: POST
+    delete:
+      path: /api/v1/orgs/{org_id}/wlans/{wlan_id}/portal_image
+      method: DELETE
+    update:
+      path: /api/v1/orgs/{org_id}/wlans/{wlan_id}/portal_image
+      method: POST     
+    schema:
+      ignores:
+        - json
+  site_wlan_portal_image:
+    create:
+      path: /api/v1/sites/{site_id}/wlans/{wlan_id}/portal_image
+      method: POST
+    read:
+      path: /api/v1/sites/{site_id}/wlans/{wlan_id}/portal_image
+      method: POST
+    delete:
+      path: /api/v1/sites/{site_id}/wlans/{wlan_id}/portal_image
+      method: DELETE
+    update:
+      path: /api/v1/sites/{site_id}/wlans/{wlan_id}/portal_image
+      method: POST
+    schema:
+      ignores:
+        - json
+  org_wlan_portal_template:
+    create:
+      path: /api/v1/orgs/{org_id}/wlans/{wlan_id}/portal_template
+      method: PUT
+    read:
+      path: /api/v1/orgs/{org_id}/wlans/{wlan_id}/portal_template
+      method: GET
+    delete:
+      path: /api/v1/orgs/{org_id}/wlans/{wlan_id}/portal_template
+      method: PUT
+    update:
+      path: /api/v1/orgs/{org_id}/wlans/{wlan_id}/portal_template
+      method: PUT     
+    schema:
+      ignores:
+      - for_site
+      - site_id
+      - created_time
+      - portal_template.logoHeight
+      - portal_template.logoWidth
+  site_wlan_portal_template:
+    create:
+      path: /api/v1/sites/{site_id}/wlans/{wlan_id}/portal_template
+      method: PUT
+    read:
+      path: /api/v1/sites/{site_id}/wlans/{wlan_id}/portal_template
+      method: GET
+    delete:
+      path: /api/v1/sites/{site_id}/wlans/{wlan_id}/portal_template
+      method: PUT
+    update:
+      path: /api/v1/sites/{site_id}/wlans/{wlan_id}/portal_template
+      method: PUT
+    schema:
+      ignores:
+      - for_site
+      - org_id
+      - modified_time
+      - portal_template.logoHeight
+      - portal_template.logoWidth
+  org_wlan:
+    create:
+      path: /api/v1/orgs/{org_id}/wlans
+      method: POST
+    read:
+      path: /api/v1/orgs/{org_id}/wlans/{wlan_id}
+      method: GET
+    delete:
+      path: /api/v1/orgs/{org_id}/wlans/{wlan_id}
+      method: DELETE
+    update:
+      path: /api/v1/orgs/{org_id}/wlans/{wlan_id}
+      method: PUT      
+    schema:
+      ignores:
+        - created_time
+        - modified_time
+        - for_site
+        - site_id
+        - mxtunnel_id
+        - rateset
+        - band
+        - dynamic_vlan.default_vlan_id
+      attributes:
+        aliases:
+          wlan_id: id      
+  site_wlan:
+    create:
+      path: /api/v1/sites/{site_id}/wlans
+      method: POST
+    read:
+      path: /api/v1/sites/{site_id}/wlans/{wlan_id}
+      method: GET
+    delete:
+      path: /api/v1/sites/{site_id}/wlans/{wlan_id}
+      method: DELETE
+    update:
+      path: /api/v1/sites/{site_id}/wlans/{wlan_id}
+      method: PUT      
+    schema:
+      ignores:
+        - created_time
+        - modified_time
+        - for_site
+        - template_id
+        - mxtunnel_id
+        - rateset
+        - band
+        - dynamic_vlan.default_vlan_id
+      attributes:
+        aliases:
+          wlan_id: id      

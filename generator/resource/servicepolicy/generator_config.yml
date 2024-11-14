@@ -1,0 +1,23 @@
+provider:
+  name: mistapi
+resources:
+  org_servicepolicy:
+    create:
+      path: /api/v1/orgs/{org_id}/servicepolicies
+      method: POST
+    read:
+      path: /api/v1/orgs/{org_id}/servicepolicies/{servicepolicy_id}
+      method: GET
+    delete:
+      path: /api/v1/orgs/{org_id}/servicepolicies/{servicepolicy_id}
+      method: DELETE
+    update:
+      path: /api/v1/orgs/{org_id}/servicepolicies/{servicepolicy_id}
+      method: PUT
+    schema:
+      ignores:
+        - created_time
+        - modified_time
+      attributes:
+        aliases:
+          servicepolicy_id: id

@@ -1,0 +1,3 @@
+./terraform-provider-mist/internal/resource_org_inventory/org_inventory_resource_gen.go:
+  rename:
+    magic: claim_code

@@ -1,0 +1,11 @@
+provider:
+  name: mistapi
+data_sources:
+  org_networktemplates:
+    read:
+      path: /api/v1/orgs/{org_id}/networktemplates
+      method: GET
+    schema:
+      ignores:
+        - import_org_networks
+        - switch_matching.rules.switch_mgmt

@@ -1,0 +1,36 @@
+./terraform-provider-mist/internal/datasource_device_gateway_stats/device_gateway_stats_data_source_gen.go:
+  rename:
+    Cpu2StatValue: CpuStatValue
+    Cpu2StatType: CpuStatType
+    Dhcpd2StatValue: DhcpdStatValue
+    Dhcpd2StatType: DhcpdStatType
+    If2StatValue: IfStatValue
+    If2StatType: IfStatType
+    Ip2StatValue: IpStatValue
+    Ip2StatType: IpStatType
+    Memory2StatValue: MemoryStatValue
+    Memory2StatType: MemoryStatType
+    Module2StatValue: ModuleStatValue
+    Module2StatType: ModuleStatType
+    Service2StatValue: ServiceStatValue
+    Service2StatType: ServiceStatType
+    Spu2StatValue: SpuStatValue
+    Spu2StatType: SpuStatType
+  dedup:
+    - ServpInfo
+    - Errors
+    - Fans
+    - Pics
+    - PortGroups
+    - Poe
+    - Psus
+    - Temperatures
+    - VcLinks
+    - CpuStat
+    - DhcpdStat
+    - IfStat
+    - IpStat
+    - MemoryStat
+    - ModuleStat
+    - ServiceStat
+    - SpuStat

@@ -1,0 +1,19 @@
+./terraform-provider-mist/internal/datasource_org_networktemplates/org_networktemplates_data_source_gen.go:
+  rename:
+    matching_rules: rules
+    tacacct_servers: acct_servers
+    vrf_extra_routes: extra_routes
+    snmpv3_contents: contents
+    snmpv3_users: users
+    snmpv3_vacm_content: content
+    ospf_networks: networks
+  dedup:
+    - ExtraRoutes
+    - Archive
+    - Contents
+    - Users
+    - PortMirroring
+    - NextQualified
+    - RadiusConfig
+    - AcctServers
+    - AuthServers

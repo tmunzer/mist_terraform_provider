@@ -1,0 +1,16 @@
+./terraform-provider-mist/internal/resource_device_switch/device_switch_resource_gen.go:
+  rename:
+    matching_rules: rules
+    tacacct_servers: acct_servers
+    vrf_extra_routes: vrf_extra_routes
+    snmpv3_contents: contents
+    snmpv3_users: users
+    snmpv3_vacm_content: content
+    ospf_networks: networks
+  dedup:
+    - ExtraRoutes
+    - Archive
+    - Contents
+    - Users
+    - PortMirroring
+    - NextQualified

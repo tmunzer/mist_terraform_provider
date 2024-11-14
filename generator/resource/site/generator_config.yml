@@ -1,0 +1,23 @@
+provider:
+  name: mistapi
+resources:
+  site:
+    create:
+      path: /api/v1/orgs/{org_id}/sites
+      method: POST
+    read:
+      path: /api/v1/sites/{site_id}
+      method: GET
+    delete:
+      path: /api/v1/sites/{site_id}
+      method: DELETE
+    update:
+      path: /api/v1/sites/{site_id}
+      method: PUT      
+    schema:
+      attributes:
+        aliases:
+          site_id: id
+      ignores:
+        - created_time
+        - modified_time

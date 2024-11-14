@@ -1,0 +1,24 @@
+provider:
+  name: mistapi
+resources:
+  org_mx_cluster:
+    create:
+      path: /api/v1/orgs/{org_id}/mxclusters
+      method: POST
+    read:
+      path: /api/v1/orgs/{org_id}/mxclusters/{mxcluster_id}
+      method: GET
+    delete:
+      path: /api/v1/orgs/{org_id}/mxclusters/{mxcluster_id}
+      method: DELETE
+    update:
+      path: /api/v1/orgs/{org_id}/mxclusters/{mxcluster_id}
+      method: PUT      
+    schema:
+      ignores:
+        - created_time
+        - modified_time
+        - for_site
+      attributes:
+        aliases:
+          mxcluster_id: id     

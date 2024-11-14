@@ -1,0 +1,50 @@
+provider:
+  name: mistapi
+resources:
+  org_inventory:
+    create:
+      path: /api/v1/orgs/{org_id}/inventory
+      method: POST
+    read:
+      path: /api/v1/orgs/{org_id}/inventory
+      method: GET
+    delete:
+      path: /api/v1/orgs/{org_id}/inventory
+      method: POST
+    update:
+      path: /api/v1/orgs/{org_id}/inventory
+      method: POST        
+    schema:
+        ignores:
+        - added
+        - duplicated
+        - error 
+        - inventory_duplicated
+        - inventory_added
+        - limit
+        - mac
+        - model
+        - page
+        - reason
+        - serial
+        - site_id
+        - type
+        - unassigned
+        - vc
+        - vc_mac
+        - devices.adopted
+        - devices.connected
+        - devices.created_time
+        - devices.name
+        - devices.hw_rev
+        - devices.jsi
+        - devices.modified_time
+        - devices.sku
+        - inventory.adopted
+        - inventory.connected
+        - inventory.created_time
+        - inventory.name
+        - inventory.hw_rev
+        - inventory.jsi
+        - inventory.modified_time
+        - inventory.sku

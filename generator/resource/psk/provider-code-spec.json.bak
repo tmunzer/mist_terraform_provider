@@ -1,0 +1,352 @@
+{
+	"provider": {
+		"name": "mistapi"
+	},
+	"resources": [
+		{
+			"name": "org_psk",
+			"schema": {
+				"attributes": [
+					{
+						"name": "email",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"description": "email to send psk expiring notifications to"
+						}
+					},
+					{
+						"name": "expire_time",
+						"int64": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": 0
+							},
+							"description": "Expire time for this PSK key (epoch time in seconds). Default `null` (as no expiration)"
+						}
+					},
+					{
+						"name": "expiry_notification_time",
+						"int64": {
+							"computed_optional_required": "computed_optional",
+							"description": "Number of days before psk is expired. Used as to when to start sending reminder notification when the psk is about to expire"
+						}
+					},
+					{
+						"name": "id",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"description": "Unique ID of the object instance in the Mist Organnization"
+						}
+					},
+					{
+						"name": "mac",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"description": "if `usage`==`single`, the mac that this PSK ties to, empty if `auto-binding`"
+						}
+					},
+					{
+						"name": "macs",
+						"list": {
+							"computed_optional_required": "computed_optional",
+							"element_type": {
+								"string": {}
+							},
+							"description": "if `usage`==`macs`, this list contains N number of client mac addresses or mac patterns(11:22:*) or both. This list is capped at 5000"
+						}
+					},
+					{
+						"name": "max_usage",
+						"int64": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": 0
+							},
+							"description": "For Org PSK Only. Max concurrent users for this PSK key. Default is 0 (unlimited)"
+						}
+					},
+					{
+						"name": "name",
+						"string": {
+							"computed_optional_required": "required"
+						}
+					},
+					{
+						"name": "note",
+						"string": {
+							"computed_optional_required": "computed_optional"
+						}
+					},
+					{
+						"name": "notify_expiry",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": false
+							},
+							"description": "If set to true, reminder notification will be sent when psk is about to expire"
+						}
+					},
+					{
+						"name": "notify_on_create_or_edit",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"description": "If set to true, notification will be sent when psk is created or edited"
+						}
+					},
+					{
+						"name": "old_passphrase",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"description": "previous passphrase of the PSK if it has been rotated"
+						}
+					},
+					{
+						"name": "org_id",
+						"string": {
+							"computed_optional_required": "computed_optional"
+						}
+					},
+					{
+						"name": "passphrase",
+						"string": {
+							"computed_optional_required": "required",
+							"description": "passphrase of the PSK (8-63 character or 64 in hex)",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+											}
+										],
+										"schema_definition": "stringvalidator.LengthBetween(8, 64)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "role",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+											}
+										],
+										"schema_definition": "stringvalidator.LengthBetween(0, 32)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "ssid",
+						"string": {
+							"computed_optional_required": "required",
+							"description": "SSID this PSK should be applicable to"
+						}
+					},
+					{
+						"name": "usage",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": "multi"
+							},
+							"description": "enum: `macs`, `multi`, `single`",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+											}
+										],
+										"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"macs\",\n\"multi\",\n\"single\",\n)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "vlan_id",
+						"string": {
+							"computed_optional_required": "computed_optional"
+						}
+					}
+				]
+			}
+		},
+		{
+			"name": "site_psk",
+			"schema": {
+				"attributes": [
+					{
+						"name": "email",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"description": "email to send psk expiring notifications to"
+						}
+					},
+					{
+						"name": "expire_time",
+						"int64": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": 0
+							},
+							"description": "Expire time for this PSK key (epoch time in seconds). Default `null` (as no expiration)"
+						}
+					},
+					{
+						"name": "expiry_notification_time",
+						"int64": {
+							"computed_optional_required": "computed_optional",
+							"description": "Number of days before psk is expired. Used as to when to start sending reminder notification when the psk is about to expire"
+						}
+					},
+					{
+						"name": "id",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"description": "Unique ID of the object instance in the Mist Organnization"
+						}
+					},
+					{
+						"name": "mac",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"description": "if `usage`==`single`, the mac that this PSK ties to, empty if `auto-binding`"
+						}
+					},
+					{
+						"name": "name",
+						"string": {
+							"computed_optional_required": "required"
+						}
+					},
+					{
+						"name": "note",
+						"string": {
+							"computed_optional_required": "computed_optional"
+						}
+					},
+					{
+						"name": "notify_expiry",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": false
+							},
+							"description": "If set to true, reminder notification will be sent when psk is about to expire"
+						}
+					},
+					{
+						"name": "notify_on_create_or_edit",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"description": "If set to true, notification will be sent when psk is created or edited"
+						}
+					},
+					{
+						"name": "old_passphrase",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"description": "previous passphrase of the PSK if it has been rotated"
+						}
+					},
+					{
+						"name": "org_id",
+						"string": {
+							"computed_optional_required": "computed_optional"
+						}
+					},
+					{
+						"name": "passphrase",
+						"string": {
+							"computed_optional_required": "required",
+							"description": "passphrase of the PSK (8-63 character or 64 in hex)",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+											}
+										],
+										"schema_definition": "stringvalidator.LengthBetween(8, 64)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "role",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+											}
+										],
+										"schema_definition": "stringvalidator.LengthBetween(0, 32)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "site_id",
+						"string": {
+							"computed_optional_required": "computed_optional"
+						}
+					},
+					{
+						"name": "ssid",
+						"string": {
+							"computed_optional_required": "required",
+							"description": "SSID this PSK should be applicable to"
+						}
+					},
+					{
+						"name": "usage",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": "multi"
+							},
+							"description": "enum: `macs`, `multi`, `single`",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+											}
+										],
+										"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"macs\",\n\"multi\",\n\"single\",\n)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "vlan_id",
+						"string": {
+							"computed_optional_required": "computed_optional"
+						}
+					}
+				]
+			}
+		}
+	],
+	"version": "0.1"
+}

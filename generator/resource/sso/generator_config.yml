@@ -1,0 +1,48 @@
+provider:
+  name: mistapi
+resources:
+  org_sso:
+    create:
+      path: /api/v1/orgs/{org_id}/ssos
+      method: POST
+    read:
+      path: /api/v1/orgs/{org_id}/ssos/{sso_id}
+      method: GET
+    delete:
+      path: /api/v1/orgs/{org_id}/ssos/{sso_id}
+      method: DELETE
+    update:
+      path: /api/v1/orgs/{org_id}/ssos/{sso_id}
+      method: PUT      
+    schema:
+      ignores:
+        - created_time
+        - modified_time
+        - msp_id
+        - site_id
+        - mxedge_proxy
+        - idp_type
+        - ldap_base_dn
+        - ldap_bind_dn
+        - ldap_bind_password
+        - ldap_certs
+        - ldap_client_cert
+        - ldap_client_key
+        - ldap_group_attr
+        - ldap_group_dn
+        - ldap_group_filter
+        - ldap_member_filter
+        - ldap_resolve_groups
+        - ldap_server_hosts
+        - ldap_type
+        - ldap_user_filter
+        - oauth_cc_client_id
+        - oauth_cc_client_secret
+        - oauth_discovery_url
+        - oauth_ropc_client_id
+        - oauth_ropc_client_secret
+        - oauth_tenant_id
+        - oauth_type
+      attributes:
+        aliases:
+          sso_id: id

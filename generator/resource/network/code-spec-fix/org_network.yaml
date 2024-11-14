@@ -1,0 +1,110 @@
+get:
+- schema
+- attributes
+name: org_network
+next:
+- computed_optional_required: required
+  get:
+  - string
+  name: name
+  validators:
+  - custom:
+      imports:
+      - path: github.com/Juniper/terraform-provider-mist/internal/validators
+      - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+      schema_definition: stringvalidator.All(stringvalidator.LengthBetween(2, 32),mistvalidator.ParseName(),)
+- get:
+  - string
+  name: gateway
+  validators:
+  - custom:
+      imports:
+      - path: github.com/Juniper/terraform-provider-mist/internal/validators
+      - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+      schema_definition: stringvalidator.Any(mistvalidator.ParseIp(true, false), mistvalidator.ParseVar())
+- get:
+  - string
+  name: gateway6
+  validators:
+  - custom:
+      imports:
+      - path: github.com/Juniper/terraform-provider-mist/internal/validators
+      - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+      schema_definition: stringvalidator.Any(mistvalidator.ParseIp(false, true), mistvalidator.ParseVar())
+- computed_optional_required: required
+  get:
+  - string
+  name: subnet
+  validators:
+  - custom:
+      imports:
+      - path: github.com/Juniper/terraform-provider-mist/internal/validators
+      - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+      schema_definition: stringvalidator.Any(mistvalidator.ParseCidr(true, false),
+        mistvalidator.ParseVar())
+- computed_optional_required: optional
+  get:
+  - string
+  name: subnet6
+  validators:
+  - custom:
+      imports:
+      - path: github.com/Juniper/terraform-provider-mist/internal/validators
+      - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+      schema_definition: stringvalidator.Any(mistvalidator.ParseCidr(false, true),
+        mistvalidator.ParseVar())
+- get:
+  - string
+  name: vlan_id
+  validators:
+  - custom:
+      imports:
+      - path: github.com/Juniper/terraform-provider-mist/internal/validators
+      - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+      schema_definition: stringvalidator.Any(mistvalidator.ParseInt(1, 4094),mistvalidator.ParseVar(),)
+- computed_optional_required: required
+  get:
+  - string
+  name: org_id
+- computed_optional_required: computed
+  get:
+  - string
+  name: id
+- get:
+  - map_nested
+  - nested_object
+  - attributes
+  name: vpn_access
+  next:
+  - computed_optional_required: computed_optional
+    default: |-
+      {"custom": {"imports": [
+        {"path": "github.com/hashicorp/terraform-plugin-framework/attr"},
+        {"path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault"},
+        {"path": "github.com/hashicorp/terraform-plugin-framework/types"}
+      ],
+      "schema_definition": "listdefault.StaticValue(types.ListNull(types.StringType))"}}
+    get:
+    - list
+    name: other_vrfs
+  - computed_optional_required: computed_optional
+    get:
+    - map_nested
+    name: destination_nat
+  - computed_optional_required: computed_optional
+    get:
+    - single_nested
+    name: source_nat
+  - computed_optional_required: computed_optional
+    get:
+    - map_nested
+    name: static_nat
+  - get:
+    - single_nested
+    - attributes
+    name: source_nat
+    next:
+    - computed_optional_required: optional
+      get:
+      - string
+      name: external_ip

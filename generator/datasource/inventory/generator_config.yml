@@ -1,0 +1,14 @@
+provider:
+  name: mistapi
+data_sources:
+  org_inventory:
+    read:
+      path: /api/v1/orgs/{org_id}/inventory
+      method: GET
+    schema:
+      ignores:
+      - limit
+      - page
+      - type
+      - devices.unclaim_when_destroyed
+      - inventory

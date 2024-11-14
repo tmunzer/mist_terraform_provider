@@ -1,0 +1,6 @@
+./terraform-provider-mist/internal/resource_org_rftemplate/org_rftemplate_resource_gen.go:
+  dedup:
+    - Band24
+    - Band5
+    - Band6
+    - Band5On24Radio
