@@ -110,11 +110,11 @@ ARG=$1
 while echo "$ARG" | grep -qv "^$"
 do
     case "$ARG" in
-        "-r" )  shift
+        -r )  shift
                 resource $1
                 shift
                 ARG=$1;;
-        "-d" )  shift
+        -d )  shift
                 datasource $1
                 shift
                 ARG=$1;;
