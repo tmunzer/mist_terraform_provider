@@ -1,5 +1,5 @@
 
-./terraform-provider-mist/internal/resource_org_network/org_network_resource_gen.go:
+internal/resource_org_network/org_network_resource_gen.go:
   dedup:
     - DestinationNat
     - StaticNat

@@ -18,8 +18,9 @@ resources:
       ignores:
         - created_time
         - modified_time
-        - admin_sso_id
         - site_id
+        - config
+        - overwrite
       attributes:
         aliases:
           evpn_topology_id: id
@@ -40,8 +41,8 @@ resources:
       ignores:
         - created_time
         - modified_time
-        - admin_sso_id
-        - site_id
+        - config
+        - overwrite
       attributes:
         aliases:
           evpn_topology_id: id

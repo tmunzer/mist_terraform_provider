@@ -1,5 +1,5 @@
 
-./terraform-provider-mist/internal/resource_org_networktemplate/org_networktemplate_resource_gen.go:
+internal/resource_org_networktemplate/org_networktemplate_resource_gen.go:
   rename:
     matching_rules: rules
     tacacct_servers: acct_servers
@@ -18,7 +18,7 @@
     - RadiusConfig
     - AcctServers
     - AuthServers
-./terraform-provider-mist/internal/resource_site_networktemplate/site_networktemplate_resource_gen.go:
+internal/resource_site_networktemplate/site_networktemplate_resource_gen.go:
   rename:
     matching_rules: rules
     tacacct_servers: acct_servers

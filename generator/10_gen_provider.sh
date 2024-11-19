@@ -60,8 +60,8 @@ resource_gen() {
 resource_pre_fix(){
     if [ -f "pre_fix.py" ]
     then 
-        echo "OpenAPI Specs: applying prefix ..."
-        ./pre_fix.py
+        echo "OpenAPI Specs: applying prefix..."
+        python3 ./pre_fix.py
     else
         echo "OpenAPI Specs: no prefix to the apply..."
     fi
@@ -71,11 +71,11 @@ resource_post_fix() {
     if [ -f "post_fix.yml" ]
     then 
         echo "TF Resource: applying postfix..."
-        python3 ./10_fix_generated.py -f $1/post_fix.yml
+        python3 $CUR_FOLDER/10_fix_generated.py --fix_file $1/post_fix.yml --provider_path=$PVD_FOLDER
     elif [ -f "post_fix.yaml" ]
     then
         echo "TF Resource: applying postfix..."
-        python3 ./10_fix_generated.py -f $1/post_fix.yaml
+        python3 $CUR_FOLDER/10_fix_generated.py --fix_file $1/post_fix.yaml --provider_path=$PVD_FOLDER
     else
         echo "TF Resource: no postfix to apply..."
     fi
@@ -110,13 +110,18 @@ ARG=$1
 while echo "$ARG" | grep -qv "^$"
 do
     case "$ARG" in
-        -r )  shift
-                resource $1
-                shift
-                ARG=$1;;
-        -d )  shift
-                datasource $1
-                shift
-                ARG=$1;;
+        -r )shift
+            resource $1
+            shift
+            ARG=$1;;
+        -d )shift
+            datasource $1
+            shift
+            ARG=$1;;
+        * ) echo "Invalid Parameter $ARG. Exiting..."
+            exit 255;;
     esac
 done
+
+cd $PVD_FOLDER
+make fmt

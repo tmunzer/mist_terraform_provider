@@ -1,0 +1,4757 @@
+{
+	"provider": {
+		"name": "mistapi"
+	},
+	"resources": [
+		{
+			"name": "device_switch",
+			"schema": {
+				"attributes": [
+					{
+						"name": "acl_policies",
+						"list_nested": {
+							"computed_optional_required": "computed_optional",
+							"nested_object": {
+								"attributes": [
+									{
+										"name": "actions",
+										"list_nested": {
+											"computed_optional_required": "computed_optional",
+											"nested_object": {
+												"attributes": [
+													{
+														"name": "action",
+														"string": {
+															"computed_optional_required": "computed_optional",
+															"description": "enum: `allow`, `deny`",
+															"validators": [
+																{
+																	"custom": {
+																		"imports": [
+																			{
+																				"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																			}
+																		],
+																		"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"allow\",\n\"deny\",\n)"
+																	}
+																}
+															]
+														}
+													},
+													{
+														"name": "dst_tag",
+														"string": {
+															"computed_optional_required": "required"
+														}
+													}
+												]
+											},
+											"description": "- for GBP-based policy, all src_tags and dst_tags have to be gbp-based\n- for ACL-based policy, `network` is required in either the source or destination so that we know where to attach the policy to"
+										}
+									},
+									{
+										"name": "name",
+										"string": {
+											"computed_optional_required": "computed_optional"
+										}
+									},
+									{
+										"name": "src_tags",
+										"list": {
+											"computed_optional_required": "computed_optional",
+											"element_type": {
+												"string": {}
+											},
+											"description": "- for GBP-based policy, all src_tags and dst_tags have to be gbp-based\n- for ACL-based policy, `network` is required in either the source or destination so that we know where to attach the policy to"
+										}
+									}
+								]
+							}
+						}
+					},
+					{
+						"name": "acl_tags",
+						"map_nested": {
+							"computed_optional_required": "computed_optional",
+							"nested_object": {
+								"attributes": [
+									{
+										"name": "gbp_tag",
+										"int64": {
+											"computed_optional_required": "computed_optional",
+											"description": "required if\n- `type`==`dynamic_gbp` (gbp_tag received from RADIUS)\n- `type`==`gbp_resource`\n- `type`==`static_gbp` (applying gbp tag against matching conditions)"
+										}
+									},
+									{
+										"name": "macs",
+										"list": {
+											"computed_optional_required": "computed_optional",
+											"element_type": {
+												"string": {}
+											},
+											"description": "required if \n- `type`==`mac`\n- `type`==`static_gbp` if from matching mac"
+										}
+									},
+									{
+										"name": "network",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"description": "if:\n  * `type`==`mac` (optional. default is `any`)\n  * `type`==`subnet` (optional. default is `any`)\n  * `type`==`network`\n  * `type`==`resource` (optional. default is `any`)\n  * `type`==`static_gbp` if from matching network (vlan)'"
+										}
+									},
+									{
+										"name": "radius_group",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"description": "required if:\n  * `type`==`radius_group`\n  * `type`==`static_gbp`\nif from matching radius_group"
+										}
+									},
+									{
+										"name": "specs",
+										"list_nested": {
+											"computed_optional_required": "computed_optional",
+											"nested_object": {
+												"attributes": [
+													{
+														"name": "port_range",
+														"string": {
+															"computed_optional_required": "computed_optional",
+															"default": {
+																"static": "80"
+															},
+															"description": "matched dst port, \"0\" means any"
+														}
+													},
+													{
+														"name": "protocol",
+														"string": {
+															"computed_optional_required": "computed_optional",
+															"default": {
+																"static": "any"
+															},
+															"description": "`tcp` / `udp` / `icmp` / `gre` / `any` / `:protocol_number`. `protocol_number` is between 1-254"
+														}
+													}
+												]
+											},
+											"description": "if `type`==`resource` or `type`==`gbp_resource`\nempty means unrestricted, i.e. any"
+										}
+									},
+									{
+										"name": "subnets",
+										"list": {
+											"computed_optional_required": "computed_optional",
+											"element_type": {
+												"string": {}
+											},
+											"description": "if \n- `type`==`subnet` \n- `type`==`resource` (optional. default is `any`)\n- `type`==`static_gbp` if from matching subnet"
+										}
+									},
+									{
+										"name": "type",
+										"string": {
+											"computed_optional_required": "required",
+											"description": "enum: \n  * `any`: matching anything not identified\n  * `dynamic_gbp`: from the gbp_tag received from RADIUS\n  * `gbp_resource`: can only be used in `dst_tags`\n  * `mac`\n  * `network`\n  * `radius_group`\n  * `resource`: can only be used in `dst_tags`\n  * `static_gbp`: applying gbp tag against matching conditions\n  * `subnet`'",
+											"validators": [
+												{
+													"custom": {
+														"imports": [
+															{
+																"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+															}
+														],
+														"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"any\",\n\"dynamic_gbp\",\n\"gbp_resource\",\n\"mac\",\n\"network\",\n\"radius_group\",\n\"resource\",\n\"static_gbp\",\n\"subnet\",\n)"
+													}
+												}
+											]
+										}
+									}
+								]
+							},
+							"description": "ACL Tags to identify traffic source or destination. Key name is the tag name"
+						}
+					},
+					{
+						"name": "additional_config_cmds",
+						"list": {
+							"computed_optional_required": "computed_optional",
+							"element_type": {
+								"string": {}
+							},
+							"description": "additional CLI commands to append to the generated Junos config\n\n**Note**: no check is done"
+						}
+					},
+					{
+						"name": "dhcp_snooping",
+						"single_nested": {
+							"computed_optional_required": "computed_optional",
+							"attributes": [
+								{
+									"name": "all_networks",
+									"bool": {
+										"computed_optional_required": "computed_optional"
+									}
+								},
+								{
+									"name": "enable_arp_spoof_check",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"description": "Enable for dynamic ARP inspection check"
+									}
+								},
+								{
+									"name": "enable_ip_source_guard",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"description": "Enable for check for forging source IP address"
+									}
+								},
+								{
+									"name": "enabled",
+									"bool": {
+										"computed_optional_required": "computed_optional"
+									}
+								},
+								{
+									"name": "networks",
+									"list": {
+										"computed_optional_required": "computed_optional",
+										"element_type": {
+											"string": {}
+										},
+										"description": "if `all_networks`==`false`, list of network with DHCP snooping enabled"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "dhcpd_config",
+						"single_nested": {
+							"computed_optional_required": "computed_optional",
+							"attributes": [
+								{
+									"name": "config",
+									"map_nested": {
+										"computed_optional_required": "computed_optional",
+										"nested_object": {
+											"attributes": [
+												{
+													"name": "dns_servers",
+													"list": {
+														"computed_optional_required": "computed_optional",
+														"element_type": {
+															"string": {}
+														},
+														"description": "if `type`==`server` or `type6`==`server` - optional, if not defined, system one will be used"
+													}
+												},
+												{
+													"name": "dns_suffix",
+													"list": {
+														"computed_optional_required": "computed_optional",
+														"element_type": {
+															"string": {}
+														},
+														"description": "if `type`==`server` or `type6`==`server` - optional, if not defined, system one will be used"
+													}
+												},
+												{
+													"name": "fixed_bindings",
+													"map_nested": {
+														"computed_optional_required": "computed_optional",
+														"nested_object": {
+															"attributes": [
+																{
+																	"name": "ip",
+																	"string": {
+																		"computed_optional_required": "computed_optional"
+																	}
+																},
+																{
+																	"name": "name",
+																	"string": {
+																		"computed_optional_required": "computed_optional"
+																	}
+																}
+															]
+														},
+														"description": "if `type`==`server` or `type6`==`server`. Property key is the MAC Address. Format is `[0-9a-f]{12}` (e.g \"5684dae9ac8b\")"
+													}
+												},
+												{
+													"name": "gateway",
+													"string": {
+														"computed_optional_required": "computed_optional",
+														"description": "if `type`==`server`  - optional, `ip` will be used if not provided"
+													}
+												},
+												{
+													"name": "ip_end",
+													"string": {
+														"computed_optional_required": "computed_optional",
+														"description": "if `type`==`server`"
+													}
+												},
+												{
+													"name": "ip_end6",
+													"string": {
+														"computed_optional_required": "computed_optional",
+														"description": "if `type6`==`server`"
+													}
+												},
+												{
+													"name": "ip_start",
+													"string": {
+														"computed_optional_required": "computed_optional",
+														"description": "if `type`==`server`"
+													}
+												},
+												{
+													"name": "ip_start6",
+													"string": {
+														"computed_optional_required": "computed_optional",
+														"description": "if `type6`==`server`"
+													}
+												},
+												{
+													"name": "lease_time",
+													"int64": {
+														"computed_optional_required": "computed_optional",
+														"default": {
+															"static": 86400
+														},
+														"description": "in seconds, lease time has to be between 3600 [1hr] - 604800 [1 week], default is 86400 [1 day]",
+														"validators": [
+															{
+																"custom": {
+																	"imports": [
+																		{
+																			"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+																		}
+																	],
+																	"schema_definition": "int64validator.Between(3600, 604800)"
+																}
+															}
+														]
+													}
+												},
+												{
+													"name": "options",
+													"map_nested": {
+														"computed_optional_required": "computed_optional",
+														"nested_object": {
+															"attributes": [
+																{
+																	"name": "type",
+																	"string": {
+																		"computed_optional_required": "computed_optional",
+																		"description": "enum: `boolean`, `hex`, `int16`, `int32`, `ip`, `string`, `uint16`, `uint32`",
+																		"validators": [
+																			{
+																				"custom": {
+																					"imports": [
+																						{
+																							"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																						}
+																					],
+																					"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"boolean\",\n\"hex\",\n\"int16\",\n\"int32\",\n\"ip\",\n\"string\",\n\"uint16\",\n\"uint32\",\n)"
+																				}
+																			}
+																		]
+																	}
+																},
+																{
+																	"name": "value",
+																	"string": {
+																		"computed_optional_required": "computed_optional"
+																	}
+																}
+															]
+														},
+														"description": "if `type`==`server` or `type6`==`server`. Property key is the DHCP option number"
+													}
+												},
+												{
+													"name": "server_id_override",
+													"bool": {
+														"computed_optional_required": "computed_optional",
+														"default": {
+															"static": false
+														},
+														"description": "`server_id_override`==`true` means the device, when acts as DHCP relay and forwards DHCP responses from DHCP server to clients, \nshould overwrite the Sever Identifier option (i.e. DHCP option 54) in DHCP responses with its own IP address."
+													}
+												},
+												{
+													"name": "servers",
+													"list": {
+														"computed_optional_required": "computed_optional",
+														"element_type": {
+															"string": {}
+														},
+														"description": "if `type`==`relay`"
+													}
+												},
+												{
+													"name": "servers6",
+													"list": {
+														"computed_optional_required": "computed_optional",
+														"element_type": {
+															"string": {}
+														},
+														"description": "if `type6`==`relay`"
+													}
+												},
+												{
+													"name": "type",
+													"string": {
+														"computed_optional_required": "computed_optional",
+														"description": "enum: `none`, `relay` (DHCP Relay), `server` (DHCP Server)",
+														"validators": [
+															{
+																"custom": {
+																	"imports": [
+																		{
+																			"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																		}
+																	],
+																	"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"none\",\n\"relay\",\n\"server\",\n)"
+																}
+															}
+														]
+													}
+												},
+												{
+													"name": "type6",
+													"string": {
+														"computed_optional_required": "computed_optional",
+														"default": {
+															"static": "none"
+														},
+														"description": "enum: `none`, `relay` (DHCP Relay), `server` (DHCP Server)",
+														"validators": [
+															{
+																"custom": {
+																	"imports": [
+																		{
+																			"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																		}
+																	],
+																	"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"none\",\n\"relay\",\n\"server\",\n)"
+																}
+															}
+														]
+													}
+												},
+												{
+													"name": "vendor_encapulated",
+													"map_nested": {
+														"computed_optional_required": "computed_optional",
+														"nested_object": {
+															"attributes": [
+																{
+																	"name": "type",
+																	"string": {
+																		"computed_optional_required": "computed_optional",
+																		"description": "enum: `boolean`, `hex`, `int16`, `int32`, `ip`, `string`, `uint16`, `uint32`",
+																		"validators": [
+																			{
+																				"custom": {
+																					"imports": [
+																						{
+																							"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																						}
+																					],
+																					"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"boolean\",\n\"hex\",\n\"int16\",\n\"int32\",\n\"ip\",\n\"string\",\n\"uint16\",\n\"uint32\",\n)"
+																				}
+																			}
+																		]
+																	}
+																},
+																{
+																	"name": "value",
+																	"string": {
+																		"computed_optional_required": "computed_optional"
+																	}
+																}
+															]
+														},
+														"description": "if `type`==`server` or `type6`==`server`. Property key is \u003centerprise number\u003e:\u003csub option code\u003e, with\n  * enterprise number: 1-65535 (https://www.iana.org/assignments/enterprise-numbers/enterprise-numbers)\n  * sub option code: 1-255, sub-option code'"
+													}
+												}
+											]
+										},
+										"description": "Property key is the network name"
+									}
+								},
+								{
+									"name": "enabled",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										},
+										"description": "if set to `true`, enable the DHCP server"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "disable_auto_config",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": false
+							},
+							"description": "for a claimed switch, we control the configs by default. This option (disables the behavior)"
+						}
+					},
+					{
+						"name": "dns_servers",
+						"list": {
+							"computed_optional_required": "computed_optional",
+							"element_type": {
+								"string": {}
+							},
+							"description": "Global dns settings. To keep compatibility, dns settings in `ip_config` and `oob_ip_config` will overwrite this setting"
+						}
+					},
+					{
+						"name": "dns_suffix",
+						"list": {
+							"computed_optional_required": "computed_optional",
+							"element_type": {
+								"string": {}
+							},
+							"description": "Global dns settings. To keep compatibility, dns settings in `ip_config` and `oob_ip_config` will overwrite this setting"
+						}
+					},
+					{
+						"name": "evpn_config",
+						"single_nested": {
+							"computed_optional_required": "computed_optional",
+							"attributes": [
+								{
+									"name": "enabled",
+									"bool": {
+										"computed_optional_required": "computed_optional"
+									}
+								},
+								{
+									"name": "role",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"description": "enum: `access`, `core`, `distribution`",
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+														}
+													],
+													"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"access\",\n\"core\",\n\"distribution\",\n)"
+												}
+											}
+										]
+									}
+								}
+							],
+							"description": "EVPN Junos settings"
+						}
+					},
+					{
+						"name": "extra_routes",
+						"map_nested": {
+							"computed_optional_required": "computed_optional",
+							"nested_object": {
+								"attributes": [
+									{
+										"name": "discard",
+										"bool": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": false
+											},
+											"description": "this takes precedence"
+										}
+									},
+									{
+										"name": "metric",
+										"int64": {
+											"computed_optional_required": "computed_optional",
+											"validators": [
+												{
+													"custom": {
+														"imports": [
+															{
+																"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+															}
+														],
+														"schema_definition": "int64validator.Between(0, 2147483647)"
+													}
+												}
+											]
+										}
+									},
+									{
+										"name": "next_qualified",
+										"map_nested": {
+											"computed_optional_required": "computed_optional",
+											"nested_object": {
+												"attributes": [
+													{
+														"name": "metric",
+														"int64": {
+															"computed_optional_required": "computed_optional"
+														}
+													},
+													{
+														"name": "preference",
+														"int64": {
+															"computed_optional_required": "computed_optional"
+														}
+													}
+												]
+											}
+										}
+									},
+									{
+										"name": "no_resolve",
+										"bool": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": false
+											}
+										}
+									},
+									{
+										"name": "preference",
+										"int64": {
+											"computed_optional_required": "computed_optional",
+											"validators": [
+												{
+													"custom": {
+														"imports": [
+															{
+																"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+															}
+														],
+														"schema_definition": "int64validator.Between(0, 2147483647)"
+													}
+												}
+											]
+										}
+									},
+									{
+										"name": "via",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"description": "next-hop IP Address"
+										}
+									}
+								]
+							}
+						}
+					},
+					{
+						"name": "extra_routes6",
+						"map_nested": {
+							"computed_optional_required": "computed_optional",
+							"nested_object": {
+								"attributes": [
+									{
+										"name": "discard",
+										"bool": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": false
+											},
+											"description": "this takes precedence"
+										}
+									},
+									{
+										"name": "metric",
+										"int64": {
+											"computed_optional_required": "computed_optional",
+											"validators": [
+												{
+													"custom": {
+														"imports": [
+															{
+																"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+															}
+														],
+														"schema_definition": "int64validator.Between(0, 2147483647)"
+													}
+												}
+											]
+										}
+									},
+									{
+										"name": "next_qualified",
+										"map_nested": {
+											"computed_optional_required": "computed_optional",
+											"nested_object": {
+												"attributes": [
+													{
+														"name": "metric",
+														"int64": {
+															"computed_optional_required": "computed_optional"
+														}
+													},
+													{
+														"name": "preference",
+														"int64": {
+															"computed_optional_required": "computed_optional"
+														}
+													}
+												]
+											}
+										}
+									},
+									{
+										"name": "no_resolve",
+										"bool": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": false
+											}
+										}
+									},
+									{
+										"name": "preference",
+										"int64": {
+											"computed_optional_required": "computed_optional",
+											"validators": [
+												{
+													"custom": {
+														"imports": [
+															{
+																"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+															}
+														],
+														"schema_definition": "int64validator.Between(0, 2147483647)"
+													}
+												}
+											]
+										}
+									},
+									{
+										"name": "via",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"description": "next-hop IP Address"
+										}
+									}
+								]
+							},
+							"description": "Property key is the destination CIDR (e.g. \"2a02:1234:420a:10c9::/64\")"
+						}
+					},
+					{
+						"name": "image1_url",
+						"string": {
+							"computed_optional_required": "computed_optional"
+						}
+					},
+					{
+						"name": "image2_url",
+						"string": {
+							"computed_optional_required": "computed_optional"
+						}
+					},
+					{
+						"name": "image3_url",
+						"string": {
+							"computed_optional_required": "computed_optional"
+						}
+					},
+					{
+						"name": "ip_config",
+						"single_nested": {
+							"computed_optional_required": "computed_optional",
+							"attributes": [
+								{
+									"name": "dns",
+									"list": {
+										"computed_optional_required": "computed_optional",
+										"element_type": {
+											"string": {}
+										},
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
+														}
+													],
+													"schema_definition": "listvalidator.UniqueValues()"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "dns_suffix",
+									"list": {
+										"computed_optional_required": "computed_optional",
+										"element_type": {
+											"string": {}
+										},
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
+														}
+													],
+													"schema_definition": "listvalidator.UniqueValues()"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "gateway",
+									"string": {
+										"computed_optional_required": "computed_optional"
+									}
+								},
+								{
+									"name": "ip",
+									"string": {
+										"computed_optional_required": "computed_optional"
+									}
+								},
+								{
+									"name": "netmask",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"description": "used only if `subnet` is not specified in `networks`"
+									}
+								},
+								{
+									"name": "network",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"description": "the network where this mgmt IP reside, this will be used as default network for outbound-ssh, dns, ntp, dns, tacplus, radius, syslog, snmp"
+									}
+								},
+								{
+									"name": "type",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": "dhcp"
+										},
+										"description": "enum: `dhcp`, `static`",
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+														}
+													],
+													"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"dhcp\",\n\"static\",\n)"
+												}
+											}
+										]
+									}
+								}
+							],
+							"description": "Junos IP Config"
+						}
+					},
+					{
+						"name": "local_port_config",
+						"map_nested": {
+							"computed_optional_required": "computed_optional",
+							"nested_object": {
+								"attributes": [
+									{
+										"name": "all_networks",
+										"bool": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": false
+											},
+											"description": "Only if `mode`==`trunk` whether to trunk all network/vlans"
+										}
+									},
+									{
+										"name": "allow_dhcpd",
+										"bool": {
+											"computed_optional_required": "computed_optional",
+											"description": "If DHCP snooping is enabled, whether DHCP server is allowed on the interfaces with.\nAll the interfaces from port configs using this port usage are effected. Please notice that allow_dhcpd is a tri_state.\nWhen it is not defined, it means using the system's default setting which depends on whether the port is a access or trunk port."
+										}
+									},
+									{
+										"name": "allow_multiple_supplicants",
+										"bool": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": false
+											}
+										}
+									},
+									{
+										"name": "bypass_auth_when_server_down",
+										"bool": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": false
+											},
+											"description": "Only if `port_auth`==`dot1x` bypass auth for known clients if set to true when RADIUS server is down"
+										}
+									},
+									{
+										"name": "bypass_auth_when_server_down_for_unkonwn_client",
+										"bool": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": false
+											},
+											"description": "Only if `port_auth`=`dot1x` bypass auth for all (including unknown clients) if set to true when RADIUS server is down"
+										}
+									},
+									{
+										"name": "description",
+										"string": {
+											"computed_optional_required": "computed_optional"
+										}
+									},
+									{
+										"name": "disable_autoneg",
+										"bool": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": false
+											},
+											"description": "Only if `mode`!=`dynamic` if speed and duplex are specified, whether to disable autonegotiation"
+										}
+									},
+									{
+										"name": "disabled",
+										"bool": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": false
+											},
+											"description": "whether the port is disabled"
+										}
+									},
+									{
+										"name": "duplex",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": "auto"
+											},
+											"description": "link connection mode. enum: `auto`, `full`, `half`",
+											"validators": [
+												{
+													"custom": {
+														"imports": [
+															{
+																"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+															}
+														],
+														"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"auto\",\n\"full\",\n\"half\",\n)"
+													}
+												}
+											]
+										}
+									},
+									{
+										"name": "dynamic_vlan_networks",
+										"list": {
+											"computed_optional_required": "computed_optional",
+											"element_type": {
+												"string": {}
+											},
+											"description": "Only if `port_auth`==`dot1x`, if dynamic vlan is used, specify the possible networks/vlans RADIUS can return"
+										}
+									},
+									{
+										"name": "enable_mac_auth",
+										"bool": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": false
+											},
+											"description": "Only if `port_auth`==`dot1x` whether to enable MAC Auth"
+										}
+									},
+									{
+										"name": "enable_qos",
+										"bool": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": false
+											}
+										}
+									},
+									{
+										"name": "guest_network",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"description": "Only if `port_auth`==`dot1x` which network to put the device into if the device cannot do dot1x. default is null (i.e. not allowed)"
+										}
+									},
+									{
+										"name": "inter_switch_link",
+										"bool": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": false
+											},
+											"description": "inter_switch_link is used together with \"isolation\" under networks\nNOTE: inter_switch_link works only between Juniper device. This has to be applied to both ports connected together"
+										}
+									},
+									{
+										"name": "mac_auth_only",
+										"bool": {
+											"computed_optional_required": "computed_optional",
+											"description": "Only if `enable_mac_auth`==`true`"
+										}
+									},
+									{
+										"name": "mac_auth_preferred",
+										"bool": {
+											"computed_optional_required": "computed_optional",
+											"description": "Only if `enable_mac_auth`==`true` + `mac_auth_only`==`false`, dot1x will be given priority then mac_auth. Enable this to prefer mac_auth over dot1x."
+										}
+									},
+									{
+										"name": "mac_auth_protocol",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": "eap-md5"
+											},
+											"description": "Only if `enable_mac_auth` ==`true`. This type is ignored if mist_nac is enabled. enum: `eap-md5`, `eap-peap`, `pap`",
+											"validators": [
+												{
+													"custom": {
+														"imports": [
+															{
+																"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+															}
+														],
+														"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"eap-md5\",\n\"eap-peap\",\n\"pap\",\n)"
+													}
+												}
+											]
+										}
+									},
+									{
+										"name": "mac_limit",
+										"int64": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": 0
+											},
+											"description": "max number of mac addresses, default is 0 for unlimited, otherwise range is 1 or higher, with upper bound constrained by platform",
+											"validators": [
+												{
+													"custom": {
+														"imports": [
+															{
+																"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+															}
+														],
+														"schema_definition": "int64validator.AtLeast(0)"
+													}
+												}
+											]
+										}
+									},
+									{
+										"name": "mode",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"description": "enum: `access`, `inet`, `trunk`",
+											"validators": [
+												{
+													"custom": {
+														"imports": [
+															{
+																"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+															}
+														],
+														"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"access\",\n\"inet\",\n\"trunk\",\n)"
+													}
+												}
+											]
+										}
+									},
+									{
+										"name": "mtu",
+										"int64": {
+											"computed_optional_required": "computed_optional",
+											"description": "media maximum transmission unit (MTU) is the largest data unit that can be forwarded without fragmentation. The default value is 1514."
+										}
+									},
+									{
+										"name": "networks",
+										"list": {
+											"computed_optional_required": "computed_optional",
+											"element_type": {
+												"string": {}
+											},
+											"description": "Only if `mode`==`trunk`, the list of network/vlans"
+										}
+									},
+									{
+										"name": "persist_mac",
+										"bool": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": false
+											},
+											"description": "Only if `mode`==`access` and `port_auth`!=`dot1x` whether the port should retain dynamically learned MAC addresses"
+										}
+									},
+									{
+										"name": "poe_disabled",
+										"bool": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": false
+											},
+											"description": "whether PoE capabilities are disabled for a port"
+										}
+									},
+									{
+										"name": "port_auth",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"description": "if dot1x is desired, set to dot1x. enum: `dot1x`",
+											"validators": [
+												{
+													"custom": {
+														"imports": [
+															{
+																"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+															}
+														],
+														"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"dot1x\",\n)"
+													}
+												}
+											]
+										}
+									},
+									{
+										"name": "port_network",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"description": "native network/vlan for untagged traffic"
+										}
+									},
+									{
+										"name": "reauth_interval",
+										"int64": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": 3600
+											},
+											"description": "Only if `port_auth`=`dot1x` reauthentication interval range",
+											"validators": [
+												{
+													"custom": {
+														"imports": [
+															{
+																"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+															}
+														],
+														"schema_definition": "int64validator.Between(10, 65535)"
+													}
+												}
+											]
+										}
+									},
+									{
+										"name": "server_fail_network",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"description": "Only if `port_auth`==`dot1x` sets server fail fallback vlan"
+										}
+									},
+									{
+										"name": "server_reject_network",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"description": "Only if `port_auth`==`dot1x` when radius server reject / fails"
+										}
+									},
+									{
+										"name": "speed",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": "auto"
+											},
+											"description": "enum: `100m`, `10m`, `1g`, `2.5g`, `5g`, `10g`, `25g`, `40g`, `100g`,`auto`",
+											"validators": [
+												{
+													"custom": {
+														"imports": [
+															{
+																"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+															}
+														],
+														"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"10m\",\n\"100m\",\n\"1g\",\n\"2.5g\",\n\"5g\",\n\"10g\",\n\"25g\",\n\"40g\",\n\"100g\",\n\"auto\",\n)"
+													}
+												}
+											]
+										}
+									},
+									{
+										"name": "storm_control",
+										"single_nested": {
+											"computed_optional_required": "computed_optional",
+											"attributes": [
+												{
+													"name": "no_broadcast",
+													"bool": {
+														"computed_optional_required": "computed_optional",
+														"default": {
+															"static": false
+														},
+														"description": "whether to disable storm control on broadcast traffic"
+													}
+												},
+												{
+													"name": "no_multicast",
+													"bool": {
+														"computed_optional_required": "computed_optional",
+														"default": {
+															"static": false
+														},
+														"description": "whether to disable storm control on multicast traffic"
+													}
+												},
+												{
+													"name": "no_registered_multicast",
+													"bool": {
+														"computed_optional_required": "computed_optional",
+														"default": {
+															"static": false
+														},
+														"description": "whether to disable storm control on registered multicast traffic"
+													}
+												},
+												{
+													"name": "no_unknown_unicast",
+													"bool": {
+														"computed_optional_required": "computed_optional",
+														"default": {
+															"static": false
+														},
+														"description": "whether to disable storm control on unknown unicast traffic"
+													}
+												},
+												{
+													"name": "percentage",
+													"int64": {
+														"computed_optional_required": "computed_optional",
+														"default": {
+															"static": 80
+														},
+														"description": "bandwidth-percentage, configures the storm control level as a percentage of the available bandwidth",
+														"validators": [
+															{
+																"custom": {
+																	"imports": [
+																		{
+																			"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+																		}
+																	],
+																	"schema_definition": "int64validator.Between(0, 100)"
+																}
+															}
+														]
+													}
+												}
+											],
+											"description": "Switch storm control"
+										}
+									},
+									{
+										"name": "stp_edge",
+										"bool": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": false
+											},
+											"description": "when enabled, the port is not expected to receive BPDU frames"
+										}
+									},
+									{
+										"name": "stp_no_root_port",
+										"bool": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": false
+											}
+										}
+									},
+									{
+										"name": "stp_p2p",
+										"bool": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": false
+											}
+										}
+									},
+									{
+										"name": "usage",
+										"string": {
+											"computed_optional_required": "required",
+											"description": "port usage name."
+										}
+									},
+									{
+										"name": "use_vstp",
+										"bool": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": false
+											},
+											"description": "if this is connected to a vstp network"
+										}
+									},
+									{
+										"name": "voip_network",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"description": "network/vlan for voip traffic, must also set port_network. to authenticate device, set port_auth"
+										}
+									}
+								]
+							},
+							"description": "Local port override, overriding the port configuration from `port_config`. Property key is the port name or range (e.g. \"ge-0/0/0-10\")"
+						}
+					},
+					{
+						"name": "mac",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"description": "device MAC address"
+						}
+					},
+					{
+						"name": "managed",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": false
+							},
+							"description": "for an adopted switch, we don’t overwrite their existing configs automatically"
+						}
+					},
+					{
+						"name": "map_id",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"description": "map where the device belongs to"
+						}
+					},
+					{
+						"name": "mist_nac",
+						"single_nested": {
+							"computed_optional_required": "computed_optional",
+							"attributes": [
+								{
+									"name": "enabled",
+									"bool": {
+										"computed_optional_required": "computed_optional"
+									}
+								},
+								{
+									"name": "network",
+									"string": {
+										"computed_optional_required": "computed_optional"
+									}
+								}
+							],
+							"description": "enable mist_nac to use radsec"
+						}
+					},
+					{
+						"name": "model",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"description": "device Model"
+						}
+					},
+					{
+						"name": "name",
+						"string": {
+							"computed_optional_required": "computed_optional"
+						}
+					},
+					{
+						"name": "networks",
+						"map_nested": {
+							"computed_optional_required": "computed_optional",
+							"nested_object": {
+								"attributes": [
+									{
+										"name": "isolation",
+										"bool": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": false
+											},
+											"description": "whether to stop clients to talk to each other, default is false (when enabled, a unique isolation_vlan_id is required)\nNOTE: this features requires uplink device to also a be Juniper device and `inter_switch_link` to be set"
+										}
+									},
+									{
+										"name": "isolation_vlan_id",
+										"string": {
+											"computed_optional_required": "computed_optional"
+										}
+									},
+									{
+										"name": "subnet",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"description": "optional for pure switching, required when L3 / routing features are used"
+										}
+									},
+									{
+										"name": "vlan_id",
+										"string": {
+											"computed_optional_required": "required"
+										}
+									}
+								]
+							},
+							"description": "Property key is network name"
+						}
+					},
+					{
+						"name": "notes",
+						"string": {
+							"computed_optional_required": "computed_optional"
+						}
+					},
+					{
+						"name": "ntp_servers",
+						"list": {
+							"computed_optional_required": "computed_optional",
+							"element_type": {
+								"string": {}
+							},
+							"description": "list of NTP servers specific to this device. By default, those in Site Settings will be used"
+						}
+					},
+					{
+						"name": "oob_ip_config",
+						"single_nested": {
+							"computed_optional_required": "computed_optional",
+							"attributes": [
+								{
+									"name": "gateway",
+									"string": {
+										"computed_optional_required": "computed_optional"
+									}
+								},
+								{
+									"name": "ip",
+									"string": {
+										"computed_optional_required": "computed_optional"
+									}
+								},
+								{
+									"name": "netmask",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"description": "used only if `subnet` is not specified in `networks`"
+									}
+								},
+								{
+									"name": "network",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"description": "optional, the network to be used for mgmt"
+									}
+								},
+								{
+									"name": "type",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": "dhcp"
+										},
+										"description": "enum: `dhcp`, `static`",
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+														}
+													],
+													"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"dhcp\",\n\"static\",\n)"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "use_mgmt_vrf",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										},
+										"description": "f supported on the platform. If enabled, DNS will be using this routing-instance, too"
+									}
+								},
+								{
+									"name": "use_mgmt_vrf_for_host_out",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										},
+										"description": "for host-out traffic (NTP/TACPLUS/RADIUS/SYSLOG/SNMP), if alternative source network/ip is desired"
+									}
+								}
+							],
+							"description": "- If HA configuration: key parameter will be nodeX (eg: node1)\n- If there are 2 routing engines, re1 mgmt IP has to be set separately (if desired): key parameter = `re1`"
+						}
+					},
+					{
+						"name": "org_id",
+						"string": {
+							"computed_optional_required": "computed_optional"
+						}
+					},
+					{
+						"name": "ospf_areas",
+						"map_nested": {
+							"computed_optional_required": "computed_optional",
+							"nested_object": {
+								"attributes": [
+									{
+										"name": "include_loopback",
+										"bool": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": false
+											}
+										}
+									},
+									{
+										"name": "networks",
+										"map_nested": {
+											"computed_optional_required": "computed_optional",
+											"nested_object": {
+												"attributes": [
+													{
+														"name": "auth_keys",
+														"map": {
+															"computed_optional_required": "computed_optional",
+															"element_type": {
+																"string": {}
+															},
+															"description": "Required if `auth_type`==`md5`. Property key is the key number"
+														}
+													},
+													{
+														"name": "auth_password",
+														"string": {
+															"computed_optional_required": "computed_optional",
+															"description": "Required if `auth_type`==`password`, the password, max length is 8"
+														}
+													},
+													{
+														"name": "auth_type",
+														"string": {
+															"computed_optional_required": "computed_optional",
+															"default": {
+																"static": "none"
+															},
+															"description": "auth type. enum: `md5`, `none`, `password`",
+															"validators": [
+																{
+																	"custom": {
+																		"imports": [
+																			{
+																				"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																			}
+																		],
+																		"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"md5\",\n\"none\",\n\"password\",\n)"
+																	}
+																}
+															]
+														}
+													},
+													{
+														"name": "bfd_minimum_interval",
+														"int64": {
+															"computed_optional_required": "computed_optional",
+															"validators": [
+																{
+																	"custom": {
+																		"imports": [
+																			{
+																				"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+																			}
+																		],
+																		"schema_definition": "int64validator.Between(1, 255000)"
+																	}
+																}
+															]
+														}
+													},
+													{
+														"name": "dead_interval",
+														"int64": {
+															"computed_optional_required": "computed_optional",
+															"validators": [
+																{
+																	"custom": {
+																		"imports": [
+																			{
+																				"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+																			}
+																		],
+																		"schema_definition": "int64validator.Between(1, 65535)"
+																	}
+																}
+															]
+														}
+													},
+													{
+														"name": "export_policy",
+														"string": {
+															"computed_optional_required": "computed_optional"
+														}
+													},
+													{
+														"name": "hello_interval",
+														"int64": {
+															"computed_optional_required": "computed_optional",
+															"validators": [
+																{
+																	"custom": {
+																		"imports": [
+																			{
+																				"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+																			}
+																		],
+																		"schema_definition": "int64validator.Between(1, 255)"
+																	}
+																}
+															]
+														}
+													},
+													{
+														"name": "import_policy",
+														"string": {
+															"computed_optional_required": "computed_optional"
+														}
+													},
+													{
+														"name": "interface_type",
+														"string": {
+															"computed_optional_required": "computed_optional",
+															"default": {
+																"static": "broadcast"
+															},
+															"description": "interface type (nbma = non-broadcast multi-access). enum: `broadcast`, `nbma`, `p2mp`, `p2p`",
+															"validators": [
+																{
+																	"custom": {
+																		"imports": [
+																			{
+																				"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																			}
+																		],
+																		"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"broadcast\",\n\"nbma\",\n\"p2mp\",\n\"p2p\",\n)"
+																	}
+																}
+															]
+														}
+													},
+													{
+														"name": "metric",
+														"int64": {
+															"computed_optional_required": "computed_optional",
+															"validators": [
+																{
+																	"custom": {
+																		"imports": [
+																			{
+																				"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+																			}
+																		],
+																		"schema_definition": "int64validator.Between(1, 65535)"
+																	}
+																}
+															]
+														}
+													},
+													{
+														"name": "no_readvertise_to_overlay",
+														"bool": {
+															"computed_optional_required": "computed_optional",
+															"default": {
+																"static": false
+															},
+															"description": "by default, we'll re-advertise all learned OSPF routes toward overlay"
+														}
+													},
+													{
+														"name": "passive",
+														"bool": {
+															"computed_optional_required": "computed_optional",
+															"default": {
+																"static": false
+															},
+															"description": "whether to send OSPF-Hello"
+														}
+													}
+												]
+											}
+										}
+									},
+									{
+										"name": "type",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": "default"
+											},
+											"description": "OSPF type. enum: `default`, `nssa`, `stub`",
+											"validators": [
+												{
+													"custom": {
+														"imports": [
+															{
+																"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+															}
+														],
+														"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"default\",\n\"nssa\",\n\"stub\",\n)"
+													}
+												}
+											]
+										}
+									}
+								]
+							},
+							"description": "Junos OSPF areas"
+						}
+					},
+					{
+						"name": "other_ip_configs",
+						"map_nested": {
+							"computed_optional_required": "computed_optional",
+							"nested_object": {
+								"attributes": [
+									{
+										"name": "evpn_anycast",
+										"bool": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": false
+											},
+											"description": "for EVPN, if anycast is desired"
+										}
+									},
+									{
+										"name": "ip",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"description": "required if `type`==`static`"
+										}
+									},
+									{
+										"name": "ip6",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"description": "required if `type6`==`static`"
+										}
+									},
+									{
+										"name": "netmask",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"description": "optional, `subnet` from `network` definition will be used if defined"
+										}
+									},
+									{
+										"name": "netmask6",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"description": "optional, `subnet` from `network` definition will be used if defined"
+										}
+									},
+									{
+										"name": "type",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": "dhcp"
+											},
+											"description": "enum: `dhcp`, `static`",
+											"validators": [
+												{
+													"custom": {
+														"imports": [
+															{
+																"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+															}
+														],
+														"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"dhcp\",\n\"static\",\n)"
+													}
+												}
+											]
+										}
+									},
+									{
+										"name": "type6",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": "disabled"
+											},
+											"description": "enum: `autoconf`, `dhcp`, `disabled`, `static`",
+											"validators": [
+												{
+													"custom": {
+														"imports": [
+															{
+																"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+															}
+														],
+														"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"autoconf\",\n\"dhcp\",\n\"disabled\",\n\"static\",\n)"
+													}
+												}
+											]
+										}
+									}
+								]
+							},
+							"description": "Property key is the network name"
+						}
+					},
+					{
+						"name": "port_config",
+						"map_nested": {
+							"computed_optional_required": "computed_optional",
+							"nested_object": {
+								"attributes": [
+									{
+										"name": "ae_disable_lacp",
+										"bool": {
+											"computed_optional_required": "computed_optional",
+											"description": "To disable LACP support for the AE interface"
+										}
+									},
+									{
+										"name": "ae_idx",
+										"int64": {
+											"computed_optional_required": "computed_optional",
+											"description": "Users could force to use the designated AE name"
+										}
+									},
+									{
+										"name": "ae_lacp_slow",
+										"bool": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": true
+											},
+											"description": "to use fast timeout"
+										}
+									},
+									{
+										"name": "aggregated",
+										"bool": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": false
+											}
+										}
+									},
+									{
+										"name": "critical",
+										"bool": {
+											"computed_optional_required": "computed_optional",
+											"description": "if want to generate port up/down alarm"
+										}
+									},
+									{
+										"name": "description",
+										"string": {
+											"computed_optional_required": "computed_optional"
+										}
+									},
+									{
+										"name": "disable_autoneg",
+										"bool": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": false
+											},
+											"description": "if `speed` and `duplex` are specified, whether to disable autonegotiation"
+										}
+									},
+									{
+										"name": "duplex",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": "auto"
+											},
+											"description": "enum: `auto`, `full`, `half`",
+											"validators": [
+												{
+													"custom": {
+														"imports": [
+															{
+																"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+															}
+														],
+														"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"auto\",\n\"full\",\n\"half\",\n)"
+													}
+												}
+											]
+										}
+									},
+									{
+										"name": "dynamic_usage",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"description": "Enable dynamic usage for this port. Set to `dynamic` to enable."
+										}
+									},
+									{
+										"name": "esilag",
+										"bool": {
+											"computed_optional_required": "computed_optional"
+										}
+									},
+									{
+										"name": "mtu",
+										"int64": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": 1514
+											},
+											"description": "media maximum transmission unit (MTU) is the largest data unit that can be forwarded without fragmentation"
+										}
+									},
+									{
+										"name": "no_local_overwrite",
+										"bool": {
+											"computed_optional_required": "computed_optional",
+											"description": "prevent helpdesk to override the port config"
+										}
+									},
+									{
+										"name": "poe_disabled",
+										"bool": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": false
+											}
+										}
+									},
+									{
+										"name": "speed",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": "auto"
+											},
+											"description": "enum: `100m`, `10m`, `1g`, `2.5g`, `5g`, `10g`, `25g`, `40g`, `100g`,`auto`",
+											"validators": [
+												{
+													"custom": {
+														"imports": [
+															{
+																"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+															}
+														],
+														"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"10m\",\n\"100m\",\n\"1g\",\n\"2.5g\",\n\"5g\",\n\"10g\",\n\"25g\",\n\"40g\",\n\"100g\",\n\"auto\",\n)"
+													}
+												}
+											]
+										}
+									},
+									{
+										"name": "usage",
+										"string": {
+											"computed_optional_required": "required",
+											"description": "port usage name. If EVPN is used, use `evpn_uplink`or `evpn_downlink`"
+										}
+									}
+								]
+							},
+							"description": "Property key is the port name or range (e.g. \"ge-0/0/0-10\")"
+						}
+					},
+					{
+						"name": "port_mirroring",
+						"map_nested": {
+							"computed_optional_required": "computed_optional",
+							"nested_object": {
+								"attributes": [
+									{
+										"name": "input_networks_ingress",
+										"list": {
+											"computed_optional_required": "computed_optional",
+											"element_type": {
+												"string": {}
+											},
+											"description": "at least one of the `input_port_ids_ingress`, `input_port_ids_egress` or `input_networks_ingress ` should be specified"
+										}
+									},
+									{
+										"name": "input_port_ids_egress",
+										"list": {
+											"computed_optional_required": "computed_optional",
+											"element_type": {
+												"string": {}
+											},
+											"description": "at least one of the `input_port_ids_ingress`, `input_port_ids_egress` or `input_networks_ingress ` should be specified"
+										}
+									},
+									{
+										"name": "input_port_ids_ingress",
+										"list": {
+											"computed_optional_required": "computed_optional",
+											"element_type": {
+												"string": {}
+											},
+											"description": "at least one of the `input_port_ids_ingress`, `input_port_ids_egress` or `input_networks_ingress ` should be specified"
+										}
+									},
+									{
+										"name": "output_network",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"description": "exaclty one of the `output_port_id` or `output_network` should be provided"
+										}
+									},
+									{
+										"name": "output_port_id",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"description": "exaclty one of the `output_port_id` or `output_network` should be provided"
+										}
+									}
+								]
+							},
+							"description": "Property key is the port mirroring instance name\nport_mirroring can be added under device/site settings. It takes interface and ports as input for ingress, interface as input for egress and can take interface and port as output. A maximum 4 port mirrorings is allowed"
+						}
+					},
+					{
+						"name": "port_usages",
+						"map_nested": {
+							"computed_optional_required": "computed_optional",
+							"nested_object": {
+								"attributes": [
+									{
+										"name": "all_networks",
+										"bool": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": false
+											},
+											"description": "Only if `mode`==`trunk` whether to trunk all network/vlans"
+										}
+									},
+									{
+										"name": "allow_dhcpd",
+										"bool": {
+											"computed_optional_required": "computed_optional",
+											"description": "Only if `mode`!=`dynamic`. If DHCP snooping is enabled, whether DHCP server is allowed on the interfaces with.\nAll the interfaces from port configs using this port usage are effected. Please notice that allow_dhcpd is a tri_state.\nWhen it is not defined, it means using the system's default setting which depends on whether the port is a access or trunk port."
+										}
+									},
+									{
+										"name": "allow_multiple_supplicants",
+										"bool": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": false
+											},
+											"description": "Only if `mode`!=`dynamic`"
+										}
+									},
+									{
+										"name": "bypass_auth_when_server_down",
+										"bool": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": false
+											},
+											"description": "Only if `mode`!=`dynamic` and `port_auth`==`dot1x` bypass auth for known clients if set to true when RADIUS server is down"
+										}
+									},
+									{
+										"name": "bypass_auth_when_server_down_for_unkonwn_client",
+										"bool": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": false
+											},
+											"description": "Only if `mode`!=`dynamic` and `port_auth`=`dot1x` bypass auth for all (including unknown clients) if set to true when RADIUS server is down"
+										}
+									},
+									{
+										"name": "description",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"description": "Only if `mode`!=`dynamic`"
+										}
+									},
+									{
+										"name": "disable_autoneg",
+										"bool": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": false
+											},
+											"description": "Only if `mode`!=`dynamic` if speed and duplex are specified, whether to disable autonegotiation"
+										}
+									},
+									{
+										"name": "disabled",
+										"bool": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": false
+											},
+											"description": "Only if `mode`!=`dynamic` whether the port is disabled"
+										}
+									},
+									{
+										"name": "duplex",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": "auto"
+											},
+											"description": "Only if `mode`!=`dynamic` link connection mode. enum: `auto`, `full`, `half`",
+											"validators": [
+												{
+													"custom": {
+														"imports": [
+															{
+																"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+															}
+														],
+														"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"auto\",\n\"full\",\n\"half\",\n)"
+													}
+												}
+											]
+										}
+									},
+									{
+										"name": "dynamic_vlan_networks",
+										"list": {
+											"computed_optional_required": "computed_optional",
+											"element_type": {
+												"string": {}
+											},
+											"description": "Only if `mode`!=`dynamic` and `port_auth`==`dot1x`, if dynamic vlan is used, specify the possible networks/vlans RADIUS can return"
+										}
+									},
+									{
+										"name": "enable_mac_auth",
+										"bool": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": false
+											},
+											"description": "Only if `mode`!=`dynamic` and `port_auth`==`dot1x` whether to enable MAC Auth"
+										}
+									},
+									{
+										"name": "enable_qos",
+										"bool": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": false
+											},
+											"description": "Only if `mode`!=`dynamic`"
+										}
+									},
+									{
+										"name": "guest_network",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"description": "Only if `mode`!=`dynamic` and `port_auth`==`dot1x` which network to put the device into if the device cannot do dot1x. default is null (i.e. not allowed)"
+										}
+									},
+									{
+										"name": "inter_switch_link",
+										"bool": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": false
+											},
+											"description": "Only if `mode`!=`dynamic` inter_switch_link is used together with \"isolation\" under networks\nNOTE: inter_switch_link works only between Juniper device. This has to be applied to both ports connected together"
+										}
+									},
+									{
+										"name": "mac_auth_only",
+										"bool": {
+											"computed_optional_required": "computed_optional",
+											"description": "Only if `mode`!=`dynamic` and `enable_mac_auth`==`true`"
+										}
+									},
+									{
+										"name": "mac_auth_preferred",
+										"bool": {
+											"computed_optional_required": "computed_optional",
+											"description": "Only if `mode`!=`dynamic` + `enable_mac_auth`==`true` + `mac_auth_only`==`false`, dot1x will be given priority then mac_auth. Enable this to prefer mac_auth over dot1x."
+										}
+									},
+									{
+										"name": "mac_auth_protocol",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": "eap-md5"
+											},
+											"description": "Only if `mode`!=`dynamic` and `enable_mac_auth` ==`true`. This type is ignored if mist_nac is enabled. enum: `eap-md5`, `eap-peap`, `pap`",
+											"validators": [
+												{
+													"custom": {
+														"imports": [
+															{
+																"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+															}
+														],
+														"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"eap-md5\",\n\"eap-peap\",\n\"pap\",\n)"
+													}
+												}
+											]
+										}
+									},
+									{
+										"name": "mac_limit",
+										"int64": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": 0
+											},
+											"description": "Only if `mode`!=`dynamic` max number of mac addresses, default is 0 for unlimited, otherwise range is 1 or higher, with upper bound constrained by platform",
+											"validators": [
+												{
+													"custom": {
+														"imports": [
+															{
+																"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+															}
+														],
+														"schema_definition": "int64validator.AtLeast(0)"
+													}
+												}
+											]
+										}
+									},
+									{
+										"name": "mode",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"description": "`mode`==`dynamic` must only be used if the port usage name is `dynamic`. enum: `access`, `dynamic`, `inet`, `trunk`",
+											"validators": [
+												{
+													"custom": {
+														"imports": [
+															{
+																"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+															}
+														],
+														"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"access\",\n\"dynamic\",\n\"inet\",\n\"trunk\",\n)"
+													}
+												}
+											]
+										}
+									},
+									{
+										"name": "mtu",
+										"int64": {
+											"computed_optional_required": "computed_optional",
+											"description": "Only if `mode`!=`dynamic` media maximum transmission unit (MTU) is the largest data unit that can be forwarded without fragmentation. The default value is 1514."
+										}
+									},
+									{
+										"name": "networks",
+										"list": {
+											"computed_optional_required": "computed_optional",
+											"element_type": {
+												"string": {}
+											},
+											"description": "Only if `mode`==`trunk`, the list of network/vlans"
+										}
+									},
+									{
+										"name": "persist_mac",
+										"bool": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": false
+											},
+											"description": "Only if `mode`==`access` and `port_auth`!=`dot1x` whether the port should retain dynamically learned MAC addresses"
+										}
+									},
+									{
+										"name": "poe_disabled",
+										"bool": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": false
+											},
+											"description": "Only if `mode`!=`dynamic` whether PoE capabilities are disabled for a port"
+										}
+									},
+									{
+										"name": "port_auth",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"description": "Only if `mode`!=`dynamic` if dot1x is desired, set to dot1x. enum: `dot1x`",
+											"validators": [
+												{
+													"custom": {
+														"imports": [
+															{
+																"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+															}
+														],
+														"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"dot1x\",\n)"
+													}
+												}
+											]
+										}
+									},
+									{
+										"name": "port_network",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"description": "Only if `mode`!=`dynamic` native network/vlan for untagged traffic"
+										}
+									},
+									{
+										"name": "reauth_interval",
+										"int64": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": 3600
+											},
+											"description": "Only if `mode`!=`dynamic` and `port_auth`=`dot1x` reauthentication interval range",
+											"validators": [
+												{
+													"custom": {
+														"imports": [
+															{
+																"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+															}
+														],
+														"schema_definition": "int64validator.Between(10, 65535)"
+													}
+												}
+											]
+										}
+									},
+									{
+										"name": "reset_default_when",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": "link_down"
+											},
+											"description": "Only if `mode`==`dynamic` Control when the DPC port should be changed to the default port usage. enum: `link_down`, `none` (let the DPC port keep at the current port usage)",
+											"validators": [
+												{
+													"custom": {
+														"imports": [
+															{
+																"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+															}
+														],
+														"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"link_down\",\n\"none\",\n)"
+													}
+												}
+											]
+										}
+									},
+									{
+										"name": "rules",
+										"list_nested": {
+											"computed_optional_required": "computed_optional",
+											"nested_object": {
+												"attributes": [
+													{
+														"name": "equals",
+														"string": {
+															"computed_optional_required": "computed_optional"
+														}
+													},
+													{
+														"name": "equals_any",
+														"list": {
+															"computed_optional_required": "computed_optional",
+															"element_type": {
+																"string": {}
+															},
+															"description": "use `equals_any` to match any item in a list"
+														}
+													},
+													{
+														"name": "expression",
+														"string": {
+															"computed_optional_required": "computed_optional",
+															"description": "\"[0:3]\":\"abcdef\" -\u003e \"abc\"\n\"split(.)[1]\": \"a.b.c\" -\u003e \"b\"\n\"split(-)[1][0:3]: \"a1234-b5678-c90\" -\u003e \"b56\""
+														}
+													},
+													{
+														"name": "src",
+														"string": {
+															"computed_optional_required": "required",
+															"description": "enum: `link_peermac`, `lldp_chassis_id`, `lldp_hardware_revision`, `lldp_manufacturer_name`, `lldp_oui`, `lldp_serial_number`, `lldp_system_name`, `radius_dynamicfilter`, `radius_usermac`, `radius_username`",
+															"validators": [
+																{
+																	"custom": {
+																		"imports": [
+																			{
+																				"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																			}
+																		],
+																		"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"link_peermac\",\n\"lldp_chassis_id\",\n\"lldp_hardware_revision\",\n\"lldp_manufacturer_name\",\n\"lldp_oui\",\n\"lldp_serial_number\",\n\"lldp_system_name\",\n\"radius_dynamicfilter\",\n\"radius_usermac\",\n\"radius_username\",\n)"
+																	}
+																}
+															]
+														}
+													},
+													{
+														"name": "usage",
+														"string": {
+															"computed_optional_required": "computed_optional",
+															"description": "`port_usage` name"
+														}
+													}
+												]
+											},
+											"description": "Only if `mode`==`dynamic`"
+										}
+									},
+									{
+										"name": "server_fail_network",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"description": "Only if `mode`!=`dynamic` and `port_auth`==`dot1x` sets server fail fallback vlan"
+										}
+									},
+									{
+										"name": "server_reject_network",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"description": "Only if `mode`!=`dynamic` and `port_auth`==`dot1x` when radius server reject / fails"
+										}
+									},
+									{
+										"name": "speed",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": "auto"
+											},
+											"description": "Only if `mode`!=`dynamic` speed, default is auto to automatically negotiate speed enum: `100m`, `10m`, `1g`, `2.5g`, `5g`, `10g`, `25g`, `40g`, `100g`,`auto`",
+											"validators": [
+												{
+													"custom": {
+														"imports": [
+															{
+																"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+															}
+														],
+														"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"10m\",\n\"100m\",\n\"1g\",\n\"2.5g\",\n\"5g\",\n\"10g\",\n\"25g\",\n\"40g\",\n\"100g\",\n\"auto\",\n)"
+													}
+												}
+											]
+										}
+									},
+									{
+										"name": "storm_control",
+										"single_nested": {
+											"computed_optional_required": "computed_optional",
+											"attributes": [
+												{
+													"name": "no_broadcast",
+													"bool": {
+														"computed_optional_required": "computed_optional",
+														"default": {
+															"static": false
+														},
+														"description": "whether to disable storm control on broadcast traffic"
+													}
+												},
+												{
+													"name": "no_multicast",
+													"bool": {
+														"computed_optional_required": "computed_optional",
+														"default": {
+															"static": false
+														},
+														"description": "whether to disable storm control on multicast traffic"
+													}
+												},
+												{
+													"name": "no_registered_multicast",
+													"bool": {
+														"computed_optional_required": "computed_optional",
+														"default": {
+															"static": false
+														},
+														"description": "whether to disable storm control on registered multicast traffic"
+													}
+												},
+												{
+													"name": "no_unknown_unicast",
+													"bool": {
+														"computed_optional_required": "computed_optional",
+														"default": {
+															"static": false
+														},
+														"description": "whether to disable storm control on unknown unicast traffic"
+													}
+												},
+												{
+													"name": "percentage",
+													"int64": {
+														"computed_optional_required": "computed_optional",
+														"default": {
+															"static": 80
+														},
+														"description": "bandwidth-percentage, configures the storm control level as a percentage of the available bandwidth",
+														"validators": [
+															{
+																"custom": {
+																	"imports": [
+																		{
+																			"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+																		}
+																	],
+																	"schema_definition": "int64validator.Between(0, 100)"
+																}
+															}
+														]
+													}
+												}
+											],
+											"description": "Switch storm control\nOnly if `mode`!=`dynamic`"
+										}
+									},
+									{
+										"name": "stp_edge",
+										"bool": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": false
+											},
+											"description": "Only if `mode`!=`dynamic` when enabled, the port is not expected to receive BPDU frames"
+										}
+									},
+									{
+										"name": "stp_no_root_port",
+										"bool": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": false
+											}
+										}
+									},
+									{
+										"name": "stp_p2p",
+										"bool": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": false
+											}
+										}
+									},
+									{
+										"name": "use_vstp",
+										"bool": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": false
+											},
+											"description": "if this is connected to a vstp network"
+										}
+									},
+									{
+										"name": "voip_network",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"description": "Only if `mode`!=`dynamic` network/vlan for voip traffic, must also set port_network. to authenticate device, set port_auth"
+										}
+									}
+								]
+							}
+						}
+					},
+					{
+						"name": "radius_config",
+						"single_nested": {
+							"computed_optional_required": "computed_optional",
+							"attributes": [
+								{
+									"name": "acct_interim_interval",
+									"int64": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": 0
+										},
+										"description": "how frequently should interim accounting be reported, 60-65535. default is 0 (use one specified in Access-Accept request from RADIUS Server). Very frequent messages can affect the performance of the radius server, 600 and up is recommended when enabled",
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+														}
+													],
+													"schema_definition": "int64validator.Between(0, 65535)"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "acct_servers",
+									"list_nested": {
+										"computed_optional_required": "computed_optional",
+										"nested_object": {
+											"attributes": [
+												{
+													"name": "host",
+													"string": {
+														"computed_optional_required": "required",
+														"description": "ip / hostname of RADIUS server"
+													}
+												},
+												{
+													"name": "keywrap_enabled",
+													"bool": {
+														"computed_optional_required": "computed_optional"
+													}
+												},
+												{
+													"name": "keywrap_format",
+													"string": {
+														"computed_optional_required": "computed_optional",
+														"description": "enum: `ascii`, `hex`",
+														"validators": [
+															{
+																"custom": {
+																	"imports": [
+																		{
+																			"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																		}
+																	],
+																	"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"ascii\",\n\"hex\",\n)"
+																}
+															}
+														]
+													}
+												},
+												{
+													"name": "keywrap_kek",
+													"string": {
+														"computed_optional_required": "computed_optional"
+													}
+												},
+												{
+													"name": "keywrap_mack",
+													"string": {
+														"computed_optional_required": "computed_optional"
+													}
+												},
+												{
+													"name": "port",
+													"int64": {
+														"computed_optional_required": "computed_optional",
+														"default": {
+															"static": 1813
+														},
+														"description": "Acct port of RADIUS server",
+														"validators": [
+															{
+																"custom": {
+																	"imports": [
+																		{
+																			"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+																		}
+																	],
+																	"schema_definition": "int64validator.Between(1, 65535)"
+																}
+															}
+														]
+													}
+												},
+												{
+													"name": "secret",
+													"string": {
+														"computed_optional_required": "required",
+														"description": "secret of RADIUS server"
+													}
+												}
+											]
+										},
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
+														}
+													],
+													"schema_definition": "listvalidator.UniqueValues()"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "auth_servers",
+									"list_nested": {
+										"computed_optional_required": "computed_optional",
+										"nested_object": {
+											"attributes": [
+												{
+													"name": "host",
+													"string": {
+														"computed_optional_required": "required",
+														"description": "ip / hostname of RADIUS server"
+													}
+												},
+												{
+													"name": "keywrap_enabled",
+													"bool": {
+														"computed_optional_required": "computed_optional"
+													}
+												},
+												{
+													"name": "keywrap_format",
+													"string": {
+														"computed_optional_required": "computed_optional",
+														"description": "enum: `ascii`, `hex`",
+														"validators": [
+															{
+																"custom": {
+																	"imports": [
+																		{
+																			"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																		}
+																	],
+																	"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"ascii\",\n\"hex\",\n)"
+																}
+															}
+														]
+													}
+												},
+												{
+													"name": "keywrap_kek",
+													"string": {
+														"computed_optional_required": "computed_optional"
+													}
+												},
+												{
+													"name": "keywrap_mack",
+													"string": {
+														"computed_optional_required": "computed_optional"
+													}
+												},
+												{
+													"name": "port",
+													"int64": {
+														"computed_optional_required": "computed_optional",
+														"default": {
+															"static": 1812
+														},
+														"description": "Auth port of RADIUS server",
+														"validators": [
+															{
+																"custom": {
+																	"imports": [
+																		{
+																			"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+																		}
+																	],
+																	"schema_definition": "int64validator.Between(1, 65535)"
+																}
+															}
+														]
+													}
+												},
+												{
+													"name": "require_message_authenticator",
+													"bool": {
+														"computed_optional_required": "computed_optional",
+														"default": {
+															"static": false
+														},
+														"description": "whether to require Message-Authenticator in requests"
+													}
+												},
+												{
+													"name": "secret",
+													"string": {
+														"computed_optional_required": "required",
+														"description": "secret of RADIUS server"
+													}
+												}
+											]
+										},
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
+														}
+													],
+													"schema_definition": "listvalidator.SizeAtLeast(1)"
+												}
+											},
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
+														}
+													],
+													"schema_definition": "listvalidator.UniqueValues()"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "auth_servers_retries",
+									"int64": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": 3
+										},
+										"description": "radius auth session retries"
+									}
+								},
+								{
+									"name": "auth_servers_timeout",
+									"int64": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": 5
+										},
+										"description": "radius auth session timeout"
+									}
+								},
+								{
+									"name": "network",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"description": "use `network`or `source_ip`\nwhich network the RADIUS server resides, if there's static IP for this network, we'd use it as source-ip"
+									}
+								},
+								{
+									"name": "source_ip",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"description": "use `network`or `source_ip`"
+									}
+								}
+							],
+							"description": "Junos Radius config"
+						}
+					},
+					{
+						"name": "remote_syslog",
+						"single_nested": {
+							"computed_optional_required": "computed_optional",
+							"attributes": [
+								{
+									"name": "archive",
+									"single_nested": {
+										"computed_optional_required": "computed_optional",
+										"attributes": [
+											{
+												"name": "files",
+												"int64": {
+													"computed_optional_required": "computed_optional"
+												}
+											},
+											{
+												"name": "size",
+												"string": {
+													"computed_optional_required": "computed_optional"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "console",
+									"single_nested": {
+										"computed_optional_required": "computed_optional",
+										"attributes": [
+											{
+												"name": "contents",
+												"list_nested": {
+													"computed_optional_required": "computed_optional",
+													"nested_object": {
+														"attributes": [
+															{
+																"name": "facility",
+																"string": {
+																	"computed_optional_required": "computed_optional",
+																	"default": {
+																		"static": "any"
+																	},
+																	"description": "enum: `any`, `authorization`, `change-log`, `config`, `conflict-log`, `daemon`, `dfc`, `external`, `firewall`, `ftp`, `interactive-commands`, `kernel`, `ntp`, `pfe`, `security`, `user`",
+																	"validators": [
+																		{
+																			"custom": {
+																				"imports": [
+																					{
+																						"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																					}
+																				],
+																				"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"any\",\n\"authorization\",\n\"change-log\",\n\"config\",\n\"conflict-log\",\n\"daemon\",\n\"dfc\",\n\"external\",\n\"firewall\",\n\"ftp\",\n\"interactive-commands\",\n\"kernel\",\n\"ntp\",\n\"pfe\",\n\"security\",\n\"user\",\n)"
+																			}
+																		}
+																	]
+																}
+															},
+															{
+																"name": "severity",
+																"string": {
+																	"computed_optional_required": "computed_optional",
+																	"default": {
+																		"static": "any"
+																	},
+																	"description": "enum: `alert`, `any`, `critical`, `emergency`, `error`, `info`, `notice`, `warning`",
+																	"validators": [
+																		{
+																			"custom": {
+																				"imports": [
+																					{
+																						"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																					}
+																				],
+																				"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"alert\",\n\"any\",\n\"critical\",\n\"emergency\",\n\"error\",\n\"info\",\n\"notice\",\n\"warning\",\n)"
+																			}
+																		}
+																	]
+																}
+															}
+														]
+													}
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "enabled",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										}
+									}
+								},
+								{
+									"name": "files",
+									"list_nested": {
+										"computed_optional_required": "computed_optional",
+										"nested_object": {
+											"attributes": [
+												{
+													"name": "archive",
+													"single_nested": {
+														"computed_optional_required": "computed_optional",
+														"attributes": [
+															{
+																"name": "files",
+																"int64": {
+																	"computed_optional_required": "computed_optional"
+																}
+															},
+															{
+																"name": "size",
+																"string": {
+																	"computed_optional_required": "computed_optional"
+																}
+															}
+														]
+													}
+												},
+												{
+													"name": "contents",
+													"list_nested": {
+														"computed_optional_required": "computed_optional",
+														"nested_object": {
+															"attributes": [
+																{
+																	"name": "facility",
+																	"string": {
+																		"computed_optional_required": "computed_optional",
+																		"default": {
+																			"static": "any"
+																		},
+																		"description": "enum: `any`, `authorization`, `change-log`, `config`, `conflict-log`, `daemon`, `dfc`, `external`, `firewall`, `ftp`, `interactive-commands`, `kernel`, `ntp`, `pfe`, `security`, `user`",
+																		"validators": [
+																			{
+																				"custom": {
+																					"imports": [
+																						{
+																							"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																						}
+																					],
+																					"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"any\",\n\"authorization\",\n\"change-log\",\n\"config\",\n\"conflict-log\",\n\"daemon\",\n\"dfc\",\n\"external\",\n\"firewall\",\n\"ftp\",\n\"interactive-commands\",\n\"kernel\",\n\"ntp\",\n\"pfe\",\n\"security\",\n\"user\",\n)"
+																				}
+																			}
+																		]
+																	}
+																},
+																{
+																	"name": "severity",
+																	"string": {
+																		"computed_optional_required": "computed_optional",
+																		"default": {
+																			"static": "any"
+																		},
+																		"description": "enum: `alert`, `any`, `critical`, `emergency`, `error`, `info`, `notice`, `warning`",
+																		"validators": [
+																			{
+																				"custom": {
+																					"imports": [
+																						{
+																							"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																						}
+																					],
+																					"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"alert\",\n\"any\",\n\"critical\",\n\"emergency\",\n\"error\",\n\"info\",\n\"notice\",\n\"warning\",\n)"
+																				}
+																			}
+																		]
+																	}
+																}
+															]
+														}
+													}
+												},
+												{
+													"name": "explicit_priority",
+													"bool": {
+														"computed_optional_required": "computed_optional"
+													}
+												},
+												{
+													"name": "file",
+													"string": {
+														"computed_optional_required": "computed_optional"
+													}
+												},
+												{
+													"name": "match",
+													"string": {
+														"computed_optional_required": "computed_optional"
+													}
+												},
+												{
+													"name": "structured_data",
+													"bool": {
+														"computed_optional_required": "computed_optional"
+													}
+												}
+											]
+										}
+									}
+								},
+								{
+									"name": "network",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"description": "if source_address is configured, will use the vlan firstly otherwise use source_ip"
+									}
+								},
+								{
+									"name": "send_to_all_servers",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										}
+									}
+								},
+								{
+									"name": "servers",
+									"list_nested": {
+										"computed_optional_required": "computed_optional",
+										"nested_object": {
+											"attributes": [
+												{
+													"name": "contents",
+													"list_nested": {
+														"computed_optional_required": "computed_optional",
+														"nested_object": {
+															"attributes": [
+																{
+																	"name": "facility",
+																	"string": {
+																		"computed_optional_required": "computed_optional",
+																		"default": {
+																			"static": "any"
+																		},
+																		"description": "enum: `any`, `authorization`, `change-log`, `config`, `conflict-log`, `daemon`, `dfc`, `external`, `firewall`, `ftp`, `interactive-commands`, `kernel`, `ntp`, `pfe`, `security`, `user`",
+																		"validators": [
+																			{
+																				"custom": {
+																					"imports": [
+																						{
+																							"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																						}
+																					],
+																					"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"any\",\n\"authorization\",\n\"change-log\",\n\"config\",\n\"conflict-log\",\n\"daemon\",\n\"dfc\",\n\"external\",\n\"firewall\",\n\"ftp\",\n\"interactive-commands\",\n\"kernel\",\n\"ntp\",\n\"pfe\",\n\"security\",\n\"user\",\n)"
+																				}
+																			}
+																		]
+																	}
+																},
+																{
+																	"name": "severity",
+																	"string": {
+																		"computed_optional_required": "computed_optional",
+																		"default": {
+																			"static": "any"
+																		},
+																		"description": "enum: `alert`, `any`, `critical`, `emergency`, `error`, `info`, `notice`, `warning`",
+																		"validators": [
+																			{
+																				"custom": {
+																					"imports": [
+																						{
+																							"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																						}
+																					],
+																					"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"alert\",\n\"any\",\n\"critical\",\n\"emergency\",\n\"error\",\n\"info\",\n\"notice\",\n\"warning\",\n)"
+																				}
+																			}
+																		]
+																	}
+																}
+															]
+														}
+													}
+												},
+												{
+													"name": "explicit_priority",
+													"bool": {
+														"computed_optional_required": "computed_optional"
+													}
+												},
+												{
+													"name": "facility",
+													"string": {
+														"computed_optional_required": "computed_optional",
+														"default": {
+															"static": "any"
+														},
+														"description": "enum: `any`, `authorization`, `change-log`, `config`, `conflict-log`, `daemon`, `dfc`, `external`, `firewall`, `ftp`, `interactive-commands`, `kernel`, `ntp`, `pfe`, `security`, `user`",
+														"validators": [
+															{
+																"custom": {
+																	"imports": [
+																		{
+																			"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																		}
+																	],
+																	"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"any\",\n\"authorization\",\n\"change-log\",\n\"config\",\n\"conflict-log\",\n\"daemon\",\n\"dfc\",\n\"external\",\n\"firewall\",\n\"ftp\",\n\"interactive-commands\",\n\"kernel\",\n\"ntp\",\n\"pfe\",\n\"security\",\n\"user\",\n)"
+																}
+															}
+														]
+													}
+												},
+												{
+													"name": "host",
+													"string": {
+														"computed_optional_required": "computed_optional"
+													}
+												},
+												{
+													"name": "match",
+													"string": {
+														"computed_optional_required": "computed_optional"
+													}
+												},
+												{
+													"name": "port",
+													"int64": {
+														"computed_optional_required": "computed_optional",
+														"default": {
+															"static": 514
+														}
+													}
+												},
+												{
+													"name": "protocol",
+													"string": {
+														"computed_optional_required": "computed_optional",
+														"default": {
+															"static": "udp"
+														},
+														"description": "enum: `tcp`, `udp`",
+														"validators": [
+															{
+																"custom": {
+																	"imports": [
+																		{
+																			"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																		}
+																	],
+																	"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"tcp\",\n\"udp\",\n)"
+																}
+															}
+														]
+													}
+												},
+												{
+													"name": "routing_instance",
+													"string": {
+														"computed_optional_required": "computed_optional"
+													}
+												},
+												{
+													"name": "severity",
+													"string": {
+														"computed_optional_required": "computed_optional",
+														"default": {
+															"static": "any"
+														},
+														"description": "enum: `alert`, `any`, `critical`, `emergency`, `error`, `info`, `notice`, `warning`",
+														"validators": [
+															{
+																"custom": {
+																	"imports": [
+																		{
+																			"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																		}
+																	],
+																	"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"alert\",\n\"any\",\n\"critical\",\n\"emergency\",\n\"error\",\n\"info\",\n\"notice\",\n\"warning\",\n)"
+																}
+															}
+														]
+													}
+												},
+												{
+													"name": "source_address",
+													"string": {
+														"computed_optional_required": "computed_optional",
+														"description": "if source_address is configured, will use the vlan firstly otherwise use source_ip"
+													}
+												},
+												{
+													"name": "structured_data",
+													"bool": {
+														"computed_optional_required": "computed_optional"
+													}
+												},
+												{
+													"name": "tag",
+													"string": {
+														"computed_optional_required": "computed_optional"
+													}
+												}
+											]
+										}
+									}
+								},
+								{
+									"name": "time_format",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"description": "enum: `millisecond`, `year`, `year millisecond`",
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+														}
+													],
+													"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"millisecond\",\n\"year\",\n\"year millisecond\",\n)"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "users",
+									"list_nested": {
+										"computed_optional_required": "computed_optional",
+										"nested_object": {
+											"attributes": [
+												{
+													"name": "contents",
+													"list_nested": {
+														"computed_optional_required": "computed_optional",
+														"nested_object": {
+															"attributes": [
+																{
+																	"name": "facility",
+																	"string": {
+																		"computed_optional_required": "computed_optional",
+																		"default": {
+																			"static": "any"
+																		},
+																		"description": "enum: `any`, `authorization`, `change-log`, `config`, `conflict-log`, `daemon`, `dfc`, `external`, `firewall`, `ftp`, `interactive-commands`, `kernel`, `ntp`, `pfe`, `security`, `user`",
+																		"validators": [
+																			{
+																				"custom": {
+																					"imports": [
+																						{
+																							"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																						}
+																					],
+																					"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"any\",\n\"authorization\",\n\"change-log\",\n\"config\",\n\"conflict-log\",\n\"daemon\",\n\"dfc\",\n\"external\",\n\"firewall\",\n\"ftp\",\n\"interactive-commands\",\n\"kernel\",\n\"ntp\",\n\"pfe\",\n\"security\",\n\"user\",\n)"
+																				}
+																			}
+																		]
+																	}
+																},
+																{
+																	"name": "severity",
+																	"string": {
+																		"computed_optional_required": "computed_optional",
+																		"default": {
+																			"static": "any"
+																		},
+																		"description": "enum: `alert`, `any`, `critical`, `emergency`, `error`, `info`, `notice`, `warning`",
+																		"validators": [
+																			{
+																				"custom": {
+																					"imports": [
+																						{
+																							"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																						}
+																					],
+																					"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"alert\",\n\"any\",\n\"critical\",\n\"emergency\",\n\"error\",\n\"info\",\n\"notice\",\n\"warning\",\n)"
+																				}
+																			}
+																		]
+																	}
+																}
+															]
+														}
+													}
+												},
+												{
+													"name": "match",
+													"string": {
+														"computed_optional_required": "computed_optional"
+													}
+												},
+												{
+													"name": "user",
+													"string": {
+														"computed_optional_required": "computed_optional"
+													}
+												}
+											]
+										}
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "role",
+						"string": {
+							"computed_optional_required": "computed_optional"
+						}
+					},
+					{
+						"name": "router_id",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"description": "used for OSPF / BGP / EVPN"
+						}
+					},
+					{
+						"name": "serial",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"description": "device Serial"
+						}
+					},
+					{
+						"name": "site_id",
+						"string": {
+							"computed_optional_required": "computed_optional"
+						}
+					},
+					{
+						"name": "snmp_config",
+						"single_nested": {
+							"computed_optional_required": "computed_optional",
+							"attributes": [
+								{
+									"name": "client_list",
+									"list_nested": {
+										"computed_optional_required": "computed_optional",
+										"nested_object": {
+											"attributes": [
+												{
+													"name": "client_list_name",
+													"string": {
+														"computed_optional_required": "computed_optional"
+													}
+												},
+												{
+													"name": "clients",
+													"list": {
+														"computed_optional_required": "computed_optional",
+														"element_type": {
+															"string": {}
+														}
+													}
+												}
+											]
+										}
+									}
+								},
+								{
+									"name": "contact",
+									"string": {
+										"computed_optional_required": "computed_optional"
+									}
+								},
+								{
+									"name": "description",
+									"string": {
+										"computed_optional_required": "computed_optional"
+									}
+								},
+								{
+									"name": "enabled",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": true
+										}
+									}
+								},
+								{
+									"name": "engine_id",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"description": "enum: `engine-id-suffix`, `local`, `use-default-ip-address`, `use_mac-address`",
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+														}
+													],
+													"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"engine-id-suffix\",\n\"local\",\n\"use-default-ip-address\",\n\"use_mac-address\",\n)"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "location",
+									"string": {
+										"computed_optional_required": "computed_optional"
+									}
+								},
+								{
+									"name": "name",
+									"string": {
+										"computed_optional_required": "computed_optional"
+									}
+								},
+								{
+									"name": "network",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": "default"
+										}
+									}
+								},
+								{
+									"name": "trap_groups",
+									"list_nested": {
+										"computed_optional_required": "computed_optional",
+										"nested_object": {
+											"attributes": [
+												{
+													"name": "categories",
+													"list": {
+														"computed_optional_required": "computed_optional",
+														"element_type": {
+															"string": {}
+														}
+													}
+												},
+												{
+													"name": "group_name",
+													"string": {
+														"computed_optional_required": "computed_optional",
+														"description": "Categories list can refer to https://www.juniper.net/documentation/software/topics/task/configuration/snmp_trap-groups-configuring-junos-nm.html"
+													}
+												},
+												{
+													"name": "targets",
+													"list": {
+														"computed_optional_required": "computed_optional",
+														"element_type": {
+															"string": {}
+														}
+													}
+												},
+												{
+													"name": "version",
+													"string": {
+														"computed_optional_required": "computed_optional",
+														"default": {
+															"static": "v2"
+														},
+														"description": "enum: `all`, `v1`, `v2`",
+														"validators": [
+															{
+																"custom": {
+																	"imports": [
+																		{
+																			"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																		}
+																	],
+																	"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"all\",\n\"v1\",\n\"v2\",\n)"
+																}
+															}
+														]
+													}
+												}
+											]
+										}
+									}
+								},
+								{
+									"name": "v2c_config",
+									"list_nested": {
+										"computed_optional_required": "computed_optional",
+										"nested_object": {
+											"attributes": [
+												{
+													"name": "authorization",
+													"string": {
+														"computed_optional_required": "computed_optional"
+													}
+												},
+												{
+													"name": "client_list_name",
+													"string": {
+														"computed_optional_required": "computed_optional",
+														"description": "client_list_name here should refer to client_list above"
+													}
+												},
+												{
+													"name": "community_name",
+													"string": {
+														"computed_optional_required": "computed_optional"
+													}
+												},
+												{
+													"name": "view",
+													"string": {
+														"computed_optional_required": "computed_optional",
+														"description": "view name here should be defined in views above"
+													}
+												}
+											]
+										}
+									}
+								},
+								{
+									"name": "v3_config",
+									"single_nested": {
+										"computed_optional_required": "computed_optional",
+										"attributes": [
+											{
+												"name": "notify",
+												"list_nested": {
+													"computed_optional_required": "computed_optional",
+													"nested_object": {
+														"attributes": [
+															{
+																"name": "name",
+																"string": {
+																	"computed_optional_required": "computed_optional"
+																}
+															},
+															{
+																"name": "tag",
+																"string": {
+																	"computed_optional_required": "computed_optional"
+																}
+															},
+															{
+																"name": "type",
+																"string": {
+																	"computed_optional_required": "computed_optional",
+																	"description": "enum: `inform`, `trap`",
+																	"validators": [
+																		{
+																			"custom": {
+																				"imports": [
+																					{
+																						"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																					}
+																				],
+																				"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"inform\",\n\"trap\",\n)"
+																			}
+																		}
+																	]
+																}
+															}
+														]
+													}
+												}
+											},
+											{
+												"name": "notify_filter",
+												"list_nested": {
+													"computed_optional_required": "computed_optional",
+													"nested_object": {
+														"attributes": [
+															{
+																"name": "contents",
+																"list_nested": {
+																	"computed_optional_required": "computed_optional",
+																	"nested_object": {
+																		"attributes": [
+																			{
+																				"name": "include",
+																				"bool": {
+																					"computed_optional_required": "computed_optional"
+																				}
+																			},
+																			{
+																				"name": "oid",
+																				"string": {
+																					"computed_optional_required": "computed_optional"
+																				}
+																			}
+																		]
+																	}
+																}
+															},
+															{
+																"name": "profile_name",
+																"string": {
+																	"computed_optional_required": "computed_optional"
+																}
+															}
+														]
+													}
+												}
+											},
+											{
+												"name": "target_address",
+												"list_nested": {
+													"computed_optional_required": "computed_optional",
+													"nested_object": {
+														"attributes": [
+															{
+																"name": "address",
+																"string": {
+																	"computed_optional_required": "computed_optional"
+																}
+															},
+															{
+																"name": "address_mask",
+																"string": {
+																	"computed_optional_required": "computed_optional"
+																}
+															},
+															{
+																"name": "port",
+																"int64": {
+																	"computed_optional_required": "computed_optional",
+																	"default": {
+																		"static": 161
+																	}
+																}
+															},
+															{
+																"name": "tag_list",
+																"string": {
+																	"computed_optional_required": "computed_optional",
+																	"description": "\u003crefer to notify tag, can be multiple with blank"
+																}
+															},
+															{
+																"name": "target_address_name",
+																"string": {
+																	"computed_optional_required": "computed_optional"
+																}
+															},
+															{
+																"name": "target_parameters",
+																"string": {
+																	"computed_optional_required": "computed_optional",
+																	"description": "refer to notify target parameters name"
+																}
+															}
+														]
+													}
+												}
+											},
+											{
+												"name": "target_parameters",
+												"list_nested": {
+													"computed_optional_required": "computed_optional",
+													"nested_object": {
+														"attributes": [
+															{
+																"name": "message_processing_model",
+																"string": {
+																	"computed_optional_required": "computed_optional",
+																	"description": "enum: `v1`, `v2c`, `v3`",
+																	"validators": [
+																		{
+																			"custom": {
+																				"imports": [
+																					{
+																						"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																					}
+																				],
+																				"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"v1\",\n\"v2c\",\n\"v3\",\n)"
+																			}
+																		}
+																	]
+																}
+															},
+															{
+																"name": "name",
+																"string": {
+																	"computed_optional_required": "computed_optional"
+																}
+															},
+															{
+																"name": "notify_filter",
+																"string": {
+																	"computed_optional_required": "computed_optional",
+																	"description": "refer to profile-name in notify_filter"
+																}
+															},
+															{
+																"name": "security_level",
+																"string": {
+																	"computed_optional_required": "computed_optional",
+																	"description": "enum: `authentication`, `none`, `privacy`",
+																	"validators": [
+																		{
+																			"custom": {
+																				"imports": [
+																					{
+																						"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																					}
+																				],
+																				"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"authentication\",\n\"none\",\n\"privacy\",\n)"
+																			}
+																		}
+																	]
+																}
+															},
+															{
+																"name": "security_model",
+																"string": {
+																	"computed_optional_required": "computed_optional",
+																	"description": "enum: `usm`, `v1`, `v2c`",
+																	"validators": [
+																		{
+																			"custom": {
+																				"imports": [
+																					{
+																						"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																					}
+																				],
+																				"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"usm\",\n\"v1\",\n\"v2c\",\n)"
+																			}
+																		}
+																	]
+																}
+															},
+															{
+																"name": "security_name",
+																"string": {
+																	"computed_optional_required": "computed_optional",
+																	"description": "refer to security_name in usm"
+																}
+															}
+														]
+													}
+												}
+											},
+											{
+												"name": "usm",
+												"single_nested": {
+													"computed_optional_required": "computed_optional",
+													"attributes": [
+														{
+															"name": "engineid",
+															"string": {
+																"computed_optional_required": "computed_optional",
+																"description": "required only if `engine_type`==`remote_engine`"
+															}
+														},
+														{
+															"name": "engine_type",
+															"string": {
+																"computed_optional_required": "computed_optional",
+																"description": "enum: `local_engine`, `remote_engine`",
+																"validators": [
+																	{
+																		"custom": {
+																			"imports": [
+																				{
+																					"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																				}
+																			],
+																			"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"local_engine\",\n\"remote_engine\",\n)"
+																		}
+																	}
+																]
+															}
+														},
+														{
+															"name": "users",
+															"list_nested": {
+																"computed_optional_required": "computed_optional",
+																"nested_object": {
+																	"attributes": [
+																		{
+																			"name": "authentication_password",
+																			"string": {
+																				"computed_optional_required": "computed_optional",
+																				"description": "Not required if `authentication_type`==`authentication_none`\ninclude alphabetic, numeric, and special characters, but it cannot include control characters.",
+																				"validators": [
+																					{
+																						"custom": {
+																							"imports": [
+																								{
+																									"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																								}
+																							],
+																							"schema_definition": "stringvalidator.LengthAtLeast(7)"
+																						}
+																					}
+																				]
+																			}
+																		},
+																		{
+																			"name": "authentication_type",
+																			"string": {
+																				"computed_optional_required": "computed_optional",
+																				"description": "sha224, sha256, sha384, sha512 are supported in 21.1 and newer release. enum: `authentication_md5`, `authentication_none`, `authentication_sha`, `authentication_sha224`, `authentication_sha256`, `authentication_sha384`, `authentication_sha512`",
+																				"validators": [
+																					{
+																						"custom": {
+																							"imports": [
+																								{
+																									"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																								}
+																							],
+																							"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"authentication_md5\",\n\"authentication_none\",\n\"authentication_sha\",\n\"authentication_sha224\",\n\"authentication_sha256\",\n\"authentication_sha384\",\n\"authentication_sha512\",\n)"
+																						}
+																					}
+																				]
+																			}
+																		},
+																		{
+																			"name": "encryption_password",
+																			"string": {
+																				"computed_optional_required": "computed_optional",
+																				"description": "Not required if `encryption_type`==`privacy-none`\ninclude alphabetic, numeric, and special characters, but it cannot include control characters",
+																				"validators": [
+																					{
+																						"custom": {
+																							"imports": [
+																								{
+																									"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																								}
+																							],
+																							"schema_definition": "stringvalidator.LengthAtLeast(8)"
+																						}
+																					}
+																				]
+																			}
+																		},
+																		{
+																			"name": "encryption_type",
+																			"string": {
+																				"computed_optional_required": "computed_optional",
+																				"description": "enum: `privacy-3des`, `privacy-aes128`, `privacy-des`, `privacy-none`",
+																				"validators": [
+																					{
+																						"custom": {
+																							"imports": [
+																								{
+																									"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																								}
+																							],
+																							"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"privacy-3des\",\n\"privacy-aes128\",\n\"privacy-des\",\n\"privacy-none\",\n)"
+																						}
+																					}
+																				]
+																			}
+																		},
+																		{
+																			"name": "name",
+																			"string": {
+																				"computed_optional_required": "computed_optional"
+																			}
+																		}
+																	]
+																}
+															}
+														}
+													]
+												}
+											},
+											{
+												"name": "vacm",
+												"single_nested": {
+													"computed_optional_required": "computed_optional",
+													"attributes": [
+														{
+															"name": "access",
+															"list_nested": {
+																"computed_optional_required": "computed_optional",
+																"nested_object": {
+																	"attributes": [
+																		{
+																			"name": "group_name",
+																			"string": {
+																				"computed_optional_required": "computed_optional"
+																			}
+																		},
+																		{
+																			"name": "prefix_list",
+																			"list_nested": {
+																				"computed_optional_required": "computed_optional",
+																				"nested_object": {
+																					"attributes": [
+																						{
+																							"name": "context_prefix",
+																							"string": {
+																								"computed_optional_required": "computed_optional",
+																								"description": "only required if `type`==`context_prefix`"
+																							}
+																						},
+																						{
+																							"name": "notify_view",
+																							"string": {
+																								"computed_optional_required": "computed_optional",
+																								"description": "refer to view name"
+																							}
+																						},
+																						{
+																							"name": "read_view",
+																							"string": {
+																								"computed_optional_required": "computed_optional",
+																								"description": "refer to view name"
+																							}
+																						},
+																						{
+																							"name": "security_level",
+																							"string": {
+																								"computed_optional_required": "computed_optional",
+																								"description": "enum: `authentication`, `none`, `privacy`",
+																								"validators": [
+																									{
+																										"custom": {
+																											"imports": [
+																												{
+																													"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																												}
+																											],
+																											"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"authentication\",\n\"none\",\n\"privacy\",\n)"
+																										}
+																									}
+																								]
+																							}
+																						},
+																						{
+																							"name": "security_model",
+																							"string": {
+																								"computed_optional_required": "computed_optional",
+																								"description": "enum: `any`, `usm`, `v1`, `v2c`",
+																								"validators": [
+																									{
+																										"custom": {
+																											"imports": [
+																												{
+																													"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																												}
+																											],
+																											"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"any\",\n\"usm\",\n\"v1\",\n\"v2c\",\n)"
+																										}
+																									}
+																								]
+																							}
+																						},
+																						{
+																							"name": "type",
+																							"string": {
+																								"computed_optional_required": "computed_optional",
+																								"description": "enum: `context_prefix`, `default_context_prefix`",
+																								"validators": [
+																									{
+																										"custom": {
+																											"imports": [
+																												{
+																													"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																												}
+																											],
+																											"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"context_prefix\",\n\"default_context_prefix\",\n)"
+																										}
+																									}
+																								]
+																							}
+																						},
+																						{
+																							"name": "write_view",
+																							"string": {
+																								"computed_optional_required": "computed_optional",
+																								"description": "refer to view name"
+																							}
+																						}
+																					]
+																				}
+																			}
+																		}
+																	]
+																}
+															}
+														},
+														{
+															"name": "security_to_group",
+															"single_nested": {
+																"computed_optional_required": "computed_optional",
+																"attributes": [
+																	{
+																		"name": "content",
+																		"list_nested": {
+																			"computed_optional_required": "computed_optional",
+																			"nested_object": {
+																				"attributes": [
+																					{
+																						"name": "group",
+																						"string": {
+																							"computed_optional_required": "computed_optional",
+																							"description": "refer to group_name under access"
+																						}
+																					},
+																					{
+																						"name": "security_name",
+																						"string": {
+																							"computed_optional_required": "computed_optional"
+																						}
+																					}
+																				]
+																			}
+																		}
+																	},
+																	{
+																		"name": "security_model",
+																		"string": {
+																			"computed_optional_required": "computed_optional",
+																			"description": "enum: `usm`, `v1`, `v2c`",
+																			"validators": [
+																				{
+																					"custom": {
+																						"imports": [
+																							{
+																								"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																							}
+																						],
+																						"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"usm\",\n\"v1\",\n\"v2c\",\n)"
+																					}
+																				}
+																			]
+																		}
+																	}
+																]
+															}
+														}
+													]
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "views",
+									"list_nested": {
+										"computed_optional_required": "computed_optional",
+										"nested_object": {
+											"attributes": [
+												{
+													"name": "include",
+													"bool": {
+														"computed_optional_required": "computed_optional",
+														"description": "if the root oid configured is included"
+													}
+												},
+												{
+													"name": "oid",
+													"string": {
+														"computed_optional_required": "computed_optional"
+													}
+												},
+												{
+													"name": "view_name",
+													"string": {
+														"computed_optional_required": "computed_optional"
+													}
+												}
+											]
+										}
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "stp_config",
+						"single_nested": {
+							"computed_optional_required": "computed_optional",
+							"attributes": [
+								{
+									"name": "bridge_priority",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": "8k"
+										},
+										"description": "Switch STP priority: from `0k` to `15k`"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "switch_mgmt",
+						"single_nested": {
+							"computed_optional_required": "computed_optional",
+							"attributes": [
+								{
+									"name": "ap_affinity_threshold",
+									"int64": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": 10
+										},
+										"description": "ap_affinity_threshold ap_affinity_threshold can be added as a field under site/setting. By default this value is set to 12. If the field is set in both site/setting and org/setting, the value from site/setting will be used."
+									}
+								},
+								{
+									"name": "cli_banner",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"description": "Set Banners for switches. Allows markup formatting"
+									}
+								},
+								{
+									"name": "cli_idle_timeout",
+									"int64": {
+										"computed_optional_required": "computed_optional",
+										"description": "Sets timeout for switches",
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+														}
+													],
+													"schema_definition": "int64validator.Between(1, 60)"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "config_revert_timer",
+									"int64": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": 10
+										},
+										"description": "the rollback timer for commit confirmed",
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+														}
+													],
+													"schema_definition": "int64validator.Between(1, 30)"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "dhcp_option_fqdn",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										},
+										"description": "Enable to provide the FQDN with DHCP option 81"
+									}
+								},
+								{
+									"name": "disable_oob_down_alarm",
+									"bool": {
+										"computed_optional_required": "computed_optional"
+									}
+								},
+								{
+									"name": "local_accounts",
+									"map_nested": {
+										"computed_optional_required": "computed_optional",
+										"nested_object": {
+											"attributes": [
+												{
+													"name": "password",
+													"string": {
+														"computed_optional_required": "computed_optional"
+													}
+												},
+												{
+													"name": "role",
+													"string": {
+														"computed_optional_required": "computed_optional",
+														"default": {
+															"static": "none"
+														},
+														"description": "enum: `admin`, `helpdesk`, `none`, `read`",
+														"validators": [
+															{
+																"custom": {
+																	"imports": [
+																		{
+																			"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																		}
+																	],
+																	"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"admin\",\n\"helpdesk\",\n\"none\",\n\"read\",\n)"
+																}
+															}
+														]
+													}
+												}
+											]
+										},
+										"description": "Property key is the user name. For Local user authentication"
+									}
+								},
+								{
+									"name": "mxedge_proxy_host",
+									"string": {
+										"computed_optional_required": "computed_optional"
+									}
+								},
+								{
+									"name": "mxedge_proxy_port",
+									"int64": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": 2222
+										},
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+														}
+													],
+													"schema_definition": "int64validator.Between(1, 65535)"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "protect_re",
+									"single_nested": {
+										"computed_optional_required": "computed_optional",
+										"attributes": [
+											{
+												"name": "allowed_services",
+												"list": {
+													"computed_optional_required": "computed_optional",
+													"element_type": {
+														"string": {}
+													},
+													"description": "optionally, services we'll allow"
+												}
+											},
+											{
+												"name": "custom",
+												"list_nested": {
+													"computed_optional_required": "computed_optional",
+													"nested_object": {
+														"attributes": [
+															{
+																"name": "port_range",
+																"string": {
+																	"computed_optional_required": "computed_optional",
+																	"default": {
+																		"static": "0"
+																	},
+																	"description": "matched dst port, \"0\" means any"
+																}
+															},
+															{
+																"name": "protocol",
+																"string": {
+																	"computed_optional_required": "computed_optional",
+																	"default": {
+																		"static": "any"
+																	},
+																	"description": "enum: `any`, `icmp`, `tcp`, `udp`",
+																	"validators": [
+																		{
+																			"custom": {
+																				"imports": [
+																					{
+																						"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																					}
+																				],
+																				"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"any\",\n\"icmp\",\n\"tcp\",\n\"udp\",\n)"
+																			}
+																		}
+																	]
+																}
+															},
+															{
+																"name": "subnets",
+																"list": {
+																	"computed_optional_required": "computed_optional",
+																	"element_type": {
+																		"string": {}
+																	}
+																}
+															}
+														]
+													}
+												}
+											},
+											{
+												"name": "enabled",
+												"bool": {
+													"computed_optional_required": "computed_optional",
+													"default": {
+														"static": false
+													},
+													"description": "when enabled, all traffic that is not essential to our operation will be dropped\ne.g. ntp / dns / traffic to mist will be allowed by default\n     if dhcpd is enabled, we'll make sure it works"
+												}
+											},
+											{
+												"name": "trusted_hosts",
+												"list": {
+													"computed_optional_required": "computed_optional",
+													"element_type": {
+														"string": {}
+													},
+													"description": "host/subnets we'll allow traffic to/from"
+												}
+											}
+										],
+										"description": "restrict inbound-traffic to host\nwhen enabled, all traffic that is not essential to our operation will be dropped \ne.g. ntp / dns / traffic to mist will be allowed by default, if dhcpd is enabled, we'll make sure it works"
+									}
+								},
+								{
+									"name": "root_password",
+									"string": {
+										"computed_optional_required": "computed_optional"
+									}
+								},
+								{
+									"name": "tacacs",
+									"single_nested": {
+										"computed_optional_required": "computed_optional",
+										"attributes": [
+											{
+												"name": "acct_servers",
+												"list_nested": {
+													"computed_optional_required": "computed_optional",
+													"nested_object": {
+														"attributes": [
+															{
+																"name": "host",
+																"string": {
+																	"computed_optional_required": "computed_optional"
+																}
+															},
+															{
+																"name": "port",
+																"string": {
+																	"computed_optional_required": "computed_optional"
+																}
+															},
+															{
+																"name": "secret",
+																"string": {
+																	"computed_optional_required": "computed_optional"
+																}
+															},
+															{
+																"name": "timeout",
+																"int64": {
+																	"computed_optional_required": "computed_optional",
+																	"default": {
+																		"static": 10
+																	}
+																}
+															}
+														]
+													}
+												}
+											},
+											{
+												"name": "default_role",
+												"string": {
+													"computed_optional_required": "computed_optional",
+													"default": {
+														"static": "none"
+													},
+													"description": "enum: `admin`, `helpdesk`, `none`, `read`",
+													"validators": [
+														{
+															"custom": {
+																"imports": [
+																	{
+																		"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																	}
+																],
+																"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"admin\",\n\"helpdesk\",\n\"none\",\n\"read\",\n)"
+															}
+														}
+													]
+												}
+											},
+											{
+												"name": "enabled",
+												"bool": {
+													"computed_optional_required": "computed_optional"
+												}
+											},
+											{
+												"name": "network",
+												"string": {
+													"computed_optional_required": "computed_optional",
+													"description": "which network the TACACS server resides"
+												}
+											},
+											{
+												"name": "tacplus_servers",
+												"list_nested": {
+													"computed_optional_required": "computed_optional",
+													"nested_object": {
+														"attributes": [
+															{
+																"name": "host",
+																"string": {
+																	"computed_optional_required": "computed_optional"
+																}
+															},
+															{
+																"name": "port",
+																"string": {
+																	"computed_optional_required": "computed_optional"
+																}
+															},
+															{
+																"name": "secret",
+																"string": {
+																	"computed_optional_required": "computed_optional"
+																}
+															},
+															{
+																"name": "timeout",
+																"int64": {
+																	"computed_optional_required": "computed_optional",
+																	"default": {
+																		"static": 10
+																	}
+																}
+															}
+														]
+													}
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "use_mxedge_proxy",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"description": "to use mxedge as proxy"
+									}
+								}
+							],
+							"description": "Switch settings"
+						}
+					},
+					{
+						"name": "type",
+						"string": {
+							"computed_optional_required": "required",
+							"description": "Device Type. enum: `switch`",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+											}
+										],
+										"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"switch\",\n)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "use_router_id_as_source_ip",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": false
+							},
+							"description": "whether to use it for snmp / syslog / tacplus / radius"
+						}
+					},
+					{
+						"name": "vars",
+						"map": {
+							"computed_optional_required": "computed_optional",
+							"element_type": {
+								"string": {}
+							},
+							"description": "a dictionary of name-\u003evalue, the vars can then be used in Wlans. This can overwrite those from Site Vars"
+						}
+					},
+					{
+						"name": "virtual_chassis",
+						"single_nested": {
+							"computed_optional_required": "computed_optional",
+							"attributes": [
+								{
+									"name": "members",
+									"list_nested": {
+										"computed_optional_required": "computed_optional",
+										"nested_object": {
+											"attributes": [
+												{
+													"name": "mac",
+													"string": {
+														"computed_optional_required": "computed_optional",
+														"description": "fpc0, same as the mac of device_id"
+													}
+												},
+												{
+													"name": "member_id",
+													"int64": {
+														"computed_optional_required": "computed_optional"
+													}
+												},
+												{
+													"name": "vc_role",
+													"string": {
+														"computed_optional_required": "computed_optional",
+														"description": "Both vc_role master and backup will be matched to routing-engine role in Junos preprovisioned VC config. enum: `backup`, `linecard`, `master`",
+														"validators": [
+															{
+																"custom": {
+																	"imports": [
+																		{
+																			"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																		}
+																	],
+																	"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"backup\",\n\"linecard\",\n\"master\",\n)"
+																}
+															}
+														]
+													}
+												}
+											]
+										},
+										"description": "list of Virtual Chassis members"
+									}
+								},
+								{
+									"name": "preprovisioned",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										},
+										"description": "to configure whether the VC is preprovisioned or nonprovisioned"
+									}
+								}
+							],
+							"description": "required for preprovisioned Virtual Chassis"
+						}
+					},
+					{
+						"name": "vrf_config",
+						"single_nested": {
+							"computed_optional_required": "computed_optional",
+							"attributes": [
+								{
+									"name": "enabled",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"description": "whether to enable VRF (when supported on the device)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "vrf_instances",
+						"map_nested": {
+							"computed_optional_required": "computed_optional",
+							"nested_object": {
+								"attributes": [
+									{
+										"name": "extra_routes",
+										"map_nested": {
+											"computed_optional_required": "computed_optional",
+											"nested_object": {
+												"attributes": [
+													{
+														"name": "via",
+														"string": {
+															"computed_optional_required": "computed_optional",
+															"description": "Next-hop address"
+														}
+													}
+												]
+											},
+											"description": "Property key is the destination CIDR (e.g. \"10.0.0.0/8\")"
+										}
+									},
+									{
+										"name": "networks",
+										"list": {
+											"computed_optional_required": "computed_optional",
+											"element_type": {
+												"string": {}
+											},
+											"validators": [
+												{
+													"custom": {
+														"imports": [
+															{
+																"path": "github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
+															}
+														],
+														"schema_definition": "listvalidator.UniqueValues()"
+													}
+												}
+											]
+										}
+									}
+								]
+							},
+							"description": "Property key is the network name"
+						}
+					},
+					{
+						"name": "vrrp_config",
+						"single_nested": {
+							"computed_optional_required": "computed_optional",
+							"attributes": [
+								{
+									"name": "enabled",
+									"bool": {
+										"computed_optional_required": "computed_optional"
+									}
+								},
+								{
+									"name": "groups",
+									"map_nested": {
+										"computed_optional_required": "computed_optional",
+										"nested_object": {
+											"attributes": [
+												{
+													"name": "priority",
+													"int64": {
+														"computed_optional_required": "computed_optional"
+													}
+												}
+											]
+										},
+										"description": "Property key is the VRRP name"
+									}
+								}
+							],
+							"description": "Junos VRRP config"
+						}
+					},
+					{
+						"name": "x",
+						"float64": {
+							"computed_optional_required": "computed_optional",
+							"description": "x in pixel"
+						}
+					},
+					{
+						"name": "y",
+						"float64": {
+							"computed_optional_required": "computed_optional",
+							"description": "y in pixel"
+						}
+					},
+					{
+						"name": "device_id",
+						"string": {
+							"computed_optional_required": "computed_optional"
+						}
+					}
+				]
+			}
+		}
+	],
+	"version": "0.1"
+}

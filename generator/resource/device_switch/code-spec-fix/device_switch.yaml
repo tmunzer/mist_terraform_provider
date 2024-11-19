@@ -1500,24 +1500,12 @@ next:
   name: port_usages
   next:
   - computed_optional_required: computed_optional
-    default: |-
-      {"custom": {"imports": [
-        {"path": "github.com/hashicorp/terraform-plugin-framework/attr"},
-        {"path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault"},
-        {"path": "github.com/hashicorp/terraform-plugin-framework/types"}
-      ],
-      "schema_definition": "listdefault.StaticValue(types.ListNull(types.StringType))"}}
+    default_type: list_of_str
     get:
     - list
     name: networks
   - computed_optional_required: computed_optional
-    default: |-
-      {"custom": {"imports": [
-        {"path": "github.com/hashicorp/terraform-plugin-framework/attr"},
-        {"path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault"},
-        {"path": "github.com/hashicorp/terraform-plugin-framework/types"}
-      ],
-      "schema_definition": "listdefault.StaticValue(types.ListNull(types.StringType))"}}
+    default_type: list_of_str
     get:
     - list
     name: dynamic_vlan_networks

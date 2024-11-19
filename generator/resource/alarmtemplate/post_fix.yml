@@ -1,3 +1,3 @@
-./terraform-provider-mist/internal/resource_org_alarmtemplate/org_alarmtemplate_resource_gen.go:
+internal/resource_org_alarmtemplate/org_alarmtemplate_resource_gen.go:
   dedup:
     - Delivery

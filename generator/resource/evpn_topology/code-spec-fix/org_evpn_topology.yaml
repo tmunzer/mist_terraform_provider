@@ -1,0 +1,76 @@
+get:
+- schema
+- attributes
+name: org_evpn_topology
+next:
+- computed_optional_required: computed
+  get:
+  - string
+  name: id
+- computed_optional_required: required
+  get:
+  - string
+  name: name
+  validators:
+  - custom:
+      imports:
+      - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+      schema_definition: stringvalidator.LengthBetween(1, 64)
+- get:
+  - string
+  name: org_id
+  computed_optional_required: required
+- get:
+  - list_nested
+  - nested_object
+  - attributes
+  name: switches
+  next:
+  - get:
+    - string
+    name: deviceprofile_id
+    computed_optional_required: computed
+  - get:
+    - list
+    name: downlink_ips
+    computed_optional_required: computed
+  - get:
+    - list
+    name: downlinks
+    computed_optional_required: computed
+  - get:
+    - list
+    name: esilaglinks
+    computed_optional_required: computed
+  - get:
+    - int64
+    name: evpn_id
+    computed_optional_required: computed
+  - get:
+    - string
+    name: model
+    computed_optional_required: computed
+  - get:
+    - string
+    name: router_id
+    computed_optional_required: computed
+  - get:
+    - string
+    name: site_id
+    computed_optional_required: computed
+  - get:
+    - list
+    name: suggested_downlinks
+    computed_optional_required: computed
+  - get:
+    - list
+    name: suggested_esilaglinks
+    computed_optional_required: computed
+  - get:
+    - list
+    name: suggested_uplinks
+    computed_optional_required: computed
+  - get:
+    - list
+    name: uplinks
+    computed_optional_required: computed

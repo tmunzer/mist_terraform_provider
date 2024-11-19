@@ -3,7 +3,6 @@ import yaml
 
 SPEC_IN = "./mist_openapi/workdir/mist.openapi.yml"
 SPEC_OUT = "./mist.provider.yml"
-SPEC_OUT_JSON = "./mist.sdk.json"
 REG = r"^( *)enum:$"
 
 with open(SPEC_IN, "r") as f_in:

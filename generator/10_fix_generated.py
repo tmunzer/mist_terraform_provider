@@ -2,17 +2,18 @@ import sys
 import getopt
 import yaml
 
-def fix(fix_file:str):
+def fix(fix_file:str, provider_path:str):
     with open(fix_file, "r") as f:
         files = yaml.load(f, Loader=yaml.loader.SafeLoader)
-    for file, actions in files.items():
-        with open(file, "r") as f_in:
-            with open(f"{file}.bak", "w") as f_bak:
+    for tf_file, actions in files.items():
+        tf_file_path = f"{provider_path}/{tf_file}"
+        with open(tf_file_path, "r") as f_in:
+            with open(f"{tf_file_path}.bak", "w") as f_bak:
                 f_bak.writelines(f_in)
-        with open(file, "w") as f_out:
+        with open(tf_file_path, "w") as f_out:
             rename = actions.get("rename", {})
             dedup = actions.get("dedup", [])
-            with open(f"{file}.bak", "r") as f_in:
+            with open(f"{tf_file_path}.bak", "r") as f_in:
                 SKIP = False
                 UNSKIP_NEXT = False
                 DONE = []
@@ -51,13 +52,14 @@ def fix(fix_file:str):
 if __name__ == "__main__":
 
     FIX_FILE=""
-
+    PROVIDER_PATH=""
     try:
         opts, args = getopt.getopt(
             sys.argv[1:],
-            "f:",
+            "f:p:",
             [
                 "fix_file=",
+                "provider_path="
             ],
         )
     except getopt.GetoptError as err:
@@ -66,7 +68,9 @@ if __name__ == "__main__":
     for o, a in opts:
         if o in ["-f", "--fix_file"]:
             FIX_FILE = a
+        elif o in ["-p", "--provider_path"]:
+            PROVIDER_PATH = a
         else:
             assert False, "unhandled option"
 
-    fix(FIX_FILE)
+    fix(FIX_FILE, PROVIDER_PATH)

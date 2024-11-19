@@ -1,4 +1,4 @@
-./terraform-provider-mist/internal/resource_device_switch/device_switch_resource_gen.go:
+internal/resource_device_switch/device_switch_resource_gen.go:
   rename:
     matching_rules: rules
     tacacct_servers: acct_servers
@@ -14,3 +14,4 @@
     - Users
     - PortMirroring
     - NextQualified
+    - StormControl
