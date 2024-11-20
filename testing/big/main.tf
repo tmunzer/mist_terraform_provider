@@ -16,6 +16,7 @@ resource "mist_org" "terraform_test" {
   name = "Debug_TF_TM"
 }
 
+
 resource "mist_org_network" "network_vlan_11" {
   org_id    = mist_org.terraform_test.id
   vlan_id   = 1

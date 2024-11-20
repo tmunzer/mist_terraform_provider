@@ -21,7 +21,7 @@ next:
   name: org_id
   computed_optional_required: required
 - get:
-  - list_nested
+  - map_nested
   - nested_object
   - attributes
   name: switches
@@ -48,8 +48,16 @@ next:
     computed_optional_required: computed
   - get:
     - string
+    name: mac
+    computed_optional_required: computed
+  - get:
+    - string
     name: model
     computed_optional_required: computed
+  - get:
+    - list
+    name: pods
+    computed_optional_required: computed_optional
   - get:
     - string
     name: router_id

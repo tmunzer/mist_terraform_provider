@@ -21,6 +21,14 @@ resources:
         - site_id
         - config
         - overwrite
+        - switches.config
+        - switches.uplinks
+        - switches.suggested_uplinks
+        - switches.downlinks
+        - switches.suggested_downlinks
+        - switches.esilaglinks
+        - switches.suggested_esilaglinks
+        - switches.downlink_ips
       attributes:
         aliases:
           evpn_topology_id: id
@@ -43,6 +51,14 @@ resources:
         - modified_time
         - config
         - overwrite
+        - switches.config
+        - switches.uplinks
+        - switches.suggested_uplinks
+        - switches.downlinks
+        - switches.suggested_downlinks
+        - switches.esilaglinks
+        - switches.suggested_esilaglinks
+        - switches.downlink_ips
       attributes:
         aliases:
           evpn_topology_id: id

@@ -21,6 +21,10 @@ next:
   name: site_id
   computed_optional_required: required
 - get:
+  - string
+  name: org_id
+  computed_optional_required: computed
+- get:
   - single_nested
   - attributes
   name: evpn_options
@@ -40,7 +44,7 @@ next:
           - path: github.com/hashicorp/terraform-plugin-framework-validators/mapvalidator
           schema_definition: mistvalidator.ParseCidr(true, true)
 - get:
-  - list_nested
+  - map_nested
   - nested_object
   - attributes
   name: switches
@@ -67,12 +71,20 @@ next:
     computed_optional_required: computed
   - get:
     - string
+    name: mac
+    computed_optional_required: computed
+  - get:
+    - string
     name: model
     computed_optional_required: computed
   - get:
     - string
     name: router_id
     computed_optional_required: computed
+  - get:
+    - list
+    name: pods
+    computed_optional_required: computed_optional
   - get:
     - string
     name: site_id

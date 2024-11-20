@@ -496,34 +496,34 @@ resource "mist_org_inventory" "inventory" {
   devices = [
     {
       claim_code = "CPKL2EXN8JY98AC"
-      site_id = mist_site.terraform_site.id
+      site_id    = mist_site.terraform_site.id
     },
     {
-      claim_code = "G87JHBFXZJSFNMX" 
-      site_id = mist_site.terraform_site.id
+      claim_code             = "G87JHBFXZJSFNMX"
+      site_id                = mist_site.terraform_site.id
       unclaim_when_destroyed = true
     },
-   {
-    claim_code = "CV4YAS8DQWYLL6M" 
+    {
+      claim_code = "CV4YAS8DQWYLL6M"
+      site_id    = mist_site.terraform_site.id
+    },
+    {
+      mac                    = (local.node0)
+      site_id                = mist_site.terraform_site.id
+      unclaim_when_destroyed = false
+    },
+    {
+      mac                    = (local.node1)
+      site_id                = mist_site.terraform_site.id
+      unclaim_when_destroyed = false
+    },
+    {
+      mac     = "4c9614026d00"
       site_id = mist_site.terraform_site.id
     },
     {
-      mac = (local.node0)
-      site_id                = mist_site.terraform_site.id
-      unclaim_when_destroyed = false
-    },
-    {
-      mac = (local.node1) 
-      site_id                = mist_site.terraform_site.id
-      unclaim_when_destroyed = false
-    },
-    {
-      mac = "4c9614026d00" 
-      site_id                = mist_site.terraform_site.id
-    },
-    {
-      mac = "4c961418c000" 
-      site_id                = mist_site.terraform_site.id
+      mac     = "4c961418c000"
+      site_id = mist_site.terraform_site.id
     }
   ]
   # inventory = {
@@ -1248,7 +1248,7 @@ resource "mist_device_gateway_cluster" "cluster_one" {
   nodes = [
     { mac = provider::mist::search_inventory_by_mac(resource.mist_org_inventory.inventory, local.node0).mac },
     { mac = provider::mist::search_inventory_by_mac(resource.mist_org_inventory.inventory, local.node1).mac },
- ]
+  ]
 }
 resource "mist_device_gateway" "cluster_one" {
   device_id              = resource.mist_device_gateway_cluster.cluster_one.id
@@ -1436,7 +1436,7 @@ resource "mist_device_gateway" "cluster_one" {
 
 
 resource "mist_device_ap" "test_ap" {
-  device_id = provider::mist::search_inventory_by_claimcode(resource.mist_org_inventory.inventory,"CPKL2EXN8JY98AC").id
+  device_id = provider::mist::search_inventory_by_claimcode(resource.mist_org_inventory.inventory, "CPKL2EXN8JY98AC").id
   site_id   = provider::mist::search_inventory_by_claimcode(resource.mist_org_inventory.inventory, "CPKL2EXN8JY98AC").site_id
   name      = "test_ap"
 }
@@ -4247,4 +4247,28 @@ resource "mist_org_nacidp" "idp_ldap" {
   ]
   ldap_client_cert = "-----BEGIN CERTIFICATE-----\nMIIFZjCCA06gAwIBAgIIP61/1qm/uDowDQYJKoZIhvcNAQELBQE\n-----END CERTIFICATE-----"
   ldap_client_key  = "-----BEGIN PRI..."
+}
+
+
+resource "mist_device_switch" "switch_distri_01" {
+  device_id = provider::mist::search_inventory_by_claimcode(resource.mist_org_inventory.inventory, "XXXXXXXXXXXXX").id
+  site_id   = provider::mist::search_inventory_by_claimcode(resource.mist_org_inventory.inventory, "XXXXXXXXXXXXX").id.site_id
+  name      = "distri-01"
+  port_config = {
+    "ge-0/0/0,ge-0/0/1" = {
+      usage = "evpn_uplink"
+    },
+    "ge-0/0/2" = {
+      usage      = "x-esilag"
+      aggregated = true
+      esilag     = true
+      ae_idx     = 0
+    },
+    "ge-0/0/3" = {
+      usage      = "x-esilag"
+      aggregated = true
+      esilag     = true
+      ae_idx     = 0
+    }
+  }
 }

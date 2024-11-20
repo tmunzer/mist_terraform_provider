@@ -248,6 +248,12 @@
                         }
                     },
                     {
+                        "name": "org_id",
+                        "string": {
+                            "computed_optional_required": "required"
+                        }
+                    },
+                    {
                         "name": "pod_names",
                         "map": {
                             "computed_optional_required": "optional",
@@ -259,218 +265,26 @@
                     },
                     {
                         "name": "switches",
-                        "list_nested": {
+                        "map_nested": {
+                            "validators": [
+                                {
+                                    "custom": {
+                                        "imports": [
+                                            {
+                                                "path": "github.com/hashicorp/terraform-plugin-framework-validators/mapvalidator"
+                                            }
+                                        ],
+                                        "schema_definition": "mapvalidator.SizeAtLeast(1)"
+                                    }
+                                }
+                            ],
                             "computed_optional_required": "required",
                             "nested_object": {
                                 "attributes": [
                                     {
-                                        "name": "config",
-                                        "single_nested": {
-                                            "computed_optional_required": "optional",
-                                            "attributes": [
-                                                {
-                                                    "name": "port_config",
-                                                    "map_nested": {
-                                                        "validators": [
-                                                            {
-                                                                "custom": {
-                                                                    "imports": [
-                                                                        {
-                                                                            "path": "github.com/hashicorp/terraform-plugin-framework-validators/mapvalidator"
-                                                                        }
-                                                                    ],
-                                                                    "schema_definition": "mapvalidator.SizeAtLeast(1)"
-                                                                }
-                                                            }
-                                                        ],
-                                                        "computed_optional_required": "optional",
-                                                        "nested_object": {
-                                                            "attributes": [
-                                                                {
-                                                                    "name": "ae_disable_lacp",
-                                                                    "bool": {
-                                                                        "computed_optional_required": "optional",
-                                                                        "description": "To disable LACP support for the AE interface"
-                                                                    }
-                                                                },
-                                                                {
-                                                                    "name": "ae_idx",
-                                                                    "int64": {
-                                                                        "computed_optional_required": "optional",
-                                                                        "description": "Users could force to use the designated AE name"
-                                                                    }
-                                                                },
-                                                                {
-                                                                    "name": "ae_lacp_slow",
-                                                                    "bool": {
-                                                                        "computed_optional_required": "computed_optional",
-                                                                        "default": {
-                                                                            "static": true
-                                                                        },
-                                                                        "description": "to use fast timeout"
-                                                                    }
-                                                                },
-                                                                {
-                                                                    "name": "aggregated",
-                                                                    "bool": {
-                                                                        "computed_optional_required": "computed_optional",
-                                                                        "default": {
-                                                                            "static": false
-                                                                        }
-                                                                    }
-                                                                },
-                                                                {
-                                                                    "name": "critical",
-                                                                    "bool": {
-                                                                        "computed_optional_required": "optional",
-                                                                        "description": "if want to generate port up/down alarm"
-                                                                    }
-                                                                },
-                                                                {
-                                                                    "name": "description",
-                                                                    "string": {
-                                                                        "computed_optional_required": "optional"
-                                                                    }
-                                                                },
-                                                                {
-                                                                    "name": "disable_autoneg",
-                                                                    "bool": {
-                                                                        "computed_optional_required": "computed_optional",
-                                                                        "default": {
-                                                                            "static": false
-                                                                        },
-                                                                        "description": "if `speed` and `duplex` are specified, whether to disable autonegotiation"
-                                                                    }
-                                                                },
-                                                                {
-                                                                    "name": "duplex",
-                                                                    "string": {
-                                                                        "computed_optional_required": "computed_optional",
-                                                                        "default": {
-                                                                            "static": "auto"
-                                                                        },
-                                                                        "description": "enum: `auto`, `full`, `half`",
-                                                                        "validators": [
-                                                                            {
-                                                                                "custom": {
-                                                                                    "imports": [
-                                                                                        {
-                                                                                            "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
-                                                                                        }
-                                                                                    ],
-                                                                                    "schema_definition": "stringvalidator.OneOf(\n\"\",\n\"auto\",\n\"full\",\n\"half\",\n)"
-                                                                                }
-                                                                            }
-                                                                        ]
-                                                                    }
-                                                                },
-                                                                {
-                                                                    "name": "dynamic_usage",
-                                                                    "string": {
-                                                                        "computed_optional_required": "optional",
-                                                                        "description": "Enable dynamic usage for this port. Set to `dynamic` to enable."
-                                                                    }
-                                                                },
-                                                                {
-                                                                    "name": "esilag",
-                                                                    "bool": {
-                                                                        "computed_optional_required": "optional"
-                                                                    }
-                                                                },
-                                                                {
-                                                                    "name": "mtu",
-                                                                    "int64": {
-                                                                        "computed_optional_required": "computed_optional",
-                                                                        "default": {
-                                                                            "static": 1514
-                                                                        },
-                                                                        "description": "media maximum transmission unit (MTU) is the largest data unit that can be forwarded without fragmentation"
-                                                                    }
-                                                                },
-                                                                {
-                                                                    "name": "no_local_overwrite",
-                                                                    "bool": {
-                                                                        "computed_optional_required": "optional",
-                                                                        "description": "prevent helpdesk to override the port config"
-                                                                    }
-                                                                },
-                                                                {
-                                                                    "name": "poe_disabled",
-                                                                    "bool": {
-                                                                        "computed_optional_required": "computed_optional",
-                                                                        "default": {
-                                                                            "static": false
-                                                                        }
-                                                                    }
-                                                                },
-                                                                {
-                                                                    "name": "speed",
-                                                                    "string": {
-                                                                        "computed_optional_required": "computed_optional",
-                                                                        "default": {
-                                                                            "static": "auto"
-                                                                        },
-                                                                        "description": "enum: `100m`, `10m`, `1g`, `2.5g`, `5g`, `10g`, `25g`, `40g`, `100g`,`auto`",
-                                                                        "validators": [
-                                                                            {
-                                                                                "custom": {
-                                                                                    "imports": [
-                                                                                        {
-                                                                                            "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
-                                                                                        }
-                                                                                    ],
-                                                                                    "schema_definition": "stringvalidator.OneOf(\n\"\",\n\"10m\",\n\"100m\",\n\"1g\",\n\"2.5g\",\n\"5g\",\n\"10g\",\n\"25g\",\n\"40g\",\n\"100g\",\n\"auto\",\n)"
-                                                                                }
-                                                                            }
-                                                                        ]
-                                                                    }
-                                                                },
-                                                                {
-                                                                    "name": "usage",
-                                                                    "string": {
-                                                                        "computed_optional_required": "required",
-                                                                        "description": "port usage name. \n\nIf EVPN is used, use `evpn_uplink`or `evpn_downlink`"
-                                                                    }
-                                                                }
-                                                            ]
-                                                        },
-                                                        "description": "Property key is the port name or range (e.g. \"ge-0/0/0-10\")"
-                                                    }
-                                                }
-                                            ]
-                                        }
-                                    },
-                                    {
                                         "name": "deviceprofile_id",
                                         "string": {
                                             "computed_optional_required": "computed"
-                                        }
-                                    },
-                                    {
-                                        "name": "downlink_ips",
-                                        "list": {
-                                            "computed_optional_required": "computed",
-                                            "element_type": {
-                                                "string": {}
-                                            }
-                                        }
-                                    },
-                                    {
-                                        "name": "downlinks",
-                                        "list": {
-                                            "computed_optional_required": "computed",
-                                            "element_type": {
-                                                "string": {}
-                                            }
-                                        }
-                                    },
-                                    {
-                                        "name": "esilaglinks",
-                                        "list": {
-                                            "computed_optional_required": "computed",
-                                            "element_type": {
-                                                "string": {}
-                                            }
                                         }
                                     },
                                     {
@@ -494,7 +308,7 @@
                                     {
                                         "name": "mac",
                                         "string": {
-                                            "computed_optional_required": "required",
+                                            "computed_optional_required": "computed",
                                             "validators": [
                                                 {
                                                     "custom": {
@@ -540,7 +354,7 @@
                                     {
                                         "name": "pods",
                                         "list": {
-                                            "computed_optional_required": "optional",
+                                            "computed_optional_required": "computed_optional",
                                             "element_type": {
                                                 "int64": {}
                                             },
@@ -587,63 +401,10 @@
                                         "string": {
                                             "computed_optional_required": "computed"
                                         }
-                                    },
-                                    {
-                                        "name": "suggested_downlinks",
-                                        "list": {
-                                            "computed_optional_required": "computed",
-                                            "element_type": {
-                                                "string": {}
-                                            }
-                                        }
-                                    },
-                                    {
-                                        "name": "suggested_esilaglinks",
-                                        "list": {
-                                            "computed_optional_required": "computed",
-                                            "element_type": {
-                                                "string": {}
-                                            }
-                                        }
-                                    },
-                                    {
-                                        "name": "suggested_uplinks",
-                                        "list": {
-                                            "computed_optional_required": "computed",
-                                            "element_type": {
-                                                "string": {}
-                                            }
-                                        }
-                                    },
-                                    {
-                                        "name": "uplinks",
-                                        "list": {
-                                            "computed_optional_required": "computed",
-                                            "element_type": {
-                                                "string": {}
-                                            }
-                                        }
                                     }
                                 ]
                             },
-                            "validators": [
-                                {
-                                    "custom": {
-                                        "imports": [
-                                            {
-                                                "path": "github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
-                                            }
-                                        ],
-                                        "schema_definition": "listvalidator.UniqueValues()"
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    {
-                        "name": "org_id",
-                        "string": {
-                            "computed_optional_required": "required"
+                            "description": "Property key can be the switch MAC Address"
                         }
                     }
                 ]
@@ -909,6 +670,12 @@
                         }
                     },
                     {
+                        "name": "org_id",
+                        "string": {
+                            "computed_optional_required": "computed"
+                        }
+                    },
+                    {
                         "name": "pod_names",
                         "map": {
                             "computed_optional_required": "optional",
@@ -919,219 +686,33 @@
                         }
                     },
                     {
+                        "name": "site_id",
+                        "string": {
+                            "computed_optional_required": "required"
+                        }
+                    },
+                    {
                         "name": "switches",
-                        "list_nested": {
+                        "map_nested": {
+                            "validators": [
+                                {
+                                    "custom": {
+                                        "imports": [
+                                            {
+                                                "path": "github.com/hashicorp/terraform-plugin-framework-validators/mapvalidator"
+                                            }
+                                        ],
+                                        "schema_definition": "mapvalidator.SizeAtLeast(1)"
+                                    }
+                                }
+                            ],
                             "computed_optional_required": "required",
                             "nested_object": {
                                 "attributes": [
                                     {
-                                        "name": "config",
-                                        "single_nested": {
-                                            "computed_optional_required": "optional",
-                                            "attributes": [
-                                                {
-                                                    "name": "port_config",
-                                                    "map_nested": {
-                                                        "validators": [
-                                                            {
-                                                                "custom": {
-                                                                    "imports": [
-                                                                        {
-                                                                            "path": "github.com/hashicorp/terraform-plugin-framework-validators/mapvalidator"
-                                                                        }
-                                                                    ],
-                                                                    "schema_definition": "mapvalidator.SizeAtLeast(1)"
-                                                                }
-                                                            }
-                                                        ],
-                                                        "computed_optional_required": "optional",
-                                                        "nested_object": {
-                                                            "attributes": [
-                                                                {
-                                                                    "name": "ae_disable_lacp",
-                                                                    "bool": {
-                                                                        "computed_optional_required": "optional",
-                                                                        "description": "To disable LACP support for the AE interface"
-                                                                    }
-                                                                },
-                                                                {
-                                                                    "name": "ae_idx",
-                                                                    "int64": {
-                                                                        "computed_optional_required": "optional",
-                                                                        "description": "Users could force to use the designated AE name"
-                                                                    }
-                                                                },
-                                                                {
-                                                                    "name": "ae_lacp_slow",
-                                                                    "bool": {
-                                                                        "computed_optional_required": "computed_optional",
-                                                                        "default": {
-                                                                            "static": true
-                                                                        },
-                                                                        "description": "to use fast timeout"
-                                                                    }
-                                                                },
-                                                                {
-                                                                    "name": "aggregated",
-                                                                    "bool": {
-                                                                        "computed_optional_required": "computed_optional",
-                                                                        "default": {
-                                                                            "static": false
-                                                                        }
-                                                                    }
-                                                                },
-                                                                {
-                                                                    "name": "critical",
-                                                                    "bool": {
-                                                                        "computed_optional_required": "optional",
-                                                                        "description": "if want to generate port up/down alarm"
-                                                                    }
-                                                                },
-                                                                {
-                                                                    "name": "description",
-                                                                    "string": {
-                                                                        "computed_optional_required": "optional"
-                                                                    }
-                                                                },
-                                                                {
-                                                                    "name": "disable_autoneg",
-                                                                    "bool": {
-                                                                        "computed_optional_required": "computed_optional",
-                                                                        "default": {
-                                                                            "static": false
-                                                                        },
-                                                                        "description": "if `speed` and `duplex` are specified, whether to disable autonegotiation"
-                                                                    }
-                                                                },
-                                                                {
-                                                                    "name": "duplex",
-                                                                    "string": {
-                                                                        "computed_optional_required": "computed_optional",
-                                                                        "default": {
-                                                                            "static": "auto"
-                                                                        },
-                                                                        "description": "enum: `auto`, `full`, `half`",
-                                                                        "validators": [
-                                                                            {
-                                                                                "custom": {
-                                                                                    "imports": [
-                                                                                        {
-                                                                                            "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
-                                                                                        }
-                                                                                    ],
-                                                                                    "schema_definition": "stringvalidator.OneOf(\n\"\",\n\"auto\",\n\"full\",\n\"half\",\n)"
-                                                                                }
-                                                                            }
-                                                                        ]
-                                                                    }
-                                                                },
-                                                                {
-                                                                    "name": "dynamic_usage",
-                                                                    "string": {
-                                                                        "computed_optional_required": "optional",
-                                                                        "description": "Enable dynamic usage for this port. Set to `dynamic` to enable."
-                                                                    }
-                                                                },
-                                                                {
-                                                                    "name": "esilag",
-                                                                    "bool": {
-                                                                        "computed_optional_required": "optional"
-                                                                    }
-                                                                },
-                                                                {
-                                                                    "name": "mtu",
-                                                                    "int64": {
-                                                                        "computed_optional_required": "computed_optional",
-                                                                        "default": {
-                                                                            "static": 1514
-                                                                        },
-                                                                        "description": "media maximum transmission unit (MTU) is the largest data unit that can be forwarded without fragmentation"
-                                                                    }
-                                                                },
-                                                                {
-                                                                    "name": "no_local_overwrite",
-                                                                    "bool": {
-                                                                        "computed_optional_required": "optional",
-                                                                        "description": "prevent helpdesk to override the port config"
-                                                                    }
-                                                                },
-                                                                {
-                                                                    "name": "poe_disabled",
-                                                                    "bool": {
-                                                                        "computed_optional_required": "computed_optional",
-                                                                        "default": {
-                                                                            "static": false
-                                                                        }
-                                                                    }
-                                                                },
-                                                                {
-                                                                    "name": "speed",
-                                                                    "string": {
-                                                                        "computed_optional_required": "computed_optional",
-                                                                        "default": {
-                                                                            "static": "auto"
-                                                                        },
-                                                                        "description": "enum: `100m`, `10m`, `1g`, `2.5g`, `5g`, `10g`, `25g`, `40g`, `100g`,`auto`",
-                                                                        "validators": [
-                                                                            {
-                                                                                "custom": {
-                                                                                    "imports": [
-                                                                                        {
-                                                                                            "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
-                                                                                        }
-                                                                                    ],
-                                                                                    "schema_definition": "stringvalidator.OneOf(\n\"\",\n\"10m\",\n\"100m\",\n\"1g\",\n\"2.5g\",\n\"5g\",\n\"10g\",\n\"25g\",\n\"40g\",\n\"100g\",\n\"auto\",\n)"
-                                                                                }
-                                                                            }
-                                                                        ]
-                                                                    }
-                                                                },
-                                                                {
-                                                                    "name": "usage",
-                                                                    "string": {
-                                                                        "computed_optional_required": "required",
-                                                                        "description": "port usage name. \n\nIf EVPN is used, use `evpn_uplink`or `evpn_downlink`"
-                                                                    }
-                                                                }
-                                                            ]
-                                                        },
-                                                        "description": "Property key is the port name or range (e.g. \"ge-0/0/0-10\")"
-                                                    }
-                                                }
-                                            ]
-                                        }
-                                    },
-                                    {
                                         "name": "deviceprofile_id",
                                         "string": {
                                             "computed_optional_required": "computed"
-                                        }
-                                    },
-                                    {
-                                        "name": "downlink_ips",
-                                        "list": {
-                                            "computed_optional_required": "computed",
-                                            "element_type": {
-                                                "string": {}
-                                            }
-                                        }
-                                    },
-                                    {
-                                        "name": "downlinks",
-                                        "list": {
-                                            "computed_optional_required": "computed",
-                                            "element_type": {
-                                                "string": {}
-                                            }
-                                        }
-                                    },
-                                    {
-                                        "name": "esilaglinks",
-                                        "list": {
-                                            "computed_optional_required": "computed",
-                                            "element_type": {
-                                                "string": {}
-                                            }
                                         }
                                     },
                                     {
@@ -1155,7 +736,7 @@
                                     {
                                         "name": "mac",
                                         "string": {
-                                            "computed_optional_required": "required",
+                                            "computed_optional_required": "computed",
                                             "validators": [
                                                 {
                                                     "custom": {
@@ -1201,7 +782,7 @@
                                     {
                                         "name": "pods",
                                         "list": {
-                                            "computed_optional_required": "optional",
+                                            "computed_optional_required": "computed_optional",
                                             "element_type": {
                                                 "int64": {}
                                             },
@@ -1248,63 +829,10 @@
                                         "string": {
                                             "computed_optional_required": "computed"
                                         }
-                                    },
-                                    {
-                                        "name": "suggested_downlinks",
-                                        "list": {
-                                            "computed_optional_required": "computed",
-                                            "element_type": {
-                                                "string": {}
-                                            }
-                                        }
-                                    },
-                                    {
-                                        "name": "suggested_esilaglinks",
-                                        "list": {
-                                            "computed_optional_required": "computed",
-                                            "element_type": {
-                                                "string": {}
-                                            }
-                                        }
-                                    },
-                                    {
-                                        "name": "suggested_uplinks",
-                                        "list": {
-                                            "computed_optional_required": "computed",
-                                            "element_type": {
-                                                "string": {}
-                                            }
-                                        }
-                                    },
-                                    {
-                                        "name": "uplinks",
-                                        "list": {
-                                            "computed_optional_required": "computed",
-                                            "element_type": {
-                                                "string": {}
-                                            }
-                                        }
                                     }
                                 ]
                             },
-                            "validators": [
-                                {
-                                    "custom": {
-                                        "imports": [
-                                            {
-                                                "path": "github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
-                                            }
-                                        ],
-                                        "schema_definition": "listvalidator.UniqueValues()"
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    {
-                        "name": "site_id",
-                        "string": {
-                            "computed_optional_required": "required"
+                            "description": "Property key can be the switch MAC Address"
                         }
                     }
                 ]
