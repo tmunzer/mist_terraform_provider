@@ -93,7 +93,6 @@ resources:
         - for_site
         - site_id
         - mxtunnel_id
-        - rateset
         - band
         - dynamic_vlan.default_vlan_id
       attributes:
@@ -119,7 +118,6 @@ resources:
         - for_site
         - template_id
         - mxtunnel_id
-        - rateset
         - band
         - dynamic_vlan.default_vlan_id
       attributes:

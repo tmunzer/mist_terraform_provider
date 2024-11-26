@@ -1312,4 +1312,34 @@ next:
         - path: github.com/Juniper/terraform-provider-mist/internal/validators
         - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
         schema_definition: |-
+          stringvalidator.Any(mistvalidator.ParseCidr(true, false), mistvalidator.ParseVar())
+  - get:
+    - string
+    name: subnet6
+    validators:
+    - custom:
+        imports:
+        - path: github.com/Juniper/terraform-provider-mist/internal/validators
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+        schema_definition: |-
           stringvalidator.Any(mistvalidator.ParseCidr(false, true), mistvalidator.ParseVar())
+  - get:
+    - string
+    name: gateway
+    validators:
+    - custom:
+        imports:
+        - path: github.com/Juniper/terraform-provider-mist/internal/validators
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+        schema_definition: |-
+          stringvalidator.Any(mistvalidator.ParseIp(true, false), mistvalidator.ParseVar())
+  - get:
+    - string
+    name: gateway6
+    validators:
+    - custom:
+        imports:
+        - path: github.com/Juniper/terraform-provider-mist/internal/validators
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+        schema_definition: |-
+          stringvalidator.Any(mistvalidator.ParseIp(false, true), mistvalidator.ParseVar())

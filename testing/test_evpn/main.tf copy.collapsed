@@ -1,0 +1,726 @@
+terraform {
+  required_providers {
+    mist = {
+      source = "registry.terraform.io/juniper/mist"
+    }
+  }
+}
+
+provider "mist" {
+  host = local.envs["HOST"]
+  // apitoken = local.envs["APITOKEN"]
+  // proxy = "test_proxy:Jun1per!Mist@10.3.18.11:3128"
+  username = local.envs["USERNAME"]
+  password = local.envs["PASSWORD"]
+}
+
+
+resource "mist_site_networktemplate" "site_evpn" {
+  site_id = (local.site_id)
+  networks = {
+    vlan1099 = {
+      vlan_id = 1099
+      subnet  = "10.99.99.0/24"
+      #  gateway = "10.99.99.1"
+    },
+    vlan1088 = {
+      vlan_id = 1088
+      subnet  = "10.88.88.0/24"
+      #  gateway = "10.88.88.1"
+    },
+    vlan1033 = {
+      vlan_id = 1033
+      subnet  = "10.33.33.0/24"
+      #  gateway = "10.33.33.1"
+    }
+    vlan1031 = {
+      vlan_id = "1031"
+      subnet  = "10.33.31.0/24"
+    },
+    vlan1081 = {
+      vlan_id = "1081"
+      subnet  = "10.88.81.0/24"
+    },
+    vlan1091 = {
+      vlan_id = "1091"
+      subnet  = "10.99.91.0/24"
+    }
+  }
+  vrf_instances = {
+    "customera" = {
+      networks = ["vlan1099", "vlan1091"]
+      extra_routes = {
+        "0.0.0.0/0" : {
+          via = "10.99.99.254"
+        }
+      }
+    }
+    "customerb" = {
+      networks = ["vlan1088", "vlan1081"]
+      extra_routes = {
+        "0.0.0.0/0" : {
+          via = "10.88.88.254"
+        }
+      }
+    }
+    "devices" = {
+      networks = ["vlan1033", "vlan1031"]
+      extra_routes = {
+        "0.0.0.0/0" : {
+          via = "10.33.33.254"
+        }
+      }
+    }
+  }
+  port_usages = {
+    l2fabricexit = {
+      mode         = "trunk"
+      all_networks = false
+      networks = [
+        "vlan1099",
+        "vlan1088",
+        "vlan1033"
+      ]
+      mtu = "9018"
+    }
+    x-esilag = {
+      mode         = "trunk"
+      all_networks = true
+      mtu          = "9100"
+    },
+    vlan1099 = {
+      mode         = "access"
+      port_network = "vlan1099"
+    },
+    vlan1088 = {
+      mode         = "access"
+      port_network = "vlan1088"
+    },
+    vlan1033 = {
+      mode         = "access"
+      port_network = "vlan1033"
+    }
+    vlan1091 = {
+      mode         = "access"
+      port_network = "vlan1091"
+    }
+    vlan1081 = {
+      mode         = "access"
+      port_network = "vlan1081"
+    }
+    vlan1031 = {
+      mode         = "access"
+      port_network = "vlan1031"
+    }
+    access = {
+      mode         = "trunk"
+      all_networks = false
+      networks = [
+        "vlan1033",
+        "vlan1088",
+        "vlan1099",
+        "vlan1031",
+        "vlan1081",
+        "vlan1091"
+      ]
+    }
+  }
+}
+
+resource "mist_org_inventory" "inventory" {
+
+  org_id = (local.org_id)
+  inventory = {
+    (local.sw0) = {
+      site_id                = (local.site_id)
+      unclaim_when_destroyed = false
+    },
+    (local.sw1) = {
+      site_id                = (local.site_id)
+      unclaim_when_destroyed = false
+    },
+    (local.sw2) = {
+      site_id                = (local.site_id)
+      unclaim_when_destroyed = false
+    },
+    (local.sw3) = {
+      site_id                = (local.site_id)
+      unclaim_when_destroyed = false
+    },
+    (local.sw4) = {
+      site_id                = (local.site_id)
+      unclaim_when_destroyed = false
+    },
+    (local.sw5) = {
+      site_id                = (local.site_id)
+      unclaim_when_destroyed = false
+    }
+  }
+}
+
+
+######################################################### IP CLOS
+
+# resource "mist_site_evpn_topology" "ip_clos" {
+#   site_id = (local.site_id)
+#   name    = "evpn_one"
+#   evpn_options = {
+#     routed_at = "core"
+#     overlay = {
+#       as = 65000
+#     },
+#     core_as_border        = true
+#     auto_loopback_subnet  = "172.16.192.0/24"
+#     auto_loopback_subnet6 = "fd33:ab00:2::/64"
+#     per_vlan_vga_v4_mac   = false
+#     underlay = {
+#       as_base  = 65001
+#       use_ipv6 = false
+#       subnet   = "10.255.240.0/20"
+#     }
+#     auto_router_id_subnet = "172.16.254.0/23"
+#   }
+#   switches = {
+#     (local.sw0) = {
+#       role = "core"
+#     },
+#     (local.sw1) = {
+#       role = "core"
+#     },
+#     (local.sw2) = {
+#       role = "distribution"
+#     },
+#     (local.sw3) = {
+#       role = "distribution"
+#     },
+#     (local.sw4) = {
+#       role = "access"
+#     },
+#     (local.sw5) = {
+#       role = "access"
+#     }
+#   }
+# }
+
+# resource "mist_device_switch" "switch_core_01" {
+#   device_id = provider::mist::search_inventory_by_mac(resource.mist_org_inventory.inventory, (local.sw0)).id
+#   site_id   = provider::mist::search_inventory_by_mac(resource.mist_org_inventory.inventory, (local.sw0)).site_id
+#   name      = "core-01"
+#   managed   = true
+#   port_config = {
+#     "ge-0/0/0,ge-0/0/1" = {
+#       usage = "evpn_downlink"
+#     }
+#   }
+#   other_ip_configs = {
+#     "corp" = {
+#       type    = "static"
+#       ip      = "10.99.100.2"
+#       netmask = "255.255.255.0"
+#     }
+#     "mgmt" = {
+#       type    = "static"
+#       ip      = "10.99.110.2"
+#       netmask = "255.255.255.0"
+#     }
+#   }
+# }
+# resource "mist_device_switch" "switch_core_02" {
+#   device_id = provider::mist::search_inventory_by_mac(resource.mist_org_inventory.inventory, (local.sw1)).id
+#   site_id   = provider::mist::search_inventory_by_mac(resource.mist_org_inventory.inventory, (local.sw1)).site_id
+#   name      = "core-02"
+#   managed   = true
+#   port_config = {
+#     "ge-0/0/0,ge-0/0/1" = {
+#       usage = "evpn_downlink"
+#     }
+#   }
+#   other_ip_configs = {
+#     "corp" = {
+#       type    = "static"
+#       ip      = "10.99.100.3"
+#       netmask = "255.255.255.0"
+#     }
+#     "mgmt" = {
+#       type    = "static"
+#       ip      = "10.99.110.3"
+#       netmask = "255.255.255.0"
+#     }
+#   }
+# }
+# resource "mist_device_switch" "switch_distri_01" {
+#   device_id = provider::mist::search_inventory_by_mac(resource.mist_org_inventory.inventory, (local.sw2)).id
+#   site_id   = provider::mist::search_inventory_by_mac(resource.mist_org_inventory.inventory, (local.sw2)).site_id
+#   name      = "distri-01"
+#   managed   = true
+#   port_config = {
+#     "ge-0/0/0,ge-0/0/1" = {
+#       usage = "evpn_uplink"
+#     },
+#     "ge-0/0/2,ge-0/0/3" = {
+#       usage = "evpn_downlink"
+#     }
+#   }
+# }
+# resource "mist_device_switch" "switch_distri_02" {
+#   device_id = provider::mist::search_inventory_by_mac(resource.mist_org_inventory.inventory, (local.sw3)).id
+#   site_id   = provider::mist::search_inventory_by_mac(resource.mist_org_inventory.inventory, (local.sw3)).site_id
+#   name      = "distri-02"
+#   managed   = true
+#   port_config = {
+#     "ge-0/0/0,ge-0/0/1" = {
+#       usage = "evpn_uplink"
+#     },
+#     "ge-0/0/2,ge-0/0/3" = {
+#       usage = "evpn_downlink"
+#     }
+#   }
+# }
+# resource "mist_device_switch" "switch_access_01" {
+#   device_id = provider::mist::search_inventory_by_mac(resource.mist_org_inventory.inventory, (local.sw4)).id
+#   site_id   = provider::mist::search_inventory_by_mac(resource.mist_org_inventory.inventory, (local.sw4)).site_id
+#   name      = "access-01"
+#   managed   = true
+#   port_config = {
+#     "ge-0/0/0,ge-0/0/1" = {
+#       usage = "evpn_uplink"
+#     }
+#   }
+# }
+# resource "mist_device_switch" "switch_access_02" {
+#   device_id = provider::mist::search_inventory_by_mac(resource.mist_org_inventory.inventory, (local.sw5)).id
+#   site_id   = provider::mist::search_inventory_by_mac(resource.mist_org_inventory.inventory, (local.sw5)).site_id
+#   name      = "access-02"
+#   managed   = true
+#   port_config = {
+#     "ge-0/0/0,ge-0/0/1" = {
+#       usage = "evpn_uplink"
+#     }
+#   }
+# }
+
+#########################################################
+#########################################################
+#########################################################
+#########################################################
+#########################################################
+######################################################### IP CLOS
+resource "mist_site_evpn_topology" "ip_clos" {
+  site_id = (local.site_id)
+  name    = "evpn_one"
+  evpn_options = {
+    routed_at = "edge"
+    overlay = {
+      as = 65000
+    },
+    core_as_border        = true
+    auto_loopback_subnet  = "172.16.192.0/24"
+    auto_loopback_subnet6 = "fd33:ab00:2::/64"
+    per_vlan_vga_v4_mac   = false
+    underlay = {
+      as_base  = 65001
+      use_ipv6 = false
+      subnet   = "10.255.240.0/20"
+    }
+    auto_router_id_subnet = "172.16.254.0/23"
+  }
+  pod_names = {
+    "1" = "Pod 1"
+  }
+  switches = {
+    (local.sw0) = {
+      role = "core"
+    },
+    (local.sw1) = {
+      role = "core"
+    },
+    (local.sw2) = {
+      role = "distribution"
+      pod  = 1
+    },
+    (local.sw3) = {
+      role = "distribution"
+      pod  = 1
+    },
+    (local.sw4) = {
+      role = "access"
+      pod  = 1
+    },
+    (local.sw5) = {
+      role = "access"
+      pod  = 1
+    }
+  }
+}
+
+resource "mist_device_switch" "switch_core_01" {
+  device_id = provider::mist::search_inventory_by_mac(resource.mist_org_inventory.inventory, (local.sw0)).id
+  site_id   = provider::mist::search_inventory_by_mac(resource.mist_org_inventory.inventory, (local.sw0)).site_id
+  name      = "core-01"
+  managed   = true
+  router_id = "172.16.254.1"
+  port_config = {
+    "ge-0/0/3" = {
+      usage        = "l2fabricexit"
+      aggregated   = true
+      esilag       = true
+      ae_idx       = 11
+      ae_lacp_slow = false
+    }
+    "ge-0/0/4" = {
+      usage        = "l2fabricexit"
+      aggregated   = true
+      esilag       = true
+      ae_idx       = 12
+      ae_lacp_slow = false
+    }
+    "ge-0/0/1,ge-0/0/2" = {
+      usage = "evpn_downlink"
+    }
+  }
+}
+resource "mist_device_switch" "switch_core_02" {
+  device_id = provider::mist::search_inventory_by_mac(resource.mist_org_inventory.inventory, (local.sw1)).id
+  site_id   = provider::mist::search_inventory_by_mac(resource.mist_org_inventory.inventory, (local.sw1)).site_id
+  name      = "core-02"
+  managed   = true
+  router_id = "172.16.254.2"
+  port_config = {
+    "ge-0/0/3" = {
+      usage        = "l2fabricexit"
+      aggregated   = true
+      esilag       = true
+      ae_idx       = 11
+      ae_lacp_slow = false
+    }
+    "ge-0/0/4" = {
+      usage        = "l2fabricexit"
+      aggregated   = true
+      esilag       = true
+      ae_idx       = 12
+      ae_lacp_slow = false
+    }
+    "ge-0/0/1,ge-0/0/2" = {
+      usage = "evpn_downlink"
+    }
+  }
+}
+resource "mist_device_switch" "switch_distri_01" {
+  device_id = provider::mist::search_inventory_by_mac(resource.mist_org_inventory.inventory, (local.sw2)).id
+  site_id   = provider::mist::search_inventory_by_mac(resource.mist_org_inventory.inventory, (local.sw2)).site_id
+  name      = "distri-01"
+  managed   = true
+  router_id = "172.16.254.3"
+  port_config = {
+    "ge-0/0/1,ge-0/0/2" = {
+      usage = "evpn_downlink"
+    },
+    "ge-0/0/4,ge-0/0/3" = {
+      usage = "evpn_uplink"
+    }
+  }
+}
+resource "mist_device_switch" "switch_distri_02" {
+  device_id = provider::mist::search_inventory_by_mac(resource.mist_org_inventory.inventory, (local.sw3)).id
+  site_id   = provider::mist::search_inventory_by_mac(resource.mist_org_inventory.inventory, (local.sw3)).site_id
+  name      = "distri-02"
+  managed   = true
+  router_id = "172.16.254.4"
+  port_config = {
+    "ge-0/0/1,ge-0/0/2" = {
+      usage = "evpn_downlink"
+    },
+    "ge-0/0/4,ge-0/0/3" = {
+      usage = "evpn_uplink"
+    }
+  }
+}
+resource "mist_device_switch" "switch_access_01" {
+  device_id = provider::mist::search_inventory_by_mac(resource.mist_org_inventory.inventory, (local.sw4)).id
+  site_id   = provider::mist::search_inventory_by_mac(resource.mist_org_inventory.inventory, (local.sw4)).site_id
+  name      = "access-01"
+  managed   = true
+  router_id = "172.16.254.5"
+  port_config = {
+    "ge-0/0/1,ge-0/0/2" = {
+      usage = "evpn_uplink"
+    }
+    "ge-0/0/3" = {
+      usage = "vlan1099"
+    }
+  }
+  other_ip_configs = {
+    "vlan1099" = {
+      type    = "static"
+      ip      = "10.99.99.1"
+      netmask = "255.255.255.0"
+      evpn_anycast = true
+    }
+    "vlan1088" = {
+      type    = "static"
+      ip      = "10.88.88.1"
+      netmask = "255.255.255.0"
+      evpn_anycast = true
+    }
+    "vlan1033" = {
+      type    = "static"
+      ip      = "10.33.33.1"
+      netmask = "255.255.255.0"
+      evpn_anycast = true
+    }
+    vlan1031 = {
+      type    = "static"
+      ip      = "10.33.31.1"
+      netmask = "255.255.255.0"
+      evpn_anycast = true
+    }
+    vlan1081 = {
+      type    = "static"
+      ip      = "10.88.81.1"
+      netmask = "255.255.255.0"
+      evpn_anycast = true
+    }
+    vlan1091 = {
+      type    = "static"
+      ip      = "10.99.91.1"
+      netmask = "255.255.255.0"
+      evpn_anycast = true
+    }
+  }
+  vrf_config = {
+    enabled = true
+  }
+}
+resource "mist_device_switch" "switch_access_02" {
+  device_id = provider::mist::search_inventory_by_mac(resource.mist_org_inventory.inventory, (local.sw5)).id
+  site_id   = provider::mist::search_inventory_by_mac(resource.mist_org_inventory.inventory, (local.sw5)).site_id
+  name      = "access-02"
+  managed   = true
+  router_id = "172.16.254.6"
+  port_config = {
+    "ge-0/0/1,ge-0/0/2" = {
+      usage = "evpn_uplink"
+    }
+    "ge-0/0/3" = {
+      usage = "vlan1088"
+    }
+  }
+  other_ip_configs = {
+    "vlan1099" = {
+      type    = "static"
+      ip      = "10.99.99.1"
+      netmask = "255.255.255.0"
+      evpn_anycast = true
+    }
+    "vlan1088" = {
+      type    = "static"
+      ip      = "10.88.88.1"
+      netmask = "255.255.255.0"
+      evpn_anycast = true
+    }
+    "vlan1033" = {
+      type    = "static"
+      ip      = "10.33.33.1"
+      netmask = "255.255.255.0"
+      evpn_anycast = true
+    }
+    vlan1031 = {
+      type    = "static"
+      ip      = "10.33.31.1"
+      netmask = "255.255.255.0"
+      evpn_anycast = true
+    }
+    vlan1081 = {
+      type    = "static"
+      ip      = "10.88.81.1"
+      netmask = "255.255.255.0"
+      evpn_anycast = true
+    }
+    vlan1091 = {
+      type    = "static"
+      ip      = "10.99.91.1"
+      netmask = "255.255.255.0"
+      evpn_anycast = true
+    }
+  }
+  vrf_config = {
+    enabled = true
+  }
+}
+
+#########################################################
+#########################################################
+#########################################################
+#########################################################
+#########################################################
+######################################################### MULTI HOMING
+resource "mist_site_evpn_topology" "core_distri" {
+  site_id = (local.site_id)
+  name    = "evpn_one"
+  evpn_options = {
+    routed_at = "edge"
+    overlay = {
+      as = 65000
+    },
+    core_as_border      = true
+    per_vlan_vga_v4_mac = false
+    underlay = {
+      as_base  = 65001
+      use_ipv6 = false
+      subnet   = "10.255.240.0/20"
+    }
+    auto_router_id_subnet = "172.16.254.0/23"
+  }
+  switches = {
+    (local.sw0) = {
+      role = "collapsed-core"
+    },
+    (local.sw1) = {
+      role = "collapsed-core"
+    },
+    (local.sw2) = {
+      role = "esilag-access"
+    },
+    (local.sw3) = {
+      role = "esilag-access"
+    }
+  }
+}
+
+resource "mist_device_switch" "switch_core_01" {
+  device_id = provider::mist::search_inventory_by_mac(resource.mist_org_inventory.inventory, (local.sw0)).id
+  site_id   = provider::mist::search_inventory_by_mac(resource.mist_org_inventory.inventory, (local.sw0)).site_id
+  name      = "core-01-b"
+  managed   = true
+  router_id = "172.16.254.1"
+  port_config = {
+    "ge-0/0/3" = {
+      usage = "evpn_uplink"
+    },
+    "ge-0/0/4" = {
+      usage = "evpn_downlink"
+    },
+    "ge-0/0/1" = {
+      usage      = "x-esilag"
+      aggregated = true
+      esilag     = true
+      ae_idx     = 0
+    },
+    "ge-0/0/2" = {
+      usage      = "x-esilag"
+      aggregated = true
+      esilag     = true
+      ae_idx     = 1
+    }
+    "ge-0/0/0" = {
+      usage      = "x-esilag"
+      aggregated = true
+      esilag     = true
+      ae_idx     = 3
+
+    }
+  }
+  other_ip_configs = {
+    "vlan1099" = {
+      type    = "static"
+      ip      = "10.99.99.2"
+      netmask = "255.255.255.0"
+    }
+    "vlan1088" = {
+      type    = "static"
+      ip      = "10.88.88.2"
+      netmask = "255.255.255.0"
+    }
+    "vlan1033" = {
+      type    = "static"
+      ip      = "10.33.33.2"
+      netmask = "255.255.255.0"
+    }
+  }
+}
+resource "mist_device_switch" "switch_core_02" {
+  device_id = provider::mist::search_inventory_by_mac(resource.mist_org_inventory.inventory, (local.sw1)).id
+  site_id   = provider::mist::search_inventory_by_mac(resource.mist_org_inventory.inventory, (local.sw1)).site_id
+  name      = "core-02-b"
+  managed   = true
+  router_id = "172.16.254.2"
+  port_config = {
+    "ge-0/0/3" = {
+      usage = "evpn_downlink"
+    },
+    "ge-0/0/4" = {
+      usage = "evpn_uplink"
+    },
+    "ge-0/0/1" = {
+      usage      = "x-esilag"
+      aggregated = true
+      esilag     = true
+      ae_idx     = 0
+    },
+    "ge-0/0/2" = {
+      usage      = "x-esilag"
+      aggregated = true
+      esilag     = true
+      ae_idx     = 1
+    }
+    "ge-0/0/0" = {
+      usage      = "x-esilag"
+      aggregated = true
+      esilag     = true
+      ae_idx     = 3
+    }
+  }
+  other_ip_configs = {
+    "vlan1099" = {
+      type    = "static"
+      ip      = "10.99.99.3"
+      netmask = "255.255.255.0"
+    }
+    "vlan1088" = {
+      type    = "static"
+      ip      = "10.88.88.3"
+      netmask = "255.255.255.0"
+    }
+    "vlan1033" = {
+      type    = "static"
+      ip      = "10.33.33.3"
+      netmask = "255.255.255.0"
+    }
+  }
+}
+resource "mist_device_switch" "switch_distri_01" {
+  device_id = provider::mist::search_inventory_by_mac(resource.mist_org_inventory.inventory, (local.sw2)).id
+  site_id   = provider::mist::search_inventory_by_mac(resource.mist_org_inventory.inventory, (local.sw2)).site_id
+  name      = "distri-01-b"
+  managed   = true
+  router_id = "172.16.254.3"
+  port_config = {
+    "ge-0/0/1,ge-0/0/2" = {
+      usage      = "x-esilag"
+      aggregated = true
+      esilag     = true
+      ae_idx     = 0
+    },
+    "ge-0/0/3" = {
+      usage = "vlan1099"
+    }
+  }
+}
+resource "mist_device_switch" "switch_distri_02" {
+  device_id = provider::mist::search_inventory_by_mac(resource.mist_org_inventory.inventory, (local.sw3)).id
+  site_id   = provider::mist::search_inventory_by_mac(resource.mist_org_inventory.inventory, (local.sw3)).site_id
+  name      = "distri-02-b"
+  managed   = true
+  router_id = "172.16.254.4"
+  port_config = {
+    "ge-0/0/1,ge-0/0/2" = {
+      usage      = "x-esilag"
+      aggregated = true
+      esilag     = true
+      ae_idx     = 0
+    },
+    "ge-0/0/3" = {
+      usage = "vlan1088"
+    }
+  }
+}

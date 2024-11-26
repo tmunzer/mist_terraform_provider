@@ -3,11 +3,11 @@ info:
   contact:
     email: tmunzer@juniper.net
     name: Thomas Munzer
-  description: '> Version: **2410.1.12**
+  description: '> Version: **2410.1.15**
 
     >
 
-    > Date: **November 19, 2024**
+    > Date: **November 25, 2024**
 
 
     ---
@@ -43,7 +43,7 @@ info:
     name: MIT
     url: https://raw.githubusercontent.com/tmunzer/Mist-OAS3.0/main/LICENSE
   title: Mist API
-  version: 2410.1.12
+  version: 2410.1.15
 servers:
 - description: Mist Global 01
   url: https://api.mist.com
@@ -8091,7 +8091,7 @@ paths:
       - Orgs EVPN Topologies
     get:
       description: Get One EVPN Topology Detail
-      operationId: getOrgEvpnTolopogy
+      operationId: getOrgEvpnTopology
       responses:
         '200':
           $ref: '#/components/responses/EvpnTopology'
@@ -8105,7 +8105,7 @@ paths:
           $ref: '#/components/responses/HTTP404'
         '429':
           $ref: '#/components/responses/HTTP429'
-      summary: getOrgEvpnTolopogy
+      summary: getOrgEvpnTopology
       tags:
       - Orgs EVPN Topologies
     parameters:
@@ -12423,7 +12423,7 @@ paths:
                       port_auth: dot1x
                       port_network: string
                       rejected_network: null
-                      speed: string
+                      speed: auto
                       storm_control:
                         no_broadcast: false
                         no_multicast: false
@@ -12454,7 +12454,7 @@ paths:
                       poe_disabled: false
                       port_network: string
                       rejected_network: null
-                      speed: string
+                      speed: auto
                       storm_control:
                         no_broadcast: false
                         no_multicast: false
@@ -12643,7 +12643,7 @@ paths:
                       port_auth: dot1x
                       port_network: string
                       rejected_network: null
-                      speed: string
+                      speed: auto
                       storm_control:
                         no_broadcast: false
                         no_multicast: false
@@ -12674,7 +12674,7 @@ paths:
                       poe_disabled: false
                       port_network: string
                       rejected_network: null
-                      speed: string
+                      speed: auto
                       storm_control:
                         no_broadcast: false
                         no_multicast: false
@@ -12797,7 +12797,7 @@ paths:
                         port_auth: dot1x
                         port_network: string
                         rejected_network: null
-                        speed: string
+                        speed: auto
                         storm_control:
                           no_broadcast: false
                           no_multicast: false
@@ -12828,7 +12828,7 @@ paths:
                         poe_disabled: false
                         port_network: string
                         rejected_network: null
-                        speed: string
+                        speed: auto
                         storm_control:
                           no_broadcast: false
                           no_multicast: false
@@ -14880,7 +14880,7 @@ paths:
                         - '48'
                         - '54'
                         min_rssi: -70
-                        template: string
+                        template: custom
                         vht: 03ff03ff03ff01ff
                       '5':
                         ht: 00ff00ff00ff
@@ -14894,7 +14894,7 @@ paths:
                         - '48'
                         - '54'
                         min_rssi: -70
-                        template: string
+                        template: custom
                         vht: 03ff03ff03ff01ff
                     roam_mode: NONE
                     schedule:
@@ -26014,7 +26014,7 @@ paths:
       operationId: getSiteEvpnTopology
       responses:
         '200':
-          description: OK
+          $ref: '#/components/responses/EvpnTopology'
         '400':
           $ref: '#/components/responses/HTTP400'
         '401':
@@ -41153,7 +41153,6 @@ components:
                   gateway6: 2607:f8b0:4005:808::1
                   ip: 10.2.1.1
                   ip6: 2607:f8b0:4005:808::2004
-                  mtu: 0
                   netmask: 255.255.255.0
                   netmask6: /32
                   type: static
@@ -41174,137 +41173,7 @@ components:
                 - string
                 org_id: a40f5d1f-d889-42e9-94ea-b9b33585fc6b
                 orientation: 0
-                orientation_overwrite: true
                 poe_passthrough: false
-                port_config:
-                  property1:
-                    additional_vlan_ids:
-                    - 55
-                    - 66
-                    authentication_protocol: pap
-                    disabled: true
-                    dynamic_vlan:
-                      default_vlan_id: 999
-                      enabled: true
-                      type: string
-                      vlans:
-                        1-10: null
-                        user: null
-                    enable_mac_auth: false
-                    forwarding: all
-                    mx_tunnel_id: 08cd7499-5841-51c8-e663-fb16b6f3b45e
-                    mxtunnel_name: string
-                    port_auth: none
-                    port_vlan_id: 1
-                    radius_config:
-                      acct_interim_interval: 0
-                      acct_servers:
-                      - host: 1.2.3.4
-                        keywrap_enabled: true
-                        keywrap_format: hex
-                        keywrap_kek: '1122334455'
-                        keywrap_mack: '1122334455'
-                        port: 1813
-                        secret: testing123
-                      auth_servers:
-                      - host: 1.2.3.4
-                        keywrap_enabled: true
-                        keywrap_format: hex
-                        keywrap_kek: '1122334455'
-                        keywrap_mack: '1122334455'
-                        port: 1812
-                        secret: testing123
-                      auth_servers_retries: 3
-                      auth_servers_timeout: 5
-                      coa_enabled: false
-                      coa_port: 3799
-                      network: string
-                      source_ip: string
-                    radsec:
-                      enabled: true
-                      idle_timeout: 60
-                      mxcluster_ids:
-                      - 572586b7-f97b-a22b-526c-8b97a3f609c4
-                      proxy_hosts:
-                      - mxedge1.local
-                      server_name: radsec.abc.com
-                      servers:
-                      - host: 1.1.1.1
-                        port: 1812
-                      use_mxedge: true
-                      use_site_mxedge: false
-                    vlan_id: 9
-                    vland_ids:
-                    - 1
-                    - 10
-                    - 50
-                    wxtunnel_id: 7dae216d-7c98-a51b-e068-dd7d477b7216
-                    wxtunnel_remote_id: wifiguest
-                  property2:
-                    additional_vlan_ids:
-                    - 55
-                    - 66
-                    authentication_protocol: pap
-                    disabled: true
-                    dynamic_vlan:
-                      default_vlan_id: 999
-                      enabled: true
-                      type: string
-                      vlans:
-                        1-10: null
-                        user: null
-                    enable_mac_auth: false
-                    forwarding: all
-                    mx_tunnel_id: 08cd7499-5841-51c8-e663-fb16b6f3b45e
-                    mxtunnel_name: string
-                    port_auth: none
-                    port_vlan_id: 1
-                    radius_config:
-                      acct_interim_interval: 0
-                      acct_servers:
-                      - host: 1.2.3.4
-                        keywrap_enabled: true
-                        keywrap_format: hex
-                        keywrap_kek: '1122334455'
-                        keywrap_mack: '1122334455'
-                        port: 1813
-                        secret: testing123
-                      auth_servers:
-                      - host: 1.2.3.4
-                        keywrap_enabled: true
-                        keywrap_format: hex
-                        keywrap_kek: '1122334455'
-                        keywrap_mack: '1122334455'
-                        port: 1812
-                        secret: testing123
-                      auth_servers_retries: 3
-                      auth_servers_timeout: 5
-                      coa_enabled: false
-                      coa_port: 3799
-                      network: string
-                      source_ip: string
-                    radsec:
-                      enabled: true
-                      idle_timeout: 60
-                      mxcluster_ids:
-                      - 572586b7-f97b-a22b-526c-8b97a3f609c4
-                      proxy_hosts:
-                      - mxedge1.local
-                      server_name: radsec.abc.com
-                      servers:
-                      - host: 1.1.1.1
-                        port: 1812
-                      use_mxedge: true
-                      use_site_mxedge: false
-                    vlan_id: 9
-                    vland_ids:
-                    - 1
-                    - 10
-                    - 50
-                    wxtunnel_id: 7dae216d-7c98-a51b-e068-dd7d477b7216
-                    wxtunnel_remote_id: wifiguest
-                pwr_config:
-                  base: 0
                 site_id: 72771e6a-6f5e-4de4-a5b9-1266c4197811
                 type: ap
                 x: 0
@@ -45465,7 +45334,7 @@ components:
                     port_auth: dot1x
                     port_network: string
                     rejected_network: null
-                    speed: string
+                    speed: auto
                     storm_control:
                       no_broadcast: false
                       no_multicast: false
@@ -45496,7 +45365,7 @@ components:
                     poe_disabled: false
                     port_network: string
                     rejected_network: null
-                    speed: string
+                    speed: auto
                     storm_control:
                       no_broadcast: false
                       no_multicast: false
@@ -59034,17 +58903,24 @@ components:
       description: EVPN Junos settings
       properties:
         enabled:
+          readOnly: true
           type: boolean
         role:
           $ref: '#/components/schemas/evpn_config_role'
+      readOnly: true
       type: object
     evpn_config_role:
-      description: 'enum: `access`, `core`, `distribution`'
+      description: 'enum: `access`, `collapsed-core`, `core`, `distribution`, `esilag-access`,
+        `none`'
       enum:
       - ''
       - access
+      - collapsed-core
       - core
       - distribution
+      - esilag-access
+      - none
+      readOnly: true
       type: string
     evpn_options:
       description: EVPN Options
@@ -59080,10 +58956,11 @@ components:
           $ref: '#/components/schemas/evpn_options_overlay'
         per_vlan_vga_v4_mac:
           default: false
-          description: 'by default, JUNOS uses 00-00-5e-00-01-01 as the virtual-gateway-address''s
-            v4_mac
+          description: 'only for by Core-Distribution architecture when `evpn_options.routed_at`==`core`.
+            By default, JUNOS uses 00-00-5e-00-01-01 as the virtual-gateway-address''s
 
-            if enabled, 00-00-5e-00-XX-YY will be used (where XX=vlan_id/256, YY=vlan_id%256)'
+            v4_mac. If enabled, 00-00-5e-00-XX-YY will be used (where XX=vlan_id/256,
+            YY=vlan_id%256)'''
           type: boolean
         routed_at:
           $ref: '#/components/schemas/evpn_options_routed_at'
@@ -59357,10 +59234,10 @@ components:
         type: string
       type: array
     evpn_topology_switches:
-      additionalProperties:
+      items:
         $ref: '#/components/schemas/evpn_topology_switch'
-      description: Property key can be the switch MAC Address
-      type: object
+      type: array
+      uniqueItems: true
     extra_route:
       properties:
         discard:
@@ -61219,100 +61096,10 @@ components:
       - sku
       - version
       type: string
-    inventory_device_settings:
-      properties:
-        adopted:
-          description: 'only if `type`==`switch` or `type`==`gateway`
-
-            whether the switch/gateway is adopted'
-          readOnly: true
-          type: boolean
-        connected:
-          description: whether the device is connected
-          readOnly: true
-          type: boolean
-        deviceprofile_id:
-          description: deviceprofile id if assigned, null if not assigned
-          nullable: true
-          readOnly: true
-          type: string
-        hostname:
-          description: hostname reported by the device
-          readOnly: true
-          type: string
-        hw_rev:
-          description: device hardware revision number
-          readOnly: true
-          type: string
-        id:
-          description: device id
-          readOnly: true
-          type: string
-        jsi:
-          readOnly: true
-          type: boolean
-        mac:
-          description: device MAC address
-          readOnly: true
-          type: string
-        magic:
-          description: device claim code
-          readOnly: true
-          type: string
-        model:
-          description: device model
-          readOnly: true
-          type: string
-        name:
-          description: device name if configured
-          readOnly: true
-          type: string
-        org_id:
-          $ref: '#/components/schemas/org_id'
-        serial:
-          description: device serial
-          readOnly: true
-          type: string
-        site_id:
-          description: Site ID. Used to assign device to a Site
-          type: string
-        sku:
-          description: device stock keeping unit
-          readOnly: true
-          type: string
-        type:
-          $ref: '#/components/schemas/device_type'
-        unclaim_when_destroyed:
-          default: false
-          description: Unclaim the device from the Mist Organization when removed
-            from the provider inventory. Default is `false`
-          type: boolean
-        vc_mac:
-          description: if `type`==`switch` and device part of a Virtual Chassis, MAC
-            Address of the Virtual Chassis. if `type`==`gateway` and device part of
-            a Clust, MAC Address of the Cluster
-          readOnly: true
-          type: string
-      type: object
-    inventory_devices:
-      additionalProperties:
-        $ref: '#/components/schemas/inventory_device_settings'
-      description: "Property key can be the device Claim Code or the device MAC Address:\n\
-        \  * Claim Code: used to claim the device to the Mist Organization and manage\
-        \ it. Format is `[0-9A-Z]{15}` (e.g `01234ABCDE56789`)\n  * MAC Address: used\
-        \ to managed a device already in the Mist Organization (claimed or adopted\
-        \ devices). Format is `[0-9a-f]{12}` (e.g `5684dae9ac8b`)\n\n    >"
-      type: object
     inventory_list:
-      properties:
-        devices:
-          description: List of devices
-          items:
-            $ref: '#/components/schemas/inventory_device_settings'
-          type: array
-        inventory:
-          $ref: '#/components/schemas/inventory_devices'
-      type: object
+      items:
+        $ref: '#/components/schemas/inventory'
+      type: array
     inventory_search:
       properties:
         limit:
@@ -61397,6 +61184,7 @@ components:
             managed/configured by Mist by default, this enables the behavior
           type: boolean
         no_reassign:
+          default: false
           description: if `op`==`assign`, if true, treat site assignment against an
             already assigned AP as error
           type: boolean
@@ -61841,7 +61629,6 @@ components:
           description: Users could force to use the designated AE name
           type: integer
         ae_lacp_slow:
-          default: true
           description: to use fast timeout
           type: boolean
         aggregated:
@@ -80079,6 +79866,12 @@ components:
         `family ethernet-switching`. It can also be a pure L3-subnet that can then
         be used against a port that with `family inet`.
       properties:
+        gateway:
+          description: only required for EVPN-VXLAN networks, IPv4 Virtual Gateway
+          type: string
+        gateway6:
+          description: only required for EVPN-VXLAN networks, IPv6 Virtual Gateway
+          type: string
         isolation:
           default: false
           description: 'whether to stop clients to talk to each other, default is
@@ -80091,6 +79884,10 @@ components:
           example: '3070'
           type: string
         subnet:
+          description: optional for pure switching, required when L3 / routing features
+            are used
+          type: string
+        subnet6:
           description: optional for pure switching, required when L3 / routing features
             are used
           type: string
@@ -80401,6 +80198,12 @@ components:
         stp_p2p:
           default: false
           type: boolean
+        ui_evpntopo_id:
+          description: optional for Campus Fabric Core-Distribution ESI-LAG profile.
+            Helper used by the UI to select this port profile as the ESI-Lag between
+            Distribution and Access switches
+          format: uuid
+          type: string
         use_vstp:
           default: false
           description: if this is connected to a vstp network
@@ -84687,10 +84490,10 @@ components:
       description: data rates wlan settings
       properties:
         ht:
-          description: MCS bitmasks for 4 streams (16-bit for each stream, MCS0 is
-            least significant bit), e.g. 00ff 00f0 001f limits HT rates to MCS 0-7
-            for 1 stream, MCS 4-7 for 2 stream (i.e. MCS 12-15), MCS 1-5 for 3 stream
-            (i.e. MCS 16-20)
+          description: if `template`==`custom`. MCS bitmasks for 4 streams (16-bit
+            for each stream, MCS0 is least significant bit), e.g. 00ff 00f0 001f limits
+            HT rates to MCS 0-7 for 1 stream, MCS 4-7 for 2 stream (i.e. MCS 12-15),
+            MCS 1-5 for 3 stream (i.e. MCS 16-20)
           example: 00ff00ff00ff
           nullable: true
           type: string
@@ -84701,31 +84504,22 @@ components:
           example: -70
           type: integer
         template:
-          description: '* `no-legacy`: no 11b
-
-            * `compatible`: all, like before, default setting that Broadcom/Atheros
-            used
-
-            * `legacy-only`: disable 802.11n and 802.11ac
-
-            * `high-density`: no 11b, no low rates
-
-            * `custom`: user defined'
-          nullable: true
-          type: string
+          $ref: '#/components/schemas/wlan_datarates_template'
         vht:
-          description: MCS bitmasks for 4 streams (16-bit for each stream, MCS0 is
-            least significant bit), e.g. 03ff 01ff 00ff limits VHT rates to MCS 0-9
-            for 1 stream, MCS 0-8 for 2 streams, and MCS 0-7 for 3 streams.
+          description: if `template`==`custom`. MCS bitmasks for 4 streams (16-bit
+            for each stream, MCS0 is least significant bit), e.g. 03ff 01ff 00ff limits
+            VHT rates to MCS 0-9 for 1 stream, MCS 0-8 for 2 streams, and MCS 0-7
+            for 3 streams.
           example: 03ff03ff03ff01ff
+          nullable: true
           type: string
       type: object
     wlan_datarates_legacy:
-      description: "list of supported rates (IE=1) and extended supported rates (IE=50)\
-        \ for custom template, append \u2018b\u2019 at the end to indicate a rate\
-        \ being basic/mandatory. If `template`==`custom` is configured and legacy\
-        \ does not define at least one basic rate, it will use `no-legacy` default\
-        \ values"
+      description: "if `template`==`custom`. List of supported rates (IE=1) and extended\
+        \ supported rates (IE=50) for custom template, append \u2018b\u2019 at the\
+        \ end to indicate a rate being basic/mandatory. If `template`==`custom` is\
+        \ configured and legacy does not define at least one basic rate, it will use\
+        \ `no-legacy` default values"
       example:
       - '6'
       - '9'
@@ -84768,6 +84562,19 @@ components:
       - 6b
       - '9'
       - 9b
+      type: string
+    wlan_datarates_template:
+      description: "Data Rates template to apply. enum: \n  * `no-legacy`: no 11b\n\
+        \  * `compatible`: all, like before, default setting that Broadcom/Atheros\
+        \ used\n  * `legacy-only`: disable 802.11n and 802.11ac\n  * `high-density`:\
+        \ no 11b, no low rates\n  * `custom`: user defined"
+      enum:
+      - ''
+      - compatible
+      - legacy-only
+      - custom
+      - no-legacy
+      nullable: true
       type: string
     wlan_dns_server_rewrite:
       description: for radius_group-based DNS server (rewrite DNS request depending
@@ -86280,13 +86087,13 @@ components:
       type: string
     wlan_rateset:
       properties:
-        '24':
+        band_24:
           $ref: '#/components/schemas/wlan_datarates'
-        '5':
+        band_5:
           $ref: '#/components/schemas/wlan_datarates'
       type: object
     wlan_roam_mode:
-      default: none
+      default: NONE
       description: 'enum: `11r`, `OKC`, `NONE`'
       enum:
       - ''

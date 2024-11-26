@@ -21,6 +21,10 @@ next:
   name: org_id
   computed_optional_required: required
 - get:
+  - map
+  name: pod_names
+  computed_optional_required: computed_optional
+- get:
   - map_nested
   - nested_object
   - attributes

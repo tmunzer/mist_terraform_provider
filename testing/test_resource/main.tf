@@ -620,6 +620,13 @@ resource "mist_site_wlan" "wlan_one" {
     }
     default_vlan_ids = ["494"]
   }
+  max_num_clients = 50
+  rateset = {
+    band_24 = {
+      template = "no-legacy"
+      min_rssi = -70
+    }
+  }
 }
 
 
@@ -4247,28 +4254,4 @@ resource "mist_org_nacidp" "idp_ldap" {
   ]
   ldap_client_cert = "-----BEGIN CERTIFICATE-----\nMIIFZjCCA06gAwIBAgIIP61/1qm/uDowDQYJKoZIhvcNAQELBQE\n-----END CERTIFICATE-----"
   ldap_client_key  = "-----BEGIN PRI..."
-}
-
-
-resource "mist_device_switch" "switch_distri_01" {
-  device_id = provider::mist::search_inventory_by_claimcode(resource.mist_org_inventory.inventory, "XXXXXXXXXXXXX").id
-  site_id   = provider::mist::search_inventory_by_claimcode(resource.mist_org_inventory.inventory, "XXXXXXXXXXXXX").id.site_id
-  name      = "distri-01"
-  port_config = {
-    "ge-0/0/0,ge-0/0/1" = {
-      usage = "evpn_uplink"
-    },
-    "ge-0/0/2" = {
-      usage      = "x-esilag"
-      aggregated = true
-      esilag     = true
-      ae_idx     = 0
-    },
-    "ge-0/0/3" = {
-      usage      = "x-esilag"
-      aggregated = true
-      esilag     = true
-      ae_idx     = 0
-    }
-  }
 }

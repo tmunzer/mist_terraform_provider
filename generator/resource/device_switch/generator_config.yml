@@ -22,3 +22,4 @@ resources:
         - id
         - switch_mgmt.radius
         - deviceprofile_id
+        - port_usages.ui_evpntopo_id

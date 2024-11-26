@@ -475,6 +475,20 @@
 							"nested_object": {
 								"attributes": [
 									{
+										"name": "gateway",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"description": "only required for EVPN-VXLAN networks, IPv4 Virtual Gateway"
+										}
+									},
+									{
+										"name": "gateway6",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"description": "only required for EVPN-VXLAN networks, IPv6 Virtual Gateway"
+										}
+									},
+									{
 										"name": "isolation",
 										"bool": {
 											"computed_optional_required": "computed_optional",
@@ -492,6 +506,13 @@
 									},
 									{
 										"name": "subnet",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"description": "optional for pure switching, required when L3 / routing features are used"
+										}
+									},
+									{
+										"name": "subnet6",
 										"string": {
 											"computed_optional_required": "computed_optional",
 											"description": "optional for pure switching, required when L3 / routing features are used"
@@ -816,7 +837,7 @@
 										"name": "allow_dhcpd",
 										"bool": {
 											"computed_optional_required": "computed_optional",
-											"description": "Only if `mode`!=`dynamic` if DHCP snooping is enabled, whether DHCP server is allowed on the interfaces with. All the interfaces from port configs using this port usage are effected. Please notice that allow_dhcpd is a tri_state.\n\nWhen it is not defined, it means using the system’s default setting which depends on whether the port is a access or trunk port."
+											"description": "Only if `mode`!=`dynamic`. If DHCP snooping is enabled, whether DHCP server is allowed on the interfaces with.\nAll the interfaces from port configs using this port usage are effected. Please notice that allow_dhcpd is a tri_state.\nWhen it is not defined, it means using the system's default setting which depends on whether the port is a access or trunk port."
 										}
 									},
 									{
@@ -1325,6 +1346,13 @@
 										}
 									},
 									{
+										"name": "ui_evpntopo_id",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"description": "optional for Campus Fabric Core-Distribution ESI-LAG profile. Helper used by the UI to select this port profile as the ESI-Lag between Distribution and Access switches"
+										}
+									},
+									{
 										"name": "use_vstp",
 										"bool": {
 											"computed_optional_required": "computed_optional",
@@ -1342,7 +1370,8 @@
 										}
 									}
 								]
-							}
+							},
+							"description": "Property key is the port usage name. Defines the profiles of port configuration configured on the switch"
 						}
 					},
 					{
@@ -3032,9 +3061,6 @@
 																	"name": "ae_lacp_slow",
 																	"bool": {
 																		"computed_optional_required": "computed_optional",
-																		"default": {
-																			"static": true
-																		},
 																		"description": "to use fast timeout"
 																	}
 																},
@@ -3157,7 +3183,7 @@
 																	"name": "usage",
 																	"string": {
 																		"computed_optional_required": "required",
-																		"description": "port usage name. \n\nIf EVPN is used, use `evpn_uplink`or `evpn_downlink`"
+																		"description": "port usage name. If EVPN is used, use `evpn_uplink`or `evpn_downlink`"
 																	}
 																}
 															]
@@ -4143,6 +4169,20 @@
 							"nested_object": {
 								"attributes": [
 									{
+										"name": "gateway",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"description": "only required for EVPN-VXLAN networks, IPv4 Virtual Gateway"
+										}
+									},
+									{
+										"name": "gateway6",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"description": "only required for EVPN-VXLAN networks, IPv6 Virtual Gateway"
+										}
+									},
+									{
 										"name": "isolation",
 										"bool": {
 											"computed_optional_required": "computed_optional",
@@ -4160,6 +4200,13 @@
 									},
 									{
 										"name": "subnet",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"description": "optional for pure switching, required when L3 / routing features are used"
+										}
+									},
+									{
+										"name": "subnet6",
 										"string": {
 											"computed_optional_required": "computed_optional",
 											"description": "optional for pure switching, required when L3 / routing features are used"
@@ -4478,7 +4525,7 @@
 										"name": "allow_dhcpd",
 										"bool": {
 											"computed_optional_required": "computed_optional",
-											"description": "Only if `mode`!=`dynamic` if DHCP snooping is enabled, whether DHCP server is allowed on the interfaces with. All the interfaces from port configs using this port usage are effected. Please notice that allow_dhcpd is a tri_state.\n\nWhen it is not defined, it means using the system’s default setting which depends on whether the port is a access or trunk port."
+											"description": "Only if `mode`!=`dynamic`. If DHCP snooping is enabled, whether DHCP server is allowed on the interfaces with.\nAll the interfaces from port configs using this port usage are effected. Please notice that allow_dhcpd is a tri_state.\nWhen it is not defined, it means using the system's default setting which depends on whether the port is a access or trunk port."
 										}
 									},
 									{
@@ -4987,6 +5034,13 @@
 										}
 									},
 									{
+										"name": "ui_evpntopo_id",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"description": "optional for Campus Fabric Core-Distribution ESI-LAG profile. Helper used by the UI to select this port profile as the ESI-Lag between Distribution and Access switches"
+										}
+									},
+									{
 										"name": "use_vstp",
 										"bool": {
 											"computed_optional_required": "computed_optional",
@@ -5004,7 +5058,8 @@
 										}
 									}
 								]
-							}
+							},
+							"description": "Property key is the port usage name. Defines the profiles of port configuration configured on the switch"
 						}
 					},
 					{
@@ -6694,9 +6749,6 @@
 																	"name": "ae_lacp_slow",
 																	"bool": {
 																		"computed_optional_required": "computed_optional",
-																		"default": {
-																			"static": true
-																		},
 																		"description": "to use fast timeout"
 																	}
 																},
@@ -6819,7 +6871,7 @@
 																	"name": "usage",
 																	"string": {
 																		"computed_optional_required": "required",
-																		"description": "port usage name. \n\nIf EVPN is used, use `evpn_uplink`or `evpn_downlink`"
+																		"description": "port usage name. If EVPN is used, use `evpn_uplink`or `evpn_downlink`"
 																	}
 																}
 															]

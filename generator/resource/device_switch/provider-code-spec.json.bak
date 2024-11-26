@@ -542,7 +542,7 @@
 									"name": "role",
 									"string": {
 										"computed_optional_required": "computed_optional",
-										"description": "enum: `access`, `core`, `distribution`",
+										"description": "enum: `access`, `collapsed-core`, `core`, `distribution`, `esilag-access`, `none`",
 										"validators": [
 											{
 												"custom": {
@@ -551,7 +551,7 @@
 															"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 														}
 													],
-													"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"access\",\n\"core\",\n\"distribution\",\n)"
+													"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"access\",\n\"collapsed-core\",\n\"core\",\n\"distribution\",\n\"esilag-access\",\n\"none\",\n)"
 												}
 											}
 										]
@@ -1404,6 +1404,20 @@
 							"nested_object": {
 								"attributes": [
 									{
+										"name": "gateway",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"description": "only required for EVPN-VXLAN networks, IPv4 Virtual Gateway"
+										}
+									},
+									{
+										"name": "gateway6",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"description": "only required for EVPN-VXLAN networks, IPv6 Virtual Gateway"
+										}
+									},
+									{
 										"name": "isolation",
 										"bool": {
 											"computed_optional_required": "computed_optional",
@@ -1421,6 +1435,13 @@
 									},
 									{
 										"name": "subnet",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"description": "optional for pure switching, required when L3 / routing features are used"
+										}
+									},
+									{
+										"name": "subnet6",
 										"string": {
 											"computed_optional_required": "computed_optional",
 											"description": "optional for pure switching, required when L3 / routing features are used"
@@ -1843,7 +1864,7 @@
 									}
 								]
 							},
-							"description": "Property key is the network name"
+							"description": "Property key is the network name. Defines the additional IP Addresses configured on the device."
 						}
 					},
 					{
@@ -1870,9 +1891,6 @@
 										"name": "ae_lacp_slow",
 										"bool": {
 											"computed_optional_required": "computed_optional",
-											"default": {
-												"static": true
-											},
 											"description": "to use fast timeout"
 										}
 									},
@@ -2604,7 +2622,8 @@
 										}
 									}
 								]
-							}
+							},
+							"description": "Property key is the port usage name. Defines the profiles of port configuration configured on the switch"
 						}
 					},
 					{
