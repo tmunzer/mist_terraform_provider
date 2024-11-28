@@ -1,0 +1,221 @@
+{
+	"provider": {
+		"name": "mistapi"
+	},
+	"resources": [
+		{
+			"name": "org_inventory",
+			"schema": {
+				"attributes": [
+					{
+						"name": "devices",
+						"list_nested": {
+							"computed_optional_required": "computed",
+							"nested_object": {
+								"attributes": [
+									{
+										"name": "deviceprofile_id",
+										"string": {
+											"computed_optional_required": "computed",
+											"description": "deviceprofile id if assigned, null if not assigned"
+										}
+									},
+									{
+										"name": "hostname",
+										"string": {
+											"computed_optional_required": "computed",
+											"description": "hostname reported by the device"
+										}
+									},
+									{
+										"name": "id",
+										"string": {
+											"computed_optional_required": "computed",
+											"description": "device id"
+										}
+									},
+									{
+										"name": "mac",
+										"string": {
+											"computed_optional_required": "computed",
+											"description": "device MAC address"
+										}
+									},
+									{
+										"name": "magic",
+										"string": {
+											"computed_optional_required": "computed",
+											"description": "device claim code"
+										}
+									},
+									{
+										"name": "model",
+										"string": {
+											"computed_optional_required": "computed",
+											"description": "device model"
+										}
+									},
+									{
+										"name": "org_id",
+										"string": {
+											"computed_optional_required": "computed"
+										}
+									},
+									{
+										"name": "serial",
+										"string": {
+											"computed_optional_required": "computed",
+											"description": "device serial"
+										}
+									},
+									{
+										"name": "site_id",
+										"string": {
+											"computed_optional_required": "computed",
+											"description": "Site ID. Used to assign device to a Site"
+										}
+									},
+									{
+										"name": "type",
+										"string": {
+											"computed_optional_required": "computed",
+											"default": {
+												"static": "ap"
+											},
+											"description": "enum: `ap`, `gateway`, `switch`"
+										}
+									},
+									{
+										"name": "unclaim_when_destroyed",
+										"bool": {
+											"computed_optional_required": "computed",
+											"default": {
+												"static": false
+											},
+											"description": "Unclaim the device from the Mist Organization when removed from the provider inventory. Default is `false`"
+										}
+									},
+									{
+										"name": "vc_mac",
+										"string": {
+											"computed_optional_required": "computed",
+											"description": "if `type`==`switch` and device part of a Virtual Chassis, MAC Address of the Virtual Chassis. if `type`==`gateway` and device part of a Clust, MAC Address of the Cluster"
+										}
+									}
+								]
+							},
+							"description": "List of devices"
+						}
+					},
+					{
+						"name": "inventory",
+						"map_nested": {
+							"computed_optional_required": "computed",
+							"nested_object": {
+								"attributes": [
+									{
+										"name": "deviceprofile_id",
+										"string": {
+											"computed_optional_required": "computed",
+											"description": "deviceprofile id if assigned, null if not assigned"
+										}
+									},
+									{
+										"name": "hostname",
+										"string": {
+											"computed_optional_required": "computed",
+											"description": "hostname reported by the device"
+										}
+									},
+									{
+										"name": "id",
+										"string": {
+											"computed_optional_required": "computed",
+											"description": "device id"
+										}
+									},
+									{
+										"name": "mac",
+										"string": {
+											"computed_optional_required": "computed",
+											"description": "device MAC address"
+										}
+									},
+									{
+										"name": "magic",
+										"string": {
+											"computed_optional_required": "computed",
+											"description": "device claim code"
+										}
+									},
+									{
+										"name": "model",
+										"string": {
+											"computed_optional_required": "computed",
+											"description": "device model"
+										}
+									},
+									{
+										"name": "org_id",
+										"string": {
+											"computed_optional_required": "computed"
+										}
+									},
+									{
+										"name": "serial",
+										"string": {
+											"computed_optional_required": "computed",
+											"description": "device serial"
+										}
+									},
+									{
+										"name": "site_id",
+										"string": {
+											"computed_optional_required": "computed",
+											"description": "Site ID. Used to assign device to a Site"
+										}
+									},
+									{
+										"name": "type",
+										"string": {
+											"computed_optional_required": "computed",
+											"default": {
+												"static": "ap"
+											},
+											"description": "enum: `ap`, `gateway`, `switch`"
+										}
+									},
+									{
+										"name": "unclaim_when_destroyed",
+										"bool": {
+											"computed_optional_required": "computed",
+											"default": {
+												"static": false
+											},
+											"description": "Unclaim the device from the Mist Organization when removed from the provider inventory. Default is `false`"
+										}
+									},
+									{
+										"name": "vc_mac",
+										"string": {
+											"computed_optional_required": "computed",
+											"description": "if `type`==`switch` and device part of a Virtual Chassis, MAC Address of the Virtual Chassis. if `type`==`gateway` and device part of a Clust, MAC Address of the Cluster"
+										}
+									}
+								]
+							},
+							"description": "Property key can be the device Claim Code or the device MAC Address:\n  * Claim Code: used to claim the device to the Mist Organization and manage it. Format is `[0-9A-Z]{15}` (e.g `01234ABCDE56789`)\n  * MAC Address: used to managed a device already in the Mist Organization (claimed or adopted devices). Format is `[0-9a-f]{12}` (e.g `5684dae9ac8b`)\n\n    \u003e"
+						}
+					},
+					{
+						"name": "org_id",
+						"string": {
+							"computed_optional_required": "computed_optional"
+						}
+					}
+				]
+			}
+		}
+	],
+	"version": "0.1"
+}

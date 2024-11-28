@@ -617,6 +617,7 @@ next:
 
           mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("type"),
           types.StringValue("dhcp"))'
+
 - get:
   - single_nested
   - attributes
@@ -674,6 +675,11 @@ next:
 
           mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("type"),
           types.StringValue("dhcp"))'
+  - computed_optional_required: optional
+    get:
+    - bool
+    name: use_mgmt_vrf_for_host_out
+    no_default: true          
 - get:
   - map_nested
   - nested_object

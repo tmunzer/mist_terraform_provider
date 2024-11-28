@@ -30,6 +30,9 @@ data "mist_org_inventory" "inventory" {
 data "mist_sites" "sites" {
   org_id = "992bf4b9-c900-4850-9992-107b2f9df928"
 }
+data "mist_org_networks" "current_nets" {
+  org_id = "18193db2-80a8-4ea2-9e93-887f606de96a"
+}
 output "mist_sites_data" {
   value = data.mist_sites.sites
 }

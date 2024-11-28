@@ -24,10 +24,21 @@ next:
   get:
   - string
   name: id
+  plan_modifiers:
+  - custom:
+      imports:
+      - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier
+      - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier
+      schema_definition: stringplanmodifier.UseStateForUnknown()
 - computed_optional_required: computed
   get:
   - string
   name: msp_id
+  default: 
+    custom:
+      imports:
+      - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault
+      schema_definition: stringdefault.StaticString("")
 - name: acct_servers
   get: 
   - list_nested
@@ -94,13 +105,13 @@ next:
         types.BoolValue(true))
 - name: ap_ids
   computed_optional_required: computed_optional
-  # default: 
-  #   custom:
-  #     imports:
-  #     - path: github.com/hashicorp/terraform-plugin-framework/attr
-  #     - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault
-  #     - path: github.com/hashicorp/terraform-plugin-framework/types
-  #     schema_definition: listdefault.StaticValue(types.ListNull(types.StringType))
+  default: 
+    custom:
+      imports:
+      - path: github.com/hashicorp/terraform-plugin-framework/attr
+      - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault
+      - path: github.com/hashicorp/terraform-plugin-framework/types
+      schema_definition: listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{}))
   get: 
   - list
   validators:
@@ -491,13 +502,13 @@ next:
       schema_definition: mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("isolation"),
         types.BoolValue(true))
 - computed_optional_required: computed_optional
-  # default: 
-  #   custom:
-  #     imports:
-  #     - path: github.com/hashicorp/terraform-plugin-framework/attr
-  #     - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault
-  #     - path: github.com/hashicorp/terraform-plugin-framework/types
-  #     schema_definition: listdefault.StaticValue(types.ListNull(types.StringType))
+  default: 
+    custom:
+      imports:
+      - path: github.com/hashicorp/terraform-plugin-framework/attr
+      - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault
+      - path: github.com/hashicorp/terraform-plugin-framework/types
+      schema_definition: listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{}))
   get:
   - list
   name: mxtunnel_ids
@@ -507,13 +518,13 @@ next:
       - path: github.com/hashicorp/terraform-plugin-framework-validators/listvalidator
       schema_definition: listvalidator.SizeAtLeast(1)
 - computed_optional_required: computed_optional
-  # default: 
-  #   custom:
-  #     imports:
-  #     - path: github.com/hashicorp/terraform-plugin-framework/attr
-  #     - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault
-  #     - path: github.com/hashicorp/terraform-plugin-framework/types
-  #     schema_definition: listdefault.StaticValue(types.ListNull(types.StringType))
+  default: 
+    custom:
+      imports:
+      - path: github.com/hashicorp/terraform-plugin-framework/attr
+      - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault
+      - path: github.com/hashicorp/terraform-plugin-framework/types
+      schema_definition: listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{}))
   get:
   - list
   name: mxtunnel_name      
@@ -535,7 +546,7 @@ next:
         - path: github.com/hashicorp/terraform-plugin-framework/attr
         - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault
         - path: github.com/hashicorp/terraform-plugin-framework/types
-        schema_definition: listdefault.StaticValue(types.ListNull(types.StringType))
+        schema_definition: listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{}))
     get:
     - list
     name: amazon_email_domains
@@ -546,7 +557,7 @@ next:
         - path: github.com/hashicorp/terraform-plugin-framework/attr
         - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault
         - path: github.com/hashicorp/terraform-plugin-framework/types
-        schema_definition: listdefault.StaticValue(types.ListNull(types.StringType))
+        schema_definition: listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{}))
     get:
     - list
     name: facebook_email_domains
@@ -557,7 +568,7 @@ next:
         - path: github.com/hashicorp/terraform-plugin-framework/attr
         - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault
         - path: github.com/hashicorp/terraform-plugin-framework/types
-        schema_definition: listdefault.StaticValue(types.ListNull(types.StringType))
+        schema_definition: listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{}))
     get:
     - list
     name: google_email_domains
@@ -568,7 +579,7 @@ next:
         - path: github.com/hashicorp/terraform-plugin-framework/attr
         - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault
         - path: github.com/hashicorp/terraform-plugin-framework/types
-        schema_definition: listdefault.StaticValue(types.ListNull(types.StringType))
+        schema_definition: listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{}))
     get:
     - list
     name: microsoft_email_domains
@@ -579,7 +590,7 @@ next:
         - path: github.com/hashicorp/terraform-plugin-framework/attr
         - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault
         - path: github.com/hashicorp/terraform-plugin-framework/types
-        schema_definition: listdefault.StaticValue(types.ListNull(types.StringType))
+        schema_definition: listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{}))
     get:
     - list
     name: sponsor_email_domains
@@ -588,13 +599,13 @@ next:
     - map
     name: sponsors      
 - computed_optional_required: computed_optional
-  # default: 
-  #   custom:
-  #     imports:
-  #     - path: github.com/hashicorp/terraform-plugin-framework/attr
-  #     - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault
-  #     - path: github.com/hashicorp/terraform-plugin-framework/types
-  #     schema_definition: listdefault.StaticValue(types.ListNull(types.StringType))
+  default: 
+    custom:
+      imports:
+      - path: github.com/hashicorp/terraform-plugin-framework/attr
+      - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault
+      - path: github.com/hashicorp/terraform-plugin-framework/types
+      schema_definition: listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{}))
   get:
   - list
   name: portal_allowed_hostnames      
@@ -604,13 +615,13 @@ next:
       - path: github.com/hashicorp/terraform-plugin-framework-validators/listvalidator
       schema_definition: listvalidator.SizeAtLeast(1)
 - computed_optional_required: computed_optional
-  # default: 
-  #   custom:
-  #     imports:
-  #     - path: github.com/hashicorp/terraform-plugin-framework/attr
-  #     - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault
-  #     - path: github.com/hashicorp/terraform-plugin-framework/types
-  #     schema_definition: listdefault.StaticValue(types.ListNull(types.StringType))
+  default: 
+    custom:
+      imports:
+      - path: github.com/hashicorp/terraform-plugin-framework/attr
+      - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault
+      - path: github.com/hashicorp/terraform-plugin-framework/types
+      schema_definition: listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{}))
   get:
   - list
   name: portal_allowed_subnets      
@@ -632,13 +643,13 @@ next:
   name: portal_api_secret
   no_default: true
 - computed_optional_required: computed_optional
-  # default: 
-  #   custom:
-  #     imports:
-  #     - path: github.com/hashicorp/terraform-plugin-framework/attr
-  #     - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault
-  #     - path: github.com/hashicorp/terraform-plugin-framework/types
-  #     schema_definition: listdefault.StaticValue(types.ListNull(types.StringType))
+  default: 
+    custom:
+      imports:
+      - path: github.com/hashicorp/terraform-plugin-framework/attr
+      - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault
+      - path: github.com/hashicorp/terraform-plugin-framework/types
+      schema_definition: listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{}))
   get:
   - list
   name: portal_denied_hostnames  
@@ -748,13 +759,13 @@ next:
       schema_definition: mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("wlan_limit_up_enabled"),
         types.BoolValue(true))        
 - computed_optional_required: computed_optional
-  # default: 
-  #   custom:
-  #     imports:
-  #     - path: github.com/hashicorp/terraform-plugin-framework/attr
-  #     - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault
-  #     - path: github.com/hashicorp/terraform-plugin-framework/types
-  #     schema_definition: listdefault.StaticValue(types.ListNull(types.StringType))
+  default: 
+    custom:
+      imports:
+      - path: github.com/hashicorp/terraform-plugin-framework/attr
+      - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault
+      - path: github.com/hashicorp/terraform-plugin-framework/types
+      schema_definition: listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{}))
   get:
   - list
   name: wxtag_ids

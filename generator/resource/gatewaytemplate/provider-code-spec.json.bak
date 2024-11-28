@@ -4,7 +4,7 @@
 	},
 	"resources": [
 		{
-			"name": "device_gateway",
+			"name": "org_gatewaytemplate",
 			"schema": {
 				"attributes": [
 					{
@@ -621,6 +621,15 @@
 						}
 					},
 					{
+						"name": "dns_override",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": false
+							}
+						}
+					},
+					{
 						"name": "dns_servers",
 						"list": {
 							"computed_optional_required": "computed_optional",
@@ -675,6 +684,13 @@
 						}
 					},
 					{
+						"name": "id",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"description": "Unique ID of the object instance in the Mist Organnization"
+						}
+					},
+					{
 						"name": "idp_profiles",
 						"map_nested": {
 							"computed_optional_required": "computed_optional",
@@ -697,13 +713,6 @@
 													}
 												}
 											]
-										}
-									},
-									{
-										"name": "id",
-										"string": {
-											"computed_optional_required": "computed_optional",
-											"description": "Unique ID of the object instance in the Mist Organnization"
 										}
 									},
 									{
@@ -797,24 +806,6 @@
 						}
 					},
 					{
-						"name": "image1_url",
-						"string": {
-							"computed_optional_required": "computed_optional"
-						}
-					},
-					{
-						"name": "image2_url",
-						"string": {
-							"computed_optional_required": "computed_optional"
-						}
-					},
-					{
-						"name": "image3_url",
-						"string": {
-							"computed_optional_required": "computed_optional"
-						}
-					},
-					{
 						"name": "ip_configs",
 						"map_nested": {
 							"computed_optional_required": "computed_optional",
@@ -870,42 +861,9 @@
 						}
 					},
 					{
-						"name": "mac",
-						"string": {
-							"computed_optional_required": "computed_optional",
-							"description": "device MAC address"
-						}
-					},
-					{
-						"name": "managed",
-						"bool": {
-							"computed_optional_required": "computed_optional"
-						}
-					},
-					{
-						"name": "map_id",
-						"string": {
-							"computed_optional_required": "computed_optional",
-							"description": "map where the device belongs to"
-						}
-					},
-					{
-						"name": "model",
-						"string": {
-							"computed_optional_required": "computed_optional",
-							"description": "device Model"
-						}
-					},
-					{
-						"name": "msp_id",
-						"string": {
-							"computed_optional_required": "computed_optional"
-						}
-					},
-					{
 						"name": "name",
 						"string": {
-							"computed_optional_required": "computed_optional"
+							"computed_optional_required": "required"
 						}
 					},
 					{
@@ -1325,9 +1283,12 @@
 						}
 					},
 					{
-						"name": "notes",
-						"string": {
-							"computed_optional_required": "computed_optional"
+						"name": "ntp_override",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": false
+							}
 						}
 					},
 					{
@@ -1337,18 +1298,7 @@
 							"element_type": {
 								"string": {}
 							},
-							"validators": [
-								{
-									"custom": {
-										"imports": [
-											{
-												"path": "github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
-											}
-										],
-										"schema_definition": "listvalidator.UniqueValues()"
-									}
-								}
-							]
+							"description": "list of NTP servers specific to this device. By default, those in Site Settings will be used"
 						}
 					},
 					{
@@ -2362,68 +2312,7 @@
 									}
 								]
 							},
-							"description": "Property key is the port name or range (e.g. \"ge-0/0/0-10\")"
-						}
-					},
-					{
-						"name": "port_mirroring",
-						"single_nested": {
-							"computed_optional_required": "computed_optional",
-							"attributes": [
-								{
-									"name": "port_mirror",
-									"single_nested": {
-										"computed_optional_required": "computed_optional",
-										"attributes": [
-											{
-												"name": "family_type",
-												"string": {
-													"computed_optional_required": "computed_optional"
-												}
-											},
-											{
-												"name": "ingress_port_ids",
-												"list": {
-													"computed_optional_required": "computed_optional",
-													"element_type": {
-														"string": {}
-													}
-												}
-											},
-											{
-												"name": "output_port_id",
-												"string": {
-													"computed_optional_required": "computed_optional"
-												}
-											},
-											{
-												"name": "rate",
-												"int64": {
-													"computed_optional_required": "computed_optional"
-												}
-											},
-											{
-												"name": "run_length",
-												"int64": {
-													"computed_optional_required": "computed_optional",
-													"validators": [
-														{
-															"custom": {
-																"imports": [
-																	{
-																		"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
-																	}
-																],
-																"schema_definition": "int64validator.AtLeast(0)"
-															}
-														}
-													]
-												}
-											}
-										]
-									}
-								}
-							]
+							"description": "Property key is the port(s) name or range (e.g. \"ge-0/0/0-10\")"
 						}
 					},
 					{
@@ -2697,13 +2586,6 @@
 						}
 					},
 					{
-						"name": "serial",
-						"string": {
-							"computed_optional_required": "computed_optional",
-							"description": "device Serial"
-						}
-					},
-					{
 						"name": "service_policies",
 						"list_nested": {
 							"computed_optional_required": "computed_optional",
@@ -2910,12 +2792,6 @@
 									}
 								]
 							}
-						}
-					},
-					{
-						"name": "site_id",
-						"string": {
-							"computed_optional_required": "computed_optional"
 						}
 					},
 					{
@@ -3702,8 +3578,11 @@
 					{
 						"name": "type",
 						"string": {
-							"computed_optional_required": "required",
-							"description": "Device Type. enum: `gateway`",
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": "standalone"
+							},
+							"description": "enum: `spoke`, `standalone`",
 							"validators": [
 								{
 									"custom": {
@@ -3712,20 +3591,10 @@
 												"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 											}
 										],
-										"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"gateway\",\n)"
+										"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"spoke\",\n\"standalone\",\n)"
 									}
 								}
 							]
-						}
-					},
-					{
-						"name": "vars",
-						"map": {
-							"computed_optional_required": "computed_optional",
-							"element_type": {
-								"string": {}
-							},
-							"description": "a dictionary of name-\u003evalue, the vars can then be used in Wlans. This can overwrite those from Site Vars"
 						}
 					},
 					{
@@ -3773,26 +3642,6 @@
 								]
 							},
 							"description": "Property key is the network name"
-						}
-					},
-					{
-						"name": "x",
-						"float64": {
-							"computed_optional_required": "computed_optional",
-							"description": "x in pixel"
-						}
-					},
-					{
-						"name": "y",
-						"float64": {
-							"computed_optional_required": "computed_optional",
-							"description": "y in pixel"
-						}
-					},
-					{
-						"name": "device_id",
-						"string": {
-							"computed_optional_required": "computed_optional"
 						}
 					}
 				]

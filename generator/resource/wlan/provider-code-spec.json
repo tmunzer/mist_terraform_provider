@@ -266,6 +266,22 @@
                                 "string": {}
                             },
                             "description": "list of device ids",
+                            "default": {
+                                "custom": {
+                                    "imports": [
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/attr"
+                                        },
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault"
+                                        },
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/types"
+                                        }
+                                    ],
+                                    "schema_definition": "listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{}))"
+                                }
+                            },
                             "validators": [
                                 {
                                     "custom": {
@@ -1861,7 +1877,22 @@
                         "name": "id",
                         "string": {
                             "computed_optional_required": "computed",
-                            "description": "Unique ID of the object instance in the Mist Organnization"
+                            "description": "Unique ID of the object instance in the Mist Organnization",
+                            "plan_modifiers": [
+                                {
+                                    "custom": {
+                                        "imports": [
+                                            {
+                                                "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
+                                            },
+                                            {
+                                                "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+                                            }
+                                        ],
+                                        "schema_definition": "stringplanmodifier.UseStateForUnknown()"
+                                    }
+                                }
+                            ]
                         }
                     },
                     {
@@ -2041,7 +2072,17 @@
                     {
                         "name": "msp_id",
                         "string": {
-                            "computed_optional_required": "computed"
+                            "computed_optional_required": "computed",
+                            "default": {
+                                "custom": {
+                                    "imports": [
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
+                                        }
+                                    ],
+                                    "schema_definition": "stringdefault.StaticString(\"\")"
+                                }
+                            }
                         }
                     },
                     {
@@ -2052,6 +2093,22 @@
                                 "string": {}
                             },
                             "description": "when `interface`=`mxtunnel`, id of the Mist Tunnel",
+                            "default": {
+                                "custom": {
+                                    "imports": [
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/attr"
+                                        },
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault"
+                                        },
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/types"
+                                        }
+                                    ],
+                                    "schema_definition": "listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{}))"
+                                }
+                            },
                             "validators": [
                                 {
                                     "custom": {
@@ -2074,6 +2131,22 @@
                                 "string": {}
                             },
                             "description": "when `interface`=`site_medge`, name of the mxtunnel that in mxtunnels under Site Setting",
+                            "default": {
+                                "custom": {
+                                    "imports": [
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/attr"
+                                        },
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault"
+                                        },
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/types"
+                                        }
+                                    ],
+                                    "schema_definition": "listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{}))"
+                                }
+                            },
                             "validators": [
                                 {
                                     "custom": {
@@ -2170,7 +2243,7 @@
                                                         "path": "github.com/hashicorp/terraform-plugin-framework/types"
                                                     }
                                                 ],
-                                                "schema_definition": "listdefault.StaticValue(types.ListNull(types.StringType))"
+                                                "schema_definition": "listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{}))"
                                             }
                                         }
                                     }
@@ -2409,7 +2482,7 @@
                                                         "path": "github.com/hashicorp/terraform-plugin-framework/types"
                                                     }
                                                 ],
-                                                "schema_definition": "listdefault.StaticValue(types.ListNull(types.StringType))"
+                                                "schema_definition": "listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{}))"
                                             }
                                         }
                                     }
@@ -2495,7 +2568,7 @@
                                                         "path": "github.com/hashicorp/terraform-plugin-framework/types"
                                                     }
                                                 ],
-                                                "schema_definition": "listdefault.StaticValue(types.ListNull(types.StringType))"
+                                                "schema_definition": "listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{}))"
                                             }
                                         }
                                     }
@@ -2582,7 +2655,7 @@
                                                         "path": "github.com/hashicorp/terraform-plugin-framework/types"
                                                     }
                                                 ],
-                                                "schema_definition": "listdefault.StaticValue(types.ListNull(types.StringType))"
+                                                "schema_definition": "listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{}))"
                                             }
                                         }
                                     }
@@ -2780,7 +2853,7 @@
                                                         "path": "github.com/hashicorp/terraform-plugin-framework/types"
                                                     }
                                                 ],
-                                                "schema_definition": "listdefault.StaticValue(types.ListNull(types.StringType))"
+                                                "schema_definition": "listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{}))"
                                             }
                                         }
                                     }
@@ -3001,6 +3074,22 @@
                                 "string": {}
                             },
                             "description": "list of hostnames without http(s):// (matched by substring)",
+                            "default": {
+                                "custom": {
+                                    "imports": [
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/attr"
+                                        },
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault"
+                                        },
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/types"
+                                        }
+                                    ],
+                                    "schema_definition": "listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{}))"
+                                }
+                            },
                             "validators": [
                                 {
                                     "custom": {
@@ -3023,6 +3112,22 @@
                                 "string": {}
                             },
                             "description": "list of CIDRs",
+                            "default": {
+                                "custom": {
+                                    "imports": [
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/attr"
+                                        },
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault"
+                                        },
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/types"
+                                        }
+                                    ],
+                                    "schema_definition": "listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{}))"
+                                }
+                            },
                             "validators": [
                                 {
                                     "custom": {
@@ -3057,7 +3162,23 @@
                             "element_type": {
                                 "string": {}
                             },
-                            "description": "list of hostnames without http(s):// (matched by substring), this takes precedence over portal_allowed_hostnames"
+                            "description": "list of hostnames without http(s):// (matched by substring), this takes precedence over portal_allowed_hostnames",
+                            "default": {
+                                "custom": {
+                                    "imports": [
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/attr"
+                                        },
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault"
+                                        },
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/types"
+                                        }
+                                    ],
+                                    "schema_definition": "listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{}))"
+                                }
+                            }
                         }
                     },
                     {
@@ -3732,6 +3853,22 @@
                                 "string": {}
                             },
                             "description": "list of wxtag_ids",
+                            "default": {
+                                "custom": {
+                                    "imports": [
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/attr"
+                                        },
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault"
+                                        },
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/types"
+                                        }
+                                    ],
+                                    "schema_definition": "listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{}))"
+                                }
+                            },
                             "validators": [
                                 {
                                     "custom": {
@@ -5945,6 +6082,22 @@
                                 "string": {}
                             },
                             "description": "list of device ids",
+                            "default": {
+                                "custom": {
+                                    "imports": [
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/attr"
+                                        },
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault"
+                                        },
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/types"
+                                        }
+                                    ],
+                                    "schema_definition": "listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{}))"
+                                }
+                            },
                             "validators": [
                                 {
                                     "custom": {
@@ -7540,7 +7693,22 @@
                         "name": "id",
                         "string": {
                             "computed_optional_required": "computed",
-                            "description": "Unique ID of the object instance in the Mist Organnization"
+                            "description": "Unique ID of the object instance in the Mist Organnization",
+                            "plan_modifiers": [
+                                {
+                                    "custom": {
+                                        "imports": [
+                                            {
+                                                "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
+                                            },
+                                            {
+                                                "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+                                            }
+                                        ],
+                                        "schema_definition": "stringplanmodifier.UseStateForUnknown()"
+                                    }
+                                }
+                            ]
                         }
                     },
                     {
@@ -7720,7 +7888,17 @@
                     {
                         "name": "msp_id",
                         "string": {
-                            "computed_optional_required": "computed"
+                            "computed_optional_required": "computed",
+                            "default": {
+                                "custom": {
+                                    "imports": [
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
+                                        }
+                                    ],
+                                    "schema_definition": "stringdefault.StaticString(\"\")"
+                                }
+                            }
                         }
                     },
                     {
@@ -7731,6 +7909,22 @@
                                 "string": {}
                             },
                             "description": "when `interface`=`mxtunnel`, id of the Mist Tunnel",
+                            "default": {
+                                "custom": {
+                                    "imports": [
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/attr"
+                                        },
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault"
+                                        },
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/types"
+                                        }
+                                    ],
+                                    "schema_definition": "listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{}))"
+                                }
+                            },
                             "validators": [
                                 {
                                     "custom": {
@@ -7753,6 +7947,22 @@
                                 "string": {}
                             },
                             "description": "when `interface`=`site_medge`, name of the mxtunnel that in mxtunnels under Site Setting",
+                            "default": {
+                                "custom": {
+                                    "imports": [
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/attr"
+                                        },
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault"
+                                        },
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/types"
+                                        }
+                                    ],
+                                    "schema_definition": "listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{}))"
+                                }
+                            },
                             "validators": [
                                 {
                                     "custom": {
@@ -7849,7 +8059,7 @@
                                                         "path": "github.com/hashicorp/terraform-plugin-framework/types"
                                                     }
                                                 ],
-                                                "schema_definition": "listdefault.StaticValue(types.ListNull(types.StringType))"
+                                                "schema_definition": "listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{}))"
                                             }
                                         }
                                     }
@@ -8088,7 +8298,7 @@
                                                         "path": "github.com/hashicorp/terraform-plugin-framework/types"
                                                     }
                                                 ],
-                                                "schema_definition": "listdefault.StaticValue(types.ListNull(types.StringType))"
+                                                "schema_definition": "listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{}))"
                                             }
                                         }
                                     }
@@ -8174,7 +8384,7 @@
                                                         "path": "github.com/hashicorp/terraform-plugin-framework/types"
                                                     }
                                                 ],
-                                                "schema_definition": "listdefault.StaticValue(types.ListNull(types.StringType))"
+                                                "schema_definition": "listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{}))"
                                             }
                                         }
                                     }
@@ -8261,7 +8471,7 @@
                                                         "path": "github.com/hashicorp/terraform-plugin-framework/types"
                                                     }
                                                 ],
-                                                "schema_definition": "listdefault.StaticValue(types.ListNull(types.StringType))"
+                                                "schema_definition": "listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{}))"
                                             }
                                         }
                                     }
@@ -8459,7 +8669,7 @@
                                                         "path": "github.com/hashicorp/terraform-plugin-framework/types"
                                                     }
                                                 ],
-                                                "schema_definition": "listdefault.StaticValue(types.ListNull(types.StringType))"
+                                                "schema_definition": "listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{}))"
                                             }
                                         }
                                     }
@@ -8680,6 +8890,22 @@
                                 "string": {}
                             },
                             "description": "list of hostnames without http(s):// (matched by substring)",
+                            "default": {
+                                "custom": {
+                                    "imports": [
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/attr"
+                                        },
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault"
+                                        },
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/types"
+                                        }
+                                    ],
+                                    "schema_definition": "listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{}))"
+                                }
+                            },
                             "validators": [
                                 {
                                     "custom": {
@@ -8702,6 +8928,22 @@
                                 "string": {}
                             },
                             "description": "list of CIDRs",
+                            "default": {
+                                "custom": {
+                                    "imports": [
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/attr"
+                                        },
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault"
+                                        },
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/types"
+                                        }
+                                    ],
+                                    "schema_definition": "listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{}))"
+                                }
+                            },
                             "validators": [
                                 {
                                     "custom": {
@@ -8736,7 +8978,23 @@
                             "element_type": {
                                 "string": {}
                             },
-                            "description": "list of hostnames without http(s):// (matched by substring), this takes precedence over portal_allowed_hostnames"
+                            "description": "list of hostnames without http(s):// (matched by substring), this takes precedence over portal_allowed_hostnames",
+                            "default": {
+                                "custom": {
+                                    "imports": [
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/attr"
+                                        },
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault"
+                                        },
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/types"
+                                        }
+                                    ],
+                                    "schema_definition": "listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{}))"
+                                }
+                            }
                         }
                     },
                     {
@@ -9411,6 +9669,22 @@
                                 "string": {}
                             },
                             "description": "list of wxtag_ids",
+                            "default": {
+                                "custom": {
+                                    "imports": [
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/attr"
+                                        },
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault"
+                                        },
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/types"
+                                        }
+                                    ],
+                                    "schema_definition": "listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{}))"
+                                }
+                            },
                             "validators": [
                                 {
                                     "custom": {

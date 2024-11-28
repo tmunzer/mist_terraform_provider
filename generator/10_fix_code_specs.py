@@ -113,6 +113,7 @@ def next_item(data: dict, entries: list, path: list):
         no_sensitive = entry.get("no_sensitive")
         no_default = entry.get("no_default")
         description = entry.get("description")
+        deprecation_message =  entry.get("deprecation_message")
         old_type = entry.get("old_type")
         new_type = entry.get("new_type")
         curr_path = path.copy()
@@ -134,6 +135,8 @@ def next_item(data: dict, entries: list, path: list):
                 del sub_data
             if description:
                 sub_data["description"] = description
+            if deprecation_message:
+                sub_data["deprecation_message"] = deprecation_message
             if default:
                 sub_data["default"] = default
             if no_sensitive and sub_data.get("sensitive"):

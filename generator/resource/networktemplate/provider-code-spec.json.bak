@@ -3926,6 +3926,16 @@
 						}
 					},
 					{
+						"name": "disabled_system_defined_port_usages",
+						"list": {
+							"computed_optional_required": "computed_optional",
+							"element_type": {
+								"string": {}
+							},
+							"description": "if some system-default port usages are not desired - namely, ap / iot / uplink"
+						}
+					},
+					{
 						"name": "dns_servers",
 						"list": {
 							"computed_optional_required": "computed_optional",

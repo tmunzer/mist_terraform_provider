@@ -49,6 +49,7 @@ resources:
         - acl_tags
         - additional_config_cmds
         - dhcp_snooping
+        - disabled_system_defined_port_usages
         - dns_servers
         - dns_suffix
         - extra_routes

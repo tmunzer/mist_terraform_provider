@@ -868,14 +868,44 @@
                                         "name": "gateway",
                                         "string": {
                                             "computed_optional_required": "optional",
-                                            "description": "only required for EVPN-VXLAN networks, IPv4 Virtual Gateway"
+                                            "description": "only required for EVPN-VXLAN networks, IPv4 Virtual Gateway",
+                                            "validators": [
+                                                {
+                                                    "custom": {
+                                                        "imports": [
+                                                            {
+                                                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                                            },
+                                                            {
+                                                                "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                                            }
+                                                        ],
+                                                        "schema_definition": "stringvalidator.Any(mistvalidator.ParseIp(true, false), mistvalidator.ParseVar())"
+                                                    }
+                                                }
+                                            ]
                                         }
                                     },
                                     {
                                         "name": "gateway6",
                                         "string": {
                                             "computed_optional_required": "optional",
-                                            "description": "only required for EVPN-VXLAN networks, IPv6 Virtual Gateway"
+                                            "description": "only required for EVPN-VXLAN networks, IPv6 Virtual Gateway",
+                                            "validators": [
+                                                {
+                                                    "custom": {
+                                                        "imports": [
+                                                            {
+                                                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                                            },
+                                                            {
+                                                                "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                                            }
+                                                        ],
+                                                        "schema_definition": "stringvalidator.Any(mistvalidator.ParseIp(false, true), mistvalidator.ParseVar())"
+                                                    }
+                                                }
+                                            ]
                                         }
                                     },
                                     {
@@ -910,7 +940,7 @@
                                                                 "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
                                                             }
                                                         ],
-                                                        "schema_definition": "stringvalidator.Any(mistvalidator.ParseCidr(false, true), mistvalidator.ParseVar())"
+                                                        "schema_definition": "stringvalidator.Any(mistvalidator.ParseCidr(true, false), mistvalidator.ParseVar())"
                                                     }
                                                 }
                                             ]
@@ -920,7 +950,22 @@
                                         "name": "subnet6",
                                         "string": {
                                             "computed_optional_required": "optional",
-                                            "description": "optional for pure switching, required when L3 / routing features are used"
+                                            "description": "optional for pure switching, required when L3 / routing features are used",
+                                            "validators": [
+                                                {
+                                                    "custom": {
+                                                        "imports": [
+                                                            {
+                                                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                                            },
+                                                            {
+                                                                "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                                            }
+                                                        ],
+                                                        "schema_definition": "stringvalidator.Any(mistvalidator.ParseCidr(false, true), mistvalidator.ParseVar())"
+                                                    }
+                                                }
+                                            ]
                                         }
                                     },
                                     {
@@ -4012,7 +4057,7 @@
                                                 {
                                                     "name": "additional_config_cmds",
                                                     "list": {
-                                                        "computed_optional_required": "optional",
+                                                        "computed_optional_required": "computed_optional",
                                                         "element_type": {
                                                             "string": {}
                                                         },
@@ -5513,6 +5558,16 @@
                                     }
                                 }
                             ]
+                        }
+                    },
+                    {
+                        "name": "disabled_system_defined_port_usages",
+                        "list": {
+                            "computed_optional_required": "optional",
+                            "element_type": {
+                                "string": {}
+                            },
+                            "description": "if some system-default port usages are not desired - namely, ap / iot / uplink"
                         }
                     },
                     {
@@ -9074,7 +9129,7 @@
                                                 {
                                                     "name": "additional_config_cmds",
                                                     "list": {
-                                                        "computed_optional_required": "optional",
+                                                        "computed_optional_required": "computed_optional",
                                                         "element_type": {
                                                             "string": {}
                                                         },

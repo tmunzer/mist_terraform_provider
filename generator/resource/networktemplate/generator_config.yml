@@ -58,7 +58,6 @@ resources:
         - created_time
         - critical_url_monitoring
         - device_updown_threshold
-        - disabled_system_defined_port_usages
         - engagement
         - evpn_options
         - flags

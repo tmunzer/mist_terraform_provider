@@ -141,6 +141,7 @@ next:
   - list_nested
   computed_optional_required: computed_optional
   description: "**DEPRECATED** List of devices to manage. Exactly one of `claim_code` or `mac` field must be set"
+  deprecation_message: "The `devices` attribute has been deprecated in version v0.2.0 of the Juniper-Mist Provider. It has been replaced with the `inventory` map and may be removed in future versions.\nPlease update your configurations to use the the `inventory` attribute."
   validators:
   - custom:
       imports:

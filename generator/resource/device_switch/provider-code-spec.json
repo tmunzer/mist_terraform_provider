@@ -2345,16 +2345,13 @@
                                         "default": {
                                             "static": false
                                         },
-                                        "description": "f supported on the platform. If enabled, DNS will be using this routing-instance, too"
+                                        "description": "if supported on the platform. If enabled, DNS will be using this routing-instance, too"
                                     }
                                 },
                                 {
                                     "name": "use_mgmt_vrf_for_host_out",
                                     "bool": {
-                                        "computed_optional_required": "computed_optional",
-                                        "default": {
-                                            "static": false
-                                        },
+                                        "computed_optional_required": "optional",
                                         "description": "for host-out traffic (NTP/TACPLUS/RADIUS/SYSLOG/SNMP), if alternative source network/ip is desired"
                                     }
                                 }

@@ -49,24 +49,32 @@ next:
 - name: cradlepoint
   get:
   - single_nested
+  computed_optional_required: computed
+- name: cradlepoint
+  get:
+  - single_nested
   - attributes
   next:
   - name: cp_api_id
     get:
     - string
-    computed_optional_required: required
+    computed_optional_required: computed
   - name: cp_api_key
     get:
     - string
-    computed_optional_required: required
+    computed_optional_required: computed
   - name: ecm_api_id
     get:
     - string
-    computed_optional_required: required
+    computed_optional_required: computed
   - name: ecm_api_key
     get:
     - string
-    computed_optional_required: required
+    computed_optional_required: computed
+  - name: enable_lldp
+    get:
+    - bool
+    computed_optional_required: computed
 - name: device_cert
   get:
   - single_nested

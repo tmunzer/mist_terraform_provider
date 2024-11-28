@@ -833,6 +833,7 @@ next:
     name: matching_rules
     next:
     - name: additional_config_cmds
+      computed_optional_required: computed_optional
       get: 
       - list
       validators:
