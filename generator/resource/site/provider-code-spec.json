@@ -1,0 +1,144 @@
+{
+    "provider": {
+        "name": "mistapi"
+    },
+    "resources": [
+        {
+            "name": "site",
+            "schema": {
+                "attributes": [
+                    {
+                        "name": "address",
+                        "string": {
+                            "computed_optional_required": "required",
+                            "description": "full address of the site"
+                        }
+                    },
+                    {
+                        "name": "alarmtemplate_id",
+                        "string": {
+                            "computed_optional_required": "optional",
+                            "description": "Alarm Template ID, this takes precedence over the Org-level alarmtemplate_id"
+                        }
+                    },
+                    {
+                        "name": "aptemplate_id",
+                        "string": {
+                            "computed_optional_required": "optional",
+                            "description": "AP Template ID, used by APs"
+                        }
+                    },
+                    {
+                        "name": "country_code",
+                        "string": {
+                            "computed_optional_required": "optional",
+                            "description": "country code for the site (for AP config generation), in two-character"
+                        }
+                    },
+                    {
+                        "name": "gatewaytemplate_id",
+                        "string": {
+                            "computed_optional_required": "optional",
+                            "description": "Gateway Template ID, used by gateways"
+                        }
+                    },
+                    {
+                        "name": "id",
+                        "string": {
+                            "computed_optional_required": "computed",
+                            "description": "Unique ID of the object instance in the Mist Organnization"
+                        }
+                    },
+                    {
+                        "name": "latlng",
+                        "single_nested": {
+                            "computed_optional_required": "optional",
+                            "attributes": [
+                                {
+                                    "name": "lat",
+                                    "float64": {
+                                        "computed_optional_required": "required"
+                                    }
+                                },
+                                {
+                                    "name": "lng",
+                                    "float64": {
+                                        "computed_optional_required": "required"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "name": "name",
+                        "string": {
+                            "computed_optional_required": "required"
+                        }
+                    },
+                    {
+                        "name": "networktemplate_id",
+                        "string": {
+                            "computed_optional_required": "optional",
+                            "description": "Network Template ID, this takes precedence over Site Settings"
+                        }
+                    },
+                    {
+                        "name": "notes",
+                        "string": {
+                            "computed_optional_required": "optional",
+                            "description": "optional, any notes about the site"
+                        }
+                    },
+                    {
+                        "name": "org_id",
+                        "string": {
+                            "computed_optional_required": "required"
+                        }
+                    },
+                    {
+                        "name": "rftemplate_id",
+                        "string": {
+                            "computed_optional_required": "optional",
+                            "description": "RF Template ID, this takes precedence over Site Settings"
+                        }
+                    },
+                    {
+                        "name": "secpolicy_id",
+                        "string": {
+                            "computed_optional_required": "optional",
+                            "description": "SecPolicy ID"
+                        }
+                    },
+                    {
+                        "name": "sitegroup_ids",
+                        "list": {
+                            "computed_optional_required": "optional",
+                            "element_type": {
+                                "string": {}
+                            },
+                            "description": "sitegroups this site belongs to"
+                        }
+                    },
+                    {
+                        "name": "sitetemplate_id",
+                        "string": {
+                            "computed_optional_required": "optional",
+                            "description": "Site Template ID"
+                        }
+                    },
+                    {
+                        "name": "timezone",
+                        "string": {
+                            "computed_optional_required": "computed_optional",
+                            "default": {
+                                "static": "UTC"
+                            },
+                            "description": "Timezone the site is at"
+                        }
+                    }
+                ]
+            }
+        }
+    ],
+    "version": "0.1"
+}

@@ -227,7 +227,7 @@
                                     {
                                         "name": "site_id",
                                         "string": {
-                                            "computed_optional_required": "computed_optional",
+                                            "computed_optional_required": "optional",
                                             "description": "Site ID. Used to assign device to a Site"
                                         }
                                     },
@@ -288,7 +288,7 @@
                                 ]
                             },
                             "description": "**DEPRECATED** List of devices to manage. Exactly one of `claim_code` or `mac` field must be set",
-                            "deprecation_message": "`devices` list usage may generate unexpected configuration drift and has been replaced with the `inventory` map.\nThe `devices` list` may be removed in future versions. Please update your configurations to use the new `inventory` map.",
+                            "deprecation_message": "The `devices` attribute has been deprecated in version v0.2.0 of the Juniper-Mist Provider. It has been replaced with the `inventory` map and may be removed in future versions.\nPlease update your configurations to use the `inventory` attribute.",
                             "validators": [
                                 {
                                     "custom": {
@@ -514,7 +514,7 @@
                                     {
                                         "name": "site_id",
                                         "string": {
-                                            "computed_optional_required": "computed_optional",
+                                            "computed_optional_required": "optional",
                                             "description": "Site ID. Used to assign device to a Site"
                                         }
                                     },

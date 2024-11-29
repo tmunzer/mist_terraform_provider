@@ -376,7 +376,7 @@
                             "element_type": {
                                 "string": {}
                             },
-                            "description": "additional CLI commands to append to the generated Junos config\n\n**Note**: no check is done",
+                            "description": "additional CLI commands to append to the generated Junos config. **Note**: no check is done",
                             "validators": [
                                 {
                                     "custom": {
@@ -4061,7 +4061,7 @@
                                                         "element_type": {
                                                             "string": {}
                                                         },
-                                                        "description": "additional CLI commands to append to the generated Junos config\n\n**Note**: no check is done",
+                                                        "description": "additional CLI commands to append to the generated Junos config. **Note**: no check is done",
                                                         "validators": [
                                                             {
                                                                 "custom": {
@@ -4118,23 +4118,175 @@
                                                     }
                                                 },
                                                 {
+                                                    "name": "match_model",
+                                                    "string": {
+                                                        "computed_optional_required": "computed_optional",
+                                                        "description": "string the switch model must start with to use this rule. It is possible to combine with the `match_name` and `match_role` attributes",
+                                                        "validators": [
+                                                            {
+                                                                "custom": {
+                                                                    "imports": [
+                                                                        {
+                                                                            "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                                                        }
+                                                                    ],
+                                                                    "schema_definition": "stringvalidator.LengthAtLeast(2)"
+                                                                }
+                                                            }
+                                                        ],
+                                                        "plan_modifiers": [
+                                                            {
+                                                                "custom": {
+                                                                    "imports": [
+                                                                        {
+                                                                            "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
+                                                                        },
+                                                                        {
+                                                                            "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+                                                                        }
+                                                                    ],
+                                                                    "schema_definition": "stringplanmodifier.UseStateForUnknown()"
+                                                                }
+                                                            }
+                                                        ]
+                                                    }
+                                                },
+                                                {
+                                                    "name": "match_name",
+                                                    "string": {
+                                                        "computed_optional_required": "computed_optional",
+                                                        "description": "string the switch name must start with to use this rule. Use the `match_name_offset` to indicate the first character of the switch name to compare to. It is possible to combine with the `match_model` and `match_role` attributes",
+                                                        "validators": [
+                                                            {
+                                                                "custom": {
+                                                                    "imports": [
+                                                                        {
+                                                                            "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                                                        }
+                                                                    ],
+                                                                    "schema_definition": "stringvalidator.LengthAtLeast(2)"
+                                                                }
+                                                            }
+                                                        ],
+                                                        "plan_modifiers": [
+                                                            {
+                                                                "custom": {
+                                                                    "imports": [
+                                                                        {
+                                                                            "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
+                                                                        },
+                                                                        {
+                                                                            "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+                                                                        }
+                                                                    ],
+                                                                    "schema_definition": "stringplanmodifier.UseStateForUnknown()"
+                                                                }
+                                                            }
+                                                        ]
+                                                    }
+                                                },
+                                                {
+                                                    "name": "match_name_offset",
+                                                    "int64": {
+                                                        "computed_optional_required": "computed_optional",
+                                                        "default": {
+                                                            "static": 0
+                                                        },
+                                                        "description": "first character of the switch name to compare to the `match_name` value",
+                                                        "validators": [
+                                                            {
+                                                                "custom": {
+                                                                    "imports": [
+                                                                        {
+                                                                            "path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+                                                                        }
+                                                                    ],
+                                                                    "schema_definition": "int64validator.AtLeast(0)"
+                                                                }
+                                                            }
+                                                        ]
+                                                    }
+                                                },
+                                                {
                                                     "name": "match_role",
                                                     "string": {
                                                         "computed_optional_required": "optional",
-                                                        "description": "role to match"
+                                                        "description": "string the switch role must start with to use this rule. It is possible to combine with the `match_name` and `match_model` attributes"
                                                     }
                                                 },
                                                 {
                                                     "name": "match_type",
                                                     "string": {
-                                                        "computed_optional_required": "optional",
-                                                        "description": "'property key define the type of matching, value is the string to match. e.g: `match_name[0:3]`, `match_name[2:6]`, `match_model`,  `match_model[0-6]`"
+                                                        "computed_optional_required": "computed_optional",
+                                                        "description": "'property key define the type of matching, value is the string to match. e.g: `match_name[0:3]`, `match_name[2:6]`, `match_model`,  `match_model[0-6]`",
+                                                        "validators": [
+                                                            {
+                                                                "custom": {
+                                                                    "imports": [
+                                                                        {
+                                                                            "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                                                        },
+                                                                        {
+                                                                            "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                                                        }
+                                                                    ],
+                                                                    "schema_definition": "mistvalidator.AllowedWhenValueIsNull(path.MatchRelative().AtParent().AtName(\"match_model\")),\nmistvalidator.AllowedWhenValueIsNull(path.MatchRelative().AtParent().AtName(\"match_name\")),\nmistvalidator.AllowedWhenValueIsNull(path.MatchRelative().AtParent().AtName(\"match_name_offset\"))"
+                                                                }
+                                                            }
+                                                        ],
+                                                        "deprecation_message": "The `match_type` attribute has been deprecated in version v0.2.8 of the Juniper-Mist Provider. It has been replaced with the `match_name`, `match_model` and `match_role`attribuites and may be removed in future versions.\nPlease update your configurations.",
+                                                        "plan_modifiers": [
+                                                            {
+                                                                "custom": {
+                                                                    "imports": [
+                                                                        {
+                                                                            "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
+                                                                        },
+                                                                        {
+                                                                            "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+                                                                        }
+                                                                    ],
+                                                                    "schema_definition": "stringplanmodifier.UseStateForUnknown()"
+                                                                }
+                                                            }
+                                                        ]
                                                     }
                                                 },
                                                 {
                                                     "name": "match_value",
                                                     "string": {
-                                                        "computed_optional_required": "optional"
+                                                        "computed_optional_required": "computed_optional",
+                                                        "validators": [
+                                                            {
+                                                                "custom": {
+                                                                    "imports": [
+                                                                        {
+                                                                            "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                                                        },
+                                                                        {
+                                                                            "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                                                        }
+                                                                    ],
+                                                                    "schema_definition": "stringvalidator.LengthAtLeast(1),\nmistvalidator.RequiredWhenValueIsNotNull(path.MatchRelative().AtParent().AtName(\"match_type\"))"
+                                                                }
+                                                            }
+                                                        ],
+                                                        "deprecation_message": "The `match_value` attribute has been deprecated in version v0.2.8 of the Juniper-Mist Provider. It has been replaced with the `match_name`, `match_model` and `match_role`attribuites and may be removed in future versions.\nPlease update your configurations.",
+                                                        "plan_modifiers": [
+                                                            {
+                                                                "custom": {
+                                                                    "imports": [
+                                                                        {
+                                                                            "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
+                                                                        },
+                                                                        {
+                                                                            "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+                                                                        }
+                                                                    ],
+                                                                    "schema_definition": "stringplanmodifier.UseStateForUnknown()"
+                                                                }
+                                                            }
+                                                        ]
                                                     }
                                                 },
                                                 {
@@ -4177,7 +4329,7 @@
                                                                     "default": {
                                                                         "static": false
                                                                     },
-                                                                    "description": "f supported on the platform. If enabled, DNS will be using this routing-instance, too"
+                                                                    "description": "if supported on the platform. If enabled, DNS will be using this routing-instance, too"
                                                                 }
                                                             },
                                                             {
@@ -4475,6 +4627,21 @@
                                                         "description": "Property key is the port mirroring instance name\nport_mirroring can be added under device/site settings. It takes interface and ports as input for ingress, interface as input for egress and can take interface and port as output. A maximum 4 port mirrorings is allowed"
                                                     }
                                                 }
+                                            ],
+                                            "validators": [
+                                                {
+                                                    "custom": {
+                                                        "imports": [
+                                                            {
+                                                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                                            },
+                                                            {
+                                                                "path": "github.com/hashicorp/terraform-plugin-framework-validators/objectvalidator"
+                                                            }
+                                                        ],
+                                                        "schema_definition": "objectvalidator.AtLeastOneOf(\n  path.MatchRelative().AtName(\"match_type\"),\n  path.MatchRelative().AtName(\"match_model\"),\n  path.MatchRelative().AtName(\"match_name\"),\n  path.MatchRelative().AtName(\"match_role\"),\n)"
+                                                    }
+                                                }
                                             ]
                                         },
                                         "validators": [
@@ -4491,11 +4658,12 @@
                                                     "schema_definition": "listvalidator.SizeAtLeast(1)"
                                                 }
                                             }
-                                        ]
+                                        ],
+                                        "description": "list of rules to define custom switch configuration based on different criterias. Each list must have at least one of `match_model`, `match_name` or `match_role` must be defined"
                                     }
                                 }
                             ],
-                            "description": "Switch template"
+                            "description": "defines custom switch configuration based on different criterias"
                         }
                     },
                     {
@@ -5480,7 +5648,7 @@
                             "element_type": {
                                 "string": {}
                             },
-                            "description": "additional CLI commands to append to the generated Junos config\n\n**Note**: no check is done",
+                            "description": "additional CLI commands to append to the generated Junos config. **Note**: no check is done",
                             "validators": [
                                 {
                                     "custom": {
@@ -9133,7 +9301,7 @@
                                                         "element_type": {
                                                             "string": {}
                                                         },
-                                                        "description": "additional CLI commands to append to the generated Junos config\n\n**Note**: no check is done",
+                                                        "description": "additional CLI commands to append to the generated Junos config. **Note**: no check is done",
                                                         "validators": [
                                                             {
                                                                 "custom": {
@@ -9190,23 +9358,175 @@
                                                     }
                                                 },
                                                 {
+                                                    "name": "match_model",
+                                                    "string": {
+                                                        "computed_optional_required": "computed_optional",
+                                                        "description": "string the switch model must start with to use this rule. It is possible to combine with the `match_name` and `match_role` attributes",
+                                                        "validators": [
+                                                            {
+                                                                "custom": {
+                                                                    "imports": [
+                                                                        {
+                                                                            "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                                                        }
+                                                                    ],
+                                                                    "schema_definition": "stringvalidator.LengthAtLeast(2)"
+                                                                }
+                                                            }
+                                                        ],
+                                                        "plan_modifiers": [
+                                                            {
+                                                                "custom": {
+                                                                    "imports": [
+                                                                        {
+                                                                            "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
+                                                                        },
+                                                                        {
+                                                                            "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+                                                                        }
+                                                                    ],
+                                                                    "schema_definition": "stringplanmodifier.UseStateForUnknown()"
+                                                                }
+                                                            }
+                                                        ]
+                                                    }
+                                                },
+                                                {
+                                                    "name": "match_name",
+                                                    "string": {
+                                                        "computed_optional_required": "computed_optional",
+                                                        "description": "string the switch name must start with to use this rule. Use the `match_name_offset` to indicate the first character of the switch name to compare to. It is possible to combine with the `match_model` and `match_role` attributes",
+                                                        "validators": [
+                                                            {
+                                                                "custom": {
+                                                                    "imports": [
+                                                                        {
+                                                                            "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                                                        }
+                                                                    ],
+                                                                    "schema_definition": "stringvalidator.LengthAtLeast(2)"
+                                                                }
+                                                            }
+                                                        ],
+                                                        "plan_modifiers": [
+                                                            {
+                                                                "custom": {
+                                                                    "imports": [
+                                                                        {
+                                                                            "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
+                                                                        },
+                                                                        {
+                                                                            "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+                                                                        }
+                                                                    ],
+                                                                    "schema_definition": "stringplanmodifier.UseStateForUnknown()"
+                                                                }
+                                                            }
+                                                        ]
+                                                    }
+                                                },
+                                                {
+                                                    "name": "match_name_offset",
+                                                    "int64": {
+                                                        "computed_optional_required": "computed_optional",
+                                                        "default": {
+                                                            "static": 0
+                                                        },
+                                                        "description": "first character of the switch name to compare to the `match_name` value",
+                                                        "validators": [
+                                                            {
+                                                                "custom": {
+                                                                    "imports": [
+                                                                        {
+                                                                            "path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+                                                                        }
+                                                                    ],
+                                                                    "schema_definition": "int64validator.AtLeast(0)"
+                                                                }
+                                                            }
+                                                        ]
+                                                    }
+                                                },
+                                                {
                                                     "name": "match_role",
                                                     "string": {
                                                         "computed_optional_required": "optional",
-                                                        "description": "role to match"
+                                                        "description": "string the switch role must start with to use this rule. It is possible to combine with the `match_name` and `match_model` attributes"
                                                     }
                                                 },
                                                 {
                                                     "name": "match_type",
                                                     "string": {
-                                                        "computed_optional_required": "optional",
-                                                        "description": "'property key define the type of matching, value is the string to match. e.g: `match_name[0:3]`, `match_name[2:6]`, `match_model`,  `match_model[0-6]`"
+                                                        "computed_optional_required": "computed_optional",
+                                                        "description": "'property key define the type of matching, value is the string to match. e.g: `match_name[0:3]`, `match_name[2:6]`, `match_model`,  `match_model[0-6]`",
+                                                        "validators": [
+                                                            {
+                                                                "custom": {
+                                                                    "imports": [
+                                                                        {
+                                                                            "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                                                        },
+                                                                        {
+                                                                            "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                                                        }
+                                                                    ],
+                                                                    "schema_definition": "mistvalidator.AllowedWhenValueIsNull(path.MatchRelative().AtParent().AtName(\"match_model\")),\nmistvalidator.AllowedWhenValueIsNull(path.MatchRelative().AtParent().AtName(\"match_name\")),\nmistvalidator.AllowedWhenValueIsNull(path.MatchRelative().AtParent().AtName(\"match_name_offset\"))"
+                                                                }
+                                                            }
+                                                        ],
+                                                        "deprecation_message": "The `match_type` attribute has been deprecated in version v0.2.8 of the Juniper-Mist Provider. It has been replaced with the `match_name`, `match_model` and `match_role`attribuites and may be removed in future versions.\nPlease update your configurations.",
+                                                        "plan_modifiers": [
+                                                            {
+                                                                "custom": {
+                                                                    "imports": [
+                                                                        {
+                                                                            "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
+                                                                        },
+                                                                        {
+                                                                            "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+                                                                        }
+                                                                    ],
+                                                                    "schema_definition": "stringplanmodifier.UseStateForUnknown()"
+                                                                }
+                                                            }
+                                                        ]
                                                     }
                                                 },
                                                 {
                                                     "name": "match_value",
                                                     "string": {
-                                                        "computed_optional_required": "optional"
+                                                        "computed_optional_required": "computed_optional",
+                                                        "validators": [
+                                                            {
+                                                                "custom": {
+                                                                    "imports": [
+                                                                        {
+                                                                            "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                                                        },
+                                                                        {
+                                                                            "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                                                        }
+                                                                    ],
+                                                                    "schema_definition": "stringvalidator.LengthAtLeast(1),\nmistvalidator.RequiredWhenValueIsNotNull(path.MatchRelative().AtParent().AtName(\"match_type\"))"
+                                                                }
+                                                            }
+                                                        ],
+                                                        "deprecation_message": "The `match_value` attribute has been deprecated in version v0.2.8 of the Juniper-Mist Provider. It has been replaced with the `match_name`, `match_model` and `match_role`attribuites and may be removed in future versions.\nPlease update your configurations.",
+                                                        "plan_modifiers": [
+                                                            {
+                                                                "custom": {
+                                                                    "imports": [
+                                                                        {
+                                                                            "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
+                                                                        },
+                                                                        {
+                                                                            "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+                                                                        }
+                                                                    ],
+                                                                    "schema_definition": "stringplanmodifier.UseStateForUnknown()"
+                                                                }
+                                                            }
+                                                        ]
                                                     }
                                                 },
                                                 {
@@ -9249,7 +9569,7 @@
                                                                     "default": {
                                                                         "static": false
                                                                     },
-                                                                    "description": "f supported on the platform. If enabled, DNS will be using this routing-instance, too"
+                                                                    "description": "if supported on the platform. If enabled, DNS will be using this routing-instance, too"
                                                                 }
                                                             },
                                                             {
@@ -9547,6 +9867,21 @@
                                                         "description": "Property key is the port mirroring instance name\nport_mirroring can be added under device/site settings. It takes interface and ports as input for ingress, interface as input for egress and can take interface and port as output. A maximum 4 port mirrorings is allowed"
                                                     }
                                                 }
+                                            ],
+                                            "validators": [
+                                                {
+                                                    "custom": {
+                                                        "imports": [
+                                                            {
+                                                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                                            },
+                                                            {
+                                                                "path": "github.com/hashicorp/terraform-plugin-framework-validators/objectvalidator"
+                                                            }
+                                                        ],
+                                                        "schema_definition": "objectvalidator.AtLeastOneOf(\n  path.MatchRelative().AtName(\"match_type\"),\n  path.MatchRelative().AtName(\"match_model\"),\n  path.MatchRelative().AtName(\"match_name\"),\n  path.MatchRelative().AtName(\"match_role\"),\n)"
+                                                    }
+                                                }
                                             ]
                                         },
                                         "validators": [
@@ -9563,11 +9898,12 @@
                                                     "schema_definition": "listvalidator.SizeAtLeast(1)"
                                                 }
                                             }
-                                        ]
+                                        ],
+                                        "description": "list of rules to define custom switch configuration based on different criterias. Each list must have at least one of `match_model`, `match_name` or `match_role` must be defined"
                                     }
                                 }
                             ],
-                            "description": "Switch template"
+                            "description": "defines custom switch configuration based on different criterias"
                         }
                     },
                     {
@@ -10064,34 +10400,6 @@
                                 }
                             ],
                             "description": "Switch settings"
-                        }
-                    },
-                    {
-                        "name": "uplink_port_config",
-                        "single_nested": {
-                            "computed_optional_required": "optional",
-                            "attributes": [
-                                {
-                                    "name": "dot1x",
-                                    "bool": {
-                                        "computed_optional_required": "computed_optional",
-                                        "default": {
-                                            "static": false
-                                        },
-                                        "description": "Whether to do 802.1x against uplink switch. When enaled, AP cert will be used to do EAP-TLS and the Org's CA Cert has to be provisioned at the switch"
-                                    }
-                                },
-                                {
-                                    "name": "keep_wlans_up_if_down",
-                                    "bool": {
-                                        "computed_optional_required": "computed_optional",
-                                        "default": {
-                                            "static": false
-                                        },
-                                        "description": "by default, WLANs are disabled when uplink is down. In some scenario, like SiteSurvey, one would want the AP to keep sending beacons."
-                                    }
-                                }
-                            ]
                         }
                     },
                     {

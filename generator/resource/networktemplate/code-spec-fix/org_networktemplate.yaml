@@ -844,6 +844,23 @@ next:
         - path: github.com/hashicorp/terraform-plugin-framework-validators/listvalidator
         schema_definition: listvalidator.SizeAtLeast(1)
     name: matching_rules
+    description: list of rules to define custom switch configuration based on different criterias. Each list must have at least one of `match_model`, `match_name` or `match_role` must be defined
+  - get:
+    - list_nested
+    - nested_object
+    name: matching_rules
+    validators:
+    - custom:
+        imports:
+        - path: github.com/Juniper/terraform-provider-mist/internal/validators
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/objectvalidator
+        schema_definition: |-
+          objectvalidator.AtLeastOneOf(
+            path.MatchRelative().AtName("match_type"),
+            path.MatchRelative().AtName("match_model"),
+            path.MatchRelative().AtName("match_name"),
+            path.MatchRelative().AtName("match_role"),
+          )
   - get:
     - list_nested
     - nested_object
@@ -860,10 +877,65 @@ next:
           - path: github.com/Juniper/terraform-provider-mist/internal/validators
           - path: github.com/hashicorp/terraform-plugin-framework-validators/listvalidator
           schema_definition: listvalidator.SizeAtLeast(1)
-    - computed_optional_required: optional
+    - computed_optional_required: computed_optional
+      get:
+      - string
+      name: match_name
+      plan_modifiers:
+      - custom:
+          imports:
+          - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier
+          - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier
+          schema_definition: stringplanmodifier.UseStateForUnknown()
+    - computed_optional_required: computed_optional
+      get:
+      - string
+      name: match_model
+      plan_modifiers:
+      - custom:
+          imports:
+          - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier
+          - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier
+          schema_definition: stringplanmodifier.UseStateForUnknown()
+    - computed_optional_required: computed_optional
+      get:
+      - string
+      name: match_type
+      deprecation_message: "The `match_type` attribute has been deprecated in version v0.2.8 of the Juniper-Mist Provider. It has been replaced with the `match_name`, `match_model` and `match_role`attribuites and may be removed in future versions.\nPlease update your configurations."
+      validators:
+      - custom:
+          imports:
+          - path: github.com/Juniper/terraform-provider-mist/internal/validators
+          - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+          schema_definition: |- 
+            mistvalidator.AllowedWhenValueIsNull(path.MatchRelative().AtParent().AtName("match_model")),
+            mistvalidator.AllowedWhenValueIsNull(path.MatchRelative().AtParent().AtName("match_name")),
+            mistvalidator.AllowedWhenValueIsNull(path.MatchRelative().AtParent().AtName("match_name_offset"))
+      plan_modifiers:
+      - custom:
+          imports:
+          - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier
+          - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier
+          schema_definition: stringplanmodifier.UseStateForUnknown()
+    - computed_optional_required: computed_optional
       get:
       - string
       name: match_value
+      deprecation_message: "The `match_value` attribute has been deprecated in version v0.2.8 of the Juniper-Mist Provider. It has been replaced with the `match_name`, `match_model` and `match_role`attribuites and may be removed in future versions.\nPlease update your configurations."
+      validators:
+      - custom:
+          imports:
+          - path: github.com/Juniper/terraform-provider-mist/internal/validators
+          - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+          schema_definition: |- 
+            stringvalidator.LengthAtLeast(1),
+            mistvalidator.RequiredWhenValueIsNotNull(path.MatchRelative().AtParent().AtName("match_type"))
+      plan_modifiers:
+      - custom:
+          imports:
+          - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier
+          - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier
+          schema_definition: stringplanmodifier.UseStateForUnknown()
     - computed_optional_required: optional
       get:
       - string
@@ -1036,7 +1108,7 @@ next:
       - name: subnets
         get:
         - list
-        computed_optional_required: required  
+        computed_optional_required: required
         validators:
         - custom:
             imports:

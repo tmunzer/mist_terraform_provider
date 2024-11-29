@@ -178,7 +178,7 @@
 							"element_type": {
 								"string": {}
 							},
-							"description": "additional CLI commands to append to the generated Junos config\n\n**Note**: no check is done"
+							"description": "additional CLI commands to append to the generated Junos config. **Note**: no check is done"
 						}
 					},
 					{
@@ -2919,7 +2919,7 @@
 														"element_type": {
 															"string": {}
 														},
-														"description": "additional CLI commands to append to the generated Junos config\n\n**Note**: no check is done"
+														"description": "additional CLI commands to append to the generated Junos config. **Note**: no check is done"
 													}
 												},
 												{
@@ -2961,23 +2961,107 @@
 													}
 												},
 												{
+													"name": "match_model",
+													"string": {
+														"computed_optional_required": "computed_optional",
+														"description": "string the switch model must start with to use this rule. It is possible to combine with the `match_name` and `match_role` attributes",
+														"validators": [
+															{
+																"custom": {
+																	"imports": [
+																		{
+																			"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																		}
+																	],
+																	"schema_definition": "stringvalidator.LengthAtLeast(2)"
+																}
+															}
+														]
+													}
+												},
+												{
+													"name": "match_name",
+													"string": {
+														"computed_optional_required": "computed_optional",
+														"description": "string the switch name must start with to use this rule. Use the `match_name_offset` to indicate the first character of the switch name to compare to. It is possible to combine with the `match_model` and `match_role` attributes",
+														"validators": [
+															{
+																"custom": {
+																	"imports": [
+																		{
+																			"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																		}
+																	],
+																	"schema_definition": "stringvalidator.LengthAtLeast(2)"
+																}
+															}
+														]
+													}
+												},
+												{
+													"name": "match_name_offset",
+													"int64": {
+														"computed_optional_required": "computed_optional",
+														"default": {
+															"static": 0
+														},
+														"description": "first character of the switch name to compare to the `match_name` value",
+														"validators": [
+															{
+																"custom": {
+																	"imports": [
+																		{
+																			"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+																		}
+																	],
+																	"schema_definition": "int64validator.AtLeast(0)"
+																}
+															}
+														]
+													}
+												},
+												{
 													"name": "match_role",
 													"string": {
 														"computed_optional_required": "computed_optional",
-														"description": "role to match"
+														"description": "string the switch role must start with to use this rule. It is possible to combine with the `match_name` and `match_model` attributes"
 													}
 												},
 												{
 													"name": "match_type",
 													"string": {
 														"computed_optional_required": "computed_optional",
-														"description": "'property key define the type of matching, value is the string to match. e.g: `match_name[0:3]`, `match_name[2:6]`, `match_model`,  `match_model[0-6]`"
+														"description": "'property key define the type of matching, value is the string to match. e.g: `match_name[0:3]`, `match_name[2:6]`, `match_model`,  `match_model[0-6]`",
+														"validators": [
+															{
+																"custom": {
+																	"imports": [
+																		{
+																			"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																		}
+																	],
+																	"schema_definition": "stringvalidator.LengthAtLeast(10)"
+																}
+															}
+														]
 													}
 												},
 												{
 													"name": "match_value",
 													"string": {
-														"computed_optional_required": "computed_optional"
+														"computed_optional_required": "computed_optional",
+														"validators": [
+															{
+																"custom": {
+																	"imports": [
+																		{
+																			"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																		}
+																	],
+																	"schema_definition": "stringvalidator.LengthAtLeast(1)"
+																}
+															}
+														]
 													}
 												},
 												{
@@ -3020,7 +3104,7 @@
 																	"default": {
 																		"static": false
 																	},
-																	"description": "f supported on the platform. If enabled, DNS will be using this routing-instance, too"
+																	"description": "if supported on the platform. If enabled, DNS will be using this routing-instance, too"
 																}
 															},
 															{
@@ -3263,7 +3347,7 @@
 									}
 								}
 							],
-							"description": "Switch template"
+							"description": "defines custom switch configuration based on different criterias"
 						}
 					},
 					{
@@ -3878,7 +3962,7 @@
 							"element_type": {
 								"string": {}
 							},
-							"description": "additional CLI commands to append to the generated Junos config\n\n**Note**: no check is done"
+							"description": "additional CLI commands to append to the generated Junos config. **Note**: no check is done"
 						}
 					},
 					{
@@ -6617,7 +6701,7 @@
 														"element_type": {
 															"string": {}
 														},
-														"description": "additional CLI commands to append to the generated Junos config\n\n**Note**: no check is done"
+														"description": "additional CLI commands to append to the generated Junos config. **Note**: no check is done"
 													}
 												},
 												{
@@ -6659,23 +6743,107 @@
 													}
 												},
 												{
+													"name": "match_model",
+													"string": {
+														"computed_optional_required": "computed_optional",
+														"description": "string the switch model must start with to use this rule. It is possible to combine with the `match_name` and `match_role` attributes",
+														"validators": [
+															{
+																"custom": {
+																	"imports": [
+																		{
+																			"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																		}
+																	],
+																	"schema_definition": "stringvalidator.LengthAtLeast(2)"
+																}
+															}
+														]
+													}
+												},
+												{
+													"name": "match_name",
+													"string": {
+														"computed_optional_required": "computed_optional",
+														"description": "string the switch name must start with to use this rule. Use the `match_name_offset` to indicate the first character of the switch name to compare to. It is possible to combine with the `match_model` and `match_role` attributes",
+														"validators": [
+															{
+																"custom": {
+																	"imports": [
+																		{
+																			"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																		}
+																	],
+																	"schema_definition": "stringvalidator.LengthAtLeast(2)"
+																}
+															}
+														]
+													}
+												},
+												{
+													"name": "match_name_offset",
+													"int64": {
+														"computed_optional_required": "computed_optional",
+														"default": {
+															"static": 0
+														},
+														"description": "first character of the switch name to compare to the `match_name` value",
+														"validators": [
+															{
+																"custom": {
+																	"imports": [
+																		{
+																			"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+																		}
+																	],
+																	"schema_definition": "int64validator.AtLeast(0)"
+																}
+															}
+														]
+													}
+												},
+												{
 													"name": "match_role",
 													"string": {
 														"computed_optional_required": "computed_optional",
-														"description": "role to match"
+														"description": "string the switch role must start with to use this rule. It is possible to combine with the `match_name` and `match_model` attributes"
 													}
 												},
 												{
 													"name": "match_type",
 													"string": {
 														"computed_optional_required": "computed_optional",
-														"description": "'property key define the type of matching, value is the string to match. e.g: `match_name[0:3]`, `match_name[2:6]`, `match_model`,  `match_model[0-6]`"
+														"description": "'property key define the type of matching, value is the string to match. e.g: `match_name[0:3]`, `match_name[2:6]`, `match_model`,  `match_model[0-6]`",
+														"validators": [
+															{
+																"custom": {
+																	"imports": [
+																		{
+																			"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																		}
+																	],
+																	"schema_definition": "stringvalidator.LengthAtLeast(10)"
+																}
+															}
+														]
 													}
 												},
 												{
 													"name": "match_value",
 													"string": {
-														"computed_optional_required": "computed_optional"
+														"computed_optional_required": "computed_optional",
+														"validators": [
+															{
+																"custom": {
+																	"imports": [
+																		{
+																			"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																		}
+																	],
+																	"schema_definition": "stringvalidator.LengthAtLeast(1)"
+																}
+															}
+														]
 													}
 												},
 												{
@@ -6718,7 +6886,7 @@
 																	"default": {
 																		"static": false
 																	},
-																	"description": "f supported on the platform. If enabled, DNS will be using this routing-instance, too"
+																	"description": "if supported on the platform. If enabled, DNS will be using this routing-instance, too"
 																}
 															},
 															{
@@ -6961,7 +7129,7 @@
 									}
 								}
 							],
-							"description": "Switch template"
+							"description": "defines custom switch configuration based on different criterias"
 						}
 					},
 					{
@@ -7331,34 +7499,6 @@
 								}
 							],
 							"description": "Switch settings"
-						}
-					},
-					{
-						"name": "uplink_port_config",
-						"single_nested": {
-							"computed_optional_required": "computed_optional",
-							"attributes": [
-								{
-									"name": "dot1x",
-									"bool": {
-										"computed_optional_required": "computed_optional",
-										"default": {
-											"static": false
-										},
-										"description": "Whether to do 802.1x against uplink switch. When enaled, AP cert will be used to do EAP-TLS and the Org's CA Cert has to be provisioned at the switch"
-									}
-								},
-								{
-									"name": "keep_wlans_up_if_down",
-									"bool": {
-										"computed_optional_required": "computed_optional",
-										"default": {
-											"static": false
-										},
-										"description": "by default, WLANs are disabled when uplink is down. In some scenario, like SiteSurvey, one would want the AP to keep sending beacons."
-									}
-								}
-							]
 						}
 					},
 					{

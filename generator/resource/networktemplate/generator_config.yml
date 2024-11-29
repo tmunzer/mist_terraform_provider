@@ -94,6 +94,7 @@ resources:
         - tunterm_monitoring
         - tunterm_monitoring_disabled
         - tunterm_multicast_config
+        - uplink_port_config
         - vars
         - vna
         - vrrp_groups

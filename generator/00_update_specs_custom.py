@@ -25,24 +25,7 @@ with open(SPEC_OUT, "r") as f:
 #     "description": "Unclaim the device from the Mist Organization when removed from the provider inventory"
 # }
 
-## switch_matching_rule
-if (
-    DATA.get("components", {})
-    .get("schemas", {})
-    .get("switch_matching_rule", {})
-    .get("additionalProperties")
-):
-    del DATA["components"]["schemas"]["switch_matching_rule"]["additionalProperties"]
-    DATA["components"]["schemas"]["switch_matching_rule"]["properties"][
-        "match_type"
-    ] = {
-        "type": "string",
-        "description": "'property key define the type of matching, value is the string to match. e.g: `match_name[0:3]`, `match_name[2:6]`, `match_model`,  `match_model[0-6]`",
-        "example": "match_name[0:3]",
-    }
-    DATA["components"]["schemas"]["switch_matching_rule"]["properties"][
-        "match_value"
-    ] = {"type": "string"}
+
 
 ## dhcpd_config (GATEWAY)
 if (

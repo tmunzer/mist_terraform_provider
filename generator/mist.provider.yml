@@ -3,11 +3,11 @@ info:
   contact:
     email: tmunzer@juniper.net
     name: Thomas Munzer
-  description: '> Version: **2410.1.16**
+  description: '> Version: **2410.1.17**
 
     >
 
-    > Date: **November 26, 2024**
+    > Date: **November 29, 2024**
 
 
     ---
@@ -43,7 +43,7 @@ info:
     name: MIT
     url: https://raw.githubusercontent.com/tmunzer/Mist-OAS3.0/main/LICENSE
   title: Mist API
-  version: 2410.1.16
+  version: 2410.1.17
 servers:
 - description: Mist Global 01
   url: https://api.mist.com
@@ -51490,9 +51490,7 @@ components:
         the tag name
       type: object
     additional_config_cmds:
-      description: 'additional CLI commands to append to the generated Junos config
-
-
+      description: 'additional CLI commands to append to the generated Junos config.
         **Note**: no check is done'
       items:
         description: JUNOS "set" command to add to the generated configuration
@@ -57840,7 +57838,9 @@ components:
       - version
       type: object
     deviceprofile:
-      $ref: '#/components/schemas/deviceprofile_gateway'
+      oneOf:
+      - $ref: '#/components/schemas/deviceprofile_ap'
+      - $ref: '#/components/schemas/deviceprofile_gateway'
     deviceprofile_ap:
       description: Device Profile
       properties:
@@ -60995,6 +60995,7 @@ components:
         timezone:
           example: America/Los_Angeles
           type: string
+          default: UTC
       required:
       - address
       - country_code
@@ -61097,100 +61098,10 @@ components:
       - sku
       - version
       type: string
-    inventory_device_settings:
-      properties:
-        adopted:
-          description: 'only if `type`==`switch` or `type`==`gateway`
-
-            whether the switch/gateway is adopted'
-          readOnly: true
-          type: boolean
-        connected:
-          description: whether the device is connected
-          readOnly: true
-          type: boolean
-        deviceprofile_id:
-          description: deviceprofile id if assigned, null if not assigned
-          nullable: true
-          readOnly: true
-          type: string
-        hostname:
-          description: hostname reported by the device
-          readOnly: true
-          type: string
-        hw_rev:
-          description: device hardware revision number
-          readOnly: true
-          type: string
-        id:
-          description: device id
-          readOnly: true
-          type: string
-        jsi:
-          readOnly: true
-          type: boolean
-        mac:
-          description: device MAC address
-          readOnly: true
-          type: string
-        magic:
-          description: device claim code
-          readOnly: true
-          type: string
-        model:
-          description: device model
-          readOnly: true
-          type: string
-        name:
-          description: device name if configured
-          readOnly: true
-          type: string
-        org_id:
-          $ref: '#/components/schemas/org_id'
-        serial:
-          description: device serial
-          readOnly: true
-          type: string
-        site_id:
-          description: Site ID. Used to assign device to a Site
-          type: string
-        sku:
-          description: device stock keeping unit
-          readOnly: true
-          type: string
-        type:
-          $ref: '#/components/schemas/device_type'
-        unclaim_when_destroyed:
-          default: false
-          description: Unclaim the device from the Mist Organization when removed
-            from the provider inventory. Default is `false`
-          type: boolean
-        vc_mac:
-          description: if `type`==`switch` and device part of a Virtual Chassis, MAC
-            Address of the Virtual Chassis. if `type`==`gateway` and device part of
-            a Clust, MAC Address of the Cluster
-          readOnly: true
-          type: string
-      type: object
-    inventory_devices:
-      additionalProperties:
-        $ref: '#/components/schemas/inventory_device_settings'
-      description: "Property key can be the device Claim Code or the device MAC Address:\n\
-        \  * Claim Code: used to claim the device to the Mist Organization and manage\
-        \ it. Format is `[0-9A-Z]{15}` (e.g `01234ABCDE56789`)\n  * MAC Address: used\
-        \ to managed a device already in the Mist Organization (claimed or adopted\
-        \ devices). Format is `[0-9a-f]{12}` (e.g `5684dae9ac8b`)\n\n    >"
-      type: object
     inventory_list:
-      properties:
-        devices:
-          description: List of devices
-          items:
-            $ref: '#/components/schemas/inventory_device_settings'
-          type: array
-        inventory:
-          $ref: '#/components/schemas/inventory_devices'
-      type: object
+      items:
+        $ref: '#/components/schemas/inventory'
+      type: array
     inventory_search:
       properties:
         limit:
@@ -62594,7 +62505,10 @@ components:
       - qrcode
       type: string
     mist_device:
-      $ref: '#/components/schemas/device_switch'
+      oneOf:
+      - $ref: '#/components/schemas/device_ap'
+      - $ref: '#/components/schemas/device_switch'
+      - $ref: '#/components/schemas/device_gateway'
     mist_nacedge:
       properties:
         auth_ttl:
@@ -72788,6 +72702,7 @@ components:
           description: Timezone the site is at
           example: America/Los_Angeles
           type: string
+          default: UTC
       required:
       - name
       type: object
@@ -79773,7 +79688,7 @@ components:
         \  * sub option code: 1-255, sub-option code'"
       type: object
     switch_matching:
-      description: Switch template
+      description: defines custom switch configuration based on different criterias
       properties:
         enable:
           type: boolean
@@ -79781,8 +79696,12 @@ components:
           $ref: '#/components/schemas/switch_matching_rules'
       type: object
     switch_matching_rule:
-      description: 'property key defines the type of matching, value is the string
-        to match. e.g: `match_name[0:3]`, `match_name[2:6]`, `match_model`,  `match_model[0-6]`'
+      description: "property key defines the type of matching, value is the string\
+        \ to match. e.g:\n  * `match_name[0:3]`: switch name must match the first\
+        \ 3 letters of the property value\n  * `match_name[2:6]`: switch name must\
+        \ match the property value from the 2nd to the 6th letter\n  * `match_model[0-8]`:\
+        \ switch model must match the first 8 letters of the property value\n  * `match_role`:\
+        \ switch role must match the property value"
       example:
         match_model: EX4300
         match_name[0:3]: abc
@@ -79791,19 +79710,43 @@ components:
           $ref: '#/components/schemas/additional_config_cmds'
         ip_config:
           $ref: '#/components/schemas/switch_matching_rule_ip_config'
+        match_model:
+          description: string the switch model must start with to use this rule. It
+            is possible to combine with the `match_name` and `match_role` attributes
+          example: EX4100-F
+          minLength: 2
+          type: string
+        match_name:
+          description: string the switch name must start with to use this rule. Use
+            the `match_name_offset` to indicate the first character of the switch
+            name to compare to. It is possible to combine with the `match_model` and
+            `match_role` attributes
+          example: my_switch_name
+          minLength: 2
+          type: string
+        match_name_offset:
+          default: 0
+          description: first character of the switch name to compare to the `match_name`
+            value
+          example: 3
+          minimum: 0
+          type: integer
         match_role:
-          description: role to match
-          example: access
+          description: string the switch role must start with to use this rule. It
+            is possible to combine with the `match_name` and `match_model` attributes
+          example: Core
           type: string
         match_type:
           description: '''property key define the type of matching, value is the string
             to match. e.g: `match_name[0:3]`, `match_name[2:6]`, `match_model`,  `match_model[0-6]`'
           example: match_name[0:3]
+          minLength: 10
           type: string
         match_value:
+          minLength: 1
           type: string
         name:
-          example: access_ex4300
+          example: rule name
           type: string
         oob_ip_config:
           $ref: '#/components/schemas/switch_matching_rule_oob_ip_config'
@@ -86183,9 +86126,9 @@ components:
       type: string
     wlan_rateset:
       properties:
-        band_24:
+        '24':
           $ref: '#/components/schemas/wlan_datarates'
-        band_5:
+        '5':
           $ref: '#/components/schemas/wlan_datarates'
       type: object
     wlan_roam_mode:

@@ -503,74 +503,74 @@ resource "mist_org_inventory" "inventory" {
   #   site_id = mist_site.terraform_site.id
   # },
   org_id = mist_org.terraform_test.id
-  devices = [
-    {
-      claim_code = "CPKL2EXN8JY98AC"
-      site_id    = mist_site.terraform_site.id
-    },
-    {
-      claim_code             = "G87JHBFXZJSFNMX"
-      site_id                = mist_site.terraform_site.id
-      unclaim_when_destroyed = true
-    },
-    {
-      claim_code = "CV4YAS8DQWYLL6M"
-      site_id                = mist_site.terraform_site.id
-    },
-    {
-      mac                    = (local.node0)
-      site_id                = mist_site.terraform_site.id
-      unclaim_when_destroyed = false
-    },
-    {
-      mac                    = (local.node1)
-      site_id                = mist_site.terraform_site.id
-      unclaim_when_destroyed = false
-    },
-    {
-      mac     = "4c9614026d00"
-      site_id = mist_site.terraform_site.id
-    },
-    {
-      mac     = "4c961418c000"
-      site_id = mist_site.terraform_site.id
-    },
-    {
-      mac     = "020004bbf189"
-      //site_id = mist_site.terraform_site.id
-    }
-  ]
-  # inventory = {
-  #   "CPKL2EXN8JY98AC" = {
-  #     site_id = mist_site.terraform_site.id
-  #   }
-  #   "G87JHBFXZJSFNMX" = {
+  # devices = [
+  #   {
+  #     claim_code = "CPKL2EXN8JY98AC"
+  #     site_id    = mist_site.terraform_site.id
+  #   },
+  #   {
+  #     claim_code             = "G87JHBFXZJSFNMX"
   #     site_id                = mist_site.terraform_site.id
   #     unclaim_when_destroyed = true
-  #   }
-  #   "CV4YAS8DQWYLL6M" = {
+  #   },
+  #   {
+  #     claim_code = "CV4YAS8DQWYLL6M"
+  #     site_id                = mist_site.terraform_site.id
+  #   },
+  #   {
+  #     mac                    = (local.node0)
+  #     site_id                = mist_site.terraform_site.id
+  #     unclaim_when_destroyed = false
+  #   },
+  #   {
+  #     mac                    = (local.node1)
+  #     site_id                = mist_site.terraform_site.id
+  #     unclaim_when_destroyed = false
+  #   },
+  #   {
+  #     mac     = "4c9614026d00"
+  #     site_id = mist_site.terraform_site.id
+  #   },
+  #   {
+  #     mac     = "4c961418c000"
+  #     site_id = mist_site.terraform_site.id
+  #   },
+  #   {
+  #     mac     = "020004bbf189"
   #     //site_id = mist_site.terraform_site.id
   #   }
-  #   (local.node0) = {
-  #     site_id                = mist_site.terraform_site.id
-  #     unclaim_when_destroyed = false
-  #   }
-  #   (local.node1) = {
-  #     site_id                = mist_site.terraform_site.id
-  #     unclaim_when_destroyed = false
-  #   }
-  #   "4c9614026d00" = {
-  #     site_id = mist_site.terraform_site.id
-  #   }
-  #   "4c9614026d00" = {
-  #     site_id                = mist_site.terraform_site.id
-  #     unclaim_when_destroyed = false
-  #   }
-  #   "4c961418c000" = {
-  #     site_id                = mist_site.terraform_site.id
-  #     unclaim_when_destroyed = false
-  #   }
-  # }
+  # ]
+  inventory = {
+    "CPKL2EXN8JY98AC" = {
+      site_id = mist_site.terraform_site.id
+    }
+    "G87JHBFXZJSFNMX" = {
+      site_id                = mist_site.terraform_site.id
+      unclaim_when_destroyed = true
+    }
+    "CV4YAS8DQWYLL6M" = {
+      site_id = mist_site.terraform_site.id
+    }
+    (local.node0) = {
+      site_id                = mist_site.terraform_site.id
+      unclaim_when_destroyed = false
+    }
+    (local.node1) = {
+      site_id                = mist_site.terraform_site.id
+      unclaim_when_destroyed = false
+    }
+    "4c9614026d00" = {
+      site_id = mist_site.terraform_site.id
+    }
+    "4c9614026d00" = {
+      site_id                = mist_site.terraform_site.id
+      unclaim_when_destroyed = false
+    }
+    "4c961418c000" = {
+      site_id                = mist_site.terraform_site.id
+      unclaim_when_destroyed = false
+    }
+  }
 }
 
 
@@ -1216,6 +1216,7 @@ resource "mist_org_wxrule" "test_02" {
   action      = "allow"
   enabled     = false
 }
+
 resource "mist_org_wxrule" "test_01" {
   org_id      = mist_org.terraform_test.id
   template_id = mist_org_wlantemplate.test101.id
@@ -2581,8 +2582,7 @@ resource "mist_org_networktemplate" "switch_template" {
         oob_ip_config = {
           type                      = "dhcp"
         }
-        match_type  = "match_name[0:3]"
-        match_value = "abc"
+        match_name = "abc"
         additional_config_cmds = [
           "set system name-server 8.8.8.8"
         ]
@@ -2802,8 +2802,7 @@ resource "mist_site_networktemplate" "site_switch_template" {
             ]
           }
         }
-        match_type  = "match_name[0:3]"
-        match_value = "abc"
+        match_name = "abc"
         additional_config_cmds = [
           "set system name-server 8.8.8.8"
         ]
@@ -4244,4 +4243,62 @@ resource "mist_org_nacidp" "idp_ldap" {
   ]
   ldap_client_cert = "-----BEGIN CERTIFICATE-----\nMIIFZjCCA06gAwIBAgIIP61/1qm/uDowDQYJKoZIhvcNAQELBQE\n-----END CERTIFICATE-----"
   ldap_client_key  = "-----BEGIN PRI..."
+}
+
+resource "mist_org_networktemplate" "networktemplate_one" {
+  name        = "My_Provider_Network_Template"
+  org_id             = mist_org.terraform_test.id
+  networks = {
+    guest_vlan = {
+      vlan_id = 10
+    }
+    user_vlan = {
+      vlan_id = 11
+
+    }
+  }
+  port_usages = {
+    guest = {
+      mode = "access"
+      port_network = "guest_vlan"
+    }
+    user = {
+      mode = "access"
+      port_auth = "dot1x"
+    }
+    trunk = {
+      all_networks = true
+      mode         = "trunk"
+      port_network = "guest_vlan"
+    }
+  }
+  radius_config = {
+    network               = "network_one"
+    acct_servers = [
+      {
+        host   = "1.2.3.4"
+        secret = "secret"
+      }
+    ]
+    auth_servers = [
+      {
+        host   = "1.2.3.4"
+        secret = "secret"
+      }
+    ]
+  }
+  switch_matching = {
+    enable = true
+    rules = [
+      {
+        name        = "switch_rule_one"
+        match_name = "ex"
+        port_config = {
+          "ge-0/0/0-10" = {
+            usage = "guest"
+          }
+        }
+      }
+    ]
+  }
 }
