@@ -778,42 +778,83 @@ next:
       schema_definition: listvalidator.ValueStringsAre(stringvalidator.Any(mistvalidator.ParseInt(1,
         4094), mistvalidator.ParseVar()))
 - get:
-  - single_nested
+  - map_nested
+  name: rateset
+  validators:
+  - custom:
+      imports:
+      - path: github.com/hashicorp/terraform-plugin-framework-validators/mapvalidator
+      - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+      schema_definition: |-
+        mapvalidator.SizeAtLeast(1),
+        mapvalidator.KeysAre(
+          stringvalidator.OneOf("24", "5", "6"),
+        )
+- get:
+  - map_nested
+  - nested_object
   - attributes
   name: rateset
   next:
   - get:
-    - single_nested
-    - attributes
-    name: band_24
-    next:
-    - get:
-      - string
-      name: ht
-      validators:
-      - custom:
-          imports:
-          - path: github.com/Juniper/terraform-provider-mist/internal/validators
-          - path: github.com/hashicorp/terraform-plugin-framework/path
-          schema_definition: mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("template"),
-            types.StringValue("custom"))
-    - get:
-      - string
-      name: legacy
-      validators:
-      - custom:
-          imports:
-          - path: github.com/Juniper/terraform-provider-mist/internal/validators
-          - path: github.com/hashicorp/terraform-plugin-framework/path
-          schema_definition: mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("template"),
-            types.StringValue("custom"))
-    - get:
-      - string
-      name: vht
-      validators:
-      - custom:
-          imports:
-          - path: github.com/Juniper/terraform-provider-mist/internal/validators
-          - path: github.com/hashicorp/terraform-plugin-framework/path
-          schema_definition: mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("template"),
-            types.StringValue("custom"))
+    - string
+    name: ht
+    validators:
+    - custom:
+        imports:
+        - path: github.com/Juniper/terraform-provider-mist/internal/validators
+        - path: github.com/hashicorp/terraform-plugin-framework/path
+        schema_definition: mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("template"),
+          types.StringValue("custom"))
+  - get:
+    - list
+    name: legacy
+    computed_optional_required: computed_optional
+    description: |-
+      if `template`==`custom`. List of supported rates (IE=1) and extended supported rates (IE=50) for custom template, append ‘b’ at the end to indicate a rate being basic/mandatory. If `template`==`custom` is configured and legacy does not define at least one basic rate, it will use `no-legacy` default values. enum: `1`, `11`, `11b`, `12`, `12b`, `18`, `18b`, `1b`, `2`, `24`, `24b`, `2b`, `36`, `36b`, `48`, `48b`, `5.5`, `5.5b`, `54`, `54b`, `6`, `6b`, `9`, `9b`
+    validators:
+    - custom:
+        imports:
+        - path: github.com/Juniper/terraform-provider-mist/internal/validators
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+        - path: github.com/hashicorp/terraform-plugin-framework/path
+        schema_definition: |- 
+          mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("template"), types.StringValue("custom")),
+          listvalidator.ValueStringsAre(
+            stringvalidator.OneOf(
+              "1",
+              "11",
+              "11b",
+              "12",
+              "12b",
+              "18",
+              "18b",
+              "1b",
+              "2",
+              "24",
+              "24b",
+              "2b",
+              "36",
+              "36b",
+              "48",
+              "48b",
+              "5.5",
+              "5.5b",
+              "54",
+              "54b",
+              "6",
+              "6b",
+              "9",
+              "9b",
+            ),
+          )
+  - get:
+    - string
+    name: vht
+    validators:
+    - custom:
+        imports:
+        - path: github.com/Juniper/terraform-provider-mist/internal/validators
+        - path: github.com/hashicorp/terraform-plugin-framework/path
+        schema_definition: mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("template"),
+          types.StringValue("custom"))

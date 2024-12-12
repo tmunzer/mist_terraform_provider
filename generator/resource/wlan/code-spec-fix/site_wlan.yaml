@@ -11,6 +11,12 @@ next:
   get:
   - string
   name: org_id
+  plan_modifiers:
+  - custom:
+      imports:
+      - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier
+      - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier
+      schema_definition: stringplanmodifier.UseStateForUnknown()
 - computed_optional_required: computed
   get:
   - string
@@ -48,6 +54,37 @@ next:
       imports:
       - path: github.com/hashicorp/terraform-plugin-framework-validators/listvalidator
       schema_definition: listvalidator.SizeAtLeast(1)
+  default: 
+    custom:
+      imports:
+      - path: github.com/hashicorp/terraform-plugin-framework/attr
+      - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault
+      - path: github.com/hashicorp/terraform-plugin-framework/types
+      schema_definition: |-
+        listdefault.StaticValue(types.ListValueMust(AcctServersValue{}.Type(ctx), []attr.Value{}))
+- name: airwatch
+  get:
+  - single_nested
+  computed_optional_required: computed_optional
+  default: 
+    custom:
+      imports:
+      - path: github.com/hashicorp/terraform-plugin-framework/attr
+      - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/objectdefault
+      - path: github.com/hashicorp/terraform-plugin-framework/types
+      schema_definition: |-
+        objectdefault.StaticValue(
+          types.ObjectValueMust(
+            AirwatchValue{}.AttributeTypes(ctx),
+            map[string]attr.Value{
+              "api_key": types.StringValue(""),
+              "console_url": types.StringValue(""),
+              "enabled": types.BoolValue(false),
+              "password": types.StringValue(""),
+              "username": types.StringValue(""),
+            },
+          ),
+        )
 - name: airwatch
   get:
   - single_nested
@@ -56,23 +93,43 @@ next:
   - name: api_key
     get: 
     - string
-    no_default: true
-    computed_optional_required: required
+    computed_optional_required: computed_optional
+    validators:
+    - custom:
+        imports:
+        - path: github.com/Juniper/terraform-provider-mist/internal/validators
+        - path: github.com/hashicorp/terraform-plugin-framework/path
+        schema_definition: mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName("enabled"), types.BoolValue(true))
   - name: console_url
     get: 
     - string
-    no_default: true
-    computed_optional_required: required
+    computed_optional_required: computed_optional
+    validators:
+    - custom:
+        imports:
+        - path: github.com/Juniper/terraform-provider-mist/internal/validators
+        - path: github.com/hashicorp/terraform-plugin-framework/path
+        schema_definition: mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName("enabled"), types.BoolValue(true))
   - name: password
     get: 
     - string
-    no_default: true
-    computed_optional_required: required
+    computed_optional_required: computed_optional
+    validators:
+    - custom:
+        imports:
+        - path: github.com/Juniper/terraform-provider-mist/internal/validators
+        - path: github.com/hashicorp/terraform-plugin-framework/path
+        schema_definition: mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName("enabled"), types.BoolValue(true))
   - name: username
     get: 
     - string
-    no_default: true
-    computed_optional_required: required
+    computed_optional_required: computed_optional
+    validators:
+    - custom:
+        imports:
+        - path: github.com/Juniper/terraform-provider-mist/internal/validators
+        - path: github.com/hashicorp/terraform-plugin-framework/path
+        schema_definition: mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName("enabled"), types.BoolValue(true))
 - name: allow_ipv6_ndp
   get:
   - bool
@@ -121,6 +178,27 @@ next:
       schema_definition: listvalidator.SizeAtLeast(1)
 - get:
   - single_nested
+  name: app_limit
+  computed_optional_required: computed_optional
+  default: 
+    custom:
+      imports:
+      - path: github.com/hashicorp/terraform-plugin-framework/attr
+      - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/objectdefault
+      - path: github.com/hashicorp/terraform-plugin-framework/types
+      schema_definition: |-
+        objectdefault.StaticValue(
+          types.ObjectValueMust(
+            AppLimitValue{}.AttributeTypes(ctx),
+            map[string]attr.Value{
+              "apps": types.MapNull(types.Int64Type),
+              "enabled": types.BoolValue(false),
+              "wxtag_ids": types.MapNull(types.Int64Type),
+            },
+          ),
+        )
+- get:
+  - single_nested
   - attributes
   name: app_limit
   next:
@@ -128,6 +206,27 @@ next:
     get:
     - map
     name: wxtag_ids      
+- name: app_qos
+  get:
+  - single_nested
+  computed_optional_required: computed_optional
+  default: 
+    custom:
+      imports:
+      - path: github.com/hashicorp/terraform-plugin-framework/attr
+      - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/objectdefault
+      - path: github.com/hashicorp/terraform-plugin-framework/types
+      schema_definition: |-
+        objectdefault.StaticValue(
+          types.ObjectValueMust(
+            AppQosValue{}.AttributeTypes(ctx),
+            map[string]attr.Value{
+              "apps": types.MapNull(AppsValue{}.Type(ctx)),
+              "enabled": types.BoolValue(false),
+              "others": types.ListNull(OthersValue{}.Type(ctx)),
+            },
+          ),
+        )
 - name: app_qos
   get:
   - single_nested
@@ -198,10 +297,27 @@ next:
               mistvalidator.ParseVar(),
             )
 - get:
+  - string
+  name: apply_to
+  computed_optional_required: computed_optional
+  default:  
+    custom:
+      imports:
+      - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault
+      schema_definition: stringdefault.StaticString("site")
+- get:
+  - single_nested
+  name: auth
+- get:
   - single_nested
   - attributes
   name: auth
   next:
+  - name: anticlog_threshold
+    get:
+    - int64
+    computed_optional_required: optional
+    no_default: true
   - name: eap_reauth
     get:
     - bool
@@ -249,6 +365,8 @@ next:
   - name: owe
     get:
     - string
+    computed_optional_required: optional
+    no_default: true
     validators:
     - custom:
         imports:
@@ -296,6 +414,11 @@ next:
         schema_definition: |-
           stringvalidator.LengthBetween(8, 64),
           mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("type"),types.StringValue("psk"))
+  - name: wep_as_secondary_auth
+    get:
+    - bool
+    computed_optional_required: optional
+    no_default: true
 - name: auth_servers
   get: 
   - list_nested
@@ -305,6 +428,32 @@ next:
       imports:
       - path: github.com/hashicorp/terraform-plugin-framework-validators/listvalidator
       schema_definition: listvalidator.SizeAtLeast(1)
+  default: 
+    custom:
+      imports:
+      - path: github.com/hashicorp/terraform-plugin-framework/attr
+      - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault
+      - path: github.com/hashicorp/terraform-plugin-framework/types
+      schema_definition: |-
+        listdefault.StaticValue(types.ListValueMust(AuthServersValue{}.Type(ctx), []attr.Value{}))
+- get:
+  - string
+  name: auth_servers_nas_id
+  computed_optional_required: computed_optional
+  default:  
+    custom:
+      imports:
+      - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault
+      schema_definition: stringdefault.StaticString("")
+- get:
+  - string
+  name: auth_servers_nas_ip
+  computed_optional_required: computed_optional
+  default:  
+    custom:
+      imports:
+      - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault
+      schema_definition: stringdefault.StaticString("")
 - get:
   - list
   name: bands
@@ -327,6 +476,27 @@ next:
         )
 - get:
   - single_nested
+  name: bonjour
+  computed_optional_required: computed_optional
+  default: 
+    custom:
+      imports:
+      - path: github.com/hashicorp/terraform-plugin-framework/attr
+      - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/objectdefault
+      - path: github.com/hashicorp/terraform-plugin-framework/types
+      schema_definition: |-
+        objectdefault.StaticValue(
+          types.ObjectValueMust(
+            BonjourValue{}.AttributeTypes(ctx),
+            map[string]attr.Value{
+              "additional_vlan_ids": types.ListValueMust(types.StringType, []attr.Value{}),
+              "enabled": types.BoolNull(),
+              "services": types.MapNull(ServicesValue{}.Type(ctx)),
+            },
+          ),
+        )  
+- get:
+  - single_nested
   - attributes
   name: bonjour
   next:
@@ -340,6 +510,28 @@ next:
         - path: github.com/hashicorp/terraform-plugin-framework-validators/listvalidator
         schema_definition: listvalidator.ValueStringsAre(stringvalidator.Any(mistvalidator.ParseInt(1,
           4094), mistvalidator.ParseVar()))
+- name: cisco_cwa
+  get:
+  - single_nested
+  computed_optional_required: computed_optional
+  default: 
+    custom:
+      imports:
+      - path: github.com/hashicorp/terraform-plugin-framework/attr
+      - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/objectdefault
+      - path: github.com/hashicorp/terraform-plugin-framework/types
+      schema_definition: |-
+        objectdefault.StaticValue(
+          types.ObjectValueMust(
+            CiscoCwaValue{}.AttributeTypes(ctx),
+            map[string]attr.Value{
+              "allowed_hostnames": types.ListValueMust(types.StringType, []attr.Value{}),
+              "allowed_subnets": types.ListValueMust(types.StringType, []attr.Value{}),
+              "blocked_subnets": types.ListValueMust(types.StringType, []attr.Value{}),
+              "enabled": types.BoolValue(false),
+            },
+          ),
+        )          
 - name: cisco_cwa
   get:
   - single_nested
@@ -378,6 +570,7 @@ next:
             ),
           )
 - name: client_limit_down
+  computed_optional_required: computed_optional
   get:
   - int64
   validators:
@@ -387,7 +580,15 @@ next:
       - path: github.com/hashicorp/terraform-plugin-framework/path
       schema_definition: mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("client_limit_down_enabled"),
         types.BoolValue(true))
+  default: 
+    custom:
+      imports:
+      - path: github.com/hashicorp/terraform-plugin-framework/attr
+      - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default
+      - path: github.com/hashicorp/terraform-plugin-framework/types
+      schema_definition: int64default.StaticInt64(1000)
 - name: client_limit_up
+  computed_optional_required: computed_optional
   get:
   - int64
   validators:
@@ -397,6 +598,13 @@ next:
       - path: github.com/hashicorp/terraform-plugin-framework/path
       schema_definition: mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("client_limit_up_enabled"),
         types.BoolValue(true))
+  default: 
+    custom:
+      imports:
+      - path: github.com/hashicorp/terraform-plugin-framework/attr
+      - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default
+      - path: github.com/hashicorp/terraform-plugin-framework/types
+      schema_definition: int64default.StaticInt64(512)
 - name: coa_servers
   get: 
   - list_nested
@@ -406,6 +614,14 @@ next:
       imports:
       - path: github.com/hashicorp/terraform-plugin-framework-validators/listvalidator
       schema_definition: listvalidator.SizeAtLeast(1)  
+  default: 
+    custom:
+      imports:
+      - path: github.com/hashicorp/terraform-plugin-framework/attr
+      - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault
+      - path: github.com/hashicorp/terraform-plugin-framework/types
+      schema_definition: |-
+        listdefault.StaticValue(types.ListValueMust(CoaServersValue{}.Type(ctx), []attr.Value{}))
 - get:
   - list_nested
   - nested_object
@@ -423,6 +639,36 @@ next:
         - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
         schema_definition: stringvalidator.Any(mistvalidator.ParseIp(true, false),
           mistvalidator.ParseVar())
+- get:
+  - single_nested
+  name: dns_server_rewrite
+  computed_optional_required: computed_optional
+  default: 
+    custom:
+      imports:
+      - path: github.com/hashicorp/terraform-plugin-framework/attr
+      - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/objectdefault
+      - path: github.com/hashicorp/terraform-plugin-framework/types
+      schema_definition: |-
+        objectdefault.StaticValue(
+          types.ObjectValueMust(
+            DnsServerRewriteValue{}.AttributeTypes(ctx),
+            map[string]attr.Value{
+              "enabled": types.BoolValue(false),
+              "radius_groups": types.MapNull(types.StringType),
+            },
+          ),
+        ) 
+- name: disable_when_gateway_unreachable
+  get:
+  - bool  
+  computed_optional_required: optional
+  no_default: true               
+- name: disable_when_mxtunnel_down
+  get:
+  - bool  
+  computed_optional_required: optional
+  no_default: true               
 - get:
   - single_nested
   - attributes
@@ -470,6 +716,14 @@ next:
               mistvalidator.ParseVar(),							
             ),
           )
+  - get:
+    - bool
+    name: enabled
+    validators:
+    - custom:
+        imports:
+        - path: github.com/Juniper/terraform-provider-mist/internal/validators
+        schema_definition: mistvalidator.CannotBeTrueWhenValueIs(path.MatchRoot("vlan_enabled"), types.BoolValue(true))
   - computed_optional_required: computed_optional
     get:
     - list
@@ -491,6 +745,30 @@ next:
         - path: github.com/Juniper/terraform-provider-mist/internal/validators
         schema_definition: mapvalidator.SizeAtLeast(1),mapvalidator.KeysAre(stringvalidator.Any(mistvalidator.ParseInt(1,
           4094), mistvalidator.ParseVar()))
+- name: hotspot20
+  get:
+  - single_nested
+  computed_optional_required: computed_optional
+  default: 
+    custom:
+      imports:
+      - path: github.com/hashicorp/terraform-plugin-framework/attr
+      - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/objectdefault
+      - path: github.com/hashicorp/terraform-plugin-framework/types
+      schema_definition: |-
+        objectdefault.StaticValue(
+          types.ObjectValueMust(
+            Hotspot20Value{}.AttributeTypes(ctx),
+            map[string]attr.Value{
+              "domain_name": types.ListValueMust(types.StringType, []attr.Value{}),
+              "enabled": types.BoolValue(false),
+              "nai_realms":types.ListValueMust(types.StringType, []attr.Value{}),
+              "operators":types.ListValueMust(types.StringType, []attr.Value{}),
+              "rcoi":types.ListValueMust(types.StringType, []attr.Value{}),
+              "venue_name": types.StringNull(),
+            },
+          ),
+        )
 - name: l2_isolation
   get:
   - bool
@@ -501,6 +779,25 @@ next:
       - path: github.com/hashicorp/terraform-plugin-framework/path
       schema_definition: mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("isolation"),
         types.BoolValue(true))
+- name: mist_nac
+  get:
+  - single_nested
+  computed_optional_required: computed_optional
+  default: 
+    custom:
+      imports:
+      - path: github.com/hashicorp/terraform-plugin-framework/attr
+      - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/objectdefault
+      - path: github.com/hashicorp/terraform-plugin-framework/types
+      schema_definition: |-
+        objectdefault.StaticValue(
+          types.ObjectValueMust(
+            MistNacValue{}.AttributeTypes(ctx),
+            map[string]attr.Value{
+              "enabled": types.BoolValue(false),
+            },
+          ),
+        )
 - computed_optional_required: computed_optional
   default: 
     custom:
@@ -536,9 +833,141 @@ next:
 
 - get:
   - single_nested
+  name: portal
+  computed_optional_required: computed_optional
+  default: 
+    custom:
+      imports:
+      - path: github.com/hashicorp/terraform-plugin-framework/attr
+      - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/objectdefault
+      - path: github.com/hashicorp/terraform-plugin-framework/types
+      schema_definition: |-
+        objectdefault.StaticValue(
+          types.ObjectValueMust(
+            PortalValue{}.AttributeTypes(ctx),
+            map[string]attr.Value{
+              "allow_wlan_id_roam": types.BoolNull(),
+              "amazon_client_id": types.StringValue(""),
+              "amazon_client_secret": types.StringValue(""),
+              "amazon_email_domains": types.ListValueMust(types.StringType, []attr.Value{}),
+              "amazon_enabled": types.BoolValue(false),
+              "amazon_expire": types.Float64Null(),
+              "auth": types.StringValue("none"),
+              "azure_client_id": types.StringValue(""),
+              "azure_client_secret": types.StringValue(""),
+              "azure_enabled": types.BoolValue(false),
+              "azure_expire": types.Float64Null(),
+              "azure_tenant_id": types.StringValue(""),
+              "broadnet_sid": types.StringNull(),
+              "broadnet_password": types.StringNull(),
+              "broadnet_user_id": types.StringNull(),
+              "bypass_when_cloud_down": types.BoolValue(true),
+              "clickatell_api_key": types.StringNull(),
+              "cross_site": types.BoolNull(),
+              "email_enabled": types.BoolValue(false),
+              "enabled": types.BoolValue(false),
+              "expire": types.Float64Value(1440),
+              "external_portal_url": types.StringValue(""),
+              "facebook_client_id": types.StringValue(""),
+              "facebook_client_secret": types.StringValue(""),
+              "facebook_email_domains": types.ListValueMust(types.StringType, []attr.Value{}),
+              "facebook_enabled": types.BoolValue(false),
+              "facebook_expire": types.Float64Null(),
+              "forward": types.BoolValue(false),
+              "forward_url": types.StringValue(""),
+              "google_client_id": types.StringValue(""),
+              "google_client_secret": types.StringValue(""),
+              "google_email_domains": types.ListValueMust(types.StringType, []attr.Value{}),
+              "google_enabled": types.BoolValue(false),
+              "google_expire": types.Float64Null(),
+              "gupshup_userid": types.StringNull(),
+              "gupshup_password": types.StringNull(),
+              "microsoft_client_id": types.StringValue(""),
+              "microsoft_client_secret": types.StringValue(""),
+              "microsoft_email_domains": types.ListValueMust(types.StringType, []attr.Value{}),
+              "microsoft_enabled": types.BoolValue(false),
+              "microsoft_expire": types.Float64Null(),
+              "passphrase_enabled": types.BoolValue(false),
+              "password": types.StringValue(""),
+              "predefined_sponsors_enabled": types.BoolValue(false),
+              "predefined_sponsors_hide_email": types.BoolValue(false),
+              "privacy": types.BoolValue(false),
+              "sms_enabled": types.BoolValue(false),
+              "sms_expire": types.Float64Null(),
+              "sms_message_format": types.StringValue("Code {{code}} expires in {{duration}} minutes."),
+              "sms_provider": types.StringValue("manual"),
+              "sponsor_auto_approve": types.BoolNull(),
+              "sponsor_email_domains": types.ListValueMust(types.StringType, []attr.Value{}),
+              "sponsor_enabled": types.BoolValue(false),
+              "sponsor_expire": types.Float64Null(),
+              "sponsor_link_validity_duration": types.StringValue("60"),
+              "sponsor_notify_all": types.BoolValue(true),
+              "sponsor_status_notify": types.BoolValue(false),
+              "sponsors": types.MapNull(types.StringType),
+              "sso_default_role": types.StringValue(""),
+              "sso_forced_role": types.StringValue(""),
+              "sso_idp_cert": types.StringValue(""),
+              "sso_idp_sign_algo": types.StringValue("sha1"),
+              "sso_idp_sso_url": types.StringValue(""),
+              "sso_issuer": types.StringValue(""),
+              "sso_nameid_format": types.StringValue("email"),
+              "passphrase_expire": types.Float64Null(),
+              "puzzel_username": types.StringNull(),
+              "puzzel_password": types.StringNull(),
+              "puzzel_service_id": types.StringNull(),
+              "telstra_client_id": types.StringNull(),
+              "telstra_client_secret": types.StringNull(),
+              "twilio_auth_token": types.StringNull(),
+              "twilio_phone_number": types.StringNull(),
+              "twilio_sid": types.StringNull(),
+            },
+          ),
+        )
+- get:
+  - single_nested
   - attributes
   name: portal
   next:
+  - computed_optional_required: optional
+    get:
+    - float64
+    name: amazon_expire
+    no_default: true
+  - computed_optional_required: optional
+    get:
+    - float64
+    name: azure_expire
+    no_default: true
+  - computed_optional_required: optional
+    get:
+    - float64
+    name: facebook_expire
+    no_default: true
+  - computed_optional_required: optional
+    get:
+    - float64
+    name: google_expire
+    no_default: true
+  - computed_optional_required: optional
+    get:
+    - float64
+    name: microsoft_expire
+    no_default: true
+  - computed_optional_required: optional
+    get:
+    - float64
+    name: passphrase_expire
+    no_default: true
+  - computed_optional_required: optional
+    get:
+    - float64
+    name: sms_expire
+    no_default: true
+  - computed_optional_required: optional
+    get:
+    - float64
+    name: sponsor_expire
+    no_default: true
   - computed_optional_required: computed_optional
     default: 
       custom:
@@ -642,6 +1071,23 @@ next:
   - string
   name: portal_api_secret
   no_default: true
+  plan_modifiers:
+  - custom:
+      imports:
+      - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier
+      - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier
+      schema_definition: stringplanmodifier.UseStateForUnknown()
+- computed_optional_required: computed
+  get:
+  - string
+  name: thumbnail
+  no_default: true
+  plan_modifiers:
+  - custom:
+      imports:
+      - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier
+      - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier
+      schema_definition: stringplanmodifier.UseStateForUnknown()
 - computed_optional_required: computed_optional
   default: 
     custom:
@@ -658,16 +1104,81 @@ next:
   - string
   name: portal_image
   no_default: true
+  plan_modifiers:
+  - custom:
+      imports:
+      - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier
+      - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier
+      schema_definition: stringplanmodifier.UseStateForUnknown()
 - computed_optional_required: computed
   get:
   - string
   name: portal_sso_url
   no_default: true
+  plan_modifiers:
+  - custom:
+      imports:
+      - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier
+      - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier
+      schema_definition: stringplanmodifier.UseStateForUnknown()
 - computed_optional_required: computed
   get:
   - string
   name: portal_template_url
   no_default: true
+  plan_modifiers:
+  - custom:
+      imports:
+      - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier
+      - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier
+      schema_definition: stringplanmodifier.UseStateForUnknown()
+- name: qos
+  get:
+  - single_nested
+  computed_optional_required: computed_optional
+  default: 
+    custom:
+      imports:
+      - path: github.com/hashicorp/terraform-plugin-framework/attr
+      - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/objectdefault
+      - path: github.com/hashicorp/terraform-plugin-framework/types
+      schema_definition: |-
+        objectdefault.StaticValue(
+          types.ObjectValueMust(
+            QosValue{}.AttributeTypes(ctx),
+            map[string]attr.Value{
+              "class":     types.StringValue("best_effort"),
+              "overwrite":         types.BoolValue(false),
+            },
+          ),
+        )
+- name: radsec
+  get:
+  - single_nested
+  computed_optional_required: computed_optional
+  default: 
+    custom:
+      imports:
+      - path: github.com/hashicorp/terraform-plugin-framework/attr
+      - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/objectdefault
+      - path: github.com/hashicorp/terraform-plugin-framework/types
+      schema_definition: |-
+        objectdefault.StaticValue(
+          types.ObjectValueMust(
+            RadsecValue{}.AttributeTypes(ctx),
+            map[string]attr.Value{
+              "coa_enabled": types.BoolNull(),
+              "enabled": types.BoolValue(false),
+              "idle_timeout": types.Int64Null(),
+              "mxcluster_ids":   types.ListNull(types.StringType),
+              "proxy_hosts":   types.ListNull(types.StringType),
+              "server_name":   types.StringValue(""),
+              "servers":   types.ListValueMust(ServersValue{}.Type(ctx), []attr.Value{}),
+              "use_mxedge": types.BoolNull(),
+              "use_site_mxedge": types.BoolNull(),
+            },
+          ),
+        )
 - name: radsec
   get:
   - single_nested
@@ -718,6 +1229,39 @@ next:
               mistvalidator.ParseIp(true, false),
               mistvalidator.ParseVar(),
             )
+- name: reconnect_clients_when_roaming_mxcluster
+  get:
+  - bool
+  computed_optional_required: optional
+  no_default: true            
+- get:
+  - single_nested
+  name: schedule
+  computed_optional_required: computed_optional
+  default: 
+    custom:
+      imports:
+      - path: github.com/hashicorp/terraform-plugin-framework/attr
+      - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/objectdefault
+      - path: github.com/hashicorp/terraform-plugin-framework/types
+      schema_definition: |-
+        objectdefault.StaticValue(
+          types.ObjectValueMust(
+            ScheduleValue{}.AttributeTypes(ctx),
+            map[string]attr.Value{
+              "enabled": types.BoolValue(false),
+              "hours":   types.ObjectValueMust(HoursValue{}.AttributeTypes(ctx),map[string]attr.Value{
+                  "fri": types.StringNull(),
+                  "mon": types.StringNull(),
+                  "sat": types.StringNull(),
+                  "sun": types.StringNull(),
+                  "thu": types.StringNull(),
+                  "tue": types.StringNull(),
+                  "wed": types.StringNull(),
+              }),
+            },
+          ),
+        )
 - get:
   - string
   name: vlan_id
@@ -726,7 +1270,9 @@ next:
       imports:
       - path: github.com/Juniper/terraform-provider-mist/internal/validators
       - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
-      schema_definition: stringvalidator.Any(mistvalidator.ParseInt(1, 4094),mistvalidator.ParseVar(),)
+      schema_definition: |-
+        stringvalidator.Any(mistvalidator.ParseInt(1, 4094),mistvalidator.ParseVar()),		
+        mistvalidator.AllowedWhenValueIs(path.MatchRoot("vlan_enabled"), types.BoolValue(true))
 - get:
   - list
   name: vlan_ids
@@ -738,9 +1284,23 @@ next:
       - path: github.com/hashicorp/terraform-plugin-framework-validators/listvalidator
       schema_definition: listvalidator.ValueStringsAre(stringvalidator.Any(mistvalidator.ParseInt(1,
         4094), mistvalidator.ParseVar()))
+  default: 
+    custom:
+      imports:
+      - path: github.com/hashicorp/terraform-plugin-framework/attr
+      - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault
+      - path: github.com/hashicorp/terraform-plugin-framework/types
+      schema_definition: listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{}))
 - name: wlan_limit_down
   get:
   - int64
+  default: 
+    custom:
+      imports:
+      - path: github.com/hashicorp/terraform-plugin-framework/attr
+      - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default
+      - path: github.com/hashicorp/terraform-plugin-framework/types
+      schema_definition: int64default.StaticInt64(20000)
   validators:
   - custom:
       imports:
@@ -751,6 +1311,13 @@ next:
 - name: wlan_limit_up
   get:
   - int64
+  default: 
+    custom:
+      imports:
+      - path: github.com/hashicorp/terraform-plugin-framework/attr
+      - path: github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default
+      - path: github.com/hashicorp/terraform-plugin-framework/types
+      schema_definition: int64default.StaticInt64(10000)
   validators:
   - custom:
       imports:
@@ -777,42 +1344,83 @@ next:
       schema_definition: listvalidator.ValueStringsAre(stringvalidator.Any(mistvalidator.ParseInt(1,
         4094), mistvalidator.ParseVar()))
 - get:
-  - single_nested
+  - map_nested
+  name: rateset
+  validators:
+  - custom:
+      imports:
+      - path: github.com/hashicorp/terraform-plugin-framework-validators/mapvalidator
+      - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+      schema_definition: |-
+        mapvalidator.SizeAtLeast(1),
+        mapvalidator.KeysAre(
+          stringvalidator.OneOf("24", "5", "6"),
+        )
+- get:
+  - map_nested
+  - nested_object
   - attributes
   name: rateset
   next:
   - get:
-    - single_nested
-    - attributes
-    name: band_24
-    next:
-    - get:
-      - string
-      name: ht
-      validators:
-      - custom:
-          imports:
-          - path: github.com/Juniper/terraform-provider-mist/internal/validators
-          - path: github.com/hashicorp/terraform-plugin-framework/path
-          schema_definition: mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("template"),
-            types.StringValue("custom"))
-    - get:
-      - string
-      name: legacy
-      validators:
-      - custom:
-          imports:
-          - path: github.com/Juniper/terraform-provider-mist/internal/validators
-          - path: github.com/hashicorp/terraform-plugin-framework/path
-          schema_definition: mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("template"),
-            types.StringValue("custom"))
-    - get:
-      - string
-      name: vht
-      validators:
-      - custom:
-          imports:
-          - path: github.com/Juniper/terraform-provider-mist/internal/validators
-          - path: github.com/hashicorp/terraform-plugin-framework/path
-          schema_definition: mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("template"),
-            types.StringValue("custom"))
+    - string
+    name: ht
+    validators:
+    - custom:
+        imports:
+        - path: github.com/Juniper/terraform-provider-mist/internal/validators
+        - path: github.com/hashicorp/terraform-plugin-framework/path
+        schema_definition: mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("template"),
+          types.StringValue("custom"))
+  - get:
+    - list
+    name: legacy
+    computed_optional_required: computed_optional
+    description: |-
+      if `template`==`custom`. List of supported rates (IE=1) and extended supported rates (IE=50) for custom template, append ‘b’ at the end to indicate a rate being basic/mandatory. If `template`==`custom` is configured and legacy does not define at least one basic rate, it will use `no-legacy` default values. enum: `1`, `11`, `11b`, `12`, `12b`, `18`, `18b`, `1b`, `2`, `24`, `24b`, `2b`, `36`, `36b`, `48`, `48b`, `5.5`, `5.5b`, `54`, `54b`, `6`, `6b`, `9`, `9b`
+    validators:
+    - custom:
+        imports:
+        - path: github.com/Juniper/terraform-provider-mist/internal/validators
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+        - path: github.com/hashicorp/terraform-plugin-framework/path
+        schema_definition: |- 
+          mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("template"), types.StringValue("custom")),
+          listvalidator.ValueStringsAre(
+            stringvalidator.OneOf(
+              "1",
+              "11",
+              "11b",
+              "12",
+              "12b",
+              "18",
+              "18b",
+              "1b",
+              "2",
+              "24",
+              "24b",
+              "2b",
+              "36",
+              "36b",
+              "48",
+              "48b",
+              "5.5",
+              "5.5b",
+              "54",
+              "54b",
+              "6",
+              "6b",
+              "9",
+              "9b",
+            ),
+          )
+  - get:
+    - string
+    name: vht
+    validators:
+    - custom:
+        imports:
+        - path: github.com/Juniper/terraform-provider-mist/internal/validators
+        - path: github.com/hashicorp/terraform-plugin-framework/path
+        schema_definition: mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("template"),
+          types.StringValue("custom"))

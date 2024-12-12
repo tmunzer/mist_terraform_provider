@@ -1,0 +1,132 @@
+{
+	"provider": {
+		"name": "mistapi"
+	},
+	"resources": [
+		{
+			"name": "org_alarmtemplate",
+			"schema": {
+				"attributes": [
+					{
+						"name": "delivery",
+						"single_nested": {
+							"computed_optional_required": "required",
+							"attributes": [
+								{
+									"name": "additional_emails",
+									"list": {
+										"computed_optional_required": "computed_optional",
+										"element_type": {
+											"string": {}
+										},
+										"description": "List of additional email string to deliver the alarms via emails"
+									}
+								},
+								{
+									"name": "enabled",
+									"bool": {
+										"computed_optional_required": "required",
+										"description": "Whether to enable the alarm delivery via emails or not"
+									}
+								},
+								{
+									"name": "to_org_admins",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"description": "Whether to deliver the alarms via emails to Org admins or not"
+									}
+								},
+								{
+									"name": "to_site_admins",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"description": "Whether to deliver the alarms via emails to Site admins or not"
+									}
+								}
+							],
+							"description": "Delivery object to configure the alarm delivery"
+						}
+					},
+					{
+						"name": "id",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"description": "Unique ID of the object instance in the Mist Organnization"
+						}
+					},
+					{
+						"name": "name",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"description": "Some string to name the alarm template"
+						}
+					},
+					{
+						"name": "org_id",
+						"string": {
+							"computed_optional_required": "computed_optional"
+						}
+					},
+					{
+						"name": "rules",
+						"map_nested": {
+							"computed_optional_required": "required",
+							"nested_object": {
+								"attributes": [
+									{
+										"name": "delivery",
+										"single_nested": {
+											"computed_optional_required": "computed_optional",
+											"attributes": [
+												{
+													"name": "additional_emails",
+													"list": {
+														"computed_optional_required": "computed_optional",
+														"element_type": {
+															"string": {}
+														},
+														"description": "List of additional email string to deliver the alarms via emails"
+													}
+												},
+												{
+													"name": "enabled",
+													"bool": {
+														"computed_optional_required": "required",
+														"description": "Whether to enable the alarm delivery via emails or not"
+													}
+												},
+												{
+													"name": "to_org_admins",
+													"bool": {
+														"computed_optional_required": "computed_optional",
+														"description": "Whether to deliver the alarms via emails to Org admins or not"
+													}
+												},
+												{
+													"name": "to_site_admins",
+													"bool": {
+														"computed_optional_required": "computed_optional",
+														"description": "Whether to deliver the alarms via emails to Site admins or not"
+													}
+												}
+											],
+											"description": "Delivery object to configure the alarm delivery"
+										}
+									},
+									{
+										"name": "enabled",
+										"bool": {
+											"computed_optional_required": "computed_optional"
+										}
+									}
+								]
+							},
+							"description": "Alarm Rules object to configure the individual alarm keys/types. Property key is the alarm name."
+						}
+					}
+				]
+			}
+		}
+	],
+	"version": "0.1"
+}

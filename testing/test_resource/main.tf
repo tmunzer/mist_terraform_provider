@@ -72,6 +72,12 @@ resource "mist_org_alarmtemplate" "alarmtemplate_one" {
     additional_emails = ["tmunzer@juniper.net"]
   }
   rules = {
+    dhcp_failure : {
+    enabled : true
+    delivery : {
+    enabled : true
+    }
+    }
     health_check_failed : {
       enabled : true
     },
@@ -106,9 +112,6 @@ resource "mist_org_alarmtemplate" "alarmtemplate_one" {
       enabled : true
     },
     infra_dhcp_failure : {
-      enabled : true
-    },
-    dhcp_failure : {
       enabled : true
     },
     infra_dns_failure : {
@@ -599,12 +602,14 @@ resource "mist_org_rftemplate" "example" {
 resource "mist_site_wlan" "wlan_one" {
   ssid    = "wlan_one"
   site_id = mist_site.terraform_site.id
-  bands   = ["5", "6"]
-  vlan_id = 143
+  bands   = ["24","5"]
   auth = {
-    type = "psk"
-    psk  = "secretpsk"
+    type = "eap"
   }
+  auth_servers = [{
+    host   = "1.2.3.4"
+    secret = "secret"
+  }]
   interface = "all"
   dynamic_vlan = {
     enabled = true
@@ -618,9 +623,14 @@ resource "mist_site_wlan" "wlan_one" {
   }
   max_num_clients = 50
   rateset = {
-    band_24 = {
-      template = "no-legacy"
+    "5" = {
+      template = "custom"
       min_rssi = -70
+      legacy   = ["6", "9", "12", "18", "24b", "36", "48", "54"]
+    },
+    "24" = {
+      template = "high-density"
+      min_rssi = 0
     }
   }
 }
@@ -1255,10 +1265,10 @@ resource "mist_device_gateway_cluster" "cluster_one" {
   ]
 }
 resource "mist_device_gateway" "cluster_one" {
-  device_id              = resource.mist_device_gateway_cluster.cluster_one.id
-  site_id                = provider::mist::search_inventory_by_mac(resource.mist_org_inventory.inventory, local.node0).site_id
-  name                   = "cluster_one"
-  managed                = true
+  device_id = resource.mist_device_gateway_cluster.cluster_one.id
+  site_id   = provider::mist::search_inventory_by_mac(resource.mist_org_inventory.inventory, local.node0).site_id
+  name      = "cluster_one"
+  managed   = true
   bgp_config = {
     "test" = {
       auth_key             = "secret"
@@ -1405,9 +1415,9 @@ resource "mist_device_gateway" "cluster_one" {
       action          = "allow"
       path_preference = "HUB"
       idp = {
-        enabled = true
+        enabled       = true
         idpprofile_id = mist_org_idpprofile.test1.id
-        profile = "Custom"
+        profile       = "Custom"
       }
     },
     {
@@ -2370,6 +2380,17 @@ resource "mist_org_wlan" "test_open" {
     enabled       = true
     expire        = 60
   }
+  rateset = {
+    "5" = {
+      template = "custom"
+      min_rssi = -70
+      legacy   = ["6", "9", "12", "18", "24b", "36", "48", "54"]
+    },
+    "24" = {
+      template = "high-density"
+      min_rssi = 0
+    }
+  }
 
   apply_to  = "site"
   interface = "all"
@@ -2580,7 +2601,7 @@ resource "mist_org_networktemplate" "switch_template" {
           type    = "static"
         }
         oob_ip_config = {
-          type                      = "dhcp"
+          type = "dhcp"
         }
         match_name = "abc"
         additional_config_cmds = [
@@ -3107,7 +3128,7 @@ resource "mist_device_switch" "test_switch" {
 
   router_id = "1.2.3.4"
   oob_ip_config = {
-    type    = "dhcp"
+    type = "dhcp"
     # ip      = "2.2.2.2"
     # netmask = "/24"
     # gateway = "2.2.2.1"
@@ -3785,9 +3806,9 @@ resource "mist_org_gatewaytemplate" "gatewaytemplate_one" {
       action          = "allow"
       path_preference = "HUB"
       idp = {
-        enabled = true
+        enabled       = true
         idpprofile_id = mist_org_idpprofile.test1.id
-        profile = "Custom"
+        profile       = "Custom"
       }
     },
     {
@@ -4246,8 +4267,8 @@ resource "mist_org_nacidp" "idp_ldap" {
 }
 
 resource "mist_org_networktemplate" "networktemplate_one" {
-  name        = "My_Provider_Network_Template"
-  org_id             = mist_org.terraform_test.id
+  name   = "My_Provider_Network_Template"
+  org_id = mist_org.terraform_test.id
   networks = {
     guest_vlan = {
       vlan_id = 10
@@ -4259,11 +4280,11 @@ resource "mist_org_networktemplate" "networktemplate_one" {
   }
   port_usages = {
     guest = {
-      mode = "access"
+      mode         = "access"
       port_network = "guest_vlan"
     }
     user = {
-      mode = "access"
+      mode      = "access"
       port_auth = "dot1x"
     }
     trunk = {
@@ -4273,7 +4294,7 @@ resource "mist_org_networktemplate" "networktemplate_one" {
     }
   }
   radius_config = {
-    network               = "network_one"
+    network = "network_one"
     acct_servers = [
       {
         host   = "1.2.3.4"
@@ -4291,7 +4312,7 @@ resource "mist_org_networktemplate" "networktemplate_one" {
     enable = true
     rules = [
       {
-        name        = "switch_rule_one"
+        name       = "switch_rule_one"
         match_name = "ex"
         port_config = {
           "ge-0/0/0-10" = {

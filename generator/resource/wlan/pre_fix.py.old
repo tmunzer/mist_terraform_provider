@@ -9,9 +9,12 @@ DATA["components"]["schemas"]["wlan_rateset"] = {
     "type": "object",
     "properties": {
         "band_24": {
-            '$ref': '#/components/schemas/wlan_datarates'
+            '$ref': '#/components/schemas/wlan_datarates_24'
         },
         "band_5": {
+            '$ref': '#/components/schemas/wlan_datarates'
+        },
+        "band_6": {
             '$ref': '#/components/schemas/wlan_datarates'
         }      
     },

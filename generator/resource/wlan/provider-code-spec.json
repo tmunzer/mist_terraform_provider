@@ -1451,6 +1451,25 @@
                         }
                     },
                     {
+                        "name": "disable_when_gateway_unreachable",
+                        "bool": {
+                            "computed_optional_required": "computed_optional",
+                            "default": {
+                                "static": false
+                            },
+                            "description": "when any of the following is true, this WLAN will be disabled\n   * cannot get IP\n   * cannot obtain default gateway\n   * cannot reach default gateway"
+                        }
+                    },
+                    {
+                        "name": "disable_when_mxtunnel_down",
+                        "bool": {
+                            "computed_optional_required": "computed_optional",
+                            "default": {
+                                "static": false
+                            }
+                        }
+                    },
+                    {
                         "name": "disable_wmm",
                         "bool": {
                             "computed_optional_required": "computed_optional",
@@ -3403,158 +3422,142 @@
                     },
                     {
                         "name": "rateset",
-                        "single_nested": {
-                            "computed_optional_required": "optional",
-                            "attributes": [
+                        "map_nested": {
+                            "validators": [
                                 {
-                                    "name": "band_24",
-                                    "single_nested": {
-                                        "computed_optional_required": "optional",
-                                        "attributes": [
+                                    "custom": {
+                                        "imports": [
                                             {
-                                                "name": "ht",
-                                                "string": {
-                                                    "computed_optional_required": "optional",
-                                                    "description": "if `template`==`custom`. MCS bitmasks for 4 streams (16-bit for each stream, MCS0 is least significant bit), e.g. 00ff 00f0 001f limits HT rates to MCS 0-7 for 1 stream, MCS 4-7 for 2 stream (i.e. MCS 12-15), MCS 1-5 for 3 stream (i.e. MCS 16-20)",
-                                                    "validators": [
-                                                        {
-                                                            "custom": {
-                                                                "imports": [
-                                                                    {
-                                                                        "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
-                                                                    },
-                                                                    {
-                                                                        "path": "github.com/hashicorp/terraform-plugin-framework/path"
-                                                                    }
-                                                                ],
-                                                                "schema_definition": "mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName(\"template\"), types.StringValue(\"custom\"))"
-                                                            }
-                                                        }
-                                                    ]
-                                                }
+                                                "path": "github.com/hashicorp/terraform-plugin-framework-validators/mapvalidator"
                                             },
                                             {
-                                                "name": "legacy",
-                                                "list": {
-                                                    "computed_optional_required": "optional",
-                                                    "element_type": {
-                                                        "string": {}
-                                                    },
-                                                    "description": "if `template`==`custom`. List of supported rates (IE=1) and extended supported rates (IE=50) for custom template, append \u2018b\u2019 at the end to indicate a rate being basic/mandatory. If `template`==`custom` is configured and legacy does not define at least one basic rate, it will use `no-legacy` default values"
-                                                }
-                                            },
-                                            {
-                                                "name": "min_rssi",
-                                                "int64": {
-                                                    "computed_optional_required": "optional",
-                                                    "description": "Minimum RSSI for client to connect, 0 means not enforcing"
-                                                }
-                                            },
-                                            {
-                                                "name": "template",
-                                                "string": {
-                                                    "computed_optional_required": "optional",
-                                                    "description": "Data Rates template to apply. enum: \n  * `no-legacy`: no 11b\n  * `compatible`: all, like before, default setting that Broadcom/Atheros used\n  * `legacy-only`: disable 802.11n and 802.11ac\n  * `high-density`: no 11b, no low rates\n  * `custom`: user defined",
-                                                    "validators": [
-                                                        {
-                                                            "custom": {
-                                                                "imports": [
-                                                                    {
-                                                                        "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
-                                                                    }
-                                                                ],
-                                                                "schema_definition": "stringvalidator.OneOf(\n\"\",\n\"compatible\",\n\"legacy-only\",\n\"custom\",\n\"no-legacy\",\n)"
-                                                            }
-                                                        }
-                                                    ]
-                                                }
-                                            },
-                                            {
-                                                "name": "vht",
-                                                "string": {
-                                                    "computed_optional_required": "optional",
-                                                    "description": "if `template`==`custom`. MCS bitmasks for 4 streams (16-bit for each stream, MCS0 is least significant bit), e.g. 03ff 01ff 00ff limits VHT rates to MCS 0-9 for 1 stream, MCS 0-8 for 2 streams, and MCS 0-7 for 3 streams.",
-                                                    "validators": [
-                                                        {
-                                                            "custom": {
-                                                                "imports": [
-                                                                    {
-                                                                        "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
-                                                                    },
-                                                                    {
-                                                                        "path": "github.com/hashicorp/terraform-plugin-framework/path"
-                                                                    }
-                                                                ],
-                                                                "schema_definition": "mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName(\"template\"), types.StringValue(\"custom\"))"
-                                                            }
-                                                        }
-                                                    ]
-                                                }
+                                                "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
                                             }
                                         ],
-                                        "description": "data rates wlan settings"
-                                    }
-                                },
-                                {
-                                    "name": "band_5",
-                                    "single_nested": {
-                                        "computed_optional_required": "optional",
-                                        "attributes": [
-                                            {
-                                                "name": "ht",
-                                                "string": {
-                                                    "computed_optional_required": "optional",
-                                                    "description": "if `template`==`custom`. MCS bitmasks for 4 streams (16-bit for each stream, MCS0 is least significant bit), e.g. 00ff 00f0 001f limits HT rates to MCS 0-7 for 1 stream, MCS 4-7 for 2 stream (i.e. MCS 12-15), MCS 1-5 for 3 stream (i.e. MCS 16-20)"
-                                                }
-                                            },
-                                            {
-                                                "name": "legacy",
-                                                "list": {
-                                                    "computed_optional_required": "optional",
-                                                    "element_type": {
-                                                        "string": {}
-                                                    },
-                                                    "description": "if `template`==`custom`. List of supported rates (IE=1) and extended supported rates (IE=50) for custom template, append \u2018b\u2019 at the end to indicate a rate being basic/mandatory. If `template`==`custom` is configured and legacy does not define at least one basic rate, it will use `no-legacy` default values"
-                                                }
-                                            },
-                                            {
-                                                "name": "min_rssi",
-                                                "int64": {
-                                                    "computed_optional_required": "optional",
-                                                    "description": "Minimum RSSI for client to connect, 0 means not enforcing"
-                                                }
-                                            },
-                                            {
-                                                "name": "template",
-                                                "string": {
-                                                    "computed_optional_required": "optional",
-                                                    "description": "Data Rates template to apply. enum: \n  * `no-legacy`: no 11b\n  * `compatible`: all, like before, default setting that Broadcom/Atheros used\n  * `legacy-only`: disable 802.11n and 802.11ac\n  * `high-density`: no 11b, no low rates\n  * `custom`: user defined",
-                                                    "validators": [
-                                                        {
-                                                            "custom": {
-                                                                "imports": [
-                                                                    {
-                                                                        "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
-                                                                    }
-                                                                ],
-                                                                "schema_definition": "stringvalidator.OneOf(\n\"\",\n\"compatible\",\n\"legacy-only\",\n\"custom\",\n\"no-legacy\",\n)"
-                                                            }
-                                                        }
-                                                    ]
-                                                }
-                                            },
-                                            {
-                                                "name": "vht",
-                                                "string": {
-                                                    "computed_optional_required": "optional",
-                                                    "description": "if `template`==`custom`. MCS bitmasks for 4 streams (16-bit for each stream, MCS0 is least significant bit), e.g. 03ff 01ff 00ff limits VHT rates to MCS 0-9 for 1 stream, MCS 0-8 for 2 streams, and MCS 0-7 for 3 streams."
-                                                }
-                                            }
-                                        ],
-                                        "description": "data rates wlan settings"
+                                        "schema_definition": "mapvalidator.SizeAtLeast(1),\nmapvalidator.KeysAre(\n  stringvalidator.OneOf(\"24\", \"5\", \"6\"),\n)"
                                     }
                                 }
-                            ]
+                            ],
+                            "computed_optional_required": "optional",
+                            "nested_object": {
+                                "attributes": [
+                                    {
+                                        "name": "ht",
+                                        "string": {
+                                            "computed_optional_required": "optional",
+                                            "description": "if `template`==`custom`. MCS bitmasks for 4 streams (16-bit for each stream, MCS0 is least significant bit), e.g. 00ff 00f0 001f limits HT rates to MCS 0-7 for 1 stream, MCS 4-7 for 2 stream (i.e. MCS 12-15), MCS 1-5 for 3 stream (i.e. MCS 16-20)",
+                                            "validators": [
+                                                {
+                                                    "custom": {
+                                                        "imports": [
+                                                            {
+                                                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                                            },
+                                                            {
+                                                                "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                                            }
+                                                        ],
+                                                        "schema_definition": "mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName(\"template\"), types.StringValue(\"custom\"))"
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "legacy",
+                                        "list": {
+                                            "computed_optional_required": "computed_optional",
+                                            "element_type": {
+                                                "string": {}
+                                            },
+                                            "description": "if `template`==`custom`. List of supported rates (IE=1) and extended supported rates (IE=50) for custom template, append \u2018b\u2019 at the end to indicate a rate being basic/mandatory. If `template`==`custom` is configured and legacy does not define at least one basic rate, it will use `no-legacy` default values. enum: `1`, `11`, `11b`, `12`, `12b`, `18`, `18b`, `1b`, `2`, `24`, `24b`, `2b`, `36`, `36b`, `48`, `48b`, `5.5`, `5.5b`, `54`, `54b`, `6`, `6b`, `9`, `9b`",
+                                            "validators": [
+                                                {
+                                                    "custom": {
+                                                        "imports": [
+                                                            {
+                                                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                                            },
+                                                            {
+                                                                "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                                            },
+                                                            {
+                                                                "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                                            }
+                                                        ],
+                                                        "schema_definition": "mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName(\"template\"), types.StringValue(\"custom\")),\nlistvalidator.ValueStringsAre(\n  stringvalidator.OneOf(\n    \"1\",\n    \"11\",\n    \"11b\",\n    \"12\",\n    \"12b\",\n    \"18\",\n    \"18b\",\n    \"1b\",\n    \"2\",\n    \"24\",\n    \"24b\",\n    \"2b\",\n    \"36\",\n    \"36b\",\n    \"48\",\n    \"48b\",\n    \"5.5\",\n    \"5.5b\",\n    \"54\",\n    \"54b\",\n    \"6\",\n    \"6b\",\n    \"9\",\n    \"9b\",\n  ),\n)"
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "min_rssi",
+                                        "int64": {
+                                            "computed_optional_required": "computed_optional",
+                                            "default": {
+                                                "static": 0
+                                            },
+                                            "description": "Minimum RSSI for client to connect, 0 means not enforcing"
+                                        }
+                                    },
+                                    {
+                                        "name": "template",
+                                        "string": {
+                                            "computed_optional_required": "computed_optional",
+                                            "default": {
+                                                "static": "compatible"
+                                            },
+                                            "description": "Data Rates template to apply. enum: \n  * `no-legacy`: no 11b\n  * `compatible`: all, like before, default setting that Broadcom/Atheros used\n  * `legacy-only`: disable 802.11n and 802.11ac\n  * `high-density`: no 11b, no low rates\n  * `custom`: user defined",
+                                            "validators": [
+                                                {
+                                                    "custom": {
+                                                        "imports": [
+                                                            {
+                                                                "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                                            }
+                                                        ],
+                                                        "schema_definition": "stringvalidator.OneOf(\n\"\",\n\"compatible\",\n\"legacy-only\",\n\"custom\",\n\"no-legacy\",\n\"high-density\",\n)"
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "vht",
+                                        "string": {
+                                            "computed_optional_required": "optional",
+                                            "description": "if `template`==`custom`. MCS bitmasks for 4 streams (16-bit for each stream, MCS0 is least significant bit), e.g. 03ff 01ff 00ff limits VHT rates to MCS 0-9 for 1 stream, MCS 0-8 for 2 streams, and MCS 0-7 for 3 streams.",
+                                            "validators": [
+                                                {
+                                                    "custom": {
+                                                        "imports": [
+                                                            {
+                                                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                                            },
+                                                            {
+                                                                "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                                            }
+                                                        ],
+                                                        "schema_definition": "mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName(\"template\"), types.StringValue(\"custom\"))"
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    }
+                                ]
+                            },
+                            "description": "Property key is the RF band. enum: `24`, `5`, `6`"
+                        }
+                    },
+                    {
+                        "name": "reconnect_clients_when_roaming_mxcluster",
+                        "bool": {
+                            "computed_optional_required": "computed_optional",
+                            "default": {
+                                "static": false
+                            },
+                            "description": "when different mxcluster is on different subnet, we'd want to disconnect clients (so they'll reconnect and get new IPs)"
                         }
                     },
                     {
@@ -5938,6 +5941,22 @@
                                 ]
                             },
                             "description": "list of RADIUS accounting servers, optional, order matters where the first one is treated as primary",
+                            "default": {
+                                "custom": {
+                                    "imports": [
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/attr"
+                                        },
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault"
+                                        },
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/types"
+                                        }
+                                    ],
+                                    "schema_definition": "listdefault.StaticValue(types.ListValueMust(AcctServersValue{}.Type(ctx), []attr.Value{}))"
+                                }
+                            },
                             "validators": [
                                 {
                                     "custom": {
@@ -5955,20 +5974,56 @@
                     {
                         "name": "airwatch",
                         "single_nested": {
-                            "computed_optional_required": "optional",
+                            "computed_optional_required": "computed_optional",
                             "attributes": [
                                 {
                                     "name": "api_key",
                                     "string": {
-                                        "computed_optional_required": "required",
-                                        "description": "API Key"
+                                        "computed_optional_required": "computed_optional",
+                                        "default": {
+                                            "static": ""
+                                        },
+                                        "description": "API Key",
+                                        "validators": [
+                                            {
+                                                "custom": {
+                                                    "imports": [
+                                                        {
+                                                            "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                                        },
+                                                        {
+                                                            "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                                        }
+                                                    ],
+                                                    "schema_definition": "mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName(\"enabled\"), types.BoolValue(true))"
+                                                }
+                                            }
+                                        ]
                                     }
                                 },
                                 {
                                     "name": "console_url",
                                     "string": {
-                                        "computed_optional_required": "required",
-                                        "description": "console URL"
+                                        "computed_optional_required": "computed_optional",
+                                        "default": {
+                                            "static": ""
+                                        },
+                                        "description": "console URL",
+                                        "validators": [
+                                            {
+                                                "custom": {
+                                                    "imports": [
+                                                        {
+                                                            "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                                        },
+                                                        {
+                                                            "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                                        }
+                                                    ],
+                                                    "schema_definition": "mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName(\"enabled\"), types.BoolValue(true))"
+                                                }
+                                            }
+                                        ]
                                     }
                                 },
                                 {
@@ -5983,20 +6038,72 @@
                                 {
                                     "name": "password",
                                     "string": {
-                                        "computed_optional_required": "required",
+                                        "computed_optional_required": "computed_optional",
+                                        "default": {
+                                            "static": ""
+                                        },
                                         "description": "password",
-                                        "sensitive": true
+                                        "sensitive": true,
+                                        "validators": [
+                                            {
+                                                "custom": {
+                                                    "imports": [
+                                                        {
+                                                            "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                                        },
+                                                        {
+                                                            "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                                        }
+                                                    ],
+                                                    "schema_definition": "mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName(\"enabled\"), types.BoolValue(true))"
+                                                }
+                                            }
+                                        ]
                                     }
                                 },
                                 {
                                     "name": "username",
                                     "string": {
-                                        "computed_optional_required": "required",
-                                        "description": "username"
+                                        "computed_optional_required": "computed_optional",
+                                        "default": {
+                                            "static": ""
+                                        },
+                                        "description": "username",
+                                        "validators": [
+                                            {
+                                                "custom": {
+                                                    "imports": [
+                                                        {
+                                                            "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                                        },
+                                                        {
+                                                            "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                                        }
+                                                    ],
+                                                    "schema_definition": "mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName(\"enabled\"), types.BoolValue(true))"
+                                                }
+                                            }
+                                        ]
                                     }
                                 }
                             ],
-                            "description": "airwatch wlan settings"
+                            "description": "airwatch wlan settings",
+                            "default": {
+                                "custom": {
+                                    "imports": [
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/attr"
+                                        },
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectdefault"
+                                        },
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/types"
+                                        }
+                                    ],
+                                    "schema_definition": "objectdefault.StaticValue(\n  types.ObjectValueMust(\n    AirwatchValue{}.AttributeTypes(ctx),\n    map[string]attr.Value{\n      \"api_key\": types.StringValue(\"\"),\n      \"console_url\": types.StringValue(\"\"),\n      \"enabled\": types.BoolValue(false),\n      \"password\": types.StringValue(\"\"),\n      \"username\": types.StringValue(\"\"),\n    },\n  ),\n)"
+                                }
+                            }
                         }
                     },
                     {
@@ -6115,7 +6222,7 @@
                     {
                         "name": "app_limit",
                         "single_nested": {
-                            "computed_optional_required": "optional",
+                            "computed_optional_required": "computed_optional",
                             "attributes": [
                                 {
                                     "name": "apps",
@@ -6147,13 +6254,29 @@
                                     }
                                 }
                             ],
-                            "description": "bandwidth limiting for apps (applies to up/down)"
+                            "description": "bandwidth limiting for apps (applies to up/down)",
+                            "default": {
+                                "custom": {
+                                    "imports": [
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/attr"
+                                        },
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectdefault"
+                                        },
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/types"
+                                        }
+                                    ],
+                                    "schema_definition": "objectdefault.StaticValue(\n  types.ObjectValueMust(\n    AppLimitValue{}.AttributeTypes(ctx),\n    map[string]attr.Value{\n      \"apps\": types.MapNull(types.Int64Type),\n      \"enabled\": types.BoolValue(false),\n      \"wxtag_ids\": types.MapNull(types.Int64Type),\n    },\n  ),\n)"
+                                }
+                            }
                         }
                     },
                     {
                         "name": "app_qos",
                         "single_nested": {
-                            "computed_optional_required": "optional",
+                            "computed_optional_required": "computed_optional",
                             "attributes": [
                                 {
                                     "name": "apps",
@@ -6353,13 +6476,29 @@
                                     }
                                 }
                             ],
-                            "description": "app qos wlan settings"
+                            "description": "app qos wlan settings",
+                            "default": {
+                                "custom": {
+                                    "imports": [
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/attr"
+                                        },
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectdefault"
+                                        },
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/types"
+                                        }
+                                    ],
+                                    "schema_definition": "objectdefault.StaticValue(\n  types.ObjectValueMust(\n    AppQosValue{}.AttributeTypes(ctx),\n    map[string]attr.Value{\n      \"apps\": types.MapNull(AppsValue{}.Type(ctx)),\n      \"enabled\": types.BoolValue(false),\n      \"others\": types.ListNull(OthersValue{}.Type(ctx)),\n    },\n  ),\n)"
+                                }
+                            }
                         }
                     },
                     {
                         "name": "apply_to",
                         "string": {
-                            "computed_optional_required": "optional",
+                            "computed_optional_required": "computed_optional",
                             "description": "enum: `aps`, `site`, `wxtags`",
                             "validators": [
                                 {
@@ -6372,7 +6511,17 @@
                                         "schema_definition": "stringvalidator.OneOf(\n\"\",\n\"aps\",\n\"site\",\n\"wxtags\",\n)"
                                     }
                                 }
-                            ]
+                            ],
+                            "default": {
+                                "custom": {
+                                    "imports": [
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
+                                        }
+                                    ],
+                                    "schema_definition": "stringdefault.StaticString(\"site\")"
+                                }
+                            }
                         }
                     },
                     {
@@ -6393,10 +6542,7 @@
                                 {
                                     "name": "anticlog_threshold",
                                     "int64": {
-                                        "computed_optional_required": "computed_optional",
-                                        "default": {
-                                            "static": 16
-                                        },
+                                        "computed_optional_required": "optional",
                                         "description": "SAE anti-clogging token threshold",
                                         "validators": [
                                             {
@@ -6525,10 +6671,7 @@
                                 {
                                     "name": "owe",
                                     "string": {
-                                        "computed_optional_required": "computed_optional",
-                                        "default": {
-                                            "static": "disabled"
-                                        },
+                                        "computed_optional_required": "optional",
                                         "description": "if `type`==`open`. enum: `disabled`, `enabled` (means transition mode), `required`",
                                         "validators": [
                                             {
@@ -6636,10 +6779,7 @@
                                 {
                                     "name": "wep_as_secondary_auth",
                                     "bool": {
-                                        "computed_optional_required": "computed_optional",
-                                        "default": {
-                                            "static": false
-                                        },
+                                        "computed_optional_required": "optional",
                                         "description": "enable WEP as secondary auth"
                                     }
                                 }
@@ -6762,6 +6902,22 @@
                                 ]
                             },
                             "description": "list of RADIUS authentication servers, at least one is needed if `auth type`==`eap`, order matters where the first one is treated as primary",
+                            "default": {
+                                "custom": {
+                                    "imports": [
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/attr"
+                                        },
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault"
+                                        },
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/types"
+                                        }
+                                    ],
+                                    "schema_definition": "listdefault.StaticValue(types.ListValueMust(AuthServersValue{}.Type(ctx), []attr.Value{}))"
+                                }
+                            },
                             "validators": [
                                 {
                                     "custom": {
@@ -6779,15 +6935,35 @@
                     {
                         "name": "auth_servers_nas_id",
                         "string": {
-                            "computed_optional_required": "optional",
-                            "description": "optional, up to 48 bytes, will be dynamically generated if not provided. used only for authentication servers"
+                            "computed_optional_required": "computed_optional",
+                            "description": "optional, up to 48 bytes, will be dynamically generated if not provided. used only for authentication servers",
+                            "default": {
+                                "custom": {
+                                    "imports": [
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
+                                        }
+                                    ],
+                                    "schema_definition": "stringdefault.StaticString(\"\")"
+                                }
+                            }
                         }
                     },
                     {
                         "name": "auth_servers_nas_ip",
                         "string": {
-                            "computed_optional_required": "optional",
-                            "description": "optional, NAS-IP-ADDRESS to use"
+                            "computed_optional_required": "computed_optional",
+                            "description": "optional, NAS-IP-ADDRESS to use",
+                            "default": {
+                                "custom": {
+                                    "imports": [
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
+                                        }
+                                    ],
+                                    "schema_definition": "stringdefault.StaticString(\"\")"
+                                }
+                            }
                         }
                     },
                     {
@@ -6871,7 +7047,7 @@
                     {
                         "name": "bonjour",
                         "single_nested": {
-                            "computed_optional_required": "optional",
+                            "computed_optional_required": "computed_optional",
                             "attributes": [
                                 {
                                     "name": "additional_vlan_ids",
@@ -6974,13 +7150,29 @@
                                     }
                                 }
                             ],
-                            "description": "bonjour gateway wlan settings"
+                            "description": "bonjour gateway wlan settings",
+                            "default": {
+                                "custom": {
+                                    "imports": [
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/attr"
+                                        },
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectdefault"
+                                        },
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/types"
+                                        }
+                                    ],
+                                    "schema_definition": "objectdefault.StaticValue(\n  types.ObjectValueMust(\n    BonjourValue{}.AttributeTypes(ctx),\n    map[string]attr.Value{\n      \"additional_vlan_ids\": types.ListValueMust(types.StringType, []attr.Value{}),\n      \"enabled\": types.BoolNull(),\n      \"services\": types.MapNull(ServicesValue{}.Type(ctx)),\n    },\n  ),\n)  "
+                                }
+                            }
                         }
                     },
                     {
                         "name": "cisco_cwa",
                         "single_nested": {
-                            "computed_optional_required": "optional",
+                            "computed_optional_required": "computed_optional",
                             "attributes": [
                                 {
                                     "name": "allowed_hostnames",
@@ -7058,14 +7250,46 @@
                                     }
                                 }
                             ],
-                            "description": "Cisco CWA (central web authentication) required RADIUS with COA in order to work. See CWA: https://www.cisco.com/c/en/us/support/docs/security/identity-services-engine/115732-central-web-auth-00.html"
+                            "description": "Cisco CWA (central web authentication) required RADIUS with COA in order to work. See CWA: https://www.cisco.com/c/en/us/support/docs/security/identity-services-engine/115732-central-web-auth-00.html",
+                            "default": {
+                                "custom": {
+                                    "imports": [
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/attr"
+                                        },
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectdefault"
+                                        },
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/types"
+                                        }
+                                    ],
+                                    "schema_definition": "objectdefault.StaticValue(\n  types.ObjectValueMust(\n    CiscoCwaValue{}.AttributeTypes(ctx),\n    map[string]attr.Value{\n      \"allowed_hostnames\": types.ListValueMust(types.StringType, []attr.Value{}),\n      \"allowed_subnets\": types.ListValueMust(types.StringType, []attr.Value{}),\n      \"blocked_subnets\": types.ListValueMust(types.StringType, []attr.Value{}),\n      \"enabled\": types.BoolValue(false),\n    },\n  ),\n)          "
+                                }
+                            }
                         }
                     },
                     {
                         "name": "client_limit_down",
                         "int64": {
-                            "computed_optional_required": "optional",
+                            "computed_optional_required": "computed_optional",
                             "description": "kbps",
+                            "default": {
+                                "custom": {
+                                    "imports": [
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/attr"
+                                        },
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
+                                        },
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/types"
+                                        }
+                                    ],
+                                    "schema_definition": "int64default.StaticInt64(1000)"
+                                }
+                            },
                             "validators": [
                                 {
                                     "custom": {
@@ -7096,8 +7320,24 @@
                     {
                         "name": "client_limit_up",
                         "int64": {
-                            "computed_optional_required": "optional",
+                            "computed_optional_required": "computed_optional",
                             "description": "kbps",
+                            "default": {
+                                "custom": {
+                                    "imports": [
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/attr"
+                                        },
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
+                                        },
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/types"
+                                        }
+                                    ],
+                                    "schema_definition": "int64default.StaticInt64(512)"
+                                }
+                            },
                             "validators": [
                                 {
                                     "custom": {
@@ -7202,6 +7442,22 @@
                                 ]
                             },
                             "description": "list of COA (change of authorization) servers, optional",
+                            "default": {
+                                "custom": {
+                                    "imports": [
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/attr"
+                                        },
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault"
+                                        },
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/types"
+                                        }
+                                    ],
+                                    "schema_definition": "listdefault.StaticValue(types.ListValueMust(CoaServersValue{}.Type(ctx), []attr.Value{}))"
+                                }
+                            },
                             "validators": [
                                 {
                                     "custom": {
@@ -7267,6 +7523,19 @@
                         }
                     },
                     {
+                        "name": "disable_when_gateway_unreachable",
+                        "bool": {
+                            "computed_optional_required": "optional",
+                            "description": "when any of the following is true, this WLAN will be disabled\n   * cannot get IP\n   * cannot obtain default gateway\n   * cannot reach default gateway"
+                        }
+                    },
+                    {
+                        "name": "disable_when_mxtunnel_down",
+                        "bool": {
+                            "computed_optional_required": "optional"
+                        }
+                    },
+                    {
                         "name": "disable_wmm",
                         "bool": {
                             "computed_optional_required": "computed_optional",
@@ -7279,7 +7548,7 @@
                     {
                         "name": "dns_server_rewrite",
                         "single_nested": {
-                            "computed_optional_required": "optional",
+                            "computed_optional_required": "computed_optional",
                             "attributes": [
                                 {
                                     "name": "enabled",
@@ -7301,7 +7570,23 @@
                                     }
                                 }
                             ],
-                            "description": "for radius_group-based DNS server (rewrite DNS request depending on the Group RADIUS server returns)"
+                            "description": "for radius_group-based DNS server (rewrite DNS request depending on the Group RADIUS server returns)",
+                            "default": {
+                                "custom": {
+                                    "imports": [
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/attr"
+                                        },
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectdefault"
+                                        },
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/types"
+                                        }
+                                    ],
+                                    "schema_definition": "objectdefault.StaticValue(\n  types.ObjectValueMust(\n    DnsServerRewriteValue{}.AttributeTypes(ctx),\n    map[string]attr.Value{\n      \"enabled\": types.BoolValue(false),\n      \"radius_groups\": types.MapNull(types.StringType),\n    },\n  ),\n) "
+                                }
+                            }
                         }
                     },
                     {
@@ -7468,7 +7753,19 @@
                                         "default": {
                                             "static": false
                                         },
-                                        "description": "whether to enable dynamic vlan"
+                                        "description": "whether to enable dynamic vlan",
+                                        "validators": [
+                                            {
+                                                "custom": {
+                                                    "imports": [
+                                                        {
+                                                            "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                                        }
+                                                    ],
+                                                    "schema_definition": "mistvalidator.CannotBeTrueWhenValueIs(path.MatchRoot(\"vlan_enabled\"), types.BoolValue(true))"
+                                                }
+                                            }
+                                        ]
                                     }
                                 },
                                 {
@@ -7620,7 +7917,7 @@
                     {
                         "name": "hotspot20",
                         "single_nested": {
-                            "computed_optional_required": "optional",
+                            "computed_optional_required": "computed_optional",
                             "attributes": [
                                 {
                                     "name": "domain_name",
@@ -7686,7 +7983,23 @@
                                     }
                                 }
                             ],
-                            "description": "hostspot 2.0 wlan settings"
+                            "description": "hostspot 2.0 wlan settings",
+                            "default": {
+                                "custom": {
+                                    "imports": [
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/attr"
+                                        },
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectdefault"
+                                        },
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/types"
+                                        }
+                                    ],
+                                    "schema_definition": "objectdefault.StaticValue(\n  types.ObjectValueMust(\n    Hotspot20Value{}.AttributeTypes(ctx),\n    map[string]attr.Value{\n      \"domain_name\": types.ListValueMust(types.StringType, []attr.Value{}),\n      \"enabled\": types.BoolValue(false),\n      \"nai_realms\":types.ListValueMust(types.StringType, []attr.Value{}),\n      \"operators\":types.ListValueMust(types.StringType, []attr.Value{}),\n      \"rcoi\":types.ListValueMust(types.StringType, []attr.Value{}),\n      \"venue_name\": types.StringNull(),\n    },\n  ),\n)"
+                                }
+                            }
                         }
                     },
                     {
@@ -7870,7 +8183,7 @@
                     {
                         "name": "mist_nac",
                         "single_nested": {
-                            "computed_optional_required": "optional",
+                            "computed_optional_required": "computed_optional",
                             "attributes": [
                                 {
                                     "name": "enabled",
@@ -7882,7 +8195,23 @@
                                         "description": "when enabled:\n  * `auth_servers` is ignored\n  * `acct_servers` is ignored\n  * `auth_servers_*` are ignored\n  * `coa_servers` is ignored\n  * `radsec` is ignored\n  * `coa_enabled` is assumed'"
                                     }
                                 }
-                            ]
+                            ],
+                            "default": {
+                                "custom": {
+                                    "imports": [
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/attr"
+                                        },
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectdefault"
+                                        },
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/types"
+                                        }
+                                    ],
+                                    "schema_definition": "objectdefault.StaticValue(\n  types.ObjectValueMust(\n    MistNacValue{}.AttributeTypes(ctx),\n    map[string]attr.Value{\n      \"enabled\": types.BoolValue(false),\n    },\n  ),\n)"
+                                }
+                            }
                         }
                     },
                     {
@@ -8000,13 +8329,28 @@
                     {
                         "name": "org_id",
                         "string": {
-                            "computed_optional_required": "computed"
+                            "computed_optional_required": "computed",
+                            "plan_modifiers": [
+                                {
+                                    "custom": {
+                                        "imports": [
+                                            {
+                                                "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
+                                            },
+                                            {
+                                                "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+                                            }
+                                        ],
+                                        "schema_definition": "stringplanmodifier.UseStateForUnknown()"
+                                    }
+                                }
+                            ]
                         }
                     },
                     {
                         "name": "portal",
                         "single_nested": {
-                            "computed_optional_required": "optional",
+                            "computed_optional_required": "computed_optional",
                             "attributes": [
                                 {
                                     "name": "allow_wlan_id_roam",
@@ -8077,10 +8421,7 @@
                                 {
                                     "name": "amazon_expire",
                                     "float64": {
-                                        "computed_optional_required": "computed_optional",
-                                        "default": {
-                                            "static": 0
-                                        },
+                                        "computed_optional_required": "optional",
                                         "description": "interval for which guest remains authorized using amazon auth (in minutes), if not provided, uses expire`"
                                     }
                                 },
@@ -8139,10 +8480,7 @@
                                 {
                                     "name": "azure_expire",
                                     "float64": {
-                                        "computed_optional_required": "computed_optional",
-                                        "default": {
-                                            "static": 0
-                                        },
+                                        "computed_optional_required": "optional",
                                         "description": "interval for which guest remains authorized using azure auth (in minutes), if not provided, uses expire`"
                                     }
                                 },
@@ -8316,10 +8654,7 @@
                                 {
                                     "name": "facebook_expire",
                                     "float64": {
-                                        "computed_optional_required": "computed_optional",
-                                        "default": {
-                                            "static": 0
-                                        },
+                                        "computed_optional_required": "optional",
                                         "description": "interval for which guest remains authorized using facebook auth (in minutes), if not provided, uses expire`"
                                     }
                                 },
@@ -8402,10 +8737,7 @@
                                 {
                                     "name": "google_expire",
                                     "float64": {
-                                        "computed_optional_required": "computed_optional",
-                                        "default": {
-                                            "static": 0
-                                        },
+                                        "computed_optional_required": "optional",
                                         "description": "interval for which guest remains authorized using google auth (in minutes), if not provided, uses expire`"
                                     }
                                 },
@@ -8489,10 +8821,7 @@
                                 {
                                     "name": "microsoft_expire",
                                     "float64": {
-                                        "computed_optional_required": "computed_optional",
-                                        "default": {
-                                            "static": 0
-                                        },
+                                        "computed_optional_required": "optional",
                                         "description": "interval for which guest remains authorized using microsoft auth (in minutes), if not provided, uses expire`"
                                     }
                                 },
@@ -8509,10 +8838,7 @@
                                 {
                                     "name": "passphrase_expire",
                                     "float64": {
-                                        "computed_optional_required": "computed_optional",
-                                        "default": {
-                                            "static": 0
-                                        },
+                                        "computed_optional_required": "optional",
                                         "description": "interval for which guest remains authorized using passphrase auth (in minutes), if not provided, uses `expire`"
                                     }
                                 },
@@ -8609,10 +8935,7 @@
                                 {
                                     "name": "sms_expire",
                                     "float64": {
-                                        "computed_optional_required": "computed_optional",
-                                        "default": {
-                                            "static": 0
-                                        },
+                                        "computed_optional_required": "optional",
                                         "description": "interval for which guest remains authorized using sms auth (in minutes), if not provided, uses expire`"
                                     }
                                 },
@@ -8687,10 +9010,7 @@
                                 {
                                     "name": "sponsor_expire",
                                     "float64": {
-                                        "computed_optional_required": "computed_optional",
-                                        "default": {
-                                            "static": 0
-                                        },
+                                        "computed_optional_required": "optional",
                                         "description": "interval for which guest remains authorized using sponsor auth (in minutes), if not provided, uses expire`"
                                     }
                                 },
@@ -8879,7 +9199,23 @@
                                     }
                                 }
                             ],
-                            "description": "portal wlan settings"
+                            "description": "portal wlan settings",
+                            "default": {
+                                "custom": {
+                                    "imports": [
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/attr"
+                                        },
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectdefault"
+                                        },
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/types"
+                                        }
+                                    ],
+                                    "schema_definition": "objectdefault.StaticValue(\n  types.ObjectValueMust(\n    PortalValue{}.AttributeTypes(ctx),\n    map[string]attr.Value{\n      \"allow_wlan_id_roam\": types.BoolNull(),\n      \"amazon_client_id\": types.StringValue(\"\"),\n      \"amazon_client_secret\": types.StringValue(\"\"),\n      \"amazon_email_domains\": types.ListValueMust(types.StringType, []attr.Value{}),\n      \"amazon_enabled\": types.BoolValue(false),\n      \"amazon_expire\": types.Float64Null(),\n      \"auth\": types.StringValue(\"none\"),\n      \"azure_client_id\": types.StringValue(\"\"),\n      \"azure_client_secret\": types.StringValue(\"\"),\n      \"azure_enabled\": types.BoolValue(false),\n      \"azure_expire\": types.Float64Null(),\n      \"azure_tenant_id\": types.StringValue(\"\"),\n      \"broadnet_sid\": types.StringNull(),\n      \"broadnet_password\": types.StringNull(),\n      \"broadnet_user_id\": types.StringNull(),\n      \"bypass_when_cloud_down\": types.BoolValue(true),\n      \"clickatell_api_key\": types.StringNull(),\n      \"cross_site\": types.BoolNull(),\n      \"email_enabled\": types.BoolValue(false),\n      \"enabled\": types.BoolValue(false),\n      \"expire\": types.Float64Value(1440),\n      \"external_portal_url\": types.StringValue(\"\"),\n      \"facebook_client_id\": types.StringValue(\"\"),\n      \"facebook_client_secret\": types.StringValue(\"\"),\n      \"facebook_email_domains\": types.ListValueMust(types.StringType, []attr.Value{}),\n      \"facebook_enabled\": types.BoolValue(false),\n      \"facebook_expire\": types.Float64Null(),\n      \"forward\": types.BoolValue(false),\n      \"forward_url\": types.StringValue(\"\"),\n      \"google_client_id\": types.StringValue(\"\"),\n      \"google_client_secret\": types.StringValue(\"\"),\n      \"google_email_domains\": types.ListValueMust(types.StringType, []attr.Value{}),\n      \"google_enabled\": types.BoolValue(false),\n      \"google_expire\": types.Float64Null(),\n      \"gupshup_userid\": types.StringNull(),\n      \"gupshup_password\": types.StringNull(),\n      \"microsoft_client_id\": types.StringValue(\"\"),\n      \"microsoft_client_secret\": types.StringValue(\"\"),\n      \"microsoft_email_domains\": types.ListValueMust(types.StringType, []attr.Value{}),\n      \"microsoft_enabled\": types.BoolValue(false),\n      \"microsoft_expire\": types.Float64Null(),\n      \"passphrase_enabled\": types.BoolValue(false),\n      \"password\": types.StringValue(\"\"),\n      \"predefined_sponsors_enabled\": types.BoolValue(false),\n      \"predefined_sponsors_hide_email\": types.BoolValue(false),\n      \"privacy\": types.BoolValue(false),\n      \"sms_enabled\": types.BoolValue(false),\n      \"sms_expire\": types.Float64Null(),\n      \"sms_message_format\": types.StringValue(\"Code {{code}} expires in {{duration}} minutes.\"),\n      \"sms_provider\": types.StringValue(\"manual\"),\n      \"sponsor_auto_approve\": types.BoolNull(),\n      \"sponsor_email_domains\": types.ListValueMust(types.StringType, []attr.Value{}),\n      \"sponsor_enabled\": types.BoolValue(false),\n      \"sponsor_expire\": types.Float64Null(),\n      \"sponsor_link_validity_duration\": types.StringValue(\"60\"),\n      \"sponsor_notify_all\": types.BoolValue(true),\n      \"sponsor_status_notify\": types.BoolValue(false),\n      \"sponsors\": types.MapNull(types.StringType),\n      \"sso_default_role\": types.StringValue(\"\"),\n      \"sso_forced_role\": types.StringValue(\"\"),\n      \"sso_idp_cert\": types.StringValue(\"\"),\n      \"sso_idp_sign_algo\": types.StringValue(\"sha1\"),\n      \"sso_idp_sso_url\": types.StringValue(\"\"),\n      \"sso_issuer\": types.StringValue(\"\"),\n      \"sso_nameid_format\": types.StringValue(\"email\"),\n      \"passphrase_expire\": types.Float64Null(),\n      \"puzzel_username\": types.StringNull(),\n      \"puzzel_password\": types.StringNull(),\n      \"puzzel_service_id\": types.StringNull(),\n      \"telstra_client_id\": types.StringNull(),\n      \"telstra_client_secret\": types.StringNull(),\n      \"twilio_auth_token\": types.StringNull(),\n      \"twilio_phone_number\": types.StringNull(),\n      \"twilio_sid\": types.StringNull(),\n    },\n  ),\n)"
+                                }
+                            }
                         }
                     },
                     {
@@ -8968,7 +9304,22 @@
                         "name": "portal_api_secret",
                         "string": {
                             "computed_optional_required": "computed",
-                            "description": "api secret (auto-generated) that can be used to sign guest authorization requests"
+                            "description": "api secret (auto-generated) that can be used to sign guest authorization requests",
+                            "plan_modifiers": [
+                                {
+                                    "custom": {
+                                        "imports": [
+                                            {
+                                                "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
+                                            },
+                                            {
+                                                "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+                                            }
+                                        ],
+                                        "schema_definition": "stringplanmodifier.UseStateForUnknown()"
+                                    }
+                                }
+                            ]
                         }
                     },
                     {
@@ -9001,26 +9352,71 @@
                         "name": "portal_image",
                         "string": {
                             "computed_optional_required": "computed",
-                            "description": "Url of portal background image"
+                            "description": "Url of portal background image",
+                            "plan_modifiers": [
+                                {
+                                    "custom": {
+                                        "imports": [
+                                            {
+                                                "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
+                                            },
+                                            {
+                                                "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+                                            }
+                                        ],
+                                        "schema_definition": "stringplanmodifier.UseStateForUnknown()"
+                                    }
+                                }
+                            ]
                         }
                     },
                     {
                         "name": "portal_sso_url",
                         "string": {
-                            "computed_optional_required": "computed"
+                            "computed_optional_required": "computed",
+                            "plan_modifiers": [
+                                {
+                                    "custom": {
+                                        "imports": [
+                                            {
+                                                "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
+                                            },
+                                            {
+                                                "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+                                            }
+                                        ],
+                                        "schema_definition": "stringplanmodifier.UseStateForUnknown()"
+                                    }
+                                }
+                            ]
                         }
                     },
                     {
                         "name": "portal_template_url",
                         "string": {
                             "computed_optional_required": "computed",
-                            "description": "N.B portal_template will be forked out of wlan objects soon. To fetch portal_template, please query portal_template_url. To update portal_template, use Wlan Portal Template."
+                            "description": "N.B portal_template will be forked out of wlan objects soon. To fetch portal_template, please query portal_template_url. To update portal_template, use Wlan Portal Template.",
+                            "plan_modifiers": [
+                                {
+                                    "custom": {
+                                        "imports": [
+                                            {
+                                                "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
+                                            },
+                                            {
+                                                "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+                                            }
+                                        ],
+                                        "schema_definition": "stringplanmodifier.UseStateForUnknown()"
+                                    }
+                                }
+                            ]
                         }
                     },
                     {
                         "name": "qos",
                         "single_nested": {
-                            "computed_optional_required": "optional",
+                            "computed_optional_required": "computed_optional",
                             "attributes": [
                                 {
                                     "name": "class",
@@ -9054,13 +9450,29 @@
                                         "description": "whether to overwrite QoS"
                                     }
                                 }
-                            ]
+                            ],
+                            "default": {
+                                "custom": {
+                                    "imports": [
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/attr"
+                                        },
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectdefault"
+                                        },
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/types"
+                                        }
+                                    ],
+                                    "schema_definition": "objectdefault.StaticValue(\n  types.ObjectValueMust(\n    QosValue{}.AttributeTypes(ctx),\n    map[string]attr.Value{\n      \"class\":     types.StringValue(\"best_effort\"),\n      \"overwrite\":         types.BoolValue(false),\n    },\n  ),\n)"
+                                }
+                            }
                         }
                     },
                     {
                         "name": "radsec",
                         "single_nested": {
-                            "computed_optional_required": "optional",
+                            "computed_optional_required": "computed_optional",
                             "attributes": [
                                 {
                                     "name": "coa_enabled",
@@ -9214,163 +9626,160 @@
                                     }
                                 }
                             ],
-                            "description": "Radsec settings"
+                            "description": "Radsec settings",
+                            "default": {
+                                "custom": {
+                                    "imports": [
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/attr"
+                                        },
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectdefault"
+                                        },
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/types"
+                                        }
+                                    ],
+                                    "schema_definition": "objectdefault.StaticValue(\n  types.ObjectValueMust(\n    RadsecValue{}.AttributeTypes(ctx),\n    map[string]attr.Value{\n      \"coa_enabled\": types.BoolNull(),\n      \"enabled\": types.BoolValue(false),\n      \"idle_timeout\": types.Int64Null(),\n      \"mxcluster_ids\":   types.ListNull(types.StringType),\n      \"proxy_hosts\":   types.ListNull(types.StringType),\n      \"server_name\":   types.StringValue(\"\"),\n      \"servers\":   types.ListValueMust(ServersValue{}.Type(ctx), []attr.Value{}),\n      \"use_mxedge\": types.BoolNull(),\n      \"use_site_mxedge\": types.BoolNull(),\n    },\n  ),\n)"
+                                }
+                            }
                         }
                     },
                     {
                         "name": "rateset",
-                        "single_nested": {
-                            "computed_optional_required": "optional",
-                            "attributes": [
+                        "map_nested": {
+                            "validators": [
                                 {
-                                    "name": "band_24",
-                                    "single_nested": {
-                                        "computed_optional_required": "optional",
-                                        "attributes": [
+                                    "custom": {
+                                        "imports": [
                                             {
-                                                "name": "ht",
-                                                "string": {
-                                                    "computed_optional_required": "optional",
-                                                    "description": "if `template`==`custom`. MCS bitmasks for 4 streams (16-bit for each stream, MCS0 is least significant bit), e.g. 00ff 00f0 001f limits HT rates to MCS 0-7 for 1 stream, MCS 4-7 for 2 stream (i.e. MCS 12-15), MCS 1-5 for 3 stream (i.e. MCS 16-20)",
-                                                    "validators": [
-                                                        {
-                                                            "custom": {
-                                                                "imports": [
-                                                                    {
-                                                                        "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
-                                                                    },
-                                                                    {
-                                                                        "path": "github.com/hashicorp/terraform-plugin-framework/path"
-                                                                    }
-                                                                ],
-                                                                "schema_definition": "mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName(\"template\"), types.StringValue(\"custom\"))"
-                                                            }
-                                                        }
-                                                    ]
-                                                }
+                                                "path": "github.com/hashicorp/terraform-plugin-framework-validators/mapvalidator"
                                             },
                                             {
-                                                "name": "legacy",
-                                                "list": {
-                                                    "computed_optional_required": "optional",
-                                                    "element_type": {
-                                                        "string": {}
-                                                    },
-                                                    "description": "if `template`==`custom`. List of supported rates (IE=1) and extended supported rates (IE=50) for custom template, append \u2018b\u2019 at the end to indicate a rate being basic/mandatory. If `template`==`custom` is configured and legacy does not define at least one basic rate, it will use `no-legacy` default values"
-                                                }
-                                            },
-                                            {
-                                                "name": "min_rssi",
-                                                "int64": {
-                                                    "computed_optional_required": "optional",
-                                                    "description": "Minimum RSSI for client to connect, 0 means not enforcing"
-                                                }
-                                            },
-                                            {
-                                                "name": "template",
-                                                "string": {
-                                                    "computed_optional_required": "optional",
-                                                    "description": "Data Rates template to apply. enum: \n  * `no-legacy`: no 11b\n  * `compatible`: all, like before, default setting that Broadcom/Atheros used\n  * `legacy-only`: disable 802.11n and 802.11ac\n  * `high-density`: no 11b, no low rates\n  * `custom`: user defined",
-                                                    "validators": [
-                                                        {
-                                                            "custom": {
-                                                                "imports": [
-                                                                    {
-                                                                        "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
-                                                                    }
-                                                                ],
-                                                                "schema_definition": "stringvalidator.OneOf(\n\"\",\n\"compatible\",\n\"legacy-only\",\n\"custom\",\n\"no-legacy\",\n)"
-                                                            }
-                                                        }
-                                                    ]
-                                                }
-                                            },
-                                            {
-                                                "name": "vht",
-                                                "string": {
-                                                    "computed_optional_required": "optional",
-                                                    "description": "if `template`==`custom`. MCS bitmasks for 4 streams (16-bit for each stream, MCS0 is least significant bit), e.g. 03ff 01ff 00ff limits VHT rates to MCS 0-9 for 1 stream, MCS 0-8 for 2 streams, and MCS 0-7 for 3 streams.",
-                                                    "validators": [
-                                                        {
-                                                            "custom": {
-                                                                "imports": [
-                                                                    {
-                                                                        "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
-                                                                    },
-                                                                    {
-                                                                        "path": "github.com/hashicorp/terraform-plugin-framework/path"
-                                                                    }
-                                                                ],
-                                                                "schema_definition": "mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName(\"template\"), types.StringValue(\"custom\"))"
-                                                            }
-                                                        }
-                                                    ]
-                                                }
+                                                "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
                                             }
                                         ],
-                                        "description": "data rates wlan settings"
-                                    }
-                                },
-                                {
-                                    "name": "band_5",
-                                    "single_nested": {
-                                        "computed_optional_required": "optional",
-                                        "attributes": [
-                                            {
-                                                "name": "ht",
-                                                "string": {
-                                                    "computed_optional_required": "optional",
-                                                    "description": "if `template`==`custom`. MCS bitmasks for 4 streams (16-bit for each stream, MCS0 is least significant bit), e.g. 00ff 00f0 001f limits HT rates to MCS 0-7 for 1 stream, MCS 4-7 for 2 stream (i.e. MCS 12-15), MCS 1-5 for 3 stream (i.e. MCS 16-20)"
-                                                }
-                                            },
-                                            {
-                                                "name": "legacy",
-                                                "list": {
-                                                    "computed_optional_required": "optional",
-                                                    "element_type": {
-                                                        "string": {}
-                                                    },
-                                                    "description": "if `template`==`custom`. List of supported rates (IE=1) and extended supported rates (IE=50) for custom template, append \u2018b\u2019 at the end to indicate a rate being basic/mandatory. If `template`==`custom` is configured and legacy does not define at least one basic rate, it will use `no-legacy` default values"
-                                                }
-                                            },
-                                            {
-                                                "name": "min_rssi",
-                                                "int64": {
-                                                    "computed_optional_required": "optional",
-                                                    "description": "Minimum RSSI for client to connect, 0 means not enforcing"
-                                                }
-                                            },
-                                            {
-                                                "name": "template",
-                                                "string": {
-                                                    "computed_optional_required": "optional",
-                                                    "description": "Data Rates template to apply. enum: \n  * `no-legacy`: no 11b\n  * `compatible`: all, like before, default setting that Broadcom/Atheros used\n  * `legacy-only`: disable 802.11n and 802.11ac\n  * `high-density`: no 11b, no low rates\n  * `custom`: user defined",
-                                                    "validators": [
-                                                        {
-                                                            "custom": {
-                                                                "imports": [
-                                                                    {
-                                                                        "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
-                                                                    }
-                                                                ],
-                                                                "schema_definition": "stringvalidator.OneOf(\n\"\",\n\"compatible\",\n\"legacy-only\",\n\"custom\",\n\"no-legacy\",\n)"
-                                                            }
-                                                        }
-                                                    ]
-                                                }
-                                            },
-                                            {
-                                                "name": "vht",
-                                                "string": {
-                                                    "computed_optional_required": "optional",
-                                                    "description": "if `template`==`custom`. MCS bitmasks for 4 streams (16-bit for each stream, MCS0 is least significant bit), e.g. 03ff 01ff 00ff limits VHT rates to MCS 0-9 for 1 stream, MCS 0-8 for 2 streams, and MCS 0-7 for 3 streams."
-                                                }
-                                            }
-                                        ],
-                                        "description": "data rates wlan settings"
+                                        "schema_definition": "mapvalidator.SizeAtLeast(1),\nmapvalidator.KeysAre(\n  stringvalidator.OneOf(\"24\", \"5\", \"6\"),\n)"
                                     }
                                 }
-                            ]
+                            ],
+                            "computed_optional_required": "optional",
+                            "nested_object": {
+                                "attributes": [
+                                    {
+                                        "name": "ht",
+                                        "string": {
+                                            "computed_optional_required": "optional",
+                                            "description": "if `template`==`custom`. MCS bitmasks for 4 streams (16-bit for each stream, MCS0 is least significant bit), e.g. 00ff 00f0 001f limits HT rates to MCS 0-7 for 1 stream, MCS 4-7 for 2 stream (i.e. MCS 12-15), MCS 1-5 for 3 stream (i.e. MCS 16-20)",
+                                            "validators": [
+                                                {
+                                                    "custom": {
+                                                        "imports": [
+                                                            {
+                                                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                                            },
+                                                            {
+                                                                "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                                            }
+                                                        ],
+                                                        "schema_definition": "mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName(\"template\"), types.StringValue(\"custom\"))"
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "legacy",
+                                        "list": {
+                                            "computed_optional_required": "computed_optional",
+                                            "element_type": {
+                                                "string": {}
+                                            },
+                                            "description": "if `template`==`custom`. List of supported rates (IE=1) and extended supported rates (IE=50) for custom template, append \u2018b\u2019 at the end to indicate a rate being basic/mandatory. If `template`==`custom` is configured and legacy does not define at least one basic rate, it will use `no-legacy` default values. enum: `1`, `11`, `11b`, `12`, `12b`, `18`, `18b`, `1b`, `2`, `24`, `24b`, `2b`, `36`, `36b`, `48`, `48b`, `5.5`, `5.5b`, `54`, `54b`, `6`, `6b`, `9`, `9b`",
+                                            "validators": [
+                                                {
+                                                    "custom": {
+                                                        "imports": [
+                                                            {
+                                                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                                            },
+                                                            {
+                                                                "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                                            },
+                                                            {
+                                                                "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                                            }
+                                                        ],
+                                                        "schema_definition": "mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName(\"template\"), types.StringValue(\"custom\")),\nlistvalidator.ValueStringsAre(\n  stringvalidator.OneOf(\n    \"1\",\n    \"11\",\n    \"11b\",\n    \"12\",\n    \"12b\",\n    \"18\",\n    \"18b\",\n    \"1b\",\n    \"2\",\n    \"24\",\n    \"24b\",\n    \"2b\",\n    \"36\",\n    \"36b\",\n    \"48\",\n    \"48b\",\n    \"5.5\",\n    \"5.5b\",\n    \"54\",\n    \"54b\",\n    \"6\",\n    \"6b\",\n    \"9\",\n    \"9b\",\n  ),\n)"
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "min_rssi",
+                                        "int64": {
+                                            "computed_optional_required": "computed_optional",
+                                            "default": {
+                                                "static": 0
+                                            },
+                                            "description": "Minimum RSSI for client to connect, 0 means not enforcing"
+                                        }
+                                    },
+                                    {
+                                        "name": "template",
+                                        "string": {
+                                            "computed_optional_required": "computed_optional",
+                                            "default": {
+                                                "static": "compatible"
+                                            },
+                                            "description": "Data Rates template to apply. enum: \n  * `no-legacy`: no 11b\n  * `compatible`: all, like before, default setting that Broadcom/Atheros used\n  * `legacy-only`: disable 802.11n and 802.11ac\n  * `high-density`: no 11b, no low rates\n  * `custom`: user defined",
+                                            "validators": [
+                                                {
+                                                    "custom": {
+                                                        "imports": [
+                                                            {
+                                                                "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                                            }
+                                                        ],
+                                                        "schema_definition": "stringvalidator.OneOf(\n\"\",\n\"compatible\",\n\"legacy-only\",\n\"custom\",\n\"no-legacy\",\n\"high-density\",\n)"
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "vht",
+                                        "string": {
+                                            "computed_optional_required": "optional",
+                                            "description": "if `template`==`custom`. MCS bitmasks for 4 streams (16-bit for each stream, MCS0 is least significant bit), e.g. 03ff 01ff 00ff limits VHT rates to MCS 0-9 for 1 stream, MCS 0-8 for 2 streams, and MCS 0-7 for 3 streams.",
+                                            "validators": [
+                                                {
+                                                    "custom": {
+                                                        "imports": [
+                                                            {
+                                                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                                            },
+                                                            {
+                                                                "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                                            }
+                                                        ],
+                                                        "schema_definition": "mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName(\"template\"), types.StringValue(\"custom\"))"
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    }
+                                ]
+                            },
+                            "description": "Property key is the RF band. enum: `24`, `5`, `6`"
+                        }
+                    },
+                    {
+                        "name": "reconnect_clients_when_roaming_mxcluster",
+                        "bool": {
+                            "computed_optional_required": "optional",
+                            "description": "when different mxcluster is on different subnet, we'd want to disconnect clients (so they'll reconnect and get new IPs)"
                         }
                     },
                     {
@@ -9398,7 +9807,7 @@
                     {
                         "name": "schedule",
                         "single_nested": {
-                            "computed_optional_required": "optional",
+                            "computed_optional_required": "computed_optional",
                             "attributes": [
                                 {
                                     "name": "enabled",
@@ -9482,7 +9891,23 @@
                                     }
                                 }
                             ],
-                            "description": "WLAN operating schedule, default is disabled"
+                            "description": "WLAN operating schedule, default is disabled",
+                            "default": {
+                                "custom": {
+                                    "imports": [
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/attr"
+                                        },
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/objectdefault"
+                                        },
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/types"
+                                        }
+                                    ],
+                                    "schema_definition": "objectdefault.StaticValue(\n  types.ObjectValueMust(\n    ScheduleValue{}.AttributeTypes(ctx),\n    map[string]attr.Value{\n      \"enabled\": types.BoolValue(false),\n      \"hours\":   types.ObjectValueMust(HoursValue{}.AttributeTypes(ctx),map[string]attr.Value{\n          \"fri\": types.StringNull(),\n          \"mon\": types.StringNull(),\n          \"sat\": types.StringNull(),\n          \"sun\": types.StringNull(),\n          \"thu\": types.StringNull(),\n          \"tue\": types.StringNull(),\n          \"wed\": types.StringNull(),\n      }),\n    },\n  ),\n)"
+                                }
+                            }
                         }
                     },
                     {
@@ -9512,7 +9937,22 @@
                         "name": "thumbnail",
                         "string": {
                             "computed_optional_required": "computed",
-                            "description": "Url of portal background image thumbnail"
+                            "description": "Url of portal background image thumbnail",
+                            "plan_modifiers": [
+                                {
+                                    "custom": {
+                                        "imports": [
+                                            {
+                                                "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
+                                            },
+                                            {
+                                                "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+                                            }
+                                        ],
+                                        "schema_definition": "stringplanmodifier.UseStateForUnknown()"
+                                    }
+                                }
+                            ]
                         }
                     },
                     {
@@ -9550,7 +9990,7 @@
                                                 "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
                                             }
                                         ],
-                                        "schema_definition": "stringvalidator.Any(mistvalidator.ParseInt(1, 4094),mistvalidator.ParseVar(),)"
+                                        "schema_definition": "stringvalidator.Any(mistvalidator.ParseInt(1, 4094),mistvalidator.ParseVar()),\t\t\nmistvalidator.AllowedWhenValueIs(path.MatchRoot(\"vlan_enabled\"), types.BoolValue(true))"
                                     }
                                 }
                             ]
@@ -9564,6 +10004,22 @@
                                 "string": {}
                             },
                             "description": "vlan_ids to use when there\u2019s no match from RA",
+                            "default": {
+                                "custom": {
+                                    "imports": [
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/attr"
+                                        },
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault"
+                                        },
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/types"
+                                        }
+                                    ],
+                                    "schema_definition": "listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{}))"
+                                }
+                            },
                             "validators": [
                                 {
                                     "custom": {
@@ -9596,7 +10052,20 @@
                         "int64": {
                             "computed_optional_required": "computed_optional",
                             "default": {
-                                "static": 0
+                                "custom": {
+                                    "imports": [
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/attr"
+                                        },
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
+                                        },
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/types"
+                                        }
+                                    ],
+                                    "schema_definition": "int64default.StaticInt64(20000)"
+                                }
                             },
                             "description": "kbps",
                             "validators": [
@@ -9631,7 +10100,20 @@
                         "int64": {
                             "computed_optional_required": "computed_optional",
                             "default": {
-                                "static": 0
+                                "custom": {
+                                    "imports": [
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/attr"
+                                        },
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
+                                        },
+                                        {
+                                            "path": "github.com/hashicorp/terraform-plugin-framework/types"
+                                        }
+                                    ],
+                                    "schema_definition": "int64default.StaticInt64(10000)"
+                                }
                             },
                             "description": "kbps",
                             "validators": [

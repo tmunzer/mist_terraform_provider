@@ -1079,6 +1079,25 @@
 						}
 					},
 					{
+						"name": "disable_when_gateway_unreachable",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": false
+							},
+							"description": "when any of the following is true, this WLAN will be disabled\n   * cannot get IP\n   * cannot obtain default gateway\n   * cannot reach default gateway"
+						}
+					},
+					{
+						"name": "disable_when_mxtunnel_down",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": false
+							}
+						}
+					},
+					{
 						"name": "disable_wmm",
 						"bool": {
 							"computed_optional_required": "computed_optional",
@@ -2664,128 +2683,79 @@
 					},
 					{
 						"name": "rateset",
-						"single_nested": {
+						"map_nested": {
 							"computed_optional_required": "computed_optional",
-							"attributes": [
-								{
-									"name": "band_24",
-									"single_nested": {
-										"computed_optional_required": "computed_optional",
-										"attributes": [
-											{
-												"name": "ht",
-												"string": {
-													"computed_optional_required": "computed_optional",
-													"description": "if `template`==`custom`. MCS bitmasks for 4 streams (16-bit for each stream, MCS0 is least significant bit), e.g. 00ff 00f0 001f limits HT rates to MCS 0-7 for 1 stream, MCS 4-7 for 2 stream (i.e. MCS 12-15), MCS 1-5 for 3 stream (i.e. MCS 16-20)"
-												}
+							"nested_object": {
+								"attributes": [
+									{
+										"name": "ht",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"description": "if `template`==`custom`. MCS bitmasks for 4 streams (16-bit for each stream, MCS0 is least significant bit), e.g. 00ff 00f0 001f limits HT rates to MCS 0-7 for 1 stream, MCS 4-7 for 2 stream (i.e. MCS 12-15), MCS 1-5 for 3 stream (i.e. MCS 16-20)"
+										}
+									},
+									{
+										"name": "legacy",
+										"list": {
+											"computed_optional_required": "computed_optional",
+											"element_type": {
+												"string": {}
 											},
-											{
-												"name": "legacy",
-												"list": {
-													"computed_optional_required": "computed_optional",
-													"element_type": {
-														"string": {}
-													},
-													"description": "if `template`==`custom`. List of supported rates (IE=1) and extended supported rates (IE=50) for custom template, append ‘b’ at the end to indicate a rate being basic/mandatory. If `template`==`custom` is configured and legacy does not define at least one basic rate, it will use `no-legacy` default values"
-												}
+											"description": "if `template`==`custom`. List of supported rates (IE=1) and extended supported rates (IE=50) for custom template, append ‘b’ at the end to indicate a rate being basic/mandatory. If `template`==`custom` is configured and legacy does not define at least one basic rate, it will use `no-legacy` default values"
+										}
+									},
+									{
+										"name": "min_rssi",
+										"int64": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": 0
 											},
-											{
-												"name": "min_rssi",
-												"int64": {
-													"computed_optional_required": "computed_optional",
-													"description": "Minimum RSSI for client to connect, 0 means not enforcing"
-												}
+											"description": "Minimum RSSI for client to connect, 0 means not enforcing"
+										}
+									},
+									{
+										"name": "template",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": "compatible"
 											},
-											{
-												"name": "template",
-												"string": {
-													"computed_optional_required": "computed_optional",
-													"description": "Data Rates template to apply. enum: \n  * `no-legacy`: no 11b\n  * `compatible`: all, like before, default setting that Broadcom/Atheros used\n  * `legacy-only`: disable 802.11n and 802.11ac\n  * `high-density`: no 11b, no low rates\n  * `custom`: user defined",
-													"validators": [
-														{
-															"custom": {
-																"imports": [
-																	{
-																		"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
-																	}
-																],
-																"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"compatible\",\n\"legacy-only\",\n\"custom\",\n\"no-legacy\",\n)"
+											"description": "Data Rates template to apply. enum: \n  * `no-legacy`: no 11b\n  * `compatible`: all, like before, default setting that Broadcom/Atheros used\n  * `legacy-only`: disable 802.11n and 802.11ac\n  * `high-density`: no 11b, no low rates\n  * `custom`: user defined",
+											"validators": [
+												{
+													"custom": {
+														"imports": [
+															{
+																"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 															}
-														}
-													]
+														],
+														"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"compatible\",\n\"legacy-only\",\n\"custom\",\n\"no-legacy\",\n\"high-density\",\n)"
+													}
 												}
-											},
-											{
-												"name": "vht",
-												"string": {
-													"computed_optional_required": "computed_optional",
-													"description": "if `template`==`custom`. MCS bitmasks for 4 streams (16-bit for each stream, MCS0 is least significant bit), e.g. 03ff 01ff 00ff limits VHT rates to MCS 0-9 for 1 stream, MCS 0-8 for 2 streams, and MCS 0-7 for 3 streams."
-												}
-											}
-										],
-										"description": "data rates wlan settings"
+											]
+										}
+									},
+									{
+										"name": "vht",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"description": "if `template`==`custom`. MCS bitmasks for 4 streams (16-bit for each stream, MCS0 is least significant bit), e.g. 03ff 01ff 00ff limits VHT rates to MCS 0-9 for 1 stream, MCS 0-8 for 2 streams, and MCS 0-7 for 3 streams."
+										}
 									}
-								},
-								{
-									"name": "band_5",
-									"single_nested": {
-										"computed_optional_required": "computed_optional",
-										"attributes": [
-											{
-												"name": "ht",
-												"string": {
-													"computed_optional_required": "computed_optional",
-													"description": "if `template`==`custom`. MCS bitmasks for 4 streams (16-bit for each stream, MCS0 is least significant bit), e.g. 00ff 00f0 001f limits HT rates to MCS 0-7 for 1 stream, MCS 4-7 for 2 stream (i.e. MCS 12-15), MCS 1-5 for 3 stream (i.e. MCS 16-20)"
-												}
-											},
-											{
-												"name": "legacy",
-												"list": {
-													"computed_optional_required": "computed_optional",
-													"element_type": {
-														"string": {}
-													},
-													"description": "if `template`==`custom`. List of supported rates (IE=1) and extended supported rates (IE=50) for custom template, append ‘b’ at the end to indicate a rate being basic/mandatory. If `template`==`custom` is configured and legacy does not define at least one basic rate, it will use `no-legacy` default values"
-												}
-											},
-											{
-												"name": "min_rssi",
-												"int64": {
-													"computed_optional_required": "computed_optional",
-													"description": "Minimum RSSI for client to connect, 0 means not enforcing"
-												}
-											},
-											{
-												"name": "template",
-												"string": {
-													"computed_optional_required": "computed_optional",
-													"description": "Data Rates template to apply. enum: \n  * `no-legacy`: no 11b\n  * `compatible`: all, like before, default setting that Broadcom/Atheros used\n  * `legacy-only`: disable 802.11n and 802.11ac\n  * `high-density`: no 11b, no low rates\n  * `custom`: user defined",
-													"validators": [
-														{
-															"custom": {
-																"imports": [
-																	{
-																		"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
-																	}
-																],
-																"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"compatible\",\n\"legacy-only\",\n\"custom\",\n\"no-legacy\",\n)"
-															}
-														}
-													]
-												}
-											},
-											{
-												"name": "vht",
-												"string": {
-													"computed_optional_required": "computed_optional",
-													"description": "if `template`==`custom`. MCS bitmasks for 4 streams (16-bit for each stream, MCS0 is least significant bit), e.g. 03ff 01ff 00ff limits VHT rates to MCS 0-9 for 1 stream, MCS 0-8 for 2 streams, and MCS 0-7 for 3 streams."
-												}
-											}
-										],
-										"description": "data rates wlan settings"
-									}
-								}
-							]
+								]
+							},
+							"description": "Property key is the RF band. enum: `24`, `5`, `6`"
+						}
+					},
+					{
+						"name": "reconnect_clients_when_roaming_mxcluster",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": false
+							},
+							"description": "when different mxcluster is on different subnet, we'd want to disconnect clients (so they'll reconnect and get new IPs)"
 						}
 					},
 					{
@@ -5993,6 +5963,25 @@
 						}
 					},
 					{
+						"name": "disable_when_gateway_unreachable",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": false
+							},
+							"description": "when any of the following is true, this WLAN will be disabled\n   * cannot get IP\n   * cannot obtain default gateway\n   * cannot reach default gateway"
+						}
+					},
+					{
+						"name": "disable_when_mxtunnel_down",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": false
+							}
+						}
+					},
+					{
 						"name": "disable_wmm",
 						"bool": {
 							"computed_optional_required": "computed_optional",
@@ -7578,128 +7567,79 @@
 					},
 					{
 						"name": "rateset",
-						"single_nested": {
+						"map_nested": {
 							"computed_optional_required": "computed_optional",
-							"attributes": [
-								{
-									"name": "band_24",
-									"single_nested": {
-										"computed_optional_required": "computed_optional",
-										"attributes": [
-											{
-												"name": "ht",
-												"string": {
-													"computed_optional_required": "computed_optional",
-													"description": "if `template`==`custom`. MCS bitmasks for 4 streams (16-bit for each stream, MCS0 is least significant bit), e.g. 00ff 00f0 001f limits HT rates to MCS 0-7 for 1 stream, MCS 4-7 for 2 stream (i.e. MCS 12-15), MCS 1-5 for 3 stream (i.e. MCS 16-20)"
-												}
+							"nested_object": {
+								"attributes": [
+									{
+										"name": "ht",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"description": "if `template`==`custom`. MCS bitmasks for 4 streams (16-bit for each stream, MCS0 is least significant bit), e.g. 00ff 00f0 001f limits HT rates to MCS 0-7 for 1 stream, MCS 4-7 for 2 stream (i.e. MCS 12-15), MCS 1-5 for 3 stream (i.e. MCS 16-20)"
+										}
+									},
+									{
+										"name": "legacy",
+										"list": {
+											"computed_optional_required": "computed_optional",
+											"element_type": {
+												"string": {}
 											},
-											{
-												"name": "legacy",
-												"list": {
-													"computed_optional_required": "computed_optional",
-													"element_type": {
-														"string": {}
-													},
-													"description": "if `template`==`custom`. List of supported rates (IE=1) and extended supported rates (IE=50) for custom template, append ‘b’ at the end to indicate a rate being basic/mandatory. If `template`==`custom` is configured and legacy does not define at least one basic rate, it will use `no-legacy` default values"
-												}
+											"description": "if `template`==`custom`. List of supported rates (IE=1) and extended supported rates (IE=50) for custom template, append ‘b’ at the end to indicate a rate being basic/mandatory. If `template`==`custom` is configured and legacy does not define at least one basic rate, it will use `no-legacy` default values"
+										}
+									},
+									{
+										"name": "min_rssi",
+										"int64": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": 0
 											},
-											{
-												"name": "min_rssi",
-												"int64": {
-													"computed_optional_required": "computed_optional",
-													"description": "Minimum RSSI for client to connect, 0 means not enforcing"
-												}
+											"description": "Minimum RSSI for client to connect, 0 means not enforcing"
+										}
+									},
+									{
+										"name": "template",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": "compatible"
 											},
-											{
-												"name": "template",
-												"string": {
-													"computed_optional_required": "computed_optional",
-													"description": "Data Rates template to apply. enum: \n  * `no-legacy`: no 11b\n  * `compatible`: all, like before, default setting that Broadcom/Atheros used\n  * `legacy-only`: disable 802.11n and 802.11ac\n  * `high-density`: no 11b, no low rates\n  * `custom`: user defined",
-													"validators": [
-														{
-															"custom": {
-																"imports": [
-																	{
-																		"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
-																	}
-																],
-																"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"compatible\",\n\"legacy-only\",\n\"custom\",\n\"no-legacy\",\n)"
+											"description": "Data Rates template to apply. enum: \n  * `no-legacy`: no 11b\n  * `compatible`: all, like before, default setting that Broadcom/Atheros used\n  * `legacy-only`: disable 802.11n and 802.11ac\n  * `high-density`: no 11b, no low rates\n  * `custom`: user defined",
+											"validators": [
+												{
+													"custom": {
+														"imports": [
+															{
+																"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 															}
-														}
-													]
+														],
+														"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"compatible\",\n\"legacy-only\",\n\"custom\",\n\"no-legacy\",\n\"high-density\",\n)"
+													}
 												}
-											},
-											{
-												"name": "vht",
-												"string": {
-													"computed_optional_required": "computed_optional",
-													"description": "if `template`==`custom`. MCS bitmasks for 4 streams (16-bit for each stream, MCS0 is least significant bit), e.g. 03ff 01ff 00ff limits VHT rates to MCS 0-9 for 1 stream, MCS 0-8 for 2 streams, and MCS 0-7 for 3 streams."
-												}
-											}
-										],
-										"description": "data rates wlan settings"
+											]
+										}
+									},
+									{
+										"name": "vht",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"description": "if `template`==`custom`. MCS bitmasks for 4 streams (16-bit for each stream, MCS0 is least significant bit), e.g. 03ff 01ff 00ff limits VHT rates to MCS 0-9 for 1 stream, MCS 0-8 for 2 streams, and MCS 0-7 for 3 streams."
+										}
 									}
-								},
-								{
-									"name": "band_5",
-									"single_nested": {
-										"computed_optional_required": "computed_optional",
-										"attributes": [
-											{
-												"name": "ht",
-												"string": {
-													"computed_optional_required": "computed_optional",
-													"description": "if `template`==`custom`. MCS bitmasks for 4 streams (16-bit for each stream, MCS0 is least significant bit), e.g. 00ff 00f0 001f limits HT rates to MCS 0-7 for 1 stream, MCS 4-7 for 2 stream (i.e. MCS 12-15), MCS 1-5 for 3 stream (i.e. MCS 16-20)"
-												}
-											},
-											{
-												"name": "legacy",
-												"list": {
-													"computed_optional_required": "computed_optional",
-													"element_type": {
-														"string": {}
-													},
-													"description": "if `template`==`custom`. List of supported rates (IE=1) and extended supported rates (IE=50) for custom template, append ‘b’ at the end to indicate a rate being basic/mandatory. If `template`==`custom` is configured and legacy does not define at least one basic rate, it will use `no-legacy` default values"
-												}
-											},
-											{
-												"name": "min_rssi",
-												"int64": {
-													"computed_optional_required": "computed_optional",
-													"description": "Minimum RSSI for client to connect, 0 means not enforcing"
-												}
-											},
-											{
-												"name": "template",
-												"string": {
-													"computed_optional_required": "computed_optional",
-													"description": "Data Rates template to apply. enum: \n  * `no-legacy`: no 11b\n  * `compatible`: all, like before, default setting that Broadcom/Atheros used\n  * `legacy-only`: disable 802.11n and 802.11ac\n  * `high-density`: no 11b, no low rates\n  * `custom`: user defined",
-													"validators": [
-														{
-															"custom": {
-																"imports": [
-																	{
-																		"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
-																	}
-																],
-																"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"compatible\",\n\"legacy-only\",\n\"custom\",\n\"no-legacy\",\n)"
-															}
-														}
-													]
-												}
-											},
-											{
-												"name": "vht",
-												"string": {
-													"computed_optional_required": "computed_optional",
-													"description": "if `template`==`custom`. MCS bitmasks for 4 streams (16-bit for each stream, MCS0 is least significant bit), e.g. 03ff 01ff 00ff limits VHT rates to MCS 0-9 for 1 stream, MCS 0-8 for 2 streams, and MCS 0-7 for 3 streams."
-												}
-											}
-										],
-										"description": "data rates wlan settings"
-									}
-								}
-							]
+								]
+							},
+							"description": "Property key is the RF band. enum: `24`, `5`, `6`"
+						}
+					},
+					{
+						"name": "reconnect_clients_when_roaming_mxcluster",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": false
+							},
+							"description": "when different mxcluster is on different subnet, we'd want to disconnect clients (so they'll reconnect and get new IPs)"
 						}
 					},
 					{
