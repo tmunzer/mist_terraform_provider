@@ -1214,15 +1214,6 @@
 											}
 										]
 									}
-								},
-								{
-									"name": "vlan_ids",
-									"list": {
-										"computed_optional_required": "computed_optional",
-										"element_type": {
-											"string": {}
-										}
-									}
 								}
 							],
 							"description": "for dynamic PSK where we get per_user PSK from Radius. dynamic_psk allows PSK to be selected at runtime depending on context (wlan/site/user/...) thus following configurations are assumed (currently)\n  * PSK will come from RADIUS server\n  * AP sends client MAC as username ans password (i.e. `enable_mac_auth` is assumed)\n  * AP sends BSSID:SSID as Caller-Station-ID\n  * `auth_servers` is required\n  * PSK will come from cloud WLC if source is cloud_psks\n  * default_psk will be used if cloud WLC is not available\n  * `multi_psk_only` and `psk` is ignored\n  * `pairwise` can only be wpa2-ccmp (for now, wpa3 support on the roadmap)"
@@ -1250,7 +1241,7 @@
 										"default": {
 											"static": false
 										},
-										"description": "whether to enable dynamic vlan"
+										"description": "Requires `vlan_enabled`==`true` to be set to `true`. Whether to enable dynamic vlan"
 									}
 								},
 								{
@@ -1671,7 +1662,7 @@
 										"default": {
 											"static": false
 										},
-										"description": "whether to allow guest to connect to other Guest WLANs (with different `WLAN.ssid`) of same org without reauthentication (disable random_mac for seamless roaming)"
+										"description": "Optional if `amazon_enabled`==`true`. Whether to allow guest to connect to other Guest WLANs (with different `WLAN.ssid`) of same org without reauthentication (disable random_mac for seamless roaming)"
 									}
 								},
 								{
@@ -1681,7 +1672,7 @@
 										"default": {
 											"static": ""
 										},
-										"description": "amazon OAuth2 client id. This is optional. If not provided, it will use a default one."
+										"description": "Optional if `amazon_enabled`==`true`. Amazon OAuth2 client id. This is optional. If not provided, it will use a default one."
 									}
 								},
 								{
@@ -1691,7 +1682,7 @@
 										"default": {
 											"static": ""
 										},
-										"description": "amazon OAuth2 client secret. If amazon_client_id was provided, provide a correspoinding value. Else leave blank."
+										"description": "Optional if `amazon_enabled`==`true`. Amazon OAuth2 client secret. If amazon_client_id was provided, provide a correspoinding value. Else leave blank."
 									}
 								},
 								{
@@ -1701,7 +1692,7 @@
 										"element_type": {
 											"string": {}
 										},
-										"description": "Matches authenticated user email against provided domains. If null or [], all authenticated emails will be allowed."
+										"description": "Optional if `amazon_enabled`==`true`. Matches authenticated user email against provided domains. If null or [], all authenticated emails will be allowed."
 									}
 								},
 								{
@@ -1716,12 +1707,12 @@
 								},
 								{
 									"name": "amazon_expire",
-									"float64": {
+									"int64": {
 										"computed_optional_required": "computed_optional",
 										"default": {
 											"static": 0
 										},
-										"description": "interval for which guest remains authorized using amazon auth (in minutes), if not provided, uses expire`"
+										"description": "Optional if `amazon_enabled`==`true`. Interval for which guest remains authorized using amazon auth (in minutes), if not provided, uses expire`"
 									}
 								},
 								{
@@ -1731,7 +1722,7 @@
 										"default": {
 											"static": "none"
 										},
-										"description": "authentication scheme. enum: `external`, `none`, `sso`",
+										"description": "authentication scheme. enum: `amazon`, `azure`, `email`, `external`, `facebook`, `google`, `microsoft`, `multi`, `none`, `password`, `sponsor`, `sso`",
 										"validators": [
 											{
 												"custom": {
@@ -1740,7 +1731,7 @@
 															"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 														}
 													],
-													"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"external\",\n\"none\",\n\"sso\",\n)"
+													"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"amazon\",\n\"azure\",\n\"email\",\n\"external\",\n\"facebook\",\n\"google\",\n\"microsoft\",\n\"multi\",\n\"none\",\n\"password\",\n\"sponsor\",\n\"sso\",\n)"
 												}
 											}
 										]
@@ -1753,7 +1744,7 @@
 										"default": {
 											"static": ""
 										},
-										"description": "Required if `azure_enabled`==`true`.\nAzure active directory app client id"
+										"description": "Required if `azure_enabled`==`true`. Azure active directory app client id"
 									}
 								},
 								{
@@ -1763,7 +1754,7 @@
 										"default": {
 											"static": ""
 										},
-										"description": "Required if `azure_enabled`==`true`.\nAzure active directory app client secret"
+										"description": "Required if `azure_enabled`==`true`. Azure active directory app client secret"
 									}
 								},
 								{
@@ -1778,7 +1769,7 @@
 								},
 								{
 									"name": "azure_expire",
-									"float64": {
+									"int64": {
 										"computed_optional_required": "computed_optional",
 										"default": {
 											"static": 0
@@ -1793,7 +1784,7 @@
 										"default": {
 											"static": ""
 										},
-										"description": "Required if `azure_enabled`==`true`.\nAzure active directory tenant id."
+										"description": "Required if `azure_enabled`==`true`. Azure active directory tenant id."
 									}
 								},
 								{
@@ -1803,27 +1794,21 @@
 										"default": {
 											"static": ""
 										},
-										"description": "when `sms_provider`==`broadnet`"
+										"description": "Required if `sms_provider`==`broadnet`"
 									}
 								},
 								{
 									"name": "broadnet_sid",
 									"string": {
 										"computed_optional_required": "computed_optional",
-										"default": {
-											"static": "MIST"
-										},
-										"description": "when `sms_provider`==`broadnet`"
+										"description": "Required if `sms_provider`==`broadnet`"
 									}
 								},
 								{
 									"name": "broadnet_user_id",
 									"string": {
 										"computed_optional_required": "computed_optional",
-										"default": {
-											"static": ""
-										},
-										"description": "when `sms_provider`==`broadnet`"
+										"description": "Required if `sms_provider`==`broadnet`"
 									}
 								},
 								{
@@ -1840,10 +1825,7 @@
 									"name": "clickatell_api_key",
 									"string": {
 										"computed_optional_required": "computed_optional",
-										"default": {
-											"static": ""
-										},
-										"description": "when `sms_provider`==`clickatell`"
+										"description": "Required if `sms_provider`==`clickatell`"
 									}
 								},
 								{
@@ -1878,7 +1860,7 @@
 								},
 								{
 									"name": "expire",
-									"float64": {
+									"int64": {
 										"computed_optional_required": "computed_optional",
 										"default": {
 											"static": 1440
@@ -1893,7 +1875,7 @@
 										"default": {
 											"static": ""
 										},
-										"description": "external portal URL (e.g. https://host/url) where we can append our query parameters to"
+										"description": "Required if `wlan_portal_auth`==`external`. External portal URL (e.g. https://host/url) where we can append our query parameters to"
 									}
 								},
 								{
@@ -1903,7 +1885,7 @@
 										"default": {
 											"static": ""
 										},
-										"description": "Required if `facebook_enabled`==`true`.\nFacebook OAuth2 app id. This is optional. If not provided, it will use a default one."
+										"description": "Required if `facebook_enabled`==`true`. Facebook OAuth2 app id. This is optional. If not provided, it will use a default one."
 									}
 								},
 								{
@@ -1913,7 +1895,7 @@
 										"default": {
 											"static": ""
 										},
-										"description": "Required if `facebook_enabled`==`true`.\nFacebook OAuth2 app secret. If facebook_client_id was provided, provide a correspoinding value. Else leave blank."
+										"description": "Required if `facebook_enabled`==`true`. Facebook OAuth2 app secret. If facebook_client_id was provided, provide a correspoinding value. Else leave blank."
 									}
 								},
 								{
@@ -1923,7 +1905,7 @@
 										"element_type": {
 											"string": {}
 										},
-										"description": "Matches authenticated user email against provided domains. If null or [], all authenticated emails will be allowed."
+										"description": "Optional if `facebook_enabled`==`true`. Matches authenticated user email against provided domains. If null or [], all authenticated emails will be allowed."
 									}
 								},
 								{
@@ -1938,12 +1920,12 @@
 								},
 								{
 									"name": "facebook_expire",
-									"float64": {
+									"int64": {
 										"computed_optional_required": "computed_optional",
 										"default": {
 											"static": 0
 										},
-										"description": "interval for which guest remains authorized using facebook auth (in minutes), if not provided, uses expire`"
+										"description": "Optional if `facebook_enabled`==`true`. Interval for which guest remains authorized using facebook auth (in minutes), if not provided, uses expire`"
 									}
 								},
 								{
@@ -1983,7 +1965,7 @@
 										"default": {
 											"static": ""
 										},
-										"description": "Google OAuth2 app secret. If google_client_id was provided, provide a correspoinding value. Else leave blank."
+										"description": "Optional if `google_enabled`==`true`. Google OAuth2 app secret. If google_client_id was provided, provide a correspoinding value. Else leave blank."
 									}
 								},
 								{
@@ -1993,7 +1975,7 @@
 										"element_type": {
 											"string": {}
 										},
-										"description": "Matches authenticated user email against provided domains. If null or [], all authenticated emails will be allowed."
+										"description": "Optional if `google_enabled`==`true`. Matches authenticated user email against provided domains. If null or [], all authenticated emails will be allowed."
 									}
 								},
 								{
@@ -2008,32 +1990,26 @@
 								},
 								{
 									"name": "google_expire",
-									"float64": {
+									"int64": {
 										"computed_optional_required": "computed_optional",
 										"default": {
 											"static": 0
 										},
-										"description": "interval for which guest remains authorized using google auth (in minutes), if not provided, uses expire`"
+										"description": "Optional if `google_enabled`==`true`. Interval for which guest remains authorized using google auth (in minutes), if not provided, uses expire`"
 									}
 								},
 								{
 									"name": "gupshup_password",
 									"string": {
 										"computed_optional_required": "computed_optional",
-										"default": {
-											"static": ""
-										},
-										"description": "when `sms_provider`==`gupshup`"
+										"description": "Required if `sms_provider`==`gupshup`"
 									}
 								},
 								{
 									"name": "gupshup_userid",
 									"string": {
 										"computed_optional_required": "computed_optional",
-										"default": {
-											"static": ""
-										},
-										"description": "when `sms_provider`==`gupshup`"
+										"description": "Required if `sms_provider`==`gupshup`"
 									}
 								},
 								{
@@ -2043,7 +2019,7 @@
 										"default": {
 											"static": ""
 										},
-										"description": "microsoft 365 OAuth2 client id. This is optional. If not provided, it will use a default one."
+										"description": "Optional if `microsoft_enabled`==`true`. Microsoft 365 OAuth2 client id. This is optional. If not provided, it will use a default one."
 									}
 								},
 								{
@@ -2053,7 +2029,7 @@
 										"default": {
 											"static": ""
 										},
-										"description": "microsoft 365 OAuth2 client secret. If microsoft_client_id was provided, provide a correspoinding value. Else leave blank."
+										"description": "Optional if `microsoft_enabled`==`true`. Microsoft 365 OAuth2 client secret. If microsoft_client_id was provided, provide a correspoinding value. Else leave blank."
 									}
 								},
 								{
@@ -2063,7 +2039,7 @@
 										"element_type": {
 											"string": {}
 										},
-										"description": "Matches authenticated user email against provided domains. If null or [], all authenticated emails will be allowed."
+										"description": "Optional if `microsoft_enabled`==`true`. Matches authenticated user email against provided domains. If null or [], all authenticated emails will be allowed."
 									}
 								},
 								{
@@ -2078,12 +2054,12 @@
 								},
 								{
 									"name": "microsoft_expire",
-									"float64": {
+									"int64": {
 										"computed_optional_required": "computed_optional",
 										"default": {
 											"static": 0
 										},
-										"description": "interval for which guest remains authorized using microsoft auth (in minutes), if not provided, uses expire`"
+										"description": "Optional if `microsoft_enabled`==`true`. Interval for which guest remains authorized using microsoft auth (in minutes), if not provided, uses expire`"
 									}
 								},
 								{
@@ -2093,17 +2069,17 @@
 										"default": {
 											"static": false
 										},
-										"description": "whether password is enabled"
+										"description": "Whether password is enabled"
 									}
 								},
 								{
 									"name": "passphrase_expire",
-									"float64": {
+									"int64": {
 										"computed_optional_required": "computed_optional",
 										"default": {
 											"static": 0
 										},
-										"description": "interval for which guest remains authorized using passphrase auth (in minutes), if not provided, uses `expire`"
+										"description": "Optional if `passphrase_enabled`==`true`. Interval for which guest remains authorized using passphrase auth (in minutes), if not provided, uses `expire`"
 									}
 								},
 								{
@@ -2113,7 +2089,7 @@
 										"default": {
 											"static": ""
 										},
-										"description": "passphrase"
+										"description": "Required if `passphrase_enabled`==`true`."
 									}
 								},
 								{
@@ -2149,30 +2125,21 @@
 									"name": "puzzel_password",
 									"string": {
 										"computed_optional_required": "computed_optional",
-										"default": {
-											"static": ""
-										},
-										"description": "when `sms_provider`==`puzzel`"
+										"description": "Required if `sms_provider`==`puzzel`"
 									}
 								},
 								{
 									"name": "puzzel_service_id",
 									"string": {
 										"computed_optional_required": "computed_optional",
-										"default": {
-											"static": ""
-										},
-										"description": "when `sms_provider`==`puzzel`"
+										"description": "Required if `sms_provider`==`puzzel`"
 									}
 								},
 								{
 									"name": "puzzel_username",
 									"string": {
 										"computed_optional_required": "computed_optional",
-										"default": {
-											"static": ""
-										},
-										"description": "when `sms_provider`==`puzzel`"
+										"description": "Required if `sms_provider`==`puzzel`"
 									}
 								},
 								{
@@ -2181,7 +2148,8 @@
 										"computed_optional_required": "computed_optional",
 										"default": {
 											"static": "Code {{code}} expires in {{duration}} minutes."
-										}
+										},
+										"description": "Optional if `sms_enabled`==`true`. SMS Message format"
 									}
 								},
 								{
@@ -2196,12 +2164,12 @@
 								},
 								{
 									"name": "sms_expire",
-									"float64": {
+									"int64": {
 										"computed_optional_required": "computed_optional",
 										"default": {
 											"static": 0
 										},
-										"description": "interval for which guest remains authorized using sms auth (in minutes), if not provided, uses expire`"
+										"description": "Optional if `sms_enabled`==`true`. Interval for which guest remains authorized using sms auth (in minutes), if not provided, uses expire`"
 									}
 								},
 								{
@@ -2211,7 +2179,7 @@
 										"default": {
 											"static": "manual"
 										},
-										"description": "enum: `broadnet`, `clickatell`, `gupshup`, `manual`, `puzzel`, `telstra`, `twilio`",
+										"description": "Optioanl if `sms_enabled`==`true`. enum: `broadnet`, `clickatell`, `gupshup`, `manual`, `puzzel`, `telstra`, `twilio`",
 										"validators": [
 											{
 												"custom": {
@@ -2233,7 +2201,7 @@
 										"default": {
 											"static": false
 										},
-										"description": "whether to automatically approve guest and allow sponsor to revoke guest access, needs predefined_sponsors_enabled enabled and sponsor_notify_all disabled"
+										"description": "Optional if `sponsor_enabled`==`true`. Whether to automatically approve guest and allow sponsor to revoke guest access, needs predefined_sponsors_enabled enabled and sponsor_notify_all disabled"
 									}
 								},
 								{
@@ -2258,12 +2226,12 @@
 								},
 								{
 									"name": "sponsor_expire",
-									"float64": {
+									"int64": {
 										"computed_optional_required": "computed_optional",
 										"default": {
 											"static": 0
 										},
-										"description": "interval for which guest remains authorized using sponsor auth (in minutes), if not provided, uses expire`"
+										"description": "Optional if `sponsor_enabled`==`true`. Interval for which guest remains authorized using sponsor auth (in minutes), if not provided, uses expire`"
 									}
 								},
 								{
@@ -2273,7 +2241,7 @@
 										"default": {
 											"static": "60"
 										},
-										"description": "how long to remain valid sponsored guest request approve/deny link received in email, in minutes."
+										"description": "Optional if `sponsor_enabled`==`true`. How long to remain valid sponsored guest request approve/deny link received in email, in minutes."
 									}
 								},
 								{
@@ -2283,7 +2251,7 @@
 										"default": {
 											"static": false
 										},
-										"description": "whether to notify all sponsors that are mentioned in `sponsors` object. Both `sponsor_notify_all` and `predefined_sponsors_enabled` should be true in order to notify sponsors. If true, email sent to 10 sponsors in no particular order."
+										"description": "Optional if `sponsor_enabled`==`true`. whether to notify all sponsors that are mentioned in `sponsors` object. Both `sponsor_notify_all` and `predefined_sponsors_enabled` should be true in order to notify sponsors. If true, email sent to 10 sponsors in no particular order."
 									}
 								},
 								{
@@ -2293,7 +2261,7 @@
 										"default": {
 											"static": false
 										},
-										"description": "if enabled, guest will get email about sponsor's action (approve/deny)"
+										"description": "Optional if `sponsor_enabled`==`true`. If enabled, guest will get email about sponsor's action (approve/deny)"
 									}
 								},
 								{
@@ -2313,7 +2281,7 @@
 										"default": {
 											"static": ""
 										},
-										"description": "if `wlan_portal_auth`==`sso`, default role to assign if there’s no match. By default, an assertion is treated as invalid when there’s no role matched"
+										"description": "Optionl if `wlan_portal_auth`==`sso`, default role to assign if there’s no match. By default, an assertion is treated as invalid when there’s no role matched"
 									}
 								},
 								{
@@ -2323,7 +2291,7 @@
 										"default": {
 											"static": ""
 										},
-										"description": "if `wlan_portal_auth`==`sso`"
+										"description": "Optionl if `wlan_portal_auth`==`sso`"
 									}
 								},
 								{
@@ -2333,7 +2301,7 @@
 										"default": {
 											"static": ""
 										},
-										"description": "if `wlan_portal_auth`==`sso`, IDP Cert (used to verify the signed response)"
+										"description": "Required if `wlan_portal_auth`==`sso`. IDP Cert (used to verify the signed response)"
 									}
 								},
 								{
@@ -2343,7 +2311,7 @@
 										"default": {
 											"static": "sha1"
 										},
-										"description": "if `wlan_portal_auth`==`sso`, Signing algorithm for SAML Assertion. enum: `sha1`, `sha256`, `sha384`, `sha512`",
+										"description": "Optioanl if `wlan_portal_auth`==`sso`, Signing algorithm for SAML Assertion. enum: `sha1`, `sha256`, `sha384`, `sha512`",
 										"validators": [
 											{
 												"custom": {
@@ -2365,7 +2333,7 @@
 										"default": {
 											"static": ""
 										},
-										"description": "if `wlan_portal_auth`==`sso`, IDP Single-Sign-On URL"
+										"description": "Required if `wlan_portal_auth`==`sso`, IDP Single-Sign-On URL"
 									}
 								},
 								{
@@ -2375,7 +2343,7 @@
 										"default": {
 											"static": ""
 										},
-										"description": "if `wlan_portal_auth`==`sso`, IDP issuer URL"
+										"description": "Required if `wlan_portal_auth`==`sso`, IDP issuer URL"
 									}
 								},
 								{
@@ -2385,7 +2353,7 @@
 										"default": {
 											"static": "email"
 										},
-										"description": "if `wlan_portal_auth`==`sso`. enum: `email`, `unspecified`",
+										"description": "Optional if `wlan_portal_auth`==`sso`. enum: `email`, `unspecified`",
 										"validators": [
 											{
 												"custom": {
@@ -2404,50 +2372,35 @@
 									"name": "telstra_client_id",
 									"string": {
 										"computed_optional_required": "computed_optional",
-										"default": {
-											"static": ""
-										},
-										"description": "when `sms_provider`==`telstra`, Client ID provided by Telstra"
+										"description": "Required if `sms_provider`==`telstra`, Client ID provided by Telstra"
 									}
 								},
 								{
 									"name": "telstra_client_secret",
 									"string": {
 										"computed_optional_required": "computed_optional",
-										"default": {
-											"static": ""
-										},
-										"description": "when `sms_provider`==`telstra`, Client secret provided by Telstra"
+										"description": "Required if `sms_provider`==`telstra`, Client secret provided by Telstra"
 									}
 								},
 								{
 									"name": "twilio_auth_token",
 									"string": {
 										"computed_optional_required": "computed_optional",
-										"default": {
-											"static": ""
-										},
-										"description": "when `sms_provider`==`twilio`, Auth token account with twilio account"
+										"description": "Required if `sms_provider`==`twilio`, Auth token account with twilio account"
 									}
 								},
 								{
 									"name": "twilio_phone_number",
 									"string": {
 										"computed_optional_required": "computed_optional",
-										"default": {
-											"static": ""
-										},
-										"description": "when `sms_provider`==`twilio`, Twilio phone number associated with the account. See example for accepted format."
+										"description": "Required if `sms_provider`==`twilio`, Twilio phone number associated with the account. See example for accepted format."
 									}
 								},
 								{
 									"name": "twilio_sid",
 									"string": {
 										"computed_optional_required": "computed_optional",
-										"default": {
-											"static": ""
-										},
-										"description": "when `sms_provider`==`twilio`, Account SID provided by Twilio"
+										"description": "Required if `sms_provider`==`twilio`, Account SID provided by Twilio"
 									}
 								}
 							],
@@ -2508,16 +2461,6 @@
 						"name": "portal_sso_url",
 						"string": {
 							"computed_optional_required": "computed_optional"
-						}
-					},
-					{
-						"name": "portal_template_url",
-						"string": {
-							"computed_optional_required": "computed_optional",
-							"default": {
-								"static": ""
-							},
-							"description": "N.B portal_template will be forked out of wlan objects soon. To fetch portal_template, please query portal_template_url. To update portal_template, use Wlan Portal Template."
 						}
 					},
 					{
@@ -2897,16 +2840,6 @@
 						}
 					},
 					{
-						"name": "thumbnail",
-						"string": {
-							"computed_optional_required": "computed_optional",
-							"default": {
-								"static": ""
-							},
-							"description": "Url of portal background image thumbnail"
-						}
-					},
-					{
 						"name": "use_eapol_v1",
 						"bool": {
 							"computed_optional_required": "computed_optional",
@@ -2939,7 +2872,7 @@
 							"element_type": {
 								"string": {}
 							},
-							"description": "vlan_ids to use when there’s no match from RA"
+							"description": "if `vlan_enabled`==`true` and `vlan_pooling`==`true`. List of VLAN IDs (comma separeted) to be used in the VLAN Pool"
 						}
 					},
 					{
@@ -2949,7 +2882,7 @@
 							"default": {
 								"static": false
 							},
-							"description": "vlan pooling allows AP to place client on different VLAN using a deterministic algorithm"
+							"description": "Requires `vlan_enabled`==`true` to be set to `true`. Vlan pooling allows AP to place client on different VLAN using a deterministic algorithm"
 						}
 					},
 					{
@@ -6098,15 +6031,6 @@
 											}
 										]
 									}
-								},
-								{
-									"name": "vlan_ids",
-									"list": {
-										"computed_optional_required": "computed_optional",
-										"element_type": {
-											"string": {}
-										}
-									}
 								}
 							],
 							"description": "for dynamic PSK where we get per_user PSK from Radius. dynamic_psk allows PSK to be selected at runtime depending on context (wlan/site/user/...) thus following configurations are assumed (currently)\n  * PSK will come from RADIUS server\n  * AP sends client MAC as username ans password (i.e. `enable_mac_auth` is assumed)\n  * AP sends BSSID:SSID as Caller-Station-ID\n  * `auth_servers` is required\n  * PSK will come from cloud WLC if source is cloud_psks\n  * default_psk will be used if cloud WLC is not available\n  * `multi_psk_only` and `psk` is ignored\n  * `pairwise` can only be wpa2-ccmp (for now, wpa3 support on the roadmap)"
@@ -6134,7 +6058,7 @@
 										"default": {
 											"static": false
 										},
-										"description": "whether to enable dynamic vlan"
+										"description": "Requires `vlan_enabled`==`true` to be set to `true`. Whether to enable dynamic vlan"
 									}
 								},
 								{
@@ -6555,7 +6479,7 @@
 										"default": {
 											"static": false
 										},
-										"description": "whether to allow guest to connect to other Guest WLANs (with different `WLAN.ssid`) of same org without reauthentication (disable random_mac for seamless roaming)"
+										"description": "Optional if `amazon_enabled`==`true`. Whether to allow guest to connect to other Guest WLANs (with different `WLAN.ssid`) of same org without reauthentication (disable random_mac for seamless roaming)"
 									}
 								},
 								{
@@ -6565,7 +6489,7 @@
 										"default": {
 											"static": ""
 										},
-										"description": "amazon OAuth2 client id. This is optional. If not provided, it will use a default one."
+										"description": "Optional if `amazon_enabled`==`true`. Amazon OAuth2 client id. This is optional. If not provided, it will use a default one."
 									}
 								},
 								{
@@ -6575,7 +6499,7 @@
 										"default": {
 											"static": ""
 										},
-										"description": "amazon OAuth2 client secret. If amazon_client_id was provided, provide a correspoinding value. Else leave blank."
+										"description": "Optional if `amazon_enabled`==`true`. Amazon OAuth2 client secret. If amazon_client_id was provided, provide a correspoinding value. Else leave blank."
 									}
 								},
 								{
@@ -6585,7 +6509,7 @@
 										"element_type": {
 											"string": {}
 										},
-										"description": "Matches authenticated user email against provided domains. If null or [], all authenticated emails will be allowed."
+										"description": "Optional if `amazon_enabled`==`true`. Matches authenticated user email against provided domains. If null or [], all authenticated emails will be allowed."
 									}
 								},
 								{
@@ -6600,12 +6524,12 @@
 								},
 								{
 									"name": "amazon_expire",
-									"float64": {
+									"int64": {
 										"computed_optional_required": "computed_optional",
 										"default": {
 											"static": 0
 										},
-										"description": "interval for which guest remains authorized using amazon auth (in minutes), if not provided, uses expire`"
+										"description": "Optional if `amazon_enabled`==`true`. Interval for which guest remains authorized using amazon auth (in minutes), if not provided, uses expire`"
 									}
 								},
 								{
@@ -6615,7 +6539,7 @@
 										"default": {
 											"static": "none"
 										},
-										"description": "authentication scheme. enum: `external`, `none`, `sso`",
+										"description": "authentication scheme. enum: `amazon`, `azure`, `email`, `external`, `facebook`, `google`, `microsoft`, `multi`, `none`, `password`, `sponsor`, `sso`",
 										"validators": [
 											{
 												"custom": {
@@ -6624,7 +6548,7 @@
 															"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 														}
 													],
-													"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"external\",\n\"none\",\n\"sso\",\n)"
+													"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"amazon\",\n\"azure\",\n\"email\",\n\"external\",\n\"facebook\",\n\"google\",\n\"microsoft\",\n\"multi\",\n\"none\",\n\"password\",\n\"sponsor\",\n\"sso\",\n)"
 												}
 											}
 										]
@@ -6637,7 +6561,7 @@
 										"default": {
 											"static": ""
 										},
-										"description": "Required if `azure_enabled`==`true`.\nAzure active directory app client id"
+										"description": "Required if `azure_enabled`==`true`. Azure active directory app client id"
 									}
 								},
 								{
@@ -6647,7 +6571,7 @@
 										"default": {
 											"static": ""
 										},
-										"description": "Required if `azure_enabled`==`true`.\nAzure active directory app client secret"
+										"description": "Required if `azure_enabled`==`true`. Azure active directory app client secret"
 									}
 								},
 								{
@@ -6662,7 +6586,7 @@
 								},
 								{
 									"name": "azure_expire",
-									"float64": {
+									"int64": {
 										"computed_optional_required": "computed_optional",
 										"default": {
 											"static": 0
@@ -6677,7 +6601,7 @@
 										"default": {
 											"static": ""
 										},
-										"description": "Required if `azure_enabled`==`true`.\nAzure active directory tenant id."
+										"description": "Required if `azure_enabled`==`true`. Azure active directory tenant id."
 									}
 								},
 								{
@@ -6687,27 +6611,21 @@
 										"default": {
 											"static": ""
 										},
-										"description": "when `sms_provider`==`broadnet`"
+										"description": "Required if `sms_provider`==`broadnet`"
 									}
 								},
 								{
 									"name": "broadnet_sid",
 									"string": {
 										"computed_optional_required": "computed_optional",
-										"default": {
-											"static": "MIST"
-										},
-										"description": "when `sms_provider`==`broadnet`"
+										"description": "Required if `sms_provider`==`broadnet`"
 									}
 								},
 								{
 									"name": "broadnet_user_id",
 									"string": {
 										"computed_optional_required": "computed_optional",
-										"default": {
-											"static": ""
-										},
-										"description": "when `sms_provider`==`broadnet`"
+										"description": "Required if `sms_provider`==`broadnet`"
 									}
 								},
 								{
@@ -6724,10 +6642,7 @@
 									"name": "clickatell_api_key",
 									"string": {
 										"computed_optional_required": "computed_optional",
-										"default": {
-											"static": ""
-										},
-										"description": "when `sms_provider`==`clickatell`"
+										"description": "Required if `sms_provider`==`clickatell`"
 									}
 								},
 								{
@@ -6762,7 +6677,7 @@
 								},
 								{
 									"name": "expire",
-									"float64": {
+									"int64": {
 										"computed_optional_required": "computed_optional",
 										"default": {
 											"static": 1440
@@ -6777,7 +6692,7 @@
 										"default": {
 											"static": ""
 										},
-										"description": "external portal URL (e.g. https://host/url) where we can append our query parameters to"
+										"description": "Required if `wlan_portal_auth`==`external`. External portal URL (e.g. https://host/url) where we can append our query parameters to"
 									}
 								},
 								{
@@ -6787,7 +6702,7 @@
 										"default": {
 											"static": ""
 										},
-										"description": "Required if `facebook_enabled`==`true`.\nFacebook OAuth2 app id. This is optional. If not provided, it will use a default one."
+										"description": "Required if `facebook_enabled`==`true`. Facebook OAuth2 app id. This is optional. If not provided, it will use a default one."
 									}
 								},
 								{
@@ -6797,7 +6712,7 @@
 										"default": {
 											"static": ""
 										},
-										"description": "Required if `facebook_enabled`==`true`.\nFacebook OAuth2 app secret. If facebook_client_id was provided, provide a correspoinding value. Else leave blank."
+										"description": "Required if `facebook_enabled`==`true`. Facebook OAuth2 app secret. If facebook_client_id was provided, provide a correspoinding value. Else leave blank."
 									}
 								},
 								{
@@ -6807,7 +6722,7 @@
 										"element_type": {
 											"string": {}
 										},
-										"description": "Matches authenticated user email against provided domains. If null or [], all authenticated emails will be allowed."
+										"description": "Optional if `facebook_enabled`==`true`. Matches authenticated user email against provided domains. If null or [], all authenticated emails will be allowed."
 									}
 								},
 								{
@@ -6822,12 +6737,12 @@
 								},
 								{
 									"name": "facebook_expire",
-									"float64": {
+									"int64": {
 										"computed_optional_required": "computed_optional",
 										"default": {
 											"static": 0
 										},
-										"description": "interval for which guest remains authorized using facebook auth (in minutes), if not provided, uses expire`"
+										"description": "Optional if `facebook_enabled`==`true`. Interval for which guest remains authorized using facebook auth (in minutes), if not provided, uses expire`"
 									}
 								},
 								{
@@ -6867,7 +6782,7 @@
 										"default": {
 											"static": ""
 										},
-										"description": "Google OAuth2 app secret. If google_client_id was provided, provide a correspoinding value. Else leave blank."
+										"description": "Optional if `google_enabled`==`true`. Google OAuth2 app secret. If google_client_id was provided, provide a correspoinding value. Else leave blank."
 									}
 								},
 								{
@@ -6877,7 +6792,7 @@
 										"element_type": {
 											"string": {}
 										},
-										"description": "Matches authenticated user email against provided domains. If null or [], all authenticated emails will be allowed."
+										"description": "Optional if `google_enabled`==`true`. Matches authenticated user email against provided domains. If null or [], all authenticated emails will be allowed."
 									}
 								},
 								{
@@ -6892,32 +6807,26 @@
 								},
 								{
 									"name": "google_expire",
-									"float64": {
+									"int64": {
 										"computed_optional_required": "computed_optional",
 										"default": {
 											"static": 0
 										},
-										"description": "interval for which guest remains authorized using google auth (in minutes), if not provided, uses expire`"
+										"description": "Optional if `google_enabled`==`true`. Interval for which guest remains authorized using google auth (in minutes), if not provided, uses expire`"
 									}
 								},
 								{
 									"name": "gupshup_password",
 									"string": {
 										"computed_optional_required": "computed_optional",
-										"default": {
-											"static": ""
-										},
-										"description": "when `sms_provider`==`gupshup`"
+										"description": "Required if `sms_provider`==`gupshup`"
 									}
 								},
 								{
 									"name": "gupshup_userid",
 									"string": {
 										"computed_optional_required": "computed_optional",
-										"default": {
-											"static": ""
-										},
-										"description": "when `sms_provider`==`gupshup`"
+										"description": "Required if `sms_provider`==`gupshup`"
 									}
 								},
 								{
@@ -6927,7 +6836,7 @@
 										"default": {
 											"static": ""
 										},
-										"description": "microsoft 365 OAuth2 client id. This is optional. If not provided, it will use a default one."
+										"description": "Optional if `microsoft_enabled`==`true`. Microsoft 365 OAuth2 client id. This is optional. If not provided, it will use a default one."
 									}
 								},
 								{
@@ -6937,7 +6846,7 @@
 										"default": {
 											"static": ""
 										},
-										"description": "microsoft 365 OAuth2 client secret. If microsoft_client_id was provided, provide a correspoinding value. Else leave blank."
+										"description": "Optional if `microsoft_enabled`==`true`. Microsoft 365 OAuth2 client secret. If microsoft_client_id was provided, provide a correspoinding value. Else leave blank."
 									}
 								},
 								{
@@ -6947,7 +6856,7 @@
 										"element_type": {
 											"string": {}
 										},
-										"description": "Matches authenticated user email against provided domains. If null or [], all authenticated emails will be allowed."
+										"description": "Optional if `microsoft_enabled`==`true`. Matches authenticated user email against provided domains. If null or [], all authenticated emails will be allowed."
 									}
 								},
 								{
@@ -6962,12 +6871,12 @@
 								},
 								{
 									"name": "microsoft_expire",
-									"float64": {
+									"int64": {
 										"computed_optional_required": "computed_optional",
 										"default": {
 											"static": 0
 										},
-										"description": "interval for which guest remains authorized using microsoft auth (in minutes), if not provided, uses expire`"
+										"description": "Optional if `microsoft_enabled`==`true`. Interval for which guest remains authorized using microsoft auth (in minutes), if not provided, uses expire`"
 									}
 								},
 								{
@@ -6977,17 +6886,17 @@
 										"default": {
 											"static": false
 										},
-										"description": "whether password is enabled"
+										"description": "Whether password is enabled"
 									}
 								},
 								{
 									"name": "passphrase_expire",
-									"float64": {
+									"int64": {
 										"computed_optional_required": "computed_optional",
 										"default": {
 											"static": 0
 										},
-										"description": "interval for which guest remains authorized using passphrase auth (in minutes), if not provided, uses `expire`"
+										"description": "Optional if `passphrase_enabled`==`true`. Interval for which guest remains authorized using passphrase auth (in minutes), if not provided, uses `expire`"
 									}
 								},
 								{
@@ -6997,7 +6906,7 @@
 										"default": {
 											"static": ""
 										},
-										"description": "passphrase"
+										"description": "Required if `passphrase_enabled`==`true`."
 									}
 								},
 								{
@@ -7033,30 +6942,21 @@
 									"name": "puzzel_password",
 									"string": {
 										"computed_optional_required": "computed_optional",
-										"default": {
-											"static": ""
-										},
-										"description": "when `sms_provider`==`puzzel`"
+										"description": "Required if `sms_provider`==`puzzel`"
 									}
 								},
 								{
 									"name": "puzzel_service_id",
 									"string": {
 										"computed_optional_required": "computed_optional",
-										"default": {
-											"static": ""
-										},
-										"description": "when `sms_provider`==`puzzel`"
+										"description": "Required if `sms_provider`==`puzzel`"
 									}
 								},
 								{
 									"name": "puzzel_username",
 									"string": {
 										"computed_optional_required": "computed_optional",
-										"default": {
-											"static": ""
-										},
-										"description": "when `sms_provider`==`puzzel`"
+										"description": "Required if `sms_provider`==`puzzel`"
 									}
 								},
 								{
@@ -7065,7 +6965,8 @@
 										"computed_optional_required": "computed_optional",
 										"default": {
 											"static": "Code {{code}} expires in {{duration}} minutes."
-										}
+										},
+										"description": "Optional if `sms_enabled`==`true`. SMS Message format"
 									}
 								},
 								{
@@ -7080,12 +6981,12 @@
 								},
 								{
 									"name": "sms_expire",
-									"float64": {
+									"int64": {
 										"computed_optional_required": "computed_optional",
 										"default": {
 											"static": 0
 										},
-										"description": "interval for which guest remains authorized using sms auth (in minutes), if not provided, uses expire`"
+										"description": "Optional if `sms_enabled`==`true`. Interval for which guest remains authorized using sms auth (in minutes), if not provided, uses expire`"
 									}
 								},
 								{
@@ -7095,7 +6996,7 @@
 										"default": {
 											"static": "manual"
 										},
-										"description": "enum: `broadnet`, `clickatell`, `gupshup`, `manual`, `puzzel`, `telstra`, `twilio`",
+										"description": "Optioanl if `sms_enabled`==`true`. enum: `broadnet`, `clickatell`, `gupshup`, `manual`, `puzzel`, `telstra`, `twilio`",
 										"validators": [
 											{
 												"custom": {
@@ -7117,7 +7018,7 @@
 										"default": {
 											"static": false
 										},
-										"description": "whether to automatically approve guest and allow sponsor to revoke guest access, needs predefined_sponsors_enabled enabled and sponsor_notify_all disabled"
+										"description": "Optional if `sponsor_enabled`==`true`. Whether to automatically approve guest and allow sponsor to revoke guest access, needs predefined_sponsors_enabled enabled and sponsor_notify_all disabled"
 									}
 								},
 								{
@@ -7142,12 +7043,12 @@
 								},
 								{
 									"name": "sponsor_expire",
-									"float64": {
+									"int64": {
 										"computed_optional_required": "computed_optional",
 										"default": {
 											"static": 0
 										},
-										"description": "interval for which guest remains authorized using sponsor auth (in minutes), if not provided, uses expire`"
+										"description": "Optional if `sponsor_enabled`==`true`. Interval for which guest remains authorized using sponsor auth (in minutes), if not provided, uses expire`"
 									}
 								},
 								{
@@ -7157,7 +7058,7 @@
 										"default": {
 											"static": "60"
 										},
-										"description": "how long to remain valid sponsored guest request approve/deny link received in email, in minutes."
+										"description": "Optional if `sponsor_enabled`==`true`. How long to remain valid sponsored guest request approve/deny link received in email, in minutes."
 									}
 								},
 								{
@@ -7167,7 +7068,7 @@
 										"default": {
 											"static": false
 										},
-										"description": "whether to notify all sponsors that are mentioned in `sponsors` object. Both `sponsor_notify_all` and `predefined_sponsors_enabled` should be true in order to notify sponsors. If true, email sent to 10 sponsors in no particular order."
+										"description": "Optional if `sponsor_enabled`==`true`. whether to notify all sponsors that are mentioned in `sponsors` object. Both `sponsor_notify_all` and `predefined_sponsors_enabled` should be true in order to notify sponsors. If true, email sent to 10 sponsors in no particular order."
 									}
 								},
 								{
@@ -7177,7 +7078,7 @@
 										"default": {
 											"static": false
 										},
-										"description": "if enabled, guest will get email about sponsor's action (approve/deny)"
+										"description": "Optional if `sponsor_enabled`==`true`. If enabled, guest will get email about sponsor's action (approve/deny)"
 									}
 								},
 								{
@@ -7197,7 +7098,7 @@
 										"default": {
 											"static": ""
 										},
-										"description": "if `wlan_portal_auth`==`sso`, default role to assign if there’s no match. By default, an assertion is treated as invalid when there’s no role matched"
+										"description": "Optionl if `wlan_portal_auth`==`sso`, default role to assign if there’s no match. By default, an assertion is treated as invalid when there’s no role matched"
 									}
 								},
 								{
@@ -7207,7 +7108,7 @@
 										"default": {
 											"static": ""
 										},
-										"description": "if `wlan_portal_auth`==`sso`"
+										"description": "Optionl if `wlan_portal_auth`==`sso`"
 									}
 								},
 								{
@@ -7217,7 +7118,7 @@
 										"default": {
 											"static": ""
 										},
-										"description": "if `wlan_portal_auth`==`sso`, IDP Cert (used to verify the signed response)"
+										"description": "Required if `wlan_portal_auth`==`sso`. IDP Cert (used to verify the signed response)"
 									}
 								},
 								{
@@ -7227,7 +7128,7 @@
 										"default": {
 											"static": "sha1"
 										},
-										"description": "if `wlan_portal_auth`==`sso`, Signing algorithm for SAML Assertion. enum: `sha1`, `sha256`, `sha384`, `sha512`",
+										"description": "Optioanl if `wlan_portal_auth`==`sso`, Signing algorithm for SAML Assertion. enum: `sha1`, `sha256`, `sha384`, `sha512`",
 										"validators": [
 											{
 												"custom": {
@@ -7249,7 +7150,7 @@
 										"default": {
 											"static": ""
 										},
-										"description": "if `wlan_portal_auth`==`sso`, IDP Single-Sign-On URL"
+										"description": "Required if `wlan_portal_auth`==`sso`, IDP Single-Sign-On URL"
 									}
 								},
 								{
@@ -7259,7 +7160,7 @@
 										"default": {
 											"static": ""
 										},
-										"description": "if `wlan_portal_auth`==`sso`, IDP issuer URL"
+										"description": "Required if `wlan_portal_auth`==`sso`, IDP issuer URL"
 									}
 								},
 								{
@@ -7269,7 +7170,7 @@
 										"default": {
 											"static": "email"
 										},
-										"description": "if `wlan_portal_auth`==`sso`. enum: `email`, `unspecified`",
+										"description": "Optional if `wlan_portal_auth`==`sso`. enum: `email`, `unspecified`",
 										"validators": [
 											{
 												"custom": {
@@ -7288,50 +7189,35 @@
 									"name": "telstra_client_id",
 									"string": {
 										"computed_optional_required": "computed_optional",
-										"default": {
-											"static": ""
-										},
-										"description": "when `sms_provider`==`telstra`, Client ID provided by Telstra"
+										"description": "Required if `sms_provider`==`telstra`, Client ID provided by Telstra"
 									}
 								},
 								{
 									"name": "telstra_client_secret",
 									"string": {
 										"computed_optional_required": "computed_optional",
-										"default": {
-											"static": ""
-										},
-										"description": "when `sms_provider`==`telstra`, Client secret provided by Telstra"
+										"description": "Required if `sms_provider`==`telstra`, Client secret provided by Telstra"
 									}
 								},
 								{
 									"name": "twilio_auth_token",
 									"string": {
 										"computed_optional_required": "computed_optional",
-										"default": {
-											"static": ""
-										},
-										"description": "when `sms_provider`==`twilio`, Auth token account with twilio account"
+										"description": "Required if `sms_provider`==`twilio`, Auth token account with twilio account"
 									}
 								},
 								{
 									"name": "twilio_phone_number",
 									"string": {
 										"computed_optional_required": "computed_optional",
-										"default": {
-											"static": ""
-										},
-										"description": "when `sms_provider`==`twilio`, Twilio phone number associated with the account. See example for accepted format."
+										"description": "Required if `sms_provider`==`twilio`, Twilio phone number associated with the account. See example for accepted format."
 									}
 								},
 								{
 									"name": "twilio_sid",
 									"string": {
 										"computed_optional_required": "computed_optional",
-										"default": {
-											"static": ""
-										},
-										"description": "when `sms_provider`==`twilio`, Account SID provided by Twilio"
+										"description": "Required if `sms_provider`==`twilio`, Account SID provided by Twilio"
 									}
 								}
 							],
@@ -7392,16 +7278,6 @@
 						"name": "portal_sso_url",
 						"string": {
 							"computed_optional_required": "computed_optional"
-						}
-					},
-					{
-						"name": "portal_template_url",
-						"string": {
-							"computed_optional_required": "computed_optional",
-							"default": {
-								"static": ""
-							},
-							"description": "N.B portal_template will be forked out of wlan objects soon. To fetch portal_template, please query portal_template_url. To update portal_template, use Wlan Portal Template."
 						}
 					},
 					{
@@ -7778,16 +7654,6 @@
 						}
 					},
 					{
-						"name": "thumbnail",
-						"string": {
-							"computed_optional_required": "computed_optional",
-							"default": {
-								"static": ""
-							},
-							"description": "Url of portal background image thumbnail"
-						}
-					},
-					{
 						"name": "use_eapol_v1",
 						"bool": {
 							"computed_optional_required": "computed_optional",
@@ -7820,7 +7686,7 @@
 							"element_type": {
 								"string": {}
 							},
-							"description": "vlan_ids to use when there’s no match from RA"
+							"description": "if `vlan_enabled`==`true` and `vlan_pooling`==`true`. List of VLAN IDs (comma separeted) to be used in the VLAN Pool"
 						}
 					},
 					{
@@ -7830,7 +7696,7 @@
 							"default": {
 								"static": false
 							},
-							"description": "vlan pooling allows AP to place client on different VLAN using a deterministic algorithm"
+							"description": "Requires `vlan_enabled`==`true` to be set to `true`. Vlan pooling allows AP to place client on different VLAN using a deterministic algorithm"
 						}
 					},
 					{

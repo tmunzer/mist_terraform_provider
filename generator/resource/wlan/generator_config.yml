@@ -95,6 +95,8 @@ resources:
         - mxtunnel_id
         - band
         - dynamic_vlan.default_vlan_id
+        - portal_template_url
+        - thumbnail
       attributes:
         aliases:
           wlan_id: id      
@@ -120,6 +122,8 @@ resources:
         - mxtunnel_id
         - band
         - dynamic_vlan.default_vlan_id
+        - portal_template_url
+        - thumbnail
       attributes:
         aliases:
           wlan_id: id      

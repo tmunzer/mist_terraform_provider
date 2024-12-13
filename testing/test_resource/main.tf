@@ -60,7 +60,7 @@ resource "mist_org_setting" "terraform_test" {
       disabled = true
     }]
   }
-  ui_idle_timeout = 120
+  ui_idle_timeout = 0
 }
 
 resource "mist_org_alarmtemplate" "alarmtemplate_one" {
@@ -73,10 +73,10 @@ resource "mist_org_alarmtemplate" "alarmtemplate_one" {
   }
   rules = {
     dhcp_failure : {
-    enabled : true
-    delivery : {
-    enabled : true
-    }
+      enabled : true
+      delivery : {
+        enabled : true
+      }
     }
     health_check_failed : {
       enabled : true
@@ -600,39 +600,80 @@ resource "mist_org_rftemplate" "example" {
   country_code = "US"
 }
 resource "mist_site_wlan" "wlan_one" {
-  ssid    = "wlan_one"
+  ssid    = "McDonalds Free WiFi"
   site_id = mist_site.terraform_site.id
-  bands   = ["24","5"]
+  bands   = ["24", "5"]
+  auth = {
+    type = "open"
+  }
+  client_limit_down         = 5000
+  client_limit_up           = 5000
+  client_limit_down_enabled = true
+  client_limit_up_enabled   = true
+  isolation                 = true
+  l2_isolation              = true
+  portal = {
+    forward     = true
+    forward_url = "https://www.mcdonalds.com/us/en-us/wifi.html"
+  }
+  vlan_enabled            = true
+  vlan_id                 = 450
+  wlan_limit_down         = 100000
+  wlan_limit_down_enabled = true
+  wlan_limit_up           = 100000
+  wlan_limit_up_enabled   = true
+}
+
+resource "mist_site_wlan" "wlan_two" {
+  ssid    = "eBOS"
+  site_id = mist_site.terraform_site.id
+  auth = {
+    enable_mac_auth = true
+    key_idx         = 1
+    type            = "open"
+  }
+  bands = ["24", "5"]
+  mist_nac = {
+    enabled = true
+  }
+  vlan_enabled = true
+  vlan_id      = 451
+}
+
+resource "mist_site_wlan" "wlan_three" {
+  ssid    = "McD-HHOT"
+  site_id = mist_site.terraform_site.id
   auth = {
     type = "eap"
   }
-  auth_servers = [{
-    host   = "1.2.3.4"
-    secret = "secret"
-  }]
-  interface = "all"
-  dynamic_vlan = {
+  bands                   = ["24", "5"]
+  block_blacklist_clients = true
+  hide_ssid               = true
+  limit_bcast             = true
+  mist_nac = {
     enabled = true
-    type    = "standard"
-    vlans = {
-      460 = ""
-      492 = ""
-      494 = ""
-    }
-    default_vlan_ids = ["494"]
   }
-  max_num_clients = 50
-  rateset = {
-    "5" = {
-      template = "custom"
-      min_rssi = -70
-      legacy   = ["6", "9", "12", "18", "24b", "36", "48", "54"]
-    },
-    "24" = {
-      template = "high-density"
-      min_rssi = 0
-    }
+  vlan_enabled = true
+  vlan_id      = 420
+}
+
+resource "mist_site_wlan" "wlan_four" {
+  ssid    = "McD-IoT"
+  site_id = mist_site.terraform_site.id
+  auth = {
+    multi_psk_only = true
+    type           = "psk"
   }
+  bands                   = ["24", "5"]
+  block_blacklist_clients = true
+  isolation               = true
+  l2_isolation            = true
+  limit_bcast             = true
+  mist_nac = {
+    enabled = true
+  }
+  vlan_enabled = true
+  vlan_id      = 494
 }
 
 

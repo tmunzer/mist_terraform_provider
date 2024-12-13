@@ -3,11 +3,11 @@ info:
   contact:
     email: tmunzer@juniper.net
     name: Thomas Munzer
-  description: '> Version: **2412.1.0**
+  description: '> Version: **2412.1.7**
 
     >
 
-    > Date: **December 5, 2024**
+    > Date: **December 13, 2024**
 
 
     ---
@@ -43,7 +43,7 @@ info:
     name: MIT
     url: https://raw.githubusercontent.com/tmunzer/Mist-OAS3.0/main/LICENSE
   title: Mist API
-  version: 2412.1.0
+  version: 2412.1.7
 servers:
 - description: Mist Global 01
   url: https://api.mist.com
@@ -7881,6 +7881,7 @@ paths:
         name: eth0_port_speed
         schema:
           type: integer
+      - $ref: '#/components/parameters/device_type'
       - $ref: '#/components/parameters/limit'
       - $ref: '#/components/parameters/start'
       - $ref: '#/components/parameters/end'
@@ -14817,8 +14818,6 @@ paths:
                       default_vlan_id: 999
                       enabled: false
                       source: cloud_psks
-                      vlan_ids:
-                      - 1
                     dynamic_vlan:
                       default_vlan_id: 999
                       enabled: false
@@ -28441,7 +28440,7 @@ paths:
                         ge-0/0/0:
                           tcpdump_expression: udp
                         ge-0/0/1: {}
-                        ge-1/0/0: null
+                        ge-1/0/0: {}
                         ge-1/0/1: {}
                     '001122334466':
                       ports:
@@ -30892,7 +30891,7 @@ paths:
       required: true
       schema:
         type: string
-  /api/v1/sites/{site_id}/sle/{scope}/{scope_id}/metric/{metric}/impacted_users:
+  /api/v1/sites/{site_id}/sle/{scope}/{scope_id}/metric/{metric}/impacted-users:
     get:
       description: For Wireless SLEs. Get list of impacted wireless users optionally
         filtered by classifier and failure type
@@ -32698,6 +32697,51 @@ paths:
       - Sites Stats - Ports
     parameters:
     - $ref: '#/components/parameters/site_id'
+  /api/v1/sites/{site_id}/stats/rssizones:
+    get:
+      description: Get List of Site RSSI Zones Stats
+      operationId: listSiteRssiZonesStats
+      responses:
+        '200':
+          $ref: '#/components/responses/RssiZoneStatsArray'
+        '400':
+          $ref: '#/components/responses/HTTP400'
+        '401':
+          $ref: '#/components/responses/HTTP401'
+        '403':
+          $ref: '#/components/responses/HTTP403'
+        '404':
+          $ref: '#/components/responses/HTTP404'
+        '429':
+          $ref: '#/components/responses/HTTP429'
+      summary: listSiteRssiZonesStats
+      tags:
+      - Sites Stats - Zones
+    parameters:
+    - $ref: '#/components/parameters/site_id'
+  /api/v1/sites/{site_id}/stats/rssizones/{zone_id}:
+    get:
+      description: Get Detail RSSI Zone Stats
+      operationId: getSiteRssiZoneStats
+      responses:
+        '200':
+          $ref: '#/components/responses/ZoneStats'
+        '400':
+          $ref: '#/components/responses/HTTP400'
+        '401':
+          $ref: '#/components/responses/HTTP401'
+        '403':
+          $ref: '#/components/responses/HTTP403'
+        '404':
+          $ref: '#/components/responses/HTTP404'
+        '429':
+          $ref: '#/components/responses/HTTP429'
+      summary: getSiteRssiZoneStats
+      tags:
+      - Sites Stats - Zones
+    parameters:
+    - $ref: '#/components/parameters/site_id'
+    - $ref: '#/components/parameters/zone_id'
   /api/v1/sites/{site_id}/stats/sdkclients/{sdkclient_id}:
     get:
       description: Get Detail Stats of a SdkClient
@@ -32831,7 +32875,7 @@ paths:
       - Sites Stats - Zones
     parameters:
     - $ref: '#/components/parameters/site_id'
-  /api/v1/sites/{site_id}/stats/{zone_type}/{zone_id}:
+  /api/v1/sites/{site_id}/stats/zones/{zone_id}:
     get:
       description: Get Detail Zone Stats
       operationId: getSiteZoneStats
@@ -32853,7 +32897,6 @@ paths:
       - Sites Stats - Zones
     parameters:
     - $ref: '#/components/parameters/site_id'
-    - $ref: '#/components/parameters/zone_type'
     - $ref: '#/components/parameters/zone_id'
   /api/v1/sites/{site_id}/subscriptions:
     delete:
@@ -32897,25 +32940,6 @@ paths:
       tags:
       - Sites Alarms
   /api/v1/sites/{site_id}/synthetic_test:
-    get:
-      description: Get Synthetic Testing Status
-      operationId: getSiteSyntheticTestStatus
-      responses:
-        '200':
-          $ref: '#/components/responses/SynthetictestStatus'
-        '400':
-          $ref: '#/components/responses/HTTP400'
-        '401':
-          $ref: '#/components/responses/HTTP401'
-        '403':
-          $ref: '#/components/responses/HTTP403'
-        '404':
-          $ref: '#/components/responses/HTTP404'
-        '429':
-          $ref: '#/components/responses/HTTP429'
-      summary: getSiteSyntheticTestStatus
-      tags:
-      - Sites Synthetic Tests
     parameters:
     - $ref: '#/components/parameters/site_id'
     post:
@@ -34344,8 +34368,6 @@ paths:
                     default_vlan_id: 999
                     enabled: false
                     source: cloud_psks
-                    vlan_ids:
-                    - 1
                   dynamic_vlan:
                     default_vlan_id: 999
                     enabled: false
@@ -34610,8 +34632,6 @@ paths:
                     default_vlan_id: 999
                     enabled: false
                     source: cloud_psks
-                    vlan_ids:
-                    - 1
                   dynamic_vlan:
                     default_vlan_id: 999
                     enabled: false
@@ -36038,6 +36058,12 @@ components:
         example: 0000000000ab
         pattern: ^[0-9a-fA-F]{12}$
         type: string
+    device_type:
+      description: 'Type of device. enum: `ap`, `gateway`, `switch`'
+      in: query
+      name: type
+      schema:
+        $ref: '#/components/schemas/device_type'
     deviceprofile_id:
       in: path
       name: deviceprofile_id
@@ -40101,7 +40127,7 @@ components:
                 ext_ip: 69.196.157.189
                 fwupdate:
                   progress: 100
-                  status: success
+                  status: upgraded
                   status_id: 3037
                   timestamp: 1718392692.580769
                   will_retry: false
@@ -40286,7 +40312,7 @@ components:
                 fw_versions_outofsync: false
                 fwupdate:
                   progress: 100
-                  status: success
+                  status: upgraded
                   status_id: 3037
                   timestamp: 1712409702.9714448
                   will_retry: false
@@ -40774,7 +40800,7 @@ components:
                   ibeacon_major: 13
                   ibeacon_minor: 138
                   ibeacon_uuid: f3f17139-704a-f03a-2786-0400279e37c3
-                  power: 10
+                  power: 7
                   power_mode: custom
                 created_time: 0
                 disable_eth1: false
@@ -41226,7 +41252,7 @@ components:
                 ext_ip: 69.196.157.189
                 fwupdate:
                   progress: 100
-                  status: success
+                  status: upgraded
                   status_id: 3037
                   timestamp: 1718392692.580769
                   will_retry: false
@@ -41413,7 +41439,7 @@ components:
                 fw_versions_outofsync: false
                 fwupdate:
                   progress: 100
-                  status: success
+                  status: upgraded
                   status_id: 3037
                   timestamp: 1712409702.9714448
                   will_retry: false
@@ -41907,7 +41933,7 @@ components:
                 ext_ip: 69.196.157.189
                 fwupdate:
                   progress: 100
-                  status: success
+                  status: upgraded
                   status_id: 3037
                   timestamp: 1718392692.580769
                   will_retry: false
@@ -42131,7 +42157,7 @@ components:
       content:
         application/json:
           examples:
-            example-1:
+            ap:
               value:
                 end: 0
                 limit: 0
@@ -42160,11 +42186,83 @@ components:
                   mxedge_id: 00000000-0000-0000-1000-43a81f238391
                   mxtunnel_status: down
                   org_id: 6748cfa6-4e12-11e6-9188-0242ac110007
+                  power_constrained: false
+                  power_opmode: ''
                   site_id: a8178443-ecb5-461c-b854-f16627619ab3
                   sku: AP41-US
                   timestamp: 1596588619.007
+                  type: ap
                   uptime: 85280
                   version: 0.7.20216
+                  wlans:
+                  - id: 28c36fc7-dc22-4960-9d81-34087511c2e5
+                    ssid: Live-Demo-NAC
+                  - id: 51b82e2b-f9e8-470b-a32a-cecde5501b0f
+                    ssid: Live-Demo
+                start: 0
+                total: 0
+            gateway:
+              value:
+                end: 0
+                limit: 0
+                next: string
+                results:
+                - clustered: true
+                  evpn_missing_links: false
+                  evpntopo_id: ''
+                  ext_ip: 250.242.0.102
+                  hostname:
+                  - wan-teleworker
+                  - 00ec77599d00
+                  - router
+                  ip: 250.242.0.102
+                  last_hostname: wan-teleworker
+                  mac: 00ec77599d00
+                  managed: true
+                  model: SSR120
+                  node: node1
+                  node0_mac: 00ec77599d00
+                  node1_mac: 00ec77599d01
+                  num_members: 0
+                  org_id: 6748cfa6-4e12-11e6-9188-0242ac110007
+                  role: ''
+                  site_id: a8178443-ecb5-461c-b854-f16627619ab3
+                  t128agent_version: 3.8.0-201
+                  time_drifted: false
+                  timestamp: 1734001399.025
+                  type: gateway
+                  uptime: 3586951
+                  version: 6.2.5-5.r2
+                start: 0
+                total: 0
+            switch:
+              value:
+                end: 0
+                limit: 0
+                next: string
+                results:
+                - clustered: false
+                  evpn_missing_links: false
+                  evpntopo_id: ''
+                  ext_ip: 0.0.0.0
+                  hostname:
+                  - ld-cup-idf-bbb
+                  ip: 10.0.0.217
+                  last_hostname: ld-cup-idf-bbb
+                  last_trouble_code: '106'
+                  last_trouble_timestamp: 1719540
+                  mac: 00c78d939c00
+                  managed: true
+                  model: EX4100-48MP
+                  num_members: 1
+                  org_id: 6748cfa6-4e12-11e6-9188-0242ac110007
+                  role: ''
+                  site_id: a8178443-ecb5-461c-b854-f16627619ab3
+                  time_drifted: false
+                  timestamp: 1733998766.256
+                  type: switch
+                  uptime: 19287811
+                  version: 22.4R3.25
                 start: 0
                 total: 0
           schema:
@@ -45845,9 +45943,9 @@ components:
                 - num_clients: 6
                   num_switches: 1
                   site_id: f5fcbee5-1234-5678-9101-1619ede87879
-                  switch_health: 1
-                  switch_stc: 1
-                  switch_throughput: 0.9669529756744796
+                  switch-bandwidth: 0.9669529756744796
+                  switch-health: 1
+                  switch-throughput: 1
                 start: 1651269600
                 total: 4
           schema:
@@ -46695,6 +46793,55 @@ components:
           schema:
             $ref: '#/components/schemas/response_rrm_neighbors'
       description: OK
+    RssiZoneStatsArray:
+      content:
+        application/json:
+          examples:
+            Example-1:
+              value:
+              - assets_wait:
+                  avg: 0
+                  max: 0
+                  min: 0
+                  p95: 0
+                clients_wait:
+                  avg: 39259.333333333336
+                  max: 58361
+                  min: 12376
+                  p95: 58361
+                created_time: 1733864928
+                devices:
+                - device_id: 00000000-0000-0000-1000-c8786708bb5d
+                  rssi: -70
+                discovered_assets_wait:
+                  avg: 0
+                  max: 0
+                  min: 0
+                  p95: 0
+                display_is_group: false
+                id: 17ef7169-e000-4dcd-abc7-f721f0a8ffda
+                modified_time: 1733864928
+                name: proximity openspace
+                num_assets: 0
+                num_clients: 3
+                num_discovered_assets: 0
+                num_sdkclients: 0
+                num_unconnected_clients: 7
+                org_id: c5fbc9e4-12bf-436e-98c4-1c842c66ab6c
+                sdkclients_wait:
+                  avg: 0
+                  max: 0
+                  min: 0
+                  p95: 0
+                site_id: 079fafd3-ef5c-4b23-90f0-9fcebec0023a
+                unconnected_clients_wait:
+                  avg: 37552.857142857145
+                  max: 68342
+                  min: 6649
+                  p95: 68342
+          schema:
+            $ref: '#/components/schemas/stats_rssi_zones'
+      description: Example response
     Rssizone:
       content:
         application/json:
@@ -47472,7 +47619,7 @@ components:
                     port_auth: dot1x
                     port_network: string
                     rejected_network: null
-                    speed: string
+                    speed: auto
                     storm_control:
                       no_broadcast: false
                       no_multicast: false
@@ -47503,7 +47650,7 @@ components:
                     poe_disabled: false
                     port_network: string
                     rejected_network: null
-                    speed: string
+                    speed: auto
                     storm_control:
                       no_broadcast: false
                       no_multicast: false
@@ -50160,7 +50307,7 @@ components:
                 start: 1511967600
                 total: 100
           schema:
-            $ref: '#/components/schemas/search_wirelss_client_session'
+            $ref: '#/components/schemas/search_wireless_client_session'
       description: OK
     Wlan:
       content:
@@ -50567,7 +50714,7 @@ components:
       content:
         application/json:
           examples:
-            with-map_id-query-param:
+            Example-1:
               value:
               - assets_waits:
                   avg: 0
@@ -53053,8 +53200,12 @@ components:
           type: string
         hostname:
           $ref: '#/components/schemas/ap_search_hostnames'
+        inactive_wired_vlans:
+          $ref: '#/components/schemas/ap_search_inactive_wired_vlans'
         ip:
           description: ip address
+          type: string
+        last_hostname:
           type: string
         lldp_mgmt_addr:
           description: LLDP management ip address
@@ -53093,6 +53244,8 @@ components:
           $ref: '#/components/schemas/org_id'
         power_constrained:
           type: boolean
+        power_opmode:
+          type: string
         site_id:
           $ref: '#/components/schemas/site_id'
         sku:
@@ -53104,11 +53257,34 @@ components:
         version:
           description: version
           type: string
+        wlans:
+          $ref: '#/components/schemas/ap_search_wlans'
+      required:
+      - power_constrained
+      - power_opmode
+      - mxtunnel_status
+      - wlans
       type: object
     ap_search_hostnames:
       description: partial / full hostname
       items:
         type: string
+      type: array
+    ap_search_inactive_wired_vlans:
+      items:
+        type: integer
+      type: array
+    ap_search_wlan:
+      properties:
+        id:
+          format: uuid
+          type: string
+        ssid:
+          type: string
+      type: object
+    ap_search_wlans:
+      items:
+        $ref: '#/components/schemas/ap_search_wlan'
       type: array
     ap_stat_mesh_downlink:
       properties:
@@ -54615,6 +54791,7 @@ components:
           $ref: '#/components/schemas/capture_gateway_type'
       required:
       - type
+      - gateways
       type: object
     capture_gateway_format:
       default: stream
@@ -54627,10 +54804,7 @@ components:
     capture_gateway_gateways:
       properties:
         ports:
-          additionalProperties:
-            $ref: '#/components/schemas/capture_gateway_gateways_ports'
-          description: Property key is the port ID
-          type: object
+          $ref: '#/components/schemas/capture_gateway_gateways_ports'
       type: object
     capture_gateway_gateways_port:
       properties:
@@ -55111,6 +55285,7 @@ components:
           $ref: '#/components/schemas/capture_switch_type'
       required:
       - type
+      - switches
       type: object
     capture_switch_format:
       default: stream
@@ -55702,7 +55877,6 @@ components:
       description: list of COA (change of authorization) servers, optional
       items:
         $ref: '#/components/schemas/coa_server'
-      nullable: true
       type: array
     code_string:
       properties:
@@ -56007,7 +56181,7 @@ components:
         band6:
           $ref: '#/components/schemas/const_device_ap_band6'
         band_24_usages:
-          $ref: '#/components/schemas/radio_band_24_usage'
+          $ref: '#/components/schemas/const_device_ap_band_24_usages'
         ce_dfs_ok:
           example: true
           type: boolean
@@ -56147,6 +56321,18 @@ components:
           example: 8
           type: integer
       type: object
+    const_device_ap_band_24_usage:
+      description: 'enum: `24`, `5`, `6`'
+      enum:
+      - ''
+      - '24'
+      - '5'
+      - '6'
+      type: string
+    const_device_ap_band_24_usages:
+      items:
+        $ref: '#/components/schemas/const_device_ap_band_24_usage'
+      type: array
     const_device_ap_disallowed_channels:
       items:
         type: integer
@@ -59670,6 +59856,12 @@ components:
       type: string
     gateway_search:
       properties:
+        clustered:
+          type: boolean
+        evpn_missing_links:
+          type: boolean
+        evpntopo_id:
+          type: string
         ext_ip:
           type: string
         hostname:
@@ -59678,24 +59870,44 @@ components:
           type: string
         last_hostname:
           type: string
+        last_trouble_code:
+          type: string
+        last_trouble_timestamp:
+          type: integer
         mac:
           type: string
+        managed:
+          type: boolean
         model:
+          type: string
+        node:
+          type: string
+        node0_mac:
+          type: string
+        node1_mac:
           type: string
         num_members:
           type: integer
         org_id:
           $ref: '#/components/schemas/org_id'
+        role:
+          type: string
         site_id:
           $ref: '#/components/schemas/site_id'
+        t128agent_version:
+          type: string
+        time_drifted:
+          type: boolean
         timestamp:
           type: number
         type:
-          type: string
+          $ref: '#/components/schemas/device_type_gateway'
         uptime:
           type: integer
         version:
           type: string
+      required:
+      - type
       type: object
     gateway_template:
       description: Gateway Template is applied to a site for gateway(s) in a site.
@@ -62398,7 +62610,6 @@ components:
     module_stat_item_fans:
       items:
         $ref: '#/components/schemas/module_stat_item_fans_items'
-      minItems: 1
       type: array
       uniqueItems: true
     module_stat_item_fans_items:
@@ -66004,6 +66215,7 @@ components:
           type: number
       required:
       - site_id
+      - gateway-health
       type: object
     org_site_sle_wan_results:
       items:
@@ -66062,6 +66274,7 @@ components:
           type: number
       required:
       - site_id
+      - ap-availability
       type: object
     org_site_sle_wifi_results:
       items:
@@ -66077,14 +66290,15 @@ components:
           type: number
         site_id:
           $ref: '#/components/schemas/site_id'
-        switch_health:
+        switch-bandwidth:
           type: number
-        switch_stc:
+        switch-health:
           type: number
-        switch_throughput:
+        switch-throughput:
           type: number
       required:
       - site_id
+      - switch-health
       type: object
     org_site_sle_wired_results:
       items:
@@ -71828,7 +72042,7 @@ components:
       minItems: 1
       type: array
       uniqueItems: true
-    search_wirelss_client_session:
+    search_wireless_client_session:
       properties:
         end:
           type: number
@@ -71837,7 +72051,7 @@ components:
         next:
           type: string
         results:
-          $ref: '#/components/schemas/search_wirelss_client_session_results'
+          $ref: '#/components/schemas/search_wireless_client_session_results'
         start:
           type: number
         total:
@@ -71849,9 +72063,9 @@ components:
       - start
       - total
       type: object
-    search_wirelss_client_session_results:
+    search_wireless_client_session_results:
       items:
-        $ref: '#/components/schemas/wirelss_client_session'
+        $ref: '#/components/schemas/wireless_client_session'
       type: array
       uniqueItems: true
     search_wxtag_apps:
@@ -77734,6 +77948,8 @@ components:
         uptime:
           readOnly: true
           type: integer
+      required:
+      - remote_ip
       type: object
     stats_mxtunnel_session:
       properties:
@@ -77765,12 +77981,12 @@ components:
       type: array
       uniqueItems: true
     stats_mxtunnel_state:
-      description: 'enum: `established`, `established_with_session`, `idle`, `wait-ctrl-conn`,
+      description: 'enum: `established`, `established_with_sessions`, `idle`, `wait-ctrl-conn`,
         `wait-ctrl-reply`'
       enum:
       - ''
       - established
-      - established_with_session
+      - established_with_sessions
       - idle
       - wait-ctrl-conn
       - wait-ctrl-reply
@@ -77861,6 +78077,67 @@ components:
     stats_orgs:
       items:
         $ref: '#/components/schemas/stats_org'
+      type: array
+    stats_rssi_zone:
+      description: Zone statistics
+      properties:
+        assets_waits:
+          $ref: '#/components/schemas/stats_zone_assets_waits'
+        clients_waits:
+          $ref: '#/components/schemas/stats_zone_clients_waits'
+        created_time:
+          $ref: '#/components/schemas/created_time'
+        devices:
+          $ref: '#/components/schemas/stats_rssi_zones_devices'
+        id:
+          $ref: '#/components/schemas/id'
+        modified_time:
+          $ref: '#/components/schemas/modified_time'
+        name:
+          description: name of the zone
+          example: Zone A
+          type: string
+        num_assets:
+          description: number of assets
+          example: 0
+          type: integer
+        num_clients:
+          description: number of wifi clients (unconnected + connected)
+          example: 80
+          type: integer
+        num_sdkclients:
+          description: number of sdk clients
+          example: 10
+          type: integer
+        occupancy_limit:
+          example: 4
+          type: integer
+        org_id:
+          $ref: '#/components/schemas/org_id'
+        sdkclients_waits:
+          $ref: '#/components/schemas/stats_zone_sdkclients_waits'
+        site_id:
+          $ref: '#/components/schemas/site_id'
+      required:
+      - id
+      - name
+      - devices
+      type: object
+    stats_rssi_zones:
+      items:
+        $ref: '#/components/schemas/stats_rssi_zone'
+      type: array
+    stats_rssi_zones_device:
+      properties:
+        device_id:
+          format: uuid
+          type: string
+        rssi:
+          type: integer
+      type: object
+    stats_rssi_zones_devices:
+      items:
+        $ref: '#/components/schemas/stats_rssi_zones_device'
       type: array
     stats_sdkclient:
       description: SDK Client statistics
@@ -78607,6 +78884,8 @@ components:
           description: wan interface name
           example: wan
           type: string
+      required:
+      - peer_ip
       type: object
     stats_wan_tunnel_priority:
       description: 'enum: `primary`, `secondary`'
@@ -80181,6 +80460,12 @@ components:
       type: object
     switch_search:
       properties:
+        clustered:
+          type: boolean
+        evpn_missing_links:
+          type: boolean
+        evpntopo_id:
+          type: string
         ext_ip:
           type: string
         hostname:
@@ -80189,24 +80474,36 @@ components:
           type: string
         last_hostname:
           type: string
+        last_trouble_code:
+          type: string
+        last_trouble_timestamp:
+          type: integer
         mac:
           type: string
+        managed:
+          type: boolean
         model:
           type: string
         num_members:
           type: integer
         org_id:
           $ref: '#/components/schemas/org_id'
+        role:
+          type: string
         site_id:
           $ref: '#/components/schemas/site_id'
+        time_drifted:
+          type: boolean
         timestamp:
           type: number
         type:
-          type: string
+          $ref: '#/components/schemas/device_type_switch'
         uptime:
           type: integer
         version:
           type: string
+      required:
+      - type
       type: object
     switch_stp_config:
       properties:
@@ -83456,7 +83753,7 @@ components:
         type: integer
       readOnly: true
       type: array
-    wirelss_client_session:
+    wireless_client_session:
       properties:
         ap:
           readOnly: true
@@ -83491,7 +83788,7 @@ components:
           readOnly: true
           type: string
         tags:
-          $ref: '#/components/schemas/wirelss_client_session_tags'
+          $ref: '#/components/schemas/wireless_client_session_tags'
         timestamp:
           readOnly: true
           type: number
@@ -83513,7 +83810,7 @@ components:
       - timestamp
       - wlan_id
       type: object
-    wirelss_client_session_tags:
+    wireless_client_session_tags:
       items:
         type: string
       readOnly: true
@@ -83887,8 +84184,8 @@ components:
           $ref: '#/components/schemas/wlan_vlan_ids'
         vlan_pooling:
           default: false
-          description: vlan pooling allows AP to place client on different VLAN using
-            a deterministic algorithm
+          description: Requires `vlan_enabled`==`true` to be set to `true`. Vlan pooling
+            allows AP to place client on different VLAN using a deterministic algorithm
           type: boolean
         wlan_limit_down:
           default: null
@@ -84296,10 +84593,10 @@ components:
         legacy:
           $ref: '#/components/schemas/wlan_datarates_legacy'
         min_rssi:
+          default: 0
           description: Minimum RSSI for client to connect, 0 means not enforcing
           example: -70
           type: integer
-          default: 0
         template:
           $ref: '#/components/schemas/wlan_datarates_template'
         vht:
@@ -84361,6 +84658,7 @@ components:
       - 9b
       type: string
     wlan_datarates_template:
+      default: compatible
       description: "Data Rates template to apply. enum: \n  * `no-legacy`: no 11b\n\
         \  * `compatible`: all, like before, default setting that Broadcom/Atheros\
         \ used\n  * `legacy-only`: disable 802.11n and 802.11ac\n  * `high-density`:\
@@ -84373,7 +84671,6 @@ components:
       - no-legacy
       - high-density
       nullable: true
-      default: compatible
       type: string
     wlan_dns_server_rewrite:
       description: for radius_group-based DNS server (rewrite DNS request depending
@@ -84427,13 +84724,7 @@ components:
           type: boolean
         source:
           $ref: '#/components/schemas/dynamic_psk_source'
-        vlan_ids:
-          $ref: '#/components/schemas/wlan_dynamic_psk_vlan_ids'
       type: object
-    wlan_dynamic_psk_vlan_ids:
-      items:
-        $ref: '#/components/schemas/vlan_id_with_variable'
-      type: array
     wlan_dynamic_vlan:
       description: for 802.1x
       nullable: true
@@ -84444,7 +84735,8 @@ components:
           $ref: '#/components/schemas/wlan_dynamic_vlan_default_vlan_ids'
         enabled:
           default: false
-          description: whether to enable dynamic vlan
+          description: Requires `vlan_enabled`==`true` to be set to `true`. Whether
+            to enable dynamic vlan
           type: boolean
         local_vlan_ids:
           $ref: '#/components/schemas/wlan_dynamic_vlan_local_vlan_ids'
@@ -84622,20 +84914,21 @@ components:
       properties:
         allow_wlan_id_roam:
           default: false
-          description: whether to allow guest to connect to other Guest WLANs (with
-            different `WLAN.ssid`) of same org without reauthentication (disable random_mac
-            for seamless roaming)
+          description: Optional if `amazon_enabled`==`true`. Whether to allow guest
+            to connect to other Guest WLANs (with different `WLAN.ssid`) of same org
+            without reauthentication (disable random_mac for seamless roaming)
           type: boolean
         amazon_client_id:
           default: ''
-          description: amazon OAuth2 client id. This is optional. If not provided,
-            it will use a default one.
+          description: Optional if `amazon_enabled`==`true`. Amazon OAuth2 client
+            id. This is optional. If not provided, it will use a default one.
           nullable: true
           type: string
         amazon_client_secret:
           default: ''
-          description: amazon OAuth2 client secret. If amazon_client_id was provided,
-            provide a correspoinding value. Else leave blank.
+          description: Optional if `amazon_enabled`==`true`. Amazon OAuth2 client
+            secret. If amazon_client_id was provided, provide a correspoinding value.
+            Else leave blank.
           nullable: true
           type: string
         amazon_email_domains:
@@ -84646,25 +84939,23 @@ components:
           type: boolean
         amazon_expire:
           default: null
-          description: interval for which guest remains authorized using amazon auth
-            (in minutes), if not provided, uses expire`
-          format: double
+          description: Optional if `amazon_enabled`==`true`. Interval for which guest
+            remains authorized using amazon auth (in minutes), if not provided, uses
+            expire`
           nullable: true
-          type: number
+          type: integer
         auth:
           $ref: '#/components/schemas/wlan_portal_auth'
         azure_client_id:
           default: ''
-          description: 'Required if `azure_enabled`==`true`.
-
-            Azure active directory app client id'
+          description: Required if `azure_enabled`==`true`. Azure active directory
+            app client id
           nullable: true
           type: string
         azure_client_secret:
           default: ''
-          description: 'Required if `azure_enabled`==`true`.
-
-            Azure active directory app client secret'
+          description: Required if `azure_enabled`==`true`. Azure active directory
+            app client secret
           nullable: true
           type: string
         azure_enabled:
@@ -84675,29 +84966,25 @@ components:
           default: null
           description: interval for which guest remains authorized using azure auth
             (in minutes), if not provided, uses expire`
-          format: double
           nullable: true
-          type: number
+          type: integer
         azure_tenant_id:
           default: ''
-          description: 'Required if `azure_enabled`==`true`.
-
-            Azure active directory tenant id.'
+          description: Required if `azure_enabled`==`true`. Azure active directory
+            tenant id.
           nullable: true
           type: string
         broadnet_password:
           default: ''
-          description: when `sms_provider`==`broadnet`
+          description: Required if `sms_provider`==`broadnet`
           example: password
           type: string
         broadnet_sid:
-          default: MIST
-          description: when `sms_provider`==`broadnet`
+          description: Required if `sms_provider`==`broadnet`
           example: MIST
           type: string
         broadnet_user_id:
-          default: ''
-          description: when `sms_provider`==`broadnet`
+          description: Required if `sms_provider`==`broadnet`
           example: juniper
           type: string
         bypass_when_cloud_down:
@@ -84706,8 +84993,7 @@ components:
             (and apply the default policies)
           type: boolean
         clickatell_api_key:
-          default: ''
-          description: when `sms_provider`==`clickatell`
+          description: Required if `sms_provider`==`clickatell`
           type: string
         cross_site:
           default: false
@@ -84728,27 +85014,23 @@ components:
           default: 1440
           description: how long to remain authorized, in minutes
           example: 1440
-          format: double
-          type: number
+          type: integer
         external_portal_url:
           default: ''
-          description: external portal URL (e.g. https://host/url) where we can append
-            our query parameters to
+          description: Required if `wlan_portal_auth`==`external`. External portal
+            URL (e.g. https://host/url) where we can append our query parameters to
           type: string
         facebook_client_id:
           default: ''
-          description: 'Required if `facebook_enabled`==`true`.
-
-            Facebook OAuth2 app id. This is optional. If not provided, it will use
-            a default one.'
+          description: Required if `facebook_enabled`==`true`. Facebook OAuth2 app
+            id. This is optional. If not provided, it will use a default one.
           nullable: true
           type: string
         facebook_client_secret:
           default: ''
-          description: 'Required if `facebook_enabled`==`true`.
-
-            Facebook OAuth2 app secret. If facebook_client_id was provided, provide
-            a correspoinding value. Else leave blank.'
+          description: Required if `facebook_enabled`==`true`. Facebook OAuth2 app
+            secret. If facebook_client_id was provided, provide a correspoinding value.
+            Else leave blank.
           nullable: true
           type: string
         facebook_email_domains:
@@ -84759,11 +85041,11 @@ components:
           type: boolean
         facebook_expire:
           default: null
-          description: interval for which guest remains authorized using facebook
-            auth (in minutes), if not provided, uses expire`
-          format: double
+          description: Optional if `facebook_enabled`==`true`. Interval for which
+            guest remains authorized using facebook auth (in minutes), if not provided,
+            uses expire`
           nullable: true
-          type: number
+          type: integer
         forward:
           default: false
           description: whether to forward the user to another URL after authorized
@@ -84782,8 +85064,9 @@ components:
           type: string
         google_client_secret:
           default: ''
-          description: Google OAuth2 app secret. If google_client_id was provided,
-            provide a correspoinding value. Else leave blank.
+          description: Optional if `google_enabled`==`true`. Google OAuth2 app secret.
+            If google_client_id was provided, provide a correspoinding value. Else
+            leave blank.
           nullable: true
           type: string
         google_email_domains:
@@ -84794,29 +85077,28 @@ components:
           type: boolean
         google_expire:
           default: null
-          description: interval for which guest remains authorized using google auth
-            (in minutes), if not provided, uses expire`
-          format: double
+          description: Optional if `google_enabled`==`true`. Interval for which guest
+            remains authorized using google auth (in minutes), if not provided, uses
+            expire`
           nullable: true
-          type: number
+          type: integer
         gupshup_password:
-          default: ''
-          description: when `sms_provider`==`gupshup`
+          description: Required if `sms_provider`==`gupshup`
           type: string
         gupshup_userid:
-          default: ''
-          description: when `sms_provider`==`gupshup`
+          description: Required if `sms_provider`==`gupshup`
           type: string
         microsoft_client_id:
           default: ''
-          description: microsoft 365 OAuth2 client id. This is optional. If not provided,
-            it will use a default one.
+          description: Optional if `microsoft_enabled`==`true`. Microsoft 365 OAuth2
+            client id. This is optional. If not provided, it will use a default one.
           nullable: true
           type: string
         microsoft_client_secret:
           default: ''
-          description: microsoft 365 OAuth2 client secret. If microsoft_client_id
-            was provided, provide a correspoinding value. Else leave blank.
+          description: Optional if `microsoft_enabled`==`true`. Microsoft 365 OAuth2
+            client secret. If microsoft_client_id was provided, provide a correspoinding
+            value. Else leave blank.
           nullable: true
           type: string
         microsoft_email_domains:
@@ -84827,25 +85109,25 @@ components:
           type: boolean
         microsoft_expire:
           default: null
-          description: interval for which guest remains authorized using microsoft
-            auth (in minutes), if not provided, uses expire`
-          format: double
+          description: Optional if `microsoft_enabled`==`true`. Interval for which
+            guest remains authorized using microsoft auth (in minutes), if not provided,
+            uses expire`
           nullable: true
-          type: number
+          type: integer
         passphrase_enabled:
           default: false
-          description: whether password is enabled
+          description: Whether password is enabled
           type: boolean
         passphrase_expire:
           default: null
-          description: interval for which guest remains authorized using passphrase
-            auth (in minutes), if not provided, uses `expire`
-          format: double
+          description: Optional if `passphrase_enabled`==`true`. Interval for which
+            guest remains authorized using passphrase auth (in minutes), if not provided,
+            uses `expire`
           nullable: true
-          type: number
+          type: integer
         password:
           default: ''
-          description: passphrase
+          description: Required if `passphrase_enabled`==`true`.
           example: let me in
           nullable: true
           type: string
@@ -84863,19 +85145,17 @@ components:
           default: false
           type: boolean
         puzzel_password:
-          default: ''
-          description: when `sms_provider`==`puzzel`
+          description: Required if `sms_provider`==`puzzel`
           type: string
         puzzel_service_id:
-          default: ''
-          description: when `sms_provider`==`puzzel`
+          description: Required if `sms_provider`==`puzzel`
           type: string
         puzzel_username:
-          default: ''
-          description: when `sms_provider`==`puzzel`
+          description: Required if `sms_provider`==`puzzel`
           type: string
         smsMessageFormat:
           default: Code {{code}} expires in {{duration}} minutes.
+          description: Optional if `sms_enabled`==`true`. SMS Message format
           type: string
         sms_enabled:
           default: false
@@ -84883,18 +85163,18 @@ components:
           type: boolean
         sms_expire:
           default: null
-          description: interval for which guest remains authorized using sms auth
-            (in minutes), if not provided, uses expire`
-          format: double
+          description: Optional if `sms_enabled`==`true`. Interval for which guest
+            remains authorized using sms auth (in minutes), if not provided, uses
+            expire`
           nullable: true
-          type: number
+          type: integer
         sms_provider:
           $ref: '#/components/schemas/wlan_portal_sms_provider'
         sponsor_auto_approve:
           default: false
-          description: whether to automatically approve guest and allow sponsor to
-            revoke guest access, needs predefined_sponsors_enabled enabled and sponsor_notify_all
-            disabled
+          description: Optional if `sponsor_enabled`==`true`. Whether to automatically
+            approve guest and allow sponsor to revoke guest access, needs predefined_sponsors_enabled
+            enabled and sponsor_notify_all disabled
           type: boolean
         sponsor_email_domains:
           $ref: '#/components/schemas/wlan_portal_sponsor_email_domains'
@@ -84904,27 +85184,28 @@ components:
           type: boolean
         sponsor_expire:
           default: null
-          description: interval for which guest remains authorized using sponsor auth
-            (in minutes), if not provided, uses expire`
-          format: double
+          description: Optional if `sponsor_enabled`==`true`. Interval for which guest
+            remains authorized using sponsor auth (in minutes), if not provided, uses
+            expire`
           nullable: true
-          type: number
+          type: integer
         sponsor_link_validity_duration:
           default: '60'
-          description: how long to remain valid sponsored guest request approve/deny
-            link received in email, in minutes.
+          description: Optional if `sponsor_enabled`==`true`. How long to remain valid
+            sponsored guest request approve/deny link received in email, in minutes.
           example: '30'
           type: string
         sponsor_notify_all:
           default: false
-          description: whether to notify all sponsors that are mentioned in `sponsors`
-            object. Both `sponsor_notify_all` and `predefined_sponsors_enabled` should
-            be true in order to notify sponsors. If true, email sent to 10 sponsors
-            in no particular order.
+          description: Optional if `sponsor_enabled`==`true`. whether to notify all
+            sponsors that are mentioned in `sponsors` object. Both `sponsor_notify_all`
+            and `predefined_sponsors_enabled` should be true in order to notify sponsors.
+            If true, email sent to 10 sponsors in no particular order.
           type: boolean
         sponsor_status_notify:
           default: false
-          description: if enabled, guest will get email about sponsor's action (approve/deny)
+          description: Optional if `sponsor_enabled`==`true`. If enabled, guest will
+            get email about sponsor's action (approve/deny)
           type: boolean
         sponsors:
           additionalProperties:
@@ -84940,56 +85221,54 @@ components:
           type: object
         sso_default_role:
           default: ''
-          description: "if `wlan_portal_auth`==`sso`, default role to assign if there\u2019\
-            s no match. By default, an assertion is treated as invalid when there\u2019\
-            s no role matched"
+          description: "Optionl if `wlan_portal_auth`==`sso`, default role to assign\
+            \ if there\u2019s no match. By default, an assertion is treated as invalid\
+            \ when there\u2019s no role matched"
           type: string
         sso_forced_role:
           default: ''
-          description: if `wlan_portal_auth`==`sso`
+          description: Optionl if `wlan_portal_auth`==`sso`
           type: string
         sso_idp_cert:
           default: ''
-          description: if `wlan_portal_auth`==`sso`, IDP Cert (used to verify the
-            signed response)
+          description: Required if `wlan_portal_auth`==`sso`. IDP Cert (used to verify
+            the signed response)
           type: string
         sso_idp_sign_algo:
           $ref: '#/components/schemas/wlan_portal_idp_sign_algo'
         sso_idp_sso_url:
           default: ''
-          description: if `wlan_portal_auth`==`sso`, IDP Single-Sign-On URL
+          description: Required if `wlan_portal_auth`==`sso`, IDP Single-Sign-On URL
           type: string
         sso_issuer:
           default: ''
-          description: if `wlan_portal_auth`==`sso`, IDP issuer URL
+          description: Required if `wlan_portal_auth`==`sso`, IDP issuer URL
           type: string
         sso_nameid_format:
           $ref: '#/components/schemas/wlan_portal_sso_nameid_format'
         telstra_client_id:
-          default: ''
-          description: when `sms_provider`==`telstra`, Client ID provided by Telstra
+          description: Required if `sms_provider`==`telstra`, Client ID provided by
+            Telstra
           type: string
         telstra_client_secret:
-          default: ''
-          description: when `sms_provider`==`telstra`, Client secret provided by Telstra
+          description: Required if `sms_provider`==`telstra`, Client secret provided
+            by Telstra
           type: string
         twilio_auth_token:
-          default: ''
-          description: when `sms_provider`==`twilio`, Auth token account with twilio
-            account
+          description: Required if `sms_provider`==`twilio`, Auth token account with
+            twilio account
           example: af9dac44c344a875ab5d31cb7abcdefg
           nullable: true
           type: string
         twilio_phone_number:
-          default: ''
-          description: when `sms_provider`==`twilio`, Twilio phone number associated
+          description: Required if `sms_provider`==`twilio`, Twilio phone number associated
             with the account. See example for accepted format.
           example: '+18548888888'
           nullable: true
           type: string
         twilio_sid:
-          default: ''
-          description: when `sms_provider`==`twilio`, Account SID provided by Twilio
+          description: Required if `sms_provider`==`twilio`, Account SID provided
+            by Twilio
           example: AC72ec6ba0ec5af30e6731c5e47abcdefgh
           nullable: true
           type: string
@@ -85013,18 +85292,30 @@ components:
       type: array
     wlan_portal_amazon_email_domains:
       default: []
-      description: Matches authenticated user email against provided domains. If null
-        or [], all authenticated emails will be allowed.
+      description: Optional if `amazon_enabled`==`true`. Matches authenticated user
+        email against provided domains. If null or [], all authenticated emails will
+        be allowed.
       items:
         type: string
       type: array
     wlan_portal_auth:
       default: none
-      description: 'authentication scheme. enum: `external`, `none`, `sso`'
+      description: 'authentication scheme. enum: `amazon`, `azure`, `email`, `external`,
+        `facebook`, `google`, `microsoft`, `multi`, `none`, `password`, `sponsor`,
+        `sso`'
       enum:
       - ''
+      - amazon
+      - azure
+      - email
       - external
+      - facebook
+      - google
+      - microsoft
+      - multi
       - none
+      - password
+      - sponsor
       - sso
       example: none
       type: string
@@ -85039,15 +85330,17 @@ components:
       type: array
     wlan_portal_facebook_email_domains:
       default: []
-      description: Matches authenticated user email against provided domains. If null
-        or [], all authenticated emails will be allowed.
+      description: Optional if `facebook_enabled`==`true`. Matches authenticated user
+        email against provided domains. If null or [], all authenticated emails will
+        be allowed.
       items:
         type: string
       type: array
     wlan_portal_google_email_domains:
       default: []
-      description: Matches authenticated user email against provided domains. If null
-        or [], all authenticated emails will be allowed.
+      description: Optional if `google_enabled`==`true`. Matches authenticated user
+        email against provided domains. If null or [], all authenticated emails will
+        be allowed.
       example:
       - mydomain.edu
       - mydomain.org
@@ -85056,8 +85349,8 @@ components:
       type: array
     wlan_portal_idp_sign_algo:
       default: sha1
-      description: 'if `wlan_portal_auth`==`sso`, Signing algorithm for SAML Assertion.
-        enum: `sha1`, `sha256`, `sha384`, `sha512`'
+      description: 'Optioanl if `wlan_portal_auth`==`sso`, Signing algorithm for SAML
+        Assertion. enum: `sha1`, `sha256`, `sha384`, `sha512`'
       enum:
       - ''
       - sha1
@@ -85067,15 +85360,16 @@ components:
       type: string
     wlan_portal_microsoft_email_domains:
       default: []
-      description: Matches authenticated user email against provided domains. If null
-        or [], all authenticated emails will be allowed.
+      description: Optional if `microsoft_enabled`==`true`. Matches authenticated
+        user email against provided domains. If null or [], all authenticated emails
+        will be allowed.
       items:
         type: string
       type: array
     wlan_portal_sms_provider:
       default: manual
-      description: 'enum: `broadnet`, `clickatell`, `gupshup`, `manual`, `puzzel`,
-        `telstra`, `twilio`'
+      description: 'Optioanl if `sms_enabled`==`true`. enum: `broadnet`, `clickatell`,
+        `gupshup`, `manual`, `puzzel`, `telstra`, `twilio`'
       enum:
       - ''
       - broadnet
@@ -85097,12 +85391,10 @@ components:
         type: string
       type: array
     wlan_portal_sponsors:
-      description: 'object of allowed sponsors email with name. Required if `sponsor_enabled`
-        is `true` and `sponsor_email_domains` is empty.
-
-        Property key is the sponsor email, Property value is the sponsor name
-
-        List of email allowed for backward compatibility'
+      description: object of allowed sponsors email with name. Required if `sponsor_enabled`
+        is `true` and `sponsor_email_domains` is empty. Property key is the sponsor
+        email, Property value is the sponsor name. List of email allowed for backward
+        compatibility
       oneOf:
       - $ref: '#/components/schemas/wlan_portal_sponsors_list'
       - $ref: '#/components/schemas/wlan_portal_sponsors_object'
@@ -85119,7 +85411,7 @@ components:
       type: object
     wlan_portal_sso_nameid_format:
       default: email
-      description: 'if `wlan_portal_auth`==`sso`. enum: `email`, `unspecified`'
+      description: 'Optional if `wlan_portal_auth`==`sso`. enum: `email`, `unspecified`'
       enum:
       - ''
       - email
@@ -85909,7 +86201,8 @@ components:
           $ref: '#/components/schemas/hours'
       type: object
     wlan_vlan_ids:
-      description: "vlan_ids to use when there\u2019s no match from RA"
+      description: if `vlan_enabled`==`true` and `vlan_pooling`==`true`. List of VLAN
+        IDs (comma separeted) to be used in the VLAN Pool
       example:
       - 3
       - 4
@@ -85917,6 +86210,21 @@ components:
       items:
         $ref: '#/components/schemas/vlan_id_with_variable'
       type: array
+    wlan_vlan_ids_list:
+      description: if `vlan_enabled`==`true` and `vlan_pooling`==`true`. List of VLAN
+        IDs (comma separeted) to be used in the VLAN Pool
+      example:
+      - 3
+      - 4
+      - 5
+      items:
+        $ref: '#/components/schemas/vlan_id_with_variable'
+      type: array
+    wlan_vlan_ids_string:
+      description: if `vlan_enabled`==`true` and `vlan_pooling`==`true`. List of VLAN
+        IDs to be used in the VLAN Pool
+      example: 1,2
+      type: string
     wlan_wxtag_ids:
       description: list of wxtag_ids
       items:
