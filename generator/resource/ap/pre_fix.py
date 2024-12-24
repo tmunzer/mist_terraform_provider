@@ -5,7 +5,8 @@ SPEC =  "../../mist.provider.yml"
 with open(SPEC, "r") as f:
     DATA = yaml.load(f, Loader=yaml.loader.SafeLoader)
 
-DATA["components"]["schemas"]["mist_device"] = {'$ref': '#/components/schemas/device_gateway'}
+DATA["components"]["schemas"]["deviceprofile"] = {'$ref': '#/components/schemas/deviceprofile_ap'}
+DATA["components"]["schemas"]["mist_device"] = {'$ref': '#/components/schemas/device_ap'}
 
 with open(SPEC, "w") as f:
     yaml.dump({"openapi": DATA["openapi"]}, f)

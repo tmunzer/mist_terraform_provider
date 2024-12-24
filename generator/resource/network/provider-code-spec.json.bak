@@ -1,0 +1,448 @@
+{
+	"provider": {
+		"name": "mistapi"
+	},
+	"resources": [
+		{
+			"name": "org_network",
+			"schema": {
+				"attributes": [
+					{
+						"name": "disallow_mist_services",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": false
+							},
+							"description": "whether to disallow Mist Devices in the network"
+						}
+					},
+					{
+						"name": "gateway",
+						"string": {
+							"computed_optional_required": "computed_optional"
+						}
+					},
+					{
+						"name": "gateway6",
+						"string": {
+							"computed_optional_required": "computed_optional"
+						}
+					},
+					{
+						"name": "id",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"description": "Unique ID of the object instance in the Mist Organnization"
+						}
+					},
+					{
+						"name": "internal_access",
+						"single_nested": {
+							"computed_optional_required": "computed_optional",
+							"attributes": [
+								{
+									"name": "enabled",
+									"bool": {
+										"computed_optional_required": "computed_optional"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "internet_access",
+						"single_nested": {
+							"computed_optional_required": "computed_optional",
+							"attributes": [
+								{
+									"name": "create_simple_service_policy",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										}
+									}
+								},
+								{
+									"name": "destination_nat",
+									"map_nested": {
+										"computed_optional_required": "computed_optional",
+										"nested_object": {
+											"attributes": [
+												{
+													"name": "internal_ip",
+													"string": {
+														"computed_optional_required": "computed_optional"
+													}
+												},
+												{
+													"name": "name",
+													"string": {
+														"computed_optional_required": "computed_optional"
+													}
+												},
+												{
+													"name": "port",
+													"int64": {
+														"computed_optional_required": "computed_optional"
+													}
+												},
+												{
+													"name": "wan_name",
+													"string": {
+														"computed_optional_required": "computed_optional",
+														"description": "If not set, we configure the nat policies against all WAN ports for simplicity"
+													}
+												}
+											]
+										},
+										"description": "Property key may be an IP/Port (i.e. \"63.16.0.3:443\"), or a port (i.e. \":2222\")"
+									}
+								},
+								{
+									"name": "enabled",
+									"bool": {
+										"computed_optional_required": "computed_optional"
+									}
+								},
+								{
+									"name": "restricted",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										},
+										"description": "by default, all access is allowed, to only allow certain traffic, make `restricted`=`true` and define service_policies"
+									}
+								},
+								{
+									"name": "static_nat",
+									"map_nested": {
+										"computed_optional_required": "computed_optional",
+										"nested_object": {
+											"attributes": [
+												{
+													"name": "internal_ip",
+													"string": {
+														"computed_optional_required": "computed_optional"
+													}
+												},
+												{
+													"name": "name",
+													"string": {
+														"computed_optional_required": "computed_optional"
+													}
+												},
+												{
+													"name": "wan_name",
+													"string": {
+														"computed_optional_required": "computed_optional",
+														"description": "If not set, we configure the nat policies against all WAN ports for simplicity"
+													}
+												}
+											]
+										},
+										"description": "Property key may be an IP Address (i.e. \"172.16.0.1\"), and IP Address and Port (i.e. \"172.16.0.1:8443\") or a CIDR (i.e. \"172.16.0.12/20\")"
+									}
+								}
+							],
+							"description": "whether this network has direct internet access"
+						}
+					},
+					{
+						"name": "isolation",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"description": "whether to allow clients in the network to talk to each other"
+						}
+					},
+					{
+						"name": "multicast",
+						"single_nested": {
+							"computed_optional_required": "computed_optional",
+							"attributes": [
+								{
+									"name": "disable_igmp",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										},
+										"description": "if the network will only be the soruce of the multicast traffic, IGMP can be disabled"
+									}
+								},
+								{
+									"name": "enabled",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"default": {
+											"static": false
+										}
+									}
+								},
+								{
+									"name": "groups",
+									"map_nested": {
+										"computed_optional_required": "computed_optional",
+										"nested_object": {
+											"attributes": [
+												{
+													"name": "rp_ip",
+													"string": {
+														"computed_optional_required": "computed_optional",
+														"description": "RP (rendezvous point) IP Address"
+													}
+												}
+											]
+										},
+										"description": "Group address to RP (rendezvous point) mapping. Property Key is the CIDR (example \"225.1.0.3/32\")"
+									}
+								}
+							],
+							"description": "whether to enable multicast support (only PIM-sparse mode is supported)"
+						}
+					},
+					{
+						"name": "name",
+						"string": {
+							"computed_optional_required": "required"
+						}
+					},
+					{
+						"name": "org_id",
+						"string": {
+							"computed_optional_required": "computed_optional"
+						}
+					},
+					{
+						"name": "routed_for_networks",
+						"list": {
+							"computed_optional_required": "computed_optional",
+							"element_type": {
+								"string": {}
+							},
+							"description": "for a Network (usually LAN), it can be routable to other networks (e.g. OSPF)"
+						}
+					},
+					{
+						"name": "subnet",
+						"string": {
+							"computed_optional_required": "computed_optional"
+						}
+					},
+					{
+						"name": "subnet6",
+						"string": {
+							"computed_optional_required": "computed_optional"
+						}
+					},
+					{
+						"name": "tenants",
+						"map_nested": {
+							"computed_optional_required": "computed_optional",
+							"nested_object": {
+								"attributes": [
+									{
+										"name": "addresses",
+										"list": {
+											"computed_optional_required": "computed_optional",
+											"element_type": {
+												"string": {}
+											}
+										}
+									}
+								]
+							}
+						}
+					},
+					{
+						"name": "vlan_id",
+						"string": {
+							"computed_optional_required": "computed_optional"
+						}
+					},
+					{
+						"name": "vpn_access",
+						"map_nested": {
+							"computed_optional_required": "computed_optional",
+							"nested_object": {
+								"attributes": [
+									{
+										"name": "advertised_subnet",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"description": "if `routed`==`true`, whether to advertise an aggregated subnet toward HUB this is useful when there are multiple networks on SPOKE's side"
+										}
+									},
+									{
+										"name": "allow_ping",
+										"bool": {
+											"computed_optional_required": "computed_optional",
+											"description": "whether to allow ping from vpn into this routed network"
+										}
+									},
+									{
+										"name": "destination_nat",
+										"map_nested": {
+											"computed_optional_required": "computed_optional",
+											"nested_object": {
+												"attributes": [
+													{
+														"name": "internal_ip",
+														"string": {
+															"computed_optional_required": "computed_optional"
+														}
+													},
+													{
+														"name": "name",
+														"string": {
+															"computed_optional_required": "computed_optional"
+														}
+													},
+													{
+														"name": "port",
+														"int64": {
+															"computed_optional_required": "computed_optional"
+														}
+													},
+													{
+														"name": "wan_name",
+														"string": {
+															"computed_optional_required": "computed_optional",
+															"description": "If not set, we configure the nat policies against all WAN ports for simplicity"
+														}
+													}
+												]
+											},
+											"description": "Property key may be an IP/Port (i.e. \"63.16.0.3:443\"), or a port (i.e. \":2222\")"
+										}
+									},
+									{
+										"name": "nat_pool",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"description": "if `routed`==`false` (usually at Spoke), but some hosts needs to be reachable from Hub, a subnet is required to create and advertise the route to Hub"
+										}
+									},
+									{
+										"name": "no_readvertise_to_lan_bgp",
+										"bool": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": false
+											},
+											"description": "toward LAN-side BGP peers"
+										}
+									},
+									{
+										"name": "no_readvertise_to_lan_ospf",
+										"bool": {
+											"computed_optional_required": "computed_optional",
+											"default": {
+												"static": false
+											},
+											"description": "toward LAN-side OSPF peers"
+										}
+									},
+									{
+										"name": "no_readvertise_to_overlay",
+										"bool": {
+											"computed_optional_required": "computed_optional",
+											"description": "toward overlay\nhow HUB should deal with routes it received from Spokes"
+										}
+									},
+									{
+										"name": "other_vrfs",
+										"list": {
+											"computed_optional_required": "computed_optional",
+											"element_type": {
+												"string": {}
+											},
+											"description": "by default, the routes are only readvertised toward the same vrf on spoke\nto allow it to be leaked to other vrfs"
+										}
+									},
+									{
+										"name": "routed",
+										"bool": {
+											"computed_optional_required": "computed_optional",
+											"description": "whether this network is routable"
+										}
+									},
+									{
+										"name": "source_nat",
+										"single_nested": {
+											"computed_optional_required": "computed_optional",
+											"attributes": [
+												{
+													"name": "external_ip",
+													"string": {
+														"computed_optional_required": "computed_optional"
+													}
+												}
+											],
+											"description": "if `routed`==`false` (usually at Spoke), but some hosts needs to be reachable from Hub"
+										}
+									},
+									{
+										"name": "static_nat",
+										"map_nested": {
+											"computed_optional_required": "computed_optional",
+											"nested_object": {
+												"attributes": [
+													{
+														"name": "internal_ip",
+														"string": {
+															"computed_optional_required": "computed_optional"
+														}
+													},
+													{
+														"name": "name",
+														"string": {
+															"computed_optional_required": "computed_optional"
+														}
+													},
+													{
+														"name": "wan_name",
+														"string": {
+															"computed_optional_required": "computed_optional",
+															"description": "If not set, we configure the nat policies against all WAN ports for simplicity"
+														}
+													}
+												]
+											},
+											"description": "Property key may be an IP Address (i.e. \"172.16.0.1\"), and IP Address and Port (i.e. \"172.16.0.1:8443\") or a CIDR (i.e. \"172.16.0.12/20\")"
+										}
+									},
+									{
+										"name": "summarized_subnet",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"description": "toward overlay\nhow HUB should deal with routes it received from Spokes"
+										}
+									},
+									{
+										"name": "summarized_subnet_to_lan_bgp",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"description": "toward LAN-side BGP peers"
+										}
+									},
+									{
+										"name": "summarized_subnet_to_lan_ospf",
+										"string": {
+											"computed_optional_required": "computed_optional",
+											"description": "toward LAN-side OSPF peers"
+										}
+									}
+								]
+							},
+							"description": "Property key is the VPN name. Whether this network can be accessed from vpn"
+						}
+					}
+				]
+			}
+		}
+	],
+	"version": "0.1"
+}

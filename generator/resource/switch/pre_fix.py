@@ -43,6 +43,7 @@ DATA["components"]["schemas"]["switch_matching_rule"]["properties"]["match_role"
     "example": "Core",
 }
 DATA["components"]["schemas"]["switch_matching_rule"]["properties"]["match_value"] = {"type": "string", "minLength": 1}
+DATA["components"]["schemas"]["mist_device"] = {'$ref': '#/components/schemas/device_switch'}
 
 
 with open(SPEC, "w") as f:

@@ -1,6 +1,28 @@
 provider:
   name: mistapi
 resources:
+  device_switch:
+    create:
+      path: /api/v1/sites/{site_id}/devices/{device_id}
+      method: PUT
+    read:
+      path: /api/v1/sites/{site_id}/devices/{device_id}
+      method: GET
+    delete:
+      path: /api/v1/sites/{site_id}/devices/{device_id}
+      method: PUT
+    update:
+      path: /api/v1/sites/{site_id}/devices/{device_id}
+      method: PUT      
+    schema:
+      ignores:
+        - created_time
+        - modified_time
+        - for_site
+        - id
+        - switch_mgmt.radius
+        - deviceprofile_id
+        - port_usages.ui_evpntopo_id
   org_networktemplate:
     create:
       path: /api/v1/orgs/{org_id}/networktemplates

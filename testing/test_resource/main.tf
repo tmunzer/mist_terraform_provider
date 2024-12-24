@@ -8,6 +8,7 @@ terraform {
 
 provider "mist" {
   host = local.envs["HOST"]
+  api_debug = true
   //apitoken = local.envs["APITOKEN"]
   //proxy = "test_proxy:Jun1per!Mist@10.3.18.11:3128"
   username = local.envs["USERNAME"]
@@ -506,74 +507,74 @@ resource "mist_org_inventory" "inventory" {
   #   site_id = mist_site.terraform_site.id
   # },
   org_id = mist_org.terraform_test.id
-  # devices = [
-  #   {
-  #     claim_code = "CPKL2EXN8JY98AC"
-  #     site_id    = mist_site.terraform_site.id
-  #   },
-  #   {
-  #     claim_code             = "G87JHBFXZJSFNMX"
-  #     site_id                = mist_site.terraform_site.id
-  #     unclaim_when_destroyed = true
-  #   },
-  #   {
-  #     claim_code = "CV4YAS8DQWYLL6M"
-  #     site_id                = mist_site.terraform_site.id
-  #   },
-  #   {
-  #     mac                    = (local.node0)
-  #     site_id                = mist_site.terraform_site.id
-  #     unclaim_when_destroyed = false
-  #   },
-  #   {
-  #     mac                    = (local.node1)
-  #     site_id                = mist_site.terraform_site.id
-  #     unclaim_when_destroyed = false
-  #   },
-  #   {
-  #     mac     = "4c9614026d00"
-  #     site_id = mist_site.terraform_site.id
-  #   },
-  #   {
-  #     mac     = "4c961418c000"
-  #     site_id = mist_site.terraform_site.id
-  #   },
-  #   {
-  #     mac     = "020004bbf189"
-  #     //site_id = mist_site.terraform_site.id
-  #   }
-  # ]
-  inventory = {
-    "CPKL2EXN8JY98AC" = {
-      site_id = mist_site.terraform_site.id
-    }
-    "G87JHBFXZJSFNMX" = {
+  devices = [
+    {
+      claim_code = "CPKL2EXN8JY98AC"
+      site_id    = mist_site.terraform_site.id
+    },
+    {
+      claim_code             = "G87JHBFXZJSFNMX"
       site_id                = mist_site.terraform_site.id
       unclaim_when_destroyed = true
-    }
-    "CV4YAS8DQWYLL6M" = {
+    },
+    {
+      claim_code = "CV4YAS8DQWYLL6M"
+      site_id    = mist_site.terraform_site.id
+    },
+    {
+      mac                    = (local.node0)
+      site_id                = mist_site.terraform_site.id
+      unclaim_when_destroyed = false
+    },
+    {
+      mac                    = (local.node1)
+      site_id                = mist_site.terraform_site.id
+      unclaim_when_destroyed = false
+    },
+    {
+      mac     = "4c9614026d00"
       site_id = mist_site.terraform_site.id
-    }
-    (local.node0) = {
-      site_id                = mist_site.terraform_site.id
-      unclaim_when_destroyed = false
-    }
-    (local.node1) = {
-      site_id                = mist_site.terraform_site.id
-      unclaim_when_destroyed = false
-    }
-    "4c9614026d00" = {
+    },
+    {
+      mac     = "4c961418c000"
       site_id = mist_site.terraform_site.id
+    },
+    {
+      mac = "020004bbf189"
+      //site_id = mist_site.terraform_site.id
     }
-    "4c9614026d00" = {
-      site_id                = mist_site.terraform_site.id
-      unclaim_when_destroyed = false
-    }
-    "4c961418c000" = {
-      site_id                = mist_site.terraform_site.id
-      unclaim_when_destroyed = false
-    }
-  }
+  ]
+  # inventory = {
+  #   "CPKL2EXN8JY98AC" = {
+  #     site_id = mist_site.terraform_site.id
+  #   }
+  #   "G87JHBFXZJSFNMX" = {
+  #     site_id                = mist_site.terraform_site.id
+  #     unclaim_when_destroyed = false
+  #   }
+  #   "CV4YAS8DQWYLL6M" = {
+  #     site_id = mist_site.terraform_site.id
+  #   }
+  #   (local.node0) = {
+  #     site_id                = mist_site.terraform_site.id
+  #     unclaim_when_destroyed = false
+  #   }
+  #   (local.node1) = {
+  #     site_id                = mist_site.terraform_site.id
+  #     unclaim_when_destroyed = false
+  #   }
+  #   "4c9614026d00" = {
+  #     site_id = mist_site.terraform_site.id
+  #   }
+  #   "4c9614026d00" = {
+  #     site_id                = mist_site.terraform_site.id
+  #     unclaim_when_destroyed = false
+  #   }
+  #   "4c961418c000" = {
+  #     site_id                = mist_site.terraform_site.id
+  #     unclaim_when_destroyed = false
+  #   }
+  # }
 }
 
 
@@ -1466,23 +1467,46 @@ resource "mist_device_gateway" "cluster_one" {
       path_preference  = "HUB"
     }
   ]
+  # tunnel_configs = {
+  #   "default" = {
+  #     ike_lifetime = 28800
+  #     ike_mode     = "main"
+  #     ike_proposals = [{
+  #       auth_algo = "sha1"
+  #       dh_group  = "14"
+  #       enc_algo  = "3des"
+  #     }]
+  #     ipsec_lifetime = 28800
+  #     ipsec_proposals = [{
+  #       auth_algo = "sha1"
+  #       dh_group  = "14"
+  #       enc_algo  = "3des"
+  #     }]
+  #     mode     = "active-active"
+  #     provider = "custom-ipsec"
+  #   }
+  # }
   tunnel_configs = {
-    "default" = {
-      ike_lifetime = 28800
-      ike_mode     = "main"
-      ike_proposals = [{
-        auth_algo = "sha1"
-        dh_group  = "14"
-        enc_algo  = "3des"
-      }]
-      ipsec_lifetime = 28800
-      ipsec_proposals = [{
-        auth_algo = "sha1"
-        dh_group  = "14"
-        enc_algo  = "3des"
-      }]
-      mode     = "active-active"
-      provider = "custom-ipsec"
+    "J1" = {
+      auto_provision = {
+        provider = "jse-ipsec"
+        primary = {
+          probe_ips = [
+            "8.8.8.8"
+          ]
+          wan_names = [
+            "FTTH"
+          ]
+        }
+        secondary = {
+          probe_ips = [
+            "8.8.8.8"
+          ]
+          wan_names = [
+            "FTTH"
+          ]
+        }
+      }
     }
   }
 }
@@ -1502,7 +1526,7 @@ resource "mist_site" "terraform_site2" {
   name         = "terraform_site2"
   country_code = "FR"
   timezone     = "Europe/Paris"
-  address      = "77 Terrasse de l'Universit\u00e9, 92000 Nanterre, France"
+  address      = "78 Terrasse de l'Universit\u00e9, 92000 Nanterre, France"
   notes        = "Created with Terraform, Updated with Terraform"
   latlng = {
     lat = 48.899268
@@ -2394,6 +2418,17 @@ resource "mist_site_wxrule" "test_1" {
 resource "mist_org_wlantemplate" "wlantemplate_one" {
   name   = "wlantemplate"
   org_id = mist_org.terraform_test.id
+}
+resource "mist_org_wlan" "test_open2" {
+  ssid        = "demo2"
+  org_id = mist_org.terraform_test.id
+  template_id = mist_org_wlantemplate.test101.id
+  limit_bcast = true
+  allow_ssdp  = true
+  portal = {
+    enabled = false
+  }
+  roam_mode = "NONE"
 }
 resource "mist_site_wlan" "test_open" {
   ssid        = "demo"
@@ -3464,7 +3499,7 @@ resource "mist_org_deviceprofile_gateway" "hub_one" {
       speed           = "auto"
       duplex          = "auto"
       wan_source_nat = {
-        disabled = false
+        disabled = true
       },
       vpn_paths = {
         "SSR_HUB_DC-MPLS.OrgOverlay" = {
