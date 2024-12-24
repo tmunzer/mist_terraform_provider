@@ -2235,7 +2235,7 @@
 											"default": {
 												"static": "default"
 											},
-											"description": "when `wan_type`==`broadband`. enum: `default`, `max`, `recommended`",
+											"description": "Only when `wan_type`==`broadband`. enum: `default`, `max`, `recommended`",
 											"validators": [
 												{
 													"custom": {
@@ -2254,7 +2254,7 @@
 										"name": "wan_ext_ip",
 										"string": {
 											"computed_optional_required": "computed_optional",
-											"description": "optional, if spoke should reach this port by a different IP"
+											"description": "Only if `usage`==`wan`, optional. If spoke should reach this port by a different IP"
 										}
 									},
 									{
@@ -2271,7 +2271,7 @@
 													}
 												]
 											},
-											"description": "Property Key is the destianation CIDR (e.g \"100.100.100.0/24\")"
+											"description": "Only if `usage`==`wan`. Property Key is the destianation CIDR (e.g \"100.100.100.0/24\")"
 										}
 									},
 									{
@@ -2281,7 +2281,7 @@
 											"element_type": {
 												"string": {}
 											},
-											"description": "if some networks are connected to this WAN port, it can be added here so policies can be defined"
+											"description": "Only if `usage`==`wan`. If some networks are connected to this WAN port, it can be added here so policies can be defined"
 										}
 									},
 									{
@@ -2333,7 +2333,7 @@
 													}
 												}
 											],
-											"description": "if `usage`==`wan`"
+											"description": "Only if `usage`==`wan`"
 										}
 									},
 									{
@@ -2359,7 +2359,7 @@
 													}
 												}
 											],
-											"description": "optional, by default, source-NAT is performed on all WAN Ports using the interface-ip"
+											"description": "Only if `usage`==`wan`, optional. By default, source-NAT is performed on all WAN Ports using the interface-ip"
 										}
 									},
 									{
@@ -2369,7 +2369,7 @@
 											"default": {
 												"static": "broadband"
 											},
-											"description": "if `usage`==`wan`. enum: `broadband`, `dsl`, `lte`",
+											"description": "Only if `usage`==`wan`. enum: `broadband`, `dsl`, `lte`",
 											"validators": [
 												{
 													"custom": {
@@ -3682,7 +3682,7 @@
 											},
 											{
 												"name": "dn_bandwidth",
-												"number": {
+												"float64": {
 													"computed_optional_required": "computed_optional",
 													"description": "the download bandwidth cap of the link, in Mbps. Disabled if not set"
 												}
@@ -3792,7 +3792,7 @@
 															},
 															{
 																"name": "dn_bandwidth",
-																"number": {
+																"float64": {
 																	"computed_optional_required": "computed_optional",
 																	"description": "the download bandwidth cap of the link, in Mbps. Disabled if not set"
 																}
@@ -3871,7 +3871,7 @@
 															},
 															{
 																"name": "up_bandwidth",
-																"number": {
+																"float64": {
 																	"computed_optional_required": "computed_optional",
 																	"description": "the download bandwidth cap of the link, in Mbps. Disabled if not set"
 																}
@@ -3919,7 +3919,7 @@
 											},
 											{
 												"name": "up_bandwidth",
-												"number": {
+												"float64": {
 													"computed_optional_required": "computed_optional",
 													"description": "the download bandwidth cap of the link, in Mbps. Disabled if not set"
 												}
@@ -6222,7 +6222,7 @@
 											"default": {
 												"static": "default"
 											},
-											"description": "when `wan_type`==`broadband`. enum: `default`, `max`, `recommended`",
+											"description": "Only when `wan_type`==`broadband`. enum: `default`, `max`, `recommended`",
 											"validators": [
 												{
 													"custom": {
@@ -6241,7 +6241,7 @@
 										"name": "wan_ext_ip",
 										"string": {
 											"computed_optional_required": "computed_optional",
-											"description": "optional, if spoke should reach this port by a different IP"
+											"description": "Only if `usage`==`wan`, optional. If spoke should reach this port by a different IP"
 										}
 									},
 									{
@@ -6258,7 +6258,7 @@
 													}
 												]
 											},
-											"description": "Property Key is the destianation CIDR (e.g \"100.100.100.0/24\")"
+											"description": "Only if `usage`==`wan`. Property Key is the destianation CIDR (e.g \"100.100.100.0/24\")"
 										}
 									},
 									{
@@ -6268,7 +6268,7 @@
 											"element_type": {
 												"string": {}
 											},
-											"description": "if some networks are connected to this WAN port, it can be added here so policies can be defined"
+											"description": "Only if `usage`==`wan`. If some networks are connected to this WAN port, it can be added here so policies can be defined"
 										}
 									},
 									{
@@ -6320,7 +6320,7 @@
 													}
 												}
 											],
-											"description": "if `usage`==`wan`"
+											"description": "Only if `usage`==`wan`"
 										}
 									},
 									{
@@ -6346,7 +6346,7 @@
 													}
 												}
 											],
-											"description": "optional, by default, source-NAT is performed on all WAN Ports using the interface-ip"
+											"description": "Only if `usage`==`wan`, optional. By default, source-NAT is performed on all WAN Ports using the interface-ip"
 										}
 									},
 									{
@@ -6356,7 +6356,7 @@
 											"default": {
 												"static": "broadband"
 											},
-											"description": "if `usage`==`wan`. enum: `broadband`, `dsl`, `lte`",
+											"description": "Only if `usage`==`wan`. enum: `broadband`, `dsl`, `lte`",
 											"validators": [
 												{
 													"custom": {
@@ -7595,7 +7595,7 @@
 											},
 											{
 												"name": "dn_bandwidth",
-												"number": {
+												"float64": {
 													"computed_optional_required": "computed_optional",
 													"description": "the download bandwidth cap of the link, in Mbps. Disabled if not set"
 												}
@@ -7705,7 +7705,7 @@
 															},
 															{
 																"name": "dn_bandwidth",
-																"number": {
+																"float64": {
 																	"computed_optional_required": "computed_optional",
 																	"description": "the download bandwidth cap of the link, in Mbps. Disabled if not set"
 																}
@@ -7784,7 +7784,7 @@
 															},
 															{
 																"name": "up_bandwidth",
-																"number": {
+																"float64": {
 																	"computed_optional_required": "computed_optional",
 																	"description": "the download bandwidth cap of the link, in Mbps. Disabled if not set"
 																}
@@ -7832,7 +7832,7 @@
 											},
 											{
 												"name": "up_bandwidth",
-												"number": {
+												"float64": {
 													"computed_optional_required": "computed_optional",
 													"description": "the download bandwidth cap of the link, in Mbps. Disabled if not set"
 												}
@@ -10105,7 +10105,7 @@
 											"default": {
 												"static": "default"
 											},
-											"description": "when `wan_type`==`broadband`. enum: `default`, `max`, `recommended`",
+											"description": "Only when `wan_type`==`broadband`. enum: `default`, `max`, `recommended`",
 											"validators": [
 												{
 													"custom": {
@@ -10124,7 +10124,7 @@
 										"name": "wan_ext_ip",
 										"string": {
 											"computed_optional_required": "computed_optional",
-											"description": "optional, if spoke should reach this port by a different IP"
+											"description": "Only if `usage`==`wan`, optional. If spoke should reach this port by a different IP"
 										}
 									},
 									{
@@ -10141,7 +10141,7 @@
 													}
 												]
 											},
-											"description": "Property Key is the destianation CIDR (e.g \"100.100.100.0/24\")"
+											"description": "Only if `usage`==`wan`. Property Key is the destianation CIDR (e.g \"100.100.100.0/24\")"
 										}
 									},
 									{
@@ -10151,7 +10151,7 @@
 											"element_type": {
 												"string": {}
 											},
-											"description": "if some networks are connected to this WAN port, it can be added here so policies can be defined"
+											"description": "Only if `usage`==`wan`. If some networks are connected to this WAN port, it can be added here so policies can be defined"
 										}
 									},
 									{
@@ -10203,7 +10203,7 @@
 													}
 												}
 											],
-											"description": "if `usage`==`wan`"
+											"description": "Only if `usage`==`wan`"
 										}
 									},
 									{
@@ -10229,7 +10229,7 @@
 													}
 												}
 											],
-											"description": "optional, by default, source-NAT is performed on all WAN Ports using the interface-ip"
+											"description": "Only if `usage`==`wan`, optional. By default, source-NAT is performed on all WAN Ports using the interface-ip"
 										}
 									},
 									{
@@ -10239,7 +10239,7 @@
 											"default": {
 												"static": "broadband"
 											},
-											"description": "if `usage`==`wan`. enum: `broadband`, `dsl`, `lte`",
+											"description": "Only if `usage`==`wan`. enum: `broadband`, `dsl`, `lte`",
 											"validators": [
 												{
 													"custom": {
@@ -11478,7 +11478,7 @@
 											},
 											{
 												"name": "dn_bandwidth",
-												"number": {
+												"float64": {
 													"computed_optional_required": "computed_optional",
 													"description": "the download bandwidth cap of the link, in Mbps. Disabled if not set"
 												}
@@ -11588,7 +11588,7 @@
 															},
 															{
 																"name": "dn_bandwidth",
-																"number": {
+																"float64": {
 																	"computed_optional_required": "computed_optional",
 																	"description": "the download bandwidth cap of the link, in Mbps. Disabled if not set"
 																}
@@ -11667,7 +11667,7 @@
 															},
 															{
 																"name": "up_bandwidth",
-																"number": {
+																"float64": {
 																	"computed_optional_required": "computed_optional",
 																	"description": "the download bandwidth cap of the link, in Mbps. Disabled if not set"
 																}
@@ -11715,7 +11715,7 @@
 											},
 											{
 												"name": "up_bandwidth",
-												"number": {
+												"float64": {
 													"computed_optional_required": "computed_optional",
 													"description": "the download bandwidth cap of the link, in Mbps. Disabled if not set"
 												}

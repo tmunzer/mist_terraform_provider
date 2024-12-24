@@ -639,8 +639,62 @@ next:
             "default",
             "max",
           ),
-          mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("wan_type"), types.StringValue("lte")),
-          mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("wan_type"), types.StringValue("dsl"))
+          mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("wan_type"), types.StringValue("broadband"))
+  - get:
+    - string
+    name: wan_ext_ip
+    validators:
+    - custom:
+        imports:
+        - path: github.com/Juniper/terraform-provider-mist/internal/validators
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
+        - path: github.com/hashicorp/terraform-plugin-framework/path
+        schema_definition: |-
+          mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("usage"), types.StringValue("wan"))
+  - get:
+    - map_nested
+    name: wan_extra_routes
+    validators:
+    - custom:
+        imports:
+        - path: github.com/Juniper/terraform-provider-mist/internal/validators
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/mapvalidator
+        - path: github.com/hashicorp/terraform-plugin-framework/path
+        schema_definition: |-
+          mapvalidator.SizeAtLeast(1),
+          mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("usage"), types.StringValue("wan"))
+  - get:
+    - list
+    name: wan_networks
+    computed_optional_required: computed_optional
+    validators:
+    - custom:
+        imports:
+        - path: github.com/Juniper/terraform-provider-mist/internal/validators
+        - path: github.com/hashicorp/terraform-plugin-framework-validators/listvalidator
+        - path: github.com/hashicorp/terraform-plugin-framework/path
+        schema_definition: |-
+          mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("usage"), types.StringValue("wan"))
+  - get:
+    - single_nested
+    name: wan_probe_override
+    validators:
+    - custom:
+        imports:
+        - path: github.com/Juniper/terraform-provider-mist/internal/validators
+        - path: github.com/hashicorp/terraform-plugin-framework/path
+        schema_definition: |-
+          mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("usage"), types.StringValue("wan"))
+  - get:
+    - single_nested
+    name: wan_source_nat
+    validators:
+    - custom:
+        imports:
+        - path: github.com/Juniper/terraform-provider-mist/internal/validators
+        - path: github.com/hashicorp/terraform-plugin-framework/path
+        schema_definition: |-
+          mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("usage"), types.StringValue("wan"))
   - get:
     - string
     name: wan_type
@@ -798,8 +852,8 @@ next:
             "",
             "main",
             "aggressive",
-          ),
-          mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName("provider"), types.StringValue("custom-ipsec"))
+          )
+#          mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName("provider"), types.StringValue("custom-ipsec"))
   - get:
     - list_nested
     name: ike_proposals

@@ -8,7 +8,7 @@ terraform {
 
 provider "mist" {
   host = local.envs["HOST"]
-  api_debug = true
+  api_debug = false
   //apitoken = local.envs["APITOKEN"]
   //proxy = "test_proxy:Jun1per!Mist@10.3.18.11:3128"
   username = local.envs["USERNAME"]
@@ -3909,6 +3909,7 @@ resource "mist_org_gatewaytemplate" "gatewaytemplate_one" {
       }]
       mode     = "active-active"
       provider = "custom-ipsec"
+      psk = "juniper123"
     }
   }
 }
